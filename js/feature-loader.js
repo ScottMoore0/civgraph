@@ -27,7 +27,7 @@ class FeatureLoader {
         const cacheBuster = urlParams.get('v') || Date.now();
 
         try {
-            const response = await fetch(`data/spatial-index.json?v=${cacheBuster}`);
+            const response = await fetch(`data/database/spatial-index.json?v=${cacheBuster}`);
             if (!response.ok) {
                 console.warn('[FeatureLoader] Spatial index not found');
                 return;

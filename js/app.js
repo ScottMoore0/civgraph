@@ -280,6 +280,9 @@ class App {
             // Setup keyboard shortcuts
             this.setupKeyboardShortcuts();
 
+            // Setup support modal
+            this.setupSupportModal();
+
         } catch (err) {
             console.error('[App] Initialization failed:', err);
             this.showError('Failed to load application. Please refresh the page.');
@@ -304,6 +307,27 @@ class App {
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             document.documentElement.dataset.theme = newTheme;
             localStorage.setItem('theme', newTheme);
+        });
+    }
+
+    /**
+     * Setup support modal (open/close)
+     */
+    setupSupportModal() {
+        const btn = document.getElementById('supportBtn');
+        const modal = document.getElementById('supportModal');
+        if (!btn || !modal) return;
+
+        const open = () => modal.classList.remove('hidden');
+        const close = () => modal.classList.add('hidden');
+
+        btn.addEventListener('click', open);
+        modal.querySelector('.support-modal__backdrop')?.addEventListener('click', close);
+        modal.querySelector('.support-modal__close')?.addEventListener('click', close);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                close();
+            }
         });
     }
 
@@ -472,20 +496,39 @@ class App {
     }
 
     /**
-     * Show search autocomplete dropdown with feature and address search options
+     * Show search autocomplete dropdown with maps, features, and address suggestions
      */
     showSearchAutocomplete(query, autocomplete) {
         let html = '';
 
-        // Search for matching features from spatial index
-        const featureResults = featureLoader.searchFeaturesByName(query, 10);
+        // --- Section 1: Matching Maps ---
+        const matchingMaps = dataService.searchMaps(query).slice(0, 5);
+        if (matchingMaps.length > 0) {
+            html += `<div class="search-autocomplete__section-header">Maps</div>`;
+            for (const map of matchingMaps) {
+                const isLoaded = mapController.layerStates.has(map.id);
+                html += `
+                    <div class="search-autocomplete__item search-autocomplete__item--map${isLoaded ? ' search-autocomplete__item--loaded' : ''}" 
+                         data-action="map" data-map-id="${map.id}">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/>
+                            <path d="M8 2v16"/>
+                            <path d="M16 6v16"/>
+                        </svg>
+                        <span>${this.escapeHtml(map.name)}</span>
+                        ${isLoaded ? '<span class="search-autocomplete__badge">Loaded</span>' : ''}
+                    </div>
+                `;
+            }
+        }
+
+        // --- Section 2: Matching Features (from spatial index) ---
+        const featureResults = featureLoader.searchFeaturesByName(query, 8);
         if (featureResults.length > 0) {
             html += `<div class="search-autocomplete__section-header">Features</div>`;
             for (const feature of featureResults) {
-                // Get map name for disambiguation
                 const mapConfig = dataService.getMapById(feature.mapId);
                 const mapName = mapConfig?.name || feature.mapId;
-                // Extract feature index from id (format: "mapId:index")
                 const featureIndex = featureLoader.parseFeatureId(feature.id);
                 html += `
                     <div class="search-autocomplete__item search-autocomplete__item--feature" 
@@ -503,20 +546,42 @@ class App {
             }
         }
 
-        // Address search option
-        html += `
-            <div class="search-autocomplete__item search-autocomplete__item--address" data-action="address" data-query="${this.escapeHtml(query)}">
+        // --- Section 3: Address/Places placeholder (live results fetched async) ---
+        html += `<div class="search-autocomplete__section-header">Places</div>`;
+        html += `<div id="addressSuggestionsContainer">
+            <div class="search-autocomplete__item search-autocomplete__item--loading">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                     <circle cx="12" cy="10" r="3" />
                 </svg>
-                <span>Search address: <span class="search-autocomplete__query">"${this.escapeHtml(query)}"</span></span>
+                <span class="text-muted">Searching places...</span>
             </div>
-        `;
+        </div>`;
 
         autocomplete.innerHTML = html;
+        autocomplete.classList.remove('hidden');
 
-        // Add click handlers for features - load only the selected feature
+        // --- Click handlers for maps ---
+        autocomplete.querySelectorAll('[data-action="map"]').forEach(el => {
+            el.addEventListener('click', async () => {
+                const mapId = el.dataset.mapId;
+                const isLoaded = mapController.layerStates.has(mapId);
+                if (!isLoaded) {
+                    const mapConfig = dataService.getMapById(mapId);
+                    if (mapConfig) {
+                        await this.loadMap(mapId);
+                    }
+                }
+                this.updateMapList();
+                this.updateActiveLayers();
+                autocomplete.classList.add('hidden');
+                document.getElementById('searchInput').value = '';
+                this.searchQuery = '';
+                this.updateMapList();
+            });
+        });
+
+        // --- Click handlers for features ---
         autocomplete.querySelectorAll('[data-action="feature"]').forEach(el => {
             el.addEventListener('click', async () => {
                 const mapId = el.dataset.mapId;
@@ -524,36 +589,182 @@ class App {
                 const featureName = el.dataset.featureName;
                 const bbox = el.dataset.bbox.split(',').map(Number);
 
-                // Get map config
                 const mapConfig = dataService.getMapById(mapId);
                 if (!mapConfig) return;
 
-                // Load only this single feature (not the entire map)
                 await mapController.loadSingleFeature(mapConfig, featureIndex, featureName);
                 this.updateMapList();
                 this.updateActiveLayers();
 
-                // Zoom to feature bbox [minLng, minLat, maxLng, maxLat]
                 if (mapController.map && bbox.length === 4) {
                     const bounds = L.latLngBounds(
-                        [bbox[1], bbox[0]],  // SW: [minLat, minLng]
-                        [bbox[3], bbox[2]]   // NE: [maxLat, maxLng]
+                        [bbox[1], bbox[0]],
+                        [bbox[3], bbox[2]]
                     );
                     mapController.map.fitBounds(bounds, { maxZoom: 14, padding: [20, 20] });
                 }
 
                 autocomplete.classList.add('hidden');
+                document.getElementById('searchInput').value = '';
+                this.searchQuery = '';
+                this.updateMapList();
             });
         });
 
-        // Add click handler for address search
-        autocomplete.querySelector('[data-action="address"]')?.addEventListener('click', () => {
-            const addressQuery = autocomplete.querySelector('[data-action="address"]').dataset.query;
-            this.performAddressSearch(addressQuery);
-            autocomplete.classList.add('hidden');
-        });
+        // --- Fetch live address suggestions from Nominatim ---
+        this.fetchAddressSuggestions(query, autocomplete);
+    }
 
-        autocomplete.classList.remove('hidden');
+    /**
+     * Fetch live address/place suggestions from Nominatim and render into dropdown
+     */
+    async fetchAddressSuggestions(query, autocomplete) {
+        // Cancel any pending address fetch
+        if (this._addressAbortController) {
+            this._addressAbortController.abort();
+        }
+        this._addressAbortController = new AbortController();
+
+        const container = document.getElementById('addressSuggestionsContainer');
+        if (!container) return;
+
+        try {
+            const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&countrycodes=gb,ie&limit=5&addressdetails=1`;
+            const response = await fetch(url, {
+                headers: { 'User-Agent': 'BoundariesWebsite/1.0' },
+                signal: this._addressAbortController.signal
+            });
+
+            if (!response.ok) throw new Error('Geocoding failed');
+            const data = await response.json();
+
+            if (!data || data.length === 0) {
+                container.innerHTML = `
+                    <div class="search-autocomplete__item search-autocomplete__item--no-results">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        <span class="text-muted">No places found</span>
+                    </div>
+                `;
+                return;
+            }
+
+            let addressHtml = '';
+            for (const place of data) {
+                // Build a short display name
+                let displayName = place.display_name;
+                if (place.address) {
+                    const addr = place.address;
+                    const parts = [];
+                    if (addr.house_number && addr.road) parts.push(`${addr.house_number} ${addr.road}`);
+                    else if (addr.road) parts.push(addr.road);
+                    else if (addr.name || addr.amenity || addr.building) parts.push(addr.name || addr.amenity || addr.building);
+                    if (addr.suburb) parts.push(addr.suburb);
+                    else if (addr.neighbourhood) parts.push(addr.neighbourhood);
+                    if (addr.city) parts.push(addr.city);
+                    else if (addr.town) parts.push(addr.town);
+                    else if (addr.village) parts.push(addr.village);
+                    if (addr.county) parts.push(addr.county);
+                    if (parts.length > 0) displayName = parts.join(', ');
+                }
+
+                const placeType = place.type ? place.type.replace(/_/g, ' ') : '';
+
+                addressHtml += `
+                    <div class="search-autocomplete__item search-autocomplete__item--address" 
+                         data-action="address-select" 
+                         data-lat="${place.lat}" 
+                         data-lon="${place.lon}"
+                         data-name="${this.escapeHtml(displayName)}">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        <span>
+                            ${this.escapeHtml(displayName)}
+                            ${placeType ? `<span class="search-autocomplete__place-type">${this.escapeHtml(placeType)}</span>` : ''}
+                        </span>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = addressHtml;
+
+            // Add click handlers for address results
+            container.querySelectorAll('[data-action="address-select"]').forEach(el => {
+                el.addEventListener('click', () => {
+                    const lat = parseFloat(el.dataset.lat);
+                    const lon = parseFloat(el.dataset.lon);
+                    const name = el.dataset.name;
+
+                    // Remove previous marker
+                    if (this.addressMarker) this.addressMarker.remove();
+
+                    // Add marker and zoom
+                    if (mapController.map) {
+                        this.addressMarker = L.marker([lat, lon], { title: name })
+                            .addTo(mapController.map)
+                            .bindPopup(`<strong>${this.escapeHtml(name)}</strong>`)
+                            .openPopup();
+                        mapController.map.setView([lat, lon], 14);
+                    }
+
+                    // Find features at this point
+                    const matches = this.findFeaturesAtPoint(lat, lon);
+                    const resultsContainer = document.getElementById('addressResults');
+                    if (resultsContainer) {
+                        let resultsHtml = `
+                            <div class="address-results__header">
+                                <span>📍 ${this.escapeHtml(name)}</span>
+                                <button class="address-results__close" title="Close">×</button>
+                            </div>
+                        `;
+                        if (matches.length > 0) {
+                            resultsHtml += '<div><em>Features at this location:</em></div>';
+                            matches.forEach(match => {
+                                resultsHtml += `
+                                    <div class="address-results__match" data-lat="${lat}" data-lng="${lon}">
+                                        <span class="address-results__color" style="background:${match.color}"></span>
+                                        <span><strong>${this.escapeHtml(match.layerName)}:</strong> ${this.escapeHtml(match.featureName)}</span>
+                                    </div>
+                                `;
+                            });
+                        } else {
+                            resultsHtml += '<div><em>No loaded layers contain this location.</em></div>';
+                        }
+                        resultsContainer.innerHTML = resultsHtml;
+                        resultsContainer.classList.remove('hidden');
+                        this.setupAddressResultsClose(resultsContainer);
+                    }
+
+                    autocomplete.classList.add('hidden');
+                    document.getElementById('searchInput').value = '';
+                    this.searchQuery = '';
+                    this.updateMapList();
+                });
+            });
+
+        } catch (err) {
+            if (err.name === 'AbortError') return; // Cancelled, ignore
+            console.warn('[App] Address suggestions failed:', err);
+            if (container) {
+                container.innerHTML = `
+                    <div class="search-autocomplete__item search-autocomplete__item--address" data-action="address" data-query="${this.escapeHtml(query)}">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        <span>Search address: <span class="search-autocomplete__query">"${this.escapeHtml(query)}"</span></span>
+                    </div>
+                `;
+                container.querySelector('[data-action="address"]')?.addEventListener('click', () => {
+                    this.performAddressSearch(query);
+                    autocomplete.classList.add('hidden');
+                });
+            }
+        }
     }
 
     /**
