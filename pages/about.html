@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="About the NI Boundaries website - interactive maps of Northern Ireland boundaries.">
+    <title>About - Boundaries Website</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/main.css">
+
+    <style>
+        .page-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--space-8);
+        }
+
+        .page-header {
+            margin-bottom: var(--space-8);
+        }
+
+        .page-title {
+            font-size: var(--text-4xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-4);
+        }
+
+        .page-content {
+            line-height: var(--leading-relaxed);
+        }
+
+        .page-content h2 {
+            font-size: var(--text-2xl);
+            margin-top: var(--space-8);
+            margin-bottom: var(--space-4);
+        }
+
+        .page-content p {
+            margin-bottom: var(--space-4);
+            color: var(--color-text);
+        }
+
+        .page-content a {
+            color: var(--color-primary-light);
+            text-decoration: underline;
+        }
+
+        .page-content a:hover {
+            color: var(--color-accent);
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-4);
+        }
+
+        .breadcrumb a {
+            color: var(--color-primary-light);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb__separator {
+            color: var(--color-text-muted);
+        }
+    </style>
+</head>
+
+<body style="overflow: auto; height: auto;">
+    <header class="app-header">
+        <a href="../index.html" class="app-header__brand">
+            <img src="../assets/images/logo.png" alt="" class="app-header__logo" width="40" height="40">
+            <span>Boundaries Website</span>
+        </a>
+
+        <nav class="app-header__nav" aria-label="Main navigation">
+            <a href="../index.html" class="app-header__link">Home</a>
+            <a href="news.html" class="app-header__link">News</a>
+            <a href="about.html" class="app-header__link app-header__link--active">About</a>
+        </nav>
+    </header>
+
+    <main class="page-container">
+        <!-- Breadcrumb Navigation -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../index.html">Maps</a>
+            <span class="breadcrumb__separator">/</span>
+            <span>About</span>
+        </nav>
+
+        <header class="page-header">
+            <h1 class="page-title">About</h1>
+        </header>
+
+        <article class="page-content">
+            <p>
+                This NI Boundaries Website brings together many different Northern Ireland boundaries. It mainly focuses
+                on local government boundaries, but it also covers parliamentary constituencies, historic cadastral
+                boundaries like civil parishes and baronies, physical boundaries like rivers, valleys, basins and
+                watersheds, townlands, counties, and statistical areas.
+            </p>
+
+            <p>
+                I, Scott Moore, took inspiration for this website from Spatial NI, a service run by the Ordnance Survey
+                of Northern Ireland (OSNI). Spatial NI primarily provides access to maps produced by public bodies - but
+                not those by citizen creators. Thus, they can't make the 1984 council ward map digitised by myself
+                available on their website - but OSNI maps, volunteer-made maps and many others are all available
+                together on this website.
+            </p>
+
+            <p>
+                I am continuing to digitise historic and contemporary maps alike, and <a
+                    href="https://twitter.com/scottmoore0" target="_blank" rel="noopener noreferrer">I post my progress
+                    on Twitter regularly.</a>
+            </p>
+
+            <p>
+                I also scan historic books - mainly reports of local government boundaries, but others besides this too.
+                You can find these all on <a href="https://archive.org/details/@ScottMoore0" target="_blank"
+                    rel="noopener noreferrer">my Internet Archive account</a>, alongside rasters of scanned original
+                historic boundary maps, provided to me mainly by OSNI.
+            </p>
+
+            <p>
+                I have spent considerable money on upgrading my hardware to be able to run the software to process
+                digitised maps, and I have spent considerable time on my research, including accessing libraries and
+                archives. If you appreciate my work, <a href="https://ko-fi.com/scottmoore0" target="_blank"
+                    rel="noopener noreferrer">please consider supporting me on Ko-fi with a tip</a> - though be assured
+                I will continue to do this work for free and there is no obligation to tip me if you don't want to.
+            </p>
+
+            <h2>Place names</h2>
+
+            <p>
+                Numerous place names in Northern Ireland are politically contested. These include the town of Craigavon,
+                named after the baronial title of the former Prime Minister of Northern Ireland; Royal Hillsborough,
+                which has acquired a 'Royal' prefix in recent years; the name of Northern Ireland itself, which did not
+                exist in law before the 1920s; various streets, settlements and places named after British royal or
+                state figures such as Chichester Street and Cromwell Street in Belfast; historic wards and DEAs which
+                carried names such as "Royal Portrush" and "Victoria"; and the city, county, council district and
+                historic constituencies variably known as Derry or Londonderry.
+            </p>
+
+            <p>
+                This website seeks, in part, to record and document the administrative history of Northern Ireland,
+                primarily through the medium of maps. As such, all place names used in the datasets reflect the names
+                used in the original sources. For example, the pre-1973 county borough is known as "Londonderry", while
+                the post-1973 district council used "Derry" from the 1980s onwards. NISRA, which compiles settlement
+                population statistics, has referred to "Derry City" since at least 2011, and also to "County
+                Londonderry", and these are reflected in the settlement and county maps.
+            </p>
+
+            <p>
+                The usage of place names on this website should not, in and of itself, be taken to suggest any
+                preference on my part for particular place names.
+            </p>
+
+            <p>
+                The map layers do not currently support the display of place names or other information in the Irish or
+                Ulster-Scots languages. I would love to implement this, but the only barrier is getting the time to do
+                so. If you have any queries about this, please feel free to get in touch.
+            </p>
+
+            <h2>Acknowledgements</h2>
+
+            <p>
+                Basemap and some layers are via OpenStreetMap. These layers contain public sector data licensed under
+                the Open Government License v3.0, including from OSNI, Armagh City Banbridge and Craigavon Borough
+                Council, NISRA, and all other public bodies listed. Thanks to Parlconst.org for historic parliamentary
+                constituency boundaries. I (Scott Moore) have produced some of the layers myself in a digital format,
+                usually based on source data derived primarily from public sector sources available under the OGL v3.0
+                license. 1966 Northern Ireland Local Government District map courtesy of <a
+                    href="https://commons.wikimedia.org/wiki/File:NorthernIreland1967AdminMap.png" target="_blank"
+                    rel="noopener noreferrer">XrysD</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0"
+                    target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>, via Wikimedia Commons. Any maps I have
+                digitised myself are likewise available under the <a
+                    href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener noreferrer">CC
+                    BY-SA 4.0</a> license. Website design directly inspired by Alex Donald's <a
+                    href="https://better-open-data.com/" target="_blank" rel="noopener noreferrer">Better Open Data</a>
+                site.
+            </p>
+        </article>
+    </main>
+</body>
+
+</html>

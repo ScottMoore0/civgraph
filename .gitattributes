@@ -1,0 +1,19 @@
+# Git LFS Configuration
+# Track large map files with Git LFS
+
+# FlatGeobuf files
+*.fgb filter=lfs diff=lfs merge=lfs -text
+# MBTiles files
+*.mbtiles filter=lfs diff=lfs merge=lfs -text
+# GeoJSON files over a certain size will be handled by LFS
+*.geojson filter=lfs diff=lfs merge=lfs -text
+# Shapefiles
+*.shp filter=lfs diff=lfs merge=lfs -text
+*.shx filter=lfs diff=lfs merge=lfs -text
+*.dbf filter=lfs diff=lfs merge=lfs -text
+# Raster files
+*.tif filter=lfs diff=lfs merge=lfs -text
+*.tiff filter=lfs diff=lfs merge=lfs -text
+# WebAssembly files
+*.wasm filter=lfs diff=lfs merge=lfs -text
+data/maps/physical/osni_50m_dtm/OSNI_OpenData_50m_DTM.csv filter=lfs diff=lfs merge=lfs -text

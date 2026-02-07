@@ -1,0 +1,33 @@
+name: Deploy to Neocities
+
+on:
+  # push trigger disabled — re-enable when ready to deploy:
+  #   push:
+  #     branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true  # Enable Git LFS for large map files
+
+      - name: Prepare dist
+        run: |
+          rsync -a \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.gitignore' \
+            --exclude='.gitattributes' \
+            . dist/
+
+      - name: Deploy to Neocities
+        uses: bcomnes/deploy-to-neocities@v2
+        with:
+          api_token: ${{ secrets.NEOCITIES_API_TOKEN }}
+          cleanup: false  # Don't delete files not in repo
+          dist_dir: dist

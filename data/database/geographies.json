@@ -1,0 +1,144 @@
+{
+    "version": "1.0.0",
+    "lastUpdated": "2025-12-29",
+    "description": "Geographic hierarchy and linking system for NI Boundaries",
+    "hierarchies": {
+        "administrative": {
+            "name": "Administrative Geography",
+            "description": "Modern administrative boundaries hierarchy",
+            "levels": [
+                "province",
+                "county",
+                "lgd",
+                "dea",
+                "ward"
+            ]
+        },
+        "statistical": {
+            "name": "Statistical Geography",
+            "description": "Census and statistical area hierarchy",
+            "levels": [
+                "lgd",
+                "soa",
+                "sa",
+                "oa"
+            ]
+        },
+        "electoral": {
+            "name": "Electoral Geography",
+            "description": "Electoral boundaries for elections",
+            "levels": [
+                "constituency",
+                "dea",
+                "ward"
+            ]
+        },
+        "historic": {
+            "name": "Historic Geography",
+            "description": "Traditional administrative divisions",
+            "levels": [
+                "province",
+                "county",
+                "barony",
+                "civil-parish",
+                "townland"
+            ]
+        }
+    },
+    "geographyTypes": [
+        {
+            "id": "province",
+            "name": "Province",
+            "namePlural": "Provinces",
+            "description": "Historic provinces of Ireland"
+        },
+        {
+            "id": "county",
+            "name": "County",
+            "namePlural": "Counties",
+            "description": "Traditional counties"
+        },
+        {
+            "id": "lgd",
+            "name": "Local Government District",
+            "namePlural": "Local Government Districts",
+            "description": "Council areas"
+        },
+        {
+            "id": "dea",
+            "name": "District Electoral Area",
+            "namePlural": "District Electoral Areas",
+            "description": "Multi-member electoral areas for council elections"
+        },
+        {
+            "id": "ward",
+            "name": "Ward",
+            "namePlural": "Wards",
+            "description": "Electoral wards"
+        },
+        {
+            "id": "constituency",
+            "name": "Parliamentary Constituency",
+            "namePlural": "Parliamentary Constituencies",
+            "description": "Westminster and Assembly constituencies"
+        },
+        {
+            "id": "soa",
+            "name": "Super Output Area",
+            "namePlural": "Super Output Areas",
+            "description": "Statistical geography for census"
+        },
+        {
+            "id": "sa",
+            "name": "Small Area",
+            "namePlural": "Small Areas",
+            "description": "Smallest census geography"
+        },
+        {
+            "id": "barony",
+            "name": "Barony",
+            "namePlural": "Baronies",
+            "description": "Historic administrative division"
+        },
+        {
+            "id": "civil-parish",
+            "name": "Civil Parish",
+            "namePlural": "Civil Parishes",
+            "description": "Historic ecclesiastical/civil division"
+        },
+        {
+            "id": "townland",
+            "name": "Townland",
+            "namePlural": "Townlands",
+            "description": "Smallest traditional land division"
+        }
+    ],
+    "futureSupport": {
+        "elections": {
+            "description": "Future support for election results",
+            "entityTypes": [
+                "election",
+                "candidate",
+                "party",
+                "result"
+            ],
+            "status": "planned"
+        },
+        "census": {
+            "description": "Future support for census data",
+            "entityTypes": [
+                "census",
+                "attribute",
+                "value"
+            ],
+            "status": "planned"
+        },
+        "persons": {
+            "description": "Future support for people (candidates, nominators)",
+            "entityTypes": [
+                "person"
+            ],
+            "status": "planned"
+        }
+    }
+}

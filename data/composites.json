@@ -1,0 +1,73 @@
+{
+    "version": "1.0.0",
+    "description": "Composite map definitions - maps derived by merging features from other maps",
+    "composites": {
+        "elb-1984": {
+            "sourceMap": "lgd-1984",
+            "sourceNameProperty": "LGDNAME",
+            "features": [
+                {
+                    "properties": {
+                        "id": "Belfast Education and Library Board"
+                    },
+                    "sourceFeatures": [
+                        "BELFAST"
+                    ]
+                },
+                {
+                    "properties": {
+                        "id": "North Eastern Education and Library Board"
+                    },
+                    "sourceFeatures": [
+                        "ANTRIM",
+                        "BALLYMENA",
+                        "BALLYMONEY",
+                        "CARRICKFERGUS",
+                        "COLERAINE",
+                        "LARNE",
+                        "MAGHERAFELT",
+                        "MOYLE",
+                        "NEWTOWNABBEY"
+                    ]
+                },
+                {
+                    "properties": {
+                        "id": "South Eastern Education and Library Board"
+                    },
+                    "sourceFeatures": [
+                        "ARDS",
+                        "CASTLEREAGH",
+                        "DOWN",
+                        "LISBURN",
+                        "NORTH DOWN"
+                    ]
+                },
+                {
+                    "properties": {
+                        "id": "Southern Education and Library Board"
+                    },
+                    "sourceFeatures": [
+                        "ARMAGH",
+                        "BANBRIDGE",
+                        "COOKSTOWN",
+                        "CRAIGAVON",
+                        "DUNGANNON",
+                        "NEWRY and  MOURNE"
+                    ]
+                },
+                {
+                    "properties": {
+                        "id": "Western Education and Library Board"
+                    },
+                    "sourceFeatures": [
+                        "DERRY",
+                        "FERMANAGH",
+                        "LIMAVADY",
+                        "OMAGH",
+                        "STRABANE"
+                    ]
+                }
+            ]
+        }
+    }
+}

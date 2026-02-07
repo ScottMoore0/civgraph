@@ -1,0 +1,83 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build outputs
+dist/
+build/
+.cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.temp
+
+# Backup files
+*.bak
+*.backup
+
+# Discard folder (review before deleting)
+# Note: discard/ is tracked but contains files pending review
+
+# ============================================
+# Build System Files (in GitHub, NOT on Neocities)
+# ============================================
+# These are excluded from Neocities by the rsync step in deploy.yml
+# scripts/ - build scripts (kept in git, excluded from Neocities)
+# package.json - npm config (kept in git, excluded from Neocities)
+
+# ============================================
+# Local-only files (NOT in GitHub or Neocities)
+# ============================================
+# Puppeteer browser cache
+.puppeteer/
+
+# Build manifest (regenerated on each build)
+data/build-manifest.json
+
+# Generated build outputs
+data/features/
+data/spatial-index.json
+
+# ============================================
+# Large Processing Files (see REGENERATION_GUIDE.md)
+# ============================================
+# These files are too large for GitHub LFS (>2GB limit)
+# They can be regenerated locally - see REGENERATION_GUIDE.md
+
+# Temporary processing directories
+temp/
+data/temp/
+
+# Large cached data files
+*.npy
+*.tif
+*.tiff
+
+# SQLite knowledge database
+data/database/knowledge.db
+data/database/knowledge.db-shm
+data/database/knowledge.db-wal
+
+# Test artifacts
+test-results/
