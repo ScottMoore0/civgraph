@@ -29,5 +29,5 @@ jobs:
         uses: bcomnes/deploy-to-neocities@v2
         with:
           api_token: ${{ secrets.NEOCITIES_API_TOKEN }}
-          cleanup: false  # Don't delete files not in repo
+          cleanup: true  # One-off: clear existing site contents before deploy
           dist_dir: dist
