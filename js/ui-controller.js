@@ -53,8 +53,51 @@ class UIController {
         this.setupSplitToggle();
         this.setupTabSwitching();
         this.setupCatalogueNav();
+        this.setupMobileMenu();
         console.log('[UIController] Initialized');
         return this;
+    }
+
+    // ============================================
+    // Mobile Navbar Dropdown
+    // ============================================
+
+    setupMobileMenu() {
+        const btn = document.getElementById('mobileMenuBtn');
+        const menu = document.getElementById('mobileMenu');
+        if (!btn || !menu) return;
+
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = !menu.classList.contains('hidden');
+            if (isOpen) {
+                menu.classList.add('hidden');
+                btn.setAttribute('aria-expanded', 'false');
+            } else {
+                menu.classList.remove('hidden');
+                btn.setAttribute('aria-expanded', 'true');
+            }
+        });
+
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+                menu.classList.add('hidden');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Wire Support Us link to the existing support button
+        const supportLink = document.getElementById('mobileMenuSupport');
+        const supportBtn = document.getElementById('supportBtn');
+        if (supportLink && supportBtn) {
+            supportLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                menu.classList.add('hidden');
+                btn.setAttribute('aria-expanded', 'false');
+                supportBtn.click();
+            });
+        }
     }
 
     // ============================================
@@ -597,6 +640,29 @@ class UIController {
 
         // Setup split-pane dragging
         this.setupSplitDrag();
+
+        // Setup mobile toggle button
+        this.setupMobileToggle();
+    }
+
+    setupMobileToggle() {
+        const toggleBtn = document.getElementById('mobileToggle');
+        if (!toggleBtn) return;
+
+        toggleBtn.addEventListener('click', () => {
+            // Toggle between map-full and info-full
+            if (this.currentStateId === 'info-full') {
+                this.setSplitState('map-full');
+            } else {
+                this.setSplitState('info-full');
+            }
+            // Invalidate Leaflet map size after transition
+            setTimeout(() => {
+                if (window.mapController?.map) {
+                    window.mapController.map.invalidateSize();
+                }
+            }, 350);
+        });
     }
 
     setupSplitDrag() {
@@ -701,6 +767,15 @@ class UIController {
         this.updateSplitState();
         this.savePreference();
         if (this.onSplitChange) this.onSplitChange(stateId);
+
+        // Ensure Leaflet map resizes when it becomes visible
+        if (stateId !== 'info-full') {
+            setTimeout(() => {
+                if (window.mapController?.map) {
+                    window.mapController.map.invalidateSize();
+                }
+            }, 350);
+        }
     }
 
     cycleSplitState(direction = 1) {
@@ -712,7 +787,11 @@ class UIController {
 
     getAllowedStates() {
         if (this.isMobile) {
-            return this.splitStates.filter(s => s.id === 'info-full' || s.id === 'map-full');
+            // map-full first so it's the default on mobile (Leaflet needs a visible container)
+            return [
+                this.splitStates.find(s => s.id === 'map-full'),
+                this.splitStates.find(s => s.id === 'info-full')
+            ];
         }
         return this.splitStates;
     }
@@ -733,6 +812,7 @@ class UIController {
             const isAllowed = allowedStates.some(s => s.id === stateId);
             btn.style.display = isAllowed ? '' : 'none';
         });
+
         const state = this.splitStates.find(s => s.id === this.currentStateId);
         if (state) this.announce(`View changed to ${state.label}`);
     }

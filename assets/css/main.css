@@ -261,6 +261,8 @@ a:hover {
   color: var(--color-text-inverse);
   box-shadow: var(--shadow-md);
   z-index: var(--z-sticky);
+  position: relative;
+  overflow: visible;
 }
 
 .app-header__brand {
@@ -301,6 +303,12 @@ a:hover {
 .app-header__link--active {
   color: #ffffff;
   background: rgba(255, 255, 255, 0.15);
+}
+
+/* Mobile-only menu (hidden on desktop) */
+.mobile-menu-btn,
+.mobile-menu {
+  display: none;
 }
 
 /* ============================================
@@ -3753,6 +3761,89 @@ body.split-dragging * {
     display: none;
   }
 
+  /* Mobile menu button — triangle dropdown */
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    border-radius: var(--radius-md);
+    color: #ffffff;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+  }
+
+  .mobile-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .mobile-menu-btn[aria-expanded="true"] {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .mobile-menu-btn[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+
+  .mobile-menu-btn svg {
+    transition: transform var(--transition-fast);
+  }
+
+  /* Mobile dropdown menu */
+  .mobile-menu {
+    display: block;
+    position: absolute;
+    top: 100%;
+    right: var(--space-3);
+    min-width: 160px;
+    background: var(--color-surface-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-xl);
+    z-index: 4000;
+    overflow: hidden;
+    animation: mobileMenuSlide 0.15s ease-out;
+  }
+
+  @keyframes mobileMenuSlide {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .mobile-menu.hidden {
+    display: none !important;
+  }
+
+  .mobile-menu__link {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    transition: background var(--transition-fast);
+  }
+
+  .mobile-menu__link:hover {
+    background: var(--color-primary-50);
+    color: var(--color-primary);
+  }
+
+  .mobile-menu__link+.mobile-menu__link {
+    border-top: 1px solid var(--color-border);
+  }
+
   /* Stack panes vertically on mobile */
   .app-main {
     display: block;
@@ -3761,9 +3852,10 @@ body.split-dragging * {
     overflow: hidden;
   }
 
-  /* Hide the inline split toggle on mobile */
-  .split-toggle {
-    display: none;
+  /* Hide the inline split toggle and drag bar on mobile */
+  .split-toggle,
+  .split-drag {
+    display: none !important;
   }
 
   /* Mobile pane handling */
@@ -3836,35 +3928,42 @@ body.split-dragging * {
     z-index: 2;
   }
 
-  /* Mobile floating toggle button */
+  /* Mobile floating toggle button — square, above zoom controls */
   .mobile-toggle {
-    position: fixed;
-    bottom: var(--space-4);
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
+    position: fixed !important;
+    top: calc(var(--header-height) + var(--space-3));
+    left: var(--space-3);
+    display: flex !important;
     align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-5);
-    background: var(--color-surface-elevated);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
-    box-shadow: var(--shadow-xl);
-    z-index: var(--z-sticky);
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    z-index: 3000;
     cursor: pointer;
-    font-size: var(--text-sm);
-    font-weight: var(--font-medium);
     color: var(--color-text);
   }
 
   .mobile-toggle:hover {
-    background: var(--color-primary-50);
-    border-color: var(--color-primary);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Push Leaflet zoom controls below the mobile toggle button */
+  .leaflet-top.leaflet-left {
+    top: 48px !important;
+    /* space for 36px toggle + 12px gap */
   }
 
   /* Map controls adjustments for mobile */
   .map-controls {
-    bottom: calc(var(--space-4) + 60px);
+    bottom: var(--space-4);
     max-width: calc(100vw - var(--space-8));
   }
 
