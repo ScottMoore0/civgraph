@@ -23,6 +23,16 @@ jobs:
             --exclude='.github' \
             --exclude='.gitignore' \
             --exclude='.gitattributes' \
+            --exclude='.agent' \
+            --exclude='node_modules' \
+            --exclude='package.json' \
+            --exclude='package-lock.json' \
+            --exclude='scripts' \
+            --exclude='*.mbtiles' \
+            --exclude='*.geojson' \
+            --exclude='*.tif' \
+            --exclude='*.zip' \
+            --exclude='*.csv' \
             . dist/
 
       - name: Deploy to Neocities
