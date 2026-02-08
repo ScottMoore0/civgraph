@@ -39,14 +39,15 @@ jobs:
         run: |
           # 1. Fetch remote file list with SHA1 hashes
           echo "Fetching file list from Neocities..."
-          REMOTE_JSON=$(curl -s -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_TOKEN }}" \
-            "https://neocities.org/api/list")
+          curl -s -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_TOKEN }}" \
+            "https://neocities.org/api/list" > /tmp/remote_list.json
 
           # 2. Build remote file hash map: path -> sha1
           python3 -c "
           import sys, json, hashlib, os
 
-          remote_data = json.loads('''${REMOTE_JSON//\'/\\\'}''')
+          with open('/tmp/remote_list.json') as f:
+              remote_data = json.load(f)
 
           # Build remote map: path -> sha1_hash
           remote_files = {}
