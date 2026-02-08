@@ -35,9 +35,78 @@ jobs:
             --exclude='*.csv' \
             . dist/
 
-      - name: Deploy to Neocities
-        uses: bcomnes/deploy-to-neocities@v2
-        with:
-          api_token: ${{ secrets.NEOCITIES_API_TOKEN }}
-          cleanup: true  # One-off: clear existing site contents before deploy
-          dist_dir: dist
+      - name: Delete existing site files
+        run: |
+          echo "Fetching file list from Neocities..."
+          FILE_LIST=$(curl -s -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_TOKEN }}" \
+            "https://neocities.org/api/list" | python3 -c "
+          import sys, json
+          data = json.load(sys.stdin)
+          for f in data.get('files', []):
+              if not f.get('is_directory', False) and f['path'] != '/index.html':
+                  print(f['path'])
+          ")
+          
+          if [ -z "$FILE_LIST" ]; then
+            echo "No files to delete (or empty site)"
+          else
+            echo "Deleting existing files..."
+            echo "$FILE_LIST" | while IFS= read -r filepath; do
+              echo "  Deleting: $filepath"
+              curl -s -d "filenames[]=$filepath" \
+                -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_TOKEN }}" \
+                "https://neocities.org/api/delete" > /dev/null 2>&1 || true
+            done
+            echo "Deletion complete."
+          fi
+
+      - name: Upload files individually
+        run: |
+          cd dist
+          TOTAL=$(find . -type f | wc -l)
+          COUNT=0
+          FAILED=0
+          
+          echo "Uploading $TOTAL files to Neocities..."
+          
+          find . -type f | sort | while IFS= read -r file; do
+            # Remove leading ./
+            RELPATH="${file#./}"
+            COUNT=$((COUNT + 1))
+            
+            # Show progress every 10 files
+            if [ $((COUNT % 10)) -eq 0 ] || [ $COUNT -eq 1 ]; then
+              echo "[$COUNT/$TOTAL] Uploading: $RELPATH"
+            fi
+            
+            # Upload with retry
+            SUCCESS=false
+            for ATTEMPT in 1 2 3; do
+              RESPONSE=$(curl -s -w "%{http_code}" \
+                -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_TOKEN }}" \
+                -F "$RELPATH=@$file" \
+                "https://neocities.org/api/upload")
+              
+              HTTP_CODE="${RESPONSE: -3}"
+              BODY="${RESPONSE%???}"
+              
+              if [ "$HTTP_CODE" = "200" ]; then
+                SUCCESS=true
+                break
+              else
+                echo "  Attempt $ATTEMPT failed ($HTTP_CODE) for $RELPATH: $BODY"
+                sleep 2
+              fi
+            done
+            
+            if [ "$SUCCESS" = false ]; then
+              echo "  FAILED: $RELPATH (after 3 attempts)"
+              FAILED=$((FAILED + 1))
+            fi
+          done
+          
+          echo ""
+          echo "Upload complete. Total: $TOTAL, Failed: $FAILED"
+          if [ "$FAILED" -gt 0 ]; then
+            echo "::warning::$FAILED files failed to upload"
+          fi
