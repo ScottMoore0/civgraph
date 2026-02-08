@@ -35,78 +35,127 @@ jobs:
             --exclude='*.csv' \
             . dist/
 
-      - name: Delete existing site files
+      - name: Incremental sync to Neocities
         run: |
+          # 1. Fetch remote file list with SHA1 hashes
           echo "Fetching file list from Neocities..."
-          FILE_LIST=$(curl -s -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_TOKEN }}" \
-            "https://neocities.org/api/list" | python3 -c "
-          import sys, json
-          data = json.load(sys.stdin)
-          for f in data.get('files', []):
-              if not f.get('is_directory', False) and f['path'] != '/index.html':
-                  print(f['path'])
-          ")
-          
-          if [ -z "$FILE_LIST" ]; then
-            echo "No files to delete (or empty site)"
+          REMOTE_JSON=$(curl -s -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_TOKEN }}" \
+            "https://neocities.org/api/list")
+
+          # 2. Build remote file hash map: path -> sha1
+          python3 -c "
+          import sys, json, hashlib, os
+
+          remote_data = json.loads('''${REMOTE_JSON//\'/\\\'}''')
+
+          # Build remote map: path -> sha1_hash
+          remote_files = {}
+          for f in remote_data.get('files', []):
+              if not f.get('is_directory', False):
+                  remote_files[f['path']] = f.get('sha1_hash', '')
+
+          # Build local map: path -> sha1_hash
+          local_files = {}
+          for root, dirs, files in os.walk('dist'):
+              for name in files:
+                  full = os.path.join(root, name)
+                  rel = os.path.relpath(full, 'dist').replace(os.sep, '/')
+                  remote_path = '/' + rel
+                  with open(full, 'rb') as fh:
+                      sha1 = hashlib.sha1(fh.read()).hexdigest()
+                  local_files[remote_path] = sha1
+
+          # Determine actions
+          to_upload = []
+          to_delete = []
+          unchanged = 0
+
+          for path, sha1 in local_files.items():
+              if path not in remote_files:
+                  to_upload.append(path)  # New file
+              elif remote_files[path] != sha1:
+                  to_upload.append(path)  # Changed file
+              else:
+                  unchanged += 1          # Same hash, skip
+
+          for path in remote_files:
+              if path not in local_files:
+                  to_delete.append(path)  # Removed file
+
+          # Write action lists
+          with open('/tmp/to_upload.txt', 'w') as f:
+              f.write('\n'.join(to_upload))
+          with open('/tmp/to_delete.txt', 'w') as f:
+              f.write('\n'.join(to_delete))
+
+          print(f'Unchanged: {unchanged}')
+          print(f'To upload (new/changed): {len(to_upload)}')
+          print(f'To delete (removed): {len(to_delete)}')
+          " || { echo "Failed to compute diff"; exit 1; }
+
+          # 3. Upload new/changed files
+          UPLOAD_COUNT=0
+          UPLOAD_FAILED=0
+          if [ -s /tmp/to_upload.txt ]; then
+            TOTAL=$(wc -l < /tmp/to_upload.txt)
+            echo ""
+            echo "Uploading $TOTAL files..."
+            while IFS= read -r filepath; do
+              [ -z "$filepath" ] && continue
+              LOCAL_PATH="dist${filepath}"
+              UPLOAD_COUNT=$((UPLOAD_COUNT + 1))
+
+              if [ $((UPLOAD_COUNT % 10)) -eq 0 ] || [ $UPLOAD_COUNT -eq 1 ]; then
+                echo "  [$UPLOAD_COUNT/$TOTAL] $filepath"
+              fi
+
+              # Upload with retry
+              SUCCESS=false
+              for ATTEMPT in 1 2 3; do
+                RELPATH="${filepath#/}"
+                RESPONSE=$(curl -s -w "%{http_code}" \
+                  -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_TOKEN }}" \
+                  -F "${RELPATH}=@${LOCAL_PATH}" \
+                  "https://neocities.org/api/upload")
+
+                HTTP_CODE="${RESPONSE: -3}"
+                if [ "$HTTP_CODE" = "200" ]; then
+                  SUCCESS=true
+                  break
+                else
+                  sleep 2
+                fi
+              done
+
+              if [ "$SUCCESS" = false ]; then
+                echo "  FAILED: $filepath"
+                UPLOAD_FAILED=$((UPLOAD_FAILED + 1))
+              fi
+            done < /tmp/to_upload.txt
           else
-            echo "Deleting existing files..."
-            echo "$FILE_LIST" | while IFS= read -r filepath; do
+            echo "No files to upload."
+          fi
+
+          # 4. Delete removed files
+          DELETE_COUNT=0
+          if [ -s /tmp/to_delete.txt ]; then
+            TOTAL_DEL=$(wc -l < /tmp/to_delete.txt)
+            echo ""
+            echo "Deleting $TOTAL_DEL removed files..."
+            while IFS= read -r filepath; do
+              [ -z "$filepath" ] && continue
+              DELETE_COUNT=$((DELETE_COUNT + 1))
               echo "  Deleting: $filepath"
               curl -s -d "filenames[]=$filepath" \
                 -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_TOKEN }}" \
                 "https://neocities.org/api/delete" > /dev/null 2>&1 || true
-            done
-            echo "Deletion complete."
+            done < /tmp/to_delete.txt
+          else
+            echo "No files to delete."
           fi
 
-      - name: Upload files individually
-        run: |
-          cd dist
-          TOTAL=$(find . -type f | wc -l)
-          COUNT=0
-          FAILED=0
-          
-          echo "Uploading $TOTAL files to Neocities..."
-          
-          find . -type f | sort | while IFS= read -r file; do
-            # Remove leading ./
-            RELPATH="${file#./}"
-            COUNT=$((COUNT + 1))
-            
-            # Show progress every 10 files
-            if [ $((COUNT % 10)) -eq 0 ] || [ $COUNT -eq 1 ]; then
-              echo "[$COUNT/$TOTAL] Uploading: $RELPATH"
-            fi
-            
-            # Upload with retry
-            SUCCESS=false
-            for ATTEMPT in 1 2 3; do
-              RESPONSE=$(curl -s -w "%{http_code}" \
-                -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_TOKEN }}" \
-                -F "$RELPATH=@$file" \
-                "https://neocities.org/api/upload")
-              
-              HTTP_CODE="${RESPONSE: -3}"
-              BODY="${RESPONSE%???}"
-              
-              if [ "$HTTP_CODE" = "200" ]; then
-                SUCCESS=true
-                break
-              else
-                echo "  Attempt $ATTEMPT failed ($HTTP_CODE) for $RELPATH: $BODY"
-                sleep 2
-              fi
-            done
-            
-            if [ "$SUCCESS" = false ]; then
-              echo "  FAILED: $RELPATH (after 3 attempts)"
-              FAILED=$((FAILED + 1))
-            fi
-          done
-          
           echo ""
-          echo "Upload complete. Total: $TOTAL, Failed: $FAILED"
-          if [ "$FAILED" -gt 0 ]; then
-            echo "::warning::$FAILED files failed to upload"
+          echo "Sync complete. Uploaded: $UPLOAD_COUNT (failed: $UPLOAD_FAILED), Deleted: $DELETE_COUNT"
+          if [ "$UPLOAD_FAILED" -gt 0 ]; then
+            echo "::warning::$UPLOAD_FAILED files failed to upload"
           fi
