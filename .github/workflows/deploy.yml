@@ -50,10 +50,12 @@ jobs:
               remote_data = json.load(f)
 
           # Build remote map: path -> sha1_hash
+          # Normalize: strip leading / so paths match local format (e.g. 'index.html')
           remote_files = {}
           for f in remote_data.get('files', []):
               if not f.get('is_directory', False):
-                  remote_files[f['path']] = f.get('sha1_hash', '')
+                  path = f['path'].lstrip('/')
+                  remote_files[path] = f.get('sha1_hash', '')
 
           # Build local map: path -> sha1_hash (skip LFS pointer files)
           local_files = {}
@@ -63,8 +65,7 @@ jobs:
           for root, dirs, files in os.walk('dist'):
               for name in files:
                   full = os.path.join(root, name)
-                  rel = os.path.relpath(full, 'dist').replace(os.sep, '/')
-                  remote_path = '/' + rel
+                  remote_path = os.path.relpath(full, 'dist').replace(os.sep, '/')
                   with open(full, 'rb') as fh:
                       content = fh.read()
                   # Skip LFS pointer files (tiny text stubs, not real content)
@@ -113,7 +114,7 @@ jobs:
             echo "Uploading $TOTAL files..."
             while IFS= read -r filepath; do
               [ -z "$filepath" ] && continue
-              LOCAL_PATH="dist${filepath}"
+              LOCAL_PATH="dist/${filepath}"
               UPLOAD_COUNT=$((UPLOAD_COUNT + 1))
 
               if [ $((UPLOAD_COUNT % 10)) -eq 0 ] || [ $UPLOAD_COUNT -eq 1 ]; then
@@ -123,10 +124,9 @@ jobs:
               # Upload with retry
               SUCCESS=false
               for ATTEMPT in 1 2 3; do
-                RELPATH="${filepath#/}"
                 RESPONSE=$(curl -s -w "%{http_code}" \
                   -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_TOKEN }}" \
-                  -F "${RELPATH}=@${LOCAL_PATH}" \
+                  -F "${filepath}=@${LOCAL_PATH}" \
                   "https://neocities.org/api/upload")
 
                 HTTP_CODE="${RESPONSE: -3}"
