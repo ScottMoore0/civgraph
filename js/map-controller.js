@@ -797,6 +797,37 @@ class MapController {
     }
 
     /**
+     * Search features across all loaded layers by name
+     * @param {string} query - search string
+     * @param {number} limit - max results
+     * @returns {Array<{mapId, name, bounds}>}
+     */
+    searchLoadedFeatures(query, limit = 8) {
+        if (!query || !query.trim()) return [];
+        const q = query.toLowerCase().trim();
+        const results = [];
+
+        for (const [mapId, state] of this.layerStates) {
+            if (!state.loaded) continue;
+            for (const entry of state.labelEntries) {
+                if (entry.text && entry.text.toLowerCase().includes(q)) {
+                    // Get bounds from the Leaflet layer
+                    let bounds = null;
+                    if (entry.layer.getBounds) {
+                        try { bounds = entry.layer.getBounds(); } catch (_) { }
+                    } else if (entry.layer.getLatLng) {
+                        const ll = entry.layer.getLatLng();
+                        bounds = L.latLngBounds(ll, ll);
+                    }
+                    results.push({ mapId, name: entry.text, bounds });
+                    if (results.length >= limit) return results;
+                }
+            }
+        }
+        return results;
+    }
+
+    /**
      * Set transparency (stroke opacity) for all layers
      */
     setTransparency(value) {

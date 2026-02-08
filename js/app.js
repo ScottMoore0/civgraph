@@ -522,21 +522,18 @@ class App {
             }
         }
 
-        // --- Section 2: Matching Features (from spatial index) ---
+        // --- Section 2: Matching Features (from spatial index of ALL maps) ---
         const featureResults = featureLoader.searchFeaturesByName(query, 8);
         if (featureResults.length > 0) {
             html += `<div class="search-autocomplete__section-header">Features</div>`;
-            for (const feature of featureResults) {
+            for (let i = 0; i < featureResults.length; i++) {
+                const feature = featureResults[i];
                 const mapConfig = dataService.getMapById(feature.mapId);
                 const mapName = mapConfig?.name || feature.mapId;
-                const featureIndex = featureLoader.parseFeatureId(feature.id);
                 html += `
                     <div class="search-autocomplete__item search-autocomplete__item--feature" 
                          data-action="feature" 
-                         data-map-id="${feature.mapId}"
-                         data-feature-id="${featureIndex}"
-                         data-feature-name="${this.escapeHtml(feature.name)}"
-                         data-bbox="${feature.bbox.join(',')}">
+                         data-feature-idx="${i}">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
                         </svg>
@@ -584,22 +581,26 @@ class App {
         // --- Click handlers for features ---
         autocomplete.querySelectorAll('[data-action="feature"]').forEach(el => {
             el.addEventListener('click', async () => {
-                const mapId = el.dataset.mapId;
-                const featureIndex = parseInt(el.dataset.featureId, 10);
-                const featureName = el.dataset.featureName;
-                const bbox = el.dataset.bbox.split(',').map(Number);
+                const idx = parseInt(el.dataset.featureIdx, 10);
+                const feature = featureResults[idx];
+                if (!feature) return;
 
-                const mapConfig = dataService.getMapById(mapId);
-                if (!mapConfig) return;
+                // Load the parent map if not already loaded
+                const mapId = feature.mapId;
+                if (!mapController.layerStates.has(mapId)) {
+                    const mapConfig = dataService.getMapById(mapId);
+                    if (mapConfig) {
+                        await this.loadMap(mapId);
+                        this.updateMapList();
+                        this.updateActiveLayers();
+                    }
+                }
 
-                await mapController.loadSingleFeature(mapConfig, featureIndex, featureName);
-                this.updateMapList();
-                this.updateActiveLayers();
-
-                if (mapController.map && bbox.length === 4) {
+                // Zoom to the feature bbox [minX, minY, maxX, maxY]
+                if (mapController.map && feature.bbox && feature.bbox.length === 4) {
                     const bounds = L.latLngBounds(
-                        [bbox[1], bbox[0]],
-                        [bbox[3], bbox[2]]
+                        [feature.bbox[1], feature.bbox[0]],
+                        [feature.bbox[3], feature.bbox[2]]
                     );
                     mapController.map.fitBounds(bounds, { maxZoom: 14, padding: [20, 20] });
                 }
@@ -607,7 +608,6 @@ class App {
                 autocomplete.classList.add('hidden');
                 document.getElementById('searchInput').value = '';
                 this.searchQuery = '';
-                this.updateMapList();
             });
         });
 
