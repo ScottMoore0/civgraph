@@ -57,7 +57,9 @@ class FeatureLoader {
     supportsLOD(mapId) {
         if (!this.initialized) return false;
         const features = this.spatialIndexByMap.get(mapId);
-        return features && features.length >= FEATURE_THRESHOLD;
+        // Features must have 'id' field (format "mapId:index") for per-feature loading
+        // Features without 'id' were indexed for search/bbox only
+        return features && features.length >= FEATURE_THRESHOLD && features[0]?.id != null;
     }
 
     /**

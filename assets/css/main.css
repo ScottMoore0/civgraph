@@ -307,7 +307,8 @@ a:hover {
 
 /* Mobile-only menu (hidden on desktop) */
 .mobile-menu-btn,
-.mobile-menu {
+.mobile-menu,
+.mobile-support-btn {
   display: none;
 }
 
@@ -3842,6 +3843,35 @@ body.split-dragging * {
 
   .mobile-menu__link+.mobile-menu__link {
     border-top: 1px solid var(--color-border);
+  }
+
+  #mobileMenuSupport {
+    background: #2e7d32;
+    color: #fff;
+  }
+
+  #mobileMenuSupport:hover {
+    background: #1b5e20;
+    color: #fff;
+  }
+
+  .mobile-support-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    background: #2e7d32;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    white-space: nowrap;
+  }
+
+  .mobile-support-btn:hover {
+    background: #1b5e20;
   }
 
   /* Stack panes vertically on mobile */

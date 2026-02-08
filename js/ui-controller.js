@@ -87,14 +87,12 @@ class UIController {
             }
         });
 
-        // Wire Support Us link to the existing support button
-        const supportLink = document.getElementById('mobileMenuSupport');
+        // Wire mobile Support Us button to the existing support button
+        const mobileSupportBtn = document.getElementById('mobileSupportBtn');
         const supportBtn = document.getElementById('supportBtn');
-        if (supportLink && supportBtn) {
-            supportLink.addEventListener('click', (e) => {
+        if (mobileSupportBtn && supportBtn) {
+            mobileSupportBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                menu.classList.add('hidden');
-                btn.setAttribute('aria-expanded', 'false');
                 supportBtn.click();
             });
         }
