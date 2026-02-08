@@ -28,6 +28,6 @@ jobs:
       - name: Deploy to Neocities
         uses: bcomnes/deploy-to-neocities@v2
         with:
-          api_token: ${{ secrets.NEOCITIES_API_TOKEN }}
+          api_key: ${{ secrets.NEOCITIES_API_TOKEN }}
           cleanup: true  # One-off: clear existing site contents before deploy
           dist_dir: dist
