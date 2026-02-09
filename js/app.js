@@ -61,6 +61,11 @@ class App {
                     for (const memberId of mapConfig.members) {
                         await this.loadMap(memberId);
                     }
+                } else if (mapConfig?.isGroup && mapConfig.variants && mapConfig.variants.length > 0) {
+                    // Load all variant maps for a group (e.g. eds-1911 with provincial variants)
+                    for (const variant of mapConfig.variants) {
+                        await this.loadMap(variant.id);
+                    }
                 } else {
                     await this.loadMap(mapId);
                 }
@@ -75,6 +80,11 @@ class App {
                     // Unload all member maps for a group
                     for (const memberId of mapConfig.members) {
                         mapController.unloadLayer(memberId);
+                    }
+                } else if (mapConfig?.isGroup && mapConfig.variants && mapConfig.variants.length > 0) {
+                    // Unload all variant maps for a group
+                    for (const variant of mapConfig.variants) {
+                        mapController.unloadLayer(variant.id);
                     }
                 } else {
                     mapController.unloadLayer(mapId);
@@ -96,6 +106,16 @@ class App {
             uiController.onHideMap = (mapId) => {
                 mapController.hideLayer(mapId);
                 // Don't update UI here - will be done after the selected map is loaded
+            };
+
+            // Expand a partial layer (individual features) to the full map
+            uiController.onExpandToFullMap = async (mapId) => {
+                const mapConfig = dataService.getMapById(mapId);
+                if (mapConfig) {
+                    await mapController.expandToFullMap(mapConfig);
+                    this.updateMapList();
+                    this.updateActiveLayers();
+                }
             };
 
             uiController.onCategoryChange = (categoryId) => {
@@ -585,15 +605,21 @@ class App {
                 const feature = featureResults[idx];
                 if (!feature) return;
 
-                // Load the parent map if not already loaded
+                // Resolve the map config for the feature's parent map
                 const mapId = feature.mapId;
-                if (!mapController.layerStates.has(mapId)) {
-                    const mapConfig = dataService.getMapById(mapId);
-                    if (mapConfig) {
-                        await this.loadMap(mapId);
-                        this.updateMapList();
-                        this.updateActiveLayers();
-                    }
+                const mapConfig = dataService.getMapById(mapId);
+                if (!mapConfig) return;
+
+                // Load only this individual feature instead of the entire layer
+                const state = await mapController.loadSingleFeature(
+                    mapConfig,
+                    feature.index,
+                    feature.name
+                );
+
+                if (state) {
+                    this.updateMapList();
+                    this.updateActiveLayers();
                 }
 
                 // Zoom to the feature bbox [minX, minY, maxX, maxY]
@@ -1534,6 +1560,13 @@ class App {
             if (map.isGroup && map.members && !ids.includes(map.id)) {
                 const allMembersLoaded = map.members.every(memberId => ids.includes(memberId));
                 if (allMembersLoaded) {
+                    ids.push(map.id);
+                }
+            }
+            // Also check variant-based groups (e.g. eds-1911)
+            if (map.isGroup && map.variants && map.variants.length > 0 && !map.members && !ids.includes(map.id)) {
+                const allVariantsLoaded = map.variants.every(v => ids.includes(v.id));
+                if (allVariantsLoaded) {
                     ids.push(map.id);
                 }
             }

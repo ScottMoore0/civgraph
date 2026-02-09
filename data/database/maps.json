@@ -599,10 +599,12 @@
       "id": "eds-historic",
       "name": "Electoral Divisions",
       "scope": "Ireland",
-      "category": "historic",
-      "hidden": true,
+      "category": "wards",
       "maps": [
-        "eds-1926"
+        "eds-2022",
+        "eds-2006",
+        "eds-1926",
+        "eds-1911"
       ]
     },
     {
@@ -1194,6 +1196,18 @@
           "width": "full"
         }
       ]
+    },
+    {
+      "id": "electoral-divisions-c1",
+      "name": "Electoral Divisions",
+      "category": "wards",
+      "layout": "mixed",
+      "sections": [
+        {
+          "classId": "eds-historic",
+          "width": "full"
+        }
+      ]
     }
   ],
   "maps": [
@@ -1623,10 +1637,37 @@
         "down-townlands",
         "fermanagh-townlands",
         "londonderry-townlands",
-        "tyrone-townlands"
+        "tyrone-townlands",
+        "carlow-townlands",
+        "cavan-townlands",
+        "clare-townlands",
+        "cork-townlands",
+        "donegal-townlands",
+        "dublin-townlands",
+        "galway-townlands",
+        "kerry-townlands",
+        "kildare-townlands",
+        "kilkenny-townlands",
+        "laois-townlands",
+        "leitrim-townlands",
+        "limerick-townlands",
+        "longford-townlands",
+        "louth-townlands",
+        "mayo-townlands",
+        "meath-townlands",
+        "monaghan-townlands",
+        "offaly-townlands",
+        "roscommon-townlands",
+        "sligo-townlands",
+        "tipperary-townlands",
+        "waterford-townlands",
+        "westmeath-townlands",
+        "wexford-townlands",
+        "wicklow-townlands"
       ],
       "provider": [
-        "OSNI"
+        "OSNI",
+        "OSI"
       ],
       "style": {
         "color": "#A87000",
@@ -1637,7 +1678,7 @@
       "variants": [
         {
           "id": "antrim-townlands",
-          "label": "County Antrim Townlands",
+          "label": "County Antrim",
           "description": "Townlands in County Antrim",
           "files": {
             "fgb": "data/maps/townlands/AntrimTownlands.fgb"
@@ -1645,7 +1686,7 @@
         },
         {
           "id": "armagh-townlands",
-          "label": "County Armagh Townlands",
+          "label": "County Armagh",
           "description": "Townlands in County Armagh",
           "files": {
             "fgb": "data/maps/townlands/ArmaghTownlands.fgb"
@@ -1653,7 +1694,7 @@
         },
         {
           "id": "down-townlands",
-          "label": "County Down Townlands",
+          "label": "County Down",
           "description": "Townlands in County Down",
           "files": {
             "fgb": "data/maps/townlands/DownTownlands.fgb"
@@ -1661,7 +1702,7 @@
         },
         {
           "id": "fermanagh-townlands",
-          "label": "County Fermanagh Townlands",
+          "label": "County Fermanagh",
           "description": "Townlands in County Fermanagh",
           "files": {
             "fgb": "data/maps/townlands/FermanaghTownlands.fgb"
@@ -1669,7 +1710,7 @@
         },
         {
           "id": "londonderry-townlands",
-          "label": "County Londonderry Townlands",
+          "label": "County Londonderry",
           "description": "Townlands in County Londonderry",
           "files": {
             "fgb": "data/maps/townlands/LondonderryTownlands.fgb"
@@ -1677,11 +1718,245 @@
         },
         {
           "id": "tyrone-townlands",
-          "label": "County Tyrone Townlands",
+          "label": "County Tyrone",
           "description": "Townlands in County Tyrone",
           "files": {
             "fgb": "data/maps/townlands/TyroneTownlands.fgb"
           }
+        },
+        {
+          "id": "carlow-townlands",
+          "label": "County Carlow",
+          "description": "Townlands in County Carlow",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Carlow.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "cavan-townlands",
+          "label": "County Cavan",
+          "description": "Townlands in County Cavan",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Cavan.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "clare-townlands",
+          "label": "County Clare",
+          "description": "Townlands in County Clare",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Clare.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "cork-townlands",
+          "label": "County Cork",
+          "description": "Townlands in County Cork",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Cork.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "donegal-townlands",
+          "label": "County Donegal",
+          "description": "Townlands in County Donegal",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Donegal.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "dublin-townlands",
+          "label": "County Dublin",
+          "description": "Townlands in County Dublin",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Dublin.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "galway-townlands",
+          "label": "County Galway",
+          "description": "Townlands in County Galway",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Galway.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "kerry-townlands",
+          "label": "County Kerry",
+          "description": "Townlands in County Kerry",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Kerry.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "kildare-townlands",
+          "label": "County Kildare",
+          "description": "Townlands in County Kildare",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Kildare.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "kilkenny-townlands",
+          "label": "County Kilkenny",
+          "description": "Townlands in County Kilkenny",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Kilkenny.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "laois-townlands",
+          "label": "County Laois",
+          "description": "Townlands in County Laois",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Laois.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "leitrim-townlands",
+          "label": "County Leitrim",
+          "description": "Townlands in County Leitrim",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Leitrim.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "limerick-townlands",
+          "label": "County Limerick",
+          "description": "Townlands in County Limerick",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Limerick.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "longford-townlands",
+          "label": "County Longford",
+          "description": "Townlands in County Longford",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Longford.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "louth-townlands",
+          "label": "County Louth",
+          "description": "Townlands in County Louth",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Louth.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "mayo-townlands",
+          "label": "County Mayo",
+          "description": "Townlands in County Mayo",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Mayo.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "meath-townlands",
+          "label": "County Meath",
+          "description": "Townlands in County Meath",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Meath.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "monaghan-townlands",
+          "label": "County Monaghan",
+          "description": "Townlands in County Monaghan",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Monaghan.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "offaly-townlands",
+          "label": "County Offaly",
+          "description": "Townlands in County Offaly",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Offaly.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "roscommon-townlands",
+          "label": "County Roscommon",
+          "description": "Townlands in County Roscommon",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Roscommon.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "sligo-townlands",
+          "label": "County Sligo",
+          "description": "Townlands in County Sligo",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Sligo.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "tipperary-townlands",
+          "label": "County Tipperary",
+          "description": "Townlands in County Tipperary",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Tipperary.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "waterford-townlands",
+          "label": "County Waterford",
+          "description": "Townlands in County Waterford",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Waterford.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "westmeath-townlands",
+          "label": "County Westmeath",
+          "description": "Townlands in County Westmeath",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Westmeath.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "wexford-townlands",
+          "label": "County Wexford",
+          "description": "Townlands in County Wexford",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Wexford.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
+        },
+        {
+          "id": "wicklow-townlands",
+          "label": "County Wicklow",
+          "description": "Townlands in County Wicklow",
+          "files": {
+            "fgb": "data/maps/townlands/Townlands_Wicklow.fgb"
+          },
+          "labelProperty": "ENG_NAME_VALUE"
         }
       ],
       "keywords": [
@@ -1689,7 +1964,9 @@
         "townlands",
         "1844",
         "all",
-        "northern ireland"
+        "ireland",
+        "northern ireland",
+        "republic"
       ],
       "date": 1844
     },
@@ -2918,7 +3195,7 @@
         "color": "#5B2C6F",
         "weight": 2
       },
-      "labelProperty": "SDZ21NM",
+      "labelProperty": "SDZ2021_nm",
       "keywords": [
         "SDZ",
         "super data zone",
@@ -2944,7 +3221,7 @@
         "color": "#1F618D",
         "weight": 2
       },
-      "labelProperty": "DZ21NM",
+      "labelProperty": "DZ2021_nm",
       "keywords": [
         "DZ",
         "data zone",
@@ -2970,7 +3247,7 @@
         "color": "#117A65",
         "weight": 2
       },
-      "labelProperty": "SOA11NM",
+      "labelProperty": "SOA_LABEL",
       "keywords": [
         "SOA",
         "super output area",
@@ -2996,7 +3273,7 @@
         "color": "#AF601A",
         "weight": 2
       },
-      "labelProperty": "SA2011NM",
+      "labelProperty": "SA2011",
       "keywords": [
         "SA",
         "small area",
@@ -3022,7 +3299,7 @@
         "color": "#7D3C98",
         "weight": 2
       },
-      "labelProperty": "OA_NAME",
+      "labelProperty": "OA_CODE",
       "keywords": [
         "OA",
         "output area",
@@ -3082,10 +3359,337 @@
       "date": 2003
     },
     {
+      "id": "eds-2022",
+      "name": "Electoral Divisions 2023",
+      "slug": "electoral-divisions-2023",
+      "category": "wards",
+      "isGroup": true,
+      "featured": true,
+      "provider": [
+        "CSO"
+      ],
+      "style": {
+        "color": "#1B5E20",
+        "weight": 2
+      },
+      "keywords": [
+        "electoral division",
+        "ED",
+        "2022",
+        "census",
+        "all ireland",
+        "CSO"
+      ],
+      "variants": [
+        {
+          "id": "eds-connacht-2022",
+          "label": "Connacht",
+          "description": "Electoral Divisions in Connacht province",
+          "files": {
+            "fgb": "data/maps/electoral-divisions/2022_CSO_EDs_Connacht.fgb"
+          }
+        },
+        {
+          "id": "eds-leinster-2022",
+          "label": "Leinster",
+          "description": "Electoral Divisions in Leinster province",
+          "files": {
+            "fgb": "data/maps/electoral-divisions/2022_CSO_EDs_Leinster.fgb"
+          }
+        },
+        {
+          "id": "eds-munster-2022",
+          "label": "Munster",
+          "description": "Electoral Divisions in Munster province",
+          "files": {
+            "fgb": "data/maps/electoral-divisions/2022_CSO_EDs_Munster.fgb"
+          }
+        },
+        {
+          "id": "eds-ulster-2022",
+          "label": "Ulster",
+          "description": "Electoral Divisions in Ulster province",
+          "files": {
+            "fgb": "data/maps/electoral-divisions/2022_CSO_EDs_Ulster.fgb"
+          }
+        }
+      ],
+      "date": 2022,
+      "labelProperty": "ED_ENGLISH"
+    },
+    {
+      "id": "eds-connacht-2022",
+      "name": "Connacht Electoral Divisions 2022",
+      "slug": "eds-connacht-2022",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "data/maps/electoral-divisions/2022_CSO_EDs_Connacht.fgb"
+      },
+      "style": {
+        "color": "#1B5E20",
+        "weight": 2
+      },
+      "keywords": [
+        "connacht",
+        "ED",
+        "2022",
+        "census"
+      ],
+      "labelProperty": "ED_ENGLISH",
+      "date": 2022
+    },
+    {
+      "id": "eds-leinster-2022",
+      "name": "Leinster Electoral Divisions 2022",
+      "slug": "eds-leinster-2022",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "data/maps/electoral-divisions/2022_CSO_EDs_Leinster.fgb"
+      },
+      "style": {
+        "color": "#1B5E20",
+        "weight": 2
+      },
+      "keywords": [
+        "leinster",
+        "ED",
+        "2022",
+        "census"
+      ],
+      "labelProperty": "ED_ENGLISH",
+      "date": 2022
+    },
+    {
+      "id": "eds-munster-2022",
+      "name": "Munster Electoral Divisions 2022",
+      "slug": "eds-munster-2022",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "data/maps/electoral-divisions/2022_CSO_EDs_Munster.fgb"
+      },
+      "style": {
+        "color": "#1B5E20",
+        "weight": 2
+      },
+      "keywords": [
+        "munster",
+        "ED",
+        "2022",
+        "census"
+      ],
+      "labelProperty": "ED_ENGLISH",
+      "date": 2022
+    },
+    {
+      "id": "eds-ulster-2022",
+      "name": "Ulster Electoral Divisions 2022",
+      "slug": "eds-ulster-2022",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "data/maps/electoral-divisions/2022_CSO_EDs_Ulster.fgb"
+      },
+      "style": {
+        "color": "#1B5E20",
+        "weight": 2
+      },
+      "keywords": [
+        "ulster",
+        "ED",
+        "2022",
+        "census"
+      ],
+      "labelProperty": "ED_ENGLISH",
+      "date": 2022
+    },
+    {
+      "id": "eds-2006",
+      "name": "Electoral Divisions 2008",
+      "slug": "electoral-divisions-2008",
+      "category": "wards",
+      "isGroup": true,
+      "featured": true,
+      "provider": [
+        "CSO"
+      ],
+      "style": {
+        "color": "#2E7D32",
+        "weight": 2
+      },
+      "keywords": [
+        "electoral division",
+        "ED",
+        "2006",
+        "census",
+        "all ireland",
+        "CSO"
+      ],
+      "variants": [
+        {
+          "id": "eds-connacht-2006",
+          "label": "Connacht",
+          "description": "Electoral Divisions in Connacht province",
+          "files": {
+            "fgb": "data/maps/electoral-divisions/2006_CSO_EDs_Connacht.fgb"
+          }
+        },
+        {
+          "id": "eds-leinster-2006",
+          "label": "Leinster",
+          "description": "Electoral Divisions in Leinster province",
+          "files": {
+            "fgb": "data/maps/electoral-divisions/2006_CSO_EDs_Leinster.fgb"
+          }
+        },
+        {
+          "id": "eds-munster-2006",
+          "label": "Munster",
+          "description": "Electoral Divisions in Munster province",
+          "files": {
+            "fgb": "data/maps/electoral-divisions/2006_CSO_EDs_Munster.fgb"
+          }
+        },
+        {
+          "id": "eds-ulster-2006",
+          "label": "Ulster",
+          "description": "Electoral Divisions in Ulster province",
+          "files": {
+            "fgb": "data/maps/electoral-divisions/2006_CSO_EDs_Ulster.fgb"
+          }
+        }
+      ],
+      "date": 2006,
+      "labelProperty": "EDNAME"
+    },
+    {
+      "id": "eds-connacht-2006",
+      "name": "Connacht Electoral Divisions 2006",
+      "slug": "eds-connacht-2006",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "data/maps/electoral-divisions/2006_CSO_EDs_Connacht.fgb"
+      },
+      "style": {
+        "color": "#2E7D32",
+        "weight": 2
+      },
+      "keywords": [
+        "connacht",
+        "ED",
+        "2006",
+        "census"
+      ],
+      "labelProperty": "EDNAME",
+      "date": 2006
+    },
+    {
+      "id": "eds-leinster-2006",
+      "name": "Leinster Electoral Divisions 2006",
+      "slug": "eds-leinster-2006",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "data/maps/electoral-divisions/2006_CSO_EDs_Leinster.fgb"
+      },
+      "style": {
+        "color": "#2E7D32",
+        "weight": 2
+      },
+      "keywords": [
+        "leinster",
+        "ED",
+        "2006",
+        "census"
+      ],
+      "labelProperty": "EDNAME",
+      "date": 2006
+    },
+    {
+      "id": "eds-munster-2006",
+      "name": "Munster Electoral Divisions 2006",
+      "slug": "eds-munster-2006",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "data/maps/electoral-divisions/2006_CSO_EDs_Munster.fgb"
+      },
+      "style": {
+        "color": "#2E7D32",
+        "weight": 2
+      },
+      "keywords": [
+        "munster",
+        "ED",
+        "2006",
+        "census"
+      ],
+      "labelProperty": "EDNAME",
+      "date": 2006
+    },
+    {
+      "id": "eds-ulster-2006",
+      "name": "Ulster Electoral Divisions 2006",
+      "slug": "eds-ulster-2006",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "data/maps/electoral-divisions/2006_CSO_EDs_Ulster.fgb"
+      },
+      "style": {
+        "color": "#2E7D32",
+        "weight": 2
+      },
+      "keywords": [
+        "ulster",
+        "ED",
+        "2006",
+        "census"
+      ],
+      "labelProperty": "EDNAME",
+      "date": 2006
+    },
+    {
       "id": "eds-1911",
       "name": "Electoral Divisions 1911",
       "slug": "electoral-divisions-1911",
       "category": "wards",
+      "isGroup": true,
       "featured": true,
       "provider": [
         "OSI",
@@ -3682,7 +4286,7 @@
         "color": "#228B22",
         "weight": 2
       },
-      "labelProperty": "CONST_NAME",
+      "labelProperty": "CON_NAME",
       "keywords": [
         "Dáil",
         "constituency",
@@ -3750,12 +4354,19 @@
       "name": "1990",
       "slug": "dail-1990",
       "category": "dail",
-      "placeholder": true,
+      "featured": true,
+      "provider": [
+        "OSI"
+      ],
+      "files": {
+        "fgb": "data/maps/parliamentary/1990_Dail.fgb"
+      },
       "date": 1990,
       "style": {
         "color": "#43A047",
         "weight": 2
       },
+      "labelProperty": "CON_NAME",
       "keywords": [
         "Dáil",
         "constituency",
