@@ -1,0 +1,209 @@
+html, body {
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0 0 0 0px;
+    height: 100%;
+}
+#chart {
+	max-width: 60.5em;
+	shape-rendering: geometricPrecision;
+}
+header {
+    background: #34495e;
+	color: white;
+    text-align: center;
+	border-bottom: 2px solid #00eecc;
+	padding: 5px 0 0 0;
+}
+header h1 {
+    font-size: 40px;
+    padding: 0px;
+}
+header a {
+    color: white;
+    text-decoration: none;
+}
+header a:hover {
+    color: #00eecc;
+    -webkit-transition: color .5s;
+    -moz-transition: color .5s;
+    -ms-transition: color .5s;
+    -o-transition: color .5s;
+    transition: color .5s;
+}
+header p {
+    font-size: 18px;
+    text-align: center;
+    padding: 0px;
+}
+.cta{
+    background-color: #00eecc;
+    color: #333333;
+}
+.cta a {
+    color: #ffffff;
+}
+.cta a:hover {
+    color: #333333;
+}
+.content {
+    margin: auto;
+    width: 80%;
+}
+.content p {
+	line-height: 1.5;
+}
+#footer {
+    clear:both;
+    background-color: #34495e;
+    color: white;
+    bottom: 0;
+    position: relative;
+    text-align: center;
+    padding: 15px;
+}
+#footer a {
+    color: white;
+    text-decoration: none;
+}
+#footer a:hover {
+    color: orange;
+}
+#map{
+	float: left;
+	height: 425px;
+	width: 900px;
+	max-width: 50%;
+	margin: 0px 20px 100px 0px;
+}
+#candidates {
+	float: left;
+	margin: auto;
+	width: 300px;
+    margin-bottom: 50px;
+}
+.candidate {
+	padding: 4px;
+}
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.show-menu {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-decoration: none;
+	color: #fff;
+	background: #19c589;
+	text-align: center;
+	padding: 10px 0;
+	display: none;
+}
+input[id=show-menu]{
+    display: none;
+}
+
+#cssmenu {
+  background: #34495e;
+  width: auto;
+  text-align: center;
+  display: block;
+}
+#cssmenu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  display: block;
+  zoom: 1;
+}
+#cssmenu ul:after {
+  content: " ";
+  display: block;
+  font-size: 0;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+#cssmenu ul li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+#cssmenu.align-right ul li {
+  float: right;
+}
+#cssmenu.align-center ul {
+  text-align: center;
+}
+#cssmenu ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  display: block;
+  padding: 15px 25px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  position: relative;
+  -webkit-transition: color .25s;
+  -moz-transition: color .25s;
+  -ms-transition: color .25s;
+  -o-transition: color .25s;
+  transition: color .25s;
+}
+#cssmenu ul li a:hover {
+  color: #00eecc;
+}
+#cssmenu ul li a:hover:before {
+  width: 100%;
+}
+#cssmenu ul li a:after {
+  content: "/";
+  font-size: 16px;
+  display: block;
+  position: absolute;
+  right: -3px;
+  top: 13px;
+  width: 0px;
+  background: #ffffff;
+  opacity: .5;
+}
+#cssmenu ul li a:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 0;
+  background: #00eecc;
+  -webkit-transition: width .25s;
+  -moz-transition: width .25s;
+  -ms-transition: width .25s;
+  -o-transition: width .25s;
+  transition: width .25s;
+}
+#cssmenu ul li.last > a:after,
+#cssmenu ul li:last-child > a:after {
+  display: none;
+}
+#cssmenu ul li.active a {
+  color: #00eecc;
+}
+#cssmenu ul li.active a:before {
+  width: 100%;
+}
+#cssmenu.align-right li.last > a:after,
+#cssmenu.align-right li:last-child > a:after {
+  display: block;
+}
+#cssmenu.align-right li:first-child a:after {
+  display: none;
+}
