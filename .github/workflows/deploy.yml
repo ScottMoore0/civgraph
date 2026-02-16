@@ -1,15 +1,14 @@
 name: Deploy to Neocities
 
 on:
-  # push trigger disabled — re-enable when ready to deploy:
-  #   push:
-  #     branches: [main]
+  push:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,11 +27,14 @@ jobs:
             --exclude='package.json' \
             --exclude='package-lock.json' \
             --exclude='scripts' \
+            --exclude='electionsni-reference' \
+            --exclude='privaterep_refactored' \
+            --exclude='maps-to-be-added' \
+            --exclude='Historic Maps' \
+            --exclude='OSNI original maps' \
             --exclude='*.mbtiles' \
-            --exclude='*.geojson' \
             --exclude='*.tif' \
             --exclude='*.zip' \
-            --exclude='*.csv' \
             . dist/
 
       - name: Incremental sync to Neocities
@@ -168,5 +170,6 @@ jobs:
           echo ""
           echo "Sync complete. Uploaded: $UPLOAD_COUNT (failed: $UPLOAD_FAILED), Deleted: $DELETE_COUNT"
           if [ "$UPLOAD_FAILED" -gt 0 ]; then
-            echo "::warning::$UPLOAD_FAILED files failed to upload"
+            echo "::error::$UPLOAD_FAILED files failed to upload"
+            exit 1
           fi
