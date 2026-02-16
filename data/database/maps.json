@@ -1630,41 +1630,9 @@
       "slug": "townlands-1844",
       "category": "townlands",
       "featured": true,
-      "isGroup": true,
-      "members": [
-        "antrim-townlands",
-        "armagh-townlands",
-        "down-townlands",
-        "fermanagh-townlands",
-        "londonderry-townlands",
-        "tyrone-townlands",
-        "carlow-townlands",
-        "cavan-townlands",
-        "clare-townlands",
-        "cork-townlands",
-        "donegal-townlands",
-        "dublin-townlands",
-        "galway-townlands",
-        "kerry-townlands",
-        "kildare-townlands",
-        "kilkenny-townlands",
-        "laois-townlands",
-        "leitrim-townlands",
-        "limerick-townlands",
-        "longford-townlands",
-        "louth-townlands",
-        "mayo-townlands",
-        "meath-townlands",
-        "monaghan-townlands",
-        "offaly-townlands",
-        "roscommon-townlands",
-        "sligo-townlands",
-        "tipperary-townlands",
-        "waterford-townlands",
-        "westmeath-townlands",
-        "wexford-townlands",
-        "wicklow-townlands"
-      ],
+      "files": {
+        "fgb": "data/maps/townlands/Townlands_AllIreland.fgb"
+      },
       "provider": [
         "OSNI",
         "OSI"
@@ -1673,7 +1641,7 @@
         "color": "#A87000",
         "weight": 2
       },
-      "labelProperty": "TownlandName",
+      "labelProperty": "ENG_NAME_VALUE",
       "priorityProperty": "Area",
       "variants": [
         {
@@ -1682,7 +1650,8 @@
           "description": "Townlands in County Antrim",
           "files": {
             "fgb": "data/maps/townlands/AntrimTownlands.fgb"
-          }
+          },
+          "labelProperty": "TownlandName"
         },
         {
           "id": "armagh-townlands",
@@ -1690,7 +1659,8 @@
           "description": "Townlands in County Armagh",
           "files": {
             "fgb": "data/maps/townlands/ArmaghTownlands.fgb"
-          }
+          },
+          "labelProperty": "TownlandName"
         },
         {
           "id": "down-townlands",
@@ -1698,7 +1668,8 @@
           "description": "Townlands in County Down",
           "files": {
             "fgb": "data/maps/townlands/DownTownlands.fgb"
-          }
+          },
+          "labelProperty": "TownlandName"
         },
         {
           "id": "fermanagh-townlands",
@@ -1706,7 +1677,8 @@
           "description": "Townlands in County Fermanagh",
           "files": {
             "fgb": "data/maps/townlands/FermanaghTownlands.fgb"
-          }
+          },
+          "labelProperty": "TownlandName"
         },
         {
           "id": "londonderry-townlands",
@@ -1714,7 +1686,8 @@
           "description": "Townlands in County Londonderry",
           "files": {
             "fgb": "data/maps/townlands/LondonderryTownlands.fgb"
-          }
+          },
+          "labelProperty": "TownlandName"
         },
         {
           "id": "tyrone-townlands",
@@ -1722,7 +1695,8 @@
           "description": "Townlands in County Tyrone",
           "files": {
             "fgb": "data/maps/townlands/TyroneTownlands.fgb"
-          }
+          },
+          "labelProperty": "TownlandName"
         },
         {
           "id": "carlow-townlands",
@@ -1968,7 +1942,13 @@
         "northern ireland",
         "republic"
       ],
-      "date": 1844
+      "date": 1844,
+      "chunked": true,
+      "labelPropertyFallbacks": [
+        "TownlandName",
+        "TOWNLAND",
+        "Name"
+      ]
     },
     {
       "id": "settlements-2015-craigavon",
@@ -2041,6 +2021,24 @@
         "ward",
         "2012",
         "electoral"
+      ],
+      "osniDownloads": [
+        {
+          "label": "OSNI Largescale GeoJSON",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_wards_2012.geojson"
+        },
+        {
+          "label": "OSNI Largescale KML",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_wards_2012.kml"
+        },
+        {
+          "label": "OSNI Largescale CSV",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_wards_2012.csv"
+        },
+        {
+          "label": "OSNI Largescale Shapefile (ZIP)",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_wards_2012.zip"
+        }
       ]
     },
     {
@@ -2065,7 +2063,45 @@
         "1993",
         "electoral"
       ],
-      "date": 1993
+      "date": 1993,
+      "osniDownloads": [
+        {
+          "label": "OSNI Largescale GeoJSON",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_wards_1993.geojson"
+        },
+        {
+          "label": "OSNI Largescale KML",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_wards_1993.kml"
+        },
+        {
+          "label": "OSNI Largescale CSV",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_wards_1993.csv"
+        },
+        {
+          "label": "OSNI Largescale Shapefile (ZIP)",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_wards_1993.zip"
+        },
+        {
+          "label": "OSNI 50k GeoJSON",
+          "file": "data/maps/osni-originals/osni_open_data_50k_boundaries_wards_1993.geojson"
+        },
+        {
+          "label": "OSNI 50k KML",
+          "file": "data/maps/osni-originals/osni_open_data_50k_boundaries_wards_1993.kml"
+        },
+        {
+          "label": "OSNI 50k CSV",
+          "file": "data/maps/osni-originals/osni_open_data_50k_boundaries_wards_1993.csv"
+        },
+        {
+          "label": "OSNI 50k Shapefile (ZIP)",
+          "file": "data/maps/osni-originals/osni_open_data_50k_boundaries_wards_1993.zip"
+        },
+        {
+          "label": "OSNI Largescale Shapefile alt (ZIP)",
+          "file": "data/maps/osni-originals/OSNI Largescale_Ward_1993.zip"
+        }
+      ]
     },
     {
       "id": "wards-1984",
@@ -2141,7 +2177,25 @@
         "electoral",
         "district"
       ],
-      "date": 2012
+      "date": 2012,
+      "osniDownloads": [
+        {
+          "label": "OSNI Largescale GeoJSON",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_district_electoral_areas_2012.geojson"
+        },
+        {
+          "label": "OSNI Largescale KML",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_district_electoral_areas_2012.kml"
+        },
+        {
+          "label": "OSNI Largescale CSV",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_district_electoral_areas_2012.csv"
+        },
+        {
+          "label": "OSNI Largescale Shapefile (ZIP)",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_district_electoral_areas_2012.zip"
+        }
+      ]
     },
     {
       "id": "deas-1993",
@@ -2166,7 +2220,41 @@
         "electoral",
         "district"
       ],
-      "date": 1993
+      "date": 1993,
+      "osniDownloads": [
+        {
+          "label": "OSNI Largescale GeoJSON",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_district_electoral_areas_1993.geojson"
+        },
+        {
+          "label": "OSNI Largescale KML",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_district_electoral_areas_1993.kml"
+        },
+        {
+          "label": "OSNI Largescale CSV",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_district_electoral_areas_1993.csv"
+        },
+        {
+          "label": "OSNI Largescale Shapefile (ZIP)",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_district_electoral_areas_1993.zip"
+        },
+        {
+          "label": "OSNI 50k GeoJSON",
+          "file": "data/maps/osni-originals/osni_open_data_50k_boundaries_district_electoral_areas_1993.geojson"
+        },
+        {
+          "label": "OSNI 50k KML",
+          "file": "data/maps/osni-originals/osni_open_data_50k_boundaries_district_electoral_areas_1993.kml"
+        },
+        {
+          "label": "OSNI 50k CSV",
+          "file": "data/maps/osni-originals/osni_open_data_50k_boundaries_district_electoral_areas_1993.csv"
+        },
+        {
+          "label": "OSNI 50k Shapefile (ZIP)",
+          "file": "data/maps/osni-originals/osni_open_data_50k_boundaries_district_electoral_areas_1993.zip"
+        }
+      ]
     },
     {
       "id": "deas-1984",
@@ -2246,7 +2334,25 @@
       ],
       "dateEffective": "2015-04-01",
       "defaultOn": true,
-      "date": 2012
+      "date": 2012,
+      "osniDownloads": [
+        {
+          "label": "OSNI Largescale GeoJSON",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_local_government_districts_2012.geojson"
+        },
+        {
+          "label": "OSNI Largescale KML",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_local_government_districts_2012.kml"
+        },
+        {
+          "label": "OSNI Largescale CSV",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_local_government_districts_2012.csv"
+        },
+        {
+          "label": "OSNI Largescale Shapefile (ZIP)",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_local_government_districts_2012.zip"
+        }
+      ]
     },
     {
       "id": "lgd-1993",
@@ -2271,7 +2377,25 @@
         "district",
         "1993"
       ],
-      "date": 1993
+      "date": 1993,
+      "osniDownloads": [
+        {
+          "label": "OSNI 50k GeoJSON",
+          "file": "data/maps/osni-originals/osni_open_data_50k_boundaries_local_government_districts_1993.geojson"
+        },
+        {
+          "label": "OSNI 50k KML",
+          "file": "data/maps/osni-originals/osni_open_data_50k_boundaries_local_government_districts_1993.kml"
+        },
+        {
+          "label": "OSNI 50k CSV",
+          "file": "data/maps/osni-originals/osni_open_data_50k_boundaries_local_government_districts_1993.csv"
+        },
+        {
+          "label": "OSNI 50k Shapefile (ZIP)",
+          "file": "data/maps/osni-originals/osni_open_data_50k_boundaries_local_government_districts_1993.zip"
+        }
+      ]
     },
     {
       "id": "lgd-1984",
@@ -2376,7 +2500,25 @@
         "2024"
       ],
       "dateEffective": "2024-07-04",
-      "date": 2023
+      "date": 2023,
+      "osniDownloads": [
+        {
+          "label": "OSNI Largescale GeoJSON",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_parliamentary_constituencies_2023.geojson"
+        },
+        {
+          "label": "OSNI Largescale KML",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_parliamentary_constituencies_2023.kml"
+        },
+        {
+          "label": "OSNI Largescale CSV",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_parliamentary_constituencies_2023.csv"
+        },
+        {
+          "label": "OSNI Largescale Shapefile (ZIP)",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_parliamentary_constituencies_2023.zip"
+        }
+      ]
     },
     {
       "id": "pc-2008",
@@ -2401,7 +2543,25 @@
         "2008"
       ],
       "date": 2008,
-      "featured": true
+      "featured": true,
+      "osniDownloads": [
+        {
+          "label": "OSNI Largescale GeoJSON",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_parliamentary_constituencies_2008.geojson"
+        },
+        {
+          "label": "OSNI Largescale KML",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_parliamentary_constituencies_2008.kml"
+        },
+        {
+          "label": "OSNI Largescale CSV",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_parliamentary_constituencies_2008.csv"
+        },
+        {
+          "label": "OSNI Largescale Shapefile (ZIP)",
+          "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_parliamentary_constituencies_2008.zip"
+        }
+      ]
     },
     {
       "id": "pc-1995",
@@ -3203,7 +3363,8 @@
         "2021",
         "statistical"
       ],
-      "date": 2021
+      "date": 2021,
+      "chunked": true
     },
     {
       "id": "dz-2021",
@@ -3229,7 +3390,8 @@
         "2021",
         "statistical"
       ],
-      "date": 2021
+      "date": 2021,
+      "chunked": true
     },
     {
       "id": "soa-2011",
@@ -3255,7 +3417,8 @@
         "2011",
         "statistical"
       ],
-      "date": 2011
+      "date": 2011,
+      "chunked": true
     },
     {
       "id": "sa-2011",
@@ -3281,7 +3444,8 @@
         "2011",
         "statistical"
       ],
-      "date": 2011
+      "date": 2011,
+      "chunked": true
     },
     {
       "id": "oa-2001",
@@ -3307,7 +3471,8 @@
         "2001",
         "statistical"
       ],
-      "date": 2001
+      "date": 2001,
+      "chunked": true
     },
     {
       "id": "nra",
@@ -4615,7 +4780,8 @@
       ],
       "labelProperty": "GSQ21_1km",
       "date": 2021,
-      "featured": true
+      "featured": true,
+      "chunked": true
     },
     {
       "id": "av-referendum-2011",
@@ -7580,6 +7746,256 @@
         "electoral",
         "divisions",
         "placeholder"
+      ]
+    },
+    {
+      "id": "historic-bullaun-stones",
+      "name": "Bullaun Stones",
+      "slug": "historic-bullaun-stones",
+      "category": "historic",
+      "provider": [
+        "Historic Maps"
+      ],
+      "files": {
+        "fgb": "data/maps/historic-sites/Bullaun_Stones.fgb",
+        "geojson": "data/maps/historic-sites/originals/Bullaun_Stones.geojson"
+      },
+      "style": {
+        "color": "#8b5e3c",
+        "weight": 2
+      },
+      "keywords": [
+        "historic",
+        "sites",
+        "bullaun",
+        "stones"
+      ]
+    },
+    {
+      "id": "historic-crannog",
+      "name": "Crannog",
+      "slug": "historic-crannog",
+      "category": "historic",
+      "provider": [
+        "Historic Maps"
+      ],
+      "files": {
+        "fgb": "data/maps/historic-sites/Crannog.fgb",
+        "geojson": "data/maps/historic-sites/originals/Crannog.geojson"
+      },
+      "style": {
+        "color": "#7f5539",
+        "weight": 2
+      },
+      "keywords": [
+        "historic",
+        "sites",
+        "crannog"
+      ]
+    },
+    {
+      "id": "historic-ringfort-cashel",
+      "name": "Ringfort - Cashel",
+      "slug": "historic-ringfort-cashel",
+      "category": "historic",
+      "provider": [
+        "Historic Maps"
+      ],
+      "files": {
+        "fgb": "data/maps/historic-sites/Ringfort_Cashel.fgb",
+        "geojson": "data/maps/historic-sites/originals/Ringfort_Cashel.geojson"
+      },
+      "style": {
+        "color": "#b5651d",
+        "weight": 2
+      },
+      "keywords": [
+        "historic",
+        "sites",
+        "ringfort",
+        "cashel"
+      ]
+    },
+    {
+      "id": "historic-ringfort-rath",
+      "name": "Ringfort - Rath",
+      "slug": "historic-ringfort-rath",
+      "category": "historic",
+      "provider": [
+        "Historic Maps"
+      ],
+      "files": {
+        "fgb": "data/maps/historic-sites/Ringfort_Rath.fgb",
+        "geojson": "data/maps/historic-sites/originals/Ringfort_Rath.geojson"
+      },
+      "style": {
+        "color": "#a45a52",
+        "weight": 2
+      },
+      "keywords": [
+        "historic",
+        "sites",
+        "ringfort",
+        "rath"
+      ]
+    },
+    {
+      "id": "historic-ringfort-unclassified",
+      "name": "Ringfort - Unclassified",
+      "slug": "historic-ringfort-unclassified",
+      "category": "historic",
+      "provider": [
+        "Historic Maps"
+      ],
+      "files": {
+        "fgb": "data/maps/historic-sites/Ringfort_Unclassified.fgb",
+        "geojson": "data/maps/historic-sites/originals/Ringfort_Unclassified.geojson"
+      },
+      "style": {
+        "color": "#9c6644",
+        "weight": 2
+      },
+      "keywords": [
+        "historic",
+        "sites",
+        "ringfort",
+        "unclassified"
+      ]
+    },
+    {
+      "id": "historic-rock-scribing",
+      "name": "Rock Scribing",
+      "slug": "historic-rock-scribing",
+      "category": "historic",
+      "provider": [
+        "Historic Maps"
+      ],
+      "files": {
+        "fgb": "data/maps/historic-sites/Rock_Scribing.fgb",
+        "geojson": "data/maps/historic-sites/originals/Rock_Scribing.geojson"
+      },
+      "style": {
+        "color": "#6d597a",
+        "weight": 2
+      },
+      "keywords": [
+        "historic",
+        "sites",
+        "rock",
+        "scribing"
+      ]
+    },
+    {
+      "id": "historic-standing-stones",
+      "name": "Standing Stones",
+      "slug": "historic-standing-stones",
+      "category": "historic",
+      "provider": [
+        "Historic Maps"
+      ],
+      "files": {
+        "fgb": "data/maps/historic-sites/Standing_Stones.fgb",
+        "geojson": "data/maps/historic-sites/originals/Standing_Stones.geojson"
+      },
+      "style": {
+        "color": "#9a8c98",
+        "weight": 2
+      },
+      "keywords": [
+        "historic",
+        "sites",
+        "standing",
+        "stones"
+      ]
+    },
+    {
+      "id": "historic-wedge-tomb",
+      "name": "Wedge Tomb",
+      "slug": "historic-wedge-tomb",
+      "category": "historic",
+      "provider": [
+        "Historic Maps"
+      ],
+      "files": {
+        "fgb": "data/maps/historic-sites/Wedge_Tomb.fgb",
+        "geojson": "data/maps/historic-sites/originals/Wedge_Tomb.geojson"
+      },
+      "style": {
+        "color": "#774936",
+        "weight": 2
+      },
+      "keywords": [
+        "historic",
+        "sites",
+        "wedge",
+        "tomb"
+      ]
+    },
+    {
+      "id": "railways-network",
+      "name": "Railways",
+      "slug": "railways-network",
+      "category": "built-environment",
+      "provider": [
+        "Translink"
+      ],
+      "files": {
+        "fgb": "data/maps/transport/Translink_Rail_Network.fgb",
+        "geojson": "data/maps/transport/Translink_Rail_Network.geojson"
+      },
+      "style": {
+        "color": "#1f4e79",
+        "weight": 2
+      },
+      "keywords": [
+        "railway",
+        "transport",
+        "network"
+      ]
+    },
+    {
+      "id": "transport-lines-road-rail",
+      "name": "Transport Lines (Roads and Railways)",
+      "slug": "transport-lines-road-rail",
+      "category": "built-environment",
+      "provider": [
+        "OSNI"
+      ],
+      "files": {
+        "fgb": "data/maps/transport/Transport_Lines_Road_Rail.fgb",
+        "geojson": "data/maps/transport/Transport_Lines_Road_Rail.geojson"
+      },
+      "style": {
+        "color": "#4a5568",
+        "weight": 1.5
+      },
+      "keywords": [
+        "transport",
+        "roads",
+        "railways",
+        "lines"
+      ]
+    },
+    {
+      "id": "catholic-dioceses",
+      "name": "Catholic Dioceses",
+      "slug": "catholic-dioceses",
+      "category": "boundaries",
+      "provider": [
+        "User Provided"
+      ],
+      "files": {
+        "geojson": "dioceses.geojson"
+      },
+      "style": {
+        "color": "#7b1fa2",
+        "weight": 2
+      },
+      "keywords": [
+        "catholic",
+        "dioceses",
+        "religion",
+        "ecclesiastical"
       ]
     }
   ]

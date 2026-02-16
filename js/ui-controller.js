@@ -1,9 +1,10 @@
-/**
+﻿/**
  * NI Boundaries - UI Controller
  * Handles split-pane layout, search, filtering, map catalogue, and UI interactions
  */
 
 import dataService from './data-service.js';
+import electionController from './election-controller.js';
 
 class UIController {
     constructor() {
@@ -47,12 +48,48 @@ class UIController {
         this.isMobile = this.mediaQuery.matches;
         this.mediaQuery.addEventListener('change', (e) => {
             this.isMobile = e.matches;
+            if (!e.matches) {
+                // Crossed from mobile â†’ desktop: restore saved desktop preference
+                // If no explicit desktop preference exists, default to balanced
+                // so that both panes are visible
+                try {
+                    const pref = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+                    if (pref.desktop && this.getAllowedStates().some(s => s.id === pref.desktop)) {
+                        this.currentStateId = pref.desktop;
+                    } else {
+                        this.currentStateId = 'balanced';
+                    }
+                } catch (err) {
+                    this.currentStateId = 'balanced';
+                }
+            } else {
+                // Crossed from desktop â†’ mobile: default to map-full
+                // unless a mobile preference was explicitly saved
+                try {
+                    const pref = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+                    if (pref.mobile && this.getAllowedStates().some(s => s.id === pref.mobile)) {
+                        this.currentStateId = pref.mobile;
+                    } else {
+                        this.currentStateId = 'map-full';
+                    }
+                } catch (err) {
+                    this.currentStateId = 'map-full';
+                }
+            }
             this.updateSplitState();
+            // Ensure Leaflet map resizes
+            setTimeout(() => {
+                if (window.mapController?.map) {
+                    window.mapController.map.invalidateSize();
+                }
+            }, 350);
         });
         this.loadPreference();
         this.setupSplitToggle();
         this.setupTabSwitching();
+        this.setupCatalogueReturnTop();
         this.setupCatalogueNav();
+        this.setupCatalogueViewToggle();
         this.setupMobileMenu();
         console.log('[UIController] Initialized');
         return this;
@@ -182,9 +219,9 @@ class UIController {
         // Build badges HTML
         let badgesHtml = '';
         const badges = [];
-        if (map.featured) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--featured">⭐ Featured</span>');
-        if (map.isGroup) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--group">📦 Group</span>');
-        if (map.hidden) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--hidden">👁️ Hidden</span>');
+        if (map.featured) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--featured">â­ Featured</span>');
+        if (map.isGroup) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--group">ðŸ“¦ Group</span>');
+        if (map.hidden) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--hidden">ðŸ‘ï¸ Hidden</span>');
         if (badges.length > 0) {
             badgesHtml = `<div class="catalogue-detail__badges">${badges.join('')}</div>`;
         }
@@ -221,7 +258,7 @@ class UIController {
                 return variant ? `
                                 <div class="catalogue-detail__variant" data-map-id="${variant.id}">
                                     ${this.escapeHtml(variant.name)}
-                                    ${variant.provider ? `<span style="color: var(--color-text-muted); font-size: var(--text-xs);"> · ${variant.provider.join(', ')}</span>` : ''}
+                                    ${variant.provider ? `<span style="color: var(--color-text-muted); font-size: var(--text-xs);"> Â· ${variant.provider.join(', ')}</span>` : ''}
                                 </div>
                             ` : '';
             }).join('')}
@@ -241,7 +278,7 @@ class UIController {
                 return member ? `
                                 <div class="catalogue-detail__variant" data-map-id="${member.id}">
                                     ${this.escapeHtml(member.name)}
-                                    ${member.provider ? `<span style="color: var(--color-text-muted); font-size: var(--text-xs);"> · ${member.provider.join(', ')}</span>` : ''}
+                                    ${member.provider ? `<span style="color: var(--color-text-muted); font-size: var(--text-xs);"> Â· ${member.provider.join(', ')}</span>` : ''}
                                 </div>
                             ` : `<div class="catalogue-detail__variant">${this.escapeHtml(memberId)}</div>`;
             }).join('')}
@@ -251,7 +288,7 @@ class UIController {
 
         detailView.innerHTML = `
             <button class="catalogue-detail__back" id="catalogueBackLink">
-                ← Back to Catalogue
+                â† Back to Catalogue
             </button>
 
             <div class="catalogue-detail__card">
@@ -265,7 +302,7 @@ class UIController {
             ${descriptionHtml}
 
             <button class="catalogue-detail__load-btn" data-map-id="${map.id}">
-                ▷ Load Map
+                â–· Load Map
             </button>
 
             <div class="catalogue-detail__meta">
@@ -315,7 +352,7 @@ class UIController {
 
             <div class="catalogue-detail__attr-table" id="catalogueAttrTable">
                 <div class="catalogue-detail__attr-table-header" id="catalogueAttrTableHeader">
-                    <span class="catalogue-detail__attr-table-title">📋 Feature Attributes</span>
+                    <span class="catalogue-detail__attr-table-title">ðŸ“‹ Feature Attributes</span>
                     <span class="catalogue-detail__attr-table-toggle">▼</span>
                 </div>
                 <div class="catalogue-detail__attr-table-body" id="catalogueAttrTableBody">
@@ -353,7 +390,7 @@ class UIController {
                 attrTableBody.classList.toggle('catalogue-detail__attr-table-body--collapsed');
                 const toggle = attrTableHeader.querySelector('.catalogue-detail__attr-table-toggle');
                 if (toggle) {
-                    toggle.textContent = attrTableBody.classList.contains('catalogue-detail__attr-table-body--collapsed') ? '▶' : '▼';
+                    toggle.textContent = attrTableBody.classList.contains('catalogue-detail__attr-table-body--collapsed') ? 'â–¶' : '▼';
                 }
             });
         }
@@ -615,6 +652,8 @@ class UIController {
             content.classList.toggle('pane-tab-content--hidden', !isActive);
         });
 
+        this.updateCatalogueReturnTopVisibility();
+
         // Initialize Explore tab on first view
         if (tabId === 'explore') {
             this.initializeExplore();
@@ -624,6 +663,42 @@ class UIController {
         if (tabId === 'tables') {
             this.initializeTables();
         }
+    }
+
+    setupCatalogueReturnTop() {
+        const btn = document.getElementById('catalogueReturnTop');
+        const pane = document.querySelector('.pane__content[data-tab-content="catalogue"]');
+        if (!btn || !pane) return;
+        this._catalogueReturnTopBtn = btn;
+        this._cataloguePane = pane;
+        btn.addEventListener('click', () => {
+            pane.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        pane.addEventListener('scroll', () => this.updateCatalogueReturnTopVisibility(), { passive: true });
+        window.addEventListener('resize', () => this.updateCatalogueReturnTopVisibility());
+        this.updateCatalogueReturnTopVisibility();
+    }
+
+    updateCatalogueReturnTopVisibility() {
+        const btn = this._catalogueReturnTopBtn || document.getElementById('catalogueReturnTop');
+        const pane = this._cataloguePane || document.querySelector('.pane__content[data-tab-content="catalogue"]');
+        if (!btn || !pane) return;
+
+        const isCatalogueVisible = !pane.classList.contains('pane-tab-content--hidden');
+        const isFlatVisible = this._catalogueViewMode === 'flat';
+        let show = false;
+
+        if (isCatalogueVisible && isFlatVisible) {
+            const toc = pane.querySelector('#catalogueFlatView:not(.hidden) .catalogue-flat__toc');
+            if (toc) {
+                const paneRect = pane.getBoundingClientRect();
+                const tocRect = toc.getBoundingClientRect();
+                // Show only after the TOC has scrolled beyond the top of the pane.
+                show = tocRect.bottom < (paneRect.top + 8);
+            }
+        }
+
+        btn.style.display = show ? 'inline-flex' : 'none';
     }
 
     setupSplitToggle() {
@@ -832,7 +907,9 @@ class UIController {
         try {
             const pref = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
             const key = this.isMobile ? 'mobile' : 'desktop';
-            const saved = pref[key] || pref.last;
+            // On desktop, only use the explicit desktop preference (don't fall back to pref.last
+            // which might be a mobile-only state like info-full or map-full)
+            const saved = this.isMobile ? (pref[key] || pref.last) : pref[key];
             if (saved && this.getAllowedStates().some(s => s.id === saved)) {
                 this.currentStateId = saved;
             }
@@ -882,6 +959,7 @@ class UIController {
         container.innerHTML = '';
         this.focusedCardIndex = -1;
         this._savedSliderValues = savedSliderValues;
+        this.invalidateFlatView();
 
         if (maps.length === 0) {
             container.innerHTML = '<p class="text-muted text-sm">No maps found</p>';
@@ -1156,7 +1234,7 @@ class UIController {
                     catSection.className = 'category-section';
                     catSection.innerHTML = `
                         <div class="category-section__header">
-                            <span class="category-section__icon">${cat.icon || '📚'}</span>
+                            <span class="category-section__icon">${cat.icon || 'ðŸ“š'}</span>
                             <h3 class="category-section__title">${this.escapeHtml(cat.name)}</h3>
                         </div>
                     `;
@@ -1207,6 +1285,586 @@ class UIController {
     }
 
     // ============================================
+    // Flat Catalogue View
+    // ============================================
+
+    setupCatalogueViewToggle() {
+        const toggleContainer = document.getElementById('catalogueViewToggle');
+        if (!toggleContainer) return;
+
+        toggleContainer.querySelectorAll('.catalogue-view-toggle__btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const view = btn.dataset.view;
+                this.setCatalogueViewMode(view);
+            });
+        });
+
+        // Grouped view remains in code but is hidden/inaccessible in UI.
+        toggleContainer.classList.add('hidden');
+        this.setCatalogueViewMode('flat');
+    }
+
+    setCatalogueViewMode(mode) {
+        const mapList = document.getElementById('mapList');
+        const flatView = document.getElementById('catalogueFlatView');
+        const toggleContainer = document.getElementById('catalogueViewToggle');
+        const categoryPillsContainer = document.querySelector('.category-pills-container');
+        const providerPillsContainer = document.querySelector('.provider-pills-container');
+        if (!mapList || !flatView || !toggleContainer) return;
+
+        const forcedMode = 'flat';
+        const isFlat = true;
+
+        // Update toggle buttons
+        toggleContainer.querySelectorAll('.catalogue-view-toggle__btn').forEach(btn => {
+            btn.classList.toggle('catalogue-view-toggle__btn--active', btn.dataset.view === forcedMode);
+        });
+
+        // Show/hide views
+        if (isFlat) {
+            mapList.classList.add('hidden');
+            flatView.classList.remove('hidden');
+            // Render flat view if empty or stale
+            if (!flatView.dataset.rendered) {
+                this.renderFlatView();
+            }
+        } else {
+            mapList.classList.remove('hidden');
+            flatView.classList.add('hidden');
+        }
+
+        // Flat mode: hide top category/provider filters as requested.
+        if (categoryPillsContainer) {
+            categoryPillsContainer.classList.toggle('hidden', isFlat);
+        }
+        if (providerPillsContainer) {
+            providerPillsContainer.classList.toggle('hidden', isFlat);
+        }
+
+        localStorage.setItem('ni-boundaries.catalogue-view', forcedMode);
+        this._catalogueViewMode = forcedMode;
+        this.updateCatalogueReturnTopVisibility();
+    }
+
+    async renderFlatView() {
+        const container = document.getElementById('catalogueFlatView');
+        if (!container) return;
+
+        const allClasses = dataService.getAllClasses() || [];
+        const classById = new Map(allClasses.map(cls => [cls.id, cls]));
+        const mapById = new Map(((dataService.maps?.maps) || []).map(map => [map.id, map]));
+
+        // Flat mode map C1 cards, in the exact order requested.
+        const c1Cards = [
+            { id: 'flat-townlands-1844', name: 'Townlands (1844) (Ireland)', years: '1844', extent: 'Ireland', mapIds: ['ni-townlands-1844'] },
+            { id: 'flat-settlements', name: 'Settlements', years: '2005-2015', extent: 'Northern Ireland', classIds: ['ni-settlements'] },
+            { id: 'flat-place-names', name: 'Place Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['place-names-gazetteer'] },
+            { id: 'flat-civil-parishes', name: 'Civil Parishes', years: '', extent: 'Ireland', classIds: ['ni-civil-parishes', 'ireland-civil-parishes'] },
+            { id: 'flat-baronies', name: 'Baronies', years: '', extent: 'Ireland', mapIds: ['baronies'] },
+            { id: 'flat-counties-1915', name: 'Counties (1915)', years: '1915', extent: 'Northern Ireland', mapIds: ['counties-1915'] },
+            { id: 'flat-provinces', name: 'Provinces', years: '', extent: 'Ireland', mapIds: ['provinces'] },
+            { id: 'flat-wards', name: 'Wards (Northern Ireland) (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-wards'] },
+            { id: 'flat-deas', name: 'District Electoral Areas (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-deas'] },
+            { id: 'flat-deds', name: 'District Electoral Divisions (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-deds'] },
+            { id: 'flat-county-eds', name: 'County Electoral Divisions (Northern Ireland)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-county-eds'] },
+            { id: 'flat-eds-1911', name: 'Electoral Divisions (Ireland) (1911)', years: '1911', extent: 'Ireland', mapIds: ['eds-1911'] },
+            { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
+            { id: 'flat-admin-areas', name: 'Administrative Areas (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-admin-areas'] },
+            { id: 'flat-admin-counties', name: 'Administrative Counties (Northern Ireland) (1915)', years: '1915', extent: 'Northern Ireland', classIds: ['ni-admin-counties'] },
+            { id: 'flat-assembly-areas', name: 'Assembly Areas (1998-)', years: '1995-2023', extent: 'Northern Ireland', classIds: ['ni-assembly'] },
+            { id: 'flat-forum', name: 'Northern Ireland Forum Constituencies (1996)', years: '1995', extent: 'Northern Ireland', classIds: ['ni-forum'] },
+            { id: 'flat-assembly-1982', name: 'Assembly Constituencies (1982)', years: '1982', extent: 'Northern Ireland', classIds: ['ni-assembly-1982'] },
+            { id: 'flat-con-conv', name: 'Constitutional Convention Constituencies (1975)', years: '1975', extent: 'Northern Ireland', classIds: ['ni-constitutional-convention'] },
+            { id: 'flat-assembly-1973', name: 'Assembly Constituencies (1973)', years: '1970', extent: 'Northern Ireland', classIds: ['ni-assembly-1973'] },
+            { id: 'flat-ni-parliament', name: 'Parliament of Northern Ireland Constituencies (1920-1973)', years: '1920-1969', extent: 'Northern Ireland', classIds: ['ni-parliament'] },
+            { id: 'flat-cso-eds', name: 'CSO Electoral Divisions (Republic of Ireland) (2006-)', years: '2006-2023', extent: 'Republic of Ireland', mapIds: ['eds-2006', 'eds-2022', 'eds-2023'] },
+            { id: 'flat-dail', name: 'DÃ¡il Eireann Constituencies (1923-)', years: '1923-2023', extent: 'Republic of Ireland', classIds: ['roi-dail'] },
+            { id: 'flat-uk-parliament', name: 'UK Parliamentary Constituencies (1884-)', years: '1884-2023', extent: 'Ireland / Northern Ireland', classIds: ['pre-1921-pcs', 'ni-pcs'] },
+            { id: 'flat-eu-parliament', name: 'European Parliament Constituencies (1979-)', years: '1979-2024', extent: 'Ireland', classIds: ['eu-parliament'] },
+            { id: 'flat-referendum', name: 'Referendum Counting Areas (1975-)', years: '1973-2016', extent: 'Northern Ireland', classIds: ['ni-referendum-areas'] },
+            { id: 'flat-polities', name: 'Polities', years: '', extent: '', mapIds: ['ni-1921', 'roi-1938'] },
+            { id: 'flat-elb', name: 'Education and Library Boards (Northern Ireland)', years: '1984-1993', extent: 'Northern Ireland', classIds: ['ni-elb'] },
+            { id: 'flat-hsct', name: 'Health and Social Care Trusts (Northern Ireland) (2007)', years: '2007', extent: 'Northern Ireland', mapIds: ['hsct-2007'] },
+            { id: 'flat-small-census', name: 'Small Census Units (Northern Ireland) (2001-present)', years: '2001-2021', extent: 'Northern Ireland', classIds: ['ni-small-census'] },
+            { id: 'flat-super-census', name: 'Super Census Units (Northern Ireland) (2001-present)', years: '2001-2021', extent: 'Northern Ireland', classIds: ['ni-super-census'] },
+            { id: 'flat-ttwa', name: 'Travel To Work Areas (Northern Ireland) (2007-present)', years: '2007-2011', extent: 'Northern Ireland', classIds: ['ni-ttwa'] },
+            { id: 'flat-nra', name: 'Neighbourhood Renewal Areas (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['nra'] },
+            { id: 'flat-nuts3', name: 'NUTS 3 Regions (2003) (Northern Ireland)', years: '2003', extent: 'Northern Ireland', mapIds: ['nuts-3'] },
+            { id: 'flat-census-grid', name: 'Census Grid (2021) (Northern Ireland)', years: '2021', extent: 'Northern Ireland', mapIds: ['census-grid-2021'] },
+            { id: 'flat-seas', name: 'Seas (2023) (These islands)', years: '2023', extent: 'These islands', mapIds: ['britain-ireland-seas'] },
+            { id: 'flat-rivers', name: 'Rivers (2016) (Northern Ireland)', years: '2016', extent: 'Northern Ireland', mapIds: ['rivers-2016'] },
+            { id: 'flat-islands', name: 'Islands', years: '', extent: '', mapIds: ['ireland-island'] },
+            { id: 'flat-rbd', name: 'River Basin Districts (2016) (Northern Ireland)', years: '2016', extent: 'Northern Ireland', mapIds: ['river-basin-districts'] },
+            { id: 'flat-river-basins', name: 'River Basins (2016) (Northern Ireland)', years: '2016', extent: 'Northern Ireland', mapIds: ['river-basins'] },
+            { id: 'flat-peacelines', name: 'Peacelines (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['peacelines'] },
+            {
+                id: 'flat-historic-sites',
+                name: 'Historic Sites',
+                years: '',
+                extent: 'Northern Ireland',
+                mapIds: [
+                    'historic-bullaun-stones',
+                    'historic-crannog',
+                    'historic-ringfort-cashel',
+                    'historic-ringfort-rath',
+                    'historic-ringfort-unclassified',
+                    'historic-rock-scribing',
+                    'historic-standing-stones',
+                    'historic-wedge-tomb'
+                ]
+            },
+            {
+                id: 'flat-catholic-dioceses',
+                name: 'Catholic Dioceses',
+                years: '',
+                extent: 'Ireland',
+                mapIds: ['catholic-dioceses']
+            },
+            { id: 'flat-railways', name: 'Railways', years: '', extent: 'Northern Ireland', mapIds: ['railways-network'] },
+            { id: 'flat-transport-lines', name: 'Transport Lines (Roads and Railways)', years: '', extent: 'Northern Ireland', mapIds: ['transport-lines-road-rail'] },
+            {
+                id: 'flat-secondary',
+                name: 'Secondary maps',
+                years: '',
+                extent: '',
+                mapIds: [
+                    'highlands-above-199m',
+                    'highlands-without-settlements',
+                    'west-bann-sperrins',
+                    'east-west-bann',
+                    'uninhabited-highlands',
+                    'major-river-basins'
+                ]
+            }
+        ];
+
+        const decadeDefs = [
+            { id: 'flat-elections-2020s', name: '2020s', from: 2020, to: 2029 },
+            { id: 'flat-elections-2010s', name: '2010s', from: 2010, to: 2019 },
+            { id: 'flat-elections-2000s', name: '2000s', from: 2000, to: 2009 },
+            { id: 'flat-elections-1990s', name: '1990s', from: 1990, to: 1999 },
+            { id: 'flat-elections-1980s', name: '1980s', from: 1980, to: 1989 },
+            { id: 'flat-elections-1970s', name: '1970s', from: 1970, to: 1979 }
+        ];
+
+        let electionCatalogueCards = [];
+        try {
+            electionCatalogueCards = await electionController.buildCatalogueCards();
+        } catch (err) {
+            console.error('[UI] Failed to build flat-view election cards:', err);
+            electionCatalogueCards = [];
+        }
+
+        const getElectionAppearance = (body, date) => {
+            const year = parseInt(String(date).slice(0, 4), 10) || 0;
+            let thumb = 'pc-2008';
+            if (body === 'House of Commons of the United Kingdom') {
+                thumb = year >= 2024 ? 'pc-2023' : year >= 2005 ? 'pc-2008' : year >= 1995 ? 'pc-1995' : year >= 1983 ? 'pc-1982' : 'pc-1970';
+            } else if (body === 'Northern Ireland Assembly') {
+                thumb = year >= 2007 ? 'pc-2008' : year >= 1998 ? 'pc-1995' : 'pc-1970';
+            } else if (body === 'Northern Ireland Constitutional Convention') {
+                thumb = 'pc-1970';
+            } else if (body === 'Northern Ireland Forum for Political Dialogue') {
+                thumb = 'pc-1995';
+            } else if (body === 'European Parliament') {
+                if (year >= 2024) thumb = 'mep-2024';
+                else if (year >= 2019) thumb = 'mep-2019';
+                else if (year >= 2014) thumb = 'mep-2014';
+                else if (year >= 2009) thumb = 'mep-2009';
+                else if (year >= 2004) thumb = 'mep-2004';
+                else thumb = 'mep-1979';
+            }
+
+            const colorMap = {
+                'House of Commons of the United Kingdom': '#1e3a8a',
+                'Northern Ireland Assembly': '#2563eb',
+                'Northern Ireland Constitutional Convention': '#7c3aed',
+                'Northern Ireland Forum for Political Dialogue': '#0f766e',
+                'European Parliament': '#0ea5e9'
+            };
+
+            return {
+                thumb,
+                color: colorMap[body] || '#4b5563'
+            };
+        };
+
+        const decadeElectionCards = decadeDefs.map(def => {
+            const entries = electionCatalogueCards
+                .filter(c => {
+                    const year = parseInt(String(c.date).slice(0, 4), 10);
+                    return Number.isFinite(year) && year >= def.from && year <= def.to;
+                })
+                .sort((a, b) => String(b.date).localeCompare(String(a.date)));
+
+            return {
+                id: def.id,
+                name: def.name,
+                years: `${def.from}-${def.to}`,
+                extent: 'Northern Ireland',
+                electionEntries: entries
+            };
+        });
+
+        const stripBracketParts = (name) => String(name || '').replace(/\s*\([^)]*\)/g, '').trim();
+        const collectCardMaps = (def) => {
+            const mapEntries = [];
+            const seenMapIds = new Set();
+            const excludeIds = new Set(def.id === 'flat-settlements' ? ['settlements-2015-craigavon'] : []);
+
+            (def.classIds || []).forEach(classId => {
+                const cls = classById.get(classId);
+                if (!cls) return;
+                (cls.maps || []).forEach(mapId => {
+                    if (seenMapIds.has(mapId)) return;
+                    if (excludeIds.has(mapId)) return;
+                    const map = mapById.get(mapId) || dataService.getMapById(mapId);
+                    if (!map) return;
+                    seenMapIds.add(mapId);
+                    mapEntries.push({ map, classId: def.id });
+                });
+            });
+
+            (def.mapIds || []).forEach(mapId => {
+                if (seenMapIds.has(mapId)) return;
+                if (excludeIds.has(mapId)) return;
+                const map = mapById.get(mapId) || dataService.getMapById(mapId);
+                if (!map) return;
+                seenMapIds.add(mapId);
+                mapEntries.push({ map, classId: def.id });
+            });
+
+            mapEntries.sort((a, b) => (this.parseDateToTimestamp(b.map.date) || 0) - (this.parseDateToTimestamp(a.map.date) || 0));
+            return mapEntries;
+        };
+
+        // Build TOC HTML (no title, no column labels), with columns for name/years/extent.
+        let tocHtml = `
+            <div class="catalogue-flat__toc">
+                <table class="catalogue-flat__toc-table">
+                    <tbody>`;
+
+        tocHtml += `
+                <tr class="catalogue-flat__toc-heading-row">
+                    <td colspan="3"><span class="catalogue-flat__toc-heading">Elections</span></td>
+                </tr>
+                <tr class="catalogue-flat__toc-subheading-row">
+                    <td colspan="3"><span class="catalogue-flat__toc-subheading">Northern Ireland</span></td>
+                </tr>`;
+
+        decadeElectionCards.forEach(def => {
+            const preview = def.electionEntries[0] || null;
+            const appearance = preview ? getElectionAppearance(preview.body, preview.date) : { thumb: 'pc-2008', color: '#4b5563' };
+            tocHtml += `
+                <tr class="catalogue-flat__toc-row--indented">
+                    <td>
+                        <a href="#flat-card-${def.id}" class="catalogue-flat__toc-link">
+                            <span class="catalogue-flat__toc-namecell">
+                                <span class="catalogue-flat__toc-color" style="background:${this.escapeHtml(appearance.color)}"></span>
+                                <span class="catalogue-flat__toc-thumbwrap"><img class="catalogue-flat__toc-thumb" src="assets/thumbnails/${this.escapeHtml(appearance.thumb)}.png" alt="" loading="lazy" onerror="var w=this.parentElement; if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.style.display='none'"><span class="catalogue-flat__toc-thumbzoom" aria-hidden="true"><img src="assets/thumbnails/${this.escapeHtml(appearance.thumb)}.png" alt="" loading="lazy" onerror="var w=this.closest('.catalogue-flat__toc-thumbwrap'); if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.parentElement.style.display='none'"></span></span>
+                                <span class="catalogue-flat__toc-name">${this.escapeHtml(def.name)}</span>
+                            </span>
+                        </a>
+                    </td>
+                    <td>${this.escapeHtml(def.years)}</td>
+                    <td>${this.escapeHtml(def.extent)}</td>
+                </tr>`;
+        });
+
+        tocHtml += `
+                <tr class="catalogue-flat__toc-heading-row">
+                    <td colspan="3"><span class="catalogue-flat__toc-heading">Maps</span></td>
+                </tr>`;
+        const tocGroups = [
+            {
+                heading: 'Small Electoral Units',
+                members: ['Wards', 'District Electoral Divisions', 'Electoral Divisions']
+            },
+            {
+                heading: 'Large Electoral Units',
+                members: ['District Electoral Areas', 'County Electoral Divisions']
+            },
+            {
+                heading: 'Local Authorities',
+                members: ['Local Government Districts', 'Administrative Areas']
+            },
+            {
+                heading: 'Regional Authorities',
+                members: ['Education and Library Boards', 'Health and Social Care Trusts', 'Administrative Counties']
+            },
+            {
+                heading: 'Devolved Constituencies',
+                members: [
+                    'Assembly Areas',
+                    'Northern Ireland Forum Constituencies',
+                    'Assembly Constituencies',
+                    'Constitutional Convention Constituencies',
+                    'Parliament of Northern Ireland Constituencies'
+                ]
+            }
+        ];
+        const groupByMemberName = new Map();
+        const groupByHeading = new Map();
+        tocGroups.forEach(group => {
+            groupByHeading.set(group.heading, group);
+            group.members.forEach(memberName => groupByMemberName.set(memberName, group.heading));
+        });
+
+        const cardsByStrippedName = new Map();
+        c1Cards.forEach(card => {
+            const strippedName = stripBracketParts(card.name);
+            if (!cardsByStrippedName.has(strippedName)) cardsByStrippedName.set(strippedName, []);
+            cardsByStrippedName.get(strippedName).push(card);
+        });
+
+        const renderedHeadings = new Set();
+        const renderedCards = new Set();
+
+        const appendTocRow = (card, indented = false) => {
+            const maps = collectCardMaps(card);
+            const preview = maps[0]?.map || null;
+            const previewThumb = preview ? (preview.cloneOf || preview.id) : '';
+            const previewColor = preview?.style?.color || '#888';
+            const strippedName = stripBracketParts(card.name);
+            const tocName = card.id === 'flat-historic-sites' ? 'Histroic Sites' : strippedName;
+            tocHtml += `
+                <tr class="${indented ? 'catalogue-flat__toc-row--indented' : ''}">
+                    <td>
+                        <a href="#flat-card-${card.id}" class="catalogue-flat__toc-link">
+                            <span class="catalogue-flat__toc-namecell">
+                                <span class="catalogue-flat__toc-color" style="background:${this.escapeHtml(previewColor)}"></span>
+                                ${previewThumb ? `<span class="catalogue-flat__toc-thumbwrap"><img class="catalogue-flat__toc-thumb" src="assets/thumbnails/${this.escapeHtml(previewThumb)}.png" alt="" loading="lazy" onerror="var w=this.parentElement; if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.style.display='none'"><span class="catalogue-flat__toc-thumbzoom" aria-hidden="true"><img src="assets/thumbnails/${this.escapeHtml(previewThumb)}.png" alt="" loading="lazy" onerror="var w=this.closest('.catalogue-flat__toc-thumbwrap'); if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.parentElement.style.display='none'"></span></span>` : '<span class="catalogue-flat__toc-thumb catalogue-flat__toc-thumb--fallback"></span>'}
+                                <span class="catalogue-flat__toc-name">${this.escapeHtml(tocName)}</span>
+                            </span>
+                        </a>
+                    </td>
+                    <td>${this.escapeHtml(card.years || '')}</td>
+                    <td>${this.escapeHtml(card.extent || '')}</td>
+                </tr>`;
+            renderedCards.add(card.id);
+        };
+
+        c1Cards.forEach(card => {
+            if (renderedCards.has(card.id)) return;
+
+            const strippedName = stripBracketParts(card.name);
+            const heading = groupByMemberName.get(strippedName);
+            if (!heading) {
+                appendTocRow(card, false);
+                return;
+            }
+
+            if (renderedHeadings.has(heading)) return;
+
+            tocHtml += `
+                <tr class="catalogue-flat__toc-subheading-row">
+                    <td colspan="3"><span class="catalogue-flat__toc-subheading">${this.escapeHtml(heading)}</span></td>
+                </tr>`;
+            renderedHeadings.add(heading);
+
+            const group = groupByHeading.get(heading);
+            (group?.members || []).forEach(memberName => {
+                const memberCards = cardsByStrippedName.get(memberName) || [];
+                memberCards.forEach(memberCard => {
+                    if (!renderedCards.has(memberCard.id)) appendTocRow(memberCard, true);
+                });
+            });
+        });
+        tocHtml += '</tbody></table></div>';
+
+        container.innerHTML = tocHtml + '<div class="catalogue-flat__cards" id="catalogueFlatCards"></div>';
+        const cardsContainer = container.querySelector('#catalogueFlatCards');
+        const options = { loadedIds: [] };
+
+        const esc = (value) => this.escapeHtml(value || '');
+        decadeElectionCards.forEach(def => {
+            const anchor = document.createElement('div');
+            anchor.id = `flat-card-${def.id}`;
+            anchor.className = 'catalogue-flat__anchor';
+            cardsContainer.appendChild(anchor);
+
+            const entriesHtml = (def.electionEntries || []).map(entry => {
+                const appearance = getElectionAppearance(entry.body, entry.date);
+                const dateFormatted = electionController._formatDate(entry.date);
+                const bodyShort = electionController._shortBodyName(entry.body);
+                const subtitle = entry.isByElection
+                    ? (entry.constituencies || []).join(', ')
+                    : ((entry.body === 'European Parliament' && (entry.constituencies || []).filter(c => c !== 'Northern Ireland').length === 0)
+                        ? 'Northern Ireland'
+                        : `${(entry.constituencies || []).filter(c => c !== 'Northern Ireland').length} constituencies`);
+                return `
+                    <div class="class-member flat-election-entry ${entry.isByElection ? 'flat-election-entry--by' : ''}"
+                         data-election-body="${esc(entry.body)}"
+                         data-election-date="${esc(entry.date)}"
+                         style="--map-color:${esc(appearance.color)};">
+                        <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${esc(appearance.thumb)}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+                        <div class="class-member__info">
+                            <a href="#" class="class-member__name class-member__name-link flat-election-link" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}">${esc(dateFormatted)}</a>
+                            <span class="class-member__provider">${esc(bodyShort)}${entry.isByElection ? ' by-election' : ''}</span>
+                            <span class="class-member__desc">${esc(subtitle)}</span>
+                        </div>
+                        <div class="class-member__actions">
+                            <button class="btn btn--icon btn--xs load-btn election-load-btn" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}">+</button>
+                        </div>
+                    </div>`;
+            }).join('');
+
+            const card = document.createElement('div');
+            card.className = 'c1-card map-card';
+            card.dataset.c1Id = def.id;
+            card.innerHTML = `
+                <div class="c1-card__header">
+                    <div class="c1-card__titleblock">
+                        <h3 class="c1-card__title">${esc(def.name)}</h3>
+                        <div class="c1-card__subtitle">${esc(def.years)} | ${esc(def.extent)}</div>
+                    </div>
+                </div>
+                <div class="c1-card__content">
+                    <div class="c1-card__section c1-card__section--full">
+                        <div class="c1-card__section-members">
+                            ${entriesHtml || '<div class="class-member class-member--placeholder"><div class="class-member__info"><span class="class-member__name">No elections in this decade.</span></div></div>'}
+                        </div>
+                    </div>
+                </div>`;
+            cardsContainer.appendChild(card);
+        });
+
+        c1Cards.forEach(def => {
+            const anchor = document.createElement('div');
+            anchor.id = `flat-card-${def.id}`;
+            anchor.className = 'catalogue-flat__anchor';
+            cardsContainer.appendChild(anchor);
+
+            const mapEntries = collectCardMaps(def);
+
+            const pseudoClass = { id: `flat-${def.id}`, name: def.name };
+            const allMaps = mapEntries.map(entry => ({ map: entry.map, classId: pseudoClass.id, className: def.name }));
+            const sectionHtml = this.renderC2Section(pseudoClass, allMaps, { ...options, ignoreMemberHeight: true, fullWidth: true })
+                .replace(/<div class="c1-card__section-header">[\s\S]*?<\/div>/, '');
+
+            const card = document.createElement('div');
+            card.className = 'c1-card map-card';
+            card.dataset.c1Id = def.id;
+            const headerMeta = [def.years, def.extent].filter(Boolean).join(' | ');
+            card.innerHTML = `
+                <div class="c1-card__header">
+                    <div class="c1-card__titleblock">
+                        <h3 class="c1-card__title">${this.escapeHtml(stripBracketParts(def.name))}</h3>
+                        ${headerMeta ? `<div class="c1-card__subtitle">${this.escapeHtml(headerMeta)}</div>` : ''}
+                    </div>
+                </div>
+                <div class="c1-card__content">${sectionHtml}</div>`;
+            this.addC1CardEventListeners(card, allMaps.filter(m => !m.map.placeholder));
+            cardsContainer.appendChild(card);
+        });
+
+        cardsContainer.querySelectorAll('.flat-election-link, .election-load-btn, .flat-election-entry').forEach(el => {
+            el.addEventListener('click', (e) => {
+                if (e.currentTarget.classList.contains('flat-election-entry') &&
+                    e.target.closest('.flat-election-link, .election-load-btn')) {
+                    return;
+                }
+                e.preventDefault();
+                e.stopPropagation();
+                const source = e.currentTarget;
+                const body = source.dataset.electionBody || source.closest('.flat-election-entry')?.dataset.electionBody;
+                const date = source.dataset.electionDate || source.closest('.flat-election-entry')?.dataset.electionDate;
+                if (body && date) {
+                    electionController.loadElection(body, date);
+                }
+            });
+        });
+
+        // Keep books section below unchanged.
+        if (this.booksData && this.booksData.books && this.booksData.books.length > 0) {
+            const booksGroupHeader = document.createElement('div');
+            booksGroupHeader.className = 'category-group-header';
+            booksGroupHeader.innerHTML = `<h3 class="category-group-title">Books & Documents</h3>`;
+            cardsContainer.appendChild(booksGroupHeader);
+
+            const bookCategories = this.booksData.categories || [];
+            const booksByCategory = new Map();
+            this.booksData.books.forEach(book => {
+                const cat = book.category || 'other';
+                if (!booksByCategory.has(cat)) booksByCategory.set(cat, []);
+                booksByCategory.get(cat).push(book);
+            });
+
+            bookCategories.forEach(cat => {
+                const catBooks = booksByCategory.get(cat.id);
+                if (!catBooks || catBooks.length === 0) return;
+
+                const catSection = document.createElement('div');
+                catSection.className = 'category-section';
+                catSection.innerHTML = `
+                    <div class="category-section__header">
+                        <span class="category-section__icon">${cat.icon || 'ðŸ“š'}</span>
+                        <h3 class="category-section__title">${this.escapeHtml(cat.name)}</h3>
+                    </div>
+                `;
+
+                catBooks.forEach(book => {
+                    const card = document.createElement('div');
+                    card.className = 'map-card book-card';
+                    card.innerHTML = `
+                        <div class="thumb-zone"><img class="book-card__thumbnail" src="assets/thumbnails/book-${book.id}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+                        <div class="book-card__content">
+                            <h4 class="book-card__title">${this.escapeHtml(book.title)}</h4>
+                            <p class="book-card__author">${this.escapeHtml((book.authors || []).join(', '))}</p>
+                            <p class="book-card__date">${this.escapeHtml(book.dateDisplay || book.date || '')}</p>
+                            <div class="book-card__actions">
+                                ${book.file ? `<a href="${book.file}" target="_blank" rel="noopener" class="btn btn--sm btn--primary book-card__btn">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                                    </svg>
+                                    View
+                                </a>` : ''}
+                                ${book.file ? `<a href="${book.file}" download class="btn btn--sm btn--outline book-card__btn">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                                    </svg>
+                                    Download
+                                </a>` : ''}
+                                ${book.archiveUrl ? `<a href="${book.archiveUrl}" target="_blank" rel="noopener" class="btn btn--sm btn--outline book-card__btn">Archive.org</a>` : ''}
+                            </div>
+                        </div>
+                    `;
+                    catSection.appendChild(card);
+                });
+
+                cardsContainer.appendChild(catSection);
+            });
+        }
+
+        // Wire smooth-scroll for TOC links
+        container.querySelectorAll('.catalogue-flat__toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetEl = document.getElementById(targetId);
+                if (targetEl) {
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        container.dataset.rendered = 'true';
+        this.updateCatalogueReturnTopVisibility();
+    }
+
+    /** Mark flat view as stale so it re-renders on next toggle */
+    invalidateFlatView() {
+        const flatView = document.getElementById('catalogueFlatView');
+        if (flatView) {
+            delete flatView.dataset.rendered;
+            // If currently showing flat view, re-render immediately
+            if (this._catalogueViewMode === 'flat') {
+                this.renderFlatView();
+            }
+        }
+    }
+
+    // ============================================
     // PHASE 3: createClassCard
     // ============================================
 
@@ -1240,10 +1898,7 @@ class UIController {
                         ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
                         ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : ''}
                     </div>
-                    ${!isPlaceholder ? `<div class="class-member__actions">
-                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Remove' : 'Load'}">${isLoaded ? '✕' : '+'}</button>
-                        <div class="overflow-menu">
-                            <button class="overflow-menu__trigger" title="More actions">⋮</button>
+                    ${!isPlaceholder ? `<div class="class-member__actions">\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${isLoaded ? '&#10005;' : '+'}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions">⋮</button>
                             <div class="overflow-menu__dropdown">
                                 <button class="overflow-menu__item visibility-btn" data-map-id="${map.id}">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -1257,6 +1912,11 @@ class UIController {
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                                     Download FGB
                                 </button>
+                                ${map.files?.geojson ? `<a href="${map.files.geojson}" class="overflow-menu__item" download>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    Download Original
+                                </a>` : ''}
+                                ${this.renderOsniOverflowItems(map)}
                             </div>
                         </div>
                     </div>` : ''}
@@ -1448,7 +2108,7 @@ class UIController {
                             ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : ''}
                         </div>
                         ${!isPlaceholder ? `<div class="class-member__actions">
-                            <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}">${isLoaded ? '✕' : '+'}</button>
+                            <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}">${isLoaded ? '&#10005;' : '+'}</button>
                             <div class="overflow-menu">
                                 <button class="overflow-menu__trigger" title="More actions">⋮</button>
                                 <div class="overflow-menu__dropdown">
@@ -1464,6 +2124,7 @@ class UIController {
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                                         Download FGB
                                     </button>
+                                    ${this.renderOsniOverflowItems(map)}
                                 </div>
                             </div>
                         </div>` : ''}
@@ -1653,10 +2314,12 @@ class UIController {
 
         // Classes that use full date as derived name (DEDs and County EDs)
         const fullDateClasses = ['ni-deds', 'ni-county-eds', 'ni-admin-areas', 'ni-admin-counties'];
+        const fullDateClassNames = new Set(['District Electoral Divisions', 'County Electoral Divisions', 'Administrative Areas']);
         // Classes that use year as name but show date as subtitle (Wards and DEAs)
         const yearWithSubtitleClasses = ['ni-wards', 'ni-deas'];
         // Classes that use the actual map name (NI constituencies with suffixes like Assembly, Forum, etc)
         const fullNameClasses = ['ni-assembly'];
+        const normalizedClassName = String(cls?.name || '').replace(/\s*\([^)]*\)/g, '').trim();
 
         const membersHtml = sorted.map(({ map }) => {
             const isLoaded = options.loadedIds?.includes(map.id);
@@ -1666,7 +2329,7 @@ class UIController {
             let displayName;
             let dateSubtitle = '';
 
-            if (fullDateClasses.includes(cls.id)) {
+            if (fullDateClasses.includes(cls.id) || fullDateClassNames.has(normalizedClassName)) {
                 // Show full date as the derived name
                 displayName = this.formatMapDate(map.date) || map.name;
             } else if (yearWithSubtitleClasses.includes(cls.id)) {
@@ -1690,7 +2353,7 @@ class UIController {
             // Variants dropdown HTML (for isGroup maps)
             const variantsHtml = hasVariants ? this.renderVariantsDropdown(map, isLoaded) : '';
 
-            const heightStyle = map.style?.height ? `height: ${map.style.height};` : '';
+            const heightStyle = (!options.ignoreMemberHeight && map.style?.height) ? `height: ${map.style.height};` : '';
             return `
                 <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${hasVariants ? 'class-member--has-variants' : ''}" data-map-id="${map.id}" data-date="${map.date || ''}" style="--map-color: ${map.style?.color || '#888'};${heightStyle}">
                 <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>
@@ -1698,9 +2361,7 @@ class UIController {
                 ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
                 ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : ''}
             </div>
-                ${!isPlaceholder ? `<div class="class-member__actions">${expandBtn}<button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}">${isLoaded ? '✕' : '+'}</button>
-                        <div class="overflow-menu">
-                            <button class="overflow-menu__trigger" title="More actions">⋮</button>
+                ${!isPlaceholder ? `<div class="class-member__actions">${expandBtn}\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${isLoaded ? '&#10005;' : '+'}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions">⋮</button>
                             <div class="overflow-menu__dropdown">
                                 <button class="overflow-menu__item visibility-btn" data-map-id="${map.id}">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -1714,6 +2375,7 @@ class UIController {
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                                     Download FGB
                                 </button>
+                                ${this.renderOsniOverflowItems(map)}
                             </div>
                         </div>
                     </div>` : ''}
@@ -1732,8 +2394,8 @@ class UIController {
      * 
      * Position-Based Implementation:
      * - Rows are determined by item POSITION (index), not year values
-     * - First item in each column → row 2 (row 1 is column headers)
-     * - Second item in each column → row 3, etc.
+     * - First item in each column â†’ row 2 (row 1 is column headers)
+     * - Second item in each column â†’ row 3, etc.
      * - This aligns items across columns by their position in the list
      */
     renderChronologicalGrid(section, classes, allMaps, options) {
@@ -1870,7 +2532,7 @@ class UIController {
                     }
 
                     if (!item.isPlaceholder) {
-                        html += `<button class="c1-load-btn load-btn" data-map-id="${item.map.id}">${item.isLoaded ? '✕' : '+'}</button>`;
+                        html += `<button class="c1-load-btn load-btn" data-map-id="${item.map.id}">${item.isLoaded ? '&#10005;' : '+'}</button>`;
                     }
 
                     html += '</div></div>';
@@ -1969,7 +2631,7 @@ class UIController {
                     }
 
                     if (!isPlaceholder) {
-                        html += `<button class="c1-load-btn load-btn" data-map-id="${map.id}">${isLoaded ? '✕' : '+'}</button>`;
+                        html += `<button class="c1-load-btn load-btn" data-map-id="${map.id}">${isLoaded ? '&#10005;' : '+'}</button>`;
                         html += `<div class="overflow-menu">
                             <button class="overflow-menu__trigger" title="More actions">⋮</button>
                             <div class="overflow-menu__dropdown">
@@ -1985,6 +2647,7 @@ class UIController {
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                                     Download FGB
                                 </button>
+                                ${this.renderOsniOverflowItems(map)}
                             </div>
                         </div>`;
                     }
@@ -2435,6 +3098,19 @@ class UIController {
     // PHASE 6: Helper Methods
     // ============================================
 
+    /**
+     * Generate overflow menu items for OSNI original downloads.
+     * @param {object} map - Map entry from maps.json
+     * @returns {string} HTML for OSNI download menu items (empty if none)
+     */
+    renderOsniOverflowItems(map) {
+        if (!map.osniDownloads || map.osniDownloads.length === 0) return '';
+        const downloadSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+        return map.osniDownloads.map(dl =>
+            `<a href="${dl.file}" class="overflow-menu__item overflow-menu__item--osni" download>${downloadSvg} ${this.escapeHtml(dl.label)}</a>`
+        ).join('');
+    }
+
     parseDateToTimestamp(dateStr) {
         if (!dateStr) return null;
         if (typeof dateStr === 'number') return new Date(dateStr, 0, 1).getTime();
@@ -2490,7 +3166,7 @@ class UIController {
         const providers = (map.provider || []).join(', ');
         const dateStr = this.formatMapDate(map.date);
         const hasVariants = map.variants && map.variants.length > 0;
-        const hasDownload = map.files?.fgb || map.files?.geojson;
+        const hasDownload = map.files?.fgb || map.files?.geojson || (map.osniDownloads && map.osniDownloads.length > 0);
 
         // Note field if present
         const noteHtml = map.note ? `<div class="map-card__note">${this.escapeHtml(map.note)}</div>` : '';
@@ -2500,7 +3176,7 @@ class UIController {
             <div class="map-card__color" style="background-color: ${color}"></div>
             <div class="map-card__info">
                 <a href="#" class="map-card__name map-card__name-link" data-detail-map-id="${map.id}">${this.escapeHtml(map.name)}</a>
-                <div class="map-card__meta">${this.escapeHtml(providers)}${dateStr ? ` · <em>${dateStr}</em>` : ''}</div>
+                <div class="map-card__meta">${this.escapeHtml(providers)}${dateStr ? ` Â· <em>${dateStr}</em>` : ''}</div>
                 ${noteHtml}
             </div>
             <div class="map-card__actions">
@@ -2513,7 +3189,7 @@ class UIController {
                 
                 <!-- Slot 2: Load/Unload -->
                 <button class="btn btn--icon btn--sm load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">
-                    ${isLoaded ? '✕' : '+'}
+                    ${isLoaded ? '&#10005;' : '+'}
                 </button>
                 
                 <!-- Slot 3: Copy URL -->
@@ -2537,6 +3213,11 @@ class UIController {
                         <div class="download-dropdown hidden">
                             ${map.files?.fgb ? `<a href="${map.files.fgb}" class="download-dropdown__item" download>FlatGeobuf (.fgb)</a>` : ''}
                             ${map.files?.geojson ? `<a href="${map.files.geojson}" class="download-dropdown__item" download>GeoJSON</a>` : ''}
+                            ${map.osniDownloads && map.osniDownloads.length > 0 ? `
+                                <div class="download-dropdown__divider"></div>
+                                <div class="download-dropdown__heading">OSNI Open Data</div>
+                                ${map.osniDownloads.map(dl => `<a href="${dl.file}" class="download-dropdown__item download-dropdown__item--osni" download>${dl.label}</a>`).join('')}
+                            ` : ''}
                         </div>
                     </div>
                 ` : '<div class="download-btn-group--placeholder"></div>'}
@@ -2819,13 +3500,13 @@ class UIController {
 
         // Define groups with their IDs and display names
         const groups = [
-            { id: 'all', name: 'All', icon: '📋' },
-            { id: 'communities', name: 'Communities', icon: '🏘️' },
-            { id: 'history', name: 'History', icon: '📜' },
-            { id: 'elections-and-government', name: 'Elections and Government', icon: '🗳️' },
-            { id: 'public-services', name: 'Public Services', icon: '🏥' },
-            { id: 'physical-geography', name: 'Physical Geography', icon: '🗻' },
-            { id: 'built-environment', name: 'Built Environment', icon: '🏗️' }
+            { id: 'all', name: 'All', icon: 'ðŸ“‹' },
+            { id: 'communities', name: 'Communities', icon: 'ðŸ˜ï¸' },
+            { id: 'history', name: 'History', icon: 'ðŸ“œ' },
+            { id: 'elections-and-government', name: 'Elections and Government', icon: 'ðŸ—³ï¸' },
+            { id: 'public-services', name: 'Public Services', icon: 'ðŸ¥' },
+            { id: 'physical-geography', name: 'Physical Geography', icon: 'ðŸ—»' },
+            { id: 'built-environment', name: 'Built Environment', icon: 'ðŸ—ï¸' }
         ];
 
         // Get total maps for 'All' button
@@ -2880,43 +3561,43 @@ class UIController {
             {
                 id: 'all-providers',
                 name: 'All Providers',
-                icon: '🌐',
+                icon: 'ðŸŒ',
                 providers: [] // Empty means all
             },
             {
                 id: 'northern-ireland',
                 name: 'Northern Ireland',
-                icon: '✋',
+                icon: 'âœ‹',
                 providers: ['ABC Council', 'DAERA', 'Department for Communities', 'NIEA', 'NISRA', 'OSNI', 'OSNI Open Data', 'PRONI']
             },
             {
                 id: 'ireland',
                 name: 'Ireland',
-                icon: '🇮🇪',
-                providers: ['CSO', 'EPA', 'OSI', 'OSi', 'TÉ']
+                icon: 'ðŸ‡®ðŸ‡ª',
+                providers: ['CSO', 'EPA', 'OSI', 'OSi', 'TÃ‰']
             },
             {
                 id: 'united-kingdom',
                 name: 'United Kingdom',
-                icon: '🇬🇧',
+                icon: 'ðŸ‡¬ðŸ‡§',
                 providers: ['Electoral Commission', 'Northern Ireland Office']
             },
             {
                 id: 'european-union',
                 name: 'European Union',
-                icon: '🇪🇺',
+                icon: 'ðŸ‡ªðŸ‡º',
                 providers: ['European Commission', 'Eurostat']
             },
             {
                 id: 'organizations',
                 name: 'Organizations',
-                icon: '🏢',
+                icon: 'ðŸ¢',
                 providers: ['IHO', 'OpenTopography.org', 'OSM']
             },
             {
                 id: 'individuals',
                 name: 'Individuals',
-                icon: '👤',
+                icon: 'ðŸ‘¤',
                 providers: ['Global Watersheds', 'Paddy Matthews', 'Parlconst.org', 'Scott Moore', 'XrysD']
             }
         ];
@@ -2987,10 +3668,37 @@ class UIController {
                 </div>
             `;
 
-            // Get primary name from common properties
-            const primaryName = props.Name || props.name || props.NAME ||
-                props.LGDNAME || props.WARDNAME || props.DEA ||
-                props.CONSTITUENCY || props.COUNTY || 'Unnamed Feature';
+            // Resolve primary name using map label config first, then common fallback keys.
+            const preferredKeys = [];
+            if (mapConfig?.labelProperty) preferredKeys.push(mapConfig.labelProperty);
+            if (Array.isArray(mapConfig?.labelPropertyFallbacks)) {
+                preferredKeys.push(...mapConfig.labelPropertyFallbacks);
+            }
+            preferredKeys.push(
+                'Name', 'name', 'NAME',
+                'FinalR_DEA', 'DEA', 'DEANAME', 'WARDNAME', 'LGDNAME',
+                'CONSTITUENCY', 'COUNTY', 'PARISH', 'BARONY'
+            );
+            const seenNameKeys = new Set();
+            let primaryName = '';
+            for (const key of preferredKeys) {
+                if (!key || seenNameKeys.has(key)) continue;
+                seenNameKeys.add(key);
+                const val = props[key];
+                if (typeof val === 'string' && val.trim()) {
+                    primaryName = val.trim();
+                    break;
+                }
+            }
+            if (!primaryName) {
+                const fallback = Object.entries(props).find(([k, v]) =>
+                    typeof v === 'string' &&
+                    v.trim() &&
+                    /(name|title|label|dea|ward|district|constituency|county)/i.test(k)
+                );
+                if (fallback) primaryName = fallback[1].trim();
+            }
+            if (!primaryName) primaryName = 'Unnamed Feature';
 
             html += `<div class="feature-info__primary-name">${this.escapeHtml(primaryName)}</div>`;
 
@@ -3021,7 +3729,7 @@ class UIController {
                         html += `<div class="feature-info__metric feature-info__metric--clickable" data-area-km="${areaKm2}" data-area-mi="${areaSqMi}" data-precision="2">
                             <span class="feature-info__metric-label">Area</span>
                             <span class="feature-info__metric-value feature-info__metric-value--underline">
-                                <span class="metric-km">${this.formatNumber(areaKm2, 2)} km²</span><br>
+                                <span class="metric-km">${this.formatNumber(areaKm2, 2)} kmÂ²</span><br>
                                 <span class="metric-mi">(${this.formatNumber(areaSqMi, 2)} sq mi)</span>
                             </span>
                         </div>`;
@@ -3117,7 +3825,7 @@ class UIController {
                     const areaMi = parseFloat(metric.dataset.areaMi);
                     const kmSpan = metric.querySelector('.metric-km');
                     const miSpan = metric.querySelector('.metric-mi');
-                    if (kmSpan) kmSpan.textContent = `${this.formatNumber(areaKm, newPrecision)} km²`;
+                    if (kmSpan) kmSpan.textContent = `${this.formatNumber(areaKm, newPrecision)} kmÂ²`;
                     if (miSpan) miSpan.textContent = `(${this.formatNumber(areaMi, newPrecision)} sq mi)`;
                 }
 
@@ -3268,7 +3976,7 @@ class UIController {
                     <div class="active-layer-item__info">
                         <span class="active-layer-item__name">${this.escapeHtml(map.name)}</span>
                         <span class="active-layer-item__meta">
-                            ${authors}${authors && date ? ' · ' : ''}${date ? `<em>${date}</em>` : ''}
+                            ${authors}${authors && date ? ' Â· ' : ''}${date ? `<em>${date}</em>` : ''}
                             ${partial?.isPartial ? `<span class="active-layer-item__partial-badge">${partial.featureNames?.length || 1} feature${(partial.featureNames?.length || 1) > 1 ? 's' : ''}</span>` : ''}
                         </span>
                     </div>
@@ -3666,7 +4374,7 @@ class UIController {
         let html = `
             <div class="tables-stats">
                 Showing ${start + 1}-${Math.min(start + pageSize, filteredData.length)} of ${filteredData.length} features
-                ${allColumns && allColumns.length > 3 ? ` · ${columns.length} of ${allColumns.length} columns` : ''}
+                ${allColumns && allColumns.length > 3 ? ` Â· ${columns.length} of ${allColumns.length} columns` : ''}
             </div>
             <div class="tables-wrapper tables-wrapper--scrollable">
                 <table class="data-table data-table--scrollable">
@@ -3675,7 +4383,7 @@ class UIController {
                             ${columns.map(col => `
                                 <th class="data-table__header sortable" data-sort-key="${col}">
                                     <span class="data-table__text">${this.escapeHtml(col)}${this.tablesState.sortKey === col ?
-                (this.tablesState.sortDir === 'asc' ? ' ▲' : ' ▼') : ''}</span>
+                (this.tablesState.sortDir === 'asc' ? ' â–²' : ' ▼') : ''}</span>
                                 </th>
                             `).join('')}
                         </tr>
@@ -3708,9 +4416,9 @@ class UIController {
         if (totalPages > 1) {
             html += `
                 <div class="tables-pagination">
-                    <button class="btn btn--sm tables-pagination__btn" data-page="prev" ${currentPage === 1 ? 'disabled' : ''}>← Prev</button>
+                    <button class="btn btn--sm tables-pagination__btn" data-page="prev" ${currentPage === 1 ? 'disabled' : ''}>â† Prev</button>
                     <span class="tables-pagination__info">Page ${currentPage} of ${totalPages}</span>
-                    <button class="btn btn--sm tables-pagination__btn" data-page="next" ${currentPage === totalPages ? 'disabled' : ''}>Next →</button>
+                    <button class="btn btn--sm tables-pagination__btn" data-page="next" ${currentPage === totalPages ? 'disabled' : ''}>Next â†’</button>
                 </div>
             `;
         }
@@ -3943,7 +4651,7 @@ class UIController {
 
         const html = results.map(result => {
             const item = result.item;
-            const typeIcon = item.type === 'map' ? '🗺️' : item.type === 'class' ? '📋' : '📂';
+            const typeIcon = item.type === 'map' ? 'ðŸ—ºï¸' : item.type === 'class' ? 'ðŸ“‹' : 'ðŸ“‚';
             const highlightedName = this.highlightMatches(item.name, result.matches);
 
             return `<div class="search-autocomplete__item" data-type="${item.type}" data-id="${item.id}">
@@ -4079,7 +4787,7 @@ class UIController {
                          data-lat="${result.lat}" 
                          data-lon="${result.lon}"
                          data-name="${this.escapeHtml(displayName)}">
-                <span class="search-autocomplete__icon">📍</span>
+                <span class="search-autocomplete__icon">ðŸ“</span>
                 <div class="search-autocomplete__content">
                     <span class="search-autocomplete__name">${this.escapeHtml(displayName)}</span>
                     <span class="search-autocomplete__meta">${type}</span>
@@ -4120,8 +4828,8 @@ class UIController {
         addressResults.classList.remove('hidden');
         addressResults.innerHTML = `
             <div class="address-results__header">
-                <h4>📍 ${this.escapeHtml(name)}</h4>
-                <button class="address-results__close" title="Close">×</button>
+                <h4>ðŸ“ ${this.escapeHtml(name)}</h4>
+                <button class="address-results__close" title="Close">Ã—</button>
             </div>
             <div class="address-results__content">
                 <p class="text-muted text-sm">Checking loaded boundaries...</p>
@@ -4291,16 +4999,16 @@ class UIController {
 
         if (type === 'category') {
             const cat = (data.categories || []).find(c => c.id === id);
-            return cat ? `📁 ${cat.name}` : id;
+            return cat ? `ðŸ“ ${cat.name}` : id;
         } else if (type === 'class') {
             const cls = (data.classes || []).find(c => c.id === id);
-            return cls ? `📋 ${cls.name}` : id;
+            return cls ? `ðŸ“‹ ${cls.name}` : id;
         } else if (type === 'map') {
             const map = (data.maps || []).find(m => m.id === id);
-            return map ? `🗺️ ${map.name}` : id;
+            return map ? `ðŸ—ºï¸ ${map.name}` : id;
         } else if (type === 'book') {
             const book = (data.books || []).find(b => b.id === id);
-            return book ? `📖 ${book.title || book.name}` : id;
+            return book ? `ðŸ“– ${book.title || book.name}` : id;
         }
         return id;
     }
@@ -4320,11 +5028,11 @@ class UIController {
         let html = '<div class="explore-hierarchy">';
 
         // Categories section
-        html += '<div class="explore-section"><h3 class="explore-section__title">📂 Categories</h3>';
+        html += '<div class="explore-section"><h3 class="explore-section__title">ðŸ“‚ Categories</h3>';
         (categories || []).forEach(cat => {
             const mapCount = (maps || []).filter(m => m.category === cat.id).length;
             html += `<div class="explore-item explore-item--category" data-type="category" data-id="${cat.id}">
-                <span class="explore-item__icon">${cat.icon || '📁'}</span>
+                <span class="explore-item__icon">${cat.icon || 'ðŸ“'}</span>
                 <span class="explore-item__name">${this.escapeHtml(cat.name)}</span>
                 <span class="explore-item__count">${mapCount}</span>
             </div>`;
@@ -4332,10 +5040,10 @@ class UIController {
         html += '</div>';
 
         // Classes section
-        html += '<div class="explore-section"><h3 class="explore-section__title">📋 Classes</h3>';
+        html += '<div class="explore-section"><h3 class="explore-section__title">ðŸ“‹ Classes</h3>';
         (classes || []).slice(0, 10).forEach(cls => {
             html += `<div class="explore-item explore-item--class" data-type="class" data-id="${cls.id}">
-                <span class="explore-item__icon">📋</span>
+                <span class="explore-item__icon">ðŸ“‹</span>
                 <span class="explore-item__name">${this.escapeHtml(cls.name)}</span>
                 <span class="explore-item__count">${(cls.maps || []).length}</span>
             </div>`;
@@ -4346,7 +5054,7 @@ class UIController {
         html += '</div>';
 
         // Recent maps
-        html += '<div class="explore-section"><h3 class="explore-section__title">🗺️ Featured Maps</h3>';
+        html += '<div class="explore-section"><h3 class="explore-section__title">ðŸ—ºï¸ Featured Maps</h3>';
         (maps || []).filter(m => m.featured).slice(0, 8).forEach(map => {
             html += `<div class="explore-item explore-item--map" data-type="map" data-id="${map.id}">
                 <span class="explore-item__color" style="background: ${map.style?.color || '#888'}"></span>
@@ -4357,10 +5065,10 @@ class UIController {
 
         // Books section
         if ((books || []).length > 0) {
-            html += '<div class="explore-section"><h3 class="explore-section__title">📚 Books</h3>';
+            html += '<div class="explore-section"><h3 class="explore-section__title">ðŸ“š Books</h3>';
             books.slice(0, 5).forEach(book => {
                 html += `<div class="explore-item explore-item--book" data-type="book" data-id="${book.id}">
-                    <span class="explore-item__icon">📖</span>
+                    <span class="explore-item__icon">ðŸ“–</span>
                     <span class="explore-item__name">${this.escapeHtml(book.title || book.name)}</span>
                 </div>`;
             });
@@ -4408,7 +5116,7 @@ class UIController {
             if (cat) {
                 const maps = dataService.getMapsByCategory(id);
                 html += `<div class="explore-detail__hero explore-detail__hero--category">
-                    <span class="explore-detail__icon">${cat.icon || '📁'}</span>
+                    <span class="explore-detail__icon">${cat.icon || 'ðŸ“'}</span>
                     <h2 class="explore-detail__title">${this.escapeHtml(cat.name)}</h2>
                     <p class="explore-detail__subtitle">${maps.length} map${maps.length !== 1 ? 's' : ''} in this category</p>
                 </div>`;
@@ -4437,7 +5145,7 @@ class UIController {
             if (cls) {
                 const clsMaps = (cls.maps || []).map(mid => dataService.getMapById(mid)).filter(Boolean);
                 html += `<div class="explore-detail__hero explore-detail__hero--class">
-                    <span class="explore-detail__icon">📋</span>
+                    <span class="explore-detail__icon">ðŸ“‹</span>
                     <h2 class="explore-detail__title">${this.escapeHtml(cls.name)}</h2>
                     <p class="explore-detail__subtitle">${clsMaps.length} map${clsMaps.length !== 1 ? 's' : ''} in this class</p>
                 </div>`;
@@ -4531,7 +5239,7 @@ class UIController {
             const book = dataService.getBookById(id);
             if (book) {
                 html += `<div class="explore-detail__hero explore-detail__hero--book">
-                    <span class="explore-detail__icon">📖</span>
+                    <span class="explore-detail__icon">ðŸ“–</span>
                     <h2 class="explore-detail__title">${this.escapeHtml(book.title || book.name)}</h2>
                     ${book.year ? `<p class="explore-detail__subtitle">${book.year}</p>` : ''}
                 </div>`;
@@ -4635,14 +5343,14 @@ class UIController {
         // Search categories
         (data.categories || []).forEach(cat => {
             if (cat.name.toLowerCase().includes(q) || cat.id.includes(q)) {
-                results.push({ type: 'category', item: cat, name: cat.name, icon: cat.icon || '📂' });
+                results.push({ type: 'category', item: cat, name: cat.name, icon: cat.icon || 'ðŸ“‚' });
             }
         });
 
         // Search classes
         (data.classes || []).forEach(cls => {
             if (cls.name.toLowerCase().includes(q) || cls.id.includes(q)) {
-                results.push({ type: 'class', item: cls, name: cls.name, icon: '📋' });
+                results.push({ type: 'class', item: cls, name: cls.name, icon: 'ðŸ“‹' });
             }
         });
 
@@ -4658,7 +5366,7 @@ class UIController {
         (data.books || []).forEach(book => {
             const searchText = [book.title || book.name, book.id, ...(book.keywords || [])].join(' ').toLowerCase();
             if (searchText.includes(q)) {
-                results.push({ type: 'book', item: book, name: book.title || book.name, icon: '📖' });
+                results.push({ type: 'book', item: book, name: book.title || book.name, icon: 'ðŸ“–' });
             }
         });
 
@@ -4859,7 +5567,7 @@ class UIController {
                          data-map-id="${result.mapId}"
                          data-bbox="${result.bbox?.join(',') || ''}"
                          data-centroid="${result.centroid?.join(',') || ''}">
-                <span class="search-autocomplete__icon">📍</span>
+                <span class="search-autocomplete__icon">ðŸ“</span>
                 <div class="search-autocomplete__content">
                     <span class="search-autocomplete__name">${this.highlightText(result.name, query)}</span>
                     <span class="search-autocomplete__meta">${this.escapeHtml(mapName)}</span>
@@ -4968,7 +5676,7 @@ if (typeof window !== 'undefined') {
     window.uiController = uiController;
 }
 
-// ─── Thumbnail hover preview ───────────────────────────────────
+// â”€â”€â”€ Thumbnail hover preview â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 (function initThumbnailPreview() {
     const preview = document.createElement('div');
     preview.className = 'thumbnail-preview';
@@ -4981,6 +5689,7 @@ if (typeof window !== 'undefined') {
     const OFFSET_Y = 16;
 
     document.addEventListener('mouseenter', (e) => {
+        if (!e.target || !e.target.closest) return;
         const zone = e.target.closest(ZONE_SELECTOR);
         if (!zone) return;
         const img = zone.querySelector('img');
@@ -4990,6 +5699,7 @@ if (typeof window !== 'undefined') {
     }, true);
 
     document.addEventListener('mouseleave', (e) => {
+        if (!e.target || !e.target.closest) return;
         const zone = e.target.closest(ZONE_SELECTOR);
         if (!zone) return;
         // Only hide if we're actually leaving the zone (not entering a child)
@@ -5012,3 +5722,4 @@ if (typeof window !== 'undefined') {
 })();
 
 export default uiController;
+

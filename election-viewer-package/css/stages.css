@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap');
+
+#controls a {
+    text-decoration: none;
+    margin-top: 2px;
+    margin-bottom: 10px;
+    color: #444;
+    width: 15px;
+    /* background: #ddd; */
+    padding: 7px 0px 7px 5px;
+    border-radius: 50%;
+}
+
+#controls {
+    padding: 0px;
+    /*    background: #eee;*/
+    margin: 2px 10px 0 20px !important;
+    display: block !important;
+    font-size: 14px;
+}
+
+#animation {
+    position: relative;
+    margin-bottom: 35px;
+    margin-right: 15px;
+    margin-top: -5px;
+}
+
+#stageNumbers {
+    padding: 8px;
+    margin: 0 !important;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1px;
+}
+
+#stageNumbers:before {
+    content: "Stages";
+    margin: 1px 10px 0 0;
+    font-size: 28px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 3px 3px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000,
+        -1px 1px 0 #000, 1px 1px 0 #000,
+        0 -2px 0 #000, 0 2px 0 #000, -2px 0 0 #000, 2px 0 0 #000;
+    -webkit-text-stroke: 3px #000;
+    paint-order: stroke fill;
+}
+
+/* Single-line layout when ≤14 stages: controls + "Stages" + buttons + quota */
+.ev-animation-top-row[data-inline-quota] {
+    display: flex !important;
+    align-items: center;
+    flex-wrap: nowrap;
+    position: relative;
+}
+
+.ev-animation-top-row[data-inline-quota] #stageNumbers {
+    float: none !important;
+    flex-wrap: nowrap;
+}
+
+.inline-quota {
+    margin-left: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #fff;
+    font-family: 'Source Code Pro', monospace;
+    font-feature-settings: 'zero';
+    text-shadow: 3px 3px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000,
+        -1px 1px 0 #000, 1px 1px 0 #000,
+        0 -2px 0 #000, 0 2px 0 #000, -2px 0 0 #000, 2px 0 0 #000;
+    -webkit-text-stroke: 3px #000;
+    paint-order: stroke fill;
+    white-space: nowrap;
+}
+
+.stageNumber {
+    display: inline-block;
+    text-align: center;
+    margin-left: 2px;
+    cursor: pointer;
+    background: none !important;
+    border: none !important;
+    color: #fff;
+    font-weight: bold;
+    font-size: 28px;
+    text-shadow: 3px 3px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000,
+        -1px 1px 0 #000, 1px 1px 0 #000,
+        0 -2px 0 #000, 0 2px 0 #000, -2px 0 0 #000, 2px 0 0 #000;
+    -webkit-text-stroke: 3px #000;
+    paint-order: stroke fill;
+    padding: 0 3px;
+}
+
+.stageNumber.completed {
+    color: #ffd700;
+    background: none !important;
+}
+
+.stageNumber.active {
+    color: #ffd700;
+    background: none !important;
+    -webkit-animation: pulsate 1s ease-out;
+    -webkit-animation-iteration-count: infinite;
+    animation: pulsate 1s ease-out;
+    animation-iteration-count: infinite;
+}
+
+.stageNumber p {
+    margin: 0;
+    vertical-align: middle;
+    line-height: 1.2 !important;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+.votes {
+    height: 25px;
+    width: 0px;
+    position: absolute;
+    fill: #B0BEC5;
+    background: #B0BEC5;
+    color: #fff;
+    /* Default colours for independents, non-specified parties */
+    overflow: visible;
+    white-space: nowrap;
+    color: white;
+    padding-top: 3px;
+    box-sizing: border-box;
+    transition: none !important;
+    text-shadow: 3px 3px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000,
+        0 -2px 0 #000, 0 2px 0 #000, -2px 0 0 #000, 2px 0 0 #000;
+    font-family: 'Source Code Pro', monospace;
+    font-feature-settings: 'zero';
+    -webkit-text-stroke: 4px #000;
+    paint-order: stroke fill;
+}
+
+.votes:before {
+    content: "\00a0 ";
+}
+
+.Elected {
+    font-weight: bold;
+}
+
+.candidateLabel {
+    height: 25px;
+    width: 200px;
+    position: absolute;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.pctLabel {
+    position: absolute;
+    box-sizing: border-box;
+    text-align: right;
+    padding-right: 6px;
+    font-family: 'Source Code Pro', monospace;
+    font-feature-settings: 'zero';
+    font-variant-numeric: tabular-nums;
+    font-weight: bold;
+    font-size: 22px;
+    color: #000;
+    white-space: nowrap;
+    pointer-events: none;
+    line-height: 25px;
+    height: 25px;
+}
+
+
+@-webkit-keyframes pulsate {
+    0% {
+        color: #fff;
+    }
+
+    50% {
+        color: #ffd700;
+    }
+
+    100% {
+        color: #fff;
+    }
+}
+
+@keyframes pulsate {
+    0% {
+        color: #fff;
+    }
+
+    50% {
+        color: #ffd700;
+    }
+
+    100% {
+        color: #fff;
+    }
+}
+
+#menuBar {
+    overflow: auto;
+    padding: 4px 10px;
+}
+
+#menuBar select {
+    float: left;
+    margin-right: 10px;
+    font-size: 14px;
+    border: 0px;
+    margin-top: 7px;
+    background: #34495e;
+    color: white;
+}
+
+#quota {
+    display: none;
+}
+
+#thepost {
+    width: 1px;
+    background-color: black;
+    position: absolute;
+    top: 20px;
+    height: 0px;
+}
+
+#theline {
+    border-top: 1px dashed black;
+    position: absolute;
+    top: 193px;
+    width: 803px;
+}

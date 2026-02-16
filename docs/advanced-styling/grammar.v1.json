@@ -1,0 +1,14 @@
+{
+  "version": "v1",
+  "type": "json-config-with-expression-strings",
+  "notes": [
+    "Expressions are evaluated against (f, ctx)",
+    "Style values may be literals or expression strings prefixed with '='",
+    "Rules are processed in order"
+  ],
+  "rule_shape": {
+    "if": "string expression",
+    "style": "object",
+    "else": "object (optional)"
+  }
+}

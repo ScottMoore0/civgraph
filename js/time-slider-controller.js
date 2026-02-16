@@ -64,6 +64,8 @@ class TimeSliderController {
     updateForActiveLayers(activeMapIds) {
         // Skip updates while we are in the middle of swapping layers
         if (this._applyingDateChange) return;
+        // Skip updates when in election mode (election controller manages the slider)
+        if (this._electionMode) return;
 
         // Remember current timestamp before rebuilding dates
         const previousTimestamp = this.dates.length > 0
@@ -150,6 +152,21 @@ class TimeSliderController {
      * Handle slider value change - find closest date and snap to it
      */
     handleSliderChange() {
+        // Election mode: snap and callback, don't swap map layers
+        if (this._electionMode) {
+            const ts = parseInt(this.slider.value);
+            const newIndex = this.findClosestDateIndex(ts);
+            if (newIndex === this.currentIndex) return;
+            this.currentIndex = newIndex;
+            this.slider.value = this.dates[this.currentIndex];
+            this.updateLabel();
+            this.updateButtonStates();
+            if (this._electionCallback) {
+                this._electionCallback(this._electionDatesSorted[this.currentIndex]);
+            }
+            return;
+        }
+
         const sliderTimestamp = parseInt(this.slider.value);
 
         // Find the closest date to the slider value
@@ -194,6 +211,18 @@ class TimeSliderController {
     stepBackward() {
         if (this.currentIndex <= 0) return;
 
+        // Election mode: step and callback
+        if (this._electionMode) {
+            this.currentIndex--;
+            this.slider.value = this.dates[this.currentIndex];
+            this.updateLabel();
+            this.updateButtonStates();
+            if (this._electionCallback) {
+                this._electionCallback(this._electionDatesSorted[this.currentIndex]);
+            }
+            return;
+        }
+
         // Save pre-slider state on first interaction
         if (this.preSliderState === null) {
             this.savePreSliderState();
@@ -212,6 +241,18 @@ class TimeSliderController {
      */
     stepForward() {
         if (this.currentIndex >= this.dates.length - 1) return;
+
+        // Election mode: step and callback
+        if (this._electionMode) {
+            this.currentIndex++;
+            this.slider.value = this.dates[this.currentIndex];
+            this.updateLabel();
+            this.updateButtonStates();
+            if (this._electionCallback) {
+                this._electionCallback(this._electionDatesSorted[this.currentIndex]);
+            }
+            return;
+        }
 
         // Save pre-slider state on first interaction
         if (this.preSliderState === null) {
@@ -252,6 +293,20 @@ class TimeSliderController {
      */
     updateLabel() {
         if (!this.label || this.dates.length === 0) return;
+
+        // Election mode: show the election date string
+        if (this._electionMode && this._electionDatesSorted) {
+            const dateStr = this._electionDatesSorted[this.currentIndex];
+            if (dateStr) {
+                const d = new Date(dateStr);
+                this.label.textContent = d.toLocaleDateString('en-GB', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                });
+                return;
+            }
+        }
 
         const timestamp = this.dates[this.currentIndex];
         const date = new Date(timestamp);
@@ -459,6 +514,55 @@ class TimeSliderController {
             item.classList.add('layer-changed');
             setTimeout(() => item.classList.remove('layer-changed'), 1000);
         });
+    }
+
+    // ─── Election mode ───
+
+    /**
+     * Switch the slider to election mode.
+     * @param {string[]} dates - All election dates for this body (e.g. ['2022-05-05','2017-03-02',...])
+     * @param {string} currentDate - The currently displayed date
+     * @param {function} onDateChange - Callback receiving the new date string when user navigates
+     */
+    setElectionDates(dates, currentDate, onDateChange) {
+        this._electionMode = true;
+        this._electionCallback = onDateChange;
+
+        // Sort chronologically oldest-first (left = oldest, right = newest)
+        const sorted = [...dates].sort();
+        this._electionDatesSorted = sorted;
+
+        // Convert to timestamps for the slider
+        const timestamps = sorted.map(d => new Date(d).getTime());
+        this.dates = timestamps;
+        this.currentIndex = timestamps.findIndex(t => t === new Date(currentDate).getTime());
+        if (this.currentIndex < 0) this.currentIndex = timestamps.length - 1;
+
+        // Configure slider
+        if (this.slider) {
+            this.slider.min = timestamps[0];
+            this.slider.max = timestamps[timestamps.length - 1];
+            this.slider.value = timestamps[this.currentIndex];
+        }
+
+        // Hide reset button in election mode (not applicable)
+        if (this.resetBtn) this.resetBtn.style.display = 'none';
+
+        this.show();
+        this.updateLabel();
+        this.updateButtonStates();
+    }
+
+    /**
+     * Exit election mode and restore normal slider behaviour.
+     */
+    clearElectionDates() {
+        this._electionMode = false;
+        this._electionCallback = null;
+        this._electionDatesSorted = null;
+        // Restore reset button visibility
+        if (this.resetBtn) this.resetBtn.style.display = '';
+        this.hide();
     }
 }
 

@@ -26,6 +26,12 @@
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="assets/css/main.css?v=4">
 
+  <!-- Election Viewer & Animation CSS -->
+  <link rel="stylesheet" href="election-viewer-package/css/election-viewer.css">
+  <link rel="stylesheet" href="election-viewer-package/css/stages.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous">
+
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/images/logo.png">
 
@@ -117,9 +123,12 @@
       <div class="pane-tabs" role="tablist">
         <button class="pane-tab pane-tab--active" data-tab="catalogue" role="tab"
           aria-selected="true">Catalogue</button>
+        <button class="pane-tab" data-tab="elections" role="tab" aria-selected="false" hidden>Elections</button>
         <button class="pane-tab" data-tab="tables" role="tab" aria-selected="false">Tables</button>
         <button class="pane-tab" data-tab="explore" role="tab" aria-selected="false" hidden>Explore</button>
       </div>
+
+      <button type="button" id="catalogueReturnTop" class="btn btn--sm catalogue-return-top">Return to top</button>
 
       <!-- Catalogue Tab Content -->
       <div class="pane__content pane-tab-content" data-tab-content="catalogue">
@@ -194,7 +203,14 @@
             </div>
           </div>
 
-          <!-- Map List -->
+          <!-- View Toggle -->
+          <div class="catalogue-view-toggle" id="catalogueViewToggle">
+            <button type="button" class="catalogue-view-toggle__btn catalogue-view-toggle__btn--active"
+              data-view="grouped">Grouped</button>
+            <button type="button" class="catalogue-view-toggle__btn" data-view="flat">Flat</button>
+          </div>
+
+          <!-- Map List (Grouped view — default) -->
           <div id="mapList" class="map-list" role="list" aria-label="Available maps">
             <!-- Loading skeleton -->
             <div class="skeleton" style="height: 72px;"></div>
@@ -202,11 +218,46 @@
             <div class="skeleton" style="height: 72px;"></div>
           </div>
 
+          <!-- Flat View (hidden by default) -->
+          <div id="catalogueFlatView" class="catalogue-flat-view hidden">
+            <!-- Populated by JavaScript -->
+          </div>
+
           <!-- Error Container -->
           <div id="errorContainer" class="hidden" role="alert"
             style="color: var(--color-error); padding: var(--space-4);"></div>
         </div>
       </div> <!-- End Catalogue Tab Content -->
+
+      <!-- Elections Tab Content -->
+      <div class="pane__content pane-tab-content pane-tab-content--hidden" data-tab-content="elections">
+        <div class="search-input mb-3">
+          <svg class="search-input__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="search" id="electionSearch" class="search-input__field" placeholder="Search elections..."
+            aria-label="Search elections">
+        </div>
+        <div class="election-filters mb-2">
+          <select id="electionBodyFilter" class="control-select" style="width:100%;font-size:0.82rem">
+            <option value="">All Bodies</option>
+            <option value="House of Commons of the United Kingdom">Westminster</option>
+            <option value="Northern Ireland Assembly">NI Assembly</option>
+            <option value="European Parliament">European Parliament</option>
+            <option value="Northern Ireland Forum for Political Dialogue">NI Forum</option>
+            <option value="Northern Ireland Constitutional Convention">NI Convention</option>
+          </select>
+        </div>
+        <label class="control-checkbox mb-2" style="font-size:0.78rem;">
+          <input type="checkbox" id="electionHideByElections">
+          <span>Hide by-elections</span>
+        </label>
+        <div id="electionList" class="election-list" role="list" aria-label="Available elections">
+          <div class="election-loading">Loading elections...</div>
+        </div>
+      </div> <!-- End Elections Tab Content -->
 
       <!-- Tables Tab Content -->
       <div class="pane__content pane-tab-content pane-tab-content--hidden" data-tab-content="tables">
@@ -300,178 +351,186 @@
     <!-- Map Pane (Right) -->
     <section class="pane pane--map" aria-label="Interactive map">
       <!-- Map Container -->
-      <div id="map"></div>
-
-      <!-- Active Layers Toggle (triangle) -->
-      <button type="button" id="activeLayersToggle" class="active-layers-toggle" aria-expanded="false"
-        title="Active Layers">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-          <path d="M7 10l5 5 5-5z" />
-        </svg>
-      </button>
-
-      <!-- Map Controls - Stacked Layout: Settings above Timeline -->
-      <div class="map-controls">
-        <!-- Timeline Slider FIRST (stays at bottom with column-reverse) -->
-        <div id="timelineSlider" class="timeline-slider hidden">
-          <input type="range" id="timelineRange" class="timeline-range" min="0" max="100" value="100"
-            aria-label="Timeline">
-          <span id="timelineLabel" class="timeline-label">2023</span>
-          <div class="timeline-nav-group">
-            <button type="button" id="timelinePrev" class="timeline-btn timeline-btn--nav" title="Previous date"
-              aria-label="Previous date">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M15 18l-6-6 6-6" />
-              </svg>
-            </button>
-            <button type="button" id="timelineNext" class="timeline-btn timeline-btn--nav" title="Next date"
-              aria-label="Next date">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-            </button>
-          </div>
-          <button type="button" id="timelineReset" class="timeline-btn timeline-btn--reset"
-            title="Reset to original layers" aria-label="Reset timeline">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-              <path d="M3 3v5h5" />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Settings Button (appears above timeline) -->
-        <button type="button" id="mapControlsToggle" class="map-controls-toggle" aria-expanded="false"
-          title="Map Settings">
-          <!-- Gear icon -->
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="3" />
-            <path
-              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-          </svg>
-          <!-- Text size icon (Aa) - enlarged -->
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <text x="2" y="18" font-size="14" font-weight="bold" fill="currentColor" stroke="none">A</text>
-            <text x="13" y="18" font-size="10" font-weight="bold" fill="currentColor" stroke="none">a</text>
+      <div id="map">
+        <!-- Active Layers Toggle (triangle) -->
+        <button type="button" id="activeLayersToggle" class="active-layers-toggle" aria-expanded="false"
+          title="Active Layers">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <path d="M7 10l5 5 5-5z" />
           </svg>
         </button>
 
-        <!-- Collapsible Panel (appears above timeline when open) -->
-        <div id="mapControlPanel" class="map-control-panel map-control-panel--collapsed">
-          <!-- Base Map Selector -->
-          <div class="control-group mb-3">
-            <label class="control-label" for="baseMapSelect">Base Map</label>
-            <select id="baseMapSelect" class="control-select">
-              <option value="osm-standard" selected>OpenStreetMap</option>
-              <optgroup label="Dark & Modern">
-                <option value="cartodb-dark">CartoDB Dark</option>
-                <option value="cartodb-voyager">CartoDB Voyager</option>
-              </optgroup>
-              <optgroup label="Other Street Maps">
-                <option value="osm-humanitarian">OpenStreetMap Humanitarian</option>
-              </optgroup>
-              <optgroup label="Satellite & Imagery">
-                <option value="esri-satellite">ESRI Satellite</option>
-                <option value="esri-world-topo">ESRI World Topo</option>
-                <option value="esri-natgeo">ESRI Nat. Geo.</option>
-                <option value="esri-ocean">ESRI Ocean</option>
-              </optgroup>
-              <optgroup label="Terrain & Topographic">
-                <option value="stamen-terrain">Stamen Terrain</option>
-                <option value="opentopomap">OpenTopoMap</option>
-                <option value="usgs-topo">USGS US Topo</option>
-              </optgroup>
-              <optgroup label="Minimal">
-                <option value="cartodb-positron">CartoDB Positron (Light)</option>
-                <option value="cartodb-dark-nolabels">CartoDB Dark (No Labels)</option>
-              </optgroup>
-            </select>
-          </div>
-
-          <!-- Overlay Layers (Collapsible) -->
-          <div class="control-group mb-3">
-            <button type="button" id="overlayToggle" class="control-label control-label--toggle" aria-expanded="false">
-              <span>Overlay Layers</span>
+        <!-- Map Controls - Stacked Layout: Settings above Timeline -->
+        <div class="map-controls">
+          <!-- Timeline Slider FIRST (stays at bottom with column-reverse) -->
+          <div id="timelineSlider" class="timeline-slider hidden">
+            <input type="range" id="timelineRange" class="timeline-range" min="0" max="100" value="100"
+              aria-label="Timeline">
+            <span id="timelineLabel" class="timeline-label">2023</span>
+            <div class="timeline-nav-group">
+              <button type="button" id="timelinePrev" class="timeline-btn timeline-btn--nav" title="Previous date"
+                aria-label="Previous date">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+              <button type="button" id="timelineNext" class="timeline-btn timeline-btn--nav" title="Next date"
+                aria-label="Next date">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+            </div>
+            <button type="button" id="timelineReset" class="timeline-btn timeline-btn--reset"
+              title="Reset to original layers" aria-label="Reset timeline">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M6 9l6 6 6-6" />
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <path d="M3 3v5h5" />
               </svg>
             </button>
-            <div id="overlayList" class="overlay-list overlay-list--collapsed">
-              <label class="control-checkbox">
-                <input type="checkbox" id="overlayVoyagerLabels">
-                <span>CartoDB Voyager Labels</span>
-              </label>
-              <label class="control-checkbox">
-                <input type="checkbox" id="overlayMeritCatchments">
-                <span>MERIT-Basins unit catchments</span>
-              </label>
-              <label class="control-checkbox">
-                <input type="checkbox" id="overlayMeritRivers">
-                <span>MERIT-Basins river reaches</span>
-              </label>
-              <label class="control-checkbox">
-                <input type="checkbox" id="overlayNhdFlowlines">
-                <span>USGS NHDv2 Flowlines</span>
-              </label>
+          </div>
+
+          <!-- Settings Button (appears above timeline) -->
+          <button type="button" id="mapControlsToggle" class="map-controls-toggle" aria-expanded="false"
+            title="Map Settings">
+            <!-- Gear icon -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+            </svg>
+            <!-- Text size icon (Aa) - enlarged -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <text x="2" y="18" font-size="14" font-weight="bold" fill="currentColor" stroke="none">A</text>
+              <text x="13" y="18" font-size="10" font-weight="bold" fill="currentColor" stroke="none">a</text>
+            </svg>
+          </button>
+
+          <!-- Collapsible Panel (appears above timeline when open) -->
+          <div id="mapControlPanel" class="map-control-panel map-control-panel--collapsed">
+            <!-- Base Map Selector -->
+            <div class="control-group mb-3">
+              <label class="control-label" for="baseMapSelect">Base Map</label>
+              <select id="baseMapSelect" class="control-select">
+                <option value="osm-standard" selected>OpenStreetMap</option>
+                <optgroup label="Dark & Modern">
+                  <option value="cartodb-dark">CartoDB Dark</option>
+                  <option value="cartodb-voyager">CartoDB Voyager</option>
+                </optgroup>
+                <optgroup label="Other Street Maps">
+                  <option value="osm-humanitarian">OpenStreetMap Humanitarian</option>
+                </optgroup>
+                <optgroup label="Satellite & Imagery">
+                  <option value="esri-satellite">ESRI Satellite</option>
+                  <option value="esri-world-topo">ESRI World Topo</option>
+                  <option value="esri-natgeo">ESRI Nat. Geo.</option>
+                  <option value="esri-ocean">ESRI Ocean</option>
+                </optgroup>
+                <optgroup label="Terrain & Topographic">
+                  <option value="stamen-terrain">Stamen Terrain</option>
+                  <option value="opentopomap">OpenTopoMap</option>
+                  <option value="usgs-topo">USGS US Topo</option>
+                </optgroup>
+                <optgroup label="Minimal">
+                  <option value="cartodb-positron">CartoDB Positron (Light)</option>
+                  <option value="cartodb-dark-nolabels">CartoDB Dark (No Labels)</option>
+                </optgroup>
+              </select>
             </div>
-          </div>
 
-          <!-- Outline Transparency -->
-          <div class="control-group mb-3">
-            <label class="control-label flex justify-between">
-              <span>Outline Transparency</span>
-              <span id="transparencyValue" class="text-muted">0%</span>
-            </label>
-            <input type="range" id="transparencySlider" min="0" max="100" value="0" class="control-slider"
-              aria-label="Layer outline transparency">
-          </div>
-
-          <!-- Fill Transparency -->
-          <div class="control-group mb-3">
-            <label class="control-label flex justify-between">
-              <span>Fill Transparency</span>
-              <span id="fillTransparencyValue" class="text-muted">100%</span>
-            </label>
-            <input type="range" id="fillTransparencySlider" min="0" max="100" value="100" class="control-slider"
-              aria-label="Layer fill transparency">
-          </div>
-
-          <!-- Labels Toggle -->
-          <label class="control-checkbox">
-            <input type="checkbox" id="labelsToggle" checked>
-            <span>Show labels</span>
-          </label>
-
-          <!-- Text Size Controls -->
-          <div class="control-group mt-4">
-            <label class="control-label">Text Size</label>
-            <div class="text-size-controls">
-              <button type="button" id="textSizeDecrease" class="text-size-btn" title="Decrease text size"
-                aria-label="Decrease text size">A−</button>
-              <span id="textSizeValue" class="text-size-value">100%</span>
-              <button type="button" id="textSizeIncrease" class="text-size-btn" title="Increase text size"
-                aria-label="Increase text size">A+</button>
+            <!-- Overlay Layers (Collapsible) -->
+            <div class="control-group mb-3">
+              <button type="button" id="overlayToggle" class="control-label control-label--toggle"
+                aria-expanded="false">
+                <span>Overlay Layers</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+              <div id="overlayList" class="overlay-list overlay-list--collapsed">
+                <label class="control-checkbox">
+                  <input type="checkbox" id="overlayVoyagerLabels">
+                  <span>CartoDB Voyager Labels</span>
+                </label>
+                <label class="control-checkbox">
+                  <input type="checkbox" id="overlayMeritCatchments">
+                  <span>MERIT-Basins unit catchments</span>
+                </label>
+                <label class="control-checkbox">
+                  <input type="checkbox" id="overlayMeritRivers">
+                  <span>MERIT-Basins river reaches</span>
+                </label>
+                <label class="control-checkbox">
+                  <input type="checkbox" id="overlayNhdFlowlines">
+                  <span>USGS NHDv2 Flowlines</span>
+                </label>
+              </div>
             </div>
-          </div>
 
-          <!-- Close button at bottom of panel -->
-          <div class="map-control-panel__footer">
-            <button type="button" id="mapControlsClose" class="map-controls-toggle" title="Close settings">
-              <!-- Gear icon -->
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="3" />
-                <path
-                  d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-              </svg>
-              <!-- Text size icon (Aa) - enlarged -->
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <text x="2" y="18" font-size="14" font-weight="bold" fill="currentColor" stroke="none">A</text>
-                <text x="13" y="18" font-size="10" font-weight="bold" fill="currentColor" stroke="none">a</text>
-              </svg>
-            </button>
+            <!-- Outline Transparency -->
+            <div class="control-group mb-3">
+              <label class="control-label flex justify-between">
+                <span>Outline Transparency</span>
+                <span id="transparencyValue" class="text-muted">0%</span>
+              </label>
+              <input type="range" id="transparencySlider" min="0" max="100" value="0" class="control-slider"
+                aria-label="Layer outline transparency">
+            </div>
+
+            <!-- Fill Transparency -->
+            <div class="control-group mb-3">
+              <label class="control-label flex justify-between">
+                <span>Fill Transparency</span>
+                <span id="fillTransparencyValue" class="text-muted">100%</span>
+              </label>
+              <input type="range" id="fillTransparencySlider" min="0" max="100" value="100" class="control-slider"
+                aria-label="Layer fill transparency">
+            </div>
+
+            <!-- Labels Toggle -->
+            <label class="control-checkbox">
+              <input type="checkbox" id="labelsToggle" checked>
+              <span>Show labels</span>
+            </label>
+
+            <!-- Text Size Controls -->
+            <div class="control-group mt-4">
+              <label class="control-label">Text Size</label>
+              <div class="text-size-controls">
+                <button type="button" id="textSizeDecrease" class="text-size-btn" title="Decrease text size"
+                  aria-label="Decrease text size">A−</button>
+                <span id="textSizeValue" class="text-size-value">100%</span>
+                <button type="button" id="textSizeIncrease" class="text-size-btn" title="Increase text size"
+                  aria-label="Increase text size">A+</button>
+              </div>
+            </div>
+
+            <!-- Conditional Styling -->
+            <div class="control-group mt-4">
+              <button type="button" id="conditionalStylingBtn" class="cs-btn cs-btn--primary" style="width:100%">
+                🎨 Conditional Styling
+              </button>
+            </div>
+
+            <!-- Close button at bottom of panel -->
+            <div class="map-control-panel__footer">
+              <button type="button" id="mapControlsClose" class="map-controls-toggle" title="Close settings">
+                <!-- Gear icon -->
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="3" />
+                  <path
+                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                </svg>
+                <!-- Text size icon (Aa) - enlarged -->
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <text x="2" y="18" font-size="14" font-weight="bold" fill="currentColor" stroke="none">A</text>
+                  <text x="13" y="18" font-size="10" font-weight="bold" fill="currentColor" stroke="none">a</text>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </div><!-- end #map -->
 
       <!-- Active Layers Panel -->
       <div id="activeLayers" class="active-layers hidden">
@@ -506,6 +565,28 @@
     </section>
   </main>
 
+  <!-- Election Results Pane (full-width, below both map and catalogue) -->
+  <div id="electionResultsPane" class="election-results-pane">
+    <!-- STV Animation Scaffold (populated by stages2.js) -->
+    <div id="electionAnimationContainer" class="election-animation-container" style="display:none;">
+      <div id="menuBar">
+        <div id="controls">
+          <a href="#" id="again" title="Restart"><i class="fa fa-backward"></i></a>
+          <a href="#" id="pause-replay" class="fa fa-pause" title="Play/Pause"></a>
+          <a href="#" id="step" title="Step"><i class="fa fa-forward"></i></a>
+        </div>
+        <div id="stageNumbers"></div>
+        <div id="quota"></div>
+        <div style="clear:both;"></div>
+        <div style="float:right; font-size:14px; color:#888;">Seats: <span id="seats-span"></span></div>
+      </div>
+      <div id="animation"></div>
+      <div id="count_matrix"></div>
+      <div id="transfers"></div>
+      <div id="transfers_constituency"></div>
+    </div>
+  </div>
+
   <!-- Mobile Toggle Button (hidden on desktop, shown on mobile above zoom controls) -->
   <button id="mobileToggle" class="mobile-toggle" style="display: none;" aria-label="Toggle catalogue">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -518,55 +599,20 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="https://unpkg.com/fuse.js@7.0.0"></script>
   <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
-  <script src="https://unpkg.com/flatgeobuf@3.32.0/dist/flatgeobuf-geojson.min.js"></script>
+  <script src="node_modules/flatgeobuf/dist/flatgeobuf-geojson.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
+
+  <!-- jQuery Micro-Shim + Election Animation Engine -->
+  <script src="js/jquery-shim.js"></script>
+  <script src="election-viewer-package/js/stages2.js"></script>
+  <script src="election-viewer-package/js/animation_preview.js"></script>
+  <script src="election-viewer-package/js/animation_preview_manager.js"></script>
+  <script src="election-viewer-package/js/election_viewer.js"></script>
 
   <!-- Application -->
   <script type="module" src="js/app.js?v=8"></script>
 
-  <!-- Mobile Toggle Handler -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const mobileToggle = document.getElementById('mobileToggle');
-      const label = document.getElementById('mobileToggleLabel');
-      const shell = document.querySelector('.app-shell');
 
-      if (mobileToggle && shell) {
-        mobileToggle.addEventListener('click', function () {
-          const currentState = shell.dataset.splitState;
-
-          if (currentState === 'info-full') {
-            shell.dataset.splitState = 'map-full';
-            label.textContent = 'Show List';
-          } else {
-            shell.dataset.splitState = 'info-full';
-            label.textContent = 'Show Map';
-          }
-
-          // Invalidate map size after transition
-          setTimeout(function () {
-            if (window.mapController?.map) {
-              window.mapController.map.invalidateSize();
-            }
-          }, 300);
-        });
-
-        // Update label on page load based on initial state
-        function updateLabel() {
-          const currentState = shell.dataset.splitState;
-          if (currentState === 'map-full' || currentState === 'balanced') {
-            label.textContent = 'Show List';
-          } else {
-            label.textContent = 'Show Map';
-          }
-        }
-        updateLabel();
-
-        // Watch for state changes
-        const observer = new MutationObserver(updateLabel);
-        observer.observe(shell, { attributes: true, attributeFilter: ['data-split-state'] });
-      }
-    });
-  </script>
   <!-- Support Modal -->
   <div id="supportModal" class="support-modal hidden" role="dialog" aria-modal="true"
     aria-label="Support the Boundaries Website">

@@ -77,8 +77,10 @@ async function buildIndex() {
         try {
             const buf = new Uint8Array(readFileSync(fullPath));
             let count = 0;
+            let featureIndex = 0;  // Sequential index for all features in this map
 
             for await (const feature of deserialize(buf)) {
+                const currentIdx = featureIndex++;
                 let name = feature.properties?.[labelProp];
                 if (!name || typeof name !== 'string') continue;
 
@@ -93,9 +95,11 @@ async function buildIndex() {
                 seenNames.add(key);
 
                 features.push({
+                    id: `${map.id}:${currentIdx}`,
                     name,
                     mapId: map.id,
-                    bbox: computeBbox(feature.geometry)
+                    bbox: computeBbox(feature.geometry),
+                    index: currentIdx
                 });
                 count++;
             }
