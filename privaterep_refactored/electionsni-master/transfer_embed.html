@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Transfer Animation Embed</title>
+    <link rel="stylesheet" href="/website/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/website/css/style.css" media="screen, handheld">
+    <link rel="stylesheet" href="/website/css/stages.css" media="screen, handheld">
+    <link rel="stylesheet" href="/website/css/transfers.css" media="screen, handheld">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #fff;
+        }
+        .embed-container {
+            position: relative;
+            display: inline-block;
+            width: auto;
+            margin: 0;
+            padding: 0;
+            text-align: left;
+        }
+        .embed-container .transfer-stage {
+            margin: 0;
+        }
+        .embed-container #transfers {
+            margin: 0 0 10px;
+        }
+        #controls {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 12px;
+            align-items: center;
+        }
+        #controls.style-change-1 {
+            width: 300px;
+        }
+        #controls.style-change-1 .animation-iframe-close {
+            margin-left: auto;
+            border: none;
+            background: rgba(0, 0, 0, 0.55);
+            color: #ffffff;
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #controls.style-change-1 .animation-iframe-close:hover,
+        #controls.style-change-1 .animation-iframe-close:focus-visible {
+            background: rgba(0, 0, 0, 0.75);
+        }
+        #controls.style-change-1 .animation-iframe-close:focus-visible {
+            outline: 3px solid #0a7cff;
+            outline-offset: 2px;
+        }
+        #controls a {
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #animation {
+            min-height: 420px;
+            margin: 0;
+        }
+        #charttooltip {
+            font-size: 12px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 10px;
+            color: #ffffff;
+            background-color: #000000;
+            border-radius: 10px;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+        }
+        #charttooltip.hidden {
+            display: none;
+        }
+        .embed-error {
+            padding: 1rem;
+            background: #f8d7da;
+            color: #842029;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="embed-container">
+        <div id="embed-error" class="embed-error" style="display: none;"></div>
+        <div class="transfer-stage" id="embed-stage" hidden>
+            <div id="stageNumbers"></div>
+            <div id="controls" class="style-change-1">
+                <a href="#Again" id="again" class="fa fa-step-backward" aria-label="Restart animation"></a>
+                <a href="#Pause" id="pause-replay" class="fa fa-repeat" aria-label="Play or pause animation"></a>
+                <a href="#Next" id="step" class="fa fa-step-forward" aria-label="Step animation"></a>
+                <button type="button" class="animation-iframe-close" title="Hide animation" aria-label="Hide animation" data-animation-close data-animation-for="" data-animation-close-init="1">&times;</button>
+            </div>
+            <div id="animation"></div>
+            <div id="count_matrix" style="display: none;"></div>
+            <div id="transfers" style="display: none;"></div>
+            <div id="transfers_constituency" style="display: none;"></div>
+        </div>
+        <div id="charttooltip" class="hidden">
+            <span id="constituencyname" style="font-weight: bold"></span><br />
+            <span id="name"></span><br />
+            <span id="party"></span><br />
+            <span id="fpv"></span><br />
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        (function() {
+            function numberWithCommas(value) {
+                if (value === null || typeof value === 'undefined') {
+                    return '';
+                }
+                var text;
+                if (typeof value === 'number' && isFinite(value)) {
+                    text = value.toString();
+                } else if (typeof value === 'string') {
+                    text = value;
+                } else if (value && typeof value.toString === 'function') {
+                    text = value.toString();
+                } else {
+                    text = String(value);
+                }
+                if (!text) {
+                    return '';
+                }
+                return text.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            }
+            if (typeof window !== 'undefined') {
+                window.numberWithCommas = numberWithCommas;
+            }
+        })();
+    </script>
+    <script src="/website/js/stages2.js"></script>
+    <script>
+        (function () {
+            function normaliseQueryParam(value) {
+                if (typeof value !== 'string') {
+                    return '';
+                }
+                return value.trim();
+            }
+
+            function parseSelection() {
+                var params = new URLSearchParams(window.location.search);
+                var date = normaliseQueryParam(params.get('date'));
+                var body = normaliseQueryParam(params.get('elected_body'));
+                var constituency = normaliseQueryParam(params.get('constituency'));
+                var embedId = normaliseQueryParam(params.get('embed_id'));
+                if (!date || !body || !constituency) {
+                    return null;
+                }
+                return {
+                    date: date,
+                    electedBody: body,
+                    constituency: constituency,
+                    embedId: embedId
+                };
+            }
+
+            function showError(message) {
+                var errorEl = document.getElementById('embed-error');
+                if (!errorEl) {
+                    return;
+                }
+                errorEl.textContent = message;
+                errorEl.style.display = 'block';
+                var stage = document.getElementById('embed-stage');
+                if (stage) {
+                    stage.hidden = true;
+                }
+                scheduleDimensionUpdate();
+            }
+
+            function revealStage() {
+                var stage = document.getElementById('embed-stage');
+                if (stage) {
+                    stage.hidden = false;
+                }
+                var errorEl = document.getElementById('embed-error');
+                if (errorEl) {
+                    errorEl.style.display = 'none';
+                }
+                scheduleDimensionUpdate();
+            }
+
+            var currentSelection = null;
+            var resizeObserver = null;
+            var heightInterval = null;
+            var frameScheduled = false;
+            var lastPostedHeight = null;
+            var lastPostedWidth = null;
+            var closeButton = null;
+
+            function getDocumentHeight() {
+                var doc = document.documentElement;
+                var body = document.body;
+                return Math.max(
+                    body ? body.scrollHeight : 0,
+                    doc ? doc.scrollHeight : 0,
+                    body ? body.offsetHeight : 0,
+                    doc ? doc.offsetHeight : 0,
+                    body ? body.clientHeight : 0,
+                    doc ? doc.clientHeight : 0
+                );
+            }
+
+            function getAnimationContentWidth() {
+                var animation = document.getElementById('animation');
+                if (!animation) {
+                    return null;
+                }
+                var measured = Math.max(
+                    animation.scrollWidth || 0,
+                    animation.offsetWidth || 0,
+                    animation.clientWidth || 0
+                );
+                if (!measured || !isFinite(measured)) {
+                    return null;
+                }
+                return measured + 100;
+            }
+
+            function postDimensionUpdate(selection) {
+                if (typeof window === 'undefined' || !window.parent || window.parent === window) {
+                    return;
+                }
+                var height = getDocumentHeight();
+                var width = getAnimationContentWidth();
+                if ((!height || !isFinite(height)) && (!width || !isFinite(width))) {
+                    return;
+                }
+                var payload = {
+                    type: 'transfer-embed-dimensions'
+                };
+                if (height && isFinite(height)) {
+                    payload.height = Math.max(0, Math.round(height));
+                }
+                if (width && isFinite(width)) {
+                    payload.width = Math.max(0, Math.round(width));
+                }
+                if (selection && selection.embedId) {
+                    payload.embedId = selection.embedId;
+                }
+                var shouldPost = false;
+                if (payload.height !== undefined) {
+                    if (lastPostedHeight === null || payload.height !== lastPostedHeight) {
+                        shouldPost = true;
+                    }
+                }
+                if (payload.width !== undefined) {
+                    if (lastPostedWidth === null || payload.width !== lastPostedWidth) {
+                        shouldPost = true;
+                    }
+                }
+                if (!shouldPost) {
+                    return;
+                }
+                window.parent.postMessage(payload, '*');
+                if (payload.height !== undefined) {
+                    lastPostedHeight = payload.height;
+                }
+                if (payload.width !== undefined) {
+                    lastPostedWidth = payload.width;
+                }
+            }
+
+            function requestClose() {
+                if (typeof window === 'undefined' || !window.parent || window.parent === window) {
+                    return;
+                }
+                var selection = currentSelection;
+                var payload = { type: 'transfer-embed-close' };
+                if (selection && selection.embedId) {
+                    payload.embedId = selection.embedId;
+                }
+                window.parent.postMessage(payload, '*');
+            }
+
+            function scheduleDimensionUpdate() {
+                if (frameScheduled) {
+                    return;
+                }
+                frameScheduled = true;
+                var selection = currentSelection;
+                var requestFrame = window.requestAnimationFrame
+                    ? window.requestAnimationFrame.bind(window)
+                    : function (cb) { return window.setTimeout(cb, 16); };
+                requestFrame(function () {
+                    frameScheduled = false;
+                    postDimensionUpdate(selection);
+                });
+            }
+
+            function startDimensionObservers(selection) {
+                currentSelection = selection;
+                scheduleDimensionUpdate();
+                if (heightInterval) {
+                    clearInterval(heightInterval);
+                }
+                heightInterval = window.setInterval(function () {
+                    scheduleDimensionUpdate();
+                }, 1000);
+                window.setTimeout(function () {
+                    if (heightInterval) {
+                        clearInterval(heightInterval);
+                        heightInterval = null;
+                    }
+                }, 8000);
+
+                var container = document.querySelector('.embed-container');
+                if (container) {
+                    if (window.ResizeObserver) {
+                        resizeObserver = new window.ResizeObserver(function () {
+                            scheduleDimensionUpdate();
+                        });
+                        resizeObserver.observe(container);
+                    }
+                    if (window.MutationObserver) {
+                        var observer = new window.MutationObserver(function () {
+                            scheduleDimensionUpdate();
+                        });
+                        observer.observe(container, { childList: true, subtree: true, attributes: true });
+                    }
+                }
+                window.addEventListener('resize', scheduleDimensionUpdate);
+                window.addEventListener('load', scheduleDimensionUpdate);
+            }
+
+            function initialise() {
+                $.ajaxSetup({ cache: false });
+                var selection = parseSelection();
+                if (!selection) {
+                    showError('Missing election details. Provide date, elected_body and constituency query parameters.');
+                    return;
+                }
+                revealStage();
+                closeButton = document.querySelector('.animation-iframe-close');
+                if (closeButton) {
+                    if (selection.embedId) {
+                        closeButton.dataset.animationFor = selection.embedId;
+                    } else {
+                        delete closeButton.dataset.animationFor;
+                    }
+                    closeButton.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        requestClose();
+                    });
+                }
+                startDimensionObservers(selection);
+                animateStages(selection);
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initialise);
+            } else {
+                initialise();
+            }
+        })();
+    </script>
+</body>
+</html>

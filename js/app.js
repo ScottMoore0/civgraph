@@ -8,6 +8,8 @@ import mapController from './map-controller.js';
 import uiController from './ui-controller.js';
 import featureLoader from './feature-loader.js';
 import timeSliderController from './time-slider-controller.js';
+import conditionalStyling from './conditional-styling.js';
+import electionController from './election-controller.js';
 
 class App {
     constructor() {
@@ -75,19 +77,23 @@ class App {
 
             // Unload a map layer (or group of layers)
             uiController.onMapUnload = (mapId) => {
-                const mapConfig = dataService.getMapById(mapId);
-                if (mapConfig?.isGroup && mapConfig.members) {
-                    // Unload all member maps for a group
-                    for (const memberId of mapConfig.members) {
-                        mapController.unloadLayer(memberId);
-                    }
-                } else if (mapConfig?.isGroup && mapConfig.variants && mapConfig.variants.length > 0) {
-                    // Unload all variant maps for a group
-                    for (const variant of mapConfig.variants) {
-                        mapController.unloadLayer(variant.id);
-                    }
+                const layerState = mapController.layerStates.get(mapId);
+                if (layerState?.isElection) {
+                    // Delegate to election controller for full cleanup
+                    electionController.clear();
                 } else {
-                    mapController.unloadLayer(mapId);
+                    const mapConfig = dataService.getMapById(mapId);
+                    if (mapConfig?.isGroup && mapConfig.members) {
+                        for (const memberId of mapConfig.members) {
+                            mapController.unloadLayer(memberId);
+                        }
+                    } else if (mapConfig?.isGroup && mapConfig.variants && mapConfig.variants.length > 0) {
+                        for (const variant of mapConfig.variants) {
+                            mapController.unloadLayer(variant.id);
+                        }
+                    } else {
+                        mapController.unloadLayer(mapId);
+                    }
                 }
                 this.updateMapList();
                 this.updateActiveLayers();
@@ -96,7 +102,15 @@ class App {
 
             // Toggle visibility of a loaded map
             uiController.onMapToggle = (mapId) => {
-                mapController.toggleLayer(mapId);
+                const layerState = mapController.layerStates.get(mapId);
+                if (layerState?.isElection) {
+                    // Delegate to election controller for full hide/show
+                    const newVisible = !layerState.visible;
+                    layerState.visible = newVisible;
+                    electionController.setVisible(newVisible);
+                } else {
+                    mapController.toggleLayer(mapId);
+                }
                 this.updateMapList();
                 this.updateActiveLayers();
                 this.updateURLState();
@@ -303,6 +317,9 @@ class App {
             // Setup support modal
             this.setupSupportModal();
 
+            // Setup election catalogue
+            this.setupElectionCatalogue();
+
         } catch (err) {
             console.error('[App] Initialization failed:', err);
             this.showError('Failed to load application. Please refresh the page.');
@@ -349,6 +366,66 @@ class App {
                 close();
             }
         });
+    }
+
+    /**
+     * Setup elections catalogue — loads cards, search, filter, click handlers
+     */
+    async setupElectionCatalogue() {
+        const listEl = document.getElementById('electionList');
+        const searchEl = document.getElementById('electionSearch');
+        const bodyFilter = document.getElementById('electionBodyFilter');
+        const hideByEl = document.getElementById('electionHideByElections');
+        if (!listEl) return;
+
+        // Wire up URL state callback
+        electionController.onStateChange = () => this.updateURLState();
+
+        try {
+            const cards = await electionController.buildCatalogueCards();
+
+            const render = () => {
+                const query = (searchEl?.value || '').toLowerCase().trim();
+                const bodyVal = bodyFilter?.value || '';
+                const hideBy = hideByEl?.checked || false;
+
+                const filtered = cards.filter(c => {
+                    if (bodyVal && c.body !== bodyVal) return false;
+                    if (hideBy && c.isByElection) return false;
+                    if (query) {
+                        const searchText = `${c.body} ${c.date} ${c.constituencies.join(' ')}`.toLowerCase();
+                        if (!searchText.includes(query)) return false;
+                    }
+                    return true;
+                });
+
+                if (filtered.length === 0) {
+                    listEl.innerHTML = '<div class="election-no-data">No elections match your filters.</div>';
+                    return;
+                }
+
+                listEl.innerHTML = filtered.map(c => c.html).join('');
+
+                // Attach click handlers
+                listEl.querySelectorAll('.election-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const body = card.dataset.body;
+                        const date = card.dataset.date;
+                        electionController.loadElection(body, date);
+                    });
+                });
+            };
+
+            render();
+
+            searchEl?.addEventListener('input', render);
+            bodyFilter?.addEventListener('change', render);
+            hideByEl?.addEventListener('change', render);
+
+        } catch (err) {
+            console.error('[App] Failed to load election catalogue:', err);
+            listEl.innerHTML = '<div class="election-no-data">Failed to load elections.</div>';
+        }
     }
 
     /**
@@ -614,7 +691,8 @@ class App {
                 const state = await mapController.loadSingleFeature(
                     mapConfig,
                     feature.index,
-                    feature.name
+                    feature.name,
+                    feature.bbox
                 );
 
                 if (state) {
@@ -1110,12 +1188,29 @@ class App {
             });
         }
 
+        // Listen for election layer registration/unregistration
+        window.addEventListener('layers-changed', () => {
+            this.updateActiveLayers();
+        });
+
         // Map move/zoom events for URL state
         if (mapController.map) {
             mapController.map.on('moveend', () => {
                 this.updateURLState();
             });
         }
+
+        // Conditional Styling button
+        const csBtn = document.getElementById('conditionalStylingBtn');
+        if (csBtn) {
+            csBtn.addEventListener('click', () => {
+                conditionalStyling.openModal();
+            });
+        }
+        // Update URL when conditional styling changes
+        window.addEventListener('conditional-styling-changed', () => {
+            this.updateURLState();
+        });
     }
 
     /**
@@ -1368,6 +1463,13 @@ class App {
     updateURLState() {
         if (!this.initialized || !mapController.map) return;
 
+        // Advanced styling route takes precedence in hash mode.
+        const advancedRoute = conditionalStyling.getPreferredHashRoute?.();
+        if (advancedRoute) {
+            history.replaceState(null, '', `#${advancedRoute}`);
+            return;
+        }
+
         const state = mapController.getMapState();
         const params = new URLSearchParams();
 
@@ -1385,6 +1487,18 @@ class App {
             params.set('base', state.baseMap);
         }
 
+        // Conditional styling state
+        const csState = conditionalStyling.serialize();
+        if (csState) {
+            params.set('cs', csState);
+        }
+
+        // Election viewer state
+        const elState = electionController.serialize();
+        if (elState) {
+            params.set('election', elState);
+        }
+
         const hash = params.toString();
         if (hash) {
             history.replaceState(null, '', `#${hash}`);
@@ -1395,6 +1509,21 @@ class App {
      * Load state from URL hash or path
      */
     async loadURLState() {
+        // Advanced styling hash route: #as/v1/{payload}
+        const hashRaw = window.location.hash.slice(1);
+        if (hashRaw && hashRaw.startsWith('as/v1/')) {
+            try {
+                const ok = await conditionalStyling.restoreFromAdvancedRoute(hashRaw);
+                if (ok) {
+                    this.updateMapList();
+                    this.updateActiveLayers();
+                    return true;
+                }
+            } catch (e) {
+                console.warn('[App] Failed to restore advanced styling route:', e);
+            }
+        }
+
         // Check for path-based deep links first (e.g., /map/lgd-2012)
         const pathname = window.location.pathname;
 
@@ -1478,6 +1607,18 @@ class App {
                 this.updateMapList();
                 this.updateActiveLayers();
                 return true;
+            }
+
+            // Conditional styling from URL
+            const csParam = params.get('cs');
+            if (csParam) {
+                conditionalStyling.restoreFromURL(csParam);
+            }
+
+            // Election viewer from URL
+            const elParam = params.get('election');
+            if (elParam) {
+                electionController.restoreFromURL(elParam);
             }
         } catch (e) {
             console.warn('[App] Failed to parse URL state:', e);
@@ -1583,6 +1724,16 @@ class App {
         const loadedMaps = loadedIds.map(id => dataService.getMapById(id)).filter(Boolean);
         const visibilityMap = new Map();
         const partialLayerInfo = new Map();
+
+        // Include synthetic election layers (not in dataService)
+        loadedIds.forEach(id => {
+            const layerState = mapController.layerStates.get(id);
+            if (layerState?.isElection && layerState.config) {
+                if (!loadedMaps.find(m => m.id === id)) {
+                    loadedMaps.push(layerState.config);
+                }
+            }
+        });
 
         loadedIds.forEach(id => {
             visibilityMap.set(id, mapController.isLayerVisible(id));

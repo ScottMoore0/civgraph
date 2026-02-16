@@ -1,0 +1,494 @@
+@charset "UTF-8";
+/*
+ * Election Viewer — Consolidated Stylesheet
+ * Combines: stages.css (STV animation), preview card styles, and results table styles.
+ * Drop into your project and link in <head>.
+ */
+
+/* ==========================================================================
+   1. STV Animation (from stages.css / electionsni)
+   ========================================================================== */
+
+#controls a {
+  text-decoration: none;
+  margin-top: 2px;
+  margin-bottom: 10px;
+  color: #444;
+  width: 15px;
+  padding: 7px 0 7px 5px;
+  border-radius: 50%;
+}
+#controls {
+  padding: 0;
+  margin: 2px 10px 0 20px !important;
+  display: block !important;
+  font-size: 14px;
+}
+#animation {
+  position: relative;
+  margin-bottom: 35px;
+  margin-right: 15px;
+}
+#stageNumbers {
+  padding: 8px;
+  margin: 0 !important;
+  float: left;
+}
+#stageNumbers:before {
+  content: "Stages:";
+  float: left;
+  margin: 1px 10px 0 0;
+  font-size: 14px;
+  color: #888;
+}
+.stageNumber {
+  width: 20px;
+  height: 20px;
+  background: #eee;
+  float: left;
+  text-align: center;
+  margin-left: 1px;
+  color: #888;
+  cursor: pointer;
+}
+.stageNumber.completed {
+  color: white;
+  background: #34495e;
+}
+.stageNumber.active {
+  color: white;
+  background: #34495e;
+  animation: pulsate 1s ease-out infinite;
+}
+.stageNumber p {
+  margin: 0;
+  vertical-align: middle;
+  line-height: 20px !important;
+  font-size: 11px;
+}
+.votes {
+  height: 25px;
+  width: 0;
+  position: absolute;
+  fill: #b0bec5;
+  background: #b0bec5;
+  color: #fff;
+  overflow: visible;
+  white-space: nowrap;
+  text-overflow: clip;
+  padding-top: 3px;
+  box-sizing: border-box;
+  transition: none !important;
+  text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000,
+    -1px 1px 0 #000, 1px 1px 0 #000;
+}
+.votes:before {
+  content: "\00a0 ";
+}
+.Elected {
+  font-weight: bold;
+}
+.candidateLabel {
+  height: 25px;
+  width: 200px;
+  position: absolute;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+@keyframes pulsate {
+  0% { color: #34495e; }
+  50% { color: #fff; }
+  100% { color: #34495e; }
+}
+#menuBar {
+  overflow: auto;
+  padding: 4px 10px;
+}
+#menuBar select {
+  float: left;
+  margin-right: 10px;
+  font-size: 14px;
+  border: 0;
+  margin-top: 7px;
+  background: #34495e;
+  color: white;
+}
+#quota {
+  float: left !important;
+  margin-left: 10px !important;
+  top: 10px;
+  font-size: 14px;
+  color: #888;
+}
+#thepost {
+  width: 1px;
+  background-color: black;
+  position: absolute;
+  top: 20px;
+  height: 0;
+}
+#theline {
+  border-top: 1px dashed black;
+  position: absolute;
+  top: 193px;
+  width: 803px;
+}
+
+/* ==========================================================================
+   2. Animation Preview Card
+   ========================================================================== */
+
+.election-animation-preview { margin: 12px 0; }
+.election-animation-preview[hidden] { display: none; }
+
+.animation-preview-unavailable {
+  padding: 12px;
+  border: 1px dashed #d0d0d0;
+  border-radius: 8px;
+  font-size: 0.9em;
+}
+.animation-preview-loading {
+  padding: 12px;
+  border: 1px dashed #d0d0d0;
+  border-radius: 8px;
+  font-size: 0.9em;
+  color: #555;
+  background: #fafafa;
+}
+
+.animation-preview-launch {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+.animation-preview-launch:hover { background: transparent; }
+.animation-preview-launch:focus-visible {
+  outline: 3px solid #0a7cff;
+  outline-offset: 3px;
+}
+.animation-preview-launch[disabled] { cursor: default; opacity: 0.6; }
+
+.transfer-animation-preview {
+  position: relative;
+  display: inline-block;
+  padding: 12px 16px 16px;
+  background: #ffffff;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  color: #222;
+}
+.transfer-animation-preview::before {
+  content: 'First preference votes (Count 1)';
+  display: block;
+  font-weight: 600;
+  font-size: 0.95em;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+.transfer-animation-preview.preview-westminster::before {
+  content: '';
+  margin-bottom: 0;
+  display: none;
+}
+
+.transfer-animation-preview .preview-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.transfer-animation-preview.preview-westminster .preview-stage { gap: 8px; }
+
+.transfer-animation-preview .preview-stage-numbers {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  padding-left: 10px;
+  flex-wrap: wrap;
+}
+.transfer-animation-preview.preview-westminster .preview-stage-numbers { display: none; }
+.transfer-animation-preview .preview-stage-numbers::before {
+  content: 'Stages:';
+  margin-right: 8px;
+  font-size: 14px;
+  color: #888;
+}
+.transfer-animation-preview.preview-westminster .preview-stage-numbers::before { content: ''; }
+
+.transfer-animation-preview .stageNumber {
+  width: 20px;
+  height: 20px;
+  background: #eee;
+  text-align: center;
+  color: #888;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.transfer-animation-preview .stageNumber.active {
+  color: #fff;
+  background: #34495e;
+}
+.transfer-animation-preview .stageNumber p {
+  margin: 0;
+  line-height: 20px;
+  font-size: 11px;
+}
+
+.transfer-animation-preview .preview-animation-wrap { position: relative; }
+.transfer-animation-preview .preview-animation { position: relative; margin: 0; }
+.transfer-animation-preview .preview-animation .candidateLabel {
+  position: absolute;
+  height: 25px;
+  width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  color: #222;
+}
+.transfer-animation-preview .preview-animation .candidateLabel.nontransferable {
+  font-style: italic;
+  font-weight: 500;
+}
+.transfer-animation-preview .preview-animation .votes {
+  position: absolute;
+  height: 25px;
+  left: 210px;
+  background: #b0bec5;
+  color: #fff;
+  font-weight: 600;
+  padding: 3px 8px 0 6px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000,
+    -1px 1px 0 #000, 1px 1px 0 #000;
+  border-radius: 0 4px 4px 0;
+}
+.transfer-animation-preview .preview-animation .votes.Elected {
+  border: 2px solid #f1c40f;
+}
+.transfer-animation-preview .preview-animation .votes::before {
+  content: "\00A0";
+}
+.transfer-animation-preview .preview-animation .thepost {
+  position: absolute;
+  top: 20px;
+  width: 2px;
+  background: #000;
+}
+.transfer-animation-preview .preview-animation .theline {
+  position: absolute;
+  border-top: 1px dashed #000;
+}
+
+.transfer-animation-preview .preview-footer {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82em;
+  color: #333;
+}
+.transfer-animation-preview.preview-westminster .preview-footer {
+  justify-content: flex-start;
+}
+.transfer-animation-preview .preview-hint {
+  font-size: 0.78em;
+  font-weight: 600;
+  color: #0a7cff;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.transfer-animation-preview.preview-westminster .preview-hint { display: none; }
+.transfer-animation-preview .preview-quota {
+  font-weight: 600;
+  color: #2c3e50;
+}
+.transfer-animation-preview.preview-westminster .preview-quota { display: none; }
+
+.election-animation-wrapper {
+  position: relative;
+  display: none;
+  margin: 12px 0;
+  text-align: left;
+}
+.election-animation-wrapper.is-visible { display: block; }
+
+.animation-iframe-container {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  overflow: hidden;
+}
+.animation-iframe-container iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #fff;
+}
+.animation-iframe-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 0.9em;
+  z-index: 6;
+  text-align: left;
+  padding-left: 16px;
+}
+.animation-iframe-loading[hidden] { display: none; }
+.animation-iframe-loading .animation-loading-spinner {
+  width: 26px;
+  height: 26px;
+  border: 3px solid #cfd9df;
+  border-top-color: #0a7cff;
+  border-radius: 50%;
+  animation: viewer-spin 0.8s linear infinite;
+}
+.animation-iframe-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  border: 0;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.animation-iframe-close:hover,
+.animation-iframe-close:focus-visible {
+  background: rgba(0, 0, 0, 0.75);
+}
+.animation-iframe-close:focus-visible {
+  outline: 3px solid #0a7cff;
+  outline-offset: 2px;
+}
+@keyframes viewer-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   3. Results Table
+   ========================================================================== */
+
+.ev-results-container {
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  color: #222;
+  line-height: 1.4;
+}
+.ev-results-container h2 {
+  margin: 0 0 6px;
+  font-size: 1.3em;
+  color: #2c3e50;
+}
+.ev-results-container h3 {
+  margin: 0 0 12px;
+  font-size: 1em;
+  color: #555;
+  font-weight: 400;
+}
+
+.ev-info-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+  font-size: 0.9em;
+  color: #555;
+}
+.ev-info-row .ev-stat { font-weight: 600; color: #2c3e50; }
+
+.ev-results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88em;
+  margin-bottom: 16px;
+}
+.ev-results-table th {
+  background: #2c3e50;
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 10px;
+  text-align: left;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  cursor: pointer;
+  user-select: none;
+}
+.ev-results-table th:hover { background: #34495e; }
+.ev-results-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: middle;
+}
+.ev-results-table tr:nth-child(even) td { background: #fafafa; }
+.ev-results-table tr:hover td { background: #eef5ff; }
+
+.ev-results-table .ev-rank { text-align: center; font-weight: 700; width: 50px; }
+.ev-results-table .ev-party-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+.ev-results-table .ev-party-cell { white-space: nowrap; }
+.ev-results-table .ev-num { text-align: right; font-variant-numeric: tabular-nums; }
+.ev-results-table .ev-status {
+  text-align: center;
+  font-weight: 600;
+}
+.ev-status-elected { color: #27ae60; }
+.ev-status-excluded { color: #c0392b; }
+
+/* Sort indicator */
+.ev-results-table th .ev-sort-arrow { margin-left: 4px; font-size: 0.7em; opacity: 0.7; }
+
+/* ==========================================================================
+   4. Responsive
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .ev-results-table { font-size: 0.8em; }
+  .ev-results-table th, .ev-results-table td { padding: 4px 6px; }
+  .ev-info-row { font-size: 0.82em; }
+  .transfer-animation-preview .preview-animation .candidateLabel { width: 140px; }
+  .transfer-animation-preview .preview-animation .votes { left: 150px; }
+}

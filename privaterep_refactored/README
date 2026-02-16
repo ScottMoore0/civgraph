@@ -1,0 +1,22 @@
+The quick brown fox
+
+## Development setup
+
+Install required Python dependencies before running the test suite or
+launching the referendum simulator:
+
+```
+pip install -r requirements-dev.txt
+```
+
+The tests that exercise the referendum workflow require `pandas` and
+`numpy`. Pytest will skip those suites automatically if the modules are
+missing, but installing the dependencies is recommended for full
+coverage.
+
+## Referendum simulator
+
+The referendum simulator projects referendum outcomes using dated party
+endorsements, election baselines, and the trained referendum model. For
+detailed CLI and web usage instructions see
+[`docs/referendum_simulator.md`](docs/referendum_simulator.md).

@@ -1,0 +1,47 @@
+{
+  "version": "v1",
+  "routing": {
+    "mode": "hash",
+    "prefix": "as/v1/",
+    "formats": {
+      "compact": "c.<payload>",
+      "verbose": "v.<payload>"
+    }
+  },
+  "encoding": {
+    "compression": "pako-deflate",
+    "encoding": "base64url",
+    "max_url_chars": 2000
+  },
+  "config_keys": [
+    "version",
+    "requiresLayers",
+    "targetLayer",
+    "where",
+    "style",
+    "rules"
+  ],
+  "style_fields": [
+    "fillColor",
+    "color",
+    "weight",
+    "fillOpacity",
+    "opacity",
+    "dashArray",
+    "radius"
+  ],
+  "expression_context": [
+    "f",
+    "ctx.attr(name)",
+    "ctx.has(name)",
+    "ctx.num(name, defaultValue)",
+    "ctx.str(name, defaultValue)",
+    "ctx.between(value, lo, hi)",
+    "ctx.votePct(party, year)"
+  ],
+  "metadata_sources": [
+    "data/database/maps.json",
+    "data/database/geographies.json",
+    "mapController.getLayerFeatureProperties(layerId)"
+  ]
+}

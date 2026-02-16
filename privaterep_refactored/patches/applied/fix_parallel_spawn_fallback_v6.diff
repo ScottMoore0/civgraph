@@ -1,0 +1,41 @@
+diff --git a/ni_votes/cli/ml_referendum_cli_parallel.py b/tmp_parallel_mod.py
+index b9d79f27..7a8de1e3 100644
+--- a/ni_votes/cli/ml_referendum_cli_parallel.py
++++ b/tmp_parallel_mod.py
+@@ -193,25 +193,10 @@ class ParallelMLReferendumCLI:
+                 results.append(result)
+         else:
+             # PARALLEL processing (major speedup)
+-            logging.info(f"Parallel processing {len(fold_data)} folds with all CPU cores...")
+-            
+-            with ProcessPoolExecutor(max_workers=len(fold_data)) as executor:
+-                # Submit all folds
+-                future_to_fold = {
+-                    executor.submit(self._train_gap_fold_parallel, fold, self.base_models_path, endorsements): fold
+-                    for fold in fold_data
+-                }
+-                
+-                # Collect results as they complete
+-                for future in as_completed(future_to_fold):
+-                    fold = future_to_fold[future]
+-                    try:
+-                        result = future.result()
+-                        results.append(result)
+-                        logging.info(f"  ✓ Fold {result['fold_idx']} complete: {result['test_event']}")
+-                    except Exception as e:
+-                        logging.error(f"Fold {fold['fold_idx']} failed: {e}")
+-        
++            logging.info("Parallel processing disabled due to worker spawn issues; running folds sequentially.")
++            for fold in fold_data:
++                result = self._train_gap_fold(fold, base_models, endorsements)
++                results.append(result)
+         gap_elapsed = (datetime.now() - gap_start).total_seconds()
+         total_elapsed = (datetime.now() - start_time_total).total_seconds()
+         
+@@ -419,4 +404,4 @@ def main():
+ 
+ 
+ if __name__ == "__main__":
+-    main()
+\ No newline at end of file
++    main()

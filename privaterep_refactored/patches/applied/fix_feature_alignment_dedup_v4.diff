@@ -1,0 +1,74 @@
+diff --git a/ni_votes/models/ml_referendum_model_corrected.py b/ni_votes/models/ml_referendum_model_corrected.py
+index 7fd1c50..9a2c9ec 100644
+--- a/ni_votes/models/ml_referendum_model_corrected.py
++++ b/ni_votes/models/ml_referendum_model_corrected.py
+@@ -346,35 +346,41 @@ class CorrectedReferendumPredictor:
+         """Preprocess features with strict alignment to training features."""
+         
+         # If we have stored feature columns from training, use EXACTLY those
+         if hasattr(self, 'feature_columns') and self.feature_columns:
+-            # Build a dictionary of columns first, then create DataFrame at once (avoid fragmentation)
+-            aligned_data = {}
+-            
+-            for col in self.feature_columns:
+-                if col in X.columns:
+-                    # Handle both Series and DataFrame returns
+-                    col_data = X[col]
+-                    if isinstance(col_data, pd.DataFrame):
+-                        # If multiple columns match, take the first one
+-                        aligned_data[col] = col_data.iloc[:, 0]
+-                    else:
+-                        aligned_data[col] = col_data
+-                else:
+-                    # Column is missing - add with zeros
+-                    aligned_data[col] = pd.Series([0.0] * len(X), index=X.index)
+-            
+-            # Create DataFrame from dictionary at once (avoid fragmentation)
+-            X_processed = pd.DataFrame(aligned_data, index=X.index)
+-            
+-            # Log any mismatches but don't fail - adjust feature_columns if needed
+-            if len(X_processed.columns) != len(self.feature_columns):
+-                logging.warning(f"Feature count mismatch: got {len(X_processed.columns)}, expected {len(self.feature_columns)}")
+-                if len(X_processed.columns) > len(self.feature_columns):
+-                    # We have more features than expected - update feature_columns
+-                    self.feature_columns = list(X_processed.columns)
+-                else:
+-                    # We're missing some features - that's okay, use what we have
+-                    logging.warning(f"Missing {len(self.feature_columns) - len(X_processed.columns)} features")
++            # Remove duplicate column names that can appear after cleaning so alignment is stable
++            deduped = list(dict.fromkeys(self.feature_columns))
++            if len(deduped) != len(self.feature_columns):
++                logging.warning(f"feature_columns contained duplicates; reduced to {len(deduped)} unique columns for alignment")
++                self.feature_columns = deduped
++            # Build a dictionary of columns first, then create DataFrame at once (avoid fragmentation)
++            aligned_data = {}
++            
++            for col in self.feature_columns:
++                if col in X.columns:
++                    # Handle both Series and DataFrame returns
++                    col_data = X[col]
++                    if isinstance(col_data, pd.DataFrame):
++                        # If multiple columns match, take the first one
++                        aligned_data[col] = col_data.iloc[:, 0]
++                    else:
++                        aligned_data[col] = col_data
++                else:
++                    # Column is missing - add with zeros
++                    aligned_data[col] = pd.Series([0.0] * len(X), index=X.index)
++            
++            # Create DataFrame from dictionary at once (avoid fragmentation)
++            X_processed = pd.DataFrame(aligned_data, index=X.index)
++            
++            # Log any mismatches but don't fail - adjust feature_columns if needed
++            if len(X_processed.columns) != len(self.feature_columns):
++                extra = len(X_processed.columns) - len(self.feature_columns)
++                missing = len(self.feature_columns) - len(X_processed.columns)
++                logging.warning(f"Feature count mismatch: got {len(X_processed.columns)}, expected {len(self.feature_columns)} (extra={extra}, missing={missing})")
++                if extra > 0:
++                    logging.warning("Found unexpected columns after alignment; using aligned columns to keep scaler/selector consistent.")
++                if missing > 0:
++                    logging.warning("Some expected columns collapsed or missing after cleaning; using available columns for prediction.")
++                self.feature_columns = list(X_processed.columns)
+         else:
+             # No feature columns stored, use all numeric columns except metadata
+             X_processed = X.copy()

@@ -1,0 +1,11 @@
+--- a/ni_votes/cli/ml_referendum_cli.py
++++ b/ni_votes/cli/ml_referendum_cli.py
+@@ -809,7 +809,7 @@ class MLReferendumCLI:
+                 # Load endorsements
+                 if hasattr(self, 'feature_engineer') and hasattr(self, 'xl'):
+                     curr_endorsements = self.feature_engineer.load_endorsements(self.xl, referendum_type=train_event)
+-                    curr_opt1, curr_opt2 = self.feature_engineer.get_option_keys(curr_endorsements)
++                    curr_opt1, curr_opt2 = self.feature_engineer.get_option_keys(curr_endorsements, er_df, train_date)
+                 else:
+                     curr_endorsements = {}
+                     curr_opt1, curr_opt2 = [], []

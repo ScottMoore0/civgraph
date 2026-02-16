@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Election Viewer — Standalone Demo</title>
+  <link rel="stylesheet" href="css/election-viewer.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+      background: #f4f4f4;
+      color: #222;
+      padding: 20px;
+    }
+    h1 { margin-bottom: 16px; color: #2c3e50; }
+    .demo-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    @media (max-width: 900px) {
+      .demo-layout { grid-template-columns: 1fr; }
+    }
+    .demo-sidebar {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .demo-main {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      min-height: 400px;
+    }
+    .demo-sidebar h2 { font-size: 1.1em; margin-bottom: 12px; color: #2c3e50; }
+    .demo-sidebar select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .demo-sidebar button {
+      width: 100%;
+      padding: 10px;
+      background: #2c3e50;
+      color: #fff;
+      border: 0;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .demo-sidebar button:hover { background: #34495e; }
+    .demo-sidebar button:disabled { opacity: 0.5; cursor: default; }
+    .demo-hint {
+      margin-top: 12px;
+      font-size: 0.85em;
+      color: #888;
+      line-height: 1.4;
+    }
+    .demo-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid #2c3e50;
+      margin-bottom: 16px;
+    }
+    .demo-tab {
+      padding: 8px 16px;
+      background: #eee;
+      border: 1px solid #ddd;
+      border-bottom: 0;
+      border-radius: 4px 4px 0 0;
+      cursor: pointer;
+      font-size: 0.9em;
+      font-weight: 600;
+      color: #555;
+    }
+    .demo-tab.active { background: #2c3e50; color: #fff; }
+    .demo-tab:hover:not(.active) { background: #ddd; }
+  </style>
+</head>
+<body>
+
+  <h1>🗳️ Election Viewer — Standalone Demo</h1>
+
+  <div class="demo-layout">
+    <!-- Sidebar: Election Selector -->
+    <div class="demo-sidebar">
+      <h2>Select Election</h2>
+      <select id="sel-body"><option value="">Loading...</option></select>
+      <select id="sel-date" disabled><option value="">Select date...</option></select>
+      <select id="sel-const" disabled><option value="">Select constituency...</option></select>
+      <button id="btn-view" disabled>View Results</button>
+      <p class="demo-hint">
+        Select an elected body, date, and constituency to view full election results
+        with the STV count-by-count animation.
+      </p>
+    </div>
+
+    <!-- Main: Results Display -->
+    <div class="demo-main">
+      <div class="demo-tabs" id="tabs">
+        <div class="demo-tab active" data-tab="results">Results Table</div>
+        <div class="demo-tab" data-tab="preview">Preview Card</div>
+      </div>
+      <div id="results-container">
+        <p style="color:#888;font-style:italic;">Select an election from the sidebar to view results.</p>
+      </div>
+      <div id="preview-container" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- Dependencies -->
+  <script src="js/stages2.js"></script>
+  <script src="js/animation_preview.js"></script>
+  <script src="js/animation_preview_manager.js"></script>
+  <script src="js/election_viewer.js"></script>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const selBody = document.getElementById('sel-body');
+      const selDate = document.getElementById('sel-date');
+      const selConst = document.getElementById('sel-const');
+      const btnView = document.getElementById('btn-view');
+      const resultsContainer = document.getElementById('results-container');
+      const previewContainer = document.getElementById('preview-container');
+
+      let indexData = null;
+
+      // Tab switching
+      document.getElementById('tabs').addEventListener('click', function (e) {
+        const tab = e.target.closest('.demo-tab');
+        if (!tab) return;
+        document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const which = tab.dataset.tab;
+        resultsContainer.style.display = which === 'results' ? '' : 'none';
+        previewContainer.style.display = which === 'preview' ? '' : 'none';
+      });
+
+      // Initialise
+      ElectionViewer.init({ dataBasePath: 'data' }).then(function (index) {
+        indexData = index;
+        selBody.innerHTML = '<option value="">Select body...</option>';
+        index.bodies.forEach(function (b) {
+          selBody.innerHTML += '<option value="' + b.name + '">' + b.name + ' (' + b.dates.length + ' elections)</option>';
+        });
+      }).catch(function (err) {
+        selBody.innerHTML = '<option value="">Error loading index</option>';
+        console.error(err);
+      });
+
+      selBody.addEventListener('change', function () {
+        selDate.innerHTML = '<option value="">Select date...</option>';
+        selConst.innerHTML = '<option value="">Select constituency...</option>';
+        selDate.disabled = true;
+        selConst.disabled = true;
+        btnView.disabled = true;
+        if (!selBody.value || !indexData) return;
+
+        const bodyEntry = indexData.bodies.find(b => b.name === selBody.value);
+        if (!bodyEntry) return;
+        bodyEntry.dates.forEach(function (d) {
+          selDate.innerHTML += '<option value="' + d.date + '">' + d.date + ' (' + d.constituencies.length + ' constituencies)</option>';
+        });
+        selDate.disabled = false;
+      });
+
+      selDate.addEventListener('change', function () {
+        selConst.innerHTML = '<option value="">Select constituency...</option>';
+        selConst.disabled = true;
+        btnView.disabled = true;
+        if (!selDate.value || !indexData) return;
+
+        const bodyEntry = indexData.bodies.find(b => b.name === selBody.value);
+        if (!bodyEntry) return;
+        const dateEntry = bodyEntry.dates.find(d => d.date === selDate.value);
+        if (!dateEntry) return;
+        dateEntry.constituencies.forEach(function (c) {
+          selConst.innerHTML += '<option value="' + c + '">' + c + '</option>';
+        });
+        selConst.disabled = false;
+      });
+
+      selConst.addEventListener('change', function () {
+        btnView.disabled = !selConst.value;
+      });
+
+      btnView.addEventListener('click', function () {
+        if (!selBody.value || !selDate.value || !selConst.value) return;
+
+        // Show results table
+        ElectionViewer.show(selBody.value, selDate.value, selConst.value, resultsContainer);
+
+        // Show preview card
+        ElectionViewer.loadElection(selBody.value, selDate.value, selConst.value).then(function (payload) {
+          previewContainer.innerHTML = ElectionViewer.buildPreviewCard(payload, null);
+        }).catch(function () {
+          previewContainer.innerHTML = '<p style="color:#c00;">Preview not available.</p>';
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>

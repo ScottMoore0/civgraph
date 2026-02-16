@@ -1,0 +1,30 @@
+diff --git a/ni_votes/cli/ml_referendum_cli_parallel.py b/ni_votes/cli/ml_referendum_cli_parallel.py
+index e69de29..b2c9c5a 100644
+--- a/ni_votes/cli/ml_referendum_cli_parallel.py
++++ b/ni_votes/cli/ml_referendum_cli_parallel.py
+@@ -0,0 +1,25 @@
++"""
++Fallback wrapper for referendum cross-validation.
++
++The original parallel launcher was removed; this wrapper delegates to the
++standard MLReferendumCLI sequential implementation to keep the entry point
++working (`python ni_votes/cli/ml_referendum_cli_parallel.py`).
++"""
++
++import logging
++
++from ni_votes.cli.ml_referendum_cli import MLReferendumCLI
++
++
++def main():
++    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
++    logging.info("Parallel CLI unavailable; running sequential MLReferendumCLI instead.")
++
++    cli = MLReferendumCLI()
++    # Date here is only used for data loading; cross-validation picks its own folds.
++    er_df, census_features, endorsements = cli.load_and_prepare_data("2024-07-04")
++    cli.cross_validate_model(er_df, census_features, endorsements)
++
++
++if __name__ == "__main__":
++    main()

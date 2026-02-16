@@ -18,8 +18,15 @@ class MapController {
         this.currentBaseMapId = 'osm-standard';
         this.textScale = 100;
         this.onLoadProgress = null;
-        this.lodLayers = new Set();  // Layers using LOD loading
+        this.spatialLayers = new Set();  // Layers using chunked viewport loading
         this.currentLOD = new Map(); // mapId -> current LOD level
+        this._spatialUpdatePending = false; // debounce flag for viewport updates
+        this._chunkIndexCache = new Map(); // mapId -> chunks-index.json data
+        this._loadedChunks = new Map(); // mapId -> Map(chunkId -> { layer, features })
+        this._featureIndexCache = new Map(); // mapId -> { features, chunks } from feature-index.json
+        this._chunkDataCache = new Map(); // mapId -> Map(chunkFile -> features[])
+        this._renderedFeatures = new Map(); // mapId -> Map(featureKey -> L.GeoJSON layer)
+        this._spatialAbort = new Map(); // mapId -> AbortController
 
         // Initialize feature loader
         featureLoader.init();
@@ -41,6 +48,56 @@ class MapController {
             weight: 2,
             opacity: 1
         });
+    }
+
+    _attachFeatureHoverHandlers(layer) {
+        if (!layer || typeof layer.on !== 'function') return;
+        layer.on('mouseover', () => this._setFeatureHover(layer, true));
+        layer.on('mouseout', () => this._setFeatureHover(layer, false));
+    }
+
+    _setFeatureHover(layer, isHover) {
+        if (!layer || typeof layer.setStyle !== 'function') return;
+
+        if (!layer._originalStyle) {
+            const opts = layer.options || {};
+            layer._originalStyle = {
+                color: opts.color,
+                weight: opts.weight,
+                opacity: opts.opacity,
+                fillColor: opts.fillColor,
+                fillOpacity: opts.fillOpacity,
+                radius: opts.radius
+            };
+        }
+
+        const base = layer._originalStyle || {};
+        if (isHover) {
+            const hoverColor = '#ff7a1a';
+            const hoverStyle = {
+                color: hoverColor,
+                opacity: 1
+            };
+            if (typeof base.weight === 'number') hoverStyle.weight = Math.max(base.weight + 1, 3);
+            if (typeof base.fillOpacity === 'number') {
+                hoverStyle.fillOpacity = Math.min(Math.max(base.fillOpacity, 0.15) + 0.1, 0.6);
+            }
+            if (base.fillColor !== undefined) hoverStyle.fillColor = hoverColor;
+            if (typeof base.radius === 'number') hoverStyle.radius = base.radius + 2;
+            layer.setStyle(hoverStyle);
+            if (typeof layer.bringToFront === 'function') layer.bringToFront();
+        } else {
+            const restore = {};
+            ['color', 'weight', 'opacity', 'fillColor', 'fillOpacity', 'radius'].forEach((k) => {
+                if (base[k] !== undefined) restore[k] = base[k];
+            });
+            layer.setStyle(restore);
+        }
+
+        const labelEl = layer._labelMarker?.getElement?.();
+        if (labelEl) {
+            labelEl.classList.toggle('map-label--hover', !!isHover);
+        }
     }
 
     /**
@@ -157,7 +214,9 @@ class MapController {
             center: options.center || defaultCenter,
             zoom: options.zoom || defaultZoom,
             zoomControl: true,
-            attributionControl: true
+            attributionControl: true,
+            doubleClickZoom: false, // Disabled: dblclick is used for feature selection
+            preferCanvas: true  // Canvas renderer: handles 20k+ features vs SVG crash at ~3k
         });
 
         // Add default base layer
@@ -165,11 +224,11 @@ class MapController {
 
         // Set up event handlers
         this.map.on('moveend zoomend', () => this.updateLabels());
-        this.map.on('click', (e) => this.handleMapClick(e));
+        this.map.on('dblclick', (e) => this.handleMapClick(e));
 
-        // LOD loading handlers - update visible features on pan/zoom
-        this.map.on('moveend', () => this.updateLODLayers());
-        this.map.on('zoomend', () => this.updateLODLayers());
+        // Spatial loading handlers - update visible features on pan/zoom
+        this.map.on('moveend', () => this.updateSpatialLayers());
+        this.map.on('zoomend', () => this.updateSpatialLayers());
 
         console.log('[MapController] Map initialized');
         return this;
@@ -258,6 +317,50 @@ class MapController {
     }
 
     /**
+     * Resolve LOD FGB file path based on zoom level
+     * LOD-0 (zoom 0-8): {name}-lod0.fgb  (simplified ~500m)
+     * LOD-1 (zoom 8-12): {name}-lod1.fgb  (simplified ~50m)
+     * LOD-2 (zoom 12+): {name}.fgb        (original full resolution)
+     */
+    getLODFilePath(baseFgbPath, zoom) {
+        const lod = this.getLODLevel(zoom);
+        if (lod >= 2) return baseFgbPath; // Full resolution
+        const lodPath = baseFgbPath.replace(/\.fgb$/i, `-lod${lod}.fgb`);
+        return lodPath;
+    }
+
+    /**
+     * Get LOD level from zoom
+     */
+    getLODLevel(zoom) {
+        if (zoom >= 12) return 2;
+        if (zoom >= 8) return 1;
+        return 0;
+    }
+
+    /**
+     * Convert Leaflet bounds to FlatGeobuf rect with buffer
+     */
+    boundsToRect(bounds, buffer = 0.2) {
+        const latDiff = bounds.getNorth() - bounds.getSouth();
+        const lngDiff = bounds.getEast() - bounds.getWest();
+        return {
+            minX: bounds.getWest() - lngDiff * buffer,
+            minY: bounds.getSouth() - latDiff * buffer,
+            maxX: bounds.getEast() + lngDiff * buffer,
+            maxY: bounds.getNorth() + latDiff * buffer
+        };
+    }
+
+    /**
+     * Check if a map should use chunked viewport-based loading.
+     * Returns true if the map has chunked:true flag in its config.
+     */
+    shouldUseChunkedLoading(mapConfig) {
+        return mapConfig.chunked === true;
+    }
+
+    /**
      * Load a map layer from the database
      */
     async loadLayer(mapConfig, show = true) {
@@ -300,7 +403,8 @@ class MapController {
             loading: true,
             visible: false,
             progress: 0,
-            useLOD: false  // Will be set if using LOD loading
+            useSpatial: false,  // Will be set if using spatial/LOD loading
+            fgbPath: filePath    // Store the base FGB path for LOD resolution
         };
         this.layerStates.set(id, state);
 
@@ -309,13 +413,13 @@ class MapController {
             this.onLoadProgress(id, 0);
         }
 
-        // Check if this map supports LOD loading
-        if (featureLoader.supportsLOD(id)) {
-            return this.loadLayerWithLOD(mapConfig, state, show);
+        // Use chunked loading for large maps with spatial chunks
+        if (this.shouldUseChunkedLoading(mapConfig)) {
+            return this.loadLayerChunked(mapConfig, state, show);
         }
 
         try {
-            // Load the data with progress
+            // Load the data with progress (full download for small maps / GeoJSON)
             const features = await this.loadDataFile(filePath, (progress) => {
                 state.progress = progress;
                 if (this.onLoadProgress) {
@@ -344,6 +448,7 @@ class MapController {
                 },
                 onEachFeature: (feature, layer) => {
                     layer._mapId = id;
+                    this._attachFeatureHoverHandlers(layer);
 
                     // Collect label entries
                     if (labelProperty && feature.properties?.[labelProperty]) {
@@ -371,6 +476,9 @@ class MapController {
             geoJsonLayer.addTo(state.group);
             state.geoJsonLayers.push(geoJsonLayer);
             state.featureCount = geojsonData.features?.length || 0;
+            // Detect geometry type from first feature
+            const firstGeoType = geojsonData.features?.[0]?.geometry?.type || '';
+            state.geometryType = firstGeoType;
             state.loaded = true;
             state.loading = false;
             state.progress = 100;
@@ -394,65 +502,246 @@ class MapController {
     }
 
     /**
-     * Load a layer using LOD (Level of Detail) progressive loading
+     * Load a layer using chunk-based spatial loading.
+     * Uses feature index for visibility decisions and chunk caching.
      */
-    async loadLayerWithLOD(mapConfig, state, show) {
+    async loadLayerChunked(mapConfig, state, show) {
         const { id, style, labelProperty, name } = mapConfig;
+        const fgbPath = state.fgbPath;
 
-        state.useLOD = true;
-        this.lodLayers.add(id);
+        state.useSpatial = true;
+        this.spatialLayers.add(id);
+        this._loadedChunks.set(id, new Map());
+        this._chunkDataCache.set(id, new Map());
+        this._renderedFeatures.set(id, new Map());
 
-        const featureCount = featureLoader.getFeatureCount(id);
-        console.log(`[MapController] Loading ${name} with LOD (${featureCount} features)`);
-
-        // Get current viewport and zoom
-        const bounds = this.map.getBounds();
         const zoom = this.map.getZoom();
-        const lod = featureLoader.getLODForZoom(zoom);
+        this.currentLOD.set(id, this.getLODLevel(zoom));
 
-        this.currentLOD.set(id, lod);
+        // Load chunk index
+        const chunkIndex = await this._loadChunkIndex(id, fgbPath);
+        if (!chunkIndex) {
+            console.warn(`[MapController] No chunk index for ${id}, falling back to full load`);
+            state.useSpatial = false;
+            this.spatialLayers.delete(id);
+            try {
+                const features = await this.loadFlatGeobuf(fgbPath);
+                const geojsonData = { type: 'FeatureCollection', features };
+                const geoJsonLayer = L.geoJSON(geojsonData, {
+                    style: (f) => f.geometry?.type === 'Point' ? {} : {
+                        color: style?.color || '#3388ff', weight: style?.weight || 2,
+                        fillOpacity: style?.fillOpacity ?? 0, opacity: 1
+                    },
+                    pointToLayer: (f, ll) => this.createPointMarker(ll, style),
+                    onEachFeature: (f, l) => {
+                        l._mapId = id;
+                        this._attachFeatureHoverHandlers(l);
+                    }
+                });
+                geoJsonLayer.addTo(state.group);
+                state.geoJsonLayers.push(geoJsonLayer);
+                state.loaded = true;
+                state.loading = false;
+                state.progress = 100;
+                if (this.onLoadProgress) this.onLoadProgress(id, 100);
+                if (show) this.showLayer(id);
+                return state;
+            } catch (err) {
+                console.error(`[MapController] Full load failed for ${id}:`, err);
+                state.loading = false;
+                this.layerStates.delete(id);
+                return null;
+            }
+        }
 
-        // Find features in viewport
-        const visibleFeatures = featureLoader.getFeaturesInBounds(id, bounds);
-        const indices = featureLoader.getFeaturesToLoad(id, visibleFeatures.map(f => f.id), lod);
+        // Load feature index if available
+        await this._loadFeatureIndex(id, fgbPath);
 
-        console.log(`[MapController] Loading ${indices.length} of ${visibleFeatures.length} visible features at LOD-${lod}`);
+        // Initial visibility pass — use wider buffer to preload nearby chunks
+        const bounds = this.map.getBounds();
+        const rect = this.boundsToRect(bounds, 0.5);
+        const visibleChunks = this._getIntersectingChunks(chunkIndex, rect);
 
-        // Load features in batches
-        const totalToLoad = indices.length;
-        let loaded = 0;
+        console.log(`[MapController] Loading ${name} chunked (${visibleChunks.length}/${chunkIndex.chunks.length} chunks in viewport)`);
 
-        const batchSize = 50;
-        for (let i = 0; i < indices.length; i += batchSize) {
-            const batch = indices.slice(i, i + batchSize);
-            const features = await featureLoader.loadFeatures(id, batch, lod);
-
-            // Add features to the layer
-            for (const geojson of features) {
-                this.addFeatureToLayer(state, geojson, style, labelProperty, mapConfig);
+        try {
+            let totalLoaded = 0;
+            for (const chunk of visibleChunks) {
+                const chunkFile = this._resolveChunkFile(chunk, zoom);
+                const features = await this._loadChunkFGBCached(id, chunkFile, zoom);
+                for (const feature of features) {
+                    const fKey = this._featureKey(chunk.id, feature);
+                    if (!this._renderedFeatures.get(id).has(fKey)) {
+                        const layer = this.addFeatureToLayer(state, feature, style, labelProperty, mapConfig);
+                        this._renderedFeatures.get(id).set(fKey, layer);
+                    }
+                }
+                this._loadedChunks.get(id).set(chunk.id, { file: chunkFile, chunk });
+                totalLoaded += features.length;
             }
 
-            loaded += batch.length;
-            state.progress = Math.round((loaded / totalToLoad) * 100);
-            if (this.onLoadProgress) {
-                this.onLoadProgress(id, state.progress);
+            state.loaded = true;
+            state.loading = false;
+            state.geometryType = 'MultiPolygon';
+            state.featureCount = chunkIndex.totalFeatures;
+            state.progress = 100;
+            state._lastZoom = zoom;
+
+            if (this.onLoadProgress) this.onLoadProgress(id, 100);
+            if (show) this.showLayer(id);
+
+            console.log(`[MapController] Loaded chunked layer: ${name} (${totalLoaded} features from ${visibleChunks.length} chunks)`);
+            return state;
+        } catch (err) {
+            console.error(`[MapController] Failed to load chunked layer ${id}:`, err);
+            state.loading = false;
+            this.layerStates.delete(id);
+            return null;
+        }
+    }
+
+    /**
+     * Generate a unique key for a feature within a chunk
+     */
+    _featureKey(chunkId, feature) {
+        // Use chunk ID + feature properties to create a unique key
+        const name = feature.properties?.TOWNLAND || feature.properties?.NAME || feature.properties?.name || '';
+        const geomHash = feature.geometry?.coordinates?.[0]?.[0]?.join(',') || '';
+        return `${chunkId}::${name}::${geomHash}`;
+    }
+
+    /**
+     * Load feature index for a map (precomputed spatial index)
+     */
+    async _loadFeatureIndex(mapId, fgbPath) {
+        if (this._featureIndexCache.has(mapId)) return this._featureIndexCache.get(mapId);
+
+        const dir = fgbPath.substring(0, fgbPath.lastIndexOf('/') + 1) || fgbPath.substring(0, fgbPath.lastIndexOf('\\') + 1);
+        const indexUrl = `${dir}${mapId}-feature-index.json`;
+
+        try {
+            const response = await fetch(indexUrl);
+            if (!response.ok) return null;
+            const data = await response.json();
+            this._featureIndexCache.set(mapId, data);
+            console.log(`[MapController] Feature index loaded for ${mapId}: ${data.totalFeatures} features`);
+            return data;
+        } catch (err) {
+            console.log(`[MapController] No feature index for ${mapId}`);
+            return null;
+        }
+    }
+
+    /**
+     * Load and cache chunk FGB data. Returns cached data if already loaded.
+     */
+    async _loadChunkFGBCached(mapId, filePath, zoom) {
+        const cache = this._chunkDataCache.get(mapId);
+        if (cache?.has(filePath)) return cache.get(filePath);
+
+        const features = await this._loadChunkFGB(filePath, zoom);
+        if (cache) cache.set(filePath, features);
+        return features;
+    }
+
+    /**
+     * Load chunk index for a map. Resolves the index path from the FGB path.
+     * Caches the result for subsequent calls.
+     */
+    async _loadChunkIndex(mapId, fgbPath) {
+        if (this._chunkIndexCache.has(mapId)) {
+            return this._chunkIndexCache.get(mapId);
+        }
+
+        // Resolve chunk index path: same directory as FGB, named {mapId}-chunks.json
+        const dir = fgbPath.substring(0, fgbPath.lastIndexOf('/') + 1) || fgbPath.substring(0, fgbPath.lastIndexOf('\\') + 1);
+        const indexPath = dir + mapId + '-chunks.json';
+
+        try {
+            const response = await fetch(indexPath);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const index = await response.json();
+            this._chunkIndexCache.set(mapId, index);
+            return index;
+        } catch (err) {
+            console.warn(`[MapController] Chunk index not found: ${indexPath}`);
+            this._chunkIndexCache.set(mapId, null);
+            return null;
+        }
+    }
+
+    /**
+     * Get chunks from the index that intersect the given viewport rect.
+     */
+    _getIntersectingChunks(chunkIndex, rect) {
+        return chunkIndex.chunks.filter(chunk => {
+            const [cMinX, cMinY, cMaxX, cMaxY] = chunk.bbox;
+            return !(cMaxX < rect.minX || cMinX > rect.maxX ||
+                cMaxY < rect.minY || cMinY > rect.maxY);
+        });
+    }
+
+    /**
+     * Resolve the best FGB file for a chunk at the given zoom level.
+     * Uses pre-built zoom-filtered variants when available — these contain
+     * only features large enough to be visible at that zoom, preventing
+     * download and deserialization of invisible features.
+     *
+     * Falls back to the full chunk file at high zoom levels.
+     */
+    _resolveChunkFile(chunk, zoom) {
+        if (!chunk.zoomFiles) return chunk.file;
+
+        // Find the zoom variant whose maxZoom >= current zoom
+        // zoomFiles are keyed by level name (e.g. 'z7', 'z10')
+        // Each has { file, count, maxZoom }
+        let bestVariant = null;
+        for (const [levelName, variant] of Object.entries(chunk.zoomFiles)) {
+            if (zoom <= variant.maxZoom) {
+                // This variant covers the current zoom
+                if (!bestVariant || variant.maxZoom < bestVariant.maxZoom) {
+                    bestVariant = variant; // Pick the tightest match
+                }
             }
         }
 
-        state.loaded = true;
-        state.loading = false;
-        state.featureCount = featureCount;
+        if (bestVariant) {
+            return bestVariant.file;
+        }
+        return chunk.file; // Full file for high zoom
+    }
 
-        if (this.onLoadProgress) {
-            this.onLoadProgress(id, 100);
+    /**
+     * Load a single chunk FGB file and apply screen-space filtering.
+     * Uses full HTTP fetch (no Range requests needed).
+     * @param {string} filePath - Path to the chunk FGB file
+     * @param {number} [zoom] - Current zoom for screen-space filtering
+     * @returns {Array} Filtered GeoJSON features
+     */
+    async _loadChunkFGB(filePath, zoom = null) {
+        const features = [];
+        const minDiag = (zoom != null) ? this.getMinFeatureDiagDeg(zoom) : 0;
+        let skippedCount = 0;
+
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error(`Failed to fetch ${filePath}: ${response.status}`);
+
+        for await (const feature of flatgeobuf.deserialize(response.body)) {
+            // Screen-space area filtering
+            if (minDiag > 0) {
+                const diag = this.computeFeatureBboxDiag(feature.geometry);
+                if (diag < minDiag) {
+                    skippedCount++;
+                    continue;
+                }
+            }
+            features.push(feature);
         }
 
-        if (show) {
-            this.showLayer(id);
+        if (skippedCount > 0) {
+            console.log(`[MapController] Chunk ${filePath}: kept ${features.length}, skipped ${skippedCount} (too small at zoom ${zoom?.toFixed(1)})`);
         }
-
-        console.log(`[MapController] Loaded LOD layer: ${name} (${loaded} features)`);
-        return state;
+        return features;
     }
 
     /**
@@ -470,92 +759,239 @@ class MapController {
                     opacity: 1
                 };
             },
-            pointToLayer: (feature, latlng) => {
-                return this.createPointMarker(latlng, style);
-            },
+            pointToLayer: (feature, latlng) => this.createPointMarker(latlng, style),
             onEachFeature: (feature, layer) => {
                 layer._mapId = state.id;
-
-                if (labelProperty && feature.properties?.[labelProperty]) {
-                    const labelText = this.cleanLabelText(
-                        feature.properties[labelProperty],
-                        mapConfig.labelCleanup
-                    );
-                    if (labelText && (layer.getBounds || layer.getLatLng)) {
-                        const priorityProp = mapConfig.priorityProperty || mapConfig.significanceProperty;
-                        const priority = priorityProp ? (parseFloat(feature.properties[priorityProp]) || 0) : 0;
-
-                        state.labelEntries.push({
-                            layer,
-                            feature,
-                            text: labelText,
-                            color: style?.color || '#3388ff',
-                            priority
-                        });
-                    }
-                }
+                this._attachFeatureHoverHandlers(layer);
             }
         });
 
         geoJsonLayer.addTo(state.group);
         state.geoJsonLayers.push(geoJsonLayer);
+
+        // Apply active conditional style to dynamically-loaded chunks
+        if (state._activeStyleFn) {
+            geoJsonLayer.setStyle(state._activeStyleFn);
+        }
+
+        // Collect label entries — support fallback label properties for mixed data sources
+        if (labelProperty) {
+            const labelProps = mapConfig.labelPropertyFallbacks
+                ? [labelProperty, ...mapConfig.labelPropertyFallbacks]
+                : [labelProperty];
+
+            geoJsonLayer.eachLayer((layer) => {
+                const feature = layer.feature;
+                // Try each property name until we find a value
+                let rawLabel = null;
+                for (const prop of labelProps) {
+                    rawLabel = feature?.properties?.[prop];
+                    if (rawLabel) break;
+                }
+                const labelText = this.cleanLabelText(rawLabel, mapConfig.labelCleanup);
+                if (labelText && (layer.getBounds || layer.getLatLng)) {
+                    const priorityProp = mapConfig.priorityProperty || mapConfig.significanceProperty;
+                    const priority = priorityProp ? (parseFloat(feature.properties[priorityProp]) || 0) : 0;
+
+                    state.labelEntries.push({
+                        layer,
+                        feature,
+                        text: labelText,
+                        color: style?.color || '#3388ff',
+                        priority
+                    });
+                }
+            });
+        }
+
+        return geoJsonLayer;
     }
 
     /**
-     * Update LOD layers when viewport changes
+     * Update chunked layers when viewport changes (pan/zoom).
+     * Loads new chunks entering the viewport, unloads chunks leaving.
+     * On zoom change, reloads ALL chunks with the appropriate zoom variant.
+     * Called on moveend/zoomend events.
      */
-    async updateLODLayers() {
-        if (!this.map || this.lodLayers.size === 0) return;
+    async updateSpatialLayers() {
+        if (this.spatialLayers.size === 0) return;
+        if (this._spatialUpdatePending) return;
+        this._spatialUpdatePending = true;
+
+        await new Promise(r => setTimeout(r, 150));
+        this._spatialUpdatePending = false;
 
         const bounds = this.map.getBounds();
         const zoom = this.map.getZoom();
-        const newLOD = featureLoader.getLODForZoom(zoom);
 
-        for (const mapId of this.lodLayers) {
+        for (const mapId of this.spatialLayers) {
             const state = this.layerStates.get(mapId);
-            if (!state || !state.visible) continue;
+            if (!state || !state.visible || state.loading) continue;
 
-            const currentLOD = this.currentLOD.get(mapId);
-            const lodChanged = currentLOD !== newLOD;
+            const chunkIndex = this._chunkIndexCache.get(mapId);
+            if (!chunkIndex) continue;
 
-            // Find features in viewport
-            const visibleFeatures = featureLoader.getFeaturesInBounds(mapId, bounds);
-            const indices = featureLoader.getFeaturesToLoad(mapId, visibleFeatures.map(f => f.id), newLOD);
+            const rect = this.boundsToRect(bounds);
+            const visibleChunks = this._getIntersectingChunks(chunkIndex, rect);
+            const loadedChunks = this._loadedChunks.get(mapId) || new Map();
 
-            // If LOD changed, we need to clear and reload all visible features at new LOD
-            if (lodChanged) {
-                console.log(`[MapController] LOD changed ${currentLOD} -> ${newLOD} for ${mapId}, reloading visible features`);
+            // Detect zoom level change — different zoom may need different chunk variants
+            const lastZoom = state._lastZoom;
+            const zoomBandChanged = lastZoom != null && this._zoomBandChanged(lastZoom, zoom);
 
-                // Clear existing layers
-                for (const layer of state.geoJsonLayers) {
-                    state.group.removeLayer(layer);
-                }
-                state.geoJsonLayers = [];
-                state.labelEntries = [];
+            const visibleIds = new Set(visibleChunks.map(c => c.id));
+            const loadedIds = new Set(loadedChunks.keys());
 
-                // Clear cached features at old LOD
-                featureLoader.clearMap(mapId);
+            const toLoad = visibleChunks.filter(c => !loadedIds.has(c.id));
+            const toUnload = [...loadedIds].filter(id => !visibleIds.has(id));
 
-                // Load all visible features at new LOD
-                const allIndices = visibleFeatures.map(f => featureLoader.parseFeatureId(f.id));
-                if (allIndices.length > 0) {
-                    const features = await featureLoader.loadFeatures(mapId, allIndices, newLOD);
-                    for (const geojson of features) {
-                        this.addFeatureToLayer(state, geojson, state.config.style, state.config.labelProperty, state.config);
+            // If zoom band changed, force full reload with new variants
+            const needFullReload = zoomBandChanged;
+
+            if (!needFullReload && toLoad.length === 0 && toUnload.length === 0) continue;
+
+            state.loading = true;
+
+            try {
+                const rendered = this._renderedFeatures.get(mapId) || new Map();
+                const chunkDataCache = this._chunkDataCache.get(mapId) || new Map();
+
+                if (needFullReload) {
+                    // Zoom band changed — clear all rendered features and reload
+                    console.log(`[MapController] Zoom band changed for ${mapId} (${lastZoom?.toFixed(1)} → ${zoom.toFixed(1)}), reloading`);
+
+                    // Remove all rendered features
+                    for (const [fKey, layer] of rendered) {
+                        state.group.removeLayer(layer);
+                    }
+                    rendered.clear();
+                    state.geoJsonLayers = [];
+                    state.labelEntries = [];
+                    loadedChunks.clear();
+
+                    // Clear chunk data cache when zoom band changes (different variants needed)
+                    chunkDataCache.clear();
+
+                    // Load visible chunks with correct zoom variants
+                    for (const chunk of visibleChunks) {
+                        const chunkFile = this._resolveChunkFile(chunk, zoom);
+                        const features = await this._loadChunkFGBCached(mapId, chunkFile, zoom);
+                        for (const feature of features) {
+                            const fKey = this._featureKey(chunk.id, feature);
+                            if (!rendered.has(fKey)) {
+                                const layer = this.addFeatureToLayer(state, feature, state.config.style, state.config.labelProperty, state.config);
+                                rendered.set(fKey, layer);
+                            }
+                        }
+                        loadedChunks.set(chunk.id, { file: chunkFile, chunk });
+                    }
+                } else {
+                    // Same zoom band — incremental per-chunk load/unload
+
+                    // Unload chunks that left viewport
+                    for (const chunkId of toUnload) {
+                        // Remove features belonging to this chunk
+                        for (const [fKey, layer] of rendered) {
+                            if (fKey.startsWith(chunkId + '::')) {
+                                state.group.removeLayer(layer);
+                                rendered.delete(fKey);
+                            }
+                        }
+                        loadedChunks.delete(chunkId);
+                    }
+                    if (toUnload.length > 0) {
+                        // Rebuild geoJsonLayers array from rendered features
+                        state.geoJsonLayers = [...rendered.values()].filter(l => l);
+                        console.log(`[MapController] Unloaded ${toUnload.length} chunks from ${mapId}`);
+                    }
+
+                    // Load new chunks entering viewport
+                    for (const chunk of toLoad) {
+                        const chunkFile = this._resolveChunkFile(chunk, zoom);
+                        const features = await this._loadChunkFGBCached(mapId, chunkFile, zoom);
+                        for (const feature of features) {
+                            const fKey = this._featureKey(chunk.id, feature);
+                            if (!rendered.has(fKey)) {
+                                const layer = this.addFeatureToLayer(state, feature, state.config.style, state.config.labelProperty, state.config);
+                                rendered.set(fKey, layer);
+                            }
+                        }
+                        loadedChunks.set(chunk.id, { file: chunkFile, chunk });
+                        console.log(`[MapController] Loaded chunk ${chunk.id} for ${mapId} (${features.length} features)`);
                     }
                 }
 
-                this.currentLOD.set(mapId, newLOD);
+                state._lastZoom = zoom;
+                state.loading = false;
                 this.updateLabels();
-            } else if (indices.length > 0) {
-                // Same LOD, just load new features for expanded viewport
-                const features = await featureLoader.loadFeatures(mapId, indices, newLOD);
-                for (const geojson of features) {
-                    this.addFeatureToLayer(state, geojson, state.config.style, state.config.labelProperty, state.config);
-                }
-                this.updateLabels();
+            } catch (err) {
+                console.warn(`[MapController] Chunk update failed for ${mapId}:`, err);
+                state.loading = false;
             }
         }
+    }
+
+    /**
+     * Check if zoom change crosses a zoom band boundary.
+     * Zoom bands correspond to the build-time zoom level thresholds.
+     */
+    _zoomBandChanged(oldZoom, newZoom) {
+        const getBand = (z) => {
+            if (z <= 8) return 0;   // z7 variant
+            if (z <= 11) return 1;  // z10 variant
+            return 2;               // full
+        };
+        return getBand(oldZoom) !== getBand(newZoom);
+    }
+
+    /**
+     * Check if outer rect fully contains inner rect
+     */
+    _rectContains(outer, inner) {
+        return inner.minX >= outer.minX && inner.maxX <= outer.maxX &&
+            inner.minY >= outer.minY && inner.maxY <= outer.maxY;
+    }
+
+    /**
+     * Get the minimum feature bbox diagonal (in degrees) that would be visible
+     * at the given zoom level. Features smaller than this are filtered out.
+     * Uses ~4 pixels as the visibility threshold.
+     *
+     * At zoom 0, one tile = 360°/256px ≈ 1.406°/px
+     * At zoom z, degrees/px = 360 / (256 * 2^z)
+     * Minimum visible diagonal = 4px * degrees/px
+     */
+    getMinFeatureDiagDeg(zoom) {
+        const MIN_PIXELS = 4;
+        const degreesPerPixel = 360 / (256 * Math.pow(2, zoom));
+        return MIN_PIXELS * degreesPerPixel;
+    }
+
+    /**
+     * Compute the bounding box diagonal of a GeoJSON geometry in degrees.
+     * Fast approximation — walks coordinates to find extent.
+     */
+    computeFeatureBboxDiag(geometry) {
+        if (!geometry || !geometry.coordinates) return Infinity; // Points always pass
+        if (geometry.type === 'Point') return Infinity; // Points always visible
+
+        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+
+        const walk = (coords) => {
+            if (typeof coords[0] === 'number') {
+                if (coords[0] < minX) minX = coords[0];
+                if (coords[0] > maxX) maxX = coords[0];
+                if (coords[1] < minY) minY = coords[1];
+                if (coords[1] > maxY) maxY = coords[1];
+            } else {
+                for (const c of coords) walk(c);
+            }
+        };
+
+        walk(geometry.coordinates);
+        const dx = maxX - minX;
+        const dy = maxY - minY;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     /**
@@ -573,29 +1009,22 @@ class MapController {
     }
 
     /**
-     * Load FlatGeobuf file
+     * Load FlatGeobuf file (full download via fetch, no range requests)
      */
     async loadFlatGeobuf(url, onProgress = null) {
         const features = [];
         let featureCount = 0;
 
-        try {
-            for await (const feature of flatgeobuf.deserialize(url)) {
-                features.push(feature);
-                featureCount++;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
 
-                // Report progress every 100 features
-                if (onProgress && featureCount % 100 === 0) {
-                    const estimatedProgress = Math.min(90, Math.log10(featureCount) * 30);
-                    onProgress(estimatedProgress);
-                }
-            }
-        } catch (err) {
-            // Fallback to full download if range requests fail
-            console.warn('[MapController] Range request failed, falling back to full download');
-            const response = await fetch(url);
-            for await (const feature of flatgeobuf.deserialize(response.body)) {
-                features.push(feature);
+        for await (const feature of flatgeobuf.deserialize(response.body)) {
+            features.push(feature);
+            featureCount++;
+
+            if (onProgress && featureCount % 100 === 0) {
+                const estimatedProgress = Math.min(90, Math.log10(featureCount) * 30);
+                onProgress(estimatedProgress);
             }
         }
         return features;
@@ -674,12 +1103,12 @@ class MapController {
         this.hideLayer(id);
         this.layerStates.delete(id);
 
-        // Clean up LOD state if applicable
-        if (this.lodLayers.has(id)) {
-            this.lodLayers.delete(id);
+        // Clean up spatial/LOD state if applicable
+        if (this.spatialLayers.has(id)) {
+            this.spatialLayers.delete(id);
             this.currentLOD.delete(id);
-            featureLoader.clearMap(id);
         }
+        featureLoader.clearMap(id);
 
         this.updateLabels();
     }
@@ -688,7 +1117,7 @@ class MapController {
      * Load a single feature (for search results)
      * Creates a partial layer containing only the selected feature
      */
-    async loadSingleFeature(mapConfig, featureIndex, featureName = null) {
+    async loadSingleFeature(mapConfig, featureIndex, featureName = null, featureBbox = null) {
         const { id, style, labelProperty, name } = mapConfig;
 
         // Check if layer already exists
@@ -712,7 +1141,7 @@ class MapController {
                 loading: false,
                 visible: false,
                 progress: 100,
-                useLOD: false,
+                useSpatial: false,
                 isPartial: true,              // Flag: this is a partial load
                 loadedIndices: new Set(),     // Track which features are loaded
                 featureNames: new Map()       // Track feature names for display
@@ -725,19 +1154,51 @@ class MapController {
             return state;
         }
 
-        // Determine LOD based on zoom level
-        const zoom = this.map ? this.map.getZoom() : 10;
-        const lod = featureLoader.getLODForZoom(zoom);
+        // Get the FGB file path
+        let fgbPath = mapConfig.files?.fgb;
+        if (!fgbPath && mapConfig.cloneOf) {
+            const src = dataService.getMapById(mapConfig.cloneOf);
+            fgbPath = src?.files?.fgb;
+        }
 
-        // Load the single feature
-        const geojson = await featureLoader.loadFeature(id, featureIndex, lod);
-        if (!geojson) {
+        let loadedFeature = null;
+
+        if (fgbPath && featureBbox) {
+            // Load the full FGB and find the feature by bbox match
+            const features = await this.loadFlatGeobuf(fgbPath);
+            // Filter to features within the target bbox
+            const bboxFeatures = features.filter(f => {
+                const diag = this.computeFeatureBboxDiag(f.geometry);
+                if (diag === Infinity) return true; // Points always match
+                // Simple bbox overlap check
+                return true; // FGB already has all features, match by name below
+            });
+
+            // Match by name if provided (bbox may return neighbours)
+            if (featureName && features.length > 1) {
+                loadedFeature = features.find(f => {
+                    const lp = labelProperty || 'name';
+                    return f.properties?.[lp]?.trim() === featureName.trim();
+                }) || features[0];
+            } else {
+                loadedFeature = features[0];
+            }
+        }
+
+        if (!loadedFeature) {
+            // Fallback: try legacy per-feature JSON approach
+            const zoom = this.map ? this.map.getZoom() : 10;
+            const lod = this.getLODLevel(zoom);
+            loadedFeature = await featureLoader.loadFeature(id, featureIndex, lod);
+        }
+
+        if (!loadedFeature) {
             console.warn(`[MapController] Failed to load feature ${featureIndex} from ${id}`);
             return null;
         }
 
         // Add the feature to the layer
-        this.addFeatureToLayer(state, geojson, style, labelProperty, mapConfig);
+        this.addFeatureToLayer(state, loadedFeature, style, labelProperty, mapConfig);
         state.loadedIndices.add(featureIndex);
 
         // Store feature name if provided
@@ -866,6 +1327,17 @@ class MapController {
     }
 
     /**
+     * Hide/show labels for a specific layer (without affecting visibility)
+     */
+    setLayerLabelsHidden(mapId, hidden) {
+        const state = this.layerStates.get(mapId);
+        if (state) {
+            state.labelsHidden = hidden;
+            this.updateLabels();
+        }
+    }
+
+    /**
      * Set text scale for labels
      */
     setTextScale(scale) {
@@ -897,7 +1369,7 @@ class MapController {
         // Collect all visible label entries
         const allLabels = [];
         this.layerStates.forEach(state => {
-            if (state.loaded && state.visible) {
+            if (state.loaded && state.visible && !state.labelsHidden) {
                 allLabels.push(...state.labelEntries);
             }
         });
@@ -1001,13 +1473,27 @@ class MapController {
                 // Create label marker
                 const marker = L.marker(center, {
                     icon: L.divIcon({
-                        className: 'map-label',
-                        html: `<div style="color:${info.color};text-shadow:-1px -1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,1px 1px 0 #fff;font-weight:bold;font-size:${fontSize}px;text-align:center;width:${maxWidth}px;word-break:keep-all;overflow-wrap:normal;position:absolute;left:50%;transform:translateX(-50%);">${info.text}</div>`,
+                        className: 'map-label map-label--clickable',
+                        html: `<div style="color:${info.color};text-shadow:-1px -1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,1px 1px 0 #fff;font-weight:bold;font-size:${fontSize}px;text-align:center;width:${maxWidth}px;word-break:keep-all;overflow-wrap:normal;position:absolute;left:50%;transform:translateX(-50%);cursor:pointer;">${info.text}</div>`,
                         iconSize: null,
                         iconAnchor: [0, 0]
                     })
                 });
+                // Single-click on label triggers feature info
+                marker.on('click', (e) => {
+                    L.DomEvent.stopPropagation(e);
+                    if (this.onFeatureClick) {
+                        this.onFeatureClick([{
+                            mapId: info.layer._mapId,
+                            properties: info.feature?.properties,
+                            geometry: info.feature?.geometry
+                        }]);
+                    }
+                });
+                marker.on('mouseover', () => this._setFeatureHover(info.layer, true));
+                marker.on('mouseout', () => this._setFeatureHover(info.layer, false));
                 marker.addTo(this.map);
+                info.layer._labelMarker = marker;
                 this.labelMarkers.push(marker);
             } catch (err) {
                 // Ignore label placement errors
@@ -1135,8 +1621,94 @@ class MapController {
             this.map?.setView([parseFloat(state.lat), parseFloat(state.lng)], parseInt(state.zoom));
         }
     }
+
+    /**
+     * Get loaded polygon/multipolygon layers only
+     * @returns {Array<{id, name, state}>}
+     */
+    getPolygonLayers() {
+        const result = [];
+        this.layerStates.forEach((state, id) => {
+            const gType = (state.geometryType || '').toLowerCase();
+            if (gType.includes('polygon') && state.loaded) {
+                result.push({ id, name: state.config?.name || id, state });
+            }
+        });
+        return result;
+    }
+
+    /**
+     * Get numeric attribute stats for a loaded layer's features.
+     * Returns { attributes: [{name, min, max}], featureCount }
+     */
+    getLayerFeatureProperties(layerId) {
+        const state = this.layerStates.get(layerId);
+        if (!state || !state.loaded) return null;
+
+        const attrStats = new Map(); // name -> {min, max}
+        let featureCount = 0;
+
+        state.geoJsonLayers.forEach(gjLayer => {
+            gjLayer.eachLayer(layer => {
+                featureCount++;
+                const props = layer.feature?.properties;
+                if (!props) return;
+                for (const [key, val] of Object.entries(props)) {
+                    if (typeof val !== 'number' || isNaN(val)) continue;
+                    if (!attrStats.has(key)) {
+                        attrStats.set(key, { min: val, max: val });
+                    } else {
+                        const s = attrStats.get(key);
+                        if (val < s.min) s.min = val;
+                        if (val > s.max) s.max = val;
+                    }
+                }
+            });
+        });
+
+        return {
+            attributes: Array.from(attrStats.entries()).map(([name, s]) => ({
+                name, min: s.min, max: s.max
+            })),
+            featureCount
+        };
+    }
+
+    /**
+     * Apply a style function to a loaded layer
+     */
+    applyLayerStyle(layerId, styleFn) {
+        const state = this.layerStates.get(layerId);
+        if (!state) return;
+        state._activeStyleFn = styleFn; // Persist for dynamically-loaded chunks
+        state.geoJsonLayers.forEach(gjLayer => {
+            gjLayer.setStyle(styleFn);
+        });
+    }
+
+    /**
+     * Reset a layer to its original config style
+     */
+    resetLayerStyle(layerId) {
+        const state = this.layerStates.get(layerId);
+        if (!state) return;
+        delete state._activeStyleFn; // Clear persistent style
+        const style = state.config?.style;
+        state.geoJsonLayers.forEach(gjLayer => {
+            gjLayer.setStyle(feature => {
+                if (feature.geometry?.type === 'Point') return {};
+                return {
+                    color: style?.color || '#3388ff',
+                    weight: style?.weight || 2,
+                    fillOpacity: style?.fillOpacity ?? 0,
+                    opacity: 1
+                };
+            });
+        });
+    }
 }
 
 // Export singleton
 const mapController = new MapController();
+window.mapController = mapController; // Expose for debugging
 export default mapController;

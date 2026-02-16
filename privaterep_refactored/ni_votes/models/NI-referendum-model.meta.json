@@ -1,0 +1,54 @@
+{
+  "bundle_version": 2,
+  "feature_version": "legacy-v1",
+  "options": [
+    "Leave the European Union",
+    "No",
+    "Remain a member of the European Union",
+    "Yes",
+    "Did not vote"
+  ],
+  "feat_cols": [
+    "share_endorsing::Leave the European Union",
+    "share_endorsing::No",
+    "share_endorsing::Remain a member of the European Union",
+    "share_endorsing::Yes",
+    "share_endorsing::Did not vote",
+    "share_no_endorsement",
+    "turnout_prior"
+  ],
+  "target_cols": [
+    "target::Leave the European Union",
+    "target::No",
+    "target::Remain a member of the European Union",
+    "target::Yes",
+    "target::Did not vote"
+  ],
+  "algo": "party_logistic",
+  "hyperparameters": {
+    "C": 20.0,
+    "max_iter": 500,
+    "class_weight_floor": 0.001,
+    "solver": "lbfgs"
+  },
+  "training_rows": {
+    "count": 76230,
+    "weight_sum": 228662.0,
+    "real": 28,
+    "pseudo": 76202,
+    "real_row_multiplier": 2,
+    "pseudo_row_multiplier": 3,
+    "effective_real": 56,
+    "effective_pseudo": 228606
+  },
+  "training_config": {
+    "cv_folds": 5,
+    "calibration_holdout": 0.2,
+    "random_state": 42
+  },
+  "cv_metrics": null,
+  "trained_at": null,
+  "source_workbook": null,
+  "endorsement_profiles": {},
+  "neutral_profile": null
+}

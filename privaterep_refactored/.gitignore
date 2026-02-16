@@ -1,0 +1,38 @@
+node_modules/
+
+# Archive folder (refactored files moved here)
+_archive/
+
+# Local cache
+.cache/
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# pytest cache directory
+.pytest_cache/
+
+# Runtime logs
+ni_votes/logs/
+*.log
+
+# Generated/temporary artefacts
+base_models_cache.pkl
+profile_stats
+validation_results.json
+
+# Build artefacts
+package-lock.json
+package.json
+requirements.txt
+requirements-dev.txt
+
+# Auto-generated source files (large, generated — consider tracking after refactoring)
+ni_votes/cli/ml_referendum_cli.py
+ni_votes/models/ml_referendum_model_fast.py
+ni_votes/validation/cross_validator.py
+ni_votes/validation/metrics.py
+ni_votes/web/routes.py
+ni_votes/web/templates.py
