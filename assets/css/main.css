@@ -655,6 +655,8 @@ body.split-dragging * {
   text-decoration: none;
   border-radius: 4px;
   transition: background 0.12s;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .catalogue-flat__toc-link:hover {
@@ -667,6 +669,7 @@ body.split-dragging * {
   border-collapse: separate;
   border-spacing: 0;
   font-size: var(--text-sm, 0.875rem);
+  table-layout: fixed;
 }
 
 .catalogue-flat__toc-table th,
@@ -881,6 +884,27 @@ body.split-dragging * {
 [data-theme="dark"] .catalogue-flat__toc-table th,
 [data-theme="dark"] .catalogue-flat__toc-table td {
   border-bottom-color: var(--color-border);
+}
+
+[data-theme="dark"] .catalogue-flat__toc-title,
+[data-theme="dark"] .catalogue-flat__toc-heading,
+[data-theme="dark"] .catalogue-flat__toc-group-name {
+  color: var(--color-text);
+}
+
+[data-theme="dark"] .catalogue-flat__toc-subheading,
+[data-theme="dark"] .catalogue-flat__toc-table td:nth-child(2),
+[data-theme="dark"] .catalogue-flat__toc-table td:nth-child(3) {
+  color: var(--color-text-muted);
+}
+
+[data-theme="dark"] .catalogue-flat__toc-link,
+[data-theme="dark"] .catalogue-flat__toc-name {
+  color: #d6e6ff;
+}
+
+[data-theme="dark"] .catalogue-flat__toc-link:hover {
+  background: rgba(66, 153, 225, 0.16);
 }
 
 /* Flat mode card behavior: disable sticky stacking that is designed for grouped view */
@@ -4135,6 +4159,43 @@ body.split-dragging * {
 /* ============================================
    Mobile Responsive
    ============================================ */
+@media (max-width: 768px) {
+  .catalogue-flat__toc {
+    margin: var(--space-3);
+    padding: var(--space-3);
+    overflow: hidden;
+  }
+
+  .catalogue-flat__toc-table th,
+  .catalogue-flat__toc-table td {
+    padding: 6px 4px;
+    font-size: 0.8rem;
+    vertical-align: top;
+  }
+
+  .catalogue-flat__toc-table th:nth-child(1),
+  .catalogue-flat__toc-table td:nth-child(1) {
+    width: 52%;
+  }
+
+  .catalogue-flat__toc-table th:nth-child(2),
+  .catalogue-flat__toc-table td:nth-child(2) {
+    width: 18%;
+  }
+
+  .catalogue-flat__toc-table th:nth-child(3),
+  .catalogue-flat__toc-table td:nth-child(3) {
+    width: 30%;
+  }
+
+  .catalogue-flat__toc-name,
+  .catalogue-flat__toc-link,
+  .catalogue-flat__toc-table td {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}
+
 @media (max-width: 768px) {
   :root {
     --header-height: 56px;
