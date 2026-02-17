@@ -1,189 +1,122 @@
 name: Command runner (read-only context dump)
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  context_dump:
+  dump:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo (with full history)
+      - name: Checkout (full history)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Enable Git LFS and pull LFS objects (if present)
+      - name: LFS (if available)
         run: |
           set -euo pipefail
           if command -v git-lfs >/dev/null 2>&1; then
             git lfs install
             git lfs pull || true
-          else
-            echo "git-lfs not available on runner, continuing."
           fi
 
-      - name: Create context dump
-        shell: bash
+      - name: Create context dump file
         run: |
           set -euo pipefail
-
           OUT="context_dump.txt"
+
           {
-            echo "============================================================"
-            echo "BOUNDARIES WEBSITE CONTEXT DUMP (READ-ONLY)"
+            echo "=== CONTEXT DUMP (READ ONLY) ==="
             echo "Repo: $GITHUB_REPOSITORY"
             echo "Run:  $GITHUB_RUN_ID"
             echo "Time: $(date -u)"
-            echo "============================================================"
             echo
 
-            echo "---- BASIC REPO INFO ----"
+            echo "---- git ----"
             git rev-parse --show-toplevel
             echo "HEAD: $(git rev-parse --short HEAD)"
             git status --porcelain=v1 || true
             echo
 
-            echo "---- REMOTES ----"
-            git remote -v || true
-            echo
-
-            echo "---- BRANCHES ----"
+            echo "---- branches ----"
+            git fetch --all --prune
             git branch -a || true
             echo
 
-            echo "---- RECENT COMMITS ----"
+            echo "---- recent commits ----"
             git --no-pager log --oneline -n 50 || true
             echo
 
-            echo "============================================================"
-            echo "CODEX BRANCH DIFFS VS main"
-            echo "============================================================"
-            echo
-
-            git fetch --all --prune
-
+            echo "---- codex branches: unique commits + files changed ----"
             MAIN_REF="origin/main"
-            if ! git show-ref --verify --quiet refs/remotes/origin/main; then
-              MAIN_REF="main"
-            fi
-
+            if ! git show-ref --verify --quiet refs/remotes/origin/main; then MAIN_REF="main"; fi
             echo "Main ref: $MAIN_REF"
             echo
 
-            echo "---- Remote branches matching codex/ ----"
-            git branch -r | grep 'codex/' || echo "(none)"
+            git branch -r | grep 'codex/' || echo "(no codex branches)"
             echo
 
             for b in $(git branch -r | grep 'codex/' | sed 's|origin/||'); do
-              echo "==== codex branch: $b ===="
-              echo "-- unique commits --"
-              git --no-pager log --oneline --decorate --no-merges "$MAIN_REF..origin/$b" || true
-              echo "-- files changed --"
+              echo "== $b =="
+              echo "-- commits --"
+              git --no-pager log --oneline --no-merges "$MAIN_REF..origin/$b" || true
+              echo "-- files --"
               git --no-pager diff --name-status "$MAIN_REF..origin/$b" || true
               echo
             done
 
-            echo "============================================================"
-            echo "LFS + DUBLIN MAP CHECK"
-            echo "============================================================"
+            echo "---- Dublin FGB check ----"
+            DUBLIN="data/maps/local-government/Dublin_Electoral_Counties_1985.fgb"
+            if [ -f "$DUBLIN" ]; then
+              echo "Exists: $DUBLIN"
+              echo "Bytes: $(wc -c < "$DUBLIN" | tr -d ' ')"
+              python3 -c "p='$DUBLIN'; h=open(p,'rb').read(80); print('Head:',h); print('Looks like:', 'LFS_POINTER' if h.startswith(b'version https://git-lfs.github.com/spec') else 'BINARY_OK')"
+            else
+              echo "(missing) $DUBLIN"
+            fi
             echo
 
             echo "---- .gitattributes ----"
             if [ -f .gitattributes ]; then
               sed -n '1,200p' .gitattributes
               echo
-              echo "---- .gitattributes lines mentioning fgb/lfs ----"
-              grep -nEi '\.fgb|lfs|flatgeobuf' .gitattributes || echo "(none)"
+              echo "Lines mentioning fgb/lfs:"
+              grep -nEi 'fgb|lfs|flatgeobuf' .gitattributes || echo "(none)"
             else
               echo "(no .gitattributes)"
             fi
             echo
 
-            echo "---- git lfs track / ls-files ----"
-            if command -v git-lfs >/dev/null 2>&1; then
-              git lfs version || true
-              git lfs track || true
-              git lfs ls-files | sed -n '1,80p' || true
-            else
-              echo "(git-lfs not available)"
-            fi
-            echo
-
-            DUBLIN_FGB="data/maps/local-government/Dublin_Electoral_Counties_1985.fgb"
-            echo "---- Dublin FGB: $DUBLIN_FGB ----"
-            if [ -f "$DUBLIN_FGB" ]; then
-              echo "Size bytes: $(wc -c < "$DUBLIN_FGB" | tr -d ' ')"
-              python3 - <<'PY' || true
-p="data/maps/local-government/Dublin_Electoral_Counties_1985.fgb"
-with open(p,"rb") as f:
-    head=f.read(80)
-print("Head bytes:", head)
-print("Looks like:", "LFS_POINTER" if head.startswith(b"version https://git-lfs.github.com/spec") else "BINARY_OK")
-PY
-            else
-              echo "(file missing)"
-            fi
-            echo
-
-            echo "---- maps.json references (Dublin/Electoral_Counties) ----"
+            echo "---- maps.json: Dublin references ----"
             if [ -f data/database/maps.json ]; then
-              python3 - <<'PY' || true
-import json
-p="data/database/maps.json"
-with open(p,"r",encoding="utf-8") as f:
-    data=json.load(f)
-hits=[]
-def walk(x):
-    if isinstance(x, dict):
-        for v in x.values(): walk(v)
-    elif isinstance(x, list):
-        for v in x: walk(v)
-    elif isinstance(x, str):
-        if "Dublin" in x or "Electoral_Counties" in x or "Dublin_Electoral_Counties" in x:
-            hits.append(x)
-walk(data)
-print("Found", len(hits), "string hits mentioning Dublin/Electoral_Counties")
-for h in hits[:50]:
-    print("-", h)
-PY
+              grep -n "Dublin" data/database/maps.json || true
+              grep -n "Electoral_Counties" data/database/maps.json || true
+              grep -n "Dublin_Electoral_Counties" data/database/maps.json || true
             else
-              echo "(data/database/maps.json missing)"
+              echo "(missing) data/database/maps.json"
             fi
             echo
 
-            echo "============================================================"
-            echo "SEARCH / TIMELINE / EXPORT / CENSUS CONTEXT (GREP)"
-            echo "============================================================"
-            echo
-
-            echo "---- search wiring ----"
+            echo "---- quick greps (search/timeline/export/census) ----"
             rg -n "setupSearch|onSearch|autocomplete|Fuse|searchQuery|updateMapList|debounce|throttle" js assets data 2>/dev/null | sed -n '1,200p' || true
             echo
-
-            echo "---- timeline wiring ----"
             rg -n "TimeSliderController|timeSlider|timeline|setElectionDates" js 2>/dev/null | sed -n '1,200p' || true
             echo
-
-            echo "---- conditional styling + census hints ----"
-            rg -n "conditional|legend|palette|quantile|equal interval|breaks|census|NISRA|Small Area|Output Area" js data assets 2>/dev/null | sed -n '1,200p' || true
-            echo
-
-            echo "---- export hints ----"
             rg -n "export|download|canvas|toDataURL|html2canvas|domtoimage|MediaRecorder|gif|webm|mp4" js assets 2>/dev/null | sed -n '1,200p' || true
             echo
+            rg -n "census|NISRA|Small Area|Output Area|conditional|legend|palette|quantile|breaks" js data assets 2>/dev/null | sed -n '1,200p' || true
+            echo
 
-            echo "============================================================"
-            echo "END"
-            echo "============================================================"
+            echo "=== END ==="
           } > "$OUT"
 
           echo "Wrote $OUT"
           wc -l "$OUT" || true
 
-      - name: Upload context dump artifact
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: context_dump
