@@ -22,6 +22,7 @@ class App {
         this.textScale = 100;
         this.textScaleSteps = [50, 60, 70, 80, 90, 100, 110, 125, 150, 175, 200];
         this.splitPosition = 50; // Percentage for info pane width
+        this._mapLoadFeedback = null;
     }
 
     /**
@@ -460,34 +461,18 @@ class App {
     setupSearch() {
         const searchInput = document.getElementById('searchInput');
         const autocomplete = document.getElementById('searchAutocomplete');
-        const addressResults = document.getElementById('addressResults');
         if (!searchInput || !autocomplete) return;
 
-        let debounceTimer;
+        // Use the dedicated UIController search implementation for robust
+        // mobile behaviour (autocomplete + address search + keyboard handling).
+        uiController.onSearch = (query) => {
+            this.searchQuery = query;
+            this.updateMapList();
+        };
+        uiController.setupSearch();
 
-        searchInput.addEventListener('input', () => {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => {
-                const query = searchInput.value.trim();
-                this.searchQuery = query;
-                this.updateMapList();
-
-                // Show autocomplete with address option if query is non-empty
-                if (query.length > 0) {
-                    this.showSearchAutocomplete(query, autocomplete);
-                } else {
-                    autocomplete.classList.add('hidden');
-                    if (addressResults) addressResults.classList.add('hidden');
-                }
-            }, 200);
-        });
-
-        // Hide autocomplete when clicking outside
+        // Keep overflow menus managed globally.
         document.addEventListener('click', (e) => {
-            if (!searchInput.contains(e.target) && !autocomplete.contains(e.target)) {
-                autocomplete.classList.add('hidden');
-            }
-            // Close any open overflow menus when clicking outside
             if (!e.target.closest('.overflow-menu')) {
                 document.querySelectorAll('.overflow-menu--open').forEach(m => {
                     m.classList.remove('overflow-menu--open');
@@ -1757,11 +1742,90 @@ class App {
      */
     async loadMap(mapId) {
         const mapConfig = dataService.getMapById(mapId);
-        if (mapConfig) {
+        if (!mapConfig) return;
+
+        const feedback = this.startMapLoadFeedback(mapConfig.name || mapId);
+        try {
             await mapController.loadLayer(mapConfig, true);
             mapController.fitToLayer(mapId);
             this.updateURLState();
+            this.finishMapLoadFeedback(feedback, true, mapConfig.name || mapId);
+        } catch (error) {
+            console.error(`[App] Failed to load map ${mapId}:`, error);
+            this.finishMapLoadFeedback(feedback, false, mapConfig.name || mapId);
+            this.showError(`Failed to load map: ${mapConfig.name || mapId}`);
         }
+    }
+
+
+    startMapLoadFeedback(mapName) {
+        if (this._mapLoadFeedback?.intervalId) {
+            clearInterval(this._mapLoadFeedback.intervalId);
+        }
+
+        const statusEl = this.ensureMapLoadStatusElement();
+        const toastEl = this.ensureMapLoadToastElement();
+        const startedAt = performance.now();
+
+        const render = () => {
+            const seconds = ((performance.now() - startedAt) / 1000).toFixed(1);
+            const message = `Loading ${mapName}... ${seconds}s`;
+            statusEl.textContent = message;
+            toastEl.textContent = message;
+        };
+
+        render();
+        statusEl.classList.add('map-load-status--visible');
+        toastEl.classList.add('map-load-toast--visible');
+
+        const intervalId = setInterval(render, 100);
+        this._mapLoadFeedback = { intervalId, startedAt, statusEl, toastEl };
+        return this._mapLoadFeedback;
+    }
+
+    finishMapLoadFeedback(feedback, success, mapName) {
+        if (!feedback) return;
+        clearInterval(feedback.intervalId);
+        const totalSeconds = ((performance.now() - feedback.startedAt) / 1000).toFixed(1);
+
+        feedback.statusEl.classList.remove('map-load-status--visible');
+        feedback.toastEl.textContent = success
+            ? `Loaded ${mapName} in ${totalSeconds}s`
+            : `Failed to load ${mapName} after ${totalSeconds}s`;
+
+        feedback.toastEl.classList.add('map-load-toast--visible');
+        clearTimeout(this._mapLoadFeedbackHideTimer);
+        this._mapLoadFeedbackHideTimer = setTimeout(() => {
+            feedback.toastEl.classList.remove('map-load-toast--visible');
+        }, success ? 2200 : 4200);
+
+        this._mapLoadFeedback = null;
+    }
+
+    ensureMapLoadStatusElement() {
+        let el = document.getElementById('mapLoadStatus');
+        if (!el) {
+            el = document.createElement('div');
+            el.id = 'mapLoadStatus';
+            el.className = 'map-load-status';
+            el.setAttribute('role', 'status');
+            el.setAttribute('aria-live', 'polite');
+            document.body.appendChild(el);
+        }
+        return el;
+    }
+
+    ensureMapLoadToastElement() {
+        let el = document.getElementById('mapLoadToast');
+        if (!el) {
+            el = document.createElement('div');
+            el.id = 'mapLoadToast';
+            el.className = 'map-load-toast';
+            el.setAttribute('role', 'status');
+            el.setAttribute('aria-live', 'polite');
+            document.body.appendChild(el);
+        }
+        return el;
     }
 
     /**
