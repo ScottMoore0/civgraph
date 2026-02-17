@@ -460,34 +460,18 @@ class App {
     setupSearch() {
         const searchInput = document.getElementById('searchInput');
         const autocomplete = document.getElementById('searchAutocomplete');
-        const addressResults = document.getElementById('addressResults');
         if (!searchInput || !autocomplete) return;
 
-        let debounceTimer;
+        // Use the dedicated UIController search implementation for robust
+        // mobile behaviour (autocomplete + address search + keyboard handling).
+        uiController.onSearch = (query) => {
+            this.searchQuery = query;
+            this.updateMapList();
+        };
+        uiController.setupSearch();
 
-        searchInput.addEventListener('input', () => {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => {
-                const query = searchInput.value.trim();
-                this.searchQuery = query;
-                this.updateMapList();
-
-                // Show autocomplete with address option if query is non-empty
-                if (query.length > 0) {
-                    this.showSearchAutocomplete(query, autocomplete);
-                } else {
-                    autocomplete.classList.add('hidden');
-                    if (addressResults) addressResults.classList.add('hidden');
-                }
-            }, 200);
-        });
-
-        // Hide autocomplete when clicking outside
+        // Keep overflow menus managed globally.
         document.addEventListener('click', (e) => {
-            if (!searchInput.contains(e.target) && !autocomplete.contains(e.target)) {
-                autocomplete.classList.add('hidden');
-            }
-            // Close any open overflow menus when clicking outside
             if (!e.target.closest('.overflow-menu')) {
                 document.querySelectorAll('.overflow-menu--open').forEach(m => {
                     m.classList.remove('overflow-menu--open');
