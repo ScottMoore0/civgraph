@@ -1371,6 +1371,7 @@ class UIController {
             { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
             { id: 'flat-admin-areas', name: 'Administrative Areas (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-admin-areas'] },
             { id: 'flat-admin-counties', name: 'Administrative Counties (Northern Ireland) (1915)', years: '1915', extent: 'Northern Ireland', classIds: ['ni-admin-counties'] },
+            { id: 'flat-dublin-electoral-counties', name: 'Dublin Electoral Counties (1985)', years: '1985', extent: 'Ireland', classIds: ['roi-dublin-electoral-counties'] },
             { id: 'flat-assembly-areas', name: 'Assembly Areas (1998-)', years: '1995-2023', extent: 'Northern Ireland', classIds: ['ni-assembly'] },
             { id: 'flat-forum', name: 'Northern Ireland Forum Constituencies (1996)', years: '1995', extent: 'Northern Ireland', classIds: ['ni-forum'] },
             { id: 'flat-assembly-1982', name: 'Assembly Constituencies (1982)', years: '1982', extent: 'Northern Ireland', classIds: ['ni-assembly-1982'] },
@@ -5722,4 +5723,3 @@ if (typeof window !== 'undefined') {
 })();
 
 export default uiController;
-
