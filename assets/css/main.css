@@ -686,9 +686,9 @@ body.split-dragging * {
 .catalogue-flat__toc-table td:nth-child(3) {
   color: var(--color-text-muted, #718096);
   white-space: normal;
-  overflow-wrap: normal;
-  word-break: normal;
-  hyphens: manual;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .catalogue-flat__toc-table tbody tr {
@@ -823,16 +823,16 @@ body.split-dragging * {
   line-height: 1.2;
   font-weight: 700;
   white-space: normal;
-  overflow-wrap: normal;
-  word-break: normal;
-  hyphens: manual;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .catalogue-flat__toc-table td {
   white-space: normal;
-  overflow-wrap: normal;
-  word-break: normal;
-  hyphens: manual;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .c1-card__titleblock {
@@ -881,6 +881,28 @@ body.split-dragging * {
 [data-theme="dark"] .catalogue-flat__toc-table th,
 [data-theme="dark"] .catalogue-flat__toc-table td {
   border-bottom-color: var(--color-border);
+}
+
+[data-theme="dark"] .catalogue-flat__toc-title,
+[data-theme="dark"] .catalogue-flat__toc-heading,
+[data-theme="dark"] .catalogue-flat__toc-group-name,
+[data-theme="dark"] .catalogue-flat__toc-name,
+[data-theme="dark"] .catalogue-flat__toc-table th,
+[data-theme="dark"] .catalogue-flat__toc-table td {
+  color: #e6edf8;
+}
+
+[data-theme="dark"] .catalogue-flat__toc-link {
+  color: #9fc3ff;
+}
+
+[data-theme="dark"] .catalogue-flat__toc-link:hover {
+  background: rgba(159, 195, 255, 0.14);
+  color: #d6e6ff;
+}
+
+[data-theme="dark"] .catalogue-flat__toc-subheading {
+  color: #b7c4da;
 }
 
 /* Flat mode card behavior: disable sticky stacking that is designed for grouped view */
@@ -4406,6 +4428,33 @@ body.split-dragging * {
 
   .category-pill {
     flex-shrink: 0;
+  }
+
+  .catalogue-flat__toc {
+    margin: var(--space-2);
+    padding: var(--space-3);
+    overflow-x: hidden;
+  }
+
+  .catalogue-flat__toc-table {
+    table-layout: fixed;
+  }
+
+  .catalogue-flat__toc-table td,
+  .catalogue-flat__toc-table th {
+    padding: 6px 5px;
+  }
+
+  .catalogue-flat__toc-table td:nth-child(1) {
+    width: 52%;
+  }
+
+  .catalogue-flat__toc-table td:nth-child(2) {
+    width: 20%;
+  }
+
+  .catalogue-flat__toc-table td:nth-child(3) {
+    width: 28%;
   }
 }
 

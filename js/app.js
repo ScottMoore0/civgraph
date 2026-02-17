@@ -468,18 +468,27 @@ class App {
         searchInput.addEventListener('input', () => {
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(() => {
+                // Input can be detached during responsive layout changes on mobile.
+                if (!document.body.contains(searchInput)) return;
+
                 const query = searchInput.value.trim();
                 this.searchQuery = query;
                 this.updateMapList();
 
-                // Show autocomplete with address option if query is non-empty
+                // Show autocomplete with address option if query is non-empty.
+                // Use try/catch to prevent mobile Safari hard-failing the UI on transient errors.
                 if (query.length > 0) {
-                    this.showSearchAutocomplete(query, autocomplete);
+                    try {
+                        this.showSearchAutocomplete(query, autocomplete);
+                    } catch (err) {
+                        console.warn('[App] Search autocomplete failed:', err);
+                        autocomplete.classList.add('hidden');
+                    }
                 } else {
                     autocomplete.classList.add('hidden');
                     if (addressResults) addressResults.classList.add('hidden');
                 }
-            }, 200);
+            }, 220);
         });
 
         // Hide autocomplete when clicking outside
@@ -596,6 +605,7 @@ class App {
      * Show search autocomplete dropdown with maps, features, and address suggestions
      */
     showSearchAutocomplete(query, autocomplete) {
+        if (!autocomplete || !document.body.contains(autocomplete)) return;
         let html = '';
 
         // --- Section 1: Matching Maps ---
@@ -723,6 +733,15 @@ class App {
      * Fetch live address/place suggestions from Nominatim and render into dropdown
      */
     async fetchAddressSuggestions(query, autocomplete) {
+        // Avoid expensive lookups for very short mobile queries.
+        if (window.matchMedia('(max-width: 768px)').matches && query.length < 3) {
+            const container = document.getElementById('addressSuggestionsContainer');
+            if (container) {
+                container.innerHTML = '';
+            }
+            return;
+        }
+
         // Cancel any pending address fetch
         if (this._addressAbortController) {
             this._addressAbortController.abort();
