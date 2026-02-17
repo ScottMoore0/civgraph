@@ -488,6 +488,15 @@
       ]
     },
     {
+      "id": "roi-dublin-electoral-counties",
+      "name": "Dublin Electoral Counties",
+      "scope": "Ireland",
+      "category": "local-government",
+      "maps": [
+        "dublin-electoral-counties-1985"
+      ]
+    },
+    {
       "id": "ni-counties",
       "name": "Counties",
       "scope": "Northern Ireland",
@@ -1166,6 +1175,10 @@
           "type": "two-column",
           "left": "ni-admin-areas",
           "right": "ni-admin-counties"
+        },
+        {
+          "classId": "roi-dublin-electoral-counties",
+          "width": "full"
         }
       ]
     },
@@ -3163,6 +3176,30 @@
         "county borough",
         "1915",
         "pre-reform"
+      ]
+    },
+    {
+      "id": "dublin-electoral-counties-1985",
+      "name": "Dublin Electoral Counties 1985",
+      "slug": "dublin-electoral-counties-1985",
+      "category": "local-government",
+      "date": "1985-01-01",
+      "provider": [
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "data/maps/local-government/Dublin_Electoral_Counties_1985.fgb"
+      },
+      "style": {
+        "color": "#345995",
+        "weight": 2
+      },
+      "labelProperty": "Name_1985",
+      "keywords": [
+        "dublin",
+        "electoral counties",
+        "local government",
+        "1985"
       ]
     },
     {
