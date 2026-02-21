@@ -22,6 +22,7 @@ class App {
         this.textScale = 100;
         this.textScaleSteps = [50, 60, 70, 80, 90, 100, 110, 125, 150, 175, 200];
         this.splitPosition = 50; // Percentage for info pane width
+        this._mapLoadFeedback = null;
     }
 
     /**
@@ -580,6 +581,7 @@ class App {
      * Show search autocomplete dropdown with maps, features, and address suggestions
      */
     showSearchAutocomplete(query, autocomplete) {
+        if (!autocomplete || !document.body.contains(autocomplete)) return;
         let html = '';
 
         // --- Section 1: Matching Maps ---
@@ -707,6 +709,15 @@ class App {
      * Fetch live address/place suggestions from Nominatim and render into dropdown
      */
     async fetchAddressSuggestions(query, autocomplete) {
+        // Avoid expensive lookups for very short mobile queries.
+        if (window.matchMedia('(max-width: 768px)').matches && query.length < 3) {
+            const container = document.getElementById('addressSuggestionsContainer');
+            if (container) {
+                container.innerHTML = '';
+            }
+            return;
+        }
+
         // Cancel any pending address fetch
         if (this._addressAbortController) {
             this._addressAbortController.abort();
@@ -1741,11 +1752,90 @@ class App {
      */
     async loadMap(mapId) {
         const mapConfig = dataService.getMapById(mapId);
-        if (mapConfig) {
+        if (!mapConfig) return;
+
+        const feedback = this.startMapLoadFeedback(mapConfig.name || mapId);
+        try {
             await mapController.loadLayer(mapConfig, true);
             mapController.fitToLayer(mapId);
             this.updateURLState();
+            this.finishMapLoadFeedback(feedback, true, mapConfig.name || mapId);
+        } catch (error) {
+            console.error(`[App] Failed to load map ${mapId}:`, error);
+            this.finishMapLoadFeedback(feedback, false, mapConfig.name || mapId);
+            this.showError(`Failed to load map: ${mapConfig.name || mapId}`);
         }
+    }
+
+
+    startMapLoadFeedback(mapName) {
+        if (this._mapLoadFeedback?.intervalId) {
+            clearInterval(this._mapLoadFeedback.intervalId);
+        }
+
+        const statusEl = this.ensureMapLoadStatusElement();
+        const toastEl = this.ensureMapLoadToastElement();
+        const startedAt = performance.now();
+
+        const render = () => {
+            const seconds = ((performance.now() - startedAt) / 1000).toFixed(1);
+            const message = `Loading ${mapName}... ${seconds}s`;
+            statusEl.textContent = message;
+            toastEl.textContent = message;
+        };
+
+        render();
+        statusEl.classList.add('map-load-status--visible');
+        toastEl.classList.add('map-load-toast--visible');
+
+        const intervalId = setInterval(render, 100);
+        this._mapLoadFeedback = { intervalId, startedAt, statusEl, toastEl };
+        return this._mapLoadFeedback;
+    }
+
+    finishMapLoadFeedback(feedback, success, mapName) {
+        if (!feedback) return;
+        clearInterval(feedback.intervalId);
+        const totalSeconds = ((performance.now() - feedback.startedAt) / 1000).toFixed(1);
+
+        feedback.statusEl.classList.remove('map-load-status--visible');
+        feedback.toastEl.textContent = success
+            ? `Loaded ${mapName} in ${totalSeconds}s`
+            : `Failed to load ${mapName} after ${totalSeconds}s`;
+
+        feedback.toastEl.classList.add('map-load-toast--visible');
+        clearTimeout(this._mapLoadFeedbackHideTimer);
+        this._mapLoadFeedbackHideTimer = setTimeout(() => {
+            feedback.toastEl.classList.remove('map-load-toast--visible');
+        }, success ? 2200 : 4200);
+
+        this._mapLoadFeedback = null;
+    }
+
+    ensureMapLoadStatusElement() {
+        let el = document.getElementById('mapLoadStatus');
+        if (!el) {
+            el = document.createElement('div');
+            el.id = 'mapLoadStatus';
+            el.className = 'map-load-status';
+            el.setAttribute('role', 'status');
+            el.setAttribute('aria-live', 'polite');
+            document.body.appendChild(el);
+        }
+        return el;
+    }
+
+    ensureMapLoadToastElement() {
+        let el = document.getElementById('mapLoadToast');
+        if (!el) {
+            el = document.createElement('div');
+            el.id = 'mapLoadToast';
+            el.className = 'map-load-toast';
+            el.setAttribute('role', 'status');
+            el.setAttribute('aria-live', 'polite');
+            document.body.appendChild(el);
+        }
+        return el;
     }
 
     /**
