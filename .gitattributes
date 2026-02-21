@@ -17,3 +17,6 @@
 # WebAssembly files
 *.wasm filter=lfs diff=lfs merge=lfs -text
 data/maps/physical/osni_50m_dtm/OSNI_OpenData_50m_DTM.csv filter=lfs diff=lfs merge=lfs -text
+
+# Store this map directly in Git to avoid LFS quota fetch failures in static hosting.
+data/maps/local-government/Dublin_Electoral_Counties_1985.fgb -filter -diff -merge -text

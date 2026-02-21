@@ -923,6 +923,18 @@ body.split-dragging * {
   background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
 }
 
+/* Ensure TOC links remain legible when dark mode comes from system preference */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .catalogue-flat__toc-link {
+    color: #9fc3ff;
+  }
+
+  :root:not([data-theme="light"]) .catalogue-flat__toc-link:hover {
+    background: rgba(66, 153, 225, 0.16);
+    color: #d6e6ff;
+  }
+}
+
 /* Flat mode card behavior: disable sticky stacking that is designed for grouped view */
 #catalogueFlatView .c1-card__header,
 #catalogueFlatView .c1-card__section-header {
