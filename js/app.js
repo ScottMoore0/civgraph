@@ -580,6 +580,7 @@ class App {
      * Show search autocomplete dropdown with maps, features, and address suggestions
      */
     showSearchAutocomplete(query, autocomplete) {
+        if (!autocomplete || !document.body.contains(autocomplete)) return;
         let html = '';
 
         // --- Section 1: Matching Maps ---
@@ -707,6 +708,15 @@ class App {
      * Fetch live address/place suggestions from Nominatim and render into dropdown
      */
     async fetchAddressSuggestions(query, autocomplete) {
+        // Avoid expensive lookups for very short mobile queries.
+        if (window.matchMedia('(max-width: 768px)').matches && query.length < 3) {
+            const container = document.getElementById('addressSuggestionsContainer');
+            if (container) {
+                container.innerHTML = '';
+            }
+            return;
+        }
+
         // Cancel any pending address fetch
         if (this._addressAbortController) {
             this._addressAbortController.abort();
