@@ -1012,22 +1012,40 @@ class MapController {
      * Load FlatGeobuf file (full download via fetch, no range requests)
      */
     async loadFlatGeobuf(url, onProgress = null) {
-        const features = [];
-        let featureCount = 0;
+        const loadFromSource = async (source) => {
+            const features = [];
+            let featureCount = 0;
+
+            for await (const feature of flatgeobuf.deserialize(source)) {
+                features.push(feature);
+                featureCount++;
+
+                if (onProgress && featureCount % 100 === 0) {
+                    const estimatedProgress = Math.min(90, Math.log10(featureCount) * 30);
+                    onProgress(estimatedProgress);
+                }
+            }
+
+            return features;
+        };
 
         const response = await fetch(url);
         if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
 
-        for await (const feature of flatgeobuf.deserialize(response.body)) {
-            features.push(feature);
-            featureCount++;
-
-            if (onProgress && featureCount % 100 === 0) {
-                const estimatedProgress = Math.min(90, Math.log10(featureCount) * 30);
-                onProgress(estimatedProgress);
+        // Primary path: stream parsing (lower memory footprint).
+        if (response.body) {
+            try {
+                return await loadFromSource(response.body);
+            } catch (streamErr) {
+                console.warn(`[MapController] Stream FGB parse failed for ${url}, retrying via ArrayBuffer:`, streamErr);
             }
         }
-        return features;
+
+        // Fallback path: parse from full bytes for broader browser compatibility.
+        const retryResponse = response.bodyUsed ? await fetch(url) : response;
+        if (!retryResponse.ok) throw new Error(`Failed to refetch ${url}: ${retryResponse.status}`);
+        const bytes = new Uint8Array(await retryResponse.arrayBuffer());
+        return loadFromSource(bytes);
     }
 
     /**

@@ -1756,7 +1756,10 @@ class App {
 
         const feedback = this.startMapLoadFeedback(mapConfig.name || mapId);
         try {
-            await mapController.loadLayer(mapConfig, true);
+            const state = await mapController.loadLayer(mapConfig, true);
+            if (!state || !state.loaded) {
+                throw new Error(`Layer did not load: ${mapId}`);
+            }
             mapController.fitToLayer(mapId);
             this.updateURLState();
             this.finishMapLoadFeedback(feedback, true, mapConfig.name || mapId);
