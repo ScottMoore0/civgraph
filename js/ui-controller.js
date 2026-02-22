@@ -37,6 +37,7 @@ class UIController {
         this.onExpandToFullMap = null;
         this.onSearch = null;
         this.onMapDetailClick = null;
+        this._searchAddressAbortController = null;
 
         // Catalogue navigation state
         this.catalogueHistory = [];
@@ -259,7 +260,7 @@ class UIController {
                 return variant ? `
                                 <div class="catalogue-detail__variant" data-map-id="${variant.id}">
                                     ${this.escapeHtml(variant.name)}
-                                    ${variant.provider ? `<span style="color: var(--color-text-muted); font-size: var(--text-xs);"> Â· ${variant.provider.join(', ')}</span>` : ''}
+                                    ${variant.provider ? `<span style="color: var(--color-text-muted); font-size: var(--text-xs);"> &middot; ${variant.provider.join(', ')}</span>` : ''}
                                 </div>
                             ` : '';
             }).join('')}
@@ -279,7 +280,7 @@ class UIController {
                 return member ? `
                                 <div class="catalogue-detail__variant" data-map-id="${member.id}">
                                     ${this.escapeHtml(member.name)}
-                                    ${member.provider ? `<span style="color: var(--color-text-muted); font-size: var(--text-xs);"> Â· ${member.provider.join(', ')}</span>` : ''}
+                                    ${member.provider ? `<span style="color: var(--color-text-muted); font-size: var(--text-xs);"> &middot; ${member.provider.join(', ')}</span>` : ''}
                                 </div>
                             ` : `<div class="catalogue-detail__variant">${this.escapeHtml(memberId)}</div>`;
             }).join('')}
@@ -352,7 +353,7 @@ class UIController {
             <div class="catalogue-detail__attr-table" id="catalogueAttrTable">
                 <div class="catalogue-detail__attr-table-header" id="catalogueAttrTableHeader">
                     <span class="catalogue-detail__attr-table-title">Feature Attributes</span>
-                    <span class="catalogue-detail__attr-table-toggle">â–¼</span>
+                    <span class="catalogue-detail__attr-table-toggle">&#9660;</span>
                 </div>
                 <div class="catalogue-detail__attr-table-body" id="catalogueAttrTableBody">
                     <div class="catalogue-detail__attr-loading">Loading attributes...</div>
@@ -396,7 +397,7 @@ class UIController {
                 attrTableBody.classList.toggle('catalogue-detail__attr-table-body--collapsed');
                 const toggle = attrTableHeader.querySelector('.catalogue-detail__attr-table-toggle');
                 if (toggle) {
-                    toggle.textContent = attrTableBody.classList.contains('catalogue-detail__attr-table-body--collapsed') ? 'â–¶' : 'â–¼';
+                    toggle.textContent = attrTableBody.classList.contains('catalogue-detail__attr-table-body--collapsed') ? '▶' : '▼';
                 }
             });
         }
@@ -528,6 +529,11 @@ class UIController {
                     ${hasMore ? `Loaded ${totalLoaded} features (scroll for more)` : `Showing all ${totalLoaded} features`}
                 </div>
             `;
+
+            const attrTable = attrTableBody.querySelector('.catalogue-detail__attr-table-inner');
+            if (attrTable && typeof electionController?._setupSingleResultsTableControls === 'function') {
+                electionController._setupSingleResultsTableControls(attrTable);
+            }
 
             // Add scroll listener for lazy loading
             const scrollContainer = document.getElementById('attrTableScroll');
@@ -2355,7 +2361,7 @@ class UIController {
             }
 
             // Expand button for maps with variants (isGroup)
-            const expandBtn = hasVariants ? `<button class="btn btn--icon btn--xs variants-toggle" data-map-id="${map.id}" title="Show variants">â–¼</button>` : '';
+            const expandBtn = hasVariants ? `<button class="btn btn--icon btn--xs variants-toggle" data-map-id="${map.id}" title="Show variants">&#9660;</button>` : '';
 
             // Variants dropdown HTML (for isGroup maps)
             const variantsHtml = hasVariants ? this.renderVariantsDropdown(map, isLoaded) : '';
@@ -3707,8 +3713,12 @@ class UIController {
             }
             if (!primaryName) primaryName = 'Unnamed Feature';
 
+            const detailId = `${feature.mapId || mapConfig?.id || 'feature'}:${feature.id || primaryName}`;
+            if (!this._featureDetailCache) this._featureDetailCache = new Map();
+            this._featureDetailCache.set(detailId, { feature, mapConfig, primaryName });
+
             if (mapConfig?.id) {
-                html += `<button type="button" class="feature-info__primary-name feature-info__primary-name-link" data-feature-map-id="${this.escapeHtml(mapConfig.id)}">${this.escapeHtml(primaryName)}</button>`;
+                html += `<button type="button" class="feature-info__primary-name feature-info__primary-name-link" data-feature-detail-id="${this.escapeHtml(detailId)}">${this.escapeHtml(primaryName)}</button>`;
             } else {
                 html += `<div class="feature-info__primary-name">${this.escapeHtml(primaryName)}</div>`;
             }
@@ -3860,12 +3870,49 @@ class UIController {
 
         content.querySelectorAll('.feature-info__primary-name-link').forEach((btn) => {
             btn.addEventListener('click', () => {
-                const mapId = btn.dataset.featureMapId;
-                if (mapId) this.showCatalogueDetailView(mapId);
+                const detailId = btn.dataset.featureDetailId;
+                if (detailId) this.showFeatureDetailInCatalogue(detailId);
             });
         });
 
         panel.classList.remove('hidden');
+    }
+
+    showFeatureDetailInCatalogue(detailId) {
+        const entry = this._featureDetailCache?.get(detailId);
+        if (!entry) return;
+        const { feature, mapConfig, primaryName } = entry;
+
+        const detailView = document.getElementById('catalogueDetailView');
+        const listView = document.getElementById('catalogueListView');
+        const nav = document.getElementById('catalogueNav');
+        if (!detailView || !listView || !nav) return;
+
+        nav.classList.remove('hidden');
+        listView.classList.add('hidden');
+        detailView.classList.remove('hidden');
+        this.catalogueView = 'detail';
+
+        const props = feature?.properties || {};
+        const rows = Object.entries(props).map(([k, v]) => `
+            <div class="catalogue-detail__meta-row">
+                <span class="catalogue-detail__meta-label">${this.escapeHtml(k)}</span>
+                <span class="catalogue-detail__meta-value">${this.escapeHtml(String(v ?? ''))}</span>
+            </div>`).join('');
+
+        detailView.innerHTML = `
+            <button class="catalogue-detail__back" id="catalogueBackLink">Back to Catalogue</button>
+            <div class="catalogue-detail__card">
+                <div class="catalogue-detail__color" style="background-color: ${this.escapeHtml(mapConfig?.style?.color || '#888')}"></div>
+                <div class="catalogue-detail__name">${this.escapeHtml(primaryName || 'Feature')}</div>
+                <div class="catalogue-detail__date">${this.escapeHtml(mapConfig?.name || '')}</div>
+            </div>
+            <div class="catalogue-detail__meta">${rows || '<div class="catalogue-detail__meta-row"><span class="catalogue-detail__meta-value">No properties</span></div>'}</div>
+        `;
+
+        const backLink = document.getElementById('catalogueBackLink');
+        if (backLink) backLink.addEventListener('click', () => this.showCatalogueListView());
+        this.updateCatalogueNavButtons();
     }
 
     calculateGeodesicMetrics(geometry) {
@@ -4398,7 +4445,7 @@ class UIController {
         let html = `
             <div class="tables-stats">
                 Showing ${start + 1}-${Math.min(start + pageSize, filteredData.length)} of ${filteredData.length} features
-                ${allColumns && allColumns.length > 3 ? ` Â· ${columns.length} of ${allColumns.length} columns` : ''}
+                ${allColumns && allColumns.length > 3 ? ` &middot; ${columns.length} of ${allColumns.length} columns` : ''}
             </div>
             <div class="tables-wrapper tables-wrapper--scrollable">
                 <table class="data-table data-table--scrollable">
@@ -4407,7 +4454,7 @@ class UIController {
                             ${columns.map(col => `
                                 <th class="data-table__header sortable" data-sort-key="${col}">
                                     <span class="data-table__text">${this.escapeHtml(col)}${this.tablesState.sortKey === col ?
-                (this.tablesState.sortDir === 'asc' ? ' Ã¢â€“Â²' : ' â–¼') : ''}</span>
+                (this.tablesState.sortDir === 'asc' ? ' ▲' : ' ▼') : ''}</span>
                                 </th>
                             `).join('')}
                         </tr>
@@ -4440,9 +4487,9 @@ class UIController {
         if (totalPages > 1) {
             html += `
                 <div class="tables-pagination">
-                    <button class="btn btn--sm tables-pagination__btn" data-page="prev" ${currentPage === 1 ? 'disabled' : ''}>Ã¢â€ Â Prev</button>
+                    <button class="btn btn--sm tables-pagination__btn" data-page="prev" ${currentPage === 1 ? 'disabled' : ''}>&larr; Prev</button>
                     <span class="tables-pagination__info">Page ${currentPage} of ${totalPages}</span>
-                    <button class="btn btn--sm tables-pagination__btn" data-page="next" ${currentPage === totalPages ? 'disabled' : ''}>Next Ã¢â€ â€™</button>
+                    <button class="btn btn--sm tables-pagination__btn" data-page="next" ${currentPage === totalPages ? 'disabled' : ''}>Next &rarr;</button>
                 </div>
             `;
         }
@@ -4652,28 +4699,26 @@ class UIController {
     }
 
     async performSearch(query) {
-        // Check if query looks like an address or postcode
-        if (this.isAddressQuery(query)) {
-            this.performAddressSearch(query);
-            return;
-        }
-
         if (!this.fuse) {
             this.initializeFuse();
             if (!this.fuse) return;
         }
 
-        const [results, featureResults] = await Promise.all([
+        const shouldLookupAddresses = query.length >= 3;
+        const [results, featureResults, addressResults] = await Promise.all([
             Promise.resolve(this.fuse.search(query, { limit: 8 })),
-            this.searchFeatures(query).catch(() => [])
+            this.searchFeatures(query).catch(() => []),
+            shouldLookupAddresses
+                ? this.searchAddressSuggestions(query, 5).catch(() => [])
+                : Promise.resolve([])
         ]);
-        this.renderCombinedAutocomplete(results, featureResults, query);
+        this.renderCombinedAutocomplete(results, featureResults, addressResults, query);
 
         // Notify app for filtering
         if (this.onSearch) this.onSearch(query);
     }
 
-    renderCombinedAutocomplete(results, featureResults, query) {
+    renderCombinedAutocomplete(results, featureResults, addressResults, query) {
         const autocomplete = document.getElementById('searchAutocomplete');
         if (!autocomplete) return;
 
@@ -4689,34 +4734,61 @@ class UIController {
                          data-feature-name="${this.escapeHtml(String(result.name || ''))}"
                          data-map-id="${this.escapeHtml(String(result.mapId || ''))}"
                          data-bbox="${(result.bbox || []).join(',')}">
-                    <span class="search-autocomplete__icon">ðŸ“</span>
+                    <span class="search-autocomplete__icon" aria-hidden="true">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
+                        </svg>
+                    </span>
                     <div class="search-autocomplete__content">
                         <span class="search-autocomplete__name">${this.highlightText(result.name, query)}</span>
                         <span class="search-autocomplete__meta">${this.escapeHtml(mapName)}</span>
                     </div>
                 </div>`;
             }).join('');
-            sections.push(featureHtml);
+            sections.push(`<div class="search-autocomplete__section-header">Features</div>${featureHtml}`);
         }
 
         if (results.length > 0) {
             const mapHtml = results.map(result => {
                 const item = result.item;
-                const typeIcon = item.type === 'map' ? 'ðŸ—º' : item.type === 'class' ? 'â–¦' : 'ðŸ“';
                 const highlightedName = this.highlightMatches(item.name, result.matches);
                 return `<div class="search-autocomplete__item" data-type="${item.type}" data-id="${item.id}">
-                    <span class="search-autocomplete__icon">${typeIcon}</span>
+                    <span class="search-autocomplete__icon" aria-hidden="true">${this.getSearchTypeIconSvg(item.type)}</span>
                     <div class="search-autocomplete__content">
                         <span class="search-autocomplete__name">${highlightedName}</span>
                         ${item.category ? `<span class="search-autocomplete__meta">${item.category}</span>` : ''}
                     </div>
                 </div>`;
             }).join('');
-            sections.push(mapHtml);
+            sections.push(`<div class="search-autocomplete__section-header">Maps</div>${mapHtml}`);
+        }
+
+        if (addressResults.length > 0) {
+            const addressHtml = addressResults.map(result => {
+                const displayName = this.buildAddressDisplayName(result);
+                const placeType = (result.type || '').replace(/_/g, ' ');
+                return `<div class="search-autocomplete__item search-autocomplete__item--address"
+                         data-type="address"
+                         data-lat="${result.lat}"
+                         data-lon="${result.lon}"
+                         data-name="${this.escapeHtml(displayName)}">
+                    <span class="search-autocomplete__icon" aria-hidden="true">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                    </span>
+                    <div class="search-autocomplete__content">
+                        <span class="search-autocomplete__name">${this.highlightText(displayName, query)}</span>
+                        ${placeType ? `<span class="search-autocomplete__meta">${this.escapeHtml(placeType)}</span>` : ''}
+                    </div>
+                </div>`;
+            }).join('');
+            sections.push(`<div class="search-autocomplete__section-header">Places</div>${addressHtml}`);
         }
 
         if (sections.length === 0) {
-            autocomplete.innerHTML = '<div class="search-autocomplete__empty">No maps or features found</div>';
+            autocomplete.innerHTML = '<div class="search-autocomplete__empty">No maps, features, or places found</div>';
             autocomplete.classList.remove('hidden');
             return;
         }
@@ -4745,11 +4817,10 @@ class UIController {
 
         const html = results.map(result => {
             const item = result.item;
-            const typeIcon = item.type === 'map' ? 'ðŸ—º' : item.type === 'class' ? 'â–¦' : 'ðŸ“';
             const highlightedName = this.highlightMatches(item.name, result.matches);
 
             return `<div class="search-autocomplete__item" data-type="${item.type}" data-id="${item.id}">
-                <span class="search-autocomplete__icon">${typeIcon}</span>
+                <span class="search-autocomplete__icon">${this.getSearchTypeIconSvg(item.type)}</span>
                 <div class="search-autocomplete__content">
                     <span class="search-autocomplete__name">${highlightedName}</span>
                     ${item.category ? `<span class="search-autocomplete__meta">${item.category}</span>` : ''}
@@ -4881,7 +4952,7 @@ class UIController {
                          data-lat="${result.lat}" 
                          data-lon="${result.lon}"
                          data-name="${this.escapeHtml(displayName)}">
-                <span class="search-autocomplete__icon">ðŸ“</span>
+                <span class="search-autocomplete__icon">&#128269;</span>
                 <div class="search-autocomplete__content">
                     <span class="search-autocomplete__name">${this.escapeHtml(displayName)}</span>
                     <span class="search-autocomplete__meta">${type}</span>
@@ -4922,8 +4993,8 @@ class UIController {
         addressResults.classList.remove('hidden');
         addressResults.innerHTML = `
             <div class="address-results__header">
-                <h4>Ã°Å¸â€œÂ ${this.escapeHtml(name)}</h4>
-                <button class="address-results__close" title="Close">Ãƒâ€”</button>
+                <h4>&#128269; ${this.escapeHtml(name)}</h4>
+                <button class="address-results__close" title="Close">&times;</button>
             </div>
             <div class="address-results__content">
                 <p class="text-muted text-sm">Checking loaded boundaries...</p>
@@ -5594,7 +5665,10 @@ class UIController {
         if (this.spatialIndex) return this.spatialIndex;
 
         try {
-            const response = await fetch('data/spatial-index.json');
+            let response = await fetch('data/database/spatial-index.json');
+            if (!response.ok) {
+                response = await fetch('data/spatial-index.json');
+            }
             if (!response.ok) throw new Error('Failed to load spatial index');
 
             this.spatialIndex = await response.json();
@@ -5616,6 +5690,65 @@ class UIController {
             this.spatialIndex = { features: [] };
             return this.spatialIndex;
         }
+    }
+
+    async searchAddressSuggestions(query, limit = 5) {
+        if (!query || query.trim().length < 3) return [];
+
+        if (this._searchAddressAbortController) {
+            this._searchAddressAbortController.abort();
+        }
+        this._searchAddressAbortController = new AbortController();
+
+        const encoded = encodeURIComponent(query.trim());
+        const url = `https://nominatim.openstreetmap.org/search?q=${encoded}&format=json&addressdetails=1&limit=${limit}&countrycodes=gb,ie`;
+        const response = await fetch(url, {
+            headers: { 'Accept': 'application/json' },
+            signal: this._searchAddressAbortController.signal
+        });
+        if (!response.ok) throw new Error(`Address lookup failed (${response.status})`);
+        const data = await response.json();
+        return Array.isArray(data) ? data : [];
+    }
+
+    buildAddressDisplayName(place) {
+        if (!place) return '';
+        const addr = place.address || {};
+        const parts = [];
+        if (addr.house_number && addr.road) parts.push(`${addr.house_number} ${addr.road}`);
+        else if (addr.road) parts.push(addr.road);
+        else if (addr.name) parts.push(addr.name);
+        if (addr.suburb) parts.push(addr.suburb);
+        else if (addr.neighbourhood) parts.push(addr.neighbourhood);
+        if (addr.city) parts.push(addr.city);
+        else if (addr.town) parts.push(addr.town);
+        else if (addr.village) parts.push(addr.village);
+        if (addr.county) parts.push(addr.county);
+        if (parts.length > 0) return parts.join(', ');
+        return place.display_name || '';
+    }
+
+    getSearchTypeIconSvg(type) {
+        if (type === 'map') {
+            return `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"></path>
+                <path d="M8 2v16"></path>
+                <path d="M16 6v16"></path>
+            </svg>`;
+        }
+        if (type === 'class') {
+            return `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+            </svg>`;
+        }
+        return `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 7h18"></path>
+            <path d="M3 12h18"></path>
+            <path d="M3 17h18"></path>
+        </svg>`;
     }
 
     async searchFeatures(query) {
@@ -5676,7 +5809,7 @@ class UIController {
                          data-map-id="${result.mapId}"
                          data-bbox="${result.bbox?.join(',') || ''}"
                          data-centroid="${result.centroid?.join(',') || ''}">
-                <span class="search-autocomplete__icon">ðŸ“</span>
+                <span class="search-autocomplete__icon">&#128269;</span>
                 <div class="search-autocomplete__content">
                     <span class="search-autocomplete__name">${this.highlightText(result.name, query)}</span>
                     <span class="search-autocomplete__meta">${this.escapeHtml(mapName)}</span>

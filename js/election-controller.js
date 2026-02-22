@@ -863,7 +863,7 @@ class ElectionController {
         const headerRight = document.getElementById('electionPaneHeaderRight');
         const titleEl = document.getElementById('electionPaneTitle');
         if (!headerRight || !titleEl) return;
-        titleEl.textContent = `${this._shortBodyName(this.body)} Ã¢â‚¬â€ ${this._formatDate(this.date)}`;
+        titleEl.textContent = `${this._shortBodyName(this.body)} - ${this._formatDate(this.date)}`;
         const closeBtn = headerRight.querySelector('#electionCloseBtn');
         headerRight.innerHTML = '';
         const content = this.splitPaneEl?.querySelector('#electionPaneContent');
@@ -1252,7 +1252,7 @@ class ElectionController {
                 content.style.display = '';
                 content.style.flexDirection = '';
                 // Restore header
-                titleEl.textContent = `${this._shortBodyName(this.body)} Ã¢â‚¬â€ ${this._formatDate(this.date)}`;
+                titleEl.textContent = `${this._shortBodyName(this.body)} - ${this._formatDate(this.date)}`;
                 this._restoreHeaderTabs();
                 this._showNIWideResults();
                 if (this.onStateChange) this.onStateChange();
@@ -1556,7 +1556,7 @@ class ElectionController {
                 .replace(/%/g, '')
                 .replace(/[+\u2212]/g, (m) => (m === '\u2212' ? '-' : '+'))
                 .trim();
-            if (!cleaned || cleaned === '-' || cleaned === 'â€”' || cleaned.toLowerCase() === 'n/a') return null;
+            if (!cleaned || cleaned === '-' || cleaned === '—' || cleaned.toLowerCase() === 'n/a') return null;
             const n = Number(cleaned);
             return Number.isFinite(n) ? n : null;
         };
@@ -1641,9 +1641,9 @@ class ElectionController {
                 const filtered = filterState.has(idx) && (filterState.get(idx)?.size ?? 0) > 0;
                 const sorted = sortState.col === idx && sortState.dir !== 'default';
                 btn.classList.toggle('election-th-btn--active', filtered || sorted);
-                if (sorted && sortState.dir === 'asc') btn.innerHTML = '^';
-                else if (sorted && sortState.dir === 'desc') btn.innerHTML = 'v';
-                else btn.innerHTML = '<>';
+                if (sorted && sortState.dir === 'asc') btn.innerHTML = '&#8593;';
+                else if (sorted && sortState.dir === 'desc') btn.innerHTML = '&#8595;';
+                else btn.innerHTML = '&#8645;';
             });
         };
 
@@ -1777,7 +1777,7 @@ class ElectionController {
                 menuBtn.setAttribute('data-table-filter-sort-btn', '1');
                 menuBtn.setAttribute('aria-label', 'Sort and Filter');
                 menuBtn.setAttribute('title', 'Sort and Filter');
-                menuBtn.innerHTML = '<>';
+                menuBtn.innerHTML = '&#8645;';
                 menuBtn.addEventListener('click', (event) => {
                     event.preventDefault();
                     event.stopPropagation();
@@ -1909,18 +1909,18 @@ class ElectionController {
         html += `<th class="election-col-name">Name</th>`;
         html += `<th class="election-col-party">Party</th>`;
         html += `<th class="election-col-status">Status</th>`;
-        html += `<th class="election-num">${this._thTwoLine('1st', 'pref Â±')}</th>`;
+        html += `<th class="election-num">${this._thTwoLine('1st', 'pref ±')}</th>`;
         html += `<th class="election-num">${this._thTwoLine('1st', 'pref %')}</th>`;
         if (this._countDetailedView) {
-            html += `<th class="election-num">${this._thTwoLine('1st', 'pref Â± %')}</th>`;
+            html += `<th class="election-num">${this._thTwoLine('1st', 'pref ± %')}</th>`;
         }
         html += `<th class="election-num">${this._thTwoLine('1st', 'pref')}</th>`;
         visibleCounts.forEach(n => {
             html += `<th class="election-num">${this._thTwoLine('Count', String(n))}</th>`;
             if (this._countDetailedView) {
                 html += `<th class="election-num">${this._thTwoLine(`Count ${n}`, '%')}</th>`;
-                html += `<th class="election-num">${this._thTwoLine(`Count ${n}`, 'Â± %')}</th>`;
-                html += `<th class="election-num">${this._thTwoLine(`Count ${n}`, 'Â±')}</th>`;
+                html += `<th class="election-num">${this._thTwoLine(`Count ${n}`, '± %')}</th>`;
+                html += `<th class="election-num">${this._thTwoLine(`Count ${n}`, '±')}</th>`;
             }
         });
         html += `</tr></thead><tbody>`;
@@ -2377,7 +2377,7 @@ class ElectionController {
                 <td><span class="election-party-dot" style="background:${this._esc(c.colour)}"></span>${this._esc(c.name)} <small class="election-party-label">(${this._esc(c.party)})</small></td>
                 <td class="election-num">${fmt(c.votes)}</td>
                 <td class="election-num">${pct(c.votes)}</td>
-                <td class="${statCls}">${this._esc(c.status || 'Ã¢â‚¬â€')}</td>
+                <td class="${statCls}">${this._esc(c.status || '—')}</td>
             </tr>`;
         });
 
