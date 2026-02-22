@@ -2246,13 +2246,10 @@ function animateStages(selectionOrYear, constituencyFolder) {
                 else mode = "pause";
             }
             if (mode === "pause") {
-                setPauseReplayIcon("play");
                 pause();
             } else if (mode === "play") {
-                setPauseReplayIcon("pause");
                 resume();
             } else {
-                setPauseReplayIcon("pause");
                 replay(1);
             }
         });
@@ -3071,7 +3068,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
     }
 
     function resume() {
-        if (!isPaused) return;
+        if (!isPaused && running) return;
         if (loop) {
             clearInterval(loop);
             loop = undefined;
