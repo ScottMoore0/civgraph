@@ -3080,9 +3080,13 @@ function animateStages(selectionOrYear, constituencyFolder) {
         // Re-sync stage marker/counter before resuming timed advance.
         setActiveMarker(Math.max(1, countNumber - 1));
         updateCounter(Math.max(1, countNumber - 1));
-        loop = window.setInterval(advanceCount, 4000 * speed);
         running = true;
         setPauseReplayIcon("pause");
+        // Resume immediately from the paused point, then continue normal cadence.
+        advanceCount();
+        if (running) {
+            loop = window.setInterval(advanceCount, 4000 * speed);
+        }
     }
 
     function replay(s) {

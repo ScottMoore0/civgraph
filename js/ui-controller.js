@@ -35,6 +35,8 @@ class UIController {
         this.onCategoryChange = null;
         this.onProviderCategoryChange = null;
         this.onExpandToFullMap = null;
+        this.onPartialFeatureToggle = null;
+        this.onPartialFeatureUnload = null;
         this.onSearch = null;
         this.onMapDetailClick = null;
         this._searchAddressAbortController = null;
@@ -494,8 +496,8 @@ class UIController {
                     const value = feature.properties[key];
                     const displayValue = value === null ? '<em>null</em>' :
                         typeof value === 'object' ? JSON.stringify(value).substring(0, 30) + '...' :
-                            String(value).substring(0, 50) + (String(value).length > 50 ? '...' : '');
-                    return `<td class="catalogue-detail__attr-td" title="${this.escapeHtml(String(value))}">${displayValue}</td>`;
+                            this.formatDisplayValue(value).substring(0, 50) + (this.formatDisplayValue(value).length > 50 ? '...' : '');
+                    return `<td class="catalogue-detail__attr-td" title="${this.escapeHtml(this.formatDisplayValue(value))}">${displayValue}</td>`;
                 }).join('');
                 return `<tr class="catalogue-detail__attr-tr">${cells}</tr>`;
             };
@@ -1918,7 +1920,7 @@ class UIController {
                         ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
                         ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : ''}
                     </div>
-                    ${!isPlaceholder ? `<div class="class-member__actions">\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${isLoaded ? '&#10005;' : '+'}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions"></button>
+                    ${!isPlaceholder ? `<div class="class-member__actions">\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${this.getLoadButtonIcon(isLoaded)}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions"></button>
                             <div class="overflow-menu__dropdown">
                                 <button class="overflow-menu__item visibility-btn" data-map-id="${map.id}">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -2128,7 +2130,7 @@ class UIController {
                             ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : ''}
                         </div>
                         ${!isPlaceholder ? `<div class="class-member__actions">
-                            <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}">${isLoaded ? '&#10005;' : '+'}</button>
+                            <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}">${this.getLoadButtonIcon(isLoaded)}</button>
                             <div class="overflow-menu">
                                 <button class="overflow-menu__trigger" title="More actions"></button>
                                 <div class="overflow-menu__dropdown">
@@ -2381,7 +2383,7 @@ class UIController {
                 ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
                 ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : ''}
             </div>
-                ${!isPlaceholder ? `<div class="class-member__actions">${expandBtn}\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${isLoaded ? '&#10005;' : '+'}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions"></button>
+                ${!isPlaceholder ? `<div class="class-member__actions">${expandBtn}\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${this.getLoadButtonIcon(isLoaded)}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions"></button>
                             <div class="overflow-menu__dropdown">
                                 <button class="overflow-menu__item visibility-btn" data-map-id="${map.id}">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -2555,7 +2557,7 @@ class UIController {
                         html += `<button class="btn btn--icon btn--xs visibility-btn" data-map-id="${item.map.id}" title="${item.isLoaded ? 'Hide' : 'Show'}">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                         </button>`;
-                        html += `<button class="c1-load-btn load-btn" data-map-id="${item.map.id}" title="${item.isLoaded ? 'Unload' : 'Load'}">${item.isLoaded ? '&#10005;' : '+'}</button>`;
+                        html += `<button class="c1-load-btn load-btn" data-map-id="${item.map.id}" title="${item.isLoaded ? 'Unload' : 'Load'}">${this.getLoadButtonIcon(item.isLoaded)}</button>`;
                         html += `<button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${item.map.id}" title="Copy shareable URL">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                         </button>`;
@@ -2681,7 +2683,7 @@ class UIController {
                         html += `<button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                         </button>`;
-                        html += `<button class="c1-load-btn load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${isLoaded ? '&#10005;' : '+'}</button>`;
+                        html += `<button class="c1-load-btn load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${this.getLoadButtonIcon(isLoaded)}</button>`;
                         html += `<button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                         </button>`;
@@ -3245,7 +3247,7 @@ class UIController {
                 
                 <!-- Slot 2: Load/Unload -->
                 <button class="btn btn--icon btn--sm load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">
-                    ${isLoaded ? '&#10005;' : '+'}
+                    ${this.getLoadButtonIcon(isLoaded)}
                 </button>
                 
                 <!-- Slot 3: Copy URL -->
@@ -3940,7 +3942,7 @@ class UIController {
         const rows = Object.entries(props).map(([k, v]) => `
             <div class="catalogue-detail__meta-row">
                 <span class="catalogue-detail__meta-label">${this.escapeHtml(k)}</span>
-                <span class="catalogue-detail__meta-value">${this.escapeHtml(String(v ?? ''))}</span>
+                <span class="catalogue-detail__meta-value">${this.escapeHtml(this.formatDisplayValue(v))}</span>
             </div>`).join('');
 
         detailView.innerHTML = `
@@ -4059,6 +4061,24 @@ class UIController {
         }
     }
 
+    formatDisplayValue(value) {
+        if (typeof value === 'number' && Number.isFinite(value)) {
+            if (Math.abs(value) >= 1000) {
+                return value.toLocaleString('en-GB');
+            }
+            return String(value);
+        }
+        if (value === null || value === undefined) return '';
+        return String(value);
+    }
+
+    getLoadButtonIcon(isLoaded) {
+        if (isLoaded) {
+            return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+        }
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+    }
+
     hideFeatureInfo() {
         const panel = document.getElementById('featureInfo');
         if (panel) panel.classList.add('hidden');
@@ -4083,6 +4103,17 @@ class UIController {
             const color = map.style?.color || '#3388ff';
             const authors = map.authors?.join(', ') || '';
             const date = map.date ? this.getYear(map.date) : '';
+            const featureRows = partial?.isPartial
+                ? (partial.featureItems || []).map((item) => `
+                    <div class="active-layer-item__feature" data-map-id="${map.id}" data-feature-index="${item.index}">
+                        <span class="active-layer-item__feature-name">${this.escapeHtml(item.name || `Feature ${item.index}`)}</span>
+                        <div class="active-layer-item__feature-actions">
+                            <button class="active-layer-item__feature-btn partial-visibility-btn" data-map-id="${map.id}" data-feature-index="${item.index}" title="${item.visible ? 'Hide feature' : 'Show feature'}">${item.visible ? 'Hide' : 'Show'}</button>
+                            <button class="active-layer-item__feature-btn partial-unload-btn" data-map-id="${map.id}" data-feature-index="${item.index}" title="Unload feature">Unload</button>
+                        </div>
+                    </div>
+                `).join('')
+                : '';
 
             return `
                 <div class="active-layer-item ${isVisible ? '' : 'active-layer-item--hidden'}${partial?.isPartial ? ' active-layer-item--partial' : ''}" data-map-id="${map.id}">
@@ -4093,6 +4124,7 @@ class UIController {
                             ${authors}${authors && date ? ' · ' : ''}${date ? `<em>${date}</em>` : ''}
                             ${partial?.isPartial ? `<span class="active-layer-item__partial-badge">${partial.featureNames?.length || 1} feature${(partial.featureNames?.length || 1) > 1 ? 's' : ''}</span>` : ''}
                         </span>
+                        ${partial?.isPartial ? `<div class="active-layer-item__feature-list">${featureRows}</div>` : ''}
                     </div>
                     <div class="active-layer-item__actions">
                         <button class="active-layer-item__btn visibility-btn" data-map-id="${map.id}" title="${isVisible ? 'Hide' : 'Show'}">
@@ -4125,6 +4157,26 @@ class UIController {
             btn.addEventListener('click', () => {
                 const mapId = btn.dataset.mapId;
                 if (this.onMapUnload) this.onMapUnload(mapId);
+            });
+        });
+
+        container.querySelectorAll('.partial-visibility-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const mapId = btn.dataset.mapId;
+                const featureIndex = Number(btn.dataset.featureIndex);
+                if (this.onPartialFeatureToggle && Number.isFinite(featureIndex)) {
+                    this.onPartialFeatureToggle(mapId, featureIndex);
+                }
+            });
+        });
+
+        container.querySelectorAll('.partial-unload-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const mapId = btn.dataset.mapId;
+                const featureIndex = Number(btn.dataset.featureIndex);
+                if (this.onPartialFeatureUnload && Number.isFinite(featureIndex)) {
+                    this.onPartialFeatureUnload(mapId, featureIndex);
+                }
             });
         });
     }
@@ -4487,8 +4539,8 @@ class UIController {
 
         let html = `
             <div class="tables-stats">
-                Showing ${start + 1}-${Math.min(start + pageSize, filteredData.length)} of ${filteredData.length} features
-                ${allColumns && allColumns.length > 3 ? ` &middot; ${columns.length} of ${allColumns.length} columns` : ''}
+                Showing ${this.formatDisplayValue(start + 1)}-${this.formatDisplayValue(Math.min(start + pageSize, filteredData.length))} of ${this.formatDisplayValue(filteredData.length)} features
+                ${allColumns && allColumns.length > 3 ? ` &middot; ${this.formatDisplayValue(columns.length)} of ${this.formatDisplayValue(allColumns.length)} columns` : ''}
             </div>
             <div class="tables-wrapper tables-wrapper--scrollable">
                 <table class="data-table data-table--scrollable">
@@ -4506,7 +4558,7 @@ class UIController {
                         ${pageData.map(row => `
                             <tr>
                                 ${columns.map(col => `
-                                    <td class="data-table__cell"><span class="data-table__text">${this.escapeHtml(String(row[col] ?? ''))}</span></td>
+                                    <td class="data-table__cell"><span class="data-table__text">${this.escapeHtml(this.formatDisplayValue(row[col]))}</span></td>
                                 `).join('')}
                             </tr>
                         `).join('')}
@@ -5660,7 +5712,7 @@ class UIController {
                     <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${variant.id}" title="${variantLoaded ? 'Hide' : 'Show'}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                     </button>
-                    <button class="btn btn--icon btn--xs load-btn" data-map-id="${variant.id}" title="${variantLoaded ? 'Unload' : 'Load'}">${variantLoaded ? '&#10005;' : '+'}</button>
+                    <button class="btn btn--icon btn--xs load-btn" data-map-id="${variant.id}" title="${variantLoaded ? 'Unload' : 'Load'}">${this.getLoadButtonIcon(variantLoaded)}</button>
                     <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${variant.id}" title="Copy shareable URL">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                     </button>

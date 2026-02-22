@@ -136,6 +136,20 @@ class App {
                 }
             };
 
+            uiController.onPartialFeatureToggle = (mapId, featureIndex) => {
+                mapController.togglePartialFeature(mapId, featureIndex);
+                this.updateMapList();
+                this.updateActiveLayers();
+                this.updateURLState();
+            };
+
+            uiController.onPartialFeatureUnload = (mapId, featureIndex) => {
+                mapController.unloadPartialFeature(mapId, featureIndex);
+                this.updateMapList();
+                this.updateActiveLayers();
+                this.updateURLState();
+            };
+
             uiController.onCategoryChange = (categoryId) => {
                 this.currentCategory = categoryId;
                 this.updateMapList();
@@ -1804,7 +1818,8 @@ class App {
             const isPartial = mapController.isPartialLayer(id);
             if (isPartial) {
                 const featureNames = mapController.getPartialFeatureNames(id);
-                partialLayerInfo.set(id, { isPartial: true, featureNames });
+                const featureItems = mapController.getPartialFeatureItems(id);
+                partialLayerInfo.set(id, { isPartial: true, featureNames, featureItems });
             }
         });
 

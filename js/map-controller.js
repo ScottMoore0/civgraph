@@ -1291,7 +1291,9 @@ class MapController {
                 useSpatial: false,
                 isPartial: true,              // Flag: this is a partial load
                 loadedIndices: new Set(),     // Track which features are loaded
-                featureNames: new Map()       // Track feature names for display
+                featureNames: new Map(),      // Track feature names for display
+                featureLayers: new Map(),     // featureIndex -> L.GeoJSON layer
+                featureVisibility: new Map()  // featureIndex -> visible boolean
             };
             this.layerStates.set(id, state);
         }
@@ -1345,13 +1347,14 @@ class MapController {
         }
 
         // Add the feature to the layer
-        this.addFeatureToLayer(state, loadedFeature, style, labelProperty, mapConfig);
+        const addedLayer = this.addFeatureToLayer(state, loadedFeature, style, labelProperty, mapConfig);
         state.loadedIndices.add(featureIndex);
 
-        // Store feature name if provided
-        if (featureName) {
-            state.featureNames.set(featureIndex, featureName);
-        }
+        // Store feature metadata
+        const resolvedName = featureName || loadedFeature?.properties?.[labelProperty] || `Feature ${featureIndex}`;
+        state.featureNames.set(featureIndex, resolvedName);
+        state.featureLayers.set(featureIndex, addedLayer);
+        state.featureVisibility.set(featureIndex, true);
 
         // Show the layer
         this.showLayer(id);
@@ -1402,6 +1405,64 @@ class MapController {
         const state = this.layerStates.get(id);
         if (!state?.isPartial) return [];
         return Array.from(state.featureNames.values());
+    }
+
+    getPartialFeatureItems(id) {
+        const state = this.layerStates.get(id);
+        if (!state?.isPartial) return [];
+        return Array.from(state.loadedIndices)
+            .sort((a, b) => {
+                const an = Number(a);
+                const bn = Number(b);
+                if (Number.isFinite(an) && Number.isFinite(bn)) return an - bn;
+                return String(a).localeCompare(String(b));
+            })
+            .map((index) => ({
+                index,
+                name: state.featureNames.get(index) || `Feature ${index}`,
+                visible: state.featureVisibility.get(index) !== false
+            }));
+    }
+
+    togglePartialFeature(mapId, featureIndex) {
+        const state = this.layerStates.get(mapId);
+        if (!state?.isPartial) return;
+        const featureLayer = state.featureLayers.get(featureIndex);
+        if (!featureLayer) return;
+
+        const currentlyVisible = state.featureVisibility.get(featureIndex) !== false;
+        if (currentlyVisible) {
+            state.group.removeLayer(featureLayer);
+            state.featureVisibility.set(featureIndex, false);
+        } else {
+            state.group.addLayer(featureLayer);
+            state.featureVisibility.set(featureIndex, true);
+        }
+        this.updateLabels();
+    }
+
+    unloadPartialFeature(mapId, featureIndex) {
+        const state = this.layerStates.get(mapId);
+        if (!state?.isPartial) return;
+        const featureLayer = state.featureLayers.get(featureIndex);
+        if (!featureLayer) return;
+
+        const removedLayers = new Set();
+        featureLayer.eachLayer((l) => removedLayers.add(l));
+        state.labelEntries = state.labelEntries.filter((entry) => !removedLayers.has(entry.layer));
+
+        state.group.removeLayer(featureLayer);
+        state.geoJsonLayers = state.geoJsonLayers.filter((layer) => layer !== featureLayer);
+        state.loadedIndices.delete(featureIndex);
+        state.featureLayers.delete(featureIndex);
+        state.featureNames.delete(featureIndex);
+        state.featureVisibility.delete(featureIndex);
+
+        if (state.loadedIndices.size === 0) {
+            this.unloadLayer(mapId);
+            return;
+        }
+        this.updateLabels();
     }
 
     /**

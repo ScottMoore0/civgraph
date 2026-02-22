@@ -54,3 +54,37 @@
 - [x] Catholic Dioceses offload/update:
   - `data/database/maps.json` now points `files.fgb` at Archive.org direct URL for `catholic-dioceses`
   - repository local single `data/maps/built-environment/Catholic_Dioceses.fgb` replaced with chunked `.partNNN` files and `README-reassemble.txt`
+
+# Current Request (TOC, load/unload, numbers, map loading, active-feature controls)
+
+## In Progress / Completed
+
+- [x] 1) TOC title clipping/space rebalance
+  - reduced TOC text size
+  - widened usable title column
+  - reduced horizontal cell/thumbnail/strip spacing
+  - preserved no horizontal overflow on catalogue pane
+
+- [x] 2) Thousands separators for numeric values > 1,000 (without altering string-typed numbers)
+  - added numeric-only display formatter in `js/ui-controller.js`
+  - applied to dynamic tables and detail metadata/property rendering
+
+- [x] 3) Load button icon should change to X and support unload
+  - replaced fragile text glyphs with SVG plus/X icon helper
+  - applied across map cards, class members, C1 rows, and variant actions
+
+- [x] 4) Transfer animation resume should continue from paused point
+  - updated `resume()` in `election-viewer-package/js/stages2.js` to resume immediately from current point, then continue timed loop
+
+- [x] 5) Results pane table headers align left
+  - enforced left alignment for election results table headers in `assets/css/main.css`
+
+- [x] 6) Non-loading target maps fix pass
+  - restored local `data/maps/built-environment/Catholic_Dioceses.fgb` from chunk parts
+  - updated `data/database/maps.json` Catholic Dioceses FGB path to local file
+  - verified source files exist for Historic Sites, Railways, Transport Lines, Townlands, and Copernicus tile set
+
+- [x] 7) Selected-feature entries under Active Layers with per-feature Hide/Unload
+  - added per-feature child rows and controls in `js/ui-controller.js`
+  - wired callbacks in `js/app.js`
+  - implemented per-feature visibility/unload operations in `js/map-controller.js`
