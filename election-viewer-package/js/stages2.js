@@ -1268,10 +1268,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
     $("#animation").append("<div id='theline' />")
     var playButton = $("#pause-replay");
     playButton.off();
-    if (playButton.hasClass("fa-play")) {
-        playButton.removeClass("fa-play");
-        playButton.addClass("fa-pause");
-    }
+    playButton.removeClass("fa-play fa-repeat").addClass("fa-pause");
     $("#stageNumbers").off('click');
     $("#stageNumbers").html("");
     $("#quota").text("Loading election dataÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦");
@@ -2242,16 +2239,20 @@ function animateStages(selectionOrYear, constituencyFolder) {
 
         $("#pause-replay").click(function (event) {
             event.preventDefault();
-            if ($(this).hasClass("fa-pause")) {
-                $(this).removeClass("fa-pause");
-                $(this).addClass("fa-play");
+            var mode = $(this).attr("data-mode");
+            if (!mode) {
+                if ($(this).hasClass("fa-repeat")) mode = "repeat";
+                else if ($(this).hasClass("fa-play")) mode = "play";
+                else mode = "pause";
+            }
+            if (mode === "pause") {
+                setPauseReplayIcon("play");
                 pause();
-            } else if ($(this).hasClass("fa-play")) {
-                $(this).removeClass("fa-play");
-                $(this).addClass("fa-pause");
+            } else if (mode === "play") {
+                setPauseReplayIcon("pause");
                 resume();
             } else {
-                $(this).addClass("fa-pause");
+                setPauseReplayIcon("pause");
                 replay(1);
             }
         });
@@ -2363,6 +2364,19 @@ function animateStages(selectionOrYear, constituencyFolder) {
 
         var countNumber = 2;  //global loop variable
         var isPaused = false;
+        function setPauseReplayIcon(mode) {
+            var btn = $("#pause-replay");
+            btn.removeClass("fa-play fa-pause fa-repeat");
+            if (mode === "repeat") {
+                btn.addClass("fa-repeat");
+            } else if (mode === "play") {
+                btn.addClass("fa-play");
+            } else {
+                btn.addClass("fa-pause");
+            }
+            btn.attr("data-mode", mode || "pause");
+        }
+        setPauseReplayIcon("pause");
         // set the advance count function to run in a loop
         loop = window.setInterval(advanceCount, 4000 * speed);
     } else {
@@ -3031,8 +3045,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
             finalizeActiveAnimations();
             $(".active").addClass("completed");
             $(".stageNumber").removeClass("active");
-            $("#pause-replay").removeClass("fa-pause");
-            $("#pause-replay").addClass("fa-repeat");
+            setPauseReplayIcon("repeat");
         }
         countNumber += 1;
 
@@ -3048,6 +3061,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
         loop = undefined;
         isPaused = true;
         running = false;
+        setPauseReplayIcon("play");
     }
 
     function resume() {
@@ -3055,6 +3069,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
         isPaused = false;
         loop = window.setInterval(advanceCount, 4000 * speed);
         running = true;
+        setPauseReplayIcon("pause");
     }
 
     function replay(s) {
@@ -3073,6 +3088,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
         countNumber = 2;
         loop = window.setInterval(advanceCount, 4000 * speed);
         running = true;
+        setPauseReplayIcon("pause");
     }
 
     function step() {
@@ -3099,7 +3115,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
             loop = window.setInterval(advanceCount, 4000 * speed);
         }
         if ($("#pause-replay").hasClass("fa-repeat")) {
-            $("#pause-replay").addClass("fa-play");
+            setPauseReplayIcon("play");
         }
     }
 
@@ -3119,7 +3135,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
             loop = window.setInterval(advanceCount, 4000 * speed);
         }
         if ($("#pause-replay").hasClass("fa-repeat")) {
-            $("#pause-replay").addClass("fa-play");
+            setPauseReplayIcon("play");
         }
     }
 
