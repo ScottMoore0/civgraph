@@ -828,16 +828,16 @@ body.split-dragging * {
   line-height: 1.2;
   font-weight: 700;
   white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  hyphens: auto;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: manual;
 }
 
 .catalogue-flat__toc-table td {
   white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  hyphens: auto;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: manual;
 }
 
 .c1-card__titleblock {
@@ -3519,7 +3519,7 @@ body.split-dragging * {
   color: #f8fafc;
   border: 1px solid rgba(148, 163, 184, 0.45);
   border-radius: var(--radius-md);
-  padding: 8px 14px;
+  padding: 8px 10px 8px 14px;
   font-size: var(--text-sm);
   box-shadow: var(--shadow-lg);
   opacity: 0;
@@ -3527,11 +3527,44 @@ body.split-dragging * {
   transition: opacity var(--transition-fast), transform var(--transition-fast);
   max-width: min(92vw, 460px);
   text-align: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.map-load-toast__message {
+  display: inline-block;
+}
+
+.map-load-toast__close {
+  appearance: none;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgba(2, 6, 23, 0.35);
+  color: inherit;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  line-height: 1;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  pointer-events: auto;
+  flex: 0 0 auto;
+}
+
+.map-load-toast__close:hover {
+  background: rgba(148, 163, 184, 0.22);
+}
+
+.map-load-toast__close:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
 }
 
 .map-load-toast--visible {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
 }
 
 [data-theme="light"] .map-load-status,
@@ -3551,7 +3584,13 @@ body.split-dragging * {
   .map-load-toast {
     bottom: 74px;
     font-size: 0.78rem;
-    padding: 7px 10px;
+    padding: 7px 8px 7px 10px;
+    gap: 8px;
+  }
+
+  .map-load-toast__close {
+    width: 24px;
+    height: 24px;
   }
 }
 
@@ -7583,6 +7622,13 @@ th.filter-active .th-filter-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-size: 0;
+}
+
+.overflow-menu__trigger::before {
+  content: '\22EE';
+  font-size: 16px;
+  line-height: 1;
 }
 
 /* Make the + text icon match SVG icon size */

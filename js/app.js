@@ -23,6 +23,7 @@ class App {
         this.textScaleSteps = [50, 60, 70, 80, 90, 100, 110, 125, 150, 175, 200];
         this.splitPosition = 50; // Percentage for info pane width
         this._mapLoadFeedback = null;
+        this._activeMapLoad = null;
         this._fgbChunkManifest = null;
         this._fgbChunkManifestLoaded = false;
     }
@@ -1829,63 +1830,120 @@ class App {
         const mapConfig = dataService.getMapById(mapId);
         if (!mapConfig) return;
 
-        const feedback = this.startMapLoadFeedback(mapConfig.name || mapId);
+        const mapName = mapConfig.name || mapId;
+        const controller = new AbortController();
+        this._activeMapLoad = {
+            mapId,
+            mapName,
+            controller,
+            cancelled: false
+        };
+
+        const feedback = this.startMapLoadFeedback(mapName, () => {
+            const active = this._activeMapLoad;
+            if (!active || active.mapId !== mapId) return;
+            active.cancelled = true;
+            active.controller.abort();
+            mapController.unloadLayer(mapId);
+            this.updateMapList();
+            this.updateActiveLayers();
+            this.finishMapLoadFeedback(feedback, false, mapName, {
+                cancelled: true
+            });
+        });
+
         try {
-            const state = await mapController.loadLayer(mapConfig, true);
+            const state = await mapController.loadLayer(mapConfig, true, {
+                signal: controller.signal
+            });
             if (!state || !state.loaded) {
                 throw new Error(`Layer did not load: ${mapId}`);
             }
             mapController.fitToLayer(mapId);
             this.updateURLState();
-            this.finishMapLoadFeedback(feedback, true, mapConfig.name || mapId);
+            this.finishMapLoadFeedback(feedback, true, mapName);
         } catch (error) {
+            if (this._activeMapLoad?.mapId === mapId && this._activeMapLoad.cancelled) {
+                return;
+            }
             console.error(`[App] Failed to load map ${mapId}:`, error);
-            this.finishMapLoadFeedback(feedback, false, mapConfig.name || mapId);
-            this.showError(`Failed to load map: ${mapConfig.name || mapId}`);
+            this.finishMapLoadFeedback(feedback, false, mapName);
+            this.showError(`Failed to load map: ${mapName}`);
+        } finally {
+            if (this._activeMapLoad?.mapId === mapId) {
+                this._activeMapLoad = null;
+            }
         }
     }
 
 
-    startMapLoadFeedback(mapName) {
+    startMapLoadFeedback(mapName, onCancel = null) {
         if (this._mapLoadFeedback?.intervalId) {
             clearInterval(this._mapLoadFeedback.intervalId);
         }
 
         const statusEl = this.ensureMapLoadStatusElement();
         const toastEl = this.ensureMapLoadToastElement();
+        const toastMessageEl = toastEl.querySelector('.map-load-toast__message');
+        const toastCloseBtn = toastEl.querySelector('.map-load-toast__close');
         const startedAt = performance.now();
 
         const render = () => {
             const seconds = ((performance.now() - startedAt) / 1000).toFixed(1);
             const message = `Loading ${mapName}... ${seconds}s`;
             statusEl.textContent = message;
-            toastEl.textContent = message;
+            if (toastMessageEl) toastMessageEl.textContent = message;
         };
+
+        if (toastCloseBtn) {
+            toastCloseBtn.onclick = (event) => {
+                event.preventDefault();
+                if (typeof onCancel === 'function') onCancel();
+            };
+            toastCloseBtn.classList.remove('hidden');
+            toastCloseBtn.disabled = false;
+            toastCloseBtn.title = 'Cancel map loading';
+            toastCloseBtn.setAttribute('aria-label', `Cancel loading ${mapName}`);
+        }
 
         render();
         statusEl.classList.add('map-load-status--visible');
         toastEl.classList.add('map-load-toast--visible');
 
         const intervalId = setInterval(render, 100);
-        this._mapLoadFeedback = { intervalId, startedAt, statusEl, toastEl };
+        this._mapLoadFeedback = { intervalId, startedAt, statusEl, toastEl, toastMessageEl, toastCloseBtn };
         return this._mapLoadFeedback;
     }
 
-    finishMapLoadFeedback(feedback, success, mapName) {
+    finishMapLoadFeedback(feedback, success, mapName, options = {}) {
         if (!feedback) return;
         clearInterval(feedback.intervalId);
         const totalSeconds = ((performance.now() - feedback.startedAt) / 1000).toFixed(1);
+        const cancelled = options?.cancelled === true;
 
         feedback.statusEl.classList.remove('map-load-status--visible');
-        feedback.toastEl.textContent = success
-            ? `Loaded ${mapName} in ${totalSeconds}s`
-            : `Failed to load ${mapName} after ${totalSeconds}s`;
+        const toastMessage = cancelled
+            ? `Cancelled loading ${mapName} after ${totalSeconds}s`
+            : (success
+                ? `Loaded ${mapName} in ${totalSeconds}s`
+                : `Failed to load ${mapName} after ${totalSeconds}s`);
+        if (feedback.toastMessageEl) {
+            feedback.toastMessageEl.textContent = toastMessage;
+        } else {
+            feedback.toastEl.textContent = toastMessage;
+        }
+
+        if (feedback.toastCloseBtn) {
+            feedback.toastCloseBtn.classList.add('hidden');
+            feedback.toastCloseBtn.disabled = true;
+            feedback.toastCloseBtn.onclick = null;
+        }
 
         feedback.toastEl.classList.add('map-load-toast--visible');
         clearTimeout(this._mapLoadFeedbackHideTimer);
         this._mapLoadFeedbackHideTimer = setTimeout(() => {
             feedback.toastEl.classList.remove('map-load-toast--visible');
-        }, success ? 2200 : 4200);
+        }, success ? 2200 : 3200);
 
         this._mapLoadFeedback = null;
     }
@@ -1911,6 +1969,10 @@ class App {
             el.className = 'map-load-toast';
             el.setAttribute('role', 'status');
             el.setAttribute('aria-live', 'polite');
+            el.innerHTML = `
+                <span class="map-load-toast__message"></span>
+                <button type="button" class="map-load-toast__close hidden" aria-label="Cancel map loading">X</button>
+            `;
             document.body.appendChild(el);
         }
         return el;

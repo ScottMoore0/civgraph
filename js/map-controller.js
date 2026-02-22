@@ -32,6 +32,15 @@ class MapController {
         featureLoader.init();
     }
 
+    _isAbortError(err) {
+        return err?.name === 'AbortError';
+    }
+
+    _throwIfAborted(signal) {
+        if (!signal?.aborted) return;
+        throw new DOMException('Map loading was cancelled', 'AbortError');
+    }
+
     /**
      * Create a circle marker for point features
      * Styled to match label text: white stroke (outline), colored fill
@@ -363,8 +372,9 @@ class MapController {
     /**
      * Load a map layer from the database
      */
-    async loadLayer(mapConfig, show = true) {
+    async loadLayer(mapConfig, show = true, options = {}) {
         const { id, files, style, labelProperty, name } = mapConfig;
+        const signal = options?.signal;
 
         // Check if already loaded
         if (this.layerStates.has(id)) {
@@ -416,28 +426,45 @@ class MapController {
         }
 
         if (rasterTemplate) {
-            return this.loadRasterTileLayer(mapConfig, state, show);
+            return this.loadRasterTileLayer(mapConfig, state, show, { signal });
         }
 
         // Use chunked loading for large maps with spatial chunks
         if (this.shouldUseChunkedLoading(mapConfig)) {
-            return this.loadLayerChunked(mapConfig, state, show);
+            return this.loadLayerChunked(mapConfig, state, show, { signal });
         }
 
         try {
+            this._throwIfAborted(signal);
             // Load the data with progress (full download for small maps / GeoJSON).
             // If FGB parsing fails and GeoJSON fallback exists, retry with GeoJSON.
             let features;
+            const fallbackPath = files?.geojson;
+            const isFgbPrimary = String(filePath || '').toLowerCase().endsWith('.fgb');
             try {
                 features = await this.loadDataFile(filePath, (progress) => {
                     state.progress = progress;
                     if (this.onLoadProgress) {
                         this.onLoadProgress(id, progress);
                     }
-                });
+                }, signal);
+
+                // Some FGBs can parse as an empty set in certain browser/runtime combinations.
+                // If we got no features and have a GeoJSON fallback, retry via GeoJSON.
+                const featureCount = Array.isArray(features)
+                    ? features.length
+                    : (features?.features?.length ?? 0);
+                if (isFgbPrimary && fallbackPath && fallbackPath !== filePath && featureCount === 0) {
+                    console.warn(`[MapController] Empty FGB result for ${id}, retrying GeoJSON fallback: ${fallbackPath}`);
+                    features = await this.loadDataFile(fallbackPath, (progress) => {
+                        state.progress = progress;
+                        if (this.onLoadProgress) {
+                            this.onLoadProgress(id, progress);
+                        }
+                    }, signal);
+                    state.fgbPath = fallbackPath;
+                }
             } catch (primaryErr) {
-                const fallbackPath = files?.geojson;
-                const isFgbPrimary = String(filePath || '').toLowerCase().endsWith('.fgb');
                 if (isFgbPrimary && fallbackPath && fallbackPath !== filePath) {
                     console.warn(`[MapController] FGB load failed for ${id}, retrying GeoJSON fallback: ${fallbackPath}`, primaryErr);
                     features = await this.loadDataFile(fallbackPath, (progress) => {
@@ -445,7 +472,7 @@ class MapController {
                         if (this.onLoadProgress) {
                             this.onLoadProgress(id, progress);
                         }
-                    });
+                    }, signal);
                     state.fgbPath = fallbackPath;
                 } else {
                     throw primaryErr;
@@ -522,6 +549,7 @@ class MapController {
             console.error(`[MapController] Failed to load layer ${id}:`, err);
             state.loading = false;
             this.layerStates.delete(id);
+            if (this._isAbortError(err)) throw err;
             return null;
         }
     }
@@ -529,8 +557,9 @@ class MapController {
     /**
      * Load a raster XYZ/WebP tile layer
      */
-    async loadRasterTileLayer(mapConfig, state, show) {
+    async loadRasterTileLayer(mapConfig, state, show, options = {}) {
         const { id, name, files, style } = mapConfig;
+        const signal = options?.signal;
         const tileTemplate = files?.xyz || files?.tiles || files?.webpTiles;
         if (!tileTemplate) {
             console.warn(`[MapController] No raster tile template for layer ${id}`);
@@ -539,6 +568,7 @@ class MapController {
         }
 
         try {
+            this._throwIfAborted(signal);
             const rasterStyle = mapConfig.rasterStyle || {};
             const opacity = Math.max(0, Math.min(1, Number(
                 rasterStyle.opacity ?? style?.fillOpacity ?? style?.opacity ?? 0.78
@@ -581,6 +611,7 @@ class MapController {
             console.error(`[MapController] Failed to load raster layer ${id}:`, err);
             state.loading = false;
             this.layerStates.delete(id);
+            if (this._isAbortError(err)) throw err;
             return null;
         }
     }
@@ -589,8 +620,9 @@ class MapController {
      * Load a layer using chunk-based spatial loading.
      * Uses feature index for visibility decisions and chunk caching.
      */
-    async loadLayerChunked(mapConfig, state, show) {
+    async loadLayerChunked(mapConfig, state, show, options = {}) {
         const { id, style, labelProperty, name } = mapConfig;
+        const signal = options?.signal;
         const fgbPath = state.fgbPath;
 
         state.useSpatial = true;
@@ -603,13 +635,13 @@ class MapController {
         this.currentLOD.set(id, this.getLODLevel(zoom));
 
         // Load chunk index
-        const chunkIndex = await this._loadChunkIndex(id, fgbPath);
+        const chunkIndex = await this._loadChunkIndex(id, fgbPath, signal);
         if (!chunkIndex) {
             console.warn(`[MapController] No chunk index for ${id}, falling back to full load`);
             state.useSpatial = false;
             this.spatialLayers.delete(id);
             try {
-                const features = await this.loadFlatGeobuf(fgbPath);
+                const features = await this.loadFlatGeobuf(fgbPath, null, signal);
                 const geojsonData = { type: 'FeatureCollection', features };
                 const geoJsonLayer = L.geoJSON(geojsonData, {
                     style: (f) => f.geometry?.type === 'Point' ? {} : {
@@ -639,7 +671,7 @@ class MapController {
         }
 
         // Load feature index if available
-        await this._loadFeatureIndex(id, fgbPath);
+        await this._loadFeatureIndex(id, fgbPath, signal);
 
         // Initial visibility pass — use wider buffer to preload nearby chunks
         const bounds = this.map.getBounds();
@@ -651,8 +683,9 @@ class MapController {
         try {
             let totalLoaded = 0;
             for (const chunk of visibleChunks) {
+                this._throwIfAborted(signal);
                 const chunkFile = this._resolveChunkFile(chunk, zoom);
-                const features = await this._loadChunkFGBCached(id, chunkFile, zoom);
+                const features = await this._loadChunkFGBCached(id, chunkFile, zoom, signal);
                 for (const feature of features) {
                     const fKey = this._featureKey(chunk.id, feature);
                     if (!this._renderedFeatures.get(id).has(fKey)) {
@@ -680,6 +713,7 @@ class MapController {
             console.error(`[MapController] Failed to load chunked layer ${id}:`, err);
             state.loading = false;
             this.layerStates.delete(id);
+            if (this._isAbortError(err)) throw err;
             return null;
         }
     }
@@ -697,14 +731,14 @@ class MapController {
     /**
      * Load feature index for a map (precomputed spatial index)
      */
-    async _loadFeatureIndex(mapId, fgbPath) {
+    async _loadFeatureIndex(mapId, fgbPath, signal = null) {
         if (this._featureIndexCache.has(mapId)) return this._featureIndexCache.get(mapId);
 
         const dir = fgbPath.substring(0, fgbPath.lastIndexOf('/') + 1) || fgbPath.substring(0, fgbPath.lastIndexOf('\\') + 1);
         const indexUrl = `${dir}${mapId}-feature-index.json`;
 
         try {
-            const response = await fetch(indexUrl);
+            const response = await fetch(indexUrl, signal ? { signal } : undefined);
             if (!response.ok) return null;
             const data = await response.json();
             this._featureIndexCache.set(mapId, data);
@@ -719,11 +753,11 @@ class MapController {
     /**
      * Load and cache chunk FGB data. Returns cached data if already loaded.
      */
-    async _loadChunkFGBCached(mapId, filePath, zoom) {
+    async _loadChunkFGBCached(mapId, filePath, zoom, signal = null) {
         const cache = this._chunkDataCache.get(mapId);
         if (cache?.has(filePath)) return cache.get(filePath);
 
-        const features = await this._loadChunkFGB(filePath, zoom);
+        const features = await this._loadChunkFGB(filePath, zoom, signal);
         if (cache) cache.set(filePath, features);
         return features;
     }
@@ -732,7 +766,7 @@ class MapController {
      * Load chunk index for a map. Resolves the index path from the FGB path.
      * Caches the result for subsequent calls.
      */
-    async _loadChunkIndex(mapId, fgbPath) {
+    async _loadChunkIndex(mapId, fgbPath, signal = null) {
         if (this._chunkIndexCache.has(mapId)) {
             return this._chunkIndexCache.get(mapId);
         }
@@ -742,7 +776,7 @@ class MapController {
         const indexPath = dir + mapId + '-chunks.json';
 
         try {
-            const response = await fetch(indexPath);
+            const response = await fetch(indexPath, signal ? { signal } : undefined);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const index = await response.json();
             this._chunkIndexCache.set(mapId, index);
@@ -802,12 +836,12 @@ class MapController {
      * @param {number} [zoom] - Current zoom for screen-space filtering
      * @returns {Array} Filtered GeoJSON features
      */
-    async _loadChunkFGB(filePath, zoom = null) {
+    async _loadChunkFGB(filePath, zoom = null, signal = null) {
         const features = [];
         const minDiag = (zoom != null) ? this.getMinFeatureDiagDeg(zoom) : 0;
         let skippedCount = 0;
 
-        const response = await fetch(filePath);
+        const response = await fetch(filePath, signal ? { signal } : undefined);
         if (!response.ok) throw new Error(`Failed to fetch ${filePath}: ${response.status}`);
 
         for await (const feature of flatgeobuf.deserialize(response.body)) {
@@ -1081,13 +1115,13 @@ class MapController {
     /**
      * Load a data file (FGB or GeoJSON)
      */
-    async loadDataFile(filePath, onProgress = null) {
+    async loadDataFile(filePath, onProgress = null, signal = null) {
         const ext = filePath.split('.').pop()?.toLowerCase();
 
         if (ext === 'fgb') {
-            return this.loadFlatGeobuf(filePath, onProgress);
+            return this.loadFlatGeobuf(filePath, onProgress, signal);
         } else {
-            const response = await fetch(filePath);
+            const response = await fetch(filePath, signal ? { signal } : undefined);
             return response.json();
         }
     }
@@ -1095,7 +1129,7 @@ class MapController {
     /**
      * Load FlatGeobuf file (full download via fetch, no range requests)
      */
-    async loadFlatGeobuf(url, onProgress = null) {
+    async loadFlatGeobuf(url, onProgress = null, signal = null) {
         const loadFromSource = async (source) => {
             const features = [];
             let featureCount = 0;
@@ -1113,7 +1147,7 @@ class MapController {
             return features;
         };
 
-        const response = await fetch(url);
+        const response = await fetch(url, signal ? { signal } : undefined);
         if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
 
         // Primary path: stream parsing (lower memory footprint).
@@ -1126,7 +1160,7 @@ class MapController {
         }
 
         // Fallback path: parse from full bytes for broader browser compatibility.
-        const retryResponse = response.bodyUsed ? await fetch(url) : response;
+        const retryResponse = response.bodyUsed ? await fetch(url, signal ? { signal } : undefined) : response;
         if (!retryResponse.ok) throw new Error(`Failed to refetch ${url}: ${retryResponse.status}`);
         const bytes = new Uint8Array(await retryResponse.arrayBuffer());
         return loadFromSource(bytes);
