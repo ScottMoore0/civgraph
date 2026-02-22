@@ -124,3 +124,19 @@
   - set `ni-townlands-1844.downloads.fgb` to Internet Archive direct URL target
   - cleared `data/downloads/fgb-chunks/manifest.json` so app no longer triggers ZIP chunk queue for Townlands download
   - note: IA upload of `Townlands_AllIreland.fgb` is still pending final successful completion
+
+# Current Fixes (Labels, Copernicus, Historic dblclick)
+
+- [x] Set Catholic Dioceses labels to `diocese`
+  - updated `data/database/maps.json` with `"labelProperty": "diocese"` on `catholic-dioceses`
+
+- [x] Set Railways labels to `Route_Section`
+  - updated `data/database/maps.json` with `"labelProperty": "Route_Section"` on `railways-network`
+
+- [x] Copernicus raster visibility hardening
+  - lowered Copernicus `rasterStyle.minZoom` from `5` to `0` in `data/database/maps.json`
+  - set raster overlay `zIndex` in `js/map-controller.js` so DEM tiles reliably render above basemap
+
+- [x] Historic Sites point-feature dblclick opens feature card
+  - added `_attachHistoricPointDblClick(...)` in `js/map-controller.js`
+  - wired handler into regular load, chunked fallback/full load, and incremental feature-layer adds

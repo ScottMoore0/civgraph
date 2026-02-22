@@ -65,6 +65,27 @@ class MapController {
         layer.on('mouseout', () => this._setFeatureHover(layer, false));
     }
 
+    _attachHistoricPointDblClick(mapConfig, mapId, feature, layer) {
+        if (!layer || typeof layer.on !== 'function') return;
+        if (mapConfig?.category !== 'historic') return;
+        if (feature?.geometry?.type !== 'Point') return;
+
+        layer.on('dblclick', (e) => {
+            if (e?.originalEvent) {
+                L.DomEvent.stop(e.originalEvent);
+            } else if (e) {
+                L.DomEvent.stopPropagation(e);
+            }
+            if (this.onFeatureClick) {
+                this.onFeatureClick([{
+                    mapId,
+                    properties: feature?.properties,
+                    geometry: feature?.geometry
+                }]);
+            }
+        });
+    }
+
     _setFeatureHover(layer, isHover) {
         if (!layer || typeof layer.setStyle !== 'function') return;
 
@@ -467,6 +488,7 @@ class MapController {
                 onEachFeature: (feature, layer) => {
                     layer._mapId = id;
                     this._attachFeatureHoverHandlers(layer);
+                    this._attachHistoricPointDblClick(mapConfig, id, feature, layer);
 
                     // Collect label entries
                     if (labelProperty && feature.properties?.[labelProperty]) {
@@ -549,6 +571,7 @@ class MapController {
                 maxZoom,
                 minZoom,
                 maxNativeZoom,
+                zIndex: 350,
                 updateWhenZooming: false,
                 keepBuffer: 2,
                 className: pixelated ? 'raster-tile raster-tile--pixelated' : 'raster-tile'
@@ -618,6 +641,7 @@ class MapController {
                     onEachFeature: (f, l) => {
                         l._mapId = id;
                         this._attachFeatureHoverHandlers(l);
+                        this._attachHistoricPointDblClick(mapConfig, id, f, l);
                     }
                 });
                 geoJsonLayer.addTo(state.group);
@@ -709,6 +733,7 @@ class MapController {
                     onEachFeature: (f, l) => {
                         l._mapId = id;
                         this._attachFeatureHoverHandlers(l);
+                        this._attachHistoricPointDblClick(mapConfig, id, f, l);
                     }
                 });
                 geoJsonLayer.addTo(state.group);
@@ -892,6 +917,7 @@ class MapController {
             onEachFeature: (feature, layer) => {
                 layer._mapId = state.id;
                 this._attachFeatureHoverHandlers(layer);
+                this._attachHistoricPointDblClick(mapConfig, state.id, feature, layer);
             }
         });
 
