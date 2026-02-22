@@ -3059,6 +3059,12 @@ function animateStages(selectionOrYear, constituencyFolder) {
         if (isPaused) return;
         clearInterval(loop);
         loop = undefined;
+        // Stop queued animations and remove transient transfer slices so resume
+        // continues cleanly without duplicated rectangles.
+        $("#animation .votes, #animation .candidateLabel, #animation .pctLabel").stop(true, false);
+        $("#animation .votes").filter(function () {
+            return !!($(this).data('transferProgress') || $(this).data('round'));
+        }).remove();
         isPaused = true;
         running = false;
         setPauseReplayIcon("play");
@@ -3066,7 +3072,14 @@ function animateStages(selectionOrYear, constituencyFolder) {
 
     function resume() {
         if (!isPaused) return;
+        if (loop) {
+            clearInterval(loop);
+            loop = undefined;
+        }
         isPaused = false;
+        // Re-sync stage marker/counter before resuming timed advance.
+        setActiveMarker(Math.max(1, countNumber - 1));
+        updateCounter(Math.max(1, countNumber - 1));
         loop = window.setInterval(advanceCount, 4000 * speed);
         running = true;
         setPauseReplayIcon("pause");

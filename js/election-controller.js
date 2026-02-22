@@ -1374,6 +1374,7 @@ class ElectionController {
         const partyMap = {};
         const seenCandidates = new Set();
         const candidateFinalById = {};
+        const candidateMetaById = {};
         const electedSet = new Set();
 
         cg.forEach(row => {
@@ -1392,6 +1393,10 @@ class ElectionController {
                 };
             }
 
+            if (!candidateMetaById[cid]) {
+                candidateMetaById[cid] = { party, excluded: false };
+            }
+
             if (countNum === 1 && !seenCandidates.has(cid)) {
                 seenCandidates.add(cid);
                 partyMap[party].firstPrefs += total;
@@ -1402,11 +1407,29 @@ class ElectionController {
                 candidateFinalById[cid] = { party, votes: total };
             }
 
+            if (this._statusKind(row.Status) === 'excluded') {
+                candidateMetaById[cid].excluded = true;
+            }
+
             if (this._statusKind(row.Status) === 'elected' && !electedSet.has(cid)) {
                 electedSet.add(cid);
                 partyMap[party].seats += 1;
             }
         });
+
+        const seatCount = parseInt(info.Number_Of_Seats, 10) || 0;
+        if (seatCount > 0 && electedSet.size < seatCount) {
+            const needed = seatCount - electedSet.size;
+            const deemable = Object.entries(candidateFinalById)
+                .filter(([cid]) => !electedSet.has(cid) && !candidateMetaById[cid]?.excluded)
+                .sort((a, b) => (b[1].votes || 0) - (a[1].votes || 0))
+                .slice(0, needed);
+
+            deemable.forEach(([cid, data]) => {
+                electedSet.add(cid);
+                if (partyMap[data.party]) partyMap[data.party].seats += 1;
+            });
+        }
 
         Object.values(candidateFinalById).forEach(({ party, votes }) => {
             if (partyMap[party]) partyMap[party].finalVotes += votes;
@@ -1949,9 +1972,9 @@ class ElectionController {
                 if (c.electedAt && n > c.electedAt) {
                     html += `<td class="election-num election-count-col">&nbsp;</td>`;
                     if (this._countDetailedView) {
-                        html += `<td class="election-num election-count-col">&nbsp;</td>`;
-                        html += `<td class="election-num election-count-col">&nbsp;</td>`;
-                        html += `<td class="election-num election-count-col">&nbsp;</td>`;
+                        html += `<td class="election-num election-count-col">&mdash;</td>`;
+                        html += `<td class="election-num election-count-col">&mdash;</td>`;
+                        html += `<td class="election-num election-count-col">&mdash;</td>`;
                     }
                     return;
                 }
@@ -1959,9 +1982,9 @@ class ElectionController {
                 if (!cnt) {
                     html += `<td class="election-num election-count-col">0</td>`;
                     if (this._countDetailedView) {
-                        html += `<td class="election-num election-count-col">Ã¢â‚¬â€</td>`;
-                        html += `<td class="election-num election-count-col">Ã¢â‚¬â€</td>`;
-                        html += `<td class="election-num election-count-col">Ã¢â‚¬â€</td>`;
+                        html += `<td class="election-num election-count-col">?</td>`;
+                        html += `<td class="election-num election-count-col">?</td>`;
+                        html += `<td class="election-num election-count-col">?</td>`;
                     }
                 } else {
                     let cls = '';
@@ -1975,7 +1998,7 @@ class ElectionController {
                     if (this._countDetailedView) {
                         html += `<td class="election-num election-count-col">${votePct.toFixed(2)}%</td>`;
                         html += `<td class="election-num election-count-col">${this._fmtPctDeltaSigned(transferPct)}</td>`;
-                        const deltaText = cnt.transfers !== 0 ? this._fmtDeltaSigned(cnt.transfers) : 'Ã¢â‚¬â€';
+                        const deltaText = cnt.transfers !== 0 ? this._fmtDeltaSigned(cnt.transfers) : '\u2014';
                         html += `<td class="election-num election-count-col">${deltaText}</td>`;
                     }
                 }

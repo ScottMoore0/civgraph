@@ -1,4 +1,4 @@
-/**
+﻿/**
  * NI Boundaries - UI Controller
  * Handles split-pane layout, search, filtering, map catalogue, and UI interactions
  */
@@ -51,7 +51,7 @@ class UIController {
         this.mediaQuery.addEventListener('change', (e) => {
             this.isMobile = e.matches;
             if (!e.matches) {
-                // Crossed from mobile Ã¢â€ â€™ desktop: restore saved desktop preference
+                // Crossed from mobile ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ desktop: restore saved desktop preference
                 // If no explicit desktop preference exists, default to balanced
                 // so that both panes are visible
                 try {
@@ -65,7 +65,7 @@ class UIController {
                     this.currentStateId = 'balanced';
                 }
             } else {
-                // Crossed from desktop Ã¢â€ â€™ mobile: default to map-full
+                // Crossed from desktop ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ mobile: default to map-full
                 // unless a mobile preference was explicitly saved
                 try {
                     const pref = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
@@ -397,7 +397,7 @@ class UIController {
                 attrTableBody.classList.toggle('catalogue-detail__attr-table-body--collapsed');
                 const toggle = attrTableHeader.querySelector('.catalogue-detail__attr-table-toggle');
                 if (toggle) {
-                    toggle.textContent = attrTableBody.classList.contains('catalogue-detail__attr-table-body--collapsed') ? '▶' : '▼';
+                    toggle.innerHTML = attrTableBody.classList.contains('catalogue-detail__attr-table-body--collapsed') ? '&#9654;' : '&#9660;';
                 }
             });
         }
@@ -942,6 +942,14 @@ class UIController {
 
     renderMapList(maps, options = {}) {
         const container = document.getElementById('mapList');
+        // Flat-only runtime: always re-render flat catalogue and update stats.
+        this.invalidateFlatView();
+        if (this._catalogueViewMode === 'flat') {
+            this.renderFlatView();
+        }
+        this.updateFilterStats(maps.length, options.totalMaps || maps.length);
+
+        // Grouped view has been removed from runtime. Keep legacy code inert.
         if (!container) return;
 
         // Preserve slider positions before clearing
@@ -1246,7 +1254,7 @@ class UIController {
                     catSection.className = 'category-section';
                     catSection.innerHTML = `
                         <div class="category-section__header">
-                            <span class="category-section__icon">${cat.icon || 'Ã°Å¸â€œÅ¡'}</span>
+                            <span class="category-section__icon">${cat.icon || '[book]'}</span>
                             <h3 class="category-section__title">${this.escapeHtml(cat.name)}</h3>
                         </div>
                     `;
@@ -1317,12 +1325,11 @@ class UIController {
     }
 
     setCatalogueViewMode(mode) {
-        const mapList = document.getElementById('mapList');
         const flatView = document.getElementById('catalogueFlatView');
         const toggleContainer = document.getElementById('catalogueViewToggle');
         const categoryPillsContainer = document.querySelector('.category-pills-container');
         const providerPillsContainer = document.querySelector('.provider-pills-container');
-        if (!mapList || !flatView || !toggleContainer) return;
+        if (!flatView || !toggleContainer) return;
 
         const forcedMode = 'flat';
         const isFlat = true;
@@ -1332,17 +1339,10 @@ class UIController {
             btn.classList.toggle('catalogue-view-toggle__btn--active', btn.dataset.view === forcedMode);
         });
 
-        // Show/hide views
+        // Flat-only catalogue view.
         if (isFlat) {
-            mapList.classList.add('hidden');
             flatView.classList.remove('hidden');
-            // Render flat view if empty or stale
-            if (!flatView.dataset.rendered) {
-                this.renderFlatView();
-            }
-        } else {
-            mapList.classList.remove('hidden');
-            flatView.classList.add('hidden');
+            if (!flatView.dataset.rendered) this.renderFlatView();
         }
 
         // Flat mode: hide top category/provider filters as requested.
@@ -1435,6 +1435,13 @@ class UIController {
             },
             { id: 'flat-railways', name: 'Railways', years: '', extent: 'Northern Ireland', mapIds: ['railways-network'] },
             { id: 'flat-transport-lines', name: 'Transport Lines (Roads and Railways)', years: '', extent: 'Northern Ireland', mapIds: ['transport-lines-road-rail'] },
+            {
+                id: 'flat-copernicus-dem',
+                name: 'Copernicus 30m DEM (Ireland)',
+                years: '',
+                extent: 'Ireland',
+                mapIds: ['copernicus-dem-30m-ireland']
+            },
             {
                 id: 'flat-secondary',
                 name: 'Secondary maps',
@@ -1811,7 +1818,7 @@ class UIController {
                 catSection.className = 'category-section';
                 catSection.innerHTML = `
                     <div class="category-section__header">
-                        <span class="category-section__icon">${cat.icon || 'Ã°Å¸â€œÅ¡'}</span>
+                        <span class="category-section__icon">${cat.icon || '[book]'}</span>
                         <h3 class="category-section__title">${this.escapeHtml(cat.name)}</h3>
                     </div>
                 `;
@@ -1911,7 +1918,7 @@ class UIController {
                         ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
                         ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : ''}
                     </div>
-                    ${!isPlaceholder ? `<div class="class-member__actions">\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${isLoaded ? '&#10005;' : '+'}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions">â‹®</button>
+                    ${!isPlaceholder ? `<div class="class-member__actions">\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${isLoaded ? '&#10005;' : '+'}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions"></button>
                             <div class="overflow-menu__dropdown">
                                 <button class="overflow-menu__item visibility-btn" data-map-id="${map.id}">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -2123,7 +2130,7 @@ class UIController {
                         ${!isPlaceholder ? `<div class="class-member__actions">
                             <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}">${isLoaded ? '&#10005;' : '+'}</button>
                             <div class="overflow-menu">
-                                <button class="overflow-menu__trigger" title="More actions">â‹®</button>
+                                <button class="overflow-menu__trigger" title="More actions"></button>
                                 <div class="overflow-menu__dropdown">
                                     <button class="overflow-menu__item visibility-btn" data-map-id="${map.id}">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -2374,7 +2381,7 @@ class UIController {
                 ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
                 ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : ''}
             </div>
-                ${!isPlaceholder ? `<div class="class-member__actions">${expandBtn}\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${isLoaded ? '&#10005;' : '+'}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions">â‹®</button>
+                ${!isPlaceholder ? `<div class="class-member__actions">${expandBtn}\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${isLoaded ? '&#10005;' : '+'}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions"></button>
                             <div class="overflow-menu__dropdown">
                                 <button class="overflow-menu__item visibility-btn" data-map-id="${map.id}">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -2407,8 +2414,8 @@ class UIController {
      * 
      * Position-Based Implementation:
      * - Rows are determined by item POSITION (index), not year values
-     * - First item in each column Ã¢â€ â€™ row 2 (row 1 is column headers)
-     * - Second item in each column Ã¢â€ â€™ row 3, etc.
+     * - First item in each column ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ row 2 (row 1 is column headers)
+     * - Second item in each column ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ row 3, etc.
      * - This aligns items across columns by their position in the list
      */
     renderChronologicalGrid(section, classes, allMaps, options) {
@@ -2545,7 +2552,34 @@ class UIController {
                     }
 
                     if (!item.isPlaceholder) {
-                        html += `<button class="c1-load-btn load-btn" data-map-id="${item.map.id}">${item.isLoaded ? '&#10005;' : '+'}</button>`;
+                        html += `<button class="btn btn--icon btn--xs visibility-btn" data-map-id="${item.map.id}" title="${item.isLoaded ? 'Hide' : 'Show'}">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>`;
+                        html += `<button class="c1-load-btn load-btn" data-map-id="${item.map.id}" title="${item.isLoaded ? 'Unload' : 'Load'}">${item.isLoaded ? '&#10005;' : '+'}</button>`;
+                        html += `<button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${item.map.id}" title="Copy shareable URL">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        </button>`;
+                        html += `<button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${item.map.id}" title="Download FGB">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        </button>`;
+                        html += `<div class="overflow-menu">
+                            <button class="overflow-menu__trigger" title="More actions"></button>
+                            <div class="overflow-menu__dropdown">
+                                <button class="overflow-menu__item visibility-btn" data-map-id="${item.map.id}">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    Toggle visibility
+                                </button>
+                                <button class="overflow-menu__item copy-url-btn" data-map-id="${item.map.id}">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                                    Copy URL
+                                </button>
+                                <button class="overflow-menu__item download-fgb-btn" data-map-id="${item.map.id}">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    Download FGB
+                                </button>
+                                ${this.renderOsniOverflowItems(item.map)}
+                            </div>
+                        </div>`;
                     }
 
                     html += '</div></div>';
@@ -2644,9 +2678,18 @@ class UIController {
                     }
 
                     if (!isPlaceholder) {
-                        html += `<button class="c1-load-btn load-btn" data-map-id="${map.id}">${isLoaded ? '&#10005;' : '+'}</button>`;
+                        html += `<button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>`;
+                        html += `<button class="c1-load-btn load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${isLoaded ? '&#10005;' : '+'}</button>`;
+                        html += `<button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        </button>`;
+                        html += `<button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        </button>`;
                         html += `<div class="overflow-menu">
-                            <button class="overflow-menu__trigger" title="More actions">â‹®</button>
+                            <button class="overflow-menu__trigger" title="More actions"></button>
                             <div class="overflow-menu__dropdown">
                                 <button class="overflow-menu__item visibility-btn" data-map-id="${map.id}">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -2724,8 +2767,8 @@ class UIController {
                 // If opening, position the dropdown using fixed coordinates
                 if (!wasOpen && dropdown) {
                     const rect = btn.getBoundingClientRect();
-                    dropdown.style.top = `${rect.bottom + 2} px`;
-                    dropdown.style.right = `${window.innerWidth - rect.right} px`;
+                    dropdown.style.top = `${rect.bottom + 2}px`;
+                    dropdown.style.right = `${window.innerWidth - rect.right}px`;
                     // Force repaint to ensure dropdown appears immediately
                     dropdown.offsetHeight;
                 }
@@ -3189,7 +3232,7 @@ class UIController {
             <div class="map-card__color" style="background-color: ${color}"></div>
             <div class="map-card__info">
                 <a href="#" class="map-card__name map-card__name-link" data-detail-map-id="${map.id}">${this.escapeHtml(map.name)}</a>
-                <div class="map-card__meta">${this.escapeHtml(providers)}${dateStr ? ` Â· <em>${dateStr}</em>` : ''}</div>
+                <div class="map-card__meta">${this.escapeHtml(providers)}${dateStr ? ` · <em>${dateStr}</em>` : ''}</div>
                 ${noteHtml}
             </div>
             <div class="map-card__actions">
@@ -3513,13 +3556,13 @@ class UIController {
 
         // Define groups with their IDs and display names
         const groups = [
-            { id: 'all', name: 'All', icon: 'Ã°Å¸â€œâ€¹' },
-            { id: 'communities', name: 'Communities', icon: 'Ã°Å¸ÂËœÃ¯Â¸Â' },
-            { id: 'history', name: 'History', icon: 'Ã°Å¸â€œÅ“' },
-            { id: 'elections-and-government', name: 'Elections and Government', icon: 'Ã°Å¸â€”Â³Ã¯Â¸Â' },
-            { id: 'public-services', name: 'Public Services', icon: 'Ã°Å¸ÂÂ¥' },
-            { id: 'physical-geography', name: 'Physical Geography', icon: 'Ã°Å¸â€”Â»' },
-            { id: 'built-environment', name: 'Built Environment', icon: 'Ã°Å¸Ââ€”Ã¯Â¸Â' }
+            { id: 'all', name: 'All', icon: '[all]' },
+            { id: 'communities', name: 'Communities', icon: '[com]' },
+            { id: 'history', name: 'History', icon: '[his]' },
+            { id: 'elections-and-government', name: 'Elections and Government', icon: '[gov]' },
+            { id: 'public-services', name: 'Public Services', icon: '[svc]' },
+            { id: 'physical-geography', name: 'Physical Geography', icon: '[geo]' },
+            { id: 'built-environment', name: 'Built Environment', icon: '[built]' }
         ];
 
         // Get total maps for 'All' button
@@ -3574,43 +3617,43 @@ class UIController {
             {
                 id: 'all-providers',
                 name: 'All Providers',
-                icon: 'Ã°Å¸Å’Â',
+                icon: '[all]',
                 providers: [] // Empty means all
             },
             {
                 id: 'northern-ireland',
                 name: 'Northern Ireland',
-                icon: 'Ã¢Å“â€¹',
+                icon: '[NI]',
                 providers: ['ABC Council', 'DAERA', 'Department for Communities', 'NIEA', 'NISRA', 'OSNI', 'OSNI Open Data', 'PRONI']
             },
             {
                 id: 'ireland',
                 name: 'Ireland',
-                icon: 'Ã°Å¸â€¡Â®Ã°Å¸â€¡Âª',
-                providers: ['CSO', 'EPA', 'OSI', 'OSi', 'TÃƒâ€°']
+                icon: '[IE]',
+                providers: ['CSO', 'EPA', 'OSI', 'OSi', 'TÉ']
             },
             {
                 id: 'united-kingdom',
                 name: 'United Kingdom',
-                icon: 'Ã°Å¸â€¡Â¬Ã°Å¸â€¡Â§',
+                icon: '[UK]',
                 providers: ['Electoral Commission', 'Northern Ireland Office']
             },
             {
                 id: 'european-union',
                 name: 'European Union',
-                icon: 'Ã°Å¸â€¡ÂªÃ°Å¸â€¡Âº',
+                icon: '[EU]',
                 providers: ['European Commission', 'Eurostat']
             },
             {
                 id: 'organizations',
                 name: 'Organizations',
-                icon: 'Ã°Å¸ÂÂ¢',
+                icon: '[org]',
                 providers: ['IHO', 'OpenTopography.org', 'OSM']
             },
             {
                 id: 'individuals',
                 name: 'Individuals',
-                icon: 'Ã°Å¸â€˜Â¤',
+                icon: '[ind]',
                 providers: ['Global Watersheds', 'Paddy Matthews', 'Parlconst.org', 'Scott Moore', 'XrysD']
             }
         ];
@@ -4047,7 +4090,7 @@ class UIController {
                     <div class="active-layer-item__info">
                         <span class="active-layer-item__name">${this.escapeHtml(map.name)}</span>
                         <span class="active-layer-item__meta">
-                            ${authors}${authors && date ? ' Â· ' : ''}${date ? `<em>${date}</em>` : ''}
+                            ${authors}${authors && date ? ' · ' : ''}${date ? `<em>${date}</em>` : ''}
                             ${partial?.isPartial ? `<span class="active-layer-item__partial-badge">${partial.featureNames?.length || 1} feature${(partial.featureNames?.length || 1) > 1 ? 's' : ''}</span>` : ''}
                         </span>
                     </div>
@@ -4452,7 +4495,7 @@ class UIController {
                     <thead>
                         <tr>
                             ${columns.map(col => `
-                                <th class="data-table__header sortable" data-sort-key="${col}">
+                                <th class="data-table__header" data-sort-key="${col}">
                                     <span class="data-table__text">${this.escapeHtml(col)}${this.tablesState.sortKey === col ?
                 (this.tablesState.sortDir === 'asc' ? ' ▲' : ' ▼') : ''}</span>
                                 </th>
@@ -4496,19 +4539,11 @@ class UIController {
 
         container.innerHTML = html;
 
-        // Add sort listeners
-        container.querySelectorAll('.sortable').forEach(th => {
-            th.addEventListener('click', () => {
-                const key = th.dataset.sortKey;
-                if (this.tablesState.sortKey === key) {
-                    this.tablesState.sortDir = this.tablesState.sortDir === 'asc' ? 'desc' : 'asc';
-                } else {
-                    this.tablesState.sortKey = key;
-                    this.tablesState.sortDir = 'asc';
-                }
-                this.filterAndRenderTable();
-            });
-        });
+        // Apply Excel-like sort/filter controls to feature attribute tables.
+        const dataTable = container.querySelector('.data-table');
+        if (dataTable && typeof electionController?._setupSingleResultsTableControls === 'function') {
+            electionController._setupSingleResultsTableControls(dataTable);
+        }
 
         // Load More Columns listener
         const loadMoreBtn = container.querySelector('.tables-load-more-columns');
@@ -5164,16 +5199,16 @@ class UIController {
 
         if (type === 'category') {
             const cat = (data.categories || []).find(c => c.id === id);
-            return cat ? `Ã°Å¸â€œÂ ${cat.name}` : id;
+            return cat ? `[cat] ${cat.name}` : id;
         } else if (type === 'class') {
             const cls = (data.classes || []).find(c => c.id === id);
-            return cls ? `Ã°Å¸â€œâ€¹ ${cls.name}` : id;
+            return cls ? `[class] ${cls.name}` : id;
         } else if (type === 'map') {
             const map = (data.maps || []).find(m => m.id === id);
-            return map ? `Ã°Å¸â€”ÂºÃ¯Â¸Â ${map.name}` : id;
+            return map ? `[map] ${map.name}` : id;
         } else if (type === 'book') {
             const book = (data.books || []).find(b => b.id === id);
-            return book ? `Ã°Å¸â€œâ€“ ${book.title || book.name}` : id;
+            return book ? `[book] ${book.title || book.name}` : id;
         }
         return id;
     }
@@ -5193,11 +5228,11 @@ class UIController {
         let html = '<div class="explore-hierarchy">';
 
         // Categories section
-        html += '<div class="explore-section"><h3 class="explore-section__title">Ã°Å¸â€œâ€š Categories</h3>';
+        html += '<div class="explore-section"><h3 class="explore-section__title">Categories</h3>';
         (categories || []).forEach(cat => {
             const mapCount = (maps || []).filter(m => m.category === cat.id).length;
             html += `<div class="explore-item explore-item--category" data-type="category" data-id="${cat.id}">
-                <span class="explore-item__icon">${cat.icon || 'Ã°Å¸â€œÂ'}</span>
+                <span class="explore-item__icon">${cat.icon || '[cat]'}</span>
                 <span class="explore-item__name">${this.escapeHtml(cat.name)}</span>
                 <span class="explore-item__count">${mapCount}</span>
             </div>`;
@@ -5205,10 +5240,10 @@ class UIController {
         html += '</div>';
 
         // Classes section
-        html += '<div class="explore-section"><h3 class="explore-section__title">Ã°Å¸â€œâ€¹ Classes</h3>';
+        html += '<div class="explore-section"><h3 class="explore-section__title">Classes</h3>';
         (classes || []).slice(0, 10).forEach(cls => {
             html += `<div class="explore-item explore-item--class" data-type="class" data-id="${cls.id}">
-                <span class="explore-item__icon">Ã°Å¸â€œâ€¹</span>
+                <span class="explore-item__icon">[class]</span>
                 <span class="explore-item__name">${this.escapeHtml(cls.name)}</span>
                 <span class="explore-item__count">${(cls.maps || []).length}</span>
             </div>`;
@@ -5219,7 +5254,7 @@ class UIController {
         html += '</div>';
 
         // Recent maps
-        html += '<div class="explore-section"><h3 class="explore-section__title">Ã°Å¸â€”ÂºÃ¯Â¸Â Featured Maps</h3>';
+        html += '<div class="explore-section"><h3 class="explore-section__title">Featured Maps</h3>';
         (maps || []).filter(m => m.featured).slice(0, 8).forEach(map => {
             html += `<div class="explore-item explore-item--map" data-type="map" data-id="${map.id}">
                 <span class="explore-item__color" style="background: ${map.style?.color || '#888'}"></span>
@@ -5230,10 +5265,10 @@ class UIController {
 
         // Books section
         if ((books || []).length > 0) {
-            html += '<div class="explore-section"><h3 class="explore-section__title">Ã°Å¸â€œÅ¡ Books</h3>';
+            html += '<div class="explore-section"><h3 class="explore-section__title">Books</h3>';
             books.slice(0, 5).forEach(book => {
                 html += `<div class="explore-item explore-item--book" data-type="book" data-id="${book.id}">
-                    <span class="explore-item__icon">Ã°Å¸â€œâ€“</span>
+                    <span class="explore-item__icon">[book]</span>
                     <span class="explore-item__name">${this.escapeHtml(book.title || book.name)}</span>
                 </div>`;
             });
@@ -5281,7 +5316,7 @@ class UIController {
             if (cat) {
                 const maps = dataService.getMapsByCategory(id);
                 html += `<div class="explore-detail__hero explore-detail__hero--category">
-                    <span class="explore-detail__icon">${cat.icon || 'Ã°Å¸â€œÂ'}</span>
+                    <span class="explore-detail__icon">${cat.icon || '[cat]'}</span>
                     <h2 class="explore-detail__title">${this.escapeHtml(cat.name)}</h2>
                     <p class="explore-detail__subtitle">${maps.length} map${maps.length !== 1 ? 's' : ''} in this category</p>
                 </div>`;
@@ -5310,7 +5345,7 @@ class UIController {
             if (cls) {
                 const clsMaps = (cls.maps || []).map(mid => dataService.getMapById(mid)).filter(Boolean);
                 html += `<div class="explore-detail__hero explore-detail__hero--class">
-                    <span class="explore-detail__icon">Ã°Å¸â€œâ€¹</span>
+                    <span class="explore-detail__icon">[class]</span>
                     <h2 class="explore-detail__title">${this.escapeHtml(cls.name)}</h2>
                     <p class="explore-detail__subtitle">${clsMaps.length} map${clsMaps.length !== 1 ? 's' : ''} in this class</p>
                 </div>`;
@@ -5405,7 +5440,7 @@ class UIController {
             const book = dataService.getBookById(id);
             if (book) {
                 html += `<div class="explore-detail__hero explore-detail__hero--book">
-                    <span class="explore-detail__icon">Ã°Å¸â€œâ€“</span>
+                    <span class="explore-detail__icon">[book]</span>
                     <h2 class="explore-detail__title">${this.escapeHtml(book.title || book.name)}</h2>
                     ${book.year ? `<p class="explore-detail__subtitle">${book.year}</p>` : ''}
                 </div>`;
@@ -5523,14 +5558,14 @@ class UIController {
         // Search categories
         (data.categories || []).forEach(cat => {
             if (cat.name.toLowerCase().includes(q) || cat.id.includes(q)) {
-                results.push({ type: 'category', item: cat, name: cat.name, icon: cat.icon || 'Ã°Å¸â€œâ€š' });
+                results.push({ type: 'category', item: cat, name: cat.name, icon: cat.icon || '[cat]' });
             }
         });
 
         // Search classes
         (data.classes || []).forEach(cls => {
             if (cls.name.toLowerCase().includes(q) || cls.id.includes(q)) {
-                results.push({ type: 'class', item: cls, name: cls.name, icon: 'Ã°Å¸â€œâ€¹' });
+                results.push({ type: 'class', item: cls, name: cls.name, icon: '[class]' });
             }
         });
 
@@ -5546,7 +5581,7 @@ class UIController {
         (data.books || []).forEach(book => {
             const searchText = [book.title || book.name, book.id, ...(book.keywords || [])].join(' ').toLowerCase();
             if (searchText.includes(q)) {
-                results.push({ type: 'book', item: book, name: book.title || book.name, icon: 'Ã°Å¸â€œâ€“' });
+                results.push({ type: 'book', item: book, name: book.title || book.name, icon: '[book]' });
             }
         });
 
@@ -5614,7 +5649,7 @@ class UIController {
 
         let html = `<div class="variants-container" data-parent-id="${map.id}">`;
         map.variants.forEach(variant => {
-            const variantLoaded = false; // Would check actual state
+            const variantLoaded = false;
             const description = variant.description || '';
             html += `<div class="variant-item" data-map-id="${variant.id}">
                 <div class="variant-item__info">
@@ -5622,9 +5657,18 @@ class UIController {
                     ${description ? `<div class="variant-item__description">${this.escapeHtml(description)}</div>` : ''}
                 </div>
                 <div class="variant-item__actions">
-                    <button class="btn btn--icon btn--xs load-btn" data-map-id="${variant.id}" title="Load">+</button>
+                    <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${variant.id}" title="${variantLoaded ? 'Hide' : 'Show'}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                    <button class="btn btn--icon btn--xs load-btn" data-map-id="${variant.id}" title="${variantLoaded ? 'Unload' : 'Load'}">${variantLoaded ? '&#10005;' : '+'}</button>
+                    <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${variant.id}" title="Copy shareable URL">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </button>
+                    <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${variant.id}" title="Download FGB">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    </button>
                     <div class="overflow-menu">
-                        <button class="overflow-menu__trigger" title="More actions">â‹®</button>
+                        <button class="overflow-menu__trigger" title="More actions"></button>
                         <div class="overflow-menu__dropdown">
                             <button class="overflow-menu__item visibility-btn" data-map-id="${variant.id}">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -5638,6 +5682,10 @@ class UIController {
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                                 Download FGB
                             </button>
+                            ${variant.files?.geojson ? `<a href="${variant.files.geojson}" class="overflow-menu__item" download>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                Download Original
+                            </a>` : ''}
                         </div>
                     </div>
                 </div>
@@ -5918,7 +5966,7 @@ if (typeof window !== 'undefined') {
     window.uiController = uiController;
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Thumbnail hover preview Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Thumbnail hover preview ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
 (function initThumbnailPreview() {
     const preview = document.createElement('div');
     preview.className = 'thumbnail-preview';
@@ -5964,3 +6012,5 @@ if (typeof window !== 'undefined') {
 })();
 
 export default uiController;
+
+

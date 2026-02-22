@@ -1398,18 +1398,9 @@ class App {
      * When sidebar is wide enough (>600px), use 2-column grid layout
      */
     updateColumnLayout() {
-        const mapList = document.getElementById('mapList');
-        const infoPane = document.querySelector('.pane--info');
-        if (!mapList || !infoPane) return;
-
-        const sidebarWidth = infoPane.offsetWidth;
-        const columnThreshold = 600; // px - minimum width for 2-column mode
-
-        if (sidebarWidth >= columnThreshold) {
-            mapList.classList.add('map-list--columns');
-        } else {
-            mapList.classList.remove('map-list--columns');
-        }
+        // Grouped catalogue grid layout has been removed.
+        // Flat catalogue handles its own responsive layout.
+        return;
     }
 
     /**

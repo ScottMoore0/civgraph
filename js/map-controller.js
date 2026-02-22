@@ -385,14 +385,14 @@ class MapController {
             return state;
         }
 
-        // Get the FGB file path - for clone maps, resolve from source
-        let filePath = files?.fgb || files?.geojson;
+        // Vector layers in interactive pane are FGB-only.
+        let filePath = files?.fgb;
 
         // If no files and this is a clone, get files from source map
         if (!filePath && mapConfig.cloneOf) {
             const sourceMap = dataService.getMapById(mapConfig.cloneOf);
             if (sourceMap?.files) {
-                filePath = sourceMap.files.fgb || sourceMap.files.geojson;
+                filePath = sourceMap.files.fgb;
                 console.log(`[MapController] Clone map ${id} using files from ${mapConfig.cloneOf}`);
             }
         }
@@ -400,7 +400,7 @@ class MapController {
         const rasterTemplate = files?.xyz || files?.tiles || files?.webpTiles;
 
         if (!filePath && !rasterTemplate) {
-            console.warn(`[MapController] No file path for layer ${id}`);
+            console.warn(`[MapController] No FGB/XYZ source for layer ${id}`);
             return null;
         }
 
@@ -436,48 +436,14 @@ class MapController {
 
         try {
             this._throwIfAborted(signal);
-            // Load the data with progress (full download for small maps / GeoJSON).
-            // If FGB parsing fails and GeoJSON fallback exists, retry with GeoJSON.
-            let features;
-            const fallbackPath = files?.geojson;
-            const isFgbPrimary = String(filePath || '').toLowerCase().endsWith('.fgb');
-            try {
-                features = await this.loadDataFile(filePath, (progress) => {
-                    state.progress = progress;
-                    if (this.onLoadProgress) {
-                        this.onLoadProgress(id, progress);
-                    }
-                }, signal);
-
-                // Some FGBs can parse as an empty set in certain browser/runtime combinations.
-                // If we got no features and have a GeoJSON fallback, retry via GeoJSON.
-                const featureCount = Array.isArray(features)
-                    ? features.length
-                    : (features?.features?.length ?? 0);
-                if (isFgbPrimary && fallbackPath && fallbackPath !== filePath && featureCount === 0) {
-                    console.warn(`[MapController] Empty FGB result for ${id}, retrying GeoJSON fallback: ${fallbackPath}`);
-                    features = await this.loadDataFile(fallbackPath, (progress) => {
-                        state.progress = progress;
-                        if (this.onLoadProgress) {
-                            this.onLoadProgress(id, progress);
-                        }
-                    }, signal);
-                    state.fgbPath = fallbackPath;
+            // Load the configured source directly.
+            // For FGB-backed maps, do not substitute GeoJSON in the interactive pane.
+            const features = await this.loadDataFile(filePath, (progress) => {
+                state.progress = progress;
+                if (this.onLoadProgress) {
+                    this.onLoadProgress(id, progress);
                 }
-            } catch (primaryErr) {
-                if (isFgbPrimary && fallbackPath && fallbackPath !== filePath) {
-                    console.warn(`[MapController] FGB load failed for ${id}, retrying GeoJSON fallback: ${fallbackPath}`, primaryErr);
-                    features = await this.loadDataFile(fallbackPath, (progress) => {
-                        state.progress = progress;
-                        if (this.onLoadProgress) {
-                            this.onLoadProgress(id, progress);
-                        }
-                    }, signal);
-                    state.fgbPath = fallbackPath;
-                } else {
-                    throw primaryErr;
-                }
-            }
+            }, signal);
 
             const geojsonData = Array.isArray(features)
                 ? { type: 'FeatureCollection', features }
@@ -711,10 +677,55 @@ class MapController {
             return state;
         } catch (err) {
             console.error(`[MapController] Failed to load chunked layer ${id}:`, err);
-            state.loading = false;
-            this.layerStates.delete(id);
-            if (this._isAbortError(err)) throw err;
-            return null;
+            if (this._isAbortError(err)) {
+                state.loading = false;
+                this.layerStates.delete(id);
+                throw err;
+            }
+
+            // Fallback path: chunk load failed, retry full-file load before giving up.
+            try {
+                console.warn(`[MapController] Retrying ${id} as full file after chunk failure`);
+                state.useSpatial = false;
+                this.spatialLayers.delete(id);
+                this._loadedChunks.delete(id);
+                this._chunkDataCache.delete(id);
+                this._renderedFeatures.delete(id);
+
+                const isFgbPrimary = String(fgbPath || '').toLowerCase().endsWith('.fgb');
+                const preferredFgbPath = isFgbPrimary ? this.getLODFilePath(fgbPath, 10) : fgbPath;
+
+                let features = await this.loadDataFile(preferredFgbPath, null, signal);
+
+                const geojsonData = Array.isArray(features) ? { type: 'FeatureCollection', features } : features;
+                const geoJsonLayer = L.geoJSON(geojsonData, {
+                    style: (f) => f.geometry?.type === 'Point' ? {} : {
+                        color: style?.color || '#3388ff',
+                        weight: style?.weight || 2,
+                        fillOpacity: style?.fillOpacity ?? 0,
+                        opacity: 1
+                    },
+                    pointToLayer: (f, ll) => this.createPointMarker(ll, style),
+                    onEachFeature: (f, l) => {
+                        l._mapId = id;
+                        this._attachFeatureHoverHandlers(l);
+                    }
+                });
+                geoJsonLayer.addTo(state.group);
+                state.geoJsonLayers.push(geoJsonLayer);
+                state.featureCount = geojsonData.features?.length || 0;
+                state.loaded = true;
+                state.loading = false;
+                state.progress = 100;
+                if (this.onLoadProgress) this.onLoadProgress(id, 100);
+                if (show) this.showLayer(id);
+                return state;
+            } catch (fallbackErr) {
+                console.error(`[MapController] Full fallback load failed for ${id}:`, fallbackErr);
+                state.loading = false;
+                this.layerStates.delete(id);
+                return null;
+            }
         }
     }
 

@@ -204,22 +204,10 @@
           </div>
 
           <!-- View Toggle -->
-          <div class="catalogue-view-toggle" id="catalogueViewToggle">
-            <button type="button" class="catalogue-view-toggle__btn catalogue-view-toggle__btn--active"
-              data-view="grouped">Grouped</button>
-            <button type="button" class="catalogue-view-toggle__btn" data-view="flat">Flat</button>
-          </div>
+          <div class="catalogue-view-toggle hidden" id="catalogueViewToggle" aria-hidden="true"></div>
 
           <!-- Map List (Grouped view — default) -->
-          <div id="mapList" class="map-list" role="list" aria-label="Available maps">
-            <!-- Loading skeleton -->
-            <div class="skeleton" style="height: 72px;"></div>
-            <div class="skeleton" style="height: 72px;"></div>
-            <div class="skeleton" style="height: 72px;"></div>
-          </div>
-
-          <!-- Flat View (hidden by default) -->
-          <div id="catalogueFlatView" class="catalogue-flat-view hidden">
+          <div id="catalogueFlatView" class="catalogue-flat-view">
             <!-- Populated by JavaScript -->
           </div>
 

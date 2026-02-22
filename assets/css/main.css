@@ -649,6 +649,7 @@ body.split-dragging * {
 
 .catalogue-flat__toc-link {
   display: block;
+  width: 100%;
   padding: 3px 6px;
   font-size: var(--text-sm, 0.875rem);
   color: var(--color-primary, #1a365d);
@@ -676,17 +677,17 @@ body.split-dragging * {
 
 .catalogue-flat__toc-table th:nth-child(1),
 .catalogue-flat__toc-table td:nth-child(1) {
-  width: 58%;
+  width: 66%;
 }
 
 .catalogue-flat__toc-table th:nth-child(2),
 .catalogue-flat__toc-table td:nth-child(2) {
-  width: 18%;
+  width: 13%;
 }
 
 .catalogue-flat__toc-table th:nth-child(3),
 .catalogue-flat__toc-table td:nth-child(3) {
-  width: 24%;
+  width: 21%;
 }
 
 .catalogue-flat__toc-table th,
@@ -706,6 +707,7 @@ body.split-dragging * {
 .catalogue-flat__toc-table td:nth-child(3) {
   color: var(--color-text-muted, #718096);
   white-space: normal;
+  overflow: hidden;
   overflow-wrap: normal;
   word-break: normal;
   hyphens: manual;
@@ -765,11 +767,14 @@ body.split-dragging * {
 }
 
 .catalogue-flat__toc-namecell {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: 4px 22px minmax(0, 1fr);
   align-items: center;
-  gap: 8px;
+  column-gap: 8px;
+  width: 100%;
   min-width: 0;
   white-space: normal;
+  overflow: hidden;
 }
 
 .catalogue-flat__toc-color {
@@ -841,18 +846,20 @@ body.split-dragging * {
 }
 
 .catalogue-flat__toc-name {
+  display: block;
+  min-width: 0;
   line-height: 1.2;
   font-weight: 700;
   white-space: normal;
   overflow-wrap: normal;
-  word-break: normal;
+  word-break: keep-all;
   hyphens: manual;
 }
 
 .catalogue-flat__toc-table td {
   white-space: normal;
   overflow-wrap: normal;
-  word-break: normal;
+  word-break: keep-all;
   hyphens: manual;
 }
 
@@ -4347,24 +4354,24 @@ body.split-dragging * {
 
   .catalogue-flat__toc-table th:nth-child(1),
   .catalogue-flat__toc-table td:nth-child(1) {
-    width: 62%;
+    width: 66%;
   }
 
   .catalogue-flat__toc-table th:nth-child(2),
   .catalogue-flat__toc-table td:nth-child(2) {
-    width: 14%;
+    width: 13%;
   }
 
   .catalogue-flat__toc-table th:nth-child(3),
   .catalogue-flat__toc-table td:nth-child(3) {
-    width: 24%;
+    width: 21%;
   }
 
   .catalogue-flat__toc-name,
   .catalogue-flat__toc-link,
   .catalogue-flat__toc-table td {
     overflow-wrap: normal;
-    word-break: normal;
+    word-break: keep-all;
     hyphens: manual;
   }
 }
@@ -4658,15 +4665,15 @@ body.split-dragging * {
   }
 
   .catalogue-flat__toc-table td:nth-child(1) {
-    width: 60%;
+    width: 66%;
   }
 
   .catalogue-flat__toc-table td:nth-child(2) {
-    width: 14%;
+    width: 13%;
   }
 
   .catalogue-flat__toc-table td:nth-child(3) {
-    width: 26%;
+    width: 21%;
   }
 }
 
@@ -7644,24 +7651,31 @@ th.filter-active .th-filter-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0;
+  font-size: 14px;
 }
 
 .overflow-menu__trigger::before {
-  content: '\22EE';
+  content: '...';
   font-size: 16px;
   line-height: 1;
+  font-weight: 700;
 }
 
 /* Make the + text icon match SVG icon size */
 .map-card__actions .load-btn,
 .class-member__actions .load-btn {
-  font-size: var(--icon-size, 16px);
+  font-size: var(--icon-size, 16px) !important;
   line-height: 1;
 }
 
 .variant-item__actions .load-btn {
-  font-size: var(--icon-size, 16px);
+  font-size: var(--icon-size, 16px) !important;
+  line-height: 1;
+}
+
+.map-card__actions .variants-toggle,
+.class-member__actions .variants-toggle {
+  font-size: var(--icon-size, 16px) !important;
   line-height: 1;
 }
 
