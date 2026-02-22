@@ -8,7 +8,7 @@ var loop;
 var activeFinalStatusTimers = [];
 var NON_TRANSFERABLE_CANONICAL = 'nontransferable';
 
-// Utility: format number string with commas (e.g. "12345" → "12,345")
+// Utility: format number string with commas (e.g. "12345" ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ "12,345")
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -526,7 +526,7 @@ function animateForumElection(constituency) {
         label.css({ top: top, left: leftPadding });
         decorateLabel(label, entry.colour);
         var nameSpan = $("<span class='forum-party-name'></span>");
-        nameSpan.text(entry.name || '—');
+        nameSpan.text(entry.name || 'ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â');
         label.append(nameSpan);
         animation.append(label);
 
@@ -1065,12 +1065,12 @@ var PARTY_COLOUR_BASE = {
     'Progressive Unionist Party': '#2B45A2',
     'Procapitalism': '#000000',
     'Republican Labour Party': '#85DE59',
-    'Republican Sinn Féin': '#008800',
+    'Republican Sinn FÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©in': '#008800',
     'SDLP': '#2AA82C',
     'Social Democratic and Labour Party': '#2AA82C',
     'Socialist Environmental Alliance': '#BB0000',
     'Socialist Party': '#FF3300',
-    'Sinn Féin': '#326760',
+    'Sinn FÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©in': '#326760',
     'Sinn Fein': '#326760',
     'TUV': '#0C3A6A',
     'Traditional Unionist Voice': '#0C3A6A',
@@ -1096,7 +1096,7 @@ var PARTY_COLOUR_BASE = {
 };
 
 var PARTY_COLOUR_OVERRIDES = {
-    'Aontú': '#228d57',
+    'AontÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âº': '#228d57',
     'British Democratic Party': '#00008B',
     'British Ulster Dominion Party': '#003366',
     'Carlow/Kilkenny Labour Party': '#DC241F',
@@ -1274,7 +1274,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
     }
     $("#stageNumbers").off('click');
     $("#stageNumbers").html("");
-    $("#quota").text("Loading election data…");
+    $("#quota").text("Loading election dataÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦");
     $("#count_matrix").empty();
     $("#transfers").empty();
     var transfersHeading = $("#transfers_constituency");
@@ -2280,7 +2280,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
             jumpToStep(id);
         });
 
-        // ── Auto-fit nameSpace to the longest candidate name ──
+        // ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ Auto-fit nameSpace to the longest candidate name ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬
         (function () {
             var measurer = document.createElement('span');
             measurer.style.cssText =
@@ -2316,7 +2316,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
         // Update dashed line to reach at least to the quota post
         $("#theline").width(Math.max(postPosition, quotaLinePosition || 0));
 
-        // For ≤14 stages, mark top row for single-line flex layout
+        // For ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â°Ãƒâ€šÃ‚Â¤14 stages, mark top row for single-line flex layout
         $('.inline-quota').remove();
         var topRow = document.querySelector('.ev-animation-top-row');
         if (counts <= 4) {
@@ -2329,10 +2329,10 @@ function animateStages(selectionOrYear, constituencyFolder) {
         $("#theline").css({ top: topMargin + seats * rowHeight - 5 });
         firstCount();  //run the first count
 
-        // ── Store the bounding box so the controller can scale the animation
+        // ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ Store the bounding box so the controller can scale the animation
         //    to fit within the results pane.  Top = 0, Left = 0.
         //    Width  = postPosition + rightMargin (actual content layout extent)
-        //    Height = topMargin + (rows × 30) + 25 (bar height)
+        //    Height = topMargin + (rows ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â 30) + 25 (bar height)
         var bbRows = candidates.length;
         var bbExtraRows = 0;
         bbExtraRows += 1; // Valid vote row
@@ -2340,7 +2340,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
         bbExtraRows += 1; // Turnout row
         if (didNotVote !== null && didNotVote > 0) bbExtraRows += 3;
         bbExtraRows += 1; // Electorate row
-        var contentWidth = postPosition + rightMargin;
+        var contentWidth = postPosition + rightMargin + 320;
         // After firstCount, measure the actual scrollWidth which includes
         // absolutely positioned children that may extend beyond the container
         var actualScroll = document.getElementById('animation');
@@ -2362,6 +2362,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
         $('#animation').width(contentWidth);
 
         var countNumber = 2;  //global loop variable
+        var isPaused = false;
         // set the advance count function to run in a loop
         loop = window.setInterval(advanceCount, 4000 * speed);
     } else {
@@ -2408,7 +2409,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
             $("#thepost").hide();
         }
 
-        // ── Quota header label ──
+        // ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ Quota header label ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬
         $('#quota-header-label, #quota-bracket').remove(); // remove any existing
         if (quotaValue !== null && quotaValue > 0 && quotaLinePosition !== null) {
             var quotaHeaderText = '<span style="font-family:Inter,sans-serif;">Quota </span>' + formatVoteNumber(quotaValue);
@@ -2520,7 +2521,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
             })(candidates[j].id, initialEntry);
         }
 
-        // ── Static summary rows: Valid vote, Spoiled, Turnout, Did Not Vote, Electorate ──
+        // ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ Static summary rows: Valid vote, Spoiled, Turnout, Did Not Vote, Electorate ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬
         var staticBarRow = candidates.length; // row index after all candidates
         $('.static-info-bar, .static-info-label, .static-pct-label, .static-text-label, .static-hr').remove();
 
@@ -2610,7 +2611,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
         }
 
 
-        // --- Did Not Vote row (3× height, ⅓ width) ---
+        // --- Did Not Vote row (3ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â height, ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ width) ---
         if (didNotVote !== null && didNotVote > 0) {
             var dnvTop = topMargin + (staticBarRow * rowHeight);
             var dnvWidth = (didNotVote * qFactor) / 3;
@@ -2762,7 +2763,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
                 recipientProgressById[progressEntry.id] = prepareRecipientBar(i, progressEntry.id, progressEntry.amount);
             }
 
-            // ── Bounding-box: compute the furthest right any transfer slice
+            // ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ Bounding-box: compute the furthest right any transfer slice
             //    will reach during ANY animation phase, then clamp
             //    transferHoldingLeft so the bounding box fits within postPosition.
             var maxSliceWidth = 0;
@@ -2781,7 +2782,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
                     maxArrivalRight = arrRight;
                 }
             }
-            // No clamping needed – slices intentionally stage past quota line
+            // No clamping needed ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ slices intentionally stage past quota line
             for (var j = 0; j < candidates.length; j++) {
                 var candidateId = candidates[j].id;
                 var currentData = getCountEntry(countDict, i, candidateId);
@@ -3042,17 +3043,16 @@ function animateStages(selectionOrYear, constituencyFolder) {
     }
 
     function pause() {
+        if (isPaused) return;
         clearInterval(loop);
         loop = undefined;
-        finalizeActiveAnimations();
+        isPaused = true;
         running = false;
-        $(".active").addClass("completed");
-        $(".active").removeClass("active");
     }
 
     function resume() {
-        finalizeActiveAnimations();
-        advanceCount();
+        if (!isPaused) return;
+        isPaused = false;
         loop = window.setInterval(advanceCount, 4000 * speed);
         running = true;
     }
@@ -3068,6 +3068,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
         $(".votes").remove();
         $(".pctLabel").remove();
         speed = s;
+        isPaused = false;
         firstCount();
         countNumber = 2;
         loop = window.setInterval(advanceCount, 4000 * speed);

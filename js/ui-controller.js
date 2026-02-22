@@ -1,4 +1,4 @@
-﻿/**
+/**
  * NI Boundaries - UI Controller
  * Handles split-pane layout, search, filtering, map catalogue, and UI interactions
  */
@@ -29,6 +29,7 @@ class UIController {
         this.onMapLoad = null;
         this.onMapUnload = null;
         this.onMapToggle = null;
+        this.onLoadSingleFeature = null;
         this.onHideMap = null;
         this.onVisibilityToggle = null;
         this.onCategoryChange = null;
@@ -49,7 +50,7 @@ class UIController {
         this.mediaQuery.addEventListener('change', (e) => {
             this.isMobile = e.matches;
             if (!e.matches) {
-                // Crossed from mobile â†’ desktop: restore saved desktop preference
+                // Crossed from mobile Ã¢â€ â€™ desktop: restore saved desktop preference
                 // If no explicit desktop preference exists, default to balanced
                 // so that both panes are visible
                 try {
@@ -63,7 +64,7 @@ class UIController {
                     this.currentStateId = 'balanced';
                 }
             } else {
-                // Crossed from desktop â†’ mobile: default to map-full
+                // Crossed from desktop Ã¢â€ â€™ mobile: default to map-full
                 // unless a mobile preference was explicitly saved
                 try {
                     const pref = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
@@ -207,7 +208,7 @@ class UIController {
         this.updateCatalogueNavButtons();
 
         // Render detail content
-        const isLoaded = this.onMapLoad ? false : false; // Will be updated by callback
+        const isLoaded = this.getMapIdsFromURL().includes(map.id);
         const color = map.style?.color || '#888';
         const formattedDate = this.formatMapDate(map.date) || '';
 
@@ -219,9 +220,9 @@ class UIController {
         // Build badges HTML
         let badgesHtml = '';
         const badges = [];
-        if (map.featured) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--featured">â­ Featured</span>');
-        if (map.isGroup) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--group">ðŸ“¦ Group</span>');
-        if (map.hidden) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--hidden">ðŸ‘ï¸ Hidden</span>');
+        if (map.featured) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--featured">Featured</span>');
+        if (map.isGroup) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--group">Group</span>');
+        if (map.hidden) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--hidden">Hidden</span>');
         if (badges.length > 0) {
             badgesHtml = `<div class="catalogue-detail__badges">${badges.join('')}</div>`;
         }
@@ -287,9 +288,7 @@ class UIController {
         }
 
         detailView.innerHTML = `
-            <button class="catalogue-detail__back" id="catalogueBackLink">
-                â† Back to Catalogue
-            </button>
+            <button class="catalogue-detail__back" id="catalogueBackLink">Back to Catalogue</button>
 
             <div class="catalogue-detail__card">
                 <div class="catalogue-detail__color" style="background-color: ${color}"></div>
@@ -302,7 +301,7 @@ class UIController {
             ${descriptionHtml}
 
             <button class="catalogue-detail__load-btn" data-map-id="${map.id}">
-                â–· Load Map
+                ${isLoaded ? 'Unload Map' : 'Load Map'}
             </button>
 
             <div class="catalogue-detail__meta">
@@ -352,8 +351,8 @@ class UIController {
 
             <div class="catalogue-detail__attr-table" id="catalogueAttrTable">
                 <div class="catalogue-detail__attr-table-header" id="catalogueAttrTableHeader">
-                    <span class="catalogue-detail__attr-table-title">ðŸ“‹ Feature Attributes</span>
-                    <span class="catalogue-detail__attr-table-toggle">▼</span>
+                    <span class="catalogue-detail__attr-table-title">Feature Attributes</span>
+                    <span class="catalogue-detail__attr-table-toggle">â–¼</span>
                 </div>
                 <div class="catalogue-detail__attr-table-body" id="catalogueAttrTableBody">
                     <div class="catalogue-detail__attr-loading">Loading attributes...</div>
@@ -370,7 +369,14 @@ class UIController {
         const loadBtn = detailView.querySelector('.catalogue-detail__load-btn');
         if (loadBtn) {
             loadBtn.addEventListener('click', () => {
-                if (this.onMapLoad) this.onMapLoad(map.id);
+                const loadedIds = this.getMapIdsFromURL();
+                if (loadedIds.includes(map.id)) {
+                    if (this.onMapUnload) this.onMapUnload(map.id);
+                    loadBtn.textContent = 'Load Map';
+                } else {
+                    if (this.onMapLoad) this.onMapLoad(map.id);
+                    loadBtn.textContent = 'Unload Map';
+                }
             });
         }
 
@@ -390,7 +396,7 @@ class UIController {
                 attrTableBody.classList.toggle('catalogue-detail__attr-table-body--collapsed');
                 const toggle = attrTableHeader.querySelector('.catalogue-detail__attr-table-toggle');
                 if (toggle) {
-                    toggle.textContent = attrTableBody.classList.contains('catalogue-detail__attr-table-body--collapsed') ? 'â–¶' : '▼';
+                    toggle.textContent = attrTableBody.classList.contains('catalogue-detail__attr-table-body--collapsed') ? 'â–¶' : 'â–¼';
                 }
             });
         }
@@ -1234,7 +1240,7 @@ class UIController {
                     catSection.className = 'category-section';
                     catSection.innerHTML = `
                         <div class="category-section__header">
-                            <span class="category-section__icon">${cat.icon || 'ðŸ“š'}</span>
+                            <span class="category-section__icon">${cat.icon || 'Ã°Å¸â€œÅ¡'}</span>
                             <h3 class="category-section__title">${this.escapeHtml(cat.name)}</h3>
                         </div>
                     `;
@@ -1373,13 +1379,13 @@ class UIController {
             { id: 'flat-admin-counties', name: 'Administrative Counties (Northern Ireland) (1915)', years: '1915', extent: 'Northern Ireland', classIds: ['ni-admin-counties'] },
             { id: 'flat-dublin-electoral-counties', name: 'Dublin Electoral Counties (1985)', years: '1985', extent: 'Ireland', classIds: ['roi-dublin-electoral-counties'] },
             { id: 'flat-assembly-areas', name: 'Assembly Areas (1998-)', years: '1995-2023', extent: 'Northern Ireland', classIds: ['ni-assembly'] },
-            { id: 'flat-forum', name: 'Northern Ireland Forum Constituencies (1996)', years: '1995', extent: 'Northern Ireland', classIds: ['ni-forum'] },
+            { id: 'flat-forum', name: 'Forum Constituencies (1996)', years: '1995', extent: 'Northern Ireland', classIds: ['ni-forum'] },
             { id: 'flat-assembly-1982', name: 'Assembly Constituencies (1982)', years: '1982', extent: 'Northern Ireland', classIds: ['ni-assembly-1982'] },
             { id: 'flat-con-conv', name: 'Constitutional Convention Constituencies (1975)', years: '1975', extent: 'Northern Ireland', classIds: ['ni-constitutional-convention'] },
             { id: 'flat-assembly-1973', name: 'Assembly Constituencies (1973)', years: '1970', extent: 'Northern Ireland', classIds: ['ni-assembly-1973'] },
             { id: 'flat-ni-parliament', name: 'Parliament of Northern Ireland Constituencies (1920-1973)', years: '1920-1969', extent: 'Northern Ireland', classIds: ['ni-parliament'] },
             { id: 'flat-cso-eds', name: 'CSO Electoral Divisions (Republic of Ireland) (2006-)', years: '2006-2023', extent: 'Republic of Ireland', mapIds: ['eds-2006', 'eds-2022', 'eds-2023'] },
-            { id: 'flat-dail', name: 'DÃ¡il Eireann Constituencies (1923-)', years: '1923-2023', extent: 'Republic of Ireland', classIds: ['roi-dail'] },
+            { id: 'flat-dail', name: 'Dáil Eireann Constituencies (1923-)', years: '1923-2023', extent: 'Republic of Ireland', classIds: ['roi-dail'] },
             { id: 'flat-uk-parliament', name: 'UK Parliamentary Constituencies (1884-)', years: '1884-2023', extent: 'Ireland / Northern Ireland', classIds: ['pre-1921-pcs', 'ni-pcs'] },
             { id: 'flat-eu-parliament', name: 'European Parliament Constituencies (1979-)', years: '1979-2024', extent: 'Ireland', classIds: ['eu-parliament'] },
             { id: 'flat-referendum', name: 'Referendum Counting Areas (1975-)', years: '1973-2016', extent: 'Northern Ireland', classIds: ['ni-referendum-areas'] },
@@ -1597,7 +1603,7 @@ class UIController {
                 heading: 'Devolved Constituencies',
                 members: [
                     'Assembly Areas',
-                    'Northern Ireland Forum Constituencies',
+                    'Forum Constituencies',
                     'Assembly Constituencies',
                     'Constitutional Convention Constituencies',
                     'Parliament of Northern Ireland Constituencies'
@@ -1627,7 +1633,7 @@ class UIController {
             const previewThumb = preview ? (preview.cloneOf || preview.id) : '';
             const previewColor = preview?.style?.color || '#888';
             const strippedName = stripBracketParts(card.name);
-            const tocName = card.id === 'flat-historic-sites' ? 'Histroic Sites' : strippedName;
+            const tocName = card.id === 'flat-historic-sites' ? 'Historic Sites' : strippedName;
             tocHtml += `
                 <tr class="${indented ? 'catalogue-flat__toc-row--indented' : ''}">
                     <td>
@@ -1799,7 +1805,7 @@ class UIController {
                 catSection.className = 'category-section';
                 catSection.innerHTML = `
                     <div class="category-section__header">
-                        <span class="category-section__icon">${cat.icon || 'ðŸ“š'}</span>
+                        <span class="category-section__icon">${cat.icon || 'Ã°Å¸â€œÅ¡'}</span>
                         <h3 class="category-section__title">${this.escapeHtml(cat.name)}</h3>
                     </div>
                 `;
@@ -1899,7 +1905,7 @@ class UIController {
                         ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
                         ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : ''}
                     </div>
-                    ${!isPlaceholder ? `<div class="class-member__actions">\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${isLoaded ? '&#10005;' : '+'}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions">⋮</button>
+                    ${!isPlaceholder ? `<div class="class-member__actions">\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${isLoaded ? '&#10005;' : '+'}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions">â‹®</button>
                             <div class="overflow-menu__dropdown">
                                 <button class="overflow-menu__item visibility-btn" data-map-id="${map.id}">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -2111,7 +2117,7 @@ class UIController {
                         ${!isPlaceholder ? `<div class="class-member__actions">
                             <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}">${isLoaded ? '&#10005;' : '+'}</button>
                             <div class="overflow-menu">
-                                <button class="overflow-menu__trigger" title="More actions">⋮</button>
+                                <button class="overflow-menu__trigger" title="More actions">â‹®</button>
                                 <div class="overflow-menu__dropdown">
                                     <button class="overflow-menu__item visibility-btn" data-map-id="${map.id}">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -2349,7 +2355,7 @@ class UIController {
             }
 
             // Expand button for maps with variants (isGroup)
-            const expandBtn = hasVariants ? `<button class="btn btn--icon btn--xs variants-toggle" data-map-id="${map.id}" title="Show variants">▼</button>` : '';
+            const expandBtn = hasVariants ? `<button class="btn btn--icon btn--xs variants-toggle" data-map-id="${map.id}" title="Show variants">â–¼</button>` : '';
 
             // Variants dropdown HTML (for isGroup maps)
             const variantsHtml = hasVariants ? this.renderVariantsDropdown(map, isLoaded) : '';
@@ -2362,7 +2368,7 @@ class UIController {
                 ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
                 ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : ''}
             </div>
-                ${!isPlaceholder ? `<div class="class-member__actions">${expandBtn}\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${isLoaded ? '&#10005;' : '+'}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions">⋮</button>
+                ${!isPlaceholder ? `<div class="class-member__actions">${expandBtn}\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${isLoaded ? '&#10005;' : '+'}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions">â‹®</button>
                             <div class="overflow-menu__dropdown">
                                 <button class="overflow-menu__item visibility-btn" data-map-id="${map.id}">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -2395,8 +2401,8 @@ class UIController {
      * 
      * Position-Based Implementation:
      * - Rows are determined by item POSITION (index), not year values
-     * - First item in each column â†’ row 2 (row 1 is column headers)
-     * - Second item in each column â†’ row 3, etc.
+     * - First item in each column Ã¢â€ â€™ row 2 (row 1 is column headers)
+     * - Second item in each column Ã¢â€ â€™ row 3, etc.
      * - This aligns items across columns by their position in the list
      */
     renderChronologicalGrid(section, classes, allMaps, options) {
@@ -2634,7 +2640,7 @@ class UIController {
                     if (!isPlaceholder) {
                         html += `<button class="c1-load-btn load-btn" data-map-id="${map.id}">${isLoaded ? '&#10005;' : '+'}</button>`;
                         html += `<div class="overflow-menu">
-                            <button class="overflow-menu__trigger" title="More actions">⋮</button>
+                            <button class="overflow-menu__trigger" title="More actions">â‹®</button>
                             <div class="overflow-menu__dropdown">
                                 <button class="overflow-menu__item visibility-btn" data-map-id="${map.id}">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -3501,13 +3507,13 @@ class UIController {
 
         // Define groups with their IDs and display names
         const groups = [
-            { id: 'all', name: 'All', icon: 'ðŸ“‹' },
-            { id: 'communities', name: 'Communities', icon: 'ðŸ˜ï¸' },
-            { id: 'history', name: 'History', icon: 'ðŸ“œ' },
-            { id: 'elections-and-government', name: 'Elections and Government', icon: 'ðŸ—³ï¸' },
-            { id: 'public-services', name: 'Public Services', icon: 'ðŸ¥' },
-            { id: 'physical-geography', name: 'Physical Geography', icon: 'ðŸ—»' },
-            { id: 'built-environment', name: 'Built Environment', icon: 'ðŸ—ï¸' }
+            { id: 'all', name: 'All', icon: 'Ã°Å¸â€œâ€¹' },
+            { id: 'communities', name: 'Communities', icon: 'Ã°Å¸ÂËœÃ¯Â¸Â' },
+            { id: 'history', name: 'History', icon: 'Ã°Å¸â€œÅ“' },
+            { id: 'elections-and-government', name: 'Elections and Government', icon: 'Ã°Å¸â€”Â³Ã¯Â¸Â' },
+            { id: 'public-services', name: 'Public Services', icon: 'Ã°Å¸ÂÂ¥' },
+            { id: 'physical-geography', name: 'Physical Geography', icon: 'Ã°Å¸â€”Â»' },
+            { id: 'built-environment', name: 'Built Environment', icon: 'Ã°Å¸Ââ€”Ã¯Â¸Â' }
         ];
 
         // Get total maps for 'All' button
@@ -3562,43 +3568,43 @@ class UIController {
             {
                 id: 'all-providers',
                 name: 'All Providers',
-                icon: 'ðŸŒ',
+                icon: 'Ã°Å¸Å’Â',
                 providers: [] // Empty means all
             },
             {
                 id: 'northern-ireland',
                 name: 'Northern Ireland',
-                icon: 'âœ‹',
+                icon: 'Ã¢Å“â€¹',
                 providers: ['ABC Council', 'DAERA', 'Department for Communities', 'NIEA', 'NISRA', 'OSNI', 'OSNI Open Data', 'PRONI']
             },
             {
                 id: 'ireland',
                 name: 'Ireland',
-                icon: 'ðŸ‡®ðŸ‡ª',
-                providers: ['CSO', 'EPA', 'OSI', 'OSi', 'TÃ‰']
+                icon: 'Ã°Å¸â€¡Â®Ã°Å¸â€¡Âª',
+                providers: ['CSO', 'EPA', 'OSI', 'OSi', 'TÃƒâ€°']
             },
             {
                 id: 'united-kingdom',
                 name: 'United Kingdom',
-                icon: 'ðŸ‡¬ðŸ‡§',
+                icon: 'Ã°Å¸â€¡Â¬Ã°Å¸â€¡Â§',
                 providers: ['Electoral Commission', 'Northern Ireland Office']
             },
             {
                 id: 'european-union',
                 name: 'European Union',
-                icon: 'ðŸ‡ªðŸ‡º',
+                icon: 'Ã°Å¸â€¡ÂªÃ°Å¸â€¡Âº',
                 providers: ['European Commission', 'Eurostat']
             },
             {
                 id: 'organizations',
                 name: 'Organizations',
-                icon: 'ðŸ¢',
+                icon: 'Ã°Å¸ÂÂ¢',
                 providers: ['IHO', 'OpenTopography.org', 'OSM']
             },
             {
                 id: 'individuals',
                 name: 'Individuals',
-                icon: 'ðŸ‘¤',
+                icon: 'Ã°Å¸â€˜Â¤',
                 providers: ['Global Watersheds', 'Paddy Matthews', 'Parlconst.org', 'Scott Moore', 'XrysD']
             }
         ];
@@ -3701,7 +3707,11 @@ class UIController {
             }
             if (!primaryName) primaryName = 'Unnamed Feature';
 
-            html += `<div class="feature-info__primary-name">${this.escapeHtml(primaryName)}</div>`;
+            if (mapConfig?.id) {
+                html += `<button type="button" class="feature-info__primary-name feature-info__primary-name-link" data-feature-map-id="${this.escapeHtml(mapConfig.id)}">${this.escapeHtml(primaryName)}</button>`;
+            } else {
+                html += `<div class="feature-info__primary-name">${this.escapeHtml(primaryName)}</div>`;
+            }
 
             // Calculate area and perimeter if available
             let area = props.Area || props.area || props.AREA;
@@ -3724,20 +3734,26 @@ class UIController {
             if (area || perimeter || (minElevM !== undefined && maxElevM !== undefined)) {
                 html += '<div class="feature-info__metrics">';
                 if (area) {
-                    const areaKm2 = typeof area === 'number' ? area : parseFloat(area);
+                    let areaKm2 = typeof area === 'number' ? area : parseFloat(area);
+                    if (Number.isFinite(areaKm2) && areaKm2 > 100000) {
+                        areaKm2 = areaKm2 / 1000000;
+                    }
                     if (!isNaN(areaKm2)) {
                         const areaSqMi = areaKm2 * 0.386102;
                         html += `<div class="feature-info__metric feature-info__metric--clickable" data-area-km="${areaKm2}" data-area-mi="${areaSqMi}" data-precision="2">
                             <span class="feature-info__metric-label">Area</span>
                             <span class="feature-info__metric-value feature-info__metric-value--underline">
-                                <span class="metric-km">${this.formatNumber(areaKm2, 2)} kmÂ²</span><br>
+                                <span class="metric-km">${this.formatNumber(areaKm2, 2)} km<sup>2</sup></span><br>
                                 <span class="metric-mi">(${this.formatNumber(areaSqMi, 2)} sq mi)</span>
                             </span>
                         </div>`;
                     }
                 }
                 if (perimeter) {
-                    const perimKm = typeof perimeter === 'number' ? perimeter : parseFloat(perimeter);
+                    let perimKm = typeof perimeter === 'number' ? perimeter : parseFloat(perimeter);
+                    if (Number.isFinite(perimKm) && perimKm > 100000) {
+                        perimKm = perimKm / 1000;
+                    }
                     if (!isNaN(perimKm)) {
                         const perimMi = perimKm * 0.621371;
                         html += `<div class="feature-info__metric feature-info__metric--clickable" data-perim-km="${perimKm}" data-perim-mi="${perimMi}" data-precision="2">
@@ -3826,7 +3842,7 @@ class UIController {
                     const areaMi = parseFloat(metric.dataset.areaMi);
                     const kmSpan = metric.querySelector('.metric-km');
                     const miSpan = metric.querySelector('.metric-mi');
-                    if (kmSpan) kmSpan.textContent = `${this.formatNumber(areaKm, newPrecision)} kmÂ²`;
+                    if (kmSpan) kmSpan.textContent = `${this.formatNumber(areaKm, newPrecision)} km2`;
                     if (miSpan) miSpan.textContent = `(${this.formatNumber(areaMi, newPrecision)} sq mi)`;
                 }
 
@@ -3839,6 +3855,13 @@ class UIController {
                     if (kmSpan) kmSpan.textContent = `${this.formatNumber(perimKm, newPrecision)} km`;
                     if (miSpan) miSpan.textContent = `(${this.formatNumber(perimMi, newPrecision)} mi)`;
                 }
+            });
+        });
+
+        content.querySelectorAll('.feature-info__primary-name-link').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const mapId = btn.dataset.featureMapId;
+                if (mapId) this.showCatalogueDetailView(mapId);
             });
         });
 
@@ -4384,7 +4407,7 @@ class UIController {
                             ${columns.map(col => `
                                 <th class="data-table__header sortable" data-sort-key="${col}">
                                     <span class="data-table__text">${this.escapeHtml(col)}${this.tablesState.sortKey === col ?
-                (this.tablesState.sortDir === 'asc' ? ' â–²' : ' ▼') : ''}</span>
+                (this.tablesState.sortDir === 'asc' ? ' Ã¢â€“Â²' : ' â–¼') : ''}</span>
                                 </th>
                             `).join('')}
                         </tr>
@@ -4417,9 +4440,9 @@ class UIController {
         if (totalPages > 1) {
             html += `
                 <div class="tables-pagination">
-                    <button class="btn btn--sm tables-pagination__btn" data-page="prev" ${currentPage === 1 ? 'disabled' : ''}>â† Prev</button>
+                    <button class="btn btn--sm tables-pagination__btn" data-page="prev" ${currentPage === 1 ? 'disabled' : ''}>Ã¢â€ Â Prev</button>
                     <span class="tables-pagination__info">Page ${currentPage} of ${totalPages}</span>
-                    <button class="btn btn--sm tables-pagination__btn" data-page="next" ${currentPage === totalPages ? 'disabled' : ''}>Next â†’</button>
+                    <button class="btn btn--sm tables-pagination__btn" data-page="next" ${currentPage === totalPages ? 'disabled' : ''}>Next Ã¢â€ â€™</button>
                 </div>
             `;
         }
@@ -4517,14 +4540,30 @@ class UIController {
         if (autocomplete) {
             autocomplete.addEventListener('click', (e) => {
                 const item = e.target.closest('.search-autocomplete__item');
-                if (item) {
-                    const type = item.dataset.type;
+                if (!item) return;
+                const type = item.dataset.type;
+                if (type === 'feature') {
+                    const bbox = (item.dataset.bbox || '').split(',').map(Number).filter(n => Number.isFinite(n));
+                    const mapId = item.dataset.mapId;
+                    const featureId = item.dataset.featureId;
+                    const featureName = item.dataset.featureName || featureId || '';
+                    if (bbox.length === 4) {
+                        this.zoomToFeature(bbox, mapId, featureId, featureName);
+                    }
+                } else if (type === 'address') {
+                    const lat = parseFloat(item.dataset.lat);
+                    const lon = parseFloat(item.dataset.lon);
+                    const name = item.dataset.name || '';
+                    if (Number.isFinite(lat) && Number.isFinite(lon)) {
+                        this.handleAddressSelection(lat, lon, name);
+                    }
+                } else {
                     const id = item.dataset.id;
                     this.handleSearchSelection(type, id);
-                    this.hideAutocomplete();
-                    searchInput.value = '';
-                    if (searchClear) searchClear.classList.remove('visible');
                 }
+                this.hideAutocomplete();
+                searchInput.value = '';
+                if (searchClear) searchClear.classList.remove('visible');
             });
         }
 
@@ -4612,7 +4651,7 @@ class UIController {
         this.searchItems = searchItems;
     }
 
-    performSearch(query) {
+    async performSearch(query) {
         // Check if query looks like an address or postcode
         if (this.isAddressQuery(query)) {
             this.performAddressSearch(query);
@@ -4624,11 +4663,65 @@ class UIController {
             if (!this.fuse) return;
         }
 
-        const results = this.fuse.search(query, { limit: 10 });
-        this.renderAutocomplete(results, query);
+        const [results, featureResults] = await Promise.all([
+            Promise.resolve(this.fuse.search(query, { limit: 8 })),
+            this.searchFeatures(query).catch(() => [])
+        ]);
+        this.renderCombinedAutocomplete(results, featureResults, query);
 
         // Notify app for filtering
         if (this.onSearch) this.onSearch(query);
+    }
+
+    renderCombinedAutocomplete(results, featureResults, query) {
+        const autocomplete = document.getElementById('searchAutocomplete');
+        if (!autocomplete) return;
+
+        const sections = [];
+        if (featureResults.length > 0) {
+            const featureHtml = featureResults.slice(0, 6).map(result => {
+                const data = dataService.getData();
+                const mapConfig = data?.maps?.find(m => m.id === result.mapId);
+                const mapName = mapConfig?.name || result.mapId;
+                return `<div class="search-autocomplete__item search-autocomplete__item--feature"
+                         data-type="feature"
+                         data-feature-id="${this.escapeHtml(String(result.id))}"
+                         data-feature-name="${this.escapeHtml(String(result.name || ''))}"
+                         data-map-id="${this.escapeHtml(String(result.mapId || ''))}"
+                         data-bbox="${(result.bbox || []).join(',')}">
+                    <span class="search-autocomplete__icon">ðŸ“</span>
+                    <div class="search-autocomplete__content">
+                        <span class="search-autocomplete__name">${this.highlightText(result.name, query)}</span>
+                        <span class="search-autocomplete__meta">${this.escapeHtml(mapName)}</span>
+                    </div>
+                </div>`;
+            }).join('');
+            sections.push(featureHtml);
+        }
+
+        if (results.length > 0) {
+            const mapHtml = results.map(result => {
+                const item = result.item;
+                const typeIcon = item.type === 'map' ? 'ðŸ—º' : item.type === 'class' ? 'â–¦' : 'ðŸ“';
+                const highlightedName = this.highlightMatches(item.name, result.matches);
+                return `<div class="search-autocomplete__item" data-type="${item.type}" data-id="${item.id}">
+                    <span class="search-autocomplete__icon">${typeIcon}</span>
+                    <div class="search-autocomplete__content">
+                        <span class="search-autocomplete__name">${highlightedName}</span>
+                        ${item.category ? `<span class="search-autocomplete__meta">${item.category}</span>` : ''}
+                    </div>
+                </div>`;
+            }).join('');
+            sections.push(mapHtml);
+        }
+
+        if (sections.length === 0) {
+            autocomplete.innerHTML = '<div class="search-autocomplete__empty">No maps or features found</div>';
+            autocomplete.classList.remove('hidden');
+            return;
+        }
+        autocomplete.innerHTML = sections.join('');
+        autocomplete.classList.remove('hidden');
     }
 
     isAddressQuery(query) {
@@ -4652,7 +4745,7 @@ class UIController {
 
         const html = results.map(result => {
             const item = result.item;
-            const typeIcon = item.type === 'map' ? 'ðŸ—ºï¸' : item.type === 'class' ? 'ðŸ“‹' : 'ðŸ“‚';
+            const typeIcon = item.type === 'map' ? 'ðŸ—º' : item.type === 'class' ? 'â–¦' : 'ðŸ“';
             const highlightedName = this.highlightMatches(item.name, result.matches);
 
             return `<div class="search-autocomplete__item" data-type="${item.type}" data-id="${item.id}">
@@ -4829,8 +4922,8 @@ class UIController {
         addressResults.classList.remove('hidden');
         addressResults.innerHTML = `
             <div class="address-results__header">
-                <h4>ðŸ“ ${this.escapeHtml(name)}</h4>
-                <button class="address-results__close" title="Close">Ã—</button>
+                <h4>Ã°Å¸â€œÂ ${this.escapeHtml(name)}</h4>
+                <button class="address-results__close" title="Close">Ãƒâ€”</button>
             </div>
             <div class="address-results__content">
                 <p class="text-muted text-sm">Checking loaded boundaries...</p>
@@ -5000,16 +5093,16 @@ class UIController {
 
         if (type === 'category') {
             const cat = (data.categories || []).find(c => c.id === id);
-            return cat ? `ðŸ“ ${cat.name}` : id;
+            return cat ? `Ã°Å¸â€œÂ ${cat.name}` : id;
         } else if (type === 'class') {
             const cls = (data.classes || []).find(c => c.id === id);
-            return cls ? `ðŸ“‹ ${cls.name}` : id;
+            return cls ? `Ã°Å¸â€œâ€¹ ${cls.name}` : id;
         } else if (type === 'map') {
             const map = (data.maps || []).find(m => m.id === id);
-            return map ? `ðŸ—ºï¸ ${map.name}` : id;
+            return map ? `Ã°Å¸â€”ÂºÃ¯Â¸Â ${map.name}` : id;
         } else if (type === 'book') {
             const book = (data.books || []).find(b => b.id === id);
-            return book ? `ðŸ“– ${book.title || book.name}` : id;
+            return book ? `Ã°Å¸â€œâ€“ ${book.title || book.name}` : id;
         }
         return id;
     }
@@ -5029,11 +5122,11 @@ class UIController {
         let html = '<div class="explore-hierarchy">';
 
         // Categories section
-        html += '<div class="explore-section"><h3 class="explore-section__title">ðŸ“‚ Categories</h3>';
+        html += '<div class="explore-section"><h3 class="explore-section__title">Ã°Å¸â€œâ€š Categories</h3>';
         (categories || []).forEach(cat => {
             const mapCount = (maps || []).filter(m => m.category === cat.id).length;
             html += `<div class="explore-item explore-item--category" data-type="category" data-id="${cat.id}">
-                <span class="explore-item__icon">${cat.icon || 'ðŸ“'}</span>
+                <span class="explore-item__icon">${cat.icon || 'Ã°Å¸â€œÂ'}</span>
                 <span class="explore-item__name">${this.escapeHtml(cat.name)}</span>
                 <span class="explore-item__count">${mapCount}</span>
             </div>`;
@@ -5041,10 +5134,10 @@ class UIController {
         html += '</div>';
 
         // Classes section
-        html += '<div class="explore-section"><h3 class="explore-section__title">ðŸ“‹ Classes</h3>';
+        html += '<div class="explore-section"><h3 class="explore-section__title">Ã°Å¸â€œâ€¹ Classes</h3>';
         (classes || []).slice(0, 10).forEach(cls => {
             html += `<div class="explore-item explore-item--class" data-type="class" data-id="${cls.id}">
-                <span class="explore-item__icon">ðŸ“‹</span>
+                <span class="explore-item__icon">Ã°Å¸â€œâ€¹</span>
                 <span class="explore-item__name">${this.escapeHtml(cls.name)}</span>
                 <span class="explore-item__count">${(cls.maps || []).length}</span>
             </div>`;
@@ -5055,7 +5148,7 @@ class UIController {
         html += '</div>';
 
         // Recent maps
-        html += '<div class="explore-section"><h3 class="explore-section__title">ðŸ—ºï¸ Featured Maps</h3>';
+        html += '<div class="explore-section"><h3 class="explore-section__title">Ã°Å¸â€”ÂºÃ¯Â¸Â Featured Maps</h3>';
         (maps || []).filter(m => m.featured).slice(0, 8).forEach(map => {
             html += `<div class="explore-item explore-item--map" data-type="map" data-id="${map.id}">
                 <span class="explore-item__color" style="background: ${map.style?.color || '#888'}"></span>
@@ -5066,10 +5159,10 @@ class UIController {
 
         // Books section
         if ((books || []).length > 0) {
-            html += '<div class="explore-section"><h3 class="explore-section__title">ðŸ“š Books</h3>';
+            html += '<div class="explore-section"><h3 class="explore-section__title">Ã°Å¸â€œÅ¡ Books</h3>';
             books.slice(0, 5).forEach(book => {
                 html += `<div class="explore-item explore-item--book" data-type="book" data-id="${book.id}">
-                    <span class="explore-item__icon">ðŸ“–</span>
+                    <span class="explore-item__icon">Ã°Å¸â€œâ€“</span>
                     <span class="explore-item__name">${this.escapeHtml(book.title || book.name)}</span>
                 </div>`;
             });
@@ -5117,7 +5210,7 @@ class UIController {
             if (cat) {
                 const maps = dataService.getMapsByCategory(id);
                 html += `<div class="explore-detail__hero explore-detail__hero--category">
-                    <span class="explore-detail__icon">${cat.icon || 'ðŸ“'}</span>
+                    <span class="explore-detail__icon">${cat.icon || 'Ã°Å¸â€œÂ'}</span>
                     <h2 class="explore-detail__title">${this.escapeHtml(cat.name)}</h2>
                     <p class="explore-detail__subtitle">${maps.length} map${maps.length !== 1 ? 's' : ''} in this category</p>
                 </div>`;
@@ -5146,7 +5239,7 @@ class UIController {
             if (cls) {
                 const clsMaps = (cls.maps || []).map(mid => dataService.getMapById(mid)).filter(Boolean);
                 html += `<div class="explore-detail__hero explore-detail__hero--class">
-                    <span class="explore-detail__icon">ðŸ“‹</span>
+                    <span class="explore-detail__icon">Ã°Å¸â€œâ€¹</span>
                     <h2 class="explore-detail__title">${this.escapeHtml(cls.name)}</h2>
                     <p class="explore-detail__subtitle">${clsMaps.length} map${clsMaps.length !== 1 ? 's' : ''} in this class</p>
                 </div>`;
@@ -5182,12 +5275,13 @@ class UIController {
                 </div>`;
 
                 // Action button
+                const mapLoaded = this.getMapIdsFromURL().includes(map.id);
                 html += `<div class="explore-detail__actions">
-                    <button class="btn btn--primary btn--lg" onclick="uiController.onMapLoad && uiController.onMapLoad('${map.id}')">
+                    <button class="btn btn--primary btn--lg" data-explore-map-toggle="${map.id}">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polygon points="5 3 19 12 5 21 5 3"/>
+                            ${mapLoaded ? '<path d="M18 6L6 18M6 6l12 12"/>' : '<polygon points="5 3 19 12 5 21 5 3"/>'}
                         </svg>
-                        Load Map
+                        ${mapLoaded ? 'Unload Map' : 'Load Map'}
                     </button>
                 </div>`;
 
@@ -5240,7 +5334,7 @@ class UIController {
             const book = dataService.getBookById(id);
             if (book) {
                 html += `<div class="explore-detail__hero explore-detail__hero--book">
-                    <span class="explore-detail__icon">ðŸ“–</span>
+                    <span class="explore-detail__icon">Ã°Å¸â€œâ€“</span>
                     <h2 class="explore-detail__title">${this.escapeHtml(book.title || book.name)}</h2>
                     ${book.year ? `<p class="explore-detail__subtitle">${book.year}</p>` : ''}
                 </div>`;
@@ -5277,6 +5371,20 @@ class UIController {
                 this.showEntityInfo(link.dataset.type, link.dataset.id);
             });
         });
+        const exploreMapToggle = container.querySelector('[data-explore-map-toggle]');
+        if (exploreMapToggle) {
+            exploreMapToggle.addEventListener('click', async () => {
+                const mapId = exploreMapToggle.getAttribute('data-explore-map-toggle');
+                const loadedIds = this.getMapIdsFromURL();
+                if (loadedIds.includes(mapId)) {
+                    if (this.onMapUnload) this.onMapUnload(mapId);
+                    this.showEntityInfoWithoutHistory('map', mapId);
+                    return;
+                }
+                if (this.onMapLoad) await this.onMapLoad(mapId);
+                this.showEntityInfoWithoutHistory('map', mapId);
+            });
+        }
     }
 
     exploreGoBack() {
@@ -5344,14 +5452,14 @@ class UIController {
         // Search categories
         (data.categories || []).forEach(cat => {
             if (cat.name.toLowerCase().includes(q) || cat.id.includes(q)) {
-                results.push({ type: 'category', item: cat, name: cat.name, icon: cat.icon || 'ðŸ“‚' });
+                results.push({ type: 'category', item: cat, name: cat.name, icon: cat.icon || 'Ã°Å¸â€œâ€š' });
             }
         });
 
         // Search classes
         (data.classes || []).forEach(cls => {
             if (cls.name.toLowerCase().includes(q) || cls.id.includes(q)) {
-                results.push({ type: 'class', item: cls, name: cls.name, icon: 'ðŸ“‹' });
+                results.push({ type: 'class', item: cls, name: cls.name, icon: 'Ã°Å¸â€œâ€¹' });
             }
         });
 
@@ -5367,7 +5475,7 @@ class UIController {
         (data.books || []).forEach(book => {
             const searchText = [book.title || book.name, book.id, ...(book.keywords || [])].join(' ').toLowerCase();
             if (searchText.includes(q)) {
-                results.push({ type: 'book', item: book, name: book.title || book.name, icon: 'ðŸ“–' });
+                results.push({ type: 'book', item: book, name: book.title || book.name, icon: 'Ã°Å¸â€œâ€“' });
             }
         });
 
@@ -5445,7 +5553,7 @@ class UIController {
                 <div class="variant-item__actions">
                     <button class="btn btn--icon btn--xs load-btn" data-map-id="${variant.id}" title="Load">+</button>
                     <div class="overflow-menu">
-                        <button class="overflow-menu__trigger" title="More actions">⋮</button>
+                        <button class="overflow-menu__trigger" title="More actions">â‹®</button>
                         <div class="overflow-menu__dropdown">
                             <button class="overflow-menu__item visibility-btn" data-map-id="${variant.id}">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -5596,13 +5704,13 @@ class UIController {
         });
     }
 
-    zoomToFeature(bbox, mapId, featureId) {
-        // First ensure the map is loaded
-        if (mapId && this.onMapLoad) {
+    zoomToFeature(bbox, mapId, featureId, featureName = null) {
+        // Load only the selected feature when supported, otherwise fallback to full layer load.
+        if (mapId && featureId && this.onLoadSingleFeature) {
+            this.onLoadSingleFeature(mapId, featureId, featureName, bbox);
+        } else if (mapId && this.onMapLoad) {
             const loadedIds = this.getMapIdsFromURL();
-            if (!loadedIds.includes(mapId)) {
-                this.onMapLoad(mapId);
-            }
+            if (!loadedIds.includes(mapId)) this.onMapLoad(mapId);
         }
 
         // Zoom to bbox
@@ -5622,7 +5730,7 @@ class UIController {
             }, 500);
         }
 
-        this.announce(`Zooming to ${featureId}`);
+        this.announce(`Zooming to ${featureName || featureId}`);
     }
 
     highlightText(text, query) {
@@ -5677,7 +5785,7 @@ if (typeof window !== 'undefined') {
     window.uiController = uiController;
 }
 
-// â”€â”€â”€ Thumbnail hover preview â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Thumbnail hover preview Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 (function initThumbnailPreview() {
     const preview = document.createElement('div');
     preview.className = 'thumbnail-preview';

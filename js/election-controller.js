@@ -33,7 +33,7 @@ class ElectionController {
     /**
      * Geography Mapping Table
      * Maps body + date range to FGB file and name attribute.
-     * Order matters — first match wins.
+     * Order matters Ã¢â‚¬â€ first match wins.
      */
     static GEOGRAPHY = [
         // Westminster 2024+ (2023 boundary review)
@@ -60,7 +60,7 @@ class ElectionController {
         // Forum 1996 (18 seats + NI-wide, use PC1995)
         { body: 'Northern Ireland Forum for Political Dialogue', dateFrom: '1900-01-01', fgb: 'data/maps/parliamentary/PC1995.fgb', nameAttr: 'Name' },
 
-        // European Parliament (single NI constituency — no useful map, but use PC2008 boundary for fill)
+        // European Parliament (single NI constituency Ã¢â‚¬â€ no useful map, but use PC2008 boundary for fill)
         { body: 'European Parliament', dateFrom: '1979-01-01', fgb: 'data/maps/parliamentary/PC2008.fgb', nameAttr: 'PC_NAME', singleConstituency: true },
     ];
 
@@ -205,7 +205,7 @@ class ElectionController {
 
     /**
      * Toggle visibility of all election visuals (geojson, overlays, results pane)
-     * without clearing state — used when hiding/showing via active layers list.
+     * without clearing state Ã¢â‚¬â€ used when hiding/showing via active layers list.
      */
     setVisible(visible) {
         if (!this.active) return;
@@ -234,7 +234,7 @@ class ElectionController {
         }
     }
 
-    // ─── Data Loading ───
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Data Loading Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
     _indexData = null;
     _indexPromise = null;
@@ -278,11 +278,11 @@ class ElectionController {
         return target;
     }
 
-    // ─── Geography Loading ───
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Geography Loading Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
     async _loadGeography(geo) {
         try {
-            // Fetch then stream — direct URL needs range request support
+            // Fetch then stream Ã¢â‚¬â€ direct URL needs range request support
             const response = await fetch(geo.fgb);
             const features = [];
             for await (const feature of flatgeobuf.deserialize(response.body)) {
@@ -334,7 +334,7 @@ class ElectionController {
                                 mapController.map.removeLayer(layer._hoverShadow);
                                 layer._hoverShadow = null;
                             }
-                            // Restore original style (no bringToBack — avoids z-order corruption)
+                            // Restore original style (no bringToBack Ã¢â‚¬â€ avoids z-order corruption)
                             const prev = layer._preHoverStyle || { color: '#555', weight: 1.5 };
                             layer.setStyle({ color: prev.color, weight: prev.weight });
                         });
@@ -352,7 +352,7 @@ class ElectionController {
         }
     }
 
-    // ─── Map Colouring ───
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Map Colouring Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
     _colourMap(geo) {
         if (!this.geojsonLayer) return;
@@ -412,7 +412,7 @@ class ElectionController {
         return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
     }
 
-    // ─── Overlays (Seat Circles) ───
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Overlays (Seat Circles) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
     /**
      * Extract all elected members from countGroup, including "deemed elected"
@@ -443,7 +443,7 @@ class ElectionController {
             }
         });
 
-        // Pass 2: add "deemed elected" — candidates remaining at final count
+        // Pass 2: add "deemed elected" Ã¢â‚¬â€ candidates remaining at final count
         // who were never excluded (they fill remaining seats)
         if (elected.length < numSeats) {
             const finalRound = cg.filter(r => +r.Count_Number === lastCount);
@@ -537,7 +537,7 @@ class ElectionController {
         // Clear previous markers
         this.overlayLayer.clearLayers();
 
-        // Rule 3: Absolute minimum — if all constituencies together are tiny, hide all.
+        // Rule 3: Absolute minimum Ã¢â‚¬â€ if all constituencies together are tiny, hide all.
         // Compute the total NI extent in pixels using the union of all constituency bounds.
         const allBounds = groups.reduce(
             (acc, g) => acc.extend(g.bounds),
@@ -549,7 +549,7 @@ class ElectionController {
         const niPixelHeight = Math.abs(niSW.y - niNE.y);
 
         if (niPixelWidth < 120 || niPixelHeight < 120) {
-            return; // Too zoomed out — hide everything
+            return; // Too zoomed out Ã¢â‚¬â€ hide everything
         }
 
         // Pre-compute pixel centroids and constituency pixel areas
@@ -651,7 +651,7 @@ class ElectionController {
         return positions;
     }
 
-    // ─── Split Pane ───
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Split Pane Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
     _showSplitPane() {
         this.splitPaneEl = document.getElementById('electionResultsPane');
@@ -863,7 +863,7 @@ class ElectionController {
         const headerRight = document.getElementById('electionPaneHeaderRight');
         const titleEl = document.getElementById('electionPaneTitle');
         if (!headerRight || !titleEl) return;
-        titleEl.textContent = `${this._shortBodyName(this.body)} — ${this._formatDate(this.date)}`;
+        titleEl.textContent = `${this._shortBodyName(this.body)} Ã¢â‚¬â€ ${this._formatDate(this.date)}`;
         const closeBtn = headerRight.querySelector('#electionCloseBtn');
         headerRight.innerHTML = '';
         const content = this.splitPaneEl?.querySelector('#electionPaneContent');
@@ -1013,13 +1013,13 @@ class ElectionController {
                             <th class="election-colour-col"></th>
                             <th>Party</th>
                             <th class="election-num">Stood</th>
-                            <th class="election-num">±</th>
+                            <th class="election-num">+/-</th>
                             <th class="election-num">Elected</th>
-                            <th class="election-num">±</th>
+                            <th class="election-num">+/-</th>
                             <th class="election-num">${this._thTwoLine('1st prefs', '')}</th>
-                            <th class="election-num">±</th>
+                            <th class="election-num">+/-</th>
                             <th class="election-num">${this._thTwoLine('% of', 'NI')}</th>
-                            <th class="election-num">${this._thTwoLine('% of NI', '±')}</th>
+                            <th class="election-num">${this._thTwoLine('% of NI', '+/-')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1151,12 +1151,12 @@ class ElectionController {
             <th>Party</th>
             <th>Constituency</th>
             <th>Status</th>
-            <th class="election-num">${this._thTwoLine('1st prefs', '±')}</th>
+            <th class="election-num">${this._thTwoLine('1st prefs', '+/-')}</th>
             <th class="election-num">${this._thTwoLine('1st prefs', '')}</th>
             <th class="election-num">${this._thTwoLine('1st prefs', '%')}</th>
-            <th class="election-num">${this._thTwoLine('1st prefs %', '±')}</th>
+            <th class="election-num">${this._thTwoLine('1st prefs %', '+/-')}</th>
             <th class="election-num">${this._thTwoLine('% of', 'NI')}</th>
-            <th class="election-num">${this._thTwoLine('% of NI', '±')}</th>
+            <th class="election-num">${this._thTwoLine('% of NI', '+/-')}</th>
         </tr></thead><tbody>`;
         const rankLabel = (idx) => {
             const n = idx + 1;
@@ -1193,7 +1193,7 @@ class ElectionController {
         return html;
     }
 
-    // ─── Constituency Click ───
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Constituency Click Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
     _onConstituencyClick(fgbName) {
         const constName = this._matchConstituency(fgbName);
@@ -1244,7 +1244,7 @@ class ElectionController {
             // Back button (icon only)
             const backBtn = document.createElement('button');
             backBtn.className = 'election-pane__back';
-            backBtn.innerHTML = '←';
+            backBtn.innerHTML = "<";
             backBtn.title = 'Back to summary';
             backBtn.addEventListener('click', () => {
                 this.selectedConstituency = null;
@@ -1252,7 +1252,7 @@ class ElectionController {
                 content.style.display = '';
                 content.style.flexDirection = '';
                 // Restore header
-                titleEl.textContent = `${this._shortBodyName(this.body)} — ${this._formatDate(this.date)}`;
+                titleEl.textContent = `${this._shortBodyName(this.body)} Ã¢â‚¬â€ ${this._formatDate(this.date)}`;
                 this._restoreHeaderTabs();
                 this._showNIWideResults();
                 if (this.onStateChange) this.onStateChange();
@@ -1466,13 +1466,13 @@ class ElectionController {
             <th class="election-colour-col"></th>
             <th data-sort-key="party">Party</th>
             <th class="election-num" data-sort-key="stood">Stood</th>
-            <th class="election-num" data-sort-key="stoodDelta">±</th>
+            <th class="election-num" data-sort-key="stoodDelta">+/-</th>
             <th class="election-num" data-sort-key="elected">Elected</th>
-            <th class="election-num" data-sort-key="electedDelta">±</th>
+            <th class="election-num" data-sort-key="electedDelta">+/-</th>
             <th class="election-num" data-sort-key="firstPrefs">1st prefs</th>
-            <th class="election-num" data-sort-key="firstPrefsDelta">±</th>
+            <th class="election-num" data-sort-key="firstPrefsDelta">+/-</th>
             <th class="election-num" data-sort-key="firstPrefsPct">1st prefs %</th>
-            <th class="election-num" data-sort-key="firstPrefsPctDelta">±</th>
+            <th class="election-num" data-sort-key="firstPrefsPctDelta">+/-</th>
         </tr></thead><tbody>`;
 
         parties.forEach((p, idx) => {
@@ -1541,12 +1541,14 @@ class ElectionController {
         table.dataset.tableControlsReady = '1';
 
         const sortState = { col: null, dir: 'default' };
-        const filterState = new Map();
+        const filterState = new Map(); // col index -> Set of allowed raw values
         const originalRows = [...tbody.querySelectorAll('tr')].map((row, idx) => ({ row, idx }));
         const sortableRows = originalRows.filter(({ row }) => {
             return !row.classList.contains('election-table-summary-row') && !row.classList.contains('election-table-note-row');
         });
         const fixedRows = originalRows.filter(({ row }) => !sortableRows.some((x) => x.row === row));
+        let activeMenu = null;
+        let activeMenuBtn = null;
 
         const parseMaybeNumber = (text) => {
             const cleaned = String(text || '')
@@ -1554,58 +1556,207 @@ class ElectionController {
                 .replace(/%/g, '')
                 .replace(/[+\u2212]/g, (m) => (m === '\u2212' ? '-' : '+'))
                 .trim();
-            if (!cleaned || cleaned === '-' || cleaned === '—' || cleaned.toLowerCase() === 'n/a') return null;
+            if (!cleaned || cleaned === '-' || cleaned === 'â€”' || cleaned.toLowerCase() === 'n/a') return null;
             const n = Number(cleaned);
             return Number.isFinite(n) ? n : null;
+        };
+        const parseMaybeOrdinal = (text) => {
+            const cleaned = String(text || '').trim().toLowerCase();
+            if (!cleaned) return null;
+            const rank = cleaned.match(/^(\d+)(st|nd|rd|th)?$/);
+            if (rank) return Number(rank[1]);
+            const count = cleaned.match(/count\s+(\d+)/);
+            if (count) return Number(count[1]);
+            return null;
         };
         const getCellText = (row, colIdx) => {
             const cell = row.children[colIdx];
             return cell ? cell.textContent.trim() : '';
         };
-        const compareRows = (a, b, colIdx, dir) => {
+        const inferColumnKind = (colIdx, th) => {
+            const sample = sortableRows.slice(0, 40).map(({ row }) => getCellText(row, colIdx)).filter(Boolean);
+            const numHits = sample.filter((v) => parseMaybeNumber(v) !== null).length;
+            const ordHits = sample.filter((v) => parseMaybeOrdinal(v) !== null).length;
+            const headerText = (th?.textContent || '').trim().toLowerCase();
+            if (headerText.includes('rank')) return 'ordinal';
+            if (sample.length > 0 && numHits / sample.length >= 0.8) return 'numeric';
+            if (sample.length > 0 && ordHits / sample.length >= 0.8) return 'ordinal';
+            return 'text';
+        };
+        const compareRows = (a, b, colIdx, dir, kind) => {
             if (dir === 'default') return a.idx - b.idx;
             const av = getCellText(a.row, colIdx);
             const bv = getCellText(b.row, colIdx);
-            const an = parseMaybeNumber(av);
-            const bn = parseMaybeNumber(bv);
             let cmp = 0;
-            if (an !== null && bn !== null) cmp = an - bn;
-            else cmp = av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
+            if (kind === 'numeric') {
+                const an = parseMaybeNumber(av);
+                const bn = parseMaybeNumber(bv);
+                if (an !== null && bn !== null) cmp = an - bn;
+                else if (an !== null) cmp = 1;
+                else if (bn !== null) cmp = -1;
+                else cmp = av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
+            } else if (kind === 'ordinal') {
+                const ao = parseMaybeOrdinal(av);
+                const bo = parseMaybeOrdinal(bv);
+                if (ao !== null && bo !== null) cmp = ao - bo;
+                else cmp = av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
+            } else {
+                cmp = av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
+            }
             return dir === 'asc' ? cmp : -cmp;
         };
-        const updateSortButtonLabels = () => {
-            headers.forEach((th, idx) => {
-                const btn = th.querySelector('[data-table-sort-btn]');
-                if (!btn) return;
-                if (sortState.col !== idx || sortState.dir === 'default') {
-                    btn.innerHTML = '<svg viewBox="0 0 10 12" aria-hidden="true" focusable="false"><path d="M5 1L8.5 4.5H1.5L5 1Z"/><path d="M5 11L1.5 7.5H8.5L5 11Z"/></svg>';
-                    btn.setAttribute('aria-label', 'Sort');
-                    btn.setAttribute('title', 'Sort');
-                } else if (sortState.dir === 'asc') {
-                    btn.innerHTML = '<svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M5 2L8.5 6H1.5L5 2Z"/></svg>';
-                    btn.setAttribute('aria-label', 'Sort ascending');
-                    btn.setAttribute('title', 'Sort ascending');
-                } else {
-                    btn.innerHTML = '<svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M5 8L1.5 4H8.5L5 8Z"/></svg>';
-                    btn.setAttribute('aria-label', 'Sort descending');
-                    btn.setAttribute('title', 'Sort descending');
-                }
+        const closeMenu = () => {
+            if (activeMenu) activeMenu.remove();
+            if (activeMenuBtn) activeMenuBtn.classList.remove('election-th-btn--open');
+            activeMenu = null;
+            activeMenuBtn = null;
+        };
+        const getUniqueValues = (colIdx) => {
+            const values = new Map();
+            sortableRows.forEach(({ row }) => {
+                const raw = getCellText(row, colIdx);
+                if (!values.has(raw)) values.set(raw, raw);
             });
+            return [...values.values()].sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
         };
         const applyState = () => {
             let visible = sortableRows.filter(({ row }) => {
-                for (const [colIdx, query] of filterState.entries()) {
-                    const v = getCellText(row, colIdx).toLowerCase();
-                    if (!v.includes(query)) return false;
+                for (const [colIdx, selected] of filterState.entries()) {
+                    if (!(selected instanceof Set) || selected.size === 0) continue;
+                    const v = getCellText(row, colIdx);
+                    if (!selected.has(v)) return false;
                 }
                 return true;
             });
-            visible = [...visible].sort((a, b) => compareRows(a, b, sortState.col ?? 0, sortState.dir));
+            const colIdx = sortState.col ?? 0;
+            const kind = inferColumnKind(colIdx, headers[colIdx]);
+            visible = [...visible].sort((a, b) => compareRows(a, b, colIdx, sortState.dir, kind));
             tbody.innerHTML = '';
             visible.forEach(({ row }) => tbody.appendChild(row));
             fixedRows.forEach(({ row }) => tbody.appendChild(row));
-            updateSortButtonLabels();
+
+            headers.forEach((th, idx) => {
+                const btn = th.querySelector('[data-table-filter-sort-btn]');
+                if (!btn) return;
+                const filtered = filterState.has(idx) && (filterState.get(idx)?.size ?? 0) > 0;
+                const sorted = sortState.col === idx && sortState.dir !== 'default';
+                btn.classList.toggle('election-th-btn--active', filtered || sorted);
+                if (sorted && sortState.dir === 'asc') btn.innerHTML = '^';
+                else if (sorted && sortState.dir === 'desc') btn.innerHTML = 'v';
+                else btn.innerHTML = '<>';
+            });
         };
+
+        const openMenuForColumn = (idx, anchorBtn) => {
+            closeMenu();
+            const th = headers[idx];
+            const kind = inferColumnKind(idx, th);
+            const options = getUniqueValues(idx);
+            const current = filterState.get(idx);
+            const selected = new Set(current instanceof Set ? current : options);
+
+            const sortAscLabel = kind === 'numeric'
+                ? 'Sort Smallest to Largest'
+                : (kind === 'ordinal' ? 'Sort Lowest to Highest' : 'Sort A to Z');
+            const sortDescLabel = kind === 'numeric'
+                ? 'Sort Largest to Smallest'
+                : (kind === 'ordinal' ? 'Sort Highest to Lowest' : 'Sort Z to A');
+
+            const menu = document.createElement('div');
+            menu.className = 'election-filter-menu';
+            menu.innerHTML = `
+                <button type="button" class="election-filter-menu__action" data-action="sort-asc">${sortAscLabel}</button>
+                <button type="button" class="election-filter-menu__action" data-action="sort-desc">${sortDescLabel}</button>
+                <button type="button" class="election-filter-menu__action" data-action="reset-sort">Reset Sort</button>
+                <div class="election-filter-menu__divider"></div>
+                <input type="search" class="election-filter-menu__search" placeholder="Search values..." aria-label="Search values">
+                <div class="election-filter-menu__row">
+                    <button type="button" class="election-filter-menu__mini" data-action="select-all">Select All</button>
+                    <button type="button" class="election-filter-menu__mini" data-action="deselect-all">Deselect All</button>
+                </div>
+                <div class="election-filter-menu__values" data-role="values"></div>
+                <div class="election-filter-menu__row election-filter-menu__row--footer">
+                    <button type="button" class="election-filter-menu__mini" data-action="clear-filter">Clear Filter</button>
+                    <button type="button" class="election-filter-menu__mini election-filter-menu__mini--primary" data-action="apply">Apply</button>
+                </div>
+            `;
+            document.body.appendChild(menu);
+            activeMenu = menu;
+            activeMenuBtn = anchorBtn;
+            anchorBtn.classList.add('election-th-btn--open');
+
+            const rect = anchorBtn.getBoundingClientRect();
+            menu.style.left = `${Math.max(8, rect.right - 248)}px`;
+            menu.style.top = `${rect.bottom + 4}px`;
+
+            const valuesHost = menu.querySelector('[data-role="values"]');
+            const renderValues = (needle = '') => {
+                const q = needle.trim().toLowerCase();
+                valuesHost.innerHTML = '';
+                options
+                    .filter((v) => !q || v.toLowerCase().includes(q))
+                    .forEach((raw) => {
+                        const item = document.createElement('label');
+                        item.className = 'election-filter-menu__value';
+                        item.innerHTML = `<input type="checkbox" value="${this._esc(raw)}" ${selected.has(raw) ? 'checked' : ''}><span>${this._esc(raw || '(Blank)')}</span>`;
+                        const cb = item.querySelector('input');
+                        cb.addEventListener('change', () => {
+                            if (cb.checked) selected.add(raw);
+                            else selected.delete(raw);
+                        });
+                        valuesHost.appendChild(item);
+                    });
+            };
+            renderValues();
+
+            const search = menu.querySelector('.election-filter-menu__search');
+            search?.addEventListener('input', () => renderValues(search.value || ''));
+
+            menu.addEventListener('click', (event) => {
+                const btn = event.target.closest('button[data-action]');
+                if (!btn) return;
+                const action = btn.dataset.action;
+                if (action === 'sort-asc') {
+                    sortState.col = idx;
+                    sortState.dir = 'asc';
+                    applyState();
+                    closeMenu();
+                } else if (action === 'sort-desc') {
+                    sortState.col = idx;
+                    sortState.dir = 'desc';
+                    applyState();
+                    closeMenu();
+                } else if (action === 'reset-sort') {
+                    sortState.col = null;
+                    sortState.dir = 'default';
+                    applyState();
+                    closeMenu();
+                } else if (action === 'select-all') {
+                    options.forEach((v) => selected.add(v));
+                    renderValues(search?.value || '');
+                } else if (action === 'deselect-all') {
+                    selected.clear();
+                    renderValues(search?.value || '');
+                } else if (action === 'clear-filter') {
+                    filterState.delete(idx);
+                    applyState();
+                    closeMenu();
+                } else if (action === 'apply') {
+                    if (selected.size === 0 || selected.size === options.length) filterState.delete(idx);
+                    else filterState.set(idx, new Set(selected));
+                    applyState();
+                    closeMenu();
+                }
+            });
+        };
+
+        const handleDocumentClick = (event) => {
+            if (!activeMenu) return;
+            if (activeMenu.contains(event.target)) return;
+            if (activeMenuBtn && activeMenuBtn.contains(event.target)) return;
+            closeMenu();
+        };
+        document.addEventListener('click', handleDocumentClick);
 
         headers.forEach((th, idx) => {
             const label = th.innerHTML;
@@ -1615,55 +1766,28 @@ class ElectionController {
             const labelSpan = document.createElement('span');
             labelSpan.className = 'election-th-label';
             labelSpan.innerHTML = label;
-            if (th.classList.contains('election-colour-col')) {
-                wrap.appendChild(labelSpan);
-                th.appendChild(wrap);
-                return;
-            }
-            const actions = document.createElement('span');
-            actions.className = 'election-th-actions';
-            const sortBtn = document.createElement('button');
-            sortBtn.type = 'button';
-            sortBtn.className = 'election-th-btn';
-            sortBtn.setAttribute('data-table-sort-btn', '1');
-            sortBtn.innerHTML = '<svg viewBox="0 0 10 12" aria-hidden="true" focusable="false"><path d="M5 1L8.5 4.5H1.5L5 1Z"/><path d="M5 11L1.5 7.5H8.5L5 11Z"/></svg>';
-            sortBtn.setAttribute('aria-label', 'Sort');
-            sortBtn.setAttribute('title', 'Sort');
-            sortBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (sortState.col !== idx) {
-                    sortState.col = idx;
-                    sortState.dir = 'asc';
-                } else if (sortState.dir === 'asc') {
-                    sortState.dir = 'desc';
-                } else if (sortState.dir === 'desc') {
-                    sortState.dir = 'default';
-                } else {
-                    sortState.dir = 'asc';
-                }
-                applyState();
-            });
-            const filterBtn = document.createElement('button');
-            filterBtn.type = 'button';
-            filterBtn.className = 'election-th-btn';
-            filterBtn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 5h18l-7 8v5l-4 2v-7L3 5z"/></svg>';
-            filterBtn.setAttribute('aria-label', 'Filter');
-            filterBtn.setAttribute('title', 'Filter');
-            filterBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const current = filterState.get(idx) || '';
-                const input = window.prompt('Filter this column (contains, case-insensitive). Leave blank to clear:', current);
-                if (input === null) return;
-                const q = String(input).trim().toLowerCase();
-                if (!q) filterState.delete(idx);
-                else filterState.set(idx, q);
-                filterBtn.classList.toggle('election-th-btn--active', !!q);
-                applyState();
-            });
-            actions.appendChild(sortBtn);
-            actions.appendChild(filterBtn);
             wrap.appendChild(labelSpan);
-            wrap.appendChild(actions);
+
+            if (!th.classList.contains('election-colour-col')) {
+                const actions = document.createElement('span');
+                actions.className = 'election-th-actions';
+                const menuBtn = document.createElement('button');
+                menuBtn.type = 'button';
+                menuBtn.className = 'election-th-btn';
+                menuBtn.setAttribute('data-table-filter-sort-btn', '1');
+                menuBtn.setAttribute('aria-label', 'Sort and Filter');
+                menuBtn.setAttribute('title', 'Sort and Filter');
+                menuBtn.innerHTML = '<>';
+                menuBtn.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (activeMenu && activeMenuBtn === menuBtn) closeMenu();
+                    else openMenuForColumn(idx, menuBtn);
+                });
+                actions.appendChild(menuBtn);
+                wrap.appendChild(actions);
+            }
+
             th.appendChild(wrap);
         });
 
@@ -1785,18 +1909,18 @@ class ElectionController {
         html += `<th class="election-col-name">Name</th>`;
         html += `<th class="election-col-party">Party</th>`;
         html += `<th class="election-col-status">Status</th>`;
-        html += `<th class="election-num">${this._thTwoLine('1st pref', '±')}</th>`;
-        html += `<th class="election-num">${this._thTwoLine('1st pref', '%')}</th>`;
+        html += `<th class="election-num">${this._thTwoLine('1st', 'pref Â±')}</th>`;
+        html += `<th class="election-num">${this._thTwoLine('1st', 'pref %')}</th>`;
         if (this._countDetailedView) {
-            html += `<th class="election-num">${this._thTwoLine('1st pref ±', '%')}</th>`;
+            html += `<th class="election-num">${this._thTwoLine('1st', 'pref Â± %')}</th>`;
         }
-        html += `<th class="election-num">${this._thTwoLine('1st pref', '')}</th>`;
+        html += `<th class="election-num">${this._thTwoLine('1st', 'pref')}</th>`;
         visibleCounts.forEach(n => {
             html += `<th class="election-num">${this._thTwoLine('Count', String(n))}</th>`;
             if (this._countDetailedView) {
                 html += `<th class="election-num">${this._thTwoLine(`Count ${n}`, '%')}</th>`;
-                html += `<th class="election-num">${this._thTwoLine('Δ% Count', String(n))}</th>`;
-                html += `<th class="election-num">${this._thTwoLine('Δ Count', String(n))}</th>`;
+                html += `<th class="election-num">${this._thTwoLine(`Count ${n}`, 'Â± %')}</th>`;
+                html += `<th class="election-num">${this._thTwoLine(`Count ${n}`, 'Â±')}</th>`;
             }
         });
         html += `</tr></thead><tbody>`;
@@ -1835,9 +1959,9 @@ class ElectionController {
                 if (!cnt) {
                     html += `<td class="election-num election-count-col">0</td>`;
                     if (this._countDetailedView) {
-                        html += `<td class="election-num election-count-col">—</td>`;
-                        html += `<td class="election-num election-count-col">—</td>`;
-                        html += `<td class="election-num election-count-col">—</td>`;
+                        html += `<td class="election-num election-count-col">Ã¢â‚¬â€</td>`;
+                        html += `<td class="election-num election-count-col">Ã¢â‚¬â€</td>`;
+                        html += `<td class="election-num election-count-col">Ã¢â‚¬â€</td>`;
                     }
                 } else {
                     let cls = '';
@@ -1851,7 +1975,7 @@ class ElectionController {
                     if (this._countDetailedView) {
                         html += `<td class="election-num election-count-col">${votePct.toFixed(2)}%</td>`;
                         html += `<td class="election-num election-count-col">${this._fmtPctDeltaSigned(transferPct)}</td>`;
-                        const deltaText = cnt.transfers !== 0 ? this._fmtDeltaSigned(cnt.transfers) : '—';
+                        const deltaText = cnt.transfers !== 0 ? this._fmtDeltaSigned(cnt.transfers) : 'Ã¢â‚¬â€';
                         html += `<td class="election-num election-count-col">${deltaText}</td>`;
                     }
                 }
@@ -1909,7 +2033,7 @@ class ElectionController {
         // Measure the actual available drawing width from the pane content area
         const paneContent = this.splitPaneEl?.querySelector('#electionPaneContent')
             || document.getElementById('electionPaneContent');
-        const maxWidth = paneContent ? paneContent.clientWidth - 16 : 0; // 16 = container padding (8×2)
+        const maxWidth = paneContent ? paneContent.clientWidth - 16 : 0; // 16 = container padding (8Ãƒâ€”2)
 
         // Call the animation engine with the available width
         try {
@@ -1929,11 +2053,11 @@ class ElectionController {
             }
         }
 
-        // ── Apply fit-to-pane scaling ──
+        // Ã¢â€â‚¬Ã¢â€â‚¬ Apply fit-to-pane scaling Ã¢â€â‚¬Ã¢â€â‚¬
         // Delay to let the browser complete layout of the animation content
         setTimeout(() => this._applyAnimationScale(), 200);
 
-        // ── Re-scale on window resize / split pane drag ──
+        // Ã¢â€â‚¬Ã¢â€â‚¬ Re-scale on window resize / split pane drag Ã¢â€â‚¬Ã¢â€â‚¬
         if (this._animResizeHandler) {
             window.removeEventListener('resize', this._animResizeHandler);
         }
@@ -2253,7 +2377,7 @@ class ElectionController {
                 <td><span class="election-party-dot" style="background:${this._esc(c.colour)}"></span>${this._esc(c.name)} <small class="election-party-label">(${this._esc(c.party)})</small></td>
                 <td class="election-num">${fmt(c.votes)}</td>
                 <td class="election-num">${pct(c.votes)}</td>
-                <td class="${statCls}">${this._esc(c.status || '—')}</td>
+                <td class="${statCls}">${this._esc(c.status || 'Ã¢â‚¬â€')}</td>
             </tr>`;
         });
 
@@ -2391,7 +2515,7 @@ class ElectionController {
         return 'unknown';
     }
 
-    // ─── Catalogue Cards ───
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Catalogue Cards Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
     /**
      * Build election catalogue cards for the sidebar.
@@ -2458,7 +2582,7 @@ class ElectionController {
         return map[name] || name;
     }
 
-    // ─── URL State ───
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ URL State Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
     serialize() {
         if (!this.active || !this.body || !this.date) return '';
@@ -2525,7 +2649,7 @@ class ElectionController {
         this._setupNIWideTabs('party');
     }
 
-    // ─── Helpers ───
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Helpers Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
     _formatDate(dateStr) {
         try {

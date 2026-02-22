@@ -23,6 +23,8 @@ class App {
         this.textScaleSteps = [50, 60, 70, 80, 90, 100, 110, 125, 150, 175, 200];
         this.splitPosition = 50; // Percentage for info pane width
         this._mapLoadFeedback = null;
+        this._fgbChunkManifest = null;
+        this._fgbChunkManifestLoaded = false;
     }
 
     /**
@@ -146,19 +148,18 @@ class App {
             };
 
             // Download FGB file for a map
-            uiController.onDownloadFgb = (mapId) => {
+            uiController.onDownloadFgb = async (mapId) => {
                 const mapConfig = dataService.getMapById(mapId);
+                const chunkEntry = await this.getChunkDownloadEntry(mapId, mapConfig?.files?.fgb);
+                if (chunkEntry) {
+                    this.downloadChunkZipSet(mapConfig?.name || mapId, chunkEntry);
+                    return;
+                }
                 if (!mapConfig?.files?.fgb) {
                     console.warn('[App] No FGB file for map:', mapId);
                     return;
                 }
-                // Trigger download by creating a link and clicking it
-                const link = document.createElement('a');
-                link.href = mapConfig.files.fgb;
-                link.download = mapConfig.files.fgb.split('/').pop();
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+                this.triggerDownload(mapConfig.files.fgb, mapConfig.files.fgb.split('/').pop());
             };
 
             // Expand a partial layer to full map
@@ -254,6 +255,22 @@ class App {
                 });
             };
 
+            // Load just one feature from search results (without loading whole layer).
+            uiController.onLoadSingleFeature = async (mapId, featureId, featureName, bbox) => {
+                const mapConfig = dataService.getMapById(mapId);
+                if (!mapConfig) return;
+                const numericId = Number(featureId);
+                await mapController.loadSingleFeature(
+                    mapConfig,
+                    Number.isFinite(numericId) ? numericId : featureId,
+                    featureName || null,
+                    bbox || null
+                );
+                this.updateMapList();
+                this.updateActiveLayers();
+                this.updateURLState();
+            };
+
             // Render initial UI
             this.renderCategoryPills();
             this.updateMapList();
@@ -325,6 +342,64 @@ class App {
             console.error('[App] Initialization failed:', err);
             this.showError('Failed to load application. Please refresh the page.');
         }
+    }
+
+    async getChunkDownloadEntry(mapId, fgbPath = null) {
+        if (!this._fgbChunkManifestLoaded) {
+            this._fgbChunkManifestLoaded = true;
+            try {
+                const response = await fetch('data/downloads/fgb-chunks/manifest.json', { cache: 'no-cache' });
+                if (response.ok) {
+                    this._fgbChunkManifest = await response.json();
+                } else {
+                    this._fgbChunkManifest = {};
+                }
+            } catch (err) {
+                console.warn('[App] Chunk download manifest unavailable:', err);
+                this._fgbChunkManifest = {};
+            }
+        }
+        const manifest = this._fgbChunkManifest || {};
+        if (manifest[mapId]) {
+            return manifest[mapId];
+        }
+        if (!fgbPath) return null;
+        for (const entry of Object.values(manifest)) {
+            if (entry?.originalFile === fgbPath) return entry;
+        }
+        return null;
+    }
+
+    downloadChunkZipSet(mapName, chunkEntry) {
+        const zipParts = Array.isArray(chunkEntry?.zipParts) ? chunkEntry.zipParts : [];
+        if (zipParts.length === 0) return;
+        const totalMb = ((chunkEntry.originalSize || 0) / (1024 * 1024)).toFixed(1);
+        const confirmed = window.confirm(
+            `This map is larger than 100 MB and is downloaded in ${zipParts.length} ZIP chunks (${totalMb} MB total).\n\nDownload all chunks now?`
+        );
+        if (!confirmed) return;
+
+        const queue = [];
+        if (chunkEntry.instructionsFile) queue.push(chunkEntry.instructionsFile);
+        zipParts.forEach((zipPath) => queue.push(zipPath));
+
+        queue.forEach((url, idx) => {
+            const filename = url.split('/').pop();
+            window.setTimeout(() => {
+                this.triggerDownload(url, filename);
+            }, idx * 250);
+        });
+
+        console.log(`[App] Started chunked download for ${mapName}: ${zipParts.length} ZIP files`);
+    }
+
+    triggerDownload(url, filename) {
+        const link = document.createElement('a');
+        link.href = url;
+        if (filename) link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 
     /**

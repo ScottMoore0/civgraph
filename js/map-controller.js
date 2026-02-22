@@ -387,7 +387,9 @@ class MapController {
             }
         }
 
-        if (!filePath) {
+        const rasterTemplate = files?.xyz || files?.tiles || files?.webpTiles;
+
+        if (!filePath && !rasterTemplate) {
             console.warn(`[MapController] No file path for layer ${id}`);
             return null;
         }
@@ -413,19 +415,42 @@ class MapController {
             this.onLoadProgress(id, 0);
         }
 
+        if (rasterTemplate) {
+            return this.loadRasterTileLayer(mapConfig, state, show);
+        }
+
         // Use chunked loading for large maps with spatial chunks
         if (this.shouldUseChunkedLoading(mapConfig)) {
             return this.loadLayerChunked(mapConfig, state, show);
         }
 
         try {
-            // Load the data with progress (full download for small maps / GeoJSON)
-            const features = await this.loadDataFile(filePath, (progress) => {
-                state.progress = progress;
-                if (this.onLoadProgress) {
-                    this.onLoadProgress(id, progress);
+            // Load the data with progress (full download for small maps / GeoJSON).
+            // If FGB parsing fails and GeoJSON fallback exists, retry with GeoJSON.
+            let features;
+            try {
+                features = await this.loadDataFile(filePath, (progress) => {
+                    state.progress = progress;
+                    if (this.onLoadProgress) {
+                        this.onLoadProgress(id, progress);
+                    }
+                });
+            } catch (primaryErr) {
+                const fallbackPath = files?.geojson;
+                const isFgbPrimary = String(filePath || '').toLowerCase().endsWith('.fgb');
+                if (isFgbPrimary && fallbackPath && fallbackPath !== filePath) {
+                    console.warn(`[MapController] FGB load failed for ${id}, retrying GeoJSON fallback: ${fallbackPath}`, primaryErr);
+                    features = await this.loadDataFile(fallbackPath, (progress) => {
+                        state.progress = progress;
+                        if (this.onLoadProgress) {
+                            this.onLoadProgress(id, progress);
+                        }
+                    });
+                    state.fgbPath = fallbackPath;
+                } else {
+                    throw primaryErr;
                 }
-            });
+            }
 
             const geojsonData = Array.isArray(features)
                 ? { type: 'FeatureCollection', features }
@@ -495,6 +520,65 @@ class MapController {
             return state;
         } catch (err) {
             console.error(`[MapController] Failed to load layer ${id}:`, err);
+            state.loading = false;
+            this.layerStates.delete(id);
+            return null;
+        }
+    }
+
+    /**
+     * Load a raster XYZ/WebP tile layer
+     */
+    async loadRasterTileLayer(mapConfig, state, show) {
+        const { id, name, files, style } = mapConfig;
+        const tileTemplate = files?.xyz || files?.tiles || files?.webpTiles;
+        if (!tileTemplate) {
+            console.warn(`[MapController] No raster tile template for layer ${id}`);
+            this.layerStates.delete(id);
+            return null;
+        }
+
+        try {
+            const rasterStyle = mapConfig.rasterStyle || {};
+            const opacity = Math.max(0, Math.min(1, Number(
+                rasterStyle.opacity ?? style?.fillOpacity ?? style?.opacity ?? 0.78
+            )));
+            const maxZoom = Number(rasterStyle.maxZoom ?? mapConfig.maxZoom ?? 13);
+            const minZoom = Number(rasterStyle.minZoom ?? mapConfig.minZoom ?? 5);
+            const maxNativeZoom = Number(rasterStyle.maxNativeZoom ?? mapConfig.maxNativeZoom ?? maxZoom);
+            const pixelated = rasterStyle.pixelated !== false;
+
+            const options = {
+                opacity,
+                maxZoom,
+                minZoom,
+                maxNativeZoom,
+                updateWhenZooming: false,
+                keepBuffer: 2,
+                className: pixelated ? 'raster-tile raster-tile--pixelated' : 'raster-tile'
+            };
+
+            if (Array.isArray(mapConfig.bounds) && mapConfig.bounds.length === 2) {
+                options.bounds = mapConfig.bounds;
+            }
+
+            const rasterLayer = L.tileLayer(tileTemplate, options);
+            rasterLayer.addTo(state.group);
+
+            state.rasterLayer = rasterLayer;
+            state.loaded = true;
+            state.loading = false;
+            state.progress = 100;
+            state.geometryType = 'Raster';
+            state.featureCount = 0;
+
+            if (this.onLoadProgress) this.onLoadProgress(id, 100);
+            if (show) this.showLayer(id);
+
+            console.log(`[MapController] Loaded raster layer: ${name}`);
+            return state;
+        } catch (err) {
+            console.error(`[MapController] Failed to load raster layer ${id}:`, err);
             state.loading = false;
             this.layerStates.delete(id);
             return null;
@@ -1582,9 +1666,15 @@ class MapController {
             const bounds = state.group.getBounds();
             if (bounds.isValid()) {
                 this.map.fitBounds(bounds, { padding: [20, 20] });
+                return;
             }
         } catch (err) {
             // Ignore bounds errors
+        }
+
+        const cfgBounds = state.config?.bounds;
+        if (Array.isArray(cfgBounds) && cfgBounds.length === 2) {
+            this.map.fitBounds(cfgBounds, { padding: [20, 20] });
         }
     }
 
