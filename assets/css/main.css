@@ -658,6 +658,7 @@ body.split-dragging * {
   overflow-wrap: normal;
   word-break: normal;
   hyphens: manual;
+  min-width: 0;
 }
 
 .catalogue-flat__toc-link:hover {
@@ -671,6 +672,21 @@ body.split-dragging * {
   border-spacing: 0;
   font-size: var(--text-sm, 0.875rem);
   table-layout: fixed;
+}
+
+.catalogue-flat__toc-table th:nth-child(1),
+.catalogue-flat__toc-table td:nth-child(1) {
+  width: 58%;
+}
+
+.catalogue-flat__toc-table th:nth-child(2),
+.catalogue-flat__toc-table td:nth-child(2) {
+  width: 18%;
+}
+
+.catalogue-flat__toc-table th:nth-child(3),
+.catalogue-flat__toc-table td:nth-child(3) {
+  width: 24%;
 }
 
 .catalogue-flat__toc-table th,
@@ -4331,12 +4347,12 @@ body.split-dragging * {
 
   .catalogue-flat__toc-table th:nth-child(1),
   .catalogue-flat__toc-table td:nth-child(1) {
-    width: 60%;
+    width: 62%;
   }
 
   .catalogue-flat__toc-table th:nth-child(2),
   .catalogue-flat__toc-table td:nth-child(2) {
-    width: 16%;
+    width: 14%;
   }
 
   .catalogue-flat__toc-table th:nth-child(3),
@@ -4642,15 +4658,15 @@ body.split-dragging * {
   }
 
   .catalogue-flat__toc-table td:nth-child(1) {
-    width: 52%;
+    width: 60%;
   }
 
   .catalogue-flat__toc-table td:nth-child(2) {
-    width: 20%;
+    width: 14%;
   }
 
   .catalogue-flat__toc-table td:nth-child(3) {
-    width: 28%;
+    width: 26%;
   }
 }
 
@@ -5428,6 +5444,12 @@ html:not([data-theme]) .theme-toggle__icon--sun {
 .search-autocomplete__item--feature svg {
   flex-shrink: 0;
   color: var(--color-accent);
+}
+
+.search-autocomplete__item--feature .search-autocomplete__meta {
+  color: #6b7280;
+  font-size: 0.72rem;
+  font-weight: 400;
 }
 
 .search-autocomplete__map-name {
@@ -7634,7 +7656,13 @@ th.filter-active .th-filter-btn {
 /* Make the + text icon match SVG icon size */
 .map-card__actions .load-btn,
 .class-member__actions .load-btn {
-  font-size: var(--icon-size);
+  font-size: var(--icon-size, 16px);
+  line-height: 1;
+}
+
+.variant-item__actions .load-btn {
+  font-size: var(--icon-size, 16px);
+  line-height: 1;
 }
 
 
