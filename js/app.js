@@ -165,6 +165,11 @@ class App {
             // Download FGB file for a map
             uiController.onDownloadFgb = async (mapId) => {
                 const mapConfig = dataService.getMapById(mapId);
+                const directDownloadUrl = mapConfig?.downloads?.fgb || null;
+                if (directDownloadUrl) {
+                    this.triggerDownload(directDownloadUrl, directDownloadUrl.split('/').pop());
+                    return;
+                }
                 const chunkEntry = await this.getChunkDownloadEntry(mapId, mapConfig?.files?.fgb);
                 if (chunkEntry) {
                     this.downloadChunkZipSet(mapConfig?.name || mapId, chunkEntry);

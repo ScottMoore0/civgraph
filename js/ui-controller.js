@@ -3269,7 +3269,7 @@ class UIController {
                             </svg>
                         </button>
                         <div class="download-dropdown hidden">
-                            ${map.files?.fgb ? `<a href="${map.files.fgb}" class="download-dropdown__item" download>FlatGeobuf (.fgb)</a>` : ''}
+                            ${(map.downloads?.fgb || map.files?.fgb) ? `<a href="${map.downloads?.fgb || map.files?.fgb}" class="download-dropdown__item" download>FlatGeobuf (.fgb)</a>` : ''}
                             ${map.files?.geojson ? `<a href="${map.files.geojson}" class="download-dropdown__item" download>GeoJSON</a>` : ''}
                             ${map.osniDownloads && map.osniDownloads.length > 0 ? `
                                 <div class="download-dropdown__divider"></div>
@@ -3294,7 +3294,8 @@ class UIController {
         // Event listeners
         card.querySelector('.visibility-btn')?.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (isLoaded && this.onHideMap) {
+            const currentlyLoaded = card.classList.contains('map-card--active');
+            if (currentlyLoaded && this.onHideMap) {
                 this.onHideMap(map.id);
             } else if (this.onMapToggle) {
                 this.onMapToggle(map.id);
@@ -3303,7 +3304,8 @@ class UIController {
 
         card.querySelector('.load-btn')?.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (isLoaded && this.onMapUnload) {
+            const currentlyLoaded = card.classList.contains('map-card--active');
+            if (currentlyLoaded && this.onMapUnload) {
                 this.onMapUnload(map.id);
             } else if (this.onMapLoad) {
                 this.onMapLoad(map.id);
