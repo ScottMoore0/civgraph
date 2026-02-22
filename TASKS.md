@@ -88,3 +88,39 @@
   - added per-feature child rows and controls in `js/ui-controller.js`
   - wired callbacks in `js/app.js`
   - implemented per-feature visibility/unload operations in `js/map-controller.js`
+
+# Follow-up Fixes (Current)
+
+- [x] TOC clipping follow-up
+  - increased usable title column width again
+  - reduced TOC horizontal padding/margins and internal icon/column spacing
+  - reduced title text size further in desktop/mobile breakpoints
+
+- [x] Transfer play/resume follow-up
+  - removed premature icon mode overrides in click handler
+  - hardened `resume()` guard to recover from mode/state desync (`!isPaused && running`)
+
+- [x] Load button follow-up
+  - map-card button handlers now check live card state (`map-card--active`) instead of stale closure flags
+
+- [x] File inventory + sizes for requested maps
+  - produced current local FGB/chunk/tile file size report for Railways, Catholic Dioceses, Historic Sites, Transport Lines, Copernicus, Townlands
+
+# Map Loading Stabilization (Non-townlands)
+
+- [x] De-LFS critical non-townlands map files
+  - added `.gitattributes` exceptions for:
+    - `data/maps/transport/Translink_Rail_Network.fgb`
+    - `data/maps/transport/Transport_Lines_Road_Rail.fgb`
+    - `data/maps/built-environment/Catholic_Dioceses.fgb`
+    - all historic-sites FGB files used by map entries
+  - re-indexed these files (`git rm --cached` + re-add) so repository serves real FGB bytes, not LFS pointer text
+
+- [x] Catholic Dioceses loading path hardened
+  - switched `data/database/maps.json` Catholic Dioceses `files.fgb` back to local `data/maps/built-environment/Catholic_Dioceses.fgb`
+  - avoids external CORS/availability failures for interactive loading
+
+- [x] Townlands download behavior switched away from ZIP-chunk flow
+  - set `ni-townlands-1844.downloads.fgb` to Internet Archive direct URL target
+  - cleared `data/downloads/fgb-chunks/manifest.json` so app no longer triggers ZIP chunk queue for Townlands download
+  - note: IA upload of `Townlands_AllIreland.fgb` is still pending final successful completion
