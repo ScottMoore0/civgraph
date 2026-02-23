@@ -151,6 +151,23 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Root-Cause Pass (Latest): Historic Point Double-Click Still Failing
+
+- [x] Symptom verification
+  - user reproduced on historic-sites point feature: hover visible, double-click, no feature card
+
+- [x] Root cause (highest-confidence)
+  - point-feature selection still depended on `dblclick` event delivery paths that vary by renderer/browser/propagation state
+  - when `dblclick` is not reliably emitted on point layers, no selection event reaches `uiController.showFeatureInfo`
+
+- [x] Maximally effective fix
+  - made point-feature selection fire on point `click` directly in `js/map-controller.js` (`_attachHistoricPointDblClick`)
+  - retained `dblclick` handling as secondary path
+  - added rapid dedupe in `_emitFeatureSelection` to prevent duplicate card renders when click+dblclick both fire
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files

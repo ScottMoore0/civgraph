@@ -30,6 +30,7 @@ class MapController {
         this._lastPointClick = null; // fallback double-click detection for point layers
         this._lastMapClick = null; // fallback double-click detection at map level
         this._lastNativeDblClickTs = 0;
+        this._lastFeatureSelection = null; // dedupe rapid duplicate emits
 
         // Initialize feature loader
         featureLoader.init();
@@ -75,6 +76,21 @@ class MapController {
 
         const emitSelection = () => this._emitFeatureSelection(mapId, feature);
 
+        // Primary path: single click selects point features immediately.
+        // This avoids renderer/browser dblclick inconsistencies for point layers.
+        layer.on('click', (e) => {
+            try {
+                if (e?.originalEvent) {
+                    L.DomEvent.stop(e.originalEvent);
+                } else if (e) {
+                    L.DomEvent.stop(e);
+                }
+            } catch (err) {
+                // Selection should still emit.
+            }
+            emitSelection();
+        });
+
         layer.on('dblclick', (e) => {
             try {
                 if (e?.originalEvent) {
@@ -88,33 +104,26 @@ class MapController {
             emitSelection();
         });
 
-        // Canvas-rendered point layers can occasionally miss native `dblclick`.
-        // Fallback to two rapid clicks on the same point layer.
-        layer.on('click', (e) => {
+        // Keep an additional double-click fallback path.
+        layer.on('click', () => {
             const now = Date.now();
             const layerId = layer._leaflet_id;
             const prev = this._lastPointClick;
             const withinWindow = prev && prev.layerId === layerId && (now - prev.ts) <= 450;
-            if (withinWindow) {
-                this._lastPointClick = null;
-                try {
-                    if (e?.originalEvent) {
-                        L.DomEvent.stop(e.originalEvent);
-                    } else if (e) {
-                        L.DomEvent.stop(e);
-                    }
-                } catch (err) {
-                    // No-op: selection should still emit.
-                }
-                emitSelection();
-                return;
-            }
-            this._lastPointClick = { layerId, ts: now };
+            if (withinWindow) this._lastPointClick = null;
+            else this._lastPointClick = { layerId, ts: now };
         });
     }
 
     _emitFeatureSelection(mapId, feature) {
         if (!this.onFeatureClick || !feature) return;
+        const now = Date.now();
+        const key = `${mapId}|${feature?.id ?? ''}|${JSON.stringify(feature?.geometry?.coordinates ?? '')}`;
+        const prev = this._lastFeatureSelection;
+        if (prev && prev.key === key && (now - prev.ts) < 250) {
+            return;
+        }
+        this._lastFeatureSelection = { key, ts: now };
         this.onFeatureClick([{
             mapId,
             properties: feature?.properties,

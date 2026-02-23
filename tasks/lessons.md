@@ -74,3 +74,8 @@
 - Mistake pattern: Assumed Leaflet native `dblclick` always fires for point interactions across renderer/browser combinations.
 - Impact: Users can double-click visible point features and still get no feature card.
 - Guardrail: Keep native `dblclick` support, but add deterministic synthetic double-click detection from two rapid map `click` events (time + pixel-distance bounded) and route both to one selection handler.
+
+### 14) For point features, use click as the primary selection event
+- Mistake pattern: Treating point-feature selection as a dblclick-first interaction.
+- Impact: Real users can hover a visible point and still fail to open the feature card due to dblclick propagation variability.
+- Guardrail: Point features must select on single `click` (primary), with `dblclick` only as secondary compatibility path, plus dedupe to avoid duplicate emits.
