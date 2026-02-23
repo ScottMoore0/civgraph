@@ -31,6 +31,7 @@ class MapController {
         this._lastMapClick = null; // fallback double-click detection at map level
         this._lastNativeDblClickTs = 0;
         this._lastFeatureSelection = null; // dedupe rapid duplicate emits
+        this._hoveredPointCandidate = null; // most recently hovered point feature
 
         // Initialize feature loader
         featureLoader.init();
@@ -172,6 +173,22 @@ class MapController {
         const labelEl = layer._labelMarker?.getElement?.();
         if (labelEl) {
             labelEl.classList.toggle('map-label--hover', !!isHover);
+        }
+
+        // Keep a short-lived hovered-point candidate so click/dblclick selection
+        // remains consistent with the visual hover (orange highlight) behavior.
+        if (typeof layer.getLatLng === 'function' && layer.feature) {
+            if (isHover) {
+                this._hoveredPointCandidate = {
+                    layer,
+                    mapId: layer._mapId,
+                    feature: layer.feature,
+                    latlng: layer.getLatLng(),
+                    ts: Date.now()
+                };
+            } else if (this._hoveredPointCandidate?.layer === layer) {
+                this._hoveredPointCandidate = null;
+            }
         }
     }
 
@@ -1966,6 +1983,23 @@ class MapController {
         // still select the nearest visible point when it is reasonably close.
         if (featuresFound.length === 0 && nearestPoint && nearestPointDistance <= nearestFallbackPx) {
             featuresFound.push(nearestPoint);
+        }
+
+        // Hover-consistent fallback: if a point is currently hover-highlighted,
+        // treat it as selectable when click/dblclick occurs nearby.
+        if (featuresFound.length === 0 && this._hoveredPointCandidate) {
+            const hovered = this._hoveredPointCandidate;
+            const ageMs = Date.now() - hovered.ts;
+            const hoveredPoint = this.map?.latLngToContainerPoint(hovered.latlng);
+            const distPx = (clickPoint && hoveredPoint) ? clickPoint.distanceTo(hoveredPoint) : Infinity;
+            const hoverSelectPx = Math.max(pointPickPx, 64);
+            if (ageMs <= 1800 && distPx <= hoverSelectPx) {
+                featuresFound.push({
+                    mapId: hovered.mapId,
+                    properties: hovered.feature?.properties,
+                    geometry: hovered.feature?.geometry
+                });
+            }
         }
 
         if (this.onFeatureClick && featuresFound.length > 0) {

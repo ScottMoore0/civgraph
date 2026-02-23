@@ -89,3 +89,8 @@
 - Mistake pattern: Relying primarily on dblclick/click-pair event paths for point selection.
 - Impact: Some zoom/renderer/input combinations still miss feature selection.
 - Guardrail: Execute point hit-testing on map click as a baseline fallback, and use dedupe in emit path to prevent duplicate panel renders.
+
+### 17) Hover and selection logic must share the same effective tolerance
+- Mistake pattern: Hover highlight and selection each used separate thresholds/sources.
+- Impact: A point can visibly highlight (orange) but fail to open feature details on user interaction.
+- Guardrail: Track the active hovered point and use it as a bounded fallback candidate in selection flow so highlighted points remain selectable.

@@ -197,6 +197,21 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Follow-up Fix 3: Hover/Selection Consistency For Point Features
+
+- [x] Root cause
+  - hover highlighting and click/dblclick selection used different effective tolerances
+  - users could trigger orange hover state but still miss feature-card selection
+
+- [x] Fix implemented
+  - tracked current hovered point candidate in `js/map-controller.js`
+  - added hover-consistent fallback in `handleMapClick`:
+    - if no normal hit is found, and a point is recently hover-highlighted,
+      select that same hovered point when click occurs nearby
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files
