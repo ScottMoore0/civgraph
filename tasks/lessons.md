@@ -41,3 +41,8 @@
 - Mistake pattern: Verified only working-tree binary bytes and assumed deployment would serve the same content.
 - Impact: Townlands chunked loading failed because Git history contained LFS pointer blobs for chunk files.
 - Guardrail: For statically served binary assets, always verify committed blobs (`git cat-file -p HEAD:path`) are real binary content, not LFS pointers.
+
+### 9) Never re-render catalogue cards with empty loaded-state inputs
+- Mistake pattern: Flat catalogue rendering path rebuilt cards with `loadedIds: []`, desynchronizing button state from real map state.
+- Impact: Load buttons reverted to `+` after successful loads and did not behave as reliable load/unload toggles.
+- Guardrail: Persist last render options and centralize loaded-state checks in one resolver used by all map-entry renderers.

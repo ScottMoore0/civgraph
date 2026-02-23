@@ -260,3 +260,24 @@
 - Added `.gitattributes` exception: `data/maps/townlands/chunks/*.fgb -filter -diff -merge -text`.
 - Reindexed all Townlands chunk FGBs (`git rm --cached ...` then `git add ...`) so index now contains real binary blobs.
 - Index verification: 639 chunk files checked, 0 small/pointer-like blobs; sample staged blob header is valid FGB magic bytes (`66 67 62 03 66 67 62 00 ...`).
+
+# Current Task: Restore Load/Unload Toggle Button Behavior
+
+- [x] Trace load-button state flow from render state to click handlers and loaded-state checks.
+- [x] Identify root-cause mismatches causing `+` to persist after successful map load.
+- [x] Implement a centralized loaded-state resolver for map entries.
+- [x] Ensure flat-view re-renders preserve real loaded-state inputs instead of resetting to empty.
+- [x] Wire variant action rows to real loaded state.
+- [x] Run syntax verification for updated UI controller.
+
+## Review
+- Root cause found: flat catalogue re-renders were rebuilding map entry buttons with `loadedIds: []`, forcing `isLoaded=false` and reverting buttons to `+` immediately after load.
+- Additional mismatch: multiple map-entry render paths used `options.loadedIds.includes(map.id)` directly instead of callback-based loaded checks used by click handlers.
+- Fix implemented in `js/ui-controller.js`:
+  - Added `isMapLoadedState(mapId, options)` to centralize loaded-state checks (`onCheckMapLoaded` first, then `loadedIds` fallback).
+  - Updated all map-entry render paths (`createMapCard`, class/C1/explicit-grid renderers) to use `isMapLoadedState(...)`.
+  - Updated variant rows to use real loaded state instead of hardcoded `false`.
+  - Preserved render options through flat-view lifecycle via `this._lastMapListOptions`.
+  - `renderMapList(...)`, `setCatalogueViewMode(...)`, and `invalidateFlatView(...)` now pass stored options into `renderFlatView(...)`.
+  - Removed flat-view internal reset (`const options = { loadedIds: [] }`).
+- Verification: `node --check js/ui-controller.js` passes.

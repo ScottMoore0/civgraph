@@ -46,6 +46,7 @@ class UIController {
         this.catalogueHistory = [];
         this.catalogueHistoryIndex = -1;
         this.catalogueView = 'list'; // 'list' or 'detail'
+        this._lastMapListOptions = {};
     }
 
     init() {
@@ -944,11 +945,12 @@ class UIController {
     // ============================================
 
     renderMapList(maps, options = {}) {
+        this._lastMapListOptions = options || {};
         const container = document.getElementById('mapList');
         // Flat-only runtime: always re-render flat catalogue and update stats.
         this.invalidateFlatView();
         if (this._catalogueViewMode === 'flat') {
-            this.renderFlatView();
+            this.renderFlatView(this._lastMapListOptions);
         }
         this.updateFilterStats(maps.length, options.totalMaps || maps.length);
 
@@ -1345,7 +1347,7 @@ class UIController {
         // Flat-only catalogue view.
         if (isFlat) {
             flatView.classList.remove('hidden');
-            if (!flatView.dataset.rendered) this.renderFlatView();
+            if (!flatView.dataset.rendered) this.renderFlatView(this._lastMapListOptions || {});
         }
 
         // Flat mode: hide top category/provider filters as requested.
@@ -1361,7 +1363,7 @@ class UIController {
         this.updateCatalogueReturnTopVisibility();
     }
 
-    async renderFlatView() {
+    async renderFlatView(options = {}) {
         const container = document.getElementById('catalogueFlatView');
         if (!container) return;
 
@@ -1697,7 +1699,7 @@ class UIController {
 
         container.innerHTML = tocHtml + '<div class="catalogue-flat__cards" id="catalogueFlatCards"></div>';
         const cardsContainer = container.querySelector('#catalogueFlatCards');
-        const options = { loadedIds: [] };
+        const renderOptions = options || {};
 
         const esc = (value) => this.escapeHtml(value || '');
         decadeElectionCards.forEach(def => {
@@ -1762,7 +1764,7 @@ class UIController {
 
             const pseudoClass = { id: `flat-${def.id}`, name: def.name };
             const allMaps = mapEntries.map(entry => ({ map: entry.map, classId: pseudoClass.id, className: def.name }));
-            const sectionHtml = this.renderC2Section(pseudoClass, allMaps, { ...options, ignoreMemberHeight: true, fullWidth: true })
+            const sectionHtml = this.renderC2Section(pseudoClass, allMaps, { ...renderOptions, ignoreMemberHeight: true, fullWidth: true })
                 .replace(/<div class="c1-card__section-header">[\s\S]*?<\/div>/, '');
 
             const card = document.createElement('div');
@@ -1882,7 +1884,7 @@ class UIController {
             delete flatView.dataset.rendered;
             // If currently showing flat view, re-render immediately
             if (this._catalogueViewMode === 'flat') {
-                this.renderFlatView();
+                this.renderFlatView(this._lastMapListOptions || {});
             }
         }
     }
@@ -1908,7 +1910,7 @@ class UIController {
 
         // Build members HTML
         const membersHtml = memberMaps.map(map => {
-            const isLoaded = options.loadedIds?.includes(map.id);
+            const isLoaded = this.isMapLoadedState(map.id, options);
             const isPlaceholder = map.placeholder;
             const displayName = useYearDisplay ? (this.getYear(map.date) || map.name) : map.name;
             const color = map.style?.color || '#3388ff';
@@ -2120,7 +2122,7 @@ class UIController {
             const classMaps = allMaps.filter(m => m.classId === cls.id);
             membersHtml += `<div class="conjoined-section"><div class="conjoined-section__header">${this.escapeHtml(cls.name)}</div>`;
             classMaps.forEach(({ map }) => {
-                const isLoaded = options.loadedIds?.includes(map.id);
+                const isLoaded = this.isMapLoadedState(map.id, options);
                 const isPlaceholder = map.placeholder;
                 const displayName = this.getYear(map.date) || map.name;
                 membersHtml += `
@@ -2345,7 +2347,7 @@ class UIController {
         const normalizedClassName = String(cls?.name || '').replace(/\s*\([^)]*\)/g, '').trim();
 
         const membersHtml = sorted.map(({ map }) => {
-            const isLoaded = options.loadedIds?.includes(map.id);
+            const isLoaded = this.isMapLoadedState(map.id, options);
             const isPlaceholder = map.placeholder;
             const hasVariants = map.isGroup && map.variants && map.variants.length > 0;
 
@@ -2461,7 +2463,7 @@ class UIController {
                         map: map,
                         className: cls.name,
                         classId: cls.id,
-                        isLoaded: options.loadedIds?.includes(map.id),
+                        isLoaded: this.isMapLoadedState(map.id, options),
                         isPlaceholder: map.placeholder
                     });
                 });
@@ -2659,7 +2661,7 @@ class UIController {
                         return;
                     }
 
-                    const isLoaded = options.loadedIds?.includes(map.id);
+                    const isLoaded = this.isMapLoadedState(map.id, options);
                     const isPlaceholder = map.placeholder;
                     const loadedClass = isLoaded ? ' c1-grid-entry--loaded' : '';
                     const placeholderClass = isPlaceholder ? ' c1-grid-entry--placeholder' : '';
@@ -3238,7 +3240,7 @@ class UIController {
 
     createMapCard(map, options = {}) {
         const card = document.createElement('div');
-        const isLoaded = options.loadedIds?.includes(map.id);
+        const isLoaded = this.isMapLoadedState(map.id, options);
         const isVisible = options.visibleIds?.includes(map.id);
         card.className = `map-card${isLoaded ? ' map-card--active' : ''}`;
         card.dataset.mapId = map.id;
@@ -4115,6 +4117,20 @@ class UIController {
         }
         if (value === null || value === undefined) return '';
         return String(value);
+    }
+
+    isMapLoadedState(mapId, options = {}) {
+        if (!mapId) return false;
+
+        if (typeof this.onCheckMapLoaded === 'function') {
+            try {
+                return !!this.onCheckMapLoaded(mapId);
+            } catch (err) {
+                // Fall through to loadedIds fallback below.
+            }
+        }
+
+        return !!options.loadedIds?.includes(mapId);
     }
 
     getLoadButtonIcon(isLoaded) {
@@ -5746,7 +5762,7 @@ class UIController {
 
         let html = `<div class="variants-container" data-parent-id="${map.id}">`;
         map.variants.forEach(variant => {
-            const variantLoaded = false;
+            const variantLoaded = this.isMapLoadedState(variant.id, {});
             const description = variant.description || '';
             html += `<div class="variant-item" data-map-id="${variant.id}">
                 <div class="variant-item__info">
