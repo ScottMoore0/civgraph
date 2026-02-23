@@ -94,3 +94,8 @@
 - Mistake pattern: Hover highlight and selection each used separate thresholds/sources.
 - Impact: A point can visibly highlight (orange) but fail to open feature details on user interaction.
 - Guardrail: Track the active hovered point and use it as a bounded fallback candidate in selection flow so highlighted points remain selectable.
+
+### 18) Resolve selection from hover state before geometric fallback
+- Mistake pattern: Running generic nearest-feature hit-testing before honoring explicit hovered-point context.
+- Impact: At low zoom, hover-highlighted target can be dropped or replaced by tolerance/event drift.
+- Guardrail: In click/dblclick handling, first attempt selection from active/recent hovered point candidate; only then run general geometric hit-testing.

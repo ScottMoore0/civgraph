@@ -212,6 +212,22 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Root-Cause Pass: Hover-Proximate Double-Click Must Always Select
+
+- [x] Root cause
+  - hover-highlight state could clear between clicks, while selection relied on separate hit-testing/event paths
+  - this created a mismatch where orange-highlighted points were not always selected on double-click at lower zoom
+
+- [x] Permanent fix
+  - introduced explicit hover-driven selection candidates in `js/map-controller.js`:
+    - `_activeHoveredPoint` (currently orange-hovered point)
+    - `_lastHoveredPoint` (short-lived post-hover memory)
+  - `handleMapClick` now first resolves selection from hover candidate and exits early
+  - only if no hover candidate exists does it continue with generic geometric hit-testing
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files
