@@ -930,12 +930,17 @@ class ElectionController {
                     partyTotals[party].votes += votes;
                     partyTotals[party].stood += 1;
                 }
-                if (this._statusKind(row.Status) === 'elected' && !electedSet.has(row.Candidate_Id)) {
-                    electedSet.add(row.Candidate_Id);
-                    const party = row.Party_Name || 'Independent';
-                    if (!partyTotals[party]) partyTotals[party] = { votes: 0, seats: 0, colour: row.Party_Colour || '#b0bec5', stood: 0 };
-                    partyTotals[party].seats++;
-                }
+            });
+
+            // Match constituency-level seat logic: include explicit and deemed elected.
+            const constituencyElected = this._extractElected(payload);
+            constituencyElected.forEach((member) => {
+                const key = `${info.Constituency_Name || ''}::${member.name}`;
+                if (electedSet.has(key)) return;
+                electedSet.add(key);
+                const party = member.party || 'Independent';
+                if (!partyTotals[party]) partyTotals[party] = { votes: 0, seats: 0, colour: member.colour || '#b0bec5', stood: 0 };
+                partyTotals[party].seats++;
             });
         }
 
@@ -949,7 +954,6 @@ class ElectionController {
             prevTotalElectorate += parseFloat(info.Total_Electorate) || 0;
             prevTotalSpoiled += parseFloat(info.Spoiled) || 0;
             const seen = new Set();
-            const prevElectedSet = new Set();
             cg.forEach(row => {
                 const countNum = parseInt(row.Count_Number, 10) || 1;
                 const cid = String(row.Candidate_Id || '');
@@ -963,13 +967,15 @@ class ElectionController {
                     prev.votes += parseFloat(row.Total_Votes) || 0;
                     prev.stood += 1;
                 }
-                if (this._statusKind(row.Status) === 'elected' && !prevElectedSet.has(cid)) {
-                    prevElectedSet.add(cid);
-                    if (!prevPartyTotals.has(party)) {
-                        prevPartyTotals.set(party, { votes: 0, stood: 0, seats: 0 });
-                    }
-                    prevPartyTotals.get(party).seats += 1;
+            });
+
+            const prevConstituencyElected = this._extractElected(payload);
+            prevConstituencyElected.forEach((member) => {
+                const party = member.party || 'Independent';
+                if (!prevPartyTotals.has(party)) {
+                    prevPartyTotals.set(party, { votes: 0, stood: 0, seats: 0 });
                 }
+                prevPartyTotals.get(party).seats += 1;
             });
         }
 

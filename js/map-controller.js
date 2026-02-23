@@ -804,7 +804,7 @@ class MapController {
         const cache = this._chunkDataCache.get(mapId);
         if (cache?.has(filePath)) return cache.get(filePath);
 
-        const features = await this._loadChunkFGB(filePath, zoom, signal);
+        const features = await this._loadChunkFGB(mapId, filePath, zoom, signal);
         if (cache) cache.set(filePath, features);
         return features;
     }
@@ -879,13 +879,15 @@ class MapController {
     /**
      * Load a single chunk FGB file and apply screen-space filtering.
      * Uses full HTTP fetch (no Range requests needed).
+     * @param {string} mapId - Map ID for map-specific filter policy
      * @param {string} filePath - Path to the chunk FGB file
      * @param {number} [zoom] - Current zoom for screen-space filtering
      * @returns {Array} Filtered GeoJSON features
      */
-    async _loadChunkFGB(filePath, zoom = null, signal = null) {
+    async _loadChunkFGB(mapId, filePath, zoom = null, signal = null) {
         const features = [];
-        const minDiag = (zoom != null) ? this.getMinFeatureDiagDeg(zoom) : 0;
+        const shouldApplyMinDiag = mapId !== 'ni-townlands-1844';
+        const minDiag = (zoom != null && shouldApplyMinDiag) ? this.getMinFeatureDiagDeg(zoom) : 0;
         let skippedCount = 0;
 
         const response = await fetch(filePath, signal ? { signal } : undefined);
@@ -1751,6 +1753,7 @@ class MapController {
      */
     handleMapClick(e) {
         const clickLatLng = e.latlng;
+        const clickPoint = this.map?.latLngToContainerPoint(clickLatLng);
         const featuresFound = [];
 
         this.layerStates.forEach(state => {
@@ -1763,7 +1766,9 @@ class MapController {
                     const geomType = layer.feature.geometry?.type;
 
                     if (geomType === 'Point') {
-                        if (clickLatLng.distanceTo(layer.getLatLng()) < 10) {
+                        const featurePoint = this.map?.latLngToContainerPoint(layer.getLatLng());
+                        const pixelDistance = (clickPoint && featurePoint) ? clickPoint.distanceTo(featurePoint) : Infinity;
+                        if (pixelDistance <= 14) {
                             featuresFound.push({
                                 mapId: layer._mapId,
                                 properties: layer.feature.properties,

@@ -2237,14 +2237,31 @@ function animateStages(selectionOrYear, constituencyFolder) {
         $("#step").off('click');
         $("#again").off('click');
 
+        function getPauseReplayMode(btn) {
+            var hasRepeat = btn.hasClass("fa-repeat");
+            var hasPlay = btn.hasClass("fa-play");
+            var hasPause = btn.hasClass("fa-pause");
+            var iconMode = hasRepeat ? "repeat" : (hasPlay ? "play" : (hasPause ? "pause" : null));
+            var mode = btn.attr("data-mode");
+
+            // If data-mode drifted from icon state, trust icon state and resync.
+            if (iconMode && mode !== iconMode) {
+                mode = iconMode;
+                btn.attr("data-mode", mode);
+            }
+
+            // If icon classes are missing, reconstruct from data-mode.
+            if (!iconMode) {
+                mode = mode || "pause";
+                setPauseReplayIcon(mode);
+            }
+
+            return mode || "pause";
+        }
+
         $("#pause-replay").click(function (event) {
             event.preventDefault();
-            var mode = $(this).attr("data-mode");
-            if (!mode) {
-                if ($(this).hasClass("fa-repeat")) mode = "repeat";
-                else if ($(this).hasClass("fa-play")) mode = "play";
-                else mode = "pause";
-            }
+            var mode = getPauseReplayMode($(this));
             if (mode === "pause") {
                 pause();
             } else if (mode === "play") {

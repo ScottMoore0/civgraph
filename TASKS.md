@@ -140,3 +140,21 @@
 - [x] Historic Sites point-feature dblclick opens feature card
   - added `_attachHistoricPointDblClick(...)` in `js/map-controller.js`
   - wired handler into regular load, chunked fallback/full load, and incremental feature-layer adds
+
+# Current Request (Townlands URL, Townlands loading, historic dblclick, NI-wide elected totals, transfer pause/play sync)
+
+- [x] 1) Townlands direct download URL updated
+  - `data/database/maps.json`: set `ni-townlands-1844.downloads.fgb` to `https://archive.org/download/townlands-all-ireland/Townlands_AllIreland.fgb`
+
+- [x] 2) Townlands loading diagnosis and surgical fix
+  - root cause identified in chunk-stage `minDiag` filtering
+  - `js/map-controller.js`: disabled `minDiag` cull for `ni-townlands-1844` while keeping chunk loading active
+
+- [x] 3) Historic Sites point object selection fix
+  - `js/map-controller.js`: replaced point hit test from 10m geodesic threshold to screen-space threshold (`<= 14px`) for consistent click/dblclick detection
+
+- [x] 4) 2022 Assembly NI-wide elected counts fix
+  - `js/election-controller.js`: NI-wide seat aggregation now uses `_extractElected(...)` constituency logic (explicit + deemed elected)
+
+- [x] 5) Transfer pause/play robustness hardening
+  - `election-viewer-package/js/stages2.js`: added `getPauseReplayMode(...)` to re-sync icon classes and `data-mode` before action dispatch, preventing stuck pause/play button state
