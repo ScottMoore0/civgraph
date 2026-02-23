@@ -577,6 +577,17 @@ class MapController {
                 className: pixelated ? 'raster-tile raster-tile--pixelated' : 'raster-tile'
             };
 
+            if (id === 'copernicus-dem-30m-ireland' && this.map) {
+                const paneName = 'copernicus-dem-pane';
+                let pane = this.map.getPane(paneName);
+                if (!pane) {
+                    pane = this.map.createPane(paneName);
+                    pane.style.zIndex = '450';
+                    pane.style.pointerEvents = 'none';
+                }
+                options.pane = paneName;
+            }
+
             if (Array.isArray(mapConfig.bounds) && mapConfig.bounds.length === 2) {
                 options.bounds = mapConfig.bounds;
             }

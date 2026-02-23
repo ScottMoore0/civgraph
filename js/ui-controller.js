@@ -29,6 +29,7 @@ class UIController {
         this.onMapLoad = null;
         this.onMapUnload = null;
         this.onMapToggle = null;
+        this.onCheckMapLoaded = null;
         this.onLoadSingleFeature = null;
         this.onHideMap = null;
         this.onVisibilityToggle = null;
@@ -3302,13 +3303,33 @@ class UIController {
             }
         });
 
-        card.querySelector('.load-btn')?.addEventListener('click', (e) => {
+        card.querySelector('.load-btn')?.addEventListener('click', async (e) => {
             e.stopPropagation();
+            const btn = e.currentTarget;
+            if (btn?.dataset?.busy === '1') return;
+            if (btn) {
+                btn.dataset.busy = '1';
+                btn.disabled = true;
+            }
+
             const currentlyLoaded = card.classList.contains('map-card--active');
-            if (currentlyLoaded && this.onMapUnload) {
-                this.onMapUnload(map.id);
-            } else if (this.onMapLoad) {
-                this.onMapLoad(map.id);
+            try {
+                if (currentlyLoaded && this.onMapUnload) {
+                    await this.onMapUnload(map.id);
+                } else if (!currentlyLoaded && this.onMapLoad) {
+                    await this.onMapLoad(map.id);
+                }
+            } finally {
+                const loadedNow = this.onCheckMapLoaded
+                    ? !!this.onCheckMapLoaded(map.id)
+                    : card.classList.contains('map-card--active');
+                card.classList.toggle('map-card--active', loadedNow);
+                if (btn) {
+                    btn.innerHTML = this.getLoadButtonIcon(loadedNow);
+                    btn.title = loadedNow ? 'Unload' : 'Load';
+                    btn.disabled = false;
+                    btn.dataset.busy = '0';
+                }
             }
         });
 

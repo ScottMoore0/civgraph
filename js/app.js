@@ -143,6 +143,8 @@ class App {
                 this.updateURLState();
             };
 
+            uiController.onCheckMapLoaded = (mapId) => mapController.isLayerLoaded(mapId);
+
             uiController.onPartialFeatureUnload = (mapId, featureIndex) => {
                 mapController.unloadPartialFeature(mapId, featureIndex);
                 this.updateMapList();
