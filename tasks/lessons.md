@@ -26,3 +26,8 @@
 - Mistake pattern: Split task tracking across `TASKS.md` and `tasks/todo.md`.
 - Impact: Process drift and stale plans, violating AGENTS requirements.
 - Guardrail: Keep all active and historical task tracking in `tasks/todo.md` only; keep `TASKS.md` as a deprecation pointer only.
+
+### 6) Validate by workflow path, not only by helper function intent
+- Mistake pattern: A fix looked correct in isolated logic, but the actual UI workflow still regressed.
+- Impact: Load/unload and pause/play issues reappeared despite prior targeted edits.
+- Guardrail: Validate full user interaction paths (click -> callback -> state refresh -> icon swap) and add explicit state synchronization where UI wiring has multiple entry points.

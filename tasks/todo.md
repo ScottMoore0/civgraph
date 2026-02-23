@@ -205,3 +205,18 @@
   - root cause: multiple animation control paths and icon/mode coupling drift
   - permanent prevention action: add an automated UI state test (or deterministic unit harness) that asserts pause->icon swap->resume progression for STV animation
   - verification evidence: multiple fixes required in `election-viewer-package/js/stages2.js` across recent passes
+
+# Current Task: Townlands + Interaction Regression Fixes
+
+- [x] Re-enable chunked Townlands loading path in interactive map.
+- [x] Verify Townlands chunk manifest integrity against on-disk files.
+- [x] Fix load/unload button toggle behavior in C1/class entry controls.
+- [x] Fix point-feature double-click card opening for point-like layers.
+- [x] Harden transfer pause/play icon state visibility (play/pause/replay glyph + ARIA/title sync).
+
+## Review
+- Removed Townlands forced non-chunked LOD override in `js/map-controller.js`; `chunked: true` is honored again.
+- Verified chunk manifest integrity: `data/maps/townlands/ni-townlands-1844-chunks.json` references 241 chunks with 0 missing files.
+- Updated C1 load button handler in `js/ui-controller.js` to async-toggle with busy lock + immediate icon/state update after load/unload.
+- Generalized point dblclick attachment in `js/map-controller.js` so point-like layers are clickable (not historic-only).
+- Updated transfer controls in `election-viewer-package/js/stages2.js` to set explicit play/pause/replay symbols and labels.

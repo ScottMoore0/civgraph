@@ -610,8 +610,14 @@ function animateForumElection(constituency) {
         pauseBtn.removeClass('fa-repeat');
         if (state.playing) {
             pauseBtn.removeClass('fa-play').addClass('fa-pause');
+            pauseBtn.text('\u23F8'); // pause symbol
+            pauseBtn.attr('title', 'Pause');
+            pauseBtn.attr('aria-label', 'Pause');
         } else {
             pauseBtn.removeClass('fa-pause').addClass('fa-play');
+            pauseBtn.text('\u25B6'); // play symbol
+            pauseBtn.attr('title', 'Play');
+            pauseBtn.attr('aria-label', 'Play');
         }
     }
 
@@ -2364,10 +2370,19 @@ function animateStages(selectionOrYear, constituencyFolder) {
             btn.removeClass("fa-play fa-pause fa-repeat");
             if (mode === "repeat") {
                 btn.addClass("fa-repeat");
+                btn.text('\u21BB');
+                btn.attr('title', 'Replay');
+                btn.attr('aria-label', 'Replay');
             } else if (mode === "play") {
                 btn.addClass("fa-play");
+                btn.text('\u25B6');
+                btn.attr('title', 'Play');
+                btn.attr('aria-label', 'Play');
             } else {
                 btn.addClass("fa-pause");
+                btn.text('\u23F8');
+                btn.attr('title', 'Pause');
+                btn.attr('aria-label', 'Pause');
             }
             btn.attr("data-mode", mode || "pause");
         }

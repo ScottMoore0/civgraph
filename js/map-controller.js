@@ -67,7 +67,6 @@ class MapController {
 
     _attachHistoricPointDblClick(mapConfig, mapId, feature, layer) {
         if (!layer || typeof layer.on !== 'function') return;
-        if (mapConfig?.category !== 'historic') return;
         const geomType = feature?.geometry?.type;
         if (!(geomType === 'Point' || geomType === 'MultiPoint' || typeof layer.getLatLng === 'function')) return;
 
@@ -388,9 +387,6 @@ class MapController {
      * Returns true if the map has chunked:true flag in its config.
      */
     shouldUseChunkedLoading(mapConfig) {
-        // Townlands chunk manifest currently references stale chunk filenames.
-        // Force stable non-chunked loading path for this layer.
-        if (mapConfig?.id === 'ni-townlands-1844') return false;
         return mapConfig.chunked === true;
     }
 
@@ -420,11 +416,6 @@ class MapController {
                 filePath = sourceMap.files.fgb;
                 console.log(`[MapController] Clone map ${id} using files from ${mapConfig.cloneOf}`);
             }
-        }
-
-        // Use medium LOD for Townlands interactive loading to keep load predictable.
-        if (id === 'ni-townlands-1844' && filePath) {
-            filePath = this.getLODFilePath(filePath, 10);
         }
 
         const rasterTemplate = files?.xyz || files?.tiles || files?.webpTiles;

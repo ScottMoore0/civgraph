@@ -2794,8 +2794,30 @@ class UIController {
                 const memberEl = btn.closest('.class-member, .c1-grid-entry');
                 const isLoaded = memberEl?.classList.contains('class-member--loaded') ||
                     memberEl?.classList.contains('c1-grid-entry--loaded');
-                if (isLoaded && this.onMapUnload) this.onMapUnload(mapId);
-                else if (!isLoaded && this.onMapLoad) this.onMapLoad(mapId);
+                if (btn.dataset.busy === '1') return;
+                btn.dataset.busy = '1';
+                btn.disabled = true;
+                const applyLoadedState = (loadedNow) => {
+                    if (!memberEl) return;
+                    memberEl.classList.toggle('class-member--loaded', loadedNow);
+                    memberEl.classList.toggle('c1-grid-entry--loaded', loadedNow);
+                    btn.innerHTML = this.getLoadButtonIcon(loadedNow);
+                    btn.title = loadedNow ? 'Unload' : 'Load';
+                };
+
+                (async () => {
+                    try {
+                        if (isLoaded && this.onMapUnload) await this.onMapUnload(mapId);
+                        else if (!isLoaded && this.onMapLoad) await this.onMapLoad(mapId);
+                    } finally {
+                        const loadedNow = this.onCheckMapLoaded
+                            ? !!this.onCheckMapLoaded(mapId)
+                            : (!isLoaded);
+                        applyLoadedState(loadedNow);
+                        btn.dataset.busy = '0';
+                        btn.disabled = false;
+                    }
+                })();
             } else if (btn.classList.contains('visibility-btn')) {
                 e.stopPropagation();
                 btn.closest('.overflow-menu')?.classList.remove('overflow-menu--open');
