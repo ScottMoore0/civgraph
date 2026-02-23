@@ -79,3 +79,8 @@
 - Mistake pattern: Treating point-feature selection as a dblclick-first interaction.
 - Impact: Real users can hover a visible point and still fail to open the feature card due to dblclick propagation variability.
 - Guardrail: Point features must select on single `click` (primary), with `dblclick` only as secondary compatibility path, plus dedupe to avoid duplicate emits.
+
+### 15) Point-picking tolerances must be zoom-adaptive
+- Mistake pattern: Using fixed pixel thresholds for point hit detection and click-pair recognition.
+- Impact: Selection works when zoomed in but fails intermittently when zoomed out.
+- Guardrail: Derive hit thresholds from current zoom (with bounded min/max), and apply the same principle to nearest-point fallback and synthetic dblclick distance windows.

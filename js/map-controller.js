@@ -324,9 +324,12 @@ class MapController {
 
         const prev = this._lastMapClick;
         const currentPt = this.map?.latLngToContainerPoint(e.latlng);
+        const zoom = this.map?.getZoom?.() ?? 10;
+        const clickPairPx = Math.max(24, 44 - (zoom * 1.5));
+        const clickPairMs = 650;
         if (prev && prev.pt && currentPt) {
-            const withinTime = (now - prev.ts) <= 450;
-            const withinDistance = prev.pt.distanceTo(currentPt) <= 24;
+            const withinTime = (now - prev.ts) <= clickPairMs;
+            const withinDistance = prev.pt.distanceTo(currentPt) <= clickPairPx;
             if (withinTime && withinDistance) {
                 this._lastMapClick = null;
                 this.handleMapClick(e);
@@ -1905,7 +1908,10 @@ class MapController {
         const featuresFound = [];
         let nearestPoint = null;
         let nearestPointDistance = Infinity;
-        const pointPickPx = 32;
+        const zoom = this.map?.getZoom?.() ?? 10;
+        // Wider tolerance at lower zooms to keep point selection usable.
+        const pointPickPx = Math.max(24, 56 - (zoom * 2));
+        const nearestFallbackPx = pointPickPx + 24;
 
         this.layerStates.forEach(state => {
             if (!state.loaded || !state.visible) return;
@@ -1955,7 +1961,7 @@ class MapController {
 
         // Robust fallback for point features: if no point was captured within threshold,
         // still select the nearest visible point when it is reasonably close.
-        if (featuresFound.length === 0 && nearestPoint && nearestPointDistance <= 48) {
+        if (featuresFound.length === 0 && nearestPoint && nearestPointDistance <= nearestFallbackPx) {
             featuresFound.push(nearestPoint);
         }
 

@@ -168,6 +168,21 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Follow-up Fix: Point Double-Click Fails When Zoomed Out
+
+- [x] Root cause
+  - point hit-testing thresholds were fixed pixel values, not zoom-aware
+  - when zoomed out, user click precision decreases and fixed thresholds were too strict
+
+- [x] Fix implemented
+  - `js/map-controller.js` now uses zoom-adaptive thresholds for:
+    - synthetic double-click pair detection (`time + pixel distance`)
+    - point hit-testing (`pointPickPx`)
+    - nearest-point fallback (`nearestFallbackPx`)
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files
