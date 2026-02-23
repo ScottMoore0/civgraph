@@ -183,6 +183,20 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Follow-up Fix 2: Zoomed-Out Point Selection Still Intermittent
+
+- [x] Root cause
+  - even with improved dblclick handling, selection still depended on dblclick/click-pair event delivery in some paths
+  - at lower zoom, strict tolerances further reduced successful hit-detection
+
+- [x] Maximally effective fix
+  - map click handler now always runs feature hit-testing (`handleMapClick`) as primary fallback
+  - increased zoom-adaptive hit radius and nearest-point fallback radius for low zoom levels
+  - dedupe logic in `_emitFeatureSelection` prevents duplicate feature-card renders
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files

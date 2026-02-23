@@ -84,3 +84,8 @@
 - Mistake pattern: Using fixed pixel thresholds for point hit detection and click-pair recognition.
 - Impact: Selection works when zoomed in but fails intermittently when zoomed out.
 - Guardrail: Derive hit thresholds from current zoom (with bounded min/max), and apply the same principle to nearest-point fallback and synthetic dblclick distance windows.
+
+### 16) Keep a map-click selection fallback active for point features
+- Mistake pattern: Relying primarily on dblclick/click-pair event paths for point selection.
+- Impact: Some zoom/renderer/input combinations still miss feature selection.
+- Guardrail: Execute point hit-testing on map click as a baseline fallback, and use dedupe in emit path to prevent duplicate panel renders.

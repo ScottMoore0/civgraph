@@ -315,6 +315,9 @@ class MapController {
     }
 
     _handleMapClickForSelection(e) {
+        // Always attempt selection on click first; _emitFeatureSelection de-dupes rapid duplicates.
+        this.handleMapClick(e);
+
         const now = Date.now();
         // If native dblclick just fired, skip synthetic detection.
         if (now - this._lastNativeDblClickTs <= 350) {
@@ -1910,8 +1913,8 @@ class MapController {
         let nearestPointDistance = Infinity;
         const zoom = this.map?.getZoom?.() ?? 10;
         // Wider tolerance at lower zooms to keep point selection usable.
-        const pointPickPx = Math.max(24, 56 - (zoom * 2));
-        const nearestFallbackPx = pointPickPx + 24;
+        const pointPickPx = Math.max(32, 96 - (zoom * 4));
+        const nearestFallbackPx = pointPickPx + 40;
 
         this.layerStates.forEach(state => {
             if (!state.loaded || !state.visible) return;
