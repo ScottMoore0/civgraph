@@ -137,6 +137,20 @@
     1) direct layer `dblclick`, and
     2) map-level geometric hit-test over live feature layers
 
+# Recurrence Pass: Point Double-Click Still Not Emitting Feature Card
+
+- [x] Root-cause update
+  - identified remaining gap: some browsers/renderer paths do not reliably emit Leaflet native `dblclick` for point interactions
+  - prior logic still depended on native `dblclick` at map/layer level in some paths
+
+- [x] Permanent prevention action
+  - added map-level synthetic double-click detector based on two rapid clicks within bounded time/distance
+  - wired detector to trigger the same `handleMapClick` selection flow as native `dblclick`
+  - guards added to avoid duplicate selection when native `dblclick` does fire
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files

@@ -28,6 +28,8 @@ class MapController {
         this._renderedFeatures = new Map(); // mapId -> Map(featureKey -> L.GeoJSON layer)
         this._spatialAbort = new Map(); // mapId -> AbortController
         this._lastPointClick = null; // fallback double-click detection for point layers
+        this._lastMapClick = null; // fallback double-click detection at map level
+        this._lastNativeDblClickTs = 0;
 
         // Initialize feature loader
         featureLoader.init();
@@ -288,7 +290,12 @@ class MapController {
 
         // Set up event handlers
         this.map.on('moveend zoomend', () => this.updateLabels());
-        this.map.on('dblclick', (e) => this.handleMapClick(e));
+        this.map.on('dblclick', (e) => {
+            this._lastNativeDblClickTs = Date.now();
+            this._lastMapClick = null;
+            this.handleMapClick(e);
+        });
+        this.map.on('click', (e) => this._handleMapClickForSelection(e));
 
         // Spatial loading handlers - update visible features on pan/zoom
         this.map.on('moveend', () => this.updateSpatialLayers());
@@ -296,6 +303,29 @@ class MapController {
 
         console.log('[MapController] Map initialized');
         return this;
+    }
+
+    _handleMapClickForSelection(e) {
+        const now = Date.now();
+        // If native dblclick just fired, skip synthetic detection.
+        if (now - this._lastNativeDblClickTs <= 350) {
+            this._lastMapClick = null;
+            return;
+        }
+
+        const prev = this._lastMapClick;
+        const currentPt = this.map?.latLngToContainerPoint(e.latlng);
+        if (prev && prev.pt && currentPt) {
+            const withinTime = (now - prev.ts) <= 450;
+            const withinDistance = prev.pt.distanceTo(currentPt) <= 24;
+            if (withinTime && withinDistance) {
+                this._lastMapClick = null;
+                this.handleMapClick(e);
+                return;
+            }
+        }
+
+        this._lastMapClick = { ts: now, pt: currentPt };
     }
 
     /**

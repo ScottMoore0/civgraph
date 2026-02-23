@@ -69,3 +69,8 @@
 - Mistake pattern: Feature hit-testing used `state.geoJsonLayers` only, which can drift from the actual rendered layer tree after dynamic add/remove paths.
 - Impact: Point double-click selection appeared to fail even when points were visibly rendered.
 - Guardrail: Traverse the live `state.group` layer graph recursively for selection/hit-testing; keep `geoJsonLayers` as bookkeeping only, not as the sole interaction source-of-truth.
+
+### 13) Never depend solely on native `dblclick` for feature selection
+- Mistake pattern: Assumed Leaflet native `dblclick` always fires for point interactions across renderer/browser combinations.
+- Impact: Users can double-click visible point features and still get no feature card.
+- Guardrail: Keep native `dblclick` support, but add deterministic synthetic double-click detection from two rapid map `click` events (time + pixel-distance bounded) and route both to one selection handler.
