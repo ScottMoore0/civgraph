@@ -36,3 +36,8 @@
 - Mistake pattern: Button state checks used only direct map id loaded state.
 - Impact: Group entries remained on `+` and behaved like load-only controls.
 - Guardrail: Centralize and always use group-aware loaded-state checks (members/variants) for any UI toggle icon logic.
+
+### 8) Validate Git object content for static-hosted binaries
+- Mistake pattern: Verified only working-tree binary bytes and assumed deployment would serve the same content.
+- Impact: Townlands chunked loading failed because Git history contained LFS pointer blobs for chunk files.
+- Guardrail: For statically served binary assets, always verify committed blobs (`git cat-file -p HEAD:path`) are real binary content, not LFS pointers.

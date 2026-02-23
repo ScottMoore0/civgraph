@@ -246,3 +246,17 @@
 - If chunk index is unavailable for Townlands, loader now fails fast (no full-file fallback).
 - If chunk loading throws for Townlands, loader now fails fast (no full-file or remote-download fallback).
 - Remote fallback (`downloads.fgb`) remains available only for non-townlands layers.
+
+# Current Task: Fix Townlands Chunk Load Failure (LFS Pointer Root Cause)
+
+- [x] Reproduce and isolate Townlands failure source from the actual load path.
+- [x] Verify committed Townlands chunk blobs are real FGB bytes vs LFS pointers.
+- [x] Convert Townlands chunk files to non-LFS tracked files and re-stage real bytes.
+- [x] Verify committed chunk blob headers from Git object database are valid FGB magic bytes.
+- [ ] Commit and push fix.
+
+## Review (in progress)
+- Root cause proven: `git cat-file -p HEAD:data/maps/townlands/chunks/townlands_0_1.fgb` returns LFS pointer text (`version https://git-lfs.github.com/spec/v1`), while working-tree file bytes are valid FGB (`66 67 62 03 ...`).
+- Added `.gitattributes` exception: `data/maps/townlands/chunks/*.fgb -filter -diff -merge -text`.
+- Reindexed all Townlands chunk FGBs (`git rm --cached ...` then `git add ...`) so index now contains real binary blobs.
+- Index verification: 639 chunk files checked, 0 small/pointer-like blobs; sample staged blob header is valid FGB magic bytes (`66 67 62 03 66 67 62 00 ...`).

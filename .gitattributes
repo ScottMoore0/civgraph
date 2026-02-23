@@ -33,3 +33,7 @@ data/maps/historic-sites/Ringfort_Unclassified.fgb -filter -diff -merge -text
 data/maps/historic-sites/Rock_Scribing.fgb -filter -diff -merge -text
 data/maps/historic-sites/Standing_Stones.fgb -filter -diff -merge -text
 data/maps/historic-sites/Wedge_Tomb.fgb -filter -diff -merge -text
+
+# Townlands interactive layer is chunk-only: chunk FGBs must be regular Git blobs
+# so static hosts serve actual bytes instead of LFS pointer files.
+data/maps/townlands/chunks/*.fgb -filter -diff -merge -text
