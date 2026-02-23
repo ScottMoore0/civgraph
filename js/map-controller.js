@@ -71,19 +71,26 @@ class MapController {
         if (!(geomType === 'Point' || geomType === 'MultiPoint' || typeof layer.getLatLng === 'function')) return;
 
         layer.on('dblclick', (e) => {
-            if (e?.originalEvent) {
-                L.DomEvent.stop(e.originalEvent);
-            } else if (e) {
-                L.DomEvent.stopPropagation(e);
+            try {
+                if (e?.originalEvent) {
+                    L.DomEvent.stop(e.originalEvent);
+                } else if (e) {
+                    L.DomEvent.stop(e);
+                }
+            } catch (err) {
+                // Selection must still fire even if event stopping fails.
             }
-            if (this.onFeatureClick) {
-                this.onFeatureClick([{
-                    mapId,
-                    properties: feature?.properties,
-                    geometry: feature?.geometry
-                }]);
-            }
+            this._emitFeatureSelection(mapId, feature);
         });
+    }
+
+    _emitFeatureSelection(mapId, feature) {
+        if (!this.onFeatureClick || !feature) return;
+        this.onFeatureClick([{
+            mapId,
+            properties: feature?.properties,
+            geometry: feature?.geometry
+        }]);
     }
 
     _setFeatureHover(layer, isHover) {
@@ -1830,6 +1837,9 @@ class MapController {
         const clickLatLng = e.latlng;
         const clickPoint = this.map?.latLngToContainerPoint(clickLatLng);
         const featuresFound = [];
+        let nearestPoint = null;
+        let nearestPointDistance = Infinity;
+        const pointPickPx = 32;
 
         this.layerStates.forEach(state => {
             if (!state.loaded || !state.visible) return;
@@ -1843,7 +1853,15 @@ class MapController {
                     if (typeof layer.getLatLng === 'function') {
                         const featurePoint = this.map?.latLngToContainerPoint(layer.getLatLng());
                         const pixelDistance = (clickPoint && featurePoint) ? clickPoint.distanceTo(featurePoint) : Infinity;
-                        if (pixelDistance <= 24) {
+                        if (pixelDistance < nearestPointDistance) {
+                            nearestPointDistance = pixelDistance;
+                            nearestPoint = {
+                                mapId: layer._mapId,
+                                properties: layer.feature.properties,
+                                geometry: layer.feature.geometry
+                            };
+                        }
+                        if (pixelDistance <= pointPickPx) {
                             featuresFound.push({
                                 mapId: layer._mapId,
                                 properties: layer.feature.properties,
@@ -1872,6 +1890,12 @@ class MapController {
                 });
             });
         });
+
+        // Robust fallback for point features: if no point was captured within threshold,
+        // still select the nearest visible point when it is reasonably close.
+        if (featuresFound.length === 0 && nearestPoint && nearestPointDistance <= 48) {
+            featuresFound.push(nearestPoint);
+        }
 
         if (this.onFeatureClick && featuresFound.length > 0) {
             this.onFeatureClick(featuresFound);

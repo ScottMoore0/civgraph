@@ -281,3 +281,19 @@
   - `renderMapList(...)`, `setCatalogueViewMode(...)`, and `invalidateFlatView(...)` now pass stored options into `renderFlatView(...)`.
   - Removed flat-view internal reset (`const options = { loadedIds: [] }`).
 - Verification: `node --check js/ui-controller.js` passes.
+
+# Current Task: Point Feature Double-Click Card Not Opening
+
+- [x] Trace point double-click event path from Leaflet layer events through `mapController.onFeatureClick` to `uiController.showFeatureInfo`.
+- [x] Identify weak points in event propagation and point hit testing.
+- [x] Implement robust point-selection handling for dblclick across loaded layers.
+- [x] Verify syntax/build health of modified map controller.
+
+## Review
+- Strengthened point dblclick handling in `js/map-controller.js`:
+  - Added `_emitFeatureSelection(mapId, feature)` to centralize feature-card dispatch.
+  - Updated layer dblclick handler to always dispatch feature selection even if event-stop calls fail.
+- Hardened map-level dblclick hit testing:
+  - Increased direct point pick threshold (`32px`).
+  - Added nearest-point fallback (`<=48px`) when no point is captured in strict pass.
+- Verification: `node --check js/map-controller.js` passes.

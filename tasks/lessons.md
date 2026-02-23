@@ -46,3 +46,21 @@
 - Mistake pattern: Flat catalogue rendering path rebuilt cards with `loadedIds: []`, desynchronizing button state from real map state.
 - Impact: Load buttons reverted to `+` after successful loads and did not behave as reliable load/unload toggles.
 - Guardrail: Persist last render options and centralize loaded-state checks in one resolver used by all map-entry renderers.
+
+### 10) Use a root-cause pass for recurring or opaque bugs
+- Mistake pattern: Fixing symptoms before proving where runtime actually fails.
+- Impact: Regressions reappear and confidence stays low.
+- Guardrail: Follow this sequence every time:
+  1) trace end-to-end runtime path,
+  2) identify first concrete mismatch/failure point,
+  3) prove with direct evidence (logs/object/file checks),
+  4) fix at source-of-truth layer,
+  5) run targeted verification,
+  6) record prevention guardrail in `tasks/lessons.md` and task evidence in `tasks/todo.md`.
+
+### 11) For map feature selection, combine event-path and geometric fallback
+- Mistake pattern: Relying on a single event path (layer dblclick or map hit-test only) for point feature selection.
+- Impact: Feature cards intermittently fail to open when event propagation or click precision varies.
+- Guardrail: Keep both:
+  - direct layer dblclick selection dispatch, and
+  - map-level nearest-point fallback with bounded pixel thresholds.
