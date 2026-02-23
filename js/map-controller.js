@@ -33,6 +33,7 @@ class MapController {
         this._lastFeatureSelection = null; // dedupe rapid duplicate emits
         this._activeHoveredPoint = null; // point currently hover-highlighted (orange)
         this._lastHoveredPoint = null; // short-lived post-hover memory for dblclick timing
+        this._boundContainerDblClick = null; // capture-phase dblclick fallback
 
         // Initialize feature loader
         featureLoader.init();
@@ -210,6 +211,7 @@ class MapController {
         if (active && (now - active.ts) <= 2500) {
             return {
                 mapId: active.mapId,
+                feature: active.feature,
                 properties: active.feature?.properties,
                 geometry: active.feature?.geometry
             };
@@ -225,6 +227,7 @@ class MapController {
         if (distPx <= hoverSelectPx) {
             return {
                 mapId: recent.mapId,
+                feature: recent.feature,
                 properties: recent.feature?.properties,
                 geometry: recent.feature?.geometry
             };
@@ -362,6 +365,11 @@ class MapController {
             this.handleMapClick(e);
         });
         this.map.on('click', (e) => this._handleMapClickForSelection(e));
+        const container = this.map.getContainer?.();
+        if (container && !this._boundContainerDblClick) {
+            this._boundContainerDblClick = (evt) => this._handleContainerDblClick(evt);
+            container.addEventListener('dblclick', this._boundContainerDblClick, true);
+        }
 
         // Spatial loading handlers - update visible features on pan/zoom
         this.map.on('moveend', () => this.updateSpatialLayers());
@@ -369,6 +377,19 @@ class MapController {
 
         console.log('[MapController] Map initialized');
         return this;
+    }
+
+    _handleContainerDblClick(evt) {
+        if (!this.map || !evt) return;
+        const container = this.map.getContainer?.();
+        if (!container) return;
+        const rect = container.getBoundingClientRect();
+        const clickPoint = L.point(evt.clientX - rect.left, evt.clientY - rect.top);
+        const zoom = this.map.getZoom?.() ?? 10;
+        const pointPickPx = Math.max(32, 96 - (zoom * 4));
+        const candidate = this._getHoverSelectionCandidate(clickPoint, pointPickPx);
+        if (!candidate?.mapId || !candidate?.feature) return;
+        this._emitFeatureSelection(candidate.mapId, candidate.feature);
     }
 
     _handleMapClickForSelection(e) {
@@ -1976,7 +1997,11 @@ class MapController {
         // Use the same signal as orange hover highlighting first.
         const hoveredCandidate = this._getHoverSelectionCandidate(clickPoint, pointPickPx);
         if (hoveredCandidate) {
-            if (this.onFeatureClick) this.onFeatureClick([hoveredCandidate]);
+            if (hoveredCandidate.mapId && hoveredCandidate.feature) {
+                this._emitFeatureSelection(hoveredCandidate.mapId, hoveredCandidate.feature);
+            } else if (this.onFeatureClick) {
+                this.onFeatureClick([hoveredCandidate]);
+            }
             return;
         }
 

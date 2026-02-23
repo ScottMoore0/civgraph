@@ -228,6 +228,20 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Root-Cause Pass (Latest): Zoomed-Out Dblclick Still Missing Feature Card
+
+- [x] Precise root cause
+  - hover highlight is renderer-level (`mouseover`/`mouseout`) and can still be valid while Leaflet dblclick target dispatch is flaky at low zoom
+  - selection relied on map/layer dblclick paths only; no capture-phase guarantee bound to current hover state
+
+- [x] Permanent fix
+  - added capture-phase map-container `dblclick` fallback in `js/map-controller.js` (`_handleContainerDblClick`)
+  - on dblclick, if a hover candidate exists, selection now emits directly from that exact feature (`_emitFeatureSelection`)
+  - unified hover-candidate selection in `handleMapClick` to use `_emitFeatureSelection` (single deduped source of truth)
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files

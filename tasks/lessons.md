@@ -99,3 +99,8 @@
 - Mistake pattern: Running generic nearest-feature hit-testing before honoring explicit hovered-point context.
 - Impact: At low zoom, hover-highlighted target can be dropped or replaced by tolerance/event drift.
 - Guardrail: In click/dblclick handling, first attempt selection from active/recent hovered point candidate; only then run general geometric hit-testing.
+
+### 19) Add capture-phase fallback when event-target dispatch is unreliable
+- Mistake pattern: Assuming Leaflet layer/map dblclick handlers always receive low-zoom pointer interactions.
+- Impact: Hover-highlighted points can still fail to open feature cards despite visible hover state.
+- Guardrail: Add a capture-phase map-container dblclick handler that resolves selection from hover candidate and routes through one emit path with dedupe.
