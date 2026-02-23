@@ -68,7 +68,8 @@ class MapController {
     _attachHistoricPointDblClick(mapConfig, mapId, feature, layer) {
         if (!layer || typeof layer.on !== 'function') return;
         if (mapConfig?.category !== 'historic') return;
-        if (feature?.geometry?.type !== 'Point') return;
+        const geomType = feature?.geometry?.type;
+        if (!(geomType === 'Point' || geomType === 'MultiPoint' || typeof layer.getLatLng === 'function')) return;
 
         layer.on('dblclick', (e) => {
             if (e?.originalEvent) {
@@ -387,6 +388,9 @@ class MapController {
      * Returns true if the map has chunked:true flag in its config.
      */
     shouldUseChunkedLoading(mapConfig) {
+        // Townlands chunk manifest currently references stale chunk filenames.
+        // Force stable non-chunked loading path for this layer.
+        if (mapConfig?.id === 'ni-townlands-1844') return false;
         return mapConfig.chunked === true;
     }
 
@@ -416,6 +420,11 @@ class MapController {
                 filePath = sourceMap.files.fgb;
                 console.log(`[MapController] Clone map ${id} using files from ${mapConfig.cloneOf}`);
             }
+        }
+
+        // Use medium LOD for Townlands interactive loading to keep load predictable.
+        if (id === 'ni-townlands-1844' && filePath) {
+            filePath = this.getLODFilePath(filePath, 10);
         }
 
         const rasterTemplate = files?.xyz || files?.tiles || files?.webpTiles;
@@ -1765,10 +1774,10 @@ class MapController {
 
                     const geomType = layer.feature.geometry?.type;
 
-                    if (geomType === 'Point') {
+                    if (typeof layer.getLatLng === 'function') {
                         const featurePoint = this.map?.latLngToContainerPoint(layer.getLatLng());
                         const pixelDistance = (clickPoint && featurePoint) ? clickPoint.distanceTo(featurePoint) : Infinity;
-                        if (pixelDistance <= 14) {
+                        if (pixelDistance <= 18) {
                             featuresFound.push({
                                 mapId: layer._mapId,
                                 properties: layer.feature.properties,

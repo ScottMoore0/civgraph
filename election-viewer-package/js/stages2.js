@@ -2237,36 +2237,17 @@ function animateStages(selectionOrYear, constituencyFolder) {
         $("#step").off('click');
         $("#again").off('click');
 
-        function getPauseReplayMode(btn) {
-            var hasRepeat = btn.hasClass("fa-repeat");
-            var hasPlay = btn.hasClass("fa-play");
-            var hasPause = btn.hasClass("fa-pause");
-            var iconMode = hasRepeat ? "repeat" : (hasPlay ? "play" : (hasPause ? "pause" : null));
-            var mode = btn.attr("data-mode");
-
-            // If data-mode drifted from icon state, trust icon state and resync.
-            if (iconMode && mode !== iconMode) {
-                mode = iconMode;
-                btn.attr("data-mode", mode);
-            }
-
-            // If icon classes are missing, reconstruct from data-mode.
-            if (!iconMode) {
-                mode = mode || "pause";
-                setPauseReplayIcon(mode);
-            }
-
-            return mode || "pause";
-        }
-
         $("#pause-replay").click(function (event) {
             event.preventDefault();
-            var mode = getPauseReplayMode($(this));
-            if (mode === "pause") {
+            var btn = $(this);
+            if (btn.hasClass("fa-pause")) {
+                btn.removeClass("fa-pause").addClass("fa-play").attr("data-mode", "play");
                 pause();
-            } else if (mode === "play") {
+            } else if (btn.hasClass("fa-play")) {
+                btn.removeClass("fa-play").addClass("fa-pause").attr("data-mode", "pause");
                 resume();
             } else {
+                btn.removeClass("fa-repeat").addClass("fa-pause").attr("data-mode", "pause");
                 replay(1);
             }
         });

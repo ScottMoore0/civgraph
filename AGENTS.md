@@ -53,7 +53,7 @@
 
 ## Recurring Issue Prevention
 - You must identify recurring defects (same/similar bug appearing multiple times).
-- You must log each recurring issue in `TASKS.md` with:
+- You must log each recurring issue in `tasks/todo.md` with:
   - symptom
   - root cause
   - permanent prevention action
@@ -65,8 +65,8 @@
 
 # AGENTS Instructions
 
-## Track Tasks in TASKS.md
-You must track any and all tasks you have to do in TASKS.md, including:
+## Track Tasks in tasks/todo.md
+You must track any and all tasks you have to do in `tasks/todo.md`, including:
 - The title of each task
 - What each task consists of
 - Whether it is completed yet
