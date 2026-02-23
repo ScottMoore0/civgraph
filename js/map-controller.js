@@ -27,6 +27,7 @@ class MapController {
         this._chunkDataCache = new Map(); // mapId -> Map(chunkFile -> features[])
         this._renderedFeatures = new Map(); // mapId -> Map(featureKey -> L.GeoJSON layer)
         this._spatialAbort = new Map(); // mapId -> AbortController
+        this._lastPointClick = null; // fallback double-click detection for point layers
 
         // Initialize feature loader
         featureLoader.init();
@@ -70,6 +71,8 @@ class MapController {
         const geomType = feature?.geometry?.type;
         if (!(geomType === 'Point' || geomType === 'MultiPoint' || typeof layer.getLatLng === 'function')) return;
 
+        const emitSelection = () => this._emitFeatureSelection(mapId, feature);
+
         layer.on('dblclick', (e) => {
             try {
                 if (e?.originalEvent) {
@@ -80,7 +83,31 @@ class MapController {
             } catch (err) {
                 // Selection must still fire even if event stopping fails.
             }
-            this._emitFeatureSelection(mapId, feature);
+            emitSelection();
+        });
+
+        // Canvas-rendered point layers can occasionally miss native `dblclick`.
+        // Fallback to two rapid clicks on the same point layer.
+        layer.on('click', (e) => {
+            const now = Date.now();
+            const layerId = layer._leaflet_id;
+            const prev = this._lastPointClick;
+            const withinWindow = prev && prev.layerId === layerId && (now - prev.ts) <= 450;
+            if (withinWindow) {
+                this._lastPointClick = null;
+                try {
+                    if (e?.originalEvent) {
+                        L.DomEvent.stop(e.originalEvent);
+                    } else if (e) {
+                        L.DomEvent.stop(e);
+                    }
+                } catch (err) {
+                    // No-op: selection should still emit.
+                }
+                emitSelection();
+                return;
+            }
+            this._lastPointClick = { layerId, ts: now };
         });
     }
 
@@ -1844,50 +1871,46 @@ class MapController {
         this.layerStates.forEach(state => {
             if (!state.loaded || !state.visible) return;
 
-            state.geoJsonLayers.forEach(geoJsonLayer => {
-                geoJsonLayer.eachLayer(layer => {
-                    if (!layer.feature) return;
+            this._forEachFeatureLayer(state, (layer) => {
+                const geomType = layer.feature.geometry?.type;
 
-                    const geomType = layer.feature.geometry?.type;
-
-                    if (typeof layer.getLatLng === 'function') {
-                        const featurePoint = this.map?.latLngToContainerPoint(layer.getLatLng());
-                        const pixelDistance = (clickPoint && featurePoint) ? clickPoint.distanceTo(featurePoint) : Infinity;
-                        if (pixelDistance < nearestPointDistance) {
-                            nearestPointDistance = pixelDistance;
-                            nearestPoint = {
-                                mapId: layer._mapId,
-                                properties: layer.feature.properties,
-                                geometry: layer.feature.geometry
-                            };
-                        }
-                        if (pixelDistance <= pointPickPx) {
-                            featuresFound.push({
-                                mapId: layer._mapId,
-                                properties: layer.feature.properties,
-                                geometry: layer.feature.geometry
-                            });
-                        }
-                    } else if (layer.getBounds?.().contains(clickLatLng)) {
-                        // For polygons and lines, use point-in-polygon test
-                        if (typeof turf !== 'undefined' && geomType?.includes('Polygon')) {
-                            const point = turf.point([clickLatLng.lng, clickLatLng.lat]);
-                            if (turf.booleanPointInPolygon(point, layer.feature)) {
-                                featuresFound.push({
-                                    mapId: layer._mapId,
-                                    properties: layer.feature.properties,
-                                    geometry: layer.feature.geometry
-                                });
-                            }
-                        } else {
-                            featuresFound.push({
-                                mapId: layer._mapId,
-                                properties: layer.feature.properties,
-                                geometry: layer.feature.geometry
-                            });
-                        }
+                if (typeof layer.getLatLng === 'function') {
+                    const featurePoint = this.map?.latLngToContainerPoint(layer.getLatLng());
+                    const pixelDistance = (clickPoint && featurePoint) ? clickPoint.distanceTo(featurePoint) : Infinity;
+                    if (pixelDistance < nearestPointDistance) {
+                        nearestPointDistance = pixelDistance;
+                        nearestPoint = {
+                            mapId: layer._mapId,
+                            properties: layer.feature.properties,
+                            geometry: layer.feature.geometry
+                        };
                     }
-                });
+                    if (pixelDistance <= pointPickPx) {
+                        featuresFound.push({
+                            mapId: layer._mapId,
+                            properties: layer.feature.properties,
+                            geometry: layer.feature.geometry
+                        });
+                    }
+                } else if (layer.getBounds?.().contains(clickLatLng)) {
+                    // For polygons and lines, use point-in-polygon test.
+                    if (typeof turf !== 'undefined' && geomType?.includes('Polygon')) {
+                        const point = turf.point([clickLatLng.lng, clickLatLng.lat]);
+                        if (turf.booleanPointInPolygon(point, layer.feature)) {
+                            featuresFound.push({
+                                mapId: layer._mapId,
+                                properties: layer.feature.properties,
+                                geometry: layer.feature.geometry
+                            });
+                        }
+                    } else {
+                        featuresFound.push({
+                            mapId: layer._mapId,
+                            properties: layer.feature.properties,
+                            geometry: layer.feature.geometry
+                        });
+                    }
+                }
             });
         });
 
@@ -1900,6 +1923,21 @@ class MapController {
         if (this.onFeatureClick && featuresFound.length > 0) {
             this.onFeatureClick(featuresFound);
         }
+    }
+
+    _forEachFeatureLayer(state, callback) {
+        if (!state?.group || typeof callback !== 'function') return;
+        const walk = (layer) => {
+            if (!layer) return;
+            if (layer.feature) {
+                callback(layer);
+                return;
+            }
+            if (typeof layer.eachLayer === 'function') {
+                layer.eachLayer(walk);
+            }
+        };
+        state.group.eachLayer(walk);
     }
 
     /**

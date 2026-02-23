@@ -119,6 +119,24 @@
 - [x] File inventory + sizes for requested maps
   - produced current local FGB/chunk/tile file size report for Railways, Catholic Dioceses, Historic Sites, Transport Lines, Copernicus, Townlands
 
+# Root-Cause Pass: Point Feature Double-Click -> Feature Card
+
+- [x] Diagnose runtime event chain for point-feature selection
+  - verified `mapController.onFeatureClick -> uiController.showFeatureInfo` wiring in `js/app.js`
+  - verified panel DOM targets (`#featureInfo`, `#featureInfoContent`) exist in `index.html`
+  - traced selection logic and identified fragile dependency on `state.geoJsonLayers` snapshots instead of live rendered layers
+
+- [x] Implement durable selection fix at source-of-truth
+  - `js/map-controller.js`: added `_forEachFeatureLayer(state, callback)` to traverse live `state.group` layer graph recursively
+  - `handleMapClick` now queries live rendered feature layers instead of only `state.geoJsonLayers`
+  - strengthened point double-click handling with click-pair fallback (`<=450ms`) for canvas/vector cases where native `dblclick` can be inconsistent
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+  - logic verification: selection can now dispatch via two independent paths:
+    1) direct layer `dblclick`, and
+    2) map-level geometric hit-test over live feature layers
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files

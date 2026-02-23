@@ -64,3 +64,8 @@
 - Guardrail: Keep both:
   - direct layer dblclick selection dispatch, and
   - map-level nearest-point fallback with bounded pixel thresholds.
+
+### 12) Query live rendered layers, not stale layer snapshots
+- Mistake pattern: Feature hit-testing used `state.geoJsonLayers` only, which can drift from the actual rendered layer tree after dynamic add/remove paths.
+- Impact: Point double-click selection appeared to fail even when points were visibly rendered.
+- Guardrail: Traverse the live `state.group` layer graph recursively for selection/hit-testing; keep `geoJsonLayers` as bookkeeping only, not as the sole interaction source-of-truth.
