@@ -610,14 +610,8 @@ function animateForumElection(constituency) {
         pauseBtn.removeClass('fa-repeat');
         if (state.playing) {
             pauseBtn.removeClass('fa-play').addClass('fa-pause');
-            pauseBtn.text('\u23F8'); // pause symbol
-            pauseBtn.attr('title', 'Pause');
-            pauseBtn.attr('aria-label', 'Pause');
         } else {
             pauseBtn.removeClass('fa-pause').addClass('fa-play');
-            pauseBtn.text('\u25B6'); // play symbol
-            pauseBtn.attr('title', 'Play');
-            pauseBtn.attr('aria-label', 'Play');
         }
     }
 
@@ -2246,15 +2240,15 @@ function animateStages(selectionOrYear, constituencyFolder) {
         $("#pause-replay").click(function (event) {
             event.preventDefault();
             var btn = $(this);
-            if (btn.hasClass("fa-pause")) {
-                btn.removeClass("fa-pause").addClass("fa-play").attr("data-mode", "play");
-                pause();
-            } else if (btn.hasClass("fa-play")) {
+            if (btn.hasClass("fa-repeat")) {
+                btn.removeClass("fa-repeat").addClass("fa-pause").attr("data-mode", "pause");
+                replay(1);
+            } else if (isPaused || btn.hasClass("fa-play")) {
                 btn.removeClass("fa-play").addClass("fa-pause").attr("data-mode", "pause");
                 resume();
             } else {
-                btn.removeClass("fa-repeat").addClass("fa-pause").attr("data-mode", "pause");
-                replay(1);
+                btn.removeClass("fa-pause").addClass("fa-play").attr("data-mode", "play");
+                pause();
             }
         });
 
@@ -2370,19 +2364,10 @@ function animateStages(selectionOrYear, constituencyFolder) {
             btn.removeClass("fa-play fa-pause fa-repeat");
             if (mode === "repeat") {
                 btn.addClass("fa-repeat");
-                btn.text('\u21BB');
-                btn.attr('title', 'Replay');
-                btn.attr('aria-label', 'Replay');
             } else if (mode === "play") {
                 btn.addClass("fa-play");
-                btn.text('\u25B6');
-                btn.attr('title', 'Play');
-                btn.attr('aria-label', 'Play');
             } else {
                 btn.addClass("fa-pause");
-                btn.text('\u23F8');
-                btn.attr('title', 'Pause');
-                btn.attr('aria-label', 'Pause');
             }
             btn.attr("data-mode", mode || "pause");
         }

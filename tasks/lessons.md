@@ -31,3 +31,8 @@
 - Mistake pattern: A fix looked correct in isolated logic, but the actual UI workflow still regressed.
 - Impact: Load/unload and pause/play issues reappeared despite prior targeted edits.
 - Guardrail: Validate full user interaction paths (click -> callback -> state refresh -> icon swap) and add explicit state synchronization where UI wiring has multiple entry points.
+
+### 7) Group maps need aggregate loaded-state semantics
+- Mistake pattern: Button state checks used only direct map id loaded state.
+- Impact: Group entries remained on `+` and behaved like load-only controls.
+- Guardrail: Centralize and always use group-aware loaded-state checks (members/variants) for any UI toggle icon logic.

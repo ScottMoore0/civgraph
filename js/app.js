@@ -143,7 +143,18 @@ class App {
                 this.updateURLState();
             };
 
-            uiController.onCheckMapLoaded = (mapId) => mapController.isLayerLoaded(mapId);
+            uiController.onCheckMapLoaded = (mapId) => {
+                const mapConfig = dataService.getMapById(mapId);
+                if (!mapConfig) return mapController.isLayerLoaded(mapId);
+
+                if (mapConfig.isGroup && Array.isArray(mapConfig.members) && mapConfig.members.length) {
+                    return mapConfig.members.some((memberId) => mapController.isLayerLoaded(memberId));
+                }
+                if (mapConfig.isGroup && Array.isArray(mapConfig.variants) && mapConfig.variants.length) {
+                    return mapConfig.variants.some((variant) => mapController.isLayerLoaded(variant.id));
+                }
+                return mapController.isLayerLoaded(mapId);
+            };
 
             uiController.onPartialFeatureUnload = (mapId, featureIndex) => {
                 mapController.unloadPartialFeature(mapId, featureIndex);

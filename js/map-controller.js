@@ -624,6 +624,8 @@ class MapController {
         const { id, style, labelProperty, name } = mapConfig;
         const signal = options?.signal;
         const fgbPath = state.fgbPath;
+        const remoteFgb = mapConfig?.downloads?.fgb;
+        const enforceChunkOnly = id === 'ni-townlands-1844';
 
         state.useSpatial = true;
         this.spatialLayers.add(id);
@@ -637,6 +639,12 @@ class MapController {
         // Load chunk index
         const chunkIndex = await this._loadChunkIndex(id, fgbPath, signal);
         if (!chunkIndex) {
+            if (enforceChunkOnly) {
+                console.error(`[MapController] Townlands requires chunk index and chunk files; chunk index unavailable for ${id}`);
+                state.loading = false;
+                this.layerStates.delete(id);
+                return null;
+            }
             console.warn(`[MapController] No chunk index for ${id}, falling back to full load`);
             state.useSpatial = false;
             this.spatialLayers.delete(id);
@@ -664,7 +672,36 @@ class MapController {
                 if (show) this.showLayer(id);
                 return state;
             } catch (err) {
-                console.error(`[MapController] Full load failed for ${id}:`, err);
+                console.warn(`[MapController] Full local load failed for ${id}:`, err);
+                if (remoteFgb && /^https?:\/\//i.test(remoteFgb)) {
+                    try {
+                        console.warn(`[MapController] Retrying ${id} from remote FGB: ${remoteFgb}`);
+                        const features = await this.loadFlatGeobuf(remoteFgb, null, signal);
+                        const geojsonData = { type: 'FeatureCollection', features };
+                        const geoJsonLayer = L.geoJSON(geojsonData, {
+                            style: (f) => f.geometry?.type === 'Point' ? {} : {
+                                color: style?.color || '#3388ff', weight: style?.weight || 2,
+                                fillOpacity: style?.fillOpacity ?? 0, opacity: 1
+                            },
+                            pointToLayer: (f, ll) => this.createPointMarker(ll, style),
+                            onEachFeature: (f, l) => {
+                                l._mapId = id;
+                                this._attachFeatureHoverHandlers(l);
+                                this._attachHistoricPointDblClick(mapConfig, id, f, l);
+                            }
+                        });
+                        geoJsonLayer.addTo(state.group);
+                        state.geoJsonLayers.push(geoJsonLayer);
+                        state.loaded = true;
+                        state.loading = false;
+                        state.progress = 100;
+                        if (this.onLoadProgress) this.onLoadProgress(id, 100);
+                        if (show) this.showLayer(id);
+                        return state;
+                    } catch (remoteErr) {
+                        console.error(`[MapController] Remote fallback failed for ${id}:`, remoteErr);
+                    }
+                }
                 state.loading = false;
                 this.layerStates.delete(id);
                 return null;
@@ -717,6 +754,12 @@ class MapController {
                 this.layerStates.delete(id);
                 throw err;
             }
+            if (enforceChunkOnly) {
+                console.error(`[MapController] Townlands is configured as chunk-only; full-file fallback disabled for ${id}`);
+                state.loading = false;
+                this.layerStates.delete(id);
+                return null;
+            }
 
             // Fallback path: chunk load failed, retry full-file load before giving up.
             try {
@@ -757,7 +800,39 @@ class MapController {
                 if (show) this.showLayer(id);
                 return state;
             } catch (fallbackErr) {
-                console.error(`[MapController] Full fallback load failed for ${id}:`, fallbackErr);
+                console.warn(`[MapController] Full local fallback failed for ${id}:`, fallbackErr);
+                if (!enforceChunkOnly && remoteFgb && /^https?:\/\//i.test(remoteFgb)) {
+                    try {
+                        console.warn(`[MapController] Retrying ${id} fallback from remote FGB: ${remoteFgb}`);
+                        const features = await this.loadFlatGeobuf(remoteFgb, null, signal);
+                        const geojsonData = { type: 'FeatureCollection', features };
+                        const geoJsonLayer = L.geoJSON(geojsonData, {
+                            style: (f) => f.geometry?.type === 'Point' ? {} : {
+                                color: style?.color || '#3388ff',
+                                weight: style?.weight || 2,
+                                fillOpacity: style?.fillOpacity ?? 0,
+                                opacity: 1
+                            },
+                            pointToLayer: (f, ll) => this.createPointMarker(ll, style),
+                            onEachFeature: (f, l) => {
+                                l._mapId = id;
+                                this._attachFeatureHoverHandlers(l);
+                                this._attachHistoricPointDblClick(mapConfig, id, f, l);
+                            }
+                        });
+                        geoJsonLayer.addTo(state.group);
+                        state.geoJsonLayers.push(geoJsonLayer);
+                        state.featureCount = geojsonData.features?.length || 0;
+                        state.loaded = true;
+                        state.loading = false;
+                        state.progress = 100;
+                        if (this.onLoadProgress) this.onLoadProgress(id, 100);
+                        if (show) this.showLayer(id);
+                        return state;
+                    } catch (remoteErr) {
+                        console.error(`[MapController] Remote fallback failed for ${id}:`, remoteErr);
+                    }
+                }
                 state.loading = false;
                 this.layerStates.delete(id);
                 return null;
@@ -1768,7 +1843,7 @@ class MapController {
                     if (typeof layer.getLatLng === 'function') {
                         const featurePoint = this.map?.latLngToContainerPoint(layer.getLatLng());
                         const pixelDistance = (clickPoint && featurePoint) ? clickPoint.distanceTo(featurePoint) : Infinity;
-                        if (pixelDistance <= 18) {
+                        if (pixelDistance <= 24) {
                             featuresFound.push({
                                 mapId: layer._mapId,
                                 properties: layer.feature.properties,

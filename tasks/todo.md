@@ -220,3 +220,29 @@
 - Updated C1 load button handler in `js/ui-controller.js` to async-toggle with busy lock + immediate icon/state update after load/unload.
 - Generalized point dblclick attachment in `js/map-controller.js` so point-like layers are clickable (not historic-only).
 - Updated transfer controls in `election-viewer-package/js/stages2.js` to set explicit play/pause/replay symbols and labels.
+
+# Current Task: Complete Regression Fix Pass (Townlands + Pause/Play + Load Toggle + Point Dblclick)
+
+- [x] Make loaded-state check group-aware so load/unload icon toggles correctly for grouped entries.
+- [x] Remove duplicate visual icon artifact on pause button while keeping pause/play state switching.
+- [x] Ensure pause button can always resume from paused state even if icon class drifts.
+- [x] Add remote FGB fallback for chunked/full load failures (Townlands uses Archive download URL fallback).
+- [x] Increase point hit tolerance for double-click selection robustness.
+
+## Review
+- `js/app.js`: `onCheckMapLoaded` now reports group loaded state via members/variants, so `+`/`X` toggles correctly for grouped maps.
+- `election-viewer-package/js/stages2.js`: removed injected unicode text on pause/play/replay (which caused duplicate visual controls) and made click dispatch state-aware (`isPaused`).
+- `js/map-controller.js`: chunked/full local-load failures now retry from `mapConfig.downloads.fgb` when available.
+- `js/map-controller.js`: point click/dblclick hit threshold raised from 18px to 24px.
+
+# Current Task: Enforce Townlands Chunk-Only Interactive Loading
+
+- [x] Remove/disable all non-chunk fallback paths for `ni-townlands-1844` interactive loading.
+- [x] Keep normal fallback behavior for non-townlands chunked maps.
+- [x] Preserve viewport/lazy chunk behavior (visible + nearby chunk loading).
+
+## Review
+- `js/map-controller.js`: added `enforceChunkOnly` for `ni-townlands-1844`.
+- If chunk index is unavailable for Townlands, loader now fails fast (no full-file fallback).
+- If chunk loading throws for Townlands, loader now fails fast (no full-file or remote-download fallback).
+- Remote fallback (`downloads.fgb`) remains available only for non-townlands layers.
