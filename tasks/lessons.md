@@ -109,3 +109,8 @@
 - Mistake pattern: Time-expiring active hover candidate while orange-highlight UI remains active.
 - Impact: User sees a hovered point but selection rejects it, especially after a short delay at low zoom.
 - Guardrail: Active hover must be proximity-gated, not time-gated. Only post-hover fallback memory should use timeout windows.
+
+### 21) Do not apply a second geometric gate to active hover selection
+- Mistake pattern: Re-checking active hovered feature with separate click-distance thresholds.
+- Impact: A point can be visibly orange-hovered but still fail selection, especially zoomed out.
+- Guardrail: Active hover selection must be identity-based (exact hovered layer/feature) with no additional distance/time gate; only `last hovered` fallback may be bounded.

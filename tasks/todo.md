@@ -259,6 +259,24 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Root-Cause Pass (Latest): Hover Orange Still Not Selecting At Low Zoom
+
+- [x] Symptom
+  - feature remains orange-hovered but double-click does not open feature card unless zoomed in
+
+- [x] Root cause
+  - active-hover selection still had a second geometric gate (`activeDistPx <= hoverSelectPx`)
+  - this made orange-hover eligibility and selection eligibility non-identical
+
+- [x] Permanent prevention action
+  - removed distance/time gating for active hovered point in `_getHoverSelectionCandidate`
+  - active orange hover now selects by identity (exact hovered layer/feature) as source of truth
+  - kept only bounded, timed fallback for `last hovered` to cover hover flicker between clicks
+  - clear hover candidates when layers are hidden/unloaded to avoid stale references
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files

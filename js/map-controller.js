@@ -208,12 +208,12 @@ class MapController {
         const hoverSelectPx = Math.max(pointPickPx, 72);
 
         // Primary: if currently orange-hovered, prefer this exact point.
-        // Do NOT time-expire active hover; orange state is the source of truth.
+        // Do NOT apply time or secondary distance gates here: orange hover is
+        // the source-of-truth signal for selection eligibility.
         const active = this._activeHoveredPoint;
         if (active) {
-            const activePt = this.map?.latLngToContainerPoint(active.latlng);
-            const activeDistPx = (clickPoint && activePt) ? clickPoint.distanceTo(activePt) : Infinity;
-            if (activeDistPx <= hoverSelectPx) {
+            // Guard against stale references when a layer is hidden/unloaded.
+            if (active.layer?._map) {
                 return {
                     mapId: active.mapId,
                     feature: active.feature,
@@ -221,6 +221,7 @@ class MapController {
                     geometry: active.feature?.geometry
                 };
             }
+            this._activeHoveredPoint = null;
         }
 
         // Secondary: preserve last hovered point briefly across hover flicker between clicks.
@@ -238,6 +239,12 @@ class MapController {
             };
         }
         return null;
+    }
+
+    _clearHoverCandidatesForMap(mapId) {
+        if (!mapId) return;
+        if (this._activeHoveredPoint?.mapId === mapId) this._activeHoveredPoint = null;
+        if (this._lastHoveredPoint?.mapId === mapId) this._lastHoveredPoint = null;
     }
 
     /**
@@ -1490,6 +1497,7 @@ class MapController {
         if (this.map.hasLayer(state.group)) {
             this.map.removeLayer(state.group);
         }
+        this._clearHoverCandidatesForMap(id);
         state.visible = false;
         this.updateLabels();
     }
@@ -1524,6 +1532,7 @@ class MapController {
         if (!state) return;
 
         this.hideLayer(id);
+        this._clearHoverCandidatesForMap(id);
         this.layerStates.delete(id);
 
         // Clean up spatial/LOD state if applicable
