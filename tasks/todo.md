@@ -610,3 +610,21 @@
   - Increased direct point pick threshold (`32px`).
   - Added nearest-point fallback (`<=48px`) when no point is captured in strict pass.
 - Verification: `node --check js/map-controller.js` passes.
+
+# Current Task: Single Measured Teardown/Rebuild of Point Interaction Contract
+
+- [x] Audit all active point-interaction entrypoints and remove competing paths.
+- [x] Rebuild to one deterministic double-activate contract with shared resolver.
+- [x] Instrument hover->select->emit flow with explicit trace events.
+- [x] Verify syntax and provide runtime trace hook for surgical debugging.
+
+## Review
+- `js/map-controller.js` interaction contract was simplified:
+  - removed capture `click` pair path from active pipeline (kept native `dblclick` + synthetic `pointerup` pair only)
+  - both trigger paths now route through one `_handlePointDoubleActivate(...)` entrypoint
+  - one shared selector `_selectPointFromInteraction(clickPoint, source)` now owns point selection order
+- Added instrumentation:
+  - `window.__bwPointInteractionDebug` trace buffer
+  - trace stages include: `hover-change`, `double-activate`, `select-current-hover`, `select-resolved-point`, `select-point-miss`, `emit-selection`, `emit-deduped`, `native-dblclick-skipped-after-synthetic`
+- Verification:
+  - `node --check js/map-controller.js` passes.

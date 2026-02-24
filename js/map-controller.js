@@ -38,14 +38,35 @@ class MapController {
         this._currentHoverLayer = null; // single source-of-truth hovered point layer
         this._pointSelectionV2 = true; // unified point hover/selection pipeline
         this._boundContainerDblClick = null; // capture-phase dblclick fallback
-        this._boundContainerClick = null; // synthetic dblclick fallback (click pair)
         this._boundContainerPointerUp = null; // synthetic dblclick fallback (pointerup pair)
         this._boundContainerMouseLeave = null;
-        this._lastContainerClick = null;
         this._lastContainerPointerUp = null;
+        this._lastSyntheticDblClickTs = 0;
+        this._interactionDebug = {
+            enabled: true,
+            maxEntries: 400,
+            events: []
+        };
 
         // Initialize feature loader
         featureLoader.init();
+    }
+
+    _traceInteraction(stage, payload = {}) {
+        if (!this._interactionDebug?.enabled) return;
+        const entry = { ts: new Date().toISOString(), stage, ...payload };
+        this._interactionDebug.events.push(entry);
+        if (this._interactionDebug.events.length > this._interactionDebug.maxEntries) {
+            this._interactionDebug.events.shift();
+        }
+        if (typeof window !== 'undefined') {
+            window.__bwPointInteractionDebug = this._interactionDebug.events;
+        }
+        try {
+            console.debug('[PointInteraction]', stage, payload);
+        } catch (_) {
+            // Ignore console failures
+        }
     }
 
     _isAbortError(err) {
@@ -126,6 +147,11 @@ class MapController {
         if (layer && layer !== prev && layer._map) {
             this._setFeatureHover(layer, true);
         }
+        this._traceInteraction('hover-change', {
+            prev: prev?._mapId || null,
+            next: layer?._mapId || null,
+            featureId: layer?.feature?.id ?? null
+        });
     }
 
     _updatePointHoverFromMouseMove(e) {
@@ -187,9 +213,11 @@ class MapController {
         const key = `${mapId}|${feature?.id ?? ''}|${JSON.stringify(feature?.geometry?.coordinates ?? '')}`;
         const prev = this._lastFeatureSelection;
         if (prev && prev.key === key && (now - prev.ts) < 250) {
+            this._traceInteraction('emit-deduped', { mapId, dtMs: now - prev.ts });
             return;
         }
         this._lastFeatureSelection = { key, ts: now };
+        this._traceInteraction('emit-selection', { mapId, featureId: feature?.id ?? null });
         this.onFeatureClick([{
             mapId,
             properties: feature?.properties,
@@ -484,10 +512,6 @@ class MapController {
             this._boundContainerDblClick = (evt) => this._handleContainerDblClick(evt);
             container.addEventListener('dblclick', this._boundContainerDblClick, true);
         }
-        if (container && !this._boundContainerClick) {
-            this._boundContainerClick = (evt) => this._handleContainerClick(evt);
-            container.addEventListener('click', this._boundContainerClick, true);
-        }
         if (container && !this._boundContainerPointerUp) {
             this._boundContainerPointerUp = (evt) => this._handleContainerPointerUp(evt);
             container.addEventListener('pointerup', this._boundContainerPointerUp, true);
@@ -495,7 +519,6 @@ class MapController {
         if (container && !this._boundContainerMouseLeave) {
             this._boundContainerMouseLeave = () => {
                 this._setCurrentHoverLayer(null);
-                this._lastContainerClick = null;
                 this._lastContainerPointerUp = null;
             };
             container.addEventListener('mouseleave', this._boundContainerMouseLeave, true);
@@ -509,48 +532,35 @@ class MapController {
         return this;
     }
 
-    _selectPointFromInteraction(clickPoint) {
+    _selectPointFromInteraction(clickPoint, source = 'unknown') {
         if (!this.map || !clickPoint) return false;
-        if (this._currentHoverLayer?._map && this._currentHoverLayer?.feature) {
+        if (this._currentHoverLayer?.feature && this._currentHoverLayer?._mapId) {
+            this._traceInteraction('select-current-hover', {
+                source,
+                mapId: this._currentHoverLayer._mapId
+            });
             this._emitFeatureSelection(this._currentHoverLayer._mapId, this._currentHoverLayer.feature);
             return true;
         }
         const resolvedPoint = this._resolvePointUnderCursor(clickPoint, this.map.getZoom?.() ?? 10);
         if (resolvedPoint?._mapId && resolvedPoint?.feature) {
+            this._traceInteraction('select-resolved-point', {
+                source,
+                mapId: resolvedPoint._mapId
+            });
             this._emitFeatureSelection(resolvedPoint._mapId, resolvedPoint.feature);
             return true;
         }
-        if (this._selectHighlightedPointAt(clickPoint)) return true;
-        const zoom = this.map.getZoom?.() ?? 10;
-        const pointPickPx = this._pointPickPx(zoom);
-        const candidate = this._getHoverSelectionCandidate(clickPoint, pointPickPx);
-        if (candidate?.mapId && candidate?.feature) {
-            this._emitFeatureSelection(candidate.mapId, candidate.feature);
-            return true;
-        }
+        this._traceInteraction('select-point-miss', { source });
         return false;
     }
 
-    _handleContainerClick(evt) {
-        if (!this._pointSelectionV2 || !this.map || !evt) return;
-
-        const container = this.map.getContainer?.();
-        if (!container) return;
-        const rect = container.getBoundingClientRect();
-        const clickPoint = L.point(evt.clientX - rect.left, evt.clientY - rect.top);
-        const now = Date.now();
-        const zoom = this.map.getZoom?.() ?? 10;
-        const pairPx = Math.max(24, 44 - (zoom * 1.5));
-        const pairMs = 650;
-        const prev = this._lastContainerClick;
-        this._lastContainerClick = { ts: now, pt: clickPoint };
-        if (!prev?.pt) return;
-        if ((now - prev.ts) > pairMs) return;
-        if (prev.pt.distanceTo(clickPoint) > pairPx) return;
-
-        // Synthetic double-click path for environments where native dblclick is flaky.
-        if (this._selectPointFromInteraction(clickPoint)) return;
-        const latlng = this.map.containerPointToLatLng(clickPoint);
+    _handlePointDoubleActivate(point, source) {
+        if (!this.map || !point) return;
+        this._traceInteraction('double-activate', { source });
+        if (this._selectPointFromInteraction(point, source)) return;
+        const latlng = this.map.containerPointToLatLng(point);
+        this._traceInteraction('double-activate-fallback-map-hit', { source });
         this.handleMapClick({ latlng });
     }
 
@@ -574,21 +584,22 @@ class MapController {
         if (prev.pt.distanceTo(point) > pairPx) return;
 
         // Robust synthetic dblclick path for cases where click/dblclick events are suppressed.
-        if (this._selectPointFromInteraction(point)) return;
-        const latlng = this.map.containerPointToLatLng(point);
-        this.handleMapClick({ latlng });
+        this._lastSyntheticDblClickTs = now;
+        this._handlePointDoubleActivate(point, 'synthetic-pointerup');
     }
 
     _handleContainerDblClick(evt) {
         if (!this.map || !evt) return;
+        const now = Date.now();
+        if (now - this._lastSyntheticDblClickTs <= 280) {
+            this._traceInteraction('native-dblclick-skipped-after-synthetic', { dtMs: now - this._lastSyntheticDblClickTs });
+            return;
+        }
         const container = this.map.getContainer?.();
         if (!container) return;
         const rect = container.getBoundingClientRect();
         const clickPoint = L.point(evt.clientX - rect.left, evt.clientY - rect.top);
-        if (this._selectPointFromInteraction(clickPoint)) return;
-        // Preserve non-point dblclick behavior through existing geometry hit-test.
-        const latlng = this.map.containerPointToLatLng(clickPoint);
-        this.handleMapClick({ latlng });
+        this._handlePointDoubleActivate(clickPoint, 'native-dblclick');
     }
 
     _handleMapClickForSelection(e) {

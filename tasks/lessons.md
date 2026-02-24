@@ -154,3 +154,12 @@
 - Mistake pattern: Applying richer fallback logic on native dblclick path than on synthetic pair paths.
 - Impact: Selection success depends on which trigger event fires, causing intermittent regressions.
 - Guardrail: Route all trigger types through a single full resolver function with identical fallback order.
+
+### 30) Collapse recurring interaction bugs to one instrumented contract
+- Mistake pattern: Keeping multiple overlapping handlers/fallbacks without a single measurable contract.
+- Impact: Repeated fixes appear to work in one path while failing in another, causing long recurrence chains.
+- Guardrail: For recurring interaction bugs, do a teardown/rebuild:
+  1) reduce to one primary trigger contract,
+  2) route all triggers through one selector,
+  3) instrument every branch (hover, select, emit, dedupe),
+  4) expose a runtime trace buffer for live diagnosis before further edits.
