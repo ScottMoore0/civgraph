@@ -36,6 +36,7 @@ class MapController {
         this._activeHoverGraceMs = 1800; // tolerate low-zoom mouseout jitter between clicks
         this._highlightedPointLayers = new Set(); // layers currently highlighted orange
         this._currentHoverLayer = null; // single source-of-truth hovered point layer
+        this._pointSelectionV2 = true; // unified point hover/selection pipeline
         this._boundContainerDblClick = null; // capture-phase dblclick fallback
         this._boundContainerMouseLeave = null;
 
@@ -130,6 +131,7 @@ class MapController {
     }
 
     _attachHistoricPointDblClick(mapConfig, mapId, feature, layer) {
+        if (this._pointSelectionV2) return;
         if (!layer || typeof layer.on !== 'function') return;
         const geomType = feature?.geometry?.type;
         if (!(geomType === 'Point' || geomType === 'MultiPoint' || typeof layer.getLatLng === 'function')) return;
@@ -464,13 +466,15 @@ class MapController {
 
         // Set up event handlers
         this.map.on('moveend zoomend', () => this.updateLabels());
-        this.map.on('dblclick', (e) => {
-            this._lastNativeDblClickTs = Date.now();
-            this._lastMapClick = null;
-            this.handleMapClick(e);
-        });
-        this.map.on('click', (e) => this._handleMapClickForSelection(e));
         this.map.on('mousemove', (e) => this._updatePointHoverFromMouseMove(e));
+        if (!this._pointSelectionV2) {
+            this.map.on('dblclick', (e) => {
+                this._lastNativeDblClickTs = Date.now();
+                this._lastMapClick = null;
+                this.handleMapClick(e);
+            });
+            this.map.on('click', (e) => this._handleMapClickForSelection(e));
+        }
         const container = this.map.getContainer?.();
         if (container && !this._boundContainerDblClick) {
             this._boundContainerDblClick = (evt) => this._handleContainerDblClick(evt);
@@ -499,12 +503,22 @@ class MapController {
             this._emitFeatureSelection(this._currentHoverLayer._mapId, this._currentHoverLayer.feature);
             return;
         }
+        const resolvedPoint = this._resolvePointUnderCursor(clickPoint, this.map.getZoom?.() ?? 10);
+        if (resolvedPoint?._mapId && resolvedPoint?.feature) {
+            this._emitFeatureSelection(resolvedPoint._mapId, resolvedPoint.feature);
+            return;
+        }
         if (this._selectHighlightedPointAt(clickPoint)) return;
         const zoom = this.map.getZoom?.() ?? 10;
         const pointPickPx = this._pointPickPx(zoom);
         const candidate = this._getHoverSelectionCandidate(clickPoint, pointPickPx);
-        if (!candidate?.mapId || !candidate?.feature) return;
-        this._emitFeatureSelection(candidate.mapId, candidate.feature);
+        if (candidate?.mapId && candidate?.feature) {
+            this._emitFeatureSelection(candidate.mapId, candidate.feature);
+            return;
+        }
+        // Preserve non-point dblclick behavior through existing geometry hit-test.
+        const latlng = this.map.containerPointToLatLng(clickPoint);
+        this.handleMapClick({ latlng });
     }
 
     _handleMapClickForSelection(e) {

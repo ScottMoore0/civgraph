@@ -129,3 +129,8 @@
 - Mistake pattern: Letting hover and selection each compute targets via different event/state paths.
 - Impact: Visual hover can disagree with dblclick selection at low zoom.
 - Guardrail: Keep a single point-under-cursor resolver, drive hover from it on `mousemove`, and select from the same current-hover source on click/dblclick.
+
+### 25) Do not leave legacy interaction pipelines active after V2 cutover
+- Mistake pattern: Shipping new hover/selection logic while old layer/map handlers still execute.
+- Impact: Event-path races and recurring regressions despite targeted fixes.
+- Guardrail: Use a feature flag and explicitly disable legacy point-selection handlers when V2 is active; keep one deterministic dblclick entrypoint.

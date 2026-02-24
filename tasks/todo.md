@@ -337,6 +337,27 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Stability Hardening: Disable Competing Legacy Point Selection Paths Under V2
+
+- [x] Symptom
+  - recurring regressions persisted because legacy per-layer/map selection handlers continued to run alongside V2 hover/selection logic
+
+- [x] Root cause
+  - multiple concurrent event pipelines (layer click/dblclick, map click/dblclick, container dblclick) could conflict under low-zoom jitter
+
+- [x] Permanent prevention action
+  - added `this._pointSelectionV2` feature flag (default `true`)
+  - disabled legacy point-layer selection handlers in `_attachHistoricPointDblClick` when V2 is enabled
+  - disabled legacy map click/dblclick selection handlers when V2 is enabled
+  - `_handleContainerDblClick` now serves as primary deterministic point-selection entrypoint:
+    1) current hover layer
+    2) shared point-under-cursor resolver
+    3) bounded hover fallbacks
+    4) non-point geometric fallback via `handleMapClick`
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files
