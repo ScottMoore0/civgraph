@@ -144,3 +144,8 @@
 - Mistake pattern: Returning early when `evt.detail >= 2` inside click-pair logic.
 - Impact: The synthetic fallback skips exactly the second click needed to detect double-click, reintroducing native-dblclick dependence.
 - Guardrail: Let click-pair logic process second clicks; use emit-level dedupe for duplicate suppression instead.
+
+### 28) Back up click-pair fallback with pointerup-pair fallback
+- Mistake pattern: Assuming `click` events are always emitted even under low-zoom jitter/drag-threshold behavior.
+- Impact: Synthetic dblclick fallback can still miss when click/dblclick events are suppressed.
+- Guardrail: Add capture-phase pointerup pair detection routed to the same selection resolver, and keep mouseleave reset for pair state.

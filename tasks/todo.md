@@ -393,6 +393,23 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Root-Cause Pass (Latest): Click/Dblclick Events Still Suppressed Under Low-Zoom Jitter
+
+- [x] Symptom
+  - feature-card opening still intermittently failed on low-zoom double-click despite click-pair fallback
+
+- [x] Root cause
+  - on some interaction paths with slight drag/jitter, browser/Leaflet may suppress `click`/`dblclick`
+  - synthetic fallback on `click` alone was insufficient in those suppression cases
+
+- [x] Permanent prevention action
+  - added capture-phase `pointerup` pair detector as an additional synthetic dblclick trigger
+  - both synthetic paths (`click` pair and `pointerup` pair) now route to shared `_selectPointFromInteraction`
+  - reset pointer pair state on container mouseleave
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files

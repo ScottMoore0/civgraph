@@ -39,8 +39,10 @@ class MapController {
         this._pointSelectionV2 = true; // unified point hover/selection pipeline
         this._boundContainerDblClick = null; // capture-phase dblclick fallback
         this._boundContainerClick = null; // synthetic dblclick fallback (click pair)
+        this._boundContainerPointerUp = null; // synthetic dblclick fallback (pointerup pair)
         this._boundContainerMouseLeave = null;
         this._lastContainerClick = null;
+        this._lastContainerPointerUp = null;
 
         // Initialize feature loader
         featureLoader.init();
@@ -486,10 +488,15 @@ class MapController {
             this._boundContainerClick = (evt) => this._handleContainerClick(evt);
             container.addEventListener('click', this._boundContainerClick, true);
         }
+        if (container && !this._boundContainerPointerUp) {
+            this._boundContainerPointerUp = (evt) => this._handleContainerPointerUp(evt);
+            container.addEventListener('pointerup', this._boundContainerPointerUp, true);
+        }
         if (container && !this._boundContainerMouseLeave) {
             this._boundContainerMouseLeave = () => {
                 this._setCurrentHoverLayer(null);
                 this._lastContainerClick = null;
+                this._lastContainerPointerUp = null;
             };
             container.addEventListener('mouseleave', this._boundContainerMouseLeave, true);
         }
@@ -536,6 +543,31 @@ class MapController {
         // Synthetic double-click path for environments where native dblclick is flaky.
         if (this._selectPointFromInteraction(clickPoint)) return;
         const latlng = this.map.containerPointToLatLng(clickPoint);
+        this.handleMapClick({ latlng });
+    }
+
+    _handleContainerPointerUp(evt) {
+        if (!this._pointSelectionV2 || !this.map || !evt) return;
+        if (typeof evt.button === 'number' && evt.button !== 0) return;
+
+        const container = this.map.getContainer?.();
+        if (!container) return;
+        const rect = container.getBoundingClientRect();
+        const point = L.point(evt.clientX - rect.left, evt.clientY - rect.top);
+        const now = Date.now();
+        const zoom = this.map.getZoom?.() ?? 10;
+        const pairPx = Math.max(24, 44 - (zoom * 1.5));
+        const pairMs = 700;
+
+        const prev = this._lastContainerPointerUp;
+        this._lastContainerPointerUp = { ts: now, pt: point };
+        if (!prev?.pt) return;
+        if ((now - prev.ts) > pairMs) return;
+        if (prev.pt.distanceTo(point) > pairPx) return;
+
+        // Robust synthetic dblclick path for cases where click/dblclick events are suppressed.
+        if (this._selectPointFromInteraction(point)) return;
+        const latlng = this.map.containerPointToLatLng(point);
         this.handleMapClick({ latlng });
     }
 
