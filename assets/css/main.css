@@ -136,19 +136,24 @@
    ============================================ */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-surface: #1a202c;
-    --color-surface-elevated: #2d3748;
-    --color-surface-overlay: rgba(26, 32, 44, 0.95);
-    --color-text: #f7fafc;
-    --color-text-muted: #a0aec0;
-    --color-text-inverse: #1a202c;
-    --color-border: #4a5568;
-    --color-border-light: #2d3748;
+    /* Keep system-dark tokens identical to manual [data-theme="dark"] tokens. */
+    --color-surface: #0f1419;
+    --color-surface-elevated: #1c2128;
+    --color-surface-overlay: rgba(15, 20, 25, 0.95);
+    --color-text: #ffffff;
+    --color-text-muted: #8b949e;
+    --color-text-inverse: #0f1419;
+    --color-border: #3d444d;
+    --color-border-light: #21262d;
+    --color-gray-50: #1c2128;
+    --color-gray-100: #21262d;
+    --color-gray-200: #3d444d;
+    --color-gray-300: #484f58;
+    --color-primary-50: rgba(44, 82, 130, 0.3);
 
-    --glass-bg: rgba(26, 32, 44, 0.85);
-    --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-
-    --gradient-surface: linear-gradient(180deg, var(--color-gray-800) 0%, var(--color-gray-900) 100%);
+    --glass-bg: rgba(15, 20, 25, 0.9);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.15);
+    --gradient-surface: linear-gradient(180deg, #1c2128 0%, #0f1419 100%);
   }
 }
 

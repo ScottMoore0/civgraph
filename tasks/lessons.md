@@ -168,3 +168,8 @@
 - Mistake pattern: Letting hover visuals and double-click target resolution diverge.
 - Impact: Users can see orange highlight but still fail to open the feature card.
 - Guardrail: Maintain a strict `armed hover` feature set on hover-on and cleared on hover-off; double-click selection must consume armed feature first before any geometric fallback.
+
+### 32) Never keep two conflicting dark-theme token sources
+- Mistake pattern: Defining different dark tokens in media-query dark mode and manual dark mode.
+- Impact: App can render one dark palette at startup and a different dark palette after toggling theme.
+- Guardrail: Keep one canonical dark token set and ensure startup always sets explicit `data-theme` (`light`/`dark`) before user interaction.

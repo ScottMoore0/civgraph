@@ -644,3 +644,22 @@
 - `_selectPointFromInteraction(...)` now selects `_armedHoverPoint` first (`select-armed-hover`) before any other resolver path.
 - Verification:
   - `node --check js/map-controller.js` passes.
+
+# Current Task: Local Instrumented Debug Session Pipeline
+
+- [ ] Add local HTTP debug endpoint that appends browser interaction events to a log file.
+- [ ] Wire client runtime logger for point interaction, feature-selection emit, and JS errors.
+- [ ] Run local server with file logging and capture repro traces from user interaction.
+- [ ] Read captured log and apply surgical fix from first failing stage only.
+
+# Current Task: Dark Theme Consistency (System vs Manual Toggle)
+
+- [x] Identify why initial dark mode differed from toggled dark mode.
+- [x] Unify system dark token values with manual `[data-theme="dark"]` tokens.
+- [x] Make startup always set explicit `data-theme` from saved preference or system preference.
+- [x] Verify JS syntax after theme initialization change.
+
+## Review
+- Root cause: two different dark palettes existed (`@media (prefers-color-scheme: dark)` vs `[data-theme="dark"]`), so startup/system-dark and toggled-dark could render differently.
+- `assets/css/main.css` system-dark token block now matches manual dark tokens exactly.
+- `js/app.js` now always sets `document.documentElement.dataset.theme` on startup (`saved theme` or `system dark/light`), preventing mixed-mode startup.

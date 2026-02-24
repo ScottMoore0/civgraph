@@ -68,6 +68,13 @@ class MapController {
         } catch (_) {
             // Ignore console failures
         }
+        try {
+            if (typeof window !== 'undefined' && typeof window.__bwRuntimeLog === 'function') {
+                window.__bwRuntimeLog('point-interaction', { stage, payload });
+            }
+        } catch (_) {
+            // Ignore runtime logger failures
+        }
     }
 
     _isAbortError(err) {

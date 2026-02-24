@@ -26,6 +26,8 @@ class App {
         this._activeMapLoad = null;
         this._fgbChunkManifest = null;
         this._fgbChunkManifestLoaded = false;
+        this._runtimeDebugEnabled = true;
+        this._runtimeDebugSessionId = null;
     }
 
     /**
@@ -35,6 +37,8 @@ class App {
         console.log('[App] Starting NI Boundaries...');
 
         try {
+            this.setupRuntimeDebugLogging();
+
             // Initialize data service
             await dataService.init();
 
@@ -316,7 +320,14 @@ class App {
 
             // Setup feature click handler
             mapController.onFeatureClick = (features) => {
+                this.runtimeDebugLog('feature-click-dispatch', {
+                    featureCount: Array.isArray(features) ? features.length : 0,
+                    sampleMapId: Array.isArray(features) && features.length ? (features[0]?.mapId || null) : null
+                });
                 uiController.showFeatureInfo(features, dataService.getAllMaps());
+                this.runtimeDebugLog('feature-card-render-requested', {
+                    featureCount: Array.isArray(features) ? features.length : 0
+                });
             };
 
             // Setup loading progress handler
@@ -373,8 +384,66 @@ class App {
 
         } catch (err) {
             console.error('[App] Initialization failed:', err);
+            this.runtimeDebugLog('app-init-error', {
+                message: String(err?.message || err || ''),
+                stack: String(err?.stack || '')
+            });
             this.showError('Failed to load application. Please refresh the page.');
         }
+    }
+
+    runtimeDebugLog(event, payload = {}) {
+        if (!this._runtimeDebugEnabled) return;
+        const body = {
+            ts: new Date().toISOString(),
+            sessionId: this._runtimeDebugSessionId || null,
+            event,
+            payload
+        };
+
+        try {
+            const text = JSON.stringify(body);
+            const endpoint = '/__debug/log';
+            if (navigator?.sendBeacon) {
+                const blob = new Blob([text], { type: 'application/json' });
+                navigator.sendBeacon(endpoint, blob);
+            } else {
+                fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: text,
+                    keepalive: true
+                }).catch(() => {});
+            }
+        } catch (_) {
+            // Ignore debug logging failures
+        }
+    }
+
+    setupRuntimeDebugLogging() {
+        if (!this._runtimeDebugEnabled) return;
+        this._runtimeDebugSessionId = `bw-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+        window.__bwRuntimeLog = (event, payload = {}) => {
+            this.runtimeDebugLog(event, payload);
+        };
+        window.addEventListener('error', (e) => {
+            this.runtimeDebugLog('window-error', {
+                message: String(e?.message || ''),
+                source: String(e?.filename || ''),
+                line: Number(e?.lineno || 0),
+                col: Number(e?.colno || 0)
+            });
+        });
+        window.addEventListener('unhandledrejection', (e) => {
+            const reason = e?.reason;
+            this.runtimeDebugLog('unhandled-rejection', {
+                reason: String(reason?.message || reason || '')
+            });
+        });
+        this.runtimeDebugLog('debug-session-start', {
+            userAgent: navigator?.userAgent || '',
+            href: window?.location?.href || ''
+        });
     }
 
     async getChunkDownloadEntry(mapId, fgbPath = null) {
@@ -442,11 +511,12 @@ class App {
         const toggle = document.getElementById('themeToggle');
         if (!toggle) return;
 
-        // Load saved preference or detect system preference
+        // Always set an explicit theme attribute at startup so the UI
+        // never mixes system-media dark tokens and manual dark tokens.
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            document.documentElement.dataset.theme = savedTheme;
-        }
+        const systemPrefersDark = !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+        document.documentElement.dataset.theme = initialTheme;
 
         toggle.addEventListener('click', () => {
             const currentTheme = document.documentElement.dataset.theme;
