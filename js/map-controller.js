@@ -36,6 +36,7 @@ class MapController {
         this._activeHoverGraceMs = 1800; // tolerate low-zoom mouseout jitter between clicks
         this._highlightedPointLayers = new Set(); // layers currently highlighted orange
         this._currentHoverLayer = null; // single source-of-truth hovered point layer
+        this._armedHoverPoint = null; // strict hover-armed target used by dblclick selection
         this._pointSelectionV2 = true; // unified point hover/selection pipeline
         this._boundContainerDblClick = null; // capture-phase dblclick fallback
         this._boundContainerPointerUp = null; // synthetic dblclick fallback (pointerup pair)
@@ -273,9 +274,25 @@ class MapController {
         if (typeof layer.getLatLng === 'function' && layer.feature) {
             if (!isHover) {
                 this._highlightedPointLayers.delete(layer);
+                if (this._armedHoverPoint?.layer === layer) {
+                    this._armedHoverPoint = null;
+                    this._traceInteraction('hover-armed-cleared', {
+                        mapId: layer?._mapId || null,
+                        featureId: layer?.feature?.id ?? null
+                    });
+                }
             }
             if (isHover) {
                 this._highlightedPointLayers.add(layer);
+                this._armedHoverPoint = {
+                    layer,
+                    mapId: layer._mapId,
+                    feature: layer.feature
+                };
+                this._traceInteraction('hover-armed-set', {
+                    mapId: layer?._mapId || null,
+                    featureId: layer?.feature?.id ?? null
+                });
                 const candidate = {
                     layer,
                     mapId: layer._mapId,
@@ -368,6 +385,7 @@ class MapController {
         if (!mapId) return;
         if (this._activeHoveredPoint?.mapId === mapId) this._activeHoveredPoint = null;
         if (this._lastHoveredPoint?.mapId === mapId) this._lastHoveredPoint = null;
+        if (this._armedHoverPoint?.mapId === mapId) this._armedHoverPoint = null;
         if (this._currentHoverLayer?._mapId === mapId) this._currentHoverLayer = null;
         this._highlightedPointLayers.forEach((layer) => {
             if (layer?._mapId === mapId) this._highlightedPointLayers.delete(layer);
@@ -520,6 +538,8 @@ class MapController {
             this._boundContainerMouseLeave = () => {
                 this._setCurrentHoverLayer(null);
                 this._lastContainerPointerUp = null;
+                this._armedHoverPoint = null;
+                this._traceInteraction('hover-armed-cleared', { reason: 'container-mouseleave' });
             };
             container.addEventListener('mouseleave', this._boundContainerMouseLeave, true);
         }
@@ -534,6 +554,14 @@ class MapController {
 
     _selectPointFromInteraction(clickPoint, source = 'unknown') {
         if (!this.map || !clickPoint) return false;
+        if (this._armedHoverPoint?.feature && this._armedHoverPoint?.mapId && this._armedHoverPoint?.layer?._map) {
+            this._traceInteraction('select-armed-hover', {
+                source,
+                mapId: this._armedHoverPoint.mapId
+            });
+            this._emitFeatureSelection(this._armedHoverPoint.mapId, this._armedHoverPoint.feature);
+            return true;
+        }
         if (this._currentHoverLayer?.feature && this._currentHoverLayer?._mapId) {
             this._traceInteraction('select-current-hover', {
                 source,

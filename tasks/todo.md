@@ -628,3 +628,19 @@
   - trace stages include: `hover-change`, `double-activate`, `select-current-hover`, `select-resolved-point`, `select-point-miss`, `emit-selection`, `emit-deduped`, `native-dblclick-skipped-after-synthetic`
 - Verification:
   - `node --check js/map-controller.js` passes.
+
+# Current Task: Tie Double-Click Selection Directly To Orange Hover State
+
+- [x] Add an explicit hover-armed feature state set only when a point is orange-highlighted.
+- [x] Make double-activate selection consume the armed feature first.
+- [x] Clear armed state on hover loss, map-container mouseleave, and map unload/hide cleanup.
+- [x] Verify syntax for map interaction controller.
+
+## Review
+- `js/map-controller.js` now maintains `_armedHoverPoint` as the strict interaction contract:
+  - set on point hover-on (`hover-armed-set`)
+  - cleared on point hover-off and container mouseleave (`hover-armed-cleared`)
+  - cleared in `_clearHoverCandidatesForMap(...)` when layers/maps are hidden/unloaded
+- `_selectPointFromInteraction(...)` now selects `_armedHoverPoint` first (`select-armed-hover`) before any other resolver path.
+- Verification:
+  - `node --check js/map-controller.js` passes.

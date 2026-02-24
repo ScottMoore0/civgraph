@@ -163,3 +163,8 @@
   2) route all triggers through one selector,
   3) instrument every branch (hover, select, emit, dedupe),
   4) expose a runtime trace buffer for live diagnosis before further edits.
+
+### 31) Use orange-hover as an explicit armed selection state
+- Mistake pattern: Letting hover visuals and double-click target resolution diverge.
+- Impact: Users can see orange highlight but still fail to open the feature card.
+- Guardrail: Maintain a strict `armed hover` feature set on hover-on and cleared on hover-off; double-click selection must consume armed feature first before any geometric fallback.
