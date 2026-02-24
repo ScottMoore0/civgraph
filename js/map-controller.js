@@ -35,7 +35,9 @@ class MapController {
         this._lastHoveredPoint = null; // short-lived post-hover memory for dblclick timing
         this._activeHoverGraceMs = 1800; // tolerate low-zoom mouseout jitter between clicks
         this._highlightedPointLayers = new Set(); // layers currently highlighted orange
+        this._currentHoverLayer = null; // single source-of-truth hovered point layer
         this._boundContainerDblClick = null; // capture-phase dblclick fallback
+        this._boundContainerMouseLeave = null;
 
         // Initialize feature loader
         featureLoader.init();
@@ -70,8 +72,61 @@ class MapController {
 
     _attachFeatureHoverHandlers(layer) {
         if (!layer || typeof layer.on !== 'function') return;
+        // Point-feature hover is now resolved centrally via map mousemove.
+        if (typeof layer.getLatLng === 'function') return;
         layer.on('mouseover', () => this._setFeatureHover(layer, true));
         layer.on('mouseout', () => this._setFeatureHover(layer, false));
+    }
+
+    _pointPickPx(zoom = this.map?.getZoom?.() ?? 10) {
+        return Math.max(32, 96 - (zoom * 4));
+    }
+
+    _forEachVisiblePointLayer(callback) {
+        if (typeof callback !== 'function') return;
+        this.layerStates.forEach((state) => {
+            if (!state?.loaded || !state?.visible) return;
+            this._forEachFeatureLayer(state, (layer) => {
+                if (typeof layer.getLatLng !== 'function' || !layer.feature || !layer._mapId) return;
+                callback(layer, state);
+            });
+        });
+    }
+
+    _resolvePointUnderCursor(containerPoint, zoom = this.map?.getZoom?.() ?? 10) {
+        if (!this.map || !containerPoint) return null;
+        const pickRadius = Math.max(this._pointPickPx(zoom), 72);
+        let best = null;
+        let bestDist = Infinity;
+        this._forEachVisiblePointLayer((layer) => {
+            const pt = this.map.latLngToContainerPoint(layer.getLatLng());
+            const dist = containerPoint.distanceTo(pt);
+            if (dist <= pickRadius && dist < bestDist) {
+                bestDist = dist;
+                best = layer;
+            }
+        });
+        return best;
+    }
+
+    _setCurrentHoverLayer(layer) {
+        if (this._currentHoverLayer === layer) return;
+
+        const prev = this._currentHoverLayer;
+        this._currentHoverLayer = layer || null;
+
+        if (prev && prev !== layer && prev._map) {
+            this._setFeatureHover(prev, false);
+        }
+        if (layer && layer !== prev && layer._map) {
+            this._setFeatureHover(layer, true);
+        }
+    }
+
+    _updatePointHoverFromMouseMove(e) {
+        if (!this.map || !e?.containerPoint) return;
+        const resolved = this._resolvePointUnderCursor(e.containerPoint, this.map.getZoom?.() ?? 10);
+        this._setCurrentHoverLayer(resolved);
     }
 
     _attachHistoricPointDblClick(mapConfig, mapId, feature, layer) {
@@ -279,6 +334,7 @@ class MapController {
         if (!mapId) return;
         if (this._activeHoveredPoint?.mapId === mapId) this._activeHoveredPoint = null;
         if (this._lastHoveredPoint?.mapId === mapId) this._lastHoveredPoint = null;
+        if (this._currentHoverLayer?._mapId === mapId) this._currentHoverLayer = null;
         this._highlightedPointLayers.forEach((layer) => {
             if (layer?._mapId === mapId) this._highlightedPointLayers.delete(layer);
         });
@@ -414,10 +470,15 @@ class MapController {
             this.handleMapClick(e);
         });
         this.map.on('click', (e) => this._handleMapClickForSelection(e));
+        this.map.on('mousemove', (e) => this._updatePointHoverFromMouseMove(e));
         const container = this.map.getContainer?.();
         if (container && !this._boundContainerDblClick) {
             this._boundContainerDblClick = (evt) => this._handleContainerDblClick(evt);
             container.addEventListener('dblclick', this._boundContainerDblClick, true);
+        }
+        if (container && !this._boundContainerMouseLeave) {
+            this._boundContainerMouseLeave = () => this._setCurrentHoverLayer(null);
+            container.addEventListener('mouseleave', this._boundContainerMouseLeave, true);
         }
 
         // Spatial loading handlers - update visible features on pan/zoom
@@ -434,9 +495,13 @@ class MapController {
         if (!container) return;
         const rect = container.getBoundingClientRect();
         const clickPoint = L.point(evt.clientX - rect.left, evt.clientY - rect.top);
+        if (this._currentHoverLayer?._map && this._currentHoverLayer?.feature) {
+            this._emitFeatureSelection(this._currentHoverLayer._mapId, this._currentHoverLayer.feature);
+            return;
+        }
         if (this._selectHighlightedPointAt(clickPoint)) return;
         const zoom = this.map.getZoom?.() ?? 10;
-        const pointPickPx = Math.max(32, 96 - (zoom * 4));
+        const pointPickPx = this._pointPickPx(zoom);
         const candidate = this._getHoverSelectionCandidate(clickPoint, pointPickPx);
         if (!candidate?.mapId || !candidate?.feature) return;
         this._emitFeatureSelection(candidate.mapId, candidate.feature);
@@ -2038,12 +2103,16 @@ class MapController {
     handleMapClick(e) {
         const clickLatLng = e.latlng;
         const clickPoint = this.map?.latLngToContainerPoint(clickLatLng);
+        if (this._currentHoverLayer?._map && this._currentHoverLayer?.feature) {
+            this._emitFeatureSelection(this._currentHoverLayer._mapId, this._currentHoverLayer.feature);
+            return;
+        }
         const featuresFound = [];
         let nearestPoint = null;
         let nearestPointDistance = Infinity;
         const zoom = this.map?.getZoom?.() ?? 10;
         // Wider tolerance at lower zooms to keep point selection usable.
-        const pointPickPx = Math.max(32, 96 - (zoom * 4));
+        const pointPickPx = this._pointPickPx(zoom);
         const nearestFallbackPx = pointPickPx + 40;
 
         // Use the same signal as orange hover highlighting first.

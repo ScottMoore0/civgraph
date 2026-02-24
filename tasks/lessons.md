@@ -124,3 +124,8 @@
 - Mistake pattern: Deriving selection only from candidate snapshots while visual hover state is renderer-driven.
 - Impact: User sees orange-highlighted point but selection can still miss under low-zoom jitter.
 - Guardrail: Maintain an explicit set of currently orange-highlighted point layers and make dblclick selection resolve from that set first.
+
+### 24) Use one shared resolver for hover and selection
+- Mistake pattern: Letting hover and selection each compute targets via different event/state paths.
+- Impact: Visual hover can disagree with dblclick selection at low zoom.
+- Guardrail: Keep a single point-under-cursor resolver, drive hover from it on `mousemove`, and select from the same current-hover source on click/dblclick.

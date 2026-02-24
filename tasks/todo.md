@@ -314,6 +314,29 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Root-Cause Pass (Latest): Unify Hover Highlight and Dblclick Selection Source
+
+- [x] Symptom
+  - orange highlight appears, but dblclick still intermittently fails at low zoom
+
+- [x] Root cause
+  - hover style and selection continued to rely on different event lifecycles/state transitions
+  - low-zoom event churn (`mouseover`/`mouseout`) caused divergence between visible hover and dblclick target resolution
+
+- [x] Permanent prevention action
+  - introduced shared geometric resolver for point-under-cursor:
+    - `_resolvePointUnderCursor(containerPoint, zoom)`
+    - used for hover via map `mousemove`
+  - added single source-of-truth hovered point layer:
+    - `_currentHoverLayer`
+    - maintained by `_setCurrentHoverLayer(...)`
+  - dblclick/click selection now first selects `_currentHoverLayer` directly
+  - point-layer per-feature hover handlers disabled to avoid conflicting hover ownership
+  - clear hover source-of-truth when map/layer hides/unloads
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files
