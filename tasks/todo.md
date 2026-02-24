@@ -277,6 +277,25 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Root-Cause Pass (Latest): Active Hover Lost Between Dblclick Events
+
+- [x] Symptom
+  - orange hover visible, but zoomed-out dblclick still intermittently fails to open feature card
+
+- [x] Root cause
+  - low-zoom pointer jitter can fire `mouseout` between the two clicks of a dblclick
+  - active hover candidate was cleared immediately on `mouseout`, dropping selection from identity path into stricter fallback path
+
+- [x] Permanent prevention action
+  - added active-hover grace window in `js/map-controller.js`:
+    - new `_activeHoverGraceMs` (1800ms)
+    - on `mouseout`, keep active hovered feature alive until `expiresAt`
+    - on `mouseover`, set active candidate `expiresAt = Infinity`
+  - `_getHoverSelectionCandidate` now respects `expiresAt` before clearing active candidate
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files

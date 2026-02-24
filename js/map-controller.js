@@ -33,6 +33,7 @@ class MapController {
         this._lastFeatureSelection = null; // dedupe rapid duplicate emits
         this._activeHoveredPoint = null; // point currently hover-highlighted (orange)
         this._lastHoveredPoint = null; // short-lived post-hover memory for dblclick timing
+        this._activeHoverGraceMs = 1800; // tolerate low-zoom mouseout jitter between clicks
         this._boundContainerDblClick = null; // capture-phase dblclick fallback
 
         // Initialize feature loader
@@ -186,18 +187,27 @@ class MapController {
                     mapId: layer._mapId,
                     feature: layer.feature,
                     latlng: layer.getLatLng(),
-                    ts: Date.now()
+                    ts: Date.now(),
+                    expiresAt: Number.POSITIVE_INFINITY
                 };
                 this._activeHoveredPoint = candidate;
                 this._lastHoveredPoint = candidate;
             } else if (this._activeHoveredPoint?.layer === layer) {
-                this._activeHoveredPoint = null;
+                const now = Date.now();
+                this._activeHoveredPoint = {
+                    layer,
+                    mapId: layer._mapId,
+                    feature: layer.feature,
+                    latlng: layer.getLatLng(),
+                    ts: now,
+                    expiresAt: now + this._activeHoverGraceMs
+                };
                 this._lastHoveredPoint = {
                     layer,
                     mapId: layer._mapId,
                     feature: layer.feature,
                     latlng: layer.getLatLng(),
-                    ts: Date.now()
+                    ts: now
                 };
             }
         }
@@ -213,7 +223,8 @@ class MapController {
         const active = this._activeHoveredPoint;
         if (active) {
             // Guard against stale references when a layer is hidden/unloaded.
-            if (active.layer?._map) {
+            const notExpired = !Number.isFinite(active.expiresAt) || now <= active.expiresAt;
+            if (active.layer?._map && notExpired) {
                 return {
                     mapId: active.mapId,
                     feature: active.feature,

@@ -114,3 +114,8 @@
 - Mistake pattern: Re-checking active hovered feature with separate click-distance thresholds.
 - Impact: A point can be visibly orange-hovered but still fail selection, especially zoomed out.
 - Guardrail: Active hover selection must be identity-based (exact hovered layer/feature) with no additional distance/time gate; only `last hovered` fallback may be bounded.
+
+### 22) Add mouseout grace for active hover in low-zoom interactions
+- Mistake pattern: Clearing active hover immediately on `mouseout`, even during dblclick jitter.
+- Impact: Selection path drops from active-hover identity to stricter fallback between clicks.
+- Guardrail: Keep active hover candidate alive for a short grace window after `mouseout`; expire lazily in selection resolver.
