@@ -104,3 +104,8 @@
 - Mistake pattern: Assuming Leaflet layer/map dblclick handlers always receive low-zoom pointer interactions.
 - Impact: Hover-highlighted points can still fail to open feature cards despite visible hover state.
 - Guardrail: Add a capture-phase map-container dblclick handler that resolves selection from hover candidate and routes through one emit path with dedupe.
+
+### 20) Never let active hover selection expire while hover style is still visible
+- Mistake pattern: Time-expiring active hover candidate while orange-highlight UI remains active.
+- Impact: User sees a hovered point but selection rejects it, especially after a short delay at low zoom.
+- Guardrail: Active hover must be proximity-gated, not time-gated. Only post-hover fallback memory should use timeout windows.

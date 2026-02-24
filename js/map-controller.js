@@ -205,16 +205,22 @@ class MapController {
 
     _getHoverSelectionCandidate(clickPoint, pointPickPx) {
         const now = Date.now();
+        const hoverSelectPx = Math.max(pointPickPx, 72);
 
-        // Primary: if currently orange-hovered, always prefer this exact point.
+        // Primary: if currently orange-hovered, prefer this exact point.
+        // Do NOT time-expire active hover; orange state is the source of truth.
         const active = this._activeHoveredPoint;
-        if (active && (now - active.ts) <= 2500) {
-            return {
-                mapId: active.mapId,
-                feature: active.feature,
-                properties: active.feature?.properties,
-                geometry: active.feature?.geometry
-            };
+        if (active) {
+            const activePt = this.map?.latLngToContainerPoint(active.latlng);
+            const activeDistPx = (clickPoint && activePt) ? clickPoint.distanceTo(activePt) : Infinity;
+            if (activeDistPx <= hoverSelectPx) {
+                return {
+                    mapId: active.mapId,
+                    feature: active.feature,
+                    properties: active.feature?.properties,
+                    geometry: active.feature?.geometry
+                };
+            }
         }
 
         // Secondary: preserve last hovered point briefly across hover flicker between clicks.
@@ -223,7 +229,6 @@ class MapController {
 
         const hoveredPoint = this.map?.latLngToContainerPoint(recent.latlng);
         const distPx = (clickPoint && hoveredPoint) ? clickPoint.distanceTo(hoveredPoint) : Infinity;
-        const hoverSelectPx = Math.max(pointPickPx, 72);
         if (distPx <= hoverSelectPx) {
             return {
                 mapId: recent.mapId,

@@ -242,6 +242,23 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Root-Cause Pass (Latest): Orange Hover Persisted But Selection Expired
+
+- [x] Symptom
+  - point remained orange-highlighted, but dblclick did not open feature card when zoomed out
+
+- [x] Precise root cause
+  - hover selection candidate used time expiry (`<=2500ms`) for active hover while orange state itself did not expire
+  - this created a logic mismatch: visually hovered point could be rejected by selection path
+
+- [x] Permanent fix
+  - removed time-expiry gate for active hovered point in `_getHoverSelectionCandidate`
+  - active hovered point is now accepted based on proximity only
+  - kept short-lived timed fallback only for `last hovered` (hover flicker between clicks)
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files
