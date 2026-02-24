@@ -2120,27 +2120,38 @@ class App {
      * Register service worker for PWA support
      */
     registerServiceWorker() {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => {
-                    console.log('[App] Service worker registered:', registration.scope);
+        if (!('serviceWorker' in navigator)) return;
+        // Prevent stale service workers from serving old assets when /sw.js is absent.
+        fetch('/sw.js', { method: 'HEAD', cache: 'no-store' })
+            .then(async (resp) => {
+                if (!resp.ok) {
+                    const regs = await navigator.serviceWorker.getRegistrations();
+                    for (const reg of regs) {
+                        await reg.unregister();
+                    }
+                    console.log('[App] Service worker file missing; unregistered stale registrations');
+                    return;
+                }
+                return navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('[App] Service worker registered:', registration.scope);
 
-                    // Check for updates
-                    registration.addEventListener('updatefound', () => {
-                        const newWorker = registration.installing;
-                        if (newWorker) {
-                            newWorker.addEventListener('statechange', () => {
-                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    console.log('[App] New content available, refresh to update');
-                                }
-                            });
-                        }
+                        // Check for updates
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            if (newWorker) {
+                                newWorker.addEventListener('statechange', () => {
+                                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                        console.log('[App] New content available, refresh to update');
+                                    }
+                                });
+                            }
+                        });
                     });
-                })
-                .catch(err => {
-                    console.warn('[App] Service worker registration failed:', err);
-                });
-        }
+            })
+            .catch(err => {
+                console.warn('[App] Service worker registration/cleanup failed:', err);
+            });
     }
 
     /**

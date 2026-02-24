@@ -663,3 +663,16 @@
 - Root cause: two different dark palettes existed (`@media (prefers-color-scheme: dark)` vs `[data-theme="dark"]`), so startup/system-dark and toggled-dark could render differently.
 - `assets/css/main.css` system-dark token block now matches manual dark tokens exactly.
 - `js/app.js` now always sets `document.documentElement.dataset.theme` on startup (`saved theme` or `system dark/light`), preventing mixed-mode startup.
+
+# Current Task: Deploy Consistency Fix (Last File Skip + Stale SW Cache)
+
+- [x] Fix deploy workflow so incremental sync cannot skip the last changed file.
+- [x] Fix upload/delete count logic to count non-empty lines reliably.
+- [x] Add stale service-worker cleanup when `/sw.js` is absent on host.
+
+## Review
+- `.github/workflows/deploy.yml` now:
+  - writes upload/delete lists with trailing newline when non-empty,
+  - uses `while read ... || [ -n \"$filepath\" ]` to process final line,
+  - uses non-empty-line counts for upload/delete totals.
+- `js/app.js` now checks `/sw.js` with `HEAD` before registering; if absent, it unregisters existing service workers to prevent stale cached asset serving.

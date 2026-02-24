@@ -173,3 +173,8 @@
 - Mistake pattern: Defining different dark tokens in media-query dark mode and manual dark mode.
 - Impact: App can render one dark palette at startup and a different dark palette after toggling theme.
 - Guardrail: Keep one canonical dark token set and ensure startup always sets explicit `data-theme` (`light`/`dark`) before user interaction.
+
+### 33) Incremental deploy loops must process final manifest line
+- Mistake pattern: Building path lists without trailing newline and iterating with plain `while read` loops.
+- Impact: Last changed file can be skipped in deploy, causing partial live updates and hard-to-reproduce mismatches.
+- Guardrail: Ensure list files end with newline and use `while read ... || [ -n \"$line\" ]`; also compute totals from non-empty lines.

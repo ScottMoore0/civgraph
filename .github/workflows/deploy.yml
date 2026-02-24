@@ -97,9 +97,11 @@ jobs:
 
           # Write action lists
           with open('/tmp/to_upload.txt', 'w') as f:
-              f.write('\n'.join(to_upload))
+              if to_upload:
+                  f.write('\n'.join(to_upload) + '\n')
           with open('/tmp/to_delete.txt', 'w') as f:
-              f.write('\n'.join(to_delete))
+              if to_delete:
+                  f.write('\n'.join(to_delete) + '\n')
 
           print(f'Unchanged: {unchanged}')
           print(f'LFS pointers skipped: {lfs_pointers}')
@@ -111,10 +113,10 @@ jobs:
           UPLOAD_COUNT=0
           UPLOAD_FAILED=0
           if [ -s /tmp/to_upload.txt ]; then
-            TOTAL=$(wc -l < /tmp/to_upload.txt)
+            TOTAL=$(grep -cve '^[[:space:]]*$' /tmp/to_upload.txt)
             echo ""
             echo "Uploading $TOTAL files..."
-            while IFS= read -r filepath; do
+            while IFS= read -r filepath || [ -n "$filepath" ]; do
               [ -z "$filepath" ] && continue
               LOCAL_PATH="dist/${filepath}"
               UPLOAD_COUNT=$((UPLOAD_COUNT + 1))
@@ -152,10 +154,10 @@ jobs:
           # 4. Delete removed files
           DELETE_COUNT=0
           if [ -s /tmp/to_delete.txt ]; then
-            TOTAL_DEL=$(wc -l < /tmp/to_delete.txt)
+            TOTAL_DEL=$(grep -cve '^[[:space:]]*$' /tmp/to_delete.txt)
             echo ""
             echo "Deleting $TOTAL_DEL removed files..."
-            while IFS= read -r filepath; do
+            while IFS= read -r filepath || [ -n "$filepath" ]; do
               [ -z "$filepath" ] && continue
               DELETE_COUNT=$((DELETE_COUNT + 1))
               echo "  Deleting: $filepath"
