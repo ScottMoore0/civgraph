@@ -358,6 +358,24 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Root-Cause Pass (Latest): V2 Still Depended On Native Dblclick Delivery
+
+- [x] Symptom
+  - point feature cards still failed intermittently at low zoom, despite unified resolver and legacy handler disablement
+
+- [x] Root cause
+  - with V2 enabled, point selection still depended primarily on native container `dblclick`
+  - on some low-zoom interaction paths, native `dblclick` is not reliably emitted
+
+- [x] Permanent prevention action
+  - added synthetic dblclick detection on container capture `click` events:
+    - second click within bounded time/pixel window triggers the same point-selection entrypoint
+  - added shared `_selectPointFromInteraction(clickPoint)` used by both native and synthetic dblclick paths
+  - reset synthetic click-pair state on container mouseleave
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files

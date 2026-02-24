@@ -38,7 +38,9 @@ class MapController {
         this._currentHoverLayer = null; // single source-of-truth hovered point layer
         this._pointSelectionV2 = true; // unified point hover/selection pipeline
         this._boundContainerDblClick = null; // capture-phase dblclick fallback
+        this._boundContainerClick = null; // synthetic dblclick fallback (click pair)
         this._boundContainerMouseLeave = null;
+        this._lastContainerClick = null;
 
         // Initialize feature loader
         featureLoader.init();
@@ -480,8 +482,15 @@ class MapController {
             this._boundContainerDblClick = (evt) => this._handleContainerDblClick(evt);
             container.addEventListener('dblclick', this._boundContainerDblClick, true);
         }
+        if (container && !this._boundContainerClick) {
+            this._boundContainerClick = (evt) => this._handleContainerClick(evt);
+            container.addEventListener('click', this._boundContainerClick, true);
+        }
         if (container && !this._boundContainerMouseLeave) {
-            this._boundContainerMouseLeave = () => this._setCurrentHoverLayer(null);
+            this._boundContainerMouseLeave = () => {
+                this._setCurrentHoverLayer(null);
+                this._lastContainerClick = null;
+            };
             container.addEventListener('mouseleave', this._boundContainerMouseLeave, true);
         }
 
@@ -493,21 +502,52 @@ class MapController {
         return this;
     }
 
+    _selectPointFromInteraction(clickPoint) {
+        if (!this.map || !clickPoint) return false;
+        if (this._currentHoverLayer?._map && this._currentHoverLayer?.feature) {
+            this._emitFeatureSelection(this._currentHoverLayer._mapId, this._currentHoverLayer.feature);
+            return true;
+        }
+        const resolvedPoint = this._resolvePointUnderCursor(clickPoint, this.map.getZoom?.() ?? 10);
+        if (resolvedPoint?._mapId && resolvedPoint?.feature) {
+            this._emitFeatureSelection(resolvedPoint._mapId, resolvedPoint.feature);
+            return true;
+        }
+        return false;
+    }
+
+    _handleContainerClick(evt) {
+        if (!this._pointSelectionV2 || !this.map || !evt) return;
+        // Ignore already-handled native dblclick clicks.
+        if (evt.detail >= 2) return;
+
+        const container = this.map.getContainer?.();
+        if (!container) return;
+        const rect = container.getBoundingClientRect();
+        const clickPoint = L.point(evt.clientX - rect.left, evt.clientY - rect.top);
+        const now = Date.now();
+        const zoom = this.map.getZoom?.() ?? 10;
+        const pairPx = Math.max(24, 44 - (zoom * 1.5));
+        const pairMs = 650;
+        const prev = this._lastContainerClick;
+        this._lastContainerClick = { ts: now, pt: clickPoint };
+        if (!prev?.pt) return;
+        if ((now - prev.ts) > pairMs) return;
+        if (prev.pt.distanceTo(clickPoint) > pairPx) return;
+
+        // Synthetic double-click path for environments where native dblclick is flaky.
+        if (this._selectPointFromInteraction(clickPoint)) return;
+        const latlng = this.map.containerPointToLatLng(clickPoint);
+        this.handleMapClick({ latlng });
+    }
+
     _handleContainerDblClick(evt) {
         if (!this.map || !evt) return;
         const container = this.map.getContainer?.();
         if (!container) return;
         const rect = container.getBoundingClientRect();
         const clickPoint = L.point(evt.clientX - rect.left, evt.clientY - rect.top);
-        if (this._currentHoverLayer?._map && this._currentHoverLayer?.feature) {
-            this._emitFeatureSelection(this._currentHoverLayer._mapId, this._currentHoverLayer.feature);
-            return;
-        }
-        const resolvedPoint = this._resolvePointUnderCursor(clickPoint, this.map.getZoom?.() ?? 10);
-        if (resolvedPoint?._mapId && resolvedPoint?.feature) {
-            this._emitFeatureSelection(resolvedPoint._mapId, resolvedPoint.feature);
-            return;
-        }
+        if (this._selectPointFromInteraction(clickPoint)) return;
         if (this._selectHighlightedPointAt(clickPoint)) return;
         const zoom = this.map.getZoom?.() ?? 10;
         const pointPickPx = this._pointPickPx(zoom);

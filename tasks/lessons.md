@@ -134,3 +134,8 @@
 - Mistake pattern: Shipping new hover/selection logic while old layer/map handlers still execute.
 - Impact: Event-path races and recurring regressions despite targeted fixes.
 - Guardrail: Use a feature flag and explicitly disable legacy point-selection handlers when V2 is active; keep one deterministic dblclick entrypoint.
+
+### 26) Never rely solely on native `dblclick` delivery for point selection
+- Mistake pattern: Assuming browser/native dblclick events always fire for low-zoom map interactions.
+- Impact: Point feature-card opening can still fail intermittently even with correct resolver logic.
+- Guardrail: Add a synthetic click-pair fallback that routes to the same selection entrypoint as native dblclick.
