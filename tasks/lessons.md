@@ -183,3 +183,35 @@
 - Mistake pattern: Component outer container uses hardcoded light colors while inner blocks use theme tokens.
 - Impact: Inner sections can drift to dark/low-contrast colors despite the component appearing in light mode.
 - Guardrail: Keep component surfaces on one theme source, and add explicit light-mode contrast overrides where mixed legacy styles exist.
+
+### 35) Enforce a runtime proof gate before calling an interaction bug fixed
+- Mistake pattern: Accepting code-level plausibility or syntax checks as completion for UI interaction defects.
+- Impact: Multiple “fixes” were shipped while the exact user path still failed.
+- Guardrail: Do not close/commit an interaction fix until this exact chain is evidenced in runtime logs:
+  1) trigger condition observed,
+  2) interaction event captured,
+  3) selection emit fired,
+  4) UI render handler executed.
+
+### 36) Add max-attempt escalation for recurring bugs
+- Mistake pattern: Iterating patch-by-patch on the same defect too many times without changing method.
+- Impact: Long, frustrating fix loops and low confidence.
+- Guardrail: After 2 failed attempts on the same symptom, mandatory escalation:
+  - stop patching,
+  - instrument end-to-end,
+  - perform one teardown/rebuild with a single contract,
+  - retest only against explicit acceptance criteria.
+
+### 37) Freeze competing pathways early
+- Mistake pattern: Leaving legacy and new event pipelines active together during fixes.
+- Impact: Path races masked root cause and created false positives.
+- Guardrail: In root-cause pass, disable non-primary paths early behind a feature flag and validate one deterministic path first; reintroduce compatibility paths only after core acceptance passes.
+
+### 38) Separate “code push success” from “user-visible deploy correctness”
+- Mistake pattern: Treating successful git push/deploy status as equivalent to user runtime correctness.
+- Impact: Cache/service-worker/deploy-list edge cases obscured actual behavior.
+- Guardrail: For live regressions, verify:
+  - deployed commit hash,
+  - changed asset presence on host,
+  - cache/service-worker state,
+  - and runtime logs from the failing client path.

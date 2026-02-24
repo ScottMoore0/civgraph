@@ -689,3 +689,18 @@
   - `.feature-info__property`
   - `.feature-info__key`
   - `.feature-info__value`
+
+# Current Task: Postmortem - Protracted Point-Feature Card Fix Loop
+
+- [x] Review why repeated fixes failed to close the defect quickly.
+- [x] Identify concrete process faults that prolonged resolution.
+- [x] Add permanent process guardrails in `tasks/lessons.md`.
+
+## Review
+- Why it took too long:
+  - Multiple interaction paths existed simultaneously (native dblclick, synthetic click/pointer paths, hover fallbacks), so partial fixes improved one path while another still failed.
+  - Changes were repeatedly committed before proving the exact user acceptance path on runtime evidence (orange hover -> dblclick -> emitted selection -> feature card render).
+  - Early passes relied on inferred causes and static checks (`node --check`) instead of decisive instrumentation and trace-based failure localization.
+  - Deployment/cache effects introduced additional ambiguity during validation.
+- Permanent prevention:
+  - Added hard “runtime proof gate” and “max-attempt escalation” lessons to force instrumentation-first diagnosis and controlled teardown/rebuild earlier.
