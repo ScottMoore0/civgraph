@@ -34,6 +34,7 @@ class MapController {
         this._activeHoveredPoint = null; // point currently hover-highlighted (orange)
         this._lastHoveredPoint = null; // short-lived post-hover memory for dblclick timing
         this._activeHoverGraceMs = 1800; // tolerate low-zoom mouseout jitter between clicks
+        this._highlightedPointLayers = new Set(); // layers currently highlighted orange
         this._boundContainerDblClick = null; // capture-phase dblclick fallback
 
         // Initialize feature loader
@@ -181,7 +182,11 @@ class MapController {
         // Keep hovered-point state so click/dblclick selection is consistent
         // with the visual hover (orange highlight) behavior.
         if (typeof layer.getLatLng === 'function' && layer.feature) {
+            if (!isHover) {
+                this._highlightedPointLayers.delete(layer);
+            }
             if (isHover) {
+                this._highlightedPointLayers.add(layer);
                 const candidate = {
                     layer,
                     mapId: layer._mapId,
@@ -211,6 +216,24 @@ class MapController {
                 };
             }
         }
+    }
+
+    _selectHighlightedPointAt(clickPoint) {
+        if (!this.map || this._highlightedPointLayers.size === 0) return false;
+        let bestLayer = null;
+        let bestDist = Infinity;
+        this._highlightedPointLayers.forEach((layer) => {
+            if (!layer?._map || typeof layer.getLatLng !== 'function' || !layer.feature) return;
+            const pt = this.map.latLngToContainerPoint(layer.getLatLng());
+            const dist = clickPoint ? clickPoint.distanceTo(pt) : 0;
+            if (dist < bestDist) {
+                bestDist = dist;
+                bestLayer = layer;
+            }
+        });
+        if (!bestLayer) return false;
+        this._emitFeatureSelection(bestLayer._mapId, bestLayer.feature);
+        return true;
     }
 
     _getHoverSelectionCandidate(clickPoint, pointPickPx) {
@@ -256,6 +279,9 @@ class MapController {
         if (!mapId) return;
         if (this._activeHoveredPoint?.mapId === mapId) this._activeHoveredPoint = null;
         if (this._lastHoveredPoint?.mapId === mapId) this._lastHoveredPoint = null;
+        this._highlightedPointLayers.forEach((layer) => {
+            if (layer?._mapId === mapId) this._highlightedPointLayers.delete(layer);
+        });
     }
 
     /**
@@ -408,6 +434,7 @@ class MapController {
         if (!container) return;
         const rect = container.getBoundingClientRect();
         const clickPoint = L.point(evt.clientX - rect.left, evt.clientY - rect.top);
+        if (this._selectHighlightedPointAt(clickPoint)) return;
         const zoom = this.map.getZoom?.() ?? 10;
         const pointPickPx = Math.max(32, 96 - (zoom * 4));
         const candidate = this._getHoverSelectionCandidate(clickPoint, pointPickPx);

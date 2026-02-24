@@ -296,6 +296,24 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Root-Cause Pass (Latest): Orange Highlight State Still Diverged From Dblclick Selection
+
+- [x] Symptom
+  - cursor position produced orange highlight, but double-click still failed at low zoom
+
+- [x] Root cause
+  - dblclick selection still depended on hover candidate resolution paths that could diverge under jitter/flicker
+  - no direct selection path from the actual set of currently orange-highlighted point layers
+
+- [x] Permanent prevention action
+  - introduced `this._highlightedPointLayers` as explicit source-of-truth for orange-highlighted points
+  - `_setFeatureHover` now maintains this set on `mouseover`/`mouseout`
+  - `_handleContainerDblClick` now first selects nearest currently highlighted point via `_selectHighlightedPointAt(clickPoint)`
+  - fallback hover/geometric logic remains as secondary path only
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files

@@ -119,3 +119,8 @@
 - Mistake pattern: Clearing active hover immediately on `mouseout`, even during dblclick jitter.
 - Impact: Selection path drops from active-hover identity to stricter fallback between clicks.
 - Guardrail: Keep active hover candidate alive for a short grace window after `mouseout`; expire lazily in selection resolver.
+
+### 23) Use rendered highlighted-layer set as dblclick selection source-of-truth
+- Mistake pattern: Deriving selection only from candidate snapshots while visual hover state is renderer-driven.
+- Impact: User sees orange-highlighted point but selection can still miss under low-zoom jitter.
+- Guardrail: Maintain an explicit set of currently orange-highlighted point layers and make dblclick selection resolve from that set first.
