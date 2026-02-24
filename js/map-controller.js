@@ -518,8 +518,6 @@ class MapController {
 
     _handleContainerClick(evt) {
         if (!this._pointSelectionV2 || !this.map || !evt) return;
-        // Ignore already-handled native dblclick clicks.
-        if (evt.detail >= 2) return;
 
         const container = this.map.getContainer?.();
         if (!container) return;

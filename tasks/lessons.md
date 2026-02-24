@@ -139,3 +139,8 @@
 - Mistake pattern: Assuming browser/native dblclick events always fire for low-zoom map interactions.
 - Impact: Point feature-card opening can still fail intermittently even with correct resolver logic.
 - Guardrail: Add a synthetic click-pair fallback that routes to the same selection entrypoint as native dblclick.
+
+### 27) Don’t block synthetic dblclick on `MouseEvent.detail`
+- Mistake pattern: Returning early when `evt.detail >= 2` inside click-pair logic.
+- Impact: The synthetic fallback skips exactly the second click needed to detect double-click, reintroducing native-dblclick dependence.
+- Guardrail: Let click-pair logic process second clicks; use emit-level dedupe for duplicate suppression instead.

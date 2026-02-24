@@ -376,6 +376,23 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Root-Cause Pass (Latest): Synthetic Dblclick Fallback Was Short-Circuited
+
+- [x] Symptom
+  - low-zoom dblclick still failed even after adding click-pair fallback
+
+- [x] Root cause
+  - `_handleContainerClick` returned early on `evt.detail >= 2`
+  - second click of an actual double-click has `detail = 2`, so synthetic path never executed at the critical event
+
+- [x] Permanent prevention action
+  - removed `evt.detail >= 2` early-return in `_handleContainerClick`
+  - synthetic click-pair detector now evaluates both clicks and can fire on second click as intended
+  - rely on `_emitFeatureSelection` dedupe to prevent duplicate card opens when native `dblclick` also fires
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files
