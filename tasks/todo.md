@@ -676,3 +676,16 @@
   - uses `while read ... || [ -n \"$filepath\" ]` to process final line,
   - uses non-empty-line counts for upload/delete totals.
 - `js/app.js` now checks `/sw.js` with `HEAD` before registering; if absent, it unregisters existing service workers to prevent stale cached asset serving.
+
+# Current Task: Feature Card Property Contrast In Light Mode
+
+- [x] Identify low-contrast styles in feature-info properties block under light mode.
+- [x] Apply explicit high-contrast light-mode overrides for summary, property container, keys, and values.
+
+## Review
+- `assets/css/main.css` now includes targeted light-mode contrast overrides for:
+  - `.feature-info__summary`
+  - `.feature-info__properties`
+  - `.feature-info__property`
+  - `.feature-info__key`
+  - `.feature-info__value`

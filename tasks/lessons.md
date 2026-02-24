@@ -178,3 +178,8 @@
 - Mistake pattern: Building path lists without trailing newline and iterating with plain `while read` loops.
 - Impact: Last changed file can be skipped in deploy, causing partial live updates and hard-to-reproduce mismatches.
 - Guardrail: Ensure list files end with newline and use `while read ... || [ -n \"$line\" ]`; also compute totals from non-empty lines.
+
+### 34) Avoid mixed hardcoded/theme-token styling within the same component
+- Mistake pattern: Component outer container uses hardcoded light colors while inner blocks use theme tokens.
+- Impact: Inner sections can drift to dark/low-contrast colors despite the component appearing in light mode.
+- Guardrail: Keep component surfaces on one theme source, and add explicit light-mode contrast overrides where mixed legacy styles exist.

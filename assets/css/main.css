@@ -4025,6 +4025,41 @@ body.split-dragging * {
   font-weight: 500;
 }
 
+/* Ensure high contrast in light mode for feature property blocks */
+html:not([data-theme]) .feature-info__summary,
+[data-theme="light"] .feature-info__summary {
+  background: #eef3f8;
+  color: #334155;
+}
+
+html:not([data-theme]) .feature-info__summary:hover,
+[data-theme="light"] .feature-info__summary:hover {
+  background: #e2e8f0;
+  color: #1f2937;
+}
+
+html:not([data-theme]) .feature-info__properties,
+[data-theme="light"] .feature-info__properties {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+html:not([data-theme]) .feature-info__property,
+[data-theme="light"] .feature-info__property {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+html:not([data-theme]) .feature-info__key,
+[data-theme="light"] .feature-info__key {
+  color: #475569;
+  font-weight: 600;
+}
+
+html:not([data-theme]) .feature-info__value,
+[data-theme="light"] .feature-info__value {
+  color: #0f172a;
+}
+
 /* Expandable numbers */
 .feature-info__expandable {
   cursor: pointer;
