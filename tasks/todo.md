@@ -410,6 +410,28 @@
 - [x] Verification evidence
   - static verification: `node --check js/map-controller.js` passes
 
+# Root-Cause Pass (Latest): Synthetic and Native Selection Paths Were Asymmetric
+
+- [x] Symptom
+  - low-zoom point selection still failed intermittently even with synthetic click/pointerup pair fallback
+
+- [x] Root cause
+  - native container dblclick path applied highlighted/candidate fallbacks
+  - synthetic click/pointerup pair paths only used current-hover + geometric resolver and skipped those fallbacks
+  - behavior diverged depending on which trigger path fired
+
+- [x] Permanent prevention action
+  - unified all point trigger paths through one complete resolver:
+    - `_selectPointFromInteraction(clickPoint)` now includes:
+      1) current hover layer
+      2) shared point-under-cursor resolver
+      3) highlighted-layer fallback
+      4) hover-candidate fallback
+  - `_handleContainerDblClick` now relies on that shared resolver only before non-point fallback
+
+- [x] Verification evidence
+  - static verification: `node --check js/map-controller.js` passes
+
 # Map Loading Stabilization (Non-townlands)
 
 - [x] De-LFS critical non-townlands map files

@@ -149,3 +149,8 @@
 - Mistake pattern: Assuming `click` events are always emitted even under low-zoom jitter/drag-threshold behavior.
 - Impact: Synthetic dblclick fallback can still miss when click/dblclick events are suppressed.
 - Guardrail: Add capture-phase pointerup pair detection routed to the same selection resolver, and keep mouseleave reset for pair state.
+
+### 29) Keep native and synthetic trigger paths behaviorally identical
+- Mistake pattern: Applying richer fallback logic on native dblclick path than on synthetic pair paths.
+- Impact: Selection success depends on which trigger event fires, causing intermittent regressions.
+- Guardrail: Route all trigger types through a single full resolver function with identical fallback order.

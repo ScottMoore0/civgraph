@@ -520,6 +520,14 @@ class MapController {
             this._emitFeatureSelection(resolvedPoint._mapId, resolvedPoint.feature);
             return true;
         }
+        if (this._selectHighlightedPointAt(clickPoint)) return true;
+        const zoom = this.map.getZoom?.() ?? 10;
+        const pointPickPx = this._pointPickPx(zoom);
+        const candidate = this._getHoverSelectionCandidate(clickPoint, pointPickPx);
+        if (candidate?.mapId && candidate?.feature) {
+            this._emitFeatureSelection(candidate.mapId, candidate.feature);
+            return true;
+        }
         return false;
     }
 
@@ -578,14 +586,6 @@ class MapController {
         const rect = container.getBoundingClientRect();
         const clickPoint = L.point(evt.clientX - rect.left, evt.clientY - rect.top);
         if (this._selectPointFromInteraction(clickPoint)) return;
-        if (this._selectHighlightedPointAt(clickPoint)) return;
-        const zoom = this.map.getZoom?.() ?? 10;
-        const pointPickPx = this._pointPickPx(zoom);
-        const candidate = this._getHoverSelectionCandidate(clickPoint, pointPickPx);
-        if (candidate?.mapId && candidate?.feature) {
-            this._emitFeatureSelection(candidate.mapId, candidate.feature);
-            return;
-        }
         // Preserve non-point dblclick behavior through existing geometry hit-test.
         const latlng = this.map.containerPointToLatLng(clickPoint);
         this.handleMapClick({ latlng });
