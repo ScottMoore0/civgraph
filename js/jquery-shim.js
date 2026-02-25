@@ -77,8 +77,21 @@
             endValues[prop] = endNum;
         }
 
-        const startTime = performance.now();
+        let startTime = performance.now();
+        let pausedAt = null;
         const step = (now) => {
+            if (root && root.__evAnimationPaused) {
+                if (pausedAt === null) {
+                    pausedAt = now;
+                }
+                const rafPaused = requestAnimationFrame(step);
+                _animTimers.set(el, { raf: rafPaused, timeout: 0 });
+                return;
+            }
+            if (pausedAt !== null) {
+                startTime += (now - pausedAt);
+                pausedAt = null;
+            }
             const elapsed = now - startTime;
             const t = Math.min(1, elapsed / durationMs);
             // Ease-in-out
@@ -354,6 +367,21 @@
                 results.push(...el.querySelectorAll(selector));
             });
             return new $Set(results);
+        }
+
+        filter(selectorOrFn) {
+            let filtered = [];
+            if (typeof selectorOrFn === 'function') {
+                filtered = this._els.filter((el, i) => !!selectorOrFn.call(el, i, el));
+            } else if (typeof selectorOrFn === 'string') {
+                filtered = this._els.filter(el => {
+                    if (!el || typeof el.matches !== 'function') return false;
+                    return el.matches(selectorOrFn);
+                });
+            } else {
+                filtered = this._els.slice();
+            }
+            return new $Set(filtered);
         }
 
         // ---- Animation ----

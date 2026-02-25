@@ -215,3 +215,48 @@
   - changed asset presence on host,
   - cache/service-worker state,
   - and runtime logs from the failing client path.
+
+### 39) Pause/resume must recover from interrupted animation state, not assume clean continuity
+- Mistake pattern: Pause removed transient transfer elements but left round-level pending state partially set, so resume could dead-end until manual stage rebuild.
+- Impact: Play button appeared non-functional after pause unless user clicked a stage number.
+- Guardrail: When pausing with in-flight transfer slices:
+  - record interrupted round,
+  - clear stale pending-transfer data,
+  - and on resume rebuild that round deterministically before restarting timers.
+
+### 40) Paused state must gate async callbacks, not just interval timers
+- Mistake pattern: Clearing the interval and toggling icons without guarding delayed/callback-driven updates.
+- Impact: Stage-level side effects can continue while UI shows paused, making pause appear ineffective.
+- Guardrail: In animation controllers, add explicit `isPaused || !running` guards inside asynchronous callbacks/timeouts and freeze all active animation nodes at pause time.
+
+### 41) Fix all control-path variants, not just the main one
+- Mistake pattern: Patching pause/resume in STV path while forum path retained old stop-only behavior.
+- Impact: Same user symptom persists depending on election mode, even though one path is fixed.
+- Guardrail: For shared UI controls, enumerate every implementation path (`STV`, `forum`, etc.) and apply equivalent pause/resume contract across all before closure.
+
+### 42) Use paused-state as the pause/play source of truth
+- Mistake pattern: Routing pause/play clicks off mixed signals (`running`, icon classes, inferred mode) instead of explicit paused state.
+- Impact: Control icon can toggle while behavior does not, or behavior can drift across modes.
+- Guardrail: Maintain an explicit `isPaused` state per controller and make click routing strictly `if paused -> resume else -> pause` (with explicit replay exception only).
+
+### 43) Validate shim API parity before using jQuery methods in control-critical paths
+- Mistake pattern: Calling `$.fn.filter(...)` from pause/resume code while using a micro-shim that did not implement `.filter()`.
+- Impact: Runtime exception inside `pause()` after interval clear but before freeze/icon/state updates, producing misleading partial behavior and repeated failed fixes.
+- Guardrail:
+  1) keep a parity checklist for jQuery methods used by `stages2.js` against `js/jquery-shim.js`,
+  2) for pause/resume/control paths, avoid optional helper dependencies where a simple `.each` + native array pass is sufficient,
+  3) when behavior is inconsistent, first inspect console/runtime exceptions before state-machine edits.
+
+### 44) Pause must freeze the animation clock, not mutate scene state
+- Mistake pattern: Implementing pause by deleting in-flight transfer slices and rebuilding/replaying stages on resume.
+- Impact: Transfer rectangles disappear on pause and resume jumps stage flow instead of continuing from paused position.
+- Guardrail:
+  1) pause/resume should control a single animation clock flag (`window.__evAnimationPaused`) used by the animation engine loop,
+  2) do not remove active transfer primitives on pause,
+  3) do not call immediate stage-advance/replay on resume unless user explicitly requested step/restart.
+
+### 45) Lock column contract early for new tables
+- Mistake pattern: Initial implementation matched previous request shape (X/Y) but table contract then shifted to separate Stood + Elected counts.
+- Impact: Extra iteration and avoidable UI churn.
+- Guardrail: For new table views, define column contract explicitly (labels + value formulas) in 	asks/todo.md before coding and verify against screenshot/acceptance criteria before handoff.
+

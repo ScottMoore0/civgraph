@@ -457,6 +457,7 @@ function buildForumAnimationDataset(constituency) {
 }
 
 function animateForumElection(constituency) {
+    window.__evAnimationPaused = false;
     var dataset = buildForumAnimationDataset(constituency);
     if (!dataset) {
         $("#animation").empty();
@@ -517,6 +518,8 @@ function animateForumElection(constituency) {
         maxVote: dataset.maxVote,
         currentIndex: 0,
         playing: false,
+        isPaused: false,
+        pausedMidFrame: false,
         stageNodes: stageNodes,
     };
 
@@ -701,12 +704,23 @@ function animateForumElection(constituency) {
         renderFrame(state.currentIndex + 1, {});
     }
 
-    function stopAuto() {
+    function stopAuto(options) {
+        var opts = options || {};
+        var freezeFrame = !!opts.freezeFrame;
         if (typeof loop !== 'undefined' && loop) {
             clearInterval(loop);
         }
         loop = undefined;
         state.playing = false;
+        if (freezeFrame) {
+            window.__evAnimationPaused = true;
+            state.pausedMidFrame = true;
+            state.isPaused = true;
+        } else {
+            window.__evAnimationPaused = false;
+            state.pausedMidFrame = false;
+            state.isPaused = false;
+        }
         updateControls();
     }
 
@@ -714,7 +728,14 @@ function animateForumElection(constituency) {
         if (typeof loop !== 'undefined' && loop) {
             clearInterval(loop);
         }
+        window.__evAnimationPaused = false;
         state.playing = true;
+        state.isPaused = false;
+        if (state.pausedMidFrame) {
+            // Resume the interrupted frame from its frozen midpoint first.
+            renderFrame(state.currentIndex, { immediate: false });
+            state.pausedMidFrame = false;
+        }
         updateControls();
         loop = window.setInterval(function () {
             advance(true);
@@ -723,8 +744,8 @@ function animateForumElection(constituency) {
 
     $("#pause-replay").off('click').on('click', function (event) {
         event.preventDefault();
-        if (state.playing) {
-            stopAuto();
+        if (!state.isPaused) {
+            stopAuto({ freezeFrame: true });
         } else {
             startAuto();
         }
@@ -732,13 +753,13 @@ function animateForumElection(constituency) {
 
     $("#step").off('click').on('click', function (event) {
         event.preventDefault();
-        stopAuto();
+        stopAuto({ freezeFrame: false });
         advance(false);
     });
 
     $("#again").off('click').on('click', function (event) {
         event.preventDefault();
-        stopAuto();
+        stopAuto({ freezeFrame: false });
         goTo(0, { immediate: false, restart: true });
     });
 
@@ -753,13 +774,13 @@ function animateForumElection(constituency) {
             if (!Number.isFinite(idx)) {
                 idx = 0;
             }
-            stopAuto();
+            stopAuto({ freezeFrame: false });
             goTo(idx, { immediate: true });
         });
     });
 
     renderFrame(0, { immediate: false, restart: true });
-    if (state.counts > 1) {
+        if (state.counts > 1) {
         startAuto();
     } else {
         stopAuto();
@@ -1254,6 +1275,7 @@ function getFinalStatus(entry) {
 
 function animateStages(selectionOrYear, constituencyFolder) {
 
+    window.__evAnimationPaused = false;
     clearInterval(loop);
     loop = undefined;
     if (activeFinalStatusTimers && activeFinalStatusTimers.length) {
@@ -1601,6 +1623,9 @@ function animateStages(selectionOrYear, constituencyFolder) {
             }
             clearFinalStatusTimer();
             var timerHandle = window.setTimeout(function () {
+                if (isPaused || !running) {
+                    return;
+                }
                 updateFinalRoundStatuses(roundNumber);
                 for (var idx = activeFinalStatusTimers.length - 1; idx >= 0; idx--) {
                     if (activeFinalStatusTimers[idx] === timerHandle) {
@@ -2241,14 +2266,11 @@ function animateStages(selectionOrYear, constituencyFolder) {
             event.preventDefault();
             var btn = $(this);
             if (btn.hasClass("fa-repeat")) {
-                btn.removeClass("fa-repeat").addClass("fa-pause").attr("data-mode", "pause");
                 replay(1);
-            } else if (isPaused || btn.hasClass("fa-play")) {
-                btn.removeClass("fa-play").addClass("fa-pause").attr("data-mode", "pause");
-                resume();
-            } else {
-                btn.removeClass("fa-pause").addClass("fa-play").attr("data-mode", "play");
+            } else if (!isPaused) {
                 pause();
+            } else {
+                resume();
             }
         });
 
@@ -2682,6 +2704,9 @@ function animateStages(selectionOrYear, constituencyFolder) {
         }
 
         window.setTimeout(function () {
+            if (isPaused || !running) {
+                return;
+            }
             applyDeferredElectionStatuses(1);
         }, (1500 * speed) + (500 * speed) + 50);
     }
@@ -2871,9 +2896,15 @@ function animateStages(selectionOrYear, constituencyFolder) {
                                     top: topMargin + (recipientOrder * rowHeight),
                                     left: transferHoldingLeft
                                 }, 900 * speed, function () {
+                                    if (isPaused || !running) {
+                                        return;
+                                    }
                                     earlyStage = false;
                                 }).delay(100 * speed)
                                 .animate({ left: arrivalLeft }, 900 * speed, function () {
+                                    if (isPaused || !running) {
+                                        return;
+                                    }
                                     var targetId = $(this).data('candidate');
                                     var roundNumber = $(this).data('round');
                                     var progress = $(this).data('transferProgress') || null;
@@ -2986,6 +3017,9 @@ function animateStages(selectionOrYear, constituencyFolder) {
                     transferSlice
                         .appendTo("#animation")
                         .animate({ left: recipientArrivalLeft }, 900 * speed, function () {
+                            if (isPaused || !running) {
+                                return;
+                            }
                             var targetId = $(this).data('candidate');
                             var roundNumber = $(this).data('round');
                             var progress = $(this).data('transferProgress') || null;
@@ -3054,12 +3088,8 @@ function animateStages(selectionOrYear, constituencyFolder) {
         if (isPaused) return;
         clearInterval(loop);
         loop = undefined;
-        // Stop queued animations and remove transient transfer slices so resume
-        // continues cleanly without duplicated rectangles.
-        $("#animation .votes, #animation .candidateLabel, #animation .pctLabel").stop(true, false);
-        $("#animation .votes").filter(function () {
-            return !!($(this).data('transferProgress') || $(this).data('round'));
-        }).remove();
+        // Freeze all shim-driven animations in-place without clearing queues.
+        window.__evAnimationPaused = true;
         isPaused = true;
         running = false;
         setPauseReplayIcon("play");
@@ -3071,20 +3101,17 @@ function animateStages(selectionOrYear, constituencyFolder) {
             clearInterval(loop);
             loop = undefined;
         }
+        window.__evAnimationPaused = false;
         isPaused = false;
-        // Re-sync stage marker/counter before resuming timed advance.
-        setActiveMarker(Math.max(1, countNumber - 1));
-        updateCounter(Math.max(1, countNumber - 1));
         running = true;
         setPauseReplayIcon("pause");
-        // Resume immediately from the paused point, then continue normal cadence.
-        advanceCount();
         if (running) {
             loop = window.setInterval(advanceCount, 4000 * speed);
         }
     }
 
     function replay(s) {
+        window.__evAnimationPaused = false;
         if (running) {
             clearInterval(loop);
         }
@@ -3104,6 +3131,8 @@ function animateStages(selectionOrYear, constituencyFolder) {
     }
 
     function step() {
+        window.__evAnimationPaused = false;
+        isPaused = false;
         if (running) {
             clearInterval(loop);
         }
@@ -3116,6 +3145,8 @@ function animateStages(selectionOrYear, constituencyFolder) {
     }
 
     function jumpToStep(i) {
+        window.__evAnimationPaused = false;
+        isPaused = false;
         if (running) {
             clearInterval(loop);
         }
@@ -3132,6 +3163,8 @@ function animateStages(selectionOrYear, constituencyFolder) {
     }
 
     function again() {
+        window.__evAnimationPaused = false;
+        isPaused = false;
         if (running) {
             clearInterval(loop);
         }

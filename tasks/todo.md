@@ -704,3 +704,119 @@
   - Deployment/cache effects introduced additional ambiguity during validation.
 - Permanent prevention:
   - Added hard “runtime proof gate” and “max-attempt escalation” lessons to force instrumentation-first diagnosis and controlled teardown/rebuild earlier.
+
+# Current Task: Transfer Pause/Resume Stuck Until Stage Click
+
+- [x] Root-cause pass on pause/resume behavior in `election-viewer-package/js/stages2.js`.
+- [x] Implement deterministic resume recovery for interrupted in-flight transfer rounds.
+- [x] Clear stale pending-transfer flags that block normal resume updates.
+- [x] Verify syntax integrity.
+
+## Review
+- Root cause: pausing during in-flight transfer slices could leave round state mid-transition; resume attempted to continue from inconsistent state and appeared stuck until a manual stage click rebuilt the round.
+- Fix:
+  - added `pendingResumeStep` tracking in pause/resume flow
+  - when paused with active transfer slices, resume now auto-runs `playStep(interruptedRound)` before restarting interval
+  - clears stale `.data('pendingTransfer'/'pendingTransferRound')` flags on bars during pause cleanup
+- Verification:
+  - `node --check election-viewer-package/js/stages2.js` passes.
+
+### Follow-up (Pause Did Not Freeze In-Flight Stage)
+- [x] Add paused-state guards to asynchronous callbacks/timers so stage progress cannot continue while paused.
+- [x] Expand pause freeze to stop all in-flight animation nodes under `#animation`.
+
+### Follow-up Review
+- Root cause: icon/mode toggled correctly, but asynchronous callbacks and timer-based status updates could still complete stage-side effects after pause.
+- Fix:
+  - Added `if (isPaused || !running) return;` guards in key async callbacks/timer handlers.
+  - Pause now calls `$("#animation *").stop(true, false)` to freeze all in-flight animation elements, not just selected classes.
+- Verification:
+  - `node --check election-viewer-package/js/stages2.js` passes.
+
+### Follow-up 2 (Forum Animation Pause Path)
+- [x] Apply equivalent pause-freeze/resume behavior in forum animation controller path.
+
+### Follow-up 2 Review
+- Root cause: forum controller `stopAuto()` only stopped interval progression and did not freeze in-flight frame animation.
+- Fix:
+  - added `state.pausedMidFrame` tracking in forum animation state
+  - `stopAuto({ freezeFrame: true })` now stops in-flight bar animations and clears deferred timers
+  - `startAuto()` now resumes interrupted frame from frozen midpoint before continuing interval cadence
+  - non-pause navigation actions (`step`, `again`, stage click) call `stopAuto({ freezeFrame: false })`
+- Verification:
+  - `node --check election-viewer-package/js/stages2.js` passes.
+
+### Follow-up 3 (Pause Toggle Drift Between Icon and Runtime Flags)
+- [x] Switch pause/play click routing to paused-state-first logic in both STV and forum paths.
+
+### Follow-up 3 Review
+- Root cause: pause/play routing still relied on `running`/`playing` in branches where those flags could drift from actual paused intent, causing icon toggles without reliable freeze semantics.
+- Fix:
+  - forum path now tracks explicit `state.isPaused` and click handler toggles on that state
+  - STV path click handler now toggles on `isPaused` (except repeat mode), not on `running`/icon combinations
+  - STV `pause()` guard simplified back to `if (isPaused) return;` to keep a single source of truth
+- Verification:
+  - `node --check election-viewer-package/js/stages2.js` passes.
+
+# Current Task: Transfer Pause Crash Root Cause (.filter missing in shim)
+
+- [x] Perform root-cause pass on why pause repeatedly fails despite state-machine changes.
+- [x] Add `.filter()` support to `js/jquery-shim.js`.
+- [x] Harden STV `pause()` to avoid dependency on shim `.filter()` in critical path.
+- [x] Verify syntax integrity after patch.
+
+## Review
+- Symptom:
+  - Pause click did not reliably change to play/freeze in place; behavior looked like only next-stage progression was blocked.
+- Root cause:
+  - `pause()` in `election-viewer-package/js/stages2.js` called `$("#animation .votes").filter(...)`.
+  - custom shim `js/jquery-shim.js` did not implement `.filter()`, causing a runtime exception inside `pause()` after interval clear but before `isPaused=true` and icon/state freeze updates.
+- Fix:
+  - implemented `.filter(selectorOrFn)` in `js/jquery-shim.js` returning a new `$Set`.
+  - rewrote `pause()` active-slice collection to use `.each(...)` + native array removal, so pause critical path no longer depends on shim `.filter()`.
+- Verification evidence:
+  - `node --check js/jquery-shim.js` passes.
+  - `node --check election-viewer-package/js/stages2.js` passes.
+
+# Current Task: NI-wide Results "By Local Party" Tab
+
+- [x] Add `By Local Party` tab in NI-wide election results pane header.
+- [x] Implement NI-wide local-party table renderer (party + constituency tuple aggregation).
+- [x] Replace candidate status with `Elected` column formatted as `X/Y` per tuple.
+- [x] Sort rows by first-preference votes descending (highest rank first, lowest last).
+- [x] Keep existing table controls/sorting wiring.
+
+## Review
+- Updated `js/election-controller.js`:
+  - `_setupNIWideTabs` now includes `{ id: 'local-party', label: 'By Local Party' }`.
+  - `_renderNIWideView` now routes `local-party` to `_buildNIWideLocalPartyTable()`.
+  - Added `_buildNIWideLocalPartyTable()` to aggregate candidate rows by `(constituency, party)`:
+    - votes = sum of first-count candidate votes for tuple
+    - stood (`Y`) = count of candidates in tuple
+    - elected (`X`) = elected candidates in tuple (including deemed-elected logic consistent with existing candidate table path)
+  - Added `_localPartyKey()` utility for stable previous-election delta matching.
+
+### Follow-up (True Freeze/Resume Instead of Slice Removal)
+- [x] Replace pause teardown behavior that removed transfer slices and forced stage replay.
+- [x] Implement true in-place freeze by pausing shim animation clock.
+- [x] Ensure resume continues current in-flight transfer animations from paused position.
+- [x] Ensure manual controls (`replay/step/again/jump`) clear paused clock state.
+
+### Follow-up Review
+- Root cause:
+  - prior pause logic removed active transfer slices and resume advanced stage scheduler, which made rectangles disappear and skipped to next stage.
+- Fix:
+  - `js/jquery-shim.js`: animation loop now respects `window.__evAnimationPaused` and freezes RAF progression in-place.
+  - `election-viewer-package/js/stages2.js`:
+    - STV `pause()` now sets `window.__evAnimationPaused = true` and does not remove slices.
+    - STV `resume()` clears paused flag and restarts interval without forcing immediate `advanceCount()` or `playStep(...)`.
+    - forum `stopAuto/startAuto` now use same paused-clock flag for freeze/resume consistency.
+    - manual controls explicitly clear paused-clock state.
+- Verification evidence:
+  - `node --check js/jquery-shim.js` passes.
+  - `node --check election-viewer-package/js/stages2.js` passes.
+
+### Follow-up (By Local Party columns)
+- [x] Changed Elected column to show elected count only.
+- [x] Added Stood column immediately left of Elected.
+

@@ -869,7 +869,8 @@ class ElectionController {
         const content = this.splitPaneEl?.querySelector('#electionPaneContent');
         const tabs = [
             { id: 'party', label: 'By Party' },
-            { id: 'candidate', label: 'By Candidate' }
+            { id: 'candidate', label: 'By Candidate' },
+            { id: 'local-party', label: 'By Local Party' }
         ];
         tabs.forEach((def) => {
             const btn = document.createElement('button');
@@ -891,9 +892,13 @@ class ElectionController {
         container.style.overflowY = 'auto';
         container.style.overflowX = 'hidden';
         container.style.padding = '';
-        container.innerHTML = tabId === 'candidate'
-            ? this._buildNIWideCandidateTable()
-            : this._buildNIWidePartyTable();
+        if (tabId === 'candidate') {
+            container.innerHTML = this._buildNIWideCandidateTable();
+        } else if (tabId === 'local-party') {
+            container.innerHTML = this._buildNIWideLocalPartyTable();
+        } else {
+            container.innerHTML = this._buildNIWidePartyTable();
+        }
         this._setupResultsTableControls(container);
     }
 
@@ -1197,6 +1202,181 @@ class ElectionController {
         });
         html += `</tbody></table></div>`;
         return html;
+    }
+
+    _buildNIWideLocalPartyTable() {
+        const rows = [];
+        let totalValid = 0;
+        const prevByLocalParty = new Map();
+        let prevTotalValid = 0;
+
+        Object.entries(this.resultsByConstituency).forEach(([constName, payload]) => {
+            const cg = payload?.Constituency?.countGroup || [];
+            const info = payload?.Constituency?.countInfo || {};
+            const constValid = parseFloat(info.Valid_Poll) || 0;
+            totalValid += constValid;
+
+            const byCandidate = new Map();
+            cg.forEach(row => {
+                const cid = String(row.Candidate_Id || '');
+                if (!cid) return;
+                const countNum = parseInt(row.Count_Number, 10) || 1;
+                if (!byCandidate.has(cid)) {
+                    byCandidate.set(cid, {
+                        party: row.Party_Name || 'Independent',
+                        colour: row.Party_Colour || '#b0bec5',
+                        votes: 0,
+                        elected: false,
+                        excluded: false
+                    });
+                }
+                const cand = byCandidate.get(cid);
+                if (countNum === 1) {
+                    cand.votes = parseFloat(row.Total_Votes) || 0;
+                }
+                if (this._statusKind(row.Status) === 'elected') cand.elected = true;
+                if (this._statusKind(row.Status) === 'excluded') cand.excluded = true;
+            });
+
+            const seatCount = parseInt(info.Number_Of_Seats, 10) || 0;
+            const explicitElected = [...byCandidate.values()].filter(c => c.elected).length;
+            if (seatCount > 0 && explicitElected < seatCount) {
+                const countNums = [...new Set(cg.map(r => parseInt(r.Count_Number, 10) || 1))].sort((a, b) => a - b);
+                const lastCount = countNums[countNums.length - 1] || 1;
+                const needed = seatCount - explicitElected;
+                const deemable = [...byCandidate.entries()]
+                    .filter(([, c]) => !c.elected && !c.excluded)
+                    .map(([cid, c]) => {
+                        let lastVotes = -1;
+                        cg.forEach((row) => {
+                            if (String(row.Candidate_Id || '') !== String(cid)) return;
+                            const cn = parseInt(row.Count_Number, 10) || 1;
+                            if (cn === lastCount) lastVotes = parseFloat(row.Total_Votes) || 0;
+                        });
+                        return { c, lastVotes };
+                    })
+                    .filter(x => x.lastVotes >= 0)
+                    .sort((a, b) => b.lastVotes - a.lastVotes)
+                    .slice(0, needed);
+                deemable.forEach(({ c }) => { c.elected = true; });
+            }
+
+            const byLocalParty = new Map();
+            byCandidate.forEach((cand) => {
+                const party = cand.party || 'Independent';
+                if (!byLocalParty.has(party)) {
+                    byLocalParty.set(party, {
+                        constituency: constName,
+                        party,
+                        colour: cand.colour || '#b0bec5',
+                        votes: 0,
+                        stood: 0,
+                        elected: 0,
+                        constPct: 0
+                    });
+                }
+                const lp = byLocalParty.get(party);
+                lp.votes += cand.votes || 0;
+                lp.stood += 1;
+                if (cand.elected) lp.elected += 1;
+            });
+
+            byLocalParty.forEach((lp) => {
+                lp.constPct = constValid > 0 ? (lp.votes / constValid * 100) : 0;
+                rows.push(lp);
+            });
+        });
+
+        Object.entries(this.previousResultsByConstituency || {}).forEach(([constName, payload]) => {
+            const cg = payload?.Constituency?.countGroup || [];
+            const info = payload?.Constituency?.countInfo || {};
+            const constValid = parseFloat(info.Valid_Poll) || 0;
+            prevTotalValid += constValid;
+
+            const constituencyElected = this._extractElected(payload);
+            const electedByParty = new Map();
+            constituencyElected.forEach((member) => {
+                const party = member.party || 'Independent';
+                electedByParty.set(party, (electedByParty.get(party) || 0) + 1);
+            });
+
+            const snapshot = new Map();
+            const seenCandidates = new Set();
+            cg.forEach(row => {
+                const countNum = parseInt(row.Count_Number, 10) || 1;
+                const cid = String(row.Candidate_Id || '');
+                if (countNum !== 1 || !cid || seenCandidates.has(cid)) return;
+                seenCandidates.add(cid);
+                const party = row.Party_Name || 'Independent';
+                if (!snapshot.has(party)) snapshot.set(party, { votes: 0, stood: 0 });
+                const entry = snapshot.get(party);
+                entry.votes += parseFloat(row.Total_Votes) || 0;
+                entry.stood += 1;
+            });
+            snapshot.forEach((entry, party) => {
+                const key = this._localPartyKey(constName, party);
+                prevByLocalParty.set(key, {
+                    votes: entry.votes,
+                    stood: entry.stood,
+                    elected: electedByParty.get(party) || 0,
+                    constPct: constValid > 0 ? (entry.votes / constValid * 100) : null
+                });
+            });
+        });
+
+        rows.sort((a, b) => b.votes - a.votes);
+        const fmt = (n) => Math.round(n).toLocaleString('en-GB');
+        let html = `<div class="election-count-wrapper"><table class="election-count-table"><thead><tr>
+            <th>Rank</th>
+            <th class="election-colour-col"></th>
+            <th>Party</th>
+            <th>Constituency</th>
+            <th>Stood</th>
+            <th>Elected</th>
+            <th class="election-num">${this._thTwoLine('1st prefs', '+/-')}</th>
+            <th class="election-num">${this._thTwoLine('1st prefs', '')}</th>
+            <th class="election-num">${this._thTwoLine('1st prefs', '%')}</th>
+            <th class="election-num">${this._thTwoLine('1st prefs %', '+/-')}</th>
+            <th class="election-num">${this._thTwoLine('% of', 'NI')}</th>
+            <th class="election-num">${this._thTwoLine('% of NI', '+/-')}</th>
+        </tr></thead><tbody>`;
+        const rankLabel = (idx) => {
+            const n = idx + 1;
+            if (n % 10 === 1 && n % 100 !== 11) return `${n}st`;
+            if (n % 10 === 2 && n % 100 !== 12) return `${n}nd`;
+            if (n % 10 === 3 && n % 100 !== 13) return `${n}rd`;
+            return `${n}th`;
+        };
+        rows.forEach((row, idx) => {
+            const niPct = totalValid > 0 ? (row.votes / totalValid * 100) : 0;
+            const key = this._localPartyKey(row.constituency, row.party);
+            const prev = prevByLocalParty.get(key);
+            const prevVotes = prev?.votes;
+            const votesDelta = typeof prevVotes === 'number' ? (row.votes - prevVotes) : null;
+            const prevNiPct = (typeof prevVotes === 'number' && prevTotalValid > 0) ? (prevVotes / prevTotalValid * 100) : null;
+            const niPctDelta = typeof prevNiPct === 'number' ? (niPct - prevNiPct) : null;
+            const constPctDelta = typeof prev?.constPct === 'number' ? (row.constPct - prev.constPct) : null;
+            html += `<tr>
+                <td class="election-rank-col">${rankLabel(idx)}</td>
+                <td class="election-colour-col"><span class="election-party-dot" style="background:${this._esc(row.colour)}"></span></td>
+                <td><span class="election-cell-wrap">${this._esc(row.party)}</span></td>
+                <td><span class="election-cell-wrap">${this._esc(row.constituency)}</span></td>
+                <td class="election-num"><span class="election-cell-wrap">${row.stood}</span></td>
+                <td class="election-num"><span class="election-cell-wrap"><strong>${row.elected}</strong></span></td>
+                <td class="election-num">${this._fmtMaybeDelta(votesDelta)}</td>
+                <td class="election-num election-cell-strong">${fmt(row.votes)}</td>
+                <td class="election-num">${row.constPct.toFixed(2)}%</td>
+                <td class="election-num">${this._fmtMaybePctDeltaOrNA(constPctDelta)}</td>
+                <td class="election-num">${niPct.toFixed(2)}%</td>
+                <td class="election-num">${this._fmtMaybePctDelta(niPctDelta)}</td>
+            </tr>`;
+        });
+        html += `</tbody></table></div>`;
+        return html;
+    }
+
+    _localPartyKey(constituency, party) {
+        return `${String(constituency || '').trim().toLowerCase()}::${String(party || '').trim().toLowerCase()}`;
     }
 
     // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Constituency Click Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
