@@ -22,12 +22,14 @@ import math
 from pathlib import Path
 
 import numpy as np
+import pyogrio
 import rasterio
 from PIL import Image
 from rasterio.enums import Resampling
+from rasterio.features import rasterize
 from rasterio.merge import merge
 from rasterio.transform import from_bounds
-from rasterio.warp import reproject
+from rasterio.warp import reproject, transform_geom
 
 WEBMERC = "EPSG:3857"
 TILE_SIZE = 256
@@ -86,6 +88,26 @@ def colourize_elevation(data: np.ndarray) -> np.ndarray:
     return rgba
 
 
+def load_land_mask_geometries(mask_path: Path, src_crs: str = "EPSG:4326", dst_crs: str = WEBMERC) -> list[dict]:
+    if not mask_path.exists():
+        raise FileNotFoundError(f"Land mask file not found: {mask_path}")
+
+    df = pyogrio.read_dataframe(mask_path, columns=[])
+    if df.empty:
+        raise RuntimeError(f"Land mask contains no features: {mask_path}")
+
+    geoms: list[dict] = []
+    for geom in df.geometry:
+        if geom is None or geom.is_empty:
+            continue
+        geoms.append(transform_geom(src_crs=src_crs, dst_crs=dst_crs, geom=geom.__geo_interface__))
+
+    if not geoms:
+        raise RuntimeError(f"Land mask contains no valid geometries: {mask_path}")
+
+    return geoms
+
+
 def build_mosaic(tile_dir: Path, output_tif: Path, bounds: tuple[float, float, float, float]) -> None:
     sources = sorted(tile_dir.glob("*.tif"))
     if not sources:
@@ -122,6 +144,7 @@ def generate_tiles(
     min_zoom: int,
     max_zoom: int,
     bounds_lonlat: tuple[float, float, float, float],
+    land_mask_geometries: list[dict] | None = None,
     skip_empty: bool = True,
 ) -> dict:
     if not src_tif.exists():
@@ -157,10 +180,21 @@ def generate_tiles(
                         dst_transform=dst_transform,
                         dst_crs=WEBMERC,
                         dst_nodata=np.nan,
-                        resampling=Resampling.nearest,
+                        # DEM is continuous data; nearest-neighbour introduces visible striping/banding.
+                        resampling=Resampling.bilinear,
                     )
 
                     rgba = colourize_elevation(dem_tile)
+                    if land_mask_geometries:
+                        land_mask = rasterize(
+                            ((geom, 1) for geom in land_mask_geometries),
+                            out_shape=(TILE_SIZE, TILE_SIZE),
+                            transform=dst_transform,
+                            fill=0,
+                            dtype=np.uint8,
+                            all_touched=True,
+                        )
+                        rgba[..., 3] = np.where(land_mask == 1, rgba[..., 3], 0).astype(np.uint8)
                     has_data = np.any(rgba[..., 3] > 0)
                     if skip_empty and not has_data:
                         skipped_count += 1
@@ -197,6 +231,21 @@ def parse_args() -> argparse.Namespace:
         help="Bounds in lon/lat for tile generation.",
     )
     parser.add_argument("--mosaic-from-dir", default="", help="Optional folder with Copernicus 1x1 degree GeoTIFF tiles.")
+    parser.add_argument(
+        "--land-mask",
+        default="data/maps/physical/Ireland.fgb",
+        help="Polygon dataset used to mask DEM to land only (default: Island of Ireland FGB).",
+    )
+    parser.add_argument(
+        "--no-land-mask",
+        action="store_true",
+        help="Disable land masking and render all DEM pixels within tile bounds.",
+    )
+    parser.add_argument(
+        "--include-empty-tiles",
+        action="store_true",
+        help="Write fully transparent tiles instead of skipping empty tiles.",
+    )
     parser.add_argument("--force", action="store_true", help="Regenerate tiles even if output directory already exists.")
     return parser.parse_args()
 
@@ -206,6 +255,7 @@ def main() -> None:
     src_tif = Path(args.src)
     out_dir = Path(args.tile_dir)
     bounds = tuple(args.bounds)
+    mask_geometries = None
 
     if args.mosaic_from_dir:
         tile_dir = Path(args.mosaic_from_dir)
@@ -217,6 +267,11 @@ def main() -> None:
         if existing:
             raise RuntimeError(f"Output directory is not empty: {out_dir}. Use --force after clearing it.")
 
+    if not args.no_land_mask:
+        mask_path = Path(args.land_mask)
+        print(f"[DEM Tiles] Loading land mask geometries from {mask_path}")
+        mask_geometries = load_land_mask_geometries(mask_path)
+
     print(f"[DEM Tiles] Generating tiles from {src_tif} into {out_dir}")
     metadata = generate_tiles(
         src_tif=src_tif,
@@ -224,7 +279,8 @@ def main() -> None:
         min_zoom=args.min_zoom,
         max_zoom=args.max_zoom,
         bounds_lonlat=bounds,
-        skip_empty=True,
+        land_mask_geometries=mask_geometries,
+        skip_empty=not args.include_empty_tiles,
     )
 
     metadata_path = out_dir / "metadata.json"

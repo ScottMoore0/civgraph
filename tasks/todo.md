@@ -820,3 +820,95 @@
 - [x] Changed Elected column to show elected count only.
 - [x] Added Stood column immediately left of Elected.
 
+# Current Task: Copernicus DEM Coverage, Sea Mask, and Layer Ordering
+
+- [x] Fix DEM tile generation so sea is excluded and only land is rendered.
+- [x] Regenerate Copernicus DEM tile set with land-mask applied.
+- [x] Align DEM map config min zoom with available tile pyramid.
+- [x] Ensure DEM renders below vector layers by pane z-index.
+- [x] Assess feasibility of user-reorderable active layer stacking.
+
+## Review
+- `scripts/build-copernicus-dem-tiles.py` updated:
+  - added land-mask support using `data/maps/physical/Ireland.fgb`
+  - rasterizes land polygons per tile and clears alpha outside land
+  - added `--land-mask` and `--no-land-mask` options
+- Copernicus tile set regenerated:
+  - output: `data/maps/physical/copernicus-dem-30m-ireland-tiles`
+  - metadata now reports 290 written tiles, with sea-only tiles skipped
+- `data/database/maps.json` updated:
+  - `copernicus-dem-30m-ireland.rasterStyle.minZoom` changed `0 -> 5` (matches available/generated zoom pyramid)
+- `js/map-controller.js` updated:
+  - Copernicus pane z-index lowered to `250` so vector layers stay above DEM
+
+### Follow-up (Remaining Kerry/NE DEM gaps + drag-handle doc)
+- [x] Eliminate remaining coastal DEM gaps by generating full tile matrix (including transparent empty tiles).
+- [x] Add markdown design note for draggable Active Layers handles.
+
+### Follow-up Review
+- Root cause of remaining visual gaps:
+  - coastal/edge tiles could be physically absent when empty tiles were skipped, producing missing-tile holes at coastlines under some view/zoom combinations.
+- Fix:
+  - `scripts/build-copernicus-dem-tiles.py` now supports `--include-empty-tiles`.
+  - Copernicus tile pyramid regenerated with full matrix (`skip_empty=False`) and land mask still enforced.
+  - New metadata: `tilesWritten=539`, `tilesSkippedEmpty=0`.
+- Documentation:
+  - added `docs/active-layers-drag-handle-design.md` covering UX, ordering model, rendering strategy, and verification checklist.
+
+
+### Follow-up (Copernicus disappears at high zoom)
+- [x] Raised Copernicus raster display max zoom from 13 to 20 while keeping maxNativeZoom=10.
+- [x] This preserves visibility at deep zoom by overzooming z10 tiles instead of hiding the layer.
+
+
+### Follow-up (Coastal sliver gaps from mask sampling)
+- [x] Changed DEM land-mask rasterization to all_touched=True to keep coast-edge pixels.
+- [x] Regenerated Copernicus tiles with full matrix + updated mask behavior.
+- [x] Verified each zoom (5..10) has a complete rectangular XYZ matrix with zero missing tile files.
+
+### Follow-up Verification (Latest Regeneration)
+- Tile build command:
+  - `python scripts/build-copernicus-dem-tiles.py --src data/maps/physical/copernicus-dem-30m-ireland.tif --tile-dir data/maps/physical/copernicus-dem-30m-ireland-tiles --min-zoom 5 --max-zoom 10 --include-empty-tiles --force`
+- Build output:
+  - `Done. Wrote 539 tiles`
+  - `metadata.json`: `tilesWritten=539`, `tilesSkippedEmpty=0`
+- Matrix completeness check:
+  - z5: 1/1, missing 0
+  - z6: 4/4, missing 0
+  - z7: 9/9, missing 0
+  - z8: 30/30, missing 0
+  - z9: 99/99, missing 0
+  - z10: 396/396, missing 0
+
+### Follow-up (GDAL CLI NoData fill for persistent on-land gaps)
+- [x] Installed/validated GDAL CLI runtime (`gdal.exe`).
+- [x] Filled NoData in source DEM using GDAL `raster fill-nodata`.
+- [x] Rebuilt Copernicus tiles from filled DEM.
+- [x] Verified previous NE/Kerry gap windows no longer contain masked pixels.
+
+### Follow-up Review (GDAL fill pass)
+- Fill command:
+  - `gdal.exe raster fill-nodata -i data/maps/physical/copernicus-dem-30m-ireland.tif -o data/maps/physical/copernicus-dem-30m-ireland.filled.tif --overwrite -d 5000 -s 1 -f GTiff --co COMPRESS=DEFLATE --co PREDICTOR=2 --co TILED=YES`
+- Tile rebuild command:
+  - `python scripts/build-copernicus-dem-tiles.py --src data/maps/physical/copernicus-dem-30m-ireland.filled.tif --tile-dir data/maps/physical/copernicus-dem-30m-ireland-tiles --min-zoom 5 --max-zoom 10 --include-empty-tiles --force`
+- Verification evidence:
+  - Formerly failing windows now show `masked=0`:
+    - NE1 `(-6.206667,54.277778,-5.78,54.562222)`
+    - NE2 `(-5.78,54.277778,-5.353333,54.562222)`
+    - KERRY1 `(-10.473333,52.002222,-10.046667,52.286667)`
+    - KERRY2 `(-10.046667,52.002222,-9.62,52.286667)`
+  - Tile matrix still complete at z5..z10 with zero missing files in each zoom bbox.
+
+### Follow-up (DEM horizontal striping artifact)
+- [x] Identified incorrect DEM reprojection resampling mode.
+- [x] Changed tile reprojection from `nearest` to `bilinear`.
+- [x] Rebuilt Copernicus tile pyramid from filled DEM source.
+
+### Follow-up Review (Striping fix)
+- Root cause:
+  - `scripts/build-copernicus-dem-tiles.py` used `Resampling.nearest` when reprojecting continuous elevation into XYZ tile grid.
+  - At low zoom this introduced aliasing/striping bands that do not reflect real terrain.
+- Fix:
+  - Changed resampling to `Resampling.bilinear` for DEM reprojection.
+  - Regenerated all Copernicus tiles (z5..z10, full matrix).
+

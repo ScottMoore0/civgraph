@@ -1523,12 +1523,12 @@
       ],
       "description": "Static pre-coloured elevation raster tiles derived from Copernicus GLO-30 DEM. Rendered as nearest-neighbour cells with a terrain colour ramp.",
       "files": {
-        "xyz": "data/maps/physical/copernicus-dem-30m-ireland-tiles/{z}/{x}/{y}.webp"
+        "xyz": "data/maps/physical/copernicus-dem-30m-ireland-tiles/{z}/{x}/{y}.webp?v=20260225-stripingfix1"
       },
       "rasterStyle": {
         "opacity": 0.78,
-        "minZoom": 0,
-        "maxZoom": 13,
+        "minZoom": 5,
+        "maxZoom": 20,
         "maxNativeZoom": 10,
         "pixelated": true
       },

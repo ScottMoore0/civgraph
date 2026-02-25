@@ -260,3 +260,48 @@
 - Impact: Extra iteration and avoidable UI churn.
 - Guardrail: For new table views, define column contract explicitly (labels + value formulas) in 	asks/todo.md before coding and verify against screenshot/acceptance criteria before handoff.
 
+
+### 46) Raster DEM quality issues should be fixed at tile-generation source, not only in UI
+- Mistake pattern: Treating DEM sea coverage and tile-edge gaps as purely runtime layer settings.
+- Impact: Persistent visual artifacts (sea tinting, apparent coverage gaps) and repeated front-end-only tweaks.
+- Guardrail:
+  1) apply land/sea masking in the tile-build pipeline,
+  2) keep maps config zoom range aligned to generated tile pyramid,
+  3) keep raster pane ordering explicit (DEM below vectors) via pane z-index contract.
+
+
+### 47) Keep raster display max zoom above user interaction range
+- Mistake pattern: Setting raster maxZoom too low for a map that users can zoom beyond.
+- Impact: Layer disappears at higher zoom, appearing broken.
+- Guardrail: For static raster pyramids, set maxNativeZoom to data limit and keep maxZoom high enough (e.g., 20) for overzoom continuity.
+
+
+### 48) Coastal raster completeness requires full tile matrix, not sparse tile outputs
+- Mistake pattern: Skipping empty tiles in a masked coastal DEM pyramid can leave physical tile holes that appear as coastline gaps in specific view/zoom combinations.
+- Impact: User-visible missing DEM coverage around coasts (e.g., Kerry/NE).
+- Guardrail: For production coastal rasters, generate complete XYZ matrix for target zoom range and use transparent empty tiles instead of missing files.
+
+
+### 49) For coastal land masks at low zoom, avoid center-only rasterization
+- Mistake pattern: Using all_touched=False for coast masks drops edge pixels when a pixel intersects land but its center is offshore.
+- Impact: Persistent coastal sliver gaps despite full tile coverage.
+- Guardrail: Use all_touched=True (or equivalent edge-preserving mask strategy) for low-zoom coastal DEM products.
+
+
+### 50) After tile-coverage fixes, prove whether gaps are source NoData
+- Mistake pattern: Treating all remaining visual DEM holes as tile-generation or masking bugs.
+- Impact: Repeated tile/mask iterations while root cause is missing elevations in the source raster over land.
+- Guardrail:
+  1) quantify on-land NoData directly from the source DEM before further tile logic changes,
+  2) if on-land NoData exists, run a source-level fill/rebuild step (e.g., GDAL `raster fill-nodata`) or refresh source mosaic,
+  3) verify on the exact previously failing bbox windows before declaring fixed.
+
+
+### 51) Never use nearest-neighbour resampling for continuous DEM rendering
+- Mistake pattern: Reprojecting DEM values to display tiles with nearest-neighbour sampling.
+- Impact: Horizontal/latitudinal striping and aliasing artifacts that misrepresent real terrain patterns.
+- Guardrail:
+  1) use bilinear (or cubic) for continuous elevation reprojection to map tiles,
+  2) reserve nearest for categorical rasters only,
+  3) add a visual QA check at low zoom after any DEM tile rebuild.
+

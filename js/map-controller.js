@@ -984,10 +984,12 @@ class MapController {
                 let pane = this.map.getPane(paneName);
                 if (!pane) {
                     pane = this.map.createPane(paneName);
-                    pane.style.zIndex = '450';
+                    // Keep DEM beneath vector overlays/layers.
+                    pane.style.zIndex = '250';
                     pane.style.pointerEvents = 'none';
                 }
                 options.pane = paneName;
+                options.zIndex = 250;
             }
 
             if (Array.isArray(mapConfig.bounds) && mapConfig.bounds.length === 2) {
