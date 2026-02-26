@@ -119,6 +119,18 @@
 - [x] File inventory + sizes for requested maps
   - produced current local FGB/chunk/tile file size report for Railways, Catholic Dioceses, Historic Sites, Transport Lines, Copernicus, Townlands
 
+# LFS Cleanup Pass (2026-02-26)
+
+- [x] Audit LFS-tracked files and sizes
+  - verified all current `.fgb` files are below 100MB
+- [x] Verify rollback safety artifacts before migration
+  - confirmed backup bundle/mirror/snapshot and safety tag existence
+- [x] Convert `.fgb` tracking from Git LFS to regular Git blobs
+  - updated `.gitattributes` from `*.fgb filter=lfs ...` to `*.fgb -filter -diff -merge -text`
+  - re-indexed all tracked `.fgb` files so staged blobs are full binary (not LFS pointers)
+- [ ] Commit and push cleanup
+  - pending user confirmation after final verification summary
+
 # Root-Cause Pass: Point Feature Double-Click -> Feature Card
 
 - [x] Diagnose runtime event chain for point-feature selection
@@ -911,4 +923,30 @@
 - Fix:
   - Changed resampling to `Resampling.bilinear` for DEM reprojection.
   - Regenerated all Copernicus tiles (z5..z10, full matrix).
+
+# Current Task: Risk-Minimized LFS Cleanup Execution
+
+- [x] Create immutable backups (`git bundle`, mirror clone, filesystem snapshot of `data/maps`).
+- [x] Create safety refs before cleanup (`pre-lfs-cleanup-*` tag and `safety/pre-lfs-cleanup-*` branch).
+- [x] Validate rollback fidelity with checksum verification against snapshot.
+- [x] Apply clean push path from true GitHub `origin/main` baseline.
+- [x] Push Townlands monolith removal commit without uploading bulk LFS changes.
+- [x] Reconcile local workspace to pushed `origin/main` while preserving local pre-sync state.
+
+## Review
+- Backup artifacts created under:
+  - `backups/20260226-222514/`
+  - includes `full.bundle`, `mirror.git`, and `data-maps-snapshot`.
+- Safety refs created:
+  - tag: `pre-lfs-cleanup-20260226-222514`
+  - branch: `safety/pre-lfs-cleanup-20260226-222514`
+- Verification evidence:
+  - snapshot checksum match confirmed (`LGD_2012.fgb`).
+- Clean remote push performed from isolated clone based on true `origin/main`:
+  - commit `a00fbbf`
+  - message: `Use IA direct download for Townlands monolith and keep chunked interactive loading`
+  - push succeeded to `main`.
+- Local reconciliation:
+  - preserved branch: `safety/local-pre-sync-20260226-222514`
+  - local `main` reset to `origin/main` (`a00fbbf`).
 
