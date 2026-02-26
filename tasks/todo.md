@@ -1,3 +1,16 @@
+# Current Task: Restore Mean Elevation (2026-02-26)
+
+- [x] Diagnose why Mean Elevation disappeared
+  - Root cause: `meanElev_m` / `meanElev_ft` were missing from current map data files.
+- [x] Restore valid map binaries before backfill
+  - Restored `data/maps` from `HEAD` after accidental LFS-pointer working-tree state.
+- [x] Backfill `meanElev_m` and `meanElev_ft` across map datasets
+  - Ran `python scripts/backfill-mean-elevation.py --root data/maps`.
+- [x] Verify in representative files
+  - Confirmed `meanElev_m` and `meanElev_ft` now exist in sample layers (`LGD_2012`, `PC2023`, townlands chunk sample).
+- [x] Harden backfill script for future runs
+  - Updated `scripts/backfill-mean-elevation.py` to force stable output layer names using `path.stem`.
+
 # Current Task: Task Ledger Consolidation
 
 - [x] Amend `AGENTS.md` so `tasks/todo.md` fulfills the function previously assigned to `TASKS.md`.
@@ -932,6 +945,13 @@
 - [x] Apply clean push path from true GitHub `origin/main` baseline.
 - [x] Push Townlands monolith removal commit without uploading bulk LFS changes.
 - [x] Reconcile local workspace to pushed `origin/main` while preserving local pre-sync state.
+
+# Current Task: Restore Mean Elevation
+
+- [ ] Re-apply lost mean-elevation backfill changes from safety commit `44723e0` onto `main`.
+- [ ] Verify feature-card rendering includes `Mean Elevation` between min/max in universal metrics.
+- [ ] Verify representative map files contain `meanElev_m` and `meanElev_ft` attributes.
+- [ ] Commit and push restoration to `origin/main`.
 
 ## Review
 - Backup artifacts created under:

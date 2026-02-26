@@ -3831,6 +3831,17 @@ class UIController {
             const maxElevM = props.maxElev_m;
             const minElevFt = props.minElev_ft;
             const maxElevFt = props.maxElev_ft;
+            let meanElevM = props.meanElev_m;
+            let meanElevFt = props.meanElev_ft;
+            if ((meanElevM === undefined || meanElevM === null || isNaN(meanElevM)) &&
+                minElevM !== undefined && minElevM !== null && !isNaN(minElevM) &&
+                maxElevM !== undefined && maxElevM !== null && !isNaN(maxElevM)) {
+                meanElevM = (Number(minElevM) + Number(maxElevM)) / 2;
+            }
+            if ((meanElevFt === undefined || meanElevFt === null || isNaN(meanElevFt)) &&
+                meanElevM !== undefined && meanElevM !== null && !isNaN(meanElevM)) {
+                meanElevFt = Math.round(Number(meanElevM) * 3.28084);
+            }
 
             // Format spatial metrics with dual units and toggle precision
             if (area || perimeter || (minElevM !== undefined && maxElevM !== undefined)) {
@@ -3842,7 +3853,7 @@ class UIController {
                     }
                     if (!isNaN(areaKm2)) {
                         const areaSqMi = areaKm2 * 0.386102;
-                        html += `<div class="feature-info__metric feature-info__metric--clickable" data-area-km="${areaKm2}" data-area-mi="${areaSqMi}" data-precision="2">
+                        html += `<div class="feature-info__metric feature-info__metric--clickable feature-info__metric--top" data-area-km="${areaKm2}" data-area-mi="${areaSqMi}" data-precision="2">
                             <span class="feature-info__metric-label">Area</span>
                             <span class="feature-info__metric-value feature-info__metric-value--underline">
                                 <span class="metric-km">${this.formatNumber(areaKm2, 2)} km<sup>2</sup></span><br>
@@ -3858,7 +3869,7 @@ class UIController {
                     }
                     if (!isNaN(perimKm)) {
                         const perimMi = perimKm * 0.621371;
-                        html += `<div class="feature-info__metric feature-info__metric--clickable" data-perim-km="${perimKm}" data-perim-mi="${perimMi}" data-precision="2">
+                        html += `<div class="feature-info__metric feature-info__metric--clickable feature-info__metric--top" data-perim-km="${perimKm}" data-perim-mi="${perimMi}" data-precision="2">
                             <span class="feature-info__metric-label">Perimeter</span>
                             <span class="feature-info__metric-value feature-info__metric-value--underline">
                                 <span class="metric-km">${this.formatNumber(perimKm, 2)} km</span><br>
@@ -3877,6 +3888,15 @@ class UIController {
                         </span>
                     </div>`;
                 }
+                if (meanElevM !== undefined && meanElevM !== null && !isNaN(meanElevM)) {
+                    html += `<div class="feature-info__metric">
+                        <span class="feature-info__metric-label">Mean Elevation</span>
+                        <span class="feature-info__metric-value">
+                            <span class="metric-km">${this.formatNumber(meanElevM, 1)} m</span><br>
+                            <span class="metric-mi">(${meanElevFt || Math.round(meanElevM * 3.28084)} ft)</span>
+                        </span>
+                    </div>`;
+                }
                 if (maxElevM !== undefined && maxElevM !== null && !isNaN(maxElevM)) {
                     html += `<div class="feature-info__metric">
                         <span class="feature-info__metric-label">Max Elevation</span>
@@ -3892,7 +3912,7 @@ class UIController {
             // Render all properties in a collapsible table
             const excludeKeys = ['Name', 'name', 'NAME', 'Area', 'area', 'AREA',
                 'Perimeter', 'perimeter', 'PERIMETER', 'geometry',
-                'minElev_m', 'maxElev_m', 'minElev_ft', 'maxElev_ft'];
+                'minElev_m', 'maxElev_m', 'meanElev_m', 'minElev_ft', 'maxElev_ft', 'meanElev_ft'];
             const filteredProps = Object.entries(props)
                 .filter(([key, value]) =>
                     !excludeKeys.includes(key) &&

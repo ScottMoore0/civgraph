@@ -3895,7 +3895,7 @@ body.split-dragging * {
   margin: 0 calc(-1 * var(--space-4));
   padding: var(--space-3) var(--space-4);
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: var(--space-2);
 }
 
@@ -3907,6 +3907,11 @@ body.split-dragging * {
   background: rgba(255, 255, 255, 0.6);
   border-radius: 10px;
   transition: all 0.2s ease;
+  grid-column: span 2;
+}
+
+.feature-info__metric--top {
+  grid-column: span 3;
 }
 
 .feature-info__metric-label {
