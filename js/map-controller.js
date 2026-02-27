@@ -236,9 +236,9 @@ class MapController {
     _setFeatureHover(layer, isHover) {
         if (!layer || typeof layer.setStyle !== 'function') return;
 
-        if (!layer._originalStyle) {
+        if (!layer._baseStyle) {
             const opts = layer.options || {};
-            layer._originalStyle = {
+            layer._baseStyle = {
                 color: opts.color,
                 weight: opts.weight,
                 opacity: opts.opacity,
@@ -248,8 +248,9 @@ class MapController {
             };
         }
 
-        const base = layer._originalStyle || {};
+        const base = layer._baseStyle || {};
         if (isHover) {
+            layer._hoverRestoreStyle = { ...base };
             const hoverColor = '#ff7a1a';
             const hoverStyle = {
                 color: hoverColor,
@@ -264,11 +265,13 @@ class MapController {
             layer.setStyle(hoverStyle);
             if (typeof layer.bringToFront === 'function') layer.bringToFront();
         } else {
+            const restoreBase = layer._hoverRestoreStyle || base;
             const restore = {};
             ['color', 'weight', 'opacity', 'fillColor', 'fillOpacity', 'radius'].forEach((k) => {
-                if (base[k] !== undefined) restore[k] = base[k];
+                if (restoreBase[k] !== undefined) restore[k] = restoreBase[k];
             });
             layer.setStyle(restore);
+            layer._hoverRestoreStyle = null;
         }
 
         const labelEl = layer._labelMarker?.getElement?.();
@@ -799,9 +802,9 @@ class MapController {
         const { id, files, style, labelProperty, name } = mapConfig;
         const signal = options?.signal;
 
-        // Check if already loaded
-        if (this.layerStates.has(id)) {
-            const state = this.layerStates.get(id);
+        // Check if already loaded as a full/base layer.
+        let state = this.layerStates.get(id);
+        if (state?.baseLoaded) {
             if (show && !state.visible) {
                 this.showLayer(id);
             }
@@ -827,21 +830,33 @@ class MapController {
             return null;
         }
 
-        // Create layer state
-        const state = {
-            id,
-            config: mapConfig,
-            group: L.layerGroup(),
-            geoJsonLayers: [],
-            labelEntries: [],
-            loaded: false,
-            loading: true,
-            visible: false,
-            progress: 0,
-            useSpatial: false,  // Will be set if using spatial/LOD loading
-            fgbPath: filePath    // Store the base FGB path for LOD resolution
-        };
-        this.layerStates.set(id, state);
+        // Create or promote layer state.
+        if (!state) {
+            state = {
+                id,
+                config: mapConfig,
+                group: L.layerGroup(),
+                geoJsonLayers: [],
+                labelEntries: [],
+                loaded: false,
+                loading: true,
+                visible: false,
+                progress: 0,
+                useSpatial: false,  // Will be set if using spatial/LOD loading
+                fgbPath: filePath,   // Store the base FGB path for LOD resolution
+                baseLoaded: false,
+                featureNames: new Map(),
+                featureLayers: new Map(),
+                featureVisibility: new Map()
+            };
+            this.layerStates.set(id, state);
+        } else {
+            state.config = mapConfig;
+            state.loading = true;
+            state.progress = 0;
+            state.useSpatial = false;
+            state.fgbPath = filePath;
+        }
 
         // Notify loading started
         if (this.onLoadProgress) {
@@ -1000,6 +1015,8 @@ class MapController {
             rasterLayer.addTo(state.group);
 
             state.rasterLayer = rasterLayer;
+            state.baseLoaded = true;
+            state.isPartial = false;
             state.loaded = true;
             state.loading = false;
             state.progress = 100;
@@ -1069,6 +1086,8 @@ class MapController {
                 });
                 geoJsonLayer.addTo(state.group);
                 state.geoJsonLayers.push(geoJsonLayer);
+                state.baseLoaded = true;
+                state.isPartial = false;
                 state.loaded = true;
                 state.loading = false;
                 state.progress = 100;
@@ -1096,6 +1115,8 @@ class MapController {
                         });
                         geoJsonLayer.addTo(state.group);
                         state.geoJsonLayers.push(geoJsonLayer);
+                        state.baseLoaded = true;
+                        state.isPartial = false;
                         state.loaded = true;
                         state.loading = false;
                         state.progress = 100;
@@ -1139,6 +1160,8 @@ class MapController {
                 totalLoaded += features.length;
             }
 
+            state.baseLoaded = true;
+            state.isPartial = false;
             state.loaded = true;
             state.loading = false;
             state.geometryType = 'MultiPolygon';
@@ -1197,6 +1220,8 @@ class MapController {
                 geoJsonLayer.addTo(state.group);
                 state.geoJsonLayers.push(geoJsonLayer);
                 state.featureCount = geojsonData.features?.length || 0;
+                state.baseLoaded = true;
+                state.isPartial = false;
                 state.loaded = true;
                 state.loading = false;
                 state.progress = 100;
@@ -1227,6 +1252,8 @@ class MapController {
                         geoJsonLayer.addTo(state.group);
                         state.geoJsonLayers.push(geoJsonLayer);
                         state.featureCount = geojsonData.features?.length || 0;
+                        state.baseLoaded = true;
+                        state.isPartial = false;
                         state.loaded = true;
                         state.loading = false;
                         state.progress = 100;
@@ -1393,7 +1420,9 @@ class MapController {
     /**
      * Add a single feature to a layer state
      */
-    addFeatureToLayer(state, geojson, style, labelProperty, mapConfig) {
+    addFeatureToLayer(state, geojson, style, labelProperty, mapConfig, options = {}) {
+        const registerInGeoJsonLayers = options.registerInGeoJsonLayers !== false;
+        const registerLabels = options.registerLabels !== false;
         const geoJsonLayer = L.geoJSON(geojson, {
             style: (feature) => {
                 // Don't apply polygon style to points - they use pointToLayer
@@ -1414,7 +1443,9 @@ class MapController {
         });
 
         geoJsonLayer.addTo(state.group);
-        state.geoJsonLayers.push(geoJsonLayer);
+        if (registerInGeoJsonLayers) {
+            state.geoJsonLayers.push(geoJsonLayer);
+        }
 
         // Apply active conditional style to dynamically-loaded chunks
         if (state._activeStyleFn) {
@@ -1422,7 +1453,7 @@ class MapController {
         }
 
         // Collect label entries — support fallback label properties for mixed data sources
-        if (labelProperty) {
+        if (labelProperty && registerLabels) {
             const labelProps = mapConfig.labelPropertyFallbacks
                 ? [labelProperty, ...mapConfig.labelPropertyFallbacks]
                 : [labelProperty];
@@ -1705,6 +1736,13 @@ class MapController {
             return text.replace(/\s*\([^()]*\)\s*$/, '').trim();
         }
 
+        if (cleanupRule && typeof cleanupRule === 'object' && cleanupRule.type === 'mapValues') {
+            const mapped = cleanupRule.map?.[text];
+            if (typeof mapped === 'string' && mapped.trim()) {
+                return mapped.trim();
+            }
+        }
+
         return text;
     }
 
@@ -1790,13 +1828,7 @@ class MapController {
         // Check if layer already exists
         let state = this.layerStates.get(id);
 
-        if (state) {
-            // If it's a full map (not partial), just return it
-            if (!state.isPartial) {
-                return state;
-            }
-            // Otherwise, add this feature to the existing partial layer
-        } else {
+        if (!state) {
             // Create new partial layer state
             state = {
                 id,
@@ -1813,13 +1845,19 @@ class MapController {
                 loadedIndices: new Set(),     // Track which features are loaded
                 featureNames: new Map(),      // Track feature names for display
                 featureLayers: new Map(),     // featureIndex -> L.GeoJSON layer
-                featureVisibility: new Map()  // featureIndex -> visible boolean
+                featureVisibility: new Map(), // featureIndex -> visible boolean
+                baseLoaded: false
             };
             this.layerStates.set(id, state);
+        } else {
+            state.featureNames ||= new Map();
+            state.featureLayers ||= new Map();
+            state.featureVisibility ||= new Map();
+            state.loadedIndices ||= new Set(state.featureLayers.keys());
         }
 
         // Check if this feature is already loaded
-        if (state.loadedIndices.has(featureIndex)) {
+        if (state.featureLayers.has(featureIndex)) {
             return state;
         }
 
@@ -1866,8 +1904,27 @@ class MapController {
             return null;
         }
 
-        // Add the feature to the layer
-        const addedLayer = this.addFeatureToLayer(state, loadedFeature, style, labelProperty, mapConfig);
+        const featureStyle = {
+            ...style,
+            weight: (style?.weight || 2) + 1,
+            radius: (style?.radius || 5) + 1
+        };
+
+        // Add the feature as an independent overlay instance instead of replacing the full map.
+        const addedLayer = this.addFeatureToLayer(
+            state,
+            loadedFeature,
+            featureStyle,
+            labelProperty,
+            mapConfig,
+            {
+                registerInGeoJsonLayers: false,
+                // Partial-only feature loads need their own labels; additive feature loads
+                // over a full base layer should not duplicate labels that already exist.
+                registerLabels: !state.baseLoaded
+            }
+        );
+        state.loadedIndices ||= new Set();
         state.loadedIndices.add(featureIndex);
 
         // Store feature metadata
@@ -1875,6 +1932,7 @@ class MapController {
         state.featureNames.set(featureIndex, resolvedName);
         state.featureLayers.set(featureIndex, addedLayer);
         state.featureVisibility.set(featureIndex, true);
+        state.loaded = true;
 
         // Show the layer
         this.showLayer(id);
@@ -1915,7 +1973,7 @@ class MapController {
      */
     isPartialLayer(id) {
         const state = this.layerStates.get(id);
-        return state?.isPartial === true;
+        return state?.isPartial === true && state?.baseLoaded !== true;
     }
 
     /**
@@ -1923,14 +1981,15 @@ class MapController {
      */
     getPartialFeatureNames(id) {
         const state = this.layerStates.get(id);
-        if (!state?.isPartial) return [];
+        if (!state?.featureNames) return [];
         return Array.from(state.featureNames.values());
     }
 
     getPartialFeatureItems(id) {
         const state = this.layerStates.get(id);
-        if (!state?.isPartial) return [];
-        return Array.from(state.loadedIndices)
+        if (!state?.featureLayers || state.featureLayers.size === 0) return [];
+        const indices = state.loadedIndices ? Array.from(state.loadedIndices) : Array.from(state.featureLayers.keys());
+        return indices
             .sort((a, b) => {
                 const an = Number(a);
                 const bn = Number(b);
@@ -1946,7 +2005,7 @@ class MapController {
 
     togglePartialFeature(mapId, featureIndex) {
         const state = this.layerStates.get(mapId);
-        if (!state?.isPartial) return;
+        if (!state?.featureLayers) return;
         const featureLayer = state.featureLayers.get(featureIndex);
         if (!featureLayer) return;
 
@@ -1963,7 +2022,7 @@ class MapController {
 
     unloadPartialFeature(mapId, featureIndex) {
         const state = this.layerStates.get(mapId);
-        if (!state?.isPartial) return;
+        if (!state?.featureLayers) return;
         const featureLayer = state.featureLayers.get(featureIndex);
         if (!featureLayer) return;
 
@@ -1978,11 +2037,22 @@ class MapController {
         state.featureNames.delete(featureIndex);
         state.featureVisibility.delete(featureIndex);
 
-        if (state.loadedIndices.size === 0) {
+        if (state.loadedIndices.size === 0 && !state.baseLoaded) {
             this.unloadLayer(mapId);
             return;
         }
         this.updateLabels();
+    }
+
+    isFeatureLoaded(mapId, featureIndex) {
+        const state = this.layerStates.get(mapId);
+        return !!state?.featureLayers?.has(featureIndex);
+    }
+
+    isFeatureVisible(mapId, featureIndex) {
+        const state = this.layerStates.get(mapId);
+        if (!state?.featureLayers?.has(featureIndex)) return false;
+        return state.featureVisibility.get(featureIndex) !== false;
     }
 
     /**
@@ -2039,9 +2109,23 @@ class MapController {
         this.fillOpacity = fillOpacity;
         this.layerStates.forEach(state => {
             state.group.eachLayer(layer => {
-                if (layer.setStyle) {
-                    layer.setStyle({ fillOpacity });
+                if (!layer || typeof layer.setStyle !== 'function') return;
+                if (!layer._baseStyle) {
+                    const opts = layer.options || {};
+                    layer._baseStyle = {
+                        color: opts.color,
+                        weight: opts.weight,
+                        opacity: opts.opacity,
+                        fillColor: opts.fillColor,
+                        fillOpacity: opts.fillOpacity,
+                        radius: opts.radius
+                    };
                 }
+                layer._baseStyle.fillOpacity = fillOpacity;
+                if (layer._hoverRestoreStyle) {
+                    layer._hoverRestoreStyle.fillOpacity = fillOpacity;
+                }
+                layer.setStyle({ fillOpacity });
             });
         });
     }
@@ -2328,6 +2412,92 @@ class MapController {
             }
         };
         state.group.eachLayer(walk);
+    }
+
+    _featureLayerBounds(layer) {
+        if (!layer) return null;
+        try {
+            if (typeof layer.getBounds === 'function') {
+                const bounds = layer.getBounds();
+                if (bounds?.isValid?.()) return bounds;
+            }
+        } catch (_) { }
+        try {
+            if (typeof layer.getLatLng === 'function') {
+                const ll = layer.getLatLng();
+                if (ll) return L.latLngBounds(ll, ll);
+            }
+        } catch (_) { }
+        return null;
+    }
+
+    _matchesFeatureLayer(layer, featureId, options = {}) {
+        if (!layer?.feature) return false;
+        if (featureId !== undefined && featureId !== null && layer.feature?.id === featureId) {
+            return true;
+        }
+
+        const featureName = options?.featureName;
+        const labelProperty = options?.labelProperty;
+        if (featureName && labelProperty && layer.feature?.properties?.[labelProperty] === featureName) {
+            return true;
+        }
+        if (featureName && options?.labelPropertyFallbacks?.length) {
+            for (const key of options.labelPropertyFallbacks) {
+                if (layer.feature?.properties?.[key] === featureName) return true;
+            }
+        }
+
+        const bbox = options?.bbox;
+        if (Array.isArray(bbox) && bbox.length === 4) {
+            const layerBounds = this._featureLayerBounds(layer);
+            if (layerBounds?.isValid?.()) {
+                const targetBounds = L.latLngBounds(
+                    [bbox[1], bbox[0]],
+                    [bbox[3], bbox[2]]
+                );
+                if (layerBounds.intersects(targetBounds) || targetBounds.contains(layerBounds.getCenter())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    highlightFeature(mapId, featureId, options = {}) {
+        const state = this.layerStates.get(mapId);
+        if (!state) return false;
+
+        const matches = [];
+        this._forEachFeatureLayer(state, (layer) => {
+            if (this._matchesFeatureLayer(layer, featureId, options)) {
+                matches.push(layer);
+            }
+        });
+
+        const targets = matches.length > 0 ? matches : [];
+        if (targets.length === 0) return false;
+
+        targets.forEach((layer) => {
+            this._setFeatureHover(layer, true);
+            setTimeout(() => this._setFeatureHover(layer, false), 2000);
+        });
+        return true;
+    }
+
+    findFeatureLayer(mapId, featureId, options = {}) {
+        const state = this.layerStates.get(mapId);
+        if (!state) return null;
+
+        let match = null;
+        this._forEachFeatureLayer(state, (layer) => {
+            if (!match && this._matchesFeatureLayer(layer, featureId, options)) {
+                match = layer;
+            }
+        });
+
+        return match;
     }
 
     /**

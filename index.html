@@ -128,12 +128,11 @@
         <button class="pane-tab" data-tab="explore" role="tab" aria-selected="false" hidden>Explore</button>
       </div>
 
-      <button type="button" id="catalogueReturnTop" class="btn btn--sm catalogue-return-top">Return to top</button>
-
       <!-- Catalogue Tab Content -->
       <div class="pane__content pane-tab-content" data-tab-content="catalogue">
-        <!-- Search -->
-        <div class="search-input">
+        <div class="catalogue-sticky-shell">
+          <!-- Search -->
+          <div class="search-input">
           <svg class="search-input__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             stroke-width="2">
             <circle cx="11" cy="11" r="8" />
@@ -147,10 +146,10 @@
           <div id="searchAutocomplete" class="search-autocomplete hidden">
             <!-- Populated by JavaScript -->
           </div>
-        </div> <!-- End search-input -->
+          </div> <!-- End search-input -->
 
-        <!-- Catalogue Navigation (shown when viewing map details) -->
-        <div id="catalogueNav" class="catalogue-nav hidden">
+          <!-- Catalogue Navigation -->
+          <div id="catalogueNav" class="catalogue-nav">
           <button type="button" id="catalogueBack" class="btn btn--icon btn--sm" title="Back" disabled>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -167,12 +166,10 @@
               <polyline points="12 6 12 12 16 14" />
             </svg>
           </button>
-          <button type="button" id="catalogueHome" class="btn btn--icon btn--sm" title="Back to List">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-              <polyline points="9 22 9 12 15 12 15 22" />
-            </svg>
+          <button type="button" id="catalogueHome" class="btn btn--icon btn--sm" title="Back to List" aria-label="Back to List">
+            <span class="catalogue-home__icon" aria-hidden="true"></span>
           </button>
+          </div>
         </div>
 
         <!-- Catalogue Detail View (shown when a map is selected) -->

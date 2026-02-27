@@ -277,7 +277,8 @@
       "id": "settlements",
       "name": "Settlements",
       "classIds": [
-        "ni-settlements"
+        "ni-settlements",
+        "roi-settlements"
       ]
     },
     {
@@ -414,6 +415,15 @@
       "maps": [
         "settlements-2015",
         "settlements-2005"
+      ]
+    },
+    {
+      "id": "roi-settlements",
+      "name": "Settlements",
+      "scope": "Republic of Ireland",
+      "category": "settlements",
+      "maps": [
+        "roi-settlements-ungeneralised"
       ]
     },
     {
@@ -1356,6 +1366,36 @@
         "2005"
       ],
       "labelProperty": "LOCATION"
+    },
+    {
+      "id": "roi-settlements-ungeneralised",
+      "name": "Settlements 2015",
+      "slug": "roi-settlements-ungeneralised",
+      "category": "settlements",
+      "featured": true,
+      "date": "2015",
+      "provider": [
+        "User Provided"
+      ],
+      "files": {
+        "geojson": "Settlements_Ungeneralised_-6398853129460496398.geojson",
+        "fgb": "data/maps/physical/Settlements_ROI_Ungeneralised.fgb"
+      },
+      "style": {
+        "color": "#221F58",
+        "weight": 2
+      },
+      "keywords": [
+        "settlements",
+        "republic of ireland",
+        "ireland",
+        "urban",
+        "towns",
+        "cities",
+        "2015",
+        "ungeneralised"
+      ],
+      "labelProperty": "SETTL_NAME"
     },
     {
       "id": "place-names-gazetteer",
@@ -4449,6 +4489,16 @@
         "EU"
       ],
       "labelProperty": "ENGLISH",
+      "labelCleanup": {
+        "type": "mapValues",
+        "map": {
+          "CARLOW COUNTY COUNCIL": "East",
+          "DUBLIN CITY COUNCIL": "Dublin",
+          "DONEGAL COUNTY COUNCIL": "North-West",
+          "WATERFORD CITY AND COUNTY COUNCIL": "South",
+          "NORTHERN IRELAND": "Northern Ireland"
+        }
+      },
       "date": 2009
     },
     {
@@ -4571,7 +4621,7 @@
         "color": "#228B22",
         "weight": 2
       },
-      "labelProperty": "CONST_NAME",
+      "labelProperty": "CON_NAME",
       "keywords": [
         "D\u00e1il",
         "D\u00e1il",
@@ -4598,7 +4648,7 @@
         "color": "#228B22",
         "weight": 2
       },
-      "labelProperty": "CONST_NAME",
+      "labelProperty": "CON_NAME",
       "keywords": [
         "D\u00e1il",
         "D\u00e1il",
@@ -4951,6 +5001,7 @@
         "color": "#556B2F",
         "weight": 2
       },
+      "labelProperty": "NAME",
       "date": 2001
     },
     {
@@ -5203,6 +5254,7 @@
         "turnout",
         "2011"
       ],
+      "labelProperty": "PC_NAME",
       "date": 2011
     },
     {
@@ -5223,6 +5275,7 @@
         "referendum",
         "1998"
       ],
+      "labelProperty": "Name",
       "date": 1998
     },
     {
@@ -5243,6 +5296,7 @@
         "referendum",
         "1975"
       ],
+      "labelProperty": "Name",
       "date": 1975
     },
     {
@@ -5262,6 +5316,7 @@
         "referendum",
         "1973"
       ],
+      "labelProperty": "Name",
       "date": 1973
     },
     {

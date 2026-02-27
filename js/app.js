@@ -160,11 +160,53 @@ class App {
                 return mapController.isLayerLoaded(mapId);
             };
 
+            uiController.onCheckMapVisible = (mapId) => {
+                return mapController.isLayerVisible(mapId);
+            };
+
             uiController.onPartialFeatureUnload = (mapId, featureIndex) => {
                 mapController.unloadPartialFeature(mapId, featureIndex);
                 this.updateMapList();
                 this.updateActiveLayers();
                 this.updateURLState();
+            };
+
+            uiController.onCheckFeatureLoaded = (mapId, featureIndex) => {
+                return mapController.isFeatureLoaded(mapId, featureIndex);
+            };
+
+            uiController.onCheckFeatureVisible = (mapId, featureIndex) => {
+                return mapController.isFeatureVisible(mapId, featureIndex);
+            };
+
+            uiController.onFeatureLoad = async (mapId, featureIndex, featureName, bbox) => {
+                const mapConfig = dataService.getMapById(mapId);
+                if (!mapConfig) return;
+                await mapController.loadSingleFeature(mapConfig, featureIndex, featureName || null, bbox || null);
+                this.updateMapList();
+                this.updateActiveLayers();
+                this.updateURLState();
+            };
+
+            uiController.onOpenElectionEntityDetail = async (kind, key) => {
+                const detail = await electionController.getElectionEntityDetail(kind, key);
+                if (!detail) return;
+                uiController.showElectionEntityDetailInCatalogue(detail, true);
+            };
+
+            uiController.onElectionEntityElectionOpen = async ({ body, date, constituency }) => {
+                if (!body || !date) return;
+                await electionController.ensureElectionLoaded(body, date);
+                if (constituency) {
+                    electionController.showConstituency(constituency);
+                } else {
+                    electionController.showSummary();
+                }
+                this.updateURLState();
+            };
+
+            uiController.onOpenElectionConstituencyFeature = async ({ body, date, constituency }) => {
+                await this.openElectionConstituencyFeature(body, date, constituency);
             };
 
             uiController.onCategoryChange = (categoryId) => {
@@ -268,28 +310,23 @@ class App {
             };
 
             // Zoom to bounding box
-            uiController.onZoomToBbox = (bounds) => {
+            uiController.onZoomToBbox = (bounds, options = {}) => {
                 if (mapController.map && bounds && bounds.length === 2) {
-                    mapController.map.fitBounds(bounds, { maxZoom: 14, padding: [20, 20] });
+                    if (options?.smooth && typeof mapController.map.flyToBounds === 'function') {
+                        mapController.map.flyToBounds(bounds, {
+                            maxZoom: 14,
+                            padding: [20, 20],
+                            duration: 1.2
+                        });
+                    } else {
+                        mapController.map.fitBounds(bounds, { maxZoom: 14, padding: [20, 20] });
+                    }
                 }
             };
 
             // Highlight a specific feature
-            uiController.onHighlightFeature = (mapId, featureId) => {
-                const state = mapController.layerStates.get(mapId);
-                if (!state) return;
-
-                state.geoJsonLayers.forEach(geoJsonLayer => {
-                    geoJsonLayer.eachLayer(layer => {
-                        if (!layer.feature) return;
-                        // Flash the feature by temporarily changing style
-                        const originalStyle = { ...layer.options };
-                        layer.setStyle({ weight: 4, color: '#ff0000', fillOpacity: 0.5 });
-                        setTimeout(() => {
-                            layer.setStyle(originalStyle);
-                        }, 2000);
-                    });
-                });
+            uiController.onHighlightFeature = (mapId, featureId, options = {}) => {
+                mapController.highlightFeature(mapId, featureId, options);
             };
 
             // Load just one feature from search results (without loading whole layer).
@@ -446,6 +483,107 @@ class App {
         });
     }
 
+    _findElectionConstituencyMapConfig(body, date) {
+        const geo = electionController.constructor.getGeography(body, date);
+        if (!geo?.fgb) return null;
+        const allMaps = dataService.getAllMaps();
+        return allMaps.find((map) =>
+            map?.files?.fgb === geo.fgb
+            && (map.labelProperty === geo.nameAttr || map.labelPropertyFallbacks?.includes?.(geo.nameAttr))
+        ) || allMaps.find((map) => map?.files?.fgb === geo.fgb) || null;
+    }
+
+    async _findElectionConstituencyFeature(mapConfig, constituencyName, expectedLabelProperty = null) {
+        if (!mapConfig || !constituencyName) return null;
+        const filePath = mapConfig.files?.fgb || mapConfig.files?.geojson;
+        if (!filePath) return null;
+
+        const labelKeys = [
+            expectedLabelProperty,
+            mapConfig.labelProperty,
+            ...(mapConfig.labelPropertyFallbacks || []),
+            'Name',
+            'name',
+            'NAME',
+            'PC_NAME'
+        ].filter(Boolean);
+
+        const matchesName = (feature) => {
+            const props = feature?.properties || {};
+            return labelKeys.some((key) => String(props[key] || '').trim() === String(constituencyName).trim());
+        };
+
+        if (filePath.toLowerCase().endsWith('.fgb')) {
+            let iterator;
+            try {
+                const response = await fetch(filePath);
+                iterator = flatgeobuf.deserialize(response.body)[Symbol.asyncIterator]();
+            } catch (_) {
+                iterator = flatgeobuf.deserialize(filePath)[Symbol.asyncIterator]();
+            }
+            let index = 0;
+            while (true) {
+                const result = await iterator.next();
+                if (result.done) break;
+                const feature = result.value;
+                if (matchesName(feature)) {
+                    return { feature, featureIndex: feature?.id ?? index };
+                }
+                index += 1;
+            }
+            return null;
+        }
+
+        const response = await fetch(filePath);
+        const data = await response.json();
+        const features = data?.features || [];
+        for (let index = 0; index < features.length; index += 1) {
+            const feature = features[index];
+            if (matchesName(feature)) {
+                return { feature, featureIndex: feature?.id ?? index };
+            }
+        }
+        return null;
+    }
+
+    async openElectionConstituencyFeature(body, date, constituency) {
+        if (!body || !date || !constituency) return;
+        const geo = electionController.constructor.getGeography(body, date);
+        const mapConfig = this._findElectionConstituencyMapConfig(body, date);
+        if (!geo || !mapConfig) return;
+
+        const matched = await this._findElectionConstituencyFeature(mapConfig, constituency, geo.nameAttr);
+        if (!matched?.feature) return;
+
+        const primaryName = matched.feature.properties?.[mapConfig.labelProperty]
+            || matched.feature.properties?.[geo.nameAttr]
+            || constituency;
+        const bbox = uiController.getFeatureBBox(matched.feature.geometry);
+        const detailId = uiController.cacheFeatureDetailEntry(
+            mapConfig,
+            matched.feature,
+            primaryName,
+            matched.featureIndex
+        );
+
+        await uiController.onFeatureLoad?.(mapConfig.id, matched.featureIndex, primaryName, bbox);
+        if (bbox?.length === 4) {
+            uiController.onZoomToBbox?.([
+                [bbox[1], bbox[0]],
+                [bbox[3], bbox[2]]
+            ], { smooth: true, padding: [40, 40] });
+        }
+        uiController.showFeatureDetailInCatalogue(detailId, true);
+        uiController.onHighlightFeature?.(mapConfig.id, matched.featureIndex, {
+            featureName: primaryName,
+            labelProperty: mapConfig.labelProperty,
+            labelPropertyFallbacks: mapConfig.labelPropertyFallbacks || []
+        });
+        this.updateMapList();
+        this.updateActiveLayers();
+        this.updateURLState();
+    }
+
     async getChunkDownloadEntry(mapId, fgbPath = null) {
         if (!this._fgbChunkManifestLoaded) {
             this._fgbChunkManifestLoaded = true;
@@ -559,6 +697,11 @@ class App {
 
         // Wire up URL state callback
         electionController.onStateChange = () => this.updateURLState();
+        electionController.onOpenEntityDetail = async (kind, key) => {
+            const detail = await electionController.getElectionEntityDetail(kind, key);
+            if (!detail) return;
+            uiController.showElectionEntityDetailInCatalogue(detail, true);
+        };
 
         try {
             const cards = await electionController.buildCatalogueCards();
@@ -1739,6 +1882,9 @@ class App {
 
         try {
             const params = new URLSearchParams(hash);
+            const featureMapId = params.get('featureMap');
+            const featureIdParam = params.get('featureId');
+            const featureNameParam = params.get('featureName');
 
             // Apply base map
             const baseMap = params.get('base');
@@ -1770,6 +1916,43 @@ class App {
                 // Update active layers panel with loaded layers
                 this.updateMapList();
                 this.updateActiveLayers();
+            }
+
+            if (featureMapId && featureIdParam) {
+                const mapConfig = dataService.getMapById(featureMapId);
+                if (mapConfig && !mapController.isLayerLoaded(featureMapId)) {
+                    await mapController.loadLayer(mapConfig, true);
+                    uiController.updateMapCardState(featureMapId, true);
+                }
+
+                const parsedFeatureId = /^-?\d+(\.\d+)?$/.test(featureIdParam) ? Number(featureIdParam) : featureIdParam;
+                const featureLayer = mapController.findFeatureLayer(featureMapId, parsedFeatureId, {
+                    featureName: featureNameParam,
+                    labelProperty: mapConfig?.labelProperty,
+                    labelPropertyFallbacks: mapConfig?.labelPropertyFallbacks || []
+                });
+
+                if (featureLayer?.feature && mapConfig) {
+                    const detailId = uiController.cacheFeatureDetailEntry(
+                        mapConfig,
+                        featureLayer.feature,
+                        featureNameParam || null,
+                        featureLayer.feature?.id ?? parsedFeatureId
+                    );
+                    uiController.showFeatureDetailInCatalogue(detailId, false);
+                    uiController.onHighlightFeature?.(featureMapId, parsedFeatureId, {
+                        featureName: featureNameParam,
+                        labelProperty: mapConfig.labelProperty,
+                        labelPropertyFallbacks: mapConfig.labelPropertyFallbacks || []
+                    });
+                }
+
+                this.updateMapList();
+                this.updateActiveLayers();
+                return true;
+            }
+
+            if (layersParam) {
                 return true;
             }
 
@@ -1902,12 +2085,14 @@ class App {
         loadedIds.forEach(id => {
             visibilityMap.set(id, mapController.isLayerVisible(id));
 
-            // Check if this is a partial layer (individual features only)
-            const isPartial = mapController.isPartialLayer(id);
-            if (isPartial) {
-                const featureNames = mapController.getPartialFeatureNames(id);
-                const featureItems = mapController.getPartialFeatureItems(id);
-                partialLayerInfo.set(id, { isPartial: true, featureNames, featureItems });
+            const featureNames = mapController.getPartialFeatureNames(id);
+            const featureItems = mapController.getPartialFeatureItems(id);
+            if (featureItems.length > 0) {
+                partialLayerInfo.set(id, {
+                    isPartial: mapController.isPartialLayer(id),
+                    featureNames,
+                    featureItems
+                });
             }
         });
 

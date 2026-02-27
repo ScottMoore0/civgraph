@@ -1,5 +1,15 @@
 # Lessons Log
 
+# Lessons Log
+
+### 71) Party lifespan tables need both start and end bounds
+- Mistake pattern: Treating a party's election-history timeline as bounded only by the last contested election, which leaves pre-foundation/pre-participation elections visible as `did not contest`.
+- Impact: Party pages imply the party existed and declined to contest elections before it had actually first stood.
+- Guardrail:
+  1) for any entity lifespan table, compute both the first and last relevant participation dates,
+  2) only insert gap rows inside that bounded lifespan,
+  3) verify one early-history party to ensure the table no longer starts before the first real appearance.
+
 ## 2026-02-23
 
 ### 1) Always verify chunk manifest paths against real files
@@ -305,3 +315,172 @@
   2) reserve nearest for categorical rasters only,
   3) add a visual QA check at low zoom after any DEM tile rebuild.
 
+### 52) Sticky control bars need explicit desktop and mobile layout rules
+- Mistake pattern: Added sticky catalogue controls without locking the search field and nav buttons into explicit desktop tracks.
+- Impact: The controls stayed sticky, but the UI regressed into stacked rows instead of the intended single-row desktop layout.
+- Guardrail:
+  1) define explicit desktop grid/flex tracks for primary and secondary controls,
+  2) set a deliberate mobile breakpoint rather than relying on block flow,
+  3) visually QA both desktop and narrow-width layouts after any sticky-shell refactor.
+
+### 53) Remove duplicate local navigation once a shared nav shell exists
+- Mistake pattern: Left page-local navigation buttons in place after introducing persistent shared catalogue controls.
+- Impact: The UI exposes overlapping navigation affordances and drifts from the intended interaction model.
+- Guardrail:
+  1) when introducing persistent shared navigation, audit detail templates for redundant local back/home controls,
+  2) remove the duplicates at the render source,
+  3) keep one navigation contract per pane.
+
+### 54) Feature-detail actions must use a stable shared reference, not transient DOM state
+- Mistake pattern: Treating feature-detail pages as purely presentational, with no canonical feature reference for share/download/restore actions.
+- Impact: Feature-level actions would only work in-session and could not reliably survive reload or deep linking.
+- Guardrail:
+  1) register feature-detail entries through one shared cache helper,
+  2) derive share URLs and exports from that cached feature object,
+  3) teach URL restoration to resolve the same feature reference back into a feature-detail page.
+
+### 55) Shared action UIs must share render and bind logic
+- Mistake pattern: Keeping a legacy one-off action implementation on map detail pages after the catalogue cards had already evolved to a richer action strip.
+- Impact: UI capabilities drift between surfaces and fixes have to be repeated in multiple places.
+- Guardrail:
+  1) extract repeated action strips into a shared renderer,
+  2) extract the event wiring into a shared binder,
+  3) remove legacy single-purpose action paths once parity exists.
+
+### 56) Do not let storage-model flags define UI capability by accident
+- Mistake pattern: Treating `isPartial` as both the persistence model for feature-only layers and the gate for whether feature child UI should exist.
+- Impact: Full-map states could not gain additive feature instances cleanly, and UI behavior was constrained by an internal implementation shortcut.
+- Guardrail:
+  1) drive feature-child UI from actual loaded feature-instance data,
+  2) keep storage-model flags like `isPartial` narrowly scoped to what they really mean,
+  3) when extending behavior, first separate “what is stored” from “what the UI should show”.
+
+
+### 57) Feature-instance paths must preserve labels and readable controls
+- Mistake pattern: Letting the single-feature render path disable labels while feature-specific UI surfaces inherited compact styling meant for dense card/list controls.
+- Impact: Individually loaded features appeared unlabeled, active-layer child entries were hard to read, and feature-page action icons became too small to use confidently.
+- Guardrail:
+  1) compare feature-instance render paths against full-layer paths for labels and visibility affordances,
+  2) only suppress label registration when duplicate labels from an already loaded base layer are explicitly expected,
+  3) give active-layer child rows and feature-detail action strips dedicated readability sizing instead of relying on generic compact utilities.
+
+### 58) Nearest-neighbour analysis must use a stable self-identity key
+- Mistake pattern: Using temporary extracted `feature_id` values that were blank across whole source groups as the self-skip key in a nearest-neighbour pass.
+- Impact: The analysis silently excluded all same-source comparisons, producing obviously wrong cross-source nearest matches.
+- Guardrail:
+  1) when extracting temporary comparison tables, create a guaranteed unique synthetic row ID if source IDs are absent or nullable,
+  2) sanity-check one or two known examples before trusting the full ranking,
+  3) if the top results violate obvious geographic expectations, stop and re-audit the self-skip and grouping logic before presenting results.
+
+### 59) Clone-based map entries must not rely on implicit label inheritance
+- Mistake pattern: Leaving clone-style map entries without their own explicit label metadata, and assuming the runtime would infer the correct label field from the base map.
+- Impact: Several clone-based referendum and census layers rendered with missing labels, and source-field mismatches on dated variants went unnoticed.
+- Guardrail:
+  1) every clone entry that needs labels should declare its own `labelProperty`, even if it matches the base map,
+  2) verify the actual source schema for each dated variant instead of assuming field names stay stable,
+  3) if source values need renaming rather than field switching, route that through one metadata-driven label cleanup/remap mechanism.
+
+### 60) New detail pages must be attached to the pane that already owns detail/history behavior
+- Mistake pattern: Implementing party/candidate detail pages directly inside the election results pane because that is where the links were clicked from.
+- Impact: The UI contradicted the established interaction model, navigation/history had to be reinvented, and the resulting page could fail in ways that looked like a blank pane instead of a stable detail view.
+- Guardrail:
+  1) before adding any new detail/info page, identify which pane already owns detail rendering and history for the app,
+  2) route new links into that existing pane through an explicit callback instead of rendering ad hoc in the source pane,
+  3) if the requested detail is supposed to be general, build the aggregation from the full dataset first and only then wire the UI.
+
+### 61) Election history features need a canonical derived model before renderer work
+- Mistake pattern: Starting with a lightweight party/person aggregate and a generic renderer before the election-level data model (timeline, rank, latest contested selectors, uncontested row fill, candidate ordinals) had been made explicit.
+- Impact: The first implementation could show links and pages, but not the richer, correct semantics the feature actually required.
+- Guardrail:
+  1) for any election-history feature, define the aggregation keys and chronology rules first,
+  2) compute ranks/ordinals/latest selectors once in a shared derived index,
+  3) only let UI renderers consume that derived model, never infer semantics from raw JSON on the fly.
+
+### 62) Shared metric renderers must support structured values before page-specific refinement begins
+- Mistake pattern: Reusing a simple label/value metric-card renderer for richer party-page requirements where headline numbers needed supporting dates beneath them and some generic summary blocks needed to disappear entirely.
+- Impact: The first pass of the party pages technically worked, but still exposed the wrong summary contract and required a second rendering pass to reach the requested layout.
+- Guardrail:
+  1) when a page has headline metrics with secondary context, make the metric renderer support structured `{ value, subtext }` payloads from the start,
+  2) keep page-specific summary blocks optional rather than assuming every entity page needs the same metadata table,
+  3) finalize the exact presentation contract for each entity type before treating the renderer as complete.
+
+### 63) Not every dated constituency event belongs on the generic election/by-election path
+- Mistake pattern: Treating any single-constituency Westminster record in the election index as a by-election, even when the source event is a constitutional process with no normal constituency results payload.
+- Impact: The UI misnamed the 29 August 2018 North Antrim recall petition as a by-election and tried to render tabs/overlays/results that do not exist for that event type.
+- Guardrail:
+  1) before labeling a singleton constituency event as a by-election, verify that the event actually has normal election result payloads,
+  2) introduce an explicit special-event registry for constitutional exceptions such as recall petitions,
+  3) route special events through dedicated renderers instead of stretching the normal election pipeline to fit them.
+
+### 64) Special-event renderers need explicit metric definitions, not recycled election summaries
+- Mistake pattern: After carving out a special constitutional event path, still thinking in terms of generic election overlays and summaries rather than the exact figures and table layout the event actually needs.
+- Impact: The first recall-petition pass lacked the requested over-map status label and the specific results table structure for signatures, turnout, spoiled petitions, threshold, success flag, electorate, and incumbent MP.
+- Guardrail:
+  1) for each special-event type, define the exact displayed metrics before rendering,
+  2) use one dedicated table builder for those metrics instead of adapting party/candidate result views,
+  3) when the event is non-electoral, prefer explicit status labels on-map over reusing seat-indicator logic.
+
+### 65) Preserve neutral map baselines when adding special highlight logic
+- Mistake pattern: Changing the default election geography styling while implementing a special-event highlight, instead of layering the special case on top of the existing neutral baseline.
+- Impact: Constituencies not participating in a by-election/recall became transparent instead of retaining the expected grey fill, causing a visible regression outside the focal constituency.
+- Guardrail:
+  1) keep the default map style stable unless the user explicitly asks to change the baseline,
+  2) special-event branches should override only the featured geography and leave non-featured areas on the same neutral styling contract,
+  3) after any special-event map styling change, visually check both the highlighted and non-highlighted geographies.
+
+### 66) Special-event overlays should reuse established map-label styling
+- Mistake pattern: Creating a custom one-off label style for a map overlay even though the app already has a working feature-label contract with the correct text outline, wrapping, and centering behavior.
+- Impact: The recall-petition label looked inconsistent with the rest of the interactive map and needed another correction pass.
+- Guardrail:
+  1) when adding any new map text overlay, inspect and reuse the existing map-label styling contract first,
+  2) only add new label CSS if the existing contract genuinely cannot satisfy the requirement,
+  3) keep special-event overview panes minimal when the actionable/tabular content belongs in the clicked geography detail view.
+
+### 67) Remove exactly the named UI elements, not the surrounding content block
+- Mistake pattern: Interpreting a request to remove several named summary boxes as permission to strip the whole section down more aggressively.
+- Impact: Required tables were removed along with the unwanted boxes, creating another avoidable correction cycle.
+- Guardrail:
+  1) enumerate the exact elements to remove before editing,
+  2) preserve all adjacent content unless the user explicitly asks to remove it,
+  3) after a subtractive UI change, compare the kept-vs-removed set against the request line by line.
+
+### 68) “Make it a link” means the element type, not just the visual style
+- Mistake pattern: Converting a control to look like a text link while leaving it implemented as a `<button>`.
+- Impact: The UI still behaved and inspected like a button, so the request was only half-satisfied and needed another pass.
+- Guardrail:
+  1) when the request distinguishes links from buttons, change the semantic element type as well as the styling,
+  2) if the link is handled in-app, use an anchor with `href` plus `preventDefault()` rather than a button dressed up as a link,
+  3) verify the rendered markup, not just the appearance.
+### 69) Sort/filter table re-renders must use delegated link handling
+- Mistake pattern: Binding click handlers directly to the initially rendered cells in a table that is later re-rendered for sorting/filtering.
+- Impact: Links appear correct on first render but silently stop working after any client-side table redraw.
+- Guardrail:
+  1) any table that can be re-rendered client-side must use delegated click handling on a stable container,
+  2) derive comparison/delta data before rendering so table redraws stay view-only,
+  3) when adding sort/filter to an existing linked table, explicitly test the links after at least one sort/filter operation.
+
+### 70) By-election deltas must compare like-for-like geography
+- Mistake pattern: Reusing whole-election previous-result totals as the baseline for a by-election row.
+- Impact: Delta columns compared one constituency or a small constituency subset against a prior full election across all constituencies, producing misleading seat/vote/rank changes.
+- Guardrail:
+  1) any by-election or partial-geography row must carry its affected constituency subset explicitly,
+  2) previous-election baselines for such rows must be aggregated over that same subset before computing deltas or ranks,
+  3) when adding `±` columns to election-history tables, verify by-election rows separately from full-election rows.
+# Lessons Log
+
+### 72) Preserve structured constituency metadata until final render
+- Mistake pattern: Collapsing constituency participation down to a plain comma-separated string too early in the derived model.
+- Impact: The UI could no longer add map-year labels, elected-first ordering, bold styling, or feature-detail links without rebuilding the data path.
+- Guardrail:
+  1) keep constituency participation as structured entries through derivation,
+  2) only stringify at the final render boundary,
+  3) when a list may later need links, styling, or ordering rules, never reduce it to a flat string in the model layer.
+# Lessons Log
+
+### 73) Transient hover restore must read from the live base style, not a stale initial snapshot
+- Mistake pattern: Caching a one-time “original style” for hover restore while allowing later user controls to mutate only the live rendered style.
+- Impact: Temporary interactions like hover/mouseout silently undo user-selected transparency or other style adjustments.
+- Guardrail:
+  1) store a mutable base-style snapshot for each interactive layer,
+  2) when a user control changes style, update both the rendered layer and that base snapshot,
+  3) hover/highlight restore must use the current base snapshot rather than a boot-time style capture.

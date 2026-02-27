@@ -38,8 +38,14 @@ class UIController {
         this.onExpandToFullMap = null;
         this.onPartialFeatureToggle = null;
         this.onPartialFeatureUnload = null;
+        this.onCheckFeatureLoaded = null;
+        this.onCheckFeatureVisible = null;
+        this.onFeatureLoad = null;
         this.onSearch = null;
         this.onMapDetailClick = null;
+        this.onOpenElectionEntityDetail = null;
+        this.onElectionEntityElectionOpen = null;
+        this.onOpenElectionConstituencyFeature = null;
         this._searchAddressAbortController = null;
 
         // Catalogue navigation state
@@ -47,6 +53,8 @@ class UIController {
         this.catalogueHistoryIndex = -1;
         this.catalogueView = 'list'; // 'list' or 'detail'
         this._lastMapListOptions = {};
+        this._cataloguePane = null;
+        this._electionEntityDetailCache = new Map();
     }
 
     init() {
@@ -154,7 +162,20 @@ class UIController {
         if (backBtn) backBtn.addEventListener('click', () => this.catalogueGoBack());
         if (forwardBtn) forwardBtn.addEventListener('click', () => this.catalogueGoForward());
         if (historyBtn) historyBtn.addEventListener('click', () => this.showCatalogueHistory());
-        if (homeBtn) homeBtn.addEventListener('click', () => this.showCatalogueListView());
+        if (homeBtn) {
+            homeBtn.addEventListener('click', () => {
+                if (this.isOnMainCataloguePage()) {
+                    this.scrollCatalogueToTop();
+                } else {
+                    this.showCatalogueListView(true);
+                }
+            });
+        }
+
+        if (this.catalogueHistory.length === 0) {
+            this._pushCatalogueHistoryEntry({ type: 'list' });
+        }
+        this.updateCatalogueNavButtons();
 
         // Event delegation for map name links in the catalogue
         const listView = document.getElementById('catalogueListView');
@@ -189,10 +210,7 @@ class UIController {
 
         // Add to history
         if (addToHistory) {
-            // Truncate forward history
-            this.catalogueHistory = this.catalogueHistory.slice(0, this.catalogueHistoryIndex + 1);
-            this.catalogueHistory.push({ type: 'detail', mapId });
-            this.catalogueHistoryIndex = this.catalogueHistory.length - 1;
+            this._pushCatalogueHistoryEntry({ type: 'detail', mapId });
         }
 
         this.catalogueView = 'detail';
@@ -205,7 +223,6 @@ class UIController {
         if (!nav || !listView || !detailView) return;
 
         // Show nav, hide list, show detail
-        nav.classList.remove('hidden');
         listView.classList.add('hidden');
         detailView.classList.remove('hidden');
 
@@ -305,9 +322,12 @@ class UIController {
 
             ${descriptionHtml}
 
-            <button class="catalogue-detail__load-btn" data-map-id="${map.id}">
-                ${isLoaded ? 'Unload Map' : 'Load Map'}
-            </button>
+            ${this.renderMapActionStrip(map, {
+            isLoaded,
+            isVisible: this.onCheckMapVisible ? this.onCheckMapVisible(map.id) : isLoaded,
+            buttonSize: 'sm',
+            wrapperClass: 'map-card__actions catalogue-detail__actions'
+        })}
 
             <div class="catalogue-detail__meta">
                 <div class="catalogue-detail__meta-row">
@@ -371,19 +391,7 @@ class UIController {
             backLink.addEventListener('click', () => this.showCatalogueListView());
         }
 
-        const loadBtn = detailView.querySelector('.catalogue-detail__load-btn');
-        if (loadBtn) {
-            loadBtn.addEventListener('click', () => {
-                const loadedIds = this.getMapIdsFromURL();
-                if (loadedIds.includes(map.id)) {
-                    if (this.onMapUnload) this.onMapUnload(map.id);
-                    loadBtn.textContent = 'Load Map';
-                } else {
-                    if (this.onMapLoad) this.onMapLoad(map.id);
-                    loadBtn.textContent = 'Unload Map';
-                }
-            });
-        }
+        this.bindMapActionStrip(detailView, map, { activeClassTarget: detailView, variantsHost: detailView });
 
         // Variant click handlers
         detailView.querySelectorAll('.catalogue-detail__variant').forEach(el => {
@@ -408,6 +416,300 @@ class UIController {
 
         // Load attribute schema asynchronously
         this.loadAttributeSchema(map, filePath);
+    }
+
+    _pushCatalogueHistoryEntry(entry) {
+        this.catalogueHistory = this.catalogueHistory.slice(0, this.catalogueHistoryIndex + 1);
+        this.catalogueHistory.push(entry);
+        this.catalogueHistoryIndex = this.catalogueHistory.length - 1;
+    }
+
+    /**
+     * Resolve the primary feature name for table/detail interactions.
+     */
+    resolveFeaturePrimaryName(feature, mapConfig) {
+        const props = feature?.properties || {};
+        const preferredKeys = [];
+        if (mapConfig?.labelProperty) preferredKeys.push(mapConfig.labelProperty);
+        if (Array.isArray(mapConfig?.labelPropertyFallbacks)) {
+            preferredKeys.push(...mapConfig.labelPropertyFallbacks);
+        }
+        preferredKeys.push(
+            'Name', 'name', 'NAME',
+            'FinalR_DEA', 'DEA', 'DEANAME', 'WARDNAME', 'LGDNAME',
+            'CONSTITUENCY', 'COUNTY', 'PARISH', 'BARONY'
+        );
+        const seen = new Set();
+        for (const key of preferredKeys) {
+            if (!key || seen.has(key)) continue;
+            seen.add(key);
+            const val = props[key];
+            if (typeof val === 'string' && val.trim()) {
+                return { key, value: val.trim() };
+            }
+        }
+        const fallback = Object.entries(props).find(([k, v]) =>
+            typeof v === 'string' &&
+            v.trim() &&
+            /(name|title|label|dea|ward|district|constituency|county)/i.test(k)
+        );
+        if (fallback) return { key: fallback[0], value: fallback[1].trim() };
+        return { key: null, value: 'Unnamed Feature' };
+    }
+
+    createFeatureDetailId(mapId, featureId, primaryName) {
+        return `${mapId || 'feature'}:${featureId ?? primaryName}`;
+    }
+
+    createElectionEntityDetailId(kind, key) {
+        return `election:${kind}:${key}`;
+    }
+
+    cacheElectionEntityDetailEntry(entity) {
+        if (!entity?.kind || !entity?.key) return null;
+        const detailId = this.createElectionEntityDetailId(entity.kind, entity.key);
+        this._electionEntityDetailCache.set(detailId, entity);
+        return detailId;
+    }
+
+    cacheFeatureDetailEntry(mapConfig, feature, primaryNameOverride = null, featureIdOverride = null) {
+        const primary = primaryNameOverride
+            ? { value: primaryNameOverride }
+            : this.resolveFeaturePrimaryName(feature, mapConfig);
+        const featureId = featureIdOverride ?? feature?.id;
+        const detailId = this.createFeatureDetailId(mapConfig?.id, featureId, primary.value);
+        if (!this._featureDetailCache) this._featureDetailCache = new Map();
+        this._featureDetailCache.set(detailId, {
+            feature: {
+                mapId: mapConfig?.id,
+                id: featureId ?? primary.value,
+                properties: feature?.properties || {},
+                geometry: feature?.geometry || null
+            },
+            mapConfig,
+            primaryName: primary.value
+        });
+        return detailId;
+    }
+
+    slugifyForFilename(value) {
+        return String(value || 'feature')
+            .normalize('NFKD')
+            .replace(/[^\w\s-]/g, '')
+            .trim()
+            .replace(/[\s_-]+/g, '-')
+            .replace(/^-+|-+$/g, '')
+            .toLowerCase() || 'feature';
+    }
+
+    buildFeatureFileBase(detailId) {
+        const entry = this._featureDetailCache?.get(detailId);
+        if (!entry) return 'feature';
+        const mapSlug = this.slugifyForFilename(entry.mapConfig?.slug || entry.mapConfig?.id || entry.mapConfig?.name || 'map');
+        const featureSlug = this.slugifyForFilename(entry.primaryName || entry.feature?.id || 'feature');
+        return `${mapSlug}--${featureSlug}`;
+    }
+
+    buildFeatureGeoJSON(detailId) {
+        const entry = this._featureDetailCache?.get(detailId);
+        if (!entry) return null;
+        return {
+            type: 'FeatureCollection',
+            features: [{
+                type: 'Feature',
+                id: entry.feature?.id ?? undefined,
+                properties: entry.feature?.properties || {},
+                geometry: entry.feature?.geometry || null
+            }]
+        };
+    }
+
+    buildFeatureShareUrl(detailId) {
+        const entry = this._featureDetailCache?.get(detailId);
+        if (!entry?.mapConfig?.id) return null;
+
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.hash.replace(/^#/, ''));
+        const layers = new Set((params.get('layers') || '').split(',').filter(Boolean));
+        layers.add(entry.mapConfig.id);
+        params.set('layers', Array.from(layers).join(','));
+        params.set('featureMap', entry.mapConfig.id);
+        params.set('featureId', String(entry.feature?.id ?? ''));
+        params.set('featureName', entry.primaryName || 'Feature');
+        url.hash = params.toString();
+        return url.toString();
+    }
+
+    copyFeatureUrl(detailId, buttonEl) {
+        const shareUrl = this.buildFeatureShareUrl(detailId);
+        if (!shareUrl) return;
+
+        navigator.clipboard.writeText(shareUrl).then(() => {
+            const originalTitle = buttonEl?.getAttribute('title');
+            if (buttonEl) {
+                buttonEl.setAttribute('title', 'Copied!');
+                setTimeout(() => {
+                    buttonEl.setAttribute('title', originalTitle || 'Copy shareable URL');
+                }, 1500);
+            }
+            this.announce('Feature URL copied to clipboard');
+        }).catch(err => {
+            console.error('[UIController] Failed to copy feature URL:', err);
+        });
+    }
+
+    triggerBlobDownload(blob, filename) {
+        const objectUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = objectUrl;
+        anchor.download = filename;
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+    }
+
+    featureToCsv(detailId) {
+        const entry = this._featureDetailCache?.get(detailId);
+        if (!entry) return null;
+        const props = entry.feature?.properties || {};
+        const headers = [...Object.keys(props), 'geometry_type'];
+        const values = headers.map((header) => {
+            if (header === 'geometry_type') return entry.feature?.geometry?.type || '';
+            const value = props[header];
+            if (value === null || value === undefined) return '';
+            if (typeof value === 'object') return JSON.stringify(value);
+            return String(value);
+        });
+        const escapeCsv = (value) => {
+            const text = String(value ?? '');
+            if (/[",\n]/.test(text)) {
+                return `"${text.replace(/"/g, '""')}"`;
+            }
+            return text;
+        };
+        return `${headers.map(escapeCsv).join(',')}\n${values.map(escapeCsv).join(',')}\n`;
+    }
+
+    downloadFeature(detailId, format) {
+        const entry = this._featureDetailCache?.get(detailId);
+        if (!entry) return;
+
+        const base = this.buildFeatureFileBase(detailId);
+        const featureGeoJSON = this.buildFeatureGeoJSON(detailId);
+        if (!featureGeoJSON) return;
+
+        if (format === 'geojson') {
+            this.triggerBlobDownload(
+                new Blob([JSON.stringify(featureGeoJSON, null, 2)], { type: 'application/geo+json' }),
+                `${base}.geojson`
+            );
+            return;
+        }
+
+        if (format === 'json') {
+            const payload = {
+                mapId: entry.mapConfig?.id || null,
+                mapName: entry.mapConfig?.name || null,
+                feature: featureGeoJSON.features[0]
+            };
+            this.triggerBlobDownload(
+                new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' }),
+                `${base}.json`
+            );
+            return;
+        }
+
+        if (format === 'csv') {
+            const csv = this.featureToCsv(detailId);
+            if (!csv) return;
+            this.triggerBlobDownload(new Blob([csv], { type: 'text/csv;charset=utf-8' }), `${base}.csv`);
+            return;
+        }
+
+        if (format === 'fgb') {
+            try {
+                const bytes = flatgeobuf.serialize(featureGeoJSON);
+                this.triggerBlobDownload(new Blob([bytes], { type: 'application/octet-stream' }), `${base}.fgb`);
+                return;
+            } catch (err) {
+                console.error('[UIController] Failed to serialize feature FGB:', err);
+                this.announce('Failed to export feature as FGB');
+            }
+        }
+    }
+
+    syncFeatureDetailActionButtons(container, detailId) {
+        const entry = this._featureDetailCache?.get(detailId);
+        if (!container || !entry?.mapConfig?.id) return;
+        const mapId = entry.mapConfig.id;
+        const featureIndex = entry.feature?.id;
+        const isLoaded = this.onCheckFeatureLoaded ? !!this.onCheckFeatureLoaded(mapId, featureIndex) : false;
+        const isVisible = this.onCheckFeatureVisible ? !!this.onCheckFeatureVisible(mapId, featureIndex) : false;
+
+        const loadBtn = container.querySelector('.feature-load-btn');
+        if (loadBtn) {
+            loadBtn.innerHTML = this.getLoadButtonIcon(isLoaded);
+            loadBtn.title = isLoaded ? 'Unload feature' : 'Load feature';
+            loadBtn.setAttribute('aria-label', isLoaded ? 'Unload feature' : 'Load feature');
+        }
+
+        const visibilityBtn = container.querySelector('.feature-visibility-btn');
+        if (visibilityBtn) {
+            visibilityBtn.innerHTML = this.getVisibilityButtonIcon(isVisible);
+            visibilityBtn.title = isVisible ? 'Hide feature' : 'Show feature';
+            visibilityBtn.setAttribute('aria-label', isVisible ? 'Hide feature' : 'Show feature');
+            visibilityBtn.disabled = !isLoaded;
+        }
+    }
+
+    getFeatureBBox(geometry) {
+        const bounds = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
+        const visit = (coords) => {
+            if (!Array.isArray(coords)) return;
+            if (coords.length >= 2 && typeof coords[0] === 'number' && typeof coords[1] === 'number') {
+                const [x, y] = coords;
+                if (Number.isFinite(x) && Number.isFinite(y)) {
+                    bounds.minX = Math.min(bounds.minX, x);
+                    bounds.minY = Math.min(bounds.minY, y);
+                    bounds.maxX = Math.max(bounds.maxX, x);
+                    bounds.maxY = Math.max(bounds.maxY, y);
+                }
+                return;
+            }
+            coords.forEach(visit);
+        };
+        visit(geometry?.coordinates);
+        if (![bounds.minX, bounds.minY, bounds.maxX, bounds.maxY].every(Number.isFinite)) return null;
+        return [bounds.minX, bounds.minY, bounds.maxX, bounds.maxY];
+    }
+
+    focusFeatureFromTable(mapConfig, feature, featureIndex, featureName, bbox) {
+        if (!mapConfig) return;
+        if (mapConfig.id && this.onLoadSingleFeature) {
+            this.onLoadSingleFeature(mapConfig.id, featureIndex, featureName || null, bbox || null);
+        } else if (mapConfig.id && this.onMapLoad) {
+            const loadedIds = this.getMapIdsFromURL();
+            if (!loadedIds.includes(mapConfig.id)) this.onMapLoad(mapConfig.id);
+        }
+
+        if (bbox && bbox.length === 4 && this.onZoomToBbox) {
+            this.onZoomToBbox([
+                [bbox[1], bbox[0]],
+                [bbox[3], bbox[2]]
+            ], { smooth: true });
+        }
+
+        if (mapConfig.id && this.onHighlightFeature) {
+            setTimeout(() => {
+                this.onHighlightFeature(mapConfig.id, feature?.id ?? featureIndex, {
+                    bbox,
+                    featureName: featureName || null,
+                    labelProperty: mapConfig.labelProperty || null,
+                    labelPropertyFallbacks: mapConfig.labelPropertyFallbacks || []
+                });
+            }, 500);
+        }
     }
 
     /**
@@ -436,89 +738,40 @@ class UIController {
 
         try {
             const ext = effectiveFilePath.split('.').pop()?.toLowerCase();
-            const batchSize = 50;
             let allFeatures = [];
             let attrKeys = null;
-            let featureIterator = null;
-            let totalLoaded = 0;
-            let hasMore = true;
-            let isLoading = false;
 
-            // Function to load a batch of features
-            const loadBatch = async () => {
-                if (isLoading || !hasMore) return;
-                isLoading = true;
-
-                const startCount = allFeatures.length;
-
-                if (ext === 'fgb') {
-                    // For FGB, we need to iterate through the stream
-                    if (!featureIterator) {
-                        try {
-                            const response = await fetch(effectiveFilePath);
-                            featureIterator = flatgeobuf.deserialize(response.body)[Symbol.asyncIterator]();
-                        } catch (err) {
-                            featureIterator = flatgeobuf.deserialize(effectiveFilePath)[Symbol.asyncIterator]();
-                        }
-                    }
-
-                    let count = 0;
-                    while (count < batchSize) {
-                        const result = await featureIterator.next();
-                        if (result.done) {
-                            hasMore = false;
-                            break;
-                        }
-                        allFeatures.push(result.value);
-                        count++;
-                    }
-                } else {
-                    // GeoJSON - load all at once (already in memory)
-                    if (allFeatures.length === 0) {
-                        const response = await fetch(effectiveFilePath);
-                        const data = await response.json();
-                        allFeatures = data.features || [data];
-                        hasMore = false;
-                    }
+            if (ext === 'fgb') {
+                let featureIterator;
+                try {
+                    const response = await fetch(effectiveFilePath);
+                    featureIterator = flatgeobuf.deserialize(response.body)[Symbol.asyncIterator]();
+                } catch (err) {
+                    featureIterator = flatgeobuf.deserialize(effectiveFilePath)[Symbol.asyncIterator]();
                 }
-
-                // Get attribute keys from first feature
-                if (!attrKeys && allFeatures.length > 0 && allFeatures[0].properties) {
-                    attrKeys = Object.keys(allFeatures[0].properties);
+                while (true) {
+                    const result = await featureIterator.next();
+                    if (result.done) break;
+                    allFeatures.push(result.value);
                 }
+            } else {
+                const response = await fetch(effectiveFilePath);
+                const data = await response.json();
+                allFeatures = data.features || [data];
+            }
 
-                totalLoaded = allFeatures.length;
-                isLoading = false;
-                return allFeatures.length > startCount;
-            };
-
-            // Function to render a feature row
-            const renderRow = (feature) => {
-                const cells = attrKeys.map(key => {
-                    const value = feature.properties[key];
-                    const displayValue = value === null ? '<em>null</em>' :
-                        typeof value === 'object' ? JSON.stringify(value).substring(0, 30) + '...' :
-                            this.formatDisplayValue(value).substring(0, 50) + (this.formatDisplayValue(value).length > 50 ? '...' : '');
-                    return `<td class="catalogue-detail__attr-td" title="${this.escapeHtml(this.formatDisplayValue(value))}">${displayValue}</td>`;
-                }).join('');
-                return `<tr class="catalogue-detail__attr-tr">${cells}</tr>`;
-            };
-
-            // Load initial batch
-            await loadBatch();
+            if (allFeatures.length > 0 && allFeatures[0].properties) {
+                attrKeys = Object.keys(allFeatures[0].properties);
+            }
 
             if (allFeatures.length === 0 || !attrKeys) {
                 attrTableBody.innerHTML = '<div class="catalogue-detail__attr-error">No attributes found</div>';
                 return;
             }
 
-            // Build header row
             const headerCells = attrKeys.map(key =>
                 `<th class="catalogue-detail__attr-th">${this.escapeHtml(key)}</th>`
             ).join('');
-
-            // Build initial rows
-            const initialRows = allFeatures.map(f => renderRow(f)).join('');
 
             attrTableBody.innerHTML = `
                 <div class="catalogue-detail__attr-table-scroll" id="attrTableScroll">
@@ -526,49 +779,393 @@ class UIController {
                         <thead>
                             <tr class="catalogue-detail__attr-tr catalogue-detail__attr-tr--header">${headerCells}</tr>
                         </thead>
-                        <tbody id="attrTableTbody">${initialRows}</tbody>
+                        <tbody id="attrTableTbody"></tbody>
                     </table>
                 </div>
-                <div class="catalogue-detail__attr-footer" id="attrTableFooter">
-                    ${hasMore ? `Loaded ${totalLoaded} features (scroll for more)` : `Showing all ${totalLoaded} features`}
-                </div>
+                <div class="catalogue-detail__attr-footer" id="attrTableFooter">Loading ${allFeatures.length} features...</div>
             `;
 
-            const attrTable = attrTableBody.querySelector('.catalogue-detail__attr-table-inner');
-            if (attrTable && typeof electionController?._setupSingleResultsTableControls === 'function') {
-                electionController._setupSingleResultsTableControls(attrTable);
-            }
-
-            // Add scroll listener for lazy loading
+            const renderBatchSize = 100;
             const scrollContainer = document.getElementById('attrTableScroll');
             const tbody = document.getElementById('attrTableTbody');
             const footer = document.getElementById('attrTableFooter');
+            const attrTable = attrTableBody.querySelector('.catalogue-detail__attr-table-inner');
+            const headers = attrTable ? [...attrTable.querySelectorAll('thead th')] : [];
+            if (!scrollContainer || !tbody || !footer || !attrTable || headers.length === 0) return;
 
-            if (scrollContainer && hasMore) {
-                scrollContainer.addEventListener('scroll', async () => {
-                    // Check if scrolled near bottom
-                    const scrollBottom = scrollContainer.scrollTop + scrollContainer.clientHeight;
-                    const threshold = scrollContainer.scrollHeight - 50;
+            const formatRawValue = (value) => {
+                if (value === null || value === undefined) return '';
+                if (typeof value === 'object') {
+                    try {
+                        return JSON.stringify(value);
+                    } catch (err) {
+                        return String(value);
+                    }
+                }
+                return String(value);
+            };
+            const renderCellValue = (value) => {
+                if (value === null) {
+                    return { html: '<em>null</em>', title: 'null' };
+                }
+                const display = typeof value === 'object'
+                    ? formatRawValue(value)
+                    : this.formatDisplayValue(value);
+                const truncated = display.substring(0, 50) + (display.length > 50 ? '...' : '');
+                return {
+                    html: this.escapeHtml(truncated),
+                    title: this.escapeHtml(display)
+                };
+            };
+            const renderRow = ({ feature, index }) => {
+                const primary = this.resolveFeaturePrimaryName(feature, map);
+                const detailId = this.cacheFeatureDetailEntry(map, feature, primary.value, feature?.id ?? index);
+                const cells = attrKeys.map(key => {
+                    const value = feature.properties?.[key];
+                    const rendered = renderCellValue(value);
+                    if (primary.key && key === primary.key) {
+                        return `<td class="catalogue-detail__attr-td" title="${rendered.title}"><button type="button" class="catalogue-detail__attr-link" data-feature-detail-id="${this.escapeHtml(detailId)}">${rendered.html}</button></td>`;
+                    }
+                    return `<td class="catalogue-detail__attr-td" title="${rendered.title}">${rendered.html}</td>`;
+                }).join('');
+                const bbox = this.getFeatureBBox(feature?.geometry);
+                return `<tr class="catalogue-detail__attr-tr catalogue-detail__attr-tr--interactive"
+                    data-feature-index="${index}"
+                    data-feature-id="${this.escapeHtml(String(feature?.id ?? index))}"
+                    data-feature-name="${this.escapeHtml(primary.value)}"
+                    data-feature-bbox="${bbox ? this.escapeHtml(bbox.join(',')) : ''}"
+                    data-feature-detail-id="${this.escapeHtml(detailId)}">${cells}</tr>`;
+            };
+            const parseMaybeNumber = (text) => {
+                const cleaned = String(text || '')
+                    .replace(/,/g, '')
+                    .replace(/%/g, '')
+                    .replace(/[+\u2212]/g, (m) => (m === '\u2212' ? '-' : '+'))
+                    .trim();
+                if (!cleaned || cleaned === '-' || cleaned === '—' || cleaned.toLowerCase() === 'n/a') return null;
+                const n = Number(cleaned);
+                return Number.isFinite(n) ? n : null;
+            };
+            const parseMaybeOrdinal = (text) => {
+                const cleaned = String(text || '').trim().toLowerCase();
+                if (!cleaned) return null;
+                const rank = cleaned.match(/^(\d+)(st|nd|rd|th)?$/);
+                if (rank) return Number(rank[1]);
+                const count = cleaned.match(/count\s+(\d+)/);
+                if (count) return Number(count[1]);
+                return null;
+            };
+            const getFeatureValue = (feature, key) => formatRawValue(feature?.properties?.[key]);
+            const inferColumnKind = (key) => {
+                const sample = allFeatures.slice(0, 100).map((feature) => getFeatureValue(feature, key)).filter(Boolean);
+                const numHits = sample.filter((v) => parseMaybeNumber(v) !== null).length;
+                const ordHits = sample.filter((v) => parseMaybeOrdinal(v) !== null).length;
+                const headerText = String(key || '').trim().toLowerCase();
+                if (headerText.includes('rank')) return 'ordinal';
+                if (sample.length > 0 && numHits / sample.length >= 0.8) return 'numeric';
+                if (sample.length > 0 && ordHits / sample.length >= 0.8) return 'ordinal';
+                return 'text';
+            };
+            const compareFeatures = (a, b, key, dir, kind) => {
+                if (dir === 'default') return 0;
+                const av = getFeatureValue(a, key);
+                const bv = getFeatureValue(b, key);
+                let cmp = 0;
+                if (kind === 'numeric') {
+                    const an = parseMaybeNumber(av);
+                    const bn = parseMaybeNumber(bv);
+                    if (an !== null && bn !== null) cmp = an - bn;
+                    else if (an !== null) cmp = 1;
+                    else if (bn !== null) cmp = -1;
+                    else cmp = av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
+                } else if (kind === 'ordinal') {
+                    const ao = parseMaybeOrdinal(av);
+                    const bo = parseMaybeOrdinal(bv);
+                    if (ao !== null && bo !== null) cmp = ao - bo;
+                    else cmp = av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
+                } else {
+                    cmp = av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
+                }
+                return dir === 'asc' ? cmp : -cmp;
+            };
 
-                    if (scrollBottom >= threshold && hasMore && !isLoading) {
-                        const prevCount = allFeatures.length;
-                        await loadBatch();
+            const state = {
+                allFeatures: allFeatures.map((feature, index) => ({ feature, index })),
+                filteredFeatures: [],
+                renderedCount: 0,
+                sort: { key: null, dir: 'default' },
+                filters: new Map(),
+                activeMenu: null,
+                activeMenuBtn: null,
+                documentClickHandler: null
+            };
 
-                        // Append new rows
-                        if (allFeatures.length > prevCount) {
-                            const newRows = allFeatures.slice(prevCount).map(f => renderRow(f)).join('');
-                            tbody.insertAdjacentHTML('beforeend', newRows);
-                        }
+            const closeMenu = () => {
+                if (state.activeMenu) state.activeMenu.remove();
+                if (state.activeMenuBtn) state.activeMenuBtn.classList.remove('election-th-btn--open');
+                if (state.documentClickHandler) {
+                    document.removeEventListener('click', state.documentClickHandler);
+                    state.documentClickHandler = null;
+                }
+                state.activeMenu = null;
+                state.activeMenuBtn = null;
+            };
+            const updateFooter = () => {
+                const visibleCount = state.filteredFeatures.length;
+                const rendered = Math.min(state.renderedCount, visibleCount);
+                if (visibleCount === 0) {
+                    footer.textContent = `Showing 0 of ${state.allFeatures.length} features`;
+                } else if (visibleCount === state.allFeatures.length) {
+                    footer.textContent = rendered < visibleCount
+                        ? `Showing ${rendered} of ${visibleCount} features (scroll for more)`
+                        : `Showing all ${visibleCount} features`;
+                } else {
+                    footer.textContent = rendered < visibleCount
+                        ? `Showing ${rendered} of ${visibleCount} filtered features from ${state.allFeatures.length} total (scroll for more)`
+                        : `Showing all ${visibleCount} filtered features from ${state.allFeatures.length} total`;
+                }
+            };
+            const renderVisibleRows = () => {
+                const visible = state.filteredFeatures.slice(0, state.renderedCount);
+                if (visible.length === 0) {
+                    tbody.innerHTML = `<tr class="catalogue-detail__attr-tr"><td class="catalogue-detail__attr-td" colspan="${attrKeys.length}">No matching features</td></tr>`;
+                } else {
+                    tbody.innerHTML = visible.map((entry) => renderRow(entry)).join('');
+                }
+                updateFooter();
+            };
+            const getUniqueValues = (key) => {
+                const values = new Map();
+                state.allFeatures.forEach(({ feature }) => {
+                    const raw = getFeatureValue(feature, key);
+                    if (!values.has(raw)) values.set(raw, raw);
+                });
+                return [...values.values()].sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+            };
+            const applyState = () => {
+                let visible = state.allFeatures.filter(({ feature }) => {
+                    for (const [key, selected] of state.filters.entries()) {
+                        if (!(selected instanceof Set) || selected.size === 0) continue;
+                        if (!selected.has(getFeatureValue(feature, key))) return false;
+                    }
+                    return true;
+                });
 
-                        // Update footer
-                        if (footer) {
-                            footer.textContent = hasMore
-                                ? `Loaded ${totalLoaded} features (scroll for more)`
-                                : `Showing all ${totalLoaded} features`;
-                        }
+                if (state.sort.key && state.sort.dir !== 'default') {
+                    const kind = inferColumnKind(state.sort.key);
+                    visible = [...visible].sort((a, b) => {
+                        const cmp = compareFeatures(a.feature, b.feature, state.sort.key, state.sort.dir, kind);
+                        return cmp !== 0 ? cmp : (a.index - b.index);
+                    });
+                } else {
+                    visible = [...visible].sort((a, b) => a.index - b.index);
+                }
+
+                state.filteredFeatures = visible;
+                state.renderedCount = Math.min(renderBatchSize, state.filteredFeatures.length);
+                renderVisibleRows();
+
+                headers.forEach((th, idx) => {
+                    const btn = th.querySelector('[data-table-filter-sort-btn]');
+                    if (!btn) return;
+                    const key = attrKeys[idx];
+                    const filtered = state.filters.has(key) && (state.filters.get(key)?.size ?? 0) > 0;
+                    const sorted = state.sort.key === key && state.sort.dir !== 'default';
+                    btn.classList.toggle('election-th-btn--active', filtered || sorted);
+                    if (sorted && state.sort.dir === 'asc') btn.innerHTML = '&#8593;';
+                    else if (sorted && state.sort.dir === 'desc') btn.innerHTML = '&#8595;';
+                    else btn.innerHTML = '&#8645;';
+                });
+            };
+            const openMenuForColumn = (idx, anchorBtn) => {
+                closeMenu();
+                const key = attrKeys[idx];
+                const kind = inferColumnKind(key);
+                const options = getUniqueValues(key);
+                const current = state.filters.get(key);
+                const selected = new Set(current instanceof Set ? current : options);
+                const sortAscLabel = kind === 'numeric'
+                    ? 'Sort Smallest to Largest'
+                    : (kind === 'ordinal' ? 'Sort Lowest to Highest' : 'Sort A to Z');
+                const sortDescLabel = kind === 'numeric'
+                    ? 'Sort Largest to Smallest'
+                    : (kind === 'ordinal' ? 'Sort Highest to Lowest' : 'Sort Z to A');
+
+                const menu = document.createElement('div');
+                menu.className = 'election-filter-menu';
+                menu.innerHTML = `
+                    <button type="button" class="election-filter-menu__action" data-action="sort-asc">${sortAscLabel}</button>
+                    <button type="button" class="election-filter-menu__action" data-action="sort-desc">${sortDescLabel}</button>
+                    <button type="button" class="election-filter-menu__action" data-action="reset-sort">Reset Sort</button>
+                    <div class="election-filter-menu__divider"></div>
+                    <input type="search" class="election-filter-menu__search" placeholder="Search values..." aria-label="Search values">
+                    <div class="election-filter-menu__row">
+                        <button type="button" class="election-filter-menu__mini" data-action="select-all">Select All</button>
+                        <button type="button" class="election-filter-menu__mini" data-action="deselect-all">Deselect All</button>
+                    </div>
+                    <div class="election-filter-menu__values" data-role="values"></div>
+                    <div class="election-filter-menu__row election-filter-menu__row--footer">
+                        <button type="button" class="election-filter-menu__mini" data-action="clear-filter">Clear Filter</button>
+                        <button type="button" class="election-filter-menu__mini election-filter-menu__mini--primary" data-action="apply">Apply</button>
+                    </div>
+                `;
+                document.body.appendChild(menu);
+                state.activeMenu = menu;
+                state.activeMenuBtn = anchorBtn;
+                anchorBtn.classList.add('election-th-btn--open');
+
+                const rect = anchorBtn.getBoundingClientRect();
+                const menuWidth = 248;
+                const margin = 8;
+                const scrollX = window.scrollX || window.pageXOffset || 0;
+                const scrollY = window.scrollY || window.pageYOffset || 0;
+                const preferredLeft = scrollX + rect.right - menuWidth;
+                const maxLeft = scrollX + window.innerWidth - menuWidth - margin;
+                menu.style.left = `${Math.max(scrollX + margin, Math.min(preferredLeft, maxLeft))}px`;
+
+                const menuHeight = menu.offsetHeight || 320;
+                const belowTop = scrollY + rect.bottom + 4;
+                const aboveTop = scrollY + rect.top - menuHeight - 4;
+                const viewportBottom = scrollY + window.innerHeight - margin;
+                const viewportTop = scrollY + margin;
+                const fitsBelow = belowTop + menuHeight <= viewportBottom;
+                const fitsAbove = aboveTop >= viewportTop;
+                menu.style.top = `${(fitsBelow || !fitsAbove) ? belowTop : aboveTop}px`;
+
+                const valuesHost = menu.querySelector('[data-role="values"]');
+                const renderValues = (needle = '') => {
+                    const q = needle.trim().toLowerCase();
+                    valuesHost.innerHTML = '';
+                    options
+                        .filter((v) => !q || v.toLowerCase().includes(q))
+                        .forEach((raw) => {
+                            const item = document.createElement('label');
+                            item.className = 'election-filter-menu__value';
+                            item.innerHTML = `<input type="checkbox" ${selected.has(raw) ? 'checked' : ''}><span>${this.escapeHtml(raw || '(Blank)')}</span>`;
+                            const cb = item.querySelector('input');
+                            cb.addEventListener('change', () => {
+                                if (cb.checked) selected.add(raw);
+                                else selected.delete(raw);
+                            });
+                            valuesHost.appendChild(item);
+                        });
+                };
+                renderValues();
+
+                const search = menu.querySelector('.election-filter-menu__search');
+                search?.addEventListener('input', () => renderValues(search.value || ''));
+                menu.addEventListener('click', (event) => {
+                    const btn = event.target.closest('button[data-action]');
+                    if (!btn) return;
+                    const action = btn.dataset.action;
+                    if (action === 'sort-asc') {
+                        state.sort.key = key;
+                        state.sort.dir = 'asc';
+                        applyState();
+                        closeMenu();
+                    } else if (action === 'sort-desc') {
+                        state.sort.key = key;
+                        state.sort.dir = 'desc';
+                        applyState();
+                        closeMenu();
+                    } else if (action === 'reset-sort') {
+                        state.sort.key = null;
+                        state.sort.dir = 'default';
+                        applyState();
+                        closeMenu();
+                    } else if (action === 'select-all') {
+                        options.forEach((v) => selected.add(v));
+                        renderValues(search?.value || '');
+                    } else if (action === 'deselect-all') {
+                        selected.clear();
+                        renderValues(search?.value || '');
+                    } else if (action === 'clear-filter') {
+                        state.filters.delete(key);
+                        applyState();
+                        closeMenu();
+                    } else if (action === 'apply') {
+                        if (selected.size === 0 || selected.size === options.length) state.filters.delete(key);
+                        else state.filters.set(key, new Set(selected));
+                        applyState();
+                        closeMenu();
                     }
                 });
-            }
+
+                state.documentClickHandler = (event) => {
+                    if (!state.activeMenu) return;
+                    if (state.activeMenu.contains(event.target)) return;
+                    if (state.activeMenuBtn && state.activeMenuBtn.contains(event.target)) return;
+                    closeMenu();
+                };
+                document.addEventListener('click', state.documentClickHandler);
+            };
+
+            headers.forEach((th, idx) => {
+                const label = th.innerHTML;
+                th.innerHTML = '';
+                const wrap = document.createElement('div');
+                wrap.className = 'election-th-controls';
+                const labelSpan = document.createElement('span');
+                labelSpan.className = 'election-th-label';
+                labelSpan.innerHTML = label;
+                wrap.appendChild(labelSpan);
+
+                const actions = document.createElement('span');
+                actions.className = 'election-th-actions';
+                const menuBtn = document.createElement('button');
+                menuBtn.type = 'button';
+                menuBtn.className = 'election-th-btn';
+                menuBtn.setAttribute('data-table-filter-sort-btn', '1');
+                menuBtn.setAttribute('aria-label', 'Sort and Filter');
+                menuBtn.setAttribute('title', 'Sort and Filter');
+                menuBtn.innerHTML = '&#8645;';
+                menuBtn.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (state.activeMenu && state.activeMenuBtn === menuBtn) closeMenu();
+                    else openMenuForColumn(idx, menuBtn);
+                });
+                actions.appendChild(menuBtn);
+                wrap.appendChild(actions);
+                th.appendChild(wrap);
+            });
+
+            scrollContainer.addEventListener('scroll', () => {
+                const scrollBottom = scrollContainer.scrollTop + scrollContainer.clientHeight;
+                const threshold = scrollContainer.scrollHeight - 50;
+                if (scrollBottom < threshold) return;
+                if (state.renderedCount >= state.filteredFeatures.length) return;
+                state.renderedCount = Math.min(state.renderedCount + renderBatchSize, state.filteredFeatures.length);
+                renderVisibleRows();
+            }, { passive: true });
+
+            tbody.addEventListener('click', (event) => {
+                const link = event.target.closest('.catalogue-detail__attr-link');
+                if (link) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    const detailId = link.dataset.featureDetailId;
+                    if (detailId) this.showFeatureDetailInCatalogue(detailId);
+                    return;
+                }
+
+                const row = event.target.closest('.catalogue-detail__attr-tr--interactive');
+                if (!row) return;
+                const featureIndex = Number(row.dataset.featureIndex);
+                const featureName = row.dataset.featureName || '';
+                const bbox = (row.dataset.featureBbox || '').split(',').map(Number).filter(Number.isFinite);
+                const featureId = row.dataset.featureId || '';
+                const feature = state.allFeatures.find((entry) => entry.index === featureIndex)?.feature;
+                this.focusFeatureFromTable(
+                    map,
+                    feature,
+                    Number.isFinite(featureIndex) ? featureIndex : featureId,
+                    featureName,
+                    bbox.length === 4 ? bbox : null
+                );
+            });
+
+            applyState();
 
         } catch (err) {
             console.warn('[UIController] Failed to load attribute schema:', err);
@@ -576,7 +1173,7 @@ class UIController {
         }
     }
 
-    showCatalogueListView() {
+    showCatalogueListView(addToHistory = false) {
         this.catalogueView = 'list';
 
         const nav = document.getElementById('catalogueNav');
@@ -585,25 +1182,32 @@ class UIController {
 
         if (!nav || !listView || !detailView) return;
 
-        // Hide nav, show list, hide detail
-        nav.classList.add('hidden');
+        if (addToHistory) {
+            const current = this.catalogueHistory[this.catalogueHistoryIndex];
+            if (!current || current.type !== 'list') {
+                this._pushCatalogueHistoryEntry({ type: 'list' });
+            }
+        }
+
+        // Show list, hide detail
         listView.classList.remove('hidden');
         detailView.classList.add('hidden');
-
-        // Reset history when going home
-        this.catalogueHistory = [];
-        this.catalogueHistoryIndex = -1;
+        this.updateCatalogueNavButtons();
     }
 
     catalogueGoBack() {
         if (this.catalogueHistoryIndex > 0) {
             this.catalogueHistoryIndex--;
             const entry = this.catalogueHistory[this.catalogueHistoryIndex];
-            if (entry.type === 'detail') {
+            if (entry.type === 'list') {
+                this.showCatalogueListView(false);
+            } else if (entry.type === 'detail') {
                 this.showCatalogueDetailView(entry.mapId, false);
+            } else if (entry.type === 'feature-detail') {
+                this.showFeatureDetailInCatalogue(entry.detailId, false);
+            } else if (entry.type === 'election-entity-detail') {
+                this.showElectionEntityDetailInCatalogue(entry.detailId, false);
             }
-        } else {
-            this.showCatalogueListView();
         }
         this.updateCatalogueNavButtons();
     }
@@ -612,8 +1216,14 @@ class UIController {
         if (this.catalogueHistoryIndex < this.catalogueHistory.length - 1) {
             this.catalogueHistoryIndex++;
             const entry = this.catalogueHistory[this.catalogueHistoryIndex];
-            if (entry.type === 'detail') {
+            if (entry.type === 'list') {
+                this.showCatalogueListView(false);
+            } else if (entry.type === 'detail') {
                 this.showCatalogueDetailView(entry.mapId, false);
+            } else if (entry.type === 'feature-detail') {
+                this.showFeatureDetailInCatalogue(entry.detailId, false);
+            } else if (entry.type === 'election-entity-detail') {
+                this.showElectionEntityDetailInCatalogue(entry.detailId, false);
             }
         }
         this.updateCatalogueNavButtons();
@@ -634,6 +1244,7 @@ class UIController {
         if (forwardBtn) {
             forwardBtn.disabled = this.catalogueHistoryIndex >= this.catalogueHistory.length - 1;
         }
+        this.updateCatalogueHomeButton();
     }
 
     setupTabSwitching() {
@@ -668,7 +1279,7 @@ class UIController {
             content.classList.toggle('pane-tab-content--hidden', !isActive);
         });
 
-        this.updateCatalogueReturnTopVisibility();
+        this.updateCatalogueHomeButton();
 
         // Initialize Explore tab on first view
         if (tabId === 'explore') {
@@ -682,39 +1293,36 @@ class UIController {
     }
 
     setupCatalogueReturnTop() {
-        const btn = document.getElementById('catalogueReturnTop');
         const pane = document.querySelector('.pane__content[data-tab-content="catalogue"]');
-        if (!btn || !pane) return;
-        this._catalogueReturnTopBtn = btn;
+        if (!pane) return;
         this._cataloguePane = pane;
-        btn.addEventListener('click', () => {
-            pane.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-        pane.addEventListener('scroll', () => this.updateCatalogueReturnTopVisibility(), { passive: true });
-        window.addEventListener('resize', () => this.updateCatalogueReturnTopVisibility());
-        this.updateCatalogueReturnTopVisibility();
+        pane.addEventListener('scroll', () => this.updateCatalogueHomeButton(), { passive: true });
+        window.addEventListener('resize', () => this.updateCatalogueHomeButton());
+        this.updateCatalogueHomeButton();
     }
 
-    updateCatalogueReturnTopVisibility() {
-        const btn = this._catalogueReturnTopBtn || document.getElementById('catalogueReturnTop');
+    isOnMainCataloguePage() {
+        const listView = document.getElementById('catalogueListView');
+        const detailView = document.getElementById('catalogueDetailView');
+        return !!listView && !!detailView && !listView.classList.contains('hidden') && detailView.classList.contains('hidden');
+    }
+
+    scrollCatalogueToTop() {
         const pane = this._cataloguePane || document.querySelector('.pane__content[data-tab-content="catalogue"]');
-        if (!btn || !pane) return;
+        if (!pane) return;
+        pane.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-        const isCatalogueVisible = !pane.classList.contains('pane-tab-content--hidden');
-        const isFlatVisible = this._catalogueViewMode === 'flat';
-        let show = false;
-
-        if (isCatalogueVisible && isFlatVisible) {
-            const toc = pane.querySelector('#catalogueFlatView:not(.hidden) .catalogue-flat__toc');
-            if (toc) {
-                const paneRect = pane.getBoundingClientRect();
-                const tocRect = toc.getBoundingClientRect();
-                // Show only after the TOC has scrolled beyond the top of the pane.
-                show = tocRect.bottom < (paneRect.top + 8);
-            }
-        }
-
-        btn.style.display = show ? 'inline-flex' : 'none';
+    updateCatalogueHomeButton() {
+        const homeBtn = document.getElementById('catalogueHome');
+        if (!homeBtn) return;
+        const onMain = this.isOnMainCataloguePage();
+        homeBtn.classList.toggle('catalogue-home--top', onMain);
+        homeBtn.title = onMain ? 'Return to top' : 'Back to main catalogue';
+        homeBtn.setAttribute('aria-label', onMain ? 'Return to top' : 'Back to main catalogue');
+        homeBtn.innerHTML = onMain
+            ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7 17 12 12 17 17"></polyline><polyline points="7 11 12 6 17 11"></polyline></svg>`
+            : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>`;
     }
 
     setupSplitToggle() {
@@ -1360,7 +1968,7 @@ class UIController {
 
         localStorage.setItem('ni-boundaries.catalogue-view', forcedMode);
         this._catalogueViewMode = forcedMode;
-        this.updateCatalogueReturnTopVisibility();
+        this.updateCatalogueHomeButton();
     }
 
     async renderFlatView(options = {}) {
@@ -1375,6 +1983,7 @@ class UIController {
         const c1Cards = [
             { id: 'flat-townlands-1844', name: 'Townlands (1844) (Ireland)', years: '1844', extent: 'Ireland', mapIds: ['ni-townlands-1844'] },
             { id: 'flat-settlements', name: 'Settlements', years: '2005-2015', extent: 'Northern Ireland', classIds: ['ni-settlements'] },
+            { id: 'flat-settlements-roi', name: 'Settlements', years: '2015', extent: 'Republic of Ireland', classIds: ['roi-settlements'] },
             { id: 'flat-place-names', name: 'Place Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['place-names-gazetteer'] },
             { id: 'flat-civil-parishes', name: 'Civil Parishes', years: '', extent: 'Ireland', classIds: ['ni-civil-parishes', 'ireland-civil-parishes'] },
             { id: 'flat-baronies', name: 'Baronies', years: '', extent: 'Ireland', mapIds: ['baronies'] },
@@ -1874,7 +2483,7 @@ class UIController {
         });
 
         container.dataset.rendered = 'true';
-        this.updateCatalogueReturnTopVisibility();
+        this.updateCatalogueHomeButton();
     }
 
     /** Mark flat view as stale so it re-renders on next toggle */
@@ -1902,7 +2511,7 @@ class UIController {
         memberMaps.sort((a, b) => (this.parseDateToTimestamp(b.date) || 0) - (this.parseDateToTimestamp(a.date) || 0));
 
         const nonPlaceholderMaps = memberMaps.filter(m => !m.placeholder);
-        const yearBasedClasses = ['ni-wards', 'ni-deas', 'ni-lgds', 'ni-pcs', 'ni-assembly', 'ni-settlements', 'ni-deds', 'ni-county-eds', 'eu-parliament'];
+        const yearBasedClasses = ['ni-wards', 'ni-deas', 'ni-lgds', 'ni-pcs', 'ni-assembly', 'ni-settlements', 'roi-settlements', 'ni-deds', 'ni-county-eds', 'eu-parliament'];
         const useYearDisplay = yearBasedClasses.includes(cls.id);
 
         // Timeline slider removed - now using the main timeline slider in map pane
@@ -3194,6 +3803,149 @@ class UIController {
         ).join('');
     }
 
+    getVisibilityButtonIcon(isVisible) {
+        return `
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                ${isVisible
+                ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'
+                : '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><line x1="1" y1="1" x2="23" y2="23"/>'
+            }
+            </svg>
+        `;
+    }
+
+    renderMapActionStrip(map, options = {}) {
+        const isLoaded = !!options.isLoaded;
+        const isVisible = options.isVisible !== undefined ? !!options.isVisible : isLoaded;
+        const size = options.buttonSize || 'sm';
+        const wrapperClass = options.wrapperClass || 'map-card__actions';
+        const hasDownload = !!(map.downloads?.fgb || map.files?.fgb || map.files?.geojson || (map.osniDownloads && map.osniDownloads.length));
+        const hasVariants = !!(map.variants && map.variants.length > 0);
+
+        return `
+            <div class="${wrapperClass}">
+                <button class="btn btn--icon btn--${size} visibility-btn" data-map-id="${map.id}" title="${isVisible ? 'Hide' : 'Show'}">
+                    ${this.getVisibilityButtonIcon(isVisible)}
+                </button>
+                <button class="btn btn--icon btn--${size} load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">
+                    ${this.getLoadButtonIcon(isLoaded)}
+                </button>
+                <button class="btn btn--icon btn--${size} copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                    </svg>
+                </button>
+                ${hasDownload ? `
+                    <div class="download-btn-group">
+                        <button class="btn btn--icon btn--${size} download-btn" data-map-id="${map.id}" title="Download">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                        </button>
+                        <div class="download-dropdown hidden">
+                            ${(map.downloads?.fgb || map.files?.fgb) ? `<a href="${map.downloads?.fgb || map.files?.fgb}" class="download-dropdown__item" download>FlatGeobuf (.fgb)</a>` : ''}
+                            ${map.files?.geojson ? `<a href="${map.files.geojson}" class="download-dropdown__item" download>GeoJSON</a>` : ''}
+                            ${map.osniDownloads && map.osniDownloads.length > 0 ? `
+                                <div class="download-dropdown__divider"></div>
+                                <div class="download-dropdown__heading">OSNI Open Data</div>
+                                ${map.osniDownloads.map(dl => `<a href="${dl.file}" class="download-dropdown__item download-dropdown__item--osni" download>${dl.label}</a>`).join('')}
+                            ` : ''}
+                        </div>
+                    </div>
+                ` : '<div class="download-btn-group--placeholder"></div>'}
+                ${hasVariants ? `
+                    <button class="btn btn--icon btn--${size} variants-btn" data-map-id="${map.id}" title="${map.variants.length} variants">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9l6 6 6-6"/>
+                        </svg>
+                    </button>
+                ` : '<div class="btn--placeholder"></div>'}
+            </div>
+        `;
+    }
+
+    bindMapActionStrip(container, map, options = {}) {
+        if (!container || !map) return;
+        const activeClassTarget = options.activeClassTarget || null;
+
+        const syncState = () => {
+            const loadedNow = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(map.id) : false;
+            const visibleNow = this.onCheckMapVisible ? !!this.onCheckMapVisible(map.id) : loadedNow;
+            if (activeClassTarget) {
+                activeClassTarget.classList.toggle('map-card--active', loadedNow);
+            }
+            const loadBtn = container.querySelector('.load-btn');
+            if (loadBtn) {
+                loadBtn.innerHTML = this.getLoadButtonIcon(loadedNow);
+                loadBtn.title = loadedNow ? 'Unload' : 'Load';
+            }
+            const visibilityBtn = container.querySelector('.visibility-btn');
+            if (visibilityBtn) {
+                visibilityBtn.innerHTML = this.getVisibilityButtonIcon(visibleNow);
+                visibilityBtn.title = visibleNow ? 'Hide' : 'Show';
+            }
+        };
+
+        container.querySelector('.visibility-btn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const currentlyLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(map.id) : false;
+            if (currentlyLoaded && this.onHideMap) {
+                this.onHideMap(map.id);
+            } else if (this.onMapToggle) {
+                this.onMapToggle(map.id);
+            }
+            syncState();
+        });
+
+        container.querySelector('.load-btn')?.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const btn = e.currentTarget;
+            if (btn?.dataset?.busy === '1') return;
+            if (btn) {
+                btn.dataset.busy = '1';
+                btn.disabled = true;
+            }
+            const currentlyLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(map.id) : false;
+            try {
+                if (currentlyLoaded && this.onMapUnload) {
+                    await this.onMapUnload(map.id);
+                } else if (!currentlyLoaded && this.onMapLoad) {
+                    await this.onMapLoad(map.id);
+                }
+            } finally {
+                syncState();
+                if (btn) {
+                    btn.disabled = false;
+                    btn.dataset.busy = '0';
+                }
+            }
+        });
+
+        container.querySelector('.copy-url-btn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.copyMapUrl(map.id, e.currentTarget);
+        });
+
+        container.querySelector('.download-btn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const dropdown = container.querySelector('.download-dropdown');
+            if (dropdown) {
+                dropdown.classList.toggle('hidden');
+            }
+        });
+
+        container.querySelector('.variants-btn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const host = options.variantsHost || activeClassTarget || container;
+            this.toggleVariantsPanel(map, host);
+        });
+
+        syncState();
+    }
+
     parseDateToTimestamp(dateStr) {
         if (!dateStr) return null;
         if (typeof dateStr === 'number') return new Date(dateStr, 0, 1).getTime();
@@ -3262,118 +4014,15 @@ class UIController {
                 <div class="map-card__meta">${this.escapeHtml(providers)}${dateStr ? ` · <em>${dateStr}</em>` : ''}</div>
                 ${noteHtml}
             </div>
-            <div class="map-card__actions">
-                <!-- Slot 1: Visibility -->
-                <button class="btn btn--icon btn--sm visibility-btn" data-map-id="${map.id}" title="${isVisible ? 'Hide' : 'Show'}">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        ${isVisible ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>' : '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><line x1="1" y1="1" x2="23" y2="23"/>'}
-                    </svg>
-                </button>
-                
-                <!-- Slot 2: Load/Unload -->
-                <button class="btn btn--icon btn--sm load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">
-                    ${this.getLoadButtonIcon(isLoaded)}
-                </button>
-                
-                <!-- Slot 3: Copy URL -->
-                <button class="btn btn--icon btn--sm copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-                    </svg>
-                </button>
-                
-                <!-- Slot 4: Download -->
-                ${hasDownload ? `
-                    <div class="download-btn-group">
-                        <button class="btn btn--icon btn--sm download-btn" data-map-id="${map.id}" title="Download">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="7 10 12 15 17 10"/>
-                                <line x1="12" y1="15" x2="12" y2="3"/>
-                            </svg>
-                        </button>
-                        <div class="download-dropdown hidden">
-                            ${(map.downloads?.fgb || map.files?.fgb) ? `<a href="${map.downloads?.fgb || map.files?.fgb}" class="download-dropdown__item" download>FlatGeobuf (.fgb)</a>` : ''}
-                            ${map.files?.geojson ? `<a href="${map.files.geojson}" class="download-dropdown__item" download>GeoJSON</a>` : ''}
-                            ${map.osniDownloads && map.osniDownloads.length > 0 ? `
-                                <div class="download-dropdown__divider"></div>
-                                <div class="download-dropdown__heading">OSNI Open Data</div>
-                                ${map.osniDownloads.map(dl => `<a href="${dl.file}" class="download-dropdown__item download-dropdown__item--osni" download>${dl.label}</a>`).join('')}
-                            ` : ''}
-                        </div>
-                    </div>
-                ` : '<div class="download-btn-group--placeholder"></div>'}
-                
-                <!-- Slot 5: Variants -->
-                ${hasVariants ? `
-                    <button class="btn btn--icon btn--sm variants-btn" data-map-id="${map.id}" title="${map.variants.length} variants">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M6 9l6 6 6-6"/>
-                        </svg>
-                    </button>
-                ` : '<div class="btn--placeholder"></div>'}
-            </div>
+            ${this.renderMapActionStrip(map, {
+                isLoaded,
+                isVisible,
+                buttonSize: 'sm',
+                wrapperClass: 'map-card__actions'
+            })}
         `;
 
-        // Event listeners
-        card.querySelector('.visibility-btn')?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const currentlyLoaded = card.classList.contains('map-card--active');
-            if (currentlyLoaded && this.onHideMap) {
-                this.onHideMap(map.id);
-            } else if (this.onMapToggle) {
-                this.onMapToggle(map.id);
-            }
-        });
-
-        card.querySelector('.load-btn')?.addEventListener('click', async (e) => {
-            e.stopPropagation();
-            const btn = e.currentTarget;
-            if (btn?.dataset?.busy === '1') return;
-            if (btn) {
-                btn.dataset.busy = '1';
-                btn.disabled = true;
-            }
-
-            const currentlyLoaded = card.classList.contains('map-card--active');
-            try {
-                if (currentlyLoaded && this.onMapUnload) {
-                    await this.onMapUnload(map.id);
-                } else if (!currentlyLoaded && this.onMapLoad) {
-                    await this.onMapLoad(map.id);
-                }
-            } finally {
-                const loadedNow = this.onCheckMapLoaded
-                    ? !!this.onCheckMapLoaded(map.id)
-                    : card.classList.contains('map-card--active');
-                card.classList.toggle('map-card--active', loadedNow);
-                if (btn) {
-                    btn.innerHTML = this.getLoadButtonIcon(loadedNow);
-                    btn.title = loadedNow ? 'Unload' : 'Load';
-                    btn.disabled = false;
-                    btn.dataset.busy = '0';
-                }
-            }
-        });
-
-        card.querySelector('.copy-url-btn')?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.copyMapUrl(map.id, e.target);
-        });
-
-        card.querySelector('.download-btn')?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const dropdown = card.querySelector('.download-dropdown');
-            if (dropdown) {
-                dropdown.classList.toggle('hidden');
-            }
-        });
-
-        card.querySelector('.variants-btn')?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.toggleVariantsPanel(map, card);
-        });
+        this.bindMapActionStrip(card, map, { activeClassTarget: card, variantsHost: card });
 
         // Row click toggles map
         card.addEventListener('click', () => {
@@ -3805,9 +4454,7 @@ class UIController {
             }
             if (!primaryName) primaryName = 'Unnamed Feature';
 
-            const detailId = `${feature.mapId || mapConfig?.id || 'feature'}:${feature.id || primaryName}`;
-            if (!this._featureDetailCache) this._featureDetailCache = new Map();
-            this._featureDetailCache.set(detailId, { feature, mapConfig, primaryName });
+            const detailId = this.cacheFeatureDetailEntry(mapConfig, feature, primaryName, feature.id || primaryName);
 
             if (mapConfig?.id) {
                 html += `<button type="button" class="feature-info__primary-name feature-info__primary-name-link" data-feature-detail-id="${this.escapeHtml(detailId)}">${this.escapeHtml(primaryName)}</button>`;
@@ -3990,10 +4637,14 @@ class UIController {
         panel.classList.remove('hidden');
     }
 
-    showFeatureDetailInCatalogue(detailId) {
+    showFeatureDetailInCatalogue(detailId, addToHistory = true) {
         const entry = this._featureDetailCache?.get(detailId);
         if (!entry) return;
         const { feature, mapConfig, primaryName } = entry;
+
+        if (addToHistory) {
+            this._pushCatalogueHistoryEntry({ type: 'feature-detail', detailId });
+        }
 
         const detailView = document.getElementById('catalogueDetailView');
         const listView = document.getElementById('catalogueListView');
@@ -4004,6 +4655,7 @@ class UIController {
         listView.classList.add('hidden');
         detailView.classList.remove('hidden');
         this.catalogueView = 'detail';
+        this.updateCatalogueHomeButton();
 
         const props = feature?.properties || {};
         const rows = Object.entries(props).map(([k, v]) => `
@@ -4013,17 +4665,707 @@ class UIController {
             </div>`).join('');
 
         detailView.innerHTML = `
-            <button class="catalogue-detail__back" id="catalogueBackLink">Back to Catalogue</button>
             <div class="catalogue-detail__card">
                 <div class="catalogue-detail__color" style="background-color: ${this.escapeHtml(mapConfig?.style?.color || '#888')}"></div>
                 <div class="catalogue-detail__name">${this.escapeHtml(primaryName || 'Feature')}</div>
                 <div class="catalogue-detail__date">${this.escapeHtml(mapConfig?.name || '')}</div>
             </div>
+            <div class="catalogue-detail__feature-actions">
+                <button type="button" class="btn btn--icon btn--sm feature-visibility-btn" title="Show feature" aria-label="Show feature">
+                    ${this.getVisibilityButtonIcon(false)}
+                </button>
+                <button type="button" class="btn btn--icon btn--sm feature-load-btn" title="Load feature" aria-label="Load feature">
+                    ${this.getLoadButtonIcon(false)}
+                </button>
+                <button type="button" class="btn btn--icon btn--sm feature-copy-url-btn" title="Copy shareable URL" aria-label="Copy shareable URL">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                    </svg>
+                </button>
+                <div class="download-btn-group">
+                    <button type="button" class="btn btn--icon btn--sm feature-download-fgb-btn" title="Download FGB" aria-label="Download FGB">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                    </button>
+                    <button type="button" class="btn btn--icon btn--sm download-btn--dropdown feature-download-menu-btn" title="More download formats" aria-label="More download formats">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9l6 6 6-6"/>
+                        </svg>
+                    </button>
+                    <div class="download-dropdown hidden feature-download-dropdown">
+                        <button type="button" class="download-dropdown__item feature-download-alt-btn" data-format="geojson">GeoJSON</button>
+                        <button type="button" class="download-dropdown__item feature-download-alt-btn" data-format="json">JSON</button>
+                        <button type="button" class="download-dropdown__item feature-download-alt-btn" data-format="csv">CSV</button>
+                    </div>
+                </div>
+            </div>
             <div class="catalogue-detail__meta">${rows || '<div class="catalogue-detail__meta-row"><span class="catalogue-detail__meta-value">No properties</span></div>'}</div>
         `;
 
-        const backLink = document.getElementById('catalogueBackLink');
-        if (backLink) backLink.addEventListener('click', () => this.showCatalogueListView());
+        const featureBbox = this.getFeatureBBox(feature?.geometry);
+
+        detailView.querySelector('.feature-load-btn')?.addEventListener('click', async (event) => {
+            const mapId = mapConfig?.id;
+            const featureIndex = feature?.id;
+            if (!mapId || featureIndex === undefined || featureIndex === null) return;
+            const isLoaded = this.onCheckFeatureLoaded ? !!this.onCheckFeatureLoaded(mapId, featureIndex) : false;
+            if (isLoaded) {
+                this.onPartialFeatureUnload?.(mapId, featureIndex);
+            } else if (this.onFeatureLoad) {
+                await this.onFeatureLoad(mapId, featureIndex, primaryName, featureBbox);
+            }
+            this.syncFeatureDetailActionButtons(detailView, detailId);
+        });
+
+        detailView.querySelector('.feature-visibility-btn')?.addEventListener('click', () => {
+            const mapId = mapConfig?.id;
+            const featureIndex = feature?.id;
+            if (!mapId || featureIndex === undefined || featureIndex === null) return;
+            if (this.onPartialFeatureToggle) {
+                this.onPartialFeatureToggle(mapId, featureIndex);
+            }
+            this.syncFeatureDetailActionButtons(detailView, detailId);
+        });
+
+        detailView.querySelector('.feature-copy-url-btn')?.addEventListener('click', (event) => {
+            this.copyFeatureUrl(detailId, event.currentTarget);
+        });
+
+        detailView.querySelector('.feature-download-fgb-btn')?.addEventListener('click', () => {
+            this.downloadFeature(detailId, 'fgb');
+        });
+
+        const dropdown = detailView.querySelector('.feature-download-dropdown');
+        detailView.querySelector('.feature-download-menu-btn')?.addEventListener('click', (event) => {
+            event.stopPropagation();
+            dropdown?.classList.toggle('hidden');
+        });
+
+        detailView.querySelectorAll('.feature-download-alt-btn').forEach((btn) => {
+            btn.addEventListener('click', (event) => {
+                event.stopPropagation();
+                this.downloadFeature(detailId, btn.dataset.format);
+                dropdown?.classList.add('hidden');
+            });
+        });
+        this.syncFeatureDetailActionButtons(detailView, detailId);
+        this.updateCatalogueNavButtons();
+    }
+
+    _buildEntityTableMarkup(tableId, columns) {
+        return `
+            <div class="catalogue-detail__table-wrap">
+                <table class="catalogue-detail__entity-table" data-entity-table-id="${this.escapeHtml(tableId)}">
+                    <thead>
+                        <tr>
+                            ${columns.map((column) => `
+                                <th class="${column.align === 'num' ? 'catalogue-detail__entity-num' : ''}">${this.escapeHtml(column.label)}</th>
+                            `).join('')}
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    _renderEntityTableRows(columns, rows, rowClassNameFn = null) {
+        if (!rows.length) {
+            return `<tr><td colspan="${columns.length}">No rows</td></tr>`;
+        }
+
+        return rows.map((row) => {
+            const rowClassName = typeof rowClassNameFn === 'function' ? rowClassNameFn(row) : '';
+            return `
+                <tr class="${this.escapeHtml(rowClassName || '')}">
+                    ${columns.map((column) => `
+                        <td class="${column.align === 'num' ? 'catalogue-detail__entity-num' : ''}">
+                            ${column.render ? column.render(row) : this.escapeHtml(this.formatDisplayValue(column.getValue ? column.getValue(row) : row[column.key]))}
+                        </td>
+                    `).join('')}
+                </tr>
+            `;
+        }).join('');
+    }
+
+    _getEntityTableFilterValue(row, column) {
+        const raw = column.filterValue ? column.filterValue(row) : (column.getValue ? column.getValue(row) : row[column.key]);
+        if (raw === null || raw === undefined || raw === '') return '';
+        return String(raw);
+    }
+
+    _compareEntityTableValues(a, b, column, dir) {
+        const kind = column.kind || 'text';
+        const av = column.getValue ? column.getValue(a) : a[column.key];
+        const bv = column.getValue ? column.getValue(b) : b[column.key];
+        const asc = dir === 'asc' ? 1 : -1;
+
+        if (kind === 'numeric' || kind === 'ordinal' || kind === 'date') {
+            const aNum = kind === 'date' ? Date.parse(av) : Number(av);
+            const bNum = kind === 'date' ? Date.parse(bv) : Number(bv);
+            const aFinite = Number.isFinite(aNum);
+            const bFinite = Number.isFinite(bNum);
+            if (aFinite && bFinite) return (aNum - bNum) * asc;
+            if (aFinite) return -1;
+            if (bFinite) return 1;
+        }
+
+        const aText = av === null || av === undefined ? '' : String(av);
+        const bText = bv === null || bv === undefined ? '' : String(bv);
+        return aText.localeCompare(bText, undefined, { numeric: true, sensitivity: 'base' }) * asc;
+    }
+
+    _initEntityDataTable(container, tableId, columns, rows, options = {}) {
+        const table = container.querySelector(`[data-entity-table-id="${tableId}"]`);
+        if (!table) return;
+
+        const headers = [...table.querySelectorAll('thead th')];
+        const tbody = table.querySelector('tbody');
+        const state = {
+            filters: new Map(),
+            sort: { key: null, dir: 'default' },
+            activeMenu: null,
+            activeMenuBtn: null,
+            documentClickHandler: null,
+            filteredRows: [...rows]
+        };
+
+        const closeMenu = () => {
+            if (state.activeMenu) state.activeMenu.remove();
+            if (state.activeMenuBtn) state.activeMenuBtn.classList.remove('election-th-btn--open');
+            if (state.documentClickHandler) {
+                document.removeEventListener('click', state.documentClickHandler);
+                state.documentClickHandler = null;
+            }
+            state.activeMenu = null;
+            state.activeMenuBtn = null;
+        };
+
+        const renderRows = () => {
+            tbody.innerHTML = this._renderEntityTableRows(columns, state.filteredRows, options.rowClassNameFn);
+            headers.forEach((th, idx) => {
+                const btn = th.querySelector('[data-table-filter-sort-btn]');
+                if (!btn) return;
+                const column = columns[idx];
+                const filtered = state.filters.has(column.key) && (state.filters.get(column.key)?.size ?? 0) > 0;
+                const sorted = state.sort.key === column.key && state.sort.dir !== 'default';
+                btn.classList.toggle('election-th-btn--active', filtered || sorted);
+                if (sorted && state.sort.dir === 'asc') btn.innerHTML = '&#8593;';
+                else if (sorted && state.sort.dir === 'desc') btn.innerHTML = '&#8595;';
+                else btn.innerHTML = '&#8645;';
+            });
+        };
+
+        const applyState = () => {
+            let visible = rows.filter((row) => {
+                for (const [key, selected] of state.filters.entries()) {
+                    if (!(selected instanceof Set) || selected.size === 0) continue;
+                    const column = columns.find((entry) => entry.key === key);
+                    if (!column) continue;
+                    if (!selected.has(this._getEntityTableFilterValue(row, column))) return false;
+                }
+                return true;
+            });
+
+            if (state.sort.key && state.sort.dir !== 'default') {
+                const column = columns.find((entry) => entry.key === state.sort.key);
+                if (column) {
+                    visible = [...visible].sort((a, b) => {
+                        const cmp = this._compareEntityTableValues(a, b, column, state.sort.dir);
+                        return cmp !== 0 ? cmp : rows.indexOf(a) - rows.indexOf(b);
+                    });
+                }
+            }
+
+            state.filteredRows = visible;
+            renderRows();
+        };
+
+        const openMenuForColumn = (column, anchorBtn) => {
+            closeMenu();
+            const optionsList = [...new Set(rows.map((row) => this._getEntityTableFilterValue(row, column)))]
+                .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+            const current = state.filters.get(column.key);
+            const selected = new Set(current instanceof Set ? current : optionsList);
+            const kind = column.kind || 'text';
+            const sortAscLabel = kind === 'numeric'
+                ? 'Sort Smallest to Largest'
+                : (kind === 'ordinal' || kind === 'date' ? 'Sort Lowest to Highest' : 'Sort A to Z');
+            const sortDescLabel = kind === 'numeric'
+                ? 'Sort Largest to Smallest'
+                : (kind === 'ordinal' || kind === 'date' ? 'Sort Highest to Lowest' : 'Sort Z to A');
+
+            const menu = document.createElement('div');
+            menu.className = 'election-filter-menu';
+            menu.innerHTML = `
+                <button type="button" class="election-filter-menu__action" data-action="sort-asc">${sortAscLabel}</button>
+                <button type="button" class="election-filter-menu__action" data-action="sort-desc">${sortDescLabel}</button>
+                <button type="button" class="election-filter-menu__action" data-action="reset-sort">Reset Sort</button>
+                <div class="election-filter-menu__divider"></div>
+                <input type="search" class="election-filter-menu__search" placeholder="Search values..." aria-label="Search values">
+                <div class="election-filter-menu__row">
+                    <button type="button" class="election-filter-menu__mini" data-action="select-all">Select All</button>
+                    <button type="button" class="election-filter-menu__mini" data-action="deselect-all">Deselect All</button>
+                </div>
+                <div class="election-filter-menu__values" data-role="values"></div>
+                <div class="election-filter-menu__row election-filter-menu__row--footer">
+                    <button type="button" class="election-filter-menu__mini" data-action="clear-filter">Clear Filter</button>
+                    <button type="button" class="election-filter-menu__mini election-filter-menu__mini--primary" data-action="apply">Apply</button>
+                </div>
+            `;
+            document.body.appendChild(menu);
+            state.activeMenu = menu;
+            state.activeMenuBtn = anchorBtn;
+            anchorBtn.classList.add('election-th-btn--open');
+
+            const rect = anchorBtn.getBoundingClientRect();
+            const menuWidth = 248;
+            const margin = 8;
+            const scrollX = window.scrollX || window.pageXOffset || 0;
+            const scrollY = window.scrollY || window.pageYOffset || 0;
+            const preferredLeft = scrollX + rect.right - menuWidth;
+            const maxLeft = scrollX + window.innerWidth - menuWidth - margin;
+            menu.style.left = `${Math.max(scrollX + margin, Math.min(preferredLeft, maxLeft))}px`;
+
+            const menuHeight = menu.offsetHeight || 320;
+            const belowTop = scrollY + rect.bottom + 4;
+            const aboveTop = scrollY + rect.top - menuHeight - 4;
+            const viewportBottom = scrollY + window.innerHeight - margin;
+            const viewportTop = scrollY + margin;
+            const fitsBelow = belowTop + menuHeight <= viewportBottom;
+            const fitsAbove = aboveTop >= viewportTop;
+            menu.style.top = `${(fitsBelow || !fitsAbove) ? belowTop : aboveTop}px`;
+
+            const valuesHost = menu.querySelector('[data-role="values"]');
+            const renderValues = (needle = '') => {
+                const q = needle.trim().toLowerCase();
+                valuesHost.innerHTML = '';
+                optionsList
+                    .filter((value) => !q || value.toLowerCase().includes(q))
+                    .forEach((value) => {
+                        const item = document.createElement('label');
+                        item.className = 'election-filter-menu__value';
+                        item.innerHTML = `<input type="checkbox" ${selected.has(value) ? 'checked' : ''}><span>${this.escapeHtml(value || '(Blank)')}</span>`;
+                        const cb = item.querySelector('input');
+                        cb.addEventListener('change', () => {
+                            if (cb.checked) selected.add(value);
+                            else selected.delete(value);
+                        });
+                        valuesHost.appendChild(item);
+                    });
+            };
+            renderValues();
+
+            const search = menu.querySelector('.election-filter-menu__search');
+            search?.addEventListener('input', () => renderValues(search.value || ''));
+            menu.addEventListener('click', (event) => {
+                const btn = event.target.closest('button[data-action]');
+                if (!btn) return;
+                const action = btn.dataset.action;
+                if (action === 'sort-asc') {
+                    state.sort.key = column.key;
+                    state.sort.dir = 'asc';
+                    applyState();
+                    closeMenu();
+                } else if (action === 'sort-desc') {
+                    state.sort.key = column.key;
+                    state.sort.dir = 'desc';
+                    applyState();
+                    closeMenu();
+                } else if (action === 'reset-sort') {
+                    state.sort.key = null;
+                    state.sort.dir = 'default';
+                    applyState();
+                    closeMenu();
+                } else if (action === 'select-all') {
+                    optionsList.forEach((value) => selected.add(value));
+                    renderValues(search?.value || '');
+                } else if (action === 'deselect-all') {
+                    selected.clear();
+                    renderValues(search?.value || '');
+                } else if (action === 'clear-filter') {
+                    state.filters.delete(column.key);
+                    applyState();
+                    closeMenu();
+                } else if (action === 'apply') {
+                    if (selected.size === 0 || selected.size === optionsList.length) state.filters.delete(column.key);
+                    else state.filters.set(column.key, new Set(selected));
+                    applyState();
+                    closeMenu();
+                }
+            });
+
+            state.documentClickHandler = (event) => {
+                if (!state.activeMenu) return;
+                if (state.activeMenu.contains(event.target)) return;
+                if (state.activeMenuBtn && state.activeMenuBtn.contains(event.target)) return;
+                closeMenu();
+            };
+            document.addEventListener('click', state.documentClickHandler);
+        };
+
+        headers.forEach((th, idx) => {
+            const column = columns[idx];
+            th.innerHTML = '';
+            const wrap = document.createElement('div');
+            wrap.className = 'election-th-controls';
+            const labelSpan = document.createElement('span');
+            labelSpan.className = 'election-th-label';
+            labelSpan.textContent = column.label;
+            wrap.appendChild(labelSpan);
+
+            const actions = document.createElement('span');
+            actions.className = 'election-th-actions';
+            const menuBtn = document.createElement('button');
+            menuBtn.type = 'button';
+            menuBtn.className = 'election-th-btn';
+            menuBtn.setAttribute('data-table-filter-sort-btn', '1');
+            menuBtn.setAttribute('aria-label', 'Sort and Filter');
+            menuBtn.setAttribute('title', 'Sort and Filter');
+            menuBtn.innerHTML = '&#8645;';
+            menuBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                if (state.activeMenu && state.activeMenuBtn === menuBtn) closeMenu();
+                else openMenuForColumn(column, menuBtn);
+            });
+            actions.appendChild(menuBtn);
+            wrap.appendChild(actions);
+            th.appendChild(wrap);
+        });
+
+        applyState();
+    }
+
+    _formatEntityDelta(value, precision = 0, suffix = '') {
+        if (value === null || value === undefined || Number.isNaN(Number(value))) {
+            return '<span class="catalogue-detail__delta catalogue-detail__delta--neutral">-</span>';
+        }
+        const numeric = Number(value);
+        if (numeric === 0) {
+            return '<span class="catalogue-detail__delta catalogue-detail__delta--neutral">-</span>';
+        }
+        const cls = numeric > 0 ? 'catalogue-detail__delta--positive' : 'catalogue-detail__delta--negative';
+        const magnitude = Math.abs(numeric).toLocaleString(undefined, {
+            minimumFractionDigits: precision,
+            maximumFractionDigits: precision
+        });
+        const sign = numeric > 0 ? '+' : '-';
+        return `<span class="catalogue-detail__delta ${cls}">${sign}${magnitude}${suffix}</span>`;
+    }
+
+    _formatEntityRankDelta(value) {
+        if (value === null || value === undefined || Number.isNaN(Number(value)) || Number(value) === 0) {
+            return '<span class="catalogue-detail__rank-delta catalogue-detail__rank-delta--neutral">-</span>';
+        }
+        const numeric = Number(value);
+        const direction = numeric > 0 ? 'up' : 'down';
+        const triangle = numeric > 0 ? '&#9650;' : '&#9660;';
+        return `<span class="catalogue-detail__rank-delta catalogue-detail__rank-delta--${direction}">${triangle} ${Math.abs(numeric)}</span>`;
+    }
+
+    _renderConstituencyEntryList(entries = []) {
+        if (!Array.isArray(entries) || entries.length === 0) return '—';
+        return entries.map((entry) => {
+            const label = `${entry.constituency || '—'}${entry.mapLayerYear ? ` (${entry.mapLayerYear})` : ''}`;
+            const link = `
+                <a href="#"
+                    class="catalogue-detail__entity-link catalogue-detail__entity-link--text catalogue-detail__entity-link--constituency"
+                    data-election-constituency-feature="1"
+                    data-election-constituency-body="${this.escapeHtml(entry.body || '')}"
+                    data-election-constituency-date="${this.escapeHtml(entry.date || '')}"
+                    data-election-constituency-name="${this.escapeHtml(entry.constituency || '')}">
+                    ${this.escapeHtml(label)}
+                </a>`;
+            return entry.elected ? `<strong>${link}</strong>` : link;
+        }).join(', ');
+    }
+
+    showElectionEntityDetailInCatalogue(detailOrId, addToHistory = true) {
+        const detailId = typeof detailOrId === 'string'
+            ? detailOrId
+            : this.cacheElectionEntityDetailEntry(detailOrId);
+        const entry = this._electionEntityDetailCache?.get(detailId);
+        if (!entry || !detailId) return;
+
+        if (addToHistory) {
+            this._pushCatalogueHistoryEntry({ type: 'election-entity-detail', detailId });
+        }
+
+        const detailView = document.getElementById('catalogueDetailView');
+        const listView = document.getElementById('catalogueListView');
+        const nav = document.getElementById('catalogueNav');
+        if (!detailView || !listView || !nav) return;
+
+        nav.classList.remove('hidden');
+        listView.classList.add('hidden');
+        detailView.classList.remove('hidden');
+        this.catalogueView = 'detail';
+        this.updateCatalogueHomeButton();
+
+        const fmt = (value) => this.formatNumber(Math.round(Number(value) || 0), 0);
+        const pct = (value) => `${Number(value || 0).toFixed(2)}%`;
+        const ord = (n) => {
+            const num = Number(n || 0);
+            if (!num) return '—';
+            if (num % 10 === 1 && num % 100 !== 11) return `${num}st`;
+            if (num % 10 === 2 && num % 100 !== 12) return `${num}nd`;
+            if (num % 10 === 3 && num % 100 !== 13) return `${num}rd`;
+            return `${num}th`;
+        };
+        const renderElectionLink = (row, label, includeConstituency = false) => `
+            <a href="#"
+                class="catalogue-detail__entity-link catalogue-detail__entity-link--text"
+                data-election-body="${this.escapeHtml(row.body || '')}"
+                data-election-date="${this.escapeHtml(row.date || '')}"
+                ${includeConstituency && row.constituency ? `data-election-constituency="${this.escapeHtml(row.constituency)}"` : ''}>
+                ${this.escapeHtml(label)}
+            </a>
+        `;
+        const renderEntityLink = (kind, key, label) => `
+            <a href="#"
+                class="catalogue-detail__entity-link catalogue-detail__entity-link--text"
+                data-election-entity-detail-kind="${this.escapeHtml(kind)}"
+                data-election-entity-detail-key="${this.escapeHtml(key)}">
+                ${this.escapeHtml(label)}
+            </a>
+        `;
+        const title = entry.kind === 'candidate' ? (entry.name || entry.personId) : entry.name;
+        const subtitle = entry.kind === 'candidate'
+            ? `${entry.latestParty || (entry.parties || []).join(', ') || 'Independent'}`
+            : `${(entry.bodies || []).length} bodies`
+        ;
+        const eyebrow = entry.kind === 'candidate'
+            ? `Candidate | Person ID ${this.escapeHtml(entry.personId || '')}`
+            : 'Political Party';
+
+        const metrics = entry.kind === 'candidate'
+            ? [
+                ['Latest party', entry.latestParty || 'Independent'],
+                ['1st prefs', fmt(entry.firstPrefs)],
+                ['% of all valid votes', pct(entry.shareOfAllValid)],
+                ['Election wins', fmt(entry.electedCount)],
+                ['Elections contested', fmt((entry.appearances || []).length)],
+                ['Constituencies', fmt((entry.constituencies || []).length)]
+            ]
+            : [
+                ['MPs', { value: fmt(entry.latestWestminster?.elected || 0), subtext: entry.latestWestminster?.date ? electionController._formatDate(entry.latestWestminster.date) : '' }],
+                ['Last Westminster result', entry.latestWestminster ? pct(entry.latestWestminster.validVotePct) : 'N/A'],
+                ['Last Westminster votes', entry.latestWestminster ? fmt(entry.latestWestminster.firstPrefs) : 'N/A'],
+                ['MLAs', { value: fmt(entry.latestAssembly?.elected || 0), subtext: entry.latestAssembly?.date ? electionController._formatDate(entry.latestAssembly.date) : '' }],
+                ['Last Assembly result', entry.latestAssembly ? pct(entry.latestAssembly.validVotePct) : 'N/A'],
+                ['Last Assembly 1st prefs', entry.latestAssembly ? fmt(entry.latestAssembly.firstPrefs) : 'N/A']
+            ];
+
+        const metricsHtml = metrics.map(([label, value]) => `
+            <div class="catalogue-detail__metric-card">
+                <span class="catalogue-detail__metric-label">${this.escapeHtml(label)}</span>
+                <strong class="catalogue-detail__metric-value">${typeof value === 'object'
+                    ? `${this.escapeHtml(value.value || '')}${value.subtext ? `<span class="catalogue-detail__metric-subtext">${this.escapeHtml(value.subtext)}</span>` : ''}`
+                    : this.escapeHtml(value)}</strong>
+            </div>
+        `).join('');
+
+        const summaryRows = entry.kind === 'candidate'
+            ? [
+                ['Person ID', entry.personId || ''],
+                ['Name', entry.name || ''],
+                ['Parties', (entry.parties || []).join(', ')],
+                ['Bodies', (entry.bodies || []).join(', ')],
+                ['Dates', (entry.dates || []).join(', ')],
+                ['Constituencies', this._renderConstituencyEntryList(entry.constituencyEntries || []), true]
+            ]
+            : [];
+
+        const summaryHtml = summaryRows.map(([label, value, isHtml]) => `
+            <div class="catalogue-detail__meta-row">
+                <span class="catalogue-detail__meta-label">${this.escapeHtml(label)}</span>
+                <span class="catalogue-detail__meta-value">${isHtml ? (value || '—') : this.escapeHtml(value || '—')}</span>
+            </div>
+        `).join('');
+
+        const partyHistoryColumns = [
+            { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, false) },
+            { key: 'rank', label: 'Rank', kind: 'ordinal', align: 'num', getValue: (row) => row.rank, render: (row) => row.contested ? ord(row.rank) : '—' },
+            { key: 'rankDelta', label: 'Rank ±', kind: 'ordinal', align: 'num', getValue: (row) => row.rankDelta, render: (row) => this._formatEntityRankDelta(row.rankDelta) },
+            { key: 'elected', label: 'Candidates elected', kind: 'numeric', align: 'num', getValue: (row) => row.elected, render: (row) => row.contested ? fmt(row.elected) : '—' },
+            { key: 'electedDelta', label: 'Candidates elected ±', kind: 'numeric', align: 'num', getValue: (row) => row.electedDelta, render: (row) => this._formatEntityDelta(row.electedDelta) },
+            { key: 'stood', label: 'Candidates stood', kind: 'numeric', align: 'num', getValue: (row) => row.stood, filterValue: (row) => row.contested ? row.stood : 'did not contest', render: (row) => row.contested ? fmt(row.stood) : '<em>did not contest</em>' },
+            { key: 'stoodDelta', label: 'Candidates stood ±', kind: 'numeric', align: 'num', getValue: (row) => row.stoodDelta, render: (row) => this._formatEntityDelta(row.stoodDelta) },
+            { key: 'constituenciesContested', label: 'Constituencies stood', kind: 'numeric', align: 'num', getValue: (row) => row.constituenciesContested, render: (row) => fmt(row.constituenciesContested) },
+            { key: 'totalConstituencies', label: 'Number of constituencies', kind: 'numeric', align: 'num', getValue: (row) => row.totalConstituencies, render: (row) => fmt(row.totalConstituencies) },
+            { key: 'constituenciesContestedDelta', label: 'Constituencies stood ±', kind: 'numeric', align: 'num', getValue: (row) => row.constituenciesContestedDelta, render: (row) => this._formatEntityDelta(row.constituenciesContestedDelta) },
+            { key: 'firstPrefs', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefs, render: (row) => row.contested ? fmt(row.firstPrefs) : '—' },
+            { key: 'firstPrefsDelta', label: 'Valid votes ±', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefsDelta, render: (row) => this._formatEntityDelta(row.firstPrefsDelta) },
+            { key: 'validVotePct', label: '% valid first prefs', kind: 'numeric', align: 'num', getValue: (row) => row.validVotePct, render: (row) => row.contested ? pct(row.validVotePct) : '—' },
+            { key: 'validVotePctDelta', label: '% valid first prefs ±', kind: 'numeric', align: 'num', getValue: (row) => row.validVotePctDelta, render: (row) => this._formatEntityDelta(row.validVotePctDelta, 2, '%') },
+            { key: 'totalSeats', label: 'Available seats', kind: 'numeric', align: 'num', getValue: (row) => row.totalSeats, render: (row) => fmt(row.totalSeats) },
+            { key: 'totalSeatsDelta', label: 'Available seats ±', kind: 'numeric', align: 'num', getValue: (row) => row.totalSeatsDelta, render: (row) => this._formatEntityDelta(row.totalSeatsDelta) },
+            { key: 'seatPct', label: '% seats won', kind: 'numeric', align: 'num', getValue: (row) => row.seatPct, render: (row) => row.contested ? pct(row.seatPct) : '—' },
+            { key: 'seatPctDelta', label: '% seats won ±', kind: 'numeric', align: 'num', getValue: (row) => row.seatPctDelta, render: (row) => this._formatEntityDelta(row.seatPctDelta, 2, '%') }
+        ];
+
+        const showEuropeanCandidateColumns = (entry.candidateSummaries || []).some((row) => (row.timesStoodEuropean || 0) > 0);
+        const partyCandidateColumns = [
+            { key: 'name', label: 'Candidate', kind: 'text', getValue: (row) => row.name, render: (row) => renderEntityLink('candidate', row.personId, row.name) },
+            { key: 'totalFirstPrefs', label: 'Total 1st prefs', kind: 'numeric', align: 'num', getValue: (row) => row.totalFirstPrefs, render: (row) => fmt(row.totalFirstPrefs) },
+            { key: 'timesStood', label: 'Times stood', kind: 'numeric', align: 'num', getValue: (row) => row.timesStood, render: (row) => fmt(row.timesStood) },
+            { key: 'timesStoodDevolved', label: 'Times stood devolved', kind: 'numeric', align: 'num', getValue: (row) => row.timesStoodDevolved, render: (row) => fmt(row.timesStoodDevolved) },
+            { key: 'timesStoodWestminster', label: 'Times stood Westminster', kind: 'numeric', align: 'num', getValue: (row) => row.timesStoodWestminster, render: (row) => fmt(row.timesStoodWestminster) },
+            { key: 'timesElected', label: 'Times elected', kind: 'numeric', align: 'num', getValue: (row) => row.timesElected, render: (row) => fmt(row.timesElected) },
+            { key: 'timesElectedDevolved', label: 'Times elected devolved', kind: 'numeric', align: 'num', getValue: (row) => row.timesElectedDevolved, render: (row) => fmt(row.timesElectedDevolved) },
+            { key: 'timesElectedWestminster', label: 'Times elected Westminster', kind: 'numeric', align: 'num', getValue: (row) => row.timesElectedWestminster, render: (row) => fmt(row.timesElectedWestminster) },
+            { key: 'constituenciesLabel', label: 'Constituencies stood in', kind: 'text', getValue: (row) => (row.constituencyEntries || []).map((entry) => `${entry.constituency || ''} (${entry.mapLayerYear || ''})`).join(', '), render: (row) => this._renderConstituencyEntryList(row.constituencyEntries || []) }
+        ];
+        if (showEuropeanCandidateColumns) {
+            partyCandidateColumns.splice(5, 0,
+                { key: 'timesStoodEuropean', label: 'Times stood European Parliament', kind: 'numeric', align: 'num', getValue: (row) => row.timesStoodEuropean, render: (row) => fmt(row.timesStoodEuropean) }
+            );
+            partyCandidateColumns.splice(partyCandidateColumns.length - 1, 0,
+                { key: 'timesElectedEuropean', label: 'Times elected European Parliament', kind: 'numeric', align: 'num', getValue: (row) => row.timesElectedEuropean, render: (row) => fmt(row.timesElectedEuropean) }
+            );
+        }
+
+        const candidateHistoryColumns = [
+            { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, true) },
+            { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(electionController._formatDate(row.date || '')) },
+            { key: 'constituency', label: 'Constituency', kind: 'text', getValue: (row) => row.constituency, render: (row) => this.escapeHtml(row.constituency || '—') },
+            { key: 'bodyLabel', label: 'Elected body', kind: 'text', getValue: (row) => row.bodyLabel || row.body, render: (row) => this.escapeHtml(row.bodyLabel || row.body || '—') },
+            { key: 'status', label: 'Status', kind: 'text', getValue: (row) => row.status, render: (row) => this.escapeHtml(row.status || '—') },
+            { key: 'firstPref', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.firstPref, render: (row) => fmt(row.firstPref) },
+            { key: 'firstPrefPct', label: 'Valid vote %', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefPct, render: (row) => pct(row.firstPrefPct) },
+            { key: 'overallStandingNumber', label: 'Overall standing', kind: 'ordinal', getValue: (row) => row.overallStandingNumber, render: (row) => `${ord(row.overallStandingNumber)} time standing` },
+            { key: 'overallElectedNumber', label: 'Overall elected', kind: 'ordinal', getValue: (row) => row.overallElectedNumber, render: (row) => row.overallElectedNumber ? `${ord(row.overallElectedNumber)} time elected` : '—' },
+            { key: 'bodyStandingNumber', label: 'Body standing', kind: 'ordinal', getValue: (row) => row.bodyStandingNumber, render: (row) => `${ord(row.bodyStandingNumber)} ${this.escapeHtml(row.bodyLabel || row.body || '')} election` },
+            { key: 'bodyElectedNumber', label: 'Body elected', kind: 'ordinal', getValue: (row) => row.bodyElectedNumber, render: (row) => row.bodyElectedNumber ? `${ord(row.bodyElectedNumber)} ${this.escapeHtml(row.bodyLabel || row.body || '')} win` : '—' }
+        ];
+
+        const latestSummaryHtml = entry.kind === 'candidate' && entry.latestAppearance ? `
+            <div class="catalogue-detail__section">
+                <div class="catalogue-detail__section-title">Last Election Stood In</div>
+                <div class="catalogue-detail__meta">
+                    <div class="catalogue-detail__meta-row">
+                        <span class="catalogue-detail__meta-label">Election</span>
+                        <span class="catalogue-detail__meta-value">${renderElectionLink(entry.latestAppearance, entry.latestAppearance.electionDisplayName, true)}</span>
+                    </div>
+                    <div class="catalogue-detail__meta-row">
+                        <span class="catalogue-detail__meta-label">Date</span>
+                        <span class="catalogue-detail__meta-value">${this.escapeHtml(electionController._formatDate(entry.latestAppearance.date || ''))}</span>
+                    </div>
+                    <div class="catalogue-detail__meta-row">
+                        <span class="catalogue-detail__meta-label">Valid vote</span>
+                        <span class="catalogue-detail__meta-value">${fmt(entry.latestAppearance.firstPref)}</span>
+                    </div>
+                    <div class="catalogue-detail__meta-row">
+                        <span class="catalogue-detail__meta-label">Valid vote %</span>
+                        <span class="catalogue-detail__meta-value">${pct(entry.latestAppearance.firstPrefPct)}</span>
+                    </div>
+                    <div class="catalogue-detail__meta-row">
+                        <span class="catalogue-detail__meta-label">Constituency</span>
+                        <span class="catalogue-detail__meta-value">${this.escapeHtml(entry.latestAppearance.constituency || '—')}</span>
+                    </div>
+                    <div class="catalogue-detail__meta-row">
+                        <span class="catalogue-detail__meta-label">Elected body</span>
+                        <span class="catalogue-detail__meta-value">${this.escapeHtml(entry.latestAppearance.bodyLabel || entry.latestAppearance.body || '—')}</span>
+                    </div>
+                    <div class="catalogue-detail__meta-row">
+                        <span class="catalogue-detail__meta-label">Status</span>
+                        <span class="catalogue-detail__meta-value">${this.escapeHtml(entry.latestAppearance.status || '—')}</span>
+                    </div>
+                </div>
+            </div>
+        ` : '';
+
+        const historyHtml = entry.kind === 'party'
+            ? `
+                <div class="catalogue-detail__section">
+                    <div class="catalogue-detail__section-title">Election History (${(entry.historyRows || []).length})</div>
+                    ${this._buildEntityTableMarkup('catalogue-party-history-table', partyHistoryColumns)}
+                </div>
+                <div class="catalogue-detail__section">
+                    <div class="catalogue-detail__section-title">Candidates (${(entry.candidateSummaries || []).length})</div>
+                    ${this._buildEntityTableMarkup('catalogue-party-candidates-table', partyCandidateColumns)}
+                </div>
+            `
+            : `
+                ${latestSummaryHtml}
+                <div class="catalogue-detail__section">
+                    <div class="catalogue-detail__section-title">Election History (${(entry.appearances || []).length})</div>
+                    ${this._buildEntityTableMarkup('catalogue-candidate-history-table', candidateHistoryColumns)}
+                </div>
+            `;
+
+        detailView.innerHTML = `
+            <div class="catalogue-detail__card">
+                <div class="catalogue-detail__color" style="background-color: ${this.escapeHtml(entry.colour || '#888')}"></div>
+                <div class="catalogue-detail__name">${this.escapeHtml(title)}</div>
+                <div class="catalogue-detail__date">${this.escapeHtml(subtitle)}</div>
+            </div>
+            <div class="catalogue-detail__description">${this.escapeHtml(eyebrow)}</div>
+            <div class="catalogue-detail__metrics-grid">${metricsHtml}</div>
+            ${entry.kind === 'candidate' ? `<div class="catalogue-detail__meta">${summaryHtml}</div>` : ''}
+            ${historyHtml}
+        `;
+
+        if (entry.kind === 'party') {
+            this._initEntityDataTable(detailView, 'catalogue-party-history-table', partyHistoryColumns, entry.historyRows || [], {
+                rowClassNameFn: (row) => row.isByElection ? 'catalogue-detail__entity-row--by-election' : ''
+            });
+            this._initEntityDataTable(detailView, 'catalogue-party-candidates-table', partyCandidateColumns, entry.candidateSummaries || []);
+        } else {
+            this._initEntityDataTable(detailView, 'catalogue-candidate-history-table', candidateHistoryColumns, entry.appearances || [], {
+                rowClassNameFn: (row) => row.isByElection ? 'catalogue-detail__entity-row--by-election' : ''
+            });
+        }
+
+        if (detailView._entityDetailClickHandler) {
+            detailView.removeEventListener('click', detailView._entityDetailClickHandler);
+        }
+        detailView._entityDetailClickHandler = async (event) => {
+            const electionLink = event.target.closest('[data-election-body][data-election-date]');
+            if (electionLink) {
+                event.preventDefault();
+                this.onElectionEntityElectionOpen?.({
+                    body: electionLink.dataset.electionBody,
+                    date: electionLink.dataset.electionDate,
+                    constituency: electionLink.dataset.electionConstituency || null
+                });
+                return;
+            }
+
+            const constituencyLink = event.target.closest('[data-election-constituency-feature="1"]');
+            if (constituencyLink) {
+                event.preventDefault();
+                await this.onOpenElectionConstituencyFeature?.({
+                    body: constituencyLink.dataset.electionConstituencyBody,
+                    date: constituencyLink.dataset.electionConstituencyDate,
+                    constituency: constituencyLink.dataset.electionConstituencyName
+                });
+                return;
+            }
+
+            const entityLink = event.target.closest('[data-election-entity-detail-kind][data-election-entity-detail-key]');
+            if (!entityLink) return;
+            event.preventDefault();
+            if (typeof this.onOpenElectionEntityDetail === 'function') {
+                await this.onOpenElectionEntityDetail(
+                    entityLink.dataset.electionEntityDetailKind,
+                    entityLink.dataset.electionEntityDetailKey
+                );
+                return;
+            }
+            const nextDetailId = this.createElectionEntityDetailId(
+                entityLink.dataset.electionEntityDetailKind,
+                entityLink.dataset.electionEntityDetailKey
+            );
+            this.showElectionEntityDetailInCatalogue(nextDetailId, true);
+        };
+        detailView.addEventListener('click', detailView._entityDetailClickHandler);
+
         this.updateCatalogueNavButtons();
     }
 
@@ -4184,10 +5526,10 @@ class UIController {
             const color = map.style?.color || '#3388ff';
             const authors = map.authors?.join(', ') || '';
             const date = map.date ? this.getYear(map.date) : '';
-            const featureRows = partial?.isPartial
+            const featureRows = partial?.featureItems?.length
                 ? (partial.featureItems || []).map((item) => `
                     <div class="active-layer-item__feature" data-map-id="${map.id}" data-feature-index="${item.index}">
-                        <span class="active-layer-item__feature-name">${this.escapeHtml(item.name || `Feature ${item.index}`)}</span>
+                        <span class="active-layer-item__feature-name" title="${this.escapeHtml(item.name || `Feature ${item.index}`)}">${this.escapeHtml(item.name || `Feature ${item.index}`)}</span>
                         <div class="active-layer-item__feature-actions">
                             <button class="active-layer-item__feature-btn partial-visibility-btn" data-map-id="${map.id}" data-feature-index="${item.index}" title="${item.visible ? 'Hide feature' : 'Show feature'}">${item.visible ? 'Hide' : 'Show'}</button>
                             <button class="active-layer-item__feature-btn partial-unload-btn" data-map-id="${map.id}" data-feature-index="${item.index}" title="Unload feature">Unload</button>
@@ -4203,9 +5545,9 @@ class UIController {
                         <span class="active-layer-item__name">${this.escapeHtml(map.name)}</span>
                         <span class="active-layer-item__meta">
                             ${authors}${authors && date ? ' · ' : ''}${date ? `<em>${date}</em>` : ''}
-                            ${partial?.isPartial ? `<span class="active-layer-item__partial-badge">${partial.featureNames?.length || 1} feature${(partial.featureNames?.length || 1) > 1 ? 's' : ''}</span>` : ''}
+                            ${partial?.featureItems?.length ? `<span class="active-layer-item__partial-badge">${partial.featureNames?.length || partial.featureItems.length || 1} feature${(partial.featureNames?.length || partial.featureItems.length || 1) > 1 ? 's' : ''}</span>` : ''}
                         </span>
-                        ${partial?.isPartial ? `<div class="active-layer-item__feature-list">${featureRows}</div>` : ''}
+                        ${partial?.featureItems?.length ? `<div class="active-layer-item__feature-list">${featureRows}</div>` : ''}
                     </div>
                     <div class="active-layer-item__actions">
                         <button class="active-layer-item__btn visibility-btn" data-map-id="${map.id}" title="${isVisible ? 'Hide' : 'Show'}">
@@ -4244,8 +5586,10 @@ class UIController {
         container.querySelectorAll('.partial-visibility-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const mapId = btn.dataset.mapId;
-                const featureIndex = Number(btn.dataset.featureIndex);
-                if (this.onPartialFeatureToggle && Number.isFinite(featureIndex)) {
+                const rawFeatureIndex = btn.dataset.featureIndex;
+                const numericFeatureIndex = Number(rawFeatureIndex);
+                const featureIndex = Number.isFinite(numericFeatureIndex) && rawFeatureIndex !== '' ? numericFeatureIndex : rawFeatureIndex;
+                if (this.onPartialFeatureToggle && featureIndex !== undefined && featureIndex !== null && featureIndex !== '') {
                     this.onPartialFeatureToggle(mapId, featureIndex);
                 }
             });
@@ -4254,8 +5598,10 @@ class UIController {
         container.querySelectorAll('.partial-unload-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const mapId = btn.dataset.mapId;
-                const featureIndex = Number(btn.dataset.featureIndex);
-                if (this.onPartialFeatureUnload && Number.isFinite(featureIndex)) {
+                const rawFeatureIndex = btn.dataset.featureIndex;
+                const numericFeatureIndex = Number(rawFeatureIndex);
+                const featureIndex = Number.isFinite(numericFeatureIndex) && rawFeatureIndex !== '' ? numericFeatureIndex : rawFeatureIndex;
+                if (this.onPartialFeatureUnload && featureIndex !== undefined && featureIndex !== null && featureIndex !== '') {
                     this.onPartialFeatureUnload(mapId, featureIndex);
                 }
             });

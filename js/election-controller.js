@@ -26,8 +26,15 @@ class ElectionController {
         this.splitPaneEl = null;
         this.electionDataPath = 'election-viewer-package/data';
         this.onStateChange = null;    // callback for URL state updates
+        this.onOpenEntityDetail = null;
         this._registeredLayerId = null; // synthetic layer ID in mapController
         this.electionMapConfig = null;  // synthetic map config for active layers
+        this._currentResultsView = null;
+        this._entityDetailReturnView = null;
+        this._entityIndexCache = null;
+        this._globalEntityIndex = null;
+        this._globalEntityIndexPromise = null;
+        this._specialElection = null;
     }
 
     /**
@@ -101,6 +108,7 @@ class ElectionController {
         const dateData = bodyData.dates.find(d => d.date === date);
         if (!dateData) return;
         this.constituencies = dateData.constituencies;
+        this._specialElection = this._getSpecialElectionConfig(body, date);
 
         const bodyDatesDesc = [...bodyData.dates].sort((a, b) => String(b.date).localeCompare(String(a.date)));
         const currentIdx = bodyDatesDesc.findIndex(d => d.date === date);
@@ -111,10 +119,15 @@ class ElectionController {
         await this._loadGeography(geo);
 
         // Load election results for all constituencies
-        this.resultsByConstituency = await this._loadAllResults(body, date, this.constituencies, {}, true);
-        this.previousResultsByConstituency = this.previousDate
-            ? await this._loadAllResults(body, this.previousDate, previousDateData.constituencies || [], {}, false)
-            : {};
+        if (this._specialElection) {
+            this.resultsByConstituency = this._specialElection.resultsByConstituency;
+            this.previousResultsByConstituency = {};
+        } else {
+            this.resultsByConstituency = await this._loadAllResults(body, date, this.constituencies, {}, true);
+            this.previousResultsByConstituency = this.previousDate
+                ? await this._loadAllResults(body, this.previousDate, previousDateData.constituencies || [], {}, false)
+                : {};
+        }
 
         // Colour the map by winning party
         this._colourMap(geo);
@@ -171,6 +184,10 @@ class ElectionController {
         this.previousDate = null;
         this._countDetailedView = false;
         this.partyColours = {};
+        this._currentResultsView = null;
+        this._entityDetailReturnView = null;
+        this._entityIndexCache = null;
+        this._specialElection = null;
         this._restoreLabels();
         this._hideSplitPane();
         timeSliderController.clearElectionDates();
@@ -278,6 +295,733 @@ class ElectionController {
         return target;
     }
 
+    _createEmptyEntityIndex() {
+        return {
+            parties: new Map(),
+            candidates: new Map(),
+            elections: new Map(),
+            electionList: [],
+            totalValid: 0
+        };
+    }
+
+    _getBodyElectionLabel(body) {
+        const map = {
+            'House of Commons of the United Kingdom': 'Westminster',
+            'Northern Ireland Assembly': 'Assembly',
+            'Northern Ireland Forum for Political Dialogue': 'Forum',
+            'Northern Ireland Constitutional Convention': 'Convention',
+            'European Parliament': 'European Parliament'
+        };
+        return map[body] || this._shortBodyName(body);
+    }
+
+    _getComparisonBucket(body) {
+        if (body === 'House of Commons of the United Kingdom') return 'westminster';
+        if (body === 'European Parliament') return 'european';
+        if ([
+            'Northern Ireland Assembly',
+            'Northern Ireland Forum for Political Dialogue',
+            'Northern Ireland Constitutional Convention'
+        ].includes(body)) {
+            return 'devolved';
+        }
+        return body || 'other';
+    }
+
+    _getConstituencyMapYear(body, date) {
+        const geo = ElectionController.getGeography(body, date);
+        const filePath = geo?.fgb || '';
+        const yearMatch = String(filePath).match(/(19|20)\d{2}/g);
+        if (yearMatch?.length) return yearMatch[yearMatch.length - 1];
+        return String(date || '').slice(0, 4) || '';
+    }
+
+    _getSpecialElectionConfig(body, date) {
+        if (body === 'House of Commons of the United Kingdom' && date === '2018-08-29') {
+            const constituency = 'North Antrim';
+            return {
+                type: 'recall-petition',
+                body,
+                date,
+                constituency,
+                displayName: '29 Aug 2018 Westminster recall petition',
+                title: 'North Antrim recall petition',
+                fillColor: '#c85a5a',
+                outlineColor: '#8f2f2f',
+                resultsByConstituency: {
+                    [constituency]: {
+                        Constituency: {
+                            countGroup: [],
+                            countInfo: {
+                                Constituency_Name: constituency,
+                                Number_Of_Seats: '1'
+                            },
+                            recallPetition: {
+                                constituency,
+                                thresholdPct: 10.0,
+                                electorate: 75428,
+                                turnout: 7099,
+                                spoiled: 14,
+                                validSignatures: 7085,
+                                requiredSignatures: 7543,
+                                signedPct: 9.4,
+                                successful: false,
+                                incumbentMp: {
+                                    name: 'Ian Paisley',
+                                    party: 'DUP'
+                                },
+                                outcome: 'Petition failed. The incumbent MP was not unseated and no by-election was triggered.',
+                                notes: [
+                                    'A recall petition required 10% of the electorate to sign in order to succeed.',
+                                    'The petition reached 9.4%, so it fell short of the threshold.'
+                                ]
+                            }
+                        }
+                    }
+                }
+            };
+        }
+        return null;
+    }
+
+    _buildElectionDisplayName(body, date, duplicateYearCount, duplicateMonthCount, constituencies = []) {
+        const special = this._getSpecialElectionConfig(body, date);
+        if (special?.displayName) return special.displayName;
+        const bodyLabel = this._getBodyElectionLabel(body);
+        const d = new Date(`${date}T00:00:00`);
+        if (Number.isNaN(d.getTime())) {
+            return `${date} ${bodyLabel} election`;
+        }
+        const nonNiConstituencies = (constituencies || []).filter((name) => name !== 'Northern Ireland');
+        const isByElection = nonNiConstituencies.length > 0 && nonNiConstituencies.length <= 2;
+
+        let prefix = d.getFullYear().toString();
+        if ((duplicateYearCount || 0) > 1) {
+            prefix = d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+        }
+        if ((duplicateMonthCount || 0) > 1) {
+            prefix = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+        return `${prefix} ${bodyLabel} ${isByElection ? 'by-election' : 'election'}`;
+    }
+
+    _buildElectionTimeline(indexData) {
+        const bodyYearCounts = new Map();
+        const bodyMonthCounts = new Map();
+
+        (indexData?.bodies || []).forEach((bodyData) => {
+            (bodyData?.dates || []).forEach((dateData) => {
+                const year = String(dateData.date || '').slice(0, 4);
+                const month = String(dateData.date || '').slice(0, 7);
+                const bodyYearKey = `${bodyData.name}::${year}`;
+                const bodyMonthKey = `${bodyData.name}::${month}`;
+                bodyYearCounts.set(bodyYearKey, (bodyYearCounts.get(bodyYearKey) || 0) + 1);
+                bodyMonthCounts.set(bodyMonthKey, (bodyMonthCounts.get(bodyMonthKey) || 0) + 1);
+            });
+        });
+
+        const elections = [];
+        (indexData?.bodies || []).forEach((bodyData) => {
+            (bodyData?.dates || []).forEach((dateData) => {
+                const date = dateData.date;
+                const year = String(date || '').slice(0, 4);
+                const month = String(date || '').slice(0, 7);
+                const bodyYearKey = `${bodyData.name}::${year}`;
+                const bodyMonthKey = `${bodyData.name}::${month}`;
+                elections.push({
+                    key: `${bodyData.name}::${date}`,
+                    body: bodyData.name,
+                    bodyLabel: this._getBodyElectionLabel(bodyData.name),
+                    date,
+                    displayName: this._buildElectionDisplayName(
+                        bodyData.name,
+                        date,
+                        bodyYearCounts.get(bodyYearKey) || 0,
+                        bodyMonthCounts.get(bodyMonthKey) || 0,
+                        dateData.constituencies || []
+                    ),
+                    isByElection: (dateData.constituencies || []).some((name) => name !== 'Northern Ireland')
+                        && (dateData.constituencies || []).filter((name) => name !== 'Northern Ireland').length <= 2,
+                    constituencies: (dateData.constituencies || []).filter((name) => name !== 'Northern Ireland')
+                });
+            });
+        });
+
+        elections.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')) || String(a.body).localeCompare(String(b.body)));
+        return elections;
+    }
+
+    _accumulateEntityIndex(index, payload, context = {}) {
+        const constName = context.constituency || payload?.Constituency?.countInfo?.Constituency_Name || '';
+        const body = context.body || this.body || '';
+        const date = context.date || this.date || '';
+        const electionKey = `${body}::${date}`;
+        const cg = payload?.Constituency?.countGroup || [];
+        const info = payload?.Constituency?.countInfo || {};
+        const constValid = parseFloat(info.Valid_Poll) || 0;
+        const seatCount = parseInt(info.Number_Of_Seats, 10) || 0;
+        const mapLayerYear = this._getConstituencyMapYear(body, date);
+        if (!Array.isArray(cg) || cg.length === 0) return;
+
+        index.totalValid += constValid;
+        const electionEntry = index.elections.get(electionKey);
+        if (electionEntry) {
+            electionEntry.totalValid += constValid;
+            electionEntry.totalSeats += seatCount;
+            if (!electionEntry.constituencyStats) electionEntry.constituencyStats = new Map();
+            if (constName && !electionEntry.constituencyStats.has(constName)) {
+                electionEntry.constituencyStats.set(constName, {
+                    name: constName,
+                    valid: constValid,
+                    seats: seatCount,
+                    partyStats: new Map()
+                });
+            }
+        }
+
+        const countNums = [...new Set(cg.map(r => parseInt(r.Count_Number, 10) || 1))].sort((a, b) => a - b);
+        const lastCount = countNums[countNums.length - 1] || 1;
+        const totalCountCount = countNums.length;
+        const byCandidate = new Map();
+
+        cg.forEach((row) => {
+            const cid = String(row.Candidate_Id || '').trim();
+            if (!cid || cid.toLowerCase() === 'nontransferable') return;
+            const countNum = parseInt(row.Count_Number, 10) || 1;
+            if (!byCandidate.has(cid)) {
+                byCandidate.set(cid, {
+                    personId: cid,
+                    name: row.candidateName || `${row.Firstname || ''} ${row.Surname || ''}`.trim() || cid,
+                    party: row.Party_Name || 'Independent',
+                    colour: row.Party_Colour || '#b0bec5',
+                    constituency: constName,
+                    body,
+                    date,
+                    firstPref: 0,
+                    finalVotes: 0,
+                    elected: false,
+                    excluded: false,
+                    electedAt: null,
+                    excludedAt: null
+                });
+            }
+            const candidate = byCandidate.get(cid);
+            const total = parseFloat(row.Total_Votes) || 0;
+            if (countNum === 1) {
+                candidate.firstPref = parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0;
+            }
+            if (total > candidate.finalVotes) candidate.finalVotes = total;
+            if (this._statusKind(row.Status) === 'elected') {
+                candidate.elected = true;
+                candidate.electedAt ||= countNum;
+            }
+            if (this._statusKind(row.Status) === 'excluded') {
+                candidate.excluded = true;
+                candidate.excludedAt ||= countNum;
+            }
+        });
+
+        const explicitElected = [...byCandidate.values()].filter(c => c.elected).length;
+        if (seatCount > 0 && explicitElected < seatCount) {
+            const needed = seatCount - explicitElected;
+            const deemable = [...byCandidate.values()]
+                .filter((candidate) => !candidate.elected && !candidate.excluded)
+                .sort((a, b) => b.finalVotes - a.finalVotes)
+                .slice(0, needed);
+            deemable.forEach((candidate) => {
+                candidate.elected = true;
+                candidate.electedAt ||= lastCount;
+            });
+        }
+
+        byCandidate.forEach((candidate) => {
+            const resolvedCount = candidate.elected ? (candidate.electedAt || lastCount)
+                : candidate.excluded ? (candidate.excludedAt || lastCount)
+                    : lastCount;
+            const status = candidate.elected
+                ? `Elected Count ${resolvedCount}/${totalCountCount}`
+                : (candidate.excluded
+                    ? `Excluded Count ${resolvedCount}/${totalCountCount}`
+                    : `Not Elected Count ${lastCount}/${totalCountCount}`);
+            candidate.status = status;
+            candidate.firstPrefPct = constValid > 0 ? (candidate.firstPref / constValid * 100) : 0;
+
+            const personId = candidate.personId;
+            if (!index.candidates.has(personId)) {
+                index.candidates.set(personId, {
+                    kind: 'candidate',
+                    personId,
+                    key: personId,
+                    name: candidate.name,
+                    colours: new Set(candidate.colour ? [candidate.colour] : []),
+                    parties: new Set(candidate.party ? [candidate.party] : []),
+                    bodies: new Set(body ? [body] : []),
+                    dates: new Set(date ? [date] : []),
+                    constituencies: new Set(constName ? [constName] : []),
+                    firstPrefs: 0,
+                    finalVotes: 0,
+                    electedCount: 0,
+                    appearances: []
+                });
+            }
+            const candidateEntry = index.candidates.get(personId);
+            if (candidate.colour) candidateEntry.colours.add(candidate.colour);
+            if (candidate.party) candidateEntry.parties.add(candidate.party);
+            if (body) candidateEntry.bodies.add(body);
+            if (date) candidateEntry.dates.add(date);
+            if (constName) candidateEntry.constituencies.add(constName);
+            candidateEntry.firstPrefs += candidate.firstPref;
+            candidateEntry.finalVotes += candidate.finalVotes;
+            if (candidate.elected) candidateEntry.electedCount += 1;
+                candidateEntry.appearances.push({
+                    body,
+                    date,
+                    electionKey,
+                    constituency: constName,
+                    mapLayerYear,
+                    party: candidate.party,
+                    firstPref: candidate.firstPref,
+                    firstPrefPct: candidate.firstPrefPct,
+                    finalVotes: candidate.finalVotes,
+                    status,
+                    resolvedCount,
+                    totalCountCount,
+                    elected: candidate.elected
+                });
+
+            const partyName = candidate.party || 'Independent';
+            if (!index.parties.has(partyName)) {
+                index.parties.set(partyName, {
+                    kind: 'party',
+                    key: partyName,
+                    name: partyName,
+                    colours: new Set(candidate.colour ? [candidate.colour] : []),
+                    bodies: new Set(body ? [body] : []),
+                    dates: new Set(date ? [date] : []),
+                    constituencies: new Set(constName ? [constName] : []),
+                    firstPrefs: 0,
+                    finalVotes: 0,
+                    stood: 0,
+                    elected: 0,
+                    candidates: []
+                });
+            }
+            const partyEntry = index.parties.get(partyName);
+            if (candidate.colour) partyEntry.colours.add(candidate.colour);
+            if (body) partyEntry.bodies.add(body);
+            if (date) partyEntry.dates.add(date);
+            if (constName) partyEntry.constituencies.add(constName);
+            partyEntry.firstPrefs += candidate.firstPref;
+            partyEntry.finalVotes += candidate.finalVotes;
+            partyEntry.stood += 1;
+            if (candidate.elected) partyEntry.elected += 1;
+            partyEntry.candidates.push({
+                personId,
+                name: candidate.name,
+                body,
+                date,
+                electionKey,
+                constituency: constName,
+                mapLayerYear,
+                firstPref: candidate.firstPref,
+                firstPrefPct: candidate.firstPrefPct,
+                finalVotes: candidate.finalVotes,
+                status,
+                elected: candidate.elected
+            });
+
+            if (electionEntry) {
+                if (!electionEntry.partyStats.has(partyName)) {
+                    electionEntry.partyStats.set(partyName, {
+                        party: partyName,
+                        colour: candidate.colour || '#b0bec5',
+                        votes: 0,
+                        stood: 0,
+                        elected: 0,
+                        constituencies: new Set()
+                    });
+                }
+                const partyStats = electionEntry.partyStats.get(partyName);
+                partyStats.votes += candidate.firstPref;
+                partyStats.stood += 1;
+                if (candidate.elected) partyStats.elected += 1;
+                if (constName) partyStats.constituencies.add(constName);
+
+                const constituencyStats = constName ? electionEntry.constituencyStats?.get(constName) : null;
+                if (constituencyStats) {
+                    if (!constituencyStats.partyStats.has(partyName)) {
+                        constituencyStats.partyStats.set(partyName, {
+                            party: partyName,
+                            colour: candidate.colour || '#b0bec5',
+                            votes: 0,
+                            stood: 0,
+                            elected: 0
+                        });
+                    }
+                    const constPartyStats = constituencyStats.partyStats.get(partyName);
+                    constPartyStats.votes += candidate.firstPref;
+                    constPartyStats.stood += 1;
+                    if (candidate.elected) constPartyStats.elected += 1;
+                }
+            }
+        });
+    }
+
+    _finalizeEntityIndex(index) {
+        const sortDateDesc = (a, b) => String(b || '').localeCompare(String(a || ''));
+        const sortDateAsc = (a, b) => String(a || '').localeCompare(String(b || ''));
+        const buildPartyRowsForElectionSubset = (election, constituencyNames = []) => {
+            const selectedNames = [...new Set((constituencyNames || []).filter(Boolean))];
+            const useSubset = selectedNames.length > 0;
+            const selectedConstituencies = useSubset
+                ? selectedNames
+                    .map((name) => election?.constituencyStats?.get(name))
+                    .filter(Boolean)
+                : [...(election?.constituencyStats?.values() || [])];
+
+            const totalValid = selectedConstituencies.reduce((sum, constituency) => sum + (constituency.valid || 0), 0);
+            const totalSeats = selectedConstituencies.reduce((sum, constituency) => sum + (constituency.seats || 0), 0);
+            const partyStats = new Map();
+
+            selectedConstituencies.forEach((constituency) => {
+                constituency.partyStats.forEach((row, partyName) => {
+                    if (!partyStats.has(partyName)) {
+                        partyStats.set(partyName, {
+                            party: partyName,
+                            colour: row.colour || '#b0bec5',
+                            votes: 0,
+                            stood: 0,
+                            elected: 0,
+                            constituencies: new Set()
+                        });
+                    }
+                    const partyRow = partyStats.get(partyName);
+                    partyRow.votes += row.votes || 0;
+                    partyRow.stood += row.stood || 0;
+                    partyRow.elected += row.elected || 0;
+                    if (constituency.name) partyRow.constituencies.add(constituency.name);
+                });
+            });
+
+            const partyRows = [...partyStats.values()].map((row) => ({
+                ...row,
+                constituenciesContested: row.constituencies.size,
+                validVotePct: totalValid > 0 ? (row.votes / totalValid * 100) : 0,
+                seatPct: totalSeats > 0 ? (row.elected / totalSeats * 100) : 0
+            })).sort((a, b) =>
+                (b.elected - a.elected)
+                || (b.votes - a.votes)
+                || String(a.party || '').localeCompare(String(b.party || ''))
+            );
+
+            partyRows.forEach((row, idx) => {
+                row.rank = idx + 1;
+            });
+
+            return {
+                totalValid,
+                totalSeats,
+                totalConstituencies: selectedConstituencies.length,
+                partyRows,
+                partyRowByName: new Map(partyRows.map((row) => [row.party, row]))
+            };
+        };
+
+        index.electionList = [...index.elections.values()].sort((a, b) =>
+            String(b.date || '').localeCompare(String(a.date || '')) || String(a.body || '').localeCompare(String(b.body || ''))
+        );
+
+        index.electionList.forEach((election) => {
+            const aggregate = buildPartyRowsForElectionSubset(election, []);
+            election.partyRows = aggregate.partyRows;
+            election.partyRowByName = aggregate.partyRowByName;
+        });
+
+        index.candidates.forEach((entry) => {
+            entry.colour = [...entry.colours][0] || '#b0bec5';
+            entry.parties = [...entry.parties].sort((a, b) => String(a).localeCompare(String(b)));
+            entry.bodies = [...entry.bodies].sort((a, b) => String(a).localeCompare(String(b)));
+            entry.dates = [...entry.dates].sort(sortDateDesc);
+            entry.constituencies = [...entry.constituencies].sort((a, b) => String(a).localeCompare(String(b)));
+            entry.shareOfAllValid = index.totalValid > 0 ? (entry.firstPrefs / index.totalValid * 100) : 0;
+
+            const chronological = [...entry.appearances].sort((a, b) =>
+                sortDateAsc(a.date, b.date)
+                || String(a.body || '').localeCompare(String(b.body || ''))
+                || String(a.constituency || '').localeCompare(String(b.constituency || ''))
+            );
+            let overallStanding = 0;
+            let overallElected = 0;
+            const bodyStanding = new Map();
+            const bodyElected = new Map();
+            chronological.forEach((appearance) => {
+                overallStanding += 1;
+                appearance.overallStandingNumber = overallStanding;
+                const bodyCount = (bodyStanding.get(appearance.body) || 0) + 1;
+                bodyStanding.set(appearance.body, bodyCount);
+                appearance.bodyStandingNumber = bodyCount;
+                if (appearance.elected) {
+                    overallElected += 1;
+                    appearance.overallElectedNumber = overallElected;
+                    const bodyElectedCount = (bodyElected.get(appearance.body) || 0) + 1;
+                    bodyElected.set(appearance.body, bodyElectedCount);
+                    appearance.bodyElectedNumber = bodyElectedCount;
+                } else {
+                    appearance.overallElectedNumber = null;
+                    appearance.bodyElectedNumber = null;
+                }
+                const electionMeta = index.elections.get(appearance.electionKey);
+                appearance.electionDisplayName = electionMeta?.displayName || `${appearance.date} ${appearance.body}`;
+                appearance.bodyLabel = electionMeta?.bodyLabel || this._getBodyElectionLabel(appearance.body);
+                appearance.isByElection = !!electionMeta?.isByElection;
+                appearance.comparisonBucket = this._getComparisonBucket(appearance.body);
+            });
+            entry.appearances = chronological.sort((a, b) =>
+                sortDateDesc(a.date, b.date)
+                || String(a.body || '').localeCompare(String(b.body || ''))
+                || b.firstPref - a.firstPref
+            );
+            entry.latestAppearance = entry.appearances[0] || null;
+            entry.latestParty = entry.latestAppearance?.party || entry.parties[entry.parties.length - 1] || '';
+            const candidateConstituencyMap = new Map();
+            entry.appearances.forEach((appearance) => {
+                const key = `${appearance.constituency || ''}::${appearance.mapLayerYear || ''}`;
+                if (!candidateConstituencyMap.has(key)) {
+                    candidateConstituencyMap.set(key, {
+                        constituency: appearance.constituency || '',
+                        mapLayerYear: appearance.mapLayerYear || '',
+                        elected: false,
+                        body: appearance.body,
+                        date: appearance.date
+                    });
+                }
+                const constituencyEntry = candidateConstituencyMap.get(key);
+                if (appearance.elected) constituencyEntry.elected = true;
+                if (String(appearance.date || '') > String(constituencyEntry.date || '')) {
+                    constituencyEntry.body = appearance.body;
+                    constituencyEntry.date = appearance.date;
+                }
+            });
+            entry.constituencyEntries = [...candidateConstituencyMap.values()].sort((a, b) =>
+                Number(b.elected) - Number(a.elected)
+                || String(a.constituency || '').localeCompare(String(b.constituency || ''), undefined, { sensitivity: 'base', numeric: true })
+                || String(a.mapLayerYear || '').localeCompare(String(b.mapLayerYear || ''))
+            );
+            delete entry.colours;
+        });
+
+        index.parties.forEach((entry) => {
+            entry.colour = [...entry.colours][0] || '#b0bec5';
+            entry.bodies = [...entry.bodies].sort((a, b) => String(a).localeCompare(String(b)));
+            entry.dates = [...entry.dates].sort(sortDateDesc);
+            entry.constituencies = [...entry.constituencies].sort((a, b) => String(a).localeCompare(String(b)));
+            entry.shareOfAllValid = index.totalValid > 0 ? (entry.firstPrefs / index.totalValid * 100) : 0;
+            delete entry.colours;
+
+            const contestedBodies = new Set(entry.candidates.map((candidate) => candidate.body).filter(Boolean));
+            const lastContestedByBody = new Map();
+            const firstContestedByBody = new Map();
+            entry.candidates.forEach((candidate) => {
+                const currentLast = lastContestedByBody.get(candidate.body);
+                if (!currentLast || String(candidate.date || '') > String(currentLast)) {
+                    lastContestedByBody.set(candidate.body, candidate.date);
+                }
+                const currentFirst = firstContestedByBody.get(candidate.body);
+                if (!currentFirst || String(candidate.date || '') < String(currentFirst)) {
+                    firstContestedByBody.set(candidate.body, candidate.date);
+                }
+            });
+
+            entry.historyRows = index.electionList
+                .filter((election) => contestedBodies.has(election.body))
+                .filter((election) => String(election.date || '') >= String(firstContestedByBody.get(election.body) || ''))
+                .filter((election) => String(election.date || '') <= String(lastContestedByBody.get(election.body) || ''))
+                .map((election) => {
+                    const contested = election.partyRowByName.has(entry.name);
+                    const contestedRow = election.partyRowByName.get(entry.name);
+                    return {
+                        electionKey: election.key,
+                        body: election.body,
+                        bodyLabel: election.bodyLabel,
+                        comparisonBucket: this._getComparisonBucket(election.body),
+                        date: election.date,
+                        electionDisplayName: election.displayName,
+                        isByElection: !!election.isByElection,
+                        constituencyNames: [...(election.constituencies || [])],
+                        contested,
+                        stood: contested ? contestedRow.stood : 0,
+                        constituenciesContested: contested ? contestedRow.constituenciesContested : 0,
+                        totalConstituencies: (election.constituencies || []).length,
+                        firstPrefs: contested ? contestedRow.votes : 0,
+                        validVotePct: contested ? contestedRow.validVotePct : 0,
+                        elected: contested ? contestedRow.elected : 0,
+                        totalSeats: election.totalSeats,
+                        seatPct: contested ? contestedRow.seatPct : 0,
+                        rank: contested ? contestedRow.rank : null,
+                        note: contested ? '' : 'did not contest'
+                    };
+                });
+
+            const previousRowsByBucket = new Map();
+            [...entry.historyRows].reverse().forEach((row) => {
+                const bucket = row.comparisonBucket || row.body;
+                const priorRows = previousRowsByBucket.get(bucket) || [];
+                const previous = priorRows[priorRows.length - 1] || null;
+                let baseline = previous;
+
+                if (row.isByElection && priorRows.length > 0) {
+                    const matchingPrevious = [...priorRows].reverse().find((candidateRow) =>
+                        (row.constituencyNames || []).every((name) => (candidateRow.constituencyNames || []).includes(name))
+                    ) || previous;
+                    const previousElection = matchingPrevious ? index.elections.get(matchingPrevious.electionKey) : null;
+                    const subsetAggregate = buildPartyRowsForElectionSubset(previousElection, row.constituencyNames || []);
+                    const subsetPartyRow = subsetAggregate.partyRowByName.get(entry.name);
+                    baseline = {
+                        stood: subsetPartyRow?.stood || 0,
+                        constituenciesContested: subsetPartyRow?.constituenciesContested || 0,
+                        totalConstituencies: subsetAggregate.totalConstituencies || 0,
+                        firstPrefs: subsetPartyRow?.votes || 0,
+                        validVotePct: subsetPartyRow?.validVotePct || 0,
+                        elected: subsetPartyRow?.elected || 0,
+                        totalSeats: subsetAggregate.totalSeats || 0,
+                        seatPct: subsetPartyRow?.seatPct || 0,
+                        rank: subsetPartyRow?.rank ?? null
+                    };
+                }
+
+                row.stoodDelta = baseline ? row.stood - baseline.stood : null;
+                row.constituenciesContestedDelta = baseline ? row.constituenciesContested - baseline.constituenciesContested : null;
+                row.totalConstituenciesDelta = baseline ? row.totalConstituencies - baseline.totalConstituencies : null;
+                row.firstPrefsDelta = baseline ? row.firstPrefs - baseline.firstPrefs : null;
+                row.validVotePctDelta = baseline ? row.validVotePct - baseline.validVotePct : null;
+                row.electedDelta = baseline ? row.elected - baseline.elected : null;
+                row.totalSeatsDelta = baseline ? row.totalSeats - baseline.totalSeats : null;
+                row.seatPctDelta = baseline ? row.seatPct - baseline.seatPct : null;
+                row.rankDelta = baseline && row.rank !== null && baseline.rank !== null ? baseline.rank - row.rank : null;
+                priorRows.push(row);
+                previousRowsByBucket.set(bucket, priorRows);
+            });
+
+            const partyCandidateMap = new Map();
+            entry.candidates.forEach((appearance) => {
+                if (!partyCandidateMap.has(appearance.personId)) {
+                    partyCandidateMap.set(appearance.personId, {
+                        personId: appearance.personId,
+                        name: appearance.name,
+                        timesStood: 0,
+                        timesStoodWestminster: 0,
+                        timesStoodDevolved: 0,
+                        timesStoodEuropean: 0,
+                        timesElected: 0,
+                        timesElectedWestminster: 0,
+                        timesElectedDevolved: 0,
+                        timesElectedEuropean: 0,
+                        totalFirstPrefs: 0,
+                        constituencyEntries: new Map()
+                    });
+                }
+                const row = partyCandidateMap.get(appearance.personId);
+                row.timesStood += 1;
+                row.totalFirstPrefs += appearance.firstPref || 0;
+                const isWestminster = appearance.body === 'House of Commons of the United Kingdom';
+                const isEuropean = appearance.body === 'European Parliament';
+                const isDevolved = [
+                    'Northern Ireland Assembly',
+                    'Northern Ireland Forum for Political Dialogue',
+                    'Northern Ireland Constitutional Convention'
+                ].includes(appearance.body);
+                if (isWestminster) row.timesStoodWestminster += 1;
+                if (isDevolved) row.timesStoodDevolved += 1;
+                if (isEuropean) row.timesStoodEuropean += 1;
+                const constituencyKey = `${appearance.constituency || ''}::${appearance.mapLayerYear || ''}`;
+                if (!row.constituencyEntries.has(constituencyKey)) {
+                    row.constituencyEntries.set(constituencyKey, {
+                        constituency: appearance.constituency || '',
+                        mapLayerYear: appearance.mapLayerYear || '',
+                        elected: false,
+                        body: appearance.body,
+                        date: appearance.date
+                    });
+                }
+                const constituencyEntry = row.constituencyEntries.get(constituencyKey);
+                if (appearance.elected) constituencyEntry.elected = true;
+                if (String(appearance.date || '') > String(constituencyEntry.date || '')) {
+                    constituencyEntry.body = appearance.body;
+                    constituencyEntry.date = appearance.date;
+                }
+                if (String(appearance.status || '').toLowerCase().startsWith('elected')) {
+                    row.timesElected += 1;
+                    if (isWestminster) row.timesElectedWestminster += 1;
+                    if (isDevolved) row.timesElectedDevolved += 1;
+                    if (isEuropean) row.timesElectedEuropean += 1;
+                }
+            });
+            entry.candidateSummaries = [...partyCandidateMap.values()].map((row) => ({
+                ...row,
+                constituencyEntries: [...row.constituencyEntries.values()].sort((a, b) =>
+                    Number(b.elected) - Number(a.elected)
+                    || String(a.constituency || '').localeCompare(String(b.constituency || ''), undefined, { sensitivity: 'base', numeric: true })
+                    || String(a.mapLayerYear || '').localeCompare(String(b.mapLayerYear || ''))
+                )
+            })).sort((a, b) =>
+                (b.totalFirstPrefs - a.totalFirstPrefs)
+                || (b.timesElected - a.timesElected)
+                || String(a.name || '').localeCompare(String(b.name || ''))
+            );
+
+            const latestByBody = (bodyName) => entry.historyRows.find((row) => row.contested && row.body === bodyName) || null;
+            entry.latestWestminster = latestByBody('House of Commons of the United Kingdom');
+            entry.latestAssembly = latestByBody('Northern Ireland Assembly');
+        });
+        return index;
+    }
+
+    async _loadGlobalElectionEntityIndex() {
+        if (this._globalEntityIndex) return this._globalEntityIndex;
+        if (this._globalEntityIndexPromise) return this._globalEntityIndexPromise;
+
+        this._globalEntityIndexPromise = (async () => {
+            const indexData = await this._loadIndex();
+            const aggregate = this._createEmptyEntityIndex();
+            const elections = this._buildElectionTimeline(indexData);
+            elections.forEach((election) => {
+                aggregate.elections.set(election.key, {
+                    ...election,
+                    totalValid: 0,
+                    totalSeats: 0,
+                    partyStats: new Map()
+                });
+            });
+            for (const bodyData of indexData?.bodies || []) {
+                for (const dateData of bodyData?.dates || []) {
+                    const results = await this._loadAllResults(bodyData.name, dateData.date, dateData.constituencies || [], {}, false);
+                    Object.entries(results).forEach(([constName, payload]) => {
+                        this._accumulateEntityIndex(aggregate, payload, {
+                            constituency: constName,
+                            body: bodyData.name,
+                            date: dateData.date
+                        });
+                    });
+                }
+            }
+            this._globalEntityIndex = this._finalizeEntityIndex(aggregate);
+            return this._globalEntityIndex;
+        })();
+        return this._globalEntityIndexPromise;
+    }
+
+    async getElectionEntityDetail(kind, key) {
+        const index = await this._loadGlobalElectionEntityIndex();
+        if (kind === 'candidate') {
+            return index.candidates.get(String(key || '').trim()) || null;
+        }
+        if (kind === 'party') {
+            return index.parties.get(String(key || '').trim()) || null;
+        }
+        return null;
+    }
+
     // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Geography Loading Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
     async _loadGeography(geo) {
@@ -294,9 +1038,9 @@ class ElectionController {
             // Create Leaflet layer
             this.geojsonLayer = L.geoJSON(geojson, {
                 style: (feature) => ({
-                    fillColor: '#aab',
-                    fillOpacity: 0.3,
-                    color: '#555',
+                    fillColor: '#dfe4ec',
+                    fillOpacity: 0.42,
+                    color: '#a1aab8',
                     weight: 1.5,
                     opacity: 0.8
                 }),
@@ -356,6 +1100,33 @@ class ElectionController {
 
     _colourMap(geo) {
         if (!this.geojsonLayer) return;
+
+        if (this._specialElection?.type === 'recall-petition') {
+            this.geojsonLayer.eachLayer(layer => {
+                const featureName = layer.feature?.properties?.[geo.nameAttr];
+                if (!featureName) return;
+
+                const constName = this._matchConstituency(featureName);
+                if (constName === this._specialElection.constituency) {
+                    layer.setStyle({
+                        fillColor: this._specialElection.fillColor,
+                        fillOpacity: 0.62,
+                        color: this._specialElection.outlineColor,
+                        weight: 1.5,
+                        opacity: 0.9
+                    });
+                } else {
+                    layer.setStyle({
+                        fillColor: '#dfe4ec',
+                        fillOpacity: 0.42,
+                        color: '#aeb6c3',
+                        weight: 1.1,
+                        opacity: 0.9
+                    });
+                }
+            });
+            return;
+        }
 
         this.geojsonLayer.eachLayer(layer => {
             const featureName = layer.feature?.properties?.[geo.nameAttr];
@@ -471,6 +1242,26 @@ class ElectionController {
 
     _addOverlays(geo) {
         if (!this.geojsonLayer) return;
+        if (this._specialElection?.type === 'recall-petition') {
+            this.overlayLayer = L.layerGroup().addTo(mapController.map);
+            this.geojsonLayer.eachLayer(layer => {
+                const featureName = layer.feature?.properties?.[geo.nameAttr];
+                if (!featureName) return;
+                const constName = this._matchConstituency(featureName);
+                if (constName !== this._specialElection.constituency) return;
+                const centroid = layer.getBounds().getCenter();
+                const labelWidth = 108;
+                const icon = L.divIcon({
+                    className: 'map-label',
+                    html: `<div style="color:${this._esc(this._specialElection.fillColor)};text-shadow:-1px -1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,1px 1px 0 #fff;font-weight:bold;font-size:13px;text-align:center;width:${labelWidth}px;word-break:keep-all;overflow-wrap:normal;position:absolute;left:50%;transform:translateX(-50%);">Petition not successful</div>`,
+                    iconSize: null,
+                    iconAnchor: [0, 0]
+                });
+                const marker = L.marker(centroid, { icon, interactive: false });
+                marker.addTo(this.overlayLayer);
+            });
+            return;
+        }
         this.overlayLayer = L.layerGroup().addTo(mapController.map);
 
         // Fixed circle size for all constituencies
@@ -814,7 +1605,9 @@ class ElectionController {
         // Create a synthetic map config for the UI
         this.electionMapConfig = {
             id,
-            name: `${this._shortBodyName(this.body)} ${this._formatDate(this.date)}`,
+            name: this._specialElection?.title
+                ? `${this._specialElection.title} ${this._formatDate(this.date)}`
+                : `${this._shortBodyName(this.body)} ${this._formatDate(this.date)}`,
             style: { color: '#1a365d' },
             provider: ['Election Viewer'],
             date: this.date
@@ -855,8 +1648,122 @@ class ElectionController {
     _showNIWideResults() {
         const content = this.splitPaneEl?.querySelector('#electionPaneContent');
         if (!content) return;
+        if (this._specialElection?.type === 'recall-petition') {
+            this._showRecallPetitionOverview(content);
+            return;
+        }
         this._restoreHeaderTabs();
         this._renderNIWideView('party', content);
+    }
+
+    _showRecallPetitionOverview(content) {
+        const headerRight = document.getElementById('electionPaneHeaderRight');
+        const titleEl = document.getElementById('electionPaneTitle');
+        if (titleEl) {
+            titleEl.textContent = `${this._specialElection.title} - ${this._formatDate(this.date)}`;
+        }
+        if (headerRight) {
+            const closeBtn = headerRight.querySelector('#electionCloseBtn');
+            headerRight.innerHTML = '';
+            if (closeBtn) headerRight.appendChild(closeBtn);
+        }
+
+        this._hideAnimation();
+        this._currentResultsView = { type: 'recall-overview' };
+        content.style.overflowY = 'auto';
+        content.style.overflowX = 'hidden';
+        content.style.display = '';
+        content.style.flexDirection = '';
+
+        const recall = this.resultsByConstituency?.[this._specialElection.constituency]?.Constituency?.recallPetition;
+        if (!recall) {
+            content.innerHTML = '<div class="election-no-data">No recall petition data available.</div>';
+            return;
+        }
+
+        content.innerHTML = `
+            <div class="election-entity-page">
+                <div class="election-entity-page__hero">
+                    <span class="election-party-dot election-party-dot--hero" style="background:${this._esc(this._specialElection.fillColor)}"></span>
+                    <div>
+                        <div class="election-entity-page__eyebrow">Recall Petition</div>
+                        <h3 class="election-entity-page__title">${this._esc(recall.constituency)}</h3>
+                        <p class="election-entity-page__subtitle">${this._esc(this._formatDate(this.date))}</p>
+                    </div>
+                </div>
+                <div class="catalogue-detail__section">
+                    <div class="catalogue-detail__section-title">Results</div>
+                    ${this._buildRecallResultsTable(recall)}
+                </div>
+                <div class="catalogue-detail__section">
+                    <div class="catalogue-detail__section-title">Incumbent MP</div>
+                    ${this._buildRecallIncumbentTable(recall)}
+                </div>
+                <div class="catalogue-detail__section">
+                    <div class="catalogue-detail__section-title">Notes</div>
+                    <div class="catalogue-detail__description">
+                        ${(recall.notes || []).map((note) => `<p>${this._esc(note)}</p>`).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    _buildRecallResultsTable(recall) {
+        const fmtInt = (value) => Math.round(Number(value) || 0).toLocaleString('en-GB');
+        const pct = (value) => `${Number(value || 0).toFixed(2)}%`;
+        const rows = [
+            { label: 'Signatures', value: recall.validSignatures, pct: recall.electorate > 0 ? (recall.validSignatures / recall.electorate * 100) : 0 },
+            { label: 'Required number of signatures', value: recall.requiredSignatures, pct: 10.0 },
+            { label: 'Turnout', value: recall.turnout, pct: recall.electorate > 0 ? (recall.turnout / recall.electorate * 100) : 0 },
+            { label: 'Spoiled', value: recall.spoiled, pct: recall.turnout > 0 ? (recall.spoiled / recall.turnout * 100) : 0 },
+            { label: 'Petition successful', value: recall.successful ? 'Yes' : 'No', pct: '—' },
+            { label: 'Electorate', value: recall.electorate, pct: 100.0 }
+        ];
+
+        return `
+            <div class="election-party-wrapper">
+                <table class="election-party-table election-entity-table">
+                    <thead>
+                        <tr>
+                            <th>Measure</th>
+                            <th class="election-num">Number</th>
+                            <th class="election-num">%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows.map((row) => `
+                            <tr>
+                                <td><span class="election-cell-wrap">${this._esc(row.label)}</span></td>
+                                <td class="election-num">${typeof row.value === 'number' ? fmtInt(row.value) : this._esc(row.value)}</td>
+                                <td class="election-num">${typeof row.pct === 'number' ? pct(row.pct) : this._esc(row.pct)}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    _buildRecallIncumbentTable(recall) {
+        return `
+            <div class="election-party-wrapper">
+                <table class="election-party-table election-entity-table">
+                    <thead>
+                        <tr>
+                            <th>Incumbent MP</th>
+                            <th>Party</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="election-cell-wrap">${this._esc(recall.incumbentMp?.name || '—')}</span></td>
+                            <td><span class="election-cell-wrap">${this._esc(recall.incumbentMp?.party || '—')}</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
     }
 
     _setupNIWideTabs(defaultTab = 'party') {
@@ -889,8 +1796,11 @@ class ElectionController {
 
     _renderNIWideView(tabId, container) {
         this._hideAnimation();
+        this._currentResultsView = { type: 'niwide', tabId };
         container.style.overflowY = 'auto';
         container.style.overflowX = 'hidden';
+        container.style.display = '';
+        container.style.flexDirection = '';
         container.style.padding = '';
         if (tabId === 'candidate') {
             container.innerHTML = this._buildNIWideCandidateTable();
@@ -900,6 +1810,7 @@ class ElectionController {
             container.innerHTML = this._buildNIWidePartyTable();
         }
         this._setupResultsTableControls(container);
+        this._bindElectionEntityLinks(container);
     }
 
     _buildNIWidePartyTable() {
@@ -1048,7 +1959,7 @@ class ElectionController {
                 <tr>
                     <td class="election-rank-col">${rankLabel(idx)}</td>
                     <td class="election-colour-col"><span class="election-party-dot" style="background:${this._esc(data.colour)}"></span></td>
-                    <td>${this._esc(name)}</td>
+                    <td>${this._renderElectionEntityLink('party', name, name, 'election-cell-wrap')}</td>
                     <td class="election-num">${data.stood}</td>
                     <td class="election-num">${this._fmtMaybeDelta(stoodDelta)}</td>
                     <td class="election-num">${data.seats}</td>
@@ -1090,6 +2001,7 @@ class ElectionController {
                 const countNum = parseInt(row.Count_Number, 10) || 1;
                 if (!byCandidate.has(cid)) {
                     byCandidate.set(cid, {
+                        personId: cid,
                         constituency: constName,
                         name: row.candidateName || `${row.Firstname || ''} ${row.Surname || ''}`.trim(),
                         party: row.Party_Name || 'Independent',
@@ -1188,8 +2100,8 @@ class ElectionController {
             html += `<tr>
                 <td class="election-rank-col">${rankLabel(idx)}</td>
                 <td class="election-colour-col"><span class="election-party-dot" style="background:${this._esc(row.colour)}"></span></td>
-                <td><span class="election-cell-wrap">${this._esc(row.name)}</span></td>
-                <td><span class="election-cell-wrap">${this._esc(row.party)}</span></td>
+                <td>${this._renderElectionEntityLink('candidate', row.personId, row.name, 'election-cell-wrap')}</td>
+                <td>${this._renderElectionEntityLink('party', row.party, row.party, 'election-cell-wrap')}</td>
                 <td><span class="election-cell-wrap">${this._esc(row.constituency)}</span></td>
                 <td><span class="election-cell-wrap">${row.status === 'Elected' ? '<strong>Elected</strong>' : this._esc(row.status)}</span></td>
                 <td class="election-num">${this._fmtMaybeDelta(votesDelta)}</td>
@@ -1359,7 +2271,7 @@ class ElectionController {
             html += `<tr>
                 <td class="election-rank-col">${rankLabel(idx)}</td>
                 <td class="election-colour-col"><span class="election-party-dot" style="background:${this._esc(row.colour)}"></span></td>
-                <td><span class="election-cell-wrap">${this._esc(row.party)}</span></td>
+                <td>${this._renderElectionEntityLink('party', row.party, row.party, 'election-cell-wrap')}</td>
                 <td><span class="election-cell-wrap">${this._esc(row.constituency)}</span></td>
                 <td class="election-num"><span class="election-cell-wrap">${row.stood}</span></td>
                 <td class="election-num"><span class="election-cell-wrap"><strong>${row.elected}</strong></span></td>
@@ -1379,13 +2291,388 @@ class ElectionController {
         return `${String(constituency || '').trim().toLowerCase()}::${String(party || '').trim().toLowerCase()}`;
     }
 
+    _renderElectionEntityLink(kind, key, label, extraClass = '') {
+        const safeLabel = this._esc(label || '');
+        const safeKey = String(key || '').trim();
+        if (!safeKey || safeKey.toLowerCase() === 'nontransferable') {
+            return `<span class="election-cell-wrap ${extraClass}">${safeLabel}</span>`;
+        }
+        const classAttr = ['election-entity-link', extraClass].filter(Boolean).join(' ');
+        return `<button type="button" class="${classAttr}" data-election-entity-kind="${this._esc(kind)}" data-election-entity-key="${this._esc(safeKey)}">${safeLabel}</button>`;
+    }
+
+    _bindElectionEntityLinks(container) {
+        if (!container || container.dataset.entityLinksReady === '1') return;
+        container.dataset.entityLinksReady = '1';
+        container.addEventListener('click', (event) => {
+            const trigger = event.target.closest('[data-election-entity-kind][data-election-entity-key]');
+            if (!trigger || !container.contains(trigger)) return;
+            event.preventDefault();
+            this._openElectionEntityDetail(
+                trigger.dataset.electionEntityKind,
+                trigger.dataset.electionEntityKey
+            );
+        });
+    }
+
+    async _openElectionEntityDetail(kind, key) {
+        if (typeof this.onOpenEntityDetail === 'function') {
+            await this.onOpenEntityDetail(kind, key);
+            return;
+        }
+
+        const content = this.splitPaneEl?.querySelector('#electionPaneContent');
+        if (!content) return;
+        const entity = await this.getElectionEntityDetail(kind, key);
+        if (!entity) {
+            content.innerHTML = `<div class="election-no-data">No ${this._esc(kind)} data available.</div>`;
+            return;
+        }
+
+        this._entityDetailReturnView = this._currentResultsView ? { ...this._currentResultsView } : null;
+        this._hideAnimation();
+        content.style.display = '';
+        content.style.flexDirection = '';
+        content.style.overflowY = 'auto';
+        content.style.overflowX = 'hidden';
+        content.style.padding = '';
+        content.innerHTML = kind === 'candidate'
+            ? this._buildCandidateEntityDetail(entity, this._globalEntityIndex?.totalValid || 0)
+            : this._buildPartyEntityDetail(entity, this._globalEntityIndex?.totalValid || 0);
+        this._showElectionEntityHeader(kind, entity);
+    }
+
+    _showElectionEntityHeader(kind, entity) {
+        const headerRight = document.getElementById('electionPaneHeaderRight');
+        const titleEl = document.getElementById('electionPaneTitle');
+        if (!headerRight || !titleEl) return;
+
+        titleEl.textContent = kind === 'candidate' ? (entity.name || entity.personId) : entity.name;
+        const closeBtn = headerRight.querySelector('#electionCloseBtn');
+        headerRight.innerHTML = '';
+
+        const backBtn = document.createElement('button');
+        backBtn.className = 'election-pane__back';
+        backBtn.innerHTML = "<";
+        backBtn.title = 'Back to results';
+        backBtn.addEventListener('click', () => this._restoreElectionEntityReturnView());
+        headerRight.appendChild(backBtn);
+
+        if (closeBtn) headerRight.appendChild(closeBtn);
+    }
+
+    _restoreElectionEntityReturnView() {
+        const view = this._entityDetailReturnView || this._currentResultsView;
+        const content = this.splitPaneEl?.querySelector('#electionPaneContent');
+        const titleEl = document.getElementById('electionPaneTitle');
+        if (!content || !view) return;
+
+        if (view.type === 'constituency' && view.constName) {
+            this._showConstituencyPanel(view.constName, view.tabId || 'party');
+            return;
+        }
+
+        this.selectedConstituency = null;
+        this._hideAnimation();
+        content.style.display = '';
+        content.style.flexDirection = '';
+        if (titleEl) {
+            titleEl.textContent = `${this._shortBodyName(this.body)} - ${this._formatDate(this.date)}`;
+        }
+        this._restoreHeaderTabs(view.tabId || 'party');
+        this._renderNIWideView(view.tabId || 'party', content);
+        if (this.onStateChange) this.onStateChange();
+    }
+
+    isElectionLoaded(body, date) {
+        return this.active && this.body === body && this.date === date;
+    }
+
+    async ensureElectionLoaded(body, date) {
+        if (this.isElectionLoaded(body, date)) return;
+        await this.loadElection(body, date);
+    }
+
+    showConstituency(constName) {
+        if (!this.active || !constName || !this.resultsByConstituency?.[constName]) return;
+        this._showConstituencyPanel(constName);
+    }
+
+    showSummary() {
+        if (!this.active) return;
+        this.selectedConstituency = null;
+        this._restoreHeaderTabs('party');
+        this._showNIWideResults();
+        if (this.onStateChange) this.onStateChange();
+    }
+
+    _getElectionEntityIndex() {
+        if (this._entityIndexCache) return this._entityIndexCache;
+
+        const parties = new Map();
+        const candidates = new Map();
+        let totalValid = 0;
+
+        Object.entries(this.resultsByConstituency || {}).forEach(([constName, payload]) => {
+            const cg = payload?.Constituency?.countGroup || [];
+            const info = payload?.Constituency?.countInfo || {};
+            const constValid = parseFloat(info.Valid_Poll) || 0;
+            const seatCount = parseInt(info.Number_Of_Seats, 10) || 0;
+            totalValid += constValid;
+            if (cg.length === 0) return;
+
+            const countNums = [...new Set(cg.map(r => parseInt(r.Count_Number, 10) || 1))].sort((a, b) => a - b);
+            const lastCount = countNums[countNums.length - 1] || 1;
+            const byCandidate = new Map();
+
+            cg.forEach((row) => {
+                const cid = String(row.Candidate_Id || '').trim();
+                if (!cid || cid.toLowerCase() === 'nontransferable') return;
+                const countNum = parseInt(row.Count_Number, 10) || 1;
+                if (!byCandidate.has(cid)) {
+                    byCandidate.set(cid, {
+                        personId: cid,
+                        name: row.candidateName || `${row.Firstname || ''} ${row.Surname || ''}`.trim() || cid,
+                        party: row.Party_Name || 'Independent',
+                        colour: row.Party_Colour || '#b0bec5',
+                        constituency: constName,
+                        firstPref: 0,
+                        finalVotes: 0,
+                        elected: false,
+                        excluded: false,
+                        electedAt: null,
+                        excludedAt: null
+                    });
+                }
+                const candidate = byCandidate.get(cid);
+                const total = parseFloat(row.Total_Votes) || 0;
+                if (countNum === 1) {
+                    candidate.firstPref = parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0;
+                }
+                if (total > candidate.finalVotes) candidate.finalVotes = total;
+                if (this._statusKind(row.Status) === 'elected') {
+                    candidate.elected = true;
+                    candidate.electedAt ||= countNum;
+                }
+                if (this._statusKind(row.Status) === 'excluded') {
+                    candidate.excluded = true;
+                    candidate.excludedAt ||= countNum;
+                }
+            });
+
+            const explicitElected = [...byCandidate.values()].filter(c => c.elected).length;
+            if (seatCount > 0 && explicitElected < seatCount) {
+                const needed = seatCount - explicitElected;
+                const deemable = [...byCandidate.values()]
+                    .filter((candidate) => !candidate.elected && !candidate.excluded)
+                    .sort((a, b) => b.finalVotes - a.finalVotes)
+                    .slice(0, needed);
+                deemable.forEach((candidate) => {
+                    candidate.elected = true;
+                    candidate.electedAt ||= lastCount;
+                });
+            }
+
+            byCandidate.forEach((candidate) => {
+                const status = candidate.elected
+                    ? `Elected${candidate.electedAt ? ` at Count ${candidate.electedAt}` : ''}`
+                    : (candidate.excluded
+                        ? `Excluded${candidate.excludedAt ? ` at Count ${candidate.excludedAt}` : ''}`
+                        : 'Not Elected');
+                candidate.status = status;
+                candidate.firstPrefPct = constValid > 0 ? (candidate.firstPref / constValid * 100) : 0;
+
+                const personId = candidate.personId;
+                if (!candidates.has(personId)) {
+                    candidates.set(personId, {
+                        personId,
+                        name: candidate.name,
+                        party: candidate.party,
+                        colour: candidate.colour,
+                        firstPrefs: 0,
+                        finalVotes: 0,
+                        electedCount: 0,
+                        constituencies: new Set(),
+                        appearances: []
+                    });
+                }
+                const candidateEntry = candidates.get(personId);
+                candidateEntry.firstPrefs += candidate.firstPref;
+                candidateEntry.finalVotes += candidate.finalVotes;
+                if (candidate.elected) candidateEntry.electedCount += 1;
+                candidateEntry.constituencies.add(constName);
+                candidateEntry.appearances.push({
+                    constituency: constName,
+                    firstPref: candidate.firstPref,
+                    firstPrefPct: candidate.firstPrefPct,
+                    finalVotes: candidate.finalVotes,
+                    status
+                });
+
+                const partyName = candidate.party || 'Independent';
+                if (!parties.has(partyName)) {
+                    parties.set(partyName, {
+                        name: partyName,
+                        colour: candidate.colour || '#b0bec5',
+                        firstPrefs: 0,
+                        finalVotes: 0,
+                        stood: 0,
+                        elected: 0,
+                        constituencies: new Set(),
+                        candidates: []
+                    });
+                }
+                const partyEntry = parties.get(partyName);
+                partyEntry.firstPrefs += candidate.firstPref;
+                partyEntry.finalVotes += candidate.finalVotes;
+                partyEntry.stood += 1;
+                if (candidate.elected) partyEntry.elected += 1;
+                partyEntry.constituencies.add(constName);
+                partyEntry.candidates.push({
+                    personId,
+                    name: candidate.name,
+                    constituency: constName,
+                    firstPref: candidate.firstPref,
+                    firstPrefPct: candidate.firstPrefPct,
+                    finalVotes: candidate.finalVotes,
+                    status
+                });
+            });
+        });
+
+        const sortByName = (a, b) => String(a.name || '').localeCompare(String(b.name || ''), undefined, { sensitivity: 'base', numeric: true });
+        candidates.forEach((entry) => {
+            entry.appearances.sort((a, b) => b.firstPref - a.firstPref || String(a.constituency).localeCompare(String(b.constituency)));
+            entry.constituencies = [...entry.constituencies].sort((a, b) => String(a).localeCompare(String(b)));
+            entry.shareOfNI = totalValid > 0 ? (entry.firstPrefs / totalValid * 100) : 0;
+        });
+        parties.forEach((entry) => {
+            entry.candidates.sort((a, b) => b.firstPref - a.firstPref || String(a.name).localeCompare(String(b.name)));
+            entry.constituencies = [...entry.constituencies].sort((a, b) => String(a).localeCompare(String(b)));
+            entry.shareOfNI = totalValid > 0 ? (entry.firstPrefs / totalValid * 100) : 0;
+        });
+
+        this._entityIndexCache = { parties, candidates, totalValid };
+        return this._entityIndexCache;
+    }
+
+    _buildPartyEntityDetail(entry, totalValid) {
+        const fmt = (value) => Math.round(Number(value) || 0).toLocaleString('en-GB');
+        const constituencyCount = entry.constituencies.length;
+        return `
+            <div class="election-entity-page">
+                <div class="election-entity-page__hero">
+                    <span class="election-party-dot election-party-dot--hero" style="background:${this._esc(entry.colour)}"></span>
+                    <div>
+                        <div class="election-entity-page__eyebrow">Party Information</div>
+                        <h3 class="election-entity-page__title">${this._esc(entry.name)}</h3>
+                        <p class="election-entity-page__subtitle">${this._esc(this._shortBodyName(this.body))} - ${this._esc(this._formatDate(this.date))}</p>
+                    </div>
+                </div>
+                <div class="election-entity-metrics">
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">Candidates stood</span><strong>${fmt(entry.stood)}</strong></div>
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">Candidates elected</span><strong>${fmt(entry.elected)}</strong></div>
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">1st prefs</span><strong>${fmt(entry.firstPrefs)}</strong></div>
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">% of NI</span><strong>${entry.shareOfNI.toFixed(2)}%</strong></div>
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">Final-round votes</span><strong>${fmt(entry.finalVotes)}</strong></div>
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">Constituencies</span><strong>${fmt(constituencyCount)}</strong></div>
+                </div>
+                <div class="election-party-wrapper">
+                    <table class="election-party-table election-entity-table">
+                        <thead>
+                            <tr>
+                                <th>Candidate</th>
+                                <th>Constituency</th>
+                                <th class="election-num">1st prefs</th>
+                                <th class="election-num">1st prefs %</th>
+                                <th class="election-num">Final votes</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${entry.candidates.map((candidate) => `
+                                <tr>
+                                    <td><span class="election-cell-wrap">${this._esc(candidate.name)}</span></td>
+                                    <td><span class="election-cell-wrap">${this._esc(candidate.constituency)}</span></td>
+                                    <td class="election-num">${fmt(candidate.firstPref)}</td>
+                                    <td class="election-num">${candidate.firstPrefPct.toFixed(2)}%</td>
+                                    <td class="election-num">${fmt(candidate.finalVotes)}</td>
+                                    <td><span class="election-cell-wrap">${this._esc(candidate.status)}</span></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+    }
+
+    _buildCandidateEntityDetail(entry, totalValid) {
+        const fmt = (value) => Math.round(Number(value) || 0).toLocaleString('en-GB');
+        return `
+            <div class="election-entity-page">
+                <div class="election-entity-page__hero">
+                    <span class="election-party-dot election-party-dot--hero" style="background:${this._esc(entry.colour)}"></span>
+                    <div>
+                        <div class="election-entity-page__eyebrow">Candidate Information</div>
+                        <h3 class="election-entity-page__title">${this._esc(entry.name)}</h3>
+                        <p class="election-entity-page__subtitle">${this._esc(entry.party)} - Person ID ${this._esc(entry.personId)}</p>
+                    </div>
+                </div>
+                <div class="election-entity-metrics">
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">1st prefs</span><strong>${fmt(entry.firstPrefs)}</strong></div>
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">% of NI</span><strong>${entry.shareOfNI.toFixed(2)}%</strong></div>
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">Final-round votes</span><strong>${fmt(entry.finalVotes)}</strong></div>
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">Constituency count</span><strong>${fmt(entry.constituencies.length)}</strong></div>
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">Election wins</span><strong>${fmt(entry.electedCount)}</strong></div>
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">Total valid poll</span><strong>${fmt(totalValid)}</strong></div>
+                </div>
+                <div class="election-party-wrapper">
+                    <table class="election-party-table election-entity-table">
+                        <thead>
+                            <tr>
+                                <th>Constituency</th>
+                                <th class="election-num">1st prefs</th>
+                                <th class="election-num">1st prefs %</th>
+                                <th class="election-num">Final votes</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${entry.appearances.map((appearance) => `
+                                <tr>
+                                    <td><span class="election-cell-wrap">${this._esc(appearance.constituency)}</span></td>
+                                    <td class="election-num">${fmt(appearance.firstPref)}</td>
+                                    <td class="election-num">${appearance.firstPrefPct.toFixed(2)}%</td>
+                                    <td class="election-num">${fmt(appearance.finalVotes)}</td>
+                                    <td><span class="election-cell-wrap">${this._esc(appearance.status)}</span></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+    }
+
     // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Constituency Click Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
     _onConstituencyClick(fgbName) {
         const constName = this._matchConstituency(fgbName);
         if (!constName) return;
+        if (this._specialElection?.type === 'recall-petition' && constName !== this._specialElection.constituency) {
+            return;
+        }
+        this._showConstituencyPanel(constName);
+    }
 
+    _showConstituencyPanel(constName, preferredTab = null) {
         this.selectedConstituency = constName;
+        if (this._specialElection?.type === 'recall-petition') {
+            this._showRecallPetitionPanel(constName);
+            if (this.onStateChange) this.onStateChange();
+            return;
+        }
         const content = this.splitPaneEl?.querySelector('#electionPaneContent');
         if (!content) return;
 
@@ -1395,39 +2682,31 @@ class ElectionController {
             return;
         }
 
-        // Hide animation if it was showing
         this._hideAnimation();
-
-        // Detach animation scaffold before resetting innerHTML (persistent ref)
         if (this._animScaffold && this._animScaffold.parentNode) {
             this._animScaffold.parentNode.removeChild(this._animScaffold);
         }
 
-        // Check if animation is available
         const hasMultipleRounds = payload?.Constituency?.countGroup?.some(r => parseInt(r.Count_Number) > 1);
         const hasAnimation = hasMultipleRounds && typeof animateStages === 'function';
 
-        // Build layout: view content only (tabs go in header)
         content.innerHTML = '';
         content.style.display = 'flex';
         content.style.flexDirection = 'column';
 
-        // --- Inject back button + tabs into the header bar ---
         const headerRight = document.getElementById('electionPaneHeaderRight');
         const titleEl = document.getElementById('electionPaneTitle');
         let initialTab = 'party';
         if (headerRight && titleEl) {
-            const prevActiveTab = this._constituencyActiveTab
+            const prevActiveTab = preferredTab
+                || this._constituencyActiveTab
                 || headerRight.querySelector('.election-view-tab--active')?.dataset.tab
                 || 'party';
-            // Update title to show constituency name
             titleEl.textContent = constName;
 
-            // Clear existing tabs, keep close button
             const closeBtn = headerRight.querySelector('#electionCloseBtn');
             headerRight.innerHTML = '';
 
-            // Back button (icon only)
             const backBtn = document.createElement('button');
             backBtn.className = 'election-pane__back';
             backBtn.innerHTML = "<";
@@ -1437,7 +2716,6 @@ class ElectionController {
                 this._hideAnimation();
                 content.style.display = '';
                 content.style.flexDirection = '';
-                // Restore header
                 titleEl.textContent = `${this._shortBodyName(this.body)} - ${this._formatDate(this.date)}`;
                 this._restoreHeaderTabs();
                 this._showNIWideResults();
@@ -1445,7 +2723,6 @@ class ElectionController {
             });
             headerRight.appendChild(backBtn);
 
-            // Tab buttons
             const tabDefs = [
                 { id: 'party', label: 'By Party' },
                 { id: 'counts', label: 'By Count' },
@@ -1454,7 +2731,6 @@ class ElectionController {
                 tabDefs.push({ id: 'animation', label: 'Transfers' });
             }
 
-            // Preserve currently selected constituency tab when moving between constituencies.
             initialTab = tabDefs.some(t => t.id === prevActiveTab) ? prevActiveTab : 'party';
 
             tabDefs.forEach((def) => {
@@ -1487,21 +2763,89 @@ class ElectionController {
                 }
             });
 
-            // Re-add close button at the end
             if (closeBtn) headerRight.appendChild(closeBtn);
         }
 
-        // Re-attach animation container (hidden)
         if (this._animScaffold) {
             this._animScaffold.style.display = 'none';
             content.appendChild(this._animScaffold);
         }
 
-        // Render selected tab (or default to party).
         this._constituencyActiveTab = initialTab;
         this._renderConstituencyView(initialTab, constName, payload, content);
 
         if (this.onStateChange) this.onStateChange();
+    }
+
+    _showRecallPetitionPanel(constName) {
+        const content = this.splitPaneEl?.querySelector('#electionPaneContent');
+        const headerRight = document.getElementById('electionPaneHeaderRight');
+        const titleEl = document.getElementById('electionPaneTitle');
+        if (!content || !headerRight || !titleEl) return;
+
+        const recall = this.resultsByConstituency?.[constName]?.Constituency?.recallPetition;
+        if (!recall) {
+            content.innerHTML = `<div class="election-no-data">No recall petition data available for ${this._esc(constName)}</div>`;
+            return;
+        }
+
+        this._hideAnimation();
+        if (this._animScaffold && this._animScaffold.parentNode) {
+            this._animScaffold.parentNode.removeChild(this._animScaffold);
+        }
+
+        titleEl.textContent = constName;
+        const closeBtn = headerRight.querySelector('#electionCloseBtn');
+        headerRight.innerHTML = '';
+
+        const backBtn = document.createElement('button');
+        backBtn.className = 'election-pane__back';
+        backBtn.innerHTML = "<";
+        backBtn.title = 'Back to summary';
+        backBtn.addEventListener('click', () => {
+            this.selectedConstituency = null;
+            this._showRecallPetitionOverview(content);
+            if (this.onStateChange) this.onStateChange();
+        });
+        headerRight.appendChild(backBtn);
+        if (closeBtn) headerRight.appendChild(closeBtn);
+
+        content.style.overflowY = 'auto';
+        content.style.overflowX = 'hidden';
+        content.style.display = '';
+        content.style.flexDirection = '';
+        this._currentResultsView = { type: 'recall-constituency', constName };
+
+        content.innerHTML = `
+            <div class="election-entity-page">
+                <div class="election-entity-page__hero">
+                    <span class="election-party-dot election-party-dot--hero" style="background:${this._esc(this._specialElection.fillColor)}"></span>
+                    <div>
+                        <div class="election-entity-page__eyebrow">Recall Petition Result</div>
+                        <h3 class="election-entity-page__title">${this._esc(constName)}</h3>
+                        <p class="election-entity-page__subtitle">${this._esc(this._formatDate(this.date))}</p>
+                    </div>
+                </div>
+                <div class="election-entity-metrics">
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">Threshold to trigger by-election</span><strong>${recall.thresholdPct.toFixed(1)}%</strong></div>
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">Signed</span><strong>${recall.signedPct.toFixed(1)}%</strong></div>
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">Shortfall</span><strong>${(recall.thresholdPct - recall.signedPct).toFixed(1)}%</strong></div>
+                    <div class="election-entity-metric"><span class="election-entity-metric__label">By-election triggered</span><strong>${recall.successful ? 'Yes' : 'No'}</strong></div>
+                </div>
+                <div class="catalogue-detail__meta">
+                    <div class="catalogue-detail__meta-row">
+                        <span class="catalogue-detail__meta-label">Outcome</span>
+                        <span class="catalogue-detail__meta-value">${this._esc(recall.outcome)}</span>
+                    </div>
+                </div>
+                <div class="catalogue-detail__section">
+                    <div class="catalogue-detail__section-title">Notes</div>
+                    <div class="catalogue-detail__description">
+                        ${(recall.notes || []).map((note) => `<p>${this._esc(note)}</p>`).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
     }
 
     _renderConstituencyView(tabId, constName, payload, container) {
@@ -1509,6 +2853,7 @@ class ElectionController {
         if (tabId !== 'animation') {
             this._hideAnimation();
         }
+        this._currentResultsView = { type: 'constituency', constName, tabId };
 
         // Allow scrolling on content pane for non-animation tabs; lock for animation
         container.style.overflowY = tabId === 'animation' ? 'hidden' : 'auto';
@@ -1524,10 +2869,12 @@ class ElectionController {
             case 'party':
                 container.innerHTML = this._buildPartyResults(constName, payload);
                 this._setupResultsTableControls(container);
+                this._bindElectionEntityLinks(container);
                 break;
             case 'counts':
                 container.innerHTML = this._buildCountTable(constName, payload);
                 this._setupResultsTableControls(container);
+                this._bindElectionEntityLinks(container);
                 break;
             case 'animation':
                 container.innerHTML = '';
@@ -1700,7 +3047,7 @@ class ElectionController {
                     data-firstprefspctdelta="${p.pctDelta}">
                 <td class="election-rank-col${isSeatWinner ? ' election-party-emphasis' : ''}">${rankLabel(idx)}</td>
                 <td class="election-colour-col"><span class="election-party-dot" style="background:${this._esc(p.colour)}"></span></td>
-                <td class="election-cell-wrap${isSeatWinner ? ' election-party-emphasis' : ''}">${this._esc(p.name)}</td>
+                <td class="${isSeatWinner ? ' election-party-emphasis' : ''}">${this._renderElectionEntityLink('party', p.name, p.name, 'election-cell-wrap')}</td>
                 <td class="election-num">${p.stood}</td>
                 <td class="election-num">${fmtDelta(p.stoodDelta)}</td>
                 <td class="election-num${isSeatWinner ? ' election-party-emphasis' : ''}">${p.seats}</td>
@@ -1895,8 +3242,22 @@ class ElectionController {
             anchorBtn.classList.add('election-th-btn--open');
 
             const rect = anchorBtn.getBoundingClientRect();
-            menu.style.left = `${Math.max(8, rect.right - 248)}px`;
-            menu.style.top = `${rect.bottom + 4}px`;
+            const menuWidth = 248;
+            const margin = 8;
+            const scrollX = window.scrollX || window.pageXOffset || 0;
+            const scrollY = window.scrollY || window.pageYOffset || 0;
+            const preferredLeft = scrollX + rect.right - menuWidth;
+            const maxLeft = scrollX + window.innerWidth - menuWidth - margin;
+            menu.style.left = `${Math.max(scrollX + margin, Math.min(preferredLeft, maxLeft))}px`;
+
+            const menuHeight = menu.offsetHeight || 320;
+            const belowTop = scrollY + rect.bottom + 4;
+            const aboveTop = scrollY + rect.top - menuHeight - 4;
+            const viewportBottom = scrollY + window.innerHeight - margin;
+            const viewportTop = scrollY + margin;
+            const fitsBelow = belowTop + menuHeight <= viewportBottom;
+            const fitsAbove = aboveTop >= viewportTop;
+            menu.style.top = `${(fitsBelow || !fitsAbove) ? belowTop : aboveTop}px`;
 
             const valuesHost = menu.querySelector('[data-role="values"]');
             const renderValues = (needle = '') => {
@@ -2144,8 +3505,8 @@ class ElectionController {
             html += `<tr class="election-count-row${c.electedAt ? ' election-count-row--elected' : ''}">`;
             html += `<td class="election-rank-col">${rankLabel(idx)}</td>`;
             html += `<td class="election-colour-col"><span class="election-party-dot" style="background:${this._esc(c.colour)}"></span></td>`;
-            html += `<td class="election-col-name"><span class="election-cell-wrap election-cell-wrap--count-name">${this._esc(c.name)}</span></td>`;
-            html += `<td class="election-col-party"><span class="election-cell-wrap election-cell-wrap--count-party">${this._esc(c.party)}</span></td>`;
+            html += `<td class="election-col-name">${this._renderElectionEntityLink('candidate', c.personId, c.name, 'election-cell-wrap election-cell-wrap--count-name')}</td>`;
+            html += `<td class="election-col-party">${this._renderElectionEntityLink('party', c.party, c.party, 'election-cell-wrap election-cell-wrap--count-party')}</td>`;
             html += `<td class="election-col-status"><span class="election-cell-wrap election-cell-wrap--count-status">${rowStatus(c)}</span></td>`;
             html += `<td class="election-num">${this._fmtMaybeDeltaOrNA(firstPrefDelta)}</td>`;
             html += `<td class="election-num">${pct(c.firstPref).toFixed(2)}%</td>`;
@@ -2553,6 +3914,7 @@ class ElectionController {
                     if (r2.Candidate_Id === row.Candidate_Id && r2.Status) status = r2.Status;
                 });
                 candidates.push({
+                    personId: row.Candidate_Id,
                     name: row.candidateName || (row.Firstname + ' ' + row.Surname),
                     party: row.Party_Name || 'Independent',
                     colour: row.Party_Colour || '#b0bec5',
@@ -2583,7 +3945,7 @@ class ElectionController {
         candidates.forEach(c => {
             const statCls = c.status === 'Elected' ? ' election-status-elected' : c.status === 'Excluded' ? ' election-status-excluded' : '';
             html += `<tr>
-                <td><span class="election-party-dot" style="background:${this._esc(c.colour)}"></span>${this._esc(c.name)} <small class="election-party-label">(${this._esc(c.party)})</small></td>
+                <td><span class="election-party-dot" style="background:${this._esc(c.colour)}"></span>${this._renderElectionEntityLink('candidate', c.personId, c.name)} <small class="election-party-label">(${this._esc(c.party)})</small></td>
                 <td class="election-num">${fmt(c.votes)}</td>
                 <td class="election-num">${pct(c.votes)}</td>
                 <td class="${statCls}">${this._esc(c.status || '—')}</td>
@@ -2736,16 +4098,18 @@ class ElectionController {
 
         index.bodies.forEach(bodyData => {
             bodyData.dates.forEach(dateData => {
+                const special = this._getSpecialElectionConfig(bodyData.name, dateData.date);
                 const isByElection = dateData.constituencies.length <= 2 &&
                     !['Northern Ireland'].includes(dateData.constituencies[0]);
-                const isGeneral = !isByElection;
 
                 const bodyShort = this._shortBodyName(bodyData.name);
                 const dateFormatted = this._formatDate(dateData.date);
                 const constCount = dateData.constituencies.filter(c => c !== 'Northern Ireland').length;
 
                 let subtitle = '';
-                if (isByElection) {
+                if (special?.type === 'recall-petition') {
+                    subtitle = special.constituency;
+                } else if (isByElection) {
                     subtitle = dateData.constituencies.join(', ');
                 } else {
                     subtitle = (bodyData.name === 'European Parliament' && constCount === 0)
@@ -2754,7 +4118,7 @@ class ElectionController {
                 }
 
                 const cardHtml = `
-                    <div class="election-card ${isByElection ? 'election-card--by-election' : ''}"
+                    <div class="election-card ${isByElection && !special ? 'election-card--by-election' : ''}"
                          data-body="${this._esc(bodyData.name)}"
                          data-date="${this._esc(dateData.date)}">
                         <div class="election-card__body-badge">${this._esc(bodyShort)}</div>
@@ -2841,7 +4205,7 @@ class ElectionController {
      * Restore header right-side to just the close button (no tabs, no back).
      * Called when navigating back from a constituency view to NI-wide summary.
      */
-    _restoreHeaderTabs() {
+    _restoreHeaderTabs(defaultTab = 'party') {
         const headerRight = document.getElementById('electionPaneHeaderRight');
         if (!headerRight) return;
         const closeBtn = headerRight.querySelector('#electionCloseBtn');
@@ -2855,7 +4219,7 @@ class ElectionController {
             btn.addEventListener('click', () => this.clear());
             headerRight.appendChild(btn);
         }
-        this._setupNIWideTabs('party');
+        this._setupNIWideTabs(defaultTab);
     }
 
     // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Helpers Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
