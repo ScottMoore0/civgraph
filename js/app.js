@@ -118,6 +118,9 @@ class App {
                     electionController.setVisible(newVisible);
                 } else {
                     mapController.toggleLayer(mapId);
+                    if (electionController.isVisible()) {
+                        electionController.enforceExclusiveVisibility();
+                    }
                 }
                 this.updateMapList();
                 this.updateActiveLayers();
@@ -747,6 +750,10 @@ class App {
 
         // Wire up URL state callback
         electionController.onStateChange = () => this.updateURLState();
+        electionController.onStartLoadFeedback = (mapName) => this.startMapLoadFeedback(mapName);
+        electionController.onFinishLoadFeedback = (feedback, success, mapName, options = {}) => {
+            this.finishMapLoadFeedback(feedback, success, mapName, options);
+        };
         electionController.onOpenEntityDetail = async (kind, key) => {
             const detail = await electionController.getElectionEntityDetail(kind, key);
             if (!detail) return;
@@ -2127,6 +2134,9 @@ class App {
      * Update the active layers panel
      */
     updateActiveLayers() {
+        if (electionController.isVisible()) {
+            electionController.enforceExclusiveVisibility();
+        }
         const loadedIds = this.getLoadedLayerIds();
         const loadedMaps = loadedIds.map(id => dataService.getMapById(id)).filter(Boolean);
         const visibilityMap = new Map();
@@ -2198,7 +2208,12 @@ class App {
             if (!state || !state.loaded) {
                 throw new Error(`Layer did not load: ${mapId}`);
             }
-            mapController.fitToLayer(mapId);
+            if (electionController.isVisible()) {
+                mapController.hideLayer(mapId);
+                electionController.enforceExclusiveVisibility();
+            } else {
+                mapController.fitToLayer(mapId);
+            }
             this.updateURLState();
             this.finishMapLoadFeedback(feedback, true, mapName);
         } catch (error) {

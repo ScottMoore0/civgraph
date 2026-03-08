@@ -3744,3 +3744,36 @@ Verification evidence:
   4) workbook/intermediate analysis artifacts not required by the website runtime.
 - Review note (2026-03-08): rebuilt the staged set after `git reset HEAD .` and re-added only runtime website files, `maps-to-be-added`, the GeoJSON/LFS fix, the local-election rebuild script, and task logs. Excluded files remain locally as unstaged or untracked artifacts, so the cleanup is reversible. Verification: `node --check js/election-controller.js`, `node --check js/ui-controller.js`, and `node --check js/app.js` all passed; `git check-attr` confirms `Settlements_Ungeneralised_-6398853129460496398.geojson` is no longer LFS-tracked.
 - [x] Remove `maps-to-be-added/Electoral Divisions 1986-2019 (1).zip` from git tracking after extraction/addition to the website. Left the local file on disk, added a narrow `.gitignore` rule to prevent re-adding it, and used this to unblock GitHub push size limits.
+
+# Current Task: Enforce Exclusive Election Visibility And Timed Election Load Feedback (2026-03-08)
+
+- [x] Inspect election-layer activation, active-layers visibility, and map-load toast paths
+- [x] Ensure a visible election suppresses every other loaded non-election layer completely, and restores those layers when the election is hidden or cleared
+- [x] Route election loads through the same timed load-feedback toast used by normal map layers
+- [x] Run syntax verification and record speed findings for local-election loading
+
+- Symptom: election overlays could coexist visually with other loaded map layers, and election loads were not using the shared load-timing toast, making local-election load performance harder to observe consistently.
+- Root cause:
+  1) the election path only suppressed labels on lower layers instead of hiding whole competing layers,
+  2) `App.startMapLoadFeedback(...)` was only wired into `loadMap(...)`, not `electionController.loadElection(...)`,
+  3) local-election loading still performs a full geography fetch plus many constituency JSON fetches, so the missing shared timing feedback hid the true cost profile.
+- Permanent prevention action:
+  1) centralize election exclusivity in `electionController.enforceExclusiveVisibility()` and invoke it from both election activation and app-level map visibility updates,
+  2) keep election loads on the same toast/timer path as normal map loads via explicit callbacks,
+  3) treat local-election load speed work as data-fetch/geography-cache work, not a styling problem.
+- Verification evidence:
+  1) `node --check js/election-controller.js` passes,
+  2) `node --check js/app.js` passes.
+
+# Current Task: Speed Up Election Loads With Shared Parallelization And Session Caches (2026-03-08)
+
+- [ ] Inspect the shared election load path and confirm the minimum generic hooks needed for all-election caching/parallelization
+- [ ] Parallelize geometry, current-results, and previous-results loading for all elections
+- [ ] Add session-scoped geometry caching keyed by active FGB path
+- [ ] Add session-scoped constituency-payload caching keyed by body/date/constituency slug URL
+- [ ] Run syntax verification and record implementation notes
+- [x] Completed the shared election-load optimization pass in `js/election-controller.js`
+  - parallelized geometry/current/previous loads with `Promise.all(...)`
+  - added session-scoped geometry feature caches keyed by FGB path
+  - added session-scoped constituency payload caches keyed by request URL
+  - verified with `node --check js/election-controller.js`

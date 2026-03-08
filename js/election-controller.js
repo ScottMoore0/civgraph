@@ -47,6 +47,13 @@ class ElectionController {
         this._councilAggregates = null;
         this._previousCouncilAggregates = null;
         this._boundPaneClickHandler = null;
+        this._suppressedNonElectionLayerIds = new Set();
+        this.onStartLoadFeedback = null;
+        this.onFinishLoadFeedback = null;
+        this._geometryFeatureCache = new Map();
+        this._geometryFeaturePromiseCache = new Map();
+        this._resultsPayloadCache = new Map();
+        this._resultsPayloadPromiseCache = new Map();
     }
 
     static LOCAL_GOVERNMENT_BODIES = [
@@ -151,61 +158,86 @@ class ElectionController {
             return;
         }
 
-        this.body = body;
-        this.date = date;
-        this.active = true;
-        this.bodyGroup = bodyData.bodyGroup || null;
-        this._indexBodyData = bodyData;
-        this._localResultsMode = 'dea';
-        this._currentGeo = geo;
+        const loadName = `${this._shortBodyName(body)} ${this._formatDate(date)}`;
+        const feedback = this.onStartLoadFeedback ? this.onStartLoadFeedback(loadName) : null;
 
-        const groupData = this._getEffectiveElectionScope(indexData, bodyData, date);
-        this.constituencies = groupData.constituencies;
-        this._allBodyDates = groupData.dates;
-        this._councilNameByConstituency = groupData.councilNameByConstituency;
-        this._specialElection = this._getSpecialElectionConfig(body, date);
-        const previousDateData = this._getPreviousDateData(indexData, bodyData, date, groupData);
-        this.previousDate = previousDateData?.date || null;
+        try {
+            this.body = body;
+            this.date = date;
+            this.active = true;
+            this.bodyGroup = bodyData.bodyGroup || null;
+            this._indexBodyData = bodyData;
+            this._localResultsMode = 'dea';
+            this._currentGeo = geo;
 
-        // Load FGB geometry
-        await this._loadGeography(this._getActiveGeography(geo));
+            const groupData = this._getEffectiveElectionScope(indexData, bodyData, date);
+            this.constituencies = groupData.constituencies;
+            this._allBodyDates = groupData.dates;
+            this._councilNameByConstituency = groupData.councilNameByConstituency;
+            this._specialElection = this._getSpecialElectionConfig(body, date);
+            const previousDateData = this._getPreviousDateData(indexData, bodyData, date, groupData);
+            this.previousDate = previousDateData?.date || null;
 
-        // Load election results for all constituencies
-        if (this._specialElection) {
-            this.resultsByConstituency = this._specialElection.resultsByConstituency;
-            this.previousResultsByConstituency = {};
-        } else {
+            const activeGeo = this._getActiveGeography(geo);
             const loadSlug = bodyData.slug || body;
-            this.resultsByConstituency = await this._loadAllResults(loadSlug, date, this.constituencies, {}, true);
-            this.previousResultsByConstituency = this.previousDate
-                ? await this._loadAllResults(loadSlug, this.previousDate, previousDateData.constituencies || [], {}, false)
-                : {};
+            const geometryPromise = this._loadGeography(activeGeo);
+            let currentResultsPromise = Promise.resolve({});
+            let previousResultsPromise = Promise.resolve({});
+
+            // Load election results for all constituencies
+            if (this._specialElection) {
+                currentResultsPromise = Promise.resolve(this._specialElection.resultsByConstituency);
+            } else {
+                currentResultsPromise = this._loadAllResults(loadSlug, date, this.constituencies, {}, true);
+                previousResultsPromise = this.previousDate
+                    ? this._loadAllResults(loadSlug, this.previousDate, previousDateData.constituencies || [], {}, false)
+                    : Promise.resolve({});
+            }
+            const [, currentResults, previousResults] = await Promise.all([
+                geometryPromise,
+                currentResultsPromise,
+                previousResultsPromise
+            ]);
+            this.resultsByConstituency = currentResults || {};
+            this.previousResultsByConstituency = previousResults || {};
+            this._rebuildElectionLookups();
+            this._rebuildCouncilAggregates();
+
+            // Colour the map by winning party
+            this._colourMap(activeGeo);
+
+            // Hide all other loaded layers while an election is visible.
+            this._suppressNonElectionLayers();
+
+            // Suppress labels on layers below the election
+            this._suppressLabelsBelow();
+
+            // Add seat circle overlays
+            this._addOverlays(activeGeo);
+
+            // Show split pane
+            this._showSplitPane();
+
+            // NI-wide results in the pane
+            this._showNIWideResults();
+
+            // Sync timeline slider to this body's election dates
+            timeSliderController.setElectionDates(this._allBodyDates, date, (newDate) => {
+                this.loadElection(this.body, newDate);
+            });
+
+            // Notify state change for URL
+            if (this.onStateChange) this.onStateChange();
+            if (this.onFinishLoadFeedback && feedback) {
+                this.onFinishLoadFeedback(feedback, true, loadName);
+            }
+        } catch (error) {
+            this.clear();
+            if (this.onFinishLoadFeedback && feedback) {
+                this.onFinishLoadFeedback(feedback, false, loadName);
+            }
+            throw error;
         }
-        this._rebuildElectionLookups();
-        this._rebuildCouncilAggregates();
-
-        // Colour the map by winning party
-        this._colourMap(this._getActiveGeography(geo));
-
-        // Suppress labels on layers below the election
-        this._suppressLabelsBelow();
-
-        // Add seat circle overlays
-        this._addOverlays(this._getActiveGeography(geo));
-
-        // Show split pane
-        this._showSplitPane();
-
-        // NI-wide results in the pane
-        this._showNIWideResults();
-
-        // Sync timeline slider to this body's election dates
-        timeSliderController.setElectionDates(this._allBodyDates, date, (newDate) => {
-            this.loadElection(this.body, newDate);
-        });
-
-        // Notify state change for URL
-        if (this.onStateChange) this.onStateChange();
     }
 
     /**
@@ -252,6 +284,7 @@ class ElectionController {
         this._entityDetailReturnView = null;
         this._entityIndexCache = null;
         this._specialElection = null;
+        this._restoreSuppressedNonElectionLayers();
         this._restoreLabels();
         this._hideSplitPane();
         timeSliderController.clearElectionDates();
@@ -861,6 +894,7 @@ class ElectionController {
             }
             this._showSplitPane();
             this._showNIWideResults();
+            this._suppressNonElectionLayers();
             this._suppressLabelsBelow();
         } else {
             // Remove layers from map without destroying state
@@ -872,7 +906,22 @@ class ElectionController {
             }
             this._hideSplitPane();
             this._restoreLabels();
+            this._restoreSuppressedNonElectionLayers();
         }
+    }
+
+    isVisible() {
+        if (!this.active || !mapController.map) return false;
+        if (this._registeredLayerId) {
+            const state = mapController.layerStates.get(this._registeredLayerId);
+            return !!state?.visible;
+        }
+        return !!(this.geojsonLayer && mapController.map.hasLayer(this.geojsonLayer));
+    }
+
+    enforceExclusiveVisibility() {
+        if (!this.isVisible()) return;
+        this._suppressNonElectionLayers();
     }
 
     // â”€â”€â”€ Data Loading â”€â”€â”€
@@ -908,12 +957,8 @@ class ElectionController {
             const slugVariants = constituencySlugVariants(constituency);
             for (const slug of slugVariants) {
                 const url = `${this.electionDataPath}/elections/${bodySlug}/${date}/${slug}.json`;
-                try {
-                    const response = await fetch(url);
-                    if (response.ok) return response.json();
-                } catch (_) {
-                    // Try the next slug variant.
-                }
+                const payload = await this._loadResultsPayload(url);
+                if (payload) return payload;
             }
             return null;
         };
@@ -936,6 +981,28 @@ class ElectionController {
             }
         });
         return target;
+    }
+
+    async _loadResultsPayload(url) {
+        if (this._resultsPayloadCache.has(url)) return this._resultsPayloadCache.get(url);
+        if (this._resultsPayloadPromiseCache.has(url)) return this._resultsPayloadPromiseCache.get(url);
+
+        const promise = (async () => {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) return null;
+                const payload = await response.json();
+                this._resultsPayloadCache.set(url, payload);
+                return payload;
+            } catch (_) {
+                return null;
+            } finally {
+                this._resultsPayloadPromiseCache.delete(url);
+            }
+        })();
+
+        this._resultsPayloadPromiseCache.set(url, promise);
+        return promise;
     }
 
     _createEmptyEntityIndex() {
@@ -2044,11 +2111,7 @@ class ElectionController {
     async _loadGeography(geo) {
         try {
             // Fetch then stream â€” direct URL needs range request support
-            const response = await fetch(geo.fgb);
-            const features = [];
-            for await (const feature of flatgeobuf.deserialize(response.body)) {
-                features.push(feature);
-            }
+            const features = await this._getGeometryFeatures(geo.fgb);
 
             const geojson = { type: 'FeatureCollection', features };
 
@@ -2115,6 +2178,28 @@ class ElectionController {
 
     // â”€â”€â”€ Map Colouring â”€â”€â”€
 
+
+    async _getGeometryFeatures(fgbPath) {
+        if (this._geometryFeatureCache.has(fgbPath)) return this._geometryFeatureCache.get(fgbPath);
+        if (this._geometryFeaturePromiseCache.has(fgbPath)) return this._geometryFeaturePromiseCache.get(fgbPath);
+
+        const promise = (async () => {
+            const response = await fetch(fgbPath);
+            const features = [];
+            for await (const feature of flatgeobuf.deserialize(response.body)) {
+                features.push(feature);
+            }
+            this._geometryFeatureCache.set(fgbPath, features);
+            return features;
+        })();
+
+        this._geometryFeaturePromiseCache.set(fgbPath, promise);
+        try {
+            return await promise;
+        } finally {
+            this._geometryFeaturePromiseCache.delete(fgbPath);
+        }
+    }
     _colourMap(geo) {
         if (!this.geojsonLayer) return;
 
@@ -2778,6 +2863,25 @@ class ElectionController {
             this.electionMapConfig = null;
             window.dispatchEvent(new CustomEvent('layers-changed'));
         }
+    }
+
+    _suppressNonElectionLayers() {
+        mapController.layerStates.forEach((state, id) => {
+            if (!state || state.isElection || !state.loaded || !state.visible) return;
+            this._suppressedNonElectionLayerIds.add(id);
+            mapController.hideLayer(id);
+        });
+    }
+
+    _restoreSuppressedNonElectionLayers() {
+        if (!this._suppressedNonElectionLayerIds?.size) return;
+        [...this._suppressedNonElectionLayerIds].forEach((id) => {
+            const state = mapController.layerStates.get(id);
+            if (state?.loaded) {
+                mapController.showLayer(id);
+            }
+        });
+        this._suppressedNonElectionLayerIds.clear();
     }
 
     _showNIWideResults() {
@@ -6173,6 +6277,7 @@ class ElectionController {
 // Export singleton
 const electionController = new ElectionController();
 export default electionController;
+
 
 
 

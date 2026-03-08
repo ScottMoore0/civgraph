@@ -1317,3 +1317,11 @@ ode --check on every touched JS file.
   3) map-feature resolver name matching against historical aliases.
 - Permanent prevention: keep constituency-feature matching centralized in the shared resolver with variant-based matching instead of patching individual table branches.
 - When `maps-to-be-added` archives are kept in-repo for workflow reasons, verify GitHub's 100 MB hard limit before attempting a push. If an archive has already been extracted and ingested, remove the archive from git tracking and add a narrow ignore rule instead of pushing it as a normal blob.
+
+### 90) Exclusive election mode must suppress whole layers and share the standard load timer
+- Mistake pattern: treating election exclusivity as a label-only concern and treating election loads as separate from the standard map-load feedback path.
+- Impact: non-election layers can remain visually present under elections, and election load time becomes harder to measure consistently.
+- Guardrail:
+  1) when an election is visible, enforce exclusivity at full-layer visibility level, not just labels or z-order,
+  2) any new election load path must go through the same start/finish load-feedback callbacks as normal map loads,
+  3) verify one normal map load and one election load whenever the shared toast/timing path changes.
