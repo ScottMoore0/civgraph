@@ -1349,3 +1349,11 @@ ode --check on every touched JS file.
   1) for any map-load failure, check both local existence and `git ls-files` / tracked publication state of the referenced files,
   2) do not close a map-load bug until the referenced asset paths are either tracked and pushed or intentionally redirected to tracked assets,
   3) distinguish clearly between local working-tree availability and deployed-site availability when diagnosing map-load problems.
+
+### 105) Large chunked maps can still behave like full loads if the initial viewport already spans the whole dataset
+- Mistake pattern: assuming chunked loading is sufficient by itself, even when the first viewport plus preload buffer intersects nearly every chunk in the index.
+- Impact: users still see 100+ second first loads because the initial chunk pass degenerates into an all-at-once load.
+- Guardrail:
+  1) inspect chunk-count intersection at the real initial map extent before trusting a chunked design,
+  2) for all-island low-zoom opens, prefer an overview LOD source over chunked detail,
+  3) keep first detailed chunk preloads map-specific and small on very large datasets instead of reusing a generic large preload buffer.

@@ -3832,3 +3832,21 @@ Verification evidence:
   1) the NI Townlands 1844 chunk index contains 241 chunks and 60,245 total features,
   2) the current initial viewport preload buffer effectively intersects all 241 chunks at the all-island extent,
   3) this means the chunked loader still behaves like an all-at-once load on first open, which explains the 100+ second wait more than any single broken file would.
+
+# Current Task: Speed Up Townlands 1844 Initial Loading With Overview LOD And Smaller First Detailed Preload (2026-03-08)
+
+- [x] Identify the Townlands-specific hooks for low-zoom overview loading and initial chunk-preload sizing
+- [x] Add a low-zoom overview LOD path for `ni-townlands-1844`
+- [x] Reduce the first detailed chunk-preload buffer for `ni-townlands-1844`
+- [x] Verify syntax and metadata integrity
+
+- Completed the Townlands initial-load acceleration pass.
+  - Added `useLOD: true` to `ni-townlands-1844` in `data/database/maps.json`
+  - Added `shouldUseOverviewLOD(...)`, `getInitialChunkBuffer(...)`, `_clearRenderedLayerState(...)`, and `_loadOverviewLODState(...)` to `js/map-controller.js`
+  - Townlands now opens with the simplified all-island LOD source at low zoom (`<= 8`) instead of immediately loading all visible chunks
+  - When the user zooms into detailed view, the first chunked pass uses a much smaller preload buffer (`0.05` instead of `0.5`) so it does not overfetch as aggressively
+  - When the user zooms back out to overview zooms, the loader switches back to the simplified overview layer
+- Verification evidence:
+  1) `node --check js/map-controller.js` passed,
+  2) `data/database/maps.json` parsed successfully,
+  3) `rg` confirms the Townlands-specific overview/buffer hooks are present in `js/map-controller.js` and `useLOD: true` is present on `ni-townlands-1844`.
