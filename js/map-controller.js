@@ -18,6 +18,7 @@ class MapController {
         this.currentBaseMapId = 'osm-standard';
         this.textScale = 100;
         this.onLoadProgress = null;
+        this.onSpatialLoadingChange = null;
         this.spatialLayers = new Set();  // Layers using chunked viewport loading
         this.currentLOD = new Map(); // mapId -> current LOD level
         this._spatialUpdatePending = false; // debounce flag for viewport updates
@@ -84,6 +85,20 @@ class MapController {
     _throwIfAborted(signal) {
         if (!signal?.aborted) return;
         throw new DOMException('Map loading was cancelled', 'AbortError');
+    }
+
+    _emitSpatialLoadingChange(mapId, state, loading, reason = 'viewport') {
+        if (typeof this.onSpatialLoadingChange !== 'function') return;
+        try {
+            this.onSpatialLoadingChange({
+                mapId,
+                mapName: state?.config?.name || mapId,
+                loading,
+                reason
+            });
+        } catch (err) {
+            console.warn('[MapController] Spatial loading callback failed:', err);
+        }
     }
 
     /**
@@ -1643,11 +1658,14 @@ class MapController {
             if (this.shouldUseOverviewLOD(state.config, zoom)) {
                 if (!state._overviewLOD) {
                     state.loading = true;
+                    this._emitSpatialLoadingChange(mapId, state, true, 'lod');
                     try {
                         await this._loadOverviewLODState(state.config, state, true);
                     } catch (err) {
                         console.warn(`[MapController] Overview LOD load failed for ${mapId}:`, err);
                         state.loading = false;
+                    } finally {
+                        this._emitSpatialLoadingChange(mapId, state, false, 'lod');
                     }
                 }
                 continue;
@@ -1683,6 +1701,7 @@ class MapController {
             if (!needFullReload && toLoad.length === 0 && toUnload.length === 0) continue;
 
             state.loading = true;
+            this._emitSpatialLoadingChange(mapId, state, true, needFullReload ? 'lod' : 'viewport');
 
             try {
                 const rendered = this._renderedFeatures.get(mapId) || new Map();
@@ -1759,6 +1778,8 @@ class MapController {
             } catch (err) {
                 console.warn(`[MapController] Chunk update failed for ${mapId}:`, err);
                 state.loading = false;
+            } finally {
+                this._emitSpatialLoadingChange(mapId, state, false, needFullReload ? 'lod' : 'viewport');
             }
         }
     }

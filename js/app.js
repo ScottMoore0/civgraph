@@ -23,6 +23,7 @@ class App {
         this.textScaleSteps = [50, 60, 70, 80, 90, 100, 110, 125, 150, 175, 200];
         this.splitPosition = 50; // Percentage for info pane width
         this._mapLoadFeedback = null;
+        this._spatialLoadFeedback = null;
         this._activeMapLoad = null;
         this._fgbChunkManifest = null;
         this._fgbChunkManifestLoaded = false;
@@ -360,6 +361,9 @@ class App {
             // Setup loading progress handler
             mapController.onLoadProgress = (mapId, progress) => {
                 uiController.showLoadProgress(mapId, progress);
+            };
+            mapController.onSpatialLoadingChange = (event) => {
+                this.handleSpatialLoadingChange(event);
             };
 
             // Setup map controls
@@ -2254,6 +2258,9 @@ class App {
         if (this._mapLoadFeedback?.intervalId) {
             clearInterval(this._mapLoadFeedback.intervalId);
         }
+        if (this._spatialLoadFeedback) {
+            this.finishSpatialLoadFeedback(this._spatialLoadFeedback);
+        }
 
         const statusEl = this.ensureMapLoadStatusElement();
         const toastEl = this.ensureMapLoadToastElement();
@@ -2286,6 +2293,59 @@ class App {
         const intervalId = setInterval(render, 100);
         this._mapLoadFeedback = { intervalId, startedAt, statusEl, toastEl, toastMessageEl, toastCloseBtn };
         return this._mapLoadFeedback;
+    }
+
+    startSpatialLoadFeedback(mapName, reason = 'viewport') {
+        if (this._activeMapLoad) return null;
+
+        const existing = this._spatialLoadFeedback;
+        if (existing?.mapName === mapName && existing?.reason === reason) {
+            return existing;
+        }
+        if (existing) {
+            this.finishSpatialLoadFeedback(existing);
+        }
+
+        const statusEl = this.ensureMapLoadStatusElement();
+        const startedAt = performance.now();
+        const prefix = reason === 'lod' ? 'Loading higher-detail features' : 'Loading visible features';
+
+        const render = () => {
+            const seconds = ((performance.now() - startedAt) / 1000).toFixed(1);
+            statusEl.textContent = `${prefix} for ${mapName}... ${seconds}s`;
+        };
+
+        const showTimerId = setTimeout(() => {
+            render();
+            statusEl.classList.add('map-load-status--visible');
+        }, 300);
+        const intervalId = setInterval(() => {
+            if (!statusEl.classList.contains('map-load-status--visible')) return;
+            render();
+        }, 100);
+
+        this._spatialLoadFeedback = { mapName, reason, startedAt, statusEl, showTimerId, intervalId };
+        return this._spatialLoadFeedback;
+    }
+
+    finishSpatialLoadFeedback(feedback) {
+        if (!feedback) return;
+        clearTimeout(feedback.showTimerId);
+        clearInterval(feedback.intervalId);
+        feedback.statusEl.classList.remove('map-load-status--visible');
+        if (this._spatialLoadFeedback === feedback) {
+            this._spatialLoadFeedback = null;
+        }
+    }
+
+    handleSpatialLoadingChange(event = {}) {
+        if (event.loading) {
+            this.startSpatialLoadFeedback(event.mapName || event.mapId || 'map', event.reason || 'viewport');
+            return;
+        }
+        if (this._spatialLoadFeedback && (!event.mapName || this._spatialLoadFeedback.mapName === event.mapName)) {
+            this.finishSpatialLoadFeedback(this._spatialLoadFeedback);
+        }
     }
 
     finishMapLoadFeedback(feedback, success, mapName, options = {}) {

@@ -3886,3 +3886,5 @@ Verification evidence:
 - 2026-03-08: Reordered flat catalogue/TOC Electoral Divisions card to sit directly below Northern Ireland District Electoral Divisions and above Ireland District Electoral Divisions. Verified with node --check js/ui-controller.js.
 
 - 2026-03-08: Applied screen-space filtering to Townlands chunk loads by removing the ni-townlands-1844 exemption in js/map-controller.js. Verified with node --check js/map-controller.js and confirmed _loadChunkFGB now always derives minDiag from zoom.
+
+- 2026-03-08: Added debounced elapsed-time status messaging for large-map spatial reloads after pan/zoom by emitting spatial loading start/finish events from js/map-controller.js updateSpatialLayers() and handling them in js/app.js. Verified with node --check js/map-controller.js and node --check js/app.js.
