@@ -1527,8 +1527,7 @@ class MapController {
      */
     async _loadChunkFGB(mapId, filePath, zoom = null, signal = null) {
         const features = [];
-        const shouldApplyMinDiag = mapId !== 'ni-townlands-1844';
-        const minDiag = (zoom != null && shouldApplyMinDiag) ? this.getMinFeatureDiagDeg(zoom) : 0;
+        const minDiag = zoom != null ? this.getMinFeatureDiagDeg(zoom) : 0;
         let skippedCount = 0;
 
         const response = await fetch(filePath, signal ? { signal } : undefined);

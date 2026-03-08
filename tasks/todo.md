@@ -3882,3 +3882,7 @@ Verification evidence:
 - Verification evidence:
   1) `node --check js/map-controller.js` passed,
   2) `rg` confirms the Townlands-specific threshold hooks are present and wired through the chunk reload path.
+
+- 2026-03-08: Reordered flat catalogue/TOC Electoral Divisions card to sit directly below Northern Ireland District Electoral Divisions and above Ireland District Electoral Divisions. Verified with node --check js/ui-controller.js.
+
+- 2026-03-08: Applied screen-space filtering to Townlands chunk loads by removing the ni-townlands-1844 exemption in js/map-controller.js. Verified with node --check js/map-controller.js and confirmed _loadChunkFGB now always derives minDiag from zoom.
