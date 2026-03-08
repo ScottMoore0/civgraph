@@ -145,7 +145,7 @@
     },
     {
       "id": "electoral-divisions",
-      "name": "Electoral Divisions",
+      "name": "District Electoral Divisions",
       "icon": "[map]",
       "description": "Historic electoral division boundaries",
       "group": "Built Environment",
@@ -509,10 +509,11 @@
     {
       "id": "ni-counties",
       "name": "Counties",
-      "scope": "Northern Ireland",
+      "scope": "Northern Ireland / Ireland",
       "category": "counties",
       "maps": [
-        "counties-1915"
+        "counties-1915",
+        "counties-ireland"
       ]
     },
     {
@@ -616,7 +617,7 @@
     },
     {
       "id": "eds-historic",
-      "name": "Electoral Divisions",
+      "name": "District Electoral Divisions",
       "scope": "Ireland",
       "category": "wards",
       "maps": [
@@ -1226,7 +1227,7 @@
     },
     {
       "id": "electoral-divisions-c1",
-      "name": "Electoral Divisions",
+      "name": "District Electoral Divisions",
       "category": "wards",
       "layout": "mixed",
       "sections": [
@@ -1375,7 +1376,7 @@
       "featured": true,
       "date": "2015",
       "provider": [
-        "User Provided"
+        "Tailte Ã‰ireann"
       ],
       "files": {
         "geojson": "Settlements_Ungeneralised_-6398853129460496398.geojson",
@@ -2887,7 +2888,7 @@
         "color": "#0A4BAF",
         "weight": 2
       },
-      "labelProperty": "Name",
+      "labelProperty": "PROVINCE",
       "keywords": [
         "stormont",
         "constituency",
@@ -3191,7 +3192,7 @@
         "color": "#884EA0",
         "weight": 2
       },
-      "labelProperty": "NAME",
+      "labelProperty": "PROVINCE",
       "keywords": [
         "province",
         "ulster",
@@ -3984,7 +3985,7 @@
     },
     {
       "id": "eds-1911",
-      "name": "Electoral Divisions 1911",
+      "name": "District Electoral Divisions 1911",
       "slug": "electoral-divisions-1911",
       "category": "wards",
       "isGroup": true,
@@ -4423,7 +4424,8 @@
       "category": "european",
       "featured": true,
       "provider": [
-        "European Commission"
+        "OSI",
+        "OSNI"
       ],
       "files": {
         "fgb": "data/maps/electoral-divisions/1979MEPConstituencies.fgb"
@@ -4448,7 +4450,8 @@
       "category": "european",
       "featured": true,
       "provider": [
-        "European Commission"
+        "OSI",
+        "OSNI"
       ],
       "files": {
         "fgb": "data/maps/electoral-divisions/2004MEPConstituencies.fgb"
@@ -4473,7 +4476,8 @@
       "category": "european",
       "featured": true,
       "provider": [
-        "European Commission"
+        "OSI",
+        "OSNI"
       ],
       "files": {
         "fgb": "data/maps/electoral-divisions/2009MEPConstituencies.fgb"
@@ -4508,7 +4512,8 @@
       "category": "european",
       "featured": true,
       "provider": [
-        "European Commission"
+        "OSI",
+        "OSNI"
       ],
       "files": {
         "fgb": "data/maps/electoral-divisions/2014MEPConstituencies.fgb"
@@ -4533,7 +4538,8 @@
       "category": "european",
       "featured": true,
       "provider": [
-        "European Commission"
+        "OSI",
+        "OSNI"
       ],
       "files": {
         "fgb": "data/maps/electoral-divisions/2019MEPConstituencies.fgb"
@@ -4559,7 +4565,8 @@
       "category": "european",
       "featured": true,
       "provider": [
-        "European Commission"
+        "OSI",
+        "OSNI"
       ],
       "files": {
         "fgb": "data/maps/electoral-divisions/2024MEPConstituencies.fgb"
@@ -4585,7 +4592,7 @@
       "category": "dail",
       "featured": true,
       "provider": [
-        "OSI"
+        "Phelim Birch"
       ],
       "files": {
         "fgb": "data/maps/parliamentary/1995_Dail.fgb"
@@ -4612,7 +4619,7 @@
       "category": "dail",
       "featured": true,
       "provider": [
-        "OSI"
+        "Phelim Birch"
       ],
       "files": {
         "fgb": "data/maps/parliamentary/1998_Dail.fgb"
@@ -4639,7 +4646,7 @@
       "category": "dail",
       "featured": true,
       "provider": [
-        "OSI"
+        "Phelim Birch"
       ],
       "files": {
         "fgb": "data/maps/parliamentary/2007_Dail.fgb"
@@ -4667,7 +4674,7 @@
       "category": "dail",
       "featured": true,
       "provider": [
-        "OSI"
+        "Phelim Birch"
       ],
       "files": {
         "fgb": "data/maps/parliamentary/1990_Dail.fgb"
@@ -4944,6 +4951,7 @@
       "slug": "av-referendum-2011",
       "category": "census",
       "provider": [
+        "OSNI",
         "Electoral Commission"
       ],
       "files": {
@@ -5001,7 +5009,7 @@
         "color": "#556B2F",
         "weight": 2
       },
-      "labelProperty": "NAME",
+      "labelProperty": "Province",
       "date": 2001
     },
     {
@@ -5228,6 +5236,7 @@
         "color": "#003399",
         "weight": 2
       },
+      "labelProperty": "PC_NAME",
       "keywords": [
         "eu",
         "referendum",
@@ -5243,6 +5252,10 @@
       "category": "referendums",
       "featured": true,
       "cloneOf": "pc-2008",
+      "provider": [
+        "OSNI",
+        "Electoral Commission"
+      ],
       "note": "Same boundaries as 2008 Parliamentary Constituencies. Used for 2011 AV referendum turnout.",
       "style": {
         "color": "#4169E1",
@@ -5266,7 +5279,7 @@
       "cloneOf": "pc-1995",
       "note": "Same boundaries as 1995 Parliamentary Constituencies. Used for 1998 Good Friday Agreement referendum.",
       "style": {
-        "color": "#FFD700",
+        "color": "#C9A227",
         "weight": 2
       },
       "keywords": [
@@ -5296,7 +5309,7 @@
         "referendum",
         "1975"
       ],
-      "labelProperty": "Name",
+      "labelProperty": "PROVINCE",
       "date": 1975
     },
     {
@@ -8190,7 +8203,7 @@
           "label": "Connacht",
           "description": "Electoral Divisions in Connacht (2019)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Connacht.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
           }
         },
         {
@@ -8198,7 +8211,7 @@
           "label": "Leinster",
           "description": "Electoral Divisions in Leinster (2019)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Leinster_1997.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Leinster_1997.fgb"
           }
         },
         {
@@ -8206,7 +8219,7 @@
           "label": "Munster",
           "description": "Electoral Divisions in Munster (2019)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Munster_2019.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_2019.fgb"
           }
         },
         {
@@ -8214,7 +8227,7 @@
           "label": "Ulster",
           "description": "Electoral Divisions in Ulster (2019)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Ulster.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Ulster.fgb"
           }
         }
       ],
@@ -8233,7 +8246,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Connacht.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
       },
       "style": {
         "color": "#1C6B3A",
@@ -8259,7 +8272,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Leinster_1997.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Leinster_1997.fgb"
       },
       "style": {
         "color": "#1C6B3A",
@@ -8285,7 +8298,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Munster_2019.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_2019.fgb"
       },
       "style": {
         "color": "#1C6B3A",
@@ -8311,7 +8324,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Ulster.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Ulster.fgb"
       },
       "style": {
         "color": "#1C6B3A",
@@ -8352,7 +8365,7 @@
           "label": "Connacht",
           "description": "Electoral Divisions in Connacht (1997)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Connacht.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
           }
         },
         {
@@ -8360,7 +8373,7 @@
           "label": "Leinster",
           "description": "Electoral Divisions in Leinster (1997)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Leinster_1997.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Leinster_1997.fgb"
           }
         },
         {
@@ -8368,7 +8381,7 @@
           "label": "Munster",
           "description": "Electoral Divisions in Munster (1997)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Munster_pre_2019.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
           }
         },
         {
@@ -8376,7 +8389,7 @@
           "label": "Ulster",
           "description": "Electoral Divisions in Ulster (1997)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Ulster.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Ulster.fgb"
           }
         }
       ],
@@ -8394,7 +8407,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Connacht.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
       },
       "style": {
         "color": "#2E7D32",
@@ -8419,7 +8432,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Leinster_1997.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Leinster_1997.fgb"
       },
       "style": {
         "color": "#2E7D32",
@@ -8444,7 +8457,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Munster_pre_2019.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
       },
       "style": {
         "color": "#2E7D32",
@@ -8469,7 +8482,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Ulster.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Ulster.fgb"
       },
       "style": {
         "color": "#2E7D32",
@@ -8511,7 +8524,7 @@
           "label": "Connacht",
           "description": "Electoral Divisions in Connacht (1994)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Connacht.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
           }
         },
         {
@@ -8519,7 +8532,7 @@
           "label": "Leinster",
           "description": "Electoral Divisions in Leinster (1994)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/Wards_DEDs_Leinster_1994.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1994.fgb"
           }
         },
         {
@@ -8527,7 +8540,7 @@
           "label": "Munster",
           "description": "Electoral Divisions in Munster (1994)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Munster_pre_2019.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
           }
         },
         {
@@ -8535,7 +8548,7 @@
           "label": "Ulster",
           "description": "Electoral Divisions in Ulster (1994)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Ulster.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Ulster.fgb"
           }
         }
       ],
@@ -8553,7 +8566,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Connacht.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
       },
       "style": {
         "color": "#2B8A3E",
@@ -8578,7 +8591,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/Wards_DEDs_Leinster_1994.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1994.fgb"
       },
       "style": {
         "color": "#2B8A3E",
@@ -8603,7 +8616,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Munster_pre_2019.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
       },
       "style": {
         "color": "#2B8A3E",
@@ -8628,7 +8641,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Ulster.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Ulster.fgb"
       },
       "style": {
         "color": "#2B8A3E",
@@ -8670,7 +8683,7 @@
           "label": "Connacht",
           "description": "Electoral Divisions in Connacht (1986)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Connacht.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
           }
         },
         {
@@ -8678,7 +8691,7 @@
           "label": "Leinster",
           "description": "Electoral Divisions in Leinster (1986)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/Wards_DEDs_Leinster_1986.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1986.fgb"
           }
         },
         {
@@ -8686,7 +8699,7 @@
           "label": "Munster",
           "description": "Electoral Divisions in Munster (1986)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Munster_pre_2019.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
           }
         },
         {
@@ -8694,7 +8707,7 @@
           "label": "Ulster",
           "description": "Electoral Divisions in Ulster (1986)",
           "files": {
-            "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Ulster.fgb"
+            "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Ulster.fgb"
           }
         }
       ],
@@ -8712,7 +8725,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Connacht.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
       },
       "style": {
         "color": "#256D36",
@@ -8737,7 +8750,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/Wards_DEDs_Leinster_1986.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1986.fgb"
       },
       "style": {
         "color": "#256D36",
@@ -8762,7 +8775,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Munster_pre_2019.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
       },
       "style": {
         "color": "#256D36",
@@ -8787,7 +8800,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://archive.org/download/eds-ireland-province-1986-19/eds-and-deds/EDs_Ulster.fgb"
+        "fgb": "data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Ulster.fgb"
       },
       "style": {
         "color": "#256D36",
@@ -8803,3 +8816,4 @@
     }
   ]
 }
+

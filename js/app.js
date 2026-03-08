@@ -205,8 +205,8 @@ class App {
                 this.updateURLState();
             };
 
-            uiController.onOpenElectionConstituencyFeature = async ({ body, date, constituency }) => {
-                await this.openElectionConstituencyFeature(body, date, constituency);
+            uiController.onOpenElectionConstituencyFeature = async ({ body, date, constituency, level }) => {
+                await this.openElectionConstituencyFeature(body, date, constituency, level || 'dea');
             };
 
             uiController.onCategoryChange = (categoryId) => {
@@ -483,14 +483,48 @@ class App {
         });
     }
 
-    _findElectionConstituencyMapConfig(body, date) {
+    _findElectionConstituencyMapConfig(body, date, level = 'dea') {
         const geo = electionController.constructor.getGeography(body, date);
-        if (!geo?.fgb) return null;
+        const useCouncil = String(level || '').toLowerCase() === 'council';
+        const targetFgb = useCouncil ? (geo?.councilFgb || geo?.fgb) : geo?.fgb;
+        const targetNameAttr = useCouncil ? (geo?.councilNameAttr || geo?.nameAttr) : geo?.nameAttr;
+        if (!targetFgb) return null;
         const allMaps = dataService.getAllMaps();
         return allMaps.find((map) =>
-            map?.files?.fgb === geo.fgb
-            && (map.labelProperty === geo.nameAttr || map.labelPropertyFallbacks?.includes?.(geo.nameAttr))
-        ) || allMaps.find((map) => map?.files?.fgb === geo.fgb) || null;
+            map?.files?.fgb === targetFgb
+            && (map.labelProperty === targetNameAttr || map.labelPropertyFallbacks?.includes?.(targetNameAttr))
+        ) || allMaps.find((map) => map?.files?.fgb === targetFgb) || null;
+    }
+
+    _getElectionFeatureNameVariants(name) {
+        const raw = String(name || '').trim();
+        if (!raw) return [];
+        const variants = new Set([raw]);
+        const normalize = (value) => {
+            if (typeof electionController?._normaliseElectionName === 'function') {
+                return electionController._normaliseElectionName(value);
+            }
+            return String(value || '').toLowerCase().trim();
+        };
+        const push = (value) => {
+            const text = String(value || '').trim();
+            if (!text) return;
+            variants.add(text);
+            const normalized = normalize(text);
+            if (normalized) variants.add(normalized);
+        };
+        if (typeof electionController?._aliasVariants === 'function') {
+            electionController._aliasVariants(raw).forEach(push);
+        }
+
+        const normalizedRaw = normalize(raw);
+        const directional = new Set(['north', 'south', 'east', 'west']);
+        const tokens = normalizedRaw.split(/\s+/).filter(Boolean);
+        if (tokens.length === 2 && (directional.has(tokens[0]) || directional.has(tokens[1]))) {
+            push(`${tokens[1]} ${tokens[0]}`);
+        }
+
+        return [...variants].filter(Boolean);
     }
 
     async _findElectionConstituencyFeature(mapConfig, constituencyName, expectedLabelProperty = null) {
@@ -508,9 +542,17 @@ class App {
             'PC_NAME'
         ].filter(Boolean);
 
+        const requestedVariants = new Set(this._getElectionFeatureNameVariants(constituencyName));
+
         const matchesName = (feature) => {
             const props = feature?.properties || {};
-            return labelKeys.some((key) => String(props[key] || '').trim() === String(constituencyName).trim());
+            return labelKeys.some((key) => {
+                const raw = String(props[key] || '').trim();
+                if (!raw) return false;
+                if (raw === String(constituencyName).trim()) return true;
+                const featureVariants = this._getElectionFeatureNameVariants(raw);
+                return featureVariants.some((variant) => requestedVariants.has(variant));
+            });
         };
 
         if (filePath.toLowerCase().endsWith('.fgb')) {
@@ -546,24 +588,32 @@ class App {
         return null;
     }
 
-    async openElectionConstituencyFeature(body, date, constituency) {
+    async openElectionConstituencyFeature(body, date, constituency, level = 'dea') {
         if (!body || !date || !constituency) return;
         const geo = electionController.constructor.getGeography(body, date);
-        const mapConfig = this._findElectionConstituencyMapConfig(body, date);
+        const useCouncil = String(level || '').toLowerCase() === 'council';
+        const expectedNameAttr = useCouncil ? (geo?.councilNameAttr || geo?.nameAttr) : geo?.nameAttr;
+        const mapConfig = this._findElectionConstituencyMapConfig(body, date, level);
         if (!geo || !mapConfig) return;
 
-        const matched = await this._findElectionConstituencyFeature(mapConfig, constituency, geo.nameAttr);
+        const matched = await this._findElectionConstituencyFeature(mapConfig, constituency, expectedNameAttr);
         if (!matched?.feature) return;
 
         const primaryName = matched.feature.properties?.[mapConfig.labelProperty]
-            || matched.feature.properties?.[geo.nameAttr]
+            || matched.feature.properties?.[expectedNameAttr]
             || constituency;
         const bbox = uiController.getFeatureBBox(matched.feature.geometry);
+        let electoralHistory = null;
+        if (electionController._isLocalGovernmentBody?.(body)) {
+            const kind = useCouncil ? 'lgd' : 'dea';
+            electoralHistory = await electionController.getElectionEntityDetail(kind, constituency);
+        }
         const detailId = uiController.cacheFeatureDetailEntry(
             mapConfig,
             matched.feature,
             primaryName,
-            matched.featureIndex
+            matched.featureIndex,
+            { electoralHistory }
         );
 
         await uiController.onFeatureLoad?.(mapConfig.id, matched.featureIndex, primaryName, bbox);
@@ -702,6 +752,9 @@ class App {
             if (!detail) return;
             uiController.showElectionEntityDetailInCatalogue(detail, true);
         };
+        electionController.onOpenElectionConstituencyFeature = async ({ body, date, constituency, level }) => {
+            await this.openElectionConstituencyFeature(body, date, constituency, level || 'dea');
+        };
 
         try {
             const cards = await electionController.buildCatalogueCards();
@@ -712,10 +765,16 @@ class App {
                 const hideBy = hideByEl?.checked || false;
 
                 const filtered = cards.filter(c => {
-                    if (bodyVal && c.body !== bodyVal) return false;
+                    if (bodyVal) {
+                        if (bodyVal === 'local-government') {
+                            if (c.bodyGroup !== 'local-government') return false;
+                        } else if (c.body !== bodyVal) {
+                            return false;
+                        }
+                    }
                     if (hideBy && c.isByElection) return false;
                     if (query) {
-                        const searchText = `${c.body} ${c.date} ${c.constituencies.join(' ')}`.toLowerCase();
+                        const searchText = `${c.body} ${c.bodyGroup || ''} ${c.date} ${c.constituencies.join(' ')}`.toLowerCase();
                         if (!searchText.includes(query)) return false;
                     }
                     return true;
@@ -731,6 +790,7 @@ class App {
                 // Attach click handlers
                 listEl.querySelectorAll('.election-card').forEach(card => {
                     card.addEventListener('click', () => {
+                        if (card.dataset.electionPlaceholder === '1') return;
                         const body = card.dataset.body;
                         const date = card.dataset.date;
                         electionController.loadElection(body, date);

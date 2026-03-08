@@ -27,6 +27,7 @@ class ElectionController {
         this.electionDataPath = 'election-viewer-package/data';
         this.onStateChange = null;    // callback for URL state updates
         this.onOpenEntityDetail = null;
+        this.onOpenElectionConstituencyFeature = null;
         this._registeredLayerId = null; // synthetic layer ID in mapController
         this.electionMapConfig = null;  // synthetic map config for active layers
         this._currentResultsView = null;
@@ -35,12 +36,50 @@ class ElectionController {
         this._globalEntityIndex = null;
         this._globalEntityIndexPromise = null;
         this._specialElection = null;
+        this.bodyGroup = null;
+        this._indexBodyData = null;
+        this._allBodyDates = [];
+        this._currentGeo = null;
+        this._localResultsMode = 'dea';
+        this._councilNameByConstituency = new Map();
+        this._constituencyAliases = new Map();
+        this._councilAliases = new Map();
+        this._councilAggregates = null;
+        this._previousCouncilAggregates = null;
+        this._boundPaneClickHandler = null;
     }
+
+    static LOCAL_GOVERNMENT_BODIES = [
+        'Antrim and Newtownabbey',
+        'Ards and North Down',
+        'Armagh, Banbridge and Craigavon',
+        'Belfast',
+        'Causeway Coast and Glens',
+        'Derry City and Strabane',
+        'Fermanagh and Omagh',
+        'Lisburn and Castlereagh',
+        'Mid and East Antrim',
+        'Mid Ulster',
+        'Newry, Mourne and Down'
+    ];
+
+    static LOCAL_GOVERNMENT_PLACEHOLDER_ELECTIONS = [
+        { date: '2011-05-05', subtitle: '26 councils' },
+        { date: '2005-05-05', subtitle: '26 councils' },
+        { date: '2001-06-07', subtitle: '26 councils' },
+        { date: '1997-05-21', subtitle: '26 councils' },
+        { date: '1993-05-19', subtitle: '26 councils' },
+        { date: '1989-05-17', subtitle: '26 councils' },
+        { date: '1985-05-15', subtitle: '26 councils' },
+        { date: '1981-05-20', subtitle: '26 councils' },
+        { date: '1977-05-18', subtitle: '26 councils' },
+        { date: '1973-05-30', subtitle: '26 councils' }
+    ];
 
     /**
      * Geography Mapping Table
      * Maps body + date range to FGB file and name attribute.
-     * Order matters Ã¢â‚¬â€ first match wins.
+     * Order matters â€” first match wins.
      */
     static GEOGRAPHY = [
         // Westminster 2024+ (2023 boundary review)
@@ -67,8 +106,16 @@ class ElectionController {
         // Forum 1996 (18 seats + NI-wide, use PC1995)
         { body: 'Northern Ireland Forum for Political Dialogue', dateFrom: '1900-01-01', fgb: 'data/maps/parliamentary/PC1995.fgb', nameAttr: 'Name' },
 
-        // European Parliament (single NI constituency Ã¢â‚¬â€ no useful map, but use PC2008 boundary for fill)
+        // European Parliament (single NI constituency â€” no useful map, but use PC2008 boundary for fill)
         { body: 'European Parliament', dateFrom: '1979-01-01', fgb: 'data/maps/parliamentary/PC2008.fgb', nameAttr: 'PC_NAME', singleConstituency: true },
+        ...ElectionController.LOCAL_GOVERNMENT_BODIES.map((body) => ({
+            body,
+            dateFrom: '2014-01-01',
+            fgb: 'data/maps/local-government/DEAs_2012.fgb',
+            nameAttr: 'FinalR_DEA',
+            councilFgb: 'data/maps/local-government/LGD_2012.fgb',
+            councilNameAttr: 'LGDNAME'
+        })),
     ];
 
     /**
@@ -91,6 +138,13 @@ class ElectionController {
         // Clear any previous
         this.clear();
 
+        // Get the election index to find constituencies
+        const indexData = await this._loadIndex();
+        const bodyData = indexData.bodies.find(b => b.name === body);
+        if (!bodyData) return;
+        const dateData = bodyData.dates.find(d => d.date === date);
+        if (!dateData) return;
+
         const geo = ElectionController.getGeography(body, date);
         if (!geo) {
             console.error('[Election] No geography found for', body, date);
@@ -100,43 +154,44 @@ class ElectionController {
         this.body = body;
         this.date = date;
         this.active = true;
+        this.bodyGroup = bodyData.bodyGroup || null;
+        this._indexBodyData = bodyData;
+        this._localResultsMode = 'dea';
+        this._currentGeo = geo;
 
-        // Get the election index to find constituencies
-        const indexData = await this._loadIndex();
-        const bodyData = indexData.bodies.find(b => b.name === body);
-        if (!bodyData) return;
-        const dateData = bodyData.dates.find(d => d.date === date);
-        if (!dateData) return;
-        this.constituencies = dateData.constituencies;
+        const groupData = this._getEffectiveElectionScope(indexData, bodyData, date);
+        this.constituencies = groupData.constituencies;
+        this._allBodyDates = groupData.dates;
+        this._councilNameByConstituency = groupData.councilNameByConstituency;
         this._specialElection = this._getSpecialElectionConfig(body, date);
-
-        const bodyDatesDesc = [...bodyData.dates].sort((a, b) => String(b.date).localeCompare(String(a.date)));
-        const currentIdx = bodyDatesDesc.findIndex(d => d.date === date);
-        const previousDateData = currentIdx >= 0 ? bodyDatesDesc[currentIdx + 1] : null;
+        const previousDateData = this._getPreviousDateData(indexData, bodyData, date, groupData);
         this.previousDate = previousDateData?.date || null;
 
         // Load FGB geometry
-        await this._loadGeography(geo);
+        await this._loadGeography(this._getActiveGeography(geo));
 
         // Load election results for all constituencies
         if (this._specialElection) {
             this.resultsByConstituency = this._specialElection.resultsByConstituency;
             this.previousResultsByConstituency = {};
         } else {
-            this.resultsByConstituency = await this._loadAllResults(body, date, this.constituencies, {}, true);
+            const loadSlug = bodyData.slug || body;
+            this.resultsByConstituency = await this._loadAllResults(loadSlug, date, this.constituencies, {}, true);
             this.previousResultsByConstituency = this.previousDate
-                ? await this._loadAllResults(body, this.previousDate, previousDateData.constituencies || [], {}, false)
+                ? await this._loadAllResults(loadSlug, this.previousDate, previousDateData.constituencies || [], {}, false)
                 : {};
         }
+        this._rebuildElectionLookups();
+        this._rebuildCouncilAggregates();
 
         // Colour the map by winning party
-        this._colourMap(geo);
+        this._colourMap(this._getActiveGeography(geo));
 
         // Suppress labels on layers below the election
         this._suppressLabelsBelow();
 
         // Add seat circle overlays
-        this._addOverlays(geo);
+        this._addOverlays(this._getActiveGeography(geo));
 
         // Show split pane
         this._showSplitPane();
@@ -145,8 +200,7 @@ class ElectionController {
         this._showNIWideResults();
 
         // Sync timeline slider to this body's election dates
-        const allDates = bodyData.dates.map(d => d.date);
-        timeSliderController.setElectionDates(allDates, date, (newDate) => {
+        timeSliderController.setElectionDates(this._allBodyDates, date, (newDate) => {
             this.loadElection(this.body, newDate);
         });
 
@@ -176,12 +230,22 @@ class ElectionController {
         this._overlayGroups = null;
         this.active = false;
         this.body = null;
+        this.bodyGroup = null;
         this.date = null;
         this.constituencies = null;
         this.selectedConstituency = null;
         this.resultsByConstituency = {};
         this.previousResultsByConstituency = {};
         this.previousDate = null;
+        this._currentGeo = null;
+        this._indexBodyData = null;
+        this._allBodyDates = [];
+        this._localResultsMode = 'dea';
+        this._councilNameByConstituency = new Map();
+        this._councilAggregates = null;
+        this._previousCouncilAggregates = null;
+        this._constituencyAliases = new Map();
+        this._councilAliases = new Map();
         this._countDetailedView = false;
         this.partyColours = {};
         this._currentResultsView = null;
@@ -192,6 +256,566 @@ class ElectionController {
         this._hideSplitPane();
         timeSliderController.clearElectionDates();
         if (this.onStateChange) this.onStateChange();
+    }
+
+    _slugify(text) {
+        return String(text || '').toLowerCase().trim()
+            .replace(/[^\w\s-]/g, '')
+            .replace(/[\s]+/g, '-')
+            .replace(/-+/g, '-');
+    }
+
+    _normaliseElectionName(text) {
+        return String(text || '')
+            .normalize('NFKD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/&/g, ' and ')
+            .replace(/['�]/g, '')
+            .replace(/\([^)]*\)/g, ' ')
+            .replace(/[\u2013\u2014]/g, '-')
+            .replace(/[^\w\s-]/g, ' ')
+            .replace(/\b(\d+)\s+seats?\b/gi, ' ')
+            .replace(/\bdea\b/gi, ' ')
+            .replace(/\bdistrict electoral area\b/gi, ' ')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .toLowerCase();
+    }
+
+    _cleanElectionCandidateText(text) {
+        return String(text || '')
+            .replace(/[�]+/g, '')
+            .replace(/\s{2,}/g, ' ')
+            .trim();
+    }
+
+    _candidateDisplayName(row, fallback = '') {
+        const raw = (row?.candidateName)
+            || `${row?.Firstname || ''} ${row?.Surname || ''}`.trim()
+            || fallback
+            || '';
+        const cleaned = this._cleanElectionCandidateText(raw);
+        return cleaned || this._cleanElectionCandidateText(fallback);
+    }
+
+    _safeValidPoll(info = {}, countGroup = []) {
+        const direct = parseFloat(info?.Valid_Poll);
+        if (Number.isFinite(direct) && direct > 0) return direct;
+
+        let firstCountSum = 0;
+        const seen = new Set();
+        (countGroup || []).forEach((row) => {
+            if (String(row?.Count_Number || '') !== '1') return;
+            const cid = String(row?.Candidate_Id || '').trim();
+            if (!cid || cid === 'nontransferable' || seen.has(cid)) return;
+            seen.add(cid);
+            firstCountSum += parseFloat(row?.Total_Votes) || 0;
+        });
+        if (firstCountSum > 0) return firstCountSum;
+
+        const totalPoll = parseFloat(info?.Total_Poll);
+        const spoiled = parseFloat(info?.Spoiled);
+        const fallback = totalPoll - spoiled;
+        return (Number.isFinite(fallback) && fallback > 0) ? fallback : 0;
+    }
+
+    _isValidCandidateRow(row) {
+        const cid = String(row?.Candidate_Id || '').trim();
+        if (!cid || cid.toLowerCase() === 'nontransferable') return false;
+        const candidateName = this._candidateDisplayName(row, '');
+        if (!candidateName) return false;
+        if (candidateName.toLowerCase() === 'party') return false;
+        return true;
+    }
+
+    _cleanConstituencyDisplayName(text) {
+        return String(text || '')
+            .replace(/\s+[\u2010-\u2015\u2212-]\s*\d+\s+seats?$/i, '')
+            .replace(/\s+\(\d+\s+seats?\)$/i, '')
+            .replace(/\s+-\s+\d+\s+seats?$/i, '')
+            .replace(/\s+[\u2010-\u2015\u2212-]\s*seats?$/i, '')
+            .replace(/\s{2,}/g, ' ')
+            .trim();
+    }
+
+    _getCouncilNameForConstituency(name) {
+        const raw = String(name || '').trim();
+        if (!raw) return '';
+        return this._councilNameByConstituency.get(raw)
+            || this._councilNameByConstituency.get(this._cleanConstituencyDisplayName(raw))
+            || '';
+    }
+
+    _canonicalEntityPersonId(personId, candidateName = '', partyName = '') {
+        const name = this._cleanElectionCandidateText(candidateName);
+        const party = String(partyName || '').trim();
+        // Guardrail: current live local-government JSON still carries a stale hash ID
+        // for Liz Kimmins, while the canonical cross-election ID is 44021.
+        if (String(personId || '') === '1902069794' && name === 'Liz Kimmins' && party === 'Sinn F�in') {
+            return '44021';
+        }
+        const rawId = String(personId || '').trim();
+        if (rawId === '2729478781' && (name === 'Laura Misteil' || name === 'Laura Keenan')) {
+            return '2701495392';
+        }
+        if (rawId === '2468861708' && (name === "Sian O'Neill" || name === 'Sian Mulholland')) {
+            return '7209';
+        }
+        if (rawId === '1347931665' && (name === 'Deborah Armstrong' || name === 'Deborah Erskine')) {
+            return '22896';
+        }
+        return rawId;
+    }
+
+    _aliasVariants(name) {
+        const base = String(name || '').trim();
+        const cleanedBase = this._cleanConstituencyDisplayName(base);
+        const variants = new Set();
+        const push = (value) => {
+            if (!value) return;
+            variants.add(String(value).trim());
+            variants.add(this._normaliseElectionName(value));
+            variants.add(this._slugify(value));
+        };
+        push(base);
+        push(cleanedBase);
+        push(base.replace(/\s+District Council$/i, ''));
+        push(base.replace(/\s+Borough Council$/i, ''));
+        push(base.replace(/\s+City Council$/i, ''));
+        push(base.replace(/\s+City and District Council$/i, ''));
+        push(base.replace(/\bCity\b/gi, ''));
+        push(base.replace(/^Derry\b/i, 'Derry City and Strabane'));
+        push(base.replace(/^Londonderry\b/i, 'Derry City and Strabane'));
+        return [...variants].filter(Boolean);
+    }
+
+    _registerAliasMap(map, canonicalName, aliases) {
+        aliases.forEach((alias) => {
+            if (!alias) return;
+            map.set(alias, canonicalName);
+        });
+    }
+
+    _rebuildElectionLookups() {
+        this._constituencyAliases = new Map();
+        this._councilAliases = new Map();
+        (this.constituencies || []).forEach((constituency) => {
+            this._registerAliasMap(this._constituencyAliases, constituency, this._aliasVariants(constituency));
+            const cleaned = this._cleanConstituencyDisplayName(constituency);
+            const council = this._getCouncilNameForConstituency(constituency);
+            if (cleaned && council && !this._councilNameByConstituency.has(cleaned)) {
+                this._councilNameByConstituency.set(cleaned, council);
+            }
+            if (council) {
+                this._registerAliasMap(this._councilAliases, council, this._aliasVariants(council));
+            }
+        });
+    }
+
+    _isLocalGovernmentBody(body = this.body, bodyGroup = null) {
+        const resolvedGroup = bodyGroup
+            ?? ((body === this.body) ? this.bodyGroup : null);
+        return resolvedGroup === 'local-government'
+            || body === 'Local Government Districts'
+            || ElectionController.LOCAL_GOVERNMENT_BODIES.includes(body);
+    }
+
+    _isCouncilMode() {
+        return this._isLocalGovernmentBody() && this._localResultsMode === 'council';
+    }
+
+    _getActiveGeography(baseGeo = this._currentGeo) {
+        if (!baseGeo) return null;
+        if (this._isCouncilMode()) {
+            return {
+                ...baseGeo,
+                fgb: baseGeo.councilFgb || baseGeo.fgb,
+                nameAttr: baseGeo.councilNameAttr || baseGeo.nameAttr
+            };
+        }
+        return baseGeo;
+    }
+
+    _getEffectiveElectionScope(indexData, bodyData, date) {
+        const councilNameByConstituency = new Map();
+        if (!bodyData.bodyGroup) {
+            const dateData = bodyData.dates.find(d => d.date === date);
+            (dateData?.constituencies || []).forEach((constituency) => {
+                councilNameByConstituency.set(constituency, bodyData.name);
+            });
+            return {
+                constituencies: dateData?.constituencies || [],
+                dates: bodyData.dates.map(d => d.date).sort(),
+                councilNameByConstituency
+            };
+        }
+
+        const siblings = indexData.bodies.filter((b) => b.bodyGroup === bodyData.bodyGroup);
+        const constituencySet = new Set();
+        const dateSet = new Set();
+        siblings.forEach((sibling) => {
+            sibling.dates.forEach((siblingDate) => {
+                dateSet.add(siblingDate.date);
+                if (siblingDate.date !== date) return;
+                (siblingDate.constituencies || []).forEach((constituency) => {
+                    constituencySet.add(constituency);
+                    councilNameByConstituency.set(constituency, sibling.name);
+                });
+            });
+        });
+
+        return {
+            constituencies: [...constituencySet].sort((a, b) => a.localeCompare(b)),
+            dates: [...dateSet].sort(),
+            councilNameByConstituency
+        };
+    }
+
+    _isByElectionScope(constituencies = []) {
+        const nonNiConstituencies = (constituencies || []).filter((name) => name !== 'Northern Ireland');
+        return nonNiConstituencies.length > 0 && nonNiConstituencies.length <= 2;
+    }
+
+    _getPreviousDateData(indexData, bodyData, date, groupData) {
+        const currentIsByElection = this._isByElectionScope(groupData?.constituencies || []);
+        if (!bodyData.bodyGroup) {
+            const bodyDatesDesc = [...bodyData.dates].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+            const currentIdx = bodyDatesDesc.findIndex(d => d.date === date);
+            for (let i = currentIdx + 1; i < bodyDatesDesc.length; i += 1) {
+                const candidate = bodyDatesDesc[i];
+                const candidateIsByElection = this._isByElectionScope(candidate?.constituencies || []);
+                if (currentIsByElection && candidateIsByElection) continue;
+                if (!currentIsByElection && candidateIsByElection) continue;
+                return candidate || null;
+            }
+            return null;
+        }
+
+        const sortedDates = [...groupData.dates].sort((a, b) => String(b).localeCompare(String(a)));
+        const currentIdx = sortedDates.findIndex((d) => d === date);
+        for (let i = currentIdx + 1; i < sortedDates.length; i += 1) {
+            const candidateDate = sortedDates[i];
+            const candidateScope = this._getEffectiveElectionScope(indexData, bodyData, candidateDate);
+            const candidateIsByElection = this._isByElectionScope(candidateScope.constituencies || []);
+            if (currentIsByElection && candidateIsByElection) continue;
+            if (!currentIsByElection && candidateIsByElection) continue;
+            return {
+                date: candidateDate,
+                constituencies: candidateScope.constituencies
+            };
+        }
+        return null;
+    }
+
+    _rebuildCouncilAggregates() {
+        const buildAggregate = (sourceResults = {}) => {
+            const councilMap = new Map();
+            Object.entries(sourceResults || {}).forEach(([constituency, payload]) => {
+                const canonicalConstituency = this._cleanConstituencyDisplayName(constituency);
+                const councilName = this._getCouncilNameForConstituency(canonicalConstituency);
+                if (!councilName || !payload?.Constituency) return;
+                if (!councilMap.has(councilName)) {
+                    councilMap.set(councilName, {
+                        councilName,
+                        constituencies: [],
+                        validPoll: 0,
+                        totalPoll: 0,
+                        electorate: 0,
+                        spoiled: 0,
+                        totalSeats: 0,
+                        countRows: [],
+                        partyMap: new Map(),
+                        candidateMap: new Map(),
+                        localPartyMap: new Map(),
+                        electedMembers: []
+                    });
+                }
+                const aggregate = councilMap.get(councilName);
+                const cg = payload.Constituency.countGroup || [];
+                const info = payload.Constituency.countInfo || {};
+                const constituencyValidPoll = this._safeValidPoll(info, cg);
+                const constituencySeatCount = this._getSeatCount(info);
+                const constituencyLastCount = Math.max(1, ...cg.map((row) => parseInt(row.Count_Number, 10) || 1));
+                aggregate.constituencies.push(canonicalConstituency);
+                aggregate.validPoll += constituencyValidPoll;
+                aggregate.totalPoll += parseFloat(info.Total_Poll) || 0;
+                aggregate.electorate += parseFloat(info.Total_Electorate) || 0;
+                aggregate.spoiled += parseFloat(info.Spoiled) || 0;
+                aggregate.totalSeats += constituencySeatCount;
+
+                const seenRoundOne = new Set();
+                cg.forEach((row) => {
+                    if (!this._isValidCandidateRow(row)) return;
+                    const cid = String(row.Candidate_Id || '').trim();
+                    const countNum = parseInt(row.Count_Number, 10) || 1;
+                    const candidateName = this._candidateDisplayName(row, cid);
+                    const party = this._normaliseLivePartyName(row.Party_Name);
+                    const colour = row.Party_Colour || '#b0bec5';
+                    const votes = parseFloat(row.Total_Votes) || 0;
+                    const localKey = `${party}::${canonicalConstituency}`;
+
+                    if (!aggregate.candidateMap.has(cid)) {
+                        aggregate.candidateMap.set(cid, {
+                            personId: cid,
+                            name: candidateName,
+                            party,
+                            colour,
+                            constituency: canonicalConstituency,
+                            firstPrefs: 0,
+                            validPoll: constituencyValidPoll,
+                            finalVotes: 0,
+                            elected: false,
+                            electedAt: null,
+                            excluded: false,
+                            excludedAt: null,
+                            lastCount: constituencyLastCount,
+                            resolvedCount: constituencyLastCount,
+                            status: 'Not Elected',
+                            counts: {}
+                        });
+                    }
+                    const candidate = aggregate.candidateMap.get(cid);
+                    candidate.validPoll = constituencyValidPoll;
+                    candidate.lastCount = constituencyLastCount;
+                    candidate.counts[countNum] = {
+                        total: votes,
+                        transfers: parseFloat(row.Transfers) || 0,
+                        status: row.Status || ''
+                    };
+                    if (countNum === 1 && !seenRoundOne.has(cid)) {
+                        seenRoundOne.add(cid);
+                        candidate.firstPrefs = votes;
+                        if (!aggregate.partyMap.has(party)) {
+                            aggregate.partyMap.set(party, { party, colour, stood: 0, firstPrefs: 0, elected: 0 });
+                        }
+                        const partyRow = aggregate.partyMap.get(party);
+                        partyRow.stood += 1;
+                        partyRow.firstPrefs += votes;
+
+                        if (!aggregate.localPartyMap.has(localKey)) {
+                        aggregate.localPartyMap.set(localKey, {
+                            key: localKey,
+                            party,
+                            constituency,
+                            colour,
+                            stood: 0,
+                            firstPrefs: 0,
+                            elected: 0,
+                            validPoll: constituencyValidPoll,
+                            totalSeats: constituencySeatCount
+                        });
+                    }
+                    const localRow = aggregate.localPartyMap.get(localKey);
+                    localRow.stood += 1;
+                    localRow.firstPrefs += votes;
+                    }
+                    if (votes >= candidate.finalVotes) {
+                        candidate.finalVotes = votes;
+                    }
+                    if (this._statusKind(row.Status) === 'elected') {
+                        candidate.elected = true;
+                        candidate.electedAt ||= countNum;
+                    }
+                    if (this._statusKind(row.Status) === 'excluded') {
+                        candidate.excluded = true;
+                        candidate.excludedAt ||= countNum;
+                    }
+                });
+
+                const constituencyCandidates = [...aggregate.candidateMap.values()].filter((candidate) => candidate.constituency === canonicalConstituency);
+                constituencyCandidates.forEach((candidate) => {
+                    const lifecycle = this._inferCandidateLifecycle(candidate, info, constituencyLastCount);
+                    candidate.electedAt = lifecycle.electedAt || candidate.electedAt;
+                    candidate.excludedAt = lifecycle.excludedAt || candidate.excludedAt;
+                    if (candidate.electedAt) candidate.elected = true;
+                    if (candidate.excludedAt) candidate.excluded = true;
+                });
+                const explicitElected = constituencyCandidates.filter((candidate) => !!candidate.electedAt).length;
+                if (constituencySeatCount > 0 && explicitElected < constituencySeatCount) {
+                    const needed = constituencySeatCount - explicitElected;
+                    constituencyCandidates
+                        .filter((candidate) => !candidate.electedAt && !candidate.excludedAt)
+                        .sort((a, b) => (b.finalVotes || 0) - (a.finalVotes || 0))
+                        .slice(0, needed)
+                        .forEach((candidate) => {
+                            candidate.elected = true;
+                            candidate.electedAt ||= constituencyLastCount;
+                        });
+                }
+                constituencyCandidates.forEach((candidate) => {
+                    candidate.resolvedCount = candidate.electedAt
+                        ? (candidate.electedAt || constituencyLastCount)
+                        : candidate.excludedAt
+                            ? (candidate.excludedAt || constituencyLastCount)
+                            : constituencyLastCount;
+                    candidate.status = candidate.electedAt
+                        ? 'Elected'
+                        : candidate.excludedAt
+                            ? 'Excluded'
+                            : 'Not Elected';
+                });
+
+                const elected = this._extractElected(payload);
+                elected.forEach((member) => {
+                    aggregate.electedMembers.push(member);
+                    const partyRow = aggregate.partyMap.get(member.party);
+                    if (partyRow) partyRow.elected += 1;
+                    const localRow = aggregate.localPartyMap.get(`${member.party}::${canonicalConstituency}`);
+                    if (localRow) localRow.elected += 1;
+                });
+            });
+
+            councilMap.forEach((aggregate) => {
+                aggregate.constituencies.sort((a, b) => a.localeCompare(b));
+                aggregate.electedMembers.sort((a, b) =>
+                    this._partyHemicycleRank(a.party) - this._partyHemicycleRank(b.party)
+                    || String(a.party || '').localeCompare(String(b.party || ''))
+                    || String(a.name || '').localeCompare(String(b.name || ''))
+                );
+                aggregate.candidates = [...aggregate.candidateMap.values()].sort((a, b) => {
+                    const aPct = a.validPoll > 0 ? ((a.firstPrefs || 0) / a.validPoll * 100) : 0;
+                    const bPct = b.validPoll > 0 ? ((b.firstPrefs || 0) / b.validPoll * 100) : 0;
+                    return bPct - aPct
+                        || (b.firstPrefs || 0) - (a.firstPrefs || 0)
+                        || String(a.name || '').localeCompare(String(b.name || ''));
+                });
+                aggregate.parties = [...aggregate.partyMap.values()].sort((a, b) =>
+                    b.elected - a.elected || b.firstPrefs - a.firstPrefs || String(a.party || '').localeCompare(String(b.party || ''))
+                );
+                aggregate.localParties = [...aggregate.localPartyMap.values()].sort((a, b) =>
+                    b.firstPrefs - a.firstPrefs || String(a.party || '').localeCompare(String(b.party || ''))
+                );
+            });
+            return councilMap;
+        };
+
+        this._councilAggregates = buildAggregate(this.resultsByConstituency);
+        this._previousCouncilAggregates = buildAggregate(this.previousResultsByConstituency);
+    }
+
+    _getSeatCount(info = {}) {
+        const direct = parseInt(info.Number_Of_Seats, 10);
+        const inferred = this._inferSeatCountFromName(info.Constituency_Name);
+        if (Number.isFinite(inferred) && inferred > 0) return inferred;
+        return Number.isFinite(direct) && direct > 0 ? direct : 0;
+    }
+
+    _inferSeatCountFromName(name) {
+        const match = String(name || '').match(/(?:^|\W)(\d+)\s+seats?\b/i);
+        const value = match ? parseInt(match[1], 10) : NaN;
+        return Number.isFinite(value) && value > 0 ? value : NaN;
+    }
+
+    _partyHemicycleRank(party) {
+        const normalized = this._normaliseElectionName(party);
+        if (normalized.includes('people before profit')) return 0;
+        if (normalized.includes('sinn fein')) return 1;
+        if (normalized.includes('sdlp') || normalized.includes('social democratic and labour')) return 2;
+        if (normalized.includes('green')) return 3;
+        if (normalized.includes('independent')) return 4;
+        if (normalized.includes('uup') || normalized.includes('ulster unionist')) return 90;
+        if (normalized.includes('dup') || normalized.includes('democratic unionist')) return 91;
+        if (normalized.includes('ukup') || normalized.includes('united kingdom unionist')) return 92;
+        if (normalized.includes('tuv') || normalized.includes('traditional unionist')) return 93;
+        return 50;
+    }
+
+    _inferCandidateLifecycle(candidate, info, lastCount) {
+        const quota = parseFloat(info?.Quota);
+        const counts = Object.keys(candidate.counts || {})
+            .map(Number)
+            .filter(Number.isFinite)
+            .sort((a, b) => a - b);
+        let electedAt = null;
+        let excludedAt = null;
+        let terminalCount = null;
+
+        counts.forEach((countNum, idx) => {
+            const current = candidate.counts[countNum];
+            const previous = idx > 0 ? candidate.counts[counts[idx - 1]] : null;
+            const total = current?.total ?? 0;
+            const transfer = current?.transfers ?? 0;
+
+            if (!electedAt && Number.isFinite(quota) && total >= (quota - 0.01)) {
+                electedAt = countNum;
+            }
+            if (!excludedAt && previous && previous.total > 0.01 && total <= 0.01 && transfer < -0.01) {
+                excludedAt = countNum;
+                terminalCount = countNum;
+            }
+            if (!terminalCount && previous && Number.isFinite(quota) && previous.total > (quota + 0.01)
+                && Math.abs(total - quota) <= 0.01 && transfer < -0.01) {
+                terminalCount = countNum;
+            }
+        });
+
+        return { electedAt, excludedAt, terminalCount, lastCount };
+    }
+
+    _countEventCandidateLabel(candidate, surnameCounts) {
+        const surname = String(candidate?.surname || '').trim();
+        const fullName = String(candidate?.name || '').trim();
+        const normalizedSurname = this._normaliseElectionName(surname);
+        if (!surname) return fullName || '';
+        if ((surnameCounts.get(normalizedSurname) || 0) > 1) return fullName || surname;
+        return surname;
+    }
+
+    _inferCountEvents(candidates, info, visibleCounts) {
+        const quota = parseFloat(info?.Quota);
+        const surnameCounts = new Map();
+        Object.values(candidates || {}).forEach((candidate) => {
+            const surname = this._normaliseElectionName(candidate?.surname || '');
+            if (!surname) return;
+            surnameCounts.set(surname, (surnameCounts.get(surname) || 0) + 1);
+        });
+
+        const events = new Map();
+        visibleCounts.forEach((countNum) => {
+            const candidatesWithNegativeTransfer = Object.values(candidates || {})
+                .map((candidate) => {
+                    const current = candidate.counts?.[countNum];
+                    if (!current || !(current.transfers < -0.01)) return null;
+                    const previous = candidate.counts?.[countNum - 1] || null;
+                    let type = null;
+                    if (current.total <= 0.01 && (!previous || previous.total > 0.01)) {
+                        type = 'Exclusion';
+                    } else if (
+                        Number.isFinite(quota)
+                        && Math.abs(current.total - quota) <= 0.01
+                        && (previous?.total ?? 0) > (quota + 0.01)
+                    ) {
+                        type = 'Surplus';
+                    } else if (this._statusKind(current.status) === 'excluded') {
+                        type = 'Exclusion';
+                    } else if (this._statusKind(current.status) === 'elected') {
+                        type = 'Surplus';
+                    }
+                    if (!type) return null;
+                    return {
+                        candidate,
+                        type,
+                        amount: Math.abs(current.transfers)
+                    };
+                })
+                .filter(Boolean);
+
+            if (!candidatesWithNegativeTransfer.length) return;
+
+            const surplusEvents = candidatesWithNegativeTransfer.filter((event) => event.type === 'Surplus');
+            const pool = surplusEvents.length ? surplusEvents : candidatesWithNegativeTransfer;
+            pool.sort((a, b) =>
+                b.amount - a.amount
+                || String(a.candidate?.name || '').localeCompare(String(b.candidate?.name || ''))
+            );
+            const chosen = pool[0];
+            events.set(countNum, {
+                type: chosen.type,
+                label: this._countEventCandidateLabel(chosen.candidate, surnameCounts)
+            });
+        });
+
+        return events;
     }
 
     /**
@@ -222,7 +846,7 @@ class ElectionController {
 
     /**
      * Toggle visibility of all election visuals (geojson, overlays, results pane)
-     * without clearing state Ã¢â‚¬â€ used when hiding/showing via active layers list.
+     * without clearing state â€” used when hiding/showing via active layers list.
      */
     setVisible(visible) {
         if (!this.active) return;
@@ -251,7 +875,7 @@ class ElectionController {
         }
     }
 
-    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Data Loading Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+    // â”€â”€â”€ Data Loading â”€â”€â”€
 
     _indexData = null;
     _indexPromise = null;
@@ -270,11 +894,30 @@ class ElectionController {
             .replace(/[^\w\s-]/g, '').replace(/[\s]+/g, '-').replace(/-+/g, '-');
 
         const bodySlug = slugify(body);
-        const promises = constituencies.map(c => {
-            if (c === 'Northern Ireland') return Promise.resolve(null); // NI-wide seat, skip
-            const url = `${this.electionDataPath}/elections/${bodySlug}/${date}/${slugify(c)}.json`;
-            return fetch(url).then(r => r.ok ? r.json() : null).catch(() => null);
-        });
+        const constituencySlugVariants = (name) => {
+            const base = slugify(name);
+            const variants = new Set([base]);
+            if (bodySlug === 'local-government' && !/-\d+-seats?$/.test(base)) {
+                variants.add(`${base}-5-seats`);
+                variants.add(`${base}-6-seats`);
+                variants.add(`${base}-7-seats`);
+            }
+            return [...variants];
+        };
+        const loadConstituency = async (constituency) => {
+            const slugVariants = constituencySlugVariants(constituency);
+            for (const slug of slugVariants) {
+                const url = `${this.electionDataPath}/elections/${bodySlug}/${date}/${slug}.json`;
+                try {
+                    const response = await fetch(url);
+                    if (response.ok) return response.json();
+                } catch (_) {
+                    // Try the next slug variant.
+                }
+            }
+            return null;
+        };
+        const promises = constituencies.map((c) => loadConstituency(c));
 
         const results = await Promise.all(promises);
         constituencies.forEach((c, i) => {
@@ -284,7 +927,7 @@ class ElectionController {
                 const cg = results[i]?.Constituency?.countGroup;
                 if (cg && extractPartyColours) {
                     cg.forEach(row => {
-                        const party = row.Party_Name || 'Independent';
+                        const party = this._normaliseLivePartyName(row.Party_Name);
                         if (row.Party_Colour && !this.partyColours[party]) {
                             this.partyColours[party] = row.Party_Colour;
                         }
@@ -317,6 +960,7 @@ class ElectionController {
     }
 
     _getComparisonBucket(body) {
+        if (this._isLocalGovernmentBody(body)) return 'local';
         if (body === 'House of Commons of the United Kingdom') return 'westminster';
         if (body === 'European Parliament') return 'european';
         if ([
@@ -327,6 +971,46 @@ class ElectionController {
             return 'devolved';
         }
         return body || 'other';
+    }
+
+    _getElectionTypeLabel(body) {
+        if (this._isLocalGovernmentBody(body)) return 'Local';
+        if (body === 'House of Commons of the United Kingdom') return 'Westminster';
+        if (body === 'European Parliament') return 'European';
+        if ([
+            'Northern Ireland Assembly',
+            'Northern Ireland Forum for Political Dialogue',
+            'Northern Ireland Constitutional Convention'
+        ].includes(body)) {
+            return 'Devolved';
+        }
+        return 'Other';
+    }
+
+    _getElectionHistoryPrefix(body) {
+        if (this._isLocalGovernmentBody(body)) return 'Local';
+        const map = {
+            'House of Commons of the United Kingdom': 'Westminster',
+            'Northern Ireland Assembly': 'Assembly',
+            'Northern Ireland Forum for Political Dialogue': 'Forum',
+            'Northern Ireland Constitutional Convention': 'Convention',
+            'European Parliament': 'European'
+        };
+        return map[body] || this._shortBodyName(body);
+    }
+
+    _formatElectionHistoryDateToken(dateStr, includeMonth = false) {
+        const d = new Date(`${dateStr}T00:00:00`);
+        if (Number.isNaN(d.getTime())) return String(dateStr || '');
+        if (includeMonth) {
+            return d.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
+        }
+        return String(d.getFullYear());
+    }
+
+    _isRecallPetitionElection(body, date, displayName = '') {
+        if (body === 'House of Commons of the United Kingdom' && String(date || '') === '2018-08-29') return true;
+        return /recall\s+petition/i.test(String(displayName || ''));
     }
 
     _getConstituencyMapYear(body, date) {
@@ -340,12 +1024,13 @@ class ElectionController {
     _getSpecialElectionConfig(body, date) {
         if (body === 'House of Commons of the United Kingdom' && date === '2018-08-29') {
             const constituency = 'North Antrim';
+            const year = String(date || '').slice(0, 4) || '2018';
             return {
                 type: 'recall-petition',
                 body,
                 date,
                 constituency,
-                displayName: '29 Aug 2018 Westminster recall petition',
+                displayName: `${year} ${constituency} recall petition`,
                 title: 'North Antrim recall petition',
                 fillColor: '#c85a5a',
                 outlineColor: '#8f2f2f',
@@ -394,7 +1079,7 @@ class ElectionController {
             return `${date} ${bodyLabel} election`;
         }
         const nonNiConstituencies = (constituencies || []).filter((name) => name !== 'Northern Ireland');
-        const isByElection = nonNiConstituencies.length > 0 && nonNiConstituencies.length <= 2;
+        const isByElection = this._isByElectionScope(constituencies);
 
         let prefix = d.getFullYear().toString();
         if ((duplicateYearCount || 0) > 1) {
@@ -402,6 +1087,10 @@ class ElectionController {
         }
         if ((duplicateMonthCount || 0) > 1) {
             prefix = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+        if (isByElection && this._isLocalGovernmentBody(body)) {
+            const deaName = nonNiConstituencies[0] || bodyLabel;
+            return `${prefix} ${deaName} by-election`;
         }
         return `${prefix} ${bodyLabel} ${isByElection ? 'by-election' : 'election'}`;
     }
@@ -441,8 +1130,7 @@ class ElectionController {
                         bodyMonthCounts.get(bodyMonthKey) || 0,
                         dateData.constituencies || []
                     ),
-                    isByElection: (dateData.constituencies || []).some((name) => name !== 'Northern Ireland')
-                        && (dateData.constituencies || []).filter((name) => name !== 'Northern Ireland').length <= 2,
+                    isByElection: this._isByElectionScope(dateData.constituencies || []),
                     constituencies: (dateData.constituencies || []).filter((name) => name !== 'Northern Ireland')
                 });
             });
@@ -486,14 +1174,14 @@ class ElectionController {
         const byCandidate = new Map();
 
         cg.forEach((row) => {
+            if (!this._isValidCandidateRow(row)) return;
             const cid = String(row.Candidate_Id || '').trim();
-            if (!cid || cid.toLowerCase() === 'nontransferable') return;
             const countNum = parseInt(row.Count_Number, 10) || 1;
             if (!byCandidate.has(cid)) {
                 byCandidate.set(cid, {
                     personId: cid,
-                    name: row.candidateName || `${row.Firstname || ''} ${row.Surname || ''}`.trim() || cid,
-                    party: row.Party_Name || 'Independent',
+                    name: this._candidateDisplayName(row, cid),
+                    party: this._normaliseLivePartyName(row.Party_Name),
                     colour: row.Party_Colour || '#b0bec5',
                     constituency: constName,
                     body,
@@ -547,7 +1235,7 @@ class ElectionController {
             candidate.status = status;
             candidate.firstPrefPct = constValid > 0 ? (candidate.firstPref / constValid * 100) : 0;
 
-            const personId = candidate.personId;
+            const personId = this._canonicalEntityPersonId(candidate.personId, candidate.name, candidate.party);
             if (!index.candidates.has(personId)) {
                 index.candidates.set(personId, {
                     kind: 'candidate',
@@ -590,7 +1278,7 @@ class ElectionController {
                     elected: candidate.elected
                 });
 
-            const partyName = candidate.party || 'Independent';
+            const partyName = this._normaliseLivePartyName(candidate.party);
             if (!index.parties.has(partyName)) {
                 index.parties.set(partyName, {
                     kind: 'party',
@@ -776,6 +1464,7 @@ class ElectionController {
                 appearance.bodyLabel = electionMeta?.bodyLabel || this._getBodyElectionLabel(appearance.body);
                 appearance.isByElection = !!electionMeta?.isByElection;
                 appearance.comparisonBucket = this._getComparisonBucket(appearance.body);
+                appearance.electionType = this._getElectionTypeLabel(appearance.body);
             });
             entry.appearances = chronological.sort((a, b) =>
                 sortDateDesc(a.date, b.date)
@@ -786,10 +1475,11 @@ class ElectionController {
             entry.latestParty = entry.latestAppearance?.party || entry.parties[entry.parties.length - 1] || '';
             const candidateConstituencyMap = new Map();
             entry.appearances.forEach((appearance) => {
-                const key = `${appearance.constituency || ''}::${appearance.mapLayerYear || ''}`;
+                const cleanedConstituency = this._cleanConstituencyDisplayName(appearance.constituency || '');
+                const key = `${cleanedConstituency}::${appearance.mapLayerYear || ''}`;
                 if (!candidateConstituencyMap.has(key)) {
                     candidateConstituencyMap.set(key, {
-                        constituency: appearance.constituency || '',
+                        constituency: cleanedConstituency,
                         mapLayerYear: appearance.mapLayerYear || '',
                         elected: false,
                         body: appearance.body,
@@ -819,6 +1509,52 @@ class ElectionController {
             entry.shareOfAllValid = index.totalValid > 0 ? (entry.firstPrefs / index.totalValid * 100) : 0;
             delete entry.colours;
 
+            // Precompute NI-wide local-government baselines by date so party history can
+            // collapse general local elections to one row per date.
+            const localTotalsByDate = new Map();
+            const localPartyTotalsByDate = new Map();
+            const localLoadBodyByDate = new Map();
+            index.electionList.forEach((election) => {
+                if (!this._isLocalGovernmentBody(election.body) || election.isByElection) return;
+                if (!localTotalsByDate.has(election.date)) {
+                    localTotalsByDate.set(election.date, { totalValid: 0, totalSeats: 0, totalConstituencies: 0 });
+                }
+                if (!localLoadBodyByDate.has(election.date)) {
+                    // Keep one canonical council body per date so collapsed rows can open the election.
+                    localLoadBodyByDate.set(election.date, election.body);
+                }
+                const totals = localTotalsByDate.get(election.date);
+                totals.totalValid += election.totalValid || 0;
+                totals.totalSeats += election.totalSeats || 0;
+                totals.totalConstituencies += (election.constituencies || []).length;
+
+                if (!localPartyTotalsByDate.has(election.date)) {
+                    localPartyTotalsByDate.set(election.date, new Map());
+                }
+                const partyTotals = localPartyTotalsByDate.get(election.date);
+                (election.partyRows || []).forEach((row) => {
+                    const key = String(row.party || '');
+                    if (!partyTotals.has(key)) {
+                        partyTotals.set(key, { elected: 0, votes: 0 });
+                    }
+                    const pt = partyTotals.get(key);
+                    pt.elected += row.elected || 0;
+                    pt.votes += row.votes || 0;
+                });
+            });
+            const localPartyRankByDate = new Map();
+            localPartyTotalsByDate.forEach((partyTotals, date) => {
+                const ranked = [...partyTotals.entries()]
+                    .sort((a, b) =>
+                        (b[1].elected - a[1].elected)
+                        || (b[1].votes - a[1].votes)
+                        || String(a[0]).localeCompare(String(b[0]))
+                    );
+                const rankMap = new Map();
+                ranked.forEach(([party], idx) => rankMap.set(party, idx + 1));
+                localPartyRankByDate.set(date, rankMap);
+            });
+
             const contestedBodies = new Set(entry.candidates.map((candidate) => candidate.body).filter(Boolean));
             const lastContestedByBody = new Map();
             const firstContestedByBody = new Map();
@@ -833,7 +1569,7 @@ class ElectionController {
                 }
             });
 
-            entry.historyRows = index.electionList
+            const rawHistoryRows = index.electionList
                 .filter((election) => contestedBodies.has(election.body))
                 .filter((election) => String(election.date || '') >= String(firstContestedByBody.get(election.body) || ''))
                 .filter((election) => String(election.date || '') <= String(lastContestedByBody.get(election.body) || ''))
@@ -845,9 +1581,11 @@ class ElectionController {
                         body: election.body,
                         bodyLabel: election.bodyLabel,
                         comparisonBucket: this._getComparisonBucket(election.body),
+                        electionType: this._getElectionTypeLabel(election.body),
                         date: election.date,
                         electionDisplayName: election.displayName,
                         isByElection: !!election.isByElection,
+                        isRecallPetition: this._isRecallPetitionElection(election.body, election.date, election.displayName),
                         constituencyNames: [...(election.constituencies || [])],
                         contested,
                         stood: contested ? contestedRow.stood : 0,
@@ -859,19 +1597,158 @@ class ElectionController {
                         totalSeats: election.totalSeats,
                         seatPct: contested ? contestedRow.seatPct : 0,
                         rank: contested ? contestedRow.rank : null,
-                        note: contested ? '' : 'did not contest'
+                        note: contested ? '' : 'N/A'
                     };
                 });
+
+            // Collapse general local elections to one row per date.
+            // Keep by-elections unchanged (one row per by-election body/date).
+            const collapsedLocalByDate = new Map();
+            const preservedRows = [];
+            rawHistoryRows.forEach((row) => {
+                const isLocal = this._isLocalGovernmentBody(row.body);
+                if (!isLocal || row.isByElection) {
+                    preservedRows.push(row);
+                    return;
+                }
+                if (!collapsedLocalByDate.has(row.date)) {
+                    collapsedLocalByDate.set(row.date, {
+                        electionKey: `local-government|${row.date}`,
+                        body: 'Local Government Districts',
+                        bodyLabel: 'Local Government Districts',
+                        comparisonBucket: 'local',
+                        electionType: 'Local',
+                        electionBodyForOpen: localLoadBodyByDate.get(row.date) || ElectionController.LOCAL_GOVERNMENT_BODIES[0],
+                        date: row.date,
+                        electionDisplayName: `${this._formatDate(row.date)} local elections`,
+                        isByElection: false,
+                        isRecallPetition: false,
+                        constituencyNames: [],
+                        contested: false,
+                        stood: 0,
+                        constituenciesContested: 0,
+                        totalConstituencies: localTotalsByDate.get(row.date)?.totalConstituencies || 0,
+                        firstPrefs: 0,
+                        validVotePct: 0,
+                        elected: 0,
+                        totalSeats: localTotalsByDate.get(row.date)?.totalSeats || 0,
+                        seatPct: 0,
+                        rank: null,
+                        note: 'N/A'
+                    });
+                }
+                const grouped = collapsedLocalByDate.get(row.date);
+                grouped.contested = grouped.contested || row.contested;
+                grouped.stood += row.stood || 0;
+                grouped.constituenciesContested += row.constituenciesContested || 0;
+                grouped.firstPrefs += row.firstPrefs || 0;
+                grouped.elected += row.elected || 0;
+                grouped.constituencyNames.push(...(row.constituencyNames || []));
+            });
+
+            const collapsedLocalRows = [...collapsedLocalByDate.values()].map((row) => {
+                const totals = localTotalsByDate.get(row.date) || { totalValid: 0, totalSeats: 0 };
+                row.constituencyNames = [...new Set(row.constituencyNames)].sort((a, b) => String(a).localeCompare(String(b)));
+                row.validVotePct = totals.totalValid > 0 ? (row.firstPrefs / totals.totalValid * 100) : 0;
+                row.seatPct = totals.totalSeats > 0 ? (row.elected / totals.totalSeats * 100) : 0;
+                row.rank = localPartyRankByDate.get(row.date)?.get(entry.name) ?? null;
+                row.note = row.contested ? '' : 'N/A';
+                return row;
+            });
+
+            entry.historyRows = [...preservedRows, ...collapsedLocalRows].sort((a, b) =>
+                String(b.date || '').localeCompare(String(a.date || ''))
+                || String(a.body || '').localeCompare(String(b.body || ''))
+            );
+
+            // Guardrail: non-local rows must keep their canonical election labels.
+            // This prevents any local-collapsing labels from leaking into Assembly/Westminster/etc rows.
+            entry.historyRows.forEach((row) => {
+                if (this._isLocalGovernmentBody(row.body) || row.isByElection) return;
+                const canonical = index.elections.get(row.electionKey);
+                if (!canonical) return;
+                row.body = canonical.body || row.body;
+                row.bodyLabel = canonical.bodyLabel || row.bodyLabel;
+                row.electionDisplayName = canonical.displayName || row.electionDisplayName;
+                row.isByElection = !!canonical.isByElection;
+                row.electionType = this._getElectionTypeLabel(row.body);
+                row.comparisonBucket = this._getComparisonBucket(row.body);
+                row.isRecallPetition = this._isRecallPetitionElection(row.body, row.date, row.electionDisplayName);
+            });
+
+            // Normalize election-history display names (non-by-elections):
+            // [Westminster/Assembly/European/Forum/Convention/local] [year|Mon YYYY if disambiguation needed]
+            const nonBy = entry.historyRows.filter((row) => !row.isByElection);
+            const typeYearCounts = new Map();
+            nonBy.forEach((row) => {
+                const prefix = this._getElectionHistoryPrefix(row.body);
+                const year = String(row.date || '').slice(0, 4);
+                const key = `${prefix}::${year}`;
+                typeYearCounts.set(key, (typeYearCounts.get(key) || 0) + 1);
+            });
+            nonBy.forEach((row) => {
+                const prefix = this._getElectionHistoryPrefix(row.body);
+                const year = String(row.date || '').slice(0, 4);
+                const key = `${prefix}::${year}`;
+                const includeMonth = (typeYearCounts.get(key) || 0) > 1;
+                const token = this._formatElectionHistoryDateToken(row.date, includeMonth);
+                row.electionDisplayName = `${prefix} ${token}`;
+            });
+
+            const byRows = entry.historyRows.filter((row) => row.isByElection && !row.isRecallPetition);
+            const byElectionCountsByYearConstituency = new Map();
+            byRows.forEach((row) => {
+                if ((row.constituencyNames || []).length !== 1) return;
+                const year = String(row.date || '').slice(0, 4);
+                const constituencyName = row.constituencyNames[0] || '';
+                const key = `${row.body}::${constituencyName}::${year}`;
+                byElectionCountsByYearConstituency.set(key, (byElectionCountsByYearConstituency.get(key) || 0) + 1);
+            });
+            byRows.forEach((row) => {
+                const prefix = this._getElectionHistoryPrefix(row.body);
+                const constituencyNames = row.constituencyNames || [];
+                const year = String(row.date || '').slice(0, 4);
+                if (constituencyNames.length > 1) {
+                    row.electionDisplayName = `${year} ${prefix} by-elections`;
+                    return;
+                }
+                const constituencyName = constituencyNames[0] || '';
+                const duplicateKey = `${row.body}::${constituencyName}::${year}`;
+                const includeMonth = (byElectionCountsByYearConstituency.get(duplicateKey) || 0) > 1;
+                const token = this._formatElectionHistoryDateToken(row.date, includeMonth);
+                row.electionDisplayName = constituencyName
+                    ? `${token} ${constituencyName} by-election`
+                    : `${token} ${prefix} by-election`;
+            });
 
             const previousRowsByBucket = new Map();
             [...entry.historyRows].reverse().forEach((row) => {
                 const bucket = row.comparisonBucket || row.body;
-                const priorRows = previousRowsByBucket.get(bucket) || [];
+                const priorState = previousRowsByBucket.get(bucket) || { allRows: [], generalRows: [] };
+                const priorRows = priorState.allRows;
+                const priorGeneralRows = priorState.generalRows;
                 const previous = priorRows[priorRows.length - 1] || null;
-                let baseline = previous;
+                let baseline = row.isByElection
+                    ? previous
+                    : (priorGeneralRows[priorGeneralRows.length - 1] || null);
+
+                if (row.isRecallPetition) {
+                    row.stoodDelta = null;
+                    row.constituenciesContestedDelta = null;
+                    row.totalConstituenciesDelta = null;
+                    row.firstPrefsDelta = null;
+                    row.validVotePctDelta = null;
+                    row.electedDelta = null;
+                    row.totalSeatsDelta = null;
+                    row.seatPctDelta = null;
+                    row.rankDelta = null;
+                    return;
+                }
 
                 if (row.isByElection && priorRows.length > 0) {
                     const matchingPrevious = [...priorRows].reverse().find((candidateRow) =>
+                        (row.constituencyNames || []).every((name) => (candidateRow.constituencyNames || []).includes(name))
+                    ) || [...priorGeneralRows].reverse().find((candidateRow) =>
                         (row.constituencyNames || []).every((name) => (candidateRow.constituencyNames || []).includes(name))
                     ) || previous;
                     const previousElection = matchingPrevious ? index.elections.get(matchingPrevious.electionKey) : null;
@@ -899,8 +1776,16 @@ class ElectionController {
                 row.totalSeatsDelta = baseline ? row.totalSeats - baseline.totalSeats : null;
                 row.seatPctDelta = baseline ? row.seatPct - baseline.seatPct : null;
                 row.rankDelta = baseline && row.rank !== null && baseline.rank !== null ? baseline.rank - row.rank : null;
+                if (row.isByElection) {
+                    // Do not show total-seat / total-constituency deltas for by-elections/recall-style contests.
+                    row.totalConstituenciesDelta = null;
+                    row.totalSeatsDelta = null;
+                }
                 priorRows.push(row);
-                previousRowsByBucket.set(bucket, priorRows);
+                if (!row.isByElection) {
+                    priorGeneralRows.push(row);
+                }
+                previousRowsByBucket.set(bucket, { allRows: priorRows, generalRows: priorGeneralRows });
             });
 
             const partyCandidateMap = new Map();
@@ -910,10 +1795,12 @@ class ElectionController {
                         personId: appearance.personId,
                         name: appearance.name,
                         timesStood: 0,
+                        timesStoodLocal: 0,
                         timesStoodWestminster: 0,
                         timesStoodDevolved: 0,
                         timesStoodEuropean: 0,
                         timesElected: 0,
+                        timesElectedLocal: 0,
                         timesElectedWestminster: 0,
                         timesElectedDevolved: 0,
                         timesElectedEuropean: 0,
@@ -926,18 +1813,21 @@ class ElectionController {
                 row.totalFirstPrefs += appearance.firstPref || 0;
                 const isWestminster = appearance.body === 'House of Commons of the United Kingdom';
                 const isEuropean = appearance.body === 'European Parliament';
+                const isLocal = this._isLocalGovernmentBody(appearance.body);
                 const isDevolved = [
                     'Northern Ireland Assembly',
                     'Northern Ireland Forum for Political Dialogue',
                     'Northern Ireland Constitutional Convention'
                 ].includes(appearance.body);
+                if (isLocal) row.timesStoodLocal = (row.timesStoodLocal || 0) + 1;
                 if (isWestminster) row.timesStoodWestminster += 1;
                 if (isDevolved) row.timesStoodDevolved += 1;
                 if (isEuropean) row.timesStoodEuropean += 1;
-                const constituencyKey = `${appearance.constituency || ''}::${appearance.mapLayerYear || ''}`;
+                const cleanedConstituency = this._cleanConstituencyDisplayName(appearance.constituency || '');
+                const constituencyKey = `${cleanedConstituency}::${appearance.mapLayerYear || ''}`;
                 if (!row.constituencyEntries.has(constituencyKey)) {
                     row.constituencyEntries.set(constituencyKey, {
-                        constituency: appearance.constituency || '',
+                        constituency: cleanedConstituency,
                         mapLayerYear: appearance.mapLayerYear || '',
                         elected: false,
                         body: appearance.body,
@@ -952,6 +1842,7 @@ class ElectionController {
                 }
                 if (String(appearance.status || '').toLowerCase().startsWith('elected')) {
                     row.timesElected += 1;
+                    if (isLocal) row.timesElectedLocal = (row.timesElectedLocal || 0) + 1;
                     if (isWestminster) row.timesElectedWestminster += 1;
                     if (isDevolved) row.timesElectedDevolved += 1;
                     if (isEuropean) row.timesElectedEuropean += 1;
@@ -995,7 +1886,8 @@ class ElectionController {
             });
             for (const bodyData of indexData?.bodies || []) {
                 for (const dateData of bodyData?.dates || []) {
-                    const results = await this._loadAllResults(bodyData.name, dateData.date, dateData.constituencies || [], {}, false);
+                    const loadSlug = bodyData.slug || bodyData.name;
+                    const results = await this._loadAllResults(loadSlug, dateData.date, dateData.constituencies || [], {}, false);
                     Object.entries(results).forEach(([constName, payload]) => {
                         this._accumulateEntityIndex(aggregate, payload, {
                             constituency: constName,
@@ -1019,14 +1911,139 @@ class ElectionController {
         if (kind === 'party') {
             return index.parties.get(String(key || '').trim()) || null;
         }
+        if (kind === 'dea' || kind === 'lgd') {
+            return this._buildLocalAreaEntityDetail(index, kind, key);
+        }
         return null;
     }
 
-    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Geography Loading Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+    _buildLocalAreaEntityDetail(index, kind, key) {
+        const target = String(key || '').trim();
+        if (!target) return null;
+
+        const localElectionList = (index?.electionList || []).filter((election) =>
+            this._isLocalGovernmentBody(election.body)
+        );
+        if (!localElectionList.length) return null;
+
+        if (kind === 'dea') {
+            const historyRows = [];
+            localElectionList.forEach((election) => {
+                const electionMeta = index.elections?.get(election.key);
+                const constituencyStats = electionMeta?.constituencyStats?.get(target);
+                if (!constituencyStats) return;
+                const partyRows = [...(constituencyStats.partyStats?.values?.() || [])].sort((a, b) =>
+                    (b.elected - a.elected)
+                    || (b.votes - a.votes)
+                    || String(a.party || '').localeCompare(String(b.party || ''))
+                );
+                const winner = partyRows[0] || null;
+                historyRows.push({
+                    electionKey: election.key,
+                    body: election.body,
+                    date: election.date,
+                    electionDisplayName: election.displayName,
+                    isByElection: !!election.isByElection,
+                    districtElectoralArea: target,
+                    localGovernmentDistrict: election.body,
+                    validVotes: constituencyStats.valid || 0,
+                    seats: constituencyStats.seats || 0,
+                    winnerParty: winner?.party || '',
+                    winnerColour: winner?.colour || '#b0bec5',
+                    winnerVotes: winner?.votes || 0,
+                    winnerPct: (constituencyStats.valid || 0) > 0 ? ((winner?.votes || 0) / constituencyStats.valid * 100) : 0
+                });
+            });
+
+            historyRows.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+            if (!historyRows.length) return null;
+
+            const allDistricts = [...new Set(historyRows.map((row) => row.localGovernmentDistrict).filter(Boolean))]
+                .sort((a, b) => String(a).localeCompare(String(b)));
+            const totalValidVotes = historyRows.reduce((sum, row) => sum + (row.validVotes || 0), 0);
+            const totalSeats = historyRows.reduce((sum, row) => sum + (row.seats || 0), 0);
+            const latest = historyRows[0] || null;
+
+            return {
+                kind: 'dea',
+                key: target,
+                name: target,
+                colour: '#3d6ea8',
+                subtitle: 'District Electoral Area',
+                metrics: {
+                    elections: historyRows.length,
+                    districts: allDistricts.length,
+                    totalValidVotes,
+                    totalSeats,
+                    latestDate: latest?.date || ''
+                },
+                districts: allDistricts,
+                historyRows
+            };
+        }
+
+        if (kind === 'lgd') {
+            const historyRows = [];
+            localElectionList
+                .filter((election) => election.body === target)
+                .forEach((election) => {
+                    const electionMeta = index.elections?.get(election.key);
+                    if (!electionMeta) return;
+                    const partyRows = [...(electionMeta.partyRows || [])];
+                    const winner = partyRows[0] || null;
+                    historyRows.push({
+                        electionKey: election.key,
+                        body: election.body,
+                        date: election.date,
+                        electionDisplayName: election.displayName,
+                        isByElection: !!election.isByElection,
+                        districtElectoralAreas: [...(election.constituencies || [])].sort((a, b) => String(a).localeCompare(String(b))),
+                        deaCount: (election.constituencies || []).length,
+                        validVotes: electionMeta.totalValid || 0,
+                        seats: electionMeta.totalSeats || 0,
+                        winnerParty: winner?.party || '',
+                        winnerColour: winner?.colour || '#b0bec5',
+                        winnerVotes: winner?.votes || 0,
+                        winnerPct: (electionMeta.totalValid || 0) > 0 ? ((winner?.votes || 0) / electionMeta.totalValid * 100) : 0
+                    });
+                });
+
+            historyRows.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+            if (!historyRows.length) return null;
+
+            const allDeas = new Set();
+            historyRows.forEach((row) => {
+                (row.districtElectoralAreas || []).forEach((dea) => allDeas.add(dea));
+            });
+            const totalValidVotes = historyRows.reduce((sum, row) => sum + (row.validVotes || 0), 0);
+            const totalSeats = historyRows.reduce((sum, row) => sum + (row.seats || 0), 0);
+            const latest = historyRows[0] || null;
+
+            return {
+                kind: 'lgd',
+                key: target,
+                name: target,
+                colour: '#2f6d5a',
+                subtitle: 'Local Government District',
+                metrics: {
+                    elections: historyRows.length,
+                    deas: allDeas.size,
+                    totalValidVotes,
+                    totalSeats,
+                    latestDate: latest?.date || ''
+                },
+                historyRows
+            };
+        }
+
+        return null;
+    }
+
+    // â”€â”€â”€ Geography Loading â”€â”€â”€
 
     async _loadGeography(geo) {
         try {
-            // Fetch then stream Ã¢â‚¬â€ direct URL needs range request support
+            // Fetch then stream â€” direct URL needs range request support
             const response = await fetch(geo.fgb);
             const features = [];
             for await (const feature of flatgeobuf.deserialize(response.body)) {
@@ -1078,7 +2095,7 @@ class ElectionController {
                                 mapController.map.removeLayer(layer._hoverShadow);
                                 layer._hoverShadow = null;
                             }
-                            // Restore original style (no bringToBack Ã¢â‚¬â€ avoids z-order corruption)
+                            // Restore original style (no bringToBack â€” avoids z-order corruption)
                             const prev = layer._preHoverStyle || { color: '#555', weight: 1.5 };
                             layer.setStyle({ color: prev.color, weight: prev.weight });
                         });
@@ -1096,7 +2113,7 @@ class ElectionController {
         }
     }
 
-    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Map Colouring Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+    // â”€â”€â”€ Map Colouring â”€â”€â”€
 
     _colourMap(geo) {
         if (!this.geojsonLayer) return;
@@ -1135,11 +2152,15 @@ class ElectionController {
             // Find matching constituency (case-insensitive)
             const constName = this._matchConstituency(featureName);
             if (!constName) return;
-
-            const result = this.resultsByConstituency[constName];
-            if (!result) return;
-
-            const winner = this._getWinner(result);
+            const winner = this._isCouncilMode()
+                ? (() => {
+                    const aggregate = this._councilAggregates?.get(constName);
+                    const sorted = [...(aggregate?.parties || [])].sort((a, b) =>
+                        b.elected - a.elected || b.firstPrefs - a.firstPrefs || String(a.party || '').localeCompare(String(b.party || ''))
+                    );
+                    return sorted.length ? { party: sorted[0].party, colour: sorted[0].colour } : null;
+                })()
+                : this._getWinner(this._getCurrentConstituencyPayload(constName));
             if (winner) {
                 layer.setStyle({
                     fillColor: winner.colour,
@@ -1160,7 +2181,7 @@ class ElectionController {
         const partyVotes = {};
         cg.forEach(row => {
             if (String(row.Count_Number) === '1') {
-                const party = row.Party_Name || 'Independent';
+                const party = this._normaliseLivePartyName(row.Party_Name);
                 const votes = parseFloat(row.Total_Votes) || 0;
                 if (!partyVotes[party]) {
                     partyVotes[party] = { votes: 0, colour: row.Party_Colour || '#b0bec5' };
@@ -1175,15 +2196,20 @@ class ElectionController {
     }
 
     _matchConstituency(fgbName) {
-        const upper = fgbName.toUpperCase();
-        return this.constituencies?.find(c => c.toUpperCase() === upper) || null;
+        if (!fgbName) return null;
+        const aliases = this._isCouncilMode() ? this._councilAliases : this._constituencyAliases;
+        for (const variant of this._aliasVariants(fgbName)) {
+            const hit = aliases.get(variant);
+            if (hit) return hit;
+        }
+        return null;
     }
 
     _titleCase(str) {
         return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
     }
 
-    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Overlays (Seat Circles) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+    // â”€â”€â”€ Overlays (Seat Circles) â”€â”€â”€
 
     /**
      * Extract all elected members from countGroup, including "deemed elected"
@@ -1194,27 +2220,52 @@ class ElectionController {
         const cg = result.Constituency?.countGroup;
         if (!cg) return [];
 
-        const numSeats = parseInt(result.Constituency?.countInfo?.Number_Of_Seats) || 5;
+        const info = result.Constituency?.countInfo || {};
+        const numSeats = this._getSeatCount(info) || 5;
         const elected = [];
         const excluded = new Set();
         const seen = new Set();
         const lastCount = Math.max(...cg.map(r => +r.Count_Number || 0));
+        const grouped = new Map();
+
+        cg.forEach((row) => {
+            const cid = row.Candidate_Id;
+            if (!cid || String(cid).toLowerCase() === 'nontransferable') return;
+            if (!grouped.has(cid)) {
+                grouped.set(cid, {
+                    rows: [],
+                    name: this._candidateDisplayName(row),
+                    party: this._normaliseLivePartyName(row.Party_Name),
+                    colour: row.Party_Colour || '#b0bec5'
+                });
+            }
+            grouped.get(cid).rows.push(row);
+        });
 
         // Pass 1: collect explicitly elected candidates and track excluded
-        cg.forEach(row => {
-            if (this._statusKind(row.Status) === 'excluded') excluded.add(row.Candidate_Id);
-            if (this._statusKind(row.Status) === 'elected' && !seen.has(row.Candidate_Id)) {
-                seen.add(row.Candidate_Id);
+        grouped.forEach((entry, cid) => {
+            const candidate = { counts: {} };
+            entry.rows.forEach((row) => {
+                candidate.counts[parseInt(row.Count_Number, 10) || 1] = {
+                    total: parseFloat(row.Total_Votes) || 0,
+                    transfers: parseFloat(row.Transfers) || 0,
+                    status: row.Status || ''
+                };
+                if (this._statusKind(row.Status) === 'excluded') excluded.add(cid);
+            });
+            const lifecycle = this._inferCandidateLifecycle(candidate, info, lastCount);
+            if (lifecycle.electedAt && !seen.has(cid)) {
+                seen.add(cid);
                 elected.push({
-                    name: row.candidateName || (row.Firstname + ' ' + row.Surname),
-                    party: row.Party_Name || 'Independent',
-                    colour: row.Party_Colour || '#b0bec5',
-                    count: +row.Count_Number
+                    name: entry.name,
+                    party: entry.party,
+                    colour: entry.colour,
+                    count: lifecycle.electedAt
                 });
             }
         });
 
-        // Pass 2: add "deemed elected" Ã¢â‚¬â€ candidates remaining at final count
+        // Pass 2: add "deemed elected" â€” candidates remaining at final count
         // who were never excluded (they fill remaining seats)
         if (elected.length < numSeats) {
             const finalRound = cg.filter(r => +r.Count_Number === lastCount);
@@ -1226,8 +2277,8 @@ class ElectionController {
                     row.Candidate_Id !== 'nontransferable') {
                     seen.add(row.Candidate_Id);
                     elected.push({
-                        name: row.candidateName || (row.Firstname + ' ' + row.Surname),
-                        party: row.Party_Name || 'Independent',
+                        name: this._candidateDisplayName(row),
+                        party: this._normaliseLivePartyName(row.Party_Name),
                         colour: row.Party_Colour || '#b0bec5',
                         count: lastCount
                     });
@@ -1276,13 +2327,16 @@ class ElectionController {
 
             const constName = this._matchConstituency(featureName);
             if (!constName) return;
-
-            const result = this.resultsByConstituency[constName];
+            const result = this._isCouncilMode()
+                ? this._councilAggregates?.get(constName)
+                : this._getCurrentConstituencyPayload(constName);
             if (!result) return;
 
             const bounds = layer.getBounds();
             const centroid = bounds.getCenter();
-            const elected = this._extractElected(result);
+            const elected = this._isCouncilMode()
+                ? (result.electedMembers || [])
+                : this._extractElected(result);
             if (elected.length === 0) return;
 
             const positions = this._seatPositions(elected.length, spacing);
@@ -1328,7 +2382,7 @@ class ElectionController {
         // Clear previous markers
         this.overlayLayer.clearLayers();
 
-        // Rule 3: Absolute minimum Ã¢â‚¬â€ if all constituencies together are tiny, hide all.
+        // Rule 3: Absolute minimum â€” if all constituencies together are tiny, hide all.
         // Compute the total NI extent in pixels using the union of all constituency bounds.
         const allBounds = groups.reduce(
             (acc, g) => acc.extend(g.bounds),
@@ -1340,7 +2394,7 @@ class ElectionController {
         const niPixelHeight = Math.abs(niSW.y - niNE.y);
 
         if (niPixelWidth < 120 || niPixelHeight < 120) {
-            return; // Too zoomed out Ã¢â‚¬â€ hide everything
+            return; // Too zoomed out â€” hide everything
         }
 
         // Pre-compute pixel centroids and constituency pixel areas
@@ -1388,8 +2442,10 @@ class ElectionController {
             group.positions.forEach((pos, i) => {
                 if (i >= group.elected.length) return;
                 const member = group.elected[i];
-                const left = pos.x - group.positions[0].x;
-                const top = pos.y - group.positions[0].y;
+                const minX = Math.min(...group.positions.map(p => p.x));
+                const minY = Math.min(...group.positions.map(p => p.y));
+                const left = pos.x - minX;
+                const top = pos.y - minY;
                 dotsHtml += `<div class="seat-dot" style="position:absolute;left:${left}px;top:${top}px;background:${member.colour};width:${circleSize}px;height:${circleSize}px" title="${this._esc(member.name)} (${this._esc(member.party)})"></div>`;
             });
 
@@ -1417,6 +2473,74 @@ class ElectionController {
         if (n === 1) return [{ x: 0, y: 0 }];
         if (n === 2) return [{ x: 0, y: 0 }, { x: spacing, y: 0 }];
         if (n === 3) return [{ x: 0, y: 0 }, { x: spacing, y: 0 }, { x: spacing * 2, y: 0 }];
+        if (n > 12) {
+            const spanRadians = Math.PI;
+            const getRowsFromNRows = (nRows) => {
+                const rowThicc = 1 / ((4 * nRows) - 2);
+                return Array.from({ length: nRows }, (_, r) => {
+                    const rowArcRadius = 0.5 + (2 * r * rowThicc);
+                    return Math.max(1, Math.floor((spanRadians * rowArcRadius) / (2 * rowThicc)));
+                });
+            };
+            let nRows = 1;
+            let capacities = getRowsFromNRows(nRows);
+            while (capacities.reduce((sum, value) => sum + value, 0) < n) {
+                nRows += 1;
+                capacities = getRowsFromNRows(nRows);
+            }
+
+            const totalCapacity = capacities.reduce((sum, value) => sum + value, 0);
+            const fillRatio = n / totalCapacity;
+            const rowCounts = capacities.map((capacity) => Math.max(1, Math.round(capacity * fillRatio)));
+            let assigned = rowCounts.reduce((sum, value) => sum + value, 0);
+            while (assigned > n) {
+                const idx = rowCounts.findLastIndex((count) => count > 1);
+                if (idx < 0) break;
+                rowCounts[idx] -= 1;
+                assigned -= 1;
+            }
+            while (assigned < n) {
+                const target = capacities
+                    .map((capacity, idx) => ({ idx, deficit: capacity - rowCounts[idx] }))
+                    .filter((item) => item.deficit > 0)
+                    .sort((a, b) => b.deficit - a.deficit)[0];
+                if (!target) break;
+                rowCounts[target.idx] += 1;
+                assigned += 1;
+            }
+
+            const rowThicc = 1 / ((4 * nRows) - 2);
+            const desiredCenterSpacing = spacing * 1.02;
+            const scale = desiredCenterSpacing / (2 * rowThicc);
+            const positions = [];
+
+            rowCounts.forEach((countOnRow, r) => {
+                const rowArcRadius = 0.5 + (2 * r * rowThicc);
+                if (countOnRow <= 0) return;
+                if (countOnRow === 1) {
+                    positions.push({ x: 1 * scale, y: 0 });
+                    return;
+                }
+                const angleMargin = Math.asin(rowThicc / rowArcRadius);
+                const angleIncrement = (Math.PI - (2 * angleMargin)) / (countOnRow - 1);
+                for (let s = 0; s < countOnRow; s += 1) {
+                    const angle = angleMargin + (s * angleIncrement);
+                    positions.push({
+                        x: ((rowArcRadius * Math.cos(angle)) + 1) * scale,
+                        y: (-Math.sin(angle) * rowArcRadius) * scale
+                    });
+                }
+            });
+
+            const minX = Math.min(...positions.map(p => p.x));
+            const minY = Math.min(...positions.map(p => p.y));
+            positions.forEach((p) => {
+                p.x -= minX;
+                p.y -= minY;
+            });
+            positions.sort((a, b) => a.x - b.x || a.y - b.y);
+            return positions;
+        }
 
         const topCount = Math.ceil(n / 2);
         const botCount = n - topCount;
@@ -1442,7 +2566,7 @@ class ElectionController {
         return positions;
     }
 
-    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Split Pane Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+    // â”€â”€â”€ Split Pane â”€â”€â”€
 
     _showSplitPane() {
         this.splitPaneEl = document.getElementById('electionResultsPane');
@@ -1469,9 +2593,9 @@ class ElectionController {
         this.splitPaneEl.classList.add('election-results-pane--open');
         this.splitPaneEl.innerHTML = `
             <div class="election-pane__header" id="electionPaneHeader">
-                <h3 class="election-pane__title" id="electionPaneTitle">${this._esc(this._shortBodyName(this.body))} \u2014 ${this._formatDate(this.date)}</h3>
+                <h3 class="election-pane__title" id="electionPaneTitle">${this._esc(this._niWideTitle())}</h3>
                 <div class="election-pane__header-right" id="electionPaneHeaderRight">
-                    <button type="button" id="electionCloseBtn" class="election-pane__close" title="Close election">\u2715</button>
+                    <button type="button" id="electionCloseBtn" data-action="close-election" class="election-pane__close" title="Close election">\u2715</button>
                 </div>
             </div>
             <div class="election-pane__content" id="electionPaneContent">
@@ -1503,10 +2627,21 @@ class ElectionController {
         this._animScaffold.style.display = 'none';
         this.splitPaneEl.querySelector('#electionPaneContent')?.appendChild(this._animScaffold);
 
-        // Close button
-        this.splitPaneEl.querySelector('#electionCloseBtn')?.addEventListener('click', () => {
-            this.clear();
-        });
+        if (!this._boundPaneClickHandler) {
+            this._boundPaneClickHandler = (event) => {
+                const target = event.target.closest('button[data-action]');
+                if (!target) return;
+                const action = target.dataset.action;
+                if (action === 'close-election') {
+                    event.preventDefault();
+                    this.clear();
+                } else if (action === 'set-results-mode') {
+                    event.preventDefault();
+                    this._setLocalResultsMode(target.dataset.mode || 'dea');
+                }
+            };
+            this.splitPaneEl.addEventListener('click', this._boundPaneClickHandler);
+        }
 
         // Insert drag handle before results pane and set up vertical split
         const appMain = document.querySelector('.app-main');
@@ -1656,6 +2791,33 @@ class ElectionController {
         this._renderNIWideView('party', content);
     }
 
+    async _setLocalResultsMode(mode) {
+        if (!this._isLocalGovernmentBody()) return;
+        const nextMode = mode === 'council' ? 'council' : 'dea';
+        if (this._localResultsMode === nextMode) return;
+        this._localResultsMode = nextMode;
+        this.selectedConstituency = null;
+        if (this.geojsonLayer) {
+            mapController.map?.removeLayer(this.geojsonLayer);
+            this.geojsonLayer = null;
+        }
+        if (this.overlayLayer) {
+            mapController.map?.removeLayer(this.overlayLayer);
+            this.overlayLayer = null;
+        }
+        if (this._onZoomEnd) {
+            mapController.map?.off('zoomend', this._onZoomEnd);
+            this._onZoomEnd = null;
+        }
+        this._overlayGroups = null;
+        this._rebuildElectionLookups();
+        await this._loadGeography(this._getActiveGeography(this._currentGeo));
+        this._colourMap(this._getActiveGeography(this._currentGeo));
+        this._addOverlays(this._getActiveGeography(this._currentGeo));
+        this._showNIWideResults();
+        if (this.onStateChange) this.onStateChange();
+    }
+
     _showRecallPetitionOverview(content) {
         const headerRight = document.getElementById('electionPaneHeaderRight');
         const titleEl = document.getElementById('electionPaneTitle');
@@ -1717,7 +2879,7 @@ class ElectionController {
             { label: 'Required number of signatures', value: recall.requiredSignatures, pct: 10.0 },
             { label: 'Turnout', value: recall.turnout, pct: recall.electorate > 0 ? (recall.turnout / recall.electorate * 100) : 0 },
             { label: 'Spoiled', value: recall.spoiled, pct: recall.turnout > 0 ? (recall.spoiled / recall.turnout * 100) : 0 },
-            { label: 'Petition successful', value: recall.successful ? 'Yes' : 'No', pct: '—' },
+            { label: 'Petition successful', value: recall.successful ? 'Yes' : 'No', pct: '�' },
             { label: 'Electorate', value: recall.electorate, pct: 100.0 }
         ];
 
@@ -1757,8 +2919,8 @@ class ElectionController {
                     </thead>
                     <tbody>
                         <tr>
-                            <td><span class="election-cell-wrap">${this._esc(recall.incumbentMp?.name || '—')}</span></td>
-                            <td><span class="election-cell-wrap">${this._esc(recall.incumbentMp?.party || '—')}</span></td>
+                            <td><span class="election-cell-wrap">${this._esc(recall.incumbentMp?.name || '�')}</span></td>
+                            <td><span class="election-cell-wrap">${this._esc(recall.incumbentMp?.party || '�')}</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -1770,9 +2932,20 @@ class ElectionController {
         const headerRight = document.getElementById('electionPaneHeaderRight');
         const titleEl = document.getElementById('electionPaneTitle');
         if (!headerRight || !titleEl) return;
-        titleEl.textContent = `${this._shortBodyName(this.body)} - ${this._formatDate(this.date)}`;
+        titleEl.textContent = this._niWideTitle();
         const closeBtn = headerRight.querySelector('#electionCloseBtn');
         headerRight.innerHTML = '';
+        if (this._isLocalGovernmentBody()) {
+            ['dea', 'council'].forEach((mode) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'election-view-tab' + (this._localResultsMode === mode ? ' election-view-tab--active' : '');
+                btn.dataset.action = 'set-results-mode';
+                btn.dataset.mode = mode;
+                btn.textContent = mode === 'dea' ? 'DEA' : 'District';
+                headerRight.appendChild(btn);
+            });
+        }
         const content = this.splitPaneEl?.querySelector('#electionPaneContent');
         const tabs = [
             { id: 'party', label: 'By Party' },
@@ -1826,6 +2999,8 @@ class ElectionController {
         let prevTotalPoll = 0;
         let prevTotalElectorate = 0;
         let prevTotalSpoiled = 0;
+        const useSubsetComparison = this._isByElectionScope(this.constituencies || []);
+        const comparisonConstituencies = new Set((this.constituencies || []).filter((name) => name !== 'Northern Ireland'));
 
         for (const [, payload] of Object.entries(this.resultsByConstituency)) {
             if (!payload?.Constituency) continue;
@@ -1833,14 +3008,14 @@ class ElectionController {
             const info = payload.Constituency.countInfo;
             if (!info || !cg) continue;
             totalSeats += parseInt(info.Number_Of_Seats) || 0;
-            totalValid += parseFloat(info.Valid_Poll) || 0;
+            totalValid += this._safeValidPoll(info, cg);
             totalPoll += parseFloat(info.Total_Poll) || 0;
             totalElectorate += parseFloat(info.Total_Electorate) || 0;
             totalSpoiled += parseFloat(info.Spoiled) || 0;
 
             cg.forEach(row => {
-                if (row.Count_Number === '1') {
-                    const party = row.Party_Name || 'Independent';
+                if (row.Count_Number === '1' && this._isValidCandidateRow(row)) {
+                    const party = this._normaliseLivePartyName(row.Party_Name);
                     const votes = parseFloat(row.Total_Votes) || 0;
                     if (!partyTotals[party]) partyTotals[party] = { votes: 0, seats: 0, colour: row.Party_Colour || '#b0bec5', stood: 0 };
                     partyTotals[party].votes += votes;
@@ -1854,7 +3029,7 @@ class ElectionController {
                 const key = `${info.Constituency_Name || ''}::${member.name}`;
                 if (electedSet.has(key)) return;
                 electedSet.add(key);
-                const party = member.party || 'Independent';
+                const party = this._normaliseLivePartyName(member.party);
                 if (!partyTotals[party]) partyTotals[party] = { votes: 0, seats: 0, colour: member.colour || '#b0bec5', stood: 0 };
                 partyTotals[party].seats++;
             });
@@ -1865,16 +3040,20 @@ class ElectionController {
             const cg = payload.Constituency.countGroup;
             const info = payload.Constituency.countInfo;
             if (!info || !cg) continue;
-            prevTotalValid += parseFloat(info.Valid_Poll) || 0;
+            prevTotalValid += this._safeValidPoll(info, cg);
             prevTotalPoll += parseFloat(info.Total_Poll) || 0;
             prevTotalElectorate += parseFloat(info.Total_Electorate) || 0;
             prevTotalSpoiled += parseFloat(info.Spoiled) || 0;
+            const constituencyName = info.Constituency_Name || '';
+            if (useSubsetComparison && !comparisonConstituencies.has(constituencyName)) {
+                continue;
+            }
             const seen = new Set();
             cg.forEach(row => {
                 const countNum = parseInt(row.Count_Number, 10) || 1;
                 const cid = String(row.Candidate_Id || '');
-                const party = row.Party_Name || 'Independent';
-                if (countNum === 1 && !seen.has(cid)) {
+                const party = this._normaliseLivePartyName(row.Party_Name);
+                if (countNum === 1 && this._isValidCandidateRow(row) && !seen.has(cid)) {
                     seen.add(cid);
                     if (!prevPartyTotals.has(party)) {
                         prevPartyTotals.set(party, { votes: 0, stood: 0, seats: 0 });
@@ -1887,7 +3066,7 @@ class ElectionController {
 
             const prevConstituencyElected = this._extractElected(payload);
             prevConstituencyElected.forEach((member) => {
-                const party = member.party || 'Independent';
+                const party = this._normaliseLivePartyName(member.party);
                 if (!prevPartyTotals.has(party)) {
                     prevPartyTotals.set(party, { votes: 0, stood: 0, seats: 0 });
                 }
@@ -1925,23 +3104,30 @@ class ElectionController {
             return `${n}th`;
         };
 
+        const prevTotalSeats = [...prevPartyTotals.values()].reduce((sum, entry) => sum + (entry.seats || 0), 0);
         let html = `
             <div class="election-summary election-summary--niwide">
-                <div class="election-party-wrapper">
-                <table class="election-party-table">
+                <div class="election-party-wrapper election-party-wrapper--pane-sticky">
+                <table class="election-party-table election-party-table--grouped">
                     <thead>
                         <tr>
-                            <th>Rank</th>
-                            <th class="election-colour-col"></th>
-                            <th>Party</th>
-                            <th class="election-num">Stood</th>
-                            <th class="election-num">+/-</th>
-                            <th class="election-num">Elected</th>
-                            <th class="election-num">+/-</th>
-                            <th class="election-num">${this._thTwoLine('1st prefs', '')}</th>
-                            <th class="election-num">+/-</th>
-                            <th class="election-num">${this._thTwoLine('% of', 'NI')}</th>
-                            <th class="election-num">${this._thTwoLine('% of NI', '+/-')}</th>
+                            <th rowspan="2" data-leaf-col-idx="0">#</th>
+                            <th rowspan="2" data-leaf-col-idx="1">Party</th>
+                            <th colspan="2">Candidates</th>
+                            <th colspan="4">Seats</th>
+                            <th colspan="4">1st preferences</th>
+                        </tr>
+                        <tr>
+                            ${this._resultsLeafTh('No.', 2, 'election-num')}
+                            ${this._resultsLeafTh('+/-', 3, 'election-num')}
+                            ${this._resultsLeafTh('No.', 4, 'election-num')}
+                            ${this._resultsLeafTh('+/-', 5, 'election-num')}
+                            ${this._resultsLeafTh('%', 6, 'election-num')}
+                            ${this._resultsLeafTh('+/-', 7, 'election-num')}
+                            ${this._resultsLeafTh('No.', 8, 'election-num')}
+                            ${this._resultsLeafTh('+/-', 9, 'election-num')}
+                            ${this._resultsLeafTh('%', 10, 'election-num')}
+                            ${this._resultsLeafTh('+/-', 11, 'election-num')}
                         </tr>
                     </thead>
                     <tbody>
@@ -1953,17 +3139,21 @@ class ElectionController {
             const stoodDelta = prev ? (data.stood - prev.stood) : null;
             const electedDelta = prev ? (data.seats - prev.seats) : null;
             const votesDelta = typeof prevVotes === 'number' ? (data.votes - prevVotes) : null;
+            const seatPct = totalSeats > 0 ? pctValue(data.seats, totalSeats) : 0;
+            const prevSeatPct = prev ? pctValue(prev.seats, prevTotalSeats) : null;
+            const seatPctDelta = typeof prevSeatPct === 'number' ? (seatPct - prevSeatPct) : null;
             const prevPct = typeof prevVotes === 'number' ? pctValue(prevVotes, prevTotalValid) : null;
             const pctDelta = typeof prevPct === 'number' ? (pctValue(data.votes, totalValid) - prevPct) : null;
             html += `
                 <tr>
                     <td class="election-rank-col">${rankLabel(idx)}</td>
-                    <td class="election-colour-col"><span class="election-party-dot" style="background:${this._esc(data.colour)}"></span></td>
-                    <td>${this._renderElectionEntityLink('party', name, name, 'election-cell-wrap')}</td>
+                    <td><span class="election-party-dot" style="background:${this._esc(data.colour)}"></span>${this._renderElectionEntityLink('party', name, name, 'election-cell-wrap')}</td>
                     <td class="election-num">${data.stood}</td>
                     <td class="election-num">${this._fmtMaybeDelta(stoodDelta)}</td>
                     <td class="election-num">${data.seats}</td>
                     <td class="election-num">${this._fmtMaybeDelta(electedDelta)}</td>
+                    <td class="election-num">${seatPct.toFixed(2)}%</td>
+                    <td class="election-num">${this._fmtMaybePctDelta(seatPctDelta)}</td>
                     <td class="election-num">${fmt(data.votes)}</td>
                     <td class="election-num">${this._fmtMaybeDelta(votesDelta)}</td>
                     <td class="election-num">${pct(data.votes)}</td>
@@ -1972,91 +3162,110 @@ class ElectionController {
             `;
         });
 
-        html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>Valid votes</strong></td><td class="election-num">${this.constituencies?.filter(c => c !== 'Northern Ireland').length || 0}</td><td class="election-num">-</td><td class="election-num">${totalSeats}</td><td class="election-num">-</td><td class="election-num election-cell-strong">${fmt(totalValid)}</td><td class="election-num">${this._fmtMaybeDelta(totalValid - prevTotalValid)}</td><td class="election-num election-cell-strong">${validPct.toFixed(2)}%</td><td class="election-num">${this._fmtMaybePctDelta(validPct - prevValidPct)}</td></tr>`;
-        html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>Turnout</strong></td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num election-cell-strong">${fmt(totalPoll)}</td><td class="election-num">${this._fmtMaybeDelta(totalPoll - prevTotalPoll)}</td><td class="election-num election-cell-strong">${turnoutPct.toFixed(2)}%</td><td class="election-num">${this._fmtMaybePctDelta(turnoutPct - prevTurnoutPct)}</td></tr>`;
-        html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>Spoiled</strong></td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num election-cell-strong">${fmt(totalSpoiled)}</td><td class="election-num">${this._fmtMaybeDelta(totalSpoiled - prevTotalSpoiled)}</td><td class="election-num election-cell-strong">${spoiledPct.toFixed(2)}%</td><td class="election-num">${this._fmtMaybePctDelta(spoiledPct - prevSpoiledPct)}</td></tr>`;
-        html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>Did not vote</strong></td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num election-cell-strong">${fmt(didNotVote)}</td><td class="election-num">${this._fmtMaybeDelta(didNotVote - prevDidNotVote)}</td><td class="election-num election-cell-strong">${dnvPct.toFixed(2)}%</td><td class="election-num">${this._fmtMaybePctDelta(dnvPct - prevDnvPct)}</td></tr>`;
-        html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>Electorate</strong></td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num election-cell-strong">${fmt(totalElectorate)}</td><td class="election-num">${this._fmtMaybeDelta(totalElectorate - prevTotalElectorate)}</td><td class="election-num election-cell-strong">100.00%</td><td class="election-num">${this._fmtMaybePctDelta(0)}</td></tr>`;
+        html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td><strong>Valid votes</strong></td><td class="election-num">${this.constituencies?.filter(c => c !== 'Northern Ireland').length || 0}</td><td class="election-num">-</td><td class="election-num">${totalSeats}</td><td class="election-num">-</td><td class="election-num election-cell-strong">100.00%</td><td class="election-num">${this._fmtMaybePctDelta(0)}</td><td class="election-num election-cell-strong">${fmt(totalValid)}</td><td class="election-num">${this._fmtMaybeDelta(totalValid - prevTotalValid)}</td><td class="election-num election-cell-strong">${validPct.toFixed(2)}%</td><td class="election-num">${this._fmtMaybePctDelta(validPct - prevValidPct)}</td></tr>`;
+        html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td><strong>Turnout</strong></td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num election-cell-strong">${fmt(totalPoll)}</td><td class="election-num">${this._fmtMaybeDelta(totalPoll - prevTotalPoll)}</td><td class="election-num election-cell-strong">${turnoutPct.toFixed(2)}%</td><td class="election-num">${this._fmtMaybePctDelta(turnoutPct - prevTurnoutPct)}</td></tr>`;
+        html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td><strong>Spoiled</strong></td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num election-cell-strong">${fmt(totalSpoiled)}</td><td class="election-num">${this._fmtMaybeDelta(totalSpoiled - prevTotalSpoiled)}</td><td class="election-num election-cell-strong">${spoiledPct.toFixed(2)}%</td><td class="election-num">${this._fmtMaybePctDelta(spoiledPct - prevSpoiledPct)}</td></tr>`;
+        html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td><strong>Did not vote</strong></td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num election-cell-strong">${fmt(didNotVote)}</td><td class="election-num">${this._fmtMaybeDelta(didNotVote - prevDidNotVote)}</td><td class="election-num election-cell-strong">${dnvPct.toFixed(2)}%</td><td class="election-num">${this._fmtMaybePctDelta(dnvPct - prevDnvPct)}</td></tr>`;
+        html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td><strong>Electorate</strong></td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num election-cell-strong">${fmt(totalElectorate)}</td><td class="election-num">${this._fmtMaybeDelta(totalElectorate - prevTotalElectorate)}</td><td class="election-num election-cell-strong">100.00%</td><td class="election-num">${this._fmtMaybePctDelta(0)}</td></tr>`;
         html += `</tbody></table></div></div>`;
         return html;
     }
 
     _buildNIWideCandidateTable() {
+        const isLocal = this._isLocalGovernmentBody();
         const rows = [];
         let totalValid = 0;
         const prevByCandidate = new Map();
         let prevTotalValid = 0;
+        const useSubsetComparison = this._isByElectionScope(this.constituencies || []);
+        const comparisonConstituencies = new Set((this.constituencies || []).filter((name) => name !== 'Northern Ireland'));
         Object.entries(this.resultsByConstituency).forEach(([constName, payload]) => {
             const cg = payload?.Constituency?.countGroup || [];
             const info = payload?.Constituency?.countInfo || {};
-            const constValid = parseFloat(info.Valid_Poll) || 0;
+            const constValid = this._safeValidPoll(info, cg);
             const seatCount = parseInt(info.Number_Of_Seats, 10) || 0;
+            const cleanedConstName = this._cleanConstituencyDisplayName(constName);
             totalValid += constValid;
             const byCandidate = new Map();
             const countNums = [...new Set(cg.map(r => parseInt(r.Count_Number, 10) || 1))].sort((a, b) => a - b);
             const lastCount = countNums[countNums.length - 1] || 1;
+            const totalCountCount = countNums.length;
             cg.forEach(row => {
+                if (!this._isValidCandidateRow(row)) return;
                 const cid = String(row.Candidate_Id || '');
-                if (!cid) return;
                 const countNum = parseInt(row.Count_Number, 10) || 1;
                 if (!byCandidate.has(cid)) {
                     byCandidate.set(cid, {
                         personId: cid,
                         constituency: constName,
-                        name: row.candidateName || `${row.Firstname || ''} ${row.Surname || ''}`.trim(),
-                        party: row.Party_Name || 'Independent',
+                        name: this._candidateDisplayName(row),
+                        party: this._normaliseLivePartyName(row.Party_Name),
                         colour: row.Party_Colour || '#b0bec5',
                         votes: 0,
                         constPct: 0,
-                        elected: false,
-                        excluded: false
+                        finalVotes: 0,
+                        electedAt: null,
+                        excludedAt: null,
+                        resolvedCount: null,
+                        countDisplay: '',
+                        counts: {}
                     });
                 }
                 const cand = byCandidate.get(cid);
+                const total = parseFloat(row.Total_Votes) || 0;
                 if (countNum === 1) {
                     cand.votes = parseFloat(row.Total_Votes) || 0;
                     cand.constPct = constValid > 0 ? (cand.votes / constValid * 100) : 0;
                 }
-                if (this._statusKind(row.Status) === 'elected') cand.elected = true;
-                if (this._statusKind(row.Status) === 'excluded') cand.excluded = true;
+                cand.counts[countNum] = {
+                    total,
+                    transfers: parseFloat(row.Transfers) || 0,
+                    status: row.Status || ''
+                };
+                if (total > cand.finalVotes) cand.finalVotes = total;
             });
-            const explicitElected = [...byCandidate.values()].filter(c => c.elected).length;
+            byCandidate.forEach((cand) => {
+                const lifecycle = this._inferCandidateLifecycle(cand, info, lastCount);
+                cand.electedAt = lifecycle.electedAt;
+                cand.excludedAt = lifecycle.excludedAt;
+            });
+            const explicitElected = [...byCandidate.values()].filter(c => !!c.electedAt).length;
             if (seatCount > 0 && explicitElected < seatCount) {
                 const needed = seatCount - explicitElected;
-                const deemable = [...byCandidate.entries()]
-                    .filter(([, c]) => !c.elected && !c.excluded)
-                    .map(([cid, c]) => {
-                        let lastVotes = -1;
-                        cg.forEach((row) => {
-                            if (String(row.Candidate_Id || '') !== String(cid)) return;
-                            const cn = parseInt(row.Count_Number, 10) || 1;
-                            if (cn === lastCount) lastVotes = parseFloat(row.Total_Votes) || 0;
-                        });
-                        return { c, lastVotes };
-                    })
-                    .filter(x => x.lastVotes >= 0)
-                    .sort((a, b) => b.lastVotes - a.lastVotes)
+                const deemable = [...byCandidate.values()]
+                    .filter((candidate) => !candidate.electedAt && !candidate.excludedAt)
+                    .sort((a, b) => b.finalVotes - a.finalVotes)
                     .slice(0, needed);
-                deemable.forEach(({ c }) => { c.elected = true; });
+                deemable.forEach((candidate) => {
+                    candidate.electedAt ||= lastCount;
+                });
             }
             byCandidate.forEach(cand => {
-                cand.status = cand.elected ? 'Elected' : (cand.excluded ? 'Excluded' : 'Not Elected');
+                cand.resolvedCount = cand.electedAt ? (cand.electedAt || lastCount)
+                    : cand.excludedAt ? (cand.excludedAt || lastCount)
+                        : lastCount;
+                cand.status = cand.electedAt ? 'Elected' : (cand.excludedAt ? 'Excluded' : 'Not Elected');
+                cand.countDisplay = `${cand.resolvedCount}/${totalCountCount}`;
+                cand.constituency = cleanedConstName;
+                cand.lgd = this._getCouncilNameForConstituency(cleanedConstName) || '';
                 rows.push(cand);
             });
         });
         Object.entries(this.previousResultsByConstituency || {}).forEach(([constName, payload]) => {
             const cg = payload?.Constituency?.countGroup || [];
             const info = payload?.Constituency?.countInfo || {};
-            const constValid = parseFloat(info.Valid_Poll) || 0;
+            const constValid = this._safeValidPoll(info, cg);
+            const seatCount = parseInt(info.Number_Of_Seats, 10) || 0;
             prevTotalValid += constValid;
+            if (useSubsetComparison && !comparisonConstituencies.has(constName)) return;
             const seen = new Set();
             cg.forEach(row => {
                 const countNum = parseInt(row.Count_Number, 10) || 1;
                 const cid = String(row.Candidate_Id || '');
-                if (countNum !== 1 || seen.has(cid)) return;
+                if (countNum !== 1 || !this._isValidCandidateRow(row) || seen.has(cid)) return;
                 seen.add(cid);
-                const name = row.candidateName || `${row.Firstname || ''} ${row.Surname || ''}`.trim();
-                const party = row.Party_Name || 'Independent';
+                const name = this._candidateDisplayName(row);
+                const party = this._normaliseLivePartyName(row.Party_Name);
                 const key = this._candidateKey(name, party);
                 const prevVotes = parseFloat(row.Total_Votes) || 0;
                 prevByCandidate.set(key, {
@@ -2065,22 +3274,47 @@ class ElectionController {
                 });
             });
         });
-        rows.sort((a, b) => b.votes - a.votes);
+        rows.sort((a, b) => {
+            const pctDelta = (b.constPct || 0) - (a.constPct || 0);
+            if (Math.abs(pctDelta) > 1e-9) return pctDelta;
+            return (b.votes || 0) - (a.votes || 0)
+                || String(a.name || '').localeCompare(String(b.name || ''));
+        });
         const fmt = (n) => Math.round(n).toLocaleString('en-GB');
-        let html = `<div class="election-count-wrapper"><table class="election-count-table"><thead><tr>
-            <th>Rank</th>
-            <th class="election-colour-col"></th>
-            <th>Name</th>
-            <th>Party</th>
-            <th>Constituency</th>
-            <th>Status</th>
-            <th class="election-num">${this._thTwoLine('1st prefs', '+/-')}</th>
-            <th class="election-num">${this._thTwoLine('1st prefs', '')}</th>
-            <th class="election-num">${this._thTwoLine('1st prefs', '%')}</th>
-            <th class="election-num">${this._thTwoLine('1st prefs %', '+/-')}</th>
-            <th class="election-num">${this._thTwoLine('% of', 'NI')}</th>
-            <th class="election-num">${this._thTwoLine('% of NI', '+/-')}</th>
-        </tr></thead><tbody>`;
+        const leafHeader = (label, colIdx, extraClass = '', rowspan = 1) => {
+            const cls = [extraClass].filter(Boolean).join(' ');
+            return `<th${cls ? ` class="${cls}"` : ''} data-leaf-col-idx="${colIdx}"${rowspan > 1 ? ` rowspan="${rowspan}"` : ''}>${label}</th>`;
+        };
+        let html = `<div class="election-count-wrapper election-count-wrapper--pane-sticky"><table class="election-count-table election-count-table--grouped election-count-table--candidate-sticky3"><thead>
+            <tr>
+                ${leafHeader('#', 0, '', 3)}
+                ${leafHeader('Name', 1, '', 3)}
+                ${leafHeader('Party', 2, '', 3)}
+                ${isLocal
+                    ? '<th colspan="2">Geography</th>'
+                    : leafHeader('Constituency', 3, '', 3)}
+                <th colspan="2">Status</th>
+                <th colspan="4">1st preferences</th>
+                <th colspan="2">% of NI</th>
+            </tr>
+            <tr>
+                ${isLocal
+                    ? `${leafHeader('District', 3, '', 2)}${leafHeader('DEA', 4, '', 2)}`
+                    : ''}
+                ${leafHeader('Outcome', isLocal ? 5 : 4, '', 2)}
+                ${leafHeader('Count', isLocal ? 6 : 5, '', 2)}
+                <th colspan="2">No.</th>
+                <th colspan="2">%</th>
+                <th colspan="2">%</th>
+            </tr>
+            <tr>
+                ${this._resultsLeafTh('No.', isLocal ? 7 : 6, 'election-num')}
+                ${this._resultsLeafTh('+/-', isLocal ? 8 : 7, 'election-num')}
+                ${this._resultsLeafTh('%', isLocal ? 9 : 8, 'election-num')}
+                ${this._resultsLeafTh('+/-', isLocal ? 10 : 9, 'election-num')}
+                ${this._resultsLeafTh('%', isLocal ? 11 : 10, 'election-num')}
+                ${this._resultsLeafTh('+/-', isLocal ? 12 : 11, 'election-num')}
+            </tr></thead><tbody>`;
         const rankLabel = (idx) => {
             const n = idx + 1;
             if (n % 10 === 1 && n % 100 !== 11) return `${n}st`;
@@ -2099,17 +3333,18 @@ class ElectionController {
             const constPctDelta = typeof prev?.constPct === 'number' ? (row.constPct - prev.constPct) : null;
             html += `<tr>
                 <td class="election-rank-col">${rankLabel(idx)}</td>
-                <td class="election-colour-col"><span class="election-party-dot" style="background:${this._esc(row.colour)}"></span></td>
-                <td>${this._renderElectionEntityLink('candidate', row.personId, row.name, 'election-cell-wrap')}</td>
+                <td><span class="election-party-dot" style="background:${this._esc(row.colour)}"></span>${this._renderElectionEntityLink('candidate', row.personId, row.name, 'election-cell-wrap')}</td>
                 <td>${this._renderElectionEntityLink('party', row.party, row.party, 'election-cell-wrap')}</td>
-                <td><span class="election-cell-wrap">${this._esc(row.constituency)}</span></td>
+                ${isLocal ? `<td>${this._renderElectionConstituencyFeatureLink(this.body, this.date, row.lgd || '�', row.lgd || '�', 'election-cell-wrap', 'council')}</td>` : ''}
+                <td>${this._renderElectionConstituencyFeatureLink(this.body, this.date, row.constituency, row.constituency, 'election-cell-wrap', isLocal ? 'dea' : 'constituency')}</td>
                 <td><span class="election-cell-wrap">${row.status === 'Elected' ? '<strong>Elected</strong>' : this._esc(row.status)}</span></td>
-                <td class="election-num">${this._fmtMaybeDelta(votesDelta)}</td>
+                <td class="center"><span class="election-cell-wrap">${this._esc(row.countDisplay)}</span></td>
                 <td class="election-num election-cell-strong">${fmt(row.votes)}</td>
+                <td class="election-num">${this._fmtMaybeDelta(votesDelta)}</td>
                 <td class="election-num">${row.constPct.toFixed(2)}%</td>
                 <td class="election-num">${this._fmtMaybePctDeltaOrNA(constPctDelta)}</td>
                 <td class="election-num">${niPct.toFixed(2)}%</td>
-                <td class="election-num">${this._fmtMaybePctDelta(niPctDelta)}</td>
+                <td class="election-num">${this._fmtMaybePctDeltaOrNA(niPctDelta)}</td>
             </tr>`;
         });
         html += `</tbody></table></div>`;
@@ -2117,25 +3352,28 @@ class ElectionController {
     }
 
     _buildNIWideLocalPartyTable() {
+        const isLocal = this._isLocalGovernmentBody();
         const rows = [];
         let totalValid = 0;
         const prevByLocalParty = new Map();
         let prevTotalValid = 0;
+        const useSubsetComparison = this._isByElectionScope(this.constituencies || []);
+        const comparisonConstituencies = new Set((this.constituencies || []).filter((name) => name !== 'Northern Ireland'));
 
         Object.entries(this.resultsByConstituency).forEach(([constName, payload]) => {
             const cg = payload?.Constituency?.countGroup || [];
             const info = payload?.Constituency?.countInfo || {};
-            const constValid = parseFloat(info.Valid_Poll) || 0;
+            const constValid = this._safeValidPoll(info, cg);
             totalValid += constValid;
 
             const byCandidate = new Map();
             cg.forEach(row => {
+                if (!this._isValidCandidateRow(row)) return;
                 const cid = String(row.Candidate_Id || '');
-                if (!cid) return;
                 const countNum = parseInt(row.Count_Number, 10) || 1;
                 if (!byCandidate.has(cid)) {
                     byCandidate.set(cid, {
-                        party: row.Party_Name || 'Independent',
+                        party: this._normaliseLivePartyName(row.Party_Name),
                         colour: row.Party_Colour || '#b0bec5',
                         votes: 0,
                         elected: false,
@@ -2175,7 +3413,7 @@ class ElectionController {
 
             const byLocalParty = new Map();
             byCandidate.forEach((cand) => {
-                const party = cand.party || 'Independent';
+                const party = this._normaliseLivePartyName(cand.party);
                 if (!byLocalParty.has(party)) {
                     byLocalParty.set(party, {
                         constituency: constName,
@@ -2195,6 +3433,9 @@ class ElectionController {
 
             byLocalParty.forEach((lp) => {
                 lp.constPct = constValid > 0 ? (lp.votes / constValid * 100) : 0;
+                lp.seatPct = seatCount > 0 ? (lp.elected / seatCount * 100) : 0;
+                lp.totalSeats = seatCount;
+                lp.lgd = this._getCouncilNameForConstituency(constName) || '';
                 rows.push(lp);
             });
         });
@@ -2202,13 +3443,15 @@ class ElectionController {
         Object.entries(this.previousResultsByConstituency || {}).forEach(([constName, payload]) => {
             const cg = payload?.Constituency?.countGroup || [];
             const info = payload?.Constituency?.countInfo || {};
-            const constValid = parseFloat(info.Valid_Poll) || 0;
+            const constValid = this._safeValidPoll(info, cg);
+            const seatCount = parseInt(info.Number_Of_Seats, 10) || 0;
             prevTotalValid += constValid;
+            if (useSubsetComparison && !comparisonConstituencies.has(constName)) return;
 
             const constituencyElected = this._extractElected(payload);
             const electedByParty = new Map();
             constituencyElected.forEach((member) => {
-                const party = member.party || 'Independent';
+                const party = this._normaliseLivePartyName(member.party);
                 electedByParty.set(party, (electedByParty.get(party) || 0) + 1);
             });
 
@@ -2217,9 +3460,9 @@ class ElectionController {
             cg.forEach(row => {
                 const countNum = parseInt(row.Count_Number, 10) || 1;
                 const cid = String(row.Candidate_Id || '');
-                if (countNum !== 1 || !cid || seenCandidates.has(cid)) return;
+                if (countNum !== 1 || !this._isValidCandidateRow(row) || seenCandidates.has(cid)) return;
                 seenCandidates.add(cid);
-                const party = row.Party_Name || 'Independent';
+                const party = this._normaliseLivePartyName(row.Party_Name);
                 if (!snapshot.has(party)) snapshot.set(party, { votes: 0, stood: 0 });
                 const entry = snapshot.get(party);
                 entry.votes += parseFloat(row.Total_Votes) || 0;
@@ -2231,27 +3474,40 @@ class ElectionController {
                     votes: entry.votes,
                     stood: entry.stood,
                     elected: electedByParty.get(party) || 0,
-                    constPct: constValid > 0 ? (entry.votes / constValid * 100) : null
+                    constPct: constValid > 0 ? (entry.votes / constValid * 100) : null,
+                    seatPct: seatCount > 0 ? ((electedByParty.get(party) || 0) / seatCount * 100) : null
                 });
             });
         });
 
         rows.sort((a, b) => b.votes - a.votes);
         const fmt = (n) => Math.round(n).toLocaleString('en-GB');
-        let html = `<div class="election-count-wrapper"><table class="election-count-table"><thead><tr>
-            <th>Rank</th>
-            <th class="election-colour-col"></th>
-            <th>Party</th>
-            <th>Constituency</th>
-            <th>Stood</th>
-            <th>Elected</th>
-            <th class="election-num">${this._thTwoLine('1st prefs', '+/-')}</th>
-            <th class="election-num">${this._thTwoLine('1st prefs', '')}</th>
-            <th class="election-num">${this._thTwoLine('1st prefs', '%')}</th>
-            <th class="election-num">${this._thTwoLine('1st prefs %', '+/-')}</th>
-            <th class="election-num">${this._thTwoLine('% of', 'NI')}</th>
-            <th class="election-num">${this._thTwoLine('% of NI', '+/-')}</th>
-        </tr></thead><tbody>`;
+        let html = `<div class="election-count-wrapper election-count-wrapper--pane-sticky"><table class="election-count-table election-count-table--grouped${isLocal ? ' election-count-table--local-party-sticky4' : ' election-count-table--nonlocal-local-party-sticky3'}"><thead>
+            <tr>
+                <th rowspan="2" data-leaf-col-idx="0">#</th>
+                <th rowspan="2" data-leaf-col-idx="1">Party</th>
+                ${isLocal ? '<th colspan="2">Geography</th>' : '<th rowspan="2" data-leaf-col-idx="2">Constituency</th>'}
+                <th colspan="2">Candidates</th>
+                <th colspan="4">Seats</th>
+                <th colspan="4">1st preferences</th>
+                <th colspan="2">% of NI</th>
+            </tr>
+            <tr>
+                ${isLocal ? this._resultsLeafTh('District', 2) : ''}
+                ${isLocal ? this._resultsLeafTh('DEA', 3) : ''}
+                ${this._resultsLeafTh('No.', isLocal ? 4 : 3, 'election-num')}
+                ${this._resultsLeafTh('+/-', isLocal ? 5 : 4, 'election-num')}
+                ${this._resultsLeafTh('No.', isLocal ? 6 : 5, 'election-num')}
+                ${this._resultsLeafTh('+/-', isLocal ? 7 : 6, 'election-num')}
+                ${this._resultsLeafTh('%', isLocal ? 8 : 7, 'election-num')}
+                ${this._resultsLeafTh('+/-', isLocal ? 9 : 8, 'election-num')}
+                ${this._resultsLeafTh('No.', isLocal ? 10 : 9, 'election-num')}
+                ${this._resultsLeafTh('+/-', isLocal ? 11 : 10, 'election-num')}
+                ${this._resultsLeafTh('%', isLocal ? 12 : 11, 'election-num')}
+                ${this._resultsLeafTh('+/-', isLocal ? 13 : 12, 'election-num')}
+                ${this._resultsLeafTh('%', isLocal ? 14 : 13, 'election-num')}
+                ${this._resultsLeafTh('+/-', isLocal ? 15 : 14, 'election-num')}
+            </tr></thead><tbody>`;
         const rankLabel = (idx) => {
             const n = idx + 1;
             if (n % 10 === 1 && n % 100 !== 11) return `${n}st`;
@@ -2260,27 +3516,32 @@ class ElectionController {
             return `${n}th`;
         };
         rows.forEach((row, idx) => {
-            const niPct = totalValid > 0 ? (row.votes / totalValid * 100) : 0;
             const key = this._localPartyKey(row.constituency, row.party);
             const prev = prevByLocalParty.get(key);
             const prevVotes = prev?.votes;
             const votesDelta = typeof prevVotes === 'number' ? (row.votes - prevVotes) : null;
+            const seatPctDelta = typeof prev?.seatPct === 'number' ? (row.seatPct - prev.seatPct) : null;
+            const constPctDelta = typeof prev?.constPct === 'number' ? (row.constPct - prev.constPct) : null;
+            const niPct = totalValid > 0 ? (row.votes / totalValid * 100) : 0;
             const prevNiPct = (typeof prevVotes === 'number' && prevTotalValid > 0) ? (prevVotes / prevTotalValid * 100) : null;
             const niPctDelta = typeof prevNiPct === 'number' ? (niPct - prevNiPct) : null;
-            const constPctDelta = typeof prev?.constPct === 'number' ? (row.constPct - prev.constPct) : null;
             html += `<tr>
                 <td class="election-rank-col">${rankLabel(idx)}</td>
-                <td class="election-colour-col"><span class="election-party-dot" style="background:${this._esc(row.colour)}"></span></td>
-                <td>${this._renderElectionEntityLink('party', row.party, row.party, 'election-cell-wrap')}</td>
-                <td><span class="election-cell-wrap">${this._esc(row.constituency)}</span></td>
+                <td><span class="election-party-dot" style="background:${this._esc(row.colour)}"></span>${this._renderElectionEntityLink('party', row.party, row.party, 'election-cell-wrap')}</td>
+                ${isLocal ? `<td>${this._renderElectionConstituencyFeatureLink(this.body, this.date, row.lgd || '�', row.lgd || '�', 'election-cell-wrap', 'council')}</td>` : ''}
+                <td>${this._renderElectionConstituencyFeatureLink(this.body, this.date, row.constituency, row.constituency, 'election-cell-wrap', isLocal ? 'dea' : 'constituency')}</td>
                 <td class="election-num"><span class="election-cell-wrap">${row.stood}</span></td>
+                <td class="election-num">${this._fmtMaybeDelta(prev ? (row.stood - prev.stood) : null)}</td>
                 <td class="election-num"><span class="election-cell-wrap"><strong>${row.elected}</strong></span></td>
-                <td class="election-num">${this._fmtMaybeDelta(votesDelta)}</td>
+                <td class="election-num">${this._fmtMaybeDelta(prev ? (row.elected - prev.elected) : null)}</td>
+                <td class="election-num">${row.seatPct.toFixed(2)}%</td>
+                <td class="election-num">${this._fmtMaybePctDeltaOrNA(seatPctDelta)}</td>
                 <td class="election-num election-cell-strong">${fmt(row.votes)}</td>
+                <td class="election-num">${this._fmtMaybeDelta(votesDelta)}</td>
                 <td class="election-num">${row.constPct.toFixed(2)}%</td>
                 <td class="election-num">${this._fmtMaybePctDeltaOrNA(constPctDelta)}</td>
                 <td class="election-num">${niPct.toFixed(2)}%</td>
-                <td class="election-num">${this._fmtMaybePctDelta(niPctDelta)}</td>
+                <td class="election-num">${this._fmtMaybePctDeltaOrNA(niPctDelta)}</td>
             </tr>`;
         });
         html += `</tbody></table></div>`;
@@ -2301,10 +3562,37 @@ class ElectionController {
         return `<button type="button" class="${classAttr}" data-election-entity-kind="${this._esc(kind)}" data-election-entity-key="${this._esc(safeKey)}">${safeLabel}</button>`;
     }
 
+    _renderElectionConstituencyFeatureLink(body, date, constituency, label, extraClass = '', level = 'dea') {
+        const safeLabel = this._esc(label || '');
+        const safeName = String(constituency || '').trim();
+        if (!safeName || safeName === '�') {
+            return `<span class="election-cell-wrap ${extraClass}">${safeLabel || '�'}</span>`;
+        }
+        const classAttr = ['election-entity-link', extraClass].filter(Boolean).join(' ');
+        return `<button type="button"
+            class="${classAttr}"
+            data-election-constituency-feature="1"
+            data-election-constituency-level="${this._esc(level || 'dea')}"
+            data-election-constituency-body="${this._esc(body || '')}"
+            data-election-constituency-date="${this._esc(date || '')}"
+            data-election-constituency-name="${this._esc(safeName)}">${safeLabel}</button>`;
+    }
+
     _bindElectionEntityLinks(container) {
         if (!container || container.dataset.entityLinksReady === '1') return;
         container.dataset.entityLinksReady = '1';
         container.addEventListener('click', (event) => {
+            const constituencyTrigger = event.target.closest('[data-election-constituency-feature="1"]');
+            if (constituencyTrigger && container.contains(constituencyTrigger)) {
+                event.preventDefault();
+                this.onOpenElectionConstituencyFeature?.({
+                    body: constituencyTrigger.dataset.electionConstituencyBody,
+                    date: constituencyTrigger.dataset.electionConstituencyDate,
+                    constituency: constituencyTrigger.dataset.electionConstituencyName,
+                    level: constituencyTrigger.dataset.electionConstituencyLevel || 'dea'
+                });
+                return;
+            }
             const trigger = event.target.closest('[data-election-entity-kind][data-election-entity-key]');
             if (!trigger || !container.contains(trigger)) return;
             event.preventDefault();
@@ -2377,7 +3665,7 @@ class ElectionController {
         content.style.display = '';
         content.style.flexDirection = '';
         if (titleEl) {
-            titleEl.textContent = `${this._shortBodyName(this.body)} - ${this._formatDate(this.date)}`;
+            titleEl.textContent = this._niWideTitle();
         }
         this._restoreHeaderTabs(view.tabId || 'party');
         this._renderNIWideView(view.tabId || 'party', content);
@@ -2394,7 +3682,7 @@ class ElectionController {
     }
 
     showConstituency(constName) {
-        if (!this.active || !constName || !this.resultsByConstituency?.[constName]) return;
+        if (!this.active || !constName || !this._getCurrentConstituencyPayload(constName)) return;
         this._showConstituencyPanel(constName);
     }
 
@@ -2426,14 +3714,14 @@ class ElectionController {
             const byCandidate = new Map();
 
             cg.forEach((row) => {
+                if (!this._isValidCandidateRow(row)) return;
                 const cid = String(row.Candidate_Id || '').trim();
-                if (!cid || cid.toLowerCase() === 'nontransferable') return;
                 const countNum = parseInt(row.Count_Number, 10) || 1;
                 if (!byCandidate.has(cid)) {
                     byCandidate.set(cid, {
                         personId: cid,
-                        name: row.candidateName || `${row.Firstname || ''} ${row.Surname || ''}`.trim() || cid,
-                        party: row.Party_Name || 'Independent',
+                        name: this._candidateDisplayName(row, cid),
+                        party: this._normaliseLivePartyName(row.Party_Name),
                         colour: row.Party_Colour || '#b0bec5',
                         constituency: constName,
                         firstPref: 0,
@@ -2509,7 +3797,7 @@ class ElectionController {
                     status
                 });
 
-                const partyName = candidate.party || 'Independent';
+                const partyName = this._normaliseLivePartyName(candidate.party);
                 if (!parties.has(partyName)) {
                     parties.set(partyName, {
                         name: partyName,
@@ -2655,15 +3943,408 @@ class ElectionController {
         `;
     }
 
-    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Constituency Click Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+    // â”€â”€â”€ Constituency Click â”€â”€â”€
 
     _onConstituencyClick(fgbName) {
         const constName = this._matchConstituency(fgbName);
         if (!constName) return;
+        if (this._isCouncilMode()) {
+            this._showCouncilPanel(constName);
+            return;
+        }
         if (this._specialElection?.type === 'recall-petition' && constName !== this._specialElection.constituency) {
             return;
         }
         this._showConstituencyPanel(constName);
+    }
+
+    _showCouncilPanel(councilName, preferredTab = 'party') {
+        const content = this.splitPaneEl?.querySelector('#electionPaneContent');
+        const headerRight = document.getElementById('electionPaneHeaderRight');
+        const titleEl = document.getElementById('electionPaneTitle');
+        const aggregate = this._councilAggregates?.get(councilName);
+        if (!content || !headerRight || !titleEl || !aggregate) return;
+
+        this.selectedConstituency = councilName;
+        titleEl.textContent = councilName;
+        const closeBtn = headerRight.querySelector('#electionCloseBtn');
+        headerRight.innerHTML = '';
+
+        const backBtn = document.createElement('button');
+        backBtn.className = 'election-pane__back';
+        backBtn.innerHTML = '<';
+        backBtn.title = 'Back to summary';
+        backBtn.addEventListener('click', () => {
+            this.selectedConstituency = null;
+            this._showNIWideResults();
+            if (this.onStateChange) this.onStateChange();
+        });
+        headerRight.appendChild(backBtn);
+
+        ['dea', 'council'].forEach((mode) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'election-view-tab' + (this._localResultsMode === mode ? ' election-view-tab--active' : '');
+            btn.dataset.action = 'set-results-mode';
+            btn.dataset.mode = mode;
+            btn.textContent = mode === 'dea' ? 'DEA' : 'District';
+            headerRight.appendChild(btn);
+        });
+
+        const tabs = [
+            { id: 'party', label: 'By Party' },
+            { id: 'candidate', label: 'By Candidate' },
+            { id: 'local-party', label: 'By Local Party' }
+        ];
+        tabs.forEach((def) => {
+            const btn = document.createElement('button');
+            btn.className = 'election-view-tab' + (def.id === preferredTab ? ' election-view-tab--active' : '');
+            btn.dataset.tab = def.id;
+            btn.textContent = def.label;
+            btn.addEventListener('click', () => {
+                headerRight.querySelectorAll('.election-view-tab[data-tab]').forEach((b) => b.classList.remove('election-view-tab--active'));
+                btn.classList.add('election-view-tab--active');
+                this._renderCouncilView(councilName, def.id, content);
+            });
+            headerRight.appendChild(btn);
+        });
+        if (closeBtn) headerRight.appendChild(closeBtn);
+        this._renderCouncilView(councilName, preferredTab, content);
+        if (this.onStateChange) this.onStateChange();
+    }
+
+    _renderCouncilView(councilName, tabId, container) {
+        const aggregate = this._councilAggregates?.get(councilName);
+        if (!aggregate || !container) return;
+        const previousAggregate = this._previousCouncilAggregates?.get(councilName) || null;
+        this._currentResultsView = { type: 'council', councilName, tabId };
+        container.style.overflowY = 'auto';
+        container.style.overflowX = 'hidden';
+        container.style.display = '';
+        container.style.flexDirection = '';
+        const fmt = (n) => Math.round(Number(n) || 0).toLocaleString('en-GB');
+        const fmtDelta = (value, suffix = '') => {
+            if (value === null || value === undefined || Number.isNaN(Number(value))) return '<span class="election-delta election-delta--neutral">N/A</span>';
+            const numeric = Number(value);
+            if (Math.abs(numeric) < 1e-9) return '<span class="election-delta election-delta--neutral">0</span>';
+            const sign = numeric > 0 ? '+' : '-';
+            const cls = numeric > 0 ? 'election-delta election-delta--pos' : 'election-delta election-delta--neg';
+            const abs = Math.abs(numeric);
+            const body = suffix === '%'
+                ? `${sign}${abs.toFixed(2)}%`
+                : `${sign}${Math.round(abs).toLocaleString('en-GB')}`;
+            return `<span class="${cls}">${body}</span>`;
+        };
+        const fmtPctDelta = (value) => {
+            if (value === null || value === undefined || Number.isNaN(Number(value))) return '<span class="election-delta election-delta--neutral">N/A</span>';
+            const numeric = Number(value);
+            if (Math.abs(numeric) < 1e-9) return '<span class="election-delta election-delta--neutral">0.00%</span>';
+            const sign = numeric > 0 ? '+' : '-';
+            const cls = numeric > 0 ? 'election-delta election-delta--pos' : 'election-delta election-delta--neg';
+            return `<span class="${cls}">${sign}${Math.abs(numeric).toFixed(2)}%</span>`;
+        };
+        const rankLabel = (idx) => {
+            const n = idx + 1;
+            if (n % 10 === 1 && n % 100 !== 11) return `${n}st`;
+            if (n % 10 === 2 && n % 100 !== 12) return `${n}nd`;
+            if (n % 10 === 3 && n % 100 !== 13) return `${n}rd`;
+            return `${n}th`;
+        };
+        const leafHeader = (label, colIdx, extraClass = '', rowspan = 1) => {
+            const cls = ['election-grouped-leaf', extraClass].filter(Boolean).join(' ');
+            return `<th rowspan="${rowspan}" data-leaf-col-idx="${colIdx}" class="${cls}">${this._esc(label)}</th>`;
+        };
+        if (tabId === 'candidate') {
+            const rows = aggregate.candidates.map((candidate, idx) => {
+                const prevCandidate = previousAggregate?.candidateMap?.get(candidate.personId) || null;
+                const votesDelta = typeof prevCandidate?.firstPrefs === 'number'
+                    ? candidate.firstPrefs - prevCandidate.firstPrefs
+                    : null;
+                const constPct = candidate.validPoll > 0 ? ((candidate.firstPrefs / candidate.validPoll) * 100) : 0;
+                const prevConstPct = prevCandidate?.validPoll > 0
+                    ? ((prevCandidate.firstPrefs / prevCandidate.validPoll) * 100)
+                    : null;
+                const constPctDelta = prevConstPct !== null ? constPct - prevConstPct : null;
+                const districtPct = aggregate.validPoll > 0 ? ((candidate.firstPrefs / aggregate.validPoll) * 100) : 0;
+                const prevDistrictPct = previousAggregate?.validPoll > 0 && prevCandidate
+                    ? ((prevCandidate.firstPrefs / previousAggregate.validPoll) * 100)
+                    : null;
+                const districtPctDelta = prevDistrictPct !== null ? districtPct - prevDistrictPct : null;
+                const countDisplay = `${candidate.resolvedCount || candidate.lastCount || 1}/${candidate.lastCount || 1}`;
+                return `
+                <tr>
+                    <td>${rankLabel(idx)}</td>
+                    <td><span class="election-party-dot" style="background:${this._esc(candidate.colour)}"></span>${this._renderElectionEntityLink('candidate', candidate.personId, candidate.name, 'election-cell-wrap')}</td>
+                    <td>${this._renderElectionEntityLink('party', candidate.party, candidate.party, 'election-cell-wrap')}</td>
+                    <td>${this._renderElectionConstituencyFeatureLink(this.body, this.date, candidate.constituency, candidate.constituency, 'election-cell-wrap', 'dea')}</td>
+                    <td><span class="election-cell-wrap">${candidate.status === 'Elected' ? '<strong>Elected</strong>' : this._esc(candidate.status)}</span></td>
+                    <td class="center"><span class="election-cell-wrap">${this._esc(countDisplay)}</span></td>
+                    <td class="election-num election-cell-strong">${fmt(candidate.firstPrefs)}</td>
+                    <td class="election-num">${this._fmtMaybeDeltaOrNA(votesDelta)}</td>
+                    <td class="election-num">${constPct.toFixed(2)}%</td>
+                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(constPctDelta)}</td>
+                    <td class="election-num">${districtPct.toFixed(2)}%</td>
+                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(districtPctDelta)}</td>
+                </tr>`;
+            }).join('');
+            container.innerHTML = `<div class="election-party-wrapper"><table class="election-party-table election-party-table--grouped election-party-table--candidate-sticky3"><thead>
+                <tr>
+                    ${leafHeader('#', 0, '', 3)}
+                    ${leafHeader('Name', 1, '', 3)}
+                    ${leafHeader('Party', 2, '', 3)}
+                    ${leafHeader('DEA', 3, '', 3)}
+                    <th colspan="2">Status</th>
+                    <th colspan="4">1st preferences</th>
+                    <th colspan="2">% of District</th>
+                </tr>
+                <tr>
+                    ${leafHeader('Outcome', 4, '', 2)}
+                    ${leafHeader('Count', 5, '', 2)}
+                    <th colspan="2">No.</th>
+                    <th colspan="2">%</th>
+                    <th colspan="2">%</th>
+                </tr>
+                <tr>
+                    ${this._resultsLeafTh('No.', 6, 'election-num')}
+                    ${this._resultsLeafTh('+/-', 7, 'election-num')}
+                    ${this._resultsLeafTh('%', 8, 'election-num')}
+                    ${this._resultsLeafTh('+/-', 9, 'election-num')}
+                    ${this._resultsLeafTh('%', 10, 'election-num')}
+                    ${this._resultsLeafTh('+/-', 11, 'election-num')}
+                </tr>
+            </thead><tbody>${rows}</tbody></table></div>`;
+        } else if (tabId === 'local-party') {
+            const rows = aggregate.localParties.map((row, idx) => {
+                const prevRowKey = `${row.party}::${this._cleanConstituencyDisplayName(row.constituency)}`;
+                const prevRow = previousAggregate?.localPartyMap?.get(prevRowKey) || null;
+                const stoodDelta = prevRow ? row.stood - prevRow.stood : null;
+                const electedDelta = prevRow ? row.elected - prevRow.elected : null;
+                const prevVotes = prevRow?.firstPrefs;
+                const votesDelta = typeof prevVotes === 'number' ? row.firstPrefs - prevVotes : null;
+                const votePct = row.validPoll > 0 ? ((row.firstPrefs / row.validPoll) * 100) : 0;
+                const prevVotePct = prevRow?.validPoll > 0
+                    ? ((prevRow.firstPrefs / prevRow.validPoll) * 100)
+                    : null;
+                const votePctDelta = prevVotePct !== null ? votePct - prevVotePct : null;
+                const seatPct = row.totalSeats > 0 ? ((row.elected / row.totalSeats) * 100) : 0;
+                const prevSeatPct = prevRow?.totalSeats > 0
+                    ? ((prevRow.elected / prevRow.totalSeats) * 100)
+                    : null;
+                const seatPctDelta = prevSeatPct !== null ? seatPct - prevSeatPct : null;
+                const districtPct = aggregate.validPoll > 0 ? ((row.firstPrefs / aggregate.validPoll) * 100) : 0;
+                const prevDistrictPct = previousAggregate?.validPoll > 0 && prevRow
+                    ? ((prevRow.firstPrefs / previousAggregate.validPoll) * 100)
+                    : null;
+                const districtPctDelta = prevDistrictPct !== null ? districtPct - prevDistrictPct : null;
+                return `
+                <tr>
+                    <td>${rankLabel(idx)}</td>
+                    <td class="election-colour-col"><span class="election-party-dot" style="background:${this._esc(row.colour)}"></span></td>
+                    <td>${this._renderElectionEntityLink('party', row.party, row.party, 'election-cell-wrap')}</td>
+                    <td>${this._renderElectionConstituencyFeatureLink(this.body, this.date, row.constituency, row.constituency, 'election-cell-wrap', 'dea')}</td>
+                    <td class="election-num">${fmt(row.stood)}</td>
+                    <td class="election-num">${this._fmtMaybeDeltaOrNA(stoodDelta)}</td>
+                    <td class="election-num election-cell-strong">${fmt(row.elected)}</td>
+                    <td class="election-num">${this._fmtMaybeDeltaOrNA(electedDelta)}</td>
+                    <td class="election-num">${seatPct.toFixed(2)}%</td>
+                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(seatPctDelta)}</td>
+                    <td class="election-num">${fmt(row.firstPrefs)}</td>
+                    <td class="election-num">${this._fmtMaybeDeltaOrNA(votesDelta)}</td>
+                    <td class="election-num">${votePct.toFixed(2)}%</td>
+                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(votePctDelta)}</td>
+                    <td class="election-num">${districtPct.toFixed(2)}%</td>
+                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(districtPctDelta)}</td>
+                </tr>`;
+            }).join('');
+            container.innerHTML = `<div class="election-party-wrapper"><table class="election-party-table election-party-table--grouped election-party-table--district-sticky3 election-party-table--district-local-party-sticky4"><thead>
+                <tr>
+                    <th rowspan="2" data-leaf-col-idx="0">#</th>
+                    <th rowspan="2" colspan="2" data-leaf-col-idx="1">Party</th>
+                    <th rowspan="2">DEA</th>
+                    <th colspan="2">Candidates</th>
+                    <th colspan="4">Seats</th>
+                    <th colspan="4">1st preferences</th>
+                    <th colspan="2">% of District</th>
+                </tr>
+                <tr>
+                    ${this._resultsLeafTh('No.', 4, 'election-num')}
+                    ${this._resultsLeafTh('+/-', 5, 'election-num')}
+                    ${this._resultsLeafTh('No.', 6, 'election-num')}
+                    ${this._resultsLeafTh('+/-', 7, 'election-num')}
+                    ${this._resultsLeafTh('%', 8, 'election-num')}
+                    ${this._resultsLeafTh('+/-', 9, 'election-num')}
+                    ${this._resultsLeafTh('No.', 10, 'election-num')}
+                    ${this._resultsLeafTh('+/-', 11, 'election-num')}
+                    ${this._resultsLeafTh('%', 12, 'election-num')}
+                    ${this._resultsLeafTh('+/-', 13, 'election-num')}
+                    ${this._resultsLeafTh('%', 14, 'election-num')}
+                    ${this._resultsLeafTh('+/-', 15, 'election-num')}
+                </tr>
+            </thead><tbody>${rows}</tbody></table></div>`;
+        } else {
+            const rows = aggregate.parties.map((row, idx) => {
+                const prevRow = previousAggregate?.parties?.find((entry) => entry.party === row.party) || null;
+                const stoodDelta = prevRow ? row.stood - prevRow.stood : null;
+                const electedDelta = prevRow ? row.elected - prevRow.elected : null;
+                const prevVotes = prevRow?.firstPrefs;
+                const votesDelta = typeof prevVotes === 'number' ? row.firstPrefs - prevVotes : null;
+                const votePct = aggregate.validPoll > 0 ? ((row.firstPrefs / aggregate.validPoll) * 100) : 0;
+                const prevVotePct = previousAggregate?.validPoll > 0 && prevRow
+                    ? ((prevRow.firstPrefs / previousAggregate.validPoll) * 100)
+                    : null;
+                const votePctDelta = prevVotePct !== null ? votePct - prevVotePct : null;
+                const seatPct = aggregate.totalSeats > 0 ? ((row.elected / aggregate.totalSeats) * 100) : 0;
+                const prevSeatPct = previousAggregate?.totalSeats > 0 && prevRow
+                    ? ((prevRow.elected / previousAggregate.totalSeats) * 100)
+                    : null;
+                const seatPctDelta = prevSeatPct !== null ? seatPct - prevSeatPct : null;
+                return `
+                <tr>
+                    <td>${rankLabel(idx)}</td>
+                    <td class="election-colour-col"><span class="election-party-dot" style="background:${this._esc(row.colour)}"></span></td>
+                    <td>${this._renderElectionEntityLink('party', row.party, row.party, 'election-cell-wrap')}</td>
+                    <td class="election-num">${fmt(row.stood)}</td>
+                    <td class="election-num">${this._fmtMaybeDeltaOrNA(stoodDelta)}</td>
+                    <td class="election-num election-cell-strong">${fmt(row.elected)}</td>
+                    <td class="election-num">${this._fmtMaybeDeltaOrNA(electedDelta)}</td>
+                    <td class="election-num">${seatPct.toFixed(2)}%</td>
+                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(seatPctDelta)}</td>
+                    <td class="election-num">${fmt(row.firstPrefs)}</td>
+                    <td class="election-num">${this._fmtMaybeDeltaOrNA(votesDelta)}</td>
+                    <td class="election-num">${votePct.toFixed(2)}%</td>
+                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(votePctDelta)}</td>
+                </tr>`;
+            }).join('');
+            const totalStood = aggregate.parties.reduce((sum, row) => sum + (row.stood || 0), 0);
+            const totalElected = aggregate.parties.reduce((sum, row) => sum + (row.elected || 0), 0);
+            const totalPoll = aggregate.totalPoll || 0;
+            const totalElectorate = aggregate.electorate || 0;
+            const totalSpoiled = aggregate.spoiled || 0;
+            const totalValid = aggregate.validPoll || 0;
+            const didNotVote = Math.max(0, totalElectorate - totalPoll);
+            const prevTotalPoll = previousAggregate?.totalPoll ?? null;
+            const prevTotalElectorate = previousAggregate?.electorate ?? null;
+            const prevTotalSpoiled = previousAggregate?.spoiled ?? null;
+            const prevTotalValid = previousAggregate?.validPoll ?? null;
+            const prevDidNotVote = (typeof prevTotalElectorate === 'number' && typeof prevTotalPoll === 'number')
+                ? Math.max(0, prevTotalElectorate - prevTotalPoll)
+                : null;
+            const turnoutPct = totalElectorate > 0 ? (totalPoll / totalElectorate * 100) : 0;
+            const validPct = totalElectorate > 0 ? (totalValid / totalElectorate * 100) : 0;
+            const spoiledPct = totalElectorate > 0 ? (totalSpoiled / totalElectorate * 100) : 0;
+            const didNotVotePct = totalElectorate > 0 ? (didNotVote / totalElectorate * 100) : 0;
+            const prevTurnoutPct = (typeof prevTotalElectorate === 'number' && prevTotalElectorate > 0 && typeof prevTotalPoll === 'number')
+                ? (prevTotalPoll / prevTotalElectorate * 100)
+                : null;
+            const prevValidPct = (typeof prevTotalElectorate === 'number' && prevTotalElectorate > 0 && typeof prevTotalValid === 'number')
+                ? (prevTotalValid / prevTotalElectorate * 100)
+                : null;
+            const prevSpoiledPct = (typeof prevTotalElectorate === 'number' && prevTotalElectorate > 0 && typeof prevTotalSpoiled === 'number')
+                ? (prevTotalSpoiled / prevTotalElectorate * 100)
+                : null;
+            const prevDidNotVotePct = (typeof prevTotalElectorate === 'number' && prevTotalElectorate > 0 && typeof prevDidNotVote === 'number')
+                ? (prevDidNotVote / prevTotalElectorate * 100)
+                : null;
+            const summaryRows = `
+                <tr class="election-table-summary-row">
+                    <td class="election-rank-col">-</td>
+                    <td></td>
+                    <td><strong>Valid votes</strong></td>
+                    <td class="election-num">${fmt(totalStood)}</td>
+                    <td class="election-num">${this._fmtMaybeDeltaOrNA(0)}</td>
+                    <td class="election-num">${fmt(totalElected)}</td>
+                    <td class="election-num">${this._fmtMaybeDeltaOrNA(0)}</td>
+                    <td class="election-num election-cell-strong">100.00%</td>
+                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(0)}</td>
+                    <td class="election-num election-cell-strong">${fmt(totalValid)}</td>
+                    <td class="election-num">${this._fmtMaybeDeltaOrNA(typeof prevTotalValid === 'number' ? totalValid - prevTotalValid : null)}</td>
+                    <td class="election-num election-cell-strong">${validPct.toFixed(2)}%</td>
+                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(prevValidPct !== null ? validPct - prevValidPct : null)}</td>
+                </tr>
+                <tr class="election-table-summary-row">
+                    <td class="election-rank-col">-</td>
+                    <td></td>
+                    <td><strong>Turnout</strong></td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num election-cell-strong">${fmt(totalPoll)}</td>
+                    <td class="election-num">${this._fmtMaybeDeltaOrNA(typeof prevTotalPoll === 'number' ? totalPoll - prevTotalPoll : null)}</td>
+                    <td class="election-num election-cell-strong">${turnoutPct.toFixed(2)}%</td>
+                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(prevTurnoutPct !== null ? turnoutPct - prevTurnoutPct : null)}</td>
+                </tr>
+                <tr class="election-table-summary-row">
+                    <td class="election-rank-col">-</td>
+                    <td></td>
+                    <td><strong>Spoiled</strong></td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num election-cell-strong">${fmt(totalSpoiled)}</td>
+                    <td class="election-num">${this._fmtMaybeDeltaOrNA(typeof prevTotalSpoiled === 'number' ? totalSpoiled - prevTotalSpoiled : null)}</td>
+                    <td class="election-num election-cell-strong">${spoiledPct.toFixed(2)}%</td>
+                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(prevSpoiledPct !== null ? spoiledPct - prevSpoiledPct : null)}</td>
+                </tr>
+                <tr class="election-table-summary-row">
+                    <td class="election-rank-col">-</td>
+                    <td></td>
+                    <td><strong>Did not vote</strong></td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num election-cell-strong">${fmt(didNotVote)}</td>
+                    <td class="election-num">${this._fmtMaybeDeltaOrNA(typeof prevDidNotVote === 'number' ? didNotVote - prevDidNotVote : null)}</td>
+                    <td class="election-num election-cell-strong">${didNotVotePct.toFixed(2)}%</td>
+                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(prevDidNotVotePct !== null ? didNotVotePct - prevDidNotVotePct : null)}</td>
+                </tr>
+                <tr class="election-table-summary-row">
+                    <td class="election-rank-col">-</td>
+                    <td></td>
+                    <td><strong>Electorate</strong></td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num">-</td>
+                    <td class="election-num election-cell-strong">${fmt(totalElectorate)}</td>
+                    <td class="election-num">${this._fmtMaybeDeltaOrNA(typeof prevTotalElectorate === 'number' ? totalElectorate - prevTotalElectorate : null)}</td>
+                    <td class="election-num election-cell-strong">100.00%</td>
+                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(0)}</td>
+                </tr>`;
+            container.innerHTML = `<div class="election-party-wrapper"><table class="election-party-table election-party-table--grouped election-party-table--district-sticky3"><thead>
+                <tr>
+                    <th rowspan="2" data-leaf-col-idx="0">#</th>
+                    <th rowspan="2" colspan="2" data-leaf-col-idx="1">Party</th>
+                    <th colspan="2">Candidates</th>
+                    <th colspan="4">Seats</th>
+                    <th colspan="4">1st preferences</th>
+                </tr>
+                <tr>
+                    ${this._resultsLeafTh('No.', 3, 'election-num')}
+                    ${this._resultsLeafTh('+/-', 4, 'election-num')}
+                    ${this._resultsLeafTh('No.', 5, 'election-num')}
+                    ${this._resultsLeafTh('+/-', 6, 'election-num')}
+                    ${this._resultsLeafTh('%', 7, 'election-num')}
+                    ${this._resultsLeafTh('+/-', 8, 'election-num')}
+                    ${this._resultsLeafTh('No.', 9, 'election-num')}
+                    ${this._resultsLeafTh('+/-', 10, 'election-num')}
+                    ${this._resultsLeafTh('%', 11, 'election-num')}
+                    ${this._resultsLeafTh('+/-', 12, 'election-num')}
+                </tr>
+            </thead><tbody>${rows}${summaryRows}</tbody></table></div>`;
+        }
+        this._setupResultsTableControls(container);
+        this._bindElectionEntityLinks(container);
     }
 
     _showConstituencyPanel(constName, preferredTab = null) {
@@ -2676,7 +4357,7 @@ class ElectionController {
         const content = this.splitPaneEl?.querySelector('#electionPaneContent');
         if (!content) return;
 
-        const payload = this.resultsByConstituency[constName];
+        const payload = this._getCurrentConstituencyPayload(constName);
         if (!payload) {
             content.innerHTML = `<div class="election-no-data">No results available for ${this._esc(constName)}</div>`;
             return;
@@ -2716,7 +4397,7 @@ class ElectionController {
                 this._hideAnimation();
                 content.style.display = '';
                 content.style.flexDirection = '';
-                titleEl.textContent = `${this._shortBodyName(this.body)} - ${this._formatDate(this.date)}`;
+                titleEl.textContent = this._niWideTitle();
                 this._restoreHeaderTabs();
                 this._showNIWideResults();
                 if (this.onStateChange) this.onStateChange();
@@ -2911,7 +4592,8 @@ class ElectionController {
         const electedSet = new Set();
 
         cg.forEach(row => {
-            const party = row.Party_Name || 'Independent';
+            if (!this._isValidCandidateRow(row)) return;
+            const party = this._normaliseLivePartyName(row.Party_Name);
             const cid = row.Candidate_Id;
             const total = parseFloat(row.Total_Votes) || 0;
             const countNum = parseInt(row.Count_Number, 10) || 1;
@@ -2988,12 +4670,14 @@ class ElectionController {
 
         const fmt = (n) => Math.round(n).toLocaleString('en-GB');
         const fmtDelta = (n) => {
+            if (!Number.isFinite(Number(n))) return '<span class="election-na"><em>N/A</em></span>';
             const r = Math.round(n);
             const s = r > 0 ? `+${r.toLocaleString('en-GB')}` : r.toLocaleString('en-GB');
             const cls = r > 0 ? 'election-delta election-delta--pos' : r < 0 ? 'election-delta election-delta--neg' : 'election-delta';
             return `<span class="${cls}">${s}</span>`;
         };
         const fmtPctDelta = (n) => {
+            if (!Number.isFinite(Number(n))) return '<span class="election-na"><em>N/A</em></span>';
             const s = n > 0 ? `+${n.toFixed(2)}` : n.toFixed(2);
             const cls = n > 0 ? 'election-delta election-delta--pos' : n < 0 ? 'election-delta election-delta--neg' : 'election-delta';
             return `<span class="${cls}">${s}</span>`;
@@ -3018,7 +4702,7 @@ class ElectionController {
         let html = `<div class="election-constituency-results">`;
         html += `<div class="election-party-wrapper">`;
         html += `<table class="election-party-table"><thead><tr>
-            <th data-sort-key="rank">Rank</th>
+            <th data-sort-key="rank">#</th>
             <th class="election-colour-col"></th>
             <th data-sort-key="party">Party</th>
             <th class="election-num" data-sort-key="stood">Stood</th>
@@ -3091,7 +4775,8 @@ class ElectionController {
     _setupSingleResultsTableControls(table) {
         if (!table || table.dataset.tableControlsReady === '1') return;
         const tbody = table.querySelector('tbody');
-        const headers = [...table.querySelectorAll('thead th')];
+        const leafHeaders = [...table.querySelectorAll('thead th[data-leaf-col-idx]')];
+        const headers = leafHeaders.length ? leafHeaders : [...table.querySelectorAll('thead th')];
         if (!tbody || headers.length === 0) return;
 
         table.dataset.tableControlsReady = '1';
@@ -3112,7 +4797,7 @@ class ElectionController {
                 .replace(/%/g, '')
                 .replace(/[+\u2212]/g, (m) => (m === '\u2212' ? '-' : '+'))
                 .trim();
-            if (!cleaned || cleaned === '-' || cleaned === '—' || cleaned.toLowerCase() === 'n/a') return null;
+            if (!cleaned || cleaned === '-' || cleaned === '�' || cleaned.toLowerCase() === 'n/a') return null;
             const n = Number(cleaned);
             return Number.isFinite(n) ? n : null;
         };
@@ -3128,6 +4813,10 @@ class ElectionController {
         const getCellText = (row, colIdx) => {
             const cell = row.children[colIdx];
             return cell ? cell.textContent.trim() : '';
+        };
+        const headerColumnIndex = (th, fallbackIdx) => {
+            const mapped = Number(th?.dataset?.leafColIdx);
+            return Number.isFinite(mapped) ? mapped : fallbackIdx;
         };
         const inferColumnKind = (colIdx, th) => {
             const sample = sortableRows.slice(0, 40).map(({ row }) => getCellText(row, colIdx)).filter(Boolean);
@@ -3184,8 +4873,9 @@ class ElectionController {
                 }
                 return true;
             });
-            const colIdx = sortState.col ?? 0;
-            const kind = inferColumnKind(colIdx, headers[colIdx]);
+            const colIdx = sortState.col ?? headerColumnIndex(headers[0], 0);
+            const sortHeader = headers.find((th, idx) => headerColumnIndex(th, idx) === colIdx) || headers[0];
+            const kind = inferColumnKind(colIdx, sortHeader);
             visible = [...visible].sort((a, b) => compareRows(a, b, colIdx, sortState.dir, kind));
             tbody.innerHTML = '';
             visible.forEach(({ row }) => tbody.appendChild(row));
@@ -3194,8 +4884,9 @@ class ElectionController {
             headers.forEach((th, idx) => {
                 const btn = th.querySelector('[data-table-filter-sort-btn]');
                 if (!btn) return;
-                const filtered = filterState.has(idx) && (filterState.get(idx)?.size ?? 0) > 0;
-                const sorted = sortState.col === idx && sortState.dir !== 'default';
+                const colIdx = headerColumnIndex(th, idx);
+                const filtered = filterState.has(colIdx) && (filterState.get(colIdx)?.size ?? 0) > 0;
+                const sorted = sortState.col === colIdx && sortState.dir !== 'default';
                 btn.classList.toggle('election-th-btn--active', filtered || sorted);
                 if (sorted && sortState.dir === 'asc') btn.innerHTML = '&#8593;';
                 else if (sorted && sortState.dir === 'desc') btn.innerHTML = '&#8595;';
@@ -3206,9 +4897,10 @@ class ElectionController {
         const openMenuForColumn = (idx, anchorBtn) => {
             closeMenu();
             const th = headers[idx];
-            const kind = inferColumnKind(idx, th);
-            const options = getUniqueValues(idx);
-            const current = filterState.get(idx);
+            const colIdx = headerColumnIndex(th, idx);
+            const kind = inferColumnKind(colIdx, th);
+            const options = getUniqueValues(colIdx);
+            const current = filterState.get(colIdx);
             const selected = new Set(current instanceof Set ? current : options);
 
             const sortAscLabel = kind === 'numeric'
@@ -3287,12 +4979,12 @@ class ElectionController {
                 if (!btn) return;
                 const action = btn.dataset.action;
                 if (action === 'sort-asc') {
-                    sortState.col = idx;
+                    sortState.col = colIdx;
                     sortState.dir = 'asc';
                     applyState();
                     closeMenu();
                 } else if (action === 'sort-desc') {
-                    sortState.col = idx;
+                    sortState.col = colIdx;
                     sortState.dir = 'desc';
                     applyState();
                     closeMenu();
@@ -3308,12 +5000,12 @@ class ElectionController {
                     selected.clear();
                     renderValues(search?.value || '');
                 } else if (action === 'clear-filter') {
-                    filterState.delete(idx);
+                    filterState.delete(colIdx);
                     applyState();
                     closeMenu();
                 } else if (action === 'apply') {
-                    if (selected.size === 0 || selected.size === options.length) filterState.delete(idx);
-                    else filterState.set(idx, new Set(selected));
+                    if (selected.size === 0 || selected.size === options.length) filterState.delete(colIdx);
+                    else filterState.set(colIdx, new Set(selected));
                     applyState();
                     closeMenu();
                 }
@@ -3368,25 +5060,35 @@ class ElectionController {
         const cg = payload.Constituency.countGroup;
         const info = payload.Constituency.countInfo;
         const countNums = [...new Set(cg.map(r => parseInt(r.Count_Number, 10)))].sort((a, b) => a - b);
-        const visibleCounts = countNums.filter(n => n > 1);
-        const totalCountCount = countNums.length;
-        const numSeats = parseInt(info.Number_Of_Seats, 10) || 0;
+        const numSeats = this._getSeatCount(info);
         const lastCount = countNums[countNums.length - 1] || 1;
 
         const candidates = {};
+        const nonTransferable = {};
         cg.forEach(row => {
             const id = row.Candidate_Id;
+            if (String(id).toLowerCase() === 'nontransferable') {
+                const countNum = parseInt(row.Count_Number, 10) || 1;
+                nonTransferable[countNum] = {
+                    total: parseFloat(row.Total_Votes) || 0,
+                    transfers: parseFloat(row.Transfers) || 0
+                };
+                return;
+            }
             if (!candidates[id]) {
                 candidates[id] = {
                     personId: row.id || id,
-                    name: row.candidateName || (row.Firstname + ' ' + row.Surname),
-                    party: row.Party_Name || 'Independent',
+                    name: this._candidateDisplayName(row),
+                    firstname: this._cleanElectionCandidateText(row.Firstname || ''),
+                    surname: this._cleanElectionCandidateText(row.Surname || ''),
+                    party: this._normaliseLivePartyName(row.Party_Name),
                     colour: row.Party_Colour || '#b0bec5',
                     counts: {},
                     finalVotes: 0,
                     firstPref: 0,
                     electedAt: null,
-                    excludedAt: null
+                    excludedAt: null,
+                    terminalCount: null
                 };
             }
             const countNum = parseInt(row.Count_Number, 10) || 1;
@@ -3399,9 +5101,48 @@ class ElectionController {
             if (countNum === 1) {
                 candidates[id].firstPref = parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0;
             }
-            if (this._statusKind(row.Status) === 'elected' && !candidates[id].electedAt) candidates[id].electedAt = countNum;
-            if (this._statusKind(row.Status) === 'excluded' && !candidates[id].excludedAt) candidates[id].excludedAt = countNum;
             if (total > candidates[id].finalVotes) candidates[id].finalVotes = total;
+        });
+
+        Object.values(candidates).forEach((candidate) => {
+            const lifecycle = this._inferCandidateLifecycle(candidate, info, lastCount);
+            candidate.electedAt = lifecycle.electedAt;
+            candidate.excludedAt = lifecycle.excludedAt;
+            candidate.terminalCount = lifecycle.terminalCount;
+        });
+        const rawVisibleCounts = countNums.filter(n => n > 1);
+        const countEvents = this._inferCountEvents(candidates, info, rawVisibleCounts);
+        const visibleCounts = rawVisibleCounts.filter((n) => {
+            const hasEvent = countEvents.has(n);
+            if (hasEvent) return true;
+            const hasCandidateTransfer = Object.values(candidates).some((candidate) => {
+                const transfer = parseFloat(candidate.counts[n]?.transfers) || 0;
+                return Math.abs(transfer) > 0.0001;
+            });
+            if (hasCandidateTransfer) return true;
+            const ntTransfer = parseFloat(nonTransferable[n]?.transfers) || 0;
+            return Math.abs(ntTransfer) > 0.0001;
+        });
+        const totalCountCount = visibleCounts.length + 1;
+        const visibleLastCount = visibleCounts.length ? visibleCounts[visibleCounts.length - 1] : 1;
+        const displayCountForRaw = (rawCount) => {
+            const raw = parseInt(rawCount, 10) || 1;
+            if (raw <= 1) return 1;
+            const visibleUpToRaw = visibleCounts.filter((n) => n <= raw).length;
+            return 1 + visibleUpToRaw;
+        };
+        const countTransferTotals = new Map();
+        visibleCounts.forEach((n) => {
+            let negAbs = 0;
+            let pos = 0;
+            Object.values(candidates).forEach((candidate) => {
+                const t = parseFloat(candidate.counts[n]?.transfers) || 0;
+                if (t < -0.0001) negAbs += Math.abs(t);
+                else if (t > 0.0001) pos += t;
+            });
+            const ntTransfer = parseFloat(nonTransferable[n]?.transfers) || 0;
+            if (ntTransfer > 0.0001) pos += ntTransfer;
+            countTransferTotals.set(n, { negAbs, pos });
         });
 
         // Some datasets do not explicitly mark all final-seat candidates as "Elected".
@@ -3425,10 +5166,34 @@ class ElectionController {
             });
         }
 
+        const electedTieBreakVotes = (candidate) => {
+            const redistributionCount = countNums.find((n) => {
+                const cnt = candidate.counts[n];
+                return cnt && Number.isFinite(cnt.transfers) && cnt.transfers < -0.0001;
+            });
+            if (redistributionCount && redistributionCount > 1) {
+                const prior = candidate.counts[redistributionCount - 1];
+                if (prior && Number.isFinite(prior.total)) return prior.total;
+            }
+            const finalCountEntry = candidate.counts[lastCount];
+            if (finalCountEntry && Number.isFinite(finalCountEntry.total)) return finalCountEntry.total;
+            const observed = Object.values(candidate.counts)
+                .map((c) => c?.total)
+                .filter((v) => Number.isFinite(v));
+            return observed.length ? observed[observed.length - 1] : 0;
+        };
+
         const sortedCandidates = Object.entries(candidates).sort((a, b) => {
             if (a[1].electedAt && !b[1].electedAt) return -1;
             if (!a[1].electedAt && b[1].electedAt) return 1;
-            if (a[1].electedAt && b[1].electedAt) return a[1].electedAt - b[1].electedAt;
+            if (a[1].electedAt && b[1].electedAt) {
+                if (a[1].electedAt !== b[1].electedAt) return a[1].electedAt - b[1].electedAt;
+                const aTieVotes = electedTieBreakVotes(a[1]);
+                const bTieVotes = electedTieBreakVotes(b[1]);
+                if (Math.abs(aTieVotes - bTieVotes) > 0.0001) return bTieVotes - aTieVotes;
+                if (Math.abs((b[1].firstPref || 0) - (a[1].firstPref || 0)) > 0.0001) return (b[1].firstPref || 0) - (a[1].firstPref || 0);
+                return String(a[1].name || '').localeCompare(String(b[1].name || ''));
+            }
             return b[1].finalVotes - a[1].finalVotes;
         });
 
@@ -3440,6 +5205,7 @@ class ElectionController {
 
         const fmt = (n) => Math.round(n).toLocaleString('en-GB');
         const fmtDelta = (n) => {
+            if (!Number.isFinite(Number(n))) return '<span class="election-na"><em>N/A</em></span>';
             const r = Math.round(n);
             const s = r > 0 ? `+${r.toLocaleString('en-GB')}` : r.toLocaleString('en-GB');
             const cls = r > 0 ? 'election-delta election-delta--pos' : r < 0 ? 'election-delta election-delta--neg' : 'election-delta';
@@ -3453,9 +5219,9 @@ class ElectionController {
             return `${n}th`;
         };
         const rowStatus = (c) => {
-            if (c.electedAt) return `Elected<br>Count ${c.electedAt}/${totalCountCount}`;
-            if (c.excludedAt) return `Excluded<br>Count ${c.excludedAt}/${totalCountCount}`;
-            return `Not Elected<br>Count ${lastCount}/${totalCountCount}`;
+            if (c.electedAt) return `Elected<br>Count ${displayCountForRaw(c.electedAt)}/${totalCountCount}`;
+            if (c.excludedAt) return `Excluded<br>Count ${displayCountForRaw(c.excludedAt)}/${totalCountCount}`;
+            return `Not Elected<br>Count ${displayCountForRaw(visibleLastCount)}/${totalCountCount}`;
         };
         const prevFirstPrefs = this._getPreviousFirstPrefsByCandidate(constName);
         const prevPayload = this._getPreviousConstituencyPayload(constName);
@@ -3472,25 +5238,28 @@ class ElectionController {
         const prevPctOfElectorate = (v) => Number.isFinite(prevElectorate) && prevElectorate > 0 ? (v / prevElectorate * 100) : NaN;
 
         let html = `<div class="election-constituency-results">`;
-        html += `<div class="election-count-wrapper">`;
+        html += `<div class="election-count-wrapper election-count-wrapper--pane-sticky">`;
         html += `<table class="election-count-table"><thead><tr>`;
-        html += `<th>Rank</th>`;
+        html += `<th>#</th>`;
         html += `<th class="election-colour-col"></th>`;
         html += `<th class="election-col-name">Name</th>`;
         html += `<th class="election-col-party">Party</th>`;
         html += `<th class="election-col-status">Status</th>`;
-        html += `<th class="election-num">${this._thTwoLine('1st', 'pref ±')}</th>`;
+        html += `<th class="election-num">${this._thTwoLine('1st', 'pref +/-')}</th>`;
         html += `<th class="election-num">${this._thTwoLine('1st', 'pref %')}</th>`;
         if (this._countDetailedView) {
-            html += `<th class="election-num">${this._thTwoLine('1st', 'pref ± %')}</th>`;
+            html += `<th class="election-num">${this._thTwoLine('1st', 'pref +/- %')}</th>`;
         }
         html += `<th class="election-num">${this._thTwoLine('1st', 'pref')}</th>`;
         visibleCounts.forEach(n => {
-            html += `<th class="election-num">${this._thTwoLine('Count', String(n))}</th>`;
+            const event = countEvents.get(n);
+            const headerTop = this._countDetailedView ? `Count ${n}` : 'Count';
+            const headerBottom = this._countDetailedView && event ? `${event.type} of ${event.label}` : String(n);
+            html += `<th class="election-num">${this._thTwoLine(headerTop, headerBottom)}</th>`;
             if (this._countDetailedView) {
                 html += `<th class="election-num">${this._thTwoLine(`Count ${n}`, '%')}</th>`;
-                html += `<th class="election-num">${this._thTwoLine(`Count ${n}`, '± %')}</th>`;
-                html += `<th class="election-num">${this._thTwoLine(`Count ${n}`, '±')}</th>`;
+                html += `<th class="election-num">${this._thTwoLine(`Count ${n}`, '+/- %')}</th>`;
+                html += `<th class="election-num">${this._thTwoLine(`Count ${n}`, '+/-')}</th>`;
             }
         });
         html += `</tr></thead><tbody>`;
@@ -3516,7 +5285,7 @@ class ElectionController {
             html += `<td class="election-num">${fmt(c.firstPref)}</td>`;
 
             visibleCounts.forEach(n => {
-                if (c.electedAt && n > c.electedAt) {
+                if (c.terminalCount && n > c.terminalCount) {
                     html += `<td class="election-num election-count-col">&nbsp;</td>`;
                     if (this._countDetailedView) {
                         html += `<td class="election-num election-count-col">&mdash;</td>`;
@@ -3527,24 +5296,31 @@ class ElectionController {
                 }
                 const cnt = c.counts[n];
                 if (!cnt) {
-                    html += `<td class="election-num election-count-col">0</td>`;
+                    html += `<td class="election-num election-count-col">&nbsp;</td>`;
                     if (this._countDetailedView) {
-                        html += `<td class="election-num election-count-col">?</td>`;
-                        html += `<td class="election-num election-count-col">?</td>`;
-                        html += `<td class="election-num election-count-col">?</td>`;
+                        html += `<td class="election-num election-count-col">&mdash;</td>`;
+                        html += `<td class="election-num election-count-col">&mdash;</td>`;
+                        html += `<td class="election-num election-count-col">&mdash;</td>`;
                     }
                 } else {
                     let cls = '';
                     if (this._statusKind(cnt.status) === 'elected') cls = ' count-elected';
                     if (this._statusKind(cnt.status) === 'excluded') cls = ' count-excluded';
                     const cell = fmt(cnt.total);
-                    const prevTotal = c.counts[n - 1]?.total || 0;
-                    const transferPct = prevTotal > 0 ? ((cnt.transfers / prevTotal) * 100) : 0;
+                    const transferTotals = countTransferTotals.get(n) || { negAbs: 0, pos: 0 };
+                    let transferPct = NaN;
+                    if (cnt.transfers < -0.0001 && transferTotals.negAbs > 0) {
+                        transferPct = (cnt.transfers / transferTotals.negAbs) * 100;
+                    } else if (cnt.transfers > 0.0001 && transferTotals.pos > 0) {
+                        transferPct = (cnt.transfers / transferTotals.pos) * 100;
+                    } else if (Math.abs(cnt.transfers) <= 0.0001) {
+                        transferPct = 0;
+                    }
                     const votePct = validPoll > 0 ? (cnt.total / validPoll * 100) : 0;
                     html += `<td class="election-num election-count-col ${cls}">${cell}</td>`;
                     if (this._countDetailedView) {
                         html += `<td class="election-num election-count-col">${votePct.toFixed(2)}%</td>`;
-                        html += `<td class="election-num election-count-col">${this._fmtPctDeltaSigned(transferPct)}</td>`;
+                        html += `<td class="election-num election-count-col">${Number.isFinite(transferPct) ? this._fmtPctDeltaSigned(transferPct) : '&mdash;'}</td>`;
                         const deltaText = cnt.transfers !== 0 ? this._fmtDeltaSigned(cnt.transfers) : '\u2014';
                         html += `<td class="election-num election-count-col">${deltaText}</td>`;
                     }
@@ -3552,6 +5328,39 @@ class ElectionController {
             });
             html += `</tr>`;
         });
+
+        if (Object.keys(nonTransferable).length) {
+            html += `<tr class="election-table-summary-row">`;
+            html += `<td class="election-rank-col">-</td>`;
+            html += `<td></td>`;
+            html += `<td><strong>Non-transferable</strong></td>`;
+            html += `<td>-</td>`;
+            html += `<td>-</td>`;
+            html += `<td class="election-num">-</td>`;
+            html += `<td class="election-num">-</td>`;
+            if (this._countDetailedView) {
+                html += `<td class="election-num">-</td>`;
+            }
+            html += `<td class="election-num">-</td>`;
+            visibleCounts.forEach((n) => {
+                const cnt = nonTransferable[n];
+                html += `<td class="election-num election-count-col">${cnt ? fmt(cnt.total) : '&nbsp;'}</td>`;
+                if (this._countDetailedView) {
+                    html += `<td class="election-num election-count-col">${cnt && validPoll > 0 ? ((cnt.total / validPoll) * 100).toFixed(2) + '%' : '&mdash;'}</td>`;
+                    const transferTotals = countTransferTotals.get(n) || { negAbs: 0, pos: 0 };
+                    const ntTransfer = parseFloat(cnt?.transfers) || 0;
+                    let ntTransferPct = NaN;
+                    if (ntTransfer > 0.0001 && transferTotals.pos > 0) {
+                        ntTransferPct = (ntTransfer / transferTotals.pos) * 100;
+                    } else if (Math.abs(ntTransfer) <= 0.0001) {
+                        ntTransferPct = 0;
+                    }
+                    html += `<td class="election-num election-count-col">${Number.isFinite(ntTransferPct) ? this._fmtPctDeltaSigned(ntTransferPct) : '&mdash;'}</td>`;
+                    html += `<td class="election-num election-count-col">${cnt && cnt.transfers !== 0 ? this._fmtDeltaSigned(cnt.transfers) : '&mdash;'}</td>`;
+                }
+            });
+            html += `</tr>`;
+        }
 
         const appendSummaryRow = (name, value, prevValue, pctValue, prevPctValue) => {
             const delta = Number.isFinite(prevValue) ? (value - prevValue) : NaN;
@@ -3603,7 +5412,7 @@ class ElectionController {
         // Measure the actual available drawing width from the pane content area
         const paneContent = this.splitPaneEl?.querySelector('#electionPaneContent')
             || document.getElementById('electionPaneContent');
-        const maxWidth = paneContent ? paneContent.clientWidth - 16 : 0; // 16 = container padding (8Ãƒâ€”2)
+        const maxWidth = paneContent ? paneContent.clientWidth - 16 : 0; // 16 = container padding (8Ã—2)
 
         // Call the animation engine with the available width
         try {
@@ -3623,11 +5432,11 @@ class ElectionController {
             }
         }
 
-        // Ã¢â€â‚¬Ã¢â€â‚¬ Apply fit-to-pane scaling Ã¢â€â‚¬Ã¢â€â‚¬
+        // â”€â”€ Apply fit-to-pane scaling â”€â”€
         // Delay to let the browser complete layout of the animation content
         setTimeout(() => this._applyAnimationScale(), 200);
 
-        // Ã¢â€â‚¬Ã¢â€â‚¬ Re-scale on window resize / split pane drag Ã¢â€â‚¬Ã¢â€â‚¬
+        // â”€â”€ Re-scale on window resize / split pane drag â”€â”€
         if (this._animResizeHandler) {
             window.removeEventListener('resize', this._animResizeHandler);
         }
@@ -3915,8 +5724,8 @@ class ElectionController {
                 });
                 candidates.push({
                     personId: row.Candidate_Id,
-                    name: row.candidateName || (row.Firstname + ' ' + row.Surname),
-                    party: row.Party_Name || 'Independent',
+                    name: this._candidateDisplayName(row),
+                    party: this._normaliseLivePartyName(row.Party_Name),
                     colour: row.Party_Colour || '#b0bec5',
                     votes: parseFloat(row.Total_Votes) || 0,
                     status
@@ -3948,7 +5757,7 @@ class ElectionController {
                 <td><span class="election-party-dot" style="background:${this._esc(c.colour)}"></span>${this._renderElectionEntityLink('candidate', c.personId, c.name)} <small class="election-party-label">(${this._esc(c.party)})</small></td>
                 <td class="election-num">${fmt(c.votes)}</td>
                 <td class="election-num">${pct(c.votes)}</td>
-                <td class="${statCls}">${this._esc(c.status || '—')}</td>
+                <td class="${statCls}">${this._esc(c.status || '-')}</td>
             </tr>`;
         });
 
@@ -3963,7 +5772,24 @@ class ElectionController {
 
     _getPreviousConstituencyPayload(constName) {
         if (!constName) return null;
-        return this.previousResultsByConstituency?.[constName] || null;
+        const direct = this.previousResultsByConstituency?.[constName] || null;
+        if (direct) return direct;
+        const cleanedName = this._cleanConstituencyDisplayName(constName);
+        for (const [key, payload] of Object.entries(this.previousResultsByConstituency || {})) {
+            if (this._cleanConstituencyDisplayName(key) === cleanedName) return payload;
+        }
+        return null;
+    }
+
+    _getCurrentConstituencyPayload(constName) {
+        if (!constName) return null;
+        const direct = this.resultsByConstituency?.[constName] || null;
+        if (direct) return direct;
+        const cleanedName = this._cleanConstituencyDisplayName(constName);
+        for (const [key, payload] of Object.entries(this.resultsByConstituency || {})) {
+            if (this._cleanConstituencyDisplayName(key) === cleanedName) return payload;
+        }
+        return null;
     }
 
     _getPreviousFirstPrefsByCandidate(constName) {
@@ -3974,10 +5800,10 @@ class ElectionController {
         cg.forEach(row => {
             const countNum = parseInt(row.Count_Number, 10) || 1;
             const cid = String(row.Candidate_Id || '');
-            if (countNum !== 1 || seen.has(cid)) return;
+            if (countNum !== 1 || !this._isValidCandidateRow(row) || seen.has(cid)) return;
             seen.add(cid);
-            const name = row.candidateName || `${row.Firstname || ''} ${row.Surname || ''}`.trim();
-            const party = row.Party_Name || 'Independent';
+            const name = this._candidateDisplayName(row);
+            const party = this._normaliseLivePartyName(row.Party_Name);
             const key = this._candidateKey(name, party);
             map.set(key, parseFloat(row.Total_Votes) || 0);
         });
@@ -3992,9 +5818,9 @@ class ElectionController {
         cg.forEach(row => {
             const countNum = parseInt(row.Count_Number, 10) || 1;
             const cid = String(row.Candidate_Id || '');
-            if (countNum !== 1 || seen.has(cid)) return;
+            if (countNum !== 1 || !this._isValidCandidateRow(row) || seen.has(cid)) return;
             seen.add(cid);
-            const party = row.Party_Name || 'Independent';
+            const party = this._normaliseLivePartyName(row.Party_Name);
             const prev = partyMap.get(party) || 0;
             partyMap.set(party, prev + (parseFloat(row.Total_Votes) || 0));
         });
@@ -4008,19 +5834,19 @@ class ElectionController {
         const seen = new Set();
         const electedSeen = new Set();
         cg.forEach((row) => {
-            const party = row.Party_Name || 'Independent';
+            const party = this._normaliseLivePartyName(row.Party_Name);
             const countNum = parseInt(row.Count_Number, 10) || 1;
             const cid = String(row.Candidate_Id || '');
             if (!stats.has(party)) {
                 stats.set(party, { stood: 0, seats: 0, firstPrefs: 0 });
             }
             const partyStats = stats.get(party);
-            if (countNum === 1 && !seen.has(cid)) {
+            if (countNum === 1 && this._isValidCandidateRow(row) && !seen.has(cid)) {
                 seen.add(cid);
                 partyStats.stood += 1;
                 partyStats.firstPrefs += parseFloat(row.Total_Votes) || 0;
             }
-            if (this._statusKind(row.Status) === 'elected' && !electedSeen.has(cid)) {
+            if (this._isValidCandidateRow(row) && this._statusKind(row.Status) === 'elected' && !electedSeen.has(cid)) {
                 electedSeen.add(cid);
                 partyStats.seats += 1;
             }
@@ -4071,10 +5897,22 @@ class ElectionController {
         return `<span class="${cls}">${s}</span>`;
     }
 
+    _normaliseLivePartyName(party) {
+        const raw = String(party || '').trim();
+        if (!raw) return 'Independent';
+        if (raw === "Workers' Party (Ireland)") return 'Workers Party / Republican Clubs';
+        return raw;
+    }
+
     _thTwoLine(top, bottom) {
         const topEsc = this._esc(top || '');
         const bottomEsc = this._esc(bottom || '');
-        return `<span class="election-th-two-line">${topEsc}<br>${bottomEsc || '&nbsp;'}</span>`;
+        return `<span class="election-th-two-line"><span class="election-th-two-line__top">${topEsc}</span><span class="election-th-two-line__bottom">${bottomEsc || '&nbsp;'}</span></span>`;
+    }
+
+    _resultsLeafTh(label, colIdx, extraClass = '') {
+        const cls = [extraClass].filter(Boolean).join(' ');
+        return `<th${cls ? ` class="${cls}"` : ''} data-leaf-col-idx="${colIdx}">${label}</th>`;
     }
 
     _statusKind(status) {
@@ -4086,7 +5924,7 @@ class ElectionController {
         return 'unknown';
     }
 
-    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Catalogue Cards Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+    // â”€â”€â”€ Catalogue Cards â”€â”€â”€
 
     /**
      * Build election catalogue cards for the sidebar.
@@ -4095,9 +5933,48 @@ class ElectionController {
     async buildCatalogueCards() {
         const index = await this._loadIndex();
         const cards = [];
+        const groupedLocal = new Set();
+        const existingLocalDates = new Set();
 
         index.bodies.forEach(bodyData => {
             bodyData.dates.forEach(dateData => {
+                if (bodyData.bodyGroup === 'local-government') {
+                    existingLocalDates.add(dateData.date);
+                    const groupKey = `${bodyData.bodyGroup}|${dateData.date}`;
+                    if (groupedLocal.has(groupKey)) return;
+                    groupedLocal.add(groupKey);
+
+                    const scope = this._getEffectiveElectionScope(index, bodyData, dateData.date);
+                    const isByElection = scope.constituencies.length <= 2 &&
+                        !['Northern Ireland'].includes(scope.constituencies[0]);
+                    const subtitle = isByElection
+                        ? this._formatByElectionSubtitle(scope.constituencies[0], bodyData.name, bodyData.bodyGroup)
+                        : `${scope.constituencies.length} DEAs`;
+
+                    const cardHtml = `
+                        <div class="election-card ${isByElection ? 'election-card--by-election' : ''}"
+                             data-body="${this._esc(bodyData.name)}"
+                             data-date="${this._esc(dateData.date)}">
+                            <div class="election-card__body-badge">Local Government Districts</div>
+                            <div class="election-card__info">
+                                <span class="election-card__date">${this._formatDate(dateData.date)}</span>
+                                <span class="election-card__subtitle">${subtitle}</span>
+                            </div>
+                        </div>
+                    `;
+
+                    cards.push({
+                        body: bodyData.name,
+                        bodyGroup: bodyData.bodyGroup || null,
+                        date: dateData.date,
+                        constituencies: scope.constituencies,
+                        isByElection,
+                        displayProvider: 'Local Government Districts',
+                        displaySubtitle: subtitle,
+                        html: cardHtml
+                    });
+                    return;
+                }
                 const special = this._getSpecialElectionConfig(bodyData.name, dateData.date);
                 const isByElection = dateData.constituencies.length <= 2 &&
                     !['Northern Ireland'].includes(dateData.constituencies[0]);
@@ -4110,7 +5987,7 @@ class ElectionController {
                 if (special?.type === 'recall-petition') {
                     subtitle = special.constituency;
                 } else if (isByElection) {
-                    subtitle = dateData.constituencies.join(', ');
+                    subtitle = this._formatByElectionSubtitle(dateData.constituencies[0], bodyData.name, bodyData.bodyGroup || null);
                 } else {
                     subtitle = (bodyData.name === 'European Parliament' && constCount === 0)
                         ? 'Northern Ireland'
@@ -4131,11 +6008,43 @@ class ElectionController {
 
                 cards.push({
                     body: bodyData.name,
+                    bodyGroup: bodyData.bodyGroup || null,
                     date: dateData.date,
                     constituencies: dateData.constituencies,
                     isByElection,
+                    displayProvider: bodyShort,
+                    displaySubtitle: subtitle,
                     html: cardHtml
                 });
+            });
+        });
+
+        ElectionController.LOCAL_GOVERNMENT_PLACEHOLDER_ELECTIONS.forEach((entry) => {
+            if (existingLocalDates.has(entry.date)) return;
+            const dateFormatted = this._formatDate(entry.date);
+            const subtitle = entry.subtitle || 'To Be Added';
+            cards.push({
+                body: 'Local Government Districts',
+                bodyGroup: 'local-government',
+                date: entry.date,
+                constituencies: [],
+                isByElection: false,
+                placeholder: true,
+                displayProvider: 'Local Government Districts',
+                displaySubtitle: subtitle,
+                html: `
+                    <div class="election-card election-card--placeholder"
+                         data-election-placeholder="1"
+                         data-body="${this._esc('Local Government Districts')}"
+                         data-date="${this._esc(entry.date)}">
+                        <div class="election-card__body-badge">Local Government Districts</div>
+                        <div class="election-card__info">
+                            <span class="election-card__date">${dateFormatted}</span>
+                            <span class="election-card__subtitle">${this._esc(subtitle)}</span>
+                            <span class="class-member__placeholder-badge">To Be Added</span>
+                        </div>
+                    </div>
+                `
             });
         });
 
@@ -4155,7 +6064,28 @@ class ElectionController {
         return map[name] || name;
     }
 
-    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ URL State Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+    _niWideTitle() {
+        if (this._isLocalGovernmentBody()) {
+            return `Local Government Districts - ${this._formatDate(this.date)}`;
+        }
+        return `${this._shortBodyName(this.body)} - ${this._formatDate(this.date)}`;
+    }
+
+    _formatByElectionSubtitle(constituency, body, bodyGroup = null) {
+        const name = String(constituency || '').trim();
+        if (!name) return 'By-election';
+        if (bodyGroup === 'local-government') return `${name} local council by-election`;
+        const map = {
+            'House of Commons of the United Kingdom': 'Westminster',
+            'Northern Ireland Assembly': 'Assembly',
+            'Northern Ireland Constitutional Convention': 'Convention',
+            'Northern Ireland Forum for Political Dialogue': 'Forum'
+        };
+        const label = map[body] || this._shortBodyName(body);
+        return `${name} ${label} by-election`;
+    }
+
+    // â”€â”€â”€ URL State â”€â”€â”€
 
     serialize() {
         if (!this.active || !this.body || !this.date) return '';
@@ -4213,16 +6143,16 @@ class ElectionController {
             const btn = document.createElement('button');
             btn.type = 'button';
             btn.id = 'electionCloseBtn';
+            btn.dataset.action = 'close-election';
             btn.className = 'election-pane__close';
             btn.title = 'Close election';
             btn.textContent = '\u2715';
-            btn.addEventListener('click', () => this.clear());
             headerRight.appendChild(btn);
         }
         this._setupNIWideTabs(defaultTab);
     }
 
-    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Helpers Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+    // â”€â”€â”€ Helpers â”€â”€â”€
 
     _formatDate(dateStr) {
         try {
@@ -4243,3 +6173,15 @@ class ElectionController {
 // Export singleton
 const electionController = new ElectionController();
 export default electionController;
+
+
+
+
+
+
+
+
+
+
+
+

@@ -263,7 +263,8 @@ class MapController {
             if (base.fillColor !== undefined) hoverStyle.fillColor = hoverColor;
             if (typeof base.radius === 'number') hoverStyle.radius = base.radius + 2;
             layer.setStyle(hoverStyle);
-            if (typeof layer.bringToFront === 'function') layer.bringToFront();
+            const state = layer._mapId ? this.layerStates.get(layer._mapId) : null;
+            if (!state?.belowElectionZLock && typeof layer.bringToFront === 'function') layer.bringToFront();
         } else {
             const restoreBase = layer._hoverRestoreStyle || base;
             const restore = {};

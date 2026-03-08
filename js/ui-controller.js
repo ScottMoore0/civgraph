@@ -472,7 +472,7 @@ class UIController {
         return detailId;
     }
 
-    cacheFeatureDetailEntry(mapConfig, feature, primaryNameOverride = null, featureIdOverride = null) {
+    cacheFeatureDetailEntry(mapConfig, feature, primaryNameOverride = null, featureIdOverride = null, extra = null) {
         const primary = primaryNameOverride
             ? { value: primaryNameOverride }
             : this.resolveFeaturePrimaryName(feature, mapConfig);
@@ -487,7 +487,8 @@ class UIController {
                 geometry: feature?.geometry || null
             },
             mapConfig,
-            primaryName: primary.value
+            primaryName: primary.value,
+            electoralHistory: extra?.electoralHistory || null
         });
         return detailId;
     }
@@ -1986,14 +1987,15 @@ class UIController {
             { id: 'flat-settlements-roi', name: 'Settlements', years: '2015', extent: 'Republic of Ireland', classIds: ['roi-settlements'] },
             { id: 'flat-place-names', name: 'Place Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['place-names-gazetteer'] },
             { id: 'flat-civil-parishes', name: 'Civil Parishes', years: '', extent: 'Ireland', classIds: ['ni-civil-parishes', 'ireland-civil-parishes'] },
-            { id: 'flat-baronies', name: 'Baronies', years: '', extent: 'Ireland', mapIds: ['baronies'] },
-            { id: 'flat-counties-1915', name: 'Counties (1915)', years: '1915', extent: 'Northern Ireland', mapIds: ['counties-1915'] },
+            { id: 'flat-baronies', name: 'Baronies', years: '', extent: 'Northern Ireland', mapIds: ['baronies'] },
+            { id: 'flat-counties-1915', name: 'Counties (1915)', years: '1915', extent: 'Northern Ireland / Ireland', mapIds: ['counties-1915', 'counties-ireland'] },
             { id: 'flat-provinces', name: 'Provinces', years: '', extent: 'Ireland', mapIds: ['provinces'] },
             { id: 'flat-wards', name: 'Wards (Northern Ireland) (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-wards'] },
             { id: 'flat-deas', name: 'District Electoral Areas (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-deas'] },
             { id: 'flat-deds', name: 'District Electoral Divisions (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-deds'] },
             { id: 'flat-county-eds', name: 'County Electoral Divisions (Northern Ireland)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-county-eds'] },
-            { id: 'flat-eds-1911', name: 'Electoral Divisions (Ireland) (1911)', years: '1911', extent: 'Ireland', mapIds: ['eds-1911'] },
+            { id: 'flat-roi-deds', name: 'District Electoral Divisions', years: '1986-2019', extent: 'Republic of Ireland', mapIds: ['eds-1986', 'eds-1994', 'eds-1997', 'eds-2019'] },
+            { id: 'flat-eds-1911', name: 'District Electoral Divisions (Ireland) (1911)', years: '1911', extent: 'Ireland', mapIds: ['eds-1911'] },
             { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
             { id: 'flat-admin-areas', name: 'Administrative Areas (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-admin-areas'] },
             { id: 'flat-admin-counties', name: 'Administrative Counties (Northern Ireland) (1915)', years: '1915', extent: 'Northern Ireland', classIds: ['ni-admin-counties'] },
@@ -2028,7 +2030,7 @@ class UIController {
                 id: 'flat-historic-sites',
                 name: 'Historic Sites',
                 years: '',
-                extent: 'Northern Ireland',
+                extent: 'Ireland',
                 mapIds: [
                     'historic-bullaun-stones',
                     'historic-crannog',
@@ -2089,10 +2091,12 @@ class UIController {
             electionCatalogueCards = [];
         }
 
-        const getElectionAppearance = (body, date) => {
+        const getElectionAppearance = (body, date, bodyGroup = null) => {
             const year = parseInt(String(date).slice(0, 4), 10) || 0;
             let thumb = 'pc-2008';
-            if (body === 'House of Commons of the United Kingdom') {
+            if (bodyGroup === 'local-government') {
+                thumb = 'deas-2012';
+            } else if (body === 'House of Commons of the United Kingdom') {
                 thumb = year >= 2024 ? 'pc-2023' : year >= 2005 ? 'pc-2008' : year >= 1995 ? 'pc-1995' : year >= 1983 ? 'pc-1982' : 'pc-1970';
             } else if (body === 'Northern Ireland Assembly') {
                 thumb = year >= 2007 ? 'pc-2008' : year >= 1998 ? 'pc-1995' : 'pc-1970';
@@ -2114,12 +2118,13 @@ class UIController {
                 'Northern Ireland Assembly': '#2563eb',
                 'Northern Ireland Constitutional Convention': '#7c3aed',
                 'Northern Ireland Forum for Political Dialogue': '#0f766e',
-                'European Parliament': '#0ea5e9'
+                'European Parliament': '#0ea5e9',
+                'local-government': '#b45309'
             };
 
             return {
                 thumb,
-                color: colorMap[body] || '#4b5563'
+                color: colorMap[bodyGroup || body] || '#4b5563'
             };
         };
 
@@ -2188,7 +2193,7 @@ class UIController {
 
         decadeElectionCards.forEach(def => {
             const preview = def.electionEntries[0] || null;
-            const appearance = preview ? getElectionAppearance(preview.body, preview.date) : { thumb: 'pc-2008', color: '#4b5563' };
+            const appearance = preview ? getElectionAppearance(preview.body, preview.date, preview.bodyGroup || null) : { thumb: 'pc-2008', color: '#4b5563' };
             tocHtml += `
                 <tr class="catalogue-flat__toc-row--indented">
                     <td>
@@ -2212,7 +2217,7 @@ class UIController {
         const tocGroups = [
             {
                 heading: 'Small Electoral Units',
-                members: ['Wards', 'District Electoral Divisions', 'Electoral Divisions']
+                members: ['Wards', 'District Electoral Divisions']
             },
             {
                 heading: 'Large Electoral Units',
@@ -2318,27 +2323,40 @@ class UIController {
             cardsContainer.appendChild(anchor);
 
             const entriesHtml = (def.electionEntries || []).map(entry => {
-                const appearance = getElectionAppearance(entry.body, entry.date);
+                const appearance = getElectionAppearance(entry.body, entry.date, entry.bodyGroup || null);
                 const dateFormatted = electionController._formatDate(entry.date);
                 const bodyShort = electionController._shortBodyName(entry.body);
-                const subtitle = entry.isByElection
+                const subtitle = entry.displaySubtitle || (entry.isByElection
                     ? (entry.constituencies || []).join(', ')
                     : ((entry.body === 'European Parliament' && (entry.constituencies || []).filter(c => c !== 'Northern Ireland').length === 0)
                         ? 'Northern Ireland'
-                        : `${(entry.constituencies || []).filter(c => c !== 'Northern Ireland').length} constituencies`);
+                        : `${(entry.constituencies || []).filter(c => c !== 'Northern Ireland').length} constituencies`));
+                const providerLabel = entry.displayProvider || bodyShort;
+                const placeholderClass = entry.placeholder ? ' class-member--placeholder' : '';
+                const dateLabel = entry.placeholder
+                    ? `<span class="class-member__name">${esc(dateFormatted)}</span>`
+                    : `<a href="#" class="class-member__name class-member__name-link flat-election-link" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}">${esc(dateFormatted)}</a>`;
+                const actionsHtml = entry.placeholder
+                    ? ''
+                    : `<button class="btn btn--icon btn--xs load-btn election-load-btn" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}">+</button>`;
+                const badgeHtml = entry.placeholder
+                    ? '<span class="class-member__placeholder-badge">To Be Added</span>'
+                    : '';
                 return `
-                    <div class="class-member flat-election-entry ${entry.isByElection ? 'flat-election-entry--by' : ''}"
+                    <div class="class-member flat-election-entry ${entry.isByElection ? 'flat-election-entry--by' : ''}${placeholderClass}"
                          data-election-body="${esc(entry.body)}"
                          data-election-date="${esc(entry.date)}"
+                         data-election-placeholder="${entry.placeholder ? '1' : '0'}"
                          style="--map-color:${esc(appearance.color)};">
                         <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${esc(appearance.thumb)}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>
                         <div class="class-member__info">
-                            <a href="#" class="class-member__name class-member__name-link flat-election-link" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}">${esc(dateFormatted)}</a>
-                            <span class="class-member__provider">${esc(bodyShort)}${entry.isByElection ? ' by-election' : ''}</span>
+                            ${dateLabel}
+                            <span class="class-member__provider">${esc(providerLabel)}</span>
                             <span class="class-member__desc">${esc(subtitle)}</span>
+                            ${badgeHtml}
                         </div>
                         <div class="class-member__actions">
-                            <button class="btn btn--icon btn--xs load-btn election-load-btn" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}">+</button>
+                            ${actionsHtml}
                         </div>
                     </div>`;
             }).join('');
@@ -2394,6 +2412,8 @@ class UIController {
 
         cardsContainer.querySelectorAll('.flat-election-link, .election-load-btn, .flat-election-entry').forEach(el => {
             el.addEventListener('click', (e) => {
+                const host = e.currentTarget.closest('.flat-election-entry') || e.currentTarget;
+                if (host?.dataset?.electionPlaceholder === '1') return;
                 if (e.currentTarget.classList.contains('flat-election-entry') &&
                     e.target.closest('.flat-election-link, .election-load-btn')) {
                     return;
@@ -4658,6 +4678,69 @@ class UIController {
         this.updateCatalogueHomeButton();
 
         const props = feature?.properties || {};
+        const electoralHistory = entry?.electoralHistory || null;
+        const isByElectionRowClass = (row) => row.isByElection ? 'catalogue-detail__entity-row--by-election' : '';
+        const renderElectionLink = (row, label) => `
+            <a href="#"
+                class="catalogue-detail__entity-link catalogue-detail__entity-link--text"
+                data-election-body="${this.escapeHtml(row.electionBodyForOpen || row.body || '')}"
+                data-election-date="${this.escapeHtml(row.date || '')}">
+                ${this.escapeHtml(label)}
+            </a>`;
+        const renderEntityLink = (kind, key, label) => `
+            <a href="#"
+                class="catalogue-detail__entity-link catalogue-detail__entity-link--text"
+                data-election-entity-detail-kind="${this.escapeHtml(kind)}"
+                data-election-entity-detail-key="${this.escapeHtml(key)}">
+                ${this.escapeHtml(label)}
+            </a>`;
+        const renderLeadingParty = (row) => {
+            if (!row?.winnerParty) return '—';
+            const colour = this.escapeHtml(row.winnerColour || '#b0bec5');
+            return `<span class="catalogue-detail__leading-party"><span class="catalogue-detail__leading-party-tab" style="background:${colour}"></span>${renderEntityLink('party', row.winnerParty, row.winnerParty)}</span>`;
+        };
+        const renderDeaList = (row) => {
+            const deas = row?.districtElectoralAreas || [];
+            if (!deas.length) return '—';
+            const links = deas.map((dea) => renderEntityLink('dea', dea, dea)).join(', ');
+            return `
+                <details class="catalogue-detail__inline-list">
+                    <summary class="catalogue-detail__inline-list-toggle">Show DEAs (${deas.length})</summary>
+                    <div class="catalogue-detail__inline-list-body">${links}</div>
+                </details>
+            `;
+        };
+        let historyTableId = null;
+        let historyColumns = null;
+        let historyRows = null;
+        if (electoralHistory?.kind === 'dea') {
+            historyTableId = 'catalogue-feature-dea-history-table';
+            historyRows = electoralHistory.historyRows || [];
+            historyColumns = [
+                { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName) },
+                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(electionController._formatDate(row.date || '')) },
+                { key: 'localGovernmentDistrict', label: 'Local Government District', kind: 'text', getValue: (row) => row.localGovernmentDistrict, render: (row) => renderEntityLink('lgd', row.localGovernmentDistrict, row.localGovernmentDistrict) },
+                { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
+                { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.winnerVotes || 0)))) },
+                { key: 'winnerPct', label: 'Leading party %', kind: 'numeric', align: 'num', getValue: (row) => row.winnerPct, render: (row) => `${Number(row.winnerPct || 0).toFixed(2)}%` },
+                { key: 'validVotes', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.validVotes || 0)))) },
+                { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.seats || 0)))) }
+            ];
+        } else if (electoralHistory?.kind === 'lgd') {
+            historyTableId = 'catalogue-feature-lgd-history-table';
+            historyRows = electoralHistory.historyRows || [];
+            historyColumns = [
+                { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName) },
+                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(electionController._formatDate(row.date || '')) },
+                { key: 'deaCount', label: 'DEAs', kind: 'numeric', align: 'num', getValue: (row) => row.deaCount, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.deaCount || 0)))) },
+                { key: 'districtElectoralAreas', label: 'District Electoral Areas', kind: 'text', getValue: (row) => (row.districtElectoralAreas || []).join(', '), render: (row) => renderDeaList(row) },
+                { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
+                { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.winnerVotes || 0)))) },
+                { key: 'winnerPct', label: 'Leading party %', kind: 'numeric', align: 'num', getValue: (row) => row.winnerPct, render: (row) => `${Number(row.winnerPct || 0).toFixed(2)}%` },
+                { key: 'validVotes', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.validVotes || 0)))) },
+                { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.seats || 0)))) }
+            ];
+        }
         const rows = Object.entries(props).map(([k, v]) => `
             <div class="catalogue-detail__meta-row">
                 <span class="catalogue-detail__meta-label">${this.escapeHtml(k)}</span>
@@ -4703,6 +4786,13 @@ class UIController {
                     </div>
                 </div>
             </div>
+            ${historyColumns && historyRows
+                ? `
+            <div class="catalogue-detail__section">
+                <div class="catalogue-detail__section-title">Electoral History (${historyRows.length})</div>
+                ${this._buildEntityTableMarkup(historyTableId, historyColumns)}
+            </div>`
+                : ''}
             <div class="catalogue-detail__meta">${rows || '<div class="catalogue-detail__meta-row"><span class="catalogue-detail__meta-value">No properties</span></div>'}</div>
         `;
 
@@ -4752,20 +4842,78 @@ class UIController {
                 dropdown?.classList.add('hidden');
             });
         });
+        if (historyColumns && historyRows) {
+            this._initEntityDataTable(detailView, historyTableId, historyColumns, historyRows, {
+                rowClassNameFn: isByElectionRowClass
+            });
+        }
+        if (detailView._featureDetailClickHandler) {
+            detailView.removeEventListener('click', detailView._featureDetailClickHandler);
+        }
+        detailView._featureDetailClickHandler = async (event) => {
+            const electionLink = event.target.closest('[data-election-body][data-election-date]');
+            if (electionLink) {
+                event.preventDefault();
+                this.onElectionEntityElectionOpen?.({
+                    body: electionLink.dataset.electionBody,
+                    date: electionLink.dataset.electionDate,
+                    constituency: electionLink.dataset.electionConstituency || null
+                });
+                return;
+            }
+            const entityLink = event.target.closest('[data-election-entity-detail-kind][data-election-entity-detail-key]');
+            if (entityLink) {
+                event.preventDefault();
+                this.onOpenElectionEntityDetail?.(
+                    entityLink.dataset.electionEntityDetailKind,
+                    entityLink.dataset.electionEntityDetailKey
+                );
+            }
+        };
+        detailView.addEventListener('click', detailView._featureDetailClickHandler);
         this.syncFeatureDetailActionButtons(detailView, detailId);
+        const pane = this._cataloguePane || document.querySelector('.pane__content[data-tab-content="catalogue"]');
+        pane?.scrollTo({ top: 0, behavior: 'auto' });
         this.updateCatalogueNavButtons();
     }
 
+    _buildEntityGroupedHeaderMarkup(columns) {
+        const headerRows = Array.isArray(columns.headerRows) ? columns.headerRows : [];
+        return headerRows.map((row, rowIndex) => `
+            <tr class="catalogue-detail__entity-header-row catalogue-detail__entity-header-row--${rowIndex + 1}${rowIndex === headerRows.length - 1 ? ' catalogue-detail__entity-header-row--leaf' : ''}">
+                ${row.map((cell) => {
+                    const classes = [];
+                    if (cell.align === 'num') classes.push('catalogue-detail__entity-num');
+                    if (cell.leafIndex !== undefined && cell.leafIndex !== null) classes.push('catalogue-detail__entity-header-leaf');
+                    const attrs = [
+                        cell.colspan ? `colspan="${Number(cell.colspan)}"` : '',
+                        cell.rowspan ? `rowspan="${Number(cell.rowspan)}"` : '',
+                        cell.leafIndex !== undefined && cell.leafIndex !== null ? `data-leaf-col-idx="${Number(cell.leafIndex)}"` : '',
+                        cell.leafIndex !== undefined && cell.leafIndex !== null ? `data-leaf-label="${this.escapeHtml(cell.label || '')}"` : ''
+                    ].filter(Boolean).join(' ');
+                    return `<th class="${classes.join(' ')}" ${attrs}>${this.escapeHtml(cell.label || '')}</th>`;
+                }).join('')}
+            </tr>
+        `).join('');
+    }
+
     _buildEntityTableMarkup(tableId, columns) {
-        return `
-            <div class="catalogue-detail__table-wrap">
-                <table class="catalogue-detail__entity-table" data-entity-table-id="${this.escapeHtml(tableId)}">
-                    <thead>
+        const isHistoryTable = String(tableId || '').includes('history-table');
+        const isGroupedHeaderTable = Array.isArray(columns.headerRows) && columns.headerRows.length > 0;
+        const headerMarkup = isGroupedHeaderTable
+            ? this._buildEntityGroupedHeaderMarkup(columns)
+            : `
                         <tr>
-                            ${columns.map((column) => `
-                                <th class="${column.align === 'num' ? 'catalogue-detail__entity-num' : ''}">${this.escapeHtml(column.label)}</th>
+                            ${columns.map((column, idx) => `
+                                <th class="${column.align === 'num' ? 'catalogue-detail__entity-num' : ''}" data-leaf-col-idx="${idx}">${this.escapeHtml(column.label)}</th>
                             `).join('')}
                         </tr>
+                    `;
+        return `
+            <div class="catalogue-detail__table-wrap${isHistoryTable ? ' catalogue-detail__table-wrap--history' : ''}">
+                <table class="catalogue-detail__entity-table${isGroupedHeaderTable ? ' catalogue-detail__entity-table--grouped' : ''}" data-entity-table-id="${this.escapeHtml(tableId)}">
+                    <thead>
+                        ${headerMarkup}
                     </thead>
                     <tbody></tbody>
                 </table>
@@ -4823,7 +4971,7 @@ class UIController {
         const table = container.querySelector(`[data-entity-table-id="${tableId}"]`);
         if (!table) return;
 
-        const headers = [...table.querySelectorAll('thead th')];
+        const headers = [...table.querySelectorAll('thead th[data-leaf-col-idx]')];
         const tbody = table.querySelector('tbody');
         const state = {
             filters: new Map(),
@@ -5009,13 +5157,16 @@ class UIController {
         };
 
         headers.forEach((th, idx) => {
-            const column = columns[idx];
+            const leafIndex = Number(th.dataset.leafColIdx);
+            const column = columns[Number.isFinite(leafIndex) ? leafIndex : idx];
+            if (!column) return;
+            const leafLabel = th.dataset.leafLabel || column.label;
             th.innerHTML = '';
             const wrap = document.createElement('div');
             wrap.className = 'election-th-controls';
             const labelSpan = document.createElement('span');
             labelSpan.className = 'election-th-label';
-            labelSpan.textContent = column.label;
+            labelSpan.textContent = leafLabel;
             wrap.appendChild(labelSpan);
 
             const actions = document.createElement('span');
@@ -5071,11 +5222,13 @@ class UIController {
     _renderConstituencyEntryList(entries = []) {
         if (!Array.isArray(entries) || entries.length === 0) return '—';
         return entries.map((entry) => {
-            const label = `${entry.constituency || '—'}${entry.mapLayerYear ? ` (${entry.mapLayerYear})` : ''}`;
+            const showYear = entry.constituency && entry.constituency !== 'Northern Ireland' && entry.mapLayerYear;
+            const label = `${entry.constituency || '—'}${showYear ? ` (${entry.mapLayerYear})` : ''}`;
             const link = `
                 <a href="#"
                     class="catalogue-detail__entity-link catalogue-detail__entity-link--text catalogue-detail__entity-link--constituency"
                     data-election-constituency-feature="1"
+                    data-election-constituency-level="dea"
                     data-election-constituency-body="${this.escapeHtml(entry.body || '')}"
                     data-election-constituency-date="${this.escapeHtml(entry.date || '')}"
                     data-election-constituency-name="${this.escapeHtml(entry.constituency || '')}">
@@ -5109,6 +5262,14 @@ class UIController {
 
         const fmt = (value) => this.formatNumber(Math.round(Number(value) || 0), 0);
         const pct = (value) => `${Number(value || 0).toFixed(2)}%`;
+        const shortDate = (dateStr) => {
+            const d = new Date(`${dateStr}T00:00:00`);
+            if (Number.isNaN(d.getTime())) return String(dateStr || '');
+            const day = String(d.getDate()).padStart(2, '0');
+            const mon = d.toLocaleDateString('en-GB', { month: 'short' });
+            const year = d.getFullYear();
+            return `${day} ${mon} ${year}`;
+        };
         const ord = (n) => {
             const num = Number(n || 0);
             if (!num) return '—';
@@ -5120,7 +5281,7 @@ class UIController {
         const renderElectionLink = (row, label, includeConstituency = false) => `
             <a href="#"
                 class="catalogue-detail__entity-link catalogue-detail__entity-link--text"
-                data-election-body="${this.escapeHtml(row.body || '')}"
+                data-election-body="${this.escapeHtml(row.electionBodyForOpen || row.body || '')}"
                 data-election-date="${this.escapeHtml(row.date || '')}"
                 ${includeConstituency && row.constituency ? `data-election-constituency="${this.escapeHtml(row.constituency)}"` : ''}>
                 ${this.escapeHtml(label)}
@@ -5134,16 +5295,34 @@ class UIController {
                 ${this.escapeHtml(label)}
             </a>
         `;
-        const title = entry.kind === 'candidate' ? (entry.name || entry.personId) : entry.name;
-        const subtitle = entry.kind === 'candidate'
+        const renderLeadingParty = (row) => {
+            if (!row?.winnerParty) return '—';
+            const colour = this.escapeHtml(row.winnerColour || '#b0bec5');
+            return `<span class="catalogue-detail__leading-party"><span class="catalogue-detail__leading-party-tab" style="background:${colour}"></span>${renderEntityLink('party', row.winnerParty, row.winnerParty)}</span>`;
+        };
+        const renderDeaList = (row) => {
+            const deas = row?.districtElectoralAreas || [];
+            if (!deas.length) return '—';
+            const links = deas.map((dea) => renderEntityLink('dea', dea, dea)).join(', ');
+            return `
+                <details class="catalogue-detail__inline-list">
+                    <summary class="catalogue-detail__inline-list-toggle">Show DEAs (${deas.length})</summary>
+                    <div class="catalogue-detail__inline-list-body">${links}</div>
+                </details>
+            `;
+        };
+        const isCandidate = entry.kind === 'candidate';
+        const isParty = entry.kind === 'party';
+        const isArea = entry.kind === 'dea' || entry.kind === 'lgd';
+        const title = isCandidate ? (entry.name || entry.personId) : entry.name;
+        const subtitle = isCandidate
             ? `${entry.latestParty || (entry.parties || []).join(', ') || 'Independent'}`
-            : `${(entry.bodies || []).length} bodies`
-        ;
-        const eyebrow = entry.kind === 'candidate'
+            : (isArea ? (entry.subtitle || '') : (isParty ? 'Political Party' : ''));
+        const eyebrow = isCandidate
             ? `Candidate | Person ID ${this.escapeHtml(entry.personId || '')}`
-            : 'Political Party';
+            : (isParty ? 'Political Party' : 'Electoral Geography');
 
-        const metrics = entry.kind === 'candidate'
+        const metrics = isCandidate
             ? [
                 ['Latest party', entry.latestParty || 'Independent'],
                 ['1st prefs', fmt(entry.firstPrefs)],
@@ -5152,14 +5331,23 @@ class UIController {
                 ['Elections contested', fmt((entry.appearances || []).length)],
                 ['Constituencies', fmt((entry.constituencies || []).length)]
             ]
-            : [
-                ['MPs', { value: fmt(entry.latestWestminster?.elected || 0), subtext: entry.latestWestminster?.date ? electionController._formatDate(entry.latestWestminster.date) : '' }],
-                ['Last Westminster result', entry.latestWestminster ? pct(entry.latestWestminster.validVotePct) : 'N/A'],
-                ['Last Westminster votes', entry.latestWestminster ? fmt(entry.latestWestminster.firstPrefs) : 'N/A'],
-                ['MLAs', { value: fmt(entry.latestAssembly?.elected || 0), subtext: entry.latestAssembly?.date ? electionController._formatDate(entry.latestAssembly.date) : '' }],
-                ['Last Assembly result', entry.latestAssembly ? pct(entry.latestAssembly.validVotePct) : 'N/A'],
-                ['Last Assembly 1st prefs', entry.latestAssembly ? fmt(entry.latestAssembly.firstPrefs) : 'N/A']
-            ];
+            : (isParty
+                ? [
+                    ['MPs', { value: fmt(entry.latestWestminster?.elected || 0), subtext: entry.latestWestminster?.date ? electionController._formatDate(entry.latestWestminster.date) : '' }],
+                    ['Last Westminster result', entry.latestWestminster ? pct(entry.latestWestminster.validVotePct) : 'N/A'],
+                    ['Last Westminster votes', entry.latestWestminster ? fmt(entry.latestWestminster.firstPrefs) : 'N/A'],
+                    ['MLAs', { value: fmt(entry.latestAssembly?.elected || 0), subtext: entry.latestAssembly?.date ? electionController._formatDate(entry.latestAssembly.date) : '' }],
+                    ['Last Assembly result', entry.latestAssembly ? pct(entry.latestAssembly.validVotePct) : 'N/A'],
+                    ['Last Assembly 1st prefs', entry.latestAssembly ? fmt(entry.latestAssembly.firstPrefs) : 'N/A']
+                ]
+                : [
+                    ['Elections', fmt(entry.metrics?.elections || 0)],
+                    [entry.kind === 'dea' ? 'Districts' : 'DEAs', fmt(entry.kind === 'dea' ? (entry.metrics?.districts || 0) : (entry.metrics?.deas || 0))],
+                    ['Total valid votes', fmt(entry.metrics?.totalValidVotes || 0)],
+                    ['Total seats', fmt(entry.metrics?.totalSeats || 0)],
+                    ['Latest election', entry.metrics?.latestDate ? this.escapeHtml(electionController._formatDate(entry.metrics.latestDate)) : 'N/A'],
+                    [entry.kind === 'dea' ? 'Area type' : 'Body type', this.escapeHtml(entry.subtitle || '')]
+                ]);
 
         const metricsHtml = metrics.map(([label, value]) => `
             <div class="catalogue-detail__metric-card">
@@ -5170,12 +5358,11 @@ class UIController {
             </div>
         `).join('');
 
-        const summaryRows = entry.kind === 'candidate'
+        const summaryRows = isCandidate
             ? [
                 ['Person ID', entry.personId || ''],
                 ['Name', entry.name || ''],
                 ['Parties', (entry.parties || []).join(', ')],
-                ['Bodies', (entry.bodies || []).join(', ')],
                 ['Dates', (entry.dates || []).join(', ')],
                 ['Constituencies', this._renderConstituencyEntryList(entry.constituencyEntries || []), true]
             ]
@@ -5187,61 +5374,174 @@ class UIController {
                 <span class="catalogue-detail__meta-value">${isHtml ? (value || '—') : this.escapeHtml(value || '—')}</span>
             </div>
         `).join('');
+        const recallOr = (row, rendered) => row?.isRecallPetition ? '—' : rendered;
+
+        const rankedCandidateSummaries = (entry.candidateSummaries || []).map((row, idx) => ({
+            ...row,
+            candidateRank: idx + 1
+        }));
 
         const partyHistoryColumns = [
             { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, false) },
-            { key: 'rank', label: 'Rank', kind: 'ordinal', align: 'num', getValue: (row) => row.rank, render: (row) => row.contested ? ord(row.rank) : '—' },
-            { key: 'rankDelta', label: 'Rank ±', kind: 'ordinal', align: 'num', getValue: (row) => row.rankDelta, render: (row) => this._formatEntityRankDelta(row.rankDelta) },
-            { key: 'elected', label: 'Candidates elected', kind: 'numeric', align: 'num', getValue: (row) => row.elected, render: (row) => row.contested ? fmt(row.elected) : '—' },
-            { key: 'electedDelta', label: 'Candidates elected ±', kind: 'numeric', align: 'num', getValue: (row) => row.electedDelta, render: (row) => this._formatEntityDelta(row.electedDelta) },
-            { key: 'stood', label: 'Candidates stood', kind: 'numeric', align: 'num', getValue: (row) => row.stood, filterValue: (row) => row.contested ? row.stood : 'did not contest', render: (row) => row.contested ? fmt(row.stood) : '<em>did not contest</em>' },
-            { key: 'stoodDelta', label: 'Candidates stood ±', kind: 'numeric', align: 'num', getValue: (row) => row.stoodDelta, render: (row) => this._formatEntityDelta(row.stoodDelta) },
-            { key: 'constituenciesContested', label: 'Constituencies stood', kind: 'numeric', align: 'num', getValue: (row) => row.constituenciesContested, render: (row) => fmt(row.constituenciesContested) },
-            { key: 'totalConstituencies', label: 'Number of constituencies', kind: 'numeric', align: 'num', getValue: (row) => row.totalConstituencies, render: (row) => fmt(row.totalConstituencies) },
-            { key: 'constituenciesContestedDelta', label: 'Constituencies stood ±', kind: 'numeric', align: 'num', getValue: (row) => row.constituenciesContestedDelta, render: (row) => this._formatEntityDelta(row.constituenciesContestedDelta) },
-            { key: 'firstPrefs', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefs, render: (row) => row.contested ? fmt(row.firstPrefs) : '—' },
-            { key: 'firstPrefsDelta', label: 'Valid votes ±', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefsDelta, render: (row) => this._formatEntityDelta(row.firstPrefsDelta) },
-            { key: 'validVotePct', label: '% valid first prefs', kind: 'numeric', align: 'num', getValue: (row) => row.validVotePct, render: (row) => row.contested ? pct(row.validVotePct) : '—' },
-            { key: 'validVotePctDelta', label: '% valid first prefs ±', kind: 'numeric', align: 'num', getValue: (row) => row.validVotePctDelta, render: (row) => this._formatEntityDelta(row.validVotePctDelta, 2, '%') },
-            { key: 'totalSeats', label: 'Available seats', kind: 'numeric', align: 'num', getValue: (row) => row.totalSeats, render: (row) => fmt(row.totalSeats) },
-            { key: 'totalSeatsDelta', label: 'Available seats ±', kind: 'numeric', align: 'num', getValue: (row) => row.totalSeatsDelta, render: (row) => this._formatEntityDelta(row.totalSeatsDelta) },
-            { key: 'seatPct', label: '% seats won', kind: 'numeric', align: 'num', getValue: (row) => row.seatPct, render: (row) => row.contested ? pct(row.seatPct) : '—' },
-            { key: 'seatPctDelta', label: '% seats won ±', kind: 'numeric', align: 'num', getValue: (row) => row.seatPctDelta, render: (row) => this._formatEntityDelta(row.seatPctDelta, 2, '%') }
+            { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(shortDate(row.date || '')) },
+            { key: 'electionType', label: 'Type', kind: 'text', getValue: (row) => row.electionType || '—', render: (row) => this.escapeHtml(row.electionType || '—') },
+            { key: 'rank', label: '#', kind: 'ordinal', align: 'num', getValue: (row) => row.rank, render: (row) => recallOr(row, row.contested ? ord(row.rank) : '—') },
+            { key: 'rankDelta', label: '+/-', kind: 'ordinal', align: 'num', getValue: (row) => row.rankDelta, render: (row) => recallOr(row, this._formatEntityRankDelta(row.rankDelta)) },
+            { key: 'elected', label: 'Seats won', kind: 'numeric', align: 'num', getValue: (row) => row.elected, render: (row) => recallOr(row, row.contested ? fmt(row.elected) : '—') },
+            { key: 'electedDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.electedDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.electedDelta)) },
+            { key: 'seatPct', label: '% seats won', kind: 'numeric', align: 'num', getValue: (row) => row.seatPct, render: (row) => recallOr(row, row.contested ? pct(row.seatPct) : '—') },
+            { key: 'seatPctDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.seatPctDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.seatPctDelta, 2, '%')) },
+            { key: 'totalSeats', label: 'Total seats', kind: 'numeric', align: 'num', getValue: (row) => row.totalSeats, render: (row) => recallOr(row, fmt(row.totalSeats)) },
+            { key: 'totalSeatsDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.totalSeatsDelta, render: (row) => recallOr(row, row.isByElection ? '—' : this._formatEntityDelta(row.totalSeatsDelta)) },
+            { key: 'stood', label: 'Candidates stood', kind: 'numeric', align: 'num', getValue: (row) => row.stood, filterValue: (row) => row.contested ? row.stood : 'N/A', render: (row) => recallOr(row, row.contested ? fmt(row.stood) : 'N/A') },
+            { key: 'stoodDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.stoodDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.stoodDelta)) },
+            { key: 'constituenciesContested', label: 'Constituencies', kind: 'numeric', align: 'num', getValue: (row) => row.constituenciesContested, render: (row) => recallOr(row, fmt(row.constituenciesContested)) },
+            { key: 'constituenciesContestedDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.constituenciesContestedDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.constituenciesContestedDelta)) },
+            { key: 'totalConstituencies', label: 'Total constituencies', kind: 'numeric', align: 'num', getValue: (row) => row.totalConstituencies, render: (row) => recallOr(row, fmt(row.totalConstituencies)) },
+            { key: 'totalConstituenciesDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.totalConstituenciesDelta, render: (row) => recallOr(row, row.isByElection ? '' : this._formatEntityDelta(row.totalConstituenciesDelta)) },
+            { key: 'firstPrefs', label: '1st prefs', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefs, render: (row) => recallOr(row, row.contested ? fmt(row.firstPrefs) : '—') },
+            { key: 'firstPrefsDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefsDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.firstPrefsDelta)) },
+            { key: 'validVotePct', label: '% 1st prefs', kind: 'numeric', align: 'num', getValue: (row) => row.validVotePct, render: (row) => recallOr(row, row.contested ? pct(row.validVotePct) : '—') },
+            { key: 'validVotePctDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.validVotePctDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.validVotePctDelta, 2, '%')) }
+        ];
+        partyHistoryColumns.headerRows = [
+            [
+                { label: 'Election', leafIndex: 0, rowspan: 3 },
+                { label: 'Date', leafIndex: 1, rowspan: 3 },
+                { label: 'Type', leafIndex: 2, rowspan: 3 },
+                { label: '#', rowspan: 2, colspan: 2 },
+                { label: 'Seats', colspan: 6 },
+                { label: 'Candidates', rowspan: 2, colspan: 2 },
+                { label: 'Constituencies', colspan: 4 },
+                { label: '1st preferences', colspan: 4 }
+            ],
+            [
+                { label: 'Won', colspan: 4 },
+                { label: 'Total', colspan: 2 },
+                { label: 'Stood in', colspan: 2 },
+                { label: 'Total', colspan: 2 },
+                { label: 'No.', colspan: 2 },
+                { label: '%', colspan: 2 }
+            ],
+            [
+                { label: 'No.', leafIndex: 3, align: 'num' },
+                { label: '+/-', leafIndex: 4, align: 'num' },
+                { label: 'No.', leafIndex: 5, align: 'num' },
+                { label: '+/-', leafIndex: 6, align: 'num' },
+                { label: '%', leafIndex: 7, align: 'num' },
+                { label: '+/-', leafIndex: 8, align: 'num' },
+                { label: 'No.', leafIndex: 9, align: 'num' },
+                { label: '+/-', leafIndex: 10, align: 'num' },
+                { label: 'No.', leafIndex: 11, align: 'num' },
+                { label: '+/-', leafIndex: 12, align: 'num' },
+                { label: 'No.', leafIndex: 13, align: 'num' },
+                { label: '+/-', leafIndex: 14, align: 'num' },
+                { label: 'No.', leafIndex: 15, align: 'num' },
+                { label: '+/-', leafIndex: 16, align: 'num' },
+                { label: 'No.', leafIndex: 17, align: 'num' },
+                { label: '+/-', leafIndex: 18, align: 'num' },
+                { label: '%', leafIndex: 19, align: 'num' },
+                { label: '+/-', leafIndex: 20, align: 'num' }
+            ]
         ];
 
-        const showEuropeanCandidateColumns = (entry.candidateSummaries || []).some((row) => (row.timesStoodEuropean || 0) > 0);
         const partyCandidateColumns = [
+            { key: 'candidateRank', label: '#', kind: 'ordinal', align: 'num', getValue: (row) => row.candidateRank, render: (row) => fmt(row.candidateRank) },
             { key: 'name', label: 'Candidate', kind: 'text', getValue: (row) => row.name, render: (row) => renderEntityLink('candidate', row.personId, row.name) },
             { key: 'totalFirstPrefs', label: 'Total 1st prefs', kind: 'numeric', align: 'num', getValue: (row) => row.totalFirstPrefs, render: (row) => fmt(row.totalFirstPrefs) },
-            { key: 'timesStood', label: 'Times stood', kind: 'numeric', align: 'num', getValue: (row) => row.timesStood, render: (row) => fmt(row.timesStood) },
-            { key: 'timesStoodDevolved', label: 'Times stood devolved', kind: 'numeric', align: 'num', getValue: (row) => row.timesStoodDevolved, render: (row) => fmt(row.timesStoodDevolved) },
-            { key: 'timesStoodWestminster', label: 'Times stood Westminster', kind: 'numeric', align: 'num', getValue: (row) => row.timesStoodWestminster, render: (row) => fmt(row.timesStoodWestminster) },
-            { key: 'timesElected', label: 'Times elected', kind: 'numeric', align: 'num', getValue: (row) => row.timesElected, render: (row) => fmt(row.timesElected) },
-            { key: 'timesElectedDevolved', label: 'Times elected devolved', kind: 'numeric', align: 'num', getValue: (row) => row.timesElectedDevolved, render: (row) => fmt(row.timesElectedDevolved) },
-            { key: 'timesElectedWestminster', label: 'Times elected Westminster', kind: 'numeric', align: 'num', getValue: (row) => row.timesElectedWestminster, render: (row) => fmt(row.timesElectedWestminster) },
-            { key: 'constituenciesLabel', label: 'Constituencies stood in', kind: 'text', getValue: (row) => (row.constituencyEntries || []).map((entry) => `${entry.constituency || ''} (${entry.mapLayerYear || ''})`).join(', '), render: (row) => this._renderConstituencyEntryList(row.constituencyEntries || []) }
+            { key: 'timesStood', label: 'Total', kind: 'numeric', align: 'num', getValue: (row) => row.timesStood, render: (row) => fmt(row.timesStood) },
+            { key: 'timesStoodLocal', label: 'Local', kind: 'numeric', align: 'num', getValue: (row) => row.timesStoodLocal, render: (row) => fmt(row.timesStoodLocal) },
+            { key: 'timesStoodDevolved', label: 'Devolved', kind: 'numeric', align: 'num', getValue: (row) => row.timesStoodDevolved, render: (row) => fmt(row.timesStoodDevolved) },
+            { key: 'timesStoodWestminster', label: 'Westminster', kind: 'numeric', align: 'num', getValue: (row) => row.timesStoodWestminster, render: (row) => fmt(row.timesStoodWestminster) },
+            { key: 'timesStoodEuropean', label: 'Europe', kind: 'numeric', align: 'num', getValue: (row) => row.timesStoodEuropean, render: (row) => fmt(row.timesStoodEuropean) },
+            { key: 'timesElected', label: 'Total', kind: 'numeric', align: 'num', getValue: (row) => row.timesElected, render: (row) => fmt(row.timesElected) },
+            { key: 'timesElectedLocal', label: 'Local', kind: 'numeric', align: 'num', getValue: (row) => row.timesElectedLocal, render: (row) => fmt(row.timesElectedLocal) },
+            { key: 'timesElectedDevolved', label: 'Devolved', kind: 'numeric', align: 'num', getValue: (row) => row.timesElectedDevolved, render: (row) => fmt(row.timesElectedDevolved) },
+            { key: 'timesElectedWestminster', label: 'Westminster', kind: 'numeric', align: 'num', getValue: (row) => row.timesElectedWestminster, render: (row) => fmt(row.timesElectedWestminster) },
+            { key: 'timesElectedEuropean', label: 'Europe', kind: 'numeric', align: 'num', getValue: (row) => row.timesElectedEuropean, render: (row) => fmt(row.timesElectedEuropean) },
+            {
+                key: 'constituenciesLabel',
+                label: 'Stood in',
+                kind: 'text',
+                getValue: (row) => (row.constituencyEntries || []).map((entry) => {
+                    const showYear = entry.constituency && entry.constituency !== 'Northern Ireland' && entry.mapLayerYear;
+                    return `${entry.constituency || ''}${showYear ? ` (${entry.mapLayerYear || ''})` : ''}`;
+                }).join(', '),
+                render: (row) => this._renderConstituencyEntryList(row.constituencyEntries || [])
+            }
         ];
-        if (showEuropeanCandidateColumns) {
-            partyCandidateColumns.splice(5, 0,
-                { key: 'timesStoodEuropean', label: 'Times stood European Parliament', kind: 'numeric', align: 'num', getValue: (row) => row.timesStoodEuropean, render: (row) => fmt(row.timesStoodEuropean) }
-            );
-            partyCandidateColumns.splice(partyCandidateColumns.length - 1, 0,
-                { key: 'timesElectedEuropean', label: 'Times elected European Parliament', kind: 'numeric', align: 'num', getValue: (row) => row.timesElectedEuropean, render: (row) => fmt(row.timesElectedEuropean) }
-            );
-        }
+        partyCandidateColumns.headerRows = [
+            [
+                { label: '#', leafIndex: 0, rowspan: 2, align: 'num' },
+                { label: 'Candidate', leafIndex: 1, rowspan: 2 },
+                { label: 'Total 1st prefs', leafIndex: 2, rowspan: 2, align: 'num' },
+                { label: 'Times stood', colspan: 5 },
+                { label: 'Times elected', colspan: 5 },
+                { label: 'Stood in', leafIndex: 13, rowspan: 2 }
+            ],
+            [
+                { label: 'Total', leafIndex: 3, align: 'num' },
+                { label: 'Local', leafIndex: 4, align: 'num' },
+                { label: 'Devolved', leafIndex: 5, align: 'num' },
+                { label: 'Westminster', leafIndex: 6, align: 'num' },
+                { label: 'Europe', leafIndex: 7, align: 'num' },
+                { label: 'Total', leafIndex: 8, align: 'num' },
+                { label: 'Local', leafIndex: 9, align: 'num' },
+                { label: 'Devolved', leafIndex: 10, align: 'num' },
+                { label: 'Westminster', leafIndex: 11, align: 'num' },
+                { label: 'Europe', leafIndex: 12, align: 'num' }
+            ]
+        ];
 
         const candidateHistoryColumns = [
             { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, true) },
             { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(electionController._formatDate(row.date || '')) },
-            { key: 'constituency', label: 'Constituency', kind: 'text', getValue: (row) => row.constituency, render: (row) => this.escapeHtml(row.constituency || '—') },
-            { key: 'bodyLabel', label: 'Elected body', kind: 'text', getValue: (row) => row.bodyLabel || row.body, render: (row) => this.escapeHtml(row.bodyLabel || row.body || '—') },
+            { key: 'electionType', label: 'Type', kind: 'text', getValue: (row) => row.electionType || '—', render: (row) => this.escapeHtml(row.electionType || '—') },
+            {
+                key: 'constituency',
+                label: 'Constituency',
+                kind: 'text',
+                getValue: (row) => row.constituency,
+                render: (row) => {
+                    const label = row.constituency || '—';
+                    if (!row.constituency || !row.body || !row.date) return this.escapeHtml(label);
+                    return electionController._renderElectionConstituencyFeatureLink(
+                        row.body,
+                        row.date,
+                        row.constituency,
+                        row.constituency,
+                        'election-cell-wrap',
+                        row.electionType === 'Local' ? 'dea' : 'constituency'
+                    );
+                }
+            },
+            {
+                key: 'bodyLabel',
+                label: 'Elected body',
+                kind: 'text',
+                getValue: (row) => row.bodyLabel || row.body,
+                render: (row) => {
+                    const label = row.bodyLabel || row.body || '—';
+                    if (row.electionType === 'Local' && label !== '—' && row.body && row.date) {
+                        return electionController._renderElectionConstituencyFeatureLink(
+                            row.body,
+                            row.date,
+                            label,
+                            label,
+                            'election-cell-wrap election-cell-wrap--full',
+                            'council'
+                        );
+                    }
+                    return `<span class="election-cell-wrap election-cell-wrap--full">${this.escapeHtml(label)}</span>`;
+                }
+            },
             { key: 'status', label: 'Status', kind: 'text', getValue: (row) => row.status, render: (row) => this.escapeHtml(row.status || '—') },
             { key: 'firstPref', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.firstPref, render: (row) => fmt(row.firstPref) },
             { key: 'firstPrefPct', label: 'Valid vote %', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefPct, render: (row) => pct(row.firstPrefPct) },
             { key: 'overallStandingNumber', label: 'Overall standing', kind: 'ordinal', getValue: (row) => row.overallStandingNumber, render: (row) => `${ord(row.overallStandingNumber)} time standing` },
             { key: 'overallElectedNumber', label: 'Overall elected', kind: 'ordinal', getValue: (row) => row.overallElectedNumber, render: (row) => row.overallElectedNumber ? `${ord(row.overallElectedNumber)} time elected` : '—' },
-            { key: 'bodyStandingNumber', label: 'Body standing', kind: 'ordinal', getValue: (row) => row.bodyStandingNumber, render: (row) => `${ord(row.bodyStandingNumber)} ${this.escapeHtml(row.bodyLabel || row.body || '')} election` },
-            { key: 'bodyElectedNumber', label: 'Body elected', kind: 'ordinal', getValue: (row) => row.bodyElectedNumber, render: (row) => row.bodyElectedNumber ? `${ord(row.bodyElectedNumber)} ${this.escapeHtml(row.bodyLabel || row.body || '')} win` : '—' }
+            { key: 'bodyStandingNumber', label: 'Type standing', kind: 'ordinal', getValue: (row) => row.bodyStandingNumber, render: (row) => `${ord(row.bodyStandingNumber)} ${this.escapeHtml(row.electionType || 'unknown')} election` },
+            { key: 'bodyElectedNumber', label: 'Type elected', kind: 'ordinal', getValue: (row) => row.bodyElectedNumber, render: (row) => row.bodyElectedNumber ? `${ord(row.bodyElectedNumber)} ${this.escapeHtml(row.electionType || 'unknown')} win` : '—' }
         ];
 
         const latestSummaryHtml = entry.kind === 'candidate' && entry.latestAppearance ? `
@@ -5280,7 +5580,30 @@ class UIController {
             </div>
         ` : '';
 
-        const historyHtml = entry.kind === 'party'
+        const areaHistoryColumns = entry.kind === 'dea'
+            ? [
+                { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, true) },
+                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(electionController._formatDate(row.date || '')) },
+                { key: 'localGovernmentDistrict', label: 'Local Government District', kind: 'text', getValue: (row) => row.localGovernmentDistrict, render: (row) => renderEntityLink('lgd', row.localGovernmentDistrict, row.localGovernmentDistrict) },
+                { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
+                { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => fmt(row.winnerVotes) },
+                { key: 'winnerPct', label: 'Leading party %', kind: 'numeric', align: 'num', getValue: (row) => row.winnerPct, render: (row) => pct(row.winnerPct) },
+                { key: 'validVotes', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) },
+                { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => fmt(row.seats) }
+            ]
+            : [
+                { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, false) },
+                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(electionController._formatDate(row.date || '')) },
+                { key: 'deaCount', label: 'DEAs', kind: 'numeric', align: 'num', getValue: (row) => row.deaCount, render: (row) => fmt(row.deaCount) },
+                { key: 'districtElectoralAreas', label: 'District Electoral Areas', kind: 'text', getValue: (row) => (row.districtElectoralAreas || []).join(', '), render: (row) => renderDeaList(row) },
+                { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
+                { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => fmt(row.winnerVotes) },
+                { key: 'winnerPct', label: 'Leading party %', kind: 'numeric', align: 'num', getValue: (row) => row.winnerPct, render: (row) => pct(row.winnerPct) },
+                { key: 'validVotes', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) },
+                { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => fmt(row.seats) }
+            ];
+
+        const historyHtml = isParty
             ? `
                 <div class="catalogue-detail__section">
                     <div class="catalogue-detail__section-title">Election History (${(entry.historyRows || []).length})</div>
@@ -5291,13 +5614,20 @@ class UIController {
                     ${this._buildEntityTableMarkup('catalogue-party-candidates-table', partyCandidateColumns)}
                 </div>
             `
-            : `
+            : (isCandidate
+                ? `
                 ${latestSummaryHtml}
                 <div class="catalogue-detail__section">
                     <div class="catalogue-detail__section-title">Election History (${(entry.appearances || []).length})</div>
                     ${this._buildEntityTableMarkup('catalogue-candidate-history-table', candidateHistoryColumns)}
                 </div>
-            `;
+            `
+                : `
+                <div class="catalogue-detail__section">
+                    <div class="catalogue-detail__section-title">Election History (${(entry.historyRows || []).length})</div>
+                    ${this._buildEntityTableMarkup(`catalogue-${this.escapeHtml(entry.kind)}-history-table`, areaHistoryColumns)}
+                </div>
+            `);
 
         detailView.innerHTML = `
             <div class="catalogue-detail__card">
@@ -5305,21 +5635,31 @@ class UIController {
                 <div class="catalogue-detail__name">${this.escapeHtml(title)}</div>
                 <div class="catalogue-detail__date">${this.escapeHtml(subtitle)}</div>
             </div>
-            <div class="catalogue-detail__description">${this.escapeHtml(eyebrow)}</div>
+            ${isParty ? '' : `<div class="catalogue-detail__description">${this.escapeHtml(eyebrow)}</div>`}
             <div class="catalogue-detail__metrics-grid">${metricsHtml}</div>
-            ${entry.kind === 'candidate' ? `<div class="catalogue-detail__meta">${summaryHtml}</div>` : ''}
+            ${isCandidate ? `<div class="catalogue-detail__meta">${summaryHtml}</div>` : ''}
             ${historyHtml}
         `;
 
-        if (entry.kind === 'party') {
+        if (isParty) {
             this._initEntityDataTable(detailView, 'catalogue-party-history-table', partyHistoryColumns, entry.historyRows || [], {
                 rowClassNameFn: (row) => row.isByElection ? 'catalogue-detail__entity-row--by-election' : ''
             });
-            this._initEntityDataTable(detailView, 'catalogue-party-candidates-table', partyCandidateColumns, entry.candidateSummaries || []);
-        } else {
+            this._initEntityDataTable(detailView, 'catalogue-party-candidates-table', partyCandidateColumns, rankedCandidateSummaries);
+        } else if (isCandidate) {
             this._initEntityDataTable(detailView, 'catalogue-candidate-history-table', candidateHistoryColumns, entry.appearances || [], {
                 rowClassNameFn: (row) => row.isByElection ? 'catalogue-detail__entity-row--by-election' : ''
             });
+        } else {
+            this._initEntityDataTable(
+                detailView,
+                `catalogue-${entry.kind}-history-table`,
+                areaHistoryColumns,
+                entry.historyRows || [],
+                {
+                    rowClassNameFn: (row) => row.isByElection ? 'catalogue-detail__entity-row--by-election' : ''
+                }
+            );
         }
 
         if (detailView._entityDetailClickHandler) {
@@ -5343,7 +5683,8 @@ class UIController {
                 await this.onOpenElectionConstituencyFeature?.({
                     body: constituencyLink.dataset.electionConstituencyBody,
                     date: constituencyLink.dataset.electionConstituencyDate,
-                    constituency: constituencyLink.dataset.electionConstituencyName
+                    constituency: constituencyLink.dataset.electionConstituencyName,
+                    level: constituencyLink.dataset.electionConstituencyLevel || 'dea'
                 });
                 return;
             }
@@ -5366,6 +5707,8 @@ class UIController {
         };
         detailView.addEventListener('click', detailView._entityDetailClickHandler);
 
+        const pane = this._cataloguePane || document.querySelector('.pane__content[data-tab-content="catalogue"]');
+        pane?.scrollTo({ top: 0, behavior: 'auto' });
         this.updateCatalogueNavButtons();
     }
 

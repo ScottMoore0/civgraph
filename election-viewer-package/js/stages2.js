@@ -13,6 +13,16 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+function stripCandidateDagger(value) {
+    if (value === null || typeof value === 'undefined') {
+        return '';
+    }
+    return String(value)
+        .replace(/[‡]+/g, '')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+}
+
 function _dhondtTupleCompare(a, b) {
     if (!a && !b) {
         return 0;
@@ -40,11 +50,11 @@ function _dhondtTupleCompare(a, b) {
 
 function _forumCandidateName(entry, seatNumber, existingName) {
     if (!entry) {
-        return existingName || '';
+        return stripCandidateDagger(existingName || '');
     }
     var list = Array.isArray(entry.listCandidates) ? entry.listCandidates : [];
     if (!list.length) {
-        return existingName || '';
+        return stripCandidateDagger(existingName || '');
     }
     if (existingName) {
         return existingName;
@@ -54,18 +64,18 @@ function _forumCandidateName(entry, seatNumber, existingName) {
             return parseNumeric(item && item.rank) === seatNumber;
         });
         if (match && match.name) {
-            return match.name;
+            return stripCandidateDagger(match.name);
         }
         var offset = seatNumber - 1;
         if (offset >= 0 && offset < list.length) {
             var fallback = list[offset];
             if (fallback && fallback.name) {
-                return fallback.name;
+                return stripCandidateDagger(fallback.name);
             }
         }
     }
     var first = list.find(function (item) { return item && item.name; });
-    return first && first.name ? first.name : (existingName || '');
+    return first && first.name ? stripCandidateDagger(first.name) : stripCandidateDagger(existingName || '');
 }
 
 function _computeForumSequenceFallback(partyMap, seatTotal) {
@@ -142,7 +152,7 @@ function _resolveForumSequence(partyMap, rawSequence, seatTotal) {
             if (!Number.isFinite(candidateRank) || candidateRank <= 0) {
                 candidateRank = seatNumber;
             }
-            var candidateName = item.candidate_name || '';
+            var candidateName = stripCandidateDagger(item.candidate_name || '');
             var quotient = parseNumeric(item.quotient);
             var target = partyMap.get(token) || null;
             if (target) {
@@ -198,7 +208,7 @@ function _resolveForumSequence(partyMap, rawSequence, seatTotal) {
             candidateRank = seatNumber;
         }
         var target = partyMap.get(token) || null;
-        var candidateName = entry.candidate_name || '';
+        var candidateName = stripCandidateDagger(entry.candidate_name || '');
         if (target) {
             candidateName = _forumCandidateName(target, candidateRank, candidateName);
             return {
@@ -393,7 +403,7 @@ function buildForumAnimationDataset(constituency) {
                 seatCounts[key] = seatsAfter;
                 target.seatAfterTimeline[target.seatAfterTimeline.length - 1] = seatsAfter;
                 target.seatTimeline[target.seatTimeline.length - 1] = seatsAfter;
-                var candidateName = allocation.candidate_name || '';
+                var candidateName = stripCandidateDagger(allocation.candidate_name || '');
                 if (!candidateName) {
                     var rankVal = parseNumeric(allocation.candidate_rank);
                     var candidates = Array.isArray(target.listCandidates) ? target.listCandidates : [];
@@ -402,17 +412,17 @@ function buildForumAnimationDataset(constituency) {
                             return parseNumeric(item && item.rank) === rankVal;
                         });
                         if (match && match.name) {
-                            candidateName = match.name;
+                            candidateName = stripCandidateDagger(match.name);
                         }
                     }
                     if (!candidateName && candidates.length >= seatsAfter) {
                         var fallbackCandidate = candidates[seatsAfter - 1];
                         if (fallbackCandidate && fallbackCandidate.name) {
-                            candidateName = fallbackCandidate.name;
+                            candidateName = stripCandidateDagger(fallbackCandidate.name);
                         }
                     }
                 }
-                var resolvedName = candidateName || '';
+                var resolvedName = stripCandidateDagger(candidateName || '');
                 target.candidateTimeline[target.candidateTimeline.length - 1] = resolvedName;
                 if (!Array.isArray(target.winners)) {
                     target.winners = [];
@@ -1978,14 +1988,14 @@ function animateStages(selectionOrYear, constituencyFolder) {
                 if (partyColour) {
                     partyColour = normaliseColour(partyColour);
                 }
-                var firstName = typeof (data[i]["Firstname"]) === "string" ? data[i]["Firstname"].trim() : "";
-                var surname = typeof (data[i]["Surname"]) === "string" ? data[i]["Surname"].trim() : "";
-                var displayName = (firstName + " " + surname).trim();
+                var firstName = typeof (data[i]["Firstname"]) === "string" ? stripCandidateDagger(data[i]["Firstname"]) : "";
+                var surname = typeof (data[i]["Surname"]) === "string" ? stripCandidateDagger(data[i]["Surname"]) : "";
+                var displayName = stripCandidateDagger((firstName + " " + surname).trim());
                 if (!displayName && typeof data[i]["Candidate_Name"] === 'string') {
-                    displayName = data[i]["Candidate_Name"].trim();
+                    displayName = stripCandidateDagger(data[i]["Candidate_Name"]);
                 }
                 if (!displayName && typeof data[i]["Candidate"] === 'string') {
-                    displayName = data[i]["Candidate"].trim();
+                    displayName = stripCandidateDagger(data[i]["Candidate"]);
                 }
                 if (!displayName) {
                     displayName = candidateIsNonTransferable ? "Non-transferable" : "";
@@ -2358,7 +2368,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
         bbExtraRows += 1; // Turnout row
         if (didNotVote !== null && didNotVote > 0) bbExtraRows += 3;
         bbExtraRows += 1; // Electorate row
-        var contentWidth = postPosition + rightMargin + 320;
+        var contentWidth = postPosition + rightMargin + 380;
         // After firstCount, measure the actual scrollWidth which includes
         // absolutely positioned children that may extend beyond the container
         var actualScroll = document.getElementById('animation');
@@ -2372,12 +2382,14 @@ function animateStages(selectionOrYear, constituencyFolder) {
             var vRight = allVoteDivs[vi].offsetLeft + allVoteDivs[vi].scrollWidth;
             if (vRight > contentWidth) contentWidth = vRight;
         }
+        contentWidth += 40; // right-edge safety margin to prevent clipping at pane boundary
         $('#animation').data('boundingBox', {
             width: contentWidth,
             height: topMargin + ((bbRows + bbExtraRows) * rowHeight) - (rowHeight - 25)
         });
         // Set width so all absolutely-positioned text (status, transfer rects) is visible
         $('#animation').width(contentWidth);
+        $('#animation').css('padding-right', '40px');
 
         var countNumber = 2;  //global loop variable
         var isPaused = false;
@@ -3566,6 +3578,12 @@ function animateStages(selectionOrYear, constituencyFolder) {
             if (statusCategory === 'elected') {
                 var electionRound = determineElectionRound(candidateKey);
                 if (typeof electionRound === 'number' && isFinite(electionRound) && electionRound > numericRound) {
+                    return '';
+                }
+            }
+            if (statusCategory === 'not_elected') {
+                var finalRound = parseInt(counts, 10);
+                if (isFinite(finalRound) && finalRound > numericRound) {
                     return '';
                 }
             }

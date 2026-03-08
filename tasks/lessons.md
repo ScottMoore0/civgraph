@@ -1,5 +1,151 @@
 # Lessons Log
 
+### 89) Global election index loaders must respect body slug, not display name
+- Mistake pattern: Using `bodyData.name` to load election JSON in global indexing when some bodies share a slug-backed storage path (`local-government`).
+- Impact: Aggregates silently resolve to empty payloads (`0` valid votes, `0` seats, no leading party) even though underlying JSON files are present.
+- Guardrail:
+  1) always load via `bodyData.slug || bodyData.name`,
+  2) for grouped/shared-body datasets, add a quick non-zero aggregate sanity check on one known body/date after index build.
+
+### 88) Keep geographic election links on feature pages; enrich those pages instead of swapping destination type
+- Mistake pattern: Implementing DEA/LGD election links by redirecting to separate election-entity pages when the product contract required feature pages as the destination.
+- Impact: UX diverged from expected navigation flow and required rework even though the underlying history data existed.
+- Guardrail:
+  1) treat the destination type (`feature page` vs `entity page`) as a hard requirement,
+  2) if geography links need richer context, attach election-history payloads to feature-detail entries and render new sections there,
+  3) reserve election-entity pages for person/party entities unless explicitly requested otherwise.
+
+### 86) Never source production STV output from stale remap artifacts
+- Mistake pattern: Switching output generation to a remapped workbook artifact without revalidating core election invariants.
+- Impact: Previously fixed stage-collision defects were silently reintroduced into local-election By Count output.
+- Guardrail:
+  1) treat the normalized workbook as STV truth unless a remapped artifact is regenerated from that exact base in the same pass,
+  2) run a stage-collision audit (`multi-surplus` / `mixed elimination+surplus`) after every source-workbook switch,
+  3) block release if the audit is non-zero.
+
+### 87) Name-marker cleanup needs both data and render guardrails
+- Mistake pattern: Cleaning dagger markers only in data preparation and assuming all downstream surfaces consume refreshed clean data.
+- Impact: stale artifacts or alternate render paths can still surface `‚Ä°` in tables/animations.
+- Guardrail:
+  1) sanitize candidate names at data build time,
+  2) also sanitize at display/render extraction points in both results and animation code paths.
+
+### 85) PersonID-anchored overrides are only as good as the ID source workbook
+- Mistake pattern: Implementing canonical-by-PersonID replacement while building from a workbook that did not contain approved local->full ID remaps.
+- Impact: Overrides appeared to be implemented but had near-zero effect in rendered results tables.
+- Guardrail:
+  1) when a remapped workbook exists, make it the build source-of-truth,
+  2) normalize PersonID formats (`001234`, `1234`, float-like strings) before matching,
+  3) print match coverage (`matched/total`) on every build so override failures are visible immediately.
+
+### 84) STV stage pipelines need hard validation, not only heuristic matching
+- Mistake pattern: Relying on heuristic surplus-stage matching without enforcing structural invariants at build time.
+- Impact: local-election outputs could still contain mixed elimination/surplus counts or multi-surplus stages even after apparent case-level fixes.
+- Guardrail:
+  1) enforce `distribution_stage >= exit_count` and one surplus donor per stage during assignment,
+  2) treat unmatched surplus candidates as non-redistributed (deemed elected) rather than forcing illegal stage placement,
+  3) fail fast in the builder on any mixed or combined event-stage collision,
+  4) suppress negative transfer values outside donor stages to prevent synthetic event artifacts from source-count deltas.
+
+### 82) Chamber seat ordering must be based on final x-position, not generation order
+- Mistake pattern: Generating a correct council hemicycle shape but assigning party members to seats in the raw per-row construction order.
+- Impact: Party colours fill the chamber top-to-bottom / row-by-row instead of left-to-right politically.
+- Guardrail:
+  1) once shaped seat positions are generated, normalize them and then sort by final `x` before assigning ordered party seats,
+  2) treat geometry generation and political seat assignment as separate steps,
+  3) verify one chamber visually for left-to-right colour blocks after any seat-layout refactor.
+
+### 83) Detailed STV count headers need an explicit per-count event model
+- Mistake pattern: Rendering `Count #` columns from raw count numbers alone without inferring which candidate surplus or exclusion actually caused that count.
+- Impact: Headers stay generic and the table obscures when redistribution really happens.
+- Guardrail:
+  1) derive a per-count event map from the actual negative-transfer rows,
+  2) classify each count as `Surplus` or `Exclusion` from the terminal negative-transfer candidate state,
+  3) use surname by default and full name only when surnames collide within the constituency.
+
+### 81) When a reference chamber already exists, copy its geometry model instead of tuning blind
+- Mistake pattern: Iterating repeatedly on seat-layout constants without first anchoring the implementation to the known-good ParliamentArch geometry.
+- Impact: Multiple visually different but still-wrong council hemicycle variants, despite touching the same branch over and over.
+- Guardrail:
+  1) if a target layout already has a known source algorithm, inspect and mirror that algorithm first,
+  2) separate geometry-class changes from density tuning,
+  3) only adjust spacing constants after the chamber uses the correct annulus/arc formulas.
+
+### 78) STV display logic must use the event count, not the row count
+- Mistake pattern: Treating `Count_Number` as the count at which a candidate was elected or excluded in local-election data.
+- Impact: Candidates appear as `Elected 1/#` or `Excluded 1/#` across the UI even when the decisive event happened later.
+- Guardrail:
+  1) whenever STV source rows include `Occurred_On_Count`, use that as the event-count source of truth,
+  2) reserve `Count_Number` for table-column placement only,
+  3) verify one elected and one excluded local-election candidate after any STV display refactor.
+
+### 79) Local-election swing baselines must skip by-elections for NI-wide comparison
+- Mistake pattern: Reusing the generic `previous date` lookup for grouped local elections, which makes the 2018 Carrick Castle by-election become the baseline for 2019 NI-wide local comparisons.
+- Impact: local-party, candidate, and council/DEA swing columns compare against the wrong election.
+- Guardrail:
+  1) grouped local elections need a dedicated previous-general-election resolver,
+  2) by-elections may compare locally to their last general election, but NI-wide local comparisons must skip one-seat dates,
+  3) verify `2018 -> 2014`, `2019 -> 2014`, and `2023 -> 2019` explicitly after changing local-election date logic.
+
+### 80) Election-layer suppression must also z-lock lower layers
+- Mistake pattern: Hiding labels below an election layer without blocking lower-layer `bringToFront()` paths during hover interaction.
+- Impact: outlines and other lower-layer visuals can leak above the active election layer while the user moves around the map.
+- Guardrail:
+  1) whenever an election is active, mark lower loaded layers as election-z-locked,
+  2) check hover/selection code for `bringToFront()` calls and gate them on that lock,
+  3) clear the lock when the election layer is cleared or hidden.
+
+### 77) A flat-bottom hemicycle requires shared arc endpoints, not clipped arcs
+- Mistake pattern: Using a narrowed angle range to shape the chamber, which makes each ring end at a different height.
+- Impact: The chamber is curved, but its base is not flat and the whole shape drifts away from the parliamentary reference.
+- Guardrail:
+  1) if the chamber must have a flat bottom, generate each ring on the full upper semicircle (`0..œÄ`),
+  2) compress width with an explicit horizontal scale instead of clipping arc endpoints,
+  3) tune density with seat gap and radial gap only after the shared baseline is correct.
+
+### 76) Chamber orientation matters as much as arc geometry
+- Mistake pattern: Switching from rows to true arcs but using a lower-bowl arc range, which still produces the wrong chamber class visually.
+- Impact: The dots are genuinely curved, but the chamber reads as a rounded bowl instead of a flat-bottom parliamentary hemicycle.
+- Guardrail:
+  1) for a parliamentary hemicycle, place dots on an upper semicircle (`y = -sin(angle)` in screen coordinates),
+  2) ensure both arc endpoints land on the same baseline before normalization,
+  3) tune base flatness and dot density separately after the geometry class is correct.
+
+### 75) A hemicycle requirement means arc geometry, not row-width tricks
+- Mistake pattern: Treating a chamber overlay as solved once the overall silhouette looks semicircular, even if every seat is still placed on straight horizontal rows.
+- Impact: The result reads as a stacked-row approximation rather than an actual parliamentary hemicycle.
+- Guardrail:
+  1) if the user asks for a real hemicycle, generate seat positions on concentric arcs using polar geometry,
+  2) treat shape class, seat density, and centering as separate tuning problems,
+  3) only use row-based layouts when the requirement is explicitly a grid or stepped block, not a chamber.
+
+### 74) Tune chamber density independently from chamber shape
+- Mistake pattern: Fixing the overall hemicycle geometry but leaving seat spacing on the old wider scale.
+- Impact: The overlay can be structurally correct yet still look visibly looser than the reference.
+- Guardrail:
+  1) keep an explicit effective seat-gap constant for large chamber layouts,
+  2) tune arc span and radial spacing separately from seat ordering and centering,
+  3) when comparing to a reference, validate shape first, density second.
+# Lessons Log
+
+### 73) Non-grid seat overlays must be centered from bounds, not from the first point
+- Mistake pattern: Switching seat geometry away from a simple grid but still positioning dots relative to the first seat coordinate.
+- Impact: The overlay group can drift sideways or vertically even when the marker anchor is centered correctly.
+- Guardrail:
+  1) for any shaped seat layout, compute dot offsets from `min(x)` and `min(y)`,
+  2) treat orientation, base shape, and anchor centering as separate checks,
+  3) if seat order matters politically, sort the elected-member list before applying the geometry.
+# Lessons Log
+
+### 72) Change council seat layouts only at the seat-position helper
+- Mistake pattern: A council overlay arrangement bug could tempt broad changes to marker rendering or overlay wiring when only the seat-position geometry is wrong.
+- Impact: Fixing the visual layout in the wrong layer risks breaking marker styling, click behavior, overlay visibility rules, or the DEA overlay path.
+- Guardrail:
+  1) keep large-seat arrangement changes inside `_seatPositions()`,
+  2) leave marker HTML, icon sizing, and overlay logic untouched unless the bug is actually there,
+  3) verify both a large-seat council path and a small-seat DEA path after the change.
+# Lessons Log
+
 # Lessons Log
 
 ### 71) Party lifespan tables need both start and end bounds
@@ -484,3 +630,690 @@
   1) store a mutable base-style snapshot for each interactive layer,
   2) when a user control changes style, update both the rendered layer and that base snapshot,
   3) hover/highlight restore must use the current base snapshot rather than a boot-time style capture.
+
+### 74) Benchmark compiler output only after contest keys are proven sane
+- Mistake pattern: Reading benchmark mismatches as parser failures before verifying that date/body/constituency keys line up between generated output and the reference workbook.
+- Impact: Early benchmark numbers were misleading because older STV metadata extraction was folding extra label/value text into the constituency key, which made valid contests look uncovered.
+- Guardrail:
+  1) before trusting any benchmark report, prove that contest keys match on a representative old/mid/new sample,
+  2) sanitize constituency extraction from cell-level metadata before using joined row text,
+  3) for date fields parsed from spreadsheet serials, cross-check against the year encoded by the source path and fall back if the serial is implausible.
+
+### 75) STV raw-source pipelines need an explicit uncontested-sheet path
+- Mistake pattern: Assuming every STV source workbook contains a live count matrix with stage headers and transfer columns.
+- Impact: Some `lgov` files where all candidates were returned without a count failed the parser even though they still contain valid candidate and metadata rows.
+- Guardrail:
+  1) detect no-contest sheets by candidate-header presence even when no stage columns exist,
+  2) allow a one-stage / no-transfer contest model with blank first preferences if the source provides no count matrix,
+  3) keep this path inside the shared STV parser rather than handling those files as ad hoc exceptions.
+
+### 76) Export normalization tables only after filtering parser-noise labels
+- Mistake pattern: Dumping raw extracted label fields directly into a normalization table even though older source layouts can leak metadata, occupations, or numeric artifacts into the same column.
+- Impact: The output CSV looked authoritative but was polluted with non-party values like numeric counts and occupations, which would create busy-work and bad downstream normalization.
+- Guardrail:
+  1) add an explicit plausibility filter for the exported label type before writing a normalization table,
+  2) allow real abbreviation/shorthand forms explicitly rather than using a broad "non-empty string" rule,
+  3) spot-check the first output batch against expected hard cases like `Off. Un.` before presenting the file as usable.
+
+### 77) Put occurrence metadata into normalization exports at generation time
+- Mistake pattern: Emitting only the normalized label mapping even though the source-occurrence context needed to review the mapping properly was already available in the parser.
+- Impact: The CSV required an immediate follow-up change to add the year context that should have been included in the first pass.
+- Guardrail:
+  1) when exporting a review-oriented normalization table, include the lowest-cost occurrence metadata available at generation time,
+  2) for election-source normalization tables, carry at least the appearance year(s) with each raw label,
+  3) if a normalization file will be manually reviewed, design it for review, not just for machine mapping.
+
+### 78) Match workbook reference exports to the exact requested source column
+- Mistake pattern: Exporting a workbook reference list from multiple similar columns (`Source Party Name` and `Party Name`) when the request was specifically for the canonical workbook party-name field.
+- Impact: The CSV included extra historical/source-label variants and non-canonical values that were outside the intended scope.
+- Guardrail:
+  1) when a workbook contains both raw-source and normalized columns, confirm which one the user wants and export only that field,
+  2) keep workbook reference exports narrowly scoped to the requested canonical column unless a comparison export is explicitly requested,
+  3) name the exporter behavior after the exact source column it reads.
+
+### 79) Review-oriented normalization exports need candidate and location context
+- Mistake pattern: Treating a normalization CSV as complete once it had the raw label and canonical label, even though the user was clearly using it as a review sheet for manual adjudication.
+- Impact: The file immediately needed another pass to add who used each label and where they used it.
+- Guardrail:
+  1) if a normalization/export sheet is meant for review, include the lowest-cost occurrence context at generation time,
+  2) for election-source labels, include candidate names and geographic tuples alongside years,
+  3) derive those context columns in the same source pass as the label extraction so they remain consistent.
+
+### 80) For Wikipedia election scrapes, derive page titles from overview pages before guessing article names
+- Mistake pattern: Starting from guessed article-title patterns for dozens or hundreds of related pages when Wikipedia already has year-overview pages that link to the canonical targets.
+- Impact: The scrape path becomes more fragile and needs unnecessary council-name and suffix heuristics.
+- Guardrail:
+  1) find and use the highest-level overview/index pages first,
+  2) extract linked article titles from the raw wikitext where possible,
+  3) use title guessing or search only as a fallback for gaps in the overview-page link set.
+
+### 81) Global label normalization is not enough when contest-level evidence exists
+- Mistake pattern: Trying to map raw historical party labels to curated external labels only at the global label level.
+- Impact: Many rows stay blank even though the external source contains enough council/DEA/year candidate context to reconcile them safely.
+- Guardrail:
+  1) if a curated external source exists for the same contest, match records within the smallest reliable contest key first,
+  2) use candidate-level reconciliation inside that contest before falling back to global label heuristics,
+  3) only leave rows blank after the context-aware path has failed or remains ambiguous.
+
+### 82) Review exports should not stop at "conservative blanks" when the user expects full coverage
+- Mistake pattern: Treating a review/export file as acceptable with residual blank normalization targets after only high-confidence matching, even when a deterministic fallback naming pass can fill the remainder.
+- Impact: The file still looked unfinished to the user and required another correction cycle.
+- Guardrail:
+  1) for review-oriented normalization CSVs, distinguish between "production-safe" mappings and "review-complete" mappings,
+  2) if the user explicitly wants all blanks filled, add a final deterministic fallback naming layer rather than leaving empties,
+  3) verify the blank-count explicitly before reporting completion.
+
+### 83) Contextual reconciliation must not override semantically obvious labels
+- Mistake pattern: Letting contest-level Wikipedia reconciliation outrank an explicit semantic mapping for labels whose meaning is already clear from the label text.
+- Impact: Labels like `""" Indp. Party` were misclassified from a nearby contest match even though they should have resolved directly to `Independent (politician)`.
+- Guardrail:
+  1) reserve context-first precedence only for genuinely opaque abbreviations and fragments,
+  2) for semantically interpretable labels, prefer the explicit mapping and use contest context only as fallback,
+  3) verify the user's named counterexamples directly before closing a normalization pass.
+
+### 84) Eliminate conflicting duplicate normalization rules before trusting export results
+- Mistake pattern: Leaving multiple rules for the same raw-label family in one normalization function, with earlier returns masking later intended canonical mappings.
+- Impact: Labels like `Anti-Agreement Northern Ireland Unionist Party` and `Coleraine Unionist` leaked raw/local values into the Wikipedia column even after later corrective rules existed.
+- Guardrail:
+  1) a normalization function must not contain conflicting duplicate branches for the same label family,
+  2) when a user reports a bad normalization, inspect the full rule chain for duplicate earlier returns before assuming a data problem,
+  3) verify suspicious self-copy rows after regeneration, not just blank/`Other` counts.
+
+### 85) Discovery logic must match the page-title era, not just the content era
+- Mistake pattern: Assuming modern election pages all follow a single `[year] [council] election` title pattern when some transitional 2014 pages still use `[Council] election, [year]`.
+- Impact: The first modern scrape pass found only `32/33` pages even though the missing page existed and fit the same election corpus.
+- Guardrail:
+  1) for any era transition, support both prefix-year and suffix-year title forms,
+  2) persist a full expected page matrix so discovery gaps show up as missing rows rather than silently absent manifest entries,
+  3) use overview-link discovery first, then exact-title variants, then search fallback.
+
+### 86) Never split Wikipedia template parameters with plain `split("|")`
+- Mistake pattern: Declaring a modern Wikipedia STV parser "done" while still splitting template bodies on raw `|`, even though the templates contain nested `[[...|...]]` links and nested `{{...}}` fragments in `title=` and candidate fields.
+- Impact: The scrape looked complete at the page level, but DEA names, seat counts, and end-summary fields were corrupted; any workbook built on top of that path would have carried structurally wrong data despite successful fetch coverage.
+- Guardrail:
+  1) for MediaWiki template parsing, split parameters only at top-level depth across both template and link nesting,
+  2) centralize the parser in one shared module and make all scrapers/generators consume that shared path,
+  3) after any parser refactor, verify one representative raw block end-to-end against the emitted structured output before trusting corpus-wide generation.
+
+### 87) Count columns alone are not enough; STV exports need an explicit terminal-event model
+- Mistake pattern: Treating modern Wikipedia STV count tables as if each `countN -> countN+1` change were sufficient to infer workbook semantics without modeling when a candidate is elected, eliminated, or simply remains unsuccessful at the final count.
+- Impact: The first modern workbook generator missed surplus-vs-full deductions, misclassified candidate outcomes, and left `%ElectorateShare` blank even though the raw data was present.
+- Guardrail:
+  1) before exporting STV count tables, run a district-level analysis that identifies each candidate's exit count and terminal status,
+  2) map elected candidates to negative surplus deductions with quota carry-forward, eliminated candidates to negative full deductions with zero carry-forward, and final unsuccessful candidates to `Not Elected` with no fake elimination,
+  3) verify one named elected candidate, one eliminated candidate, and one final unsuccessful candidate against the raw count table before calling the export correct.
+
+### 88) "Standing years" logic must respect non-candidate row types in mixed election systems
+- Mistake pattern: Deriving a person's election years only from `ResultType = Candidate` rows in a workbook that also encodes valid candidacies as `ListCandidate#` rows for list-PR contests such as the 1996 Forum election.
+- Impact: People like `Mervyn Jones` incorrectly showed no standing years even though they clearly existed in the workbook with a valid `PersonID`.
+- Guardrail:
+  1) when deriving person-level participation from a mixed-system election workbook, identify all row types that represent an actual candidacy,
+  2) include `ListCandidate#` rows alongside `Candidate` rows where appropriate,
+  3) verify the rule against at least one non-standard row type that the user explicitly names before closing the task.
+
+### 89) Once the user manually approves identity matches, remap from the approved sheet rather than the inferred match logic
+- Mistake pattern: Treating a generated person-match workbook as merely diagnostic after the user had added an explicit `approved` adjudication column with `Y` / `N` decisions.
+- Impact: Without a dedicated remap pass, the modern local-election workbook would still carry temporary generated `PersonID` values instead of the established IDs from `Full election tables.xlsx`.
+- Guardrail:
+  1) when a review workbook gains a manual approval column, treat it as the source of truth for downstream reconciliation,
+  2) validate that approved mappings are one-to-one before applying them,
+  3) update every ID-bearing column in the target workbook, not just the most obvious primary key column.
+
+### 90) Do not trust column names when reconciling IDs; inspect the actual payload
+- Mistake pattern: Remapping only columns explicitly named like `PersonID` and `SourcePersonID`, while leaving semantically ID-bearing fields such as `TransferSubject#` untouched because the header sounded descriptive rather than identifier-like.
+- Impact: The workbook ended up only partially reconciled, with candidate IDs corrected in some places but stale generated IDs still embedded in transfer-subject columns.
+- Guardrail:
+  1) after any ID-reconciliation task, inspect all workbook headers and sample payload values for hidden ID-bearing columns,
+  2) when fields like `TransferSubject#` hold numeric IDs, include them in the remap path explicitly,
+  3) verify at least one representative remapped value in each ID-bearing column family before closing the task.
+
+### 91) Workbook rewrites must validate against a real workbook extension before replacement
+- Mistake pattern: Writing a temp workbook to a generic `.tmp` path and then trying to reopen it with `openpyxl` as part of validation.
+- Impact: The safe-write flow failed unnecessarily even though the workbook contents were otherwise valid, adding another correction cycle to a sensitive data-migration task.
+- Guardrail:
+  1) temp workbook paths must still end in a workbook extension that the validator supports (for example `.tmp.xlsx`),
+  2) validate the temp output before replacing the source file,
+  3) if validation fails, leave the source file untouched and fix the temp-path contract first.
+
+### 92) Data-fix scripts must be rerunnable after a partial migration
+- Mistake pattern: Discovering target contexts only from `old_id + split_name` rows, which breaks once part of the migration has already succeeded and the split person is already on the new ID.
+- Impact: The rerun path found no contexts and would have skipped the remaining stale references even though split-name rows were still present in the workbook.
+- Guardrail:
+  1) for split-ID migrations, identify target contexts by the split person and election context, not by the stale ID alone,
+  2) rerunability must be an explicit design constraint for any workbook/json migration,
+  3) verify the context-discovery phase independently before applying writes.
+93. When a user approves a targeted batch of person-ID matches conversationally, do not wait for the review workbook to be updated first. Build a name-driven remap from the live workbook state and rewrite every actual ID-bearing column, otherwise synthetic local IDs can survive indefinitely in downstream artifacts.
+94. Do not call a same-name identity merge ‚Äúhigh confidence‚Äù unless you have reviewed the full history on both sides: all parties, all constituencies, and all years. Short plausibility summaries are not enough to approve a merge safely.
+95. Same-name identity fixes must support one-to-many splits on both sides of the bridge. A canonical workbook ID can require multiple historical splits, and a synthetic local workbook ID can also need a context split before any canonical remap is safe. Encode those fixes as explicit `date + constituency + party` migrations and verify them separately in the canonical workbook, downstream JSON, and local workbook.
+96. Do not schedule a rewrite from an auxiliary match/review artifact alone. Before applying another person-ID merge pass, re-audit the live target workbook and confirm the supposedly stale IDs still exist there. Review workbooks drift; target artifacts decide whether a fix is still needed.
+97. When a user approves a batch from an inline review table, verify the live workbook state before and after the remap run, and distinguish between a true rewrite and a no-op confirmation pass. Otherwise you risk reporting a new fix when the real outcome is that the workbook was already canonical.
+98. Treat string-cleanup requests the same way as ID-fix requests: verify the live target artifact actually contains the requested bad marker before claiming a cleanup. Older review sheets can preserve stale text artifacts that no longer exist in the real workbook.
+99. Grouped election families must be integrated at every layer, not just in the load path. If multiple index bodies represent one logical election family, wire the same grouping through catalogue appearance, filters, election timelines/entity aggregation, and URL restore; otherwise the data can load while the rest of the UI still behaves as if the family is fragmented.
+100. URL restore for grouped geographies must search the merged constituency set, not only the seed body. If one grouped election entry can load features from sibling bodies, restoring a deep-linked selected constituency must rebuild the same merged constituency pool before matching the slug.
+# 2026-03-01: For grouped local-government elections, normalize constituency names before every join and every previous-election lookup
+
+- Symptom: `2019` local-election DEAs like `Dungannon ‚Äì 6 seats` failed to match the `DEAs_2012.fgb` `FinalR_DEA` names, which broke map joins, hid `Mid Ulster`, and polluted local-election `+/-` comparisons.
+- Rule: whenever local-election result rows are joined to geometry names or compared to a previous election, always route both sides through a single `_normaliseConstituencyName(...)` helper first.
+- Guardrail:
+  - keep one normalization helper in `js/election-controller.js`
+  - key local party comparison rows with the normalized constituency name, not the raw results name
+  - use normalized result lookup maps for current and previous local-election payloads
+
+# 2026-03-01: Never blank post-election count cells if the source data still contains later counts
+
+- Symptom: DEA transfer tables showed only the first-round count for elected candidates while unsuccessful candidates still displayed full count progressions.
+- Rule: if the count source contains later rows for an elected candidate, render them; do not apply a blanket UI truncation after `electedAt`.
+- Guardrail:
+  - the count-table renderer may infer status timing, but it must not discard real `countGroup` totals that exist in the payload
+  - status logic and cell-visibility logic must stay separate
+
+# 2026-03-01: Defer `Not Elected` status until the final STV round
+
+- Symptom: transfer animation rows were marked `Not Elected` from the start and dropped prematurely to the bottom before the final count.
+- Rule: `not_elected` is a final-state label, not an initial-state label. Do not surface it before the final round.
+- Guardrail:
+  - in `election-viewer-package/js/stages2.js`, `enforceStatusTiming(...)` must suppress `not_elected` until the last count
+  - ordering logic must rely on the deferred display status rather than the final status
+
+
+
+### 75) Election geography/result joins must be normalized for case as well as suffix cleanup
+- Mistake pattern: Fixing local-election naming quirks but leaving constituency matching case-sensitive.
+- Impact: Non-local election geometries can silently stop matching results, which removes colouring and seat overlays even though the data itself is still loaded correctly.
+- Guardrail:
+  1) keep all constituency/council join keys lower-cased in the shared normalizer,
+  2) normalize punctuation and `- 6 seats`-style suffixes in the same helper,
+  3) when map colouring disappears, verify name matching before touching result parsing or overlay rendering.
+
+### 101) Restoring a large shared controller file is an integration event, not a file-recovery event
+- Mistake pattern: Restoring `js/election-controller.js` from an older revision after corruption, but not immediately auditing it against the current `js/app.js`, `js/ui-controller.js`, and grouped local-government contract.
+- Impact: The file looked superficially healthy, but missing helper methods and delegated pane actions broke election polygon styling, click handling, council-mode toggling, and the results-pane close button across both local and non-local elections.
+- Guardrail:
+  1) after restoring any large shared controller, compare its public entry points against the current callers before treating the restore as complete,
+  2) verify every helper invoked by `loadElection()` and every split-pane action used by the current UI exists in the restored file,
+  3) when grouped election families are involved, explicitly verify alias rebuilding, council aggregation, and mode-switch behavior before moving on.
+# Local Election UI Guardrail
+- When fixing a live UI regression in elections, read the exact current implementation of the active controller branches before editing.
+- In this codebase, the relevant live branches for local-election display are often:
+  - `buildCatalogueCards()`
+  - `_rebuildCouncilAggregates()`
+  - `_extractElected()`
+  - `_seatPositions()`
+  - `_buildCountTable()`
+- Do not assume earlier experimental geometry or grouping code is still present.
+- For local STV data, do not trust `Number_Of_Seats` blindly; prefer parsing the seat count from the constituency name when the source files encode `- 5 seats`, `- 6 seats`, etc.
+- For repeated status rows in local STV `countGroup`, infer terminal redistribution from the vote series itself and show only one terminal quota/zero cell before blanking the rest.
+
+### 102) PersonID canonicalization must not override row-level party affiliation
+- Mistake pattern: applying a global per-PersonID canonical party label from historical workbook data while building local-election outputs.
+- Impact: candidates can be shown under the wrong party in specific elections (for example where a person changed party over time).
+- Guardrail:
+  1) use PersonID canonicalization for name normalization only,
+  2) always source `Party Name` / `Deduplicated Party Name` / `Wikipedia Party Name` from the current election row,
+  3) verify at least one known correction case in generated JSON after each build.
+
+### 103) Affiliation correctness and label-format correctness are separate contracts
+- Mistake pattern: fixing wrong-party assignment but leaving party labels in long-form source names.
+- Impact: users still see incorrect presentation (`Democratic Unionist Party` instead of `DUP`, `Alliance Party of Northern Ireland` instead of `Alliance`) even when affiliation is right.
+- Guardrail:
+  1) first enforce row-level affiliation correctness,
+  2) then apply explicit label normalization for UI-facing party fields,
+  3) verify both with targeted case checks and a repository-wide scan for disallowed long-form labels.
+
+### 104) When one fix corrupts display labels, use dual-source reconciliation keyed by identity context
+- Mistake pattern: using a single source for both STV mechanics and display labels when those concerns were stabilized in different workbook revisions.
+- Impact: either redistribution correctness regresses (if rolling back) or name/party labels regress (if staying on the new source).
+- Guardrail:
+  1) separate source-of-truth contracts: mechanics from fixed workbook, labels from curated workbook,
+  2) reconcile labels only by strict key `(date, constituency, canonical PersonID)`,
+  3) verify both contracts in one pass: label spot-checks + global label scan + surplus-stage guard check.
+
+### 105) By-count ranking must have an explicit same-count elected tie-break
+- Mistake pattern: sorting elected rows only by `electedAt`, which leaves ties in payload insertion order.
+- Impact: candidates elected on the same count can appear in an order that contradicts expected electoral logic.
+- Guardrail:
+  1) when `electedAt` ties, rank by vote at the count immediately before that candidate's redistribution,
+  2) if no redistribution occurred (late/final count), rank by final-count votes,
+  3) keep deterministic fallbacks (first prefs, then name) to avoid unstable rendering.
+
+### 106) `By Count` detailed `¬±%` must represent redistribution-share, not candidate-relative change
+- Mistake pattern: computing count `¬±%` as `transfer / previous candidate total`.
+- Impact: row percentages do not reconcile to conservation totals for a count and mislead users reading transfer flows.
+- Guardrail:
+  1) compute per-count negative and positive transfer pools,
+  2) render negative rows as share of negative pool (sum `-100%`),
+  3) render positive rows (including non-transferable) as share of positive pool (sum `+100%`).
+
+### 107) Post-aggregation row transforms must re-canonicalize non-target rows
+- Mistake pattern: applying a local-election history collapse transform without a final canonicalization pass for rows outside the target scope.
+- Impact: non-local rows can inherit or retain local-style labels in party electoral-history tables.
+- Guardrail:
+  1) after collapsing/grouping local rows, iterate all history rows and rehydrate non-local rows from canonical election metadata (`body`, `bodyLabel`, `displayName`),
+  2) keep local-only display strings (`local elections`) constrained to rows where `_isLocalGovernmentBody(row.body)` is true and `!row.isByElection`,
+  3) verify with one party that spans local + Assembly/Westminster elections.
+
+### 108) Classification helpers used for cross-election aggregation must not depend on active controller state
+- Mistake pattern: using `this.bodyGroup` as an implicit default in `_isLocalGovernmentBody()` during history-row aggregation.
+- Impact: when a local election is currently loaded, unrelated Assembly/Westminster rows can be misclassified as local and mislabeled in party history.
+- Guardrail:
+  1) row/body classifiers must default from the row being processed, not the currently loaded election,
+  2) add a post-transform canonicalization pass for non-target rows,
+  3) verify party history with a mixed-body party before closing.
+
+### 109) Party history naming/date/type is a UI contract and must be centralized
+- Mistake pattern: mixing generic election display names with per-view custom strings.
+- Impact: inconsistent naming across rows and mismatched user-facing semantics.
+- Guardrail:
+  1) build party-history labels in one explicit post-processing pass,
+  2) enforce format: `[Prefix] [Year|Mon YYYY]` for non-by-elections,
+  3) keep date/type as dedicated columns rather than embedding everything in one label.
+
+### 110) Table-column wording changes must be applied at schema level, not ad-hoc render spots
+- Mistake pattern: partial label changes left legacy header text mixed with updated contract.
+- Impact: user-facing election-history tables drift from agreed terminology.
+- Guardrail:
+  1) update label contracts in the single column-schema definition (`partyHistoryColumns`),
+  2) verify exact header strings after each schema change,
+  3) keep semantic synonyms out of adjacent labels (`Seats won` vs `Candidates elected`).
+
+### 111) By-election/recall deltas need explicit nulling rules for non-comparable totals
+- Mistake pattern: total-seat deltas computed generically for all rows.
+- Impact: misleading `Total seats ±` values for by-elections/recall contests.
+- Guardrail:
+  1) null total-seat deltas on `row.isByElection`,
+  2) render null as `ó`,
+  3) keep baseline comparison buckets type-scoped for all other rows.
+
+### 112) By-election labels should be geography-first, not body-first
+- Mistake pattern: using elected-body labels in generic by-election naming.
+- Impact: local by-elections display as council-wide events instead of DEA-specific events.
+- Guardrail:
+  1) when `isByElection` and contest geography is present, use constituency/DEA name in title,
+  2) reserve body labels for general elections.
+
+### 113) Special event labels must be template-driven
+- Mistake pattern: hardcoding event strings with fixed wording/date order.
+- Impact: label contract changes require manual one-off edits and drift.
+- Guardrail:
+  1) derive special labels from structured fields (`year`, `constituency`, `event type`),
+  2) keep display-name formats centralized and explicit.
+
+### 114) Seat suffix parsers must accept Unicode dash variants
+- Mistake pattern: parsing constituency titles with only ASCII hyphen (`-`) for seat suffix extraction.
+- Impact: DEAs using en dash/em dash (`ñ`/`ó`) lose seat metadata, causing downstream seat undercounts.
+- Guardrail:
+  1) accept `[-ñó]` in seat suffix regexes,
+  2) add a regression check using at least one en-dash DEA title.
+
+### 115) Rebuild outputs must clear stale generated files first
+- Mistake pattern: regenerating JSON without cleaning old files in date folders.
+- Impact: stale constituency/date outputs can survive and pollute totals/UI behavior.
+- Guardrail:
+  1) remove existing per-date `*.json` files before writing regenerated outputs,
+  2) verify expected file counts per date after each rebuild.
+
+### 116) Aggregated-row display labels must not be used as action keys
+- Mistake pattern: using synthetic display body (`Local Government Districts`) as the load key for election links.
+- Impact: clicking history links does not load the selected election because the body key is not present in index.
+- Guardrail:
+  1) carry an explicit canonical action key (e.g., `electionBodyForOpen`) on aggregated rows,
+  2) keep display labels (`body`, `bodyLabel`) purely presentational,
+  3) render link `data-election-body` from canonical key only.
+
+### 117) Shared detail templates need explicit per-entity subtitle/eyebrow rules
+- Mistake pattern: rendering both header subtitle and standalone description from a shared template without entity-specific suppression.
+- Impact: redundant labels on party pages (same concept shown twice).
+- Guardrail:
+  1) define subtitle by entity kind (`party/candidate/area`) in one branch,
+  2) conditionally render standalone description only where needed,
+  3) verify one sample page per entity kind after template edits.
+
+### 118) Special-event rows require both model-level and render-level isolation
+- Mistake pattern: only styling recall rows without removing them from delta baseline chains.
+- Impact: recall rows can distort adjacent election deltas or show misleading non-blank metrics.
+- Guardrail:
+  1) tag special events in row model (`isRecallPetition`),
+  2) skip baseline accumulation for special rows,
+  3) enforce explicit blank rendering for all non-applicable columns.
+
+### 119) Column label/ordering requests should be treated as schema migrations
+- Mistake pattern: incremental edits leave old labels/order in place.
+- Impact: UI still diverges from agreed table contract.
+- Guardrail:
+  1) make header and order changes in the single table-schema source,
+  2) verify final displayed sequence against spec,
+  3) keep delta labels consistent (`±`) once standardized.
+
+## 2026-03-05: Election-history baseline chain guardrail
+- User correction pattern: general-election deltas must never baseline against by-elections; by-elections must baseline on prior results for the same constituency set.
+- Rule: keep separate prior-row chains per comparison bucket (`allRows` and `generalRows`).
+- Implementation guardrail:
+  1) general rows baseline only from `generalRows`.
+  2) by-elections baseline from nearest prior row containing the same constituency set; fallback to nearest prior general row containing that set.
+  3) recall petitions excluded from both baseline chains.
+- Verification requirement for future edits:
+  - add a targeted check on a party with both by-elections and general elections to confirm general `±` values do not change when by-election rows are present.
+
+## 2026-03-05: Prototype table headers before rewiring live sortable tables
+- User correction pattern: when a table header redesign is structurally complex, build and iterate a standalone mock first, then port the approved structure into the live renderer.
+- Rule: for multi-row grouped-header changes, do not patch the live table blind.
+- Guardrail:
+  1) create a reviewable mock with the exact requested merge/colspan structure,
+  2) only after approval, map live columns explicitly to grouped leaf-header indices,
+  3) keep grouped mode opt-in per table to avoid broad regressions.
+
+## 2026-03-05: Do not skip single-constituency `Northern Ireland` election files
+- User correction pattern: history regressions can come from loader assumptions, not the visible table code.
+- Rule: the generic election-results loader must not discard `Northern Ireland` constituency files, because some bodies use that as their only real constituency payload.
+- Guardrail:
+  1) when a constituency list contains `Northern Ireland`, attempt the fetch and let missing files fail naturally,
+  2) verify entity-history aggregation on at least one European Parliament election after loader changes.
+
+## 2026-03-05: Verify by-election labels and grouped headers at the rendered leaf level
+- User correction pattern: grouped headers and by-election naming can look correct in config but still render incorrectly once leaf labels, sticky behavior, and event-specific naming are applied.
+- Rule: after any grouped-table or by-election display change, verify the rendered leaf cells and the final visible row labels, not just the schema object.
+- Guardrail:
+  1) if grouped headers are used, confirm the bottom sortable/filterable leaf cells show the intended labels,
+  2) if by-election naming is changed, verify both single-constituency and plural multi-constituency paths,
+  3) if by-election deltas are blanked, enforce the blank in the renderer, not only in the data model.
+
+## 2026-03-06: Grouped-header sticky fixes must be applied generically, not just on one table variant
+- User correction pattern: grouped header fixes were applied only to history tables, leaving candidate tables with the same sticky-row defect.
+- Rule: when a renderer feature (grouped headers) is shared, sticky-position overrides must be scoped to the shared grouped-table class, not one specific table subtype.
+- Guardrail:
+  1) place grouped header sticky overrides on .catalogue-detail__entity-table--grouped,
+  2) explicitly neutralize left: 0 on lower grouped header rows so only the true first top-row header cell remains horizontally sticky,
+  3) verify both the history table and candidate table after grouped-header CSS edits.
+
+## 2026-03-06: Canonicalize constituency display labels before deduping candidate summary lists
+- User correction pattern: the same DEA surfaced twice because one source used the clean DEA name and another used the same name with a seat-count suffix.
+- Rule: when building candidate constituency summary lists, dedupe on a canonicalized display label, not the raw source string.
+- Guardrail:
+  1) strip seat-count suffixes like ñ 7 seats / (7 seats) before keying constituency summary entries,
+  2) preserve only the canonical label in the rendered list,
+  3) verify against at least one live JSON file that still contains seat-suffixed constituency names.
+
+## 2026-03-06: Same-name identity merges must be constrained by party-history context, not bulk-applied blindly
+- User correction pattern: some same-name candidates who look mergeable at a glance are actually distinct people (for example Trevor Clarke: DUP Coleraine local, DUP South Antrim, TUV West Tyrone).
+- Rule: before approving a same-name merge, inspect the full party/constituency/year history across both local and non-local datasets.
+- Guardrail:
+  1) if the same name spans different parties or incompatible geography histories, treat it as a split candidate until explicitly approved,
+  2) only bulk-remap names that have user approval or unambiguous same-party continuity,
+  3) verify one preserved split case after every merge batch so a regression is caught immediately.
+
+## 2026-03-06: Once a ZIP is explicitly waived by the user, do not keep surfacing it in the same workstream
+- User correction pattern: the mandatory ZIP intake check can identify a ZIP that the user has already handled or explicitly wants ignored.
+- Rule: after the user explicitly says to ignore a discovered ZIP, treat it as waived for the current task flow unless they reopen it.
+- Guardrail:
+  1) keep the ZIP intake tracker up to date,
+  2) mention the ZIP once when the policy requires it,
+  3) if the user says it is already dealt with, do not keep reintroducing it into subsequent status messages for the same workstream.
+
+## 2026-03-06: Grouped-header visual fixes must include spacing verification at real rendered density
+- User correction pattern: the grouped election-history header logic was structurally right, but visible gaps remained between the stacked header rows.
+- Rule: after splitting a table header into multiple sticky/grouped rows, verify the rendered row heights and offsets as a visual system, not just the merge structure.
+- Guardrail:
+  1) tighten top offsets and row heights together,
+  2) verify there are no visible seams between grouped header bands,
+  3) keep the leaf-row controls intact while adjusting grouped-row spacing.
+
+## 2026-03-06: Results-table header restructures must be designed per table, not generalized across unlike table shapes
+- User correction pattern: a grouped-header structure that fit one NI-wide results table was applied to the other two, causing incorrect columns and row alignment.
+- Rule: when changing live results-table headers, treat `By Party`, `By Candidate`, and `By Local Party` as separate schemas unless proven otherwise.
+- Guardrail:
+  1) verify each table's row data maps one-to-one to the proposed header leaf columns,
+  2) preserve prior working structure for unaffected tables instead of forcing convergence,
+  3) validate each NI-wide table against a screenshot or known-good layout before considering the change complete.
+
+## 2026-03-06: When a grouped-header redesign is reviewed via a mock, implement the approved geometry literally in the live table
+- User correction pattern: grouped results-table structures are sensitive to exact column groupings and naming.
+- Rule: if a grouped-header design is approved from a static mock, promote that exact schema into the live renderer rather than reinterpreting it during implementation.
+- Guardrail:
+  1) map every live body column to an approved header leaf before coding,
+  2) use the same group names and leaf labels as the reviewed mock,
+  3) keep unrelated tables unchanged unless the user explicitly asks for parallel rollout.
+
+## 2026-03-06: Grouped-header/table-schema work needs runtime-path verification, not just syntax checks
+- User correction pattern: a live results tab stayed on the previous view because the new renderer threw at runtime even though syntax checks passed.
+- Rule: after changing a live table renderer, verify all newly introduced display fields are defined on the runtime path, especially inside per-constituency/per-row loops.
+- Guardrail:
+  1) check every new interpolated field against its defining scope,
+  2) do not rely on `node --check` alone for renderer work,
+  3) treat "tab does not switch" as a likely render exception first, not a UI-state bug.
+
+## 2026-03-06: In non-UTF-safe files, use ASCII for visible table header labels
+- User correction pattern: literal non-ASCII plus/minus characters in a non-UTF-safe JS file rendered as replacement glyphs in live tables.
+- Rule: for visible table header labels in files with known encoding instability, prefer ASCII equivalents like `+/-`.
+- Guardrail:
+  1) avoid introducing new non-ASCII header labels into js/election-controller.js,
+  2) if a glyph matters visually, confirm the file encoding can preserve it before using it,
+  3) when rendering corruption appears as `?`, inspect file encoding before debugging UI logic.
+
+## Update 2026-03-06 (Encoding-Safe Label Replacements)
+- In legacy/non-UTF-clean JS files, replace visible symbols like ± with ASCII labels such as +/-, then immediately grep for accidental operator corruption (??, ?., comparison chains) before considering the change complete.
+- Verification rule: after any broad text replacement in a JS file, run g for both the intended replacement text and the nearby operator forms, then run 
+ode --check on every touched JS file.
+
+## 2026-03-06: Replacement-glyph audits must cover every live renderer file, not just the first file that reproduces the symptom
+- User correction pattern: fixing one table-renderer file removed some malformed labels, but another live renderer still emitted literal ±, so the symptom persisted.
+- Rule: when a text-rendering defect appears across multiple tables, audit all live renderer files that define table headers before declaring the fix complete.
+- Guardrail:
+  1) grep all live JS/CSS/HTML sources for the bad glyph and the intended replacement,
+  2) distinguish live renderers from static mock pages,
+  3) only mark the issue resolved after the grep shows no remaining live occurrences and syntax checks pass for all touched JS files.
+
+## 2026-03-06: Shared table-header fixes must be verified across every live table variant that reuses the same label pattern
+- User correction pattern: the election-history tables were fixed first, but the NI-wide By Party grouped header still had literal ± labels and continued to surface replacement glyphs.
+- Rule: when fixing shared header-label rendering issues, audit By Party, By Candidate, By Local Party, and election-history tables separately even if they look visually similar.
+- Guardrail:
+  1) grep live renderer files after each fix,
+  2) verify no remaining non-ASCII glyphs in js and ssets,
+  3) only conclude after syntax checks pass and every affected table family has been re-audited.
+
+## 2026-03-06: Encoding audits for table labels must include helper-built two-line headers, not just direct leaf-header calls
+- User correction pattern: the remaining replacement glyph in By Count did not come from _resultsLeafTh(...); it came from _thTwoLine(...) labels built in a different table path.
+- Rule: after fixing visible label glyphs in one table family, audit every header helper used by other table families before concluding the issue is closed.
+- Guardrail:
+  1) grep for malformed glyphs and also for all header helper call sites,
+  2) inspect grouped, flat, and two-line header builders separately,
+  3) verify no remaining live glyph sources in js and ssets after the final pass.
+
+## 2026-03-06: Verify every tab-specific renderer path after shared table refactors
+- Symptom: one results tab stayed blank or kept the previous tab visible after header/column changes.
+- Cause: a renderer-specific code path referenced a variable that existed in a sibling loop but not in its own scope.
+- Guardrail: after changing shared results-table structure, explicitly sanity-check all three renderers (By Party, By Candidate, By Local Party) for parse success and scope-local derived values before considering the task complete.
+
+## 2026-03-06: Grouped results headers must keep leaf counts aligned and wrappers must not capture vertical sticky
+- Symptom: grouped results tables showed unlabeled data bands and sticky headers failed to engage.
+- Cause: top-row colspans were not matched by the leaf header row, and wrapper overflow: auto made the wrong element the sticky scroll container.
+- Guardrail: whenever changing grouped results headers, count header leaf cells against body columns and keep .election-party-wrapper / .election-count-wrapper as horizontal-scroll containers only.
+
+## 2026-03-06 Results aggregates and identity aliases
+- When local-election aggregate percentages look impossible, audit the live JSON denominator before touching display math; Ballyarnett and Magherafelt had negative Valid_Poll, so the correct fix is a shared safe-valid-poll fallback rather than per-table patches.
+- Never let NI-wide candidate/local-party aggregate builders ingest Candidate_Id = nontransferable; filter it at row collection time in both current and previous-election paths.
+- For surname-change identity fixes, extend the canonical PersonID function at the shared election-entity layer, not a single UI table, so candidate pages and party summaries converge on the same ID.
+
+## 2026-03-06 Candidate-row intake guardrail
+- Do not treat every countGroup row with a Candidate_Id as a real candidate. Some local-election files contain placeholder pseudo-candidates named 'Party'. Add and reuse a shared row-validity predicate before candidate aggregation, comparison baselines, council summaries, and entity-index construction.
+
+## 2026-03-07: Grouped-header helpers must not be reused across renderers unless they are in shared scope
+- User correction pattern: the District `By Candidate` tab went blank after the grouped-header refactor even though syntax checks passed.
+- Rule: when copying grouped-header markup between NI-wide and district renderers, verify every helper used by the template is defined in that renderer scope or moved to a shared controller method.
+- Guardrail:
+  1) after refactoring any tab renderer, grep its helper calls,
+  2) confirm each helper is in scope for that function,
+  3) then syntax-check and click-test the affected tab path before closing the task.
+
+## 2026-03-07: District and constituency table fixes must reuse shared helpers instead of ad hoc local variants
+- User correction pattern: fixing one District table regression exposed more issues in adjacent DEA/District table paths: undefined helper references, stale delta CSS classes, non-clickable geography cells, and `unknown` type labels from partially populated appearance data.
+- Rule: when refactoring District/DEA table renderers, audit helper reuse across both scopes and prefer the controller's shared formatting/link utilities over local copies.
+- Guardrail:
+  1) grep the touched renderer for nonexistent helper names and obsolete CSS classes,
+  2) ensure geography cells use `_renderElectionConstituencyFeatureLink(...)` when they should open feature pages,
+  3) ensure candidate appearance records carry `electionType` at construction time,
+  4) then run syntax checks before closing the fix.
+
+## 2026-03-07: Local-election district tables must not trust unsuffixed filenames or raw status counts as canonical
+- User correction pattern: a district-level table problem that looked like formatting (`N/A` deltas, `1/X` count values) was actually caused by missing previous local files and by preserving placeholder raw status counts over inferred lifecycle counts.
+- Rule: when district local-election deltas or count columns look uniformly wrong, verify previous-result file loading and inferred lifecycle counts before touching the table formatter.
+- Guardrail:
+  1) local-government loaders must try seat-suffixed slug variants for DEA files,
+  2) district candidate aggregates must prefer `_inferCandidateLifecycle(...)` results over raw status-derived counts,
+  3) then syntax-check and retest district `By Party`, `By Candidate`, and `By Local Party` together.
+
+## 2026-03-07: District local-election baselines must canonicalize constituency labels before aggregation
+- User correction pattern: Mid Ulster district +/- values stayed N/A even after seat-suffixed file fallback existed, because the previous local results were still aggregated under suffixed constituency labels that could not match current unsuffixed district rows.
+- Rule: when comparing local-election district rows across years, canonicalize constituency labels before any aggregate keying or council lookup, not only when rendering labels.
+- Guardrail:
+  1) normalize constituency names with _cleanConstituencyDisplayName(...) at the start of district aggregate building,
+  2) use the canonical name for council lookup, candidate constituency assignment, local-party keys, and elected-member updates,
+  3) verify known mixed-label cases like Mid Ulster 2019/2023 after syntax checks.
+
+## 2026-03-07: District previous-row renderers must use canonical aggregate maps, not display-row scans
+- User correction pattern: after canonicalizing local constituency labels in the aggregate, Mid Ulster District By Local Party still failed because the renderer kept matching previous rows by scanning the display array instead of using the already-canonical keyed map.
+- Rule: once an aggregate exposes a canonical keyed map (partyMap, candidateMap, localPartyMap), renderer baseline lookups must use that map directly rather than reimplementing equality checks over display rows.
+- Guardrail:
+  1) prefer aggregate maps for all previous-row matching,
+  2) only fall back to array scans when no canonical map exists,
+  3) recheck known problem districts like Mid Ulster after any local baseline change.
+
+## 2026-03-07: Constituency By Count must canonicalize previous DEA payload lookup and keep labels ASCII-only
+- User correction pattern: the constituency By Count path still had malformed +/- glyphs and zero-baseline summary rows after similar fixes elsewhere, because it had its own header strings and its own direct-key previous payload lookup.
+- Rule: when fixing constituency By Count output, patch both the visible header labels and the previous-payload lookup path; local DEA baselines are not safe if the lookup only uses raw constituency keys.
+- Guardrail:
+  1) keep By Count header labels ASCII-only in source,
+  2) make _getPreviousConstituencyPayload(...) fall back through _cleanConstituencyDisplayName(...),
+  3) verify a seat-suffixed local DEA like Clogher Valley after syntax checks.
+
+## 2026-03-07: UI renderers must not restyle canonical election-type labels ad hoc
+- User correction pattern: person history tables had correct election-type data but the UI lowercased it at render time, degrading Westminster and European into inconsistent labels.
+- Rule: when the controller already provides canonical labels, render them directly and avoid cosmetic case transforms in the UI layer.
+- Guardrail:
+  1) keep election type casing canonical in data,
+  2) avoid .toLowerCase() on user-facing election type labels,
+  3) syntax-check both controller and UI after label-only changes.
+
+## 2026-03-07: Local DEA label normalization must happen before NI-wide row construction
+- User correction pattern: seat-suffixed DEA labels still surfaced in NI-wide local By Candidate rows even after district/local aggregate paths were already canonicalizing those labels.
+- Rule: local constituency/DEA names must be normalized before they are assigned to display rows, not only during aggregate keying or later rendering.
+- Guardrail:
+  1) call _cleanConstituencyDisplayName(...) before assigning local DEA labels to NI-wide or district row objects,
+  2) use the cleaned value for both display and council lookup,
+  3) syntax-check after any local DEA label normalization change.
+
+### 2026-03-07 Current constituency payload lookups must canonicalize local DEA names, not just previous-election baselines
+- Symptom: Mid Ulster disappeared as a blank white area on the 2019 local-election map even though the tables had already been fixed.
+- Root cause: current-result runtime paths for map colouring, overlays, and constituency panel access still used direct esultsByConstituency[constName] indexing, while Mid Ulster 2019 DEA payload keys are seat-suffixed but the active 2012 DEA map feature names are not.
+- Permanent prevention action: use a shared helper for current constituency payload retrieval with _cleanConstituencyDisplayName(...) fallback, and route map/panel access through that helper instead of raw object indexing.
+- Verification evidence: syntax checks passed after replacing the direct current-payload lookups, and the fix specifically covers _colourMap, _addOverlays, and _showConstituencyPanel.
+
+### 2026-03-07 Current constituency payload lookups must canonicalize local DEA names, not just previous-election baselines
+- Symptom: Mid Ulster disappeared as a blank white area on the 2019 local-election map even though the tables had already been fixed.
+- Root cause: current-result runtime paths for map colouring, overlays, and constituency panel access still used direct esultsByConstituency[constName] indexing, while Mid Ulster 2019 DEA payload keys are seat-suffixed but the active 2012 DEA map feature names are not.
+- Permanent prevention action: use a shared helper for current constituency payload retrieval with _cleanConstituencyDisplayName(...) fallback, and route map/panel access through that helper instead of raw object indexing.
+- Verification evidence: syntax checks passed after replacing the direct current-payload lookups, and the fix specifically covers _colourMap, _addOverlays, and _showConstituencyPanel.
+
+## 2026-03-07: Recovery plans for critical files must become evidence-constrained before implementation
+- User correction pattern: a reconstruction plan that is merely sensible is still too weak when the file to be recovered is large, central, and already lost; the plan must prevent unsupported "reasonable reconstruction" before coding begins.
+- Rule: before reconstructing a critical lost file, the plan must include and populate requirement-evidence mapping, superseded-decision tracking, function-level reconstruction mapping, priority tiers, and checkpoint/rollback rules.
+- Guardrail:
+  1) do not begin implementation until the baseline gap analysis and forensic ledger are populated,
+  2) require every P0/P1 behavior to have an evidence row,
+  3) record superseded decisions so earlier rejected UI/data choices cannot be reintroduced during recovery.
+
+### 90) When a live browser session yields full source, restore from that artifact before reconstructing from older commits
+- Mistake pattern: Treating an older git snapshot as the primary recovery source after a critical file was damaged, even though a newer browser-loaded copy was still available.
+- Impact: Recovery planning drifts toward unnecessary reconstruction and higher regression risk.
+- Guardrail:
+  1) if DevTools yields a complete loaded source file, preserve it verbatim as the highest-priority recovery artifact,
+  2) restore the damaged file from that artifact before doing any inferred rebuild work,
+  3) syntax-check the restored file immediately to separate restoration defects from later edits.
+
+### 91) Confirm the active local-results mode before diagnosing a map gap
+- Mistake pattern: diagnosing a local-election blank area through the District aggregate path when the actual reproduction is in DEA mode.
+- Impact: the first root-cause analysis can be directionally related but still miss the live failing path, delaying the real fix.
+- Guardrail:
+  1) when a screenshot is provided, verify which mode toggle is active before tracing the bug,
+  2) separate DEA map-feature matching failures from District aggregate failures,
+  3) for local-election geography bugs, cross-check the active FGB label values against the current result-key aliases before concluding.
+
+### 92) Canonical geographic names should live in data; metadata belongs in structured fields
+- Mistake pattern: storing seat-count suffixes inside DEA names and depending on UI normalization to recover the actual geography label.
+- Impact: map matching, previous-result comparisons, and aggregate keying become fragile and can fail on encoding or dash-variant differences.
+- Guardrail:
+  1) emit canonical DEA names in generated JSON and elections_index.json,
+  2) keep seat counts only in Number_Of_Seats or equivalent structured metadata,
+  3) retain a temporary compatibility layer in the app until all generated data is canonical.
+
+### 93) Sticky-table fixes must target the real vertical scroll container
+- Mistake pattern: making table headers position: sticky while leaving an inner wrapper as the active vertical scroll container.
+- Impact: headers appear non-sticky relative to the results pane even though sticky CSS exists.
+- Guardrail:
+  1) identify which element actually scrolls vertically before adjusting sticky headers,
+  2) if the requirement is sticky relative to the pane, inner wrappers must not own vertical scrolling,
+  3) for election tables, keep wrapper vertical overflow visible unless that wrapper is intentionally the scroll container.
+
+### 94) By Count status counters must follow displayed count columns, not raw payload counts
+- Mistake pattern: deriving Status denominators from all raw Count_Number values while the UI suppresses non-meaningful terminal counts.
+- Impact: users see Count X/Y values that no longer correspond to the columns actually shown.
+- Guardrail:
+  1) when count columns are filtered, remap raw count numbers to a displayed count sequence,
+  2) derive status numerators/denominators from the visible count model,
+  3) treat terminal all-zero-transfer counts as display candidates to suppress unless a real event is inferred.
+
+### 95) Do not share sticky-column geometry across results tables with different leading-column schemas
+- Mistake pattern: reusing one sticky-column selector set across candidate, party, local-party, and count tables even though their first columns do not line up the same way.
+- Impact: wrong columns become horizontally sticky, sticky offsets drift, and sticky body cells can cover grouped header labels.
+- Guardrail:
+  1) every results table family with a distinct leading-column schema must get its own table class for sticky geometry,
+  2) grouped header z-index must always sit above sticky body cells,
+  3) whenever adding sticky columns to a grouped table, verify the first two header rows separately from the body column offsets.
+
+### 96) When removing horizontal stickiness from a grouped header cell, preserve its vertical sticky role explicitly
+- Mistake pattern: using `position: static` to unstick a grouped header cell horizontally, which also disables the vertical sticky behavior inherited from the grouped header row.
+- Impact: a header band can stop sticking entirely, while adjacent grouped cells still stick and create asymmetric scrolling bugs.
+- Guardrail:
+  1) for grouped results tables, horizontal unstick should be done with `left: auto` rather than removing `position: sticky`,
+  2) any top-row grouped cell override must be validated in both axes: vertical pane stickiness and horizontal scroll behavior,
+  3) if wrappers must stick relative to the pane, use pane-sticky wrapper variants consistently across all NI-wide grouped tables.
+
+### 97) Adjacent renderer branches with similar grouped-table markup need explicit class-audit verification
+- Mistake pattern: applying a sticky-layout class to one district renderer branch and then accidentally leaving or removing it on the neighboring branch with similar markup.
+- Impact: one table inherits the other tableís sticky geometry, producing horizontally sticky columns in the wrong group.
+- Guardrail:
+  1) when two adjacent branches render similar grouped tables, verify the final class list for both branches after every sticky-layout edit,
+  2) log the intended class ownership per renderer (`By Party` vs `By Local Party`) before patching,
+  3) after edits, inspect both branch outputs side by side rather than assuming the first patch hit the live branch.
+
+### 98) Every table-specific sticky profile must neutralize the next inherited top-row sticky cell when the shared base makes nth-child(4) sticky
+- Mistake pattern: adding a custom sticky profile for the intended leading columns but forgetting that the shared count-table rule still makes the fourth top-row header cell horizontally sticky.
+- Impact: the next grouped header block (for example `Candidates`) slides over the last intended sticky identity column.
+- Guardrail:
+  1) when a count-table sticky profile keeps only the first N columns sticky, explicitly override `th:nth-child(N+1)` in the top row,
+  2) preserve vertical stickiness with `top: 0` while resetting horizontal position,
+  3) verify horizontal scroll overlap on the first non-sticky grouped header immediately after each sticky profile change.
+
+### 99) Table-specific sticky profiles must neutralize both header and body inheritance beyond the intended sticky columns
+- Mistake pattern: fixing a shared top-row sticky leak for a table-specific profile but forgetting that the shared body-cell sticky rule still makes the next numeric column sticky.
+- Impact: headers appear correct while body values still slide on top of the last intended sticky identity column.
+- Guardrail:
+  1) when a table-specific sticky profile keeps only the first N columns sticky, explicitly neutralize both `thead` and `tbody` for column `N+1`,
+  2) verify horizontal scroll overlap separately for header cells and body cells,
+  3) if a row-spanning identity header should be sortable/filterable, make it a leaf header with `data-leaf-col-idx` rather than a plain `<th>`.
+
+### 100) When similar NI-wide renderer branches share geography-link calls, verify the exact active branch before patching
+- Mistake pattern: patching the first matching geography-link call found in a neighboring renderer branch instead of the branch backing the reported table.
+- Impact: the user-visible bug remains while a different table gets an unintended behavior change.
+- Guardrail:
+  1) when multiple branches share the same helper call, identify the active branch by nearby table schema or tab label before editing,
+  2) after the patch, grep all matching helper calls to confirm only the intended branches changed,
+  3) verify neighboring local/district branches still emit their original `level` values where required.
+
+### 101) When fixing broken election geography links, validate the entire open-feature route rather than only the emitting renderer branch.
+- Mistake pattern: I previously corrected the emitted `level` for non-local `By Local Party` constituency links, but the shared `openElectionConstituencyFeature(...)` path still depended on exact feature-name matching, so historical alias mismatches like `Belfast West` vs `West Belfast` continued to break the link.
+- Guardrail: for any geography-link bug, audit and verify all three layers before closing the task:
+  1) emitted link metadata (`body`, `date`, `constituency`, `level`),
+  2) delegated click handler routing,
+  3) map-feature resolver name matching against historical aliases.
+- Permanent prevention: keep constituency-feature matching centralized in the shared resolver with variant-based matching instead of patching individual table branches.
+- When `maps-to-be-added` archives are kept in-repo for workflow reasons, verify GitHub's 100 MB hard limit before attempting a push. If an archive has already been extracted and ingested, remove the archive from git tracking and add a narrow ignore rule instead of pushing it as a normal blob.
