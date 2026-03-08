@@ -3815,3 +3815,20 @@ Verification evidence:
   1) `node --check js/map-controller.js` passed,
   2) `data/database/maps.json` parsed successfully with PowerShell `ConvertFrom-Json`,
   3) confirmed the referenced 1911 `-lod0` / `-lod1` files exist on disk before enabling the optimization.
+
+# Current Task: Publish Missing Republic Of Ireland Electoral Divisions 1986-2019 Assets And Review Townlands Load Bottlenecks (2026-03-08)
+
+- [x] Identify the remaining Electoral Divisions load failure root cause
+- [x] Stage the missing `data/maps/electoral-divisions/Electoral Divisions 1986-2019/` assets for publication
+- [x] Review Townlands chunk/index design and extract the main load bottlenecks
+- [x] Prepare ranked Townlands speedup proposals by impact vs implementation difficulty
+
+- Root cause: the Republic of Ireland 1986-2019 Electoral Divisions metadata already pointed at real FGB files, but the entire `data/maps/electoral-divisions/Electoral Divisions 1986-2019/` directory was still untracked in git, so the website could still fail to load those maps after code-only pushes because the assets were never published.
+- Verification evidence:
+  1) `git ls-files "data/maps/electoral-divisions/*1986-2019*"` returned no tracked files before the fix,
+  2) `Get-ChildItem "data/maps/electoral-divisions/Electoral Divisions 1986-2019"` confirmed the expected FGB and documentation files exist locally,
+  3) the largest individual Electoral Divisions 1986-2019 files are below GitHub's 100 MB hard file limit, so they can be committed normally.
+- Townlands review findings:
+  1) the NI Townlands 1844 chunk index contains 241 chunks and 60,245 total features,
+  2) the current initial viewport preload buffer effectively intersects all 241 chunks at the all-island extent,
+  3) this means the chunked loader still behaves like an all-at-once load on first open, which explains the 100+ second wait more than any single broken file would.

@@ -1341,3 +1341,11 @@ ode --check on every touched JS file.
   1) mark LOD-first maps explicitly in metadata (for example `useLOD: true`),
   2) keep the standard vector load path responsible for the fallback to the original FGB,
   3) verify the target `-lod0` / `-lod1` files exist before enabling the optimization for a map family.
+
+### 104) When fixing map load failures, verify that the referenced assets are actually tracked and published, not just present locally
+- Mistake pattern: treating a map-load bug as purely code-side after confirming files exist on disk, without checking whether the referenced asset directory is actually tracked in git and therefore available on the deployed site.
+- Impact: a code fix can ship while the website still fails because the underlying FGB assets were never published.
+- Guardrail:
+  1) for any map-load failure, check both local existence and `git ls-files` / tracked publication state of the referenced files,
+  2) do not close a map-load bug until the referenced asset paths are either tracked and pushed or intentionally redirected to tracked assets,
+  3) distinguish clearly between local working-tree availability and deployed-site availability when diagnosing map-load problems.
