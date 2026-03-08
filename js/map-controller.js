@@ -786,12 +786,16 @@ class MapController {
     }
 
     shouldUseOverviewLOD(mapConfig, zoom) {
-        return mapConfig?.id === 'ni-townlands-1844' && zoom <= 8;
+        return mapConfig?.id === 'ni-townlands-1844' && zoom <= 7;
     }
 
     getInitialChunkBuffer(mapConfig) {
         if (mapConfig?.id === 'ni-townlands-1844') return 0.05;
         return 0.5;
+    }
+
+    shouldPreferFullChunkGeometry(mapId, zoom) {
+        return mapId === 'ni-townlands-1844' && zoom >= 10;
     }
 
     _clearRenderedLayerState(id, state) {
@@ -1275,7 +1279,7 @@ class MapController {
             let totalLoaded = 0;
             for (const chunk of visibleChunks) {
                 this._throwIfAborted(signal);
-                const chunkFile = this._resolveChunkFile(chunk, zoom);
+                const chunkFile = this._resolveChunkFile(id, chunk, zoom);
                 const features = await this._loadChunkFGBCached(id, chunkFile, zoom, signal);
                 for (const feature of features) {
                     const fKey = this._featureKey(chunk.id, feature);
@@ -1488,7 +1492,10 @@ class MapController {
      *
      * Falls back to the full chunk file at high zoom levels.
      */
-    _resolveChunkFile(chunk, zoom) {
+    _resolveChunkFile(mapId, chunk, zoom) {
+        if (this.shouldPreferFullChunkGeometry(mapId, zoom)) {
+            return chunk.file;
+        }
         if (!chunk.zoomFiles) return chunk.file;
 
         // Find the zoom variant whose maxZoom >= current zoom
@@ -1663,7 +1670,7 @@ class MapController {
 
             // Detect zoom level change — different zoom may need different chunk variants
             const lastZoom = state._lastZoom;
-            const zoomBandChanged = lastZoom != null && this._zoomBandChanged(lastZoom, zoom);
+            const zoomBandChanged = lastZoom != null && this._zoomBandChanged(mapId, lastZoom, zoom);
 
             const visibleIds = new Set(visibleChunks.map(c => c.id));
             const loadedIds = new Set(loadedChunks.keys());
@@ -1700,7 +1707,7 @@ class MapController {
 
                     // Load visible chunks with correct zoom variants
                     for (const chunk of visibleChunks) {
-                        const chunkFile = this._resolveChunkFile(chunk, zoom);
+                        const chunkFile = this._resolveChunkFile(mapId, chunk, zoom);
                         const features = await this._loadChunkFGBCached(mapId, chunkFile, zoom);
                         for (const feature of features) {
                             const fKey = this._featureKey(chunk.id, feature);
@@ -1733,7 +1740,7 @@ class MapController {
 
                     // Load new chunks entering viewport
                     for (const chunk of toLoad) {
-                        const chunkFile = this._resolveChunkFile(chunk, zoom);
+                        const chunkFile = this._resolveChunkFile(mapId, chunk, zoom);
                         const features = await this._loadChunkFGBCached(mapId, chunkFile, zoom);
                         for (const feature of features) {
                             const fKey = this._featureKey(chunk.id, feature);
@@ -1761,8 +1768,13 @@ class MapController {
      * Check if zoom change crosses a zoom band boundary.
      * Zoom bands correspond to the build-time zoom level thresholds.
      */
-    _zoomBandChanged(oldZoom, newZoom) {
+    _zoomBandChanged(mapId, oldZoom, newZoom) {
         const getBand = (z) => {
+            if (mapId === 'ni-townlands-1844') {
+                if (z <= 7) return 0;   // overview LOD
+                if (z <= 9) return 1;   // z10 chunk variant
+                return 2;               // full chunk geometry
+            }
             if (z <= 8) return 0;   // z7 variant
             if (z <= 11) return 1;  // z10 variant
             return 2;               // full

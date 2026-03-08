@@ -1357,3 +1357,11 @@ ode --check on every touched JS file.
   1) inspect chunk-count intersection at the real initial map extent before trusting a chunked design,
   2) for all-island low-zoom opens, prefer an overview LOD source over chunked detail,
   3) keep first detailed chunk preloads map-specific and small on very large datasets instead of reusing a generic large preload buffer.
+
+### 106) When introducing map-specific overview/detail thresholds, keep the reload-band logic aligned with the file-selection logic
+- Mistake pattern: changing the source-selection thresholds without updating the zoom-band change detector.
+- Impact: the map can stay on the previous geometry tier even after zooming because the refresh logic does not believe the detail band changed.
+- Guardrail:
+  1) any map-specific threshold change must update both source selection and zoom-band transition logic,
+  2) for chunked maps, verify the same map id is threaded through both `_resolveChunkFile(...)` and `_zoomBandChanged(...)`,
+  3) after threshold changes, test one zoom-in across each boundary and one zoom-out back across the same boundary.

@@ -3850,3 +3850,35 @@ Verification evidence:
   1) `node --check js/map-controller.js` passed,
   2) `data/database/maps.json` parsed successfully,
   3) `rg` confirms the Townlands-specific overview/buffer hooks are present in `js/map-controller.js` and `useLOD: true` is present on `ni-townlands-1844`.
+
+# Current Task: Investigate Townlands Detail-Level Switching Thresholds (2026-03-08)
+
+- [x] Inspect the Townlands overview-to-detail transition logic
+- [x] Trace the zoom/update event path for chunked layer refresh
+- [x] Determine the concrete reason the polygons appear not to switch to higher detail on zoom
+
+- Findings:
+  1) `ni-townlands-1844` now deliberately stays on the overview LOD source while zoom `<= 8` via `shouldUseOverviewLOD(...)`, so zooming in one or two levels from the all-island start may still leave the map on the simplified overview geometry,
+  2) once zoom exceeds 8, the loader switches to chunked detail, but `_resolveChunkFile(...)` still prefers the `z10` chunk variants for zooms `9-11`,
+  3) full unsimplified chunk geometry is only selected once zoom is above 11, because the `z10` variants are defined with `maxZoom: 11` in the chunk index.
+- Conclusion: the observed lack of detail switching is primarily a threshold/design issue, not evidence that the zoom-update pipeline is completely broken. The progression is currently:
+  - zoom `<= 8`: overview LOD all-island source,
+  - zoom `9-11`: `z10` simplified chunk variants,
+  - zoom `12+`: full chunk files.
+
+# Current Task: Make Townlands Higher Detail Appear Sooner On Zoom (2026-03-08)
+
+- [x] Lower the Townlands overview cutoff so the simplified all-island overview ends sooner
+- [x] Lower the Townlands full-detail cutoff so full chunk geometry appears sooner
+- [x] Verify syntax and threshold hooks
+
+- Completed the Townlands detail-threshold adjustment pass.
+  - `shouldUseOverviewLOD(...)` for `ni-townlands-1844` now ends the overview layer at zoom 7 instead of 8
+  - `shouldPreferFullChunkGeometry(...)` now forces full Townlands chunk geometry from zoom 10 onward
+  - `_zoomBandChanged(...)` now uses Townlands-specific bands so the loader correctly treats:
+    1) zoom `<= 7` as overview,
+    2) zoom `8-9` as simplified `z10` chunk detail,
+    3) zoom `10+` as full chunk geometry
+- Verification evidence:
+  1) `node --check js/map-controller.js` passed,
+  2) `rg` confirms the Townlands-specific threshold hooks are present and wired through the chunk reload path.
