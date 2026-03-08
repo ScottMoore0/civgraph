@@ -65,20 +65,7 @@ class App {
 
             // Load a map layer (or group of layers)
             uiController.onMapLoad = async (mapId) => {
-                const mapConfig = dataService.getMapById(mapId);
-                if (mapConfig?.isGroup && mapConfig.members) {
-                    // Load all member maps for a group
-                    for (const memberId of mapConfig.members) {
-                        await this.loadMap(memberId);
-                    }
-                } else if (mapConfig?.isGroup && mapConfig.variants && mapConfig.variants.length > 0) {
-                    // Load all variant maps for a group (e.g. eds-1911 with provincial variants)
-                    for (const variant of mapConfig.variants) {
-                        await this.loadMap(variant.id);
-                    }
-                } else {
-                    await this.loadMap(mapId);
-                }
+                await this.loadMap(mapId);
                 this.updateMapList();
                 this.updateActiveLayers();
             };
@@ -1907,7 +1894,7 @@ class App {
             const mapId = mapMatch[1];
             const mapConfig = dataService.getMapById(mapId);
             if (mapConfig) {
-                await mapController.loadLayer(mapConfig, true);
+                await this.loadMap(mapId);
                 uiController.updateMapCardState(mapId, true);
 
                 // Zoom to map bounds if available
@@ -1927,7 +1914,7 @@ class App {
             const [, mapId, featureId] = featureMatch;
             const mapConfig = dataService.getMapById(mapId);
             if (mapConfig) {
-                await mapController.loadLayer(mapConfig, true);
+                await this.loadMap(mapId);
                 uiController.updateMapCardState(mapId, true);
 
                 // Highlight specific feature
@@ -1976,7 +1963,7 @@ class App {
                 for (const mapId of layerIds) {
                     const mapConfig = dataService.getMapById(mapId);
                     if (mapConfig) {
-                        await mapController.loadLayer(mapConfig, true);
+                        await this.loadMap(mapId);
                         uiController.updateMapCardState(mapId, true);
                     }
                 }
@@ -1988,7 +1975,7 @@ class App {
             if (featureMapId && featureIdParam) {
                 const mapConfig = dataService.getMapById(featureMapId);
                 if (mapConfig && !mapController.isLayerLoaded(featureMapId)) {
-                    await mapController.loadLayer(mapConfig, true);
+                    await this.loadMap(featureMapId);
                     uiController.updateMapCardState(featureMapId, true);
                 }
 
@@ -2178,6 +2165,38 @@ class App {
     async loadMap(mapId) {
         const mapConfig = dataService.getMapById(mapId);
         if (!mapConfig) return;
+
+        if (mapConfig?.isGroup && Array.isArray(mapConfig.members) && mapConfig.members.length) {
+            const groupName = mapConfig.name || mapId;
+            const feedback = this.startMapLoadFeedback(groupName);
+            try {
+                for (const memberId of mapConfig.members) {
+                    await this.loadMap(memberId);
+                }
+                this.finishMapLoadFeedback(feedback, true, groupName);
+            } catch (error) {
+                this.finishMapLoadFeedback(feedback, false, groupName);
+                this.showError(`Failed to load map: ${groupName}`);
+                return;
+            }
+            return;
+        }
+
+        if (mapConfig?.isGroup && Array.isArray(mapConfig.variants) && mapConfig.variants.length > 0) {
+            const groupName = mapConfig.name || mapId;
+            const feedback = this.startMapLoadFeedback(groupName);
+            try {
+                for (const variant of mapConfig.variants) {
+                    await this.loadMap(variant.id);
+                }
+                this.finishMapLoadFeedback(feedback, true, groupName);
+            } catch (error) {
+                this.finishMapLoadFeedback(feedback, false, groupName);
+                this.showError(`Failed to load map: ${groupName}`);
+                return;
+            }
+            return;
+        }
 
         const mapName = mapConfig.name || mapId;
         const controller = new AbortController();

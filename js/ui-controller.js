@@ -1994,7 +1994,7 @@ class UIController {
             { id: 'flat-deas', name: 'District Electoral Areas (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-deas'] },
             { id: 'flat-deds', name: 'District Electoral Divisions (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-deds'] },
             { id: 'flat-county-eds', name: 'County Electoral Divisions (Northern Ireland)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-county-eds'] },
-            { id: 'flat-roi-deds', name: 'District Electoral Divisions', years: '1986-2019', extent: 'Republic of Ireland', mapIds: ['eds-1986', 'eds-1994', 'eds-1997', 'eds-2019'] },
+            { id: 'flat-roi-deds', name: 'Electoral Divisions', years: '1986-2019', extent: 'Republic of Ireland', mapIds: ['eds-1986', 'eds-1994', 'eds-1997', 'eds-2019'] },
             { id: 'flat-eds-1911', name: 'District Electoral Divisions (Ireland) (1911)', years: '1911', extent: 'Ireland', mapIds: ['eds-1911'] },
             { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
             { id: 'flat-admin-areas', name: 'Administrative Areas (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-admin-areas'] },
@@ -4428,7 +4428,7 @@ class UIController {
         content.innerHTML = '';
 
         features.forEach(feature => {
-            const mapConfig = mapConfigs.find(m => m.id === feature.mapId);
+            const mapConfig = mapConfigs.find(m => m.id === feature.mapId) || dataService.getMapById(feature.mapId);
             const props = feature.properties || {};
             const geometry = feature.geometry;
 

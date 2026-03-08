@@ -3777,3 +3777,41 @@ Verification evidence:
   - added session-scoped geometry feature caches keyed by FGB path
   - added session-scoped constituency payload caches keyed by request URL
   - verified with `node --check js/election-controller.js`
+
+# Current Task: Fix Electoral Divisions Metadata, Loading, And Multi-Sub-Map Feature Source Labels (2026-03-08)
+
+- [ ] Inspect the Republic of Ireland Electoral Divisions map metadata, failing load path, and multi-sub-map feature-card source labeling
+- [ ] Rename the 1986-2019 Republic of Ireland map family from `District Electoral Divisions` to `Electoral Divisions`
+- [ ] Remove `Phelim Birch` as a provider from the 2019 Electoral Divisions card
+- [ ] Fix the 1986-2019 Republic of Ireland Electoral Divisions load failure
+- [ ] Fix feature info-card map-name resolution so province-split/multi-sub-map layers no longer show `unknown layer`
+- [ ] Verify behavior and record a ranked large-map load-time reduction review for layers like 1911 District Electoral Divisions
+
+- [x] Completed the Electoral Divisions metadata/load/source-label fix pass
+  - renamed the Republic of Ireland 1986-2019 visible Electoral Divisions labels in `data/database/maps.json` and `js/ui-controller.js`
+  - removed `Phelim Birch` from the visible 2019 `eds-2019` card provider list
+  - made `dataService.getMapById(...)` resolve hidden top-level child maps and group members
+  - centralized group loading through `App.loadMap(...)` so group ids with members/variants no longer depend on duplicated UI-side handling
+  - fixed feature info cards to resolve map metadata via `dataService.getMapById(feature.mapId)` when the passed loaded-map list does not contain the child sub-map
+  - verified with `node --check js/app.js`, `node --check js/ui-controller.js`, `node --check js/data-service.js`, and `maps.json` JSON parse success
+
+- Review note (2026-03-08):
+  1) metadata/card cleanup now shows `Electoral Divisions` for the visible Republic of Ireland 1986-2019 family and removes `Phelim Birch` from the visible 2019 card provider list,
+  2) the load failure was application-side, not file-side: the FGB files under `data/maps/electoral-divisions/Electoral Divisions 1986-2019/` exist and open successfully, but grouped/member map ids were not consistently resolved or loaded across all app entry points,
+  3) `unknown layer` in feature info cards was caused by the card renderer trusting only the currently loaded-map list instead of falling back to the map registry for hidden child/member maps,
+  4) large-map review outcome: the highest-return speed path for 1911-style province-split maps is to use the already-generated `lod0` / `lod1` FlatGeobuf files for initial load rather than always deserializing the full province files first.
+
+# Current Task: Speed Up Large 1911 Electoral Divisions Loads With LOD-First Vector Sources (2026-03-08)
+
+- [x] Mark the 1911 Electoral Divisions province maps as opt-in LOD maps in metadata
+- [x] Patch the standard vector load path to prefer `-lod0` / `-lod1` FlatGeobufs with fallback to the full source
+- [x] Verify syntax and metadata integrity
+
+- Completed the LOD-first optimization pass for the 1911 Electoral Divisions maps.
+  - Added `useLOD: true` to the 1911 Electoral Divisions group and province child maps in `data/database/maps.json`
+  - Added `getPreferredVectorFilePath(...)` in `js/map-controller.js`
+  - Updated the normal non-chunked vector load path to try the preferred LOD FGB first and retry the original full FGB if the LOD source is missing or fails
+- Verification evidence:
+  1) `node --check js/map-controller.js` passed,
+  2) `data/database/maps.json` parsed successfully with PowerShell `ConvertFrom-Json`,
+  3) confirmed the referenced 1911 `-lod0` / `-lod1` files exist on disk before enabling the optimization.

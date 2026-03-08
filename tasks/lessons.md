@@ -1325,3 +1325,19 @@ ode --check on every touched JS file.
   1) when an election is visible, enforce exclusivity at full-layer visibility level, not just labels or z-order,
   2) any new election load path must go through the same start/finish load-feedback callbacks as normal map loads,
   3) verify one normal map load and one election load whenever the shared toast/timing path changes.
+
+### 102) Group and member maps must resolve through one shared map-registry path everywhere
+- Mistake pattern: some app entry points loaded grouped maps through UI-specific member/variant loops while other paths tried to load a group id directly or looked up feature-card metadata only from the currently loaded map list.
+- Impact: visible grouped maps can show `Failed to load`, and feature info cards for child/member maps can fall back to `Unknown Layer` even though the underlying map metadata exists.
+- Guardrail:
+  1) all app entry points must load maps through one shared `App.loadMap(...)` path,
+  2) `dataService.getMapById(...)` must be able to resolve hidden child maps and group members, not just visible top-level maps,
+  3) feature-card source labels must fall back to registry lookup when the active loaded-map list does not contain the child map config.
+
+### 103) Large-map LOD optimizations should be opt-in at the map config level, not silently global
+- Mistake pattern: applying LOD-first file substitution generically to every FGB-backed map would create unnecessary failed-fetch retries for maps that do not have `-lod0` / `-lod1` siblings.
+- Impact: ordinary maps could get slower or noisier while only a small set of historically large maps actually benefit.
+- Guardrail:
+  1) mark LOD-first maps explicitly in metadata (for example `useLOD: true`),
+  2) keep the standard vector load path responsible for the fallback to the original FGB,
+  3) verify the target `-lod0` / `-lod1` files exist before enabling the optimization for a map family.

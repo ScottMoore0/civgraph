@@ -775,6 +775,17 @@ class MapController {
     }
 
     /**
+     * Resolve the preferred vector source for an opt-in LOD-backed map.
+     * Falls back to the original FGB path at full-resolution zooms or when
+     * the map is not marked for LOD-first loading.
+     */
+    getPreferredVectorFilePath(mapConfig, baseFgbPath, zoom) {
+        if (!mapConfig?.useLOD) return baseFgbPath;
+        if (!String(baseFgbPath || '').toLowerCase().endsWith('.fgb')) return baseFgbPath;
+        return this.getLODFilePath(baseFgbPath, zoom);
+    }
+
+    /**
      * Convert Leaflet bounds to FlatGeobuf rect with buffer
      */
     boundsToRect(bounds, buffer = 0.2) {
@@ -877,12 +888,29 @@ class MapController {
             this._throwIfAborted(signal);
             // Load the configured source directly.
             // For FGB-backed maps, do not substitute GeoJSON in the interactive pane.
-            const features = await this.loadDataFile(filePath, (progress) => {
-                state.progress = progress;
-                if (this.onLoadProgress) {
-                    this.onLoadProgress(id, progress);
+            const zoom = this.map?.getZoom?.() ?? 10;
+            const preferredFilePath = this.getPreferredVectorFilePath(mapConfig, filePath, zoom);
+            let features;
+            try {
+                features = await this.loadDataFile(preferredFilePath, (progress) => {
+                    state.progress = progress;
+                    if (this.onLoadProgress) {
+                        this.onLoadProgress(id, progress);
+                    }
+                }, signal);
+            } catch (preferredErr) {
+                if (preferredFilePath !== filePath) {
+                    console.warn(`[MapController] Preferred LOD source failed for ${id} (${preferredFilePath}); retrying full source ${filePath}`, preferredErr);
+                    features = await this.loadDataFile(filePath, (progress) => {
+                        state.progress = progress;
+                        if (this.onLoadProgress) {
+                            this.onLoadProgress(id, progress);
+                        }
+                    }, signal);
+                } else {
+                    throw preferredErr;
                 }
-            }, signal);
+            }
 
             const geojsonData = Array.isArray(features)
                 ? { type: 'FeatureCollection', features }

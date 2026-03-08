@@ -81,12 +81,14 @@ class DataService {
    * Also searches within variants - if a variant is found, returns it merged with parent properties
    */
   getMapById(id) {
-    // First check top-level maps
-    const directMatch = this.getAllMaps().find(m => m.id === id);
+    const maps = this.maps?.maps || [];
+
+    // First check all top-level maps, including hidden child maps.
+    const directMatch = maps.find(m => m.id === id);
     if (directMatch) return directMatch;
 
-    // Search within variants
-    for (const map of this.getAllMaps()) {
+    // Search within group variants and merge parent properties.
+    for (const map of maps) {
       if (map.variants) {
         const variant = map.variants.find(v => v.id === id);
         if (variant) {
@@ -102,6 +104,11 @@ class DataService {
             variants: undefined  // Don't include parent's variants in the merged result
           };
         }
+      }
+
+      if (Array.isArray(map.members) && map.members.includes(id)) {
+        const member = maps.find(m => m.id === id);
+        if (member) return member;
       }
     }
     return undefined;
