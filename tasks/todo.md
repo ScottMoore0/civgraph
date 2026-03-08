@@ -3888,3 +3888,10 @@ Verification evidence:
 - 2026-03-08: Applied screen-space filtering to Townlands chunk loads by removing the ni-townlands-1844 exemption in js/map-controller.js. Verified with node --check js/map-controller.js and confirmed _loadChunkFGB now always derives minDiag from zoom.
 
 - 2026-03-08: Added debounced elapsed-time status messaging for large-map spatial reloads after pan/zoom by emitting spatial loading start/finish events from js/map-controller.js updateSpatialLayers() and handling them in js/app.js. Verified with node --check js/map-controller.js and node --check js/app.js.
+
+- 2026-03-08: Moved the Republic of Ireland Electoral Divisions (1986-2019) flat catalogue entry into the Small Electoral Units subgroup as the fourth item by reordering the flat card list in js/ui-controller.js and explicitly grouping 'Electoral Divisions' under Small Electoral Units. Verified with node --check js/ui-controller.js.
+- 2026-03-08: Performed mandatory ZIP intake check. Found two ZIPs in maps-to-be-added: Electoral Divisions 1986-2019.zip and Electoral Divisions 1986-2019 (1).zip. Updated .zip-intake-check.json; user should be asked whether to add/review these ZIPs.
+
+- 2026-03-08: Removed the USGS NHDv2 Flowlines overlay from index.html, js/app.js, and js/map-controller.js, leaving CartoDB Voyager Labels plus the two MERIT-Basins overlays. Verified with node --check js/app.js and node --check js/map-controller.js.
+- 2026-03-08: Added explicit compact numeric results-column sizing for grouped By Candidate and By Local Party tables via assets/css/main.css and js/election-controller.js. Applied compact widths to Count, No., +/-, and % leaf columns and enabled compact header-control layout for those columns. Verified with node --check js/election-controller.js.
+- 2026-03-08: Deleted Electoral Divisions 1986-2019.zip and Electoral Divisions 1986-2019 (1).zip from maps-to-be-added at the user's request and updated .zip-intake-check.json.

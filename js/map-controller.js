@@ -513,11 +513,6 @@ class MapController {
             url: 'https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/MERIT_Rivers_v1/MapServer/tile/{z}/{y}/{x}',
             attribution: '&copy; MERIT-Basins',
             maxZoom: 12
-        },
-        'nhd-flowlines': {
-            url: 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/MapServer/tile/{z}/{y}/{x}',
-            attribution: '&copy; USGS NHD',
-            maxZoom: 16
         }
     };
 

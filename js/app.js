@@ -1492,7 +1492,6 @@ class App {
         this.setupOverlayToggle('overlayVoyagerLabels', 'voyager-labels');
         this.setupOverlayToggle('overlayMeritCatchments', 'merit-catchments');
         this.setupOverlayToggle('overlayMeritRivers', 'merit-rivers');
-        this.setupOverlayToggle('overlayNhdFlowlines', 'nhd-flowlines');
 
         // Transparency slider (outline)
         const transparencySlider = document.getElementById('transparencySlider');

@@ -10365,6 +10365,10 @@ kbd {
   --results-sticky-col-2-width: 24px;
   --results-sticky-col-3-width: 150px;
   --results-sticky-col-4-width: 120px;
+  --results-col-compact-width: 54px;
+  --results-col-delta-width: 64px;
+  --results-col-pct-width: 72px;
+  --results-col-count-width: 72px;
   --results-header-row-1-height: 36px;
   --results-header-row-2-height: 32px;
   width: max-content;
@@ -10482,6 +10486,18 @@ kbd {
   align-items: flex-start;
   gap: 0;
   margin-left: auto;
+}
+
+.election-th-controls--compact {
+  gap: 4px;
+}
+
+.election-th-controls--compact .election-th-actions {
+  margin-left: 0;
+}
+
+.election-th-controls--compact .election-th-label {
+  flex: 0 1 auto;
 }
 
 .election-th-btn {
@@ -10617,6 +10633,46 @@ kbd {
 .election-count-table .election-num {
   text-align: right;
   font-variant-numeric: tabular-nums;
+}
+
+.election-party-table th.election-col-compact,
+.election-party-table td.election-col-compact,
+.election-count-table th.election-col-compact,
+.election-count-table td.election-col-compact {
+  width: var(--results-col-compact-width);
+  min-width: var(--results-col-compact-width);
+  max-width: var(--results-col-compact-width);
+  white-space: nowrap;
+}
+
+.election-party-table th.election-col-delta,
+.election-party-table td.election-col-delta,
+.election-count-table th.election-col-delta,
+.election-count-table td.election-col-delta {
+  width: var(--results-col-delta-width);
+  min-width: var(--results-col-delta-width);
+  max-width: var(--results-col-delta-width);
+  white-space: nowrap;
+}
+
+.election-party-table th.election-col-pct,
+.election-party-table td.election-col-pct,
+.election-count-table th.election-col-pct,
+.election-count-table td.election-col-pct {
+  width: var(--results-col-pct-width);
+  min-width: var(--results-col-pct-width);
+  max-width: var(--results-col-pct-width);
+  white-space: nowrap;
+}
+
+.election-party-table th.election-col-count,
+.election-party-table td.election-col-count,
+.election-count-table th.election-col-count,
+.election-count-table td.election-col-count {
+  width: var(--results-col-count-width);
+  min-width: var(--results-col-count-width);
+  max-width: var(--results-col-count-width);
+  white-space: nowrap;
 }
 
 .election-party-table th,

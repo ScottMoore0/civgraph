@@ -1365,3 +1365,5 @@ ode --check on every touched JS file.
   1) any map-specific threshold change must update both source selection and zoom-band transition logic,
   2) for chunked maps, verify the same map id is threaded through both `_resolveChunkFile(...)` and `_zoomBandChanged(...)`,
   3) after threshold changes, test one zoom-in across each boundary and one zoom-out back across the same boundary.
+
+- 2026-03-08: When the user specifies an exact subgroup position in the flat catalogue TOC, do not stop at nearby ordering changes in the card list. Check the subgroup membership logic in js/ui-controller.js and make sure the item is explicitly attached to the requested heading, not merely placed adjacent to it in the master list.
