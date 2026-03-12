@@ -918,10 +918,10 @@
 
 ### 111) By-election/recall deltas need explicit nulling rules for non-comparable totals
 - Mistake pattern: total-seat deltas computed generically for all rows.
-- Impact: misleading `Total seats ±` values for by-elections/recall contests.
+- Impact: misleading `Total seats ï¿½` values for by-elections/recall contests.
 - Guardrail:
   1) null total-seat deltas on `row.isByElection`,
-  2) render null as `—`,
+  2) render null as `ï¿½`,
   3) keep baseline comparison buckets type-scoped for all other rows.
 
 ### 112) By-election labels should be geography-first, not body-first
@@ -940,9 +940,9 @@
 
 ### 114) Seat suffix parsers must accept Unicode dash variants
 - Mistake pattern: parsing constituency titles with only ASCII hyphen (`-`) for seat suffix extraction.
-- Impact: DEAs using en dash/em dash (`–`/`—`) lose seat metadata, causing downstream seat undercounts.
+- Impact: DEAs using en dash/em dash (`ï¿½`/`ï¿½`) lose seat metadata, causing downstream seat undercounts.
 - Guardrail:
-  1) accept `[-–—]` in seat suffix regexes,
+  1) accept `[-ï¿½ï¿½]` in seat suffix regexes,
   2) add a regression check using at least one en-dash DEA title.
 
 ### 115) Rebuild outputs must clear stale generated files first
@@ -982,7 +982,7 @@
 - Guardrail:
   1) make header and order changes in the single table-schema source,
   2) verify final displayed sequence against spec,
-  3) keep delta labels consistent (`±`) once standardized.
+  3) keep delta labels consistent (`ï¿½`) once standardized.
 
 ## 2026-03-05: Election-history baseline chain guardrail
 - User correction pattern: general-election deltas must never baseline against by-elections; by-elections must baseline on prior results for the same constituency set.
@@ -992,7 +992,7 @@
   2) by-elections baseline from nearest prior row containing the same constituency set; fallback to nearest prior general row containing that set.
   3) recall petitions excluded from both baseline chains.
 - Verification requirement for future edits:
-  - add a targeted check on a party with both by-elections and general elections to confirm general `±` values do not change when by-election rows are present.
+  - add a targeted check on a party with both by-elections and general elections to confirm general `ï¿½` values do not change when by-election rows are present.
 
 ## 2026-03-05: Prototype table headers before rewiring live sortable tables
 - User correction pattern: when a table header redesign is structurally complex, build and iterate a standalone mock first, then port the approved structure into the live renderer.
@@ -1029,7 +1029,7 @@
 - User correction pattern: the same DEA surfaced twice because one source used the clean DEA name and another used the same name with a seat-count suffix.
 - Rule: when building candidate constituency summary lists, dedupe on a canonicalized display label, not the raw source string.
 - Guardrail:
-  1) strip seat-count suffixes like – 7 seats / (7 seats) before keying constituency summary entries,
+  1) strip seat-count suffixes like ï¿½ 7 seats / (7 seats) before keying constituency summary entries,
   2) preserve only the canonical label in the rendered list,
   3) verify against at least one live JSON file that still contains seat-suffixed constituency names.
 
@@ -1090,12 +1090,12 @@
   3) when rendering corruption appears as `?`, inspect file encoding before debugging UI logic.
 
 ## Update 2026-03-06 (Encoding-Safe Label Replacements)
-- In legacy/non-UTF-clean JS files, replace visible symbols like ± with ASCII labels such as +/-, then immediately grep for accidental operator corruption (??, ?., comparison chains) before considering the change complete.
+- In legacy/non-UTF-clean JS files, replace visible symbols like ï¿½ with ASCII labels such as +/-, then immediately grep for accidental operator corruption (??, ?., comparison chains) before considering the change complete.
 - Verification rule: after any broad text replacement in a JS file, run g for both the intended replacement text and the nearby operator forms, then run 
 ode --check on every touched JS file.
 
 ## 2026-03-06: Replacement-glyph audits must cover every live renderer file, not just the first file that reproduces the symptom
-- User correction pattern: fixing one table-renderer file removed some malformed labels, but another live renderer still emitted literal ±, so the symptom persisted.
+- User correction pattern: fixing one table-renderer file removed some malformed labels, but another live renderer still emitted literal ï¿½, so the symptom persisted.
 - Rule: when a text-rendering defect appears across multiple tables, audit all live renderer files that define table headers before declaring the fix complete.
 - Guardrail:
   1) grep all live JS/CSS/HTML sources for the bad glyph and the intended replacement,
@@ -1103,7 +1103,7 @@ ode --check on every touched JS file.
   3) only mark the issue resolved after the grep shows no remaining live occurrences and syntax checks pass for all touched JS files.
 
 ## 2026-03-06: Shared table-header fixes must be verified across every live table variant that reuses the same label pattern
-- User correction pattern: the election-history tables were fixed first, but the NI-wide By Party grouped header still had literal ± labels and continued to surface replacement glyphs.
+- User correction pattern: the election-history tables were fixed first, but the NI-wide By Party grouped header still had literal ï¿½ labels and continued to surface replacement glyphs.
 - Rule: when fixing shared header-label rendering issues, audit By Party, By Candidate, By Local Party, and election-history tables separately even if they look visually similar.
 - Guardrail:
   1) grep live renderer files after each fix,
@@ -1279,7 +1279,7 @@ ode --check on every touched JS file.
 
 ### 97) Adjacent renderer branches with similar grouped-table markup need explicit class-audit verification
 - Mistake pattern: applying a sticky-layout class to one district renderer branch and then accidentally leaving or removing it on the neighboring branch with similar markup.
-- Impact: one table inherits the other table’s sticky geometry, producing horizontally sticky columns in the wrong group.
+- Impact: one table inherits the other tableï¿½s sticky geometry, producing horizontally sticky columns in the wrong group.
 - Guardrail:
   1) when two adjacent branches render similar grouped tables, verify the final class list for both branches after every sticky-layout edit,
   2) log the intended class ownership per renderer (`By Party` vs `By Local Party`) before patching,
@@ -1367,3 +1367,47 @@ ode --check on every touched JS file.
   3) after threshold changes, test one zoom-in across each boundary and one zoom-out back across the same boundary.
 
 - 2026-03-08: When the user specifies an exact subgroup position in the flat catalogue TOC, do not stop at nearby ordering changes in the card list. Check the subgroup membership logic in js/ui-controller.js and make sure the item is explicitly attached to the requested heading, not merely placed adjacent to it in the master list.
+
+- Result-table width tuning guardrail (2026-03-08): do not reuse one generic compact-width class for semantically different numeric columns. Size small integers, status counts, vote totals, percentages, and deltas separately, then bind each leaf/header/body column to the correct width class.
+
+- Results-pane width tuning follow-up (2026-03-08): when grouped numeric columns still look too wide after assigning semantic width classes, re-check the full rendered footprint including cell padding and sort/filter button size. Tighten compact-cell padding and compact header controls, not just the declared column widths.
+
+- Results-table sizing recurrence (2026-03-08): do not treat column width tuning as just swapping width variables. Check the combined effect of declared widths, cell padding, compact header button footprint, grouped-header colspan behavior, and sticky/flex wrappers before changing values again.
+
+- Grouped results-table sizing fix (2026-03-08): when grouped result tables contain mixed numeric types, enforce width at the leaf-column track level with <colgroup> plus fixed layout. Per-cell width hints under 	able-layout: auto are too weak and lead to simultaneous over-wide and over-narrow columns.
+
+- Fixed-layout results-table guardrail (2026-03-08): once grouped tables move to <colgroup> + 	able-layout: fixed, remove any inherited width/min-width: max-content and neutralize cell-level width declarations for those tables. Otherwise the browser still mixes intrinsic sizing with explicit tracks and the layout remains unstable.
+- Results-table track-width guardrail (2026-03-08): once grouped results tables are truly running on fixed <colgroup> tracks, stop blaming the layout model for every remaining defect. If screenshots still show crowding or spill, measure the real value ranges and retune the track variables themselves, especially for local/district vote deltas and percentage-delta columns.
+- Results-table family-width guardrail (2026-03-08): after moving grouped tables onto fixed <colgroup> tracks, do not assume one local/district width preset fits every renderer. Candidate tables and local-party tables have different numeric distributions, so tune track variables per table family rather than broadening the whole variant.
+- Results-table CSS-order guardrail (2026-03-08): when replacing a legacy width system with fixed <colgroup> tracks, verify the neutralizing rule comes after the old generic cell-width rules in the stylesheet. If it appears earlier, the browser will keep using the legacy widths and the new track model will appear to have no effect.
+- Results-table sizing guardrail (2026-03-08): when grouped fixed-layout results tables still require repeated manual width retuning, stop guessing CSS track values. Measure the rendered numeric content and set the <colgroup> track widths programmatically for those roles instead.
+- Results-table autosizing guardrail (2026-03-08): for grouped fixed-layout tables, do not estimate compact numeric widths from text metrics plus guessed button allowances. Measure the rendered header controls and body cells from the DOM after layout instead.
+- Results-table width-enforcement guardrail (2026-03-08): if grouped fixed-layout columns still do not visually adopt measured widths after sizing the <colgroup>, enforce the final width on the leaf header and body cells too. In these tables, the browser can still widen narrow numeric columns through cell layout even when the column track width is set.
+- JavaScript edit guardrail (2026-03-08): after any non-trivial JS patch, do not trust a silent check result. Run 
+ode --check ... 2>&1 on every startup-critical module and inspect the edited block itself for duplicate block-scoped declarations before assuming the browser failure is unrelated.
+- Results-table compact-header guardrail (2026-03-08): in narrow numeric columns, do not lay out the sort/filter button as a normal flex child beside the label. Overlay it with reserved padding instead, or the button chrome will dominate the measured width and keep columns visually too wide.
+
+- When a grouped-table width bug recurs, inspect the live sizing path for the table element itself before changing any more leaf-column widths. A fixed-layout column model cannot win while the table still has intrinsic width rules like width/min-width: max-content.
+
+
+- When autosizing grouped table columns, never measure getBoundingClientRect() or wrapper scrollWidth from elements like .election-cell-wrap or .election-th-controls--compact after layout. Those wrappers can already be stretched by the table, which bakes the bad width back into the autosizer. Measure intrinsic text and button content directly instead.
+
+
+97. When the user corrects disclaimer wording, use the exact requested phrasing everywhere in metadata, generated files, and UI copy. For derived/OCR text formats in this repo, the warning should read that they may contain inaccuracies and errors unless the user explicitly asks for different wording.
+
+- Grouped results tables: if a width fix is not taking effect, inspect the sticky-column CSS layer before tuning column tracks again. Generic nth-child width/min-width rules can override measured colgroup sizing even after autosizer changes, especially on fixed grouped count tables.
+
+- Slider-driven heavy loads: For discrete election dates, do not trigger loadElection(...) from slider input. Use input for preview-only state and commit the actual load on change/release so drag interactions do not fire intermediate destructive loads.
+
+- When fixing time-slider/date-switch bugs, do not rely only on source reasoning. Add or update a browser regression that exercises the exact drag/selection path and a placeholder-only target date before declaring the issue fixed.
+
+
+- When changing slider or async load UX, require a browser regression that forces out-of-order completions. A source-level token guard is not complete until a real browser test proves an older request cannot overwrite the latest selection.
+
+- When changing slider or async load UX, require a browser regression that forces out-of-order completions. A source-level token guard is not complete until a real browser test proves an older request cannot overwrite the latest selection.
+
+- When fixing shared/deep-link URL bugs, verify both URL generation and URL restoration. Add a browser regression that proves a copied URL is syntactically clean and that an already-malformed legacy URL still restores the intended state.
+- For non-election timeline swaps, do not run pplyDateChange() as overlapping independent operations. Use a queued runner with latest-request-wins semantics so stale committed changes cannot overwrite the newest user selection.
+- In Playwright for this repo, avoid page.waitForFunction(async ...) with dynamic imports / async polling. Use explicit page.evaluate(async () => { ...poll... }) so browser tests do not fail for harness reasons unrelated to product behavior.
+
+- When fixing results-table text truncation, inspect both the wrapper class and the autosizer cap for that role. If the wrapper still clamps or the autosizer refuses to grow the track past its current computed width, widening the column will not stop ellipsis.

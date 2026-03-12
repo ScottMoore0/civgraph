@@ -1,3 +1,10 @@
+# Current Task: Stop District Name Truncation In Results Tables (2026-03-12)
+
+- [x] Inspect the District-column render path and determine why District names were still ellipsized in the affected results tables
+- [x] Fix the District cell wrapper/autosizer path so District columns widen only as much as needed to show the full name
+- [x] Add automated browser verification for NI-wide local By Candidate and By Local Party District cells
+- [x] Run syntax checks and browser tests, then record results
+
 # Current Task: Local Election DEA/LGD Feature-Page Electoral History (2026-03-04)
 
 - [x] Keep local election catalogue cards grouped by date with provider label `Local Government Districts`
@@ -2748,7 +2755,7 @@
 
 - [x] Add `isRecallPetition` flag to party history rows
 - [x] Ensure recall rows do not receive deltas and are not added into comparison baselines
-- [x] Force all recall-row fields beyond first three columns (Election/Date/Type) to render as `—`
+- [x] Force all recall-row fields beyond first three columns (Election/Date/Type) to render as `ï¿½`
 - [x] Run syntax validation
 
 - Symptom: recall petition rows were treated like normal election rows in party history tables.
@@ -2757,9 +2764,9 @@
 
 # Current Task: Adjust Party Election-History Column Labels And Delta Column Ordering (2026-03-05)
 
-- [x] Rename delta headers to `±` for Rank/Seats won/Candidates stood/Constituencies stood/1st prefs/% 1st prefs
+- [x] Rename delta headers to `ï¿½` for Rank/Seats won/Candidates stood/Constituencies stood/1st prefs/% 1st prefs
 - [x] Rename `Valid votes` to `1st prefs`
-- [x] Reorder constituency columns to: `Total constituencies`, `±`, `Constituencies stood`
+- [x] Reorder constituency columns to: `Total constituencies`, `ï¿½`, `Constituencies stood`
 - [x] Run syntax validation
 
 - Symptom: election-history headers still used verbose delta labels and requested column ordering was not applied.
@@ -2768,7 +2775,7 @@
 
 # Current Task: Party Election-History Column Order + Baseline Rules Fix (2026-03-05)
 
-- [ ] Reorder party election-history columns to: Seats won, ±, Candidates stood, ±, Constituencies stood, ±, Total constituencies, 1st prefs, ±
+- [ ] Reorder party election-history columns to: Seats won, ï¿½, Candidates stood, ï¿½, Constituencies stood, ï¿½, Total constituencies, 1st prefs, ï¿½
 - [ ] Ensure by-election deltas compare against prior result in same constituency set (single or grouped by-election scope)
 - [ ] Ensure general-election deltas compare only against previous general election of same type, never a by-election
 - [ ] Run JS syntax checks for touched files
@@ -2838,7 +2845,7 @@ Verification:
 
 - [ ] Change by-election display names in election history tables to `[year|Mon year if needed] [constituency/DEA] by-election`
 - [ ] Change by-election collection titles to `[year] [Assembly/Westminster/etc] by-elections` where multiple exist
-- [ ] Ensure by-election `Constituencies -> Total -> ±` cells are blank in election history tables
+- [ ] Ensure by-election `Constituencies -> Total -> ï¿½` cells are blank in election history tables
 - [ ] Fix by-election constituency results-table baselines so they compare with the previous non-by-election election of the same type for that constituency, and use prior NI-wide valid vote for NI-share calculations
 - [ ] Change party candidate table `Constituencies stood in` to `Stood in`, suppress year suffix for `Northern Ireland`, and add grouped two-row `Times stood` / `Times elected` headers
 - [ ] Audit duplicate real-world candidates split across two PersonIDs and report findings
@@ -2848,7 +2855,7 @@ Verification:
 
 - [x] Change by-election display names in election history tables to [year|Mon year if needed] [constituency/DEA] by-election
 - [x] Change by-election collection titles to [year] [Assembly/Westminster/etc] by-elections where multiple exist
-- [x] Ensure by-election Constituencies -> Total -> ± cells are blank in election history tables
+- [x] Ensure by-election Constituencies -> Total -> ï¿½ cells are blank in election history tables
 - [x] Fix by-election constituency results-table baselines so they compare with the previous non-by-election election of the same type for that constituency, and use prior NI-wide valid vote for NI-share calculations
 - [x] Change party candidate table Constituencies stood in to Stood in, suppress year suffix for Northern Ireland, and add grouped two-row Times stood / Times elected headers
 - [x] Audit duplicate real-world candidates split across two PersonIDs and report findings
@@ -2881,7 +2888,7 @@ Verification:
 ode --check js/election-controller.js passed
 - 
 ode --check js/ui-controller.js passed
-- Verified live local JSON includes seat-suffixed DEA names such as Cookstown – 7 seats, confirming the duplicate-label root cause.
+- Verified live local JSON includes seat-suffixed DEA names such as Cookstown ï¿½ 7 seats, confirming the duplicate-label root cause.
 - Verified stale local live-election JSON still uses Liz Kimmins PersonID 1902069794 while Assembly uses canonical 44021; added a guarded entity-index alias for that exact stale-ID case.
 
 ## Update 2026-03-06 (Live Candidate Duplicate Audit Beyond Liz Kimmins)
@@ -3041,7 +3048,7 @@ Verification:
 - [x] Replace non-ASCII plus/minus header labels in live results/election table builders with ASCII `+/-`
 
 Root cause:
-- Non-UTF-8 content in js/election-controller.js caused literal `±` labels to render as replacement glyphs in some tables.
+- Non-UTF-8 content in js/election-controller.js caused literal `ï¿½` labels to render as replacement glyphs in some tables.
 
 Verification:
 - node --check js\\election-controller.js passed
@@ -3049,7 +3056,7 @@ Verification:
 
 ## Update 2026-03-06 (Header Label Encoding Fix Follow-up)
 
-- [x] Restore nullish-coalescing operators accidentally altered while replacing visible `±` header labels
+- [x] Restore nullish-coalescing operators accidentally altered while replacing visible `ï¿½` header labels
 
 Verification:
 - node --check js\\election-controller.js passed
@@ -3057,7 +3064,7 @@ Verification:
 
 ## Update 2026-03-06 (Header Label Encoding Fix Follow-up)
 
-- [x] Restore nullish-coalescing operators accidentally altered while replacing visible `±` header labels
+- [x] Restore nullish-coalescing operators accidentally altered while replacing visible `ï¿½` header labels
 
 Verification:
 - node --check js\\election-controller.js passed
@@ -3065,25 +3072,25 @@ Verification:
 
 ## Update 2026-03-06 (Remaining Replacement Glyph Source)
 
-- [x] Remove the last live literal ± labels from js/ui-controller.js grouped election-history headers
+- [x] Remove the last live literal ï¿½ labels from js/ui-controller.js grouped election-history headers
 
 Root cause:
-- The previous fix only covered js/election-controller.js; js/ui-controller.js still emitted literal ± labels in grouped election-history header definitions.
+- The previous fix only covered js/election-controller.js; js/ui-controller.js still emitted literal ï¿½ labels in grouped election-history header definitions.
 
 Verification:
-- rg -n "?|Â±|G|±" js assets pages -S now finds only a static mock-page instance in pages/election-history-header-mock.html
+- rg -n "?|Â±|G|ï¿½" js assets pages -S now finds only a static mock-page instance in pages/election-history-header-mock.html
 - node --check js\ui-controller.js passed
 - node --check js\election-controller.js passed
 
 ## Update 2026-03-06 (Final Replacement Glyph Source in By Party Header)
 
-- [x] Replace the remaining literal ± tokens in the live By Party grouped header builder inside js/election-controller.js with ASCII +/-
+- [x] Replace the remaining literal ï¿½ tokens in the live By Party grouped header builder inside js/election-controller.js with ASCII +/-
 
 Root cause:
-- The replacement-glyph symptom persisted because the NI-wide By Party grouped header still emitted literal ± labels from js/election-controller.js, even after the election-history renderer had been fixed.
+- The replacement-glyph symptom persisted because the NI-wide By Party grouped header still emitted literal ï¿½ labels from js/election-controller.js, even after the election-history renderer had been fixed.
 
 Verification:
-- rg -n "?|Â±|G|±" js assets -S returns no live matches
+- rg -n "?|Â±|G|ï¿½" js assets -S returns no live matches
 - node --check js\election-controller.js passed
 - node --check js\ui-controller.js passed
 
@@ -3101,7 +3108,7 @@ Verification:
 - [x] Replace the static results-table mock with a clean UTF-8 preview including proposed NI-wide By Local Party and By Party header restructures
 
 Verification:
-- rg -n "?|Â±|G|±|a" js assets -S returns no live matches
+- rg -n "?|Â±|G|ï¿½|a" js assets -S returns no live matches
 - node --check js\\election-controller.js passed
 - pages\\results-table-header-mock.html now contains the new static preview sections.
 
@@ -3260,7 +3267,7 @@ Symptom:
 - Mid Ulster District By Party / By Candidate / By Local Party still showed N/A in all +/- columns even after seat-suffixed file fallback was added.
 
 Root cause:
-- The 2019 local-election index names Mid Ulster DEAs as Cookstown – 7 seats, Magherafelt – 5 seats, etc, while 2023 uses plain Cookstown, Magherafelt, etc. Previous local results therefore loaded successfully but were aggregated under suffixed constituency keys, so district rows could not match the current unsuffixed constituency names.
+- The 2019 local-election index names Mid Ulster DEAs as Cookstown ï¿½ 7 seats, Magherafelt ï¿½ 5 seats, etc, while 2023 uses plain Cookstown, Magherafelt, etc. Previous local results therefore loaded successfully but were aggregated under suffixed constituency keys, so district rows could not match the current unsuffixed constituency names.
 
 Permanent prevention action:
 - Canonicalize constituency names with _cleanConstituencyDisplayName(...) at the start of district aggregate building, and use the canonical name consistently for council lookup, candidate constituency assignment, local-party keys, and elected-member tally updates.
@@ -3297,7 +3304,7 @@ Symptom:
 - Constituency By Count tables still showed malformed glyphs instead of +/- and local DEA summary rows like Valid votes, Turnout, Spoiled, Did not vote, and Electorate compared against zero instead of the previous election in the same area.
 
 Root cause:
-- The By Count header builder still contained replacement-character label strings, and previous constituency payload lookup only checked direct keys. That failed for local DEAs whose previous-election keys are seat-suffixed, such as Clogher Valley – 6 seats versus current Clogher Valley.
+- The By Count header builder still contained replacement-character label strings, and previous constituency payload lookup only checked direct keys. That failed for local DEAs whose previous-election keys are seat-suffixed, such as Clogher Valley ï¿½ 6 seats versus current Clogher Valley.
 
 Permanent prevention action:
 - Keep By Count header labels ASCII-only and make previous constituency payload lookup fall back through canonicalized constituency names before treating the baseline as missing.
@@ -3484,7 +3491,7 @@ Verification evidence:
 
 - Symptom: Mid Ulster appeared blank on the 2019 local-election interactive map in `DEA` mode.
 - Root cause:
-  1) generated 2019 Mid Ulster DEA names were seat-suffixed (for example `Cookstown – 7 seats`),
+  1) generated 2019 Mid Ulster DEA names were seat-suffixed (for example `Cookstown ï¿½ 7 seats`),
   2) the restored controller's alias generation failed to derive plain DEA names from those labels,
   3) map feature names from `DEAs_2012.fgb` are plain names like `Cookstown`, so matching failed.
 - Permanent prevention action:
@@ -3895,3 +3902,185 @@ Verification evidence:
 - 2026-03-08: Removed the USGS NHDv2 Flowlines overlay from index.html, js/app.js, and js/map-controller.js, leaving CartoDB Voyager Labels plus the two MERIT-Basins overlays. Verified with node --check js/app.js and node --check js/map-controller.js.
 - 2026-03-08: Added explicit compact numeric results-column sizing for grouped By Candidate and By Local Party tables via assets/css/main.css and js/election-controller.js. Applied compact widths to Count, No., +/-, and % leaf columns and enabled compact header-control layout for those columns. Verified with node --check js/election-controller.js.
 - 2026-03-08: Deleted Electoral Divisions 1986-2019.zip and Electoral Divisions 1986-2019 (1).zip from maps-to-be-added at the user's request and updated .zip-intake-check.json.
+
+- [x] Refine non-local NI-wide By Candidate / By Local Party column widths (2026-03-08)
+  - Split result-table numeric width roles so small integers, status counts, vote totals, deltas, and percentages are sized independently.
+  - Updated ssets/css/main.css and js/election-controller.js so vote-total No. columns widen while small No. / Count / +/- columns tighten.
+  - Verification: 
+ode --check js/election-controller.js; 
+ode --check js/ui-controller.js.
+
+- [x] Tighten grouped results-pane numeric columns further after cross-election review (2026-03-08)
+  - Reduced compact numeric column widths again after reviewing local and non-local NI-wide screenshots across multiple tabs.
+  - Tightened compact header button footprint and compact-cell horizontal padding in ssets/css/main.css so narrow columns no longer inherit text-column spacing.
+  - Verification: 
+ode --check js/election-controller.js; 
+ode --check js/ui-controller.js.
+
+- [x] Diagnose recurring results-pane column sizing defects without changing code (2026-03-08)
+  - Reviewed screenshots and current width model for NI-wide and District By Candidate / By Local Party tables.
+  - Identified that the remaining defects are caused by multiple competing layout mechanisms rather than a single bad width value.
+  - Findings reported back before further code changes to avoid another blunt width pass.
+
+- [x] Implement fixed leaf-column tracks for grouped results tables (2026-03-08)
+  - Added <colgroup>-based leaf-column tracks and fixed table layout for NI-wide and District By Candidate / By Local Party tables in js/election-controller.js.
+  - Split numeric sizing into stricter roles: small integer, small delta, votes, vote delta, main percentage, main percentage delta, small share percentage, and small share percentage delta.
+  - Updated ssets/css/main.css to size the real column tracks instead of relying only on per-cell width hints.
+  - Verification: 
+ode --check js/election-controller.js; 
+ode --check js/ui-controller.js.
+
+- [x] Remove conflicting width systems from grouped fixed-layout results tables (2026-03-08)
+  - Removed the old intrinsic max-content sizing for grouped fixed-layout By Candidate / By Local Party tables in ssets/css/main.css.
+  - Disabled competing per-cell width enforcement on those fixed-layout tables so the <colgroup> leaf tracks are the single width authority.
+  - Verification: 
+ode --check js/election-controller.js; 
+ode --check js/ui-controller.js.
+
+- [x] Stop grouped fixed-layout results tables from stretching to pane width (2026-03-08)
+  - Changed fixed-layout grouped results tables in ssets/css/main.css to use width/min-width: max-content again, but only after removing the competing cell-level width system.
+  - This makes the table width hug the explicit <colgroup> track sum instead of stretching across the results pane and widening every column.
+  - Verification: 
+ode --check js/election-controller.js; 
+ode --check js/ui-controller.js.
+- [x] Retune fixed grouped results-table track widths for real local/district value ranges (2026-03-08)
+  - Increased the explicit <colgroup> track widths in assets/css/main.css for status counts, small integers, vote totals, vote deltas, main percentages, and percentage deltas after the screenshots showed the layout model was fixed but the chosen numeric tracks were still too narrow.
+  - Applied wider local/district overrides for vote totals and delta/percentage columns, where real values such as +1,909 and +11.45% were still crowding or spilling.
+  - Verification: node --check js/election-controller.js; node --check js/ui-controller.js.
+- [x] Narrow grouped results-table track widths by table family instead of globally (2026-03-08)
+  - Added table-family-specific track-width overrides in assets/css/main.css for local/district By Candidate and local/non-local By Local Party tables.
+  - This corrects the remaining over-wide small integer and small-delta columns without reintroducing crowding in vote-delta and percentage-delta columns.
+  - Verification: node --check js/election-controller.js; node --check js/ui-controller.js.
+- [x] Fix grouped results-table width cascade bug so fixed tables use colgroup tracks (2026-03-08)
+  - Moved the fixed-table cell-width neutralizer in assets/css/main.css below the legacy generic width rules so the grouped fixed-layout results tables stop inheriting the old per-cell widths.
+  - Root cause was stylesheet order: the neutralizer existed, but the later generic 	h/td width rules were overriding it and preventing the colgroup tracks from taking control.
+  - Verification: node --check js/election-controller.js; node --check js/ui-controller.js.
+- [x] Autosize grouped fixed results-table numeric tracks from rendered content (2026-03-08)
+  - Added _autosizeFixedResultsTable(...) in js/election-controller.js and invoked it after results-table controls initialize.
+  - The helper measures the rendered header labels and body values for numeric fixed-track roles and writes the final widths onto the <colgroup> tracks, replacing further hand-tuned guessing in CSS.
+  - Verification: node --check js/election-controller.js; node --check js/ui-controller.js.
+- [x] Switch fixed results-table autosizing from guessed text metrics to rendered DOM widths (2026-03-08)
+  - Replaced the canvas/text-estimate autosizing logic in js/election-controller.js with DOM-based measurement using header/body scrollWidth and actual rendered widths.
+  - Deferred autosizing to requestAnimationFrame so grouped headers and row cells are measured after layout, not during initialization.
+  - Verification: node --check js/election-controller.js; node --check js/ui-controller.js.
+- [x] Enforce measured widths on grouped fixed results-table header/body cells as well as colgroup tracks (2026-03-08)
+  - Updated js/election-controller.js so _autosizeFixedResultsTable(...) now writes the final measured width onto the <col> track, the leaf header cell, and each body cell in the measured numeric column.
+  - This prevents the browser from re-expanding narrow numeric columns through table-cell layout after the colgroup width has been set.
+  - Verification: node --check js/election-controller.js; node --check js/ui-controller.js.
+- [x] Fix app-bootstrap regression caused by duplicate local variable in results-table autosizer (2026-03-08)
+  - Removed a duplicate const header declaration in _autosizeFixedResultsTable(...) in js/election-controller.js.
+  - Root cause: the autosizing change introduced a duplicate block-scoped variable, which prevented election-controller.js from parsing and broke the whole app bootstrap.
+  - Verification: node --check js/election-controller.js 2>&1; node --check js/ui-controller.js 2>&1; node --check js/app.js 2>&1.
+- [x] Stop compact sort/filter buttons from widening narrow grouped results-table columns (2026-03-08)
+  - Changed the compact header-control layout in assets/css/main.css from a width-consuming flex row to a positioned overlay with reserved right padding.
+  - This prevents narrow numeric headers like Count, %, and +/- from being widened by button chrome rather than by actual content.
+  - Verification: node --check js/election-controller.js; node --check js/ui-controller.js.
+
+## Recurring results-table width bug
+- Status: in progress
+- Symptom: grouped By Candidate / By Local Party tables still render visibly wrong column widths after multiple width-model changes.
+- Current evidence (2026-03-08): fixed-layout grouped tables still retain width: max-content / min-width: max-content on the table element itself in assets/css/main.css, while autosizing only targets leaf columns. This means the browser still performs intrinsic table sizing against the full grouped grid.
+- Prevention action: do not mark grouped-width fixes complete again until the actual rendered table-width path is verified against live DOM/computed CSS, not just source reasoning.
+
+
+- 2026-03-08 update: rendered DOM inspection in headless Chrome showed the grouped results-table autosizer was measuring wrapper boxes instead of intrinsic content. Evidence: Local Government Districts 2023 By Local Party first-row Candidates -> No. cell had text '6' but the measured inner wrapper width was ~127px because .election-cell-wrap and .election-th-controls--compact were being measured. Permanent action: autosizer now measures actual text/button content instead of getBoundingClientRect() on stretched wrappers.
+
+
+- [ ] Add 13 Northern Ireland legislation PDFs to Books catalogue and rewrite local files (2026-03-10)
+  - Retitle the 13 top-level PDFs with succinct stable names.
+  - Remove Google digitisation/front-matter pages from each PDF.
+  - Add all 13 as local legislation books in data/database/books.json.
+  - Verify the rewritten PDFs open and the catalogue entries point to the new local paths.
+
+- [x] Add 13 Northern Ireland legislation PDFs to Books catalogue and rewrite local files (2026-03-10)
+  - Added 13 new legislation book entries to data/database/books.json pointing at local PDF paths under data/books/legislation/.
+  - Rewrote all 13 PDFs with concise stable filenames and removed the Google/front-matter pages before the real title page.
+  - Removed the old top-level PDF copies after the cleaned local versions were created.
+  - Verification: top-level *.pdf now empty; data/books/legislation contains 13 PDFs; pypdf confirmed each cleaned PDF opens and starts on the substantive title page; ooks.json contains 13 new 
+i-acts-* / 
+i-sro-* entries.
+
+- [x] Add Markdown transcriptions for all catalogue books (2026-03-10)
+  - Downloaded the 4 remaining remote-source PDFs into data/books/boundary-reports/ so all 17 books now have local PDF assets.
+  - Generated 17 Markdown transcriptions under data/books/markdown/ with the warning that they may contain inaccuracies and errors.
+  - Updated data/database/books.json so every book now has a local ile, markdownFile, and 	ranscriptionNotice field.
+  - Updated js/ui-controller.js and ssets/css/main.css so book cards show a Markdown button and the warning text.
+  - Verification: 17 books in metadata; 17 local PDFs; 17 local Markdown files; no missing asset paths; 
+ode --check js/ui-controller.js passed.
+- [x] Add pane-local book viewer for PDF/Markdown assets (2026-03-10)
+  - Added a dedicated catalogue book viewer state in js/ui-controller.js that renders inside catalogueFlatView instead of using the generic detail layout.
+  - Made book View/Markdown buttons open a full-height viewer below the search row, with PDF iframe viewing, Markdown text viewing, and toolbar actions for opening/downloading PDF and Markdown files.
+  - Updated assets/css/main.css so the catalogue list pane and book viewer use the remaining pane height correctly.
+  - Verification: node --check js/ui-controller.js; node --check js/app.js; node --check js/data-service.js.
+
+- [x] Tighten grouped results sticky-column sizing (2026-03-11): Extended fixed-table autosizing to sticky text roles, removed hardcoded 150px sticky presets from the grouped candidate/local-party profiles, and neutralized the generic fixed count-table nth-child width rules that were still widening District/DEA and early grouped columns. Verification: node --check js/election-controller.js; node --check js/ui-controller.js.
+
+- [x] Implement Phase 1 election-slider commit-on-release UX (2026-03-11): Updated js/time-slider-controller.js so election-mode slider drag previews the selected date only, while the actual election load fires once on slider commit (change). Non-election slider behavior was intentionally left unchanged in this phase. Verification: 
+ode --check js/time-slider-controller.js; 
+ode --check js/election-controller.js.
+
+# Browser Automation Setup (2026-03-11)
+
+- [x] Installed local Playwright and Chromium for automated browser checks
+- [x] Added [0mplaywright.config.js[0m with automatic local static-server startup/reuse
+- [x] Added [0mtests/browser/smoke.spec.js[0m to verify the site shell loads in a controlled browser
+- [x] Added [0mpackage.json[0m script [0mtest:browser[0m
+- [x] Verified the harness with [0mnpm run test:browser[0m (1 passed)
+
+
+## Placeholder timeline slider fix - 2026-03-11
+- Symptom: moving the non-election time slider to a placeholder-only date hid the slider entirely.
+- Root cause: updateForActiveLayers() rebuilt chain context only from loaded real layers, so switching to a placeholder-only date left no loaded layer ids and the slider called hide().
+- Permanent prevention action: preserve timeline chain context and selected timestamp across placeholder-only selections in js/time-slider-controller.js, and keep a browser regression for placeholder dates in 	ests/browser/timeline-placeholder.spec.js.
+- Verification evidence: 
+ode --check js/time-slider-controller.js passed; 
+pm run test:browser -- --grep timeline-placeholder passed.
+
+## Election slider phase 2/3 fix - 2026-03-12
+- Scope: add latest-request-wins protection for election loads and convert election-mode slider handling to a discrete index model.
+- Completed work:
+  - added load request tokens in `js/election-controller.js` so stale election loads are ignored and cancelled in load feedback rather than overwriting newer state
+  - changed election-mode slider in `js/time-slider-controller.js` to use `0..N-1` discrete indices with `step=1`
+  - kept election drag preview on `input` and commit-on-release on `change`
+  - added browser regression `tests/browser/election-slider.spec.js` to prove stale loads cannot win and election slider positions are discrete
+- Verification evidence:
+  - `node --check js/time-slider-controller.js` passed
+  - `node --check js/election-controller.js` passed
+  - `npm run test:browser -- --grep election-slider.spec.js` and targeted placeholder regression passed in the same verification run
+
+- [x] Fix malformed shared map URLs
+  - Root cause: copyMapUrl() generated hashes with spaces around = and a trailing space, so URLSearchParams could not parse layers and shared links fell back to default layers.
+  - Completed: rewrote the share URL generator to use URLSearchParams, added tolerant hash parsing in js/app.js so already-shared malformed links still restore correctly, and added Playwright regression coverage.
+  - Verification: 
+ode --check js\\ui-controller.js; 
+ode --check js\\app.js; 
+pm run test:browser -- --grep "shared hash|copyMapUrl" --workers 1.
+## Completed: Phase 6 non-election timeline swap optimization
+- Symptom: committed non-election date changes could overlap, waste work, and allow stale applies to compete with the newest committed selection.
+- Root cause: pplyDateChange() executed directly per commit with no queued runner / latest-request-wins guard for the non-election path.
+- Permanent prevention action:
+  - added a queued non-election date-change runner with latest-request-wins semantics in js/time-slider-controller.js
+  - batched loads via Promise.all inside one committed apply
+  - ensured onLayersChanged() and final state updates occur once per winning committed swap
+  - added/updated Playwright coverage for commit behavior, placeholder behavior, and stale-load race behavior
+- Verification evidence:
+  - 
+ode --check js/time-slider-controller.js
+  - 
+pm run test:browser -- --grep "timeline-(commit|placeholder|race)" --workers 1 => passed
+  - 
+pm run test:browser -- --workers 1 => 7 passed
+## Completed: Election timeline stays visible during local election -> by-election transitions
+- Symptom: when moving the election slider from the 2019 local elections to the 2018 local by-election (Mid and East Antrim -> 2018-10-18), the election timeline slider disappeared during the load.
+- Root cause: electionController.loadElection() always called clear() up front, and clear() always called 	imeSliderController.clearElectionDates(). That hid the election slider immediately during internal election-to-election navigation, even though the next election load was valid and would later restore it.
+- Permanent prevention action:
+  - added clear({ preserveElectionTimeline }) support in js/election-controller.js
+  - internal election-to-election loads now preserve the election timeline while the next election loads
+  - added Playwright regression coverage for the exact 2019 local -> 2018 local by-election transition
+- Verification evidence:
+  - 
+ode --check js/election-controller.js
+  - 
+pm run test:browser -- --grep "2018 local by-election|timeline-placeholder|election slider is discrete" --workers 1 => passed
+  - 
+pm run test:browser -- --workers 1 => 8 passed

@@ -54,6 +54,8 @@ class ElectionController {
         this._geometryFeaturePromiseCache = new Map();
         this._resultsPayloadCache = new Map();
         this._resultsPayloadPromiseCache = new Map();
+        this._loadRequestSerial = 0;
+        this._activeLoadRequestId = 0;
     }
 
     static LOCAL_GOVERNMENT_BODIES = [
@@ -142,8 +144,12 @@ class ElectionController {
      * Load an election: fetch geography, load results, colour map, show split pane.
      */
     async loadElection(body, date) {
+        const requestId = ++this._loadRequestSerial;
+        this._activeLoadRequestId = requestId;
+        const preserveElectionTimeline = !!this.active;
+
         // Clear any previous
-        this.clear();
+        this.clear({ preserveElectionTimeline });
 
         // Get the election index to find constituencies
         const indexData = await this._loadIndex();
@@ -198,6 +204,12 @@ class ElectionController {
                 currentResultsPromise,
                 previousResultsPromise
             ]);
+            if (requestId !== this._activeLoadRequestId) {
+                if (this.onFinishLoadFeedback && feedback) {
+                    this.onFinishLoadFeedback(feedback, false, loadName, { cancelled: true });
+                }
+                return;
+            }
             this.resultsByConstituency = currentResults || {};
             this.previousResultsByConstituency = previousResults || {};
             this._rebuildElectionLookups();
@@ -232,9 +244,13 @@ class ElectionController {
                 this.onFinishLoadFeedback(feedback, true, loadName);
             }
         } catch (error) {
-            this.clear();
+            if (requestId === this._activeLoadRequestId) {
+                this.clear();
+            }
             if (this.onFinishLoadFeedback && feedback) {
-                this.onFinishLoadFeedback(feedback, false, loadName);
+                this.onFinishLoadFeedback(feedback, false, loadName, {
+                    cancelled: requestId !== this._activeLoadRequestId
+                });
             }
             throw error;
         }
@@ -243,7 +259,8 @@ class ElectionController {
     /**
      * Clear current election state
      */
-    clear() {
+    clear(options = {}) {
+        const preserveElectionTimeline = !!options.preserveElectionTimeline;
         // Unregister from Active Layers
         this._unregisterActiveLayer();
 
@@ -287,7 +304,9 @@ class ElectionController {
         this._restoreSuppressedNonElectionLayers();
         this._restoreLabels();
         this._hideSplitPane();
-        timeSliderController.clearElectionDates();
+        if (!preserveElectionTimeline) {
+            timeSliderController.clearElectionDates();
+        }
         if (this.onStateChange) this.onStateChange();
     }
 
@@ -3389,7 +3408,10 @@ class ElectionController {
             const cls = [extraClass].filter(Boolean).join(' ');
             return `<th${cls ? ` class="${cls}"` : ''} data-leaf-col-idx="${colIdx}"${rowspan > 1 ? ` rowspan="${rowspan}"` : ''}>${label}</th>`;
         };
-        let html = `<div class="election-count-wrapper election-count-wrapper--pane-sticky"><table class="election-count-table election-count-table--grouped election-count-table--candidate-sticky3"><thead>
+        const candidateColGroup = this._resultsColGroup(isLocal
+            ? ['rank', 'name', 'party', 'district', 'dea', 'outcome', 'status-count', 'votes', 'delta-votes', 'pct-main', 'pct-delta-main', 'pct-small', 'pct-delta-small']
+            : ['rank', 'name', 'party', 'constituency', 'outcome', 'status-count', 'votes', 'delta-votes', 'pct-main', 'pct-delta-main', 'pct-small', 'pct-delta-small']);
+        let html = `<div class="election-count-wrapper election-count-wrapper--pane-sticky"><table class="election-count-table election-count-table--grouped election-count-table--candidate-sticky3 election-results-table--fixed${isLocal ? ' election-results-table--local' : ' election-results-table--nonlocal'}">${candidateColGroup}<thead>
             <tr>
                 ${leafHeader('#', 0, '', 3)}
                 ${leafHeader('Name', 1, '', 3)}
@@ -3406,18 +3428,18 @@ class ElectionController {
                     ? `${leafHeader('District', 3, '', 2)}${leafHeader('DEA', 4, '', 2)}`
                     : ''}
                 ${leafHeader('Outcome', isLocal ? 5 : 4, '', 2)}
-                ${leafHeader('Count', isLocal ? 6 : 5, 'election-num election-col-count', 2)}
+                ${leafHeader('Count', isLocal ? 6 : 5, 'election-num election-col-status-count', 2)}
                 <th colspan="2">No.</th>
                 <th colspan="2">%</th>
                 <th colspan="2">%</th>
             </tr>
             <tr>
-                ${this._resultsLeafTh('No.', isLocal ? 7 : 6, 'election-num election-col-compact')}
-                ${this._resultsLeafTh('+/-', isLocal ? 8 : 7, 'election-num election-col-delta')}
-                ${this._resultsLeafTh('%', isLocal ? 9 : 8, 'election-num election-col-pct')}
-                ${this._resultsLeafTh('+/-', isLocal ? 10 : 9, 'election-num election-col-delta')}
-                ${this._resultsLeafTh('%', isLocal ? 11 : 10, 'election-num election-col-pct')}
-                ${this._resultsLeafTh('+/-', isLocal ? 12 : 11, 'election-num election-col-delta')}
+                ${this._resultsLeafTh('No.', isLocal ? 7 : 6, 'election-num election-col-votes')}
+                ${this._resultsLeafTh('+/-', isLocal ? 8 : 7, 'election-num election-col-delta-votes')}
+                ${this._resultsLeafTh('%', isLocal ? 9 : 8, 'election-num election-col-pct-main')}
+                ${this._resultsLeafTh('+/-', isLocal ? 10 : 9, 'election-num election-col-pct-delta-main')}
+                ${this._resultsLeafTh('%', isLocal ? 11 : 10, 'election-num election-col-pct-small')}
+                ${this._resultsLeafTh('+/-', isLocal ? 12 : 11, 'election-num election-col-pct-delta-small')}
             </tr></thead><tbody>`;
         const rankLabel = (idx) => {
             const n = idx + 1;
@@ -3439,16 +3461,16 @@ class ElectionController {
                 <td class="election-rank-col">${rankLabel(idx)}</td>
                 <td><span class="election-party-dot" style="background:${this._esc(row.colour)}"></span>${this._renderElectionEntityLink('candidate', row.personId, row.name, 'election-cell-wrap')}</td>
                 <td>${this._renderElectionEntityLink('party', row.party, row.party, 'election-cell-wrap')}</td>
-                ${isLocal ? `<td>${this._renderElectionConstituencyFeatureLink(this.body, this.date, row.lgd || '�', row.lgd || '�', 'election-cell-wrap', 'council')}</td>` : ''}
+                ${isLocal ? `<td>${this._renderElectionConstituencyFeatureLink(this.body, this.date, row.lgd || '�', row.lgd || '�', 'election-cell-wrap election-cell-wrap--district', 'council')}</td>` : ''}
                 <td>${this._renderElectionConstituencyFeatureLink(this.body, this.date, row.constituency, row.constituency, 'election-cell-wrap', isLocal ? 'dea' : 'constituency')}</td>
                 <td><span class="election-cell-wrap">${row.status === 'Elected' ? '<strong>Elected</strong>' : this._esc(row.status)}</span></td>
-                <td class="election-num election-col-count"><span class="election-cell-wrap">${this._esc(row.countDisplay)}</span></td>
-                <td class="election-num election-cell-strong election-col-compact">${fmt(row.votes)}</td>
-                <td class="election-num election-col-delta">${this._fmtMaybeDelta(votesDelta)}</td>
-                <td class="election-num election-col-pct">${row.constPct.toFixed(2)}%</td>
-                <td class="election-num election-col-delta">${this._fmtMaybePctDeltaOrNA(constPctDelta)}</td>
-                <td class="election-num election-col-pct">${niPct.toFixed(2)}%</td>
-                <td class="election-num election-col-delta">${this._fmtMaybePctDeltaOrNA(niPctDelta)}</td>
+                <td class="election-num election-col-status-count"><span class="election-cell-wrap">${this._esc(row.countDisplay)}</span></td>
+                <td class="election-num election-cell-strong election-col-votes">${fmt(row.votes)}</td>
+                <td class="election-num election-col-delta-votes">${this._fmtMaybeDelta(votesDelta)}</td>
+                <td class="election-num election-col-pct-main">${row.constPct.toFixed(2)}%</td>
+                <td class="election-num election-col-pct-delta-main">${this._fmtMaybePctDeltaOrNA(constPctDelta)}</td>
+                <td class="election-num election-col-pct-small">${niPct.toFixed(2)}%</td>
+                <td class="election-num election-col-pct-delta-small">${this._fmtMaybePctDeltaOrNA(niPctDelta)}</td>
             </tr>`;
         });
         html += `</tbody></table></div>`;
@@ -3586,7 +3608,10 @@ class ElectionController {
 
         rows.sort((a, b) => b.votes - a.votes);
         const fmt = (n) => Math.round(n).toLocaleString('en-GB');
-        let html = `<div class="election-count-wrapper election-count-wrapper--pane-sticky"><table class="election-count-table election-count-table--grouped${isLocal ? ' election-count-table--local-party-sticky4' : ' election-count-table--nonlocal-local-party-sticky3'}"><thead>
+        const localPartyColGroup = this._resultsColGroup(isLocal
+            ? ['rank', 'party', 'district', 'dea', 'int', 'delta-small', 'int', 'delta-small', 'pct-main', 'pct-delta-main', 'votes', 'delta-votes', 'pct-main', 'pct-delta-main', 'pct-small', 'pct-delta-small']
+            : ['rank', 'party', 'constituency', 'int', 'delta-small', 'int', 'delta-small', 'pct-main', 'pct-delta-main', 'votes', 'delta-votes', 'pct-main', 'pct-delta-main', 'pct-small', 'pct-delta-small']);
+        let html = `<div class="election-count-wrapper election-count-wrapper--pane-sticky"><table class="election-count-table election-count-table--grouped${isLocal ? ' election-count-table--local-party-sticky4 election-results-table--local' : ' election-count-table--nonlocal-local-party-sticky3 election-results-table--nonlocal'} election-results-table--fixed">${localPartyColGroup}<thead>
             <tr>
                 <th rowspan="2" data-leaf-col-idx="0">#</th>
                 <th rowspan="2" data-leaf-col-idx="1">Party</th>
@@ -3599,18 +3624,18 @@ class ElectionController {
             <tr>
                 ${isLocal ? this._resultsLeafTh('District', 2) : ''}
                 ${isLocal ? this._resultsLeafTh('DEA', 3) : ''}
-                ${this._resultsLeafTh('No.', isLocal ? 4 : 3, 'election-num election-col-compact')}
-                ${this._resultsLeafTh('+/-', isLocal ? 5 : 4, 'election-num election-col-delta')}
-                ${this._resultsLeafTh('No.', isLocal ? 6 : 5, 'election-num election-col-compact')}
-                ${this._resultsLeafTh('+/-', isLocal ? 7 : 6, 'election-num election-col-delta')}
-                ${this._resultsLeafTh('%', isLocal ? 8 : 7, 'election-num election-col-pct')}
-                ${this._resultsLeafTh('+/-', isLocal ? 9 : 8, 'election-num election-col-delta')}
-                ${this._resultsLeafTh('No.', isLocal ? 10 : 9, 'election-num election-col-compact')}
-                ${this._resultsLeafTh('+/-', isLocal ? 11 : 10, 'election-num election-col-delta')}
-                ${this._resultsLeafTh('%', isLocal ? 12 : 11, 'election-num election-col-pct')}
-                ${this._resultsLeafTh('+/-', isLocal ? 13 : 12, 'election-num election-col-delta')}
-                ${this._resultsLeafTh('%', isLocal ? 14 : 13, 'election-num election-col-pct')}
-                ${this._resultsLeafTh('+/-', isLocal ? 15 : 14, 'election-num election-col-delta')}
+                ${this._resultsLeafTh('No.', isLocal ? 4 : 3, 'election-num election-col-int')}
+                ${this._resultsLeafTh('+/-', isLocal ? 5 : 4, 'election-num election-col-delta-small')}
+                ${this._resultsLeafTh('No.', isLocal ? 6 : 5, 'election-num election-col-int')}
+                ${this._resultsLeafTh('+/-', isLocal ? 7 : 6, 'election-num election-col-delta-small')}
+                ${this._resultsLeafTh('%', isLocal ? 8 : 7, 'election-num election-col-pct-main')}
+                ${this._resultsLeafTh('+/-', isLocal ? 9 : 8, 'election-num election-col-pct-delta-main')}
+                ${this._resultsLeafTh('No.', isLocal ? 10 : 9, 'election-num election-col-votes')}
+                ${this._resultsLeafTh('+/-', isLocal ? 11 : 10, 'election-num election-col-delta-votes')}
+                ${this._resultsLeafTh('%', isLocal ? 12 : 11, 'election-num election-col-pct-main')}
+                ${this._resultsLeafTh('+/-', isLocal ? 13 : 12, 'election-num election-col-pct-delta-main')}
+                ${this._resultsLeafTh('%', isLocal ? 14 : 13, 'election-num election-col-pct-small')}
+                ${this._resultsLeafTh('+/-', isLocal ? 15 : 14, 'election-num election-col-pct-delta-small')}
             </tr></thead><tbody>`;
         const rankLabel = (idx) => {
             const n = idx + 1;
@@ -3632,20 +3657,20 @@ class ElectionController {
             html += `<tr>
                 <td class="election-rank-col">${rankLabel(idx)}</td>
                 <td><span class="election-party-dot" style="background:${this._esc(row.colour)}"></span>${this._renderElectionEntityLink('party', row.party, row.party, 'election-cell-wrap')}</td>
-                ${isLocal ? `<td>${this._renderElectionConstituencyFeatureLink(this.body, this.date, row.lgd || '�', row.lgd || '�', 'election-cell-wrap', 'council')}</td>` : ''}
+                ${isLocal ? `<td>${this._renderElectionConstituencyFeatureLink(this.body, this.date, row.lgd || '�', row.lgd || '�', 'election-cell-wrap election-cell-wrap--district', 'council')}</td>` : ''}
                 <td>${this._renderElectionConstituencyFeatureLink(this.body, this.date, row.constituency, row.constituency, 'election-cell-wrap', isLocal ? 'dea' : 'constituency')}</td>
-                <td class="election-num election-col-compact"><span class="election-cell-wrap">${row.stood}</span></td>
-                <td class="election-num election-col-delta">${this._fmtMaybeDelta(prev ? (row.stood - prev.stood) : null)}</td>
-                <td class="election-num election-col-compact"><span class="election-cell-wrap"><strong>${row.elected}</strong></span></td>
-                <td class="election-num election-col-delta">${this._fmtMaybeDelta(prev ? (row.elected - prev.elected) : null)}</td>
-                <td class="election-num election-col-pct">${row.seatPct.toFixed(2)}%</td>
-                <td class="election-num election-col-delta">${this._fmtMaybePctDeltaOrNA(seatPctDelta)}</td>
-                <td class="election-num election-cell-strong election-col-compact">${fmt(row.votes)}</td>
-                <td class="election-num election-col-delta">${this._fmtMaybeDelta(votesDelta)}</td>
-                <td class="election-num election-col-pct">${row.constPct.toFixed(2)}%</td>
-                <td class="election-num election-col-delta">${this._fmtMaybePctDeltaOrNA(constPctDelta)}</td>
-                <td class="election-num election-col-pct">${niPct.toFixed(2)}%</td>
-                <td class="election-num election-col-delta">${this._fmtMaybePctDeltaOrNA(niPctDelta)}</td>
+                <td class="election-num election-col-int"><span class="election-cell-wrap">${row.stood}</span></td>
+                <td class="election-num election-col-delta-small">${this._fmtMaybeDelta(prev ? (row.stood - prev.stood) : null)}</td>
+                <td class="election-num election-col-int"><span class="election-cell-wrap"><strong>${row.elected}</strong></span></td>
+                <td class="election-num election-col-delta-small">${this._fmtMaybeDelta(prev ? (row.elected - prev.elected) : null)}</td>
+                <td class="election-num election-col-pct-main">${row.seatPct.toFixed(2)}%</td>
+                <td class="election-num election-col-pct-delta-main">${this._fmtMaybePctDeltaOrNA(seatPctDelta)}</td>
+                <td class="election-num election-cell-strong election-col-votes">${fmt(row.votes)}</td>
+                <td class="election-num election-col-delta-votes">${this._fmtMaybeDelta(votesDelta)}</td>
+                <td class="election-num election-col-pct-main">${row.constPct.toFixed(2)}%</td>
+                <td class="election-num election-col-pct-delta-main">${this._fmtMaybePctDeltaOrNA(constPctDelta)}</td>
+                <td class="election-num election-col-pct-small">${niPct.toFixed(2)}%</td>
+                <td class="election-num election-col-pct-delta-small">${this._fmtMaybePctDeltaOrNA(niPctDelta)}</td>
             </tr>`;
         });
         html += `</tbody></table></div>`;
@@ -4182,16 +4207,17 @@ class ElectionController {
                     <td>${this._renderElectionEntityLink('party', candidate.party, candidate.party, 'election-cell-wrap')}</td>
                     <td>${this._renderElectionConstituencyFeatureLink(this.body, this.date, candidate.constituency, candidate.constituency, 'election-cell-wrap', 'dea')}</td>
                     <td><span class="election-cell-wrap">${candidate.status === 'Elected' ? '<strong>Elected</strong>' : this._esc(candidate.status)}</span></td>
-                    <td class="center"><span class="election-cell-wrap">${this._esc(countDisplay)}</span></td>
-                    <td class="election-num election-cell-strong">${fmt(candidate.firstPrefs)}</td>
-                    <td class="election-num">${this._fmtMaybeDeltaOrNA(votesDelta)}</td>
-                    <td class="election-num">${constPct.toFixed(2)}%</td>
-                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(constPctDelta)}</td>
-                    <td class="election-num">${districtPct.toFixed(2)}%</td>
-                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(districtPctDelta)}</td>
+                    <td class="election-num election-col-status-count"><span class="election-cell-wrap">${this._esc(countDisplay)}</span></td>
+                    <td class="election-num election-cell-strong election-col-votes">${fmt(candidate.firstPrefs)}</td>
+                    <td class="election-num election-col-delta-votes">${this._fmtMaybeDeltaOrNA(votesDelta)}</td>
+                    <td class="election-num election-col-pct-main">${constPct.toFixed(2)}%</td>
+                    <td class="election-num election-col-pct-delta-main">${this._fmtMaybePctDeltaOrNA(constPctDelta)}</td>
+                    <td class="election-num election-col-pct-small">${districtPct.toFixed(2)}%</td>
+                    <td class="election-num election-col-pct-delta-small">${this._fmtMaybePctDeltaOrNA(districtPctDelta)}</td>
                 </tr>`;
             }).join('');
-            container.innerHTML = `<div class="election-party-wrapper"><table class="election-party-table election-party-table--grouped election-party-table--candidate-sticky3"><thead>
+            const districtCandidateColGroup = this._resultsColGroup(['rank', 'name', 'party', 'dea', 'outcome', 'status-count', 'votes', 'delta-votes', 'pct-main', 'pct-delta-main', 'pct-small', 'pct-delta-small']);
+            container.innerHTML = `<div class="election-party-wrapper"><table class="election-party-table election-party-table--grouped election-party-table--candidate-sticky3 election-results-table--fixed election-results-table--district">${districtCandidateColGroup}<thead>
                 <tr>
                     ${leafHeader('#', 0, '', 3)}
                     ${leafHeader('Name', 1, '', 3)}
@@ -4203,18 +4229,18 @@ class ElectionController {
                 </tr>
                 <tr>
                     ${leafHeader('Outcome', 4, '', 2)}
-                    ${leafHeader('Count', 5, '', 2)}
+                    ${leafHeader('Count', 5, 'election-num election-col-status-count', 2)}
                     <th colspan="2">No.</th>
                     <th colspan="2">%</th>
                     <th colspan="2">%</th>
                 </tr>
                 <tr>
-                    ${this._resultsLeafTh('No.', 6, 'election-num')}
-                    ${this._resultsLeafTh('+/-', 7, 'election-num')}
-                    ${this._resultsLeafTh('%', 8, 'election-num')}
-                    ${this._resultsLeafTh('+/-', 9, 'election-num')}
-                    ${this._resultsLeafTh('%', 10, 'election-num')}
-                    ${this._resultsLeafTh('+/-', 11, 'election-num')}
+                    ${this._resultsLeafTh('No.', 6, 'election-num election-col-votes')}
+                    ${this._resultsLeafTh('+/-', 7, 'election-num election-col-delta-votes')}
+                    ${this._resultsLeafTh('%', 8, 'election-num election-col-pct-main')}
+                    ${this._resultsLeafTh('+/-', 9, 'election-num election-col-pct-delta-main')}
+                    ${this._resultsLeafTh('%', 10, 'election-num election-col-pct-small')}
+                    ${this._resultsLeafTh('+/-', 11, 'election-num election-col-pct-delta-small')}
                 </tr>
             </thead><tbody>${rows}</tbody></table></div>`;
         } else if (tabId === 'local-party') {
@@ -4246,21 +4272,22 @@ class ElectionController {
                     <td class="election-colour-col"><span class="election-party-dot" style="background:${this._esc(row.colour)}"></span></td>
                     <td>${this._renderElectionEntityLink('party', row.party, row.party, 'election-cell-wrap')}</td>
                     <td>${this._renderElectionConstituencyFeatureLink(this.body, this.date, row.constituency, row.constituency, 'election-cell-wrap', 'dea')}</td>
-                    <td class="election-num">${fmt(row.stood)}</td>
-                    <td class="election-num">${this._fmtMaybeDeltaOrNA(stoodDelta)}</td>
-                    <td class="election-num election-cell-strong">${fmt(row.elected)}</td>
-                    <td class="election-num">${this._fmtMaybeDeltaOrNA(electedDelta)}</td>
-                    <td class="election-num">${seatPct.toFixed(2)}%</td>
-                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(seatPctDelta)}</td>
-                    <td class="election-num">${fmt(row.firstPrefs)}</td>
-                    <td class="election-num">${this._fmtMaybeDeltaOrNA(votesDelta)}</td>
-                    <td class="election-num">${votePct.toFixed(2)}%</td>
-                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(votePctDelta)}</td>
-                    <td class="election-num">${districtPct.toFixed(2)}%</td>
-                    <td class="election-num">${this._fmtMaybePctDeltaOrNA(districtPctDelta)}</td>
+                    <td class="election-num election-col-int">${fmt(row.stood)}</td>
+                    <td class="election-num election-col-delta-small">${this._fmtMaybeDeltaOrNA(stoodDelta)}</td>
+                    <td class="election-num election-cell-strong election-col-int">${fmt(row.elected)}</td>
+                    <td class="election-num election-col-delta-small">${this._fmtMaybeDeltaOrNA(electedDelta)}</td>
+                    <td class="election-num election-col-pct-main">${seatPct.toFixed(2)}%</td>
+                    <td class="election-num election-col-pct-delta-main">${this._fmtMaybePctDeltaOrNA(seatPctDelta)}</td>
+                    <td class="election-num election-col-votes">${fmt(row.firstPrefs)}</td>
+                    <td class="election-num election-col-delta-votes">${this._fmtMaybeDeltaOrNA(votesDelta)}</td>
+                    <td class="election-num election-col-pct-main">${votePct.toFixed(2)}%</td>
+                    <td class="election-num election-col-pct-delta-main">${this._fmtMaybePctDeltaOrNA(votePctDelta)}</td>
+                    <td class="election-num election-col-pct-small">${districtPct.toFixed(2)}%</td>
+                    <td class="election-num election-col-pct-delta-small">${this._fmtMaybePctDeltaOrNA(districtPctDelta)}</td>
                 </tr>`;
             }).join('');
-            container.innerHTML = `<div class="election-party-wrapper"><table class="election-party-table election-party-table--grouped election-party-table--district-sticky3 election-party-table--district-local-party-sticky4"><thead>
+            const districtLocalPartyColGroup = this._resultsColGroup(['rank', 'dot', 'party', 'dea', 'int', 'delta-small', 'int', 'delta-small', 'pct-main', 'pct-delta-main', 'votes', 'delta-votes', 'pct-main', 'pct-delta-main', 'pct-small', 'pct-delta-small']);
+            container.innerHTML = `<div class="election-party-wrapper"><table class="election-party-table election-party-table--grouped election-party-table--district-sticky3 election-party-table--district-local-party-sticky4 election-results-table--fixed election-results-table--district">${districtLocalPartyColGroup}<thead>
                 <tr>
                     <th rowspan="2" data-leaf-col-idx="0">#</th>
                     <th rowspan="2" colspan="2" data-leaf-col-idx="1">Party</th>
@@ -4271,18 +4298,18 @@ class ElectionController {
                     <th colspan="2">% of District</th>
                 </tr>
                 <tr>
-                    ${this._resultsLeafTh('No.', 4, 'election-num')}
-                    ${this._resultsLeafTh('+/-', 5, 'election-num')}
-                    ${this._resultsLeafTh('No.', 6, 'election-num')}
-                    ${this._resultsLeafTh('+/-', 7, 'election-num')}
-                    ${this._resultsLeafTh('%', 8, 'election-num')}
-                    ${this._resultsLeafTh('+/-', 9, 'election-num')}
-                    ${this._resultsLeafTh('No.', 10, 'election-num')}
-                    ${this._resultsLeafTh('+/-', 11, 'election-num')}
-                    ${this._resultsLeafTh('%', 12, 'election-num')}
-                    ${this._resultsLeafTh('+/-', 13, 'election-num')}
-                    ${this._resultsLeafTh('%', 14, 'election-num')}
-                    ${this._resultsLeafTh('+/-', 15, 'election-num')}
+                    ${this._resultsLeafTh('No.', 4, 'election-num election-col-int')}
+                    ${this._resultsLeafTh('+/-', 5, 'election-num election-col-delta-small')}
+                    ${this._resultsLeafTh('No.', 6, 'election-num election-col-int')}
+                    ${this._resultsLeafTh('+/-', 7, 'election-num election-col-delta-small')}
+                    ${this._resultsLeafTh('%', 8, 'election-num election-col-pct-main')}
+                    ${this._resultsLeafTh('+/-', 9, 'election-num election-col-pct-delta-main')}
+                    ${this._resultsLeafTh('No.', 10, 'election-num election-col-votes')}
+                    ${this._resultsLeafTh('+/-', 11, 'election-num election-col-delta-votes')}
+                    ${this._resultsLeafTh('%', 12, 'election-num election-col-pct-main')}
+                    ${this._resultsLeafTh('+/-', 13, 'election-num election-col-pct-delta-main')}
+                    ${this._resultsLeafTh('%', 14, 'election-num election-col-pct-small')}
+                    ${this._resultsLeafTh('+/-', 15, 'election-num election-col-pct-delta-small')}
                 </tr>
             </thead><tbody>${rows}</tbody></table></div>`;
         } else {
@@ -5130,9 +5157,18 @@ class ElectionController {
             const wrap = document.createElement('div');
             wrap.className = 'election-th-controls';
             if (th.classList.contains('election-col-compact')
+                || th.classList.contains('election-col-int')
                 || th.classList.contains('election-col-delta')
+                || th.classList.contains('election-col-delta-small')
+                || th.classList.contains('election-col-delta-votes')
                 || th.classList.contains('election-col-pct')
-                || th.classList.contains('election-col-count')) {
+                || th.classList.contains('election-col-pct-main')
+                || th.classList.contains('election-col-pct-small')
+                || th.classList.contains('election-col-pct-delta-main')
+                || th.classList.contains('election-col-pct-delta-small')
+                || th.classList.contains('election-col-count')
+                || th.classList.contains('election-col-status-count')
+                || th.classList.contains('election-col-votes')) {
                 wrap.classList.add('election-th-controls--compact');
             }
             const labelSpan = document.createElement('span');
@@ -5164,6 +5200,7 @@ class ElectionController {
         });
 
         applyState();
+        window.requestAnimationFrame(() => this._autosizeFixedResultsTable(table));
     }
 
     _buildCountTable(constName, payload) {
@@ -6025,6 +6062,246 @@ class ElectionController {
         return `<th${cls ? ` class="${cls}"` : ''} data-leaf-col-idx="${colIdx}">${label}</th>`;
     }
 
+    _resultsColGroup(roles = []) {
+        return `<colgroup>${(roles || []).map((role) =>
+            `<col class="election-col-track election-col-track--${String(role || '').trim()}">`
+        ).join('')}</colgroup>`;
+    }
+
+    _isAutoSizedFixedResultsRole(role = '') {
+        return [
+            'name',
+            'party',
+            'constituency',
+            'district',
+            'dea',
+            'outcome',
+            'status-count',
+            'int',
+            'delta-small',
+            'votes',
+            'delta-votes',
+            'pct-main',
+            'pct-delta-main',
+            'pct-small',
+            'pct-delta-small'
+        ].includes(String(role || '').trim());
+    }
+
+    _isWrappedFixedResultsRole(role = '') {
+        return [
+            'name',
+            'party',
+            'constituency',
+            'district',
+            'dea',
+            'outcome'
+        ].includes(String(role || '').trim());
+    }
+
+    _measureFixedResultsTextWidth(text, sourceEl, canvasCtx) {
+        const sample = String(text || '').replace(/\s+/g, ' ').trim();
+        if (!sample || !sourceEl || !canvasCtx || !window.getComputedStyle) return 0;
+        const style = window.getComputedStyle(sourceEl);
+        canvasCtx.font = style.font || [
+            style.fontStyle,
+            style.fontVariant,
+            style.fontWeight,
+            style.fontStretch,
+            style.fontSize,
+            '/',
+            style.lineHeight,
+            style.fontFamily
+        ].filter(Boolean).join(' ');
+        return Math.ceil(canvasCtx.measureText(sample).width);
+    }
+
+    _measureWrappedFixedResultsWidth(text, sourceEl, maxLines = 2) {
+        const sample = String(text || '').replace(/\s+/g, ' ').trim();
+        if (!sample || !sourceEl || !window.getComputedStyle || !document?.body) return 0;
+
+        const probeCanvas = document.createElement('canvas');
+        const probeCtx = probeCanvas.getContext('2d');
+        if (!probeCtx) return 0;
+
+        const style = window.getComputedStyle(sourceEl);
+        const fontSize = parseFloat(style.fontSize || '') || 16;
+        const lineHeight = parseFloat(style.lineHeight || '') || Math.ceil(fontSize * 1.2);
+        const singleLineWidth = Math.max(1, this._measureFixedResultsTextWidth(sample, sourceEl, probeCtx));
+
+        const probe = document.createElement('span');
+        probe.textContent = sample;
+        probe.style.position = 'absolute';
+        probe.style.visibility = 'hidden';
+        probe.style.left = '-99999px';
+        probe.style.top = '0';
+        probe.style.display = 'block';
+        probe.style.whiteSpace = 'normal';
+        probe.style.wordBreak = style.wordBreak || 'normal';
+        probe.style.overflowWrap = style.overflowWrap || 'normal';
+        probe.style.hyphens = style.hyphens || 'auto';
+        probe.style.font = style.font || [
+            style.fontStyle,
+            style.fontVariant,
+            style.fontWeight,
+            style.fontStretch,
+            style.fontSize,
+            '/',
+            style.lineHeight,
+            style.fontFamily
+        ].filter(Boolean).join(' ');
+        probe.style.lineHeight = style.lineHeight || '';
+        document.body.appendChild(probe);
+
+        try {
+            let low = Math.max(48, Math.ceil(singleLineWidth / maxLines));
+            let high = Math.max(low, singleLineWidth);
+            let best = high;
+            const maxHeight = Math.ceil(lineHeight * maxLines) + 1;
+
+            while (low <= high) {
+                const mid = Math.floor((low + high) / 2);
+                probe.style.width = `${mid}px`;
+                const height = Math.ceil(probe.getBoundingClientRect().height);
+                if (height <= maxHeight) {
+                    best = mid;
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            }
+
+            return Math.ceil(best);
+        } finally {
+            probe.remove();
+        }
+    }
+
+    _autosizeFixedResultsTable(table) {
+        if (!table || !table.classList.contains('election-results-table--fixed')) return;
+
+        const cols = [...table.querySelectorAll('colgroup col')];
+        if (!cols.length) return;
+
+        const rows = [...table.querySelectorAll('tbody tr')];
+        const leafHeaders = [...table.querySelectorAll('thead th[data-leaf-col-idx]')];
+        const leafHeaderByIdx = new Map();
+        leafHeaders.forEach((th) => {
+            const idx = Number(th.dataset.leafColIdx);
+            if (Number.isFinite(idx)) leafHeaderByIdx.set(idx, th);
+        });
+        const canvas = document.createElement('canvas');
+        const canvasCtx = canvas.getContext('2d');
+        if (!canvasCtx) return;
+
+        cols.forEach((col, colIdx) => {
+            const roleMatch = String(col.className || '').match(/election-col-track--([a-z-]+)/);
+            const role = roleMatch ? roleMatch[1] : '';
+            if (!this._isAutoSizedFixedResultsRole(role)) return;
+            const computedColWidth = window.getComputedStyle ? (parseFloat(window.getComputedStyle(col).width || '') || 0) : 0;
+
+            const header = leafHeaderByIdx.get(colIdx) || null;
+            let maxWidth = 0;
+            if (header) {
+                const labelEl = header.querySelector('.election-th-label') || header;
+                const buttonEl = header.querySelector('.election-th-btn');
+                const headerStyle = window.getComputedStyle ? window.getComputedStyle(header) : null;
+                const labelWidth = this._measureFixedResultsTextWidth(labelEl.textContent || '', labelEl, canvasCtx);
+                const buttonWidth = buttonEl ? Math.ceil(buttonEl.getBoundingClientRect().width || 0) : 0;
+                const gapWidth = buttonEl ? 6 : 0;
+                const horizontalPadding = headerStyle
+                    ? Math.ceil((parseFloat(headerStyle.paddingLeft) || 0) + (parseFloat(headerStyle.paddingRight) || 0))
+                    : 0;
+                maxWidth = labelWidth + buttonWidth + gapWidth + horizontalPadding;
+            }
+
+            rows.forEach((row) => {
+                const cell = row.children[colIdx];
+                if (!cell) return;
+                const cellStyle = window.getComputedStyle ? window.getComputedStyle(cell) : null;
+                const cellContent = cell.firstElementChild || cell;
+                const contentWidth = role === 'district'
+                    ? this._measureWrappedFixedResultsWidth(cell.textContent || '', cellContent, 2)
+                    : this._measureFixedResultsTextWidth(cell.textContent || '', cellContent, canvasCtx);
+                const horizontalPadding = cellStyle
+                    ? Math.ceil((parseFloat(cellStyle.paddingLeft) || 0) + (parseFloat(cellStyle.paddingRight) || 0))
+                    : 0;
+                const measuredWidth = contentWidth + horizontalPadding;
+                if (!measuredWidth) return;
+                maxWidth = Math.max(maxWidth, measuredWidth + 8);
+            });
+
+            if (role === 'district') {
+                maxWidth = Math.max(maxWidth, computedColWidth || 0);
+            } else if (this._isWrappedFixedResultsRole(role) && computedColWidth > 0) {
+                maxWidth = Math.min(maxWidth || computedColWidth, computedColWidth);
+            }
+
+            const finalWidth = `${Math.ceil(maxWidth)}px`;
+            col.style.width = finalWidth;
+            col.style.minWidth = finalWidth;
+            col.style.maxWidth = finalWidth;
+
+            const headerCell = leafHeaderByIdx.get(colIdx);
+            if (headerCell) {
+                headerCell.style.width = finalWidth;
+                headerCell.style.minWidth = finalWidth;
+                headerCell.style.maxWidth = finalWidth;
+            }
+
+            rows.forEach((row) => {
+                const cell = row.children[colIdx];
+                if (!cell) return;
+                cell.style.width = finalWidth;
+                cell.style.minWidth = finalWidth;
+                cell.style.maxWidth = finalWidth;
+            });
+        });
+
+        const computedStyles = window.getComputedStyle ? cols.map((col) => window.getComputedStyle(col)) : [];
+        const resolvedWidths = cols.map((col, idx) =>
+            Math.ceil(Math.max(
+                parseFloat(col.style.width) || 0,
+                parseFloat(computedStyles[idx]?.width || '') || 0,
+                col.getBoundingClientRect().width || 0
+            ))
+        );
+        const totalWidth = resolvedWidths.reduce((sum, width) => sum + width, 0);
+        if (table.classList.contains('election-count-table--local-party-sticky4')) {
+            table.style.setProperty('--results-sticky-col-1-width', `${resolvedWidths[0] || 0}px`);
+            table.style.setProperty('--results-sticky-local-party-width', `${resolvedWidths[1] || 0}px`);
+            table.style.setProperty('--results-sticky-local-district-width', `${resolvedWidths[2] || 0}px`);
+            table.style.setProperty('--results-sticky-local-dea-width', `${resolvedWidths[3] || 0}px`);
+        }
+        if (table.classList.contains('election-count-table--nonlocal-local-party-sticky3')) {
+            table.style.setProperty('--results-sticky-col-1-width', `${resolvedWidths[0] || 0}px`);
+            table.style.setProperty('--results-sticky-nonlocal-party-width', `${resolvedWidths[1] || 0}px`);
+            table.style.setProperty('--results-sticky-nonlocal-constituency-width', `${resolvedWidths[2] || 0}px`);
+        }
+        if (table.classList.contains('election-count-table--candidate-sticky3')) {
+            table.style.setProperty('--results-sticky-col-1-width', `${resolvedWidths[0] || 0}px`);
+            table.style.setProperty('--results-sticky-name-width', `${resolvedWidths[1] || 0}px`);
+            table.style.setProperty('--results-sticky-party-width', `${resolvedWidths[2] || 0}px`);
+        }
+        if (table.classList.contains('election-party-table--candidate-sticky3')) {
+            table.style.setProperty('--results-sticky-col-1-width', `${resolvedWidths[0] || 0}px`);
+            table.style.setProperty('--results-sticky-name-width', `${resolvedWidths[1] || 0}px`);
+            table.style.setProperty('--results-sticky-party-width', `${resolvedWidths[2] || 0}px`);
+        }
+        if (table.classList.contains('election-party-table--district-local-party-sticky4')) {
+            table.style.setProperty('--results-sticky-col-1-width', `${resolvedWidths[0] || 0}px`);
+            table.style.setProperty('--results-sticky-col-2-width', `${resolvedWidths[1] || 0}px`);
+            table.style.setProperty('--results-sticky-district-party-name-width', `${resolvedWidths[2] || 0}px`);
+            table.style.setProperty('--results-sticky-district-dea-width', `${resolvedWidths[3] || 0}px`);
+        }
+        if (totalWidth > 0) {
+            const tableWidth = `${totalWidth}px`;
+            table.style.width = tableWidth;
+            table.style.minWidth = tableWidth;
+            table.style.maxWidth = tableWidth;
+        }
+    }
+
     _statusKind(status) {
         const s = String(status || '').toLowerCase();
         if (!s) return 'unknown';
@@ -6283,6 +6560,7 @@ class ElectionController {
 // Export singleton
 const electionController = new ElectionController();
 export default electionController;
+
 
 
 
