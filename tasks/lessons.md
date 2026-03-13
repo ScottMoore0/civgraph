@@ -1421,3 +1421,5 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
 - When fixing results-table text truncation, inspect both the wrapper class and the autosizer cap for that role. If the wrapper still clamps or the autosizer refuses to grow the track past its current computed width, widening the column will not stop ellipsis.
 
 - When catalogue items appear "missing" under search, inspect the search predicate before assuming data failed to load. In this repo, books are rendered through separate catalogue paths, so search matching must include category metadata and generic labels like `book` / `document`, not just title/author/keywords.
+
+- Broader performance rollouts must be existing-asset-only and representative-tested. Do not enable `useLOD` broadly on assumption; first inventory the exact safe set with matching `-lod0/-lod1` files on disk, enable only that set, and verify across representative map families in the browser before calling the rollout safe.

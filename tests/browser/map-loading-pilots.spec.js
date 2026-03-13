@@ -124,3 +124,48 @@ test('oa-2001 uses chunk index, bounded concurrency, and zoom variants', async (
   );
   expect(z10Chunk).toBeTruthy();
 });
+
+test('representative non-chunked maps use LOD sources at low zoom', async ({ page }) => {
+  await page.goto('/');
+
+  const cases = [
+    { mapId: 'lgd-2012', center: [54.7, -6.8], zoom: 6 },
+    { mapId: 'pc-2023', center: [54.7, -6.8], zoom: 6 },
+    { mapId: 'river-basin-districts', center: [53.4, -7.8], zoom: 6 },
+    { mapId: 'dail-2023', center: [53.4, -7.8], zoom: 6 }
+  ];
+
+  for (const testCase of cases) {
+    await resetMapState(page);
+    const loaded = await page.evaluate(async ({ mapId, center, zoom }) => {
+      const app = (await import('/js/app.js')).default;
+      const mapController = (await import('/js/map-controller.js')).default;
+      mapController.map.setView(center, zoom);
+      mapController.clearLoadMetrics();
+      await app.loadMap(mapId);
+
+      const deadline = Date.now() + 15000;
+      while (Date.now() < deadline) {
+        if (app.getLoadedLayerIds().includes(mapId)) break;
+        await new Promise((resolve) => setTimeout(resolve, 50));
+      }
+
+      return {
+        loadedIds: app.getLoadedLayerIds(),
+        metrics: mapController.getLoadMetrics()
+      };
+    }, testCase);
+
+    expect(loaded.loadedIds).toContain(testCase.mapId);
+    const lodSelected = loaded.metrics.find((entry) =>
+      entry.type === 'lod-source-selected' && entry.mapId === testCase.mapId
+    );
+    expect(lodSelected).toBeTruthy();
+    expect(Number(lodSelected.lodLevel)).toBeLessThan(2);
+
+    const vectorLoaded = loaded.metrics.find((entry) =>
+      entry.type === 'vector-layer-loaded' && entry.mapId === testCase.mapId
+    );
+    expect(vectorLoaded).toBeTruthy();
+  }
+});

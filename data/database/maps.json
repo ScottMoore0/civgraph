@@ -74,7 +74,7 @@
     },
     {
       "id": "dail",
-      "name": "D\u00e1il Eireann Constituencies",
+      "name": "Dáil Eireann Constituencies",
       "icon": "[map]",
       "description": "Republic of Ireland parliamentary constituencies",
       "hidden": true,
@@ -231,7 +231,7 @@
           "classIds": [
             "roi-dail"
           ],
-          "name": "D\u00e1il Eireann"
+          "name": "Dáil Eireann"
         },
         {
           "classIds": [
@@ -528,7 +528,7 @@
     },
     {
       "id": "roi-dail",
-      "name": "D\u00e1il Eireann",
+      "name": "Dáil Eireann",
       "scope": "Ireland",
       "category": "parliamentary",
       "hidden": true,
@@ -963,7 +963,7 @@
               ]
             },
             {
-              "header": "D\u00e1il Eireann",
+              "header": "Dáil Eireann",
               "items": [
                 {
                   "mapId": "dail-2023",
@@ -1264,7 +1264,8 @@
         "east",
         "west",
         "divide"
-      ]
+      ],
+      "useLOD": true
     },
     {
       "id": "west-bann-sperrins",
@@ -1289,7 +1290,8 @@
         "sperrins",
         "mountains",
         "west"
-      ]
+      ],
+      "useLOD": true
     },
     {
       "id": "peacelines",
@@ -1314,7 +1316,8 @@
         "belfast",
         "barrier"
       ],
-      "labelProperty": "PEACELINE"
+      "labelProperty": "PEACELINE",
+      "useLOD": true
     },
     {
       "id": "settlements-2015",
@@ -1340,7 +1343,8 @@
         "cities",
         "2015"
       ],
-      "labelProperty": "Name"
+      "labelProperty": "Name",
+      "useLOD": true
     },
     {
       "id": "settlements-2005",
@@ -1366,7 +1370,8 @@
         "cities",
         "2005"
       ],
-      "labelProperty": "LOCATION"
+      "labelProperty": "LOCATION",
+      "useLOD": true
     },
     {
       "id": "roi-settlements-ungeneralised",
@@ -1424,7 +1429,8 @@
         "settlements",
         "points"
       ],
-      "labelProperty": "Name"
+      "labelProperty": "Name",
+      "useLOD": true
     },
     {
       "id": "uninhabited-highlands",
@@ -1447,7 +1453,8 @@
         "uninhabited",
         "mountains"
       ],
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "highlands-without-settlements",
@@ -1475,7 +1482,8 @@
         "settlements",
         "243m"
       ],
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "rivers-2016",
@@ -1498,7 +1506,8 @@
         "2016"
       ],
       "date": 2016,
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "britain-ireland-seas",
@@ -1523,7 +1532,8 @@
         "maritime",
         "IHO"
       ],
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "ireland-island",
@@ -1549,7 +1559,8 @@
         "outline",
         "coast",
         "coastline"
-      ]
+      ],
+      "useLOD": true
     },
     {
       "id": "copernicus-dem-30m-ireland",
@@ -1624,7 +1635,8 @@
         "watershed",
         "coastal"
       ],
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "river-basin-districts",
@@ -1649,7 +1661,8 @@
         "DAERA"
       ],
       "date": 2016,
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "river-basins",
@@ -1673,7 +1686,8 @@
         "DAERA"
       ],
       "date": 2016,
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "highlands-without-settlements",
@@ -1701,7 +1715,8 @@
         "243m"
       ],
       "date": 2026,
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "highlands-above-199m",
@@ -1729,7 +1744,8 @@
         "199m"
       ],
       "date": 2026,
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "ni-townlands-1844",
@@ -2088,7 +2104,8 @@
         "portadown",
         "2015"
       ],
-      "date": 2015
+      "date": 2015,
+      "useLOD": true
     },
     {
       "id": "wards-2012",
@@ -2117,7 +2134,8 @@
           "isDefault": true,
           "files": {
             "fgb": "data/maps/local-government/Wards_2012.fgb"
-          }
+          },
+          "useLOD": true
         },
         {
           "id": "wards-2012-full",
@@ -2150,7 +2168,8 @@
           "label": "OSNI Largescale Shapefile (ZIP)",
           "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_wards_2012.zip"
         }
-      ]
+      ],
+      "useLOD": true
     },
     {
       "id": "wards-1993",
@@ -2212,7 +2231,8 @@
           "label": "OSNI Largescale Shapefile alt (ZIP)",
           "file": "data/maps/osni-originals/OSNI Largescale_Ward_1993.zip"
         }
-      ]
+      ],
+      "useLOD": true
     },
     {
       "id": "wards-1984",
@@ -2237,7 +2257,8 @@
         "electoral",
         "digitised"
       ],
-      "date": 1984
+      "date": 1984,
+      "useLOD": true
     },
     {
       "id": "wards-1972",
@@ -2262,7 +2283,8 @@
         "electoral",
         "digitised"
       ],
-      "date": 1972
+      "date": 1972,
+      "useLOD": true
     },
     {
       "id": "deas-2012",
@@ -2306,7 +2328,8 @@
           "label": "OSNI Largescale Shapefile (ZIP)",
           "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_district_electoral_areas_2012.zip"
         }
-      ]
+      ],
+      "useLOD": true
     },
     {
       "id": "deas-1993",
@@ -2365,7 +2388,8 @@
           "label": "OSNI 50k Shapefile (ZIP)",
           "file": "data/maps/osni-originals/osni_open_data_50k_boundaries_district_electoral_areas_1993.zip"
         }
-      ]
+      ],
+      "useLOD": true
     },
     {
       "id": "deas-1984",
@@ -2391,7 +2415,8 @@
         "district",
         "digitised"
       ],
-      "date": 1984
+      "date": 1984,
+      "useLOD": true
     },
     {
       "id": "deas-1972",
@@ -2417,7 +2442,8 @@
         "district",
         "digitised"
       ],
-      "date": 1972
+      "date": 1972,
+      "useLOD": true
     },
     {
       "id": "lgd-2012",
@@ -2463,7 +2489,8 @@
           "label": "OSNI Largescale Shapefile (ZIP)",
           "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_local_government_districts_2012.zip"
         }
-      ]
+      ],
+      "useLOD": true
     },
     {
       "id": "lgd-1993",
@@ -2506,7 +2533,8 @@
           "label": "OSNI 50k Shapefile (ZIP)",
           "file": "data/maps/osni-originals/osni_open_data_50k_boundaries_local_government_districts_1993.zip"
         }
-      ]
+      ],
+      "useLOD": true
     },
     {
       "id": "lgd-1984",
@@ -2532,7 +2560,8 @@
         "1984",
         "digitised"
       ],
-      "date": 1984
+      "date": 1984,
+      "useLOD": true
     },
     {
       "id": "lgd-1972",
@@ -2559,7 +2588,8 @@
         "digitised"
       ],
       "defaultOn": false,
-      "date": 1972
+      "date": 1972,
+      "useLOD": true
     },
     {
       "id": "lgd-1966",
@@ -2584,7 +2614,8 @@
         "urban district",
         "1966",
         "pre-reform"
-      ]
+      ],
+      "useLOD": true
     },
     {
       "id": "pc-2023",
@@ -2629,7 +2660,8 @@
           "label": "OSNI Largescale Shapefile (ZIP)",
           "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_parliamentary_constituencies_2023.zip"
         }
-      ]
+      ],
+      "useLOD": true
     },
     {
       "id": "pc-2008",
@@ -2672,7 +2704,8 @@
           "label": "OSNI Largescale Shapefile (ZIP)",
           "file": "data/maps/osni-originals/osni_open_data_largescale_boundaries_parliamentary_constituencies_2008.zip"
         }
-      ]
+      ],
+      "useLOD": true
     },
     {
       "id": "pc-1995",
@@ -2697,7 +2730,8 @@
         "parliament",
         "1995"
       ],
-      "date": 1995
+      "date": 1995,
+      "useLOD": true
     },
     {
       "id": "pc-1982",
@@ -2722,7 +2756,8 @@
         "parliament",
         "1982"
       ],
-      "date": 1982
+      "date": 1982,
+      "useLOD": true
     },
     {
       "id": "pc-1970",
@@ -2748,7 +2783,8 @@
         "1970",
         "1974"
       ],
-      "date": 1970
+      "date": 1970,
+      "useLOD": true
     },
     {
       "id": "pc-1948",
@@ -2773,7 +2809,8 @@
         "parliament",
         "1948"
       ],
-      "date": 1948
+      "date": 1948,
+      "useLOD": true
     },
     {
       "id": "pc-1920",
@@ -2799,7 +2836,8 @@
         "1920",
         "partition"
       ],
-      "date": 1920
+      "date": 1920,
+      "useLOD": true
     },
     {
       "id": "pc-1918",
@@ -2825,7 +2863,8 @@
         "1918",
         "pre-partition"
       ],
-      "date": 1918
+      "date": 1918,
+      "useLOD": true
     },
     {
       "id": "pc-1884",
@@ -2851,7 +2890,8 @@
         "1884",
         "pre-partition"
       ],
-      "date": 1884
+      "date": 1884,
+      "useLOD": true
     },
     {
       "id": "stormont-1969",
@@ -2896,7 +2936,8 @@
         "1929",
         "northern ireland parliament"
       ],
-      "date": 1929
+      "date": 1929,
+      "useLOD": true
     },
     {
       "id": "assembly-areas-2023",
@@ -3092,13 +3133,14 @@
       },
       "labelProperty": "ENG_NAME_VALUE",
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "ireland",
         "constituency",
         "2023"
       ],
-      "date": 2023
+      "date": 2023,
+      "useLOD": true
     },
     {
       "id": "dail-2017",
@@ -3118,13 +3160,14 @@
       },
       "labelProperty": "CON_SEAT_",
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "ireland",
         "constituency",
         "2017"
       ],
-      "date": 2017
+      "date": 2017,
+      "useLOD": true
     },
     {
       "id": "dail-2013",
@@ -3144,13 +3187,14 @@
       },
       "labelProperty": "MAX_CON_NA",
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "ireland",
         "constituency",
         "2013"
       ],
-      "date": 2013
+      "date": 2013,
+      "useLOD": true
     },
     {
       "id": "dail-2009",
@@ -3170,13 +3214,14 @@
       },
       "labelProperty": "CON_NAME",
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "ireland",
         "constituency",
         "2009"
       ],
-      "date": 2009
+      "date": 2009,
+      "useLOD": true
     },
     {
       "id": "provinces",
@@ -3201,7 +3246,8 @@
         "leinster",
         "connacht"
       ],
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "counties-1915",
@@ -3225,7 +3271,8 @@
         "traditional"
       ],
       "date": "1915-04-01",
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "counties-ireland",
@@ -3249,7 +3296,8 @@
         "ireland",
         "all-island"
       ],
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "counties-county-boroughs-1915",
@@ -3274,7 +3322,8 @@
         "county borough",
         "1915",
         "pre-reform"
-      ]
+      ],
+      "useLOD": true
     },
     {
       "id": "dublin-electoral-counties-1985",
@@ -3322,7 +3371,8 @@
         "historic",
         "administrative"
       ],
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "civil-parishes",
@@ -3346,7 +3396,8 @@
         "civil parish",
         "historic"
       ],
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "elb-1993",
@@ -3371,7 +3422,8 @@
         "ELB"
       ],
       "date": 1993,
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "elb-1984",
@@ -3396,7 +3448,8 @@
         "ELB"
       ],
       "date": 1984,
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "hsct-2007",
@@ -3422,7 +3475,8 @@
         "HSCT"
       ],
       "date": 2007,
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "ttwa-2011",
@@ -3447,7 +3501,8 @@
         "commuting",
         "2011"
       ],
-      "date": 2011
+      "date": 2011,
+      "useLOD": true
     },
     {
       "id": "ttwa-2007",
@@ -3472,7 +3527,8 @@
         "commuting",
         "2007"
       ],
-      "date": 2007
+      "date": 2007,
+      "useLOD": true
     },
     {
       "id": "sdz-2021",
@@ -3631,7 +3687,8 @@
         "NRA",
         "neighbourhood renewal",
         "deprivation"
-      ]
+      ],
+      "useLOD": true
     },
     {
       "id": "nuts-3",
@@ -3657,7 +3714,8 @@
         "eurostat",
         "2003"
       ],
-      "date": 2003
+      "date": 2003,
+      "useLOD": true
     },
     {
       "id": "eds-2022",
@@ -3688,7 +3746,8 @@
           "description": "Electoral Divisions in Connacht province",
           "files": {
             "fgb": "data/maps/electoral-divisions/2022_CSO_EDs_Connacht.fgb"
-          }
+          },
+          "useLOD": true
         },
         {
           "id": "eds-leinster-2022",
@@ -3696,7 +3755,8 @@
           "description": "Electoral Divisions in Leinster province",
           "files": {
             "fgb": "data/maps/electoral-divisions/2022_CSO_EDs_Leinster.fgb"
-          }
+          },
+          "useLOD": true
         },
         {
           "id": "eds-munster-2022",
@@ -3704,7 +3764,8 @@
           "description": "Electoral Divisions in Munster province",
           "files": {
             "fgb": "data/maps/electoral-divisions/2022_CSO_EDs_Munster.fgb"
-          }
+          },
+          "useLOD": true
         },
         {
           "id": "eds-ulster-2022",
@@ -3712,7 +3773,8 @@
           "description": "Electoral Divisions in Ulster province",
           "files": {
             "fgb": "data/maps/electoral-divisions/2022_CSO_EDs_Ulster.fgb"
-          }
+          },
+          "useLOD": true
         }
       ],
       "date": 2022,
@@ -3742,7 +3804,8 @@
         "census"
       ],
       "labelProperty": "ED_ENGLISH",
-      "date": 2022
+      "date": 2022,
+      "useLOD": true
     },
     {
       "id": "eds-leinster-2022",
@@ -3768,7 +3831,8 @@
         "census"
       ],
       "labelProperty": "ED_ENGLISH",
-      "date": 2022
+      "date": 2022,
+      "useLOD": true
     },
     {
       "id": "eds-munster-2022",
@@ -3794,7 +3858,8 @@
         "census"
       ],
       "labelProperty": "ED_ENGLISH",
-      "date": 2022
+      "date": 2022,
+      "useLOD": true
     },
     {
       "id": "eds-ulster-2022",
@@ -3820,7 +3885,8 @@
         "census"
       ],
       "labelProperty": "ED_ENGLISH",
-      "date": 2022
+      "date": 2022,
+      "useLOD": true
     },
     {
       "id": "eds-2006",
@@ -3851,7 +3917,8 @@
           "description": "Electoral Divisions in Connacht province",
           "files": {
             "fgb": "data/maps/electoral-divisions/2006_CSO_EDs_Connacht.fgb"
-          }
+          },
+          "useLOD": true
         },
         {
           "id": "eds-leinster-2006",
@@ -3859,7 +3926,8 @@
           "description": "Electoral Divisions in Leinster province",
           "files": {
             "fgb": "data/maps/electoral-divisions/2006_CSO_EDs_Leinster.fgb"
-          }
+          },
+          "useLOD": true
         },
         {
           "id": "eds-munster-2006",
@@ -3867,7 +3935,8 @@
           "description": "Electoral Divisions in Munster province",
           "files": {
             "fgb": "data/maps/electoral-divisions/2006_CSO_EDs_Munster.fgb"
-          }
+          },
+          "useLOD": true
         },
         {
           "id": "eds-ulster-2006",
@@ -3875,7 +3944,8 @@
           "description": "Electoral Divisions in Ulster province",
           "files": {
             "fgb": "data/maps/electoral-divisions/2006_CSO_EDs_Ulster.fgb"
-          }
+          },
+          "useLOD": true
         }
       ],
       "date": 2006,
@@ -3905,7 +3975,8 @@
         "census"
       ],
       "labelProperty": "EDNAME",
-      "date": 2006
+      "date": 2006,
+      "useLOD": true
     },
     {
       "id": "eds-leinster-2006",
@@ -3931,7 +4002,8 @@
         "census"
       ],
       "labelProperty": "EDNAME",
-      "date": 2006
+      "date": 2006,
+      "useLOD": true
     },
     {
       "id": "eds-munster-2006",
@@ -3957,7 +4029,8 @@
         "census"
       ],
       "labelProperty": "EDNAME",
-      "date": 2006
+      "date": 2006,
+      "useLOD": true
     },
     {
       "id": "eds-ulster-2006",
@@ -3983,7 +4056,8 @@
         "census"
       ],
       "labelProperty": "EDNAME",
-      "date": 2006
+      "date": 2006,
+      "useLOD": true
     },
     {
       "id": "eds-1911",
@@ -4015,7 +4089,8 @@
           "description": "Electoral Divisions in Connacht province",
           "files": {
             "fgb": "data/maps/electoral-divisions/ConnachtElectoralDivisions1911.fgb"
-          }
+          },
+          "useLOD": true
         },
         {
           "id": "eds-leinster-1911",
@@ -4023,7 +4098,8 @@
           "description": "Electoral Divisions in Leinster province",
           "files": {
             "fgb": "data/maps/electoral-divisions/LeinsterElectoralDivisions1911.fgb"
-          }
+          },
+          "useLOD": true
         },
         {
           "id": "eds-munster-1911",
@@ -4031,7 +4107,8 @@
           "description": "Electoral Divisions in Munster province",
           "files": {
             "fgb": "data/maps/electoral-divisions/MunsterElectoralDivisions1911.fgb"
-          }
+          },
+          "useLOD": true
         },
         {
           "id": "eds-ulster-1911",
@@ -4039,7 +4116,8 @@
           "description": "Electoral Divisions in Ulster province",
           "files": {
             "fgb": "data/maps/electoral-divisions/UlsterElectoralDivisions1911.fgb"
-          }
+          },
+          "useLOD": true
         }
       ],
       "date": 1911,
@@ -4185,7 +4263,8 @@
           "description": "Electoral Divisions in Connacht province",
           "files": {
             "fgb": "data/maps/electoral-divisions/Connacht1926EDs.fgb"
-          }
+          },
+          "useLOD": true
         },
         {
           "id": "eds-leinster-1926",
@@ -4193,7 +4272,8 @@
           "description": "Electoral Divisions in Leinster province",
           "files": {
             "fgb": "data/maps/electoral-divisions/Leinster1926EDs.fgb"
-          }
+          },
+          "useLOD": true
         },
         {
           "id": "eds-munster-1926",
@@ -4201,7 +4281,8 @@
           "description": "Electoral Divisions in Munster province",
           "files": {
             "fgb": "data/maps/electoral-divisions/Munster1926EDs.fgb"
-          }
+          },
+          "useLOD": true
         },
         {
           "id": "eds-ulster-1926",
@@ -4209,7 +4290,8 @@
           "description": "Electoral Divisions in Ulster (Republic of Ireland portion)",
           "files": {
             "fgb": "data/maps/electoral-divisions/Ulster1926EDs.fgb"
-          }
+          },
+          "useLOD": true
         },
         {
           "id": "deds-ni-1926",
@@ -4217,7 +4299,8 @@
           "description": "DEDs in Northern Ireland",
           "files": {
             "fgb": "data/maps/electoral-divisions/NorthernIrelandDEDs1926.fgb"
-          }
+          },
+          "useLOD": true
         }
       ],
       "date": 1926
@@ -4247,7 +4330,8 @@
         "census"
       ],
       "labelProperty": "ED_NAME",
-      "date": 1926
+      "date": 1926,
+      "useLOD": true
     },
     {
       "id": "eds-leinster-1926",
@@ -4274,7 +4358,8 @@
         "census"
       ],
       "labelProperty": "ED_NAME",
-      "date": 1926
+      "date": 1926,
+      "useLOD": true
     },
     {
       "id": "eds-munster-1926",
@@ -4301,7 +4386,8 @@
         "census"
       ],
       "labelProperty": "ED_NAME",
-      "date": 1926
+      "date": 1926,
+      "useLOD": true
     },
     {
       "id": "eds-ulster-1926",
@@ -4331,7 +4417,8 @@
         "monaghan"
       ],
       "labelProperty": "ED_NAME",
-      "date": 1926
+      "date": 1926,
+      "useLOD": true
     },
     {
       "id": "deds-ni-1926",
@@ -4359,7 +4446,8 @@
         "northern ireland"
       ],
       "labelProperty": "ED_NAME",
-      "date": 1926
+      "date": 1926,
+      "useLOD": true
     },
     {
       "id": "civil-parishes-by-province",
@@ -4448,7 +4536,8 @@
         "EU"
       ],
       "labelProperty": "ENGLISH",
-      "date": 1979
+      "date": 1979,
+      "useLOD": true
     },
     {
       "id": "mep-2004",
@@ -4474,7 +4563,8 @@
         "EU"
       ],
       "labelProperty": "ENGLISH",
-      "date": 2004
+      "date": 2004,
+      "useLOD": true
     },
     {
       "id": "mep-2009",
@@ -4510,7 +4600,8 @@
           "NORTHERN IRELAND": "Northern Ireland"
         }
       },
-      "date": 2009
+      "date": 2009,
+      "useLOD": true
     },
     {
       "id": "mep-2014",
@@ -4536,7 +4627,8 @@
         "EU"
       ],
       "labelProperty": "ENGLISH",
-      "date": 2014
+      "date": 2014,
+      "useLOD": true
     },
     {
       "id": "mep-2019",
@@ -4563,7 +4655,8 @@
         "brexit"
       ],
       "labelProperty": "ENGLISH",
-      "date": 2019
+      "date": 2019,
+      "useLOD": true
     },
     {
       "id": "mep-2024",
@@ -4590,7 +4683,8 @@
         "ROI"
       ],
       "labelProperty": "ENGLISH",
-      "date": 2024
+      "date": 2024,
+      "useLOD": true
     },
     {
       "id": "dail-1995",
@@ -4610,14 +4704,15 @@
       },
       "labelProperty": "CON_NAME",
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "constituency",
         "1995",
         "ROI",
         "ireland"
       ],
-      "date": 1995
+      "date": 1995,
+      "useLOD": true
     },
     {
       "id": "dail-1998",
@@ -4637,14 +4732,15 @@
       },
       "labelProperty": "CON_NAME",
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "constituency",
         "1998",
         "ROI",
         "ireland"
       ],
-      "date": 1998
+      "date": 1998,
+      "useLOD": true
     },
     {
       "id": "dail-2005",
@@ -4664,15 +4760,16 @@
       },
       "labelProperty": "CON_NAME",
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "constituency",
         "2005",
         "2007",
         "ROI",
         "ireland"
       ],
-      "date": 2005
+      "date": 2005,
+      "useLOD": true
     },
     {
       "id": "dail-1990",
@@ -4693,14 +4790,15 @@
       },
       "labelProperty": "CON_NAME",
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "constituency",
         "1990",
         "1992",
         "ROI",
         "ireland"
-      ]
+      ],
+      "useLOD": true
     },
     {
       "id": "dail-1983",
@@ -4714,8 +4812,8 @@
         "weight": 2
       },
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "constituency",
         "1983",
         "1987",
@@ -4736,8 +4834,8 @@
         "weight": 2
       },
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "constituency",
         "1980",
         "1981",
@@ -4758,8 +4856,8 @@
         "weight": 2
       },
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "constituency",
         "1974",
         "1977",
@@ -4779,8 +4877,8 @@
         "weight": 2
       },
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "constituency",
         "1969",
         "1973",
@@ -4800,8 +4898,8 @@
         "weight": 2
       },
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "constituency",
         "1961",
         "1965",
@@ -4821,8 +4919,8 @@
         "weight": 2
       },
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "constituency",
         "1947",
         "1948",
@@ -4845,8 +4943,8 @@
         "weight": 2
       },
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "constituency",
         "1935",
         "1937",
@@ -4869,8 +4967,8 @@
         "weight": 2
       },
       "keywords": [
-        "D\u00e1il",
-        "D\u00e1il",
+        "Dáil",
+        "Dáil",
         "constituency",
         "1923",
         "1927",
@@ -4905,7 +5003,8 @@
           "isDefault": true,
           "files": {
             "fgb": "data/maps/parliamentary/PC1920.fgb"
-          }
+          },
+          "useLOD": true
         },
         {
           "id": "stormont-1920-v2",
@@ -4913,7 +5012,8 @@
           "description": "Alternative digitisation",
           "files": {
             "fgb": "data/maps/parliamentary/PC_1920.fgb"
-          }
+          },
+          "useLOD": true
         }
       ],
       "keywords": [
@@ -4923,7 +5023,8 @@
         "northern ireland",
         "partition"
       ],
-      "labelProperty": "Name"
+      "labelProperty": "Name",
+      "useLOD": true
     },
     {
       "id": "census-grid-2021",
@@ -4977,7 +5078,8 @@
       ],
       "labelProperty": "PC_NAME",
       "date": 2011,
-      "featured": true
+      "featured": true,
+      "useLOD": true
     },
     {
       "id": "admin-areas-1966-07-04",
@@ -5002,7 +5104,8 @@
         "1966"
       ],
       "labelProperty": "FullName",
-      "date": "1966-07-04"
+      "date": "1966-07-04",
+      "useLOD": true
     },
     {
       "id": "wards-2001",
@@ -5038,7 +5141,8 @@
       },
       "labelProperty": "Name",
       "date": 1926,
-      "hidden": true
+      "hidden": true,
+      "useLOD": true
     },
     {
       "id": "eds-1926-connacht",
@@ -5058,7 +5162,8 @@
       },
       "labelProperty": "Name",
       "date": 1926,
-      "hidden": true
+      "hidden": true,
+      "useLOD": true
     },
     {
       "id": "eds-1926-leinster",
@@ -5078,7 +5183,8 @@
       },
       "labelProperty": "Name",
       "date": 1926,
-      "hidden": true
+      "hidden": true,
+      "useLOD": true
     },
     {
       "id": "eds-1926-munster",
@@ -5098,7 +5204,8 @@
       },
       "labelProperty": "Name",
       "date": 1926,
-      "hidden": true
+      "hidden": true,
+      "useLOD": true
     },
     {
       "id": "eds-1911-ulster",
@@ -5119,7 +5226,8 @@
       },
       "labelProperty": "Name",
       "date": 1911,
-      "hidden": true
+      "hidden": true,
+      "useLOD": true
     },
     {
       "id": "eds-1911-connacht",
@@ -5139,7 +5247,8 @@
       },
       "labelProperty": "Name",
       "date": 1911,
-      "hidden": true
+      "hidden": true,
+      "useLOD": true
     },
     {
       "id": "eds-1911-leinster",
@@ -5159,7 +5268,8 @@
       },
       "labelProperty": "Name",
       "date": 1911,
-      "hidden": true
+      "hidden": true,
+      "useLOD": true
     },
     {
       "id": "eds-1911-munster",
@@ -5179,7 +5289,8 @@
       },
       "labelProperty": "Name",
       "date": 1911,
-      "hidden": true
+      "hidden": true,
+      "useLOD": true
     },
     {
       "id": "ni-1921",
@@ -5204,7 +5315,8 @@
         "partition"
       ],
       "labelProperty": "Name",
-      "date": 1921
+      "date": 1921,
+      "useLOD": true
     },
     {
       "id": "roi-1938",
@@ -5229,7 +5341,8 @@
         "1938"
       ],
       "labelProperty": "Name",
-      "date": 1938
+      "date": 1938,
+      "useLOD": true
     },
     {
       "id": "eu-referendum-2016",
@@ -6845,7 +6958,8 @@
         "electoral",
         "divisions"
       ],
-      "labelProperty": "ED_NAME"
+      "labelProperty": "ED_NAME",
+      "useLOD": true
     },
     {
       "id": "ded-1925-04-01",
@@ -8822,4 +8936,3 @@
     }
   ]
 }
-

@@ -90,3 +90,21 @@ Book catalogue search fix
   - Root cause: the catalogue book filter only matched book title/author/keywords, so generic searches like `book` did not match legislation entries whose titles lacked that word.
   - Fix: added `_bookMatchesSearch(...)` in `js/ui-controller.js` and used it in both catalogue book-render paths so search also matches book-category metadata and the generic `book/books/document/documents` labels.
   - Verification: `node --check js/ui-controller.js`
+## LOD rollout for existing assets
+- [x] Inventory maps that already have `lod0/lod1` assets and no chunked loader
+- [x] Enable `useLOD` only for the safe existing-asset set
+- [x] Add representative browser verification across map families
+- [x] Run full verification and record outcomes
+
+Review:
+- Identified `114` maps that already had matching `-lod0.fgb` and `-lod1.fgb` assets on disk and were not using the chunked loader.
+- Enabled `useLOD: true` only for that existing-asset safe set in `data/database/maps.json`, with no new runtime dependency on missing files.
+- Added representative browser coverage in `tests/browser/map-loading-pilots.spec.js` for:
+  - `lgd-2012`
+  - `pc-2023`
+  - `river-basin-districts`
+  - `dail-2023`
+- Verified:
+  - `maps.json` parses
+  - targeted LOD/chunk pilot suite passes
+  - full Playwright suite passes (`12 passed`)
