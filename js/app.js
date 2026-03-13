@@ -1938,7 +1938,7 @@ class App {
         if (!hash) return false;
 
         try {
-            const params = new URLSearchParams(hash);
+            const params = this._parseHashParams(hash);
             const featureMapId = params.get('featureMap');
             const featureIdParam = params.get('featureId');
             const featureNameParam = params.get('featureName');
@@ -2029,6 +2029,13 @@ class App {
         }
 
         return false;
+    }
+
+    _parseHashParams(hash) {
+        const normalizedHash = String(hash || '')
+            .replace(/(^|&)layers(?:%20|\s)*=(?:%20|\s)*/ig, '$1layers=')
+            .replace(/(?:%20|\s)+$/ig, '');
+        return new URLSearchParams(normalizedHash);
     }
 
     /**

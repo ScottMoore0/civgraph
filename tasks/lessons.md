@@ -1411,3 +1411,5 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
 - In Playwright for this repo, avoid page.waitForFunction(async ...) with dynamic imports / async polling. Use explicit page.evaluate(async () => { ...poll... }) so browser tests do not fail for harness reasons unrelated to product behavior.
 
 - When fixing results-table text truncation, inspect both the wrapper class and the autosizer cap for that role. If the wrapper still clamps or the autosizer refuses to grow the track past its current computed width, widening the column will not stop ellipsis.
+
+- When catalogue items appear "missing" under search, inspect the search predicate before assuming data failed to load. In this repo, books are rendered through separate catalogue paths, so search matching must include category metadata and generic labels like `book` / `document`, not just title/author/keywords.

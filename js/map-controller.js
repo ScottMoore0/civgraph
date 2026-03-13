@@ -49,9 +49,51 @@ class MapController {
             maxEntries: 400,
             events: []
         };
+        this._loadMetrics = [];
+        this._loadMetricSeq = 0;
 
         // Initialize feature loader
         featureLoader.init();
+    }
+
+    _recordLoadMetric(type, payload = {}) {
+        const entry = {
+            seq: ++this._loadMetricSeq,
+            ts: Date.now(),
+            type,
+            ...payload
+        };
+        this._loadMetrics.push(entry);
+        if (this._loadMetrics.length > 1000) {
+            this._loadMetrics.shift();
+        }
+        if (typeof window !== 'undefined') {
+            window.__bwMapLoadMetrics = this._loadMetrics;
+        }
+        return entry;
+    }
+
+    clearLoadMetrics() {
+        this._loadMetrics = [];
+        this._loadMetricSeq = 0;
+        if (typeof window !== 'undefined') {
+            window.__bwMapLoadMetrics = this._loadMetrics;
+        }
+    }
+
+    getLoadMetrics() {
+        return [...this._loadMetrics];
+    }
+
+    _now() {
+        if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+            return performance.now();
+        }
+        return Date.now();
+    }
+
+    _elapsedMs(start) {
+        return Number((this._now() - start).toFixed(2));
     }
 
     _traceInteraction(stage, payload = {}) {
@@ -792,7 +834,15 @@ class MapController {
     getPreferredVectorFilePath(mapConfig, baseFgbPath, zoom) {
         if (!mapConfig?.useLOD) return baseFgbPath;
         if (!String(baseFgbPath || '').toLowerCase().endsWith('.fgb')) return baseFgbPath;
-        return this.getLODFilePath(baseFgbPath, zoom);
+        const resolved = this.getLODFilePath(baseFgbPath, zoom);
+        this._recordLoadMetric('lod-source-selected', {
+            mapId: mapConfig?.id || null,
+            zoom,
+            source: resolved,
+            baseSource: baseFgbPath,
+            lodLevel: this.getLODLevel(zoom)
+        });
+        return resolved;
     }
 
     shouldUseOverviewLOD(mapConfig, zoom) {
@@ -806,6 +856,66 @@ class MapController {
 
     shouldPreferFullChunkGeometry(mapId, zoom) {
         return mapId === 'ni-townlands-1844' && zoom >= 10;
+    }
+
+    getChunkLoadConcurrency(mapConfig) {
+        const requested = Number(mapConfig?.chunkLoadConcurrency ?? 1);
+        if (!Number.isFinite(requested) || requested < 1) return 1;
+        return Math.min(Math.max(Math.floor(requested), 1), 8);
+    }
+
+    async _mapWithConcurrency(items, concurrency, worker) {
+        if (!Array.isArray(items) || items.length === 0) return [];
+        const limit = Math.max(1, Math.min(Math.floor(concurrency) || 1, items.length));
+        const results = new Array(items.length);
+        let cursor = 0;
+        const run = async () => {
+            while (true) {
+                const index = cursor++;
+                if (index >= items.length) return;
+                results[index] = await worker(items[index], index);
+            }
+        };
+        await Promise.all(Array.from({ length: limit }, run));
+        return results;
+    }
+
+    _validateChunkIndex(mapId, chunkIndex) {
+        if (!chunkIndex || !Array.isArray(chunkIndex.chunks)) {
+            console.warn(`[MapController] Invalid chunk index for ${mapId}: missing chunks array`);
+            this._recordLoadMetric('chunk-index-invalid', { mapId, reason: 'missing-chunks-array' });
+            return null;
+        }
+
+        const validChunks = chunkIndex.chunks.filter((chunk) => {
+            const bbox = chunk?.bbox;
+            const ok = !!chunk?.id
+                && typeof chunk?.file === 'string'
+                && Array.isArray(bbox)
+                && bbox.length === 4
+                && bbox.every((value) => Number.isFinite(Number(value)));
+            if (!ok) {
+                this._recordLoadMetric('chunk-index-invalid-chunk', {
+                    mapId,
+                    chunkId: chunk?.id || null
+                });
+            }
+            return ok;
+        });
+
+        if (validChunks.length !== chunkIndex.chunks.length) {
+            console.warn(`[MapController] Filtered invalid chunks for ${mapId}: kept ${validChunks.length}/${chunkIndex.chunks.length}`);
+        }
+
+        if (validChunks.length === 0) {
+            this._recordLoadMetric('chunk-index-invalid', { mapId, reason: 'no-valid-chunks' });
+            return null;
+        }
+
+        return {
+            ...chunkIndex,
+            chunks: validChunks
+        };
     }
 
     _clearRenderedLayerState(id, state) {
@@ -826,6 +936,7 @@ class MapController {
         const zoom = this.map?.getZoom?.() ?? 10;
         const overviewPath = this.getPreferredVectorFilePath(mapConfig, state.fgbPath, zoom);
         const { id, style, labelProperty, name } = mapConfig;
+        const loadStart = this._now();
 
         this._clearRenderedLayerState(id, state);
 
@@ -890,6 +1001,13 @@ class MapController {
         if (this.onLoadProgress) this.onLoadProgress(id, 100);
         if (show) this.showLayer(id);
 
+        this._recordLoadMetric('lod-overview-loaded', {
+            mapId: id,
+            source: overviewPath,
+            lodLevel: this.getLODLevel(zoom),
+            featureCount: state.featureCount,
+            durationMs: this._elapsedMs(loadStart)
+        });
         console.log(`[MapController] Loaded overview LOD layer: ${name} (${overviewPath})`);
         return state;
     }
@@ -922,6 +1040,7 @@ class MapController {
     async loadLayer(mapConfig, show = true, options = {}) {
         const { id, files, style, labelProperty, name } = mapConfig;
         const signal = options?.signal;
+        const loadStart = this._now();
 
         // Check if already loaded as a full/base layer.
         let state = this.layerStates.get(id);
@@ -1009,6 +1128,12 @@ class MapController {
                 }, signal);
             } catch (preferredErr) {
                 if (preferredFilePath !== filePath) {
+                    this._recordLoadMetric('lod-fallback-full', {
+                        mapId: id,
+                        preferredSource: preferredFilePath,
+                        fallbackSource: filePath,
+                        zoom
+                    });
                     console.warn(`[MapController] Preferred LOD source failed for ${id} (${preferredFilePath}); retrying full source ${filePath}`, preferredErr);
                     features = await this.loadDataFile(filePath, (progress) => {
                         state.progress = progress;
@@ -1086,6 +1211,13 @@ class MapController {
                 this.showLayer(id);
             }
 
+            this._recordLoadMetric('vector-layer-loaded', {
+                mapId: id,
+                source: preferredFilePath,
+                featureCount: state.featureCount,
+                durationMs: this._elapsedMs(loadStart),
+                mode: mapConfig?.useLOD ? 'lod-fullfile' : 'fullfile'
+            });
             console.log(`[MapController] Loaded layer: ${name}`);
             return state;
         } catch (err) {
@@ -1185,6 +1317,7 @@ class MapController {
         const fgbPath = state.fgbPath;
         const remoteFgb = mapConfig?.downloads?.fgb;
         const enforceChunkOnly = id === 'ni-townlands-1844';
+        const loadStart = this._now();
 
         state.useSpatial = true;
         this.spatialLayers.add(id);
@@ -1286,11 +1419,17 @@ class MapController {
         console.log(`[MapController] Loading ${name} chunked (${visibleChunks.length}/${chunkIndex.chunks.length} chunks in viewport)`);
 
         try {
-            let totalLoaded = 0;
-            for (const chunk of visibleChunks) {
+            const concurrency = this.getChunkLoadConcurrency(mapConfig);
+            const chunkResults = await this._mapWithConcurrency(visibleChunks, concurrency, async (chunk) => {
                 this._throwIfAborted(signal);
                 const chunkFile = this._resolveChunkFile(id, chunk, zoom);
                 const features = await this._loadChunkFGBCached(id, chunkFile, zoom, signal);
+                return { chunk, chunkFile, features };
+            });
+
+            let totalLoaded = 0;
+            for (const result of chunkResults) {
+                const { chunk, chunkFile, features } = result;
                 for (const feature of features) {
                     const fKey = this._featureKey(chunk.id, feature);
                     if (!this._renderedFeatures.get(id).has(fKey)) {
@@ -1314,6 +1453,14 @@ class MapController {
             if (this.onLoadProgress) this.onLoadProgress(id, 100);
             if (show) this.showLayer(id);
 
+            this._recordLoadMetric('chunked-layer-loaded', {
+                mapId: id,
+                visibleChunkCount: visibleChunks.length,
+                totalChunkCount: chunkIndex.chunks.length,
+                totalFeatureCount: totalLoaded,
+                concurrency,
+                durationMs: this._elapsedMs(loadStart)
+            });
             console.log(`[MapController] Loaded chunked layer: ${name} (${totalLoaded} features from ${visibleChunks.length} chunks)`);
             return state;
         } catch (err) {
@@ -1469,16 +1616,31 @@ class MapController {
         // Resolve chunk index path: same directory as FGB, named {mapId}-chunks.json
         const dir = fgbPath.substring(0, fgbPath.lastIndexOf('/') + 1) || fgbPath.substring(0, fgbPath.lastIndexOf('\\') + 1);
         const indexPath = dir + mapId + '-chunks.json';
+        const start = this._now();
 
         try {
             const response = await fetch(indexPath, signal ? { signal } : undefined);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const index = await response.json();
+            const rawIndex = await response.json();
+            const index = this._validateChunkIndex(mapId, rawIndex);
             this._chunkIndexCache.set(mapId, index);
+            if (index) {
+                this._recordLoadMetric('chunk-index-loaded', {
+                    mapId,
+                    source: indexPath,
+                    chunkCount: index.chunks.length,
+                    durationMs: this._elapsedMs(start)
+                });
+            }
             return index;
         } catch (err) {
             console.warn(`[MapController] Chunk index not found: ${indexPath}`);
             this._chunkIndexCache.set(mapId, null);
+            this._recordLoadMetric('chunk-index-missing', {
+                mapId,
+                source: indexPath,
+                durationMs: this._elapsedMs(start)
+            });
             return null;
         }
     }
@@ -1536,6 +1698,7 @@ class MapController {
      * @returns {Array} Filtered GeoJSON features
      */
     async _loadChunkFGB(mapId, filePath, zoom = null, signal = null) {
+        const start = this._now();
         const features = [];
         const minDiag = zoom != null ? this.getMinFeatureDiagDeg(zoom) : 0;
         let skippedCount = 0;
@@ -1558,6 +1721,14 @@ class MapController {
         if (skippedCount > 0) {
             console.log(`[MapController] Chunk ${filePath}: kept ${features.length}, skipped ${skippedCount} (too small at zoom ${zoom?.toFixed(1)})`);
         }
+        this._recordLoadMetric('chunk-file-loaded', {
+            mapId,
+            source: filePath,
+            zoom,
+            keptFeatureCount: features.length,
+            skippedFeatureCount: skippedCount,
+            durationMs: this._elapsedMs(start)
+        });
         return features;
     }
 
@@ -1649,6 +1820,7 @@ class MapController {
         for (const mapId of this.spatialLayers) {
             const state = this.layerStates.get(mapId);
             if (!state || !state.visible || state.loading) continue;
+            const updateStart = this._now();
 
             if (this.shouldUseOverviewLOD(state.config, zoom)) {
                 if (!state._overviewLOD) {
@@ -1719,9 +1891,14 @@ class MapController {
                     chunkDataCache.clear();
 
                     // Load visible chunks with correct zoom variants
-                    for (const chunk of visibleChunks) {
+                    const concurrency = this.getChunkLoadConcurrency(state.config);
+                    const chunkResults = await this._mapWithConcurrency(visibleChunks, concurrency, async (chunk) => {
                         const chunkFile = this._resolveChunkFile(mapId, chunk, zoom);
                         const features = await this._loadChunkFGBCached(mapId, chunkFile, zoom);
+                        return { chunk, chunkFile, features };
+                    });
+                    for (const result of chunkResults) {
+                        const { chunk, chunkFile, features } = result;
                         for (const feature of features) {
                             const fKey = this._featureKey(chunk.id, feature);
                             if (!rendered.has(fKey)) {
@@ -1731,6 +1908,13 @@ class MapController {
                         }
                         loadedChunks.set(chunk.id, { file: chunkFile, chunk });
                     }
+                    this._recordLoadMetric('chunked-viewport-reload', {
+                        mapId,
+                        reason: 'zoom-band-changed',
+                        chunkCount: visibleChunks.length,
+                        concurrency,
+                        durationMs: this._elapsedMs(updateStart)
+                    });
                 } else {
                     // Same zoom band — incremental per-chunk load/unload
 
@@ -1752,9 +1936,14 @@ class MapController {
                     }
 
                     // Load new chunks entering viewport
-                    for (const chunk of toLoad) {
+                    const concurrency = this.getChunkLoadConcurrency(state.config);
+                    const chunkResults = await this._mapWithConcurrency(toLoad, concurrency, async (chunk) => {
                         const chunkFile = this._resolveChunkFile(mapId, chunk, zoom);
                         const features = await this._loadChunkFGBCached(mapId, chunkFile, zoom);
+                        return { chunk, chunkFile, features };
+                    });
+                    for (const result of chunkResults) {
+                        const { chunk, chunkFile, features } = result;
                         for (const feature of features) {
                             const fKey = this._featureKey(chunk.id, feature);
                             if (!rendered.has(fKey)) {
@@ -1765,6 +1954,14 @@ class MapController {
                         loadedChunks.set(chunk.id, { file: chunkFile, chunk });
                         console.log(`[MapController] Loaded chunk ${chunk.id} for ${mapId} (${features.length} features)`);
                     }
+                    this._recordLoadMetric('chunked-viewport-reload', {
+                        mapId,
+                        reason: 'viewport-update',
+                        loadedChunkCount: toLoad.length,
+                        unloadedChunkCount: toUnload.length,
+                        concurrency,
+                        durationMs: this._elapsedMs(updateStart)
+                    });
                 }
 
                 state._lastZoom = zoom;
@@ -1852,12 +2049,27 @@ class MapController {
      */
     async loadDataFile(filePath, onProgress = null, signal = null) {
         const ext = filePath.split('.').pop()?.toLowerCase();
+        const start = this._now();
 
         if (ext === 'fgb') {
-            return this.loadFlatGeobuf(filePath, onProgress, signal);
+            const data = await this.loadFlatGeobuf(filePath, onProgress, signal);
+            this._recordLoadMetric('data-file-loaded', {
+                source: filePath,
+                kind: 'fgb',
+                featureCount: Array.isArray(data) ? data.length : null,
+                durationMs: this._elapsedMs(start)
+            });
+            return data;
         } else {
             const response = await fetch(filePath, signal ? { signal } : undefined);
-            return response.json();
+            const data = await response.json();
+            this._recordLoadMetric('data-file-loaded', {
+                source: filePath,
+                kind: ext || 'json',
+                featureCount: Array.isArray(data?.features) ? data.features.length : null,
+                durationMs: this._elapsedMs(start)
+            });
+            return data;
         }
     }
 
@@ -1865,6 +2077,7 @@ class MapController {
      * Load FlatGeobuf file (full download via fetch, no range requests)
      */
     async loadFlatGeobuf(url, onProgress = null, signal = null) {
+        const start = this._now();
         const loadFromSource = async (source) => {
             const features = [];
             let featureCount = 0;
@@ -1888,7 +2101,13 @@ class MapController {
         // Primary path: stream parsing (lower memory footprint).
         if (response.body) {
             try {
-                return await loadFromSource(response.body);
+                const data = await loadFromSource(response.body);
+                this._recordLoadMetric('flatgeobuf-loaded', {
+                    source: url,
+                    featureCount: data.length,
+                    durationMs: this._elapsedMs(start)
+                });
+                return data;
             } catch (streamErr) {
                 console.warn(`[MapController] Stream FGB parse failed for ${url}, retrying via ArrayBuffer:`, streamErr);
             }
@@ -1898,7 +2117,13 @@ class MapController {
         const retryResponse = response.bodyUsed ? await fetch(url, signal ? { signal } : undefined) : response;
         if (!retryResponse.ok) throw new Error(`Failed to refetch ${url}: ${retryResponse.status}`);
         const bytes = new Uint8Array(await retryResponse.arrayBuffer());
-        return loadFromSource(bytes);
+        const data = await loadFromSource(bytes);
+        this._recordLoadMetric('flatgeobuf-loaded', {
+            source: url,
+            featureCount: data.length,
+            durationMs: this._elapsedMs(start)
+        });
+        return data;
     }
 
     /**

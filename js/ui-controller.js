@@ -55,6 +55,8 @@ class UIController {
         this._lastMapListOptions = {};
         this._cataloguePane = null;
         this._electionEntityDetailCache = new Map();
+        this._catalogueBookView = null;
+        this._bookMarkdownCache = new Map();
     }
 
     init() {
@@ -1176,6 +1178,7 @@ class UIController {
 
     showCatalogueListView(addToHistory = false) {
         this.catalogueView = 'list';
+        this._catalogueBookView = null;
 
         const nav = document.getElementById('catalogueNav');
         const listView = document.getElementById('catalogueListView');
@@ -1193,6 +1196,7 @@ class UIController {
         // Show list, hide detail
         listView.classList.remove('hidden');
         detailView.classList.add('hidden');
+        this.renderFlatView(this._lastMapListOptions || {});
         this.updateCatalogueNavButtons();
     }
 
@@ -1202,6 +1206,8 @@ class UIController {
             const entry = this.catalogueHistory[this.catalogueHistoryIndex];
             if (entry.type === 'list') {
                 this.showCatalogueListView(false);
+            } else if (entry.type === 'book-viewer') {
+                this.openCatalogueBookViewer(entry.bookId, entry.format || 'pdf', false);
             } else if (entry.type === 'detail') {
                 this.showCatalogueDetailView(entry.mapId, false);
             } else if (entry.type === 'feature-detail') {
@@ -1219,6 +1225,8 @@ class UIController {
             const entry = this.catalogueHistory[this.catalogueHistoryIndex];
             if (entry.type === 'list') {
                 this.showCatalogueListView(false);
+            } else if (entry.type === 'book-viewer') {
+                this.openCatalogueBookViewer(entry.bookId, entry.format || 'pdf', false);
             } else if (entry.type === 'detail') {
                 this.showCatalogueDetailView(entry.mapId, false);
             } else if (entry.type === 'feature-detail') {
@@ -1305,7 +1313,145 @@ class UIController {
     isOnMainCataloguePage() {
         const listView = document.getElementById('catalogueListView');
         const detailView = document.getElementById('catalogueDetailView');
-        return !!listView && !!detailView && !listView.classList.contains('hidden') && detailView.classList.contains('hidden');
+        return !!listView
+            && !!detailView
+            && !listView.classList.contains('hidden')
+            && detailView.classList.contains('hidden')
+            && !this._catalogueBookView;
+    }
+
+    _applyCatalogueBookViewerChrome(isActive) {
+        const statsEl = document.getElementById('filterStats');
+        const categoryPillsContainer = document.querySelector('.category-pills-container');
+        const providerPillsContainer = document.querySelector('.provider-pills-container');
+        if (statsEl) statsEl.classList.toggle('hidden', !!isActive);
+        if (categoryPillsContainer) categoryPillsContainer.classList.toggle('hidden', true);
+        if (providerPillsContainer) providerPillsContainer.classList.toggle('hidden', true);
+    }
+
+    _buildBookCardHtml(book) {
+        const pdfViewButton = book.file
+            ? `<button type="button" class="btn btn--sm btn--primary book-card__btn" data-book-view="${this.escapeHtml(book.id)}" data-book-format="pdf">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    View
+                </button>`
+            : '';
+        const markdownViewButton = book.markdownFile
+            ? `<button type="button" class="btn btn--sm btn--outline book-card__btn" data-book-view="${this.escapeHtml(book.id)}" data-book-format="markdown">Markdown</button>`
+            : '';
+        return `
+            <div class="thumb-zone"><img class="book-card__thumbnail" src="assets/thumbnails/book-${book.id}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+            <div class="book-card__content">
+                <h4 class="book-card__title">${this.escapeHtml(book.title)}</h4>
+                <p class="book-card__author">${this.escapeHtml((book.authors || []).join(', '))}</p>
+                <p class="book-card__date">${this.escapeHtml(book.dateDisplay || book.date || '')}</p>
+                <div class="book-card__actions">
+                    ${pdfViewButton}
+                    ${markdownViewButton}
+                    ${book.archiveUrl ? `<a href="${book.archiveUrl}" target="_blank" rel="noopener" class="btn btn--sm btn--outline book-card__btn">Archive.org</a>` : ''}
+                </div>
+                ${book.transcriptionNotice ? `<p class="book-card__notice">${this.escapeHtml(book.transcriptionNotice)}</p>` : ''}
+            </div>
+        `;
+    }
+
+    _bookMatchesSearch(book, category, query) {
+        const q = String(query || '').trim().toLowerCase();
+        if (!q) return true;
+        const haystacks = [
+            book?.title || '',
+            (book?.authors || []).join(' '),
+            (book?.keywords || []).join(' '),
+            category?.name || '',
+            category?.description || '',
+            'books',
+            'book',
+            'documents',
+            'document'
+        ];
+        return haystacks.some(value => String(value || '').toLowerCase().includes(q));
+    }
+
+    async _getBookMarkdownText(book) {
+        if (!book?.markdownFile) return '';
+        if (this._bookMarkdownCache.has(book.markdownFile)) {
+            return this._bookMarkdownCache.get(book.markdownFile);
+        }
+        const response = await fetch(book.markdownFile);
+        if (!response.ok) throw new Error(`Failed to load Markdown (${response.status})`);
+        const text = await response.text();
+        this._bookMarkdownCache.set(book.markdownFile, text);
+        return text;
+    }
+
+    _renderCatalogueBookViewer(book, format, markdownText = '') {
+        const title = this.escapeHtml(book.title || '');
+        const authorLine = this.escapeHtml((book.authors || []).join(', '));
+        const dateLine = this.escapeHtml(book.dateDisplay || book.date || '');
+        const safeNotice = this.escapeHtml(book.transcriptionNotice || 'Markdown version may contain inaccuracies and errors.');
+        const isMarkdown = format === 'markdown';
+        const pdfDisabled = !book.file ? ' disabled' : '';
+        const mdDisabled = !book.markdownFile ? ' disabled' : '';
+        const viewportHtml = isMarkdown
+            ? `<div class="catalogue-book-viewer__markdown-viewport"><pre class="catalogue-book-viewer__markdown-text">${this.escapeHtml(markdownText || '')}</pre></div>`
+            : `<iframe class="catalogue-book-viewer__frame" src="${this.escapeHtml(book.file || '')}" title="${title} PDF viewer"></iframe>`;
+
+        return `
+            <div class="catalogue-book-viewer">
+                <div class="catalogue-book-viewer__header">
+                    <div class="catalogue-book-viewer__meta">
+                        <button type="button" class="btn btn--sm btn--outline catalogue-book-viewer__back" data-book-view-close="1">Back</button>
+                        <div class="catalogue-book-viewer__titleblock">
+                            <h3 class="catalogue-book-viewer__title">${title}</h3>
+                            ${authorLine ? `<div class="catalogue-book-viewer__subtitle">${authorLine}</div>` : ''}
+                            ${dateLine ? `<div class="catalogue-book-viewer__subtitle">${dateLine}</div>` : ''}
+                        </div>
+                    </div>
+                    <div class="catalogue-book-viewer__toolbar">
+                        <div class="catalogue-book-viewer__format-toggle" role="tablist" aria-label="Book format">
+                            <button type="button" class="btn btn--sm ${!isMarkdown ? 'btn--primary' : 'btn--outline'}" data-book-view-format="pdf"${pdfDisabled}>PDF</button>
+                            <button type="button" class="btn btn--sm ${isMarkdown ? 'btn--primary' : 'btn--outline'}" data-book-view-format="markdown"${mdDisabled}>Markdown</button>
+                        </div>
+                        <div class="catalogue-book-viewer__actions">
+                            ${book.file ? `<a href="${book.file}" target="_blank" rel="noopener" class="btn btn--sm btn--outline">Open PDF</a>` : ''}
+                            ${book.file ? `<a href="${book.file}" download class="btn btn--sm btn--outline">Download PDF</a>` : ''}
+                            ${book.markdownFile ? `<a href="${book.markdownFile}" target="_blank" rel="noopener" class="btn btn--sm btn--outline">Open Markdown</a>` : ''}
+                            ${book.markdownFile ? `<a href="${book.markdownFile}" download class="btn btn--sm btn--outline">Download Markdown</a>` : ''}
+                            ${book.archiveUrl ? `<a href="${book.archiveUrl}" target="_blank" rel="noopener" class="btn btn--sm btn--outline">Archive.org</a>` : ''}
+                        </div>
+                    </div>
+                    ${book.markdownFile ? `<p class="catalogue-book-viewer__notice">${safeNotice}</p>` : ''}
+                </div>
+                <div class="catalogue-book-viewer__viewport">
+                    ${viewportHtml}
+                </div>
+            </div>
+        `;
+    }
+
+    async openCatalogueBookViewer(bookId, format = 'pdf', addToHistory = true) {
+        const book = dataService.getBookById(bookId);
+        if (!book) return;
+        const targetFormat = (format === 'markdown' && book.markdownFile) ? 'markdown' : 'pdf';
+        this._catalogueBookView = { bookId, format: targetFormat };
+        this.catalogueView = 'list';
+
+        const listView = document.getElementById('catalogueListView');
+        const detailView = document.getElementById('catalogueDetailView');
+        if (listView) listView.classList.remove('hidden');
+        if (detailView) detailView.classList.add('hidden');
+
+        if (addToHistory) {
+            const current = this.catalogueHistory[this.catalogueHistoryIndex];
+            if (!current || current.type !== 'book-viewer' || current.bookId !== bookId || current.format !== targetFormat) {
+                this._pushCatalogueHistoryEntry({ type: 'book-viewer', bookId, format: targetFormat });
+            }
+        }
+
+        await this.renderFlatView(this._lastMapListOptions || {});
+        this.updateCatalogueNavButtons();
     }
 
     scrollCatalogueToTop() {
@@ -1825,10 +1971,10 @@ class UIController {
         // Render Books Section (from books.json)
         // ============================================
         if (this.booksData && this.booksData.books && this.booksData.books.length > 0) {
+            const bookCategories = this.booksData.categories || [];
+            const bookCategoryById = new Map(bookCategories.map(cat => [cat.id, cat]));
             const shouldShowBooks = !this.searchQuery || this.booksData.books.some(book =>
-                book.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                (book.authors || []).join(' ').toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                (book.keywords || []).join(' ').toLowerCase().includes(this.searchQuery.toLowerCase())
+                this._bookMatchesSearch(book, bookCategoryById.get(book.category || 'other'), this.searchQuery)
             );
 
             if (shouldShowBooks && (this.currentCategory === undefined || this.currentCategory === 'all' || !this.currentCategory)) {
@@ -1839,7 +1985,6 @@ class UIController {
                 container.appendChild(booksGroupHeader);
 
                 // Group books by category
-                const bookCategories = this.booksData.categories || [];
                 const booksByCategory = new Map();
                 this.booksData.books.forEach(book => {
                     const cat = book.category || 'other';
@@ -1854,12 +1999,7 @@ class UIController {
                     // Filter by search if active
                     let filteredBooks = catBooks;
                     if (this.searchQuery) {
-                        const q = this.searchQuery.toLowerCase();
-                        filteredBooks = catBooks.filter(book =>
-                            book.title.toLowerCase().includes(q) ||
-                            (book.authors || []).join(' ').toLowerCase().includes(q) ||
-                            (book.keywords || []).join(' ').toLowerCase().includes(q)
-                        );
+                        filteredBooks = catBooks.filter(book => this._bookMatchesSearch(book, cat, this.searchQuery));
                         if (filteredBooks.length === 0) return;
                     }
 
@@ -1877,29 +2017,7 @@ class UIController {
                     filteredBooks.forEach(book => {
                         const card = document.createElement('div');
                         card.className = 'map-card book-card';
-                        card.innerHTML = `
-                            <div class="thumb-zone"><img class="book-card__thumbnail" src="assets/thumbnails/book-${book.id}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>
-                            <div class="book-card__content">
-                                <h4 class="book-card__title">${this.escapeHtml(book.title)}</h4>
-                                <p class="book-card__author">${this.escapeHtml((book.authors || []).join(', '))}</p>
-                                <p class="book-card__date">${this.escapeHtml(book.dateDisplay || book.date || '')}</p>
-                                <div class="book-card__actions">
-                                    ${book.file ? `<a href="${book.file}" target="_blank" rel="noopener" class="btn btn--sm btn--primary book-card__btn">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-                                        </svg>
-                                        View
-                                    </a>` : ''}
-                                    ${book.file ? `<a href="${book.file}" download class="btn btn--sm btn--outline book-card__btn">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-                                        </svg>
-                                        Download
-                                    </a>` : ''}
-                                    ${book.archiveUrl ? `<a href="${book.archiveUrl}" target="_blank" rel="noopener" class="btn btn--sm btn--outline book-card__btn">Archive.org</a>` : ''}
-                                </div>
-                            </div>
-                        `;
+                        card.innerHTML = this._buildBookCardHtml(book);
                         catSection.appendChild(card);
                     });
 
@@ -1907,6 +2025,12 @@ class UIController {
                 });
             }
         }
+
+        container.querySelectorAll('[data-book-view]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                this.openCatalogueBookViewer(btn.dataset.bookView, btn.dataset.bookFormat || 'pdf');
+            });
+        });
 
         this.updateFilterStats(maps.length, options.totalMaps || maps.length);
     }
@@ -1975,6 +2099,45 @@ class UIController {
     async renderFlatView(options = {}) {
         const container = document.getElementById('catalogueFlatView');
         if (!container) return;
+
+        if (this._catalogueBookView) {
+            const book = dataService.getBookById(this._catalogueBookView.bookId);
+            if (!book) {
+                this._catalogueBookView = null;
+                this._applyCatalogueBookViewerChrome(false);
+            } else {
+                let markdownText = '';
+                if (this._catalogueBookView.format === 'markdown') {
+                    try {
+                        markdownText = await this._getBookMarkdownText(book);
+                    } catch (err) {
+                        console.error('[UIController] Failed to load book markdown:', err);
+                        markdownText = 'Failed to load Markdown file.';
+                    }
+                }
+
+                this._applyCatalogueBookViewerChrome(true);
+                container.classList.add('catalogue-flat-view--book-viewer');
+                container.innerHTML = this._renderCatalogueBookViewer(book, this._catalogueBookView.format, markdownText);
+                container.dataset.rendered = 'true';
+
+                container.querySelector('[data-book-view-close]')?.addEventListener('click', () => {
+                    this.showCatalogueListView(true);
+                });
+                container.querySelectorAll('[data-book-view-format]').forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        if (btn.disabled) return;
+                        this.openCatalogueBookViewer(book.id, btn.dataset.bookViewFormat || 'pdf');
+                    });
+                });
+
+                this.updateCatalogueHomeButton();
+                return;
+            }
+        }
+
+        this._applyCatalogueBookViewerChrome(false);
+        container.classList.remove('catalogue-flat-view--book-viewer');
 
         const allClasses = dataService.getAllClasses() || [];
         const classById = new Map(allClasses.map(cls => [cls.id, cls]));
@@ -2447,6 +2610,10 @@ class UIController {
             bookCategories.forEach(cat => {
                 const catBooks = booksByCategory.get(cat.id);
                 if (!catBooks || catBooks.length === 0) return;
+                const filteredBooks = !this.searchQuery
+                    ? catBooks
+                    : catBooks.filter(book => this._bookMatchesSearch(book, cat, this.searchQuery));
+                if (filteredBooks.length === 0) return;
 
                 const catSection = document.createElement('div');
                 catSection.className = 'category-section';
@@ -2457,32 +2624,10 @@ class UIController {
                     </div>
                 `;
 
-                catBooks.forEach(book => {
+                filteredBooks.forEach(book => {
                     const card = document.createElement('div');
                     card.className = 'map-card book-card';
-                    card.innerHTML = `
-                        <div class="thumb-zone"><img class="book-card__thumbnail" src="assets/thumbnails/book-${book.id}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>
-                        <div class="book-card__content">
-                            <h4 class="book-card__title">${this.escapeHtml(book.title)}</h4>
-                            <p class="book-card__author">${this.escapeHtml((book.authors || []).join(', '))}</p>
-                            <p class="book-card__date">${this.escapeHtml(book.dateDisplay || book.date || '')}</p>
-                            <div class="book-card__actions">
-                                ${book.file ? `<a href="${book.file}" target="_blank" rel="noopener" class="btn btn--sm btn--primary book-card__btn">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-                                    </svg>
-                                    View
-                                </a>` : ''}
-                                ${book.file ? `<a href="${book.file}" download class="btn btn--sm btn--outline book-card__btn">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-                                    </svg>
-                                    Download
-                                </a>` : ''}
-                                ${book.archiveUrl ? `<a href="${book.archiveUrl}" target="_blank" rel="noopener" class="btn btn--sm btn--outline book-card__btn">Archive.org</a>` : ''}
-                            </div>
-                        </div>
-                    `;
+                    card.innerHTML = this._buildBookCardHtml(book);
                     catSection.appendChild(card);
                 });
 
@@ -2499,6 +2644,11 @@ class UIController {
                 if (targetEl) {
                     targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
+            });
+        });
+        container.querySelectorAll('[data-book-view]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                this.openCatalogueBookViewer(btn.dataset.bookView, btn.dataset.bookFormat || 'pdf');
             });
         });
 
@@ -4054,15 +4204,16 @@ class UIController {
 
     copyMapUrl(mapId, buttonEl) {
         const url = new URL(window.location.href);
-        const currentLayers = url.hash.match(/layers=([^&]+)/)?.[1] || '';
-        const layerIds = currentLayers ? currentLayers.split('%2C').map(decodeURIComponent) : [];
+        const params = new URLSearchParams(url.hash.replace(/^#/, ''));
+        const layerIds = (params.get('layers') || '')
+            .split(',')
+            .map((id) => id.trim())
+            .filter(Boolean);
 
-        if (!layerIds.includes(mapId)) {
-            layerIds.push(mapId);
-        }
+        if (!layerIds.includes(mapId)) layerIds.push(mapId);
 
-        url.hash = url.hash.replace(/layers=[^&]*/, '') || '';
-        url.hash = `layers = ${layerIds.map(encodeURIComponent).join('%2C')}${url.hash.replace('#', '&')} `;
+        params.set('layers', layerIds.join(','));
+        url.hash = params.toString();
 
         navigator.clipboard.writeText(url.toString()).then(() => {
             // Show feedback

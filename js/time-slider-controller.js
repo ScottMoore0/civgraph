@@ -23,6 +23,15 @@ class TimeSliderController {
         this.mapController = null;    // Reference to map controller
         this.uiController = null;     // Reference to UI controller
         this._applyingDateChange = false; // Guard against re-entrant updates
+        this._previewIndex = null;    // Temporary preview index while dragging in election mode
+        this._preservedTimelineChains = null; // Preserve chain context when selected date has no loadable map
+        this._preservedTimelineTimestamp = null; // Selected timestamp for placeholder-only timeline state
+        this._dateChangeRequestToken = 0; // Latest-request-wins guard for non-election swaps
+        this._lastDateChangeMetrics = null;
+        this._lastStaleDateChangeMetrics = null;
+        this._dateChangeHistory = [];
+        this._queuedDateChangeRequest = null;
+        this._dateChangeRunnerPromise = null;
 
         // Callbacks
         this.onLayersChanged = null;  // Callback when layers change
@@ -49,7 +58,8 @@ class TimeSliderController {
         }
 
         // Bind event listeners
-        this.slider.addEventListener('input', () => this.handleSliderChange());
+        this.slider.addEventListener('input', () => this.handleSliderInput());
+        this.slider.addEventListener('change', () => this.handleSliderCommit());
         this.prevBtn.addEventListener('click', () => this.stepBackward());
         this.nextBtn.addEventListener('click', () => this.stepForward());
         this.resetBtn.addEventListener('click', () => this.reset());
@@ -84,8 +94,14 @@ class TimeSliderController {
             }
         }
 
+        if (this.activeChains.length === 0 && this._preservedTimelineChains?.length) {
+            this.activeChains = [...this._preservedTimelineChains];
+        }
+
         // If no time-series layers, hide the slider
         if (this.activeChains.length === 0) {
+            this._preservedTimelineChains = null;
+            this._preservedTimelineTimestamp = null;
             this.hide();
             return;
         }
@@ -113,8 +129,9 @@ class TimeSliderController {
         this.slider.max = newestTimestamp;
 
         // Preserve current position if slider was already active, otherwise start at newest
-        if (previousTimestamp !== null && this.preSliderState !== null) {
-            this.currentIndex = this.findClosestDateIndex(previousTimestamp);
+        const preferredTimestamp = this._preservedTimelineTimestamp ?? previousTimestamp;
+        if (preferredTimestamp !== null && (this.preSliderState !== null || this._preservedTimelineChains?.length)) {
+            this.currentIndex = this.findClosestDateIndex(preferredTimestamp);
         } else {
             // Fresh start: position at newest
             this.currentIndex = this.dates.length - 1;
@@ -151,19 +168,13 @@ class TimeSliderController {
     /**
      * Handle slider value change - find closest date and snap to it
      */
-    handleSliderChange() {
-        // Election mode: snap and callback, don't swap map layers
+    handleSliderInput() {
+        // Election mode: preview only while dragging
         if (this._electionMode) {
-            const ts = parseInt(this.slider.value);
-            const newIndex = this.findClosestDateIndex(ts);
-            if (newIndex === this.currentIndex) return;
-            this.currentIndex = newIndex;
-            this.slider.value = this.dates[this.currentIndex];
+            const newIndex = this._clampElectionIndex(parseInt(this.slider.value, 10));
+            this._previewIndex = newIndex;
             this.updateLabel();
             this.updateButtonStates();
-            if (this._electionCallback) {
-                this._electionCallback(this._electionDatesSorted[this.currentIndex]);
-            }
             return;
         }
 
@@ -171,19 +182,59 @@ class TimeSliderController {
 
         // Find the closest date to the slider value
         const newIndex = this.findClosestDateIndex(sliderTimestamp);
-        if (newIndex === this.currentIndex) return;
+        if (newIndex === this.currentIndex && !Number.isInteger(this._previewIndex)) return;
 
-        // Save pre-slider state on first interaction
-        if (this.preSliderState === null) {
-            this.savePreSliderState();
-        }
-
-        this.currentIndex = newIndex;
-        // Snap slider to the exact timestamp of the selected date
-        this.slider.value = this.dates[this.currentIndex];
+        this._previewIndex = newIndex;
         this.updateLabel();
         this.updateButtonStates();
-        this.applyDateChange();
+    }
+
+    handleSliderCommit() {
+        if (!this._electionMode) {
+            const sliderTimestamp = parseInt(this.slider.value);
+            const targetIndex = Number.isInteger(this._previewIndex)
+                ? this._previewIndex
+                : this.findClosestDateIndex(sliderTimestamp);
+            this._previewIndex = null;
+
+            if (targetIndex === this.currentIndex) {
+                this.slider.value = this.dates[this.currentIndex];
+                this.updateLabel();
+                this.updateButtonStates();
+                return;
+            }
+
+            if (this.preSliderState === null) {
+                this.savePreSliderState();
+            }
+
+            this.currentIndex = targetIndex;
+            this.slider.value = this.dates[this.currentIndex];
+            this.updateLabel();
+            this.updateButtonStates();
+            this.applyDateChange();
+            return;
+        }
+
+        const targetIndex = Number.isInteger(this._previewIndex)
+            ? this._previewIndex
+            : this._clampElectionIndex(parseInt(this.slider.value, 10));
+        this._previewIndex = null;
+
+        if (targetIndex === this.currentIndex) {
+            this.slider.value = String(this.currentIndex);
+            this.updateLabel();
+            this.updateButtonStates();
+            return;
+        }
+
+        this.currentIndex = targetIndex;
+        this.slider.value = String(this.currentIndex);
+        this.updateLabel();
+        this.updateButtonStates();
+        if (this._electionCallback) {
+            this._electionCallback(this._electionDatesSorted[this.currentIndex]);
+        }
     }
 
     /**
@@ -204,6 +255,11 @@ class TimeSliderController {
         return closestIndex;
     }
 
+    _clampElectionIndex(index) {
+        if (!Number.isFinite(index)) return this.currentIndex;
+        return Math.max(0, Math.min(this.dates.length - 1, index));
+    }
+
     /**
      * Step backward in time (older date) - LEFT button
      * Decreases index (moves left on slider)
@@ -213,8 +269,9 @@ class TimeSliderController {
 
         // Election mode: step and callback
         if (this._electionMode) {
+            this._previewIndex = null;
             this.currentIndex--;
-            this.slider.value = this.dates[this.currentIndex];
+            this.slider.value = String(this.currentIndex);
             this.updateLabel();
             this.updateButtonStates();
             if (this._electionCallback) {
@@ -244,8 +301,9 @@ class TimeSliderController {
 
         // Election mode: step and callback
         if (this._electionMode) {
+            this._previewIndex = null;
             this.currentIndex++;
-            this.slider.value = this.dates[this.currentIndex];
+            this.slider.value = String(this.currentIndex);
             this.updateLabel();
             this.updateButtonStates();
             if (this._electionCallback) {
@@ -271,6 +329,7 @@ class TimeSliderController {
      */
     reset() {
         if (!this.preSliderState) return;
+        this._previewIndex = null;
 
         // Restore original layers
         this.restorePreSliderState();
@@ -296,7 +355,8 @@ class TimeSliderController {
 
         // Election mode: show the election date string
         if (this._electionMode && this._electionDatesSorted) {
-            const dateStr = this._electionDatesSorted[this.currentIndex];
+            const labelIndex = Number.isInteger(this._previewIndex) ? this._previewIndex : this.currentIndex;
+            const dateStr = this._electionDatesSorted[labelIndex];
             if (dateStr) {
                 const d = new Date(dateStr);
                 this.label.textContent = d.toLocaleDateString('en-GB', {
@@ -308,7 +368,8 @@ class TimeSliderController {
             }
         }
 
-        const timestamp = this.dates[this.currentIndex];
+        const labelIndex = Number.isInteger(this._previewIndex) ? this._previewIndex : this.currentIndex;
+        const timestamp = this.dates[labelIndex];
         const date = new Date(timestamp);
 
         // Format as year, or full date if available
@@ -335,13 +396,14 @@ class TimeSliderController {
      * Right button (next/newer) disabled when at newest (max index)
      */
     updateButtonStates() {
+        const effectiveIndex = Number.isInteger(this._previewIndex) ? this._previewIndex : this.currentIndex;
         if (this.prevBtn) {
             // Left button disabled when at leftmost (oldest, index 0)
-            this.prevBtn.disabled = this.currentIndex <= 0;
+            this.prevBtn.disabled = effectiveIndex <= 0;
         }
         if (this.nextBtn) {
             // Right button disabled when at rightmost (newest, max index)
-            this.nextBtn.disabled = this.currentIndex >= this.dates.length - 1;
+            this.nextBtn.disabled = effectiveIndex >= this.dates.length - 1;
         }
         if (this.resetBtn) {
             this.resetBtn.disabled = this.preSliderState === null;
@@ -382,52 +444,221 @@ class TimeSliderController {
         // UI will be updated by app.updateActiveLayers
     }
 
-    /**
-     * Apply the date change - swap layers to match target date
-     */
-    async applyDateChange() {
+
+    _getTimelineChainsForDateChange(currentIds) {
+        const chains = [];
+        const seen = new Set();
+        const addChain = (chain) => {
+            if (!chain?.id || seen.has(chain.id)) return;
+            seen.add(chain.id);
+            chains.push(chain);
+        };
+
+        for (const mapId of currentIds || []) {
+            const chain = dataService.getChainForMap(mapId);
+            addChain(chain);
+        }
+
+        if (this.activeChains?.length) {
+            for (const chain of this.activeChains) {
+                addChain(chain);
+            }
+        }
+
+        if (this._preservedTimelineChains?.length) {
+            for (const chain of this._preservedTimelineChains) {
+                addChain(chain);
+            }
+        }
+
+        return chains;
+    }
+
+    _findBestMatchInChain(chain, targetTimestamp) {
+        const mapsInChain = dataService.getMapsInChain(chain);
+        let bestMatch = null;
+
+        for (const { map, timestamp } of mapsInChain) {
+            if (timestamp && timestamp <= targetTimestamp) {
+                if (!bestMatch || timestamp > bestMatch.timestamp) {
+                    bestMatch = { map, timestamp };
+                }
+            }
+        }
+
+        return bestMatch ? bestMatch.map : null;
+    }
+
+    _buildTimelineSelections(currentIds, timelineChains, targetTimestamp) {
+        const selections = [];
+        const handledChains = new Set();
+
+        for (const mapId of currentIds || []) {
+            const chain = dataService.getChainForMap(mapId);
+            if (!chain) {
+                selections.push({ oldId: mapId, newMapId: mapId, isPlaceholder: false, chain: null });
+                continue;
+            }
+            if (handledChains.has(chain.id)) continue;
+            handledChains.add(chain.id);
+
+            const match = this._findBestMatchInChain(chain, targetTimestamp);
+            selections.push({
+                oldId: mapId,
+                newMapId: match?.id || null,
+                isPlaceholder: !!match?.placeholder,
+                chain
+            });
+        }
+
+        for (const chain of timelineChains || []) {
+            if (!chain?.id || handledChains.has(chain.id)) continue;
+            handledChains.add(chain.id);
+
+            const match = this._findBestMatchInChain(chain, targetTimestamp);
+            selections.push({
+                oldId: null,
+                newMapId: match?.id || null,
+                isPlaceholder: !!match?.placeholder,
+                chain
+            });
+        }
+
+        return selections;
+    }
+
+    _buildDateChangePlan(currentIds, timelineChains, targetTimestamp) {
+        const selections = this._buildTimelineSelections(currentIds, timelineChains, targetTimestamp);
+        const unloadIds = [];
+        const loadIds = [];
+        const loadMaps = [];
+        const resultingLoadedIds = [];
+        const changes = [];
+        const seenUnload = new Set();
+        const seenLoad = new Set();
+        const seenResult = new Set();
+
+        for (const { oldId, newMapId, isPlaceholder } of selections) {
+            if (oldId && oldId === newMapId) {
+                if (!seenResult.has(oldId)) {
+                    seenResult.add(oldId);
+                    resultingLoadedIds.push(oldId);
+                }
+                continue;
+            }
+
+            if (oldId && !seenUnload.has(oldId)) {
+                seenUnload.add(oldId);
+                unloadIds.push(oldId);
+            }
+
+            if (newMapId && !isPlaceholder) {
+                if (!seenLoad.has(newMapId)) {
+                    const map = dataService.getMapById(newMapId);
+                    if (map) {
+                        seenLoad.add(newMapId);
+                        loadIds.push(newMapId);
+                        loadMaps.push(map);
+                    }
+                }
+                if (!seenResult.has(newMapId)) {
+                    seenResult.add(newMapId);
+                    resultingLoadedIds.push(newMapId);
+                }
+            }
+
+            if (newMapId && isPlaceholder) {
+                const newMap = dataService.getMapById(newMapId);
+                const oldMap = oldId ? dataService.getMapById(oldId) : null;
+                const oldName = oldMap ? this.getYear(oldMap.date) || oldMap.name : (oldId || 'None');
+                const newName = newMap ? (this.getYear(newMap.date) || newMap.name) : 'Placeholder';
+                changes.push(`${oldName} -> ${newName} (To Be Added)`);
+            } else if (oldId && newMapId && oldId !== newMapId) {
+                const oldMap = dataService.getMapById(oldId);
+                const newMap = dataService.getMapById(newMapId);
+                const oldName = oldMap ? this.getYear(oldMap.date) || oldMap.name : (oldId || 'None');
+                const newName = newMap ? (this.getYear(newMap.date) || newMap.name) : newMapId;
+                changes.push(`${oldName} -> ${newName}`);
+            } else if (oldId && !newMapId) {
+                const oldMap = dataService.getMapById(oldId);
+                changes.push(`${oldMap?.name || oldId} removed`);
+            }
+        }
+
+        return {
+            selections,
+            unloadIds,
+            loadIds,
+            loadMaps,
+            resultingLoadedIds,
+            changes
+        };
+    }
+
+    _recordDateChangeMetrics(metrics) {
+        if (!metrics) return;
+        this._dateChangeHistory.push(metrics);
+        if (this._dateChangeHistory.length > 20) {
+            this._dateChangeHistory = this._dateChangeHistory.slice(-20);
+        }
+        if (metrics.stale) {
+            this._lastStaleDateChangeMetrics = metrics;
+            return;
+        }
+        this._lastDateChangeMetrics = metrics;
+    }
+    // Legacy pre-Phase-6 implementation retained temporarily for diffing only.
+    // Do not call this path.
+    async _legacyApplyDateChange() {
         const targetTimestamp = this.dates[this.currentIndex];
         const currentIds = this.getLoadedMapIds();
+        const timelineChains = this._getTimelineChainsForDateChange(currentIds);
 
         console.log('[TimeSlider] applyDateChange - targetTimestamp:', targetTimestamp, 'targetDate:', new Date(targetTimestamp));
         console.log('[TimeSlider] applyDateChange - currentIds:', currentIds);
+        console.log('[TimeSlider] applyDateChange - timelineChains:', timelineChains.map((chain) => chain.id));
 
-        // Get equivalent maps for this date
-        const equivalentMaps = dataService.getEquivalentMapsForDate(currentIds, targetTimestamp);
-
-        console.log('[TimeSlider] applyDateChange - equivalentMaps:', equivalentMaps);
+        const selections = this._buildTimelineSelections(currentIds, timelineChains, targetTimestamp);
+        console.log('[TimeSlider] applyDateChange - selections:', selections);
 
         const changes = [];
+        const resultingLoadedIds = [];
 
-        // Guard: prevent updateForActiveLayers from resetting slider during swaps
         this._applyingDateChange = true;
         try {
-            // Apply changes
-            for (const [oldId, newId] of Object.entries(equivalentMaps)) {
-                console.log('[TimeSlider] Processing:', oldId, '->', newId);
-                if (oldId === newId) {
+            for (const { oldId, newMapId, isPlaceholder } of selections) {
+                console.log('[TimeSlider] Processing:', oldId, '->', newMapId, 'placeholder:', isPlaceholder);
+                if (oldId && oldId === newMapId) {
                     console.log('[TimeSlider] Skipping - no change needed');
+                    resultingLoadedIds.push(oldId);
                     continue;
                 }
 
-                // Unload old layer
-                console.log('[TimeSlider] Unloading:', oldId);
-                this.mapController.unloadLayer(oldId);
+                if (oldId) {
+                    console.log('[TimeSlider] Unloading:', oldId);
+                    this.mapController.unloadLayer(oldId);
+                }
 
-                if (newId) {
-                    // Load new layer
-                    const map = dataService.getMapById(newId);
-                    console.log('[TimeSlider] Loading new:', newId, map?.name);
+                if (newMapId && !isPlaceholder) {
+                    const map = dataService.getMapById(newMapId);
+                    console.log('[TimeSlider] Loading new:', newMapId, map?.name);
                     if (map) {
                         await this.mapController.loadLayer(map, true);
+                        resultingLoadedIds.push(newMapId);
 
-                        const oldMap = dataService.getMapById(oldId);
-                        const oldName = oldMap ? this.getYear(oldMap.date) || oldMap.name : oldId;
+                        const oldMap = oldId ? dataService.getMapById(oldId) : null;
+                        const oldName = oldMap ? this.getYear(oldMap.date) || oldMap.name : (oldId || 'None');
                         const newName = this.getYear(map.date) || map.name;
                         changes.push(`${oldName} → ${newName}`);
                     }
-                } else {
-                    // No equivalent found - layer disappears
+                } else if (newMapId && isPlaceholder) {
+                    const newMap = dataService.getMapById(newMapId);
+                    const oldMap = oldId ? dataService.getMapById(oldId) : null;
+                    const oldName = oldMap ? this.getYear(oldMap.date) || oldMap.name : (oldId || 'None');
+                    const newName = newMap ? (this.getYear(newMap.date) || newMap.name) : 'Placeholder';
+                    changes.push(`${oldName} → ${newName} (To Be Added)`);
+                    console.log('[TimeSlider] Placeholder date selected - no layer loaded');
+                } else if (oldId) {
                     const oldMap = dataService.getMapById(oldId);
                     changes.push(`${oldMap?.name || oldId} removed`);
                 }
@@ -436,17 +667,164 @@ class TimeSliderController {
             this._applyingDateChange = false;
         }
 
-        // Refresh active layers panel with the new set of layers
+        if (timelineChains.length > 0 && resultingLoadedIds.length === 0) {
+            this._preservedTimelineChains = [...timelineChains];
+            this._preservedTimelineTimestamp = targetTimestamp;
+        } else {
+            this._preservedTimelineChains = null;
+            this._preservedTimelineTimestamp = null;
+        }
+
         if (changes.length > 0 && this.onLayersChanged) {
             this.onLayersChanged();
         }
 
-        // Highlight changed layers in UI
         this.highlightChangedLayers(changes);
 
-        // Show toast notification
         if (changes.length > 0) {
             this.showToast(`Layers updated: ${changes.join(', ')}`);
+        } else {
+            console.log('[TimeSlider] No changes to apply');
+        }
+    }
+
+    async applyDateChange() {
+        const requestToken = ++this._dateChangeRequestToken;
+        const targetTimestamp = this.dates[this.currentIndex];
+        this._queuedDateChangeRequest = { requestToken, targetTimestamp };
+
+        if (this._dateChangeRunnerPromise) {
+            return this._dateChangeRunnerPromise;
+        }
+
+        const runnerPromise = this._runQueuedDateChanges();
+        this._dateChangeRunnerPromise = runnerPromise;
+        try {
+            await runnerPromise;
+        } finally {
+            if (this._dateChangeRunnerPromise === runnerPromise) {
+                this._dateChangeRunnerPromise = null;
+            }
+        }
+    }
+
+    async _runQueuedDateChanges() {
+        while (this._queuedDateChangeRequest) {
+            const request = this._queuedDateChangeRequest;
+            this._queuedDateChangeRequest = null;
+            await this._applyDateChangeRequest(request);
+        }
+    }
+
+    async _applyDateChangeRequest({ requestToken, targetTimestamp }) {
+        const currentIds = this.getLoadedMapIds();
+        const timelineChains = this._getTimelineChainsForDateChange(currentIds);
+        const applyStartedAt = performance.now();
+
+        console.log('[TimeSlider] applyDateChange - targetTimestamp:', targetTimestamp, 'targetDate:', new Date(targetTimestamp));
+        console.log('[TimeSlider] applyDateChange - currentIds:', currentIds);
+        console.log('[TimeSlider] applyDateChange - timelineChains:', timelineChains.map((chain) => chain.id));
+
+        if (timelineChains.length > 0) {
+            this._preservedTimelineChains = [...timelineChains];
+            this._preservedTimelineTimestamp = targetTimestamp;
+        }
+
+        const plan = this._buildDateChangePlan(currentIds, timelineChains, targetTimestamp);
+        console.log('[TimeSlider] applyDateChange - plan:', plan);
+
+        if (plan.unloadIds.length === 0 && plan.loadMaps.length === 0) {
+            if (timelineChains.length > 0 && plan.resultingLoadedIds.length === 0) {
+                this._preservedTimelineChains = [...timelineChains];
+                this._preservedTimelineTimestamp = targetTimestamp;
+            } else {
+                this._preservedTimelineChains = null;
+                this._preservedTimelineTimestamp = null;
+            }
+            this._recordDateChangeMetrics({
+                requestToken,
+                targetTimestamp,
+                applied: true,
+                stale: false,
+                changed: false,
+                durationMs: performance.now() - applyStartedAt,
+                unloadIds: [],
+                loadIds: [],
+                resultingLoadedIds: [...plan.resultingLoadedIds]
+            });
+            console.log('[TimeSlider] No changes to apply');
+            return;
+        }
+
+        this._applyingDateChange = true;
+        const loadedByThisApply = [];
+        try {
+            for (const unloadId of plan.unloadIds) {
+                console.log('[TimeSlider] Unloading:', unloadId);
+                this.mapController.unloadLayer(unloadId);
+            }
+
+            if (plan.loadMaps.length > 0) {
+                await Promise.all(plan.loadMaps.map(async (map) => {
+                    console.log('[TimeSlider] Loading new:', map.id, map?.name);
+                    await this.mapController.loadLayer(map, true);
+                    if (requestToken !== this._dateChangeRequestToken) {
+                        this.mapController.unloadLayer(map.id);
+                        return;
+                    }
+                    loadedByThisApply.push(map.id);
+                }));
+            }
+
+            if (requestToken !== this._dateChangeRequestToken) {
+                for (const loadedId of loadedByThisApply) {
+                    this.mapController.unloadLayer(loadedId);
+                }
+                this._recordDateChangeMetrics({
+                    requestToken,
+                    targetTimestamp,
+                    applied: false,
+                    stale: true,
+                    changed: true,
+                    durationMs: performance.now() - applyStartedAt,
+                    unloadIds: [...plan.unloadIds],
+                    loadIds: [...plan.loadIds],
+                    resultingLoadedIds: []
+                });
+                return;
+            }
+        } finally {
+            this._applyingDateChange = false;
+        }
+
+        if (timelineChains.length > 0 && plan.resultingLoadedIds.length === 0) {
+            this._preservedTimelineChains = [...timelineChains];
+            this._preservedTimelineTimestamp = targetTimestamp;
+        } else {
+            this._preservedTimelineChains = null;
+            this._preservedTimelineTimestamp = null;
+        }
+
+        if (plan.changes.length > 0 && this.onLayersChanged) {
+            this.onLayersChanged();
+        }
+
+        this.highlightChangedLayers(plan.changes);
+
+        this._recordDateChangeMetrics({
+            requestToken,
+            targetTimestamp,
+            applied: true,
+            stale: false,
+            changed: plan.changes.length > 0,
+            durationMs: performance.now() - applyStartedAt,
+            unloadIds: [...plan.unloadIds],
+            loadIds: [...plan.loadIds],
+            resultingLoadedIds: [...plan.resultingLoadedIds]
+        });
+
+        if (plan.changes.length > 0) {
+            this.showToast(`Layers updated: ${plan.changes.join(', ')}`);
         } else {
             console.log('[TimeSlider] No changes to apply');
         }
@@ -527,22 +905,22 @@ class TimeSliderController {
     setElectionDates(dates, currentDate, onDateChange) {
         this._electionMode = true;
         this._electionCallback = onDateChange;
+        this._previewIndex = null;
 
         // Sort chronologically oldest-first (left = oldest, right = newest)
         const sorted = [...dates].sort();
         this._electionDatesSorted = sorted;
 
-        // Convert to timestamps for the slider
-        const timestamps = sorted.map(d => new Date(d).getTime());
-        this.dates = timestamps;
-        this.currentIndex = timestamps.findIndex(t => t === new Date(currentDate).getTime());
-        if (this.currentIndex < 0) this.currentIndex = timestamps.length - 1;
+        this.dates = sorted.map((_, idx) => idx);
+        this.currentIndex = sorted.findIndex(d => d === currentDate);
+        if (this.currentIndex < 0) this.currentIndex = sorted.length - 1;
 
         // Configure slider
         if (this.slider) {
-            this.slider.min = timestamps[0];
-            this.slider.max = timestamps[timestamps.length - 1];
-            this.slider.value = timestamps[this.currentIndex];
+            this.slider.min = '0';
+            this.slider.max = String(Math.max(0, this.dates.length - 1));
+            this.slider.step = '1';
+            this.slider.value = String(this.currentIndex);
         }
 
         // Hide reset button in election mode (not applicable)
@@ -560,6 +938,10 @@ class TimeSliderController {
         this._electionMode = false;
         this._electionCallback = null;
         this._electionDatesSorted = null;
+        this._previewIndex = null;
+        if (this.slider) {
+            this.slider.step = '';
+        }
         // Restore reset button visibility
         if (this.resetBtn) this.resetBtn.style.display = '';
         this.hide();
@@ -569,3 +951,4 @@ class TimeSliderController {
 // Export singleton instance
 const timeSliderController = new TimeSliderController();
 export default timeSliderController;
+
