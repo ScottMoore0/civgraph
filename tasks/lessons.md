@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 90) Performance data rollouts must be additive and validator-gated
+- Mistake pattern: Treating performance-oriented data shape changes as replacements for the existing source files instead of optional accelerators.
+- Impact: A bad bundle or aggregate artifact could have broken local-election loading or hidden regressions behind a new fast path.
+- Guardrail:
+  1) emit bundle/aggregate artifacts additively beside the existing constituency JSON primitives,
+  2) validate artifact shape before use and fall back automatically when invalid or missing,
+  3) verify one real date directory contains both the additive files and the unchanged constituency JSON fallback inputs after each regeneration.
+
 ### 89) Global election index loaders must respect body slug, not display name
 - Mistake pattern: Using `bodyData.name` to load election JSON in global indexing when some bodies share a slug-backed storage path (`local-government`).
 - Impact: Aggregates silently resolve to empty payloads (`0` valid votes, `0` seats, no leading party) even though underlying JSON files are present.

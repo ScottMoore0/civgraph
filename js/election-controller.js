@@ -54,6 +54,8 @@ class ElectionController {
         this._geometryFeaturePromiseCache = new Map();
         this._resultsPayloadCache = new Map();
         this._resultsPayloadPromiseCache = new Map();
+        this._localBundleCache = new Map();
+        this._localAggregatesCache = new Map();
         this._loadRequestSerial = 0;
         this._activeLoadRequestId = 0;
     }
@@ -189,6 +191,9 @@ class ElectionController {
             const geometryPromise = this._loadGeography(activeGeo);
             let currentResultsPromise = Promise.resolve({});
             let previousResultsPromise = Promise.resolve({});
+            let currentAggregatesPromise = Promise.resolve(null);
+            let previousAggregatesPromise = Promise.resolve(null);
+            const isLocalBody = this._isLocalGovernmentBody(body, bodyData.bodyGroup);
 
             // Load election results for all constituencies
             if (this._specialElection) {
@@ -198,11 +203,19 @@ class ElectionController {
                 previousResultsPromise = this.previousDate
                     ? this._loadAllResults(loadSlug, this.previousDate, previousDateData.constituencies || [], {}, false)
                     : Promise.resolve({});
+                if (isLocalBody) {
+                    currentAggregatesPromise = this._loadLocalCouncilAggregates(date);
+                    previousAggregatesPromise = this.previousDate
+                        ? this._loadLocalCouncilAggregates(this.previousDate)
+                        : Promise.resolve(null);
+                }
             }
-            const [, currentResults, previousResults] = await Promise.all([
+            const [, currentResults, previousResults, currentAggregates, previousAggregates] = await Promise.all([
                 geometryPromise,
                 currentResultsPromise,
-                previousResultsPromise
+                previousResultsPromise,
+                currentAggregatesPromise,
+                previousAggregatesPromise
             ]);
             if (requestId !== this._activeLoadRequestId) {
                 if (this.onFinishLoadFeedback && feedback) {
@@ -213,7 +226,16 @@ class ElectionController {
             this.resultsByConstituency = currentResults || {};
             this.previousResultsByConstituency = previousResults || {};
             this._rebuildElectionLookups();
-            this._rebuildCouncilAggregates();
+            if (isLocalBody) {
+                this._councilAggregates = currentAggregates instanceof Map && currentAggregates.size
+                    ? currentAggregates
+                    : this._buildCouncilAggregateMap(this.resultsByConstituency);
+                this._previousCouncilAggregates = previousAggregates instanceof Map && previousAggregates.size
+                    ? previousAggregates
+                    : this._buildCouncilAggregateMap(this.previousResultsByConstituency);
+            } else {
+                this._rebuildCouncilAggregates();
+            }
 
             // Colour the map by winning party
             this._colourMap(activeGeo);
@@ -559,96 +581,95 @@ class ElectionController {
         return null;
     }
 
-    _rebuildCouncilAggregates() {
-        const buildAggregate = (sourceResults = {}) => {
-            const councilMap = new Map();
-            Object.entries(sourceResults || {}).forEach(([constituency, payload]) => {
-                const canonicalConstituency = this._cleanConstituencyDisplayName(constituency);
-                const councilName = this._getCouncilNameForConstituency(canonicalConstituency);
-                if (!councilName || !payload?.Constituency) return;
-                if (!councilMap.has(councilName)) {
-                    councilMap.set(councilName, {
-                        councilName,
-                        constituencies: [],
-                        validPoll: 0,
-                        totalPoll: 0,
-                        electorate: 0,
-                        spoiled: 0,
-                        totalSeats: 0,
-                        countRows: [],
-                        partyMap: new Map(),
-                        candidateMap: new Map(),
-                        localPartyMap: new Map(),
-                        electedMembers: []
+    _buildCouncilAggregateMap(sourceResults = {}) {
+        const councilMap = new Map();
+        Object.entries(sourceResults || {}).forEach(([constituency, payload]) => {
+            const canonicalConstituency = this._cleanConstituencyDisplayName(constituency);
+            const councilName = this._getCouncilNameForConstituency(canonicalConstituency);
+            if (!councilName || !payload?.Constituency) return;
+            if (!councilMap.has(councilName)) {
+                councilMap.set(councilName, {
+                    councilName,
+                    constituencies: [],
+                    validPoll: 0,
+                    totalPoll: 0,
+                    electorate: 0,
+                    spoiled: 0,
+                    totalSeats: 0,
+                    countRows: [],
+                    partyMap: new Map(),
+                    candidateMap: new Map(),
+                    localPartyMap: new Map(),
+                    electedMembers: []
+                });
+            }
+            const aggregate = councilMap.get(councilName);
+            const cg = payload.Constituency.countGroup || [];
+            const info = payload.Constituency.countInfo || {};
+            const constituencyValidPoll = this._safeValidPoll(info, cg);
+            const constituencySeatCount = this._getSeatCount(info);
+            const constituencyLastCount = Math.max(1, ...cg.map((row) => parseInt(row.Count_Number, 10) || 1));
+            aggregate.constituencies.push(canonicalConstituency);
+            aggregate.validPoll += constituencyValidPoll;
+            aggregate.totalPoll += parseFloat(info.Total_Poll) || 0;
+            aggregate.electorate += parseFloat(info.Total_Electorate) || 0;
+            aggregate.spoiled += parseFloat(info.Spoiled) || 0;
+            aggregate.totalSeats += constituencySeatCount;
+
+            const seenRoundOne = new Set();
+            cg.forEach((row) => {
+                if (!this._isValidCandidateRow(row)) return;
+                const cid = String(row.Candidate_Id || '').trim();
+                const countNum = parseInt(row.Count_Number, 10) || 1;
+                const candidateName = this._candidateDisplayName(row, cid);
+                const party = this._normaliseLivePartyName(row.Party_Name);
+                const colour = row.Party_Colour || '#b0bec5';
+                const votes = parseFloat(row.Total_Votes) || 0;
+                const localKey = `${party}::${canonicalConstituency}`;
+
+                if (!aggregate.candidateMap.has(cid)) {
+                    aggregate.candidateMap.set(cid, {
+                        personId: cid,
+                        name: candidateName,
+                        party,
+                        colour,
+                        constituency: canonicalConstituency,
+                        firstPrefs: 0,
+                        validPoll: constituencyValidPoll,
+                        finalVotes: 0,
+                        elected: false,
+                        electedAt: null,
+                        excluded: false,
+                        excludedAt: null,
+                        lastCount: constituencyLastCount,
+                        resolvedCount: constituencyLastCount,
+                        status: 'Not Elected',
+                        counts: {}
                     });
                 }
-                const aggregate = councilMap.get(councilName);
-                const cg = payload.Constituency.countGroup || [];
-                const info = payload.Constituency.countInfo || {};
-                const constituencyValidPoll = this._safeValidPoll(info, cg);
-                const constituencySeatCount = this._getSeatCount(info);
-                const constituencyLastCount = Math.max(1, ...cg.map((row) => parseInt(row.Count_Number, 10) || 1));
-                aggregate.constituencies.push(canonicalConstituency);
-                aggregate.validPoll += constituencyValidPoll;
-                aggregate.totalPoll += parseFloat(info.Total_Poll) || 0;
-                aggregate.electorate += parseFloat(info.Total_Electorate) || 0;
-                aggregate.spoiled += parseFloat(info.Spoiled) || 0;
-                aggregate.totalSeats += constituencySeatCount;
-
-                const seenRoundOne = new Set();
-                cg.forEach((row) => {
-                    if (!this._isValidCandidateRow(row)) return;
-                    const cid = String(row.Candidate_Id || '').trim();
-                    const countNum = parseInt(row.Count_Number, 10) || 1;
-                    const candidateName = this._candidateDisplayName(row, cid);
-                    const party = this._normaliseLivePartyName(row.Party_Name);
-                    const colour = row.Party_Colour || '#b0bec5';
-                    const votes = parseFloat(row.Total_Votes) || 0;
-                    const localKey = `${party}::${canonicalConstituency}`;
-
-                    if (!aggregate.candidateMap.has(cid)) {
-                        aggregate.candidateMap.set(cid, {
-                            personId: cid,
-                            name: candidateName,
-                            party,
-                            colour,
-                            constituency: canonicalConstituency,
-                            firstPrefs: 0,
-                            validPoll: constituencyValidPoll,
-                            finalVotes: 0,
-                            elected: false,
-                            electedAt: null,
-                            excluded: false,
-                            excludedAt: null,
-                            lastCount: constituencyLastCount,
-                            resolvedCount: constituencyLastCount,
-                            status: 'Not Elected',
-                            counts: {}
-                        });
+                const candidate = aggregate.candidateMap.get(cid);
+                candidate.validPoll = constituencyValidPoll;
+                candidate.lastCount = constituencyLastCount;
+                candidate.counts[countNum] = {
+                    total: votes,
+                    transfers: parseFloat(row.Transfers) || 0,
+                    status: row.Status || ''
+                };
+                if (countNum === 1 && !seenRoundOne.has(cid)) {
+                    seenRoundOne.add(cid);
+                    candidate.firstPrefs = votes;
+                    if (!aggregate.partyMap.has(party)) {
+                        aggregate.partyMap.set(party, { party, colour, stood: 0, firstPrefs: 0, elected: 0 });
                     }
-                    const candidate = aggregate.candidateMap.get(cid);
-                    candidate.validPoll = constituencyValidPoll;
-                    candidate.lastCount = constituencyLastCount;
-                    candidate.counts[countNum] = {
-                        total: votes,
-                        transfers: parseFloat(row.Transfers) || 0,
-                        status: row.Status || ''
-                    };
-                    if (countNum === 1 && !seenRoundOne.has(cid)) {
-                        seenRoundOne.add(cid);
-                        candidate.firstPrefs = votes;
-                        if (!aggregate.partyMap.has(party)) {
-                            aggregate.partyMap.set(party, { party, colour, stood: 0, firstPrefs: 0, elected: 0 });
-                        }
-                        const partyRow = aggregate.partyMap.get(party);
-                        partyRow.stood += 1;
-                        partyRow.firstPrefs += votes;
+                    const partyRow = aggregate.partyMap.get(party);
+                    partyRow.stood += 1;
+                    partyRow.firstPrefs += votes;
 
-                        if (!aggregate.localPartyMap.has(localKey)) {
+                    if (!aggregate.localPartyMap.has(localKey)) {
                         aggregate.localPartyMap.set(localKey, {
                             key: localKey,
                             party,
-                            constituency,
+                            constituency: canonicalConstituency,
                             colour,
                             stood: 0,
                             firstPrefs: 0,
@@ -660,89 +681,90 @@ class ElectionController {
                     const localRow = aggregate.localPartyMap.get(localKey);
                     localRow.stood += 1;
                     localRow.firstPrefs += votes;
-                    }
-                    if (votes >= candidate.finalVotes) {
-                        candidate.finalVotes = votes;
-                    }
-                    if (this._statusKind(row.Status) === 'elected') {
-                        candidate.elected = true;
-                        candidate.electedAt ||= countNum;
-                    }
-                    if (this._statusKind(row.Status) === 'excluded') {
-                        candidate.excluded = true;
-                        candidate.excludedAt ||= countNum;
-                    }
-                });
-
-                const constituencyCandidates = [...aggregate.candidateMap.values()].filter((candidate) => candidate.constituency === canonicalConstituency);
-                constituencyCandidates.forEach((candidate) => {
-                    const lifecycle = this._inferCandidateLifecycle(candidate, info, constituencyLastCount);
-                    candidate.electedAt = lifecycle.electedAt || candidate.electedAt;
-                    candidate.excludedAt = lifecycle.excludedAt || candidate.excludedAt;
-                    if (candidate.electedAt) candidate.elected = true;
-                    if (candidate.excludedAt) candidate.excluded = true;
-                });
-                const explicitElected = constituencyCandidates.filter((candidate) => !!candidate.electedAt).length;
-                if (constituencySeatCount > 0 && explicitElected < constituencySeatCount) {
-                    const needed = constituencySeatCount - explicitElected;
-                    constituencyCandidates
-                        .filter((candidate) => !candidate.electedAt && !candidate.excludedAt)
-                        .sort((a, b) => (b.finalVotes || 0) - (a.finalVotes || 0))
-                        .slice(0, needed)
-                        .forEach((candidate) => {
-                            candidate.elected = true;
-                            candidate.electedAt ||= constituencyLastCount;
-                        });
                 }
-                constituencyCandidates.forEach((candidate) => {
-                    candidate.resolvedCount = candidate.electedAt
-                        ? (candidate.electedAt || constituencyLastCount)
-                        : candidate.excludedAt
-                            ? (candidate.excludedAt || constituencyLastCount)
-                            : constituencyLastCount;
-                    candidate.status = candidate.electedAt
-                        ? 'Elected'
-                        : candidate.excludedAt
-                            ? 'Excluded'
-                            : 'Not Elected';
-                });
-
-                const elected = this._extractElected(payload);
-                elected.forEach((member) => {
-                    aggregate.electedMembers.push(member);
-                    const partyRow = aggregate.partyMap.get(member.party);
-                    if (partyRow) partyRow.elected += 1;
-                    const localRow = aggregate.localPartyMap.get(`${member.party}::${canonicalConstituency}`);
-                    if (localRow) localRow.elected += 1;
-                });
+                if (votes >= candidate.finalVotes) {
+                    candidate.finalVotes = votes;
+                }
+                if (this._statusKind(row.Status) === 'elected') {
+                    candidate.elected = true;
+                    candidate.electedAt ||= countNum;
+                }
+                if (this._statusKind(row.Status) === 'excluded') {
+                    candidate.excluded = true;
+                    candidate.excludedAt ||= countNum;
+                }
             });
 
-            councilMap.forEach((aggregate) => {
-                aggregate.constituencies.sort((a, b) => a.localeCompare(b));
-                aggregate.electedMembers.sort((a, b) =>
-                    this._partyHemicycleRank(a.party) - this._partyHemicycleRank(b.party)
-                    || String(a.party || '').localeCompare(String(b.party || ''))
-                    || String(a.name || '').localeCompare(String(b.name || ''))
-                );
-                aggregate.candidates = [...aggregate.candidateMap.values()].sort((a, b) => {
-                    const aPct = a.validPoll > 0 ? ((a.firstPrefs || 0) / a.validPoll * 100) : 0;
-                    const bPct = b.validPoll > 0 ? ((b.firstPrefs || 0) / b.validPoll * 100) : 0;
-                    return bPct - aPct
-                        || (b.firstPrefs || 0) - (a.firstPrefs || 0)
-                        || String(a.name || '').localeCompare(String(b.name || ''));
-                });
-                aggregate.parties = [...aggregate.partyMap.values()].sort((a, b) =>
-                    b.elected - a.elected || b.firstPrefs - a.firstPrefs || String(a.party || '').localeCompare(String(b.party || ''))
-                );
-                aggregate.localParties = [...aggregate.localPartyMap.values()].sort((a, b) =>
-                    b.firstPrefs - a.firstPrefs || String(a.party || '').localeCompare(String(b.party || ''))
-                );
+            const constituencyCandidates = [...aggregate.candidateMap.values()].filter((candidate) => candidate.constituency === canonicalConstituency);
+            constituencyCandidates.forEach((candidate) => {
+                const lifecycle = this._inferCandidateLifecycle(candidate, info, constituencyLastCount);
+                candidate.electedAt = lifecycle.electedAt || candidate.electedAt;
+                candidate.excludedAt = lifecycle.excludedAt || candidate.excludedAt;
+                if (candidate.electedAt) candidate.elected = true;
+                if (candidate.excludedAt) candidate.excluded = true;
             });
-            return councilMap;
-        };
+            const explicitElected = constituencyCandidates.filter((candidate) => !!candidate.electedAt).length;
+            if (constituencySeatCount > 0 && explicitElected < constituencySeatCount) {
+                const needed = constituencySeatCount - explicitElected;
+                constituencyCandidates
+                    .filter((candidate) => !candidate.electedAt && !candidate.excludedAt)
+                    .sort((a, b) => (b.finalVotes || 0) - (a.finalVotes || 0))
+                    .slice(0, needed)
+                    .forEach((candidate) => {
+                        candidate.elected = true;
+                        candidate.electedAt ||= constituencyLastCount;
+                    });
+            }
+            constituencyCandidates.forEach((candidate) => {
+                candidate.resolvedCount = candidate.electedAt
+                    ? (candidate.electedAt || constituencyLastCount)
+                    : candidate.excludedAt
+                        ? (candidate.excludedAt || constituencyLastCount)
+                        : constituencyLastCount;
+                candidate.status = candidate.electedAt
+                    ? 'Elected'
+                    : candidate.excludedAt
+                        ? 'Excluded'
+                        : 'Not Elected';
+            });
 
-        this._councilAggregates = buildAggregate(this.resultsByConstituency);
-        this._previousCouncilAggregates = buildAggregate(this.previousResultsByConstituency);
+            const elected = this._extractElected(payload);
+            elected.forEach((member) => {
+                aggregate.electedMembers.push(member);
+                const partyRow = aggregate.partyMap.get(member.party);
+                if (partyRow) partyRow.elected += 1;
+                const localRow = aggregate.localPartyMap.get(`${member.party}::${canonicalConstituency}`);
+                if (localRow) localRow.elected += 1;
+            });
+        });
+
+        councilMap.forEach((aggregate) => {
+            aggregate.constituencies.sort((a, b) => a.localeCompare(b));
+            aggregate.electedMembers.sort((a, b) =>
+                this._partyHemicycleRank(a.party) - this._partyHemicycleRank(b.party)
+                || String(a.party || '').localeCompare(String(b.party || ''))
+                || String(a.name || '').localeCompare(String(b.name || ''))
+            );
+            aggregate.candidates = [...aggregate.candidateMap.values()].sort((a, b) => {
+                const aPct = a.validPoll > 0 ? ((a.firstPrefs || 0) / a.validPoll * 100) : 0;
+                const bPct = b.validPoll > 0 ? ((b.firstPrefs || 0) / b.validPoll * 100) : 0;
+                return bPct - aPct
+                    || (b.firstPrefs || 0) - (a.firstPrefs || 0)
+                    || String(a.name || '').localeCompare(String(b.name || ''));
+            });
+            aggregate.parties = [...aggregate.partyMap.values()].sort((a, b) =>
+                b.elected - a.elected || b.firstPrefs - a.firstPrefs || String(a.party || '').localeCompare(String(b.party || ''))
+            );
+            aggregate.localParties = [...aggregate.localPartyMap.values()].sort((a, b) =>
+                b.firstPrefs - a.firstPrefs || String(a.party || '').localeCompare(String(b.party || ''))
+            );
+        });
+        return councilMap;
+    }
+
+    _rebuildCouncilAggregates() {
+        this._councilAggregates = this._buildCouncilAggregateMap(this.resultsByConstituency);
+        this._previousCouncilAggregates = this._buildCouncilAggregateMap(this.previousResultsByConstituency);
     }
 
     _getSeatCount(info = {}) {
@@ -962,6 +984,19 @@ class ElectionController {
             .replace(/[^\w\s-]/g, '').replace(/[\s]+/g, '-').replace(/-+/g, '-');
 
         const bodySlug = slugify(body);
+        let pendingConstituencies = [...(constituencies || [])];
+        if (bodySlug === 'local-government') {
+            const bundle = await this._loadLocalResultsBundle(date);
+            if (bundle) {
+                pendingConstituencies = this._populateResultsTargetFromBundle(
+                    bundle,
+                    pendingConstituencies,
+                    target,
+                    extractPartyColours
+                );
+            }
+            if (!pendingConstituencies.length) return target;
+        }
         const constituencySlugVariants = (name) => {
             const base = slugify(name);
             const variants = new Set([base]);
@@ -981,25 +1016,101 @@ class ElectionController {
             }
             return null;
         };
-        const promises = constituencies.map((c) => loadConstituency(c));
+        const promises = pendingConstituencies.map((c) => loadConstituency(c));
 
         const results = await Promise.all(promises);
-        constituencies.forEach((c, i) => {
+        pendingConstituencies.forEach((c, i) => {
             if (results[i]) {
                 target[c] = results[i];
-                // Extract party colours
-                const cg = results[i]?.Constituency?.countGroup;
-                if (cg && extractPartyColours) {
-                    cg.forEach(row => {
-                        const party = this._normaliseLivePartyName(row.Party_Name);
-                        if (row.Party_Colour && !this.partyColours[party]) {
-                            this.partyColours[party] = row.Party_Colour;
-                        }
-                    });
-                }
+                this._extractPartyColoursFromPayload(results[i], extractPartyColours);
             }
         });
         return target;
+    }
+
+    _getLocalBundleUrl(date) {
+        return `${this.electionDataPath}/elections/local-government/${date}/_bundle.json`;
+    }
+
+    _getLocalAggregatesUrl(date) {
+        return `${this.electionDataPath}/elections/local-government/${date}/_aggregates.json`;
+    }
+
+    async _loadLocalResultsBundle(date) {
+        if (!date) return null;
+        if (this._localBundleCache.has(date)) return this._localBundleCache.get(date);
+        const payload = await this._loadResultsPayload(this._getLocalBundleUrl(date));
+        const bundle = this._isValidLocalResultsBundle(payload) ? payload : null;
+        this._localBundleCache.set(date, bundle);
+        return bundle;
+    }
+
+    async _loadLocalCouncilAggregates(date) {
+        if (!date) return null;
+        if (this._localAggregatesCache.has(date)) return this._localAggregatesCache.get(date);
+        const payload = await this._loadResultsPayload(this._getLocalAggregatesUrl(date));
+        const aggregates = this._deserializeCouncilAggregateMap(payload);
+        this._localAggregatesCache.set(date, aggregates);
+        return aggregates;
+    }
+
+    _isValidLocalResultsBundle(payload) {
+        return !!(payload && typeof payload === 'object' && payload.constituencies && typeof payload.constituencies === 'object');
+    }
+
+    _populateResultsTargetFromBundle(bundle, constituencies, target, extractPartyColours = true) {
+        const bundleConstituencies = bundle?.constituencies || {};
+        const missing = [];
+        (constituencies || []).forEach((constituency) => {
+            const payload = bundleConstituencies[constituency];
+            if (payload?.Constituency) {
+                target[constituency] = payload;
+                this._extractPartyColoursFromPayload(payload, extractPartyColours);
+            } else {
+                missing.push(constituency);
+            }
+        });
+        return missing;
+    }
+
+    _extractPartyColoursFromPayload(payload, extractPartyColours = true) {
+        if (!extractPartyColours) return;
+        const cg = payload?.Constituency?.countGroup;
+        if (!cg) return;
+        cg.forEach((row) => {
+            const party = this._normaliseLivePartyName(row.Party_Name);
+            if (row.Party_Colour && !this.partyColours[party]) {
+                this.partyColours[party] = row.Party_Colour;
+            }
+        });
+    }
+
+    _deserializeCouncilAggregateMap(payload) {
+        const councils = payload?.councils;
+        if (!councils || typeof councils !== 'object') return null;
+        const councilMap = new Map();
+        Object.entries(councils).forEach(([councilName, aggregate]) => {
+            if (!aggregate || !Array.isArray(aggregate.constituencies)) return;
+            const normalized = {
+                councilName: aggregate.councilName || councilName,
+                constituencies: [...aggregate.constituencies],
+                validPoll: Number(aggregate.validPoll) || 0,
+                totalPoll: Number(aggregate.totalPoll) || 0,
+                electorate: Number(aggregate.electorate) || 0,
+                spoiled: Number(aggregate.spoiled) || 0,
+                totalSeats: Number(aggregate.totalSeats) || 0,
+                countRows: [],
+                candidates: Array.isArray(aggregate.candidates) ? aggregate.candidates.map((candidate) => ({ ...candidate })) : [],
+                parties: Array.isArray(aggregate.parties) ? aggregate.parties.map((party) => ({ ...party })) : [],
+                localParties: Array.isArray(aggregate.localParties) ? aggregate.localParties.map((localParty) => ({ ...localParty })) : [],
+                electedMembers: Array.isArray(aggregate.electedMembers) ? aggregate.electedMembers.map((member) => ({ ...member })) : []
+            };
+            normalized.candidateMap = new Map(normalized.candidates.map((candidate) => [String(candidate.personId || '').trim(), candidate]));
+            normalized.partyMap = new Map(normalized.parties.map((party) => [String(party.party || ''), party]));
+            normalized.localPartyMap = new Map(normalized.localParties.map((localParty) => [String(localParty.key || ''), localParty]));
+            councilMap.set(normalized.councilName, normalized);
+        });
+        return councilMap.size ? councilMap : null;
     }
 
     async _loadResultsPayload(url) {

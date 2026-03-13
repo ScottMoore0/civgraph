@@ -1,3 +1,38 @@
+Local-election bundled loads and precomputed aggregates
+- [x] Add reversible support for optional local-election `_bundle.json` artifacts in the runtime loader.
+  - [x] Prefer per-date local bundles for `local-government` only when the bundle validates and contains requested constituencies.
+  - [x] Fall back automatically to the existing per-constituency JSON path for any missing or invalid bundle data.
+- [x] Add reversible support for optional local-election `_aggregates.json` artifacts in the runtime loader.
+  - [x] Prefer precomputed current/previous council aggregates only when the aggregate artifact validates.
+  - [x] Fall back automatically to the existing runtime aggregate builder for any missing or invalid aggregate data.
+- [x] Extend the local-election build script to emit additive `_bundle.json` and `_aggregates.json` files without removing existing constituency JSON outputs.
+- [x] Regenerate local-election artifacts and verify:
+  - [x] runtime syntax checks
+  - [x] build-script syntax
+  - [x] expected additive files exist
+  - [x] existing local-election views still have fallback-safe inputs
+- [x] Record the overdue ZIP-intake check result in `.zip-intake-check.json`.
+  - Runtime now checks for `_bundle.json` and `_aggregates.json` only for `local-government`, caches them separately, validates shape, and falls back automatically to the existing constituency JSON and aggregate builder when anything is missing or invalid.
+  - The builder now writes additive per-date `_bundle.json` and `_aggregates.json` files alongside the existing constituency JSON outputs. Existing constituency files were preserved and regenerated in place.
+  - Verification:
+    - `node --check js/election-controller.js`
+    - Python AST parse of `privaterep_refactored/electionsni-master/scripts/build_lgov_from_workbook.py`
+    - Builder rerun completed successfully and wrote `249` JSON files
+    - Sample verification confirmed `election-viewer-package/data/elections/local-government/2023-05-18/_bundle.json` and `_aggregates.json` exist alongside `airport.json`
+  - Rollback:
+    - runtime rollback is metadata-free; simply remove or ignore `_bundle.json` / `_aggregates.json` and the loader falls back automatically
+    - data rollback is additive-only; constituency JSON primitives remain the authoritative fallback path
+
+Catalogue books and TOC top links
+- [x] Add legislation-book thumbnails and top-level TOC links; review 2023 local-election load bottlenecks
+  - [x] Add visible thumbnail fallback treatment for legislation books so they render like other book cards
+  - [x] Add clickable top-level TOC links for Elections, Maps, and Books
+  - [x] Verify UI changes with syntax checks
+  - [x] Report ranked 2023 local-election load bottlenecks and safest speed improvements
+  - Added a generated thumbnail fallback for books without `assets/thumbnails/book-<id>.png`, which gives legislation entries visible thumbnail cards instead of blank spaces while preserving existing boundary-report thumbnails.
+  - Added top-of-TOC quick links for `Elections`, `Maps`, and `Books`, and inserted matching anchors into the flat catalogue sections so they scroll correctly.
+  - Verification: `node --check js/ui-controller.js`; `node --check js/election-controller.js`.
+
 Phase 0 - Map load optimization rollout
 - [x] Add observability/timing instrumentation for vector full-load, LOD selection, chunk index load, chunk fetch/decode/render, and viewport updates.
   - Added structured load metrics in `js/map-controller.js` for full-file vector loads, LOD source selection, chunk index load, chunk file fetch/decode/render, and viewport reload paths.

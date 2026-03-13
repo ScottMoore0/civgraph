@@ -1330,6 +1330,8 @@ class UIController {
     }
 
     _buildBookCardHtml(book) {
+        const category = (this.booksData?.categories || []).find(cat => cat.id === book.category) || null;
+        const fallbackLabel = this._getBookThumbnailFallbackLabel(book);
         const pdfViewButton = book.file
             ? `<button type="button" class="btn btn--sm btn--primary book-card__btn" data-book-view="${this.escapeHtml(book.id)}" data-book-format="pdf">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1342,7 +1344,15 @@ class UIController {
             ? `<button type="button" class="btn btn--sm btn--outline book-card__btn" data-book-view="${this.escapeHtml(book.id)}" data-book-format="markdown">Markdown</button>`
             : '';
         return `
-            <div class="thumb-zone"><img class="book-card__thumbnail" src="assets/thumbnails/book-${book.id}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+            <div class="thumb-zone">
+                <span class="book-card__thumb">
+                    <img class="book-card__thumbnail" src="assets/thumbnails/book-${book.id}.png" alt="" loading="lazy" onerror="this.style.display='none'; var fb=this.parentElement && this.parentElement.querySelector('.book-card__thumbnail-fallback'); if(fb){fb.hidden=false;}">
+                    <span class="book-card__thumbnail-fallback${book.category ? ` book-card__thumbnail-fallback--${this.escapeHtml(book.category)}` : ''}" hidden>
+                        <span class="book-card__thumbnail-icon">${this.escapeHtml(category?.icon || '[book]')}</span>
+                        <span class="book-card__thumbnail-label">${this.escapeHtml(fallbackLabel)}</span>
+                    </span>
+                </span>
+            </div>
             <div class="book-card__content">
                 <h4 class="book-card__title">${this.escapeHtml(book.title)}</h4>
                 <p class="book-card__author">${this.escapeHtml((book.authors || []).join(', '))}</p>
@@ -1372,6 +1382,13 @@ class UIController {
             'document'
         ];
         return haystacks.some(value => String(value || '').toLowerCase().includes(q));
+    }
+
+    _getBookThumbnailFallbackLabel(book) {
+        const id = String(book?.id || '');
+        if (id.startsWith('ni-acts-')) return 'Acts';
+        if (id.startsWith('ni-sro-')) return 'SRO';
+        return 'Book';
     }
 
     async _getBookMarkdownText(book) {
@@ -2343,6 +2360,11 @@ class UIController {
         // Build TOC HTML (no title, no column labels), with columns for name/years/extent.
         let tocHtml = `
             <div class="catalogue-flat__toc">
+                <div class="catalogue-flat__toc-toplinks">
+                    <a href="#flat-section-elections" class="catalogue-flat__toc-toplink">Elections</a>
+                    <a href="#flat-section-maps" class="catalogue-flat__toc-toplink">Maps</a>
+                    <a href="#flat-section-books" class="catalogue-flat__toc-toplink">Books</a>
+                </div>
                 <table class="catalogue-flat__toc-table">
                     <tbody>`;
 
@@ -2479,6 +2501,10 @@ class UIController {
         const renderOptions = options || {};
 
         const esc = (value) => this.escapeHtml(value || '');
+        const electionsAnchor = document.createElement('div');
+        electionsAnchor.id = 'flat-section-elections';
+        electionsAnchor.className = 'catalogue-flat__anchor';
+        cardsContainer.appendChild(electionsAnchor);
         decadeElectionCards.forEach(def => {
             const anchor = document.createElement('div');
             anchor.id = `flat-card-${def.id}`;
@@ -2544,6 +2570,11 @@ class UIController {
             cardsContainer.appendChild(card);
         });
 
+        const mapsAnchor = document.createElement('div');
+        mapsAnchor.id = 'flat-section-maps';
+        mapsAnchor.className = 'catalogue-flat__anchor';
+        cardsContainer.appendChild(mapsAnchor);
+
         c1Cards.forEach(def => {
             const anchor = document.createElement('div');
             anchor.id = `flat-card-${def.id}`;
@@ -2573,6 +2604,10 @@ class UIController {
             cardsContainer.appendChild(card);
         });
 
+        const booksAnchor = document.createElement('div');
+        booksAnchor.id = 'flat-section-books';
+        booksAnchor.className = 'catalogue-flat__anchor';
+
         cardsContainer.querySelectorAll('.flat-election-link, .election-load-btn, .flat-election-entry').forEach(el => {
             el.addEventListener('click', (e) => {
                 const host = e.currentTarget.closest('.flat-election-entry') || e.currentTarget;
@@ -2594,6 +2629,7 @@ class UIController {
 
         // Keep books section below unchanged.
         if (this.booksData && this.booksData.books && this.booksData.books.length > 0) {
+            cardsContainer.appendChild(booksAnchor);
             const booksGroupHeader = document.createElement('div');
             booksGroupHeader.className = 'category-group-header';
             booksGroupHeader.innerHTML = `<h3 class="category-group-title">Books & Documents</h3>`;
@@ -2636,7 +2672,7 @@ class UIController {
         }
 
         // Wire smooth-scroll for TOC links
-        container.querySelectorAll('.catalogue-flat__toc-link').forEach(link => {
+        container.querySelectorAll('.catalogue-flat__toc-link, .catalogue-flat__toc-toplink').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const targetId = link.getAttribute('href').substring(1);
