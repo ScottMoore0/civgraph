@@ -2343,6 +2343,11 @@ class ElectionController {
                             // Rebuild the layer from full-res features (reuses _loadGeography style)
                             const geojson = { type: 'FeatureCollection', features: fullFeatures };
                             this.geojsonLayer = L.geoJSON(geojson, this._buildGeoStyle(activeGeo));
+                            // Re-tag feature layers after LOD upgrade rebuild
+                            if (this._registeredLayerId) {
+                                const regId = this._registeredLayerId;
+                                this.geojsonLayer.eachLayer(layer => { layer._mapId = regId; });
+                            }
                             this.geojsonLayer.addTo(mapController.map);
                             this._colourMap(activeGeo);
                             mapController.map.fitBounds(bounds); // preserve viewport
@@ -3085,6 +3090,11 @@ class ElectionController {
         const slug = String(this.body).toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s]+/g, '-').replace(/-+/g, '-');
         const id = `election-${slug}-${this.date}`;
         this._registeredLayerId = id;
+
+        // Tag feature layers so handleMapClick can identify the election layer
+        if (this.geojsonLayer) {
+            this.geojsonLayer.eachLayer(layer => { layer._mapId = id; });
+        }
 
         // Create a synthetic map config for the UI
         this.electionMapConfig = {
