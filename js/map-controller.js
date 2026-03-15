@@ -22,6 +22,7 @@ class MapController {
         this.spatialLayers = new Set();  // Layers using chunked viewport loading
         this.currentLOD = new Map(); // mapId -> current LOD level
         this._spatialUpdatePending = false; // debounce flag for viewport updates
+        this._lodCheckPending = false; // debounce flag for non-chunked LOD checks
         this._chunkIndexCache = new Map(); // mapId -> chunks-index.json data
         this._loadedChunks = new Map(); // mapId -> Map(chunkId -> { layer, features })
         this._featureIndexCache = new Map(); // mapId -> { features, chunks } from feature-index.json
@@ -610,7 +611,7 @@ class MapController {
         // Spatial loading handlers - update visible features on pan/zoom
         this.map.on('moveend', () => this.updateSpatialLayers());
         this.map.on('zoomend', () => this.updateSpatialLayers());
-        this.map.on('zoomend', () => this._checkNonChunkedLOD());
+        this.map.on('moveend zoomend', () => this._scheduleNonChunkedLODCheck());
 
         console.log('[MapController] Map initialized');
         return this;
@@ -1997,13 +1998,26 @@ class MapController {
     }
 
     /**
+     * Schedule a debounced check for non-chunked LOD maps.
+     * Fires on both moveend and zoomend for reliable mobile coverage.
+     */
+    _scheduleNonChunkedLODCheck() {
+        if (this._lodCheckPending) return;
+        this._lodCheckPending = true;
+        setTimeout(() => {
+            this._lodCheckPending = false;
+            this._checkNonChunkedLOD();
+        }, 200);
+    }
+
+    /**
      * Check non-chunked LOD maps for zoom-level changes that require reloading
      * with a different LOD file (e.g. switching from lod0 to full resolution).
      */
     async _checkNonChunkedLOD() {
         const zoom = this.map.getZoom();
         for (const [mapId, state] of this.layerStates) {
-            if (!state.visible || !state.loaded || state.loading) continue;
+            if (!state.visible || !state.loaded) continue;
             if (this.spatialLayers.has(mapId)) continue; // chunked maps handled by updateSpatialLayers
             const mapConfig = state.config;
             if (!mapConfig?.useLOD) continue;
@@ -2012,11 +2026,18 @@ class MapController {
             const newLOD = this.getLODLevel(zoom);
             if (currentLOD === newLOD) continue;
 
+            // Skip if already reloading — but schedule a re-check for when it finishes
+            if (state.loading) {
+                console.log(`[MapController] LOD check skipped for ${mapId} (loading), will re-check`);
+                continue;
+            }
+
             console.log(`[MapController] LOD change for ${mapId}: ${currentLOD} → ${newLOD} at zoom ${zoom}`);
             this.currentLOD.set(mapId, newLOD);
 
             const baseFgbPath = state.fgbPath;
             const newFilePath = this.getPreferredVectorFilePath(mapConfig, baseFgbPath, zoom);
+            console.log(`[MapController] LOD reloading ${mapId} from ${newFilePath}`);
 
             state.loading = true;
             try {
@@ -2083,11 +2104,24 @@ class MapController {
                 });
 
                 this.updateLabels();
-                console.log(`[MapController] Reloaded ${mapId} at LOD ${newLOD}`);
+                console.log(`[MapController] Reloaded ${mapId} at LOD ${newLOD} (${geojsonData.features?.length} features)`);
             } catch (err) {
                 console.warn(`[MapController] LOD reload failed for ${mapId}:`, err);
+                // Revert LOD tracking so next check retries
+                if (currentLOD !== undefined) {
+                    this.currentLOD.set(mapId, currentLOD);
+                } else {
+                    this.currentLOD.delete(mapId);
+                }
             } finally {
                 state.loading = false;
+            }
+
+            // Re-check in case zoom changed during the async load
+            const postZoom = this.map.getZoom();
+            if (this.getLODLevel(postZoom) !== newLOD) {
+                console.log(`[MapController] Zoom changed during LOD load for ${mapId}, scheduling re-check`);
+                this._scheduleNonChunkedLODCheck();
             }
         }
     }
