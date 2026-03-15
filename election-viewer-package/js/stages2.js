@@ -3580,6 +3580,16 @@ function animateStages(selectionOrYear, constituencyFolder) {
                 if (typeof electionRound === 'number' && isFinite(electionRound) && electionRound > numericRound) {
                     return '';
                 }
+                // Don't show Elected until the candidate has surpassed the quota.
+                // On the final round, updateFinalRoundStatuses() handles position-based
+                // election for candidates who are elected without reaching quota.
+                if (quotaValue > 0) {
+                    var candidateEntry = singleCountDict.hasOwnProperty(candidateKey) ? singleCountDict[candidateKey] : null;
+                    var candidateTotal = candidateEntry && isFinite(candidateEntry.total) ? candidateEntry.total : 0;
+                    if (candidateTotal < quotaValue) {
+                        return '';
+                    }
+                }
             }
             if (statusCategory === 'not_elected') {
                 var finalRound = parseInt(counts, 10);
