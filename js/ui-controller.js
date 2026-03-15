@@ -4615,7 +4615,9 @@ class UIController {
         content.innerHTML = '';
 
         features.forEach(feature => {
-            const mapConfig = mapConfigs.find(m => m.id === feature.mapId) || dataService.getMapById(feature.mapId);
+            const mapConfig = mapConfigs.find(m => m.id === feature.mapId)
+                || dataService.getMapById(feature.mapId)
+                || window.mapController?.layerStates?.get(feature.mapId)?.config;
             const props = feature.properties || {};
             const geometry = feature.geometry;
 
