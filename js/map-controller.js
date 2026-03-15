@@ -610,6 +610,7 @@ class MapController {
         // Spatial loading handlers - update visible features on pan/zoom
         this.map.on('moveend', () => this.updateSpatialLayers());
         this.map.on('zoomend', () => this.updateSpatialLayers());
+        this.map.on('zoomend', () => this._checkNonChunkedLOD());
 
         console.log('[MapController] Map initialized');
         return this;
@@ -1202,6 +1203,11 @@ class MapController {
             state.loaded = true;
             state.loading = false;
             state.progress = 100;
+
+            // Track initial LOD level for non-chunked LOD maps
+            if (mapConfig?.useLOD) {
+                this.currentLOD.set(id, this.getLODLevel(zoom));
+            }
 
             if (this.onLoadProgress) {
                 this.onLoadProgress(id, 100);
@@ -1986,6 +1992,102 @@ class MapController {
                 state.loading = false;
             } finally {
                 this._emitSpatialLoadingChange(mapId, state, false, needFullReload ? 'lod' : 'viewport');
+            }
+        }
+    }
+
+    /**
+     * Check non-chunked LOD maps for zoom-level changes that require reloading
+     * with a different LOD file (e.g. switching from lod0 to full resolution).
+     */
+    async _checkNonChunkedLOD() {
+        const zoom = this.map.getZoom();
+        for (const [mapId, state] of this.layerStates) {
+            if (!state.visible || !state.loaded || state.loading) continue;
+            if (this.spatialLayers.has(mapId)) continue; // chunked maps handled by updateSpatialLayers
+            const mapConfig = state.config;
+            if (!mapConfig?.useLOD) continue;
+
+            const currentLOD = this.currentLOD.get(mapId);
+            const newLOD = this.getLODLevel(zoom);
+            if (currentLOD === newLOD) continue;
+
+            console.log(`[MapController] LOD change for ${mapId}: ${currentLOD} → ${newLOD} at zoom ${zoom}`);
+            this.currentLOD.set(mapId, newLOD);
+
+            const baseFgbPath = state.fgbPath;
+            const newFilePath = this.getPreferredVectorFilePath(mapConfig, baseFgbPath, zoom);
+
+            state.loading = true;
+            try {
+                const features = await this.loadDataFile(newFilePath, (progress) => {
+                    state.progress = progress;
+                    if (this.onLoadProgress) this.onLoadProgress(mapId, progress);
+                });
+
+                const geojsonData = Array.isArray(features)
+                    ? { type: 'FeatureCollection', features }
+                    : features;
+
+                // Remove old GeoJSON layers
+                for (const layer of state.geoJsonLayers) {
+                    state.group.removeLayer(layer);
+                }
+                state.geoJsonLayers = [];
+                state.labelEntries = [];
+
+                // Recreate with new LOD data
+                const style = mapConfig.style;
+                const labelProperty = mapConfig.labelProperty;
+                const geoJsonLayer = L.geoJSON(geojsonData, {
+                    style: (feature) => {
+                        if (feature.geometry?.type === 'Point') return {};
+                        return {
+                            color: style?.color || '#3388ff',
+                            weight: style?.weight || 2,
+                            fillOpacity: style?.fillOpacity ?? 0,
+                            opacity: 1
+                        };
+                    },
+                    pointToLayer: (feature, latlng) => {
+                        return this.createPointMarker(latlng, style);
+                    },
+                    onEachFeature: (feature, layer) => {
+                        layer._mapId = mapId;
+                        this._attachFeatureHoverHandlers(layer);
+                        this._attachHistoricPointDblClick(mapConfig, mapId, feature, layer);
+                        if (labelProperty && feature.properties?.[labelProperty]) {
+                            const labelText = this.cleanLabelText(
+                                feature.properties[labelProperty],
+                                mapConfig.labelCleanup
+                            );
+                            if (labelText && (layer.getBounds || layer.getLatLng)) {
+                                const priorityProp = mapConfig.priorityProperty || mapConfig.significanceProperty;
+                                const priority = priorityProp ? (parseFloat(feature.properties[priorityProp]) || 0) : 0;
+                                state.labelEntries.push({ layer, feature, text: labelText, color: style?.color || '#3388ff', priority });
+                            }
+                        }
+                    }
+                });
+
+                geoJsonLayer.addTo(state.group);
+                state.geoJsonLayers.push(geoJsonLayer);
+                state.featureCount = geojsonData.features?.length || 0;
+
+                this._recordLoadMetric('lod-zoom-reload', {
+                    mapId,
+                    zoom,
+                    source: newFilePath,
+                    lodLevel: newLOD,
+                    previousLodLevel: currentLOD
+                });
+
+                this.updateLabels();
+                console.log(`[MapController] Reloaded ${mapId} at LOD ${newLOD}`);
+            } catch (err) {
+                console.warn(`[MapController] LOD reload failed for ${mapId}:`, err);
+            } finally {
+                state.loading = false;
             }
         }
     }
