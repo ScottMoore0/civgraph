@@ -58,6 +58,9 @@ class ElectionController {
         this._localAggregatesCache = new Map();
         this._loadRequestSerial = 0;
         this._activeLoadRequestId = 0;
+        this._previousResultsPromise = null;
+        this._currentLodLevel = 2;
+        this._currentLodBaseFgb = null;
     }
 
     static LOCAL_GOVERNMENT_BODIES = [
@@ -190,9 +193,6 @@ class ElectionController {
             const loadSlug = bodyData.slug || body;
             const geometryPromise = this._loadGeography(activeGeo);
             let currentResultsPromise = Promise.resolve({});
-            let previousResultsPromise = Promise.resolve({});
-            let currentAggregatesPromise = Promise.resolve(null);
-            let previousAggregatesPromise = Promise.resolve(null);
             const isLocalBody = this._isLocalGovernmentBody(body, bodyData.bodyGroup);
 
             // Load election results for all constituencies
@@ -200,22 +200,12 @@ class ElectionController {
                 currentResultsPromise = Promise.resolve(this._specialElection.resultsByConstituency);
             } else {
                 currentResultsPromise = this._loadAllResults(loadSlug, date, this.constituencies, {}, true);
-                previousResultsPromise = this.previousDate
-                    ? this._loadAllResults(loadSlug, this.previousDate, previousDateData.constituencies || [], {}, false)
-                    : Promise.resolve({});
-                if (isLocalBody) {
-                    currentAggregatesPromise = this._loadLocalCouncilAggregates(date);
-                    previousAggregatesPromise = this.previousDate
-                        ? this._loadLocalCouncilAggregates(this.previousDate)
-                        : Promise.resolve(null);
-                }
             }
-            const [, currentResults, previousResults, currentAggregates, previousAggregates] = await Promise.all([
+
+            // Critical path: only geometry + current results needed for initial render
+            const [, currentResults] = await Promise.all([
                 geometryPromise,
-                currentResultsPromise,
-                previousResultsPromise,
-                currentAggregatesPromise,
-                previousAggregatesPromise
+                currentResultsPromise
             ]);
             if (requestId !== this._activeLoadRequestId) {
                 if (this.onFinishLoadFeedback && feedback) {
@@ -224,17 +214,29 @@ class ElectionController {
                 return;
             }
             this.resultsByConstituency = currentResults || {};
-            this.previousResultsByConstituency = previousResults || {};
+            this.previousResultsByConstituency = {};
             this._rebuildElectionLookups();
-            if (isLocalBody) {
-                this._councilAggregates = currentAggregates instanceof Map && currentAggregates.size
-                    ? currentAggregates
-                    : this._buildCouncilAggregateMap(this.resultsByConstituency);
-                this._previousCouncilAggregates = previousAggregates instanceof Map && previousAggregates.size
-                    ? previousAggregates
-                    : this._buildCouncilAggregateMap(this.previousResultsByConstituency);
-            } else {
-                this._rebuildCouncilAggregates();
+
+            // Aggregates and previous results load in the background (Changes 3 & 6).
+            // They are not needed for the initial map render or NI-wide party table.
+            if (!this._specialElection) {
+                this._previousResultsPromise = this.previousDate
+                    ? this._loadAllResults(loadSlug, this.previousDate, previousDateData.constituencies || [], {}, false)
+                    : Promise.resolve({});
+                this._previousResultsPromise.then(prev => {
+                    if (requestId !== this._activeLoadRequestId) return;
+                    this.previousResultsByConstituency = prev || {};
+                    // Rebuild aggregates that depend on previous results
+                    if (isLocalBody && this._councilAggregates) {
+                        this._previousCouncilAggregates = this._buildCouncilAggregateMap(this.previousResultsByConstituency);
+                    } else if (!isLocalBody) {
+                        this._rebuildCouncilAggregates();
+                    }
+                    // Re-render NI-wide view to fill in comparison columns
+                    if (this._currentResultsView?.type === 'niwide') {
+                        this._showNIWideResults();
+                    }
+                }).catch(err => console.warn('[Election] Background previous results load failed:', err));
             }
 
             // Colour the map by winning party
@@ -319,6 +321,9 @@ class ElectionController {
         this._councilAliases = new Map();
         this._countDetailedView = false;
         this.partyColours = {};
+        this._previousResultsPromise = null;
+        this._currentLodLevel = 2;
+        this._currentLodBaseFgb = null;
         this._currentResultsView = null;
         this._entityDetailReturnView = null;
         this._entityIndexCache = null;
@@ -1032,14 +1037,68 @@ class ElectionController {
         return `${this.electionDataPath}/elections/local-government/${date}/_bundle.json`;
     }
 
+    _getLocalBundleV2Url(date) {
+        return `${this.electionDataPath}/elections/local-government/${date}/_bundle_v2.json`;
+    }
+
     _getLocalAggregatesUrl(date) {
         return `${this.electionDataPath}/elections/local-government/${date}/_aggregates.json`;
+    }
+
+    /**
+     * Expand a compact-v2 bundle back into the original countGroup format.
+     */
+    _expandCompactBundle(payload) {
+        if (payload?.format !== 'compact-v2') return payload;
+        const expanded = {
+            body: payload.body,
+            date: payload.date,
+            constituencies: {}
+        };
+        for (const [name, data] of Object.entries(payload.constituencies || {})) {
+            const constData = data?.Constituency;
+            if (!constData?.candidates || !constData?.counts) {
+                expanded.constituencies[name] = data;
+                continue;
+            }
+            const candidates = constData.candidates;
+            const countFields = constData.countFields || [
+                'Count_Number', 'Candidate_First_Pref_Votes', 'Transfers',
+                'Total_Votes', 'Status', 'Occurred_On_Count'
+            ];
+            const countGroup = constData.counts.map((row, rowIdx) => {
+                const cidx = row[0];
+                const candidate = candidates[cidx] || {};
+                const entry = { ...candidate };
+                for (let i = 0; i < countFields.length; i++) {
+                    entry[countFields[i]] = row[i + 1];
+                }
+                entry.id = rowIdx;
+                return entry;
+            });
+            expanded.constituencies[name] = {
+                Constituency: {
+                    countInfo: constData.countInfo,
+                    countGroup
+                }
+            };
+        }
+        return expanded;
     }
 
     async _loadLocalResultsBundle(date) {
         if (!date) return null;
         if (this._localBundleCache.has(date)) return this._localBundleCache.get(date);
-        const payload = await this._loadResultsPayload(this._getLocalBundleUrl(date));
+
+        // Try compact v2 bundle first (much smaller)
+        let payload = await this._loadResultsPayload(this._getLocalBundleV2Url(date));
+        if (payload?.format === 'compact-v2') {
+            payload = this._expandCompactBundle(payload);
+        } else {
+            // Fall back to original bundle
+            payload = await this._loadResultsPayload(this._getLocalBundleUrl(date));
+        }
+
         const bundle = this._isValidLocalResultsBundle(payload) ? payload : null;
         this._localBundleCache.set(date, bundle);
         return bundle;
@@ -2240,70 +2299,125 @@ class ElectionController {
 
     async _loadGeography(geo) {
         try {
-            // Fetch then stream â€” direct URL needs range request support
-            const features = await this._getGeometryFeatures(geo.fgb);
+            // Start with LOD-1 (medium detail) for faster initial load, upgrade on zoom
+            const initialZoom = mapController.map?.getZoom?.() ?? 8;
+            const initialFgb = this._getLODPath(geo.fgb, Math.min(initialZoom, 10));
+            this._currentLodLevel = mapController.getLODLevel(Math.min(initialZoom, 10));
+            this._currentLodBaseFgb = geo.fgb;
+
+            let features;
+            try {
+                features = await this._getGeometryFeatures(initialFgb);
+            } catch (lodErr) {
+                // LOD file may not exist — fall back to full resolution
+                if (initialFgb !== geo.fgb) {
+                    features = await this._getGeometryFeatures(geo.fgb);
+                    this._currentLodLevel = 2;
+                } else {
+                    throw lodErr;
+                }
+            }
 
             const geojson = { type: 'FeatureCollection', features };
 
-            // Create Leaflet layer
-            this.geojsonLayer = L.geoJSON(geojson, {
-                style: (feature) => ({
-                    fillColor: '#dfe4ec',
-                    fillOpacity: 0.42,
-                    color: '#a1aab8',
-                    weight: 1.5,
-                    opacity: 0.8
-                }),
-                onEachFeature: (feature, layer) => {
-                    const name = feature.properties[geo.nameAttr];
-                    if (name) {
-                        layer.on('click', () => this._onConstituencyClick(name));
-                        layer.bindTooltip(this._titleCase(name), {
-                            sticky: true,
-                            className: 'election-tooltip'
-                        });
-                        // Hover highlight: compound outline (black-white-black sandwich)
-                        layer.on('mouseover', () => {
-                            // Store current style before changing
-                            layer._preHoverStyle = {
-                                color: layer.options?.color || '#555',
-                                weight: layer.options?.weight || 1.5
-                            };
-                            // Create a shadow layer for the outer black border
-                            if (layer._hoverShadow) {
-                                mapController.map.removeLayer(layer._hoverShadow);
-                            }
-                            layer._hoverShadow = L.geoJSON(layer.feature, {
-                                style: { weight: 5, color: '#000', fill: false, opacity: 1 },
-                                interactive: false
-                            });
-                            layer._hoverShadow.addTo(mapController.map);
-                            // Set white inner stroke and bring feature above the shadow
-                            layer.setStyle({ color: '#fff', weight: 3 });
-                            layer.bringToFront();
-                        });
-                        layer.on('mouseout', () => {
-                            // Remove shadow layer
-                            if (layer._hoverShadow) {
-                                mapController.map.removeLayer(layer._hoverShadow);
-                                layer._hoverShadow = null;
-                            }
-                            // Restore original style (no bringToBack â€” avoids z-order corruption)
-                            const prev = layer._preHoverStyle || { color: '#555', weight: 1.5 };
-                            layer.setStyle({ color: prev.color, weight: prev.weight });
-                        });
-                    }
-                }
-            });
+            // Create Leaflet layer (style extracted to _buildGeoStyle for LOD upgrade reuse)
+            this.geojsonLayer = L.geoJSON(geojson, this._buildGeoStyle(geo));
 
             this.geojsonLayer.addTo(mapController.map);
             mapController.map.fitBounds(this.geojsonLayer.getBounds(), { padding: [20, 20] });
+
+            // LOD upgrade: replace geometry with full-res when user zooms in
+            if (this._currentLodLevel < 2) {
+                this._onZoomEnd = async () => {
+                    const zoom = mapController.map.getZoom();
+                    if (zoom >= 12 && this._currentLodLevel < 2 && this._currentLodBaseFgb) {
+                        this._currentLodLevel = 2;
+                        mapController.map.off('zoomend', this._onZoomEnd);
+                        try {
+                            const fullFeatures = await this._getGeometryFeatures(this._currentLodBaseFgb);
+                            if (!this.geojsonLayer) return; // election was cleared
+                            const activeGeo = this._getActiveGeography(this._currentGeo);
+                            const bounds = mapController.map.getBounds();
+                            mapController.map.removeLayer(this.geojsonLayer);
+                            this.geojsonLayer = null;
+                            // Rebuild the layer from full-res features (reuses _loadGeography style)
+                            const geojson = { type: 'FeatureCollection', features: fullFeatures };
+                            this.geojsonLayer = L.geoJSON(geojson, this._buildGeoStyle(activeGeo));
+                            this.geojsonLayer.addTo(mapController.map);
+                            this._colourMap(activeGeo);
+                            mapController.map.fitBounds(bounds); // preserve viewport
+                        } catch (err) {
+                            console.warn('[Election] LOD upgrade failed:', err);
+                        }
+                    }
+                };
+                mapController.map.on('zoomend', this._onZoomEnd);
+            }
 
             // Register as a synthetic layer so it appears in Active Layers
             this._registerActiveLayer();
         } catch (err) {
             console.error('[Election] Failed to load geography:', err);
         }
+    }
+
+    /**
+     * Resolve LOD file path for a base FGB path.
+     */
+    _getLODPath(baseFgbPath, zoom) {
+        const lod = mapController.getLODLevel(zoom);
+        if (lod >= 2) return baseFgbPath;
+        return baseFgbPath.replace(/\.fgb$/i, `-lod${lod}.fgb`);
+    }
+
+    /**
+     * Build the Leaflet GeoJSON style/options object for election geography.
+     * Extracted so LOD upgrades can rebuild the layer with the same style.
+     */
+    _buildGeoStyle(geo) {
+        return {
+            style: () => ({
+                fillColor: '#dfe4ec',
+                fillOpacity: 0.42,
+                color: '#a1aab8',
+                weight: 1.5,
+                opacity: 0.8
+            }),
+            onEachFeature: (feature, layer) => {
+                const name = feature.properties[geo.nameAttr];
+                if (name) {
+                    layer.on('click', () => this._onConstituencyClick(name));
+                    layer.bindTooltip(this._titleCase(name), {
+                        sticky: true,
+                        className: 'election-tooltip'
+                    });
+                    layer.on('mouseover', () => {
+                        layer._preHoverStyle = {
+                            color: layer.options?.color || '#555',
+                            weight: layer.options?.weight || 1.5
+                        };
+                        if (layer._hoverShadow) {
+                            mapController.map.removeLayer(layer._hoverShadow);
+                        }
+                        layer._hoverShadow = L.geoJSON(layer.feature, {
+                            style: { weight: 5, color: '#000', fill: false, opacity: 1 },
+                            interactive: false
+                        });
+                        layer._hoverShadow.addTo(mapController.map);
+                        layer.setStyle({ color: '#fff', weight: 3 });
+                        layer.bringToFront();
+                    });
+                    layer.on('mouseout', () => {
+                        if (layer._hoverShadow) {
+                            mapController.map.removeLayer(layer._hoverShadow);
+                            layer._hoverShadow = null;
+                        }
+                        const prev = layer._preHoverStyle || { color: '#555', weight: 1.5 };
+                        layer.setStyle({ color: prev.color, weight: prev.weight });
+                    });
+                }
+            }
+        };
     }
 
     // â”€â”€â”€ Map Colouring â”€â”€â”€
@@ -2314,9 +2428,29 @@ class ElectionController {
         if (this._geometryFeaturePromiseCache.has(fgbPath)) return this._geometryFeaturePromiseCache.get(fgbPath);
 
         const promise = (async () => {
-            const response = await fetch(fgbPath);
             const features = [];
-            for await (const feature of flatgeobuf.deserialize(response.body)) {
+            let source = null;
+
+            // Try pre-compressed .fgb.gz first (Pako decompression)
+            if (typeof pako !== 'undefined' && fgbPath.toLowerCase().endsWith('.fgb')) {
+                try {
+                    const gzResponse = await fetch(fgbPath + '.gz');
+                    if (gzResponse.ok) {
+                        const compressed = new Uint8Array(await gzResponse.arrayBuffer());
+                        const decompressed = pako.ungzip(compressed);
+                        source = decompressed;
+                    }
+                } catch (gzErr) {
+                    // .gz not available or decompression failed — fall back to uncompressed
+                }
+            }
+
+            if (!source) {
+                const response = await fetch(fgbPath);
+                source = response.body || new Uint8Array(await response.arrayBuffer());
+            }
+
+            for await (const feature of flatgeobuf.deserialize(source)) {
                 features.push(feature);
             }
             this._geometryFeatureCache.set(fgbPath, features);
@@ -2974,7 +3108,7 @@ class ElectionController {
             loading: false,
             visible: true,
             progress: 100,
-            useLOD: false,
+            useLOD: true,
             isElection: true   // Flag to identify election layers
         };
         mapController.layerStates.set(id, state);
@@ -3044,6 +3178,25 @@ class ElectionController {
             this._onZoomEnd = null;
         }
         this._overlayGroups = null;
+
+        // Lazy-load council aggregates on first switch to council mode
+        if (nextMode === 'council' && !this._councilAggregates) {
+            // Ensure previous results are available for building previous aggregates
+            if (this._previousResultsPromise) {
+                await this._previousResultsPromise.catch(() => {});
+            }
+            const [currentAgg, previousAgg] = await Promise.all([
+                this._loadLocalCouncilAggregates(this.date),
+                this.previousDate ? this._loadLocalCouncilAggregates(this.previousDate) : Promise.resolve(null)
+            ]);
+            this._councilAggregates = currentAgg instanceof Map && currentAgg.size
+                ? currentAgg
+                : this._buildCouncilAggregateMap(this.resultsByConstituency);
+            this._previousCouncilAggregates = previousAgg instanceof Map && previousAgg.size
+                ? previousAgg
+                : this._buildCouncilAggregateMap(this.previousResultsByConstituency);
+        }
+
         this._rebuildElectionLookups();
         await this._loadGeography(this._getActiveGeography(this._currentGeo));
         this._colourMap(this._getActiveGeography(this._currentGeo));

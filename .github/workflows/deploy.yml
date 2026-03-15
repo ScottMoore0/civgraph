@@ -15,6 +15,23 @@ jobs:
         with:
           lfs: false  # LFS disabled - budget exceeded. LFS pointer files are auto-detected and skipped.
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build optimized assets
+        run: |
+          npm install --ignore-scripts
+          npm run build
+          python scripts/gzip_fgb_files.py
+          python scripts/restructure_election_bundles.py
+
       - name: Prepare dist
         run: |
           rsync -a \

@@ -52,8 +52,8 @@ class MapController {
         this._loadMetrics = [];
         this._loadMetricSeq = 0;
 
-        // Initialize feature loader
-        featureLoader.init();
+        // Feature loader is initialized lazily on first use (deferred to avoid
+        // downloading the 24 MB spatial-index.json on every page load).
     }
 
     _recordLoadMetric(type, payload = {}) {
@@ -1703,10 +1703,24 @@ class MapController {
         const minDiag = zoom != null ? this.getMinFeatureDiagDeg(zoom) : 0;
         let skippedCount = 0;
 
-        const response = await fetch(filePath, signal ? { signal } : undefined);
-        if (!response.ok) throw new Error(`Failed to fetch ${filePath}: ${response.status}`);
+        // Try pre-compressed .fgb.gz first
+        let source = null;
+        if (typeof pako !== 'undefined' && filePath.toLowerCase().endsWith('.fgb')) {
+            try {
+                const gzResponse = await fetch(filePath + '.gz', signal ? { signal } : undefined);
+                if (gzResponse.ok) {
+                    const compressed = new Uint8Array(await gzResponse.arrayBuffer());
+                    source = pako.ungzip(compressed);
+                }
+            } catch (gzErr) { /* fall through */ }
+        }
+        if (!source) {
+            const response = await fetch(filePath, signal ? { signal } : undefined);
+            if (!response.ok) throw new Error(`Failed to fetch ${filePath}: ${response.status}`);
+            source = response.body || new Uint8Array(await response.arrayBuffer());
+        }
 
-        for await (const feature of flatgeobuf.deserialize(response.body)) {
+        for await (const feature of flatgeobuf.deserialize(source)) {
             // Screen-space area filtering
             if (minDiag > 0) {
                 const diag = this.computeFeatureBboxDiag(feature.geometry);
@@ -2074,7 +2088,8 @@ class MapController {
     }
 
     /**
-     * Load FlatGeobuf file (full download via fetch, no range requests)
+     * Load FlatGeobuf file (full download via fetch, no range requests).
+     * Tries pre-compressed .fgb.gz first and decompresses client-side with Pako.
      */
     async loadFlatGeobuf(url, onProgress = null, signal = null) {
         const start = this._now();
@@ -2094,6 +2109,27 @@ class MapController {
 
             return features;
         };
+
+        // Try pre-compressed .fgb.gz first (client-side Pako decompression)
+        if (typeof pako !== 'undefined' && url.toLowerCase().endsWith('.fgb')) {
+            try {
+                const gzResponse = await fetch(url + '.gz', signal ? { signal } : undefined);
+                if (gzResponse.ok) {
+                    const compressed = new Uint8Array(await gzResponse.arrayBuffer());
+                    const decompressed = pako.ungzip(compressed);
+                    const data = await loadFromSource(decompressed);
+                    this._recordLoadMetric('flatgeobuf-loaded', {
+                        source: url + '.gz',
+                        featureCount: data.length,
+                        durationMs: this._elapsedMs(start),
+                        compressed: true
+                    });
+                    return data;
+                }
+            } catch (gzErr) {
+                // .gz not available or decompression failed — fall back to uncompressed
+            }
+        }
 
         const response = await fetch(url, signal ? { signal } : undefined);
         if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);

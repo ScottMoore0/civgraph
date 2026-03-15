@@ -985,6 +985,8 @@ class App {
         }
 
         // --- Section 2: Matching Features (from spatial index of ALL maps) ---
+        // Trigger lazy init of spatial index on first search (deferred to avoid 24 MB load on page open)
+        if (!featureLoader.initialized) featureLoader.ensureInitialized();
         const featureResults = featureLoader.searchFeaturesByName(query, 8);
         if (featureResults.length > 0) {
             html += `<div class="search-autocomplete__section-header">Features</div>`;

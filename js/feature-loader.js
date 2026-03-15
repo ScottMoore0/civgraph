@@ -14,6 +14,18 @@ class FeatureLoader {
         this.loadedFeatures = new Map();     // "mapId:index:lod" -> L.geoJSON layer
         this.pendingLoads = new Map();       // URL -> Promise
         this.initialized = false;
+        this._initPromise = null;
+    }
+
+    /**
+     * Lazy initialization — call this before any method that needs the spatial index.
+     * De-duplicates concurrent callers so the fetch only happens once.
+     */
+    async ensureInitialized() {
+        if (this.initialized) return;
+        if (this._initPromise) return this._initPromise;
+        this._initPromise = this.init();
+        return this._initPromise;
     }
 
     /**

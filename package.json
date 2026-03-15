@@ -1,10 +1,12 @@
 {
   "scripts": {
+    "build": "node scripts/bundle.mjs",
     "test:browser": "playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
     "canvas": "^3.2.1",
+    "esbuild": "^0.27.4",
     "flatgeobuf": "^4.4.0"
   },
   "dependencies": {
