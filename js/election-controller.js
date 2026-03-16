@@ -169,7 +169,9 @@ class ElectionController {
             return;
         }
 
-        const loadName = `${this._shortBodyName(body)} ${this._formatDate(date)}`;
+        const loadName = this._isLocalGovernmentBody(body)
+            ? this._localElectionTitle(date)
+            : `${this._shortBodyName(body)} ${this._formatDate(date)}`;
         const feedback = this.onStartLoadFeedback ? this.onStartLoadFeedback(loadName) : null;
 
         try {
@@ -1344,9 +1346,12 @@ class ElectionController {
         if ((duplicateMonthCount || 0) > 1) {
             prefix = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
         }
-        if (isByElection && this._isLocalGovernmentBody(body)) {
-            const deaName = nonNiConstituencies[0] || bodyLabel;
-            return `${prefix} ${deaName} by-election`;
+        if (this._isLocalGovernmentBody(body)) {
+            if (isByElection) {
+                const deaName = nonNiConstituencies[0] || bodyLabel;
+                return `${prefix} ${deaName} by-election`;
+            }
+            return this._localElectionTitle(date);
         }
         return `${prefix} ${bodyLabel} ${isByElection ? 'by-election' : 'election'}`;
     }
@@ -1876,7 +1881,7 @@ class ElectionController {
                         electionType: 'Local',
                         electionBodyForOpen: localLoadBodyByDate.get(row.date) || ElectionController.LOCAL_GOVERNMENT_BODIES[0],
                         date: row.date,
-                        electionDisplayName: `${this._formatDate(row.date)} local elections`,
+                        electionDisplayName: this._localElectionTitle(row.date),
                         isByElection: false,
                         isRecallPetition: false,
                         constituencyNames: [],
@@ -3101,7 +3106,9 @@ class ElectionController {
             id,
             name: this._specialElection?.title
                 ? `${this._specialElection.title} ${this._formatDate(this.date)}`
-                : `${this._shortBodyName(this.body)} ${this._formatDate(this.date)}`,
+                : this._isLocalGovernmentBody()
+                    ? this._localElectionTitle(this.date)
+                    : `${this._shortBodyName(this.body)} ${this._formatDate(this.date)}`,
             style: { color: '#1a365d' },
             provider: ['Election Viewer'],
             date: this.date
@@ -6727,9 +6734,14 @@ class ElectionController {
 
     _niWideTitle() {
         if (this._isLocalGovernmentBody()) {
-            return `Local Government Districts - ${this._formatDate(this.date)}`;
+            return this._localElectionTitle(this.date);
         }
         return `${this._shortBodyName(this.body)} - ${this._formatDate(this.date)}`;
+    }
+
+    _localElectionTitle(date) {
+        const year = String(date || '').slice(0, 4);
+        return year ? `${year} Northern Ireland local election` : `Northern Ireland local election`;
     }
 
     _formatByElectionSubtitle(constituency, body, bodyGroup = null) {

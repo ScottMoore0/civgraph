@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PersonID - Ambiguous Match Grouping</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; color: #222; line-height: 1.5; display: flex; height: 100vh; overflow: hidden; }
+
+/* Sidebar */
+.sidebar { width: 280px; background: #1a365d; color: #fff; display: flex; flex-direction: column; flex-shrink: 0; }
+.sidebar-header { padding: 16px 18px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.sidebar-header h1 { font-size: 15px; font-weight: 600; }
+.sidebar-header .sub { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+.sidebar-status { padding: 10px 18px; font-size: 12px; background: rgba(0,0,0,0.15); display: flex; justify-content: space-between; }
+.sidebar-status .done { color: #7ddf90; }
+.sidebar-list { flex: 1; overflow-y: auto; }
+.sidebar-item { padding: 10px 18px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; transition: background 0.1s; display: flex; justify-content: space-between; align-items: center; }
+.sidebar-item:hover { background: rgba(255,255,255,0.08); }
+.sidebar-item.active { background: rgba(255,255,255,0.15); }
+.sidebar-item.resolved { opacity: 0.7; }
+.sidebar-item .name { font-weight: 500; }
+.sidebar-item .count { font-size: 11px; opacity: 0.6; }
+.sidebar-item .check { color: #7ddf90; font-size: 14px; }
+.sidebar-actions { padding: 12px 18px; border-top: 1px solid rgba(255,255,255,0.1); }
+.sidebar-actions button { width: 100%; padding: 8px; font-size: 13px; border: none; border-radius: 4px; cursor: pointer; background: #2a7d3f; color: #fff; font-weight: 500; }
+.sidebar-actions button:hover { background: #35994d; }
+.sidebar-actions button:disabled { background: #555; cursor: default; }
+
+/* Main area */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.main-header { padding: 16px 24px; background: #fff; border-bottom: 1px solid #ddd; }
+.main-header h2 { font-size: 18px; font-weight: 600; }
+.main-header .info { font-size: 13px; color: #666; margin-top: 2px; }
+.main-header .instructions { font-size: 12px; color: #888; margin-top: 6px; padding: 6px 10px; background: #f8f9fa; border-radius: 4px; }
+
+.workspace { flex: 1; overflow-y: auto; padding: 20px 24px; }
+
+/* Empty/loading state */
+.empty-state { text-align: center; padding: 80px 20px; color: #888; }
+.empty-state h2 { font-size: 20px; margin-bottom: 8px; color: #555; }
+.loading { text-align: center; padding: 80px 20px; color: #888; font-size: 16px; }
+
+/* Election entry (draggable item) */
+.election-entry {
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 5px;
+  cursor: grab;
+  transition: box-shadow 0.15s, border-color 0.15s;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.election-entry:active { cursor: grabbing; }
+.election-entry:hover { box-shadow: 0 1px 6px rgba(0,0,0,0.1); }
+.election-entry.dragging { opacity: 0.3; }
+
+.election-entry.type-candidate { border-left: 4px solid #d97706; background: #fffbeb; }
+.election-entry.type-registry { border-left: 4px solid #1a365d; background: #f8fafc; }
+
+.ee-name { font-weight: 600; min-width: 140px; }
+.ee-date { font-weight: 500; min-width: 80px; color: #333; }
+.ee-body { min-width: 75px; color: #1a365d; font-weight: 500; }
+.ee-party { min-width: 90px; color: #555; }
+.ee-const { color: #888; flex: 1; }
+.ee-tag { font-size: 10px; padding: 1px 6px; border-radius: 8px; font-weight: 500; white-space: nowrap; }
+.ee-tag.cand-tag { background: #fef3c7; color: #92400e; }
+.ee-tag.reg-tag { background: #dbeafe; color: #1e40af; }
+
+/* Drop groups */
+.group-container { margin-bottom: 16px; }
+.group-label {
+  font-size: 12px; font-weight: 600; color: #555;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center;
+  padding: 0 2px;
+}
+.group-label .group-actions button {
+  font-size: 11px; padding: 2px 8px; border: 1px solid #ccc;
+  border-radius: 3px; cursor: pointer; background: #fff; color: #666;
+}
+.group-label .group-actions button:hover { background: #f0f0f0; }
+
+.drop-zone {
+  min-height: 44px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 6px;
+  background: #fafafa;
+  transition: background 0.15s, border-color 0.15s;
+}
+.drop-zone.drag-over { background: #eef2ff; border-color: #1a365d; }
+.drop-zone.empty-hint::after {
+  content: 'Drag entries here';
+  display: block; text-align: center; padding: 8px; color: #bbb; font-size: 13px;
+}
+
+.group-container.matched .drop-zone { border-color: #86efac; background: #f0fdf4; }
+.group-container.matched .group-label { color: #166534; }
+
+.new-group-zone {
+  min-height: 44px; border: 2px dashed #aaa; border-radius: 8px;
+  padding: 14px; text-align: center; color: #888; font-size: 13px;
+  transition: background 0.15s, border-color 0.15s; margin-top: 12px;
+}
+.new-group-zone.drag-over { background: #fef3c7; border-color: #d97706; color: #92400e; }
+
+/* Score/info line within a group */
+.group-info { font-size: 11px; color: #999; padding: 2px 4px 4px; }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <h1>PersonID Grouping</h1>
+    <div class="sub">Drag election entries to group by person</div>
+  </div>
+  <div class="sidebar-status">
+    <span id="statusText">Loading...</span>
+    <span class="done" id="statusDone"></span>
+  </div>
+  <div class="sidebar-list" id="sidebarList"></div>
+  <div class="sidebar-actions">
+    <button id="exportBtn" disabled>Export Decisions</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="main-header" id="mainHeader">
+    <h2 id="headerTitle">Loading data...</h2>
+    <div class="info" id="headerInfo"></div>
+    <div class="instructions">Each row is one election appearance. Drag rows into the same group to say they are the same person. Drop onto "New group" to separate. Each group = one distinct person.</div>
+  </div>
+  <div class="workspace" id="workspace">
+    <div class="loading">Loading ambiguous cases and registry...</div>
+  </div>
+</div>
+
+<script>
+const BODY_LABELS = {
+  'westminster': 'Westminster', 'assembly': 'Assembly', 'european': 'European',
+  'convention': 'Convention', 'forum': 'Forum', 'local-government': 'Local',
+};
+const STORAGE_KEY = 'personid_grouping_v2';
+
+let rawCases = [];
+let registry = {};
+let workspaces = [];
+let activeIdx = 0;
+let groupings = {}; // wsKey -> [ [entryId, ...], ... ]
+let allEntries = {}; // global map: entryId -> { id, name, date, body, party, constituency, type, personId?, caseId?, score?, ... }
+
+// ============================================================
+// Auto-load
+// ============================================================
+async function autoLoad() {
+  try {
+    const [casesResp, regResp] = await Promise.all([
+      fetch('ambiguous_cases.json'), fetch('person_registry.json'),
+    ]);
+    rawCases = (await casesResp.json()).cases || [];
+    registry = await regResp.json();
+    buildWorkspaces();
+    restoreState();
+    renderSidebar();
+    selectWorkspace(0);
+    document.getElementById('statusText').textContent = `${workspaces.length} name groups`;
+  } catch(err) {
+    document.getElementById('workspace').innerHTML =
+      `<div class="empty-state"><h2>Load failed</h2><p>${err.message}</p><p>Serve via: <code>python -m http.server 8765</code></p></div>`;
+  }
+}
+
+// ============================================================
+// Build workspaces
+// ============================================================
+function buildWorkspaces() {
+  // Group cases by candidate name
+  const byName = {};
+  for (const c of rawCases) {
+    const name = c.candidate.candidateName;
+    if (!byName[name]) byName[name] = { name, cases: [], matchPids: new Set() };
+    byName[name].cases.push(c);
+    for (const m of c.possibleMatches || []) byName[name].matchPids.add(m.personId);
+  }
+
+  workspaces = Object.values(byName).sort((a, b) => a.name.localeCompare(b.name));
+
+  for (const ws of workspaces) {
+    const key = ws.name;
+
+    // Build entries for this workspace
+    ws.entryIds = [];
+
+    // 1. Candidate election entries (one per case/election)
+    for (const c of ws.cases) {
+      const eid = `cand_${c.caseId}`;
+      allEntries[eid] = {
+        id: eid, type: 'candidate', name: c.candidate.candidateName,
+        date: c.candidate.electionDate, body: 'local-government',
+        party: c.candidate.party, constituency: c.candidate.constituency,
+        caseId: c.caseId, candidateId: c.candidate.candidateId,
+      };
+      ws.entryIds.push(eid);
+    }
+
+    // 2. Registry person history entries (one per election appearance per match)
+    const seenPids = new Set();
+    for (const c of ws.cases) {
+      for (const m of c.possibleMatches || []) {
+        if (seenPids.has(m.personId)) continue;
+        seenPids.add(m.personId);
+
+        const history = m.history || [];
+        if (history.length === 0) {
+          // Person with no history — still create one entry as a placeholder
+          const eid = `reg_${m.personId}_0`;
+          allEntries[eid] = {
+            id: eid, type: 'registry', name: m.canonicalName,
+            date: '', body: '', party: '', constituency: '',
+            personId: m.personId, score: m.score, scoreBreakdown: m.scoreBreakdown,
+            nameVariants: m.nameVariants,
+          };
+          ws.entryIds.push(eid);
+        } else {
+          for (let i = 0; i < history.length; i++) {
+            const h = history[i];
+            const eid = `reg_${m.personId}_${i}`;
+            allEntries[eid] = {
+              id: eid, type: 'registry', name: m.canonicalName,
+              date: h.date, body: h.body, party: h.party, constituency: h.constituency,
+              personId: m.personId, score: m.score, scoreBreakdown: m.scoreBreakdown,
+              nameVariants: m.nameVariants,
+            };
+            ws.entryIds.push(eid);
+          }
+        }
+      }
+    }
+
+    // Default grouping (only if not restored)
+    if (!groupings[key]) {
+      const groups = [];
+      // Group 0: all candidate entries
+      const candEntries = ws.entryIds.filter(eid => eid.startsWith('cand_'));
+      groups.push(candEntries);
+
+      // One group per registry person (all their history entries together)
+      const pidsDone = new Set();
+      for (const eid of ws.entryIds) {
+        if (!eid.startsWith('reg_')) continue;
+        const entry = allEntries[eid];
+        if (pidsDone.has(entry.personId)) continue;
+        pidsDone.add(entry.personId);
+        const thisPersonEntries = ws.entryIds.filter(e =>
+          e.startsWith(`reg_${entry.personId}_`)
+        );
+        groups.push(thisPersonEntries);
+      }
+      groupings[key] = groups;
+    }
+  }
+}
+
+// ============================================================
+// State persistence
+// ============================================================
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(groupings));
+  updateSidebarStatus();
+}
+
+function restoreState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    const restored = JSON.parse(saved);
+    for (const key of Object.keys(restored)) {
+      if (workspaces.find(ws => ws.name === key)) {
+        // Validate entry IDs still exist
+        const valid = restored[key].map(g => g.filter(eid => allEntries[eid]));
+        if (valid.some(g => g.length > 0)) groupings[key] = valid;
+      }
+    }
+  } catch(e) {}
+}
+
+// ============================================================
+// Resolution detection
+// ============================================================
+function isResolved(ws) {
+  const key = ws.name;
+  const groups = groupings[key];
+  if (!groups) return false;
+
+  // Resolved if any candidate entry shares a group with a registry entry
+  for (const g of groups) {
+    const hasCand = g.some(eid => eid.startsWith('cand_'));
+    const hasReg = g.some(eid => eid.startsWith('reg_'));
+    if (hasCand && hasReg) return true;
+  }
+
+  // Also resolved if default grouping has been changed (user explicitly separated)
+  const defaultGroupCount = 1 + new Set(
+    ws.entryIds.filter(e => e.startsWith('reg_')).map(e => allEntries[e].personId)
+  ).size;
+  const nonEmpty = groups.filter(g => g.length > 0).length;
+  if (nonEmpty !== defaultGroupCount) return true;
+
+  return false;
+}
+
+// ============================================================
+// Sidebar
+// ============================================================
+function renderSidebar() {
+  const list = document.getElementById('sidebarList');
+  list.innerHTML = workspaces.map((ws, i) => {
+    const resolved = isResolved(ws);
+    const nCases = ws.cases.length;
+    const nMatches = new Set(ws.entryIds.filter(e => e.startsWith('reg_')).map(e => allEntries[e].personId)).size;
+    return `<div class="sidebar-item ${i === activeIdx ? 'active' : ''} ${resolved ? 'resolved' : ''}" data-idx="${i}">
+      <div>
+        <div class="name">${esc(ws.name)}</div>
+        <div class="count">${nCases} election${nCases > 1 ? 's' : ''}, ${nMatches} possible match${nMatches !== 1 ? 'es' : ''}</div>
+      </div>
+      ${resolved ? '<span class="check">&#10003;</span>' : ''}
+    </div>`;
+  }).join('');
+  list.querySelectorAll('.sidebar-item').forEach(el => {
+    el.addEventListener('click', () => selectWorkspace(parseInt(el.dataset.idx)));
+  });
+  updateSidebarStatus();
+}
+
+function updateSidebarStatus() {
+  const resolved = workspaces.filter(ws => isResolved(ws)).length;
+  document.getElementById('statusDone').textContent = `${resolved}/${workspaces.length} resolved`;
+  document.getElementById('exportBtn').disabled = resolved === 0;
+}
+
+function selectWorkspace(idx) {
+  activeIdx = idx;
+  renderSidebar();
+  renderWorkspace();
+}
+
+// ============================================================
+// Workspace rendering
+// ============================================================
+function renderWorkspace() {
+  const ws = workspaces[activeIdx];
+  if (!ws) return;
+
+  document.getElementById('headerTitle').textContent = ws.name;
+  document.getElementById('headerInfo').textContent = ws.cases.map(c =>
+    `${c.candidate.electionDate} ${c.candidate.party}, ${c.candidate.constituency}`
+  ).join(' | ');
+
+  const groups = groupings[ws.name];
+  let html = '';
+
+  groups.forEach((group, gi) => {
+    if (group.length === 0) return; // skip empty groups in render (auto-clean)
+
+    const hasCand = group.some(eid => eid.startsWith('cand_'));
+    const hasReg = group.some(eid => eid.startsWith('reg_'));
+    const matchedClass = (hasCand && hasReg) ? 'matched' : '';
+
+    // Label
+    let label = `Person group ${gi + 1}`;
+    if (hasCand && hasReg) {
+      const regEntry = allEntries[group.find(eid => eid.startsWith('reg_'))];
+      label = `Same person — candidate matched to PID ${regEntry.personId}`;
+    } else if (hasCand && !hasReg) {
+      label = `Candidate — new person (unless grouped with a match)`;
+    } else if (hasReg && !hasCand) {
+      // All registry entries here — show PID(s)
+      const pids = [...new Set(group.map(eid => allEntries[eid].personId))];
+      label = `Registry — PID ${pids.join(', ')}`;
+    }
+
+    html += `<div class="group-container ${matchedClass}">
+      <div class="group-label"><span>${label}</span></div>
+      <div class="drop-zone" data-group="${gi}">
+        ${group.map(eid => renderEntry(eid)).join('')}
+      </div>
+    </div>`;
+  });
+
+  html += `<div class="new-group-zone" id="newGroupZone">+ Drop here to create a new group</div>`;
+
+  document.getElementById('workspace').innerHTML = html;
+  setupDragAndDrop(ws);
+}
+
+function renderEntry(eid) {
+  const e = allEntries[eid];
+  if (!e) return '';
+  const typeClass = e.type === 'candidate' ? 'type-candidate' : 'type-registry';
+  const tagClass = e.type === 'candidate' ? 'cand-tag' : 'reg-tag';
+  const tagText = e.type === 'candidate' ? 'Candidate' : `PID ${e.personId}`;
+  const body = BODY_LABELS[e.body] || e.body || '—';
+
+  return `<div class="election-entry ${typeClass}" draggable="true" data-entry-id="${esc(eid)}">
+    <span class="ee-name">${esc(e.name)}</span>
+    <span class="ee-date">${esc(e.date || '—')}</span>
+    <span class="ee-body">${esc(body)}</span>
+    <span class="ee-party">${esc(e.party || '—')}</span>
+    <span class="ee-const">${esc(e.constituency || '—')}</span>
+    <span class="ee-tag ${tagClass}">${tagText}</span>
+  </div>`;
+}
+
+// ============================================================
+// Drag and Drop
+// ============================================================
+function setupDragAndDrop(ws) {
+  const workspace = document.getElementById('workspace');
+
+  workspace.querySelectorAll('.election-entry').forEach(el => {
+    el.addEventListener('dragstart', (e) => {
+      el.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', el.dataset.entryId);
+    });
+    el.addEventListener('dragend', () => {
+      el.classList.remove('dragging');
+      workspace.querySelectorAll('.drag-over').forEach(z => z.classList.remove('drag-over'));
+    });
+  });
+
+  workspace.querySelectorAll('.drop-zone').forEach(zone => {
+    zone.addEventListener('dragover', (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', (e) => { if (!zone.contains(e.relatedTarget)) zone.classList.remove('drag-over'); });
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault(); zone.classList.remove('drag-over');
+      const eid = e.dataTransfer.getData('text/plain');
+      if (eid) moveEntry(ws, eid, parseInt(zone.dataset.group));
+    });
+  });
+
+  const ngz = document.getElementById('newGroupZone');
+  if (ngz) {
+    ngz.addEventListener('dragover', (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; ngz.classList.add('drag-over'); });
+    ngz.addEventListener('dragleave', (e) => { if (!ngz.contains(e.relatedTarget)) ngz.classList.remove('drag-over'); });
+    ngz.addEventListener('drop', (e) => {
+      e.preventDefault(); ngz.classList.remove('drag-over');
+      const eid = e.dataTransfer.getData('text/plain');
+      if (eid) moveEntryToNewGroup(ws, eid);
+    });
+  }
+}
+
+function moveEntry(ws, entryId, targetGroup) {
+  const key = ws.name;
+  const groups = groupings[key];
+  // Remove from current group
+  for (const g of groups) {
+    const idx = g.indexOf(entryId);
+    if (idx !== -1) { g.splice(idx, 1); break; }
+  }
+  // Add to target
+  if (groups[targetGroup]) groups[targetGroup].push(entryId);
+  // Remove empty groups
+  groupings[key] = groups.filter(g => g.length > 0);
+  saveState();
+  renderWorkspace();
+}
+
+function moveEntryToNewGroup(ws, entryId) {
+  const key = ws.name;
+  const groups = groupings[key];
+  for (const g of groups) {
+    const idx = g.indexOf(entryId);
+    if (idx !== -1) { g.splice(idx, 1); break; }
+  }
+  groups.push([entryId]);
+  groupings[key] = groups.filter(g => g.length > 0);
+  saveState();
+  renderWorkspace();
+}
+
+// ============================================================
+// Export
+// ============================================================
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const decisions = [];
+
+  for (const ws of workspaces) {
+    const key = ws.name;
+    const groups = groupings[key];
+
+    for (const c of ws.cases) {
+      const candEid = `cand_${c.caseId}`;
+      const candGroup = groups.find(g => g.includes(candEid));
+      if (!candGroup) continue;
+
+      // Find registry entries in the same group
+      const regEids = candGroup.filter(eid => eid.startsWith('reg_'));
+      if (regEids.length > 0) {
+        // Pick the personId from the registry entries in this group
+        const pid = allEntries[regEids[0]].personId;
+        decisions.push({
+          caseId: c.caseId,
+          candidateId: c.candidate.candidateId,
+          candidateName: c.candidate.candidateName,
+          electionDate: c.candidate.electionDate,
+          constituency: c.candidate.constituency,
+          decision: 'match',
+          selectedPersonId: pid,
+        });
+      } else {
+        decisions.push({
+          caseId: c.caseId,
+          candidateId: c.candidate.candidateId,
+          candidateName: c.candidate.candidateName,
+          electionDate: c.candidate.electionDate,
+          constituency: c.candidate.constituency,
+          decision: 'create_new',
+          selectedPersonId: null,
+        });
+      }
+    }
+  }
+
+  const out = { exportedAt: new Date().toISOString(), totalDecisions: decisions.length, decisions };
+  const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'review_decisions.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+// ============================================================
+// Keyboard nav
+// ============================================================
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown' || e.key === 'j') {
+    if (activeIdx < workspaces.length - 1) selectWorkspace(activeIdx + 1);
+  } else if (e.key === 'ArrowUp' || e.key === 'k') {
+    if (activeIdx > 0) selectWorkspace(activeIdx - 1);
+  }
+});
+
+function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+autoLoad();
+</script>
+</body>
+</html>

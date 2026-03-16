@@ -1,6 +1,5 @@
 # Git LFS Configuration
 # Track large map files with Git LFS
-
 # FlatGeobuf files
 *.fgb -filter -diff -merge -text
 # MBTiles files
@@ -17,10 +16,8 @@
 # WebAssembly files
 *.wasm filter=lfs diff=lfs merge=lfs -text
 data/maps/physical/osni_50m_dtm/OSNI_OpenData_50m_DTM.csv filter=lfs diff=lfs merge=lfs -text
-
 # Store this map directly in Git to avoid LFS quota fetch failures in static hosting.
 data/maps/local-government/Dublin_Electoral_Counties_1985.fgb -filter -diff -merge -text
-
 # Keep key non-townlands operational layers in normal Git so static hosts can load them without LFS fetch.
 data/maps/transport/Translink_Rail_Network.fgb -filter -diff -merge -text
 data/maps/transport/Transport_Lines_Road_Rail.fgb -filter -diff -merge -text
@@ -33,7 +30,6 @@ data/maps/historic-sites/Ringfort_Unclassified.fgb -filter -diff -merge -text
 data/maps/historic-sites/Rock_Scribing.fgb -filter -diff -merge -text
 data/maps/historic-sites/Standing_Stones.fgb -filter -diff -merge -text
 data/maps/historic-sites/Wedge_Tomb.fgb -filter -diff -merge -text
-
 # Townlands interactive layer is chunk-only: chunk FGBs must be regular Git blobs
 # so static hosts serve actual bytes instead of LFS pointer files.
 data/maps/townlands/chunks/*.fgb -filter -diff -merge -text

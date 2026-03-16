@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discrepancy Review Tool</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; color: #222; line-height: 1.5; display: flex; height: 100vh; overflow: hidden; }
+
+/* Sidebar */
+.sidebar { width: 300px; background: #1a365d; color: #fff; display: flex; flex-direction: column; flex-shrink: 0; }
+.sidebar-header { padding: 16px 18px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.sidebar-header h1 { font-size: 15px; font-weight: 600; }
+.sidebar-header .sub { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+.sidebar-status { padding: 10px 18px; font-size: 12px; background: rgba(0,0,0,0.15); display: flex; justify-content: space-between; align-items: center; }
+.sidebar-status .done { color: #7ddf90; }
+.sidebar-progress { padding: 8px 18px; background: rgba(0,0,0,0.1); }
+.sidebar-progress .bar { height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; overflow: hidden; }
+.sidebar-progress .bar-fill { height: 100%; background: #7ddf90; transition: width 0.3s; }
+.sidebar-filter { padding: 8px 18px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.sidebar-filter select { width: 100%; padding: 4px 6px; font-size: 12px; border-radius: 3px; border: none; background: rgba(255,255,255,0.12); color: #fff; }
+.sidebar-filter select option { background: #1a365d; color: #fff; }
+.sidebar-list { flex: 1; overflow-y: auto; }
+.sidebar-item { padding: 10px 18px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; transition: background 0.1s; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.sidebar-item:hover { background: rgba(255,255,255,0.08); }
+.sidebar-item.active { background: rgba(255,255,255,0.15); }
+.sidebar-item.decided { opacity: 0.7; }
+.sidebar-item .info { flex: 1; min-width: 0; }
+.sidebar-item .name { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sidebar-item .meta { font-size: 11px; opacity: 0.6; }
+.sidebar-item .check { color: #7ddf90; font-size: 14px; flex-shrink: 0; }
+.sidebar-item .type-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.sidebar-item .type-dot.marriage_name_change { background: #a78bfa; }
+.sidebar-item .type-dot.spelling_error { background: #fbbf24; }
+.sidebar-item .type-dot.registry_duplicate { background: #60a5fa; }
+.sidebar-item .type-dot.incorrect_match { background: #f87171; }
+.sidebar-item .type-dot.registry_split { background: #fb923c; }
+.sidebar-actions { padding: 12px 18px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; gap: 6px; }
+.sidebar-actions button { width: 100%; padding: 8px; font-size: 13px; border: none; border-radius: 4px; cursor: pointer; font-weight: 500; }
+.sidebar-actions .export-btn { background: #2a7d3f; color: #fff; }
+.sidebar-actions .export-btn:hover { background: #35994d; }
+.sidebar-actions .export-btn:disabled { background: #555; cursor: default; }
+.sidebar-actions .approve-all-btn { background: rgba(255,255,255,0.1); color: #fff; }
+.sidebar-actions .approve-all-btn:hover { background: rgba(255,255,255,0.2); }
+
+/* Main area */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.main-header { padding: 16px 24px; background: #fff; border-bottom: 1px solid #ddd; }
+.main-header h2 { font-size: 18px; font-weight: 600; }
+.main-header .info { font-size: 13px; color: #666; margin-top: 2px; }
+.main-header .shortcuts { font-size: 12px; color: #888; margin-top: 6px; padding: 6px 10px; background: #f8f9fa; border-radius: 4px; }
+.main-header .shortcuts kbd { background: #e2e8f0; padding: 1px 5px; border-radius: 3px; font-size: 11px; font-family: monospace; border: 1px solid #cbd5e1; }
+
+.workspace { flex: 1; overflow-y: auto; padding: 20px 24px; }
+
+/* Loading/empty */
+.empty-state { text-align: center; padding: 80px 20px; color: #888; }
+.empty-state h2 { font-size: 20px; margin-bottom: 8px; color: #555; }
+.loading { text-align: center; padding: 80px 20px; color: #888; font-size: 16px; }
+
+/* Case card */
+.case-card { background: #fff; border-radius: 8px; border: 2px solid #e2e8f0; padding: 20px; margin-bottom: 16px; }
+.case-card.recommendation-merge { border-left: 5px solid #22c55e; }
+.case-card.recommendation-split { border-left: 5px solid #ef4444; }
+.case-card.recommendation-review { border-left: 5px solid #f59e0b; }
+.case-card.decided-approve { background: #f0fdf4; border-color: #bbf7d0; }
+.case-card.decided-reject { background: #fef2f2; border-color: #fecaca; }
+
+.case-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.case-title { font-size: 16px; font-weight: 600; }
+.case-id { font-size: 12px; color: #94a3b8; font-weight: normal; margin-left: 8px; }
+
+/* Type badges */
+.type-badge { font-size: 11px; padding: 3px 10px; border-radius: 12px; font-weight: 600; white-space: nowrap; }
+.type-badge.marriage_name_change { background: #ede9fe; color: #6d28d9; }
+.type-badge.spelling_error { background: #fef3c7; color: #92400e; }
+.type-badge.registry_duplicate { background: #dbeafe; color: #1e40af; }
+.type-badge.incorrect_match { background: #fee2e2; color: #991b1b; }
+.type-badge.registry_split { background: #ffedd5; color: #9a3412; }
+
+.case-description { font-size: 14px; color: #555; margin-bottom: 16px; line-height: 1.6; }
+
+/* Recommendation label */
+.recommendation-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.recommendation-label.merge { color: #16a34a; }
+.recommendation-label.split { color: #dc2626; }
+.recommendation-label.review { color: #d97706; }
+
+/* Entry groups */
+.entry-group { margin-bottom: 12px; }
+.entry-group-header { font-size: 13px; font-weight: 600; color: #1a365d; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; gap: 8px; }
+.entry-group-header .pid { font-size: 11px; color: #64748b; font-weight: normal; background: #f1f5f9; padding: 1px 6px; border-radius: 3px; }
+
+.election-row { display: flex; align-items: center; gap: 10px; padding: 6px 10px; font-size: 13px; border-radius: 4px; margin-bottom: 3px; background: #f8fafc; }
+.election-row .date { font-weight: 600; min-width: 85px; color: #334155; }
+.election-row .body { min-width: 70px; color: #1a365d; font-weight: 500; }
+.election-row .party { min-width: 80px; }
+.election-row .constituency { color: #64748b; flex: 1; }
+.election-row .council { color: #94a3b8; font-size: 12px; }
+.election-row .elected-badge { font-size: 10px; padding: 1px 6px; border-radius: 8px; font-weight: 600; }
+.election-row .elected-badge.yes { background: #dcfce7; color: #166534; }
+.election-row .elected-badge.no { background: #f1f5f9; color: #64748b; }
+
+/* Registry info */
+.registry-info { margin-top: 12px; padding: 10px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0; }
+.registry-info .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; font-weight: 600; margin-bottom: 4px; }
+
+/* Match info */
+.match-info { font-size: 12px; color: #64748b; margin-top: 4px; }
+.match-info .confidence { font-weight: 600; }
+.match-info .confidence.low { color: #ef4444; }
+.match-info .confidence.medium { color: #f59e0b; }
+.match-info .confidence.high { color: #22c55e; }
+
+/* Decision buttons */
+.decision-bar { display: flex; gap: 10px; margin-top: 16px; padding-top: 12px; border-top: 1px solid #e2e8f0; align-items: center; }
+.decision-bar button { padding: 8px 20px; font-size: 13px; font-weight: 600; border: 2px solid; border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+.btn-approve { background: #f0fdf4; border-color: #22c55e; color: #16a34a; }
+.btn-approve:hover, .btn-approve.selected { background: #22c55e; color: #fff; }
+.btn-reject { background: #fef2f2; border-color: #ef4444; color: #dc2626; }
+.btn-reject:hover, .btn-reject.selected { background: #ef4444; color: #fff; }
+.decision-status { font-size: 12px; color: #94a3b8; margin-left: auto; }
+
+/* Arrow connector between entry groups */
+.arrow-connector { text-align: center; color: #94a3b8; font-size: 20px; margin: 4px 0; }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <h1>Discrepancy Review</h1>
+    <div class="sub">Review identity discrepancies in NI election data</div>
+  </div>
+  <div class="sidebar-status">
+    <span id="statusText">Loading...</span>
+    <span class="done" id="statusDone"></span>
+  </div>
+  <div class="sidebar-progress">
+    <div class="bar"><div class="bar-fill" id="progressBar" style="width:0%"></div></div>
+  </div>
+  <div class="sidebar-filter">
+    <select id="filterType">
+      <option value="">All types</option>
+      <option value="marriage_name_change">Marriage name changes</option>
+      <option value="spelling_error">Spelling errors</option>
+      <option value="registry_duplicate">Registry duplicates</option>
+      <option value="incorrect_match">Incorrect matches</option>
+      <option value="registry_split">Registry splits</option>
+    </select>
+  </div>
+  <div class="sidebar-list" id="sidebarList"></div>
+  <div class="sidebar-actions">
+    <button class="approve-all-btn" id="approveAllBtn">Approve all recommendations</button>
+    <button class="export-btn" id="exportBtn" disabled>Export decisions</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="main-header" id="mainHeader">
+    <h2 id="headerTitle">Loading data...</h2>
+    <div class="info" id="headerInfo"></div>
+    <div class="shortcuts">
+      Keyboard: <kbd>Y</kbd> approve &middot; <kbd>N</kbd> reject &middot;
+      <kbd>J</kbd> / <kbd>&darr;</kbd> next &middot; <kbd>K</kbd> / <kbd>&uarr;</kbd> prev
+    </div>
+  </div>
+  <div class="workspace" id="workspace">
+    <div class="loading">Loading discrepancy cases...</div>
+  </div>
+</div>
+
+<script>
+const TYPE_LABELS = {
+  marriage_name_change: 'Marriage Name Change',
+  spelling_error: 'Spelling / Formatting Error',
+  registry_duplicate: 'Registry Duplicate',
+  incorrect_match: 'Incorrect Auto-Match',
+  registry_split: 'Registry Entry Needs Splitting',
+};
+
+const BODY_LABELS = {
+  'local-government': 'Local', westminster: 'Westminster', assembly: 'Assembly',
+  european: 'European', forum: 'Forum', convention: 'Convention',
+};
+
+const STORAGE_KEY = 'discrepancy_decisions_v1';
+
+let cases = [];
+let filteredCases = [];
+let activeIdx = 0;
+let decisions = {}; // caseId -> 'approve' | 'reject'
+
+// ============================================================
+// Load
+// ============================================================
+async function autoLoad() {
+  try {
+    const resp = await fetch('discrepancies.json');
+    const data = await resp.json();
+    cases = data.cases || [];
+    restoreState();
+    // Pre-select approve for all undecided cases
+    for (const c of cases) {
+      if (!decisions[c.caseId]) {
+        decisions[c.caseId] = 'approve';
+      }
+    }
+    saveState();
+    applyFilter();
+    document.getElementById('statusText').textContent = `${cases.length} cases`;
+  } catch (err) {
+    document.getElementById('workspace').innerHTML =
+      `<div class="empty-state"><h2>Load failed</h2><p>${err.message}</p><p>Serve via: <code>python -m http.server 8765</code></p></div>`;
+  }
+}
+
+// ============================================================
+// Filter
+// ============================================================
+function applyFilter() {
+  const type = document.getElementById('filterType').value;
+  filteredCases = type ? cases.filter(c => c.type === type) : [...cases];
+  if (activeIdx >= filteredCases.length) activeIdx = Math.max(0, filteredCases.length - 1);
+  renderSidebar();
+  renderWorkspace();
+}
+
+document.getElementById('filterType').addEventListener('change', applyFilter);
+
+// ============================================================
+// State
+// ============================================================
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(decisions));
+  updateProgress();
+}
+
+function restoreState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) decisions = JSON.parse(saved);
+  } catch (e) {}
+}
+
+function updateProgress() {
+  const total = cases.length;
+  const decided = Object.keys(decisions).length;
+  const pct = total > 0 ? (decided / total * 100) : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('statusDone').textContent = `${decided}/${total} decided`;
+  document.getElementById('exportBtn').disabled = decided === 0;
+}
+
+// ============================================================
+// Sidebar
+// ============================================================
+function renderSidebar() {
+  const list = document.getElementById('sidebarList');
+  list.innerHTML = filteredCases.map((c, i) => {
+    const decided = !!decisions[c.caseId];
+    return `<div class="sidebar-item ${i === activeIdx ? 'active' : ''} ${decided ? 'decided' : ''}" data-idx="${i}">
+      <span class="type-dot ${c.type}"></span>
+      <div class="info">
+        <div class="name">${esc(c.description.substring(0, 50))}${c.description.length > 50 ? '...' : ''}</div>
+        <div class="meta">${c.caseId} &middot; ${TYPE_LABELS[c.type] || c.type}</div>
+      </div>
+      ${decided ? `<span class="check" title="${decisions[c.caseId]}">${decisions[c.caseId] === 'approve' ? '\u2713' : '\u2717'}</span>` : ''}
+    </div>`;
+  }).join('');
+
+  list.querySelectorAll('.sidebar-item').forEach(el => {
+    el.addEventListener('click', () => selectCase(parseInt(el.dataset.idx)));
+  });
+  updateProgress();
+}
+
+function selectCase(idx) {
+  activeIdx = idx;
+  renderSidebar();
+  renderWorkspace();
+  // Scroll sidebar item into view
+  const items = document.querySelectorAll('.sidebar-item');
+  if (items[idx]) items[idx].scrollIntoView({ block: 'nearest' });
+}
+
+// ============================================================
+// Workspace
+// ============================================================
+function renderWorkspace() {
+  if (filteredCases.length === 0) {
+    document.getElementById('headerTitle').textContent = 'No cases';
+    document.getElementById('headerInfo').textContent = '';
+    document.getElementById('workspace').innerHTML = '<div class="empty-state"><h2>No cases match the filter</h2></div>';
+    return;
+  }
+
+  const c = filteredCases[activeIdx];
+  if (!c) return;
+
+  document.getElementById('headerTitle').innerHTML =
+    `${esc(c.caseId)} <span class="type-badge ${c.type}">${TYPE_LABELS[c.type] || c.type}</span>`;
+  document.getElementById('headerInfo').textContent = c.description;
+
+  let html = '';
+
+  // Build case card
+  const decision = decisions[c.caseId];
+  const decClass = decision ? `decided-${decision}` : '';
+  html += `<div class="case-card recommendation-${c.recommendation} ${decClass}">`;
+
+  // Recommendation
+  html += `<div class="recommendation-label ${c.recommendation}">Recommendation: ${c.recommendation.toUpperCase()}</div>`;
+
+  // Entries
+  c.entries.forEach((entry, ei) => {
+    if (ei > 0) html += `<div class="arrow-connector">&darr;</div>`;
+
+    html += `<div class="entry-group">`;
+    html += `<div class="entry-group-header">`;
+    html += esc(entry.name);
+    if (entry.personId) html += ` <span class="pid">Election PID: ${entry.personId}</span>`;
+    if (entry.registryPersonId) html += ` <span class="pid">Registry PID: ${entry.registryPersonId}</span>`;
+    if (entry.matchedPersonId) html += ` <span class="pid">Matched to PID: ${entry.matchedPersonId}</span>`;
+    html += `</div>`;
+
+    // Match info
+    if (entry.matchConfidence !== undefined) {
+      const confClass = entry.matchConfidence < 0.3 ? 'low' : entry.matchConfidence < 0.7 ? 'medium' : 'high';
+      html += `<div class="match-info">Match method: ${esc(entry.matchMethod || 'unknown')} &middot; Confidence: <span class="confidence ${confClass}">${(entry.matchConfidence * 100).toFixed(0)}%</span></div>`;
+    }
+
+    // Elections
+    for (const el of entry.elections) {
+      const body = BODY_LABELS[el.body] || el.body || '';
+      const electedBadge = el.elected !== undefined
+        ? `<span class="elected-badge ${el.elected ? 'yes' : 'no'}">${el.elected ? 'Elected' : 'Not elected'}</span>`
+        : '';
+      html += `<div class="election-row">
+        <span class="date">${esc(el.date)}</span>
+        <span class="body">${esc(body)}</span>
+        <span class="party">${esc(el.party)}</span>
+        <span class="constituency">${esc(el.constituency)}</span>
+        ${el.council ? `<span class="council">${esc(el.council)}</span>` : ''}
+        ${electedBadge}
+      </div>`;
+    }
+
+    html += `</div>`;
+  });
+
+  // Registry entry (for incorrect_match / registry_split)
+  if (c.registryEntry) {
+    html += `<div class="registry-info">`;
+    html += `<div class="label">Registry entry (PID ${c.registryEntry.personId}): ${esc(c.registryEntry.canonicalName)}</div>`;
+    for (const h of c.registryEntry.history || []) {
+      const body = BODY_LABELS[h.body] || h.body || '';
+      html += `<div class="election-row">
+        <span class="date">${esc(h.date)}</span>
+        <span class="body">${esc(body)}</span>
+        <span class="party">${esc(h.party)}</span>
+        <span class="constituency">${esc(h.constituency)}</span>
+      </div>`;
+    }
+    html += `</div>`;
+  }
+
+  // Decision buttons
+  html += `<div class="decision-bar">
+    <button class="btn-approve ${decision === 'approve' ? 'selected' : ''}" onclick="decide('approve')">Approve recommendation</button>
+    <button class="btn-reject ${decision === 'reject' ? 'selected' : ''}" onclick="decide('reject')">Reject (keep as-is)</button>
+    <span class="decision-status">${decision ? `Decision: ${decision}` : 'No decision yet'}</span>
+  </div>`;
+
+  html += `</div>`;
+
+  document.getElementById('workspace').innerHTML = html;
+}
+
+function decide(d) {
+  const c = filteredCases[activeIdx];
+  if (!c) return;
+  decisions[c.caseId] = d;
+  saveState();
+  renderSidebar();
+  renderWorkspace();
+}
+
+// ============================================================
+// Approve all
+// ============================================================
+document.getElementById('approveAllBtn').addEventListener('click', () => {
+  for (const c of cases) {
+    decisions[c.caseId] = 'approve';
+  }
+  saveState();
+  renderSidebar();
+  renderWorkspace();
+});
+
+// ============================================================
+// Export
+// ============================================================
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const output = {
+    exportedAt: new Date().toISOString(),
+    decisions: cases.filter(c => decisions[c.caseId]).map(c => ({
+      caseId: c.caseId,
+      decision: decisions[c.caseId],
+      type: c.type,
+      description: c.description,
+    })),
+  };
+  const blob = new Blob([JSON.stringify(output, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'discrepancy_decisions.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+// ============================================================
+// Keyboard shortcuts
+// ============================================================
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT') return;
+  const key = e.key.toLowerCase();
+  if (key === 'arrowdown' || key === 'j') {
+    e.preventDefault();
+    if (activeIdx < filteredCases.length - 1) selectCase(activeIdx + 1);
+  } else if (key === 'arrowup' || key === 'k') {
+    e.preventDefault();
+    if (activeIdx > 0) selectCase(activeIdx - 1);
+  } else if (key === 'y') {
+    e.preventDefault();
+    decide('approve');
+  } else if (key === 'n') {
+    e.preventDefault();
+    decide('reject');
+  }
+});
+
+function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+autoLoad();
+</script>
+</body>
+</html>
