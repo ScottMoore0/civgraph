@@ -108,3 +108,8 @@ Review:
   - `maps.json` parses
   - targeted LOD/chunk pilot suite passes
   - full Playwright suite passes (`12 passed`)
+
+ZIP Intake Check (2026-03-17)
+- [x] Check maps-to-be-added for qualifying ZIP files
+  - No ZIP files found.
+- [x] Update .zip-intake-check.json with new check time
