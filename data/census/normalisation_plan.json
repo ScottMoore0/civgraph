@@ -1,0 +1,415 @@
+{
+  "description": "Normalisation plan for Northern Ireland Census data across all available years.",
+  "generated": "2026-03-19",
+
+  "data_overview": {
+    "digital_census_years": [2001, 2011, 2021],
+    "historical_census_years": [1926, 1937, 1951, 1961, 1966, 1971, 1981],
+    "total_csv_files_2001": 2941,
+    "total_csv_files_2011": 4800,
+    "total_xlsx_files_2021": 376,
+    "total_markdown_pages_historical": 4456
+  },
+
+  "geographic_crosswalks": {
+    "crosswalk_1_2001_to_2011": {
+      "status": "not_needed",
+      "reason": "Same 582 ward codes and 26 district council codes. 1:1 mapping. Both use 95XX## format.",
+      "action": "Validate that all ward codes in 2001 exist in 2011 and vice versa."
+    },
+    "crosswalk_2_old26_to_new11_lgds": {
+      "status": "required",
+      "reason": "2021 uses 11 new LGDs (post-2015 reform) while 2001/2011 use 26 old DCs. Most old DCs map wholly into one new LGD, but need to verify edge cases.",
+      "action_steps": [
+        "Create lookup table: old 26 DC codes -> new 11 LGD codes",
+        "Verify that each old DC maps entirely to one new LGD (no splitting)",
+        "Aggregate 2001/2011 DC-level data to new 11 LGD level for cross-year comparison",
+        "Source: NISRA boundary documentation or spatial intersection of boundary shapefiles"
+      ],
+      "approximate_mapping": {
+        "N09000001_Antrim_and_Newtownabbey": ["95AA_Antrim", "95WW_Newtownabbey"],
+        "N09000002_ABC": ["95CC_Armagh", "95FF_Banbridge", "95LL_Craigavon"],
+        "N09000003_Belfast": ["95GG_Belfast"],
+        "N09000004_Causeway_Coast_Glens": ["95JJ_Coleraine", "95EE_Ballymoney", "95UU_Moyle", "95RR_Limavady"],
+        "N09000005_Derry_Strabane": ["95MM_Derry", "95ZZ_Strabane"],
+        "N09000006_Fermanagh_Omagh": ["95PP_Fermanagh", "95YY_Omagh"],
+        "N09000007_Lisburn_Castlereagh": ["95SS_Lisburn", "95II_Castlereagh"],
+        "N09000008_Mid_East_Antrim": ["95DD_Ballymena", "95QQ_Larne", "95HH_Carrickfergus"],
+        "N09000009_Mid_Ulster": ["95KK_Cookstown", "95TT_Magherafelt", "95OO_Dungannon"],
+        "N09000010_Newry_Mourne_Down": ["95VV_Newry_and_Mourne", "95NN_Down"],
+        "N09000011_Ards_North_Down": ["95BB_Ards", "95XX_North_Down"]
+      },
+      "priority": "high"
+    },
+    "crosswalk_3_ward_level_2001_2011_to_2021": {
+      "status": "required_but_complex",
+      "reason": "582 old wards remapped to 462 new wards with boundary changes. No simple code mapping exists.",
+      "action_steps": [
+        "Obtain NISRA best-fit ward lookup (old ward -> new ward)",
+        "Alternatively, use GIS spatial intersection of ward boundary shapefiles to compute population-weighted crosswalk",
+        "May need to accept that ward-level time series is approximate"
+      ],
+      "priority": "medium"
+    },
+    "crosswalk_4_historical_to_modern": {
+      "status": "very_complex",
+      "reason": "Pre-1973 county/DED system has no direct mapping to post-1973 LGD/ward system.",
+      "action_steps": [
+        "For NI-level totals: no crosswalk needed",
+        "For county-level: approximate mapping of 6 counties to LGDs (counties overlap with multiple LGDs)",
+        "For DED-level: requires GIS spatial intersection, probably out of scope for initial normalisation",
+        "Focus initially on NI-level totals only for historical data"
+      ],
+      "priority": "low"
+    }
+  },
+
+  "normalisation_priorities": [
+    {
+      "priority": 1,
+      "topic": "population_by_area",
+      "description": "Total population (all persons, males, females) by geographic area",
+      "years_available_digital": [2001, 2011, 2021],
+      "years_available_historical": [1926, 1937, 1951, 1961, 1966, 1971, 1981],
+      "geographic_levels_feasible": {
+        "NI_total": "all years",
+        "new_11_LGDs": "2001 (aggregated from 26 DCs), 2011 (aggregated), 2021 (native)",
+        "old_26_DCs": "2001, 2011 (native), 1981 (ward/LGD data in markdown)",
+        "old_582_wards": "2001, 2011",
+        "new_462_wards": "2021 only",
+        "counties": "1926-1971 historical"
+      },
+      "source_tables": {
+        "2001": "KS01",
+        "2011": "KS101NI",
+        "2021": "MS-A01"
+      },
+      "normalised_columns": ["geography_code", "geography_name", "geography_level", "census_year", "total_population", "male_population", "female_population", "household_population", "communal_population", "area_hectares", "population_density"],
+      "difficulty": "easy",
+      "estimated_effort": "1 day"
+    },
+    {
+      "priority": 2,
+      "topic": "religion",
+      "description": "Religion (current) and community background (religion or religion brought up in)",
+      "years_available_digital": [2001, 2011, 2021],
+      "years_available_historical": [1926, 1937, 1951, 1961, 1971],
+      "geographic_levels_feasible": {
+        "NI_total": "all years with religion data",
+        "new_11_LGDs": "2001 (aggregated), 2011 (aggregated), 2021 (native)",
+        "old_26_DCs": "2001, 2011",
+        "old_582_wards": "2001, 2011",
+        "new_462_wards": "2021"
+      },
+      "source_tables": {
+        "2001_religion": "KS07a",
+        "2001_community_bg": "KS07b",
+        "2011_religion": "KS211NI",
+        "2011_community_bg": "KS212NI",
+        "2021_religion": "MS-B19",
+        "2021_community_bg": "MS-B23"
+      },
+      "normalised_columns": ["geography_code", "geography_name", "geography_level", "census_year", "total_population", "catholic", "presbyterian", "church_of_ireland", "methodist", "other_christian", "other_religions", "no_religion", "not_stated"],
+      "comparability_notes": "2001 combines no_religion and not_stated. Need to create harmonised column. Community background table is NI-specific and highly comparable across all 3 years.",
+      "difficulty": "easy",
+      "estimated_effort": "1 day"
+    },
+    {
+      "priority": 3,
+      "topic": "age_structure",
+      "description": "Population by age bands",
+      "years_available_digital": [2001, 2011, 2021],
+      "source_tables": {
+        "2001": "KS02",
+        "2011": "KS102NI",
+        "2021": "MS-A06 or MS-A02 (5-year bands)"
+      },
+      "normalisation_approach": "Use 5-year age bands as common denominator. 2001 and 2011 share identical bands. 2021 MS-A02 provides 5-year bands. Need to handle 0-4 split in 2021 (0-2 + 3-4) and 65+ split differently.",
+      "harmonised_bands": ["0-4", "5-9", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84", "85-89", "90+"],
+      "difficulty": "moderate",
+      "estimated_effort": "2 days"
+    },
+    {
+      "priority": 4,
+      "topic": "ethnicity",
+      "description": "Population by ethnic group",
+      "years_available_digital": [2001, 2011, 2021],
+      "source_tables": {
+        "2001": "KS06",
+        "2011": "KS201NI",
+        "2021": "MS-B01"
+      },
+      "normalised_columns": ["geography_code", "geography_name", "geography_level", "census_year", "total", "white", "irish_traveller", "indian", "pakistani", "bangladeshi", "other_asian", "black_caribbean", "black_african", "other_black", "chinese", "mixed", "other"],
+      "difficulty": "easy",
+      "estimated_effort": "1 day"
+    },
+    {
+      "priority": 5,
+      "topic": "housing_tenure",
+      "description": "Households by tenure type",
+      "years_available_digital": [2001, 2011, 2021],
+      "source_tables": {
+        "2001": "KS18",
+        "2011": "KS402NI",
+        "2021": "MS-E15"
+      },
+      "normalised_columns": ["geography_code", "geography_name", "geography_level", "census_year", "total_households", "owner_outright", "owner_mortgage", "shared_ownership", "social_rented_nihe", "social_rented_housing_assoc", "private_rented", "other_rented"],
+      "difficulty": "easy",
+      "estimated_effort": "1 day"
+    },
+    {
+      "priority": 6,
+      "topic": "economic_activity",
+      "description": "Population by economic activity status",
+      "years_available_digital": [2001, 2011, 2021],
+      "source_tables": {
+        "2001": "KS09a",
+        "2011": "KS601NI",
+        "2021": "MS-H02"
+      },
+      "normalised_columns": ["geography_code", "geography_name", "geography_level", "census_year", "total_16_74", "employed_full_time", "employed_part_time", "self_employed", "unemployed", "economically_inactive_retired", "economically_inactive_student", "economically_inactive_home_family", "economically_inactive_sick_disabled", "economically_inactive_other"],
+      "difficulty": "moderate",
+      "estimated_effort": "2 days"
+    },
+    {
+      "priority": 7,
+      "topic": "qualifications",
+      "description": "Highest qualification level",
+      "years_available_digital": [2001, 2011, 2021],
+      "source_tables": {
+        "2001": "KS13",
+        "2011": "KS501NI",
+        "2021": "MS-G01"
+      },
+      "normalisation_approach": "Map to broad levels: No qualifications, Level 1-2, Level 3, Level 4+. Definitions vary but broad groupings comparable.",
+      "difficulty": "moderate",
+      "estimated_effort": "1 day"
+    },
+    {
+      "priority": 8,
+      "topic": "country_of_birth",
+      "description": "Population by country of birth",
+      "years_available_digital": [2001, 2011, 2021],
+      "source_tables": {
+        "2001": "KS05",
+        "2011": "KS204NI",
+        "2021": "MS-A16"
+      },
+      "difficulty": "easy",
+      "estimated_effort": "1 day"
+    },
+    {
+      "priority": 9,
+      "topic": "accommodation_type",
+      "description": "Dwellings by accommodation type",
+      "years_available_digital": [2001, 2011, 2021],
+      "source_tables": {
+        "2001": "KS16",
+        "2011": "KS401NI",
+        "2021": "MS-E05"
+      },
+      "difficulty": "easy",
+      "estimated_effort": "1 day"
+    },
+    {
+      "priority": 10,
+      "topic": "car_availability",
+      "description": "Households by number of cars/vans",
+      "years_available_digital": [2001, 2011, 2021],
+      "source_tables": {
+        "2001": "KS17",
+        "2011": "KS405NI",
+        "2021": "MS-E10"
+      },
+      "difficulty": "easy",
+      "estimated_effort": "0.5 days"
+    },
+    {
+      "priority": 11,
+      "topic": "travel_to_work",
+      "description": "Method of travel to work",
+      "years_available_digital": [2001, 2011, 2021],
+      "source_tables": {
+        "2001": "KS15",
+        "2011": "KS701NI",
+        "2021": "MS-I01"
+      },
+      "comparability_notes": "2021 data heavily affected by COVID-19 lockdown patterns. Work from home massively inflated.",
+      "difficulty": "moderate",
+      "estimated_effort": "1 day"
+    },
+    {
+      "priority": 12,
+      "topic": "irish_language",
+      "description": "Knowledge of Irish",
+      "years_available_digital": [2001, 2011, 2021],
+      "source_tables": {
+        "2001": "KS22",
+        "2011": "KS209NI",
+        "2021": "MS-B05"
+      },
+      "difficulty": "easy",
+      "estimated_effort": "0.5 days"
+    },
+    {
+      "priority": 13,
+      "topic": "health_disability",
+      "description": "General health and limiting long-term illness/disability",
+      "years_available_digital": [2001, 2011, 2021],
+      "source_tables": {
+        "2001": "KS08",
+        "2011": "KS301NI",
+        "2021": "MS-D01, MS-D02"
+      },
+      "comparability_notes": "Question wording changed between 2001 and 2011. Not directly comparable at detailed level, but broad categories (good health vs not good) can be approximated.",
+      "difficulty": "hard",
+      "estimated_effort": "2 days"
+    },
+    {
+      "priority": 14,
+      "topic": "marital_status",
+      "description": "Marital and civil partnership status",
+      "years_available_digital": [2001, 2011, 2021],
+      "source_tables": {
+        "2001": "KS04",
+        "2011": "KS103NI",
+        "2021": "MS-A30"
+      },
+      "difficulty": "moderate",
+      "estimated_effort": "1 day"
+    },
+    {
+      "priority": 15,
+      "topic": "household_composition",
+      "description": "Household type and composition",
+      "years_available_digital": [2001, 2011, 2021],
+      "source_tables": {
+        "2001": "KS20",
+        "2011": "KS105NI",
+        "2021": "MS-A26"
+      },
+      "difficulty": "moderate",
+      "estimated_effort": "1.5 days"
+    }
+  ],
+
+  "historical_data_extraction_plan": {
+    "approach": "Extract structured data from OCR markdown files using pattern matching and manual verification",
+    "feasibility": {
+      "NI_totals": {
+        "difficulty": "moderate",
+        "reason": "Population totals for NI are stated in text and summary tables. OCR quality varies but numbers are usually recoverable.",
+        "years": [1926, 1937, 1951, 1961, 1966, 1971, 1981]
+      },
+      "county_level": {
+        "difficulty": "hard",
+        "reason": "County summaries exist as tables in markdown but OCR artefacts make parsing unreliable without manual verification.",
+        "years": [1926, 1937, 1951, 1961, 1966, 1971]
+      },
+      "sub_county": {
+        "difficulty": "very_hard",
+        "reason": "DED and townland level data is embedded in OCR text with extensive formatting issues. Would require significant manual data entry or advanced OCR post-processing.",
+        "years": [1926, 1937, 1951, 1961, 1971]
+      }
+    },
+    "topics_extractable_from_historical": {
+      "population_total": {"years": [1926, 1937, 1951, 1961, 1966, 1971, 1981], "priority": "high"},
+      "population_by_sex": {"years": [1926, 1937, 1951, 1961, 1966, 1971, 1981], "priority": "high"},
+      "religion_county_level": {"years": [1926, 1937, 1951, 1961, 1971], "priority": "high"},
+      "age_structure_county": {"years": [1926, 1937, 1951, 1961, 1971], "priority": "medium"},
+      "birthplace_county": {"years": [1926, 1937, 1951, 1961, 1971], "priority": "medium"},
+      "marital_status_county": {"years": [1926, 1937, 1951, 1961, 1971], "priority": "low"},
+      "occupation_industry": {"years": [1926, 1951, 1961, 1971], "priority": "low"},
+      "housing": {"years": [1961, 1971, 1981], "priority": "low"}
+    },
+    "known_NI_population_totals": {
+      "1926": 1256561,
+      "1937": 1279745,
+      "1951": 1370921,
+      "1961": 1425042,
+      "1966": 1484775,
+      "1971": 1536065,
+      "1981": 1490228,
+      "2001": 1685267,
+      "2011": 1810863,
+      "2021": 1903175
+    }
+  },
+
+  "normalised_output_format": {
+    "description": "Proposed standard format for normalised census tables",
+    "file_format": "CSV",
+    "output_directory": "data/census/normalised/",
+    "naming_convention": "{topic}_{geographic_level}.csv",
+    "standard_columns": {
+      "geography_code": "Standardised geography code",
+      "geography_name": "Human-readable name",
+      "geography_level": "One of: NI, LGD_new11, DC_old26, Ward_old582, Ward_new462, DZ, SDZ, DEA, County",
+      "census_year": "Integer year (1926-2021)",
+      "data_columns": "Topic-specific data columns"
+    },
+    "examples": [
+      "population_NI.csv",
+      "population_LGD_new11.csv",
+      "population_DC_old26.csv",
+      "population_Ward_old582.csv",
+      "religion_NI.csv",
+      "religion_LGD_new11.csv",
+      "religion_DC_old26.csv"
+    ]
+  },
+
+  "implementation_steps": [
+    {
+      "step": 1,
+      "description": "Build geographic crosswalk: old 26 DCs to new 11 LGDs",
+      "output": "data/census/crosswalks/dc26_to_lgd11.csv",
+      "estimated_effort": "0.5 days"
+    },
+    {
+      "step": 2,
+      "description": "Build CSV parser for 2001 data format (header rows, indented geography names, ward codes)",
+      "notes": "2001 CSVs have 4 header rows, geography names are indented with spaces to show hierarchy, ward codes embedded in names",
+      "estimated_effort": "1 day"
+    },
+    {
+      "step": 3,
+      "description": "Build CSV parser for 2011 data format (DATA+DESC+META triplet pattern)",
+      "notes": "Need to join DATA file with DESC file for column descriptions. Geography codes in first column.",
+      "estimated_effort": "0.5 days"
+    },
+    {
+      "step": 4,
+      "description": "Build XLSX parser for 2021 data format (multi-sheet workbooks with header rows)",
+      "notes": "Each XLSX has multiple sheets for different geographic levels. 6 header rows before data. Some tables have count and percentage sub-tables stacked vertically.",
+      "estimated_effort": "1 day"
+    },
+    {
+      "step": 5,
+      "description": "Normalise Priority 1 (population) across 2001, 2011, 2021 at all feasible geographic levels",
+      "estimated_effort": "1 day"
+    },
+    {
+      "step": 6,
+      "description": "Normalise Priority 2 (religion) across 2001, 2011, 2021",
+      "estimated_effort": "1 day"
+    },
+    {
+      "step": 7,
+      "description": "Normalise remaining priorities (3-15) iteratively",
+      "estimated_effort": "10-15 days total"
+    },
+    {
+      "step": 8,
+      "description": "Extract historical NI-level totals from markdown files for population and religion time series",
+      "estimated_effort": "2-3 days"
+    },
+    {
+      "step": 9,
+      "description": "Validate all normalised data: row counts, population totals match published figures, cross-check between geographic levels",
+      "estimated_effort": "2 days"
+    }
+  ],
+
+  "total_estimated_effort": "20-25 working days for full normalisation of digital census data plus basic historical extraction"
+}

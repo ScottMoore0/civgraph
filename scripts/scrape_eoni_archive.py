@@ -13,10 +13,9 @@ Strategy:
 import json
 import os
 import re
+import subprocess
 import time
-import urllib.error
 import urllib.parse
-import urllib.request
 from collections import defaultdict
 from pathlib import Path
 
@@ -26,26 +25,41 @@ OUT_DIR.mkdir(exist_ok=True)
 AGENT_DIR.mkdir(exist_ok=True)
 
 USER_AGENT = "boundaries-website/1.0 (EONI archive scraper)"
-DELAY = 1.5  # seconds between requests to be polite to archive.org
+DELAY = 3.0  # seconds between requests to be polite to archive.org
+CDX_DELAY = 5.0  # longer delay between CDX API queries to avoid rate limits
 
 
-def fetch(url: str, timeout: int = 30) -> bytes | None:
-    """Fetch URL with retries."""
-    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    for attempt in range(3):
+def fetch(url: str, timeout: int = 60) -> bytes | None:
+    """Fetch URL using curl (bypasses Python SSL issues with archive.org)."""
+    for attempt in range(5):
         try:
-            with urllib.request.urlopen(req, timeout=timeout) as resp:
-                return resp.read()
-        except Exception as e:
-            if attempt == 2:
-                print(f"    FAILED after 3 attempts: {e}")
+            result = subprocess.run(
+                ["curl", "-sS", "-f", "-L",
+                 "--max-time", str(timeout),
+                 "-A", USER_AGENT,
+                 url],
+                capture_output=True,
+                timeout=timeout + 10,
+            )
+            if result.returncode == 0 and result.stdout:
+                return result.stdout
+            if attempt == 4:
+                err = result.stderr.decode("utf-8", errors="replace").strip()
+                print(f"    FAILED after 5 attempts: curl exit {result.returncode}: {err}")
                 return None
-            time.sleep(3 * (attempt + 1))
+        except Exception as e:
+            if attempt == 4:
+                print(f"    FAILED after 5 attempts: {e}")
+                return None
+        wait = 5 * (attempt + 1)
+        print(f"    Retry {attempt+1} after {wait}s")
+        time.sleep(wait)
     return None
 
 
 def fetch_cdx(url_pattern: str) -> list[list[str]]:
     """Query the Wayback Machine CDX API."""
+    time.sleep(CDX_DELAY)  # Rate limit CDX queries
     cdx_url = (
         f"https://web.archive.org/cdx/search/cdx?"
         f"url={urllib.parse.quote(url_pattern, safe='*')}"
@@ -154,9 +168,18 @@ def classify_pdf(url: str) -> tuple[str, str, str]:
     """Classify a PDF URL into (election_type, year, constituency)."""
     low = url.lower()
 
-    # Extract year
-    year_match = re.search(r"(\d{4})", url)
-    year = year_match.group(1) if year_match else "unknown"
+    # Extract year - look for Election-YYYY or Elections-YYYY pattern first,
+    # then fall back to any 4-digit year in the filename part (after last /)
+    year = "unknown"
+    year_match = re.search(r"Election[s]?-(\d{4})", url)
+    if year_match:
+        year = year_match.group(1)
+    else:
+        # Try the filename part only (after the GUID in getmedia URLs)
+        filename_part = url.rsplit("/", 1)[-1] if "/" in url else url
+        year_match = re.search(r"(\d{4})", filename_part)
+        if year_match and 1990 <= int(year_match.group(1)) <= 2030:
+            year = year_match.group(1)
 
     # Election type
     if "assembly" in low or "nia" in low:
@@ -392,4 +415,151 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if "--discover-only" in sys.argv:
+        # Run discovery only, skip downloads
+        index_pages, direct_pdfs, election_landing = find_election_index_pages()
+        all_pdfs = []
+
+        print(f"\nProcessing {len(direct_pdfs)} direct PDF URLs...")
+        for entry in direct_pdfs:
+            url = entry["url"]
+            ts = entry["timestamp"]
+            low = url.lower()
+            if "statement" in low or "persons-nominated" in low or "nominated" in low:
+                pdf_type = "spn"
+            elif "agent" in low or "appointment" in low:
+                pdf_type = "agent"
+            else:
+                pdf_type = "unknown"
+            etype, year, const = classify_pdf(url)
+            all_pdfs.append((url, ts, pdf_type, etype, year, const))
+
+        print(f"\nDownloading {len(index_pages)} index pages...")
+        for page in index_pages:
+            ts = page["timestamp"]
+            url = page["url"]
+            # Extract year from the index page URL as fallback
+            page_etype, page_year, _ = classify_pdf(url)
+            print(f"  {url} (ts={ts})")
+            time.sleep(DELAY)
+            archive_url = f"https://web.archive.org/web/{ts}/{url}"
+            data = fetch(archive_url)
+            if not data:
+                continue
+            html = data.decode("utf-8", errors="replace")
+            pdf_links = extract_pdf_links(html, ts)
+            print(f"    Found {len(pdf_links)} PDF links")
+            for link in pdf_links:
+                full_url = f"http://www.eoni.org.uk{link['path']}"
+                low = link["path"].lower()
+                if "statement" in low or "nominated" in low:
+                    pdf_type = "spn"
+                elif "agent" in low or "appointment" in low:
+                    pdf_type = "agent"
+                else:
+                    pdf_type = "unknown"
+                etype, year, const = classify_pdf(link["path"])
+                # Use parent page's year/type if PDF URL doesn't have them
+                if year == "unknown":
+                    year = page_year
+                if etype == "unknown":
+                    etype = page_etype
+                all_pdfs.append((full_url, link["timestamp"], pdf_type, etype, year, const))
+
+        # Use the already-fetched election_landing URLs to find SPN/Agent pages
+        # instead of making 168 individual CDX queries
+        print(f"\nSearching election landing URLs for SPN/Agent pages...")
+        # The initial CDX query already found all URLs under Election-results-and-statistics/*
+        # Filter those for SPN and Agent pages we haven't already processed
+        already_processed = {p["url"] for p in index_pages}
+        extra_spn_agent_urls = []
+        for ts, url, status in [(e["timestamp"], e["url"], "200")
+                                  for year_entries in election_landing.values()
+                                  for e in year_entries]:
+            low = url.lower()
+            if url in already_processed:
+                continue
+            if (("statement" in low and "persons" in low) or
+                ("nominated" in low) or
+                ("agent" in low and ("appointment" in low or "notice" in low))):
+                extra_spn_agent_urls.append((ts, url))
+                already_processed.add(url)
+
+        # Deduplicate by URL, keep latest timestamp
+        seen_extra = {}
+        for ts, url in extra_spn_agent_urls:
+            if url not in seen_extra or ts > seen_extra[url]:
+                seen_extra[url] = ts
+        extra_pages = [(ts, url) for url, ts in seen_extra.items()]
+        print(f"  Found {len(extra_pages)} additional SPN/Agent pages from initial CDX data")
+
+        for ts, url in extra_pages:
+            print(f"  {url} (ts={ts})")
+            time.sleep(DELAY)
+            archive_url = f"https://web.archive.org/web/{ts}/{url}"
+            data = fetch(archive_url)
+            if not data:
+                continue
+            html = data.decode("utf-8", errors="replace")
+            pdf_links = extract_pdf_links(html, ts)
+            low = url.lower()
+            if "agent" in low:
+                pdf_type = "agent"
+            else:
+                pdf_type = "spn"
+            etype, year, _ = classify_pdf(url)
+            for link in pdf_links:
+                full_url = f"http://www.eoni.org.uk{link['path']}"
+                _, yr, const = classify_pdf(link["path"])
+                all_pdfs.append((full_url, link["timestamp"], pdf_type, etype, yr or year, const))
+            print(f"    {len(pdf_links)} PDF links")
+
+        # Deduplicate
+        seen = {}
+        for url, ts, ptype, etype, year, const in all_pdfs:
+            key = url
+            if key not in seen or ts > seen[key][1]:
+                seen[key] = (url, ts, ptype, etype, year, const)
+
+        unique_pdfs = list(seen.values())
+        spn_pdfs = [p for p in unique_pdfs if p[2] == "spn"]
+        agent_pdfs = [p for p in unique_pdfs if p[2] == "agent"]
+        unknown_pdfs = [p for p in unique_pdfs if p[2] == "unknown"]
+
+        print(f"\n{'='*60}")
+        print(f"DISCOVERY RESULTS")
+        print(f"{'='*60}")
+        print(f"Total unique PDFs found: {len(unique_pdfs)}")
+        print(f"  SPN PDFs: {len(spn_pdfs)}")
+        print(f"  Agent PDFs: {len(agent_pdfs)}")
+        print(f"  Unknown: {len(unknown_pdfs)}")
+
+        by_year = defaultdict(lambda: {"spn": 0, "agent": 0, "unknown": 0})
+        for url, ts, ptype, etype, year, const in unique_pdfs:
+            by_year[(year, etype)][ptype] += 1
+        print(f"\nBreakdown by year and election type:")
+        for (year, etype), counts in sorted(by_year.items()):
+            print(f"  {year} {etype}: {counts}")
+
+        # Show constituencies
+        consts_by_election = defaultdict(set)
+        for url, ts, ptype, etype, year, const in unique_pdfs:
+            if const != "unknown":
+                consts_by_election[(year, etype)].add(const)
+        print(f"\nConstituencies/DEAs covered:")
+        for (year, etype), consts in sorted(consts_by_election.items()):
+            print(f"  {year} {etype}: {sorted(consts)}")
+
+        # Save manifest
+        manifest = {
+            "pdfs": [
+                {"url": url, "timestamp": ts, "type": ptype, "election": etype, "year": year, "const": const}
+                for url, ts, ptype, etype, year, const in unique_pdfs
+            ]
+        }
+        manifest_path = Path("_tmp_eoni_manifest.json")
+        manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+        print(f"\nManifest saved to {manifest_path.resolve()}")
+    else:
+        main()

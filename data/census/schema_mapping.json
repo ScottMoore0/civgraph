@@ -1,0 +1,709 @@
+{
+  "description": "Schema mapping for Northern Ireland Census data 1926-2021. Documents geographic units, topics, column structures, and cross-census comparability.",
+  "generated": "2026-03-19",
+
+  "geographic_units": {
+    "2001": {
+      "system": "26 District Councils (pre-2015 reform)",
+      "levels": [
+        {"name": "Ward", "code_format": "95XX##", "example": "95AA01", "count": 582, "description": "Electoral ward"},
+        {"name": "District Council", "code_format": "95XX", "example": "95AA", "count": 26},
+        {"name": "Parliamentary Constituency", "count": 18},
+        {"name": "Education and Library Board", "count": 5},
+        {"name": "Health and Social Services Board", "count": 4},
+        {"name": "NUTS3", "count": 5},
+        {"name": "Northern Ireland", "count": 1}
+      ],
+      "notes": "Ward codes use 95XX## format where XX=2-letter district code, ##=ward number. Hierarchy embeds in code structure."
+    },
+    "2011": {
+      "system": "26 District Councils (same boundaries as 2001)",
+      "levels_administrative": [
+        {"name": "Electoral Ward", "code_format": "95XX##", "example": "95AA01", "count": 582},
+        {"name": "Assembly Area", "count": 18},
+        {"name": "District Council (LGD)", "code_format": "95XX", "example": "95AA", "count": 26},
+        {"name": "Education (ELB)", "count": 5},
+        {"name": "Health (HSCT)", "count": 5},
+        {"name": "European (NUTS3)", "count": 5},
+        {"name": "Northern Ireland (COUNTRY)", "code_format": "N92000002", "count": 1}
+      ],
+      "levels_statistical": [
+        {"name": "Small Area (SA)", "code_format": "N00######", "example": "N00000001", "count": 4537},
+        {"name": "Super Output Area (SOA)", "code_format": "95XX##S#/W#", "example": "95AA01S1"}
+      ],
+      "hierarchy": "SA -> SOA -> Ward -> LGD -> NUTS3/HSCT/ELB -> Country",
+      "notes": "Same 582 wards and 26 DCs as 2001, plus Small Areas and SOAs for statistical geography. 2011 also has Assembly Areas (=parliamentary constituencies)."
+    },
+    "2021": {
+      "system": "11 Local Government Districts (post-2015 reform)",
+      "levels": [
+        {"name": "Data Zone (DZ)", "code_format": "N20######", "example": "N20000001", "count": 4461},
+        {"name": "Super Data Zone (SDZ)", "code_format": "N21######", "example": "N21000001", "count": 890},
+        {"name": "Settlement", "description": "Urban settlements"},
+        {"name": "Ward", "code_format": "N08######", "example": "N08000101", "count": 462, "description": "New 2014-boundary wards, NOT same as 2001/2011 wards"},
+        {"name": "District Electoral Area (DEA)", "count": 80},
+        {"name": "Local Government District (LGD)", "code_format": "N09######", "example": "N09000001", "count": 11},
+        {"name": "Northern Ireland", "code_format": "N92000002", "count": 1}
+      ],
+      "lgd_names": [
+        "Antrim and Newtownabbey", "Armagh City, Banbridge and Craigavon", "Belfast",
+        "Causeway Coast and Glens", "Derry City and Strabane", "Fermanagh and Omagh",
+        "Lisburn and Castlereagh", "Mid and East Antrim", "Mid Ulster",
+        "Newry, Mourne and Down", "Ards and North Down"
+      ],
+      "notes": "2021 uses entirely new geographic boundaries after 2015 LGD reform. 26 DCs merged into 11 LGDs. Wards changed from 582 to 462 with new boundaries. Data Zones replace Small Areas. Direct ward-to-ward comparison with 2001/2011 is NOT possible."
+    },
+    "1926_to_1981": {
+      "system": "Counties, County Boroughs, Rural/Urban Districts, Wards, District Electoral Divisions, Townlands",
+      "levels": [
+        {"name": "County", "count": 6, "names": ["Antrim", "Armagh", "Down", "Fermanagh", "Londonderry", "Tyrone"]},
+        {"name": "County Borough", "names": ["Belfast", "Londonderry"]},
+        {"name": "Urban District"},
+        {"name": "Rural District"},
+        {"name": "Ward (County Borough wards)"},
+        {"name": "District Electoral Division (DED)"},
+        {"name": "Townland"}
+      ],
+      "notes": "Pre-1973 system. In 1973 the system changed to 26 Local Government Districts which were used for 1981, 2001, and 2011 censuses. The 1981 census used the new 26-LGD structure. 1971 and earlier used counties/county boroughs."
+    }
+  },
+
+  "geographic_crosswalks_needed": {
+    "2001_to_2011": {
+      "difficulty": "easy",
+      "notes": "Same 582 wards and 26 DCs. Direct 1:1 mapping. Same ward codes (95XX##)."
+    },
+    "2011_to_2021": {
+      "difficulty": "hard",
+      "notes": "Complete boundary reorganisation. Need lookup table mapping old 26 DCs to new 11 LGDs (many-to-many in some cases). Old 582 wards to new 462 wards requires spatial intersection or official crosswalk. NISRA may publish a best-fit lookup.",
+      "dc_to_lgd_approximate": {
+        "Antrim and Newtownabbey": ["Antrim", "Newtownabbey"],
+        "Armagh City, Banbridge and Craigavon": ["Armagh", "Banbridge", "Craigavon"],
+        "Belfast": ["Belfast"],
+        "Causeway Coast and Glens": ["Coleraine", "Ballymoney", "Moyle", "Limavady"],
+        "Derry City and Strabane": ["Derry", "Strabane"],
+        "Fermanagh and Omagh": ["Fermanagh", "Omagh"],
+        "Lisburn and Castlereagh": ["Lisburn", "Castlereagh"],
+        "Mid and East Antrim": ["Ballymena", "Larne", "Carrickfergus"],
+        "Mid Ulster": ["Cookstown", "Magherafelt", "Dungannon"],
+        "Newry, Mourne and Down": ["Newry and Mourne", "Down"],
+        "Ards and North Down": ["Ards", "North Down"]
+      }
+    },
+    "pre1973_to_post1973": {
+      "difficulty": "very_hard",
+      "notes": "1926-1971 use county/DED system. 1981 onwards uses 26 LGDs. Would need GIS-based spatial crosswalk or published lookup from NISRA. Some DEDs map cleanly to wards but many do not."
+    }
+  },
+
+  "census_years": {
+    "1926": {
+      "source_files": ["census-1926-part-1.md", "census-1926-part-2.md"],
+      "total_pages": 932,
+      "format": "OCR markdown from PDF scans",
+      "data_quality": "variable - OCR artefacts common",
+      "topics_available": [
+        "population_by_area",
+        "population_historical_1841_1926",
+        "sex",
+        "age",
+        "marital_condition",
+        "birthplace",
+        "religion",
+        "occupation_and_industry",
+        "orphanhood",
+        "infirmities",
+        "habitable_buildings",
+        "accommodation_and_families",
+        "dependent_children"
+      ],
+      "geographic_detail": "County, County Borough, Urban/Rural District, Ward (CB), DED, Townland"
+    },
+    "1937": {
+      "source_files": ["census-1937-part-1.md", "census-1937-part-2.md"],
+      "total_pages": 459,
+      "format": "OCR markdown from PDF scans",
+      "topics_available": [
+        "population_by_area",
+        "sex",
+        "age",
+        "marital_condition",
+        "birthplace",
+        "religion",
+        "usual_residence",
+        "habitable_buildings"
+      ],
+      "geographic_detail": "County, County Borough, Urban/Rural District, DED",
+      "notes": "Limited scope census - no occupation/industry questions"
+    },
+    "1951": {
+      "source_files": ["census-1951-part-1.md", "census-1951-part-2.md"],
+      "total_pages": 872,
+      "format": "OCR markdown from PDF scans",
+      "topics_available": [
+        "population_by_area",
+        "sex",
+        "age",
+        "marital_condition",
+        "birthplace",
+        "religion",
+        "occupation_and_industry",
+        "habitable_buildings"
+      ],
+      "geographic_detail": "County, County Borough, Urban/Rural District, DED, Townland"
+    },
+    "1961": {
+      "source_files": ["census-1961-part-1.md", "census-1961-part-2.md"],
+      "total_pages": 848,
+      "format": "OCR markdown from PDF scans",
+      "topics_available": [
+        "population_by_area",
+        "sex",
+        "age",
+        "marital_condition",
+        "birthplace",
+        "religion",
+        "occupation_and_industry",
+        "education",
+        "fertility_of_marriage",
+        "housing_type",
+        "housing_tenure",
+        "household_amenities"
+      ],
+      "geographic_detail": "County, County Borough, Urban/Rural District, DED, Townland",
+      "notes": "First census with housing/amenity questions"
+    },
+    "1966": {
+      "source_files": ["census-1966.md"],
+      "total_pages": 254,
+      "format": "OCR markdown from PDF scans",
+      "topics_available": [
+        "population_by_area",
+        "population_historical_1821_1966",
+        "sex",
+        "inhabited_dwellings",
+        "private_households"
+      ],
+      "geographic_detail": "County, County Borough, Urban/Rural District",
+      "notes": "Interim census - limited scope"
+    },
+    "1971": {
+      "source_files": ["census-1971.md"],
+      "total_pages": 601,
+      "format": "OCR markdown from PDF scans",
+      "topics_available": [
+        "population_by_area",
+        "sex",
+        "age",
+        "marital_condition",
+        "birthplace",
+        "religion",
+        "economic_activity",
+        "dwellings",
+        "private_households",
+        "rooms",
+        "tenure",
+        "household_amenities",
+        "cars_and_garaging"
+      ],
+      "geographic_detail": "County, County Borough, Urban/Rural District, DED",
+      "notes": "Last census using county system. County Report Tyrone in the file. 1973 LGD reorganisation follows."
+    },
+    "1981": {
+      "source_files": ["census-1981.md"],
+      "total_pages": 380,
+      "format": "OCR markdown from PDF scans",
+      "topics_available": [
+        "population_by_area",
+        "population_historical_1821_1981",
+        "sex",
+        "private_households",
+        "intercensal_variation"
+      ],
+      "geographic_detail": "26 Local Government Districts, Wards",
+      "notes": "First census using new 26 LGD system. Preliminary report only - population and households by LGD and ward. Affected by non-cooperation campaign (98.7% coverage). Detailed topic reports published separately."
+    },
+    "2001": {
+      "format": "CSV",
+      "geographic_levels": ["Ward", "District Council", "Parliamentary Constituency", "Education and Library Board", "Health and Social Services Board", "NUTS3", "Northern Ireland"],
+      "table_types": {
+        "Key Statistics": {
+          "description": "Summary tables, available in both Numerical and Percentage variants",
+          "tables_per_geography": 33,
+          "file_pattern": "TABLE KS## (NUM/PER) (GEOG).csv",
+          "structure": "Header rows with table name, population, geography level. Then comma-separated rows with geography name in first column, data values in remaining columns.",
+          "tables": {
+            "KS01": {"title": "Usually Resident Population", "population": "All persons", "topic": "population"},
+            "KS02": {"title": "Age Structure", "population": "All persons", "topic": "age"},
+            "KS03": {"title": "Living Arrangements", "population": "All persons aged 16+ in households", "topic": "living_arrangements"},
+            "KS04": {"title": "Marital Status", "population": "All persons aged 16+", "topic": "marital_status"},
+            "KS05": {"title": "Country of Birth", "population": "All persons", "topic": "country_of_birth"},
+            "KS06": {"title": "Ethnic Group", "population": "All persons", "topic": "ethnicity"},
+            "KS07a": {"title": "Religion", "population": "All persons", "topic": "religion"},
+            "KS07b": {"title": "Community Background (Religion or Religion Brought Up In)", "population": "All persons", "topic": "community_background"},
+            "KS08": {"title": "Health and Provision of Unpaid Care", "population": "All persons", "topic": "health"},
+            "KS09a": {"title": "Economic Activity - All Persons", "population": "All persons aged 16-74", "topic": "economic_activity"},
+            "KS09b": {"title": "Economic Activity - Males", "population": "Males aged 16-74", "topic": "economic_activity"},
+            "KS09c": {"title": "Economic Activity - Females", "population": "Females aged 16-74", "topic": "economic_activity"},
+            "KS10": {"title": "Hours Worked", "population": "Males/Females aged 16-74 in employment", "topic": "hours_worked"},
+            "KS11a": {"title": "Industry of Employment - All", "population": "Persons aged 16-74 in employment", "topic": "industry"},
+            "KS11b": {"title": "Industry of Employment - Males", "population": "Males aged 16-74 in employment", "topic": "industry"},
+            "KS11c": {"title": "Industry of Employment - Females", "population": "Females aged 16-74 in employment", "topic": "industry"},
+            "KS12a": {"title": "Occupation Groups - All", "population": "Persons aged 16-74 in employment", "topic": "occupation"},
+            "KS12b": {"title": "Occupation Groups - Males", "population": "Males aged 16-74 in employment", "topic": "occupation"},
+            "KS12c": {"title": "Occupation Groups - Females", "population": "Females aged 16-74 in employment", "topic": "occupation"},
+            "KS13": {"title": "Qualifications and Students", "population": "All persons aged 16-74", "topic": "qualifications"},
+            "KS14a": {"title": "NS-SeC - All Persons", "population": "All persons aged 16-74", "topic": "socioeconomic"},
+            "KS14b": {"title": "NS-SeC - Males", "population": "Males aged 16-74", "topic": "socioeconomic"},
+            "KS14c": {"title": "NS-SeC - Females", "population": "Females aged 16-74", "topic": "socioeconomic"},
+            "KS15": {"title": "Travel to Work", "population": "Persons aged 16-74 in employment", "topic": "travel_to_work"},
+            "KS16": {"title": "Dwellings, Household Spaces and Accommodation Type", "population": "All dwellings", "topic": "housing"},
+            "KS17": {"title": "Cars or Vans", "population": "All households", "topic": "car_availability"},
+            "KS18": {"title": "Tenure", "population": "All households", "topic": "tenure"},
+            "KS19": {"title": "Rooms, Amenities, Central Heating and Lowest Floor Level", "population": "All households", "topic": "housing_amenities"},
+            "KS20": {"title": "Household Composition", "population": "All households", "topic": "household_composition"},
+            "KS21": {"title": "Households with Dependent Children and LLTI", "population": "All households", "topic": "household_deprivation"},
+            "KS22": {"title": "Knowledge of Irish", "topic": "irish_language"},
+            "KS23": {"title": "Knowledge of Ulster-Scots", "topic": "ulster_scots"},
+            "KS24": {"title": "Household Size", "topic": "household_size"}
+          }
+        },
+        "CAS Tables": {
+          "description": "Census Area Statistics - more detailed cross-tabulations",
+          "tables_per_geography": 86,
+          "file_pattern": "TABLE CAS### (GEOG).csv",
+          "structure": "Multi-row headers. Geography in first column, age/sex/category in second column, data values in remaining columns."
+        },
+        "Standard Tables": {
+          "description": "Standard cross-tabulations with more detail than CAS",
+          "tables_per_geography": 75,
+          "file_pattern": "TABLE S### (GEOG).csv"
+        },
+        "Univariate Tables": {
+          "description": "Single-variable frequency distributions",
+          "tables_per_geography": 71,
+          "file_pattern": "UV###.csv"
+        },
+        "Migration and Travel Tables": {
+          "description": "Migration, travel to work, and related tables",
+          "tables_per_geography": 61,
+          "file_pattern": "TABLE (CAS/S/KS/T/UV)### (GEOG).csv"
+        }
+      }
+    },
+    "2011": {
+      "format": "CSV with DATA/DESC/META triplets",
+      "file_structure": {
+        "DATA": "GeographyCode column + coded variable columns (e.g. KS101NI0001)",
+        "DESC": "Maps variable codes to human-readable descriptions with measurement unit",
+        "META": "Table title, statistical population, and annotations"
+      },
+      "geographic_levels_administrative": ["Electoral Ward", "Assembly Area", "Higher Geographies (LGD, ELB, HSCT, NUTS3, Country)"],
+      "geographic_levels_statistical": ["Small Area", "Super Output Area"],
+      "table_types": {
+        "Key Statistics (KS)": {
+          "description": "Summary tables with counts and percentages",
+          "count_admin_wards": 135,
+          "tables": {
+            "KS101NI": {"title": "Usual Resident Population", "topic": "population"},
+            "KS102NI": {"title": "Age Structure", "topic": "age"},
+            "KS103NI": {"title": "Marital and Civil Partnership Status", "topic": "marital_status"},
+            "KS104NI": {"title": "Living Arrangements", "topic": "living_arrangements"},
+            "KS105NI": {"title": "Household Composition", "topic": "household_composition"},
+            "KS106NI": {"title": "Households: No Employment, Dependent Children, LLTI", "topic": "household_deprivation"},
+            "KS107NI": {"title": "Lone Parent Households", "topic": "household_composition"},
+            "KS201NI": {"title": "Ethnic Group", "topic": "ethnicity"},
+            "KS202NI": {"title": "National Identity (Classification 1)", "topic": "national_identity"},
+            "KS203NI": {"title": "National Identity (Classification 2)", "topic": "national_identity"},
+            "KS204NI": {"title": "Country of Birth", "topic": "country_of_birth"},
+            "KS205NI": {"title": "Passports Held (Classification 1)", "topic": "passports"},
+            "KS206NI": {"title": "Passports Held (Classification 2)", "topic": "passports"},
+            "KS207NI": {"title": "Main Language", "topic": "language"},
+            "KS208NI": {"title": "Household Language", "topic": "language"},
+            "KS209NI": {"title": "Knowledge of Irish", "topic": "irish_language"},
+            "KS210NI": {"title": "Knowledge of Ulster-Scots", "topic": "ulster_scots"},
+            "KS211NI": {"title": "Religion", "topic": "religion"},
+            "KS212NI": {"title": "Religion or Religion Brought Up In", "topic": "community_background"},
+            "KS301NI": {"title": "Health and Provision of Unpaid Care", "topic": "health"},
+            "KS302NI": {"title": "Type of Long-Term Condition", "topic": "health"},
+            "KS401NI": {"title": "Dwellings, Household Spaces and Accommodation Type", "topic": "housing"},
+            "KS402NI": {"title": "Tenure and Landlord", "topic": "tenure"},
+            "KS403NI": {"title": "Household Size", "topic": "household_size"},
+            "KS404NI": {"title": "Central Heating", "topic": "housing_amenities"},
+            "KS405NI": {"title": "Car or Van Availability", "topic": "car_availability"},
+            "KS406NI": {"title": "Adaptation of Accommodation", "topic": "housing"},
+            "KS407NI": {"title": "Communal Establishment Residents", "topic": "communal_establishments"},
+            "KS501NI": {"title": "Qualifications and Students", "topic": "qualifications"},
+            "KS601NI": {"title": "Economic Activity", "topic": "economic_activity"},
+            "KS602NI": {"title": "Economic Activity - Males", "topic": "economic_activity"},
+            "KS603NI": {"title": "Economic Activity - Females", "topic": "economic_activity"},
+            "KS604NI": {"title": "Hours Worked", "topic": "hours_worked"},
+            "KS605NI": {"title": "Industry of Employment", "topic": "industry"},
+            "KS606NI": {"title": "Industry of Employment - Males", "topic": "industry"},
+            "KS607NI": {"title": "Industry of Employment - Females", "topic": "industry"},
+            "KS608NI": {"title": "Occupation - All", "topic": "occupation"},
+            "KS609NI": {"title": "Occupation - Males", "topic": "occupation"},
+            "KS610NI": {"title": "Occupation - Females", "topic": "occupation"},
+            "KS611NI": {"title": "NS-SeC", "topic": "socioeconomic"},
+            "KS612NI": {"title": "NS-SeC - Males", "topic": "socioeconomic"},
+            "KS613NI": {"title": "NS-SeC - Females", "topic": "socioeconomic"},
+            "KS701NI": {"title": "Method of Travel to Work", "topic": "travel_to_work"},
+            "KS702NI": {"title": "Method of Travel to Work or Study", "topic": "travel_to_work"},
+            "KS801NI": {"title": "Born in NI Resided Elsewhere + Short-Term Residents", "topic": "migration"}
+          }
+        },
+        "Quick Statistics (QS)": {
+          "description": "More detailed single-variable tables",
+          "notes": "Available for admin and statistical geographies"
+        },
+        "Local Characteristics (LC)": {
+          "description": "Cross-tabulated tables for local areas",
+          "count_admin": 1145,
+          "count_statistical": 767
+        },
+        "Detailed Characteristics (DC)": {
+          "description": "Most detailed cross-tabulations",
+          "count_admin": 1052,
+          "count_statistical": 206
+        }
+      }
+    },
+    "2021": {
+      "format": "XLSX with multiple geography sheets per workbook",
+      "file_structure": {
+        "sheets": ["Cover_sheet", "DZ", "SDZ", "Settlement", "Ward", "DEA", "LGD", "NI", "Notes"],
+        "header_rows": 6,
+        "data_start_row": 7,
+        "columns": "Geography name, Geography code, then data columns",
+        "notes": "Some tables have only a subset of sheets (e.g. NI-only tables). Many tables have paired count (a) and percentage (b) sub-tables stacked vertically in the same sheet."
+      },
+      "geographic_levels": ["Data Zone", "Super Data Zone", "Settlement", "Ward", "DEA", "LGD", "Northern Ireland"],
+      "table_series": {
+        "MS-A": {
+          "topic_group": "Demography",
+          "tables": {
+            "MS-A01": "Usual resident population",
+            "MS-A02": "Age - five year age bands - all",
+            "MS-A03": "Age - five year age bands - females",
+            "MS-A04": "Age - five year age bands - males",
+            "MS-A05": "Age - single year",
+            "MS-A06": "Age structure",
+            "MS-A07": "Sex",
+            "MS-A08": "Five year age bands and sex",
+            "MS-A09": "Single year of age and sex",
+            "MS-A10": "Broad age bands and sex",
+            "MS-A11": "Broad age bands and sex 1851-2021",
+            "MS-A12": "Sex ratio by five year age bands",
+            "MS-A13": "Median age by sex",
+            "MS-A14": "Population density",
+            "MS-A15": "Residence type",
+            "MS-A16": "Country of birth - basic",
+            "MS-A17": "Country of birth - intermediate",
+            "MS-A19": "Country of birth 1851-2021",
+            "MS-A20": "Passports held - basic (classification 1)",
+            "MS-A21": "Passports held - intermediate (classification 1)",
+            "MS-A22": "Passports held (classification 2)",
+            "MS-A24": "Number of dependent children - households",
+            "MS-A25": "Household composition - usual residents",
+            "MS-A26": "Household composition - households",
+            "MS-A27": "Adult lifestage",
+            "MS-A28": "Household lifestage",
+            "MS-A29": "Living arrangements",
+            "MS-A30": "Marital and civil partnership status"
+          }
+        },
+        "MS-B": {
+          "topic_group": "Identity",
+          "tables": {
+            "MS-B01": "Ethnic group",
+            "MS-B04": "Multiple ethnic groups",
+            "MS-B05": "Knowledge of Irish",
+            "MS-B07": "Frequency of speaking Irish",
+            "MS-B08": "Knowledge of Ulster-Scots",
+            "MS-B10": "Frequency of speaking Ulster-Scots",
+            "MS-B11": "Household language",
+            "MS-B12": "Main language",
+            "MS-B14": "Proficiency in English",
+            "MS-B15": "National identity - basic (classification 1)",
+            "MS-B16": "National identity - intermediate (classification 1)",
+            "MS-B17": "National identity (classification 2)",
+            "MS-B19": "Religion",
+            "MS-B20": "Religion - intermediate detail",
+            "MS-B22": "Religion 1861-2021",
+            "MS-B23": "Religion or religion brought up in",
+            "MS-B24": "Religion or religion brought up in (expanded)",
+            "MS-B25": "Religion or religion brought up in - household structure"
+          }
+        },
+        "MS-C": {
+          "topic_group": "Sexual Orientation",
+          "tables": {
+            "MS-C01": "Sexual orientation",
+            "MS-C02": "Sexual orientation by broad age bands"
+          }
+        },
+        "MS-D": {
+          "topic_group": "Health",
+          "tables": {
+            "MS-D01": "General health by broad age bands",
+            "MS-D02": "Long-term health problem or disability by broad age bands",
+            "MS-D03": "Number of residents with LLTI",
+            "MS-D04": "Number of long-term health conditions",
+            "MS-D05": "Deafness or partial hearing loss",
+            "MS-D06": "Blindness or partial sight loss",
+            "MS-D07": "Mobility or dexterity - wheelchair",
+            "MS-D08": "Mobility or dexterity - limits basic activities",
+            "MS-D09": "Intellectual or learning disability",
+            "MS-D10": "Learning difficulty",
+            "MS-D11": "Asperger syndrome",
+            "MS-D12": "Emotional/psychological/mental health condition",
+            "MS-D13": "Frequent confusion or memory loss",
+            "MS-D14": "Long-term pain or discomfort",
+            "MS-D15": "Shortness of breath or difficulty breathing",
+            "MS-D16": "Other condition",
+            "MS-D17": "Provision of unpaid care"
+          }
+        },
+        "MS-E": {
+          "topic_group": "Housing",
+          "tables": {
+            "MS-E01": "Households",
+            "MS-E02": "Household size",
+            "MS-E03": "Households and average size 1851-2021",
+            "MS-E04": "Household spaces",
+            "MS-E05": "Accommodation type - usual residents",
+            "MS-E06": "Accommodation type - households",
+            "MS-E07": "Accommodation type - household spaces",
+            "MS-E08": "Number of adaptations to accommodation",
+            "MS-E09": "Adaptation of accommodation",
+            "MS-E10": "Car or van availability",
+            "MS-E11": "Central heating (household based) - classification 1",
+            "MS-E12": "Central heating (system based) - classification 2",
+            "MS-E13": "Renewable energy systems",
+            "MS-E14": "Tenure - usual residents",
+            "MS-E15": "Tenure - households"
+          }
+        },
+        "MS-F": {
+          "topic_group": "Communal Establishments",
+          "tables": {
+            "MS-F01": "Communal establishment management and type - establishments",
+            "MS-F02": "Communal establishment management and type - residents",
+            "MS-F03": "Communal establishment residents and LLTI"
+          }
+        },
+        "MS-G": {
+          "topic_group": "Qualifications",
+          "tables": {
+            "MS-G01": "Highest level of qualifications",
+            "MS-G02": "Highest level of qualifications by broad age bands"
+          }
+        },
+        "MS-H": {
+          "topic_group": "Labour Market",
+          "tables": {
+            "MS-H02": "Economic activity by sex",
+            "MS-H03": "Economic activity of HRP",
+            "MS-H04": "Economic activity by sex - full-time students",
+            "MS-H05": "Hours worked by sex",
+            "MS-H06": "Industry of employment by sex",
+            "MS-H07": "Industry (2-digit) of employment",
+            "MS-H08": "NS-SeC by sex",
+            "MS-H09": "Occupation (1-digit) by sex",
+            "MS-H10": "Occupation (2-digit)",
+            "MS-H11": "Employment history",
+            "MS-H12": "Occupation (3-digit)",
+            "MS-H13": "Occupation (4-digit)",
+            "MS-H14": "Industry - full detail",
+            "MS-H15": "Economic activity by broad age bands"
+          }
+        },
+        "MS-I": {
+          "topic_group": "Travel",
+          "tables": {
+            "MS-I01": "Method of travel to work",
+            "MS-I02": "Method of travel to study",
+            "MS-I03": "Distance travelled to work",
+            "MS-I04": "Distance travelled to study"
+          }
+        },
+        "MS-K": {
+          "topic_group": "Migration",
+          "tables": {
+            "MS-K01": "Address one year ago",
+            "MS-K02": "Year of arrival to live in NI"
+          }
+        },
+        "DT": {
+          "topic_group": "Multivariate (selected cross-tabulations)",
+          "count": 8,
+          "file_pattern": "census-2021-dt-####.xlsx"
+        },
+        "Origin-Destination": {
+          "topic_group": "Flows (work, study, migration)",
+          "subdirs": ["UK workplace", "ROI workplace", "UK migrants", "ROI migrants", "Students"]
+        },
+        "Alternative Populations": {
+          "topic_group": "Daytime and workplace populations",
+          "subdirs": ["Daytime tables", "Workplace tables"]
+        }
+      }
+    }
+  },
+
+  "cross_census_column_mappings": {
+    "population": {
+      "description": "Total usually resident population",
+      "2001": {"table": "KS01", "column": "All persons"},
+      "2011": {"table": "KS101NI", "column": "KS101NI0001", "description": "All usual residents"},
+      "2021": {"table": "MS-A01", "column": "All usual residents"},
+      "comparable": true,
+      "notes": "Directly comparable. All three measure usually resident population."
+    },
+    "population_male": {
+      "2001": {"table": "KS01", "column": "Males"},
+      "2011": {"table": "KS101NI", "column": "KS101NI0002"},
+      "2021": {"table": "MS-A07", "column": "Male"},
+      "comparable": true
+    },
+    "population_female": {
+      "2001": {"table": "KS01", "column": "Females"},
+      "2011": {"table": "KS101NI", "column": "KS101NI0003"},
+      "2021": {"table": "MS-A07", "column": "Female"},
+      "comparable": true
+    },
+    "religion": {
+      "description": "Current religion stated",
+      "2001": {"table": "KS07a", "columns": ["Catholic", "Presbyterian Church in Ireland", "Church of Ireland", "Methodist Church in Ireland", "Other Christian (including Christian related)", "Other religions and philosophies", "No religion or religion not stated"]},
+      "2011": {"table": "KS211NI", "columns": ["Catholic", "Presbyterian Church in Ireland", "Church of Ireland", "Methodist Church in Ireland", "Other Christian (including Christian related)", "Other religions", "No religion", "Religion not stated"]},
+      "2021": {"table": "MS-B19", "columns": ["Catholic", "Presbyterian Church in Ireland", "Church of Ireland", "Methodist Church in Ireland", "Other Christian (including Christian related)", "Other religions", "No religion", "Religion not stated"]},
+      "comparable": true,
+      "notes": "2001 combines 'No religion' and 'Religion not stated' into one category. 2011 and 2021 separate them. For comparison, can combine 2011/2021 no religion + not stated to match 2001."
+    },
+    "community_background": {
+      "description": "Religion or religion brought up in (Catholic vs Protestant aggregate)",
+      "2001": {"table": "KS07b", "columns": ["Catholic", "Protestant and Other Christian", "Other religions and philosophies", "None"]},
+      "2011": {"table": "KS212NI"},
+      "2021": {"table": "MS-B23"},
+      "comparable": true,
+      "notes": "Key NI-specific variable. Comparable across all three years."
+    },
+    "age_structure": {
+      "description": "Population by age bands",
+      "2001": {"table": "KS02", "bands": ["0-4", "5-7", "8-9", "10-14", "15", "16-17", "18-19", "20-24", "25-29", "30-44", "45-59", "60-64", "65-74", "75-84", "85-89", "90+"]},
+      "2011": {"table": "KS102NI", "bands": ["0-4", "5-7", "8-9", "10-14", "15", "16-17", "18-19", "20-24", "25-29", "30-44", "45-59", "60-64", "65-74", "75-84", "85-89", "90+"]},
+      "2021": {"table": "MS-A06", "bands": ["0-2", "3-4", "5-7", "8-9", "10-14", "15", "16-17", "18-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65", "66-69", "70-74", "75-79", "80-84", "85-89", "90+"]},
+      "comparable": "partial",
+      "notes": "2001 and 2011 use identical age bands. 2021 uses different bands (more granular). Can re-aggregate 2021 bands to approximately match 2001/2011 but some bands differ at young ages (0-4 vs 0-2 + 3-4) and old ages (65-74 vs 65 + 66-69 + 70-74). MS-A02 gives 5-year bands which may be easier to harmonise."
+    },
+    "ethnicity": {
+      "2001": {"table": "KS06", "columns": ["White", "Irish Traveller", "Mixed", "Indian", "Pakistani", "Bangladeshi", "Other Asian", "Black Caribbean", "Black African", "Other Black", "Chinese", "Other"]},
+      "2011": {"table": "KS201NI", "columns": ["White", "Chinese", "Irish Traveller", "Indian", "Pakistani", "Bangladeshi", "Other Asian", "Black Caribbean", "Black African", "Black Other", "Mixed", "Other"]},
+      "2021": {"table": "MS-B01"},
+      "comparable": true,
+      "notes": "Same broad categories across years but detail and order differ. Can map to harmonised set: White, Irish Traveller, Indian, Pakistani, Bangladeshi, Other Asian, Black, Chinese, Mixed, Other."
+    },
+    "country_of_birth": {
+      "2001": {"table": "KS05", "columns": ["Northern Ireland", "England", "Scotland", "Wales", "Republic of Ireland", "Other EU", "Elsewhere"]},
+      "2011": {"table": "KS204NI"},
+      "2021": {"table": "MS-A16"},
+      "comparable": true,
+      "notes": "Similar categories. EU definition changes between censuses."
+    },
+    "marital_status": {
+      "2001": {"table": "KS04", "columns": ["Single", "Married", "Re-married", "Separated", "Divorced", "Widowed"]},
+      "2011": {"table": "KS103NI", "notes": "Adds civil partnership categories"},
+      "2021": {"table": "MS-A30"},
+      "comparable": "partial",
+      "notes": "2011 and 2021 add civil partnership categories not present in 2001. Core categories comparable."
+    },
+    "economic_activity": {
+      "2001": {"table": "KS09a"},
+      "2011": {"table": "KS601NI"},
+      "2021": {"table": "MS-H02"},
+      "comparable": "partial",
+      "notes": "Broad categories comparable (employed, self-employed, unemployed, inactive). Detail categories differ. 2001 uses SIC2003, 2011 uses SIC2007."
+    },
+    "industry": {
+      "2001": {"table": "KS11a", "classification": "SIC2003"},
+      "2011": {"table": "KS605NI", "classification": "SIC2007"},
+      "2021": {"table": "MS-H06", "classification": "SIC2007"},
+      "comparable": "partial",
+      "notes": "2001 uses SIC2003, 2011/2021 use SIC2007. Broad sectors can be mapped but detail categories changed."
+    },
+    "occupation": {
+      "2001": {"table": "KS12a", "classification": "SOC2000"},
+      "2011": {"table": "KS608NI", "classification": "SOC2010"},
+      "2021": {"table": "MS-H09", "classification": "SOC2010"},
+      "comparable": "partial",
+      "notes": "1-digit SOC major groups largely comparable. 2001 uses SOC2000, 2011/2021 use SOC2010."
+    },
+    "qualifications": {
+      "2001": {"table": "KS13", "levels": ["No qualifications", "Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]},
+      "2011": {"table": "KS501NI", "levels": ["No qualifications", "Level 1", "Level 2", "Apprenticeship", "Level 3", "Level 4+", "Other"]},
+      "2021": {"table": "MS-G01"},
+      "comparable": "partial",
+      "notes": "Broad levels comparable but definitions differ. 2001 has Levels 4 and 5 separate; 2011 combines as Level 4+. 2011 adds Apprenticeship."
+    },
+    "tenure": {
+      "2001": {"table": "KS18", "categories": ["Owns outright", "Owns with mortgage", "Shared ownership", "NIHE", "Housing Association", "Private landlord", "Other"]},
+      "2011": {"table": "KS402NI"},
+      "2021": {"table": "MS-E15"},
+      "comparable": true,
+      "notes": "Broad categories comparable: owner occupied, social rented, private rented."
+    },
+    "accommodation_type": {
+      "2001": {"table": "KS16"},
+      "2011": {"table": "KS401NI"},
+      "2021": {"table": "MS-E05"},
+      "comparable": true,
+      "notes": "Detached, semi-detached, terraced, flat/apartment categories comparable."
+    },
+    "car_availability": {
+      "2001": {"table": "KS17"},
+      "2011": {"table": "KS405NI"},
+      "2021": {"table": "MS-E10"},
+      "comparable": true
+    },
+    "health_llti": {
+      "2001": {"table": "KS08"},
+      "2011": {"table": "KS301NI"},
+      "2021": {"table": "MS-D02"},
+      "comparable": "partial",
+      "notes": "2001 asks about 'limiting long-term illness'. 2011/2021 ask about 'long-term health problem or disability' with activity limitation. Not directly comparable due to question wording change."
+    },
+    "travel_to_work": {
+      "2001": {"table": "KS15"},
+      "2011": {"table": "KS701NI"},
+      "2021": {"table": "MS-I01"},
+      "comparable": "partial",
+      "notes": "Transport mode categories comparable. 2021 affected by COVID-19 work-from-home patterns."
+    },
+    "household_size": {
+      "2001": {"table": "KS24"},
+      "2011": {"table": "KS403NI"},
+      "2021": {"table": "MS-E02"},
+      "comparable": true
+    },
+    "household_composition": {
+      "2001": {"table": "KS20"},
+      "2011": {"table": "KS105NI"},
+      "2021": {"table": "MS-A26"},
+      "comparable": "partial",
+      "notes": "Broad categories comparable but detail varies."
+    },
+    "irish_language": {
+      "2001": {"table": "KS22"},
+      "2011": {"table": "KS209NI"},
+      "2021": {"table": "MS-B05"},
+      "comparable": true,
+      "notes": "Knowledge of Irish - ability to understand, speak, read, write."
+    },
+    "ulster_scots": {
+      "2001": {"table": "KS23"},
+      "2011": {"table": "KS210NI"},
+      "2021": {"table": "MS-B08"},
+      "comparable": true
+    }
+  }
+}
