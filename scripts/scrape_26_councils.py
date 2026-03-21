@@ -25,32 +25,32 @@ CDX_DELAY = 5.0
 USER_AGENT = "boundaries-website/1.0 (old-26-council scraper)"
 
 COUNCILS = [
-    ("antrim", "www.antrim.gov.uk"),
-    ("ards", "www.ards-council.gov.uk"),
-    ("armagh", "www.armagh.gov.uk"),
-    ("ballymena", "www.ballymena.gov.uk"),
-    ("ballymoney", "www.ballymoney.gov.uk"),
-    ("banbridge", "www.banbridge.com"),
-    ("belfast", "www.belfastcity.gov.uk"),
-    ("carrickfergus", "www.carrickfergus.org"),
-    ("castlereagh", "www.castlereagh.gov.uk"),
-    ("coleraine", "www.colerainebc.gov.uk"),
-    ("cookstown", "www.cookstown.gov.uk"),
-    ("craigavon", "www.craigavon.gov.uk"),
-    ("derry", "www.derrycity.gov.uk"),
-    ("down", "www.downdc.gov.uk"),
-    ("dungannon", "www.dungannon.gov.uk"),
-    ("fermanagh", "www.fermanagh.gov.uk"),
-    ("larne", "www.larne.gov.uk"),
-    ("limavady", "www.limavady.gov.uk"),
-    ("lisburn", "www.lisburn.gov.uk"),
-    ("magherafelt", "www.magherafelt.gov.uk"),
-    ("moyle", "www.moyle-council.org"),
-    ("newry-mourne", "www.newryandmourne.gov.uk"),
-    ("newtownabbey", "www.newtownabbey.gov.uk"),
-    ("north-down", "www.northdown.gov.uk"),
-    ("omagh", "www.omagh.gov.uk"),
-    ("strabane", "www.strabanedc.com"),
+    ("antrim", ["www.antrim.gov.uk"]),
+    ("ards", ["www.ards-council.gov.uk"]),
+    ("armagh", ["www.armagh.gov.uk"]),
+    ("ballymena", ["www.ballymena.gov.uk"]),
+    ("ballymoney", ["www.ballymoney.gov.uk"]),
+    ("banbridge", ["www.banbridge.com"]),
+    ("belfast", ["www.belfastcity.gov.uk"]),
+    ("carrickfergus", ["www.carrickfergus.org"]),
+    ("castlereagh", ["www.castlereagh.gov.uk"]),
+    ("coleraine", ["www.colerainebc.gov.uk"]),
+    ("cookstown", ["www.cookstown.gov.uk"]),
+    ("craigavon", ["www.craigavon.gov.uk"]),
+    ("derry", ["www.derrycity.gov.uk"]),
+    ("down", ["www.downdc.gov.uk"]),
+    ("dungannon", ["www.dungannon.gov.uk"]),
+    ("fermanagh", ["www.fermanagh.gov.uk"]),
+    ("larne", ["www.larne.gov.uk"]),
+    ("limavady", ["www.limavady.gov.uk"]),
+    ("lisburn", ["www.lisburn.gov.uk"]),
+    ("magherafelt", ["www.magherafelt.gov.uk"]),
+    ("moyle", ["www.moyle-council.org"]),
+    ("newry-mourne", ["www.newryandmourne.gov.uk"]),
+    ("newtownabbey", ["www.newtownabbey.gov.uk"]),
+    ("north-down", ["www.northdown.gov.uk"]),
+    ("omagh", ["www.omagh.gov.uk"]),
+    ("strabane", ["www.strabanedc.com", "www.strabanedc.org.uk"]),
 ]
 
 OUT_SPN = Path("_tmp_eoni_spn")
@@ -115,7 +115,10 @@ ELECTION_KEYWORDS = [
 
 DOC_KEYWORDS = [
     "nominated", "statement", "persons", "agent", "appointment",
-    "notice of poll", "notice_of_poll",
+    "notice of poll", "notice_of_poll", "notice-of-poll",
+    "le_4", "le4", "le_39", "le39",  # EONI form numbers for SPNs and agents
+    "election_agent", "election-agent",
+    "candidates_nominated", "candidates-nominated",
 ]
 
 DOC_EXTENSIONS = [".pdf", ".doc", ".docx", ".PDF", ".DOC", ".DOCX"]
@@ -125,23 +128,33 @@ def is_election_doc(url: str) -> tuple[bool, str]:
     """Check if a URL is an election document. Returns (is_doc, type)."""
     decoded = decode_url(url)
     has_doc_ext = any(ext.lower() in decoded for ext in DOC_EXTENSIONS)
-    has_filestore = any(x in decoded for x in ["filestore", "upload", "download", "attachment", "getmedia"])
+    has_filestore = any(x in decoded for x in [
+        "filestore", "upload", "download", "attachment", "getmedia",
+        "attachments", "documents", "files",
+    ])
 
     if not (has_doc_ext or has_filestore):
         return False, ""
 
     is_agent = ("agent" in decoded and "guide" not in decoded
                 and "candidate" not in decoded and "polling" not in decoded)
+    # Also match EONI form LE39 (agent) and LE4 (SPN)
+    is_agent = is_agent or "le39" in decoded or "le_39" in decoded
     is_spn = any(x in decoded for x in [
         "nominated", "statement of persons", "statement%20of%20persons",
         "persons_nominated", "persons-nominated", "notice of poll",
         "notice_of_poll", "notice-of-poll",
+        "candidates_nominated", "candidates-nominated",
+        "le_4", "le4_", "le 4",
     ])
 
     if is_spn:
         return True, "spn"
     elif is_agent:
         return True, "agent"
+    # Also check: any PDF/DOC in an election-related directory
+    if has_doc_ext and any(x in decoded for x in ["election", "poll", "voting", "ballot"]):
+        return True, "spn"  # default to SPN for election-related docs
     return False, ""
 
 
@@ -165,8 +178,10 @@ def extract_doc_links(html: str, base_domain: str, timestamp: str) -> list:
         # Check if it's an election document
         has_doc = any(ext in decoded_link for ext in [".pdf", ".doc", ".docx"])
         has_kw = any(kw in decoded_link for kw in DOC_KEYWORDS)
+        # Also grab any PDF/DOC in an election context page
+        in_election_context = any(x in decoded_link for x in ["election", "poll", "voting", "ballot", "le_4", "le4", "le_39", "le39"])
 
-        if not (has_doc and has_kw):
+        if not (has_doc and (has_kw or in_election_context)):
             continue
 
         # Resolve the URL
@@ -211,16 +226,18 @@ def determine_year(url: str, timestamp: str) -> str:
         return str(ts_year)
 
 
-def process_council(council_key: str, domain: str) -> list:
+def process_council(council_key: str, domains_list: list) -> list:
     """Process a single council — find and download all election docs."""
     print(f"\n{'='*60}")
-    print(f"  {council_key} ({domain})")
+    print(f"  {council_key} ({', '.join(domains_list)})")
     print(f"{'='*60}")
 
-    # Build list of domains to try
-    domains = [domain]
-    if domain.startswith("www."):
-        domains.append(domain[4:])
+    # Build full list of domains to try (include without www)
+    domains = []
+    for d in domains_list:
+        domains.append(d)
+        if d.startswith("www."):
+            domains.append(d[4:])
 
     all_docs = []  # (timestamp, url, type)
     election_pages = []  # (timestamp, url)
@@ -248,10 +265,16 @@ def process_council(council_key: str, domain: str) -> list:
 
         # Phase 2: Targeted CDX searches for documents
         for pattern in ["*Persons*Nominated*", "*persons*nominated*",
+                        "*Candidates*Nominated*", "*candidates*nominated*",
                         "*Statement*Person*", "*statement*person*",
                         "*Election*Agent*", "*election*agent*",
                         "*Nomination*", "*nomination*",
-                        "*Notice*Poll*", "*notice*poll*"]:
+                        "*Notice*Poll*", "*notice*poll*",
+                        "*LE_4*", "*LE4*", "*le_4*",
+                        "*LE_39*", "*LE39*", "*le_39*",
+                        "*election*.pdf", "*election*.doc",
+                        "*Election*.pdf", "*Election*.doc",
+                        "*poll*.pdf", "*poll*.doc"]:
             extra = cdx_search(d, pattern)
             for ts, url, status in extra:
                 is_doc, ptype = is_election_doc(url)
@@ -281,7 +304,7 @@ def process_council(council_key: str, domain: str) -> list:
 
     crawled = 0
     for page_url, ts in sorted(page_by_url.items(), key=lambda x: x[1], reverse=True):
-        if crawled >= 10:  # Limit pages crawled per council
+        if crawled >= 25:  # Limit pages crawled per council
             break
         archive_url = f"https://web.archive.org/web/{ts}/{page_url}"
         time.sleep(DELAY)
@@ -290,7 +313,7 @@ def process_council(council_key: str, domain: str) -> list:
             continue
         crawled += 1
         html = data.decode("utf-8", errors="replace")
-        d = domain if domain.startswith("www.") else f"www.{domain}"
+        d = domains_list[0] if domains_list[0].startswith("www.") else f"www.{domains_list[0]}"
         links = extract_doc_links(html, d, ts)
         if links:
             print(f"    Page {page_url[-60:]}: {len(links)} doc links")
@@ -357,8 +380,8 @@ def process_council(council_key: str, domain: str) -> list:
 def main():
     all_found = []
 
-    for council_key, domain in COUNCILS:
-        results = process_council(council_key, domain)
+    for council_key, domains_list in COUNCILS:
+        results = process_council(council_key, domains_list)
         all_found.extend(results)
 
     # Summary

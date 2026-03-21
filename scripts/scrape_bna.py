@@ -2,12 +2,13 @@
 """Scrape British Newspaper Archive for NI election SPNs and related notices.
 
 Uses Playwright to automate a logged-in BNA session.
-Searches for "persons nominated" in Irish newspapers around known election dates.
+Searches for nomination notice phrases in Irish newspapers around known election dates.
 Downloads article text and page images.
 
 Usage:
-    python scrape_bna.py          # Run all missing elections
-    python scrape_bna.py 1962     # Run specific year only
+    python scrape_bna.py                  # Run all configured elections
+    python scrape_bna.py 1962             # Run all configured elections in a year
+    python scrape_bna.py "Westminster 1979"  # Run one named election
 """
 
 import json
@@ -20,10 +21,13 @@ from pathlib import Path
 # Election dates for missing elections (date = polling day, search window = 2 weeks before)
 ELECTIONS = [
     # (name, year, polling_date, search_start, search_end, keywords)
+    ("Stormont 1938", 1938, "1938-02-09", "1938-01-26", "1938-02-13", "candidates nominated"),
     ("Stormont 1962", 1962, "1962-05-31", "1962-05-15", "1962-06-07", "persons nominated"),
-    ("Stormont 1969", 1969, "1969-02-24", "1969-02-10", "1969-03-03", "persons nominated"),
+    ("Stormont 1969", 1969, "1969-02-24", "1969-02-10", "1969-03-03", "candidates nominated"),
     ("Westminster 1964", 1964, "1964-10-15", "1964-10-01", "1964-10-20", "persons nominated"),
     ("Westminster 1970", 1970, "1970-06-18", "1970-06-04", "1970-06-22", "persons nominated"),
+    ("Westminster 1979", 1979, "1979-05-03", "1979-04-19", "1979-05-07", "persons nominated"),
+    ("Westminster 1983", 1983, "1983-06-09", "1983-05-25", "1983-06-13", "persons nominated"),
     ("Westminster 1987", 1987, "1987-06-11", "1987-05-28", "1987-06-15", "persons nominated"),
     ("Westminster 2005", 2005, "2005-05-05", "2005-04-20", "2005-05-10", "persons nominated"),
     ("Westminster 2010", 2010, "2010-05-06", "2010-04-22", "2010-05-10", "persons nominated"),
@@ -44,35 +48,103 @@ ELECTIONS = [
 
 OUT_DIR = Path("_tmp_bna")
 OUT_DIR.mkdir(exist_ok=True)
+STORAGE_STATE_PATH = OUT_DIR / "bna_storage_state.json"
+
+
+def select_elections(arg: str | None):
+    """Select elections by year or case-insensitive name fragment."""
+    if not arg:
+        return ELECTIONS, "all configured elections"
+
+    arg = arg.strip()
+    year_match = re.fullmatch(r"\d{4}", arg)
+    if year_match:
+        year = int(arg)
+        matched = [e for e in ELECTIONS if e[1] == year]
+        return matched, f"year {year}"
+
+    needle = arg.lower()
+    matched = [e for e in ELECTIONS if needle in e[0].lower()]
+    return matched, f'name filter "{arg}"'
+
+
+def save_storage_state(context):
+    """Persist storage state for non-persistent fallback sessions."""
+    try:
+        context.storage_state(path=str(STORAGE_STATE_PATH))
+    except Exception:
+        pass
+
+
+def launch_bna_context(playwright):
+    """Launch a browser context, preferring the persistent logged-in profile.
+
+    Some environments fail to reopen the persistent profile cleanly. Fall back
+    to a normal context with saved storage state rather than aborting the run.
+    """
+    user_data = str(Path.home() / ".bna-playwright-profile")
+    launch_kwargs = {
+        "headless": False,
+        "viewport": {"width": 1200, "height": 900},
+    }
+
+    # Skip persistent profile (known to crash in this environment).
+    # Go straight to storage-state approach.
+    browser = playwright.chromium.launch(headless=False)
+    context_kwargs = {
+        "viewport": {"width": 1200, "height": 900},
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0",
+    }
+    if STORAGE_STATE_PATH.exists():
+        context_kwargs["storage_state"] = str(STORAGE_STATE_PATH)
+        print(f"Loading saved BNA session from {STORAGE_STATE_PATH}")
+    context = browser.new_context(**context_kwargs)
+    page = context.new_page()
+    return context, page
+
+
+def is_noninteractive():
+    """Return True when automation should not block on manual login prompts."""
+    return os.environ.get("BNA_NONINTERACTIVE") == "1" or not sys.stdin.isatty()
 
 
 def run():
     from playwright.sync_api import sync_playwright
 
-    year_filter = int(sys.argv[1]) if len(sys.argv) > 1 else None
-    elections = ELECTIONS
-    if year_filter:
-        elections = [e for e in ELECTIONS if e[1] == year_filter]
-        print(f"Filtering to year {year_filter}: {len(elections)} elections")
+    filter_arg = sys.argv[1] if len(sys.argv) > 1 else None
+    elections, filter_label = select_elections(filter_arg)
+    print(f"Filtering to {filter_label}: {len(elections)} elections")
+    if not elections:
+        names = ", ".join(e[0] for e in ELECTIONS)
+        raise SystemExit(f"No configured elections matched {filter_label}. Available: {names}")
 
     with sync_playwright() as p:
-        # Launch browser with persistent context to reuse login
-        user_data = str(Path.home() / ".bna-playwright-profile")
-        browser = p.chromium.launch_persistent_context(
-            user_data,
-            headless=False,  # Need visible browser for login
-            viewport={"width": 1200, "height": 900},
-        )
-        page = browser.pages[0] if browser.pages else browser.new_page()
+        context, page = launch_bna_context(p)
 
-        # Check if logged in
-        page.goto("https://www.britishnewspaperarchive.co.uk")
-        time.sleep(3)
+        # Check if logged in — retry to handle Cloudflare challenge
+        page.goto("https://www.britishnewspaperarchive.co.uk", wait_until="networkidle")
+        for attempt in range(5):
+            time.sleep(5)
+            content = page.content()
+            if "SUBSCRIBED" in content:
+                break
+            title = page.title()
+            if "Just a moment" in title:
+                print(f"  Cloudflare challenge detected, waiting... (attempt {attempt+1})")
+                time.sleep(5)
+            else:
+                break
         content = page.content()
         if "MY ACCOUNT (SUBSCRIBED)" not in content and "SUBSCRIBED" not in content:
             print("NOT LOGGED IN. Please log in to BNA in the browser window.")
+            if is_noninteractive():
+                raise SystemExit("No reusable BNA login is available in this environment.")
             print("Press Enter when logged in...")
-            input()
+            try:
+                input()
+            except EOFError:
+                raise SystemExit("No reusable BNA login is available in this environment.")
+            save_storage_state(context)
 
         all_results = []
 
@@ -210,7 +282,8 @@ def run():
         print(f"  COMPLETE: {len(all_results)} total articles found")
         print(f"{'='*60}")
 
-        browser.close()
+        save_storage_state(context)
+        context.close()
 
 
 if __name__ == "__main__":
