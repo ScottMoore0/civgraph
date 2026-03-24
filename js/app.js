@@ -9,7 +9,26 @@ import uiController from './ui-controller.js';
 import featureLoader from './feature-loader.js';
 import timeSliderController from './time-slider-controller.js';
 import conditionalStyling from './conditional-styling.js';
-import electionController from './election-controller.js';
+// Lazy-loaded: election-controller is ~150 KB minified and only needed
+// when the user interacts with election features.
+let _electionController = null;
+let _electionControllerPromise = null;
+
+async function getElectionController() {
+    if (_electionController) return _electionController;
+    if (!_electionControllerPromise) {
+        _electionControllerPromise = import('./election-controller.js').then(m => {
+            _electionController = m.default;
+            return _electionController;
+        });
+    }
+    return _electionControllerPromise;
+}
+
+/** Returns the election controller if already loaded, or null. */
+function getEC() {
+    return _electionController;
+}
 
 class App {
     constructor() {
@@ -52,6 +71,12 @@ class App {
                 console.warn('[App] Could not load books.json:', e);
             }
 
+            // Wire election callbacks before UI init (renderFlatView needs these).
+            // These lazy-load the election controller on first use.
+            uiController.onBuildElectionCatalogueCards = async () => (await getElectionController()).buildCatalogueCards();
+            uiController.onLoadElection = async (body, date) => (await getElectionController()).loadElection(body, date);
+            uiController.onSetupElectionTableControls = async (tbl) => (await getElectionController())._setupSingleResultsTableControls(tbl);
+
             // Initialize UI controller
             uiController.init();
 
@@ -76,7 +101,7 @@ class App {
                 const layerState = mapController.layerStates.get(mapId);
                 if (layerState?.isElection) {
                     // Delegate to election controller for full cleanup
-                    electionController.clear();
+                    getEC()?.clear();
                 } else {
                     const mapConfig = dataService.getMapById(mapId);
                     if (mapConfig?.isGroup && mapConfig.members) {
@@ -103,11 +128,11 @@ class App {
                     // Delegate to election controller for full hide/show
                     const newVisible = !layerState.visible;
                     layerState.visible = newVisible;
-                    electionController.setVisible(newVisible);
+                    getEC()?.setVisible(newVisible);
                 } else {
                     mapController.toggleLayer(mapId);
-                    if (electionController.isVisible()) {
-                        electionController.enforceExclusiveVisibility();
+                    if (getEC()?.isVisible()) {
+                        getEC().enforceExclusiveVisibility();
                     }
                 }
                 this.updateMapList();
@@ -180,18 +205,20 @@ class App {
             };
 
             uiController.onOpenElectionEntityDetail = async (kind, key) => {
-                const detail = await electionController.getElectionEntityDetail(kind, key);
+                const ec = await getElectionController();
+                const detail = await ec.getElectionEntityDetail(kind, key);
                 if (!detail) return;
                 uiController.showElectionEntityDetailInCatalogue(detail, true);
             };
 
             uiController.onElectionEntityElectionOpen = async ({ body, date, constituency }) => {
                 if (!body || !date) return;
-                await electionController.ensureElectionLoaded(body, date);
+                const ec = await getElectionController();
+                await ec.ensureElectionLoaded(body, date);
                 if (constituency) {
-                    electionController.showConstituency(constituency);
+                    ec.showConstituency(constituency);
                 } else {
-                    electionController.showSummary();
+                    ec.showSummary();
                 }
                 this.updateURLState();
             };
@@ -478,7 +505,8 @@ class App {
     }
 
     _findElectionConstituencyMapConfig(body, date, level = 'dea') {
-        const geo = electionController.constructor.getGeography(body, date);
+        const ec = getEC();
+        const geo = ec?.constructor?.getGeography?.(body, date);
         const useCouncil = String(level || '').toLowerCase() === 'council';
         const targetFgb = useCouncil ? (geo?.councilFgb || geo?.fgb) : geo?.fgb;
         const targetNameAttr = useCouncil ? (geo?.councilNameAttr || geo?.nameAttr) : geo?.nameAttr;
@@ -495,8 +523,8 @@ class App {
         if (!raw) return [];
         const variants = new Set([raw]);
         const normalize = (value) => {
-            if (typeof electionController?._normaliseElectionName === 'function') {
-                return electionController._normaliseElectionName(value);
+            if (typeof getEC()?._normaliseElectionName === 'function') {
+                return getEC()._normaliseElectionName(value);
             }
             return String(value || '').toLowerCase().trim();
         };
@@ -507,8 +535,8 @@ class App {
             const normalized = normalize(text);
             if (normalized) variants.add(normalized);
         };
-        if (typeof electionController?._aliasVariants === 'function') {
-            electionController._aliasVariants(raw).forEach(push);
+        if (typeof getEC()?._aliasVariants === 'function') {
+            getEC()._aliasVariants(raw).forEach(push);
         }
 
         const normalizedRaw = normalize(raw);
@@ -584,7 +612,8 @@ class App {
 
     async openElectionConstituencyFeature(body, date, constituency, level = 'dea') {
         if (!body || !date || !constituency) return;
-        const geo = electionController.constructor.getGeography(body, date);
+        const ec = getEC();
+        const geo = ec?.constructor?.getGeography?.(body, date);
         const useCouncil = String(level || '').toLowerCase() === 'council';
         const expectedNameAttr = useCouncil ? (geo?.councilNameAttr || geo?.nameAttr) : geo?.nameAttr;
         const mapConfig = this._findElectionConstituencyMapConfig(body, date, level);
@@ -598,9 +627,9 @@ class App {
             || constituency;
         const bbox = uiController.getFeatureBBox(matched.feature.geometry);
         let electoralHistory = null;
-        if (electionController._isLocalGovernmentBody?.(body)) {
+        if (ec?._isLocalGovernmentBody?.(body)) {
             const kind = useCouncil ? 'lgd' : 'dea';
-            electoralHistory = await electionController.getElectionEntityDetail(kind, constituency);
+            electoralHistory = await ec.getElectionEntityDetail(kind, constituency);
         }
         const detailId = uiController.cacheFeatureDetailEntry(
             mapConfig,
@@ -739,23 +768,24 @@ class App {
         const hideByEl = document.getElementById('electionHideByElections');
         if (!listEl) return;
 
-        // Wire up URL state callback
-        electionController.onStateChange = () => this.updateURLState();
-        electionController.onStartLoadFeedback = (mapName) => this.startMapLoadFeedback(mapName);
-        electionController.onFinishLoadFeedback = (feedback, success, mapName, options = {}) => {
+        // Wire up URL state callback — lazy-loads election controller
+        const ec = await getElectionController();
+        ec.onStateChange = () => this.updateURLState();
+        ec.onStartLoadFeedback = (mapName) => this.startMapLoadFeedback(mapName);
+        ec.onFinishLoadFeedback = (feedback, success, mapName, options = {}) => {
             this.finishMapLoadFeedback(feedback, success, mapName, options);
         };
-        electionController.onOpenEntityDetail = async (kind, key) => {
-            const detail = await electionController.getElectionEntityDetail(kind, key);
+        ec.onOpenEntityDetail = async (kind, key) => {
+            const detail = await ec.getElectionEntityDetail(kind, key);
             if (!detail) return;
             uiController.showElectionEntityDetailInCatalogue(detail, true);
         };
-        electionController.onOpenElectionConstituencyFeature = async ({ body, date, constituency, level }) => {
+        ec.onOpenElectionConstituencyFeature = async ({ body, date, constituency, level }) => {
             await this.openElectionConstituencyFeature(body, date, constituency, level || 'dea');
         };
 
         try {
-            const cards = await electionController.buildCatalogueCards();
+            const cards = await ec.buildCatalogueCards();
 
             const render = () => {
                 const query = (searchEl?.value || '').toLowerCase().trim();
@@ -791,7 +821,7 @@ class App {
                         if (card.dataset.electionPlaceholder === '1') return;
                         const body = card.dataset.body;
                         const date = card.dataset.date;
-                        electionController.loadElection(body, date);
+                        ec.loadElection(body, date);
                     });
                 });
             };
@@ -1860,7 +1890,7 @@ class App {
         }
 
         // Election viewer state
-        const elState = electionController.serialize();
+        const elState = getEC()?.serialize();
         if (elState) {
             params.set('election', elState);
         }
@@ -2021,10 +2051,10 @@ class App {
                 conditionalStyling.restoreFromURL(csParam);
             }
 
-            // Election viewer from URL
+            // Election viewer from URL — lazy-loads election controller if needed
             const elParam = params.get('election');
             if (elParam) {
-                electionController.restoreFromURL(elParam);
+                (await getElectionController()).restoreFromURL(elParam);
             }
         } catch (e) {
             console.warn('[App] Failed to parse URL state:', e);
@@ -2133,8 +2163,8 @@ class App {
      * Update the active layers panel
      */
     updateActiveLayers() {
-        if (electionController.isVisible()) {
-            electionController.enforceExclusiveVisibility();
+        if (getEC()?.isVisible()) {
+            getEC().enforceExclusiveVisibility();
         }
         const loadedIds = this.getLoadedLayerIds();
         const loadedMaps = loadedIds.map(id => dataService.getMapById(id)).filter(Boolean);
@@ -2177,6 +2207,10 @@ class App {
     async loadMap(mapId) {
         const mapConfig = dataService.getMapById(mapId);
         if (!mapConfig) return;
+
+        // Pre-load this map's spatial index chunk (prepares for chunked index mode)
+        featureLoader.loadMapIndex(mapId).catch(() => {});
+
 
         if (mapConfig?.isGroup && Array.isArray(mapConfig.members) && mapConfig.members.length) {
             const groupName = mapConfig.name || mapId;
@@ -2239,9 +2273,9 @@ class App {
             if (!state || !state.loaded) {
                 throw new Error(`Layer did not load: ${mapId}`);
             }
-            if (electionController.isVisible()) {
+            if (getEC()?.isVisible()) {
                 mapController.hideLayer(mapId);
-                electionController.enforceExclusiveVisibility();
+                getEC().enforceExclusiveVisibility();
             } else {
                 mapController.fitToLayer(mapId);
             }

@@ -15,26 +15,32 @@ class FeatureLoader {
         this.pendingLoads = new Map();       // URL -> Promise
         this.initialized = false;
         this._initPromise = null;
+        this._chunkManifest = null;         // Per-map chunk manifest
+        this._chunkPromises = new Map();    // mapId -> Promise (dedup concurrent loads)
+        // Chunked mode: load per-map spatial index chunks on demand instead of
+        // the full 15 MB monolithic file. Disable with ?chunkedIndex=0 for debugging.
+        this.useChunkedIndex = typeof window === 'undefined'
+            || new URLSearchParams(window.location?.search).get('chunkedIndex') !== '0';
     }
 
     /**
      * Lazy initialization — call this before any method that needs the spatial index.
-     * De-duplicates concurrent callers so the fetch only happens once.
+     * In chunked mode: loads only the 5 KB manifest.
+     * In monolithic mode: loads the full spatial index.
      */
     async ensureInitialized() {
         if (this.initialized) return;
         if (this._initPromise) return this._initPromise;
-        this._initPromise = this.init();
+        this._initPromise = this.useChunkedIndex ? this._initFromManifest() : this._initMonolithic();
         return this._initPromise;
     }
 
     /**
-     * Load the spatial index from disk
+     * Monolithic init — loads the full spatial index (original behaviour)
      */
-    async init() {
+    async _initMonolithic() {
         if (this.initialized) return;
 
-        // Add cache-busting for development - use URL search param or timestamp
         const urlParams = new URLSearchParams(window.location.search);
         const cacheBuster = urlParams.get('v') || Date.now();
 
@@ -48,7 +54,6 @@ class FeatureLoader {
             const data = await response.json();
             this.spatialIndex = data.features || [];
 
-            // Group by mapId for faster queries
             for (const feature of this.spatialIndex) {
                 if (!this.spatialIndexByMap.has(feature.mapId)) {
                     this.spatialIndexByMap.set(feature.mapId, []);
@@ -64,10 +69,107 @@ class FeatureLoader {
     }
 
     /**
+     * Chunked init — loads only the manifest. Feature data is loaded per-map on demand.
+     */
+    async _initFromManifest() {
+        if (this.initialized) return;
+
+        const manifest = await this._loadChunkManifest();
+        if (!manifest) {
+            console.warn('[FeatureLoader] Chunk manifest not found, falling back to monolithic');
+            return this._initMonolithic();
+        }
+
+        this.initialized = true;
+        console.log(`[FeatureLoader] Chunked mode: manifest loaded (${manifest.maps.length} maps)`);
+    }
+
+    /**
+     * Lazy-load the names index for global search (~3 MB vs 8 MB monolithic).
+     * Contains only { name, mapId, id } — enough for name search.
+     * Falls back to full monolithic if names index is unavailable.
+     */
+    async _ensureFullIndex() {
+        if (this.spatialIndex && this.spatialIndex.length > 0) return;
+        try {
+            // Try lightweight names index first
+            let resp = await fetch('data/database/spatial-index/_names.json');
+            if (resp.ok) {
+                this.spatialIndex = await resp.json();
+                console.log(`[FeatureLoader] Loaded names index for search: ${this.spatialIndex.length} features`);
+                return;
+            }
+            // Fall back to monolithic
+            resp = await fetch('data/database/spatial-index.json');
+            if (!resp.ok) return;
+            const data = await resp.json();
+            this.spatialIndex = data.features || [];
+            console.log(`[FeatureLoader] Loaded full index for search: ${this.spatialIndex.length} features`);
+        } catch (err) {
+            console.warn('[FeatureLoader] Failed to load search index:', err);
+            if (!this.spatialIndex) this.spatialIndex = [];
+        }
+    }
+
+    /**
+     * Load the chunk manifest (tiny file listing available per-map chunks).
+     * Does NOT load any feature data — just the map list.
+     */
+    async _loadChunkManifest() {
+        if (this._chunkManifest) return this._chunkManifest;
+        try {
+            const resp = await fetch('data/database/spatial-index/_manifest.json');
+            if (!resp.ok) return null;
+            this._chunkManifest = await resp.json();
+            return this._chunkManifest;
+        } catch {
+            return null;
+        }
+    }
+
+    /**
+     * Load a single map's spatial index chunk on demand.
+     * Returns the features array, or [] if not available.
+     * De-duplicates concurrent loads for the same mapId.
+     */
+    async loadMapIndex(mapId) {
+        // Already loaded (from chunk or monolithic)
+        if (this.spatialIndexByMap.has(mapId)) {
+            return this.spatialIndexByMap.get(mapId);
+        }
+
+        // De-duplicate concurrent loads
+        if (this._chunkPromises.has(mapId)) {
+            return this._chunkPromises.get(mapId);
+        }
+
+        const promise = (async () => {
+            try {
+                const resp = await fetch(`data/database/spatial-index/${mapId}.json`);
+                if (!resp.ok) return [];
+                const features = await resp.json();
+                this.spatialIndexByMap.set(mapId, features);
+                // Also add to flat spatialIndex if it exists (for searchFeaturesByName)
+                if (this.spatialIndex) {
+                    this.spatialIndex.push(...features);
+                }
+                return features;
+            } catch {
+                return [];
+            } finally {
+                this._chunkPromises.delete(mapId);
+            }
+        })();
+
+        this._chunkPromises.set(mapId, promise);
+        return promise;
+    }
+
+    /**
      * Check if a map supports per-feature loading
      */
     supportsLOD(mapId) {
-        if (!this.initialized) return false;
+        if (!this.initialized && !this.spatialIndexByMap.has(mapId)) return false;
         const features = this.spatialIndexByMap.get(mapId);
         // Features must have 'id' field (format "mapId:index") for per-feature loading
         // Features without 'id' were indexed for search/bbox only
@@ -220,14 +322,23 @@ class FeatureLoader {
     /**
      * Search features by name (case-insensitive, partial match)
      * Returns: [{ id, mapId, name, bbox }]
+     *
+     * In chunked mode, the full index is lazy-loaded on first search call.
+     * The first call may return [] while the index loads; subsequent calls return results.
      */
     searchFeaturesByName(query, limit = 20) {
         if (!this.initialized || !query || query.length < 2) return [];
 
+        // In chunked mode, trigger lazy load of the full index for search
+        if (this.useChunkedIndex && (!this.spatialIndex || this.spatialIndex.length === 0)) {
+            this._ensureFullIndex();
+            return [];
+        }
+
         const lowerQuery = query.toLowerCase();
         const results = [];
 
-        for (const feature of this.spatialIndex) {
+        for (const feature of (this.spatialIndex || [])) {
             if (feature.name && feature.name.toLowerCase().includes(lowerQuery)) {
                 results.push(feature);
                 if (results.length >= limit) break;

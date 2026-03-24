@@ -146,9 +146,46 @@ async function buildIndex() {
     spatialIndex.generated = new Date().toISOString();
     spatialIndex.version = '1.1';
 
-    // Write back
-    fs.writeFileSync(SPATIAL_INDEX, JSON.stringify(spatialIndex, null, 2), 'utf8');
+    // Write back monolithic file
+    fs.writeFileSync(SPATIAL_INDEX, JSON.stringify(spatialIndex), 'utf8');
     console.log(`\nWrote ${features.length} features to ${path.relative(ROOT, SPATIAL_INDEX)}`);
+
+    // Emit per-map chunk files for incremental loading
+    const CHUNKS_DIR = path.join(ROOT, 'data', 'database', 'spatial-index');
+    if (!fs.existsSync(CHUNKS_DIR)) fs.mkdirSync(CHUNKS_DIR, { recursive: true });
+
+    // Group features by mapId
+    const byMap = new Map();
+    for (const f of features) {
+        if (!byMap.has(f.mapId)) byMap.set(f.mapId, []);
+        byMap.get(f.mapId).push(f);
+    }
+
+    // Write manifest (small file listing available maps)
+    const manifest = {
+        version: spatialIndex.version,
+        generated: spatialIndex.generated,
+        maps: [...byMap.entries()].map(([mapId, feats]) => ({
+            id: mapId,
+            featureCount: feats.length
+        }))
+    };
+    fs.writeFileSync(path.join(CHUNKS_DIR, '_manifest.json'), JSON.stringify(manifest), 'utf8');
+
+    // Write one chunk per mapId
+    let chunkCount = 0;
+    for (const [mapId, feats] of byMap) {
+        fs.writeFileSync(path.join(CHUNKS_DIR, `${mapId}.json`), JSON.stringify(feats), 'utf8');
+        chunkCount++;
+    }
+
+    console.log(`Wrote ${chunkCount} chunks + manifest to ${path.relative(ROOT, CHUNKS_DIR)}/`);
+
+    // Emit lightweight names-only index for search (~3 MB vs 15 MB monolithic)
+    const names = features.map(f => ({ name: f.name, mapId: f.mapId, id: f.id }));
+    fs.writeFileSync(path.join(CHUNKS_DIR, '_names.json'), JSON.stringify(names), 'utf8');
+    const namesSize = fs.statSync(path.join(CHUNKS_DIR, '_names.json')).size;
+    console.log(`Wrote names index: ${(namesSize / 1024).toFixed(0)} KB (${names.length} entries)`);
 }
 
 buildIndex().catch(err => {

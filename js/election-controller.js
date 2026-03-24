@@ -7,6 +7,7 @@
 
 import mapController from './map-controller.js';
 import timeSliderController from './time-slider-controller.js';
+import { formatElectionDate, shortBodyName, escapeHtml, renderElectionConstituencyFeatureLink } from './election-utils.js';
 
 class ElectionController {
     constructor() {
@@ -3973,19 +3974,7 @@ class ElectionController {
     }
 
     _renderElectionConstituencyFeatureLink(body, date, constituency, label, extraClass = '', level = 'dea') {
-        const safeLabel = this._esc(label || '');
-        const safeName = String(constituency || '').trim();
-        if (!safeName || safeName === '�') {
-            return `<span class="election-cell-wrap ${extraClass}">${safeLabel || '�'}</span>`;
-        }
-        const classAttr = ['election-entity-link', extraClass].filter(Boolean).join(' ');
-        return `<button type="button"
-            class="${classAttr}"
-            data-election-constituency-feature="1"
-            data-election-constituency-level="${this._esc(level || 'dea')}"
-            data-election-constituency-body="${this._esc(body || '')}"
-            data-election-constituency-date="${this._esc(date || '')}"
-            data-election-constituency-name="${this._esc(safeName)}">${safeLabel}</button>`;
+        return renderElectionConstituencyFeatureLink(body, date, constituency, label, extraClass, level);
     }
 
     _bindElectionEntityLinks(container) {
@@ -6722,14 +6711,7 @@ class ElectionController {
     }
 
     _shortBodyName(name) {
-        const map = {
-            'European Parliament': 'EU',
-            'House of Commons of the United Kingdom': 'Westminster',
-            'Northern Ireland Assembly': 'Assembly',
-            'Northern Ireland Constitutional Convention': 'Convention',
-            'Northern Ireland Forum for Political Dialogue': 'Forum'
-        };
-        return map[name] || name;
+        return shortBodyName(name);
     }
 
     _niWideTitle() {
@@ -6828,12 +6810,7 @@ class ElectionController {
     // â”€â”€â”€ Helpers â”€â”€â”€
 
     _formatDate(dateStr) {
-        try {
-            const d = new Date(dateStr + 'T00:00:00');
-            return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-        } catch {
-            return dateStr;
-        }
+        return formatElectionDate(dateStr);
     }
 
     _esc(str) {

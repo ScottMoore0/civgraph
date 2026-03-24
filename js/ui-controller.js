@@ -4,7 +4,8 @@
  */
 
 import dataService from './data-service.js';
-import electionController from './election-controller.js';
+import featureLoader from './feature-loader.js';
+import { formatElectionDate, shortBodyName, renderElectionConstituencyFeatureLink } from './election-utils.js';
 
 class UIController {
     constructor() {
@@ -46,6 +47,9 @@ class UIController {
         this.onOpenElectionEntityDetail = null;
         this.onElectionEntityElectionOpen = null;
         this.onOpenElectionConstituencyFeature = null;
+        this.onBuildElectionCatalogueCards = null;   // async () => cards[]
+        this.onLoadElection = null;                   // (body, date) => void
+        this.onSetupElectionTableControls = null;     // (dataTable) => void
         this._searchAddressAbortController = null;
 
         // Catalogue navigation state
@@ -2265,7 +2269,7 @@ class UIController {
 
         let electionCatalogueCards = [];
         try {
-            electionCatalogueCards = await electionController.buildCatalogueCards();
+            electionCatalogueCards = this.onBuildElectionCatalogueCards ? await this.onBuildElectionCatalogueCards() : [];
         } catch (err) {
             console.error('[UI] Failed to build flat-view election cards:', err);
             electionCatalogueCards = [];
@@ -2513,8 +2517,8 @@ class UIController {
 
             const entriesHtml = (def.electionEntries || []).map(entry => {
                 const appearance = getElectionAppearance(entry.body, entry.date, entry.bodyGroup || null);
-                const dateFormatted = electionController._formatDate(entry.date);
-                const bodyShort = electionController._shortBodyName(entry.body);
+                const dateFormatted = formatElectionDate(entry.date);
+                const bodyShort = shortBodyName(entry.body);
                 const subtitle = entry.displaySubtitle || (entry.isByElection
                     ? (entry.constituencies || []).join(', ')
                     : ((entry.body === 'European Parliament' && (entry.constituencies || []).filter(c => c !== 'Northern Ireland').length === 0)
@@ -2622,7 +2626,7 @@ class UIController {
                 const body = source.dataset.electionBody || source.closest('.flat-election-entry')?.dataset.electionBody;
                 const date = source.dataset.electionDate || source.closest('.flat-election-entry')?.dataset.electionDate;
                 if (body && date) {
-                    electionController.loadElection(body, date);
+                    this.onLoadElection?.(body, date);
                 }
             });
         });
@@ -4907,7 +4911,7 @@ class UIController {
             historyRows = electoralHistory.historyRows || [];
             historyColumns = [
                 { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName) },
-                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(electionController._formatDate(row.date || '')) },
+                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(formatElectionDate(row.date || '')) },
                 { key: 'localGovernmentDistrict', label: 'Local Government District', kind: 'text', getValue: (row) => row.localGovernmentDistrict, render: (row) => renderEntityLink('lgd', row.localGovernmentDistrict, row.localGovernmentDistrict) },
                 { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
                 { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.winnerVotes || 0)))) },
@@ -4920,7 +4924,7 @@ class UIController {
             historyRows = electoralHistory.historyRows || [];
             historyColumns = [
                 { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName) },
-                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(electionController._formatDate(row.date || '')) },
+                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(formatElectionDate(row.date || '')) },
                 { key: 'deaCount', label: 'DEAs', kind: 'numeric', align: 'num', getValue: (row) => row.deaCount, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.deaCount || 0)))) },
                 { key: 'districtElectoralAreas', label: 'District Electoral Areas', kind: 'text', getValue: (row) => (row.districtElectoralAreas || []).join(', '), render: (row) => renderDeaList(row) },
                 { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
@@ -5522,10 +5526,10 @@ class UIController {
             ]
             : (isParty
                 ? [
-                    ['MPs', { value: fmt(entry.latestWestminster?.elected || 0), subtext: entry.latestWestminster?.date ? electionController._formatDate(entry.latestWestminster.date) : '' }],
+                    ['MPs', { value: fmt(entry.latestWestminster?.elected || 0), subtext: entry.latestWestminster?.date ? formatElectionDate(entry.latestWestminster.date) : '' }],
                     ['Last Westminster result', entry.latestWestminster ? pct(entry.latestWestminster.validVotePct) : 'N/A'],
                     ['Last Westminster votes', entry.latestWestminster ? fmt(entry.latestWestminster.firstPrefs) : 'N/A'],
-                    ['MLAs', { value: fmt(entry.latestAssembly?.elected || 0), subtext: entry.latestAssembly?.date ? electionController._formatDate(entry.latestAssembly.date) : '' }],
+                    ['MLAs', { value: fmt(entry.latestAssembly?.elected || 0), subtext: entry.latestAssembly?.date ? formatElectionDate(entry.latestAssembly.date) : '' }],
                     ['Last Assembly result', entry.latestAssembly ? pct(entry.latestAssembly.validVotePct) : 'N/A'],
                     ['Last Assembly 1st prefs', entry.latestAssembly ? fmt(entry.latestAssembly.firstPrefs) : 'N/A']
                 ]
@@ -5534,7 +5538,7 @@ class UIController {
                     [entry.kind === 'dea' ? 'Districts' : 'DEAs', fmt(entry.kind === 'dea' ? (entry.metrics?.districts || 0) : (entry.metrics?.deas || 0))],
                     ['Total valid votes', fmt(entry.metrics?.totalValidVotes || 0)],
                     ['Total seats', fmt(entry.metrics?.totalSeats || 0)],
-                    ['Latest election', entry.metrics?.latestDate ? this.escapeHtml(electionController._formatDate(entry.metrics.latestDate)) : 'N/A'],
+                    ['Latest election', entry.metrics?.latestDate ? this.escapeHtml(formatElectionDate(entry.metrics.latestDate)) : 'N/A'],
                     [entry.kind === 'dea' ? 'Area type' : 'Body type', this.escapeHtml(entry.subtitle || '')]
                 ]);
 
@@ -5684,7 +5688,7 @@ class UIController {
 
         const candidateHistoryColumns = [
             { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, true) },
-            { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(electionController._formatDate(row.date || '')) },
+            { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(formatElectionDate(row.date || '')) },
             { key: 'electionType', label: 'Type', kind: 'text', getValue: (row) => row.electionType || '—', render: (row) => this.escapeHtml(row.electionType || '—') },
             {
                 key: 'constituency',
@@ -5694,7 +5698,7 @@ class UIController {
                 render: (row) => {
                     const label = row.constituency || '—';
                     if (!row.constituency || !row.body || !row.date) return this.escapeHtml(label);
-                    return electionController._renderElectionConstituencyFeatureLink(
+                    return renderElectionConstituencyFeatureLink(
                         row.body,
                         row.date,
                         row.constituency,
@@ -5712,7 +5716,7 @@ class UIController {
                 render: (row) => {
                     const label = row.bodyLabel || row.body || '—';
                     if (row.electionType === 'Local' && label !== '—' && row.body && row.date) {
-                        return electionController._renderElectionConstituencyFeatureLink(
+                        return renderElectionConstituencyFeatureLink(
                             row.body,
                             row.date,
                             label,
@@ -5743,7 +5747,7 @@ class UIController {
                     </div>
                     <div class="catalogue-detail__meta-row">
                         <span class="catalogue-detail__meta-label">Date</span>
-                        <span class="catalogue-detail__meta-value">${this.escapeHtml(electionController._formatDate(entry.latestAppearance.date || ''))}</span>
+                        <span class="catalogue-detail__meta-value">${this.escapeHtml(formatElectionDate(entry.latestAppearance.date || ''))}</span>
                     </div>
                     <div class="catalogue-detail__meta-row">
                         <span class="catalogue-detail__meta-label">Valid vote</span>
@@ -5772,7 +5776,7 @@ class UIController {
         const areaHistoryColumns = entry.kind === 'dea'
             ? [
                 { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, true) },
-                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(electionController._formatDate(row.date || '')) },
+                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(formatElectionDate(row.date || '')) },
                 { key: 'localGovernmentDistrict', label: 'Local Government District', kind: 'text', getValue: (row) => row.localGovernmentDistrict, render: (row) => renderEntityLink('lgd', row.localGovernmentDistrict, row.localGovernmentDistrict) },
                 { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
                 { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => fmt(row.winnerVotes) },
@@ -5782,7 +5786,7 @@ class UIController {
             ]
             : [
                 { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, false) },
-                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(electionController._formatDate(row.date || '')) },
+                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(formatElectionDate(row.date || '')) },
                 { key: 'deaCount', label: 'DEAs', kind: 'numeric', align: 'num', getValue: (row) => row.deaCount, render: (row) => fmt(row.deaCount) },
                 { key: 'districtElectoralAreas', label: 'District Electoral Areas', kind: 'text', getValue: (row) => (row.districtElectoralAreas || []).join(', '), render: (row) => renderDeaList(row) },
                 { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
@@ -6552,8 +6556,8 @@ class UIController {
 
         // Apply Excel-like sort/filter controls to feature attribute tables.
         const dataTable = container.querySelector('.data-table');
-        if (dataTable && typeof electionController?._setupSingleResultsTableControls === 'function') {
-            electionController._setupSingleResultsTableControls(dataTable);
+        if (dataTable && this.onSetupElectionTableControls) {
+            this.onSetupElectionTableControls(dataTable);
         }
 
         // Load More Columns listener
@@ -7721,34 +7725,9 @@ class UIController {
     // ============================================
 
     async loadSpatialIndex() {
-        if (this.spatialIndex) return this.spatialIndex;
-
-        try {
-            let response = await fetch('data/database/spatial-index.json');
-            if (!response.ok) {
-                response = await fetch('data/spatial-index.json');
-            }
-            if (!response.ok) throw new Error('Failed to load spatial index');
-
-            this.spatialIndex = await response.json();
-            this.spatialIndexByMap = new Map();
-
-            // Group features by mapId for efficient lookup
-            (this.spatialIndex.features || []).forEach(feature => {
-                const mapId = feature.mapId;
-                if (!this.spatialIndexByMap.has(mapId)) {
-                    this.spatialIndexByMap.set(mapId, []);
-                }
-                this.spatialIndexByMap.get(mapId).push(feature);
-            });
-
-            console.log(`[UIController] Loaded spatial index: ${this.spatialIndex.features?.length || 0} features`);
-            return this.spatialIndex;
-        } catch (e) {
-            console.warn('[UIController] Spatial index not available:', e);
-            this.spatialIndex = { features: [] };
-            return this.spatialIndex;
-        }
+        // Delegate to featureLoader — avoids duplicating the 15 MB fetch
+        await featureLoader.ensureInitialized();
+        return { features: featureLoader.spatialIndex || [] };
     }
 
     async searchAddressSuggestions(query, limit = 5) {
@@ -7811,34 +7790,35 @@ class UIController {
     }
 
     async searchFeatures(query) {
-        if (!this.spatialIndex) {
-            await this.loadSpatialIndex();
-        }
-
         if (!query || query.length < 2) return [];
+
+        // Ensure featureLoader has the full index for global search
+        await featureLoader.ensureInitialized();
+        if (featureLoader.useChunkedIndex) {
+            await featureLoader._ensureFullIndex();
+        }
 
         const searchTerm = query.toLowerCase().trim();
         const results = [];
         const maxResults = 25;
 
-        for (const feature of this.spatialIndex.features || []) {
+        for (const feature of (featureLoader.spatialIndex || [])) {
             if (results.length >= maxResults) break;
 
-            const name = (feature.name || feature.properties?.Name || feature.properties?.name || '').toLowerCase();
+            const name = (feature.name || '').toLowerCase();
 
             if (name.includes(searchTerm)) {
                 results.push({
                     id: feature.id,
-                    name: feature.name || feature.properties?.Name || feature.properties?.name,
+                    name: feature.name,
                     mapId: feature.mapId,
                     bbox: feature.bbox,
                     centroid: feature.centroid,
-                    score: name.startsWith(searchTerm) ? 2 : 1 // Boost prefix matches
+                    score: name.startsWith(searchTerm) ? 2 : 1
                 });
             }
         }
 
-        // Sort by score (prefix matches first), then alphabetically
         results.sort((a, b) => {
             if (b.score !== a.score) return b.score - a.score;
             return a.name.localeCompare(b.name);
@@ -7942,22 +7922,18 @@ class UIController {
     }
 
     async getFeaturesInViewport(bounds, loadedMapIds) {
-        if (!this.spatialIndex) {
-            await this.loadSpatialIndex();
-        }
-
         const results = [];
         const [southWest, northEast] = bounds;
 
         for (const mapId of loadedMapIds) {
-            const mapFeatures = this.spatialIndexByMap?.get(mapId) || [];
+            // Use featureLoader's per-map data (loaded by loadMapIndex in app.js loadMap)
+            const mapFeatures = featureLoader.spatialIndexByMap.get(mapId) || [];
 
             for (const feature of mapFeatures) {
                 if (!feature.centroid) continue;
 
                 const [lon, lat] = feature.centroid;
 
-                // Check if centroid is within viewport
                 if (lat >= southWest[0] && lat <= northEast[0] &&
                     lon >= southWest[1] && lon <= northEast[1]) {
                     results.push(feature);
