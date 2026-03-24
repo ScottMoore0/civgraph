@@ -50,8 +50,12 @@ jobs:
             --exclude='Historic Maps' \
             --exclude='OSNI original maps' \
             --exclude='*.mbtiles' \
+            --exclude='*.mhtml' \
             --exclude='*.tif' \
             --exclude='*.zip' \
+            --exclude='_tmp_*' \
+            --exclude='_readme_preview.html' \
+            --exclude='docs/performance-improvement-handoff' \
             . dist/
 
       - name: Incremental sync to Neocities
@@ -142,22 +146,27 @@ jobs:
                 echo "  [$UPLOAD_COUNT/$TOTAL] $filepath"
               fi
 
-              # Upload with retry
+              # Upload with retry and rate-limit protection
               SUCCESS=false
-              for ATTEMPT in 1 2 3; do
-                RESPONSE=$(curl -s -w "%{http_code}" \
+              for ATTEMPT in 1 2 3 4 5; do
+                RESPONSE=$(curl -s --max-time 120 -w "%{http_code}" \
                   -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_TOKEN }}" \
                   -F "${filepath}=@${LOCAL_PATH}" \
-                  "https://neocities.org/api/upload")
+                  "https://neocities.org/api/upload" 2>/dev/null || echo "000")
 
                 HTTP_CODE="${RESPONSE: -3}"
                 if [ "$HTTP_CODE" = "200" ]; then
                   SUCCESS=true
                   break
                 else
-                  sleep 2
+                  WAIT=$((ATTEMPT * 3))
+                  echo "    Retry $ATTEMPT for $filepath (HTTP $HTTP_CODE), waiting ${WAIT}s..."
+                  sleep $WAIT
                 fi
               done
+
+              # Rate-limit: brief pause between uploads to avoid connection resets
+              sleep 0.3
 
               if [ "$SUCCESS" = false ]; then
                 echo "  FAILED: $filepath"
