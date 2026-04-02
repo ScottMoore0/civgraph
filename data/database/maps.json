@@ -427,6 +427,15 @@
       ]
     },
     {
+      "id": "roi-local-authorities",
+      "name": "Local Authorities",
+      "scope": "Republic of Ireland",
+      "category": "local-government",
+      "maps": [
+        "roi-local-authorities-2024"
+      ]
+    },
+    {
       "id": "ni-admin-areas",
       "name": "Administrative Areas",
       "scope": "Northern Ireland",
@@ -627,7 +636,22 @@
         "eds-1997",
         "eds-1994",
         "eds-1986",
+        "eds-roi-1976",
+        "eds-roi-1971-04-15",
+        "eds-roi-1970",
+        "eds-roi-1957",
+        "eds-roi-1954",
+        "eds-roi-1950",
+        "eds-roi-1944",
+        "eds-roi-1938",
+        "eds-roi-1936",
         "eds-1926",
+        "eds-roi-1921-06-28",
+        "eds-roi-1921-05-03",
+        "eds-1919-04-01",
+        "eds-1915",
+        "eds-1914",
+        "eds-1912",
         "eds-1911"
       ]
     },
@@ -1192,6 +1216,10 @@
           "right": "ni-admin-counties"
         },
         {
+          "classId": "roi-local-authorities",
+          "width": "full"
+        },
+        {
           "classId": "roi-dublin-electoral-counties",
           "width": "full"
         }
@@ -1402,6 +1430,37 @@
         "ungeneralised"
       ],
       "labelProperty": "SETTL_NAME"
+    },
+    {
+      "id": "roi-local-authorities-2024",
+      "name": "Local Authorities 2024",
+      "slug": "roi-local-authorities-2024",
+      "category": "local-government",
+      "featured": true,
+      "date": "2024",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "files": {
+        "geojson": "LocalAuthorities_NationalStatutoryBoundaries_Ungeneralised_2024_-2978313920612481790.geojson",
+        "fgb": "data/maps/local-government/ROI_Local_Authorities_2024.fgb"
+      },
+      "style": {
+        "color": "#4A90D9",
+        "weight": 2
+      },
+      "keywords": [
+        "local authorities",
+        "republic of ireland",
+        "ireland",
+        "council",
+        "county council",
+        "city council",
+        "2024"
+      ],
+      "labelProperty": "ENG_NAME_VALUE",
+      "defaultOn": true,
+      "useLOD": true
     },
     {
       "id": "place-names-gazetteer",
@@ -4122,6 +4181,171 @@
       ],
       "date": 1911,
       "labelProperty": "ED_NAME"
+    },
+    {
+      "id": "eds-1912",
+      "name": "1912",
+      "slug": "eds-1912",
+      "category": "electoral-divisions",
+      "date": 1912,
+      "placeholder": true,
+      "featured": true,
+      "provider": [],
+      "keywords": ["electoral", "division", "DED", "1912", "placeholder"]
+    },
+    {
+      "id": "eds-1914",
+      "name": "1914",
+      "slug": "eds-1914",
+      "category": "electoral-divisions",
+      "date": 1914,
+      "placeholder": true,
+      "featured": true,
+      "provider": [],
+      "keywords": ["electoral", "division", "DED", "1914", "placeholder"]
+    },
+    {
+      "id": "eds-1915",
+      "name": "1915",
+      "slug": "eds-1915",
+      "category": "electoral-divisions",
+      "date": 1915,
+      "placeholder": true,
+      "featured": true,
+      "provider": [],
+      "keywords": ["electoral", "division", "DED", "1915", "placeholder"]
+    },
+    {
+      "id": "eds-1919-04-01",
+      "name": "01 April 1919",
+      "slug": "eds-1919-04-01",
+      "category": "electoral-divisions",
+      "date": "1919-04-01",
+      "placeholder": true,
+      "featured": true,
+      "provider": [],
+      "keywords": ["electoral", "division", "DED", "1919", "placeholder"]
+    },
+    {
+      "id": "eds-roi-1921-05-03",
+      "name": "03 May 1921",
+      "slug": "eds-roi-1921-05-03",
+      "category": "electoral-divisions",
+      "date": "1921-05-03",
+      "placeholder": true,
+      "featured": true,
+      "provider": [],
+      "keywords": ["electoral", "division", "ED", "1921", "partition", "placeholder"]
+    },
+    {
+      "id": "eds-roi-1921-06-28",
+      "name": "28 June 1921",
+      "slug": "eds-roi-1921-06-28",
+      "category": "electoral-divisions",
+      "date": "1921-06-28",
+      "placeholder": true,
+      "featured": true,
+      "provider": [],
+      "keywords": ["electoral", "division", "ED", "1921", "placeholder"]
+    },
+    {
+      "id": "eds-roi-1936",
+      "name": "1936",
+      "slug": "eds-roi-1936",
+      "category": "electoral-divisions",
+      "date": 1936,
+      "placeholder": true,
+      "featured": true,
+      "provider": [],
+      "keywords": ["electoral", "division", "ED", "1936", "Dublin", "placeholder"]
+    },
+    {
+      "id": "eds-roi-1938",
+      "name": "1938",
+      "slug": "eds-roi-1938",
+      "category": "electoral-divisions",
+      "date": 1938,
+      "placeholder": true,
+      "featured": true,
+      "provider": [],
+      "keywords": ["electoral", "division", "ED", "1938", "placeholder"]
+    },
+    {
+      "id": "eds-roi-1944",
+      "name": "1944",
+      "slug": "eds-roi-1944",
+      "category": "electoral-divisions",
+      "date": 1944,
+      "placeholder": true,
+      "featured": true,
+      "provider": [],
+      "keywords": ["electoral", "division", "ED", "1944", "Dublin", "placeholder"]
+    },
+    {
+      "id": "eds-roi-1950",
+      "name": "1950",
+      "slug": "eds-roi-1950",
+      "category": "electoral-divisions",
+      "date": 1950,
+      "placeholder": true,
+      "featured": true,
+      "provider": [],
+      "keywords": ["electoral", "division", "ED", "1950", "Limerick", "placeholder"]
+    },
+    {
+      "id": "eds-roi-1954",
+      "name": "1954",
+      "slug": "eds-roi-1954",
+      "category": "electoral-divisions",
+      "date": 1954,
+      "placeholder": true,
+      "featured": true,
+      "provider": [],
+      "keywords": ["electoral", "division", "ED", "1954", "Dublin", "placeholder"]
+    },
+    {
+      "id": "eds-roi-1957",
+      "name": "1957",
+      "slug": "eds-roi-1957",
+      "category": "electoral-divisions",
+      "date": 1957,
+      "placeholder": true,
+      "featured": true,
+      "provider": [],
+      "keywords": ["electoral", "division", "ED", "1957", "Wicklow", "placeholder"]
+    },
+    {
+      "id": "eds-roi-1970",
+      "name": "1970",
+      "slug": "eds-roi-1970",
+      "category": "electoral-divisions",
+      "date": 1970,
+      "placeholder": true,
+      "featured": true,
+      "provider": [],
+      "keywords": ["electoral", "division", "ED", "1970", "Waterford", "placeholder"]
+    },
+    {
+      "id": "eds-roi-1971-04-15",
+      "name": "15 April 1971",
+      "slug": "eds-roi-1971-04-15",
+      "category": "electoral-divisions",
+      "date": "1971-04-15",
+      "placeholder": true,
+      "featured": true,
+      "provider": [],
+      "keywords": ["electoral", "division", "ED", "1971", "Cork", "Dublin", "Limerick", "placeholder"]
+    },
+    {
+      "id": "eds-roi-1976",
+      "name": "1976",
+      "slug": "eds-roi-1976",
+      "category": "electoral-divisions",
+      "date": 1976,
+      "placeholder": true,
+      "featured": true,
+      "provider": [],
+      "keywords": ["electoral", "division", "ED", "1976", "placeholder"]
     },
     {
       "id": "eds-connacht-1911",
