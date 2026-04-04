@@ -1,0 +1,56 @@
+{
+  "name": "performance-improvement-handoff",
+  "version": 1,
+  "entrypoint": "START-HERE.md",
+  "execution_model": {
+    "item_at_a_time": true,
+    "atom_at_a_time": true,
+    "verification_order": [
+      "automated_non_browser_checks",
+      "user_manual_browser_checks"
+    ]
+  },
+  "recommended_first_atom": {
+    "item": "01",
+    "atom": "01-A1",
+    "title": "startup import inventory only"
+  },
+  "key_files": {
+    "entrypoint": "START-HERE.md",
+    "protocol": "00-execution-protocol.md",
+    "metrics": "01-metrics-and-thresholds.md",
+    "first_wave": "12-first-wave-starter-pack.md",
+    "acceptance_matrix": "13-acceptance-criteria-matrix.md",
+    "constraints": "14-known-constraints-and-non-goals.md",
+    "scripts_readme": "scripts/README.md",
+    "state": "state/current-status.json",
+    "next_actions": "state/next-actions.json",
+    "items_index": "items/index.json",
+    "baseline_summary": "reports/current-state-summary.md"
+  },
+  "report_files": [
+    "reports/bundle-size-report.txt",
+    "reports/bundle-size-report.json",
+    "reports/startup-import-report.txt",
+    "reports/startup-import-report.json",
+    "reports/first-load-asset-report.txt",
+    "reports/first-load-asset-report.json",
+    "reports/font-usage-report.txt",
+    "reports/font-usage-report.json",
+    "reports/map-performance-metadata-report.txt",
+    "reports/map-performance-metadata-report.json",
+    "reports/dependency-usage-report.txt",
+    "reports/dependency-usage-report.json"
+  ],
+  "script_files": [
+    "scripts/report-bundle-sizes.mjs",
+    "scripts/report-startup-imports.mjs",
+    "scripts/report-first-load-assets.mjs",
+    "scripts/report-font-usage.mjs",
+    "scripts/report-map-performance-metadata.mjs",
+    "scripts/report-dependency-usage.mjs",
+    "scripts/run-first-wave.mjs",
+    "scripts/templates/benchmark-template.mjs",
+    "scripts/templates/validator-template.mjs"
+  ]
+}

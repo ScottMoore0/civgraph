@@ -1,0 +1,106 @@
+[
+  {
+    "id": "01",
+    "title": "Code-Splitting",
+    "first_atom": "01-A1",
+    "first_atom_title": "startup import inventory only",
+    "likely_files": ["js/app.js", "scripts/bundle.mjs", "package.json"],
+    "acceptance_summary": "startup JS falls materially and deferred features remain reliable"
+  },
+  {
+    "id": "02",
+    "title": "Web Workers",
+    "first_atom": "02-A1",
+    "first_atom_title": "worker candidate inventory",
+    "likely_files": ["js/map-controller.js", "js/election-controller.js", "js/app.js"],
+    "acceptance_summary": "output parity remains exact and heavy-path cost or responsiveness improves"
+  },
+  {
+    "id": "03",
+    "title": "Critical-Path Payload Reduction",
+    "first_atom": "03-A1",
+    "first_atom_title": "first-load asset inventory",
+    "likely_files": ["index.html", "assets/css/*", "assets/fonts/*"],
+    "acceptance_summary": "first-load bytes and blocking assets fall without unacceptable visual regressions"
+  },
+  {
+    "id": "04",
+    "title": "Precomputed Artifacts",
+    "first_atom": "04-A1",
+    "first_atom_title": "candidate derivation inventory",
+    "likely_files": ["js/election-controller.js", "scripts/*", "data/*"],
+    "acceptance_summary": "artifacts validate, fallback remains intact, and artifact-backed output matches runtime output"
+  },
+  {
+    "id": "05",
+    "title": "Adaptive LOD And Chunking",
+    "first_atom": "05-A1",
+    "first_atom_title": "current large-map behavior inventory",
+    "likely_files": ["js/map-controller.js", "data/database/maps.json"],
+    "acceptance_summary": "source selection matches rules and map behavior improves without unacceptable fidelity loss"
+  },
+  {
+    "id": "06",
+    "title": "Virtualization",
+    "first_atom": "06-A1",
+    "first_atom_title": "heaviest surface inventory",
+    "likely_files": ["js/ui-controller.js", "js/election-controller.js", "assets/css/*"],
+    "acceptance_summary": "node count falls materially while identity, ordering, focus, and sticky behavior remain acceptable"
+  },
+  {
+    "id": "07",
+    "title": "Caching And Versioning",
+    "first_atom": "07-A1",
+    "first_atom_title": "asset mutability inventory",
+    "likely_files": ["js/app.js", "scripts/bundle.mjs", "index.html"],
+    "acceptance_summary": "repeat loads improve, versioning is explicit, and no stale or mixed-version issue is observed"
+  },
+  {
+    "id": "08",
+    "title": "CSS Containment",
+    "first_atom": "08-A1",
+    "first_atom_title": "identify high-cost layout surfaces",
+    "likely_files": ["assets/css/*", "js/ui-controller.js", "js/election-controller.js"],
+    "acceptance_summary": "targeted layout cost falls without breaking sticky or measurement behavior"
+  },
+  {
+    "id": "09",
+    "title": "Interaction Batching",
+    "first_atom": "09-A1",
+    "first_atom_title": "noisy interaction inventory",
+    "likely_files": ["js/map-controller.js", "js/ui-controller.js", "js/time-slider-controller.js", "js/election-controller.js"],
+    "acceptance_summary": "target interaction feels smoother or unchanged and stale updates do not appear"
+  },
+  {
+    "id": "10",
+    "title": "Dependency Trimming",
+    "first_atom": "10-A1",
+    "first_atom_title": "dependency usage inventory",
+    "likely_files": ["package.json", "scripts/bundle.mjs", "js/*"],
+    "acceptance_summary": "measurable startup or size savings exist without functional regression"
+  },
+  {
+    "id": "11",
+    "title": "Image Pipeline",
+    "first_atom": "11-A1",
+    "first_atom_title": "image inventory",
+    "likely_files": ["assets/thumbnails/*", "js/ui-controller.js", "index.html"],
+    "acceptance_summary": "image bytes fall without unacceptable quality loss or layout shift"
+  },
+  {
+    "id": "12",
+    "title": "Performance Budgets",
+    "first_atom": "12-A1",
+    "first_atom_title": "capture current baselines",
+    "likely_files": ["package.json", "scripts/*"],
+    "acceptance_summary": "budgets catch regressions while remaining stable enough to trust"
+  },
+  {
+    "id": "13",
+    "title": "Combined Verification",
+    "first_atom": "13-A1",
+    "first_atom_title": "combined baseline report",
+    "likely_files": ["tasks/todo.md", "reports/*"],
+    "acceptance_summary": "accepted items continue to behave well together"
+  }
+]

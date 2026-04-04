@@ -179,3 +179,108 @@ Conversation log export
   - Wrote `tasks/conversation-log-2026-03-20.md`
   - Included: user requests, repo-review findings, gap analysis, acquisition actions, code changes, commands run, verification outcomes, blockers, and the secure BNA-login workflow
   - Excluded: raw credentials, cookies, tokens, and storage-state contents
+
+Performance improvement handoff package
+- [x] Create a repo-local handoff folder with the full implementation and testing plan for performance items `1` through `13`
+  - Added `docs/performance-improvement-handoff/README.md`
+  - Added `docs/performance-improvement-handoff/00-execution-protocol.md`
+  - Added `docs/performance-improvement-handoff/01-metrics-and-thresholds.md`
+  - Added per-item execution sheets in `docs/performance-improvement-handoff/items/`
+  - Structured the package for one-item-at-a-time delivery with:
+    - atomic steps
+    - automated non-browser checks first
+    - manual user checks second
+    - rollback and acceptance gates
+  - Notes:
+    - the package explicitly assumes no browser automation is required for the first verification layer
+    - later agents should extend existing repo mechanisms additively instead of replacing them wholesale
+  - Review:
+    - the handoff package now gives Claude or another later agent a direct execution path without re-deriving ordering, test scope, or rollback criteria
+    - every numbered improvement from `1` to `13` has a dedicated file and atom sequence
+- [x] Add supplemental execution aids to make the handoff package more actionable for later agents
+  - Added `docs/performance-improvement-handoff/02-repo-hotspots.md`
+  - Added `docs/performance-improvement-handoff/03-command-catalog.md`
+  - Added `docs/performance-improvement-handoff/04-atom-worksheet-template.md`
+  - Added `docs/performance-improvement-handoff/05-decision-log-template.md`
+  - Added `docs/performance-improvement-handoff/06-risk-register-template.md`
+  - Added `docs/performance-improvement-handoff/07-manual-test-report-template.md`
+  - Updated the package `README.md` to point at the new files and explain their purpose
+  - Review:
+    - later agents now have a repo-specific orientation map, reusable execution templates, and a consistent place to record tradeoff decisions and manual results
+- [x] Add final execution-readiness aids to reduce startup ambiguity for later agents
+  - Added `docs/performance-improvement-handoff/08-recommended-execution-order.md`
+  - Added `docs/performance-improvement-handoff/09-file-touch-matrix.md`
+  - Added `docs/performance-improvement-handoff/10-non-browser-test-script-specs.md`
+  - Added `docs/performance-improvement-handoff/11-glossary.md`
+  - Updated the package `README.md` again so the index is complete
+  - Review:
+    - later agents now have a recommended sequencing model, likely file-entry points, explicit non-browser script targets, and shared terminology
+- [x] Add first-wave execution and acceptance aids so later agents can start immediately
+  - Added `docs/performance-improvement-handoff/12-first-wave-starter-pack.md`
+  - Added `docs/performance-improvement-handoff/13-acceptance-criteria-matrix.md`
+  - Added `docs/performance-improvement-handoff/14-known-constraints-and-non-goals.md`
+  - Added `docs/performance-improvement-handoff/15-script-backlog-checklist.md`
+  - Updated `docs/performance-improvement-handoff/README.md` to index the new files
+  - Review:
+    - later agents now have a clear first wave, a fast accept/reject matrix, explicit boundaries, and a concrete script backlog to begin the non-browser automation layer
+- [x] Add runnable handoff-local scripts for the first non-browser verification wave
+  - Added `docs/performance-improvement-handoff/scripts/README.md`
+  - Added shared helpers in `docs/performance-improvement-handoff/scripts/_shared.mjs`
+  - Added runnable report scripts:
+    - `report-bundle-sizes.mjs`
+    - `report-startup-imports.mjs`
+    - `report-first-load-assets.mjs`
+    - `report-font-usage.mjs`
+    - `report-map-performance-metadata.mjs`
+    - `report-dependency-usage.mjs`
+  - Updated the handoff `README.md` to index the scripts
+  - Review:
+    - later agents can now run the first reporting wave directly from the handoff package instead of creating the scripts from scratch
+  - Verification:
+    - `node docs\performance-improvement-handoff\scripts\report-bundle-sizes.mjs`
+    - `node docs\performance-improvement-handoff\scripts\report-startup-imports.mjs`
+    - `node docs\performance-improvement-handoff\scripts\report-first-load-assets.mjs`
+    - `node docs\performance-improvement-handoff\scripts\report-font-usage.mjs`
+    - `node docs\performance-improvement-handoff\scripts\report-map-performance-metadata.mjs`
+    - `node docs\performance-improvement-handoff\scripts\report-dependency-usage.mjs`
+    - All six scripts executed successfully and produced repo-specific reports
+- [x] Add current baseline report artifacts to the handoff package
+  - Added `docs/performance-improvement-handoff/reports/current-state-summary.md`
+  - Added current text outputs for:
+    - bundle sizes
+    - startup imports
+    - first-load assets
+    - font usage
+    - map performance metadata
+    - dependency usage
+  - Updated the handoff `README.md` to index the `reports/` folder
+  - Review:
+    - later agents now have immediate repo-specific baseline evidence inside the handoff folder, even before rerunning the scripts
+- [x] Add a single start-here entrypoint for later agents
+  - Added `docs/performance-improvement-handoff/START-HERE.md`
+  - Updated `docs/performance-improvement-handoff/README.md` to index it
+  - Review:
+    - later agents now have one short file that tells them what to read first, what to run first, and which atom to start with
+- [x] Add machine-readable handoff artifacts for later agents
+  - Added `docs/performance-improvement-handoff/manifest.json`
+  - Added `docs/performance-improvement-handoff/state/current-status.json`
+  - Added `docs/performance-improvement-handoff/items/index.json`
+  - Added JSON versions of the current baseline reports under `docs/performance-improvement-handoff/reports/`
+  - Updated the handoff `README.md` to index the machine-readable files
+  - Review:
+    - later agents can now consume the handoff package programmatically instead of parsing only prose and plain-text reports
+- [x] Add final execution helpers beyond documentation
+  - Added `docs/performance-improvement-handoff/state/next-actions.json`
+  - Added `docs/performance-improvement-handoff/scripts/run-first-wave.mjs`
+  - Added starter templates:
+    - `docs/performance-improvement-handoff/scripts/templates/benchmark-template.mjs`
+    - `docs/performance-improvement-handoff/scripts/templates/validator-template.mjs`
+  - Updated `manifest.json`, `state/current-status.json`, and the handoff `README.md` to reference the new helpers
+  - Review:
+    - later agents can now refresh the first-wave reports with one command, consume an ordered next-action queue, and start benchmark or validator work from working templates
+
+ZIP Intake Check (2026-03-24)
+- [x] Check maps-to-be-added for qualifying ZIP files
+  - Checked at `2026-03-24T15:46:29Z`
+  - No ZIP files found; only `maps-to-be-added/.gitkeep` was present
+- [x] Update `.zip-intake-check.json` with the new check time

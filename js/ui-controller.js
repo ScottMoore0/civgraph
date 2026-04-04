@@ -7792,7 +7792,11 @@ class UIController {
     async searchFeatures(query) {
         if (!query || query.length < 2) return [];
 
-        // Ensure featureLoader has the full index for global search
+        // Try edge API first (Cloudflare Pages Function)
+        const apiResults = await featureLoader.searchViaAPI(query, 25);
+        if (apiResults) return apiResults;
+
+        // Fallback: client-side search
         await featureLoader.ensureInitialized();
         if (featureLoader.useChunkedIndex) {
             await featureLoader._ensureFullIndex();

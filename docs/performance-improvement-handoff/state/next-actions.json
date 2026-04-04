@@ -1,0 +1,89 @@
+{
+  "queue": [
+    {
+      "order": 1,
+      "item": "01",
+      "atom": "01-A1",
+      "title": "startup import inventory only",
+      "kind": "reporting",
+      "required_inputs": [
+        "scripts/report-startup-imports.mjs"
+      ],
+      "expected_outputs": [
+        "reports/startup-import-report.txt",
+        "reports/startup-import-report.json"
+      ]
+    },
+    {
+      "order": 2,
+      "item": "01",
+      "atom": "01-A2",
+      "title": "startup bundle size report",
+      "kind": "reporting",
+      "required_inputs": [
+        "scripts/report-bundle-sizes.mjs"
+      ],
+      "expected_outputs": [
+        "reports/bundle-size-report.txt",
+        "reports/bundle-size-report.json"
+      ]
+    },
+    {
+      "order": 3,
+      "item": "03",
+      "atom": "03-A1",
+      "title": "first-load asset inventory",
+      "kind": "reporting",
+      "required_inputs": [
+        "scripts/report-first-load-assets.mjs"
+      ],
+      "expected_outputs": [
+        "reports/first-load-asset-report.txt",
+        "reports/first-load-asset-report.json"
+      ]
+    },
+    {
+      "order": 4,
+      "item": "03",
+      "atom": "03-A2",
+      "title": "font usage inventory",
+      "kind": "reporting",
+      "required_inputs": [
+        "scripts/report-font-usage.mjs"
+      ],
+      "expected_outputs": [
+        "reports/font-usage-report.txt",
+        "reports/font-usage-report.json"
+      ]
+    },
+    {
+      "order": 5,
+      "item": "12",
+      "atom": "12-A1",
+      "title": "capture current baselines",
+      "kind": "baseline",
+      "required_inputs": [
+        "reports/current-state-summary.md",
+        "reports/*.txt",
+        "reports/*.json"
+      ],
+      "expected_outputs": [
+        "tasks/todo.md"
+      ]
+    },
+    {
+      "order": 6,
+      "item": "12",
+      "atom": "12-A2",
+      "title": "choose a minimal budget set",
+      "kind": "planning",
+      "required_inputs": [
+        "01-metrics-and-thresholds.md",
+        "reports/current-state-summary.md"
+      ],
+      "expected_outputs": [
+        "tasks/todo.md"
+      ]
+    }
+  ]
+}

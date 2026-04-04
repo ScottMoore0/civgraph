@@ -112,6 +112,20 @@ class FeatureLoader {
     }
 
     /**
+     * Search via the edge API. Returns results directly, or null if the API is unavailable.
+     */
+    async searchViaAPI(query, limit = 20) {
+        try {
+            const resp = await fetch(`/_api/search?q=${encodeURIComponent(query)}&limit=${limit}`);
+            if (!resp.ok) return null;
+            const data = await resp.json();
+            return data.results || null;
+        } catch {
+            return null;
+        }
+    }
+
+    /**
      * Load the chunk manifest (tiny file listing available per-map chunks).
      * Does NOT load any feature data — just the map list.
      */
@@ -145,11 +159,26 @@ class FeatureLoader {
 
         const promise = (async () => {
             try {
-                const resp = await fetch(`data/database/spatial-index/${mapId}.json`);
-                if (!resp.ok) return [];
-                const features = await resp.json();
+                // Try edge API first (Cloudflare Pages Function)
+                let features;
+                try {
+                    const resp = await fetch(`/_api/spatial?mapId=${encodeURIComponent(mapId)}`);
+                    if (resp.ok) {
+                        const data = await resp.json();
+                        features = data.features || [];
+                    }
+                } catch {
+                    // API not available (local dev or non-Cloudflare host)
+                }
+
+                // Fallback to static chunk file
+                if (!features) {
+                    const resp = await fetch(`data/database/spatial-index/${mapId}.json`);
+                    if (!resp.ok) return [];
+                    features = await resp.json();
+                }
+
                 this.spatialIndexByMap.set(mapId, features);
-                // Also add to flat spatialIndex if it exists (for searchFeaturesByName)
                 if (this.spatialIndex) {
                     this.spatialIndex.push(...features);
                 }

@@ -1,0 +1,44 @@
+# Cloudflare Pages custom headers
+# https://developers.cloudflare.com/pages/configuration/headers/
+
+# HTML — always revalidate (ensures users get latest version)
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/pages/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# JS/CSS bundles — fingerprinted filenames, cache forever
+/build/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fonts — never change, cache forever
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Leaflet CSS + images — versioned in filename, cache forever
+/assets/css/leaflet-*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/css/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Map data (FGB files) — immutable once deployed
+/data/maps/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Spatial index chunks — cache for 1 week
+/data/database/spatial-index/*
+  Cache-Control: public, max-age=604800
+
+# Maps database — short cache, revalidate in background
+/data/database/maps.json
+  Cache-Control: public, max-age=300, stale-while-revalidate=86400
+
+# Spatial index monolithic — fallback, cache for 1 day
+/data/database/spatial-index.json
+  Cache-Control: public, max-age=86400
+
+# Election data — rarely changes
+/election-viewer-package/data/*
+  Cache-Control: public, max-age=604800

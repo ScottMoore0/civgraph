@@ -1,0 +1,24 @@
+{
+  "package_ready": true,
+  "recommended_next_item": "01",
+  "recommended_next_atom": "01-A1",
+  "recommended_next_title": "startup import inventory only",
+  "baseline_reports_present": true,
+  "handoff_scripts_present": true,
+  "handoff_scripts_verified": true,
+  "browser_automation_required_for_first_verification_layer": false,
+  "recommended_first_wave": [
+    "01-A1",
+    "01-A2",
+    "03-A1",
+    "03-A2",
+    "12-A1",
+    "12-A2"
+  ],
+  "next_actions_file": "state/next-actions.json",
+  "notes": [
+    "Start with reporting and inventory atoms before behavior-changing atoms.",
+    "Do not begin with workers, virtualization, or caching changes.",
+    "Use automated non-browser checks first and user manual browser checks second."
+  ]
+}

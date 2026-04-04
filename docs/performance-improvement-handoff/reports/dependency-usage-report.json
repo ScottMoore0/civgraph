@@ -1,0 +1,47 @@
+{
+  "dependencies_scanned": 10,
+  "code_files_scanned": 28,
+  "dependencies_with_no_detected_import_site": [
+    "@playwright/test",
+    "@turf/helpers",
+    "xlsx"
+  ],
+  "dependencies_with_detected_import_sites": {
+    "@turf/area": [
+      "scripts/build-spatial-chunks.mjs"
+    ],
+    "@turf/length": [
+      "scripts/build-spatial-chunks.mjs"
+    ],
+    "@turf/simplify": [
+      "scripts/build-lod-fgbs.mjs",
+      "scripts/build-spatial-chunks.mjs"
+    ],
+    "canvas": [
+      "js/election-controller.js",
+      "scripts/gen-county-thumb.mjs",
+      "scripts/generate-thumbnails.mjs"
+    ],
+    "esbuild": [
+      "scripts/bundle.mjs"
+    ],
+    "flatgeobuf": [
+      "scripts/analyze-name-discrepancies.mjs",
+      "scripts/build-feature-index.js",
+      "scripts/build-feature-index.mjs",
+      "scripts/build-lod-fgbs.mjs",
+      "scripts/build-spatial-chunks.mjs",
+      "scripts/bundle.mjs",
+      "scripts/combine-fgb-attributes.mjs",
+      "scripts/compute-townland-elevation.mjs",
+      "scripts/extract-fgb-attributes.mjs",
+      "scripts/fix-pc1995-name.mjs",
+      "scripts/gen-county-thumb.mjs",
+      "scripts/generate-thumbnails.mjs",
+      "scripts/merge-townland-fgbs.mjs"
+    ],
+    "geotiff": [
+      "scripts/compute-townland-elevation.mjs"
+    ]
+  }
+}
