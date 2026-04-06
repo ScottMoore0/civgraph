@@ -7,6 +7,44 @@ const FEATURE_THRESHOLD = 50;  // Only use LOD loading for maps with >50 feature
 const CONCURRENT_LOADS = 50;   // Max parallel fetch requests
 const VIEWPORT_BUFFER = 0.2;   // 20% buffer around viewport
 
+// --- IndexedDB cache for decoded features ---
+const IDB_NAME = 'boundaries-feature-cache';
+const IDB_VERSION = 1;
+const IDB_STORE = 'features';
+
+function openFeatureCache() {
+    return new Promise((resolve, reject) => {
+        if (typeof indexedDB === 'undefined') { resolve(null); return; }
+        const req = indexedDB.open(IDB_NAME, IDB_VERSION);
+        req.onupgradeneeded = () => {
+            const db = req.result;
+            if (!db.objectStoreNames.contains(IDB_STORE)) {
+                db.createObjectStore(IDB_STORE);
+            }
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => resolve(null);
+    });
+}
+
+function idbGet(db, key) {
+    return new Promise((resolve) => {
+        try {
+            const tx = db.transaction(IDB_STORE, 'readonly');
+            const req = tx.objectStore(IDB_STORE).get(key);
+            req.onsuccess = () => resolve(req.result ?? null);
+            req.onerror = () => resolve(null);
+        } catch { resolve(null); }
+    });
+}
+
+function idbPut(db, key, value) {
+    try {
+        const tx = db.transaction(IDB_STORE, 'readwrite');
+        tx.objectStore(IDB_STORE).put(value, key);
+    } catch { /* best-effort */ }
+}
+
 class FeatureLoader {
     constructor() {
         this.spatialIndex = null;
@@ -17,10 +55,14 @@ class FeatureLoader {
         this._initPromise = null;
         this._chunkManifest = null;         // Per-map chunk manifest
         this._chunkPromises = new Map();    // mapId -> Promise (dedup concurrent loads)
+        this._idb = null;                   // IndexedDB handle (lazy-opened)
+        this._idbReady = null;              // Promise for DB open
         // Chunked mode: load per-map spatial index chunks on demand instead of
         // the full 15 MB monolithic file. Disable with ?chunkedIndex=0 for debugging.
         this.useChunkedIndex = typeof window === 'undefined'
             || new URLSearchParams(window.location?.search).get('chunkedIndex') !== '0';
+        // Open IndexedDB eagerly (non-blocking)
+        this._idbReady = openFeatureCache().then(db => { this._idb = db; });
     }
 
     /**
@@ -266,13 +308,14 @@ class FeatureLoader {
     }
 
     /**
-     * Load a single feature at specified LOD
+     * Load a single feature at specified LOD.
+     * Checks IndexedDB first to avoid re-fetching across sessions.
      */
     async loadFeature(mapId, index, lod) {
         const url = `data/features/${mapId}/${index}-lod-${lod}.json`;
         const cacheKey = `${mapId}:${index}:${lod}`;
 
-        // Check if already loaded
+        // Check in-memory cache
         if (this.loadedFeatures.has(cacheKey)) {
             return this.loadedFeatures.get(cacheKey);
         }
@@ -282,22 +325,34 @@ class FeatureLoader {
             return this.pendingLoads.get(url);
         }
 
-        // Fetch the feature
-        const promise = fetch(url)
-            .then(res => {
+        const promise = (async () => {
+            // Check IndexedDB cache
+            await this._idbReady;
+            if (this._idb) {
+                const cached = await idbGet(this._idb, cacheKey);
+                if (cached) {
+                    this.loadedFeatures.set(cacheKey, cached);
+                    this.pendingLoads.delete(url);
+                    return cached;
+                }
+            }
+
+            // Fetch from network
+            try {
+                const res = await fetch(url);
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                return res.json();
-            })
-            .then(geojson => {
+                const geojson = await res.json();
                 this.loadedFeatures.set(cacheKey, geojson);
-                this.pendingLoads.delete(url);
+                // Persist to IndexedDB (non-blocking)
+                if (this._idb) idbPut(this._idb, cacheKey, geojson);
                 return geojson;
-            })
-            .catch(err => {
-                this.pendingLoads.delete(url);
+            } catch (err) {
                 console.warn(`[FeatureLoader] Failed to load ${url}:`, err.message);
                 return null;
-            });
+            } finally {
+                this.pendingLoads.delete(url);
+            }
+        })();
 
         this.pendingLoads.set(url, promise);
         return promise;
@@ -352,13 +407,17 @@ class FeatureLoader {
      * Search features by name (case-insensitive, partial match)
      * Returns: [{ id, mapId, name, bbox }]
      *
-     * In chunked mode, the full index is lazy-loaded on first search call.
-     * The first call may return [] while the index loads; subsequent calls return results.
+     * Tries the edge API first (no client-side index needed).
+     * Falls back to local index search if the API is unavailable.
      */
-    searchFeaturesByName(query, limit = 20) {
+    async searchFeaturesByName(query, limit = 20) {
         if (!this.initialized || !query || query.length < 2) return [];
 
-        // In chunked mode, trigger lazy load of the full index for search
+        // Try edge API first — avoids downloading the 3 MB names index
+        const apiResults = await this.searchViaAPI(query, limit);
+        if (apiResults) return apiResults;
+
+        // Fallback: local index search
         if (this.useChunkedIndex && (!this.spatialIndex || this.spatialIndex.length === 0)) {
             this._ensureFullIndex();
             return [];

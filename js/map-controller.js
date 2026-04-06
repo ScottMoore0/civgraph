@@ -53,8 +53,62 @@ class MapController {
         this._loadMetrics = [];
         this._loadMetricSeq = 0;
 
+        // Web Worker for FGB parsing (offloads decompression + deserialization)
+        this._fgbWorker = null;
+        this._fgbWorkerReady = false;
+        this._fgbWorkerCallbacks = new Map(); // id -> { resolve, reject }
+        this._fgbWorkerSeq = 0;
+        this._initFgbWorker();
+
         // Feature loader is initialized lazily on first use (deferred to avoid
         // downloading the 24 MB spatial-index.json on every page load).
+    }
+
+    /**
+     * Initialize Web Worker for FGB parsing.
+     * Falls back gracefully to main-thread parsing if unavailable.
+     */
+    _initFgbWorker() {
+        try {
+            this._fgbWorker = new Worker('js/fgb-worker.js');
+            this._fgbWorker.onmessage = (e) => {
+                const { id, features, featureCount, skippedCount, compressed, durationMs, error } = e.data;
+                const cb = this._fgbWorkerCallbacks.get(id);
+                if (!cb) return;
+                this._fgbWorkerCallbacks.delete(id);
+                if (error) {
+                    cb.reject(new Error(error));
+                } else {
+                    cb.resolve({ features, featureCount, skippedCount, compressed, durationMs });
+                }
+            };
+            this._fgbWorker.onerror = () => {
+                console.warn('[MapController] FGB Worker failed, falling back to main thread');
+                this._fgbWorker = null;
+                this._fgbWorkerReady = false;
+            };
+            this._fgbWorkerReady = true;
+        } catch {
+            this._fgbWorker = null;
+            this._fgbWorkerReady = false;
+        }
+    }
+
+    /**
+     * Send an FGB parse job to the Web Worker.
+     * Returns a Promise that resolves with { features, featureCount, skippedCount, compressed, durationMs }.
+     */
+    _parseFgbInWorker(url, minDiag = 0) {
+        return new Promise((resolve, reject) => {
+            const id = ++this._fgbWorkerSeq;
+            this._fgbWorkerCallbacks.set(id, { resolve, reject });
+            this._fgbWorker.postMessage({
+                id,
+                url,
+                minDiag,
+                useCompressed: typeof pako !== 'undefined' && url.toLowerCase().endsWith('.fgb')
+            });
+        });
     }
 
     _recordLoadMetric(type, payload = {}) {
@@ -1706,11 +1760,34 @@ class MapController {
      */
     async _loadChunkFGB(mapId, filePath, zoom = null, signal = null) {
         const start = this._now();
-        const features = [];
         const minDiag = zoom != null ? this.getMinFeatureDiagDeg(zoom) : 0;
+
+        // Try Web Worker path
+        if (this._fgbWorkerReady && this._fgbWorker) {
+            try {
+                const result = await this._parseFgbInWorker(filePath, minDiag);
+                if (result.skippedCount > 0) {
+                    console.log(`[MapController] Chunk ${filePath}: kept ${result.featureCount}, skipped ${result.skippedCount} (too small at zoom ${zoom?.toFixed(1)})`);
+                }
+                this._recordLoadMetric('chunk-file-loaded', {
+                    mapId,
+                    source: filePath,
+                    zoom,
+                    keptFeatureCount: result.featureCount,
+                    skippedFeatureCount: result.skippedCount,
+                    durationMs: result.durationMs,
+                    worker: true
+                });
+                return result.features;
+            } catch (workerErr) {
+                console.warn(`[MapController] Worker chunk parse failed for ${filePath}, falling back to main thread:`, workerErr);
+            }
+        }
+
+        // Main-thread fallback
+        const features = [];
         let skippedCount = 0;
 
-        // Try pre-compressed .fgb.gz first
         let source = null;
         if (typeof pako !== 'undefined' && filePath.toLowerCase().endsWith('.fgb')) {
             try {
@@ -1728,7 +1805,6 @@ class MapController {
         }
 
         for await (const feature of flatgeobuf.deserialize(source)) {
-            // Screen-space area filtering
             if (minDiag > 0) {
                 const diag = this.computeFeatureBboxDiag(feature.geometry);
                 if (diag < minDiag) {
@@ -2225,10 +2301,29 @@ class MapController {
 
     /**
      * Load FlatGeobuf file (full download via fetch, no range requests).
-     * Tries pre-compressed .fgb.gz first and decompresses client-side with Pako.
+     * Delegates to Web Worker when available, falls back to main-thread parsing.
      */
     async loadFlatGeobuf(url, onProgress = null, signal = null) {
         const start = this._now();
+
+        // Try Web Worker path (offloads parsing from main thread)
+        if (this._fgbWorkerReady && this._fgbWorker) {
+            try {
+                const result = await this._parseFgbInWorker(url);
+                this._recordLoadMetric('flatgeobuf-loaded', {
+                    source: url,
+                    featureCount: result.featureCount,
+                    durationMs: result.durationMs,
+                    compressed: result.compressed,
+                    worker: true
+                });
+                return result.features;
+            } catch (workerErr) {
+                console.warn(`[MapController] Worker FGB parse failed for ${url}, falling back to main thread:`, workerErr);
+            }
+        }
+
+        // Main-thread fallback
         const loadFromSource = async (source) => {
             const features = [];
             let featureCount = 0;

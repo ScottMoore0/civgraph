@@ -989,7 +989,7 @@ class App {
     /**
      * Show search autocomplete dropdown with maps, features, and address suggestions
      */
-    showSearchAutocomplete(query, autocomplete) {
+    async showSearchAutocomplete(query, autocomplete) {
         if (!autocomplete || !document.body.contains(autocomplete)) return;
         let html = '';
 
@@ -1017,7 +1017,7 @@ class App {
         // --- Section 2: Matching Features (from spatial index of ALL maps) ---
         // Trigger lazy init of spatial index on first search (deferred to avoid 24 MB load on page open)
         if (!featureLoader.initialized) featureLoader.ensureInitialized();
-        const featureResults = featureLoader.searchFeaturesByName(query, 8);
+        const featureResults = await featureLoader.searchFeaturesByName(query, 8);
         if (featureResults.length > 0) {
             html += `<div class="search-autocomplete__section-header">Features</div>`;
             for (let i = 0; i < featureResults.length; i++) {
