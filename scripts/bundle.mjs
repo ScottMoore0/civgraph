@@ -69,6 +69,22 @@ await esbuild.build({
 
 console.log('CSS minified: build/main.css');
 
+// Generate minimal about.css (header + design tokens only, ~6 KB vs 203 KB)
+import { readFileSync as readFile, writeFileSync as writeFile } from 'fs';
+{
+    const css = readFile('build/main.css', 'utf8');
+    const rootMatch = css.match(/:root\s*\{[^}]+\}/);
+    const headerRules = css.match(/\.app-header[^{]*\{[^}]+\}/g) || [];
+    const mediaBlocks = css.match(/@media[^{]+\{(?:[^{}]|\{[^}]*\})*\}/g) || [];
+    const headerMedia = mediaBlocks.filter(m => m.includes('app-header'));
+    let about = `*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif}body{background:var(--surface-primary);color:var(--text-primary);line-height:1.6}a{color:var(--primary);text-decoration:none}a:hover{text-decoration:underline}\n`;
+    if (rootMatch) about += rootMatch[0] + '\n';
+    about += headerRules.join('\n') + '\n';
+    about += headerMedia.join('\n') + '\n';
+    writeFile('build/about.css', about);
+    console.log(`About CSS extracted: build/about.css (${(about.length / 1024).toFixed(1)} KB)`);
+}
+
 // Performance budgets — fail the build if assets grow unexpectedly
 import { statSync } from 'fs';
 
