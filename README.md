@@ -2,7 +2,7 @@
 
 Interactive map explorer for Northern Ireland and Ireland boundaries - local government districts, parliamentary constituencies, wards, townlands, historic administrative areas, and more.
 
-**Live site:** [boundaries.scottmoore.xyz](https://boundaries.scottmoore.xyz)
+**Live site:** [civgraph.net](https://civgraph.net)
 
 ## What's here
 
@@ -26,7 +26,7 @@ The site also integrates Northern Ireland election results with STV count animat
 | Search | [Fuse.js](https://www.fusejs.io/) for map search, spatial index for feature search |
 | Geospatial | [Turf.js](https://turfjs.org/) for area/length calculations |
 | Testing | [Playwright](https://playwright.dev/) |
-| Hosting | [Neocities](https://neocities.org/) |
+| Hosting | [Cloudflare Pages](https://pages.cloudflare.com/) + [R2](https://developers.cloudflare.com/r2/) |
 
 ## Getting started
 
