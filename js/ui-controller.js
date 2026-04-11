@@ -1221,6 +1221,14 @@ class UIController {
     }
 
     catalogueGoBack() {
+        // Special case: when viewing the Tables tab, "back" returns to the
+        // Catalogue tab regardless of the catalogue history stack.
+        const tablesContent = document.querySelector('.pane__content[data-tab-content="tables"]');
+        if (tablesContent && !tablesContent.classList.contains('pane-tab-content--hidden')) {
+            this.showTab('catalogue');
+            this.updateCatalogueNavButtons();
+            return;
+        }
         if (this.catalogueHistoryIndex > 0) {
             this.catalogueHistoryIndex--;
             const entry = this.catalogueHistory[this.catalogueHistoryIndex];
@@ -1267,8 +1275,13 @@ class UIController {
         const backBtn = document.getElementById('catalogueBack');
         const forwardBtn = document.getElementById('catalogueForward');
 
+        // When the Tables tab is active, the back button always returns to the
+        // Catalogue tab — force-enable it regardless of catalogue history depth.
+        const tablesContent = document.querySelector('.pane__content[data-tab-content="tables"]');
+        const onTables = tablesContent && !tablesContent.classList.contains('pane-tab-content--hidden');
+
         if (backBtn) {
-            backBtn.disabled = this.catalogueHistoryIndex <= 0;
+            backBtn.disabled = onTables ? false : this.catalogueHistoryIndex <= 0;
         }
         if (forwardBtn) {
             forwardBtn.disabled = this.catalogueHistoryIndex >= this.catalogueHistory.length - 1;
@@ -1287,6 +1300,15 @@ class UIController {
                 const tabId = tab.dataset.tab;
                 this.showTab(tabId);
             });
+        });
+
+        // Delegated handler for in-content tab links (e.g. the Tables top-link
+        // in the catalogue TOC, which is re-rendered dynamically).
+        document.addEventListener('click', (e) => {
+            const trigger = e.target.closest('[data-tab-target]');
+            if (!trigger) return;
+            e.preventDefault();
+            this.showTab(trigger.dataset.tabTarget);
         });
     }
 
@@ -1308,6 +1330,13 @@ class UIController {
             content.classList.toggle('pane-tab-content--hidden', !isActive);
         });
 
+        // Move the catalogue sticky shell (search + nav buttons) into the active
+        // tab when switching to Tables, so it stays visible there. Move it back
+        // to the catalogue tab for any other tab.
+        this.moveCatalogueShellForTab(tabId);
+
+        // Refresh nav button enabled state — back button is force-enabled on Tables.
+        this.updateCatalogueNavButtons();
         this.updateCatalogueHomeButton();
 
         // Initialize Explore tab on first view
@@ -1318,6 +1347,23 @@ class UIController {
         // Initialize Tables tab on first view
         if (tabId === 'tables') {
             this.initializeTables();
+        }
+    }
+
+    moveCatalogueShellForTab(tabId) {
+        const shell = document.querySelector('.catalogue-sticky-shell');
+        if (!shell) return;
+        if (tabId === 'tables') {
+            const tablesContent = document.querySelector('.pane__content[data-tab-content="tables"]');
+            if (tablesContent && shell.parentElement !== tablesContent) {
+                tablesContent.insertBefore(shell, tablesContent.firstChild);
+            }
+        } else {
+            const catalogueContent = document.querySelector('.pane__content[data-tab-content="catalogue"]');
+            if (catalogueContent && shell.parentElement !== catalogueContent) {
+                // Restore to its original position at the top of the catalogue tab.
+                catalogueContent.insertBefore(shell, catalogueContent.firstChild);
+            }
         }
     }
 
@@ -2075,10 +2121,17 @@ class UIController {
     }
 
     updateFilterStats(shown, total) {
+        const text = shown === total ? `${total} maps` : `${shown} of ${total} maps`;
+        // Cache so renderFlatView (which runs async after this call) can re-apply
+        // the value once it has finished building the TOC and the
+        // #catalogueTocStats element exists in the DOM.
+        this._lastFilterStatsText = text;
         const statsEl = document.getElementById('filterStats');
-        if (statsEl) {
-            statsEl.textContent = shown === total ? `${total} maps` : `${shown} of ${total} maps`;
-        }
+        if (statsEl) statsEl.textContent = text;
+        // Also reflect into the TOC top-row stats slot (always visible at the top
+        // of the catalogue alongside the section toplinks).
+        const tocStatsEl = document.getElementById('catalogueTocStats');
+        if (tocStatsEl) tocStatsEl.textContent = text;
     }
 
     // ============================================
@@ -2397,39 +2450,34 @@ class UIController {
         let tocHtml = `
             <div class="catalogue-flat__toc">
                 <div class="catalogue-flat__toc-toplinks">
-                    <a href="#flat-section-elections" class="catalogue-flat__toc-toplink">Elections</a>
-                    <a href="#flat-section-maps" class="catalogue-flat__toc-toplink">Maps</a>
-                    <a href="#flat-section-books" class="catalogue-flat__toc-toplink">Books</a>
+                    <span class="catalogue-flat__toc-toplinks-left">
+                        <a href="#flat-section-elections" class="catalogue-flat__toc-toplink">Elections</a>
+                        <a href="#flat-section-maps" class="catalogue-flat__toc-toplink">Maps</a>
+                        <a href="#flat-section-books" class="catalogue-flat__toc-toplink">Books</a>
+                        <button type="button" class="catalogue-flat__toc-toplink catalogue-flat__toc-toplink--tab" data-tab-target="tables">Tables</button>
+                    </span>
+                    <span class="catalogue-flat__toc-stats" id="catalogueTocStats" aria-hidden="true"></span>
                 </div>
                 <table class="catalogue-flat__toc-table">
                     <tbody>`;
 
+        // Elections heading with inline "Northern Ireland" subtitle, plus a
+        // horizontal row of decade buttons in place of the previous one-row-per-decade list.
+        const decadeButtonsHtml = decadeElectionCards.map(def => {
+            return `<a href="#flat-card-${def.id}" class="catalogue-flat__toc-decade-btn">${this.escapeHtml(def.name)}</a>`;
+        }).join('');
         tocHtml += `
                 <tr class="catalogue-flat__toc-heading-row">
-                    <td colspan="3"><span class="catalogue-flat__toc-heading">Elections</span></td>
-                </tr>
-                <tr class="catalogue-flat__toc-subheading-row">
-                    <td colspan="3"><span class="catalogue-flat__toc-subheading">Northern Ireland</span></td>
-                </tr>`;
-
-        decadeElectionCards.forEach(def => {
-            const preview = def.electionEntries[0] || null;
-            const appearance = preview ? getElectionAppearance(preview.body, preview.date, preview.bodyGroup || null) : { thumb: 'pc-2008', color: '#4b5563' };
-            tocHtml += `
-                <tr class="catalogue-flat__toc-row--indented">
-                    <td>
-                        <a href="#flat-card-${def.id}" class="catalogue-flat__toc-link">
-                            <span class="catalogue-flat__toc-namecell">
-                                <span class="catalogue-flat__toc-color" style="background:${this.escapeHtml(appearance.color)}"></span>
-                                <span class="catalogue-flat__toc-thumbwrap"><img class="catalogue-flat__toc-thumb" src="assets/thumbnails/${this.escapeHtml(appearance.thumb)}.png" alt="" loading="lazy" onerror="var w=this.parentElement; if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.style.display='none'"><span class="catalogue-flat__toc-thumbzoom" aria-hidden="true"><img src="assets/thumbnails/${this.escapeHtml(appearance.thumb)}.png" alt="" loading="lazy" onerror="var w=this.closest('.catalogue-flat__toc-thumbwrap'); if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.parentElement.style.display='none'"></span></span>
-                                <span class="catalogue-flat__toc-name">${this.escapeHtml(def.name)}</span>
-                            </span>
-                        </a>
+                    <td colspan="3">
+                        <span class="catalogue-flat__toc-heading">Elections</span>
+                        <span class="catalogue-flat__toc-heading-sub">Northern Ireland</span>
                     </td>
-                    <td>${this.escapeHtml(def.years)}</td>
-                    <td>${this.escapeHtml(def.extent)}</td>
+                </tr>
+                <tr class="catalogue-flat__toc-decade-row">
+                    <td colspan="3">
+                        <div class="catalogue-flat__toc-decade-buttons">${decadeButtonsHtml}</div>
+                    </td>
                 </tr>`;
-        });
 
         tocHtml += `
                 <tr class="catalogue-flat__toc-heading-row">
@@ -2754,6 +2802,13 @@ class UIController {
         }, true);
 
         container.dataset.rendered = 'true';
+        // Re-apply the cached stats text into the TOC top-row slot now that
+        // #catalogueTocStats exists. updateFilterStats may have been called
+        // before this render finished and written to a then-missing element.
+        if (this._lastFilterStatsText) {
+            const tocStatsEl = document.getElementById('catalogueTocStats');
+            if (tocStatsEl) tocStatsEl.textContent = this._lastFilterStatsText;
+        }
         this.updateCatalogueHomeButton();
     }
 

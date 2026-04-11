@@ -51,7 +51,7 @@
   <link rel="stylesheet" href="assets/css/leaflet-1.9.4.css">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="build/main.css?v=7">
+  <link rel="stylesheet" href="build/main.css?v=10">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
   <link rel="stylesheet" href="election-viewer-package/css/election-viewer.css" media="print" onload="this.media='all'">
@@ -148,12 +148,12 @@
   <main class="app-main" id="main-content">
     <!-- Info Pane (Left) -->
     <aside class="pane pane--info" aria-label="Map catalogue and information">
-      <!-- Tab Bar -->
-      <div class="pane-tabs" role="tablist">
+      <!-- Tab Bar (visible tabs removed; hidden tabs retained for legacy showTab() routing) -->
+      <div class="pane-tabs" role="tablist" hidden>
         <button class="pane-tab pane-tab--active" data-tab="catalogue" role="tab"
-          aria-selected="true">Catalogue</button>
+          aria-selected="true" hidden>Catalogue</button>
         <button class="pane-tab" data-tab="elections" role="tab" aria-selected="false" hidden>Elections</button>
-        <button class="pane-tab" data-tab="tables" role="tab" aria-selected="false">Tables</button>
+        <button class="pane-tab" data-tab="tables" role="tab" aria-selected="false" hidden>Tables</button>
         <button class="pane-tab" data-tab="explore" role="tab" aria-selected="false" hidden>Explore</button>
       </div>
 
@@ -208,8 +208,8 @@
 
         <!-- Catalogue List View (default view) -->
         <div id="catalogueListView">
-          <!-- Filter Stats -->
-          <div id="filterStats" class="filter-stats">Showing all maps</div>
+          <!-- Filter Stats (kept for back-compat; actual display is in the TOC top row) -->
+          <div id="filterStats" class="filter-stats" hidden>Showing all maps</div>
 
           <!-- Address Results (shown inline when address search is triggered) -->
           <div id="addressResults" class="address-results hidden"></div>
@@ -621,7 +621,7 @@
   <script src="election-viewer-package/js/election_viewer.js"></script>
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="build/app.bundle.js?v=10"></script>
+  <script type="module" src="build/app.bundle.js?v=14"></script>
 
 
   <!-- Support Modal -->

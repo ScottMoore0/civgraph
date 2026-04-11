@@ -395,8 +395,8 @@ a:hover {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--space-3);
-  margin: calc(-1 * var(--space-5)) calc(-1 * var(--space-5)) var(--space-4);
-  padding: var(--space-5) var(--space-5) var(--space-3);
+  margin: calc(-1 * var(--space-5)) calc(-1 * var(--space-5)) var(--space-1);
+  padding: 0 var(--space-5);
   background: color-mix(in srgb, var(--color-surface) 94%, transparent);
   backdrop-filter: blur(6px);
   border-bottom: 1px solid var(--color-border);
@@ -589,12 +589,26 @@ body.split-dragging * {
 }
 
 .catalogue-nav .btn--icon {
-  padding: var(--space-2);
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Larger icons in catalogue-nav buttons (match the size used by the
+   load/unload action buttons elsewhere). */
+.catalogue-nav .btn--icon svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  min-width: var(--icon-size);
+  min-height: var(--icon-size);
+}
+
+/* Hide back/forward buttons entirely when they would be disabled.
+   The search-bar column (grid `minmax(0, 1fr) auto`) reclaims the freed
+   space automatically. */
 .catalogue-nav .btn--icon:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+  display: none;
 }
 
 .catalogue-home--top {
@@ -679,9 +693,24 @@ body.split-dragging * {
 .catalogue-flat__toc-toplinks {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
   margin-bottom: 10px;
+}
+
+.catalogue-flat__toc-toplinks-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.catalogue-flat__toc-stats {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  white-space: nowrap;
 }
 
 .catalogue-flat__toc-toplink {
@@ -695,6 +724,17 @@ body.split-dragging * {
 
 .catalogue-flat__toc-toplink:hover {
   text-decoration: underline;
+}
+
+/* Tab-style top link rendered as a <button> — strip default button chrome
+   so it visually matches the <a> top links beside it. */
+button.catalogue-flat__toc-toplink {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .catalogue-flat__toc-title {
@@ -842,6 +882,53 @@ body.split-dragging * {
   color: var(--color-text-muted, #718096);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+/* Inline subtitle that lives next to the main TOC heading (e.g. "Elections  NORTHERN IRELAND"). */
+.catalogue-flat__toc-heading-sub {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-text-muted, #718096);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+}
+
+/* Horizontal decade button row under the Elections heading */
+.catalogue-flat__toc-decade-row td {
+  padding-top: 6px;
+  padding-bottom: 8px;
+}
+
+.catalogue-flat__toc-decade-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.catalogue-flat__toc-decade-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text, #1a202c);
+  background: var(--color-surface-elevated, #f7fafc);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 6px);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.catalogue-flat__toc-decade-btn:hover,
+.catalogue-flat__toc-decade-btn:focus-visible {
+  background: var(--color-primary-50, #ebf8ff);
+  border-color: var(--color-primary, #1a365d);
+  color: var(--color-primary, #1a365d);
 }
 
 .catalogue-flat__toc-row--indented .catalogue-flat__toc-link {
@@ -5920,6 +6007,16 @@ select:focus-visible {
   --color-text-inverse: #ffffff;
   --color-border: #e2e8f0;
   --color-border-light: #edf2f7;
+
+  /* Restore light grayscale tokens — the prefers-color-scheme: dark @media block
+     overrides these globally, but [data-theme="light"] needs to undo that so
+     components keyed off --color-gray-* (e.g. data-table row backgrounds) render
+     correctly when the user has explicitly chosen light mode on a dark-themed OS. */
+  --color-gray-50: #f7fafc;
+  --color-gray-100: #edf2f7;
+  --color-gray-200: #e2e8f0;
+  --color-gray-300: #cbd5e0;
+  --color-primary-50: #ebf8ff;
 
   --glass-bg: rgba(255, 255, 255, 0.85);
   --glass-border: 1px solid rgba(255, 255, 255, 0.3);
