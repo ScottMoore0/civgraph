@@ -160,9 +160,13 @@ data/maps/raster/_cache/
 data/maps/raster/*.png
 data/maps/raster/*.aux.xml
 
-# Large source monoliths (chunked FGBs are tracked, monoliths live on IA)
+# Large source monoliths (live on IA)
 data/maps/townlands/OSI_Townlands.fgb
 data/maps/townlands/OSNI_Townlands.fgb
+
+# Townland chunk FGBs: served exclusively from R2 at runtime.
+# Regenerable locally via `node scripts/build-spatial-chunks.mjs --map <id> --force`.
+data/maps/townlands/chunks/
 
 # Test outputs
 tests/browser/contrast-audit-report.json
