@@ -112,3 +112,57 @@ bna_download_links.html
 recovered-election-controller-from-browser.md
 pages/*-mock.html
 tasks/
+tasks/conversation-log-2026-03-20.md
+
+# Claude Code session transcripts (root-level timestamped txt files)
+/????-??-??-*.txt
+
+# Staging zips in repo root (untracked source archives pending intake)
+/Electoral_Divisions.zip
+/LEA.zip
+/Legal_Towns_and_Cities.zip
+/Settlements.zip
+/SmallAreas.zip
+
+# Root-level scratch/working files
+/_osi_ni_count.csv
+/_townlands_check.fgb
+/ni_boundary.fgb
+/ni_irishgrid.geojson
+/ni_ig.geojson
+/british_isles_land.geojson
+/Map outlines 1984.png
+
+# Experimental / superseded georef iterations (keeper is scripts/georef.py)
+scripts/apply-gcps.py
+scripts/georef-border-match.py
+scripts/georef-coastline-match.py
+scripts/georef-ecc-v2.py
+scripts/georef-junctions.py
+scripts/georef-outlines.py
+scripts/georef-pipeline.py
+scripts/georef-refine.py
+
+# ROI source/intermediate files — uploaded to R2 separately, not tracked in git
+data/maps/**/ROI_*.fgb
+data/maps/**/ROI_*.geojson
+data/maps/local-government/Catholic_Parishes_Dublin.fgb
+data/maps/local-government/Catholic_Parishes_Dublin.geojson
+data/maps/local-government/Administrative_Areas_Ungeneralised_*.geojson
+data/maps/census-areas/NUTS2_All_Ireland.fgb
+data/maps/census-areas/NUTS2_All_Ireland.geojson
+
+# Raw source archives (re-downloadable from CSO / Tailte Éireann)
+data/downloads/
+
+# Raster georef pipeline outputs (uploaded to R2/IA separately, not tracked)
+data/maps/raster/_cache/
+data/maps/raster/*.png
+data/maps/raster/*.aux.xml
+
+# Large source monoliths (chunked FGBs are tracked, monoliths live on IA)
+data/maps/townlands/OSI_Townlands.fgb
+data/maps/townlands/OSNI_Townlands.fgb
+
+# Test outputs
+tests/browser/contrast-audit-report.json

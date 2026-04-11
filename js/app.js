@@ -92,6 +92,34 @@ class App {
             // Load a map layer (or group of layers)
             uiController.onMapLoad = async (mapId) => {
                 await this.loadMap(mapId);
+                // Co-load linked ward map if this is a district raster variant.
+                // Look up the variant config directly from the parent's variants array
+                // rather than relying on getMapById's merge (which can lose custom fields
+                // if maps.json was served from browser cache).
+                const mapConfig = dataService.getMapById(mapId);
+                let coLoadId, wardIndices;
+                // Search parent maps for this variant to get raw config
+                for (const m of (dataService.maps?.maps || [])) {
+                    const v = m.variants?.find(v => v.id === mapId);
+                    if (v) {
+                        coLoadId = v.coLoadMapId;
+                        wardIndices = v.coLoadWardIndices;
+                        break;
+                    }
+                }
+                if (coLoadId && wardIndices?.length) {
+                    const wardMapConfig = dataService.getMapById(coLoadId);
+                    if (wardMapConfig) {
+                        const filteredId = `${mapId}-wards`;
+                        const districtName = (mapConfig?.name || mapId).replace(/ LGD \d{4}.*/, '');
+                        const indexSet = new Set(wardIndices);
+                        try {
+                            await mapController.loadLayerFilteredByIndex(filteredId, wardMapConfig, indexSet, `${districtName} Wards`);
+                        } catch (err) {
+                            console.error(`[CoLoad] Failed: ${err.message}`, err);
+                        }
+                    }
+                }
                 this.updateMapList();
                 this.updateActiveLayers();
             };
@@ -114,6 +142,8 @@ class App {
                         }
                     } else {
                         mapController.unloadLayer(mapId);
+                        // Also unload co-loaded ward layer if present
+                        mapController.unloadLayer(mapId + '-wards');
                     }
                 }
                 this.updateMapList();
@@ -347,12 +377,14 @@ class App {
                 mapController.highlightFeature(mapId, featureId, options);
             };
 
-            // Load just one feature from search results (without loading whole layer).
+            // Load just one feature from search results (without loading whole layer)
+            // and surface its info card in the side pane, so a search-result click
+            // produces the same UX as clicking the feature on the map.
             uiController.onLoadSingleFeature = async (mapId, featureId, featureName, bbox) => {
                 const mapConfig = dataService.getMapById(mapId);
                 if (!mapConfig) return;
                 const numericId = Number(featureId);
-                await mapController.loadSingleFeature(
+                const result = await mapController.loadSingleFeature(
                     mapConfig,
                     Number.isFinite(numericId) ? numericId : featureId,
                     featureName || null,
@@ -361,6 +393,17 @@ class App {
                 this.updateMapList();
                 this.updateActiveLayers();
                 this.updateURLState();
+
+                // Render the feature info card with the loaded feature
+                const loadedFeature = result?.feature;
+                if (loadedFeature) {
+                    const featureForCard = {
+                        ...loadedFeature,
+                        mapId,
+                        id: loadedFeature.id ?? featureId
+                    };
+                    uiController.showFeatureInfo([featureForCard], dataService.getAllMaps());
+                }
             };
 
             // Render initial UI
@@ -1085,14 +1128,14 @@ class App {
                 if (!mapConfig) return;
 
                 // Load only this individual feature instead of the entire layer
-                const state = await mapController.loadSingleFeature(
+                const result = await mapController.loadSingleFeature(
                     mapConfig,
                     feature.index,
                     feature.name,
                     feature.bbox
                 );
 
-                if (state) {
+                if (result) {
                     this.updateMapList();
                     this.updateActiveLayers();
                 }
@@ -2171,13 +2214,11 @@ class App {
         const visibilityMap = new Map();
         const partialLayerInfo = new Map();
 
-        // Include synthetic election layers (not in dataService)
+        // Include synthetic layers not in dataService (elections, co-loaded ward layers)
         loadedIds.forEach(id => {
             const layerState = mapController.layerStates.get(id);
-            if (layerState?.isElection && layerState.config) {
-                if (!loadedMaps.find(m => m.id === id)) {
-                    loadedMaps.push(layerState.config);
-                }
+            if (layerState?.config && !loadedMaps.find(m => m.id === id)) {
+                loadedMaps.push(layerState.config);
             }
         });
 

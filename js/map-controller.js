@@ -901,17 +901,22 @@ class MapController {
         return resolved;
     }
 
+    _isTownlandMap(mapConfigOrId) {
+        const id = typeof mapConfigOrId === 'string' ? mapConfigOrId : mapConfigOrId?.id;
+        return id === 'ni-townlands-1844' || id === 'ni-townlands' || id === 'roi-townlands' || id === 'all-ireland-townlands';
+    }
+
     shouldUseOverviewLOD(mapConfig, zoom) {
-        return mapConfig?.id === 'ni-townlands-1844' && zoom <= 7;
+        return this._isTownlandMap(mapConfig) && zoom <= 7;
     }
 
     getInitialChunkBuffer(mapConfig) {
-        if (mapConfig?.id === 'ni-townlands-1844') return 0.05;
+        if (this._isTownlandMap(mapConfig)) return 0.05;
         return 0.5;
     }
 
     shouldPreferFullChunkGeometry(mapId, zoom) {
-        return mapId === 'ni-townlands-1844' && zoom >= 10;
+        return this._isTownlandMap(mapId) && zoom >= 10;
     }
 
     getChunkLoadConcurrency(mapConfig) {
@@ -1121,8 +1126,9 @@ class MapController {
 
         const rasterTemplate = files?.xyz || files?.tiles || files?.webpTiles;
 
-        if (!filePath && !rasterTemplate) {
-            console.warn(`[MapController] No FGB/XYZ source for layer ${id}`);
+        const imageOverlayUrl = files?.image;
+        if (!filePath && !rasterTemplate && !imageOverlayUrl) {
+            console.warn(`[MapController] No FGB/XYZ/image source for layer ${id}`);
             return null;
         }
 
@@ -1161,6 +1167,26 @@ class MapController {
 
         if (rasterTemplate) {
             return this.loadRasterTileLayer(mapConfig, state, show, { signal });
+        }
+
+        // Single-image raster overlay (e.g., georeferenced historic map scans)
+        const imageUrl = imageOverlayUrl;
+        const imageBounds = mapConfig.bounds;
+        if (imageUrl && imageBounds) {
+            const overlay = L.imageOverlay(imageUrl, imageBounds, {
+                opacity: mapConfig.opacity ?? 0.8,
+                interactive: false,
+                className: 'raster-tile--pixelated'
+            });
+            overlay.addTo(state.group);
+            state.loaded = true;
+            state.loading = false;
+            state.baseLoaded = true;
+            state.isRasterOverlay = true;
+            if (show) this.showLayer(id);
+            this._recordLoadMetric('raster-overlay-loaded', { mapId: id, source: imageUrl });
+
+            return state;
         }
 
         // Use chunked loading for large maps with spatial chunks
@@ -1377,7 +1403,7 @@ class MapController {
         const signal = options?.signal;
         const fgbPath = state.fgbPath;
         const remoteFgb = mapConfig?.downloads?.fgb;
-        const enforceChunkOnly = id === 'ni-townlands-1844';
+        const enforceChunkOnly = this._isTownlandMap(id);
         const loadStart = this._now();
 
         state.useSpatial = true;
@@ -2208,7 +2234,7 @@ class MapController {
      */
     _zoomBandChanged(mapId, oldZoom, newZoom) {
         const getBand = (z) => {
-            if (mapId === 'ni-townlands-1844') {
+            if (this._isTownlandMap(mapId)) {
                 if (z <= 7) return 0;   // overview LOD
                 if (z <= 9) return 1;   // z10 chunk variant
                 return 2;               // full chunk geometry
@@ -2301,10 +2327,66 @@ class MapController {
 
     /**
      * Load FlatGeobuf file (full download via fetch, no range requests).
+     * Load a map layer with a feature filter function applied.
+     * Creates a standalone layer entry that appears in Active Layers.
+     */
+    async loadLayerFilteredByIndex(layerId, sourceMapConfig, indexSet, displayName = null) {
+        const fgbPath = sourceMapConfig.files?.fgb;
+        if (!fgbPath) return null;
+        const features = await this.loadFlatGeobuf(fgbPath);
+        const filtered = features.filter((_, i) => indexSet.has(i));
+        console.log(`[MapController] loadLayerFilteredByIndex ${layerId}: ${filtered.length}/${features.length} features`);
+        return this._createFilteredLayer(layerId, sourceMapConfig, filtered, displayName);
+    }
+
+    async loadLayerFiltered(layerId, sourceMapConfig, filterFn, displayName = null) {
+        const fgbPath = sourceMapConfig.files?.fgb;
+        if (!fgbPath) return null;
+        const features = await this.loadFlatGeobuf(fgbPath);
+        const filtered = features.filter(filterFn);
+        console.log(`[MapController] loadLayerFiltered ${layerId}: ${filtered.length}/${features.length} features`);
+        return this._createFilteredLayer(layerId, sourceMapConfig, filtered, displayName);
+    }
+
+    _createFilteredLayer(layerId, sourceMapConfig, filtered, displayName) {
+        const state = {
+            id: layerId,
+            config: { ...sourceMapConfig, id: layerId, name: displayName || sourceMapConfig.name },
+            group: L.layerGroup(),
+            geoJsonLayers: [],
+            labelEntries: [],
+            loaded: true,
+            loading: false,
+            visible: true,
+            progress: 100,
+            useSpatial: false,
+            baseLoaded: true,
+            featureNames: new Map(),
+            featureLayers: new Map(),
+            featureVisibility: new Map()
+        };
+        this.layerStates.set(layerId, state);
+
+        for (const feature of filtered) {
+            this.addFeatureToLayer(state, feature, sourceMapConfig.style,
+                sourceMapConfig.labelProperty, sourceMapConfig);
+        }
+
+        state.group.addTo(this.map);
+        state.visible = true;
+        return state;
+    }
+
+    /**
      * Delegates to Web Worker when available, falls back to main-thread parsing.
      */
     async loadFlatGeobuf(url, onProgress = null, signal = null) {
         const start = this._now();
+
+        // Dev proxy: rewrite remote URLs to go through local CORS proxy on localhost
+        if (window.location.hostname === 'localhost' && url.includes('://data.civgraph.net/')) {
+            url = url.replace('https://data.civgraph.net/', '/_r/');
+        }
 
         // Try Web Worker path (offloads parsing from main thread)
         if (this._fgbWorkerReady && this._fgbWorker) {
@@ -2525,7 +2607,16 @@ class MapController {
 
         // Check if this feature is already loaded
         if (state.featureLayers.has(featureIndex)) {
-            return state;
+            // Extract the cached GeoJSON feature from the existing Leaflet layer
+            // so callers (e.g. search-result click → info card) can re-display it.
+            const existingLayer = state.featureLayers.get(featureIndex);
+            let existingFeature = null;
+            if (existingLayer && typeof existingLayer.eachLayer === 'function') {
+                existingLayer.eachLayer((sub) => {
+                    if (!existingFeature && sub?.feature) existingFeature = sub.feature;
+                });
+            }
+            return { state, feature: existingFeature };
         }
 
         // Get the FGB file path
@@ -2606,7 +2697,7 @@ class MapController {
         this.updateLabels();
 
         console.log(`[MapController] Loaded single feature ${featureIndex} from ${name} (partial load)`);
-        return state;
+        return { state, feature: loadedFeature };
     }
 
     /**
@@ -3325,6 +3416,241 @@ class MapController {
                 };
             });
         });
+    }
+    // === TEMPORARY: Raster offset + GCP placement tool ===
+    _addRasterOffsetTool(overlay, originalBounds, mapId) {
+        const existing = document.getElementById('raster-offset-tool');
+        if (existing) existing.remove();
+
+        const sw = L.latLng(originalBounds[0][0], originalBounds[0][1]);
+        const ne = L.latLng(originalBounds[1][0], originalBounds[1][1]);
+        let latOff = 0, lngOff = 0;
+
+        // GCP state
+        const gcps = []; // [{raster: {lat,lng}, vector: {lat,lng}}]
+        const gcpMarkers = []; // Leaflet markers/lines
+        let gcpMode = false;
+        let pendingRasterClick = null; // waiting for second click
+
+        const panel = document.createElement('div');
+        panel.id = 'raster-offset-tool';
+        panel.innerHTML = `
+            <div style="position:fixed;bottom:20px;right:20px;z-index:10000;background:#1a1a2e;color:#e0e0e0;
+                padding:14px;border-radius:8px;font-family:monospace;font-size:12px;box-shadow:0 4px 20px rgba(0,0,0,0.5);
+                border:1px solid #333;min-width:320px;max-width:400px;max-height:85vh;overflow-y:auto;user-select:none;">
+
+                <div style="font-weight:bold;margin-bottom:8px;color:#7eb8da;font-size:14px;">Raster Georef Tools</div>
+
+                <!-- OFFSET SECTION -->
+                <details open style="margin-bottom:10px;">
+                    <summary style="cursor:pointer;color:#aaa;font-size:11px;margin-bottom:6px;">Offset Tool</summary>
+                    <div style="margin-bottom:6px;">
+                        <label>Lat: <input type="number" id="rot-lat" value="0" step="0.001" style="width:90px;background:#111;color:#fff;border:1px solid #555;padding:2px 4px;font-size:11px;"></label>
+                        <span id="rot-lat-m" style="color:#888;margin-left:4px;font-size:11px;">0m</span>
+                    </div>
+                    <div style="margin-bottom:6px;">
+                        <label>Lng: <input type="number" id="rot-lng" value="0" step="0.001" style="width:90px;background:#111;color:#fff;border:1px solid #555;padding:2px 4px;font-size:11px;"></label>
+                        <span id="rot-lng-m" style="color:#888;margin-left:4px;font-size:11px;">0m</span>
+                    </div>
+                    <div style="margin-bottom:6px;">
+                        <label>Step: <select id="rot-step" style="background:#111;color:#fff;border:1px solid #555;padding:2px;font-size:11px;">
+                            <option value="0.01">~1110m</option>
+                            <option value="0.005">~555m</option>
+                            <option value="0.002">~222m</option>
+                            <option value="0.001" selected>~111m</option>
+                            <option value="0.0005">~56m</option>
+                            <option value="0.0002">~22m</option>
+                            <option value="0.0001">~11m</option>
+                        </select></label>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;width:110px;margin:6px auto;">
+                        <div></div><button id="rot-n" style="padding:3px 6px;cursor:pointer;">N</button><div></div>
+                        <button id="rot-w" style="padding:3px 6px;cursor:pointer;">W</button>
+                        <button id="rot-reset" style="padding:3px 6px;cursor:pointer;font-size:9px;">0</button>
+                        <button id="rot-e" style="padding:3px 6px;cursor:pointer;">E</button>
+                        <div></div><button id="rot-s" style="padding:3px 6px;cursor:pointer;">S</button><div></div>
+                    </div>
+                </details>
+
+                <!-- GCP SECTION -->
+                <details open>
+                    <summary style="cursor:pointer;color:#aaa;font-size:11px;margin-bottom:6px;">GCP Placement</summary>
+                    <div style="margin-bottom:6px;font-size:11px;color:#ccc;">
+                        Click 1: where the raster feature <b style="color:#ff6b6b;">IS</b><br>
+                        Click 2: where it <b style="color:#4caf50;">SHOULD BE</b>
+                    </div>
+                    <div style="margin-bottom:8px;">
+                        <button id="gcp-toggle" style="padding:4px 12px;cursor:pointer;background:#333;color:#e0e0e0;border:1px solid #555;border-radius:4px;font-size:12px;">
+                            Start placing GCPs
+                        </button>
+                        <button id="gcp-undo" style="padding:4px 8px;cursor:pointer;background:#333;color:#e0e0e0;border:1px solid #555;border-radius:4px;font-size:11px;margin-left:4px;">
+                            Undo
+                        </button>
+                        <button id="gcp-clear" style="padding:4px 8px;cursor:pointer;background:#333;color:#e0e0e0;border:1px solid #555;border-radius:4px;font-size:11px;margin-left:4px;">
+                            Clear
+                        </button>
+                    </div>
+                    <div id="gcp-status" style="font-size:11px;color:#888;margin-bottom:6px;"></div>
+                    <div id="gcp-list" style="font-size:10px;color:#ccc;max-height:200px;overflow-y:auto;margin-bottom:6px;"></div>
+                    <div style="margin-top:6px;">
+                        <button id="gcp-copy" style="padding:4px 12px;cursor:pointer;background:#1a3a4a;color:#7eb8da;border:1px solid #555;border-radius:4px;font-size:11px;">
+                            Copy GCPs to clipboard
+                        </button>
+                    </div>
+                </details>
+            </div>
+        `;
+        document.body.appendChild(panel);
+
+        // === OFFSET LOGIC ===
+        const latInput = document.getElementById('rot-lat');
+        const lngInput = document.getElementById('rot-lng');
+        const latM = document.getElementById('rot-lat-m');
+        const lngM = document.getElementById('rot-lng-m');
+        const stepSel = document.getElementById('rot-step');
+
+        const updateOffset = () => {
+            const newSW = L.latLng(sw.lat + latOff, sw.lng + lngOff);
+            const newNE = L.latLng(ne.lat + latOff, ne.lng + lngOff);
+            overlay.setBounds(L.latLngBounds(newSW, newNE));
+            latInput.value = latOff.toFixed(6);
+            lngInput.value = lngOff.toFixed(6);
+            latM.textContent = `${(latOff * 111320).toFixed(0)}m`;
+            lngM.textContent = `${(lngOff * 111320 * Math.cos(54.7 * Math.PI / 180)).toFixed(0)}m`;
+        };
+
+        const getStep = () => parseFloat(stepSel.value);
+        document.getElementById('rot-n').onclick = () => { latOff += getStep(); updateOffset(); };
+        document.getElementById('rot-s').onclick = () => { latOff -= getStep(); updateOffset(); };
+        document.getElementById('rot-e').onclick = () => { lngOff += getStep(); updateOffset(); };
+        document.getElementById('rot-w').onclick = () => { lngOff -= getStep(); updateOffset(); };
+        document.getElementById('rot-reset').onclick = () => { latOff = 0; lngOff = 0; updateOffset(); };
+        latInput.onchange = () => { latOff = parseFloat(latInput.value) || 0; updateOffset(); };
+        lngInput.onchange = () => { lngOff = parseFloat(lngInput.value) || 0; updateOffset(); };
+        updateOffset();
+
+        // === GCP LOGIC ===
+        const gcpToggle = document.getElementById('gcp-toggle');
+        const gcpStatus = document.getElementById('gcp-status');
+        const gcpList = document.getElementById('gcp-list');
+        const map = this.map;
+
+        const redIcon = L.divIcon({
+            className: '',
+            html: '<div style="width:12px;height:12px;background:#ff6b6b;border:2px solid #fff;border-radius:50%;box-shadow:0 0 4px rgba(0,0,0,0.5);"></div>',
+            iconSize: [12, 12], iconAnchor: [6, 6]
+        });
+        const greenIcon = L.divIcon({
+            className: '',
+            html: '<div style="width:12px;height:12px;background:#4caf50;border:2px solid #fff;border-radius:50%;box-shadow:0 0 4px rgba(0,0,0,0.5);"></div>',
+            iconSize: [12, 12], iconAnchor: [6, 6]
+        });
+
+        const updateGcpList = () => {
+            gcpStatus.textContent = `${gcps.length} GCP pair(s) placed`;
+            gcpList.innerHTML = gcps.map((g, i) => {
+                const dLat = (g.vector.lat - g.raster.lat) * 111320;
+                const dLng = (g.vector.lng - g.raster.lng) * 111320 * Math.cos(54.7 * Math.PI / 180);
+                const dist = Math.sqrt(dLat*dLat + dLng*dLng);
+                return `<div style="margin-bottom:3px;padding:2px 4px;background:#111;border-radius:3px;">
+                    #${i+1}: <span style="color:#ff6b6b;">(${g.raster.lat.toFixed(5)},${g.raster.lng.toFixed(5)})</span>
+                    &rarr; <span style="color:#4caf50;">(${g.vector.lat.toFixed(5)},${g.vector.lng.toFixed(5)})</span>
+                    <span style="color:#888;">${dist.toFixed(0)}m</span>
+                </div>`;
+            }).join('');
+        };
+
+        const onMapClick = (e) => {
+            if (!gcpMode) return;
+            const ll = e.latlng;
+
+            if (!pendingRasterClick) {
+                // First click: raster position (where feature IS)
+                pendingRasterClick = { lat: ll.lat, lng: ll.lng };
+                const marker = L.marker(ll, { icon: redIcon }).addTo(map);
+                gcpMarkers.push(marker);
+                gcpStatus.innerHTML = '<span style="color:#ff6b6b;">Raster point placed.</span> Now click where it <b style="color:#4caf50;">SHOULD BE</b>.';
+            } else {
+                // Second click: vector position (where feature SHOULD BE)
+                const vectorPt = { lat: ll.lat, lng: ll.lng };
+                const rasterPt = pendingRasterClick;
+                gcps.push({ raster: rasterPt, vector: vectorPt });
+
+                // Green marker + connecting line
+                const marker = L.marker(ll, { icon: greenIcon }).addTo(map);
+                const line = L.polyline(
+                    [[rasterPt.lat, rasterPt.lng], [vectorPt.lat, vectorPt.lng]],
+                    { color: '#ffeb3b', weight: 2, dashArray: '4,4', opacity: 0.8 }
+                ).addTo(map);
+                gcpMarkers.push(marker, line);
+
+                pendingRasterClick = null;
+                updateGcpList();
+                gcpStatus.innerHTML = 'Click where the next raster feature <b style="color:#ff6b6b;">IS</b>.';
+            }
+        };
+
+        gcpToggle.onclick = () => {
+            gcpMode = !gcpMode;
+            if (gcpMode) {
+                gcpToggle.textContent = 'Stop placing GCPs';
+                gcpToggle.style.background = '#4a1a1a';
+                gcpToggle.style.borderColor = '#ff6b6b';
+                gcpStatus.innerHTML = 'Click where a raster feature <b style="color:#ff6b6b;">IS</b>.';
+                map.getContainer().style.cursor = 'crosshair';
+                map.on('click', onMapClick);
+            } else {
+                gcpToggle.textContent = 'Start placing GCPs';
+                gcpToggle.style.background = '#333';
+                gcpToggle.style.borderColor = '#555';
+                gcpStatus.textContent = `${gcps.length} GCP pair(s) placed`;
+                map.getContainer().style.cursor = '';
+                map.off('click', onMapClick);
+                pendingRasterClick = null;
+            }
+        };
+
+        document.getElementById('gcp-undo').onclick = () => {
+            if (pendingRasterClick) {
+                // Remove the pending raster marker
+                const m = gcpMarkers.pop();
+                if (m) map.removeLayer(m);
+                pendingRasterClick = null;
+                gcpStatus.innerHTML = 'Click where a raster feature <b style="color:#ff6b6b;">IS</b>.';
+            } else if (gcps.length > 0) {
+                gcps.pop();
+                // Remove line, green marker, red marker (3 items)
+                for (let i = 0; i < 3 && gcpMarkers.length; i++) {
+                    const m = gcpMarkers.pop();
+                    if (m) map.removeLayer(m);
+                }
+                updateGcpList();
+            }
+        };
+
+        document.getElementById('gcp-clear').onclick = () => {
+            gcps.length = 0;
+            pendingRasterClick = null;
+            gcpMarkers.forEach(m => map.removeLayer(m));
+            gcpMarkers.length = 0;
+            updateGcpList();
+        };
+
+        document.getElementById('gcp-copy').onclick = () => {
+            const data = gcps.map((g, i) => ({
+                id: i + 1,
+                raster_lat: +g.raster.lat.toFixed(6),
+                raster_lng: +g.raster.lng.toFixed(6),
+                vector_lat: +g.vector.lat.toFixed(6),
+                vector_lng: +g.vector.lng.toFixed(6),
+            }));
+            const text = JSON.stringify(data, null, 2);
+            navigator.clipboard.writeText(text);
+            const btn = document.getElementById('gcp-copy');
+            btn.textContent = 'Copied!';
+            btn.style.background = '#1a4a1a';
+            setTimeout(() => { btn.textContent = 'Copy GCPs to clipboard'; btn.style.background = '#1a3a4a'; }, 1500);
+        };
     }
 }
 

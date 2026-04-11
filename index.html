@@ -10,7 +10,7 @@
     content="Northern Ireland, boundaries, maps, GIS, local government, constituencies, wards, DEAs, townlands">
   <meta name="author" content="Scott Moore">
 
-  <title>Boundaries Website - Interactive Map Explorer</title>
+  <title>Civgraph - Interactive Map Explorer</title>
 
   <!-- Preconnect to tile servers so DNS+TLS is done before first tile request -->
   <link rel="preconnect" href="https://a.tile.openstreetmap.org" crossorigin>
@@ -51,7 +51,7 @@
   <link rel="stylesheet" href="assets/css/leaflet-1.9.4.css">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="build/main.css?v=5">
+  <link rel="stylesheet" href="build/main.css?v=7">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
   <link rel="stylesheet" href="election-viewer-package/css/election-viewer.css" media="print" onload="this.media='all'">
@@ -72,7 +72,7 @@
   <link rel="apple-touch-icon" sizes="192x192" href="assets/images/logo-192.png">
 
   <!-- OpenGraph Meta Tags (Social Sharing) -->
-  <meta property="og:title" content="Boundaries Website - Interactive Map Explorer">
+  <meta property="og:title" content="Civgraph - Interactive Map Explorer">
   <meta property="og:description"
     content="Interactive maps of Northern Ireland and Ireland boundaries including local government districts, parliamentary constituencies, wards, townlands, and historic administrative areas.">
   <meta property="og:type" content="website">
@@ -92,8 +92,8 @@
   <!-- Header -->
   <header class="app-header">
     <a href="/" class="app-header__brand">
-      <img src="assets/images/logo-40.png" alt="" class="app-header__logo" width="40" height="40">
-      <span>Boundaries Website</span>
+      <img src="assets/images/civgraph-logo-icon.svg" alt="" class="app-header__logo-icon">
+      <span class="app-header__wordmark">Civgraph</span>
     </a>
 
     <nav class="app-header__nav" aria-label="Main navigation">
@@ -101,7 +101,7 @@
       <a href="pages/about.html" class="app-header__link">About</a>
 
       <!-- Support Us Button -->
-      <button type="button" id="supportBtn" class="support-btn" title="Support the Boundaries Website">
+      <button type="button" id="supportBtn" class="support-btn" title="Support Civgraph">
         <svg class="support-btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none">
           <path
             d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
@@ -621,16 +621,16 @@
   <script src="election-viewer-package/js/election_viewer.js"></script>
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="build/app.bundle.js?v=9"></script>
+  <script type="module" src="build/app.bundle.js?v=10"></script>
 
 
   <!-- Support Modal -->
   <div id="supportModal" class="support-modal hidden" role="dialog" aria-modal="true"
-    aria-label="Support the Boundaries Website">
+    aria-label="Support Civgraph">
     <div class="support-modal__backdrop"></div>
     <div class="support-modal__content">
       <div class="support-modal__header">
-        <h2 class="support-modal__title">Support the Boundaries Website</h2>
+        <h2 class="support-modal__title">Support Civgraph</h2>
         <button type="button" class="support-modal__close" aria-label="Close">&times;</button>
       </div>
 
@@ -677,7 +677,7 @@
       <div class="support-modal__message">
         <p>Support the work of myself and other contributors with a one-off tip, or a subscription of £5 a month, or £45
           a year.</p>
-        <p>I've gone out of pocket to put together my Boundaries Website, through subscriptions to newspaper archives,
+        <p>I've gone out of pocket to put together Civgraph, through subscriptions to newspaper archives,
           buying a better computer to enable me to produce maps like the 1984 and 1972 council wards maps in digitised
           formats, and spending on tools to help me develop the website.</p>
         <p>With your support, I can cover the costs I incur month to month, work with volunteers to make a greater range

@@ -1,0 +1,1237 @@
+{
+  "defaults": {
+    "output_dir": "data/maps/raster",
+    "cache_dir": "data/maps/raster/_cache",
+    "output_width": 4096
+  },
+  "vectors": {
+    "lgd1984": {
+      "url": "https://data.civgraph.net/data/maps/local-government/LGD_1984.fgb",
+      "filter_field": "id"
+    },
+    "lgd1972": {
+      "url": "https://data.civgraph.net/data/maps/local-government/LGD_1972.fgb",
+      "filter_field": "NAME"
+    },
+    "lgd1993": {
+      "url": "https://data.civgraph.net/data/maps/local-government/LGD_1993.fgb",
+      "filter_field": "LGDNAME"
+    },
+    "wards1984": {
+      "url": "https://data.civgraph.net/data/maps/local-government/Wards_1984.fgb"
+    },
+    "wards1972": {
+      "url": "https://data.civgraph.net/data/maps/local-government/Wards_1972.fgb"
+    },
+    "wards1993": {
+      "url": "https://data.civgraph.net/data/maps/local-government/Wards_1993.fgb"
+    },
+    "pc1982": {
+      "url": "https://data.civgraph.net/data/maps/parliamentary/PC1982.fgb"
+    },
+    "pc1995": {
+      "url": "https://data.civgraph.net/data/maps/parliamentary/PC1995.fgb"
+    }
+  },
+  "maps": [
+    {
+      "_comment": "=== 1985 OVERVIEW ==="
+    },
+    {
+      "id": "lgdea85-overview",
+      "ia_id": "3-admin-200-lgdea-85",
+      "ia_file": "3 - ADMIN200LGDEA85.jpg",
+      "vector": "lgd1984",
+      "parent_map": "lgd-1984",
+      "label": "LGD & DEA Boundary Map 1985",
+      "date": 1984,
+      "_status": "already georeferenced"
+    },
+    {
+      "_comment": "=== 1985 PER-DISTRICT WARD MAPS ==="
+    },
+    {
+      "id": "wards85-antrim-1",
+      "ia_id": "61-adminlgd-84-antsh-1",
+      "ia_file": "61 - ADMINLGD84ANTSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "ANTRIM",
+      "parent_map": "wards-1984",
+      "label": "Antrim Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-antrim-2",
+      "ia_id": "62-adminlgd-84-antsh-2",
+      "ia_file": "62 - ADMINLGD84ANTSH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "ANTRIM",
+      "parent_map": "wards-1984",
+      "label": "Antrim Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-ards-1",
+      "ia_id": "63-adminlgd-84-ardsh-1",
+      "ia_file": "63 - ADMINLGD84ARDSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "ARDS",
+      "parent_map": "wards-1984",
+      "label": "Ards Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-ards-2",
+      "ia_id": "64-adminlgd-84-ardsh-2",
+      "ia_file": "64 - ADMINLGD84ARDSH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "ARDS",
+      "parent_map": "wards-1984",
+      "label": "Ards Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-armagh-1",
+      "ia_id": "65-adminlgd-84-armsh-1",
+      "ia_file": "65 - ADMINLGD84ARMSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "ARMAGH",
+      "parent_map": "wards-1984",
+      "label": "Armagh Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-armagh-2",
+      "ia_id": "66-adminlgd-84-armsh-2",
+      "ia_file": "66 - ADMINLGD84ARMSH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "ARMAGH",
+      "parent_map": "wards-1984",
+      "label": "Armagh Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-ballymena-1",
+      "ia_id": "67-adminlgd-84-bmenash-1",
+      "ia_file": "67 - ADMINLGD84BMENASH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "BALLYMENA",
+      "parent_map": "wards-1984",
+      "label": "Ballymena Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-ballymena-2",
+      "ia_id": "68-adminlgd-84-bmenash-2",
+      "ia_file": "68 - ADMINLGD84BMENASH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "BALLYMENA",
+      "parent_map": "wards-1984",
+      "label": "Ballymena Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-ballymoney",
+      "ia_id": "69-adminlgd-84-bmoneysh-1",
+      "ia_file": "69 - ADMINLGD84BMONEYSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "BALLYMONEY",
+      "parent_map": "wards-1984",
+      "label": "Ballymoney Wards 1985",
+      "date": 1984
+    },
+    {
+      "id": "wards85-banbridge",
+      "ia_id": "70-adminlgd-84-bansh-1",
+      "ia_file": "70 - ADMINLGD84BANSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "BANBRIDGE",
+      "parent_map": "wards-1984",
+      "label": "Banbridge Wards 1985",
+      "date": 1984
+    },
+    {
+      "id": "wards85-belfast-1",
+      "ia_id": "71-adminlgd-84-belsh-1",
+      "ia_file": "71 - ADMINLGD84BELSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "BELFAST",
+      "parent_map": "wards-1984",
+      "label": "Belfast Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-belfast-2",
+      "ia_id": "72-adminlgd-84-belsh-2",
+      "ia_file": "72 - ADMINLGD84BELSH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "BELFAST",
+      "parent_map": "wards-1984",
+      "label": "Belfast Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-belfast-3",
+      "ia_id": "73-adminlgd-84-belsh-3",
+      "ia_file": "73 - ADMINLGD84BELSH3.jpg",
+      "vector": "lgd1984",
+      "filter_value": "BELFAST",
+      "parent_map": "wards-1984",
+      "label": "Belfast Wards 1985 (Sheet 3)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-belfast-4",
+      "ia_id": "74-adminlgd-84-belsh-4",
+      "ia_file": "74 - ADMINLGD84BELSH4.jpg",
+      "vector": "lgd1984",
+      "filter_value": "BELFAST",
+      "parent_map": "wards-1984",
+      "label": "Belfast Wards 1985 (Sheet 4)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-belfast-5",
+      "ia_id": "75-adminlgd-84-belsh-5",
+      "ia_file": "75 - ADMINLGD84BELSH5.jpg",
+      "vector": "lgd1984",
+      "filter_value": "BELFAST",
+      "parent_map": "wards-1984",
+      "label": "Belfast Wards 1985 (Sheet 5)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-belfast-6",
+      "ia_id": "76-adminlgd-84-belsh-6",
+      "ia_file": "76 - ADMINLGD84BELSH6.jpg",
+      "vector": "lgd1984",
+      "filter_value": "BELFAST",
+      "parent_map": "wards-1984",
+      "label": "Belfast Wards 1985 (Sheet 6)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-carrickfergus",
+      "ia_id": "77-adminlgd-84-carsh-1",
+      "ia_file": "77 - ADMINLGD84CARSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "CARRICKFERGUS",
+      "parent_map": "wards-1984",
+      "label": "Carrickfergus Wards 1985",
+      "date": 1984
+    },
+    {
+      "id": "wards85-castlereagh-1",
+      "ia_id": "78-adminlgd-84-cassh-1",
+      "ia_file": "78 - ADMINLGD84CASSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "CASTLEREAGH",
+      "parent_map": "wards-1984",
+      "label": "Castlereagh Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-castlereagh-2",
+      "ia_id": "79-adminlgd-84-cassh-2",
+      "ia_file": "79 - ADMINLGD84CASSH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "CASTLEREAGH",
+      "parent_map": "wards-1984",
+      "label": "Castlereagh Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-castlereagh-3",
+      "ia_id": "80-adminlgd-84-cassh-3",
+      "ia_file": "80 - ADMINLGD84CASSH3.jpg",
+      "vector": "lgd1984",
+      "filter_value": "CASTLEREAGH",
+      "parent_map": "wards-1984",
+      "label": "Castlereagh Wards 1985 (Sheet 3)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-coleraine-1",
+      "ia_id": "81-adminlgd-84-colsh-1",
+      "ia_file": "81 - ADMINLGD84COLSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "COLERAINE",
+      "parent_map": "wards-1984",
+      "label": "Coleraine Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-coleraine-2",
+      "ia_id": "82-adminlgd-84-colsh-2",
+      "ia_file": "82 - ADMINLGD84COLSH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "COLERAINE",
+      "parent_map": "wards-1984",
+      "label": "Coleraine Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-cookstown",
+      "ia_id": "83-adminlgd-84-coosh-1",
+      "ia_file": "83 - ADMINLGD84COOSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "COOKSTOWN",
+      "parent_map": "wards-1984",
+      "label": "Cookstown Wards 1985",
+      "date": 1984
+    },
+    {
+      "id": "wards85-craigavon-1",
+      "ia_id": "84-adminlgd-84-crash-1",
+      "ia_file": "84 - ADMINLGD84CRASH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "CRAIGAVON",
+      "parent_map": "wards-1984",
+      "label": "Craigavon Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-craigavon-2",
+      "ia_id": "85-adminlgd-84-crash-2",
+      "ia_file": "85 - ADMINLGD84CRASH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "CRAIGAVON",
+      "parent_map": "wards-1984",
+      "label": "Craigavon Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-derry-1",
+      "ia_id": "86-adminlgd-84-dersh-1",
+      "ia_file": "86 - ADMINLGD84DERSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "DERRY",
+      "parent_map": "wards-1984",
+      "label": "Derry Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-derry-2",
+      "ia_id": "87-adminlgd-84-dersh-2",
+      "ia_file": "87 - ADMINLGD84DERSH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "DERRY",
+      "parent_map": "wards-1984",
+      "label": "Derry Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-down-1",
+      "ia_id": "88-adminlgd-84-dowsh-1",
+      "ia_file": "88 - ADMINLGD84DOWSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "DOWN",
+      "parent_map": "wards-1984",
+      "label": "Down Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-down-2",
+      "ia_id": "89-adminlgd-84-dowsh-2",
+      "ia_file": "89 - ADMINLGD84DOWSH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "DOWN",
+      "parent_map": "wards-1984",
+      "label": "Down Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-dungannon-1",
+      "ia_id": "90-adminlgd-84-dunsh-1",
+      "ia_file": "90 - ADMINLGD84DUNSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "DUNGANNON",
+      "parent_map": "wards-1984",
+      "label": "Dungannon Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-dungannon-2",
+      "ia_id": "91-adminlgd-84-dunsh-2",
+      "ia_file": "91 - ADMINLGD84DUNSH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "DUNGANNON",
+      "parent_map": "wards-1984",
+      "label": "Dungannon Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-fermanagh-1",
+      "ia_id": "92-adminlgd-84-fersh-1",
+      "ia_file": "92 - ADMINLGD84FERSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "FERMANAGH",
+      "parent_map": "wards-1984",
+      "label": "Fermanagh Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-fermanagh-2",
+      "ia_id": "93-adminlgd-84-fersh-2",
+      "ia_file": "93 - ADMINLGD84FERSH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "FERMANAGH",
+      "parent_map": "wards-1984",
+      "label": "Fermanagh Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-fermanagh-3",
+      "ia_id": "94-adminlgd-84-fersh-3",
+      "ia_file": "94 - ADMINLGD84FERSH3.jpg",
+      "vector": "lgd1984",
+      "filter_value": "FERMANAGH",
+      "parent_map": "wards-1984",
+      "label": "Fermanagh Wards 1985 (Sheet 3)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-larne",
+      "ia_id": "95-adminlgd-84-larsh-1",
+      "ia_file": "95 - ADMINLGD84LARSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "LARNE",
+      "parent_map": "wards-1984",
+      "label": "Larne Wards 1985",
+      "date": 1984
+    },
+    {
+      "id": "wards85-limavady",
+      "ia_id": "96-adminlgd-84-limsh-1",
+      "ia_file": "96 - ADMINLGD84LIMSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "LIMAVADY",
+      "parent_map": "wards-1984",
+      "label": "Limavady Wards 1985",
+      "date": 1984
+    },
+    {
+      "id": "wards85-lisburn-1",
+      "ia_id": "97-adminlgd-84-lissh-1",
+      "ia_file": "97 - ADMINLGD84LISSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "LISBURN",
+      "parent_map": "wards-1984",
+      "label": "Lisburn Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-lisburn-2",
+      "ia_id": "98-adminlgd-84-lissh-2",
+      "ia_file": "98 - ADMINLGD84LISSH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "LISBURN",
+      "parent_map": "wards-1984",
+      "label": "Lisburn Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-magherafelt",
+      "ia_id": "99-adminlgd-84-magsh-1",
+      "ia_file": "99 - ADMINLGD84MAGSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "MAGHERAFELT",
+      "parent_map": "wards-1984",
+      "label": "Magherafelt Wards 1985",
+      "date": 1984
+    },
+    {
+      "id": "wards85-moyle",
+      "ia_id": "100-adminlgd-84-moysh-1",
+      "ia_file": "100 - ADMINLGD84MOYSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "MOYLE",
+      "parent_map": "wards-1984",
+      "label": "Moyle Wards 1985",
+      "date": 1984
+    },
+    {
+      "id": "wards85-newry-mourne-1",
+      "ia_id": "101-adminlgd-84-newmoush-1",
+      "ia_file": "101 - ADMINLGD84NEWMOUSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "NEWRY and  MOURNE",
+      "parent_map": "wards-1984",
+      "label": "Newry & Mourne Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-newry-mourne-2",
+      "ia_id": "102-adminlgd-84-newmoush-2",
+      "ia_file": "102 - ADMINLGD84NEWMOUSH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "NEWRY and  MOURNE",
+      "parent_map": "wards-1984",
+      "label": "Newry & Mourne Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-newtownabbey-1",
+      "ia_id": "103-adminlgd-84-newabbsh-1",
+      "ia_file": "103 - ADMINLGD84NEWABBSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "NEWTOWNABBEY",
+      "parent_map": "wards-1984",
+      "label": "Newtownabbey Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-newtownabbey-2",
+      "ia_id": "104-adminlgd-84-newabbsh-2",
+      "ia_file": "104 - ADMINLGD84NEWABBSH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "NEWTOWNABBEY",
+      "parent_map": "wards-1984",
+      "label": "Newtownabbey Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-north-down-1",
+      "ia_id": "105-adminlgd-84-nordowsh-1",
+      "ia_file": "105 - ADMINLGD84NORDOWSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "NORTH DOWN",
+      "parent_map": "wards-1984",
+      "label": "North Down Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-north-down-2",
+      "ia_id": "106-adminlgd-84-nordowsh-2",
+      "ia_file": "106 - ADMINLGD84NORDOWSH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "NORTH DOWN",
+      "parent_map": "wards-1984",
+      "label": "North Down Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-north-down-3",
+      "ia_id": "107-adminlgd-84-nordowsh-3",
+      "ia_file": "107 - ADMINLGD84NORDOWSH3.jpg",
+      "vector": "lgd1984",
+      "filter_value": "NORTH DOWN",
+      "parent_map": "wards-1984",
+      "label": "North Down Wards 1985 (Sheet 3)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-omagh-1",
+      "ia_id": "108-adminlgd-84-omash-1",
+      "ia_file": "108 - ADMINLGD84OMASH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "OMAGH",
+      "parent_map": "wards-1984",
+      "label": "Omagh Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-omagh-2",
+      "ia_id": "109-adminlgd-84-omash-2",
+      "ia_file": "109 - ADMINLGD84OMASH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "OMAGH",
+      "parent_map": "wards-1984",
+      "label": "Omagh Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards85-strabane-1",
+      "ia_id": "110-adminlgd-84-strsh-1",
+      "ia_file": "110 - ADMINLGD84STRSH1.jpg",
+      "vector": "lgd1984",
+      "filter_value": "STRABANE",
+      "parent_map": "wards-1984",
+      "label": "Strabane Wards 1985 (Sheet 1)",
+      "date": 1984
+    },
+    {
+      "id": "wards85-strabane-2",
+      "ia_id": "111-adminlgd-84-strsh-2",
+      "ia_file": "111 - ADMINLGD84STRSH2.jpg",
+      "vector": "lgd1984",
+      "filter_value": "STRABANE",
+      "parent_map": "wards-1984",
+      "label": "Strabane Wards 1985 (Sheet 2)",
+      "date": 1984,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "_comment": "=== 1973 PER-DISTRICT WARD MAPS ==="
+    },
+    {
+      "id": "wards73-antrim-newtownabbey-carrick-ndown",
+      "ia_id": "112-adminlgd-74-antnewcarnor",
+      "ia_file": "112 - ADMINLGD74ANTNEWCARNOR.jpg",
+      "vector": "lgd1972",
+      "parent_map": "wards-1972",
+      "label": "Antrim/Newtownabbey/Carrickfergus/North Down Wards 1973",
+      "date": 1972
+    },
+    {
+      "id": "wards73-armagh-craigavon",
+      "ia_id": "113-adminlgd-74-armcra",
+      "ia_file": "113 - ADMINLGD74ARMCRA.jpg",
+      "vector": "lgd1972",
+      "parent_map": "wards-1972",
+      "label": "Armagh/Craigavon Wards 1973",
+      "date": 1972
+    },
+    {
+      "id": "wards73-ballymena-larne",
+      "ia_id": "114-adminlgd-74-bmenalar",
+      "ia_file": "114 - ADMINLGD74BMENALAR.jpg",
+      "vector": "lgd1972",
+      "parent_map": "wards-1972",
+      "label": "Ballymena/Larne Wards 1973",
+      "date": 1972
+    },
+    {
+      "id": "wards73-banbridge-down",
+      "ia_id": "115-adminlgd-74-bandow",
+      "ia_file": "115 - ADMINLGD74BANDOW.jpg",
+      "vector": "lgd1972",
+      "parent_map": "wards-1972",
+      "label": "Banbridge/Down Wards 1973",
+      "date": 1972
+    },
+    {
+      "id": "wards73-belfast",
+      "ia_id": "116-adminlgd-74-bel",
+      "ia_file": "116 - ADMINLGD74BEL.jpg",
+      "vector": "lgd1972",
+      "filter_value": "BELFAST",
+      "parent_map": "wards-1972",
+      "label": "Belfast Wards 1973",
+      "date": 1972
+    },
+    {
+      "id": "wards73-coleraine-ballymoney-moyle",
+      "ia_id": "117-adminlgd-74-colbmoneymoy_202502",
+      "ia_file": "117 - ADMINLGD74COLBMONEYMOY.jpg",
+      "vector": "lgd1972",
+      "parent_map": "wards-1972",
+      "label": "Coleraine/Ballymoney/Moyle Wards 1973",
+      "date": 1972
+    },
+    {
+      "id": "wards73-dungannon",
+      "ia_id": "118-adminlgd-74-dun",
+      "ia_file": "118 - ADMINLGD74DUN.jpg",
+      "vector": "lgd1972",
+      "parent_map": "wards-1972",
+      "label": "Dungannon Wards 1973",
+      "date": 1972
+    },
+    {
+      "id": "wards73-fermanagh-1",
+      "ia_id": "119-adminlgd-74-fersh-1",
+      "ia_file": "119 - ADMINLGD74FERSH1.jpg",
+      "vector": "lgd1972",
+      "filter_value": "FERMANAGH",
+      "parent_map": "wards-1972",
+      "label": "Fermanagh Wards 1973 (Sheet 1)",
+      "date": 1972
+    },
+    {
+      "id": "wards73-fermanagh-2",
+      "ia_id": "120-adminlgd-74-fersh-2",
+      "ia_file": "120 - ADMINLGD74FERSH2.jpg",
+      "vector": "lgd1972",
+      "filter_value": "FERMANAGH",
+      "parent_map": "wards-1972",
+      "label": "Fermanagh Wards 1973 (Sheet 2)",
+      "date": 1972,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards73-lisburn-ards-castlereagh",
+      "ia_id": "121-adminlgd-74-lisardcas",
+      "ia_file": "121 - ADMINLGD74LISARDCAS.jpg",
+      "vector": "lgd1972",
+      "parent_map": "wards-1972",
+      "label": "Lisburn/Ards/Castlereagh Wards 1973",
+      "date": 1972
+    },
+    {
+      "id": "wards73-derry-limavady",
+      "ia_id": "122-adminlgd-74-derlim",
+      "ia_file": "122 - ADMINLGD74DERLIM.jpg",
+      "vector": "lgd1972",
+      "parent_map": "wards-1972",
+      "label": "Derry/Limavady Wards 1973",
+      "date": 1972
+    },
+    {
+      "id": "wards73-magherafelt-cookstown",
+      "ia_id": "123-adminlgd-74-magcoo",
+      "ia_file": "123 - ADMINLGD74MAGCOO.jpg",
+      "vector": "lgd1972",
+      "parent_map": "wards-1972",
+      "label": "Magherafelt/Cookstown Wards 1973",
+      "date": 1972
+    },
+    {
+      "id": "wards73-newry-mourne",
+      "ia_id": "124-adminlgd-74-newmou",
+      "ia_file": "124 - ADMINLGD74NEWMOU.jpg",
+      "vector": "lgd1972",
+      "parent_map": "wards-1972",
+      "label": "Newry & Mourne Wards 1973",
+      "date": 1972
+    },
+    {
+      "id": "wards73-omagh",
+      "ia_id": "125-adminlgd-74-oma",
+      "ia_file": "125 - ADMINLGD74OMA.jpg",
+      "vector": "lgd1972",
+      "parent_map": "wards-1972",
+      "label": "Omagh Wards 1973",
+      "date": 1972
+    },
+    {
+      "id": "wards73-strabane",
+      "ia_id": "126-adminlgd-74-str",
+      "ia_file": "126 - ADMINLGD74STR.jpg",
+      "vector": "lgd1972",
+      "filter_value": "STRABANE",
+      "parent_map": "wards-1972",
+      "label": "Strabane Wards 1973",
+      "date": 1972
+    },
+    {
+      "_comment": "=== 1992 OVERVIEW MAPS ==="
+    },
+    {
+      "id": "lgd92-overview",
+      "ia_id": "admin-250-lgd-92",
+      "ia_file": "ADMIN250LGD92.jpg",
+      "vector": "lgd1993",
+      "parent_map": "lgd-1993",
+      "label": "LGD Boundaries 1992",
+      "date": 1993
+    },
+    {
+      "id": "lgd92-full",
+      "ia_id": "lg-districts-wards-1992",
+      "ia_file": "LG Districts & Wards 1992.jpg",
+      "vector": "lgd1993",
+      "parent_map": "lgd-1993",
+      "label": "LGDs & Wards 1992 (Full Map)",
+      "date": 1993
+    },
+    {
+      "id": "lgd92-north",
+      "ia_id": "admin-lgd-1992-map-1-northern",
+      "ia_file": "ADMINLGD92MAP1NORTHERN.jpg",
+      "vector": "lgd1993",
+      "parent_map": "lgd-1993",
+      "label": "LGDs 1992 (North)",
+      "date": 1993
+    },
+    {
+      "id": "lgd92-west",
+      "ia_id": "admin-lgd-1992-map-2-western",
+      "ia_file": "ADMINLGD92MAP2WESTERN.jpg",
+      "vector": "lgd1993",
+      "parent_map": "lgd-1993",
+      "label": "LGDs 1992 (West)",
+      "date": 1993
+    },
+    {
+      "id": "lgd92-belfast",
+      "ia_id": "admin-lgd-1992-map-3-greater-belfast",
+      "ia_file": "ADMINLGD92MAP3GREATERBELFAST.jpg",
+      "vector": "lgd1993",
+      "filter_value": "BELFAST",
+      "parent_map": "lgd-1993",
+      "label": "LGDs 1992 (Greater Belfast)",
+      "date": 1993
+    },
+    {
+      "id": "lgd92-southeast",
+      "ia_id": "admin-lgd-1992-map-4-south-eastern",
+      "ia_file": "ADMINLGD92MAP4SOUTHEASTERN.jpg",
+      "vector": "lgd1993",
+      "parent_map": "lgd-1993",
+      "label": "LGDs 1992 (South East)",
+      "date": 1993
+    },
+    {
+      "id": "lgdea92-index",
+      "ia_id": "admin-250-lgdea-92-index",
+      "ia_file": "ADMIN250LGDEA92INDEX.jpg",
+      "vector": "lgd1993",
+      "parent_map": "deas-1993",
+      "label": "DEA & LGD Index Map 1992",
+      "date": 1993
+    },
+    {
+      "id": "lgdea92-north",
+      "ia_id": "admin-150-lgdea-92-sh-1-nor",
+      "ia_file": "ADMIN150LGDEA92SH1NOR.jpg",
+      "vector": "lgd1993",
+      "parent_map": "deas-1993",
+      "label": "DEAs & LGDs 1992 (North)",
+      "date": 1993
+    },
+    {
+      "id": "lgdea92-west",
+      "ia_id": "admin-150-lgdea-92-sh-2-wes",
+      "ia_file": "ADMIN150LGDEA92SH2WES.jpg",
+      "vector": "lgd1993",
+      "parent_map": "deas-1993",
+      "label": "DEAs & LGDs 1992 (West)",
+      "date": 1993
+    },
+    {
+      "id": "lgdea92-gtrbel",
+      "ia_id": "admin-100-lgdea-92-sh-3-gtrbel",
+      "ia_file": "ADMIN100LGDEA92SH3GTRBEL.jpg",
+      "vector": "lgd1993",
+      "parent_map": "deas-1993",
+      "label": "DEAs & LGDs 1992 (Greater Belfast)",
+      "date": 1993
+    },
+    {
+      "id": "lgdea92-east",
+      "ia_id": "admin-150-lgdea-92-sh-4-eas",
+      "ia_file": "ADMIN150LGDEA92SH4EAS.jpg",
+      "vector": "lgd1993",
+      "parent_map": "deas-1993",
+      "label": "DEAs & LGDs 1992 (South East)",
+      "date": 1993
+    },
+    {
+      "_comment": "=== 1992 PER-DISTRICT WARD MAPS ==="
+    },
+    {
+      "id": "wards92-antrim",
+      "ia_id": "adminlgd-92-antsh-1",
+      "ia_file": "ADMINLGD92ANTSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "ANTRIM",
+      "parent_map": "wards-1993",
+      "label": "Antrim Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-ards",
+      "ia_id": "adminlgd-92-ardsh-1",
+      "ia_file": "ADMINLGD92ARDSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "ARDS",
+      "parent_map": "wards-1993",
+      "label": "Ards Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-armagh",
+      "ia_id": "adminlgd-92-armsh-1",
+      "ia_file": "ADMINLGD92ARMSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "ARMAGH",
+      "parent_map": "wards-1993",
+      "label": "Armagh Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-banbridge",
+      "ia_id": "adminlgd-92-bansh-1",
+      "ia_file": "ADMINLGD92BANSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "BANBRIDGE",
+      "parent_map": "wards-1993",
+      "label": "Banbridge Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-belfast-1",
+      "ia_id": "adminlgd-92-belsh-1",
+      "ia_file": "ADMINLGD92BELSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "BELFAST",
+      "parent_map": "wards-1993",
+      "label": "Belfast Wards 1992 (Sheet 1)",
+      "date": 1993
+    },
+    {
+      "id": "wards92-belfast-2",
+      "ia_id": "adminlgd-92-belsh-2",
+      "ia_file": "ADMINLGD92BELSH2.jpg",
+      "vector": "lgd1993",
+      "filter_value": "BELFAST",
+      "parent_map": "wards-1993",
+      "label": "Belfast Wards 1992 (Sheet 2)",
+      "date": 1993,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards92-belfast-3",
+      "ia_id": "adminlgd-92-belsh-3",
+      "ia_file": "ADMINLGD92BELSH3.jpg",
+      "vector": "lgd1993",
+      "filter_value": "BELFAST",
+      "parent_map": "wards-1993",
+      "label": "Belfast Wards 1992 (Sheet 3)",
+      "date": 1993,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards92-belfast-4",
+      "ia_id": "adminlgd-92-belsh-4",
+      "ia_file": "ADMINLGD92BELSH4.jpg",
+      "vector": "lgd1993",
+      "filter_value": "BELFAST",
+      "parent_map": "wards-1993",
+      "label": "Belfast Wards 1992 (Sheet 4)",
+      "date": 1993,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards92-belfast-5",
+      "ia_id": "adminlgd-92-belsh-5",
+      "ia_file": "ADMINLGD92BELSH5.jpg",
+      "vector": "lgd1993",
+      "filter_value": "BELFAST",
+      "parent_map": "wards-1993",
+      "label": "Belfast Wards 1992 (Sheet 5)",
+      "date": 1993,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards92-belfast-6",
+      "ia_id": "adminlgd-92-belsh-6",
+      "ia_file": "ADMINLGD92BELSH6.jpg",
+      "vector": "lgd1993",
+      "filter_value": "BELFAST",
+      "parent_map": "wards-1993",
+      "label": "Belfast Wards 1992 (Sheet 6)",
+      "date": 1993,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards92-ballymena",
+      "ia_id": "adminlgd-92-bmenash-1",
+      "ia_file": "ADMINLGD92BMENASH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "BALLYMENA",
+      "parent_map": "wards-1993",
+      "label": "Ballymena Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-ballymoney",
+      "ia_id": "adminlgd-92-bmoneysh-1",
+      "ia_file": "ADMINLGD92BMONEYSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "BALLYMONEY",
+      "parent_map": "wards-1993",
+      "label": "Ballymoney Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-carrickfergus",
+      "ia_id": "adminlgd-92-carsh-1",
+      "ia_file": "ADMINLGD92CARSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "CARRICKFERGUS",
+      "parent_map": "wards-1993",
+      "label": "Carrickfergus Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-castlereagh",
+      "ia_id": "adminlgd-92-cassh-1",
+      "ia_file": "ADMINLGD92CASSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "CASTLEREAGH",
+      "parent_map": "wards-1993",
+      "label": "Castlereagh Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-coleraine",
+      "ia_id": "adminlgd-92-colsh-1",
+      "ia_file": "ADMINLGD92COLSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "COLERAINE",
+      "parent_map": "wards-1993",
+      "label": "Coleraine Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-cookstown",
+      "ia_id": "adminlgd-92-coosh-1",
+      "ia_file": "ADMINLGD92COOSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "COOKSTOWN",
+      "parent_map": "wards-1993",
+      "label": "Cookstown Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-craigavon",
+      "ia_id": "adminlgd-92-crash-1",
+      "ia_file": "ADMINLGD92CRASH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "CRAIGAVON",
+      "parent_map": "wards-1993",
+      "label": "Craigavon Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-derry",
+      "ia_id": "adminlgd-92-dersh-1",
+      "ia_file": "ADMINLGD92DERSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "DERRY",
+      "parent_map": "wards-1993",
+      "label": "Derry Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-down",
+      "ia_id": "adminlgd-92-dowsh-1",
+      "ia_file": "ADMINLGD92DOWSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "DOWN",
+      "parent_map": "wards-1993",
+      "label": "Down Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-dungannon",
+      "ia_id": "adminlgd-92-dunsh-1",
+      "ia_file": "ADMINLGD92DUNSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "DUNGANNON",
+      "parent_map": "wards-1993",
+      "label": "Dungannon Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-fermanagh-1",
+      "ia_id": "adminlgd-92-fersh-1",
+      "ia_file": "ADMINLGD92FERSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "FERMANAGH",
+      "parent_map": "wards-1993",
+      "label": "Fermanagh Wards 1992 (Sheet 1)",
+      "date": 1993
+    },
+    {
+      "id": "wards92-fermanagh-2",
+      "ia_id": "adminlgd-92-fersh-2",
+      "ia_file": "ADMINLGD92FERSH2.jpg",
+      "vector": "lgd1993",
+      "filter_value": "FERMANAGH",
+      "parent_map": "wards-1993",
+      "label": "Fermanagh Wards 1992 (Sheet 2)",
+      "date": 1993,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards92-fermanagh-3",
+      "ia_id": "adminlgd-92-fersh-3",
+      "ia_file": "ADMINLGD92FERSH3.jpg",
+      "vector": "lgd1993",
+      "filter_value": "FERMANAGH",
+      "parent_map": "wards-1993",
+      "label": "Fermanagh Wards 1992 (Sheet 3)",
+      "date": 1993,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards92-larne",
+      "ia_id": "adminlgd-92-larsh-1",
+      "ia_file": "ADMINLGD92LARSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "LARNE",
+      "parent_map": "wards-1993",
+      "label": "Larne Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-limavady",
+      "ia_id": "adminlgd-92-limsh-1",
+      "ia_file": "ADMINLGD92LIMSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "LIMAVADY",
+      "parent_map": "wards-1993",
+      "label": "Limavady Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-lisburn",
+      "ia_id": "adminlgd-92-lissh-1",
+      "ia_file": "ADMINLGD92LISSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "LISBURN",
+      "parent_map": "wards-1993",
+      "label": "Lisburn Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-magherafelt",
+      "ia_id": "adminlgd-92-magsh-1",
+      "ia_file": "ADMINLGD92MAGSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "MAGHERAFELT",
+      "parent_map": "wards-1993",
+      "label": "Magherafelt Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-moyle",
+      "ia_id": "adminlgd-92-moysh-1",
+      "ia_file": "ADMINLGD92MOYSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "MOYLE",
+      "parent_map": "wards-1993",
+      "label": "Moyle Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-newtownabbey",
+      "ia_id": "adminlgd-92-newabbsh-1",
+      "ia_file": "ADMINLGD92NEWABBSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "NEWTOWNABBEY",
+      "parent_map": "wards-1993",
+      "label": "Newtownabbey Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-newry-mourne-1",
+      "ia_id": "adminlgd-92-newmoush-1",
+      "ia_file": "ADMINLGD92NEWMOUSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "NEWRY AND MOURNE",
+      "parent_map": "wards-1993",
+      "label": "Newry & Mourne Wards 1992 (Sheet 1)",
+      "date": 1993
+    },
+    {
+      "id": "wards92-newry-mourne-2",
+      "ia_id": "adminlgd-92-newmoush-2",
+      "ia_file": "ADMINLGD92NEWMOUSH2.jpg",
+      "vector": "lgd1993",
+      "filter_value": "NEWRY AND MOURNE",
+      "parent_map": "wards-1993",
+      "label": "Newry & Mourne Wards 1992 (Sheet 2)",
+      "date": 1993,
+      "_skip": "close-up/settlement sheet"
+    },
+    {
+      "id": "wards92-north-down",
+      "ia_id": "adminlgd-92-nordowsh-1",
+      "ia_file": "ADMINLGD92NORDOWSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "NORTH DOWN",
+      "parent_map": "wards-1993",
+      "label": "North Down Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-omagh",
+      "ia_id": "adminlgd-92-omash-1",
+      "ia_file": "ADMINLGD92OMASH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "OMAGH",
+      "parent_map": "wards-1993",
+      "label": "Omagh Wards 1992",
+      "date": 1993
+    },
+    {
+      "id": "wards92-strabane",
+      "ia_id": "adminlgd-92-strsh-1",
+      "ia_file": "ADMINLGD92STRSH1.jpg",
+      "vector": "lgd1993",
+      "filter_value": "STRABANE",
+      "parent_map": "wards-1993",
+      "label": "Strabane Wards 1992",
+      "date": 1993
+    },
+    {
+      "_comment": "=== OTHER MAPS ==="
+    },
+    {
+      "id": "pcs81-overview",
+      "ia_id": "admin-250-ukparlcons-81",
+      "ia_file": "ADMIN250UKPARLCONS81.jpg",
+      "vector": "pc1982",
+      "parent_map": "pc-1982",
+      "label": "Parliamentary Constituencies 1981",
+      "date": 1982
+    },
+    {
+      "id": "pcs95-overview",
+      "ia_id": "admin-527-ukparlcons-95",
+      "ia_file": "ADMIN527UKPARLCONS95.jpg",
+      "vector": "pc1995",
+      "parent_map": "pc-1995",
+      "label": "Parliamentary Constituencies 1995",
+      "date": 1995
+    },
+    {
+      "id": "admin35-overview",
+      "ia_id": "agdm_11899_full",
+      "ia_file": "agdm_11899_full.jpg",
+      "vector": "lgd1984",
+      "parent_map": "admin-areas-1935-06-26",
+      "label": "Counties, Boroughs & Districts 1935",
+      "date": 1935,
+      "_note": "vector may not match well - different boundary type"
+    },
+    {
+      "id": "wards2022-overview",
+      "ia_id": "2022-ni-ward-map",
+      "ia_file": "2022 NI Ward Map.png",
+      "vector": "lgd1993",
+      "parent_map": "wards-2001",
+      "label": "LGDs & Wards 2022",
+      "date": 2022,
+      "_note": "needs 2022 vector if available"
+    },
+    {
+      "id": "wards2012-overview",
+      "ia_id": "ni-council-wards-2012",
+      "ia_file": "NI council wards 2012.jpg",
+      "vector": "lgd1993",
+      "parent_map": "wards-2012",
+      "label": "LGDs & Wards 2012",
+      "date": 2012,
+      "_note": "needs 2012 vector"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "rules": [
+    {
+      "allowed": {
+        "methods": ["GET", "HEAD"],
+        "origins": [
+          "https://civgraph.net",
+          "https://boundaries-website.pages.dev",
+          "http://localhost:8080",
+          "http://localhost:5050",
+          "http://127.0.0.1:5050"
+        ],
+        "headers": ["*"]
+      },
+      "exposeHeaders": [],
+      "maxAgeSeconds": 86400
+    }
+  ]
+}

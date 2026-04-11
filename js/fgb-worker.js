@@ -43,8 +43,14 @@ function bboxDiag(geometry) {
 }
 
 self.onmessage = async (event) => {
-    const { id, url, zoom, minDiag, useCompressed } = event.data;
+    let { id, url, zoom, minDiag, useCompressed } = event.data;
     const start = performance.now();
+
+    // Dev proxy: rewrite remote URLs on localhost
+    if ((self.location?.hostname === 'localhost' || self.location?.href?.includes('localhost'))
+        && url.includes('://data.civgraph.net/')) {
+        url = url.replace('https://data.civgraph.net/', self.location.origin + '/_r/');
+    }
 
     try {
         let source = null;

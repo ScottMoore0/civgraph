@@ -1,6 +1,6 @@
-# Welcome to Boundaries Website
+# Welcome to Civgraph
 
-The Boundaries Website is an interactive map explorer for **Northern Ireland** and **Ireland**, providing access to hundreds of boundary datasets spanning local government, electoral, historical, physical, and community boundaries.
+Civgraph is an interactive map explorer for **Northern Ireland** and **Ireland**, providing access to hundreds of boundary datasets spanning local government, electoral, historical, physical, and community boundaries.
 
 ## What You'll Find Here
 
@@ -24,4 +24,4 @@ Most boundary data comes from public sector sources available under the [Open Go
 
 ---
 
-*This is the first post on the Boundaries Website news page. Check back for updates on new maps, data corrections, and feature additions.*
+*This is the first post on the Civgraph news page. Check back for updates on new maps, data corrections, and feature additions.*

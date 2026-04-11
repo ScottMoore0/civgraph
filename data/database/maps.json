@@ -423,7 +423,56 @@
       "scope": "Republic of Ireland",
       "category": "settlements",
       "maps": [
-        "roi-settlements-ungeneralised"
+        "roi-settlements-ungeneralised",
+        "roi-settlements-2011"
+      ]
+    },
+    {
+      "id": "roi-lea",
+      "name": "Local Electoral Areas",
+      "scope": "Republic of Ireland",
+      "category": "local-government",
+      "maps": [
+        "roi-lea-2008"
+      ]
+    },
+    {
+      "id": "roi-garda-areas",
+      "name": "An Garda Síochána Areas",
+      "scope": "Republic of Ireland",
+      "category": "local-government",
+      "maps": [
+        "roi-garda-regions",
+        "roi-garda-divisions",
+        "roi-garda-districts",
+        "roi-garda-sub-districts"
+      ]
+    },
+    {
+      "id": "roi-small-census",
+      "name": "Small Census Units",
+      "scope": "Republic of Ireland",
+      "category": "local-government",
+      "maps": [
+        "roi-small-areas-2011"
+      ]
+    },
+    {
+      "id": "roi-gaeltacht",
+      "name": "Gaeltacht Areas",
+      "scope": "Republic of Ireland",
+      "category": "local-government",
+      "maps": [
+        "roi-gaeltacht-areas"
+      ]
+    },
+    {
+      "id": "roi-legal-towns",
+      "name": "Legal Towns and Cities",
+      "scope": "Republic of Ireland",
+      "category": "settlements",
+      "maps": [
+        "roi-legal-towns-and-cities"
       ]
     },
     {
@@ -432,7 +481,8 @@
       "scope": "Republic of Ireland",
       "category": "local-government",
       "maps": [
-        "roi-local-authorities-2024"
+        "roi-local-authorities-2024",
+        "roi-local-authorities-2014"
       ]
     },
     {
@@ -522,7 +572,8 @@
       "category": "counties",
       "maps": [
         "counties-1915",
-        "counties-ireland"
+        "counties-ireland",
+        "roi-counties-2011"
       ]
     },
     {
@@ -1408,7 +1459,7 @@
       "featured": true,
       "date": "2015",
       "provider": [
-        "Tailte Ã‰ireann"
+        "Tailte Éireann"
       ],
       "files": {
         "geojson": "Settlements_Ungeneralised_-6398853129460496398.geojson",
@@ -1429,6 +1480,283 @@
         "ungeneralised"
       ],
       "labelProperty": "SETTL_NAME"
+    },
+    {
+      "id": "roi-legal-towns-and-cities",
+      "name": "Legal Towns and Cities",
+      "slug": "roi-legal-towns-and-cities",
+      "category": "settlements",
+      "date": "2011",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "files": {
+        "geojson": "data/maps/physical/ROI_Legal_Towns_and_Cities.geojson",
+        "fgb": "data/maps/physical/ROI_Legal_Towns_and_Cities.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/ROI_Legal_Towns_and_Cities_Shapefile.zip"
+        }
+      },
+      "style": {
+        "color": "#6B3FA0",
+        "weight": 2
+      },
+      "keywords": [
+        "legal towns",
+        "cities",
+        "republic of ireland",
+        "ireland",
+        "urban",
+        "town boundaries",
+        "2011"
+      ],
+      "labelProperty": "NAME"
+    },
+    {
+      "id": "roi-settlements-2011",
+      "name": "Settlements 2011",
+      "slug": "roi-settlements-2011",
+      "category": "settlements",
+      "date": "2011",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "files": {
+        "geojson": "data/maps/physical/ROI_Settlements_2011.geojson",
+        "fgb": "data/maps/physical/ROI_Settlements_2011.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/ROI_Settlements_2011_Shapefile.zip"
+        }
+      },
+      "style": {
+        "color": "#221F58",
+        "weight": 2
+      },
+      "keywords": [
+        "settlements",
+        "republic of ireland",
+        "ireland",
+        "urban",
+        "towns",
+        "cities",
+        "2011",
+        "census",
+        "population"
+      ],
+      "labelProperty": "SETTL_NAME"
+    },
+    {
+      "id": "roi-garda-regions",
+      "name": "Garda Regions",
+      "slug": "roi-garda-regions",
+      "category": "local-government",
+      "date": "2011",
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "geojson": "data/maps/local-government/ROI_Garda_Regions.geojson",
+        "fgb": "data/maps/local-government/ROI_Garda_Regions.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/Garda_Regions.zip"
+        }
+      },
+      "style": {
+        "color": "#1B5E20",
+        "weight": 2
+      },
+      "keywords": [
+        "garda",
+        "police",
+        "republic of ireland",
+        "ireland",
+        "regions",
+        "an garda siochana"
+      ],
+      "labelProperty": "REGION"
+    },
+    {
+      "id": "roi-garda-divisions",
+      "name": "Garda Divisions",
+      "slug": "roi-garda-divisions",
+      "category": "local-government",
+      "date": "2011",
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "geojson": "data/maps/local-government/ROI_Garda_Divisions.geojson",
+        "fgb": "data/maps/local-government/ROI_Garda_Divisions.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/Garda_Divisions.zip"
+        }
+      },
+      "style": {
+        "color": "#2E7D32",
+        "weight": 2
+      },
+      "keywords": [
+        "garda",
+        "police",
+        "republic of ireland",
+        "ireland",
+        "divisions",
+        "an garda siochana"
+      ],
+      "labelProperty": "DIVISION"
+    },
+    {
+      "id": "roi-garda-districts",
+      "name": "Garda Districts",
+      "slug": "roi-garda-districts",
+      "category": "local-government",
+      "date": "2011",
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "geojson": "data/maps/local-government/ROI_Garda_Districts.geojson",
+        "fgb": "data/maps/local-government/ROI_Garda_Districts.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/Garda_Districts.zip"
+        }
+      },
+      "style": {
+        "color": "#388E3C",
+        "weight": 2
+      },
+      "keywords": [
+        "garda",
+        "police",
+        "republic of ireland",
+        "ireland",
+        "districts",
+        "an garda siochana"
+      ],
+      "labelProperty": "DISTRICT"
+    },
+    {
+      "id": "roi-garda-sub-districts",
+      "name": "Garda Sub-Districts",
+      "slug": "roi-garda-sub-districts",
+      "category": "local-government",
+      "date": "2011",
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "geojson": "data/maps/local-government/ROI_Garda_Sub_Districts.geojson",
+        "fgb": "data/maps/local-government/ROI_Garda_Sub_Districts.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/Garda_Sub_Districts.zip"
+        }
+      },
+      "style": {
+        "color": "#43A047",
+        "weight": 2
+      },
+      "keywords": [
+        "garda",
+        "police",
+        "republic of ireland",
+        "ireland",
+        "sub-districts",
+        "an garda siochana"
+      ],
+      "labelProperty": "SUB_DIST"
+    },
+    {
+      "id": "roi-gaeltacht-areas",
+      "name": "Gaeltacht Areas",
+      "slug": "roi-gaeltacht-areas",
+      "category": "local-government",
+      "date": "2011",
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "geojson": "data/maps/local-government/ROI_Gaeltacht_Areas.geojson",
+        "fgb": "data/maps/local-government/ROI_Gaeltacht_Areas.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/Gaeltacht.zip"
+        }
+      },
+      "style": {
+        "color": "#FF6F00",
+        "weight": 2
+      },
+      "keywords": [
+        "gaeltacht",
+        "irish speaking",
+        "republic of ireland",
+        "ireland",
+        "irish language",
+        "gaeilge"
+      ],
+      "labelProperty": "NAME"
+    },
+    {
+      "id": "roi-lea-2008",
+      "name": "Local Electoral Areas 2008",
+      "slug": "roi-lea-2008",
+      "category": "local-government",
+      "date": "2008",
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "geojson": "data/maps/local-government/ROI_LEA_2008.geojson",
+        "fgb": "data/maps/local-government/ROI_LEA_2008.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/LEA.zip"
+        }
+      },
+      "style": {
+        "color": "#7B1FA2",
+        "weight": 2
+      },
+      "keywords": [
+        "local electoral areas",
+        "LEA",
+        "republic of ireland",
+        "ireland",
+        "council elections",
+        "county council",
+        "2008"
+      ],
+      "labelProperty": "LEA"
+    },
+    {
+      "id": "roi-small-areas-2011",
+      "name": "Small Areas 2011",
+      "slug": "roi-small-areas-2011",
+      "category": "local-government",
+      "date": "2011",
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "geojson": "data/maps/local-government/ROI_Small_Areas_2011.geojson",
+        "fgb": "data/maps/local-government/ROI_Small_Areas_2011.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/SmallAreas.zip"
+        }
+      },
+      "style": {
+        "color": "#E65100",
+        "weight": 1
+      },
+      "keywords": [
+        "small areas",
+        "census",
+        "republic of ireland",
+        "ireland",
+        "enumeration",
+        "2011",
+        "population",
+        "housing"
+      ],
+      "labelProperty": "SMALL_AREA"
     },
     {
       "id": "roi-local-authorities-2024",
@@ -1460,6 +1788,34 @@
       "labelProperty": "ENG_NAME_VALUE",
       "defaultOn": true,
       "useLOD": true
+    },
+    {
+      "id": "roi-local-authorities-2014",
+      "name": "Local Authorities 2014",
+      "slug": "roi-local-authorities-2014",
+      "category": "local-government",
+      "date": "2014-06-01",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "files": {
+        "geojson": "data/maps/local-government/Administrative_Areas_Ungeneralised_-2482101372601611780.geojson"
+      },
+      "style": {
+        "color": "#4A90D9",
+        "weight": 2
+      },
+      "keywords": [
+        "local authorities",
+        "republic of ireland",
+        "ireland",
+        "council",
+        "county council",
+        "city council",
+        "2014",
+        "administrative areas"
+      ],
+      "labelProperty": "ENGLISH"
     },
     {
       "id": "place-names-gazetteer",
@@ -1810,7 +2166,7 @@
       "name": "Townlands 1844",
       "slug": "townlands-1844",
       "category": "townlands",
-      "featured": true,
+      "featured": false,
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/townlands/Townlands_AllIreland.fgb"
       },
@@ -1829,6 +2185,32 @@
       },
       "labelProperty": "ENG_NAME_VALUE",
       "priorityProperty": "Area",
+      "keywords": [
+        "townland",
+        "townlands",
+        "1844",
+        "all",
+        "ireland",
+        "northern ireland",
+        "republic"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data - Largescale Boundaries - Townlands",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-townlands",
+          "note": "Northern Ireland townlands. Open Government Licence v3."
+        },
+        {
+          "label": "OSNI Open Data - Largescale Boundaries - Townlands (data.gov.uk)",
+          "url": "https://www.data.gov.uk/dataset/18e1bd0f-1829-496e-9b21-a5d8f6159940/osni-open-data-largescale-boundaries-townlands6",
+          "note": "Mirror of OSNI townlands dataset on data.gov.uk."
+        },
+        {
+          "label": "Townlands - National Statutory Boundaries - Ungeneralised - 2024 (Tailte Éireann)",
+          "url": "https://data-osi.opendata.arcgis.com/datasets/osi::townlands-national-statutory-boundaries-ungeneralised-2024/about",
+          "note": "Republic of Ireland townlands. Creative Commons Attribution 4.0."
+        }
+      ],
       "variants": [
         {
           "id": "antrim-townlands",
@@ -2119,21 +2501,139 @@
           "labelProperty": "ENG_NAME_VALUE"
         }
       ],
-      "keywords": [
-        "townland",
-        "townlands",
-        "1844",
-        "all",
-        "ireland",
-        "northern ireland",
-        "republic"
-      ],
       "date": 1844,
       "labelPropertyFallbacks": [
         "TownlandName",
         "TOWNLAND",
         "Name"
-      ]
+      ],
+      "hidden": true
+    },
+    {
+      "id": "ni-townlands",
+      "name": "Northern Ireland",
+      "slug": "townlands-ni",
+      "category": "townlands",
+      "featured": true,
+      "files": {
+        "fgb": "data/maps/townlands/OSNI_Townlands.fgb"
+      },
+      "chunked": true,
+      "useLOD": true,
+      "provider": [
+        "OSNI"
+      ],
+      "style": {
+        "color": "#A87000",
+        "weight": 2
+      },
+      "labelProperty": "TownlandNa",
+      "priorityProperty": "Area_SqKM",
+      "keywords": [
+        "townland",
+        "townlands",
+        "northern ireland",
+        "osni"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data - Largescale Boundaries - Townlands",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-townlands",
+          "note": "Open Government Licence v3."
+        },
+        {
+          "label": "OSNI Open Data - Largescale Boundaries - Townlands (data.gov.uk)",
+          "url": "https://www.data.gov.uk/dataset/18e1bd0f-1829-496e-9b21-a5d8f6159940/osni-open-data-largescale-boundaries-townlands6"
+        }
+      ],
+      "description": "Northern Ireland"
+    },
+    {
+      "id": "roi-townlands",
+      "name": "Republic of Ireland",
+      "slug": "townlands-roi",
+      "category": "townlands",
+      "featured": true,
+      "files": {
+        "fgb": "data/maps/townlands/OSI_Townlands.fgb"
+      },
+      "chunked": true,
+      "useLOD": true,
+      "provider": [
+        "OSI"
+      ],
+      "style": {
+        "color": "#A87000",
+        "weight": 2
+      },
+      "labelProperty": "ENG_NAME_VALUE",
+      "keywords": [
+        "townland",
+        "townlands",
+        "republic of ireland",
+        "osi",
+        "tailte eireann"
+      ],
+      "references": [
+        {
+          "label": "Townlands - National Statutory Boundaries - Ungeneralised - 2024 (Tailte Éireann)",
+          "url": "https://data-osi.opendata.arcgis.com/datasets/osi::townlands-national-statutory-boundaries-ungeneralised-2024/about",
+          "note": "Creative Commons Attribution 4.0."
+        }
+      ],
+      "description": "Republic of Ireland"
+    },
+    {
+      "id": "all-ireland-townlands",
+      "name": "Ireland",
+      "slug": "townlands-all-ireland",
+      "category": "townlands",
+      "featured": true,
+      "files": {
+        "fgb": "data/maps/townlands/OSNI_Townlands.fgb"
+      },
+      "downloads": {
+        "fgb": "https://archive.org/download/civgraph-townlands-allireland-fgb/Townlands_AllIreland.fgb"
+      },
+      "chunked": true,
+      "useLOD": true,
+      "provider": [
+        "OSNI",
+        "OSI"
+      ],
+      "style": {
+        "color": "#A87000",
+        "weight": 2
+      },
+      "labelProperty": "ENG_NAME_VALUE",
+      "keywords": [
+        "townland",
+        "townlands",
+        "ireland",
+        "all ireland",
+        "osni",
+        "osi"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data - Largescale Boundaries - Townlands",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-townlands",
+          "note": "Northern Ireland townlands. Open Government Licence v3."
+        },
+        {
+          "label": "Townlands - National Statutory Boundaries - Ungeneralised - 2024 (Tailte Éireann)",
+          "url": "https://data-osi.opendata.arcgis.com/datasets/osi::townlands-national-statutory-boundaries-ungeneralised-2024/about",
+          "note": "Republic of Ireland townlands. Creative Commons Attribution 4.0."
+        }
+      ],
+      "compositeSources": [
+        "ni-townlands",
+        "roi-townlands"
+      ],
+      "labelPropertyFallbacks": [
+        "TownlandNa"
+      ],
+      "description": "Ireland"
     },
     {
       "id": "settlements-2015-craigavon",
@@ -2252,6 +2752,509 @@
         "electoral"
       ],
       "date": 1993,
+      "variants": [
+        {
+          "id": "wards-1993-largescale",
+          "label": "Largescale",
+          "description": "OSNI largescale boundary resolution",
+          "files": {
+            "fgb": "data/maps/local-government/Wards_1993_Largescale.fgb"
+          }
+        },
+        {
+          "id": "wards-1993-50k",
+          "label": "50K",
+          "description": "OSNI 50K boundary resolution",
+          "files": {
+            "fgb": "data/maps/local-government/Wards_1993_50k.fgb"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-antrim-raster",
+          "label": "Antrim LGD 1992",
+          "files": {
+            "image": "data/maps/raster/wards92-antrim.png"
+          },
+          "bounds": [
+            [
+              54.4173899,
+              -6.5886851
+            ],
+            [
+              54.9096233,
+              -5.4198804
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            142,
+            143,
+            144,
+            368,
+            476,
+            478,
+            479,
+            480,
+            481,
+            482,
+            483,
+            484,
+            485,
+            486,
+            487,
+            488,
+            489,
+            490,
+            491
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-ards-raster",
+          "label": "Ards LGD 1992",
+          "files": {
+            "image": "data/maps/raster/wards92-ards.png"
+          },
+          "bounds": [
+            [
+              54.2600751,
+              -5.9520938
+            ],
+            [
+              54.7595124,
+              -4.7473262
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            261,
+            262,
+            268,
+            269,
+            270,
+            271,
+            272,
+            273,
+            274,
+            275,
+            276,
+            277,
+            278,
+            279,
+            280,
+            281,
+            282,
+            283,
+            284,
+            285,
+            309,
+            310,
+            311,
+            312,
+            313,
+            314,
+            315,
+            316,
+            317,
+            318,
+            319,
+            320,
+            321,
+            322
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-armagh-raster",
+          "label": "Armagh LGD 1992",
+          "files": {
+            "image": "data/maps/raster/wards92-armagh.png"
+          },
+          "bounds": [
+            [
+              54.0977043,
+              -7.0047467
+            ],
+            [
+              54.5765811,
+              -5.8399728
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            55,
+            99,
+            100,
+            101,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            117,
+            615
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-banbridge-raster",
+          "label": "Banbridge LGD 1992",
+          "files": {
+            "image": "data/maps/raster/wards92-banbridge.png"
+          },
+          "bounds": [
+            [
+              54.0123227,
+              -6.464054
+            ],
+            [
+              54.4968213,
+              -5.3472805
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            18,
+            54,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            73,
+            74,
+            75,
+            97,
+            98,
+            253
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-belfast-1-raster",
+          "label": "Belfast LGD 1992 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards92-belfast-1.png"
+          },
+          "bounds": [
+            [
+              54.512724,
+              -6.0940699
+            ],
+            [
+              54.6867806,
+              -5.6764156
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            165,
+            166,
+            167,
+            171,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185,
+            186,
+            187,
+            188,
+            189,
+            190,
+            191,
+            192,
+            193,
+            194,
+            195,
+            206,
+            222,
+            223,
+            224,
+            225,
+            226,
+            227,
+            228,
+            229,
+            230,
+            233
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-ballymena-raster",
+          "label": "Ballymena LGD 1992",
+          "files": {
+            "image": "data/maps/raster/wards92-ballymena.png"
+          },
+          "bounds": [
+            [
+              54.7308664,
+              -6.5888839
+            ],
+            [
+              55.2182601,
+              -5.3998639
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            389,
+            454,
+            455,
+            456,
+            457,
+            458,
+            459,
+            460,
+            461,
+            462,
+            463,
+            464,
+            465,
+            466,
+            467,
+            468,
+            469,
+            470,
+            471,
+            472,
+            473,
+            474,
+            475,
+            477
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-ballymoney-raster",
+          "label": "Ballymoney LGD 1992",
+          "files": {
+            "image": "data/maps/raster/wards92-ballymoney.png"
+          },
+          "bounds": [
+            [
+              54.8561739,
+              -6.708678
+            ],
+            [
+              55.3418207,
+              -5.5045562
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            394,
+            395,
+            396,
+            397,
+            398,
+            434,
+            435,
+            436,
+            437,
+            438,
+            439,
+            440,
+            442,
+            443,
+            444,
+            452
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-coleraine-raster",
+          "label": "Coleraine LGD 1992",
+          "files": {
+            "image": "data/maps/raster/wards92-coleraine.png"
+          },
+          "bounds": [
+            [
+              54.8164252,
+              -7.4521651
+            ],
+            [
+              55.3233861,
+              -6.2234599
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            416,
+            418,
+            419,
+            420,
+            421,
+            422,
+            423,
+            424,
+            425,
+            426,
+            427,
+            428,
+            429,
+            430,
+            431,
+            432,
+            433,
+            441,
+            445,
+            446,
+            453,
+            543
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-cookstown-raster",
+          "label": "Cookstown Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-cookstown.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-craigavon-raster",
+          "label": "Craigavon Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-craigavon.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-derry-raster",
+          "label": "Derry Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-derry.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-down-raster",
+          "label": "Down Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-down.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-dungannon-raster",
+          "label": "Dungannon Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-dungannon.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-larne-raster",
+          "label": "Larne Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-larne.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-limavady-raster",
+          "label": "Limavady Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-limavady.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-lisburn-raster",
+          "label": "Lisburn Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-lisburn.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-magherafelt-raster",
+          "label": "Magherafelt Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-magherafelt.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-moyle-raster",
+          "label": "Moyle Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-moyle.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-newtownabbey-raster",
+          "label": "Newtownabbey Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-newtownabbey.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-newry-mourne-1-raster",
+          "label": "Newry & Mourne Wards 1992 (Sheet 1) (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-newry-mourne-1.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-north-down-raster",
+          "label": "North Down Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-north-down.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-omagh-raster",
+          "label": "Omagh Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-omagh.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-strabane-raster",
+          "label": "Strabane Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-strabane.png"
+          }
+        }
+      ],
       "osniDownloads": [
         {
           "label": "OSNI Largescale GeoJSON",
@@ -2316,7 +3319,1035 @@
         "digitised"
       ],
       "date": 1984,
-      "useLOD": true
+      "useLOD": true,
+      "variants": [
+        {
+          "id": "wards-1984-wards85-antrim-1-raster",
+          "label": "Antrim LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-antrim-1.png"
+          },
+          "bounds": [
+            [
+              54.4211511,
+              -6.5754986
+            ],
+            [
+              54.9067745,
+              -5.4985558
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            130,
+            131,
+            132,
+            322,
+            421,
+            423,
+            424,
+            425,
+            426,
+            427,
+            428,
+            429,
+            430,
+            431,
+            432,
+            433,
+            434,
+            435,
+            436
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-ards-1-raster",
+          "label": "Ards LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-ards-1.png"
+          },
+          "bounds": [
+            [
+              54.2797038,
+              -5.9928267
+            ],
+            [
+              54.7590401,
+              -4.9134636
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            247,
+            248,
+            254,
+            255,
+            256,
+            257,
+            258,
+            259,
+            260,
+            261,
+            262,
+            263,
+            264,
+            265,
+            266,
+            267,
+            268,
+            289,
+            290,
+            291
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-armagh-1-raster",
+          "label": "Armagh LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-armagh-1.png"
+          },
+          "bounds": [
+            [
+              54.0935726,
+              -6.9961214
+            ],
+            [
+              54.5709256,
+              -5.9294341
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            45,
+            89,
+            90,
+            91,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            107,
+            557
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-ballymena-1-raster",
+          "label": "Ballymena LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-ballymena-1.png"
+          },
+          "bounds": [
+            [
+              54.6721586,
+              -6.6313233
+            ],
+            [
+              55.1499396,
+              -5.5428967
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            340,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            418,
+            419,
+            420,
+            422
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-ballymoney-raster",
+          "label": "Ballymoney LGD 1985",
+          "files": {
+            "image": "data/maps/raster/wards85-ballymoney.png"
+          },
+          "bounds": [
+            [
+              54.7390517,
+              -7.1579855
+            ],
+            [
+              55.2140068,
+              -6.0831699
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            345,
+            346,
+            347,
+            348,
+            349,
+            379,
+            380,
+            381,
+            382,
+            383,
+            384,
+            386,
+            387,
+            388,
+            389,
+            398
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-banbridge-raster",
+          "label": "Banbridge LGD 1985",
+          "files": {
+            "image": "data/maps/raster/wards85-banbridge.png"
+          },
+          "bounds": [
+            [
+              54.0460652,
+              -6.448658
+            ],
+            [
+              54.5164595,
+              -5.3929128
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            12,
+            44,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            63,
+            64,
+            87,
+            88,
+            239,
+            240
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-belfast-1-raster",
+          "label": "Belfast LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-belfast-1.png"
+          },
+          "bounds": [
+            [
+              54.5050674,
+              -6.1003075
+            ],
+            [
+              54.6913881,
+              -5.6749064
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            154,
+            155,
+            156,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185,
+            194,
+            196,
+            211,
+            212,
+            213,
+            214,
+            215,
+            216,
+            217,
+            218,
+            219
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-carrickfergus-raster",
+          "label": "Carrickfergus LGD 1985",
+          "files": {
+            "image": "data/maps/raster/wards85-carrickfergus.png"
+          },
+          "bounds": [
+            [
+              54.628775,
+              -6.3861043
+            ],
+            [
+              55.1344828,
+              -5.2554387
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            293,
+            294,
+            295,
+            296,
+            297,
+            298,
+            299,
+            300,
+            301,
+            302,
+            303,
+            304,
+            306,
+            307,
+            328
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-coleraine-1-raster",
+          "label": "Coleraine LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-coleraine-1.png"
+          },
+          "bounds": [
+            [
+              54.8500099,
+              -7.3824917
+            ],
+            [
+              55.3336341,
+              -6.284418
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            362,
+            364,
+            365,
+            366,
+            367,
+            368,
+            369,
+            370,
+            371,
+            372,
+            373,
+            374,
+            375,
+            376,
+            377,
+            378,
+            385,
+            390,
+            391,
+            399,
+            486
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-cookstown-raster",
+          "label": "Cookstown LGD 1985",
+          "files": {
+            "image": "data/maps/raster/wards85-cookstown.png"
+          },
+          "bounds": [
+            [
+              54.5140796,
+              -7.1045336
+            ],
+            [
+              54.9812735,
+              -6.0484486
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            437,
+            446,
+            447,
+            448,
+            538,
+            539
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-craigavon-1-raster",
+          "label": "Craigavon LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-craigavon-1.png"
+          },
+          "bounds": [
+            [
+              54.3269737,
+              -6.6379171
+            ],
+            [
+              54.801694,
+              -5.5753738
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            62,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            92,
+            93,
+            108,
+            127
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-derry-1-raster",
+          "label": "Derry LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-derry-1.png"
+          },
+          "bounds": [
+            [
+              54.6443513,
+              -8.0267713
+            ],
+            [
+              55.1088569,
+              -6.9566841
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            463,
+            464,
+            465,
+            466,
+            467,
+            468,
+            469,
+            470,
+            487,
+            488,
+            489,
+            490,
+            491,
+            492,
+            493,
+            494,
+            495,
+            496,
+            497,
+            498,
+            499,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-down-1-raster",
+          "label": "Down LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-down-1.png"
+          },
+          "bounds": [
+            [
+              54.0924288,
+              -6.146709
+            ],
+            [
+              54.5612821,
+              -5.0938454
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            13,
+            242,
+            243,
+            244,
+            245,
+            246,
+            249,
+            250,
+            251,
+            252,
+            253
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-dungannon-1-raster",
+          "label": "Dungannon LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-dungannon-1.png"
+          },
+          "bounds": [
+            [
+              54.2868331,
+              -7.4806797
+            ],
+            [
+              54.7542902,
+              -6.428066
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            540,
+            542,
+            543,
+            544,
+            545,
+            546,
+            547,
+            548
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-larne-raster",
+          "label": "Larne LGD 1985",
+          "files": {
+            "image": "data/maps/raster/wards85-larne.png"
+          },
+          "bounds": [
+            [
+              54.6240291,
+              -6.1993427
+            ],
+            [
+              55.1104303,
+              -5.096187
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            292,
+            327,
+            329,
+            330,
+            331,
+            332,
+            333,
+            334,
+            335,
+            336,
+            337,
+            338,
+            339,
+            341,
+            342
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-limavady-raster",
+          "label": "Limavady LGD 1985",
+          "files": {
+            "image": "data/maps/raster/wards85-limavady.png"
+          },
+          "bounds": [
+            [
+              54.7824786,
+              -7.2328399
+            ],
+            [
+              55.2454981,
+              -6.1643734
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            471,
+            472,
+            473,
+            474,
+            475,
+            476,
+            477,
+            478,
+            479,
+            480,
+            481,
+            482,
+            483,
+            484,
+            485
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-lisburn-1-raster",
+          "label": "Lisburn LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-lisburn-1.png"
+          },
+          "bounds": [
+            [
+              54.1923701,
+              -6.381608
+            ],
+            [
+              54.6777444,
+              -5.2874457
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            65,
+            128,
+            129,
+            206,
+            207,
+            208,
+            209,
+            210,
+            220,
+            221,
+            222,
+            223,
+            224,
+            225,
+            226,
+            227,
+            228,
+            229,
+            230,
+            231,
+            232,
+            233,
+            234,
+            235,
+            236,
+            237,
+            238,
+            241
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-magherafelt-raster",
+          "label": "Magherafelt LGD 1985",
+          "files": {
+            "image": "data/maps/raster/wards85-magherafelt.png"
+          },
+          "bounds": [
+            [
+              54.5189732,
+              -7.1130735
+            ],
+            [
+              54.9820037,
+              -6.0445819
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            392,
+            393,
+            394,
+            395,
+            396,
+            397,
+            438,
+            439,
+            440,
+            441,
+            442,
+            443,
+            444,
+            445,
+            449
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-moyle-raster",
+          "label": "Moyle LGD 1985",
+          "files": {
+            "image": "data/maps/raster/wards85-moyle.png"
+          },
+          "bounds": [
+            [
+              54.8765234,
+              -6.6542635
+            ],
+            [
+              55.3512076,
+              -5.5432312
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            343,
+            344,
+            350,
+            351,
+            352,
+            353,
+            354,
+            355,
+            357,
+            358,
+            359,
+            360,
+            361,
+            363
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-newry-mourne-1-raster",
+          "label": "Newry & Mourne LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-newry-mourne-1.png"
+          },
+          "bounds": [
+            [
+              53.9940399,
+              -6.7497884
+            ],
+            [
+              54.4707093,
+              -5.6752491
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-newtownabbey-1-raster",
+          "label": "Newtownabbey LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-newtownabbey-1.png"
+          },
+          "bounds": [
+            [
+              54.4676592,
+              -6.2283031
+            ],
+            [
+              54.9467225,
+              -5.1333014
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            305,
+            308,
+            309,
+            310,
+            311,
+            312,
+            313,
+            314,
+            315,
+            316,
+            317,
+            318,
+            319,
+            320,
+            321,
+            323,
+            324,
+            325,
+            326
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-north-down-1-raster",
+          "label": "North Down LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-north-down-1.png"
+          },
+          "bounds": [
+            [
+              54.3297404,
+              -6.5759459
+            ],
+            [
+              54.8011217,
+              -5.4930643
+            ]
+          ],
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            157,
+            158,
+            159,
+            160,
+            269,
+            270,
+            271,
+            272,
+            273,
+            274,
+            275,
+            276,
+            277,
+            278,
+            279,
+            280,
+            281,
+            282,
+            283,
+            284,
+            285,
+            286,
+            287,
+            288
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-omagh-1-raster",
+          "label": "Omagh LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-omagh-1.png"
+          },
+          "bounds": [
+            [
+              54.3676273,
+              -7.7576029
+            ],
+            [
+              54.8278536,
+              -6.69198
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            450,
+            451,
+            521,
+            523,
+            525,
+            526,
+            527,
+            528,
+            529,
+            530,
+            531,
+            532,
+            533,
+            534,
+            535,
+            536,
+            537,
+            541,
+            549,
+            550,
+            551
+          ]
+        },
+        {
+          "id": "wards-1984-wards85-strabane-1-raster",
+          "label": "Strabane LGD 1985 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards85-strabane-1.png"
+          },
+          "bounds": [
+            [
+              54.5476185,
+              -7.9570603
+            ],
+            [
+              55.0091276,
+              -6.8573854
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1984",
+          "coLoadWardIndices": [
+            452,
+            453,
+            454,
+            455,
+            456,
+            457,
+            458,
+            459,
+            460,
+            461,
+            462,
+            509,
+            510,
+            511,
+            524
+          ]
+        }
+      ]
     },
     {
       "id": "wards-1972",
@@ -2342,7 +4373,119 @@
         "digitised"
       ],
       "date": 1972,
-      "useLOD": true
+      "useLOD": true,
+      "variants": [
+        {
+          "id": "wards-1972-wards73-belfast-raster",
+          "label": "Belfast LGD 1973",
+          "files": {
+            "image": "data/maps/raster/wards73-belfast.png"
+          },
+          "bounds": [
+            [
+              54.514191,
+              -6.134575
+            ],
+            [
+              54.6864559,
+              -5.7408266
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1972",
+          "coLoadWardIndices": [
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            144,
+            146,
+            147,
+            151,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            185,
+            186,
+            188,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            209
+          ]
+        },
+        {
+          "id": "wards-1972-wards73-strabane-raster",
+          "label": "Strabane LGD 1973",
+          "files": {
+            "image": "data/maps/raster/wards73-strabane.png"
+          },
+          "bounds": [
+            [
+              54.5681504,
+              -7.9598153
+            ],
+            [
+              55.0100852,
+              -6.8580715
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1972",
+          "coLoadWardIndices": [
+            419,
+            420,
+            421,
+            422,
+            423,
+            424,
+            425,
+            426,
+            427,
+            428,
+            472,
+            473,
+            474,
+            475,
+            486
+          ]
+        }
+      ]
     },
     {
       "id": "deas-2012",
@@ -2447,7 +4590,8 @@
           "file": "https://archive.org/download/civgraph-osni-boundary-data/osni_open_data_50k_boundaries_district_electoral_areas_1993.zip"
         }
       ],
-      "useLOD": true
+      "useLOD": true,
+      "variants": []
     },
     {
       "id": "deas-1984",
@@ -2592,7 +4736,8 @@
           "file": "https://archive.org/download/civgraph-osni-boundary-data/osni_open_data_50k_boundaries_local_government_districts_1993.zip"
         }
       ],
-      "useLOD": true
+      "useLOD": true,
+      "variants": []
     },
     {
       "id": "lgd-1984",
@@ -2619,7 +4764,28 @@
         "digitised"
       ],
       "date": 1984,
-      "useLOD": true
+      "useLOD": true,
+      "variants": [
+        {
+          "id": "lgd-1984-raster",
+          "label": "Historic Map Scan (1984)",
+          "description": "LGBC Final Recommendations 1984 — LGDs and Wards boundary map",
+          "files": {
+            "image": "data/maps/raster/lgdea85_overlay.png"
+          },
+          "bounds": [
+            [
+              53.95,
+              -8.3
+            ],
+            [
+              55.45,
+              -5.3
+            ]
+          ],
+          "opacity": 0.8
+        }
+      ]
     },
     {
       "id": "lgd-1972",
@@ -2789,7 +4955,8 @@
         "1995"
       ],
       "date": 1995,
-      "useLOD": true
+      "useLOD": true,
+      "variants": []
     },
     {
       "id": "pc-1982",
@@ -2815,7 +4982,8 @@
         "1982"
       ],
       "date": 1982,
-      "useLOD": true
+      "useLOD": true,
+      "variants": []
     },
     {
       "id": "pc-1970",
@@ -3180,7 +5348,7 @@
       "category": "dail",
       "featured": true,
       "provider": [
-        "Tailte Eireann"
+        "Tailte Éireann"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parliamentary/ROIConstituencies2023.fgb"
@@ -3207,7 +5375,7 @@
       "category": "dail",
       "featured": true,
       "provider": [
-        "Tailte Eireann"
+        "Tailte Éireann"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parliamentary/ROIConstituencies2017.fgb"
@@ -3234,7 +5402,7 @@
       "category": "dail",
       "featured": true,
       "provider": [
-        "Tailte Eireann"
+        "Tailte Éireann"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parliamentary/ROIConstituencies2013.fgb"
@@ -3339,7 +5507,7 @@
       "category": "counties",
       "provider": [
         "OSNI",
-        "Tailte Eireann"
+        "Tailte Éireann"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland.fgb"
@@ -3356,6 +5524,37 @@
       ],
       "featured": true,
       "useLOD": true
+    },
+    {
+      "id": "roi-counties-2011",
+      "name": "Administrative Counties 2011",
+      "slug": "roi-counties-2011",
+      "category": "counties",
+      "date": "2011",
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "geojson": "data/maps/baronies-parishes/ROI_Counties_2011.geojson",
+        "fgb": "data/maps/baronies-parishes/ROI_Counties_2011.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/ROI_Counties_2011.zip"
+        }
+      },
+      "style": {
+        "color": "#00A9E6",
+        "weight": 2
+      },
+      "labelProperty": "COUNTYNAME",
+      "keywords": [
+        "county",
+        "ireland",
+        "republic of ireland",
+        "26 counties",
+        "census 2011",
+        "administrative counties"
+      ],
+      "featured": true
     },
     {
       "id": "counties-county-boroughs-1915",
@@ -3749,6 +5948,73 @@
       "useLOD": true
     },
     {
+      "id": "nuts-2-all-ireland",
+      "name": "NUTS 2 Regions (All Ireland)",
+      "slug": "nuts-2-all-ireland",
+      "category": "census",
+      "featured": true,
+      "date": "2011",
+      "provider": [
+        "CSO",
+        "OSNI"
+      ],
+      "files": {
+        "geojson": "data/maps/census-areas/NUTS2_All_Ireland.geojson",
+        "fgb": "data/maps/census-areas/NUTS2_All_Ireland.fgb"
+      },
+      "style": {
+        "color": "#8E6C00",
+        "weight": 2
+      },
+      "keywords": [
+        "NUTS",
+        "NUTS 2",
+        "european",
+        "region",
+        "eurostat",
+        "BMW",
+        "border midland western",
+        "southern eastern",
+        "northern ireland",
+        "all ireland"
+      ],
+      "labelProperty": "NUTS2NAME"
+    },
+    {
+      "id": "nuts-2-roi",
+      "name": "NUTS 2 Regions (Republic of Ireland)",
+      "slug": "nuts-2-roi",
+      "category": "census",
+      "date": "2011",
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "geojson": "data/maps/census-areas/ROI_NUTS2.geojson",
+        "fgb": "data/maps/census-areas/ROI_NUTS2.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/NUTS2_ROI.zip"
+        }
+      },
+      "style": {
+        "color": "#8E6C00",
+        "weight": 2
+      },
+      "keywords": [
+        "NUTS",
+        "NUTS 2",
+        "european",
+        "region",
+        "eurostat",
+        "BMW",
+        "border midland western",
+        "southern eastern",
+        "republic of ireland",
+        "census 2011"
+      ],
+      "labelProperty": "NUTS2NAME"
+    },
+    {
       "id": "nuts-3",
       "name": "NUTS 3 Regions 2003",
       "slug": "nuts-3-2003",
@@ -3839,114 +6105,6 @@
       "labelProperty": "ED_ENGLISH"
     },
     {
-      "id": "eds-connacht-2022",
-      "name": "Connacht Electoral Divisions 2022",
-      "slug": "eds-connacht-2022",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "CSO"
-      ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2022_CSO_EDs_Connacht.fgb"
-      },
-      "style": {
-        "color": "#1B5E20",
-        "weight": 2
-      },
-      "keywords": [
-        "connacht",
-        "ED",
-        "2022",
-        "census"
-      ],
-      "labelProperty": "ED_ENGLISH",
-      "date": 2022,
-      "useLOD": true
-    },
-    {
-      "id": "eds-leinster-2022",
-      "name": "Leinster Electoral Divisions 2022",
-      "slug": "eds-leinster-2022",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "CSO"
-      ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2022_CSO_EDs_Leinster.fgb"
-      },
-      "style": {
-        "color": "#1B5E20",
-        "weight": 2
-      },
-      "keywords": [
-        "leinster",
-        "ED",
-        "2022",
-        "census"
-      ],
-      "labelProperty": "ED_ENGLISH",
-      "date": 2022,
-      "useLOD": true
-    },
-    {
-      "id": "eds-munster-2022",
-      "name": "Munster Electoral Divisions 2022",
-      "slug": "eds-munster-2022",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "CSO"
-      ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2022_CSO_EDs_Munster.fgb"
-      },
-      "style": {
-        "color": "#1B5E20",
-        "weight": 2
-      },
-      "keywords": [
-        "munster",
-        "ED",
-        "2022",
-        "census"
-      ],
-      "labelProperty": "ED_ENGLISH",
-      "date": 2022,
-      "useLOD": true
-    },
-    {
-      "id": "eds-ulster-2022",
-      "name": "Ulster Electoral Divisions 2022",
-      "slug": "eds-ulster-2022",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "CSO"
-      ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2022_CSO_EDs_Ulster.fgb"
-      },
-      "style": {
-        "color": "#1B5E20",
-        "weight": 2
-      },
-      "keywords": [
-        "ulster",
-        "ED",
-        "2022",
-        "census"
-      ],
-      "labelProperty": "ED_ENGLISH",
-      "date": 2022,
-      "useLOD": true
-    },
-    {
       "id": "eds-2006",
       "name": "Electoral Divisions 2008",
       "slug": "electoral-divisions-2008",
@@ -4004,118 +6162,18 @@
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2006_CSO_EDs_Ulster.fgb"
           },
           "useLOD": true
+        },
+        {
+          "id": "eds-census-2011",
+          "label": "Census 2011 (with demographics)",
+          "description": "All 3,409 Electoral Divisions with Census 2011 population and housing data",
+          "files": {
+            "fgb": "data/maps/electoral-divisions/ROI_EDs_Census_2011.fgb"
+          }
         }
       ],
       "date": 2006,
       "labelProperty": "EDNAME"
-    },
-    {
-      "id": "eds-connacht-2006",
-      "name": "Connacht Electoral Divisions 2006",
-      "slug": "eds-connacht-2006",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "CSO"
-      ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2006_CSO_EDs_Connacht.fgb"
-      },
-      "style": {
-        "color": "#2E7D32",
-        "weight": 2
-      },
-      "keywords": [
-        "connacht",
-        "ED",
-        "2006",
-        "census"
-      ],
-      "labelProperty": "EDNAME",
-      "date": 2006,
-      "useLOD": true
-    },
-    {
-      "id": "eds-leinster-2006",
-      "name": "Leinster Electoral Divisions 2006",
-      "slug": "eds-leinster-2006",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "CSO"
-      ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2006_CSO_EDs_Leinster.fgb"
-      },
-      "style": {
-        "color": "#2E7D32",
-        "weight": 2
-      },
-      "keywords": [
-        "leinster",
-        "ED",
-        "2006",
-        "census"
-      ],
-      "labelProperty": "EDNAME",
-      "date": 2006,
-      "useLOD": true
-    },
-    {
-      "id": "eds-munster-2006",
-      "name": "Munster Electoral Divisions 2006",
-      "slug": "eds-munster-2006",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "CSO"
-      ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2006_CSO_EDs_Munster.fgb"
-      },
-      "style": {
-        "color": "#2E7D32",
-        "weight": 2
-      },
-      "keywords": [
-        "munster",
-        "ED",
-        "2006",
-        "census"
-      ],
-      "labelProperty": "EDNAME",
-      "date": 2006,
-      "useLOD": true
-    },
-    {
-      "id": "eds-ulster-2006",
-      "name": "Ulster Electoral Divisions 2006",
-      "slug": "eds-ulster-2006",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "CSO"
-      ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2006_CSO_EDs_Ulster.fgb"
-      },
-      "style": {
-        "color": "#2E7D32",
-        "weight": 2
-      },
-      "keywords": [
-        "ulster",
-        "ED",
-        "2006",
-        "census"
-      ],
-      "labelProperty": "EDNAME",
-      "date": 2006,
-      "useLOD": true
     },
     {
       "id": "eds-1911",
@@ -4190,7 +6248,13 @@
       "placeholder": true,
       "featured": true,
       "provider": [],
-      "keywords": ["electoral", "division", "DED", "1912", "placeholder"]
+      "keywords": [
+        "electoral",
+        "division",
+        "DED",
+        "1912",
+        "placeholder"
+      ]
     },
     {
       "id": "eds-1914",
@@ -4201,7 +6265,13 @@
       "placeholder": true,
       "featured": true,
       "provider": [],
-      "keywords": ["electoral", "division", "DED", "1914", "placeholder"]
+      "keywords": [
+        "electoral",
+        "division",
+        "DED",
+        "1914",
+        "placeholder"
+      ]
     },
     {
       "id": "eds-1915",
@@ -4212,7 +6282,13 @@
       "placeholder": true,
       "featured": true,
       "provider": [],
-      "keywords": ["electoral", "division", "DED", "1915", "placeholder"]
+      "keywords": [
+        "electoral",
+        "division",
+        "DED",
+        "1915",
+        "placeholder"
+      ]
     },
     {
       "id": "eds-1919-04-01",
@@ -4223,7 +6299,13 @@
       "placeholder": true,
       "featured": true,
       "provider": [],
-      "keywords": ["electoral", "division", "DED", "1919", "placeholder"]
+      "keywords": [
+        "electoral",
+        "division",
+        "DED",
+        "1919",
+        "placeholder"
+      ]
     },
     {
       "id": "eds-roi-1921-05-03",
@@ -4234,7 +6316,14 @@
       "placeholder": true,
       "featured": true,
       "provider": [],
-      "keywords": ["electoral", "division", "ED", "1921", "partition", "placeholder"]
+      "keywords": [
+        "electoral",
+        "division",
+        "ED",
+        "1921",
+        "partition",
+        "placeholder"
+      ]
     },
     {
       "id": "eds-roi-1921-06-28",
@@ -4245,7 +6334,13 @@
       "placeholder": true,
       "featured": true,
       "provider": [],
-      "keywords": ["electoral", "division", "ED", "1921", "placeholder"]
+      "keywords": [
+        "electoral",
+        "division",
+        "ED",
+        "1921",
+        "placeholder"
+      ]
     },
     {
       "id": "eds-roi-1936",
@@ -4256,7 +6351,14 @@
       "placeholder": true,
       "featured": true,
       "provider": [],
-      "keywords": ["electoral", "division", "ED", "1936", "Dublin", "placeholder"]
+      "keywords": [
+        "electoral",
+        "division",
+        "ED",
+        "1936",
+        "Dublin",
+        "placeholder"
+      ]
     },
     {
       "id": "eds-roi-1944",
@@ -4267,7 +6369,14 @@
       "placeholder": true,
       "featured": true,
       "provider": [],
-      "keywords": ["electoral", "division", "ED", "1944", "Dublin", "placeholder"]
+      "keywords": [
+        "electoral",
+        "division",
+        "ED",
+        "1944",
+        "Dublin",
+        "placeholder"
+      ]
     },
     {
       "id": "eds-roi-1950",
@@ -4278,7 +6387,14 @@
       "placeholder": true,
       "featured": true,
       "provider": [],
-      "keywords": ["electoral", "division", "ED", "1950", "Limerick", "placeholder"]
+      "keywords": [
+        "electoral",
+        "division",
+        "ED",
+        "1950",
+        "Limerick",
+        "placeholder"
+      ]
     },
     {
       "id": "eds-roi-1954",
@@ -4289,7 +6405,14 @@
       "placeholder": true,
       "featured": true,
       "provider": [],
-      "keywords": ["electoral", "division", "ED", "1954", "Dublin", "placeholder"]
+      "keywords": [
+        "electoral",
+        "division",
+        "ED",
+        "1954",
+        "Dublin",
+        "placeholder"
+      ]
     },
     {
       "id": "eds-roi-1957",
@@ -4300,7 +6423,14 @@
       "placeholder": true,
       "featured": true,
       "provider": [],
-      "keywords": ["electoral", "division", "ED", "1957", "Wicklow", "placeholder"]
+      "keywords": [
+        "electoral",
+        "division",
+        "ED",
+        "1957",
+        "Wicklow",
+        "placeholder"
+      ]
     },
     {
       "id": "eds-roi-1970",
@@ -4311,7 +6441,14 @@
       "placeholder": true,
       "featured": true,
       "provider": [],
-      "keywords": ["electoral", "division", "ED", "1970", "Waterford", "placeholder"]
+      "keywords": [
+        "electoral",
+        "division",
+        "ED",
+        "1970",
+        "Waterford",
+        "placeholder"
+      ]
     },
     {
       "id": "eds-roi-1971-04-15",
@@ -4322,7 +6459,16 @@
       "placeholder": true,
       "featured": true,
       "provider": [],
-      "keywords": ["electoral", "division", "ED", "1971", "Cork", "Dublin", "Limerick", "placeholder"]
+      "keywords": [
+        "electoral",
+        "division",
+        "ED",
+        "1971",
+        "Cork",
+        "Dublin",
+        "Limerick",
+        "placeholder"
+      ]
     },
     {
       "id": "eds-roi-1976",
@@ -4333,119 +6479,13 @@
       "placeholder": true,
       "featured": true,
       "provider": [],
-      "keywords": ["electoral", "division", "ED", "1976", "placeholder"]
-    },
-    {
-      "id": "eds-connacht-1911",
-      "name": "Connacht Electoral Divisions 1911",
-      "slug": "eds-connacht-1911",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "OSI",
-        "OSM"
-      ],
-      "useLOD": true,
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/ConnachtElectoralDivisions1911.fgb"
-      },
-      "style": {
-        "color": "#8B4513",
-        "weight": 2
-      },
       "keywords": [
-        "connacht",
+        "electoral",
+        "division",
         "ED",
-        "1911",
-        "census"
-      ],
-      "labelProperty": "ED_NAME",
-      "date": 1911
-    },
-    {
-      "id": "eds-leinster-1911",
-      "name": "Leinster Electoral Divisions 1911",
-      "slug": "eds-leinster-1911",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "OSI",
-        "OSM"
-      ],
-      "useLOD": true,
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/LeinsterElectoralDivisions1911.fgb"
-      },
-      "style": {
-        "color": "#8B4513",
-        "weight": 2
-      },
-      "keywords": [
-        "leinster",
-        "ED",
-        "1911",
-        "census"
-      ],
-      "labelProperty": "ED_NAME",
-      "date": 1911
-    },
-    {
-      "id": "eds-munster-1911",
-      "name": "Munster Electoral Divisions 1911",
-      "slug": "eds-munster-1911",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "OSI",
-        "OSM"
-      ],
-      "useLOD": true,
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/MunsterElectoralDivisions1911.fgb"
-      },
-      "style": {
-        "color": "#8B4513",
-        "weight": 2
-      },
-      "keywords": [
-        "munster",
-        "ED",
-        "1911",
-        "census"
-      ],
-      "labelProperty": "ED_NAME",
-      "date": 1911
-    },
-    {
-      "id": "eds-ulster-1911",
-      "name": "Ulster Electoral Divisions 1911",
-      "slug": "eds-ulster-1911",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "OSI",
-        "OSM"
-      ],
-      "useLOD": true,
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/UlsterElectoralDivisions1911.fgb"
-      },
-      "style": {
-        "color": "#8B4513",
-        "weight": 2
-      },
-      "keywords": [
-        "ulster",
-        "ED",
-        "1911",
-        "census"
-      ],
-      "labelProperty": "ED_NAME",
-      "date": 1911
+        "1976",
+        "placeholder"
+      ]
     },
     {
       "id": "eds-1926",
@@ -4516,150 +6556,6 @@
         }
       ],
       "date": 1926
-    },
-    {
-      "id": "eds-connacht-1926",
-      "name": "Connacht Electoral Divisions 1926",
-      "slug": "eds-connacht-1926",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "OSI",
-        "OSM"
-      ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Connacht1926EDs.fgb"
-      },
-      "style": {
-        "color": "#CD853F",
-        "weight": 2
-      },
-      "keywords": [
-        "connacht",
-        "ED",
-        "1926",
-        "census"
-      ],
-      "labelProperty": "ED_NAME",
-      "date": 1926,
-      "useLOD": true
-    },
-    {
-      "id": "eds-leinster-1926",
-      "name": "Leinster Electoral Divisions 1926",
-      "slug": "eds-leinster-1926",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "OSI",
-        "OSM"
-      ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Leinster1926EDs.fgb"
-      },
-      "style": {
-        "color": "#CD853F",
-        "weight": 2
-      },
-      "keywords": [
-        "leinster",
-        "ED",
-        "1926",
-        "census"
-      ],
-      "labelProperty": "ED_NAME",
-      "date": 1926,
-      "useLOD": true
-    },
-    {
-      "id": "eds-munster-1926",
-      "name": "Munster Electoral Divisions 1926",
-      "slug": "eds-munster-1926",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "OSI",
-        "OSM"
-      ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Munster1926EDs.fgb"
-      },
-      "style": {
-        "color": "#CD853F",
-        "weight": 2
-      },
-      "keywords": [
-        "munster",
-        "ED",
-        "1926",
-        "census"
-      ],
-      "labelProperty": "ED_NAME",
-      "date": 1926,
-      "useLOD": true
-    },
-    {
-      "id": "eds-ulster-1926",
-      "name": "Ulster (ROI) Electoral Divisions 1926",
-      "slug": "eds-ulster-1926",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": false,
-      "provider": [
-        "OSI",
-        "OSM"
-      ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Ulster1926EDs.fgb"
-      },
-      "style": {
-        "color": "#CD853F",
-        "weight": 2
-      },
-      "keywords": [
-        "ulster",
-        "ED",
-        "1926",
-        "census",
-        "donegal",
-        "cavan",
-        "monaghan"
-      ],
-      "labelProperty": "ED_NAME",
-      "date": 1926,
-      "useLOD": true
-    },
-    {
-      "id": "deds-ni-1926",
-      "name": "Northern Ireland DEDs 1926",
-      "slug": "deds-ni-1926",
-      "category": "electoral-divisions",
-      "hidden": true,
-      "featured": true,
-      "provider": [
-        "OSNI",
-        "PRONI"
-      ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/NorthernIrelandDEDs1926.fgb"
-      },
-      "style": {
-        "color": "#D2691E",
-        "weight": 2
-      },
-      "keywords": [
-        "DED",
-        "district electoral division",
-        "1926",
-        "census",
-        "northern ireland"
-      ],
-      "labelProperty": "ED_NAME",
-      "date": 1926,
-      "useLOD": true
     },
     {
       "id": "civil-parishes-by-province",
@@ -5332,7 +7228,8 @@
         "weight": 2
       },
       "labelProperty": "Province",
-      "date": 2001
+      "date": 2001,
+      "variants": []
     },
     {
       "id": "eds-1926-ulster",
@@ -6142,7 +8039,8 @@
         "admin",
         "areas",
         "placeholder"
-      ]
+      ],
+      "variants": []
     },
     {
       "id": "admin-areas-1935-06-25",
@@ -8483,6 +10381,37 @@
       ]
     },
     {
+      "id": "catholic-dublin-parishes",
+      "name": "Catholic Parishes (Dublin)",
+      "slug": "catholic-dublin-parishes",
+      "category": "built-environment",
+      "date": "2011",
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "geojson": "data/maps/local-government/Catholic_Parishes_Dublin.geojson",
+        "fgb": "data/maps/local-government/Catholic_Parishes_Dublin.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/Catholic_Parishes_Dublin.zip"
+        }
+      },
+      "style": {
+        "color": "#9C27B0",
+        "weight": 2
+      },
+      "keywords": [
+        "catholic",
+        "parishes",
+        "dublin",
+        "religion",
+        "ecclesiastical",
+        "church",
+        "deanery"
+      ],
+      "labelProperty": "Par_Name"
+    },
+    {
       "id": "catholic-dioceses",
       "name": "Catholic Dioceses",
       "slug": "catholic-dioceses",
@@ -8514,7 +10443,7 @@
       "isGroup": true,
       "featured": true,
       "provider": [
-        "Tailte Eireann"
+        "Tailte Éireann"
       ],
       "style": {
         "color": "#1C6B3A",
@@ -8564,6 +10493,654 @@
       ],
       "date": 2019,
       "labelProperty": "ENGLISH"
+    },
+    {
+      "id": "eds-1997",
+      "name": "Electoral Divisions 1997",
+      "slug": "electoral-divisions-1997",
+      "category": "wards",
+      "isGroup": true,
+      "featured": true,
+      "provider": [
+        "Phelim Birch"
+      ],
+      "style": {
+        "color": "#2E7D32",
+        "weight": 2
+      },
+      "keywords": [
+        "electoral division",
+        "ED",
+        "1997",
+        "all ireland",
+        "historic"
+      ],
+      "variants": [
+        {
+          "id": "eds-connacht-1997",
+          "label": "Connacht",
+          "description": "Electoral Divisions in Connacht (1997)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
+          }
+        },
+        {
+          "id": "eds-leinster-1997",
+          "label": "Leinster",
+          "description": "Electoral Divisions in Leinster (1997)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Leinster_1997.fgb"
+          }
+        },
+        {
+          "id": "eds-munster-1997",
+          "label": "Munster",
+          "description": "Electoral Divisions in Munster (1997)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
+          }
+        },
+        {
+          "id": "eds-ulster-1997",
+          "label": "Ulster",
+          "description": "Electoral Divisions in Ulster (1997)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Ulster.fgb"
+          }
+        }
+      ],
+      "date": 1997,
+      "labelProperty": "ENGLISH"
+    },
+    {
+      "id": "eds-1994",
+      "name": "Electoral Divisions/Wards 1994",
+      "slug": "district-electoral-divisions-wards-1994",
+      "category": "wards",
+      "isGroup": true,
+      "featured": true,
+      "provider": [
+        "Phelim Birch"
+      ],
+      "style": {
+        "color": "#2B8A3E",
+        "weight": 2
+      },
+      "keywords": [
+        "electoral division",
+        "ED",
+        "1994",
+        "all ireland",
+        "ward",
+        "DED"
+      ],
+      "variants": [
+        {
+          "id": "eds-connacht-1994",
+          "label": "Connacht",
+          "description": "Electoral Divisions in Connacht (1994)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
+          }
+        },
+        {
+          "id": "eds-leinster-1994",
+          "label": "Leinster",
+          "description": "Electoral Divisions in Leinster (1994)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1994.fgb"
+          }
+        },
+        {
+          "id": "eds-munster-1994",
+          "label": "Munster",
+          "description": "Electoral Divisions in Munster (1994)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
+          }
+        },
+        {
+          "id": "eds-ulster-1994",
+          "label": "Ulster",
+          "description": "Electoral Divisions in Ulster (1994)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Ulster.fgb"
+          }
+        }
+      ],
+      "date": 1994,
+      "labelProperty": "ENGLISH"
+    },
+    {
+      "id": "eds-1986",
+      "name": "Electoral Divisions/Wards 1986",
+      "slug": "district-electoral-divisions-wards-1986",
+      "category": "wards",
+      "isGroup": true,
+      "featured": true,
+      "provider": [
+        "Phelim Birch"
+      ],
+      "style": {
+        "color": "#256D36",
+        "weight": 2
+      },
+      "keywords": [
+        "electoral division",
+        "ED",
+        "1986",
+        "all ireland",
+        "ward",
+        "DED"
+      ],
+      "variants": [
+        {
+          "id": "eds-connacht-1986",
+          "label": "Connacht",
+          "description": "Electoral Divisions in Connacht (1986)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
+          }
+        },
+        {
+          "id": "eds-leinster-1986",
+          "label": "Leinster",
+          "description": "Electoral Divisions in Leinster (1986)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1986.fgb"
+          }
+        },
+        {
+          "id": "eds-munster-1986",
+          "label": "Munster",
+          "description": "Electoral Divisions in Munster (1986)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
+          }
+        },
+        {
+          "id": "eds-ulster-1986",
+          "label": "Ulster",
+          "description": "Electoral Divisions in Ulster (1986)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Ulster.fgb"
+          }
+        }
+      ],
+      "date": 1986,
+      "labelProperty": "ENGLISH"
+    },
+    {
+      "id": "eds-connacht-2022",
+      "name": "Connacht Electoral Divisions 2022",
+      "slug": "eds-connacht-2022",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2022_CSO_EDs_Connacht.fgb"
+      },
+      "style": {
+        "color": "#1B5E20",
+        "weight": 2
+      },
+      "keywords": [
+        "connacht",
+        "ED",
+        "2022",
+        "census"
+      ],
+      "labelProperty": "ED_ENGLISH",
+      "date": 2022,
+      "useLOD": true
+    },
+    {
+      "id": "eds-leinster-2022",
+      "name": "Leinster Electoral Divisions 2022",
+      "slug": "eds-leinster-2022",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2022_CSO_EDs_Leinster.fgb"
+      },
+      "style": {
+        "color": "#1B5E20",
+        "weight": 2
+      },
+      "keywords": [
+        "leinster",
+        "ED",
+        "2022",
+        "census"
+      ],
+      "labelProperty": "ED_ENGLISH",
+      "date": 2022,
+      "useLOD": true
+    },
+    {
+      "id": "eds-munster-2022",
+      "name": "Munster Electoral Divisions 2022",
+      "slug": "eds-munster-2022",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2022_CSO_EDs_Munster.fgb"
+      },
+      "style": {
+        "color": "#1B5E20",
+        "weight": 2
+      },
+      "keywords": [
+        "munster",
+        "ED",
+        "2022",
+        "census"
+      ],
+      "labelProperty": "ED_ENGLISH",
+      "date": 2022,
+      "useLOD": true
+    },
+    {
+      "id": "eds-ulster-2022",
+      "name": "Ulster Electoral Divisions 2022",
+      "slug": "eds-ulster-2022",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2022_CSO_EDs_Ulster.fgb"
+      },
+      "style": {
+        "color": "#1B5E20",
+        "weight": 2
+      },
+      "keywords": [
+        "ulster",
+        "ED",
+        "2022",
+        "census"
+      ],
+      "labelProperty": "ED_ENGLISH",
+      "date": 2022,
+      "useLOD": true
+    },
+    {
+      "id": "eds-connacht-2006",
+      "name": "Connacht Electoral Divisions 2006",
+      "slug": "eds-connacht-2006",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2006_CSO_EDs_Connacht.fgb"
+      },
+      "style": {
+        "color": "#2E7D32",
+        "weight": 2
+      },
+      "keywords": [
+        "connacht",
+        "ED",
+        "2006",
+        "census"
+      ],
+      "labelProperty": "EDNAME",
+      "date": 2006,
+      "useLOD": true
+    },
+    {
+      "id": "eds-leinster-2006",
+      "name": "Leinster Electoral Divisions 2006",
+      "slug": "eds-leinster-2006",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2006_CSO_EDs_Leinster.fgb"
+      },
+      "style": {
+        "color": "#2E7D32",
+        "weight": 2
+      },
+      "keywords": [
+        "leinster",
+        "ED",
+        "2006",
+        "census"
+      ],
+      "labelProperty": "EDNAME",
+      "date": 2006,
+      "useLOD": true
+    },
+    {
+      "id": "eds-munster-2006",
+      "name": "Munster Electoral Divisions 2006",
+      "slug": "eds-munster-2006",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2006_CSO_EDs_Munster.fgb"
+      },
+      "style": {
+        "color": "#2E7D32",
+        "weight": 2
+      },
+      "keywords": [
+        "munster",
+        "ED",
+        "2006",
+        "census"
+      ],
+      "labelProperty": "EDNAME",
+      "date": 2006,
+      "useLOD": true
+    },
+    {
+      "id": "eds-ulster-2006",
+      "name": "Ulster Electoral Divisions 2006",
+      "slug": "eds-ulster-2006",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2006_CSO_EDs_Ulster.fgb"
+      },
+      "style": {
+        "color": "#2E7D32",
+        "weight": 2
+      },
+      "keywords": [
+        "ulster",
+        "ED",
+        "2006",
+        "census"
+      ],
+      "labelProperty": "EDNAME",
+      "date": 2006,
+      "useLOD": true
+    },
+    {
+      "id": "eds-connacht-1911",
+      "name": "Connacht Electoral Divisions 1911",
+      "slug": "eds-connacht-1911",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "OSI",
+        "OSM"
+      ],
+      "useLOD": true,
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/ConnachtElectoralDivisions1911.fgb"
+      },
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "keywords": [
+        "connacht",
+        "ED",
+        "1911",
+        "census"
+      ],
+      "labelProperty": "ED_NAME",
+      "date": 1911
+    },
+    {
+      "id": "eds-leinster-1911",
+      "name": "Leinster Electoral Divisions 1911",
+      "slug": "eds-leinster-1911",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "OSI",
+        "OSM"
+      ],
+      "useLOD": true,
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/LeinsterElectoralDivisions1911.fgb"
+      },
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "keywords": [
+        "leinster",
+        "ED",
+        "1911",
+        "census"
+      ],
+      "labelProperty": "ED_NAME",
+      "date": 1911
+    },
+    {
+      "id": "eds-munster-1911",
+      "name": "Munster Electoral Divisions 1911",
+      "slug": "eds-munster-1911",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "OSI",
+        "OSM"
+      ],
+      "useLOD": true,
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/MunsterElectoralDivisions1911.fgb"
+      },
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "keywords": [
+        "munster",
+        "ED",
+        "1911",
+        "census"
+      ],
+      "labelProperty": "ED_NAME",
+      "date": 1911
+    },
+    {
+      "id": "eds-ulster-1911",
+      "name": "Ulster Electoral Divisions 1911",
+      "slug": "eds-ulster-1911",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "OSI",
+        "OSM"
+      ],
+      "useLOD": true,
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/UlsterElectoralDivisions1911.fgb"
+      },
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "keywords": [
+        "ulster",
+        "ED",
+        "1911",
+        "census"
+      ],
+      "labelProperty": "ED_NAME",
+      "date": 1911
+    },
+    {
+      "id": "eds-connacht-1926",
+      "name": "Connacht Electoral Divisions 1926",
+      "slug": "eds-connacht-1926",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "OSI",
+        "OSM"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Connacht1926EDs.fgb"
+      },
+      "style": {
+        "color": "#CD853F",
+        "weight": 2
+      },
+      "keywords": [
+        "connacht",
+        "ED",
+        "1926",
+        "census"
+      ],
+      "labelProperty": "ED_NAME",
+      "date": 1926,
+      "useLOD": true
+    },
+    {
+      "id": "eds-leinster-1926",
+      "name": "Leinster Electoral Divisions 1926",
+      "slug": "eds-leinster-1926",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "OSI",
+        "OSM"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Leinster1926EDs.fgb"
+      },
+      "style": {
+        "color": "#CD853F",
+        "weight": 2
+      },
+      "keywords": [
+        "leinster",
+        "ED",
+        "1926",
+        "census"
+      ],
+      "labelProperty": "ED_NAME",
+      "date": 1926,
+      "useLOD": true
+    },
+    {
+      "id": "eds-munster-1926",
+      "name": "Munster Electoral Divisions 1926",
+      "slug": "eds-munster-1926",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "OSI",
+        "OSM"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Munster1926EDs.fgb"
+      },
+      "style": {
+        "color": "#CD853F",
+        "weight": 2
+      },
+      "keywords": [
+        "munster",
+        "ED",
+        "1926",
+        "census"
+      ],
+      "labelProperty": "ED_NAME",
+      "date": 1926,
+      "useLOD": true
+    },
+    {
+      "id": "eds-ulster-1926",
+      "name": "Ulster (ROI) Electoral Divisions 1926",
+      "slug": "eds-ulster-1926",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "OSI",
+        "OSM"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Ulster1926EDs.fgb"
+      },
+      "style": {
+        "color": "#CD853F",
+        "weight": 2
+      },
+      "keywords": [
+        "ulster",
+        "ED",
+        "1926",
+        "census",
+        "donegal",
+        "cavan",
+        "monaghan"
+      ],
+      "labelProperty": "ED_NAME",
+      "date": 1926,
+      "useLOD": true
+    },
+    {
+      "id": "deds-ni-1926",
+      "name": "Northern Ireland DEDs 1926",
+      "slug": "deds-ni-1926",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": true,
+      "provider": [
+        "OSNI",
+        "PRONI"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/NorthernIrelandDEDs1926.fgb"
+      },
+      "style": {
+        "color": "#D2691E",
+        "weight": 2
+      },
+      "keywords": [
+        "DED",
+        "district electoral division",
+        "1926",
+        "census",
+        "northern ireland"
+      ],
+      "labelProperty": "ED_NAME",
+      "date": 1926,
+      "useLOD": true
     },
     {
       "id": "eds-connacht-2019",
@@ -8670,64 +11247,6 @@
       "date": 2019
     },
     {
-      "id": "eds-1997",
-      "name": "Electoral Divisions 1997",
-      "slug": "electoral-divisions-1997",
-      "category": "wards",
-      "isGroup": true,
-      "featured": true,
-      "provider": [
-        "Phelim Birch"
-      ],
-      "style": {
-        "color": "#2E7D32",
-        "weight": 2
-      },
-      "keywords": [
-        "electoral division",
-        "ED",
-        "1997",
-        "all ireland",
-        "historic"
-      ],
-      "variants": [
-        {
-          "id": "eds-connacht-1997",
-          "label": "Connacht",
-          "description": "Electoral Divisions in Connacht (1997)",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
-          }
-        },
-        {
-          "id": "eds-leinster-1997",
-          "label": "Leinster",
-          "description": "Electoral Divisions in Leinster (1997)",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Leinster_1997.fgb"
-          }
-        },
-        {
-          "id": "eds-munster-1997",
-          "label": "Munster",
-          "description": "Electoral Divisions in Munster (1997)",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
-          }
-        },
-        {
-          "id": "eds-ulster-1997",
-          "label": "Ulster",
-          "description": "Electoral Divisions in Ulster (1997)",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Ulster.fgb"
-          }
-        }
-      ],
-      "date": 1997,
-      "labelProperty": "ENGLISH"
-    },
-    {
       "id": "eds-connacht-1997",
       "name": "Connacht Electoral Divisions 1997",
       "slug": "eds-connacht-1997",
@@ -8826,65 +11345,6 @@
       ],
       "labelProperty": "ENGLISH",
       "date": 1997
-    },
-    {
-      "id": "eds-1994",
-      "name": "Electoral Divisions/Wards 1994",
-      "slug": "district-electoral-divisions-wards-1994",
-      "category": "wards",
-      "isGroup": true,
-      "featured": true,
-      "provider": [
-        "Phelim Birch"
-      ],
-      "style": {
-        "color": "#2B8A3E",
-        "weight": 2
-      },
-      "keywords": [
-        "electoral division",
-        "ED",
-        "1994",
-        "all ireland",
-        "ward",
-        "DED"
-      ],
-      "variants": [
-        {
-          "id": "eds-connacht-1994",
-          "label": "Connacht",
-          "description": "Electoral Divisions in Connacht (1994)",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
-          }
-        },
-        {
-          "id": "eds-leinster-1994",
-          "label": "Leinster",
-          "description": "Electoral Divisions in Leinster (1994)",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1994.fgb"
-          }
-        },
-        {
-          "id": "eds-munster-1994",
-          "label": "Munster",
-          "description": "Electoral Divisions in Munster (1994)",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
-          }
-        },
-        {
-          "id": "eds-ulster-1994",
-          "label": "Ulster",
-          "description": "Electoral Divisions in Ulster (1994)",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Ulster.fgb"
-          }
-        }
-      ],
-      "date": 1994,
-      "labelProperty": "ENGLISH"
     },
     {
       "id": "eds-connacht-1994",
@@ -8987,65 +11447,6 @@
       "date": 1994
     },
     {
-      "id": "eds-1986",
-      "name": "Electoral Divisions/Wards 1986",
-      "slug": "district-electoral-divisions-wards-1986",
-      "category": "wards",
-      "isGroup": true,
-      "featured": true,
-      "provider": [
-        "Phelim Birch"
-      ],
-      "style": {
-        "color": "#256D36",
-        "weight": 2
-      },
-      "keywords": [
-        "electoral division",
-        "ED",
-        "1986",
-        "all ireland",
-        "ward",
-        "DED"
-      ],
-      "variants": [
-        {
-          "id": "eds-connacht-1986",
-          "label": "Connacht",
-          "description": "Electoral Divisions in Connacht (1986)",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
-          }
-        },
-        {
-          "id": "eds-leinster-1986",
-          "label": "Leinster",
-          "description": "Electoral Divisions in Leinster (1986)",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1986.fgb"
-          }
-        },
-        {
-          "id": "eds-munster-1986",
-          "label": "Munster",
-          "description": "Electoral Divisions in Munster (1986)",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
-          }
-        },
-        {
-          "id": "eds-ulster-1986",
-          "label": "Ulster",
-          "description": "Electoral Divisions in Ulster (1986)",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Ulster.fgb"
-          }
-        }
-      ],
-      "date": 1986,
-      "labelProperty": "ENGLISH"
-    },
-    {
       "id": "eds-connacht-1986",
       "name": "Connacht District Electoral Divisions/Wards 1986",
       "slug": "eds-connacht-1986",
@@ -9144,6 +11545,1329 @@
       ],
       "labelProperty": "ENGLISH",
       "date": 1986
+    },
+    {
+      "id": "wards-1984-wards85-antrim-1-raster",
+      "name": "Antrim Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-antrim-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-antrim-1.png"
+      },
+      "bounds": [
+        [
+          54.4211511,
+          -6.5754986
+        ],
+        [
+          54.9067745,
+          -5.4985558
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-ards-1-raster",
+      "name": "Ards Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-ards-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-ards-1.png"
+      },
+      "bounds": [
+        [
+          54.2797038,
+          -5.9928267
+        ],
+        [
+          54.7590401,
+          -4.9134636
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-armagh-1-raster",
+      "name": "Armagh Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-armagh-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-armagh-1.png"
+      },
+      "bounds": [
+        [
+          54.0935726,
+          -6.9961214
+        ],
+        [
+          54.5709256,
+          -5.9294341
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-ballymena-1-raster",
+      "name": "Ballymena Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-ballymena-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-ballymena-1.png"
+      },
+      "bounds": [
+        [
+          54.6721586,
+          -6.6313233
+        ],
+        [
+          55.1499396,
+          -5.5428967
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-ballymoney-raster",
+      "name": "Ballymoney Wards 1985 (Raster)",
+      "slug": "wards-1984-wards85-ballymoney-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-ballymoney.png"
+      },
+      "bounds": [
+        [
+          54.7390517,
+          -7.1579855
+        ],
+        [
+          55.2140068,
+          -6.0831699
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-banbridge-raster",
+      "name": "Banbridge Wards 1985 (Raster)",
+      "slug": "wards-1984-wards85-banbridge-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-banbridge.png"
+      },
+      "bounds": [
+        [
+          54.0460652,
+          -6.448658
+        ],
+        [
+          54.5164595,
+          -5.3929128
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-belfast-1-raster",
+      "name": "Belfast Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-belfast-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-belfast-1.png"
+      },
+      "bounds": [
+        [
+          54.5050674,
+          -6.1003075
+        ],
+        [
+          54.6913881,
+          -5.6749064
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-carrickfergus-raster",
+      "name": "Carrickfergus Wards 1985 (Raster)",
+      "slug": "wards-1984-wards85-carrickfergus-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-carrickfergus.png"
+      },
+      "bounds": [
+        [
+          54.628775,
+          -6.3861043
+        ],
+        [
+          55.1344828,
+          -5.2554387
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-coleraine-1-raster",
+      "name": "Coleraine Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-coleraine-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-coleraine-1.png"
+      },
+      "bounds": [
+        [
+          54.8500099,
+          -7.3824917
+        ],
+        [
+          55.3336341,
+          -6.284418
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-cookstown-raster",
+      "name": "Cookstown Wards 1985 (Raster)",
+      "slug": "wards-1984-wards85-cookstown-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-cookstown.png"
+      },
+      "bounds": [
+        [
+          54.5140796,
+          -7.1045336
+        ],
+        [
+          54.9812735,
+          -6.0484486
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-craigavon-1-raster",
+      "name": "Craigavon Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-craigavon-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-craigavon-1.png"
+      },
+      "bounds": [
+        [
+          54.3269737,
+          -6.6379171
+        ],
+        [
+          54.801694,
+          -5.5753738
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-derry-1-raster",
+      "name": "Derry Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-derry-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-derry-1.png"
+      },
+      "bounds": [
+        [
+          54.6443513,
+          -8.0267713
+        ],
+        [
+          55.1088569,
+          -6.9566841
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-down-1-raster",
+      "name": "Down Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-down-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-down-1.png"
+      },
+      "bounds": [
+        [
+          54.0924288,
+          -6.146709
+        ],
+        [
+          54.5612821,
+          -5.0938454
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-dungannon-1-raster",
+      "name": "Dungannon Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-dungannon-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-dungannon-1.png"
+      },
+      "bounds": [
+        [
+          54.2868331,
+          -7.4806797
+        ],
+        [
+          54.7542902,
+          -6.428066
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-larne-raster",
+      "name": "Larne Wards 1985 (Raster)",
+      "slug": "wards-1984-wards85-larne-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-larne.png"
+      },
+      "bounds": [
+        [
+          54.6240291,
+          -6.1993427
+        ],
+        [
+          55.1104303,
+          -5.096187
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-limavady-raster",
+      "name": "Limavady Wards 1985 (Raster)",
+      "slug": "wards-1984-wards85-limavady-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-limavady.png"
+      },
+      "bounds": [
+        [
+          54.7824786,
+          -7.2328399
+        ],
+        [
+          55.2454981,
+          -6.1643734
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-lisburn-1-raster",
+      "name": "Lisburn Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-lisburn-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-lisburn-1.png"
+      },
+      "bounds": [
+        [
+          54.1923701,
+          -6.381608
+        ],
+        [
+          54.6777444,
+          -5.2874457
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-magherafelt-raster",
+      "name": "Magherafelt Wards 1985 (Raster)",
+      "slug": "wards-1984-wards85-magherafelt-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-magherafelt.png"
+      },
+      "bounds": [
+        [
+          54.5189732,
+          -7.1130735
+        ],
+        [
+          54.9820037,
+          -6.0445819
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-moyle-raster",
+      "name": "Moyle Wards 1985 (Raster)",
+      "slug": "wards-1984-wards85-moyle-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-moyle.png"
+      },
+      "bounds": [
+        [
+          54.8765234,
+          -6.6542635
+        ],
+        [
+          55.3512076,
+          -5.5432312
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-newry-mourne-1-raster",
+      "name": "Newry & Mourne Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-newry-mourne-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-newry-mourne-1.png"
+      },
+      "bounds": [
+        [
+          53.9940399,
+          -6.7497884
+        ],
+        [
+          54.4707093,
+          -5.6752491
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-newtownabbey-1-raster",
+      "name": "Newtownabbey Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-newtownabbey-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-newtownabbey-1.png"
+      },
+      "bounds": [
+        [
+          54.4676592,
+          -6.2283031
+        ],
+        [
+          54.9467225,
+          -5.1333014
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-north-down-1-raster",
+      "name": "North Down Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-north-down-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-north-down-1.png"
+      },
+      "bounds": [
+        [
+          54.3297404,
+          -6.5759459
+        ],
+        [
+          54.8011217,
+          -5.4930643
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-omagh-1-raster",
+      "name": "Omagh Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-omagh-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-omagh-1.png"
+      },
+      "bounds": [
+        [
+          54.3676273,
+          -7.7576029
+        ],
+        [
+          54.8278536,
+          -6.69198
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1984-wards85-strabane-1-raster",
+      "name": "Strabane Wards 1985 (Sheet 1) (Raster)",
+      "slug": "wards-1984-wards85-strabane-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards85-strabane-1.png"
+      },
+      "bounds": [
+        [
+          54.5476185,
+          -7.9570603
+        ],
+        [
+          55.0091276,
+          -6.8573854
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1984
+    },
+    {
+      "id": "wards-1972-wards73-belfast-raster",
+      "name": "Belfast Wards 1973 (Raster)",
+      "slug": "wards-1972-wards73-belfast-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards73-belfast.png"
+      },
+      "bounds": [
+        [
+          54.514191,
+          -6.134575
+        ],
+        [
+          54.6864559,
+          -5.7408266
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1972
+    },
+    {
+      "id": "wards-1972-wards73-strabane-raster",
+      "name": "Strabane Wards 1973 (Raster)",
+      "slug": "wards-1972-wards73-strabane-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards73-strabane.png"
+      },
+      "bounds": [
+        [
+          54.5681504,
+          -7.9598153
+        ],
+        [
+          55.0100852,
+          -6.8580715
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1972
+    },
+    {
+      "id": "wards-1993-wards92-antrim-raster",
+      "name": "Antrim Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-antrim-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-antrim.png"
+      },
+      "bounds": [
+        [
+          54.4173899,
+          -6.5886851
+        ],
+        [
+          54.9096233,
+          -5.4198804
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-ards-raster",
+      "name": "Ards Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-ards-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-ards.png"
+      },
+      "bounds": [
+        [
+          54.2600751,
+          -5.9520938
+        ],
+        [
+          54.7595124,
+          -4.7473262
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-armagh-raster",
+      "name": "Armagh Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-armagh-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-armagh.png"
+      },
+      "bounds": [
+        [
+          54.0977043,
+          -7.0047467
+        ],
+        [
+          54.5765811,
+          -5.8399728
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-banbridge-raster",
+      "name": "Banbridge Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-banbridge-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-banbridge.png"
+      },
+      "bounds": [
+        [
+          54.0123227,
+          -6.464054
+        ],
+        [
+          54.4968213,
+          -5.3472805
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-belfast-1-raster",
+      "name": "Belfast Wards 1992 (Sheet 1) (Raster)",
+      "slug": "wards-1993-wards92-belfast-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-belfast-1.png"
+      },
+      "bounds": [
+        [
+          54.512724,
+          -6.0940699
+        ],
+        [
+          54.6867806,
+          -5.6764156
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-ballymena-raster",
+      "name": "Ballymena Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-ballymena-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-ballymena.png"
+      },
+      "bounds": [
+        [
+          54.7308664,
+          -6.5888839
+        ],
+        [
+          55.2182601,
+          -5.3998639
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-ballymoney-raster",
+      "name": "Ballymoney Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-ballymoney-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-ballymoney.png"
+      },
+      "bounds": [
+        [
+          54.8561739,
+          -6.708678
+        ],
+        [
+          55.3418207,
+          -5.5045562
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-coleraine-raster",
+      "name": "Coleraine Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-coleraine-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-coleraine.png"
+      },
+      "bounds": [
+        [
+          54.8164252,
+          -7.4521651
+        ],
+        [
+          55.3233861,
+          -6.2234599
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-cookstown-raster",
+      "name": "Cookstown Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-cookstown-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-cookstown.png"
+      },
+      "bounds": [
+        [
+          54.4990944,
+          -7.1190399
+        ],
+        [
+          54.9774444,
+          -5.9192104
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-craigavon-raster",
+      "name": "Craigavon Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-craigavon-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-craigavon.png"
+      },
+      "bounds": [
+        [
+          54.3367241,
+          -6.7160354
+        ],
+        [
+          54.8126732,
+          -5.4883984
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-derry-raster",
+      "name": "Derry Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-derry-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-derry.png"
+      },
+      "bounds": [
+        [
+          54.6499534,
+          -8.1144028
+        ],
+        [
+          55.1486971,
+          -6.9260059
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-down-raster",
+      "name": "Down Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-down-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-down.png"
+      },
+      "bounds": [
+        [
+          54.0742221,
+          -6.1942151
+        ],
+        [
+          54.5815998,
+          -5.0286409
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-dungannon-raster",
+      "name": "Dungannon Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-dungannon-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-dungannon.png"
+      },
+      "bounds": [
+        [
+          54.2691126,
+          -7.6344572
+        ],
+        [
+          54.7750605,
+          -6.4358669
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-larne-raster",
+      "name": "Larne Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-larne-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-larne.png"
+      },
+      "bounds": [
+        [
+          54.5989377,
+          -6.2083904
+        ],
+        [
+          55.1134461,
+          -4.9937356
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-limavady-raster",
+      "name": "Limavady Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-limavady-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-limavady.png"
+      },
+      "bounds": [
+        [
+          54.7626292,
+          -7.2367822
+        ],
+        [
+          55.2527488,
+          -6.0432451
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-lisburn-raster",
+      "name": "Lisburn Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-lisburn-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-lisburn.png"
+      },
+      "bounds": [
+        [
+          53.7367722,
+          -7.6786205
+        ],
+        [
+          54.7249865,
+          -5.3643119
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-magherafelt-raster",
+      "name": "Magherafelt Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-magherafelt-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-magherafelt.png"
+      },
+      "bounds": [
+        [
+          54.5156852,
+          -7.252476
+        ],
+        [
+          54.9978772,
+          -6.0355576
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-moyle-raster",
+      "name": "Moyle Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-moyle-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-moyle.png"
+      },
+      "bounds": [
+        [
+          54.8936189,
+          -6.6355644
+        ],
+        [
+          55.3940312,
+          -5.4234482
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-newtownabbey-raster",
+      "name": "Newtownabbey Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-newtownabbey-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-newtownabbey.png"
+      },
+      "bounds": [
+        [
+          54.466499,
+          -6.2540447
+        ],
+        [
+          54.9663509,
+          -5.0265907
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-newry-mourne-1-raster",
+      "name": "Newry & Mourne Wards 1992 (Sheet 1) (Raster)",
+      "slug": "wards-1993-wards92-newry-mourne-1-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-newry-mourne-1.png"
+      },
+      "bounds": [
+        [
+          53.9895965,
+          -6.7915955
+        ],
+        [
+          54.4805661,
+          -5.5909917
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-north-down-raster",
+      "name": "North Down Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-north-down-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-north-down.png"
+      },
+      "bounds": [
+        [
+          54.290357,
+          -6.6739883
+        ],
+        [
+          54.7971719,
+          -5.4128014
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-omagh-raster",
+      "name": "Omagh Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-omagh-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-omagh.png"
+      },
+      "bounds": [
+        [
+          54.3574456,
+          -7.9916838
+        ],
+        [
+          54.8290745,
+          -6.8314484
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
+    },
+    {
+      "id": "wards-1993-wards92-strabane-raster",
+      "name": "Strabane Wards 1992 (Raster)",
+      "slug": "wards-1993-wards92-strabane-raster",
+      "category": "wards",
+      "hidden": true,
+      "featured": false,
+      "files": {
+        "image": "data/maps/raster/wards92-strabane.png"
+      },
+      "bounds": [
+        [
+          54.5608827,
+          -7.9909504
+        ],
+        [
+          55.0329544,
+          -6.8240187
+        ]
+      ],
+      "opacity": 0.8,
+      "style": {
+        "color": "#DA70D6",
+        "weight": 0
+      },
+      "date": 1993
     }
   ]
 }

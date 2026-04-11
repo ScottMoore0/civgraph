@@ -261,8 +261,12 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--space-6);
-  background: var(--gradient-primary);
+  padding: var(--space-2) var(--space-6);
+  background: #065a6e;
+  background-image:
+    radial-gradient(circle at 0% 50%, #0fa55a 0%, transparent 50%),
+    radial-gradient(circle at 100% 50%, #003870 0%, transparent 50%),
+    radial-gradient(circle at 40% 100%, #0a7a78 0%, transparent 60%);
   color: var(--color-text-inverse);
   box-shadow: var(--shadow-md);
   z-index: var(--z-sticky);
@@ -271,9 +275,10 @@ a:hover {
 }
 
 .app-header__brand {
+  --brand-size: 60px;
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: calc(var(--brand-size) * 0.05);
   font-family: var(--font-display);
   font-size: var(--text-xl);
   font-weight: var(--font-bold);
@@ -286,6 +291,28 @@ a:hover {
   height: 40px;
   border-radius: var(--radius-lg);
   object-fit: contain;
+}
+
+.app-header__logo-wordmark {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
+.app-header__logo-icon {
+  width: calc(var(--brand-size) * 0.917);
+  height: calc(var(--brand-size) * 0.917);
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.app-header__wordmark {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-size: calc(var(--brand-size) * 0.567);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: 0;
 }
 
 .app-header__nav {
@@ -869,10 +896,7 @@ body.split-dragging * {
 }
 
 .catalogue-flat__toc-thumbzoom {
-  position: absolute;
-  left: calc(100% + 8px);
-  top: 50%;
-  transform: translateY(-50%);
+  position: fixed;
   width: 120px;
   height: 120px;
   border: 1px solid var(--color-border, #e2e8f0);
@@ -880,7 +904,7 @@ body.split-dragging * {
   background: var(--color-surface, #fff);
   box-shadow: var(--shadow-lg, 0 10px 25px rgba(0, 0, 0, 0.15));
   padding: 4px;
-  z-index: 50;
+  z-index: 9999;
   display: none;
   pointer-events: none;
 }
@@ -892,7 +916,7 @@ body.split-dragging * {
   display: block;
 }
 
-.catalogue-flat__toc-thumbwrap:hover .catalogue-flat__toc-thumbzoom {
+.catalogue-flat__toc-thumbzoom--visible {
   display: block;
 }
 
@@ -990,6 +1014,14 @@ body.split-dragging * {
 [data-theme="dark"] .catalogue-flat__toc-link:hover {
   background: rgba(66, 153, 225, 0.16);
   color: #d6e6ff;
+}
+
+/* Contrast hotfix: in dark mode the inherited --color-primary (#1a365d)
+   on the near-black surface yields ~1.33:1 — well below WCAG AA. Override
+   to a light blue that matches the .catalogue-flat__toc-link treatment
+   (≈9:1 against #1c2128). */
+[data-theme="dark"] .catalogue-flat__toc-toplink {
+  color: #9fc3ff;
 }
 
 [data-theme="dark"] .catalogue-flat__toc-table th {
@@ -1466,6 +1498,43 @@ body.split-dragging * {
   background: var(--color-surface-elevated);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-full);
+}
+
+.catalogue-detail__references {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.catalogue-detail__ref {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary, var(--color-text));
+  line-height: 1.5;
+}
+
+.catalogue-detail__ref a {
+  color: var(--color-link, #4ea8de);
+  text-decoration: none;
+}
+
+.catalogue-detail__ref a:hover {
+  text-decoration: underline;
+}
+
+.catalogue-detail__ref-num {
+  color: var(--color-link, #4ea8de);
+  font-weight: 600;
+  margin-right: 2px;
+}
+
+.catalogue-detail__ref-note {
+  color: var(--color-text-secondary, #aab);
+  font-style: italic;
+}
+
+.catalogue-detail__ref-accessed {
+  color: var(--color-text-secondary, #aab);
+  font-size: var(--text-xs);
 }
 
 .catalogue-detail__variants {
@@ -3251,6 +3320,56 @@ body.split-dragging * {
   border-bottom: none;
 }
 
+.variant-item--loaded {
+  background: var(--color-primary-50);
+  border-left: 3px solid var(--color-primary);
+}
+
+.variant-item__thumb {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  overflow: visible;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+}
+
+.variant-item__thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.variant-item__preview {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  width: 240px;
+  padding: 4px;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.variant-item__preview img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+}
+
+.variant-item__thumb:hover .variant-item__preview {
+  display: block;
+}
+
 .variant-item__info {
   display: flex;
   flex-direction: column;
@@ -4592,6 +4711,85 @@ html:not([data-theme]) .feature-info__value,
   color: #0f172a;
 }
 
+/* Dark mode: feature info card */
+[data-theme="dark"] .feature-info {
+  background: linear-gradient(135deg, rgba(28, 33, 40, 0.98) 0%, rgba(15, 20, 25, 0.98) 100%);
+  border: 1px solid var(--color-border, #3d444d);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .feature-info__header {
+  background: linear-gradient(135deg, rgba(44, 82, 130, 0.2) 0%, transparent 100%);
+  border-bottom-color: var(--color-border, #3d444d);
+}
+
+[data-theme="dark"] .feature-info__title {
+  color: #5fa8e8;
+}
+
+[data-theme="dark"] .feature-info__close {
+  color: #8b949e;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .feature-info__close:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .feature-info__pagination {
+  background: #21262d;
+}
+
+[data-theme="dark"] .feature-info__metrics {
+  background: linear-gradient(135deg, rgba(44, 82, 130, 0.15) 0%, rgba(44, 82, 130, 0.05) 100%);
+}
+
+[data-theme="dark"] .feature-info__metric {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="dark"] .feature-info__metric--clickable:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="dark"] .feature-info__summary {
+  background: #21262d;
+  color: #8b949e;
+}
+
+[data-theme="dark"] .feature-info__summary:hover {
+  background: #2d3748;
+  color: #f7fafc;
+}
+
+[data-theme="dark"] .feature-info__properties {
+  background: #21262d;
+  border: 1px solid var(--color-border, #3d444d);
+}
+
+[data-theme="dark"] .feature-info__property {
+  border-bottom: 1px solid var(--color-border-light, #21262d);
+}
+
+[data-theme="dark"] .feature-info__key {
+  color: #8b949e;
+}
+
+[data-theme="dark"] .feature-info__value {
+  color: #f7fafc;
+}
+
+[data-theme="dark"] .feature-info__expandable {
+  color: #5fa8e8;
+}
+
+[data-theme="dark"] .feature-info__expandable:hover {
+  color: #9fc3ff;
+}
+
 /* Expandable numbers */
 .feature-info__expandable {
   cursor: pointer;
@@ -4646,16 +4844,15 @@ html:not([data-theme]) .feature-info__value,
   width: 280px;
   max-height: 350px;
   overflow: hidden;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%);
+  background: var(--glass-bg, rgba(255, 255, 255, 0.98));
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  border: var(--glass-border, 1px solid rgba(255, 255, 255, 0.8));
   border-radius: 16px;
   padding: 0;
   box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.08),
-    0 1px 3px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    0 4px 24px rgba(0, 0, 0, 0.15),
+    0 1px 3px rgba(0, 0, 0, 0.08);
   z-index: 1050;
 }
 
@@ -4665,13 +4862,13 @@ html:not([data-theme]) .feature-info__value,
   justify-content: space-between;
   padding: var(--space-3) var(--space-4);
   background: linear-gradient(135deg, var(--color-primary-50) 0%, transparent 100%);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid var(--color-border-light, rgba(0, 0, 0, 0.06));
 }
 
 .active-layers__title {
   font-size: 10px;
   font-weight: 600;
-  color: var(--color-primary);
+  color: var(--color-text);
   text-transform: uppercase;
   letter-spacing: 1.2px;
   margin: 0;
@@ -4684,7 +4881,7 @@ html:not([data-theme]) .feature-info__value,
   align-items: center;
   justify-content: center;
   color: var(--color-text-muted);
-  background: rgba(0, 0, 0, 0.04);
+  background: var(--color-surface-elevated, rgba(0, 0, 0, 0.04));
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -4693,7 +4890,7 @@ html:not([data-theme]) .feature-info__value,
 
 .active-layers__close:hover {
   color: var(--color-text);
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--color-gray-200, rgba(0, 0, 0, 0.1));
   transform: scale(1.05);
 }
 
@@ -4708,6 +4905,7 @@ html:not([data-theme]) .feature-info__value,
 
 .active-layer-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2);
@@ -4783,6 +4981,106 @@ html:not([data-theme]) .feature-info__value,
 }
 
 /* Partial layer styling (individual features) */
+.active-layer-item__opacity-panel {
+  width: 100%;
+  margin-top: 2px;
+  padding: 6px 4px 2px;
+  border-top: 1px solid var(--color-border-light, rgba(0,0,0,0.06));
+}
+
+.active-layer-item__opacity {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.active-layer-item__opacity:last-child {
+  margin-bottom: 0;
+}
+
+.active-layer-item__opacity-label {
+  font-size: 9px;
+  color: var(--color-text-muted);
+  min-width: 36px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-weight: 600;
+}
+
+.active-layer-item__slider {
+  flex: 1;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--color-gray-200, #e2e8f0);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.active-layer-item__slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  border: 2px solid var(--color-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.active-layer-item__slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  border: 2px solid var(--color-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.active-layer-item__opacity-val {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  flex-shrink: 0;
+}
+
+.active-layer-item__opacity-val span {
+  font-size: 9px;
+  color: var(--color-text-muted);
+}
+
+.active-layer-item__opacity-input {
+  width: 32px;
+  padding: 1px 2px;
+  font-size: 10px;
+  text-align: right;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.active-layer-item__opacity-input::-webkit-inner-spin-button,
+.active-layer-item__opacity-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.active-layer-item__opacity-input:focus {
+  border-color: var(--color-primary);
+}
+
+.opacity-toggle-btn.active {
+  color: var(--color-primary) !important;
+  background: var(--color-primary-50) !important;
+}
+
 .active-layer-item--partial {
   border-left: 3px solid var(--color-accent);
   background: linear-gradient(135deg, var(--color-accent-glow) 0%, var(--color-gray-50) 100%);
@@ -5249,10 +5547,15 @@ html:not([data-theme]) .feature-info__value,
     box-shadow: var(--shadow-lg);
   }
 
-  /* Push Leaflet zoom controls below the mobile toggle button */
+  /* Push Leaflet zoom controls below the mobile toggle button.
+     CONSTRAINT: any future top-left map overlay (sandwich icon, sidebar
+     toggle, etc.) MUST NOT visually overlap the +/- zoom controls.
+     The mobile-toggle is 36px tall and sits at top:(header-height + space-3).
+     Zoom controls are pushed to top:64px (relative to map container) which
+     gives ~16px clearance below the toggle. Any new top-left overlay should
+     either (a) live above this offset, or (b) raise this offset further. */
   .leaflet-top.leaflet-left {
-    top: 60px !important;
-    /* space for 36px toggle + 24px gap */
+    top: 64px !important;
   }
 
   /* Map controls adjustments for mobile */
@@ -5758,19 +6061,7 @@ html:not([data-theme]) .theme-toggle__icon--sun {
   }
 }
 
-.app-header {
-  background: linear-gradient(135deg,
-      var(--color-primary-dark) 0%,
-      var(--color-primary) 25%,
-      var(--color-primary-light) 50%,
-      var(--color-primary) 75%,
-      var(--color-primary-dark) 100%);
-  background-size: 200% 200%;
-}
-
-.app-header:hover {
-  animation: gradientShift 8s ease-in-out infinite;
-}
+/* second .app-header block intentionally left empty — gradient is on the first rule */
 
 /* FQI 8: Virtual scrolling container */
 .virtual-scroll-container {
@@ -6705,6 +6996,49 @@ html:not([data-theme]) .theme-toggle__icon--sun {
 
 [data-theme="dark"] .pane-tab:hover {
   background: rgba(49, 130, 206, 0.15);
+}
+
+/* Contrast hotfix: --color-primary (#1a365d) on the dark active-tab
+   background yields ~1.52:1. Override the active-tab text + border to a
+   light blue with adequate contrast in dark mode. */
+[data-theme="dark"] .pane-tab--active {
+  color: #9fc3ff;
+  border-bottom-color: #9fc3ff;
+}
+
+/* Contrast hotfix: link-style elements that inherit color: var(--color-primary)
+   render dark navy on dark surfaces in dark mode. We can't change --color-primary
+   itself in dark mode because it's also used as a background colour for the
+   header, the catalogue era band, and several buttons (where white text on dark
+   navy is the desired look). Instead, override the foreground colour on the
+   specific link classes that appear in the side pane / table content.
+   #5fa8e8 yields ≈7:1 against #0f1419, ≈6.7:1 against #1c2128 — passes AA.
+   .election-entity-link is overridden separately near its base rule to keep
+   the source-order winner consistent. */
+/* Dark mode: catalogue feature detail view */
+[data-theme="dark"] .catalogue-detail__meta-value {
+  color: #5fa8e8;
+}
+
+[data-theme="dark"] .catalogue-detail__meta-value--mono {
+  color: #f7fafc;
+}
+
+[data-theme="dark"] .catalogue-detail__entity-link--text {
+  color: #5fa8e8;
+}
+
+[data-theme="dark"] .catalogue-detail__entity-link--text:hover {
+  color: #9fc3ff;
+}
+
+[data-theme="dark"] .catalogue-detail__attr-link {
+  color: #5fa8e8;
+}
+
+[data-theme="dark"] .catalogue-detail__attr-link:hover,
+[data-theme="dark"] .catalogue-detail__attr-link:focus-visible {
+  color: #9fc3ff;
 }
 
 [data-theme="dark"] .data-table th {
@@ -9037,6 +9371,7 @@ kbd {
 [data-theme="dark"] .data-table th {
   background: var(--color-gray-700);
   border-color: var(--color-gray-600);
+  color: #f7fafc;
 }
 
 [data-theme="dark"] .data-table__header.sortable:hover {
@@ -10001,11 +10336,11 @@ kbd {
 }
 
 [data-theme="dark"] .election-entity-link {
-  color: var(--color-primary-200, #c3dafe);
+  color: #5fa8e8;
 }
 
 [data-theme="dark"] .election-entity-link:hover {
-  color: #ffffff;
+  color: #9fc3ff;
 }
 
 [data-theme="dark"] .election-entity-page__hero,
@@ -10155,7 +10490,7 @@ kbd {
 [data-theme="dark"] .election-view-tab {
   background: var(--color-gray-800, #2d3748);
   border-color: var(--color-gray-700, #4a5568);
-  color: var(--color-gray-300, #e2e8f0);
+  color: #e2e8f0;
 }
 
 [data-theme="dark"] .election-view-tab:hover {
@@ -10485,6 +10820,32 @@ kbd {
 [data-theme="dark"] .election-animation-container #controls a:hover {
   background: var(--color-gray-700, #4a5568);
   color: #fff;
+}
+
+/* Transfer animation: percentage labels, quota post, and dashed line
+   are hardcoded black in stages.css. Override to white in dark mode. */
+[data-theme="dark"] .election-animation-container .pctLabel {
+  color: #fff;
+  -webkit-text-stroke: 3px #000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000,
+    -1px 1px 0 #000, 1px 1px 0 #000,
+    0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000, 1px 0 0 #000;
+}
+
+[data-theme="dark"] .election-animation-container #thepost {
+  background-color: #fff !important;
+}
+
+[data-theme="dark"] .election-animation-container #theline {
+  border-top-color: #fff !important;
+}
+
+/* Summary separator lines (before Valid vote, Turnout, Electorate) are
+   rendered with inline border-top:2px solid #000 by stages2.js.
+   !important is required to override inline styles. */
+[data-theme="dark"] .election-animation-container .static-hr {
+  border-top-color: #fff !important;
 }
 
 /* ── Map Label Hover ── */
@@ -11606,6 +11967,10 @@ kbd {
   color: #101820;
 }
 
+[data-theme="dark"] .election-na {
+  color: #8b949e;
+}
+
 .election-detail-toggle-btn--header {
   margin-left: 2px;
 }
@@ -11636,14 +12001,45 @@ kbd {
   color: #c62828;
 }
 
+/* Neutral delta (N/A, 0 values) — no colour set so it inherits.
+   Add an explicit rule so dark-mode override below has something to target. */
+.election-delta--neutral {
+  color: var(--color-text-muted, #718096);
+}
+
+/* Dark-mode delta colours — the base greens/reds are too dark on dark surfaces. */
+[data-theme="dark"] .count-transfer--pos,
+[data-theme="dark"] .election-delta--pos {
+  color: #34d058;
+}
+
+[data-theme="dark"] .count-transfer--neg,
+[data-theme="dark"] .election-delta--neg {
+  color: #f97583;
+}
+
+[data-theme="dark"] .election-delta--neutral {
+  color: #8b949e;
+}
+
 .election-table-note-row td {
   background: #d9d9db;
   font-style: italic;
 }
 
+[data-theme="dark"] .election-table-note-row td {
+  background: var(--color-gray-700, #4a5568);
+  color: #f7fafc;
+}
+
 .election-table-summary-row td {
   background: #ededee;
   font-style: italic;
+}
+
+[data-theme="dark"] .election-table-summary-row td {
+  background: #21262d;
+  color: #f7fafc;
 }
 
 .election-count-col {
@@ -11712,8 +12108,8 @@ kbd {
 
 [data-theme="dark"] .election-party-table th,
 [data-theme="dark"] .election-count-table th {
-  background: var(--color-gray-900, #1a202c);
-  color: var(--color-gray-100, #f7fafc);
+  background: #1c2128;
+  color: #f7fafc;
 }
 
 [data-theme="dark"] .election-th-btn {
@@ -11743,7 +12139,7 @@ kbd {
 [data-theme="dark"] .election-filter-menu__values {
   background: var(--color-gray-700, #4a5568);
   border-color: var(--color-gray-600, #718096);
-  color: var(--color-gray-100, #f7fafc);
+  color: #f7fafc;
 }
 
 [data-theme="dark"] .election-table-note-row td {
@@ -11752,6 +12148,142 @@ kbd {
 
 [data-theme="dark"] .election-table-summary-row td {
   background: var(--color-gray-800, #2d3748);
+}
+
+/* Sticky body cells (rank, colour-dot, party-name columns) — these use
+   hardcoded #f4f5f7 in the base rules. Override here at the end of the
+   election dark-mode block so source order wins. */
+[data-theme="dark"] .election-party-table--candidate-sticky3 tbody td:nth-child(1),
+[data-theme="dark"] .election-party-table--candidate-sticky3 tbody td:nth-child(2),
+[data-theme="dark"] .election-party-table--candidate-sticky3 tbody td:nth-child(3),
+[data-theme="dark"] .election-count-table--candidate-sticky3 tbody td:nth-child(1),
+[data-theme="dark"] .election-count-table--candidate-sticky3 tbody td:nth-child(2),
+[data-theme="dark"] .election-count-table--candidate-sticky3 tbody td:nth-child(3),
+[data-theme="dark"] .election-party-table--district-sticky3 tbody td:nth-child(1),
+[data-theme="dark"] .election-party-table--district-sticky3 tbody td:nth-child(2),
+[data-theme="dark"] .election-party-table--district-sticky3 tbody td:nth-child(3) {
+  background: #1c2128;
+  color: #f7fafc;
+  box-shadow: 1px 0 0 var(--color-border, #3d444d), 0 1px 0 var(--color-border, #3d444d);
+}
+
+/* Rank column text (1st, 2nd, 3rd…) */
+[data-theme="dark"] .election-rank-col {
+  color: #f7fafc;
+}
+
+/* Grouped header rows — override the hardcoded #e2e8ef / #f3f6f9 backgrounds */
+[data-theme="dark"] .election-party-table--grouped thead tr:nth-child(1) th,
+[data-theme="dark"] .election-count-table--grouped thead tr:nth-child(1) th {
+  background: #21262d;
+  box-shadow: 0 1px 0 var(--color-border, #3d444d);
+}
+
+[data-theme="dark"] .election-party-table--grouped thead tr:nth-child(2) th,
+[data-theme="dark"] .election-count-table--grouped thead tr:nth-child(2) th {
+  background: #1c2128;
+  box-shadow: 0 1px 0 var(--color-border, #3d444d);
+}
+
+[data-theme="dark"] .election-party-table--grouped thead tr:nth-child(3) th,
+[data-theme="dark"] .election-count-table--grouped thead tr:nth-child(3) th {
+  box-shadow: 0 1px 0 var(--color-border, #3d444d);
+}
+
+/* Sticky header cell shadows */
+[data-theme="dark"] .election-party-table thead tr:first-child th,
+[data-theme="dark"] .election-count-table thead tr:first-child th {
+  box-shadow: 0 1px 0 var(--color-border, #3d444d);
+}
+
+/* Base sticky body columns (rank + party-dot columns, no variant class needed).
+   The base rules at .election-party-table tbody td:nth-child(1..2) hardcode
+   background: #f4f5f7 and box-shadow: ... #d6d8dc. Override here. */
+[data-theme="dark"] .election-party-table tbody td:nth-child(1),
+[data-theme="dark"] .election-party-table tbody td:nth-child(2),
+[data-theme="dark"] .election-count-table tbody td:nth-child(1),
+[data-theme="dark"] .election-count-table tbody td:nth-child(2),
+[data-theme="dark"] .election-count-table tbody td:nth-child(3),
+[data-theme="dark"] .election-count-table tbody td:nth-child(4) {
+  background: #1c2128;
+  color: #f7fafc;
+  box-shadow: 1px 0 0 var(--color-border, #3d444d), 0 1px 0 var(--color-border, #3d444d);
+}
+
+/* District-sticky 3rd column */
+[data-theme="dark"] .election-party-table--district-sticky3 tbody td:nth-child(3) {
+  background: #1c2128;
+  color: #f7fafc;
+  box-shadow: 1px 0 0 var(--color-border, #3d444d), 0 1px 0 var(--color-border, #3d444d);
+}
+
+/* First-column header (rank) */
+[data-theme="dark"] .election-party-table th:first-child,
+[data-theme="dark"] .election-count-table th:first-child {
+  background: #1c2128;
+}
+
+/* Sticky header shadows for first columns */
+[data-theme="dark"] .election-party-table thead tr:first-child th:nth-child(1),
+[data-theme="dark"] .election-party-table thead tr:first-child th:nth-child(2),
+[data-theme="dark"] .election-count-table thead tr:first-child th:nth-child(1),
+[data-theme="dark"] .election-count-table thead tr:first-child th:nth-child(2) {
+  box-shadow: 1px 0 0 var(--color-border, #3d444d), 0 1px 0 var(--color-border, #3d444d);
+}
+
+/* Table + wrapper backgrounds */
+[data-theme="dark"] .election-party-table,
+[data-theme="dark"] .election-count-table {
+  background: #1c2128;
+}
+
+[data-theme="dark"] .election-count-wrapper,
+[data-theme="dark"] .election-party-wrapper {
+  background: #1c2128;
+}
+
+[data-theme="dark"] .election-animation-container,
+[data-theme="dark"] .election-animation-container #animation {
+  background: #1c2128;
+}
+
+/* Active view-tab (DEA / District / By Party / etc.) — must visibly differ
+   from inactive tabs in dark mode. The base rule uses var(--color-primary)
+   which blends into the dark surface. Use a brighter blue. */
+[data-theme="dark"] .election-view-tab--active {
+  background: #2a5a9e;
+  border-color: #2a5a9e;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .election-view-tab--active:hover {
+  background: #3468b0;
+}
+
+/* Even-row zebra stripe — base rule hardcodes #fafafa (light). */
+[data-theme="dark"] .election-count-table tbody tr:nth-child(even) td,
+[data-theme="dark"] .election-party-table tbody tr:nth-child(even) td {
+  background: #21262d;
+}
+
+/* Even-row sticky cells need explicit background too (otherwise the stripe
+   leaks the table background through the sticky cell). */
+[data-theme="dark"] .election-count-table tbody tr:nth-child(even) td:nth-child(1),
+[data-theme="dark"] .election-count-table tbody tr:nth-child(even) td:nth-child(2),
+[data-theme="dark"] .election-count-table tbody tr:nth-child(even) td:nth-child(3),
+[data-theme="dark"] .election-count-table tbody tr:nth-child(even) td:nth-child(4),
+[data-theme="dark"] .election-party-table tbody tr:nth-child(even) td:nth-child(1),
+[data-theme="dark"] .election-party-table tbody tr:nth-child(even) td:nth-child(2) {
+  background: #21262d;
+}
+
+/* Hover highlight */
+[data-theme="dark"] .election-count-table tbody tr:hover td,
+[data-theme="dark"] .election-count-table tbody tr:hover td:first-child,
+[data-theme="dark"] .election-party-table tbody tr:hover td,
+[data-theme="dark"] .election-party-table tbody tr:hover td:first-child,
+[data-theme="dark"] .election-party-table tbody tr:hover td:nth-child(2) {
+  background: #2d3748;
 }
 
 .raster-tile--pixelated {
@@ -11773,5 +12305,82 @@ kbd {
     0 1px 0 rgba(255, 255, 255, 0.95),
     0 0 6px rgba(255, 255, 255, 0.9);
   white-space: normal;
+}
+
+/* ============================================
+   Dark Mode — Catalogue Buttons & Active Layers
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  /* Catalogue action buttons — ensure visible on dark backgrounds */
+  :root:not([data-theme="light"]) .btn.btn--icon.btn--xs {
+    color: var(--color-text-muted);
+    background: var(--color-surface-elevated);
+    border: 1px solid var(--color-border);
+  }
+
+  :root:not([data-theme="light"]) .btn.btn--icon.btn--xs:hover {
+    color: var(--color-text);
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+  }
+
+  /* Variants toggle triangle */
+  :root:not([data-theme="light"]) .variants-toggle {
+    color: var(--color-text);
+    background: var(--color-surface-elevated);
+    border-color: var(--color-border);
+  }
+
+  :root:not([data-theme="light"]) .variants-toggle:hover {
+    background: var(--color-gray-200);
+  }
+
+  /* Variant items in dropdown */
+  :root:not([data-theme="light"]) .variant-item {
+    background: var(--color-surface-elevated);
+    border-color: var(--color-border);
+  }
+
+  :root:not([data-theme="light"]) .variant-item:hover {
+    border-color: var(--color-gray-300);
+  }
+
+  :root:not([data-theme="light"]) .variant-item__name {
+    color: var(--color-text);
+  }
+
+  :root:not([data-theme="light"]) .variant-item__description {
+    color: var(--color-text-muted);
+  }
+
+  /* Active Layers panel */
+  :root:not([data-theme="light"]) .active-layer-item {
+    background: var(--color-surface-elevated);
+    border-color: var(--color-border);
+  }
+
+  :root:not([data-theme="light"]) .active-layer-item__name {
+    color: var(--color-text);
+  }
+
+  :root:not([data-theme="light"]) .active-layer-item__meta {
+    color: var(--color-text-muted);
+  }
+
+  :root:not([data-theme="light"]) .active-layer-item__btn {
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+    border-color: var(--color-border);
+  }
+
+  :root:not([data-theme="light"]) .active-layer-item__btn:hover {
+    color: var(--color-text);
+    background: var(--color-gray-200);
+  }
+
+  /* Overflow menu */
+  :root:not([data-theme="light"]) .overflow-menu__trigger {
+    color: var(--color-text-muted);
+  }
 }
 

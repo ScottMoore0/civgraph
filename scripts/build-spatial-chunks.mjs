@@ -339,12 +339,12 @@ async function chunkMap(mapId, fgbPath, gridCols, gridRows) {
 
 // ─── Townland fine-grid chunking ─────────────────────────────────────
 
-async function buildTownlandFineGrid() {
-    const mapId = 'ni-townlands-1844';
+async function buildTownlandFineGrid(overrideMapId = null) {
+    const mapId = overrideMapId || 'ni-townlands-1844';
     const mapsDb = JSON.parse(readFileSync(MAPS_JSON, 'utf8'));
     const townlandMap = mapsDb.maps.find(m => m.id === mapId);
-    if (!townlandMap || !townlandMap.variants) {
-        console.error('  ✗ Townland map not found');
+    if (!townlandMap) {
+        console.error(`  ✗ Map ${mapId} not found`);
         return false;
     }
 
@@ -359,7 +359,7 @@ async function buildTownlandFineGrid() {
     }
 
     mkdirSync(chunksDir, { recursive: true });
-    console.log(`  Building townland fine grid (${TOWNLAND_CELL_SIZE}° cells)...`);
+    console.log(`  Building townland fine grid (${TOWNLAND_CELL_SIZE}° cells) for ${mapId}...`);
 
     // 1. Load elevation lookup if available
     const elevLookupPath = join(dir, 'elevation-lookup.json');
@@ -371,34 +371,53 @@ async function buildTownlandFineGrid() {
         console.log('    ⚠ No elevation lookup found (run compute-townland-elevation.mjs first)');
     }
 
-    // 2. Read ALL townland features from all county FGBs
+    // 2. Read ALL townland features — from single FGB or county variants
     const allFeatures = [];
-    for (const variant of townlandMap.variants) {
-        const fgbPath = variant.files?.fgb;
-        if (!fgbPath) continue;
-        const fullPath = join(ROOT, fgbPath);
-        if (!existsSync(fullPath) || statSync(fullPath).size < 200) continue;
+    const hasSingleFGB = townlandMap.files?.fgb && !townlandMap.variants?.length;
+    const hasLocalFGB = townlandMap.files?.fgb && existsSync(join(ROOT, townlandMap.files.fgb));
 
-        // Extract filename for elevation lookup
-        const fgbFilename = fgbPath.split('/').pop();
-        const countyElevs = elevLookup?.[fgbFilename] || null;
-
+    if (hasLocalFGB || (hasSingleFGB && existsSync(join(ROOT, townlandMap.files.fgb)))) {
+        // Load directly from single FGB file
+        const fgbPath = join(ROOT, townlandMap.files.fgb);
+        console.log(`    Loading from ${townlandMap.files.fgb}...`);
         try {
-            const features = await readFGB(fullPath);
-            // Inject elevation data from lookup
-            if (countyElevs) {
-                for (let i = 0; i < features.length && i < countyElevs.length; i++) {
-                    features[i]._elev = countyElevs[i];
-                }
-            }
+            const features = await readFGB(fgbPath);
             allFeatures.push(...features);
-            process.stdout.write(`    ${variant.id}: ${features.length} features\r\n`);
+            console.log(`    ${features.length} features loaded`);
         } catch (err) {
-            console.warn(`    ⚠ Skipping ${variant.id}: ${err.message}`);
+            console.error(`    ✗ Failed to load ${fgbPath}: ${err.message}`);
+            return false;
         }
+    } else if (townlandMap.variants?.length) {
+        // Load from county-level variant FGBs (legacy approach)
+        for (const variant of townlandMap.variants) {
+            const fgbPath = variant.files?.fgb;
+            if (!fgbPath) continue;
+            const fullPath = join(ROOT, fgbPath);
+            if (!existsSync(fullPath) || statSync(fullPath).size < 200) continue;
+
+            const fgbFilename = fgbPath.split('/').pop();
+            const countyElevs = elevLookup?.[fgbFilename] || null;
+
+            try {
+                const features = await readFGB(fullPath);
+                if (countyElevs) {
+                    for (let i = 0; i < features.length && i < countyElevs.length; i++) {
+                        features[i]._elev = countyElevs[i];
+                    }
+                }
+                allFeatures.push(...features);
+                process.stdout.write(`    ${variant.id}: ${features.length} features\r\n`);
+            } catch (err) {
+                console.warn(`    ⚠ Skipping ${variant.id}: ${err.message}`);
+            }
+        }
+    } else {
+        console.error(`  ✗ No FGB source found for ${mapId}`);
+        return false;
     }
 
-    console.log(`    Total: ${allFeatures.length} features from all counties`);
+    console.log(`    Total: ${allFeatures.length} features`);
 
     // Compute universal attributes for all features
     console.log('    Computing universal attributes (area, perimeter, elevation)...');
@@ -477,7 +496,7 @@ async function buildTownlandFineGrid() {
                 if (bbox[3] > cMaxY) cMaxY = bbox[3];
             }
 
-            const chunkBaseName = `townlands_${key}`;
+            const chunkBaseName = `${mapId}_${key}`;
             const chunkPath = join(chunksDir, `${chunkBaseName}.fgb`);
             writeFGB(cellFeatures, chunkPath);
 
@@ -556,12 +575,17 @@ async function main() {
         }
     }
 
-    if (!mapFilter || mapFilter === 'ni-townlands-1844') {
+    // Townland maps — fine grid chunking
+    const townlandMaps = ['ni-townlands-1844', 'ni-townlands', 'roi-townlands'];
+    for (const tlMapId of townlandMaps) {
+        if (mapFilter && mapFilter !== tlMapId) continue;
+        const tlMap = maps.find(m => m.id === tlMapId);
+        if (!tlMap) continue;
         try {
-            if (await buildTownlandFineGrid()) processed++;
+            if (await buildTownlandFineGrid(tlMapId)) processed++;
             else errors++;
         } catch (err) {
-            console.error(`  ✗ townlands: ${err.message}`);
+            console.error(`  ✗ ${tlMapId}: ${err.message}`);
             errors++;
         }
     }

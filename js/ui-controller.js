@@ -265,6 +265,16 @@ class UIController {
             `<span class="catalogue-detail__keyword">${this.escapeHtml(k)}</span>`
         ).join('');
 
+        // Build references HTML (Wikipedia-style numbered list)
+        const referencesHtml = (map.references || []).map((ref, i) => {
+            const num = i + 1;
+            const label = ref.label ? this.escapeHtml(ref.label) : ref.url;
+            const link = ref.url ? `<a href="${this.escapeHtml(ref.url)}" target="_blank" rel="noopener">${label}</a>` : label;
+            const note = ref.note ? ` <span class="catalogue-detail__ref-note">${this.escapeHtml(ref.note)}</span>` : '';
+            const accessed = ref.accessed ? ` <span class="catalogue-detail__ref-accessed">Accessed ${this.escapeHtml(ref.accessed)}</span>` : '';
+            return `<div class="catalogue-detail__ref"><span class="catalogue-detail__ref-num">[${num}]</span> ${link}${note}${accessed}</div>`;
+        }).join('');
+
         // Build file path HTML
         const filePath = map.files?.fgb || map.files?.geojson || null;
 
@@ -362,7 +372,7 @@ class UIController {
                 ${styleStr ? `
                 <div class="catalogue-detail__meta-row">
                     <span class="catalogue-detail__meta-label">Style</span>
-                    <span class="catalogue-detail__meta-value">${this.escapeHtml(styleStr)}</span>
+                    <span class="catalogue-detail__meta-value">${map.style?.color ? `<span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:${this.escapeHtml(map.style.color)};vertical-align:middle;margin-right:4px;border:1px solid rgba(128,128,128,0.3)"></span>` : ''}${this.escapeHtml(styleStr)}</span>
                 </div>` : ''}
                 ${filePath ? `
                 <div class="catalogue-detail__meta-row">
@@ -375,6 +385,12 @@ class UIController {
             <div class="catalogue-detail__section">
                 <div class="catalogue-detail__section-title">Keywords</div>
                 <div class="catalogue-detail__keywords">${keywordsHtml}</div>
+            </div>` : ''}
+
+            ${referencesHtml ? `
+            <div class="catalogue-detail__section">
+                <div class="catalogue-detail__section-title">References</div>
+                <div class="catalogue-detail__references">${referencesHtml}</div>
             </div>` : ''}
 
             ${variantsHtml}
@@ -1726,7 +1742,9 @@ class UIController {
         // Flat-only runtime: always re-render flat catalogue and update stats.
         this.invalidateFlatView();
         if (this._catalogueViewMode === 'flat') {
-            this.renderFlatView(this._lastMapListOptions);
+            this.renderFlatView(this._lastMapListOptions).then(() => {
+                this.restoreExpandedVariants();
+            });
         }
         this.updateFilterStats(maps.length, options.totalMaps || maps.length);
 
@@ -2166,15 +2184,17 @@ class UIController {
 
         // Flat mode map C1 cards, in the exact order requested.
         const c1Cards = [
-            { id: 'flat-townlands-1844', name: 'Townlands (1844) (Ireland)', years: '1844', extent: 'Ireland', mapIds: ['ni-townlands-1844'] },
+            { id: 'flat-townlands', name: 'Townlands', years: '', extent: 'Ireland', mapIds: ['all-ireland-townlands', 'ni-townlands', 'roi-townlands'] },
             { id: 'flat-settlements', name: 'Settlements', years: '2005-2015', extent: 'Northern Ireland', classIds: ['ni-settlements'] },
-            { id: 'flat-settlements-roi', name: 'Settlements', years: '2015', extent: 'Republic of Ireland', classIds: ['roi-settlements'] },
+            { id: 'flat-settlements-roi', name: 'Settlements', years: '2011-2015', extent: 'Republic of Ireland', classIds: ['roi-settlements'] },
+            { id: 'flat-roi-legal-towns', name: 'Legal Towns and Cities (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-legal-towns'] },
             { id: 'flat-place-names', name: 'Place Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['place-names-gazetteer'] },
             { id: 'flat-civil-parishes', name: 'Civil Parishes', years: '', extent: 'Ireland', classIds: ['ni-civil-parishes', 'ireland-civil-parishes'] },
             { id: 'flat-baronies', name: 'Baronies', years: '', extent: 'Northern Ireland', mapIds: ['baronies'] },
-            { id: 'flat-counties-1915', name: 'Counties (1915)', years: '1915', extent: 'Northern Ireland / Ireland', mapIds: ['counties-1915', 'counties-ireland'] },
+            { id: 'flat-counties-1915', name: 'Counties (1915)', years: '1915', extent: 'Northern Ireland / Ireland', mapIds: ['counties-1915', 'counties-ireland', 'roi-counties-2011'] },
             { id: 'flat-provinces', name: 'Provinces', years: '', extent: 'Ireland', mapIds: ['provinces'] },
             { id: 'flat-wards', name: 'Wards (Northern Ireland) (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-wards'] },
+            { id: 'flat-roi-lea', name: 'Local Electoral Areas (Republic of Ireland)', years: '2008', extent: 'Republic of Ireland', classIds: ['roi-lea'] },
             { id: 'flat-deas', name: 'District Electoral Areas (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-deas'] },
             { id: 'flat-deds', name: 'District Electoral Divisions (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-deds'] },
             { id: 'flat-county-eds', name: 'County Electoral Divisions (Northern Ireland)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-county-eds'] },
@@ -2182,6 +2202,10 @@ class UIController {
             { id: 'flat-roi-deds', name: 'Electoral Divisions', years: '1986-2019', extent: 'Republic of Ireland', mapIds: ['eds-1986', 'eds-1994', 'eds-1997', 'eds-2019'] },
             { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
             { id: 'flat-admin-areas', name: 'Administrative Areas (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-admin-areas'] },
+            { id: 'flat-roi-small-census', name: 'Small Census Units (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-small-census'] },
+            { id: 'flat-roi-garda-areas', name: 'An Garda Síochána Areas (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-garda-areas'] },
+            { id: 'flat-roi-gaeltacht', name: 'Gaeltacht Areas (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-gaeltacht'] },
+            { id: 'flat-roi-local-authorities', name: 'Local Authorities (Republic of Ireland)', years: '2014-2024', extent: 'Republic of Ireland', classIds: ['roi-local-authorities'] },
             { id: 'flat-admin-counties', name: 'Administrative Counties (Northern Ireland) (1915)', years: '1915', extent: 'Northern Ireland', classIds: ['ni-admin-counties'] },
             { id: 'flat-dublin-electoral-counties', name: 'Dublin Electoral Counties (1985)', years: '1985', extent: 'Ireland', classIds: ['roi-dublin-electoral-counties'] },
             { id: 'flat-assembly-areas', name: 'Assembly Areas (1998-)', years: '1995-2023', extent: 'Northern Ireland', classIds: ['ni-assembly'] },
@@ -2202,6 +2226,7 @@ class UIController {
             { id: 'flat-super-census', name: 'Super Census Units (Northern Ireland) (2001-present)', years: '2001-2021', extent: 'Northern Ireland', classIds: ['ni-super-census'] },
             { id: 'flat-ttwa', name: 'Travel To Work Areas (Northern Ireland) (2007-present)', years: '2007-2011', extent: 'Northern Ireland', classIds: ['ni-ttwa'] },
             { id: 'flat-nra', name: 'Neighbourhood Renewal Areas (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['nra'] },
+            { id: 'flat-nuts2', name: 'NUTS 2 Regions (Ireland)', years: '2011', extent: 'Ireland', mapIds: ['nuts-2-all-ireland', 'nuts-2-roi'] },
             { id: 'flat-nuts3', name: 'NUTS 3 Regions (2003) (Northern Ireland)', years: '2003', extent: 'Northern Ireland', mapIds: ['nuts-3'] },
             { id: 'flat-census-grid', name: 'Census Grid (2021) (Northern Ireland)', years: '2021', extent: 'Northern Ireland', mapIds: ['census-grid-2021'] },
             { id: 'flat-seas', name: 'Seas (2023) (These islands)', years: '2023', extent: 'These islands', mapIds: ['britain-ireland-seas'] },
@@ -2225,6 +2250,13 @@ class UIController {
                     'historic-standing-stones',
                     'historic-wedge-tomb'
                 ]
+            },
+            {
+                id: 'flat-catholic-parishes',
+                name: 'Catholic Parishes',
+                years: '2011',
+                extent: 'Dublin',
+                mapIds: ['catholic-dublin-parishes']
             },
             {
                 id: 'flat-catholic-dioceses',
@@ -2410,11 +2442,15 @@ class UIController {
             },
             {
                 heading: 'Large Electoral Units',
-                members: ['District Electoral Areas', 'County Electoral Divisions']
+                members: ['Local Electoral Areas', 'District Electoral Areas', 'County Electoral Divisions']
             },
             {
                 heading: 'Local Authorities',
-                members: ['Local Government Districts', 'Administrative Areas']
+                members: ['Local Government Districts', 'Local Authorities', 'Administrative Areas']
+            },
+            {
+                heading: 'Republic of Ireland',
+                members: ['Small Census Units', 'An Garda Síochána Areas', 'Gaeltacht Areas']
             },
             {
                 heading: 'Regional Authorities',
@@ -2691,6 +2727,31 @@ class UIController {
                 this.openCatalogueBookViewer(btn.dataset.bookView, btn.dataset.bookFormat || 'pdf');
             });
         });
+
+        // Thumbnail hover zoom — position the popup in fixed viewport coords
+        // so it escapes the scrollable pane's overflow clipping.
+        container.addEventListener('mouseenter', (e) => {
+            const wrap = e.target.closest('.catalogue-flat__toc-thumbwrap');
+            if (!wrap || wrap.classList.contains('catalogue-flat__toc-thumbwrap--missing')) return;
+            const zoom = wrap.querySelector('.catalogue-flat__toc-thumbzoom');
+            if (!zoom) return;
+            const rect = wrap.getBoundingClientRect();
+            let left = rect.right + 8;
+            let top = rect.top + rect.height / 2 - 60;
+            // Keep within viewport
+            if (left + 128 > window.innerWidth) left = rect.left - 128;
+            if (top < 4) top = 4;
+            if (top + 128 > window.innerHeight) top = window.innerHeight - 128;
+            zoom.style.left = left + 'px';
+            zoom.style.top = top + 'px';
+            zoom.classList.add('catalogue-flat__toc-thumbzoom--visible');
+        }, true);
+        container.addEventListener('mouseleave', (e) => {
+            const wrap = e.target.closest('.catalogue-flat__toc-thumbwrap');
+            if (!wrap) return;
+            const zoom = wrap.querySelector('.catalogue-flat__toc-thumbzoom');
+            if (zoom) zoom.classList.remove('catalogue-flat__toc-thumbzoom--visible');
+        }, true);
 
         container.dataset.rendered = 'true';
         this.updateCatalogueHomeButton();
@@ -3165,10 +3226,15 @@ class UIController {
         const fullNameClasses = ['ni-assembly'];
         const normalizedClassName = String(cls?.name || '').replace(/\s*\([^)]*\)/g, '').trim();
 
+        // When all maps in this section share the same year, showing the year
+        // for each entry is useless — fall back to using map names instead.
+        const allYears = sorted.map(({ map }) => this.getYear(map.date)).filter(Boolean);
+        const allSameYear = allYears.length > 1 && allYears.every(y => y === allYears[0]);
+
         const membersHtml = sorted.map(({ map }) => {
             const isLoaded = this.isMapLoadedState(map.id, options);
             const isPlaceholder = map.placeholder;
-            const hasVariants = map.isGroup && map.variants && map.variants.length > 0;
+            const hasVariants = map.variants && map.variants.length > 0;
 
             let displayName;
             let dateSubtitle = '';
@@ -3183,8 +3249,9 @@ class UIController {
                 if (fullDate && fullDate !== displayName) {
                     dateSubtitle = `<span class="class-member__date">${fullDate}</span>`;
                 }
-            } else if (fullNameClasses.includes(cls.id)) {
-                // Use the actual map name (e.g., "2023 Assembly", "1995 Forum")
+            } else if (fullNameClasses.includes(cls.id) || allSameYear) {
+                // Use the actual map name (e.g., "2023 Assembly", "1995 Forum",
+                // or when all maps share the same year like Garda Regions/Divisions/etc.)
                 displayName = map.name;
             } else {
                 // Default: show year
@@ -3611,10 +3678,11 @@ class UIController {
 
             if (btn.classList.contains('load-btn')) {
                 e.stopPropagation();
-                // Support both old .class-member and new .c1-grid-entry
-                const memberEl = btn.closest('.class-member, .c1-grid-entry');
+                // Support old .class-member, new .c1-grid-entry, and variant items
+                const memberEl = btn.closest('.class-member, .c1-grid-entry, .variant-item');
                 const isLoaded = memberEl?.classList.contains('class-member--loaded') ||
-                    memberEl?.classList.contains('c1-grid-entry--loaded');
+                    memberEl?.classList.contains('c1-grid-entry--loaded') ||
+                    memberEl?.classList.contains('variant-item--loaded');
                 if (btn.dataset.busy === '1') return;
                 btn.dataset.busy = '1';
                 btn.disabled = true;
@@ -3622,6 +3690,7 @@ class UIController {
                     if (!memberEl) return;
                     memberEl.classList.toggle('class-member--loaded', loadedNow);
                     memberEl.classList.toggle('c1-grid-entry--loaded', loadedNow);
+                    memberEl.classList.toggle('variant-item--loaded', loadedNow);
                     btn.innerHTML = this.getLoadButtonIcon(loadedNow);
                     btn.title = loadedNow ? 'Unload' : 'Load';
                 };
@@ -6074,6 +6143,30 @@ class UIController {
                 `).join('')
                 : '';
 
+            const isRaster = !!(map.files?.image && !map.files?.fgb);
+            const layerState = mapController?.layerStates?.get(map.id);
+            const curStrokeOp = Math.round((layerState?._strokeOpacity ?? 1) * 100);
+            const curFillOp = Math.round((layerState?._fillOpacity ?? (map.style?.fillOpacity ?? 0)) * 100);
+            const curRasterOp = Math.round((layerState?._rasterOpacity ?? (map.opacity ?? 0.8)) * 100);
+
+            const opacityRows = isRaster ? `
+                <div class="active-layer-item__opacity">
+                    <label class="active-layer-item__opacity-label">Opacity</label>
+                    <input type="range" class="active-layer-item__slider raster-opacity-slider" data-map-id="${map.id}" min="0" max="100" value="${curRasterOp}">
+                    <div class="active-layer-item__opacity-val"><input type="number" class="active-layer-item__opacity-input raster-opacity-input" data-map-id="${map.id}" min="0" max="100" value="${curRasterOp}"><span>%</span></div>
+                </div>` : `
+                <div class="active-layer-item__opacity">
+                    <label class="active-layer-item__opacity-label">Stroke</label>
+                    <input type="range" class="active-layer-item__slider stroke-opacity-slider" data-map-id="${map.id}" min="0" max="100" value="${curStrokeOp}">
+                    <div class="active-layer-item__opacity-val"><input type="number" class="active-layer-item__opacity-input stroke-opacity-input" data-map-id="${map.id}" min="0" max="100" value="${curStrokeOp}"><span>%</span></div>
+                </div>
+                <div class="active-layer-item__opacity">
+                    <label class="active-layer-item__opacity-label">Fill</label>
+                    <input type="range" class="active-layer-item__slider fill-opacity-slider" data-map-id="${map.id}" min="0" max="100" value="${curFillOp}">
+                    <div class="active-layer-item__opacity-val"><input type="number" class="active-layer-item__opacity-input fill-opacity-input" data-map-id="${map.id}" min="0" max="100" value="${curFillOp}"><span>%</span></div>
+                </div>`;
+            const opacityControls = `<div class="active-layer-item__opacity-panel" data-map-id="${map.id}" style="display:none;">${opacityRows}</div>`;
+
             return `
                 <div class="active-layer-item ${isVisible ? '' : 'active-layer-item--hidden'}${partial?.isPartial ? ' active-layer-item--partial' : ''}" data-map-id="${map.id}">
                     <div class="active-layer-item__color" style="background: ${color}"></div>
@@ -6086,6 +6179,9 @@ class UIController {
                         ${partial?.featureItems?.length ? `<div class="active-layer-item__feature-list">${featureRows}</div>` : ''}
                     </div>
                     <div class="active-layer-item__actions">
+                        <button class="active-layer-item__btn opacity-toggle-btn" data-map-id="${map.id}" title="Transparency">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" opacity="0.3"/><circle cx="12" cy="12" r="6"/></svg>
+                        </button>
                         <button class="active-layer-item__btn visibility-btn" data-map-id="${map.id}" title="${isVisible ? 'Hide' : 'Show'}">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                         </button>
@@ -6094,6 +6190,7 @@ class UIController {
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                         </button>
                     </div>
+                    ${opacityControls}
                 </div>`;
         }).join('');
 
@@ -6140,6 +6237,58 @@ class UIController {
                 if (this.onPartialFeatureUnload && featureIndex !== undefined && featureIndex !== null && featureIndex !== '') {
                     this.onPartialFeatureUnload(mapId, featureIndex);
                 }
+            });
+        });
+
+        // Opacity panel toggle
+        container.querySelectorAll('.opacity-toggle-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const mapId = btn.dataset.mapId;
+                const panel = container.querySelector(`.active-layer-item__opacity-panel[data-map-id="${mapId}"]`);
+                if (panel) {
+                    const showing = panel.style.display !== 'none';
+                    panel.style.display = showing ? 'none' : 'block';
+                    btn.classList.toggle('active', !showing);
+                }
+            });
+        });
+
+        // Opacity sliders and inputs
+        const syncOpacity = (mapId, type, value) => {
+            value = Math.max(0, Math.min(100, parseInt(value) || 0));
+            const frac = value / 100;
+            const state = mapController?.layerStates?.get(mapId);
+            if (!state) return;
+
+            if (type === 'raster') {
+                state._rasterOpacity = frac;
+                state.group?.eachLayer(layer => {
+                    if (layer.setOpacity) layer.setOpacity(frac);
+                });
+            } else if (type === 'stroke') {
+                state._strokeOpacity = frac;
+                state.geoJsonLayers?.forEach(l => l.setStyle({ opacity: frac }));
+            } else if (type === 'fill') {
+                state._fillOpacity = frac;
+                state.geoJsonLayers?.forEach(l => l.setStyle({ fillOpacity: frac }));
+            }
+
+            // Sync slider <-> input
+            const item = container.querySelector(`.active-layer-item[data-map-id="${mapId}"]`);
+            if (item) {
+                const slider = item.querySelector(`.${type}-opacity-slider`);
+                const input = item.querySelector(`.${type}-opacity-input`);
+                if (slider) slider.value = value;
+                if (input) input.value = value;
+            }
+        };
+
+        ['raster', 'stroke', 'fill'].forEach(type => {
+            container.querySelectorAll(`.${type}-opacity-slider`).forEach(slider => {
+                slider.addEventListener('input', () => syncOpacity(slider.dataset.mapId, type, slider.value));
+            });
+            container.querySelectorAll(`.${type}-opacity-input`).forEach(input => {
+                input.addEventListener('change', () => syncOpacity(input.dataset.mapId, type, input.value));
             });
         });
     }
@@ -6680,9 +6829,28 @@ class UIController {
                 e.preventDefault();
                 this.navigateAutocomplete(e.key === 'ArrowDown' ? 1 : -1);
             } else if (e.key === 'Enter') {
+                e.preventDefault();
+                // 1. Arrow-key selected an item — commit it
                 const selected = autocomplete?.querySelector('.search-autocomplete__item--selected');
                 if (selected) {
                     selected.click();
+                    return;
+                }
+                // 2. Dropdown already has results — commit the top (most relevant) one
+                const firstItem = autocomplete?.querySelector('.search-autocomplete__item');
+                if (firstItem) {
+                    firstItem.click();
+                    return;
+                }
+                // 3. No results yet (debounce hasn't fired) — force an immediate search
+                //    and then commit the top result
+                const query = searchInput.value.trim();
+                if (query.length >= 2) {
+                    clearTimeout(debounceTimer);
+                    Promise.resolve(this.performSearch(query)).then(() => {
+                        const first = autocomplete?.querySelector('.search-autocomplete__item');
+                        if (first) first.click();
+                    });
                 }
             }
         });
@@ -7649,13 +7817,29 @@ class UIController {
         }
     }
 
-    // Variants expansion
+    // Variants expansion — track expanded state so it persists across re-renders
+    _expandedVariants = new Set();
+
     toggleVariants(mapId, parentElement) {
         const variantContainer = parentElement.querySelector(`.variants-container[data-parent-id="${mapId}"]`);
         if (variantContainer) {
-            variantContainer.classList.toggle('variants-container--expanded');
+            const expanding = !variantContainer.classList.contains('variants-container--expanded');
+            variantContainer.classList.toggle('variants-container--expanded', expanding);
             const btn = parentElement.querySelector(`.variants-toggle[data-map-id="${mapId}"]`);
-            if (btn) btn.classList.toggle('active');
+            if (btn) btn.classList.toggle('active', expanding);
+            if (expanding) this._expandedVariants.add(mapId);
+            else this._expandedVariants.delete(mapId);
+        }
+    }
+
+    restoreExpandedVariants() {
+        for (const mapId of this._expandedVariants) {
+            const container = document.querySelector(`.variants-container[data-parent-id="${mapId}"]`);
+            if (container) {
+                container.classList.add('variants-container--expanded');
+                const btn = document.querySelector(`.variants-toggle[data-map-id="${mapId}"]`);
+                if (btn) btn.classList.add('active');
+            }
         }
     }
 
@@ -7666,16 +7850,23 @@ class UIController {
         map.variants.forEach(variant => {
             const variantLoaded = this.isMapLoadedState(variant.id, {});
             const description = variant.description || '';
-            html += `<div class="variant-item" data-map-id="${variant.id}">
+            const hasFgb = !!(variant.files?.fgb || variant.files?.image);
+            html += `<div class="variant-item ${variantLoaded ? 'variant-item--loaded' : ''}" data-map-id="${variant.id}">
+                <div class="variant-item__thumb">
+                    <img src="assets/thumbnails/${this.escapeHtml(variant.id)}.png" alt="" loading="lazy" onerror="this.parentElement.style.display='none'">
+                    <div class="variant-item__preview">
+                        <img src="assets/thumbnails/${this.escapeHtml(variant.id)}.png" alt="">
+                    </div>
+                </div>
                 <div class="variant-item__info">
                     <div class="variant-item__name">${this.escapeHtml(variant.label || variant.id)}</div>
                     ${description ? `<div class="variant-item__description">${this.escapeHtml(description)}</div>` : ''}
                 </div>
                 <div class="variant-item__actions">
-                    <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${variant.id}" title="${variantLoaded ? 'Hide' : 'Show'}">
+                    ${hasFgb ? `<button class="btn btn--icon btn--xs visibility-btn" data-map-id="${variant.id}" title="${variantLoaded ? 'Hide' : 'Show'}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                    </button>
-                    <button class="btn btn--icon btn--xs load-btn" data-map-id="${variant.id}" title="${variantLoaded ? 'Unload' : 'Load'}">${this.getLoadButtonIcon(variantLoaded)}</button>
+                    </button>` : ''}
+                    ${hasFgb ? `<button class="btn btn--icon btn--xs load-btn" data-map-id="${variant.id}" title="${variantLoaded ? 'Unload' : 'Load'}">${this.getLoadButtonIcon(variantLoaded)}</button>` : ''}
                     <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${variant.id}" title="Copy shareable URL">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                     </button>
