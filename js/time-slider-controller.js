@@ -128,14 +128,19 @@ class TimeSliderController {
         this.slider.min = oldestTimestamp;
         this.slider.max = newestTimestamp;
 
-        // Preserve current position if slider was already active, otherwise start at newest
+        // Preserve current position if slider was already active, otherwise
+        // anchor to the date of the map(s) currently on screen so the slider
+        // reflects what's loaded rather than always snapping to "newest".
         const preferredTimestamp = this._preservedTimelineTimestamp ?? previousTimestamp;
         if (preferredTimestamp !== null && (this.preSliderState !== null || this._preservedTimelineChains?.length)) {
             this.currentIndex = this.findClosestDateIndex(preferredTimestamp);
         } else {
-            // Fresh start: position at newest
-            this.currentIndex = this.dates.length - 1;
-            // Clear pre-slider state (fresh start)
+            const loadedTimestamp = this._getLoadedTimestampInChains(activeMapIds);
+            if (loadedTimestamp !== null) {
+                this.currentIndex = this.findClosestDateIndex(loadedTimestamp);
+            } else {
+                this.currentIndex = this.dates.length - 1;
+            }
             this.preSliderState = null;
         }
         this.slider.value = this.dates[this.currentIndex];
@@ -444,6 +449,26 @@ class TimeSliderController {
         // UI will be updated by app.updateActiveLayers
     }
 
+
+    /**
+     * Derive the representative timestamp from the time-series maps that are
+     * currently loaded. Used to initialise the slider position so it reflects
+     * what's on screen. Returns the newest loaded timestamp if multiple, or
+     * the single loaded map's timestamp if only one time-series layer is open.
+     */
+    _getLoadedTimestampInChains(activeMapIds) {
+        if (!Array.isArray(activeMapIds) || activeMapIds.length === 0) return null;
+        let newest = null;
+        for (const mapId of activeMapIds) {
+            if (!dataService.getChainForMap(mapId)) continue;
+            const map = dataService.getMapById(mapId);
+            const ts = map ? dataService.parseMapDate(map.date) : null;
+            if (ts != null && (newest === null || ts > newest)) {
+                newest = ts;
+            }
+        }
+        return newest;
+    }
 
     _getTimelineChainsForDateChange(currentIds) {
         const chains = [];

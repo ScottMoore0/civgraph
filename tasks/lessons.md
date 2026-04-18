@@ -1,5 +1,21 @@
 # Lessons Log
 
+### 91) Reproduce sticky seam bugs on the exact card family before fixing the cover layer
+- Mistake pattern: Fixing a sticky seam based on one flat-card family (`map` cards) without validating the same scroll state on the `election` decade cards that use the same shell but different natural spacing.
+- Impact: The first fix removed transparency for one path but left a visible gap in the user’s actual screenshot scenario.
+- Guardrail:
+  1) when a sticky overlap bug is reported with a screenshot, reproduce on the exact card title/family shown before patching,
+  2) measure both the shell and target header geometry in-browser,
+  3) prefer covering the seam at the highest shared sticky layer when multiple card families can pass underneath it.
+
+### 92) Prefer fixing sticky geometry over adding visual cover layers when the user wants true header-shell contact
+- Mistake pattern: Using overlay strips on the shell/header to hide a gap before correcting the sticky offset that actually defines where the header rests.
+- Impact: The UI could look better in one state but still violate the requested behavior and require a follow-up revert.
+- Guardrail:
+  1) when the requirement is “header stays flush to shell,” measure the sticky offset against the scroll container’s padding box first,
+  2) only use cover layers as a fallback, not the primary fix,
+  3) if a user asks to revert a masking layer, replace it with the underlying geometry fix in the same pass.
+
 ### 90) Performance data rollouts must be additive and validator-gated
 - Mistake pattern: Treating performance-oriented data shape changes as replacements for the existing source files instead of optional accelerators.
 - Impact: A bad bundle or aggregate artifact could have broken local-election loading or hidden regressions behind a new fast path.
@@ -1424,3 +1440,6 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
 
 - Broader performance rollouts must be existing-asset-only and representative-tested. Do not enable `useLOD` broadly on assumption; first inventory the exact safe set with matching `-lod0/-lod1` files on disk, enable only that set, and verify across representative map families in the browser before calling the rollout safe.
 
+- Asset-export workflow guardrail (2026-04-12): when a user asks for final image assets, avoid leaving repo-local temporary export scaffolds behind unless they are explicitly wanted as deliverables. Prefer ephemeral tooling or remove any helper files before closing the task.
+
+- Catalogue detail history guardrail (2026-04-14): when a detail view can be opened from a `click` handler on an element users may naturally double-click, do not rely on the event layer to deduplicate opens. Guard the history write path itself so repeated consecutive opens of the same `detailId` collapse to one entry, then verify Back returns to the previous page with a single click.

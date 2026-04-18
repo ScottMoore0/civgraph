@@ -1524,6 +1524,15 @@ class App {
         const mapControlsToggle = document.getElementById('mapControlsToggle');
         const mapControlPanel = document.getElementById('mapControlPanel');
         const mapControlsClose = document.getElementById('mapControlsClose');
+        // Panel overlays the map; prevent Leaflet from receiving drag / click /
+        // wheel / touch events that originate inside the panel, so slider
+        // drags don't pan the map underneath.
+        if (mapControlPanel && typeof L !== 'undefined' && L.DomEvent) {
+            L.DomEvent.disableClickPropagation(mapControlPanel);
+            L.DomEvent.disableScrollPropagation(mapControlPanel);
+            L.DomEvent.on(mapControlPanel, 'mousedown touchstart pointerdown', L.DomEvent.stopPropagation);
+        }
+
         if (mapControlsToggle && mapControlPanel) {
             mapControlsToggle.addEventListener('click', () => {
                 const isExpanded = mapControlsToggle.getAttribute('aria-expanded') === 'true';

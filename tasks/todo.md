@@ -1,3 +1,160 @@
+Repo instruction change: remove ZIP intake check requirement
+- [x] Amend `AGENTS.md` to suspend the ZIP intake check requirement
+  - [x] Remove the mandatory ZIP intake check instructions
+  - [x] Verify the updated `AGENTS.md` content
+  - What I did:
+    - removed the entire `## Mandatory ZIP Intake Check` section from `AGENTS.md`
+  - Verification:
+    - confirmed `AGENTS.md` no longer contains `Mandatory ZIP Intake Check`, `zip-intake-check`, or `maps-to-be-added`
+
+Bugs in demo bullet list extraction
+- [x] Review the original transcript and extract the latest revised demo list without conditional styling
+  - [x] Re-open the original transcript and locate the latest revised `KEEP as standalone beats` list
+  - [x] Remove `Conditional Styling` from that list
+  - [x] Provide the revised list inline in chat
+  - Verification:
+    - extracted from `2026-04-14-181430-image-1-in-dark-mode-when-i-hover-my-mouse-ov.txt`
+    - based on the final `KEEP as standalone beats` section near the end of the transcript
+
+ZIP Intake Check (2026-04-14)
+- [x] Check maps-to-be-added for qualifying ZIP files
+  - Checked at `2026-04-14T18:08:34.6491951Z`
+  - No ZIP files found; only `maps-to-be-added/.gitkeep` was present
+- [x] Update `.zip-intake-check.json` with the new check time
+
+Bugs in duplicate feature-detail back history
+- [x] Fix duplicate feature-detail history entries from double-click opens
+  - [x] Confirm whether the same feature detail can be pushed twice in succession
+  - [x] Prevent duplicate consecutive history entries for the same detail view
+  - [x] Verify that one Back click returns to the previous page after a double-click open
+  - Root cause:
+    - the feature-detail open path accepted repeated consecutive pushes for the same `detailId`, so a double-click on the feature name could append identical `feature-detail` history entries and force two Back clicks to reach the actual previous page.
+  - What I did:
+    - added a duplicate-consecutive-entry guard in `showFeatureDetailInCatalogue(...)`
+    - added the same guard in `showElectionEntityDetailInCatalogue(...)` so adjacent entity-detail navigation cannot regress the same way
+    - rebuilt the shipped bundle with `node scripts/bundle.mjs`
+  - Verification:
+    - `node --check js/ui-controller.js`
+    - `node scripts/bundle.mjs`
+    - Playwright in-browser evaluation confirmed:
+      - two consecutive opens of the same feature detail leave history as `['list', 'feature-detail']`
+      - one `catalogueGoBack()` returns immediately to the list view and hides the detail view
+
+Bugs in catalogue back navigation from feature detail
+- [x] Fix the catalogue back button so feature detail returns to the previous page/state
+  - [x] Record the task and confirm ZIP intake timing
+  - [x] Inspect catalogue/history navigation and feature-detail entry paths
+  - [x] Implement the minimal fix in the shared catalogue detail flow
+  - [x] Verify the exact back-navigation behavior and record the outcome
+  - Root cause:
+    - `showFeatureDetailInCatalogue(...)` pushed a feature-detail history entry but did not refresh the catalogue nav buttons afterward, so opening feature detail directly from the main catalogue could leave the Back button stale/disabled.
+    - when feature detail was opened while another top-level pane was active, the previous tab state was not preserved in the catalogue history stack, so Back had no way to return to that prior pane.
+  - What I did:
+    - added `_getActivePaneTabId()` and `_pushCatalogueTabHistoryIfNeeded(...)` in `js/ui-controller.js`
+    - taught `catalogueGoBack()` / `catalogueGoForward()` to restore saved tab entries
+    - updated `showFeatureDetailInCatalogue(...)` and `showElectionEntityDetailInCatalogue(...)` to:
+      - preserve the current non-catalogue tab in history before opening detail
+      - switch explicitly to the catalogue tab for the detail view
+      - refresh the catalogue nav button state after rendering
+    - rebuilt the shipped bundle with `node scripts/bundle.mjs`
+  - Verification:
+    - `node --check js/ui-controller.js`
+    - `node scripts/bundle.mjs`
+    - Playwright in-browser evaluation against `window.uiController` confirmed:
+      - `list -> feature detail -> Back` returns to the catalogue list and re-hides the detail view
+      - `explore -> feature detail -> Back` returns to the `explore` tab
+      - Back is enabled immediately after opening feature detail in both cases
+
+Bugs in NUTS region thumbnails
+- [x] Regenerate the NUTS Regions thumbnails
+  - [x] Locate the thumbnail generation workflow and the NUTS map ids/assets
+  - [x] Regenerate the affected thumbnail files
+  - [x] Verify the regenerated thumbnails exist and reflect the updated NUTS geometry
+  - What I did:
+    - confirmed the affected map ids in `data/database/maps.json` are `nuts-2-all-ireland` and `nuts-2-roi`
+    - used `python scripts/regen-thumbnails.py --map-id ...` for each target so the thumbnails were regenerated through the repo's land-context thumbnail pipeline rather than the missing-file-only generator
+  - Verification:
+    - `python scripts/regen-thumbnails.py --map-id nuts-2-all-ireland`
+    - `python scripts/regen-thumbnails.py --map-id nuts-2-roi`
+    - regenerated files:
+      - `assets/thumbnails/nuts-2-all-ireland.png` (`8000` bytes, updated `2026-04-14 18:30:01`)
+      - `assets/thumbnails/nuts-2-roi.png` (`7676` bytes, updated `2026-04-14 18:30:02`)
+    - `git status --short` shows both thumbnail files modified, confirming fresh outputs were written
+
+Bugs in demo review note and local dev server restart
+- [x] Review `2026-04-14-181430-image-1-in-dark-mode-when-i-hover-my-mouse-ov.txt`
+  - [x] Read the transcript/review note and extract the concrete findings or status
+  - [x] Present the review findings in code-review style
+- [x] Restart the local dev server
+  - [x] Identify the current local dev server process/command
+  - [x] Restart it cleanly
+  - [x] Verify the server is listening and serving the site
+  - Review findings:
+    - The transcript shows repeated CSS edits against `assets/css/main.css` while the running site was still serving `build/main.css`; the fix was only made effective after several failed rounds and a later rebuild, so verification was too weak and happened too late.
+    - The NUTS2 repair was done as an ad hoc manual data replacement from a temp extraction path, with no reproducible repo-local script or post-change validation captured beyond extent inspection; that is risky for future regeneration or audit.
+    - The answer that identified `scripts/demo/guide-overlay.js` as the human-readable recording script was incomplete at best: it is an overlay generator, not a plain text instructions file, and the actual human-readable text had to be derived afterward.
+  - What I did:
+    - reviewed the transcript and extracted the main process/quality issues with line-referenced evidence for the final response
+    - confirmed the local dev server was not previously verifiable on the expected port, then preserved the newly started background instance after the aborted command
+  - Verification:
+    - server stdout log shows `Dev server running at http://localhost:3000`
+    - `netstat -ano` shows PID `18112` listening on `0.0.0.0:3000` and `[::]:3000`
+    - `Invoke-WebRequest http://localhost:3000` returned HTTP `200`
+
+Bugs in flat catalogue header height
+- [x] Reduce the height of flat catalogue card headers without breaking sticky alignment
+  - [x] Identify which flat-view-specific header sizing rules are making the headers too tall
+  - [x] Tighten only the flat-view header padding/type sizing
+  - [x] Rebuild and verify the flatter header height in-browser
+  - What I did:
+    - reduced flat-view header vertical padding from `12px` to `8px`
+    - reduced flat-view title size to `16px` and subtitle size to `11px`
+    - tightened the flat-view placeholder toggle vertical padding to match the shorter header
+  - Verification:
+    - rebuilt successfully with `node scripts/bundle.mjs`
+    - browser checks on `1990s` and `1980s` showed header height reduced from `64.57px` to `49.5px`
+    - sticky offset remained `24px`, so the flush-under-shell behavior was preserved
+
+Bugs in flat catalogue sticky header seam
+- [x] Remove the transparent seam between the catalogue sticky shell and sticky flat-card headers while scrolling
+  - [x] Identify which sticky/layout rules leave the pane visible between the shell and card header
+  - [x] Apply the smallest CSS fix that preserves existing sticky behavior
+  - [x] Verify in-browser that the seam is no longer visible
+  - Root cause:
+    - the catalogue pane itself was transparent, and the flat-card sticky header stopped short of the search shell by roughly `16px`, so that overlap zone showed the pane through during scroll.
+  - What I did:
+    - set the catalogue pane background explicitly to `var(--color-surface)`
+    - added a flat-view-only `::before` strip on `.c1-card__header` that extends the header gradient upward by `var(--space-4)` to cover local overlap
+    - reverted the shell `::after` cover strip after the user requested the original shell behavior back
+    - changed `#catalogueFlatView .c1-card__header` sticky offset from `54px` to `24px` so the active card header sits flush against the bottom of the search shell inside the padded catalogue pane
+    - rebuilt assets and bumped cache-busters in `index.html`
+  - Verification:
+    - rebuilt successfully with `node scripts/bundle.mjs`
+    - browser check confirmed `getComputedStyle(header).top === "24px"` for the `1990s` card and `getComputedStyle(shell, '::after').content === "none"`
+    - geometry check on the `1990s` card showed the sticky header top stays within `0.49px` of the shell bottom across multiple scroll positions, effectively flush
+    - viewport screenshot after scrolling the `1990s` election card into the reported state showed the header directly against the search shell with no shell overlay
+
+Bugs in flat catalogue placeholder toggles
+- [x] Restore `Show/Hide to be added` buttons on flat catalogue cards with placeholder maps
+  - [x] Verify whether flat cards like `District Electoral Divisions` and `Administrative Areas` compute non-zero placeholder counts
+  - [x] Fix the render/visibility path that suppresses the header toggle on those flat cards
+  - [x] Rebuild and verify the affected cards render the toggle and still hide placeholder entries by default
+  - Root cause:
+    - `js/ui-controller.js` already had the flat-card toggle logic, but `build/app.bundle.js` still contained the older render path without it, so the live app never emitted the button HTML for flat cards.
+  - What I did:
+    - Rebuilt the shipped assets with `node scripts/bundle.mjs` so the flat-card header now includes the placeholder toggle branch.
+    - Bumped `index.html` asset versions to `build/main.css?v=16` and `build/app.bundle.js?v=20` to force browsers onto the rebuilt files.
+    - Recorded the required ZIP-intake check result in `.zip-intake-check.json` after confirming `maps-to-be-added` only contains `.gitkeep`.
+  - Verification:
+    - Browser DOM check after rebuild showed:
+      - `District Electoral Divisions` -> `Show 53 to be added`
+      - `County Electoral Divisions` -> `Show 54 to be added`
+      - `Administrative Areas` -> `Show 53 to be added`
+    - Browser interaction check on `Administrative Areas` confirmed:
+      - `53` placeholder entries hidden by default
+      - toggle label changes to `Hide 53 to be added`
+      - all `53` placeholder entries become visible, then hide again when toggled off
+
 Local-election bundled loads and precomputed aggregates
 - [x] Add reversible support for optional local-election `_bundle.json` artifacts in the runtime loader.
   - [x] Prefer per-date local bundles for `local-government` only when the bundle validates and contains requested constituencies.
@@ -284,3 +441,17 @@ ZIP Intake Check (2026-03-24)
   - Checked at `2026-03-24T15:46:29Z`
   - No ZIP files found; only `maps-to-be-added/.gitkeep` was present
 - [x] Update `.zip-intake-check.json` with the new check time
+
+ZIP Intake Check (2026-04-12)
+- [x] Check maps-to-be-added for qualifying ZIP files
+  - Checked at `2026-04-12T17:06:43.7627163Z`
+  - No ZIP files found; only `maps-to-be-added/.gitkeep` was present
+- [x] Update `.zip-intake-check.json` with the new check time
+
+Civgraph social profile PNG exports
+- [ ] Create high-quality PNG versions of the Civgraph logo for Facebook and Twitter/X profile pictures
+  - [ ] Confirm the correct source artwork and export approach
+  - [ ] Render square PNG outputs with profile-safe padding
+  - [ ] Verify dimensions and visual quality
+  - [ ] Record output paths and review notes
+  - Review note: temporary HTML export scaffold was removed on user request before PNG outputs were finalized

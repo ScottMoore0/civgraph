@@ -70,7 +70,7 @@ class MapController {
      */
     _initFgbWorker() {
         try {
-            this._fgbWorker = new Worker('js/fgb-worker.js');
+            this._fgbWorker = new Worker('js/fgb-worker.js?v=2');
             this._fgbWorker.onmessage = (e) => {
                 const { id, features, featureCount, skippedCount, compressed, durationMs, error } = e.data;
                 const cb = this._fgbWorkerCallbacks.get(id);
@@ -1416,7 +1416,17 @@ class MapController {
         this.currentLOD.set(id, this.getLODLevel(zoom));
 
         if (this.shouldUseOverviewLOD(mapConfig, zoom)) {
-            return this._loadOverviewLODState(mapConfig, state, show, signal);
+            try {
+                return await this._loadOverviewLODState(mapConfig, state, show, signal);
+            } catch (lodErr) {
+                if (this._isAbortError(lodErr)) throw lodErr;
+                // Overview LOD (-lod0.fgb etc.) isn't available for every
+                // townland variant on disk. Fall through to chunk loading.
+                console.warn(`[MapController] Overview LOD unavailable for ${id}, falling back to chunked flow:`, lodErr?.message || lodErr);
+                this._clearRenderedLayerState(id, state);
+                state.progress = 0;
+                if (this.onLoadProgress) this.onLoadProgress(id, 0);
+            }
         }
 
         // Load chunk index
@@ -1706,7 +1716,7 @@ class MapController {
         const start = this._now();
 
         try {
-            const response = await fetch(indexPath, signal ? { signal } : undefined);
+            const response = await fetch(this._rewriteForDevProxy(indexPath), signal ? { signal } : undefined);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const rawIndex = await response.json();
             const index = this._validateChunkIndex(mapId, rawIndex);
@@ -1814,10 +1824,11 @@ class MapController {
         const features = [];
         let skippedCount = 0;
 
+        const fetchPath = this._rewriteForDevProxy(filePath);
         let source = null;
         if (typeof pako !== 'undefined' && filePath.toLowerCase().endsWith('.fgb')) {
             try {
-                const gzResponse = await fetch(filePath + '.gz', signal ? { signal } : undefined);
+                const gzResponse = await fetch(fetchPath + '.gz', signal ? { signal } : undefined);
                 if (gzResponse.ok) {
                     const compressed = new Uint8Array(await gzResponse.arrayBuffer());
                     source = pako.ungzip(compressed);
@@ -1825,7 +1836,7 @@ class MapController {
             } catch (gzErr) { /* fall through */ }
         }
         if (!source) {
-            const response = await fetch(filePath, signal ? { signal } : undefined);
+            const response = await fetch(fetchPath, signal ? { signal } : undefined);
             if (!response.ok) throw new Error(`Failed to fetch ${filePath}: ${response.status}`);
             source = response.body || new Uint8Array(await response.arrayBuffer());
         }
@@ -2380,13 +2391,29 @@ class MapController {
     /**
      * Delegates to Web Worker when available, falls back to main-thread parsing.
      */
+    /**
+     * Rewrite `https://data.civgraph.net/...` → `/_r/...` when running on
+     * localhost, so dev-server CORS proxy handles the cross-origin fetch.
+     * Accepts non-matching URLs unchanged.
+     */
+    _rewriteForDevProxy(url) {
+        if (typeof url !== 'string') return url;
+        if (typeof window === 'undefined') return url;
+        if (window.location?.hostname !== 'localhost') return url;
+        if (url.startsWith('https://data.civgraph.net/')) {
+            return '/_r/' + url.slice('https://data.civgraph.net/'.length);
+        }
+        if (url.startsWith('http://data.civgraph.net/')) {
+            return '/_r/' + url.slice('http://data.civgraph.net/'.length);
+        }
+        return url;
+    }
+
     async loadFlatGeobuf(url, onProgress = null, signal = null) {
         const start = this._now();
 
         // Dev proxy: rewrite remote URLs to go through local CORS proxy on localhost
-        if (window.location.hostname === 'localhost' && url.includes('://data.civgraph.net/')) {
-            url = url.replace('https://data.civgraph.net/', '/_r/');
-        }
+        url = this._rewriteForDevProxy(url);
 
         // Try Web Worker path (offloads parsing from main thread)
         if (this._fgbWorkerReady && this._fgbWorker) {

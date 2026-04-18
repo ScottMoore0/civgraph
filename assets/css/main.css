@@ -387,6 +387,10 @@ a:hover {
   padding: var(--space-5);
 }
 
+.pane__content[data-tab-content="catalogue"] {
+  background: var(--color-surface);
+}
+
 .catalogue-sticky-shell {
   position: sticky;
   top: calc(-1 * var(--space-5));
@@ -1036,12 +1040,14 @@ button.catalogue-flat__toc-toplink {
 
 .c1-card__titleblock {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--space-2);
   min-width: 0;
 }
 
 .c1-card__subtitle {
-  margin-top: 2px;
+  margin-top: 0;
   font-size: 0.76rem;
   font-style: italic;
   font-weight: 500;
@@ -1148,7 +1154,6 @@ button.catalogue-flat__toc-toplink {
   margin-right: 0;
   padding-left: var(--space-3);
   padding-right: var(--space-3);
-  padding-top: var(--space-3);
 }
 
 #catalogueFlatView .c1-card__section-header {
@@ -2543,7 +2548,7 @@ button.catalogue-flat__toc-toplink {
 
 .class-member:last-child {
   border-bottom: none;
-  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
 }
 
 .class-member:hover {
@@ -2614,9 +2619,23 @@ button.catalogue-flat__toc-toplink {
   font-variant-numeric: tabular-nums;
 }
 
+.flat-election-body {
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  font-variant-numeric: normal;
+  font-size: 0.7rem;
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin-left: 4px;
+}
+
+.flat-election-entry {
+  border-left: none;
+}
+
 .flat-election-entry--by {
   padding-left: 16px;
 }
+
 
 /* Hover state for member name link */
 .class-member:not(.class-member--placeholder):hover .class-member__name {
@@ -2647,6 +2666,7 @@ button.catalogue-flat__toc-toplink {
   display: flex;
   gap: var(--space-1);
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 /* Extra small button for compact class members */
@@ -2689,6 +2709,65 @@ button.catalogue-flat__toc-toplink {
 
 .class-member__placeholder-badge {
   display: none;
+}
+
+/* Hide placeholder members by default; show when the card toggle is active.
+   Uses !important to guarantee no cascade override from any later rule. */
+.class-member--placeholder,
+.c1-grid-entry--placeholder,
+.c1-grid-cell.c1-grid-entry--placeholder {
+  display: none !important;
+}
+.class-card--show-placeholders .class-member--placeholder {
+  display: flex !important;
+}
+.class-card--show-placeholders .c1-grid-entry--placeholder,
+.class-card--show-placeholders .c1-grid-cell.c1-grid-entry--placeholder {
+  display: block !important;
+}
+
+/* Placeholder toggle button in card headers */
+.class-card__placeholder-toggle {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: var(--color-surface-elevated, #f7fafc);
+  border: 1px solid var(--color-border-light, #edf2f7);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.class-card__placeholder-toggle:hover {
+  background: var(--color-primary-50, #ebf8ff);
+  color: var(--color-primary, #1a365d);
+}
+
+.class-card__placeholder-toggle[data-showing="true"] {
+  background: var(--color-primary-50, #ebf8ff);
+  color: var(--color-primary, #1a365d);
+  border-color: var(--color-primary, #1a365d);
+}
+
+/* On dark header backgrounds (c1 election cards) */
+.c1-card__header .class-card__placeholder-toggle {
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.c1-card__header .class-card__placeholder-toggle:hover,
+.c1-card__header .class-card__placeholder-toggle[data-showing="true"] {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 /* ============================================
@@ -3120,20 +3199,24 @@ button.catalogue-flat__toc-toplink {
 .c1-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-top: none;
+  border-radius: var(--radius-md);
   overflow: visible;
   /* Changed from 'clip' to allow sticky positioning */
   margin-bottom: var(--space-3);
   /* Override .map-card's row flex layout */
   display: flex;
   flex-direction: column;
+  padding: 0;
+  gap: 0;
 }
 
 /* C1 Header - Full width banner at top */
 .c1-card__header {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: white;
-  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  padding: var(--space-1) var(--space-3);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -3166,7 +3249,7 @@ button.catalogue-flat__toc-toplink {
 }
 
 .c1-card__content {
-  padding: var(--space-3);
+  padding: 0;
   width: 100%;
   box-sizing: border-box;
 }
@@ -3321,6 +3404,15 @@ button.catalogue-flat__toc-toplink {
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-lg);
   /* No overflow property - allows sticky to work */
+}
+
+#catalogueFlatView .c1-card__section {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  border-radius: 0;
+  background: none;
+  grid-row: auto;
 }
 
 /* Section header styling */
@@ -4840,6 +4932,12 @@ html:not([data-theme]) .feature-info__value,
 
 [data-theme="dark"] .feature-info__metric--clickable:hover {
   background: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="dark"] .feature-info__metric--clickable:hover .feature-info__metric-value,
+[data-theme="dark"] .feature-info__metric--clickable:hover .feature-info__metric-value .metric-km,
+[data-theme="dark"] .feature-info__metric--clickable:hover .feature-info__metric-value .metric-mi {
+  color: #ffffff !important;
 }
 
 [data-theme="dark"] .feature-info__summary {
@@ -7583,6 +7681,8 @@ th.filter-active .th-filter-btn {
   gap: var(--space-2);
   transition: background var(--transition-fast);
   cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .class-member:hover {
@@ -7656,6 +7756,7 @@ th.filter-active .th-filter-btn {
   align-items: center;
   gap: var(--space-1);
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 .class-member__actions .btn--xs {
@@ -9303,13 +9404,31 @@ kbd {
 
 #catalogueFlatView .c1-card__header {
   position: sticky !important;
-  top: 54px !important;
+  top: 24px !important;
   z-index: 12 !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
   padding-left: var(--space-3) !important;
   padding-right: var(--space-3) !important;
-  padding-top: var(--space-3) !important;
+  padding-top: var(--space-2) !important;
+  padding-bottom: var(--space-2) !important;
+}
+
+
+#catalogueFlatView .c1-card__title {
+  font-size: var(--text-base) !important;
+  line-height: 1.15 !important;
+}
+
+#catalogueFlatView .c1-card__subtitle {
+  margin-top: 1px !important;
+  font-size: 11px !important;
+  line-height: 1.15 !important;
+}
+
+#catalogueFlatView .class-card__placeholder-toggle {
+  padding-top: 1px;
+  padding-bottom: 1px;
 }
 
 #catalogueFlatView .c1-card__section-members .class-member:only-child {
@@ -9317,9 +9436,17 @@ kbd {
 }
 
 #catalogueFlatView .c1-card__section-members .class-member:only-child .class-member__info,
-#catalogueFlatView .c1-card__section-members .class-member:only-child .class-member__actions,
 #catalogueFlatView .c1-card__section-members .class-member:only-child .thumb-zone {
   margin-left: 0 !important;
+}
+
+/* Force buttons to right edge in all catalogue entries */
+#catalogueFlatView .class-member__info {
+  flex: 1 1 0% !important;
+}
+#catalogueFlatView .class-member__actions {
+  margin-left: auto !important;
+  flex-shrink: 0 !important;
 }
 
 /* ============================================

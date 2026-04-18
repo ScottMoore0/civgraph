@@ -52,6 +52,14 @@ self.onmessage = async (event) => {
         url = url.replace('https://data.civgraph.net/', self.location.origin + '/_r/');
     }
 
+    // Resolve relative URLs against the page origin. Inside a Web Worker
+    // `fetch()` resolves relatives against the worker script URL (e.g.
+    // /js/fgb-worker.js), so a path like `data/maps/...` would otherwise be
+    // looked up under /js/data/... and 404. Force same-origin root resolution.
+    if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(url) && !url.startsWith('/')) {
+        url = self.location.origin + '/' + url;
+    }
+
     try {
         let source = null;
         let compressed = false;

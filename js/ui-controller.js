@@ -446,6 +446,18 @@ class UIController {
         this.catalogueHistoryIndex = this.catalogueHistory.length - 1;
     }
 
+    _getActivePaneTabId() {
+        const activeTab = document.querySelector('.pane-tab.pane-tab--active');
+        return activeTab?.dataset?.tab || 'catalogue';
+    }
+
+    _pushCatalogueTabHistoryIfNeeded(tabId) {
+        if (!tabId || tabId === 'catalogue') return;
+        const current = this.catalogueHistory[this.catalogueHistoryIndex];
+        if (current?.type === 'tab' && current.tabId === tabId) return;
+        this._pushCatalogueHistoryEntry({ type: 'tab', tabId });
+    }
+
     /**
      * Resolve the primary feature name for table/detail interactions.
      */
@@ -1232,7 +1244,9 @@ class UIController {
         if (this.catalogueHistoryIndex > 0) {
             this.catalogueHistoryIndex--;
             const entry = this.catalogueHistory[this.catalogueHistoryIndex];
-            if (entry.type === 'list') {
+            if (entry.type === 'tab') {
+                this.showTab(entry.tabId || 'catalogue');
+            } else if (entry.type === 'list') {
                 this.showCatalogueListView(false);
             } else if (entry.type === 'book-viewer') {
                 this.openCatalogueBookViewer(entry.bookId, entry.format || 'pdf', false);
@@ -1251,7 +1265,9 @@ class UIController {
         if (this.catalogueHistoryIndex < this.catalogueHistory.length - 1) {
             this.catalogueHistoryIndex++;
             const entry = this.catalogueHistory[this.catalogueHistoryIndex];
-            if (entry.type === 'list') {
+            if (entry.type === 'tab') {
+                this.showTab(entry.tabId || 'catalogue');
+            } else if (entry.type === 'list') {
                 this.showCatalogueListView(false);
             } else if (entry.type === 'book-viewer') {
                 this.openCatalogueBookViewer(entry.bookId, entry.format || 'pdf', false);
@@ -2244,7 +2260,7 @@ class UIController {
             { id: 'flat-place-names', name: 'Place Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['place-names-gazetteer'] },
             { id: 'flat-civil-parishes', name: 'Civil Parishes', years: '', extent: 'Ireland', classIds: ['ni-civil-parishes', 'ireland-civil-parishes'] },
             { id: 'flat-baronies', name: 'Baronies', years: '', extent: 'Northern Ireland', mapIds: ['baronies'] },
-            { id: 'flat-counties-1915', name: 'Counties (1915)', years: '1915', extent: 'Northern Ireland / Ireland', mapIds: ['counties-1915', 'counties-ireland', 'roi-counties-2011'] },
+            { id: 'flat-counties-1915', name: 'Counties (1915)', years: '1915', extent: 'Ireland', mapIds: ['counties-1915', 'counties-ireland', 'roi-counties-2011'] },
             { id: 'flat-provinces', name: 'Provinces', years: '', extent: 'Ireland', mapIds: ['provinces'] },
             { id: 'flat-wards', name: 'Wards (Northern Ireland) (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-wards'] },
             { id: 'flat-roi-lea', name: 'Local Electoral Areas (Republic of Ireland)', years: '2008', extent: 'Republic of Ireland', classIds: ['roi-lea'] },
@@ -2483,6 +2499,16 @@ class UIController {
                 <tr class="catalogue-flat__toc-heading-row">
                     <td colspan="3"><span class="catalogue-flat__toc-heading">Maps</span></td>
                 </tr>`;
+        // Merge multiple Settlements cards into one TOC row
+        const tocMerges = [
+            {
+                canonicalName: 'Settlements',
+                mergedIds: ['flat-settlements', 'flat-settlements-roi', 'flat-roi-legal-towns'],
+                years: '2005-2015',
+                extent: 'Ireland'
+            }
+        ];
+        const mergedIdSet = new Set(tocMerges.flatMap(m => m.mergedIds));
         const tocGroups = [
             {
                 heading: 'Small Electoral Units',
@@ -2497,8 +2523,8 @@ class UIController {
                 members: ['Local Government Districts', 'Local Authorities', 'Administrative Areas']
             },
             {
-                heading: 'Republic of Ireland',
-                members: ['Small Census Units', 'An Garda Síochána Areas', 'Gaeltacht Areas']
+                heading: 'Census Units',
+                members: ['Small Census Units', 'Super Census Units', 'Travel To Work Areas', 'Census Grid']
             },
             {
                 heading: 'Regional Authorities',
@@ -2556,8 +2582,43 @@ class UIController {
             renderedCards.add(card.id);
         };
 
+        // Build merge lookup: first card id in group → merge definition
+        const mergeByFirstId = new Map();
+        tocMerges.forEach(merge => { mergeByFirstId.set(merge.mergedIds[0], merge); });
+
         c1Cards.forEach(card => {
             if (renderedCards.has(card.id)) return;
+            // Skip non-first members of a merge group
+            if (mergedIdSet.has(card.id) && !mergeByFirstId.has(card.id)) {
+                renderedCards.add(card.id);
+                return;
+            }
+
+            // If this card is the first of a merge group, render a single merged TOC row
+            const merge = mergeByFirstId.get(card.id);
+            if (merge) {
+                const firstCard = c1Cards.find(c => c.id === merge.mergedIds[0]);
+                const maps = firstCard ? collectCardMaps(firstCard) : [];
+                const preview = maps[0]?.map || null;
+                const previewThumb = preview ? (preview.cloneOf || preview.id) : '';
+                const previewColor = preview?.style?.color || '#888';
+                tocHtml += `
+                    <tr>
+                        <td>
+                            <a href="#flat-card-${merge.mergedIds[0]}" class="catalogue-flat__toc-link">
+                                <span class="catalogue-flat__toc-namecell">
+                                    <span class="catalogue-flat__toc-color" style="background:${this.escapeHtml(previewColor)}"></span>
+                                    ${previewThumb ? `<span class="catalogue-flat__toc-thumbwrap"><img class="catalogue-flat__toc-thumb" src="assets/thumbnails/${this.escapeHtml(previewThumb)}.png" alt="" loading="lazy" onerror="var w=this.parentElement; if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.style.display='none'"><span class="catalogue-flat__toc-thumbzoom" aria-hidden="true"><img src="assets/thumbnails/${this.escapeHtml(previewThumb)}.png" alt="" loading="lazy" onerror="var w=this.closest('.catalogue-flat__toc-thumbwrap'); if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.parentElement.style.display='none'"></span></span>` : '<span class="catalogue-flat__toc-thumb catalogue-flat__toc-thumb--fallback"></span>'}
+                                    <span class="catalogue-flat__toc-name">${this.escapeHtml(merge.canonicalName)}</span>
+                                </span>
+                            </a>
+                        </td>
+                        <td>${this.escapeHtml(merge.years || '')}</td>
+                        <td>${this.escapeHtml(merge.extent || '')}</td>
+                    </tr>`;
+                merge.mergedIds.forEach(id => renderedCards.add(id));
+                return;
+            }
 
             const strippedName = stripBracketParts(card.name);
             const heading = groupByMemberName.get(strippedName);
@@ -2610,9 +2671,10 @@ class UIController {
                         : `${(entry.constituencies || []).filter(c => c !== 'Northern Ireland').length} constituencies`));
                 const providerLabel = entry.displayProvider || bodyShort;
                 const placeholderClass = entry.placeholder ? ' class-member--placeholder' : '';
+                const nameContent = `${esc(dateFormatted)} <span class="flat-election-body">${esc(providerLabel)}</span>`;
                 const dateLabel = entry.placeholder
-                    ? `<span class="class-member__name">${esc(dateFormatted)}</span>`
-                    : `<a href="#" class="class-member__name class-member__name-link flat-election-link" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}">${esc(dateFormatted)}</a>`;
+                    ? `<span class="class-member__name">${nameContent}</span>`
+                    : `<a href="#" class="class-member__name class-member__name-link flat-election-link" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}">${nameContent}</a>`;
                 const actionsHtml = entry.placeholder
                     ? ''
                     : `<button class="btn btn--icon btn--xs load-btn election-load-btn" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}">+</button>`;
@@ -2628,7 +2690,6 @@ class UIController {
                         <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${esc(appearance.thumb)}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>
                         <div class="class-member__info">
                             ${dateLabel}
-                            <span class="class-member__provider">${esc(providerLabel)}</span>
                             <span class="class-member__desc">${esc(subtitle)}</span>
                             ${badgeHtml}
                         </div>
@@ -2637,6 +2698,13 @@ class UIController {
                         </div>
                     </div>`;
             }).join('');
+
+            const elPlaceholderCount = (def.electionEntries || []).filter(e => e.placeholder).length;
+            const elPlaceholderToggle = elPlaceholderCount > 0
+                ? `<button type="button" class="class-card__placeholder-toggle" data-showing="false" title="Show maps to be added">
+                       <span class="class-card__placeholder-toggle-label">Show ${elPlaceholderCount} to be added</span>
+                   </button>`
+                : '';
 
             const card = document.createElement('div');
             card.className = 'c1-card map-card';
@@ -2647,6 +2715,7 @@ class UIController {
                         <h3 class="c1-card__title">${esc(def.name)}</h3>
                         <div class="c1-card__subtitle">${esc(def.years)} | ${esc(def.extent)}</div>
                     </div>
+                    ${elPlaceholderToggle}
                 </div>
                 <div class="c1-card__content">
                     <div class="c1-card__section c1-card__section--full">
@@ -2676,6 +2745,13 @@ class UIController {
             const sectionHtml = this.renderC2Section(pseudoClass, allMaps, { ...renderOptions, ignoreMemberHeight: true, fullWidth: true })
                 .replace(/<div class="c1-card__section-header">[\s\S]*?<\/div>/, '');
 
+            const flatPlaceholderCount = allMaps.filter(m => m.map.placeholder).length;
+            const flatPlaceholderToggle = flatPlaceholderCount > 0
+                ? `<button type="button" class="class-card__placeholder-toggle" data-showing="false" title="Show maps to be added">
+                       <span class="class-card__placeholder-toggle-label">Show ${flatPlaceholderCount} to be added</span>
+                   </button>`
+                : '';
+
             const card = document.createElement('div');
             card.className = 'c1-card map-card';
             card.dataset.c1Id = def.id;
@@ -2686,6 +2762,7 @@ class UIController {
                         <h3 class="c1-card__title">${this.escapeHtml(stripBracketParts(def.name))}</h3>
                         ${headerMeta ? `<div class="c1-card__subtitle">${this.escapeHtml(headerMeta)}</div>` : ''}
                     </div>
+                    ${flatPlaceholderToggle}
                 </div>
                 <div class="c1-card__content">${sectionHtml}</div>`;
             this.addC1CardEventListeners(card, allMaps.filter(m => !m.map.placeholder));
@@ -2774,6 +2851,23 @@ class UIController {
             btn.addEventListener('click', () => {
                 this.openCatalogueBookViewer(btn.dataset.bookView, btn.dataset.bookFormat || 'pdf');
             });
+        });
+
+        // Placeholder toggle — show/hide "To Be Added" entries per card
+        container.addEventListener('click', (e) => {
+            const toggle = e.target.closest('.class-card__placeholder-toggle');
+            if (!toggle) return;
+            e.preventDefault();
+            const card = toggle.closest('.c1-card, .class-card, .map-card');
+            if (!card) return;
+            const showing = toggle.dataset.showing === 'true';
+            toggle.dataset.showing = showing ? 'false' : 'true';
+            card.classList.toggle('class-card--show-placeholders', !showing);
+            const label = toggle.querySelector('.class-card__placeholder-toggle-label');
+            if (label) {
+                const count = label.textContent.match(/\d+/)?.[0] || '';
+                label.textContent = !showing ? `Hide ${count} to be added` : `Show ${count} to be added`;
+            }
         });
 
         // Thumbnail hover zoom — position the popup in fixed viewport coords
@@ -2883,10 +2977,19 @@ class UIController {
                 </div>`;
         }).join('');
 
+        const hasPlaceholders = memberMaps.some(m => m.placeholder);
+        const placeholderCount = memberMaps.filter(m => m.placeholder).length;
+        const placeholderToggleHtml = hasPlaceholders
+            ? `<button type="button" class="class-card__placeholder-toggle" data-showing="false" title="Show maps to be added">
+                   <span class="class-card__placeholder-toggle-label">Show ${placeholderCount} to be added</span>
+               </button>`
+            : '';
+
         card.innerHTML = `
             <div class="class-card__header">
                 <div class="class-card__title">${this.escapeHtml(cls.name)}</div>
                 ${cls.scope ? `<div class="class-card__scope">${this.escapeHtml(cls.scope)}</div>` : ''}
+                ${placeholderToggleHtml}
             </div>
             ${timelineHtml}
             <div class="class-card__members">${membersHtml}</div>`;
@@ -3096,10 +3199,18 @@ class UIController {
             }
         });
 
+        const conjPlaceholderCount = allMaps.filter(m => m.map.placeholder).length;
+        const conjPlaceholderToggle = conjPlaceholderCount > 0
+            ? `<button type="button" class="class-card__placeholder-toggle" data-showing="false" title="Show maps to be added">
+                   <span class="class-card__placeholder-toggle-label">Show ${conjPlaceholderCount} to be added</span>
+               </button>`
+            : '';
+
         group.innerHTML = `
             <div class="class-card__header">
                 <div class="class-card__title">${this.escapeHtml(targetClass.name)}</div>
                 ${targetClass.scope ? `<div class="class-card__scope">${this.escapeHtml(targetClass.scope)}</div>` : ''}
+                ${conjPlaceholderToggle}
             </div>
             ${timelineHtml}
             <div class="class-card__members">${membersHtml}</div>`;
@@ -3254,8 +3365,15 @@ class UIController {
                 }
             });
         }
+        const c1PlaceholderCount = allMaps.filter(m => m.map.placeholder).length;
+        const c1PlaceholderToggle = c1PlaceholderCount > 0
+            ? `<button type="button" class="class-card__placeholder-toggle" data-showing="false" title="Show maps to be added">
+                   <span class="class-card__placeholder-toggle-label">Show ${c1PlaceholderCount} to be added</span>
+               </button>`
+            : '';
+
         card.innerHTML = `
-            <div class="c1-card__header"><h3 class="c1-card__title">${this.escapeHtml(c1.name)}</h3></div>
+            <div class="c1-card__header"><h3 class="c1-card__title">${this.escapeHtml(c1.name)}</h3>${c1PlaceholderToggle}</div>
             ${timelineHtml}
             <div class="c1-card__content">${contentHtml}</div>`;
 
@@ -3483,7 +3601,7 @@ class UIController {
                     const displayYear = this.getYear(item.map.date) || item.map.name;
                     const color = item.map.style?.color || '#888';
 
-                    html += `<div class="c1-grid-cell" style="grid-column: ${gridCol}; grid-row: ${item.gridRowStart} / ${item.gridRowEnd}; --map-color: ${color};">`;
+                    html += `<div class="c1-grid-cell${placeholderClass}" style="grid-column: ${gridCol}; grid-row: ${item.gridRowStart} / ${item.gridRowEnd}; --map-color: ${color};">`;
                     html += `<div class="c1-grid-entry${loadedClass}${placeholderClass}" data-map-id="${item.map.id}" data-date="${item.map.date || ''}">`;
                     html += `<div class="thumb-zone"><img class="c1-entry__thumbnail" src="assets/thumbnails/${item.map.cloneOf || item.map.id}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>`;
                     html += '<div class="c1-entry-content">';
@@ -3609,7 +3727,7 @@ class UIController {
                     const displayYear = this.getYear(map.date) || map.name;
                     const color = map.style?.color || '#888';
 
-                    html += `<div class="c1-grid-cell" style="grid-column: ${gridCol}; grid-row: ${gridRowStart} / ${gridRowEnd}; --map-color: ${color};">`;
+                    html += `<div class="c1-grid-cell${placeholderClass}" style="grid-column: ${gridCol}; grid-row: ${gridRowStart} / ${gridRowEnd}; --map-color: ${color};">`;
                     html += `<div class="c1-grid-entry${loadedClass}${placeholderClass}" data-map-id="${map.id}" data-date="${map.date || ''}">`;
                     html += `<div class="thumb-zone"><img class="c1-entry__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>`;
                     html += '<div class="c1-entry-content">';
@@ -4125,14 +4243,56 @@ class UIController {
     // ============================================
 
     /**
-     * Generate overflow menu items for OSNI original downloads.
+     * Returns the list of source-format downloads for a map, drawing from
+     * either the legacy `osniDownloads` field or the newer `sourceDownloads`
+     * field. Both have the same shape: [{ label, file }].
+     */
+    getSourceDownloads(map) {
+        if (Array.isArray(map.sourceDownloads) && map.sourceDownloads.length) return map.sourceDownloads;
+        if (Array.isArray(map.osniDownloads) && map.osniDownloads.length) return map.osniDownloads;
+        return [];
+    }
+
+    /**
+     * Returns a heading label for the source-format downloads dropdown
+     * section. Uses the map's primary provider where possible.
+     */
+    getSourceDownloadsHeading(map) {
+        const provider = Array.isArray(map.provider) ? map.provider[0] : map.provider;
+        const pretty = {
+            'OSNI': 'OSNI Open Data',
+            'OSI': 'Tailte Éireann (OSI)',
+            'OSi': 'Tailte Éireann (OSI)',
+            'Tailte Éireann': 'Tailte Éireann',
+            'Tailte Eireann': 'Tailte Éireann',
+            'NISRA': 'NISRA',
+            'CSO': 'CSO',
+            'DAERA': 'DAERA',
+            'NIEA': 'NIEA',
+            'Translink': 'Translink',
+            'Department for Communities': 'Department for Communities',
+            'Eurostat': 'Eurostat',
+            'Northern Ireland Office': 'Northern Ireland Office',
+            'Electoral Commission': 'Electoral Commission',
+            'Parlconst.org': 'parlconst.org',
+        };
+        if (provider && typeof provider === 'string') {
+            return `${pretty[provider] || provider} downloads`;
+        }
+        return 'Source data downloads';
+    }
+
+    /**
+     * Generate overflow menu items for source-format downloads.
+     * Reads from sourceDownloads (preferred) or legacy osniDownloads.
      * @param {object} map - Map entry from maps.json
-     * @returns {string} HTML for OSNI download menu items (empty if none)
+     * @returns {string} HTML for download menu items (empty if none)
      */
     renderOsniOverflowItems(map) {
-        if (!map.osniDownloads || map.osniDownloads.length === 0) return '';
+        const downloads = this.getSourceDownloads(map);
+        if (downloads.length === 0) return '';
         const downloadSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
-        return map.osniDownloads.map(dl =>
+        return downloads.map(dl =>
             `<a href="${dl.file}" class="overflow-menu__item overflow-menu__item--osni" download>${downloadSvg} ${this.escapeHtml(dl.label)}</a>`
         ).join('');
     }
@@ -4153,7 +4313,8 @@ class UIController {
         const isVisible = options.isVisible !== undefined ? !!options.isVisible : isLoaded;
         const size = options.buttonSize || 'sm';
         const wrapperClass = options.wrapperClass || 'map-card__actions';
-        const hasDownload = !!(map.downloads?.fgb || map.files?.fgb || map.files?.geojson || (map.osniDownloads && map.osniDownloads.length));
+        const sourceDownloads = this.getSourceDownloads(map);
+        const hasDownload = !!(map.downloads?.fgb || map.files?.fgb || map.files?.geojson || sourceDownloads.length);
         const hasVariants = !!(map.variants && map.variants.length > 0);
 
         return `
@@ -4182,10 +4343,10 @@ class UIController {
                         <div class="download-dropdown hidden">
                             ${(map.downloads?.fgb || map.files?.fgb) ? `<a href="${map.downloads?.fgb || map.files?.fgb}" class="download-dropdown__item" download>FlatGeobuf (.fgb)</a>` : ''}
                             ${map.files?.geojson ? `<a href="${map.files.geojson}" class="download-dropdown__item" download>GeoJSON</a>` : ''}
-                            ${map.osniDownloads && map.osniDownloads.length > 0 ? `
+                            ${sourceDownloads.length > 0 ? `
                                 <div class="download-dropdown__divider"></div>
-                                <div class="download-dropdown__heading">OSNI Open Data</div>
-                                ${map.osniDownloads.map(dl => `<a href="${dl.file}" class="download-dropdown__item download-dropdown__item--osni" download>${dl.label}</a>`).join('')}
+                                <div class="download-dropdown__heading">${this.escapeHtml(this.getSourceDownloadsHeading(map))}</div>
+                                ${sourceDownloads.map(dl => `<a href="${dl.file}" class="download-dropdown__item download-dropdown__item--osni" download>${this.escapeHtml(dl.label)}</a>`).join('')}
                             ` : ''}
                         </div>
                     </div>
@@ -4335,7 +4496,7 @@ class UIController {
         const providers = (map.provider || []).join(', ');
         const dateStr = this.formatMapDate(map.date);
         const hasVariants = map.variants && map.variants.length > 0;
-        const hasDownload = map.files?.fgb || map.files?.geojson || (map.osniDownloads && map.osniDownloads.length > 0);
+        const hasDownload = map.files?.fgb || map.files?.geojson || this.getSourceDownloads(map).length > 0;
 
         // Note field if present
         const noteHtml = map.note ? `<div class="map-card__note">${this.escapeHtml(map.note)}</div>` : '';
@@ -4978,9 +5139,21 @@ class UIController {
         const entry = this._featureDetailCache?.get(detailId);
         if (!entry) return;
         const { feature, mapConfig, primaryName } = entry;
+        const activeTabId = this._getActivePaneTabId();
 
         if (addToHistory) {
+            const current = this.catalogueHistory[this.catalogueHistoryIndex];
+            if (current?.type === 'feature-detail' && current.detailId === detailId) {
+                this.updateCatalogueNavButtons();
+                this.updateCatalogueHomeButton();
+                return;
+            }
+            this._pushCatalogueTabHistoryIfNeeded(activeTabId);
             this._pushCatalogueHistoryEntry({ type: 'feature-detail', detailId });
+        }
+
+        if (activeTabId !== 'catalogue') {
+            this.showTab('catalogue');
         }
 
         const detailView = document.getElementById('catalogueDetailView');
@@ -4992,6 +5165,7 @@ class UIController {
         listView.classList.add('hidden');
         detailView.classList.remove('hidden');
         this.catalogueView = 'detail';
+        this.updateCatalogueNavButtons();
         this.updateCatalogueHomeButton();
 
         const props = feature?.properties || {};
@@ -5561,9 +5735,21 @@ class UIController {
             : this.cacheElectionEntityDetailEntry(detailOrId);
         const entry = this._electionEntityDetailCache?.get(detailId);
         if (!entry || !detailId) return;
+        const activeTabId = this._getActivePaneTabId();
 
         if (addToHistory) {
+            const current = this.catalogueHistory[this.catalogueHistoryIndex];
+            if (current?.type === 'election-entity-detail' && current.detailId === detailId) {
+                this.updateCatalogueNavButtons();
+                this.updateCatalogueHomeButton();
+                return;
+            }
+            this._pushCatalogueTabHistoryIfNeeded(activeTabId);
             this._pushCatalogueHistoryEntry({ type: 'election-entity-detail', detailId });
+        }
+
+        if (activeTabId !== 'catalogue') {
+            this.showTab('catalogue');
         }
 
         const detailView = document.getElementById('catalogueDetailView');
@@ -5575,6 +5761,7 @@ class UIController {
         listView.classList.add('hidden');
         detailView.classList.remove('hidden');
         this.catalogueView = 'detail';
+        this.updateCatalogueNavButtons();
         this.updateCatalogueHomeButton();
 
         const fmt = (value) => this.formatNumber(Math.round(Number(value) || 0), 0);
