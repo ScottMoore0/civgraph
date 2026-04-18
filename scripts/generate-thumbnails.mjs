@@ -178,7 +178,16 @@ async function main() {
     let toProcess;
 
     if (requestedIds.length > 0) {
-        toProcess = requestedIds.map(id => allMaps.find(m => m.id === id)).filter(Boolean);
+        const findAny = (id) => {
+            const direct = allMaps.find(m => m.id === id);
+            if (direct) return direct;
+            for (const m of allMaps) {
+                const v = (m.variants || []).find(v => v.id === id);
+                if (v) return { ...m, ...v, parentId: m.id, name: v.label || v.id, variants: undefined };
+            }
+            return null;
+        };
+        toProcess = requestedIds.map(findAny).filter(Boolean);
     } else {
         // Find all maps missing thumbnails
         toProcess = allMaps.filter(m => {

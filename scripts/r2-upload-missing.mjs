@@ -110,6 +110,16 @@ async function collectFiles() {
         if (existsSync(p)) targets.push({ localPath: p, compress: true });
     }
 
+    // Baronies: all-Ireland + ROI
+    const baroniesPaths = [
+        'data/maps/baronies-parishes/ROI_Baronies.fgb',
+        'data/maps/baronies-parishes/Baronies_AllIreland.fgb',
+    ];
+    for (const rel of baroniesPaths) {
+        const p = join(ROOT, rel);
+        if (existsSync(p)) targets.push({ localPath: p, compress: true });
+    }
+
     // NI local-government additions
     const niLocalGovPaths = [
         'data/maps/local-government/Admin_Areas_01-04-1930.fgb',
