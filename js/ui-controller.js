@@ -49,6 +49,8 @@ class UIController {
         this.onOpenElectionConstituencyFeature = null;
         this.onBuildElectionCatalogueCards = null;   // async () => cards[]
         this.onLoadElection = null;                   // (body, date) => void
+        this.onUnloadElection = null;                 // () => void
+        this.onCheckElectionLoaded = null;            // (body, date) => boolean
         this.onSetupElectionTableControls = null;     // (dataTable) => void
         this._searchAddressAbortController = null;
 
@@ -2672,18 +2674,20 @@ class UIController {
                         : `${(entry.constituencies || []).filter(c => c !== 'Northern Ireland').length} constituencies`));
                 const providerLabel = entry.displayProvider || bodyShort;
                 const placeholderClass = entry.placeholder ? ' class-member--placeholder' : '';
+                const isElectionLoaded = !entry.placeholder && !!this.onCheckElectionLoaded?.(entry.body, entry.date);
+                const loadedClass = isElectionLoaded ? ' class-member--loaded' : '';
                 const nameContent = `${esc(dateFormatted)} <span class="flat-election-body">${esc(providerLabel)}</span>`;
                 const dateLabel = entry.placeholder
                     ? `<span class="class-member__name">${nameContent}</span>`
                     : `<a href="#" class="class-member__name class-member__name-link flat-election-link" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}">${nameContent}</a>`;
                 const actionsHtml = entry.placeholder
                     ? ''
-                    : `<button class="btn btn--icon btn--xs load-btn election-load-btn" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}">+</button>`;
+                    : `<button class="btn btn--icon btn--xs load-btn election-load-btn" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}" title="${isElectionLoaded ? 'Unload' : 'Load'}">${this.getLoadButtonIcon(isElectionLoaded)}</button>`;
                 const badgeHtml = entry.placeholder
                     ? '<span class="class-member__placeholder-badge">To Be Added</span>'
                     : '';
                 return `
-                    <div class="class-member flat-election-entry ${entry.isByElection ? 'flat-election-entry--by' : ''}${placeholderClass}"
+                    <div class="class-member flat-election-entry ${entry.isByElection ? 'flat-election-entry--by' : ''}${placeholderClass}${loadedClass}"
                          data-election-body="${esc(entry.body)}"
                          data-election-date="${esc(entry.date)}"
                          data-election-placeholder="${entry.placeholder ? '1' : '0'}"
@@ -2787,7 +2791,12 @@ class UIController {
                 const source = e.currentTarget;
                 const body = source.dataset.electionBody || source.closest('.flat-election-entry')?.dataset.electionBody;
                 const date = source.dataset.electionDate || source.closest('.flat-election-entry')?.dataset.electionDate;
-                if (body && date) {
+                if (!body || !date) return;
+                // Only the load button toggles; clicking the name/row always loads.
+                const isLoadBtn = source.classList.contains('election-load-btn');
+                if (isLoadBtn && this.onCheckElectionLoaded?.(body, date)) {
+                    this.onUnloadElection?.();
+                } else {
                     this.onLoadElection?.(body, date);
                 }
             });

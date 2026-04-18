@@ -75,6 +75,11 @@ class App {
             // These lazy-load the election controller on first use.
             uiController.onBuildElectionCatalogueCards = async () => (await getElectionController()).buildCatalogueCards();
             uiController.onLoadElection = async (body, date) => (await getElectionController()).loadElection(body, date);
+            uiController.onUnloadElection = () => { const ec = getEC(); if (ec) ec.clear(); };
+            uiController.onCheckElectionLoaded = (body, date) => {
+                const ec = getEC();
+                return !!ec && ec.isElectionLoaded(body, date);
+            };
             uiController.onSetupElectionTableControls = async (tbl) => (await getElectionController())._setupSingleResultsTableControls(tbl);
 
             // Initialize UI controller
@@ -813,7 +818,11 @@ class App {
 
         // Wire up URL state callback — lazy-loads election controller
         const ec = await getElectionController();
-        ec.onStateChange = () => this.updateURLState();
+        ec.onStateChange = () => {
+            this.updateURLState();
+            this.updateMapList();
+            this.updateActiveLayers();
+        };
         ec.onStartLoadFeedback = (mapName) => this.startMapLoadFeedback(mapName);
         ec.onFinishLoadFeedback = (feedback, success, mapName, options = {}) => {
             this.finishMapLoadFeedback(feedback, success, mapName, options);
