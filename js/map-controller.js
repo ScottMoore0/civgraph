@@ -1027,9 +1027,11 @@ class MapController {
                 this._attachFeatureHoverHandlers(layer);
                 this._attachHistoricPointDblClick(mapConfig, id, feature, layer);
 
-                if (labelProperty && feature.properties?.[labelProperty]) {
+                const labelKeys = [labelProperty, ...(mapConfig.labelPropertyFallbacks || [])].filter(Boolean);
+                const resolvedKey = labelKeys.find(k => feature.properties?.[k]);
+                if (resolvedKey) {
                     const labelText = this.cleanLabelText(
-                        feature.properties[labelProperty],
+                        feature.properties[resolvedKey],
                         mapConfig.labelCleanup
                     );
                     if (labelText && (layer.getBounds || layer.getLatLng)) {
