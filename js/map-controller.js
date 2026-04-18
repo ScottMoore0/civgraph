@@ -2640,29 +2640,35 @@ class MapController {
     }
 
     _syncGapRaster(mapId) {
-        const state = this.layerStates.get(mapId);
-        if (!state || !this.map) return;
-        const desired = this._resolveGapRasterFallback(state, this.map.getZoom());
-        const currentLevel = state._gapRasterLevel || null;
-        const desiredLevel = desired?.level || null;
-        if (desiredLevel === currentLevel) return;
+        try {
+            const state = this.layerStates.get(mapId);
+            if (!state || !this.map) return;
+            const desired = this._resolveGapRasterFallback(state, this.map.getZoom());
+            const currentLevel = state._gapRasterLevel || null;
+            const desiredLevel = desired?.level || null;
+            if (desiredLevel === currentLevel) return;
 
-        if (state._gapRasterLayer) {
-            this.map.removeLayer(state._gapRasterLayer);
-            state._gapRasterLayer = null;
-            state._gapRasterLevel = null;
-        }
-        if (desired) {
-            const pane = this._ensureGapRasterPane();
-            const url = this._rewriteForDevProxy(desired.image);
-            const overlay = L.imageOverlay(url, desired.bounds, {
-                opacity: typeof desired.opacity === 'number' ? desired.opacity : 1,
-                interactive: false,
-                pane
-            });
-            overlay.addTo(this.map);
-            state._gapRasterLayer = overlay;
-            state._gapRasterLevel = desired.level;
+            if (state._gapRasterLayer) {
+                try { this.map.removeLayer(state._gapRasterLayer); } catch {}
+                state._gapRasterLayer = null;
+                state._gapRasterLevel = null;
+            }
+            if (desired && Array.isArray(desired.bounds) && desired.bounds.length === 2) {
+                const pane = this._ensureGapRasterPane();
+                const url = this._rewriteForDevProxy(desired.image);
+                const overlay = L.imageOverlay(url, desired.bounds, {
+                    opacity: typeof desired.opacity === 'number' ? desired.opacity : 1,
+                    interactive: false,
+                    pane
+                });
+                overlay.addTo(this.map);
+                state._gapRasterLayer = overlay;
+                state._gapRasterLevel = desired.level;
+            }
+        } catch (err) {
+            // Gap-fill raster is purely cosmetic - never let a bad config
+            // or missing asset break the underlying layer load.
+            console.warn(`[MapController] Gap-raster sync failed for ${mapId}:`, err);
         }
     }
 
