@@ -77,7 +77,9 @@ async function collectFiles() {
         }
     }
 
-    // Raster PNGs (not compressed - PNG is already compressed)
+    // Raster PNGs (not compressed - PNG is already compressed).
+    // Covers both the georef historic-map overlays and the LOD gap-fill
+    // underlays emitted by scripts/build-lod-gap-rasters.mjs.
     const rasterDir = join(ROOT, 'data/maps/raster');
     for (const name of fs.readdirSync(rasterDir)) {
         if (name.endsWith('.png')) {

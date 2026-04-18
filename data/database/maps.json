@@ -2694,6 +2694,38 @@
               "label": "OSNI Open Data - Largescale Boundaries - Townlands (data.gov.uk)",
               "url": "https://www.data.gov.uk/dataset/18e1bd0f-1829-496e-9b21-a5d8f6159940/osni-open-data-largescale-boundaries-townlands6"
             }
+          ],
+          "lodRasterFallbacks": [
+            {
+              "level": "z7",
+              "image": "data/maps/raster/ni-townlands-z7-fill.png",
+              "bounds": [
+                [
+                  54.023055556,
+                  -8.169750103
+                ],
+                [
+                  55.286955566,
+                  -5.520947455
+                ]
+              ],
+              "maxZoom": 8
+            },
+            {
+              "level": "z10",
+              "image": "data/maps/raster/ni-townlands-z10-fill.png",
+              "bounds": [
+                [
+                  54.092,
+                  -7.842
+                ],
+                [
+                  55.167,
+                  -5.834
+                ]
+              ],
+              "maxZoom": 11
+            }
           ]
         },
         {
@@ -2727,7 +2759,71 @@
               "url": "https://data-osi.opendata.arcgis.com/datasets/osi::townlands-national-statutory-boundaries-ungeneralised-2024/about",
               "note": "Creative Commons Attribution 4.0."
             }
+          ],
+          "lodRasterFallbacks": [
+            {
+              "level": "z7",
+              "image": "data/maps/raster/roi-townlands-z7-fill.png",
+              "bounds": [
+                [
+                  51.426,
+                  -10.617
+                ],
+                [
+                  55.343,
+                  -5.995
+                ]
+              ],
+              "maxZoom": 8
+            },
+            {
+              "level": "z10",
+              "image": "data/maps/raster/roi-townlands-z10-fill.png",
+              "bounds": [
+                [
+                  51.519,
+                  -10.214
+                ],
+                [
+                  55.291,
+                  -5.813
+                ]
+              ],
+              "maxZoom": 11
+            }
           ]
+        }
+      ],
+      "lodRasterFallbacks": [
+        {
+          "level": "z7",
+          "image": "data/maps/raster/all-ireland-townlands-z7-fill.png",
+          "bounds": [
+            [
+              51.426,
+              -10.617
+            ],
+            [
+              55.343,
+              -5.471
+            ]
+          ],
+          "maxZoom": 8
+        },
+        {
+          "level": "z10",
+          "image": "data/maps/raster/all-ireland-townlands-z10-fill.png",
+          "bounds": [
+            [
+              51.519,
+              -10.214
+            ],
+            [
+              55.291,
+              -5.813
+            ]
+          ],
+          "maxZoom": 11
         }
       ]
     },

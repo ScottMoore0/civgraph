@@ -667,6 +667,7 @@ class MapController {
         this.map.on('moveend', () => this.updateSpatialLayers());
         this.map.on('zoomend', () => this.updateSpatialLayers());
         this.map.on('moveend zoomend', () => this._scheduleNonChunkedLODCheck());
+        this.map.on('zoomend', () => this._syncAllGapRasters());
 
         console.log('[MapController] Map initialized');
         return this;
@@ -2104,6 +2105,7 @@ class MapController {
                 state._lastZoom = zoom;
                 state.loading = false;
                 this.updateLabels();
+                this._syncGapRaster(mapId);
             } catch (err) {
                 console.warn(`[MapController] Chunk update failed for ${mapId}:`, err);
                 state.loading = false;
@@ -2539,6 +2541,7 @@ class MapController {
             this._layerOrder.push(id);
         }
         state.visible = true;
+        this._syncGapRaster(id);
         this.updateLabels();
     }
 
@@ -2556,6 +2559,7 @@ class MapController {
         if (idx >= 0) this._layerOrder.splice(idx, 1);
         this._clearHoverCandidatesForMap(id);
         state.visible = false;
+        this._removeGapRaster(id);
         this.updateLabels();
     }
 
@@ -2595,6 +2599,88 @@ class MapController {
         return state && state.loaded;
     }
 
+    // ── Gap-fill raster underlay ─────────────────────────────────────
+    // For maps whose lower LOD / chunk variants drop features (e.g. the
+    // townland z7 chunks drop ~30%), a pre-rendered raster of just the
+    // dropped features sits under the vector so the user sees outlines
+    // even where the vector has gaps. Raster is picked to match whichever
+    // variant is currently in use and swaps on zoom-band changes.
+    //
+    // Configured via mapConfig.lodRasterFallbacks = [{ level, image,
+    // bounds, maxZoom }, ...].
+
+    _ensureGapRasterPane() {
+        if (!this.map) return null;
+        const paneName = 'gap-raster-pane';
+        if (!this.map.getPane(paneName)) {
+            const pane = this.map.createPane(paneName);
+            // Below the default overlay pane (400) so vectors draw on top,
+            // above the basemap so the fill is visible.
+            pane.style.zIndex = '380';
+            pane.style.pointerEvents = 'none';
+        }
+        return paneName;
+    }
+
+    _resolveGapRasterFallback(state, zoom) {
+        if (!state || !state.visible) return null;
+        // Overview LOD already carries every feature, so the underlay
+        // isn't needed there.
+        if (state._overviewLOD) return null;
+        const fallbacks = state.config?.lodRasterFallbacks;
+        if (!Array.isArray(fallbacks) || fallbacks.length === 0) return null;
+        // Tightest match: smallest maxZoom that still covers current zoom.
+        let best = null;
+        for (const fb of fallbacks) {
+            if (!fb?.image || typeof fb.maxZoom !== 'number') continue;
+            if (zoom > fb.maxZoom) continue;
+            if (!best || fb.maxZoom < best.maxZoom) best = fb;
+        }
+        return best;
+    }
+
+    _syncGapRaster(mapId) {
+        const state = this.layerStates.get(mapId);
+        if (!state || !this.map) return;
+        const desired = this._resolveGapRasterFallback(state, this.map.getZoom());
+        const currentLevel = state._gapRasterLevel || null;
+        const desiredLevel = desired?.level || null;
+        if (desiredLevel === currentLevel) return;
+
+        if (state._gapRasterLayer) {
+            this.map.removeLayer(state._gapRasterLayer);
+            state._gapRasterLayer = null;
+            state._gapRasterLevel = null;
+        }
+        if (desired) {
+            const pane = this._ensureGapRasterPane();
+            const url = this._rewriteForDevProxy(desired.image);
+            const overlay = L.imageOverlay(url, desired.bounds, {
+                opacity: typeof desired.opacity === 'number' ? desired.opacity : 1,
+                interactive: false,
+                pane
+            });
+            overlay.addTo(this.map);
+            state._gapRasterLayer = overlay;
+            state._gapRasterLevel = desired.level;
+        }
+    }
+
+    _removeGapRaster(mapId) {
+        const state = this.layerStates.get(mapId);
+        if (!state || !state._gapRasterLayer || !this.map) return;
+        this.map.removeLayer(state._gapRasterLayer);
+        state._gapRasterLayer = null;
+        state._gapRasterLevel = null;
+    }
+
+    _syncAllGapRasters() {
+        if (!this.map) return;
+        for (const [mapId] of this.layerStates) {
+            this._syncGapRaster(mapId);
+        }
+    }
+
     /**
      * Toggle layer visibility
      */
@@ -2616,6 +2702,7 @@ class MapController {
         const state = this.layerStates.get(id);
         if (!state) return;
 
+        this._removeGapRaster(id);
         this.hideLayer(id);
         this._clearHoverCandidatesForMap(id);
         this.layerStates.delete(id);

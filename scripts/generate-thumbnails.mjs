@@ -68,8 +68,16 @@ function collectRings(geometry) {
  */
 async function readFgb(fgbPath) {
     const localRel = fgbPath.replace(/^https?:\/\/data\.civgraph\.net\//, '');
-    const fullPath = join(ROOT, localRel);
-    if (!existsSync(fullPath)) return null;
+    let fullPath = join(ROOT, localRel);
+    if (!existsSync(fullPath)) {
+        // Fall back to LOD0/LOD1 variants when the full-resolution file
+        // isn't available locally (large monoliths are often R2-only).
+        const lod0 = fullPath.replace(/\.fgb$/i, '-lod0.fgb');
+        const lod1 = fullPath.replace(/\.fgb$/i, '-lod1.fgb');
+        if (existsSync(lod0)) fullPath = lod0;
+        else if (existsSync(lod1)) fullPath = lod1;
+        else return null;
+    }
 
     const buf = new Uint8Array(readFileSync(fullPath));
     const geometries = [];
