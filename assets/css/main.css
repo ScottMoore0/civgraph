@@ -2711,18 +2711,50 @@ button.catalogue-flat__toc-toplink {
   display: none;
 }
 
-/* Hide placeholder members by default; show when the card toggle is active.
-   Uses !important to guarantee no cascade override from any later rule. */
+.class-member__change-note {
+  display: block;
+  font-size: var(--text-xs);
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+.class-member--incomplete .class-member__incomplete-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: #b45309;
+  background: rgba(245, 158, 11, 0.12);
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.class-member__incomplete-badge {
+  display: none;
+}
+
+/* Hide placeholder and incomplete members by default; show when the card
+   toggle is active. Uses !important to guarantee no cascade override. */
 .class-member--placeholder,
+.class-member--incomplete,
 .c1-grid-entry--placeholder,
-.c1-grid-cell.c1-grid-entry--placeholder {
+.c1-grid-entry--incomplete,
+.c1-grid-cell.c1-grid-entry--placeholder,
+.c1-grid-cell.c1-grid-entry--incomplete {
   display: none !important;
 }
-.class-card--show-placeholders .class-member--placeholder {
+.class-card--show-placeholders .class-member--placeholder,
+.class-card--show-placeholders .class-member--incomplete {
   display: flex !important;
 }
 .class-card--show-placeholders .c1-grid-entry--placeholder,
-.class-card--show-placeholders .c1-grid-cell.c1-grid-entry--placeholder {
+.class-card--show-placeholders .c1-grid-entry--incomplete,
+.class-card--show-placeholders .c1-grid-cell.c1-grid-entry--placeholder,
+.class-card--show-placeholders .c1-grid-cell.c1-grid-entry--incomplete {
   display: block !important;
 }
 
@@ -3793,6 +3825,14 @@ button.catalogue-flat__toc-toplink {
   margin-left: 0.5em;
 }
 
+.c1-incomplete-badge {
+  font-size: 0.6em;
+  color: #b45309;
+  text-transform: uppercase;
+  font-weight: var(--font-semibold);
+  margin-left: 0.5em;
+}
+
 /* Load button */
 .c1-load-btn {
   width: 1.25em;
@@ -3818,9 +3858,13 @@ button.catalogue-flat__toc-toplink {
   border-color: var(--color-primary);
 }
 
-/* Placeholder entry styling */
+/* Placeholder / incomplete entry styling */
 .c1-grid-entry--placeholder {
   opacity: 0.7;
+}
+
+.c1-grid-entry--incomplete {
+  opacity: 0.85;
 }
 
 /* ============================================
@@ -8694,7 +8738,8 @@ th.filter-active .th-filter-btn {
 /* ============================================
    Placeholder Badge - Smaller Size
    ============================================ */
-.class-member__placeholder-badge {
+.class-member__placeholder-badge,
+.class-member__incomplete-badge {
   font-size: 9px !important;
   padding: 1px 4px !important;
   letter-spacing: 0.3px;

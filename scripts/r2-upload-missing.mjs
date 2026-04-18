@@ -110,6 +110,21 @@ async function collectFiles() {
         if (existsSync(p)) targets.push({ localPath: p, compress: true });
     }
 
+    // NI local-government additions
+    const niLocalGovPaths = [
+        'data/maps/local-government/Admin_Areas_01-04-1930.fgb',
+        'data/maps/local-government/Unchanged_Districts_1921-1969.fgb',
+        'data/maps/local-government/NI_Admin_Areas_1921-1936.fgb',
+        'data/maps/local-government/NI_Admin_Areas_1937-1963.fgb',
+        'data/maps/local-government/NI_Admin_Areas_1964.fgb',
+        'data/maps/local-government/NI_Admin_Areas_1965-1968.fgb',
+        'data/maps/local-government/NI_Admin_Areas_1969.fgb',
+    ];
+    for (const rel of niLocalGovPaths) {
+        const p = join(ROOT, rel);
+        if (existsSync(p)) targets.push({ localPath: p, compress: true });
+    }
+
     return targets;
 }
 

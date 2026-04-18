@@ -745,6 +745,9 @@ class TimeSliderController {
         const currentIds = this.getLoadedMapIds();
         const timelineChains = this._getTimelineChainsForDateChange(currentIds);
         const applyStartedAt = performance.now();
+        const preOrder = typeof this.mapController.getVisibleLayerOrder === 'function'
+            ? this.mapController.getVisibleLayerOrder()
+            : null;
 
         console.log('[TimeSlider] applyDateChange - targetTimestamp:', targetTimestamp, 'targetDate:', new Date(targetTimestamp));
         console.log('[TimeSlider] applyDateChange - currentIds:', currentIds);
@@ -828,6 +831,31 @@ class TimeSliderController {
         } else {
             this._preservedTimelineChains = null;
             this._preservedTimelineTimestamp = null;
+        }
+
+        // Restore pre-change z-order. Replacements keep their old slot; any
+        // brand-new layers stack on top in load-completion order.
+        if (preOrder && typeof this.mapController.applyLayerOrder === 'function') {
+            const mapping = new Map();
+            for (const sel of plan.selections) {
+                if (sel.oldId && sel.newMapId && sel.oldId !== sel.newMapId) {
+                    mapping.set(sel.oldId, sel.newMapId);
+                }
+            }
+            const postVisible = new Set(this.mapController.getVisibleLayerOrder());
+            const newOrder = [];
+            const seen = new Set();
+            for (const id of preOrder) {
+                const mapped = mapping.get(id) || id;
+                if (postVisible.has(mapped) && !seen.has(mapped)) {
+                    newOrder.push(mapped);
+                    seen.add(mapped);
+                }
+            }
+            for (const id of postVisible) {
+                if (!seen.has(id)) newOrder.push(id);
+            }
+            this.mapController.applyLayerOrder(newOrder);
         }
 
         if (plan.changes.length > 0 && this.onLayersChanged) {

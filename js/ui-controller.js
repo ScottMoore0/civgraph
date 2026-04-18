@@ -2745,9 +2745,9 @@ class UIController {
             const sectionHtml = this.renderC2Section(pseudoClass, allMaps, { ...renderOptions, ignoreMemberHeight: true, fullWidth: true })
                 .replace(/<div class="c1-card__section-header">[\s\S]*?<\/div>/, '');
 
-            const flatPlaceholderCount = allMaps.filter(m => m.map.placeholder).length;
+            const flatPlaceholderCount = allMaps.filter(m => m.map.placeholder || m.map.incomplete).length;
             const flatPlaceholderToggle = flatPlaceholderCount > 0
-                ? `<button type="button" class="class-card__placeholder-toggle" data-showing="false" title="Show maps to be added">
+                ? `<button type="button" class="class-card__placeholder-toggle" data-showing="false" title="Show maps marked to-be-added or incomplete">
                        <span class="class-card__placeholder-toggle-label">Show ${flatPlaceholderCount} to be added</span>
                    </button>`
                 : '';
@@ -2941,16 +2941,18 @@ class UIController {
         const membersHtml = memberMaps.map(map => {
             const isLoaded = this.isMapLoadedState(map.id, options);
             const isPlaceholder = map.placeholder;
+            const isIncomplete = map.incomplete;
             const displayName = useYearDisplay ? (this.getYear(map.date) || map.name) : map.name;
             const color = map.style?.color || '#3388ff';
 
             return `
-                <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''}" data-map-id="${map.id}" style="--map-color: ${color}">
+                <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${isIncomplete ? 'class-member--incomplete' : ''}" data-map-id="${map.id}" style="--map-color: ${color}">
                     <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>
                     <div class="class-member__info">
                         ${!isPlaceholder ? `<a href="#" class="class-member__name class-member__name-link" data-detail-map-id="${map.id}">${this.escapeHtml(displayName)}</a>` : `<span class="class-member__name">${this.escapeHtml(displayName)}</span>`}
+                        ${map.changeNote ? `<span class="class-member__change-note">${this.escapeHtml(map.changeNote)}</span>` : ''}
                         ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
-                        ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : ''}
+                        ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : isIncomplete ? '<span class="class-member__incomplete-badge">Incomplete</span>' : ''}
                     </div>
                     ${!isPlaceholder ? `<div class="class-member__actions">\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${this.getLoadButtonIcon(isLoaded)}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions"></button>
                             <div class="overflow-menu__dropdown">
@@ -2977,10 +2979,10 @@ class UIController {
                 </div>`;
         }).join('');
 
-        const hasPlaceholders = memberMaps.some(m => m.placeholder);
-        const placeholderCount = memberMaps.filter(m => m.placeholder).length;
+        const hasPlaceholders = memberMaps.some(m => m.placeholder || m.incomplete);
+        const placeholderCount = memberMaps.filter(m => m.placeholder || m.incomplete).length;
         const placeholderToggleHtml = hasPlaceholders
-            ? `<button type="button" class="class-card__placeholder-toggle" data-showing="false" title="Show maps to be added">
+            ? `<button type="button" class="class-card__placeholder-toggle" data-showing="false" title="Show maps marked to-be-added or incomplete">
                    <span class="class-card__placeholder-toggle-label">Show ${placeholderCount} to be added</span>
                </button>`
             : '';
@@ -3162,13 +3164,15 @@ class UIController {
             classMaps.forEach(({ map }) => {
                 const isLoaded = this.isMapLoadedState(map.id, options);
                 const isPlaceholder = map.placeholder;
+                const isIncomplete = map.incomplete;
                 const displayName = this.getYear(map.date) || map.name;
                 membersHtml += `
-                    <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''}" data-map-id="${map.id}" style="--map-color: ${map.style?.color || '#888'}">
+                    <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${isIncomplete ? 'class-member--incomplete' : ''}" data-map-id="${map.id}" style="--map-color: ${map.style?.color || '#888'}">
                         <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>
                         <div class="class-member__info"><span class="class-member__name">${this.escapeHtml(displayName)}</span>
+                            ${map.changeNote ? `<span class="class-member__change-note">${this.escapeHtml(map.changeNote)}</span>` : ''}
                             ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
-                            ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : ''}
+                            ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : isIncomplete ? '<span class="class-member__incomplete-badge">Incomplete</span>' : ''}
                         </div>
                         ${!isPlaceholder ? `<div class="class-member__actions">
                             <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}">${this.getLoadButtonIcon(isLoaded)}</button>
@@ -3199,9 +3203,9 @@ class UIController {
             }
         });
 
-        const conjPlaceholderCount = allMaps.filter(m => m.map.placeholder).length;
+        const conjPlaceholderCount = allMaps.filter(m => m.map.placeholder || m.map.incomplete).length;
         const conjPlaceholderToggle = conjPlaceholderCount > 0
-            ? `<button type="button" class="class-card__placeholder-toggle" data-showing="false" title="Show maps to be added">
+            ? `<button type="button" class="class-card__placeholder-toggle" data-showing="false" title="Show maps marked to-be-added or incomplete">
                    <span class="class-card__placeholder-toggle-label">Show ${conjPlaceholderCount} to be added</span>
                </button>`
             : '';
@@ -3365,9 +3369,9 @@ class UIController {
                 }
             });
         }
-        const c1PlaceholderCount = allMaps.filter(m => m.map.placeholder).length;
+        const c1PlaceholderCount = allMaps.filter(m => m.map.placeholder || m.map.incomplete).length;
         const c1PlaceholderToggle = c1PlaceholderCount > 0
-            ? `<button type="button" class="class-card__placeholder-toggle" data-showing="false" title="Show maps to be added">
+            ? `<button type="button" class="class-card__placeholder-toggle" data-showing="false" title="Show maps marked to-be-added or incomplete">
                    <span class="class-card__placeholder-toggle-label">Show ${c1PlaceholderCount} to be added</span>
                </button>`
             : '';
@@ -3407,6 +3411,7 @@ class UIController {
         const membersHtml = sorted.map(({ map }) => {
             const isLoaded = this.isMapLoadedState(map.id, options);
             const isPlaceholder = map.placeholder;
+            const isIncomplete = map.incomplete;
             const hasVariants = map.variants && map.variants.length > 0;
 
             let displayName;
@@ -3439,11 +3444,12 @@ class UIController {
 
             const heightStyle = (!options.ignoreMemberHeight && map.style?.height) ? `height: ${map.style.height};` : '';
             return `
-                <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${hasVariants ? 'class-member--has-variants' : ''}" data-map-id="${map.id}" data-date="${map.date || ''}" style="--map-color: ${map.style?.color || '#888'};${heightStyle}">
+                <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${isIncomplete ? 'class-member--incomplete' : ''} ${hasVariants ? 'class-member--has-variants' : ''}" data-map-id="${map.id}" data-date="${map.date || ''}" style="--map-color: ${map.style?.color || '#888'};${heightStyle}">
                 <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>
                 <div class="class-member__info">${!isPlaceholder ? `<a href="#" class="class-member__name class-member__name-link" data-detail-map-id="${map.id}">${displayName}</a>` : `<span class="class-member__name">${displayName}</span>`}${dateSubtitle}
+                ${map.changeNote ? `<span class="class-member__change-note">${this.escapeHtml(map.changeNote)}</span>` : ''}
                 ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
-                ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : ''}
+                ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : isIncomplete ? '<span class="class-member__incomplete-badge">Incomplete</span>' : ''}
             </div>
                 ${!isPlaceholder ? `<div class="class-member__actions">${expandBtn}\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${this.getLoadButtonIcon(isLoaded)}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions"></button>
                             <div class="overflow-menu__dropdown">
@@ -3523,7 +3529,8 @@ class UIController {
                         className: cls.name,
                         classId: cls.id,
                         isLoaded: this.isMapLoadedState(map.id, options),
-                        isPlaceholder: map.placeholder
+                        isPlaceholder: map.placeholder,
+                        isIncomplete: map.incomplete
                     });
                 });
             });
@@ -3598,11 +3605,12 @@ class UIController {
                     // Entry
                     const loadedClass = item.isLoaded ? ' c1-grid-entry--loaded' : '';
                     const placeholderClass = item.isPlaceholder ? ' c1-grid-entry--placeholder' : '';
+                    const incompleteClass = item.isIncomplete ? ' c1-grid-entry--incomplete' : '';
                     const displayYear = this.getYear(item.map.date) || item.map.name;
                     const color = item.map.style?.color || '#888';
 
-                    html += `<div class="c1-grid-cell${placeholderClass}" style="grid-column: ${gridCol}; grid-row: ${item.gridRowStart} / ${item.gridRowEnd}; --map-color: ${color};">`;
-                    html += `<div class="c1-grid-entry${loadedClass}${placeholderClass}" data-map-id="${item.map.id}" data-date="${item.map.date || ''}">`;
+                    html += `<div class="c1-grid-cell${placeholderClass}${incompleteClass}" style="grid-column: ${gridCol}; grid-row: ${item.gridRowStart} / ${item.gridRowEnd}; --map-color: ${color};">`;
+                    html += `<div class="c1-grid-entry${loadedClass}${placeholderClass}${incompleteClass}" data-map-id="${item.map.id}" data-date="${item.map.date || ''}">`;
                     html += `<div class="thumb-zone"><img class="c1-entry__thumbnail" src="assets/thumbnails/${item.map.cloneOf || item.map.id}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>`;
                     html += '<div class="c1-entry-content">';
                     html += `<span class="c1-entry-year">${displayYear}</span>`;
@@ -3613,6 +3621,8 @@ class UIController {
 
                     if (item.isPlaceholder) {
                         html += '<span class="c1-placeholder-badge">To Be Added</span>';
+                    } else if (item.isIncomplete) {
+                        html += '<span class="c1-incomplete-badge">Incomplete</span>';
                     }
 
                     if (!item.isPlaceholder) {
@@ -3722,13 +3732,15 @@ class UIController {
 
                     const isLoaded = this.isMapLoadedState(map.id, options);
                     const isPlaceholder = map.placeholder;
+                    const isIncomplete = map.incomplete;
                     const loadedClass = isLoaded ? ' c1-grid-entry--loaded' : '';
                     const placeholderClass = isPlaceholder ? ' c1-grid-entry--placeholder' : '';
+                    const incompleteClass = isIncomplete ? ' c1-grid-entry--incomplete' : '';
                     const displayYear = this.getYear(map.date) || map.name;
                     const color = map.style?.color || '#888';
 
-                    html += `<div class="c1-grid-cell${placeholderClass}" style="grid-column: ${gridCol}; grid-row: ${gridRowStart} / ${gridRowEnd}; --map-color: ${color};">`;
-                    html += `<div class="c1-grid-entry${loadedClass}${placeholderClass}" data-map-id="${map.id}" data-date="${map.date || ''}">`;
+                    html += `<div class="c1-grid-cell${placeholderClass}${incompleteClass}" style="grid-column: ${gridCol}; grid-row: ${gridRowStart} / ${gridRowEnd}; --map-color: ${color};">`;
+                    html += `<div class="c1-grid-entry${loadedClass}${placeholderClass}${incompleteClass}" data-map-id="${map.id}" data-date="${map.date || ''}">`;
                     html += `<div class="thumb-zone"><img class="c1-entry__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.png" alt="" loading="lazy" onerror="this.style.display='none'"></div>`;
                     html += '<div class="c1-entry-content">';
                     html += `<span class="c1-entry-year">${displayYear}</span>`;
@@ -3739,6 +3751,8 @@ class UIController {
 
                     if (isPlaceholder) {
                         html += '<span class="c1-placeholder-badge">To Be Added</span>';
+                    } else if (isIncomplete) {
+                        html += '<span class="c1-incomplete-badge">Incomplete</span>';
                     }
 
                     if (!isPlaceholder) {

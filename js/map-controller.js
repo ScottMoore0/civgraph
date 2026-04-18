@@ -10,6 +10,7 @@ class MapController {
     constructor() {
         this.map = null;
         this.layerStates = new Map();
+        this._layerOrder = []; // bottom-to-top z-order of shown layers (map IDs)
         this.labelMarkers = [];
         this.labelsEnabled = true;
         this.onFeatureClick = null;
@@ -2531,6 +2532,9 @@ class MapController {
 
         if (!this.map.hasLayer(state.group)) {
             state.group.addTo(this.map);
+            const idx = this._layerOrder.indexOf(id);
+            if (idx >= 0) this._layerOrder.splice(idx, 1);
+            this._layerOrder.push(id);
         }
         state.visible = true;
         this.updateLabels();
@@ -2546,9 +2550,39 @@ class MapController {
         if (this.map.hasLayer(state.group)) {
             this.map.removeLayer(state.group);
         }
+        const idx = this._layerOrder.indexOf(id);
+        if (idx >= 0) this._layerOrder.splice(idx, 1);
         this._clearHoverCandidatesForMap(id);
         state.visible = false;
         this.updateLabels();
+    }
+
+    /**
+     * Snapshot of currently visible layers in z-order (bottom to top).
+     */
+    getVisibleLayerOrder() {
+        return this._layerOrder.filter(id => this.layerStates.get(id)?.visible);
+    }
+
+    /**
+     * Apply a z-order to currently visible layers by calling bringToFront
+     * on each in sequence (bottom to top). IDs not present as visible layers
+     * are ignored; visible layers not in the list keep their relative position
+     * at the top of the stack.
+     */
+    applyLayerOrder(orderedIds) {
+        const seen = new Set();
+        for (const id of orderedIds) {
+            if (seen.has(id)) continue;
+            seen.add(id);
+            const state = this.layerStates.get(id);
+            if (!state?.visible || !state.group) continue;
+            state.group.eachLayer((layer) => {
+                if (typeof layer.bringToFront === 'function') layer.bringToFront();
+            });
+        }
+        const remaining = this._layerOrder.filter(id => !seen.has(id));
+        this._layerOrder = [...remaining, ...orderedIds.filter(id => this.layerStates.get(id)?.visible)];
     }
 
     /**
@@ -2583,6 +2617,8 @@ class MapController {
         this.hideLayer(id);
         this._clearHoverCandidatesForMap(id);
         this.layerStates.delete(id);
+        const idx = this._layerOrder.indexOf(id);
+        if (idx >= 0) this._layerOrder.splice(idx, 1);
 
         // Clean up spatial/LOD state if applicable
         if (this.spatialLayers.has(id)) {

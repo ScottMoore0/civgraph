@@ -67,7 +67,8 @@ function collectRings(geometry) {
  * Read an FGB file and return all feature geometries
  */
 async function readFgb(fgbPath) {
-    const fullPath = join(ROOT, fgbPath);
+    const localRel = fgbPath.replace(/^https?:\/\/data\.civgraph\.net\//, '');
+    const fullPath = join(ROOT, localRel);
     if (!existsSync(fullPath)) return null;
 
     const buf = new Uint8Array(readFileSync(fullPath));
