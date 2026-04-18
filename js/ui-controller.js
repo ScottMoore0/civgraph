@@ -7091,11 +7091,12 @@ class UIController {
                 if (!item) return;
                 const type = item.dataset.type;
                 if (type === 'feature') {
-                    const bbox = (item.dataset.bbox || '').split(',').map(Number).filter(n => Number.isFinite(n));
+                    const bboxNums = (item.dataset.bbox || '').split(',').map(Number).filter(n => Number.isFinite(n));
+                    const bbox = bboxNums.length === 4 ? bboxNums : null;
                     const mapId = item.dataset.mapId;
                     const featureId = item.dataset.featureId;
                     const featureName = item.dataset.featureName || featureId || '';
-                    if (bbox.length === 4) {
+                    if (mapId) {
                         this.zoomToFeature(bbox, mapId, featureId, featureName);
                     }
                 } else if (type === 'address') {

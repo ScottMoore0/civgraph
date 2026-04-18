@@ -2691,25 +2691,22 @@ class MapController {
 
         let loadedFeature = null;
 
-        if (fgbPath && featureBbox) {
-            // Load the full FGB and find the feature by bbox match
+        if (fgbPath) {
+            // Load the full FGB and find the target feature by name (or by
+            // positional index as a fallback). bbox is optional - previously
+            // this whole block was skipped when bbox was missing, which made
+            // search-result clicks silently do nothing for features whose
+            // names index entry had no bbox.
             const features = await this.loadFlatGeobuf(fgbPath);
-            // Filter to features within the target bbox
-            const bboxFeatures = features.filter(f => {
-                const diag = this.computeFeatureBboxDiag(f.geometry);
-                if (diag === Infinity) return true; // Points always match
-                // Simple bbox overlap check
-                return true; // FGB already has all features, match by name below
-            });
-
-            // Match by name if provided (bbox may return neighbours)
-            if (featureName && features.length > 1) {
-                loadedFeature = features.find(f => {
-                    const lp = labelProperty || 'name';
-                    return f.properties?.[lp]?.trim() === featureName.trim();
-                }) || features[0];
-            } else {
-                loadedFeature = features[0];
+            const lp = labelProperty || 'name';
+            if (featureName) {
+                loadedFeature = features.find(f => f.properties?.[lp]?.trim() === featureName.trim());
+            }
+            if (!loadedFeature) {
+                const idx = Number(featureIndex);
+                if (Number.isFinite(idx) && idx >= 0 && idx < features.length) {
+                    loadedFeature = features[idx];
+                }
             }
         }
 

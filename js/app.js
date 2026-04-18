@@ -112,14 +112,20 @@ class App {
                         break;
                     }
                 }
-                if (coLoadId && wardIndices?.length) {
-                    const wardMapConfig = dataService.getMapById(coLoadId);
-                    if (wardMapConfig) {
-                        const filteredId = `${mapId}-wards`;
-                        const districtName = (mapConfig?.name || mapId).replace(/ LGD \d{4}.*/, '');
-                        const indexSet = new Set(wardIndices);
+                if (coLoadId) {
+                    const coLoadConfig = dataService.getMapById(coLoadId);
+                    if (coLoadConfig) {
                         try {
-                            await mapController.loadLayerFilteredByIndex(filteredId, wardMapConfig, indexSet, `${districtName} Wards`);
+                            if (wardIndices?.length) {
+                                // Filtered co-load: specific features from the target layer
+                                const filteredId = `${mapId}-wards`;
+                                const districtName = (mapConfig?.name || mapId).replace(/ LGD \d{4}.*/, '');
+                                const indexSet = new Set(wardIndices);
+                                await mapController.loadLayerFilteredByIndex(filteredId, coLoadConfig, indexSet, `${districtName} Wards`);
+                            } else {
+                                // Full-layer co-load
+                                await this.loadMap(coLoadId);
+                            }
                         } catch (err) {
                             console.error(`[CoLoad] Failed: ${err.message}`, err);
                         }
