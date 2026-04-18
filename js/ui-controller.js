@@ -2256,14 +2256,14 @@ class UIController {
 
         // Flat mode map C1 cards, in the exact order requested.
         const c1Cards = [
-            { id: 'flat-townlands', name: 'Townlands', years: '', extent: 'Ireland', mapIds: ['all-ireland-townlands', 'ni-townlands', 'roi-townlands'], thumbMapId: 'all-ireland-townlands' },
+            { id: 'flat-townlands', name: 'Townlands', years: '', extent: 'Ireland', mapIds: ['all-ireland-townlands'] },
             { id: 'flat-settlements', name: 'Settlements', years: '2005-2015', extent: 'Northern Ireland', classIds: ['ni-settlements'] },
             { id: 'flat-settlements-roi', name: 'Settlements', years: '2011-2015', extent: 'Republic of Ireland', classIds: ['roi-settlements'] },
             { id: 'flat-roi-legal-towns', name: 'Legal Towns and Cities (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-legal-towns'] },
             { id: 'flat-place-names', name: 'Place Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['place-names-gazetteer'] },
             { id: 'flat-civil-parishes', name: 'Civil Parishes', years: '', extent: 'Ireland', classIds: ['ireland-civil-parishes'], thumbMapId: 'civil-parishes-by-province' },
-            { id: 'flat-baronies', name: 'Baronies', years: '', extent: 'Ireland', mapIds: ['baronies-all-ireland', 'baronies', 'roi-baronies'], thumbMapId: 'baronies-all-ireland' },
-            { id: 'flat-counties-1915', name: 'Counties (1915)', years: '1915', extent: 'Ireland', mapIds: ['counties-1915', 'counties-ireland', 'roi-counties-2011'], thumbMapId: 'counties-ireland' },
+            { id: 'flat-baronies', name: 'Baronies', years: '', extent: 'Ireland', mapIds: ['baronies-all-ireland'] },
+            { id: 'flat-counties-1915', name: 'Counties (1915)', years: '1915', extent: 'Ireland', mapIds: ['counties-ireland'] },
             { id: 'flat-provinces', name: 'Provinces', years: '', extent: 'Ireland', mapIds: ['provinces'] },
             { id: 'flat-wards', name: 'Wards (Northern Ireland) (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-wards'] },
             { id: 'flat-roi-lea', name: 'Local Electoral Areas (Republic of Ireland)', years: '2008', extent: 'Republic of Ireland', classIds: ['roi-lea'] },
