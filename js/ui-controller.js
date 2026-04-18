@@ -57,6 +57,7 @@ class UIController {
         this.catalogueHistoryIndex = -1;
         this.catalogueView = 'list'; // 'list' or 'detail'
         this._lastMapListOptions = {};
+        this._showPlaceholdersCards = new Set(); // card keys with "Show to be added" toggle active
         this._cataloguePane = null;
         this._electionEntityDetailCache = new Map();
         this._catalogueBookView = null;
@@ -2861,13 +2862,10 @@ class UIController {
             const card = toggle.closest('.c1-card, .class-card, .map-card');
             if (!card) return;
             const showing = toggle.dataset.showing === 'true';
-            toggle.dataset.showing = showing ? 'false' : 'true';
-            card.classList.toggle('class-card--show-placeholders', !showing);
-            const label = toggle.querySelector('.class-card__placeholder-toggle-label');
-            if (label) {
-                const count = label.textContent.match(/\d+/)?.[0] || '';
-                label.textContent = !showing ? `Hide ${count} to be added` : `Show ${count} to be added`;
-            }
+            const key = this._getCardPlaceholderKey(card);
+            if (!showing && key) this._showPlaceholdersCards.add(key);
+            else if (key) this._showPlaceholdersCards.delete(key);
+            this._applyPlaceholderToggle(card, !showing);
         });
 
         // Thumbnail hover zoom — position the popup in fixed viewport coords
@@ -2903,7 +2901,43 @@ class UIController {
             const tocStatsEl = document.getElementById('catalogueTocStats');
             if (tocStatsEl) tocStatsEl.textContent = this._lastFilterStatsText;
         }
+        this._restorePlaceholderToggles(container);
         this.updateCatalogueHomeButton();
+    }
+
+    /** Derive a stable key for a card's "Show to be added" toggle state. */
+    _getCardPlaceholderKey(cardEl) {
+        if (!cardEl) return null;
+        const ds = cardEl.dataset || {};
+        if (ds.c1Id) return `c1:${ds.c1Id}`;
+        if (ds.classId) return `class:${ds.classId}`;
+        if (ds.groupId) return `group:${ds.groupId}`;
+        return null;
+    }
+
+    /** Apply the toggle's visual state to a card and its button. */
+    _applyPlaceholderToggle(cardEl, showing) {
+        if (!cardEl) return;
+        cardEl.classList.toggle('class-card--show-placeholders', !!showing);
+        const toggle = cardEl.querySelector('.class-card__placeholder-toggle');
+        if (!toggle) return;
+        toggle.dataset.showing = showing ? 'true' : 'false';
+        const label = toggle.querySelector('.class-card__placeholder-toggle-label');
+        if (label) {
+            const count = label.textContent.match(/\d+/)?.[0] || '';
+            label.textContent = showing ? `Hide ${count} to be added` : `Show ${count} to be added`;
+        }
+    }
+
+    /** Reapply persisted "Show to be added" state to every card in root. */
+    _restorePlaceholderToggles(rootEl) {
+        if (!rootEl || !this._showPlaceholdersCards?.size) return;
+        rootEl.querySelectorAll('.c1-card, .map-card--class, .conjoined-class-group').forEach((card) => {
+            const key = this._getCardPlaceholderKey(card);
+            if (key && this._showPlaceholdersCards.has(key)) {
+                this._applyPlaceholderToggle(card, true);
+            }
+        });
     }
 
     /** Mark flat view as stale so it re-renders on next toggle */
