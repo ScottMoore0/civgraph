@@ -92,7 +92,10 @@ class DataService {
       if (map.variants) {
         const variant = map.variants.find(v => v.id === id);
         if (variant) {
-          // Merge variant with parent map properties
+          // Merge variant with parent map properties. Clear group-only fields
+          // so the variant loads as a standalone map (otherwise the merged
+          // object still has the parent's members/isGroup and loadMap
+          // re-enters the group branch).
           return {
             ...map,
             ...variant,
@@ -101,7 +104,9 @@ class DataService {
             labelProperty: variant.labelProperty || map.labelProperty,
             priorityProperty: variant.priorityProperty || map.priorityProperty,
             name: variant.label || variant.id,
-            variants: undefined  // Don't include parent's variants in the merged result
+            variants: undefined,
+            members: undefined,
+            isGroup: false
           };
         }
       }

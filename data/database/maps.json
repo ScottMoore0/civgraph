@@ -571,9 +571,7 @@
       "scope": "Northern Ireland / Ireland",
       "category": "counties",
       "maps": [
-        "counties-1915",
-        "counties-ireland",
-        "roi-counties-2011"
+        "counties-ireland"
       ]
     },
     {
@@ -866,16 +864,6 @@
       "maps": [
         "elb-1993",
         "elb-1984"
-      ]
-    },
-    {
-      "id": "ni-civil-parishes",
-      "name": "Civil Parishes of Northern Ireland",
-      "scope": "Northern Ireland",
-      "category": "civil-parishes",
-      "hidden": true,
-      "maps": [
-        "civil-parishes"
       ]
     },
     {
@@ -1293,10 +1281,6 @@
       "category": "civil-parishes",
       "layout": "mixed",
       "sections": [
-        {
-          "classId": "ni-civil-parishes",
-          "width": "full"
-        },
         {
           "classId": "ireland-civil-parishes",
           "width": "full"
@@ -2623,80 +2607,6 @@
       "hidden": true
     },
     {
-      "id": "ni-townlands",
-      "name": "Northern Ireland",
-      "slug": "townlands-ni",
-      "category": "townlands",
-      "featured": true,
-      "files": {
-        "fgb": "data/maps/townlands/OSNI_Townlands.fgb"
-      },
-      "chunked": true,
-      "useLOD": true,
-      "provider": [
-        "OSNI"
-      ],
-      "style": {
-        "color": "#A87000",
-        "weight": 2
-      },
-      "labelProperty": "TownlandNa",
-      "priorityProperty": "Area_SqKM",
-      "keywords": [
-        "townland",
-        "townlands",
-        "northern ireland",
-        "osni"
-      ],
-      "references": [
-        {
-          "label": "OSNI Open Data - Largescale Boundaries - Townlands",
-          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-townlands",
-          "note": "Open Government Licence v3."
-        },
-        {
-          "label": "OSNI Open Data - Largescale Boundaries - Townlands (data.gov.uk)",
-          "url": "https://www.data.gov.uk/dataset/18e1bd0f-1829-496e-9b21-a5d8f6159940/osni-open-data-largescale-boundaries-townlands6"
-        }
-      ],
-      "description": "Northern Ireland"
-    },
-    {
-      "id": "roi-townlands",
-      "name": "Republic of Ireland",
-      "slug": "townlands-roi",
-      "category": "townlands",
-      "featured": true,
-      "files": {
-        "fgb": "data/maps/townlands/OSI_Townlands.fgb"
-      },
-      "chunked": true,
-      "useLOD": true,
-      "provider": [
-        "OSI"
-      ],
-      "style": {
-        "color": "#A87000",
-        "weight": 2
-      },
-      "labelProperty": "ENG_NAME_VALUE",
-      "keywords": [
-        "townland",
-        "townlands",
-        "republic of ireland",
-        "osi",
-        "tailte eireann"
-      ],
-      "references": [
-        {
-          "label": "Townlands - National Statutory Boundaries - Ungeneralised - 2024 (Tailte Éireann)",
-          "url": "https://data-osi.opendata.arcgis.com/datasets/osi::townlands-national-statutory-boundaries-ungeneralised-2024/about",
-          "note": "Creative Commons Attribution 4.0."
-        }
-      ],
-      "description": "Republic of Ireland"
-    },
-    {
       "id": "all-ireland-townlands",
       "name": "Ireland",
       "slug": "townlands-all-ireland",
@@ -2746,7 +2656,79 @@
       "labelPropertyFallbacks": [
         "TownlandNa"
       ],
-      "description": "Ireland"
+      "description": "Ireland",
+      "variants": [
+        {
+          "id": "ni-townlands",
+          "label": "Northern Ireland",
+          "description": "Northern Ireland",
+          "slug": "townlands-ni",
+          "files": {
+            "fgb": "data/maps/townlands/OSNI_Townlands.fgb"
+          },
+          "chunked": true,
+          "useLOD": true,
+          "provider": [
+            "OSNI"
+          ],
+          "style": {
+            "color": "#A87000",
+            "weight": 2
+          },
+          "labelProperty": "TownlandNa",
+          "priorityProperty": "Area_SqKM",
+          "keywords": [
+            "townland",
+            "townlands",
+            "northern ireland",
+            "osni"
+          ],
+          "references": [
+            {
+              "label": "OSNI Open Data - Largescale Boundaries - Townlands",
+              "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-townlands",
+              "note": "Open Government Licence v3."
+            },
+            {
+              "label": "OSNI Open Data - Largescale Boundaries - Townlands (data.gov.uk)",
+              "url": "https://www.data.gov.uk/dataset/18e1bd0f-1829-496e-9b21-a5d8f6159940/osni-open-data-largescale-boundaries-townlands6"
+            }
+          ]
+        },
+        {
+          "id": "roi-townlands",
+          "label": "Republic of Ireland",
+          "description": "Republic of Ireland",
+          "slug": "townlands-roi",
+          "files": {
+            "fgb": "data/maps/townlands/OSI_Townlands.fgb"
+          },
+          "chunked": true,
+          "useLOD": true,
+          "provider": [
+            "OSI"
+          ],
+          "style": {
+            "color": "#A87000",
+            "weight": 2
+          },
+          "labelProperty": "ENG_NAME_VALUE",
+          "keywords": [
+            "townland",
+            "townlands",
+            "republic of ireland",
+            "osi",
+            "tailte eireann"
+          ],
+          "references": [
+            {
+              "label": "Townlands - National Statutory Boundaries - Ungeneralised - 2024 (Tailte Éireann)",
+              "url": "https://data-osi.opendata.arcgis.com/datasets/osi::townlands-national-statutory-boundaries-ungeneralised-2024/about",
+              "note": "Creative Commons Attribution 4.0."
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "settlements-2015-craigavon",
@@ -5921,137 +5903,6 @@
       ]
     },
     {
-      "id": "counties-1915",
-      "name": "Counties of Northern Ireland",
-      "slug": "counties-ni-1915",
-      "category": "counties",
-      "provider": [
-        "OSNI"
-      ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_1915.fgb"
-      },
-      "style": {
-        "color": "#00A9E6",
-        "weight": 2
-      },
-      "labelProperty": "CountyName",
-      "keywords": [
-        "county",
-        "1915",
-        "traditional"
-      ],
-      "date": "1915-04-01",
-      "featured": true,
-      "useLOD": true,
-      "references": [
-        {
-          "label": "OSNI Open Data - Largescale Boundaries - County Boundaries - Open Data NI (admin.opendatani.gov.uk)",
-          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-county-boundaries",
-          "note": ""
-        },
-        {
-          "label": "OSNI Open Data - 50K Boundaries - NI Counties (www.data.gov.uk)",
-          "url": "https://www.data.gov.uk/dataset/db209d57-bee0-4ecc-bb8f-5915130c2505/osni-open-data-50k-boundaries-ni-counties6",
-          "note": ""
-        },
-        {
-          "label": "OSNI Open Data - Largescale Boundaries - County Boundaries (www.data.gov.uk)",
-          "url": "https://www.data.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/osni-open-data-largescale-boundaries-county-boundaries9",
-          "note": ""
-        },
-        {
-          "label": "Counties of Northern Ireland — ZIP download",
-          "url": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/636d6e61-593b-461c-ba5b-01214fecf6cb/download/osni_open_data_largescale_boundaries_county_boundaries.zip",
-          "note": ""
-        },
-        {
-          "label": "Counties of Northern Ireland — KML download",
-          "url": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/a4ba67f7-aaec-464d-b55b-a26338a291a1/download/osni_open_data_largescale_boundaries_county_boundaries.kml",
-          "note": ""
-        },
-        {
-          "label": "Counties of Northern Ireland — GeoJSON download",
-          "url": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/108d8567-3ec7-4403-8912-bcc6233bf361/download/osni_open_data_largescale_boundaries_county_boundaries.geojson",
-          "note": ""
-        },
-        {
-          "label": "Counties of Northern Ireland — CSV download",
-          "url": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/d29ec39d-88ca-45ee-91c9-0f5347029313/download/osni_open_data_largescale_boundaries_county_boundaries.csv",
-          "note": ""
-        },
-        {
-          "label": "Counties of Northern Ireland — CSV download",
-          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/csv?layers=1",
-          "note": ""
-        },
-        {
-          "label": "Counties of Northern Ireland — KML download",
-          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/kml?layers=1",
-          "note": ""
-        },
-        {
-          "label": "Counties of Northern Ireland — JSON download",
-          "url": "https://services.spatialni.gov.uk/opendata/rest/services/OSNIVector/OSNIOpenData_Boundaries_50K/MapServer/1",
-          "note": ""
-        },
-        {
-          "label": "Counties of Northern Ireland — HTML download",
-          "url": "https://osni-spatialni.opendata.arcgis.com/datasets/spatialni::osni-open-data-50k-boundaries-ni-counties",
-          "note": ""
-        },
-        {
-          "label": "Counties of Northern Ireland — Shapefile (ZIP) download",
-          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/shapefile?layers=1",
-          "note": ""
-        },
-        {
-          "label": "Counties of Northern Ireland — GeoJSON download",
-          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/geojson?layers=1",
-          "note": ""
-        },
-        {
-          "label": "Counties of Northern Ireland — WMS download",
-          "url": "https://services.spatialni.gov.uk/opendata/services/OSNIVector/OSNIOpenData_Boundaries_50K/MapServer/WMSServer?request=GetCapabilities&service=WMS",
-          "note": ""
-        }
-      ],
-      "sourceDownloads": [
-        {
-          "label": "ZIP",
-          "file": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/636d6e61-593b-461c-ba5b-01214fecf6cb/download/osni_open_data_largescale_boundaries_county_boundaries.zip"
-        },
-        {
-          "label": "KML",
-          "file": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/a4ba67f7-aaec-464d-b55b-a26338a291a1/download/osni_open_data_largescale_boundaries_county_boundaries.kml"
-        },
-        {
-          "label": "GeoJSON",
-          "file": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/108d8567-3ec7-4403-8912-bcc6233bf361/download/osni_open_data_largescale_boundaries_county_boundaries.geojson"
-        },
-        {
-          "label": "CSV",
-          "file": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/d29ec39d-88ca-45ee-91c9-0f5347029313/download/osni_open_data_largescale_boundaries_county_boundaries.csv"
-        },
-        {
-          "label": "CSV",
-          "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/csv?layers=1"
-        },
-        {
-          "label": "KML",
-          "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/kml?layers=1"
-        },
-        {
-          "label": "Shapefile (ZIP)",
-          "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/shapefile?layers=1"
-        },
-        {
-          "label": "GeoJSON",
-          "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/geojson?layers=1"
-        }
-      ]
-    },
-    {
       "id": "counties-ireland",
       "name": "Counties of Ireland",
       "slug": "counties-ireland",
@@ -6153,38 +6004,168 @@
           "label": "GeoPackage",
           "file": "https://data-osi.opendata.arcgis.com/api/download/v1/items/e6f6418eb62442c4adbe18d0a64135a2/geoPackage?layers=0"
         }
-      ]
-    },
-    {
-      "id": "roi-counties-2011",
-      "name": "Administrative Counties 2011",
-      "slug": "roi-counties-2011",
-      "category": "counties",
-      "date": "2011",
-      "provider": [
-        "CSO"
       ],
-      "files": {
-        "geojson": "data/maps/baronies-parishes/ROI_Counties_2011.geojson",
-        "fgb": "data/maps/baronies-parishes/ROI_Counties_2011.fgb",
-        "downloads": {
-          "shapefile": "data/downloads/ROI_Counties_2011.zip"
+      "variants": [
+        {
+          "id": "counties-1915",
+          "label": "Counties of Northern Ireland",
+          "slug": "counties-ni-1915",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_1915.fgb"
+          },
+          "date": "1915-04-01",
+          "useLOD": true,
+          "provider": [
+            "OSNI"
+          ],
+          "style": {
+            "color": "#00A9E6",
+            "weight": 2
+          },
+          "labelProperty": "CountyName",
+          "keywords": [
+            "county",
+            "1915",
+            "traditional"
+          ],
+          "references": [
+            {
+              "label": "OSNI Open Data - Largescale Boundaries - County Boundaries - Open Data NI (admin.opendatani.gov.uk)",
+              "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-county-boundaries",
+              "note": ""
+            },
+            {
+              "label": "OSNI Open Data - 50K Boundaries - NI Counties (www.data.gov.uk)",
+              "url": "https://www.data.gov.uk/dataset/db209d57-bee0-4ecc-bb8f-5915130c2505/osni-open-data-50k-boundaries-ni-counties6",
+              "note": ""
+            },
+            {
+              "label": "OSNI Open Data - Largescale Boundaries - County Boundaries (www.data.gov.uk)",
+              "url": "https://www.data.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/osni-open-data-largescale-boundaries-county-boundaries9",
+              "note": ""
+            },
+            {
+              "label": "Counties of Northern Ireland — ZIP download",
+              "url": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/636d6e61-593b-461c-ba5b-01214fecf6cb/download/osni_open_data_largescale_boundaries_county_boundaries.zip",
+              "note": ""
+            },
+            {
+              "label": "Counties of Northern Ireland — KML download",
+              "url": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/a4ba67f7-aaec-464d-b55b-a26338a291a1/download/osni_open_data_largescale_boundaries_county_boundaries.kml",
+              "note": ""
+            },
+            {
+              "label": "Counties of Northern Ireland — GeoJSON download",
+              "url": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/108d8567-3ec7-4403-8912-bcc6233bf361/download/osni_open_data_largescale_boundaries_county_boundaries.geojson",
+              "note": ""
+            },
+            {
+              "label": "Counties of Northern Ireland — CSV download",
+              "url": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/d29ec39d-88ca-45ee-91c9-0f5347029313/download/osni_open_data_largescale_boundaries_county_boundaries.csv",
+              "note": ""
+            },
+            {
+              "label": "Counties of Northern Ireland — CSV download",
+              "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/csv?layers=1",
+              "note": ""
+            },
+            {
+              "label": "Counties of Northern Ireland — KML download",
+              "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/kml?layers=1",
+              "note": ""
+            },
+            {
+              "label": "Counties of Northern Ireland — JSON download",
+              "url": "https://services.spatialni.gov.uk/opendata/rest/services/OSNIVector/OSNIOpenData_Boundaries_50K/MapServer/1",
+              "note": ""
+            },
+            {
+              "label": "Counties of Northern Ireland — HTML download",
+              "url": "https://osni-spatialni.opendata.arcgis.com/datasets/spatialni::osni-open-data-50k-boundaries-ni-counties",
+              "note": ""
+            },
+            {
+              "label": "Counties of Northern Ireland — Shapefile (ZIP) download",
+              "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/shapefile?layers=1",
+              "note": ""
+            },
+            {
+              "label": "Counties of Northern Ireland — GeoJSON download",
+              "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/geojson?layers=1",
+              "note": ""
+            },
+            {
+              "label": "Counties of Northern Ireland — WMS download",
+              "url": "https://services.spatialni.gov.uk/opendata/services/OSNIVector/OSNIOpenData_Boundaries_50K/MapServer/WMSServer?request=GetCapabilities&service=WMS",
+              "note": ""
+            }
+          ],
+          "sourceDownloads": [
+            {
+              "label": "ZIP",
+              "file": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/636d6e61-593b-461c-ba5b-01214fecf6cb/download/osni_open_data_largescale_boundaries_county_boundaries.zip"
+            },
+            {
+              "label": "KML",
+              "file": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/a4ba67f7-aaec-464d-b55b-a26338a291a1/download/osni_open_data_largescale_boundaries_county_boundaries.kml"
+            },
+            {
+              "label": "GeoJSON",
+              "file": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/108d8567-3ec7-4403-8912-bcc6233bf361/download/osni_open_data_largescale_boundaries_county_boundaries.geojson"
+            },
+            {
+              "label": "CSV",
+              "file": "https://admin.opendatani.gov.uk/dataset/d0385f2d-6beb-4aff-87dc-f1bf357d792d/resource/d29ec39d-88ca-45ee-91c9-0f5347029313/download/osni_open_data_largescale_boundaries_county_boundaries.csv"
+            },
+            {
+              "label": "CSV",
+              "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/csv?layers=1"
+            },
+            {
+              "label": "KML",
+              "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/kml?layers=1"
+            },
+            {
+              "label": "Shapefile (ZIP)",
+              "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/shapefile?layers=1"
+            },
+            {
+              "label": "GeoJSON",
+              "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/c43e13180e6f4587a59ee0de5ac3b70c/geojson?layers=1"
+            }
+          ]
+        },
+        {
+          "id": "roi-counties-2011",
+          "label": "Administrative Counties 2011",
+          "slug": "roi-counties-2011",
+          "files": {
+            "geojson": "data/maps/baronies-parishes/ROI_Counties_2011.geojson",
+            "fgb": "data/maps/baronies-parishes/ROI_Counties_2011.fgb",
+            "downloads": {
+              "shapefile": "data/downloads/ROI_Counties_2011.zip"
+            }
+          },
+          "date": "2011",
+          "useLOD": true,
+          "provider": [
+            "CSO"
+          ],
+          "style": {
+            "color": "#00A9E6",
+            "weight": 2
+          },
+          "labelProperty": "COUNTYNAME",
+          "keywords": [
+            "county",
+            "ireland",
+            "republic of ireland",
+            "26 counties",
+            "census 2011",
+            "administrative counties"
+          ]
         }
-      },
-      "style": {
-        "color": "#00A9E6",
-        "weight": 2
-      },
-      "labelProperty": "COUNTYNAME",
-      "keywords": [
-        "county",
-        "ireland",
-        "republic of ireland",
-        "26 counties",
-        "census 2011",
-        "administrative counties"
-      ],
-      "featured": true
+      ]
     },
     {
       "id": "counties-county-boroughs-1915",
@@ -6270,44 +6251,6 @@
         {
           "label": "OSNI Largescale Baronies — FlatGeobuf download",
           "url": "https://data.civgraph.net/data/maps/baronies-parishes/OSNI_Baronies_Largescale.fgb",
-          "note": "OSNI Baronies and Parishes maps obtained via FOI request to Mapping.Helpdesk@finance-ni.gov.uk, who commented as follows: \"The Parish and Baronies dataset was created in 2007 based on the existing Townlands dataset combined with NISRA data for a specific project. While it was originally envisaged that the dataset would be released as an additional OSNI product for public supply, it proved difficult to verify the exact townlands making up parishes due to conflicts within source material. The data was developed to a state that was fit-for-purpose at the time, however, OSNI was unable to fully QA the product and so was not considered to be at a sufficient standard to add to our product catalogue. As customers enquired after the dataset, as a goodwill gesture, we agreed to share it on request, with the understanding that it is not an official product and so we could not stand over its accuracy or completeness. For the same reason, there is no documentation or analysis of the data to support it. Therefore, the only additional information we can provide you with is what we have observed from our own review of the data: there are topographical errors, such as sliver polygons, missing attribution and additional fields that could be cleansed out if desired.\""
-        }
-      ]
-    },
-    {
-      "id": "civil-parishes",
-      "name": "Civil Parishes of Northern Ireland",
-      "slug": "civil-parishes",
-      "category": "civil-parishes",
-      "provider": [
-        "OSM",
-        "OSNI"
-      ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Civil_Parishes.fgb"
-      },
-      "style": {
-        "color": "#E26FCA",
-        "weight": 2
-      },
-      "labelProperty": "NAME_TAG",
-      "keywords": [
-        "parish",
-        "civil parish",
-        "historic"
-      ],
-      "featured": true,
-      "useLOD": true,
-      "sourceDownloads": [
-        {
-          "label": "OSNI Civil Parishes (FGB)",
-          "file": "https://data.civgraph.net/data/maps/baronies-parishes/OSNI_Civil_Parishes.fgb"
-        }
-      ],
-      "references": [
-        {
-          "label": "OSNI Civil Parishes — FlatGeobuf download",
-          "url": "https://data.civgraph.net/data/maps/baronies-parishes/OSNI_Civil_Parishes.fgb",
           "note": "OSNI Baronies and Parishes maps obtained via FOI request to Mapping.Helpdesk@finance-ni.gov.uk, who commented as follows: \"The Parish and Baronies dataset was created in 2007 based on the existing Townlands dataset combined with NISRA data for a specific project. While it was originally envisaged that the dataset would be released as an additional OSNI product for public supply, it proved difficult to verify the exact townlands making up parishes due to conflicts within source material. The data was developed to a state that was fit-for-purpose at the time, however, OSNI was unable to fully QA the product and so was not considered to be at a sufficient standard to add to our product catalogue. As customers enquired after the dataset, as a goodwill gesture, we agreed to share it on request, with the understanding that it is not an official product and so we could not stand over its accuracy or completeness. For the same reason, there is no documentation or analysis of the data to support it. Therefore, the only additional information we can provide you with is what we have observed from our own review of the data: there are topographical errors, such as sliver polygons, missing attribution and additional fields that could be cleansed out if desired.\""
         }
       ]
@@ -7437,6 +7380,43 @@
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/ParishesUlster.fgb"
           }
+        },
+        {
+          "id": "civil-parishes",
+          "label": "Civil Parishes of Northern Ireland",
+          "slug": "civil-parishes",
+          "description": "Civil Parishes of Northern Ireland",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Civil_Parishes.fgb"
+          },
+          "useLOD": true,
+          "provider": [
+            "OSM",
+            "OSNI"
+          ],
+          "style": {
+            "color": "#E26FCA",
+            "weight": 2
+          },
+          "labelProperty": "NAME_TAG",
+          "keywords": [
+            "parish",
+            "civil parish",
+            "historic"
+          ],
+          "references": [
+            {
+              "label": "OSNI Civil Parishes — FlatGeobuf download",
+              "url": "https://data.civgraph.net/data/maps/baronies-parishes/OSNI_Civil_Parishes.fgb",
+              "note": "OSNI Baronies and Parishes maps obtained via FOI request to Mapping.Helpdesk@finance-ni.gov.uk, who commented as follows: \"The Parish and Baronies dataset was created in 2007 based on the existing Townlands dataset combined with NISRA data for a specific project. While it was originally envisaged that the dataset would be released as an additional OSNI product for public supply, it proved difficult to verify the exact townlands making up parishes due to conflicts within source material. The data was developed to a state that was fit-for-purpose at the time, however, OSNI was unable to fully QA the product and so was not considered to be at a sufficient standard to add to our product catalogue. As customers enquired after the dataset, as a goodwill gesture, we agreed to share it on request, with the understanding that it is not an official product and so we could not stand over its accuracy or completeness. For the same reason, there is no documentation or analysis of the data to support it. Therefore, the only additional information we can provide you with is what we have observed from our own review of the data: there are topographical errors, such as sliver polygons, missing attribution and additional fields that could be cleansed out if desired.\""
+            }
+          ],
+          "sourceDownloads": [
+            {
+              "label": "OSNI Civil Parishes (FGB)",
+              "file": "https://data.civgraph.net/data/maps/baronies-parishes/OSNI_Civil_Parishes.fgb"
+            }
+          ]
         }
       ],
       "references": [
