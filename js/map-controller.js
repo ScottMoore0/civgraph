@@ -1572,7 +1572,51 @@ class MapController {
                 throw err;
             }
             if (enforceChunkOnly) {
-                console.error(`[MapController] Townlands is configured as chunk-only; full-file fallback disabled for ${id}`);
+                // Chunk loading failed. The full monolith is too big to ship
+                // to the browser (~300 MB), but the LOD files are small and
+                // exist for the all-Ireland townland variant. Try LOD1 then
+                // LOD0 as a graceful fallback so the user sees outlines
+                // rather than nothing / a load error.
+                console.warn(`[MapController] Chunk-only layer ${id} failed to load; attempting LOD fallback`);
+                for (const lod of [1, 0]) {
+                    const lodPath = fgbPath.replace(/\.fgb$/i, `-lod${lod}.fgb`);
+                    try {
+                        const features = await this.loadDataFile(lodPath, null, signal);
+                        if (!Array.isArray(features) || features.length === 0) continue;
+                        const geojsonData = { type: 'FeatureCollection', features };
+                        const geoJsonLayer = L.geoJSON(geojsonData, {
+                            style: (f) => f.geometry?.type === 'Point' ? {} : {
+                                color: style?.color || '#3388ff',
+                                weight: style?.weight || 2,
+                                fillOpacity: style?.fillOpacity ?? 0,
+                                opacity: 1
+                            },
+                            pointToLayer: (f, ll) => this.createPointMarker(ll, style),
+                            onEachFeature: (f, l) => {
+                                l._mapId = id;
+                                this._attachFeatureHoverHandlers(l);
+                                this._attachHistoricPointDblClick(mapConfig, id, f, l);
+                            }
+                        });
+                        geoJsonLayer.addTo(state.group);
+                        state.geoJsonLayers.push(geoJsonLayer);
+                        state.featureCount = features.length;
+                        state.baseLoaded = true;
+                        state.isPartial = false;
+                        state.loaded = true;
+                        state.loading = false;
+                        state.progress = 100;
+                        state._overviewLOD = true;  // treat as overview so we skip gap-raster
+                        if (this.onLoadProgress) this.onLoadProgress(id, 100);
+                        if (show) this.showLayer(id);
+                        console.log(`[MapController] Loaded ${id} via LOD${lod} fallback`);
+                        return state;
+                    } catch (lodErr) {
+                        if (this._isAbortError(lodErr)) throw lodErr;
+                        console.warn(`[MapController] LOD${lod} fallback for ${id} failed:`, lodErr?.message || lodErr);
+                    }
+                }
+                console.error(`[MapController] All fallbacks exhausted for ${id}`);
                 state.loading = false;
                 this.layerStates.delete(id);
                 return null;
