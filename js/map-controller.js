@@ -868,8 +868,9 @@ class MapController {
      * LOD-1 (zoom 8-12): {name}-lod1.fgb  (simplified ~50m)
      * LOD-2 (zoom 12+): {name}.fgb        (original full resolution)
      */
-    getLODFilePath(baseFgbPath, zoom) {
-        const lod = this.getLODLevel(zoom);
+    getLODFilePath(baseFgbPath, zoom, maxLODLevel = 2) {
+        let lod = this.getLODLevel(zoom);
+        if (typeof maxLODLevel === 'number' && lod > maxLODLevel) lod = maxLODLevel;
         if (lod >= 2) return baseFgbPath; // Full resolution
         const lodPath = baseFgbPath.replace(/\.fgb$/i, `-lod${lod}.fgb`);
         return lodPath;
@@ -892,7 +893,7 @@ class MapController {
     getPreferredVectorFilePath(mapConfig, baseFgbPath, zoom) {
         if (!mapConfig?.useLOD) return baseFgbPath;
         if (!String(baseFgbPath || '').toLowerCase().endsWith('.fgb')) return baseFgbPath;
-        const resolved = this.getLODFilePath(baseFgbPath, zoom);
+        const resolved = this.getLODFilePath(baseFgbPath, zoom, mapConfig?.maxLODLevel);
         this._recordLoadMetric('lod-source-selected', {
             mapId: mapConfig?.id || null,
             zoom,
@@ -1256,14 +1257,17 @@ class MapController {
                     this._attachFeatureHoverHandlers(layer);
                     this._attachHistoricPointDblClick(mapConfig, id, feature, layer);
 
-                    // Collect label entries
-                    if (labelProperty && feature.properties?.[labelProperty]) {
+                    // Collect label entries (primary labelProperty + fallbacks,
+                    // so merged variants whose source files have different
+                    // label fields still render labels).
+                    const labelKeys = [labelProperty, ...(mapConfig.labelPropertyFallbacks || [])].filter(Boolean);
+                    const resolvedKey = labelKeys.find(k => feature.properties?.[k]);
+                    if (resolvedKey) {
                         const labelText = this.cleanLabelText(
-                            feature.properties[labelProperty],
+                            feature.properties[resolvedKey],
                             mapConfig.labelCleanup
                         );
                         if (labelText && (layer.getBounds || layer.getLatLng)) {
-                            // Get priority value from priorityProperty (or significanceProperty as fallback)
                             const priorityProp = mapConfig.priorityProperty || mapConfig.significanceProperty;
                             const priority = priorityProp ? (parseFloat(feature.properties[priorityProp]) || 0) : 0;
 
