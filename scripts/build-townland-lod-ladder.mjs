@@ -34,10 +34,16 @@ const TLDIR = join(ROOT, 'data/maps/townlands');
 const RASTER_DIR = join(ROOT, 'data/maps/raster');
 if (!existsSync(RASTER_DIR)) mkdirSync(RASTER_DIR, { recursive: true });
 
+// Per-LOD raster stroke widths are calibrated so the rendered stroke on
+// screen matches the vector layer's 2-pixel stroke at the zoom level
+// that LOD is displayed at. At zoom 7 a 4096-wide raster of Ireland has
+// ~1 raster pixel per 0.11 screen pixels, so we need a thick native
+// stroke; at zoom 13 the raster stretches over ~7 screen pixels per
+// raster pixel, so the native stroke must be sub-pixel.
 const LOD_LEVELS = [
-    { level: 0, keepTop: 5000,  simplifyDeg: 0.0004,  name: 'lod0' },
-    { level: 1, keepTop: 20000, simplifyDeg: 0.0001,  name: 'lod1' },
-    { level: 2, keepTop: 40000, simplifyDeg: 0.00003, name: 'lod2' }
+    { level: 0, keepTop: 5000,  simplifyDeg: 0.0004,  name: 'lod0', lineWidth: 15 },
+    { level: 1, keepTop: 20000, simplifyDeg: 0.0001,  name: 'lod1', lineWidth: 2.2 },
+    { level: 2, keepTop: 40000, simplifyDeg: 0.00003, name: 'lod2', lineWidth: 0.35 }
 ];
 const RASTER_WIDTH = 4096;
 const RASTER_COLOR = '#A87000';
@@ -188,8 +194,10 @@ for (const lod of LOD_LEVELS) {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, width, height);
     ctx.strokeStyle = RASTER_COLOR;
-    ctx.lineWidth = 0.7;
-    ctx.fillStyle = RASTER_COLOR + '22';
+    ctx.lineWidth = lod.lineWidth;
+    ctx.lineJoin = 'round';
+    // No fill - the raster is an outline-only gap-fill. Fully transparent
+    // interior so it doesn't visually compete with the basemap underneath.
 
     const project = (lon, lat) => [
         ((lon - minX) / geoW) * width,
@@ -212,7 +220,6 @@ for (const lod of LOD_LEVELS) {
                     else ctx.lineTo(px, py);
                 }
                 ctx.closePath();
-                ctx.fill();
                 ctx.stroke();
             }
         }

@@ -667,6 +667,10 @@ class MapController {
         this.map.on('moveend', () => this.updateSpatialLayers());
         this.map.on('zoomend', () => this.updateSpatialLayers());
         this.map.on('moveend zoomend', () => this._scheduleNonChunkedLODCheck());
+        // Swap raster immediately when zoom animation starts - zoomanim fires
+        // with the target zoom, so the outgoing raster disappears and the
+        // incoming raster appears at the same frame as the vector LOD swap.
+        this.map.on('zoomanim', (e) => this._syncAllGapRasters(e.zoom));
         this.map.on('zoomend', () => this._syncAllGapRasters());
 
         console.log('[MapController] Map initialized');
@@ -2770,11 +2774,12 @@ class MapController {
         return best;
     }
 
-    _syncGapRaster(mapId) {
+    _syncGapRaster(mapId, overrideZoom = null) {
         try {
             const state = this.layerStates.get(mapId);
             if (!state || !this.map) return;
-            const desired = this._resolveGapRasterFallback(state, this.map.getZoom());
+            const zoom = overrideZoom != null ? overrideZoom : this.map.getZoom();
+            const desired = this._resolveGapRasterFallback(state, zoom);
             const currentLevel = state._gapRasterLevel || null;
             const desiredLevel = desired?.level || null;
             if (desiredLevel === currentLevel) return;
@@ -2811,10 +2816,10 @@ class MapController {
         state._gapRasterLevel = null;
     }
 
-    _syncAllGapRasters() {
+    _syncAllGapRasters(overrideZoom = null) {
         if (!this.map) return;
         for (const [mapId] of this.layerStates) {
-            this._syncGapRaster(mapId);
+            this._syncGapRaster(mapId, overrideZoom);
         }
     }
 
