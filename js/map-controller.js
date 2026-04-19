@@ -2156,11 +2156,70 @@ class MapController {
                 this._syncGapRaster(mapId);
             } catch (err) {
                 console.warn(`[MapController] Chunk update failed for ${mapId}:`, err);
+                // When chunks fail during a zoom transition we've already
+                // cleared the old features, so state.group is empty. Fall
+                // back to LOD1 (or LOD0) so the user sees outlines rather
+                // than nothing. Skip for non-townland chunked maps that
+                // don't have LOD variants.
+                if (this._isTownlandMap(mapId)) {
+                    try {
+                        await this._loadLODFallbackIntoState(mapId, state);
+                    } catch (lodErr) {
+                        console.warn(`[MapController] LOD fallback after chunk-update failure also failed for ${mapId}:`, lodErr);
+                    }
+                }
                 state.loading = false;
             } finally {
                 this._emitSpatialLoadingChange(mapId, state, false, needFullReload ? 'lod' : 'viewport');
             }
         }
+    }
+
+    /**
+     * Load LOD1 (preferred) or LOD0 into state.group as a fallback when the
+     * chunked path can't render. Used both on initial chunk-only failures
+     * and mid-zoom failures in updateSpatialLayers.
+     */
+    async _loadLODFallbackIntoState(mapId, state) {
+        const fgbPath = state.fgbPath;
+        const mapConfig = state.config || {};
+        const style = mapConfig.style;
+        const labelProperty = mapConfig.labelProperty;
+        for (const lod of [1, 0]) {
+            const lodPath = fgbPath.replace(/\.fgb$/i, `-lod${lod}.fgb`);
+            try {
+                const features = await this.loadDataFile(lodPath, null, null);
+                if (!Array.isArray(features) || features.length === 0) continue;
+                // Clear any remaining partial geometries before rendering.
+                state.group.clearLayers();
+                state.geoJsonLayers = [];
+                state.labelEntries = [];
+                const geojsonData = { type: 'FeatureCollection', features };
+                const geoJsonLayer = L.geoJSON(geojsonData, {
+                    style: (f) => f.geometry?.type === 'Point' ? {} : {
+                        color: style?.color || '#3388ff',
+                        weight: style?.weight || 2,
+                        fillOpacity: style?.fillOpacity ?? 0,
+                        opacity: 1
+                    },
+                    pointToLayer: (f, ll) => this.createPointMarker(ll, style),
+                    onEachFeature: (f, l) => {
+                        l._mapId = mapId;
+                        this._attachFeatureHoverHandlers(l);
+                        this._attachHistoricPointDblClick(mapConfig, mapId, f, l);
+                    }
+                });
+                geoJsonLayer.addTo(state.group);
+                state.geoJsonLayers.push(geoJsonLayer);
+                state.featureCount = features.length;
+                state._overviewLOD = true;   // raster gap-fill not needed on a complete LOD
+                console.log(`[MapController] Loaded ${mapId} via LOD${lod} fallback (in-place)`);
+                return true;
+            } catch (err) {
+                console.warn(`[MapController] In-place LOD${lod} fallback failed for ${mapId}:`, err?.message || err);
+            }
+        }
+        return false;
     }
 
     /**
@@ -2206,6 +2265,7 @@ class MapController {
             console.log(`[MapController] LOD reloading ${mapId} from ${newFilePath}`);
 
             state.loading = true;
+            this._emitSpatialLoadingChange(mapId, state, true, 'lod');
             try {
                 const features = await this.loadDataFile(newFilePath, (progress) => {
                     state.progress = progress;
@@ -2281,6 +2341,7 @@ class MapController {
                 }
             } finally {
                 state.loading = false;
+                this._emitSpatialLoadingChange(mapId, state, false, 'lod');
             }
 
             // Re-check in case zoom changed during the async load
