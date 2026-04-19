@@ -868,10 +868,10 @@ class MapController {
      * LOD-1 (zoom 8-12): {name}-lod1.fgb  (simplified ~50m)
      * LOD-2 (zoom 12+): {name}.fgb        (original full resolution)
      */
-    getLODFilePath(baseFgbPath, zoom, maxLODLevel = 2) {
+    getLODFilePath(baseFgbPath, zoom, maxLODLevel = 3) {
         let lod = this.getLODLevel(zoom);
         if (typeof maxLODLevel === 'number' && lod > maxLODLevel) lod = maxLODLevel;
-        if (lod >= 2) return baseFgbPath; // Full resolution
+        if (lod >= 3) return baseFgbPath; // Full resolution (chunks or monolith)
         const lodPath = baseFgbPath.replace(/\.fgb$/i, `-lod${lod}.fgb`);
         return lodPath;
     }
@@ -880,7 +880,8 @@ class MapController {
      * Get LOD level from zoom
      */
     getLODLevel(zoom) {
-        if (zoom >= 12) return 2;
+        if (zoom >= 14) return 3;   // full geometry (chunks for townlands)
+        if (zoom >= 11) return 2;
         if (zoom >= 8) return 1;
         return 0;
     }
@@ -910,7 +911,15 @@ class MapController {
     }
 
     shouldUseOverviewLOD(mapConfig, zoom) {
-        return this._isTownlandMap(mapConfig) && zoom <= 7;
+        if (!this._isTownlandMap(mapConfig)) return false;
+        // all-Ireland townlands has a full LOD ladder (lod0/lod1/lod2) with
+        // gap-fill raster underlays; the overview-LOD branch covers zoom 1-13
+        // and hands off to the chunked path only at zoom 14+ for per-viewport
+        // full-resolution rendering. NI and ROI townland variants use the
+        // older zoom<=7 threshold (no -lod2 file available for those yet).
+        const id = typeof mapConfig === 'string' ? mapConfig : mapConfig?.id;
+        if (id === 'all-ireland-townlands') return zoom <= 13;
+        return zoom <= 7;
     }
 
     getInitialChunkBuffer(mapConfig) {
@@ -1062,6 +1071,7 @@ class MapController {
         state.loading = false;
         state.progress = 100;
         state._overviewLOD = true;
+        state._overviewLODLevel = this.getLODLevel(zoom);
         state._lastZoom = zoom;
 
         if (this.onLoadProgress) this.onLoadProgress(id, 100);
@@ -1587,11 +1597,11 @@ class MapController {
             if (enforceChunkOnly) {
                 // Chunk loading failed. The full monolith is too big to ship
                 // to the browser (~300 MB), but the LOD files are small and
-                // exist for the all-Ireland townland variant. Try LOD1 then
-                // LOD0 as a graceful fallback so the user sees outlines
-                // rather than nothing / a load error.
+                // exist for the all-Ireland townland variant. Try LOD2, then
+                // LOD1, then LOD0 as a graceful fallback so the user sees
+                // outlines rather than nothing / a load error.
                 console.warn(`[MapController] Chunk-only layer ${id} failed to load; attempting LOD fallback`);
-                for (const lod of [1, 0]) {
+                for (const lod of [2, 1, 0]) {
                     const lodPath = fgbPath.replace(/\.fgb$/i, `-lod${lod}.fgb`);
                     try {
                         const features = await this.loadDataFile(lodPath, null, signal);
@@ -2018,7 +2028,9 @@ class MapController {
             const updateStart = this._now();
 
             if (this.shouldUseOverviewLOD(state.config, zoom)) {
-                if (!state._overviewLOD) {
+                const targetLOD = this.getLODLevel(zoom);
+                const needsReload = !state._overviewLOD || state._overviewLODLevel !== targetLOD;
+                if (needsReload) {
                     state.loading = true;
                     this._emitSpatialLoadingChange(mapId, state, true, 'lod');
                     try {
@@ -2194,7 +2206,7 @@ class MapController {
         const mapConfig = state.config || {};
         const style = mapConfig.style;
         const labelProperty = mapConfig.labelProperty;
-        for (const lod of [1, 0]) {
+        for (const lod of [2, 1, 0]) {
             const lodPath = fgbPath.replace(/\.fgb$/i, `-lod${lod}.fgb`);
             try {
                 const features = await this.loadDataFile(lodPath, null, null);
@@ -2742,12 +2754,13 @@ class MapController {
 
     _resolveGapRasterFallback(state, zoom) {
         if (!state || !state.visible) return null;
-        // Overview LOD already carries every feature, so the underlay
-        // isn't needed there.
-        if (state._overviewLOD) return null;
         const fallbacks = state.config?.lodRasterFallbacks;
         if (!Array.isArray(fallbacks) || fallbacks.length === 0) return null;
         // Tightest match: smallest maxZoom that still covers current zoom.
+        // Historically this short-circuited on state._overviewLOD because
+        // the overview LOD was feature-complete; with feature-dropping LODs
+        // the overview is INCOMPLETE and needs the raster backstop, so we
+        // trust the fallback config to declare the zoom bands it applies to.
         let best = null;
         for (const fb of fallbacks) {
             if (!fb?.image || typeof fb.maxZoom !== 'number') continue;

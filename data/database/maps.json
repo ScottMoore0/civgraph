@@ -2795,37 +2795,52 @@
       ],
       "lodRasterFallbacks": [
         {
-          "level": "z7",
-          "image": "data/maps/raster/all-ireland-townlands-z7-fill.png",
+          "level": "lod0",
+          "image": "data/maps/raster/Townlands_AllIreland-lod0-fill.png",
           "bounds": [
             [
-              51.426,
-              -10.617
+              51.4199,
+              -10.6186
             ],
             [
-              55.343,
-              -5.471
+              55.4351,
+              -5.4328
             ]
           ],
-          "maxZoom": 8
+          "maxZoom": 7
         },
         {
-          "level": "z10",
-          "image": "data/maps/raster/all-ireland-townlands-z10-fill.png",
+          "level": "lod1",
+          "image": "data/maps/raster/Townlands_AllIreland-lod1-fill.png",
           "bounds": [
             [
-              51.519,
-              -10.214
+              51.4199,
+              -10.6186
             ],
             [
-              55.291,
-              -5.813
+              55.4351,
+              -5.4328
             ]
           ],
-          "maxZoom": 11
+          "maxZoom": 10
+        },
+        {
+          "level": "lod2",
+          "image": "data/maps/raster/Townlands_AllIreland-lod2-fill.png",
+          "bounds": [
+            [
+              51.4199,
+              -10.6186
+            ],
+            [
+              55.4351,
+              -5.4328
+            ]
+          ],
+          "maxZoom": 13
         }
       ],
-      "maxLODLevel": 1
+      "chunked": true
     },
     {
       "id": "settlements-2015-craigavon",

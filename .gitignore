@@ -168,5 +168,10 @@ data/maps/townlands/OSNI_Townlands.fgb
 # Regenerable locally via `node scripts/build-spatial-chunks.mjs --map <id> --force`.
 data/maps/townlands/chunks/
 
+# All-Ireland townland LOD monoliths: uploaded to R2 by the LOD-ladder
+# build script; too large to keep in git history. Regenerable locally via
+# `node scripts/build-townland-lod-ladder.mjs`.
+data/maps/townlands/Townlands_AllIreland-lod*.fgb
+
 # Test outputs
 tests/browser/contrast-audit-report.json
