@@ -1206,32 +1206,41 @@ class MapController {
             const zoom = this.map?.getZoom?.() ?? 10;
             const preferredFilePath = this.getPreferredVectorFilePath(mapConfig, filePath, zoom);
             let features;
-            try {
-                features = await this.loadDataFile(preferredFilePath, (progress) => {
-                    state.progress = progress;
-                    if (this.onLoadProgress) {
-                        this.onLoadProgress(id, progress);
-                    }
-                }, signal);
-            } catch (preferredErr) {
-                if (preferredFilePath !== filePath) {
-                    this._recordLoadMetric('lod-fallback-full', {
-                        mapId: id,
-                        preferredSource: preferredFilePath,
-                        fallbackSource: filePath,
-                        zoom
-                    });
-                    console.warn(`[MapController] Preferred LOD source failed for ${id} (${preferredFilePath}); retrying full source ${filePath}`, preferredErr);
-                    features = await this.loadDataFile(filePath, (progress) => {
-                        state.progress = progress;
-                        if (this.onLoadProgress) {
-                            this.onLoadProgress(id, progress);
-                        }
-                    }, signal);
-                } else {
-                    throw preferredErr;
+            // Build a fallback chain: preferred LOD → progressively lower LOD
+            // → base path. The previous implementation jumped straight to the
+            // base path, which doesn't work for maps whose monolith isn't on
+            // R2 (e.g. all-ireland-townlands). Walk each candidate in order
+            // and accept the first that parses.
+            const candidatePaths = [preferredFilePath];
+            if (mapConfig?.useLOD && String(filePath || '').toLowerCase().endsWith('.fgb')) {
+                for (const lod of [1, 0]) {
+                    const p = filePath.replace(/\.fgb$/i, `-lod${lod}.fgb`);
+                    if (!candidatePaths.includes(p)) candidatePaths.push(p);
                 }
             }
+            if (!candidatePaths.includes(filePath)) candidatePaths.push(filePath);
+            let lastErr = null;
+            for (const candidate of candidatePaths) {
+                try {
+                    features = await this.loadDataFile(candidate, (progress) => {
+                        state.progress = progress;
+                        if (this.onLoadProgress) this.onLoadProgress(id, progress);
+                    }, signal);
+                    if (candidate !== preferredFilePath) {
+                        this._recordLoadMetric('lod-fallback-used', {
+                            mapId: id, preferredSource: preferredFilePath,
+                            actualSource: candidate, zoom
+                        });
+                        console.warn(`[MapController] LOD fallback for ${id}: ${preferredFilePath} failed, using ${candidate}`);
+                    }
+                    break;
+                } catch (candidateErr) {
+                    if (this._isAbortError(candidateErr)) throw candidateErr;
+                    lastErr = candidateErr;
+                    console.warn(`[MapController] Candidate ${candidate} failed for ${id}: ${candidateErr?.message || candidateErr}`);
+                }
+            }
+            if (!features) throw lastErr || new Error(`All candidate sources failed for ${id}`);
 
             const geojsonData = Array.isArray(features)
                 ? { type: 'FeatureCollection', features }
