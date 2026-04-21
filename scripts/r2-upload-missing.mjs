@@ -122,6 +122,24 @@ async function collectFiles() {
         if (existsSync(p)) targets.push({ localPath: p, compress: true });
     }
 
+    // Group B geojsons migrated from LFS to R2 (download-only source originals)
+    const groupBPaths = [
+        'data/maps/historic-sites/originals/Bullaun_Stones.geojson',
+        'data/maps/historic-sites/originals/Crannog.geojson',
+        'data/maps/historic-sites/originals/Ringfort_Cashel.geojson',
+        'data/maps/historic-sites/originals/Ringfort_Rath.geojson',
+        'data/maps/historic-sites/originals/Ringfort_Unclassified.geojson',
+        'data/maps/historic-sites/originals/Rock_Scribing.geojson',
+        'data/maps/historic-sites/originals/Standing_Stones.geojson',
+        'data/maps/historic-sites/originals/Wedge_Tomb.geojson',
+        'data/maps/transport/Translink_Rail_Network.geojson',
+        'data/maps/transport/Transport_Lines_Road_Rail.geojson',
+    ];
+    for (const rel of groupBPaths) {
+        const p = join(ROOT, rel);
+        if (existsSync(p)) targets.push({ localPath: p, compress: true });
+    }
+
     // NI local-government additions
     const niLocalGovPaths = [
         'data/maps/local-government/Admin_Areas_01-04-1930.fgb',
