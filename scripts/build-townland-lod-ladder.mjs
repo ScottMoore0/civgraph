@@ -34,19 +34,55 @@ const TLDIR = join(ROOT, 'data/maps/townlands');
 const RASTER_DIR = join(ROOT, 'data/maps/raster');
 if (!existsSync(RASTER_DIR)) mkdirSync(RASTER_DIR, { recursive: true });
 
-// Per-LOD raster stroke widths are calibrated so the rendered stroke on
-// screen matches the vector layer's 2-pixel stroke at the zoom level
-// that LOD is displayed at. At zoom 7 a 4096-wide raster of Ireland has
-// ~1 raster pixel per 0.11 screen pixels, so we need a thick native
-// stroke; at zoom 13 the raster stretches over ~7 screen pixels per
-// raster pixel, so the native stroke must be sub-pixel.
+// Vector-LOD definitions: each is a feature-dropping, geometry-simplified
+// FGB file. getLODLevel() in the runtime picks one per zoom band:
+//   zoom 1-7  -> lod0
+//   zoom 8-10 -> lod1
+//   zoom 11-13-> lod2
 const LOD_LEVELS = [
-    { level: 0, keepTop: 5000,  simplifyDeg: 0.0004,  name: 'lod0', lineWidth: 15 },
-    { level: 1, keepTop: 20000, simplifyDeg: 0.0001,  name: 'lod1', lineWidth: 2.2 },
-    { level: 2, keepTop: 40000, simplifyDeg: 0.00003, name: 'lod2', lineWidth: 0.35 }
+    { level: 0, keepTop: 5000,  simplifyDeg: 0.0004,  name: 'lod0' },
+    { level: 1, keepTop: 20000, simplifyDeg: 0.0001,  name: 'lod1' },
+    { level: 2, keepTop: 40000, simplifyDeg: 0.00003, name: 'lod2' }
 ];
+
+// Per-zoom raster settings. One PNG per zoom level so the stroke width
+// rendered on screen matches the vector's 2-px stroke exactly at that
+// zoom. Stroke is calibrated via:
+//   native_stroke = 2 / raster_scale
+//   raster_scale  = screen_px_per_deg / raster_px_per_deg
+//                 = (256 * 2^z / 360) / (RASTER_WIDTH / IRELAND_WIDTH_DEG)
+// For a 4096-wide raster covering ~5.19° of longitude this gives:
+//   native_stroke ≈ 2223 / 2^z  (rounded)
+// Each zoom uses the drop-set from its vector LOD band.
+const IRELAND_WIDTH_DEG = 5.186;
 const RASTER_WIDTH = 4096;
 const RASTER_COLOR = '#A87000';
+
+function zoomToLodLevel(z) {
+    if (z >= 11) return 2;
+    if (z >= 8) return 1;
+    return 0;
+}
+
+function strokeForZoom(z) {
+    // 2 screen px / raster_scale, clamped to a sensible range so very
+    // low zooms don't produce absurdly thick strokes that swallow the map.
+    const rasterPxPerDeg = RASTER_WIDTH / IRELAND_WIDTH_DEG;
+    const screenPxPerDeg = 256 * Math.pow(2, z) / 360;
+    const rasterScale = screenPxPerDeg / rasterPxPerDeg;
+    const native = 2 / rasterScale;
+    return Math.max(0.25, Math.min(40, native));
+}
+
+const ZOOM_RASTERS = [];
+for (let z = 5; z <= 13; z++) {
+    ZOOM_RASTERS.push({
+        zoom: z,
+        name: `z${z}`,
+        lodLevel: zoomToLodLevel(z),
+        lineWidth: strokeForZoom(z)
+    });
+}
 
 // ───────────────────────────────────────────────────────────────────
 // Load + normalize
@@ -154,6 +190,10 @@ console.log(`All-Ireland bbox: ${BBOX.map(n => n.toFixed(4)).join(', ')}`);
 // ───────────────────────────────────────────────────────────────────
 // Write per-LOD FGB (top-N + simplified)
 // ───────────────────────────────────────────────────────────────────
+// Pre-compute the dropped-feature sets once per LOD so the per-zoom
+// raster pass doesn't re-slice the full array every time.
+const droppedByLod = new Map();
+
 for (const lod of LOD_LEVELS) {
     console.log(`\n=== LOD${lod.level} (keep top ${lod.keepTop}, simplify ${lod.simplifyDeg}) ===`);
     const kept = allFeatures.slice(0, lod.keepTop).map(src => ({
@@ -178,31 +218,33 @@ for (const lod of LOD_LEVELS) {
     writeFileSync(outFgb, body);
     console.log(`  wrote ${outFgb} (${kept.length} feats, ${Math.round(body.byteLength / 1024)} KB)`);
 
-    // ── Gap-fill raster (features NOT in this LOD) ──
-    const dropped = allFeatures.slice(lod.keepTop);
-    if (dropped.length === 0) {
-        console.log(`  no dropped features - skipping raster`);
-        continue;
-    }
+    droppedByLod.set(lod.level, allFeatures.slice(lod.keepTop));
+}
 
-    const [minX, minY, maxX, maxY] = BBOX;
-    const geoW = maxX - minX;
-    const geoH = maxY - minY;
-    const width = RASTER_WIDTH;
-    const height = Math.round(width * geoH / geoW);
+// ───────────────────────────────────────────────────────────────────
+// Per-zoom gap-fill rasters (one PNG per zoom level 5..13)
+// ───────────────────────────────────────────────────────────────────
+const [minX, minY, maxX, maxY] = BBOX;
+const geoW = maxX - minX;
+const geoH = maxY - minY;
+const width = RASTER_WIDTH;
+const height = Math.round(width * geoH / geoW);
+const project = (lon, lat) => [
+    ((lon - minX) / geoW) * width,
+    ((maxY - lat) / geoH) * height
+];
+
+console.log(`\n=== Per-zoom rasters (${width}×${height}) ===`);
+for (const zr of ZOOM_RASTERS) {
+    const dropped = droppedByLod.get(zr.lodLevel) || [];
+    if (dropped.length === 0) continue;
+
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, width, height);
     ctx.strokeStyle = RASTER_COLOR;
-    ctx.lineWidth = lod.lineWidth;
+    ctx.lineWidth = zr.lineWidth;
     ctx.lineJoin = 'round';
-    // No fill - the raster is an outline-only gap-fill. Fully transparent
-    // interior so it doesn't visually compete with the basemap underneath.
-
-    const project = (lon, lat) => [
-        ((lon - minX) / geoW) * width,
-        ((maxY - lat) / geoH) * height
-    ];
 
     for (const f of dropped) {
         const g = f.geometry;
@@ -225,10 +267,10 @@ for (const lod of LOD_LEVELS) {
         }
     }
 
-    const outPng = join(RASTER_DIR, `Townlands_AllIreland-${lod.name}-fill.png`);
+    const outPng = join(RASTER_DIR, `Townlands_AllIreland-${zr.name}-fill.png`);
     const pngBuf = canvas.toBuffer('image/png');
     writeFileSync(outPng, pngBuf);
-    console.log(`  wrote ${outPng} (${dropped.length} dropped feats → ${Math.round(pngBuf.length / 1024)} KB, ${width}×${height})`);
+    console.log(`  z=${zr.zoom} lod${zr.lodLevel} stroke=${zr.lineWidth.toFixed(2)}px  dropped=${dropped.length}  -> ${Math.round(pngBuf.length / 1024)} KB  ${zr.name}-fill.png`);
 }
 
 console.log('\nDone.');
