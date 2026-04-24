@@ -11,6 +11,11 @@ class MapController {
         this.map = null;
         this.layerStates = new Map();
         this._layerOrder = []; // bottom-to-top z-order of shown layers (map IDs)
+        // Bottom-to-top z-order of every layer the user has positioned, kept
+        // across unload/reload so a reloaded layer returns to its prior slot.
+        // User-driven reorder (setLayerDrawOrder) is the only way the relative
+        // order of existing ids changes after they're first seen.
+        this._rememberedOrder = [];
         this.labelMarkers = [];
         this.labelsEnabled = true;
         this.onFeatureClick = null;
@@ -2670,11 +2675,14 @@ class MapController {
 
         if (!this.map.hasLayer(state.group)) {
             state.group.addTo(this.map);
-            const idx = this._layerOrder.indexOf(id);
-            if (idx >= 0) this._layerOrder.splice(idx, 1);
-            this._layerOrder.push(id);
         }
         state.visible = true;
+        // New layers default to the top of the stack; existing (reloaded)
+        // layers keep their remembered slot.
+        if (!this._rememberedOrder.includes(id)) {
+            this._rememberedOrder.push(id);
+        }
+        this._applyRememberedOrderToMap();
         this._syncGapRaster(id);
         this.updateLabels();
     }
@@ -2723,6 +2731,63 @@ class MapController {
         }
         const remaining = this._layerOrder.filter(id => !seen.has(id));
         this._layerOrder = [...remaining, ...orderedIds.filter(id => this.layerStates.get(id)?.visible)];
+    }
+
+    /**
+     * Re-apply the remembered bottom-to-top z-order to the live map. Only
+     * visible layers have bringToFront invoked; the relative position of any
+     * currently-hidden id is preserved for when it re-appears.
+     */
+    _applyRememberedOrderToMap() {
+        if (!this.map) return;
+        this._layerOrder = [];
+        for (const id of this._rememberedOrder) {
+            const state = this.layerStates.get(id);
+            if (!state?.visible || !state.group) continue;
+            state.group.eachLayer((layer) => {
+                if (typeof layer.bringToFront === 'function') layer.bringToFront();
+            });
+            this._layerOrder.push(id);
+        }
+    }
+
+    /**
+     * Ordered list of remembered layer IDs top-to-bottom, optionally filtered
+     * to currently loaded layers. Used by the Active Layers UI to render rows
+     * in the same z-order as the map.
+     */
+    getLayerDrawOrder({ loadedOnly = true } = {}) {
+        const order = [...this._rememberedOrder].reverse(); // top to bottom
+        if (!loadedOnly) return order;
+        return order.filter(id => {
+            const state = this.layerStates.get(id);
+            return !!(state && state.loaded);
+        });
+    }
+
+    /**
+     * Replace the remembered z-order using a top-to-bottom list supplied by
+     * the UI. Ids not present in the new list keep their current relative
+     * position, so unloaded layers don't lose their slot when the user
+     * reorders loaded ones.
+     */
+    setLayerDrawOrder(orderedIdsTopToBottom) {
+        if (!Array.isArray(orderedIdsTopToBottom)) return;
+        const incoming = [...orderedIdsTopToBottom].reverse(); // bottom-to-top
+        const incomingSet = new Set(incoming);
+        const queue = [...incoming];
+        const merged = [];
+        for (const id of this._rememberedOrder) {
+            if (incomingSet.has(id)) {
+                if (queue.length) merged.push(queue.shift());
+            } else {
+                merged.push(id);
+            }
+        }
+        while (queue.length) merged.push(queue.shift());
+        this._rememberedOrder = merged;
+        this._applyRememberedOrderToMap();
+        this.updateLabels?.();
     }
 
     /**

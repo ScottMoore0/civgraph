@@ -221,6 +221,12 @@ class App {
                 return mapController.isLayerVisible(mapId);
             };
 
+            uiController.onReorderLayers = (orderedIdsTopToBottom) => {
+                mapController.setLayerDrawOrder(orderedIdsTopToBottom);
+                this.updateActiveLayers();
+                this.updateURLState?.();
+            };
+
             uiController.onPartialFeatureUnload = (mapId, featureIndex) => {
                 mapController.unloadPartialFeature(mapId, featureIndex);
                 this.updateMapList();
@@ -2258,6 +2264,16 @@ class App {
                     featureItems
                 });
             }
+        });
+
+        // Present rows in the same top-to-bottom order as the map z-stack so
+        // the grip-drag UX reflects reality.
+        const drawOrder = mapController.getLayerDrawOrder({ loadedOnly: false });
+        const orderIndex = new Map(drawOrder.map((id, i) => [id, i]));
+        loadedMaps.sort((a, b) => {
+            const ai = orderIndex.has(a.id) ? orderIndex.get(a.id) : Number.MAX_SAFE_INTEGER;
+            const bi = orderIndex.has(b.id) ? orderIndex.get(b.id) : Number.MAX_SAFE_INTEGER;
+            return ai - bi;
         });
 
         uiController.updateActiveLayers(loadedMaps, visibilityMap, partialLayerInfo);

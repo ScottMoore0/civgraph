@@ -5157,6 +5157,46 @@ html:not([data-theme]) .feature-info__value,
   flex-shrink: 0;
 }
 
+.active-layer-item__drag {
+  width: 16px;
+  align-self: stretch;
+  /* Negative margin cancels the row's padding so the grip reaches the row's
+     top/bottom edges, making it a full-height drag target. */
+  margin: calc(-1 * var(--space-2)) 0 calc(-1 * var(--space-2)) calc(-1 * var(--space-2));
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: grab;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  flex-shrink: 0;
+  touch-action: none;
+}
+
+.active-layer-item__drag:hover {
+  color: var(--color-primary);
+  background: var(--color-primary-50);
+}
+
+.active-layer-item__drag:active,
+.active-layer-item--dragging .active-layer-item__drag {
+  cursor: grabbing;
+}
+
+.active-layer-item__drag svg {
+  width: 14px;
+  height: 14px;
+}
+
+.active-layer-item--dragging {
+  opacity: 0.85;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: var(--color-primary);
+}
+
 .active-layer-item__info {
   flex: 1;
   min-width: 0;

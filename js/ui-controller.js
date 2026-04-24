@@ -6471,6 +6471,9 @@ class UIController {
 
             return `
                 <div class="active-layer-item ${isVisible ? '' : 'active-layer-item--hidden'}${partial?.isPartial ? ' active-layer-item--partial' : ''}" data-map-id="${map.id}">
+                    <button type="button" class="active-layer-item__drag" data-map-id="${map.id}" title="Drag to reorder" aria-label="Drag to reorder layer">
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>
+                    </button>
                     <div class="active-layer-item__color" style="background: ${color}"></div>
                     <div class="active-layer-item__info">
                         <span class="active-layer-item__name">${this.escapeHtml(map.name)}</span>
@@ -6591,6 +6594,84 @@ class UIController {
             });
             container.querySelectorAll(`.${type}-opacity-input`).forEach(input => {
                 input.addEventListener('change', () => syncOpacity(input.dataset.mapId, type, input.value));
+            });
+        });
+
+        this._attachActiveLayerDragReorder(container);
+    }
+
+    /**
+     * Pointer-based drag-to-reorder for the Active Layers list. The drag is
+     * gated to the grip handle so clicks/taps on the rest of the row still
+     * reach their action buttons. Rows are rearranged in the DOM live, and on
+     * pointerup the new order is passed to onReorderLayers (top-to-bottom).
+     */
+    _attachActiveLayerDragReorder(container) {
+        const grips = container.querySelectorAll('.active-layer-item__drag');
+        if (!grips.length) return;
+
+        grips.forEach(grip => {
+            grip.addEventListener('pointerdown', (e) => {
+                if (e.button !== undefined && e.button !== 0) return;
+                const row = grip.closest('.active-layer-item');
+                if (!row) return;
+                e.preventDefault();
+
+                const startOrder = [...container.querySelectorAll('.active-layer-item')].map(r => r.dataset.mapId);
+                const startPointerId = e.pointerId;
+                row.classList.add('active-layer-item--dragging');
+
+                // Bind listeners to window rather than the grip: setPointerCapture
+                // is finicky across browsers and if the pointer ever escapes the
+                // captured element we'd miss pointerup entirely, leaving the
+                // drag "stuck" until the next click. Window-level listeners make
+                // the drop handler fire reliably even for fast, erratic drags.
+                const onMove = (ev) => {
+                    if (ev.pointerId !== startPointerId) return;
+                    const siblings = [...container.querySelectorAll('.active-layer-item:not(.active-layer-item--dragging)')];
+                    let insertBefore = null;
+                    for (const sib of siblings) {
+                        const rect = sib.getBoundingClientRect();
+                        if (ev.clientY < rect.top + rect.height / 2) {
+                            insertBefore = sib;
+                            break;
+                        }
+                    }
+                    if (insertBefore) {
+                        if (row.nextSibling !== insertBefore) {
+                            container.insertBefore(row, insertBefore);
+                        }
+                    } else if (container.lastElementChild !== row) {
+                        container.appendChild(row);
+                    }
+                };
+
+                const cleanup = () => {
+                    window.removeEventListener('pointermove', onMove, true);
+                    window.removeEventListener('pointerup', onUp, true);
+                    window.removeEventListener('pointercancel', onCancel, true);
+                    row.classList.remove('active-layer-item--dragging');
+                };
+
+                const onUp = (ev) => {
+                    if (ev.pointerId !== startPointerId) return;
+                    cleanup();
+                    const newOrder = [...container.querySelectorAll('.active-layer-item')].map(r => r.dataset.mapId);
+                    const changed = newOrder.length !== startOrder.length
+                        || newOrder.some((id, i) => id !== startOrder[i]);
+                    if (changed && typeof this.onReorderLayers === 'function') {
+                        this.onReorderLayers(newOrder);
+                    }
+                };
+
+                const onCancel = (ev) => {
+                    if (ev.pointerId !== startPointerId) return;
+                    cleanup();
+                };
+
+                window.addEventListener('pointermove', onMove, true);
+                window.addEventListener('pointerup', onUp, true);
+                window.addEventListener('pointercancel', onCancel, true);
             });
         });
     }
