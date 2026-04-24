@@ -6610,6 +6610,8 @@ class UIController {
         const grips = container.querySelectorAll('.active-layer-item__drag');
         if (!grips.length) return;
 
+        const FLIP_DURATION = 180;
+
         grips.forEach(grip => {
             grip.addEventListener('pointerdown', (e) => {
                 if (e.button !== undefined && e.button !== 0) return;
@@ -6619,43 +6621,113 @@ class UIController {
 
                 const startOrder = [...container.querySelectorAll('.active-layer-item')].map(r => r.dataset.mapId);
                 const startPointerId = e.pointerId;
-                row.classList.add('active-layer-item--dragging');
+                const rowRect = row.getBoundingClientRect();
+                const pointerStartX = e.clientX;
+                const pointerStartY = e.clientY;
 
-                // Bind listeners to window rather than the grip: setPointerCapture
-                // is finicky across browsers and if the pointer ever escapes the
-                // captured element we'd miss pointerup entirely, leaving the
-                // drag "stuck" until the next click. Window-level listeners make
-                // the drop handler fire reliably even for fast, erratic drags.
+                // The original row stays in the DOM as a faded placeholder so
+                // layout reserves its slot; a cloned node floats with the
+                // cursor so it reads as a dragged card.
+                row.classList.add('active-layer-item--dragging');
+                const clone = row.cloneNode(true);
+                clone.classList.remove('active-layer-item--dragging');
+                clone.classList.add('active-layer-item--clone');
+                Object.assign(clone.style, {
+                    position: 'fixed',
+                    left: rowRect.left + 'px',
+                    top: rowRect.top + 'px',
+                    width: rowRect.width + 'px',
+                    margin: '0',
+                    pointerEvents: 'none',
+                    zIndex: '9999',
+                    transition: 'none',
+                    willChange: 'transform'
+                });
+                document.body.appendChild(clone);
+
+                // FLIP the siblings: measure before mutation, apply an inverse
+                // translate immediately so they look unchanged, then transition
+                // the translate to zero so they glide to their new slot.
+                const flipReorder = (mutate) => {
+                    const tracked = [...container.querySelectorAll('.active-layer-item')];
+                    const before = new Map(tracked.map(el => [el, el.getBoundingClientRect()]));
+                    mutate();
+                    for (const el of tracked) {
+                        if (el === row) continue;
+                        const a = el.getBoundingClientRect();
+                        const b = before.get(el);
+                        const dx = b.left - a.left;
+                        const dy = b.top - a.top;
+                        if (!dx && !dy) continue;
+                        el.style.transition = 'none';
+                        el.style.transform = `translate(${dx}px, ${dy}px)`;
+                        // Force reflow so the next frame treats the translated
+                        // position as the starting point of the animation.
+                        void el.offsetHeight;
+                        el.style.transition = `transform ${FLIP_DURATION}ms ease`;
+                        el.style.transform = '';
+                    }
+                };
+
                 const onMove = (ev) => {
                     if (ev.pointerId !== startPointerId) return;
-                    const siblings = [...container.querySelectorAll('.active-layer-item:not(.active-layer-item--dragging)')];
+                    const dx = ev.clientX - pointerStartX;
+                    const dy = ev.clientY - pointerStartY;
+                    clone.style.transform = `translate(${dx}px, ${dy}px)`;
+
+                    const others = [...container.querySelectorAll('.active-layer-item:not(.active-layer-item--dragging)')];
                     let insertBefore = null;
-                    for (const sib of siblings) {
+                    for (const sib of others) {
                         const rect = sib.getBoundingClientRect();
                         if (ev.clientY < rect.top + rect.height / 2) {
                             insertBefore = sib;
                             break;
                         }
                     }
-                    if (insertBefore) {
-                        if (row.nextSibling !== insertBefore) {
-                            container.insertBefore(row, insertBefore);
-                        }
-                    } else if (container.lastElementChild !== row) {
-                        container.appendChild(row);
+
+                    const wantsReorder = insertBefore
+                        ? row.nextSibling !== insertBefore
+                        : container.lastElementChild !== row;
+                    if (wantsReorder) {
+                        flipReorder(() => {
+                            if (insertBefore) container.insertBefore(row, insertBefore);
+                            else container.appendChild(row);
+                        });
                     }
                 };
 
-                const cleanup = () => {
+                const cleanupListeners = () => {
                     window.removeEventListener('pointermove', onMove, true);
                     window.removeEventListener('pointerup', onUp, true);
                     window.removeEventListener('pointercancel', onCancel, true);
-                    row.classList.remove('active-layer-item--dragging');
+                };
+
+                // Smoothly settle the clone into the placeholder's final slot
+                // (wherever the DOM landed) before removing it.
+                const settle = () => {
+                    const finalRowRect = row.getBoundingClientRect();
+                    const cloneRect = clone.getBoundingClientRect();
+                    const dx = finalRowRect.left - cloneRect.left;
+                    const dy = finalRowRect.top - cloneRect.top;
+                    const cur = clone.style.transform.match(/translate\(\s*(-?[\d.]+)px\s*,\s*(-?[\d.]+)px\s*\)/);
+                    const curX = cur ? parseFloat(cur[1]) : 0;
+                    const curY = cur ? parseFloat(cur[2]) : 0;
+                    clone.style.transition = `transform ${FLIP_DURATION}ms ease`;
+                    clone.style.transform = `translate(${curX + dx}px, ${curY + dy}px)`;
+                    const done = () => {
+                        clone.removeEventListener('transitionend', done);
+                        if (clone.parentNode) clone.parentNode.removeChild(clone);
+                        row.classList.remove('active-layer-item--dragging');
+                    };
+                    clone.addEventListener('transitionend', done);
+                    // Fallback if transitionend doesn't fire (e.g. zero-distance).
+                    setTimeout(done, FLIP_DURATION + 80);
                 };
 
                 const onUp = (ev) => {
                     if (ev.pointerId !== startPointerId) return;
-                    cleanup();
+                    cleanupListeners();
+                    settle();
                     const newOrder = [...container.querySelectorAll('.active-layer-item')].map(r => r.dataset.mapId);
                     const changed = newOrder.length !== startOrder.length
                         || newOrder.some((id, i) => id !== startOrder[i]);
@@ -6666,7 +6738,8 @@ class UIController {
 
                 const onCancel = (ev) => {
                     if (ev.pointerId !== startPointerId) return;
-                    cleanup();
+                    cleanupListeners();
+                    settle();
                 };
 
                 window.addEventListener('pointermove', onMove, true);

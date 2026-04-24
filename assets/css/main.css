@@ -5192,9 +5192,26 @@ html:not([data-theme]) .feature-info__value,
 }
 
 .active-layer-item--dragging {
-  opacity: 0.85;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0.25;
+  box-shadow: none;
+  /* Suppress the hover lift so the placeholder stays flat while the clone
+     is the only thing visibly moving. */
+  transform: none !important;
+}
+
+.active-layer-item--dragging:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--color-border);
+}
+
+.active-layer-item--clone {
+  opacity: 0.96;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22);
   border-color: var(--color-primary);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  cursor: grabbing;
 }
 
 .active-layer-item__info {
