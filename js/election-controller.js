@@ -78,6 +78,18 @@ class ElectionController {
         'Newry, Mourne and Down'
     ];
 
+    // The 26 pre-2014 councils, used for elections 1973-2011.
+    // Note that "Belfast", "Newry, Mourne and Down" overlap as strings with
+    // post-2014 names but are distinct bodies in the index because their
+    // date ranges don't overlap.
+    static PRE2014_LOCAL_GOVERNMENT_BODIES = [
+        'Antrim', 'Ards', 'Armagh', 'Ballymena', 'Ballymoney', 'Banbridge',
+        'Belfast', 'Carrickfergus', 'Castlereagh', 'Coleraine', 'Cookstown',
+        'Craigavon', 'Derry', 'Down', 'Dungannon', 'Fermanagh', 'Larne',
+        'Limavady', 'Lisburn', 'Magherafelt', 'Moyle', 'Newry and Mourne',
+        'Newtownabbey', 'North Down', 'Omagh', 'Strabane'
+    ];
+
     static LOCAL_GOVERNMENT_PLACEHOLDER_ELECTIONS = [
         { date: '2011-05-05', subtitle: '26 councils' },
         { date: '2005-05-05', subtitle: '26 councils' },
@@ -130,6 +142,31 @@ class ElectionController {
             nameAttr: 'FinalR_DEA',
             councilFgb: 'data/maps/local-government/LGD_2012.fgb',
             councilNameAttr: 'LGDNAME'
+        })),
+        // Pre-2014 LG elections — three DEA-vintage eras.
+        // 1993 review (used 1993-2014 elections):
+        ...ElectionController.PRE2014_LOCAL_GOVERNMENT_BODIES.map((body) => ({
+            body, dateFrom: '1993-01-01', dateUntil: '2013-12-31',
+            fgb: 'data/maps/local-government/DEAs_1993.fgb',
+            nameAttr: 'DEA',
+            councilFgb: 'data/maps/local-government/LGD_1993.fgb',
+            councilNameAttr: 'LGDNAME'
+        })),
+        // 1984 review (1984-1992):
+        ...ElectionController.PRE2014_LOCAL_GOVERNMENT_BODIES.map((body) => ({
+            body, dateFrom: '1984-01-01', dateUntil: '1992-12-31',
+            fgb: 'data/maps/local-government/DEAs_1984.fgb',
+            nameAttr: 'DEA',
+            councilFgb: 'data/maps/local-government/LGD_1984.fgb',
+            councilNameAttr: 'id'
+        })),
+        // Initial post-reform set (1973-1983):
+        ...ElectionController.PRE2014_LOCAL_GOVERNMENT_BODIES.map((body) => ({
+            body, dateFrom: '1900-01-01', dateUntil: '1983-12-31',
+            fgb: 'data/maps/local-government/DEAs_1972.fgb',
+            nameAttr: 'NAME',
+            councilFgb: 'data/maps/local-government/LGD_1972.fgb',
+            councilNameAttr: 'NAME'
         })),
     ];
 
@@ -499,7 +536,8 @@ class ElectionController {
             ?? ((body === this.body) ? this.bodyGroup : null);
         return resolvedGroup === 'local-government'
             || body === 'Local Government Districts'
-            || ElectionController.LOCAL_GOVERNMENT_BODIES.includes(body);
+            || ElectionController.LOCAL_GOVERNMENT_BODIES.includes(body)
+            || ElectionController.PRE2014_LOCAL_GOVERNMENT_BODIES.includes(body);
     }
 
     _isCouncilMode() {
