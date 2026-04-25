@@ -2492,7 +2492,14 @@ class UIController {
             // Data entries — Census-derived datasets joined to a geography
             {
                 id: 'flat-data-entries', name: 'Data — Census 2021 statistics', years: '2021', extent: 'Northern Ireland',
-                mapIds: ['data-2021-population-lgd']
+                mapIds: [
+                    'data-2021-population-lgd',
+                    'data-2021-population-dea',
+                    'data-2021-population-ward',
+                    'data-2021-population-settlement',
+                    'data-2021-population-sdz',
+                    'data-2021-population-dz'
+                ]
             }
         ];
 

@@ -113,7 +113,11 @@ export async function loadDataEntry(entry, { onMapLoad, mapController, baseUrl =
         return r.text();
     });
     const { rows } = parseCsv(text);
-    const byKey = new Map(rows.map(r => [String(r[entry.joinKey]), r]));
+    // Allow CSV's key column to be named differently from the FGB attribute:
+    // entry.joinKey is the FGB attribute name; entry.csvKeyColumn (optional)
+    // is the CSV column to read from. Defaults to entry.joinKey.
+    const csvKey = entry.csvKeyColumn || entry.joinKey;
+    const byKey = new Map(rows.map(r => [String(r[csvKey]), r]));
 
     // 3. Walk Leaflet layer, restyle each feature
     const state = mapController.layerStates.get(entry.geography);

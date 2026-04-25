@@ -18570,6 +18570,182 @@
         "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A01",
         "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
       }
+    },
+    {
+      "id": "data-2021-population-dea",
+      "name": "Usual resident population (Census 2021, by DEA)",
+      "geography": "deas-2012",
+      "csv": "data/census/derived/ms-a01-dea.csv",
+      "joinKey": "FinalR_DEA",
+      "csvKeyColumn": "Geography",
+      "valueColumn": "AllUsualResidents",
+      "ramp": "viridis",
+      "domain": [
+        3000,
+        25000
+      ],
+      "type": "data-entry",
+      "slug": "data-2021-population-dea",
+      "category": "data-population",
+      "description": "Usual resident population (DEA) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by population on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "tableColumns": [
+        "Geography",
+        "AllUsualResidents"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "population",
+        "demographics",
+        "nisra",
+        "data",
+        "usual residents"
+      ],
+      "source": {
+        "title": "NISRA Census 2021 Main Statistics Phase 1, MS-A01 (Usual resident population)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-population-ward",
+      "name": "Usual resident population (Census 2021, by Ward 2014)",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-a01-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AllUsualResidents",
+      "ramp": "viridis",
+      "domain": [
+        400,
+        6000
+      ],
+      "type": "data-entry",
+      "slug": "data-2021-population-ward",
+      "category": "data-population",
+      "description": "Usual resident population (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by population on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "tableColumns": [
+        "Geography",
+        "AllUsualResidents"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "population",
+        "demographics",
+        "nisra",
+        "data",
+        "usual residents"
+      ],
+      "source": {
+        "title": "NISRA Census 2021 Main Statistics Phase 1, MS-A01 (Usual resident population)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-population-settlement",
+      "name": "Usual resident population (Census 2021, by Settlement)",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-a01-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AllUsualResidents",
+      "ramp": "viridis",
+      "domain": [
+        50,
+        350000
+      ],
+      "logarithmic": true,
+      "type": "data-entry",
+      "slug": "data-2021-population-settlement",
+      "category": "data-population",
+      "description": "Usual resident population (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by population on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "tableColumns": [
+        "Geography",
+        "AllUsualResidents"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "population",
+        "demographics",
+        "nisra",
+        "data",
+        "usual residents"
+      ],
+      "source": {
+        "title": "NISRA Census 2021 Main Statistics Phase 1, MS-A01 (Usual resident population)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-population-sdz",
+      "name": "Usual resident population (Census 2021, by Super Data Zone)",
+      "geography": "sdz-2021",
+      "csv": "data/census/derived/ms-a01-sdz.csv",
+      "joinKey": "SDZ2021_cd",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AllUsualResidents",
+      "ramp": "viridis",
+      "domain": [
+        800,
+        6500
+      ],
+      "type": "data-entry",
+      "slug": "data-2021-population-sdz",
+      "category": "data-population",
+      "description": "Usual resident population (Super Data Zone) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by population on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "tableColumns": [
+        "Geography",
+        "AllUsualResidents"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "population",
+        "demographics",
+        "nisra",
+        "data",
+        "usual residents"
+      ],
+      "source": {
+        "title": "NISRA Census 2021 Main Statistics Phase 1, MS-A01 (Usual resident population)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-population-dz",
+      "name": "Usual resident population (Census 2021, by Data Zone)",
+      "geography": "dz-2021",
+      "csv": "data/census/derived/ms-a01-dz.csv",
+      "joinKey": "DZ2021_cd",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AllUsualResidents",
+      "ramp": "viridis",
+      "domain": [
+        200,
+        1500
+      ],
+      "type": "data-entry",
+      "slug": "data-2021-population-dz",
+      "category": "data-population",
+      "description": "Usual resident population (Data Zone) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by population on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "tableColumns": [
+        "Geography",
+        "AllUsualResidents"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "population",
+        "demographics",
+        "nisra",
+        "data",
+        "usual residents"
+      ],
+      "source": {
+        "title": "NISRA Census 2021 Main Statistics Phase 1, MS-A01 (Usual resident population)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
     }
   ]
 }
