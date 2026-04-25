@@ -2444,10 +2444,50 @@ class UIController {
                     'wq-groundwater-bodies',
                     'wq-groundwater-dwpa',
                     'wq-surface-dwpa',
+                    'wq-agricultural-critical-risk',
+                    'wq-network-contribution',
                     'wq-river-quality-1990-2018',
                     'wq-aquatroll-realtime',
                     'wq-ni-water-drinking'
                 ]
+            },
+            // River Water Quality 1990-2018 per-parameter spatial layers
+            {
+                id: 'flat-rwq-parameters', name: 'River Water Quality 1990–2018 — by parameter', years: '1990-2018', extent: 'Northern Ireland',
+                mapIds: [
+                    'wq-rwq-ph',
+                    'wq-rwq-dissolved-oxygen',
+                    'wq-rwq-biochemical-oxygen-demand',
+                    'wq-rwq-ammonia',
+                    'wq-rwq-nitrate',
+                    'wq-rwq-nitrite',
+                    'wq-rwq-dissolved-iron',
+                    'wq-rwq-dissolved-copper',
+                    'wq-rwq-dissolved-zinc',
+                    'wq-rwq-suspended-solids',
+                    'wq-rwq-conductivity',
+                    'wq-rwq-alkalinity',
+                    'wq-rwq-soluble-phosphorus'
+                ]
+            },
+            // Environmental Noise (END Round 3)
+            {
+                id: 'flat-noise', name: 'Environmental Noise (END 2017)', years: '2017', extent: 'Northern Ireland',
+                mapIds: [
+                    'env-noise-agglomeration-lden',
+                    'env-noise-major-roads-lden',
+                    'env-noise-major-rail-lden'
+                ]
+            },
+            // Transport (DfI roads)
+            {
+                id: 'flat-transport-defects', name: 'Carriageway and Footway Surface Defects', years: '2021', extent: 'Northern Ireland',
+                mapIds: ['transport-carriageway-defects-2021']
+            },
+            // Tellus raw flight-line data — download-only
+            {
+                id: 'flat-tellus-raw', name: 'Tellus Airborne — raw flight-line data', years: '2005-2008', extent: 'Northern Ireland',
+                mapIds: ['tellus-mag-raw', 'tellus-em-raw', 'tellus-rad-raw']
             }
         ];
 

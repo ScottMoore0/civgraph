@@ -181,6 +181,18 @@
       "name": "Water Quality",
       "group": "Physical Geography",
       "description": "Water-quality datasets from Open Data NI — surface and groundwater bodies, drinking-water protection zones, WFD monitoring sites, river-quality long-term chemistry, AquaTROLL real-time sensor sites, and NI Water tap-supply records."
+    },
+    {
+      "id": "environment",
+      "name": "Environment",
+      "group": "Physical Geography",
+      "description": "Environmental indicators — air, noise, agricultural pollution risk, and similar overlay datasets."
+    },
+    {
+      "id": "transport",
+      "name": "Transport",
+      "group": "Built Environment",
+      "description": "Roads, rail, ports, transport-related infrastructure datasets."
     }
   ],
   "timeSeriesChains": [
@@ -17469,6 +17481,1067 @@
         {
           "label": "Tyrone sheets (full-res JPEG/TIF, ZIP)",
           "file": "https://admin.opendatani.gov.uk/dataset/osni-open-data-historical-six-inch-to-one-mile-county-series-edition-2-1838-1862-tyrone"
+        }
+      ]
+    },
+    {
+      "id": "tellus-mag-raw",
+      "name": "Tellus Magnetic — raw airborne flight-line data",
+      "slug": "tellus-mag-raw",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus",
+        "BGS"
+      ],
+      "description": "Raw magnetometer readings along each Tellus survey flight line — the original point measurements that the gridded \"Tellus Magnetic\" products on this site are derived from. Typically ~250 m line spacing with samples every ~7 m. Useful only if you want to re-grid with custom parameters or interrogate noise; for a map-style view use the gridded TMI / RTP / RTP-Tilt cards in this category.",
+      "keywords": [
+        "tellus",
+        "gsni",
+        "bgs",
+        "geophysics",
+        "magnetic",
+        "airborne",
+        "raw",
+        "flight line",
+        "point data"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — Tellus Magnetics (raw)",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-magnetics",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Tellus Magnetics raw (ZIP, 952 MB)",
+          "file": "http://resources.bgs.ac.uk/gsni/geophysics/Magnetics.zip"
+        }
+      ]
+    },
+    {
+      "id": "tellus-em-raw",
+      "name": "Tellus Electromagnetic — raw airborne flight-line data",
+      "slug": "tellus-em-raw",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus",
+        "BGS"
+      ],
+      "description": "Raw multi-frequency airborne EM coil readings along each Tellus flight line — the original point measurements behind the gridded conductivity products. Frequencies 912 Hz, 3 kHz, 11.9 kHz, and 24.5 kHz at the same line/sample spacing as the magnetic data.",
+      "keywords": [
+        "tellus",
+        "gsni",
+        "bgs",
+        "geophysics",
+        "electromagnetic",
+        "em",
+        "airborne",
+        "raw",
+        "flight line",
+        "conductivity"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — Tellus Electromagnetics (raw)",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-electromagnetics",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Tellus Electromagnetics raw (ZIP, 366 MB)",
+          "file": "http://resources.bgs.ac.uk/gsni/geophysics/Electromagnetics.zip"
+        }
+      ]
+    },
+    {
+      "id": "tellus-rad-raw",
+      "name": "Tellus Radiometric — raw airborne flight-line data",
+      "slug": "tellus-rad-raw",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus",
+        "BGS"
+      ],
+      "description": "Raw airborne gamma-ray spectrometer readings along each Tellus flight line — K, U, Th window counts plus total count, before gridding into the radiometric maps already on this site. Useful for re-processing or quality-assessing the gridded products.",
+      "keywords": [
+        "tellus",
+        "gsni",
+        "bgs",
+        "geophysics",
+        "radiometric",
+        "gamma",
+        "airborne",
+        "raw",
+        "flight line",
+        "potassium",
+        "uranium",
+        "thorium"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — Tellus Radiometrics (raw)",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometrics",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Tellus Radiometrics raw (ZIP, 56 MB)",
+          "file": "http://resources.bgs.ac.uk/gsni/geophysics/Radiometrics.zip"
+        }
+      ]
+    },
+    {
+      "id": "wq-agricultural-critical-risk",
+      "name": "Agricultural Critical Risk Areas (DAERA)",
+      "slug": "wq-agricultural-critical-risk",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "DAERA classification of land parcels by their relative risk of contributing diffuse agricultural pollution to receiving waters. Each parcel is scored 0–1 (`riskscore2`) by combining slope, hydrological connectivity, soil characteristics, rainfall, river-buffer proximity and land-use rules. Companion to the Network Contribution datasets — the polygon equivalent of the per-river-basin SciMAP score.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/agricultural-critical-risk-areas.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "weight": 0.2,
+        "fillOpacity": 0.6
+      },
+      "colorScale": {
+        "property": "riskscore2",
+        "ramp": "inferno",
+        "domain": [
+          0,
+          1
+        ],
+        "logarithmic": false
+      },
+      "keywords": [
+        "agriculture",
+        "farming",
+        "pollution",
+        "risk",
+        "daera",
+        "nutrient",
+        "runoff",
+        "diffuse"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "OSNI Open Data — Agricultural Critical Risk Areas",
+          "url": "https://admin.opendatani.gov.uk/dataset/agricultural-critical-risk-areas",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "wq-network-contribution",
+      "name": "DAERA Network Contribution — SciMAP modelled pollution scores by river basin (26 catchments)",
+      "slug": "wq-network-contribution",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-river-basin pollution-contribution scores from the **SciMAP** hydrological model (CEH Land Cover 2007 + Met Office rainfall + 5 m DTM). Each river segment is scored for how much sediment/nutrient pollution its upstream catchment is contributing. Published as 26 separate per-catchment shapefiles. Each catchment is millions of fine-grained polygons — too dense to render as a single interactive layer in a browser; instead linked here as download-only datasets per catchment. Companion to the Agricultural Critical Risk Areas layer (the parcel-level equivalent already loadable on the map).",
+      "keywords": [
+        "scimap",
+        "pollution",
+        "river",
+        "catchment",
+        "daera",
+        "niea",
+        "network contribution",
+        "runoff",
+        "diffuse"
+      ],
+      "references": [
+        {
+          "label": "DAERA Open Data Hub — Network Contribution datasets",
+          "url": "https://opendata-daerani.hub.arcgis.com/search?q=network%20contribution",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Ballinderry Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/ballinderry-network-contribution"
+        },
+        {
+          "label": "Belfast Lough Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/belfast-lough-network-contribution"
+        },
+        {
+          "label": "Braid And Main Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/braid-and-main-network-contribution"
+        },
+        {
+          "label": "Burn Dennet And Foyle Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/burn-dennet-and-foyle-network-contribution"
+        },
+        {
+          "label": "Bush Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/bush-network-contribution"
+        },
+        {
+          "label": "Carlingford And Newry Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/carlingford-and-newry-network-contribution"
+        },
+        {
+          "label": "Derg And Mourne Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/derg-and-mourne-network-contribution"
+        },
+        {
+          "label": "Faughan Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/faughan-network-contribution"
+        },
+        {
+          "label": "Glens Rathlin Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/glens-rathlin-network-contribution"
+        },
+        {
+          "label": "Lagan Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/lagan-network-contribution"
+        },
+        {
+          "label": "Larne Lough Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/larne-lough-network-contribution"
+        },
+        {
+          "label": "Lough Melvin And Arney Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/lough-melvin-and-arney-network-contribution"
+        },
+        {
+          "label": "Lough Neagh Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/lough-neagh-network-contribution"
+        },
+        {
+          "label": "Lower Bann Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/lower-bann-network-contribution"
+        },
+        {
+          "label": "Lower Lough Erne Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/lower-lough-erne-network-contribution"
+        },
+        {
+          "label": "Moyola Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/moyola-network-contribution"
+        },
+        {
+          "label": "Owenkillew Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/owenkillew-network-contribution"
+        },
+        {
+          "label": "Quoile Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/quoile-network-contribution"
+        },
+        {
+          "label": "River Blackwater Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/river-blackwater-network-contribution"
+        },
+        {
+          "label": "Roe Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/roe-network-contribution"
+        },
+        {
+          "label": "Six Mile Water Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/six-mile-water-network-contribution"
+        },
+        {
+          "label": "South Down Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/south-down-network-contribution"
+        },
+        {
+          "label": "Strangford Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/strangford-network-contribution"
+        },
+        {
+          "label": "Strule Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/strule-network-contribution"
+        },
+        {
+          "label": "Upper Bann Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/upper-bann-network-contribution"
+        },
+        {
+          "label": "Upper Lough Erne Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/upper-lough-erne-network-contribution"
+        }
+      ]
+    },
+    {
+      "id": "transport-carriageway-defects-2021",
+      "name": "Carriageway and Footway Surface Defects 2021",
+      "slug": "transport-carriageway-defects-2021",
+      "category": "transport",
+      "provider": [
+        "DfI",
+        "Roads NI"
+      ],
+      "description": "Every recorded surface defect (potholes, cracks, ruts, surface damage) on Northern Ireland's public roads and footways during 2021, with division/section/response-time attributes. ~124 K point records — DfI's authoritative road-condition survey for that year.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/transport/carriageway-footway-defects-2021.fgb"
+      },
+      "style": {
+        "color": "#cf4e00",
+        "radius": 2,
+        "weight": 0.5,
+        "fillOpacity": 0.85
+      },
+      "keywords": [
+        "roads",
+        "defects",
+        "potholes",
+        "dfi",
+        "road condition",
+        "footway",
+        "carriageway"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "OSNI Open Data — Carriageway and Footway Surface Defects",
+          "url": "https://admin.opendatani.gov.uk/dataset/carriageway-and-footway-surface-defects",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "env-noise-agglomeration-lden",
+      "name": "Environmental Noise — Belfast Agglomeration Lden (Round 3)",
+      "slug": "env-noise-agglomeration-lden",
+      "category": "environment",
+      "provider": [
+        "DAERA"
+      ],
+      "description": "Strategic noise mapping for the Belfast Metropolitan Urban Area agglomeration: combined noise from all sources (road, rail, industry, airports, ports) over 24 hours weighted by time of day (Lden). Round 3 (2017) under the EU Environmental Noise Directive 2002/49/EC. Polygons are the standard 5 dB Lden bands, coloured to the END convention.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/environment/noise-agglomeration-lden-r3.fgb"
+      },
+      "style": {
+        "weight": 0.2,
+        "fillOpacity": 0.55
+      },
+      "colorMap": {
+        "property": "gridcode",
+        "palette": "noise_lden",
+        "default": "#cccccc"
+      },
+      "keywords": [
+        "noise",
+        "environmental noise",
+        "lden",
+        "belfast",
+        "agglomeration",
+        "daera",
+        "round 3",
+        "end"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "OSNI Open Data — Environmental Noise Directive (Round 3)",
+          "url": "https://admin.opendatani.gov.uk/dataset/environmental-noise-directive-noise-mapping",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "env-noise-major-roads-lden",
+      "name": "Environmental Noise — Major Roads Lden (Round 3)",
+      "slug": "env-noise-major-roads-lden",
+      "category": "environment",
+      "provider": [
+        "DAERA"
+      ],
+      "description": "Lden noise contours along Northern Ireland's major road network (>3 million vehicle passages per year), Round 3 (2017) of the EU Environmental Noise Directive. Bands rendered in the standard END Lden palette.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/environment/noise-major-roads-lden-r3.fgb"
+      },
+      "style": {
+        "weight": 0.2,
+        "fillOpacity": 0.55
+      },
+      "colorMap": {
+        "property": "gridcode",
+        "palette": "noise_lden",
+        "default": "#cccccc"
+      },
+      "keywords": [
+        "noise",
+        "environmental noise",
+        "lden",
+        "major roads",
+        "traffic",
+        "daera",
+        "round 3",
+        "end"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "OSNI Open Data — Environmental Noise Directive (Round 3)",
+          "url": "https://admin.opendatani.gov.uk/dataset/environmental-noise-directive-noise-mapping",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "env-noise-major-rail-lden",
+      "name": "Environmental Noise — Major Rail Lden (Round 3)",
+      "slug": "env-noise-major-rail-lden",
+      "category": "environment",
+      "provider": [
+        "DAERA"
+      ],
+      "description": "Lden noise contours along major Translink rail routes (>30 000 train passages per year), Round 3 (2017) of the EU Environmental Noise Directive.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/environment/noise-major-rail-lden-r3.fgb"
+      },
+      "style": {
+        "weight": 0.2,
+        "fillOpacity": 0.55
+      },
+      "colorMap": {
+        "property": "gridcode",
+        "palette": "noise_lden",
+        "default": "#cccccc"
+      },
+      "keywords": [
+        "noise",
+        "environmental noise",
+        "lden",
+        "rail",
+        "translink",
+        "daera",
+        "round 3",
+        "end"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "OSNI Open Data — Environmental Noise Directive (Round 3)",
+          "url": "https://admin.opendatani.gov.uk/dataset/environmental-noise-directive-noise-mapping",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "wq-rwq-ph",
+      "name": "River Water Quality 1990–2018 — pH",
+      "slug": "wq-rwq-ph",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean ph for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-ph.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "plasma",
+        "domain": [
+          5,
+          9
+        ],
+        "logarithmic": false
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "ph",
+        "ph"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (pH)",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ph1",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "wq-rwq-dissolved-oxygen",
+      "name": "River Water Quality 1990–2018 — Dissolved oxygen",
+      "slug": "wq-rwq-dissolved-oxygen",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean dissolved oxygen for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-oxygen.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "viridis",
+        "domain": [
+          5,
+          15
+        ],
+        "logarithmic": false
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "dissolved oxygen",
+        "dissolved-oxygen"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved oxygen)",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-oxygen1",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "wq-rwq-biochemical-oxygen-demand",
+      "name": "River Water Quality 1990–2018 — Biochemical oxygen demand (BOD)",
+      "slug": "wq-rwq-biochemical-oxygen-demand",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean biochemical oxygen demand (bod) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-biochemical-oxygen-demand.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "inferno",
+        "domain": [
+          1,
+          8
+        ],
+        "logarithmic": true
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "biochemical oxygen demand (bod)",
+        "biochemical-oxygen-demand"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Biochemical oxygen demand (BOD))",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-biochemical-oxygen-demand1",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "wq-rwq-ammonia",
+      "name": "River Water Quality 1990–2018 — Total ammonia (as N)",
+      "slug": "wq-rwq-ammonia",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean total ammonia (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-ammonia.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "inferno",
+        "domain": [
+          0.05,
+          5
+        ],
+        "logarithmic": true
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "total ammonia (as n)",
+        "ammonia"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Total ammonia (as N))",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ammonia1",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "wq-rwq-nitrate",
+      "name": "River Water Quality 1990–2018 — Nitrate (as N)",
+      "slug": "wq-rwq-nitrate",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean nitrate (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-nitrate.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "inferno",
+        "domain": [
+          0.5,
+          15
+        ],
+        "logarithmic": false
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "nitrate (as n)",
+        "nitrate"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Nitrate (as N))",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrate1",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "wq-rwq-nitrite",
+      "name": "River Water Quality 1990–2018 — Nitrite (as N)",
+      "slug": "wq-rwq-nitrite",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean nitrite (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-nitrite.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "inferno",
+        "domain": [
+          0.005,
+          0.5
+        ],
+        "logarithmic": true
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "nitrite (as n)",
+        "nitrite"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Nitrite (as N))",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrite1",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "wq-rwq-dissolved-iron",
+      "name": "River Water Quality 1990–2018 — Dissolved iron",
+      "slug": "wq-rwq-dissolved-iron",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean dissolved iron for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 559 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-iron.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "inferno",
+        "domain": [
+          10,
+          2000
+        ],
+        "logarithmic": true
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "dissolved iron",
+        "dissolved-iron"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved iron)",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-iron1",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "wq-rwq-dissolved-copper",
+      "name": "River Water Quality 1990–2018 — Dissolved copper",
+      "slug": "wq-rwq-dissolved-copper",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean dissolved copper for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 377 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-copper.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "inferno",
+        "domain": [
+          0.5,
+          20
+        ],
+        "logarithmic": true
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "dissolved copper",
+        "dissolved-copper"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved copper)",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-copper1",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "wq-rwq-dissolved-zinc",
+      "name": "River Water Quality 1990–2018 — Dissolved zinc",
+      "slug": "wq-rwq-dissolved-zinc",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean dissolved zinc for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 559 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-zinc.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "inferno",
+        "domain": [
+          1,
+          80
+        ],
+        "logarithmic": true
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "dissolved zinc",
+        "dissolved-zinc"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved zinc)",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-zinc1",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "wq-rwq-suspended-solids",
+      "name": "River Water Quality 1990–2018 — Suspended solids",
+      "slug": "wq-rwq-suspended-solids",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean suspended solids for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 540 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-suspended-solids.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "inferno",
+        "domain": [
+          2,
+          80
+        ],
+        "logarithmic": true
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "suspended solids",
+        "suspended-solids"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Suspended solids)",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-suspended-solids1",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "wq-rwq-conductivity",
+      "name": "River Water Quality 1990–2018 — Conductivity",
+      "slug": "wq-rwq-conductivity",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean conductivity for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-conductivity.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "viridis",
+        "domain": [
+          100,
+          800
+        ],
+        "logarithmic": false
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "conductivity",
+        "conductivity"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Conductivity)",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-conductivity1",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "wq-rwq-alkalinity",
+      "name": "River Water Quality 1990–2018 — Alkalinity",
+      "slug": "wq-rwq-alkalinity",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean alkalinity for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 633 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-alkalinity.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "viridis",
+        "domain": [
+          10,
+          300
+        ],
+        "logarithmic": false
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "alkalinity",
+        "alkalinity"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Alkalinity)",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-alkalinity1",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "wq-rwq-soluble-phosphorus",
+      "name": "River Water Quality 1990–2018 — Soluble reactive phosphorus",
+      "slug": "wq-rwq-soluble-phosphorus",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean soluble reactive phosphorus for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-soluble-phosphorus.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "inferno",
+        "domain": [
+          0.01,
+          1
+        ],
+        "logarithmic": true
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "soluble reactive phosphorus",
+        "soluble-phosphorus"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Soluble reactive phosphorus)",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-soluble-phosphorus1",
+          "note": ""
         }
       ]
     }

@@ -91,6 +91,18 @@ const SUPERFICIAL = {
     'DIATOMITE':                     '#E8E8E8',
 };
 
+// EU Environmental Noise Directive Lden / Lnight band palette.
+// Gridcodes are the band-upper-bound dB value (54 = "<55 dB", 59 = "55-59",
+// etc.). 1000 is the highest band (>=75 dB) sentinel.
+const NOISE_LDEN = {
+    '54':   '#3ad06d',  // <55 dB Lden
+    '59':   '#a8d950',  // 55-59
+    '64':   '#f3c829',  // 60-64
+    '69':   '#f08236',  // 65-69
+    '74':   '#e2342e',  // 70-74
+    '1000': '#7e1e6f',  // >=75
+};
+
 const PALETTES = {
     iugs: IUGS,
     iugs_full: IUGS,
@@ -98,6 +110,7 @@ const PALETTES = {
     superficial: SUPERFICIAL,
     bgs_lex_bedrock: bgsBedrock,
     bgs_lex_superficial: bgsSuperficial,
+    noise_lden: NOISE_LDEN,
 };
 
 // 11-stop sampled viridis/inferno/magma/plasma from matplotlib.
