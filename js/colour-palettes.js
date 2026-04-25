@@ -132,7 +132,7 @@ function lerpHex(a, b, t) {
     return '#' + ((1 << 24) | (r << 16) | (g << 8) | b2).toString(16).slice(1);
 }
 
-function rampSample(rampName, t) {
+export function rampSample(rampName, t) {
     const stops = RAMPS[rampName] || RAMPS.viridis;
     const clamped = Math.max(0, Math.min(1, t));
     const x = clamped * (stops.length - 1);

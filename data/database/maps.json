@@ -193,6 +193,12 @@
       "name": "Transport",
       "group": "Built Environment",
       "description": "Roads, rail, ports, transport-related infrastructure datasets."
+    },
+    {
+      "id": "data-population",
+      "name": "Population data",
+      "group": "Communities",
+      "description": "Tabular census and demographic datasets joined onto an associated geography map. Loading a data entry colours the geography by the chosen statistic and opens a table of values."
     }
   ],
   "timeSeriesChains": [
@@ -18526,6 +18532,44 @@
           "note": ""
         }
       ]
+    }
+  ],
+  "dataEntries": [
+    {
+      "id": "data-2021-population-lgd",
+      "type": "data-entry",
+      "name": "Usual resident population (Census 2021, by LGD)",
+      "slug": "data-2021-population-lgd",
+      "category": "data-population",
+      "description": "Total usual resident population recorded in the 2021 Census, broken down by Northern Ireland's 11 post-2014 Local Government Districts. Each LGD polygon is shaded by population on a viridis colour ramp; full numeric breakdown shown in the table panel that appears at the bottom right when the entry is loaded.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-a01-lgd.csv",
+      "joinKey": "LGDCode",
+      "valueColumn": "AllUsualResidents",
+      "ramp": "viridis",
+      "domain": [
+        100000,
+        350000
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AllUsualResidents"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "population",
+        "lgd",
+        "council",
+        "demographics",
+        "nisra",
+        "data"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A01",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
     }
   ]
 }

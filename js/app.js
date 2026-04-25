@@ -94,8 +94,19 @@ class App {
                 this.updateURLState();
             };
 
-            // Load a map layer (or group of layers)
+            // Load a map layer (or group of layers); also intercepts data-entry IDs
             uiController.onMapLoad = async (mapId) => {
+                // Data entries: load their geography first, then join CSV + recolour + table
+                const dataEntry = (dataService.maps?.dataEntries || []).find(e => e.id === mapId);
+                if (dataEntry) {
+                    const { loadDataEntry } = await import('./data-entry-loader.js');
+                    await loadDataEntry(dataEntry, {
+                        onMapLoad: (geoId) => this.loadMap(geoId),
+                        mapController,
+                        baseUrl: ''
+                    });
+                    return;
+                }
                 await this.loadMap(mapId);
                 // Co-load linked ward map if this is a district raster variant.
                 // Look up the variant config directly from the parent's variants array

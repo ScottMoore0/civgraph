@@ -2488,6 +2488,11 @@ class UIController {
             {
                 id: 'flat-tellus-raw', name: 'Tellus Airborne — raw flight-line data', years: '2005-2008', extent: 'Northern Ireland',
                 mapIds: ['tellus-mag-raw', 'tellus-em-raw', 'tellus-rad-raw']
+            },
+            // Data entries — Census-derived datasets joined to a geography
+            {
+                id: 'flat-data-entries', name: 'Data — Census 2021 statistics', years: '2021', extent: 'Northern Ireland',
+                mapIds: ['data-2021-population-lgd']
             }
         ];
 

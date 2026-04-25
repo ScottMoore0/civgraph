@@ -91,6 +91,13 @@ class DataService {
     const directMatch = maps.find(m => m.id === id);
     if (directMatch) return directMatch;
 
+    // Data entries — joined-CSV catalogue items that load a geography
+    // and recolour by a numeric value. Returned with a synthetic
+    // type marker so callers can branch.
+    const dataEntries = this.maps?.dataEntries || [];
+    const dataEntry = dataEntries.find(e => e.id === id);
+    if (dataEntry) return { ...dataEntry, isDataEntry: true };
+
     // Search within group variants and merge parent properties.
     for (const map of maps) {
       if (map.variants) {
