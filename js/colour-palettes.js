@@ -1,12 +1,11 @@
 /**
  * Colour palettes and per-feature colour resolvers for vector layers.
  *
- * Three palette types are supported via maps.json fields:
- *
  *   colorMap (categorical):
  *     {
  *       property: "MAX_PERIOD" | ["MAX_PERIOD", "MAX_ERA"],   // single key or fallback chain
- *       palette:  "iugs" | "iugs_full" | "wfd" | "superficial" | { ... },
+ *       palette:  "iugs" | "wfd" | "superficial" | "bgs_lex_bedrock" | "bgs_lex_superficial" | {...},
+ *       fallback: { property, palette, ... },                  // recursive — tried on miss
  *       default:  "#999999"
  *     }
  *
@@ -18,21 +17,17 @@
  *       logarithmic: true | false
  *     }
  *
- * IUGS / ICS chronostratigraphic colours come from the International
- * Commission on Stratigraphy chart (https://stratigraphy.org/chart),
- * approximated to single-period RGBs. Sub-periods (Mississippian etc.)
- * are mapped to their parent period for simplicity.
- *
- * WFD ecological status / potential palette follows the standard
- * 5-class scheme used in EU/NIEA WFD reporting.
- *
- * BGS-style superficial deposits palette is approximated from typical
- * Quaternary-deposit cartography conventions.
- *
- * Viridis / Inferno / Magma / Plasma ramp lookup tables are sampled
- * 11-step from matplotlib's reference colormaps (perceptually uniform,
- * colour-blind friendly).
+ * Sources:
+ *   IUGS / ICS chronostratigraphic colours — https://stratigraphy.org/chart
+ *   WFD 5-class palette — Directive 2000/60/EC + NIEA reporting conventions
+ *   superficial (textbook earth-tones) — conventional Quaternary cartography
+ *   bgs_lex_bedrock / bgs_lex_superficial — extracted from the QGIS QML style
+ *     files published alongside the GSNI 1:250K dataset on Open Data NI
+ *     (qgis-arcgisstyles.zip in the gsni-250k-geology package).
+ *   Viridis / Inferno / Magma / Plasma — matplotlib reference colormaps.
  */
+import bgsBedrock from './bgs-palette-bedrock.json';
+import bgsSuperficial from './bgs-palette-superficial.json';
 
 const IUGS = {
     QUATERNARY:        '#F9F97F',
@@ -101,6 +96,8 @@ const PALETTES = {
     iugs_full: IUGS,
     wfd: WFD,
     superficial: SUPERFICIAL,
+    bgs_lex_bedrock: bgsBedrock,
+    bgs_lex_superficial: bgsSuperficial,
 };
 
 // 11-stop sampled viridis/inferno/magma/plasma from matplotlib.
@@ -132,7 +129,9 @@ function rampSample(rampName, t) {
     return lerpHex(stops[i], stops[i + 1], frac);
 }
 
-function resolveCategoricalColour(feature, cfg) {
+function lookupInPalette(feature, cfg) {
+    // One layer of palette lookup — does not consult fallback or default.
+    // Returns null if no key matches.
     if (!cfg || !feature?.properties) return null;
     const props = feature.properties;
     const keys = Array.isArray(cfg.property) ? cfg.property : [cfg.property];
@@ -143,10 +142,20 @@ function resolveCategoricalColour(feature, cfg) {
     for (const key of keys) {
         const raw = props[key];
         if (raw == null || raw === '') continue;
+        if (palette[raw]) return palette[raw];                // exact case (LEX_RCS_I etc.)
         const k = String(raw).toUpperCase().trim();
         if (palette[k]) return palette[k];
-        // exact-case fallback
-        if (palette[raw]) return palette[raw];
+    }
+    return null;
+}
+
+function resolveCategoricalColour(feature, cfg) {
+    if (!cfg) return null;
+    let cur = cfg;
+    while (cur) {
+        const hit = lookupInPalette(feature, cur);
+        if (hit) return hit;
+        cur = cur.fallback;
     }
     return cfg.default || null;
 }

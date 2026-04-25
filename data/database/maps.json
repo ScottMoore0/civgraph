@@ -14830,15 +14830,6 @@
         "British Geological Survey"
       ],
       "description": "Solid bedrock geology of Northern Ireland at 1:250,000 scale — polygon fills coloured by rock classification (LEX/RCS).",
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/geology/bedrock-geology-polygons.fgb"
-      },
-      "style": {
-        "color": "#8B4513",
-        "weight": 1,
-        "fillOpacity": 0.35
-      },
-      "labelProperty": "LEX_D",
       "keywords": [
         "geology",
         "bedrock",
@@ -14874,15 +14865,58 @@
           "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/bb4577fc-f554-42af-8d21-f0592ab7c38f/download/qgis-arcgisstyles.zip"
         }
       ],
-      "colorMap": {
-        "property": [
-          "MAX_PERIOD",
-          "MAX_ERA",
-          "MAX_EON"
-        ],
-        "palette": "iugs",
-        "default": "#bdbdbd"
-      }
+      "isGroup": true,
+      "variants": [
+        {
+          "id": "gsni-bedrock-by-formation",
+          "label": "By formation (BGS palette)",
+          "description": "Bedrock geology coloured by lithological formation using the official BGS / GSNI 1:250K palette extracted from the QGIS style file published with the dataset. Each of the 234 named formations gets its specific colour.",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/geology/bedrock-geology-polygons.fgb"
+          },
+          "style": {
+            "weight": 0.6
+          },
+          "labelProperty": "LEX_D",
+          "useLOD": true,
+          "isDefault": true,
+          "colorMap": {
+            "property": "LEX_RCS_I",
+            "palette": "bgs_lex_bedrock",
+            "fallback": {
+              "property": [
+                "MAX_PERIOD",
+                "MAX_ERA",
+                "MAX_EON"
+              ],
+              "palette": "iugs"
+            },
+            "default": "#bdbdbd"
+          }
+        },
+        {
+          "id": "gsni-bedrock-by-age",
+          "label": "By geological age (IUGS)",
+          "description": "Bedrock geology coloured by geological period / era using the IUGS / International Commission on Stratigraphy palette (the textbook age-coloured map). Coarser than the formation view but immediately legible — Carboniferous teal, Cretaceous green, Palaeogene orange, etc.",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/geology/bedrock-geology-polygons.fgb"
+          },
+          "style": {
+            "weight": 0.6
+          },
+          "labelProperty": "MAX_PERIOD",
+          "useLOD": true,
+          "colorMap": {
+            "property": [
+              "MAX_PERIOD",
+              "MAX_ERA",
+              "MAX_EON"
+            ],
+            "palette": "iugs",
+            "default": "#bdbdbd"
+          }
+        }
+      ]
     },
     {
       "id": "gsni-bedrock-geology-lines-250k",
@@ -14946,15 +14980,6 @@
         "British Geological Survey"
       ],
       "description": "Superficial (Quaternary) deposits — glacial till, alluvium, peat, raised beach and other surface materials — mapped at 1:250,000 scale.",
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/geology/superficial-geology-polygons.fgb"
-      },
-      "style": {
-        "color": "#6b8e23",
-        "weight": 1,
-        "fillOpacity": 0.35
-      },
-      "labelProperty": "LEX_D",
       "keywords": [
         "geology",
         "superficial",
@@ -14987,11 +15012,46 @@
           "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/32306dee-1748-4d68-b465-acfd1e5ae344/download/ni250ksuperficialgeologypolygons.zip"
         }
       ],
-      "colorMap": {
-        "property": "LEX_D",
-        "palette": "superficial",
-        "default": "#bdbdbd"
-      }
+      "isGroup": true,
+      "variants": [
+        {
+          "id": "gsni-superficial-by-deposit",
+          "label": "By deposit type (BGS palette)",
+          "description": "Quaternary superficial deposits coloured by deposit-type using the official BGS / GSNI 1:250K palette from the published QGIS style file. ALLUVIUM yellow, TILL pale cyan, PEAT brown, GLACIAL SAND AND GRAVEL pink — the colours used in the BGS Geology of Britain Viewer.",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/geology/superficial-geology-polygons.fgb"
+          },
+          "style": {
+            "weight": 0.6
+          },
+          "labelProperty": "LEX_D",
+          "useLOD": true,
+          "isDefault": true,
+          "colorMap": {
+            "property": "LEX_D",
+            "palette": "bgs_lex_superficial",
+            "default": "#cccccc"
+          }
+        },
+        {
+          "id": "gsni-superficial-conventional",
+          "label": "By deposit type (conventional earth-tones)",
+          "description": "Quaternary superficial deposits coloured using the conventional textbook earth-tone palette (TILL brown, ALLUVIUM yellow, BLOWN SAND cream) rather than the BGS-pink convention.",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/geology/superficial-geology-polygons.fgb"
+          },
+          "style": {
+            "weight": 0.6
+          },
+          "labelProperty": "LEX_D",
+          "useLOD": true,
+          "colorMap": {
+            "property": "LEX_D",
+            "palette": "superficial",
+            "default": "#bdbdbd"
+          }
+        }
+      ]
     },
     {
       "id": "gsni-mineral-resources",
