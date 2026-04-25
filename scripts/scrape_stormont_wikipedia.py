@@ -243,6 +243,88 @@ def split_tables(html: str):
                 i += 1
 
 
+YEAR_RE = re.compile(r"^(\d{4})\s*(\(b\)|\(B\)|by)?\s*$")
+GE_YEARS = {int(iso[:4]): iso for iso in ELECTION_DATES}
+
+
+def parse_summary_table(table_html: str):
+    """Parse a constituency's 'Members of Parliament' summary table.
+
+    Returns an ordered list of (year:int, member:str|None, party:str|None,
+    is_by_election:bool). Continuation rows (blank member/party) inherit
+    from the most recent prior row with values. Both Style-A (every year
+    listed) and Style-B (only MP-change rows) tables are handled.
+    """
+    rows = re.findall(r"<tr[^>]*>(.*?)</tr>", table_html, re.S)
+    events = []
+    cur_member, cur_party = None, None
+    for row in rows:
+        cells_html = re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", row, re.S)
+        cells = [strip_tags(c).strip() for c in cells_html]
+        if not cells:
+            continue
+        # Skip header rows
+        if any(h.lower() in {"election", "elected", "member", "members", "party", "name"}
+               for h in cells if h):
+            continue
+        # Find first cell that looks like a year
+        year = None
+        is_by = False
+        rest = []
+        for c in cells:
+            if year is None:
+                m = YEAR_RE.match(c)
+                if m:
+                    year = int(m.group(1))
+                    is_by = bool(m.group(2))
+                    continue
+            if c:
+                rest.append(c)
+        if year is None:
+            continue
+        # Of the remaining text cells, identify member-name and party.
+        member = None
+        party = None
+        for c in rest:
+            if not c: continue
+            # Skip abolition / merger notes
+            cl = c.lower()
+            if any(k in cl for k in ("abolished", "constituency abolished", "merged",
+                                     "see ", "list of")):
+                continue
+            # Check if it's a known party label (case-insensitive)
+            if c.lower() in PARTY_LABEL or normalise_party(c) in PARTY_COLOURS:
+                if party is None:
+                    party = normalise_party(c)
+                continue
+            # Otherwise treat as member name (must contain a space and capital)
+            if member is None and re.search(r"[A-Z]", c) and " " in c and len(c) <= 60:
+                member = c
+                continue
+        # Apply inheritance for continuation rows
+        if member is None:
+            member = cur_member
+        else:
+            cur_member = member
+        if party is None:
+            party = cur_party
+        else:
+            cur_party = party
+        events.append((year, member, party, is_by))
+    return events
+
+
+def incumbent_at(events, ge_year):
+    """Find the (member, party) holding the seat at a given GE year.
+    Use the latest event whose year <= ge_year.
+    """
+    best = None
+    for ev_year, member, party, is_by in events:
+        if ev_year <= ge_year:
+            best = (member, party, ev_year, is_by)
+    return best
+
+
 def parse_table(table_html: str, constituency: str):
     """Return (iso_date, seats, candidate_rows) or None if not a Stormont GE.
 
@@ -401,6 +483,7 @@ def main():
     urllib.parse = _up
 
     summary = {iso: [] for iso in ELECTION_DATES}
+    synth_count = 0
     for const in CONSTITUENCIES:
         title = URL_OVERRIDES.get(const, const).replace(" ", "_") + "_(Northern_Ireland_Parliament_constituency)"
         url = f"https://en.wikipedia.org/wiki/{_up.quote(title, safe='_()')}"
@@ -409,8 +492,12 @@ def main():
         if not html or len(html) < 5000:
             print(f"  ! {const}: no page content")
             continue
+
+        # Pass 1: detailed result tables (contested elections)
+        tables = list(split_tables(html))
+        contested_dates = set()
         n_emitted = 0
-        for _, _, table in split_tables(html):
+        for _, _, table in tables:
             parsed = parse_table(table, const)
             if not parsed: continue
             iso, seats, candidates = parsed
@@ -421,8 +508,46 @@ def main():
             (out_dir / f"{slug}.json").write_text(
                 json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8")
             summary[iso].append(const)
+            contested_dates.add(iso)
             n_emitted += 1
-        print(f"  {const}: {n_emitted} elections")
+
+        # Pass 2: parse the first wikitable as the summary "Members of Parliament"
+        # table and synthesize unopposed entries for any GE date we don't already
+        # have a contested result for. Only fires when summary parsing yields
+        # at least one (year, member, party) event.
+        n_synth = 0
+        if tables:
+            first_table_html = tables[0][2]
+            events = parse_summary_table(first_table_html)
+            if events:
+                for ge_year, ge_iso in GE_YEARS.items():
+                    if ge_iso in contested_dates:
+                        continue
+                    inc = incumbent_at(events, ge_year)
+                    if inc is None:
+                        continue
+                    member, party, ev_year, _ = inc
+                    if not member or not party:
+                        continue
+                    # Skip if the inferred event is from before the constituency
+                    # existed at the time (no events at-or-before ge_year is
+                    # already filtered above; nothing else to check).
+                    # Synthesize an "Unopposed" entry — the seat was held by
+                    # this MP at this election, contested-or-not.
+                    cand = [{"party_raw": party, "name": member,
+                             "votes": "Unopposed", "pct": ""}]
+                    obj, slug = emit_constituency(ge_iso, const, cand, 1)
+                    out_dir = OUT_BASE / ge_iso
+                    out_dir.mkdir(parents=True, exist_ok=True)
+                    out_path = out_dir / f"{slug}.json"
+                    if out_path.exists():
+                        continue  # safety
+                    out_path.write_text(json.dumps(obj, indent=2, ensure_ascii=False),
+                                        encoding="utf-8")
+                    summary[ge_iso].append(const)
+                    n_synth += 1
+        synth_count += n_synth
+        print(f"  {const}: {n_emitted} contested + {n_synth} synthesised = {n_emitted + n_synth}")
     # Write summary
     summary_payload = []
     for iso, names in summary.items():
@@ -434,7 +559,8 @@ def main():
     print("\nPer-election counts:")
     for iso in sorted(ELECTION_DATES):
         print(f"  {iso}: {len(set(summary[iso]))} constituencies")
-    print(f"\nSummary written: {OUT_BASE / '_index.json'}")
+    print(f"\nTotal synthesised unopposed entries: {synth_count}")
+    print(f"Summary written: {OUT_BASE / '_index.json'}")
 
 if __name__ == "__main__":
     main()
