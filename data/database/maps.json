@@ -18746,6 +18746,566 @@
         "title": "NISRA Census 2021 Main Statistics Phase 1, MS-A01 (Usual resident population)",
         "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
       }
+    },
+    {
+      "id": "data-2021-population-density-lgd",
+      "type": "data-entry",
+      "name": "Population density (Census 2021, by LGD)",
+      "slug": "data-2021-population-density-lgd",
+      "category": "data-population",
+      "description": "Population density (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-a14-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "PopulationDensity",
+      "ramp": "viridis",
+      "domain": [
+        0.4,
+        30
+      ],
+      "logarithmic": true,
+      "tableColumns": [
+        "Geography",
+        "PopulationDensity"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "population density",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A14 (Population density)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-population-density-dea",
+      "type": "data-entry",
+      "name": "Population density (Census 2021, by DEA)",
+      "slug": "data-2021-population-density-dea",
+      "category": "data-population",
+      "description": "Population density (DEA) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "deas-2012",
+      "csv": "data/census/derived/ms-a14-dea.csv",
+      "joinKey": "FinalR_DEA",
+      "csvKeyColumn": "Geography",
+      "valueColumn": "PopulationDensity",
+      "ramp": "viridis",
+      "domain": [
+        0.3,
+        35
+      ],
+      "logarithmic": true,
+      "tableColumns": [
+        "Geography",
+        "PopulationDensity"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "population density",
+        "dea"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A14 (Population density)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-population-density-sdz",
+      "type": "data-entry",
+      "name": "Population density (Census 2021, by Super Data Zone)",
+      "slug": "data-2021-population-density-sdz",
+      "category": "data-population",
+      "description": "Population density (Super Data Zone) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "sdz-2021",
+      "csv": "data/census/derived/ms-a14-sdz.csv",
+      "joinKey": "SDZ2021_cd",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "PopulationDensity",
+      "ramp": "viridis",
+      "domain": [
+        0.3,
+        70
+      ],
+      "logarithmic": true,
+      "tableColumns": [
+        "Geography",
+        "PopulationDensity"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "population density",
+        "super data zone"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A14 (Population density)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-population-density-dz",
+      "type": "data-entry",
+      "name": "Population density (Census 2021, by Data Zone)",
+      "slug": "data-2021-population-density-dz",
+      "category": "data-population",
+      "description": "Population density (Data Zone) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "dz-2021",
+      "csv": "data/census/derived/ms-a14-dz.csv",
+      "joinKey": "DZ2021_cd",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "PopulationDensity",
+      "ramp": "viridis",
+      "domain": [
+        0.3,
+        90
+      ],
+      "logarithmic": true,
+      "tableColumns": [
+        "Geography",
+        "PopulationDensity"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "population density",
+        "data zone"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A14 (Population density)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-households-lgd",
+      "type": "data-entry",
+      "name": "Total households (Census 2021, by LGD)",
+      "slug": "data-2021-households-lgd",
+      "category": "data-population",
+      "description": "Households (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-e01-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AllHouseholds",
+      "ramp": "viridis",
+      "domain": [
+        45000,
+        150000
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AllHouseholds"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "households",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E01 (Households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-households-dea",
+      "type": "data-entry",
+      "name": "Total households (Census 2021, by DEA)",
+      "slug": "data-2021-households-dea",
+      "category": "data-population",
+      "description": "Households (DEA) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "deas-2012",
+      "csv": "data/census/derived/ms-e01-dea.csv",
+      "joinKey": "FinalR_DEA",
+      "csvKeyColumn": "Geography",
+      "valueColumn": "AllHouseholds",
+      "ramp": "viridis",
+      "domain": [
+        6000,
+        15000
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AllHouseholds"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "households",
+        "dea"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E01 (Households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-households-ward",
+      "type": "data-entry",
+      "name": "Total households (Census 2021, by Ward 2014)",
+      "slug": "data-2021-households-ward",
+      "category": "data-population",
+      "description": "Households (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-e01-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AllHouseholds",
+      "ramp": "viridis",
+      "domain": [
+        1100,
+        2500
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AllHouseholds"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "households",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E01 (Households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-households-settlement",
+      "type": "data-entry",
+      "name": "Total households (Census 2021, by Settlement)",
+      "slug": "data-2021-households-settlement",
+      "category": "data-population",
+      "description": "Households (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-e01-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AllHouseholds",
+      "ramp": "viridis",
+      "domain": [
+        200,
+        12000
+      ],
+      "logarithmic": true,
+      "tableColumns": [
+        "Geography",
+        "AllHouseholds"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "households",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E01 (Households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-households-sdz",
+      "type": "data-entry",
+      "name": "Total households (Census 2021, by Super Data Zone)",
+      "slug": "data-2021-households-sdz",
+      "category": "data-population",
+      "description": "Households (Super Data Zone) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "sdz-2021",
+      "csv": "data/census/derived/ms-e01-sdz.csv",
+      "joinKey": "SDZ2021_cd",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AllHouseholds",
+      "ramp": "viridis",
+      "domain": [
+        600,
+        1250
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AllHouseholds"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "households",
+        "super data zone"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E01 (Households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-households-dz",
+      "type": "data-entry",
+      "name": "Total households (Census 2021, by Data Zone)",
+      "slug": "data-2021-households-dz",
+      "category": "data-population",
+      "description": "Households (Data Zone) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "dz-2021",
+      "csv": "data/census/derived/ms-e01-dz.csv",
+      "joinKey": "DZ2021_cd",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AllHouseholds",
+      "ramp": "viridis",
+      "domain": [
+        130,
+        290
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AllHouseholds"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "households",
+        "data zone"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E01 (Households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-household-size-lgd",
+      "type": "data-entry",
+      "name": "Average household size (Census 2021, by LGD)",
+      "slug": "data-2021-household-size-lgd",
+      "category": "data-population",
+      "description": "Average household size (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-e02-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AverageHouseholdSize",
+      "ramp": "viridis",
+      "domain": [
+        2.25,
+        2.75
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AverageHouseholdSize"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "household size",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-household-size-dea",
+      "type": "data-entry",
+      "name": "Average household size (Census 2021, by DEA)",
+      "slug": "data-2021-household-size-dea",
+      "category": "data-population",
+      "description": "Average household size (DEA) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "deas-2012",
+      "csv": "data/census/derived/ms-e02-dea.csv",
+      "joinKey": "FinalR_DEA",
+      "csvKeyColumn": "Geography",
+      "valueColumn": "AverageHouseholdSize",
+      "ramp": "viridis",
+      "domain": [
+        2.2,
+        2.85
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AverageHouseholdSize"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "household size",
+        "dea"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-household-size-ward",
+      "type": "data-entry",
+      "name": "Average household size (Census 2021, by Ward 2014)",
+      "slug": "data-2021-household-size-ward",
+      "category": "data-population",
+      "description": "Average household size (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-e02-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AverageHouseholdSize",
+      "ramp": "viridis",
+      "domain": [
+        2.05,
+        2.95
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AverageHouseholdSize"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "household size",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-household-size-settlement",
+      "type": "data-entry",
+      "name": "Average household size (Census 2021, by Settlement)",
+      "slug": "data-2021-household-size-settlement",
+      "category": "data-population",
+      "description": "Average household size (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-e02-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AverageHouseholdSize",
+      "ramp": "viridis",
+      "domain": [
+        2.15,
+        2.9
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AverageHouseholdSize"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "household size",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-household-size-sdz",
+      "type": "data-entry",
+      "name": "Average household size (Census 2021, by Super Data Zone)",
+      "slug": "data-2021-household-size-sdz",
+      "category": "data-population",
+      "description": "Average household size (Super Data Zone) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "sdz-2021",
+      "csv": "data/census/derived/ms-e02-sdz.csv",
+      "joinKey": "SDZ2021_cd",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AverageHouseholdSize",
+      "ramp": "viridis",
+      "domain": [
+        1.95,
+        2.95
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AverageHouseholdSize"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "household size",
+        "super data zone"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-household-size-dz",
+      "type": "data-entry",
+      "name": "Average household size (Census 2021, by Data Zone)",
+      "slug": "data-2021-household-size-dz",
+      "category": "data-population",
+      "description": "Average household size (Data Zone) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "dz-2021",
+      "csv": "data/census/derived/ms-e02-dz.csv",
+      "joinKey": "DZ2021_cd",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AverageHouseholdSize",
+      "ramp": "viridis",
+      "domain": [
+        1.8,
+        3.1
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AverageHouseholdSize"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "household size",
+        "data zone"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
     }
   ]
 }

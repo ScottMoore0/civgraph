@@ -2491,7 +2491,7 @@ class UIController {
             },
             // Data entries — Census-derived datasets joined to a geography
             {
-                id: 'flat-data-entries', name: 'Data — Census 2021 statistics', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-population', name: 'Data — Census 2021: Usual resident population', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-population-lgd',
                     'data-2021-population-dea',
@@ -2499,6 +2499,37 @@ class UIController {
                     'data-2021-population-settlement',
                     'data-2021-population-sdz',
                     'data-2021-population-dz'
+                ]
+            },
+            {
+                id: 'flat-data-2021-population-density', name: 'Data — Census 2021: Population density', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-population-density-lgd',
+                    'data-2021-population-density-dea',
+                    'data-2021-population-density-sdz',
+                    'data-2021-population-density-dz'
+                ]
+            },
+            {
+                id: 'flat-data-2021-households', name: 'Data — Census 2021: Total households', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-households-lgd',
+                    'data-2021-households-dea',
+                    'data-2021-households-ward',
+                    'data-2021-households-settlement',
+                    'data-2021-households-sdz',
+                    'data-2021-households-dz'
+                ]
+            },
+            {
+                id: 'flat-data-2021-household-size', name: 'Data — Census 2021: Average household size', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-household-size-lgd',
+                    'data-2021-household-size-dea',
+                    'data-2021-household-size-ward',
+                    'data-2021-household-size-settlement',
+                    'data-2021-household-size-sdz',
+                    'data-2021-household-size-dz'
                 ]
             }
         ];

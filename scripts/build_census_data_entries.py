@@ -23,6 +23,8 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 PHASE1 = SRC_DIR / "census-2021-main-statistics-for-northern-ireland-phase-1-all-tables (2)"
 
 # (xlsx_filename, sheet, csv_out, value_in, value_out)
+# value_in matches the sheet's column header (NISRA wraps some headers across
+# lines using \n — match the literal text including any embedded newlines).
 MANIFEST = [
     # MS-A01 — Usual resident population, all geographies
     ("census-2021-ms-a01.xlsx", "DZ",         "ms-a01-dz.csv",         "All usual residents", "AllUsualResidents"),
@@ -30,7 +32,29 @@ MANIFEST = [
     ("census-2021-ms-a01.xlsx", "Settlement", "ms-a01-settlement.csv", "All usual residents", "AllUsualResidents"),
     ("census-2021-ms-a01.xlsx", "Ward",       "ms-a01-ward.csv",       "All usual residents", "AllUsualResidents"),
     ("census-2021-ms-a01.xlsx", "DEA",        "ms-a01-dea.csv",        "All usual residents", "AllUsualResidents"),
-    # LGD already exists; NI is a single value, fine to skip in the manifest.
+    # LGD MS-A01 already exists with a legacy header (Geography,LGDCode,…); leave it alone.
+
+    # MS-A14 — Population density (no Settlement, no Ward sheets in source)
+    ("census-2021-ms-a14.xlsx", "DZ",         "ms-a14-dz.csv",         "Population density (number of usual residents per hectare)", "PopulationDensity"),
+    ("census-2021-ms-a14.xlsx", "SDZ",        "ms-a14-sdz.csv",        "Population density (number of usual residents per hectare)", "PopulationDensity"),
+    ("census-2021-ms-a14.xlsx", "DEA",        "ms-a14-dea.csv",        "Population density (number of usual residents per hectare)", "PopulationDensity"),
+    ("census-2021-ms-a14.xlsx", "LGD",        "ms-a14-lgd.csv",        "Population density (number of usual residents per hectare)", "PopulationDensity"),
+
+    # MS-E01 — All households, all geographies
+    ("census-2021-ms-e01.xlsx", "DZ",         "ms-e01-dz.csv",         "All households", "AllHouseholds"),
+    ("census-2021-ms-e01.xlsx", "SDZ",        "ms-e01-sdz.csv",        "All households", "AllHouseholds"),
+    ("census-2021-ms-e01.xlsx", "Settlement", "ms-e01-settlement.csv", "All households", "AllHouseholds"),
+    ("census-2021-ms-e01.xlsx", "Ward",       "ms-e01-ward.csv",       "All households", "AllHouseholds"),
+    ("census-2021-ms-e01.xlsx", "DEA",        "ms-e01-dea.csv",        "All households", "AllHouseholds"),
+    ("census-2021-ms-e01.xlsx", "LGD",        "ms-e01-lgd.csv",        "All households", "AllHouseholds"),
+
+    # MS-E02 — Average household size (header has trailing "\n[note 1]")
+    ("census-2021-ms-e02.xlsx", "DZ",         "ms-e02-dz.csv",         "Average household size\n[note 1]", "AverageHouseholdSize"),
+    ("census-2021-ms-e02.xlsx", "SDZ",        "ms-e02-sdz.csv",        "Average household size\n[note 1]", "AverageHouseholdSize"),
+    ("census-2021-ms-e02.xlsx", "Settlement", "ms-e02-settlement.csv", "Average household size\n[note 1]", "AverageHouseholdSize"),
+    ("census-2021-ms-e02.xlsx", "Ward",       "ms-e02-ward.csv",       "Average household size\n[note 1]", "AverageHouseholdSize"),
+    ("census-2021-ms-e02.xlsx", "DEA",        "ms-e02-dea.csv",        "Average household size\n[note 1]", "AverageHouseholdSize"),
+    ("census-2021-ms-e02.xlsx", "LGD",        "ms-e02-lgd.csv",        "Average household size\n[note 1]", "AverageHouseholdSize"),
 ]
 
 def extract_sheet(xlsx_path: Path, sheet: str, out_csv: Path,
@@ -62,11 +86,19 @@ def extract_sheet(xlsx_path: Path, sheet: str, out_csv: Path,
     for r in rows[header_idx + 1:]:
         if not r: continue
         name = r[name_col]
-        if name is None or str(name).startswith(("Geographic", "Note", "Source")):
+        if name is None: continue
+        # Stop when we hit the next sub-table's header (NISRA stacks count and
+        # percentage sub-tables in the same sheet, separated by a label row
+        # and a second 'Geography' header).
+        if str(name).strip().lower() == "geography":
+            break
+        if str(name).startswith(("Geographic", "Note", "Source")):
             continue
+        # Section labels for the second sub-table (e.g. "MS-E02b: …") have
+        # all other cells empty — skip them rather than treating as data.
         code = r[code_col]
         val = r[val_col]
-        if name is None or code is None: continue
+        if code is None: continue
         data_rows.append([
             str(name).strip(),
             str(code).strip(),
