@@ -134,15 +134,16 @@ def stable_id(*parts):
     return str(h)
 
 COUNTY_NAMES = {
+    # ARK 26-district council codes (case-insensitive lookup applied)
     "ANT": "Antrim",       "ARD": "Ards",         "ARM": "Armagh",
-    "BLY": "Ballymena",    "BLM": "Ballymoney",   "BAN": "Banbridge",
-    "BLF": "Belfast",      "CFG": "Carrickfergus","CSL": "Castlereagh",
-    "CLR": "Coleraine",    "CKT": "Cookstown",    "CRG": "Craigavon",
-    "DRY": "Derry",        "DOW": "Down",         "DUN": "Dungannon",
-    "FER": "Fermanagh",    "LRN": "Larne",        "LMV": "Limavady",
-    "LSB": "Lisburn",      "MGH": "Magherafelt",  "MYL": "Moyle",
-    "NWB": "Newry and Mourne","NTA": "Newtownabbey","NDS": "North Down",
-    "OMG": "Omagh",        "STR": "Strabane",
+    "BMA": "Ballymena",    "BMY": "Ballymoney",   "BRG": "Banbridge",
+    "BT":  "Belfast",      "CAR": "Carrickfergus","CAS": "Castlereagh",
+    "COL": "Coleraine",    "COO": "Cookstown",    "CRA": "Craigavon",
+    "DE":  "Derry",        "DOW": "Down",         "DUN": "Dungannon",
+    "FER": "Fermanagh",    "LAR": "Larne",        "LIM": "Limavady",
+    "LIS": "Lisburn",      "MAG": "Magherafelt",  "MOY": "Moyle",
+    "NAM": "Newry and Mourne", "NEW": "Newtownabbey", "NOD": "North Down",
+    "OMA": "Omagh",        "STR": "Strabane",
 }
 
 class _OpenpyxlAdapter:
@@ -297,6 +298,7 @@ def main():
     print(f"{year} -> {date}: {len(files)} XLS files")
     ok, fail = 0, 0
     deas = []
+    council_map = {}   # slug -> {dea, council}
     for f in files:
         data = convert_workbook(f, year)
         if not data:
@@ -306,10 +308,20 @@ def main():
         slug = slugify(dea)
         out_path = out / f"{slug}.json"
         out_path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+        # Derive council from filename prefix lg{YR}-{COUNTY}-...
+        # County code is case-mixed in some files (e.g. NaM, NoD) — uppercase before lookup.
+        m = re.match(r"^[Ll]g\d+-([A-Za-z]+)-", f.stem)
+        if m:
+            code = m.group(1).upper()
+            council = COUNTY_NAMES.get(code, code)
+            council_map[slug] = {"dea": dea, "council": council}
         deas.append(dea)
         ok += 1
+    (out / "_council_map.json").write_text(
+        json.dumps(council_map, indent=2, ensure_ascii=False), encoding="utf-8")
+    n_councils = len(set(v['council'] for v in council_map.values()))
     print(f"  done: {ok} ok, {fail} fail -> {out}")
-    print(f"  sample DEAs: {deas[:5]}")
+    print(f"  council map: {len(council_map)} DEAs across {n_councils} councils")
 
 if __name__ == "__main__":
     main()
