@@ -374,18 +374,20 @@ class App {
                 return features;
             };
 
-            // Zoom to bounding box
+            // Zoom to bounding box. Default to a smooth flyToBounds so search
+            // clicks animate from the user's current position/zoom; callers
+            // can opt out with { smooth: false } for an instantaneous fit.
             uiController.onZoomToBbox = (bounds, options = {}) => {
-                if (mapController.map && bounds && bounds.length === 2) {
-                    if (options?.smooth && typeof mapController.map.flyToBounds === 'function') {
-                        mapController.map.flyToBounds(bounds, {
-                            maxZoom: 14,
-                            padding: [20, 20],
-                            duration: 1.2
-                        });
-                    } else {
-                        mapController.map.fitBounds(bounds, { maxZoom: 14, padding: [20, 20] });
-                    }
+                if (!(mapController.map && bounds && bounds.length === 2)) return;
+                const canFly = typeof mapController.map.flyToBounds === 'function';
+                if (options?.smooth !== false && canFly) {
+                    mapController.map.flyToBounds(bounds, {
+                        maxZoom: 14,
+                        padding: [20, 20],
+                        duration: 1.2
+                    });
+                } else {
+                    mapController.map.fitBounds(bounds, { maxZoom: 14, padding: [20, 20] });
                 }
             };
 
@@ -401,15 +403,42 @@ class App {
                 const mapConfig = dataService.getMapById(mapId);
                 if (!mapConfig) return;
                 const numericId = Number(featureId);
+                const resolvedIndex = Number.isFinite(numericId) ? numericId : featureId;
                 const result = await mapController.loadSingleFeature(
                     mapConfig,
-                    Number.isFinite(numericId) ? numericId : featureId,
+                    resolvedIndex,
                     featureName || null,
                     bbox || null
                 );
                 this.updateMapList();
                 this.updateActiveLayers();
                 this.updateURLState();
+
+                // Focus the map on the newly loaded feature. The edge search
+                // API (/_api/search) returns only {name, mapId, score} — no
+                // bbox — so uiController.zoomToFeature can't fit without help.
+                // Derive bounds from the Leaflet layer that was just added.
+                if (mapController.map && result?.state?.featureLayers) {
+                    const layer = result.state.featureLayers.get(resolvedIndex);
+                    let bounds = null;
+                    if (layer && typeof layer.getBounds === 'function') {
+                        try {
+                            const b = layer.getBounds();
+                            if (b && b.isValid && b.isValid()) bounds = b;
+                        } catch {}
+                    }
+                    if (!bounds && layer && typeof layer.getLatLng === 'function') {
+                        const ll = layer.getLatLng();
+                        if (ll) bounds = L.latLngBounds([ll.lat, ll.lng], [ll.lat, ll.lng]);
+                    }
+                    if (bounds && bounds.isValid && bounds.isValid()) {
+                        if (typeof mapController.map.flyToBounds === 'function') {
+                            mapController.map.flyToBounds(bounds, { maxZoom: 14, padding: [20, 20], duration: 1.2 });
+                        } else {
+                            mapController.map.fitBounds(bounds, { maxZoom: 14, padding: [20, 20] });
+                        }
+                    }
+                }
 
                 // Render the feature info card with the loaded feature
                 const loadedFeature = result?.feature;
