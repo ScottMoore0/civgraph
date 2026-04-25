@@ -19757,16 +19757,16 @@
       "name": "Religion: Catholic (Census 2021, by LGD)",
       "slug": "data-2021-religion-catholic-lgd",
       "category": "data-population",
-      "description": "Religion: Catholic (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "description": "Religion: Catholic (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a protestant-catholic colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
       "geography": "lgd-2012",
       "csv": "data/census/derived/ms-b19-catholic-lgd.csv",
       "joinKey": "LGDCode",
       "csvKeyColumn": "GeographyCode",
       "valueColumn": "Catholic_pct",
-      "ramp": "viridis",
+      "ramp": "protestant-catholic",
       "domain": [
-        10,
-        70
+        0,
+        100
       ],
       "logarithmic": false,
       "tableColumns": [
@@ -19794,13 +19794,13 @@
       "name": "Religion: Catholic (Census 2021, by Ward 2014)",
       "slug": "data-2021-religion-catholic-ward",
       "category": "data-population",
-      "description": "Religion: Catholic (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "description": "Religion: Catholic (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a protestant-catholic colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
       "geography": "wards-2012",
       "csv": "data/census/derived/ms-b19-catholic-ward.csv",
       "joinKey": "WardCode",
       "csvKeyColumn": "GeographyCode",
       "valueColumn": "Catholic_pct",
-      "ramp": "viridis",
+      "ramp": "protestant-catholic",
       "domain": [
         0,
         100
@@ -19831,13 +19831,13 @@
       "name": "Religion: Catholic (Census 2021, by Settlement)",
       "slug": "data-2021-religion-catholic-settlement",
       "category": "data-population",
-      "description": "Religion: Catholic (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "description": "Religion: Catholic (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a protestant-catholic colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
       "geography": "settlements-2015",
       "csv": "data/census/derived/ms-b19-catholic-settlement.csv",
       "joinKey": "Code",
       "csvKeyColumn": "GeographyCode",
       "valueColumn": "Catholic_pct",
-      "ramp": "viridis",
+      "ramp": "protestant-catholic",
       "domain": [
         0,
         100
@@ -19868,16 +19868,16 @@
       "name": "Catholic community background (Census 2021, by LGD)",
       "slug": "data-2021-catholic-background-lgd",
       "category": "data-population",
-      "description": "Catholic community background (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "description": "Catholic community background (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a protestant-catholic colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
       "geography": "lgd-2012",
       "csv": "data/census/derived/ms-b23-catholic-background-lgd.csv",
       "joinKey": "LGDCode",
       "csvKeyColumn": "GeographyCode",
       "valueColumn": "CatholicBackground_pct",
-      "ramp": "viridis",
+      "ramp": "protestant-catholic",
       "domain": [
-        12,
-        72
+        0,
+        100
       ],
       "logarithmic": false,
       "tableColumns": [
@@ -19905,13 +19905,13 @@
       "name": "Catholic community background (Census 2021, by Ward 2014)",
       "slug": "data-2021-catholic-background-ward",
       "category": "data-population",
-      "description": "Catholic community background (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "description": "Catholic community background (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a protestant-catholic colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
       "geography": "wards-2012",
       "csv": "data/census/derived/ms-b23-catholic-background-ward.csv",
       "joinKey": "WardCode",
       "csvKeyColumn": "GeographyCode",
       "valueColumn": "CatholicBackground_pct",
-      "ramp": "viridis",
+      "ramp": "protestant-catholic",
       "domain": [
         0,
         100
@@ -19942,13 +19942,13 @@
       "name": "Catholic community background (Census 2021, by Settlement)",
       "slug": "data-2021-catholic-background-settlement",
       "category": "data-population",
-      "description": "Catholic community background (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "description": "Catholic community background (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a protestant-catholic colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
       "geography": "settlements-2015",
       "csv": "data/census/derived/ms-b23-catholic-background-settlement.csv",
       "joinKey": "Code",
       "csvKeyColumn": "GeographyCode",
       "valueColumn": "CatholicBackground_pct",
-      "ramp": "viridis",
+      "ramp": "protestant-catholic",
       "domain": [
         0,
         100
@@ -19970,6 +19970,1116 @@
       ],
       "source": {
         "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B23 (Religion or religion brought up in)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-limiting-condition-lgd",
+      "type": "data-entry",
+      "name": "Day-to-day activities limited (Census 2021, by LGD)",
+      "slug": "data-2021-limiting-condition-lgd",
+      "category": "data-population",
+      "description": "Day-to-day activities limited (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-d02-limiting-condition-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "LimitingCondition_pct",
+      "ramp": "viridis",
+      "domain": [
+        20,
+        28
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "LimitingCondition",
+        "LimitingCondition_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "limiting condition",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-D02 (Long-term health problem or disability)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-limiting-condition-ward",
+      "type": "data-entry",
+      "name": "Day-to-day activities limited (Census 2021, by Ward 2014)",
+      "slug": "data-2021-limiting-condition-ward",
+      "category": "data-population",
+      "description": "Day-to-day activities limited (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-d02-limiting-condition-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "LimitingCondition_pct",
+      "ramp": "viridis",
+      "domain": [
+        12,
+        35
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "LimitingCondition",
+        "LimitingCondition_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "limiting condition",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-D02 (Long-term health problem or disability)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-limiting-condition-settlement",
+      "type": "data-entry",
+      "name": "Day-to-day activities limited (Census 2021, by Settlement)",
+      "slug": "data-2021-limiting-condition-settlement",
+      "category": "data-population",
+      "description": "Day-to-day activities limited (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-d02-limiting-condition-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "LimitingCondition_pct",
+      "ramp": "viridis",
+      "domain": [
+        13,
+        33
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "LimitingCondition",
+        "LimitingCondition_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "limiting condition",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-D02 (Long-term health problem or disability)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-unpaid-care-lgd",
+      "type": "data-entry",
+      "name": "Provides unpaid care (Census 2021, by LGD)",
+      "slug": "data-2021-unpaid-care-lgd",
+      "category": "data-population",
+      "description": "Provides unpaid care (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-d17-unpaid-care-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "ProvidesUnpaidCare_pct",
+      "ramp": "viridis",
+      "domain": [
+        11,
+        14
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "ProvidesUnpaidCare",
+        "ProvidesUnpaidCare_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "unpaid care",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-D17 (Provision of unpaid care)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-unpaid-care-ward",
+      "type": "data-entry",
+      "name": "Provides unpaid care (Census 2021, by Ward 2014)",
+      "slug": "data-2021-unpaid-care-ward",
+      "category": "data-population",
+      "description": "Provides unpaid care (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-d17-unpaid-care-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "ProvidesUnpaidCare_pct",
+      "ramp": "viridis",
+      "domain": [
+        8,
+        16
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "ProvidesUnpaidCare",
+        "ProvidesUnpaidCare_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "unpaid care",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-D17 (Provision of unpaid care)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-unpaid-care-settlement",
+      "type": "data-entry",
+      "name": "Provides unpaid care (Census 2021, by Settlement)",
+      "slug": "data-2021-unpaid-care-settlement",
+      "category": "data-population",
+      "description": "Provides unpaid care (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-d17-unpaid-care-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "ProvidesUnpaidCare_pct",
+      "ramp": "viridis",
+      "domain": [
+        8,
+        16
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "ProvidesUnpaidCare",
+        "ProvidesUnpaidCare_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "unpaid care",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-D17 (Provision of unpaid care)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-no-car-lgd",
+      "type": "data-entry",
+      "name": "Households with no car or van (Census 2021, by LGD)",
+      "slug": "data-2021-no-car-lgd",
+      "category": "data-population",
+      "description": "Households with no car or van (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-e10-no-car-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "NoCar_pct",
+      "ramp": "viridis",
+      "domain": [
+        12,
+        35
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "NoCar",
+        "NoCar_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "no car",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E10 (Car or van availability)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-no-car-ward",
+      "type": "data-entry",
+      "name": "Households with no car or van (Census 2021, by Ward 2014)",
+      "slug": "data-2021-no-car-ward",
+      "category": "data-population",
+      "description": "Households with no car or van (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-e10-no-car-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "NoCar_pct",
+      "ramp": "viridis",
+      "domain": [
+        3,
+        50
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "NoCar",
+        "NoCar_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "no car",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E10 (Car or van availability)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-no-car-settlement",
+      "type": "data-entry",
+      "name": "Households with no car or van (Census 2021, by Settlement)",
+      "slug": "data-2021-no-car-settlement",
+      "category": "data-population",
+      "description": "Households with no car or van (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-e10-no-car-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "NoCar_pct",
+      "ramp": "viridis",
+      "domain": [
+        3,
+        30
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "NoCar",
+        "NoCar_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "no car",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E10 (Car or van availability)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-owner-occupied-lgd",
+      "type": "data-entry",
+      "name": "Owner-occupied households (Census 2021, by LGD)",
+      "slug": "data-2021-owner-occupied-lgd",
+      "category": "data-population",
+      "description": "Owner-occupied households (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-e15-owner-occupied-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "OwnerOccupied_pct",
+      "ramp": "viridis",
+      "domain": [
+        50,
+        75
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "OwnerOccupied",
+        "OwnerOccupied_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "owner occupied",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-owner-occupied-ward",
+      "type": "data-entry",
+      "name": "Owner-occupied households (Census 2021, by Ward 2014)",
+      "slug": "data-2021-owner-occupied-ward",
+      "category": "data-population",
+      "description": "Owner-occupied households (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-e15-owner-occupied-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "OwnerOccupied_pct",
+      "ramp": "viridis",
+      "domain": [
+        25,
+        90
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "OwnerOccupied",
+        "OwnerOccupied_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "owner occupied",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-owner-occupied-settlement",
+      "type": "data-entry",
+      "name": "Owner-occupied households (Census 2021, by Settlement)",
+      "slug": "data-2021-owner-occupied-settlement",
+      "category": "data-population",
+      "description": "Owner-occupied households (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-e15-owner-occupied-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "OwnerOccupied_pct",
+      "ramp": "viridis",
+      "domain": [
+        40,
+        90
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "OwnerOccupied",
+        "OwnerOccupied_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "owner occupied",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-social-rented-lgd",
+      "type": "data-entry",
+      "name": "Social-rented households (Census 2021, by LGD)",
+      "slug": "data-2021-social-rented-lgd",
+      "category": "data-population",
+      "description": "Social-rented households (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-e15-social-rented-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "SocialRented_pct",
+      "ramp": "viridis",
+      "domain": [
+        9,
+        27
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "SocialRented",
+        "SocialRented_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "social rented",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-social-rented-ward",
+      "type": "data-entry",
+      "name": "Social-rented households (Census 2021, by Ward 2014)",
+      "slug": "data-2021-social-rented-ward",
+      "category": "data-population",
+      "description": "Social-rented households (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-e15-social-rented-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "SocialRented_pct",
+      "ramp": "viridis",
+      "domain": [
+        0,
+        50
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "SocialRented",
+        "SocialRented_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "social rented",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-social-rented-settlement",
+      "type": "data-entry",
+      "name": "Social-rented households (Census 2021, by Settlement)",
+      "slug": "data-2021-social-rented-settlement",
+      "category": "data-population",
+      "description": "Social-rented households (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-e15-social-rented-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "SocialRented_pct",
+      "ramp": "viridis",
+      "domain": [
+        0,
+        30
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "SocialRented",
+        "SocialRented_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "social rented",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-private-rented-lgd",
+      "type": "data-entry",
+      "name": "Private-rented households (Census 2021, by LGD)",
+      "slug": "data-2021-private-rented-lgd",
+      "category": "data-population",
+      "description": "Private-rented households (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-e15-private-rented-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "PrivateRented_pct",
+      "ramp": "viridis",
+      "domain": [
+        10,
+        22
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "PrivateRented",
+        "PrivateRented_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "private rented",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-private-rented-ward",
+      "type": "data-entry",
+      "name": "Private-rented households (Census 2021, by Ward 2014)",
+      "slug": "data-2021-private-rented-ward",
+      "category": "data-population",
+      "description": "Private-rented households (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-e15-private-rented-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "PrivateRented_pct",
+      "ramp": "viridis",
+      "domain": [
+        5,
+        40
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "PrivateRented",
+        "PrivateRented_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "private rented",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-private-rented-settlement",
+      "type": "data-entry",
+      "name": "Private-rented households (Census 2021, by Settlement)",
+      "slug": "data-2021-private-rented-settlement",
+      "category": "data-population",
+      "description": "Private-rented households (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-e15-private-rented-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "PrivateRented_pct",
+      "ramp": "viridis",
+      "domain": [
+        5,
+        35
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "PrivateRented",
+        "PrivateRented_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "private rented",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-no-quals-lgd",
+      "type": "data-entry",
+      "name": "No qualifications (Census 2021, by LGD)",
+      "slug": "data-2021-no-quals-lgd",
+      "category": "data-population",
+      "description": "No qualifications (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-g01-no-quals-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "NoQuals_pct",
+      "ramp": "viridis",
+      "domain": [
+        17,
+        30
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "NoQuals",
+        "NoQuals_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "no quals",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-no-quals-ward",
+      "type": "data-entry",
+      "name": "No qualifications (Census 2021, by Ward 2014)",
+      "slug": "data-2021-no-quals-ward",
+      "category": "data-population",
+      "description": "No qualifications (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-g01-no-quals-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "NoQuals_pct",
+      "ramp": "viridis",
+      "domain": [
+        10,
+        40
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "NoQuals",
+        "NoQuals_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "no quals",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-no-quals-settlement",
+      "type": "data-entry",
+      "name": "No qualifications (Census 2021, by Settlement)",
+      "slug": "data-2021-no-quals-settlement",
+      "category": "data-population",
+      "description": "No qualifications (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-g01-no-quals-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "NoQuals_pct",
+      "ramp": "viridis",
+      "domain": [
+        10,
+        40
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "NoQuals",
+        "NoQuals_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "no quals",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-level-4-plus-lgd",
+      "type": "data-entry",
+      "name": "Level 4+ qualifications (Census 2021, by LGD)",
+      "slug": "data-2021-level-4-plus-lgd",
+      "category": "data-population",
+      "description": "Level 4+ qualifications (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-g01-level-4-plus-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "Level4Plus_pct",
+      "ramp": "viridis",
+      "domain": [
+        28,
+        40
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "Level4Plus",
+        "Level4Plus_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "level 4 plus",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-level-4-plus-ward",
+      "type": "data-entry",
+      "name": "Level 4+ qualifications (Census 2021, by Ward 2014)",
+      "slug": "data-2021-level-4-plus-ward",
+      "category": "data-population",
+      "description": "Level 4+ qualifications (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-g01-level-4-plus-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "Level4Plus_pct",
+      "ramp": "viridis",
+      "domain": [
+        15,
+        55
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "Level4Plus",
+        "Level4Plus_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "level 4 plus",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-level-4-plus-settlement",
+      "type": "data-entry",
+      "name": "Level 4+ qualifications (Census 2021, by Settlement)",
+      "slug": "data-2021-level-4-plus-settlement",
+      "category": "data-population",
+      "description": "Level 4+ qualifications (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-g01-level-4-plus-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "Level4Plus_pct",
+      "ramp": "viridis",
+      "domain": [
+        15,
+        50
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "Level4Plus",
+        "Level4Plus_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "level 4 plus",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-unemployed-lgd",
+      "type": "data-entry",
+      "name": "Unemployed (Census 2021, by LGD)",
+      "slug": "data-2021-unemployed-lgd",
+      "category": "data-population",
+      "description": "Unemployed (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-h02-unemployed-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "Unemployed_pct",
+      "ramp": "viridis",
+      "domain": [
+        1.5,
+        3.5
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "Unemployed",
+        "Unemployed_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "unemployed",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-H02 (Economic activity by sex)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-unemployed-ward",
+      "type": "data-entry",
+      "name": "Unemployed (Census 2021, by Ward 2014)",
+      "slug": "data-2021-unemployed-ward",
+      "category": "data-population",
+      "description": "Unemployed (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-h02-unemployed-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "Unemployed_pct",
+      "ramp": "viridis",
+      "domain": [
+        1,
+        5
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "Unemployed",
+        "Unemployed_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "unemployed",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-H02 (Economic activity by sex)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-unemployed-settlement",
+      "type": "data-entry",
+      "name": "Unemployed (Census 2021, by Settlement)",
+      "slug": "data-2021-unemployed-settlement",
+      "category": "data-population",
+      "description": "Unemployed (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-h02-unemployed-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "Unemployed_pct",
+      "ramp": "viridis",
+      "domain": [
+        1,
+        4
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "Unemployed",
+        "Unemployed_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "unemployed",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-H02 (Economic activity by sex)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-work-from-home-lgd",
+      "type": "data-entry",
+      "name": "Work mainly at or from home (Census 2021, by LGD)",
+      "slug": "data-2021-work-from-home-lgd",
+      "category": "data-population",
+      "description": "Work mainly at or from home (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-i01-work-from-home-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "WorkFromHome_pct",
+      "ramp": "viridis",
+      "domain": [
+        15,
+        25
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "WorkFromHome",
+        "WorkFromHome_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "work from home",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-I01 (Method of travel to work)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-work-from-home-ward",
+      "type": "data-entry",
+      "name": "Work mainly at or from home (Census 2021, by Ward 2014)",
+      "slug": "data-2021-work-from-home-ward",
+      "category": "data-population",
+      "description": "Work mainly at or from home (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-i01-work-from-home-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "WorkFromHome_pct",
+      "ramp": "viridis",
+      "domain": [
+        10,
+        30
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "WorkFromHome",
+        "WorkFromHome_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "work from home",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-I01 (Method of travel to work)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-work-from-home-settlement",
+      "type": "data-entry",
+      "name": "Work mainly at or from home (Census 2021, by Settlement)",
+      "slug": "data-2021-work-from-home-settlement",
+      "category": "data-population",
+      "description": "Work mainly at or from home (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-i01-work-from-home-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "WorkFromHome_pct",
+      "ramp": "viridis",
+      "domain": [
+        9,
+        28
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "WorkFromHome",
+        "WorkFromHome_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "work from home",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-I01 (Method of travel to work)",
         "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
       }
     }

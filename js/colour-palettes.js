@@ -114,11 +114,16 @@ const PALETTES = {
 };
 
 // 11-stop sampled viridis/inferno/magma/plasma from matplotlib.
+// 'protestant-catholic' is a diverging ramp for NI religion / community-
+// background entries: blue at 0% (Protestant convention), neutral grey at
+// 50%, green at 100% (Catholic convention). Use with a fixed [0, 100] domain
+// so the midpoint corresponds to demographic parity.
 const RAMPS = {
     viridis: ['#440154','#482878','#3E4989','#31688E','#26828E','#1F9E89','#35B779','#6CCE59','#B4DD2C','#FDE725','#FDE725'],
     inferno: ['#000004','#1B0C41','#4A0C6B','#781C6D','#A52C60','#CF4446','#ED6925','#FB9A06','#F7D03C','#FCFFA4','#FCFFA4'],
     magma:   ['#000004','#180F3D','#440F76','#721F81','#9E2F7F','#CD4071','#F1605D','#FE9F6D','#FEC589','#FCFDBF','#FCFDBF'],
     plasma:  ['#0D0887','#41049D','#6A00A8','#8F0DA4','#B12A90','#CC4778','#E16462','#F2844B','#FCA636','#FCCE25','#F0F921'],
+    'protestant-catholic': ['#08306B','#2171B5','#4292C6','#6BAED6','#C6DBEF','#F7F7F7','#C7E9C0','#74C476','#41AB5D','#238B45','#00441B'],
 };
 
 function lerpHex(a, b, t) {

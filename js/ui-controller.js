@@ -2579,6 +2579,86 @@ class UIController {
                     'data-2021-catholic-background-ward',
                     'data-2021-catholic-background-settlement'
                 ]
+            },
+            {
+                id: 'flat-data-2021-limiting-condition', name: 'Data — Census 2021: Day-to-day activities limited', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-limiting-condition-lgd',
+                    'data-2021-limiting-condition-ward',
+                    'data-2021-limiting-condition-settlement'
+                ]
+            },
+            {
+                id: 'flat-data-2021-unpaid-care', name: 'Data — Census 2021: Provides unpaid care', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-unpaid-care-lgd',
+                    'data-2021-unpaid-care-ward',
+                    'data-2021-unpaid-care-settlement'
+                ]
+            },
+            {
+                id: 'flat-data-2021-no-car', name: 'Data — Census 2021: Households with no car or van', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-no-car-lgd',
+                    'data-2021-no-car-ward',
+                    'data-2021-no-car-settlement'
+                ]
+            },
+            {
+                id: 'flat-data-2021-owner-occupied', name: 'Data — Census 2021: Owner-occupied households', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-owner-occupied-lgd',
+                    'data-2021-owner-occupied-ward',
+                    'data-2021-owner-occupied-settlement'
+                ]
+            },
+            {
+                id: 'flat-data-2021-social-rented', name: 'Data — Census 2021: Social-rented households', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-social-rented-lgd',
+                    'data-2021-social-rented-ward',
+                    'data-2021-social-rented-settlement'
+                ]
+            },
+            {
+                id: 'flat-data-2021-private-rented', name: 'Data — Census 2021: Private-rented households', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-private-rented-lgd',
+                    'data-2021-private-rented-ward',
+                    'data-2021-private-rented-settlement'
+                ]
+            },
+            {
+                id: 'flat-data-2021-no-quals', name: 'Data — Census 2021: No qualifications', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-no-quals-lgd',
+                    'data-2021-no-quals-ward',
+                    'data-2021-no-quals-settlement'
+                ]
+            },
+            {
+                id: 'flat-data-2021-level-4-plus', name: 'Data — Census 2021: Level 4+ qualifications', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-level-4-plus-lgd',
+                    'data-2021-level-4-plus-ward',
+                    'data-2021-level-4-plus-settlement'
+                ]
+            },
+            {
+                id: 'flat-data-2021-unemployed', name: 'Data — Census 2021: Unemployed', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-unemployed-lgd',
+                    'data-2021-unemployed-ward',
+                    'data-2021-unemployed-settlement'
+                ]
+            },
+            {
+                id: 'flat-data-2021-work-from-home', name: 'Data — Census 2021: Work mainly at or from home', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-work-from-home-lgd',
+                    'data-2021-work-from-home-ward',
+                    'data-2021-work-from-home-settlement'
+                ]
             }
         ];
 

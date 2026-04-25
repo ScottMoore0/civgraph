@@ -204,7 +204,10 @@ def convert_workbook(path: Path, year: str):
             fp           = sh.cell_value(r, fp_col)
         except IndexError:
             continue
-        if not isinstance(number, float) or not name_raw: continue
+        # xlrd always returns floats for Excel numerics; openpyxl preserves
+        # ints when the value is whole. Accept either so 2011 .xlsx files
+        # don't have every candidate row silently dropped.
+        if not isinstance(number, (int, float)) or isinstance(number, bool) or not name_raw: continue
         if name_raw.lower().startswith(("non-transferable", "totals", "total ")): continue
         first, last = parse_name(name_raw)
         try:

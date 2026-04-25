@@ -22,7 +22,19 @@ SRC_DIR = REPO / "data" / "census" / "2021"
 OUT_DIR = REPO / "data" / "census" / "derived"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-PHASE1 = SRC_DIR / "census-2021-main-statistics-for-northern-ireland-phase-1-all-tables (2)"
+PHASE_DIRS = [
+    SRC_DIR / "census-2021-main-statistics-for-northern-ireland-phase-1-all-tables (2)",
+    SRC_DIR / "census-2021-main-statistics-for-northern-ireland-phase-2-all-tables (1)",
+    SRC_DIR / "census-2021-main-statistics-for-northern-ireland-phase-3-all-tables (1)",
+    SRC_DIR / "census-2021-main-statistics-for-northern-ireland-supplemental-all-tables (1)",
+]
+
+def find_xlsx(filename: str) -> Path | None:
+    for d in PHASE_DIRS:
+        p = d / filename
+        if p.exists():
+            return p
+    return None
 
 
 def _kv_count(in_name, out_name):
@@ -30,6 +42,16 @@ def _kv_count(in_name, out_name):
 
 def _kv_pct(in_name, out_name):
     return {"section": "percent", "in": in_name, "out": out_name}
+
+def _kv_count_sum(in_names, out_name):
+    """Sum N count columns into one output column."""
+    return {"section": "count", "in": in_names, "out": out_name, "op": "sum"}
+
+def _kv_pct_sum(in_names, out_name):
+    """Sum N percentage columns into one output column. Disjoint NISRA
+    sub-categories sum cleanly because their fractions all share the same
+    denominator."""
+    return {"section": "percent", "in": in_names, "out": out_name, "op": "sum"}
 
 # Manifest entries are dicts:
 #   {xlsx, sheet, csv, values: [{section, in, out}, ...]}
@@ -109,6 +131,100 @@ _add("census-2021-ms-b23.xlsx", "ms-b23-catholic-background-{geog}.csv",
       _kv_pct("Catholic \n[note 2]", "CatholicBackground_pct")],
      ["Settlement", "Ward", "LGD"])
 
+# MS-D02 — Long-term limiting condition. Headline: % "limited a lot or a little"
+# (the standard LLTI definition), summed from the two NISRA sub-categories.
+_LIMITED_A_LOT    = "All usual residents:\nDay-to-day activities limited a lot"
+_LIMITED_A_LITTLE = "All usual residents:\nDay-to-day activities limited a little"
+_add("census-2021-ms-d02.xlsx", "ms-d02-limiting-condition-{geog}.csv",
+     [_kv_count("All usual residents", "Total"),
+      _kv_count_sum([_LIMITED_A_LOT, _LIMITED_A_LITTLE], "LimitingCondition"),
+      _kv_pct_sum([_LIMITED_A_LOT, _LIMITED_A_LITTLE], "LimitingCondition_pct")],
+     ["Settlement", "Ward", "LGD"])
+
+# MS-D17 — Provision of unpaid care. Headline: % providing any unpaid care
+# (sum of the four hour-band columns).
+_CARE_BANDS = [
+    "All usual residents aged 5 and over:\nProvides 1-19 hours unpaid care per week",
+    "All usual residents aged 5 and over:\nProvides 20-34 hours unpaid care per week",
+    "All usual residents aged 5 and over:\nProvides 35-49 hours unpaid care per week",
+    "All usual residents aged 5 and over:\nProvides 50+ hours unpaid care per week",
+]
+_add("census-2021-ms-d17.xlsx", "ms-d17-unpaid-care-{geog}.csv",
+     [_kv_count("All usual residents aged 5 and over", "Total"),
+      _kv_count_sum(_CARE_BANDS, "ProvidesUnpaidCare"),
+      _kv_pct_sum(_CARE_BANDS, "ProvidesUnpaidCare_pct")],
+     ["Settlement", "Ward", "LGD"])
+
+# MS-E10 — Car or van availability. Headline: % no car/van available.
+_add("census-2021-ms-e10.xlsx", "ms-e10-no-car-{geog}.csv",
+     [_kv_count("All households", "Total"),
+      _kv_count("No cars or vans available", "NoCar"),
+      _kv_pct("No cars or vans available", "NoCar_pct")],
+     ["Settlement", "Ward", "LGD"])
+
+# MS-E15 — Tenure (households). Three separate metrics:
+#   Owner-occupied  = Owns outright + Owns with a mortgage or loan
+#   Social rented   = NIHE + Housing association
+#   Private rented  = the five "Private rented:" sub-categories
+_OWN = ["Owner occupied:\n Owns outright", "Owner occupied:\n Owns with a mortgage or loan"]
+_SOCIAL = ["Social rented:\n Northern Ireland Housing Executive",
+           "Social rented:\n Housing association or charitable trust"]
+_PRIVATE = [
+    "Private rented: \nPrivate landlord",
+    "Private rented: \nLetting agency",
+    "Private rented: \nEmployer of a household member",
+    # NISRA's spelling differs between sheets — "of a household member"
+    # in some, "of household member" in others. Both supplied; deduped.
+    "Private rented:\n Relative or friend of a household member",
+    "Private rented:\n Relative or friend of household member",
+    "Private rented: \nOther",
+]
+_add("census-2021-ms-e15.xlsx", "ms-e15-owner-occupied-{geog}.csv",
+     [_kv_count("All households", "Total"),
+      _kv_count_sum(_OWN, "OwnerOccupied"),
+      _kv_pct_sum(_OWN, "OwnerOccupied_pct")],
+     ["Settlement", "Ward", "LGD"])
+_add("census-2021-ms-e15.xlsx", "ms-e15-social-rented-{geog}.csv",
+     [_kv_count("All households", "Total"),
+      _kv_count_sum(_SOCIAL, "SocialRented"),
+      _kv_pct_sum(_SOCIAL, "SocialRented_pct")],
+     ["Settlement", "Ward", "LGD"])
+_add("census-2021-ms-e15.xlsx", "ms-e15-private-rented-{geog}.csv",
+     [_kv_count("All households", "Total"),
+      _kv_count_sum(_PRIVATE, "PrivateRented"),
+      _kv_pct_sum(_PRIVATE, "PrivateRented_pct")],
+     ["Settlement", "Ward", "LGD"])
+
+# MS-G01 — Highest qualification level. Two metrics: % no qualifications and
+# % Level 4+.
+_add("census-2021-ms-g01.xlsx", "ms-g01-no-quals-{geog}.csv",
+     [_kv_count("All usual residents aged 16 and over", "Total"),
+      _kv_count("No qualifications [note 1]", "NoQuals"),
+      _kv_pct("No qualifications [note 1]", "NoQuals_pct")],
+     ["Settlement", "Ward", "LGD"])
+_add("census-2021-ms-g01.xlsx", "ms-g01-level-4-plus-{geog}.csv",
+     [_kv_count("All usual residents aged 16 and over", "Total"),
+      _kv_count("Level 4 qualifications and above [note 6]", "Level4Plus"),
+      _kv_pct("Level 4 qualifications and above [note 6]", "Level4Plus_pct")],
+     ["Settlement", "Ward", "LGD"])
+
+# MS-H02 — Economic activity by sex. Headline: % unemployed (from the
+# 'All usual residents aged 16 and over: Economically active: Unemployed'
+# column).
+_UNEMP = "Usual residents aged 16 and over: Economically active: Unemployed"
+_add("census-2021-ms-h02.xlsx", "ms-h02-unemployed-{geog}.csv",
+     [_kv_count("All usual residents aged 16 and over", "Total"),
+      _kv_count(_UNEMP, "Unemployed"),
+      _kv_pct(_UNEMP, "Unemployed_pct")],
+     ["Settlement", "Ward", "LGD"])
+
+# MS-I01 — Method of travel to work. Headline: % work-mainly-from-home.
+_add("census-2021-ms-i01.xlsx", "ms-i01-work-from-home-{geog}.csv",
+     [_kv_count("All usual residents aged 16 and over (excluding full-time students) in employment", "Total"),
+      _kv_count("Work mainly at or from home", "WorkFromHome"),
+      _kv_pct("Work mainly at or from home", "WorkFromHome_pct")],
+     ["Settlement", "Ward", "LGD"])
+
 
 # ============================================================================
 # Extraction
@@ -167,16 +283,41 @@ def extract_sheet(xlsx_path: Path, sheet: str, out_csv: Path, values: list):
     code_order = []  # preserve count-section order for stable CSV output
 
     for vs in values:
-        section, in_name, out_name = vs["section"], vs["in"], vs["out"]
+        section, in_spec, out_name = vs["section"], vs["in"], vs["out"]
+        op = vs.get("op")
         if section not in by_name:
             print(f"  ! sheet {sheet} has no '{section}' sub-table; "
                   f"have {[s[0] for s in sections]} — skipping {out_name}")
             continue
         _, hdr_idx, hdr, end_idx = by_name[section]
-        col = _find_col(hdr, in_name)
-        if col is None:
-            print(f"  ! sheet {sheet} {section}: no column '{in_name}'; have {hdr}")
-            continue
+
+        # Resolve column indices. For sum operations, in_spec is a list of
+        # candidate column names; multiple spellings can be supplied to
+        # tolerate NISRA inconsistencies between sheets ("of a household"
+        # vs "of household"). Indices are deduped so a column matched by
+        # two synonyms is summed only once.
+        if op == "sum":
+            cols_set = []
+            missing = []
+            for n in in_spec:
+                ci = _find_col(hdr, n)
+                if ci is None:
+                    missing.append(n)
+                elif ci not in cols_set:
+                    cols_set.append(ci)
+            cols = cols_set
+            if not cols:
+                print(f"  ! sheet {sheet} {section}: no sum target columns matched; missing {missing}; have {hdr}")
+                continue
+            if missing:
+                # Soft warning — proceed with the columns that did match.
+                print(f"  · sheet {sheet} {section}: missing variants {missing} (using {len(cols)} matched cols)")
+        else:
+            ci = _find_col(hdr, in_spec)
+            if ci is None:
+                print(f"  ! sheet {sheet} {section}: no column '{in_spec}'; have {hdr}")
+                continue
+            cols = [ci]
 
         for r in rows[hdr_idx + 1:end_idx]:
             if not r: continue
@@ -194,16 +335,30 @@ def extract_sheet(xlsx_path: Path, sheet: str, out_csv: Path, values: list):
                 accum[scode] = entry
                 if section == "count":
                     code_order.append(scode)
-            v = r[col]
-            if v is None:
-                entry[out_name] = ""
-            elif section == "percent":
-                try:
-                    entry[out_name] = f"{float(v) * 100:.2f}"
-                except (TypeError, ValueError):
-                    entry[out_name] = str(v).strip()
+            # Read value(s)
+            raw_vals = [r[c] for c in cols]
+            try:
+                if op == "sum":
+                    nums = [float(x) for x in raw_vals if x is not None]
+                    if not nums:
+                        entry[out_name] = ""
+                        continue
+                    total = sum(nums)
+                else:
+                    if raw_vals[0] is None:
+                        entry[out_name] = ""
+                        continue
+                    total = float(raw_vals[0])
+            except (TypeError, ValueError):
+                entry[out_name] = str(raw_vals[0]).strip() if raw_vals[0] is not None else ""
+                continue
+            if section == "percent":
+                entry[out_name] = f"{total * 100:.2f}"
+            elif op == "sum":
+                # Counts are integers; preserve as such when possible.
+                entry[out_name] = str(int(round(total))) if abs(total - round(total)) < 1e-9 else f"{total:.4f}"
             else:
-                entry[out_name] = str(v).strip()
+                entry[out_name] = str(raw_vals[0]).strip()
 
     # Write CSV
     if not code_order:
@@ -222,10 +377,10 @@ def extract_sheet(xlsx_path: Path, sheet: str, out_csv: Path, values: list):
 
 def main():
     for spec in MANIFEST:
-        src = PHASE1 / spec["xlsx"]
+        src = find_xlsx(spec["xlsx"])
         out = OUT_DIR / spec["csv"]
-        if not src.exists():
-            print(f"  ! source missing: {src}")
+        if src is None:
+            print(f"  ! source missing: {spec['xlsx']} (searched all phase dirs)")
             continue
         n = extract_sheet(src, spec["sheet"], out, spec["values"])
         print(f"  {spec['xlsx']} [{spec['sheet']}] -> {out.name}  ({n} rows)")
