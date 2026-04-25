@@ -31,9 +31,20 @@
 /data/database/spatial-index/*
   Cache-Control: public, max-age=604800
 
-# Maps database — short cache, revalidate in background
+# Maps database — must revalidate every load. The previous policy
+# (max-age=300, stale-while-revalidate=86400) silently held stale
+# copies for up to 24 h after a deploy, hiding newly added catalogue
+# entries even after Ctrl+Shift+R. With must-revalidate the browser
+# sends If-None-Match each load and the CDN responds 304 (cheap)
+# unless the file actually changed.
 /data/database/maps.json
-  Cache-Control: public, max-age=300, stale-while-revalidate=86400
+  Cache-Control: public, max-age=0, must-revalidate
+
+/data/database/books.json
+  Cache-Control: public, max-age=0, must-revalidate
+
+/data/database/geographies.json
+  Cache-Control: public, max-age=0, must-revalidate
 
 # Spatial index monolithic — fallback, cache for 1 day
 /data/database/spatial-index.json
