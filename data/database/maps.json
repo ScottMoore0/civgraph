@@ -17576,7 +17576,7 @@
         "DAERA",
         "NIEA"
       ],
-      "description": "Per-river-basin pollution-contribution scores from the **SciMAP** hydrological model (CEH Land Cover 2007 + Met Office rainfall + 5 m DTM). Each river segment is scored for how much sediment/nutrient pollution its upstream catchment is contributing. Published as 26 separate per-catchment shapefiles. Each catchment is millions of fine-grained polygons — too dense to render as a single interactive layer in a browser; instead linked here as download-only datasets per catchment. Companion to the Agricultural Critical Risk Areas layer (the parcel-level equivalent already loadable on the map).",
+      "description": "Per-river-basin pollution-contribution scores from the SciMAP hydrological model (CEH Land Cover 2007 + Met Office rainfall + 5 m DTM), rasterised at 25 m and rendered as a Web Mercator tile pyramid coloured on inferno (low → high contribution). Raw GRIDCODE values of 58–100 stretch the inferno ramp from dark purple to pale yellow. Each parcel of land is scored for how much sediment / nutrient pollution its upstream catchment contributes to receiving waters. 26 catchment datasets were rasterised individually, mosaicked, and re-projected; per-catchment download links remain in sourceDownloads for the raw vector data.",
       "keywords": [
         "scimap",
         "pollution",
@@ -17700,6 +17700,25 @@
           "label": "Upper Lough Erne Network Contribution",
           "file": "https://opendata-daerani.hub.arcgis.com/datasets/upper-lough-erne-network-contribution"
         }
+      ],
+      "files": {
+        "xyz": "https://data.civgraph.net/data/maps/water-quality/network-contribution-tiles/{z}/{x}/{y}.png"
+      },
+      "rasterStyle": {
+        "opacity": 0.78,
+        "minZoom": 5,
+        "maxZoom": 17,
+        "maxNativeZoom": 13
+      },
+      "bounds": [
+        [
+          54,
+          -8.2
+        ],
+        [
+          55.32,
+          -5.43
+        ]
       ]
     },
     {
