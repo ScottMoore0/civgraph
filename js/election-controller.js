@@ -117,8 +117,12 @@ class ElectionController {
         { body: 'House of Commons of the United Kingdom', dateFrom: '1995-01-01', dateUntil: '2004-12-31', fgb: 'data/maps/parliamentary/PC1995.fgb', nameAttr: 'Name' },
         // Westminster 1983-1992 + by-elections (1982 boundary review)
         { body: 'House of Commons of the United Kingdom', dateFrom: '1983-01-01', dateUntil: '1994-12-31', fgb: 'data/maps/parliamentary/PC1982.fgb', nameAttr: 'Name' },
-        // Westminster pre-1983 (1970 boundaries, 12 seats)
-        { body: 'House of Commons of the United Kingdom', dateFrom: '1900-01-01', dateUntil: '1982-12-31', fgb: 'data/maps/parliamentary/PC1970.fgb', nameAttr: 'Name' },
+        // Westminster 1970-1982 (12 single-member seats, post-1969 boundary review)
+        { body: 'House of Commons of the United Kingdom', dateFrom: '1970-01-01', dateUntil: '1982-12-31', fgb: 'data/maps/parliamentary/PC1970.fgb', nameAttr: 'Name' },
+        // Westminster 1950-1969 (12 seats, 1948 Representation of the People Act)
+        { body: 'House of Commons of the United Kingdom', dateFrom: '1950-01-01', dateUntil: '1969-12-31', fgb: 'data/maps/parliamentary/PC1948.fgb', nameAttr: 'Name' },
+        // Westminster 1922-1949 (9 territorial seats; some multi-member STV)
+        { body: 'House of Commons of the United Kingdom', dateFrom: '1900-01-01', dateUntil: '1949-12-31', fgb: 'data/maps/parliamentary/PC1920.fgb', nameAttr: 'Name' },
 
         // NI Assembly 2022+ (uses 2008 PC boundaries, same as Westminster 2005-2019)
         { body: 'Northern Ireland Assembly', dateFrom: '2007-01-01', fgb: 'data/maps/parliamentary/PC2008.fgb', nameAttr: 'PC_NAME' },
