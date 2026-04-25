@@ -134,6 +134,13 @@ class ElectionController {
         // Constitutional Convention 1975 (12 seats, PC1970)
         { body: 'Northern Ireland Constitutional Convention', dateFrom: '1900-01-01', fgb: 'data/maps/parliamentary/PC1970.fgb', nameAttr: 'Name' },
 
+        // Parliament of Northern Ireland (Stormont) — three boundary eras
+        // 1929-1972: 48 single-member seats from the Government of NI Act 1929 review
+        { body: 'Parliament of Northern Ireland', dateFrom: '1929-01-01', dateUntil: '1972-12-31', fgb: 'data/maps/parliamentary/StormontConstituencies1929.fgb', nameAttr: 'NAME' },
+        // 1921-1928: 9 territorial seats + Queen's University, multi-member STV.
+        // Same boundaries as Westminster pre-1948 — reuse PC1920.
+        { body: 'Parliament of Northern Ireland', dateFrom: '1900-01-01', dateUntil: '1928-12-31', fgb: 'data/maps/parliamentary/PC1920.fgb', nameAttr: 'Name' },
+
         // Forum 1996 (18 seats + NI-wide, use PC1995)
         { body: 'Northern Ireland Forum for Political Dialogue', dateFrom: '1900-01-01', fgb: 'data/maps/parliamentary/PC1995.fgb', nameAttr: 'Name' },
 
@@ -1255,6 +1262,7 @@ class ElectionController {
             'Northern Ireland Assembly': 'Assembly',
             'Northern Ireland Forum for Political Dialogue': 'Forum',
             'Northern Ireland Constitutional Convention': 'Convention',
+            'Parliament of Northern Ireland': 'Stormont',
             'European Parliament': 'European Parliament'
         };
         return map[body] || this._shortBodyName(body);
@@ -1267,7 +1275,8 @@ class ElectionController {
         if ([
             'Northern Ireland Assembly',
             'Northern Ireland Forum for Political Dialogue',
-            'Northern Ireland Constitutional Convention'
+            'Northern Ireland Constitutional Convention',
+            'Parliament of Northern Ireland'
         ].includes(body)) {
             return 'devolved';
         }
@@ -1281,7 +1290,8 @@ class ElectionController {
         if ([
             'Northern Ireland Assembly',
             'Northern Ireland Forum for Political Dialogue',
-            'Northern Ireland Constitutional Convention'
+            'Northern Ireland Constitutional Convention',
+            'Parliament of Northern Ireland'
         ].includes(body)) {
             return 'Devolved';
         }
@@ -1295,6 +1305,7 @@ class ElectionController {
             'Northern Ireland Assembly': 'Assembly',
             'Northern Ireland Forum for Political Dialogue': 'Forum',
             'Northern Ireland Constitutional Convention': 'Convention',
+            'Parliament of Northern Ireland': 'Stormont',
             'European Parliament': 'European'
         };
         return map[body] || this._shortBodyName(body);
@@ -6776,7 +6787,8 @@ class ElectionController {
             'House of Commons of the United Kingdom': 'Westminster',
             'Northern Ireland Assembly': 'Assembly',
             'Northern Ireland Constitutional Convention': 'Convention',
-            'Northern Ireland Forum for Political Dialogue': 'Forum'
+            'Northern Ireland Forum for Political Dialogue': 'Forum',
+            'Parliament of Northern Ireland': 'Stormont'
         };
         const label = map[body] || this._shortBodyName(body);
         return `${name} ${label} by-election`;
