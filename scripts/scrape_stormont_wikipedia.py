@@ -29,6 +29,11 @@ OUT_BASE = REPO / "election-viewer-package" / "data" / "elections" / "parliament
 
 UA = "Mozilla/5.0 boundaries-website-scraper (scomoni@gmail.com) - historical NI election archive"
 
+# Wikipedia's comprehensive list — gives us (year, constituency) -> exact date
+# for every Stormont by-election. Used to resolve year-only by-election titles
+# on individual constituency pages.
+BYELECTIONS_LIST_URL = "https://en.wikipedia.org/wiki/List_of_Northern_Ireland_Parliament_by-elections"
+
 # 12 Stormont general elections. Map ISO date -> human form used in tables.
 ELECTION_DATES = {
     "1921-05-24": "24 May 1921",
@@ -380,6 +385,62 @@ def incumbent_at(events, ge_year):
     return best
 
 
+_MONTHS = {m: i for i, m in enumerate(
+    ["January","February","March","April","May","June",
+     "July","August","September","October","November","December"], start=1)}
+
+def parse_human_date(s):
+    """'2 April 1942' -> '1942-04-02'."""
+    if not s: return None
+    m = re.match(r"^(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})$", s.strip())
+    if not m: return None
+    day = int(m.group(1)); year = int(m.group(3))
+    mon = _MONTHS.get(m.group(2).capitalize())
+    if mon is None: return None
+    return f"{year:04d}-{mon:02d}-{day:02d}"
+
+
+def _normalise_const(s):
+    s = s.strip().lower().replace("'", "").replace("'", "")
+    s = re.sub(r"\s+", " ", s)
+    return s
+
+
+def fetch_byelection_lookup():
+    """Build a {(year, normalised_constituency): iso_date} map from
+    Wikipedia's 'List of Northern Ireland Parliament by-elections' page.
+    Used to resolve year-only by-election titles on constituency pages."""
+    html = fetch(BYELECTIONS_LIST_URL, "_byelections_list")
+    if not html: return {}, []
+    parts = html.split('class="wikitable')
+    if len(parts) < 2: return {}, []
+    table = '<table class="wikitable' + parts[1].split('</table>')[0] + '</table>'
+    rows = re.findall(r"<tr[^>]*>(.*?)</tr>", table, re.S)
+    lookup = {}
+    all_rows = []
+    for r in rows:
+        cells_html = re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", r, re.S)
+        cells = []
+        for c in cells_html:
+            t = strip_tags(c).strip()
+            cells.append(t)
+        if not cells or not cells[0] or cells[0].lower().startswith("date"):
+            continue
+        date_str = cells[0]
+        const_str = cells[1] if len(cells) > 1 else ""
+        iso = parse_human_date(date_str)
+        if iso is None or not const_str:
+            continue
+        year = int(iso[:4])
+        key = (year, _normalise_const(const_str))
+        # If a year sees multiple by-elections in the same constituency
+        # (rare), prefer first; record all in `all_rows` for completeness.
+        if key not in lookup:
+            lookup[key] = iso
+        all_rows.append((iso, const_str))
+    return lookup, all_rows
+
+
 def parse_table(table_html: str, constituency: str):
     """Return (iso_date, seats, candidate_rows) or None if not a Stormont GE.
 
@@ -388,34 +449,52 @@ def parse_table(table_html: str, constituency: str):
       "<DD Month YYYY> General Election : <Constituency> (N seats)"  (STV multi-member)
     """
     text = strip_tags(table_html)
-    # Title patterns seen on Wikipedia constituency pages (case-insensitive,
-    # since some pages use "general election" lowercased):
-    #   "General Election <DD Month YYYY> : <Constituency>"
-    #   "<DD Month YYYY> General Election : <Constituency> (N seats)"  (STV)
-    #   "General Election YYYY : <Constituency>"  (year-only)
-    #   "<YYYY> General Election : <Constituency> (N seats)"  (year-only STV)
-    # Plus we tolerate full-date typos (e.g. "30 November 1929" labelling what
-    # is actually the 1933 GE) by falling back to the year if the full date
-    # doesn't match a known GE date but the year does.
+    # Title patterns. Returns ('ge', iso) or ('by', iso) depending on type.
     iso = None
+    kind = None
     flags = re.I
-    m = re.search(r"General Election\s+(\d{1,2}\s+[A-Za-z]+\s+\d{4})\s*:", text, flags)
-    if not m:
-        m = re.search(r"(\d{1,2}\s+[A-Za-z]+\s+\d{4})\s+General Election\s*:", text, flags)
-    if m:
-        date_human = m.group(1).strip().lower()
-        iso = HUMAN_TO_ISO.get(date_human)
-        if iso is None:
-            # Full-date typo — fall back to year if it matches a Stormont GE.
-            year = date_human.split()[-1]
-            iso = YEAR_TO_ISO.get(year)
+
+    # By-election patterns first (they're easier to identify):
+    #   "By-election <DD Month YYYY> : <Constituency>"
+    #   "<DD Month YYYY> by-election : <Constituency>"
+    #   "<YYYY> <Constituency> by-election"  (year-only — needs lookup)
+    by_m = re.search(r"by-?election\s+(\d{1,2}\s+[A-Za-z]+\s+\d{4})\s*:", text, flags)
+    if not by_m:
+        by_m = re.search(r"(\d{1,2}\s+[A-Za-z]+\s+\d{4})\s+by-?election", text, flags)
+    if by_m:
+        iso = parse_human_date(by_m.group(1).strip())
+        if iso:
+            kind = "by"
+    if iso is None:
+        # Year-only by-election: "<YYYY> <Constituency> by-election"
+        ym = re.search(r"(\d{4})\s+[^<]+?by-?election", text, flags)
+        if ym:
+            year = int(ym.group(1))
+            key = (year, _normalise_const(constituency))
+            iso_lookup = BY_LOOKUP.get(key)
+            if iso_lookup:
+                iso = iso_lookup
+                kind = "by"
+    # GE patterns:
+    if iso is None:
+        m = re.search(r"General Election\s+(\d{1,2}\s+[A-Za-z]+\s+\d{4})\s*:", text, flags)
+        if not m:
+            m = re.search(r"(\d{1,2}\s+[A-Za-z]+\s+\d{4})\s+General Election\s*:", text, flags)
+        if m:
+            date_human = m.group(1).strip().lower()
+            iso = HUMAN_TO_ISO.get(date_human)
+            if iso is None:
+                year = date_human.split()[-1]
+                iso = YEAR_TO_ISO.get(year)
+            if iso: kind = "ge"
     if iso is None:
         m = re.search(r"General Election\s+(\d{4})\s*:", text, flags)
         if not m:
             m = re.search(r"(\d{4})\s+General Election\s*:", text, flags)
         if m:
             iso = YEAR_TO_ISO.get(m.group(1))
-    if iso is None:
+            if iso: kind = "ge"
+    if iso is None or kind is None:
         return None
     # Detect "(N seats)" annotation in the title for multi-member STV
     seats = 1
@@ -471,7 +550,7 @@ def parse_table(table_html: str, constituency: str):
                 continue
         if party and name:
             candidates.append({"party_raw": party, "name": name, "votes": votes, "pct": pct})
-    return iso, seats, candidates
+    return iso, seats, candidates, kind
 
 
 def parse_name(name_raw: str):
@@ -558,7 +637,14 @@ def main():
     global urllib  # for url_for
     urllib.parse = _up
 
+    # Build by-election lookup first (so parse_table can resolve year-only
+    # by-election titles via the global BY_LOOKUP).
+    global BY_LOOKUP
+    BY_LOOKUP, _ = fetch_byelection_lookup()
+    print(f"By-election lookup: {len(BY_LOOKUP)} entries")
+
     summary = {iso: [] for iso in ELECTION_DATES}
+    by_summary = {}  # iso_date -> list of constituency names
     synth_count = 0
     for const in CONSTITUENCIES:
         title = URL_OVERRIDES.get(const, const).replace(" ", "_") + "_(Northern_Ireland_Parliament_constituency)"
@@ -569,23 +655,28 @@ def main():
             print(f"  ! {const}: no page content")
             continue
 
-        # Pass 1: detailed result tables (contested elections)
+        # Pass 1: detailed result tables (GE + by-election)
         tables = list(split_tables(html))
         contested_dates = set()
         n_emitted = 0
+        n_by = 0
         for _, _, table in tables:
             parsed = parse_table(table, const)
             if not parsed: continue
-            iso, seats, candidates = parsed
+            iso, seats, candidates, kind = parsed
             if not candidates: continue
             obj, slug = emit_constituency(iso, const, candidates, seats)
             out_dir = OUT_BASE / iso
             out_dir.mkdir(parents=True, exist_ok=True)
             (out_dir / f"{slug}.json").write_text(
                 json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8")
-            summary[iso].append(const)
-            contested_dates.add(iso)
-            n_emitted += 1
+            if kind == "ge":
+                summary[iso].append(const)
+                contested_dates.add(iso)
+                n_emitted += 1
+            else:
+                by_summary.setdefault(iso, []).append(const)
+                n_by += 1
 
         # Pass 2: synthesise unopposed entries for any GE date without a
         # contested result. Try the first wikitable as a "Members of
@@ -630,7 +721,7 @@ def main():
                 summary[ge_iso].append(const)
                 n_synth += 1
         synth_count += n_synth
-        print(f"  {const}: {n_emitted} contested + {n_synth} synthesised = {n_emitted + n_synth}")
+        print(f"  {const}: {n_emitted} GE + {n_synth} synth + {n_by} by-elec")
     # Write summary
     summary_payload = []
     for iso, names in summary.items():
@@ -643,6 +734,14 @@ def main():
     for iso in sorted(ELECTION_DATES):
         print(f"  {iso}: {len(set(summary[iso]))} constituencies")
     print(f"\nTotal synthesised unopposed entries: {synth_count}")
+    # By-election summary
+    by_payload = [{"date": iso, "constituencies": sorted(set(names))}
+                  for iso, names in sorted(by_summary.items())]
+    OUT_BASE.mkdir(parents=True, exist_ok=True)
+    (OUT_BASE / "_byelections_index.json").write_text(
+        json.dumps(by_payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"By-elections: {sum(len(v) for v in by_summary.values())} contests "
+          f"across {len(by_summary)} dates")
     print(f"Summary written: {OUT_BASE / '_index.json'}")
 
 if __name__ == "__main__":

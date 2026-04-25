@@ -387,31 +387,55 @@ def emit_json(year, sheet_name, block, out_dir, multi_member_seats):
     }, slug
 
 
+_MONTHS = {m: i for i, m in enumerate(
+    ["January","February","March","April","May","June",
+     "July","August","September","October","November","December"], start=1)}
+
+def parse_by_date(s):
+    """Parse '12 February 1943' -> '1943-02-12'. Returns None on failure."""
+    if not s: return None
+    m = re.match(r"^(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})$", s.strip())
+    if not m: return None
+    day = int(m.group(1))
+    mon = _MONTHS.get(m.group(2).capitalize())
+    year = int(m.group(3))
+    if mon is None: return None
+    return f"{year:04d}-{mon:02d}-{day:02d}"
+
+
 def convert_sheet(wb, sheet_name, year_label):
-    """Return list of (slug, json_obj, constituency_name) for the sheet.
-    By-elections (title row carries a parenthesised date) are skipped — those
-    belong on their own date folders, not bundled into the parent GE.
+    """Return ([(slug, json, const_name)], [(by_iso, slug, json, const_name)]).
+    First list is GE results; second is by-elections from this sheet.
     """
     ws = wb[sheet_name]
     rows = list(ws.iter_rows(values_only=True))
-    out = []
-    skipped_by = 0
+    ge = []
+    by = []
     header_idxs = [i for i, r in enumerate(rows)
                    if r and r[0] is not None and str(r[0]).strip() == "Candidate"]
     for hi in header_idxs:
         block = parse_block(rows, hi, year_label)
         if not block or not block["candidates"]:
             continue
-        if block["title"].get("by_date"):
-            skipped_by += 1
-            continue
+        by_date_human = block["title"].get("by_date")
         seats_map = STV_SEATS_1922_1929 if year_label in ("1922","1923","1929") else {}
-        json_obj, slug = emit_json(year_label, sheet_name, block, None, seats_map)
-        const_name = json_obj["Constituency"]["countInfo"]["Constituency_Name"]
-        out.append((slug, json_obj, const_name))
-    if skipped_by:
-        print(f"    (skipped {skipped_by} by-election block(s) inside sheet)")
-    return out
+        if by_date_human:
+            iso = parse_by_date(by_date_human)
+            if iso is None:
+                print(f"    ! couldn't parse by-election date '{by_date_human}'")
+                continue
+            # By-elections are always single-member here.
+            json_obj, slug = emit_json(year_label, sheet_name, block, None, seats_map)
+            json_obj["Constituency"]["countInfo"]["Number_Of_Seats"] = "1"
+            const_name = json_obj["Constituency"]["countInfo"]["Constituency_Name"]
+            by.append((iso, slug, json_obj, const_name))
+        else:
+            json_obj, slug = emit_json(year_label, sheet_name, block, None, seats_map)
+            const_name = json_obj["Constituency"]["countInfo"]["Constituency_Name"]
+            ge.append((slug, json_obj, const_name))
+    if by:
+        print(f"    ({len(by)} by-election(s) emitted)")
+    return ge, by
 
 
 def main():
@@ -420,26 +444,38 @@ def main():
         sys.exit(1)
     wb = load_workbook(str(SRC_XLSX), data_only=True, read_only=True)
     summary = []
+    by_summary = {}  # iso_date -> list of constituency names
     for sheet, date in SHEETS_TO_DATE.items():
         if sheet not in wb.sheetnames:
             print(f"  ! sheet {sheet} not in workbook")
             continue
         out_dir = OUT_BASE / date
         out_dir.mkdir(parents=True, exist_ok=True)
-        results = convert_sheet(wb, sheet, sheet)
+        ge_results, by_results = convert_sheet(wb, sheet, sheet)
         const_names = []
-        for slug, obj, const in results:
+        for slug, obj, const in ge_results:
             (out_dir / f"{slug}.json").write_text(
                 json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8")
             const_names.append(const)
-        # Stable, unique, sorted constituency list for elections_index.json
         unique = sorted(set(const_names))
         summary.append({"date": date, "constituencies": unique})
-        print(f"  {sheet} -> {date}: {len(results)} contests ({len(unique)} unique constituencies)")
-    # Write summary for the indexer
+        # By-elections — write each to its own date folder
+        for by_iso, slug, obj, const in by_results:
+            by_dir = OUT_BASE / by_iso
+            by_dir.mkdir(parents=True, exist_ok=True)
+            (by_dir / f"{slug}.json").write_text(
+                json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8")
+            by_summary.setdefault(by_iso, []).append(const)
+        print(f"  {sheet} -> {date}: {len(ge_results)} GE contests ({len(unique)} unique), "
+              f"{len(by_results)} by-election(s)")
+    # Write summaries
     (OUT_BASE / "_pre1970_index.json").write_text(
         json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(f"\nWrote summary: {OUT_BASE / '_pre1970_index.json'}")
+    by_payload = [{"date": iso, "constituencies": sorted(set(names))}
+                  for iso, names in sorted(by_summary.items())]
+    (OUT_BASE / "_pre1970_byelections_index.json").write_text(
+        json.dumps(by_payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"\nWrote GE summary + {len(by_payload)} by-election dates")
 
 if __name__ == "__main__":
     main()
