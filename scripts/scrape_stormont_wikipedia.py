@@ -1,0 +1,440 @@
+#!/usr/bin/env python
+"""Scrape Parliament of Northern Ireland (Stormont) general election results
+from Wikipedia and emit per-constituency JSON files matching the existing
+election viewer schema.
+
+Source: each constituency's own Wikipedia page (categories
+'Constituencies of the Northern Ireland Parliament' and
+'Constituencies of the Northern Ireland Parliament in Belfast').
+
+Each constituency page contains one wikitable per election it contested,
+titled "General Election <date> : <Constituency>" or
+"By-election <date> : <Constituency>". We only keep general elections
+matching the 12 Stormont GE dates.
+
+Output: election-viewer-package/data/elections/parliament-of-northern-ireland/<date>/<slug>.json
+"""
+import html as html_lib
+import json
+import re
+import sys
+import time
+import urllib.request
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parent.parent
+CACHE = REPO / "_tmp_stormont" / "pages"
+CACHE.mkdir(parents=True, exist_ok=True)
+OUT_BASE = REPO / "election-viewer-package" / "data" / "elections" / "parliament-of-northern-ireland"
+
+UA = "Mozilla/5.0 boundaries-website-scraper (scomoni@gmail.com) - historical NI election archive"
+
+# 12 Stormont general elections. Map ISO date -> human form used in tables.
+ELECTION_DATES = {
+    "1921-05-24": "24 May 1921",
+    "1925-04-03": "3 April 1925",
+    "1929-05-22": "22 May 1929",
+    "1933-11-30": "30 November 1933",
+    "1938-02-09": "9 February 1938",
+    "1945-06-14": "14 June 1945",
+    "1949-02-10": "10 February 1949",
+    "1953-10-22": "22 October 1953",
+    "1958-03-20": "20 March 1958",
+    "1962-05-31": "31 May 1962",
+    "1965-11-25": "25 November 1965",
+    "1969-02-24": "24 February 1969",
+}
+# Reverse: human-form lowercase -> iso
+HUMAN_TO_ISO = {v.lower(): k for k, v in ELECTION_DATES.items()}
+# Year-only fallback (Wikipedia tables sometimes use "General Election 1929"
+# without the day/month). Each Stormont GE year is unique.
+YEAR_TO_ISO = {iso[:4]: iso for iso in ELECTION_DATES}
+
+# Known constituency Wikipedia titles. From the two MediaWiki categories,
+# excluding parent articles. URL form (spaces -> _; ' kept).
+CONSTITUENCIES = [
+    # Constituencies of the Northern Ireland Parliament
+    "Antrim", "Antrim Borough", "South Antrim",
+    "Ards", "Armagh", "Bangor", "Bannside",
+    "Belfast Ballynafeigh", "Belfast Cromac", "Belfast East", "Belfast North",
+    "Belfast South", "Belfast West",
+    "Central Armagh", "City of Londonderry",
+    "Down", "East Down", "East Tyrone", "South Tyrone",
+    "Enniskillen", "Fermanagh and Tyrone", "South Fermanagh", "Foyle",
+    "Iveagh", "Lagan Valley", "Larkfield", "Larne",
+    "Lisnaskea", "Londonderry", "South Londonderry",
+    "Mid Antrim", "Mid Armagh", "Mid Down", "Mid Londonderry", "Mid Tyrone",
+    "Mourne", "Newtownabbey",
+    "North Antrim", "North Armagh", "North Down", "North Londonderry", "North Tyrone",
+    "Queen's University of Belfast",
+    "South Armagh", "South Down",
+    "West Down", "West Tyrone",
+    # Constituencies of the Northern Ireland Parliament in Belfast (extras)
+    "Belfast Bloomfield", "Belfast Central", "Belfast Clifton", "Belfast Dock",
+    "Belfast Duncairn", "Belfast Falls", "Belfast Oldpark", "Belfast Pottinger",
+    "Belfast Shankill", "Belfast St Anne's", "Belfast Victoria", "Belfast Willowfield",
+    "Belfast Windsor", "Belfast Woodvale",
+    # Carrick (in Stormont1929 FGB but Wikipedia article is at "Carrick (Northern Ireland Parliament constituency)")
+    "Carrick",
+]
+
+
+def url_for(name: str) -> str:
+    import urllib.parse
+    title = name.replace(" ", "_") + "_(Northern_Ireland_Parliament_constituency)"
+    safe_chars = "_'()"
+    return "https://en.wikipedia.org/wiki/" + urllib.parse.quote(title, safe=safe_chars)
+
+
+def fetch(url: str, cache_key: str) -> str:
+    p = CACHE / f"{cache_key}.html"
+    if p.exists() and p.stat().st_size > 5000:
+        return p.read_text(encoding="utf-8")
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            data = r.read().decode("utf-8")
+    except Exception as e:
+        print(f"  ! fetch fail {url}: {e}")
+        return ""
+    p.write_text(data, encoding="utf-8")
+    time.sleep(0.4)  # politeness
+    return data
+
+
+def slugify(s: str) -> str:
+    s = s.lower().replace("&", "and")
+    s = re.sub(r"[^\w\s-]", "", s)
+    s = re.sub(r"\s+", "-", s.strip())
+    return s
+
+
+# Party colours — minimal subset appropriate for Stormont era.
+PARTY_LABEL = {
+    "uup": "Ulster Unionist Party",
+    "ulster unionist party": "Ulster Unionist Party",
+    "ulster unionist": "Ulster Unionist Party",
+    "ulster unionist (anti-o'neill)": "Ulster Unionist Party (Anti-O'Neill)",
+    "ulster unionist (pro-o'neill)": "Ulster Unionist Party (Pro-O'Neill)",
+    "u": "Ulster Unionist Party",
+    "ind unionist": "Independent Unionist",
+    "ind. unionist": "Independent Unionist",
+    "independent unionist": "Independent Unionist",
+    "ulster liberal": "Ulster Liberal Party",
+    "liberal": "Liberal",
+    "nationalist": "Nationalist Party",
+    "irish nationalist": "Nationalist Party",
+    "nationalist party": "Nationalist Party",
+    "nat": "Nationalist Party",
+    "republican labour": "Republican Labour Party",
+    "republican labour party": "Republican Labour Party",
+    "socialist republican": "Socialist Republican Party",
+    "republican": "Republican",
+    "ind republican": "Independent Republican",
+    "ind. republican": "Independent Republican",
+    "independent republican": "Independent Republican",
+    "anti-partition": "Anti-Partitionist",
+    "anti-partitionist": "Anti-Partitionist",
+    "sinn féin": "Sinn Féin",
+    "sinn fein": "Sinn Féin",
+    "sf": "Sinn Féin",
+    "labour": "Northern Ireland Labour Party",
+    "nilp": "Northern Ireland Labour Party",
+    "ni labour": "Northern Ireland Labour Party",
+    "northern ireland labour": "Northern Ireland Labour Party",
+    "northern ireland labour party": "Northern Ireland Labour Party",
+    "ind labour": "Independent Labour",
+    "ind. labour": "Independent Labour",
+    "independent labour": "Independent Labour",
+    "commonwealth labour": "Commonwealth Labour Party",
+    "commonwealth labour party": "Commonwealth Labour Party",
+    "people's democracy": "People's Democracy",
+    "peoples democracy": "People's Democracy",
+    "pd": "People's Democracy",
+    "national democratic": "National Democratic Party",
+    "ndp": "National Democratic Party",
+    "national democratic party": "National Democratic Party",
+    "protestant unionist": "Protestant Unionist",
+    "pu": "Protestant Unionist",
+    "republican clubs": "Republican Clubs",
+    "communist": "Communist Party",
+    "communist party": "Communist Party",
+    "ind": "Independent",
+    "independent": "Independent",
+}
+
+PARTY_COLOURS = {
+    "Ulster Unionist Party": "#48A5EE",
+    "Ulster Unionist Party (Anti-O'Neill)": "#1E5C9E",
+    "Ulster Unionist Party (Pro-O'Neill)": "#9CC6E8",
+    "Independent Unionist": "#AADFFF",
+    "Ulster Liberal Party": "#DAA520",
+    "Liberal": "#FAA61A",
+    "Nationalist Party": "#32CD32",
+    "Republican Labour Party": "#85DE59",
+    "Socialist Republican Party": "#FF6666",
+    "Republican": "#90EE90",
+    "Independent Republican": "#CDFFAB",
+    "Anti-Partitionist": "#228B22",
+    "Sinn Féin": "#326760",
+    "Northern Ireland Labour Party": "#DC241F",
+    "Independent Labour": "#FF9999",
+    "Commonwealth Labour Party": "#FF6666",
+    "People's Democracy": "#FF0000",
+    "National Democratic Party": "#3CB371",
+    "Protestant Unionist": "#D46A4C",
+    "Republican Clubs": "#930C1A",
+    "Communist Party": "#E3170D",
+    "Independent": "#DCDCDC",
+}
+
+
+def normalise_party(raw: str) -> str:
+    s = raw.strip().rstrip(".")
+    s_low = s.lower().strip()
+    if s_low in PARTY_LABEL:
+        return PARTY_LABEL[s_low]
+    # Try without parenthetical bits and footnote markers
+    s2 = re.sub(r"\[\d+\]", "", s_low).strip()
+    if s2 in PARTY_LABEL:
+        return PARTY_LABEL[s2]
+    return s
+
+
+def party_colour(name: str) -> str:
+    return PARTY_COLOURS.get(name, "#A0A0A0")
+
+
+def candidate_id(date: str, slug: str, last: str, first: str) -> str:
+    base = f"{date}|{slug}|{last}|{first}".lower()
+    h = 0
+    for ch in base:
+        h = (h * 131 + ord(ch)) & 0xFFFFFF
+    return str(h)
+
+
+def strip_tags(s: str) -> str:
+    s = re.sub(r"<[^>]+>", " ", s)
+    s = html_lib.unescape(s)
+    s = re.sub(r"\[\d+\]", "", s)  # footnote markers
+    s = re.sub(r"\xa0", " ", s)
+    return s
+
+
+def split_tables(html: str):
+    """Yield (start_idx, end_idx, inner_html) for each <table class="wikitable...">."""
+    pat = re.compile(r'<table[^>]*class="[^"]*wikitable[^"]*"', re.I)
+    matches = [m.start() for m in pat.finditer(html)]
+    for start in matches:
+        depth = 0
+        i = start
+        while i < len(html):
+            if html.startswith("<table", i):
+                depth += 1
+                i = html.find(">", i) + 1
+            elif html.startswith("</table>", i):
+                depth -= 1
+                end = i + len("</table>")
+                if depth == 0:
+                    yield start, end, html[start:end]
+                    break
+                i = end
+            else:
+                i += 1
+
+
+def parse_table(table_html: str, constituency: str):
+    """Return (iso_date, seats, candidate_rows) or None if not a Stormont GE.
+
+    Two title orderings appear on Wikipedia:
+      "General Election <DD Month YYYY> : <Constituency>"        (single-member)
+      "<DD Month YYYY> General Election : <Constituency> (N seats)"  (STV multi-member)
+    """
+    text = strip_tags(table_html)
+    # Title patterns seen on Wikipedia constituency pages:
+    #   "General Election <DD Month YYYY> : <Constituency>"  (single-member, full date)
+    #   "<DD Month YYYY> General Election : <Constituency> (N seats)"  (STV multi-member, full date)
+    #   "General Election YYYY : <Constituency>"  (year-only — Belfast subdivisions and others)
+    #   "<YYYY> General Election : <Constituency> (N seats)"  (year-only STV)
+    iso = None
+    m = re.search(r"General Election\s+(\d{1,2}\s+[A-Za-z]+\s+\d{4})\s*:", text)
+    if not m:
+        m = re.search(r"(\d{1,2}\s+[A-Za-z]+\s+\d{4})\s+General Election\s*:", text)
+    if m:
+        date_human = m.group(1).strip().lower()
+        iso = HUMAN_TO_ISO.get(date_human)
+    if iso is None:
+        m = re.search(r"General Election\s+(\d{4})\s*:", text)
+        if not m:
+            m = re.search(r"(\d{4})\s+General Election\s*:", text)
+        if m:
+            iso = YEAR_TO_ISO.get(m.group(1))
+    if iso is None:
+        return None
+    # Detect "(N seats)" annotation in the title for multi-member STV
+    seats = 1
+    sm = re.search(r"\((\d+)\s*seats?\)", text)
+    if sm:
+        seats = int(sm.group(1))
+
+    # Walk <tr> elements. The first row is the header; skip any whose first
+    # data cell contains "Party"/"Candidate"/"Votes". Candidate rows have at
+    # least 4 data cells: party, candidate, votes, percent.
+    rows = re.findall(r"<tr[^>]*>(.*?)</tr>", table_html, re.S)
+    candidates = []
+    for row in rows:
+        cells = re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", row, re.S)
+        if not cells: continue
+        cell_text = [strip_tags(c).strip() for c in cells]
+        # Skip header-style rows
+        if any(re.match(r"^(Party|Candidate|Votes|%|Election|Member|Status)$", x, re.I) for x in cell_text[:6]):
+            continue
+        # Skip aggregate rows ("Majority", "Turnout", "Registered electors", swing rows)
+        joined = " ".join(cell_text).lower()
+        if any(k in joined for k in ("majority", "turnout", "registered", "rejected ballots",
+                                     "swing", "hold", "gain", "win", "death of", "elevation",
+                                     "resignation", "appointed", "death", "by-election")):
+            continue
+        # A candidate row needs a non-empty party + candidate cell.
+        # First cell may be empty or a party-colour swatch; party usually in cell 1.
+        # Try to identify (party, name, votes, pct) by scanning the row.
+        # Heuristic: party = first non-numeric cell that's a party-ish word; name = next text cell;
+        #            votes = first integer / "Unopposed"; pct = first cell ending in %.
+        party = ""
+        name = ""
+        votes = ""
+        pct = ""
+        for c in cell_text:
+            if not c: continue
+            if not party and not re.match(r"^[\d,]+$", c) and not c.endswith("%") and c.lower() != "n/a":
+                # crude: party label is short (<= 60 chars) and not a number
+                if len(c) <= 60 and not re.match(r"^new$", c, re.I):
+                    party = c
+                    continue
+            if party and not name and not re.match(r"^[\d,]+$", c) and not c.endswith("%") and c.lower() not in ("unopposed","n/a","new","yes","no"):
+                if len(c) <= 80:
+                    name = c
+                    continue
+            if name and not votes:
+                if c.lower() == "unopposed":
+                    votes = "Unopposed"; continue
+                if re.match(r"^[\d,]+$", c):
+                    votes = c.replace(",", ""); continue
+            if not pct and c.endswith("%"):
+                pct = c.rstrip("%").strip()
+                continue
+        if party and name:
+            candidates.append({"party_raw": party, "name": name, "votes": votes, "pct": pct})
+    return iso, seats, candidates
+
+
+def parse_name(name_raw: str):
+    s = name_raw.strip()
+    elected = s.endswith("*")
+    if elected: s = s[:-1].strip()
+    if "," in s:
+        last, first = s.split(",", 1)
+        return first.strip(), last.strip(), elected
+    parts = s.rsplit(maxsplit=1)
+    if len(parts) == 2:
+        return parts[0], parts[1], elected
+    return s, "", elected
+
+
+def emit_constituency(date_iso: str, constituency: str, candidates: list, seats: int = 1):
+    slug = slugify(constituency)
+    cands_sorted = sorted(candidates, key=lambda c: (-9999 if c["votes"] == "Unopposed" else -int(c["votes"]) if c["votes"].isdigit() else 0))
+    countGroup = []
+    for idx, c in enumerate(cands_sorted):
+        first, last, _ = parse_name(c["name"])
+        party = normalise_party(c["party_raw"])
+        v = c["votes"]
+        if v == "Unopposed":
+            fp = "Unopposed"; tot = ""
+        elif v.isdigit():
+            fp = f"{int(v):.2f}"; tot = fp
+        else:
+            fp = ""; tot = ""
+        countGroup.append({
+            "Candidate_First_Pref_Votes": fp,
+            "Candidate_Id": candidate_id(date_iso, slug, last, first),
+            "Constituency_Number": "",
+            "Count_Number": "1",
+            "Firstname": first,
+            "Occurred_On_Count": "",
+            "Party_Colour": party_colour(party),
+            "Party_Name": party,
+            "Status": "Elected" if idx < seats else "",
+            "Surname": last,
+            "Total_Votes": tot,
+            "Transfers": "0.00",
+            "candidateName": (first + " " + last).strip(),
+            "id": idx,
+        })
+    return {
+        "Constituency": {
+            "countInfo": {
+                "Constituency_Name": constituency,
+                "Constituency_Number": "",
+                "Number_Of_Seats": str(seats),
+                "Spoiled": "",
+                "Total_Electorate": "",
+                "Total_Poll": "",
+                "Valid_Poll": "",
+            },
+            "countGroup": countGroup,
+        }
+    }, slug
+
+
+# Wikipedia titles whose article uses an unusual disambiguator suffix or name
+# variant. Map our local label -> exact URL title.
+URL_OVERRIDES = {
+    "Belfast St Anne's": "Belfast_St_Anne's",
+    "Down": "Down",  # disambig page also exists; prefer constituency one
+}
+
+
+def main():
+    import urllib.parse as _up
+    global urllib  # for url_for
+    urllib.parse = _up
+
+    summary = {iso: [] for iso in ELECTION_DATES}
+    for const in CONSTITUENCIES:
+        title = URL_OVERRIDES.get(const, const).replace(" ", "_") + "_(Northern_Ireland_Parliament_constituency)"
+        url = f"https://en.wikipedia.org/wiki/{_up.quote(title, safe='_()')}"
+        cache_key = re.sub(r"[^\w-]", "_", const)
+        html = fetch(url, cache_key)
+        if not html or len(html) < 5000:
+            print(f"  ! {const}: no page content")
+            continue
+        n_emitted = 0
+        for _, _, table in split_tables(html):
+            parsed = parse_table(table, const)
+            if not parsed: continue
+            iso, seats, candidates = parsed
+            if not candidates: continue
+            obj, slug = emit_constituency(iso, const, candidates, seats)
+            out_dir = OUT_BASE / iso
+            out_dir.mkdir(parents=True, exist_ok=True)
+            (out_dir / f"{slug}.json").write_text(
+                json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8")
+            summary[iso].append(const)
+            n_emitted += 1
+        print(f"  {const}: {n_emitted} elections")
+    # Write summary
+    summary_payload = []
+    for iso, names in summary.items():
+        unique = sorted(set(names))
+        summary_payload.append({"date": iso, "constituencies": unique})
+    OUT_BASE.mkdir(parents=True, exist_ok=True)
+    (OUT_BASE / "_index.json").write_text(
+        json.dumps(summary_payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    print("\nPer-election counts:")
+    for iso in sorted(ELECTION_DATES):
+        print(f"  {iso}: {len(set(summary[iso]))} constituencies")
+    print(f"\nSummary written: {OUT_BASE / '_index.json'}")
+
+if __name__ == "__main__":
+    main()
