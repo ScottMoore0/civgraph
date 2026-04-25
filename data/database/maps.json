@@ -157,6 +157,16 @@
       "icon": "[map]",
       "description": "Historic administrative boundaries",
       "group": "Built Environment"
+    },
+    {
+      "id": "geology-geophysics",
+      "name": "Geology and Geophysics",
+      "description": "Bedrock and superficial geology, mineral resources, and airborne geophysics surveys of Northern Ireland."
+    },
+    {
+      "id": "osni-reference",
+      "name": "OSNI Reference Layers",
+      "description": "Survey and reference utilities from the Ordnance Survey of Northern Ireland — map-sheet coverage grids and height benchmarks."
     }
   ],
   "timeSeriesChains": [
@@ -14725,6 +14735,931 @@
               "note": "Creative Commons Attribution 4.0."
             }
           ]
+        }
+      ]
+    },
+    {
+      "id": "gsni-bedrock-geology-polygons-250k",
+      "name": "Bedrock Geology 1:250,000 (Polygons)",
+      "slug": "gsni-bedrock-geology-polygons-250k",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "British Geological Survey"
+      ],
+      "description": "Solid bedrock geology of Northern Ireland at 1:250,000 scale — polygon fills coloured by rock classification (LEX/RCS).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/bedrock-geology-polygons.fgb"
+      },
+      "style": {
+        "color": "#8B4513",
+        "weight": 1,
+        "fillOpacity": 0.35
+      },
+      "labelProperty": "LEX_D",
+      "keywords": [
+        "geology",
+        "bedrock",
+        "rock",
+        "gsni",
+        "tellus",
+        "formation",
+        "lithology"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI 250K Geology — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON (original)",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/d85d4090-77b1-4807-a551-b2849aeb2eaf/download/ni250kbedrockgeologypolygons.geojson"
+        },
+        {
+          "label": "GeoPackage",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/07b32481-a218-4591-b245-bea5543a060f/download/ni_250k_bedrock_geology_polygons.gpkg"
+        },
+        {
+          "label": "ESRI Shapefile (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/3a545feb-6a56-495b-8aa9-8117200e8c81/download/ni250kbedrockgeologypolygons.zip"
+        },
+        {
+          "label": "QGIS / ArcGIS style files (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/bb4577fc-f554-42af-8d21-f0592ab7c38f/download/qgis-arcgisstyles.zip"
+        }
+      ]
+    },
+    {
+      "id": "gsni-bedrock-geology-lines-250k",
+      "name": "Bedrock Geology 1:250,000 (Lines)",
+      "slug": "gsni-bedrock-geology-lines-250k",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "British Geological Survey"
+      ],
+      "description": "Faults, bedrock boundaries, fold axial traces, dykes and bedrock lineaments across Northern Ireland at 1:250,000 scale.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/bedrock-geology-lines.fgb"
+      },
+      "style": {
+        "color": "#5a2d0c",
+        "weight": 1,
+        "fillOpacity": 0
+      },
+      "labelProperty": "FEATURE_D",
+      "keywords": [
+        "geology",
+        "fault",
+        "fracture",
+        "fold",
+        "bedrock",
+        "dyke",
+        "gsni",
+        "lineament"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI 250K Geology — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON (original)",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/a1ea4f61-bfff-4ef1-98f7-84552f7c1911/download/ni250kbedrockgeologylines.geojson"
+        },
+        {
+          "label": "GeoPackage",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/9380def2-3529-4d09-9eec-2d1f57241aa9/download/ni_250k_bedrock_geology_lines.gpkg"
+        },
+        {
+          "label": "ESRI Shapefile (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/fa614ca9-4833-4381-988e-92103b0b3ce5/download/ni250kbedrockgeologylines.zip"
+        }
+      ]
+    },
+    {
+      "id": "gsni-superficial-geology-polygons-250k",
+      "name": "Superficial Geology 1:250,000",
+      "slug": "gsni-superficial-geology-polygons-250k",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "British Geological Survey"
+      ],
+      "description": "Superficial (Quaternary) deposits — glacial till, alluvium, peat, raised beach and other surface materials — mapped at 1:250,000 scale.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/superficial-geology-polygons.fgb"
+      },
+      "style": {
+        "color": "#6b8e23",
+        "weight": 1,
+        "fillOpacity": 0.35
+      },
+      "labelProperty": "LEX_D",
+      "keywords": [
+        "geology",
+        "superficial",
+        "quaternary",
+        "till",
+        "alluvium",
+        "peat",
+        "drift",
+        "gsni"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI 250K Geology — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON (original)",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/19b4e12e-0e00-4091-8419-0c744d72cb96/download/ni250ksuperficialgeologypolygons.geojson"
+        },
+        {
+          "label": "GeoPackage",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/e490914d-9e13-4cc9-915b-3cac75643a95/download/ni_250k_superficial_geology_polygons.gpkg"
+        },
+        {
+          "label": "ESRI Shapefile (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/32306dee-1748-4d68-b465-acfd1e5ae344/download/ni250ksuperficialgeologypolygons.zip"
+        }
+      ]
+    },
+    {
+      "id": "gsni-mineral-resources",
+      "name": "Mineral Resources (Northern Ireland)",
+      "slug": "gsni-mineral-resources",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI"
+      ],
+      "description": "Mapped surface extent of commercially significant mineral resources — coal, lignite, sand and gravel, limestone, sandstone, peat, clay, igneous rock and others — merged into one layer attributed by mineral_type.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/gsni-mineral-resources.fgb"
+      },
+      "style": {
+        "color": "#b8860b",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "labelProperty": "mineral_type",
+      "keywords": [
+        "mineral",
+        "coal",
+        "lignite",
+        "limestone",
+        "sand",
+        "gravel",
+        "peat",
+        "resource",
+        "gsni",
+        "extraction",
+        "quarry"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Northern Ireland Mineral Resources — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-northern-ireland-mineral-resources",
+          "note": ""
+        },
+        {
+          "label": "PDF versions of NI Mineral Maps (British Geological Survey)",
+          "url": "https://www.bgs.ac.uk/mineralsuk/planning/resource.html#NI",
+          "note": "External BGS index page listing PDF mineral resource maps for Northern Ireland."
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoPackage (ZIP, 21 MB)",
+          "file": "https://admin.opendatani.gov.uk/dataset/a47e1630-086f-4b92-9416-1197cc8c633a/resource/fcc4d397-b585-4659-82af-3e484040d294/download/mineralresourcesgeopackage.zip"
+        },
+        {
+          "label": "ESRI Shapefile (ZIP, 20 MB)",
+          "file": "https://admin.opendatani.gov.uk/dataset/a47e1630-086f-4b92-9416-1197cc8c633a/resource/87be45a3-52b7-4724-8d62-859a5d4946e4/download/mineralresources.shp.zip"
+        },
+        {
+          "label": "JSON per-mineral (ZIP, 22 MB)",
+          "file": "https://admin.opendatani.gov.uk/dataset/a47e1630-086f-4b92-9416-1197cc8c633a/resource/d9e9d0ba-3072-4efc-ba4c-6ff26fad1c22/download/mineralresourcesjson.zip"
+        }
+      ]
+    },
+    {
+      "id": "gsni-tellus-stream-sediments-xrf",
+      "name": "Tellus Stream Sediments (Regional XRF)",
+      "slug": "gsni-tellus-stream-sediments-xrf",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "Regional stream-sediment samples collected under the Tellus survey, analysed by XRF for major and trace elements. Approximately 5,800 sample points across Northern Ireland.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-stream-sediments-xrf-set1.fgb"
+      },
+      "style": {
+        "color": "#8860c6",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.7
+      },
+      "labelProperty": "SAMPLE_NO",
+      "keywords": [
+        "tellus",
+        "geochemistry",
+        "stream",
+        "sediment",
+        "xrf",
+        "sampling",
+        "gsni"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Regional Stream Sediments — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-stream-sediments",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — XRF Set 1 (original)",
+          "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/2a789ce2-45e6-4dff-a739-c3e7763a6ad7/download/regionalsedimentsxrfset1.geojson"
+        },
+        {
+          "label": "CSV — XRF Set 1",
+          "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/9f4e090e-4afe-44f0-8bb5-1a70926920bd/download/regionalsedimentsxrfset1.csv"
+        },
+        {
+          "label": "Methodology and Detection Limits (PDF)",
+          "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/46916fde-077a-4043-a6fb-09820aab675a/download/tellusmethodologyanddetectionlimits.pdf"
+        }
+      ]
+    },
+    {
+      "id": "gsni-tellus-stream-waters-icp",
+      "name": "Tellus Stream Waters (Regional ICP)",
+      "slug": "gsni-tellus-stream-waters-icp",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "Regional stream-water samples collected under the Tellus survey, analysed by ICP-MS for dissolved elements. Approximately 5,900 sample points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-stream-waters-icp.fgb"
+      },
+      "style": {
+        "color": "#2a8ec6",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.7
+      },
+      "labelProperty": "SAMPLENO",
+      "keywords": [
+        "tellus",
+        "geochemistry",
+        "stream",
+        "water",
+        "icp",
+        "dissolved",
+        "gsni"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Regional Stream Waters — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-stream-waters-icp",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — ICP (original)",
+          "file": "https://admin.opendatani.gov.uk/dataset/c4c559be-77db-4d3b-9b6a-ecc24feb3e21/resource/648a10b6-fd24-43d1-b2de-e659af7d7a9b/download/regionalwatersicp.geojson"
+        },
+        {
+          "label": "CSV — ICP",
+          "file": "https://admin.opendatani.gov.uk/dataset/c4c559be-77db-4d3b-9b6a-ecc24feb3e21/resource/96ec94aa-0257-4fd4-b5f5-20b86a7d5a69/download/regionalwatersicp.csv"
+        },
+        {
+          "label": "Methodology and Detection Limits (PDF)",
+          "file": "https://admin.opendatani.gov.uk/dataset/c4c559be-77db-4d3b-9b6a-ecc24feb3e21/resource/96871e7f-3f5b-4f27-8d8e-192fe0f6919f/download/tellusmethodologyanddetectionlimits.pdf"
+        }
+      ]
+    },
+    {
+      "id": "gsni-tellus-rural-soil-a-xrf",
+      "name": "Tellus Rural Soil Survey (A Soils, XRF)",
+      "slug": "gsni-tellus-rural-soil-a-xrf",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "Topsoil (\"A horizon\") samples collected on a 2 km grid across rural Northern Ireland under the Tellus survey and analysed by XRF. Approximately 6,860 points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-rural-soil-a-xrf.fgb"
+      },
+      "style": {
+        "color": "#b8783a",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.7
+      },
+      "labelProperty": "Sample",
+      "keywords": [
+        "tellus",
+        "soil",
+        "xrf",
+        "topsoil",
+        "agriculture",
+        "geochemistry",
+        "gsni"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Rural Soil Survey — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/rural-soil-survey",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — A Soils XRF (original)",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/0865438f-7191-4932-8b00-3bbd5d58a819/download/regional-soils-a-xrf.geojson"
+        },
+        {
+          "label": "CSV — A Soils XRF",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/1c35fb41-1c4e-4c33-956e-3b2e7850ee93/download/regionalsoilsaxrf.csv"
+        },
+        {
+          "label": "Methodology and Detection Limits (PDF)",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/330e2a8f-db4e-42ec-9a66-145a5eb07c93/download/tellusmethodologyanddetectionlimits.pdf"
+        }
+      ]
+    },
+    {
+      "id": "gsni-core-cuttings-register",
+      "name": "GSNI Core and Cuttings Register",
+      "slug": "gsni-core-cuttings-register",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI"
+      ],
+      "description": "Registered borehole cores and cuttings held by the Geological Survey of Northern Ireland. Only records with geographic coordinates are shown on the map (~140 of ~345).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/gsni-core-cuttings.fgb"
+      },
+      "style": {
+        "color": "#4a4a4a",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.8
+      },
+      "labelProperty": "Borehole or Locality Name",
+      "keywords": [
+        "borehole",
+        "core",
+        "cuttings",
+        "gsni",
+        "drilling",
+        "stratigraphy"
+      ],
+      "useLOD": false,
+      "references": [
+        {
+          "label": "Spreadsheet of Core and Cuttings held by GSNI — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/spreadsheet-of-core-and-cuttings-held-by-gsni",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "CSV (original, November 2018)",
+          "file": "https://admin.opendatani.gov.uk/dataset/06884c94-fcb1-4d7d-a258-bbde98388ff1/resource/2160c85d-adee-482e-89fd-703bcf450779/download/november-2018-gsni-core-and-cuttings.csv"
+        },
+        {
+          "label": "References (TXT)",
+          "file": "https://admin.opendatani.gov.uk/dataset/06884c94-fcb1-4d7d-a258-bbde98388ff1/resource/622208ff-bac7-4fc0-a288-82039c5b6fa5/download/references.txt"
+        }
+      ]
+    },
+    {
+      "id": "osni-coverage-grid-10k",
+      "name": "OSNI Map Sheet Coverage Grid — 1:10,000",
+      "slug": "osni-coverage-grid-10k",
+      "category": "osni-reference",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Polygonal overlay of Ordnance Survey of Northern Ireland 1:10,000-scale printed-map tile footprints, labelled by sheet name. Useful for locating which historic / current OSNI sheet covers a site.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/osni-reference/coverage-grid-10k.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "weight": 1,
+        "fillOpacity": 0
+      },
+      "labelProperty": "NAME",
+      "keywords": [
+        "osni",
+        "coverage",
+        "grid",
+        "sheet",
+        "index",
+        "1:10000",
+        "10k",
+        "tile"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "OSNI Open Data - Coverage Grid - 10K",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-coverage-grid-10k",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON",
+          "file": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/3400824a-ae20-483d-b633-a936d8f45f8b/download/osni_open_data_coverage_grid_10k.geojson"
+        },
+        {
+          "label": "ESRI Shapefile (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/6fdf1a41-1f4a-4905-88f5-57c06a7cd5fb/download/osni_open_data_coverage_grid_10k.zip"
+        },
+        {
+          "label": "KML",
+          "file": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/19fa57b5-5f62-4e0a-a40b-5f6fc3485f6f/download/osni_open_data_coverage_grid_10k.kml"
+        },
+        {
+          "label": "CSV",
+          "file": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/cdfe704d-8281-400c-a06d-d50f9fe43fc3/download/osni_open_data_coverage_grid_10k.csv"
+        }
+      ]
+    },
+    {
+      "id": "osni-coverage-grid-50k",
+      "name": "OSNI Map Sheet Coverage Grid — 1:50,000",
+      "slug": "osni-coverage-grid-50k",
+      "category": "osni-reference",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Polygonal overlay of OSNI 1:50,000-scale printed-map tile footprints, labelled by tile identifier — the coarser complement to the 1:10K coverage grid.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/osni-reference/coverage-grid-50k.fgb"
+      },
+      "style": {
+        "color": "#555555",
+        "weight": 1.5,
+        "fillOpacity": 0
+      },
+      "labelProperty": "TILE",
+      "keywords": [
+        "osni",
+        "coverage",
+        "grid",
+        "sheet",
+        "index",
+        "1:50000",
+        "50k",
+        "tile"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "OSNI Open Data - Coverage Grid - 50K",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-coverage-grid-50k",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON",
+          "file": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/f55e4028-f24b-454f-807e-073b284396f6/download/osni_open_data_coverage_grid_50k.geojson"
+        },
+        {
+          "label": "ESRI Shapefile (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/c9ed17bd-02cb-4b48-954e-1196908bced0/download/osni_open_data_coverage_grid_50k.zip"
+        },
+        {
+          "label": "KML",
+          "file": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/793ad260-7414-4925-80aa-00a3affb1531/download/osni_open_data_coverage_grid_50k.kml"
+        },
+        {
+          "label": "CSV",
+          "file": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/dec2d495-4119-460a-9795-dd02ee6a3b2a/download/osni_open_data_coverage_grid_50k.csv"
+        }
+      ]
+    },
+    {
+      "id": "osni-benchmarks",
+      "name": "OSNI Benchmarks (Height Reference Points)",
+      "slug": "osni-benchmarks",
+      "category": "osni-reference",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Historic OSNI benchmarks — small brass plates or chiselled grooves set into permanent features (bridges, walls, milestones) whose heights above Ordnance Datum were precisely determined by levelling surveys. Used by surveyors as known reference points before GPS. ~10,000 points across Northern Ireland, each attributed with its height in metres.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/osni-reference/benchmarks.fgb"
+      },
+      "style": {
+        "color": "#b87333",
+        "weight": 1,
+        "radius": 3,
+        "fillOpacity": 0.8
+      },
+      "labelProperty": "BM_Height",
+      "keywords": [
+        "osni",
+        "benchmark",
+        "bench mark",
+        "height",
+        "datum",
+        "levelling",
+        "survey",
+        "trigonometric"
+      ],
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data - BenchMarks - Height",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-benchmarks-height",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON",
+          "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/3c5df17a-e28d-439b-9164-c2e6e0830b31/download/osni_open_data_benchmarks_height.geojson"
+        },
+        {
+          "label": "ESRI Shapefile (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/4214da40-17a5-4af7-8f22-3d84706f774a/download/osni_open_data_benchmarks_height.zip"
+        },
+        {
+          "label": "KML",
+          "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/1f593808-f938-43dc-8f82-f6391905a79f/download/osni_open_data_benchmarks_height.kml"
+        },
+        {
+          "label": "CSV",
+          "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/5f6a8d59-cef0-4d48-9f5a-79c8dfc000f5/download/osni_open_data_benchmarks_height.csv"
+        }
+      ]
+    },
+    {
+      "id": "gsni-tellus-stream-sediments-xrf-set2",
+      "name": "Tellus Stream Sediments (Regional XRF — Set 2)",
+      "slug": "gsni-tellus-stream-sediments-xrf-set2",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "Second set of regional stream-sediment samples (Tellus survey), analysed by XRF for an additional suite of major and trace elements beyond the Set 1 panel. ~5,870 points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-stream-sediments-xrf-set2.fgb"
+      },
+      "style": {
+        "color": "#6e4fa8",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.7
+      },
+      "labelProperty": "SAMPLE_NO",
+      "keywords": [
+        "tellus",
+        "geochemistry",
+        "stream",
+        "sediment",
+        "xrf",
+        "set2",
+        "gsni"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Regional Stream Sediments — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-stream-sediments",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — XRF Set 2",
+          "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/acf0cf00-85c0-41fd-b974-67e7f67c03ad/download/regionalsedimentsxrfset2.geojson"
+        },
+        {
+          "label": "CSV — XRF Set 2",
+          "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/de28b76a-42cf-4b0c-b302-225ade45edf0/download/regionalsedimentsxrfset2.csv"
+        }
+      ]
+    },
+    {
+      "id": "gsni-tellus-stream-sediments-au-pge",
+      "name": "Tellus Stream Sediments (Gold and Platinum Group Elements)",
+      "slug": "gsni-tellus-stream-sediments-au-pge",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "Tellus stream-sediment samples assayed specifically for gold (Au) and platinum group elements (PGE — Pt, Pd, Rh, Ru, Os, Ir). ~5,690 sample points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-stream-sediments-au-pge.fgb"
+      },
+      "style": {
+        "color": "#daa520",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.75
+      },
+      "labelProperty": "SAMPLE_NO",
+      "keywords": [
+        "tellus",
+        "gold",
+        "platinum",
+        "pge",
+        "stream",
+        "sediment",
+        "gsni",
+        "prospecting"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Regional Stream Sediments — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-stream-sediments",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — Au and PGE",
+          "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/aefd285a-143e-42a5-80e5-b8c0f0a5c7d0/download/regionalsedimentsxrfauandpge.geojson"
+        },
+        {
+          "label": "CSV — Au and PGE",
+          "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/bc7a7099-8c3c-42ab-af49-6f9f55485e19/download/regionalsedimentsxrfauandpge.csv"
+        }
+      ]
+    },
+    {
+      "id": "gsni-tellus-stream-sediments-boron",
+      "name": "Tellus Stream Sediments (Boron)",
+      "slug": "gsni-tellus-stream-sediments-boron",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "Tellus stream-sediment samples specifically analysed for boron, which requires a separate analytical method from the main XRF panel. ~5,840 points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-stream-sediments-boron.fgb"
+      },
+      "style": {
+        "color": "#48a148",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.75
+      },
+      "labelProperty": "SAMPLE_NO",
+      "keywords": [
+        "tellus",
+        "boron",
+        "stream",
+        "sediment",
+        "gsni",
+        "geochemistry"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Regional Stream Sediments — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-stream-sediments",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — Boron",
+          "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/2a93e611-0888-415c-ad1f-02d0ae2eb669/download/regionalsedimentsxrfboron.geojson"
+        },
+        {
+          "label": "CSV — Boron",
+          "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/f0f51e58-0544-43fd-a2fb-ac58b7f3781f/download/regionalsedimentsxrfboron.csv"
+        }
+      ]
+    },
+    {
+      "id": "gsni-tellus-rural-soil-a-aqua-regia",
+      "name": "Tellus Rural Soil (A Horizon — Aqua Regia Digest)",
+      "slug": "gsni-tellus-rural-soil-a-aqua-regia",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "A-horizon (topsoil) samples from the Tellus rural soil survey digested with aqua regia and analysed for the trace/heavy metal elements that resist XRF. Complements the A-horizon XRF layer. ~6,870 points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-rural-soil-a-aqua-regia.fgb"
+      },
+      "style": {
+        "color": "#c9723a",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.75
+      },
+      "labelProperty": "Sample",
+      "keywords": [
+        "tellus",
+        "soil",
+        "a horizon",
+        "topsoil",
+        "aqua regia",
+        "digest",
+        "gsni",
+        "agriculture"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Rural Soil Survey — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/rural-soil-survey",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — A Soils Aqua Regia",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/28fa598c-18c2-4c39-b077-bf884953d00b/download/regional-soils-a-aquaregia-hdl.geojson"
+        },
+        {
+          "label": "CSV — A Soils Aqua Regia",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/8ce52d8f-9b4f-4df6-b276-27e724164549/download/regionalsoilsaaquaregiahdl.csv"
+        }
+      ]
+    },
+    {
+      "id": "gsni-tellus-rural-soil-s-aqua-regia",
+      "name": "Tellus Rural Soil (S Horizon — Aqua Regia Digest)",
+      "slug": "gsni-tellus-rural-soil-s-aqua-regia",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "S-horizon (subsoil) samples from the Tellus rural soil survey, aqua regia digest. The deeper soil samples — useful for distinguishing surface anthropogenic contamination from underlying geology. ~6,870 points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-rural-soil-s-aqua-regia.fgb"
+      },
+      "style": {
+        "color": "#a55e2e",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.75
+      },
+      "labelProperty": "Sample",
+      "keywords": [
+        "tellus",
+        "soil",
+        "s horizon",
+        "subsoil",
+        "aqua regia",
+        "digest",
+        "gsni"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Rural Soil Survey — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/rural-soil-survey",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — S Soils Aqua Regia",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/e7b13c9c-a159-4d26-b529-6ff3c5611fd7/download/regional-soils-s-aquaregia-hdl.geojson"
+        },
+        {
+          "label": "CSV — S Soils Aqua Regia",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/00961fff-d94d-452a-8654-9ddb998b717d/download/regionalsoilssaquaregiahdl.csv"
+        }
+      ]
+    },
+    {
+      "id": "gsni-tellus-rural-soil-s-near-total",
+      "name": "Tellus Rural Soil (S Horizon — Near-Total Digest)",
+      "slug": "gsni-tellus-rural-soil-s-near-total",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "S-horizon (subsoil) samples digested with HF-HClO4-HNO3 (\"near total\") and analysed by ICP-MS — a more aggressive extraction than aqua regia, recovering more of the silicate-bound element pool. ~6,870 points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-rural-soil-s-near-total.fgb"
+      },
+      "style": {
+        "color": "#7e4720",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.75
+      },
+      "labelProperty": "Sample",
+      "keywords": [
+        "tellus",
+        "soil",
+        "s horizon",
+        "subsoil",
+        "near total",
+        "digest",
+        "icp-ms",
+        "gsni"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Rural Soil Survey — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/rural-soil-survey",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — S Soils Near-Total Digest",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/7bf16f02-1855-410a-8277-edaabd8c5e40/download/regional-soils-s-neartotal-hdl.geojson"
+        },
+        {
+          "label": "CSV — S Soils Near-Total Digest",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/577d757b-c953-469f-b3b3-0ea44bd3bb6b/download/regional_-neartotal_s_hdl.csv"
+        }
+      ]
+    },
+    {
+      "id": "gsni-tellus-rural-soil-s-fire-assay",
+      "name": "Tellus Rural Soil (S Horizon — Fire Assay for Au and PGE)",
+      "slug": "gsni-tellus-rural-soil-s-fire-assay",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "S-horizon subsoil samples subjected to fire assay specifically to recover gold (Au) and platinum group elements. The classical mineral-prospecting technique applied across the Tellus survey grid. ~6,850 points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-rural-soil-s-fire-assay.fgb"
+      },
+      "style": {
+        "color": "#bfa028",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.75
+      },
+      "labelProperty": "Sample",
+      "keywords": [
+        "tellus",
+        "soil",
+        "fire assay",
+        "gold",
+        "platinum",
+        "pge",
+        "prospecting",
+        "gsni"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Rural Soil Survey — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/rural-soil-survey",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — S Soils Fire Assay",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/a868ea07-643a-4481-b473-32a48f56ead0/download/regional-soils-s-fireassay-au-pge.geojson"
+        },
+        {
+          "label": "CSV — S Soils Fire Assay",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/e9a4568a-677d-419a-a2ce-31940900bbe9/download/regionalsoilssfireassayaupge.csv"
         }
       ]
     }
