@@ -243,8 +243,63 @@ def split_tables(html: str):
                 i += 1
 
 
-YEAR_RE = re.compile(r"^(\d{4})\s*(\(b\)|\(B\)|by)?\s*$")
+# Year cell — "1929", "1929 (b)", "MPs (1929)", "MPs 1929", etc.
+YEAR_RE = re.compile(r"^(?:MPs\s*\(?\s*)?(\d{4})\s*\)?\s*(\(b\)|\(B\)|by)?\s*$")
 GE_YEARS = {int(iso[:4]): iso for iso in ELECTION_DATES}
+# Prose-format range header — split on these and parse each segment.
+PROSE_HEADER_RE = re.compile(r"(\d{4})\s*[–—\-]\s*(\d{4})\s*:\s*", re.I)
+
+
+def parse_prose_mps(html: str):
+    """Look for a 'Members of Parliament' section that lists MPs in prose
+    form rather than a table. Returns list of (start_year, end_year, name,
+    party) tuples. End_year is exclusive (next MP took over)."""
+    sec = None
+    m = re.search(r'<h[23]\s+id="Members_of_Parliament"[^>]*>.*?</h[23]>(.*?)(?:<h[23]|<table\s+class=)', html, re.S)
+    if m:
+        sec = m.group(1)
+    if not sec:
+        return []
+    # Replace tags with a single space so name/party text concatenates
+    # cleanly. Then split on each "YYYY – YYYY:" header.
+    text = re.sub(r"<[^>]+>", " ", sec)
+    text = html_lib.unescape(text)
+    text = re.sub(r"\s+", " ", text)
+    out = []
+    matches = list(PROSE_HEADER_RE.finditer(text))
+    for i, m in enumerate(matches):
+        start = int(m.group(1))
+        end = int(m.group(2))
+        body_start = m.end()
+        body_end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+        body = text[body_start:body_end].strip()
+        # Body looks like "Name , Party (extras...)". Find the first comma.
+        if "vacant" in body.lower()[:30]:
+            continue
+        # Strip trailing source markers / footnotes
+        body = re.sub(r"Source\s*:.*$", "", body, flags=re.I).strip().rstrip("|").strip()
+        if "," not in body:
+            continue
+        name, _, rest = body.partition(",")
+        name = name.strip()
+        # Party = up to next " (" parenthesis or end
+        party = rest.strip()
+        # Strip trailing parenthetical annotations like "(1969–70); ..."
+        party = re.split(r"\s*\(", party)[0].strip().rstrip(";").strip()
+        if not re.search(r"[A-Z]", name) or len(name) > 60:
+            continue
+        if not party or len(party) > 80:
+            continue
+        out.append((start, end, name, party))
+    return out
+
+
+def incumbent_at_prose(prose_list, ge_year):
+    """Find (name, party) holding the seat at ge_year using prose ranges."""
+    for start, end, name, party in prose_list:
+        if start <= ge_year <= end:
+            return name, party
+    return None
 
 
 def parse_summary_table(table_html: str):
@@ -333,22 +388,31 @@ def parse_table(table_html: str, constituency: str):
       "<DD Month YYYY> General Election : <Constituency> (N seats)"  (STV multi-member)
     """
     text = strip_tags(table_html)
-    # Title patterns seen on Wikipedia constituency pages:
-    #   "General Election <DD Month YYYY> : <Constituency>"  (single-member, full date)
-    #   "<DD Month YYYY> General Election : <Constituency> (N seats)"  (STV multi-member, full date)
-    #   "General Election YYYY : <Constituency>"  (year-only — Belfast subdivisions and others)
+    # Title patterns seen on Wikipedia constituency pages (case-insensitive,
+    # since some pages use "general election" lowercased):
+    #   "General Election <DD Month YYYY> : <Constituency>"
+    #   "<DD Month YYYY> General Election : <Constituency> (N seats)"  (STV)
+    #   "General Election YYYY : <Constituency>"  (year-only)
     #   "<YYYY> General Election : <Constituency> (N seats)"  (year-only STV)
+    # Plus we tolerate full-date typos (e.g. "30 November 1929" labelling what
+    # is actually the 1933 GE) by falling back to the year if the full date
+    # doesn't match a known GE date but the year does.
     iso = None
-    m = re.search(r"General Election\s+(\d{1,2}\s+[A-Za-z]+\s+\d{4})\s*:", text)
+    flags = re.I
+    m = re.search(r"General Election\s+(\d{1,2}\s+[A-Za-z]+\s+\d{4})\s*:", text, flags)
     if not m:
-        m = re.search(r"(\d{1,2}\s+[A-Za-z]+\s+\d{4})\s+General Election\s*:", text)
+        m = re.search(r"(\d{1,2}\s+[A-Za-z]+\s+\d{4})\s+General Election\s*:", text, flags)
     if m:
         date_human = m.group(1).strip().lower()
         iso = HUMAN_TO_ISO.get(date_human)
+        if iso is None:
+            # Full-date typo — fall back to year if it matches a Stormont GE.
+            year = date_human.split()[-1]
+            iso = YEAR_TO_ISO.get(year)
     if iso is None:
-        m = re.search(r"General Election\s+(\d{4})\s*:", text)
+        m = re.search(r"General Election\s+(\d{4})\s*:", text, flags)
         if not m:
-            m = re.search(r"(\d{4})\s+General Election\s*:", text)
+            m = re.search(r"(\d{4})\s+General Election\s*:", text, flags)
         if m:
             iso = YEAR_TO_ISO.get(m.group(1))
     if iso is None:
@@ -476,6 +540,18 @@ URL_OVERRIDES = {
     "Down": "Down",  # disambig page also exists; prefer constituency one
 }
 
+# Constituencies that ceased to exist at a known year — don't synthesise
+# entries for GE dates after that. The abolition cut-off is the LAST GE the
+# constituency contested.
+ABOLISHED_AFTER = {
+    "Queen's University of Belfast": 1965,  # abolished 1968 for 1969 election
+    # 1921-1929 county multi-member STV constituencies (replaced by 1929 redistricting):
+    "Antrim":              1925,  # ANTRIM borough seat continues post-1929 (separate Wikipedia page "Antrim Borough")
+    "Armagh":              1925,
+    "Down":                1925,
+    "Fermanagh and Tyrone": 1925,
+}
+
 
 def main():
     import urllib.parse as _up
@@ -511,41 +587,48 @@ def main():
             contested_dates.add(iso)
             n_emitted += 1
 
-        # Pass 2: parse the first wikitable as the summary "Members of Parliament"
-        # table and synthesize unopposed entries for any GE date we don't already
-        # have a contested result for. Only fires when summary parsing yields
-        # at least one (year, member, party) event.
+        # Pass 2: synthesise unopposed entries for any GE date without a
+        # contested result. Try the first wikitable as a "Members of
+        # Parliament" summary; if that yields no events (or the table looks
+        # like a detail-result table because it has no summary table), fall
+        # back to a prose parser for the "Members of Parliament" section.
         n_synth = 0
+        events = []
         if tables:
             first_table_html = tables[0][2]
             events = parse_summary_table(first_table_html)
-            if events:
-                for ge_year, ge_iso in GE_YEARS.items():
-                    if ge_iso in contested_dates:
-                        continue
+        prose = parse_prose_mps(html) if not events else []
+        if events or prose:
+            cutoff = ABOLISHED_AFTER.get(const)
+            for ge_year, ge_iso in GE_YEARS.items():
+                if ge_iso in contested_dates:
+                    continue
+                if cutoff is not None and ge_year > cutoff:
+                    continue
+                member, party = None, None
+                if events:
                     inc = incumbent_at(events, ge_year)
-                    if inc is None:
-                        continue
-                    member, party, ev_year, _ = inc
-                    if not member or not party:
-                        continue
-                    # Skip if the inferred event is from before the constituency
-                    # existed at the time (no events at-or-before ge_year is
-                    # already filtered above; nothing else to check).
-                    # Synthesize an "Unopposed" entry — the seat was held by
-                    # this MP at this election, contested-or-not.
-                    cand = [{"party_raw": party, "name": member,
-                             "votes": "Unopposed", "pct": ""}]
-                    obj, slug = emit_constituency(ge_iso, const, cand, 1)
-                    out_dir = OUT_BASE / ge_iso
-                    out_dir.mkdir(parents=True, exist_ok=True)
-                    out_path = out_dir / f"{slug}.json"
-                    if out_path.exists():
-                        continue  # safety
-                    out_path.write_text(json.dumps(obj, indent=2, ensure_ascii=False),
-                                        encoding="utf-8")
-                    summary[ge_iso].append(const)
-                    n_synth += 1
+                    if inc:
+                        m, p, _, _ = inc
+                        member, party = m, p
+                if (not member or not party) and prose:
+                    inc = incumbent_at_prose(prose, ge_year)
+                    if inc:
+                        member, party = inc
+                if not member or not party:
+                    continue
+                cand = [{"party_raw": party, "name": member,
+                         "votes": "Unopposed", "pct": ""}]
+                obj, slug = emit_constituency(ge_iso, const, cand, 1)
+                out_dir = OUT_BASE / ge_iso
+                out_dir.mkdir(parents=True, exist_ok=True)
+                out_path = out_dir / f"{slug}.json"
+                if out_path.exists():
+                    continue
+                out_path.write_text(json.dumps(obj, indent=2, ensure_ascii=False),
+                                    encoding="utf-8")
+                summary[ge_iso].append(const)
+                n_synth += 1
         synth_count += n_synth
         print(f"  {const}: {n_emitted} contested + {n_synth} synthesised = {n_emitted + n_synth}")
     # Write summary
