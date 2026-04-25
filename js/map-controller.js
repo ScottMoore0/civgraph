@@ -2906,7 +2906,120 @@ class MapController {
         if (!this.map) return;
         for (const [mapId] of this.layerStates) {
             this._syncGapRaster(mapId, overrideZoom);
+            this._syncGapVector(mapId, overrideZoom);
         }
+    }
+
+    // ── Gap-fill vector backstop ─────────────────────────────────────────
+    // A single-feature MultiPolygon at simplified resolution that sits
+    // beneath the per-feature vector chunks, providing visual continuity
+    // where the LOD chunks have dropped features. Inert (no hit-testing,
+    // no popups, no labels). Configured via mapConfig.lodVectorBackstops:
+    //
+    //   [{ level, fgb, maxZoom, opacity?, weight? }, ...]
+    //
+    // Loaded once per level; swapped on zoom-band change.
+
+    _ensureGapVectorPane() {
+        if (!this.map) return null;
+        const paneName = 'gap-vector-pane';
+        if (!this.map.getPane(paneName)) {
+            const pane = this.map.createPane(paneName);
+            // Just below the regular overlay pane (400) so per-feature
+            // vectors render on top of the backstop, but above the
+            // gap-raster-pane (380) and above the basemap.
+            pane.style.zIndex = '385';
+            pane.style.pointerEvents = 'none';
+        }
+        return paneName;
+    }
+
+    _resolveGapVectorBackstop(state, zoom) {
+        if (!state || !state.visible) return null;
+        const list = state.config?.lodVectorBackstops;
+        if (!Array.isArray(list) || list.length === 0) return null;
+        let best = null;
+        for (const fb of list) {
+            if (!fb?.fgb || typeof fb.maxZoom !== 'number') continue;
+            if (zoom > fb.maxZoom) continue;
+            if (!best || fb.maxZoom < best.maxZoom) best = fb;
+        }
+        return best;
+    }
+
+    async _syncGapVector(mapId, overrideZoom = null) {
+        try {
+            const state = this.layerStates.get(mapId);
+            if (!state || !this.map) return;
+            const zoom = overrideZoom != null ? overrideZoom : this.map.getZoom();
+            const desired = this._resolveGapVectorBackstop(state, zoom);
+            const currentLevel = state._gapVectorLevel || null;
+            const desiredLevel = desired?.level || null;
+            if (desiredLevel === currentLevel && state._gapVectorLayer) return;
+
+            // Drop the previous backstop layer (different level or no
+            // longer needed at this zoom).
+            if (state._gapVectorLayer) {
+                try { this.map.removeLayer(state._gapVectorLayer); } catch {}
+                state._gapVectorLayer = null;
+                state._gapVectorLevel = null;
+            }
+            if (!desired) return;
+
+            // Mark loading so concurrent zoom events don't race.
+            const pendingKey = desired.level;
+            if (state._gapVectorPending === pendingKey) return;
+            state._gapVectorPending = pendingKey;
+
+            const url = this._rewriteForDevProxy(desired.fgb);
+            let features;
+            try {
+                features = await this.loadFlatGeobuf(url, null, null);
+            } catch (err) {
+                console.warn(`[MapController] Backstop fetch failed for ${mapId} ${desired.level}:`, err);
+                state._gapVectorPending = null;
+                return;
+            }
+            // If the user moved away or hid the layer while we were fetching,
+            // drop the result silently.
+            const stillVisible = this.layerStates.get(mapId);
+            if (!stillVisible || !stillVisible.visible) { state._gapVectorPending = null; return; }
+            // If a newer zoom event pre-empted us, abandon this load.
+            if (state._gapVectorPending !== pendingKey) return;
+
+            const pane = this._ensureGapVectorPane();
+            const baseColour = state.config?.style?.color || '#888888';
+            const weight = typeof desired.weight === 'number' ? desired.weight :
+                Math.max(0.4, (state.config?.style?.weight || 1.5) * 0.6);
+            const opacity = typeof desired.opacity === 'number' ? desired.opacity : 0.55;
+
+            const layer = L.geoJSON({ type: 'FeatureCollection', features }, {
+                interactive: false,
+                bubblingMouseEvents: false,
+                pane,
+                style: {
+                    color: baseColour,
+                    weight,
+                    opacity,
+                    fill: false      // outline only — fill would stack into a solid mass
+                }
+            });
+            layer.addTo(this.map);
+            state._gapVectorLayer = layer;
+            state._gapVectorLevel = desired.level;
+            state._gapVectorPending = null;
+        } catch (err) {
+            console.warn(`[MapController] Gap-vector sync failed for ${mapId}:`, err);
+        }
+    }
+
+    _removeGapVector(mapId) {
+        const state = this.layerStates.get(mapId);
+        if (!state || !state._gapVectorLayer || !this.map) return;
+        this.map.removeLayer(state._gapVectorLayer);
+        state._gapVectorLayer = null;
+        state._gapVectorLevel = null;
+        state._gapVectorPending = null;
     }
 
     /**
