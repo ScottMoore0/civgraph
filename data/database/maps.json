@@ -189,6 +189,12 @@
       "description": "Environmental indicators — air, noise, agricultural pollution risk, and similar overlay datasets."
     },
     {
+      "id": "biodiversity",
+      "name": "Biodiversity & Habitats",
+      "group": "Physical Geography",
+      "description": "Habitat-network and biodiversity overlay datasets — primarily Ulster Wildlife's Nature Recovery NI mapping of where each habitat type currently exists, what's associated, and where expansion or restoration would have most ecological benefit."
+    },
+    {
       "id": "transport",
       "name": "Transport",
       "group": "Built Environment",
@@ -18529,6 +18535,1158 @@
         {
           "label": "OSNI Open Data — Tellus Radiometrics raw (source)",
           "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometrics",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-bog",
+      "name": "Habitat Network — Bog",
+      "slug": "habitat-bog",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of bog habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-bog.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#7E5A4F",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#7E5A4F"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "bog"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Bog Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/846c30d0-2d1d-441e-99dc-43c4741e77f6",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-deciduous-woodland",
+      "name": "Habitat Network — Deciduous Woodland",
+      "slug": "habitat-deciduous-woodland",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of deciduous woodland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-deciduous-woodland.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#3F8D45",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#3F8D45"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "deciduous woodland"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Deciduous Woodland Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/b15b4d96-9513-43b6-a310-a23c5c7fff37",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-fen",
+      "name": "Habitat Network — Fen",
+      "slug": "habitat-fen",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of fen habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-fen.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#7CA89A",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#7CA89A"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "fen"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Fen Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/a62e37f4-9a17-4854-a2ac-cc7b5b433648",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-heath",
+      "name": "Habitat Network — Heath",
+      "slug": "habitat-heath",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of heath habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-heath.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#8C6F47",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#8C6F47"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "heath"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Heath Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/11cae57f-ed15-4a0d-82b4-86871060a6f3",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-lake",
+      "name": "Habitat Network — Lake",
+      "slug": "habitat-lake",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of lake habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-lake.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#3B8DBD",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#3B8DBD"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "lake"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Lake Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/c389bfb5-65af-4457-b3f7-b5d1f2c7a29a",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-acid-grassland",
+      "name": "Habitat Network — Acid Grassland",
+      "slug": "habitat-acid-grassland",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of acid grassland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-acid-grassland.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#B8C277",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#B8C277"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "acid grassland"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Acid Grassland Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/f4cdfd0e-f655-444d-a5fb-f052a04c6737",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-calcareous-grassland",
+      "name": "Habitat Network — Calcareous Grassland",
+      "slug": "habitat-calcareous-grassland",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of calcareous grassland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-calcareous-grassland.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#D4D278",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#D4D278"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "calcareous grassland"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Calcareous Grassland Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/ddc941ea-51ce-4bb5-be8c-1daabca0a9b1",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-coastal-sand-dune",
+      "name": "Habitat Network — Coastal Sand Dune",
+      "slug": "habitat-coastal-sand-dune",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of coastal sand dune habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-coastal-sand-dune.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#E8D697",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#E8D697"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "coastal sand dune"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Coastal Sand Dune Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/10a948a6-05d5-498b-853a-430086da439a",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-coastal-saltmarsh",
+      "name": "Habitat Network — Coastal Saltmarsh",
+      "slug": "habitat-coastal-saltmarsh",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of coastal saltmarsh habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-coastal-saltmarsh.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#88A07A",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#88A07A"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "coastal saltmarsh"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Coastal Saltmarsh Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/05953343-682e-4ae7-87c3-801a092f0587",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-coastal-vegetated-shingle",
+      "name": "Habitat Network — Coastal Vegetated Shingle",
+      "slug": "habitat-coastal-vegetated-shingle",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of coastal vegetated shingle habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-coastal-vegetated-shingle.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#D5C3A1",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#D5C3A1"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "coastal vegetated shingle"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Coastal Vegetated Shingle Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/bc57fe1b-d5f1-4f1a-af96-494618f3b53b",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-ancient-semi-natural-woodland",
+      "name": "Habitat Network — Ancient Semi-Natural Woodland",
+      "slug": "habitat-ancient-semi-natural-woodland",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of ancient semi-natural woodland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-ancient-semi-natural-woodland.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#1F5E2C",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#1F5E2C"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "ancient semi-natural woodland"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Ancient Semi-Natural Woodland Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/0602c59a-2e65-40e7-88cf-4335afed4e09",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-lowland-meadow",
+      "name": "Habitat Network — Lowland Meadow",
+      "slug": "habitat-lowland-meadow",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of lowland meadow habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-lowland-meadow.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#9DC07F",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#9DC07F"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "lowland meadow"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Lowland Meadow Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/c3d5eef0-5ddc-4ba4-a278-b292b1e00b65",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-limestone-pavement",
+      "name": "Habitat Network — Limestone Pavement",
+      "slug": "habitat-limestone-pavement",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of limestone pavement habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-limestone-pavement.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#A6A39B",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#A6A39B"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "limestone pavement"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Limestone Pavement Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/371e68d4-530a-4d1c-b867-44a3ef320411",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-maritime-cliff-slope",
+      "name": "Habitat Network — Maritime Cliff and Slope",
+      "slug": "habitat-maritime-cliff-slope",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of maritime cliff and slope habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-maritime-cliff-slope.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#9E6E54",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#9E6E54"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "maritime cliff and slope"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Maritime Cliff and Slope Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/2b89ad59-e650-4eca-b974-19dda42a8572",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-pond",
+      "name": "Habitat Network — Pond",
+      "slug": "habitat-pond",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of pond habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-pond.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#5DA4D8",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#5DA4D8"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "pond"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Pond Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/4773a29d-b525-4e50-acae-b4ffa4047279",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-reedbed",
+      "name": "Habitat Network — Reedbed",
+      "slug": "habitat-reedbed",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of reedbed habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-reedbed.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#807A52",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#807A52"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "reedbed"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Reedbed Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/2aad7ca5-4619-4519-ab64-4ecfff858e72",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-river",
+      "name": "Habitat Network — River",
+      "slug": "habitat-river",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of river habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-river.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#4F89AE",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#4F89AE"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "river"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — River Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/bde1d3a6-9276-442d-89e7-8a064af48898",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-traditional-orchard",
+      "name": "Habitat Network — Traditional Orchard",
+      "slug": "habitat-traditional-orchard",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of traditional orchard habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-traditional-orchard.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#A3C266",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#A3C266"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "traditional orchard"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Traditional Orchard Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/c4f05bd7-5dd5-4504-b6d7-23940957c3cd",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-wood-pasture-parkland",
+      "name": "Habitat Network — Wood Pasture and Parkland",
+      "slug": "habitat-wood-pasture-parkland",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of wood pasture and parkland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-wood-pasture-parkland.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#5A8E45",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#5A8E45"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "wood pasture and parkland"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Wood Pasture and Parkland Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/89653a85-4d13-4cc7-a643-1fb6e7cad0fa",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-purple-moor-grass",
+      "name": "Habitat Network — Purple Moor Grass and Rush Pasture",
+      "slug": "habitat-purple-moor-grass",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of purple moor grass and rush pasture habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-purple-moor-grass.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#7E5C8A",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#7E5C8A"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "purple moor grass and rush pasture"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Purple Moor Grass and Rush Pasture Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/7bd34e15-1fd7-4b7d-acd3-f2cfefbc15c6",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-coastal-grouped",
+      "name": "Habitat Network — Coastal Habitat Networks (grouped)",
+      "slug": "habitat-coastal-grouped",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of coastal habitat networks (grouped) habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-coastal-grouped.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#C6A876",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#C6A876"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "coastal habitat networks (grouped)"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Coastal Habitat Networks (grouped) Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/db9a4622-7b79-4bbe-94b6-ff54c9fafd2f",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-woodland-grouped",
+      "name": "Habitat Network — Woodland Habitat Networks (grouped)",
+      "slug": "habitat-woodland-grouped",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of woodland habitat networks (grouped) habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-woodland-grouped.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#3F8D45",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#3F8D45"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "woodland habitat networks (grouped)"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Woodland Habitat Networks (grouped) Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/8cc0d885-994c-432c-af8e-44ff55b4761d",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-grassland-grouped",
+      "name": "Habitat Network — Grassland Habitat Networks (grouped)",
+      "slug": "habitat-grassland-grouped",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of grassland habitat networks (grouped) habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-grassland-grouped.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#A8B85C",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#A8B85C"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "grassland habitat networks (grouped)"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Grassland Habitat Networks (grouped) Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/f311e7ab-085e-491a-bda2-939e039541d2",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "habitat-wetland-grouped",
+      "name": "Habitat Network — Wetland Habitat Networks (grouped)",
+      "slug": "habitat-wetland-grouped",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of wetland habitat networks (grouped) habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-wetland-grouped.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#7CA89A",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#7CA89A"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "wetland habitat networks (grouped)"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Wetland Habitat Networks (grouped) Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/8e581af0-a6bb-43b6-b2d9-1f4d5ed96013",
           "note": ""
         }
       ]
