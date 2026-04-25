@@ -2531,6 +2531,54 @@ class UIController {
                     'data-2021-household-size-sdz',
                     'data-2021-household-size-dz'
                 ]
+            },
+            {
+                id: 'flat-data-2021-female-share', name: 'Data — Census 2021: Female population share', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-female-share-lgd',
+                    'data-2021-female-share-ward',
+                    'data-2021-female-share-settlement'
+                ]
+            },
+            {
+                id: 'flat-data-2021-born-in-ni', name: 'Data — Census 2021: Born in Northern Ireland', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-born-in-ni-lgd',
+                    'data-2021-born-in-ni-ward',
+                    'data-2021-born-in-ni-settlement'
+                ]
+            },
+            {
+                id: 'flat-data-2021-irish-knowledge', name: 'Data — Census 2021: Some ability in Irish', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-irish-knowledge-lgd',
+                    'data-2021-irish-knowledge-ward',
+                    'data-2021-irish-knowledge-settlement'
+                ]
+            },
+            {
+                id: 'flat-data-2021-ulster-scots-knowledge', name: 'Data — Census 2021: Some ability in Ulster-Scots', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-ulster-scots-knowledge-lgd',
+                    'data-2021-ulster-scots-knowledge-ward',
+                    'data-2021-ulster-scots-knowledge-settlement'
+                ]
+            },
+            {
+                id: 'flat-data-2021-religion-catholic', name: 'Data — Census 2021: Religion (% Catholic)', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-religion-catholic-lgd',
+                    'data-2021-religion-catholic-ward',
+                    'data-2021-religion-catholic-settlement'
+                ]
+            },
+            {
+                id: 'flat-data-2021-catholic-background', name: 'Data — Census 2021: Catholic community background', years: '2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'data-2021-catholic-background-lgd',
+                    'data-2021-catholic-background-ward',
+                    'data-2021-catholic-background-settlement'
+                ]
             }
         ];
 

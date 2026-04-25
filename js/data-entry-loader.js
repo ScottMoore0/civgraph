@@ -66,6 +66,20 @@ function ensurePanel() {
     return panel;
 }
 
+function formatCell(col, raw) {
+    if (raw === null || raw === undefined || raw === '') return '';
+    const num = parseFloat(raw);
+    if (!isFinite(num) || !/^-?\d/.test(String(raw))) return String(raw);
+    // Percent columns (suffix _pct or contains 'percent'/'%') and known float
+    // metrics get up to 2 decimal places; everything else gets thousands-grouped
+    // integer formatting.
+    const isPct = /(_pct$|percent|%)/i.test(col);
+    const isFloat = isPct || /density|average|ratio|median|index|rate/i.test(col) || (Math.abs(num) < 100 && !Number.isInteger(num));
+    return num.toLocaleString(undefined, isFloat
+        ? { minimumFractionDigits: isPct ? 1 : 0, maximumFractionDigits: 2 }
+        : { maximumFractionDigits: 0 });
+}
+
 function renderPanel(entry, csvRows) {
     const panel = ensurePanel();
     const cols = entry.tableColumns && entry.tableColumns.length
@@ -85,7 +99,7 @@ function renderPanel(entry, csvRows) {
             <thead><tr>${cols.map(c => `<th style="text-align:left;border-bottom:1px solid #ccc;padding:4px 6px;background:#f5f5f5;position:sticky;top:0">${c}</th>`).join('')}</tr></thead>
             <tbody>
               ${csvRows.map((row, i) => `<tr data-row-idx="${i}" style="cursor:default">
-                ${cols.map(c => `<td style="padding:4px 6px;border-bottom:1px solid #eee">${typeof row[c] === 'number' || /^-?\d/.test(String(row[c])) ? Number(row[c]).toLocaleString() : (row[c] ?? '')}</td>`).join('')}
+                ${cols.map(c => `<td style="padding:4px 6px;border-bottom:1px solid #eee">${formatCell(c, row[c])}</td>`).join('')}
               </tr>`).join('')}
             </tbody>
           </table>
@@ -138,8 +152,19 @@ export async function loadDataEntry(entry, { onMapLoad, mapController, baseUrl =
                 sub._dataEntryValue = v;
                 if (typeof sub.bindTooltip === 'function') {
                     const label = props[mapController.layerStates.get(entry.geography)?.config?.labelProperty || 'name'] || k;
-                    const fmtV = isNaN(parseFloat(v)) ? v : Number(v).toLocaleString();
-                    sub.bindTooltip(`<strong>${label}</strong><br>${entry.valueColumn}: ${fmtV}`, { sticky: true });
+                    // Show every panel column (besides geography labels) in the
+                    // tooltip so users see count + percent + denominator at once.
+                    const tipCols = (entry.tableColumns && entry.tableColumns.length
+                        ? entry.tableColumns
+                        : [entry.valueColumn]
+                    ).filter(c => c !== 'Geography' && c !== 'GeographyCode');
+                    const tipLines = [`<strong>${label}</strong>`];
+                    for (const c of tipCols) {
+                        const cv = matched[c];
+                        if (cv === undefined || cv === null || cv === '') continue;
+                        tipLines.push(`${c}: ${formatCell(c, cv)}`);
+                    }
+                    sub.bindTooltip(tipLines.join('<br>'), { sticky: true });
                 }
             };
             if (typeof layerOrChild.eachLayer === 'function') layerOrChild.eachLayer(recolour);

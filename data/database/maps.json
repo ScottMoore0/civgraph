@@ -19306,6 +19306,672 @@
         "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
         "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
       }
+    },
+    {
+      "id": "data-2021-female-share-lgd",
+      "type": "data-entry",
+      "name": "Female population share (Census 2021, by LGD)",
+      "slug": "data-2021-female-share-lgd",
+      "category": "data-population",
+      "description": "Female population share (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-a07-female-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "Female_pct",
+      "ramp": "viridis",
+      "domain": [
+        48.5,
+        51.5
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "Female",
+        "Female_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "female share",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A07 (Sex)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-female-share-ward",
+      "type": "data-entry",
+      "name": "Female population share (Census 2021, by Ward 2014)",
+      "slug": "data-2021-female-share-ward",
+      "category": "data-population",
+      "description": "Female population share (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-a07-female-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "Female_pct",
+      "ramp": "viridis",
+      "domain": [
+        48.0,
+        53.0
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "Female",
+        "Female_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "female share",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A07 (Sex)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-female-share-settlement",
+      "type": "data-entry",
+      "name": "Female population share (Census 2021, by Settlement)",
+      "slug": "data-2021-female-share-settlement",
+      "category": "data-population",
+      "description": "Female population share (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-a07-female-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "Female_pct",
+      "ramp": "viridis",
+      "domain": [
+        48.5,
+        53.5
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "Female",
+        "Female_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "female share",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A07 (Sex)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-born-in-ni-lgd",
+      "type": "data-entry",
+      "name": "Born in Northern Ireland (Census 2021, by LGD)",
+      "slug": "data-2021-born-in-ni-lgd",
+      "category": "data-population",
+      "description": "Born in Northern Ireland (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-a16-born-in-ni-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "BornInNI_pct",
+      "ramp": "viridis",
+      "domain": [
+        80,
+        92
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "BornInNI",
+        "BornInNI_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "born in ni",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A16 (Country of birth — basic)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-born-in-ni-ward",
+      "type": "data-entry",
+      "name": "Born in Northern Ireland (Census 2021, by Ward 2014)",
+      "slug": "data-2021-born-in-ni-ward",
+      "category": "data-population",
+      "description": "Born in Northern Ireland (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-a16-born-in-ni-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "BornInNI_pct",
+      "ramp": "viridis",
+      "domain": [
+        70,
+        95
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "BornInNI",
+        "BornInNI_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "born in ni",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A16 (Country of birth — basic)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-born-in-ni-settlement",
+      "type": "data-entry",
+      "name": "Born in Northern Ireland (Census 2021, by Settlement)",
+      "slug": "data-2021-born-in-ni-settlement",
+      "category": "data-population",
+      "description": "Born in Northern Ireland (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-a16-born-in-ni-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "BornInNI_pct",
+      "ramp": "viridis",
+      "domain": [
+        70,
+        95
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "BornInNI",
+        "BornInNI_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "born in ni",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A16 (Country of birth — basic)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-irish-knowledge-lgd",
+      "type": "data-entry",
+      "name": "Some ability in Irish (Census 2021, by LGD)",
+      "slug": "data-2021-irish-knowledge-lgd",
+      "category": "data-population",
+      "description": "Some ability in Irish (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-b05-irish-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "SomeIrish_pct",
+      "ramp": "viridis",
+      "domain": [
+        3,
+        22
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "SomeIrish",
+        "SomeIrish_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "irish knowledge",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B05 (Knowledge of Irish)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-irish-knowledge-ward",
+      "type": "data-entry",
+      "name": "Some ability in Irish (Census 2021, by Ward 2014)",
+      "slug": "data-2021-irish-knowledge-ward",
+      "category": "data-population",
+      "description": "Some ability in Irish (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-b05-irish-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "SomeIrish_pct",
+      "ramp": "viridis",
+      "domain": [
+        2,
+        30
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "SomeIrish",
+        "SomeIrish_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "irish knowledge",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B05 (Knowledge of Irish)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-irish-knowledge-settlement",
+      "type": "data-entry",
+      "name": "Some ability in Irish (Census 2021, by Settlement)",
+      "slug": "data-2021-irish-knowledge-settlement",
+      "category": "data-population",
+      "description": "Some ability in Irish (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-b05-irish-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "SomeIrish_pct",
+      "ramp": "viridis",
+      "domain": [
+        2,
+        30
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "SomeIrish",
+        "SomeIrish_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "irish knowledge",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B05 (Knowledge of Irish)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-ulster-scots-knowledge-lgd",
+      "type": "data-entry",
+      "name": "Some ability in Ulster-Scots (Census 2021, by LGD)",
+      "slug": "data-2021-ulster-scots-knowledge-lgd",
+      "category": "data-population",
+      "description": "Some ability in Ulster-Scots (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-b08-ulster-scots-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "SomeUlsterScots_pct",
+      "ramp": "viridis",
+      "domain": [
+        6,
+        22
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "SomeUlsterScots",
+        "SomeUlsterScots_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "ulster scots knowledge",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B08 (Knowledge of Ulster-Scots)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-ulster-scots-knowledge-ward",
+      "type": "data-entry",
+      "name": "Some ability in Ulster-Scots (Census 2021, by Ward 2014)",
+      "slug": "data-2021-ulster-scots-knowledge-ward",
+      "category": "data-population",
+      "description": "Some ability in Ulster-Scots (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-b08-ulster-scots-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "SomeUlsterScots_pct",
+      "ramp": "viridis",
+      "domain": [
+        2,
+        28
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "SomeUlsterScots",
+        "SomeUlsterScots_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "ulster scots knowledge",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B08 (Knowledge of Ulster-Scots)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-ulster-scots-knowledge-settlement",
+      "type": "data-entry",
+      "name": "Some ability in Ulster-Scots (Census 2021, by Settlement)",
+      "slug": "data-2021-ulster-scots-knowledge-settlement",
+      "category": "data-population",
+      "description": "Some ability in Ulster-Scots (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-b08-ulster-scots-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "SomeUlsterScots_pct",
+      "ramp": "viridis",
+      "domain": [
+        2,
+        32
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "SomeUlsterScots",
+        "SomeUlsterScots_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "ulster scots knowledge",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B08 (Knowledge of Ulster-Scots)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-religion-catholic-lgd",
+      "type": "data-entry",
+      "name": "Religion: Catholic (Census 2021, by LGD)",
+      "slug": "data-2021-religion-catholic-lgd",
+      "category": "data-population",
+      "description": "Religion: Catholic (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-b19-catholic-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "Catholic_pct",
+      "ramp": "viridis",
+      "domain": [
+        10,
+        70
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "Catholic",
+        "Catholic_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "religion catholic",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B19 (Religion)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-religion-catholic-ward",
+      "type": "data-entry",
+      "name": "Religion: Catholic (Census 2021, by Ward 2014)",
+      "slug": "data-2021-religion-catholic-ward",
+      "category": "data-population",
+      "description": "Religion: Catholic (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-b19-catholic-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "Catholic_pct",
+      "ramp": "viridis",
+      "domain": [
+        0,
+        100
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "Catholic",
+        "Catholic_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "religion catholic",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B19 (Religion)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-religion-catholic-settlement",
+      "type": "data-entry",
+      "name": "Religion: Catholic (Census 2021, by Settlement)",
+      "slug": "data-2021-religion-catholic-settlement",
+      "category": "data-population",
+      "description": "Religion: Catholic (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-b19-catholic-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "Catholic_pct",
+      "ramp": "viridis",
+      "domain": [
+        0,
+        100
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "Catholic",
+        "Catholic_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "religion catholic",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B19 (Religion)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-catholic-background-lgd",
+      "type": "data-entry",
+      "name": "Catholic community background (Census 2021, by LGD)",
+      "slug": "data-2021-catholic-background-lgd",
+      "category": "data-population",
+      "description": "Catholic community background (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-b23-catholic-background-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "CatholicBackground_pct",
+      "ramp": "viridis",
+      "domain": [
+        12,
+        72
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "CatholicBackground",
+        "CatholicBackground_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "catholic background",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B23 (Religion or religion brought up in)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-catholic-background-ward",
+      "type": "data-entry",
+      "name": "Catholic community background (Census 2021, by Ward 2014)",
+      "slug": "data-2021-catholic-background-ward",
+      "category": "data-population",
+      "description": "Catholic community background (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-b23-catholic-background-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "CatholicBackground_pct",
+      "ramp": "viridis",
+      "domain": [
+        0,
+        100
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "CatholicBackground",
+        "CatholicBackground_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "catholic background",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B23 (Religion or religion brought up in)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    },
+    {
+      "id": "data-2021-catholic-background-settlement",
+      "type": "data-entry",
+      "name": "Catholic community background (Census 2021, by Settlement)",
+      "slug": "data-2021-catholic-background-settlement",
+      "category": "data-population",
+      "description": "Catholic community background (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-b23-catholic-background-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "CatholicBackground_pct",
+      "ramp": "viridis",
+      "domain": [
+        0,
+        100
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "CatholicBackground",
+        "CatholicBackground_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "catholic background",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B23 (Religion or religion brought up in)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
     }
   ]
 }
