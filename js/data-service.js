@@ -57,7 +57,11 @@ class DataService {
    * Load and parse a JSON file
    */
   async loadJson(url) {
-    const response = await fetch(this.baseUrl + url);
+    // cache:'no-cache' forces revalidation (ETag/If-Modified-Since) on every
+    // load. The CDN serves these JSONs with stale-while-revalidate=86400, so
+    // without this flag a browser can hold a stale copy for up to 24 h after
+    // a deploy — which silently hides newly added catalogue entries.
+    const response = await fetch(this.baseUrl + url, { cache: 'no-cache' });
     if (!response.ok) {
       throw new Error(`Failed to load ${url}: ${response.status}`);
     }
