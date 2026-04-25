@@ -94,6 +94,22 @@ class App {
                 this.updateURLState();
             };
 
+            // Track loaded data entries here too, so updateActiveLayers can
+            // include them in the active-layers card without importing the
+            // loader synchronously. Refreshed via events from the loader.
+            this._loadedDataEntries = new Map(); // entryId -> entry config
+            document.addEventListener('data-entry:loaded', (ev) => {
+                const id = ev.detail?.entryId;
+                const entry = (dataService.maps?.dataEntries || []).find(e => e.id === id);
+                if (entry) this._loadedDataEntries.set(id, entry);
+                this.updateActiveLayers();
+            });
+            document.addEventListener('data-entry:unloaded', (ev) => {
+                const id = ev.detail?.entryId;
+                this._loadedDataEntries.delete(id);
+                this.updateActiveLayers();
+            });
+
             // Load a map layer (or group of layers); also intercepts data-entry IDs
             uiController.onMapLoad = async (mapId) => {
                 // Data entries: load their geography first, then join CSV + recolour + table
@@ -105,6 +121,8 @@ class App {
                         mapController,
                         baseUrl: ''
                     });
+                    this.updateActiveLayers();
+                    this.updateURLState();
                     return;
                 }
                 await this.loadMap(mapId);
@@ -147,7 +165,17 @@ class App {
             };
 
             // Unload a map layer (or group of layers)
-            uiController.onMapUnload = (mapId) => {
+            uiController.onMapUnload = async (mapId) => {
+                // Data entries: unload via the loader (resets styles + removes
+                // tooltip + drops centroid markers + closes the results pane).
+                const dataEntry = (dataService.maps?.dataEntries || []).find(e => e.id === mapId);
+                if (dataEntry) {
+                    const { unloadDataEntry } = await import('./data-entry-loader.js');
+                    unloadDataEntry(mapId);
+                    this.updateActiveLayers();
+                    this.updateURLState();
+                    return;
+                }
                 const layerState = mapController.layerStates.get(mapId);
                 if (layerState?.isElection) {
                     // Delegate to election controller for full cleanup
@@ -2292,6 +2320,28 @@ class App {
             }
         });
 
+        // Include loaded data entries (CSV joined onto an FGB geography).
+        // They surface as removable rows in the active-layers card; the
+        // remove button routes through onMapUnload which dispatches to
+        // unloadDataEntry.
+        if (this._loadedDataEntries) {
+            for (const e of this._loadedDataEntries.values()) {
+                if (loadedMaps.find(m => m.id === e.id)) continue;
+                const sampleColour = ({
+                    'protestant-catholic': '#41AB5D',
+                    'inferno': '#CF4446',
+                    'magma':   '#CD4071',
+                    'plasma':  '#CC4778',
+                }[e.ramp]) || '#35B779';
+                loadedMaps.push({
+                    id: e.id,
+                    name: e.name,
+                    style: { color: sampleColour },
+                    isDataEntry: true,
+                });
+            }
+        }
+
         loadedIds.forEach(id => {
             visibilityMap.set(id, mapController.isLayerVisible(id));
 
@@ -2508,6 +2558,14 @@ class App {
         }
         if (this._spatialLoadFeedback && (!event.mapName || this._spatialLoadFeedback.mapName === event.mapName)) {
             this.finishSpatialLoadFeedback(this._spatialLoadFeedback);
+        }
+        // After a chunked / LOD-switched layer finishes loading, re-apply
+        // any data-entry recolouring whose geography was affected. New
+        // chunks otherwise come in with the geography's default style.
+        if (event.mapId && this._loadedDataEntries?.size) {
+            import('./data-entry-loader.js')
+                .then(mod => mod.recolourGeographyEntries?.(event.mapId, mapController))
+                .catch(() => {});
         }
     }
 
