@@ -2489,6 +2489,36 @@ class UIController {
                 id: 'flat-tellus-raw', name: 'Tellus Airborne — raw flight-line data', years: '2005-2008', extent: 'Northern Ireland',
                 mapIds: ['tellus-mag-raw', 'tellus-em-raw', 'tellus-rad-raw']
             },
+            // Ulster Wildlife habitat networks — Nature Recovery NI mapping
+            {
+                id: 'flat-habitat-networks', name: 'Habitat Networks (Ulster Wildlife)', years: '2020-2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'habitat-coastal-grouped',
+                    'habitat-woodland-grouped',
+                    'habitat-grassland-grouped',
+                    'habitat-wetland-grouped',
+                    'habitat-bog',
+                    'habitat-deciduous-woodland',
+                    'habitat-ancient-semi-natural-woodland',
+                    'habitat-fen',
+                    'habitat-heath',
+                    'habitat-lake',
+                    'habitat-pond',
+                    'habitat-river',
+                    'habitat-reedbed',
+                    'habitat-acid-grassland',
+                    'habitat-calcareous-grassland',
+                    'habitat-lowland-meadow',
+                    'habitat-purple-moor-grass',
+                    'habitat-traditional-orchard',
+                    'habitat-wood-pasture-parkland',
+                    'habitat-coastal-sand-dune',
+                    'habitat-coastal-saltmarsh',
+                    'habitat-coastal-vegetated-shingle',
+                    'habitat-maritime-cliff-slope',
+                    'habitat-limestone-pavement'
+                ]
+            },
             // Data entries — Census-derived datasets joined to a geography
             {
                 id: 'flat-data-2021-population', name: 'Data — Census 2021: Usual resident population', years: '2021', extent: 'Northern Ireland',
