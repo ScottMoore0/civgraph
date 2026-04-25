@@ -14873,7 +14873,16 @@
           "label": "QGIS / ArcGIS style files (ZIP)",
           "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/bb4577fc-f554-42af-8d21-f0592ab7c38f/download/qgis-arcgisstyles.zip"
         }
-      ]
+      ],
+      "colorMap": {
+        "property": [
+          "MAX_PERIOD",
+          "MAX_ERA",
+          "MAX_EON"
+        ],
+        "palette": "iugs",
+        "default": "#bdbdbd"
+      }
     },
     {
       "id": "gsni-bedrock-geology-lines-250k",
@@ -14977,7 +14986,12 @@
           "label": "ESRI Shapefile (ZIP)",
           "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/32306dee-1748-4d68-b465-acfd1e5ae344/download/ni250ksuperficialgeologypolygons.zip"
         }
-      ]
+      ],
+      "colorMap": {
+        "property": "LEX_D",
+        "palette": "superficial",
+        "default": "#bdbdbd"
+      }
     },
     {
       "id": "gsni-mineral-resources",
@@ -15055,7 +15069,7 @@
         "color": "#8860c6",
         "weight": 1,
         "radius": 4,
-        "fillOpacity": 0.7
+        "fillOpacity": 0.85
       },
       "labelProperty": "SAMPLE_NO",
       "keywords": [
@@ -15088,7 +15102,16 @@
           "label": "Methodology and Detection Limits (PDF)",
           "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/46916fde-077a-4043-a6fb-09820aab675a/download/tellusmethodologyanddetectionlimits.pdf"
         }
-      ]
+      ],
+      "colorScale": {
+        "property": "AS",
+        "ramp": "inferno",
+        "domain": [
+          1,
+          100
+        ],
+        "logarithmic": true
+      }
     },
     {
       "id": "gsni-tellus-stream-waters-icp",
@@ -15107,7 +15130,7 @@
         "color": "#2a8ec6",
         "weight": 1,
         "radius": 4,
-        "fillOpacity": 0.7
+        "fillOpacity": 0.85
       },
       "labelProperty": "SAMPLENO",
       "keywords": [
@@ -15140,7 +15163,16 @@
           "label": "Methodology and Detection Limits (PDF)",
           "file": "https://admin.opendatani.gov.uk/dataset/c4c559be-77db-4d3b-9b6a-ecc24feb3e21/resource/96871e7f-3f5b-4f27-8d8e-192fe0f6919f/download/tellusmethodologyanddetectionlimits.pdf"
         }
-      ]
+      ],
+      "colorScale": {
+        "property": "AS_",
+        "ramp": "inferno",
+        "domain": [
+          0.05,
+          5
+        ],
+        "logarithmic": true
+      }
     },
     {
       "id": "gsni-tellus-rural-soil-a-xrf",
@@ -15159,7 +15191,7 @@
         "color": "#b8783a",
         "weight": 1,
         "radius": 4,
-        "fillOpacity": 0.7
+        "fillOpacity": 0.85
       },
       "labelProperty": "Sample",
       "keywords": [
@@ -15192,7 +15224,16 @@
           "label": "Methodology and Detection Limits (PDF)",
           "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/330e2a8f-db4e-42ec-9a66-145a5eb07c93/download/tellusmethodologyanddetectionlimits.pdf"
         }
-      ]
+      ],
+      "colorScale": {
+        "property": "As",
+        "ramp": "inferno",
+        "domain": [
+          3,
+          30
+        ],
+        "logarithmic": false
+      }
     },
     {
       "id": "gsni-core-cuttings-register",
@@ -15423,7 +15464,7 @@
         "color": "#6e4fa8",
         "weight": 1,
         "radius": 4,
-        "fillOpacity": 0.7
+        "fillOpacity": 0.85
       },
       "labelProperty": "SAMPLE_NO",
       "keywords": [
@@ -15452,7 +15493,16 @@
           "label": "CSV — XRF Set 2",
           "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/de28b76a-42cf-4b0c-b302-225ade45edf0/download/regionalsedimentsxrfset2.csv"
         }
-      ]
+      ],
+      "colorScale": {
+        "property": "CO",
+        "ramp": "viridis",
+        "domain": [
+          3,
+          80
+        ],
+        "logarithmic": false
+      }
     },
     {
       "id": "gsni-tellus-stream-sediments-au-pge",
@@ -15471,7 +15521,7 @@
         "color": "#daa520",
         "weight": 1,
         "radius": 4,
-        "fillOpacity": 0.75
+        "fillOpacity": 0.85
       },
       "labelProperty": "SAMPLE_NO",
       "keywords": [
@@ -15501,7 +15551,16 @@
           "label": "CSV — Au and PGE",
           "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/bc7a7099-8c3c-42ab-af49-6f9f55485e19/download/regionalsedimentsxrfauandpge.csv"
         }
-      ]
+      ],
+      "colorScale": {
+        "property": "Au",
+        "ramp": "inferno",
+        "domain": [
+          0.5,
+          50
+        ],
+        "logarithmic": true
+      }
     },
     {
       "id": "gsni-tellus-stream-sediments-boron",
@@ -15520,7 +15579,7 @@
         "color": "#48a148",
         "weight": 1,
         "radius": 4,
-        "fillOpacity": 0.75
+        "fillOpacity": 0.85
       },
       "labelProperty": "SAMPLE_NO",
       "keywords": [
@@ -15548,7 +15607,16 @@
           "label": "CSV — Boron",
           "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/f0f51e58-0544-43fd-a2fb-ac58b7f3781f/download/regionalsedimentsxrfboron.csv"
         }
-      ]
+      ],
+      "colorScale": {
+        "property": "B",
+        "ramp": "plasma",
+        "domain": [
+          3,
+          100
+        ],
+        "logarithmic": false
+      }
     },
     {
       "id": "gsni-tellus-rural-soil-a-aqua-regia",
@@ -15567,7 +15635,7 @@
         "color": "#c9723a",
         "weight": 1,
         "radius": 4,
-        "fillOpacity": 0.75
+        "fillOpacity": 0.85
       },
       "labelProperty": "Sample",
       "keywords": [
@@ -15597,7 +15665,16 @@
           "label": "CSV — A Soils Aqua Regia",
           "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/8ce52d8f-9b4f-4df6-b276-27e724164549/download/regionalsoilsaaquaregiahdl.csv"
         }
-      ]
+      ],
+      "colorScale": {
+        "property": "As",
+        "ramp": "inferno",
+        "domain": [
+          1,
+          20
+        ],
+        "logarithmic": false
+      }
     },
     {
       "id": "gsni-tellus-rural-soil-s-aqua-regia",
@@ -15616,7 +15693,7 @@
         "color": "#a55e2e",
         "weight": 1,
         "radius": 4,
-        "fillOpacity": 0.75
+        "fillOpacity": 0.85
       },
       "labelProperty": "Sample",
       "keywords": [
@@ -15645,7 +15722,16 @@
           "label": "CSV — S Soils Aqua Regia",
           "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/00961fff-d94d-452a-8654-9ddb998b717d/download/regionalsoilssaquaregiahdl.csv"
         }
-      ]
+      ],
+      "colorScale": {
+        "property": "Pb",
+        "ramp": "magma",
+        "domain": [
+          5,
+          80
+        ],
+        "logarithmic": false
+      }
     },
     {
       "id": "gsni-tellus-rural-soil-s-near-total",
@@ -15664,7 +15750,7 @@
         "color": "#7e4720",
         "weight": 1,
         "radius": 4,
-        "fillOpacity": 0.75
+        "fillOpacity": 0.85
       },
       "labelProperty": "Sample",
       "keywords": [
@@ -15694,7 +15780,16 @@
           "label": "CSV — S Soils Near-Total Digest",
           "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/577d757b-c953-469f-b3b3-0ea44bd3bb6b/download/regional_-neartotal_s_hdl.csv"
         }
-      ]
+      ],
+      "colorScale": {
+        "property": "Pb",
+        "ramp": "magma",
+        "domain": [
+          5,
+          80
+        ],
+        "logarithmic": false
+      }
     },
     {
       "id": "gsni-tellus-rural-soil-s-fire-assay",
@@ -15713,7 +15808,7 @@
         "color": "#bfa028",
         "weight": 1,
         "radius": 4,
-        "fillOpacity": 0.75
+        "fillOpacity": 0.85
       },
       "labelProperty": "Sample",
       "keywords": [
@@ -15743,7 +15838,16 @@
           "label": "CSV — S Soils Fire Assay",
           "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/e9a4568a-677d-419a-a2ce-31940900bbe9/download/regionalsoilssfireassayaupge.csv"
         }
-      ]
+      ],
+      "colorScale": {
+        "property": "Auppb",
+        "ramp": "inferno",
+        "domain": [
+          0.1,
+          10
+        ],
+        "logarithmic": true
+      }
     },
     {
       "id": "osni-eire-thuaidh",
@@ -16199,7 +16303,12 @@
           "label": "GeoJSON",
           "file": "https://admin.opendatani.gov.uk/dataset/d4e5b8a1-5c01-4d4f-9b67-d6e7d4b04b5a"
         }
-      ]
+      ],
+      "colorMap": {
+        "property": "Stat_2015",
+        "palette": "wfd",
+        "default": "#9e9e9e"
+      }
     },
     {
       "id": "wq-wfd-river-water-bodies",

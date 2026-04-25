@@ -5,6 +5,7 @@
 
 import featureLoader from './feature-loader.js';
 import dataService from './data-service.js';
+import { getFeatureColour } from './colour-palettes.js';
 
 class MapController {
     constructor() {
@@ -211,10 +212,10 @@ class MapController {
      * @param {Object} style - Style configuration with color property
      * @returns {L.CircleMarker} The styled circle marker
      */
-    createPointMarker(latlng, style) {
+    createPointMarker(latlng, style, fillColorOverride = null) {
         return L.circleMarker(latlng, {
             radius: style?.radius || 5,
-            fillColor: style?.color || '#3388ff',
+            fillColor: fillColorOverride || style?.color || '#3388ff',
             fillOpacity: 1,
             color: '#000000',  // Black stroke for visible outline
             weight: 2,
@@ -1034,14 +1035,20 @@ class MapController {
         const geoJsonLayer = L.geoJSON(geojsonData, {
             style: (feature) => {
                 if (feature.geometry?.type === 'Point') return {};
+                const featureColour = getFeatureColour(feature, mapConfig);
+                const baseColour = featureColour || style?.color || '#3388ff';
                 return {
-                    color: style?.color || '#3388ff',
+                    color: featureColour ? '#3a3a3a' : baseColour,    // when palette-driven, use a neutral outline
                     weight: style?.weight || 2,
-                    fillOpacity: style?.fillOpacity ?? 0,
+                    fillColor: baseColour,
+                    fillOpacity: featureColour ? 0.7 : (style?.fillOpacity ?? 0),
                     opacity: 1
                 };
             },
-            pointToLayer: (feature, latlng) => this.createPointMarker(latlng, style),
+            pointToLayer: (feature, latlng) => {
+                const featureColour = getFeatureColour(feature, mapConfig);
+                return this.createPointMarker(latlng, style, featureColour);
+            },
             onEachFeature: (feature, layer) => {
                 layer._mapId = id;
                 this._attachFeatureHoverHandlers(layer);
@@ -1270,15 +1277,19 @@ class MapController {
                 style: (feature) => {
                     // Don't apply polygon style to points - they use pointToLayer
                     if (feature.geometry?.type === 'Point') return {};
+                    const featureColour = getFeatureColour(feature, mapConfig);
+                    const baseColour = featureColour || style?.color || '#3388ff';
                     return {
-                        color: style?.color || '#3388ff',
+                        color: featureColour ? '#3a3a3a' : baseColour,
                         weight: style?.weight || 2,
-                        fillOpacity: style?.fillOpacity ?? 0,
+                        fillColor: baseColour,
+                        fillOpacity: featureColour ? 0.7 : (style?.fillOpacity ?? 0),
                         opacity: 1
                     };
                 },
                 pointToLayer: (feature, latlng) => {
-                    return this.createPointMarker(latlng, style);
+                    const featureColour = getFeatureColour(feature, mapConfig);
+                    return this.createPointMarker(latlng, style, featureColour);
                 },
                 onEachFeature: (feature, layer) => {
                     layer._mapId = id;
@@ -1481,11 +1492,16 @@ class MapController {
                 const features = await this.loadFlatGeobuf(fgbPath, null, signal);
                 const geojsonData = { type: 'FeatureCollection', features };
                 const geoJsonLayer = L.geoJSON(geojsonData, {
-                    style: (f) => f.geometry?.type === 'Point' ? {} : {
-                        color: style?.color || '#3388ff', weight: style?.weight || 2,
-                        fillOpacity: style?.fillOpacity ?? 0, opacity: 1
+                    style: (f) => {
+                        if (f.geometry?.type === 'Point') return {};
+                        const fc = getFeatureColour(f, mapConfig);
+                        const base = fc || style?.color || '#3388ff';
+                        return {
+                            color: fc ? '#3a3a3a' : base, weight: style?.weight || 2,
+                            fillColor: base, fillOpacity: fc ? 0.7 : (style?.fillOpacity ?? 0), opacity: 1
+                        };
                     },
-                    pointToLayer: (f, ll) => this.createPointMarker(ll, style),
+                    pointToLayer: (f, ll) => this.createPointMarker(ll, style, getFeatureColour(f, mapConfig)),
                     onEachFeature: (f, l) => {
                         l._mapId = id;
                         this._attachFeatureHoverHandlers(l);
@@ -1510,11 +1526,16 @@ class MapController {
                         const features = await this.loadFlatGeobuf(remoteFgb, null, signal);
                         const geojsonData = { type: 'FeatureCollection', features };
                         const geoJsonLayer = L.geoJSON(geojsonData, {
-                            style: (f) => f.geometry?.type === 'Point' ? {} : {
-                                color: style?.color || '#3388ff', weight: style?.weight || 2,
-                                fillOpacity: style?.fillOpacity ?? 0, opacity: 1
+                            style: (f) => {
+                                if (f.geometry?.type === 'Point') return {};
+                                const fc = getFeatureColour(f, mapConfig);
+                                const base = fc || style?.color || '#3388ff';
+                                return {
+                                    color: fc ? '#3a3a3a' : base, weight: style?.weight || 2,
+                                    fillColor: base, fillOpacity: fc ? 0.7 : (style?.fillOpacity ?? 0), opacity: 1
+                                };
                             },
-                            pointToLayer: (f, ll) => this.createPointMarker(ll, style),
+                            pointToLayer: (f, ll) => this.createPointMarker(ll, style, getFeatureColour(f, mapConfig)),
                             onEachFeature: (f, l) => {
                                 l._mapId = id;
                                 this._attachFeatureHoverHandlers(l);
