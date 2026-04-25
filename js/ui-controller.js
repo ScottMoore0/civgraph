@@ -2359,6 +2359,95 @@ class UIController {
                     'uninhabited-highlands',
                     'major-river-basins'
                 ]
+            },
+            // Geology and Geophysics (GSNI) — Phase 1 + 1b
+            {
+                id: 'flat-gsni-bedrock', name: 'GSNI Bedrock and Surface Geology', years: '', extent: 'Northern Ireland',
+                mapIds: [
+                    'gsni-bedrock-geology-polygons-250k',
+                    'gsni-bedrock-geology-lines-250k',
+                    'gsni-superficial-geology-polygons-250k',
+                    'gsni-mineral-resources',
+                    'gsni-core-cuttings-register'
+                ]
+            },
+            {
+                id: 'flat-tellus-geochem', name: 'Tellus Stream Sediments and Soils', years: '2005-2008', extent: 'Northern Ireland',
+                mapIds: [
+                    'gsni-tellus-stream-sediments-xrf',
+                    'gsni-tellus-stream-sediments-xrf-set2',
+                    'gsni-tellus-stream-sediments-au-pge',
+                    'gsni-tellus-stream-sediments-boron',
+                    'gsni-tellus-stream-waters-icp',
+                    'gsni-tellus-rural-soil-a-xrf',
+                    'gsni-tellus-rural-soil-a-aqua-regia',
+                    'gsni-tellus-rural-soil-s-aqua-regia',
+                    'gsni-tellus-rural-soil-s-near-total',
+                    'gsni-tellus-rural-soil-s-fire-assay'
+                ]
+            },
+            // Tellus Airborne Geophysics — Phase 4
+            {
+                id: 'flat-tellus-airborne', name: 'Tellus Airborne Geophysics', years: '2005-2008', extent: 'Northern Ireland',
+                mapIds: [
+                    'tellus-mag-tmi',
+                    'tellus-mag-rtp',
+                    'tellus-mag-rtp-tilt',
+                    'tellus-em-3khz',
+                    'tellus-em-14khz',
+                    'tellus-rad-k',
+                    'tellus-rad-u',
+                    'tellus-rad-th',
+                    'tellus-rad-total',
+                    'tellus-rad-ternary'
+                ]
+            },
+            // OSNI Survey Utilities — Phase 2
+            {
+                id: 'flat-osni-coverage', name: 'OSNI Map Sheet Coverage Grids and Benchmarks', years: '', extent: 'Northern Ireland',
+                mapIds: [
+                    'osni-coverage-grid-10k',
+                    'osni-coverage-grid-50k',
+                    'osni-benchmarks'
+                ]
+            },
+            // OSNI Raster Maps — Phase 3
+            {
+                id: 'flat-osni-rasters', name: 'OSNI Printed Raster Maps', years: '', extent: 'Northern Ireland',
+                mapIds: [
+                    'osni-mid-scale-raster',
+                    'osni-streetmaps',
+                    'osni-eire-thuaidh',
+                    'osni-1m-county-boundaries',
+                    'osni-1m-infrastructure',
+                    'osni-1m-locations',
+                    'osni-1m-natural-environment',
+                    'osni-1m-parliamentary'
+                ]
+            },
+            // OSNI Historical Six-Inch — Phase 5
+            {
+                id: 'flat-osni-sixinch', name: 'OSNI Historical Six-Inch Maps', years: '1829-1862', extent: 'Northern Ireland',
+                mapIds: [
+                    'osni-sixinch-edition-1',
+                    'osni-sixinch-edition-2'
+                ]
+            },
+            // Water Quality — Phase 7
+            {
+                id: 'flat-water-quality', name: 'Water Quality and Hydrology', years: '', extent: 'Northern Ireland',
+                mapIds: [
+                    'wq-surface-water-bodies-2015',
+                    'wq-wfd-river-water-bodies',
+                    'wq-wfd-monitoring-sites',
+                    'wq-lake-water-bodies',
+                    'wq-groundwater-bodies',
+                    'wq-groundwater-dwpa',
+                    'wq-surface-dwpa',
+                    'wq-river-quality-1990-2018',
+                    'wq-aquatroll-realtime',
+                    'wq-ni-water-drinking'
+                ]
             }
         ];
 
