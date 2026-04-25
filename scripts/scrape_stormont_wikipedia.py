@@ -307,6 +307,63 @@ def incumbent_at_prose(prose_list, ge_year):
     return None
 
 
+# Prose sentences that explicitly confirm an unopposed return:
+#   "At the 1929 Northern Ireland general election, Robert McBride was elected unopposed."
+#   "At the 1959 by-election and the 1962 Northern Ireland general election, David John Little was elected unopposed."
+#   "At the 1956 Belfast Windsor by-election and the 1958, 1962, 1965 and 1969 ... general elections, Herbert Kirk was elected unopposed."
+UNOPPOSED_SENTENCE_RE = re.compile(
+    r"At the (.+?),\s+([^,.]+?)\s+was elected unopposed",
+    re.I | re.S)
+
+
+def parse_unopposed_prose(html: str):
+    """Extract unopposed-election declarations from a constituency page.
+
+    Returns a list of (year:int, kind:'ge'|'by', winner_name:str) tuples.
+    Constituency name is implicit (the page being parsed); the kind is 'by'
+    for by-elections and 'ge' for general elections.
+    """
+    body_start = html.find('<div id="mw-content-text"')
+    body = html[body_start:] if body_start >= 0 else html
+    text = re.sub(r"<style[^>]*>.*?</style>", " ", body, flags=re.S)
+    text = re.sub(r"<script[^>]*>.*?</script>", " ", text, flags=re.S)
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = html_lib.unescape(text)
+    text = re.sub(r"\s+", " ", text)
+
+    out = []
+    for m in UNOPPOSED_SENTENCE_RE.finditer(text):
+        elist = m.group(1)
+        winner = m.group(2).strip()
+        # Skip junk captures
+        if not winner or len(winner) > 60 or "(" in winner:
+            # Strip trailing parenthetical like "(Sir) Norman Stronge"
+            winner = re.sub(r"^\(.*?\)\s*", "", winner).strip()
+            if not winner or len(winner) > 60:
+                continue
+        # Extract every (year, kind) token from the election list.
+        # GE tokens: "<YYYY> (Northern Ireland )?general election(s)?" — bare
+        # year forms appear in lists like "1958, 1962, 1965 and 1969 ... general elections".
+        # By-election tokens: "<YYYY> ... by-election".
+        # We look for explicit by-election references first, then for years
+        # that must be GE years (because the sentence trailing word is
+        # "general election(s)").
+        # Strategy: tokenise by years, then look at the surrounding context.
+        # Step 1: identify all by-election years (year directly followed by
+        # "by-election" within ~30 chars).
+        by_years = set()
+        for bm in re.finditer(r"(\d{4})(?:\s+\S+){0,4}?\s+by-?election", elist, re.I):
+            by_years.add(int(bm.group(1)))
+        # Step 2: any other year in the list is a GE year.
+        all_years = {int(y) for y in re.findall(r"\b(\d{4})\b", elist)}
+        ge_years = all_years - by_years
+        for y in by_years:
+            out.append((y, "by", winner))
+        for y in ge_years:
+            out.append((y, "ge", winner))
+    return out
+
+
 def parse_summary_table(table_html: str):
     """Parse a constituency's 'Members of Parliament' summary table.
 
@@ -678,17 +735,22 @@ def main():
                 by_summary.setdefault(iso, []).append(const)
                 n_by += 1
 
-        # Pass 2: synthesise unopposed entries for any GE date without a
-        # contested result. Try the first wikitable as a "Members of
-        # Parliament" summary; if that yields no events (or the table looks
-        # like a detail-result table because it has no summary table), fall
-        # back to a prose parser for the "Members of Parliament" section.
+        # Pass 2: synthesise unopposed entries.
+        # Sources of truth, in order of preference:
+        #   1. Detail tables (already handled in pass 1)
+        #   2. Prose sentences "At the YYYY by-election, Name was elected unopposed"
+        #      — these explicitly confirm by-elections AND give the winner. Most
+        #      reliable for the gap-filling case.
+        #   3. Summary table (year, member, party) events
+        #   4. Prose-format MP-list ranges
         n_synth = 0
+        n_synth_by = 0
         events = []
         if tables:
             first_table_html = tables[0][2]
             events = parse_summary_table(first_table_html)
         prose = parse_prose_mps(html) if not events else []
+        unopposed_prose = parse_unopposed_prose(html)
         if events or prose:
             cutoff = ABOLISHED_AFTER.get(const)
             for ge_year, ge_iso in GE_YEARS.items():
@@ -720,8 +782,52 @@ def main():
                                     encoding="utf-8")
                 summary[ge_iso].append(const)
                 n_synth += 1
+        # Prose-derived by-elections: when the article explicitly says
+        # "At the <year> by-election, X was elected unopposed", emit a
+        # by-election entry IF (a) we don't already have a detail table for
+        # that date, and (b) the master list confirms a by-election in that
+        # (year, constituency). Party comes from the summary-table events.
+        for y, kind, winner in unopposed_prose:
+            if kind != "by":
+                continue
+            key = (y, _normalise_const(const))
+            iso = BY_LOOKUP.get(key)
+            if iso is None:
+                continue
+            out_dir = OUT_BASE / iso
+            out_dir.mkdir(parents=True, exist_ok=True)
+            slug = slugify(const)
+            out_path = out_dir / f"{slug}.json"
+            if out_path.exists():
+                continue
+            # Look up party for this winner. Walk events; pick the one whose
+            # member matches by surname (last token), or whose year is closest.
+            party = None
+            if events:
+                for ev_year, ev_member, ev_party, _ in events:
+                    if ev_member and winner.split()[-1] in ev_member:
+                        party = ev_party
+                        break
+                if party is None:
+                    inc = incumbent_at(events, y)
+                    if inc and inc[1]:
+                        party = inc[1]
+            if not party and prose:
+                inc = incumbent_at_prose(prose, y)
+                if inc:
+                    party = inc[1]
+            if not party:
+                party = "Unknown"
+            cand = [{"party_raw": party, "name": winner,
+                     "votes": "Unopposed", "pct": ""}]
+            obj, slug = emit_constituency(iso, const, cand, 1)
+            out_path.write_text(json.dumps(obj, indent=2, ensure_ascii=False),
+                                encoding="utf-8")
+            by_summary.setdefault(iso, []).append(const)
+            n_synth_by += 1
+
         synth_count += n_synth
-        print(f"  {const}: {n_emitted} GE + {n_synth} synth + {n_by} by-elec")
+        print(f"  {const}: {n_emitted} GE + {n_synth} synth + {n_by} by-elec + {n_synth_by} by-synth")
     # Write summary
     summary_payload = []
     for iso, names in summary.items():
