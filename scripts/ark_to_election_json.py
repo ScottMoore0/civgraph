@@ -251,21 +251,33 @@ def convert_workbook(path: Path, year: str):
     stem = path.stem
     m = re.match(r"^lg\d+-([A-Z]+)-(.+)$", stem)
     if m:
-        county_code = m.group(1)
-        dea_raw = m.group(2).replace("_", " ").strip()
+        county_code = m.group(1).upper()
+        dea_raw = m.group(2).replace("_", " ").replace("-", " ").strip()
         dea_raw = re.sub(r"([a-z])([A-Z])", r"\1 \2", dea_raw)
+        dea_raw = re.sub(r"\s+", " ", dea_raw)
         county = COUNTY_NAMES.get(county_code, county_code)
-        # If the DEA name is the same as the county or just a generic word,
-        # prefix the county; otherwise keep DEA distinct.
-        if dea_raw.lower() in (county.lower(), "town", "central", "east", "west",
-                                "north", "south", "northwest", "northeast",
-                                "southwest", "southeast", "area", "district"):
+        # Prefix the council name when the DEA name alone isn't unique:
+        #   - identical to the council
+        #   - a generic compass / town / area / numbered designation
+        #   - "Area A" / "Area B" / etc. (1973-1981 convention)
+        # Distinctive names like "Newtownards", "Bangor", "Lurgan" stand
+        # alone since they're already unambiguous across the 26 councils.
+        dl = dea_raw.lower()
+        is_generic = (
+            dl == county.lower() or
+            dl in ("town", "city", "central", "east", "west", "north", "south",
+                   "northwest", "northeast", "southwest", "southeast",
+                   "area", "district") or
+            re.match(r"^area\s+[a-z0-9]+(\s+corrected)?$", dl) or
+            re.match(r"^(north|south|east|west|central|town)\s+[a-z]+$", dl)
+        )
+        if is_generic:
             dea_name = f"{county} {dea_raw}"
         else:
             dea_name = dea_raw
     else:
         dea_name = stem
-    council_name = COUNTY_NAMES.get(m.group(1), m.group(1)) if m else ""
+    council_name = COUNTY_NAMES.get(m.group(1).upper(), m.group(1)) if m else ""
 
     return {
         "Constituency": {
