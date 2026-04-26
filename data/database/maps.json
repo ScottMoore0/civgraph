@@ -195,6 +195,12 @@
       "description": "Habitat-network and biodiversity overlay datasets — primarily Ulster Wildlife's Nature Recovery NI mapping of where each habitat type currently exists, what's associated, and where expansion or restoration would have most ecological benefit."
     },
     {
+      "id": "designated-sites",
+      "name": "Designated & Protected Sites",
+      "group": "Physical Geography",
+      "description": "NIEA-designated protected areas: AONBs, ASSIs, NNRs, Ramsar sites, SACs, SPAs, World Heritage Site, plus Landscape Character Areas. Statutory and international designations covering biodiversity, landscape and heritage protection across Northern Ireland."
+    },
+    {
       "id": "transport",
       "name": "Transport",
       "group": "Built Environment",
@@ -19687,6 +19693,310 @@
         {
           "label": "Open Data NI — Wetland Habitat Networks (grouped) Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/8e581af0-a6bb-43b6-b2d9-1f4d5ed96013",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "designated-aonb",
+      "name": "Areas of Outstanding Natural Beauty (AONB)",
+      "slug": "designated-aonb",
+      "category": "designated-sites",
+      "provider": [
+        "DAERA",
+        "Northern Ireland Environment Agency"
+      ],
+      "description": "Eight Areas of Outstanding Natural Beauty designated under Article 14 of the Nature Conservation and Amenity Lands (Northern Ireland) Order 1985 for landscape protection. Includes the Mournes, Antrim Coast & Glens, Causeway Coast, Ring of Gullion, Sperrins, Strangford Lough, Erne Lakeland and Lagan Valley AONBs.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-aonb.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.6,
+        "fillColor": "#7BAA66",
+        "fillOpacity": 0.55
+      },
+      "labelProperty": "NAME",
+      "useLOD": false,
+      "keywords": [
+        "designated",
+        "protected",
+        "conservation",
+        "niea",
+        "daera",
+        "natural environment",
+        "areas of outstanding natural beauty (aonb)"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Areas of Outstanding Natural Beauty (AONB)",
+          "url": "https://admin.opendatani.gov.uk/dataset/areas-of-outstanding-natural-beauty",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "designated-assi",
+      "name": "Areas of Special Scientific Interest (ASSI)",
+      "slug": "designated-assi",
+      "category": "designated-sites",
+      "provider": [
+        "DAERA",
+        "Northern Ireland Environment Agency"
+      ],
+      "description": "Areas of Special Scientific Interest provide statutory protection under the Nature Conservation and Amenity Lands (NI) Order 1985 for the best examples of NI's flora, fauna, geological or physiographical features. The 394 ASSIs are NI's principal site-based wildlife protection mechanism.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-assi.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.6,
+        "fillColor": "#E8A33E",
+        "fillOpacity": 0.55
+      },
+      "labelProperty": "NAME",
+      "useLOD": false,
+      "keywords": [
+        "designated",
+        "protected",
+        "conservation",
+        "niea",
+        "daera",
+        "natural environment",
+        "areas of special scientific interest (assi)"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Areas of Special Scientific Interest (ASSI)",
+          "url": "https://admin.opendatani.gov.uk/dataset/areas-of-special-scientific-interest",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "designated-nnr",
+      "name": "National Nature Reserves (NNR)",
+      "slug": "designated-nnr",
+      "category": "designated-sites",
+      "provider": [
+        "DAERA",
+        "Northern Ireland Environment Agency"
+      ],
+      "description": "Statutory nature reserves declared under the Nature Conservation and Amenity Lands (NI) Order 1985 for areas of importance for flora, fauna, geological or other special features. The 50 NNRs are managed primarily for conservation, with the highest level of legal site protection in NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-nnr.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.6,
+        "fillColor": "#3F8D45",
+        "fillOpacity": 0.55
+      },
+      "labelProperty": "NAME",
+      "useLOD": false,
+      "keywords": [
+        "designated",
+        "protected",
+        "conservation",
+        "niea",
+        "daera",
+        "natural environment",
+        "national nature reserves (nnr)"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — National Nature Reserves (NNR)",
+          "url": "https://admin.opendatani.gov.uk/dataset/national-nature-reserves",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "designated-ramsar",
+      "name": "Ramsar Wetland Sites",
+      "slug": "designated-ramsar",
+      "category": "designated-sites",
+      "provider": [
+        "DAERA",
+        "Northern Ireland Environment Agency"
+      ],
+      "description": "Wetlands of international importance designated under the 1971 Ramsar Convention on Wetlands. The 20 NI Ramsar sites cover loughs, estuaries and bogs of internationally significant ecological character.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-ramsar.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.6,
+        "fillColor": "#3B8DBD",
+        "fillOpacity": 0.55
+      },
+      "labelProperty": "NAME",
+      "useLOD": false,
+      "keywords": [
+        "designated",
+        "protected",
+        "conservation",
+        "niea",
+        "daera",
+        "natural environment",
+        "ramsar wetland sites"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Ramsar Wetland Sites",
+          "url": "https://admin.opendatani.gov.uk/dataset/ramsar-sites",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "designated-sac",
+      "name": "Special Areas of Conservation (SAC)",
+      "slug": "designated-sac",
+      "category": "designated-sites",
+      "provider": [
+        "DAERA",
+        "Northern Ireland Environment Agency"
+      ],
+      "description": "SACs are habitats and species given the greatest protection under the EU Habitats Directive (transposed into UK law via the Conservation Regulations). 58 sites in NI form part of the Natura 2000 network — the highest level of habitat protection in European law.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-sac.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.6,
+        "fillColor": "#5B7AA8",
+        "fillOpacity": 0.55
+      },
+      "labelProperty": "NAME",
+      "useLOD": false,
+      "keywords": [
+        "designated",
+        "protected",
+        "conservation",
+        "niea",
+        "daera",
+        "natural environment",
+        "special areas of conservation (sac)"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Special Areas of Conservation (SAC)",
+          "url": "https://admin.opendatani.gov.uk/dataset/special-areas-of-conservation",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "designated-spa",
+      "name": "Special Protection Areas (SPA)",
+      "slug": "designated-spa",
+      "category": "designated-sites",
+      "provider": [
+        "DAERA",
+        "Northern Ireland Environment Agency"
+      ],
+      "description": "Designated under the EU Birds Directive for vulnerable, migratory and other significant bird species. 16 SPAs in NI form part of the Natura 2000 network. Many overlap with Ramsar / SAC / ASSI designations.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-spa.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.6,
+        "fillColor": "#A6C572",
+        "fillOpacity": 0.55
+      },
+      "labelProperty": "NAME",
+      "useLOD": false,
+      "keywords": [
+        "designated",
+        "protected",
+        "conservation",
+        "niea",
+        "daera",
+        "natural environment",
+        "special protection areas (spa)"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Special Protection Areas (SPA)",
+          "url": "https://admin.opendatani.gov.uk/dataset/special-protection-areas",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "designated-whs",
+      "name": "World Heritage Site",
+      "slug": "designated-whs",
+      "category": "designated-sites",
+      "provider": [
+        "DAERA",
+        "Northern Ireland Environment Agency"
+      ],
+      "description": "Northern Ireland's sole UNESCO World Heritage Site: the Giant's Causeway and Causeway Coast. Inscribed in 1986 under criteria (vii) and (viii) for its outstanding geological and natural features — the famous columnar basalt formations and associated coastal landscape.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-whs.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.6,
+        "fillColor": "#9D6B3F",
+        "fillOpacity": 0.55
+      },
+      "labelProperty": "Name_WHS",
+      "useLOD": false,
+      "keywords": [
+        "designated",
+        "protected",
+        "conservation",
+        "niea",
+        "daera",
+        "natural environment",
+        "world heritage site"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — World Heritage Site",
+          "url": "https://admin.opendatani.gov.uk/dataset/world-heritage-site",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "designated-lca",
+      "name": "Landscape Character Areas (LCA)",
+      "slug": "designated-lca",
+      "category": "designated-sites",
+      "provider": [
+        "DAERA",
+        "Northern Ireland Environment Agency"
+      ],
+      "description": "The Northern Ireland Landscape Character Assessment (NIEA, 2000) subdivides the countryside into 130 Landscape Character Areas based on local geology, landform, land use, settlement and ecology. LCAs underpin landscape policy and planning decisions.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-lca.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.6,
+        "fillColor": "#C9B07A",
+        "fillOpacity": 0.55
+      },
+      "labelProperty": "LCA_NAME",
+      "useLOD": false,
+      "keywords": [
+        "designated",
+        "protected",
+        "conservation",
+        "niea",
+        "daera",
+        "natural environment",
+        "landscape character areas (lca)"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Landscape Character Areas (LCA)",
+          "url": "https://admin.opendatani.gov.uk/dataset/landscape-character-areas",
           "note": ""
         }
       ]
