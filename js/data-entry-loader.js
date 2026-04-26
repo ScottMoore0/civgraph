@@ -84,36 +84,98 @@ function formatCell(col, raw) {
 }
 
 // ─── Results pane ─────────────────────────────────────────────────────────
-// Use the same DOM structure / CSS class as the election results pane so
-// the styling is consistent. Distinct id (#dataResultsPane) so the two can
-// coexist without trampling each other when both an election and a data
-// entry are loaded simultaneously.
+// Share the same #electionResultsPane element used by the election controller
+// so data-entry results appear in the existing bottom pane (full-width below
+// the map) instead of an extra floating card. The pane, drag handle, and
+// app-main height adjustment mirror what election-controller does in
+// _showSplitPane / _hideSplitPane.
 
-function ensureDataResultsPane() {
-    let pane = document.getElementById('dataResultsPane');
-    if (pane) return pane;
-    pane = document.createElement('div');
-    pane.id = 'dataResultsPane';
-    pane.className = 'election-results-pane data-results-pane';
+function ensureSharedResultsPane() {
+    let pane = document.getElementById('electionResultsPane');
+    if (!pane) {
+        pane = document.createElement('div');
+        pane.id = 'electionResultsPane';
+        pane.className = 'election-results-pane';
+        const appMain = document.querySelector('.app-main');
+        if (appMain && appMain.nextSibling) {
+            appMain.parentElement.insertBefore(pane, appMain.nextSibling);
+        } else if (appMain) {
+            appMain.parentElement.appendChild(pane);
+        } else {
+            document.body.appendChild(pane);
+        }
+    }
+    // Set up the drag handle + app-main shrink the same way election-controller does
     const appMain = document.querySelector('.app-main');
-    if (appMain && appMain.nextSibling) {
-        appMain.parentElement.insertBefore(pane, appMain.nextSibling);
-    } else if (appMain) {
-        appMain.parentElement.appendChild(pane);
-    } else {
-        document.body.appendChild(pane);
+    if (appMain && !document.getElementById('electionSplitDrag')) {
+        if (!appMain.style.height) appMain.style.height = '60vh';
+        const dragHandle = document.createElement('div');
+        dragHandle.id = 'electionSplitDrag';
+        dragHandle.className = 'election-split-drag';
+        dragHandle.title = 'Drag to resize';
+        pane.parentElement.insertBefore(dragHandle, pane);
+        setupSplitDrag(dragHandle, appMain, pane);
     }
     return pane;
 }
 
-function renderResultsPane() {
-    const entries = getLoadedDataEntries();
-    const pane = ensureDataResultsPane();
-    if (entries.length === 0) {
+function setupSplitDrag(dragHandle, appMain, pane) {
+    let isDragging = false;
+    const onMove = (clientY) => {
+        if (!isDragging) return;
+        const headerH = document.querySelector('.app-header')?.offsetHeight || 0;
+        const viewportH = window.innerHeight;
+        const availH = viewportH - headerH;
+        const relY = clientY - headerH;
+        const pct = Math.max(20, Math.min(85, (relY / availH) * 100));
+        appMain.style.height = pct + 'vh';
+        pane.style.height = 'calc(' + (100 - pct) + 'vh - ' + headerH + 'px - 6px)';
+        if (window.mapController?.invalidateSize) window.mapController.invalidateSize();
+    };
+    const onEnd = () => {
+        isDragging = false;
+        document.body.classList.remove('election-split-dragging');
+    };
+    dragHandle.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        document.body.classList.add('election-split-dragging');
+        e.preventDefault();
+    });
+    document.addEventListener('mousemove', (e) => onMove(e.clientY));
+    document.addEventListener('mouseup', onEnd);
+    dragHandle.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        document.body.classList.add('election-split-dragging');
+        e.preventDefault();
+    }, { passive: false });
+    document.addEventListener('touchmove', (e) => {
+        if (isDragging) onMove(e.touches[0].clientY);
+    });
+    document.addEventListener('touchend', onEnd);
+}
+
+function teardownSharedResultsPane() {
+    const pane = document.getElementById('electionResultsPane');
+    if (pane) {
         pane.classList.remove('election-results-pane--open');
         pane.innerHTML = '';
+        pane.style.height = '';
+        delete pane.dataset.activeEntryId;
+    }
+    const dragHandle = document.getElementById('electionSplitDrag');
+    if (dragHandle) dragHandle.remove();
+    const appMain = document.querySelector('.app-main');
+    if (appMain) appMain.style.height = '';
+    if (window.mapController?.invalidateSize) window.mapController.invalidateSize();
+}
+
+function renderResultsPane() {
+    const entries = getLoadedDataEntries();
+    if (entries.length === 0) {
+        teardownSharedResultsPane();
         return;
     }
+    const pane = ensureSharedResultsPane();
     pane.classList.add('election-results-pane--open');
     // Render a tab strip if more than one entry, plus the active table.
     const activeId = pane.dataset.activeEntryId && _loaded.has(pane.dataset.activeEntryId)
@@ -255,7 +317,7 @@ export async function loadDataEntry(entry, { onMapLoad, mapController, baseUrl =
 
     // Skip if already loaded (idempotent)
     if (_loaded.has(entry.id)) {
-        const pane = document.getElementById('dataResultsPane');
+        const pane = document.getElementById('electionResultsPane');
         if (pane) { pane.dataset.activeEntryId = entry.id; renderResultsPane(); }
         return { entry, rowCount: _loaded.get(entry.id).rows.length, alreadyLoaded: true };
     }
@@ -316,7 +378,7 @@ export async function loadDataEntry(entry, { onMapLoad, mapController, baseUrl =
     });
 
     // 5. Render the table into the shared results pane
-    const pane = ensureDataResultsPane();
+    const pane = ensureSharedResultsPane();
     pane.dataset.activeEntryId = entry.id;
     renderResultsPane();
 
@@ -366,7 +428,7 @@ export function unloadDataEntry(entryId) {
     _loaded.delete(entryId);
 
     // Re-render the pane (or hide it if nothing's left)
-    const pane = document.getElementById('dataResultsPane');
+    const pane = document.getElementById('electionResultsPane');
     if (pane && pane.dataset.activeEntryId === entryId) {
         delete pane.dataset.activeEntryId;
     }
