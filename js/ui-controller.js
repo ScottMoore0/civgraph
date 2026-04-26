@@ -2712,7 +2712,12 @@ class UIController {
             { id: 'flat-elections-2000s', name: '2000s', from: 2000, to: 2009 },
             { id: 'flat-elections-1990s', name: '1990s', from: 1990, to: 1999 },
             { id: 'flat-elections-1980s', name: '1980s', from: 1980, to: 1989 },
-            { id: 'flat-elections-1970s', name: '1970s', from: 1970, to: 1979 }
+            { id: 'flat-elections-1970s', name: '1970s', from: 1970, to: 1979 },
+            { id: 'flat-elections-1960s', name: '1960s', from: 1960, to: 1969 },
+            { id: 'flat-elections-1950s', name: '1950s', from: 1950, to: 1959 },
+            { id: 'flat-elections-1940s', name: '1940s', from: 1940, to: 1949 },
+            { id: 'flat-elections-1930s', name: '1930s', from: 1930, to: 1939 },
+            { id: 'flat-elections-1920s', name: '1920s', from: 1920, to: 1929 }
         ];
 
         let electionCatalogueCards = [];
@@ -2736,6 +2741,8 @@ class UIController {
                 thumb = 'pc-1970';
             } else if (body === 'Northern Ireland Forum for Political Dialogue') {
                 thumb = 'pc-1995';
+            } else if (body === 'Parliament of Northern Ireland') {
+                thumb = 'pc-1970';
             } else if (body === 'European Parliament') {
                 if (year >= 2024) thumb = 'mep-2024';
                 else if (year >= 2019) thumb = 'mep-2019';
