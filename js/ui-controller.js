@@ -2489,6 +2489,20 @@ class UIController {
                 id: 'flat-tellus-raw', name: 'Tellus Airborne — raw flight-line data', years: '2005-2008', extent: 'Northern Ireland',
                 mapIds: ['tellus-mag-raw', 'tellus-em-raw', 'tellus-rad-raw']
             },
+            // NIEA Natural Environment — designated and protected sites
+            {
+                id: 'flat-designated-sites', name: 'Designated & Protected Sites (NIEA)', years: '', extent: 'Northern Ireland',
+                mapIds: [
+                    'designated-aonb',
+                    'designated-assi',
+                    'designated-nnr',
+                    'designated-ramsar',
+                    'designated-sac',
+                    'designated-spa',
+                    'designated-whs',
+                    'designated-lca'
+                ]
+            },
             // Ulster Wildlife habitat networks — Nature Recovery NI mapping
             {
                 id: 'flat-habitat-networks', name: 'Habitat Networks (Ulster Wildlife)', years: '2020-2021', extent: 'Northern Ireland',
