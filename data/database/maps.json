@@ -65,6 +65,12 @@
       "group": "Elections and Government"
     },
     {
+      "id": "parliamentary-proposals",
+      "name": "Parliamentary Boundary Commission",
+      "group": "Political Geography",
+      "description": "NI Boundary Commission redistribution proposals at Provisional, Revised, and Final stages."
+    },
+    {
       "id": "devolved",
       "name": "Devolved Constituencies",
       "icon": "[map]",
@@ -20171,6 +20177,472 @@
           "url": "https://admin.opendatani.gov.uk/dataset/landscape-character-areas",
           "note": ""
         }
+      ]
+    },
+    {
+      "id": "bcn-revised-proposals",
+      "name": "BCN Revised Proposals",
+      "slug": "bcn-revised-proposals",
+      "category": "parliamentary-proposals",
+      "provider": [
+        "Boundary Commission for Northern Ireland"
+      ],
+      "description": "Boundary Commission for Northern Ireland — Revised Proposals (January 2018).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/parliamentary/bcn-revised-proposals.fgb"
+      },
+      "style": {
+        "color": "#7B5BA8",
+        "weight": 2
+      },
+      "labelProperty": "Const_Nm",
+      "keywords": [
+        "parliamentary-proposals",
+        "bcn revised proposals"
+      ],
+      "date": 2018
+    },
+    {
+      "id": "bcn-final-recommendations",
+      "name": "BCN Final Recommendations",
+      "slug": "bcn-final-recommendations",
+      "category": "parliamentary-proposals",
+      "provider": [
+        "Boundary Commission for Northern Ireland"
+      ],
+      "description": "Boundary Commission for Northern Ireland — Final Recommendations (the abandoned 2018 redistribution).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/parliamentary/bcn-final-recommendations.fgb"
+      },
+      "style": {
+        "color": "#5B3B8B",
+        "weight": 2
+      },
+      "labelProperty": "Const_Nm",
+      "keywords": [
+        "parliamentary-proposals",
+        "bcn final recommendations"
+      ],
+      "date": 2018
+    },
+    {
+      "id": "roads-pothole-enquiries",
+      "name": "Pothole Enquiries",
+      "slug": "roads-pothole-enquiries",
+      "category": "transport",
+      "provider": [
+        "Department for Infrastructure - Roads"
+      ],
+      "description": "Pothole reports submitted to DfI Roads — point dataset showing locations of public reports per year (selected: latest available 2025–2026).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/transport/roads-pothole-enquiries.fgb"
+      },
+      "style": {
+        "color": "#E0A60C",
+        "weight": 2
+      },
+      "labelProperty": "Region",
+      "keywords": [
+        "transport",
+        "pothole enquiries"
+      ]
+    },
+    {
+      "id": "roads-border-crossings-2018",
+      "name": "Border Crossings 2018",
+      "slug": "roads-border-crossings-2018",
+      "category": "transport",
+      "provider": [
+        "Department for Infrastructure - Roads"
+      ],
+      "description": "Border crossings between Northern Ireland and the Republic of Ireland (2018 mapping). Points (crossing locations) and lines (route segments) variants both available.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/transport/roads-border-crossings-2018.fgb"
+      },
+      "style": {
+        "color": "#205493",
+        "weight": 2
+      },
+      "labelProperty": "Name",
+      "keywords": [
+        "transport",
+        "border crossings 2018"
+      ]
+    },
+    {
+      "id": "roads-pedestrian-crossings",
+      "name": "Pedestrian Crossings",
+      "slug": "roads-pedestrian-crossings",
+      "category": "transport",
+      "provider": [
+        "Department for Infrastructure - Roads"
+      ],
+      "description": "Locations of pedestrian crossings across Northern Ireland (DfI Roads).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/transport/roads-pedestrian-crossings.fgb"
+      },
+      "style": {
+        "color": "#C9302C",
+        "weight": 2
+      },
+      "labelProperty": "Type",
+      "keywords": [
+        "transport",
+        "pedestrian crossings"
+      ]
+    },
+    {
+      "id": "rivers-coastal-flood-2018",
+      "name": "Coastal Flood Boundary — Extreme Sea Levels (2018)",
+      "slug": "rivers-coastal-flood-2018",
+      "category": "physical-geography",
+      "provider": [
+        "Department for Infrastructure - Rivers"
+      ],
+      "description": "Modelled extreme sea levels around the NI coast at multiple return periods (2018 mapping). Used by DfI Rivers for coastal flood risk assessment.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/environment/rivers-coastal-flood-2018.fgb",
+        "shp_zip": "https://data.civgraph.net/data/maps/environment/rivers-coastal-flood-2018.zip"
+      },
+      "style": {
+        "color": "#3B8DBD",
+        "weight": 2
+      },
+      "labelProperty": "Name",
+      "keywords": [
+        "physical-geography",
+        "coastal flood boundary — extreme sea levels (2018)"
+      ]
+    },
+    {
+      "id": "hed-listed-buildings",
+      "name": "Listed Buildings (NI)",
+      "slug": "hed-listed-buildings",
+      "category": "historic",
+      "provider": [
+        "Department for Communities - Historic Environment Division"
+      ],
+      "description": "All listed buildings in Northern Ireland (Department for Communities — Historic Environment Division).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/heritage/hed-listed-buildings.fgb"
+      },
+      "style": {
+        "color": "#8E5A3C",
+        "weight": 2
+      },
+      "labelProperty": "HB_REF",
+      "keywords": [
+        "historic",
+        "listed buildings (ni)"
+      ]
+    },
+    {
+      "id": "hed-sites-and-monuments",
+      "name": "Sites and Monuments Record (NI)",
+      "slug": "hed-sites-and-monuments",
+      "category": "historic",
+      "provider": [
+        "Department for Communities - Historic Environment Division"
+      ],
+      "description": "Recorded archaeological and historic monuments across Northern Ireland (DfC HED).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/heritage/hed-sites-and-monuments.fgb"
+      },
+      "style": {
+        "color": "#6B4226",
+        "weight": 2
+      },
+      "labelProperty": "SMR",
+      "keywords": [
+        "historic",
+        "sites and monuments record (ni)"
+      ]
+    },
+    {
+      "id": "hed-scheduled-monument-areas",
+      "name": "Scheduled Historic Monument Areas",
+      "slug": "hed-scheduled-monument-areas",
+      "category": "historic",
+      "provider": [
+        "Department for Communities - Historic Environment Division"
+      ],
+      "description": "Statutorily protected monument zones — scheduled under historic-monuments legislation.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/heritage/hed-scheduled-monument-areas.fgb"
+      },
+      "style": {
+        "color": "#9C7A5B",
+        "weight": 2
+      },
+      "labelProperty": "SAM_Ref",
+      "keywords": [
+        "historic",
+        "scheduled historic monument areas"
+      ]
+    },
+    {
+      "id": "hed-defence-heritage",
+      "name": "Defence Heritage Sites (NI)",
+      "slug": "hed-defence-heritage",
+      "category": "historic",
+      "provider": [
+        "Department for Communities - Historic Environment Division"
+      ],
+      "description": "Forts, batteries, defensive structures and military heritage sites in Northern Ireland.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/heritage/hed-defence-heritage.fgb"
+      },
+      "style": {
+        "color": "#5C5C8E",
+        "weight": 2
+      },
+      "labelProperty": "Name",
+      "keywords": [
+        "historic",
+        "defence heritage sites (ni)"
+      ]
+    },
+    {
+      "id": "hed-industrial-heritage",
+      "name": "Industrial Heritage Record",
+      "slug": "hed-industrial-heritage",
+      "category": "historic",
+      "provider": [
+        "Department for Communities - Historic Environment Division"
+      ],
+      "description": "Mills, mines, factories and other industrial-era heritage sites recorded by DfC HED.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/heritage/hed-industrial-heritage.fgb"
+      },
+      "style": {
+        "color": "#A87648",
+        "weight": 2
+      },
+      "labelProperty": "IHR_REF",
+      "keywords": [
+        "historic",
+        "industrial heritage record"
+      ]
+    },
+    {
+      "id": "tailte-built-up-1m",
+      "name": "Built-Up Areas (Ireland 1M)",
+      "slug": "tailte-built-up-1m",
+      "category": "settlements",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Built-up area polygons used in the National 1M Map of Ireland (Tailte Éireann).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/settlements/tailte-built-up-1m.fgb"
+      },
+      "style": {
+        "color": "#B07050",
+        "weight": 2
+      },
+      "labelProperty": "ENGLISH_NA",
+      "keywords": [
+        "settlements",
+        "built-up areas (ireland 1m)"
+      ]
+    },
+    {
+      "id": "tailte-built-up-points-250k",
+      "name": "Built-Up Areas — Points (Ireland 250k)",
+      "slug": "tailte-built-up-points-250k",
+      "category": "settlements",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Centroid points for built-up areas at 250k mapping scale (Tailte Éireann).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/settlements/tailte-built-up-points-250k.fgb"
+      },
+      "style": {
+        "color": "#A05040",
+        "weight": 2
+      },
+      "labelProperty": "ENGLISH_NA",
+      "keywords": [
+        "settlements",
+        "built-up areas — points (ireland 250k)"
+      ]
+    },
+    {
+      "id": "cso-urban-areas-2022",
+      "name": "CSO Urban Areas 2022",
+      "slug": "cso-urban-areas-2022",
+      "category": "settlements",
+      "provider": [
+        "Tailte Éireann",
+        "Central Statistics Office"
+      ],
+      "description": "Census 2022 urban area definitions — ungeneralised statistical boundaries from Tailte Éireann / CSO.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/settlements/cso-urban-areas-2022.fgb"
+      },
+      "style": {
+        "color": "#7C4D7C",
+        "weight": 2
+      },
+      "labelProperty": "ENGLISH",
+      "keywords": [
+        "settlements",
+        "cso urban areas 2022"
+      ]
+    },
+    {
+      "id": "gsi-bedrock-boreholes-50k",
+      "name": "Bedrock Boreholes 1:50,000 (ROI)",
+      "slug": "gsi-bedrock-boreholes-50k",
+      "category": "geology-geophysics",
+      "provider": [
+        "Geological Survey Ireland"
+      ],
+      "description": "Verified bedrock borehole locations across the Republic of Ireland (GSI).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/gsi-bedrock-boreholes-50k.fgb"
+      },
+      "style": {
+        "color": "#8B5A2B",
+        "weight": 2
+      },
+      "labelProperty": "SiteName",
+      "keywords": [
+        "geology-geophysics",
+        "bedrock boreholes 1:50,000 (roi)"
+      ]
+    },
+    {
+      "id": "gsi-groundwater-flooding-low",
+      "name": "Groundwater Flooding — Low Probability (ROI)",
+      "slug": "gsi-groundwater-flooding-low",
+      "category": "geology-geophysics",
+      "provider": [
+        "Geological Survey Ireland"
+      ],
+      "description": "Modelled low-probability groundwater flood extents at 1:20,000 (GSI).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/gsi-groundwater-flooding-low.fgb"
+      },
+      "style": {
+        "color": "#A6CEE3",
+        "weight": 2
+      },
+      "labelProperty": "Name",
+      "keywords": [
+        "geology-geophysics",
+        "groundwater flooding — low probability (roi)"
+      ]
+    },
+    {
+      "id": "gsi-groundwater-flooding-medium",
+      "name": "Groundwater Flooding — Medium Probability (ROI)",
+      "slug": "gsi-groundwater-flooding-medium",
+      "category": "geology-geophysics",
+      "provider": [
+        "Geological Survey Ireland"
+      ],
+      "description": "Modelled medium-probability groundwater flood extents at 1:20,000 (GSI).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/gsi-groundwater-flooding-medium.fgb"
+      },
+      "style": {
+        "color": "#5B9DC9",
+        "weight": 2
+      },
+      "labelProperty": "Name",
+      "keywords": [
+        "geology-geophysics",
+        "groundwater flooding — medium probability (roi)"
+      ]
+    },
+    {
+      "id": "gsi-karst-data",
+      "name": "Karst Data (Ireland — all-island)",
+      "slug": "gsi-karst-data",
+      "category": "geology-geophysics",
+      "provider": [
+        "Geological Survey Ireland"
+      ],
+      "description": "Karst features and limestone terrain across Ireland (all-island, GSI). Includes the Burren, Marble Arch, and other significant karst landscapes.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/gsi-karst-data.fgb"
+      },
+      "style": {
+        "color": "#7BAA66",
+        "weight": 2
+      },
+      "labelProperty": "Type",
+      "keywords": [
+        "geology-geophysics",
+        "karst data (ireland — all-island)"
+      ]
+    },
+    {
+      "id": "opw-nifm-river-flood-extents-current",
+      "name": "NIFM River Flood Extents — Current Scenario",
+      "slug": "opw-nifm-river-flood-extents-current",
+      "category": "physical-geography",
+      "provider": [
+        "Office of Public Works"
+      ],
+      "description": "OPW National Indicative Fluvial Mapping — modelled river flood extents under current climate (10/100/1000-year return periods).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/environment/opw-nifm-river-flood-extents-current.fgb"
+      },
+      "style": {
+        "color": "#3F8DB0",
+        "weight": 2
+      },
+      "labelProperty": "Scenario",
+      "keywords": [
+        "physical-geography",
+        "nifm river flood extents — current scenario"
+      ]
+    },
+    {
+      "id": "opw-coastal-flood-extents-2021-current",
+      "name": "National Coastal Flood Extents 2021 — Current Scenario",
+      "slug": "opw-coastal-flood-extents-2021-current",
+      "category": "physical-geography",
+      "provider": [
+        "Office of Public Works"
+      ],
+      "description": "OPW national coastal flood extent mapping (2021) under current climate. Multi-return-period coastal flood envelopes.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/environment/opw-coastal-flood-extents-2021-current.fgb"
+      },
+      "style": {
+        "color": "#4F94B5",
+        "weight": 2
+      },
+      "labelProperty": "Scenario",
+      "keywords": [
+        "physical-geography",
+        "national coastal flood extents 2021 — current scenario"
+      ]
+    },
+    {
+      "id": "opw-fsu-catchments-gauged",
+      "name": "FSU Catchment Boundaries — Gauged 2025",
+      "slug": "opw-fsu-catchments-gauged",
+      "category": "physical-geography",
+      "provider": [
+        "Office of Public Works"
+      ],
+      "description": "OPW Flood Studies Update — gauged catchment boundaries (2025 release). Catchments associated with hydrometric monitoring stations.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/environment/opw-fsu-catchments-gauged.fgb"
+      },
+      "style": {
+        "color": "#2D7A8F",
+        "weight": 2
+      },
+      "labelProperty": "Stn_No",
+      "keywords": [
+        "physical-geography",
+        "fsu catchment boundaries — gauged 2025"
       ]
     }
   ],
