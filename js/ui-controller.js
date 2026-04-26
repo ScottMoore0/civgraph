@@ -2717,7 +2717,11 @@ class UIController {
             { id: 'flat-elections-1950s', name: '1950s', from: 1950, to: 1959 },
             { id: 'flat-elections-1940s', name: '1940s', from: 1940, to: 1949 },
             { id: 'flat-elections-1930s', name: '1930s', from: 1930, to: 1939 },
-            { id: 'flat-elections-1920s', name: '1920s', from: 1920, to: 1929 }
+            { id: 'flat-elections-1920s', name: '1920s', from: 1920, to: 1929 },
+            { id: 'flat-elections-1910s', name: '1910s', from: 1910, to: 1919 },
+            { id: 'flat-elections-1900s', name: '1900s', from: 1900, to: 1909 },
+            { id: 'flat-elections-1890s', name: '1890s', from: 1890, to: 1899 },
+            { id: 'flat-elections-1880s', name: '1880s', from: 1880, to: 1889 }
         ];
 
         let electionCatalogueCards = [];
@@ -2734,7 +2738,7 @@ class UIController {
             if (bodyGroup === 'local-government') {
                 thumb = 'deas-2012';
             } else if (body === 'House of Commons of the United Kingdom') {
-                thumb = year >= 2024 ? 'pc-2023' : year >= 2005 ? 'pc-2008' : year >= 1995 ? 'pc-1995' : year >= 1983 ? 'pc-1982' : 'pc-1970';
+                thumb = year >= 2024 ? 'pc-2023' : year >= 2005 ? 'pc-2008' : year >= 1995 ? 'pc-1995' : year >= 1983 ? 'pc-1982' : year >= 1922 ? 'pc-1970' : year >= 1918 ? 'pc-1918' : 'pc-1885-ireland';
             } else if (body === 'Northern Ireland Assembly') {
                 thumb = year >= 2007 ? 'pc-2008' : year >= 1998 ? 'pc-1995' : 'pc-1970';
             } else if (body === 'Northern Ireland Constitutional Convention') {

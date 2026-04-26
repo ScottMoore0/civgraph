@@ -122,7 +122,11 @@ class ElectionController {
         // Westminster 1950-1969 (12 seats, 1948 Representation of the People Act)
         { body: 'House of Commons of the United Kingdom', dateFrom: '1950-01-01', dateUntil: '1969-12-31', fgb: 'data/maps/parliamentary/PC1948.fgb', nameAttr: 'Name' },
         // Westminster 1922-1949 (9 territorial seats; some multi-member STV)
-        { body: 'House of Commons of the United Kingdom', dateFrom: '1900-01-01', dateUntil: '1949-12-31', fgb: 'data/maps/parliamentary/PC1920.fgb', nameAttr: 'Name' },
+        { body: 'House of Commons of the United Kingdom', dateFrom: '1922-01-01', dateUntil: '1949-12-31', fgb: 'data/maps/parliamentary/PC1920.fgb', nameAttr: 'Name' },
+        // Westminster Dec 1918 — first GE under the 1918 redistribution; all-Ireland (Sinn Féin landslide). Pre-partition.
+        { body: 'House of Commons of the United Kingdom', dateFrom: '1918-01-01', dateUntil: '1921-12-31', fgb: 'data/maps/parliamentary/PC_1918_Ireland.fgb', nameAttr: 'Name' },
+        // Westminster 1885-1910 — pre-partition, 1885 redistribution boundaries (101 territorial Irish seats).
+        { body: 'House of Commons of the United Kingdom', dateFrom: '1885-01-01', dateUntil: '1917-12-31', fgb: 'data/maps/parliamentary/PC_1885_Ireland.fgb', nameAttr: 'C1885' },
 
         // NI Assembly 2022+ (uses 2008 PC boundaries, same as Westminster 2005-2019)
         { body: 'Northern Ireland Assembly', dateFrom: '2007-01-01', fgb: 'data/maps/parliamentary/PC2008.fgb', nameAttr: 'PC_NAME' },
