@@ -780,7 +780,7 @@
     },
     {
       "id": "polity-roi",
-      "name": "Republic of Ireland 1938",
+      "name": "Republic of Ireland 1921",
       "scope": "Ireland",
       "category": "polities",
       "maps": [
@@ -1955,7 +1955,8 @@
         "Tailte Éireann"
       ],
       "files": {
-        "geojson": "data/maps/local-government/Administrative_Areas_Ungeneralised_-2482101372601611780.geojson"
+        "geojson": "data/maps/local-government/Administrative_Areas_Ungeneralised_-2482101372601611780.geojson",
+        "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_2014.fgb"
       },
       "style": {
         "color": "#4A90D9",
@@ -1971,7 +1972,8 @@
         "2014",
         "administrative areas"
       ],
-      "labelProperty": "ENGLISH"
+      "labelProperty": "ENGLISH",
+      "useLOD": true
     },
     {
       "id": "place-names-gazetteer",
@@ -5710,7 +5712,7 @@
         "color": "#0A4BAF",
         "weight": 2
       },
-      "labelProperty": "PROVINCE",
+      "labelProperty": "NAME",
       "keywords": [
         "stormont",
         "constituency",
@@ -6152,6 +6154,7 @@
       "name": "Provinces of Ireland",
       "slug": "provinces-ireland",
       "category": "counties",
+      "date": 1955,
       "provider": [
         "OSI"
       ],
@@ -6214,6 +6217,7 @@
       "name": "Counties of Ireland",
       "slug": "counties-ireland",
       "category": "counties",
+      "date": 1977,
       "provider": [
         "OSNI",
         "Tailte Éireann"
@@ -8604,7 +8608,7 @@
     },
     {
       "id": "roi-1938",
-      "name": "Republic of Ireland 1938",
+      "name": "Republic of Ireland 1921",
       "slug": "roi-1938",
       "category": "polities",
       "featured": true,
@@ -8622,10 +8626,10 @@
         "republic of ireland",
         "eire",
         "polity",
-        "1938"
+        "1921"
       ],
       "labelProperty": "Name",
-      "date": 1938,
+      "date": 1921,
       "useLOD": true
     },
     {
@@ -8681,6 +8685,9 @@
       "category": "referendums",
       "featured": true,
       "cloneOf": "pc-1995",
+      "provider": [
+        "Parlconst.org"
+      ],
       "note": "Same boundaries as 1995 Parliamentary Constituencies. Used for 1998 Good Friday Agreement referendum.",
       "style": {
         "color": "#C9A227",
@@ -8702,6 +8709,9 @@
       "category": "referendums",
       "featured": true,
       "cloneOf": "ni-1921",
+      "provider": [
+        "OSNI"
+      ],
       "note": "Northern Ireland as a single constituency for the 1975 EEC referendum.",
       "style": {
         "color": "#003399",
@@ -8723,6 +8733,9 @@
       "category": "referendums",
       "featured": true,
       "cloneOf": "ni-1921",
+      "provider": [
+        "OSNI"
+      ],
       "note": "Northern Ireland as a single constituency for the 1973 Border Poll.",
       "style": {
         "color": "#FF4500",

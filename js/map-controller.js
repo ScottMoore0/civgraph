@@ -3057,6 +3057,11 @@ class MapController {
         }
         featureLoader.clearMap(id);
 
+        // Clear chunked-rendering caches so features don't persist when re-loaded
+        this._loadedChunks.delete(id);
+        this._chunkDataCache.delete(id);
+        this._renderedFeatures.delete(id);
+
         this.updateLabels();
     }
 
