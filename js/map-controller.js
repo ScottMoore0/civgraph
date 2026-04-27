@@ -3061,6 +3061,7 @@ class MapController {
         this._loadedChunks.delete(id);
         this._chunkDataCache.delete(id);
         this._renderedFeatures.delete(id);
+        this._chunkIndexCache.delete(id);
 
         this.updateLabels();
     }
