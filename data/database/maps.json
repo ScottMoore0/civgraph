@@ -71,6 +71,12 @@
       "description": "NI Boundary Commission redistribution proposals at Provisional, Revised, and Final stages."
     },
     {
+      "id": "polling",
+      "name": "Polling & Voting",
+      "group": "Political Geography",
+      "description": "Polling station locations and electoral-administration geography for Northern Ireland."
+    },
+    {
       "id": "devolved",
       "name": "Devolved Constituencies",
       "icon": "[map]",
@@ -20644,6 +20650,45 @@
         "physical-geography",
         "fsu catchment boundaries — gauged 2025"
       ]
+    },
+    {
+      "id": "eoni-polling-stations",
+      "name": "EONI Polling Stations",
+      "slug": "eoni-polling-stations",
+      "category": "polling",
+      "featured": false,
+      "provider": [
+        "Electoral Office for Northern Ireland",
+        "Land & Property Services"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/polling/eoni-polling-stations.fgb"
+      },
+      "style": {
+        "color": "#205493",
+        "weight": 1,
+        "fillColor": "#3F7CC0",
+        "fillOpacity": 0.85,
+        "radius": 5
+      },
+      "labelProperty": "BUILDING_NAME",
+      "keywords": [
+        "polling",
+        "voting",
+        "election",
+        "polling station",
+        "EONI",
+        "voter"
+      ],
+      "description": "All 607 polling stations used by the Electoral Office for Northern Ireland (EONI). Each station's record includes the building name, full address, postcode, the count of properties assigned to it, and the number of ballot boxes. Sourced via the EONI Polling Stations and Properties ArcGIS service published on the OSNI Spatial NI Hub.",
+      "references": [
+        {
+          "label": "EONI Polling Stations app (interactive)",
+          "url": "https://osni-spatialni.hub.arcgis.com/apps/d37660935b1645a696f50ac086bc0eff/explore",
+          "note": "Source — OSNI Spatial NI"
+        }
+      ],
+      "date": "2026-04-27"
     }
   ],
   "dataEntries": [
