@@ -22107,12 +22107,16 @@
         "Department of Housing, Local Government and Heritage"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/roi-planning/roi-national-planning-applications-overview.fgb",
+        "fgb": "https://data.civgraph.net/data/maps/roi-planning/roi-national-planning-applications.fgb",
         "downloads": {
           "geojson": "https://data.civgraph.net/data/maps/roi-planning/roi-national-planning-applications.geojson",
           "fgb_full": "https://data.civgraph.net/data/maps/roi-planning/roi-national-planning-applications.fgb"
         }
       },
+      "chunked": true,
+      "useLOD": true,
+      "enforceChunkOnly": true,
+      "maxLODLevel": 1,
       "style": {
         "color": "#388E3C",
         "weight": 1,
@@ -22126,7 +22130,7 @@
         "roi",
         "ireland"
       ],
-      "description": "All-Ireland planning applications — point map of decisions. Loaded as a 19,738-point overview (1-in-25 sample) for performance; full 493,439-feature dataset available for download (596 MB FGB / source GeoJSON).",
+      "description": "All-Ireland planning applications — point map of 493,439 planning decisions. Spatially chunked into 209 cells with LOD overview; full network only loads features visible in the current viewport.",
       "references": [
         {
           "label": "Source — data.gov.ie",
@@ -22134,8 +22138,7 @@
           "note": ""
         }
       ],
-      "labelProperty": "PlanningAuthority",
-      "note": "Map preview is a 1-in-25 sample for fast loading; download the full dataset for analysis."
+      "labelProperty": "PlanningAuthority"
     },
     {
       "id": "tii-national-road-network",
