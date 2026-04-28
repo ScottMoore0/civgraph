@@ -22097,6 +22097,299 @@
         }
       ],
       "labelProperty": "Lease Number"
+    },
+    {
+      "id": "roi-national-planning-applications",
+      "name": "ROI National Planning Applications",
+      "slug": "roi-national-planning-applications",
+      "category": "built-environment",
+      "provider": [
+        "Department of Housing, Local Government and Heritage"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/roi-planning/roi-national-planning-applications-overview.fgb",
+        "downloads": {
+          "geojson": "https://data.civgraph.net/data/maps/roi-planning/roi-national-planning-applications.geojson",
+          "fgb_full": "https://data.civgraph.net/data/maps/roi-planning/roi-national-planning-applications.fgb"
+        }
+      },
+      "style": {
+        "color": "#388E3C",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "planning",
+        "planning applications",
+        "development",
+        "housing",
+        "roi",
+        "ireland"
+      ],
+      "description": "All-Ireland planning applications — point map of decisions. Loaded as a 19,738-point overview (1-in-25 sample) for performance; full 493,439-feature dataset available for download (596 MB FGB / source GeoJSON).",
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/",
+          "note": ""
+        }
+      ],
+      "labelProperty": "PlanningAuthority",
+      "note": "Map preview is a 1-in-25 sample for fast loading; download the full dataset for analysis."
+    },
+    {
+      "id": "tii-national-road-network",
+      "name": "TII National Road Network",
+      "slug": "tii-national-road-network",
+      "category": "transport",
+      "provider": [
+        "Transport Infrastructure Ireland"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/roi-transport/tii-national-road-network.fgb",
+        "downloads": {
+          "kml": "https://data.civgraph.net/data/maps/roi-transport/tii-national-road-network.kml"
+        }
+      },
+      "style": {
+        "color": "#1976D2",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "TII",
+        "transport",
+        "roads",
+        "tii national road network",
+        "ireland"
+      ],
+      "description": "TII National Road Network — published by Transport Infrastructure Ireland.",
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/",
+          "note": ""
+        }
+      ],
+      "labelProperty": "id"
+    },
+    {
+      "id": "tii-marker-plates",
+      "name": "TII Roadside Marker Plates",
+      "slug": "tii-marker-plates",
+      "category": "transport",
+      "provider": [
+        "Transport Infrastructure Ireland"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/roi-transport/tii-marker-plates.fgb",
+        "downloads": {
+          "kml": "https://data.civgraph.net/data/maps/roi-transport/tii-marker-plates.kml"
+        }
+      },
+      "style": {
+        "color": "#5C6BC0",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "TII",
+        "transport",
+        "roads",
+        "tii roadside marker plates",
+        "ireland"
+      ],
+      "description": "TII Roadside Marker Plates — published by Transport Infrastructure Ireland.",
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/",
+          "note": ""
+        }
+      ],
+      "labelProperty": "id"
+    },
+    {
+      "id": "tii-collision-rates-2014-2016",
+      "name": "TII Collision Rates 2014-2016",
+      "slug": "tii-collision-rates-2014-2016",
+      "category": "transport",
+      "provider": [
+        "Transport Infrastructure Ireland"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/roi-transport/tii-collision-rates-2014-2016.fgb",
+        "downloads": {
+          "zip": "https://data.civgraph.net/data/maps/roi-transport/tii-collision-rates-2014-2016.zip"
+        }
+      },
+      "style": {
+        "color": "#D32F2F",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "TII",
+        "transport",
+        "roads",
+        "tii collision rates 2014-2016",
+        "ireland"
+      ],
+      "description": "TII Collision Rates 2014-2016 — published by Transport Infrastructure Ireland.",
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/",
+          "note": ""
+        }
+      ],
+      "labelProperty": "Site_ID"
+    },
+    {
+      "id": "tii-collision-rates-2011-2013",
+      "name": "TII Collision Rates 2011-2013",
+      "slug": "tii-collision-rates-2011-2013",
+      "category": "transport",
+      "provider": [
+        "Transport Infrastructure Ireland"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/roi-transport/tii-collision-rates-2011-2013.fgb",
+        "downloads": {
+          "zip": "https://data.civgraph.net/data/maps/roi-transport/tii-collision-rates-2011-2013.zip"
+        }
+      },
+      "style": {
+        "color": "#C62828",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "TII",
+        "transport",
+        "roads",
+        "tii collision rates 2011-2013",
+        "ireland"
+      ],
+      "description": "TII Collision Rates 2011-2013 — published by Transport Infrastructure Ireland.",
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/",
+          "note": ""
+        }
+      ],
+      "labelProperty": "Site_ID"
+    },
+    {
+      "id": "tii-traffic-counter-locations",
+      "name": "TII Traffic Counter Locations",
+      "slug": "tii-traffic-counter-locations",
+      "category": "transport",
+      "provider": [
+        "Transport Infrastructure Ireland"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/roi-transport/tii-traffic-counter-locations.fgb",
+        "downloads": {
+          "geojson": "https://data.civgraph.net/data/maps/roi-transport/tii-traffic-counter-locations.geojson"
+        },
+        "geojson": "https://data.civgraph.net/data/maps/roi-transport/tii-traffic-counter-locations.geojson"
+      },
+      "style": {
+        "color": "#0277BD",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "TII",
+        "transport",
+        "roads",
+        "tii traffic counter locations",
+        "ireland"
+      ],
+      "description": "TII Traffic Counter Locations — published by Transport Infrastructure Ireland.",
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/",
+          "note": ""
+        }
+      ],
+      "labelProperty": "Name"
+    },
+    {
+      "id": "tii-wim-sensor-locations",
+      "name": "TII Weigh-in-Motion Sensor Locations",
+      "slug": "tii-wim-sensor-locations",
+      "category": "transport",
+      "provider": [
+        "Transport Infrastructure Ireland"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/roi-transport/tii-wim-sensor-locations.fgb",
+        "downloads": {
+          "geojson": "https://data.civgraph.net/data/maps/roi-transport/tii-wim-sensor-locations.geojson"
+        },
+        "geojson": "https://data.civgraph.net/data/maps/roi-transport/tii-wim-sensor-locations.geojson"
+      },
+      "style": {
+        "color": "#01579B",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "TII",
+        "transport",
+        "roads",
+        "tii weigh-in-motion sensor locations",
+        "ireland"
+      ],
+      "description": "TII Weigh-in-Motion Sensor Locations — published by Transport Infrastructure Ireland.",
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/",
+          "note": ""
+        }
+      ],
+      "labelProperty": "Name"
+    },
+    {
+      "id": "tii-luas-stops",
+      "name": "Luas Tram Stops",
+      "slug": "tii-luas-stops",
+      "category": "transport",
+      "provider": [
+        "Transport Infrastructure Ireland"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/roi-transport/tii-luas-stops.fgb",
+        "downloads": {
+          "zip": "https://data.civgraph.net/data/maps/roi-transport/tii-luas-stops.zip"
+        }
+      },
+      "style": {
+        "color": "#C2185B",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "TII",
+        "transport",
+        "roads",
+        "luas tram stops",
+        "ireland"
+      ],
+      "description": "Luas Tram Stops — published by Transport Infrastructure Ireland.",
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/",
+          "note": ""
+        }
+      ],
+      "labelProperty": "Name"
     }
   ],
   "dataEntries": [
