@@ -143,14 +143,42 @@ scripts/georef-outlines.py
 scripts/georef-pipeline.py
 scripts/georef-refine.py
 
+# All FGBs in data/maps/ — R2 (data.civgraph.net) is the canonical source.
+# Cloudflare build clones the repo; keeping FGBs in git multiplied build time
+# from ~30s to ~7m (most of a 10m total). One-time history rewrite + this
+# rule prevents recurrence. Regenerable from sources via the build scripts.
+data/maps/**/*.fgb
+data/maps/**/*.fgb.gz
+data/maps/**/*.fgb.br
+
 # ROI source/intermediate files — uploaded to R2 separately, not tracked in git
-data/maps/**/ROI_*.fgb
 data/maps/**/ROI_*.geojson
-data/maps/local-government/Catholic_Parishes_Dublin.fgb
 data/maps/local-government/Catholic_Parishes_Dublin.geojson
 data/maps/local-government/Administrative_Areas_Ungeneralised_*.geojson
-data/maps/census-areas/NUTS2_All_Ireland.fgb
+data/maps/local-government/LocalAuthorities_NationalStatutoryBoundaries_Ungeneralised_*.geojson
 data/maps/census-areas/NUTS2_All_Ireland.geojson
+data/maps/parliamentary/PC_1918_Ireland.geojson
+data/maps/environment/opw-coastal-flood-extents-2021-current.fgb
+data/maps/environment/opw-nifm-river-flood-extents-current.fgb
+
+# OSNI originals (large KML/SHP from OSNI Open Data — re-downloadable)
+data/maps/osni-originals/
+
+# Boundary report PDFs — served from Internet Archive, not Pages
+data/books/boundary-reports/*.pdf
+
+# Maps-to-be-added staging directory (local intake)
+maps-to-be-added/
+
+# Root-level imports / staging
+/Townlands_*.fgb
+/OA2001.fgb
+/SA2011.fgb
+/LocalAuthorities_*.geojson
+/Full election tables.xlsx
+/2001 bulk downloads.zip
+/_townlands_check.fgb
+/ni_boundary.fgb
 
 # Raw source archives (re-downloadable from CSO / Tailte Éireann)
 data/downloads/
