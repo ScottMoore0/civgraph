@@ -63,6 +63,9 @@ const aliasVariants = (name) => {
     const stripped = base.replace(/\s*\(\d+\)\s*$/, '').trim();
     if (stripped !== base) push(stripped);
     if (/-/.test(stripped)) push(stripped.replace(/-/g, ' '));
+    const compassMap = { N: 'North', S: 'South', E: 'East', W: 'West', NE: 'North East', NW: 'North West', SE: 'South East', SW: 'South West' };
+    const compass = stripped.replace(/\b(NE|NW|SE|SW|N|S|E|W)\b/g, (m) => compassMap[m]);
+    if (compass !== stripped) push(compass);
     return [...variants].filter(Boolean);
 };
 
@@ -123,6 +126,43 @@ fgb2024.forEach(f => {
     console.log(`  ${f.padEnd(28)} -> ${m || '(NO MATCH)'}`);
     if (!m) errors++;
 });
+
+// 1918 — every FGB feature in PC_1918_Ireland.fgb must reconcile to a 1918 scraper entry.
+const _1918 = dail.dates.find(d => d.date === '1918-12-14');
+const map1918 = buildAliasMap(_1918.constituencies);
+const aliases1918 = {
+    'Connemara': 'Galway Connemara',
+    'Pembroke': 'Dublin Pembroke',
+    'Rathmines': 'Dublin Rathmines',
+    'Dublin County N': 'Dublin North',
+    'Dublin County S': 'Dublin South',
+    "Dublin St Stephen's Green": "Dublin St Stephen's",
+    'Cork City': 'Cork',
+    'LimerickCity': 'Limerick',
+    'Londonderry City': 'Londonderry',
+    'Waterford City': 'Waterford',
+    'Waterford': 'Waterford County',
+    'Waterford E': 'Waterford County',
+    'Leitrim S': 'Leitrim',
+    'Longford S': 'Longford',
+    'Louth S': 'Louth',
+    'Westmeath S': 'Westmeath',
+    'Birr': "King's County",
+    'Leix': "Queen's County"
+};
+const fgb1918 = fs.readFileSync(path.join(ROOT, 'fgb_1918_names.txt'), 'utf-8').trim().split('\n');
+console.log(`\n1918 FGB->index reconciliation (${fgb1918.length} features):`);
+let unmatched1918 = [];
+fgb1918.forEach(f => {
+    const m = matchOne(f, map1918, aliases1918);
+    if (!m) unmatched1918.push(f);
+});
+if (unmatched1918.length) {
+    console.log(`  ${unmatched1918.length} unmatched: ${unmatched1918.join(', ')}`);
+    errors += unmatched1918.length;
+} else {
+    console.log(`  All ${fgb1918.length} FGB features matched.`);
+}
 
 if (errors) {
     console.error(`\n${errors} failure(s).`);

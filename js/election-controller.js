@@ -164,8 +164,43 @@ class ElectionController {
             }
         },
         { body: 'Dáil Éireann', dateFrom: '1997-06-07', dateUntil: '2006-12-31', fgb: 'data/maps/parliamentary/1998_Dail.fgb', nameAttr: 'CON_NAME' },
-        // Older Dáil eras (1918-1995) need name reconciliation with their boundary FGBs;
-        // wired up in a follow-up PR. Catalogue still surfaces the data without geometry.
+
+        // Dáil 1 (1918) — pre-partition all-Ireland 1918 redistribution.
+        // FGB has 107 features against 103 scraper entries: 28 match directly,
+        // 62 via compass-token expansion in _aliasVariants, 17 via the alias map below
+        // (substantive name differences + pre-1918 polygon halves merged into 1918 unified seats).
+        // Three university seats (NUI, QUB, Dublin University) have no boundary — render in
+        // count animation but leave no polygon highlighted, which is correct.
+        { body: 'Dáil Éireann', dateFrom: '1918-12-14', dateUntil: '1918-12-14', fgb: 'data/maps/parliamentary/PC_1918_Ireland.fgb', nameAttr: 'Name',
+            nameAliases: {
+                // Substantive name differences
+                'Connemara': 'Galway Connemara',
+                'Pembroke': 'Dublin Pembroke',
+                'Rathmines': 'Dublin Rathmines',
+                'Dublin County N': 'Dublin North',
+                'Dublin County S': 'Dublin South',
+                "Dublin St Stephen's Green": "Dublin St Stephen's",
+                'Cork City': 'Cork',
+                'LimerickCity': 'Limerick',
+                'Londonderry City': 'Londonderry',
+                // Waterford disambiguation: FGB's "Waterford City" (95 km²) is the urban seat;
+                // FGB's "Waterford" (1300 km²) and "Waterford E" (1330 km²) are pre-1918 west/east
+                // halves of the rural county that merged into the 1918 single county seat.
+                'Waterford City': 'Waterford',
+                'Waterford': 'Waterford County',
+                'Waterford E': 'Waterford County',
+                // Pre-1918 polygon halves merged into 1918 single-seat county constituencies
+                'Leitrim S': 'Leitrim',
+                'Longford S': 'Longford',
+                'Louth S': 'Louth',
+                'Westmeath S': 'Westmeath',
+                'Birr': "King's County",
+                'Leix': "Queen's County"
+            }
+        },
+        // 1921 (Dáil 2) used Government of Ireland Act 1920 aggregate constituencies that
+        // don't match PC_1918 boundaries; wiring deferred until those FGBs are sourced.
+        // 1922-1969 Dáil eras paused per user direction; need OSi/National Archives FGBs.
 
         ...ElectionController.LOCAL_GOVERNMENT_BODIES.map((body) => ({
             body,
@@ -541,6 +576,10 @@ class ElectionController {
         const stripped = base.replace(/\s*\(\d+\)\s*$/, '').trim();
         if (stripped !== base) push(stripped);
         if (/-/.test(stripped)) push(stripped.replace(/-/g, ' '));
+        // 1918 FGB compass abbreviations: "Antrim E" -> "Antrim East", "Tyrone NE" -> "Tyrone North East".
+        const compassMap = { N: 'North', S: 'South', E: 'East', W: 'West', NE: 'North East', NW: 'North West', SE: 'South East', SW: 'South West' };
+        const compass = stripped.replace(/\b(NE|NW|SE|SW|N|S|E|W)\b/g, (m) => compassMap[m]);
+        if (compass !== stripped) push(compass);
         return [...variants].filter(Boolean);
     }
 
