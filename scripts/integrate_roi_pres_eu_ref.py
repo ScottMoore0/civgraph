@@ -146,30 +146,19 @@ def integrate_eur():
         if os.path.exists(ni):
             os.remove(ni)
             print(f'  {date_dir}: removed northern-ireland.json (NI EP is a separate body)')
-        # Aggregate per-constituency results into a single ireland.json
-        cons_files = [f for f in os.listdir(d) if f.endswith('.json') and f not in ('_index.json', 'ireland.json')]
-        merged_candidates = []
-        meta_total_electorate = 0
-        for cf in cons_files:
+        # Drop the previously synthesized aggregate (we now use per-constituency MEP FGBs).
+        agg = os.path.join(d, 'ireland.json')
+        if os.path.exists(agg):
+            os.remove(agg)
+            print(f'  {date_dir}: removed aggregated ireland.json (now uses per-constituency MEP FGBs)')
+        # List per-constituency files: their `constituency` field is the display name.
+        cons_names = []
+        for cf in sorted(f for f in os.listdir(d) if f.endswith('.json') and f != '_index.json'):
             with open(os.path.join(d, cf), encoding='utf-8') as f:
                 p = json.load(f)
-            for c in p.get('candidates', []):
-                merged_candidates.append(c)
-            try:
-                meta_total_electorate += int(p.get('meta', {}).get('electorate') or 0)
-            except (TypeError, ValueError):
-                pass
-        # Sort by first_pref desc so the engine's "winner = top first_pref by party" works
-        merged_candidates.sort(key=lambda c: float(c.get('first_pref') or (c.get('counts') or [0])[0] or 0), reverse=True)
-        ireland_payload = {
-            'body': 'European Parliament',
-            'constituency': 'Ireland',
-            'meta': {'electorate': meta_total_electorate or None},
-            'candidates': merged_candidates,
-        }
-        with open(os.path.join(d, 'ireland.json'), 'w', encoding='utf-8') as f:
-            json.dump(ireland_payload, f, indent=2, ensure_ascii=False)
-        dates_out.append({'date': date_dir, 'constituencies': ['Ireland']})
+            name = p.get('constituency') or cf[:-5].replace('-', ' ').title()
+            cons_names.append(name)
+        dates_out.append({'date': date_dir, 'constituencies': cons_names})
     dates_out.sort(key=lambda d: d['date'], reverse=True)
     return {'name': 'European Parliament (Ireland)', 'slug': 'ireland-european', 'dates': dates_out}
 
