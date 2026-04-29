@@ -207,8 +207,22 @@ class ElectionController {
         // colouring by single constituency "Ireland" fills the whole country with the
         // winning party (or Yes/No outcome for referendums).
         { body: 'President of Ireland', dateFrom: '1900-01-01', fgb: 'data/maps/baronies-parishes/ROI_Counties_2011.fgb', nameAttr: 'NUTS1NAME', singleConstituency: true },
-        { body: 'European Parliament (Ireland)', dateFrom: '1900-01-01', fgb: 'data/maps/baronies-parishes/ROI_Counties_2011.fgb', nameAttr: 'NUTS1NAME', singleConstituency: true },
         { body: 'Referendum (Ireland)', dateFrom: '1900-01-01', fgb: 'data/maps/baronies-parishes/ROI_Counties_2011.fgb', nameAttr: 'NUTS1NAME', singleConstituency: true },
+
+        // ROI European Parliament: per-constituency MEP FGBs in data/maps/electoral-divisions/.
+        // FGB feature names are uppercase + hyphenated (e.g. "MIDLANDS-NORTH-WEST"); index display
+        // names from the scraper are title-case + spaces ("Midlands North West"). Slugify normalises
+        // both to the same value, except CONNACHT-ULSTER (modern Irish spelling) vs Connaught Ulster
+        // (scraper anglicisation) which needs an explicit alias for 1979-1999.
+        { body: 'European Parliament (Ireland)', dateFrom: '2024-01-01', fgb: 'data/maps/electoral-divisions/2024MEPConstituencies.fgb', nameAttr: 'ENGLISH' },
+        { body: 'European Parliament (Ireland)', dateFrom: '2019-01-01', dateUntil: '2023-12-31', fgb: 'data/maps/electoral-divisions/2019MEPConstituencies.fgb', nameAttr: 'ENGLISH' },
+        { body: 'European Parliament (Ireland)', dateFrom: '2014-01-01', dateUntil: '2018-12-31', fgb: 'data/maps/electoral-divisions/2014MEPConstituencies.fgb', nameAttr: 'ENGLISH' },
+        // 2009 FGB is corrupted (5 county-council polygons instead of EU constituencies); reuse 2004 since
+        // boundaries did not change between the 2004 and 2009 EP elections.
+        { body: 'European Parliament (Ireland)', dateFrom: '2004-01-01', dateUntil: '2013-12-31', fgb: 'data/maps/electoral-divisions/2004MEPConstituencies.fgb', nameAttr: 'ENGLISH' },
+        { body: 'European Parliament (Ireland)', dateFrom: '1900-01-01', dateUntil: '2003-12-31', fgb: 'data/maps/electoral-divisions/1979MEPConstituencies.fgb', nameAttr: 'ENGLISH',
+            nameAliases: { 'CONNACHT-ULSTER': 'Connaught Ulster' }
+        },
 
         ...ElectionController.LOCAL_GOVERNMENT_BODIES.map((body) => ({
             body,
