@@ -202,6 +202,14 @@ class ElectionController {
         // don't match PC_1918 boundaries; wiring deferred until those FGBs are sourced.
         // 1922-1969 Dáil eras paused per user direction; need OSi/National Archives FGBs.
 
+        // ROI national-fill bodies (President, European Parliament Ireland, Referendum)
+        // all use the ROI_Counties_2011.fgb. Every feature has NUTS1NAME = "Ireland" so
+        // colouring by single constituency "Ireland" fills the whole country with the
+        // winning party (or Yes/No outcome for referendums).
+        { body: 'President of Ireland', dateFrom: '1900-01-01', fgb: 'data/maps/baronies-parishes/ROI_Counties_2011.fgb', nameAttr: 'NUTS1NAME', singleConstituency: true },
+        { body: 'European Parliament (Ireland)', dateFrom: '1900-01-01', fgb: 'data/maps/baronies-parishes/ROI_Counties_2011.fgb', nameAttr: 'NUTS1NAME', singleConstituency: true },
+        { body: 'Referendum (Ireland)', dateFrom: '1900-01-01', fgb: 'data/maps/baronies-parishes/ROI_Counties_2011.fgb', nameAttr: 'NUTS1NAME', singleConstituency: true },
+
         ...ElectionController.LOCAL_GOVERNMENT_BODIES.map((body) => ({
             body,
             dateFrom: '2014-01-01',
@@ -1298,7 +1306,8 @@ class ElectionController {
             try {
                 const response = await fetch(url);
                 if (!response.ok) return null;
-                const payload = await response.json();
+                let payload = await response.json();
+                payload = this._normaliseScraperPayload(payload);
                 this._resultsPayloadCache.set(url, payload);
                 return payload;
             } catch (_) {
@@ -1310,6 +1319,61 @@ class ElectionController {
 
         this._resultsPayloadPromiseCache.set(url, promise);
         return promise;
+    }
+
+    // Convert ElectionsIreland-shaped scraper payloads into the engine's expected
+    // {Constituency:{countInfo, countGroup}} shape. The scraper produces a flat
+    // {meta, candidates:[{name, party, first_pref, counts, status, final_count}]} record
+    // with first-prefs only (no per-count detail). We synthesize a single-count countGroup
+    // so the map colours and the static results table both work; the count animation
+    // shows one frame instead of a play-through.
+    _normaliseScraperPayload(payload) {
+        if (!payload || payload.Constituency || !Array.isArray(payload.candidates)) return payload;
+        const meta = payload.meta || {};
+        const lastCount = Math.max(1, ...payload.candidates.map((c) => parseInt(c.final_count, 10) || 1));
+        const stripParty = (p) => String(p || '').replace(/\s*Lozenge\s*$/i, '').trim() || 'Independent';
+        const countGroup = payload.candidates.map((c, idx) => {
+            const fp = parseFloat(
+                c.first_pref != null ? c.first_pref :
+                (Array.isArray(c.counts) ? c.counts[0] : 0)
+            ) || 0;
+            const occurredOn = parseInt(c.final_count, 10) || lastCount;
+            const name = String(c.name || '').trim();
+            const space = name.indexOf(' ');
+            const firstname = space > 0 ? name.slice(0, space) : name;
+            const surname = space > 0 ? name.slice(space + 1) : '';
+            const party = stripParty(c.party);
+            return {
+                Candidate_Id: String(idx + 1),
+                Candidate_First_Pref_Votes: String(fp),
+                Constituency_Number: '',
+                Count_Number: '1',
+                Firstname: firstname,
+                Surname: surname,
+                Occurred_On_Count: String(occurredOn),
+                Party_Colour: this._roiPartyColour(party),
+                Party_Name: party,
+                Status: c.status || '',
+                Total_Votes: String(fp),
+                Transfers: '0',
+                candidateName: name,
+                id: idx
+            };
+        });
+        return {
+            Constituency: {
+                countInfo: {
+                    Constituency_Name: payload.constituency || '',
+                    Constituency_Number: '',
+                    Number_Of_Seats: payload.seats != null ? String(payload.seats) : '',
+                    Spoiled: '',
+                    Total_Electorate: meta.electorate != null ? String(meta.electorate) : '',
+                    Total_Poll: '',
+                    Valid_Poll: ''
+                },
+                countGroup
+            }
+        };
     }
 
     _createEmptyEntityIndex() {
@@ -6442,10 +6506,44 @@ class ElectionController {
     }
 
     _normaliseLivePartyName(party) {
-        const raw = String(party || '').trim();
+        const raw = String(party || '').replace(/\s*Lozenge\s*$/i, '').trim();
         if (!raw) return 'Independent';
         if (raw === "Workers' Party (Ireland)") return 'Workers Party / Republican Clubs';
         return raw;
+    }
+
+    // ROI / Republic of Ireland party colour palette. Used as fallback when the
+    // scraper data lacks Party_Colour. Keys are matched after the " Lozenge"
+    // suffix has been stripped.
+    _roiPartyColour(party) {
+        const map = {
+            'Fianna Fail': '#66BB6A',
+            'Fianna Fáil': '#66BB6A',
+            'Fine Gael': '#1E88E5',
+            'Sinn Féin': '#00695C',
+            'Sinn Fein': '#00695C',
+            'Labour': '#D32F2F',
+            'The Labour Party': '#D32F2F',
+            'Green/Comhaontas Glas': '#4CAF50',
+            'Green Party': '#4CAF50',
+            'Social Democrats': '#6A1B9A',
+            'People Before Profit-Solidarity': '#EF5350',
+            'Solidarity-People Before Profit': '#EF5350',
+            'People Before Profit': '#EF5350',
+            'Aontú': '#C62828',
+            'Aontu': '#C62828',
+            'Progressive Democrats': '#1565C0',
+            'Workers Party / Republican Clubs': '#B71C1C',
+            'Independents 4 Change': '#FB8C00',
+            'Renua': '#7E57C2',
+            'Independent': '#9E9E9E',
+            'Non party/Independent': '#9E9E9E',
+            'Non Party/Independent': '#9E9E9E',
+            // Referendum pseudo-parties
+            'Yes': '#43A047',
+            'No': '#E53935'
+        };
+        return map[party] || '';
     }
 
     _thTwoLine(top, bottom) {
@@ -6767,8 +6865,9 @@ class ElectionController {
                     return;
                 }
                 const special = this._getSpecialElectionConfig(bodyData.name, dateData.date);
+                const isNationalRoiBody = ['President of Ireland', 'European Parliament (Ireland)', 'Referendum (Ireland)'].includes(bodyData.name);
                 const isByElection = dateData.constituencies.length <= 2 &&
-                    !['Northern Ireland'].includes(dateData.constituencies[0]);
+                    !['Northern Ireland', 'Ireland'].includes(dateData.constituencies[0]);
 
                 const bodyShort = this._shortBodyName(bodyData.name);
                 const dateFormatted = this._formatDate(dateData.date);
@@ -6777,6 +6876,10 @@ class ElectionController {
                 let subtitle = '';
                 if (special?.type === 'recall-petition') {
                     subtitle = special.constituency;
+                } else if (bodyData.name === 'Referendum (Ireland)') {
+                    subtitle = dateData.topic || 'Referendum';
+                } else if (isNationalRoiBody) {
+                    subtitle = 'Ireland (national)';
                 } else if (isByElection) {
                     subtitle = this._formatByElectionSubtitle(dateData.constituencies[0], bodyData.name, bodyData.bodyGroup || null);
                 } else {

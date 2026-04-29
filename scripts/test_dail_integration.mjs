@@ -164,6 +164,22 @@ if (unmatched1918.length) {
     console.log(`  All ${fgb1918.length} FGB features matched.`);
 }
 
+// New national-fill bodies (Pres + EU(IE) + Ref): every (date, "Ireland") tuple
+// must resolve to an ireland.json file.
+for (const slug of ['ireland-president', 'ireland-european', 'ireland-referendum']) {
+    const body = master.bodies.find(b => b.slug === slug);
+    if (!body) { console.error(`FAIL: no body with slug ${slug}`); errors++; continue; }
+    let missing = 0;
+    for (const dateData of body.dates) {
+        for (const cons of dateData.constituencies) {
+            const file = path.join(ROOT, `election-viewer-package/data/elections/${slug}/${dateData.date}/${slugify(cons)}.json`);
+            if (!fs.existsSync(file)) { missing++; }
+        }
+    }
+    console.log(`${body.name}: ${body.dates.length} dates, ${missing} missing files`);
+    errors += missing;
+}
+
 if (errors) {
     console.error(`\n${errors} failure(s).`);
     process.exit(1);
