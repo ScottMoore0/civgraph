@@ -19,7 +19,8 @@ export function shortBodyName(name) {
         'House of Commons of the United Kingdom': 'Westminster',
         'Northern Ireland Assembly': 'Assembly',
         'Northern Ireland Constitutional Convention': 'Convention',
-        'Northern Ireland Forum for Political Dialogue': 'Forum'
+        'Northern Ireland Forum for Political Dialogue': 'Forum',
+        'Dáil Éireann': 'Dáil'
     };
     return map[name] || name;
 }

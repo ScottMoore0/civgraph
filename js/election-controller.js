@@ -150,6 +150,23 @@ class ElectionController {
 
         // European Parliament (single NI constituency â€” no useful map, but use PC2008 boundary for fill)
         { body: 'European Parliament', dateFrom: '1979-01-01', fgb: 'data/maps/parliamentary/PC2008.fgb', nameAttr: 'PC_NAME', singleConstituency: true },
+
+        // Dáil Éireann — modern era (2002-2024)
+        { body: 'Dáil Éireann', dateFrom: '2024-01-01', fgb: 'data/maps/parliamentary/ROIConstituencies2023.fgb', nameAttr: 'ENG_NAME_VALUE' },
+        { body: 'Dáil Éireann', dateFrom: '2017-01-01', dateUntil: '2023-12-31', fgb: 'data/maps/parliamentary/ROIConstituencies2017.fgb', nameAttr: 'CON_SEAT_' },
+        { body: 'Dáil Éireann', dateFrom: '2013-01-01', dateUntil: '2016-12-31', fgb: 'data/maps/parliamentary/ROIConstituencies2013.fgb', nameAttr: 'MAX_CON_NA' },
+        { body: 'Dáil Éireann', dateFrom: '2007-01-01', dateUntil: '2012-12-31', fgb: 'data/maps/parliamentary/2007_Dail.fgb', nameAttr: 'CON_NAME',
+            nameAliases: {
+                'Cork North-Centrla': 'Cork North Central',
+                'Laois-Offaly': 'Laoighis Offaly',
+                'Roscommon-South Leitrim': 'Roscommon Leitrim South',
+                'Sligo-North Leitrim': 'Sligo Leitrim North'
+            }
+        },
+        { body: 'Dáil Éireann', dateFrom: '1997-06-07', dateUntil: '2006-12-31', fgb: 'data/maps/parliamentary/1998_Dail.fgb', nameAttr: 'CON_NAME' },
+        // Older Dáil eras (1918-1995) need name reconciliation with their boundary FGBs;
+        // wired up in a follow-up PR. Catalogue still surfaces the data without geometry.
+
         ...ElectionController.LOCAL_GOVERNMENT_BODIES.map((body) => ({
             body,
             dateFrom: '2014-01-01',
@@ -520,6 +537,10 @@ class ElectionController {
         push(base.replace(/\bCity\b/gi, ''));
         push(base.replace(/^Derry\b/i, 'Derry City and Strabane'));
         push(base.replace(/^Londonderry\b/i, 'Derry City and Strabane'));
+        // ROI Dáil FGB variants: strip trailing seat-count "(N)" and treat hyphens as spaces.
+        const stripped = base.replace(/\s*\(\d+\)\s*$/, '').trim();
+        if (stripped !== base) push(stripped);
+        if (/-/.test(stripped)) push(stripped.replace(/-/g, ' '));
         return [...variants].filter(Boolean);
     }
 
@@ -1041,7 +1062,9 @@ class ElectionController {
     }
 
     async _loadAllResults(body, date, constituencies, target = {}, extractPartyColours = true) {
-        const slugify = (text) => String(text).toLowerCase().trim()
+        const slugify = (text) => String(text)
+            .normalize('NFKD').replace(/[̀-ͯ]/g, '')
+            .toLowerCase().trim()
             .replace(/[^\w\s-]/g, '').replace(/[\s]+/g, '-').replace(/-+/g, '-');
 
         const bodySlug = slugify(body);
@@ -2615,9 +2638,17 @@ class ElectionController {
     _matchConstituency(fgbName) {
         if (!fgbName) return null;
         const aliases = this._isCouncilMode() ? this._councilAliases : this._constituencyAliases;
-        for (const variant of this._aliasVariants(fgbName)) {
-            const hit = aliases.get(variant);
-            if (hit) return hit;
+        // Per-geography overrides for FGBs whose feature names diverge from the index
+        // (typos, word-order swaps) — e.g. 2007_Dail "Sligo-North Leitrim" vs index "Sligo Leitrim North".
+        const geoAliases = this._currentGeo?.nameAliases;
+        const candidates = geoAliases?.[fgbName]
+            ? [geoAliases[fgbName], fgbName]
+            : [fgbName];
+        for (const candidate of candidates) {
+            for (const variant of this._aliasVariants(candidate)) {
+                const hit = aliases.get(variant);
+                if (hit) return hit;
+            }
         }
         return null;
     }
@@ -6652,6 +6683,13 @@ class ElectionController {
 
         index.bodies.forEach(bodyData => {
             bodyData.dates.forEach(dateData => {
+                // Skip dates whose boundary geometry hasn't been wired up yet —
+                // clicking them would just print 'No geography found'. Older
+                // Dáil eras (pre-1997) sit in this state until their FGBs are reconciled.
+                if (bodyData.bodyGroup !== 'local-government'
+                    && !ElectionController.getGeography(bodyData.name, dateData.date)) {
+                    return;
+                }
                 if (bodyData.bodyGroup === 'local-government') {
                     existingLocalDates.add(dateData.date);
                     const groupKey = `${bodyData.bodyGroup}|${dateData.date}`;
