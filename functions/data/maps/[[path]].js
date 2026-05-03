@@ -1,16 +1,22 @@
 /**
- * Serve FGB map files from R2 with content-negotiated compression.
+ * Serve map data files from R2.
  *
- * - Checks Accept-Encoding for br (Brotli) or gzip
- * - Serves pre-compressed .fgb.br or .fgb.gz from R2 if available
- * - Falls back to uncompressed .fgb
- * - Sets immutable cache headers (files never change once deployed)
+ * For binary FGB streams, callers fetch `.fgb.gz` explicitly and decompress
+ * with pako, so we serve the pre-compressed `.br` / `.gz` keys directly
+ * with the appropriate Content-Encoding when the client advertises support.
+ *
+ * For JSON files (chunk indices, feature indices) the browser uses
+ * fetch().json() which relies on the runtime to auto-decode the body. The
+ * Pages-Function path through Cloudflare does not reliably decode a
+ * manually-set `Content-Encoding: br` for the browser, so JSON is served
+ * uncompressed from the base key — Cloudflare's edge compresses it on the
+ * wire to the client.
  */
 export async function onRequestGet(context) {
-    const url = new URL(context.request.url);
-    // path param captures everything after /data/maps/
     const key = `data/maps/${context.params.path.join('/')}`;
     const accept = (context.request.headers.get('Accept-Encoding') || '').toLowerCase();
+    const lowerKey = key.toLowerCase();
+    const isJson = lowerKey.endsWith('.json');
 
     const bucket = context.env.MAPS_BUCKET;
     if (!bucket) {
@@ -18,18 +24,27 @@ export async function onRequestGet(context) {
         return context.next();
     }
 
-    const headers = {
-        'Content-Type': 'application/octet-stream',
+    const baseHeaders = {
         'Cache-Control': 'public, max-age=31536000, immutable',
         'Access-Control-Allow-Origin': '*',
     };
+
+    if (isJson) {
+        const obj = await bucket.get(key);
+        if (!obj) return new Response('Not found', { status: 404 });
+        return new Response(obj.body, {
+            headers: { ...baseHeaders, 'Content-Type': 'application/json' }
+        });
+    }
+
+    const binaryHeaders = { ...baseHeaders, 'Content-Type': 'application/octet-stream' };
 
     // Try Brotli first
     if (accept.includes('br')) {
         const brObj = await bucket.get(key + '.br');
         if (brObj) {
             return new Response(brObj.body, {
-                headers: { ...headers, 'Content-Encoding': 'br' }
+                headers: { ...binaryHeaders, 'Content-Encoding': 'br' }
             });
         }
     }
@@ -39,16 +54,13 @@ export async function onRequestGet(context) {
         const gzObj = await bucket.get(key + '.gz');
         if (gzObj) {
             return new Response(gzObj.body, {
-                headers: { ...headers, 'Content-Encoding': 'gzip' }
+                headers: { ...binaryHeaders, 'Content-Encoding': 'gzip' }
             });
         }
     }
 
     // Uncompressed fallback
     const obj = await bucket.get(key);
-    if (!obj) {
-        return new Response('Not found', { status: 404 });
-    }
-
-    return new Response(obj.body, { headers });
+    if (!obj) return new Response('Not found', { status: 404 });
+    return new Response(obj.body, { headers: binaryHeaders });
 }
