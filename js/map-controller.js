@@ -1068,9 +1068,7 @@ class MapController {
                         mapConfig.labelCleanup
                     );
                     if (labelText && (layer.getBounds || layer.getLatLng)) {
-                        const priorityProp = mapConfig.priorityProperty || mapConfig.significanceProperty;
-                        const priority = priorityProp ? (parseFloat(feature.properties[priorityProp]) || 0) : 0;
-
+                        const priority = this._resolveLabelPriority(mapConfig, feature);
                         state.labelEntries.push({
                             layer,
                             feature,
@@ -1313,9 +1311,7 @@ class MapController {
                             mapConfig.labelCleanup
                         );
                         if (labelText && (layer.getBounds || layer.getLatLng)) {
-                            const priorityProp = mapConfig.priorityProperty || mapConfig.significanceProperty;
-                            const priority = priorityProp ? (parseFloat(feature.properties[priorityProp]) || 0) : 0;
-
+                            const priority = this._resolveLabelPriority(mapConfig, feature);
                             state.labelEntries.push({
                                 layer,
                                 feature,
@@ -2024,9 +2020,7 @@ class MapController {
                 }
                 const labelText = this.cleanLabelText(rawLabel, mapConfig.labelCleanup);
                 if (labelText && (layer.getBounds || layer.getLatLng)) {
-                    const priorityProp = mapConfig.priorityProperty || mapConfig.significanceProperty;
-                    const priority = priorityProp ? (parseFloat(feature.properties[priorityProp]) || 0) : 0;
-
+                    const priority = this._resolveLabelPriority(mapConfig, feature);
                     state.labelEntries.push({
                         layer,
                         feature,
@@ -2366,8 +2360,7 @@ class MapController {
                                 mapConfig.labelCleanup
                             );
                             if (labelText && (layer.getBounds || layer.getLatLng)) {
-                                const priorityProp = mapConfig.priorityProperty || mapConfig.significanceProperty;
-                                const priority = priorityProp ? (parseFloat(feature.properties[priorityProp]) || 0) : 0;
+                                const priority = this._resolveLabelPriority(mapConfig, feature);
                                 state.labelEntries.push({ layer, feature, text: labelText, color: style?.color || '#3388ff', priority });
                             }
                         }
@@ -2449,6 +2442,27 @@ class MapController {
         const MIN_PIXELS = 4;
         const degreesPerPixel = 360 / (256 * Math.pow(2, zoom));
         return MIN_PIXELS * degreesPerPixel;
+    }
+
+    /**
+     * Pick a priority value for label-collision tie-breaking.
+     *
+     * Priority resolution:
+     *  1. mapConfig.priorityProperty / significanceProperty if set — read
+     *     numerically from feature.properties.
+     *  2. Otherwise, polygon bbox diagonal (degrees) — larger features
+     *     win the collision check, so prominent settlements / regions get
+     *     their labels first.
+     *  3. Points with no explicit priority sort to 0.
+     */
+    _resolveLabelPriority(mapConfig, feature) {
+        const priorityProp = mapConfig?.priorityProperty || mapConfig?.significanceProperty;
+        if (priorityProp) {
+            return parseFloat(feature?.properties?.[priorityProp]) || 0;
+        }
+        const g = feature?.geometry;
+        if (!g || g.type === 'Point' || !Array.isArray(g.coordinates)) return 0;
+        return this.computeFeatureBboxDiag(g);
     }
 
     /**
