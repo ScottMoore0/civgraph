@@ -2703,7 +2703,221 @@ class UIController {
                     'data-2021-work-from-home-ward',
                     'data-2021-work-from-home-settlement'
                 ]
-            }
+            },
+            // ── Standalone settlement / parliamentary additions ──
+            { id: 'flat-tailte-builtup', name: 'Tailte Built-Up Areas (Ireland)', years: '', extent: 'Ireland',
+              mapIds: ['tailte-built-up-1m', 'tailte-built-up-points-250k'] },
+            { id: 'flat-cso-urban', name: 'CSO Urban Areas (2022)', years: '2022', extent: 'Republic of Ireland',
+              mapIds: ['cso-urban-areas-2022'] },
+            { id: 'flat-pc-ireland-island', name: 'UK Parliamentary Constituencies (Ireland-wide, pre-1921)', years: '1885, 1918', extent: 'Ireland',
+              mapIds: ['pc-1885-ireland', 'pc-1918-ireland'] },
+            { id: 'flat-bcn-proposals', name: 'Boundary Commission NI — Recommendations', years: '', extent: 'Northern Ireland',
+              mapIds: ['bcn-revised-proposals', 'bcn-final-recommendations'] },
+            { id: 'flat-lgd-2022-recs', name: 'Local Government Districts (2022 Final Recommendations)', years: '2022', extent: 'Northern Ireland',
+              mapIds: ['lgd-2022-final-recommendations'] },
+            { id: 'flat-wards-2022-recs', name: 'Wards (2022 Final Recommendations)', years: '2022', extent: 'Northern Ireland',
+              mapIds: ['wards-2022-final-recommendations'] },
+            { id: 'flat-eoni-polling', name: 'EONI Polling Stations', years: '', extent: 'Northern Ireland',
+              mapIds: ['eoni-polling-stations'] },
+            { id: 'flat-fingal-polling', name: 'Polling Station Data (Fingal)', years: '', extent: 'Republic of Ireland',
+              mapIds: ['fingal-polling-station-data'] },
+
+            // ── Historic Electoral Divisions (extra vintages) ──
+            { id: 'flat-eds-extra-ni', name: 'District Electoral Divisions (Northern Ireland) — extra vintages', years: '1912-1919', extent: 'Northern Ireland',
+              mapIds: ['eds-1912', 'eds-1914', 'eds-1915', 'eds-1919-04-01', 'eds-1926'] },
+            { id: 'flat-eds-extra-roi', name: 'District Electoral Divisions (Republic of Ireland) — extra vintages', years: '1921-1976', extent: 'Republic of Ireland',
+              mapIds: [
+                  'eds-roi-1921-05-03', 'eds-roi-1921-06-28', 'eds-roi-1936', 'eds-roi-1944',
+                  'eds-roi-1950', 'eds-roi-1954', 'eds-roi-1957', 'eds-roi-1970',
+                  'eds-roi-1971-04-15', 'eds-roi-1976'
+              ] },
+
+            // ── Heritage (NI Historic Environment Division) ──
+            { id: 'flat-hed-heritage', name: 'NI Historic Environment Division — Heritage Sites', years: '', extent: 'Northern Ireland',
+              mapIds: [
+                  'hed-listed-buildings', 'hed-scheduled-monument-areas', 'hed-sites-and-monuments',
+                  'hed-defence-heritage', 'hed-industrial-heritage',
+                  'ni-listed-buildings', 'ni-scheduled-monument-areas', 'ni-defence-heritage', 'ni-industrial-heritage'
+              ] },
+
+            // ── DAERA Livestock Density ──
+            { id: 'flat-ni-livestock', name: 'NI Livestock Density (DAERA)', years: '', extent: 'Northern Ireland',
+              mapIds: [
+                  'ni-livestock-bovine', 'ni-livestock-caprine', 'ni-livestock-ovine',
+                  'ni-livestock-porcine', 'ni-livestock-poultry'
+              ] },
+
+            // ── NI Mineral & Mining Licences ──
+            { id: 'flat-ni-mineral', name: 'NI Mineral & Mining Licences', years: '', extent: 'Northern Ireland',
+              mapIds: ['ni-mineral-prospecting-licences', 'ni-mining-leases'] },
+
+            // ── NIEA additional (catchments, waste sites, water bodies) ──
+            { id: 'flat-niea-extra', name: 'NIEA Catchments, Waste & Water Bodies', years: '2013-2021', extent: 'Northern Ireland',
+              mapIds: [
+                  'niea-catchment-stakeholder-groups', 'niea-local-management-areas',
+                  'niea-river-segments', 'niea-transitional-water-bodies',
+                  'niea-landfill-sites-2013', 'niea-landfill-sites-2014', 'niea-landfill-sites-2015',
+                  'niea-landfill-sites-2016', 'niea-landfill-sites-2017', 'niea-waste-sites-2021'
+              ] },
+
+            // ── PSNI Collisions ──
+            { id: 'flat-psni-collisions', name: 'PSNI Collisions (2013-2018)', years: '2013-2018', extent: 'Northern Ireland',
+              mapIds: [
+                  'psni-collisions-2013', 'psni-collisions-2014', 'psni-collisions-2015',
+                  'psni-collisions-2016', 'psni-collisions-2017', 'psni-collisions-2018'
+              ] },
+
+            // ── DfI Roads (NI) ──
+            { id: 'flat-dfi-pothole', name: 'NI DfI Pothole Enquiries (2014-2021)', years: '2014-2021', extent: 'Northern Ireland',
+              mapIds: [
+                  'dfi-pothole-enquiries-2014', 'dfi-pothole-enquiries-2015',
+                  'dfi-pothole-enquiries-2016', 'dfi-pothole-enquiries-2017',
+                  'dfi-pothole-enquiries-2018', 'dfi-pothole-enquiries-2019',
+                  'dfi-pothole-enquiries-2020', 'dfi-pothole-enquiries-2021',
+                  'roads-pothole-enquiries'
+              ] },
+            { id: 'flat-dfi-surface', name: 'NI DfI Road Surface Defects (2008-2021)', years: '2008-2021', extent: 'Northern Ireland',
+              mapIds: [
+                  'dfi-surface-defects-2008', 'dfi-surface-defects-2010', 'dfi-surface-defects-2011',
+                  'dfi-surface-defects-2012', 'dfi-surface-defects-2013', 'dfi-surface-defects-2014',
+                  'dfi-surface-defects-2015', 'dfi-surface-defects-2016', 'dfi-surface-defects-2017',
+                  'dfi-surface-defects-2018', 'dfi-surface-defects-2019', 'dfi-surface-defects-2020',
+                  'dfi-surface-defects-2021'
+              ] },
+            { id: 'flat-dfi-borders-crossings', name: 'NI Border Crossings & Pedestrian Crossings (DfI)', years: '2018', extent: 'Northern Ireland',
+              mapIds: [
+                  'dfi-border-crossings-2018-lines', 'dfi-border-crossings-2018-points',
+                  'dfi-pedestrian-crossings', 'roads-border-crossings-2018', 'roads-pedestrian-crossings'
+              ] },
+            { id: 'flat-belfast-cycle', name: 'Belfast Cycle Network', years: '', extent: 'Northern Ireland',
+              mapIds: ['belfast-cycle-network'] },
+
+            // ── Translink (NI Public Transport) ──
+            { id: 'flat-translink', name: 'Translink (NI Public Transport)', years: '2024', extent: 'Northern Ireland',
+              mapIds: [
+                  'translink-bus-stops-2024', 'translink-metro-glider-routes',
+                  'translink-rail-stations', 'translink-rail-halts', 'translink-rail-platforms',
+                  'translink-rail-bridges', 'translink-rail-culverts', 'translink-rail-signal-posts',
+                  'translink-ulsterbus-goldliner-routes'
+              ] },
+
+            // ── TII (Transport Infrastructure Ireland) ──
+            { id: 'flat-tii', name: 'TII Transport Infrastructure (ROI National Roads)', years: '2011-2016', extent: 'Republic of Ireland',
+              mapIds: [
+                  'tii-national-road-network', 'tii-collision-rates-2011-2013',
+                  'tii-collision-rates-2014-2016', 'tii-luas-stops',
+                  'tii-marker-plates', 'tii-traffic-counter-locations',
+                  'tii-wim-sensor-locations'
+              ] },
+
+            // ── GSI (Geological Survey Ireland) ──
+            { id: 'flat-gsi', name: 'Geological Survey Ireland — Bedrock & Karst', years: '', extent: 'Republic of Ireland',
+              mapIds: [
+                  'gsi-bedrock-boreholes-50k', 'gsi-karst-data',
+                  'gsi-groundwater-flooding-low', 'gsi-groundwater-flooding-medium'
+              ] },
+
+            // ── OPW Flood Extents (NI + ROI) ──
+            { id: 'flat-opw-flood', name: 'OPW Flood Extents', years: '2018-2021', extent: 'Ireland',
+              mapIds: [
+                  'opw-coastal-flood-extents-2021-current',
+                  'opw-nifm-river-flood-extents-current',
+                  'opw-fsu-catchments-gauged',
+                  'rivers-coastal-flood-2018'
+              ] },
+
+            // ── ROI National Planning ──
+            { id: 'flat-roi-planning', name: 'ROI National Planning Applications', years: '', extent: 'Republic of Ireland',
+              mapIds: ['roi-national-planning-applications'] },
+
+            // ── Tellus extras ──
+            { id: 'flat-tellus-flightlines', name: 'Tellus Airborne Survey — Flight Lines', years: '2005-2008', extent: 'Northern Ireland',
+              mapIds: ['tellus-flight-tracks'] },
+
+            // ── Government Land & Property Register (NI snapshots) ──
+            { id: 'flat-glpr', name: 'NI Government Land & Property Register (snapshots)', years: '2020-2023', extent: 'Northern Ireland',
+              mapIds: [
+                  'glpr-2020-03', 'glpr-2021-03', 'glpr-2021-08',
+                  'glpr-2021-09', 'glpr-2022-04', 'glpr-2023-04'
+              ] },
+
+            // ── DCC (Dublin City Council) Open Data ──
+            { id: 'flat-dcc', name: 'Dublin City Council — Open Data', years: '', extent: 'Republic of Ireland',
+              mapIds: [
+                  'dcc-accessible-parking-spaces', 'dcc-adult-learning-centres',
+                  'dcc-allotments-and-community-gardens', 'dcc-beaches',
+                  'dcc-bike-parking-stands', 'dcc-bleeperbike',
+                  'dcc-coach-parking', 'dcc-community-centres',
+                  'dcc-dcc-public-bin-locations', 'dcc-dcc-public-cycle-parking-stands',
+                  'dcc-development-plan-dcc-2022-2028', 'dcc-dublin-canvas-public-art',
+                  'dcc-dublin-city-council-traffic-poles-with-cctv',
+                  'dcc-dublin-city-council-variable-message-signs',
+                  'dcc-dublin-city-libraries', 'dcc-dublin-fire-brigade-stations-dublin-region',
+                  'dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025',
+                  'dcc-dublin-public-cycle-parking-facilities', 'dcc-dublinbikes-api',
+                  'dcc-electoral-divisions', 'dcc-eligible-entities-for-wifi',
+                  'dcc-enterprise-centres', 'dcc-fire-stations',
+                  'dcc-galleries-exhibition-spaces-open-studios', 'dcc-garda-station',
+                  'dcc-heritage-sites-historic-monuments-and-government-buildings',
+                  'dcc-journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system',
+                  'dcc-local-authority-offices', 'dcc-moby-bikes',
+                  'dcc-museums-and-archives',
+                  'dcc-noise-maps-from-traffic-sources-in-dublin-city-council',
+                  'dcc-parking-meters-location-tariffs-and-zones-in-dublin-city',
+                  'dcc-parks-and-open-spaces', 'dcc-parks-gardens-and-public-spaces',
+                  'dcc-pedestrian-and-cycle-counter-api-for-dublin-region',
+                  'dcc-places-of-worship', 'dcc-public-artworks-in-dublin-city',
+                  'dcc-public-toilets', 'dcc-record-protected-structures',
+                  'dcc-skateboard-parks', 'dcc-sport-pitches-and-facilities',
+                  'dcc-street-lighting-dublin-city', 'dcc-swimming-pools',
+                  'dcc-theatres-arts-centres-performance-spaces',
+                  'dcc-traffic-signal-sites-juctions',
+                  'dcc-traffic-signals-and-scats-sites-locations',
+                  'dcc-universities-and-colleges', 'dcc-wifi4eu-access-points'
+              ] },
+
+            // ── DLR (Dún Laoghaire-Rathdown) Open Data ──
+            { id: 'flat-dlr', name: 'Dún Laoghaire-Rathdown — Open Data', years: '', extent: 'Republic of Ireland',
+              mapIds: [
+                  'dlr-access-points-to-main-parks', 'dlr-accessible-parking-bays',
+                  'dlr-administrative-area', 'dlr-bicycle-counter-locations',
+                  'dlr-bicycle-maintenance-stands', 'dlr-bicycle-parking-stands',
+                  'dlr-boundary-plan-areas', 'dlr-bridges',
+                  'dlr-burial-grounds', 'dlr-cherrywood-adapted-planning-scheme',
+                  'dlr-coco-markets', 'dlr-core-bus-corridors',
+                  'dlr-council-allotments', 'dlr-council-offices',
+                  'dlr-derelict-sites-register', 'dlr-development-plans',
+                  'dlr-dlr-arts-venues', 'dlr-dlr-decarbonising-zone',
+                  'dlr-dlr-development-plan-2016-2022-zoning-objectives',
+                  'dlr-dlr-public-lighting', 'dlr-dlr-residential-land-availability',
+                  'dlr-dlr-river-and-bathing-water-sample-points', 'dlr-dlr-roads-schedule',
+                  'dlr-dlr-unfinished-housing', 'dlr-ed-boundaries',
+                  'dlr-existing-conservation-areas', 'dlr-golf-courses',
+                  'dlr-industrial-heritage-survey-sites', 'dlr-institutional-lands',
+                  'dlr-land-use-zoning', 'dlr-leisure-centres',
+                  'dlr-libraries', 'dlr-local-electoral-areas',
+                  'dlr-main-parks', 'dlr-mews-development',
+                  'dlr-muga', 'dlr-parking-meters',
+                  'dlr-playgrounds', 'dlr-proposed-education-sites',
+                  'dlr-protected-structures', 'dlr-public-art',
+                  'dlr-public-ev-charging-points', 'dlr-public-toilets',
+                  'dlr-record-of-monuments-and-place', 'dlr-right-of-way',
+                  'dlr-sculpture-trail', 'dlr-skateboard-parks',
+                  'dlr-spacefinder-app-locations', 'dlr-specific-local-objectives-point',
+                  'dlr-specific-local-objectives-polygon', 'dlr-speed-signs',
+                  'dlr-strategic-land-reserve', 'dlr-tennis-clubs',
+                  'dlr-the-metals', 'dlr-townland-boundaries',
+                  'dlr-transport', 'dlr-traveller-accommodation',
+                  'dlr-tree-preservation-orders', 'dlr-trees-and-woodlands',
+                  'dlr-trim-trails', 'dlr-views-prospects',
+                  'dlr-wifi4eu-access-points'
+              ] },
+
+            // ── SDCC + Fingal — Open Data ──
+            { id: 'flat-sdcc', name: 'South Dublin County Council — Open Data', years: '', extent: 'Republic of Ireland',
+              mapIds: ['sdcc-bicycle-parking-stands', 'sdcc-monthly-river-quality-data-sdcc1'] },
+            { id: 'flat-fingal', name: 'Fingal — Open Data', years: '', extent: 'Republic of Ireland',
+              mapIds: ['fingal-polling-station-data', 'fingal-trees'] }
         ];
 
         const decadeDefs = [
