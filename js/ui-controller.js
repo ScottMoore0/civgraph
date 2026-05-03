@@ -7754,9 +7754,10 @@ class UIController {
 
         const sections = [];
         if (featureResults.length > 0) {
-            const featureHtml = featureResults.slice(0, 6).map(result => {
-                const data = dataService.getData();
-                const mapConfig = data?.maps?.find(m => m.id === result.mapId);
+            const featureHtml = featureResults.slice(0, 50).map(result => {
+                // Resolve display name via getMapById so hidden maps and
+                // variant-only maps still get a human-readable layer label.
+                const mapConfig = dataService.getMapById(result.mapId);
                 const mapName = mapConfig?.name || result.mapId;
                 return `<div class="search-autocomplete__item search-autocomplete__item--feature"
                          data-type="feature"
@@ -8792,46 +8793,163 @@ class UIController {
         </svg>`;
     }
 
+    /**
+     * Does a query token look like it's referring to a layer rather than a
+     * feature name? Tight rule — only a substring match against fields that
+     * actually identify a map (id/slug/category). We deliberately exclude
+     * `keywords` and the human-readable `name`, otherwise common words like
+     * "grange" that happen to appear in some keyword list would be
+     * misclassified.
+     */
+    _tokenMatchesMap(lowerToken, map) {
+        if (!map || !lowerToken) return false;
+        if (map.id && map.id.toLowerCase().includes(lowerToken)) return true;
+        if (map.slug && String(map.slug).toLowerCase().includes(lowerToken)) return true;
+        if (map.category && String(map.category).toLowerCase().includes(lowerToken)) return true;
+        return false;
+    }
+
+    /**
+     * Split the query into feature-tokens and layer-tokens. Single-token
+     * queries are always treated as a feature search even if they happen to
+     * match a layer id — that's the more common intent.
+     */
+    _classifyQueryTokens(query, maps) {
+        const raw = (query || '').trim().toLowerCase().split(/\s+/).filter(t => t.length >= 2);
+        if (raw.length === 0) return { featureTokens: [], layerTokens: [] };
+        if (raw.length === 1) return { featureTokens: raw, layerTokens: [] };
+        const featureTokens = [];
+        const layerTokens = [];
+        for (const tok of raw) {
+            const isLayer = maps.some(m => this._tokenMatchesMap(tok, m));
+            (isLayer ? layerTokens : featureTokens).push(tok);
+        }
+        // Pathological case — every token classifies as a layer. Demote the
+        // longest one to a feature token so we still show some matches.
+        if (featureTokens.length === 0 && layerTokens.length > 0) {
+            const longest = layerTokens.slice().sort((a, b) => b.length - a.length)[0];
+            const idx = layerTokens.indexOf(longest);
+            layerTokens.splice(idx, 1);
+            featureTokens.push(longest);
+        }
+        return { featureTokens, layerTokens };
+    }
+
     async searchFeatures(query) {
         if (!query || query.length < 2) return [];
 
-        // Try edge API first (Cloudflare Pages Function)
-        const apiResults = await featureLoader.searchViaAPI(query, 25);
-        if (apiResults) return apiResults;
-
-        // Fallback: client-side search
-        await featureLoader.ensureInitialized();
-        if (featureLoader.useChunkedIndex) {
-            await featureLoader._ensureFullIndex();
+        // Use the raw maps array (includes hidden maps like deds-ni-1926) so
+        // those are findable as layer-qualifiers, plus inline variants so a
+        // user can scope by ni-townlands / roi-townlands etc.
+        const rawMaps = dataService.maps?.maps || [];
+        const maps = [];
+        for (const m of rawMaps) {
+            maps.push(m);
+            if (Array.isArray(m.variants)) {
+                for (const v of m.variants) {
+                    // Variants inherit category from the parent unless overridden
+                    maps.push({ ...v, category: v.category || m.category });
+                }
+            }
         }
+        const mapById = new Map(maps.map(m => [m.id, m]));
+        const { featureTokens, layerTokens } = this._classifyQueryTokens(query, maps);
+        if (featureTokens.length === 0) return [];
 
-        const searchTerm = query.toLowerCase().trim();
-        const results = [];
-        const maxResults = 25;
+        // The substring-API/index doesn't handle space-separated feature names
+        // well, so probe with the longest feature-token and re-filter locally.
+        const probe = featureTokens.slice().sort((a, b) => b.length - a.length)[0];
+        const candidatePoolSize = layerTokens.length > 0 ? 100 : 60;
 
-        for (const feature of (featureLoader.spatialIndex || [])) {
-            if (results.length >= maxResults) break;
-
-            const name = (feature.name || '').toLowerCase();
-
-            if (name.includes(searchTerm)) {
-                results.push({
-                    id: feature.id,
-                    name: feature.name,
-                    mapId: feature.mapId,
-                    bbox: feature.bbox,
-                    centroid: feature.centroid,
-                    score: name.startsWith(searchTerm) ? 2 : 1
-                });
+        let candidates = await featureLoader.searchViaAPI(probe, candidatePoolSize);
+        if (!candidates) {
+            await featureLoader.ensureInitialized();
+            if (featureLoader.useChunkedIndex) {
+                await featureLoader._ensureFullIndex();
+            }
+            candidates = [];
+            for (const feature of (featureLoader.spatialIndex || [])) {
+                const name = (feature.name || '').toLowerCase();
+                if (name.includes(probe)) {
+                    candidates.push({
+                        id: feature.id,
+                        name: feature.name,
+                        mapId: feature.mapId,
+                        bbox: feature.bbox,
+                        centroid: feature.centroid,
+                    });
+                    if (candidates.length >= candidatePoolSize) break;
+                }
             }
         }
 
-        results.sort((a, b) => {
+        // When the query has a layer-qualifier the API's global top-100 may
+        // truncate before reaching matches in that specific layer (e.g. there
+        // are many "Grange" townlands but they sort alphabetically after
+        // "Grange" features in other maps). Augment the candidate pool by
+        // searching the per-map indices for the matching layers directly.
+        if (layerTokens.length > 0) {
+            const matchingMaps = maps.filter(m =>
+                layerTokens.some(lt => this._tokenMatchesMap(lt, m))
+            ).slice(0, 8);  // cap to avoid loading dozens of indices
+            const seen = new Set(candidates.map(c => `${c.mapId}::${c.id ?? c.name}`));
+            for (const m of matchingMaps) {
+                let perMap;
+                try { perMap = await featureLoader.loadMapIndex(m.id); }
+                catch { perMap = null; }
+                if (!perMap) continue;
+                for (const f of perMap) {
+                    const name = (f.name || '').toLowerCase();
+                    if (!name.includes(probe)) continue;
+                    const k = `${f.mapId || m.id}::${f.id ?? f.name}`;
+                    if (seen.has(k)) continue;
+                    seen.add(k);
+                    candidates.push({
+                        id: f.id,
+                        name: f.name,
+                        mapId: f.mapId || m.id,
+                        bbox: f.bbox,
+                        centroid: f.centroid,
+                    });
+                }
+            }
+        }
+
+        if (candidates.length === 0) return [];
+
+        const scored = [];
+        for (const c of candidates) {
+            const name = (c.name || '').toLowerCase();
+
+            // All feature-tokens must appear in the name; otherwise drop.
+            let allMatch = true;
+            let nameScore = 0;
+            for (const ft of featureTokens) {
+                if (!name.includes(ft)) { allMatch = false; break; }
+                nameScore += 1;
+                if (name.startsWith(ft)) nameScore += 1;
+                // Whole-word bonus
+                if (new RegExp(`\\b${ft.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(name)) nameScore += 1;
+            }
+            if (!allMatch) continue;
+
+            // Layer-token boost — heavy weight so layer-qualified matches
+            // float to the top.
+            const map = mapById.get(c.mapId);
+            let layerScore = 0;
+            for (const lt of layerTokens) {
+                if (this._tokenMatchesMap(lt, map)) layerScore += 1;
+            }
+
+            scored.push({ ...c, score: nameScore + layerScore * 10, layerScore });
+        }
+
+        scored.sort((a, b) => {
             if (b.score !== a.score) return b.score - a.score;
-            return a.name.localeCompare(b.name);
+            return (a.name || '').localeCompare(b.name || '');
         });
 
-        return results;
+        return scored;
     }
 
     renderFeatureSearchResults(results, query) {
