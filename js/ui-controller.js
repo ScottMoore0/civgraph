@@ -2857,16 +2857,49 @@ class UIController {
                 <tr class="catalogue-flat__toc-heading-row">
                     <td colspan="3"><span class="catalogue-flat__toc-heading">Maps</span></td>
                 </tr>`;
-        // Merge multiple Settlements cards into one TOC row
+        // Merge multiple cards into one TOC row.
+        //   inHeading (optional): when set, the merged row appears at that
+        //     position in the parent heading's member list rather than at
+        //     top-level. The `canonicalName` is matched against the
+        //     heading's `members` array.
         const tocMerges = [
             {
                 canonicalName: 'Settlements',
                 mergedIds: ['flat-settlements', 'flat-settlements-roi', 'flat-roi-legal-towns'],
                 years: '2005-2015',
                 extent: 'Ireland'
+            },
+            {
+                canonicalName: 'Small Census Units',
+                mergedIds: ['flat-small-census', 'flat-roi-small-census'],
+                years: '2001-2021',
+                extent: 'Ireland',
+                inHeading: 'Census Units'
+            },
+            {
+                canonicalName: 'Northern Ireland Constituencies',
+                mergedIds: [
+                    'flat-ni-parliament',
+                    'flat-assembly-areas',
+                    'flat-assembly-1982',
+                    'flat-con-conv',
+                    'flat-assembly-1973',
+                    'flat-forum'
+                ],
+                years: '1920-2023',
+                extent: 'Northern Ireland',
+                inHeading: 'Constituencies'
             }
         ];
         const mergedIdSet = new Set(tocMerges.flatMap(m => m.mergedIds));
+        // Top-level merges (no inHeading) get rendered during the main
+        // c1Cards iteration; heading-scoped merges defer to the heading loop.
+        const topLevelMergeByFirstId = new Map();
+        const headingMergeByName = new Map();
+        tocMerges.forEach(m => {
+            if (m.inHeading) headingMergeByName.set(`${m.inHeading}::${m.canonicalName}`, m);
+            else topLevelMergeByFirstId.set(m.mergedIds[0], m);
+        });
         const tocGroups = [
             {
                 heading: 'Small Electoral Units',
@@ -2874,7 +2907,7 @@ class UIController {
             },
             {
                 heading: 'Large Electoral Units',
-                members: ['Local Electoral Areas', 'District Electoral Areas', 'County Electoral Divisions']
+                members: ['Local Electoral Areas', 'District Electoral Areas', 'County Electoral Divisions', 'Dublin Electoral Counties']
             },
             {
                 heading: 'Local Authorities',
@@ -2889,13 +2922,13 @@ class UIController {
                 members: ['Education and Library Boards', 'Health and Social Care Trusts', 'Administrative Counties']
             },
             {
-                heading: 'Devolved Constituencies',
+                heading: 'Constituencies',
                 members: [
-                    'Assembly Areas',
-                    'Forum Constituencies',
-                    'Assembly Constituencies',
-                    'Constitutional Convention Constituencies',
-                    'Parliament of Northern Ireland Constituencies'
+                    'European Parliament Constituencies',
+                    'UK Parliamentary Constituencies',
+                    'Dáil Eireann Constituencies',
+                    'Northern Ireland Constituencies',
+                    'Referendum Counting Areas'
                 ]
             }
         ];
@@ -2941,54 +2974,79 @@ class UIController {
             renderedCards.add(card.id);
         };
 
-        // Build merge lookup: first card id in group → merge definition
-        const mergeByFirstId = new Map();
-        tocMerges.forEach(merge => { mergeByFirstId.set(merge.mergedIds[0], merge); });
+        const renderMergeRow = (merge, indented) => {
+            const firstCard = c1Cards.find(c => c.id === merge.mergedIds[0]);
+            const maps = firstCard ? collectCardMaps(firstCard) : [];
+            const overrideId = firstCard?.thumbMapId || merge.thumbMapId;
+            const override = overrideId ? (mapById.get(overrideId) || dataService.getMapById(overrideId)) : null;
+            const preview = override || maps[0]?.map || null;
+            const previewThumb = preview ? (preview.cloneOf || preview.id) : '';
+            const previewColor = preview?.style?.color || '#888';
+            tocHtml += `
+                <tr class="${indented ? 'catalogue-flat__toc-row--indented' : ''}">
+                    <td>
+                        <a href="#flat-card-${merge.mergedIds[0]}" class="catalogue-flat__toc-link">
+                            <span class="catalogue-flat__toc-namecell">
+                                <span class="catalogue-flat__toc-color" style="background:${this.escapeHtml(previewColor)}"></span>
+                                ${previewThumb ? `<span class="catalogue-flat__toc-thumbwrap"><img class="catalogue-flat__toc-thumb" src="assets/thumbnails/${this.escapeHtml(previewThumb)}.png" alt="" loading="lazy" onerror="var w=this.parentElement; if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.style.display='none'"><span class="catalogue-flat__toc-thumbzoom" aria-hidden="true"><img src="assets/thumbnails/${this.escapeHtml(previewThumb)}.png" alt="" loading="lazy" onerror="var w=this.closest('.catalogue-flat__toc-thumbwrap'); if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.parentElement.style.display='none'"></span></span>` : '<span class="catalogue-flat__toc-thumb catalogue-flat__toc-thumb--fallback"></span>'}
+                                <span class="catalogue-flat__toc-name">${this.escapeHtml(merge.canonicalName)}</span>
+                            </span>
+                        </a>
+                    </td>
+                    <td>${this.escapeHtml(merge.years || '')}</td>
+                    <td>${this.escapeHtml(merge.extent || '')}</td>
+                </tr>`;
+            merge.mergedIds.forEach(id => renderedCards.add(id));
+        };
+
+        // Heading-scoped merges need their canonical name to belong to the
+        // matching heading's `members` list so the heading-loop discovers
+        // them in order. We add them virtually so the iteration order is
+        // honoured.
+        // (The members list above already includes 'Northern Ireland
+        // Constituencies' and 'Small Census Units', which match canonical
+        // names of heading-scoped merges.)
 
         c1Cards.forEach(card => {
             if (renderedCards.has(card.id)) return;
             // Skip non-first members of a merge group
-            if (mergedIdSet.has(card.id) && !mergeByFirstId.has(card.id)) {
-                renderedCards.add(card.id);
-                return;
+            if (mergedIdSet.has(card.id) && !topLevelMergeByFirstId.has(card.id)) {
+                // For heading-scoped merges we don't render here; the
+                // heading-loop will pick them up. But we still need the
+                // heading to appear, so let renderedCards stay clear and
+                // fall through to heading detection.
+                const m = tocMerges.find(mm => mm.mergedIds.includes(card.id));
+                if (m && !m.inHeading) { renderedCards.add(card.id); return; }
+                // Heading-scoped: defer.
             }
 
-            // If this card is the first of a merge group, render a single merged TOC row
-            const merge = mergeByFirstId.get(card.id);
-            if (merge) {
-                const firstCard = c1Cards.find(c => c.id === merge.mergedIds[0]);
-                const maps = firstCard ? collectCardMaps(firstCard) : [];
-                const overrideId = firstCard?.thumbMapId || merge.thumbMapId;
-                const override = overrideId ? (mapById.get(overrideId) || dataService.getMapById(overrideId)) : null;
-                const preview = override || maps[0]?.map || null;
-                const previewThumb = preview ? (preview.cloneOf || preview.id) : '';
-                const previewColor = preview?.style?.color || '#888';
-                tocHtml += `
-                    <tr>
-                        <td>
-                            <a href="#flat-card-${merge.mergedIds[0]}" class="catalogue-flat__toc-link">
-                                <span class="catalogue-flat__toc-namecell">
-                                    <span class="catalogue-flat__toc-color" style="background:${this.escapeHtml(previewColor)}"></span>
-                                    ${previewThumb ? `<span class="catalogue-flat__toc-thumbwrap"><img class="catalogue-flat__toc-thumb" src="assets/thumbnails/${this.escapeHtml(previewThumb)}.png" alt="" loading="lazy" onerror="var w=this.parentElement; if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.style.display='none'"><span class="catalogue-flat__toc-thumbzoom" aria-hidden="true"><img src="assets/thumbnails/${this.escapeHtml(previewThumb)}.png" alt="" loading="lazy" onerror="var w=this.closest('.catalogue-flat__toc-thumbwrap'); if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.parentElement.style.display='none'"></span></span>` : '<span class="catalogue-flat__toc-thumb catalogue-flat__toc-thumb--fallback"></span>'}
-                                    <span class="catalogue-flat__toc-name">${this.escapeHtml(merge.canonicalName)}</span>
-                                </span>
-                            </a>
-                        </td>
-                        <td>${this.escapeHtml(merge.years || '')}</td>
-                        <td>${this.escapeHtml(merge.extent || '')}</td>
-                    </tr>`;
-                merge.mergedIds.forEach(id => renderedCards.add(id));
-                return;
-            }
+            // Top-level merge first member: render outside any heading.
+            const tlm = topLevelMergeByFirstId.get(card.id);
+            if (tlm) { renderMergeRow(tlm, false); return; }
 
-            const strippedName = stripBracketParts(card.name);
-            const heading = groupByMemberName.get(strippedName);
+            // Heading-scoped merge member: drop through so heading is found
+            // via either this card's stripped name OR the merge's intended
+            // heading.
+            let heading;
+            const headingScopedMerge = tocMerges.find(m => m.inHeading && m.mergedIds.includes(card.id));
+            if (headingScopedMerge) {
+                heading = headingScopedMerge.inHeading;
+            } else {
+                const strippedName = stripBracketParts(card.name);
+                heading = groupByMemberName.get(strippedName);
+            }
             if (!heading) {
                 appendTocRow(card, false);
                 return;
             }
 
-            if (renderedHeadings.has(heading)) return;
+            if (renderedHeadings.has(heading)) {
+                // Heading already emitted; just mark this card as accounted
+                // for if it's part of a heading-scoped merge that already
+                // rendered. Otherwise it's a stray and was already handled.
+                if (headingScopedMerge) renderedCards.add(card.id);
+                return;
+            }
 
             tocHtml += `
                 <tr class="catalogue-flat__toc-subheading-row">
@@ -2998,6 +3056,12 @@ class UIController {
 
             const group = groupByHeading.get(heading);
             (group?.members || []).forEach(memberName => {
+                // Prefer a heading-scoped merge over individual cards.
+                const merge = headingMergeByName.get(`${heading}::${memberName}`);
+                if (merge && merge.mergedIds.every(id => !renderedCards.has(id))) {
+                    renderMergeRow(merge, true);
+                    return;
+                }
                 const memberCards = cardsByStrippedName.get(memberName) || [];
                 memberCards.forEach(memberCard => {
                     if (!renderedCards.has(memberCard.id)) appendTocRow(memberCard, true);
