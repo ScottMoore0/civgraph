@@ -6673,6 +6673,24 @@ html:not([data-theme]) .theme-toggle__icon--sun {
   color: var(--color-accent);
 }
 
+/* Inline locator SVG thumbnail showing the feature's position on a rough
+   Ireland silhouette. */
+.search-autocomplete__feature-thumb {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 44px;
+  margin-right: 4px;
+}
+
+.search-autocomplete__feature-thumb svg {
+  width: 36px;
+  height: 44px;
+  display: block;
+}
+
 .search-autocomplete__item--feature .search-autocomplete__meta {
   color: #6b7280;
   font-size: 0.72rem;

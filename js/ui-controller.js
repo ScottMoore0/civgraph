@@ -7823,17 +7823,15 @@ class UIController {
                 // variant-only maps still get a human-readable layer label.
                 const mapConfig = dataService.getMapById(result.mapId);
                 const mapName = mapConfig?.name || result.mapId;
+                const colour = mapConfig?.style?.color || '#3388ff';
+                const thumb = this._buildFeatureLocatorSvg(result.bbox, colour);
                 return `<div class="search-autocomplete__item search-autocomplete__item--feature"
                          data-type="feature"
                          data-feature-id="${this.escapeHtml(String(result.id))}"
                          data-feature-name="${this.escapeHtml(String(result.name || ''))}"
                          data-map-id="${this.escapeHtml(String(result.mapId || ''))}"
                          data-bbox="${(result.bbox || []).join(',')}">
-                    <span class="search-autocomplete__icon" aria-hidden="true">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
-                        </svg>
-                    </span>
+                    <span class="search-autocomplete__feature-thumb" aria-hidden="true">${thumb}</span>
                     <div class="search-autocomplete__content">
                         <span class="search-autocomplete__name">${this.highlightText(result.name, query)}</span>
                         <span class="search-autocomplete__meta">${this.escapeHtml(mapName)}</span>
@@ -8900,6 +8898,45 @@ class UIController {
     }
 
     /**
+     * Build a small inline-SVG locator thumbnail for a search result. Shows
+     * a rough Ireland silhouette with the feature's bbox highlighted as a
+     * coloured marker, so the user can see at a glance where each result
+     * sits geographically.
+     *
+     * Cheap (no network), self-contained, and works for every feature
+     * because we always have its bbox from the index.
+     */
+    _buildFeatureLocatorSvg(bbox, colour) {
+        const W = 36, H = 44;
+        // Rough island bounding box (lon -10.7..-5.3, lat 51.3..55.5) — these
+        // are slightly padded so even features on the coast aren't clipped.
+        const IRE = { minX: -10.7, maxX: -5.3, minY: 51.3, maxY: 55.5 };
+        const lonToPx = (lon) => ((lon - IRE.minX) / (IRE.maxX - IRE.minX)) * W;
+        const latToPx = (lat) => ((IRE.maxY - lat) / (IRE.maxY - IRE.minY)) * H;
+        // Coarse silhouette of the island (32 vertices, hand-traced from the
+        // 1m-coastline FGB, lat-lon → SVG-px). Enough to be recognisable at
+        // 36×44.
+        const silhouette = '7.5,9 9,5 12,3 16,2 20,2 24,4 27,7 30,11 32,15 32,19 31,22 32,26 31,30 29,33 27,36 24,38 20,39 16,39 13,37 11,35 9,32 7,28 6,24 5,20 5,16 6,13';
+        const safeColour = String(colour || '#3388ff').replace(/[^#0-9a-zA-Z(),. ]/g, '');
+        if (!Array.isArray(bbox) || bbox.length !== 4) {
+            return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><polygon points="${silhouette}" fill="#e5edf3" stroke="#a8b5be" stroke-width="0.8"/></svg>`;
+        }
+        const [minLon, minLat, maxLon, maxLat] = bbox;
+        const cx = (minLon + maxLon) / 2;
+        const cy = (minLat + maxLat) / 2;
+        const px = lonToPx(cx);
+        const py = latToPx(cy);
+        // Scale dot radius by feature size, clamped — tiny features still
+        // get a visible dot.
+        const diagDeg = Math.hypot(maxLon - minLon, maxLat - minLat);
+        const radius = Math.max(1.5, Math.min(8, diagDeg * 6));
+        return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" class="search-autocomplete__locator">
+            <polygon points="${silhouette}" fill="#e5edf3" stroke="#a8b5be" stroke-width="0.8"/>
+            <circle cx="${px.toFixed(2)}" cy="${py.toFixed(2)}" r="${radius.toFixed(2)}" fill="${safeColour}" fill-opacity="0.65" stroke="${safeColour}" stroke-width="1"/>
+        </svg>`;
+    }
+
+    /**
      * Load + cache a townland feature-index. Schema:
      *   { mapId, totalFeatures, columns: [...,'name'], features: [[minX,minY,maxX,maxY,diag,chunk,name], ...] }
      * Returns an array of { name, bbox, chunk } objects, or null on failure.
@@ -9102,7 +9139,56 @@ class UIController {
             return (a.name || '').localeCompare(b.name || '');
         });
 
+        // The /_api/search endpoint and the global _names.json index both
+        // omit bbox to keep the index small. For the locator-thumb to work
+        // we need bbox per result, so enrich any missing bbox by consulting
+        // already-cached per-map indices. Limited to a fixed pool of unique
+        // mapIds in the top results to bound network cost.
+        await this._enrichResultsWithBbox(scored.slice(0, 50));
+
         return scored;
+    }
+
+    /**
+     * Best-effort bbox enrichment for results that came back from the
+     * lightweight names index without one. Loads the per-map spatial-index
+     * for the ~10 most-common mapIds in the result set and fills in bbox
+     * by name lookup. Cached, so subsequent searches over the same map
+     * don't re-fetch.
+     */
+    async _enrichResultsWithBbox(results) {
+        const needs = results.filter(r => !Array.isArray(r.bbox) || r.bbox.length !== 4);
+        if (needs.length === 0) return;
+        // Group by mapId; load each map's index once.
+        const mapIds = new Set(needs.map(r => r.mapId).filter(Boolean));
+        // Cap to avoid loading dozens of indices at once. Take the most
+        // frequent mapIds first.
+        const counts = new Map();
+        for (const r of needs) counts.set(r.mapId, (counts.get(r.mapId) || 0) + 1);
+        const ranked = [...mapIds].sort((a, b) => (counts.get(b) || 0) - (counts.get(a) || 0)).slice(0, 30);
+        const lookups = await Promise.all(ranked.map(async mid => {
+            try {
+                const isTownland = mid === 'ni-townlands' || mid === 'roi-townlands' || mid === 'all-ireland-townlands';
+                const features = isTownland
+                    ? await this._loadTownlandFeatureIndex(mid)
+                    : await featureLoader.loadMapIndex(mid);
+                if (!features) return [mid, null];
+                const byName = new Map();
+                for (const f of features) {
+                    if (f?.name && Array.isArray(f.bbox)) byName.set(String(f.name).toLowerCase(), f.bbox);
+                }
+                return [mid, byName];
+            } catch {
+                return [mid, null];
+            }
+        }));
+        const tableByMap = new Map(lookups);
+        for (const r of needs) {
+            const t = tableByMap.get(r.mapId);
+            if (!t) continue;
+            const bb = t.get(String(r.name || '').toLowerCase());
+            if (bb) r.bbox = bb;
+        }
     }
 
     renderFeatureSearchResults(results, query) {
