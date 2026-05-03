@@ -1013,6 +1013,12 @@ class MapController {
 
         const rendered = this._renderedFeatures.get(id);
         if (rendered) rendered.clear();
+        // _loadedChunks tracks which chunks have been added to state.group.
+        // Since we just emptied state.group, the tracking is stale — leaving
+        // it would make the next chunked viewport pass treat all chunks as
+        // already-loaded and skip rendering, leaving the layer blank.
+        const loaded = this._loadedChunks.get(id);
+        if (loaded) loaded.clear();
     }
 
     async _loadOverviewLODState(mapConfig, state, show, signal = null) {
