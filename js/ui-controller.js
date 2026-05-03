@@ -8835,6 +8835,48 @@ class UIController {
         return { featureTokens, layerTokens };
     }
 
+    /**
+     * Load + cache a townland feature-index. Schema:
+     *   { mapId, totalFeatures, columns: [...,'name'], features: [[minX,minY,maxX,maxY,diag,chunk,name], ...] }
+     * Returns an array of { name, bbox, chunk } objects, or null on failure.
+     */
+    async _loadTownlandFeatureIndex(mapId) {
+        this._townlandIndexCache ||= new Map();
+        if (this._townlandIndexCache.has(mapId)) {
+            return this._townlandIndexCache.get(mapId);
+        }
+        try {
+            const url = `data/maps/townlands/${mapId}-feature-index.json`;
+            const resp = await fetch(url);
+            if (!resp.ok) { this._townlandIndexCache.set(mapId, null); return null; }
+            const data = await resp.json();
+            const cols = data.columns || ['minX', 'minY', 'maxX', 'maxY', 'diag', 'chunk', 'name'];
+            const ix = {
+                minX: cols.indexOf('minX'),
+                minY: cols.indexOf('minY'),
+                maxX: cols.indexOf('maxX'),
+                maxY: cols.indexOf('maxY'),
+                chunk: cols.indexOf('chunk'),
+                name: cols.indexOf('name'),
+            };
+            if (ix.name < 0) {
+                // Old-format index without names; can't search by name.
+                this._townlandIndexCache.set(mapId, null);
+                return null;
+            }
+            const out = (data.features || []).map(r => ({
+                name: r[ix.name],
+                bbox: [r[ix.minX], r[ix.minY], r[ix.maxX], r[ix.maxY]],
+                chunk: r[ix.chunk],
+            }));
+            this._townlandIndexCache.set(mapId, out);
+            return out;
+        } catch {
+            this._townlandIndexCache.set(mapId, null);
+            return null;
+        }
+    }
+
     async searchFeatures(query) {
         if (!query || query.length < 2) return [];
 
@@ -8888,12 +8930,59 @@ class UIController {
         // are many "Grange" townlands but they sort alphabetically after
         // "Grange" features in other maps). Augment the candidate pool by
         // searching the per-map indices for the matching layers directly.
+        // Townlands have a distinct on-R2 feature-index format keyed under
+        // data/maps/townlands/ and are handled separately.
         if (layerTokens.length > 0) {
-            const matchingMaps = maps.filter(m =>
-                layerTokens.some(lt => this._tokenMatchesMap(lt, m))
-            ).slice(0, 8);  // cap to avoid loading dozens of indices
+            // Score each layer-matching map so canonical/whole-id matches
+            // (e.g. "ni-townlands") rank above peripheral ones (e.g. county
+            // variants which don't even have a per-map index). Then cap.
+            const _layerMatchScore = (lt, m) => {
+                if (!m) return 0;
+                const id = (m.id || '').toLowerCase();
+                const slug = String(m.slug || '').toLowerCase();
+                const cat = String(m.category || '').toLowerCase();
+                let s = 0;
+                if (id === lt) s += 6;
+                else if (id.startsWith(lt + '-') || id.endsWith('-' + lt)) s += 5;
+                else if (id.includes(lt)) s += 3;
+                if (slug === lt) s += 4;
+                else if (slug.includes(lt)) s += 2;
+                if (cat === lt) s += 3;
+                else if (cat.includes(lt)) s += 1;
+                return s;
+            };
+            const matchingMaps = maps
+                .map(m => ({
+                    m,
+                    s: layerTokens.reduce((acc, lt) => acc + _layerMatchScore(lt, m), 0),
+                }))
+                .filter(x => x.s > 0)
+                .sort((a, b) => b.s - a.s)
+                .slice(0, 8)
+                .map(x => x.m);
             const seen = new Set(candidates.map(c => `${c.mapId}::${c.id ?? c.name}`));
             for (const m of matchingMaps) {
+                const isTownland = m.id === 'ni-townlands' || m.id === 'roi-townlands'
+                    || m.id === 'all-ireland-townlands';
+                if (isTownland) {
+                    const tl = await this._loadTownlandFeatureIndex(m.id);
+                    if (!tl) continue;
+                    for (const f of tl) {
+                        const name = (f.name || '').toLowerCase();
+                        if (!name.includes(probe)) continue;
+                        const k = `${m.id}::${f.name}::${f.bbox?.join?.(',') || ''}`;
+                        if (seen.has(k)) continue;
+                        seen.add(k);
+                        candidates.push({
+                            id: null,
+                            name: f.name,
+                            mapId: m.id,
+                            bbox: f.bbox,
+                            centroid: null,
+                        });
+                    }
+                    continue;
+                }
                 let perMap;
                 try { perMap = await featureLoader.loadMapIndex(m.id); }
                 catch { perMap = null; }
