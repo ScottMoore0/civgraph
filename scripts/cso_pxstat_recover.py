@@ -19,7 +19,7 @@ import csv, json, os, re, sys, time, urllib.parse, urllib.request, urllib.error,
 from pathlib import Path
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
-UA = "Mozilla/5.0 boundaries-website/cso-pxstat-recover"
+UA = "Mozilla/5.0 civgraph/cso-pxstat-recover"
 ENDPOINT = "https://ws.cso.ie/public/api.jsonrpc"
 TARGET_ROOT = Path(r"D:\datagovie")
 MISSING_CSV = TARGET_ROOT / "_reconcile_missing.csv"

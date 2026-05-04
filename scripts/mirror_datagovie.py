@@ -38,7 +38,7 @@ REPO = Path(__file__).resolve().parent.parent
 RESOLVED_PATH = REPO / "data" / "external" / "datagovie-resources-resolved.json"
 ODNI_MANIFEST = Path(r"D:\opendatani\_manifest.csv")
 
-UA = "Mozilla/5.0 boundaries-website/mirror-datagovie"
+UA = "Mozilla/5.0 civgraph/mirror-datagovie"
 INVALID_FS_RE = re.compile(r'[<>:"/\\|?*\x00-\x1f]')
 
 # Per-package canonical preferences (lower index = more preferred)

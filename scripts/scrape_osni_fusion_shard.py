@@ -31,7 +31,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='repla
 
 # Identifies the client to OSNI; per-machine UA helps us be polite + traceable
 HOST = socket.gethostname().replace(' ', '_')
-UA = f"Mozilla/5.0 boundaries-website/fusion-mirror-{HOST}"
+UA = f"Mozilla/5.0 civgraph/fusion-mirror-{HOST}"
 TILEMAP_BLOCK = 128
 # Single shared httpx client per process; HTTP/1.1 (HTTP/2 has high failure rate against OSNI),
 # connection pool sized to worker count, 30s timeout.

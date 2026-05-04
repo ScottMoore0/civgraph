@@ -16,7 +16,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
-UA = "Mozilla/5.0 boundaries-website/fusion-mirror"
+UA = "Mozilla/5.0 civgraph/fusion-mirror"
 MBTILES = Path(r"D:\osni-fusion\fusion-light.mbtiles")
 TILEMAP_BLOCK = 128
 _CLIENT = None

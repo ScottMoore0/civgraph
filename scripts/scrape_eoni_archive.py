@@ -24,7 +24,7 @@ AGENT_DIR = Path("_tmp_eoni_agents")
 OUT_DIR.mkdir(exist_ok=True)
 AGENT_DIR.mkdir(exist_ok=True)
 
-USER_AGENT = "boundaries-website/1.0 (EONI archive scraper)"
+USER_AGENT = "civgraph/1.0 (EONI archive scraper)"
 DELAY = 3.0  # seconds between requests to be polite to archive.org
 CDX_DELAY = 5.0  # longer delay between CDX API queries to avoid rate limits
 

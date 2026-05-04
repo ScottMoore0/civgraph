@@ -22,7 +22,7 @@ from modern_lgov_wikipedia_common import (
 )
 
 
-USER_AGENT = "boundaries-website/1.0 (modern lgov Wikipedia audit)"
+USER_AGENT = "civgraph/1.0 (modern lgov Wikipedia audit)"
 REQUEST_DELAY_SECONDS = 0.6
 RETRY_DELAYS = [5, 10, 20, 40]
 

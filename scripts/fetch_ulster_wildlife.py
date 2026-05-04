@@ -26,7 +26,7 @@ TMP.mkdir(parents=True, exist_ok=True)
 GDAL_BIN = Path("C:/Program Files/GDAL")
 OGR2OGR = str(GDAL_BIN / "ogr2ogr.exe")
 
-UA = "Mozilla/5.0 boundaries-website-scraper - Ulster Wildlife habitat networks"
+UA = "Mozilla/5.0 civgraph-scraper - Ulster Wildlife habitat networks"
 
 # (slug, full_title, package_id, resource_id, filename, abbrev)
 DATASETS = [

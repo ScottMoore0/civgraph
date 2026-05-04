@@ -28,7 +28,7 @@ REPO = Path(__file__).resolve().parent.parent
 RES_PATH = REPO / "data" / "external" / "opendatani-resources.json"
 MAPS_PATH = REPO / "data" / "database" / "maps.json"
 
-UA = "Mozilla/5.0 boundaries-website/mirror-opendatani"
+UA = "Mozilla/5.0 civgraph/mirror-opendatani"
 SERVICE_FORMATS = {"WMS", "WFS", "WMTS", "ESRI REST", "ARCGIS_GEOSERVICE", "ESRI REST API"}
 WEBPAGE_FORMATS = {"HTML", "WEBPAGE"}
 

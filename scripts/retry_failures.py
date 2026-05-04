@@ -13,7 +13,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from threading import Lock
 
-UA = "Mozilla/5.0 boundaries-website/retry-pass"
+UA = "Mozilla/5.0 civgraph/retry-pass"
 
 
 def download(url, dest, timeout=300):

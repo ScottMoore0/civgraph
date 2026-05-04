@@ -18,7 +18,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from threading import Lock
 
-UA = "Mozilla/5.0 boundaries-website/fusion-mirror"
+UA = "Mozilla/5.0 civgraph/fusion-mirror"
 ROOT = Path(r"D:\osni-fusion")
 
 VARIANTS = {

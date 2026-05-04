@@ -24,7 +24,7 @@ OUT = REPO / "data" / "external"
 OUT.mkdir(parents=True, exist_ok=True)
 
 API = "https://data.gov.ie/api/3/action/package_search"
-UA = "Mozilla/5.0 boundaries-website/datagovie-catalogue"
+UA = "Mozilla/5.0 civgraph/datagovie-catalogue"
 
 
 def fetch_page(start: int, rows: int) -> dict:

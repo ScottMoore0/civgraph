@@ -49,7 +49,7 @@ from modern_lgov_wikipedia_common import (
 
 # ── Configuration ──────────────────────────────────────────────────────────
 
-USER_AGENT = "boundaries-website/1.0 (parliamentary Wikipedia scraper)"
+USER_AGENT = "civgraph/1.0 (parliamentary Wikipedia scraper)"
 REQUEST_DELAY_SECONDS = 0.6
 RETRY_DELAYS = [5, 10, 20, 40]
 

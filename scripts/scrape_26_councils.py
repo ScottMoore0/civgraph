@@ -22,7 +22,7 @@ from pathlib import Path
 
 DELAY = 3.0
 CDX_DELAY = 5.0
-USER_AGENT = "boundaries-website/1.0 (old-26-council scraper)"
+USER_AGENT = "civgraph/1.0 (old-26-council scraper)"
 
 COUNCILS = [
     ("antrim", ["www.antrim.gov.uk"]),

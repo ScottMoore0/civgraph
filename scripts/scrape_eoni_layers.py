@@ -11,7 +11,7 @@ import json, sys, io, time, urllib.parse, urllib.request
 from pathlib import Path
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
-UA = "Mozilla/5.0 boundaries-website/eoni-scrape (one-shot, polite)"
+UA = "Mozilla/5.0 civgraph/eoni-scrape (one-shot, polite)"
 OUT = Path(r"D:\eoni")
 OUT.mkdir(parents=True, exist_ok=True)
 
