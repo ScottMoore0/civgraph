@@ -2278,7 +2278,7 @@ class UIController {
                   'eds-1971', 'eds-roi-1976', 'eds-1977', 'eds-1980', 'eds-1983',
                   'eds-1986', 'eds-1994', 'eds-1997', 'eds-2019'
               ] },
-            { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
+            { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2022', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
             { id: 'flat-admin-areas', name: 'Administrative Areas (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-admin-areas'] },
             { id: 'flat-roi-small-census', name: 'Small Census Units (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-small-census'] },
             { id: 'flat-roi-garda-areas', name: 'An Garda Síochána Areas (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-garda-areas'] },
@@ -2719,8 +2719,6 @@ class UIController {
               mapIds: ['pc-1885-ireland', 'pc-1918-ireland'] },
             { id: 'flat-bcn-proposals', name: 'Boundary Commission NI — Recommendations', years: '', extent: 'Northern Ireland',
               mapIds: ['bcn-revised-proposals', 'bcn-final-recommendations'] },
-            { id: 'flat-lgd-2022-recs', name: 'Local Government Districts (2022 Final Recommendations)', years: '2022', extent: 'Northern Ireland',
-              mapIds: ['lgd-2022-final-recommendations'] },
             { id: 'flat-eoni-polling', name: 'EONI Polling Stations', years: '', extent: 'Northern Ireland',
               mapIds: ['eoni-polling-stations'] },
             { id: 'flat-fingal-polling', name: 'Polling Station Data (Fingal)', years: '', extent: 'Republic of Ireland',
