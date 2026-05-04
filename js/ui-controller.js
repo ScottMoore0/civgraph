@@ -2725,11 +2725,11 @@ class UIController {
             // ── Historic Electoral Divisions (extra vintages) ──
             { id: 'flat-eds-extra-ni', name: 'District Electoral Divisions (Northern Ireland) — extra vintages', years: '1912-1919', extent: 'Northern Ireland',
               mapIds: ['eds-1912', 'eds-1914', 'eds-1915', 'eds-1919-04-01', 'eds-1926'] },
-            { id: 'flat-eds-extra-roi', name: 'District Electoral Divisions (Republic of Ireland) — extra vintages', years: '1921-1976', extent: 'Republic of Ireland',
+            { id: 'flat-eds-extra-roi', name: 'District Electoral Divisions (Republic of Ireland) — extra vintages', years: '1921-1983', extent: 'Republic of Ireland',
               mapIds: [
                   'eds-roi-1921-05-03', 'eds-roi-1921-06-28', 'eds-roi-1936', 'eds-roi-1944',
                   'eds-roi-1950', 'eds-roi-1954', 'eds-roi-1957', 'eds-roi-1970',
-                  'eds-roi-1971-04-15', 'eds-roi-1976'
+                  'eds-1971', 'eds-roi-1976', 'eds-1977', 'eds-1983'
               ] },
 
             // ── Heritage (NI Historic Environment Division) ──
