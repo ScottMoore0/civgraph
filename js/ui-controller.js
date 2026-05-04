@@ -2275,7 +2275,7 @@ class UIController {
               mapIds: [
                   'eds-roi-1921-05-03', 'eds-roi-1921-06-28', 'eds-roi-1936', 'eds-roi-1944',
                   'eds-roi-1950', 'eds-roi-1954', 'eds-roi-1957', 'eds-roi-1970',
-                  'eds-1971', 'eds-roi-1976', 'eds-1977', 'eds-1983',
+                  'eds-1971', 'eds-roi-1976', 'eds-1977', 'eds-1980', 'eds-1983',
                   'eds-1986', 'eds-1994', 'eds-1997', 'eds-2019'
               ] },
             { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
