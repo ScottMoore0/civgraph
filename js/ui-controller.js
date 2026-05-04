@@ -2993,11 +2993,19 @@ class UIController {
                 })
                 .sort((a, b) => String(b.date).localeCompare(String(a.date)));
 
+            // Decade buckets aggregate every election that fell in the
+            // window — Westminster/Assembly + RoI bodies (Dáil, President,
+            // Referendum) + EU. Mark the extent as "Ireland" so users know
+            // RoI entries are included.
+            const hasRoi = entries.some(e =>
+                e.body === 'Dáil Éireann' ||
+                e.body === 'President of Ireland' ||
+                e.body === 'Referendum (Ireland)');
             return {
                 id: def.id,
                 name: def.name,
                 years: `${def.from}-${def.to}`,
-                extent: 'Northern Ireland',
+                extent: hasRoi ? 'Ireland' : 'Northern Ireland',
                 electionEntries: entries
             };
         });
