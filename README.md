@@ -1,4 +1,4 @@
-![Civgraph](assets/images/civgraph-header-logo-gradient.svg)
+![Civgraph](assets/images/civgraph-wordmark-facebook-header.png)
 
 Interactive maps, election results, census data and records for Ireland, north and south.
 
