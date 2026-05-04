@@ -1,31 +1,40 @@
-![Civgraph](assets/images/civgraph-header-logo.svg)
+![Civgraph](assets/images/civgraph-header-logo-gradient.svg)
 
 Interactive maps, election results, census data and records for Ireland, north and south.
 
 **Live site:** [civgraph.net](https://civgraph.net)
 
+## What Civgraph does
+
+Civgraph is a free, open site for exploring the administrative geography and political history of the island of Ireland. You can look up any townland, ward, constituency, or census area; see how boundaries have changed over time; and browse election results and demographic data right down to street level.
+
 ## What's inside
 
-Hundreds of map layers covering every administrative geography on the island of Ireland, from the 19th century to the present day.
+Hundreds of map layers covering every major administrative geography on the island of Ireland, from the 19th century to the present day.
 
-- **Maps & Boundaries** — Local government districts, wards, DEAs, parliamentary constituencies, Assembly areas, townlands, civil parishes, baronies, counties, and more. Browse by era with the time slider.
-- **Elections & Results** — Northern Ireland Assembly, Westminster, local government, European Parliament, and referendum results. Full STV count animations, candidate and party entity pages, and constituency-level visualisations.
-- **Census & Demographics** — Small Areas, Output Areas, Super Output Areas, Data Zones, and settlement boundaries from NISRA and the CSO.
-- **Physical Geography** — Rivers, watersheds, seas, regional divides, and land classifications.
-- **Built Environment & Communities** — Peacelines, railways, travel-to-work areas, settlements, and place names.
-- **Spatial Search** — Find any boundary feature by name across all map layers.
-- **Time Slider** — Explore how boundaries have changed decade by decade.
-- **Conditional Styling** — Dynamic map styling based on data attributes.
+- **Maps and Boundaries** - Local government districts, wards, DEAs, parliamentary constituencies, Assembly areas, townlands, civil parishes, baronies, counties, and more. Browse by era with the time slider.
+- **Elections and Results** - Assembly, Westminster, local government, European Parliament, and referendum results. Full STV count animations, candidate and party entity pages, and constituency-level visualisations.
+- **Census and Demographics** - Small Areas, Output Areas, Super Output Areas, Data Zones, and settlement boundaries from NISRA and the CSO.
+- **Physical Geography** - Rivers, watersheds, seas, regional divides, and land classifications.
+- **Built Environment and Communities** - Peacelines, railways, travel-to-work areas, settlements, and place names.
+- **Spatial Search** - Find any boundary feature by name across all map layers.
+- **Time Slider** - Explore how boundaries have changed decade by decade.
+- **Conditional Styling** - Dynamic map styling based on data attributes.
 
 ## Coverage
 
-| Jurisdiction | Layers | Types |
-|-------------|--------|-------|
-| Northern Ireland | 250+ | LGDs, wards, DEAs, constituencies, Assembly areas, townlands, civil parishes, census areas |
-| Republic of Ireland | 200+ | Local authorities, DEDs/wards, constituencies, townlands, small areas, census areas |
-| All-Ireland | 20+ | Physical geography, historical counties, peacelines, regional divides |
+| Type | Examples |
+|------|----------|
+| Local government | Districts, wards, DEAs, local authorities |
+| Parliamentary | Westminster constituencies, Dail constituencies, European Parliament regions |
+| Assembly | Northern Ireland Assembly constituencies and regions |
+| Communities | Townlands, settlements, place names |
+| Historical | Civil parishes, baronies, counties, historic council boundaries |
+| Census | Small Areas, Output Areas, Super Output Areas, Data Zones |
+| Physical | Rivers, watersheds, seas, regional divides |
+| Built environment | Peacelines, railways, travel-to-work areas |
 
-## Tech stack
+## How it's built
 
 | Layer | Technology |
 |-------|-----------|
@@ -36,7 +45,7 @@ Hundreds of map layers covering every administrative geography on the island of 
 | Testing | [Playwright](https://playwright.dev/) |
 | Hosting | [Cloudflare Pages](https://pages.cloudflare.com/) + [R2](https://developers.cloudflare.com/r2/) |
 
-## Getting started
+## Run the site on your computer
 
 ```bash
 # Install dependencies
@@ -73,7 +82,7 @@ data/
   maps/                   # FlatGeobuf files (R2-hosted, multi-LOD)
 
 build/                    # esbuild output (code-split bundles + minified CSS)
-scripts/                  # Build & data processing scripts
+scripts/                  # Build and data processing scripts
 functions/                # Cloudflare Pages Functions
 ```
 
@@ -113,4 +122,4 @@ npx playwright test
 
 ## Author
 
-Created by [Scott Moore](https://scottmoore.xyz).
+Created by [Scott Moore](https://scottmoore.xyz). The project includes works from various individual contributors and organisations, as attributed on the website.
