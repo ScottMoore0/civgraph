@@ -2280,7 +2280,7 @@ class UIController {
               ] },
             { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2022', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
             { id: 'flat-admin-areas', name: 'Administrative Areas (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-admin-areas'] },
-            { id: 'flat-roi-small-census', name: 'Small Census Units (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-small-census'] },
+            { id: 'flat-roi-small-census', name: 'Small Census Units (Republic of Ireland)', years: '2011-2022', extent: 'Republic of Ireland', classIds: ['roi-small-census'] },
             { id: 'flat-roi-garda-areas', name: 'An Garda Síochána Areas (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-garda-areas'] },
             { id: 'flat-roi-gaeltacht', name: 'Gaeltacht Areas (Republic of Ireland)', years: '1926-1982', extent: 'Republic of Ireland', classIds: ['roi-gaeltacht'] },
             { id: 'flat-roi-local-authorities', name: 'Local Authorities (Republic of Ireland)', years: '2014-2024', extent: 'Republic of Ireland', classIds: ['roi-local-authorities'] },
@@ -3084,7 +3084,7 @@ class UIController {
             {
                 canonicalName: 'Small Census Units',
                 mergedIds: ['flat-small-census', 'flat-roi-small-census'],
-                years: '2001-2021',
+                years: '2001-2022',
                 extent: 'Ireland',
                 inHeading: 'Census Units'
             },
