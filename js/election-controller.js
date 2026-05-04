@@ -546,6 +546,20 @@ class ElectionController {
             .trim();
     }
 
+    /**
+     * Lowercase, diacritic-folded, hyphen/space-collapsed key for matching
+     * a constituency name against an FGB feature property. Tolerant of
+     * "Belfast East" vs "Belfast-East", "Cork North-Centrla" vs typos, etc.
+     */
+    _normaliseConstituencyKey(text) {
+        return this._cleanConstituencyDisplayName(text)
+            .toLowerCase()
+            .normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/[\u2010-\u2015\u2212\-]+/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
     _getCouncilNameForConstituency(name) {
         const raw = String(name || '').trim();
         if (!raw) return '';
@@ -2527,7 +2541,12 @@ class ElectionController {
             this.geojsonLayer = L.geoJSON(geojson, this._buildGeoStyle(geo));
 
             this.geojsonLayer.addTo(mapController.map);
-            mapController.map.fitBounds(this.geojsonLayer.getBounds(), { padding: [20, 20] });
+
+            // For by-elections, fit only to the contesting constituencies so
+            // the viewport zooms to the actual seat being voted in, not the
+            // whole NI panel. Falls back to the full layer bounds if no match.
+            const fitBounds = this._computeFitBounds(geo, features) || this.geojsonLayer.getBounds();
+            mapController.map.fitBounds(fitBounds, { padding: [20, 20] });
 
             // LOD upgrade: replace geometry with full-res when user zooms in
             if (this._currentLodLevel < 2) {
@@ -2570,6 +2589,34 @@ class ElectionController {
     }
 
     /**
+     * For by-elections, compute a Leaflet bounds covering only the
+     * contesting constituencies, so the map zooms to the seat rather than
+     * to the full NI/ROI panel. Returns null if not a by-election or no
+     * matching feature was found, signalling the caller to fall back to
+     * the full layer bounds.
+     */
+    _computeFitBounds(geo, features) {
+        if (!this._isByElectionScope(this.constituencies || [])) return null;
+        const targetSet = new Set(
+            (this.constituencies || [])
+                .filter((c) => c && c !== 'Northern Ireland')
+                .map((c) => this._normaliseConstituencyKey(c))
+        );
+        if (!targetSet.size) return null;
+        const matching = (features || []).filter((feat) => {
+            const name = feat?.properties?.[geo.nameAttr];
+            if (!name) return false;
+            return targetSet.has(this._normaliseConstituencyKey(name));
+        });
+        if (!matching.length) return null;
+        try {
+            return L.geoJSON({ type: 'FeatureCollection', features: matching }).getBounds();
+        } catch {
+            return null;
+        }
+    }
+
+    /**
      * Resolve LOD file path for a base FGB path.
      */
     _getLODPath(baseFgbPath, zoom) {
@@ -2592,7 +2639,16 @@ class ElectionController {
                 opacity: 0.8
             }),
             onEachFeature: (feature, layer) => {
-                const name = feature.properties[geo.nameAttr];
+                const featureName = feature.properties[geo.nameAttr];
+                // For single-constituency bodies (EU, President, Ireland-wide
+                // referendums), every feature represents the same single
+                // jurisdiction — route clicks/tooltips to the body's one
+                // constituency rather than the underlying PC/county polygon
+                // it happens to overlap.
+                const displayName = geo?.singleConstituency
+                    ? ((this.constituencies || [])[0] || featureName)
+                    : featureName;
+                const name = displayName || featureName;
                 if (name) {
                     layer.on('click', () => this._onConstituencyClick(name));
                     layer.bindTooltip(this._titleCase(name), {
@@ -2674,6 +2730,29 @@ class ElectionController {
     }
     _colourMap(geo) {
         if (!this.geojsonLayer) return;
+
+        // Single-constituency bodies (EU Parliament, President of Ireland,
+        // Referendum (Ireland)) report results as one row keyed to the
+        // whole jurisdiction, but the FGB still has multiple features for
+        // visual context. Paint every feature with the single winner so the
+        // map reads as one shaded region instead of 18 blank slots.
+        if (geo?.singleConstituency) {
+            const constName = (this.constituencies || [])[0] || null;
+            const payload = constName ? this._getCurrentConstituencyPayload(constName) : null;
+            const winner = payload ? this._getWinner(payload) : null;
+            this.geojsonLayer.eachLayer(layer => {
+                if (winner) {
+                    layer.setStyle({
+                        fillColor: winner.colour,
+                        fillOpacity: 0.6,
+                        color: '#333',
+                        weight: 1.5,
+                        opacity: 0.8
+                    });
+                }
+            });
+            return;
+        }
 
         if (this._specialElection?.type === 'recall-petition') {
             this.geojsonLayer.eachLayer(layer => {
