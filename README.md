@@ -3,6 +3,7 @@
 Interactive maps, election results, census data and records for Ireland, north and south.
 
 **Live site:** [civgraph.net](https://civgraph.net)
+**Support:** [ko-fi.com/scottmoore0](https://ko-fi.com/scottmoore0)
 
 ## What Civgraph does
 
