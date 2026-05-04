@@ -1,28 +1,36 @@
-# Civgraph
+![Civgraph](assets/images/civgraph-header-logo.svg)
 
-Interactive map explorer for Northern Ireland and Ireland boundaries - local government districts, parliamentary constituencies, wards, townlands, historic administrative areas, and more.
+Interactive maps, election results, census data and records for Ireland, north and south.
 
 **Live site:** [civgraph.net](https://civgraph.net)
 
-## What's here
+## What's inside
 
-Over 470 map layers across 1,100+ FlatGeobuf files covering:
+Hundreds of map layers covering every administrative geography on the island of Ireland, from the 19th century to the present day.
 
-- **Elections & Government** - Assembly areas, parliamentary constituencies, local government districts, DEAs, European Parliament regions, referendum results
-- **Communities** - Townlands, settlements, place names
-- **History** - Civil parishes, baronies, counties, historic council boundaries
-- **Public Services** - Education/library boards, health trusts, census areas (output areas, super output areas, data zones)
-- **Physical Geography** - Rivers, watersheds, seas, regional divides
-- **Built Environment** - Peacelines, railways, travel-to-work areas
+- **Maps & Boundaries** — Local government districts, wards, DEAs, parliamentary constituencies, Assembly areas, townlands, civil parishes, baronies, counties, and more. Browse by era with the time slider.
+- **Elections & Results** — Northern Ireland Assembly, Westminster, local government, European Parliament, and referendum results. Full STV count animations, candidate and party entity pages, and constituency-level visualisations.
+- **Census & Demographics** — Small Areas, Output Areas, Super Output Areas, Data Zones, and settlement boundaries from NISRA and the CSO.
+- **Physical Geography** — Rivers, watersheds, seas, regional divides, and land classifications.
+- **Built Environment & Communities** — Peacelines, railways, travel-to-work areas, settlements, and place names.
+- **Spatial Search** — Find any boundary feature by name across all map layers.
+- **Time Slider** — Explore how boundaries have changed decade by decade.
+- **Conditional Styling** — Dynamic map styling based on data attributes.
 
-The site also integrates Northern Ireland election results with STV count animations, candidate/party entity pages, and constituency-level visualisations.
+## Coverage
+
+| Jurisdiction | Layers | Types |
+|-------------|--------|-------|
+| Northern Ireland | 250+ | LGDs, wards, DEAs, constituencies, Assembly areas, townlands, civil parishes, census areas |
+| Republic of Ireland | 200+ | Local authorities, DEDs/wards, constituencies, townlands, small areas, census areas |
+| All-Ireland | 20+ | Physical geography, historical counties, peacelines, regional divides |
 
 ## Tech stack
 
 | Layer | Technology |
 |-------|-----------|
 | Maps | [Leaflet](https://leafletjs.com/) with [FlatGeobuf](https://flatgeobuf.org/) for streaming vector data |
-| Build | [esbuild](https://esbuild.github.io/) with code splitting |
+| Build | [esbuild](https://esbuild.github.io/) with code splitting and performance budgets |
 | Search | [Fuse.js](https://www.fusejs.io/) for map search, spatial index for feature search |
 | Geospatial | [Turf.js](https://turfjs.org/) for area/length calculations |
 | Testing | [Playwright](https://playwright.dev/) |
@@ -59,16 +67,14 @@ js/
 
 data/
   database/
-    maps.json             # Map layer registry (470+ entries)
+    maps.json             # Map layer registry
     spatial-index.json    # Feature search index
     spatial-index/        # Per-map chunks for on-demand loading
-  maps/                   # FlatGeobuf files (1,100+ files, multi-LOD)
+  maps/                   # FlatGeobuf files (R2-hosted, multi-LOD)
 
 build/                    # esbuild output (code-split bundles + minified CSS)
-scripts/
-  bundle.mjs              # Build script with performance budgets
-  build-feature-index.js  # Generates spatial index from FGB sources
-sw.js                     # Service worker (cache-first for map data + fonts)
+scripts/                  # Build & data processing scripts
+functions/                # Cloudflare Pages Functions
 ```
 
 ## Build
