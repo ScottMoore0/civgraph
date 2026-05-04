@@ -2717,8 +2717,6 @@ class UIController {
               mapIds: ['cso-urban-areas-2022'] },
             { id: 'flat-pc-ireland-island', name: 'UK Parliamentary Constituencies (Ireland-wide, pre-1921)', years: '1885, 1918', extent: 'Ireland',
               mapIds: ['pc-1885-ireland', 'pc-1918-ireland'] },
-            { id: 'flat-bcn-proposals', name: 'Boundary Commission NI — Recommendations', years: '', extent: 'Northern Ireland',
-              mapIds: ['bcn-revised-proposals', 'bcn-final-recommendations'] },
             { id: 'flat-eoni-polling', name: 'EONI Polling Stations', years: '', extent: 'Northern Ireland',
               mapIds: ['eoni-polling-stations'] },
             { id: 'flat-fingal-polling', name: 'Polling Station Data (Fingal)', years: '', extent: 'Republic of Ireland',
@@ -3146,8 +3144,7 @@ class UIController {
                     'UK Parliamentary Constituencies',
                     'Dáil Eireann Constituencies',
                     'Northern Ireland Constituencies',
-                    'Referendum Counting Areas',
-                    'Boundary Commission NI — Recommendations'
+                    'Referendum Counting Areas'
                 ]
             },
             {
