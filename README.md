@@ -6,7 +6,7 @@ Interactive maps, election results, census data and records for Ireland, north a
 
 ## What Civgraph does
 
-Civgraph is a free, open site for exploring the administrative geography and political history of the island of Ireland. You can look up any townland, ward, constituency, or census area; see how boundaries have changed over time; and browse election results and demographic data right down to street level.
+Civgraph is a free, open site for exploring the administrative geography and political history of the island of Ireland. You can look up any townland, ward, constituency, or census area; see how boundaries have changed over time; and browse election results and demographic data.
 
 ## What's inside
 
