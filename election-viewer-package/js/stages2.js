@@ -539,7 +539,7 @@ function animateForumElection(constituency) {
         label.css({ top: top, left: leftPadding });
         decorateLabel(label, entry.colour);
         var nameSpan = $("<span class='forum-party-name'></span>");
-        nameSpan.text(entry.name || 'ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â');
+        nameSpan.text(entry.name || '—');
         label.append(nameSpan);
         animation.append(label);
 
@@ -555,6 +555,16 @@ function animateForumElection(constituency) {
             entry.voteShare = parseNumeric(entry.voteShare);
         }
     });
+
+    // Publish a bounding box so the controller's _applyAnimationScale() can
+    // shrink/zoom the animation to fit the results pane (the same path the
+    // STV animation uses). Width is conservative — once the bars animate
+    // out, _applyAnimationScale's geometry pass measures actual extents.
+    var bbHeight = topMargin + parties.length * rowHeight + rowHeight;
+    var bbWidth = startLeft + voteWidth + 40;
+    animation.height(bbHeight);
+    animation.width(bbWidth);
+    animation.data('boundingBox', { width: bbWidth, height: bbHeight });
 
     function formatVoteWithShare(voteValue, shareValue, entry) {
         var numeric = Number.isFinite(voteValue) ? voteValue : (entry && Number.isFinite(entry.baseVotes) ? entry.baseVotes : 0);
@@ -1049,7 +1059,13 @@ function normalisePartyKey(label) {
     if (label === null || typeof label === 'undefined') {
         return '';
     }
-    return label.toString().trim().toLowerCase();
+    // Lowercase + strip diacritics so 'Sinn Féin' and 'Sinn Fein' (and any
+    // future variant the data might carry) collapse to the same lookup key.
+    return label.toString()
+        .normalize('NFKD')
+        .replace(/[̀-ͯ]/g, '')
+        .trim()
+        .toLowerCase();
 }
 
 function escapeHtml(value) {
@@ -1096,12 +1112,12 @@ var PARTY_COLOUR_BASE = {
     'Progressive Unionist Party': '#2B45A2',
     'Procapitalism': '#000000',
     'Republican Labour Party': '#85DE59',
-    'Republican Sinn FÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©in': '#008800',
+    'Republican Sinn Féin': '#008800',
     'SDLP': '#2AA82C',
     'Social Democratic and Labour Party': '#2AA82C',
     'Socialist Environmental Alliance': '#BB0000',
     'Socialist Party': '#FF3300',
-    'Sinn FÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©in': '#326760',
+    'Sinn Féin': '#326760',
     'Sinn Fein': '#326760',
     'TUV': '#0C3A6A',
     'Traditional Unionist Voice': '#0C3A6A',
@@ -1127,7 +1143,7 @@ var PARTY_COLOUR_BASE = {
 };
 
 var PARTY_COLOUR_OVERRIDES = {
-    'AontÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âº': '#228d57',
+    'Aontú': '#228d57',
     'British Democratic Party': '#00008B',
     'British Ulster Dominion Party': '#003366',
     'Carlow/Kilkenny Labour Party': '#DC241F',
