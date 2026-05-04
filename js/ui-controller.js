@@ -2268,10 +2268,16 @@ class UIController {
             { id: 'flat-wards', name: 'Wards (Northern Ireland) (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-wards'] },
             { id: 'flat-roi-lea', name: 'Local Electoral Areas (Republic of Ireland)', years: '2008', extent: 'Republic of Ireland', classIds: ['roi-lea'] },
             { id: 'flat-deas', name: 'District Electoral Areas (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-deas'] },
-            { id: 'flat-deds', name: 'District Electoral Divisions (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-deds'] },
+            { id: 'flat-deds', name: 'District Electoral Divisions (Northern Ireland) (1920-1973)', years: '1912-1969', extent: 'Northern Ireland', classIds: ['ni-deds'] },
             { id: 'flat-county-eds', name: 'County Electoral Divisions (Northern Ireland)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-county-eds'] },
             { id: 'flat-eds-1911', name: 'District Electoral Divisions (Ireland) (1911)', years: '1911', extent: 'Ireland', mapIds: ['eds-1911'] },
-            { id: 'flat-roi-deds', name: 'Electoral Divisions', years: '1986-2019', extent: 'Republic of Ireland', mapIds: ['eds-1986', 'eds-1994', 'eds-1997', 'eds-2019'] },
+            { id: 'flat-roi-deds', name: 'Electoral Divisions', years: '1921-2019', extent: 'Republic of Ireland',
+              mapIds: [
+                  'eds-roi-1921-05-03', 'eds-roi-1921-06-28', 'eds-roi-1936', 'eds-roi-1944',
+                  'eds-roi-1950', 'eds-roi-1954', 'eds-roi-1957', 'eds-roi-1970',
+                  'eds-1971', 'eds-roi-1976', 'eds-1977', 'eds-1983',
+                  'eds-1986', 'eds-1994', 'eds-1997', 'eds-2019'
+              ] },
             { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
             { id: 'flat-admin-areas', name: 'Administrative Areas (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-admin-areas'] },
             { id: 'flat-roi-small-census', name: 'Small Census Units (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-small-census'] },
@@ -2722,16 +2728,6 @@ class UIController {
             { id: 'flat-fingal-polling', name: 'Polling Station Data (Fingal)', years: '', extent: 'Republic of Ireland',
               mapIds: ['fingal-polling-station-data'] },
 
-            // ── Historic Electoral Divisions (extra vintages) ──
-            { id: 'flat-eds-extra-ni', name: 'District Electoral Divisions (Northern Ireland) — extra vintages', years: '1912-1919', extent: 'Northern Ireland',
-              mapIds: ['eds-1912', 'eds-1914', 'eds-1915', 'eds-1919-04-01', 'eds-1926'] },
-            { id: 'flat-eds-extra-roi', name: 'District Electoral Divisions (Republic of Ireland) — extra vintages', years: '1921-1983', extent: 'Republic of Ireland',
-              mapIds: [
-                  'eds-roi-1921-05-03', 'eds-roi-1921-06-28', 'eds-roi-1936', 'eds-roi-1944',
-                  'eds-roi-1950', 'eds-roi-1954', 'eds-roi-1957', 'eds-roi-1970',
-                  'eds-1971', 'eds-roi-1976', 'eds-1977', 'eds-1983'
-              ] },
-
             // ── Heritage (NI Historic Environment Division) ──
             { id: 'flat-hed-heritage', name: 'NI Historic Environment Division — Heritage Sites', years: '', extent: 'Northern Ireland',
               mapIds: [
@@ -3128,8 +3124,7 @@ class UIController {
                 members: [
                     'Wards',
                     'District Electoral Divisions',
-                    'Electoral Divisions',
-                    'District Electoral Divisions — extra vintages'
+                    'Electoral Divisions'
                 ]
             },
             {
