@@ -3117,7 +3117,12 @@ class UIController {
         const tocGroups = [
             {
                 heading: 'Small Electoral Units',
-                members: ['Wards', 'District Electoral Divisions', 'Electoral Divisions']
+                members: [
+                    'Wards',
+                    'District Electoral Divisions',
+                    'Electoral Divisions',
+                    'District Electoral Divisions — extra vintages'
+                ]
             },
             {
                 heading: 'Large Electoral Units',
@@ -3142,7 +3147,55 @@ class UIController {
                     'UK Parliamentary Constituencies',
                     'Dáil Eireann Constituencies',
                     'Northern Ireland Constituencies',
-                    'Referendum Counting Areas'
+                    'Referendum Counting Areas',
+                    'Boundary Commission NI — Recommendations'
+                ]
+            },
+            {
+                heading: 'Heritage & Built Environment',
+                members: [
+                    'NI Historic Environment Division — Heritage Sites',
+                    'NI Government Land & Property Register'
+                ]
+            },
+            {
+                heading: 'Environment, Water & Geology',
+                members: [
+                    'NIEA Catchments, Waste & Water Bodies',
+                    'NI Mineral & Mining Licences',
+                    'NI Livestock Density',
+                    'Geological Survey Ireland — Bedrock & Karst',
+                    'OPW Flood Extents',
+                    'Tellus Airborne Survey — Flight Lines'
+                ]
+            },
+            {
+                heading: 'Roads, Transport & Public Safety',
+                members: [
+                    'NI DfI Pothole Enquiries',
+                    'NI DfI Road Surface Defects',
+                    'NI Border Crossings & Pedestrian Crossings',
+                    'Belfast Cycle Network',
+                    'Translink',
+                    'TII Transport Infrastructure',
+                    'PSNI Collisions'
+                ]
+            },
+            {
+                heading: 'Local Authority Open Data',
+                members: [
+                    'Dublin City Council — Open Data',
+                    'Dún Laoghaire-Rathdown — Open Data',
+                    'South Dublin County Council — Open Data',
+                    'Fingal — Open Data'
+                ]
+            },
+            {
+                heading: 'Planning & Polling Stations',
+                members: [
+                    'ROI National Planning Applications',
+                    'EONI Polling Stations',
+                    'Polling Station Data'
                 ]
             }
         ];

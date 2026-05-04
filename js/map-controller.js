@@ -2743,6 +2743,9 @@ class MapController {
         this._clearHoverCandidatesForMap(id);
         state.visible = false;
         this._removeGapRaster(id);
+        // Backstop vector and raster are added directly to the map (not to
+        // state.group), so removing the group alone leaves them on screen.
+        this._removeGapVector(id);
         this.updateLabels();
     }
 
@@ -3064,7 +3067,11 @@ class MapController {
         if (!state) return;
 
         this._removeGapRaster(id);
+        this._removeGapVector(id);
         this.hideLayer(id);
+        // Drop any lingering Leaflet children inside the group so a later
+        // re-load can't reuse stale feature instances.
+        try { state.group?.clearLayers?.(); } catch {}
         this._clearHoverCandidatesForMap(id);
         this.layerStates.delete(id);
         const idx = this._layerOrder.indexOf(id);
