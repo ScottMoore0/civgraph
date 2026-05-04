@@ -1288,6 +1288,16 @@ class ElectionController {
 
     _extractPartyColoursFromPayload(payload, extractPartyColours = true) {
         if (!extractPartyColours) return;
+        if (this._isForumPayload(payload)) {
+            const rows = payload.Constituency?.forum?.rows || [];
+            rows.forEach((row) => {
+                const party = this._normaliseLivePartyName(row?.party);
+                if (party && !this.partyColours[party]) {
+                    this.partyColours[party] = this._resolvePartyColour(row?.party);
+                }
+            });
+            return;
+        }
         const cg = payload?.Constituency?.countGroup;
         if (!cg) return;
         cg.forEach((row) => {
@@ -2809,7 +2819,38 @@ class ElectionController {
         });
     }
 
+    _isForumPayload(payload) {
+        return !!payload?.Constituency?.is_forum_election;
+    }
+
+    /**
+     * Look up a party's colour. Prefers anything we've cached from the
+     * loaded payloads (STV results carry Party_Colour); otherwise falls
+     * back to the global getPartyColour() palette defined in stages2.js,
+     * which is the same lookup the animation uses.
+     */
+    _resolvePartyColour(party) {
+        const key = this._normaliseLivePartyName(party) || party;
+        if (this.partyColours && this.partyColours[key]) return this.partyColours[key];
+        if (typeof window !== 'undefined' && typeof window.getPartyColour === 'function') {
+            return window.getPartyColour(party);
+        }
+        return '#b0bec5';
+    }
+
+    _getForumWinner(payload) {
+        const rows = payload?.Constituency?.forum?.rows;
+        if (!Array.isArray(rows) || !rows.length) return null;
+        const top = [...rows].sort((a, b) =>
+            (parseFloat(b?.votes) || 0) - (parseFloat(a?.votes) || 0)
+        )[0];
+        if (!top) return null;
+        const party = this._normaliseLivePartyName(top.party);
+        return { party, colour: this._resolvePartyColour(top.party) };
+    }
+
     _getWinner(payload) {
+        if (this._isForumPayload(payload)) return this._getForumWinner(payload);
         const cg = payload?.Constituency?.countGroup;
         if (!cg) return null;
 
@@ -2860,7 +2901,27 @@ class ElectionController {
      * (those remaining at the final count who were never excluded).
      * Returns array sorted by election order, capped at numSeats.
      */
+    _extractForumElected(result) {
+        const forum = result?.Constituency?.forum || {};
+        const sequence = Array.isArray(forum.sequence) ? forum.sequence : [];
+        const seatTotal = parseInt(forum?.totals?.seat_total, 10);
+        const elected = sequence.map((entry, idx) => {
+            const partyRaw = entry?.party || '';
+            const party = this._normaliseLivePartyName(partyRaw);
+            return {
+                name: String(entry?.candidate_name || `Seat ${idx + 1}`),
+                party,
+                colour: this._resolvePartyColour(partyRaw),
+                count: parseInt(entry?.round, 10) || (idx + 1)
+            };
+        });
+        return Number.isFinite(seatTotal) && seatTotal > 0
+            ? elected.slice(0, seatTotal)
+            : elected;
+    }
+
     _extractElected(result) {
+        if (this._isForumPayload(result)) return this._extractForumElected(result);
         const cg = result.Constituency?.countGroup;
         if (!cg) return [];
 
@@ -3696,21 +3757,42 @@ class ElectionController {
             const cg = payload.Constituency.countGroup;
             const info = payload.Constituency.countInfo;
             if (!info || !cg) continue;
-            totalSeats += parseInt(info.Number_Of_Seats) || 0;
-            totalValid += this._safeValidPoll(info, cg);
+            const isForum = this._isForumPayload(payload);
+            const forum = isForum ? (payload.Constituency.forum || {}) : null;
+            const forumTotals = isForum ? (forum.totals || {}) : null;
+            const forumValidTotal = isForum ? parseFloat(forumTotals?.valid_total) : NaN;
+            totalSeats += isForum
+                ? (parseInt(forumTotals?.seat_total, 10) || parseInt(info.Number_Of_Seats, 10) || 0)
+                : (parseInt(info.Number_Of_Seats, 10) || 0);
+            totalValid += isForum
+                ? (Number.isFinite(forumValidTotal) ? forumValidTotal : (parseFloat(info.Valid_Poll) || 0))
+                : this._safeValidPoll(info, cg);
             totalPoll += parseFloat(info.Total_Poll) || 0;
             totalElectorate += parseFloat(info.Total_Electorate) || 0;
             totalSpoiled += parseFloat(info.Spoiled) || 0;
 
-            cg.forEach(row => {
-                if (row.Count_Number === '1' && this._isValidCandidateRow(row)) {
-                    const party = this._normaliseLivePartyName(row.Party_Name);
-                    const votes = parseFloat(row.Total_Votes) || 0;
-                    if (!partyTotals[party]) partyTotals[party] = { votes: 0, seats: 0, colour: row.Party_Colour || '#b0bec5', stood: 0 };
+            if (isForum) {
+                const rows = Array.isArray(forum.rows) ? forum.rows : [];
+                rows.forEach((row) => {
+                    const party = this._normaliseLivePartyName(row?.party);
+                    if (!party) return;
+                    const votes = parseFloat(row?.votes) || 0;
+                    const stood = Array.isArray(row?.list_candidates) ? row.list_candidates.length : 0;
+                    if (!partyTotals[party]) partyTotals[party] = { votes: 0, seats: 0, colour: this._resolvePartyColour(row?.party), stood: 0 };
                     partyTotals[party].votes += votes;
-                    partyTotals[party].stood += 1;
-                }
-            });
+                    partyTotals[party].stood += stood || 1;
+                });
+            } else {
+                cg.forEach(row => {
+                    if (row.Count_Number === '1' && this._isValidCandidateRow(row)) {
+                        const party = this._normaliseLivePartyName(row.Party_Name);
+                        const votes = parseFloat(row.Total_Votes) || 0;
+                        if (!partyTotals[party]) partyTotals[party] = { votes: 0, seats: 0, colour: row.Party_Colour || '#b0bec5', stood: 0 };
+                        partyTotals[party].votes += votes;
+                        partyTotals[party].stood += 1;
+                    }
+                });
+            }
 
             // Match constituency-level seat logic: include explicit and deemed elected.
             const constituencyElected = this._extractElected(payload);
@@ -5053,7 +5135,12 @@ class ElectionController {
             this._animScaffold.parentNode.removeChild(this._animScaffold);
         }
 
-        const hasMultipleRounds = payload?.Constituency?.countGroup?.some(r => parseInt(r.Count_Number) > 1);
+        const isForum = this._isForumPayload(payload);
+        const hasForumSequence = isForum
+            && Array.isArray(payload?.Constituency?.forum?.sequence)
+            && payload.Constituency.forum.sequence.length > 0;
+        const hasMultipleRounds = !!payload?.Constituency?.countGroup?.some(r => parseInt(r.Count_Number) > 1)
+            || hasForumSequence;
         const hasAnimation = hasMultipleRounds && typeof animateStages === 'function';
 
         content.innerHTML = '';
@@ -5091,10 +5178,10 @@ class ElectionController {
 
             const tabDefs = [
                 { id: 'party', label: 'By Party' },
-                { id: 'counts', label: 'By Count' },
+                { id: 'counts', label: isForum ? 'By Round' : 'By Count' },
             ];
             if (hasAnimation) {
-                tabDefs.push({ id: 'animation', label: 'Transfers' });
+                tabDefs.push({ id: 'animation', label: isForum ? 'Allocation' : 'Transfers' });
             }
 
             initialTab = tabDefs.some(t => t.id === prevActiveTab) ? prevActiveTab : 'party';
@@ -5254,6 +5341,9 @@ class ElectionController {
     }
 
     _buildPartyResults(constName, payload) {
+        if (this._isForumPayload(payload)) {
+            return this._buildForumPartyResults(constName, payload);
+        }
         const cg = payload.Constituency.countGroup;
         const info = payload.Constituency.countInfo;
         const validPoll = parseFloat(info.Valid_Poll) || 0;
@@ -5444,6 +5534,161 @@ class ElectionController {
         html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>Spoiled</strong></td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num election-cell-strong">${fmt(spoiled)}</td><td class="election-num">${fmtDelta(spoiledDelta)}</td><td class="election-num election-cell-strong">${spoiledPct.toFixed(2)}%</td><td class="election-num">${fmtPctDelta(spoiledPct - prevSpoiledPct)}</td></tr>`;
         html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>Did not vote</strong></td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num election-cell-strong">${fmt(didNotVote)}</td><td class="election-num">${fmtDelta(didNotVoteDelta)}</td><td class="election-num election-cell-strong">${didNotVotePct.toFixed(2)}%</td><td class="election-num">${fmtPctDelta(didNotVotePct - prevDidNotVotePct)}</td></tr>`;
         html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>Electorate</strong></td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num election-cell-strong">${fmt(electorate)}</td><td class="election-num">${fmtDelta(electorateDelta)}</td><td class="election-num election-cell-strong">100.00%</td><td class="election-num">${fmtPctDelta(0)}</td></tr>`;
+        html += `</tbody></table></div></div>`;
+        return html;
+    }
+
+    /**
+     * Forum-specific "By Party" table. Built from forum.rows + forum.sequence
+     * rather than countGroup. Each row carries first-pref votes, vote share,
+     * seats won (from the sequence), and the elected list candidates' names.
+     */
+    _buildForumPartyResults(constName, payload) {
+        const forum = payload?.Constituency?.forum || {};
+        const info = payload?.Constituency?.countInfo || {};
+        const rows = Array.isArray(forum.rows) ? forum.rows : [];
+        const sequence = Array.isArray(forum.sequence) ? forum.sequence : [];
+        const totals = forum.totals || {};
+        const validPoll = parseFloat(totals.valid_total) || parseFloat(info.Valid_Poll) || 0;
+        const totalPoll = parseFloat(info.Total_Poll) || 0;
+        const electorate = parseFloat(info.Total_Electorate) || 0;
+        const spoiled = parseFloat(info.Spoiled) || Math.max(0, totalPoll - validPoll);
+        const didNotVote = Math.max(0, electorate - totalPoll);
+        const seatTotal = parseInt(totals.seat_total, 10) || (parseInt(info.Number_Of_Seats, 10) || 0);
+
+        const seatsByParty = new Map();
+        const winnersByParty = new Map();
+        sequence.forEach(entry => {
+            const party = this._normaliseLivePartyName(entry?.party);
+            seatsByParty.set(party, (seatsByParty.get(party) || 0) + 1);
+            if (!winnersByParty.has(party)) winnersByParty.set(party, []);
+            winnersByParty.get(party).push(String(entry?.candidate_name || ''));
+        });
+
+        const parties = rows.map(row => {
+            const partyKey = this._normaliseLivePartyName(row?.party);
+            const votes = parseFloat(row?.votes) || 0;
+            const sharePct = parseFloat(row?.vote_share);
+            const pct = Number.isFinite(sharePct)
+                ? sharePct
+                : (validPoll > 0 ? (votes / validPoll) * 100 : 0);
+            const stood = Array.isArray(row?.list_candidates) ? row.list_candidates.length : 0;
+            const seats = seatsByParty.get(partyKey) || 0;
+            const electedNames = (winnersByParty.get(partyKey) || []).filter(Boolean);
+            return {
+                name: partyKey,
+                colour: this._resolvePartyColour(row?.party),
+                stood,
+                seats,
+                firstPrefs: votes,
+                pct,
+                electedNames,
+            };
+        }).sort((a, b) => {
+            if (b.seats !== a.seats) return b.seats - a.seats;
+            if (b.firstPrefs !== a.firstPrefs) return b.firstPrefs - a.firstPrefs;
+            return String(a.name || '').localeCompare(String(b.name || ''));
+        });
+
+        const fmt = (n) => Math.round(n).toLocaleString('en-GB');
+        const rankLabel = (idx) => {
+            const n = idx + 1;
+            if (n % 10 === 1 && n % 100 !== 11) return `${n}st`;
+            if (n % 10 === 2 && n % 100 !== 12) return `${n}nd`;
+            if (n % 10 === 3 && n % 100 !== 13) return `${n}rd`;
+            return `${n}th`;
+        };
+
+        const turnoutPct = electorate > 0 ? (totalPoll / electorate * 100) : 0;
+        const validPct = electorate > 0 ? (validPoll / electorate * 100) : 0;
+        const spoiledPct = electorate > 0 ? (spoiled / electorate * 100) : 0;
+        const didNotVotePct = electorate > 0 ? (didNotVote / electorate * 100) : 0;
+        const totalStood = parties.reduce((acc, p) => acc + p.stood, 0);
+        const totalElected = parties.reduce((acc, p) => acc + p.seats, 0);
+        const maxSeats = Math.max(0, ...parties.map(p => p.seats || 0));
+        const maxFirstPrefs = Math.max(0, ...parties.map(p => p.firstPrefs || 0));
+
+        let html = `<div class="election-constituency-results">`;
+        html += `<div class="election-method-note" style="padding:8px 12px;color:#555;font-size:0.9em;">Allocation method: D'Hondt across ${seatTotal || sequence.length} seats. Each row's "Elected" column lists the list-candidates that took the party's allocated seats in sequence order.</div>`;
+        html += `<div class="election-party-wrapper">`;
+        html += `<table class="election-party-table"><thead><tr>
+            <th data-sort-key="rank">#</th>
+            <th class="election-colour-col"></th>
+            <th data-sort-key="party">Party</th>
+            <th class="election-num" data-sort-key="stood">Stood</th>
+            <th class="election-num" data-sort-key="elected">Elected</th>
+            <th data-sort-key="electedNames">Elected names</th>
+            <th class="election-num" data-sort-key="firstPrefs">1st prefs</th>
+            <th class="election-num" data-sort-key="firstPrefsPct">1st prefs %</th>
+        </tr></thead><tbody>`;
+
+        parties.forEach((p, idx) => {
+            const isSeatWinner = p.seats === maxSeats && maxSeats > 0;
+            const isFirstPrefWinner = p.firstPrefs === maxFirstPrefs && maxFirstPrefs > 0;
+            const electedNames = p.electedNames.length ? this._esc(p.electedNames.join(', ')) : '<span class="election-na">—</span>';
+            html += `<tr class="election-party-row"
+                    data-rank="${idx + 1}"
+                    data-party="${this._esc(p.name)}"
+                    data-stood="${p.stood}"
+                    data-elected="${p.seats}"
+                    data-firstprefs="${p.firstPrefs}"
+                    data-firstprefspct="${p.pct}">
+                <td class="election-rank-col${isSeatWinner ? ' election-party-emphasis' : ''}">${rankLabel(idx)}</td>
+                <td class="election-colour-col"><span class="election-party-dot" style="background:${this._esc(p.colour)}"></span></td>
+                <td class="${isSeatWinner ? ' election-party-emphasis' : ''}">${this._renderElectionEntityLink('party', p.name, p.name, 'election-cell-wrap')}</td>
+                <td class="election-num">${p.stood}</td>
+                <td class="election-num${isSeatWinner ? ' election-party-emphasis' : ''}">${p.seats}</td>
+                <td>${electedNames}</td>
+                <td class="election-num${isFirstPrefWinner ? ' election-party-emphasis' : ''}">${fmt(p.firstPrefs)}</td>
+                <td class="election-num${isFirstPrefWinner ? ' election-party-emphasis' : ''}">${p.pct.toFixed(2)}%</td>
+            </tr>`;
+        });
+
+        html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>Valid votes</strong></td><td class="election-num">${totalStood}</td><td class="election-num">${totalElected}</td><td></td><td class="election-num election-cell-strong">${fmt(validPoll)}</td><td class="election-num election-cell-strong">${validPct.toFixed(2)}%</td></tr>`;
+        html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>Turnout</strong></td><td class="election-num">-</td><td class="election-num">-</td><td></td><td class="election-num election-cell-strong">${fmt(totalPoll)}</td><td class="election-num election-cell-strong">${turnoutPct.toFixed(2)}%</td></tr>`;
+        html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>Spoiled</strong></td><td class="election-num">-</td><td class="election-num">-</td><td></td><td class="election-num election-cell-strong">${fmt(spoiled)}</td><td class="election-num election-cell-strong">${spoiledPct.toFixed(2)}%</td></tr>`;
+        html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>Did not vote</strong></td><td class="election-num">-</td><td class="election-num">-</td><td></td><td class="election-num election-cell-strong">${fmt(didNotVote)}</td><td class="election-num election-cell-strong">${didNotVotePct.toFixed(2)}%</td></tr>`;
+        html += `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>Electorate</strong></td><td class="election-num">-</td><td class="election-num">-</td><td></td><td class="election-num election-cell-strong">${fmt(electorate)}</td><td class="election-num election-cell-strong">100.00%</td></tr>`;
+        html += `</tbody></table></div></div>`;
+        return html;
+    }
+
+    /**
+     * Forum-specific "By Round" table. Each row in the d'Hondt sequence
+     * shows which party was awarded the seat at that round, the quotient
+     * (first-prefs / (seats_won_so_far + 1)), and the elected list candidate.
+     */
+    _buildForumCountTable(constName, payload) {
+        const forum = payload?.Constituency?.forum || {};
+        const sequence = Array.isArray(forum.sequence) ? forum.sequence : [];
+        if (!sequence.length) {
+            return '<div class="election-no-data">No D\'Hondt allocation data available.</div>';
+        }
+        const fmt = (n) => Math.round(Number(n) || 0).toLocaleString('en-GB');
+        let html = `<div class="election-constituency-results">`;
+        html += `<div class="election-party-wrapper">`;
+        html += `<table class="election-count-table"><thead><tr>
+            <th>Round</th>
+            <th>Seat #</th>
+            <th class="election-colour-col"></th>
+            <th>Party</th>
+            <th>Elected candidate</th>
+            <th class="election-num">Quotient</th>
+        </tr></thead><tbody>`;
+        sequence.forEach((entry, idx) => {
+            const party = this._normaliseLivePartyName(entry?.party);
+            const colour = this._resolvePartyColour(entry?.party);
+            const candidate = String(entry?.candidate_name || '');
+            const quotient = parseFloat(entry?.quotient);
+            html += `<tr class="election-count-row">
+                <td>${parseInt(entry?.round, 10) || (idx + 1)}</td>
+                <td>${parseInt(entry?.seat_number, 10) || ''}</td>
+                <td class="election-colour-col"><span class="election-party-dot" style="background:${this._esc(colour)}"></span></td>
+                <td>${this._renderElectionEntityLink('party', party, party, 'election-cell-wrap')}</td>
+                <td>${this._esc(candidate)}</td>
+                <td class="election-num">${Number.isFinite(quotient) ? fmt(quotient) : '—'}</td>
+            </tr>`;
+        });
         html += `</tbody></table></div></div>`;
         return html;
     }
@@ -5758,6 +6003,9 @@ class ElectionController {
     }
 
     _buildCountTable(constName, payload) {
+        if (this._isForumPayload(payload)) {
+            return this._buildForumCountTable(constName, payload);
+        }
         const cg = payload.Constituency.countGroup;
         const info = payload.Constituency.countInfo;
         const countNums = [...new Set(cg.map(r => parseInt(r.Count_Number, 10)))].sort((a, b) => a - b);
