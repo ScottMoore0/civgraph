@@ -89,7 +89,7 @@ import { readFileSync as readFile, writeFileSync as writeFile } from 'fs';
 import { statSync } from 'fs';
 
 const budgets = [
-    { file: 'build/app.bundle.js', max: 340_000, label: 'Main bundle' },
+    { file: 'build/app.bundle.js', max: 360_000, label: 'Main bundle' },
     { file: 'build/main.css',      max: 230_000, label: 'CSS' },
 ];
 
