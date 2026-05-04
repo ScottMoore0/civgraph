@@ -35,7 +35,7 @@ Migrate the Boundaries Website from Neocities to Cloudflare Pages + Workers.
 ### Step 1.1: Connect GitHub repo to Cloudflare Pages
 
 1. Cloudflare Dashboard > Pages > Create a project > Connect to Git
-2. Select the `ScottMoore0/boundaries-website` repository
+2. Select the `ScottMoore0/civgraph` repository
 3. Configure build settings:
    - **Production branch:** `main`
    - **Build command:** `npm install --ignore-scripts && npm run build && python3 scripts/gzip_fgb_files.py && python3 scripts/restructure_election_bundles.py`
@@ -43,7 +43,7 @@ Migrate the Boundaries Website from Neocities to Cloudflare Pages + Workers.
    - **Environment variables:**
      - `NODE_VERSION` = `20`
      - `PYTHON_VERSION` = `3.12`
-4. Deploy — Cloudflare builds and hosts the site at `boundaries-website.pages.dev`
+4. Deploy — Cloudflare builds and hosts the site at `civgraph.pages.dev`
 
 ### Step 1.2: Verify on pages.dev
 

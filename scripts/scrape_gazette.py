@@ -22,7 +22,7 @@ from pathlib import Path
 
 DELAY = 2.0
 PAGE_SIZE = 100
-USER_AGENT = "boundaries-website/1.0 (gazette scraper)"
+USER_AGENT = "civgraph/1.0 (gazette scraper)"
 
 OUT_DIR = Path("_tmp_gazette")
 OUT_DIR.mkdir(exist_ok=True)

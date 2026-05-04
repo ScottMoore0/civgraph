@@ -22,7 +22,7 @@ from collections import defaultdict
 from pathlib import Path
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
-UA = "Mozilla/5.0 boundaries-website/daera-recovery"
+UA = "Mozilla/5.0 civgraph/daera-recovery"
 TARGET_ROOT = Path(r"D:\opendatani\DAERA Hub recovery")
 TARGET_ROOT.mkdir(parents=True, exist_ok=True)
 MANIFEST = Path(r"D:\opendatani\_manifest.csv")

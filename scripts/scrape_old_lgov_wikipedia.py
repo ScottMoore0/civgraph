@@ -56,7 +56,7 @@ ELECTION_DATES: dict[int, str] = {
     2005: "2005-05-05",
 }
 
-USER_AGENT = "boundaries-website/1.0 (old lgov Wikipedia scraper)"
+USER_AGENT = "civgraph/1.0 (old lgov Wikipedia scraper)"
 REQUEST_DELAY_SECONDS = 0.6
 RETRY_DELAYS = [5, 10, 20, 40]
 

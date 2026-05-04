@@ -1,4 +1,4 @@
-# Boundaries Website
+# Civgraph
 
 Interactive map explorer for Northern Ireland and Ireland boundaries - local government districts, parliamentary constituencies, wards, townlands, historic administrative areas, and more.
 

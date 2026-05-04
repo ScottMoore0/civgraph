@@ -27,7 +27,7 @@ CACHE = REPO / "_tmp_stormont" / "pages"
 CACHE.mkdir(parents=True, exist_ok=True)
 OUT_BASE = REPO / "election-viewer-package" / "data" / "elections" / "parliament-of-northern-ireland"
 
-UA = "Mozilla/5.0 boundaries-website-scraper (scomoni@gmail.com) - historical NI election archive"
+UA = "Mozilla/5.0 civgraph-scraper (scomoni@gmail.com) - historical NI election archive"
 
 # Wikipedia's comprehensive list — gives us (year, constituency) -> exact date
 # for every Stormont by-election. Used to resolve year-only by-election titles

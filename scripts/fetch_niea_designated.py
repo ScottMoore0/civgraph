@@ -26,7 +26,7 @@ TMP.mkdir(parents=True, exist_ok=True)
 GDAL_BIN = Path("C:/Program Files/GDAL")
 OGR2OGR = str(GDAL_BIN / "ogr2ogr.exe")
 
-UA = "Mozilla/5.0 boundaries-website-scraper - NIEA designated sites"
+UA = "Mozilla/5.0 civgraph-scraper - NIEA designated sites"
 
 # (slug, full_title, package_id, geojson_resource_id, geojson_filename)
 DATASETS = [

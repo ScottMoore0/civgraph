@@ -39,7 +39,7 @@ from modern_lgov_wikipedia_common import (
 YEAR = 2011
 ELECTION_DATE = "2011-05-05"
 
-USER_AGENT = "boundaries-website/1.0 (2011 lgov Wikipedia scraper)"
+USER_AGENT = "civgraph/1.0 (2011 lgov Wikipedia scraper)"
 REQUEST_DELAY_SECONDS = 0.6
 RETRY_DELAYS = [5, 10, 20, 40]
 

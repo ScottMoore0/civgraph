@@ -85,7 +85,7 @@ LGOV_CODE_TO_COUNCIL = {
     "STR": "Strabane District Council",
 }
 
-USER_AGENT = "boundaries-website/1.0 (Wikipedia LGOV comparison)"
+USER_AGENT = "civgraph/1.0 (Wikipedia LGOV comparison)"
 REQUEST_DELAY_SECONDS = 0.6
 RETRY_DELAYS = [5, 10, 20, 40]
 

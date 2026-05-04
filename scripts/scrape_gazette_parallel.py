@@ -25,7 +25,7 @@ from pathlib import Path
 PAGE_SIZE = 100
 MAX_WORKERS = 5  # concurrent PDF downloads
 DELAY_BETWEEN_PAGES = 1.5  # delay between JSON API page fetches
-USER_AGENT = "boundaries-website/1.0 (gazette scraper)"
+USER_AGENT = "civgraph/1.0 (gazette scraper)"
 
 OUT_DIR = Path("_tmp_gazette")
 OUT_DIR.mkdir(exist_ok=True)

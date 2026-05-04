@@ -22,7 +22,7 @@ RESULTS_CSV = REPO / "data" / "external" / "parlconst" / "pre1922_westminster_re
 CACHE_DIR = REPO / "_tmp_parlconst" / "wiki_cache"
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
-UA = "Mozilla/5.0 boundaries-website/parlconst-wiki-backfill (one-shot, polite, contact: civgraph)"
+UA = "Mozilla/5.0 civgraph/parlconst-wiki-backfill (one-shot, polite, contact: civgraph)"
 
 GE_DATES = {
     '1885':     '1885-11-24',

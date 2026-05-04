@@ -35,7 +35,7 @@ RES_PATH = REPO / "data" / "external" / "datagovie-resources.json"
 OUT_PATH = REPO / "data" / "external" / "datagovie-resources-resolved.json"
 PROGRESS_PATH = REPO / "data" / "external" / "datagovie-resolve-progress.json"
 
-UA = "Mozilla/5.0 boundaries-website/datagovie-size-resolver"
+UA = "Mozilla/5.0 civgraph/datagovie-size-resolver"
 
 SERVICE_FORMATS = {
     "WMS", "WFS", "WMTS",
