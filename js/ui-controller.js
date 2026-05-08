@@ -2270,12 +2270,13 @@ class UIController {
             { id: 'flat-deas', name: 'District Electoral Areas (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-deas'] },
             { id: 'flat-deds', name: 'District Electoral Divisions (Northern Ireland) (1920-1973)', years: '1912-1969', extent: 'Northern Ireland', classIds: ['ni-deds'] },
             { id: 'flat-county-eds', name: 'County Electoral Divisions (Northern Ireland)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-county-eds'] },
-            { id: 'flat-eds-1911', name: 'District Electoral Divisions (Ireland) (1911)', years: '1911', extent: 'Ireland', mapIds: ['eds-1911'] },
+            { id: 'flat-eds-pre-partition', name: 'Electoral Divisions (Ireland, pre-partition)', years: '1911-1919', extent: 'Ireland',
+              mapIds: ['eds-1911', 'eds-1912', 'eds-1914', 'eds-1915', 'eds-1919-04-01'] },
             { id: 'flat-roi-deds', name: 'Electoral Divisions', years: '1921-2019', extent: 'Republic of Ireland',
               mapIds: [
-                  'eds-roi-1921-05-03', 'eds-roi-1921-06-28', 'eds-roi-1936', 'eds-roi-1944',
+                  'eds-roi-1921-05-03', 'eds-roi-1921-06-28', 'eds-1926', 'eds-roi-1936', 'eds-roi-1944',
                   'eds-roi-1950', 'eds-roi-1954', 'eds-roi-1957', 'eds-roi-1970',
-                  'eds-1971', 'eds-roi-1976', 'eds-1977', 'eds-1980', 'eds-1983',
+                  'eds-1971', 'eds-1977', 'eds-1980', 'eds-1983',
                   'eds-1986', 'eds-1994', 'eds-1997', 'eds-2019'
               ] },
             { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2022', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
@@ -2715,12 +2716,8 @@ class UIController {
               mapIds: ['tailte-built-up-1m', 'tailte-built-up-points-250k'] },
             { id: 'flat-cso-urban', name: 'CSO Urban Areas (2022)', years: '2022', extent: 'Republic of Ireland',
               mapIds: ['cso-urban-areas-2022'] },
-            { id: 'flat-pc-ireland-island', name: 'UK Parliamentary Constituencies (Ireland-wide, pre-1921)', years: '1885, 1918', extent: 'Ireland',
-              mapIds: ['pc-1885-ireland', 'pc-1918-ireland'] },
             { id: 'flat-eoni-polling', name: 'EONI Polling Stations', years: '', extent: 'Northern Ireland',
               mapIds: ['eoni-polling-stations'] },
-            { id: 'flat-fingal-polling', name: 'Polling Station Data (Fingal)', years: '', extent: 'Republic of Ireland',
-              mapIds: ['fingal-polling-station-data'] },
 
             // ── Heritage (NI Historic Environment Division) ──
             { id: 'flat-hed-heritage', name: 'NI Historic Environment Division — Heritage Sites', years: '', extent: 'Northern Ireland',
@@ -2885,7 +2882,7 @@ class UIController {
                   'dlr-existing-conservation-areas', 'dlr-golf-courses',
                   'dlr-industrial-heritage-survey-sites', 'dlr-institutional-lands',
                   'dlr-land-use-zoning', 'dlr-leisure-centres',
-                  'dlr-libraries', 'dlr-local-electoral-areas',
+                  'dlr-libraries',
                   'dlr-main-parks', 'dlr-mews-development',
                   'dlr-muga', 'dlr-parking-meters',
                   'dlr-playgrounds', 'dlr-proposed-education-sites',
@@ -2896,7 +2893,7 @@ class UIController {
                   'dlr-spacefinder-app-locations', 'dlr-specific-local-objectives-point',
                   'dlr-specific-local-objectives-polygon', 'dlr-speed-signs',
                   'dlr-strategic-land-reserve', 'dlr-tennis-clubs',
-                  'dlr-the-metals', 'dlr-townland-boundaries',
+                  'dlr-the-metals',
                   'dlr-transport', 'dlr-traveller-accommodation',
                   'dlr-tree-preservation-orders', 'dlr-trees-and-woodlands',
                   'dlr-trim-trails', 'dlr-views-prospects',
@@ -2952,12 +2949,48 @@ class UIController {
             } else if (body === 'Parliament of Northern Ireland') {
                 thumb = 'pc-1970';
             } else if (body === 'European Parliament') {
+                // NI single-constituency from 1979–2019; from 2024 NI is folded
+                // into the European Parliament constituencies above the Boundary
+                // Commission level — Wakefield rules — so we keep pc-2008 for
+                // the NI region rendering.
+                thumb = 'pc-2008';
+            } else if (body === 'European Parliament (Ireland)') {
                 if (year >= 2024) thumb = 'mep-2024';
                 else if (year >= 2019) thumb = 'mep-2019';
                 else if (year >= 2014) thumb = 'mep-2014';
                 else if (year >= 2009) thumb = 'mep-2009';
                 else if (year >= 2004) thumb = 'mep-2004';
                 else thumb = 'mep-1979';
+            } else if (body === 'Dáil Éireann' || body === 'Referendum (Ireland)') {
+                if (year >= 2024) thumb = 'dail-2023';
+                else if (year >= 2016) thumb = 'dail-2017';
+                else if (year >= 2011) thumb = 'dail-2013';
+                else if (year >= 2007) thumb = 'dail-2009';
+                else if (year >= 2002) thumb = 'dail-2005';
+                else if (year >= 1997) thumb = 'dail-1998';
+                else if (year >= 1992) thumb = 'dail-1995';
+                else if (year >= 1987) thumb = 'dail-1990';
+                else if (year >= 1981) thumb = 'dail-1983';
+                else if (year >= 1977) thumb = 'dail-1980';
+                else if (year >= 1973) thumb = 'dail-1974';
+                else if (year >= 1965) thumb = 'dail-1969';
+                else if (year >= 1957) thumb = 'dail-1961';
+                else if (year >= 1937) thumb = 'dail-1947';
+                else if (year >= 1923) thumb = 'dail-1935';
+                else thumb = 'pc-1918-ireland';
+            } else if (body === 'President of Ireland') {
+                // Presidential elections use whole-state polity — pick a
+                // contemporary Dáil constituencies map that covers the ROI.
+                if (year >= 2024) thumb = 'dail-2023';
+                else if (year >= 2016) thumb = 'dail-2017';
+                else if (year >= 2011) thumb = 'dail-2013';
+                else if (year >= 2007) thumb = 'dail-2009';
+                else if (year >= 2002) thumb = 'dail-2005';
+                else if (year >= 1997) thumb = 'dail-1998';
+                else if (year >= 1992) thumb = 'dail-1995';
+                else if (year >= 1987) thumb = 'dail-1990';
+                else if (year >= 1981) thumb = 'dail-1983';
+                else thumb = 'dail-1980';
             }
 
             const colorMap = {
@@ -3086,7 +3119,7 @@ class UIController {
                 mergedIds: ['flat-small-census', 'flat-roi-small-census'],
                 years: '2001-2022',
                 extent: 'Ireland',
-                inHeading: 'Census Units'
+                inHeading: 'Census Geographies'
             },
             {
                 canonicalName: 'Northern Ireland Constituencies',
@@ -3130,8 +3163,8 @@ class UIController {
                 members: ['Local Government Districts', 'Local Authorities', 'Administrative Areas']
             },
             {
-                heading: 'Census Units',
-                members: ['Small Census Units', 'Super Census Units', 'Travel To Work Areas', 'Census Grid']
+                heading: 'Census Geographies',
+                members: ['CSO Electoral Divisions (Republic of Ireland) (2006-)', 'Small Census Units', 'Super Census Units', 'Travel To Work Areas', 'Census Grid']
             },
             {
                 heading: 'Regional Authorities',

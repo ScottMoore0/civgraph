@@ -566,7 +566,8 @@
         "roi-local-authorities-1985",
         "roi-local-authorities-1980",
         "roi-local-authorities-1977",
-        "roi-local-authorities-1966"
+        "roi-local-authorities-1966",
+        "roi-local-authorities-1965"
       ]
     },
     {
@@ -811,11 +812,6 @@
       "scope": "Northern Ireland",
       "category": "wards",
       "maps": [
-        "eds-1926",
-        "eds-1919-04-01",
-        "eds-1915",
-        "eds-1914",
-        "eds-1912",
         "ded-1969-04-01",
         "ded-1968-04-01",
         "ded-1967-04-01",
@@ -940,8 +936,8 @@
       "scope": "Ireland",
       "category": "parliamentary",
       "maps": [
-        "pc-1918",
-        "pc-1884"
+        "pc-1918-ireland",
+        "pc-1885-ireland"
       ]
     },
     {
@@ -7527,20 +7523,29 @@
     },
     {
       "id": "eds-roi-1921-06-28",
-      "name": "28 June 1921",
+      "name": "28 June 1921 (Southern Ireland)",
       "slug": "eds-roi-1921-06-28",
       "category": "electoral-divisions",
       "date": "1921-06-28",
-      "placeholder": true,
+      "cloneOf": "eds-1926",
       "featured": true,
-      "provider": [],
+      "provider": [
+        "OSI",
+        "OSM"
+      ],
+      "style": {
+        "color": "#9C6E3F",
+        "weight": 2
+      },
       "keywords": [
         "electoral",
         "division",
         "ED",
         "1921",
-        "placeholder"
-      ]
+        "southern ireland",
+        "partition"
+      ],
+      "description": "Southern Ireland Electoral Divisions on 28 June 1921 — boundaries unchanged through to the 1926 census (rendered using the 1926 ROI ED dataset; pre-1926 distinct geography not yet digitised)."
     },
     {
       "id": "eds-roi-1936",
@@ -7667,23 +7672,6 @@
         "Cork",
         "Dublin",
         "Limerick",
-        "placeholder"
-      ]
-    },
-    {
-      "id": "eds-roi-1976",
-      "name": "1976",
-      "slug": "eds-roi-1976",
-      "category": "electoral-divisions",
-      "date": 1976,
-      "placeholder": true,
-      "featured": true,
-      "provider": [],
-      "keywords": [
-        "electoral",
-        "division",
-        "ED",
-        "1976",
         "placeholder"
       ]
     },
@@ -11304,16 +11292,28 @@
       "slug": "county-ed-1957-04-01",
       "category": "wards",
       "date": "1957-04-01",
-      "placeholder": true,
       "featured": true,
-      "provider": [],
+      "provider": [
+        "Phelim Birch"
+      ],
       "keywords": [
         "county",
         "ed",
         "electoral",
         "divisions",
-        "placeholder"
-      ]
+        "1957",
+        "republic of ireland",
+        "historic"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_1957.fgb"
+      },
+      "style": {
+        "color": "#00A9E6",
+        "weight": 2
+      },
+      "labelProperty": "COUNTY",
+      "useLOD": true
     },
     {
       "id": "county-ed-1956-04-01",
@@ -12859,7 +12859,7 @@
           "label": "Connacht",
           "description": "Electoral Divisions in Connacht (1986)",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Connacht_1986.fgb"
           }
         },
         {
@@ -13303,6 +13303,31 @@
       "useLOD": true
     },
     {
+      "id": "eds-ulster-1921",
+      "name": "Ulster District Electoral Divisions/Wards 1921",
+      "slug": "eds-ulster-1921",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Ulster_1921.fgb"
+      },
+      "style": {
+        "color": "#1B4332",
+        "weight": 2
+      },
+      "keywords": [
+        "ulster",
+        "ED",
+        "1921"
+      ],
+      "labelProperty": "ENGLISH",
+      "date": 1921
+    },
+    {
       "id": "eds-ulster-1926",
       "name": "Ulster (ROI) Electoral Divisions 1926",
       "slug": "eds-ulster-1926",
@@ -13677,7 +13702,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Connacht.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Connacht_1986.fgb"
       },
       "style": {
         "color": "#256D36",
@@ -13790,6 +13815,31 @@
       ],
       "labelProperty": "ENGLISH",
       "date": 1971
+    },
+    {
+      "id": "eds-munster-1980",
+      "name": "Munster District Electoral Divisions/Wards 1980",
+      "slug": "eds-munster-1980",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1980.fgb"
+      },
+      "style": {
+        "color": "#A33C3C",
+        "weight": 2
+      },
+      "keywords": [
+        "munster",
+        "ED",
+        "1980"
+      ],
+      "labelProperty": "ENGLISH",
+      "date": 1980
     },
     {
       "id": "eds-leinster-1986",
@@ -16815,7 +16865,7 @@
       ],
       "description": "Polygons of every Water Framework Directive surface water body (rivers, lakes, transitional, coastal) across Northern Ireland with their 2015 ecological-status classification — high, good, moderate, poor or bad.",
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/water-quality/surface-water-bodies-status-20151.fgb?v=2"
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/surface-water-bodies-status-20151.fgb"
       },
       "style": {
         "color": "#1f78b4",
@@ -16862,7 +16912,7 @@
       ],
       "description": "River-segment polygons for each WFD river water body (2nd-cycle classification). Each segment is a single management unit under the EU Water Framework Directive.",
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/water-quality/wfd-river-water-bodies-2nd-cycle1.fgb?v=2"
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/wfd-river-water-bodies-2nd-cycle1.fgb"
       },
       "style": {
         "color": "#33a02c",
@@ -16895,7 +16945,7 @@
       ],
       "description": "Point locations of the WFD 2nd-cycle river and lake monitoring sites where water quality is sampled.",
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/water-quality/wfd-river-and-lake-monitoring-sites-2nd-cycle1.fgb?v=2"
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/wfd-river-and-lake-monitoring-sites-2nd-cycle1.fgb"
       },
       "style": {
         "color": "#e31a1c",
@@ -16932,7 +16982,7 @@
       ],
       "description": "Polygons of lakes and standing waters classified as WFD water bodies in Northern Ireland.",
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/water-quality/lake-water-bodies1.fgb?v=2"
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/lake-water-bodies1.fgb"
       },
       "style": {
         "color": "#1f78b4",
@@ -16966,7 +17016,7 @@
       ],
       "description": "Polygons of groundwater bodies — the underground aquifer-based units used for WFD groundwater status assessment.",
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/water-quality/northern-ireland-groundwater-bodies2.fgb?v=2"
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/northern-ireland-groundwater-bodies2.fgb"
       },
       "style": {
         "color": "#6a3d9a",
@@ -17000,7 +17050,7 @@
       ],
       "description": "Designated protection zones where groundwater is abstracted for drinking-water supply, subject to elevated water-quality safeguards.",
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/water-quality/groundwater-drinking-water-protected-areas-dwpas1.fgb?v=2"
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/groundwater-drinking-water-protected-areas-dwpas1.fgb"
       },
       "style": {
         "color": "#fdbf6f",
@@ -17034,7 +17084,7 @@
       ],
       "description": "Designated protection zones where surface water is abstracted for drinking-water supply, subject to elevated water-quality safeguards.",
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/water-quality/surface-drinking-water-protected-areas1.fgb?v=2"
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/surface-drinking-water-protected-areas1.fgb"
       },
       "style": {
         "color": "#ff7f00",
@@ -28584,6 +28634,35 @@
         }
       ],
       "date": "2025-09-23"
+    },
+    {
+      "id": "roi-local-authorities-1965",
+      "name": "Local Authorities 1965",
+      "slug": "roi-local-authorities-1965",
+      "category": "local-government",
+      "date": "1965-01-01",
+      "provider": [
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1965.fgb"
+      },
+      "style": {
+        "color": "#4A90D9",
+        "weight": 2
+      },
+      "keywords": [
+        "local authorities",
+        "republic of ireland",
+        "ireland",
+        "council",
+        "county council",
+        "city council",
+        "1965",
+        "historical"
+      ],
+      "labelProperty": "ENGLISH",
+      "useLOD": true
     },
     {
       "id": "roi-local-authorities-1966",

@@ -21,7 +21,7 @@ export function formatElectionDate(dateStr) {
 export function shortBodyName(name) {
     const map = {
         'European Parliament': 'European',
-        'European Parliament (Ireland)': 'European (Ireland)',
+        'European Parliament (Ireland)': 'European (Republic of Ireland)',
         'House of Commons of the United Kingdom': 'Westminster',
         'Northern Ireland Assembly': 'Assembly',
         'Northern Ireland Constitutional Convention': 'Convention',
