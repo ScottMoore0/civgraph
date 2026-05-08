@@ -181,14 +181,17 @@ What doesn't:
 ## Proposed reorder
 
 **Principles:**
-- Every top-level catalogue item is either standalone-and-thematically-distinct
-  or under a subheading. No mixing.
-- Within an admin-hierarchy section, run **top-down** (Polities →
-  Provinces → Counties → Baronies → Civil Parishes → Townlands). This
-  matches how Wikipedia's "Subdivisions of Ireland" and most reference
-  works present them.
-- Hierarchy of administrative + electoral units: from largest → smallest
-  to mirror how a user thinks about civic geography.
+- Every top-level catalogue item is under a subheading. No standalones
+  mixed with grouped cards.
+- Top-level subheading ordering is **thematic** (Historic Geographies →
+  Topography → Local Government → Electoral units → Settlements →
+  Census → Constituencies → Census 2021 Data → Heritage → Environment
+  → Roads/Transport → Surveys → Planning → Local Authority Open Data).
+- Within each subheading, ordering is **hierarchical** where the cards
+  form a hierarchy. Historic Geographies runs bottom-up (Townlands →
+  Polities) so the catalogue opens at the most familiar / granular
+  layer. Other subheadings run from largest to smallest where it
+  applies.
 - Sectoral / domain data (geology, transport, environment, heritage)
   comes after admin geography, each as a clearly-labelled subheading.
 - Per-jurisdiction Open Data sources at the very end (least common
@@ -196,20 +199,20 @@ What doesn't:
 
 **Proposed top-to-bottom structure:**
 
-1. **Polities & Territorial Identity**
-   - Polities (NI 1921 / RoI 1921)
-   - Provinces
-   - Seas
-   - Islands
-   - Rivers
-   - Place Names (Northern Ireland)
-
-2. **Counties & Historic Subdivisions**
+1. **Historic Geographies** *(bottom-up: smallest → largest)*
+   - Townlands
+   - Civil Parishes
+   - Baronies
    - Counties (1915) *(re-titled "Counties (1899–1977)" or just "Counties")*
    - Administrative Counties (Northern Ireland) (1915)
-   - Baronies
-   - Civil Parishes
-   - Townlands
+   - Provinces
+   - Polities (NI 1921 / RoI 1921)
+
+2. **Topography**
+   - Place Names (Northern Ireland)
+   - Seas (2023)
+   - Islands
+   - Rivers (2016) (Northern Ireland)
 
 3. **Local Government** *(replacing the current "Local Authorities" + "Regional Authorities" pair)*
    - Local Government Districts (Northern Ireland) (1973–)
@@ -321,20 +324,23 @@ What doesn't:
 
 | Concern | Current | Proposed |
 |---|---|---|
-| **Spatial hierarchy** | Townlands first, then bigger; Counties before Provinces | Top-down: Polities → Provinces → Counties → Baronies → Parishes → Townlands |
-| **Polities** | Orphan standalone at position 16 | First card in §1, alongside Provinces/Seas/Islands |
-| **Provinces** | Position 7, after Counties (out of order) | Top of §1, before Counties |
-| **Wards / DEDs / EDs** | Subheading "Small Electoral Units" at position 8 | Subheading "Wards & Electoral Divisions" §5, after counties + LGD admin (allows top-down read) |
+| **Spatial hierarchy** | Townlands first, then mixed; Counties before Provinces | §1 bottom-up: Townlands → Civil Parishes → Baronies → Counties → Admin Counties (NI) → Provinces → Polities |
+| **Polities** | Orphan standalone at position 16 | Last card in §1 Historic Geographies (above Provinces, below Counties) |
+| **Provinces** | Position 7, after Counties (out of order) | Inside §1, after Counties + Admin Counties so the bottom-up read still escalates correctly |
+| **Place Names / Seas / Islands / Rivers** | Four standalones scattered (positions 3, 20, 21, 22) | Folded into new §2 Topography |
+| **Wards / DEDs / EDs** | Subheading "Small Electoral Units" at position 8 | Subheading "Wards & Electoral Divisions" §5 |
 | **NRA (Neighbourhood Renewal Areas)** | Standalone at position 17 | Folded into §5 alongside other small electoral / community-level units |
-| **Settlements** | Standalone at position 2 | Subheading "Settlements & Built-Up Areas" §6 (with Tailte + CSO Urban + Peacelines) |
-| **Tailte Built-Up + CSO Urban + Peacelines** | Three standalone rows scattered across the catalogue | Folded into §6 |
+| **Settlements** | Standalone at position 2 | Subheading "Settlements & Built-Up Areas" §6 (with Tailte + CSO Urban) |
+| **Tailte Built-Up + CSO Urban** | Two standalone rows late in the catalogue | Folded into §6 |
+| **Peacelines** | Standalone at position 25 | Folded into §10 Heritage & Built Environment |
 | **Garda + Gaeltacht** | Two standalone rows between admin headings | Folded into §3 Local Government |
-| **Regional Authorities** (ELBs, HSCTs, Admin Counties) | Separate heading at position 14 | Merged into §3 Local Government (admin counties moved to §2 with Counties) |
+| **Regional Authorities** (ELBs, HSCTs, Admin Counties) | Separate heading at position 14 | ELBs + HSCTs merged into §3 Local Government; Admin Counties (1915) moved to §1 alongside Counties |
 | **NUTS 2 / NUTS 3** | Two standalones at positions 18–19 | Folded into §7 Census Geographies |
 | **Census 2021 Data (20 rows)** | 20 standalone "Data — Census 2021: …" rows | Single subheading §9 with all 20 rows under it |
 | **Historic Sites / Catholic Parishes / Dioceses** | Three standalones at 26–28 | Folded into §10 Heritage & Built Environment |
 | **Designated Sites + Habitat Networks** | Two standalones at 44–45 | Folded into §11 Environment, Water & Geology |
-| **Water/Rivers/Geology/Tellus** | Many standalones interspersed (positions 33–45) | All consolidated into §11 |
+| **Water/Geology/Tellus** | Many standalones interspersed (positions 33–45) | All consolidated into §11 |
+| **River Basin Districts / River Basins** | Two standalones at 23–24 | Folded into §11 |
 | **Railways + Transport Lines + Carriageway Defects** | Three standalones at 29–30, 42 | Folded into §12 Roads, Transport & Public Safety |
 | **OSNI maps** | Three standalones at 36–38, in middle of list | Subheading §13 Surveys & Reference Maps near the end |
 | **Heritage / Environment / Roads / LA Open Data headings** | All appear at positions 69–72 (after standalones that should be in them) | Headings absorb their natural members earlier in the list, so each heading is actually populated where it appears |
@@ -342,7 +348,7 @@ What doesn't:
 ### Counts
 
 - Current: **11 subheadings**, with ~66 standalone cards alongside (≈ 41 individual standalones + the 20 Census 2021 Data rows + 5 minor leaders) — about ~85 visible TOC entries total
-- Proposed: **15 subheadings, every card under a subheading** (no standalones at top level)
+- Proposed: **16 subheadings, every card under a subheading** (no standalones at top level)
 
 ### Rendering implications
 
@@ -362,16 +368,19 @@ Estimated effort: ~30 min once the order is signed off.
 
 ---
 
-## Open questions for the reviewer
+## Reviewer answers (resolved)
 
-1. Is "top-down" hierarchy (largest → smallest) preferred over "smallest → largest"?
-2. Should "Local Government" merge "Regional Authorities" with "Local
-   Authorities" (as proposed), or keep them split?
-3. The 20 Census 2021 Data cards — should they all sit under one
-   heading "Census 2021 Data", or split into thematic sub-headings
-   (Demographics / Identity / Housing / Economy)? The proposed version
-   puts them all under one heading for now.
-4. Is the proposed top-of-list (Polities → Provinces → Counties →
-   Baronies → Parishes → Townlands) the right entry-point, or would
-   you prefer the current "Townlands first"?
-5. Anything missing from §9–15 that should have its own heading?
+1. Hierarchy is bottom-up *within* each subheading; top-level grouping
+   stays thematic. Tension is contained at scope-boundaries, not across
+   the whole list.
+2. Regional Authorities (ELBs, HSCTs) folded into §3 Local Government.
+   Administrative Counties (1915) moved to §1 Historic Geographies
+   alongside Counties.
+3. Census 2021 Data — single heading §9, all 20 rows under it.
+4. Townlands first (bottom-up) confirmed; §1 reads
+   Townlands → Civil Parishes → Baronies → Counties → Provinces →
+   Polities.
+5. No further sub-splits — the 16 subheadings cover every card. Religious
+   Geography (Catholic Parishes/Dioceses), Public Safety (PSNI
+   Collisions), and Tellus would each only have 1–4 cards if split out,
+   not enough to warrant their own heading.
