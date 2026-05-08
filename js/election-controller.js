@@ -224,11 +224,50 @@ class ElectionController {
         // don't match PC_1918 boundaries; wiring deferred until those FGBs are sourced.
         // 1922-1969 Dáil eras paused per user direction; need OSi/National Archives FGBs.
 
-        // ROI national-fill bodies (President, European Parliament Ireland, Referendum)
-        // all use the ROI_Counties_2011.fgb. Every feature has NUTS1NAME = "Ireland" so
-        // colouring by single constituency "Ireland" fills the whole country with the
-        // winning party (or Yes/No outcome for referendums).
+        // ROI national-fill bodies (President + Referendum (Ireland) without
+        // per-constituency data). For referendums the rules below override
+        // this one whenever per-constituency data is available; the catch-all
+        // single-constituency rule remains for events where we only have an
+        // all-Ireland aggregate (pre-1972 + 21st/23rd 2001).
         { body: 'President of Ireland', dateFrom: '1900-01-01', fgb: 'data/maps/baronies-parishes/ROI_Counties_2011.fgb', nameAttr: 'NUTS1NAME', singleConstituency: true },
+
+        // Referendum (Ireland) — per-constituency boundary FGBs by date.
+        // The 2024 Constituency Commission boundaries (used in 2024 referendums):
+        { body: 'Referendum (Ireland)', dateFrom: '2024-01-01', fgb: 'data/maps/parliamentary/ROIConstituencies2023.fgb', nameAttr: 'ENG_NAME_VALUE',
+            nameAliases: { 'Limerick County (3)': 'Limerick' } },
+        // 2019-05-24 Divorce was reported on a local-authority basis, so use
+        // the ROI Local Authorities boundaries instead of Dáil constituencies.
+        { body: 'Referendum (Ireland)', dateFrom: '2019-05-01', dateUntil: '2019-12-31', fgb: 'data/maps/local-government/ROI_Local_Authorities_2024.fgb', nameAttr: 'ENG_NAME_VALUE' },
+        // 2018 referendums (Repeal of 8th, Blasphemy) — 2017 Constituency
+        // Commission boundaries.
+        { body: 'Referendum (Ireland)', dateFrom: '2017-01-01', dateUntil: '2018-12-31', fgb: 'data/maps/parliamentary/ROIConstituencies2017.fgb', nameAttr: 'CON_SEAT_',
+            nameAliases: { 'Limerick County (3)': 'Limerick' } },
+        // 2013-2015 referendums (Court of Appeal, Marriage equality) — 2013
+        // Constituency Commission boundaries.
+        { body: 'Referendum (Ireland)', dateFrom: '2013-01-01', dateUntil: '2016-12-31', fgb: 'data/maps/parliamentary/ROIConstituencies2013.fgb', nameAttr: 'MAX_CON_NA' },
+        // 2011-2012 referendums (Judges Pay, Fiscal Treaty, Children) —
+        // Electoral (Amendment) Act 2009 boundaries.
+        { body: 'Referendum (Ireland)', dateFrom: '2011-01-01', dateUntil: '2012-12-31', fgb: 'data/maps/parliamentary/2011_Dail.fgb', nameAttr: 'CON_NAME',
+            nameAliases: {
+                'Kerry North-West Limerick': 'Kerry North Limerick West',
+                'Laois-Offaly': 'Laoighis Offaly',
+            } },
+        // 2002-2009 referendums (Nice II, Citizenship, Lisbon II) — 2005
+        // Constituency Commission boundaries (2007_Dail.fgb).
+        { body: 'Referendum (Ireland)', dateFrom: '2002-01-01', dateUntil: '2010-12-31', fgb: 'data/maps/parliamentary/2007_Dail.fgb', nameAttr: 'CON_NAME',
+            nameAliases: {
+                'Cork North-Centrla': 'Cork North Central',
+                'Laois-Offaly': 'Laoighis Offaly',
+                'Roscommon-South Leitrim': 'Roscommon Leitrim South',
+                'Sligo-North Leitrim': 'Sligo Leitrim North',
+            } },
+        // 1992-2001 referendums (Maastricht, 13th/14th, Divorce 1995, Bail
+        // 1996, Cabinet Confidentiality 1997, Amsterdam Treaty + Good Friday
+        // Agreement 1998, Recognition for Local Government 1999) — 1990
+        // Constituency Commission boundaries (1998_Dail.fgb).
+        { body: 'Referendum (Ireland)', dateFrom: '1992-01-01', dateUntil: '2001-12-31', fgb: 'data/maps/parliamentary/1998_Dail.fgb', nameAttr: 'CON_NAME' },
+        // Pre-1992 referendums + any event without per-constituency data —
+        // single-constituency Ireland-fill fallback.
         { body: 'Referendum (Ireland)', dateFrom: '1900-01-01', fgb: 'data/maps/baronies-parishes/ROI_Counties_2011.fgb', nameAttr: 'NUTS1NAME', singleConstituency: true },
 
         // ROI European Parliament: per-constituency MEP FGBs in data/maps/electoral-divisions/.
@@ -627,6 +666,16 @@ class ElectionController {
         push(base.replace(/\s+Borough Council$/i, ''));
         push(base.replace(/\s+City Council$/i, ''));
         push(base.replace(/\s+City and District Council$/i, ''));
+        // ROI Local Authorities: FGB labels are 'CORK COUNTY COUNCIL',
+        // 'LIMERICK CITY AND COUNTY COUNCIL', 'DUN LAOGHAIRE-RATHDOWN COUNTY
+        // COUNCIL' etc.; result data carries 'Cork County', 'Limerick City
+        // and County', 'Dún Laoghaire–Rathdown'. Strip the trailing
+        // "Council" first, then optionally drop the bare "County" suffix
+        // so all three forms collapse to one matchable string.
+        const stripCouncil = base.replace(/\s+Council$/i, '');
+        if (stripCouncil !== base) push(stripCouncil);
+        const stripCounty = stripCouncil.replace(/\s+County$/i, '');
+        if (stripCounty !== stripCouncil) push(stripCounty);
         push(base.replace(/\bCity\b/gi, ''));
         push(base.replace(/^Derry\b/i, 'Derry City and Strabane'));
         push(base.replace(/^Londonderry\b/i, 'Derry City and Strabane'));
