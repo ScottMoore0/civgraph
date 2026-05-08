@@ -154,10 +154,30 @@ class ElectionController {
         { body: 'European Parliament', dateFrom: '1979-01-01', fgb: 'data/maps/physical/NorthernIreland.fgb', nameAttr: 'Name', singleConstituency: true },
 
         // Dáil Éireann — modern era (2002-2024)
-        { body: 'Dáil Éireann', dateFrom: '2024-01-01', fgb: 'data/maps/parliamentary/ROIConstituencies2023.fgb', nameAttr: 'ENG_NAME_VALUE' },
-        { body: 'Dáil Éireann', dateFrom: '2017-01-01', dateUntil: '2023-12-31', fgb: 'data/maps/parliamentary/ROIConstituencies2017.fgb', nameAttr: 'CON_SEAT_' },
+        { body: 'Dáil Éireann', dateFrom: '2024-01-01', fgb: 'data/maps/parliamentary/ROIConstituencies2023.fgb', nameAttr: 'ENG_NAME_VALUE',
+            // Tailte's 2023 FGB renames the rural Limerick constituency to
+            // 'Limerick County'; the result data still keys it 'Limerick'.
+            nameAliases: { 'Limerick County (3)': 'Limerick' }
+        },
+        { body: 'Dáil Éireann', dateFrom: '2017-01-01', dateUntil: '2023-12-31', fgb: 'data/maps/parliamentary/ROIConstituencies2017.fgb', nameAttr: 'CON_SEAT_',
+            nameAliases: { 'Limerick County (3)': 'Limerick' }
+        },
         { body: 'Dáil Éireann', dateFrom: '2013-01-01', dateUntil: '2016-12-31', fgb: 'data/maps/parliamentary/ROIConstituencies2013.fgb', nameAttr: 'MAX_CON_NA' },
-        { body: 'Dáil Éireann', dateFrom: '2007-01-01', dateUntil: '2012-12-31', fgb: 'data/maps/parliamentary/2007_Dail.fgb', nameAttr: 'CON_NAME',
+        // 2011 election was held on the Electoral (Amendment) Act 2009
+        // boundaries, which renamed Limerick East -> Limerick, carved out
+        // Limerick City as a 4-seater, and merged Kerry North + Limerick
+        // West into Kerry North-West Limerick. Source: CSO Census 2011
+        // Boundary Files (Constituencies_2007.zip, despite the file name
+        // these are the 2009 Act boundaries).
+        { body: 'Dáil Éireann', dateFrom: '2011-01-01', dateUntil: '2012-12-31', fgb: 'data/maps/parliamentary/2011_Dail.fgb', nameAttr: 'CON_NAME',
+            nameAliases: {
+                'Kerry North-West Limerick': 'Kerry North Limerick West',
+                'Laois-Offaly': 'Laoighis Offaly',
+                'Roscommon-South Leitrim': 'Roscommon Leitrim South',
+                'Sligo-North Leitrim': 'Sligo Leitrim North'
+            }
+        },
+        { body: 'Dáil Éireann', dateFrom: '2007-01-01', dateUntil: '2010-12-31', fgb: 'data/maps/parliamentary/2007_Dail.fgb', nameAttr: 'CON_NAME',
             nameAliases: {
                 'Cork North-Centrla': 'Cork North Central',
                 'Laois-Offaly': 'Laoighis Offaly',
