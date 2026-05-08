@@ -2256,20 +2256,35 @@ class UIController {
 
         // Flat mode map C1 cards, in the exact order requested.
         const c1Cards = [
+            // ── Historic Geographies ──
             { id: 'flat-townlands', name: 'Townlands', years: '', extent: 'Ireland', mapIds: ['all-ireland-townlands'] },
-            { id: 'flat-settlements', name: 'Settlements', years: '2005-2015', extent: 'Northern Ireland', classIds: ['ni-settlements'] },
-            { id: 'flat-settlements-roi', name: 'Settlements', years: '2011-2015', extent: 'Republic of Ireland', classIds: ['roi-settlements'] },
-            { id: 'flat-roi-legal-towns', name: 'Legal Towns and Cities (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-legal-towns'] },
-            { id: 'flat-place-names', name: 'Place Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['place-names-gazetteer'] },
             { id: 'flat-civil-parishes', name: 'Civil Parishes', years: '', extent: 'Ireland', classIds: ['ireland-civil-parishes'], thumbMapId: 'civil-parishes-by-province' },
             { id: 'flat-baronies', name: 'Baronies', years: '', extent: 'Ireland', mapIds: ['baronies-all-ireland'] },
             { id: 'flat-counties-1915', name: 'Counties (1915)', years: '1899-1977', extent: 'Ireland', mapIds: ['counties-ireland'] },
+            { id: 'flat-admin-counties', name: 'Administrative Counties (Northern Ireland) (1915)', years: '1915', extent: 'Northern Ireland', classIds: ['ni-admin-counties'] },
             { id: 'flat-provinces', name: 'Provinces', years: '', extent: 'Ireland', mapIds: ['provinces'] },
-            { id: 'flat-wards', name: 'Wards (Northern Ireland) (1973-)', years: '1972-2022', extent: 'Northern Ireland', classIds: ['ni-wards'] },
+            { id: 'flat-polities', name: 'Polities', years: '', extent: '', mapIds: ['ni-1921', 'roi-1938'] },
+            // ── Topography ──
+            { id: 'flat-place-names', name: 'Place Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['place-names-gazetteer'] },
+            { id: 'flat-seas', name: 'Seas (2023) (These islands)', years: '2023', extent: 'These islands', mapIds: ['britain-ireland-seas'] },
+            { id: 'flat-islands', name: 'Islands', years: '', extent: '', mapIds: ['ireland-island'] },
+            { id: 'flat-rivers', name: 'Rivers (2016) (Northern Ireland)', years: '2016', extent: 'Northern Ireland', mapIds: ['rivers-2016'] },
+            // ── Local Government ──
+            { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2022', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
+            { id: 'flat-roi-local-authorities', name: 'Local Authorities (Republic of Ireland)', years: '2014-2024', extent: 'Republic of Ireland', classIds: ['roi-local-authorities'] },
+            { id: 'flat-admin-areas', name: 'Administrative Areas (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-admin-areas'] },
+            { id: 'flat-elb', name: 'Education and Library Boards (Northern Ireland)', years: '1984-1993', extent: 'Northern Ireland', classIds: ['ni-elb'] },
+            { id: 'flat-hsct', name: 'Health and Social Care Trusts (Northern Ireland) (2007)', years: '2007', extent: 'Northern Ireland', mapIds: ['hsct-2007'] },
+            { id: 'flat-roi-garda-areas', name: 'An Garda Síochána Areas (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-garda-areas'] },
+            { id: 'flat-roi-gaeltacht', name: 'Gaeltacht Areas (Republic of Ireland)', years: '1926-1982', extent: 'Republic of Ireland', classIds: ['roi-gaeltacht'] },
+            // ── District-level Electoral Units ──
             { id: 'flat-roi-lea', name: 'Local Electoral Areas (Republic of Ireland)', years: '2008', extent: 'Republic of Ireland', classIds: ['roi-lea'] },
             { id: 'flat-deas', name: 'District Electoral Areas (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-deas'] },
-            { id: 'flat-deds', name: 'District Electoral Divisions (Northern Ireland) (1920-1973)', years: '1912-1969', extent: 'Northern Ireland', classIds: ['ni-deds'] },
             { id: 'flat-county-eds', name: 'County Electoral Divisions (Northern Ireland)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-county-eds'] },
+            { id: 'flat-dublin-electoral-counties', name: 'Dublin Electoral Counties (1985)', years: '1985', extent: 'Ireland', classIds: ['roi-dublin-electoral-counties'] },
+            // ── Wards & Electoral Divisions ──
+            { id: 'flat-wards', name: 'Wards (Northern Ireland) (1973-)', years: '1972-2022', extent: 'Northern Ireland', classIds: ['ni-wards'] },
+            { id: 'flat-deds', name: 'District Electoral Divisions (Northern Ireland) (1920-1973)', years: '1912-1969', extent: 'Northern Ireland', classIds: ['ni-deds'] },
             { id: 'flat-eds-pre-partition', name: 'Electoral Divisions (Ireland, pre-partition)', years: '1911-1919', extent: 'Ireland',
               mapIds: ['eds-1911', 'eds-1912', 'eds-1914', 'eds-1915', 'eds-1919-04-01'] },
             { id: 'flat-roi-deds', name: 'Electoral Divisions', years: '1921-2019', extent: 'Republic of Ireland',
@@ -2279,268 +2294,36 @@ class UIController {
                   'eds-1971', 'eds-1977', 'eds-1980', 'eds-1983',
                   'eds-1986', 'eds-1994', 'eds-1997', 'eds-2019'
               ] },
-            { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2022', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
-            { id: 'flat-admin-areas', name: 'Administrative Areas (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-admin-areas'] },
+            { id: 'flat-nra', name: 'Neighbourhood Renewal Areas (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['nra'] },
+            // ── Settlements & Built-Up Areas ──
+            { id: 'flat-settlements', name: 'Settlements', years: '2005-2015', extent: 'Northern Ireland', classIds: ['ni-settlements'] },
+            { id: 'flat-settlements-roi', name: 'Settlements', years: '2011-2015', extent: 'Republic of Ireland', classIds: ['roi-settlements'] },
+            { id: 'flat-roi-legal-towns', name: 'Legal Towns and Cities (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-legal-towns'] },
+            { id: 'flat-tailte-builtup', name: 'Tailte Built-Up Areas (Ireland)', years: '', extent: 'Ireland',
+              mapIds: ['tailte-built-up-1m', 'tailte-built-up-points-250k'] },
+            { id: 'flat-cso-urban', name: 'CSO Urban Areas (2022)', years: '2022', extent: 'Republic of Ireland',
+              mapIds: ['cso-urban-areas-2022'] },
+            // ── Census Geographies ──
+            { id: 'flat-cso-eds', name: 'CSO Electoral Divisions (Republic of Ireland) (2006-)', years: '2006-2022', extent: 'Republic of Ireland', mapIds: ['eds-2006', 'eds-2022'] },
+            { id: 'flat-small-census', name: 'Small Census Units (Northern Ireland) (2001-present)', years: '2001-2021', extent: 'Northern Ireland', classIds: ['ni-small-census'] },
             { id: 'flat-roi-small-census', name: 'Small Census Units (Republic of Ireland)', years: '2011-2022', extent: 'Republic of Ireland', classIds: ['roi-small-census'] },
-            { id: 'flat-roi-garda-areas', name: 'An Garda Síochána Areas (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-garda-areas'] },
-            { id: 'flat-roi-gaeltacht', name: 'Gaeltacht Areas (Republic of Ireland)', years: '1926-1982', extent: 'Republic of Ireland', classIds: ['roi-gaeltacht'] },
-            { id: 'flat-roi-local-authorities', name: 'Local Authorities (Republic of Ireland)', years: '2014-2024', extent: 'Republic of Ireland', classIds: ['roi-local-authorities'] },
-            { id: 'flat-admin-counties', name: 'Administrative Counties (Northern Ireland) (1915)', years: '1915', extent: 'Northern Ireland', classIds: ['ni-admin-counties'] },
-            { id: 'flat-dublin-electoral-counties', name: 'Dublin Electoral Counties (1985)', years: '1985', extent: 'Ireland', classIds: ['roi-dublin-electoral-counties'] },
+            { id: 'flat-super-census', name: 'Super Census Units (Northern Ireland) (2001-present)', years: '2001-2021', extent: 'Northern Ireland', classIds: ['ni-super-census'] },
+            { id: 'flat-ttwa', name: 'Travel To Work Areas (Northern Ireland) (2007-present)', years: '2007-2011', extent: 'Northern Ireland', classIds: ['ni-ttwa'] },
+            { id: 'flat-census-grid', name: 'Census Grid (2021) (Northern Ireland)', years: '2021', extent: 'Northern Ireland', mapIds: ['census-grid-2021'] },
+            { id: 'flat-nuts2', name: 'NUTS 2 Regions (Ireland)', years: '2011', extent: 'Ireland', mapIds: ['nuts-2-all-ireland', 'nuts-2-roi'] },
+            { id: 'flat-nuts3', name: 'NUTS 3 Regions (2003) (Northern Ireland)', years: '2003', extent: 'Northern Ireland', mapIds: ['nuts-3'] },
+            // ── Constituencies ──
+            { id: 'flat-eu-parliament', name: 'European Parliament Constituencies (1979-)', years: '1979-2024', extent: 'Ireland', classIds: ['eu-parliament'] },
+            { id: 'flat-uk-parliament', name: 'UK Parliamentary Constituencies (1884-)', years: '1884-2023', extent: 'Ireland / Northern Ireland', classIds: ['pre-1921-pcs', 'ni-pcs'] },
+            { id: 'flat-dail', name: 'Dáil Eireann Constituencies (1923-)', years: '1923-2023', extent: 'Republic of Ireland', classIds: ['roi-dail'] },
+            { id: 'flat-ni-parliament', name: 'Parliament of Northern Ireland Constituencies (1920-1973)', years: '1920-1969', extent: 'Northern Ireland', classIds: ['ni-parliament'] },
             { id: 'flat-assembly-areas', name: 'Assembly Areas (1998-)', years: '1995-2023', extent: 'Northern Ireland', classIds: ['ni-assembly'] },
-            { id: 'flat-forum', name: 'Forum Constituencies (1996)', years: '1995', extent: 'Northern Ireland', classIds: ['ni-forum'] },
             { id: 'flat-assembly-1982', name: 'Assembly Constituencies (1982)', years: '1982', extent: 'Northern Ireland', classIds: ['ni-assembly-1982'] },
             { id: 'flat-con-conv', name: 'Constitutional Convention Constituencies (1975)', years: '1975', extent: 'Northern Ireland', classIds: ['ni-constitutional-convention'] },
             { id: 'flat-assembly-1973', name: 'Assembly Constituencies (1973)', years: '1970', extent: 'Northern Ireland', classIds: ['ni-assembly-1973'] },
-            { id: 'flat-ni-parliament', name: 'Parliament of Northern Ireland Constituencies (1920-1973)', years: '1920-1969', extent: 'Northern Ireland', classIds: ['ni-parliament'] },
-            { id: 'flat-cso-eds', name: 'CSO Electoral Divisions (Republic of Ireland) (2006-)', years: '2006-2022', extent: 'Republic of Ireland', mapIds: ['eds-2006', 'eds-2022'] },
-            { id: 'flat-dail', name: 'Dáil Eireann Constituencies (1923-)', years: '1923-2023', extent: 'Republic of Ireland', classIds: ['roi-dail'] },
-            { id: 'flat-uk-parliament', name: 'UK Parliamentary Constituencies (1884-)', years: '1884-2023', extent: 'Ireland / Northern Ireland', classIds: ['pre-1921-pcs', 'ni-pcs'] },
-            { id: 'flat-eu-parliament', name: 'European Parliament Constituencies (1979-)', years: '1979-2024', extent: 'Ireland', classIds: ['eu-parliament'] },
+            { id: 'flat-forum', name: 'Forum Constituencies (1996)', years: '1995', extent: 'Northern Ireland', classIds: ['ni-forum'] },
             { id: 'flat-referendum', name: 'Referendum Counting Areas (1975-)', years: '1973-2016', extent: 'Northern Ireland', classIds: ['ni-referendum-areas'] },
-            { id: 'flat-polities', name: 'Polities', years: '', extent: '', mapIds: ['ni-1921', 'roi-1938'] },
-            { id: 'flat-elb', name: 'Education and Library Boards (Northern Ireland)', years: '1984-1993', extent: 'Northern Ireland', classIds: ['ni-elb'] },
-            { id: 'flat-hsct', name: 'Health and Social Care Trusts (Northern Ireland) (2007)', years: '2007', extent: 'Northern Ireland', mapIds: ['hsct-2007'] },
-            { id: 'flat-small-census', name: 'Small Census Units (Northern Ireland) (2001-present)', years: '2001-2021', extent: 'Northern Ireland', classIds: ['ni-small-census'] },
-            { id: 'flat-super-census', name: 'Super Census Units (Northern Ireland) (2001-present)', years: '2001-2021', extent: 'Northern Ireland', classIds: ['ni-super-census'] },
-            { id: 'flat-ttwa', name: 'Travel To Work Areas (Northern Ireland) (2007-present)', years: '2007-2011', extent: 'Northern Ireland', classIds: ['ni-ttwa'] },
-            { id: 'flat-nra', name: 'Neighbourhood Renewal Areas (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['nra'] },
-            { id: 'flat-nuts2', name: 'NUTS 2 Regions (Ireland)', years: '2011', extent: 'Ireland', mapIds: ['nuts-2-all-ireland', 'nuts-2-roi'] },
-            { id: 'flat-nuts3', name: 'NUTS 3 Regions (2003) (Northern Ireland)', years: '2003', extent: 'Northern Ireland', mapIds: ['nuts-3'] },
-            { id: 'flat-census-grid', name: 'Census Grid (2021) (Northern Ireland)', years: '2021', extent: 'Northern Ireland', mapIds: ['census-grid-2021'] },
-            { id: 'flat-seas', name: 'Seas (2023) (These islands)', years: '2023', extent: 'These islands', mapIds: ['britain-ireland-seas'] },
-            { id: 'flat-rivers', name: 'Rivers (2016) (Northern Ireland)', years: '2016', extent: 'Northern Ireland', mapIds: ['rivers-2016'] },
-            { id: 'flat-islands', name: 'Islands', years: '', extent: '', mapIds: ['ireland-island'] },
-            { id: 'flat-rbd', name: 'River Basin Districts (2016) (Northern Ireland)', years: '2016', extent: 'Northern Ireland', mapIds: ['river-basin-districts'] },
-            { id: 'flat-river-basins', name: 'River Basins (2016) (Northern Ireland)', years: '2016', extent: 'Northern Ireland', mapIds: ['river-basins'] },
-            { id: 'flat-peacelines', name: 'Peacelines (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['peacelines'] },
-            {
-                id: 'flat-historic-sites',
-                name: 'Historic Sites',
-                years: '',
-                extent: 'Ireland',
-                mapIds: [
-                    'historic-bullaun-stones',
-                    'historic-crannog',
-                    'historic-ringfort-cashel',
-                    'historic-ringfort-rath',
-                    'historic-ringfort-unclassified',
-                    'historic-rock-scribing',
-                    'historic-standing-stones',
-                    'historic-wedge-tomb'
-                ]
-            },
-            {
-                id: 'flat-catholic-parishes',
-                name: 'Catholic Parishes',
-                years: '2011',
-                extent: 'Dublin',
-                mapIds: ['catholic-dublin-parishes']
-            },
-            {
-                id: 'flat-catholic-dioceses',
-                name: 'Catholic Dioceses',
-                years: '',
-                extent: 'Ireland',
-                mapIds: ['catholic-dioceses']
-            },
-            { id: 'flat-railways', name: 'Railways', years: '', extent: 'Northern Ireland', mapIds: ['railways-network'] },
-            { id: 'flat-transport-lines', name: 'Transport Lines (Roads and Railways)', years: '', extent: 'Northern Ireland', mapIds: ['transport-lines-road-rail'] },
-            {
-                id: 'flat-copernicus-dem',
-                name: 'Copernicus 30m DEM (Ireland)',
-                years: '',
-                extent: 'Ireland',
-                mapIds: ['copernicus-dem-30m-ireland']
-            },
-            {
-                id: 'flat-secondary',
-                name: 'Secondary maps',
-                years: '',
-                extent: '',
-                mapIds: [
-                    'highlands-above-199m',
-                    'highlands-without-settlements',
-                    'west-bann-sperrins',
-                    'east-west-bann',
-                    'uninhabited-highlands',
-                    'major-river-basins'
-                ]
-            },
-            // Geology and Geophysics (GSNI) — Phase 1 + 1b
-            {
-                id: 'flat-gsni-bedrock', name: 'GSNI Bedrock and Surface Geology', years: '', extent: 'Northern Ireland',
-                mapIds: [
-                    'gsni-bedrock-geology-polygons-250k',
-                    'gsni-bedrock-geology-lines-250k',
-                    'gsni-superficial-geology-polygons-250k',
-                    'gsni-mineral-resources',
-                    'gsni-core-cuttings-register'
-                ]
-            },
-            {
-                id: 'flat-tellus-geochem', name: 'Tellus Stream Sediments and Soils', years: '2005-2008', extent: 'Northern Ireland',
-                mapIds: [
-                    'gsni-tellus-stream-sediments-xrf',
-                    'gsni-tellus-stream-sediments-xrf-set2',
-                    'gsni-tellus-stream-sediments-au-pge',
-                    'gsni-tellus-stream-sediments-boron',
-                    'gsni-tellus-stream-waters-icp',
-                    'gsni-tellus-rural-soil-a-xrf',
-                    'gsni-tellus-rural-soil-a-aqua-regia',
-                    'gsni-tellus-rural-soil-s-aqua-regia',
-                    'gsni-tellus-rural-soil-s-near-total',
-                    'gsni-tellus-rural-soil-s-fire-assay'
-                ]
-            },
-            // Tellus Airborne Geophysics — Phase 4
-            {
-                id: 'flat-tellus-airborne', name: 'Tellus Airborne Geophysics', years: '2005-2008', extent: 'Northern Ireland',
-                mapIds: [
-                    'tellus-mag-tmi',
-                    'tellus-mag-rtp',
-                    'tellus-mag-rtp-tilt',
-                    'tellus-em-3khz',
-                    'tellus-em-14khz',
-                    'tellus-rad-k',
-                    'tellus-rad-u',
-                    'tellus-rad-th',
-                    'tellus-rad-total',
-                    'tellus-rad-ternary'
-                ]
-            },
-            // OSNI Survey Utilities — Phase 2
-            {
-                id: 'flat-osni-coverage', name: 'OSNI Map Sheet Coverage Grids and Benchmarks', years: '', extent: 'Northern Ireland',
-                mapIds: [
-                    'osni-coverage-grid-10k',
-                    'osni-coverage-grid-50k',
-                    'osni-benchmarks'
-                ]
-            },
-            // OSNI Raster Maps — Phase 3
-            {
-                id: 'flat-osni-rasters', name: 'OSNI Printed Raster Maps', years: '', extent: 'Northern Ireland',
-                mapIds: [
-                    'osni-mid-scale-raster',
-                    'osni-streetmaps',
-                    'osni-eire-thuaidh',
-                    'osni-1m-county-boundaries',
-                    'osni-1m-infrastructure',
-                    'osni-1m-locations',
-                    'osni-1m-natural-environment',
-                    'osni-1m-parliamentary'
-                ]
-            },
-            // OSNI Historical Six-Inch — Phase 5
-            {
-                id: 'flat-osni-sixinch', name: 'OSNI Historical Six-Inch Maps', years: '1829-1862', extent: 'Northern Ireland',
-                mapIds: [
-                    'osni-sixinch-edition-1',
-                    'osni-sixinch-edition-2'
-                ]
-            },
-            // Water Quality — Phase 7
-            {
-                id: 'flat-water-quality', name: 'Water Quality and Hydrology', years: '', extent: 'Northern Ireland',
-                mapIds: [
-                    'wq-surface-water-bodies-2015',
-                    'wq-wfd-river-water-bodies',
-                    'wq-wfd-monitoring-sites',
-                    'wq-lake-water-bodies',
-                    'wq-groundwater-bodies',
-                    'wq-groundwater-dwpa',
-                    'wq-surface-dwpa',
-                    'wq-agricultural-critical-risk',
-                    'wq-network-contribution',
-                    'wq-river-quality-1990-2018',
-                    'wq-aquatroll-realtime',
-                    'wq-ni-water-drinking'
-                ]
-            },
-            // River Water Quality 1990-2018 per-parameter spatial layers
-            {
-                id: 'flat-rwq-parameters', name: 'River Water Quality 1990–2018 — by parameter', years: '1990-2018', extent: 'Northern Ireland',
-                mapIds: [
-                    'wq-rwq-ph',
-                    'wq-rwq-dissolved-oxygen',
-                    'wq-rwq-biochemical-oxygen-demand',
-                    'wq-rwq-ammonia',
-                    'wq-rwq-nitrate',
-                    'wq-rwq-nitrite',
-                    'wq-rwq-dissolved-iron',
-                    'wq-rwq-dissolved-copper',
-                    'wq-rwq-dissolved-zinc',
-                    'wq-rwq-suspended-solids',
-                    'wq-rwq-conductivity',
-                    'wq-rwq-alkalinity',
-                    'wq-rwq-soluble-phosphorus'
-                ]
-            },
-            // Environmental Noise (END Round 3)
-            {
-                id: 'flat-noise', name: 'Environmental Noise (END 2017)', years: '2017', extent: 'Northern Ireland',
-                mapIds: [
-                    'env-noise-agglomeration-lden',
-                    'env-noise-major-roads-lden',
-                    'env-noise-major-rail-lden'
-                ]
-            },
-            // Transport (DfI roads)
-            {
-                id: 'flat-transport-defects', name: 'Carriageway and Footway Surface Defects', years: '2021', extent: 'Northern Ireland',
-                mapIds: ['transport-carriageway-defects-2021']
-            },
-            // Tellus raw flight-line data — download-only
-            {
-                id: 'flat-tellus-raw', name: 'Tellus Airborne — raw flight-line data', years: '2005-2008', extent: 'Northern Ireland',
-                mapIds: ['tellus-mag-raw', 'tellus-em-raw', 'tellus-rad-raw']
-            },
-            // NIEA Natural Environment — designated and protected sites
-            {
-                id: 'flat-designated-sites', name: 'Designated & Protected Sites (NIEA)', years: '', extent: 'Northern Ireland',
-                mapIds: [
-                    'designated-aonb',
-                    'designated-assi',
-                    'designated-nnr',
-                    'designated-ramsar',
-                    'designated-sac',
-                    'designated-spa',
-                    'designated-whs',
-                    'designated-lca'
-                ]
-            },
-            // Ulster Wildlife habitat networks — Nature Recovery NI mapping
-            {
-                id: 'flat-habitat-networks', name: 'Habitat Networks (Ulster Wildlife)', years: '2020-2021', extent: 'Northern Ireland',
-                mapIds: [
-                    'habitat-coastal-grouped',
-                    'habitat-woodland-grouped',
-                    'habitat-grassland-grouped',
-                    'habitat-wetland-grouped',
-                    'habitat-bog',
-                    'habitat-deciduous-woodland',
-                    'habitat-ancient-semi-natural-woodland',
-                    'habitat-fen',
-                    'habitat-heath',
-                    'habitat-lake',
-                    'habitat-pond',
-                    'habitat-river',
-                    'habitat-reedbed',
-                    'habitat-acid-grassland',
-                    'habitat-calcareous-grassland',
-                    'habitat-lowland-meadow',
-                    'habitat-purple-moor-grass',
-                    'habitat-traditional-orchard',
-                    'habitat-wood-pasture-parkland',
-                    'habitat-coastal-sand-dune',
-                    'habitat-coastal-saltmarsh',
-                    'habitat-coastal-vegetated-shingle',
-                    'habitat-maritime-cliff-slope',
-                    'habitat-limestone-pavement'
-                ]
-            },
-            // Data entries — Census-derived datasets joined to a geography
+            // ── Census 2021 Data (Northern Ireland) ──
             {
                 id: 'flat-data-2021-population', name: 'Data — Census 2021: Usual resident population', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
@@ -2711,34 +2494,92 @@ class UIController {
                     'data-2021-work-from-home-settlement'
                 ]
             },
-            // ── Standalone settlement / parliamentary additions ──
-            { id: 'flat-tailte-builtup', name: 'Tailte Built-Up Areas (Ireland)', years: '', extent: 'Ireland',
-              mapIds: ['tailte-built-up-1m', 'tailte-built-up-points-250k'] },
-            { id: 'flat-cso-urban', name: 'CSO Urban Areas (2022)', years: '2022', extent: 'Republic of Ireland',
-              mapIds: ['cso-urban-areas-2022'] },
-            { id: 'flat-eoni-polling', name: 'EONI Polling Stations', years: '', extent: 'Northern Ireland',
-              mapIds: ['eoni-polling-stations'] },
-
-            // ── Heritage (NI Historic Environment Division) ──
+            // ── Heritage & Built Environment ──
+            {
+                id: 'flat-historic-sites',
+                name: 'Historic Sites',
+                years: '',
+                extent: 'Ireland',
+                mapIds: [
+                    'historic-bullaun-stones',
+                    'historic-crannog',
+                    'historic-ringfort-cashel',
+                    'historic-ringfort-rath',
+                    'historic-ringfort-unclassified',
+                    'historic-rock-scribing',
+                    'historic-standing-stones',
+                    'historic-wedge-tomb'
+                ]
+            },
+            {
+                id: 'flat-catholic-parishes',
+                name: 'Catholic Parishes',
+                years: '2011',
+                extent: 'Dublin',
+                mapIds: ['catholic-dublin-parishes']
+            },
+            {
+                id: 'flat-catholic-dioceses',
+                name: 'Catholic Dioceses',
+                years: '',
+                extent: 'Ireland',
+                mapIds: ['catholic-dioceses']
+            },
             { id: 'flat-hed-heritage', name: 'NI Historic Environment Division — Heritage Sites', years: '', extent: 'Northern Ireland',
               mapIds: [
                   'hed-listed-buildings', 'hed-scheduled-monument-areas', 'hed-sites-and-monuments',
                   'hed-defence-heritage', 'hed-industrial-heritage',
                   'ni-listed-buildings', 'ni-scheduled-monument-areas', 'ni-defence-heritage', 'ni-industrial-heritage'
               ] },
-
-            // ── DAERA Livestock Density ──
-            { id: 'flat-ni-livestock', name: 'NI Livestock Density (DAERA)', years: '', extent: 'Northern Ireland',
+            { id: 'flat-glpr', name: 'NI Government Land & Property Register (snapshots)', years: '2020-2023', extent: 'Northern Ireland',
               mapIds: [
-                  'ni-livestock-bovine', 'ni-livestock-caprine', 'ni-livestock-ovine',
-                  'ni-livestock-porcine', 'ni-livestock-poultry'
+                  'glpr-2020-03', 'glpr-2021-03', 'glpr-2021-08',
+                  'glpr-2021-09', 'glpr-2022-04', 'glpr-2023-04'
               ] },
-
-            // ── NI Mineral & Mining Licences ──
-            { id: 'flat-ni-mineral', name: 'NI Mineral & Mining Licences', years: '', extent: 'Northern Ireland',
-              mapIds: ['ni-mineral-prospecting-licences', 'ni-mining-leases'] },
-
-            // ── NIEA additional (catchments, waste sites, water bodies) ──
+            { id: 'flat-peacelines', name: 'Peacelines (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['peacelines'] },
+            // ── Environment, Water & Geology ──
+            {
+                id: 'flat-designated-sites', name: 'Designated & Protected Sites (NIEA)', years: '', extent: 'Northern Ireland',
+                mapIds: [
+                    'designated-aonb',
+                    'designated-assi',
+                    'designated-nnr',
+                    'designated-ramsar',
+                    'designated-sac',
+                    'designated-spa',
+                    'designated-whs',
+                    'designated-lca'
+                ]
+            },
+            {
+                id: 'flat-habitat-networks', name: 'Habitat Networks (Ulster Wildlife)', years: '2020-2021', extent: 'Northern Ireland',
+                mapIds: [
+                    'habitat-coastal-grouped',
+                    'habitat-woodland-grouped',
+                    'habitat-grassland-grouped',
+                    'habitat-wetland-grouped',
+                    'habitat-bog',
+                    'habitat-deciduous-woodland',
+                    'habitat-ancient-semi-natural-woodland',
+                    'habitat-fen',
+                    'habitat-heath',
+                    'habitat-lake',
+                    'habitat-pond',
+                    'habitat-river',
+                    'habitat-reedbed',
+                    'habitat-acid-grassland',
+                    'habitat-calcareous-grassland',
+                    'habitat-lowland-meadow',
+                    'habitat-purple-moor-grass',
+                    'habitat-traditional-orchard',
+                    'habitat-wood-pasture-parkland',
+                    'habitat-coastal-sand-dune',
+                    'habitat-coastal-saltmarsh',
+                    'habitat-coastal-vegetated-shingle',
+                    'habitat-maritime-cliff-slope',
+                    'habitat-limestone-pavement'
+                ]
+            },
             { id: 'flat-niea-extra', name: 'NIEA Catchments, Waste & Water Bodies', years: '2013-2021', extent: 'Northern Ireland',
               mapIds: [
                   'niea-catchment-stakeholder-groups', 'niea-local-management-areas',
@@ -2746,15 +2587,140 @@ class UIController {
                   'niea-landfill-sites-2013', 'niea-landfill-sites-2014', 'niea-landfill-sites-2015',
                   'niea-landfill-sites-2016', 'niea-landfill-sites-2017', 'niea-waste-sites-2021'
               ] },
-
-            // ── PSNI Collisions ──
-            { id: 'flat-psni-collisions', name: 'PSNI Collisions (2013-2018)', years: '2013-2018', extent: 'Northern Ireland',
+            { id: 'flat-ni-mineral', name: 'NI Mineral & Mining Licences', years: '', extent: 'Northern Ireland',
+              mapIds: ['ni-mineral-prospecting-licences', 'ni-mining-leases'] },
+            { id: 'flat-ni-livestock', name: 'NI Livestock Density (DAERA)', years: '', extent: 'Northern Ireland',
               mapIds: [
-                  'psni-collisions-2013', 'psni-collisions-2014', 'psni-collisions-2015',
-                  'psni-collisions-2016', 'psni-collisions-2017', 'psni-collisions-2018'
+                  'ni-livestock-bovine', 'ni-livestock-caprine', 'ni-livestock-ovine',
+                  'ni-livestock-porcine', 'ni-livestock-poultry'
               ] },
-
-            // ── DfI Roads (NI) ──
+            {
+                id: 'flat-water-quality', name: 'Water Quality and Hydrology', years: '', extent: 'Northern Ireland',
+                mapIds: [
+                    'wq-surface-water-bodies-2015',
+                    'wq-wfd-river-water-bodies',
+                    'wq-wfd-monitoring-sites',
+                    'wq-lake-water-bodies',
+                    'wq-groundwater-bodies',
+                    'wq-groundwater-dwpa',
+                    'wq-surface-dwpa',
+                    'wq-agricultural-critical-risk',
+                    'wq-network-contribution',
+                    'wq-river-quality-1990-2018',
+                    'wq-aquatroll-realtime',
+                    'wq-ni-water-drinking'
+                ]
+            },
+            {
+                id: 'flat-rwq-parameters', name: 'River Water Quality 1990–2018 — by parameter', years: '1990-2018', extent: 'Northern Ireland',
+                mapIds: [
+                    'wq-rwq-ph',
+                    'wq-rwq-dissolved-oxygen',
+                    'wq-rwq-biochemical-oxygen-demand',
+                    'wq-rwq-ammonia',
+                    'wq-rwq-nitrate',
+                    'wq-rwq-nitrite',
+                    'wq-rwq-dissolved-iron',
+                    'wq-rwq-dissolved-copper',
+                    'wq-rwq-dissolved-zinc',
+                    'wq-rwq-suspended-solids',
+                    'wq-rwq-conductivity',
+                    'wq-rwq-alkalinity',
+                    'wq-rwq-soluble-phosphorus'
+                ]
+            },
+            { id: 'flat-rbd', name: 'River Basin Districts (2016) (Northern Ireland)', years: '2016', extent: 'Northern Ireland', mapIds: ['river-basin-districts'] },
+            { id: 'flat-river-basins', name: 'River Basins (2016) (Northern Ireland)', years: '2016', extent: 'Northern Ireland', mapIds: ['river-basins'] },
+            { id: 'flat-opw-flood', name: 'OPW Flood Extents', years: '2018-2021', extent: 'Ireland',
+              mapIds: [
+                  'opw-coastal-flood-extents-2021-current',
+                  'opw-nifm-river-flood-extents-current',
+                  'opw-fsu-catchments-gauged',
+                  'rivers-coastal-flood-2018'
+              ] },
+            { id: 'flat-gsi', name: 'Geological Survey Ireland — Bedrock & Karst', years: '', extent: 'Republic of Ireland',
+              mapIds: [
+                  'gsi-bedrock-boreholes-50k', 'gsi-karst-data',
+                  'gsi-groundwater-flooding-low', 'gsi-groundwater-flooding-medium'
+              ] },
+            {
+                id: 'flat-gsni-bedrock', name: 'GSNI Bedrock and Surface Geology', years: '', extent: 'Northern Ireland',
+                mapIds: [
+                    'gsni-bedrock-geology-polygons-250k',
+                    'gsni-bedrock-geology-lines-250k',
+                    'gsni-superficial-geology-polygons-250k',
+                    'gsni-mineral-resources',
+                    'gsni-core-cuttings-register'
+                ]
+            },
+            {
+                id: 'flat-tellus-geochem', name: 'Tellus Stream Sediments and Soils', years: '2005-2008', extent: 'Northern Ireland',
+                mapIds: [
+                    'gsni-tellus-stream-sediments-xrf',
+                    'gsni-tellus-stream-sediments-xrf-set2',
+                    'gsni-tellus-stream-sediments-au-pge',
+                    'gsni-tellus-stream-sediments-boron',
+                    'gsni-tellus-stream-waters-icp',
+                    'gsni-tellus-rural-soil-a-xrf',
+                    'gsni-tellus-rural-soil-a-aqua-regia',
+                    'gsni-tellus-rural-soil-s-aqua-regia',
+                    'gsni-tellus-rural-soil-s-near-total',
+                    'gsni-tellus-rural-soil-s-fire-assay'
+                ]
+            },
+            {
+                id: 'flat-tellus-airborne', name: 'Tellus Airborne Geophysics', years: '2005-2008', extent: 'Northern Ireland',
+                mapIds: [
+                    'tellus-mag-tmi',
+                    'tellus-mag-rtp',
+                    'tellus-mag-rtp-tilt',
+                    'tellus-em-3khz',
+                    'tellus-em-14khz',
+                    'tellus-rad-k',
+                    'tellus-rad-u',
+                    'tellus-rad-th',
+                    'tellus-rad-total',
+                    'tellus-rad-ternary'
+                ]
+            },
+            {
+                id: 'flat-tellus-raw', name: 'Tellus Airborne — raw flight-line data', years: '2005-2008', extent: 'Northern Ireland',
+                mapIds: ['tellus-mag-raw', 'tellus-em-raw', 'tellus-rad-raw']
+            },
+            { id: 'flat-tellus-flightlines', name: 'Tellus Airborne Survey — Flight Lines', years: '2005-2008', extent: 'Northern Ireland',
+              mapIds: ['tellus-flight-tracks'] },
+            {
+                id: 'flat-noise', name: 'Environmental Noise (END 2017)', years: '2017', extent: 'Northern Ireland',
+                mapIds: [
+                    'env-noise-agglomeration-lden',
+                    'env-noise-major-roads-lden',
+                    'env-noise-major-rail-lden'
+                ]
+            },
+            {
+                id: 'flat-copernicus-dem',
+                name: 'Copernicus 30m DEM (Ireland)',
+                years: '',
+                extent: 'Ireland',
+                mapIds: ['copernicus-dem-30m-ireland']
+            },
+            {
+                id: 'flat-secondary',
+                name: 'Secondary maps',
+                years: '',
+                extent: '',
+                mapIds: [
+                    'highlands-above-199m',
+                    'highlands-without-settlements',
+                    'west-bann-sperrins',
+                    'east-west-bann',
+                    'uninhabited-highlands',
+                    'major-river-basins'
+                ]
+            },
+            // ── Roads, Transport & Public Safety ──
+            { id: 'flat-railways', name: 'Railways', years: '', extent: 'Northern Ireland', mapIds: ['railways-network'] },
+            { id: 'flat-transport-lines', name: 'Transport Lines (Roads and Railways)', years: '', extent: 'Northern Ireland', mapIds: ['transport-lines-road-rail'] },
             { id: 'flat-dfi-pothole', name: 'NI DfI Pothole Enquiries (2014-2021)', years: '2014-2021', extent: 'Northern Ireland',
               mapIds: [
                   'dfi-pothole-enquiries-2014', 'dfi-pothole-enquiries-2015',
@@ -2771,6 +2737,10 @@ class UIController {
                   'dfi-surface-defects-2018', 'dfi-surface-defects-2019', 'dfi-surface-defects-2020',
                   'dfi-surface-defects-2021'
               ] },
+            {
+                id: 'flat-transport-defects', name: 'Carriageway and Footway Surface Defects', years: '2021', extent: 'Northern Ireland',
+                mapIds: ['transport-carriageway-defects-2021']
+            },
             { id: 'flat-dfi-borders-crossings', name: 'NI Border Crossings & Pedestrian Crossings (DfI)', years: '2018', extent: 'Northern Ireland',
               mapIds: [
                   'dfi-border-crossings-2018-lines', 'dfi-border-crossings-2018-points',
@@ -2778,8 +2748,6 @@ class UIController {
               ] },
             { id: 'flat-belfast-cycle', name: 'Belfast Cycle Network', years: '', extent: 'Northern Ireland',
               mapIds: ['belfast-cycle-network'] },
-
-            // ── Translink (NI Public Transport) ──
             { id: 'flat-translink', name: 'Translink (NI Public Transport)', years: '2024', extent: 'Northern Ireland',
               mapIds: [
                   'translink-bus-stops-2024', 'translink-metro-glider-routes',
@@ -2787,8 +2755,6 @@ class UIController {
                   'translink-rail-bridges', 'translink-rail-culverts', 'translink-rail-signal-posts',
                   'translink-ulsterbus-goldliner-routes'
               ] },
-
-            // ── TII (Transport Infrastructure Ireland) ──
             { id: 'flat-tii', name: 'TII Transport Infrastructure (ROI National Roads)', years: '2011-2016', extent: 'Republic of Ireland',
               mapIds: [
                   'tii-national-road-network', 'tii-collision-rates-2011-2013',
@@ -2796,39 +2762,46 @@ class UIController {
                   'tii-marker-plates', 'tii-traffic-counter-locations',
                   'tii-wim-sensor-locations'
               ] },
-
-            // ── GSI (Geological Survey Ireland) ──
-            { id: 'flat-gsi', name: 'Geological Survey Ireland — Bedrock & Karst', years: '', extent: 'Republic of Ireland',
+            { id: 'flat-psni-collisions', name: 'PSNI Collisions (2013-2018)', years: '2013-2018', extent: 'Northern Ireland',
               mapIds: [
-                  'gsi-bedrock-boreholes-50k', 'gsi-karst-data',
-                  'gsi-groundwater-flooding-low', 'gsi-groundwater-flooding-medium'
+                  'psni-collisions-2013', 'psni-collisions-2014', 'psni-collisions-2015',
+                  'psni-collisions-2016', 'psni-collisions-2017', 'psni-collisions-2018'
               ] },
-
-            // ── OPW Flood Extents (NI + ROI) ──
-            { id: 'flat-opw-flood', name: 'OPW Flood Extents', years: '2018-2021', extent: 'Ireland',
-              mapIds: [
-                  'opw-coastal-flood-extents-2021-current',
-                  'opw-nifm-river-flood-extents-current',
-                  'opw-fsu-catchments-gauged',
-                  'rivers-coastal-flood-2018'
-              ] },
-
-            // ── ROI National Planning ──
+            // ── Surveys & Reference Maps ──
+            {
+                id: 'flat-osni-coverage', name: 'OSNI Map Sheet Coverage Grids and Benchmarks', years: '', extent: 'Northern Ireland',
+                mapIds: [
+                    'osni-coverage-grid-10k',
+                    'osni-coverage-grid-50k',
+                    'osni-benchmarks'
+                ]
+            },
+            {
+                id: 'flat-osni-rasters', name: 'OSNI Printed Raster Maps', years: '', extent: 'Northern Ireland',
+                mapIds: [
+                    'osni-mid-scale-raster',
+                    'osni-streetmaps',
+                    'osni-eire-thuaidh',
+                    'osni-1m-county-boundaries',
+                    'osni-1m-infrastructure',
+                    'osni-1m-locations',
+                    'osni-1m-natural-environment',
+                    'osni-1m-parliamentary'
+                ]
+            },
+            {
+                id: 'flat-osni-sixinch', name: 'OSNI Historical Six-Inch Maps', years: '1829-1862', extent: 'Northern Ireland',
+                mapIds: [
+                    'osni-sixinch-edition-1',
+                    'osni-sixinch-edition-2'
+                ]
+            },
+            // ── Planning & Polling Stations ──
             { id: 'flat-roi-planning', name: 'ROI National Planning Applications', years: '', extent: 'Republic of Ireland',
               mapIds: ['roi-national-planning-applications'] },
-
-            // ── Tellus extras ──
-            { id: 'flat-tellus-flightlines', name: 'Tellus Airborne Survey — Flight Lines', years: '2005-2008', extent: 'Northern Ireland',
-              mapIds: ['tellus-flight-tracks'] },
-
-            // ── Government Land & Property Register (NI snapshots) ──
-            { id: 'flat-glpr', name: 'NI Government Land & Property Register (snapshots)', years: '2020-2023', extent: 'Northern Ireland',
-              mapIds: [
-                  'glpr-2020-03', 'glpr-2021-03', 'glpr-2021-08',
-                  'glpr-2021-09', 'glpr-2022-04', 'glpr-2023-04'
-              ] },
-
-            // ── DCC (Dublin City Council) Open Data ──
+            { id: 'flat-eoni-polling', name: 'EONI Polling Stations', years: '', extent: 'Northern Ireland',
+              mapIds: ['eoni-polling-stations'] },
+            // ── Local Authority Open Data ──
             { id: 'flat-dcc', name: 'Dublin City Council — Open Data', years: '', extent: 'Republic of Ireland',
               mapIds: [
                   'dcc-accessible-parking-spaces', 'dcc-adult-learning-centres',
@@ -2862,8 +2835,6 @@ class UIController {
                   'dcc-traffic-signals-and-scats-sites-locations',
                   'dcc-universities-and-colleges', 'dcc-wifi4eu-access-points'
               ] },
-
-            // ── DLR (Dún Laoghaire-Rathdown) Open Data ──
             { id: 'flat-dlr', name: 'Dún Laoghaire-Rathdown — Open Data', years: '', extent: 'Republic of Ireland',
               mapIds: [
                   'dlr-access-points-to-main-parks', 'dlr-accessible-parking-bays',
@@ -2899,8 +2870,6 @@ class UIController {
                   'dlr-trim-trails', 'dlr-views-prospects',
                   'dlr-wifi4eu-access-points'
               ] },
-
-            // ── SDCC + Fingal — Open Data ──
             { id: 'flat-sdcc', name: 'South Dublin County Council — Open Data', years: '', extent: 'Republic of Ireland',
               mapIds: ['sdcc-bicycle-parking-stands', 'sdcc-monthly-river-quality-data-sdcc1'] },
             { id: 'flat-fingal', name: 'Fingal — Open Data', years: '', extent: 'Republic of Ireland',
@@ -3111,7 +3080,8 @@ class UIController {
                 canonicalName: 'Settlements',
                 mergedIds: ['flat-settlements', 'flat-settlements-roi', 'flat-roi-legal-towns'],
                 years: '2005-2015',
-                extent: 'Ireland'
+                extent: 'Ireland',
+                inHeading: 'Settlements & Built-Up Areas'
             },
             {
                 canonicalName: 'Small Census Units',
@@ -3146,28 +3116,54 @@ class UIController {
         });
         const tocGroups = [
             {
-                heading: 'Small Electoral Units',
+                heading: 'Historic Geographies',
                 members: [
-                    'Wards',
-                    'District Electoral Divisions',
-                    'Electoral Divisions'
+                    'Townlands', 'Civil Parishes', 'Baronies',
+                    'Counties', 'Administrative Counties',
+                    'Provinces', 'Polities'
                 ]
             },
             {
-                heading: 'Large Electoral Units',
-                members: ['Local Electoral Areas', 'District Electoral Areas', 'County Electoral Divisions', 'Dublin Electoral Counties']
+                heading: 'Topography',
+                members: ['Place Names', 'Seas', 'Islands', 'Rivers']
             },
             {
-                heading: 'Local Authorities',
-                members: ['Local Government Districts', 'Local Authorities', 'Administrative Areas']
+                heading: 'Local Government',
+                members: [
+                    'Local Government Districts', 'Local Authorities',
+                    'Administrative Areas',
+                    'Education and Library Boards',
+                    'Health and Social Care Trusts',
+                    'An Garda Síochána Areas', 'Gaeltacht Areas'
+                ]
+            },
+            {
+                heading: 'District-level Electoral Units',
+                members: [
+                    'Local Electoral Areas', 'District Electoral Areas',
+                    'County Electoral Divisions', 'Dublin Electoral Counties'
+                ]
+            },
+            {
+                heading: 'Wards & Electoral Divisions',
+                members: [
+                    'Wards', 'District Electoral Divisions',
+                    'Electoral Divisions', 'Neighbourhood Renewal Areas'
+                ]
+            },
+            {
+                heading: 'Settlements & Built-Up Areas',
+                members: [
+                    'Settlements', 'Tailte Built-Up Areas', 'CSO Urban Areas'
+                ]
             },
             {
                 heading: 'Census Geographies',
-                members: ['CSO Electoral Divisions (Republic of Ireland) (2006-)', 'Small Census Units', 'Super Census Units', 'Travel To Work Areas', 'Census Grid']
-            },
-            {
-                heading: 'Regional Authorities',
-                members: ['Education and Library Boards', 'Health and Social Care Trusts', 'Administrative Counties']
+                members: [
+                    'CSO Electoral Divisions', 'Small Census Units',
+                    'Super Census Units', 'Travel To Work Areas',
+                    'Census Grid', 'NUTS 2 Regions', 'NUTS 3 Regions'
+                ]
             },
             {
                 heading: 'Constituencies',
@@ -3180,33 +3176,83 @@ class UIController {
                 ]
             },
             {
+                heading: 'Census 2021 Data (Northern Ireland)',
+                members: [
+                    'Data — Census 2021: Usual resident population',
+                    'Data — Census 2021: Population density',
+                    'Data — Census 2021: Total households',
+                    'Data — Census 2021: Average household size',
+                    'Data — Census 2021: Female population share',
+                    'Data — Census 2021: Born in Northern Ireland',
+                    'Data — Census 2021: Some ability in Irish',
+                    'Data — Census 2021: Some ability in Ulster-Scots',
+                    'Data — Census 2021: Religion (% Catholic)',
+                    'Data — Census 2021: Catholic community background',
+                    'Data — Census 2021: Day-to-day activities limited',
+                    'Data — Census 2021: Provides unpaid care',
+                    'Data — Census 2021: Households with no car or van',
+                    'Data — Census 2021: Owner-occupied households',
+                    'Data — Census 2021: Social-rented households',
+                    'Data — Census 2021: Private-rented households',
+                    'Data — Census 2021: No qualifications',
+                    'Data — Census 2021: Level 4+ qualifications',
+                    'Data — Census 2021: Unemployed',
+                    'Data — Census 2021: Work mainly at or from home'
+                ]
+            },
+            {
                 heading: 'Heritage & Built Environment',
                 members: [
+                    'Historic Sites', 'Catholic Parishes', 'Catholic Dioceses',
                     'NI Historic Environment Division — Heritage Sites',
-                    'NI Government Land & Property Register'
+                    'NI Government Land & Property Register',
+                    'Peacelines'
                 ]
             },
             {
                 heading: 'Environment, Water & Geology',
                 members: [
+                    'Designated & Protected Sites', 'Habitat Networks',
                     'NIEA Catchments, Waste & Water Bodies',
-                    'NI Mineral & Mining Licences',
-                    'NI Livestock Density',
-                    'Geological Survey Ireland — Bedrock & Karst',
+                    'NI Mineral & Mining Licences', 'NI Livestock Density',
+                    'Water Quality and Hydrology',
+                    'River Water Quality 1990–2018 — by parameter',
+                    'River Basin Districts', 'River Basins',
                     'OPW Flood Extents',
-                    'Tellus Airborne Survey — Flight Lines'
+                    'Geological Survey Ireland — Bedrock & Karst',
+                    'GSNI Bedrock and Surface Geology',
+                    'Tellus Stream Sediments and Soils',
+                    'Tellus Airborne Geophysics',
+                    'Tellus Airborne — raw flight-line data',
+                    'Tellus Airborne Survey — Flight Lines',
+                    'Environmental Noise',
+                    'Copernicus 30m DEM',
+                    'Secondary maps'
                 ]
             },
             {
                 heading: 'Roads, Transport & Public Safety',
                 members: [
-                    'NI DfI Pothole Enquiries',
-                    'NI DfI Road Surface Defects',
+                    'Railways', 'Transport Lines',
+                    'NI DfI Pothole Enquiries', 'NI DfI Road Surface Defects',
+                    'Carriageway and Footway Surface Defects',
                     'NI Border Crossings & Pedestrian Crossings',
-                    'Belfast Cycle Network',
-                    'Translink',
-                    'TII Transport Infrastructure',
-                    'PSNI Collisions'
+                    'Belfast Cycle Network', 'Translink',
+                    'TII Transport Infrastructure', 'PSNI Collisions'
+                ]
+            },
+            {
+                heading: 'Surveys & Reference Maps',
+                members: [
+                    'OSNI Map Sheet Coverage Grids and Benchmarks',
+                    'OSNI Printed Raster Maps',
+                    'OSNI Historical Six-Inch Maps'
+                ]
+            },
+            {
+                heading: 'Planning & Polling Stations',
+                members: [
+                    'ROI National Planning Applications', 'EONI Polling Stations'
                 ]
             },
             {
@@ -3216,14 +3262,6 @@ class UIController {
                     'Dún Laoghaire-Rathdown — Open Data',
                     'South Dublin County Council — Open Data',
                     'Fingal — Open Data'
-                ]
-            },
-            {
-                heading: 'Planning & Polling Stations',
-                members: [
-                    'ROI National Planning Applications',
-                    'EONI Polling Stations',
-                    'Polling Station Data'
                 ]
             }
         ];
