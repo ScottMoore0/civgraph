@@ -148,8 +148,10 @@ class ElectionController {
         // Forum 1996 (18 seats + NI-wide, use PC1995)
         { body: 'Northern Ireland Forum for Political Dialogue', dateFrom: '1900-01-01', fgb: 'data/maps/parliamentary/PC1995.fgb', nameAttr: 'Name' },
 
-        // European Parliament (single NI constituency â€” no useful map, but use PC2008 boundary for fill)
-        { body: 'European Parliament', dateFrom: '1979-01-01', fgb: 'data/maps/parliamentary/PC2008.fgb', nameAttr: 'PC_NAME', singleConstituency: true },
+        // European Parliament (NI was a single 3-seat STV constituency
+        // 1979–2019 covering the whole region — render the all-NI outline,
+        // not the modern Westminster sub-constituencies).
+        { body: 'European Parliament', dateFrom: '1979-01-01', fgb: 'data/maps/physical/NorthernIreland.fgb', nameAttr: 'Name', singleConstituency: true },
 
         // Dáil Éireann — modern era (2002-2024)
         { body: 'Dáil Éireann', dateFrom: '2024-01-01', fgb: 'data/maps/parliamentary/ROIConstituencies2023.fgb', nameAttr: 'ENG_NAME_VALUE' },

@@ -3080,8 +3080,8 @@ class UIController {
                 <table class="catalogue-flat__toc-table">
                     <tbody>`;
 
-        // Elections heading with inline "Northern Ireland" subtitle, plus a
-        // horizontal row of decade buttons in place of the previous one-row-per-decade list.
+        // Elections heading + horizontal row of decade buttons in place of the
+        // previous one-row-per-decade list. Covers both NI and ROI elections.
         const decadeButtonsHtml = decadeElectionCards.map(def => {
             return `<a href="#flat-card-${def.id}" class="catalogue-flat__toc-decade-btn">${this.escapeHtml(def.name)}</a>`;
         }).join('');
@@ -3089,7 +3089,6 @@ class UIController {
                 <tr class="catalogue-flat__toc-heading-row">
                     <td colspan="3">
                         <span class="catalogue-flat__toc-heading">Elections</span>
-                        <span class="catalogue-flat__toc-heading-sub">Northern Ireland</span>
                     </td>
                 </tr>
                 <tr class="catalogue-flat__toc-decade-row">
