@@ -3186,7 +3186,7 @@ class UIController {
                     'Data — Census 2021: Born in Northern Ireland',
                     'Data — Census 2021: Some ability in Irish',
                     'Data — Census 2021: Some ability in Ulster-Scots',
-                    'Data — Census 2021: Religion (% Catholic)',
+                    'Data — Census 2021: Religion',
                     'Data — Census 2021: Catholic community background',
                     'Data — Census 2021: Day-to-day activities limited',
                     'Data — Census 2021: Provides unpaid care',
