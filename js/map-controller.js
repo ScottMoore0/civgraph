@@ -3072,6 +3072,19 @@ class MapController {
         // Drop any lingering Leaflet children inside the group so a later
         // re-load can't reuse stale feature instances.
         try { state.group?.clearLayers?.(); } catch {}
+        // Belt-and-braces: some load paths push GeoJSON layers onto
+        // state.geoJsonLayers and may also keep them in state.featureLayers.
+        // If any of those references somehow attached the layer directly to
+        // the map (or to a sub-group that was detached from state.group
+        // before clearLayers ran), removeLayer them here.
+        try {
+            const stragglers = [];
+            if (Array.isArray(state.geoJsonLayers)) stragglers.push(...state.geoJsonLayers);
+            if (state.featureLayers instanceof Map) stragglers.push(...state.featureLayers.values());
+            for (const l of stragglers) {
+                if (l && this.map?.hasLayer?.(l)) this.map.removeLayer(l);
+            }
+        } catch {}
         this._clearHoverCandidatesForMap(id);
         this.layerStates.delete(id);
         const idx = this._layerOrder.indexOf(id);
@@ -3089,6 +3102,18 @@ class MapController {
         this._chunkDataCache.delete(id);
         this._renderedFeatures.delete(id);
         this._chunkIndexCache.delete(id);
+
+        // Final sweep: any leaflet layers still attached to the map that
+        // carry this mapId on _mapId get removed. Catches direct-to-map
+        // adds, label markers without entries in labelMarkers, and similar
+        // edge cases.
+        try {
+            this.map?.eachLayer?.((l) => {
+                if (l && l._mapId === id) {
+                    try { this.map.removeLayer(l); } catch {}
+                }
+            });
+        } catch {}
 
         this.updateLabels();
     }
