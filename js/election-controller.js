@@ -1456,7 +1456,7 @@ class ElectionController {
                 Candidate_Id: String(idx + 1),
                 Candidate_First_Pref_Votes: String(fp),
                 Constituency_Number: '',
-                Count_Number: '1',
+                Count_Number: String(occurredOn),
                 Firstname: firstname,
                 Surname: surname,
                 Occurred_On_Count: String(occurredOn),
@@ -3108,8 +3108,12 @@ class ElectionController {
                 : this._getCurrentConstituencyPayload(constName);
             if (!result) return;
 
-            const bounds = layer.getBounds();
-            const centroid = bounds.getCenter();
+            // Anchor the seat circle on the largest polygon ring of the
+            // constituency, not the whole MultiPolygon. Otherwise offshore
+            // islands (e.g. Aran Islands in Galway West, Sherkin in Cork
+            // South-West, Inishowen extremities in Donegal) drag the
+            // bounds-centre offshore and the TD circles end up in the sea.
+            const { bounds, centroid } = this._mainlandAnchor(layer);
             const elected = this._isCouncilMode()
                 ? (result.electedMembers || [])
                 : this._extractElected(result);
@@ -3142,6 +3146,51 @@ class ElectionController {
         // Re-render on zoom change (pixel sizes change)
         this._onZoomEnd = () => this._renderOverlays();
         mapController.map.on('zoomend', this._onZoomEnd);
+    }
+
+    /**
+     * Pick a centroid for the constituency's seat-circle anchor that lands
+     * on the mainland body, not in the union bounds (which includes islands).
+     */
+    _mainlandAnchor(layer) {
+        const fullBounds = layer.getBounds();
+        const geom = layer.feature?.geometry;
+        if (!geom) return { bounds: fullBounds, centroid: fullBounds.getCenter() };
+
+        // Approximate ring area via shoelace on raw lon/lat. Comparing rings
+        // of one constituency, not absolute area, so the planar formula is
+        // good enough.
+        const ringArea = (ring) => {
+            if (!Array.isArray(ring) || ring.length < 3) return 0;
+            let s = 0;
+            for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+                s += (ring[j][0] + ring[i][0]) * (ring[j][1] - ring[i][1]);
+            }
+            return Math.abs(s) * 0.5;
+        };
+        // Polygon = [outerRing, hole1, hole2, ...]; we use outer ring only.
+        const polygons = geom.type === 'Polygon' ? [geom.coordinates]
+            : geom.type === 'MultiPolygon' ? geom.coordinates
+                : [];
+        if (polygons.length === 0) return { bounds: fullBounds, centroid: fullBounds.getCenter() };
+
+        let bestRing = null, bestArea = -1;
+        for (const poly of polygons) {
+            const outer = poly?.[0];
+            const a = ringArea(outer);
+            if (a > bestArea) { bestArea = a; bestRing = outer; }
+        }
+        if (!bestRing) return { bounds: fullBounds, centroid: fullBounds.getCenter() };
+
+        let minLat = Infinity, maxLat = -Infinity, minLng = Infinity, maxLng = -Infinity;
+        for (const [lng, lat] of bestRing) {
+            if (lat < minLat) minLat = lat;
+            if (lat > maxLat) maxLat = lat;
+            if (lng < minLng) minLng = lng;
+            if (lng > maxLng) maxLng = lng;
+        }
+        const mainlandBounds = L.latLngBounds([minLat, minLng], [maxLat, maxLng]);
+        return { bounds: mainlandBounds, centroid: mainlandBounds.getCenter() };
     }
 
     /**
