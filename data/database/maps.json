@@ -885,7 +885,6 @@
         "county-ed-1963-04-01",
         "county-ed-1962-04-01",
         "county-ed-1958-04-01",
-        "county-ed-1957-04-01",
         "county-ed-1956-04-01",
         "county-ed-1955-04-01",
         "county-ed-1954-04-01",
@@ -7554,7 +7553,6 @@
       "slug": "eds-roi-1921-06-28",
       "category": "electoral-divisions",
       "date": "1921-06-28",
-      "cloneOf": "eds-1926",
       "featured": true,
       "provider": [
         "OSI",
@@ -7564,6 +7562,8 @@
         "color": "#9C6E3F",
         "weight": 2
       },
+      "labelProperty": "ED_ENGLISH",
+      "useLOD": true,
       "keywords": [
         "electoral",
         "division",
@@ -7572,7 +7572,41 @@
         "southern ireland",
         "partition"
       ],
-      "description": "Southern Ireland Electoral Divisions on 28 June 1921 — boundaries unchanged through to the 1926 census (rendered using the 1926 ROI ED dataset; pre-1926 distinct geography not yet digitised)."
+      "description": "Southern Ireland Electoral Divisions on 28 June 1921 — boundaries unchanged through to the 1926 census, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
+      "variants": [
+        {
+          "id": "eds-roi-1921-connacht",
+          "label": "Connacht",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Connacht1926EDs.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-roi-1921-leinster",
+          "label": "Leinster",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Leinster1926EDs.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-roi-1921-munster",
+          "label": "Munster",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Munster1926EDs.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-roi-1921-ulster",
+          "label": "Ulster (outside Northern Ireland)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Ulster1926EDs.fgb"
+          },
+          "useLOD": true
+        }
+      ]
     },
     {
       "id": "eds-roi-1936",
@@ -17222,7 +17256,8 @@
           "label": "Soluble phosphorus",
           "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-soluble-phosphorus1"
         }
-      ]
+      ],
+      "placeholder": true
     },
     {
       "id": "wq-aquatroll-realtime",
@@ -17258,7 +17293,8 @@
           "url": "https://admin.opendatani.gov.uk/dataset/washing-bay-aquatroll-metrics-view",
           "note": ""
         }
-      ]
+      ],
+      "placeholder": true
     },
     {
       "id": "wq-ni-water-drinking",
@@ -17283,7 +17319,8 @@
           "url": "https://admin.opendatani.gov.uk/dataset/ni-water-customer-tap-authorised-supply-point-results",
           "note": ""
         }
-      ]
+      ],
+      "placeholder": true
     },
     {
       "id": "tellus-mag-tmi",
