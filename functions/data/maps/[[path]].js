@@ -24,8 +24,16 @@ export async function onRequestGet(context) {
         return context.next();
     }
 
+    // Cache-Control note: previously 'immutable, max-age=31536000', but that
+    // makes browsers serve stale bytes for up to a year even after we
+    // re-upload an FGB to the same R2 key (no revalidation, even on
+    // Ctrl+F5). When boundaries get updated (e.g., the 2026-05-09 ingest
+    // of fresh ROI ED / Local Authority / Dáil files), users would keep
+    // seeing the old version. Switched to a 1-day TTL with stale-while-
+    // revalidate so the browser uses cache for routine reloads but
+    // refreshes within a day after we update a file.
     const baseHeaders = {
-        'Cache-Control': 'public, max-age=31536000, immutable',
+        'Cache-Control': 'public, max-age=86400, stale-while-revalidate=604800',
         'Access-Control-Allow-Origin': '*',
     };
 

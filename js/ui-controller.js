@@ -2261,6 +2261,7 @@ class UIController {
             { id: 'flat-civil-parishes', name: 'Civil Parishes', years: '', extent: 'Ireland', classIds: ['ireland-civil-parishes'], thumbMapId: 'civil-parishes-by-province' },
             { id: 'flat-baronies', name: 'Baronies', years: '', extent: 'Ireland', mapIds: ['baronies-all-ireland'] },
             { id: 'flat-counties-1915', name: 'Counties (1915)', years: '1899-1977', extent: 'Ireland', mapIds: ['counties-ireland'] },
+            { id: 'flat-counties-roi-1957', name: 'Counties (Ireland) (1957)', years: '1957', extent: 'Ireland', mapIds: ['eds-roi-1957'] },
             { id: 'flat-admin-counties', name: 'Administrative Counties (Northern Ireland) (1915)', years: '1915', extent: 'Northern Ireland', classIds: ['ni-admin-counties'] },
             { id: 'flat-provinces', name: 'Provinces', years: '', extent: 'Ireland', mapIds: ['provinces'] },
             { id: 'flat-polities', name: 'Polities', years: '', extent: '', mapIds: ['ni-1921', 'roi-1938'] },
@@ -2290,7 +2291,7 @@ class UIController {
             { id: 'flat-roi-deds', name: 'Electoral Divisions', years: '1921-2019', extent: 'Republic of Ireland',
               mapIds: [
                   'eds-roi-1921-05-03', 'eds-roi-1921-06-28', 'eds-roi-1936', 'eds-roi-1944',
-                  'eds-roi-1950', 'eds-roi-1954', 'eds-roi-1957', 'eds-roi-1970',
+                  'eds-roi-1950', 'eds-roi-1954', 'eds-roi-1970',
                   'eds-1971', 'eds-1977', 'eds-1980', 'eds-1983',
                   'eds-1986', 'eds-1994', 'eds-1997', 'eds-2019'
               ] },
