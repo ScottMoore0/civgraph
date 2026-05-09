@@ -186,6 +186,16 @@ class ElectionController {
             }
         },
         { body: 'Dáil Éireann', dateFrom: '1997-06-07', dateUntil: '2006-12-31', fgb: 'data/maps/parliamentary/1998_Dail.fgb', nameAttr: 'CON_NAME' },
+        // Pre-1997 Acts of the Oireachtas redrawing Dáil boundaries:
+        //   1990 Act — used Nov 1992 election (27th Dáil) and 1997 election (28th Dáil)
+        //   1983 Act — used 1987 (25th) and 1989 (26th) elections
+        //   1980 Act — used 1981 (22nd), Feb 1982 (23rd), Nov 1982 (24th) elections
+        //   1974 Act — used 1977 (21st) election
+        //   (1969 Act — used Mar 1973 (20th) election; FGB not yet sourced)
+        { body: 'Dáil Éireann', dateFrom: '1992-01-01', dateUntil: '1997-06-06', fgb: 'data/maps/parliamentary/1990_Dail.fgb', nameAttr: 'CON_NAME' },
+        { body: 'Dáil Éireann', dateFrom: '1987-01-01', dateUntil: '1991-12-31', fgb: 'data/maps/parliamentary/1983_Dail.fgb', nameAttr: 'CON_NAME' },
+        { body: 'Dáil Éireann', dateFrom: '1981-01-01', dateUntil: '1986-12-31', fgb: 'data/maps/parliamentary/1980_Dail.fgb', nameAttr: 'CON_NAME' },
+        { body: 'Dáil Éireann', dateFrom: '1977-01-01', dateUntil: '1980-12-31', fgb: 'data/maps/parliamentary/1974_Dail.fgb', nameAttr: 'CON_NAME' },
 
         // Dáil 1 (1918) — pre-partition all-Ireland 1918 redistribution.
         // FGB has 107 features against 103 scraper entries: 28 match directly,
