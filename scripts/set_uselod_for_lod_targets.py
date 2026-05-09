@@ -31,6 +31,24 @@ TARGETS = [
     'dfi-surface-defects-2017', 'dfi-surface-defects-2018',
     'dfi-surface-defects-2019', 'dfi-surface-defects-2020',
     'dfi-surface-defects-2021',
+    # Tier B round 2 — geology/environment/historic-admin/transport
+    'east-west-bann', 'west-bann-sperrins',
+    'pc-1918-ireland', 'pc-1885-ireland',
+    'ded-1930-04-01', 'baronies-all-ireland',
+    'gsni-bedrock-geology-lines-250k', 'gsni-mineral-resources',
+    'gsni-tellus-stream-sediments-xrf', 'gsni-tellus-stream-waters-icp',
+    'gsni-tellus-rural-soil-a-xrf',
+    'osni-coverage-grid-10k', 'osni-coverage-grid-50k',
+    'gsni-tellus-stream-sediments-xrf-set2',
+    'gsni-tellus-stream-sediments-au-pge',
+    'gsni-tellus-stream-sediments-boron',
+    'gsni-tellus-rural-soil-a-aqua-regia',
+    'gsni-tellus-rural-soil-s-aqua-regia',
+    'gsni-tellus-rural-soil-s-near-total',
+    'gsni-tellus-rural-soil-s-fire-assay',
+    'transport-carriageway-defects-2021',
+    'env-noise-agglomeration-lden', 'env-noise-major-roads-lden',
+    'env-noise-major-rail-lden',
 ]
 
 import subprocess
@@ -38,11 +56,16 @@ import subprocess
 def lod_exists_on_r2(fgb_url: str) -> bool:
     """HEAD-check the -lod0 variant. We require both -lod0 and -lod1 to
     consider the LOD ladder valid; checking just -lod0 is a fast proxy."""
+    from urllib.parse import quote
     base = fgb_url[:-4]  # strip .fgb
     for suf in ('-lod0', '-lod1'):
+        # Re-encode the path component so spaces in filenames don't trip curl
+        scheme_host, _, path = base.partition('://')[2].partition('/')
+        encoded = f"{base.split('://')[0]}://{scheme_host}/{quote(path, safe='/')}"
+        url = f'{encoded}{suf}.fgb'
         r = subprocess.run(
             ['curl', '-sI', '-o', '/dev/null', '-w', '%{http_code}',
-             '--max-time', '5', f'{base}{suf}.fgb'],
+             '--max-time', '5', url],
             capture_output=True, text=True,
         )
         if r.stdout.strip() != '200':
