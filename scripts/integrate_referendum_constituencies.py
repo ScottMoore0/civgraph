@@ -64,26 +64,53 @@ def main():
             print(f'! {raw_path.name}: event dir missing ({event_dir})')
             continue
 
-        # Per-constituency files
+        # Per-constituency files. Shape mirrors aggregate ireland.json
+        # (body, constituency, topic, meta, candidates: [Yes, No]) so the
+        # controller's _normaliseScraperPayload can flatten each into a
+        # standard {Constituency:{countInfo, countGroup}} payload, allowing
+        # the existing per-constituency colouring path to pick the winner.
         cons_summary = []
         for row in raw['rows']:
             cons_name = row.get('constituency')
             if not cons_name:
                 continue
             cslug = constituency_slug(cons_name)
+            yes = row.get('yes') or 0
+            no = row.get('no') or 0
+            yes_pct = row.get('yes_pct')
+            no_pct = row.get('no_pct')
+            if yes_pct is None and (yes + no) > 0:
+                yes_pct = round(100.0 * yes / (yes + no), 2)
+            if no_pct is None and (yes + no) > 0:
+                no_pct = round(100.0 - (yes_pct or 0), 2)
+            outcome = 'yes' if (yes_pct or 0) >= 50 else 'no'
             out = {
                 'body': 'Referendum (Ireland)',
                 'constituency': cons_name,
                 'topic': topic,
-                'yes': row.get('yes'),
-                'no': row.get('no'),
-                'yes_pct': row.get('yes_pct'),
-                'no_pct': row.get('no_pct'),
-                'electorate': row.get('electorate'),
-                'turnout_pct': row.get('turnout_pct'),
-                'spoiled': row.get('spoiled'),
+                'meta': {
+                    'electorate': row.get('electorate'),
+                    'turnout_pct': row.get('turnout_pct'),
+                    'spoiled': row.get('spoiled'),
+                },
+                'yes': yes, 'no': no,
+                'yes_pct': yes_pct, 'no_pct': no_pct,
+                'outcome': outcome,
                 'counting_basis': basis,
                 'source_url': url,
+                # Yes / No "candidates" — picked up by _normaliseScraperPayload
+                # so that _getWinner / _colourMap render a single shaded
+                # polygon coloured by the winning side per constituency.
+                'candidates': [
+                    {'name': 'Yes', 'party': 'Yes',
+                     'first_pref': yes, 'final_count': 1,
+                     'counts': [yes],
+                     'status': 'Made Quota' if outcome == 'yes' else 'Not Elected'},
+                    {'name': 'No', 'party': 'No',
+                     'first_pref': no, 'final_count': 1,
+                     'counts': [no],
+                     'status': 'Made Quota' if outcome == 'no' else 'Not Elected'},
+                ],
             }
             (event_dir / f'{cslug}.json').write_text(
                 json.dumps(out, indent=2, ensure_ascii=False), encoding='utf-8'

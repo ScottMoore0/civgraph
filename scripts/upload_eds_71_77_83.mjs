@@ -29,7 +29,7 @@ async function put(key, body, ct) {
 }
 
 const SUFFIXES = ['', '-lod0', '-lod1'];
-const YEARS = [1971, 1977, 1983];
+const YEARS = [1971, 1977, 1980, 1983];
 
 for (const year of YEARS) {
     for (const suf of SUFFIXES) {
