@@ -55,7 +55,16 @@ for year, parts in RECIPES.items():
     merged = pd.concat(pieces, ignore_index=True)
     merged = gpd.GeoDataFrame(merged, geometry='geometry', crs='EPSG:4326')
     out = OUT_DIR / f'EDs_AllIreland_{year}.fgb'
+    if out.exists(): out.unlink()
     print(f'-> {out} ({len(merged)} features)', flush=True)
     merged.to_file(out, driver='FlatGeobuf')
+
+    for suf, tol in [('-lod0', 0.005), ('-lod1', 0.0005)]:
+        lod_out = OUT_DIR / f'EDs_AllIreland_{year}{suf}.fgb'
+        if lod_out.exists(): lod_out.unlink()
+        gs = merged.copy()
+        gs['geometry'] = gs.geometry.simplify(tolerance=tol, preserve_topology=True)
+        gs.to_file(lod_out, driver='FlatGeobuf')
+        print(f'  -> {lod_out.name}', flush=True)
 
 print('Done.')
