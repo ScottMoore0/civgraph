@@ -7535,9 +7535,11 @@
       "slug": "eds-roi-1921-05-03",
       "category": "electoral-divisions",
       "date": "1921-05-03",
-      "placeholder": true,
       "featured": true,
-      "provider": [],
+      "provider": [
+        "OSI",
+        "OSM"
+      ],
       "keywords": [
         "electoral",
         "division",
@@ -7545,6 +7547,47 @@
         "1921",
         "partition",
         "placeholder"
+      ],
+      "style": {
+        "color": "#9C6E3F",
+        "weight": 2
+      },
+      "labelProperty": "ED_ENGLISH",
+      "useLOD": true,
+      "description": "Southern Ireland Electoral Divisions on 3 May 1921 (Government of Ireland Act commencement) - boundaries unchanged through to 1926, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
+      "variants": [
+        {
+          "id": "eds-roi-1921-connacht",
+          "label": "Connacht",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Connacht1926EDs.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-roi-1921-leinster",
+          "label": "Leinster",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Leinster1926EDs.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-roi-1921-munster",
+          "label": "Munster",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Munster1926EDs.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-roi-1921-ulster",
+          "label": "Ulster (outside Northern Ireland)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Ulster1926EDs.fgb"
+          },
+          "useLOD": true
+        }
       ]
     },
     {
@@ -7686,9 +7729,10 @@
       "slug": "eds-roi-1957",
       "category": "electoral-divisions",
       "date": 1957,
-      "placeholder": true,
       "featured": true,
-      "provider": [],
+      "provider": [
+        "Tailte Eireann"
+      ],
       "keywords": [
         "electoral",
         "division",
@@ -7696,7 +7740,17 @@
         "1957",
         "Wicklow",
         "placeholder"
-      ]
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1957.fgb"
+      },
+      "style": {
+        "color": "#9C6E3F",
+        "weight": 2
+      },
+      "labelProperty": "COUNTY",
+      "useLOD": true,
+      "description": "County-level boundaries for the 26-county state in 1957. ED-level 1957 boundaries are not digitised; the closest published 1957 administrative geography is at county level."
     },
     {
       "id": "eds-roi-1970",
@@ -10469,15 +10523,26 @@
       "slug": "ded-1957-04-01",
       "category": "wards",
       "date": "1957-04-01",
-      "placeholder": true,
       "featured": true,
-      "provider": [],
+      "provider": [
+        "OSNI"
+      ],
       "keywords": [
         "ded",
         "electoral",
         "divisions",
         "placeholder"
-      ]
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/NI_DEDs_1930.fgb"
+      },
+      "style": {
+        "color": "#9C6E3F",
+        "weight": 2
+      },
+      "labelProperty": "ED_NAME",
+      "useLOD": true,
+      "description": "NI District Electoral Divisions for the 1957 Stormont election. Distinct 1957 NI DED boundaries are not digitised; the 1930 NI DED dataset is used as proxy (boundaries did not change materially)."
     },
     {
       "id": "ded-1956-04-01",
@@ -11150,15 +11215,26 @@
       "slug": "ded-1921-05-03",
       "category": "wards",
       "date": "1921-05-03",
-      "placeholder": true,
       "featured": true,
-      "provider": [],
+      "provider": [
+        "OSNI"
+      ],
       "keywords": [
         "ded",
         "electoral",
         "divisions",
         "placeholder"
-      ]
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/NI_DEDs_1930.fgb"
+      },
+      "style": {
+        "color": "#9C6E3F",
+        "weight": 2
+      },
+      "labelProperty": "ED_NAME",
+      "useLOD": true,
+      "description": "NI District Electoral Divisions on 3 May 1921 (Government of Ireland Act commencement). Distinct 1921 NI DED boundaries are not digitised; the 1930 NI DED dataset is used as proxy."
     },
     {
       "id": "county-ed-1969-04-01",
