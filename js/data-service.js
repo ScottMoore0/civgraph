@@ -16,13 +16,21 @@ class DataService {
    * Initialize the data service by loading all database files
    */
   async init() {
-    const [mapsData, booksData, geographiesData] = await Promise.all([
+    // dataEntries was split out of maps.json (~70 KB / 70 entries) so the
+    // critical-path JSON parse is smaller. Both files fetch in parallel
+    // over HTTP/2; data-entries.json parse happens off the main maps
+    // parse so it doesn't extend init latency.
+    const [mapsData, dataEntriesData, booksData, geographiesData] = await Promise.all([
       this.loadJson('data/database/maps.json'),
+      this.loadJson('data/database/data-entries.json'),
       this.loadJson('data/database/books.json'),
       this.loadJson('data/database/geographies.json')
     ]);
 
     this.maps = mapsData;
+    if (dataEntriesData?.dataEntries) {
+      this.maps.dataEntries = dataEntriesData.dataEntries;
+    }
     this.books = booksData;
     this.geographies = geographiesData;
 

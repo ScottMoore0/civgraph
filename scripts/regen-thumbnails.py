@@ -305,8 +305,14 @@ def render_thumbnail(map_config, land_polys, out_path):
     try:
         from PIL import Image
         with Image.open(out_path) as im:
-            webp_path = os.path.splitext(out_path)[0] + '.webp'
-            im.save(webp_path, 'WEBP', quality=80, method=6)
+            stem = os.path.splitext(out_path)[0]
+            im.save(stem + '.webp', 'WEBP', quality=80, method=6)
+            # 60px variant for srcset on mobile/retina — halves catalogue payload
+            # over cellular when the displayed size is ~80 CSS px.
+            w, h = im.size
+            scale = 60.0 / max(w, h)
+            small = im.resize((max(1, round(w * scale)), max(1, round(h * scale))), Image.LANCZOS)
+            small.save(stem + '-60.webp', 'WEBP', quality=78, method=6)
     except Exception as e:
         print(f'  (webp encode failed: {e})')
     return True
