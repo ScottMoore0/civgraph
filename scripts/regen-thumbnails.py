@@ -298,6 +298,17 @@ def render_thumbnail(map_config, land_polys, out_path):
     fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
     fig.savefig(out_path, dpi=DPI, transparent=True, bbox_inches='tight', pad_inches=0.02)
     plt.close(fig)
+    # Also emit a WebP sibling — ~30-50% smaller than PNG at visually-identical
+    # quality for thumbnails this small. HTML uses <picture><source srcset=".webp">
+    # with PNG fallback for browsers that don't support WebP (effectively none
+    # on the catalogue's target audience as of 2026, but cheap safety net).
+    try:
+        from PIL import Image
+        with Image.open(out_path) as im:
+            webp_path = os.path.splitext(out_path)[0] + '.webp'
+            im.save(webp_path, 'WEBP', quality=80, method=6)
+    except Exception as e:
+        print(f'  (webp encode failed: {e})')
     return True
 
 def main():

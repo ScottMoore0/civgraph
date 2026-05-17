@@ -1977,6 +1977,10 @@ button.catalogue-flat__toc-toplink {
   margin-bottom: var(--space-2);
 }
 
+/* ===CRITICAL-END=== marker for scripts/bundle.mjs critical-CSS split.
+   Everything above this is inlined in index.html so first paint doesn't
+   wait on a stylesheet. Everything below loads async via media=print/onload. */
+
 /* ============================================
    Map Control Components
    ============================================ */

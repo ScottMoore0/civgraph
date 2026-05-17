@@ -10,7 +10,7 @@
  */
 
 import * as esbuild from 'esbuild';
-import { readFileSync, renameSync, existsSync } from 'fs';
+import { readFileSync, renameSync, existsSync, statSync, mkdirSync, writeFileSync, unlinkSync } from 'fs';
 
 // Globals provided by CDN script tags — esbuild must not try to bundle these
 const globalExternals = {
@@ -58,21 +58,46 @@ if (existsSync(src) && src !== dst) {
 
 console.log('Bundle created: build/app.bundle.js');
 
-// Minify CSS
-await esbuild.build({
-    entryPoints: ['assets/css/main.css'],
-    outfile: 'build/main.css',
-    minify: true,
-    bundle: true,
-    logLevel: 'info'
-});
-
-console.log('CSS minified: build/main.css');
-
-// Generate minimal about.css (header + design tokens only, ~6 KB vs 203 KB)
-import { readFileSync as readFile, writeFileSync as writeFile } from 'fs';
+// Split main.css at the /* ===CRITICAL-END=== */ marker into two source
+// chunks, then minify each. The critical chunk (~46 KB raw → ~12 KB minified)
+// is inlined in index.html so first paint doesn't wait on a stylesheet
+// roundtrip. The rest is loaded async via media=print + onload swap.
 {
-    const css = readFile('build/main.css', 'utf8');
+    const srcCss = readFileSync('assets/css/main.css', 'utf8');
+    const marker = '/* ===CRITICAL-END===';
+    const idx = srcCss.indexOf(marker);
+    if (idx < 0) {
+        throw new Error('bundle.mjs: critical-CSS marker not found in assets/css/main.css');
+    }
+    const criticalSrc = srcCss.slice(0, idx);
+    const restSrc = srcCss.slice(idx);
+    mkdirSync('_tmp_css', { recursive: true });
+    writeFileSync('_tmp_css/critical.css', criticalSrc);
+    writeFileSync('_tmp_css/rest.css', restSrc);
+
+    await esbuild.build({
+        entryPoints: ['_tmp_css/critical.css'],
+        outfile: 'build/main.critical.css',
+        minify: true, bundle: true, logLevel: 'silent'
+    });
+    await esbuild.build({
+        entryPoints: ['_tmp_css/rest.css'],
+        outfile: 'build/main.css',
+        minify: true, bundle: true, logLevel: 'silent'
+    });
+    try { unlinkSync('_tmp_css/critical.css'); } catch {}
+    try { unlinkSync('_tmp_css/rest.css'); } catch {}
+
+    const critBytes = statSync('build/main.critical.css').size;
+    const restBytes = statSync('build/main.css').size;
+    console.log(`CSS split: critical ${(critBytes/1024).toFixed(1)} KB, deferred ${(restBytes/1024).toFixed(1)} KB`);
+}
+
+// Generate minimal about.css (header + design tokens only, ~6 KB vs 203 KB).
+// Now sourced from build/main.critical.css since tokens + .app-header rules
+// live in the critical chunk after the CSS split above.
+{
+    const css = readFileSync('build/main.critical.css', 'utf8');
     const rootMatch = css.match(/:root\s*\{[^}]+\}/);
     const headerRules = css.match(/\.app-header[^{]*\{[^}]+\}/g) || [];
     const mediaBlocks = css.match(/@media[^{]+\{(?:[^{}]|\{[^}]*\})*\}/g) || [];
@@ -81,12 +106,11 @@ import { readFileSync as readFile, writeFileSync as writeFile } from 'fs';
     if (rootMatch) about += rootMatch[0] + '\n';
     about += headerRules.join('\n') + '\n';
     about += headerMedia.join('\n') + '\n';
-    writeFile('build/about.css', about);
+    writeFileSync('build/about.css', about);
     console.log(`About CSS extracted: build/about.css (${(about.length / 1024).toFixed(1)} KB)`);
 }
 
 // Performance budgets — fail the build if assets grow unexpectedly
-import { statSync } from 'fs';
 
 const budgets = [
     { file: 'build/app.bundle.js', max: 360_000, label: 'Main bundle' },
