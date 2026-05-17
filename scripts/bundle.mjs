@@ -93,6 +93,42 @@ console.log('Bundle created: build/app.bundle.js');
     console.log(`CSS split: critical ${(critBytes/1024).toFixed(1)} KB, deferred ${(restBytes/1024).toFixed(1)} KB`);
 }
 
+// Inline the critical CSS into index.html — saves one roundtrip on first paint.
+// Replaces everything between the INLINE-CRITICAL-CSS:START and :END markers
+// with a <style> block containing the minified critical CSS. Idempotent: each
+// build re-replaces the block, so subsequent CSS edits are reflected without
+// further markup changes.
+{
+    const indexPath = 'index.html';
+    const html = readFileSync(indexPath, 'utf8');
+    const startMarker = 'INLINE-CRITICAL-CSS:START';
+    const endMarker = 'INLINE-CRITICAL-CSS:END';
+    const startIdx = html.indexOf(startMarker);
+    const endIdx = html.indexOf(endMarker);
+    if (startIdx < 0 || endIdx < 0 || endIdx <= startIdx) {
+        console.warn('  (skip) INLINE-CRITICAL-CSS markers not found in index.html');
+    } else {
+        const css = readFileSync('build/main.critical.css', 'utf8');
+        // Find the start of the marker's opening comment '<!--' and the end of
+        // the closing comment '-->', so we replace the full marker pair too —
+        // and emit fresh markers along with the inline <style>.
+        const openCommentStart = html.lastIndexOf('<!--', startIdx);
+        const closeCommentEnd = html.indexOf('-->', endIdx) + 3;
+        if (openCommentStart < 0 || closeCommentEnd <= 0) {
+            console.warn('  (skip) could not locate marker comment boundaries');
+        } else {
+            const before = html.slice(0, openCommentStart);
+            const after = html.slice(closeCommentEnd);
+            const replacement =
+                `<!-- INLINE-CRITICAL-CSS:START — inlined by scripts/bundle.mjs to save one roundtrip. -->\n` +
+                `  <style>${css}</style>\n` +
+                `  <!-- INLINE-CRITICAL-CSS:END -->`;
+            writeFileSync(indexPath, before + replacement + after);
+            console.log(`Inlined critical CSS into index.html (${(css.length/1024).toFixed(1)} KB)`);
+        }
+    }
+}
+
 // Generate minimal about.css (header + design tokens only, ~6 KB vs 203 KB).
 // Now sourced from build/main.critical.css since tokens + .app-header rules
 // live in the critical chunk after the CSS split above.
