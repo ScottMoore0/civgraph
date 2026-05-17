@@ -12,11 +12,16 @@
 
   <title>Civgraph</title>
 
-  <!-- Preconnect to tile servers so DNS+TLS is done before first tile request -->
+  <!-- Preconnect: one OSM subdomain is enough — HTTP/2 multiplexes subsequent
+       tile fetches onto the same connection, so a/b/c preconnects after that
+       are pure overhead. The other two stay as dns-prefetch as a cheap hedge. -->
   <link rel="preconnect" href="https://a.tile.openstreetmap.org" crossorigin>
-  <link rel="preconnect" href="https://b.tile.openstreetmap.org" crossorigin>
-  <link rel="preconnect" href="https://c.tile.openstreetmap.org" crossorigin>
+  <link rel="dns-prefetch" href="https://b.tile.openstreetmap.org">
+  <link rel="dns-prefetch" href="https://c.tile.openstreetmap.org">
   <link rel="preconnect" href="https://data.civgraph.net" crossorigin>
+  <!-- archive.org is the target of many sourceDownload links; warming the
+       resolver here means clicks on those links don't pay DNS latency. -->
+  <link rel="dns-prefetch" href="https://archive.org">
 
   <!-- Self-hosted fonts (latin subset, ~74 KB total) -->
   <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -631,15 +636,19 @@
     </svg>
   </button>
 
-  <!-- Dependencies — self-hosted Leaflet, all deferred so HTML parse isn't blocked.
-       Safe because no synchronous script (jquery-shim, election engine) references
-       any of these symbols at parse time; the module bundle (build/app.bundle.js)
-       is type=module which is implicitly deferred and runs after these. -->
+  <!-- Dependencies — self-hosted Leaflet/Fuse/pako, all deferred so HTML parse
+       isn't blocked. Self-hosting eliminates cold-load DNS lookups to unpkg
+       and jsdelivr (~50-100ms each on cold mobile) and removes third-party
+       SPOFs. Safe because no synchronous script (jquery-shim, election engine)
+       references any of these symbols at parse time; the module bundle
+       (build/app.bundle.js) is type=module which is implicitly deferred and
+       runs after these. Turf is kept on unpkg for now — it's only used by
+       dynamic-import paths and isn't fetched on first paint. -->
   <script src="assets/js/leaflet-1.9.4.js" defer></script>
-  <script src="https://unpkg.com/fuse.js@7.0.0" defer></script>
+  <script src="assets/js/fuse-7.0.0.min.js" defer></script>
   <script src="https://unpkg.com/@turf/turf@6/turf.min.js" defer></script>
   <script src="js/libs/flatgeobuf-geojson.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js" defer></script>
+  <script src="assets/js/pako-2.1.0.min.js" defer></script>
 
   <!-- jQuery Micro-Shim + Election Animation Engine -->
   <script src="js/jquery-shim.js"></script>
