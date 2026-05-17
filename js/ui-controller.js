@@ -4875,54 +4875,50 @@ class UIController {
             });
 
             // Dynamic sticky threshold: headers stick at CSS 'top: 96px' relative to their
-            // scrolling container's content area, so we need to calculate the VIEWPORT position
-            // by adding: container.top + container.paddingTop + 96px
-            const getStickyThreshold = () => {
+            // scrolling container's content area. The container's top + paddingTop only
+            // changes on resize, so cache and refresh on resize instead of every scroll frame.
+            let stickyThresholdCache = 0;
+            const refreshStickyThreshold = () => {
                 const containerRect = scrollContainer.getBoundingClientRect();
                 const containerStyle = getComputedStyle(scrollContainer);
                 const paddingTop = parseFloat(containerStyle.paddingTop) || 0;
-                return containerRect.top + paddingTop + 96; // 96px = card header (36px) + column header (60px)
+                stickyThresholdCache = containerRect.top + paddingTop + 96;
             };
+            refreshStickyThreshold();
+            window.addEventListener('resize', refreshStickyThreshold, { passive: true });
+            const getStickyThreshold = () => stickyThresholdCache;
+
+            // Precompute each section's bottommost item once. The grid is static after
+            // render, so lastItem can be cached — turns the scroll handler from
+            // O(sections × items) into O(sections).
+            const allItemsOnce = Array.from(grid.querySelectorAll('.c1-grid-cell, .c1-grid-annotation'))
+                .map(item => {
+                    const s = item.getAttribute('style') || '';
+                    const colM = s.match(/grid-column:\s*(\d+)/);
+                    const rowM = s.match(/grid-row:\s*(\d+)(?:\s*\/\s*(\d+))?/);
+                    const col = colM ? parseInt(colM[1]) : 0;
+                    const rowStart = rowM ? parseInt(rowM[1]) : 0;
+                    const rowEnd = rowM && rowM[2] ? parseInt(rowM[2]) : rowStart + 1;
+                    return { item, col, rowStart, rowEnd };
+                });
+            sectionInfo.forEach(sec => {
+                let lastItem = null;
+                let lastItemRowEnd = 0;
+                for (const it of allItemsOnce) {
+                    if (it.col !== sec.col) continue;
+                    if (it.rowStart >= sec.startRow && it.rowStart < sec.endRow && it.rowEnd > lastItemRowEnd) {
+                        lastItemRowEnd = it.rowEnd;
+                        lastItem = it.item;
+                    }
+                }
+                sec.lastItem = lastItem;
+            });
 
             const updateStickyState = () => {
                 // For each section header, find the bottom of the LAST item in that section
                 // The header should stick until that last item scrolls above the sticky threshold
 
-                sectionInfo.forEach(({ header, startRow, endRow }) => {
-                    // Get the column for this header
-                    const style = header.getAttribute('style') || '';
-                    const colMatch = style.match(/grid-column:\s*(\d+)/);
-                    const col = colMatch ? parseInt(colMatch[1]) : 1;
-
-                    // Find all items in this column within this section's row range
-                    // and track the bottommost one (largest grid-row value)
-                    let lastItem = null;
-                    let lastItemRowEnd = 0;
-
-                    const allItems = grid.querySelectorAll('.c1-grid-cell, .c1-grid-annotation');
-                    allItems.forEach(item => {
-                        const itemStyle = item.getAttribute('style') || '';
-                        const itemColMatch = itemStyle.match(/grid-column:\s*(\d+)/);
-                        const itemCol = itemColMatch ? parseInt(itemColMatch[1]) : 0;
-
-                        if (itemCol !== col) return; // Different column
-
-                        const rowMatch = itemStyle.match(/grid-row:\s*(\d+)(?:\s*\/\s*(\d+))?/);
-                        if (rowMatch) {
-                            const rowStart = parseInt(rowMatch[1]);
-                            const rowEnd = rowMatch[2] ? parseInt(rowMatch[2]) : rowStart + 1;
-
-                            // Check if this item is within our section (from startRow to endRow)
-                            // Use rowEnd to find the item that extends furthest down
-                            if (rowStart >= startRow && rowStart < endRow) {
-                                if (rowEnd > lastItemRowEnd) {
-                                    lastItemRowEnd = rowEnd;
-                                    lastItem = item;
-                                }
-                            }
-                        }
-                    });
-
+                sectionInfo.forEach(({ header, col, lastItem }) => {
                     // Calculate if the section has scrolled past
                     let shouldScrollAway = false;
 

@@ -27,6 +27,12 @@
 /data/maps/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Thumbnails — content stable but not fingerprinted. 30 days + stale-while-revalidate
+# so repeat visitors don't refetch ~5 MB of PNGs every 4 hours. Append ?v=N to the
+# <img src> in ui-controller.js if a thumbnail's content changes.
+/assets/thumbnails/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
 # Spatial index chunks — cache for 1 week
 /data/database/spatial-index/*
   Cache-Control: public, max-age=604800

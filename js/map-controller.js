@@ -35,6 +35,7 @@ class MapController {
         this._featureIndexCache = new Map(); // mapId -> { features, chunks } from feature-index.json
         this._chunkDataCache = new Map(); // mapId -> Map(chunkFile -> features[])
         this._renderedFeatures = new Map(); // mapId -> Map(featureKey -> L.GeoJSON layer)
+        this._renderedFeaturesByChunk = new Map(); // mapId -> Map(chunkId -> Set<featureKey>) — fast chunk unload
         this._spatialAbort = new Map(); // mapId -> AbortController
         this._lastPointClick = null; // fallback double-click detection for point layers
         this._lastMapClick = null; // fallback double-click detection at map level
@@ -639,9 +640,25 @@ class MapController {
         // Add default base layer
         this.setBaseMap(this.currentBaseMapId);
 
-        // Set up event handlers
-        this.map.on('moveend zoomend', () => this.updateLabels());
-        this.map.on('mousemove', (e) => this._updatePointHoverFromMouseMove(e));
+        // Set up event handlers. updateLabels does O(n²) collision detection and
+        // synchronous removeLayer for every existing marker — debounce so a pan-fling
+        // triggers one rebuild instead of dozens.
+        this.map.on('moveend zoomend', () => {
+            clearTimeout(this._updateLabelsDebounceTimer);
+            this._updateLabelsDebounceTimer = setTimeout(() => this.updateLabels(), 150);
+        });
+        // Coalesce mousemove hover work into rAF — at native pointer rates (60–240 Hz)
+        // walking every visible point layer dominates the main thread on dense maps.
+        this.map.on('mousemove', (e) => {
+            this._pendingHoverEvent = e;
+            if (this._hoverRafId) return;
+            this._hoverRafId = requestAnimationFrame(() => {
+                this._hoverRafId = 0;
+                const evt = this._pendingHoverEvent;
+                this._pendingHoverEvent = null;
+                if (evt) this._updatePointHoverFromMouseMove(evt);
+            });
+        });
         if (!this._pointSelectionV2) {
             this.map.on('dblclick', (e) => {
                 this._lastNativeDblClickTs = Date.now();
@@ -1013,6 +1030,8 @@ class MapController {
 
         const rendered = this._renderedFeatures.get(id);
         if (rendered) rendered.clear();
+        const byChunk = this._renderedFeaturesByChunk.get(id);
+        if (byChunk) byChunk.clear();
         // _loadedChunks tracks which chunks have been added to state.group.
         // Since we just emptied state.group, the tracking is stale — leaving
         // it would make the next chunked viewport pass treat all chunks as
@@ -1460,6 +1479,7 @@ class MapController {
         this._loadedChunks.set(id, new Map());
         this._chunkDataCache.set(id, new Map());
         this._renderedFeatures.set(id, new Map());
+        this._renderedFeaturesByChunk.set(id, new Map());
 
         const zoom = this.map.getZoom();
         this.currentLOD.set(id, this.getLODLevel(zoom));
@@ -1685,6 +1705,7 @@ class MapController {
                 this._loadedChunks.delete(id);
                 this._chunkDataCache.delete(id);
                 this._renderedFeatures.delete(id);
+                this._renderedFeaturesByChunk.delete(id);
 
                 const isFgbPrimary = String(fgbPath || '').toLowerCase().endsWith('.fgb');
                 const preferredFgbPath = isFgbPrimary ? this.getLODFilePath(fgbPath, 10) : fgbPath;
@@ -2109,6 +2130,8 @@ class MapController {
 
             try {
                 const rendered = this._renderedFeatures.get(mapId) || new Map();
+                const byChunk = this._renderedFeaturesByChunk.get(mapId) || new Map();
+                if (!this._renderedFeaturesByChunk.has(mapId)) this._renderedFeaturesByChunk.set(mapId, byChunk);
                 const chunkDataCache = this._chunkDataCache.get(mapId) || new Map();
 
                 if (needFullReload) {
@@ -2120,6 +2143,7 @@ class MapController {
                         state.group.removeLayer(layer);
                     }
                     rendered.clear();
+                    byChunk.clear();
                     state.geoJsonLayers = [];
                     state.labelEntries = [];
                     loadedChunks.clear();
@@ -2136,11 +2160,14 @@ class MapController {
                     });
                     for (const result of chunkResults) {
                         const { chunk, chunkFile, features } = result;
+                        let keys = byChunk.get(chunk.id);
+                        if (!keys) { keys = new Set(); byChunk.set(chunk.id, keys); }
                         for (const feature of features) {
                             const fKey = this._featureKey(chunk.id, feature);
                             if (!rendered.has(fKey)) {
                                 const layer = this.addFeatureToLayer(state, feature, state.config.style, state.config.labelProperty, state.config);
                                 rendered.set(fKey, layer);
+                                keys.add(fKey);
                             }
                         }
                         loadedChunks.set(chunk.id, { file: chunkFile, chunk });
@@ -2155,14 +2182,17 @@ class MapController {
                 } else {
                     // Same zoom band — incremental per-chunk load/unload
 
-                    // Unload chunks that left viewport
+                    // Unload chunks that left viewport. O(features-in-chunk) via the
+                    // pre-built per-chunk feature-key index, vs O(all-rendered) with startsWith.
                     for (const chunkId of toUnload) {
-                        // Remove features belonging to this chunk
-                        for (const [fKey, layer] of rendered) {
-                            if (fKey.startsWith(chunkId + '::')) {
-                                state.group.removeLayer(layer);
+                        const keys = byChunk.get(chunkId);
+                        if (keys) {
+                            for (const fKey of keys) {
+                                const layer = rendered.get(fKey);
+                                if (layer) state.group.removeLayer(layer);
                                 rendered.delete(fKey);
                             }
+                            byChunk.delete(chunkId);
                         }
                         loadedChunks.delete(chunkId);
                     }
@@ -2181,11 +2211,14 @@ class MapController {
                     });
                     for (const result of chunkResults) {
                         const { chunk, chunkFile, features } = result;
+                        let keys = byChunk.get(chunk.id);
+                        if (!keys) { keys = new Set(); byChunk.set(chunk.id, keys); }
                         for (const feature of features) {
                             const fKey = this._featureKey(chunk.id, feature);
                             if (!rendered.has(fKey)) {
                                 const layer = this.addFeatureToLayer(state, feature, state.config.style, state.config.labelProperty, state.config);
                                 rendered.set(fKey, layer);
+                                keys.add(fKey);
                             }
                         }
                         loadedChunks.set(chunk.id, { file: chunkFile, chunk });
@@ -2496,6 +2529,25 @@ class MapController {
      * Load a data file (FGB or GeoJSON)
      */
     async loadDataFile(filePath, onProgress = null, signal = null) {
+        // Dedupe concurrent loads of the same path. A pinch-zoom can fire two
+        // LOD checks in quick succession; without this, both would issue a
+        // network fetch for the same FGB. Don't share when caller passed an
+        // AbortSignal (that signal should only cancel its own request) or when
+        // progress reporting is requested (callers expect distinct progress
+        // streams). Cache is cleared on completion (success or failure).
+        if (!signal && !onProgress) {
+            const inFlight = this._loadDataFilePromises ||= new Map();
+            const existing = inFlight.get(filePath);
+            if (existing) return existing;
+            const promise = this._loadDataFileImpl(filePath, null, null)
+                .finally(() => { inFlight.delete(filePath); });
+            inFlight.set(filePath, promise);
+            return promise;
+        }
+        return this._loadDataFileImpl(filePath, onProgress, signal);
+    }
+
+    async _loadDataFileImpl(filePath, onProgress, signal) {
         const ext = filePath.split('.').pop()?.toLowerCase();
         const start = this._now();
 
@@ -3101,6 +3153,7 @@ class MapController {
         this._loadedChunks.delete(id);
         this._chunkDataCache.delete(id);
         this._renderedFeatures.delete(id);
+        this._renderedFeaturesByChunk.delete(id);
         this._chunkIndexCache.delete(id);
 
         // Final sweep: any leaflet layers still attached to the map that
