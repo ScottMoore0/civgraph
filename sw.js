@@ -13,7 +13,7 @@
  * resources (build/*?v=N) invalidate naturally via their URL.
  */
 
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2'; // v2: SWR-max-age for thumbnails (bytes regression fix)
 const STATIC_CACHE  = `civgraph-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `civgraph-runtime-${CACHE_VERSION}`;
 const FGB_CACHE     = `civgraph-fgb-${CACHE_VERSION}`;
@@ -98,11 +98,14 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // Thumbnails — stale-while-revalidate. Solves the townlands trap: cached
-    // copy renders immediately, fresh copy fetches in background and replaces
-    // the cache so the next visit shows the new version.
+    // Thumbnails — SWR with a 7-day freshness window. Cached copy serves
+    // immediately. Background refresh only fires when the cached entry's
+    // server-sent Date is older than the max-age, so repeat visits within
+    // the window incur zero network bytes for thumbs. After 7 days a
+    // fresh fetch lands and replaces the cache for the next visit —
+    // bounded staleness, no townlands-forever trap.
     if (url.pathname.startsWith('/assets/thumbnails/')) {
-        event.respondWith(staleWhileRevalidate(req, THUMB_CACHE));
+        event.respondWith(staleWhileRevalidateMaxAge(req, THUMB_CACHE, 7 * 24 * 60 * 60 * 1000));
         return;
     }
 
@@ -167,6 +170,31 @@ async function staleWhileRevalidate(req, cacheName) {
         return res;
     }).catch(() => cached);
     return cached || networkPromise;
+}
+
+// Variant of SWR that only triggers the background refresh once the cached
+// entry's server-sent Date is older than maxAgeMs. Used for thumbnails where
+// the SWR refresh on every visit was the byte regression flagged in RUM.
+async function staleWhileRevalidateMaxAge(req, cacheName, maxAgeMs) {
+    const cache = await caches.open(cacheName);
+    const cached = await cache.match(req);
+    const refetch = () => fetch(req).then(res => {
+        if (res && (res.ok || res.type === 'opaque')) {
+            cache.put(req, res.clone()).then(() => trim(cacheName).catch(() => {})).catch(() => {});
+        }
+        return res;
+    }).catch(() => null);
+    if (cached) {
+        const d = cached.headers.get('date');
+        const cachedAt = d ? Date.parse(d) : 0;
+        if (!cachedAt || (Date.now() - cachedAt) > maxAgeMs) {
+            refetch(); // background only — don't await
+        }
+        return cached;
+    }
+    // No cache entry — must fetch
+    const fresh = await refetch();
+    return fresh || new Response('Offline', { status: 503, statusText: 'Offline' });
 }
 
 async function trim(cacheName) {

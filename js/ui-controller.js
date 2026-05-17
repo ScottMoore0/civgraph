@@ -3444,7 +3444,7 @@ class UIController {
                          data-election-date="${esc(entry.date)}"
                          data-election-placeholder="${entry.placeholder ? '1' : '0'}"
                          style="--map-color:${esc(appearance.color)};">
-                        <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${esc(appearance.thumb)}.webp" srcset="assets/thumbnails/${esc(appearance.thumb)}-60.webp 60w, assets/thumbnails/${esc(appearance.thumb)}.webp 120w" sizes="40px" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+                        <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${esc(appearance.thumb)}.webp" srcset="assets/thumbnails/${esc(appearance.thumb)}-60.webp 60w, assets/thumbnails/${esc(appearance.thumb)}.webp 120w" sizes="28px" alt="" loading="lazy" onerror="this.style.display='none'"></div>
                         <div class="class-member__info">
                             ${dateLabel}
                             <span class="class-member__desc">${esc(subtitle)}</span>
@@ -3742,7 +3742,7 @@ class UIController {
 
             return `
                 <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${isIncomplete ? 'class-member--incomplete' : ''}" data-map-id="${map.id}" style="--map-color: ${color}">
-                    <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.webp" srcset="assets/thumbnails/${map.cloneOf || map.id}-60.webp 60w, assets/thumbnails/${map.cloneOf || map.id}.webp 120w" sizes="40px" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+                    <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.webp" srcset="assets/thumbnails/${map.cloneOf || map.id}-60.webp 60w, assets/thumbnails/${map.cloneOf || map.id}.webp 120w" sizes="28px" alt="" loading="lazy" onerror="this.style.display='none'"></div>
                     <div class="class-member__info">
                         ${!isPlaceholder ? `<a href="#" class="class-member__name class-member__name-link" data-detail-map-id="${map.id}">${this.escapeHtml(displayName)}</a>` : `<span class="class-member__name">${this.escapeHtml(displayName)}</span>`}
                         ${map.changeNote ? `<span class="class-member__change-note">${this.escapeHtml(map.changeNote)}</span>` : ''}
@@ -3969,7 +3969,7 @@ class UIController {
                 const displayName = this.getYear(map.date) || map.name;
                 membersHtml += `
                     <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${isIncomplete ? 'class-member--incomplete' : ''}" data-map-id="${map.id}" style="--map-color: ${map.style?.color || '#888'}">
-                        <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.webp" srcset="assets/thumbnails/${map.cloneOf || map.id}-60.webp 60w, assets/thumbnails/${map.cloneOf || map.id}.webp 120w" sizes="40px" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+                        <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.webp" srcset="assets/thumbnails/${map.cloneOf || map.id}-60.webp 60w, assets/thumbnails/${map.cloneOf || map.id}.webp 120w" sizes="28px" alt="" loading="lazy" onerror="this.style.display='none'"></div>
                         <div class="class-member__info"><span class="class-member__name">${this.escapeHtml(displayName)}</span>
                             ${map.changeNote ? `<span class="class-member__change-note">${this.escapeHtml(map.changeNote)}</span>` : ''}
                             ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
@@ -4252,7 +4252,7 @@ class UIController {
             const heightStyle = (!options.ignoreMemberHeight && map.style?.height) ? `height: ${map.style.height};` : '';
             return `
                 <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${isIncomplete ? 'class-member--incomplete' : ''} ${hasVariants ? 'class-member--has-variants' : ''}" data-map-id="${map.id}" data-date="${map.date || ''}" style="--map-color: ${map.style?.color || '#888'};${heightStyle}">
-                <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.webp" srcset="assets/thumbnails/${map.cloneOf || map.id}-60.webp 60w, assets/thumbnails/${map.cloneOf || map.id}.webp 120w" sizes="40px" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+                <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.webp" srcset="assets/thumbnails/${map.cloneOf || map.id}-60.webp 60w, assets/thumbnails/${map.cloneOf || map.id}.webp 120w" sizes="28px" alt="" loading="lazy" onerror="this.style.display='none'"></div>
                 <div class="class-member__info">${!isPlaceholder ? `<a href="#" class="class-member__name class-member__name-link" data-detail-map-id="${map.id}">${displayName}</a>` : `<span class="class-member__name">${displayName}</span>`}${dateSubtitle}
                 ${map.changeNote ? `<span class="class-member__change-note">${this.escapeHtml(map.changeNote)}</span>` : ''}
                 ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
@@ -4418,7 +4418,7 @@ class UIController {
 
                     html += `<div class="c1-grid-cell${placeholderClass}${incompleteClass}" style="grid-column: ${gridCol}; grid-row: ${item.gridRowStart} / ${item.gridRowEnd}; --map-color: ${color};">`;
                     html += `<div class="c1-grid-entry${loadedClass}${placeholderClass}${incompleteClass}" data-map-id="${item.map.id}" data-date="${item.map.date || ''}">`;
-                    html += `<div class="thumb-zone"><img class="c1-entry__thumbnail" src="assets/thumbnails/${item.map.cloneOf || item.map.id}.webp" srcset="assets/thumbnails/${item.map.cloneOf || item.map.id}-60.webp 60w, assets/thumbnails/${item.map.cloneOf || item.map.id}.webp 120w" sizes="40px" alt="" loading="lazy" onerror="this.style.display='none'"></div>`;
+                    html += `<div class="thumb-zone"><img class="c1-entry__thumbnail" src="assets/thumbnails/${item.map.cloneOf || item.map.id}.webp" srcset="assets/thumbnails/${item.map.cloneOf || item.map.id}-60.webp 60w, assets/thumbnails/${item.map.cloneOf || item.map.id}.webp 120w" sizes="22px" alt="" loading="lazy" onerror="this.style.display='none'"></div>`;
                     html += '<div class="c1-entry-content">';
                     html += `<span class="c1-entry-year">${displayYear}</span>`;
                     if (!item.isPlaceholder && item.map.provider) {
@@ -4548,7 +4548,7 @@ class UIController {
 
                     html += `<div class="c1-grid-cell${placeholderClass}${incompleteClass}" style="grid-column: ${gridCol}; grid-row: ${gridRowStart} / ${gridRowEnd}; --map-color: ${color};">`;
                     html += `<div class="c1-grid-entry${loadedClass}${placeholderClass}${incompleteClass}" data-map-id="${map.id}" data-date="${map.date || ''}">`;
-                    html += `<div class="thumb-zone"><img class="c1-entry__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.webp" srcset="assets/thumbnails/${map.cloneOf || map.id}-60.webp 60w, assets/thumbnails/${map.cloneOf || map.id}.webp 120w" sizes="40px" alt="" loading="lazy" onerror="this.style.display='none'"></div>`;
+                    html += `<div class="thumb-zone"><img class="c1-entry__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.webp" srcset="assets/thumbnails/${map.cloneOf || map.id}-60.webp 60w, assets/thumbnails/${map.cloneOf || map.id}.webp 120w" sizes="22px" alt="" loading="lazy" onerror="this.style.display='none'"></div>`;
                     html += '<div class="c1-entry-content">';
                     html += `<span class="c1-entry-year">${displayYear}</span>`;
                     if (!isPlaceholder && map.provider) {
