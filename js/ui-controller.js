@@ -3914,13 +3914,19 @@ class UIController {
                 lastLoadedDate = selectedDate;
             });
 
-            labels.forEach(label => {
-                label.addEventListener('click', () => {
+            // Timeline label clicks — delegated to the labels container, one listener
+            // for any number of labels (replaces one-per-label attachment).
+            if (labels.length && labels[0].parentNode) {
+                const labelsContainer = labels[0].parentNode;
+                labelsContainer.addEventListener('click', (e) => {
+                    const label = e.target.closest('span[data-pct]');
+                    if (!label || !labelsContainer.contains(label)) return;
                     const pct = parseFloat(label.dataset.pct);
+                    if (!Number.isFinite(pct)) return;
                     slider.value = pct;
                     slider.dispatchEvent(new Event('change'));
                 });
-            });
+            }
         }
     }
 
@@ -4082,13 +4088,19 @@ class UIController {
                 lastLoadedDate = selectedDate;
             });
 
-            labels.forEach(label => {
-                label.addEventListener('click', () => {
+            // Timeline label clicks — delegated to the labels container, one listener
+            // for any number of labels (replaces one-per-label attachment).
+            if (labels.length && labels[0].parentNode) {
+                const labelsContainer = labels[0].parentNode;
+                labelsContainer.addEventListener('click', (e) => {
+                    const label = e.target.closest('span[data-pct]');
+                    if (!label || !labelsContainer.contains(label)) return;
                     const pct = parseFloat(label.dataset.pct);
+                    if (!Number.isFinite(pct)) return;
                     slider.value = pct;
                     slider.dispatchEvent(new Event('change'));
                 });
-            });
+            }
         }
     }
 
@@ -4705,17 +4717,18 @@ class UIController {
             }
         });
 
-        // Grid entry clicks (clicking on the year label)
-        card.querySelectorAll('.c1-grid-entry').forEach(entryEl => {
-            entryEl.addEventListener('click', (e) => {
-                // Ignore if clicking on a button
-                if (e.target.closest('button')) return;
-                const mapId = entryEl.dataset.mapId;
-                if (!mapId || entryEl.classList.contains('c1-grid-entry--placeholder')) return;
-                const isLoaded = entryEl.classList.contains('c1-grid-entry--loaded');
-                if (isLoaded && this.onMapToggle) this.onMapToggle(mapId);
-                else if (!isLoaded && this.onMapLoad) this.onMapLoad(mapId);
-            });
+        // Grid entry clicks — single delegated listener on the card replaces
+        // one listener per .c1-grid-entry. Card-level delegation also catches
+        // entries added later (e.g. when a chunked grid expands).
+        card.addEventListener('click', (e) => {
+            const entryEl = e.target.closest('.c1-grid-entry');
+            if (!entryEl || !card.contains(entryEl)) return;
+            if (e.target.closest('button')) return;
+            const mapId = entryEl.dataset.mapId;
+            if (!mapId || entryEl.classList.contains('c1-grid-entry--placeholder')) return;
+            const isLoaded = entryEl.classList.contains('c1-grid-entry--loaded');
+            if (isLoaded && this.onMapToggle) this.onMapToggle(mapId);
+            else if (!isLoaded && this.onMapLoad) this.onMapLoad(mapId);
         });
 
         const slider = card.querySelector('.timeline-slider');
@@ -4774,13 +4787,19 @@ class UIController {
                 lastLoadedDate = selectedDate;
             });
 
-            labels.forEach(label => {
-                label.addEventListener('click', () => {
+            // Timeline label clicks — delegated to the labels container, one listener
+            // for any number of labels (replaces one-per-label attachment).
+            if (labels.length && labels[0].parentNode) {
+                const labelsContainer = labels[0].parentNode;
+                labelsContainer.addEventListener('click', (e) => {
+                    const label = e.target.closest('span[data-pct]');
+                    if (!label || !labelsContainer.contains(label)) return;
                     const pct = parseFloat(label.dataset.pct);
+                    if (!Number.isFinite(pct)) return;
                     slider.value = pct;
                     slider.dispatchEvent(new Event('change'));
                 });
-            });
+            }
         }
 
         // Track section header sticky behavior for explicit grids
