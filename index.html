@@ -611,13 +611,15 @@
     </svg>
   </button>
 
-  <!-- Dependencies -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="https://unpkg.com/fuse.js@7.0.0"></script>
-  <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
-  <script src="js/libs/flatgeobuf-geojson.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
+  <!-- Dependencies — self-hosted Leaflet, all deferred so HTML parse isn't blocked.
+       Safe because no synchronous script (jquery-shim, election engine) references
+       any of these symbols at parse time; the module bundle (build/app.bundle.js)
+       is type=module which is implicitly deferred and runs after these. -->
+  <script src="assets/js/leaflet-1.9.4.js" defer></script>
+  <script src="https://unpkg.com/fuse.js@7.0.0" defer></script>
+  <script src="https://unpkg.com/@turf/turf@6/turf.min.js" defer></script>
+  <script src="js/libs/flatgeobuf-geojson.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js" defer></script>
 
   <!-- jQuery Micro-Shim + Election Animation Engine -->
   <script src="js/jquery-shim.js"></script>
@@ -627,7 +629,7 @@
   <script src="election-viewer-package/js/election_viewer.js"></script>
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="build/app.bundle.js?v=105"></script>
+  <script type="module" src="build/app.bundle.js?v=106"></script>
 
 
   <!-- Support Modal -->
