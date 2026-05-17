@@ -8,6 +8,13 @@
 /pages/*
   Cache-Control: public, max-age=0, must-revalidate
 
+# Service worker — must revalidate on every load so deploys propagate to all
+# clients within one navigation. The SW itself caches downstream resources;
+# its own file should never be cached aggressively or we can't ship fixes.
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+  Service-Worker-Allowed: /
+
 # JS/CSS bundles — fingerprinted filenames, cache forever
 /build/*
   Cache-Control: public, max-age=31536000, immutable
