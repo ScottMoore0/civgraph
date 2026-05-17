@@ -651,6 +651,17 @@
   <!-- Application (bundled + minified) -->
   <script type="module" src="build/app.bundle.js?v=109"></script>
 
+  <!-- Service worker — repeat-visit cache + offline tolerance. Registered
+       after window.load so it doesn't contend with critical resources.
+       Strategies per cache live in /sw.js. -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js?v=1').catch(() => {});
+      });
+    }
+  </script>
+
 
   <!-- Support Modal -->
   <div id="supportModal" class="support-modal hidden" role="dialog" aria-modal="true"
