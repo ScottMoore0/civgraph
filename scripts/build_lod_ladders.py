@@ -95,9 +95,22 @@ def make_lod(g: gpd.GeoDataFrame, suffix: str) -> gpd.GeoDataFrame:
             return g.copy()
         return g.sample(frac=keep_frac, random_state=42).copy()
     # Polygon/line: simplify with Douglas-Peucker.
+    # preserve_topology=False is the fast O(n log n) path; the simplified
+    # polygons are good enough at LOD zooms (some may self-intersect but
+    # won't be visible at coarse rendering). Drop empty/null geometries
+    # afterwards so write doesn't choke on them.
     tol = {'-lod0': 0.005, '-lod1': 0.0005}[suffix]
     out = g.copy()
-    out['geometry'] = out.geometry.simplify(tolerance=tol, preserve_topology=True)
+    out['geometry'] = out.geometry.simplify(tolerance=tol, preserve_topology=False)
+    out = out[~out.geometry.is_empty & out.geometry.notna()].copy()
+    # buffer(0) repairs minor self-intersections at low cost; only on
+    # LOD0 since LOD1's tolerance is small enough to rarely trigger them.
+    if suffix == '-lod0':
+        try:
+            out['geometry'] = out.geometry.buffer(0)
+            out = out[~out.geometry.is_empty & out.geometry.notna()].copy()
+        except Exception:
+            pass
     return out
 
 

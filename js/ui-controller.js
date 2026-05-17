@@ -2261,8 +2261,7 @@ class UIController {
             { id: 'flat-civil-parishes', name: 'Civil Parishes', years: '', extent: 'Ireland', classIds: ['ireland-civil-parishes'], thumbMapId: 'civil-parishes-by-province' },
             { id: 'flat-baronies', name: 'Baronies', years: '', extent: 'Ireland', mapIds: ['baronies-all-ireland'] },
             { id: 'flat-counties', name: 'Counties (Ireland)', years: '1899-1977', extent: 'Ireland', mapIds: ['counties-ireland', 'eds-roi-1957'] },
-            { id: 'flat-admin-counties', name: 'Administrative Counties (Northern Ireland) (1915)', years: '1915', extent: 'Northern Ireland', classIds: ['ni-admin-counties'] },
-            { id: 'flat-provinces', name: 'Provinces', years: '', extent: 'Ireland', mapIds: ['provinces'] },
+            { id: 'flat-provinces', name: 'Provinces', years: '1899-2019', extent: 'Ireland', mapIds: ['provinces', 'provinces-1899', 'provinces-1955'] },
             { id: 'flat-polities', name: 'Polities', years: '', extent: '', mapIds: ['ni-1921', 'roi-1938'] },
             // ── Topography ──
             { id: 'flat-place-names', name: 'Place Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['place-names-gazetteer'] },
@@ -2271,7 +2270,8 @@ class UIController {
             { id: 'flat-rivers', name: 'Rivers (2016) (Northern Ireland)', years: '2016', extent: 'Northern Ireland', mapIds: ['rivers-2016'] },
             // ── Local Government ──
             { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2022', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
-            { id: 'flat-roi-local-authorities', name: 'Local Authorities (Republic of Ireland)', years: '2014-2024', extent: 'Republic of Ireland', classIds: ['roi-local-authorities'] },
+            { id: 'flat-roi-local-authorities', name: 'Local Authorities (Republic of Ireland)', years: '1953-2024', extent: 'Republic of Ireland', classIds: ['roi-local-authorities'] },
+            { id: 'flat-admin-counties', name: 'Administrative Counties (Northern Ireland) (1915)', years: '1915', extent: 'Northern Ireland', classIds: ['ni-admin-counties'] },
             { id: 'flat-admin-areas', name: 'Administrative Areas (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-admin-areas'] },
             { id: 'flat-elb', name: 'Education and Library Boards (Northern Ireland)', years: '1984-1993', extent: 'Northern Ireland', classIds: ['ni-elb'] },
             { id: 'flat-hsct', name: 'Health and Social Care Trusts (Northern Ireland) (2007)', years: '2007', extent: 'Northern Ireland', mapIds: ['hsct-2007'] },
@@ -2295,6 +2295,8 @@ class UIController {
                   'eds-1986', 'eds-1994', 'eds-1997', 'eds-2019'
               ] },
             { id: 'flat-nra', name: 'Neighbourhood Renewal Areas (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['nra'] },
+            { id: 'flat-eoni-polling', name: 'EONI Polling Stations', years: '', extent: 'Northern Ireland',
+              mapIds: ['eoni-polling-stations'] },
             // ── Settlements & Built-Up Areas ──
             { id: 'flat-settlements', name: 'Settlements', years: '2005-2015', extent: 'Northern Ireland', classIds: ['ni-settlements'] },
             { id: 'flat-settlements-roi', name: 'Settlements', years: '2011-2015', extent: 'Republic of Ireland', classIds: ['roi-settlements'] },
@@ -2537,6 +2539,8 @@ class UIController {
                   'glpr-2021-09', 'glpr-2022-04', 'glpr-2023-04'
               ] },
             { id: 'flat-peacelines', name: 'Peacelines (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['peacelines'] },
+            { id: 'flat-roi-planning', name: 'ROI National Planning Applications', years: '', extent: 'Republic of Ireland',
+              mapIds: ['roi-national-planning-applications'] },
             // ── Environment, Water & Geology ──
             {
                 id: 'flat-designated-sites', name: 'Designated & Protected Sites (NIEA)', years: '', extent: 'Northern Ireland',
@@ -2796,11 +2800,6 @@ class UIController {
                     'osni-sixinch-edition-2'
                 ]
             },
-            // ── Planning & Polling Stations ──
-            { id: 'flat-roi-planning', name: 'ROI National Planning Applications', years: '', extent: 'Republic of Ireland',
-              mapIds: ['roi-national-planning-applications'] },
-            { id: 'flat-eoni-polling', name: 'EONI Polling Stations', years: '', extent: 'Northern Ireland',
-              mapIds: ['eoni-polling-stations'] },
             // ── Local Authority Open Data ──
             { id: 'flat-dcc', name: 'Dublin City Council — Open Data', years: '', extent: 'Republic of Ireland',
               mapIds: [
@@ -3119,7 +3118,7 @@ class UIController {
                 heading: 'Historic Geographies',
                 members: [
                     'Townlands', 'Civil Parishes', 'Baronies',
-                    'Counties', 'Administrative Counties',
+                    'Counties',
                     'Provinces', 'Polities'
                 ]
             },
@@ -3131,6 +3130,7 @@ class UIController {
                 heading: 'Local Government',
                 members: [
                     'Local Government Districts', 'Local Authorities',
+                    'Administrative Counties',
                     'Administrative Areas',
                     'Education and Library Boards',
                     'Health and Social Care Trusts',
@@ -3149,7 +3149,8 @@ class UIController {
                 members: [
                     'Wards', 'District Electoral Divisions',
                     'District Electoral Divisions/Wards',
-                    'Electoral Divisions', 'Neighbourhood Renewal Areas'
+                    'Electoral Divisions', 'Neighbourhood Renewal Areas',
+                    'EONI Polling Stations'
                 ]
             },
             {
@@ -3207,7 +3208,8 @@ class UIController {
                     'Historic Sites', 'Catholic Parishes', 'Catholic Dioceses',
                     'NI Historic Environment Division — Heritage Sites',
                     'NI Government Land & Property Register',
-                    'Peacelines'
+                    'Peacelines',
+                    'ROI National Planning Applications'
                 ]
             },
             {
@@ -3248,12 +3250,6 @@ class UIController {
                     'OSNI Map Sheet Coverage Grids and Benchmarks',
                     'OSNI Printed Raster Maps',
                     'OSNI Historical Six-Inch Maps'
-                ]
-            },
-            {
-                heading: 'Planning & Polling Stations',
-                members: [
-                    'ROI National Planning Applications', 'EONI Polling Stations'
                 ]
             },
             {

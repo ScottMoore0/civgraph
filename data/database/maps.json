@@ -567,7 +567,10 @@
         "roi-local-authorities-1980",
         "roi-local-authorities-1977",
         "roi-local-authorities-1966",
-        "roi-local-authorities-1965"
+        "roi-local-authorities-1965",
+        "roi-local-authorities-1957",
+        "roi-local-authorities-1955",
+        "roi-local-authorities-1953"
       ]
     },
     {
@@ -2997,7 +3000,8 @@
           "note": "Source — OSNI Spatial NI"
         }
       ],
-      "date": "2022-05-01"
+      "date": "2022-05-01",
+      "useLOD": true
     },
     {
       "id": "wards-2012",
@@ -6310,6 +6314,68 @@
       ]
     },
     {
+      "id": "provinces-1899",
+      "name": "Provinces of Ireland 1899",
+      "slug": "provinces-1899",
+      "category": "counties",
+      "date": "1899",
+      "provider": [
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Provinces_1899.fgb"
+      },
+      "style": {
+        "color": "#884EA0",
+        "weight": 2
+      },
+      "labelProperty": "PROVINCE",
+      "keywords": [
+        "province",
+        "ulster",
+        "munster",
+        "leinster",
+        "connacht",
+        "ireland",
+        "all-island",
+        "1899",
+        "historic"
+      ],
+      "useLOD": true
+    },
+    {
+      "id": "provinces-1955",
+      "name": "Provinces of Ireland 1955",
+      "slug": "provinces-1955",
+      "category": "counties",
+      "date": "1955",
+      "provider": [
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Provinces_1955.fgb"
+      },
+      "style": {
+        "color": "#884EA0",
+        "weight": 2
+      },
+      "labelProperty": "PROVINCE",
+      "keywords": [
+        "province",
+        "ulster",
+        "munster",
+        "leinster",
+        "connacht",
+        "cuige",
+        "irish names",
+        "ireland",
+        "all-island",
+        "1955",
+        "historic"
+      ],
+      "useLOD": true
+    },
+    {
       "id": "counties-ireland",
       "name": "Counties of Ireland",
       "slug": "counties-ireland",
@@ -6415,7 +6481,7 @@
       ],
       "variants": [
         {
-          "id": "counties-1915",
+          "id": "counties-ni-1915",
           "label": "Counties of Northern Ireland",
           "slug": "counties-ni-1915",
           "files": {
@@ -6597,6 +6663,88 @@
             "all-island",
             "32 counties",
             "1957",
+            "traditional"
+          ]
+        },
+        {
+          "id": "counties-ireland-1915",
+          "label": "Counties of Ireland 1915 (all-island, pre-rename)",
+          "slug": "counties-ireland-1915",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1915.fgb"
+          },
+          "date": "1915",
+          "useLOD": true,
+          "provider": [
+            "Phelim Birch"
+          ],
+          "style": {
+            "color": "#00A9E6",
+            "weight": 2
+          },
+          "labelProperty": "COUNTY",
+          "keywords": [
+            "county",
+            "ireland",
+            "all-island",
+            "32 counties",
+            "1915",
+            "kings county",
+            "queens county",
+            "traditional"
+          ]
+        },
+        {
+          "id": "counties-ireland-1922",
+          "label": "Counties of Ireland 1922 (all-island, post-rename)",
+          "slug": "counties-ireland-1922",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1922.fgb"
+          },
+          "date": "1922",
+          "useLOD": true,
+          "provider": [
+            "Phelim Birch"
+          ],
+          "style": {
+            "color": "#00A9E6",
+            "weight": 2
+          },
+          "labelProperty": "COUNTY",
+          "keywords": [
+            "county",
+            "ireland",
+            "all-island",
+            "32 counties",
+            "1922",
+            "offaly",
+            "laois",
+            "traditional"
+          ]
+        },
+        {
+          "id": "counties-ireland-1955",
+          "label": "Counties of Ireland 1955 (all-island)",
+          "slug": "counties-ireland-1955",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1955.fgb"
+          },
+          "date": "1955",
+          "useLOD": true,
+          "provider": [
+            "Phelim Birch"
+          ],
+          "style": {
+            "color": "#00A9E6",
+            "weight": 2
+          },
+          "labelProperty": "COUNTY",
+          "keywords": [
+            "county",
+            "ireland",
+            "all-island",
+            "32 counties",
+            "1955",
             "traditional"
           ]
         }
@@ -29077,6 +29225,93 @@
         "county council",
         "city council",
         "2008",
+        "historical"
+      ],
+      "labelProperty": "ENGLISH",
+      "useLOD": true
+    },
+    {
+      "id": "roi-local-authorities-1953",
+      "name": "Local Authorities 1953",
+      "slug": "roi-local-authorities-1953",
+      "category": "local-government",
+      "date": "1953-01-01",
+      "provider": [
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1953.fgb"
+      },
+      "style": {
+        "color": "#4A90D9",
+        "weight": 2
+      },
+      "keywords": [
+        "local authorities",
+        "republic of ireland",
+        "ireland",
+        "council",
+        "county council",
+        "city council",
+        "1953",
+        "historical"
+      ],
+      "labelProperty": "ENGLISH",
+      "useLOD": true
+    },
+    {
+      "id": "roi-local-authorities-1955",
+      "name": "Local Authorities 1955",
+      "slug": "roi-local-authorities-1955",
+      "category": "local-government",
+      "date": "1955-01-01",
+      "provider": [
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1955.fgb"
+      },
+      "style": {
+        "color": "#4A90D9",
+        "weight": 2
+      },
+      "keywords": [
+        "local authorities",
+        "republic of ireland",
+        "ireland",
+        "council",
+        "county council",
+        "city council",
+        "1955",
+        "historical"
+      ],
+      "labelProperty": "ENGLISH",
+      "useLOD": true
+    },
+    {
+      "id": "roi-local-authorities-1957",
+      "name": "Local Authorities 1957",
+      "slug": "roi-local-authorities-1957",
+      "category": "local-government",
+      "date": "1957-01-01",
+      "provider": [
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1957.fgb"
+      },
+      "style": {
+        "color": "#4A90D9",
+        "weight": 2
+      },
+      "keywords": [
+        "local authorities",
+        "republic of ireland",
+        "ireland",
+        "council",
+        "county council",
+        "city council",
+        "1957",
         "historical"
       ],
       "labelProperty": "ENGLISH",
