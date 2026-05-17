@@ -666,6 +666,43 @@
     }
   </script>
 
+  <!-- Real-user monitoring: load self-hosted web-vitals library (1.7 KB
+       gzipped) and beacon Core Web Vitals to /_api/rum. Metrics: LCP,
+       INP, CLS, FCP, TTFB. Beacons via sendBeacon so they don't block
+       page unload. Logs land in CF Pages real-time logs / `wrangler
+       pages tail`. Defer so RUM doesn't compete for the critical path. -->
+  <script src="assets/js/web-vitals-4.iife.js" defer></script>
+  <script>
+    addEventListener('DOMContentLoaded', () => {
+      if (typeof webVitals !== 'object') return;
+      // Coarse UA category — keeps log bytes tiny, no PII.
+      const ua = navigator.userAgent;
+      const uaTag = /Mobi|Android|iPhone|iPad/.test(ua) ? 'mobile' : 'desktop';
+      const url = location.pathname;
+      const send = (m) => {
+        try {
+          const payload = JSON.stringify({
+            metric: m.name, value: m.value, rating: m.rating,
+            id: m.id, navigationType: m.navigationType,
+            url, ua: uaTag
+          });
+          // sendBeacon survives page unload; falls back to fetch keepalive.
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon('/_api/rum', payload);
+          } else {
+            fetch('/_api/rum', { method: 'POST', body: payload, keepalive: true }).catch(() => {});
+          }
+        } catch {}
+      };
+      // reportAllChanges:false → only finalised values per metric per page.
+      webVitals.onLCP(send);
+      webVitals.onINP(send);
+      webVitals.onCLS(send);
+      webVitals.onFCP(send);
+      webVitals.onTTFB(send);
+    });
+  </script>
+
 
   <!-- Support Modal -->
   <div id="supportModal" class="support-modal hidden" role="dialog" aria-modal="true"

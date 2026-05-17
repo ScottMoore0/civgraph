@@ -110,7 +110,7 @@ self.addEventListener('fetch', (event) => {
     if (url.pathname.startsWith('/build/') ||
         url.pathname.startsWith('/assets/fonts/') ||
         url.pathname.startsWith('/assets/css/leaflet-') ||
-        url.pathname.startsWith('/assets/js/leaflet-') ||
+        url.pathname.startsWith('/assets/js/') ||
         url.pathname.startsWith('/assets/images/') ||
         url.pathname === '/manifest.json') {
         event.respondWith(cacheFirstWithCap(req, STATIC_CACHE));
