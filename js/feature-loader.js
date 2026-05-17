@@ -240,11 +240,17 @@ class FeatureLoader {
      * Check if a map supports per-feature loading
      */
     supportsLOD(mapId) {
+        if (!this._supportsLODCache) this._supportsLODCache = new Map();
+        const cached = this._supportsLODCache.get(mapId);
+        if (cached !== undefined) return cached;
         if (!this.initialized && !this.spatialIndexByMap.has(mapId)) return false;
         const features = this.spatialIndexByMap.get(mapId);
         // Features must have 'id' field (format "mapId:index") for per-feature loading
         // Features without 'id' were indexed for search/bbox only
-        return features && features.length >= FEATURE_THRESHOLD && features[0]?.id != null;
+        const result = !!(features && features.length >= FEATURE_THRESHOLD && features[0]?.id != null);
+        // Only cache once we have features loaded; an absent-now entry could appear later
+        if (features) this._supportsLODCache.set(mapId, result);
+        return result;
     }
 
     /**

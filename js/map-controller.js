@@ -225,11 +225,33 @@ class MapController {
     }
 
     _attachFeatureHoverHandlers(layer) {
-        if (!layer || typeof layer.on !== 'function') return;
-        // Point-feature hover is now resolved centrally via map mousemove.
-        if (typeof layer.getLatLng === 'function') return;
-        layer.on('mouseover', () => this._setFeatureHover(layer, true));
-        layer.on('mouseout', () => this._setFeatureHover(layer, false));
+        // No-op: polygon/line hover is now handled via delegated mouseover/mouseout
+        // on state.group (FeatureGroup auto-bubbles child layer events with e.layer
+        // pointing at the original layer). See _attachGroupHoverDelegation.
+        // Point-feature hover is resolved centrally via map mousemove.
+        return;
+    }
+
+    /**
+     * Attach one pair of delegated hover handlers to a state.group FeatureGroup.
+     * Replaces 2 listeners × N features (10k+ closures for dense maps) with 2
+     * listeners total per state, and lets the listeners be cleared with the
+     * group itself when the layer is unloaded.
+     */
+    _attachGroupHoverDelegation(state) {
+        if (!state?.group || state._hoverDelegated) return;
+        state._hoverDelegated = true;
+        state.group.on('mouseover', (e) => {
+            const lyr = e.layer;
+            // Skip points — handled centrally by map mousemove resolver
+            if (!lyr || typeof lyr.getLatLng === 'function') return;
+            this._setFeatureHover(lyr, true);
+        });
+        state.group.on('mouseout', (e) => {
+            const lyr = e.layer;
+            if (!lyr || typeof lyr.getLatLng === 'function') return;
+            this._setFeatureHover(lyr, false);
+        });
     }
 
     _pointPickPx(zoom = this.map?.getZoom?.() ?? 10) {
@@ -1191,7 +1213,7 @@ class MapController {
             state = {
                 id,
                 config: mapConfig,
-                group: L.layerGroup(),
+                group: L.featureGroup(),
                 geoJsonLayers: [],
                 labelEntries: [],
                 loaded: false,
@@ -1206,6 +1228,7 @@ class MapController {
                 featureVisibility: new Map()
             };
             this.layerStates.set(id, state);
+            this._attachGroupHoverDelegation(state);
         } else {
             state.config = mapConfig;
             state.loading = true;
@@ -1886,28 +1909,37 @@ class MapController {
      * Falls back to the full chunk file at high zoom levels.
      */
     _resolveChunkFile(mapId, chunk, zoom) {
-        if (this.shouldPreferFullChunkGeometry(mapId, zoom)) {
-            return chunk.file;
-        }
-        if (!chunk.zoomFiles) return chunk.file;
+        // Memoise: (mapId, chunkId, zoomBand) → file. Zoom is bucketed to integer
+        // since chunk.zoomFiles boundaries are integer maxZoom values — any zoom
+        // inside the same integer floor resolves to the same file.
+        const zoomBand = Math.floor(zoom);
+        const key = `${mapId}::${chunk.id}::${zoomBand}`;
+        if (!this._chunkFileResolveCache) this._chunkFileResolveCache = new Map();
+        const cached = this._chunkFileResolveCache.get(key);
+        if (cached !== undefined) return cached;
 
-        // Find the zoom variant whose maxZoom >= current zoom
-        // zoomFiles are keyed by level name (e.g. 'z7', 'z10')
-        // Each has { file, count, maxZoom }
-        let bestVariant = null;
-        for (const [levelName, variant] of Object.entries(chunk.zoomFiles)) {
-            if (zoom <= variant.maxZoom) {
-                // This variant covers the current zoom
-                if (!bestVariant || variant.maxZoom < bestVariant.maxZoom) {
-                    bestVariant = variant; // Pick the tightest match
+        let result;
+        if (this.shouldPreferFullChunkGeometry(mapId, zoom)) {
+            result = chunk.file;
+        } else if (!chunk.zoomFiles) {
+            result = chunk.file;
+        } else {
+            // Find the zoom variant whose maxZoom >= current zoom
+            // zoomFiles are keyed by level name (e.g. 'z7', 'z10')
+            // Each has { file, count, maxZoom }
+            let bestVariant = null;
+            for (const [levelName, variant] of Object.entries(chunk.zoomFiles)) {
+                if (zoom <= variant.maxZoom) {
+                    // This variant covers the current zoom
+                    if (!bestVariant || variant.maxZoom < bestVariant.maxZoom) {
+                        bestVariant = variant; // Pick the tightest match
+                    }
                 }
             }
+            result = bestVariant ? bestVariant.file : chunk.file;
         }
-
-        if (bestVariant) {
-            return bestVariant.file;
-        }
-        return chunk.file; // Full file for high zoom
+        this._chunkFileResolveCache.set(key, result);
+        return result;
     }
 
     /**
@@ -2106,7 +2138,10 @@ class MapController {
             }
             if (!chunkIndex) continue;
 
-            const rect = this.boundsToRect(bounds);
+            // Use the same buffer policy as the initial chunk load (e.g. 0.05 for
+            // townland maps, 0.5 elsewhere) so chunks don't churn at viewport edges
+            // during slow pans.
+            const rect = this.boundsToRect(bounds, this.getInitialChunkBuffer(state.config));
             const visibleChunks = this._getIntersectingChunks(chunkIndex, rect);
             const loadedChunks = this._loadedChunks.get(mapId) || new Map();
 
@@ -2600,7 +2635,7 @@ class MapController {
         const state = {
             id: layerId,
             config: { ...sourceMapConfig, id: layerId, name: displayName || sourceMapConfig.name },
-            group: L.layerGroup(),
+            group: L.featureGroup(),
             geoJsonLayers: [],
             labelEntries: [],
             loaded: true,
@@ -2614,6 +2649,7 @@ class MapController {
             featureVisibility: new Map()
         };
         this.layerStates.set(layerId, state);
+        this._attachGroupHoverDelegation(state);
 
         for (const feature of filtered) {
             this.addFeatureToLayer(state, feature, sourceMapConfig.style,
@@ -3186,7 +3222,7 @@ class MapController {
             state = {
                 id,
                 config: mapConfig,
-                group: L.layerGroup(),
+                group: L.featureGroup(),
                 geoJsonLayers: [],
                 labelEntries: [],
                 loaded: true,
@@ -3202,6 +3238,7 @@ class MapController {
                 baseLoaded: false
             };
             this.layerStates.set(id, state);
+            this._attachGroupHoverDelegation(state);
         } else {
             state.featureNames ||= new Map();
             state.featureLayers ||= new Map();
@@ -3464,6 +3501,21 @@ class MapController {
      * Set fill transparency for all layers
      */
     setFillTransparency(value) {
+        // Called from a slider 'input' event — fires continuously during drag.
+        // Each invocation walks every layer state and restyles every feature
+        // (10k+ setStyle calls on dense maps). rAF-coalesce so a slider drag
+        // produces at most one restyle pass per frame regardless of input rate.
+        this._pendingFillTransparency = value;
+        if (this._fillTransparencyRafId) return;
+        this._fillTransparencyRafId = requestAnimationFrame(() => {
+            this._fillTransparencyRafId = 0;
+            const v = this._pendingFillTransparency;
+            this._pendingFillTransparency = null;
+            this._applyFillTransparency(v);
+        });
+    }
+
+    _applyFillTransparency(value) {
         const fillOpacity = 1 - (value / 100);
         this.fillOpacity = fillOpacity;
         this.layerStates.forEach(state => {
