@@ -3586,8 +3586,48 @@ class MapController {
         const fontSize = Math.round(12 * (this.textScale / 100));
         const padding = 8; // Minimum spacing between labels in pixels
 
-        // Track placed label bounding boxes for overlap detection
-        const placedLabels = [];
+        // Spatial bucket grid for collision detection. Each label is registered
+        // in every cell it overlaps; a candidate only checks against labels in
+        // its own cells, not all previously-placed labels. Replaces an O(n²)
+        // scan with O(k) where k = number of neighbours sharing a cell.
+        // Cell size chosen larger than typical max label width (~200px) so most
+        // labels land in 1–2 cells.
+        const CELL = 256;
+        const cellsByKey = new Map();
+        const cellsForBox = (box) => {
+            const x0 = Math.floor(box.left / CELL);
+            const x1 = Math.floor(box.right / CELL);
+            const y0 = Math.floor(box.top / CELL);
+            const y1 = Math.floor(box.bottom / CELL);
+            const out = [];
+            for (let x = x0; x <= x1; x++) {
+                for (let y = y0; y <= y1; y++) out.push(x + ':' + y);
+            }
+            return out;
+        };
+        const overlapsExisting = (box) => {
+            const seen = new Set();
+            for (const key of cellsForBox(box)) {
+                const bucket = cellsByKey.get(key);
+                if (!bucket) continue;
+                for (const ex of bucket) {
+                    if (seen.has(ex)) continue;
+                    seen.add(ex);
+                    if (!(box.right < ex.left ||
+                          box.left > ex.right ||
+                          box.bottom < ex.top ||
+                          box.top > ex.bottom)) return true;
+                }
+            }
+            return false;
+        };
+        const registerBox = (box) => {
+            for (const key of cellsForBox(box)) {
+                let bucket = cellsByKey.get(key);
+                if (!bucket) { bucket = []; cellsByKey.set(key, bucket); }
+                bucket.push(box);
+            }
+        };
 
         // Collect all visible label entries
         const allLabels = [];
@@ -3679,19 +3719,12 @@ class MapController {
                     bottom: containerPt.y + labelHeight + padding
                 };
 
-                // Check for overlap with any existing labels
-                const overlaps = placedLabels.some(existing =>
-                    !(labelBox.right < existing.left ||
-                        labelBox.left > existing.right ||
-                        labelBox.bottom < existing.top ||
-                        labelBox.top > existing.bottom)
-                );
-
-                // Skip this label if it would overlap with existing labels
-                if (overlaps) continue;
+                // Skip this label if it would overlap with any existing label
+                // sharing a spatial cell.
+                if (overlapsExisting(labelBox)) continue;
 
                 // No overlap - place the label
-                placedLabels.push(labelBox);
+                registerBox(labelBox);
 
                 // Create label marker
                 const marker = L.marker(center, {
