@@ -653,11 +653,15 @@
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.
-       Strategies per cache live in /sw.js. -->
+       Strategies per cache live in /sw.js.
+       updateViaCache: 'none' bypasses the HTTP cache for the SW file
+       itself — without it, Cloudflare Pages' default 4h Browser TTL for
+       JS files would delay deploys reaching clients. The SW's downstream
+       cache strategies are unaffected. -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js?v=1').catch(() => {});
+        navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).catch(() => {});
       });
     }
   </script>
