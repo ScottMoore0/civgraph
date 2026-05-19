@@ -31,6 +31,7 @@ class UIController {
         this.onMapUnload = null;
         this.onMapToggle = null;
         this.onCheckMapLoaded = null;
+        this.onCheckMapVisible = null;
         this.onLoadSingleFeature = null;
         this.onHideMap = null;
         this.onVisibilityToggle = null;
@@ -64,6 +65,12 @@ class UIController {
         this._electionEntityDetailCache = new Map();
         this._catalogueBookView = null;
         this._bookMarkdownCache = new Map();
+        this._flatRenderToken = null;
+        this._flatRenderScheduled = false;
+        this._pendingFlatRenderOptions = null;
+        this._thumbnailIds = null;
+        this._thumbnailManifestPromise = null;
+        this._thumbnailObserver = null;
     }
 
     init() {
@@ -114,6 +121,7 @@ class UIController {
         this.setupCatalogueNav();
         this.setupCatalogueViewToggle();
         this.setupMobileMenu();
+        this.ensureThumbnailManifest().catch(() => {});
         console.log('[UIController] Initialized');
         return this;
     }
@@ -1231,7 +1239,7 @@ class UIController {
         // Show list, hide detail
         listView.classList.remove('hidden');
         detailView.classList.add('hidden');
-        this.renderFlatView(this._lastMapListOptions || {});
+        this.requestFlatViewRender(this._lastMapListOptions || {}, { defer: this.isMobile });
         this.updateCatalogueNavButtons();
     }
 
@@ -1429,15 +1437,7 @@ class UIController {
             ? `<button type="button" class="btn btn--sm btn--outline book-card__btn" data-book-view="${this.escapeHtml(book.id)}" data-book-format="markdown">Markdown</button>`
             : '';
         return `
-            <div class="thumb-zone">
-                <span class="book-card__thumb">
-                    <img class="book-card__thumbnail" src="assets/thumbnails/book-${book.id}.webp" srcset="assets/thumbnails/book-${book.id}-60.webp 60w, assets/thumbnails/book-${book.id}.webp 120w" sizes="60px" alt="" loading="lazy" onerror="this.style.display='none'; var fb=this.parentElement && this.parentElement.querySelector('.book-card__thumbnail-fallback'); if(fb){fb.hidden=false;}">
-                    <span class="book-card__thumbnail-fallback${book.category ? ` book-card__thumbnail-fallback--${this.escapeHtml(book.category)}` : ''}" hidden>
-                        <span class="book-card__thumbnail-icon">${this.escapeHtml(category?.icon || '[book]')}</span>
-                        <span class="book-card__thumbnail-label">${this.escapeHtml(fallbackLabel)}</span>
-                    </span>
-                </span>
-            </div>
+            ${this.renderBookThumbnail(book, category, fallbackLabel)}
             <div class="book-card__content">
                 <h4 class="book-card__title">${this.escapeHtml(book.title)}</h4>
                 <p class="book-card__author">${this.escapeHtml((book.authors || []).join(', '))}</p>
@@ -1797,6 +1797,199 @@ class UIController {
         }
     }
 
+    async ensureThumbnailManifest() {
+        if (this._thumbnailIds) return this._thumbnailIds;
+        if (!this._thumbnailManifestPromise) {
+            this._thumbnailManifestPromise = fetch('assets/thumbnails/manifest.json', { cache: 'force-cache' })
+                .then((response) => response.ok ? response.json() : [])
+                .then((ids) => {
+                    this._thumbnailIds = new Set(Array.isArray(ids) ? ids.map(String) : []);
+                    return this._thumbnailIds;
+                })
+                .catch((error) => {
+                    console.warn('[UIController] Thumbnail manifest unavailable:', error);
+                    this._thumbnailIds = new Set();
+                    return this._thumbnailIds;
+                });
+        }
+        return this._thumbnailManifestPromise;
+    }
+
+    hasThumbnailAsset(id) {
+        if (!id || !this._thumbnailIds) return false;
+        return this._thumbnailIds.has(String(id));
+    }
+
+    getThumbnailId(mapOrId) {
+        if (!mapOrId) return '';
+        if (typeof mapOrId === 'string') return mapOrId;
+        return mapOrId.cloneOf || mapOrId.id || '';
+    }
+
+    thumbnailPath(id, sizeSuffix = '') {
+        const thumbId = String(id || '');
+        if (!thumbId) return '';
+        const candidate = `${thumbId}${sizeSuffix}`;
+        if (this.hasThumbnailAsset(candidate)) {
+            return `assets/thumbnails/${this.escapeHtml(candidate)}.webp`;
+        }
+        return '';
+    }
+
+    renderThumbnailImage(id, className, sizes, options = {}) {
+        const thumbId = String(id || '');
+        const fullPath = this.thumbnailPath(thumbId);
+        if (!fullPath) return '';
+
+        const smallPath = this.thumbnailPath(thumbId, '-60');
+        const srcset = smallPath
+            ? ` data-thumbnail-srcset="${smallPath} 60w, ${fullPath} 120w"`
+            : '';
+        const deferAttr = options.defer === 'hover' ? ' data-thumbnail-defer="hover"' : '';
+        return `<img class="${this.escapeHtml(className)}" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-thumbnail-src="${fullPath}"${srcset} sizes="${this.escapeHtml(sizes)}" alt="" loading="lazy"${deferAttr}>`;
+    }
+
+    renderThumbnailZone(id, className, sizes) {
+        const imageHtml = this.renderThumbnailImage(id, className, sizes);
+        const missingClass = imageHtml ? '' : ' thumb-zone--missing';
+        return `<div class="thumb-zone${missingClass}">${imageHtml}</div>`;
+    }
+
+    renderBookThumbnail(book, category, fallbackLabel) {
+        const thumbId = `book-${book.id}`;
+        const imageHtml = this.renderThumbnailImage(thumbId, 'book-card__thumbnail', '60px');
+        const categoryClass = book.category ? ` book-card__thumbnail-fallback--${this.escapeHtml(book.category)}` : '';
+        return `
+            <div class="thumb-zone${imageHtml ? '' : ' thumb-zone--missing'}">
+                <span class="book-card__thumb">
+                    ${imageHtml}
+                    <span class="book-card__thumbnail-fallback${categoryClass}"${imageHtml ? ' hidden' : ''}>
+                        <span class="book-card__thumbnail-icon">${this.escapeHtml(category?.icon || '[book]')}</span>
+                        <span class="book-card__thumbnail-label">${this.escapeHtml(fallbackLabel)}</span>
+                    </span>
+                </span>
+            </div>`;
+    }
+
+    renderTocThumbnail(id) {
+        const thumbId = String(id || '');
+        const smallPath = this.thumbnailPath(thumbId, '-60') || this.thumbnailPath(thumbId);
+        const fullPath = this.thumbnailPath(thumbId);
+        if (!smallPath) {
+            return '<span class="catalogue-flat__toc-thumb catalogue-flat__toc-thumb--fallback"></span>';
+        }
+        const zoomHtml = fullPath
+            ? `<span class="catalogue-flat__toc-thumbzoom" aria-hidden="true"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-thumbnail-src="${fullPath}" data-thumbnail-defer="hover" alt="" loading="lazy"></span>`
+            : '';
+        return `<span class="catalogue-flat__toc-thumbwrap"><img class="catalogue-flat__toc-thumb" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-thumbnail-src="${smallPath}" alt="" loading="lazy">${zoomHtml}</span>`;
+    }
+
+    hydrateLazyThumbnails(root = document) {
+        const images = Array.from(root.querySelectorAll('img[data-thumbnail-src]:not([data-thumbnail-hydrated])'))
+            .filter((img) => img.dataset.thumbnailDefer !== 'hover');
+        if (images.length === 0) return;
+
+        const loadImage = (img) => this.loadLazyThumbnailImage(img);
+        if (!('IntersectionObserver' in window)) {
+            images.forEach(loadImage);
+            return;
+        }
+
+        if (!this._thumbnailObserver) {
+            this._thumbnailObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    this._thumbnailObserver.unobserve(entry.target);
+                    this.loadLazyThumbnailImage(entry.target);
+                });
+            }, { rootMargin: '320px 0px' });
+        }
+        images.forEach((img) => this._thumbnailObserver.observe(img));
+    }
+
+    loadLazyThumbnailImage(img) {
+        if (!img || img.dataset.thumbnailHydrated === '1') return;
+        const src = img.dataset.thumbnailSrc;
+        if (!src) return;
+        const srcset = img.dataset.thumbnailSrcset;
+        if (srcset) img.srcset = srcset;
+        img.src = src;
+        img.dataset.thumbnailHydrated = '1';
+    }
+
+    scheduleIdleWork(callback, timeout = 120) {
+        if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+            return window.requestIdleCallback(callback, { timeout });
+        }
+        return window.setTimeout(callback, 0);
+    }
+
+    async yieldForCatalogueRender(index, batchSize = 8) {
+        if (!this.isMobile && index % (batchSize * 2) !== batchSize * 2 - 1) return;
+        if (index % batchSize !== batchSize - 1) return;
+        await new Promise((resolve) => this.scheduleIdleWork(resolve, 80));
+    }
+
+    requestFlatViewRender(options = {}, { defer = false } = {}) {
+        this._pendingFlatRenderOptions = options || {};
+        const run = () => {
+            this._flatRenderScheduled = false;
+            const latestOptions = this._pendingFlatRenderOptions || {};
+            this.renderFlatView(latestOptions).then(() => {
+                this.restoreExpandedVariants();
+            });
+        };
+        if (!defer) {
+            run();
+            return;
+        }
+        if (this._flatRenderScheduled) return;
+        this._flatRenderScheduled = true;
+        this.scheduleIdleWork(run, 350);
+    }
+
+    syncMapCatalogueState(options = {}) {
+        this._lastMapListOptions = { ...(this._lastMapListOptions || {}), ...(options || {}) };
+        const root = document.getElementById('catalogueFlatView') || document;
+        const visibleIds = new Set(options.visibleIds || this._lastMapListOptions.visibleIds || []);
+
+        const isVisible = (mapId, loaded) => {
+            if (typeof this.onCheckMapVisible === 'function') {
+                try { return !!this.onCheckMapVisible(mapId); } catch (err) {}
+            }
+            return loaded && visibleIds.has(mapId);
+        };
+
+        root.querySelectorAll('[data-map-id]').forEach((el) => {
+            const mapId = el.dataset.mapId;
+            if (!mapId) return;
+            const loaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
+            const visible = isVisible(mapId, loaded);
+            el.classList.toggle('class-member--loaded', loaded && el.classList.contains('class-member'));
+            el.classList.toggle('c1-grid-entry--loaded', loaded && el.classList.contains('c1-grid-entry'));
+            el.classList.toggle('variant-item--loaded', loaded && el.classList.contains('variant-item'));
+            el.classList.toggle('map-card--active', loaded && el.classList.contains('map-card'));
+            if (el.classList.contains('catalogue-detail')) {
+                el.classList.toggle('catalogue-detail--loaded', loaded);
+            }
+        });
+
+        root.querySelectorAll('.load-btn[data-map-id], .c1-load-btn[data-map-id]').forEach((btn) => {
+            const loaded = this.isMapLoadedState(btn.dataset.mapId, this._lastMapListOptions);
+            btn.innerHTML = this.getLoadButtonIcon(loaded);
+            btn.title = loaded ? 'Unload' : 'Load';
+        });
+
+        root.querySelectorAll('.visibility-btn[data-map-id]').forEach((btn) => {
+            const mapId = btn.dataset.mapId;
+            const loaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
+            const visible = isVisible(mapId, loaded);
+            btn.innerHTML = this.getVisibilityButtonIcon(visible);
+            btn.title = visible ? 'Hide' : 'Show';
+            btn.disabled = !loaded;
+        });
+    }
+
     // ============================================
     // PHASE 2: Enhanced renderMapList
     // ============================================
@@ -1805,11 +1998,9 @@ class UIController {
         this._lastMapListOptions = options || {};
         const container = document.getElementById('mapList');
         // Flat-only runtime: always re-render flat catalogue and update stats.
-        this.invalidateFlatView();
+        this.invalidateFlatView({ render: false });
         if (this._catalogueViewMode === 'flat') {
-            this.renderFlatView(this._lastMapListOptions).then(() => {
-                this.restoreExpandedVariants();
-            });
+            this.requestFlatViewRender(this._lastMapListOptions, { defer: this.isMobile });
         }
         this.updateFilterStats(maps.length, options.totalMaps || maps.length);
 
@@ -1843,7 +2034,7 @@ class UIController {
         container.innerHTML = '';
         this.focusedCardIndex = -1;
         this._savedSliderValues = savedSliderValues;
-        this.invalidateFlatView();
+        this.invalidateFlatView({ render: false });
 
         if (maps.length === 0) {
             container.innerHTML = '<p class="text-muted text-sm">No maps found</p>';
@@ -2191,7 +2382,9 @@ class UIController {
         // Flat-only catalogue view.
         if (isFlat) {
             flatView.classList.remove('hidden');
-            if (!flatView.dataset.rendered) this.renderFlatView(this._lastMapListOptions || {});
+            if (!flatView.dataset.rendered) {
+                this.requestFlatViewRender(this._lastMapListOptions || {}, { defer: this.isMobile });
+            }
         }
 
         // Flat mode: hide top category/provider filters as requested.
@@ -2210,6 +2403,10 @@ class UIController {
     async renderFlatView(options = {}) {
         const container = document.getElementById('catalogueFlatView');
         if (!container) return;
+        const renderToken = Symbol('flat-render');
+        this._flatRenderToken = renderToken;
+        await this.ensureThumbnailManifest();
+        if (this._flatRenderToken !== renderToken) return;
 
         if (this._catalogueBookView) {
             const book = dataService.getBookById(this._catalogueBookView.bookId);
@@ -2231,6 +2428,7 @@ class UIController {
                 container.classList.add('catalogue-flat-view--book-viewer');
                 container.innerHTML = this._renderCatalogueBookViewer(book, this._catalogueBookView.format, markdownText);
                 container.dataset.rendered = 'true';
+                this.hydrateLazyThumbnails(container);
 
                 container.querySelector('[data-book-view-close]')?.addEventListener('click', () => {
                     this.showCatalogueListView(true);
@@ -2260,7 +2458,7 @@ class UIController {
             { id: 'flat-townlands', name: 'Townlands', years: '', extent: 'Ireland', mapIds: ['all-ireland-townlands'] },
             { id: 'flat-civil-parishes', name: 'Civil Parishes', years: '', extent: 'Ireland', classIds: ['ireland-civil-parishes'], thumbMapId: 'civil-parishes-by-province' },
             { id: 'flat-baronies', name: 'Baronies', years: '', extent: 'Ireland', mapIds: ['baronies-all-ireland'] },
-            { id: 'flat-counties', name: 'Counties (Ireland)', years: '1899-1977', extent: 'Ireland', mapIds: ['counties-ireland', 'eds-roi-1957'] },
+            { id: 'flat-counties', name: 'Counties (Ireland)', years: '1899-1977', extent: 'Ireland', mapIds: ['counties-ireland', 'eds-roi-1957', 'counties-ireland-1955'] },
             { id: 'flat-provinces', name: 'Provinces', years: '1899-2019', extent: 'Ireland', mapIds: ['provinces', 'provinces-1899', 'provinces-1955'] },
             { id: 'flat-polities', name: 'Polities', years: '', extent: '', mapIds: ['ni-1921', 'roi-1938'] },
             // ── Topography ──
@@ -3293,7 +3491,7 @@ class UIController {
                         <a href="#flat-card-${card.id}" class="catalogue-flat__toc-link">
                             <span class="catalogue-flat__toc-namecell">
                                 <span class="catalogue-flat__toc-color" style="background:${this.escapeHtml(previewColor)}"></span>
-                                ${previewThumb ? `<span class="catalogue-flat__toc-thumbwrap"><img class="catalogue-flat__toc-thumb" src="assets/thumbnails/${this.escapeHtml(previewThumb)}-60.webp" alt="" loading="lazy" onerror="var w=this.parentElement; if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.style.display='none'"><span class="catalogue-flat__toc-thumbzoom" aria-hidden="true"><img src="assets/thumbnails/${this.escapeHtml(previewThumb)}.webp" alt="" loading="lazy" onerror="var w=this.closest('.catalogue-flat__toc-thumbwrap'); if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.parentElement.style.display='none'"></span></span>` : '<span class="catalogue-flat__toc-thumb catalogue-flat__toc-thumb--fallback"></span>'}
+                                ${previewThumb ? this.renderTocThumbnail(previewThumb) : '<span class="catalogue-flat__toc-thumb catalogue-flat__toc-thumb--fallback"></span>'}
                                 <span class="catalogue-flat__toc-name">${this.escapeHtml(tocName)}</span>
                             </span>
                         </a>
@@ -3318,7 +3516,7 @@ class UIController {
                         <a href="#flat-card-${merge.mergedIds[0]}" class="catalogue-flat__toc-link">
                             <span class="catalogue-flat__toc-namecell">
                                 <span class="catalogue-flat__toc-color" style="background:${this.escapeHtml(previewColor)}"></span>
-                                ${previewThumb ? `<span class="catalogue-flat__toc-thumbwrap"><img class="catalogue-flat__toc-thumb" src="assets/thumbnails/${this.escapeHtml(previewThumb)}-60.webp" alt="" loading="lazy" onerror="var w=this.parentElement; if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.style.display='none'"><span class="catalogue-flat__toc-thumbzoom" aria-hidden="true"><img src="assets/thumbnails/${this.escapeHtml(previewThumb)}.webp" alt="" loading="lazy" onerror="var w=this.closest('.catalogue-flat__toc-thumbwrap'); if(w){w.classList.add('catalogue-flat__toc-thumbwrap--missing');} this.parentElement.style.display='none'"></span></span>` : '<span class="catalogue-flat__toc-thumb catalogue-flat__toc-thumb--fallback"></span>'}
+                                ${previewThumb ? this.renderTocThumbnail(previewThumb) : '<span class="catalogue-flat__toc-thumb catalogue-flat__toc-thumb--fallback"></span>'}
                                 <span class="catalogue-flat__toc-name">${this.escapeHtml(merge.canonicalName)}</span>
                             </span>
                         </a>
@@ -3409,7 +3607,9 @@ class UIController {
         electionsAnchor.id = 'flat-section-elections';
         electionsAnchor.className = 'catalogue-flat__anchor';
         cardsContainer.appendChild(electionsAnchor);
-        decadeElectionCards.forEach(def => {
+        for (let defIndex = 0; defIndex < decadeElectionCards.length; defIndex++) {
+            if (this._flatRenderToken !== renderToken) return;
+            const def = decadeElectionCards[defIndex];
             const anchor = document.createElement('div');
             anchor.id = `flat-card-${def.id}`;
             anchor.className = 'catalogue-flat__anchor';
@@ -3444,7 +3644,7 @@ class UIController {
                          data-election-date="${esc(entry.date)}"
                          data-election-placeholder="${entry.placeholder ? '1' : '0'}"
                          style="--map-color:${esc(appearance.color)};">
-                        <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${esc(appearance.thumb)}.webp" srcset="assets/thumbnails/${esc(appearance.thumb)}-60.webp 60w, assets/thumbnails/${esc(appearance.thumb)}.webp 120w" sizes="28px" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+                        ${this.renderThumbnailZone(appearance.thumb, 'class-member__thumbnail', '28px')}
                         <div class="class-member__info">
                             ${dateLabel}
                             <span class="class-member__desc">${esc(subtitle)}</span>
@@ -3482,14 +3682,17 @@ class UIController {
                     </div>
                 </div>`;
             cardsContainer.appendChild(card);
-        });
+            await this.yieldForCatalogueRender(defIndex);
+        }
 
         const mapsAnchor = document.createElement('div');
         mapsAnchor.id = 'flat-section-maps';
         mapsAnchor.className = 'catalogue-flat__anchor';
         cardsContainer.appendChild(mapsAnchor);
 
-        c1Cards.forEach(def => {
+        for (let defIndex = 0; defIndex < c1Cards.length; defIndex++) {
+            if (this._flatRenderToken !== renderToken) return;
+            const def = c1Cards[defIndex];
             const anchor = document.createElement('div');
             anchor.id = `flat-card-${def.id}`;
             anchor.className = 'catalogue-flat__anchor';
@@ -3524,7 +3727,8 @@ class UIController {
                 <div class="c1-card__content">${sectionHtml}</div>`;
             this.addC1CardEventListeners(card, allMaps.filter(m => !m.map.placeholder));
             cardsContainer.appendChild(card);
-        });
+            await this.yieldForCatalogueRender(defIndex);
+        }
 
         const booksAnchor = document.createElement('div');
         booksAnchor.id = 'flat-section-books';
@@ -3636,6 +3840,7 @@ class UIController {
             if (!wrap || wrap.classList.contains('catalogue-flat__toc-thumbwrap--missing')) return;
             const zoom = wrap.querySelector('.catalogue-flat__toc-thumbzoom');
             if (!zoom) return;
+            this.loadLazyThumbnailImage(zoom.querySelector('img[data-thumbnail-src]'));
             const rect = wrap.getBoundingClientRect();
             let left = rect.right + 8;
             let top = rect.top + rect.height / 2 - 60;
@@ -3654,6 +3859,9 @@ class UIController {
             if (zoom) zoom.classList.remove('catalogue-flat__toc-thumbzoom--visible');
         }, true);
 
+        if (this._flatRenderToken !== renderToken) return;
+        this.hydrateLazyThumbnails(container);
+        this.syncMapCatalogueState(options);
         container.dataset.rendered = 'true';
         // Re-apply the cached stats text into the TOC top-row slot now that
         // #catalogueTocStats exists. updateFilterStats may have been called
@@ -3702,13 +3910,13 @@ class UIController {
     }
 
     /** Mark flat view as stale so it re-renders on next toggle */
-    invalidateFlatView() {
+    invalidateFlatView({ render = true } = {}) {
         const flatView = document.getElementById('catalogueFlatView');
         if (flatView) {
             delete flatView.dataset.rendered;
             // If currently showing flat view, re-render immediately
-            if (this._catalogueViewMode === 'flat') {
-                this.renderFlatView(this._lastMapListOptions || {});
+            if (render && this._catalogueViewMode === 'flat') {
+                this.requestFlatViewRender(this._lastMapListOptions || {}, { defer: this.isMobile });
             }
         }
     }
@@ -3742,7 +3950,7 @@ class UIController {
 
             return `
                 <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${isIncomplete ? 'class-member--incomplete' : ''}" data-map-id="${map.id}" style="--map-color: ${color}">
-                    <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.webp" srcset="assets/thumbnails/${map.cloneOf || map.id}-60.webp 60w, assets/thumbnails/${map.cloneOf || map.id}.webp 120w" sizes="28px" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+                    ${this.renderThumbnailZone(this.getThumbnailId(map), 'class-member__thumbnail', '28px')}
                     <div class="class-member__info">
                         ${!isPlaceholder ? `<a href="#" class="class-member__name class-member__name-link" data-detail-map-id="${map.id}">${this.escapeHtml(displayName)}</a>` : `<span class="class-member__name">${this.escapeHtml(displayName)}</span>`}
                         ${map.changeNote ? `<span class="class-member__change-note">${this.escapeHtml(map.changeNote)}</span>` : ''}
@@ -3969,7 +4177,7 @@ class UIController {
                 const displayName = this.getYear(map.date) || map.name;
                 membersHtml += `
                     <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${isIncomplete ? 'class-member--incomplete' : ''}" data-map-id="${map.id}" style="--map-color: ${map.style?.color || '#888'}">
-                        <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.webp" srcset="assets/thumbnails/${map.cloneOf || map.id}-60.webp 60w, assets/thumbnails/${map.cloneOf || map.id}.webp 120w" sizes="28px" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+                        ${this.renderThumbnailZone(this.getThumbnailId(map), 'class-member__thumbnail', '28px')}
                         <div class="class-member__info"><span class="class-member__name">${this.escapeHtml(displayName)}</span>
                             ${map.changeNote ? `<span class="class-member__change-note">${this.escapeHtml(map.changeNote)}</span>` : ''}
                             ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
@@ -4252,7 +4460,7 @@ class UIController {
             const heightStyle = (!options.ignoreMemberHeight && map.style?.height) ? `height: ${map.style.height};` : '';
             return `
                 <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${isIncomplete ? 'class-member--incomplete' : ''} ${hasVariants ? 'class-member--has-variants' : ''}" data-map-id="${map.id}" data-date="${map.date || ''}" style="--map-color: ${map.style?.color || '#888'};${heightStyle}">
-                <div class="thumb-zone"><img class="class-member__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.webp" srcset="assets/thumbnails/${map.cloneOf || map.id}-60.webp 60w, assets/thumbnails/${map.cloneOf || map.id}.webp 120w" sizes="28px" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+                ${this.renderThumbnailZone(this.getThumbnailId(map), 'class-member__thumbnail', '28px')}
                 <div class="class-member__info">${!isPlaceholder ? `<a href="#" class="class-member__name class-member__name-link" data-detail-map-id="${map.id}">${displayName}</a>` : `<span class="class-member__name">${displayName}</span>`}${dateSubtitle}
                 ${map.changeNote ? `<span class="class-member__change-note">${this.escapeHtml(map.changeNote)}</span>` : ''}
                 ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
@@ -4418,7 +4626,7 @@ class UIController {
 
                     html += `<div class="c1-grid-cell${placeholderClass}${incompleteClass}" style="grid-column: ${gridCol}; grid-row: ${item.gridRowStart} / ${item.gridRowEnd}; --map-color: ${color};">`;
                     html += `<div class="c1-grid-entry${loadedClass}${placeholderClass}${incompleteClass}" data-map-id="${item.map.id}" data-date="${item.map.date || ''}">`;
-                    html += `<div class="thumb-zone"><img class="c1-entry__thumbnail" src="assets/thumbnails/${item.map.cloneOf || item.map.id}.webp" srcset="assets/thumbnails/${item.map.cloneOf || item.map.id}-60.webp 60w, assets/thumbnails/${item.map.cloneOf || item.map.id}.webp 120w" sizes="22px" alt="" loading="lazy" onerror="this.style.display='none'"></div>`;
+                    html += this.renderThumbnailZone(this.getThumbnailId(item.map), 'c1-entry__thumbnail', '22px');
                     html += '<div class="c1-entry-content">';
                     html += `<span class="c1-entry-year">${displayYear}</span>`;
                     if (!item.isPlaceholder && item.map.provider) {
@@ -4548,7 +4756,7 @@ class UIController {
 
                     html += `<div class="c1-grid-cell${placeholderClass}${incompleteClass}" style="grid-column: ${gridCol}; grid-row: ${gridRowStart} / ${gridRowEnd}; --map-color: ${color};">`;
                     html += `<div class="c1-grid-entry${loadedClass}${placeholderClass}${incompleteClass}" data-map-id="${map.id}" data-date="${map.date || ''}">`;
-                    html += `<div class="thumb-zone"><img class="c1-entry__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.webp" srcset="assets/thumbnails/${map.cloneOf || map.id}-60.webp 60w, assets/thumbnails/${map.cloneOf || map.id}.webp 120w" sizes="22px" alt="" loading="lazy" onerror="this.style.display='none'"></div>`;
+                    html += this.renderThumbnailZone(this.getThumbnailId(map), 'c1-entry__thumbnail', '22px');
                     html += '<div class="c1-entry-content">';
                     html += `<span class="c1-entry-year">${displayYear}</span>`;
                     if (!isPlaceholder && map.provider) {
@@ -5326,7 +5534,7 @@ class UIController {
         const noteHtml = map.note ? `<div class="map-card__note">${this.escapeHtml(map.note)}</div>` : '';
 
         card.innerHTML = `
-            <div class="thumb-zone"><img class="map-card__thumbnail" src="assets/thumbnails/${map.cloneOf || map.id}.webp" srcset="assets/thumbnails/${map.cloneOf || map.id}-60.webp 60w, assets/thumbnails/${map.cloneOf || map.id}.webp 120w" sizes="40px" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+            ${this.renderThumbnailZone(this.getThumbnailId(map), 'map-card__thumbnail', '40px')}
             <div class="map-card__color" style="background-color: ${color}"></div>
             <div class="map-card__info">
                 <a href="#" class="map-card__name map-card__name-link" data-detail-map-id="${map.id}">${this.escapeHtml(map.name)}</a>
@@ -9071,13 +9279,10 @@ class UIController {
             const variantLoaded = this.isMapLoadedState(variant.id, {});
             const description = variant.description || '';
             const hasFgb = !!(variant.files?.fgb || variant.files?.image);
+            const variantThumb = this.renderThumbnailImage(variant.id, '', '40px');
+            const variantPreview = this.renderThumbnailImage(variant.id, '', '120px', { defer: 'hover' });
             html += `<div class="variant-item ${variantLoaded ? 'variant-item--loaded' : ''}" data-map-id="${variant.id}">
-                <div class="variant-item__thumb">
-                    <img src="assets/thumbnails/${this.escapeHtml(variant.id)}.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'">
-                    <div class="variant-item__preview">
-                        <img src="assets/thumbnails/${this.escapeHtml(variant.id)}.webp" alt="">
-                    </div>
-                </div>
+                ${variantThumb ? `<div class="variant-item__thumb">${variantThumb}<div class="variant-item__preview">${variantPreview}</div></div>` : '<div class="variant-item__thumb variant-item__thumb--missing"></div>'}
                 <div class="variant-item__info">
                     <div class="variant-item__name">${this.escapeHtml(variant.label || variant.id)}</div>
                     ${description ? `<div class="variant-item__description">${this.escapeHtml(description)}</div>` : ''}

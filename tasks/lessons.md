@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 107) Preserve source-agency credit when adding contributor-derived map vintages
+- Mistake pattern: Treating a contributor who prepared a corrected or bilingual vintage boundary as the sole provider and dropping the underlying source-agency credit.
+- Impact: Catalogue metadata can under-credit OSI/Tailte/OSNI even when the collaborator's work is derived from or intended to preserve that source.
+- Guardrail:
+  1) distinguish source agency from contributor/digitizer in `provider`,
+  2) when adding historical variants from collaborator files, preserve existing source-agency credit unless the source is demonstrably unrelated,
+  3) verify the affected catalogue row shows both credits before closing the task.
+
 ### 91) Reproduce sticky seam bugs on the exact card family before fixing the cover layer
 - Mistake pattern: Fixing a sticky seam based on one flat-card family (`map` cards) without validating the same scroll state on the `election` decade cards that use the same shell but different natural spacing.
 - Impact: The first fix removed transparency for one path but left a visible gap in the user’s actual screenshot scenario.

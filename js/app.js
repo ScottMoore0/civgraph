@@ -160,7 +160,7 @@ class App {
                         }
                     }
                 }
-                this.updateMapList();
+                this.syncCatalogueMapState();
                 this.updateActiveLayers();
             };
 
@@ -196,7 +196,7 @@ class App {
                         mapController.unloadLayer(mapId + '-wards');
                     }
                 }
-                this.updateMapList();
+                this.syncCatalogueMapState();
                 this.updateActiveLayers();
                 this.updateURLState();
             };
@@ -215,7 +215,7 @@ class App {
                         getEC().enforceExclusiveVisibility();
                     }
                 }
-                this.updateMapList();
+                this.syncCatalogueMapState();
                 this.updateActiveLayers();
                 this.updateURLState();
             };
@@ -231,14 +231,14 @@ class App {
                 const mapConfig = dataService.getMapById(mapId);
                 if (mapConfig) {
                     await mapController.expandToFullMap(mapConfig);
-                    this.updateMapList();
+                    this.syncCatalogueMapState();
                     this.updateActiveLayers();
                 }
             };
 
             uiController.onPartialFeatureToggle = (mapId, featureIndex) => {
                 mapController.togglePartialFeature(mapId, featureIndex);
-                this.updateMapList();
+                this.syncCatalogueMapState();
                 this.updateActiveLayers();
                 this.updateURLState();
             };
@@ -268,7 +268,7 @@ class App {
 
             uiController.onPartialFeatureUnload = (mapId, featureIndex) => {
                 mapController.unloadPartialFeature(mapId, featureIndex);
-                this.updateMapList();
+                this.syncCatalogueMapState();
                 this.updateActiveLayers();
                 this.updateURLState();
             };
@@ -285,7 +285,7 @@ class App {
                 const mapConfig = dataService.getMapById(mapId);
                 if (!mapConfig) return;
                 await mapController.loadSingleFeature(mapConfig, featureIndex, featureName || null, bbox || null);
-                this.updateMapList();
+                this.syncCatalogueMapState();
                 this.updateActiveLayers();
                 this.updateURLState();
             };
@@ -350,7 +350,7 @@ class App {
                 const mapConfig = dataService.getMapById(mapId);
                 if (mapConfig) {
                     await mapController.expandToFullMap(mapConfig);
-                    this.updateMapList();
+                    this.syncCatalogueMapState();
                     this.updateActiveLayers();
                     this.updateURLState();
                 }
@@ -449,7 +449,7 @@ class App {
                     featureName || null,
                     bbox || null
                 );
-                this.updateMapList();
+                this.syncCatalogueMapState();
                 this.updateActiveLayers();
                 this.updateURLState();
 
@@ -546,6 +546,7 @@ class App {
             // Load from URL or default layers
             const loadedFromURL = await this.loadURLState();
             if (!loadedFromURL) {
+                await this.waitForMobileStartupIdle();
                 await this.loadDefaultLayers();
             }
 
@@ -780,7 +781,7 @@ class App {
             labelProperty: mapConfig.labelProperty,
             labelPropertyFallbacks: mapConfig.labelPropertyFallbacks || []
         });
-        this.updateMapList();
+        this.syncCatalogueMapState();
         this.updateActiveLayers();
         this.updateURLState();
     }
@@ -1225,7 +1226,7 @@ class App {
                 );
 
                 if (result) {
-                    this.updateMapList();
+                    this.syncCatalogueMapState();
                     this.updateActiveLayers();
                 }
 
@@ -2052,7 +2053,7 @@ class App {
             try {
                 const ok = await conditionalStyling.restoreFromAdvancedRoute(hashRaw);
                 if (ok) {
-                    this.updateMapList();
+                    this.syncCatalogueMapState();
                     this.updateActiveLayers();
                     return true;
                 }
@@ -2078,7 +2079,7 @@ class App {
                     mapController.map?.fitBounds(mapConfig.bounds);
                 }
 
-                this.updateMapList();
+                this.syncCatalogueMapState();
                 this.updateActiveLayers();
                 return true;
             }
@@ -2100,7 +2101,7 @@ class App {
                     }
                 }, 500);
 
-                this.updateMapList();
+                this.syncCatalogueMapState();
                 this.updateActiveLayers();
                 return true;
             }
@@ -2144,7 +2145,7 @@ class App {
                     }
                 }
                 // Update active layers panel with loaded layers
-                this.updateMapList();
+                this.syncCatalogueMapState();
                 this.updateActiveLayers();
             }
 
@@ -2177,7 +2178,7 @@ class App {
                     });
                 }
 
-                this.updateMapList();
+                this.syncCatalogueMapState();
                 this.updateActiveLayers();
                 return true;
             }
@@ -2268,6 +2269,21 @@ class App {
             featureCounts,
             totalMaps: allMaps.length
         });
+    }
+
+    getCatalogueStateOptions() {
+        return {
+            visibleIds: mapController.getVisibleLayers(),
+            loadedIds: this.getLoadedLayerIds()
+        };
+    }
+
+    syncCatalogueMapState() {
+        if (typeof uiController.syncMapCatalogueState === 'function') {
+            uiController.syncMapCatalogueState(this.getCatalogueStateOptions());
+        } else {
+            this.updateMapList();
+        }
     }
 
     /**
@@ -2430,7 +2446,7 @@ class App {
             active.cancelled = true;
             active.controller.abort();
             mapController.unloadLayer(mapId);
-            this.updateMapList();
+            this.syncCatalogueMapState();
             this.updateActiveLayers();
             this.finishMapLoadFeedback(feedback, false, mapName, {
                 cancelled: true
@@ -2644,9 +2660,20 @@ class App {
             await this.loadMap(mapId);
         }
 
-        this.updateMapList();
+        this.syncCatalogueMapState();
         this.updateActiveLayers();
         this.updateURLState();
+    }
+
+    async waitForMobileStartupIdle() {
+        if (!uiController.isMobile) return;
+        await new Promise((resolve) => {
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(resolve, { timeout: 650 });
+            } else {
+                window.setTimeout(resolve, 250);
+            }
+        });
     }
 
     /**
@@ -2660,8 +2687,8 @@ class App {
             uiController.updateMapCardState(map.id, true);
         }
 
-        // Update UI to reflect loaded layers
-        this.updateMapList();
+        // Update UI to reflect loaded layers without rebuilding the catalogue.
+        this.syncCatalogueMapState();
         this.updateActiveLayers();
     }
 

@@ -10,7 +10,7 @@
  */
 
 import * as esbuild from 'esbuild';
-import { readFileSync, renameSync, existsSync, statSync, mkdirSync, writeFileSync, unlinkSync } from 'fs';
+import { readFileSync, renameSync, existsSync, statSync, mkdirSync, writeFileSync, unlinkSync, readdirSync } from 'fs';
 
 // Globals provided by CDN script tags — esbuild must not try to bundle these
 const globalExternals = {
@@ -20,6 +20,20 @@ const globalExternals = {
     '@turf/turf': 'turf',
     'fuse.js': 'Fuse'
 };
+
+// Keep thumbnail rendering deterministic: the UI checks this manifest before
+// emitting thumbnail <img> tags, preventing repeated mobile 404 churn.
+{
+    const thumbnailDir = 'assets/thumbnails';
+    if (existsSync(thumbnailDir)) {
+        const ids = readdirSync(thumbnailDir)
+            .filter((name) => name.toLowerCase().endsWith('.webp'))
+            .map((name) => name.replace(/\.webp$/i, ''))
+            .sort();
+        writeFileSync(`${thumbnailDir}/manifest.json`, JSON.stringify(ids));
+        console.log(`Thumbnail manifest: ${ids.length} webp assets`);
+    }
+}
 
 const result = await esbuild.build({
     entryPoints: ['js/app.js'],

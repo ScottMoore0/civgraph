@@ -1,3 +1,22 @@
+Boundary update recovery from session ses_20bb
+- [x] Restore unrelated tracked changes from the stalled session
+- [x] Re-audit the collaborator's Drive boundary files against current `maps.json` and local/R2 asset state
+- [x] Prepare and upload only verified `.fgb`, `.fgb.gz`, and LOD assets needed by changed metadata
+- [x] Update `data/database/maps.json` only for verified live assets
+- [x] Verify JSON syntax, asset URLs, and targeted map metadata/load paths
+  - What I did:
+    - restored unrelated tracked changes from the stalled session before making scoped metadata edits
+    - verified source/R2 state for the collaborator boundary files, including the available Ulster 1921 file in place of the referenced but absent 1919 file
+    - uploaded verified raw and gzip FGB assets for Counties 1957, ROI Local Authorities 1965/1966/1977/1980/1985/1986/1994, and the Connacht 1986, Munster 1980, and Ulster 1921 ED files
+    - generated and uploaded LOD0/LOD1 assets for Counties 1957 and the ROI Local Authority files that use LOD loading
+    - updated `data/database/maps.json` for only the verified live assets
+  - Verification:
+    - `node -e "JSON.parse(...)"` parsed `data/database/maps.json`
+    - raw public URLs for 27 uploaded `.fgb` assets returned 200 and matched local MD5 via ETag
+    - direct `.fgb.gz` public URLs for the same 27 assets returned 200 with non-zero content length
+    - metadata checks confirmed target IDs, label properties, and derived LOD URLs
+    - FlatGeobuf reads confirmed configured label properties exist in the first feature of each changed dataset
+
 Repo instruction change: remove ZIP intake check requirement
 - [x] Amend `AGENTS.md` to suspend the ZIP intake check requirement
   - [x] Remove the mandatory ZIP intake check instructions
@@ -455,3 +474,104 @@ Civgraph social profile PNG exports
   - [ ] Verify dimensions and visual quality
   - [ ] Record output paths and review notes
   - Review note: temporary HTML export scaffold was removed on user request before PNG outputs were finalized
+
+Representative LOD-only map verification
+- [x] Pick a high-risk LOD-only map based on metadata and asset sizes
+- [x] Run a browser-level test that proves the selected map loads from an LOD source at low zoom
+- [x] Record fetch/source evidence and final result
+  - Picked `roi-garda-sub-districts` because it is the largest local non-chunked `useLOD` map with complete LOD assets found in the inventory:
+    - raw: `data/maps/local-government/ROI_Garda_Sub_Districts.fgb`, about `44.7 MB`
+    - `lod0`: about `0.4 MB`
+    - `lod1`: about `1.7 MB`
+  - What I did:
+    - added a focused browser regression for `roi-garda-sub-districts`
+    - asserted that the live bundled app loads an `ROI_Garda_Sub_Districts-lod0/lod1.fgb` source at low zoom
+    - asserted that the raw `ROI_Garda_Sub_Districts.fgb` file is not requested
+    - updated the map-loading pilot harness to use the bundled runtime globals instead of dynamically importing a second source app instance
+    - kept the chunk zoom-variant pilot controlled through `mapController.loadLayer(...)` so app-level auto-fit does not mask the zoom-band transition
+  - Verification:
+    - `npm run test:browser -- --grep "largest local LOD-only" --workers 1` passed
+    - `npm run test:browser -- tests/browser/map-loading-pilots.spec.js --workers 1` passed with `4 passed`
+
+Mobile map-load lag review
+- [x] Review the live mobile map-load path and identify likely lag sources
+- [x] Run a mobile-shaped browser measurement for representative map loading
+- [x] Explain whether the lag is network/geometry load, catalogue/UI rerender, or another main-thread bottleneck
+- [x] Record evidence and recommendations
+  - What I reviewed:
+    - `uiController.onMapLoad(...)` calls `App.loadMap(...)`, then `updateMapList()` and `updateActiveLayers()`.
+    - `App.loadMap(...)` calls `mapController.loadLayer(...)`, then auto-fits the map and updates the URL.
+    - `uiController.renderMapList(...)` invalidates and rerenders the flat catalogue through `renderFlatView(...)`.
+  - Measurement:
+    - Ran a temporary mobile-shaped Playwright measurement against `roi-garda-sub-districts`, with default layers suppressed via `#layers=__none`.
+    - Direct map-layer load selected `ROI_Garda_Sub_Districts-lod0.fgb`, loaded `563` features, and completed in about `39 ms`; the FGB request was about `426 KB`, and the raw `44.7 MB` file was not requested.
+    - Full `uiController.onMapLoad(...)` path completed in about `484 ms` on desktop Chromium/mobile viewport, with the map layer itself only about `25 ms`.
+    - A standalone flat-catalogue rerender took about `131 ms` and left about `36,486` flat-catalogue DOM descendants.
+    - The browser recorded multiple long tasks between about `130 ms` and `287 ms`, and the initial flat catalogue issued many thumbnail requests, including repeated 404s for missing thumbnail paths.
+  - Conclusion:
+    - For this representative LOD map, the remaining perceived lag is not the raw FGB; it is mainly app/UI work around the layer load, especially full catalogue rerendering, thumbnail churn, missing-thumbnail retries, and long main-thread tasks.
+    - On real mobile CPU/network, those desktop-subsecond tasks can plausibly stretch into multi-second stalls, especially on first load or while default layers/catalogue thumbnails are still settling.
+
+Collaborator map metadata review: Counties and Provinces 1955
+- [x] Inspect current Counties/Provinces 1955 map metadata and catalogue grouping
+- [x] Determine why the counties map is missing and why monolingual Provinces 1955 remains separate
+- [x] Determine whether OSI/Tailte credit is preserved
+- [x] Apply a safe metadata fix if supported by existing assets
+- [x] Verify metadata parses and affected catalogue entries behave as intended
+  - Findings:
+    - `counties-ireland-1955` existed and the local/R2 asset path was configured, but the flat Counties card only listed the parent `counties-ireland` entry, so the 1955 counties map was buried as a variant rather than directly visible.
+    - The monolingual `provinces` entry pointed at the 2019 OSI/Tailte source but was dated `1955`, which made it appear as a separate 1955 provinces map beside the bilingual `provinces-1955` entry.
+    - Both 1955 contributor-derived entries credited only `Phelim Birch`, dropping OSI credit.
+  - What I changed:
+    - added `counties-ireland-1955` directly to the flat Counties card map list
+    - changed `provinces` to `Provinces of Ireland 2019` with date `2019`
+    - added `OSI` provider credit to `provinces-1955` and `counties-ireland-1955`
+    - bumped the app bundle cache-buster in `index.html` to `v=110`
+    - added a browser regression covering the affected catalogue rows
+    - recorded the source-agency-credit lesson in `tasks/lessons.md`
+  - Verification:
+    - `npm run build` succeeded
+    - `node --check js/ui-controller.js`
+    - `node -e "JSON.parse(...)"` confirmed `provinces`, `provinces-1955`, and `counties-ireland-1955` metadata
+    - `npm run test:browser -- tests/browser/catalogue-metadata.spec.js --workers 1` passed
+    - `npm run test:browser -- tests/browser/map-loading-pilots.spec.js tests/browser/catalogue-metadata.spec.js --workers 1` passed with `5 passed`
+
+Mobile catalogue render and thumbnail churn fix
+- [x] Stop map load/unload/toggle actions from forcing full flat-catalogue rerenders
+- [x] Add targeted catalogue state patching for loaded/visible button state
+- [x] Add a build-generated thumbnail manifest and suppress missing-thumbnail `<img>` output
+- [x] Lazy-hydrate present thumbnails so catalogue rendering does not start every image request at once
+- [x] Progressively render the flat catalogue on mobile to break up long main-thread work
+- [x] Keep map geometry loading on the LOD/chunk path and avoid adding new synchronous map-load work
+- [x] Add browser regressions for rerender avoidance, missing-thumbnail request churn, and representative map loading
+- [x] Build, test, and record evidence
+  - Plan:
+    - Replace state-only `updateMapList()` calls after layer load/unload/visibility changes with a small `syncMapCatalogueState(...)` path.
+    - Keep full catalogue rerenders only for real catalogue content changes such as search/filter/category changes.
+    - Generate `assets/thumbnails/manifest.json` from the real thumbnail directory during `npm run build`.
+    - Render thumbnail `<img>` tags only when the manifest confirms an asset exists; otherwise render a local CSS fallback with no network request.
+    - Use `data-thumbnail-src` plus `IntersectionObserver` so available thumbnails load as they enter view, and load large TOC zoom thumbnails only on hover.
+    - Add a mobile/progressive render yield during flat catalogue construction so first interaction is not blocked by a single large DOM task.
+  - Recurring issue prevention:
+    - Symptom: loading a map on mobile can feel blocked by catalogue rebuilding and waves of missing thumbnail requests.
+    - Root cause: state-only layer changes reused the full `updateMapList()`/`renderFlatView()` path, and thumbnail markup assumed every map/book/election thumbnail existed.
+    - Permanent prevention action: `uiController.syncMapCatalogueState(...)` now patches loaded/visible row state in place, while build-generated `assets/thumbnails/manifest.json` gates every catalogue thumbnail render.
+    - Verification evidence: new browser tests assert that representative map load causes `0` `renderFlatView()` calls, missing thumbnail IDs emit no request, and mobile-shaped catalogue rendering hydrates thumbnails lazily.
+  - What I changed:
+    - Added `syncMapCatalogueState(...)` in `js/ui-controller.js` and routed map load/unload/toggle/default-layer state updates through `App.syncCatalogueMapState()` instead of full catalogue rerenders.
+    - Added manifest-backed thumbnail helpers in `js/ui-controller.js` for book, TOC, class member, grid, map-card, and variant thumbnails.
+    - Added `IntersectionObserver` hydration for present thumbnails and hover-only loading for large TOC/variant previews.
+    - Added render cancellation/yielding so mobile flat-catalogue construction is progressive rather than one uninterrupted task.
+    - Added a short mobile idle delay before loading default layers when there is no URL state.
+    - Updated `scripts/bundle.mjs` to regenerate `assets/thumbnails/manifest.json` during `npm run build`.
+    - Bumped the app bundle cache-buster in `index.html` to `v=111`.
+    - Added `tests/browser/mobile-catalogue-performance.spec.js`.
+  - Verification:
+    - `node --check js/ui-controller.js`
+    - `node --check js/app.js`
+    - `node --check scripts/bundle.mjs`
+    - `npm run build` passed after rerunning outside the sandbox because esbuild process spawning hit `EPERM` inside the sandbox.
+    - `npm run test:browser -- tests/browser/mobile-catalogue-performance.spec.js --workers 1` passed with `3 passed` after rerunning outside the sandbox because Chromium process spawning hit `EPERM`.
+    - `npm run test:browser -- tests/browser/map-loading-pilots.spec.js tests/browser/catalogue-metadata.spec.js tests/browser/mobile-catalogue-performance.spec.js --workers 1` passed with `8 passed`.
+    - `git diff --check` reported only existing line-ending warnings and no whitespace errors.
+    - In-app browser smoke check loaded `http://127.0.0.1:5050/#layers=__none` at a mobile viewport. Console output showed only expected local static-server POST `501` errors for debug/RUM endpoints, a deprecated Apple mobile meta warning, and existing unused preload warnings.
