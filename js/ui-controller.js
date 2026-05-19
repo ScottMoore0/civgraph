@@ -71,6 +71,9 @@ class UIController {
         this._thumbnailIds = null;
         this._thumbnailManifestPromise = null;
         this._thumbnailObserver = null;
+        this._mobileCatalogueExpanded = false;
+        this._mobileCatalogueDeferred = false;
+        this._mobileInitialMapCardLimit = 24;
     }
 
     init() {
@@ -1375,6 +1378,10 @@ class UIController {
         if (tabId === 'tables') {
             this.initializeTables();
         }
+
+        if (tabId === 'catalogue') {
+            this.ensureMobileCatalogueReady();
+        }
     }
 
     moveCatalogueShellForTab(tabId) {
@@ -1713,6 +1720,9 @@ class UIController {
         this.updateSplitState();
         this.savePreference();
         if (this.onSplitChange) this.onSplitChange(stateId);
+        if (stateId === 'info-full') {
+            this.ensureMobileCatalogueReady();
+        }
 
         // Ensure Leaflet map resizes when it becomes visible
         if (stateId !== 'info-full') {
@@ -1931,6 +1941,10 @@ class UIController {
     }
 
     requestFlatViewRender(options = {}, { defer = false } = {}) {
+        if (this.shouldDeferMobileCatalogueRender()) {
+            this.renderDeferredMobileCatalogueShell();
+            return;
+        }
         this._pendingFlatRenderOptions = options || {};
         const run = () => {
             this._flatRenderScheduled = false;
@@ -1946,6 +1960,48 @@ class UIController {
         if (this._flatRenderScheduled) return;
         this._flatRenderScheduled = true;
         this.scheduleIdleWork(run, 350);
+    }
+
+    shouldDeferMobileCatalogueRender() {
+        if (!this.isMobile) return false;
+        if (this.currentStateId === 'info-full') return false;
+        if (this.catalogueView !== 'list') return false;
+        if (this._catalogueBookView) return false;
+        return true;
+    }
+
+    renderDeferredMobileCatalogueShell() {
+        const flatView = document.getElementById('catalogueFlatView');
+        if (!flatView) return;
+        this._mobileCatalogueDeferred = true;
+        this._flatRenderToken = Symbol('mobile-catalogue-deferred');
+        flatView.innerHTML = '';
+        flatView.dataset.rendered = 'deferred';
+        flatView.dataset.mobileDeferred = 'true';
+    }
+
+    ensureMobileCatalogueReady() {
+        if (!this.isMobile) return;
+        if (this.currentStateId !== 'info-full') return;
+        const flatView = document.getElementById('catalogueFlatView');
+        if (!flatView) return;
+        if (flatView.dataset.rendered === 'true') return;
+        this._mobileCatalogueDeferred = false;
+        delete flatView.dataset.mobileDeferred;
+        this.requestFlatViewRender(this._lastMapListOptions || {}, { defer: true });
+    }
+
+    shouldUseBoundedMobileCatalogue(options = {}) {
+        if (!this.isMobile) return false;
+        if (this._mobileCatalogueExpanded) return false;
+        if (options.fullCatalogue) return false;
+        if (this._catalogueBookView) return false;
+        return true;
+    }
+
+    renderMobileCatalogueExpandControl() {
+        if (!this.isMobile || this._mobileCatalogueExpanded) return '';
+        return `<div class="catalogue-flat__mobile-more"><button type="button" class="btn btn--sm btn--outline" data-mobile-catalogue-full="1">Show more</button></div>`;
     }
 
     syncMapCatalogueState(options = {}) {
@@ -2383,7 +2439,11 @@ class UIController {
         if (isFlat) {
             flatView.classList.remove('hidden');
             if (!flatView.dataset.rendered) {
-                this.requestFlatViewRender(this._lastMapListOptions || {}, { defer: this.isMobile });
+                if (this.shouldDeferMobileCatalogueRender()) {
+                    this.renderDeferredMobileCatalogueShell();
+                } else {
+                    this.requestFlatViewRender(this._lastMapListOptions || {}, { defer: this.isMobile });
+                }
             }
         }
 
@@ -2403,10 +2463,15 @@ class UIController {
     async renderFlatView(options = {}) {
         const container = document.getElementById('catalogueFlatView');
         if (!container) return;
+        if (this.shouldDeferMobileCatalogueRender()) {
+            this.renderDeferredMobileCatalogueShell();
+            return;
+        }
         const renderToken = Symbol('flat-render');
         this._flatRenderToken = renderToken;
         await this.ensureThumbnailManifest();
         if (this._flatRenderToken !== renderToken) return;
+        const boundedMobileCatalogue = this.shouldUseBoundedMobileCatalogue(options);
 
         if (this._catalogueBookView) {
             const book = dataService.getBookById(this._catalogueBookView.bookId);
@@ -3601,15 +3666,17 @@ class UIController {
         container.innerHTML = tocHtml + '<div class="catalogue-flat__cards" id="catalogueFlatCards"></div>';
         const cardsContainer = container.querySelector('#catalogueFlatCards');
         const renderOptions = options || {};
+        let renderedMobileMapCards = 0;
 
         const esc = (value) => this.escapeHtml(value || '');
         const electionsAnchor = document.createElement('div');
         electionsAnchor.id = 'flat-section-elections';
         electionsAnchor.className = 'catalogue-flat__anchor';
         cardsContainer.appendChild(electionsAnchor);
-        for (let defIndex = 0; defIndex < decadeElectionCards.length; defIndex++) {
+        const electionCardsToRender = boundedMobileCatalogue ? [] : decadeElectionCards;
+        for (let defIndex = 0; defIndex < electionCardsToRender.length; defIndex++) {
             if (this._flatRenderToken !== renderToken) return;
-            const def = decadeElectionCards[defIndex];
+            const def = electionCardsToRender[defIndex];
             const anchor = document.createElement('div');
             anchor.id = `flat-card-${def.id}`;
             anchor.className = 'catalogue-flat__anchor';
@@ -3693,6 +3760,9 @@ class UIController {
         for (let defIndex = 0; defIndex < c1Cards.length; defIndex++) {
             if (this._flatRenderToken !== renderToken) return;
             const def = c1Cards[defIndex];
+            if (boundedMobileCatalogue && renderedMobileMapCards >= this._mobileInitialMapCardLimit) {
+                continue;
+            }
             const anchor = document.createElement('div');
             anchor.id = `flat-card-${def.id}`;
             anchor.className = 'catalogue-flat__anchor';
@@ -3727,12 +3797,16 @@ class UIController {
                 <div class="c1-card__content">${sectionHtml}</div>`;
             this.addC1CardEventListeners(card, allMaps.filter(m => !m.map.placeholder));
             cardsContainer.appendChild(card);
+            renderedMobileMapCards += 1;
             await this.yieldForCatalogueRender(defIndex);
         }
 
         const booksAnchor = document.createElement('div');
         booksAnchor.id = 'flat-section-books';
         booksAnchor.className = 'catalogue-flat__anchor';
+        if (boundedMobileCatalogue) {
+            cardsContainer.insertAdjacentHTML('beforeend', this.renderMobileCatalogueExpandControl());
+        }
 
         cardsContainer.querySelectorAll('.flat-election-link, .election-load-btn, .flat-election-entry').forEach(el => {
             el.addEventListener('click', (e) => {
@@ -3759,7 +3833,7 @@ class UIController {
         });
 
         // Keep books section below unchanged.
-        if (this.booksData && this.booksData.books && this.booksData.books.length > 0) {
+        if (!boundedMobileCatalogue && this.booksData && this.booksData.books && this.booksData.books.length > 0) {
             cardsContainer.appendChild(booksAnchor);
             const booksGroupHeader = document.createElement('div');
             booksGroupHeader.className = 'category-group-header';
@@ -3810,6 +3884,14 @@ class UIController {
                 const targetEl = document.getElementById(targetId);
                 if (targetEl) {
                     targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else if (boundedMobileCatalogue) {
+                    this._mobileCatalogueExpanded = true;
+                    this.requestFlatViewRender({ ...(this._lastMapListOptions || {}), fullCatalogue: true }, { defer: true });
+                    const scrollWhenReady = () => {
+                        const hydratedTarget = document.getElementById(targetId);
+                        if (hydratedTarget) hydratedTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    };
+                    window.setTimeout(scrollWhenReady, 350);
                 }
             });
         });
@@ -3817,6 +3899,10 @@ class UIController {
             btn.addEventListener('click', () => {
                 this.openCatalogueBookViewer(btn.dataset.bookView, btn.dataset.bookFormat || 'pdf');
             });
+        });
+        container.querySelector('[data-mobile-catalogue-full]')?.addEventListener('click', () => {
+            this._mobileCatalogueExpanded = true;
+            this.requestFlatViewRender({ ...(this._lastMapListOptions || {}), fullCatalogue: true }, { defer: true });
         });
 
         // Placeholder toggle — show/hide "To Be Added" entries per card

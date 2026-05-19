@@ -575,3 +575,34 @@ Mobile catalogue render and thumbnail churn fix
     - `npm run test:browser -- tests/browser/map-loading-pilots.spec.js tests/browser/catalogue-metadata.spec.js tests/browser/mobile-catalogue-performance.spec.js --workers 1` passed with `8 passed`.
     - `git diff --check` reported only existing line-ending warnings and no whitespace errors.
     - In-app browser smoke check loaded `http://127.0.0.1:5050/#layers=__none` at a mobile viewport. Console output showed only expected local static-server POST `501` errors for debug/RUM endpoints, a deprecated Apple mobile meta warning, and existing unused preload warnings.
+
+Mobile browser crash recurrence: remove startup catalogue pressure
+- [x] Reproduce/measure mobile startup and map-load pressure after the first performance fix
+- [x] Prevent mobile startup from building the full flat catalogue while the map pane is active
+- [x] Render a lightweight mobile catalogue shell first, then hydrate bounded batches only when catalogue is opened
+- [x] Add tests proving mobile map startup/map load does not create the full catalogue DOM
+- [x] Build and run browser regressions
+- [x] Update lessons and record verification evidence
+  - Recurrence:
+    - Symptom: user still reports severe mobile lag and mobile browser crashes after commit `6636800`.
+    - Root cause: the previous fix stopped state-only rerenders, but initial mobile startup could still render the full catalogue DOM from the flat-list setup path while the map pane was active. That hidden render could create enough card/table structure and thumbnail observation work to exceed real phone CPU/memory limits.
+    - Permanent prevention action: mobile must be map-first. No full catalogue DOM should be built until the user opens the catalogue, and even then the first render must be bounded.
+  - What I did:
+    - added a mobile-only deferred catalogue shell so `#catalogueFlatView` is empty while the app is in map-first mobile state
+    - hydrate the mobile catalogue only when the catalogue tab/pane is actually opened
+    - limited the first mobile catalogue render to the first 24 map cards and skipped election/book catalogue cards until the user taps `Show more`
+    - kept full catalogue access available through explicit expansion or TOC navigation to a deferred section
+    - bumped the app bundle cachebuster to `v=112`
+    - added Lesson 108 covering this recurring mobile performance failure mode
+  - Verification:
+    - `node --check js/ui-controller.js`
+    - `node --check js/app.js`
+    - `node --check scripts/bundle.mjs`
+    - `npm run build` passed after rerunning outside the sandbox because esbuild process spawning hit `EPERM` inside the sandbox.
+    - `npm run test:browser -- tests/browser/mobile-catalogue-performance.spec.js --workers 1` passed with `6 passed` after rerunning outside the sandbox because Chromium process spawning hit `EPERM`.
+    - `npm run test:browser -- tests/browser/map-loading-pilots.spec.js tests/browser/catalogue-metadata.spec.js tests/browser/mobile-catalogue-performance.spec.js --workers 1` passed with `11 passed`.
+    - New mobile assertions prove startup leaves the app in `map-full`, `#catalogueFlatView.dataset.rendered === 'deferred'`, and `0` catalogue descendants.
+    - New mobile map-load assertion proves loading `roi-garda-sub-districts` does not call `renderFlatView`, keeps the hidden catalogue deferred, and leaves `0` catalogue descendants.
+    - New mobile first-open assertion proves only a bounded catalogue subset renders: `<= 24` map cards, `0` election rows, `0` book cards, and a `Show more` control.
+    - In-app browser smoke at `390x844` loaded `http://127.0.0.1:5051/#layers=__none`: `data-split-state="map-full"`, `data-rendered="deferred"`, `data-mobile-deferred="true"`, `0` catalogue descendants, map visible, and no console error logs.
+    - `git diff --check` reported only line-ending warnings and no whitespace errors.

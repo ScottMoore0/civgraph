@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 108) Mobile map-load fixes must prove the hidden catalogue stays empty
+- Mistake pattern: Treating reduced catalogue rerenders and thumbnail churn as sufficient while the hidden mobile catalogue pane can still build the full flat catalogue during startup or map load.
+- Impact: Desktop and emulated timing can look acceptable, but real phone browsers can still stall or crash from hidden DOM, card, table, and thumbnail pressure.
+- Guardrail:
+  1) mobile performance fixes must assert that map-first startup leaves `#catalogueFlatView` deferred with zero descendants,
+  2) map-load tests must prove hidden catalogue hydration is not triggered,
+  3) first mobile catalogue open must be bounded unless the user explicitly expands the full catalogue.
+
 ### 107) Preserve source-agency credit when adding contributor-derived map vintages
 - Mistake pattern: Treating a contributor who prepared a corrected or bilingual vintage boundary as the sole provider and dropping the underlying source-agency credit.
 - Impact: Catalogue metadata can under-credit OSI/Tailte/OSNI even when the collaborator's work is derived from or intended to preserve that source.

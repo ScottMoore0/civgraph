@@ -9,6 +9,24 @@ async function waitForApp(page) {
   );
 }
 
+async function waitForCoreApp(page) {
+  await page.waitForFunction(() =>
+    window.mapController
+    && window.uiController
+    && typeof window.uiController.onMapLoad === 'function'
+    && document.getElementById('catalogueFlatView')
+  );
+}
+
+async function openMobileCatalogue(page) {
+  await page.evaluate(() => {
+    window.uiController.setSplitState('info-full');
+  });
+  await page.waitForFunction(() =>
+    document.getElementById('catalogueFlatView')?.dataset.rendered === 'true'
+  );
+}
+
 async function resetMapState(page) {
   await page.evaluate(() => {
     const mapController = window.mapController;
@@ -90,7 +108,8 @@ test('catalogue render does not request missing thumbnail assets', async ({ page
 test('mobile-shaped catalogue render hydrates thumbnails lazily', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#layers=__none');
-  await waitForApp(page);
+  await waitForCoreApp(page);
+  await openMobileCatalogue(page);
 
   const state = await page.evaluate(() => {
     const flatView = document.getElementById('catalogueFlatView');
@@ -106,4 +125,81 @@ test('mobile-shaped catalogue render hydrates thumbnails lazily', async ({ page 
   expect(state.rendered).toBe(true);
   expect(state.lazyCount).toBeGreaterThan(0);
   expect(state.hydrated).toBeLessThan(state.lazyCount);
+});
+
+test('mobile startup defers full catalogue DOM while map is active', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#layers=__none');
+  await waitForCoreApp(page);
+
+  const startupState = await page.evaluate(() => {
+    const flatView = document.getElementById('catalogueFlatView');
+    return {
+      splitState: document.querySelector('.app-shell')?.dataset.splitState,
+      rendered: flatView?.dataset.rendered,
+      descendants: flatView?.querySelectorAll('*').length || 0
+    };
+  });
+
+  expect(startupState.splitState).toBe('map-full');
+  expect(startupState.rendered).toBe('deferred');
+  expect(startupState.descendants).toBe(0);
+});
+
+test('mobile map load does not hydrate hidden catalogue', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#layers=__none');
+  await waitForCoreApp(page);
+  await resetMapState(page);
+
+  const result = await page.evaluate(async () => {
+    const uiController = window.uiController;
+    const originalRenderFlatView = uiController.renderFlatView.bind(uiController);
+    let renderCalls = 0;
+    uiController.renderFlatView = async (...args) => {
+      renderCalls += 1;
+      return originalRenderFlatView(...args);
+    };
+
+    await uiController.onMapLoad('roi-garda-sub-districts');
+    const flatView = document.getElementById('catalogueFlatView');
+    return {
+      renderCalls,
+      loaded: window.mapController.isLayerLoaded('roi-garda-sub-districts'),
+      rendered: flatView?.dataset.rendered,
+      descendants: flatView?.querySelectorAll('*').length || 0
+    };
+  });
+
+  expect(result.loaded).toBe(true);
+  expect(result.renderCalls).toBe(0);
+  expect(result.rendered).toBe('deferred');
+  expect(result.descendants).toBe(0);
+});
+
+test('mobile catalogue first open renders a bounded subset', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#layers=__none');
+  await waitForCoreApp(page);
+  await openMobileCatalogue(page);
+
+  const state = await page.evaluate(() => {
+    const flatView = document.getElementById('catalogueFlatView');
+    return {
+      rendered: flatView?.dataset.rendered,
+      mapCards: flatView?.querySelectorAll('#catalogueFlatCards > .c1-card').length || 0,
+      electionRows: flatView?.querySelectorAll('.flat-election-entry').length || 0,
+      bookCards: flatView?.querySelectorAll('.book-card').length || 0,
+      descendants: flatView?.querySelectorAll('*').length || 0,
+      hasMoreControl: !!flatView?.querySelector('[data-mobile-catalogue-full]')
+    };
+  });
+
+  expect(state.rendered).toBe('true');
+  expect(state.mapCards).toBeGreaterThan(0);
+  expect(state.mapCards).toBeLessThanOrEqual(24);
+  expect(state.electionRows).toBe(0);
+  expect(state.bookCards).toBe(0);
+  expect(state.descendants).toBeLessThan(10000);
+  expect(state.hasMoreControl).toBe(true);
 });
