@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 109) Ambiguous party abbreviations need island-specific aliases before reporting mismatches
+- Mistake pattern: Reporting an abbreviation match from the global Wikipedia party table without first applying obvious Ireland/NI political aliases.
+- Impact: `PUP` was incorrectly reported against People's Unification Party instead of Progressive Unionist Party.
+- Guardrail:
+  1) add domain-specific alias mappings before abbreviation matching for Ireland/NI party audits,
+  2) treat global abbreviation-only matches as low confidence unless an Ireland/NI canonical party is selected,
+  3) include the alias basis in reports so incorrect matches are visible.
+
 ### 108) Mobile map-load fixes must prove the hidden catalogue stays empty
 - Mistake pattern: Treating reduced catalogue rerenders and thumbnail churn as sufficient while the hidden mobile catalogue pane can still build the full flat catalogue during startup or map load.
 - Impact: Desktop and emulated timing can look acceptable, but real phone browsers can still stall or crash from hidden DOM, card, table, and thumbnail pressure.
@@ -1459,3 +1467,15 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
 - Asset-export workflow guardrail (2026-04-12): when a user asks for final image assets, avoid leaving repo-local temporary export scaffolds behind unless they are explicitly wanted as deliverables. Prefer ephemeral tooling or remove any helper files before closing the task.
 
 - Catalogue detail history guardrail (2026-04-14): when a detail view can be opened from a `click` handler on an element users may naturally double-click, do not rely on the event layer to deduplicate opens. Guard the history write path itself so repeated consecutive opens of the same `detailId` collapse to one entry, then verify Back returns to the previous page with a single click.
+
+- Party-label audit guardrail (2026-05-19): when a ranked election-label table surfaces obvious presentation variants such as `Green/Comhaontas Glas`, `Independent Lozenge`, or punctuation-only unionist abbreviations, add the alias to both the source normalizer and the derived party-ID/audit helpers before presenting the next ranking. Otherwise the same variants keep reappearing in larger top-N tables.
+
+- Party-label normalization guardrail (2026-05-19): for ambiguous short labels in ranked tables, prefer exact-label rules unless the user explicitly requests substring cleanup. Examples: `Nationalist -> Nationalist Party` must not rewrite `Independent Nationalist`, and `Labour -> Irish Labour` must not rewrite Northern Ireland Labour labels.
+
+- Party-label tail cleanup guardrail (2026-05-19): when the top-N table is expanded repeatedly, keep adding exact long-form aliases to the normalizer and Party ID groups in the same turn. Long-form suffix variants like `SDLP (Social Democratic and Labour Party)` and coalition display names like `Democratic Left / New Agenda` should not be left for a separate cleanup pass once identified.
+
+- Party-label context guardrail (2026-05-19): when a user gives a conditional party normalization, do not force it into a static global alias. Add the minimum election-context signal to the normalizer, then verify both branches. Example: `Rep Clubs` can mean `Workers' Party` only where Workers' Party candidates stood in the same election; otherwise keep it with `Republican Clubs`.
+
+- Party-label variant guardrail (2026-05-25): when a user names a long-form party label that has already partly appeared in the ranked table, scan for close punctuation/order variants in the same batch. Examples: SDLP long-form labels can appear as `SDLP (...)`, `Social Democratic and Labour Party (SDLP)`, a hyphenated form, or with a missing parenthesis; Workers' Party can appear as a bare possessive plus `Lozenge`.
+
+- Zip/map review temp-space guardrail (2026-05-25): when reviewing external archives in this repo, use a repo-local scratch folder such as `tasks/idb-review-temp` unless the user explicitly asks for a system temp path. Do not depend on `C:\tmp` being usable just because it appears in writable roots.

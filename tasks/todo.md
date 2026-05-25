@@ -1,3 +1,206 @@
+Election party aliases and party IDs
+- [x] Correct PUP aliasing to Progressive Unionist Party in the audit logic
+- [x] Normalise Workers Party / Republican Clubs by date, DUP, PBP, and Alliance labels
+- [x] Define stable Party IDs grouping aliases such as Ecology/Green and Republican Clubs/Workers Party
+- [x] Rerun audit and provide the next 10 party/ticket names
+  - What I changed:
+    - Added an Ireland/NI audit alias so `PUP` resolves to `Progressive Unionist Party`, not the unrelated global abbreviation match.
+    - Extended `scripts/normalize-election-party-names.py` for `DUP`, `PBP`, `Alliance`, and date-sensitive `Workers Party`/`Republican Clubs` labels.
+    - The date rule treats exact-1977 `Workers Party / Republican Clubs` labels as `Republican Clubs`; post-1977 rows are `Workers Party`.
+    - Added `scripts/build-election-party-ids.py` and generated `election-viewer-package/data/party-ids.json` plus `tasks/ireland_election_party_ids.csv`.
+    - Updated bundle/aggregate composite keys so stale names are not left in generated election data.
+  - Verification:
+    - `python -m py_compile scripts\normalize-election-party-names.py scripts\audit-ireland-election-party-colours.py scripts\build-election-party-ids.py`
+    - `python scripts\normalize-election-party-names.py`
+    - `python scripts\build-election-party-ids.py` wrote `850` party IDs and `1089` aliases.
+    - `python scripts\audit-ireland-election-party-colours.py` produced `1173` audit rows: `71` match, `142` colour mismatch, `910` no election colour, `50` no Wikipedia match.
+    - `rg` found no remaining `Workers Party / Republican Clubs`, `Democratic Unionist Party`, `People Before Profit Alliance`, `People Before Profit`, `Alliance Party of Northern Ireland`, `Alliance Party`, or `Green / Ecology` strings under `election-viewer-package/data/elections`.
+    - Parsed `7344` election JSON files successfully.
+
+Election party aliases follow-up: DUP punctuation and Conservative plural
+- [x] Normalise `D.U.P.` to `DUP`
+- [x] Normalise `Democratic Unionist - DUP` to `DUP`
+- [x] Normalise `Conservatives` to `Conservative`
+- [x] Refresh Party IDs and colour audit after the follow-up pass
+  - What I changed:
+    - Added repeatable normalizer rules for exact `D.U.P.`, `Democratic Unionist - DUP`, and `Conservatives` labels.
+    - Added cleanup for generated DUP duplicates such as `DUP DUP`, `DUP-DUP`, `DUP - DUP`, and `DUP (DUP)`.
+    - Preserved distinct `U.D.U.P.` labels instead of folding them into `DUP`.
+    - Added `Conservatives` as an alias of `party:conservative` in the Party ID registry.
+  - Verification:
+    - `python scripts\normalize-election-party-names.py` ended with `changed_files=0`.
+    - `python scripts\build-election-party-ids.py` wrote `827` party IDs and `1042` aliases.
+    - `python scripts\audit-ireland-election-party-colours.py` produced `1124` audit rows after duplicate labels collapsed.
+    - Parsed `7344` election JSON files successfully.
+    - A targeted scan found no exact party/key values for `D.U.P.`, `Democratic Unionist - DUP`, or `Conservatives`.
+
+Election party aliases follow-up: Workers, Nationalist, and A.P.
+- [x] Normalise `Workers' Party (Ireland)`, `Workers Party`, and `Workers'` to `Workers' Party`
+- [x] Resolve `Nationalist Party` to `Nationalist Party (Northern Ireland)` in the colour audit
+- [x] Normalise `A.P.` to `Alliance`
+- [x] Refresh Party IDs and colour audit after the follow-up pass
+  - What I changed:
+    - Added repeatable normalizer rules for `Workers' Party (Ireland)`, `Workers Party`, `Workers'`, and related `Workers Party Rep. C` variants.
+    - Normalised `A.P.` and `A.P..` to `Alliance`.
+    - Added an audit alias so `Nationalist Party` resolves to `Nationalist Party (Northern Ireland)`.
+    - Updated Party ID aliases so Workers and Alliance aliases remain grouped under stable IDs.
+  - Verification:
+    - `python scripts\normalize-election-party-names.py` completed the final pass with the related Workers variants collapsed.
+    - `python scripts\build-election-party-ids.py` wrote `821` party IDs and `1037` aliases.
+    - `python scripts\audit-ireland-election-party-colours.py` produced `1117` audit rows: `71` match, `141` colour mismatch, `855` no election colour, `50` no Wikipedia match.
+    - Parsed `7344` election JSON files successfully.
+    - A targeted scan found no exact party/key values for `Workers' Party (Ireland)`, `Workers Party`, `Workers'`, or `A.P.`.
+    - `Nationalist Party` now matches `Nationalist Party (Northern Ireland)` with `#32CD32`, producing a colour match.
+
+Election party aliases follow-up: NI Women's Coalition
+- [x] Normalise all Northern Ireland Women's Coalition variants to `NI Women's Coalition`
+- [x] Resolve `NI Women's Coalition` to the Wikipedia Northern Ireland Women's Coalition colour entry
+- [x] Refresh Party IDs and colour audit after the follow-up pass
+  - What I changed:
+    - Normalised `Northern Ireland Women's Coalition`, `N.I. Women's Coalition`, `N.I. Womens Coalition`, `N I Women's Coalition`, `N.Ireland Women's Coalition`, `Northern Ireland Women's Coalition - NIWC`, `Northern Ireland Womens Coalition`, `NR. Ireland Women's Coalition`, and `Womens Coalition` to `NI Women's Coalition`.
+    - Added `NI Women's Coalition` to the runtime fallback colour map with `#00FFFF`.
+    - Added Party ID aliases for the old variants under `party:ni-womens-coalition`.
+    - Added audit aliases so `NI Women's Coalition` resolves to Wikipedia's `Northern Ireland Women's Coalition` entry.
+  - Verification:
+    - `python scripts\normalize-election-party-names.py`
+    - `python scripts\build-election-party-ids.py` wrote `812` party IDs and `1038` aliases.
+    - `python scripts\audit-ireland-election-party-colours.py` produced `1107` audit rows: `71` match, `141` colour mismatch, `845` no election colour, `50` no Wikipedia match.
+    - `node --check election-viewer-package\js\stages2.js`
+    - A targeted scan found no old Women's Coalition variant values and `156` `NI Women's Coalition` values.
+    - Audit rows for `NI Women's Coalition`: `109` explicit `#00FFFF` matches, `21` runtime fallback `#00FFFF` matches, and `26` no-colour source rows that still resolve to the correct Wikipedia party.
+
+Election party aliases follow-up: Official Unionist and Independent abbreviations
+- [x] Normalise `O. Un.` to `UUP`
+- [x] Normalise `Off. Un.` to `UUP`
+- [x] Normalise `Indp.` to `Independent`
+- [x] Refresh Party IDs and colour audit after the follow-up pass
+  - What I changed:
+    - Added repeatable normalizer rules for `O. Un.`, `Off. Un.`, and `Indp.`.
+    - Added Party ID aliases so the old labels remain grouped under `party:uup` and `party:independent`.
+    - The substring pass also expanded `Indp.` inside longer labels to `Independent ...` without assigning those longer descriptors to a new party.
+  - Verification:
+    - `python scripts\normalize-election-party-names.py` ended with `changed_files=0`.
+    - `python scripts\build-election-party-ids.py` wrote `810` party IDs and `1037` aliases.
+    - `python scripts\audit-ireland-election-party-colours.py` produced `1103` audit rows: `71` match, `141` colour mismatch, `841` no election colour, `50` no Wikipedia match.
+    - Parsed `7344` election JSON files successfully.
+    - A targeted scan found no exact party/key values for `O. Un.`, `Off. Un.`, or `Indp.`.
+
+Election party aliases follow-up: O.Un., Irish Unionist, Non Party, and Comhar
+- [x] Normalise `O.Un.` to `UUP`
+- [x] Normalise `Irish Unionist` to `Irish Unionist Alliance`
+- [x] Normalise `Non Party` to `Independent`
+- [x] Normalise `Comhar Criostai/Christian Solidarity` to `Comhar Criostai / Christian Solidarity`
+- [x] Refresh Party IDs and colour audit after the follow-up pass
+  - What I changed:
+    - Added repeatable normalizer rules for `O.Un.`, `Irish Unionist`, `Non Party`, and `Comhar Criostai/Christian Solidarity`.
+    - Added Party ID aliases for the old labels under `party:uup`, `party:irish-unionist-alliance`, `party:independent`, and `party:comhar-criostai-christian-solidarity`.
+    - Fixed the Irish Unionist rule to be idempotent after verification caught `Irish Unionist Alliance Alliance` on rerun.
+  - Verification:
+    - `python scripts\normalize-election-party-names.py` ended with `changed_files=0`.
+    - `python scripts\build-election-party-ids.py` wrote `811` party IDs and `1039` aliases.
+    - `python scripts\audit-ireland-election-party-colours.py` produced `1101` audit rows: `71` match, `141` colour mismatch, `839` no election colour, `50` no Wikipedia match.
+    - Parsed `7344` election JSON files successfully.
+    - A targeted scan found no exact party/key values for `O.Un.`, `Irish Unionist`, `Irish Unionist Alliance Alliance`, `Non Party`, or `Comhar Criostai/Christian Solidarity`.
+
+Election party aliases follow-up: United UUP, A.P, Indp, DU UUUC, and Renua Ireland
+- [x] Normalise `United UUP` to `UUUP`
+- [x] Normalise `A.P` to `Alliance Party`
+- [x] Normalise `Indp` to `Independent`
+- [x] Normalise `DU UUUC` to `DUP`
+- [x] Normalise `Renua Ireland` to `Renua`
+- [x] Refresh Party IDs and colour audit after the follow-up pass
+  - What I changed:
+    - Added repeatable normalizer rules for `United UUP`, `A.P`, `Indp`, `DU UUUC`, and `Renua Ireland`.
+    - Kept `A.P` literal as `Alliance Party` by removing the previous `Alliance Party` to `Alliance` normalizer pass.
+    - Added Party ID aliases for `UUUP`, `Alliance Party`, and `Renua`.
+    - Added an audit alias so `UUUP` resolves to `United Ulster Unionist Party`.
+  - Verification:
+    - `python scripts\normalize-election-party-names.py` ended with `changed_files=0`.
+    - `python scripts\build-election-party-ids.py` wrote `808` party IDs and `1038` aliases.
+    - `python scripts\audit-ireland-election-party-colours.py` produced `1098` audit rows: `71` match, `142` colour mismatch, `836` no election colour, `49` no Wikipedia match.
+    - Parsed `7344` election JSON files successfully.
+    - A targeted scan found no exact party/key values for `United UUP`, `A.P`, `Indp`, `DU UUUC`, or `Renua Ireland`.
+
+Election party aliases follow-up: A. and Progressive Unionist Party
+- [x] Normalise `A.` to `Alliance`
+- [x] Normalise `Progressive Unionist Party` to `PUP`
+- [x] Refresh Party IDs and colour audit after the follow-up pass
+  - What I changed:
+    - Added repeatable normalizer rules for exact `A.` and `Progressive Unionist Party`.
+    - Tightened the rules after the first pass exposed over-broad replacements such as `Alliancep` and `PUP PUP`.
+    - Collapsed related PUP variants such as `Progressive Unionist Party of Northern Ireland`, `Progressive Unionist Party (PUP)`, and malformed `Progressive Unionist Party of Northen Ireland` to `PUP`.
+  - Verification:
+    - `python scripts\normalize-election-party-names.py` ended with `changed_files=0`.
+    - `python scripts\build-election-party-ids.py` wrote `802` party IDs and `1029` aliases.
+    - `python scripts\audit-ireland-election-party-colours.py` produced `1087` audit rows: `71` match, `142` colour mismatch, `825` no election colour, `49` no Wikipedia match.
+    - Parsed `7344` election JSON files successfully.
+    - A targeted scan found no exact party/key values for `A.`, `Progressive Unionist Party`, `PUP PUP`, `PUP - PUP`, or `Alliancep`.
+
+Election party-name normalisation batch
+- [x] Locate all party/ticket name fields in election JSON entries
+- [x] Apply requested normalisations for Fianna Fail, Sinn Fein, Non party/Independent, Labour, Ulster Unionist Party, Green / Ecology, and S.D.L.P variants
+- [x] Rerun the colour audit after normalisation
+- [x] Report the next 10 most frequent party/ticket names after the requested changes
+  - What I did:
+    - added `scripts/normalize-election-party-names.py`
+    - normalised party-like JSON fields: `Party_Name`, `Party`, `party`, `Wikipedia Party Name`, and `Deduplicated Party Name`
+    - changed `Fianna Fail`/embedded `Fianna Fail` to `Fianna Fáil`
+    - changed `Sinn Fein` and misspelled/accent variants such as `Sinn Fèin`, `Sinn Fién`, and `Sinn Feinn` to `Sinn Féin`
+    - changed exact and embedded `Non party/Independent` to `Independent`
+    - changed exact `Labour` to `Irish Labour`
+    - changed exact and embedded `Ulster Unionist Party` to `UUP`
+    - changed `Green / Ecology` to `Ecology` for 1982-1984 and `Green` for 1987 onward; no exact 1985 cases existed
+    - changed exact and embedded `S.D.L.P` / `S.D.L.P.` to `SDLP`
+  - Verification:
+    - `python scripts/normalize-election-party-names.py`
+    - JSON parse scan over all election files
+    - verified no requested exact/substrings remain except `Labour` inside longer names such as `Northern Ireland Labour Party`, which was intentionally not globally rewritten
+    - verified `Ecology` appears only in 1982-1984 occurrences and `Green` appears only in 1987 onward occurrences for the old `Green / Ecology` label
+    - `python scripts/audit-ireland-election-party-colours.py`
+    - `python -m py_compile scripts/normalize-election-party-names.py scripts/audit-ireland-election-party-colours.py scripts/extract-wikipedia-party-colours.py`
+
+Ireland election party colour audit against Wikipedia
+- [x] Locate election entry colour definitions for island-of-Ireland parties and tickets
+- [x] Match election party/ticket names to the Wikipedia political-party colour extraction
+- [x] Identify exact matches, likely alias matches, missing Wikipedia matches, and colour mismatches
+- [x] Produce a review report with recommended fixes
+  - What I did:
+    - added `scripts/audit-ireland-election-party-colours.py`
+    - scanned 7,254 election JSON files under `election-viewer-package/data/elections`
+    - compared explicit `Party_Name`/`Party_Colour`, lower-case `party` entries, and runtime fallback colours against the Wikipedia colour extraction
+    - matched Wikipedia by party name, abbreviation, shortname, and Ireland/NI-specific aliases for common forms such as `DUP`, `UUP`, `SDLP`, `TUV`, `Fianna Fail`, `Sinn Fein`, `Green/Comhaontas Glas`, and `People Before Profit Alliance`
+    - wrote the full audit to `tasks/ireland_election_party_colour_wikipedia_audit.csv`
+    - wrote high-confidence mismatches to `tasks/ireland_election_party_colour_wikipedia_high_confidence_mismatches.csv`
+    - wrote the markdown review to `tasks/ireland_election_party_colour_wikipedia_audit.md`
+  - Findings:
+    - 1,184 unique election party/ticket colour observations
+    - 72 observations correspond to Wikipedia colours
+    - 139 observations have a Wikipedia match but a different colour
+    - 71 of those mismatches are high-confidence exact-name or Ireland/NI-alias matches
+    - 921 observations have no explicit election colour in the source and therefore use default/fallback behaviour
+    - 52 coloured observations have no Wikipedia match
+  - Verification:
+    - `python scripts/audit-ireland-election-party-colours.py`
+    - `python -m py_compile scripts/audit-ireland-election-party-colours.py scripts/extract-wikipedia-party-colours.py`
+
+Wikipedia political party colour extraction
+- [x] Inspect the Wikipedia module page/raw format for `Module:Political_party/1` and `A`-`Z`
+- [x] Fetch all requested pages and extract party name, color, abbrev, shortname, validity, and contrast details
+- [x] Write the extracted data to a structured local file
+- [x] Verify parse coverage, row counts, and malformed values
+  - What I did:
+    - scraped the rendered "Color values" tables from all 27 requested English Wikipedia module pages using `scripts/extract-wikipedia-party-colours.py`
+    - wrote `tasks/wikipedia_political_party_colours.csv` with source URL/module plus the requested fields
+    - wrote `tasks/wikipedia_political_party_colours_requested_columns.csv` with exactly the eight requested fields
+    - wrote `tasks/wikipedia_political_party_colours.xlsx` and `tasks/wikipedia_political_party_colours_metadata.json`
+  - Verification:
+    - fetched all 27 pages: `/1` and `/A` through `/Z`
+    - extracted 14,871 rows
+    - verified the requested-columns CSV has exactly: `Political party name`, `color`, `abbrev`, `shortname`, `Is color valid?`, `Contrast normal text`, `Contrast unvisited link`, `Contrast visited link`
+    - verified the XLSX also has 14,871 rows
+    - found 7 rows where Wikipedia marks `Is color valid?` as `False`
+    - found 2 source rows with blank party names on `/N`, preserved as source data
+
 Boundary update recovery from session ses_20bb
 - [x] Restore unrelated tracked changes from the stalled session
 - [x] Re-audit the collaborator's Drive boundary files against current `maps.json` and local/R2 asset state
@@ -606,3 +809,173 @@ Mobile browser crash recurrence: remove startup catalogue pressure
     - New mobile first-open assertion proves only a bounded catalogue subset renders: `<= 24` map cards, `0` election rows, `0` book cards, and a `Show more` control.
     - In-app browser smoke at `390x844` loaded `http://127.0.0.1:5051/#layers=__none`: `data-split-state="map-full"`, `data-rendered="deferred"`, `data-mobile-deferred="true"`, `0` catalogue descendants, map visible, and no console error logs.
     - `git diff --check` reported only line-ending warnings and no whitespace errors.
+
+Election entry polygon, colour, and party-label audit
+- [ ] Inventory all website election entries and the polygons/geographies they require
+- [ ] Identify missing polygon links or missing polygon assets for those entries
+- [ ] Inventory party labels and independent descriptors across election result files
+- [ ] Compare configured party colours to Wikipedia-style party colours where a reliable party identity exists
+- [ ] Report duplicate/inconsistent party labels and recommended normalisations
+  - Scope:
+    - Read the local website election data as source of truth for what appears on the site.
+    - Use external references only for party colour comparison, not for rewriting the data in this task.
+
+Election party aliases and party IDs
+- [ ] Correct PUP aliasing to Progressive Unionist Party in the audit logic
+- [ ] Normalise Workers Party / Republican Clubs by date, DUP, PBP, and Alliance labels
+- [ ] Define stable Party IDs grouping aliases such as Ecology/Green and Republican Clubs/Workers Party
+- [ ] Rerun audit and provide the next 10 party/ticket names
+
+Election party aliases follow-up: Green, Alliance, independents, Solidarity-PBP, UUP
+- [x] Normalise `Green/Comhaontas Glas` to `Green`
+- [x] Normalise exact `A` to `Alliance`
+- [x] Normalise `Independent Lozenge` to `Independent`
+- [x] Normalise `Solidarity PBP` to `Solidarity-PBP`
+- [x] Normalise `Of. Un.` to `UUP`
+- [x] Rebuild party IDs/audit outputs and provide the top 100 party/ticket labels inline
+  - What I changed:
+    - Added the requested labels to `scripts/normalize-election-party-names.py`, including leading-space European-election `Lozenge` forms for Green, Independent, and Solidarity-PBP.
+    - Added the same aliases to `scripts/build-election-party-ids.py` so generated Party IDs keep those historical labels grouped with their canonical party.
+    - Added audit aliases for exact `A`, `Of. Un.`, and `Green`.
+    - Added a lesson to prevent repeated ranked-table variant cleanup misses.
+  - Verification:
+    - `python -m py_compile scripts\normalize-election-party-names.py scripts\build-election-party-ids.py scripts\audit-ireland-election-party-colours.py`
+    - `python scripts\normalize-election-party-names.py` changed `886` election files on the first run and `0` on the second run.
+    - Normalisation counts included `695` `Green/Comhaontas Glas -> Green`, `212` `A -> Alliance`, `140` leading-space `Independent Lozenge -> Independent`, `129` `Solidarity PBP -> Solidarity-PBP`, `115` `Of. Un. -> UUP`, `24` leading-space `Green/Comhaontas Glas Lozenge -> Green`, and `7` leading-space `Solidarity PBP Lozenge -> Solidarity-PBP`.
+    - Structured party-field scan found no remaining stripped values of `Green/Comhaontas Glas`, `Green/Comhaontas Glas Lozenge`, `A`, `Independent Lozenge`, `Solidarity PBP`, `Solidarity PBP Lozenge`, or `Of. Un.`.
+    - `python scripts\build-election-party-ids.py` wrote `800` party IDs and `1033` aliases.
+    - `python scripts\audit-ireland-election-party-colours.py` wrote `1084` audit rows with counts `{no_election_colour: 823, colour_mismatch: 141, match: 71, no_wikipedia_match: 49}`.
+
+Election party aliases follow-up: top-100 residual variants
+- [x] Normalise `Rep. Clubs` to `Republican Clubs`
+- [x] Normalise listed Conservative, BNP, Socialist Party, Nationalist, Alliance, Labour, IIP, Sinn Féin, UUP, Green, Independent, and Ulster Liberal variants
+- [x] Update party-ID and colour-audit alias helpers for the same canonical labels
+- [x] Rebuild party IDs/audit outputs and verify old labels are absent from party fields
+  - What I changed:
+    - Added exact source normalisations for the requested residual labels in `scripts/normalize-election-party-names.py`.
+    - Added `Labour Lozenge -> Irish Labour` after a stripped/Lozenge scan showed this was the remaining source of the ranked `Labour` label.
+    - Updated `scripts/build-election-party-ids.py` with the matching alias groups for Republican Clubs, Conservative, BNP, Socialist Party, Nationalist Party, Alliance, Irish Labour, NI Labour Party, IIP, Sinn Féin, UUP, Green, Independent, Independent Nationalist, and Ulster Liberal.
+    - Updated `scripts/audit-ireland-election-party-colours.py` with corresponding Wikipedia colour aliases where reliable rows exist.
+  - Verification:
+    - `python -m py_compile scripts\normalize-election-party-names.py scripts\build-election-party-ids.py scripts\audit-ireland-election-party-colours.py`
+    - `python scripts\normalize-election-party-names.py` changed `554` election files on the main pass and `53` more after adding `Labour Lozenge`; a final run reported `changed_files=0`.
+    - Main-pass counts included `163` `Northern Ireland Labour Party -> NI Labour Party`, `143` `Socialist Party (Ireland) -> Socialist Party`, `139` `British National Party -> BNP`, `92` `Rep. Clubs -> Republican Clubs`, `85` `Irish Conservative -> Conservative`, `61` `Nationalist -> Nationalist Party`, `55` `Alliance Party -> Alliance`, `42` `N.I.L.P. -> NI Labour Party`, `39` `I.I.P. -> IIP`, `38` `S.F. -> Sinn Féin`, `37` `Off. Un -> UUP`, `35` `Ind. Nationalist -> Independent Nationalist`, `35` `Green Party -> Green`, `34` `Ulster Liberal Party -> Ulster Liberal`, `32` `O. Un -> UUP`, `27` `Non-Party -> Independent`, `27` `O.Un -> UUP`, `19` `N.I.L.P -> NI Labour Party`, and `6` `Irish Independence Party -> IIP`.
+    - Follow-up counts included `45` leading-space `Labour Lozenge -> Irish Labour` and `38` remaining `Sinn FÃ©in -> Sinn Féin` repairs.
+    - Structured party-field scan found no remaining stripped values for the requested old labels, including Lozenge-normalized `Labour`.
+    - `python scripts\build-election-party-ids.py` wrote `789` party IDs and `1035` aliases.
+    - `python scripts\audit-ireland-election-party-colours.py` wrote `1070` audit rows with counts `{no_election_colour: 812, colour_mismatch: 135, match: 74, no_wikipedia_match: 49}`.
+
+Election party aliases follow-up: top-100 tail variants
+- [x] Normalise Republican Labour, Newtownabbey Labour, UPUP, NI Unionist, Independent Alliance, SDLP long-form, and Democratic Left variants
+- [x] Update party-ID and colour-audit alias helpers for the same canonical labels
+- [x] Rebuild party IDs/audit outputs and verify old labels are absent from party fields
+  - What I changed:
+    - Added exact source normalisations for `Republican Labour Party -> Republican Labour`, `Newtownabbey Labour Party -> Newtownabbey Labour`, `U.P.U.P. -> Ulster Popular Unionist Party`, `Northern Ireland Unionist Party -> NI Unionist Party`, `Independent Alliance (Non party) -> Independent Alliance`, `SDLP (Social Democratic and Labour Party) -> SDLP`, and `Democratic Left / New Agenda -> Democratic Left`.
+    - Updated Party ID aliases for the same labels.
+    - Added reliable Wikipedia colour-audit aliases for Republican Labour, UPUP, NI Unionist, SDLP long-form, and Democratic Left.
+  - Verification:
+    - `python -m py_compile scripts\normalize-election-party-names.py scripts\build-election-party-ids.py scripts\audit-ireland-election-party-colours.py`
+    - `python scripts\normalize-election-party-names.py` changed `94` election files, then a final run reported `changed_files=0`.
+    - Counts were `25` `SDLP (Social Democratic and Labour Party) -> SDLP`, `21` `Independent Alliance (Non party) -> Independent Alliance`, `21` `Democratic Left / New Agenda -> Democratic Left`, `21` `Northern Ireland Unionist Party -> NI Unionist Party`, `21` `U.P.U.P. -> Ulster Popular Unionist Party`, `20` `Newtownabbey Labour Party -> Newtownabbey Labour`, and `18` `Republican Labour Party -> Republican Labour`.
+    - Structured party-field scan found no remaining stripped values for the old labels.
+    - `python scripts\build-election-party-ids.py` wrote `785` party IDs and `1038` aliases.
+    - `python scripts\audit-ireland-election-party-colours.py` wrote `1066` audit rows with counts `{no_election_colour: 809, colour_mismatch: 136, match: 74, no_wikipedia_match: 47}`.
+
+Election party aliases follow-up: top-120 residual variants
+- [x] Normalise UUP, Alliance, Independent, UPNI, Republican Clubs/Workers' Party, Ulster Liberal, Conservative, and Official Unionist variants from the top-120 table
+- [x] Handle `Rep Clubs` conditionally as `Workers' Party` when Workers' Party candidates stood in the same election, otherwise `Republican Clubs`
+- [x] Update party-ID and colour-audit alias helpers for the same canonical labels
+- [x] Rebuild party IDs/audit outputs and verify old labels are absent from party fields
+  - What I changed:
+    - Added exact normalisations for `O.U.`, `UU`, `AP`, `Of.Un.`, `O Un`, `O Un.`, `Independent Un.`, `IND`, `U.P.N.I.`, `INDP`, `Ind. Unionist`, `Lib`, `Conservative and Unionist`, `Official Unionist`, and `Non. Party`.
+    - Added an election-context normalisation path for `Rep Clubs`; it becomes `Workers' Party` only when the same election directory already contains `Workers' Party`, otherwise `Republican Clubs`.
+    - Updated Party ID aliases and colour-audit aliases for the same canonical labels.
+  - Verification:
+    - `python -m py_compile scripts\normalize-election-party-names.py scripts\build-election-party-ids.py scripts\audit-ireland-election-party-colours.py`
+    - `python scripts\normalize-election-party-names.py` changed `147` election files, then a final run reported `changed_files=0`.
+    - Counts included `17` `Non. Party -> Independent`, `17` `O Un. -> UUP`, `16` `Lib -> Ulster Liberal`, `16` `Official Unionist -> UUP`, `16` `Conservative and Unionist -> Conservative`, `15` `Ind. Unionist -> Independent Unionist`, `15` `INDP -> Independent`, `15` `Rep Clubs -> Republican Clubs`, `15` `U.P.N.I. -> Unionist Party of Northern Ireland`, `14` `Independent Un. -> Independent Unionist`, `14` `O Un -> UUP`, `14` `Of.Un. -> UUP`, `14` `IND -> Independent`, `14` `UU -> UUP`, `13` `AP -> Alliance`, and `13` `O.U. -> UUP`.
+    - No `Rep Clubs` files were in an election directory containing `Workers' Party`, so the conditional branch correctly produced `Republican Clubs` for all current `Rep Clubs` instances.
+    - Structured party-field scan found no remaining stripped values for the requested old labels.
+    - `python scripts\build-election-party-ids.py` wrote `775` party IDs and `1038` aliases.
+    - `python scripts\audit-ireland-election-party-colours.py` wrote `1052` audit rows with counts `{no_election_colour: 795, colour_mismatch: 136, match: 74, no_wikipedia_match: 47}`.
+
+Election party aliases follow-up: top-150 residual variants
+- [x] Normalise NI Labour, Unionist, IIP, DUP, SDLP, UUP, Vanguard, Green, Independent, Workers' Party, and related residual variants
+- [x] Update party-ID and colour-audit alias helpers for the same canonical labels
+- [x] Rebuild party IDs/audit outputs and verify old labels are absent from party fields
+  - What I changed:
+    - Added exact normalisations for `NI Labour Party -> NI Labour`, `Un.`/`Un -> Unionist`, `I.I.P. Nationalist -> IIP`, `D.U U.U.U.C -> DUP`, `U.D.U.P. -> DUP`, SDLP long-form variants, `O. Ul. Un. -> UUP`, `DUP - Leader Ian Paisley -> DUP`, `Van. Un. -> Vanguard Unionist Progressive Party`, `Ulster Unionist U.U.P` variants to `UUP`, `The Green Party -> Green`, `Loy. D.U. -> DUP`, `Independant -> Independent`, `Ulster DUP -> DUP`, `Democratic Unionist - -> DUP`, bare `Workers'`/`Workers' Lozenge -> Workers' Party`, and `UUP U.U.U.C` variants to `UUP`.
+    - Updated Party ID and colour-audit aliases for the same canonical labels.
+  - Verification:
+    - `python -m py_compile scripts\normalize-election-party-names.py scripts\build-election-party-ids.py scripts\audit-ireland-election-party-colours.py`
+    - `python scripts\normalize-election-party-names.py` changed `330` election files on the first pass and `7` files on the follow-up `Ulster Unionist U.U.P` pass; a final run reported `changed_files=0`.
+    - First-pass counts included `224` `NI Labour Party -> NI Labour`, `112` `Un. -> Unionist`, `32` `Un -> Unionist`, `13` leading-space `Workers' Lozenge -> Workers' Party`, `13` `UUP U.U.U.C. -> UUP`, `12` `SDLP-Social Democratic and Labour Party -> SDLP`, `11` `Ulster DUP -> DUP`, `10` `Van. Un. -> Vanguard Unionist Progressive Party`, `10` `Loy. D.U. -> DUP`, `10` `Democratic Unionist - -> DUP`, `10` `Independant -> Independent`, `10` `The Green Party -> Green`, `10` `Social Democratic and Labour Party (SDLP) -> SDLP`, `8` `O. Ul. Un. -> UUP`, `8` `U.D.U.P. -> DUP`, `8` `DUP - Leader Ian Paisley -> DUP`, `8` malformed `SDLP (Social Democratic and Labour Party -> SDLP`, `7` `D.U U.U.U.C -> DUP`, and `7` `I.I.P. Nationalist -> IIP`.
+    - Follow-up counts included `10` `Ulster Unionist U.U.P. -> UUP` and `7` `Ulster Unionist U.U.P -> UUP`.
+    - Structured party-field scan found no remaining stripped values for the requested old labels or the obvious SDLP/UUP/Workers variants handled in this batch.
+    - `python scripts\build-election-party-ids.py` wrote `759` party IDs and `1040` aliases.
+    - `python scripts\audit-ireland-election-party-colours.py` wrote `1032` audit rows with counts `{no_election_colour: 777, colour_mismatch: 135, match: 73, no_wikipedia_match: 47}`.
+
+Review IDB zip: counties and local-authority maps
+- [x] Extract relevant FGBs to a repo-local temp folder
+- [x] Confirm the 1922/1927 counties files and the 1930/1931/1941/1942/1944/1950 local-authority files are present and readable
+- [x] Compare them against current site map entries and existing local data files
+- [x] Explain feasibility of adding/replacing them on the site
+  - What I checked:
+    - Extracted the eight relevant files from `C:\Users\scomo\Downloads\Irish Digitised Boundaries-20260525T185841Z-3-001.zip` into `tasks\idb-review-temp`.
+    - Confirmed `1922 Counties.fgb`, `1927 Counties.fgb`, and local-authority `1930`, `1931`, `1941`, `1942`, `1944`, `1950` FGBs are present and readable with GDAL.
+    - Confirmed `1927 Counties.fgb` has the same SHA256 as the current `data\maps\baronies-parishes\Counties_Ireland_1922.fgb`, so the old on-site 1922 counties asset is exactly the proposed 1927 counties asset.
+    - Confirmed new `1922 Counties.fgb` is a distinct file and should replace the current 1922 counties asset if implemented.
+    - Confirmed all six new ROI local-authority FGBs use the same schema as current ROI local-authority files: `ENGLISH`, `GAEILGE`, `COUNTYNAME`.
+    - Confirmed the current ROI local-authority catalogue stops at 1953, so `1930`, `1931`, `1941`, `1942`, `1944`, and `1950` are feasible new entries.
+  - Verification evidence:
+    - Counties: 32 features, WGS84, fields `CONTAE`, `COUNTY`, `PROVINCE`.
+    - Local authorities: 31 features each, WGS84, fields `ENGLISH`, `GAEILGE`, `COUNTYNAME`.
+    - `1927 Counties.fgb` SHA256: `BB8DE5CEB19EF709ADC334B64A83AA29EA332297D95C137DB2C76E9FC54839D1`.
+    - Current `Counties_Ireland_1922.fgb` SHA256: `BB8DE5CEB19EF709ADC334B64A83AA29EA332297D95C137DB2C76E9FC54839D1`.
+    - New `1922 Counties.fgb` SHA256: `58A87E20977F0D97DB058A2E514C9613C14B15371B3903A186661B57C35248BF`.
+
+Investigate production map-file deployment path
+- [x] Determine whether production serves map FGBs from Pages static files or R2/data.civgraph.net
+- [x] Determine what this means for adding the new IDB county and local-authority maps
+- [x] Record the required deployment steps
+  - What I found:
+    - `.cfignore` excludes `data/maps/**/*.fgb`, `data/maps/**/*.fgb.gz`, and map chunk JSON files from the Cloudflare Pages artifact.
+    - `functions/data/maps/[[path]].js` serves `/data/maps/*` from the `MAPS_BUCKET` R2 binding when that binding exists.
+    - `data/database/maps.json` overwhelmingly points FGB files at `https://data.civgraph.net/data/maps/...`: 602 of 621 FGB references use that external data host; 19 legacy/relative references remain.
+    - The relevant county/local-authority catalogue patterns already use `https://data.civgraph.net/...`.
+    - `https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1953.fgb` returns `200 OK`, `application/octet-stream`, and byte length `2903744`, confirming the data host is live for production map bytes.
+    - A small GET against `https://civgraph.net/data/maps/local-government/ROI_Local_Authorities_1953.fgb` also returns `application/octet-stream` via the Pages Function/R2 path; a HEAD request to that same-origin path is misleading because only GET is implemented by the function.
+    - `https://civgraph.net/data/database/maps.json` returns `Cache-Control: public, max-age=0, must-revalidate`, so catalogue metadata deploys through the site origin and revalidates.
+  - Required deployment consequence:
+    - Adding these maps requires both repo/catalogue changes and R2 object uploads.
+    - For each new or replaced FGB key, upload the base `.fgb` and compressed `.fgb.gz`; `.br` is desirable for consistency with the generic R2 tooling, though the current worker explicitly tries `.gz` before raw.
+    - Generate and upload `-lod0.fgb` and `-lod1.fgb` plus their compressed variants before setting or keeping `useLOD: true`.
+
+Add 2026-05-25 IDB county and ROI local-authority maps
+- [x] Preserve current 1922 counties bytes as the new 1927 counties asset
+- [x] Replace 1922 counties with the newly supplied Tirconaill/Donegal-aware file
+- [x] Add ROI local-authority FGBs for 1930, 1931, 1941, 1942, 1944, and 1950
+- [x] Update `data/database/maps.json` class ordering and map/variant metadata
+- [x] Generate `-lod0` and `-lod1` FGBs for all new/replaced assets
+- [x] Create compressed `.gz` and `.br` variants for upload consistency
+- [x] Upload the base, LOD, and compressed map objects to R2
+- [x] Verify public URLs, JSON validity, and representative map metadata
+  - What I changed:
+    - Copied the previous `Counties_Ireland_1922.fgb` bytes to `Counties_Ireland_1927.fgb`.
+    - Replaced `Counties_Ireland_1922.fgb` with the new zip-supplied 1922 counties file.
+    - Added local source files for `ROI_Local_Authorities_1930`, `1931`, `1941`, `1942`, `1944`, and `1950`.
+    - Added `counties-ireland-1927` as a variant under `counties-ireland` and updated the 1922 label to identify the Tirconaill version.
+    - Added the six new ROI local-authority map entries and appended them to the `roi-local-authorities` class after 1953.
+    - Added one-off scripts for the structured metadata update and LOD/compression generation.
+  - R2 upload:
+    - The first Wrangler upload ran against local R2 because `--remote` was omitted; public URL checks caught this immediately.
+    - Reran the upload with `--remote`.
+    - Uploaded 72 production R2 objects: 8 base maps plus `-lod0`, `-lod1`, `.gz`, and `.br` variants.
+    - Retried three transient Wrangler failures successfully: `Counties_Ireland_1922.fgb.br`, `ROI_Local_Authorities_1931-lod1.fgb.br`, and `ROI_Local_Authorities_1941.fgb`.
+  - Verification:
+    - Public `https://data.civgraph.net/...` HEAD checks verified all 72 objects returned `200` and matched local `Content-Length`.
+    - `node --check scripts\add-idb-20260525-maps.mjs`
+    - `node --check scripts\build-idb-20260525-lods.mjs`
+    - Parsed `data/database/maps.json` and confirmed all expected new IDs are present.
+    - `ogrinfo -so` opened representative 1922, 1927, and 1930 FGBs successfully.
+    - `npm run build` passed after rerunning outside the sandbox because esbuild process spawning hit `EPERM` inside the sandbox.
