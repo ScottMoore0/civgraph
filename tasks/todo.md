@@ -979,3 +979,17 @@ Add 2026-05-25 IDB county and ROI local-authority maps
     - Parsed `data/database/maps.json` and confirmed all expected new IDs are present.
     - `ogrinfo -so` opened representative 1922, 1927, and 1930 FGBs successfully.
     - `npm run build` passed after rerunning outside the sandbox because esbuild process spawning hit `EPERM` inside the sandbox.
+
+Commit election party-normalisation data changes
+- [x] Verify the normalization scripts and generated election data are internally consistent
+- [x] Stage only election-related files, leaving unrelated dirty worktree files untouched
+- [x] Commit the staged election data changes
+  - Verification:
+    - `python -m py_compile scripts\normalize-election-party-names.py scripts\audit-ireland-election-party-colours.py scripts\build-election-party-ids.py scripts\extract-wikipedia-party-colours.py`
+    - `node --check election-viewer-package\js\stages2.js`
+    - `python scripts\normalize-election-party-names.py` reported `changed_files=0`.
+    - `python scripts\build-election-party-ids.py` wrote `759` party IDs and `1040` aliases.
+    - `python scripts\audit-ireland-election-party-colours.py` wrote `1032` audit rows with counts `{no_election_colour: 777, colour_mismatch: 135, match: 73, no_wikipedia_match: 47}`.
+    - Parsed `7344` election JSON files successfully.
+    - `git diff --check` reported only line-ending warnings for `stages2.js` and `tasks/todo.md`.
+    - `npm run build` passed after rerunning outside the sandbox because esbuild process spawning hit `EPERM` inside the sandbox.

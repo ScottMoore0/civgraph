@@ -1224,6 +1224,7 @@ var PARTY_COLOUR_OVERRIDES = {
     'Northern Ireland First': '#DCDCDC',
     'Northern Ireland Labour Representation Committee': '#DC241F',
     'Northern Ireland Unionist Party': '#FF8C00',
+    'NI Women\'s Coalition': '#00FFFF',
     'Northern Ireland Women\'s Coalition': '#00FFFF',
     'Peace Coalition': '#009688',
     'People\'s Coalition': '#E91E63',
