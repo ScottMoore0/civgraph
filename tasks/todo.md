@@ -1055,12 +1055,12 @@ Harden chunked-map fit regression prevention
 - [x] Wire the validator into npm checks/build safety
 - [x] Harden runtime fitting so chunked layers without full bounds do not auto-fit to partial rendered chunks
 - [x] Add headless regression coverage for chunked fit decisions
-- [ ] Verify, commit, push, and confirm production deployment if runtime cache keys change
+- [x] Verify, commit, push, and confirm production deployment if runtime cache keys change
   - Recurring issue:
     - Symptom: chunked maps can fit to a random/current viewport subset when their loaded Leaflet group only contains visible chunks.
     - Root cause: bounds fitting had a rendered-group fallback path that was valid for normal GeoJSON layers but unsafe for chunked/spatial layers without full-map bounds.
     - Permanent prevention action: static validation now blocks chunked maps unless they have explicit metadata bounds or a local chunk-index extent fallback; runtime fitting now skips chunked/spatial auto-fit when full bounds are missing; a headless regression test locks in that control flow.
-    - Verification evidence: `npm run check` passed with `71` chunked entries and `71` explicit bounds; `npm run build` passed outside the sandbox after the expected esbuild spawn `EPERM`; cache-key check confirmed `app.bundle.js?v=116`, dynamic chunks under `chunks/v116/`, and service worker `v6`.
+    - Verification evidence: `npm run check` passed with `71` chunked entries and `71` explicit bounds; `npm run build` passed outside the sandbox after the expected esbuild spawn `EPERM`; cache-key check confirmed `app.bundle.js?v=116`, dynamic chunks under `chunks/v116/`, and service worker `v6`; production poll confirmed `https://civgraph.net/` serves `app.bundle.js?v=116` and `https://civgraph.net/sw.js` serves service worker `v6`.
   - Review:
     - Added `scripts/validate-chunked-map-bounds.mjs` with offline validation and `--fix` support.
     - Added `scripts/test-chunked-fit-bounds.mjs` for headless regression coverage.
