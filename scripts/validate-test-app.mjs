@@ -8,6 +8,9 @@ import { resolve } from 'node:path';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
+const INDEX_PATH = resolve(ROOT, 'test/index.html');
+const APP_PATH = resolve(ROOT, 'test/src/app.js');
+const SERVICE_WORKER_PATH = resolve(ROOT, 'test/sw.js');
 
 function localPathFromUrlTemplate(value) {
   if (typeof value !== 'string') return null;
@@ -131,10 +134,46 @@ function formatBytes(bytes) {
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
 
+function validateAssetVersions() {
+  const errors = [];
+  const indexHtml = readFileSync(INDEX_PATH, 'utf8');
+  const appJs = readFileSync(APP_PATH, 'utf8');
+  const serviceWorker = readFileSync(SERVICE_WORKER_PATH, 'utf8');
+
+  const indexVersions = [...indexHtml.matchAll(/\/test\/build\/test\.bundle\.(?:js|css)\?v=(test-\d+)/g)]
+    .map((match) => match[1]);
+  const appVersion = appJs.match(/const\s+TEST_ASSET_VERSION\s*=\s*['"](test-\d+)['"]/)?.[1];
+  const swVersion = serviceWorker.match(/const\s+TEST_CACHE_VERSION\s*=\s*['"]test-v(\d+)['"]/)?.[1];
+
+  if (indexVersions.length !== 2) {
+    errors.push('/test index must version both JS and CSS bundle URLs');
+  }
+
+  const uniqueIndexVersions = [...new Set(indexVersions)];
+  if (uniqueIndexVersions.length > 1) {
+    errors.push(`/test index bundle versions differ: ${uniqueIndexVersions.join(', ')}`);
+  }
+
+  const indexVersion = uniqueIndexVersions[0];
+  const indexVersionNumber = indexVersion?.match(/^test-(\d+)$/)?.[1];
+  if (!appVersion) errors.push('test/src/app.js must define TEST_ASSET_VERSION');
+  if (!swVersion) errors.push('test/sw.js must define TEST_CACHE_VERSION as test-vN');
+
+  if (indexVersion && appVersion && indexVersion !== appVersion) {
+    errors.push(`/test app asset version mismatch: index uses ${indexVersion}, app uses ${appVersion}`);
+  }
+
+  if (indexVersionNumber && swVersion && Number(indexVersionNumber) !== Number(swVersion)) {
+    errors.push(`/test service-worker version mismatch: index uses ${indexVersion}, service worker uses test-v${swVersion}`);
+  }
+
+  return errors;
+}
+
 function main() {
   const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
   const layers = metadata.layers || [];
-  const errors = [];
+  const errors = validateAssetVersions();
   const warnings = [];
 
   for (const layer of layers) {

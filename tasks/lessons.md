@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 110) Bump /test asset and service-worker cache versions with every deployed bundle behavior change
+- Mistake pattern: Shipping `/test` MapLibre label styling changes while leaving `test.bundle.js?v=test-003` and the `test-v3` service-worker cache unchanged.
+- Impact: phones can keep running an older cached test bundle, so new metadata such as `labelStyle` is fetched but ignored or rendered with old styling mechanics.
+- Guardrail:
+  1) for every `/test` app-code or style change, bump the bundle query string in `test/index.html`,
+  2) bump `TEST_CACHE_VERSION` in `test/sw.js` at the same time,
+  3) version metadata fetches from the app when metadata shape changes, and verify the built bundle contains the new style contract before asking for mobile testing.
+
 ### 109) Ambiguous party abbreviations need island-specific aliases before reporting mismatches
 - Mistake pattern: Reporting an abbreviation match from the global Wikipedia party table without first applying obvious Ireland/NI political aliases.
 - Impact: `PUP` was incorrectly reported against People's Unification Party instead of Progressive Unionist Party.

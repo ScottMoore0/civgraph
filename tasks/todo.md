@@ -1137,3 +1137,24 @@ Style /test MapLibre labels like main-site feature labels
     - Preserved MapLibre `symbol` rendering, renderer collision, ranked density, label toggling, and text scaling; no DOM label markers or CSS overlays were added.
     - Remaining difference: MapLibre halo and glyph rendering approximate the main site's CSS `text-shadow`/HTML text; underline-on-hover is not available for symbol text.
     - Verification evidence: `node --check test\src\app.js`, `node --check scripts\validate-test-app.mjs`, `npm run check:test`, representative MapLibre style-spec validation, and `npm run build:test` passed. Browser smoke loaded `/test/index.html`, loaded Civil Parishes, reached z9.631 where labels are active, found no relevant label/glyph runtime errors, toggled labels off/on, changed text scale to 150, and selected a rendered feature successfully.
+
+Compare current main-site and /test feature labels
+- [x] Inspect the main Leaflet label creation and CSS
+- [x] Inspect the /test MapLibre label layer and metadata
+- [x] Report the current parity, intentional differences, and remaining gaps
+  - Review:
+    - Main site labels are Leaflet DOM `DivIcon` markers created from `labelEntries`, placed manually with viewport collision checks, styled inline, and enhanced by CSS hover underline.
+    - `/test` labels are MapLibre GL symbol-layer glyphs sourced from vector-tile label attributes, filtered by ranked minimum zoom, styled through `labelStyle`, and collision-managed by the renderer.
+    - Current parity is close for Civil Parishes colour, white outline, bold 12px baseline, centering, clickability, hover colour, label toggling, and text scaling. Remaining differences are DOM/CSS underline and wrapping exactness on main versus GPU glyph halo/collision/density on `/test`.
+
+Fix /test label styling not appearing on mobile
+- [x] Identify why the latest label styling may not appear on the deployed test site
+- [x] Bump /test bundle, metadata, and service-worker cache versions
+- [x] Rebuild the test bundle and verify the versioned styling code is present
+- [x] Report what changed and what the user should retest
+  - Review:
+    - Root cause: `/test` still requested `test.bundle.js?v=test-003` and used the `test-v3` service-worker cache after label-style behavior changed, so mobile browsers could keep running a stale bundle.
+    - Bumped JS/CSS bundle URLs to `test-004`, bumped the scoped `/test` service worker cache to `test-v4`, and made the app fetch `/test/metadata/maps-test.json?v=test-004`.
+    - Added `assetVersion` to the diagnostics panel so stale mobile bundles are visible.
+    - Added validator coverage so `npm run check:test` fails if the `/test` index, app asset version, and service-worker cache version drift apart.
+    - Verification evidence: `node --check test\src\app.js`, `node --check scripts\validate-test-app.mjs`, `npm run check:test`, and `npm run build:test` passed; local headless browser smoke loaded `/test`, requested `test.bundle.css?v=test-004`, `test.bundle.js?v=test-004`, and `maps-test.json?v=test-004`, then loaded `civil-parishes-vector-test` with diagnostics showing `assetVersion: test-004`.

@@ -3,7 +3,8 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { PMTiles, Protocol } from 'pmtiles';
 import './styles.css';
 
-const METADATA_URL = '/test/metadata/maps-test.json';
+const TEST_ASSET_VERSION = 'test-004';
+const METADATA_URL = `/test/metadata/maps-test.json?v=${TEST_ASSET_VERSION}`;
 const IRELAND_BOUNDS = [[-10.75, 51.35], [-5.35, 55.55]];
 const HOVER_MIN_ZOOM = 7;
 const HOVER_THROTTLE_MS = 80;
@@ -527,6 +528,7 @@ function renderFeatureDetails(selection) {
 function emitDiagnostics(controller) {
   const data = {
     renderer: 'maplibre-gl',
+    assetVersion: TEST_ASSET_VERSION,
     maplibreVersion: maplibregl.version,
     loadedLayers: [...controller.layers.keys()],
     zoom: controller.map ? Number(controller.map.getZoom().toFixed(3)) : null,
