@@ -8,6 +8,29 @@
 /pages/*
   Cache-Control: public, max-age=0, must-revalidate
 
+# Isolated MapLibre/vector-tile rewrite lab. Keep out of search results and
+# avoid stale HTML/service-worker files while it is under active development.
+/test/
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Robots-Tag: noindex, nofollow
+
+/test/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Robots-Tag: noindex, nofollow
+
+/test/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+  Service-Worker-Allowed: /test/
+  X-Robots-Tag: noindex, nofollow
+
+/test/build/*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Robots-Tag: noindex, nofollow
+
+/test/tiles/*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Robots-Tag: noindex, nofollow
+
 # Service worker — must revalidate on every load so deploys propagate to all
 # clients within one navigation. The SW itself caches downstream resources;
 # its own file should never be cached aggressively or we can't ship fixes.

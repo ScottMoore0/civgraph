@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Civgraph Test - MapLibre Rewrite</title>
+  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-001">
+</head>
+<body>
+  <div id="testApp" class="test-shell">
+    <aside class="test-sidebar" aria-label="Test catalogue">
+      <header class="test-header">
+        <div>
+          <p class="test-kicker">Civgraph Test</p>
+          <h1>MapLibre rewrite</h1>
+        </div>
+        <span class="test-badge">/test</span>
+      </header>
+
+      <section class="test-panel">
+        <label class="test-search-label" for="mapSearch">Search test layers</label>
+        <input id="mapSearch" class="test-search" type="search" autocomplete="off" placeholder="Search maps">
+      </section>
+
+      <section class="test-panel">
+        <h2>Catalogue</h2>
+        <div id="catalogue" class="catalogue-list" aria-live="polite"></div>
+      </section>
+
+      <section class="test-panel">
+        <h2>Active Layers</h2>
+        <div id="activeLayers" class="active-list">No active layers.</div>
+      </section>
+
+      <section class="test-panel">
+        <h2>Selected Feature</h2>
+        <div id="featureDetails" class="feature-details">Click a rendered feature.</div>
+      </section>
+
+      <section class="test-panel test-diagnostics">
+        <h2>Diagnostics</h2>
+        <pre id="diagnostics">Starting...</pre>
+      </section>
+    </aside>
+
+    <main class="test-map-wrap">
+      <div id="map" class="test-map" role="application" aria-label="MapLibre test map"></div>
+      <div id="toast" class="test-toast" hidden></div>
+    </main>
+  </div>
+
+  <script type="module" src="/test/build/test.bundle.js?v=test-001"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/test/sw.js', {
+          scope: '/test/',
+          updateViaCache: 'none'
+        }).catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

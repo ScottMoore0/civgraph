@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "description": "Isolated /test metadata for the MapLibre GL + vector-tile rewrite path.",
+  "layers": [
+    {
+      "id": "civil-parishes-vector-test",
+      "sourceMapId": "civil-parishes-by-province",
+      "name": "Civil Parishes of Ireland",
+      "category": "Civil Parishes",
+      "renderer": "maplibre",
+      "sourceType": "mvt",
+      "tiles": "/test/tiles/civil-parishes-v1/{z}/{x}/{y}.pbf",
+      "metadataUrl": "/test/tiles/civil-parishes-v1/metadata.json",
+      "sourceLayer": "civil_parishes",
+      "promoteId": "id",
+      "minzoom": 0,
+      "maxzoom": 12,
+      "bounds": [
+        [
+          51.35,
+          -10.75
+        ],
+        [
+          55.55,
+          -5.35
+        ]
+      ],
+      "style": {
+        "color": "#7C3AED",
+        "fillColor": "#A78BFA",
+        "fillOpacity": 0.18,
+        "weight": 1.2
+      },
+      "labelProperty": "name_en",
+      "popupProperties": [
+        "name_en",
+        "name_ga",
+        "province_source",
+        "minElev_m",
+        "meanElev_m",
+        "maxElev_m"
+      ],
+      "status": "pilot",
+      "notes": "Generated from data/maps/baronies-parishes/Civil_Parishes_Ireland_v2.fgb with GDAL MVT output."
+    }
+  ]
+}

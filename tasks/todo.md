@@ -1067,3 +1067,20 @@ Harden chunked-map fit regression prevention
     - Added `check`, `check:chunked-bounds`, `fix:chunked-bounds`, and `test:chunked-fit` npm scripts; build now runs the chunked-bounds validator before bundling.
     - Updated `fitToLayer()` and `fitToLayers()` so chunked/spatial layers require full-map bounds and never fall through to rendered group bounds.
     - Bumped browser cache keys to `app.bundle.js?v=116`, `build/chunks/v116/`, and service worker `v6`.
+
+Rewrite site under /test with MapLibre GL and vector tiles
+- [x] Create an isolated `/test` app shell with its own bundle path and scoped service worker
+- [x] Add a MapLibre GL + PMTiles rendering controller that can load vector-tile layers from metadata
+- [x] Add a test metadata contract and validation for PMTiles/vector-tile layer entries
+- [x] Add build scripts for `/test` that do not affect the root production bundle
+- [x] Add first pilot-map wiring and clear missing-tile reporting
+- [x] Verify root-site isolation, test build output, service-worker scope, and syntax
+- [x] Commit and push the completed safe slice
+  - Review:
+    - Built an isolated `/test` MapLibre app with a separate `/test/build/test.bundle.js`, `/test/metadata/maps-test.json`, and `/test/sw.js` scoped to `/test/`.
+    - Added MapLibre GL and PMTiles dependencies for the test app only; the root production app still builds from `js/app.js` and does not import them.
+    - Generated a real Civil Parishes vector-tile pilot from `Civil_Parishes_Ireland_v2.fgb` into `/test/tiles/civil-parishes-v1` with GDAL MVT output: `3924` files, about `59.4 MB`.
+    - Added `build:test`, `check:test`, and `build:test:tiles` scripts plus validation for MapLibre/vector-tile metadata and local tile assets.
+    - Verification: `node --check` passed for new scripts and `/test` app files; `npm run check:test` passed; existing `npm run check` passed; `npm run build:test` passed outside the sandbox after the expected esbuild spawn `EPERM`; local headless smoke loaded `/test/`, rendered a MapLibre canvas, and loaded `civil-parishes-vector-test` in `645 ms`, with a known headless WebGL shader console error from the browser environment.
+  - Remaining for full replacement:
+    - This is the first safe execution slice, not full feature parity. The remaining rewrite still needs full catalogue compatibility, migrated tile packages for the heavy map set, URL state, feature search, time slider, data-entry overlays, election subsystem integration, mobile performance budget tests, and promotion/fallback work.
