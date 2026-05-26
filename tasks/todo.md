@@ -1018,9 +1018,9 @@ Fix Civil Parishes initial map fit
 - [x] Make chunked-layer fitting prefer configured full-map bounds over currently rendered chunk bounds
 - [x] Add explicit all-Ireland bounds to the Civil Parishes metadata
 - [x] Verify metadata, build output, and production behaviour
-- [ ] Commit and push the focused fix
+- [x] Commit and push the focused fix
   - Review:
     - Root cause: `fitToLayer()` fitted chunked/spatial layers to the currently rendered Leaflet group before checking configured bounds; for chunked maps that group can be only the current viewport subset.
     - Fix: chunked/spatial layers now prefer configured full-map bounds in `fitToLayer()` and `fitToLayers()`, and Civil Parishes has explicit all-Ireland bounds `[[51.35,-10.75],[55.55,-5.35]]`.
     - Browser-cache prevention: bumped the app entry to `app.bundle.js?v=114`, dynamic chunks to `build/chunks/v114/`, and service worker cache to `v4`.
-    - Verification: `node --check js\map-controller.js`, `node --check scripts\bundle.mjs`, `node --check sw.js`, Civil Parishes metadata validation, `npm run build`, and local cache-busting output checks passed.
+    - Verification: `node --check js\map-controller.js`, `node --check scripts\bundle.mjs`, `node --check sw.js`, Civil Parishes metadata validation, `npm run build`, and local cache-busting output checks passed. Production poll confirmed `app.bundle.js?v=114`, service worker `v4`, and the new bounds are live. Playwright production smoke from a deliberately high zoom loaded Civil Parishes at zoom `6`, centered around `53.5020,-8.0500`, with configured bounds present and no load error.
