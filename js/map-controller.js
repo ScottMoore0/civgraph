@@ -3977,6 +3977,12 @@ class MapController {
         const state = this.layerStates.get(id);
         if (!state || !this.map) return;
 
+        const cfgBounds = this._getConfiguredBounds(state);
+        if ((state.useSpatial || state.config?.chunked) && cfgBounds) {
+            this.map.fitBounds(cfgBounds, { padding: [20, 20] });
+            return;
+        }
+
         try {
             const bounds = state.group.getBounds();
             if (bounds.isValid()) {
@@ -3987,9 +3993,19 @@ class MapController {
             // Ignore bounds errors
         }
 
-        const cfgBounds = state.config?.bounds;
-        if (Array.isArray(cfgBounds) && cfgBounds.length === 2) {
+        if (cfgBounds) {
             this.map.fitBounds(cfgBounds, { padding: [20, 20] });
+        }
+    }
+
+    _getConfiguredBounds(state) {
+        const cfgBounds = state?.config?.bounds;
+        if (!Array.isArray(cfgBounds) || cfgBounds.length !== 2) return null;
+        try {
+            const bounds = L.latLngBounds(cfgBounds);
+            return bounds.isValid() ? bounds : null;
+        } catch {
+            return null;
         }
     }
 
@@ -4004,6 +4020,12 @@ class MapController {
             const state = this.layerStates.get(id);
             if (!state) return;
 
+            const cfgBounds = this._getConfiguredBounds(state);
+            if ((state.useSpatial || state.config?.chunked) && cfgBounds) {
+                combined = combined ? combined.extend(cfgBounds) : cfgBounds;
+                return;
+            }
+
             try {
                 const bounds = state.group?.getBounds?.();
                 if (bounds?.isValid?.()) {
@@ -4014,11 +4036,7 @@ class MapController {
                 // Fall through to configured bounds below.
             }
 
-            const cfgBounds = state.config?.bounds;
-            if (Array.isArray(cfgBounds) && cfgBounds.length === 2) {
-                const bounds = L.latLngBounds(cfgBounds);
-                if (bounds.isValid()) combined = combined ? combined.extend(bounds) : bounds;
-            }
+            if (cfgBounds) combined = combined ? combined.extend(cfgBounds) : cfgBounds;
         });
 
         if (combined?.isValid?.()) {

@@ -1012,3 +1012,15 @@ Fix county catalogue entries and reassess mobile civil-parishes performance
     - Browser-cache hardening: bumped app bundle query string to `v113`, moved dynamic build chunks under `build/chunks/v113/`, and bumped the service-worker cache version to `v3` so existing phones do not reuse stale map-controller chunks.
     - Code checks: `python -m py_compile scripts\build-unified-civil-parishes.py`, `node --check scripts\upload-unified-civil-parishes.mjs`, `node --check js\app.js`, and `node --check js\map-controller.js` all passed.
     - Build: `npm run build` passed after rerunning outside the sandbox because esbuild process spawning hit `EPERM` inside the sandbox; after cache-busting changes, `node --check scripts\bundle.mjs` and `node --check sw.js` also passed.
+
+Fix Civil Parishes initial map fit
+- [x] Reproduce/identify why selecting Civil Parishes zooms to a random part of Ireland
+- [x] Make chunked-layer fitting prefer configured full-map bounds over currently rendered chunk bounds
+- [x] Add explicit all-Ireland bounds to the Civil Parishes metadata
+- [x] Verify metadata, build output, and production behaviour
+- [ ] Commit and push the focused fix
+  - Review:
+    - Root cause: `fitToLayer()` fitted chunked/spatial layers to the currently rendered Leaflet group before checking configured bounds; for chunked maps that group can be only the current viewport subset.
+    - Fix: chunked/spatial layers now prefer configured full-map bounds in `fitToLayer()` and `fitToLayers()`, and Civil Parishes has explicit all-Ireland bounds `[[51.35,-10.75],[55.55,-5.35]]`.
+    - Browser-cache prevention: bumped the app entry to `app.bundle.js?v=114`, dynamic chunks to `build/chunks/v114/`, and service worker cache to `v4`.
+    - Verification: `node --check js\map-controller.js`, `node --check scripts\bundle.mjs`, `node --check sw.js`, Civil Parishes metadata validation, `npm run build`, and local cache-busting output checks passed.

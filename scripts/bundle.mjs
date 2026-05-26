@@ -43,7 +43,7 @@ const result = await esbuild.build({
     minify: true,
     sourcemap: true,
     outdir: 'build',
-    chunkNames: 'chunks/v113/[name]-[hash]',
+    chunkNames: 'chunks/v114/[name]-[hash]',
     target: ['es2020'],
     // Don't try to resolve these — they're browser globals loaded via CDN
     external: Object.keys(globalExternals),
