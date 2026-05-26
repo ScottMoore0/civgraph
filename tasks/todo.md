@@ -1096,3 +1096,15 @@ Fix /test Civil Parishes low-zoom feature loss
     - Root cause: the first GDAL MVT export used defaults that warned about oversized tiles and encoded affected low/mid-zoom tiles at lower resolution, causing heavy feature loss.
     - Permanent prevention action: the tile build script now uses explicit correctness-first MVT generation options and the deployed metadata uses a versioned `civil-parishes-v2` tile directory.
     - Verification evidence: `node --check scripts\build-test-civil-parishes-tiles.mjs` passed; `npm run check:test` passed; representative v2 feature counts are `2423` at z3, `2435` at z4, and `2442` at z5; local HTTP checks returned `200` for `/test/metadata/maps-test.json`, `/test/tiles/civil-parishes-v2/4/7/5.pbf`, and `/test/tiles/civil-parishes-v2/5/15/10.pbf`; commit `64b779e6` was pushed to `main`; production polling confirmed `https://civgraph.net/test/metadata/maps-test.json` references `civil-parishes-v2` and `https://civgraph.net/test/tiles/civil-parishes-v2/5/15/10.pbf` returns `200`.
+
+Fix /test Civil Parishes interaction lag
+- [x] Quantify whether lag comes from oversized v2 tiles, per-mousemove feature querying, or both
+- [x] Regenerate a smaller complete tile pyramid if representative v2 tiles are too large for smooth interaction
+- [x] Throttle/defer hover hit-testing and make click selection responsive under load
+- [x] Verify metadata, representative tile counts/sizes, and local `/test` behaviour
+- [ ] Commit, push, and confirm production serves the optimized assets
+  - Recurring issue:
+    - Symptom: features load slowly, hover highlighting lags behind the cursor, and click selection appears delayed.
+    - Root cause: the correctness-first `civil-parishes-v2` tiles reduced feature loss by keeping unsimplified geometry, but that left mid-zoom tiles as large as `1.77 MB`; the controller also used layer-bound mousemove events and `setFilter()` on every hovered-feature change, forcing repeated hit-testing and style/filter recalculation while the pointer moved.
+    - Permanent prevention action: use a versioned `civil-parishes-v3` tile pyramid with moderate low-zoom simplification and high tile limits, throttle hover hit-testing, suppress hover while the source is still loading or the map is moving, and use feature-state for hover/selected highlighting instead of filter mutation.
+    - Verification evidence: `node --check test\src\app.js`, `node --check scripts\build-test-civil-parishes-tiles.mjs`, `npm run check:test`, and `npm run build:test` passed; v3 package size is `34.8 MB` versus v2 `76.4 MB`; worst sampled tile is `508 KB` versus v2 `1.77 MB`; representative local v3 feature counts are z3 `2421`, z4 `2433`, and z5 `2441`; local browser smoke loaded `/test`, loaded Civil Parishes, and clicked a feature successfully after the rebuilt bundle.

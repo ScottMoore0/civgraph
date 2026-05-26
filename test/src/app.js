@@ -5,6 +5,9 @@ import './styles.css';
 
 const METADATA_URL = '/test/metadata/maps-test.json';
 const IRELAND_BOUNDS = [[-10.75, 51.35], [-5.35, 55.55]];
+const HOVER_MIN_ZOOM = 7;
+const HOVER_THROTTLE_MS = 80;
+const CLICK_TOLERANCE_PX = 6;
 
 const els = {
   catalogue: document.getElementById('catalogue'),
@@ -24,6 +27,7 @@ class TestMapLibreController {
     this.selected = null;
     this.hovered = null;
     this.metrics = [];
+    this.interactionCleanups = new Map();
     maplibregl.addProtocol('pmtiles', this.protocol.tile);
   }
 
@@ -116,11 +120,10 @@ class TestMapLibreController {
         type: 'line',
         source: sourceId,
         'source-layer': layer.sourceLayer,
-        filter: ['==', ['get', layer.promoteId || 'id'], ''],
         paint: {
           'line-color': '#F59E0B',
-          'line-width': 3,
-          'line-opacity': 0.95
+          'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 3, 0],
+          'line-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.95, 0]
         }
       });
 
@@ -129,11 +132,10 @@ class TestMapLibreController {
         type: 'line',
         source: sourceId,
         'source-layer': layer.sourceLayer,
-        filter: ['==', ['get', layer.promoteId || 'id'], ''],
         paint: {
           'line-color': '#111827',
-          'line-width': 4,
-          'line-opacity': 0.95
+          'line-width': ['case', ['boolean', ['feature-state', 'selected'], false], 4, 0],
+          'line-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.95, 0]
         }
       });
 
@@ -167,7 +169,7 @@ class TestMapLibreController {
         layerIds: [fillId, lineId, hoverId, selectedId, labelId].filter((id) => this.map.getLayer(id))
       });
 
-      this.bindLayerInteractions(layer, fillId, hoverId, selectedId);
+      this.interactionCleanups.set(layer.id, this.bindLayerInteractions(layer, fillId, sourceId));
       this.fitToLayer(layer.id);
 
       this.metrics.push({
@@ -186,6 +188,10 @@ class TestMapLibreController {
   unloadLayer(layerId) {
     const record = this.layers.get(layerId);
     if (!record) return;
+    this.clearFeatureState(this.hovered, 'hover');
+    this.clearFeatureState(this.selected, 'selected');
+    this.interactionCleanups.get(layerId)?.();
+    this.interactionCleanups.delete(layerId);
     for (const layerIdToRemove of [...record.layerIds].reverse()) {
       if (this.map.getLayer(layerIdToRemove)) this.map.removeLayer(layerIdToRemove);
     }
@@ -242,32 +248,103 @@ class TestMapLibreController {
     throw new Error(`unsupported sourceType ${layer.sourceType}`);
   }
 
-  bindLayerInteractions(layer, fillId, hoverId, selectedId) {
+  bindLayerInteractions(layer, fillId, sourceId) {
     const idProperty = layer.promoteId || 'id';
+    let lastHoverAt = 0;
+    let pendingHoverEvent = null;
+    let hoverFrame = 0;
 
-    this.map.on('mousemove', fillId, (event) => {
-      this.map.getCanvas().style.cursor = 'pointer';
-      const feature = event.features?.[0];
-      const id = feature?.properties?.[idProperty];
-      if (id === undefined || id === null || this.hovered === id) return;
-      this.hovered = id;
-      this.map.setFilter(hoverId, ['==', ['get', idProperty], id]);
-    });
-
-    this.map.on('mouseleave', fillId, () => {
-      this.map.getCanvas().style.cursor = '';
+    const clearHover = () => {
+      this.clearFeatureState(this.hovered, 'hover');
       this.hovered = null;
-      this.map.setFilter(hoverId, ['==', ['get', idProperty], '']);
-    });
+      this.map.getCanvas().style.cursor = '';
+    };
 
-    this.map.on('click', fillId, (event) => {
-      const feature = event.features?.[0];
+    const readFeatureId = (feature) => {
+      const id = feature?.id ?? feature?.properties?.[idProperty];
+      return id === undefined || id === null || id === '' ? null : id;
+    };
+
+    const setHover = (feature) => {
+      const id = readFeatureId(feature);
+      if (id === null) {
+        clearHover();
+        return;
+      }
+      if (this.hovered?.layerId === layer.id && this.hovered.id === id) return;
+      clearHover();
+      this.hovered = { layerId: layer.id, sourceId, sourceLayer: layer.sourceLayer, id };
+      this.map.setFeatureState({ source: sourceId, sourceLayer: layer.sourceLayer, id }, { hover: true });
+      this.map.getCanvas().style.cursor = 'pointer';
+    };
+
+    const queryAtPoint = (point, radius = 0) => {
+      if (!this.map.getLayer(fillId)) return [];
+      const geometry = radius > 0
+        ? [[point.x - radius, point.y - radius], [point.x + radius, point.y + radius]]
+        : point;
+      return this.map.queryRenderedFeatures(geometry, { layers: [fillId] });
+    };
+
+    const runHoverQuery = () => {
+      hoverFrame = 0;
+      const event = pendingHoverEvent;
+      pendingHoverEvent = null;
+      if (!event || !this.layers.has(layer.id)) return;
+      const sourceLoaded = typeof this.map.isSourceLoaded === 'function'
+        ? this.map.isSourceLoaded(sourceId)
+        : this.map.areTilesLoaded();
+      if (this.map.isMoving() || this.map.getZoom() < HOVER_MIN_ZOOM || !sourceLoaded) {
+        clearHover();
+        return;
+      }
+      setHover(queryAtPoint(event.point)[0]);
+    };
+
+    const onMouseMove = (event) => {
+      pendingHoverEvent = event;
+      const now = performance.now();
+      if (now - lastHoverAt < HOVER_THROTTLE_MS) {
+        if (!hoverFrame) hoverFrame = requestAnimationFrame(runHoverQuery);
+        return;
+      }
+      lastHoverAt = now;
+      if (!hoverFrame) hoverFrame = requestAnimationFrame(runHoverQuery);
+    };
+
+    const onClick = (event) => {
+      const feature = queryAtPoint(event.point, CLICK_TOLERANCE_PX)[0];
       if (!feature) return;
-      const id = feature.properties?.[idProperty];
-      this.selected = { layerId: layer.id, id, properties: feature.properties };
-      this.map.setFilter(selectedId, ['==', ['get', idProperty], id ?? '']);
+      const id = readFeatureId(feature);
+      if (id === null) return;
+      this.clearFeatureState(this.selected, 'selected');
+      this.selected = { layerId: layer.id, sourceId, sourceLayer: layer.sourceLayer, id, properties: feature.properties };
+      this.map.setFeatureState({ source: sourceId, sourceLayer: layer.sourceLayer, id }, { selected: true });
       renderFeatureDetails({ layer, feature });
-    });
+    };
+
+    const mapContainer = this.map.getContainer();
+    this.map.on('mousemove', onMouseMove);
+    this.map.on('click', onClick);
+    this.map.on('movestart', clearHover);
+    mapContainer.addEventListener('mouseleave', clearHover);
+
+    return () => {
+      if (hoverFrame) cancelAnimationFrame(hoverFrame);
+      this.map.off('mousemove', onMouseMove);
+      this.map.off('click', onClick);
+      this.map.off('movestart', clearHover);
+      mapContainer.removeEventListener('mouseleave', clearHover);
+    };
+  }
+
+  clearFeatureState(selection, key) {
+    if (!selection?.sourceId || selection.id === undefined || selection.id === null) return;
+    if (!this.map.getSource(selection.sourceId)) return;
+    this.map.setFeatureState(
+      { source: selection.sourceId, sourceLayer: selection.sourceLayer, id: selection.id },
+      { [key]: false }
+    );
   }
 
   waitForMap() {
