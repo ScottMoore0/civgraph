@@ -1060,10 +1060,47 @@ class MapController {
             return null;
         }
 
+        const bbox = this._chunkIndexBBox({ ...chunkIndex, chunks: validChunks });
+
         return {
             ...chunkIndex,
-            chunks: validChunks
+            chunks: validChunks,
+            bbox
         };
+    }
+
+    _chunkIndexBBox(chunkIndex) {
+        if (Array.isArray(chunkIndex?.bbox) && chunkIndex.bbox.length === 4) {
+            const values = chunkIndex.bbox.map(Number);
+            if (values.every(Number.isFinite)) return values;
+        }
+
+        if (!Array.isArray(chunkIndex?.chunks)) return null;
+        return chunkIndex.chunks.reduce((bbox, chunk) => {
+            const values = chunk?.bbox?.map(Number);
+            if (!Array.isArray(values) || values.length !== 4 || !values.every(Number.isFinite)) return bbox;
+            if (!bbox) return values;
+            return [
+                Math.min(bbox[0], values[0]),
+                Math.min(bbox[1], values[1]),
+                Math.max(bbox[2], values[2]),
+                Math.max(bbox[3], values[3])
+            ];
+        }, null);
+    }
+
+    _boundsFromChunkIndex(chunkIndex) {
+        const bbox = this._chunkIndexBBox(chunkIndex);
+        if (!bbox) return null;
+        try {
+            const bounds = L.latLngBounds(
+                [bbox[1], bbox[0]],
+                [bbox[3], bbox[2]]
+            );
+            return bounds.isValid() ? bounds : null;
+        } catch {
+            return null;
+        }
     }
 
     _clearRenderedLayerState(id, state) {
@@ -1632,6 +1669,7 @@ class MapController {
                 return null;
             }
         }
+        state._chunkIndexBounds = this._boundsFromChunkIndex(chunkIndex);
 
         // Load feature index if available
         await this._loadFeatureIndex(id, fgbPath, signal);
@@ -3977,7 +4015,7 @@ class MapController {
         const state = this.layerStates.get(id);
         if (!state || !this.map) return;
 
-        const cfgBounds = this._getConfiguredBounds(state);
+        const cfgBounds = this._getFullFitBounds(state);
         if ((state.useSpatial || state.config?.chunked) && cfgBounds) {
             this.map.fitBounds(cfgBounds, { padding: [20, 20] });
             return;
@@ -3998,15 +4036,18 @@ class MapController {
         }
     }
 
-    _getConfiguredBounds(state) {
+    _getFullFitBounds(state) {
         const cfgBounds = state?.config?.bounds;
-        if (!Array.isArray(cfgBounds) || cfgBounds.length !== 2) return null;
-        try {
-            const bounds = L.latLngBounds(cfgBounds);
-            return bounds.isValid() ? bounds : null;
-        } catch {
-            return null;
+        if (Array.isArray(cfgBounds) && cfgBounds.length === 2) {
+            try {
+                const bounds = L.latLngBounds(cfgBounds);
+                if (bounds.isValid()) return bounds;
+            } catch {
+                // Fall through to chunk-index-derived bounds below.
+            }
         }
+
+        return state?._chunkIndexBounds?.isValid?.() ? state._chunkIndexBounds : null;
     }
 
     /**
@@ -4020,7 +4061,7 @@ class MapController {
             const state = this.layerStates.get(id);
             if (!state) return;
 
-            const cfgBounds = this._getConfiguredBounds(state);
+            const cfgBounds = this._getFullFitBounds(state);
             if ((state.useSpatial || state.config?.chunked) && cfgBounds) {
                 combined = combined ? combined.extend(cfgBounds) : cfgBounds;
                 return;

@@ -13,7 +13,7 @@
  * resources (build/*?v=N) invalidate naturally via their URL.
  */
 
-const CACHE_VERSION = 'v4'; // v4: evict stale dynamic JS chunks after map-fit fix
+const CACHE_VERSION = 'v5'; // v5: evict stale dynamic JS chunks after chunked-map bounds fix
 const STATIC_CACHE  = `civgraph-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `civgraph-runtime-${CACHE_VERSION}`;
 const FGB_CACHE     = `civgraph-fgb-${CACHE_VERSION}`;

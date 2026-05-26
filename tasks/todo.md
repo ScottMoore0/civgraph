@@ -1024,3 +1024,27 @@ Fix Civil Parishes initial map fit
     - Fix: chunked/spatial layers now prefer configured full-map bounds in `fitToLayer()` and `fitToLayers()`, and Civil Parishes has explicit all-Ireland bounds `[[51.35,-10.75],[55.55,-5.35]]`.
     - Browser-cache prevention: bumped the app entry to `app.bundle.js?v=114`, dynamic chunks to `build/chunks/v114/`, and service worker cache to `v4`.
     - Verification: `node --check js\map-controller.js`, `node --check scripts\bundle.mjs`, `node --check sw.js`, Civil Parishes metadata validation, `npm run build`, and local cache-busting output checks passed. Production poll confirmed `app.bundle.js?v=114`, service worker `v4`, and the new bounds are live. Playwright production smoke from a deliberately high zoom loaded Civil Parishes at zoom `6`, centered around `53.5020,-8.0500`, with configured bounds present and no load error.
+
+Audit maps for chunked-layer random-fit risk
+- [x] Define static failure signature for the Civil Parishes random-fit bug
+- [x] Scan `data/database/maps.json` for chunked/spatial catalogue maps without configured full-map bounds
+- [x] Cross-check chunk indexes and generated data extents where available
+- [x] Classify affected maps by severity and provide findings
+  - Review:
+    - Failure signature: a loadable map entry has `chunked: true` / spatial loading, has a working chunk index, and lacks configured `bounds`, so `fitToLayer()` / `fitToLayers()` can still fit to the currently rendered chunk subset rather than the full geography.
+    - CLI audit covered 901 loadable map/variant entries from `maps.json`, including variants resolved the same way as `dataService.getMapById()`.
+    - 71 loadable entries are marked chunked; 34 currently have working chunk indexes locally or on production; 33 of those 34 lack full-map bounds and retain the same class of fit risk.
+    - Civil Parishes is the only working chunked entry protected by configured bounds.
+    - No `isGroup` entry directly loads a risky chunked child, so no additional group-only risk was found.
+
+Implement chunked-map fit bounds fix
+- [x] Derive full-map bounds for currently indexed chunked maps
+- [x] Add explicit bounds to affected chunked map metadata
+- [x] Add a controller fallback that can use loaded chunk-index bounds if metadata bounds are missing
+- [x] Verify metadata coverage, syntax, and production build
+- [ ] Commit and push the fix
+  - Review:
+    - Added explicit bounds to the 33 indexed chunked entries that previously lacked them, using chunk-index extents from local files or production/R2 indexes.
+    - Added a map-controller fallback that stores `_chunkIndexBounds` on loaded chunked layers and lets `fitToLayer()` / `fitToLayers()` use those bounds if future metadata is missing `bounds`.
+    - Bumped app cache keys to `app.bundle.js?v=115`, dynamic chunks under `build/chunks/v115/`, and service worker cache `v5`.
+    - Verification: maps JSON parses, `node --check js\map-controller.js`, `node --check scripts\bundle.mjs`, `node --check sw.js`, indexed-chunked coverage audit now reports `chunkedWithIndex: 34` and `missingBounds: []`, `npm run build` passes, and cache-busting output checks pass.
