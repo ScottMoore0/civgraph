@@ -231,7 +231,7 @@ class TestMapLibreController {
       if (!layer.tiles) throw new Error('missing vector tile URL template');
       return {
         type: 'vector',
-        tiles: [new URL(layer.tiles, location.origin).toString()],
+        tiles: [absoluteTileTemplate(layer.tiles)],
         minzoom: layer.minzoom,
         maxzoom: layer.maxzoom,
         bounds: boundsToFlatBbox(layer.bounds),
@@ -409,6 +409,12 @@ function boundsToMapLibre(bounds) {
   if (!Array.isArray(bounds) || bounds.length !== 2) return null;
   const [[south, west], [north, east]] = bounds;
   return [[west, south], [east, north]];
+}
+
+function absoluteTileTemplate(template) {
+  if (/^https?:\/\//i.test(template)) return template;
+  const origin = location.origin.replace(/\/$/, '');
+  return template.startsWith('/') ? `${origin}${template}` : `${origin}/${template}`;
 }
 
 function boundsToFlatBbox(bounds) {
