@@ -665,7 +665,9 @@
       "scope": "Northern Ireland / Ireland",
       "category": "counties",
       "maps": [
-        "counties-ireland"
+        "counties-ireland",
+        "counties-ireland-1927",
+        "counties-ireland-1922"
       ]
     },
     {
@@ -6746,64 +6748,6 @@
           ]
         },
         {
-          "id": "counties-ireland-1922",
-          "label": "Counties of Ireland 1922 (all-island, Tirconaill)",
-          "slug": "counties-ireland-1922",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1922.fgb"
-          },
-          "date": "1922",
-          "useLOD": true,
-          "provider": [
-            "Phelim Birch"
-          ],
-          "style": {
-            "color": "#00A9E6",
-            "weight": 2
-          },
-          "labelProperty": "COUNTY",
-          "keywords": [
-            "county",
-            "ireland",
-            "all-island",
-            "32 counties",
-            "1922",
-            "tirconaill",
-            "offaly",
-            "laois",
-            "traditional"
-          ]
-        },
-        {
-          "id": "counties-ireland-1927",
-          "label": "Counties of Ireland 1927 (all-island, Donegal)",
-          "slug": "counties-ireland-1927",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1927.fgb"
-          },
-          "date": "1927",
-          "useLOD": true,
-          "provider": [
-            "Phelim Birch"
-          ],
-          "style": {
-            "color": "#00A9E6",
-            "weight": 2
-          },
-          "labelProperty": "COUNTY",
-          "keywords": [
-            "county",
-            "ireland",
-            "all-island",
-            "32 counties",
-            "1927",
-            "donegal",
-            "offaly",
-            "laois",
-            "traditional"
-          ]
-        },
-        {
           "id": "counties-ireland-1955",
           "label": "Counties of Ireland 1955 (all-island)",
           "slug": "counties-ireland-1955",
@@ -6833,6 +6777,66 @@
           ]
         }
       ]
+    },
+    {
+      "id": "counties-ireland-1922",
+      "name": "Counties of Ireland 1922 (all-island, Tirconaill)",
+      "slug": "counties-ireland-1922",
+      "category": "counties",
+      "date": "1922",
+      "provider": [
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1922.fgb"
+      },
+      "style": {
+        "color": "#00A9E6",
+        "weight": 2
+      },
+      "labelProperty": "COUNTY",
+      "keywords": [
+        "county",
+        "ireland",
+        "all-island",
+        "32 counties",
+        "1922",
+        "tirconaill",
+        "offaly",
+        "laois",
+        "traditional"
+      ],
+      "useLOD": true
+    },
+    {
+      "id": "counties-ireland-1927",
+      "name": "Counties of Ireland 1927 (all-island, Donegal)",
+      "slug": "counties-ireland-1927",
+      "category": "counties",
+      "date": "1927",
+      "provider": [
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1927.fgb"
+      },
+      "style": {
+        "color": "#00A9E6",
+        "weight": 2
+      },
+      "labelProperty": "COUNTY",
+      "keywords": [
+        "county",
+        "ireland",
+        "all-island",
+        "32 counties",
+        "1927",
+        "donegal",
+        "offaly",
+        "laois",
+        "traditional"
+      ],
+      "useLOD": true
     },
     {
       "id": "counties-county-boroughs-1915",
@@ -8099,16 +8103,9 @@
     {
       "id": "civil-parishes-by-province",
       "name": "Civil Parishes of Ireland",
-      "slug": "civil-parishes-by-province",
+      "slug": "civil-parishes",
       "category": "civil-parishes",
       "featured": true,
-      "isGroup": true,
-      "members": [
-        "civil-parishes-connacht",
-        "civil-parishes-leinster",
-        "civil-parishes-munster",
-        "civil-parishes-ulster"
-      ],
       "provider": [
         "OSI",
         "OSM"
@@ -8121,7 +8118,11 @@
         "civil parish",
         "parish",
         "all ireland",
-        "province"
+        "province",
+        "all-ireland",
+        "unified",
+        "lod",
+        "chunked"
       ],
       "labelProperty": "name_en",
       "variants": [
@@ -8132,7 +8133,8 @@
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/ParishesConnacht.fgb"
           },
-          "useLOD": true
+          "useLOD": true,
+          "mobileMaxLODLevel": 1
         },
         {
           "id": "civil-parishes-leinster",
@@ -8141,7 +8143,8 @@
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/ParishesLeinster.fgb"
           },
-          "useLOD": true
+          "useLOD": true,
+          "mobileMaxLODLevel": 1
         },
         {
           "id": "civil-parishes-munster",
@@ -8150,7 +8153,8 @@
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/ParishesMunster.fgb"
           },
-          "useLOD": true
+          "useLOD": true,
+          "mobileMaxLODLevel": 1
         },
         {
           "id": "civil-parishes-ulster",
@@ -8159,7 +8163,8 @@
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/ParishesUlster.fgb"
           },
-          "useLOD": true
+          "useLOD": true,
+          "mobileMaxLODLevel": 1
         },
         {
           "id": "civil-parishes",
@@ -8196,7 +8201,8 @@
               "label": "OSNI Civil Parishes (FGB)",
               "file": "https://data.civgraph.net/data/maps/baronies-parishes/OSNI_Civil_Parishes.fgb"
             }
-          ]
+          ],
+          "mobileMaxLODLevel": 1
         }
       ],
       "references": [
@@ -8205,7 +8211,19 @@
           "url": "",
           "note": "OSNI Baronies and Parishes maps obtained via FOI request to Mapping.Helpdesk@finance-ni.gov.uk, who commented as follows: \"The Parish and Baronies dataset was created in 2007 based on the existing Townlands dataset combined with NISRA data for a specific project. While it was originally envisaged that the dataset would be released as an additional OSNI product for public supply, it proved difficult to verify the exact townlands making up parishes due to conflicts within source material. The data was developed to a state that was fit-for-purpose at the time, however, OSNI was unable to fully QA the product and so was not considered to be at a sufficient standard to add to our product catalogue. As customers enquired after the dataset, as a goodwill gesture, we agreed to share it on request, with the understanding that it is not an official product and so we could not stand over its accuracy or completeness. For the same reason, there is no documentation or analysis of the data to support it. Therefore, the only additional information we can provide you with is what we have observed from our own review of the data: there are topographical errors, such as sliver polygons, missing attribution and additional fields that could be cleansed out if desired.\""
         }
-      ]
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Civil_Parishes_Ireland_v2.fgb"
+      },
+      "chunked": true,
+      "chunkOnly": true,
+      "useLOD": true,
+      "maxLODLevel": 2,
+      "mobileMaxLODLevel": 1,
+      "chunkOverviewMaxZoom": 13,
+      "chunkInitialBuffer": 0.1,
+      "chunkLoadConcurrency": 1,
+      "description": "Unified all-Ireland civil parish boundaries. The interactive layer uses overview LODs at low and medium zooms, then viewport chunks at high zooms."
     },
     {
       "id": "mep-1979",

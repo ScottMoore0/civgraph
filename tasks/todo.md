@@ -993,3 +993,21 @@ Commit election party-normalisation data changes
     - Parsed `7344` election JSON files successfully.
     - `git diff --check` reported only line-ending warnings for `stages2.js` and `tasks/todo.md`.
     - `npm run build` passed after rerunning outside the sandbox because esbuild process spawning hit `EPERM` inside the sandbox.
+
+Fix county catalogue entries and reassess mobile civil-parishes performance
+- [x] Move the newly added county maps out of the 1977 county variants and into direct County catalogue-card entries
+- [x] Verify `maps.json`, catalogue membership, and build output
+- [x] Replace Civil Parishes group loading with a single unified all-Ireland civil-parishes layer backed by LOD/chunk assets
+- [x] Review the civil-parishes mobile load path and identify remaining high-impact optimisations versus a MapLibre GL migration
+  - Recurring issue:
+    - Symptom: Mobile browsers lagged for 10+ seconds or crashed when loading Civil Parishes.
+    - Root cause: the catalogue entry loaded multiple province-level layers and allowed fallback to a very large full-resolution FGB; early regenerated chunks also duplicated boundary-crossing features across multiple chunk files.
+    - Permanent prevention action: use a single all-Ireland Civil Parishes entry backed by LOD overview files, viewport chunks, mobile LOD caps, chunk-only fallback behavior, representative-point chunk assignment, and versioned generated asset names to avoid stale CDN chunk files.
+    - Verification evidence: metadata check confirms `civil-parishes-by-province` is no longer a group, points to `Civil_Parishes_Ireland_v2.fgb`, has `chunkOnly: true`, `chunkOverviewMaxZoom: 13`, `mobileMaxLODLevel: 1`, and the generated chunk index has `64` chunks with `2448` feature refs for `2448` source features.
+  - Review:
+    - County catalogue: `ni-counties` now includes `counties-ireland`, `counties-ireland-1927`, and `counties-ireland-1922` as direct catalogue-card maps.
+    - Civil Parishes data: generated unified base FGB, LOD0/LOD1/LOD2 files, and versioned chunk files with `scripts/build-unified-civil-parishes.py`.
+    - Data host: uploaded the versioned v2 Civil Parishes assets with `scripts/upload-unified-civil-parishes.mjs`.
+    - Public asset verification: range-GET checked `159/159` v2 public objects on `data.civgraph.net` with matching object sizes.
+    - Code checks: `python -m py_compile scripts\build-unified-civil-parishes.py`, `node --check scripts\upload-unified-civil-parishes.mjs`, `node --check js\app.js`, and `node --check js\map-controller.js` all passed.
+    - Build: `npm run build` passed after rerunning outside the sandbox because esbuild process spawning hit `EPERM` inside the sandbox.

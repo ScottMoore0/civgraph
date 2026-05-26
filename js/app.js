@@ -2391,7 +2391,12 @@ class App {
     /**
      * Load a map layer
      */
-    async loadMap(mapId) {
+    async loadMap(mapId, options = {}) {
+        const {
+            showFeedback = true,
+            fitAfterLoad = true,
+            updateUrl = true
+        } = options;
         const mapConfig = dataService.getMapById(mapId);
         if (!mapConfig) return;
 
@@ -2401,14 +2406,22 @@ class App {
 
         if (mapConfig?.isGroup && Array.isArray(mapConfig.members) && mapConfig.members.length) {
             const groupName = mapConfig.name || mapId;
-            const feedback = this.startMapLoadFeedback(groupName);
+            const feedback = showFeedback ? this.startMapLoadFeedback(groupName) : null;
             try {
                 for (const memberId of mapConfig.members) {
-                    await this.loadMap(memberId);
+                    await this.loadMap(memberId, {
+                        showFeedback: false,
+                        fitAfterLoad: false,
+                        updateUrl: false
+                    });
                 }
-                this.finishMapLoadFeedback(feedback, true, groupName);
+                if (fitAfterLoad && !getEC()?.isVisible()) {
+                    mapController.fitToLayers(mapConfig.members);
+                }
+                if (updateUrl) this.updateURLState();
+                if (feedback) this.finishMapLoadFeedback(feedback, true, groupName);
             } catch (error) {
-                this.finishMapLoadFeedback(feedback, false, groupName);
+                if (feedback) this.finishMapLoadFeedback(feedback, false, groupName);
                 this.showError(`Failed to load map: ${groupName}`);
                 return;
             }
@@ -2417,14 +2430,23 @@ class App {
 
         if (mapConfig?.isGroup && Array.isArray(mapConfig.variants) && mapConfig.variants.length > 0) {
             const groupName = mapConfig.name || mapId;
-            const feedback = this.startMapLoadFeedback(groupName);
+            const feedback = showFeedback ? this.startMapLoadFeedback(groupName) : null;
+            const variantIds = mapConfig.variants.map((variant) => variant.id).filter(Boolean);
             try {
-                for (const variant of mapConfig.variants) {
-                    await this.loadMap(variant.id);
+                for (const variantId of variantIds) {
+                    await this.loadMap(variantId, {
+                        showFeedback: false,
+                        fitAfterLoad: false,
+                        updateUrl: false
+                    });
                 }
-                this.finishMapLoadFeedback(feedback, true, groupName);
+                if (fitAfterLoad && !getEC()?.isVisible()) {
+                    mapController.fitToLayers(variantIds);
+                }
+                if (updateUrl) this.updateURLState();
+                if (feedback) this.finishMapLoadFeedback(feedback, true, groupName);
             } catch (error) {
-                this.finishMapLoadFeedback(feedback, false, groupName);
+                if (feedback) this.finishMapLoadFeedback(feedback, false, groupName);
                 this.showError(`Failed to load map: ${groupName}`);
                 return;
             }
@@ -2433,25 +2455,28 @@ class App {
 
         const mapName = mapConfig.name || mapId;
         const controller = new AbortController();
-        this._activeMapLoad = {
-            mapId,
-            mapName,
-            controller,
-            cancelled: false
-        };
+        let feedback = null;
+        if (showFeedback) {
+            this._activeMapLoad = {
+                mapId,
+                mapName,
+                controller,
+                cancelled: false
+            };
 
-        const feedback = this.startMapLoadFeedback(mapName, () => {
-            const active = this._activeMapLoad;
-            if (!active || active.mapId !== mapId) return;
-            active.cancelled = true;
-            active.controller.abort();
-            mapController.unloadLayer(mapId);
-            this.syncCatalogueMapState();
-            this.updateActiveLayers();
-            this.finishMapLoadFeedback(feedback, false, mapName, {
-                cancelled: true
+            feedback = this.startMapLoadFeedback(mapName, () => {
+                const active = this._activeMapLoad;
+                if (!active || active.mapId !== mapId) return;
+                active.cancelled = true;
+                active.controller.abort();
+                mapController.unloadLayer(mapId);
+                this.syncCatalogueMapState();
+                this.updateActiveLayers();
+                this.finishMapLoadFeedback(feedback, false, mapName, {
+                    cancelled: true
+                });
             });
-        });
+        }
 
         try {
             const state = await mapController.loadLayer(mapConfig, true, {
@@ -2463,17 +2488,17 @@ class App {
             if (getEC()?.isVisible()) {
                 mapController.hideLayer(mapId);
                 getEC().enforceExclusiveVisibility();
-            } else {
+            } else if (fitAfterLoad) {
                 mapController.fitToLayer(mapId);
             }
-            this.updateURLState();
-            this.finishMapLoadFeedback(feedback, true, mapName);
+            if (updateUrl) this.updateURLState();
+            if (feedback) this.finishMapLoadFeedback(feedback, true, mapName);
         } catch (error) {
             if (this._activeMapLoad?.mapId === mapId && this._activeMapLoad.cancelled) {
                 return;
             }
             console.error(`[App] Failed to load map ${mapId}:`, error);
-            this.finishMapLoadFeedback(feedback, false, mapName);
+            if (feedback) this.finishMapLoadFeedback(feedback, false, mapName);
             this.showError(`Failed to load map: ${mapName}`);
         } finally {
             if (this._activeMapLoad?.mapId === mapId) {

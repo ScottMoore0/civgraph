@@ -935,6 +935,26 @@ class MapController {
         return 0;
     }
 
+    isMobileViewport() {
+        if (typeof window === 'undefined') return false;
+        const coarsePointer = window.matchMedia?.('(pointer: coarse)')?.matches === true;
+        const narrowViewport = Math.min(window.innerWidth || 0, window.innerHeight || 0) <= 900;
+        return coarsePointer || narrowViewport;
+    }
+
+    getMaxLODLevel(mapConfig) {
+        const mobileMax = Number(mapConfig?.mobileMaxLODLevel);
+        if (this.isMobileViewport() && Number.isFinite(mobileMax)) return mobileMax;
+        return mapConfig?.maxLODLevel;
+    }
+
+    getEffectiveLODLevel(mapConfig, zoom) {
+        let lod = this.getLODLevel(zoom);
+        const maxLODLevel = this.getMaxLODLevel(mapConfig);
+        if (typeof maxLODLevel === 'number' && lod > maxLODLevel) lod = maxLODLevel;
+        return lod;
+    }
+
     /**
      * Resolve the preferred vector source for an opt-in LOD-backed map.
      * Falls back to the original FGB path at full-resolution zooms or when
@@ -943,13 +963,13 @@ class MapController {
     getPreferredVectorFilePath(mapConfig, baseFgbPath, zoom) {
         if (!mapConfig?.useLOD) return baseFgbPath;
         if (!String(baseFgbPath || '').toLowerCase().endsWith('.fgb')) return baseFgbPath;
-        const resolved = this.getLODFilePath(baseFgbPath, zoom, mapConfig?.maxLODLevel);
+        const resolved = this.getLODFilePath(baseFgbPath, zoom, this.getMaxLODLevel(mapConfig));
         this._recordLoadMetric('lod-source-selected', {
             mapId: mapConfig?.id || null,
             zoom,
             source: resolved,
             baseSource: baseFgbPath,
-            lodLevel: this.getLODLevel(zoom)
+            lodLevel: this.getEffectiveLODLevel(mapConfig, zoom)
         });
         return resolved;
     }
@@ -960,6 +980,10 @@ class MapController {
     }
 
     shouldUseOverviewLOD(mapConfig, zoom) {
+        const configuredMaxZoom = Number(mapConfig?.chunkOverviewMaxZoom);
+        if (Number.isFinite(configuredMaxZoom) && mapConfig?.useLOD) {
+            return zoom <= configuredMaxZoom;
+        }
         if (!this._isTownlandMap(mapConfig)) return false;
         // all-Ireland townlands has a full LOD ladder (lod0/lod1/lod2) with
         // gap-fill raster underlays; the overview-LOD branch covers zoom 1-13
@@ -972,6 +996,8 @@ class MapController {
     }
 
     getInitialChunkBuffer(mapConfig) {
+        const configured = Number(mapConfig?.chunkInitialBuffer);
+        if (Number.isFinite(configured) && configured >= 0) return configured;
         if (this._isTownlandMap(mapConfig)) return 0.05;
         return 0.5;
     }
@@ -1132,7 +1158,7 @@ class MapController {
         state.loading = false;
         state.progress = 100;
         state._overviewLOD = true;
-        state._overviewLODLevel = this.getLODLevel(zoom);
+        state._overviewLODLevel = this.getEffectiveLODLevel(mapConfig, zoom);
         state._lastZoom = zoom;
 
         if (this.onLoadProgress) this.onLoadProgress(id, 100);
@@ -1141,7 +1167,7 @@ class MapController {
         this._recordLoadMetric('lod-overview-loaded', {
             mapId: id,
             source: overviewPath,
-            lodLevel: this.getLODLevel(zoom),
+            lodLevel: this.getEffectiveLODLevel(mapConfig, zoom),
             featureCount: state.featureCount,
             durationMs: this._elapsedMs(loadStart)
         });
@@ -1378,7 +1404,7 @@ class MapController {
 
             // Track initial LOD level for non-chunked LOD maps
             if (mapConfig?.useLOD) {
-                this.currentLOD.set(id, this.getLODLevel(zoom));
+                this.currentLOD.set(id, this.getEffectiveLODLevel(mapConfig, zoom));
             }
 
             if (this.onLoadProgress) {
@@ -1494,7 +1520,7 @@ class MapController {
         const signal = options?.signal;
         const fgbPath = state.fgbPath;
         const remoteFgb = mapConfig?.downloads?.fgb;
-        const enforceChunkOnly = this._isTownlandMap(id);
+        const enforceChunkOnly = this._isTownlandMap(id) || mapConfig?.chunkOnly === true;
         const loadStart = this._now();
 
         state.useSpatial = true;
@@ -1525,7 +1551,7 @@ class MapController {
         const chunkIndex = await this._loadChunkIndex(id, fgbPath, signal);
         if (!chunkIndex) {
             if (enforceChunkOnly) {
-                console.error(`[MapController] Townlands requires chunk index and chunk files; chunk index unavailable for ${id}`);
+                console.error(`[MapController] ${name || id} requires chunk index and chunk files; chunk index unavailable for ${id}`);
                 state.loading = false;
                 this.layerStates.delete(id);
                 return null;
@@ -2111,7 +2137,7 @@ class MapController {
             const updateStart = this._now();
 
             if (this.shouldUseOverviewLOD(state.config, zoom)) {
-                const targetLOD = this.getLODLevel(zoom);
+                const targetLOD = this.getEffectiveLODLevel(state.config, zoom);
                 const needsReload = !state._overviewLOD || state._overviewLODLevel !== targetLOD;
                 if (needsReload) {
                     state.loading = true;
@@ -2367,7 +2393,7 @@ class MapController {
             if (!mapConfig?.useLOD) continue;
 
             const currentLOD = this.currentLOD.get(mapId);
-            const newLOD = this.getLODLevel(zoom);
+            const newLOD = this.getEffectiveLODLevel(mapConfig, zoom);
             if (currentLOD === newLOD) continue;
 
             // Skip if already reloading — but schedule a re-check for when it finishes
@@ -2464,7 +2490,7 @@ class MapController {
 
             // Re-check in case zoom changed during the async load
             const postZoom = this.map.getZoom();
-            if (this.getLODLevel(postZoom) !== newLOD) {
+            if (this.getEffectiveLODLevel(mapConfig, postZoom) !== newLOD) {
                 console.log(`[MapController] Zoom changed during LOD load for ${mapId}, scheduling re-check`);
                 this._scheduleNonChunkedLODCheck();
             }
@@ -3964,6 +3990,39 @@ class MapController {
         const cfgBounds = state.config?.bounds;
         if (Array.isArray(cfgBounds) && cfgBounds.length === 2) {
             this.map.fitBounds(cfgBounds, { padding: [20, 20] });
+        }
+    }
+
+    /**
+     * Fit map to the combined bounds of several loaded layers.
+     */
+    fitToLayers(ids) {
+        if (!this.map || !Array.isArray(ids) || ids.length === 0) return;
+        let combined = null;
+
+        ids.forEach((id) => {
+            const state = this.layerStates.get(id);
+            if (!state) return;
+
+            try {
+                const bounds = state.group?.getBounds?.();
+                if (bounds?.isValid?.()) {
+                    combined = combined ? combined.extend(bounds) : bounds;
+                    return;
+                }
+            } catch {
+                // Fall through to configured bounds below.
+            }
+
+            const cfgBounds = state.config?.bounds;
+            if (Array.isArray(cfgBounds) && cfgBounds.length === 2) {
+                const bounds = L.latLngBounds(cfgBounds);
+                if (bounds.isValid()) combined = combined ? combined.extend(bounds) : bounds;
+            }
+        });
+
+        if (combined?.isValid?.()) {
+            this.map.fitBounds(combined, { padding: [20, 20] });
         }
     }
 
