@@ -1042,9 +1042,9 @@ Implement chunked-map fit bounds fix
 - [x] Add explicit bounds to affected chunked map metadata
 - [x] Add a controller fallback that can use loaded chunk-index bounds if metadata bounds are missing
 - [x] Verify metadata coverage, syntax, and production build
-- [ ] Commit and push the fix
+- [x] Commit and push the fix
   - Review:
     - Added explicit bounds to the 33 indexed chunked entries that previously lacked them, using chunk-index extents from local files or production/R2 indexes.
     - Added a map-controller fallback that stores `_chunkIndexBounds` on loaded chunked layers and lets `fitToLayer()` / `fitToLayers()` use those bounds if future metadata is missing `bounds`.
     - Bumped app cache keys to `app.bundle.js?v=115`, dynamic chunks under `build/chunks/v115/`, and service worker cache `v5`.
-    - Verification: maps JSON parses, `node --check js\map-controller.js`, `node --check scripts\bundle.mjs`, `node --check sw.js`, indexed-chunked coverage audit now reports `chunkedWithIndex: 34` and `missingBounds: []`, `npm run build` passes, and cache-busting output checks pass.
+    - Verification: maps JSON parses, `node --check js\map-controller.js`, `node --check scripts\bundle.mjs`, `node --check sw.js`, indexed-chunked coverage audit now reports `chunkedWithIndex: 34` and `missingBounds: []`, `npm run build` passes, cache-busting output checks pass, and production now serves `app.bundle.js?v=115`, service worker `v5`, and representative new bounds metadata.
