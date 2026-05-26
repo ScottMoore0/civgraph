@@ -13,7 +13,7 @@
  * resources (build/*?v=N) invalidate naturally via their URL.
  */
 
-const CACHE_VERSION = 'v2'; // v2: SWR-max-age for thumbnails (bytes regression fix)
+const CACHE_VERSION = 'v3'; // v3: evict stale dynamic JS chunks and heavy map data URLs
 const STATIC_CACHE  = `civgraph-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `civgraph-runtime-${CACHE_VERSION}`;
 const FGB_CACHE     = `civgraph-fgb-${CACHE_VERSION}`;

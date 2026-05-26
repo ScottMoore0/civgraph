@@ -1009,5 +1009,6 @@ Fix county catalogue entries and reassess mobile civil-parishes performance
     - Civil Parishes data: generated unified base FGB, LOD0/LOD1/LOD2 files, and versioned chunk files with `scripts/build-unified-civil-parishes.py`.
     - Data host: uploaded the versioned v2 Civil Parishes assets with `scripts/upload-unified-civil-parishes.mjs`.
     - Public asset verification: range-GET checked `159/159` v2 public objects on `data.civgraph.net` with matching object sizes.
+    - Browser-cache hardening: bumped app bundle query string to `v113`, moved dynamic build chunks under `build/chunks/v113/`, and bumped the service-worker cache version to `v3` so existing phones do not reuse stale map-controller chunks.
     - Code checks: `python -m py_compile scripts\build-unified-civil-parishes.py`, `node --check scripts\upload-unified-civil-parishes.mjs`, `node --check js\app.js`, and `node --check js\map-controller.js` all passed.
-    - Build: `npm run build` passed after rerunning outside the sandbox because esbuild process spawning hit `EPERM` inside the sandbox.
+    - Build: `npm run build` passed after rerunning outside the sandbox because esbuild process spawning hit `EPERM` inside the sandbox; after cache-busting changes, `node --check scripts\bundle.mjs` and `node --check sw.js` also passed.
