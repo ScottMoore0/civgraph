@@ -9,8 +9,8 @@
       "category": "Civil Parishes",
       "renderer": "maplibre",
       "sourceType": "mvt",
-      "tiles": "/test/tiles/civil-parishes-v1/{z}/{x}/{y}.pbf",
-      "metadataUrl": "/test/tiles/civil-parishes-v1/metadata.json",
+      "tiles": "/test/tiles/civil-parishes-v2/{z}/{x}/{y}.pbf",
+      "metadataUrl": "/test/tiles/civil-parishes-v2/metadata.json",
       "sourceLayer": "civil_parishes",
       "promoteId": "id",
       "minzoom": 0,
@@ -41,7 +41,7 @@
         "maxElev_m"
       ],
       "status": "pilot",
-      "notes": "Generated from data/maps/baronies-parishes/Civil_Parishes_Ireland_v2.fgb with GDAL MVT output."
+      "notes": "Generated from data/maps/baronies-parishes/Civil_Parishes_Ireland_v2.fgb with GDAL MVT output. The v2 tile pyramid disables low-zoom feature-dropping simplification."
     }
   ]
 }

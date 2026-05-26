@@ -11,7 +11,7 @@ import { spawnSync } from 'node:child_process';
 
 const ROOT = resolve(process.cwd());
 const SOURCE = resolve(ROOT, 'data/maps/baronies-parishes/Civil_Parishes_Ireland_v2.fgb');
-const OUTPUT = resolve(ROOT, 'test/tiles/civil-parishes-v1');
+const OUTPUT = resolve(ROOT, 'test/tiles/civil-parishes-v2');
 
 if (!existsSync(SOURCE)) {
   console.error(`Missing source FGB: ${SOURCE}`);
@@ -32,6 +32,10 @@ const args = [
   '-dsco', 'TILE_EXTENSION=pbf',
   '-dsco', 'COMPRESS=NO',
   '-dsco', 'NAME=Civil Parishes',
+  '-dsco', 'MAX_SIZE=10000000',
+  '-dsco', 'MAX_FEATURES=10000000',
+  '-dsco', 'SIMPLIFICATION=0',
+  '-dsco', 'SIMPLIFICATION_MAX_ZOOM=0',
   '-lco', 'NAME=civil_parishes',
   '-nln', 'civil_parishes'
 ];
