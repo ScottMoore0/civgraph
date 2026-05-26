@@ -4016,8 +4016,13 @@ class MapController {
         if (!state || !this.map) return;
 
         const cfgBounds = this._getFullFitBounds(state);
-        if ((state.useSpatial || state.config?.chunked) && cfgBounds) {
-            this.map.fitBounds(cfgBounds, { padding: [20, 20] });
+        if (state.useSpatial || state.config?.chunked) {
+            if (cfgBounds) {
+                this.map.fitBounds(cfgBounds, { padding: [20, 20] });
+            } else {
+                console.warn(`[MapController] Skipping auto-fit for chunked layer ${id}: no full-map bounds are available`);
+                this._recordLoadMetric('chunked-fit-bounds-missing', { mapId: id, mode: 'single' });
+            }
             return;
         }
 
@@ -4062,8 +4067,13 @@ class MapController {
             if (!state) return;
 
             const cfgBounds = this._getFullFitBounds(state);
-            if ((state.useSpatial || state.config?.chunked) && cfgBounds) {
-                combined = combined ? combined.extend(cfgBounds) : cfgBounds;
+            if (state.useSpatial || state.config?.chunked) {
+                if (cfgBounds) {
+                    combined = combined ? combined.extend(cfgBounds) : cfgBounds;
+                } else {
+                    console.warn(`[MapController] Skipping auto-fit contribution for chunked layer ${id}: no full-map bounds are available`);
+                    this._recordLoadMetric('chunked-fit-bounds-missing', { mapId: id, mode: 'combined' });
+                }
                 return;
             }
 

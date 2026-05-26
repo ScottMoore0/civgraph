@@ -1048,3 +1048,22 @@ Implement chunked-map fit bounds fix
     - Added a map-controller fallback that stores `_chunkIndexBounds` on loaded chunked layers and lets `fitToLayer()` / `fitToLayers()` use those bounds if future metadata is missing `bounds`.
     - Bumped app cache keys to `app.bundle.js?v=115`, dynamic chunks under `build/chunks/v115/`, and service worker cache `v5`.
     - Verification: maps JSON parses, `node --check js\map-controller.js`, `node --check scripts\bundle.mjs`, `node --check sw.js`, indexed-chunked coverage audit now reports `chunkedWithIndex: 34` and `missingBounds: []`, `npm run build` passes, cache-busting output checks pass, and production now serves `app.bundle.js?v=115`, service worker `v5`, and representative new bounds metadata.
+
+Harden chunked-map fit regression prevention
+- [x] Add a static validator for chunked map bounds and chunk-index extent validity
+- [x] Add an optional auto-fix path that derives missing bounds from local chunk indexes
+- [x] Wire the validator into npm checks/build safety
+- [x] Harden runtime fitting so chunked layers without full bounds do not auto-fit to partial rendered chunks
+- [x] Add headless regression coverage for chunked fit decisions
+- [ ] Verify, commit, push, and confirm production deployment if runtime cache keys change
+  - Recurring issue:
+    - Symptom: chunked maps can fit to a random/current viewport subset when their loaded Leaflet group only contains visible chunks.
+    - Root cause: bounds fitting had a rendered-group fallback path that was valid for normal GeoJSON layers but unsafe for chunked/spatial layers without full-map bounds.
+    - Permanent prevention action: static validation now blocks chunked maps unless they have explicit metadata bounds or a local chunk-index extent fallback; runtime fitting now skips chunked/spatial auto-fit when full bounds are missing; a headless regression test locks in that control flow.
+    - Verification evidence: `npm run check` passed with `71` chunked entries and `71` explicit bounds; `npm run build` passed outside the sandbox after the expected esbuild spawn `EPERM`; cache-key check confirmed `app.bundle.js?v=116`, dynamic chunks under `chunks/v116/`, and service worker `v6`.
+  - Review:
+    - Added `scripts/validate-chunked-map-bounds.mjs` with offline validation and `--fix` support.
+    - Added `scripts/test-chunked-fit-bounds.mjs` for headless regression coverage.
+    - Added `check`, `check:chunked-bounds`, `fix:chunked-bounds`, and `test:chunked-fit` npm scripts; build now runs the chunked-bounds validator before bundling.
+    - Updated `fitToLayer()` and `fitToLayers()` so chunked/spatial layers require full-map bounds and never fall through to rendered group bounds.
+    - Bumped browser cache keys to `app.bundle.js?v=116`, `build/chunks/v116/`, and service worker `v6`.

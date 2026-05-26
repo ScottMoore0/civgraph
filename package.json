@@ -1,6 +1,10 @@
 {
   "scripts": {
-    "build": "node scripts/bundle.mjs",
+    "build": "node scripts/validate-chunked-map-bounds.mjs && node scripts/bundle.mjs",
+    "check": "npm run check:chunked-bounds && npm run test:chunked-fit",
+    "check:chunked-bounds": "node scripts/validate-chunked-map-bounds.mjs",
+    "fix:chunked-bounds": "node scripts/validate-chunked-map-bounds.mjs --fix",
+    "test:chunked-fit": "node scripts/test-chunked-fit-bounds.mjs",
     "test:browser": "playwright test"
   },
   "devDependencies": {
