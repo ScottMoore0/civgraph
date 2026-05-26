@@ -32,7 +32,31 @@
         "weight": 1.2
       },
       "labelProperty": "name_en",
+      "labelPropertyFallbacks": [
+        "name_ga"
+      ],
+      "labelCanonicalProperty": "label_name",
+      "labelRankProperty": "label_rank",
+      "labelMinZoomProperty": "label_minzoom",
+      "labelMinZoom": 8,
+      "labelMaxZoom": 16,
+      "labelDensity": "ranked",
+      "labelStyle": {
+        "color": "#9932CC",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.4,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
       "popupProperties": [
+        "label_name",
+        "label_rank",
+        "label_minzoom",
         "name_en",
         "name_ga",
         "province_source",

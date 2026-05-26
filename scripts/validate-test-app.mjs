@@ -42,6 +42,39 @@ function validateLayer(layer) {
     errors.push(`${layer.id}: invalid minzoom/maxzoom`);
   }
   if (!isValidBounds(layer.bounds)) errors.push(`${layer.id}: invalid bounds`);
+  if (layer.labelProperty) {
+    if (layer.labelPropertyFallbacks && !Array.isArray(layer.labelPropertyFallbacks)) {
+      errors.push(`${layer.id}: labelPropertyFallbacks must be an array`);
+    }
+    for (const key of ['labelCanonicalProperty', 'labelRankProperty', 'labelMinZoomProperty']) {
+      if (layer[key] !== undefined && typeof layer[key] !== 'string') errors.push(`${layer.id}: ${key} must be a string`);
+    }
+    if (layer.labelMinZoom !== undefined && (!Number.isFinite(Number(layer.labelMinZoom)) || Number(layer.labelMinZoom) < 0)) {
+      errors.push(`${layer.id}: labelMinZoom must be a non-negative number`);
+    }
+    if (layer.labelMaxZoom !== undefined && (!Number.isFinite(Number(layer.labelMaxZoom)) || Number(layer.labelMaxZoom) <= Number(layer.labelMinZoom ?? 0))) {
+      errors.push(`${layer.id}: labelMaxZoom must be greater than labelMinZoom`);
+    }
+    if (layer.labelStyle !== undefined) {
+      if (!layer.labelStyle || typeof layer.labelStyle !== 'object' || Array.isArray(layer.labelStyle)) {
+        errors.push(`${layer.id}: labelStyle must be an object`);
+      } else {
+        for (const key of ['color', 'hoverColor', 'selectedColor', 'haloColor']) {
+          if (layer.labelStyle[key] !== undefined && typeof layer.labelStyle[key] !== 'string') {
+            errors.push(`${layer.id}: labelStyle.${key} must be a string`);
+          }
+        }
+        for (const key of ['haloWidth', 'haloBlur', 'fontSize', 'maxWidth', 'lineHeight']) {
+          if (layer.labelStyle[key] !== undefined && !Number.isFinite(Number(layer.labelStyle[key]))) {
+            errors.push(`${layer.id}: labelStyle.${key} must be numeric`);
+          }
+        }
+        if (layer.labelStyle.fontWeight !== undefined && !['regular', 'bold'].includes(layer.labelStyle.fontWeight)) {
+          errors.push(`${layer.id}: labelStyle.fontWeight must be "regular" or "bold"`);
+        }
+      }
+    }
+  }
 
   if (layer.sourceType === 'mvt') {
     if (!layer.tiles) {

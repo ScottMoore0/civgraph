@@ -8,6 +8,8 @@ const IRELAND_BOUNDS = [[-10.75, 51.35], [-5.35, 55.55]];
 const HOVER_MIN_ZOOM = 7;
 const HOVER_THROTTLE_MS = 80;
 const CLICK_TOLERANCE_PX = 6;
+const DEFAULT_TEXT_SCALE = 100;
+const DEFAULT_LABEL_MIN_ZOOM = 9;
 
 const els = {
   catalogue: document.getElementById('catalogue'),
@@ -139,37 +141,50 @@ class TestMapLibreController {
         }
       });
 
+      const labelLayerIds = [];
       if (layer.labelProperty) {
+        const labelMinZoom = getLabelMinZoom(layer);
+        const labelStyle = getLabelStyle(layer);
         this.map.addLayer({
           id: labelId,
           type: 'symbol',
           source: sourceId,
           'source-layer': layer.sourceLayer,
-          minzoom: 9,
+          minzoom: labelMinZoom,
+          maxzoom: Number.isFinite(Number(layer.labelMaxZoom)) ? Number(layer.labelMaxZoom) : undefined,
+          filter: buildLabelFilter(layer),
           layout: {
-            'text-field': ['coalesce', ['get', layer.labelProperty], ''],
-            'text-size': ['interpolate', ['linear'], ['zoom'], 9, 10, 13, 13],
-            'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
-            'text-max-width': 12,
+            'text-field': buildLabelTextExpression(layer),
+            'text-size': buildLabelTextSizeExpression(layer, DEFAULT_TEXT_SCALE),
+            'text-font': buildLabelFontStack(labelStyle),
+            'text-max-width': labelStyle.maxWidth,
+            'text-line-height': labelStyle.lineHeight,
+            'text-justify': 'center',
             'text-padding': 2,
-            'text-allow-overlap': false
+            'text-allow-overlap': false,
+            'symbol-sort-key': buildLabelSortExpression(layer)
           },
           paint: {
-            'text-color': '#111827',
-            'text-halo-color': '#FFFFFF',
-            'text-halo-width': 1.2,
-            'text-opacity': ['interpolate', ['linear'], ['zoom'], 8.9, 0, 9.4, 1]
+            'text-color': buildLabelColorExpression(layer),
+            'text-halo-color': labelStyle.haloColor,
+            'text-halo-width': labelStyle.haloWidth,
+            'text-halo-blur': labelStyle.haloBlur,
+            'text-opacity': ['interpolate', ['linear'], ['zoom'], labelMinZoom - 0.1, 0, labelMinZoom + 0.4, 1]
           }
         });
+        labelLayerIds.push(labelId);
       }
 
       this.layers.set(layer.id, {
         config: layer,
         sourceId,
-        layerIds: [fillId, lineId, hoverId, selectedId, labelId].filter((id) => this.map.getLayer(id))
+        layerIds: [fillId, lineId, hoverId, selectedId, labelId].filter((id) => this.map.getLayer(id)),
+        labelLayerIds,
+        labelsEnabled: true,
+        textScale: DEFAULT_TEXT_SCALE
       });
 
-      this.interactionCleanups.set(layer.id, this.bindLayerInteractions(layer, fillId, sourceId));
+      this.interactionCleanups.set(layer.id, this.bindLayerInteractions(layer, fillId, labelId, sourceId));
       this.fitToLayer(layer.id);
 
       this.metrics.push({
@@ -213,6 +228,27 @@ class TestMapLibreController {
     if (this.map.getLayer(lineId)) this.map.setPaintProperty(lineId, 'line-opacity', clamp(opacity + 0.35, 0, 1));
   }
 
+  setLayerLabelsEnabled(layerId, enabled) {
+    const record = this.layers.get(layerId);
+    if (!record) return;
+    record.labelsEnabled = Boolean(enabled);
+    const visibility = record.labelsEnabled ? 'visible' : 'none';
+    for (const labelLayerId of record.labelLayerIds || []) {
+      if (this.map.getLayer(labelLayerId)) this.map.setLayoutProperty(labelLayerId, 'visibility', visibility);
+    }
+  }
+
+  setLayerTextScale(layerId, scale) {
+    const record = this.layers.get(layerId);
+    if (!record) return;
+    record.textScale = clamp(scale, 50, 200);
+    for (const labelLayerId of record.labelLayerIds || []) {
+      if (this.map.getLayer(labelLayerId)) {
+        this.map.setLayoutProperty(labelLayerId, 'text-size', buildLabelTextSizeExpression(record.config, record.textScale));
+      }
+    }
+  }
+
   fitToLayer(layerId) {
     const record = this.layers.get(layerId);
     if (!record) return;
@@ -248,7 +284,7 @@ class TestMapLibreController {
     throw new Error(`unsupported sourceType ${layer.sourceType}`);
   }
 
-  bindLayerInteractions(layer, fillId, sourceId) {
+  bindLayerInteractions(layer, fillId, labelId, sourceId) {
     const idProperty = layer.promoteId || 'id';
     let lastHoverAt = 0;
     let pendingHoverEvent = null;
@@ -279,11 +315,12 @@ class TestMapLibreController {
     };
 
     const queryAtPoint = (point, radius = 0) => {
-      if (!this.map.getLayer(fillId)) return [];
+      const queryLayers = [labelId, fillId].filter((id) => id && this.map.getLayer(id));
+      if (queryLayers.length === 0) return [];
       const geometry = radius > 0
         ? [[point.x - radius, point.y - radius], [point.x + radius, point.y + radius]]
         : point;
-      return this.map.queryRenderedFeatures(geometry, { layers: [fillId] });
+      return this.map.queryRenderedFeatures(geometry, { layers: queryLayers });
     };
 
     const runHoverQuery = () => {
@@ -431,19 +468,36 @@ function renderActiveLayers(controller, catalogue) {
   els.activeLayers.innerHTML = '';
   for (const [id, record] of controller.layers) {
     const row = document.createElement('div');
+    const hasLabels = (record.labelLayerIds || []).length > 0;
     row.className = 'active-layer';
     row.innerHTML = `
       <div>
         <strong>${escapeHtml(record.config.name)}</strong>
-        <span>${escapeHtml(record.config.sourceType)} · z${record.config.minzoom}-${record.config.maxzoom}</span>
+        <span>${escapeHtml(record.config.sourceType)} &middot; z${record.config.minzoom}-${record.config.maxzoom}</span>
       </div>
       <label>
         Opacity
-        <input type="range" min="0" max="1" step="0.05" value="${record.config.style?.fillOpacity ?? 0.18}">
+        <input data-control="opacity" type="range" min="0" max="1" step="0.05" value="${record.config.style?.fillOpacity ?? 0.18}">
       </label>
+      ${hasLabels ? `
+        <label class="active-layer__check">
+          <input data-control="labels" type="checkbox" ${record.labelsEnabled ? 'checked' : ''}>
+          <span>Labels</span>
+        </label>
+        <label>
+          Text
+          <input data-control="text-scale" type="range" min="50" max="200" step="10" value="${record.textScale || DEFAULT_TEXT_SCALE}">
+        </label>
+      ` : ''}
     `;
-    row.querySelector('input').addEventListener('input', (event) => {
+    row.querySelector('[data-control="opacity"]').addEventListener('input', (event) => {
       controller.setOpacity(id, Number(event.target.value));
+    });
+    row.querySelector('[data-control="labels"]')?.addEventListener('change', (event) => {
+      controller.setLayerLabelsEnabled(id, event.target.checked);
+    });
+    row.querySelector('[data-control="text-scale"]')?.addEventListener('input', (event) => {
+      controller.setLayerTextScale(id, Number(event.target.value));
     });
     els.activeLayers.appendChild(row);
   }
@@ -465,7 +519,7 @@ function renderFeatureDetails(selection) {
   }).join('');
 
   els.featureDetails.innerHTML = `
-    <h3>${escapeHtml(props[layer.labelProperty] || layer.name)}</h3>
+    <h3>${escapeHtml(getFeatureLabel(layer, props) || layer.name)}</h3>
     <dl>${rows}</dl>
   `;
 }
@@ -480,6 +534,107 @@ function emitDiagnostics(controller) {
     metrics: controller.metrics.slice(-8)
   };
   els.diagnostics.textContent = JSON.stringify(data, null, 2);
+}
+
+function getLabelMinZoom(layer) {
+  const value = Number(layer.labelMinZoom);
+  return Number.isFinite(value) ? value : DEFAULT_LABEL_MIN_ZOOM;
+}
+
+function getLabelStyle(layer) {
+  const style = layer.labelStyle || {};
+  const baseColor = resolveLabelColor(layer, style.color || layer.labelTextColor || 'layer');
+  return {
+    color: baseColor,
+    hoverColor: resolveLabelColor(layer, style.hoverColor || '#ff7a1a'),
+    selectedColor: resolveLabelColor(layer, style.selectedColor || '#111827'),
+    haloColor: resolveLabelColor(layer, style.haloColor || '#ffffff'),
+    haloWidth: clamp(style.haloWidth ?? 1.4, 0, 4),
+    haloBlur: clamp(style.haloBlur ?? 0, 0, 2),
+    fontSize: clamp(style.fontSize ?? 12, 6, 32),
+    fontWeight: style.fontWeight === 'regular' ? 'regular' : 'bold',
+    maxWidth: clamp(style.maxWidth ?? 14, 4, 30),
+    lineHeight: clamp(style.lineHeight ?? 1.25, 0.8, 2)
+  };
+}
+
+function resolveLabelColor(layer, value) {
+  if (value === 'layer') return layer.style?.color || '#3388ff';
+  if (typeof value === 'string' && value.trim()) return value.trim();
+  return '#3388ff';
+}
+
+function buildLabelColorExpression(layer) {
+  const style = getLabelStyle(layer);
+  return [
+    'case',
+    ['boolean', ['feature-state', 'selected'], false],
+    style.selectedColor,
+    ['boolean', ['feature-state', 'hover'], false],
+    style.hoverColor,
+    style.color
+  ];
+}
+
+function buildLabelFontStack(labelStyle) {
+  return labelStyle.fontWeight === 'bold'
+    ? ['Open Sans Bold', 'Arial Unicode MS Bold']
+    : ['Open Sans Regular', 'Arial Unicode MS Regular'];
+}
+
+function getLabelProperties(layer) {
+  const props = [
+    layer.labelCanonicalProperty || 'label_name',
+    layer.labelProperty,
+    ...(Array.isArray(layer.labelPropertyFallbacks) ? layer.labelPropertyFallbacks : [])
+  ].filter(Boolean);
+  return [...new Set(props)];
+}
+
+function buildLabelTextExpression(layer) {
+  const props = getLabelProperties(layer);
+  if (props.length === 0) return '';
+  return ['coalesce', ...props.map((prop) => ['get', prop]), ''];
+}
+
+function buildLabelFilter(layer) {
+  const props = getLabelProperties(layer);
+  const hasAnyLabel = props.length > 0 ? ['any', ...props.map((prop) => ['has', prop])] : true;
+  return [
+    'all',
+    hasAnyLabel,
+    ['<=', ['to-number', ['get', layer.labelMinZoomProperty || 'label_minzoom'], getLabelMinZoom(layer)], ['zoom']]
+  ];
+}
+
+function buildLabelTextSizeExpression(layer, scale) {
+  const style = getLabelStyle(layer);
+  const multiplier = clamp(scale, 50, 200) / 100;
+  return style.fontSize * multiplier;
+}
+
+function buildLabelSortExpression(layer) {
+  return ['*', -1, ['to-number', ['get', layer.labelRankProperty || 'label_rank'], 0]];
+}
+
+function getFeatureLabel(layer, props) {
+  for (const prop of getLabelProperties(layer)) {
+    const value = cleanLabelValue(props?.[prop], layer.labelCleanup);
+    if (value) return value;
+  }
+  return '';
+}
+
+function cleanLabelValue(value, cleanupRule) {
+  if (value === undefined || value === null) return '';
+  const text = String(value).trim();
+  if (!text) return '';
+  if (cleanupRule === 'stripTrailingBracketNumber') return text.replace(/\s*\([^()]*\)\s*$/, '').trim();
+  if (cleanupRule && typeof cleanupRule === 'object' && cleanupRule.type === 'mapValues') {
+    const mapped = cleanupRule.map?.[text];
+    if (typeof mapped === 'string' && mapped.trim()) return mapped.trim();
+  }
+  return text;
 }
 
 function boundsToMapLibre(bounds) {

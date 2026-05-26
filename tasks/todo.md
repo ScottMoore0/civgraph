@@ -1108,3 +1108,32 @@ Fix /test Civil Parishes interaction lag
     - Root cause: the correctness-first `civil-parishes-v2` tiles reduced feature loss by keeping unsimplified geometry, but that left mid-zoom tiles as large as `1.77 MB`; the controller also used layer-bound mousemove events and `setFilter()` on every hovered-feature change, forcing repeated hit-testing and style/filter recalculation while the pointer moved.
     - Permanent prevention action: use a versioned `civil-parishes-v3` tile pyramid with moderate low-zoom simplification and high tile limits, throttle hover hit-testing, suppress hover while the source is still loading or the map is moving, and use feature-state for hover/selected highlighting instead of filter mutation.
     - Verification evidence: `node --check test\src\app.js`, `node --check scripts\build-test-civil-parishes-tiles.mjs`, `npm run check:test`, and `npm run build:test` passed; v3 package size is `34.8 MB` versus v2 `76.4 MB`; worst sampled tile is `508 KB` versus v2 `1.77 MB`; representative local v3 feature counts are z3 `2421`, z4 `2433`, and z5 `2441`; local browser smoke loaded `/test`, loaded Civil Parishes, and clicked a feature successfully after the rebuilt bundle; commit `ac2209ca` was pushed to `main`; production polling confirmed `/test` serves `test-003`, metadata references `civil-parishes-v3`, and `/test/tiles/civil-parishes-v3/5/15/10.pbf` returns `200`.
+
+Balance /test MapLibre label parity with performance
+- [x] Precompute canonical label text, rank, and minimum zoom into the Civil Parishes vector tiles
+- [x] Keep labels as MapLibre symbol layers with renderer-managed collision
+- [x] Add metadata-driven label fallbacks, cleanup compatibility, priority ordering, and density rules
+- [x] Add label visibility and text-scale controls without DOM label markers
+- [x] Add click and throttled hover hit-testing across fill and label layers
+- [x] Verify the tile metadata, representative tile label attributes, test app validation, and bundle build
+- [x] Document review evidence and any remaining risks
+  - Review:
+    - Added GDAL SQLite label enrichment to the Civil Parishes tile build so tiles carry `label_name`, `label_rank`, and `label_minzoom`.
+    - Label density is now rank/size based: 12 labels at z8, 57 at z9, 438 at z10, and all 2448 from z11 upward.
+    - `/test` labels remain MapLibre `symbol` layers with renderer collision, `symbol-sort-key` priority, metadata-driven text fallbacks, configurable text colour, label visibility, and text scale controls.
+    - Fill and label layers are both included in throttled hover/click hit-testing; no DOM label markers were added.
+    - Verification evidence: `node --check test\src\app.js`, `node --check scripts\build-test-civil-parishes-tiles.mjs`, `node --check scripts\validate-test-app.mjs`, `npm run check:test`, `npm run build:test:tiles`, and `npm run build:test` passed. Representative MVT inspection confirmed `label_name`, `label_rank`, and `label_minzoom` in `test\tiles\civil-parishes-v3\9\244\165.pbf`; MapLibre style-spec validation accepted the generated label layer expression; browser smoke loaded `/test/index.html`, loaded Civil Parishes in 144 ms locally, confirmed the label controls, toggled labels, changed text scale to 150, and clicked a rendered feature successfully.
+
+Style /test MapLibre labels like main-site feature labels
+- [x] Add a metadata-driven label style contract for colour, halo, size, weight, wrapping, and hover state
+- [x] Make Civil Parishes labels use the main-site label colour and white halo approximation
+- [x] Preserve MapLibre symbol rendering and renderer collision
+- [x] Add hover-aware label paint without DOM labels or CSS text overlays
+- [x] Verify style expressions, /test metadata, bundle build, and a browser smoke check
+- [x] Document review evidence and remaining differences from exact CSS parity
+  - Review:
+    - Added `labelStyle` metadata for main-site-like Civil Parishes labels: `#9932CC` text, white halo, 12px base size, bold font stack, centred wrapping, orange hover, and dark selected text.
+    - Updated the MapLibre label layer to read style metadata for font stack, max width, line height, halo, text size, and hover/selected `feature-state` paint expressions.
+    - Preserved MapLibre `symbol` rendering, renderer collision, ranked density, label toggling, and text scaling; no DOM label markers or CSS overlays were added.
+    - Remaining difference: MapLibre halo and glyph rendering approximate the main site's CSS `text-shadow`/HTML text; underline-on-hover is not available for symbol text.
+    - Verification evidence: `node --check test\src\app.js`, `node --check scripts\validate-test-app.mjs`, `npm run check:test`, representative MapLibre style-spec validation, and `npm run build:test` passed. Browser smoke loaded `/test/index.html`, loaded Civil Parishes, reached z9.631 where labels are active, found no relevant label/glyph runtime errors, toggled labels off/on, changed text scale to 150, and selected a rendered feature successfully.

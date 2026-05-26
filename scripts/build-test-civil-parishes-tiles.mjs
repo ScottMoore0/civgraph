@@ -12,6 +12,23 @@ import { spawnSync } from 'node:child_process';
 const ROOT = resolve(process.cwd());
 const SOURCE = resolve(ROOT, 'data/maps/baronies-parishes/Civil_Parishes_Ireland_v2.fgb');
 const OUTPUT = resolve(ROOT, 'test/tiles/civil-parishes-v3');
+const LABEL_DIAG_SQL = `SQRT(
+  (ST_MaxX(geometry) - ST_MinX(geometry)) * (ST_MaxX(geometry) - ST_MinX(geometry)) +
+  (ST_MaxY(geometry) - ST_MinY(geometry)) * (ST_MaxY(geometry) - ST_MinY(geometry))
+)`;
+const CIVIL_PARISH_LABEL_SQL = `
+SELECT
+  *,
+  COALESCE(name_en, name_ga, '') AS label_name,
+  CAST(ROUND(${LABEL_DIAG_SQL} * 1000000) AS INTEGER) AS label_rank,
+  CASE
+    WHEN ${LABEL_DIAG_SQL} >= 0.50 THEN 8
+    WHEN ${LABEL_DIAG_SQL} >= 0.35 THEN 9
+    WHEN ${LABEL_DIAG_SQL} >= 0.20 THEN 10
+    ELSE 11
+  END AS label_minzoom
+FROM Civil_Parishes_Ireland_v2
+`.trim();
 
 if (!existsSync(SOURCE)) {
   console.error(`Missing source FGB: ${SOURCE}`);
@@ -25,7 +42,8 @@ const args = [
   '-f', 'MVT',
   OUTPUT,
   SOURCE,
-  'Civil_Parishes_Ireland_v2',
+  '-dialect', 'SQLite',
+  '-sql', CIVIL_PARISH_LABEL_SQL,
   '-dsco', 'FORMAT=DIRECTORY',
   '-dsco', 'MINZOOM=0',
   '-dsco', 'MAXZOOM=12',
