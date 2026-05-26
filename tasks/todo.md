@@ -1090,9 +1090,9 @@ Fix /test Civil Parishes low-zoom feature loss
 - [x] Regenerate the Civil Parishes vector-tile package with low-zoom feature dropping disabled
 - [x] Point `/test` metadata and the tile build script at the corrected versioned tile package
 - [x] Verify representative low/mid-zoom tile feature counts and metadata validity
-- [ ] Commit, push, and confirm the deployed `/test` assets reference the corrected tile package
+- [x] Commit, push, and confirm the deployed `/test` assets reference the corrected tile package
   - Recurring issue:
     - Symptom: the `/test` Civil Parishes map shows many missing polygons when zoomed out, while zoomed-in tiles show all visible-screen features.
     - Root cause: the first GDAL MVT export used defaults that warned about oversized tiles and encoded affected low/mid-zoom tiles at lower resolution, causing heavy feature loss.
     - Permanent prevention action: the tile build script now uses explicit correctness-first MVT generation options and the deployed metadata uses a versioned `civil-parishes-v2` tile directory.
-    - Verification evidence: `node --check scripts\build-test-civil-parishes-tiles.mjs` passed; `npm run check:test` passed; representative v2 feature counts are `2423` at z3, `2435` at z4, and `2442` at z5; local HTTP checks returned `200` for `/test/metadata/maps-test.json`, `/test/tiles/civil-parishes-v2/4/7/5.pbf`, and `/test/tiles/civil-parishes-v2/5/15/10.pbf`.
+    - Verification evidence: `node --check scripts\build-test-civil-parishes-tiles.mjs` passed; `npm run check:test` passed; representative v2 feature counts are `2423` at z3, `2435` at z4, and `2442` at z5; local HTTP checks returned `200` for `/test/metadata/maps-test.json`, `/test/tiles/civil-parishes-v2/4/7/5.pbf`, and `/test/tiles/civil-parishes-v2/5/15/10.pbf`; commit `64b779e6` was pushed to `main`; production polling confirmed `https://civgraph.net/test/metadata/maps-test.json` references `civil-parishes-v2` and `https://civgraph.net/test/tiles/civil-parishes-v2/5/15/10.pbf` returns `200`.
