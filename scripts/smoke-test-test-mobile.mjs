@@ -12,10 +12,12 @@ const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/mobile-smoke-report.json');
 const PORT = Number(process.env.TEST_SMOKE_PORT || 4177);
+const MAX_LAYER_MS = Number(process.env.TEST_SMOKE_MAX_LAYER_MS || 5000);
+const MAX_TOTAL_MS = Number(process.env.TEST_SMOKE_MAX_TOTAL_MS || 60000);
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
 const candidateLayers = (metadata.layers || [])
   .filter((layer) => layer.loadable !== false && ['pmtiles', 'mvt'].includes(layer.sourceType))
-  .slice(0, 6);
+  .filter((layer) => !process.env.TEST_SMOKE_LAYER_IDS || process.env.TEST_SMOKE_LAYER_IDS.split(',').includes(layer.id));
 
 const server = createStaticServer();
 await new Promise((resolveListen) => server.listen(PORT, '127.0.0.1', resolveListen));
@@ -37,13 +39,36 @@ try {
   await page.goto(`http://127.0.0.1:${PORT}/test/index.html`, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length, null, { timeout: 30000 });
 
-  for (const layer of candidateLayers) {
-    const result = await page.evaluate(async (layerId) => {
+  const suiteStarted = Date.now();
+  for (const [index, layer] of candidateLayers.entries()) {
+    console.log(`[${index + 1}/${candidateLayers.length}] ${layer.id}`);
+    const result = await page.evaluate(async ({ layerId, maxLayerMs }) => {
+      const withTimeout = (promise, timeoutMs, status) => Promise.race([
+        promise,
+        new Promise((resolve) => {
+          setTimeout(() => resolve({ timeout: true, status }), Math.max(1, timeoutMs));
+        })
+      ]);
       const app = window.__civgraphTest;
       const layerConfig = app.metadataService.getLayer(layerId);
       const started = performance.now();
-      await app.controller.loadLayer(layerConfig);
-      await new Promise((resolve) => app.controller.map.once('idle', resolve));
+      const loadStatus = await withTimeout(app.controller.loadLayer(layerConfig), maxLayerMs, 'load-timeout');
+      if (loadStatus?.timeout) {
+        return {
+          layerId,
+          sourceType: layerConfig.sourceType,
+          durationMs: Math.round(performance.now() - started),
+          controllerDurationMs: null,
+          renderedFeatures: 0,
+          activeLayers: app.controller.layers.size,
+          status: loadStatus.status
+        };
+      }
+      const idleStatus = await withTimeout(
+        new Promise((resolve) => app.controller.map.once('idle', () => resolve({ status: 'idle' }))),
+        Math.max(1000, maxLayerMs - Math.round(performance.now() - started)),
+        'idle-timeout'
+      );
       const rendered = app.controller.map.queryRenderedFeatures().length;
       const metric = app.controller.metrics.filter((item) => item.layerId === layerId && item.event === 'load').slice(-1)[0] || null;
       return {
@@ -52,11 +77,16 @@ try {
         durationMs: Math.round(performance.now() - started),
         controllerDurationMs: metric?.durationMs ?? null,
         renderedFeatures: rendered,
-        activeLayers: app.controller.layers.size
+        activeLayers: app.controller.layers.size,
+        status: idleStatus?.status || 'loaded'
       };
-    }, layer.id);
+    }, { layerId: layer.id, maxLayerMs: MAX_LAYER_MS });
     layerResults.push(result);
+    await page.evaluate((layerId) => {
+      window.__civgraphTest.controller.unloadLayer(layerId);
+    }, layer.id);
   }
+  var totalDurationMs = Date.now() - suiteStarted;
 } finally {
   await browser?.close();
   await new Promise((resolveClose) => server.close(resolveClose));
@@ -67,17 +97,24 @@ const report = {
   generatedAt: new Date().toISOString(),
   viewport: { width: 390, height: 844, deviceScaleFactor: 2 },
   testedLayers: candidateLayers.map((layer) => layer.id),
+  budgets: {
+    maxLayerMs: MAX_LAYER_MS,
+    maxTotalMs: MAX_TOTAL_MS
+  },
+  totalDurationMs: typeof totalDurationMs === 'number' ? totalDurationMs : null,
   layerResults,
   consoleErrors,
   pass: layerResults.length > 0
-    && layerResults.every((result) => result.durationMs < 8000)
+    && layerResults.every((result) => result.durationMs < MAX_LAYER_MS)
+    && layerResults.every((result) => !String(result.status || '').includes('timeout'))
+    && (typeof totalDurationMs !== 'number' || totalDurationMs < MAX_TOTAL_MS)
     && consoleErrors.length === 0
 };
 
 writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
 console.log(`Mobile smoke tested ${layerResults.length} layer(s).`);
 for (const result of layerResults) {
-  console.log(`- ${result.layerId}: ${result.durationMs}ms, rendered ${result.renderedFeatures}`);
+  console.log(`- ${result.layerId}: ${result.durationMs}ms, rendered ${result.renderedFeatures}, ${result.status || 'loaded'}`);
 }
 if (consoleErrors.length) {
   console.log('\nConsole errors:');

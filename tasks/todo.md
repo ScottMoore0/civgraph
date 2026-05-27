@@ -1300,3 +1300,50 @@ Implement /test non-data-blocked hardening and PMTiles pass
     - Approved `npm run build:test` passed and rebuilt the `/test` bundle.
     - Approved `npm run smoke:test:mobile` passed on six PMTiles layers at a 390px mobile viewport; the tested loads completed in roughly 1.5-1.6 seconds each with no console errors.
     - `npm run check` passed the existing chunked-map bounds and fit regression checks.
+
+Implement /test CDN and UX hardening follow-up
+- [x] Upload PMTiles archives to CDN/R2 and switch metadata to CDN URLs once verified
+- [x] Verify CDN byte-range support for PMTiles
+- [x] Remove large PMTiles from Git or put them under Git LFS once CDN is authoritative
+- [x] Expand mobile smoke coverage to all 18 PMTiles layers
+- [x] Add stricter performance budgets
+- [x] Replace raw diagnostics JSON with readable diagnostics panels
+- [x] Persist additional style details in URL state
+- [x] Improve style presets and legends
+- [x] Improve source/reference/download panel UX
+- [x] Add automated CDN manifest validation
+- [x] Add service-worker cache limits for PMTiles
+- [x] Add PMTiles fallback recovery to directory MVT
+- [x] Improve feature-search UX and ranking
+- [x] Add stronger quarantine validation for `roi-counties-2011`
+- [x] Verify, commit, and push
+  - Review:
+    - Uploaded all 18 `/test` PMTiles archives to Cloudflare R2 under `data/maps/test/pmtiles/generated/` and switched `maps-test.json` so the runtime PMTiles URLs now use `https://data.civgraph.net/data/maps/test/...`.
+    - Applied R2 CORS for `civgraph.net`, Pages, and local test origins, exposing `Accept-Ranges`, `Content-Length`, `Content-Range`, and `ETag` for browser-side PMTiles range reads.
+    - Verified all 18 public PMTiles URLs return `206 Partial Content`, `Accept-Ranges: bytes`, `Content-Length: 16`, and valid `Content-Range` for `Range: bytes=0-15`.
+    - Removed generated PMTiles archives from Git tracking with `git rm --cached` and added `test/pmtiles/generated/*.pmtiles` to `.gitignore`; the local archives remain on disk and R2 is now authoritative.
+    - Added retryable PMTiles upload support via `npm run deploy:test:pmtiles -- --ids <layer-id>`, CDN range verification, metadata switching, and CDN manifest validation scripts.
+    - Added PMTiles fallback recovery: if a PMTiles source errors due to range/fetch/content-length failures, `/test` unloads it and retries the layer from directory MVT using `tilesFallback`.
+    - Added scoped `/test` service-worker cache limits for PMTiles entries.
+    - Replaced diagnostics raw JSON with readable panels for counts, warnings, slow loads, large layers/tiles, missing indexes, recent loads, and expandable raw data.
+    - Improved style persistence with line/fill colours and extra ramps, compact legends, better source/reference/download badges and grouped link sections, and better feature-search scoring/highlighting.
+    - Expanded the mobile smoke from 6 representative layers to all 18 PMTiles/MVT layers, added per-layer and total timing budgets, progress output, and deterministic per-layer timeout handling.
+    - Fixed a MapLibre controller readiness bug found by the expanded smoke: `waitForMap()` no longer waits for the one-time `load` event after `map.loaded()` temporarily becomes false during tile activity; it now waits for style readiness with a bounded fallback.
+    - Recurring issue guardrail:
+      - Symptom: sequential MapLibre layer loads could hang or appear very slow after one layer was already active.
+      - Root cause: the controller treated `map.loaded() === false` as a need to wait for the one-time initial `load` event, which never fires again after startup.
+      - Permanent prevention action: `waitForMap()` now gates source/layer mutation on `isStyleLoaded()` and the all-18 mobile smoke has per-layer timeout reporting.
+      - Verification evidence: all 18 CDN PMTiles layers loaded and rendered in the mobile smoke, with the slowest layer under the 5000 ms budget.
+    - Bumped `/test` assets and service worker to `test-011`.
+  - Verification:
+    - `node --check` passed for changed scripts and every `test/src/*.js` module.
+    - `npm run deploy:test:r2-cors` applied the R2 CORS policy.
+    - `npm run deploy:test:pmtiles -- --ids roi-townlands-vector-test` retried the one failed large upload successfully after the other 17 had uploaded.
+    - `npm run verify:test:pmtiles-cdn` passed for all 18 public PMTiles URLs and wrote `test/metadata/cdn-range-report.json`.
+    - `npm run switch:test:pmtiles-cdn` switched all 18 PMTiles layer URLs to CDN URLs.
+    - `npm run build:test:cdn-manifest` regenerated the CDN upload manifest with repo-local archive paths and CDN target URLs.
+    - `npm run check:test` passed; warning-only budget findings remain for `roi-small-areas-2011` and `roi-townlands`.
+    - Approved `npm run build:test` passed and rebuilt the `/test` bundle.
+    - Approved `npm run smoke:test:mobile` passed on all 18 PMTiles layers at a 390px mobile viewport; slowest was `roi-townlands-vector-test` at 2607 ms, all layers rendered features, and there were no console errors.
+    - `npm run check` passed the existing chunked-map bounds and fit regression checks.
+    - Approved `npm run build` passed for the main site bundle.

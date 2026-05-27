@@ -32,6 +32,7 @@ export class TestMapLibreController {
     this.hovered = null;
     this.metrics = [];
     this.interactionCleanups = new Map();
+    this.fallbackCleanups = new Map();
     maplibregl.addProtocol('pmtiles', this.protocol.tile);
   }
 
@@ -107,6 +108,9 @@ export class TestMapLibreController {
 
     if (layer.sourceType !== 'raster' && layer.sourceType !== 'image') {
       this.interactionCleanups.set(layer.id, this.bindLayerInteractions(layer, fillId, labelId, sourceId));
+    }
+    if (layer.sourceType === 'pmtiles' && layer.tilesFallback) {
+      this.fallbackCleanups.set(layer.id, this.monitorPmtilesFallback(layer, sourceId));
     }
     this.fitToLayer(layer.id);
     this.metrics.push({
@@ -237,6 +241,8 @@ export class TestMapLibreController {
     this.clearFeatureState(this.selected, 'selected');
     this.interactionCleanups.get(layerId)?.();
     this.interactionCleanups.delete(layerId);
+    this.fallbackCleanups.get(layerId)?.();
+    this.fallbackCleanups.delete(layerId);
     for (const layerIdToRemove of [...record.layerIds].reverse()) {
       if (this.map.getLayer(layerIdToRemove)) this.map.removeLayer(layerIdToRemove);
     }
@@ -390,6 +396,53 @@ export class TestMapLibreController {
     throw new Error(`unsupported sourceType ${layer.sourceType}`);
   }
 
+  monitorPmtilesFallback(layer, sourceId) {
+    let settled = false;
+    const timer = setTimeout(() => {
+      settled = true;
+      this.map.off('error', onError);
+    }, 9000);
+    const onError = (event) => {
+      if (settled || !this.layers.has(layer.id)) return;
+      const message = String(event?.error?.message || event?.error || '');
+      const sourceMatches = !event.sourceId || event.sourceId === sourceId;
+      const looksLikePmtilesFailure = /pmtiles|byte|range|content-length|fetch|network|failed/i.test(message);
+      if (!sourceMatches || !looksLikePmtilesFailure) return;
+      settled = true;
+      clearTimeout(timer);
+      this.map.off('error', onError);
+      this.metrics.push({
+        layerId: layer.id,
+        event: 'pmtiles-fallback',
+        sourceType: 'pmtiles',
+        reason: message.slice(0, 240)
+      });
+      const fallback = {
+        ...layer,
+        sourceType: 'mvt',
+        tiles: layer.tilesFallback,
+        tileUrl: undefined,
+        fallbackFromPmtiles: true
+      };
+      this.unloadLayer(layer.id);
+      this.loadLayer(fallback).catch((err) => {
+        this.metrics.push({
+          layerId: layer.id,
+          event: 'pmtiles-fallback-failed',
+          sourceType: 'mvt',
+          reason: String(err.message || err).slice(0, 240)
+        });
+        this.options.onError?.(err);
+      });
+    };
+    this.map.on('error', onError);
+    return () => {
+      settled = true;
+      clearTimeout(timer);
+      this.map.off('error', onError);
+    };
+  }
+
   bindLayerInteractions(layer, fillId, labelId, sourceId) {
     const idProperty = layer.promoteId || 'id';
     let lastHoverAt = 0;
@@ -476,8 +529,22 @@ export class TestMapLibreController {
   }
 
   waitForMap() {
-    if (this.map.loaded()) return Promise.resolve();
-    return new Promise((resolve) => this.map.once('load', resolve));
+    if (this.map.isStyleLoaded?.() || this.map.loaded()) return Promise.resolve();
+    return new Promise((resolve) => {
+      let timer = 0;
+      const done = () => {
+        clearTimeout(timer);
+        this.map.off('load', done);
+        this.map.off('styledata', onStyleData);
+        resolve();
+      };
+      const onStyleData = () => {
+        if (this.map.isStyleLoaded?.() || this.map.loaded()) done();
+      };
+      this.map.once('load', done);
+      this.map.on('styledata', onStyleData);
+      timer = setTimeout(done, 3000);
+    });
   }
 
   notifyChange() {

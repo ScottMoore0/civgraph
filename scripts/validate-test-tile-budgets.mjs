@@ -9,8 +9,8 @@ import { dirname, resolve } from 'node:path';
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/tile-budget-report.json');
-const WARN_TILE_BYTES = 1024 * 1024;
-const FAIL_TILE_BYTES = 5 * 1024 * 1024;
+const WARN_TILE_BYTES = 1.5 * 1024 * 1024;
+const FAIL_TILE_BYTES = 4 * 1024 * 1024;
 const WARN_LAYER_BYTES = 50 * 1024 * 1024;
 const FAIL_LAYER_BYTES = 500 * 1024 * 1024;
 
@@ -40,6 +40,15 @@ for (const layer of layers) {
 const invalidCountiesDir = resolve(ROOT, 'test/tiles/generated/roi-counties-2011');
 if (existsSync(invalidCountiesDir)) {
   errors.push('test/tiles/generated/roi-counties-2011 must be removed or quarantined outside the active generated tile path');
+}
+const quarantinePath = resolve(ROOT, 'test/metadata/quarantine/roi-counties-2011.json');
+if (!existsSync(quarantinePath)) {
+  errors.push('test/metadata/quarantine/roi-counties-2011.json must exist while roi-counties-2011 remains excluded');
+}
+for (const layer of layers) {
+  if (layer.id.includes('roi-counties-2011') || layer.sourceMapId === 'roi-counties-2011') {
+    errors.push(`${layer.id}: quarantined roi-counties-2011 must not be active in maps-test.json`);
+  }
 }
 
 const report = {

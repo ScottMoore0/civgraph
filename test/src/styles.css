@@ -322,6 +322,13 @@ select {
   font-size: 13px;
 }
 
+.feature-result mark {
+  border-radius: 3px;
+  padding: 0 2px;
+  background: #fef08a;
+  color: inherit;
+}
+
 .feature-result span {
   margin-top: 2px;
   color: #667085;
@@ -463,6 +470,12 @@ select {
   border-radius: 2px;
 }
 
+.style-legend__more {
+  margin: 0;
+  color: #667085;
+  font-size: 11px;
+}
+
 .source-panel,
 .time-series-panel {
   display: grid;
@@ -487,6 +500,21 @@ select {
   font-size: 14px;
 }
 
+.source-panel__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.source-panel__badges span {
+  border-radius: 999px;
+  padding: 2px 6px;
+  background: #eef4ff;
+  color: #3538cd;
+  font-size: 11px;
+  font-weight: 800;
+}
+
 .source-panel__layer p {
   margin: 0;
   color: #667085;
@@ -505,9 +533,16 @@ select {
   gap: 4px;
 }
 
-.source-panel__group strong {
+.source-panel__group summary {
   color: #344054;
+  cursor: pointer;
   font-size: 12px;
+  font-weight: 800;
+}
+
+.source-panel__group summary span {
+  color: #667085;
+  font-weight: 700;
 }
 
 .source-panel__layer a {
@@ -590,7 +625,73 @@ select {
   word-break: break-word;
 }
 
-.test-diagnostics pre {
+.diagnostics-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.diagnostics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.diagnostics-stat {
+  border: 1px solid #d9ded6;
+  border-radius: 6px;
+  padding: 8px;
+  background: #fbfcfa;
+}
+
+.diagnostics-stat span,
+.diagnostics-section h3,
+.diagnostics-section p {
+  margin: 0;
+  color: #667085;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.diagnostics-stat strong {
+  display: block;
+  margin-top: 3px;
+  color: #101828;
+  font-size: 13px;
+  word-break: break-word;
+}
+
+.diagnostics-section {
+  display: grid;
+  gap: 5px;
+  border: 1px solid #d9ded6;
+  border-radius: 6px;
+  padding: 8px;
+  background: #fbfcfa;
+}
+
+.diagnostics-section--warn {
+  border-color: #fedf89;
+  background: #fffcf5;
+}
+
+.diagnostics-section ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding-left: 16px;
+  color: #475467;
+  font-size: 12px;
+}
+
+.diagnostics-raw summary {
+  color: #344054;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.diagnostics-raw pre {
   max-height: 240px;
   overflow: auto;
   margin: 0;

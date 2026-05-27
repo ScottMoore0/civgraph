@@ -156,6 +156,8 @@ function renderStyleControls(layer, styleState, record) {
         <option value="blue-red" ${ramp === 'blue-red' ? 'selected' : ''}>Blue to red</option>
         <option value="green-purple" ${ramp === 'green-purple' ? 'selected' : ''}>Green to purple</option>
         <option value="amber-blue" ${ramp === 'amber-blue' ? 'selected' : ''}>Amber to blue</option>
+        <option value="teal-rose" ${ramp === 'teal-rose' ? 'selected' : ''}>Teal to rose</option>
+        <option value="slate-gold" ${ramp === 'slate-gold' ? 'selected' : ''}>Slate to gold</option>
       </select>
     </label>
   `;
@@ -195,6 +197,8 @@ function chooseAttributeForMode(layer, mode) {
 function getRamp(value) {
   if (value === 'green-purple') return ['#16a34a', '#7e22ce'];
   if (value === 'amber-blue') return ['#f59e0b', '#2563eb'];
+  if (value === 'teal-rose') return ['#0f766e', '#be123c'];
+  if (value === 'slate-gold') return ['#475467', '#ca8a04'];
   return ['#3182ce', '#e53e3e'];
 }
 
@@ -202,6 +206,8 @@ function rampNameFromColors(styleState) {
   if (!styleState) return 'blue-red';
   if (styleState.lowColor === '#16a34a' && styleState.highColor === '#7e22ce') return 'green-purple';
   if (styleState.lowColor === '#f59e0b' && styleState.highColor === '#2563eb') return 'amber-blue';
+  if (styleState.lowColor === '#0f766e' && styleState.highColor === '#be123c') return 'teal-rose';
+  if (styleState.lowColor === '#475467' && styleState.highColor === '#ca8a04') return 'slate-gold';
   return 'blue-red';
 }
 
@@ -225,6 +231,7 @@ function renderLegend(layer, styleState) {
       <div class="style-legend__chips">
         ${entries.map(([label, color]) => `<span><i style="background:${escapeHtml(color)}"></i>${escapeHtml(label)}</span>`).join('')}
       </div>
+      ${entries.length >= 12 ? `<p class="style-legend__more">Showing first 12 values.</p>` : ''}
     </div>
   `;
 }

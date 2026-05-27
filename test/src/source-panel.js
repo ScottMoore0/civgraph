@@ -29,23 +29,30 @@ function renderLayerSource(layer) {
   return `
     <article class="source-panel__layer">
       <h3>${escapeHtml(layer.name)}</h3>
+      <div class="source-panel__badges">
+        <span>${escapeHtml(layer.sourceType || 'source')}</span>
+        ${layer.tilePackage?.serving ? `<span>${escapeHtml(layer.tilePackage.serving)}</span>` : ''}
+        ${!references.length ? '<span>no references</span>' : ''}
+        ${!downloads.length ? '<span>no downloads</span>' : ''}
+      </div>
       ${facts.length ? `<p>${escapeHtml(facts.join(' - '))}</p>` : ''}
       ${layer.description ? `<p>${escapeHtml(layer.description)}</p>` : ''}
       ${credits.length ? `<p>${escapeHtml(`Credit: ${credits.join(', ')}`)}</p>` : ''}
-      ${renderLinkGroup('References', references)}
-      ${renderLinkGroup('Downloads', downloads)}
-      ${renderLinkGroup('Tiles', technical)}
+      ${renderLinkGroup('References', references, true)}
+      ${renderLinkGroup('Downloads', downloads, true)}
+      ${renderLinkGroup('Tiles', technical, true)}
     </article>
   `;
 }
 
-function renderLinkGroup(title, links) {
+function renderLinkGroup(title, links, open = false) {
   if (!links.length) return '';
+  const sorted = [...links].sort((a, b) => String(a.label || '').localeCompare(String(b.label || '')));
   return `
-    <section class="source-panel__group">
-      <strong>${escapeHtml(title)}</strong>
-      <div>${links.map((link) => `<a href="${escapeHtml(link.href)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a>`).join('')}</div>
-    </section>
+    <details class="source-panel__group" ${open ? 'open' : ''}>
+      <summary>${escapeHtml(title)} <span>${links.length}</span></summary>
+      <div>${sorted.map((link) => `<a href="${escapeHtml(link.href)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a>`).join('')}</div>
+    </details>
   `;
 }
 

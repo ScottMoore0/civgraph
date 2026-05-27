@@ -14,13 +14,22 @@ export class FeatureSearchService {
       if (!layer.featureIndexUrl) continue;
       const index = await this.loadIndex(layer);
       for (const item of index) {
-        if (normalizeSearchText(`${item.name} ${item.id} ${(item.aliases || []).join(' ')}`).includes(q)) {
-          results.push({ ...item, layerId: layer.id, layerName: layer.name, category: layer.category, sourceType: layer.sourceType });
-          if (results.length >= limit) return results;
+        const haystack = normalizeSearchText(`${item.name} ${item.id} ${(item.aliases || []).join(' ')}`);
+        if (haystack.includes(q)) {
+          results.push({
+            ...item,
+            layerId: layer.id,
+            layerName: layer.name,
+            category: layer.category,
+            sourceType: layer.sourceType,
+            score: scoreResult(q, item, haystack)
+          });
         }
       }
     }
-    return results;
+    return results
+      .sort((a, b) => b.score - a.score || a.layerName.localeCompare(b.layerName) || a.name.localeCompare(b.name))
+      .slice(0, limit);
   }
 
   async loadIndex(layer) {
@@ -32,4 +41,13 @@ export class FeatureSearchService {
     this.featureIndexes.set(layer.id, items);
     return items;
   }
+}
+
+function scoreResult(query, item, haystack) {
+  const name = normalizeSearchText(item.name || '');
+  if (name === query) return 100;
+  if (name.startsWith(query)) return 80;
+  if ((item.aliases || []).map(normalizeSearchText).includes(query)) return 70;
+  if (haystack.split(/\s+/).some((part) => part.startsWith(query))) return 55;
+  return 35;
 }

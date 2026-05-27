@@ -11,6 +11,7 @@ export class TestCatalogue {
     this.filteredLayers = [];
     this.featureResults = [];
     this.searchToken = 0;
+    this.currentQuery = '';
   }
 
   init() {
@@ -28,6 +29,7 @@ export class TestCatalogue {
 
   async filter(query) {
     const token = ++this.searchToken;
+    this.currentQuery = query.trim();
     this.filteredLayers = this.metadataService.searchLayers(query);
     this.featureResults = [];
     this.render();
@@ -147,7 +149,7 @@ export class TestCatalogue {
       button.type = 'button';
       button.className = 'feature-result';
       button.innerHTML = `
-        <strong>${escapeHtml(result.name)}</strong>
+        <strong>${highlightMatch(result.name, this.currentQuery)}</strong>
         <span><b>${escapeHtml(result.layerName)}</b>${result.category ? ` ${escapeHtml(result.category)}` : ''}</span>
       `;
       button.addEventListener('keydown', (event) => {
@@ -210,6 +212,15 @@ function focusSiblingResult(button, delta) {
   const index = buttons.indexOf(button);
   const next = buttons[index + delta];
   if (next) next.focus();
+}
+
+function highlightMatch(value, query) {
+  const text = String(value || '');
+  const q = String(query || '').trim();
+  if (!q) return escapeHtml(text);
+  const index = text.toLowerCase().indexOf(q.toLowerCase());
+  if (index < 0) return escapeHtml(text);
+  return `${escapeHtml(text.slice(0, index))}<mark>${escapeHtml(text.slice(index, index + q.length))}</mark>${escapeHtml(text.slice(index + q.length))}`;
 }
 
 function renderSourceSummary(layer) {

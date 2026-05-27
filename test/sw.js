@@ -6,11 +6,17 @@
  * active development.
  */
 
-const TEST_CACHE_VERSION = 'test-v10';
+const TEST_CACHE_VERSION = 'test-v11';
 const TEST_STATIC_CACHE = `civgraph-${TEST_CACHE_VERSION}-static`;
 const TEST_RUNTIME_CACHE = `civgraph-${TEST_CACHE_VERSION}-runtime`;
 const TEST_TILE_CACHE = `civgraph-${TEST_CACHE_VERSION}-tiles`;
-const TEST_CACHES = [TEST_STATIC_CACHE, TEST_RUNTIME_CACHE, TEST_TILE_CACHE];
+const TEST_PMTILES_CACHE = `civgraph-${TEST_CACHE_VERSION}-pmtiles`;
+const TEST_CACHES = [TEST_STATIC_CACHE, TEST_RUNTIME_CACHE, TEST_TILE_CACHE, TEST_PMTILES_CACHE];
+const TEST_CACHE_LIMITS = {
+  [TEST_RUNTIME_CACHE]: 80,
+  [TEST_TILE_CACHE]: 500,
+  [TEST_PMTILES_CACHE]: 24
+};
 
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
@@ -73,7 +79,12 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  if (url.pathname.startsWith('/test/tiles/') || url.pathname.startsWith('/test/pmtiles/')) {
+  if (url.pathname.startsWith('/test/pmtiles/')) {
+    event.respondWith(cacheFirst(req, TEST_PMTILES_CACHE));
+    return;
+  }
+
+  if (url.pathname.startsWith('/test/tiles/')) {
     event.respondWith(cacheFirst(req, TEST_TILE_CACHE));
     return;
   }
@@ -86,7 +97,7 @@ async function cacheFirst(req, cacheName) {
   const cached = await cache.match(req);
   if (cached) return cached;
   const res = await fetch(req);
-  if (res && res.ok) cache.put(req, res.clone()).catch(() => {});
+  if (res && res.ok) cache.put(req, res.clone()).then(() => trimCache(cacheName)).catch(() => {});
   return res;
 }
 
@@ -94,7 +105,7 @@ async function networkFirst(req, cacheName) {
   const cache = await caches.open(cacheName);
   try {
     const res = await fetch(req, { cache: 'no-cache' });
-    if (res && res.ok) cache.put(req, res.clone()).catch(() => {});
+    if (res && res.ok) cache.put(req, res.clone()).then(() => trimCache(cacheName)).catch(() => {});
     return res;
   } catch {
     const cached = await cache.match(req);
@@ -107,8 +118,17 @@ async function staleWhileRevalidate(req, cacheName) {
   const cache = await caches.open(cacheName);
   const cached = await cache.match(req);
   const network = fetch(req).then((res) => {
-    if (res && res.ok) cache.put(req, res.clone()).catch(() => {});
+    if (res && res.ok) cache.put(req, res.clone()).then(() => trimCache(cacheName)).catch(() => {});
     return res;
   }).catch(() => cached);
   return cached || network;
+}
+
+async function trimCache(cacheName) {
+  const limit = TEST_CACHE_LIMITS[cacheName];
+  if (!limit) return;
+  const cache = await caches.open(cacheName);
+  const keys = await cache.keys();
+  if (keys.length <= limit) return;
+  await Promise.all(keys.slice(0, keys.length - limit).map((key) => cache.delete(key)));
 }

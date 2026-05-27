@@ -17,6 +17,8 @@ export class UrlStateController {
       labels: parseLayerValueParam(params.get('labels')),
       text: parseLayerValueParam(params.get('text')),
       stroke: parseLayerValueParam(params.get('stroke')),
+      line: parseLayerValueParam(params.get('line')),
+      fill: parseLayerValueParam(params.get('fill')),
       style: parseLayerValueParam(params.get('style')),
       styleAttr: parseLayerValueParam(params.get('styleAttr')),
       styleRamp: parseLayerValueParam(params.get('styleRamp')),
@@ -36,6 +38,8 @@ export class UrlStateController {
           if (state.labels[id] !== undefined) this.controller.setLayerLabelsEnabled(id, state.labels[id] !== '0');
           if (state.text[id] !== undefined) this.controller.setLayerTextScale(id, Number(state.text[id]));
           if (state.stroke[id] !== undefined) this.controller.setLayerStrokeWidth(id, Number(state.stroke[id]));
+          if (state.line[id]) this.controller.setLayerColor(id, normalizeColorParam(state.line[id]));
+          if (state.fill[id]) this.controller.setLayerFillColor(id, normalizeColorParam(state.fill[id]));
           this.restoreStyle(id, state);
         }
       }
@@ -59,6 +63,8 @@ export class UrlStateController {
     const labels = [];
     const text = [];
     const stroke = [];
+    const line = [];
+    const fill = [];
     const style = [];
     const styleAttr = [];
     const styleRamp = [];
@@ -67,6 +73,8 @@ export class UrlStateController {
       if (record.labelLayerIds?.length) labels.push(`${id}:${record.labelsEnabled ? '1' : '0'}`);
       if (record.textScale !== undefined) text.push(`${id}:${Math.round(record.textScale)}`);
       if (record.strokeWidth !== undefined) stroke.push(`${id}:${Number(record.strokeWidth).toFixed(1)}`);
+      if (record.color) line.push(`${id}:${record.color.replace('#', '')}`);
+      if (record.fillColor) fill.push(`${id}:${record.fillColor.replace('#', '')}`);
       const activeStyle = record.styleState || this.conditionalStyling?.activeStyles?.get(id);
       if (activeStyle?.type) {
         style.push(`${id}:${activeStyle.type}`);
@@ -78,6 +86,8 @@ export class UrlStateController {
     if (labels.length) params.set('labels', labels.join(','));
     if (text.length) params.set('text', text.join(','));
     if (stroke.length) params.set('stroke', stroke.join(','));
+    if (line.length) params.set('line', line.join(','));
+    if (fill.length) params.set('fill', fill.join(','));
     if (style.length) params.set('style', style.join(','));
     if (styleAttr.length) params.set('styleAttr', styleAttr.join(','));
     if (styleRamp.length) params.set('styleRamp', styleRamp.join(','));
@@ -134,5 +144,12 @@ function parseSelection(value) {
 function getRamp(value) {
   if (value === 'green-purple') return ['#16a34a', '#7e22ce'];
   if (value === 'amber-blue') return ['#f59e0b', '#2563eb'];
+  if (value === 'teal-rose') return ['#0f766e', '#be123c'];
+  if (value === 'slate-gold') return ['#475467', '#ca8a04'];
   return ['#3182ce', '#e53e3e'];
+}
+
+function normalizeColorParam(value) {
+  const text = String(value || '').replace(/^#/, '');
+  return /^[0-9a-f]{6}$/i.test(text) ? `#${text}` : '';
 }
