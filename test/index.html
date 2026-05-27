@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <title>Civgraph Test - MapLibre Rewrite</title>
-  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-008">
+  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-009">
 </head>
 <body>
   <div id="testApp" class="test-shell">
@@ -35,8 +35,18 @@
       </section>
 
       <section class="test-panel">
+        <h2>Time Series</h2>
+        <div id="timeSeriesPanel" class="time-series-panel">No converted time-series chains.</div>
+      </section>
+
+      <section class="test-panel">
         <h2>Selected Feature</h2>
         <div id="featureDetails" class="feature-details">Click a rendered feature.</div>
+      </section>
+
+      <section class="test-panel">
+        <h2>Sources</h2>
+        <div id="sourcePanel" class="source-panel">Load a layer to inspect sources.</div>
       </section>
 
       <section class="test-panel test-diagnostics">
@@ -51,7 +61,7 @@
     </main>
   </div>
 
-  <script type="module" src="/test/build/test.bundle.js?v=test-008"></script>
+  <script type="module" src="/test/build/test.bundle.js?v=test-009"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {

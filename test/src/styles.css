@@ -358,6 +358,63 @@ select {
   color: #101828;
 }
 
+.source-panel,
+.time-series-panel {
+  display: grid;
+  gap: 10px;
+  color: #344054;
+  font-size: 13px;
+}
+
+.source-panel__layer,
+.time-series-control {
+  display: grid;
+  gap: 6px;
+  border: 1px solid #d9ded6;
+  border-radius: 8px;
+  padding: 10px;
+  background: #fbfcfa;
+}
+
+.source-panel__layer h3 {
+  margin: 0;
+  color: #101828;
+  font-size: 14px;
+}
+
+.source-panel__layer p {
+  margin: 0;
+  color: #667085;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.source-panel__layer div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+}
+
+.source-panel__layer a {
+  color: #175cd3;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.time-series-control strong {
+  color: #101828;
+  font-size: 14px;
+}
+
+.time-series-control select {
+  min-height: 34px;
+  border: 1px solid #cfd6cc;
+  border-radius: 6px;
+  padding: 6px 8px;
+  background: #ffffff;
+  color: #101828;
+}
+
 .feature-details {
   color: #344054;
   font-size: 13px;

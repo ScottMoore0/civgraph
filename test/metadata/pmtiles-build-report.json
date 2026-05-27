@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-05-27T18:42:42.644Z",
+  "mode": "missing-tools",
+  "tools": {
+    "pmtilesCli": null,
+    "tippecanoe": null
+  },
+  "supportedPaths": [
+    {
+      "name": "tippecanoe-direct-pmtiles",
+      "available": false,
+      "description": "Use tippecanoe to build PMTiles directly from newline-delimited GeoJSON or GeoJSON sources."
+    },
+    {
+      "name": "pmtiles-cli-convert",
+      "available": false,
+      "description": "Use a PMTiles CLI to convert a compatible MBTiles/vector-tile archive into a .pmtiles file."
+    }
+  ],
+  "notes": [
+    "No PMTiles archive is generated unless a supported CLI is installed or TEST_PMTILES_CLI/TEST_TIPPECANOE points to one.",
+    "The /test runtime can load pmtiles sourceType entries through the pmtiles protocol once archives are generated and registered in maps-test.json.",
+    "GDAL directory MVT remains the active local conversion path in this Windows environment."
+  ]
+}

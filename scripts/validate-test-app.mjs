@@ -23,10 +23,12 @@ const REQUIRED_MODULES = [
   'test/src/catalogue-controller.js',
   'test/src/active-layers.js',
   'test/src/feature-details.js',
+  'test/src/source-panel.js',
   'test/src/diagnostics.js',
   'test/src/url-state.js',
   'test/src/search-service.js',
   'test/src/time-series-controller.js',
+  'test/src/time-series-panel.js',
   'test/src/election-service.js',
   'test/src/conditional-styling.js',
   'test/src/migration-readiness.js'
@@ -59,13 +61,13 @@ function validateLayer(layer) {
   if (!layer.id) errors.push('missing id');
   if (!layer.name) errors.push(`${layer.id || '(unknown)'}: missing name`);
   if (layer.renderer !== 'maplibre') errors.push(`${layer.id}: renderer must be "maplibre"`);
-  if (!['mvt', 'pmtiles', 'raster'].includes(layer.sourceType)) errors.push(`${layer.id}: unsupported sourceType ${layer.sourceType}`);
-  if (layer.sourceType !== 'raster' && !layer.sourceLayer) errors.push(`${layer.id}: missing sourceLayer`);
+  if (!['mvt', 'pmtiles', 'raster', 'image'].includes(layer.sourceType)) errors.push(`${layer.id}: unsupported sourceType ${layer.sourceType}`);
+  if (!['raster', 'image'].includes(layer.sourceType) && !layer.sourceLayer) errors.push(`${layer.id}: missing sourceLayer`);
   if (!Number.isInteger(layer.minzoom) || !Number.isInteger(layer.maxzoom) || layer.minzoom < 0 || layer.maxzoom < layer.minzoom) {
     errors.push(`${layer.id}: invalid minzoom/maxzoom`);
   }
   if (!isValidBounds(layer.bounds)) errors.push(`${layer.id}: invalid bounds`);
-  if (layer.geometryType !== undefined && !['polygon', 'line', 'point'].includes(layer.geometryType)) {
+  if (layer.sourceType !== 'image' && layer.geometryType !== undefined && !['polygon', 'line', 'point'].includes(layer.geometryType)) {
     errors.push(`${layer.id}: geometryType must be polygon, line, or point`);
   }
   if (layer.references !== undefined && !Array.isArray(layer.references)) {
@@ -132,6 +134,11 @@ function validateLayer(layer) {
 
   if (layer.sourceType === 'raster' && !layer.tiles && !layer.tileUrl) {
     errors.push(`${layer.id}: missing raster tiles URL template`);
+  }
+
+  if (layer.sourceType === 'image') {
+    if (!layer.imageUrl && !layer.url) errors.push(`${layer.id}: missing imageUrl`);
+    if (!isValidBounds(layer.bounds)) errors.push(`${layer.id}: image source requires valid bounds`);
   }
 
   if (layer.sourceType === 'pmtiles' && !layer.tileUrl) {

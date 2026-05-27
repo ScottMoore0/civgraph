@@ -7,6 +7,8 @@ import { TestMetadataService } from './metadata-service.js';
 import { TestCatalogue } from './catalogue-controller.js';
 import { renderActiveLayers } from './active-layers.js';
 import { renderFeatureDetails } from './feature-details.js';
+import { renderSourcePanel } from './source-panel.js';
+import { renderTimeSeriesPanel } from './time-series-panel.js';
 import { emitDiagnostics } from './diagnostics.js';
 import { UrlStateController } from './url-state.js';
 import { FeatureSearchService } from './search-service.js';
@@ -35,12 +37,26 @@ async function main() {
       conditionalStyles: conditionalStyling.activeStyles.size
     });
   };
+  const renderSecondaryPanels = () => {
+    renderSourcePanel(els, controller);
+    renderTimeSeriesPanel(els, timeSeries, controller, {
+      onChange: () => {
+        renderActiveLayers(els, controller, { onRendered: renderDiagnostics, conditionalStyling });
+        renderSecondaryPanels();
+        urlState?.write();
+      }
+    });
+  };
 
   const controller = new TestMapLibreController('map', {
-    onSelection: (selection) => renderFeatureDetails(els, selection),
+    onSelection: (selection) => {
+      renderFeatureDetails(els, selection);
+      renderSecondaryPanels();
+    },
     onChange: () => {
       renderActiveLayers(els, controller, { onRendered: renderDiagnostics, conditionalStyling });
       catalogue?.render();
+      renderSecondaryPanels();
       urlState?.write();
       renderDiagnostics();
     }
@@ -73,6 +89,7 @@ async function main() {
   await urlState.restore();
   renderActiveLayers(els, controller, { onRendered: renderDiagnostics, conditionalStyling });
   renderFeatureDetails(els, null);
+  renderSecondaryPanels();
   renderDiagnostics();
 
   window.__civgraphTest = {

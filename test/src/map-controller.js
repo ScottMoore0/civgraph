@@ -18,7 +18,7 @@ import {
   getLabelMinZoom,
   getLabelStyle
 } from './labels.js';
-import { absoluteTileTemplate, boundsToFlatBbox, boundsToMapLibre, clamp } from './utils.js';
+import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates, boundsToMapLibre, clamp } from './utils.js';
 
 export class TestMapLibreController {
   constructor(container, options = {}) {
@@ -86,7 +86,7 @@ export class TestMapLibreController {
 
     const source = this.buildSource(layer);
     this.map.addSource(sourceId, source);
-    if (layer.sourceType === 'raster') {
+    if (layer.sourceType === 'raster' || layer.sourceType === 'image') {
       this.addRasterLayer(layer, { sourceId, rasterId });
     } else {
       this.addGeometryLayers(layer, { sourceId, fillId, lineId, hoverId, selectedId });
@@ -105,7 +105,7 @@ export class TestMapLibreController {
       fillColor: layer.style?.fillColor || layer.style?.color || '#7C3AED'
     });
 
-    if (layer.sourceType !== 'raster') {
+    if (layer.sourceType !== 'raster' && layer.sourceType !== 'image') {
       this.interactionCleanups.set(layer.id, this.bindLayerInteractions(layer, fillId, labelId, sourceId));
     }
     this.fitToLayer(layer.id);
@@ -286,6 +286,21 @@ export class TestMapLibreController {
     this.notifyChange();
   }
 
+  setLayerStrokeWidth(layerId, width) {
+    const record = this.layers.get(layerId);
+    if (!record) return;
+    const lineId = `${layerId}-line`;
+    if (!this.map.getLayer(lineId)) return;
+    const value = clamp(width, 0.2, 8);
+    if (record.config.geometryType === 'point') {
+      this.map.setPaintProperty(lineId, 'circle-radius', value);
+    } else {
+      this.map.setPaintProperty(lineId, 'line-width', value);
+    }
+    record.strokeWidth = value;
+    this.notifyChange();
+  }
+
   setLayerLabelsEnabled(layerId, enabled) {
     const record = this.layers.get(layerId);
     if (!record) return;
@@ -360,6 +375,16 @@ export class TestMapLibreController {
         minzoom: layer.minzoom,
         maxzoom: layer.maxzoom,
         bounds: boundsToFlatBbox(layer.bounds)
+      };
+    }
+    if (layer.sourceType === 'image') {
+      const coordinates = boundsToImageCoordinates(layer.bounds);
+      if (!coordinates) throw new Error('missing image bounds');
+      if (!layer.imageUrl && !layer.url) throw new Error('missing image URL');
+      return {
+        type: 'image',
+        url: layer.imageUrl || layer.url,
+        coordinates
       };
     }
     throw new Error(`unsupported sourceType ${layer.sourceType}`);

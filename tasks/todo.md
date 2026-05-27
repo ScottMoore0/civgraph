@@ -1232,3 +1232,34 @@ Implement remaining feasible /test main-site parity items
     - `npm run build:test:batch-vectors` wrote `test/metadata/vector-conversion-report.json` in dry-run mode.
     - `npm run check:test`, approved `npm run build:test`, and `npm run check` passed.
     - Local mobile-size smoke on `/test/index.html` confirmed `assetVersion: test-008`, 901 metadata layers, 33 categories, 80 rendered catalogue cards with 79 unconverted cards, feature search results for `St. Margaret`, Civil Parishes load/selection, style controls, conditional styling, and URL hash state for layer/opacity/labels/text/selected feature.
+
+Implement /test conversion and advanced parity follow-up
+- [x] Convert the 18 locally available vector candidates into verified MVT outputs
+- [x] Promote only verified converted layers into `test/metadata/maps-test.json`
+- [x] Add an intake/report step for skipped vector candidates that need source download/location/upload work
+- [x] Generate feature-search indexes for every converted layer with a local vector source
+- [x] Add time-series UI that activates when converted chains exist
+- [x] Add suitable raster tile entries for already-georeferenced raster datasets
+- [x] Add richer style controls: stroke width, fill opacity, ramps, categorical/party-colour controls
+- [x] Add a dedicated source/reference/download panel
+- [x] Add a constrained practical PMTiles build/support path
+- [x] Verify, commit, and push
+  - Review:
+    - Converted all 18 locally available vector candidates with GDAL MVT. The generated `/test/tiles/generated` output contains 44,739 files and about 247.0 MB of tile data.
+    - Promoted 17 of those candidate conversions into `maps-test.json`; `roi-counties-2011` was not promoted because the generated tile metadata reported invalid geographic bounds outside the Ireland validation envelope.
+    - `/test` now has 123 explicit loadable layers: 18 MVT layers including Civil Parishes and 105 georeferenced raster image overlays. Runtime catalogue merging brings total visible metadata to 886 layers: 123 loadable and 763 unconverted.
+    - Generated feature-search indexes for all 18 promoted MVT layers, including townlands, EDs, Garda geographies, NUTS, settlements, wards, and Catholic Dublin parishes.
+    - Added `npm run build:test:intake-vectors`, which writes `test/metadata/vector-intake-report.json` with 610 remaining vector-intake rows and per-row actions for downloading remote sources, locating ignored local sources, or adding missing source metadata before conversion.
+    - Added `npm run build:test:promote` to regenerate promoted vector/raster metadata from verified conversion output and main-site metadata.
+    - Added `npm run build:test:pmtiles`, which records the constrained PMTiles build path. The current environment reports `missing-tools` because neither `pmtiles` CLI nor `tippecanoe` is installed, while the runtime remains ready for `sourceType: "pmtiles"` entries.
+    - Added source/reference/download and time-series panels to the sidebar. Time-series UI remains inactive until converted chains exist.
+    - Expanded style controls with stroke width, categorical styling, colour ramps, and party-colour mode in addition to existing opacity, fill/line colour, labels, and text scale.
+    - Bumped `/test` assets and service worker to `test-009`.
+  - Verification:
+    - `npm run build:test:batch-vectors -- --execute` converted 18/18 local candidates with 0 failures.
+    - `npm run build:test:promote` promoted 17 vector layers and 105 raster image layers.
+    - `npm run build:test:feature-indexes` built 18 feature indexes with 0 skipped layers.
+    - `npm run build:test:intake-vectors` wrote a 610-row intake report.
+    - `npm run build:test:pmtiles` wrote a PMTiles tool report showing the missing local PMTiles/tippecanoe tools.
+    - `npm run check:test`, approved `npm run build:test`, and `npm run check` passed.
+    - Local mobile-size smoke loaded `/test/index.html`, confirmed `assetVersion: test-009`, loaded `roi-garda-regions-vector-test`, applied categorical styling on `REGION`, loaded `wards-1993-wards92-antrim-raster-image-test`, verified source-panel content, and confirmed feature search results.

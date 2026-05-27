@@ -32,6 +32,18 @@ export function boundsToFlatBbox(bounds) {
   return [converted[0][0], converted[0][1], converted[1][0], converted[1][1]];
 }
 
+export function boundsToImageCoordinates(bounds) {
+  if (!Array.isArray(bounds) || bounds.length !== 2) return null;
+  const [[south, west], [north, east]] = bounds;
+  if (![south, west, north, east].every(Number.isFinite)) return null;
+  return [
+    [west, north],
+    [east, north],
+    [east, south],
+    [west, south]
+  ];
+}
+
 export function absoluteTileTemplate(template) {
   if (/^https?:\/\//i.test(template)) return template;
   const origin = location.origin.replace(/\/$/, '');

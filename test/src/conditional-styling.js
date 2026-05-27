@@ -4,6 +4,55 @@ export class ConditionalStylingController {
     this.activeStyles = new Map();
   }
 
+  applyCategorical(layerId, config) {
+    const record = this.controller.layers.get(layerId);
+    if (!record || !config?.attribute) return false;
+    const fillId = `${layerId}-fill`;
+    if (!this.controller.map.getLayer(fillId)) return false;
+    const palette = config.palette || ['#2563eb', '#16a34a', '#f59e0b', '#dc2626', '#7c3aed', '#0891b2', '#be123c', '#4b5563'];
+    const values = record.config.categoricalValues?.[config.attribute] || [];
+    if (!values.length) return this.clear(layerId);
+    const expression = [
+      'match',
+      ['to-string', ['get', config.attribute]],
+      ...values.slice(0, 32).flatMap((value, index) => [String(value), palette[index % palette.length]]),
+      config.noDataColor || '#cccccc'
+    ];
+    this.controller.map.setPaintProperty(fillId, 'fill-color', expression);
+    this.activeStyles.set(layerId, { type: 'categorical', ...config });
+    this.controller.notifyChange();
+    return true;
+  }
+
+  applyPartyColours(layerId, config) {
+    const record = this.controller.layers.get(layerId);
+    if (!record || !config?.attribute) return false;
+    const fillId = `${layerId}-fill`;
+    if (!this.controller.map.getLayer(fillId)) return false;
+    const colours = {
+      DUP: '#D46A4C',
+      UUP: '#48A5EE',
+      SDLP: '#2AA82C',
+      Alliance: '#F6CB2F',
+      'Sinn Féin': '#326760',
+      'Sinn Fein': '#326760',
+      TUV: '#0C3A6A',
+      Green: '#78B82A',
+      PBP: '#E91D50',
+      Independent: '#DDDDDD'
+    };
+    const expression = [
+      'match',
+      ['to-string', ['get', config.attribute]],
+      ...Object.entries(colours).flat(),
+      config.noDataColor || '#cccccc'
+    ];
+    this.controller.map.setPaintProperty(fillId, 'fill-color', expression);
+    this.activeStyles.set(layerId, { type: 'party', ...config });
+    this.controller.notifyChange();
+    return true;
+  }
+
   applyGradient(layerId, config) {
     const record = this.controller.layers.get(layerId);
     if (!record || !config?.attribute) return false;

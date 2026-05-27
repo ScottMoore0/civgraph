@@ -22,7 +22,7 @@ export function renderActiveLayers(els, controller, options = {}) {
         Opacity
         <input data-control="opacity" type="range" min="0" max="1" step="0.05" value="${record.opacity ?? record.config.style?.fillOpacity ?? 0.18}">
       </label>
-      ${record.config.sourceType !== 'raster' ? `
+      ${!isRasterLike(record.config) ? `
         <label>
           Line
           <input data-control="line-color" type="color" value="${escapeHtml(record.color || record.config.style?.color || '#5B21B6')}">
@@ -34,13 +34,7 @@ export function renderActiveLayers(els, controller, options = {}) {
           </label>
         ` : ''}
       ` : ''}
-      <label>
-        Attribute style
-        <select data-control="gradient-attribute">
-          <option value="">None</option>
-          ${getNumericCandidateOptions(record.config).map((key) => `<option value="${escapeHtml(key)}">${escapeHtml(key)}</option>`).join('')}
-        </select>
-      </label>
+      ${!isRasterLike(record.config) ? renderStyleControls(record.config) : ''}
       ${hasLabels ? `
         <label class="active-layer__check">
           <input data-control="labels" type="checkbox" ${record.labelsEnabled ? 'checked' : ''}>
@@ -65,19 +59,19 @@ export function renderActiveLayers(els, controller, options = {}) {
       options.onRendered?.();
     });
     row.querySelector('[data-control="gradient-attribute"]')?.addEventListener('change', (event) => {
-      const attribute = event.target.value;
-      if (!attribute) {
-        options.conditionalStyling?.clear(id);
-      } else {
-        options.conditionalStyling?.applyGradient(id, {
-          attribute,
-          min: 0,
-          max: 100,
-          lowColor: '#3182ce',
-          highColor: '#e53e3e',
-          noDataColor: '#cccccc'
-        });
-      }
+      applyStyle(row, id, options);
+      options.onRendered?.();
+    });
+    row.querySelector('[data-control="style-mode"]')?.addEventListener('change', () => {
+      applyStyle(row, id, options);
+      options.onRendered?.();
+    });
+    row.querySelector('[data-control="style-ramp"]')?.addEventListener('change', () => {
+      applyStyle(row, id, options);
+      options.onRendered?.();
+    });
+    row.querySelector('[data-control="stroke-width"]')?.addEventListener('input', (event) => {
+      controller.setLayerStrokeWidth(id, Number(event.target.value));
       options.onRendered?.();
     });
     row.querySelector('[data-control="labels"]')?.addEventListener('change', (event) => {
@@ -96,4 +90,80 @@ export function renderActiveLayers(els, controller, options = {}) {
 function getNumericCandidateOptions(layer) {
   const props = layer.numericProperties || layer.popupProperties || [];
   return props.filter((key) => !/^name|label|id|source|province/i.test(key)).slice(0, 12);
+}
+
+function getCategoricalCandidateOptions(layer) {
+  const props = layer.categoricalProperties || layer.popupProperties || [];
+  return props.filter((key) => !/^id|source/i.test(key)).slice(0, 12);
+}
+
+function renderStyleControls(layer) {
+  const numeric = getNumericCandidateOptions(layer);
+  const categorical = getCategoricalCandidateOptions(layer);
+  const allAttributes = [...new Set([...numeric, ...categorical])];
+  return `
+    <label>
+      Stroke
+      <input data-control="stroke-width" type="range" min="0.2" max="8" step="0.2" value="${Number(layer.style?.weight || 1.5)}">
+    </label>
+    <label>
+      Style mode
+      <select data-control="style-mode">
+        <option value="">Plain</option>
+        <option value="gradient">Gradient</option>
+        <option value="categorical">Categorical</option>
+        <option value="party">Party colours</option>
+      </select>
+    </label>
+    <label>
+      Attribute
+      <select data-control="gradient-attribute">
+        <option value="">None</option>
+        ${allAttributes.map((key) => `<option value="${escapeHtml(key)}">${escapeHtml(key)}</option>`).join('')}
+      </select>
+    </label>
+    <label>
+      Ramp
+      <select data-control="style-ramp">
+        <option value="blue-red">Blue to red</option>
+        <option value="green-purple">Green to purple</option>
+        <option value="amber-blue">Amber to blue</option>
+      </select>
+    </label>
+  `;
+}
+
+function applyStyle(row, id, options) {
+  const mode = row.querySelector('[data-control="style-mode"]')?.value || '';
+  const attribute = row.querySelector('[data-control="gradient-attribute"]')?.value || '';
+  const ramp = getRamp(row.querySelector('[data-control="style-ramp"]')?.value);
+  if (!mode) {
+    options.conditionalStyling?.clear(id);
+    return;
+  }
+  if (!attribute) return;
+  if (mode === 'gradient') {
+    options.conditionalStyling?.applyGradient(id, {
+      attribute,
+      min: 0,
+      max: 100,
+      lowColor: ramp[0],
+      highColor: ramp[1],
+      noDataColor: '#cccccc'
+    });
+  } else if (mode === 'categorical') {
+    options.conditionalStyling?.applyCategorical(id, { attribute });
+  } else if (mode === 'party') {
+    options.conditionalStyling?.applyPartyColours(id, { attribute });
+  }
+}
+
+function getRamp(value) {
+  if (value === 'green-purple') return ['#16a34a', '#7e22ce'];
+  if (value === 'amber-blue') return ['#f59e0b', '#2563eb'];
+  return ['#3182ce', '#e53e3e'];
+}
+
+function isRasterLike(layer) {
+  return layer.sourceType === 'raster' || layer.sourceType === 'image';
 }
