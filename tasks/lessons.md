@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 111) Label parity includes zoom availability, not only visual styling
+- Mistake pattern: Matching the main site's label colours and halo while leaving `/test` MapLibre `labelMinZoom`, `labelMaxZoom`, and per-feature `label_minzoom` gates in place.
+- Impact: labels can look correct once zoomed in, but still fail the main-site behaviour where labels are available throughout the map interaction.
+- Guardrail:
+  1) when comparing label parity, check low, middle, and high zoom availability explicitly,
+  2) avoid hard symbol-layer zoom gates unless they are deliberately product-specified,
+  3) expose label layer zoom bounds in diagnostics so mobile/browser smoke tests can prove the deployed style contract.
+
 ### 110) Bump /test asset and service-worker cache versions with every deployed bundle behavior change
 - Mistake pattern: Shipping `/test` MapLibre label styling changes while leaving `test.bundle.js?v=test-003` and the `test-v3` service-worker cache unchanged.
 - Impact: phones can keep running an older cached test bundle, so new metadata such as `labelStyle` is fetched but ignored or rendered with old styling mechanics.

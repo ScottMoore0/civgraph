@@ -1158,3 +1158,17 @@ Fix /test label styling not appearing on mobile
     - Added `assetVersion` to the diagnostics panel so stale mobile bundles are visible.
     - Added validator coverage so `npm run check:test` fails if the `/test` index, app asset version, and service-worker cache version drift apart.
     - Verification evidence: `node --check test\src\app.js`, `node --check scripts\validate-test-app.mjs`, `npm run check:test`, and `npm run build:test` passed; local headless browser smoke loaded `/test`, requested `test.bundle.css?v=test-004`, `test.bundle.js?v=test-004`, and `maps-test.json?v=test-004`, then loaded `civil-parishes-vector-test` with diagnostics showing `assetVersion: test-004`.
+
+Show /test feature labels at every zoom and compare architecture
+- [x] Remove hard label zoom gates from the /test MapLibre symbol layer
+- [x] Preserve renderer collision, ranked sort priority, hover/click, label toggles, and text scaling
+- [x] Bump /test asset and service-worker versions for the deployed behavior change
+- [x] Rebuild and smoke-check labels at low zoom
+- [x] Compare main-site and /test functionality and appearance in detail
+- [x] Commit and push the verified change
+  - Review:
+    - Removed the per-feature `label_minzoom` filter, set Civil Parishes `labelMinZoom` to `0`, and removed the label max-zoom cap by allowing `labelMaxZoom: null`.
+    - Kept MapLibre symbol collision, `symbol-sort-key` rank priority, hover/selected feature-state styling, label toggles, and text-scale controls.
+    - Bumped `/test` assets to `test-005` and the scoped service worker to `test-v5`; diagnostics now report label layer zoom bounds and rendered label feature count.
+    - Updated `scripts/validate-test-app.mjs` so null/omitted `labelMaxZoom` is a valid intentional uncapped state while invalid numeric caps still fail validation.
+    - Verification evidence: `node --check test\src\app.js`, `node --check scripts\validate-test-app.mjs`, `npm run check:test`, and approved `npm run build:test` passed; headless mobile smoke loaded `/test`, requested `test.bundle.css?v=test-005`, `test.bundle.js?v=test-005`, and `maps-test.json?v=test-005`, then loaded Civil Parishes at z5.372 with label diagnostics showing `minzoom: 0`, `maxzoom: null`, and `renderedLabelFeatures: 46`.

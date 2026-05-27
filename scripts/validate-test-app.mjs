@@ -52,10 +52,11 @@ function validateLayer(layer) {
     for (const key of ['labelCanonicalProperty', 'labelRankProperty', 'labelMinZoomProperty']) {
       if (layer[key] !== undefined && typeof layer[key] !== 'string') errors.push(`${layer.id}: ${key} must be a string`);
     }
-    if (layer.labelMinZoom !== undefined && (!Number.isFinite(Number(layer.labelMinZoom)) || Number(layer.labelMinZoom) < 0)) {
+    if (layer.labelMinZoom !== undefined && layer.labelMinZoom !== null && (!Number.isFinite(Number(layer.labelMinZoom)) || Number(layer.labelMinZoom) < 0)) {
       errors.push(`${layer.id}: labelMinZoom must be a non-negative number`);
     }
-    if (layer.labelMaxZoom !== undefined && (!Number.isFinite(Number(layer.labelMaxZoom)) || Number(layer.labelMaxZoom) <= Number(layer.labelMinZoom ?? 0))) {
+    const hasLabelMaxZoom = layer.labelMaxZoom !== undefined && layer.labelMaxZoom !== null && layer.labelMaxZoom !== '';
+    if (hasLabelMaxZoom && (!Number.isFinite(Number(layer.labelMaxZoom)) || Number(layer.labelMaxZoom) <= Number(layer.labelMinZoom ?? 0))) {
       errors.push(`${layer.id}: labelMaxZoom must be greater than labelMinZoom`);
     }
     if (layer.labelStyle !== undefined) {

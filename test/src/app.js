@@ -3,14 +3,14 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { PMTiles, Protocol } from 'pmtiles';
 import './styles.css';
 
-const TEST_ASSET_VERSION = 'test-004';
+const TEST_ASSET_VERSION = 'test-005';
 const METADATA_URL = `/test/metadata/maps-test.json?v=${TEST_ASSET_VERSION}`;
 const IRELAND_BOUNDS = [[-10.75, 51.35], [-5.35, 55.55]];
 const HOVER_MIN_ZOOM = 7;
 const HOVER_THROTTLE_MS = 80;
 const CLICK_TOLERANCE_PX = 6;
 const DEFAULT_TEXT_SCALE = 100;
-const DEFAULT_LABEL_MIN_ZOOM = 9;
+const DEFAULT_LABEL_MIN_ZOOM = 0;
 
 const els = {
   catalogue: document.getElementById('catalogue'),
@@ -64,6 +64,8 @@ class TestMapLibreController {
 
     this.map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
     this.map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
+    this.map.on('moveend', () => emitDiagnostics(this));
+    this.map.on('idle', () => emitDiagnostics(this));
     this.map.fitBounds(IRELAND_BOUNDS, { padding: 28, duration: 0 });
   }
 
@@ -145,6 +147,7 @@ class TestMapLibreController {
       const labelLayerIds = [];
       if (layer.labelProperty) {
         const labelMinZoom = getLabelMinZoom(layer);
+        const labelMaxZoom = getLabelMaxZoom(layer);
         const labelStyle = getLabelStyle(layer);
         this.map.addLayer({
           id: labelId,
@@ -152,7 +155,7 @@ class TestMapLibreController {
           source: sourceId,
           'source-layer': layer.sourceLayer,
           minzoom: labelMinZoom,
-          maxzoom: Number.isFinite(Number(layer.labelMaxZoom)) ? Number(layer.labelMaxZoom) : undefined,
+          maxzoom: labelMaxZoom,
           filter: buildLabelFilter(layer),
           layout: {
             'text-field': buildLabelTextExpression(layer),
@@ -531,6 +534,8 @@ function emitDiagnostics(controller) {
     assetVersion: TEST_ASSET_VERSION,
     maplibreVersion: maplibregl.version,
     loadedLayers: [...controller.layers.keys()],
+    labelLayers: getDiagnosticLabelLayers(controller),
+    renderedLabelFeatures: getRenderedLabelFeatureCount(controller),
     zoom: controller.map ? Number(controller.map.getZoom().toFixed(3)) : null,
     center: controller.map ? controller.map.getCenter().toArray().map((value) => Number(value.toFixed(5))) : null,
     metrics: controller.metrics.slice(-8)
@@ -538,9 +543,43 @@ function emitDiagnostics(controller) {
   els.diagnostics.textContent = JSON.stringify(data, null, 2);
 }
 
+function getDiagnosticLabelLayers(controller) {
+  if (!controller.map) return [];
+  return [...controller.layers.entries()].flatMap(([layerId, record]) => (
+    (record.labelLayerIds || []).map((labelLayerId) => {
+      const styleLayer = controller.map.getLayer(labelLayerId);
+      return {
+        layerId,
+        labelLayerId,
+        minzoom: styleLayer?.minzoom ?? null,
+        maxzoom: styleLayer?.maxzoom ?? null,
+        labelsEnabled: record.labelsEnabled,
+        textScale: record.textScale
+      };
+    })
+  ));
+}
+
+function getRenderedLabelFeatureCount(controller) {
+  if (!controller.map) return 0;
+  const labelLayerIds = getDiagnosticLabelLayers(controller).map((layer) => layer.labelLayerId);
+  if (!labelLayerIds.length) return 0;
+  try {
+    return controller.map.queryRenderedFeatures(undefined, { layers: labelLayerIds }).length;
+  } catch {
+    return null;
+  }
+}
+
 function getLabelMinZoom(layer) {
   const value = Number(layer.labelMinZoom);
   return Number.isFinite(value) ? value : DEFAULT_LABEL_MIN_ZOOM;
+}
+
+function getLabelMaxZoom(layer) {
+  if (layer.labelMaxZoom === undefined || layer.labelMaxZoom === null || layer.labelMaxZoom === '') return undefined;
+  const value = Number(layer.labelMaxZoom);
+  return Number.isFinite(value) ? value : undefined;
 }
 
 function getLabelStyle(layer) {
@@ -602,11 +641,7 @@ function buildLabelTextExpression(layer) {
 function buildLabelFilter(layer) {
   const props = getLabelProperties(layer);
   const hasAnyLabel = props.length > 0 ? ['any', ...props.map((prop) => ['has', prop])] : true;
-  return [
-    'all',
-    hasAnyLabel,
-    ['<=', ['to-number', ['get', layer.labelMinZoomProperty || 'label_minzoom'], getLabelMinZoom(layer)], ['zoom']]
-  ];
+  return hasAnyLabel;
 }
 
 function buildLabelTextSizeExpression(layer, scale) {
