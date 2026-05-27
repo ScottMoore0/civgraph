@@ -1,10 +1,12 @@
-import { METADATA_URL } from './config.js';
+import { METADATA_URL, PORT_PLAN_URL } from './config.js';
 import { normalizeSearchText, unique } from './utils.js';
 
 export class TestMetadataService {
-  constructor(url = METADATA_URL) {
+  constructor(url = METADATA_URL, portPlanUrl = PORT_PLAN_URL) {
     this.url = url;
+    this.portPlanUrl = portPlanUrl;
     this.metadata = null;
+    this.portPlan = null;
     this.layers = [];
     this.layerById = new Map();
   }
@@ -12,10 +14,22 @@ export class TestMetadataService {
   async load() {
     const response = await fetch(this.url, { cache: 'no-cache' });
     if (!response.ok) throw new Error(`failed to load ${this.url}: ${response.status}`);
-    this.metadata = normalizeMetadata(await response.json());
+    const rawMetadata = await response.json();
+    this.portPlan = await this.loadPortPlan();
+    this.metadata = normalizeMetadata(rawMetadata, this.portPlan);
     this.layers = this.metadata.layers;
     this.layerById = new Map(this.layers.map((layer) => [layer.id, layer]));
     return this.metadata;
+  }
+
+  async loadPortPlan() {
+    try {
+      const response = await fetch(this.portPlanUrl, { cache: 'no-cache' });
+      if (!response.ok) return null;
+      return response.json();
+    } catch {
+      return null;
+    }
   }
 
   getLayer(id) {
@@ -29,9 +43,16 @@ export class TestMetadataService {
   }
 }
 
-export function normalizeMetadata(raw) {
-  const categories = normalizeCategories(raw.categories || [], raw.layers || []);
-  const layers = (raw.layers || []).map((layer, index) => normalizeLayer(layer, categories, index));
+export function normalizeMetadata(raw, portPlan = null) {
+  const portRows = Array.isArray(portPlan?.rows) ? portPlan.rows : [];
+  const explicitLayers = raw.layers || [];
+  const categories = normalizeCategories(raw.categories || [], [...explicitLayers, ...portRows.map(portRowToCategoryLayer)]);
+  const convertedLayers = explicitLayers.map((layer, index) => normalizeLayer({ ...layer, conversionStatus: 'converted', loadable: true }, categories, index));
+  const convertedSourceIds = new Set(convertedLayers.flatMap((layer) => [layer.id, layer.sourceMapId]).filter(Boolean));
+  const unconvertedLayers = portRows
+    .filter((row) => row.conversionStatus !== 'converted' && !convertedSourceIds.has(row.sourceMapId))
+    .map((row, index) => normalizePortPlanRow(row, categories, convertedLayers.length + index));
+  const layers = [...convertedLayers, ...unconvertedLayers];
   return {
     version: Number(raw.version || 1),
     schemaVersion: Number(raw.schemaVersion || 2),
@@ -41,6 +62,7 @@ export function normalizeMetadata(raw) {
     readiness: raw.readiness || {},
     timeSeriesChains: raw.timeSeriesChains || [],
     electionCatalogues: raw.electionCatalogues || [],
+    portPlanSummary: portPlan?.totals || null,
     layers
   };
 }
@@ -90,16 +112,24 @@ function normalizeLayer(layer, categories, index) {
     category.name,
     category.group,
     layer.provider,
-    layer.status
+    layer.status,
+    layer.description,
+    ...(Array.isArray(layer.sourceCredits) ? layer.sourceCredits : [])
   ]);
   return {
     ...layer,
+    isConverted: layer.conversionStatus === 'converted' || layer.loadable === true,
+    loadable: layer.loadable !== false && layer.sourceType !== 'unconverted',
     category: category.name,
     categoryId: category.id,
     group: layer.group || category.group || 'Maps',
     renderer: layer.renderer || 'maplibre',
     geometryType: layer.geometryType || 'polygon',
     status: layer.status || 'pilot',
+    description: layer.description || layer.notes || '',
+    dateAdded: layer.dateAdded || null,
+    dateEffective: layer.dateEffective || null,
+    sourceCredits: Array.isArray(layer.sourceCredits) ? layer.sourceCredits : formatCredits(layer.provider),
     references,
     sourceDownloads,
     variants: Array.isArray(layer.variants) ? layer.variants : [],
@@ -110,6 +140,85 @@ function normalizeLayer(layer, categories, index) {
       portedFromMainSite: Boolean(layer.sourceMapId),
       unsupportedReason: layer.unsupportedReason || null
     }
+  };
+}
+
+function normalizePortPlanRow(row, categories, index) {
+  const categoryName = row.category || 'Uncategorised';
+  const category = categories.find((item) => item.name === categoryName || item.id === row.categoryId) || {
+    id: row.categoryId || slugify(categoryName),
+    name: categoryName,
+    group: row.group || 'Maps'
+  };
+  const sourceDownloads = (row.sourceDownloads || [])
+    .filter((item) => item.url)
+    .map((item) => ({ label: item.label || 'Source', file: item.url }));
+  const references = (row.references || [])
+    .filter((item) => item.url)
+    .map((item) => ({ label: item.label || 'Reference', url: item.url }));
+  const sourceFiles = row.sourceFiles || [];
+  const keywords = unique([
+    row.name,
+    row.sourceMapId,
+    row.parentId,
+    row.category,
+    row.group,
+    row.provider,
+    row.description,
+    row.conversionStatus,
+    row.recommendedTarget,
+    ...(Array.isArray(row.sourceCredits) ? row.sourceCredits : []),
+    ...(sourceFiles || []).map((item) => item.file)
+  ]);
+  return {
+    id: `port-${row.sourceMapId}`,
+    sourceMapId: row.sourceMapId,
+    parentId: row.parentId,
+    name: row.name || row.sourceMapId,
+    category: category.name,
+    categoryId: category.id,
+    group: row.group || category.group || 'Maps',
+    date: row.date,
+    dateAdded: row.dateAdded,
+    dateEffective: row.dateEffective,
+    provider: row.provider,
+    description: row.description || '',
+    sourceCredits: Array.isArray(row.sourceCredits) ? row.sourceCredits : formatCredits(row.provider),
+    renderer: 'maplibre',
+    sourceType: 'unconverted',
+    geometryType: 'unknown',
+    status: 'not-yet-converted',
+    conversionStatus: row.conversionStatus,
+    recommendedTarget: row.recommendedTarget,
+    unsupportedReason: row.unsupportedReason,
+    bounds: row.bounds,
+    style: row.style || {},
+    sourceDownloads,
+    references,
+    sourceFiles,
+    variants: [],
+    variantCount: row.variants || 0,
+    order: index,
+    isConverted: false,
+    loadable: false,
+    searchText: normalizeSearchText(keywords.join(' ')),
+    migration: {
+      sourceMapId: row.sourceMapId,
+      portedFromMainSite: true,
+      unsupportedReason: row.unsupportedReason || row.conversionStatus
+    }
+  };
+}
+
+function formatCredits(value) {
+  if (Array.isArray(value)) return value.map((item) => String(item)).filter(Boolean);
+  return value ? [String(value)] : [];
+}
+
+function portRowToCategoryLayer(row) {
+  return {
+    category: row.category || row.categoryId || 'Uncategorised',
+    group: row.group || 'Maps'
   };
 }
 

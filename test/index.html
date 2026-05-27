@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <title>Civgraph Test - MapLibre Rewrite</title>
-  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-006">
+  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-008">
 </head>
 <body>
   <div id="testApp" class="test-shell">
@@ -21,6 +21,7 @@
       <section class="test-panel">
         <label class="test-search-label" for="mapSearch">Search test layers</label>
         <input id="mapSearch" class="test-search" type="search" autocomplete="off" placeholder="Search maps">
+        <div id="featureResults" class="feature-results" aria-live="polite"></div>
       </section>
 
       <section class="test-panel">
@@ -50,7 +51,7 @@
     </main>
   </div>
 
-  <script type="module" src="/test/build/test.bundle.js?v=test-006"></script>
+  <script type="module" src="/test/build/test.bundle.js?v=test-008"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {

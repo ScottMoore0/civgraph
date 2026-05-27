@@ -1202,3 +1202,33 @@ Execute /test main-site capability transfer phases 1-12
     - Preserved the MapLibre label/hover/click behaviour, added URL hash state for active layers and viewport, exposed `window.__civgraphTest` for debugging, and surfaced migration readiness in diagnostics.
     - Scope note: this executes the architecture and migration-management phases in full for the `/test` pilot. It does not mean all 901 main-site map/variant entries have been converted to live vector tiles; the port plan now makes that remaining data production work explicit and gated.
     - Verification evidence: `node --check` passed for every `test/src/*.js` file and the new metadata-plan script; `npm run build:test:metadata`, `npm run check:test`, and approved `npm run build:test` passed; headless mobile smoke loaded `/test`, loaded Civil Parishes, reported `assetVersion: test-006`, one normalized category, one active layer, no console errors, URL hash state for the active layer, and 46 rendered low-zoom label features.
+
+Implement remaining feasible /test main-site parity items
+- [x] Full catalogue metadata display from main-site port plan, including unconverted entries
+- [x] Source/reference/download panels and richer feature detail content
+- [x] Layer style controls, opacity/label/text URL state, and selected-feature URL state
+- [x] Feature search index generation for converted tile pilots
+- [x] Conditional styling controls using MapLibre expressions
+- [x] Time-series switching for converted chains
+- [x] Raster source support for tile/image-capable layers
+- [x] Basic election choropleth support for converted vector geographies
+- [x] Batch vector conversion tooling/reporting for feasible GDAL conversions
+- [x] Rebuild, smoke-test, commit, and push
+  - Review:
+    - `/test` now loads `main-site-port-plan.json` at runtime and merges converted layers with unconverted main-site catalogue rows, so the catalogue represents all 901 main-site map/variant entries while marking non-converted rows as `not yet converted`.
+    - Catalogue cards now surface category/group/date/provider/source credit/reference/download/variant/conversion details without making unconverted entries loadable.
+    - Active layer controls now include opacity, line/fill colour controls, label toggles, text scale, and MapLibre expression-based attribute gradient styling.
+    - URL hash state now records active layers, viewport, opacity, label visibility, text scale, and selected feature ID; selected feature state can be restored by ID after layer load.
+    - Added a generated Civil Parishes feature-search sidecar with 2,448 indexed features and centroid coordinates; search results can load the layer, fly to the feature, and select it.
+    - Feature details now include richer layer context, source/reference/download links, and source credits.
+    - Raster source support is implemented in the MapLibre controller and validator for future raster tile/image metadata entries.
+    - Time-series and election choropleth work remains data-gated: switching and election catalogue scaffolds exist, conditional styling is available for converted vector layers, but no converted election/time-chain layers exist yet.
+    - Added `scripts/build-test-vector-batch.mjs` and `npm run build:test:batch-vectors`. The dry report found 18 locally available vector candidates and 610 skipped vector rows whose source files are external or ignored local-only assets; the script deliberately does not promote generated tiles without per-layer metadata/source-layer verification.
+    - Bumped `/test` assets and service worker to `test-008`.
+  - Verification:
+    - `node --check` passed for all `test/src/*.js` files and the changed scripts.
+    - `npm run build:test:metadata` regenerated 901 port-plan rows: 1 converted, 628 vector candidates, 120 raster-strategy candidates, 152 metadata-only.
+    - Approved `npm run build:test:feature-indexes` generated 2,448 Civil Parishes feature-search rows.
+    - `npm run build:test:batch-vectors` wrote `test/metadata/vector-conversion-report.json` in dry-run mode.
+    - `npm run check:test`, approved `npm run build:test`, and `npm run check` passed.
+    - Local mobile-size smoke on `/test/index.html` confirmed `assetVersion: test-008`, 901 metadata layers, 33 categories, 80 rendered catalogue cards with 79 unconverted cards, feature search results for `St. Margaret`, Civil Parishes load/selection, style controls, conditional styling, and URL hash state for layer/opacity/labels/text/selected feature.

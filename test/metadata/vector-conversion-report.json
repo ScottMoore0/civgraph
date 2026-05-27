@@ -1,0 +1,2759 @@
+{
+  "schemaVersion": 1,
+  "mode": "dry-run",
+  "generatedAt": "2026-05-27T17:55:26.884Z",
+  "tool": "ogr2ogr GDAL MVT",
+  "tippecanoeAvailable": false,
+  "totals": {
+    "vectorRows": 628,
+    "feasibleLocalCandidates": 18,
+    "skipped": 610,
+    "selected": 18,
+    "converted": 0,
+    "failed": 0
+  },
+  "notes": [
+    "This report does not promote generated tile directories into maps-test.json automatically.",
+    "Each generated layer still needs metadata, source-layer verification, styling, and smoke testing before it should become loadable in /test.",
+    "PMTiles output is not generated because tippecanoe is not installed in this environment."
+  ],
+  "candidates": [
+    {
+      "sourceMapId": "roi-legal-towns-and-cities",
+      "name": "Legal Towns and Cities",
+      "category": "Settlements",
+      "sourceFile": "data/maps/physical/ROI_Legal_Towns_and_Cities.geojson",
+      "sourceBytes": 3581116,
+      "outputDirectory": "test/tiles/generated/roi-legal-towns-and-cities"
+    },
+    {
+      "sourceMapId": "roi-settlements-2011",
+      "name": "Settlements 2011",
+      "category": "Settlements",
+      "sourceFile": "data/maps/physical/ROI_Settlements_2011.geojson",
+      "sourceBytes": 15890793,
+      "outputDirectory": "test/tiles/generated/roi-settlements-2011"
+    },
+    {
+      "sourceMapId": "roi-garda-regions",
+      "name": "Garda Regions",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/ROI_Garda_Regions.geojson",
+      "sourceBytes": 35270963,
+      "outputDirectory": "test/tiles/generated/roi-garda-regions"
+    },
+    {
+      "sourceMapId": "roi-garda-divisions",
+      "name": "Garda Divisions",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/ROI_Garda_Divisions.geojson",
+      "sourceBytes": 45468481,
+      "outputDirectory": "test/tiles/generated/roi-garda-divisions"
+    },
+    {
+      "sourceMapId": "roi-garda-districts",
+      "name": "Garda Districts",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/ROI_Garda_Districts.geojson",
+      "sourceBytes": 64700315,
+      "outputDirectory": "test/tiles/generated/roi-garda-districts"
+    },
+    {
+      "sourceMapId": "roi-garda-sub-districts",
+      "name": "Garda Sub-Districts",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/ROI_Garda_Sub_Districts.geojson",
+      "sourceBytes": 128086169,
+      "outputDirectory": "test/tiles/generated/roi-garda-sub-districts"
+    },
+    {
+      "sourceMapId": "roi-gaeltacht-areas",
+      "name": "Gaeltacht Areas",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/ROI_Gaeltacht_Areas.geojson",
+      "sourceBytes": 18683417,
+      "outputDirectory": "test/tiles/generated/roi-gaeltacht-areas"
+    },
+    {
+      "sourceMapId": "roi-lea-2008",
+      "name": "Local Electoral Areas 2008",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/ROI_LEA_2008.geojson",
+      "sourceBytes": 105238147,
+      "outputDirectory": "test/tiles/generated/roi-lea-2008"
+    },
+    {
+      "sourceMapId": "roi-small-areas-2011",
+      "name": "Small Areas 2011",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/ROI_Small_Areas_2011.geojson",
+      "sourceBytes": 44351110,
+      "outputDirectory": "test/tiles/generated/roi-small-areas-2011"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-2014",
+      "name": "Local Authorities 2014",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/Administrative_Areas_Ungeneralised_-2482101372601611780.geojson",
+      "sourceBytes": 66836497,
+      "outputDirectory": "test/tiles/generated/roi-local-authorities-2014"
+    },
+    {
+      "sourceMapId": "ni-townlands",
+      "name": "Ireland",
+      "category": "Townlands",
+      "sourceFile": "data/maps/townlands/OSNI_Townlands.fgb",
+      "sourceBytes": 128950256,
+      "outputDirectory": "test/tiles/generated/ni-townlands"
+    },
+    {
+      "sourceMapId": "roi-townlands",
+      "name": "Ireland",
+      "category": "Townlands",
+      "sourceFile": "data/maps/townlands/OSI_Townlands.fgb",
+      "sourceBytes": 511604480,
+      "outputDirectory": "test/tiles/generated/roi-townlands"
+    },
+    {
+      "sourceMapId": "wards-1993-largescale",
+      "name": "Wards 1993",
+      "category": "Electoral Areas",
+      "sourceFile": "data/maps/local-government/Wards_1993_Largescale.fgb",
+      "sourceBytes": 28164984,
+      "outputDirectory": "test/tiles/generated/wards-1993-largescale"
+    },
+    {
+      "sourceMapId": "roi-counties-2011",
+      "name": "Counties of Ireland",
+      "category": "Counties",
+      "sourceFile": "data/maps/baronies-parishes/ROI_Counties_2011.geojson",
+      "sourceBytes": 4800830,
+      "outputDirectory": "test/tiles/generated/roi-counties-2011"
+    },
+    {
+      "sourceMapId": "nuts-2-all-ireland",
+      "name": "NUTS 2 Regions (All Ireland)",
+      "category": "Census Statistical Areas",
+      "sourceFile": "data/maps/census-areas/NUTS2_All_Ireland.geojson",
+      "sourceBytes": 25649350,
+      "outputDirectory": "test/tiles/generated/nuts-2-all-ireland"
+    },
+    {
+      "sourceMapId": "nuts-2-roi",
+      "name": "NUTS 2 Regions (Republic of Ireland)",
+      "category": "Census Statistical Areas",
+      "sourceFile": "data/maps/census-areas/ROI_NUTS2.geojson",
+      "sourceBytes": 3580298,
+      "outputDirectory": "test/tiles/generated/nuts-2-roi"
+    },
+    {
+      "sourceMapId": "eds-census-2011",
+      "name": "Electoral Divisions 2008",
+      "category": "Electoral Areas",
+      "sourceFile": "data/maps/electoral-divisions/ROI_EDs_Census_2011.fgb",
+      "sourceBytes": 8958336,
+      "outputDirectory": "test/tiles/generated/eds-census-2011"
+    },
+    {
+      "sourceMapId": "catholic-dublin-parishes",
+      "name": "Catholic Parishes (Dublin)",
+      "category": "Built Environment",
+      "sourceFile": "data/maps/local-government/Catholic_Parishes_Dublin.geojson",
+      "sourceBytes": 5293641,
+      "outputDirectory": "test/tiles/generated/catholic-dublin-parishes"
+    }
+  ],
+  "selected": [
+    {
+      "sourceMapId": "roi-legal-towns-and-cities",
+      "name": "Legal Towns and Cities",
+      "category": "Settlements",
+      "sourceFile": "data/maps/physical/ROI_Legal_Towns_and_Cities.geojson",
+      "sourceBytes": 3581116,
+      "outputDirectory": "test/tiles/generated/roi-legal-towns-and-cities"
+    },
+    {
+      "sourceMapId": "roi-settlements-2011",
+      "name": "Settlements 2011",
+      "category": "Settlements",
+      "sourceFile": "data/maps/physical/ROI_Settlements_2011.geojson",
+      "sourceBytes": 15890793,
+      "outputDirectory": "test/tiles/generated/roi-settlements-2011"
+    },
+    {
+      "sourceMapId": "roi-garda-regions",
+      "name": "Garda Regions",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/ROI_Garda_Regions.geojson",
+      "sourceBytes": 35270963,
+      "outputDirectory": "test/tiles/generated/roi-garda-regions"
+    },
+    {
+      "sourceMapId": "roi-garda-divisions",
+      "name": "Garda Divisions",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/ROI_Garda_Divisions.geojson",
+      "sourceBytes": 45468481,
+      "outputDirectory": "test/tiles/generated/roi-garda-divisions"
+    },
+    {
+      "sourceMapId": "roi-garda-districts",
+      "name": "Garda Districts",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/ROI_Garda_Districts.geojson",
+      "sourceBytes": 64700315,
+      "outputDirectory": "test/tiles/generated/roi-garda-districts"
+    },
+    {
+      "sourceMapId": "roi-garda-sub-districts",
+      "name": "Garda Sub-Districts",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/ROI_Garda_Sub_Districts.geojson",
+      "sourceBytes": 128086169,
+      "outputDirectory": "test/tiles/generated/roi-garda-sub-districts"
+    },
+    {
+      "sourceMapId": "roi-gaeltacht-areas",
+      "name": "Gaeltacht Areas",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/ROI_Gaeltacht_Areas.geojson",
+      "sourceBytes": 18683417,
+      "outputDirectory": "test/tiles/generated/roi-gaeltacht-areas"
+    },
+    {
+      "sourceMapId": "roi-lea-2008",
+      "name": "Local Electoral Areas 2008",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/ROI_LEA_2008.geojson",
+      "sourceBytes": 105238147,
+      "outputDirectory": "test/tiles/generated/roi-lea-2008"
+    },
+    {
+      "sourceMapId": "roi-small-areas-2011",
+      "name": "Small Areas 2011",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/ROI_Small_Areas_2011.geojson",
+      "sourceBytes": 44351110,
+      "outputDirectory": "test/tiles/generated/roi-small-areas-2011"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-2014",
+      "name": "Local Authorities 2014",
+      "category": "Local Government Districts",
+      "sourceFile": "data/maps/local-government/Administrative_Areas_Ungeneralised_-2482101372601611780.geojson",
+      "sourceBytes": 66836497,
+      "outputDirectory": "test/tiles/generated/roi-local-authorities-2014"
+    },
+    {
+      "sourceMapId": "ni-townlands",
+      "name": "Ireland",
+      "category": "Townlands",
+      "sourceFile": "data/maps/townlands/OSNI_Townlands.fgb",
+      "sourceBytes": 128950256,
+      "outputDirectory": "test/tiles/generated/ni-townlands"
+    },
+    {
+      "sourceMapId": "roi-townlands",
+      "name": "Ireland",
+      "category": "Townlands",
+      "sourceFile": "data/maps/townlands/OSI_Townlands.fgb",
+      "sourceBytes": 511604480,
+      "outputDirectory": "test/tiles/generated/roi-townlands"
+    },
+    {
+      "sourceMapId": "wards-1993-largescale",
+      "name": "Wards 1993",
+      "category": "Electoral Areas",
+      "sourceFile": "data/maps/local-government/Wards_1993_Largescale.fgb",
+      "sourceBytes": 28164984,
+      "outputDirectory": "test/tiles/generated/wards-1993-largescale"
+    },
+    {
+      "sourceMapId": "roi-counties-2011",
+      "name": "Counties of Ireland",
+      "category": "Counties",
+      "sourceFile": "data/maps/baronies-parishes/ROI_Counties_2011.geojson",
+      "sourceBytes": 4800830,
+      "outputDirectory": "test/tiles/generated/roi-counties-2011"
+    },
+    {
+      "sourceMapId": "nuts-2-all-ireland",
+      "name": "NUTS 2 Regions (All Ireland)",
+      "category": "Census Statistical Areas",
+      "sourceFile": "data/maps/census-areas/NUTS2_All_Ireland.geojson",
+      "sourceBytes": 25649350,
+      "outputDirectory": "test/tiles/generated/nuts-2-all-ireland"
+    },
+    {
+      "sourceMapId": "nuts-2-roi",
+      "name": "NUTS 2 Regions (Republic of Ireland)",
+      "category": "Census Statistical Areas",
+      "sourceFile": "data/maps/census-areas/ROI_NUTS2.geojson",
+      "sourceBytes": 3580298,
+      "outputDirectory": "test/tiles/generated/nuts-2-roi"
+    },
+    {
+      "sourceMapId": "eds-census-2011",
+      "name": "Electoral Divisions 2008",
+      "category": "Electoral Areas",
+      "sourceFile": "data/maps/electoral-divisions/ROI_EDs_Census_2011.fgb",
+      "sourceBytes": 8958336,
+      "outputDirectory": "test/tiles/generated/eds-census-2011"
+    },
+    {
+      "sourceMapId": "catholic-dublin-parishes",
+      "name": "Catholic Parishes (Dublin)",
+      "category": "Built Environment",
+      "sourceFile": "data/maps/local-government/Catholic_Parishes_Dublin.geojson",
+      "sourceBytes": 5293641,
+      "outputDirectory": "test/tiles/generated/catholic-dublin-parishes"
+    }
+  ],
+  "converted": [],
+  "failed": [],
+  "skipped": [
+    {
+      "sourceMapId": "east-west-bann",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "west-bann-sperrins",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "peacelines",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "settlements-2015",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "settlements-2005",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-settlements-ungeneralised",
+      "reason": "source file missing locally",
+      "file": "Settlements_Ungeneralised_-6398853129460496398.geojson"
+    },
+    {
+      "sourceMapId": "lgd-2022-final-recommendations",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-small-areas-2022",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-2024",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "place-names-gazetteer",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "uninhabited-highlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "highlands-without-settlements",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "rivers-2016",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "britain-ireland-seas",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ireland-island",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "major-river-basins",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "river-basin-districts",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "river-basins",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "highlands-without-settlements",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "highlands-above-199m",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ni-townlands-1844",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "antrim-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "armagh-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "down-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "fermanagh-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "londonderry-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tyrone-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "carlow-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "cavan-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "clare-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "cork-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "donegal-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dublin-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "galway-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "kerry-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "kildare-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "kilkenny-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "laois-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "leitrim-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "limerick-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "longford-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "louth-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "mayo-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "meath-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "monaghan-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "offaly-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roscommon-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "sligo-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tipperary-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "waterford-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "westmeath-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wexford-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wicklow-townlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "all-ireland-townlands",
+      "reason": "source file missing locally",
+      "file": "data/maps/townlands/Townlands_AllIreland.fgb"
+    },
+    {
+      "sourceMapId": "settlements-2015-craigavon",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-2022-final-recommendations",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-2012",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-2012-standard",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-2012-full",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-50k",
+      "reason": "source file missing locally",
+      "file": "data/maps/local-government/Wards_1993_50k.fgb"
+    },
+    {
+      "sourceMapId": "wards-1984",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1972",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "deas-2012",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "deas-1993",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "deas-1984",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "deas-1972",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "lgd-2012",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "lgd-1993",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "lgd-1984",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "lgd-1972",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "lgd-1966",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "pc-2023",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "bcn-revised-proposals",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "bcn-final-recommendations",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "pc-2008",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "pc-1995",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "pc-1982",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "pc-1970",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "pc-1948",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "pc-1920",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "pc-1918",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "pc-1918-ireland",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "pc-1884",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "pc-1885-ireland",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "stormont-1929",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dail-2023",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dail-2017",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dail-2013",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dail-2009",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "provinces",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "provinces-1899",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "provinces-1955",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "counties-ireland",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "counties-ni-1915",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "counties-ireland-1957",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "counties-ireland-1915",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "counties-ireland-1955",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "counties-ireland-1922",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "counties-ireland-1927",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "counties-county-boroughs-1915",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dublin-electoral-counties-1985",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "elb-1993",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "elb-1984",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "hsct-2007",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ttwa-2011",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ttwa-2007",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "sdz-2021",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dz-2021",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "soa-2011",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "sa-2011",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "oa-2001",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "nra",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "nuts-3",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-2022",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-2022",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-2022",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-2022",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-2006",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-2006",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-2006",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-2006",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-1911",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-1911",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-1911",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-1911",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-roi-1921-connacht",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-roi-1921-leinster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-roi-1921-munster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-roi-1921-ulster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-roi-1921-connacht",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-roi-1921-leinster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-roi-1921-munster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-roi-1921-ulster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-roi-1957",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-1926",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-1926",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-1926",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-1926",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "deds-ni-1926",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "civil-parishes-connacht",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "civil-parishes-leinster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "civil-parishes-munster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "civil-parishes-ulster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "civil-parishes",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "mep-1979",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "mep-2004",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "mep-2009",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "mep-2014",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "mep-2019",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "mep-2024",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dail-1995",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dail-1998",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dail-2005",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dail-1990",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dail-1983",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dail-1980",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dail-1974",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "stormont-1920",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "stormont-1920-v1",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "stormont-1920-v2",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "census-grid-2021",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "av-referendum-2011",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1966-07-04",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-1926-ulster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-1926-connacht",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-1926-leinster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-1926-munster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-1911-ulster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-1911-connacht",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-1911-leinster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-1911-munster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ni-1921",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-1938",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1969-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1968-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1967-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1965-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1964-06-02",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1964-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1963-09-13",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1963-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1962-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1958-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1957-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1956-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1955-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1954-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1950-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1949-07-07",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1949-07-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1949-05-30",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1949-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1948-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1947-10-02",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1947-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1946-06-11",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1946-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1945-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1939-05-23",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1938-05-23",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1938-05-16",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1938-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1937-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1936-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1935-06-26",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1935-06-25",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1934-08-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1933-04-24",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1930-11-25",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1930-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1929-01-23",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1929-01-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1928-04-17",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1928-01-23",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1927-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1925-06-24",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1925-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1924-06-20",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1924-06-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1924-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1922-11-13",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1922-11-11",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1922-11-09",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1922-11-06",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1922-10-31",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "admin-areas-1921-05-03",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ded-1957-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ded-1930-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ded-1921-05-03",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "county-ed-1957-04-01",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "historic-bullaun-stones",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "historic-crannog",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "historic-ringfort-cashel",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "historic-ringfort-rath",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "historic-ringfort-unclassified",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "historic-rock-scribing",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "historic-standing-stones",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "historic-wedge-tomb",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "railways-network",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "transport-lines-road-rail",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "catholic-dioceses",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-1971",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-1977",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-1980",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-1983",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-2019",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-2019",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-2019",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-2019",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-1997",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-1997",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-1997",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-1997",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-1994",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-1994",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-1994",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-1994",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-1986",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-1986",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-1986",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-1986",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-2022",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-2022",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-2022",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-2022",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-2006",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-2006",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-2006",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-2006",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-1911",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-1911",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-1911",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-1911",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-1926",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-1926",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-1926",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-1926",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "deds-ni-1926",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-2019",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-2019",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-2019",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-2019",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-1997",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-1997",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-1997",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-1997",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-1994",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-1994",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-1994",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-1994",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-1986",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-connacht-1919",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-1977",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-1971",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-1971",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-1980",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-leinster-1986",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-1986",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-ulster-1986",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "baronies-all-ireland",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "baronies",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-baronies",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-bedrock-by-formation",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-bedrock-by-age",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-bedrock-geology-lines-250k",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-superficial-by-deposit",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-superficial-conventional",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-mineral-resources",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-tellus-stream-sediments-xrf",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-tellus-stream-waters-icp",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-tellus-rural-soil-a-xrf",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-core-cuttings-register",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "osni-coverage-grid-10k",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "osni-coverage-grid-50k",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "osni-benchmarks",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-tellus-stream-sediments-xrf-set2",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-tellus-stream-sediments-au-pge",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-tellus-stream-sediments-boron",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-tellus-rural-soil-a-aqua-regia",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-tellus-rural-soil-s-aqua-regia",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-tellus-rural-soil-s-near-total",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsni-tellus-rural-soil-s-fire-assay",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-surface-water-bodies-2015",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-wfd-river-water-bodies",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-wfd-monitoring-sites",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-lake-water-bodies",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-groundwater-bodies",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-groundwater-dwpa",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-surface-dwpa",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-agricultural-critical-risk",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "transport-carriageway-defects-2021",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "env-noise-agglomeration-lden",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "env-noise-major-roads-lden",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "env-noise-major-rail-lden",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-rwq-ph",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-rwq-dissolved-oxygen",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-rwq-biochemical-oxygen-demand",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-rwq-ammonia",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-rwq-nitrate",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-rwq-nitrite",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-rwq-dissolved-iron",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-rwq-dissolved-copper",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-rwq-dissolved-zinc",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-rwq-suspended-solids",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-rwq-conductivity",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-rwq-alkalinity",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-rwq-soluble-phosphorus",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tellus-flight-tracks",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-bog",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-deciduous-woodland",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-fen",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-heath",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-lake",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-acid-grassland",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-calcareous-grassland",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-coastal-sand-dune",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-coastal-saltmarsh",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-coastal-vegetated-shingle",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-ancient-semi-natural-woodland",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-lowland-meadow",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-limestone-pavement",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-maritime-cliff-slope",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-pond",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-reedbed",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-river",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-traditional-orchard",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-wood-pasture-parkland",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-purple-moor-grass",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-coastal-grouped",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-woodland-grouped",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-grassland-grouped",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "habitat-wetland-grouped",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "designated-aonb",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "designated-assi",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "designated-nnr",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "designated-ramsar",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "designated-sac",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "designated-spa",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "designated-whs",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "designated-lca",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roads-pothole-enquiries",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roads-border-crossings-2018",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roads-pedestrian-crossings",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "rivers-coastal-flood-2018",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "hed-listed-buildings",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "hed-sites-and-monuments",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "hed-scheduled-monument-areas",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "hed-defence-heritage",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "hed-industrial-heritage",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tailte-built-up-1m",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tailte-built-up-points-250k",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "cso-urban-areas-2022",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsi-bedrock-boreholes-50k",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsi-groundwater-flooding-low",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsi-groundwater-flooding-medium",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "gsi-karst-data",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "opw-nifm-river-flood-extents-current",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "opw-coastal-flood-extents-2021-current",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "opw-fsu-catchments-gauged",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eoni-polling-stations",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "glpr-2023-04",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "glpr-2022-04",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "glpr-2021-09",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "glpr-2021-08",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "glpr-2021-03",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "glpr-2020-03",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "psni-collisions-2013",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "psni-collisions-2014",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "psni-collisions-2015",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "psni-collisions-2016",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "psni-collisions-2017",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "psni-collisions-2018",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ni-livestock-bovine",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ni-livestock-ovine",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ni-livestock-caprine",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ni-livestock-porcine",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ni-livestock-poultry",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "translink-bus-stops-2024",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "translink-rail-stations",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "translink-rail-halts",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "translink-rail-platforms",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "translink-rail-bridges",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "translink-rail-culverts",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "translink-rail-signal-posts",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "niea-waste-sites-2021",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "niea-landfill-sites-2017",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "belfast-cycle-network",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ni-listed-buildings",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ni-defence-heritage",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ni-industrial-heritage",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ni-scheduled-monument-areas",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ni-mineral-prospecting-licences",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "ni-mining-leases",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-national-planning-applications",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tii-national-road-network",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tii-marker-plates",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tii-collision-rates-2014-2016",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tii-collision-rates-2011-2013",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tii-traffic-counter-locations",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tii-wim-sensor-locations",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tii-luas-stops",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-accessible-parking-spaces",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-adult-learning-centres",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-allotments-and-community-gardens",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-beaches",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-bike-parking-stands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-bleeperbike",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-coach-parking",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-community-centres",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-dcc-public-bin-locations",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-dcc-public-cycle-parking-stands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-development-plan-dcc-2022-2028",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-dublin-canvas-public-art",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-dublin-city-council-traffic-poles-with-cctv",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-dublin-city-council-variable-message-signs",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-dublin-city-libraries",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-dublin-fire-brigade-stations-dublin-region",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-dublin-public-cycle-parking-facilities",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-dublinbikes-api",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-electoral-divisions",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-eligible-entities-for-wifi",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-enterprise-centres",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-fire-stations",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-galleries-exhibition-spaces-open-studios",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-garda-station",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-heritage-sites-historic-monuments-and-government-buildings",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-local-authority-offices",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-moby-bikes",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-museums-and-archives",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-noise-maps-from-traffic-sources-in-dublin-city-council",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-parking-meters-location-tariffs-and-zones-in-dublin-city",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-parks-and-open-spaces",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-parks-gardens-and-public-spaces",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-pedestrian-and-cycle-counter-api-for-dublin-region",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-places-of-worship",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-public-artworks-in-dublin-city",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-public-toilets",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-record-protected-structures",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-skateboard-parks",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-sport-pitches-and-facilities",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-street-lighting-dublin-city",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-swimming-pools",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-theatres-arts-centres-performance-spaces",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-traffic-signal-sites-juctions",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-traffic-signals-and-scats-sites-locations",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-universities-and-colleges",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dcc-wifi4eu-access-points",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-access-points-to-main-parks",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-accessible-parking-bays",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-administrative-area",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-bicycle-counter-locations",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-bicycle-maintenance-stands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-bicycle-parking-stands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-bridges",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-burial-grounds",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-coco-markets",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-council-allotments",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-council-offices",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-derelict-sites-register",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-boundary-plan-areas",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-cherrywood-adapted-planning-scheme",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-core-bus-corridors",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-existing-conservation-areas",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-industrial-heritage-survey-sites",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-institutional-lands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-land-use-zoning",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-mews-development",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-proposed-education-sites",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-protected-structures",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-record-of-monuments-and-place",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-right-of-way",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-specific-local-objectives-point",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-specific-local-objectives-polygon",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-strategic-land-reserve",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-the-metals",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-transport",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-traveller-accommodation",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-trees-and-woodlands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-views-prospects",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-development-plans",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-dlr-arts-venues",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-dlr-decarbonising-zone",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-dlr-development-plan-2016-2022-zoning-objectives",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-dlr-public-lighting",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-dlr-residential-land-availability",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-dlr-river-and-bathing-water-sample-points",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-dlr-roads-schedule",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-dlr-unfinished-housing",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-ed-boundaries",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-golf-courses",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-leisure-centres",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-libraries",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-local-electoral-areas",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-main-parks",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-muga",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-parking-meters",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-playgrounds",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-public-art",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-public-ev-charging-points",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-public-toilets",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-sculpture-trail",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-skateboard-parks",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-spacefinder-app-locations",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-speed-signs",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-tennis-clubs",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-townland-boundaries",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-tree-preservation-orders",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-trim-trails",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dlr-wifi4eu-access-points",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "fingal-polling-station-data",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "fingal-trees",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "sdcc-bicycle-parking-stands",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "sdcc-monthly-river-quality-data-sdcc1",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-pothole-enquiries-2014",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-pothole-enquiries-2015",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-pothole-enquiries-2016",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-pothole-enquiries-2017",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-pothole-enquiries-2018",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-pothole-enquiries-2019",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-pothole-enquiries-2020",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-pothole-enquiries-2021",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2008",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2011",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2012",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2013",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2014",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2015",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2016",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2017",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2018",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2019",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2020",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2021",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2010",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-border-crossings-2018-points",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-border-crossings-2018-lines",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "niea-landfill-sites-2013",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "niea-landfill-sites-2014",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "niea-landfill-sites-2015",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "niea-landfill-sites-2016",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "niea-transitional-water-bodies",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "niea-river-segments",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "niea-catchment-stakeholder-groups",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "niea-local-management-areas",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "dfi-pedestrian-crossings",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "translink-metro-glider-routes",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "translink-ulsterbus-goldliner-routes",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1965",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1966",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1977",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1980",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1985",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1986",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1994",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-2002",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-2008",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1953",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1955",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1957",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "eds-munster-1983",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1930",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1931",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1941",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1942",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1944",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1950",
+      "reason": "no local vector source file in supported format"
+    }
+  ]
+}

@@ -39,7 +39,7 @@ async function main() {
   const controller = new TestMapLibreController('map', {
     onSelection: (selection) => renderFeatureDetails(els, selection),
     onChange: () => {
-      renderActiveLayers(els, controller, { onRendered: renderDiagnostics });
+      renderActiveLayers(els, controller, { onRendered: renderDiagnostics, conditionalStyling });
       catalogue?.render();
       urlState?.write();
       renderDiagnostics();
@@ -52,15 +52,16 @@ async function main() {
 
   featureSearch = new FeatureSearchService(metadataService);
   timeSeries = new TimeSeriesController(metadataService, controller);
-  elections = new ElectionService(metadataService);
   conditionalStyling = new ConditionalStylingController(controller);
+  elections = new ElectionService(metadataService, conditionalStyling);
 
   catalogue = new TestCatalogue(els, metadataService, controller, {
     onLayerStateChange: () => {
-      renderActiveLayers(els, controller, { onRendered: renderDiagnostics });
+      renderActiveLayers(els, controller, { onRendered: renderDiagnostics, conditionalStyling });
       urlState?.write();
       renderDiagnostics();
     },
+    featureSearch,
     onError: (err) => {
       console.error(err);
       showToast(els, err.message);
@@ -70,7 +71,7 @@ async function main() {
 
   urlState = new UrlStateController(controller, metadataService);
   await urlState.restore();
-  renderActiveLayers(els, controller, { onRendered: renderDiagnostics });
+  renderActiveLayers(els, controller, { onRendered: renderDiagnostics, conditionalStyling });
   renderFeatureDetails(els, null);
   renderDiagnostics();
 

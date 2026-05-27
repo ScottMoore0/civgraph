@@ -59,8 +59,8 @@ function validateLayer(layer) {
   if (!layer.id) errors.push('missing id');
   if (!layer.name) errors.push(`${layer.id || '(unknown)'}: missing name`);
   if (layer.renderer !== 'maplibre') errors.push(`${layer.id}: renderer must be "maplibre"`);
-  if (!['mvt', 'pmtiles'].includes(layer.sourceType)) errors.push(`${layer.id}: unsupported sourceType ${layer.sourceType}`);
-  if (!layer.sourceLayer) errors.push(`${layer.id}: missing sourceLayer`);
+  if (!['mvt', 'pmtiles', 'raster'].includes(layer.sourceType)) errors.push(`${layer.id}: unsupported sourceType ${layer.sourceType}`);
+  if (layer.sourceType !== 'raster' && !layer.sourceLayer) errors.push(`${layer.id}: missing sourceLayer`);
   if (!Number.isInteger(layer.minzoom) || !Number.isInteger(layer.maxzoom) || layer.minzoom < 0 || layer.maxzoom < layer.minzoom) {
     errors.push(`${layer.id}: invalid minzoom/maxzoom`);
   }
@@ -130,8 +130,23 @@ function validateLayer(layer) {
     }
   }
 
+  if (layer.sourceType === 'raster' && !layer.tiles && !layer.tileUrl) {
+    errors.push(`${layer.id}: missing raster tiles URL template`);
+  }
+
   if (layer.sourceType === 'pmtiles' && !layer.tileUrl) {
     errors.push(`${layer.id}: missing tileUrl`);
+  }
+
+  if (layer.featureIndexUrl !== undefined) {
+    if (typeof layer.featureIndexUrl !== 'string') {
+      errors.push(`${layer.id}: featureIndexUrl must be a string`);
+    } else if (!/^https?:\/\//.test(layer.featureIndexUrl)) {
+      const indexPath = resolve(ROOT, layer.featureIndexUrl.replace(/^\//, ''));
+      if (!existsSync(indexPath)) {
+        errors.push(`${layer.id}: feature index missing: ${layer.featureIndexUrl}`);
+      }
+    }
   }
 
   return { errors, warnings };

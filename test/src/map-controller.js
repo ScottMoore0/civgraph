@@ -65,6 +65,9 @@ export class TestMapLibreController {
   }
 
   async loadLayer(layer) {
+    if (layer.loadable === false || layer.sourceType === 'unconverted') {
+      throw new Error(`${layer.name} is not yet converted for the /test MapLibre renderer`);
+    }
     if (this.layers.has(layer.id)) {
       this.fitToLayer(layer.id);
       return;
@@ -74,6 +77,7 @@ export class TestMapLibreController {
     const sourceId = `${layer.id}-source`;
     const fillId = `${layer.id}-fill`;
     const lineId = `${layer.id}-line`;
+    const rasterId = `${layer.id}-raster`;
     const hoverId = `${layer.id}-hover`;
     const selectedId = `${layer.id}-selected`;
     const labelId = `${layer.id}-label`;
@@ -82,19 +86,28 @@ export class TestMapLibreController {
 
     const source = this.buildSource(layer);
     this.map.addSource(sourceId, source);
-    this.addGeometryLayers(layer, { sourceId, fillId, lineId, hoverId, selectedId });
+    if (layer.sourceType === 'raster') {
+      this.addRasterLayer(layer, { sourceId, rasterId });
+    } else {
+      this.addGeometryLayers(layer, { sourceId, fillId, lineId, hoverId, selectedId });
+    }
     const labelLayerIds = this.addLabelLayers(layer, { sourceId, labelId });
 
     this.layers.set(layer.id, {
       config: layer,
       sourceId,
-      layerIds: [fillId, lineId, hoverId, selectedId, labelId].filter((id) => this.map.getLayer(id)),
+      layerIds: [fillId, lineId, hoverId, selectedId, labelId, rasterId].filter((id) => this.map.getLayer(id)),
       labelLayerIds,
       labelsEnabled: true,
-      textScale: DEFAULT_TEXT_SCALE
+      textScale: DEFAULT_TEXT_SCALE,
+      opacity: layer.style?.fillOpacity ?? layer.rasterOpacity ?? 0.18,
+      color: layer.style?.color || '#5B21B6',
+      fillColor: layer.style?.fillColor || layer.style?.color || '#7C3AED'
     });
 
-    this.interactionCleanups.set(layer.id, this.bindLayerInteractions(layer, fillId, labelId, sourceId));
+    if (layer.sourceType !== 'raster') {
+      this.interactionCleanups.set(layer.id, this.bindLayerInteractions(layer, fillId, labelId, sourceId));
+    }
     this.fitToLayer(layer.id);
     this.metrics.push({
       layerId: layer.id,
@@ -103,6 +116,17 @@ export class TestMapLibreController {
       sourceType: layer.sourceType
     });
     this.notifyChange();
+  }
+
+  addRasterLayer(layer, ids) {
+    this.map.addLayer({
+      id: ids.rasterId,
+      type: 'raster',
+      source: ids.sourceId,
+      paint: {
+        'raster-opacity': clamp(layer.rasterOpacity ?? layer.style?.opacity ?? 0.85, 0, 1)
+      }
+    });
   }
 
   addGeometryLayers(layer, ids) {
@@ -228,13 +252,37 @@ export class TestMapLibreController {
   setOpacity(layerId, opacity) {
     const record = this.layers.get(layerId);
     if (!record) return;
+    record.opacity = clamp(opacity, 0, 1);
     const fillId = `${layerId}-fill`;
     const lineId = `${layerId}-line`;
-    if (this.map.getLayer(fillId)) this.map.setPaintProperty(fillId, 'fill-opacity', clamp(opacity, 0, 1));
+    const rasterId = `${layerId}-raster`;
+    if (this.map.getLayer(rasterId)) this.map.setPaintProperty(rasterId, 'raster-opacity', record.opacity);
+    if (this.map.getLayer(fillId)) this.map.setPaintProperty(fillId, 'fill-opacity', record.opacity);
     if (this.map.getLayer(lineId)) {
       const property = record.config.geometryType === 'point' ? 'circle-opacity' : 'line-opacity';
-      this.map.setPaintProperty(lineId, property, clamp(opacity + 0.35, 0, 1));
+      this.map.setPaintProperty(lineId, property, clamp(record.opacity + 0.35, 0, 1));
     }
+    this.notifyChange();
+  }
+
+  setLayerColor(layerId, color) {
+    const record = this.layers.get(layerId);
+    if (!record || !isColor(color)) return;
+    record.color = color;
+    const lineId = `${layerId}-line`;
+    if (this.map.getLayer(lineId)) {
+      const property = record.config.geometryType === 'point' ? 'circle-color' : 'line-color';
+      this.map.setPaintProperty(lineId, property, color);
+    }
+    this.notifyChange();
+  }
+
+  setLayerFillColor(layerId, color) {
+    const record = this.layers.get(layerId);
+    if (!record || !isColor(color)) return;
+    record.fillColor = color;
+    const fillId = `${layerId}-fill`;
+    if (this.map.getLayer(fillId)) this.map.setPaintProperty(fillId, 'fill-color', color);
     this.notifyChange();
   }
 
@@ -261,10 +309,35 @@ export class TestMapLibreController {
     this.notifyChange();
   }
 
+  selectFeatureById(layerId, featureId, properties = {}) {
+    const record = this.layers.get(layerId);
+    if (!record || featureId === undefined || featureId === null || record.config.sourceType === 'raster') return false;
+    this.clearFeatureState(this.selected, 'selected');
+    this.selected = {
+      layerId,
+      sourceId: record.sourceId,
+      sourceLayer: record.config.sourceLayer,
+      id: featureId,
+      properties
+    };
+    this.map.setFeatureState({
+      source: record.sourceId,
+      sourceLayer: record.config.sourceLayer,
+      id: featureId
+    }, { selected: true });
+    this.options.onSelection?.({ layer: record.config, feature: { id: featureId, properties } });
+    this.notifyChange();
+    return true;
+  }
+
   fitToLayer(layerId) {
     const record = this.layers.get(layerId);
     if (!record) return;
-    const bounds = boundsToMapLibre(record.config.bounds);
+    this.fitToBounds(record.config.bounds);
+  }
+
+  fitToBounds(boundsValue) {
+    const bounds = boundsToMapLibre(boundsValue);
     if (bounds) this.map.fitBounds(bounds, { padding: 36, duration: 400 });
   }
 
@@ -277,6 +350,17 @@ export class TestMapLibreController {
     if (layer.sourceType === 'mvt') {
       if (!layer.tiles) throw new Error('missing vector tile URL template');
       return { type: 'vector', tiles: [absoluteTileTemplate(layer.tiles)], minzoom: layer.minzoom, maxzoom: layer.maxzoom, bounds: boundsToFlatBbox(layer.bounds), promoteId: layer.promoteId };
+    }
+    if (layer.sourceType === 'raster') {
+      if (!layer.tiles && !layer.tileUrl) throw new Error('missing raster tiles URL template');
+      return {
+        type: 'raster',
+        tiles: [absoluteTileTemplate(layer.tiles || layer.tileUrl)],
+        tileSize: layer.tileSize || 256,
+        minzoom: layer.minzoom,
+        maxzoom: layer.maxzoom,
+        bounds: boundsToFlatBbox(layer.bounds)
+      };
     }
     throw new Error(`unsupported sourceType ${layer.sourceType}`);
   }
@@ -374,4 +458,8 @@ export class TestMapLibreController {
   notifyChange() {
     this.options.onChange?.(this);
   }
+}
+
+function isColor(value) {
+  return typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value);
 }

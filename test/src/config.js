@@ -1,5 +1,6 @@
-export const TEST_ASSET_VERSION = 'test-006';
+export const TEST_ASSET_VERSION = 'test-008';
 export const METADATA_URL = `/test/metadata/maps-test.json?v=${TEST_ASSET_VERSION}`;
+export const PORT_PLAN_URL = `/test/metadata/main-site-port-plan.json?v=${TEST_ASSET_VERSION}`;
 export const IRELAND_BOUNDS = [[-10.75, 51.35], [-5.35, 55.55]];
 export const HOVER_MIN_ZOOM = 7;
 export const HOVER_THROTTLE_MS = 80;

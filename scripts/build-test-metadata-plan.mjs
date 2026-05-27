@@ -67,7 +67,11 @@ function buildRow(map, parent) {
     categoryId: map.category || null,
     group: category.group || map.group || null,
     date: map.date || null,
+    dateAdded: map.dateAdded || parent?.dateAdded || null,
+    dateEffective: map.dateEffective || parent?.dateEffective || null,
     provider: map.provider || parent?.provider || null,
+    description: map.description || map.note || parent?.description || parent?.note || null,
+    sourceCredits: summarizeCredits(map, parent),
     conversionStatus,
     recommendedTarget: recommendedTarget(map, sourceFiles),
     testLayerId: converted?.id || null,
@@ -130,4 +134,13 @@ function summarizeLinks(links) {
     label: link.label || link.title || link.name || null,
     url: link.url || link.file || null
   }));
+}
+
+function summarizeCredits(map, parent) {
+  const credits = [];
+  for (const value of [map.provider, parent?.provider]) {
+    if (Array.isArray(value)) credits.push(...value);
+    else if (value) credits.push(value);
+  }
+  return [...new Set(credits.map((value) => String(value)).filter(Boolean))];
 }

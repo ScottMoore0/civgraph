@@ -22,7 +22,8 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
@@ -151,6 +152,11 @@ input {
   background: #f0fdf4;
 }
 
+.catalogue-card--unconverted {
+  border-color: #e4dcc8;
+  background: #fffdf5;
+}
+
 .catalogue-card__main {
   display: flex;
   align-items: flex-start;
@@ -180,6 +186,23 @@ input {
   font-size: 12px;
   font-weight: 800;
   text-transform: uppercase;
+}
+
+.catalogue-card--unconverted .catalogue-card__main span {
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.catalogue-card__meta,
+.catalogue-card__conversion {
+  margin: 7px 0 0;
+  color: #667085;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.catalogue-card__conversion {
+  color: #9a3412;
 }
 
 .catalogue-card__notes {
@@ -227,6 +250,54 @@ input {
   color: #ffffff;
 }
 
+.catalogue-card__actions button:disabled {
+  border-color: #d0d5dd;
+  background: #f2f4f7;
+  color: #98a2b3;
+  cursor: not-allowed;
+}
+
+.feature-results {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.feature-results__heading {
+  margin: 0;
+  color: #667085;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.feature-result {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  padding: 7px 9px;
+  background: #ffffff;
+  color: #101828;
+  text-align: left;
+  cursor: pointer;
+}
+
+.feature-result strong,
+.feature-result span {
+  display: block;
+}
+
+.feature-result strong {
+  font-size: 13px;
+}
+
+.feature-result span {
+  margin-top: 2px;
+  color: #667085;
+  font-size: 12px;
+}
+
 .active-layer {
   display: grid;
   gap: 10px;
@@ -271,6 +342,22 @@ input {
   margin-top: 6px;
 }
 
+.active-layer input[type="color"] {
+  width: 42px;
+  height: 30px;
+  padding: 2px;
+}
+
+.active-layer select {
+  width: 100%;
+  min-height: 32px;
+  margin-top: 6px;
+  border: 1px solid #cfd6cc;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #101828;
+}
+
 .feature-details {
   color: #344054;
   font-size: 13px;
@@ -287,6 +374,30 @@ input {
   margin: -4px 0 10px;
   color: #667085;
   font-size: 12px;
+}
+
+.feature-details__context {
+  display: grid;
+  gap: 5px;
+  margin: -2px 0 12px;
+  color: #667085;
+  font-size: 12px;
+}
+
+.feature-details__context p {
+  margin: 0;
+}
+
+.feature-details__context div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+}
+
+.feature-details__context a {
+  color: #175cd3;
+  font-weight: 700;
+  text-decoration: none;
 }
 
 .feature-details dl {
