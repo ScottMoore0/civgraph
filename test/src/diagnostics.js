@@ -23,12 +23,20 @@ export function emitDiagnostics(els, controller, metadata = null, extra = {}) {
     metrics: controller.metrics.slice(-8),
     ...extra
   };
+  emitDiagnostics.lastData = data;
   els.diagnostics.innerHTML = renderDiagnosticsPanel(data);
 }
+emitDiagnostics.lastData = null;
 
 function renderDiagnosticsPanel(data) {
   const health = data.health || {};
   const latestLoads = (data.metrics || []).filter((metric) => metric.event === 'load').slice(-4);
+  const warnings = getDiagnosticWarnings(data)
+    .filter((item) => data.severity === 'all' || item.severity === data.severity)
+    .sort((a, b) => data.sort === 'layer'
+      ? a.layerId.localeCompare(b.layerId)
+      : severityRank(b.severity) - severityRank(a.severity) || a.layerId.localeCompare(b.layerId));
+  const grouped = groupWarnings(warnings);
   return `
     <div class="diagnostics-grid">
       ${renderStat('Renderer', data.renderer)}
@@ -37,15 +45,30 @@ function renderDiagnosticsPanel(data) {
       ${renderStat('Loaded', (data.loadedLayers || []).length)}
       ${renderStat('Zoom', data.zoom)}
       ${renderStat('Labels', data.renderedLabelFeatures)}
+      ${renderStat('Fallbacks', data.telemetry?.fallbackCount || 0)}
+      ${renderStat('CDN failures', data.telemetry?.cdnFailures || 0)}
     </div>
-    ${renderWarningList('Slow Loads', health.slowLoads, (item) => `${item.layerId}: ${item.durationMs}ms`)}
-    ${renderWarningList('Large Layers', health.largeLayers, (item) => `${item.id}: ${formatBytes(item.bytes)}${item.maxTileBytes ? `, max tile ${formatBytes(item.maxTileBytes)}` : ''}`)}
-    ${renderWarningList('Large Tiles', health.oversizedTiles, (item) => `${item.id}: ${formatBytes(item.maxTileBytes)}`)}
-    ${renderWarningList('Missing Indexes', health.missingIndexes || [], (item) => item)}
+    ${warnings.length ? `
+      <section class="diagnostics-section diagnostics-section--warn">
+        <h3>Grouped Warnings</h3>
+        ${Object.entries(grouped).map(([layerId, items]) => `
+          <details class="diagnostics-warning-group" open>
+            <summary>${escapeHtml(layerId)} <span>${items.length}</span></summary>
+            <ul>${items.slice(0, 8).map((item) => `<li data-severity="${escapeHtml(item.severity)}"><b>${escapeHtml(item.type)}</b>: ${escapeHtml(item.message)}</li>`).join('')}</ul>
+          </details>
+        `).join('')}
+      </section>
+    ` : ''}
     ${latestLoads.length ? `
       <section class="diagnostics-section">
         <h3>Recent Loads</h3>
         <ul>${latestLoads.map((item) => `<li>${escapeHtml(item.layerId)}: ${escapeHtml(String(item.durationMs))}ms (${escapeHtml(item.sourceType)})</li>`).join('')}</ul>
+      </section>
+    ` : ''}
+    ${data.telemetry?.resourceTimings?.length ? `
+      <section class="diagnostics-section">
+        <h3>PMTiles Network</h3>
+        <ul>${data.telemetry.resourceTimings.map((item) => `<li>${escapeHtml(item.name)}: ${escapeHtml(item.durationMs)}ms${item.transferSize ? `, ${escapeHtml(formatBytes(item.transferSize))}` : ''}</li>`).join('')}</ul>
       </section>
     ` : ''}
     <details class="diagnostics-raw">
@@ -68,6 +91,33 @@ function renderWarningList(title, items = [], format) {
       ${items.length > 8 ? `<p>${items.length - 8} more</p>` : ''}
     </section>
   `;
+}
+
+function getDiagnosticWarnings(data) {
+  const health = data.health || {};
+  const metrics = data.metrics || [];
+  return [
+    ...(health.slowLoads || []).map((item) => ({ severity: 'warn', layerId: item.layerId, type: 'slow-load', message: `${item.durationMs}ms` })),
+    ...(health.largeLayers || []).map((item) => ({ severity: 'warn', layerId: item.id, type: 'large-layer', message: `${formatBytes(item.bytes)}${item.maxTileBytes ? `, max tile ${formatBytes(item.maxTileBytes)}` : ''}` })),
+    ...(health.oversizedTiles || []).map((item) => ({ severity: 'warn', layerId: item.id, type: 'large-tile', message: formatBytes(item.maxTileBytes) })),
+    ...(health.missingIndexes || []).map((id) => ({ severity: 'warn', layerId: id, type: 'missing-index', message: 'No feature-search index' })),
+    ...metrics
+      .filter((metric) => /fallback|failed|error/i.test(metric.event))
+      .map((metric) => ({ severity: /failed|error/i.test(metric.event) ? 'error' : 'warn', layerId: metric.layerId || 'runtime', type: metric.event, message: metric.reason || metric.sourceType || 'runtime event' }))
+  ];
+}
+
+function groupWarnings(items) {
+  return items.reduce((groups, item) => {
+    const key = item.layerId || 'runtime';
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(item);
+    return groups;
+  }, {});
+}
+
+function severityRank(value) {
+  return value === 'error' ? 2 : value === 'warn' ? 1 : 0;
 }
 
 function formatBytes(bytes) {

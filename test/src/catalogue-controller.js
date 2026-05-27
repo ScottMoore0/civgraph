@@ -50,6 +50,10 @@ export class TestCatalogue {
   render() {
     this.els.catalogue.innerHTML = '';
     this.renderFeatureResults();
+    if (this.els.catalogueStats) {
+      const converted = this.filteredLayers.filter((layer) => layer.loadable !== false && layer.isConverted !== false).length;
+      this.els.catalogueStats.textContent = `${this.filteredLayers.length} maps shown, ${converted} loadable in MapLibre.`;
+    }
     if (this.filteredLayers.length === 0) {
       this.els.catalogue.textContent = 'No test layers match that search.';
       return;
@@ -60,10 +64,10 @@ export class TestCatalogue {
     let rendered = 0;
     for (const group of grouped) {
       const section = document.createElement('section');
-      section.className = 'catalogue-section';
+      section.className = 'catalogue-section catalogue-flat__toc';
       section.innerHTML = `<h3>${escapeHtml(group.name)}</h3>`;
       const list = document.createElement('div');
-      list.className = 'catalogue-list';
+      list.className = 'catalogue-list catalogue-flat__cards';
       for (const layer of group.layers) {
         if (rendered >= MAX_INITIAL_CARDS) break;
         list.appendChild(this.renderCard(layer));
@@ -87,23 +91,25 @@ export class TestCatalogue {
     const card = document.createElement('article');
     const isLoaded = this.controller.layers.has(layer.id);
     const isConverted = layer.loadable !== false && layer.isConverted !== false;
-    card.className = `catalogue-card${isLoaded ? ' catalogue-card--loaded' : ''}${isConverted ? '' : ' catalogue-card--unconverted'}`;
+    card.className = `catalogue-card c1-card${isLoaded ? ' catalogue-card--loaded' : ''}${isConverted ? '' : ' catalogue-card--unconverted'}`;
     card.dataset.layerId = layer.id;
     card.innerHTML = `
-      <div class="catalogue-card__main">
-        <div>
+      <div class="catalogue-card__main c1-card__header">
+        <div class="c1-card__titleblock">
           <p>${escapeHtml(layer.category || 'Map')}</p>
-          <h3>${escapeHtml(layer.name)}</h3>
+          <h3 class="c1-card__title">${escapeHtml(layer.name)}</h3>
         </div>
         <span>${escapeHtml(isConverted ? (layer.sourceType || layer.renderer) : 'not yet converted')}</span>
       </div>
-      ${renderWarningBadges(layer)}
-      ${renderMetaLine(layer)}
-      <p class="catalogue-card__notes">${escapeHtml(layer.notes || layer.description || '')}</p>
-      ${renderSourceSummaryRich(layer)}
-      ${renderConversionSummary(layer)}
-      ${renderVariantSummaryRich(layer)}
-      <div class="catalogue-card__actions">
+      <div class="c1-card__content">
+        ${renderWarningBadges(layer)}
+        ${renderMetaLine(layer)}
+        <p class="catalogue-card__notes">${escapeHtml(layer.notes || layer.description || '')}</p>
+        ${renderSourceSummaryRich(layer)}
+        ${renderConversionSummary(layer)}
+        ${renderVariantSummaryRich(layer)}
+      </div>
+      <div class="catalogue-card__actions class-member__actions">
         <button type="button" data-action="load" ${isConverted ? '' : 'disabled'}>${isLoaded ? 'Reload' : 'Load'}</button>
         <button type="button" data-action="fit" ${isConverted || layer.bounds ? '' : 'disabled'}>Fit</button>
         <button type="button" data-action="unload" ${isLoaded ? '' : 'disabled'}>Unload</button>

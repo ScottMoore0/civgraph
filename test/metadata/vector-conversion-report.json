@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "mode": "execute",
-  "generatedAt": "2026-05-27T18:38:56.293Z",
+  "generatedAt": "2026-05-27T20:17:51.042Z",
   "tool": "ogr2ogr GDAL MVT",
   "tippecanoeAvailable": false,
   "totals": {
-    "vectorRows": 628,
+    "vectorRows": 611,
     "feasibleLocalCandidates": 18,
-    "skipped": 610,
+    "skipped": 731,
     "selected": 18,
     "converted": 18,
     "failed": 0
@@ -317,6 +317,13 @@
       "sourceFile": "data/maps/physical/ROI_Legal_Towns_and_Cities.geojson",
       "sourceBytes": 3581116,
       "outputDirectory": "test/tiles/generated/roi-legal-towns-and-cities",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "roi_legal_towns_and_cities",
       "files": 513,
       "pbfFiles": 512,
@@ -330,6 +337,13 @@
       "sourceFile": "data/maps/physical/ROI_Settlements_2011.geojson",
       "sourceBytes": 15890793,
       "outputDirectory": "test/tiles/generated/roi-settlements-2011",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "roi_settlements_2011",
       "files": 1884,
       "pbfFiles": 1883,
@@ -343,6 +357,13 @@
       "sourceFile": "data/maps/local-government/ROI_Garda_Regions.geojson",
       "sourceBytes": 35270963,
       "outputDirectory": "test/tiles/generated/roi-garda-regions",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "roi_garda_regions",
       "files": 3354,
       "pbfFiles": 3353,
@@ -356,6 +377,13 @@
       "sourceFile": "data/maps/local-government/ROI_Garda_Divisions.geojson",
       "sourceBytes": 45468481,
       "outputDirectory": "test/tiles/generated/roi-garda-divisions",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "roi_garda_divisions",
       "files": 3354,
       "pbfFiles": 3353,
@@ -369,6 +397,13 @@
       "sourceFile": "data/maps/local-government/ROI_Garda_Districts.geojson",
       "sourceBytes": 64700315,
       "outputDirectory": "test/tiles/generated/roi-garda-districts",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "roi_garda_districts",
       "files": 3354,
       "pbfFiles": 3353,
@@ -382,6 +417,13 @@
       "sourceFile": "data/maps/local-government/ROI_Garda_Sub_Districts.geojson",
       "sourceBytes": 128086169,
       "outputDirectory": "test/tiles/generated/roi-garda-sub-districts",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "roi_garda_sub_districts",
       "files": 3353,
       "pbfFiles": 3352,
@@ -395,6 +437,13 @@
       "sourceFile": "data/maps/local-government/ROI_Gaeltacht_Areas.geojson",
       "sourceBytes": 18683417,
       "outputDirectory": "test/tiles/generated/roi-gaeltacht-areas",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "roi_gaeltacht_areas",
       "files": 572,
       "pbfFiles": 571,
@@ -408,6 +457,13 @@
       "sourceFile": "data/maps/local-government/ROI_LEA_2008.geojson",
       "sourceBytes": 105238147,
       "outputDirectory": "test/tiles/generated/roi-lea-2008",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "roi_lea_2008",
       "files": 3328,
       "pbfFiles": 3327,
@@ -421,11 +477,18 @@
       "sourceFile": "data/maps/local-government/ROI_Small_Areas_2011.geojson",
       "sourceBytes": 44351110,
       "outputDirectory": "test/tiles/generated/roi-small-areas-2011",
+      "profile": {
+        "maxSize": "6000000",
+        "maxFeatures": "6000000",
+        "simplification": "4",
+        "simplificationMaxZoom": "0",
+        "note": "Retuned for ROI small-area tile budget warning."
+      },
       "sourceLayer": "roi_small_areas_2011",
       "files": 3327,
       "pbfFiles": 3326,
-      "bytes": 34215542,
-      "maxTileBytes": 1838152
+      "bytes": 31092622,
+      "maxTileBytes": 1616011
     },
     {
       "sourceMapId": "roi-local-authorities-2014",
@@ -434,6 +497,13 @@
       "sourceFile": "data/maps/local-government/Administrative_Areas_Ungeneralised_-2482101372601611780.geojson",
       "sourceBytes": 66836497,
       "outputDirectory": "test/tiles/generated/roi-local-authorities-2014",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "roi_local_authorities_2014",
       "files": 3340,
       "pbfFiles": 3339,
@@ -447,6 +517,13 @@
       "sourceFile": "data/maps/townlands/OSNI_Townlands.fgb",
       "sourceBytes": 128950256,
       "outputDirectory": "test/tiles/generated/ni-townlands",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "ni_townlands",
       "files": 755,
       "pbfFiles": 754,
@@ -460,11 +537,18 @@
       "sourceFile": "data/maps/townlands/OSI_Townlands.fgb",
       "sourceBytes": 511604480,
       "outputDirectory": "test/tiles/generated/roi-townlands",
+      "profile": {
+        "maxSize": "6000000",
+        "maxFeatures": "6000000",
+        "simplification": "8",
+        "simplificationMaxZoom": "0",
+        "note": "Retuned for large ROI townlands tiles while preserving low-zoom coverage checks."
+      },
       "sourceLayer": "roi_townlands",
       "files": 3308,
       "pbfFiles": 3307,
-      "bytes": 107617365,
-      "maxTileBytes": 3323806
+      "bytes": 88359993,
+      "maxTileBytes": 3022371
     },
     {
       "sourceMapId": "wards-1993-largescale",
@@ -473,6 +557,13 @@
       "sourceFile": "data/maps/local-government/Wards_1993_Largescale.fgb",
       "sourceBytes": 28164984,
       "outputDirectory": "test/tiles/generated/wards-1993-largescale",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "wards_1993_largescale",
       "files": 757,
       "pbfFiles": 756,
@@ -486,6 +577,13 @@
       "sourceFile": "data/maps/baronies-parishes/ROI_Counties_2011.geojson",
       "sourceBytes": 4800830,
       "outputDirectory": "test/tiles/generated/roi-counties-2011",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "roi_counties_2011",
       "files": 2766,
       "pbfFiles": 2765,
@@ -499,6 +597,13 @@
       "sourceFile": "data/maps/census-areas/NUTS2_All_Ireland.geojson",
       "sourceBytes": 25649350,
       "outputDirectory": "test/tiles/generated/nuts-2-all-ireland",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "nuts_2_all_ireland",
       "files": 3911,
       "pbfFiles": 3910,
@@ -512,6 +617,13 @@
       "sourceFile": "data/maps/census-areas/ROI_NUTS2.geojson",
       "sourceBytes": 3580298,
       "outputDirectory": "test/tiles/generated/nuts-2-roi",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "nuts_2_roi",
       "files": 3327,
       "pbfFiles": 3326,
@@ -525,6 +637,13 @@
       "sourceFile": "data/maps/electoral-divisions/ROI_EDs_Census_2011.fgb",
       "sourceBytes": 8958336,
       "outputDirectory": "test/tiles/generated/eds-census-2011",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "eds_census_2011",
       "files": 3327,
       "pbfFiles": 3326,
@@ -538,6 +657,13 @@
       "sourceFile": "data/maps/local-government/Catholic_Parishes_Dublin.geojson",
       "sourceBytes": 5293641,
       "outputDirectory": "test/tiles/generated/catholic-dublin-parishes",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
       "sourceLayer": "catholic_dublin_parishes",
       "files": 209,
       "pbfFiles": 208,
@@ -795,11 +921,207 @@
       "file": "data/maps/local-government/Wards_1993_50k.fgb"
     },
     {
+      "sourceMapId": "wards-1993-wards92-antrim-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-ards-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-armagh-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-banbridge-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-belfast-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-ballymena-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-ballymoney-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-coleraine-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-cookstown-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-craigavon-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-derry-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-down-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-dungannon-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-larne-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-limavady-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-lisburn-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-magherafelt-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-moyle-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-newtownabbey-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-newry-mourne-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-north-down-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-omagh-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-strabane-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
       "sourceMapId": "wards-1984",
       "reason": "no local vector source file in supported format"
     },
     {
+      "sourceMapId": "wards-1984-wards85-antrim-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-ards-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-armagh-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-ballymena-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-ballymoney-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-banbridge-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-belfast-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-carrickfergus-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-coleraine-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-cookstown-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-craigavon-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-derry-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-down-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-dungannon-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-larne-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-limavady-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-lisburn-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-magherafelt-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-moyle-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-newry-mourne-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-newtownabbey-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-north-down-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-omagh-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-strabane-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
       "sourceMapId": "wards-1972",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1972-wards73-belfast-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1972-wards73-strabane-raster",
       "reason": "no local vector source file in supported format"
     },
     {
@@ -828,6 +1150,10 @@
     },
     {
       "sourceMapId": "lgd-1984",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "lgd-1984-raster",
       "reason": "no local vector source file in supported format"
     },
     {
@@ -1108,6 +1434,10 @@
     },
     {
       "sourceMapId": "deds-ni-1926",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "civil-parishes-by-province",
       "reason": "no local vector source file in supported format"
     },
     {
@@ -1755,6 +2085,202 @@
       "reason": "no local vector source file in supported format"
     },
     {
+      "sourceMapId": "wards-1984-wards85-antrim-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-ards-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-armagh-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-ballymena-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-ballymoney-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-banbridge-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-belfast-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-carrickfergus-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-coleraine-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-cookstown-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-craigavon-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-derry-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-down-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-dungannon-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-larne-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-limavady-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-lisburn-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-magherafelt-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-moyle-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-newry-mourne-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-newtownabbey-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-north-down-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-omagh-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984-wards85-strabane-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1972-wards73-belfast-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1972-wards73-strabane-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-antrim-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-ards-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-armagh-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-banbridge-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-belfast-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-ballymena-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-ballymoney-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-coleraine-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-cookstown-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-craigavon-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-derry-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-down-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-dungannon-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-larne-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-limavady-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-lisburn-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-magherafelt-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-moyle-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-newtownabbey-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-newry-mourne-1-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-north-down-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-omagh-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993-wards92-strabane-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
       "sourceMapId": "baronies-all-ireland",
       "reason": "no local vector source file in supported format"
     },
@@ -1847,6 +2373,38 @@
       "reason": "no local vector source file in supported format"
     },
     {
+      "sourceMapId": "osni-eire-thuaidh",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "osni-mid-scale-raster",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "osni-streetmaps",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "osni-1m-county-boundaries",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "osni-1m-infrastructure",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "osni-1m-locations",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "osni-1m-natural-environment",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "osni-1m-parliamentary",
+      "reason": "no local vector source file in supported format"
+    },
+    {
       "sourceMapId": "wq-surface-water-bodies-2015",
       "reason": "no local vector source file in supported format"
     },
@@ -1875,7 +2433,59 @@
       "reason": "no local vector source file in supported format"
     },
     {
+      "sourceMapId": "tellus-mag-tmi",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tellus-mag-rtp",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tellus-mag-rtp-tilt",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tellus-em-3khz",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tellus-em-14khz",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tellus-rad-k",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tellus-rad-u",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tellus-rad-th",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tellus-rad-total",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "tellus-rad-ternary",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "osni-sixinch-edition-1",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "osni-sixinch-edition-2",
+      "reason": "no local vector source file in supported format"
+    },
+    {
       "sourceMapId": "wq-agricultural-critical-risk",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wq-network-contribution",
       "reason": "no local vector source file in supported format"
     },
     {

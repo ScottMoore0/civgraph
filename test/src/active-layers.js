@@ -46,7 +46,7 @@ export function renderActiveLayers(els, controller, options = {}) {
           <input data-control="text-scale" type="range" min="50" max="200" step="10" value="${record.textScale || DEFAULT_TEXT_SCALE}">
         </label>
       ` : ''}
-      ${!isRasterLike(record.config) ? renderLegend(record.config, styleState) : ''}
+      ${!isRasterLike(record.config) ? renderLegend(record.config, styleState, record) : ''}
     `;
     row.querySelector('[data-control="opacity"]').addEventListener('input', (event) => {
       controller.setOpacity(id, Number(event.target.value));
@@ -74,7 +74,23 @@ export function renderActiveLayers(els, controller, options = {}) {
     });
     row.querySelector('[data-action="style-reset"]')?.addEventListener('click', () => {
       options.conditionalStyling?.clear(id);
+      controller.clearLayerFilter(id);
       row.querySelector('[data-control="style-mode"]').value = '';
+      options.onRendered?.();
+    });
+    row.querySelector('[data-action="style-save"]')?.addEventListener('click', () => {
+      saveLayerPreset(id, record);
+      options.onRendered?.();
+    });
+    row.querySelector('[data-action="style-apply"]')?.addEventListener('click', () => {
+      const preset = loadLayerPreset(id);
+      if (!preset) return;
+      applySavedPreset(row, preset);
+      applyStyle(row, id, options);
+      if (preset.opacity !== undefined) controller.setOpacity(id, Number(preset.opacity));
+      if (preset.strokeWidth !== undefined) controller.setLayerStrokeWidth(id, Number(preset.strokeWidth));
+      if (preset.color) controller.setLayerColor(id, preset.color);
+      if (preset.fillColor) controller.setLayerFillColor(id, preset.fillColor);
       options.onRendered?.();
     });
     row.querySelectorAll('[data-style-preset]').forEach((button) => {
@@ -98,6 +114,22 @@ export function renderActiveLayers(els, controller, options = {}) {
     });
     row.querySelector('[data-control="text-scale"]')?.addEventListener('input', (event) => {
       controller.setLayerTextScale(id, Number(event.target.value));
+      options.onRendered?.();
+    });
+    row.querySelectorAll('[data-legend-filter]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const attribute = button.dataset.legendAttribute;
+        const value = button.dataset.legendFilter;
+        if (record.attributeFilter?.attribute === attribute && record.attributeFilter?.value === value) {
+          controller.clearLayerFilter(id);
+        } else {
+          controller.setLayerAttributeFilter(id, attribute, value);
+        }
+        options.onRendered?.();
+      });
+    });
+    row.querySelector('[data-action="legend-clear-filter"]')?.addEventListener('click', () => {
+      controller.clearLayerFilter(id);
       options.onRendered?.();
     });
     els.activeLayers.appendChild(row);
@@ -129,6 +161,8 @@ function renderStyleControls(layer, styleState, record) {
       <button type="button" data-style-preset="categorical" ${categorical.length ? '' : 'disabled'}>Category</button>
       <button type="button" data-style-preset="party" ${categorical.length ? '' : 'disabled'}>Party</button>
       <button type="button" data-action="style-reset">Reset</button>
+      <button type="button" data-action="style-save">Save</button>
+      <button type="button" data-action="style-apply">Saved</button>
     </div>
     <label>
       Stroke
@@ -211,7 +245,7 @@ function rampNameFromColors(styleState) {
   return 'blue-red';
 }
 
-function renderLegend(layer, styleState) {
+function renderLegend(layer, styleState, record) {
   if (!styleState?.type) return '';
   if (styleState.type === 'gradient') {
     return `
@@ -225,12 +259,14 @@ function renderLegend(layer, styleState) {
   const entries = styleState.type === 'party'
     ? Object.entries(styleState.colours || {}).slice(0, 12)
     : (styleState.values || layer.categoricalValues?.[styleState.attribute] || []).slice(0, 12).map((value, index) => [value, styleState.palette?.[index % (styleState.palette?.length || 1)] || '#4b5563']);
+  const activeFilter = record.attributeFilter;
   return `
     <div class="style-legend">
       <div class="style-legend__title">${escapeHtml(styleState.type === 'party' ? 'Party colours' : `${styleState.attribute} categories`)}</div>
       <div class="style-legend__chips">
-        ${entries.map(([label, color]) => `<span><i style="background:${escapeHtml(color)}"></i>${escapeHtml(label)}</span>`).join('')}
+        ${entries.map(([label, color]) => `<button type="button" data-legend-attribute="${escapeHtml(styleState.attribute)}" data-legend-filter="${escapeHtml(label)}" class="${activeFilter?.attribute === styleState.attribute && activeFilter?.value === String(label) ? 'style-legend__chip--active' : ''}"><i style="background:${escapeHtml(color)}"></i>${escapeHtml(label)}</button>`).join('')}
       </div>
+      ${styleState.attribute ? `<button type="button" class="style-legend__clear" data-action="legend-clear-filter">Clear legend filter</button>` : ''}
       ${entries.length >= 12 ? `<p class="style-legend__more">Showing first 12 values.</p>` : ''}
     </div>
   `;
@@ -238,4 +274,32 @@ function renderLegend(layer, styleState) {
 
 function isRasterLike(layer) {
   return layer.sourceType === 'raster' || layer.sourceType === 'image';
+}
+
+function saveLayerPreset(id, record) {
+  localStorage.setItem(`civgraph:test:style:${id}`, JSON.stringify({
+    opacity: record.opacity,
+    strokeWidth: record.strokeWidth,
+    color: record.color,
+    fillColor: record.fillColor,
+    styleState: record.styleState || null
+  }));
+}
+
+function loadLayerPreset(id) {
+  try {
+    return JSON.parse(localStorage.getItem(`civgraph:test:style:${id}`) || 'null');
+  } catch {
+    return null;
+  }
+}
+
+function applySavedPreset(row, preset) {
+  const style = preset.styleState || {};
+  const mode = row.querySelector('[data-control="style-mode"]');
+  const attr = row.querySelector('[data-control="gradient-attribute"]');
+  const ramp = row.querySelector('[data-control="style-ramp"]');
+  if (mode) mode.value = style.type || '';
+  if (attr) attr.value = style.attribute || '';
+  if (ramp) ramp.value = style.rampName || 'blue-red';
 }

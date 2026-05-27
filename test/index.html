@@ -5,14 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <title>Civgraph Test - MapLibre Rewrite</title>
-  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-011">
+  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-012">
 </head>
 <body>
   <div id="testApp" class="test-shell">
-    <aside class="test-sidebar" aria-label="Test catalogue">
+    <header class="app-header test-app-header">
+      <a href="/" class="app-header__brand" aria-label="Civgraph home">
+        <img src="/assets/images/civgraph-logo-icon.svg" alt="" class="app-header__logo-icon">
+        <span class="app-header__wordmark">Civgraph</span>
+      </a>
+      <nav class="app-header__nav" aria-label="Main navigation">
+        <a href="/" class="app-header__link">Home</a>
+        <a href="/test/" class="app-header__link app-header__link--active">MapLibre Test</a>
+        <a href="/pages/about.html" class="app-header__link">About</a>
+      </nav>
+      <button type="button" id="sidebarToggle" class="mobile-menu-btn test-sidebar-toggle" aria-controls="testSidebar" aria-expanded="false">Catalogue</button>
+    </header>
+
+    <aside id="testSidebar" class="test-sidebar" aria-label="Map catalogue and information">
       <header class="test-header">
         <div>
-          <p class="test-kicker">Civgraph Test</p>
+          <p class="test-kicker">Catalogue</p>
           <h1>MapLibre rewrite</h1>
         </div>
         <span class="test-badge">/test</span>
@@ -21,6 +34,7 @@
       <section class="test-panel">
         <label class="test-search-label" for="mapSearch">Search test layers</label>
         <input id="mapSearch" class="test-search" type="search" autocomplete="off" placeholder="Search maps">
+        <div id="catalogueStats" class="catalogue-stats" aria-live="polite"></div>
         <div id="featureResults" class="feature-results" aria-live="polite"></div>
       </section>
 
@@ -51,18 +65,39 @@
       </section>
 
       <section class="test-panel test-diagnostics">
-        <h2>Diagnostics</h2>
+        <div class="test-panel__heading">
+          <h2>Diagnostics</h2>
+          <button type="button" id="copyDiagnostics" class="panel-action">Copy</button>
+        </div>
+        <div class="diagnostics-controls">
+          <label>
+            Severity
+            <select id="diagnosticsSeverity">
+              <option value="all">All</option>
+              <option value="warn">Warnings</option>
+              <option value="error">Errors</option>
+            </select>
+          </label>
+          <label>
+            Sort
+            <select id="diagnosticsSort">
+              <option value="severity">Severity</option>
+              <option value="layer">Layer</option>
+            </select>
+          </label>
+        </div>
         <div id="diagnostics" class="diagnostics-panel">Starting...</div>
       </section>
     </aside>
 
     <main class="test-map-wrap">
       <div id="map" class="test-map" role="application" aria-label="MapLibre test map"></div>
+      <div id="fallbackAlerts" class="fallback-alerts" aria-live="polite"></div>
       <div id="toast" class="test-toast" hidden></div>
     </main>
   </div>
 
-  <script type="module" src="/test/build/test.bundle.js?v=test-011"></script>
+  <script type="module" src="/test/build/test.bundle.js?v=test-012"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {

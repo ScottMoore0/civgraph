@@ -6,7 +6,7 @@
  * active development.
  */
 
-const TEST_CACHE_VERSION = 'test-v11';
+const TEST_CACHE_VERSION = 'test-v12';
 const TEST_STATIC_CACHE = `civgraph-${TEST_CACHE_VERSION}-static`;
 const TEST_RUNTIME_CACHE = `civgraph-${TEST_CACHE_VERSION}-runtime`;
 const TEST_TILE_CACHE = `civgraph-${TEST_CACHE_VERSION}-tiles`;
@@ -46,6 +46,9 @@ self.addEventListener('message', (event) => {
   if (event.data === 'SKIP_WAITING') self.skipWaiting();
   if (event.data === 'CLEAR_TEST_CACHES') {
     event.waitUntil(Promise.all(TEST_CACHES.map((name) => caches.delete(name))));
+  }
+  if (event.data === 'TEST_CACHE_STATUS') {
+    event.waitUntil(sendCacheStatus(event.source));
   }
 });
 
@@ -129,6 +132,33 @@ async function trimCache(cacheName) {
   if (!limit) return;
   const cache = await caches.open(cacheName);
   const keys = await cache.keys();
-  if (keys.length <= limit) return;
-  await Promise.all(keys.slice(0, keys.length - limit).map((key) => cache.delete(key)));
+  const pressure = await storagePressure();
+  const pressureLimit = pressure === 'high' ? Math.max(4, Math.floor(limit * 0.5)) : limit;
+  if (keys.length <= pressureLimit) return;
+  await Promise.all(keys.slice(0, keys.length - pressureLimit).map((key) => cache.delete(key)));
+}
+
+async function storagePressure() {
+  if (!navigator.storage?.estimate) return 'unknown';
+  try {
+    const estimate = await navigator.storage.estimate();
+    if (!estimate.quota || !estimate.usage) return 'unknown';
+    return estimate.usage / estimate.quota > 0.8 ? 'high' : 'normal';
+  } catch {
+    return 'unknown';
+  }
+}
+
+async function sendCacheStatus(client) {
+  if (!client?.postMessage) return;
+  const status = {};
+  for (const name of TEST_CACHES) {
+    const cache = await caches.open(name);
+    status[name] = (await cache.keys()).length;
+  }
+  client.postMessage({
+    type: 'TEST_CACHE_STATUS',
+    pressure: await storagePressure(),
+    caches: status
+  });
 }

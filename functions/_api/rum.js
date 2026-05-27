@@ -36,13 +36,17 @@ export async function onRequestPost(context) {
 
     const log = {
         evt: 'rum',
-        metric: String(body.metric || ''),
+        source: String(body.source || 'main').slice(0, 32),
+        metric: String(body.metric || body.event?.event || body.event || ''),
         value: Number(body.value) || 0,
         rating: String(body.rating || ''),
         id: String(body.id || ''),
         navType: String(body.navigationType || ''),
-        url: cleanUrl,
+        url: cleanUrl || String(body.path || '').split('#')[0].split('?')[0],
         ua: typeof body.ua === 'string' ? body.ua.slice(0, 32) : '',
+        layerId: String(body.event?.layerId || '').slice(0, 120),
+        sourceType: String(body.event?.sourceType || '').slice(0, 32),
+        reason: String(body.event?.reason || '').slice(0, 240),
         ts: Date.now(),
     };
     // Structured JSON line — easy to parse with `wrangler tail | jq`.

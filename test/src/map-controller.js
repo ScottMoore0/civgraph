@@ -31,6 +31,7 @@ export class TestMapLibreController {
     this.selected = null;
     this.hovered = null;
     this.metrics = [];
+    this.fallbackLayers = new Map();
     this.interactionCleanups = new Map();
     this.fallbackCleanups = new Map();
     maplibregl.addProtocol('pmtiles', this.protocol.tile);
@@ -113,8 +114,9 @@ export class TestMapLibreController {
       this.fallbackCleanups.set(layer.id, this.monitorPmtilesFallback(layer, sourceId));
     }
     this.fitToLayer(layer.id);
-    this.metrics.push({
+    this.recordMetric({
       layerId: layer.id,
+      layerName: layer.name,
       event: 'load',
       durationMs: Math.round(performance.now() - started),
       sourceType: layer.sourceType
@@ -307,6 +309,33 @@ export class TestMapLibreController {
     this.notifyChange();
   }
 
+  setLayerAttributeFilter(layerId, attribute, value) {
+    const record = this.layers.get(layerId);
+    if (!record || !attribute) return false;
+    const filter = value === undefined || value === null || value === ''
+      ? null
+      : ['==', ['to-string', ['get', attribute]], String(value)];
+    for (const layerIdToFilter of record.layerIds || []) {
+      if (!this.map.getLayer(layerIdToFilter) || /label|hover|selected/i.test(layerIdToFilter)) continue;
+      this.map.setFilter(layerIdToFilter, filter);
+    }
+    record.attributeFilter = filter ? { attribute, value: String(value) } : null;
+    this.notifyChange();
+    return true;
+  }
+
+  clearLayerFilter(layerId) {
+    const record = this.layers.get(layerId);
+    if (!record) return false;
+    for (const layerIdToFilter of record.layerIds || []) {
+      if (!this.map.getLayer(layerIdToFilter) || /label|hover|selected/i.test(layerIdToFilter)) continue;
+      this.map.setFilter(layerIdToFilter, null);
+    }
+    record.attributeFilter = null;
+    this.notifyChange();
+    return true;
+  }
+
   setLayerLabelsEnabled(layerId, enabled) {
     const record = this.layers.get(layerId);
     if (!record) return;
@@ -411,12 +440,14 @@ export class TestMapLibreController {
       settled = true;
       clearTimeout(timer);
       this.map.off('error', onError);
-      this.metrics.push({
+      const metric = {
         layerId: layer.id,
+        layerName: layer.name,
         event: 'pmtiles-fallback',
         sourceType: 'pmtiles',
         reason: message.slice(0, 240)
-      });
+      };
+      this.recordMetric(metric);
       const fallback = {
         ...layer,
         sourceType: 'mvt',
@@ -426,14 +457,17 @@ export class TestMapLibreController {
       };
       this.unloadLayer(layer.id);
       this.loadLayer(fallback).catch((err) => {
-        this.metrics.push({
+        this.recordMetric({
           layerId: layer.id,
+          layerName: layer.name,
           event: 'pmtiles-fallback-failed',
           sourceType: 'mvt',
           reason: String(err.message || err).slice(0, 240)
         });
         this.options.onError?.(err);
       });
+      this.fallbackLayers.set(layer.id, metric);
+      this.options.onFallback?.(metric);
     };
     this.map.on('error', onError);
     return () => {
@@ -549,6 +583,11 @@ export class TestMapLibreController {
 
   notifyChange() {
     this.options.onChange?.(this);
+  }
+
+  recordMetric(metric) {
+    this.metrics.push(metric);
+    this.options.onMetric?.(metric);
   }
 }
 

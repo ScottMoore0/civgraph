@@ -22,6 +22,7 @@ export class UrlStateController {
       style: parseLayerValueParam(params.get('style')),
       styleAttr: parseLayerValueParam(params.get('styleAttr')),
       styleRamp: parseLayerValueParam(params.get('styleRamp')),
+      filter: parseLayerValueParam(params.get('filter')),
       selected: params.get('selected') || ''
     };
   }
@@ -41,6 +42,7 @@ export class UrlStateController {
           if (state.line[id]) this.controller.setLayerColor(id, normalizeColorParam(state.line[id]));
           if (state.fill[id]) this.controller.setLayerFillColor(id, normalizeColorParam(state.fill[id]));
           this.restoreStyle(id, state);
+          this.restoreFilter(id, state);
         }
       }
       if (Number.isFinite(state.lng) && Number.isFinite(state.lat) && Number.isFinite(state.z)) {
@@ -68,6 +70,7 @@ export class UrlStateController {
     const style = [];
     const styleAttr = [];
     const styleRamp = [];
+    const filter = [];
     for (const [id, record] of this.controller.layers) {
       if (record.opacity !== undefined) opacity.push(`${id}:${Number(record.opacity).toFixed(2)}`);
       if (record.labelLayerIds?.length) labels.push(`${id}:${record.labelsEnabled ? '1' : '0'}`);
@@ -81,6 +84,9 @@ export class UrlStateController {
         if (activeStyle.attribute) styleAttr.push(`${id}:${activeStyle.attribute}`);
         if (activeStyle.rampName) styleRamp.push(`${id}:${activeStyle.rampName}`);
       }
+      if (record.attributeFilter?.attribute && record.attributeFilter?.value !== undefined) {
+        filter.push(`${id}:${encodeURIComponent(record.attributeFilter.attribute)}=${encodeURIComponent(record.attributeFilter.value)}`);
+      }
     }
     if (opacity.length) params.set('opacity', opacity.join(','));
     if (labels.length) params.set('labels', labels.join(','));
@@ -91,6 +97,7 @@ export class UrlStateController {
     if (style.length) params.set('style', style.join(','));
     if (styleAttr.length) params.set('styleAttr', styleAttr.join(','));
     if (styleRamp.length) params.set('styleRamp', styleRamp.join(','));
+    if (filter.length) params.set('filter', filter.join(','));
     if (this.controller.selected?.layerId && this.controller.selected?.id !== undefined) {
       params.set('selected', `${this.controller.selected.layerId}:${this.controller.selected.id}`);
     }
@@ -120,6 +127,14 @@ export class UrlStateController {
     } else if (mode === 'party') {
       this.conditionalStyling.applyPartyColours(id, { attribute });
     }
+  }
+
+  restoreFilter(id, state) {
+    const value = state.filter[id];
+    if (!value) return;
+    const split = value.indexOf('=');
+    if (split <= 0) return;
+    this.controller.setLayerAttributeFilter(id, decodeURIComponent(value.slice(0, split)), decodeURIComponent(value.slice(split + 1)));
   }
 }
 

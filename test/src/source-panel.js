@@ -9,6 +9,16 @@ export function renderSourcePanel(els, controller, options = {}) {
     return;
   }
   els.sourcePanel.innerHTML = active.map((record) => renderLayerSource(record.config)).join('');
+  els.sourcePanel.querySelectorAll('[data-copy-link]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.copyLink || '');
+        button.textContent = 'Copied';
+      } catch {
+        button.textContent = 'Failed';
+      }
+    });
+  });
 }
 
 function renderLayerSource(layer) {
@@ -32,6 +42,7 @@ function renderLayerSource(layer) {
       <div class="source-panel__badges">
         <span>${escapeHtml(layer.sourceType || 'source')}</span>
         ${layer.tilePackage?.serving ? `<span>${escapeHtml(layer.tilePackage.serving)}</span>` : ''}
+        ${layer.fallbackFromPmtiles ? '<span>PMTiles fallback active</span>' : ''}
         ${!references.length ? '<span>no references</span>' : ''}
         ${!downloads.length ? '<span>no downloads</span>' : ''}
       </div>
@@ -51,7 +62,7 @@ function renderLinkGroup(title, links, open = false) {
   return `
     <details class="source-panel__group" ${open ? 'open' : ''}>
       <summary>${escapeHtml(title)} <span>${links.length}</span></summary>
-      <div>${sorted.map((link) => `<a href="${escapeHtml(link.href)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a>`).join('')}</div>
+      <div>${sorted.map((link) => `<span class="source-panel__link-row"><a href="${escapeHtml(link.href)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a><button type="button" data-copy-link="${escapeHtml(link.href)}">Copy</button></span>`).join('')}</div>
     </details>
   `;
 }

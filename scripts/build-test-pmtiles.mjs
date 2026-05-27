@@ -10,6 +10,7 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { getTileProfile } from './test-tile-profiles.mjs';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
@@ -59,16 +60,17 @@ for (const layer of layers) {
   }
 
   rmSync(outputPath, { force: true });
+  const profile = getTileProfile(layer.sourceMapId || layer.id);
   const args = [
     '-f', 'PMTiles',
     outputPath,
     sourcePath,
     '-dsco', `MINZOOM=${Number(layer.minzoom ?? 0)}`,
     '-dsco', `MAXZOOM=${Number(layer.maxzoom ?? 12)}`,
-    '-dsco', 'MAX_SIZE=10000000',
-    '-dsco', 'MAX_FEATURES=10000000',
-    '-dsco', 'SIMPLIFICATION=1',
-    '-dsco', 'SIMPLIFICATION_MAX_ZOOM=0',
+    '-dsco', `MAX_SIZE=${profile.maxSize}`,
+    '-dsco', `MAX_FEATURES=${profile.maxFeatures}`,
+    '-dsco', `SIMPLIFICATION=${profile.simplification}`,
+    '-dsco', `SIMPLIFICATION_MAX_ZOOM=${profile.simplificationMaxZoom}`,
     '-lco', `NAME=${layer.sourceLayer || safeLayerName(layer.id)}`,
     '-nln', layer.sourceLayer || safeLayerName(layer.id)
   ];
@@ -100,7 +102,7 @@ for (const layer of layers) {
     }));
     continue;
   }
-  converted.push(row(layer, 'converted', describeArchive(outputPath)));
+  converted.push(row(layer, 'converted', { profile, ...describeArchive(outputPath) }));
 }
 
 const report = {

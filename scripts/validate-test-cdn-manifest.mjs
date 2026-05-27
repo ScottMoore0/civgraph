@@ -4,16 +4,18 @@
  */
 
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { resolve } from 'node:path';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
 const MANIFEST_PATH = resolve(ROOT, 'test/metadata/cdn-upload-manifest.json');
 const QUARANTINE_PATH = resolve(ROOT, 'test/metadata/quarantine/roi-counties-2011.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-manifest-validation-report.json');
+const RANGE_REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-range-report.json');
 
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
 const manifest = existsSync(MANIFEST_PATH) ? JSON.parse(readFileSync(MANIFEST_PATH, 'utf8')) : null;
+const rangeReport = existsSync(RANGE_REPORT_PATH) ? JSON.parse(readFileSync(RANGE_REPORT_PATH, 'utf8')) : null;
 const errors = [];
 const warnings = [];
 
@@ -24,6 +26,7 @@ if (!manifest) {
   const assets = (manifest.assets || []).filter((asset) => asset.kind === 'pmtiles');
   const assetByLayer = new Map(assets.map((asset) => [asset.layerId, asset]));
   const assetByLocal = new Map(assets.map((asset) => [normalize(asset.localPath), asset]));
+  const verifiedByLayer = new Map((rangeReport?.results || []).map((item) => [item.layerId, item]));
 
   for (const layer of pmtilesLayers) {
     const asset = assetByLayer.get(layer.id);
@@ -35,6 +38,20 @@ if (!manifest) {
     if (!asset.cdnUrl?.startsWith('https://data.civgraph.net/data/maps/test/')) errors.push(`${layer.id}: CDN URL must use data.civgraph.net/data/maps/test/`);
     if (layer.tileUrl?.startsWith('/test/pmtiles/')) warnings.push(`${layer.id}: still points at repo-local PMTiles URL`);
     if (layer.tileUrl?.startsWith('https://') && layer.tileUrl !== asset.cdnUrl) errors.push(`${layer.id}: tileUrl does not match manifest CDN URL`);
+    if (!layer.tilePackage?.byteRangeVerifiedAt) errors.push(`${layer.id}: missing tilePackage.byteRangeVerifiedAt`);
+    const verified = verifiedByLayer.get(layer.id);
+    if (!verified?.ok) errors.push(`${layer.id}: missing successful CDN range verification report row`);
+  }
+
+  if (!rangeReport) {
+    errors.push('test/metadata/cdn-range-report.json is missing; run npm run verify:test:pmtiles-cdn');
+  } else {
+    if ((rangeReport.totals?.ok || 0) !== pmtilesLayers.length) {
+      errors.push(`CDN range report verified ${rangeReport.totals?.ok || 0}/${pmtilesLayers.length} active PMTiles layers`);
+    }
+    if (Date.parse(rangeReport.generatedAt) < Date.parse(manifest.generatedAt)) {
+      warnings.push('CDN range report is older than CDN upload manifest; rerun npm run verify:test:pmtiles-cdn after manifest changes');
+    }
   }
 
   const localArchives = listLocalPmtiles();

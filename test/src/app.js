@@ -17,6 +17,7 @@ import { ElectionService } from './election-service.js';
 import { ConditionalStylingController } from './conditional-styling.js';
 import { assessMigrationReadiness } from './migration-readiness.js';
 import { showToast } from './utils.js';
+import { TestTelemetry } from './telemetry.js';
 
 async function main() {
   const els = getElements();
@@ -27,14 +28,18 @@ async function main() {
   let timeSeries = { getChains: () => [] };
   let elections = { getCatalogues: () => [] };
   let conditionalStyling = { activeStyles: new Map() };
+  const telemetry = new TestTelemetry();
 
   const renderDiagnostics = () => {
     emitDiagnostics(els, controller, metadata, {
+      severity: els.diagnosticsSeverity?.value || 'all',
+      sort: els.diagnosticsSort?.value || 'severity',
       migrationReadiness: assessMigrationReadiness(metadata, controller),
       featureSearchIndexes: featureSearch.featureIndexes.size,
       timeSeriesChains: timeSeries.getChains().length,
       electionCatalogues: elections.getCatalogues().length,
-      conditionalStyles: conditionalStyling.activeStyles.size
+      conditionalStyles: conditionalStyling.activeStyles.size,
+      telemetry: telemetry.snapshot()
     });
   };
   const renderSecondaryPanels = () => {
@@ -53,6 +58,12 @@ async function main() {
       renderFeatureDetails(els, selection);
       renderSecondaryPanels();
     },
+    onMetric: (metric) => telemetry.record(metric),
+    onFallback: (event) => {
+      telemetry.record({ ...event, event: 'pmtiles-fallback-visible' });
+      renderFallbackAlerts(els, controller);
+      showToast(els, `${event.layerName || event.layerId} fell back to directory tiles.`);
+    },
     onChange: () => {
       renderActiveLayers(els, controller, { onRendered: renderDiagnostics, conditionalStyling });
       catalogue?.render();
@@ -63,9 +74,30 @@ async function main() {
   });
   controller.init();
   els.sourceFilter?.addEventListener('input', renderSecondaryPanels);
+  els.diagnosticsSeverity?.addEventListener('change', renderDiagnostics);
+  els.diagnosticsSort?.addEventListener('change', renderDiagnostics);
+  els.copyDiagnostics?.addEventListener('click', async () => {
+    const report = JSON.stringify(window.__civgraphTest?.diagnostics?.() || {}, null, 2);
+    try {
+      await navigator.clipboard.writeText(report);
+      showToast(els, 'Diagnostics copied.');
+    } catch {
+      showToast(els, 'Diagnostics copy failed.');
+    }
+  });
+  els.sidebarToggle?.addEventListener('click', () => {
+    const open = !document.body.classList.contains('test-sidebar-open');
+    document.body.classList.toggle('test-sidebar-open', open);
+    els.sidebarToggle.setAttribute('aria-expanded', String(open));
+  });
 
   const metadataService = new TestMetadataService();
   metadata = await metadataService.load();
+  telemetry.record({
+    event: 'startup',
+    layerCount: metadata.layers.length,
+    pmtilesLayers: metadata.layers.filter((layer) => layer.sourceType === 'pmtiles').length
+  });
 
   featureSearch = new FeatureSearchService(metadataService);
   timeSeries = new TimeSeriesController(metadataService, controller);
@@ -81,6 +113,7 @@ async function main() {
     featureSearch,
     onError: (err) => {
       console.error(err);
+      telemetry.record({ event: 'catalogue-error', reason: err.message });
       showToast(els, err.message);
     }
   });
@@ -100,8 +133,21 @@ async function main() {
     timeSeries,
     elections,
     conditionalStyling,
+    telemetry,
+    diagnostics: () => emitDiagnostics.lastData || {},
     assessMigrationReadiness: () => assessMigrationReadiness(metadata, controller)
   };
+}
+
+function renderFallbackAlerts(els, controller) {
+  if (!els.fallbackAlerts) return;
+  const fallbacks = controller.metrics.filter((metric) => metric.event === 'pmtiles-fallback').slice(-3);
+  els.fallbackAlerts.innerHTML = fallbacks.map((metric) => `
+    <div class="fallback-alert">
+      <strong>${metric.layerName || metric.layerId}</strong>
+      <span>PMTiles failed; using directory vector tiles.</span>
+    </div>
+  `).join('');
 }
 
 main().catch((err) => {

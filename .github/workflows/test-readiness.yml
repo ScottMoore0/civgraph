@@ -1,0 +1,63 @@
+name: Test rewrite readiness
+
+on:
+  pull_request:
+    paths:
+      - 'test/**'
+      - 'scripts/*test*.mjs'
+      - 'scripts/verify-test-pmtiles-cdn.mjs'
+      - 'scripts/validate-test-cdn-manifest.mjs'
+      - 'package.json'
+      - '.github/workflows/test-readiness.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'test/**'
+      - 'scripts/*test*.mjs'
+      - 'scripts/verify-test-pmtiles-cdn.mjs'
+      - 'scripts/validate-test-cdn-manifest.mjs'
+      - 'package.json'
+      - '.github/workflows/test-readiness.yml'
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm install
+      - run: npm run build:test
+      - run: npm run check:test:ci
+
+  mobile-smoke:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm install
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build:test
+      - run: npm run smoke:test:mobile
+
+  cdn-byte-range-monitor:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm install
+      - run: npm run build:test:cdn-manifest
+      - run: npm run verify:test:pmtiles-cdn

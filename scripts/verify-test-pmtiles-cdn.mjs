@@ -10,6 +10,7 @@ const ROOT = resolve(process.cwd());
 const MANIFEST_PATH = resolve(ROOT, 'test/metadata/cdn-upload-manifest.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-range-report.json');
 const APPLY = process.argv.includes('--apply');
+const ORIGIN = process.env.TEST_CDN_VERIFY_ORIGIN || 'https://civgraph.net';
 const manifest = JSON.parse(readFileSync(MANIFEST_PATH, 'utf8'));
 const assets = (manifest.assets || []).filter((asset) => asset.kind === 'pmtiles');
 const results = [];
@@ -19,7 +20,7 @@ for (const [index, asset] of assets.entries()) {
   try {
     const response = await fetch(asset.cdnUrl, {
       method: 'GET',
-      headers: { Range: 'bytes=0-15' },
+      headers: { Range: 'bytes=0-15', Origin: ORIGIN },
       cache: 'no-store'
     });
     const body = new Uint8Array(await response.arrayBuffer());
@@ -28,7 +29,8 @@ for (const [index, asset] of assets.entries()) {
       && body.length === 16
       && /bytes/i.test(headers['accept-ranges'] || '')
       && /^bytes 0-15\//i.test(headers['content-range'] || '')
-      && Number(headers['content-length']) === 16;
+      && Number(headers['content-length']) === 16
+      && (!headers['access-control-allow-origin'] || headers['access-control-allow-origin'] === ORIGIN || headers['access-control-allow-origin'] === '*');
     results.push({
       layerId: asset.layerId,
       cdnUrl: asset.cdnUrl,
@@ -38,6 +40,8 @@ for (const [index, asset] of assets.entries()) {
       acceptRanges: headers['accept-ranges'] || null,
       contentLength: headers['content-length'] || null,
       contentRange: headers['content-range'] || null,
+      accessControlAllowOrigin: headers['access-control-allow-origin'] || null,
+      accessControlExposeHeaders: headers['access-control-expose-headers'] || null,
       cacheStatus: headers['cf-cache-status'] || null
     });
   } catch (err) {
@@ -49,6 +53,7 @@ const report = {
   schemaVersion: 1,
   generatedAt: new Date().toISOString(),
   rangeRequest: 'bytes=0-15',
+  origin: ORIGIN,
   totals: {
     assets: assets.length,
     ok: results.filter((item) => item.ok).length,

@@ -17,10 +17,12 @@
     "check": "npm run check:chunked-bounds && npm run test:chunked-fit",
     "check:chunked-bounds": "node scripts/validate-chunked-map-bounds.mjs",
     "check:test": "node scripts/validate-test-app.mjs && node scripts/validate-test-tile-budgets.mjs && node scripts/validate-test-cdn-manifest.mjs",
+    "check:test:ci": "node scripts/validate-test-app.mjs && node scripts/validate-test-tile-budgets.mjs && node scripts/validate-test-cdn-manifest.mjs && node scripts/verify-test-pmtiles-cdn.mjs",
     "fix:chunked-bounds": "node scripts/validate-chunked-map-bounds.mjs --fix",
     "smoke:test:mobile": "node scripts/smoke-test-test-mobile.mjs",
     "test:chunked-fit": "node scripts/test-chunked-fit-bounds.mjs",
-    "test:browser": "playwright test"
+    "test:browser": "playwright test",
+    "test:browser:test": "playwright test tests/browser/test-app.spec.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",

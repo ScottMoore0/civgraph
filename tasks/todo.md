@@ -1347,3 +1347,40 @@ Implement /test CDN and UX hardening follow-up
     - Approved `npm run smoke:test:mobile` passed on all 18 PMTiles layers at a 390px mobile viewport; slowest was `roi-townlands-vector-test` at 2607 ms, all layers rendered features, and there were no console errors.
     - `npm run check` passed the existing chunked-map bounds and fit regression checks.
     - Approved `npm run build` passed for the main site bundle.
+
+Implement /test production-readiness and main-shell parity pass
+- [x] Add CI/scheduled monitor scaffolding for `/test` checks and CDN PMTiles byte ranges
+- [x] Add visible PMTiles fallback warnings and richer runtime telemetry
+- [x] Improve diagnostics UI with sorting, severity filters, copy report, and grouped warnings
+- [x] Improve style UI, legends, feature search, and source/reference/download UX
+- [x] Add more Playwright coverage for `/test` URL/style/fallback/diagnostics/source behaviours
+- [x] Harden service-worker cache eviction with quota-aware cleanup
+- [x] Add deployment documentation, production readiness checklist, and CDN/cache versioning discipline
+- [x] Improve accessibility and mobile ergonomics
+- [x] Port practical main-site top-navbar and catalogue-shell parity into `/test`
+- [x] Retune current tile-budget warning layers if feasible without new data
+- [x] Verify, commit, and push
+  - Review:
+    - Added `.github/workflows/test-readiness.yml` with pull-request/push validation and scheduled/manual CDN byte-range monitoring.
+    - Added `npm run check:test:ci` and `npm run test:browser:test`.
+    - Added main-style Civgraph top navigation to `/test`, kept the left catalogue-first workflow, added catalogue stats, and added a mobile catalogue toggle.
+    - Added visible PMTiles fallback alerts, fallback metrics, PMTiles/CDN timing telemetry, and `/test` RUM beacons on Civgraph hosts only.
+    - Diagnostics now support severity filtering, sorting, grouped warnings, PMTiles network timing, fallback/CDN failure counts, and copy-report.
+    - Style controls now support saved per-layer presets, legend click-to-filter, URL persistence for legend filters, and reset clearing both style and filters.
+    - Source/reference/download rows now include copy-link actions and fallback badges.
+    - The `/test` service worker now trims caches more aggressively under storage pressure and can report cache status to clients.
+    - Added `test/metadata/production-readiness.md` and linked it from PMTiles/CDN deployment docs.
+    - Added `scripts/test-tile-profiles.mjs` and wired profiles into directory MVT and PMTiles generation. The two budget-warning layers were regenerated, PMTiles were rebuilt, uploaded to R2, CDN range-verified, and metadata was switched back to CDN URLs.
+    - Tuning reduced `roi-townlands-vector-test` PMTiles from about 66.1 MB to 52.6 MB and lowered the fallback tile directory from about 102.6 MB to 84.3 MB. It did not fully clear all warning thresholds, so the hard validation still reports warning-only findings rather than hiding them.
+    - Restored the full 18 converted vector-layer metadata after a narrowed tuning report exposed a promotion hazard; `build-test-vector-batch` now includes already-converted rows when regenerating the full report.
+    - Bumped `/test` assets and scoped service worker to `test-012`.
+  - Verification:
+    - `node --check` passed for changed `/test` modules, scripts, and the RUM function.
+    - Approved `npm run build:test:batch-vectors -- --execute` regenerated all 18 converted vector outputs.
+    - `npm run build:test:promote` restored 17 promoted vector layers and 105 raster image layers.
+    - Approved `npm run build:test:pmtiles` restored 18 PMTiles metadata entries.
+    - Approved `npm run deploy:test:pmtiles -- --ids roi-small-areas-2011-vector-test,roi-townlands-vector-test` uploaded the retuned PMTiles archives.
+    - Approved `npm run verify:test:pmtiles-cdn` verified all 18 CDN PMTiles URLs.
+    - `npm run switch:test:pmtiles-cdn` switched all 18 PMTiles layer URLs to CDN URLs.
+    - `npm run check:test`, approved `npm run build:test`, `npm run test:browser:test`, approved `npm run smoke:test:mobile`, `npm run check`, approved `npm run build`, `npm run check:test:ci`, and final CDN manifest validation passed.
+    - The all-layer mobile smoke loaded all 18 PMTiles layers; slowest was `roi-townlands-vector-test` at 2484ms, under the 5000ms budget.

@@ -2,6 +2,8 @@
 
 The `/test` rewrite can load either directory MVT or single-file PMTiles archives. The constrained local build path is GDAL's writable `PMTiles` driver.
 
+Promotion and rollback requirements are tracked in `test/metadata/production-readiness.md`.
+
 ## Build order
 
 1. Refresh converted directory MVT outputs when source data changes:

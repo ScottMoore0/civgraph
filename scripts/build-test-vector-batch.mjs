@@ -10,6 +10,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, extname, relative, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { getTileProfile } from './test-tile-profiles.mjs';
 
 const ROOT = resolve(process.cwd());
 const PLAN_PATH = resolve(ROOT, 'test/metadata/main-site-port-plan.json');
@@ -26,7 +27,7 @@ const candidates = [];
 const skipped = [];
 
 for (const row of plan.rows || []) {
-  if (row.conversionStatus !== 'needsVectorTileConversion') continue;
+  if (row.conversionStatus !== 'needsVectorTileConversion' && row.conversionStatus !== 'converted') continue;
   if (ONLY_IDS.size && !ONLY_IDS.has(row.sourceMapId)) continue;
   const source = chooseSource(row);
   if (!source) {
@@ -61,6 +62,7 @@ if (EXECUTE) {
     rmSync(outputPath, { recursive: true, force: true });
     mkdirSync(dirname(outputPath), { recursive: true });
     const layerName = slugify(candidate.sourceMapId).replace(/-/g, '_');
+    const profile = getTileProfile(candidate.sourceMapId);
     const result = spawnSync('ogr2ogr', [
       '-f', 'MVT',
       outputPath,
@@ -71,17 +73,17 @@ if (EXECUTE) {
       '-dsco', 'TILE_EXTENSION=pbf',
       '-dsco', 'COMPRESS=NO',
       '-dsco', `NAME=${candidate.name || candidate.sourceMapId}`,
-      '-dsco', 'MAX_SIZE=10000000',
-      '-dsco', 'MAX_FEATURES=10000000',
-      '-dsco', 'SIMPLIFICATION=1',
-      '-dsco', 'SIMPLIFICATION_MAX_ZOOM=0',
+      '-dsco', `MAX_SIZE=${profile.maxSize}`,
+      '-dsco', `MAX_FEATURES=${profile.maxFeatures}`,
+      '-dsco', `SIMPLIFICATION=${profile.simplification}`,
+      '-dsco', `SIMPLIFICATION_MAX_ZOOM=${profile.simplificationMaxZoom}`,
       '-lco', `NAME=${layerName}`,
       '-nln', layerName
     ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 });
     if (result.status === 0) {
       const verification = verifyMvtDirectory(outputPath);
       if (verification.ok) {
-        converted.push({ ...candidate, sourceLayer: verification.sourceLayer, ...verification.stats });
+        converted.push({ ...candidate, profile, sourceLayer: verification.sourceLayer, ...verification.stats });
       } else {
         failed.push({ ...candidate, error: verification.error });
       }
