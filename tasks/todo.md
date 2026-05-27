@@ -1384,3 +1384,33 @@ Implement /test production-readiness and main-shell parity pass
     - `npm run switch:test:pmtiles-cdn` switched all 18 PMTiles layer URLs to CDN URLs.
     - `npm run check:test`, approved `npm run build:test`, `npm run test:browser:test`, approved `npm run smoke:test:mobile`, `npm run check`, approved `npm run build`, `npm run check:test:ci`, and final CDN manifest validation passed.
     - The all-layer mobile smoke loaded all 18 PMTiles layers; slowest was `roi-townlands-vector-test` at 2484ms, under the 5000ms budget.
+
+Fix Cloudflare Pages 20,000-file deployment failure
+- [x] Inspect deployment log, Pages cleanup script, tracked tile file counts, and `/test` metadata references
+- [x] Decide and implement the minimal production-safe fix
+- [x] Add/verify a guardrail so generated tile directories cannot silently push Pages over the file cap again
+- [x] Verify locally, commit, and push
+  - Findings so far:
+    - Cloudflare Pages failed after `npm run build && bash scripts/clean-for-pages.sh` with the 20,000-file deployment cap.
+    - `scripts/clean-for-pages.sh` currently deletes files over 25 MB only; it does not remove high-file-count tile pyramids.
+    - The tracked repo contains 61,970 files; 45,897 tracked files are under `test/tiles`.
+    - `test/tiles/generated` alone contains 41,973 tracked files.
+    - `test/tiles/civil-parishes-v3` contains another 3,924 tracked files.
+    - Removing only `test/tiles/generated` would leave about 19,997 tracked files before build output, so the safer fix also needs to handle the legacy civil-parishes directory tiles or add a stronger deployment-file-count guard.
+    - All 18 PMTiles layers in `/test` point at `https://data.civgraph.net/...` CDN/R2 URLs, but 17 directory-MVT fallbacks still point at local `/test/tiles/...` paths.
+  - Implementation:
+    - Removed `test/tiles/generated/` and `test/tiles/civil-parishes-v3/` from Git tracking with `git rm --cached`, leaving local developer copies available but keeping them out of future Cloudflare clones/deploys.
+    - Added `test/tiles/generated/`, `test/tiles/civil-parishes-v3/`, `test/tiles/`, `test/pmtiles/generated/`, and `node_modules/` deployment/source-control guardrails through `.gitignore`, `.cfignore`, and `scripts/clean-for-pages.sh`.
+    - Hardened `scripts/clean-for-pages.sh` so Pages build output removes local tile pyramids and fails early if the remaining asset output still exceeds Cloudflare's 20,000-file cap.
+    - Updated `/test` PMTiles fallback handling so production does not attempt to use local directory-MVT fallbacks that are intentionally not deployed; local development hosts can still use them.
+    - Updated `/test` production-readiness documentation and `tasks/lessons.md` with the Pages/R2 split and file-count guardrail.
+  - Verification:
+    - `git ls-files | Measure-Object` now reports 16,073 tracked files.
+    - `git ls-files test/tiles` now reports 0 tracked files.
+    - `bash -n scripts/clean-for-pages.sh` passed.
+    - `node --check` passed for changed `/test` runtime modules.
+    - `npm run check:test` passed; existing warning-only tile budget findings remain for `roi-small-areas-2011` and `roi-townlands`.
+    - Approved `npm run build` passed after the sandboxed run hit an esbuild spawn `EPERM`.
+    - Approved `npm run build:test` passed after the sandboxed run hit an esbuild spawn `EPERM`.
+    - `npm run check` passed.
+    - Approved `npm run test:browser:test` passed all 4 tests after the sandboxed run hit a browser spawn `EPERM`.

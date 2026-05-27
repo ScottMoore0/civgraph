@@ -39,3 +39,10 @@ data/maps/**/*.fgb
 data/maps/**/*.fgb.gz
 data/maps/**/*-chunks.json
 data/maps/osni-originals/
+
+# /test MapLibre tile payloads are served from R2/CDN as PMTiles in production.
+# Directory MVT pyramids are local build/fallback artifacts and must not count
+# against the Cloudflare Pages deployment file limit.
+test/tiles/
+test/pmtiles/generated/
+node_modules/

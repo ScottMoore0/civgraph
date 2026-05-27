@@ -20,6 +20,15 @@ import {
 } from './labels.js';
 import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates, boundsToMapLibre, clamp } from './utils.js';
 
+function isLocalTestTileTemplate(value) {
+  return typeof value === 'string' && value.startsWith('/test/tiles/');
+}
+
+function localTestTilesAvailable() {
+  const hostname = globalThis.location?.hostname || '';
+  return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+}
+
 export class TestMapLibreController {
   constructor(container, options = {}) {
     this.container = container;
@@ -110,7 +119,7 @@ export class TestMapLibreController {
     if (layer.sourceType !== 'raster' && layer.sourceType !== 'image') {
       this.interactionCleanups.set(layer.id, this.bindLayerInteractions(layer, fillId, labelId, sourceId));
     }
-    if (layer.sourceType === 'pmtiles' && layer.tilesFallback) {
+    if (layer.sourceType === 'pmtiles') {
       this.fallbackCleanups.set(layer.id, this.monitorPmtilesFallback(layer, sourceId));
     }
     this.fitToLayer(layer.id);
@@ -448,6 +457,19 @@ export class TestMapLibreController {
         reason: message.slice(0, 240)
       };
       this.recordMetric(metric);
+      const fallbackAvailable = layer.tilesFallback && (!isLocalTestTileTemplate(layer.tilesFallback) || localTestTilesAvailable());
+      if (!fallbackAvailable) {
+        const unavailableMetric = {
+          ...metric,
+          event: 'pmtiles-fallback-unavailable',
+          fallbackUnavailable: true,
+          reason: `${metric.reason}${metric.reason ? ' ' : ''}Directory MVT fallback is not deployed on production Pages.`
+        };
+        this.recordMetric(unavailableMetric);
+        this.fallbackLayers.set(layer.id, unavailableMetric);
+        this.options.onFallback?.(unavailableMetric);
+        return;
+      }
       const fallback = {
         ...layer,
         sourceType: 'mvt',

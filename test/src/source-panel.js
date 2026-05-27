@@ -1,5 +1,14 @@
 import { escapeHtml } from './utils.js';
 
+function isLocalTestTileTemplate(value) {
+  return typeof value === 'string' && value.startsWith('/test/tiles/');
+}
+
+function localTestTilesAvailable() {
+  const hostname = globalThis.location?.hostname || '';
+  return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+}
+
 export function renderSourcePanel(els, controller, options = {}) {
   if (!els.sourcePanel) return;
   const query = String(options.query || '').trim().toLowerCase();
@@ -31,10 +40,11 @@ function renderLayerSource(layer) {
   const credits = (layer.sourceCredits || []).filter(Boolean);
   const references = (layer.references || []).map((ref, index) => ({ label: ref.label || `Reference ${index + 1}`, href: ref.url || ref.file }));
   const downloads = (layer.sourceDownloads || []).map((download) => ({ label: download.label || 'Download', href: download.file || download.url }));
+  const fallbackIsLocalOnly = isLocalTestTileTemplate(layer.tilesFallback) && !localTestTilesAvailable();
   const technical = [
     layer.metadataUrl ? { label: 'Tile metadata', href: layer.metadataUrl } : null,
     layer.tileUrl ? { label: 'PMTiles archive', href: layer.tileUrl } : null,
-    layer.tilesFallback ? { label: 'Directory MVT fallback', href: layer.tilesFallback.replace('/{z}/{x}/{y}.pbf', '/metadata.json') } : null
+    layer.tilesFallback && !fallbackIsLocalOnly ? { label: 'Directory MVT fallback', href: layer.tilesFallback.replace('/{z}/{x}/{y}.pbf', '/metadata.json') } : null
   ].filter((link) => link?.href);
   return `
     <article class="source-panel__layer">
@@ -43,6 +53,7 @@ function renderLayerSource(layer) {
         <span>${escapeHtml(layer.sourceType || 'source')}</span>
         ${layer.tilePackage?.serving ? `<span>${escapeHtml(layer.tilePackage.serving)}</span>` : ''}
         ${layer.fallbackFromPmtiles ? '<span>PMTiles fallback active</span>' : ''}
+        ${fallbackIsLocalOnly ? '<span>local fallback not deployed</span>' : ''}
         ${!references.length ? '<span>no references</span>' : ''}
         ${!downloads.length ? '<span>no downloads</span>' : ''}
       </div>

@@ -62,7 +62,10 @@ async function main() {
     onFallback: (event) => {
       telemetry.record({ ...event, event: 'pmtiles-fallback-visible' });
       renderFallbackAlerts(els, controller);
-      showToast(els, `${event.layerName || event.layerId} fell back to directory tiles.`);
+      const name = event.layerName || event.layerId;
+      showToast(els, event.fallbackUnavailable
+        ? `${name} PMTiles failed; no production directory fallback is deployed.`
+        : `${name} fell back to directory tiles.`);
     },
     onChange: () => {
       renderActiveLayers(els, controller, { onRendered: renderDiagnostics, conditionalStyling });
@@ -141,11 +144,15 @@ async function main() {
 
 function renderFallbackAlerts(els, controller) {
   if (!els.fallbackAlerts) return;
-  const fallbacks = controller.metrics.filter((metric) => metric.event === 'pmtiles-fallback').slice(-3);
+  const fallbacks = controller.metrics
+    .filter((metric) => metric.event === 'pmtiles-fallback' || metric.event === 'pmtiles-fallback-unavailable')
+    .slice(-3);
   els.fallbackAlerts.innerHTML = fallbacks.map((metric) => `
     <div class="fallback-alert">
       <strong>${metric.layerName || metric.layerId}</strong>
-      <span>PMTiles failed; using directory vector tiles.</span>
+      <span>${metric.fallbackUnavailable
+        ? 'PMTiles failed; production directory fallback is not deployed.'
+        : 'PMTiles failed; using directory vector tiles.'}</span>
     </div>
   `).join('');
 }
