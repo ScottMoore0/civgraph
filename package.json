@@ -2,6 +2,7 @@
   "scripts": {
     "build": "node scripts/validate-chunked-map-bounds.mjs && node scripts/bundle.mjs",
     "build:test": "node scripts/validate-test-app.mjs && node scripts/build-test-app.mjs",
+    "build:test:metadata": "node scripts/build-test-metadata-plan.mjs",
     "build:test:tiles": "node scripts/build-test-civil-parishes-tiles.mjs",
     "check": "npm run check:chunked-bounds && npm run test:chunked-fit",
     "check:chunked-bounds": "node scripts/validate-chunked-map-bounds.mjs",

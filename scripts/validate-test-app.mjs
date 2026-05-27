@@ -8,9 +8,29 @@ import { resolve } from 'node:path';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
+const PORT_PLAN_PATH = resolve(ROOT, 'test/metadata/main-site-port-plan.json');
 const INDEX_PATH = resolve(ROOT, 'test/index.html');
 const APP_PATH = resolve(ROOT, 'test/src/app.js');
+const CONFIG_PATH = resolve(ROOT, 'test/src/config.js');
 const SERVICE_WORKER_PATH = resolve(ROOT, 'test/sw.js');
+const REQUIRED_MODULES = [
+  'test/src/config.js',
+  'test/src/dom.js',
+  'test/src/utils.js',
+  'test/src/labels.js',
+  'test/src/metadata-service.js',
+  'test/src/map-controller.js',
+  'test/src/catalogue-controller.js',
+  'test/src/active-layers.js',
+  'test/src/feature-details.js',
+  'test/src/diagnostics.js',
+  'test/src/url-state.js',
+  'test/src/search-service.js',
+  'test/src/time-series-controller.js',
+  'test/src/election-service.js',
+  'test/src/conditional-styling.js',
+  'test/src/migration-readiness.js'
+];
 
 function localPathFromUrlTemplate(value) {
   if (typeof value !== 'string') return null;
@@ -45,6 +65,15 @@ function validateLayer(layer) {
     errors.push(`${layer.id}: invalid minzoom/maxzoom`);
   }
   if (!isValidBounds(layer.bounds)) errors.push(`${layer.id}: invalid bounds`);
+  if (layer.geometryType !== undefined && !['polygon', 'line', 'point'].includes(layer.geometryType)) {
+    errors.push(`${layer.id}: geometryType must be polygon, line, or point`);
+  }
+  if (layer.references !== undefined && !Array.isArray(layer.references)) {
+    errors.push(`${layer.id}: references must be an array`);
+  }
+  if (layer.sourceDownloads !== undefined && !Array.isArray(layer.sourceDownloads)) {
+    errors.push(`${layer.id}: sourceDownloads must be an array`);
+  }
   if (layer.labelProperty) {
     if (layer.labelPropertyFallbacks && !Array.isArray(layer.labelPropertyFallbacks)) {
       errors.push(`${layer.id}: labelPropertyFallbacks must be an array`);
@@ -138,12 +167,12 @@ function formatBytes(bytes) {
 function validateAssetVersions() {
   const errors = [];
   const indexHtml = readFileSync(INDEX_PATH, 'utf8');
-  const appJs = readFileSync(APP_PATH, 'utf8');
+  const configJs = readFileSync(CONFIG_PATH, 'utf8');
   const serviceWorker = readFileSync(SERVICE_WORKER_PATH, 'utf8');
 
   const indexVersions = [...indexHtml.matchAll(/\/test\/build\/test\.bundle\.(?:js|css)\?v=(test-\d+)/g)]
     .map((match) => match[1]);
-  const appVersion = appJs.match(/const\s+TEST_ASSET_VERSION\s*=\s*['"](test-\d+)['"]/)?.[1];
+  const appVersion = configJs.match(/TEST_ASSET_VERSION\s*=\s*['"](test-\d+)['"]/)?.[1];
   const swVersion = serviceWorker.match(/const\s+TEST_CACHE_VERSION\s*=\s*['"]test-v(\d+)['"]/)?.[1];
 
   if (indexVersions.length !== 2) {
@@ -157,7 +186,7 @@ function validateAssetVersions() {
 
   const indexVersion = uniqueIndexVersions[0];
   const indexVersionNumber = indexVersion?.match(/^test-(\d+)$/)?.[1];
-  if (!appVersion) errors.push('test/src/app.js must define TEST_ASSET_VERSION');
+  if (!appVersion) errors.push('test/src/config.js must define TEST_ASSET_VERSION');
   if (!swVersion) errors.push('test/sw.js must define TEST_CACHE_VERSION as test-vN');
 
   if (indexVersion && appVersion && indexVersion !== appVersion) {
@@ -171,11 +200,57 @@ function validateAssetVersions() {
   return errors;
 }
 
+function validateModules() {
+  const errors = [];
+  for (const modulePath of REQUIRED_MODULES) {
+    if (!existsSync(resolve(ROOT, modulePath))) errors.push(`missing /test module: ${modulePath}`);
+  }
+  return errors;
+}
+
+function validateMetadataContract(metadata) {
+  const errors = [];
+  const warnings = [];
+  if (Number(metadata.schemaVersion || 0) < 2) errors.push('metadata schemaVersion must be at least 2');
+  if (!Array.isArray(metadata.categories)) warnings.push('metadata has no categories array; catalogue grouping will be inferred');
+  if (!metadata.capabilities || typeof metadata.capabilities !== 'object') warnings.push('metadata has no capabilities object');
+  if (!metadata.readiness || typeof metadata.readiness !== 'object') warnings.push('metadata has no migration readiness object');
+  if (!Array.isArray(metadata.timeSeriesChains)) warnings.push('metadata has no timeSeriesChains array');
+  if (!Array.isArray(metadata.electionCatalogues)) warnings.push('metadata has no electionCatalogues array');
+  return { errors, warnings };
+}
+
+function validatePortPlan(metadata) {
+  const errors = [];
+  const warnings = [];
+  if (!existsSync(PORT_PLAN_PATH)) {
+    warnings.push('test/metadata/main-site-port-plan.json is missing; run npm run build:test:metadata to refresh migration inventory');
+    return { errors, warnings };
+  }
+  const plan = JSON.parse(readFileSync(PORT_PLAN_PATH, 'utf8'));
+  if (!Array.isArray(plan.rows) || plan.rows.length === 0) {
+    errors.push('main-site port plan must contain rows');
+  }
+  const convertedIds = new Set((plan.rows || []).filter((row) => row.conversionStatus === 'converted').map((row) => row.testLayerId));
+  for (const layer of metadata.layers || []) {
+    if (!convertedIds.has(layer.id)) {
+      errors.push(`${layer.id}: missing converted row in main-site port plan`);
+    }
+  }
+  return { errors, warnings };
+}
+
 function main() {
   const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
   const layers = metadata.layers || [];
-  const errors = validateAssetVersions();
+  const errors = [...validateAssetVersions(), ...validateModules()];
   const warnings = [];
+  const metadataResult = validateMetadataContract(metadata);
+  errors.push(...metadataResult.errors);
+  warnings.push(...metadataResult.warnings);
+  const portPlanResult = validatePortPlan(metadata);
+  errors.push(...portPlanResult.errors);
+  warnings.push(...portPlanResult.warnings);
 
   for (const layer of layers) {
     const result = validateLayer(layer);
@@ -186,6 +261,7 @@ function main() {
   console.log('Civgraph /test Validation');
   console.log(`- metadata: test/metadata/maps-test.json`);
   console.log(`- layers: ${layers.length}`);
+  if (existsSync(PORT_PLAN_PATH)) console.log(`- port plan: test/metadata/main-site-port-plan.json`);
 
   if (warnings.length) {
     console.log('\nWarnings:');

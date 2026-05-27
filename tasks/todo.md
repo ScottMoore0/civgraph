@@ -1172,3 +1172,33 @@ Show /test feature labels at every zoom and compare architecture
     - Bumped `/test` assets to `test-005` and the scoped service worker to `test-v5`; diagnostics now report label layer zoom bounds and rendered label feature count.
     - Updated `scripts/validate-test-app.mjs` so null/omitted `labelMaxZoom` is a valid intentional uncapped state while invalid numeric caps still fail validation.
     - Verification evidence: `node --check test\src\app.js`, `node --check scripts\validate-test-app.mjs`, `npm run check:test`, and approved `npm run build:test` passed; headless mobile smoke loaded `/test`, requested `test.bundle.css?v=test-005`, `test.bundle.js?v=test-005`, and `maps-test.json?v=test-005`, then loaded Civil Parishes at z5.372 with label diagnostics showing `minzoom: 0`, `maxzoom: null`, and `renderedLabelFeatures: 46`.
+
+Plan main-site functionality transfer into /test
+- [x] Review main-site controllers, metadata, catalogue, labels, search, elections, time slider, styling, and /test rewrite structure
+- [x] Produce an implementation-grade plan for what to port, what to redesign, and what to leave behind
+  - Review:
+    - Plan should favour capability parity on MapLibre/vector tiles rather than copying Leaflet/FGB/DOM implementations.
+    - High-ROI transferable areas are metadata normalization, catalogue/detail UX, layer controls, feature details, search, URL state, source/download references, time-series workflows, and election data contracts.
+    - Low-ROI or harmful transfers are Leaflet layer objects, DOM `DivIcon` labels, eager catalogue rendering, FGB chunk/LOD loading as the primary architecture, and Leaflet-specific election rendering.
+
+Execute /test main-site capability transfer phases 1-12
+- [x] Phase 1: split `/test` app into MapLibre-native modules
+- [x] Phase 2: add normalized `/test` metadata v2 foundation and conversion/validation contract
+- [x] Phase 3: add vector-tile manifest/source validation
+- [x] Phase 4: improve catalogue parity without eager DOM churn
+- [x] Phase 5: improve map/layer controls and renderer-agnostic state
+- [x] Phase 6: keep generalized MapLibre labels with diagnostics
+- [x] Phase 7: add feature detail/search contracts
+- [x] Phase 8: add URL/share state
+- [x] Phase 9: add time-series workflow scaffold
+- [x] Phase 10: add election workflow scaffold
+- [x] Phase 11: expand production hardening validators
+- [x] Phase 12: add migration readiness gates and smoke verification
+  - Review:
+    - Replaced the monolithic `/test` app entrypoint with dedicated modules for config, DOM wiring, utilities, metadata normalization, MapLibre layer control, catalogue rendering, active-layer controls, labels, feature details, diagnostics, URL state, feature search, time-series scaffolding, election scaffolding, conditional styling, and migration readiness.
+    - Upgraded `/test` metadata to schema v2 with categories, capabilities, readiness notes, source downloads, provider/search metadata, geometry type, and continued Civil Parishes vector-tile configuration.
+    - Added `npm run build:test:metadata` to produce `test/metadata/main-site-port-plan.json`, a deterministic migration inventory of the main catalogue: 901 rows including variants, 1 converted layer, 628 vector-tile candidates, 120 raster-strategy candidates, and 152 metadata-only entries.
+    - Expanded validation so `/test` now checks module presence, metadata schema, vector-tile source directories, uncapped label rules, source/download/reference shapes, asset/cache version alignment, and that converted `/test` layers appear in the main-site port plan.
+    - Preserved the MapLibre label/hover/click behaviour, added URL hash state for active layers and viewport, exposed `window.__civgraphTest` for debugging, and surfaced migration readiness in diagnostics.
+    - Scope note: this executes the architecture and migration-management phases in full for the `/test` pilot. It does not mean all 901 main-site map/variant entries have been converted to live vector tiles; the port plan now makes that remaining data production work explicit and gated.
+    - Verification evidence: `node --check` passed for every `test/src/*.js` file and the new metadata-plan script; `npm run build:test:metadata`, `npm run check:test`, and approved `npm run build:test` passed; headless mobile smoke loaded `/test`, loaded Civil Parishes, reported `assetVersion: test-006`, one normalized category, one active layer, no console errors, URL hash state for the active layer, and 46 rendered low-zoom label features.

@@ -1,14 +1,44 @@
 {
-  "version": 1,
+  "version": 2,
+  "schemaVersion": 2,
   "description": "Isolated /test metadata for the MapLibre GL + vector-tile rewrite path.",
+  "capabilities": {
+    "catalogue": true,
+    "vectorTiles": true,
+    "featureDetails": true,
+    "featureSearch": true,
+    "urlState": true,
+    "timeSeries": true,
+    "elections": true,
+    "conditionalStyling": true
+  },
+  "readiness": {
+    "status": "pilot",
+    "cutoverBlockedBy": [
+      "Only the Civil Parishes pilot has been converted to vector tiles.",
+      "Election workflows and time-series workflows are scaffolded but do not yet have complete converted data."
+    ]
+  },
+  "categories": [
+    {
+      "id": "civil-parishes",
+      "name": "Civil Parishes",
+      "group": "History",
+      "description": "Civil parish boundaries"
+    }
+  ],
+  "timeSeriesChains": [],
+  "electionCatalogues": [],
   "layers": [
     {
       "id": "civil-parishes-vector-test",
       "sourceMapId": "civil-parishes-by-province",
       "name": "Civil Parishes of Ireland",
       "category": "Civil Parishes",
+      "group": "History",
       "renderer": "maplibre",
       "sourceType": "mvt",
+      "geometryType": "polygon",
       "tiles": "/test/tiles/civil-parishes-v3/{z}/{x}/{y}.pbf",
       "metadataUrl": "/test/tiles/civil-parishes-v3/metadata.json",
       "sourceLayer": "civil_parishes",
@@ -31,6 +61,21 @@
         "fillOpacity": 0.18,
         "weight": 1.2
       },
+      "provider": "Historic boundary data prepared for Civgraph test vector-tile pilot",
+      "references": [],
+      "sourceDownloads": [
+        {
+          "label": "Civil Parishes source FlatGeobuf",
+          "file": "/data/maps/baronies-parishes/Civil_Parishes_Ireland_v2.fgb"
+        }
+      ],
+      "keywords": [
+        "civil parishes",
+        "history",
+        "ireland",
+        "maplibre",
+        "vector tiles"
+      ],
       "labelProperty": "name_en",
       "labelPropertyFallbacks": [
         "name_ga"
