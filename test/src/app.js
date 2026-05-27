@@ -38,7 +38,7 @@ async function main() {
     });
   };
   const renderSecondaryPanels = () => {
-    renderSourcePanel(els, controller);
+    renderSourcePanel(els, controller, { query: els.sourceFilter?.value || '' });
     renderTimeSeriesPanel(els, timeSeries, controller, {
       onChange: () => {
         renderActiveLayers(els, controller, { onRendered: renderDiagnostics, conditionalStyling });
@@ -62,6 +62,7 @@ async function main() {
     }
   });
   controller.init();
+  els.sourceFilter?.addEventListener('input', renderSecondaryPanels);
 
   const metadataService = new TestMetadataService();
   metadata = await metadataService.load();
@@ -85,7 +86,7 @@ async function main() {
   });
   catalogue.init();
 
-  urlState = new UrlStateController(controller, metadataService);
+  urlState = new UrlStateController(controller, metadataService, conditionalStyling);
   await urlState.restore();
   renderActiveLayers(els, controller, { onRendered: renderDiagnostics, conditionalStyling });
   renderFeatureDetails(els, null);

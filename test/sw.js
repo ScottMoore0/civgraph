@@ -6,7 +6,7 @@
  * active development.
  */
 
-const TEST_CACHE_VERSION = 'test-v9';
+const TEST_CACHE_VERSION = 'test-v10';
 const TEST_STATIC_CACHE = `civgraph-${TEST_CACHE_VERSION}-static`;
 const TEST_RUNTIME_CACHE = `civgraph-${TEST_CACHE_VERSION}-runtime`;
 const TEST_TILE_CACHE = `civgraph-${TEST_CACHE_VERSION}-tiles`;
@@ -73,7 +73,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  if (url.pathname.startsWith('/test/tiles/')) {
+  if (url.pathname.startsWith('/test/tiles/') || url.pathname.startsWith('/test/pmtiles/')) {
     event.respondWith(cacheFirst(req, TEST_TILE_CACHE));
     return;
   }

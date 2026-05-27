@@ -15,7 +15,7 @@ export class FeatureSearchService {
       const index = await this.loadIndex(layer);
       for (const item of index) {
         if (normalizeSearchText(`${item.name} ${item.id} ${(item.aliases || []).join(' ')}`).includes(q)) {
-          results.push({ ...item, layerId: layer.id, layerName: layer.name });
+          results.push({ ...item, layerId: layer.id, layerName: layer.name, category: layer.category, sourceType: layer.sourceType });
           if (results.length >= limit) return results;
         }
       }

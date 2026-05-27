@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "sourceMapId": "roi-counties-2011",
+  "reason": "Generated MVT metadata reported bounds outside the Ireland validation envelope, so the layer was not promoted into maps-test.json.",
+  "action": "Removed test/tiles/generated/roi-counties-2011 from the active generated tile path. Regenerate from a corrected source or corrected CRS/bounds before promotion.",
+  "guardrail": "npm run check:test fails if test/tiles/generated/roi-counties-2011 exists again."
+}

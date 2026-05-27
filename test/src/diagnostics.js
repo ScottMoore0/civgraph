@@ -16,12 +16,48 @@ export function emitDiagnostics(els, controller, metadata = null, extra = {}) {
     loadedLayers: [...controller.layers.keys()],
     labelLayers: getDiagnosticLabelLayers(controller),
     renderedLabelFeatures: getRenderedLabelFeatureCount(controller),
+    health: getHealthDiagnostics(controller, metadata),
     zoom: controller.map ? Number(controller.map.getZoom().toFixed(3)) : null,
     center: controller.map ? controller.map.getCenter().toArray().map((value) => Number(value.toFixed(5))) : null,
     metrics: controller.metrics.slice(-8),
     ...extra
   };
   els.diagnostics.textContent = JSON.stringify(data, null, 2);
+}
+
+export function getHealthDiagnostics(controller, metadata) {
+  const layers = metadata?.layers || [];
+  const loadable = layers.filter((layer) => layer.loadable !== false);
+  const slowLoads = controller.metrics
+    .filter((metric) => metric.event === 'load' && metric.durationMs >= 1500)
+    .slice(-10);
+  const largeLayers = loadable
+    .filter((layer) => Number(layer.generatedFrom?.bytes || layer.tilePackage?.bytes || 0) >= 50 * 1024 * 1024)
+    .map((layer) => ({
+      id: layer.id,
+      sourceType: layer.sourceType,
+      bytes: layer.generatedFrom?.bytes || layer.tilePackage?.bytes || null,
+      maxTileBytes: layer.generatedFrom?.maxTileBytes || null
+    }));
+  const oversizedTiles = loadable
+    .filter((layer) => Number(layer.generatedFrom?.maxTileBytes || 0) >= 1024 * 1024)
+    .map((layer) => ({
+      id: layer.id,
+      maxTileBytes: layer.generatedFrom.maxTileBytes
+    }));
+  const missingIndexes = loadable
+    .filter((layer) => ['mvt', 'pmtiles'].includes(layer.sourceType))
+    .filter((layer) => layer.labelProperty && !layer.featureIndexUrl)
+    .map((layer) => layer.id);
+  return {
+    loadableLayers: loadable.length,
+    pmtilesLayers: loadable.filter((layer) => layer.sourceType === 'pmtiles').length,
+    directoryMvtLayers: loadable.filter((layer) => layer.sourceType === 'mvt').length,
+    slowLoads,
+    largeLayers,
+    oversizedTiles,
+    missingIndexes
+  };
 }
 
 export function getDiagnosticLabelLayers(controller) {

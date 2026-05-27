@@ -1263,3 +1263,40 @@ Implement /test conversion and advanced parity follow-up
     - `npm run build:test:pmtiles` wrote a PMTiles tool report showing the missing local PMTiles/tippecanoe tools.
     - `npm run check:test`, approved `npm run build:test`, and `npm run check` passed.
     - Local mobile-size smoke loaded `/test/index.html`, confirmed `assetVersion: test-009`, loaded `roi-garda-regions-vector-test`, applied categorical styling on `REGION`, loaded `wards-1993-wards92-antrim-raster-image-test`, verified source-panel content, and confirmed feature search results.
+
+Implement /test non-data-blocked hardening and PMTiles pass
+- [x] Constrain or install a PMTiles build path and convert existing generated MVT layers where possible
+- [x] Prefer PMTiles metadata once archives exist
+- [x] Improve style controls, legends, reset actions, and URL style state
+- [x] Improve source/reference/download panel layout and filtering
+- [x] Add diagnostics for oversized tiles, slow layers, missing indexes, and load timing
+- [x] Add automated checks for generated tile budgets and invalid bounds
+- [x] Add mobile performance smoke coverage for converted layers
+- [x] Improve feature-search grouping, badges, keyboard behaviour, and result limits
+- [x] Add warning badges for large/expensive layers
+- [x] Add PMTiles/CDN deployment documentation/scripts
+- [x] Clean up or quarantine invalid generated output such as `roi-counties-2011`
+- [x] Verify, commit, and push
+  - Review:
+    - `npm run build:test:pmtiles -- --force` now uses GDAL's PMTiles driver as the constrained build path. It generated 18 PMTiles archives in `test/pmtiles/generated`; all were below the 95 MB metadata preference budget, largest being `roi-townlands-vector-test.pmtiles` at about 66.1 MB.
+    - `maps-test.json` now prefers `sourceType: "pmtiles"` for all 18 converted vector layers while retaining `tilesFallback` and `metadataUrl` for the directory MVT outputs.
+    - Added PMTiles/CDN deployment documentation, a CDN upload manifest script, and a hard serving requirement for HTTP byte ranges.
+    - Style controls now include presets, reset buttons, legends for gradient/categorical/party-colour modes, stroke state, and URL state for mode, attribute, ramp, and stroke width.
+    - Source/reference/download UI now has filtering and separates facts, credits, references, downloads, and tile links.
+    - Diagnostics now report PMTiles/directory-MVT counts, slow loads, large layers, oversized tiles, and missing feature indexes.
+    - Feature search now returns more results, groups by layer, shows badges/context, supports Arrow key navigation, and still caps results to avoid excessive DOM.
+    - Added warning badges for PMTiles, large layers, large tiles, and heavy layers such as townlands.
+    - Added `scripts/validate-test-tile-budgets.mjs`; `npm run check:test` now fails on invalid bounds, missing PMTiles archives, hard tile-size budget breaches, and reappearance of the invalid `roi-counties-2011` generated directory.
+    - Removed the invalid `test/tiles/generated/roi-counties-2011` tile directory and added `test/metadata/quarantine/roi-counties-2011.json` as the audit trail.
+    - Added `npm run smoke:test:mobile`, including a range-capable local static server because PMTiles requires HTTP byte serving.
+    - Bumped `/test` assets and scoped service worker to `test-010`.
+  - Verification:
+    - `node --check` passed for the changed scripts and every `test/src/*.js` module.
+    - Approved `npm run build:test:pmtiles -- --force` generated 18/18 PMTiles archives with 0 failures.
+    - Approved `npm run build:test:feature-indexes` rebuilt 18/18 feature-search indexes with 0 skipped layers.
+    - `npm run build:test:metadata` regenerated the main-site port plan.
+    - `npm run build:test:cdn-manifest` wrote `test/metadata/cdn-upload-manifest.json`.
+    - `npm run check:test` passed; it reports warning-only budget findings for `roi-small-areas-2011` and `roi-townlands`.
+    - Approved `npm run build:test` passed and rebuilt the `/test` bundle.
+    - Approved `npm run smoke:test:mobile` passed on six PMTiles layers at a 390px mobile viewport; the tested loads completed in roughly 1.5-1.6 seconds each with no console errors.
+    - `npm run check` passed the existing chunked-map bounds and fit regression checks.

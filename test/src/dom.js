@@ -6,6 +6,7 @@ export function getElements() {
     featureDetails: document.getElementById('featureDetails'),
     featureResults: document.getElementById('featureResults'),
     mapSearch: document.getElementById('mapSearch'),
+    sourceFilter: document.getElementById('sourceFilter'),
     sourcePanel: document.getElementById('sourcePanel'),
     timeSeriesPanel: document.getElementById('timeSeriesPanel'),
     toast: document.getElementById('toast')

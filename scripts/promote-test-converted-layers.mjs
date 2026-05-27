@@ -7,7 +7,7 @@
  * overlays for raster rows with bounds and hosted image URLs.
  */
 
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { basename, extname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
@@ -16,6 +16,8 @@ const MAIN_PATH = resolve(ROOT, 'data/database/maps.json');
 const PLAN_PATH = resolve(ROOT, 'test/metadata/main-site-port-plan.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/vector-conversion-report.json');
 const TEST_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
+const PMTILES_DIR = resolve(ROOT, 'test/pmtiles/generated');
+const MAX_GITHUB_BYTES = 95 * 1024 * 1024;
 const DATA_HOST = 'https://data.civgraph.net';
 const INCLUDE_RASTERS = !process.argv.includes('--no-rasters');
 const RASTER_LIMIT = readNumberArg('--raster-limit', Infinity);
@@ -93,8 +95,16 @@ function buildVectorLayer(converted, row, map) {
   const categoricalValues = parsed.categoricalValues || {};
   const popupProperties = unique([labelProperty, idProperty, ...Object.keys(fields).slice(0, 10)]).filter(Boolean);
   const style = normalizeStyle(row.style || map.style);
-  return {
-    id: `${row.sourceMapId}-vector-test`,
+  const id = `${row.sourceMapId}-vector-test`;
+  const pmtilesPath = resolve(PMTILES_DIR, `${id}.pmtiles`);
+  const pmtiles = existsSync(pmtilesPath) ? {
+    url: `/test/pmtiles/generated/${id}.pmtiles`,
+    bytes: statSize(pmtilesPath),
+    localPath: `test/pmtiles/generated/${id}.pmtiles`
+  } : null;
+  const sourceType = pmtiles && pmtiles.bytes < MAX_GITHUB_BYTES ? 'pmtiles' : 'mvt';
+  const base = {
+    id,
     sourceMapId: row.sourceMapId,
     name: row.name || map.name || row.sourceMapId,
     category: row.category || map.category || 'Maps',
@@ -105,9 +115,11 @@ function buildVectorLayer(converted, row, map) {
     provider: row.provider || map.provider || null,
     description: row.description || map.description || '',
     renderer: 'maplibre',
-    sourceType: 'mvt',
+    sourceType,
     geometryType: parsed.geometryType,
     tiles: `/${outputDir}/{z}/{x}/{y}.pbf`,
+    tileUrl: sourceType === 'pmtiles' ? pmtiles.url : undefined,
+    tilesFallback: sourceType === 'pmtiles' ? `/${outputDir}/{z}/{x}/{y}.pbf` : undefined,
     metadataUrl: `/${outputDir}/metadata.json`,
     sourceLayer: parsed.sourceLayer || converted.sourceLayer,
     promoteId: idProperty || undefined,
@@ -143,6 +155,20 @@ function buildVectorLayer(converted, row, map) {
       maxTileBytes: converted.maxTileBytes
     }
   };
+  if (pmtiles) {
+    base.tilePackage = {
+      preferred: sourceType === 'pmtiles',
+      localPath: pmtiles.localPath,
+      url: pmtiles.url,
+      bytes: pmtiles.bytes,
+      maxGithubBytes: MAX_GITHUB_BYTES,
+      fallback: `/${outputDir}/{z}/{x}/{y}.pbf`
+    };
+    if (sourceType !== 'pmtiles') {
+      base.warning = 'PMTiles archive exceeds Git hosting budget; directory MVT remains preferred.';
+    }
+  }
+  return base;
 }
 
 function buildRasterImageLayer(row, map) {
@@ -321,6 +347,14 @@ function creditsFromProvider(provider) {
 function hostedUrl(file) {
   if (/^https?:\/\//i.test(file)) return file;
   return `${DATA_HOST}/${file.replace(/^\/+/, '').replace(/\\/g, '/')}`;
+}
+
+function statSize(path) {
+  try {
+    return Number(statSync(path).size || 0);
+  } catch {
+    return 0;
+  }
 }
 
 function readNumberArg(name, fallback) {

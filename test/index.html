@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <title>Civgraph Test - MapLibre Rewrite</title>
-  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-009">
+  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-010">
 </head>
 <body>
   <div id="testApp" class="test-shell">
@@ -46,6 +46,7 @@
 
       <section class="test-panel">
         <h2>Sources</h2>
+        <input id="sourceFilter" class="test-search test-search--compact" type="search" autocomplete="off" placeholder="Filter sources, references, downloads">
         <div id="sourcePanel" class="source-panel">Load a layer to inspect sources.</div>
       </section>
 
@@ -61,7 +62,7 @@
     </main>
   </div>
 
-  <script type="module" src="/test/build/test.bundle.js?v=test-009"></script>
+  <script type="module" src="/test/build/test.bundle.js?v=test-010"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {

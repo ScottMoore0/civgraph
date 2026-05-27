@@ -1,26 +1,210 @@
 {
-  "schemaVersion": 1,
-  "generatedAt": "2026-05-27T18:42:42.644Z",
-  "mode": "missing-tools",
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-27T19:14:26.464Z",
+  "mode": "execute",
   "tools": {
-    "pmtilesCli": null,
-    "tippecanoe": null
+    "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
+    "ogrinfo": "C:\\Program Files\\GDAL\\ogrinfo.exe"
   },
-  "supportedPaths": [
+  "constrainedPath": "GDAL PMTiles driver",
+  "pmtilesDriver": true,
+  "outputDirectory": "test/pmtiles/generated",
+  "maxGithubBytes": 99614720,
+  "totals": {
+    "candidates": 18,
+    "converted": 18,
+    "skipped": 0,
+    "failed": 0,
+    "metadataPreferred": 18,
+    "oversizedArchives": 0
+  },
+  "converted": [
     {
-      "name": "tippecanoe-direct-pmtiles",
-      "available": false,
-      "description": "Use tippecanoe to build PMTiles directly from newline-delimited GeoJSON or GeoJSON sources."
+      "layerId": "civil-parishes-vector-test",
+      "sourceMapId": "civil-parishes-by-province",
+      "name": "Civil Parishes of Ireland",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
+      "bytes": 19407418,
+      "exceedsGithubBudget": false
     },
     {
-      "name": "pmtiles-cli-convert",
-      "available": false,
-      "description": "Use a PMTiles CLI to convert a compatible MBTiles/vector-tile archive into a .pmtiles file."
+      "layerId": "roi-legal-towns-and-cities-vector-test",
+      "sourceMapId": "roi-legal-towns-and-cities",
+      "name": "Legal Towns and Cities",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/roi-legal-towns-and-cities-vector-test.pmtiles",
+      "bytes": 350930,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "roi-settlements-2011-vector-test",
+      "sourceMapId": "roi-settlements-2011",
+      "name": "Settlements 2011",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/roi-settlements-2011-vector-test.pmtiles",
+      "bytes": 2324220,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "roi-garda-regions-vector-test",
+      "sourceMapId": "roi-garda-regions",
+      "name": "Garda Regions",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "output": "test/pmtiles/generated/roi-garda-regions-vector-test.pmtiles",
+      "bytes": 2206338,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "roi-garda-divisions-vector-test",
+      "sourceMapId": "roi-garda-divisions",
+      "name": "Garda Divisions",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/roi-garda-divisions-vector-test.pmtiles",
+      "bytes": 3135664,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "roi-garda-districts-vector-test",
+      "sourceMapId": "roi-garda-districts",
+      "name": "Garda Districts",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/roi-garda-districts-vector-test.pmtiles",
+      "bytes": 4750483,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "roi-garda-sub-districts-vector-test",
+      "sourceMapId": "roi-garda-sub-districts",
+      "name": "Garda Sub-Districts",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/roi-garda-sub-districts-vector-test.pmtiles",
+      "bytes": 9822782,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "roi-gaeltacht-areas-vector-test",
+      "sourceMapId": "roi-gaeltacht-areas",
+      "name": "Gaeltacht Areas",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/roi-gaeltacht-areas-vector-test.pmtiles",
+      "bytes": 1109914,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "roi-lea-2008-vector-test",
+      "sourceMapId": "roi-lea-2008",
+      "name": "Local Electoral Areas 2008",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/roi-lea-2008-vector-test.pmtiles",
+      "bytes": 6924997,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "roi-small-areas-2011-vector-test",
+      "sourceMapId": "roi-small-areas-2011",
+      "name": "Small Areas 2011",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/roi-small-areas-2011-vector-test.pmtiles",
+      "bytes": 19777121,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "roi-local-authorities-2014-vector-test",
+      "sourceMapId": "roi-local-authorities-2014",
+      "name": "Local Authorities 2014",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/roi-local-authorities-2014-vector-test.pmtiles",
+      "bytes": 5093765,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "ni-townlands-vector-test",
+      "sourceMapId": "ni-townlands",
+      "name": "Ireland",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/ni-townlands-vector-test.pmtiles",
+      "bytes": 17325472,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "roi-townlands-vector-test",
+      "sourceMapId": "roi-townlands",
+      "name": "Ireland",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/roi-townlands-vector-test.pmtiles",
+      "bytes": 69303504,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "wards-1993-largescale-vector-test",
+      "sourceMapId": "wards-1993-largescale",
+      "name": "Wards 1993",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/wards-1993-largescale-vector-test.pmtiles",
+      "bytes": 3379894,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "nuts-2-all-ireland-vector-test",
+      "sourceMapId": "nuts-2-all-ireland",
+      "name": "NUTS 2 Regions (All Ireland)",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/nuts-2-all-ireland-vector-test.pmtiles",
+      "bytes": 2109500,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "nuts-2-roi-vector-test",
+      "sourceMapId": "nuts-2-roi",
+      "name": "NUTS 2 Regions (Republic of Ireland)",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/nuts-2-roi-vector-test.pmtiles",
+      "bytes": 1359551,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-census-2011-vector-test",
+      "sourceMapId": "eds-census-2011",
+      "name": "Electoral Divisions 2008",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/eds-census-2011-vector-test.pmtiles",
+      "bytes": 12262985,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "catholic-dublin-parishes-vector-test",
+      "sourceMapId": "catholic-dublin-parishes",
+      "name": "Catholic Parishes (Dublin)",
+      "sourceType": "mvt",
+      "status": "converted",
+      "output": "test/pmtiles/generated/catholic-dublin-parishes-vector-test.pmtiles",
+      "bytes": 699541,
+      "exceedsGithubBudget": false
     }
   ],
+  "skipped": [],
+  "failed": [],
   "notes": [
-    "No PMTiles archive is generated unless a supported CLI is installed or TEST_PMTILES_CLI/TEST_TIPPECANOE points to one.",
-    "The /test runtime can load pmtiles sourceType entries through the pmtiles protocol once archives are generated and registered in maps-test.json.",
-    "GDAL directory MVT remains the active local conversion path in this Windows environment."
+    "Archives at or above the configured GitHub size budget are generated but not preferred in maps-test.json.",
+    "Each PMTiles metadata entry keeps tilesFallback and metadataUrl pointing at the directory MVT output.",
+    "Use --force to rebuild existing archives and --ids <id,id> to constrain a rebuild."
   ]
 }

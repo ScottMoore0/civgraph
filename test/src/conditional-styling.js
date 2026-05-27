@@ -19,7 +19,7 @@ export class ConditionalStylingController {
       config.noDataColor || '#cccccc'
     ];
     this.controller.map.setPaintProperty(fillId, 'fill-color', expression);
-    this.activeStyles.set(layerId, { type: 'categorical', ...config });
+    this.setActiveStyle(layerId, { type: 'categorical', palette, values: values.slice(0, 32), ...config });
     this.controller.notifyChange();
     return true;
   }
@@ -48,7 +48,7 @@ export class ConditionalStylingController {
       config.noDataColor || '#cccccc'
     ];
     this.controller.map.setPaintProperty(fillId, 'fill-color', expression);
-    this.activeStyles.set(layerId, { type: 'party', ...config });
+    this.setActiveStyle(layerId, { type: 'party', colours, ...config });
     this.controller.notifyChange();
     return true;
   }
@@ -73,7 +73,7 @@ export class ConditionalStylingController {
       ]
     ];
     this.controller.map.setPaintProperty(fillId, 'fill-color', expression);
-    this.activeStyles.set(layerId, { type: 'gradient', ...config });
+    this.setActiveStyle(layerId, { type: 'gradient', ...config });
     this.controller.notifyChange();
     return true;
   }
@@ -86,7 +86,14 @@ export class ConditionalStylingController {
       this.controller.map.setPaintProperty(fillId, 'fill-color', record.config.style?.fillColor || record.config.style?.color || '#7C3AED');
     }
     this.activeStyles.delete(layerId);
+    delete record.styleState;
     this.controller.notifyChange();
     return true;
+  }
+
+  setActiveStyle(layerId, style) {
+    const record = this.controller.layers.get(layerId);
+    if (record) record.styleState = style;
+    this.activeStyles.set(layerId, style);
   }
 }

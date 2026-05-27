@@ -17,6 +17,13 @@ export class TestCatalogue {
     this.filteredLayers = this.metadataService.layers;
     this.render();
     this.els.mapSearch.addEventListener('input', () => this.filter(this.els.mapSearch.value));
+    this.els.mapSearch.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowDown') return;
+      const first = this.els.featureResults?.querySelector('.feature-result');
+      if (!first) return;
+      event.preventDefault();
+      first.focus();
+    });
   }
 
   async filter(query) {
@@ -27,7 +34,7 @@ export class TestCatalogue {
     const trimmed = query.trim();
     if (trimmed.length >= 3 && this.options.featureSearch) {
       try {
-        const results = await this.options.featureSearch.search(trimmed, 8);
+        const results = await this.options.featureSearch.search(trimmed, 24);
         if (token !== this.searchToken) return;
         this.featureResults = results;
         this.renderFeatureResults();
@@ -88,6 +95,7 @@ export class TestCatalogue {
         </div>
         <span>${escapeHtml(isConverted ? (layer.sourceType || layer.renderer) : 'not yet converted')}</span>
       </div>
+      ${renderWarningBadges(layer)}
       ${renderMetaLine(layer)}
       <p class="catalogue-card__notes">${escapeHtml(layer.notes || layer.description || '')}</p>
       ${renderSourceSummaryRich(layer)}
@@ -127,16 +135,27 @@ export class TestCatalogue {
     const fragment = document.createDocumentFragment();
     const heading = document.createElement('p');
     heading.className = 'feature-results__heading';
-    heading.textContent = 'Feature matches';
+    heading.textContent = `${this.featureResults.length} feature match${this.featureResults.length === 1 ? '' : 'es'}`;
     fragment.appendChild(heading);
-    for (const result of this.featureResults) {
+    for (const group of groupFeatureResults(this.featureResults)) {
+      const groupHeading = document.createElement('p');
+      groupHeading.className = 'feature-results__group';
+      groupHeading.textContent = group.layerName;
+      fragment.appendChild(groupHeading);
+      for (const result of group.results) {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'feature-result';
       button.innerHTML = `
         <strong>${escapeHtml(result.name)}</strong>
-        <span>${escapeHtml(result.layerName)}</span>
+        <span><b>${escapeHtml(result.layerName)}</b>${result.category ? ` ${escapeHtml(result.category)}` : ''}</span>
       `;
+      button.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+          event.preventDefault();
+          focusSiblingResult(button, event.key === 'ArrowDown' ? 1 : -1);
+        }
+      });
       button.addEventListener('click', async () => {
         try {
           const layer = this.metadataService.getLayer(result.layerId);
@@ -157,6 +176,7 @@ export class TestCatalogue {
         }
       });
       fragment.appendChild(button);
+      }
     }
     this.els.featureResults.appendChild(fragment);
   }
@@ -173,6 +193,23 @@ function groupLayers(layers) {
     name,
     layers: groupLayers.sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || a.name.localeCompare(b.name))
   }));
+}
+
+function groupFeatureResults(results) {
+  const groups = new Map();
+  for (const result of results) {
+    const key = result.layerName || result.layerId;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(result);
+  }
+  return [...groups.entries()].map(([layerName, groupResults]) => ({ layerName, results: groupResults }));
+}
+
+function focusSiblingResult(button, delta) {
+  const buttons = [...button.closest('.feature-results')?.querySelectorAll('.feature-result') || []];
+  const index = buttons.indexOf(button);
+  const next = buttons[index + delta];
+  if (next) next.focus();
 }
 
 function renderSourceSummary(layer) {
@@ -212,6 +249,19 @@ function renderMetaLine(layer) {
   const bits = [layer.group, layer.dateEffective || layer.date, layer.dateAdded ? `added ${layer.dateAdded}` : null, layer.recommendedTarget].filter(Boolean);
   if (!bits.length) return '';
   return `<p class="catalogue-card__meta">${escapeHtml(bits.join(' - '))}</p>`;
+}
+
+function renderWarningBadges(layer) {
+  const badges = [];
+  const bytes = Number(layer.generatedFrom?.bytes || layer.tilePackage?.bytes || 0);
+  const maxTileBytes = Number(layer.generatedFrom?.maxTileBytes || 0);
+  if (layer.sourceType === 'pmtiles') badges.push('PMTiles');
+  if (bytes >= 50 * 1024 * 1024) badges.push('large layer');
+  if (maxTileBytes >= 1024 * 1024) badges.push('large tiles');
+  if (/townlands/i.test(`${layer.id} ${layer.name} ${layer.category}`)) badges.push('heavy');
+  if (layer.warning) badges.push('warning');
+  if (!badges.length) return '';
+  return `<div class="catalogue-card__badges">${badges.map((badge) => `<span>${escapeHtml(badge)}</span>`).join('')}</div>`;
 }
 
 function renderConversionSummary(layer) {
