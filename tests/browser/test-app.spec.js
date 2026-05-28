@@ -1,13 +1,20 @@
 const { test, expect } = require('@playwright/test');
 const AxeBuilder = require('@axe-core/playwright').default;
 
+async function openMapTools(page) {
+  await page.locator('#mapTools').evaluate((node) => {
+    node.open = true;
+  });
+}
+
 test('/test shell starts with main navigation and diagnostics', async ({ page }) => {
   await page.goto('/test/');
   await expect(page.getByRole('link', { name: 'Civgraph home' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Home', exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: 'About', exact: true })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'MapLibre Test', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'MapLibre Test', exact: true })).toHaveCount(0);
   await expect(page.locator('#map')).toBeVisible();
+  await openMapTools(page);
   await expect(page.locator('#diagnostics')).toContainText('test-017');
   await expect(page.locator('#diagnostics')).toContainText('Production Readiness');
   await expect(page.locator('#diagnostics')).toContainText('CI guardrails');
@@ -18,12 +25,11 @@ test('/test shell starts with main navigation and diagnostics', async ({ page })
 test('/test catalogue supports grouped detail navigation and shared unconverted entries', async ({ page }) => {
   await page.goto('/test/');
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
-  await expect(page.locator('.catalogue-group__header').first()).toBeVisible();
+  await expect(page.locator('.catalogue-flat__toc-table .catalogue-flat__toc-row').first()).toBeVisible();
   await expect(page.locator('#catalogueFilters')).toContainText('Category');
-  await page.locator('#catalogueView').selectOption('dense');
-  await expect(page.locator('#catalogue')).toHaveAttribute('data-view', 'dense');
-  await page.locator('#catalogueSort').selectOption('name');
-  await expect(page).toHaveURL(/catSort=name/);
+  await expect(page.locator('#catalogue')).toHaveAttribute('data-view', 'compact');
+  await expect(page.locator('#catalogueView')).toHaveValue('compact');
+  await expect(page.locator('.catalogue-toolbar')).toBeHidden();
   const unconvertedId = await page.evaluate(() => window.__civgraphTest.metadataService.layers.find((layer) => layer.loadable === false || layer.isConverted === false)?.id);
   expect(unconvertedId).toBeTruthy();
   await page.evaluate((id) => window.__civgraphTest.catalogue.showDetail(id), unconvertedId);
@@ -36,10 +42,6 @@ test('/test catalogue supports grouped detail navigation and shared unconverted 
   await expect(page.locator('#catalogueHistoryPanel')).toContainText('Catalogue home');
   await page.locator('#catalogueBack').click();
   await expect(page.locator('#catalogue')).toBeVisible();
-  await page.locator('[data-panel-collapse="catalogue"]').click();
-  await expect(page.locator('[data-panel="catalogue"]')).toHaveClass(/test-panel--collapsed/);
-  await page.reload();
-  await expect(page.locator('[data-panel="catalogue"]')).toHaveClass(/test-panel--collapsed/);
 });
 
 test('/test supports keyboard shortcuts and accessibility smoke flow', async ({ page }) => {
@@ -62,11 +64,13 @@ test('/test supports keyboard shortcuts and accessibility smoke flow', async ({ 
   await expect(page.locator('body')).toHaveClass(/test-sidebar-open/);
   await page.locator('#map').click();
   await page.keyboard.press('s');
+  await expect(page.locator('#mapTools')).toHaveAttribute('open', '');
   await expect(page.locator('#sourceFilter')).toBeFocused();
-  await page.locator('#map').click();
+  await page.evaluate(() => document.activeElement?.blur?.());
   await page.keyboard.press('d');
+  await expect(page.locator('#mapTools')).toHaveAttribute('open', '');
   await expect(page.locator('#diagnosticsSeverity')).toBeFocused();
-  await page.locator('#map').click();
+  await page.evaluate(() => document.activeElement?.blur?.());
   await page.keyboard.press('?');
   await expect(page.locator('#toast')).toContainText('Shortcuts');
 });
@@ -80,6 +84,7 @@ test('/test handles clipboard failures and preference import/export/reset', asyn
   });
   await page.goto('/test/');
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
+  await openMapTools(page);
   await page.locator('#copyDiagnostics').click();
   await expect(page.locator('#toast')).toContainText('Diagnostics copy failed');
   await page.locator('#preferencesExport').click();
@@ -115,7 +120,6 @@ test('/test restores collapsed panels from URL and honours reduced motion', asyn
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/test/#panelsCollapsed=catalogue%7Csources&sidebar=1');
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
-  await expect(page.locator('[data-panel="catalogue"]')).toHaveClass(/test-panel--collapsed/);
   await expect(page.locator('[data-panel="sources"]')).toHaveClass(/test-panel--collapsed/);
   const duration = await page.locator('#testSidebar').evaluate((node) => getComputedStyle(node).transitionDuration);
   const durationsMs = duration.split(',').map((value) => {
@@ -142,6 +146,7 @@ test('/test support modal and theme toggle match main shell behaviour', async ({
 test('/test catalogue URL restores detail, search, filters, and sidebar state', async ({ page }) => {
   await page.goto('/test/#catalogue=port-east-west-bann&q=bann&category=Regional+Divides&provider=OSNI%2C+Scott+Moore&sidebar=1&catView=table&catSort=provider&sourceQ=garda&diagSeverity=warn&panel=sources');
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
+  await openMapTools(page);
   await expect(page.locator('body')).toHaveClass(/test-sidebar-open/);
   await expect(page.locator('#mapSearch')).toHaveValue('bann');
   await expect(page.locator('#catalogueView')).toHaveValue('table');
@@ -159,6 +164,7 @@ test('/test catalogue URL restores detail, search, filters, and sidebar state', 
 test('/test restores URL layer and style state', async ({ page }) => {
   await page.goto('/test/#layers=roi-garda-regions-vector-test&style=roi-garda-regions-vector-test:categorical&styleAttr=roi-garda-regions-vector-test:REGION&lng=-8.05&lat=53.4&z=6');
   await page.waitForFunction(() => window.__civgraphTest?.controller?.layers?.has('roi-garda-regions-vector-test'));
+  await openMapTools(page);
   await expect(page.locator('#activeLayers')).toContainText('Garda Regions');
   await expect(page.locator('#activeLayers')).toContainText('REGION categories');
   await expect(page.locator('#sourcePanel')).toContainText('Garda Regions');
@@ -184,16 +190,11 @@ test('/test mobile catalogue toggle is keyboard reachable', async ({ page }) => 
   await menu.focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#mobileMenu')).toBeVisible();
-  await page.locator('#map').click({ position: { x: 20, y: 20 } });
+  await page.keyboard.press('Escape');
   await expect(page.locator('#mobileMenu')).toBeHidden();
-  await menu.click();
-  await page.locator('#mobileMenuTheme').click();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  await menu.click();
-  await page.locator('#mobileMenuSupport').click();
+  await page.locator('#mobileSupportBtn').click();
   await expect(page.locator('#supportModal')).toBeVisible();
   await page.keyboard.press('Escape');
-  await menu.click();
   const toggle = page.locator('#sidebarToggle');
   await expect(toggle).toBeVisible();
   await toggle.focus();
@@ -223,6 +224,7 @@ test('/test source panel and feature details expose copy/context controls', asyn
       area: 123.456
     });
   });
+  await openMapTools(page);
   await expect(page.locator('#sourcePanel')).toContainText('Garda Regions');
   await expect(page.locator('#sourcePanel [data-copy-link]').first()).toBeVisible();
   await page.locator('#sourcePanel [data-copy-link]').first().click();
@@ -238,6 +240,7 @@ test('/test source panel and feature details expose copy/context controls', asyn
 test('/test active layer controls include MapLibre layer actions', async ({ page }) => {
   await page.goto('/test/#layers=roi-garda-regions-vector-test');
   await page.waitForFunction(() => window.__civgraphTest?.controller?.layers?.has('roi-garda-regions-vector-test'));
+  await openMapTools(page);
   await expect(page.locator('#activeLayers')).toContainText('Garda Regions');
   await expect(page.locator('#activeLayers [data-action="layer-fit"]')).toBeVisible();
   await expect(page.locator('#activeLayers [data-action="layer-up"]')).toBeVisible();
@@ -250,6 +253,7 @@ test('/test active layer controls include MapLibre layer actions', async ({ page
 test('/test persists layer order and supports mobile landscape sidebar', async ({ page }) => {
   await page.goto('/test/#layers=roi-garda-regions-vector-test,roi-garda-divisions-vector-test');
   await page.waitForFunction(() => window.__civgraphTest?.controller?.layers?.size === 2);
+  await openMapTools(page);
   await page.locator('#activeLayers [data-action="layer-down"]').first().click();
   const savedOrder = await page.evaluate(() => JSON.parse(localStorage.getItem('civgraph:test:layer-order') || '[]'));
   expect(savedOrder.length).toBe(2);
@@ -265,9 +269,10 @@ test('/test reports service-worker cache status and device defaults', async ({ p
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/test/');
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
+  await openMapTools(page);
   await expect(page.locator('#diagnostics')).toContainText('Service Worker Cache');
   await page.locator('body').evaluate((body) => body.classList.add('test-sidebar-open'));
   await page.locator('#preferencesDeviceDefaults').click();
   await expect(page.locator('#preferencesStatus')).toContainText('mobile defaults');
-  await expect.poll(() => page.evaluate(() => localStorage.getItem('civgraph.test.catalogue.preferences'))).toContain('"viewMode":"dense"');
+  await expect.poll(() => page.evaluate(() => localStorage.getItem('civgraph.test.catalogue.preferences'))).toContain('"viewMode":"compact"');
 });

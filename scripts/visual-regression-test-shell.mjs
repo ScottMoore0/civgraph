@@ -9,6 +9,7 @@ const PORT = Number(process.env.TEST_VISUAL_PORT || 4181);
 const OUT_DIR = resolve(ROOT, 'test/metadata/visual-snapshots');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/visual-regression-report.json');
 const MAX_HEADER_HEIGHT_DELTA = Number(process.env.TEST_VISUAL_MAX_HEADER_DELTA || 12);
+const MAX_SIDEBAR_WIDTH_DELTA = Number(process.env.TEST_VISUAL_MAX_SIDEBAR_DELTA || 24);
 mkdirSync(OUT_DIR, { recursive: true });
 
 const server = createTestStaticServer(PORT, ROOT);
@@ -43,6 +44,30 @@ try {
   );
   addCheck('test catalogue visible', Boolean(test.metrics.sidebar), test.metrics.sidebar ? `Catalogue width ${test.metrics.sidebar.width}px.` : 'Test catalogue/sidebar missing.');
   addCheck('test map visible', Boolean(test.metrics.map), test.metrics.map ? `Map ${test.metrics.map.width}x${test.metrics.map.height}px.` : 'Test map missing.');
+  addCheck(
+    'catalogue width parity',
+    main.metrics.sidebar && test.metrics.sidebar && Math.abs(main.metrics.sidebar.width - test.metrics.sidebar.width) <= MAX_SIDEBAR_WIDTH_DELTA,
+    main.metrics.sidebar && test.metrics.sidebar
+      ? `Main ${main.metrics.sidebar.width}px, test ${test.metrics.sidebar.width}px.`
+      : 'Catalogue width comparison unavailable.'
+  );
+  addCheck(
+    'test uses main pane structure',
+    Boolean(test.metrics.mainPane && test.metrics.infoPane && test.metrics.mapPane),
+    test.metrics.mainPane && test.metrics.infoPane && test.metrics.mapPane
+      ? 'Main app/pane structure detected.'
+      : 'Missing .app-main, .pane--info, or .pane--map.'
+  );
+  addCheck(
+    'test has no product header above catalogue',
+    !test.metrics.testProductHeader,
+    test.metrics.testProductHeader ? 'Found /test product header.' : 'No /test product header detected.'
+  );
+  addCheck(
+    'test default catalogue is compact table',
+    Boolean(test.metrics.compactRows),
+    test.metrics.compactRows ? `${test.metrics.compactRows} compact catalogue rows detected.` : 'No compact catalogue rows detected.'
+  );
   report.pass = report.checks.every((check) => check.ok);
 } finally {
   await browser?.close();
@@ -79,7 +104,13 @@ async function inspectShell(page, url, name) {
       header: box('.app-header, .test-app-header, header'),
       brand: box('.app-header__brand, .brand, header a'),
       sidebar: box('#testSidebar, #sidebar, .sidebar, aside'),
-      map: box('#map, .map, .leaflet-container, .test-map')
+      map: box('#map, .map, .leaflet-container, .test-map'),
+      mainPane: box('.app-main'),
+      infoPane: box('.pane--info'),
+      mapPane: box('.pane--map'),
+      testProductHeader: Boolean(document.querySelector('.test-header')),
+      compactRows: document.querySelectorAll('.catalogue-flat__toc-table .catalogue-flat__toc-row').length,
+      filterContainers: document.querySelectorAll('.category-pills-container, .provider-pills-container').length
     };
   });
   return { metrics, screenshot };

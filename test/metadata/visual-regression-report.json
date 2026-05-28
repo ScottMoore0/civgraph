@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-28T22:12:59.510Z",
+  "generatedAt": "2026-05-28T22:41:47.145Z",
   "viewport": {
     "width": 1366,
     "height": 768
@@ -24,12 +24,32 @@
     {
       "name": "test catalogue visible",
       "ok": true,
-      "detail": "Catalogue width 437px."
+      "detail": "Catalogue width 683px."
     },
     {
       "name": "test map visible",
       "ok": true,
-      "detail": "Map 929x704px."
+      "detail": "Map 677x704px."
+    },
+    {
+      "name": "catalogue width parity",
+      "ok": true,
+      "detail": "Main 683px, test 683px."
+    },
+    {
+      "name": "test uses main pane structure",
+      "ok": true,
+      "detail": "Main app/pane structure detected."
+    },
+    {
+      "name": "test has no product header above catalogue",
+      "ok": true,
+      "detail": "No /test product header detected."
+    },
+    {
+      "name": "test default catalogue is compact table",
+      "ok": true,
+      "detail": "140 compact catalogue rows detected."
     }
   ],
   "screenshots": {
@@ -69,7 +89,34 @@
       "height": 704,
       "background": "rgb(237, 242, 247)",
       "color": "rgb(26, 32, 44)"
-    }
+    },
+    "mainPane": {
+      "x": 0,
+      "y": 64,
+      "width": 1366,
+      "height": 704,
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(26, 32, 44)"
+    },
+    "infoPane": {
+      "x": 0,
+      "y": 64,
+      "width": 683,
+      "height": 704,
+      "background": "rgb(255, 255, 255)",
+      "color": "rgb(26, 32, 44)"
+    },
+    "mapPane": {
+      "x": 689,
+      "y": 64,
+      "width": 683,
+      "height": 704,
+      "background": "rgb(255, 255, 255)",
+      "color": "rgb(26, 32, 44)"
+    },
+    "testProductHeader": false,
+    "compactRows": 0,
+    "filterContainers": 2
   },
   "test": {
     "header": {
@@ -91,18 +138,45 @@
     "sidebar": {
       "x": 0,
       "y": 64,
-      "width": 437,
+      "width": 683,
       "height": 704,
       "background": "rgb(255, 255, 255)",
       "color": "rgb(31, 41, 51)"
     },
     "map": {
-      "x": 437,
+      "x": 689,
       "y": 64,
-      "width": 929,
+      "width": 677,
       "height": 704,
       "background": "rgba(0, 0, 0, 0)",
       "color": "rgb(31, 41, 51)"
-    }
+    },
+    "mainPane": {
+      "x": 0,
+      "y": 64,
+      "width": 1366,
+      "height": 704,
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(31, 41, 51)"
+    },
+    "infoPane": {
+      "x": 0,
+      "y": 64,
+      "width": 683,
+      "height": 704,
+      "background": "rgb(255, 255, 255)",
+      "color": "rgb(31, 41, 51)"
+    },
+    "mapPane": {
+      "x": 689,
+      "y": 64,
+      "width": 677,
+      "height": 704,
+      "background": "rgb(237, 242, 247)",
+      "color": "rgb(31, 41, 51)"
+    },
+    "testProductHeader": false,
+    "compactRows": 140,
+    "filterContainers": 2
   }
 }

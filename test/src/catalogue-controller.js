@@ -21,7 +21,7 @@ export class TestCatalogue {
     this.historyIndex = -1;
     this.collapsed = readCollapsed();
     const preferences = readPreferences();
-    this.viewMode = normalizeViewMode(preferences.viewMode || 'cards');
+    this.viewMode = normalizeViewMode(preferences.viewMode || 'compact');
     this.sortMode = normalizeSortMode(preferences.sortMode || 'order');
   }
 
@@ -55,7 +55,7 @@ export class TestCatalogue {
     this.els.catalogueHome?.addEventListener('click', () => this.showHome());
     this.els.catalogueHistory?.addEventListener('click', () => this.toggleHistoryPanel());
     this.els.catalogueView?.addEventListener('change', () => {
-      this.viewMode = normalizeViewMode(this.els.catalogueView.value || 'cards');
+      this.viewMode = normalizeViewMode(this.els.catalogueView.value || 'compact');
       this.savePreferences();
       this.writeCatalogueHash();
       this.render();
@@ -142,8 +142,8 @@ export class TestCatalogue {
     if (this.els.catalogueSort) this.els.catalogueSort.value = this.sortMode;
     const fragment = document.createDocumentFragment();
     let rendered = 0;
-    if (this.viewMode === 'table') {
-      this.renderTableHome(fragment);
+    if (this.viewMode === 'compact' || this.viewMode === 'table') {
+      this.renderCompactHome(fragment);
       this.els.catalogue.appendChild(fragment);
       return;
     }
@@ -195,47 +195,70 @@ export class TestCatalogue {
     }
   }
 
-  renderTableHome(fragment) {
-    const table = document.createElement('table');
-    table.className = 'catalogue-table';
-    table.innerHTML = `
-      <thead>
-        <tr>
-          <th>Map</th>
-          <th>Category</th>
-          <th>Provider</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
+  renderCompactHome(fragment) {
+    const wrapper = document.createElement('section');
+    wrapper.className = 'catalogue-flat__toc catalogue-flat__toc--test';
+    wrapper.innerHTML = `
+      <div class="catalogue-flat__toc-toplinks">
+        <div class="catalogue-flat__toc-toplinks-left">
+          <span class="catalogue-flat__toc-stats">${escapeHtml(String(this.filteredLayers.length))} catalogue entries</span>
+        </div>
+      </div>
+      <table class="catalogue-flat__toc-table catalogue-table">
+        <thead>
+          <tr>
+            <th>Map</th>
+            <th>Date</th>
+            <th>Place</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     `;
-    const body = table.querySelector('tbody');
-    for (const layer of this.filteredLayers.slice(0, MAX_INITIAL_CARDS)) {
-      body.appendChild(this.renderTableRow(layer));
+    const body = wrapper.querySelector('tbody');
+    let rendered = 0;
+    for (const group of groupByGroupAndCategory(this.filteredLayers, this.sortMode)) {
+      if (rendered >= MAX_INITIAL_CARDS) break;
+      body.appendChild(renderHeadingRow(group.name, group.count));
+      for (const category of group.categories) {
+        if (rendered >= MAX_INITIAL_CARDS) break;
+        body.appendChild(renderSubheadingRow(category.name));
+        for (const layer of category.layers) {
+          if (rendered >= MAX_INITIAL_CARDS) break;
+          body.appendChild(this.renderCompactRow(layer));
+          rendered += 1;
+        }
+      }
     }
-    fragment.appendChild(table);
-    if (this.filteredLayers.length > MAX_INITIAL_CARDS) {
+    fragment.appendChild(wrapper);
+    if (this.filteredLayers.length > rendered) {
       const more = document.createElement('p');
       more.className = 'catalogue-list__more';
-      more.textContent = `${this.filteredLayers.length - MAX_INITIAL_CARDS} more layers match. Narrow the search to keep catalogue rendering fast.`;
+      more.textContent = `${this.filteredLayers.length - rendered} more layers match. Narrow the search to keep catalogue rendering fast.`;
       fragment.appendChild(more);
     }
   }
 
-  renderTableRow(layer) {
+  renderCompactRow(layer) {
     const row = document.createElement('tr');
     const isConverted = layer.loadable !== false && layer.isConverted !== false;
+    const isLoaded = this.controller.layers.has(layer.id);
     row.dataset.layerId = layer.id;
+    row.className = `catalogue-flat__toc-row${isConverted ? '' : ' catalogue-flat__toc-row--unconverted'}${isLoaded ? ' catalogue-flat__toc-row--loaded' : ''}`;
     row.innerHTML = `
-      <td><strong>${escapeHtml(layer.name)}</strong><small>${escapeHtml(layer.group || '')}</small></td>
-      <td>${escapeHtml(layer.category || 'Uncategorised')}</td>
-      <td>${escapeHtml(formatProvider(layer.provider) || 'Unknown')}</td>
-      <td><span class="${isConverted ? 'catalogue-table__status--ready' : 'catalogue-table__status--pending'}">${escapeHtml(isConverted ? 'Ready' : 'Not converted')}</span></td>
       <td>
-        <button type="button" data-action="detail">Details</button>
-        <button type="button" data-action="load" ${isConverted ? '' : 'disabled'}>Load</button>
+        <button type="button" class="catalogue-flat__toc-link catalogue-flat__toc-namecell" data-action="detail">
+          <span class="catalogue-flat__toc-color" style="background:${escapeHtml(layer.style?.fillColor || layer.style?.color || '#4f46e5')}"></span>
+          <span class="catalogue-flat__toc-thumbwrap catalogue-flat__toc-thumbwrap--missing" aria-hidden="true"></span>
+          <span class="catalogue-flat__toc-name">
+            ${escapeHtml(layer.name)}
+            ${isConverted ? '' : '<em>Not yet converted</em>'}
+            ${isLoaded ? '<em>Loaded</em>' : ''}
+          </span>
+        </button>
       </td>
+      <td>${escapeHtml(layer.dateEffective || layer.date || '')}</td>
+      <td>${escapeHtml(formatCompactPlace(layer))}</td>
     `;
     row.addEventListener('click', (event) => this.handleLayerAction(event, layer));
     return row;
@@ -452,7 +475,7 @@ export class TestCatalogue {
     else params.delete('category');
     if (this.selectedProvider) params.set('provider', this.selectedProvider);
     else params.delete('provider');
-    if (this.viewMode !== 'cards') params.set('catView', this.viewMode);
+    if (this.viewMode !== 'compact') params.set('catView', this.viewMode);
     else params.delete('catView');
     if (this.sortMode !== 'order') params.set('catSort', this.sortMode);
     else params.delete('catSort');
@@ -575,19 +598,35 @@ function renderPillGroup(label, kind, entries, activeValue) {
     const activeEntry = entries.find(([value]) => value === activeValue);
     if (activeEntry) visible.push(activeEntry);
   }
+  const containerClass = kind === 'provider' ? 'provider-pills-container' : 'category-pills-container';
+  const labelClass = kind === 'provider' ? '<div class="provider-pills-label">Filter by Provider</div>' : '';
   return `
-    <div class="catalogue-filter-group">
-      <span>${escapeHtml(label)}</span>
-      <div>
+    <div class="${containerClass} catalogue-filter-group">
+      ${labelClass || `<span>${escapeHtml(label)}</span>`}
+      <div class="category-pills">
         <button type="button" data-filter-kind="${escapeHtml(kind)}" data-filter-value="" class="${activeValue ? '' : 'catalogue-filter-pill--active'}">All</button>
         ${visible.map(([value, count]) => `
-          <button type="button" data-filter-kind="${escapeHtml(kind)}" data-filter-value="${escapeHtml(value)}" class="${activeValue === value ? 'catalogue-filter-pill--active' : ''}">
+          <button type="button" class="category-pill ${activeValue === value ? 'catalogue-filter-pill--active category-pill--active' : ''}" data-filter-kind="${escapeHtml(kind)}" data-filter-value="${escapeHtml(value)}">
             ${escapeHtml(value)} <small>${count}</small>
           </button>
         `).join('')}
       </div>
     </div>
   `;
+}
+
+function renderHeadingRow(name, count) {
+  const row = document.createElement('tr');
+  row.className = 'catalogue-flat__toc-heading-row';
+  row.innerHTML = `<td colspan="3"><span class="catalogue-flat__toc-heading">${escapeHtml(name)}</span><span class="catalogue-flat__toc-heading-sub">${escapeHtml(String(count))}</span></td>`;
+  return row;
+}
+
+function renderSubheadingRow(name) {
+  const row = document.createElement('tr');
+  row.className = 'catalogue-flat__toc-subheading-row';
+  row.innerHTML = `<td colspan="3"><span class="catalogue-flat__toc-subheading">${escapeHtml(name)}</span></td>`;
+  return row;
 }
 
 function historyLabel(entry, metadataService) {
@@ -789,6 +828,10 @@ function formatProvider(provider) {
   return provider || '';
 }
 
+function formatCompactPlace(layer) {
+  return layer.place || layer.coverage || layer.region || formatProvider(layer.provider) || layer.category || '';
+}
+
 async function copyLayerShare(layer, controller) {
   const url = new URL(location.href);
   if (layer.loadable === false || layer.isConverted === false) {
@@ -830,7 +873,7 @@ function writePreferences(value) {
 }
 
 function normalizeViewMode(value) {
-  return ['cards', 'dense', 'table'].includes(value) ? value : 'cards';
+  return ['compact', 'cards', 'dense', 'table'].includes(value) ? value : 'compact';
 }
 
 function normalizeSortMode(value) {

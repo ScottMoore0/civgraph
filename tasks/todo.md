@@ -1,3 +1,36 @@
+Test shell alignment review
+- [x] Compare the current `/test` navbar and catalogue pane against the main site
+- [x] Identify structural, visual, and workflow differences that still prevent alignment
+- [x] Propose a rectification plan focused on shared shell/catalogue contracts rather than incremental CSS tweaks
+  - What I reviewed:
+    - Current main and `/test` shell markup/classes in `index.html`, `test/index.html`, and `test/src`.
+    - Existing visual regression report and snapshots under `test/metadata/visual-snapshots`.
+  - Findings:
+    - Header height and brand geometry now match, but the catalogue pane still uses a separate `/test` shell, sidebar, header, filters, default card layout, and secondary MapLibre panels.
+    - Main uses the split `.app-main` / `.pane pane--info` shell with a catalogue-first table/list view; `/test` still uses `.test-shell` / `.test-sidebar` and a MapLibre-specific panel stack.
+  - Result:
+    - Proposed a rectification plan to replace approximation with main-shell parity, then route the interactive map area through MapLibre.
+
+Test shell main-site rectification implementation
+- [x] Replace `/test` shell/sidebar with the main `.app-shell` / `.app-main` / `.pane` structure
+- [x] Remove the visible `/test` catalogue header and use the main catalogue sticky shell/filters layout
+- [x] Make the default catalogue view the main compact table/list hierarchy while preserving converted and unconverted entries
+- [x] Move MapLibre tools out of the default catalogue flow into a secondary advanced/map-side drawer
+- [x] Strengthen shell visual tests so structural catalogue drift fails
+- [x] Run `/test` validation, build, browser, and visual checks
+  - What I changed:
+    - Rebuilt `test/index.html` around the main shell contract: `.app-shell`, `.app-main`, `.pane pane--info`, `.pane pane--map`, split drag handle, and a catalogue-first left pane.
+    - Removed the visible `/test`/MapLibre product header from the browsing surface and kept MapLibre status/tooling in the map-side Advanced drawer.
+    - Made compact main-style catalogue rows the default using `catalogue-flat__toc-table`, with converted and unconverted maps rendered in the same hierarchy and unconverted maps marked with a subtle badge.
+    - Reworked category/provider filters into the main sticky search shell and hid the old `/test` view/sort toolbar from the default UI.
+    - Updated visual/static/browser tests to fail if `/test` drifts back to a separate product shell, visible product header, non-main pane structure, or non-table catalogue default.
+  - Verification:
+    - `npm run check:test` passed with the existing warning-only findings for large `roi-small-areas-2011-vector-test` and `roi-townlands-vector-test` tiles plus local-only PMTiles fallbacks.
+    - Approved `npm run build:test` passed after sandboxed esbuild spawning required escalation.
+    - Approved `npm run test:visual:test` passed: main/test header 64px, main/test catalogue width 683px, no `/test` product header, app/pane structure present, and 140 compact catalogue rows detected.
+    - `npm run check` passed the main chunked-map guardrails.
+    - Approved `npm run test:browser:test` passed all 14 browser tests after updating the catalogue test to assert the hidden-toolbar compact-table contract.
+
 Election party aliases and party IDs
 - [x] Correct PUP aliasing to Progressive Unionist Party in the audit logic
 - [x] Normalise Workers Party / Republican Clubs by date, DUP, PBP, and Alliance labels

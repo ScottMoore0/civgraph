@@ -366,7 +366,7 @@ function clearPreferenceSection(section) {
 function applyDeviceDefaults() {
   const mobile = isMobileViewport();
   localStorage.setItem(CATALOGUE_PREF_KEY, JSON.stringify({
-    viewMode: mobile ? 'dense' : 'cards',
+    viewMode: 'compact',
     sortMode: 'order'
   }));
   localStorage.setItem(DIAGNOSTIC_PREF_KEY, JSON.stringify({
@@ -573,8 +573,9 @@ function restorePanelState(els) {
   const params = new URLSearchParams(location.hash.replace(/^#/, ''));
   const panelName = params.get('panel');
   if (!panelName) return;
-  const panel = els.sidebar?.querySelector(`[data-panel="${CSS.escape(panelName)}"]`);
+  const panel = document.querySelector(`[data-panel="${CSS.escape(panelName)}"]`);
   if (!panel) return;
+  if (!els.sidebar?.contains(panel)) document.getElementById('mapTools')?.setAttribute('open', '');
   panel.classList.add('test-panel--active');
   panel.scrollIntoView({ block: 'nearest' });
 }
@@ -617,7 +618,8 @@ function openPanelShortcut(els, panelName, focusTarget) {
   els.sidebarToggle?.setAttribute('aria-expanded', 'true');
   writeShellHashState('sidebar', '1');
   writeShellHashState('panel', panelName);
-  const panel = els.sidebar?.querySelector(`[data-panel="${CSS.escape(panelName)}"]`);
+  document.getElementById('mapTools')?.setAttribute('open', '');
+  const panel = document.querySelector(`[data-panel="${CSS.escape(panelName)}"]`);
   if (panel) {
     if (panel.classList.contains('test-panel--collapsed')) {
       const button = panel.querySelector('[data-panel-collapse]');

@@ -8,8 +8,6 @@ const checks = [
       'app-header__nav',
       'mobileMenuBtn',
       'mobileMenu',
-      'mobileMenuSupport',
-      'mobileMenuTheme',
       'supportModal',
       'themeToggle',
       'sidebarToggle',
@@ -67,7 +65,8 @@ const checks = [
       'applyHashState',
       'writeCatalogueHash',
       'renderFilters',
-      'renderTableHome',
+      'renderCompactHome',
+      'catalogue-flat__toc-table',
       'toggleHistoryPanel',
       'toggleCollapsed',
       'catView',
@@ -144,6 +143,9 @@ const checks = [
       '.catalogue-filters',
       '.catalogue-toolbar',
       '.catalogue-table',
+      '.app-shell.test-shell',
+      '.test-main',
+      '.map-tools',
       '.test-panel__collapse',
       '.diagnostics-readiness__meter',
       '.diagnostics-checklist',
@@ -261,6 +263,14 @@ for (const check of checks) {
   for (const needle of check.required) {
     if (!content.includes(needle)) failures.push(`${check.file}: missing ${needle}`);
   }
+}
+
+const testIndex = await readFile('test/index.html', 'utf8');
+for (const forbidden of ['MapLibre rewrite', 'MapLibre Test</a>', 'class="test-header"']) {
+  if (testIndex.includes(forbidden)) failures.push(`test/index.html: should not expose separate test shell marker ${forbidden}`);
+}
+for (const requiredShell of ['class="app-shell test-shell"', 'class="app-main test-main"', 'class="pane pane--info test-sidebar"', 'class="pane pane--map test-map-wrap"', 'class="catalogue-sticky-shell test-catalogue-shell"', 'class="map-tools"']) {
+  if (!testIndex.includes(requiredShell)) failures.push(`test/index.html: missing main-shell parity structure ${requiredShell}`);
 }
 
 const packageJson = JSON.parse(await readFile('package.json', 'utf8'));
