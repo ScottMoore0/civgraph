@@ -200,9 +200,13 @@ export class TestCatalogue {
     wrapper.className = 'catalogue-flat__toc catalogue-flat__toc--test';
     wrapper.innerHTML = `
       <div class="catalogue-flat__toc-toplinks">
-        <div class="catalogue-flat__toc-toplinks-left">
-          <span class="catalogue-flat__toc-stats">${escapeHtml(String(this.filteredLayers.length))} catalogue entries</span>
-        </div>
+        <span class="catalogue-flat__toc-toplinks-left">
+          <a href="#test-section-elections" class="catalogue-flat__toc-toplink">Elections</a>
+          <a href="#test-section-maps" class="catalogue-flat__toc-toplink">Maps</a>
+          <a href="#test-section-books" class="catalogue-flat__toc-toplink">Books</a>
+          <button type="button" class="catalogue-flat__toc-toplink catalogue-flat__toc-toplink--tab" disabled>Tables</button>
+        </span>
+        <span class="catalogue-flat__toc-stats">${escapeHtml(String(this.filteredLayers.length))} maps</span>
       </div>
       <table class="catalogue-flat__toc-table catalogue-table">
         <thead>
@@ -217,6 +221,9 @@ export class TestCatalogue {
     `;
     const body = wrapper.querySelector('tbody');
     let rendered = 0;
+    body.appendChild(renderSectionHeadingRow('Elections', 'test-section-elections'));
+    body.appendChild(renderDecadeRow());
+    body.appendChild(renderSectionHeadingRow('Maps', 'test-section-maps'));
     for (const group of groupByGroupAndCategory(this.filteredLayers, this.sortMode)) {
       if (rendered >= MAX_INITIAL_CARDS) break;
       body.appendChild(renderHeadingRow(group.name, group.count));
@@ -619,6 +626,29 @@ function renderHeadingRow(name, count) {
   const row = document.createElement('tr');
   row.className = 'catalogue-flat__toc-heading-row';
   row.innerHTML = `<td colspan="3"><span class="catalogue-flat__toc-heading">${escapeHtml(name)}</span><span class="catalogue-flat__toc-heading-sub">${escapeHtml(String(count))}</span></td>`;
+  return row;
+}
+
+function renderSectionHeadingRow(name, id) {
+  const row = document.createElement('tr');
+  row.id = id;
+  row.className = 'catalogue-flat__toc-heading-row catalogue-flat__toc-heading-row--section';
+  row.innerHTML = `<td colspan="3"><span class="catalogue-flat__toc-heading">${escapeHtml(name)}</span></td>`;
+  return row;
+}
+
+function renderDecadeRow() {
+  const row = document.createElement('tr');
+  row.className = 'catalogue-flat__toc-decade-row';
+  row.innerHTML = `
+    <td colspan="3">
+      <div class="catalogue-flat__toc-decade-buttons">
+        ${['2020s', '2010s', '2000s', '1990s', '1980s', '1970s', '1960s', '1950s', '1940s', '1930s', '1920s', '1910s', '1900s', '1890s', '1880s']
+          .map((label) => `<span class="catalogue-flat__toc-decade-btn catalogue-flat__toc-decade-btn--disabled">${label}</span>`)
+          .join('')}
+      </div>
+    </td>
+  `;
   return row;
 }
 

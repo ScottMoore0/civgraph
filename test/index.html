@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <title>Civgraph Test - MapLibre Rewrite</title>
-  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-017">
+  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-018">
 </head>
 <body>
   <a href="#testSidebar" class="visually-hidden">Skip to catalogue</a>
@@ -84,8 +84,11 @@
             </button>
           </div>
         </div>
-            <div id="catalogueFilters" class="catalogue-filters" aria-label="Catalogue filters"></div>
-            <div id="catalogueStats" class="filter-stats catalogue-stats" aria-live="polite"></div>
+            <div id="catalogueStats" class="filter-stats catalogue-stats" aria-live="polite" hidden></div>
+            <details class="catalogue-filter-drawer" hidden>
+              <summary>Filters</summary>
+              <div id="catalogueFilters" class="catalogue-filters" aria-label="Catalogue filters"></div>
+            </details>
             <div id="featureResults" class="feature-results" aria-live="polite"></div>
           </section>
 
@@ -245,7 +248,7 @@
     </div>
   </div>
 
-  <script type="module" src="/test/build/test.bundle.js?v=test-017"></script>
+  <script type="module" src="/test/build/test.bundle.js?v=test-018"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {

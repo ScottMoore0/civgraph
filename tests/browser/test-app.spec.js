@@ -15,11 +15,16 @@ test('/test shell starts with main navigation and diagnostics', async ({ page })
   await expect(page.getByRole('link', { name: 'MapLibre Test', exact: true })).toHaveCount(0);
   await expect(page.locator('#map')).toBeVisible();
   await openMapTools(page);
-  await expect(page.locator('#diagnostics')).toContainText('test-017');
+  await expect(page.locator('#diagnostics')).toContainText('test-018');
   await expect(page.locator('#diagnostics')).toContainText('Production Readiness');
   await expect(page.locator('#diagnostics')).toContainText('CI guardrails');
   await expect(page.locator('#diagnostics')).toContainText('Deployment Discipline');
   await expect(page.locator('#diagnostics')).toContainText('Browser resources');
+  const initialCenter = await page.evaluate(() => window.__civgraphTest.controller.map.getCenter().toArray());
+  expect(initialCenter[0]).toBeGreaterThan(-11);
+  expect(initialCenter[0]).toBeLessThan(-5);
+  expect(initialCenter[1]).toBeGreaterThan(51);
+  expect(initialCenter[1]).toBeLessThan(56);
 });
 
 test('/test catalogue supports grouped detail navigation and shared unconverted entries', async ({ page }) => {
@@ -42,6 +47,37 @@ test('/test catalogue supports grouped detail navigation and shared unconverted 
   await expect(page.locator('#catalogueHistoryPanel')).toContainText('Catalogue home');
   await page.locator('#catalogueBack').click();
   await expect(page.locator('#catalogue')).toBeVisible();
+});
+
+test('/test loads and renders a real MapLibre vector layer', async ({ page }) => {
+  await page.goto('/test/');
+  await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
+  const result = await page.evaluate(async () => {
+    const app = window.__civgraphTest;
+    const layer = app.metadataService.getLayer('civil-parishes-vector-test');
+    const localLayer = { ...layer, sourceType: 'mvt', tiles: layer.tilesFallback || layer.tiles };
+    await app.controller.loadLayer(localLayer);
+    await new Promise((resolve) => app.controller.map.once('idle', resolve));
+    const renderedLayers = ['civil-parishes-vector-test-fill', 'civil-parishes-vector-test-line', 'civil-parishes-vector-test-label']
+      .filter((id) => app.controller.map.getLayer(id));
+    return {
+      center: app.controller.map.getCenter().toArray(),
+      activeLayers: [...app.controller.layers.keys()],
+      renderedFeatureCount: app.controller.map.queryRenderedFeatures({ layers: renderedLayers }).length,
+      canvas: {
+        width: app.controller.map.getCanvas().width,
+        height: app.controller.map.getCanvas().height
+      }
+    };
+  });
+  expect(result.activeLayers).toContain('civil-parishes-vector-test');
+  expect(result.renderedFeatureCount).toBeGreaterThan(0);
+  expect(result.canvas.width).toBeGreaterThan(100);
+  expect(result.canvas.height).toBeGreaterThan(100);
+  expect(result.center[0]).toBeGreaterThan(-11);
+  expect(result.center[0]).toBeLessThan(-5);
+  expect(result.center[1]).toBeGreaterThan(51);
+  expect(result.center[1]).toBeLessThan(56);
 });
 
 test('/test supports keyboard shortcuts and accessibility smoke flow', async ({ page }) => {

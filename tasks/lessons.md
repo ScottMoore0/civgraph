@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 112) Shell parity tests must prove the real map workflow, not only structural proxies
+- Mistake pattern: I changed `/test` to satisfy newly added shell/parity assertions while the assertions only checked DOM classes, widths, and screenshots, not that the MapLibre map could still initialize, load a layer, render tiles, and accept interaction in the changed shell.
+- Impact: The UI could pass visual/static/browser guardrails while still being visibly misaligned with the main site and while the interactive map regressed for the user.
+- Guardrail:
+  1) after shell/layout changes, run a browser test that loads a real converted layer and proves MapLibre has rendered source/layer content, not just that `#map` is visible,
+  2) compare against real main-site DOM and screenshots rather than self-authored parity proxies,
+  3) do not ship a shell-alignment pass unless the default browsing workflow and one map-load workflow both pass in the browser.
+
 ### 111) Label parity includes zoom availability, not only visual styling
 - Mistake pattern: Matching the main site's label colours and halo while leaving `/test` MapLibre `labelMinZoom`, `labelMaxZoom`, and per-feature `label_minzoom` gates in place.
 - Impact: labels can look correct once zoomed in, but still fail the main-site behaviour where labels are available throughout the map interaction.

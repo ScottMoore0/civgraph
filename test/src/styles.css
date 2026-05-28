@@ -2496,7 +2496,31 @@ h2 .test-panel__collapse {
 
 .catalogue-filters {
   display: block;
-  padding: 10px 20px 0;
+  padding: 10px 0 0;
+}
+
+.catalogue-filter-drawer {
+  margin: 0 20px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 8px;
+}
+
+.catalogue-filter-drawer > summary {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 5px 10px;
+  color: #1a365d;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+  list-style: none;
+}
+
+.catalogue-filter-drawer > summary::-webkit-details-marker {
+  display: none;
 }
 
 .catalogue-filter-group {
@@ -2541,8 +2565,13 @@ h2 .test-panel__collapse {
 }
 
 .catalogue-stats {
-  margin: 0 20px 8px;
+  margin: 8px 20px 8px;
   color: #718096;
+}
+
+.catalogue-stats[hidden],
+.catalogue-filter-drawer[hidden] {
+  display: none !important;
 }
 
 .catalogue-main-panel {
@@ -2559,10 +2588,51 @@ h2 .test-panel__collapse {
 
 .catalogue-flat__toc--test {
   margin: 0;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 8px 6px;
-  background: #f7fafc;
+  border: 0;
+  border-radius: 0;
+  padding: 0 6px;
+  background: transparent;
+}
+
+.catalogue-flat__toc-toplinks {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 12px;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0 0 10px;
+}
+
+.catalogue-flat__toc-toplinks-left {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+.catalogue-flat__toc-toplink {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #002b5c;
+  cursor: pointer;
+  font-size: .74rem;
+  font-weight: 900;
+  letter-spacing: .04em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.catalogue-flat__toc-toplink[disabled] {
+  cursor: default;
+  opacity: .7;
+}
+
+.catalogue-flat__toc-stats {
+  color: #667085;
+  font-size: .74rem;
+  font-weight: 800;
 }
 
 .catalogue-flat__toc-table {
@@ -2611,6 +2681,38 @@ h2 .test-panel__collapse {
 .catalogue-flat__toc-heading-row td {
   padding-top: 12px;
   padding-bottom: 4px;
+}
+
+.catalogue-flat__toc-heading-row--section td {
+  padding-top: 6px;
+  padding-bottom: 12px;
+}
+
+.catalogue-flat__toc-decade-row td {
+  padding: 0 0 12px;
+}
+
+.catalogue-flat__toc-decade-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.catalogue-flat__toc-decade-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  border: 1px solid #d8e0ea;
+  border-radius: 6px;
+  padding: 5px 14px;
+  background: #f8fbff;
+  color: #002b5c;
+  font-size: .74rem;
+  font-weight: 800;
+}
+
+.catalogue-flat__toc-decade-btn--disabled {
+  opacity: .82;
 }
 
 .catalogue-flat__toc-heading {

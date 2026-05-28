@@ -31,6 +31,27 @@ Test shell main-site rectification implementation
     - `npm run check` passed the main chunked-map guardrails.
     - Approved `npm run test:browser:test` passed all 14 browser tests after updating the catalogue test to assert the hidden-toolbar compact-table contract.
 
+Repair /test shell regression after user report
+- [x] Record the correction and update lessons
+- [x] Reproduce the broken MapLibre interactive map with browser console/network evidence
+- [x] Restore MapLibre map functionality with a minimal fix
+- [x] Reassess main/test navbar and catalogue pane alignment against actual rendered UI
+- [x] Replace weak shell parity checks with workflow checks that load a real layer
+- [x] Run validation, build, browser, and visual checks
+- [x] Commit and push the repair
+  - What I changed:
+    - Fixed the default `/test/` map jump to West Africa by parsing missing `lng`, `lat`, and `z` URL params as absent instead of `0`.
+    - Bumped `/test` asset and service-worker cache versions from `test-017`/`test-v17` to `test-018`/`test-v18`, preventing mixed new-HTML/old-bundle cache states.
+    - Added a browser regression that loads `civil-parishes-vector-test` through local MVT tiles and asserts rendered MapLibre features, real canvas dimensions, and Ireland-centered map state.
+    - Moved `/test` category/provider filters out of the default catalogue surface and added the main-like Elections/Maps/Books/Tables top-link and decade rhythm to the compact catalogue.
+    - Regenerated the `/test` bundle, visual snapshots, and validation reports.
+  - Verification:
+    - Approved `npm run build:test` passed.
+    - Approved `npm run check:test` passed with the known warning-only large-tile/local-fallback findings.
+    - Approved `npm run test:visual:test` passed and the screenshot now opens on Ireland, not `[0,0]`.
+    - Approved `npm run test:browser:test` passed all 15 tests, including the new real MapLibre layer-rendering workflow.
+    - Approved `npm run check` passed the main-site chunked-map guardrails.
+
 Election party aliases and party IDs
 - [x] Correct PUP aliasing to Progressive Unionist Party in the audit logic
 - [x] Normalise Workers Party / Republican Clubs by date, DUP, PBP, and Alliance labels

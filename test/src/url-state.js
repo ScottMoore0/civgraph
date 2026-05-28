@@ -10,9 +10,9 @@ export class UrlStateController {
     const params = new URLSearchParams(location.hash.replace(/^#/, ''));
     return {
       layers: (params.get('layers') || '').split(',').filter(Boolean),
-      z: Number(params.get('z')),
-      lng: Number(params.get('lng')),
-      lat: Number(params.get('lat')),
+      z: parseOptionalNumber(params.get('z')),
+      lng: parseOptionalNumber(params.get('lng')),
+      lat: parseOptionalNumber(params.get('lat')),
       opacity: parseLayerValueParam(params.get('opacity')),
       labels: parseLayerValueParam(params.get('labels')),
       text: parseLayerValueParam(params.get('text')),
@@ -139,6 +139,11 @@ export class UrlStateController {
     if (split <= 0) return;
     this.controller.setLayerAttributeFilter(id, decodeURIComponent(value.slice(0, split)), decodeURIComponent(value.slice(split + 1)));
   }
+}
+
+function parseOptionalNumber(value) {
+  if (value === null || value === '') return Number.NaN;
+  return Number(value);
 }
 
 function parseLayerValueParam(value) {
