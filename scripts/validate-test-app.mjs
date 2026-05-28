@@ -222,6 +222,15 @@ function validateAssetVersions() {
   return errors;
 }
 
+function validateServiceWorkerDiscipline() {
+  const errors = [];
+  const serviceWorker = readFileSync(SERVICE_WORKER_PATH, 'utf8');
+  for (const marker of ['TEST_MAX_CACHE_BYTES', 'trimCacheBytes', 'TEST_PMTILES_CACHE', 'storagePressure']) {
+    if (!serviceWorker.includes(marker)) errors.push(`test/sw.js missing service-worker cache discipline marker: ${marker}`);
+  }
+  return errors;
+}
+
 function validateModules() {
   const errors = [];
   for (const modulePath of REQUIRED_MODULES) {
@@ -265,7 +274,7 @@ function validatePortPlan(metadata) {
 function main() {
   const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
   const layers = metadata.layers || [];
-  const errors = [...validateAssetVersions(), ...validateModules()];
+  const errors = [...validateAssetVersions(), ...validateModules(), ...validateServiceWorkerDiscipline()];
   const warnings = [];
   const metadataResult = validateMetadataContract(metadata);
   errors.push(...metadataResult.errors);

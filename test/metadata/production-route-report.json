@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-05-28T22:12:03.009Z",
+  "promotionMode": "test-route-rehearsal",
+  "checks": [
+    {
+      "name": "Scoped service worker before cutover",
+      "ok": true,
+      "detail": "Current test service worker must not claim the main route."
+    },
+    {
+      "name": "Versioned bundle references",
+      "ok": true,
+      "detail": "Bundle URLs must be cache-busted."
+    },
+    {
+      "name": "Rollback runbook exists",
+      "ok": true,
+      "detail": "Rollback steps must be documented before promotion."
+    },
+    {
+      "name": "Cutover PR checklist exists",
+      "ok": true,
+      "detail": "Promotion PR checklist must exist."
+    },
+    {
+      "name": "CDN invalidation procedure exists",
+      "ok": true,
+      "detail": "PMTiles/cache invalidation must be documented."
+    },
+    {
+      "name": "Service worker cache limits exist",
+      "ok": true,
+      "detail": "Scoped service worker must include quota discipline."
+    },
+    {
+      "name": "Pages/R2 separation documented",
+      "ok": true,
+      "detail": "Promotion docs must distinguish Pages shell from R2 data."
+    }
+  ],
+  "pass": true
+}

@@ -1414,3 +1414,334 @@ Fix Cloudflare Pages 20,000-file deployment failure
     - Approved `npm run build:test` passed after the sandboxed run hit an esbuild spawn `EPERM`.
     - `npm run check` passed.
     - Approved `npm run test:browser:test` passed all 4 tests after the sandboxed run hit a browser spawn `EPERM`.
+
+Review remaining /test MapLibre parity and feasibility
+- [x] Record the review request
+- [x] Inspect the main-site shell/catalogue behavior and the current `/test` equivalents
+- [x] Identify remaining feasible work, MapLibre-inappropriate work, and data-blocked work
+- [x] Report findings inline in chat
+  - Review:
+    - `/test` currently has a main-style top nav, a left catalogue pane, source panel, feature details, active layer controls, diagnostics, feature search, URL state, PMTiles support, and not-yet-converted catalogue rows.
+    - `/test` metadata exposes 123 loadable layers: 18 PMTiles vector layers and 105 image overlays. The port plan still lists 763 non-converted or metadata-only main-site rows.
+    - The remaining non-data-blocked parity work is mostly UI structure and workflow parity: exact top-nav/mobile menu behavior, C1/C2 catalogue hierarchy, catalogue detail/history views, richer source panels, feature detail polish, URL/copy affordances, and accessibility/mobile refinements.
+    - The remaining data-blocked parity work is chiefly full map coverage, time-series chains, election choropleths/results integration, feature search for every converted layer, and production fallbacks for generated tiles.
+    - Work that should not be ported literally includes Leaflet layer internals, FGB/chunk/LOD client loaders, DOM-based feature labels, and thumbnail request patterns that caused old mobile churn.
+
+Implement /test main-shell parity improvements
+- [x] Record the implementation request
+- [x] Make `/test` top navbar match the main site more closely, including responsive mobile menu behavior and active state
+- [x] Make the `/test` catalogue closer to the main catalogue: hierarchy, collapsible groups, history, home/back/forward, detail view
+- [x] Add richer catalogue cards/details for converted and unconverted maps
+- [x] Add copy/share affordances for layers and selected features
+- [x] Improve source/reference/download panel and feature details
+- [x] Improve layer controls, style UI, feature search, diagnostics, accessibility, and mobile ergonomics
+- [x] Add production-readiness checklist automation for main-shell parity
+- [x] Add/update browser coverage
+- [x] Verify and report what remains
+  - Review:
+    - Ported the `/test` header closer to the main shell: Civgraph branding, Home/About/MapLibre Test links, active state, support/mode controls, skip links, and a responsive mobile menu.
+    - Reworked the `/test` catalogue into a main-site-like catalogue-first flow with group/category hierarchy, collapsible C1/C2-style sections, back/forward/home navigation, rich detail views, and first-class not-yet-converted entries from the main-site port plan.
+    - Expanded converted and unconverted catalogue details with status, descriptions, dates, provider/credit metadata, source files, references, downloads, variants, and copy/share URLs.
+    - Added layer-level copy/fit/unload actions in active layer controls and feature-level copy/share in selected feature details.
+    - Improved source/reference/download presentation with grouped sections, sorting, copy buttons, and missing-source badges.
+    - Reworked feature details to highlight label/name fields, group source context, and hide noisy technical properties behind a disclosure.
+    - Added production-readiness diagnostics for shell parity, converted coverage, CDN/PMTiles health, runtime performance, and fallback state.
+    - Added `scripts/validate-test-shell-parity.mjs` and wired it into `check:test` and `check:test:ci`.
+    - Bumped `/test` assets and scoped service-worker cache to `test-013`.
+  - Verification:
+    - `node --check` passed for changed `/test` modules and `scripts/validate-test-shell-parity.mjs`.
+    - `npm run check:test` passed; it reports 123 loadable `/test` layers and 763 unconverted runtime catalogue entries from the main-site port plan. Existing warning-only tile-budget findings remain for `roi-small-areas-2011-vector-test` and `roi-townlands-vector-test`.
+    - Approved `npm run build:test` passed after the sandboxed run hit the known esbuild `spawn EPERM`.
+    - Approved `npm run test:browser:test` passed all 7 `/test` browser regression tests after tightening the Home-link locator.
+    - `npm run check` passed the existing main-site chunked-map bounds and fit checks.
+
+Review remaining /test parity after main-shell pass
+- [x] Record the review request
+- [x] Re-check current `/test` metadata, port-plan counts, and shell/catalogue markers
+- [x] Separate remaining feasible work into data-blocked and non-data-blocked categories
+- [x] Identify MapLibre-inappropriate main-site behaviours that should not be ported literally
+  - Review:
+    - Current `/test` state: 123 loadable layers, 18 PMTiles vector layers, 105 image overlays, and 763 unconverted runtime catalogue entries from `test/metadata/main-site-port-plan.json`.
+    - The main-site-shaped shell is now present in `/test`, but exact top-nav behaviours such as the support modal and theme toggle are still only visual/partial in the test shell.
+    - Remaining non-data-blocked parity is mostly shell polish, catalogue UX fidelity, URL/state completeness, accessibility, tests, and deployment hardening.
+    - Remaining data-blocked parity is chiefly converting the 763 unconverted rows, producing feature indexes for those converted layers, and wiring time-series/election experiences once their geographies exist as vector/raster test layers.
+
+Implement expanded /test shell and catalogue parity
+- [x] Record the expanded implementation request
+- [x] Wire `/test` support button to the same modal behaviour as the main site
+- [x] Wire `/test` theme/mode button to the main light/dark theme system
+- [x] Match mobile menu behaviour more closely: icon, outside-click close, support wiring, active route state
+- [x] Refine left catalogue C1/C2 hierarchy, spacing, filters, history dropdown, detail metadata, and URL semantics
+- [x] Improve selected-feature details, accessibility, diagnostics/readiness guardrails, and CI checks
+- [x] Add/update browser coverage
+- [x] Verify and report what remains
+  - Review:
+    - Added a `/test` support modal wired from the desktop support button, mobile support button, and mobile-menu support action, with Escape/backdrop/close-button dismissal and focus handling.
+    - Connected the `/test` mode button to the persisted light/dark theme state through `localStorage.theme`, `data-theme`, and `aria-pressed`, with dark-mode surface coverage for the MapLibre test shell.
+    - Reworked the mobile menu behaviour with an icon button, outside-click close, support action wiring, route-active state, Escape handling, and basic focus trapping while overlays are open.
+    - Expanded the left catalogue toward the main site's C1/C2 feel with deeper group spacing, provider/category filter pills, active-filter visibility, a catalogue history dropdown, restored search/detail/sidebar hash state, and richer detail metadata.
+    - Improved catalogue detail parity with keyword/status badges, source-file formatting, reference notes/accessed dates, richer link rows, and first-class unconverted entries.
+    - Preserved more URL semantics by keeping catalogue detail, search query, provider/category filters, sidebar state, map state, labels, opacity, styles, and selected-feature state in the hash without the map-state writer erasing catalogue state.
+    - Improved selected-feature details with table-like grouped fields, source context, and copy/share actions for both selected features and their layers.
+    - Extended diagnostics/readiness guardrails to report CI readiness, converted/unconverted catalogue coverage, and the expected `/test` parity markers.
+    - Bumped `/test` assets and scoped service-worker cache to `test-014`.
+  - Verification:
+    - `node --check` passed for changed `/test` modules and `scripts/validate-test-shell-parity.mjs`.
+    - `npm run check:test` passed. Existing warning-only tile-budget findings remain for `roi-small-areas-2011-vector-test` and `roi-townlands-vector-test`.
+    - Approved `npm run build:test` passed after the sandboxed run hit the known esbuild `spawn EPERM`.
+    - Approved `npm run test:browser:test` passed all 9 `/test` browser regression tests, covering support modal, theme toggle, URL restore, catalogue history, mobile menu close behaviour, source panels, feature details, and active layer controls.
+    - `npm run check` passed the main-site chunked-map bounds and fit checks.
+
+Review remaining /test parity after expanded shell pass
+- [x] Record the review request
+- [x] Inspect current `/test` shell, catalogue, metadata, and parity guardrails
+- [x] Separate remaining feasible work into blocked-on-data and not-blocked-on-data
+- [x] Identify main-site behaviours that should not be ported literally to MapLibre
+- [x] Report findings inline in chat
+  - Review:
+    - Current `/test` runtime metadata has 123 loadable layers: 18 PMTiles vector layers and 105 image overlays.
+    - The main-site port plan has 901 source rows: 138 marked converted in the plan, 611 needing vector-tile conversion, and 152 metadata-only rows. Runtime normalization still exposes 763 unconverted catalogue entries.
+    - Current `/test` shell parity now includes main-style top navigation, support modal, theme toggle, mobile menu, left catalogue pane, catalogue filters/history/detail URLs, source panel, feature details, diagnostics, PMTiles fallback warnings, and browser guardrails.
+    - Remaining non-data-blocked work is polish and hardening: exact visual parity, deeper URL/history semantics, mobile/accessibility refinement, diagnostics/readiness reporting, CI/deployment guardrails, and MapLibre-specific control refinements.
+    - Remaining blocked-on-data work is full converted map coverage, complete feature search indexes, time-series switching, election map workflows, and any feature-detail fields that require richer vector-tile attributes.
+    - Work that should not be ported literally includes Leaflet layer objects/control APIs, FGB/chunked client loaders, DOM-marker label mechanics, thumbnail-heavy browse behavior, and browser-memory assumptions from the old renderer.
+
+Implement remaining non-data-blocked /test parity and hardening
+- [x] Record the implementation request and scope
+- [x] Refine navbar, spacing, typography, panel rhythm, button states, and catalogue card visual parity
+- [x] Improve catalogue hierarchy, dense/list modes, sorting, history UX, and saved view preferences
+- [x] Preserve fuller URL state for panels, catalogue groups, tabs, and detail/source/diagnostics state
+- [x] Improve source/reference/download grouping, citations, badges, copy links, and missing-source explanations
+- [x] Improve selected-feature details with field grouping, preferred labels, aliases, and hidden technical fields
+- [x] Improve MapLibre-native layer controls, ordering, presets, defaults, and saved per-layer state
+- [x] Improve mobile ergonomics, gestures, focus trapping, touch targets, landscape layout, and reduced motion
+- [x] Improve accessibility labels, keyboard order, focus return, visible focus states, and touch-target guardrails
+- [x] Improve diagnostics/readiness panels, CDN/tile summaries, copyable reports, and deployment discipline guardrails
+- [x] Expand tests and verify
+  - Review:
+    - Bumped `/test` to `test-015`.
+    - Added catalogue view/sort controls with saved preferences, hash restoration, dense card mode, table mode, sortable catalogue rows, and collapsed-group hash state.
+    - Preserved more shell URL state: selected panel, source filter, diagnostics severity/sort, catalogue view/sort, and collapsed catalogue groups.
+    - Added mobile menu theme wiring, focus-return handling for the support modal, active panel marking, mobile sidebar swipe-down close, larger mobile touch targets, landscape sidebar layout, and stronger visible focus styles.
+    - Added MapLibre layer order controls and saved per-layer control defaults for opacity, stroke width, colours, labels, and text scale.
+    - Improved source/reference/download rows with citation notes, accessed dates, source-type badges, copy actions, and missing-source explanations.
+    - Improved selected feature detail labels with field aliases and friendlier generated labels while keeping technical fields hidden by default.
+    - Expanded diagnostics with load timing summaries, deployment discipline guidance, CDN/local-fallback status, and service-worker/cache readiness.
+    - Tightened guardrails: `validate-test-app` now checks service-worker cache discipline; CDN manifest validation now checks PMTiles path/key/byte consistency and reports local-only fallbacks as an aggregate warning; shell parity validation now checks the new controls and deployment/cache markers.
+  - Verification:
+    - `node --check` passed for changed `/test` modules and validation scripts.
+    - `npm run check:test` passed. It reports the existing warning-only tile-budget findings for `roi-small-areas-2011-vector-test` and `roi-townlands-vector-test`, plus one aggregate warning that 18 PMTiles layers retain local-only directory fallbacks which runtime keeps disabled off localhost.
+    - Approved `npm run build:test` passed after the sandboxed run hit the known esbuild `spawn EPERM`.
+    - Approved `npm run test:browser:test` passed all 9 `/test` browser regression tests.
+    - `npm run check` passed the main-site chunked-map bounds and fit checks.
+
+Review remaining /test parity after non-data-blocked hardening
+- [x] Record the review request
+- [x] Inspect current `/test` metadata, shell, catalogue, and guardrail state
+- [x] Separate remaining feasible work into blocked-on-data and not-blocked-on-data
+- [x] Identify main-site behaviours that are not appropriate to port literally to MapLibre
+- [x] Report findings inline in chat
+  - Review:
+    - Current `/test` runtime metadata has 123 loadable layers: 18 PMTiles vector layers and 105 image overlays. All 18 vector layers have feature indexes. There are no converted time-series chains or election catalogues yet.
+    - The main-site port plan still has 901 source rows: 138 marked converted in the plan, 611 needing vector-tile conversion, and 152 metadata-only rows. Runtime normalization still exposes 763 unconverted catalogue entries.
+    - Current `/test` shell parity includes the main-style top navigation, support modal, theme toggle, mobile menu, left catalogue pane, filters, history, detail URL state, dense/table catalogue modes, source panels, feature details, diagnostics, PMTiles fallback warnings, and CI/browser guardrails.
+    - Remaining non-data-blocked work is now mostly exact visual polish, accessibility depth, richer saved preferences, advanced diagnostics, and production promotion documentation/checklists.
+    - Remaining blocked-on-data work is full map conversion, complete time-series/election workflows, richer per-layer field aliases where source attributes are missing, and performance tuning that depends on regenerating tiles.
+    - Work that should not be ported literally includes Leaflet layer/control internals, FGB/chunked client loaders, DOM label overlays, thumbnail-heavy browse flows, and old mobile request patterns.
+  - Verification:
+    - `npm run check:test` passed. Existing warning-only findings remain: two large tile-budget layers plus one aggregate warning that 18 PMTiles layers retain local-only directory fallbacks disabled off localhost.
+
+Implement final non-data-blocked /test parity polish
+- [x] Record the implementation request and scope
+- [x] Refine visual parity for navbar, spacing, typography, panel rhythm, menu styling, and catalogue cards
+- [x] Add accessibility depth: ARIA relationships, focus return, keyboard shortcuts, touch target guardrails, and reduced-motion refinements
+- [x] Add saved preferences for expanded panels, catalogue defaults, diagnostics settings, and layer controls
+- [x] Improve diagnostics with readiness score, grouped deployment checks, tile-budget explanations, and memory/storage reporting
+- [x] Expand browser coverage for accessibility smoke, keyboard catalogue flow, copy actions, layer order persistence, and mobile landscape sidebar
+- [x] Add promotion checklist documentation for moving `/test` to the main route
+- [x] Verify and report outcome
+  - Review:
+    - Bumped `/test` to `test-016`.
+    - Tightened the shell visuals with shared sizing variables, denser panel rhythm, refined catalogue card spacing, stronger focus styling, and main-site-like catalogue control treatment.
+    - Added ARIA panel labels, shortcut metadata, keyboard shortcuts (`/`, `C`, `S`, `D`, `T`, `?`), focus return for the mobile menu/support modal, and mobile landscape sidebar behaviour.
+    - Added saved panel-collapse preferences, saved diagnostics preferences, and persisted MapLibre layer ordering alongside existing catalogue and layer-control preferences.
+    - Diagnostics now show a readiness score/meter, grouped deployment discipline checks, browser resource/storage reporting where supported, and friendlier tile-budget notes.
+    - Added `test/metadata/test-to-main-promotion-checklist.md` covering architecture, non-data gates, data gates, cutover steps, and rollback conditions.
+    - Expanded shell parity guardrails to require the new shortcuts, panel preferences, diagnostics, cache, layer-order, and promotion checklist markers.
+    - Expanded browser tests to 11 cases covering accessibility smoke/keyboard flow, panel-collapse persistence, source copy action, layer-order persistence, and mobile landscape sidebar.
+  - Verification:
+    - `node --check` passed for changed `/test` modules, validation scripts, and browser tests.
+    - `npm run check:test` passed. Existing warning-only findings remain: two large tile-budget layers plus one aggregate warning that 18 PMTiles layers retain local-only directory fallbacks disabled off localhost.
+    - Approved `npm run build:test` passed after the sandboxed run hit the known esbuild `spawn EPERM`.
+    - Approved `npm run test:browser:test` passed all 11 `/test` browser regression tests.
+    - `npm run check` passed the main-site chunked-map bounds and fit checks.
+
+Review remaining /test parity after final non-data polish
+- [x] Record the review request
+- [x] Inspect current `/test` metadata counts, guardrails, and implemented parity markers
+- [x] Separate remaining feasible work into blocked-on-data and not-blocked-on-data
+- [x] Identify main-site behaviours that are not appropriate to port literally to MapLibre
+- [x] Report findings inline in chat
+  - Review:
+    - Current `/test` is on `test-016` and has the practical main-shell parity stack: top navbar, support modal, theme toggle, mobile menu, left catalogue pane, filters, history, dense/table modes, detail URL state, saved preferences, source panels, feature details, diagnostics/readiness, keyboard shortcuts, mobile landscape handling, PMTiles fallback warnings, and browser/CI guardrails.
+    - Runtime metadata has 123 loadable layers: 18 PMTiles vector layers and 105 image overlays. All 18 PMTiles layers have labels and feature indexes.
+    - There are still 0 converted time-series chains and 0 election catalogues in `/test`.
+    - The main-site port plan still has 901 rows: 138 marked converted in the plan, 611 needing vector-tile conversion, 152 metadata-only rows, and 763 runtime catalogue entries that remain unconverted.
+    - Remaining non-data-blocked work is now mostly refinement rather than foundational parity: deeper visual matching, more accessibility audit breadth, more browser coverage, stronger production documentation, and optional hardening around preferences/diagnostics/deployment.
+    - Remaining blocked-on-data work is the real gap: converting unconverted maps, generating indexes, wiring time-series/election workflows, and retuning heavy layers from regenerated tiles.
+    - Leaflet-specific internals, FGB/chunked client loading, DOM label overlays, thumbnail-heavy browse flows, and old Leaflet feature interaction mechanics should not be ported literally.
+  - Verification:
+    - `npm run check:test` passed. Existing warning-only findings remain: two large tile-budget layers plus one aggregate warning that 18 PMTiles layers retain local-only directory fallbacks disabled off localhost.
+
+Find Pointer postal address coordinate data
+- [x] Record the search request
+- [x] Search the `boundaries-website` repo for Pointer files and references
+- [x] Enumerate local/external drives and search likely external storage locations
+- [x] Report candidate paths, confidence, and follow-up steps
+  - Review:
+    - Repo scripts reference a Pointer/EONI properties source at `D:\eoni\properties.geojson`.
+    - Verified `D:\eoni\properties.geojson` exists on the external HDD and is 335,653,079 bytes, last modified 2026-04-27 00:41:42.
+    - Light header inspection confirms it is a GeoJSON FeatureCollection of postal address point records with fields including `UPRN`, `Address1`-`Address5`, `POSTCODE`, `X_COR`, `Y_COR`, and lon/lat point geometry.
+    - Verified derived postcode district outputs exist in Google Drive at `G:\My Drive\NI Postcode Districts - Polygons.geojson` and `G:\My Drive\NI Postcode Districts - Polygons Map.png`.
+  - Verification:
+    - `Test-Path D:\eoni\properties.geojson` returned true.
+    - `Get-ChildItem D:\eoni` showed `properties.geojson`, `polling_stations.geojson`, and scrape logs.
+    - Read only the first 4 KB of `properties.geojson` to confirm schema without loading the full 336 MB file.
+
+Debug GeoDirectory CAPTCHA loading
+- [x] Record the browser-debugging request
+- [x] Open `https://mapping.geodirectory.ie/` in an automated browser session
+- [x] Inspect visible page state, network/script state, frames, and console errors relevant to CAPTCHA loading
+- [x] Identify whether this is user-side blocking, third-party CAPTCHA failure, or site-side integration failure
+- [x] Report practical fixes and evidence
+  - Review:
+    - The automated browser reproduced the issue: the CAPTCHA panel appears, but the image at `https://mapping.geodirectory.ie/captcha` is broken.
+    - The page uses a custom image CAPTCHA, not Google reCAPTCHA. The relevant DOM is `#captcha-image` with `src="https://mapping.geodirectory.ie/captcha"`.
+    - The image element reports `complete: true`, `naturalWidth: 0`, and `naturalHeight: 0`, which means the browser attempted to load it but did not receive a valid image.
+    - Opening `https://mapping.geodirectory.ie/captcha` directly in the automated browser returns `504 Gateway Time-out` from `Microsoft-Azure-Application-Gateway/v2`.
+    - No reCAPTCHA iframe or `window.grecaptcha` object is present. The only console warning observed was an unrelated Google Maps async-loading warning.
+  - Verification:
+    - Automated browser screenshot showed the map and CAPTCHA input/Validate button with a broken image icon above the input.
+    - Direct `/captcha` endpoint screenshot and DOM showed `504 Gateway Time-out`.
+
+Implement /test visual, accessibility, preference, diagnostics, and production-doc polish
+- [x] Record the implementation request and scope
+- [x] Inspect current `/test` shell, diagnostics, preferences, docs, and browser tests
+  - Reviewed the existing test shell, diagnostics renderer, preference state, service-worker cache flow, and Playwright coverage before editing.
+- [x] Improve pixel-level visual matching with the main site
+  - Tightened the `/test` header, nav, sidebar, panel, catalogue-card, button, and spacing rhythm to better match the current main shell while keeping MapLibre-specific controls.
+- [x] Add accessibility depth, ARIA tuning, and axe-style checks where feasible
+  - Added map instructions, menu roles/current states, source filter labelling, dialog/control checks, duplicate-id/button/form-label checks, reduced-motion checks, and mobile-only touch-target smoke warnings.
+- [x] Add edge-case browser tests for clipboard failure, collapsed-panel URL restore, reduced motion, and service-worker/cache status
+  - Added Playwright coverage for failed clipboard writes, import/export/reset preferences, collapsed panel hash restore, reduced-motion behaviour, service-worker cache reporting, and device defaults.
+- [x] Add preference import/export/reset polish, per-device defaults, and clearer reset buttons
+  - Added a Preferences panel with export, import, reset, device-default actions, schema metadata, allowed-key filtering, and status messaging.
+- [x] Improve diagnostics/readiness/deploy checklist UI and warning explanations
+  - Added friendlier readiness text, accessibility smoke status, service-worker cache status, deploy checklist UI, and explicit warning explanations.
+- [x] Add production docs for rollback, cutover PR checklist, and CDN cache invalidation
+  - Added `test/metadata/rollback-runbook.md`, `test/metadata/cutover-pr-checklist.md`, and `test/metadata/cdn-cache-invalidation-procedure.md`, and linked them from the promotion checklist.
+- [x] Verify and report outcome
+  - `node --check test/src/app.js`, `node --check test/src/diagnostics.js`, and `node --check tests/browser/test-app.spec.js` passed.
+  - `npm run check:test` passed with known warnings for `roi-small-areas-2011-vector-test`, `roi-townlands-vector-test`, and local-only PMTiles fallbacks.
+  - `npm run build:test` passed after rerunning outside the sandbox because esbuild hit sandbox `spawn EPERM`.
+  - `npm run test:browser:test` passed: 14 tests.
+  - `npm run check` passed for main chunked-bound guardrails.
+
+Review remaining /test implementation and parity work after visual/accessibility polish
+- [x] Record the review request
+- [x] Inspect current `/test` metadata, port-plan counts, diagnostics reports, docs, and guardrails
+- [x] Separate feasible remaining work into blocked-on-data and not-blocked-on-data
+- [x] Identify work that is not feasible or not sensible to port literally from Leaflet to MapLibre
+- [x] Report findings inline in chat
+  - Review:
+    - Current `/test` metadata has 123 MapLibre-rendered layers: 18 PMTiles vector layers and 105 image layers.
+    - The 18 PMTiles layers have feature indexes and label configuration. There are still 0 time-series chains and 0 election catalogues wired as converted MapLibre workflows.
+    - The main-site port plan still tracks 901 source rows: 138 converted, 611 needing vector-tile conversion, and 152 metadata-only.
+    - Existing reports show no hard errors, but warning-only findings remain for large `roi-small-areas-2011-vector-test` and `roi-townlands-vector-test` tiles, plus local-only PMTiles directory fallbacks disabled off localhost.
+    - Remaining non-data-blocked work is mostly incremental polish, stronger automated checks, deployment monitoring, and final shell/catalogue parity refinements.
+    - Remaining blocked-on-data work is conversion coverage, generated search/index metadata, time-series/election workflows, richer per-layer field aliases, and heavy-layer tile regeneration.
+
+Execute final non-data-blocked /test hardening pass
+- [x] Record the implementation request and scope
+- [x] Inspect current `/test` shell, diagnostics, preferences, controls, source UX, CI, docs, and tests
+  - Reviewed the current test shell, diagnostics renderer, active-layer controls, source panel, telemetry, workflow, package scripts, and browser tests before editing.
+- [x] Add repeatable visual regression, mobile performance, security, production-route, and CDN monitoring guardrails
+  - Added `scripts/test-static-server.mjs`, `scripts/visual-regression-test-shell.mjs`, `scripts/validate-test-mobile-performance.mjs`, `scripts/validate-test-security.mjs`, and `scripts/validate-test-production-route.mjs`.
+  - Added npm scripts for `test:visual:test`, `test:performance:test`, `monitor:test:cdn`, `check:test:security`-equivalent coverage through `check:test`, and `check:test:ci-safe`.
+  - Updated `.github/workflows/test-readiness.yml` to run CI-safe checks, browser tests, visual checks, mobile smoke/performance checks, and scheduled CDN byte-range monitoring.
+- [x] Add real axe-core browser coverage plus deeper accessibility/runtime tests
+  - Installed `@axe-core/playwright` and `axe-core`.
+  - Added an axe-core Playwright scan to the `/test` accessibility smoke test and fixed the issues it exposed: readiness meter ARIA and MapLibre attribution link distinction.
+  - Kept screen-reader status announcements and focus trapping in the runtime.
+- [x] Improve preference profiles, reset sections, diagnostics filtering/history/export, and source/control UX
+  - Added preference profile save/apply controls, section reset controls for shell/catalogue/layers, diagnostics type filtering, diagnostics history, clear-history action, screen-reader status region, and drag/drop active-layer reordering.
+  - Routed source-panel and active-layer copy actions through the guarded clipboard helper.
+- [x] Strengthen CI/scheduled checks and production-readiness documentation
+  - Added `test/metadata/security-dependency-review.md` and `test/metadata/production-observability.md`, and linked them from the promotion checklist.
+  - Added generated reports for security, production-route rehearsal, visual shell parity, mobile performance, and mobile smoke.
+  - Ran `npm audit --json`; applied a `protocol-buffers-schema` override to clear the moderate transitive advisory. The remaining finding is `xlsx` high severity with no npm-audit fix available, documented for release review rather than auto-fixed.
+- [x] Verify with syntax checks, `/test` checks, build, browser suite, and main guardrails
+  - `node --check` passed for changed `/test` modules, browser tests, and new validation scripts.
+  - `npm run check:test` passed with the known warning-only tile/CDN findings.
+  - `npm run build:test` passed after rerunning outside the sandbox because esbuild hit the known `spawn EPERM`.
+  - `npm run test:browser:test` passed: 14 tests, including real axe-core coverage.
+  - `npm run test:visual:test` passed and wrote shell screenshots/reports.
+  - `npm run test:performance:test` passed: mobile boot 274ms; representative layer frame rates 61/43/47fps.
+  - `npm run smoke:test:mobile` passed across all 18 PMTiles layers.
+  - `npm run check` passed for main chunked-bound guardrails.
+- [x] Report what changed and what remains data-blocked
+
+Review remaining /test implementation after final hardening
+- [x] Record the review request
+- [x] Inspect current `/test` metadata, generated reports, package scripts, and task log
+- [x] Separate remaining feasible work into blocked-on-data and not-blocked-on-data
+- [x] Identify work that is not feasible or not sensible to port literally from Leaflet to MapLibre
+- [x] Report findings inline in chat
+  - Review:
+    - Current `/test` metadata remains 123 MapLibre-rendered layers: 18 PMTiles vector layers and 105 image layers.
+    - All 18 PMTiles layers have feature indexes and label configuration. There are still 0 converted time-series chains and 0 converted election catalogues.
+    - The main-site port plan remains 901 rows: 138 converted, 611 needing vector-tile conversion, and 152 metadata-only.
+    - Non-data guardrails are now broad: `check:test`, CI-safe checks, CDN monitor command, browser tests with axe-core, visual shell snapshots, mobile performance checks, all-layer mobile smoke, security checks, production-route checks, and promotion/rollback/cache docs.
+    - Remaining non-data-blocked work is now small: resolve or replace `xlsx`, run live CDN/production checks after deployment, optionally tune visual/polish details from human review, and decide whether visual snapshot PNG artifacts should be committed or generated-only.
+    - Remaining data-blocked work is the main gap: full conversion coverage, generated indexes/aliases, time-series chains, election workflows, raster/georeference decisions, and heavy-layer retile tuning.
+
+Focused /test shell visual parity pass
+- [x] Record the implementation request and scope
+- [x] Inspect main/test navbar and catalogue-pane styling
+- [x] Apply focused `/test` navbar and catalogue visual parity changes
+- [x] Verify with `/test` checks, build, browser tests, and visual regression
+- [x] Report remaining limits
+  - Review:
+    - Aligned the `/test` shell header to the main site's 64px header height, teal gradient treatment, brand sizing, nav spacing, button sizing, and mobile-menu placement.
+    - Tightened the left catalogue pane's panel padding, group spacing, catalogue-card treatment, dense-mode spacing, status backgrounds, and action button rhythm so it is closer to the main catalogue without changing MapLibre-specific workflows.
+    - Kept the `/test` sidebar width at 390px because the MapLibre test shell carries additional controls, diagnostics, source panels, and converted/unconverted entries; forcing the main site's wider split-pane proportions would reduce the map unnecessarily.
+  - Verification:
+    - `npm run check:test` passed. Known warning-only findings remain for `roi-small-areas-2011-vector-test`, `roi-townlands-vector-test`, and local-only PMTiles fallbacks.
+    - Approved `npm run build:test` passed after the sandboxed run hit the known esbuild `spawn EPERM`.
+    - Approved `npm run test:browser:test` passed all 14 browser tests.
+    - Approved `npm run test:visual:test` passed. The visual report now shows main header 64px and `/test` header 64px, with matching header background and brand geometry.
+    - `npm run check` passed the main chunked-map guardrails.
+
+Align /test catalogue shell and pane with main site
+- [x] Record the implementation request and scope
+- [x] Inspect current `/test` catalogue structure, controller, and styles
+- [x] Put search and compact catalogue navigation into one main-style top catalogue shell
+- [x] Make the default catalogue hierarchy and cards closer to main C1/C2 browsing while preserving unconverted entries
+- [x] Keep thumbnails constrained or absent to avoid mobile request churn
+- [x] Keep MapLibre-specific panels visually secondary to the core catalogue flow
+- [x] Verify with `/test` checks, build, browser tests, visual regression, and main guardrails
+- [x] Report what changed and what remains
+  - Review:
+    - Moved `/test` search and catalogue history/back/forward/home controls into a single sticky catalogue shell at the top of the left pane, matching the main site's search-plus-compact-nav pattern.
+    - Converted the catalogue nav buttons to compact icon buttons with accessible labels, and added a constrained clear-search button inside the search field.
+    - Reworked the default catalogue renderer toward main-style C1/C2 grouping: teal group headers, nested category section headers, and row-like catalogue entries using `class-member` naming while preserving converted and not-yet-converted states.
+    - Kept thumbnail loading absent in this pass; this avoids reintroducing the main site's old thumbnail request churn until thumbnail loading is manifest-gated and concurrency-limited.
+    - Marked active layers, time series, feature details, sources, diagnostics, and preferences as visually secondary panels so the core catalogue remains the primary left-pane workflow.
+    - Adjusted the desktop `/test` pane width to `clamp(390px, 32vw, 460px)`, which moves it closer to the main split pane on desktop while preserving more map space than the current main 50/50 split.
+  - Verification:
+    - `node --check test/src/catalogue-controller.js` and `node --check test/src/dom.js` passed.
+    - `npm run check:test` passed. Known warning-only findings remain for `roi-small-areas-2011-vector-test`, `roi-townlands-vector-test`, and local-only PMTiles fallbacks.
+    - Approved `npm run build:test` passed after the sandboxed run hit the known esbuild `spawn EPERM`.
+    - Approved `npm run test:browser:test` passed all 14 browser tests.
+    - Approved `npm run test:visual:test` passed. The visual report shows main header 64px, `/test` header 64px, `/test` catalogue width 437px, and map area 929x704px at 1366x768.
+    - `npm run check` passed the main chunked-map guardrails.

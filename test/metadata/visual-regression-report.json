@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-05-28T22:12:59.510Z",
+  "viewport": {
+    "width": 1366,
+    "height": 768
+  },
+  "checks": [
+    {
+      "name": "main header visible",
+      "ok": true,
+      "detail": "Main header detected."
+    },
+    {
+      "name": "test header visible",
+      "ok": true,
+      "detail": "Test header detected."
+    },
+    {
+      "name": "header height parity",
+      "ok": true,
+      "detail": "Main 64px, test 64px."
+    },
+    {
+      "name": "test catalogue visible",
+      "ok": true,
+      "detail": "Catalogue width 437px."
+    },
+    {
+      "name": "test map visible",
+      "ok": true,
+      "detail": "Map 929x704px."
+    }
+  ],
+  "screenshots": {
+    "main": "test/metadata/visual-snapshots/main-shell.png",
+    "test": "test/metadata/visual-snapshots/test-shell.png"
+  },
+  "pass": true,
+  "main": {
+    "header": {
+      "x": 0,
+      "y": 0,
+      "width": 1366,
+      "height": 64,
+      "background": "rgb(6, 90, 110)",
+      "color": "rgb(255, 255, 255)"
+    },
+    "brand": {
+      "x": 24,
+      "y": 5,
+      "width": 209,
+      "height": 55,
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(255, 255, 255)"
+    },
+    "sidebar": {
+      "x": 0,
+      "y": 64,
+      "width": 683,
+      "height": 704,
+      "background": "rgb(255, 255, 255)",
+      "color": "rgb(26, 32, 44)"
+    },
+    "map": {
+      "x": 689,
+      "y": 64,
+      "width": 683,
+      "height": 704,
+      "background": "rgb(237, 242, 247)",
+      "color": "rgb(26, 32, 44)"
+    }
+  },
+  "test": {
+    "header": {
+      "x": 0,
+      "y": 0,
+      "width": 1366,
+      "height": 64,
+      "background": "rgb(6, 90, 110)",
+      "color": "rgb(255, 255, 255)"
+    },
+    "brand": {
+      "x": 24,
+      "y": 5,
+      "width": 209,
+      "height": 55,
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(255, 255, 255)"
+    },
+    "sidebar": {
+      "x": 0,
+      "y": 64,
+      "width": 437,
+      "height": 704,
+      "background": "rgb(255, 255, 255)",
+      "color": "rgb(31, 41, 51)"
+    },
+    "map": {
+      "x": 437,
+      "y": 64,
+      "width": 929,
+      "height": 704,
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(31, 41, 51)"
+    }
+  }
+}

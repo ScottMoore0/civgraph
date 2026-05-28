@@ -16,16 +16,22 @@
     "switch:test:pmtiles-cdn": "node scripts/switch-test-pmtiles-to-cdn.mjs",
     "check": "npm run check:chunked-bounds && npm run test:chunked-fit",
     "check:chunked-bounds": "node scripts/validate-chunked-map-bounds.mjs",
-    "check:test": "node scripts/validate-test-app.mjs && node scripts/validate-test-tile-budgets.mjs && node scripts/validate-test-cdn-manifest.mjs",
-    "check:test:ci": "node scripts/validate-test-app.mjs && node scripts/validate-test-tile-budgets.mjs && node scripts/validate-test-cdn-manifest.mjs && node scripts/verify-test-pmtiles-cdn.mjs",
+    "check:test": "node scripts/validate-test-app.mjs && node scripts/validate-test-tile-budgets.mjs && node scripts/validate-test-cdn-manifest.mjs && node scripts/validate-test-shell-parity.mjs && node scripts/validate-test-security.mjs && node scripts/validate-test-production-route.mjs",
+    "check:test:ci": "node scripts/validate-test-app.mjs && node scripts/validate-test-tile-budgets.mjs && node scripts/validate-test-cdn-manifest.mjs && node scripts/validate-test-shell-parity.mjs && node scripts/validate-test-security.mjs && node scripts/validate-test-production-route.mjs && node scripts/verify-test-pmtiles-cdn.mjs",
+    "check:test:ci-safe": "node scripts/validate-test-app.mjs && node scripts/validate-test-tile-budgets.mjs && node scripts/validate-test-cdn-manifest.mjs && node scripts/validate-test-shell-parity.mjs && node scripts/validate-test-security.mjs && node scripts/validate-test-production-route.mjs",
     "fix:chunked-bounds": "node scripts/validate-chunked-map-bounds.mjs --fix",
     "smoke:test:mobile": "node scripts/smoke-test-test-mobile.mjs",
+    "monitor:test:cdn": "node scripts/verify-test-pmtiles-cdn.mjs",
+    "test:performance:test": "node scripts/validate-test-mobile-performance.mjs",
+    "test:visual:test": "node scripts/visual-regression-test-shell.mjs",
     "test:chunked-fit": "node scripts/test-chunked-fit-bounds.mjs",
     "test:browser": "playwright test",
     "test:browser:test": "playwright test tests/browser/test-app.spec.js"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.3",
     "@playwright/test": "^1.58.2",
+    "axe-core": "^4.11.4",
     "canvas": "^3.2.1",
     "esbuild": "^0.27.4",
     "flatgeobuf": "^4.4.0"
@@ -39,5 +45,8 @@
     "maplibre-gl": "^5.24.0",
     "pmtiles": "^4.4.1",
     "xlsx": "^0.18.5"
+  },
+  "overrides": {
+    "protocol-buffers-schema": "^3.6.1"
   }
 }

@@ -59,6 +59,13 @@ export function showToast(els, message) {
   }, 5000);
 }
 
+export async function copyText(value) {
+  if (!navigator.clipboard?.writeText) {
+    throw new Error('Clipboard API is unavailable');
+  }
+  await navigator.clipboard.writeText(String(value ?? ''));
+}
+
 export function unique(values) {
   return [...new Set(values.filter(Boolean))];
 }

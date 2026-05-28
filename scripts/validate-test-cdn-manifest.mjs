@@ -27,6 +27,7 @@ if (!manifest) {
   const assetByLayer = new Map(assets.map((asset) => [asset.layerId, asset]));
   const assetByLocal = new Map(assets.map((asset) => [normalize(asset.localPath), asset]));
   const verifiedByLayer = new Map((rangeReport?.results || []).map((item) => [item.layerId, item]));
+  const localOnlyFallbacks = [];
 
   for (const layer of pmtilesLayers) {
     const asset = assetByLayer.get(layer.id);
@@ -35,9 +36,15 @@ if (!manifest) {
       continue;
     }
     if (!asset.targetKey?.startsWith('data/maps/test/')) errors.push(`${layer.id}: R2 key must live under data/maps/test/`);
+    if (!asset.targetKey?.endsWith('.pmtiles')) errors.push(`${layer.id}: R2 key must end in .pmtiles`);
     if (!asset.cdnUrl?.startsWith('https://data.civgraph.net/data/maps/test/')) errors.push(`${layer.id}: CDN URL must use data.civgraph.net/data/maps/test/`);
+    if (!asset.localPath?.startsWith('test/pmtiles/generated/')) errors.push(`${layer.id}: local PMTiles path must live under test/pmtiles/generated/`);
+    if (!asset.bytes || asset.bytes <= 0) errors.push(`${layer.id}: CDN manifest asset must record non-zero bytes`);
     if (layer.tileUrl?.startsWith('/test/pmtiles/')) warnings.push(`${layer.id}: still points at repo-local PMTiles URL`);
     if (layer.tileUrl?.startsWith('https://') && layer.tileUrl !== asset.cdnUrl) errors.push(`${layer.id}: tileUrl does not match manifest CDN URL`);
+    if (layer.tileUrl?.startsWith('https://') && layer.tilesFallback?.startsWith('/test/tiles/')) {
+      localOnlyFallbacks.push(layer.id);
+    }
     if (!layer.tilePackage?.byteRangeVerifiedAt) errors.push(`${layer.id}: missing tilePackage.byteRangeVerifiedAt`);
     const verified = verifiedByLayer.get(layer.id);
     if (!verified?.ok) errors.push(`${layer.id}: missing successful CDN range verification report row`);
@@ -57,6 +64,9 @@ if (!manifest) {
   const localArchives = listLocalPmtiles();
   for (const localPath of localArchives) {
     if (!assetByLocal.has(normalize(localPath))) errors.push(`${localPath}: local PMTiles archive is not represented in CDN manifest`);
+  }
+  if (localOnlyFallbacks.length) {
+    warnings.push(`${localOnlyFallbacks.length} production PMTiles layer(s) retain local-only directory fallbacks; runtime must keep fallback disabled off localhost`);
   }
 }
 

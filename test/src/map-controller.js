@@ -115,6 +115,7 @@ export class TestMapLibreController {
       color: layer.style?.color || '#5B21B6',
       fillColor: layer.style?.fillColor || layer.style?.color || '#7C3AED'
     });
+    this.applySavedLayerPreferences(layer.id);
 
     if (layer.sourceType !== 'raster' && layer.sourceType !== 'image') {
       this.interactionCleanups.set(layer.id, this.bindLayerInteractions(layer, fillId, labelId, sourceId));
@@ -122,6 +123,7 @@ export class TestMapLibreController {
     if (layer.sourceType === 'pmtiles') {
       this.fallbackCleanups.set(layer.id, this.monitorPmtilesFallback(layer, sourceId));
     }
+    this.reorderFromSavedLayerOrder();
     this.fitToLayer(layer.id);
     this.recordMetric({
       layerId: layer.id,
@@ -366,6 +368,69 @@ export class TestMapLibreController {
       }
     }
     this.notifyChange();
+  }
+
+  moveLayerOrder(layerId, delta) {
+    if (!this.layers.has(layerId) || !delta) return false;
+    const entries = [...this.layers.entries()];
+    const index = entries.findIndex(([id]) => id === layerId);
+    const next = index + delta;
+    if (next < 0 || next >= entries.length) return false;
+    const [entry] = entries.splice(index, 1);
+    entries.splice(next, 0, entry);
+    this.layers = new Map(entries);
+    this.reapplyLayerOrder();
+    writeLayerOrder([...this.layers.keys()]);
+    this.notifyChange();
+    return true;
+  }
+
+  moveLayerBefore(layerId, beforeLayerId) {
+    if (!this.layers.has(layerId) || !this.layers.has(beforeLayerId) || layerId === beforeLayerId) return false;
+    const entries = [...this.layers.entries()];
+    const index = entries.findIndex(([id]) => id === layerId);
+    const beforeIndex = entries.findIndex(([id]) => id === beforeLayerId);
+    if (index < 0 || beforeIndex < 0) return false;
+    const [entry] = entries.splice(index, 1);
+    const targetIndex = entries.findIndex(([id]) => id === beforeLayerId);
+    entries.splice(targetIndex < 0 ? beforeIndex : targetIndex, 0, entry);
+    this.layers = new Map(entries);
+    this.reapplyLayerOrder();
+    writeLayerOrder([...this.layers.keys()]);
+    this.notifyChange();
+    return true;
+  }
+
+  reorderFromSavedLayerOrder() {
+    const order = readLayerOrder();
+    if (!order.length || this.layers.size < 2) return;
+    const ranked = new Map(order.map((id, index) => [id, index]));
+    const entries = [...this.layers.entries()].sort((a, b) => {
+      const rankA = ranked.has(a[0]) ? ranked.get(a[0]) : Number.MAX_SAFE_INTEGER;
+      const rankB = ranked.has(b[0]) ? ranked.get(b[0]) : Number.MAX_SAFE_INTEGER;
+      return rankA - rankB;
+    });
+    this.layers = new Map(entries);
+    this.reapplyLayerOrder();
+  }
+
+  reapplyLayerOrder() {
+    for (const record of this.layers.values()) {
+      for (const id of record.layerIds || []) {
+        if (this.map.getLayer(id)) this.map.moveLayer(id);
+      }
+    }
+  }
+
+  applySavedLayerPreferences(layerId) {
+    const saved = readLayerPreferences(layerId);
+    if (!saved) return;
+    if (saved.opacity !== undefined) this.setOpacity(layerId, Number(saved.opacity));
+    if (saved.strokeWidth !== undefined) this.setLayerStrokeWidth(layerId, Number(saved.strokeWidth));
+    if (saved.color) this.setLayerColor(layerId, saved.color);
+    if (saved.fillColor) this.setLayerFillColor(layerId, saved.fillColor);
+    if (saved.labelsEnabled !== undefined) this.setLayerLabelsEnabled(layerId, Boolean(saved.labelsEnabled));
+    if (saved.textScale !== undefined) this.setLayerTextScale(layerId, Number(saved.textScale));
   }
 
   selectFeatureById(layerId, featureId, properties = {}) {
@@ -615,4 +680,26 @@ export class TestMapLibreController {
 
 function isColor(value) {
   return typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value);
+}
+
+function readLayerPreferences(layerId) {
+  try {
+    return JSON.parse(localStorage.getItem(`civgraph:test:controls:${layerId}`) || 'null');
+  } catch {
+    return null;
+  }
+}
+
+function readLayerOrder() {
+  try {
+    return JSON.parse(localStorage.getItem('civgraph:test:layer-order') || '[]');
+  } catch {
+    return [];
+  }
+}
+
+function writeLayerOrder(order) {
+  try {
+    localStorage.setItem('civgraph:test:layer-order', JSON.stringify(order));
+  } catch {}
 }

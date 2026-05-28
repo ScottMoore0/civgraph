@@ -1,4 +1,4 @@
-export const TEST_ASSET_VERSION = 'test-012';
+export const TEST_ASSET_VERSION = 'test-017';
 export const METADATA_URL = `/test/metadata/maps-test.json?v=${TEST_ASSET_VERSION}`;
 export const PORT_PLAN_URL = `/test/metadata/main-site-port-plan.json?v=${TEST_ASSET_VERSION}`;
 export const IRELAND_BOUNDS = [[-10.75, 51.35], [-5.35, 55.55]];

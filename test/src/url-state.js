@@ -58,7 +58,10 @@ export class UrlStateController {
   write() {
     if (this.restoring || !this.controller.map) return;
     const center = this.controller.map.getCenter();
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(location.hash.replace(/^#/, ''));
+    for (const key of ['layers', 'opacity', 'labels', 'text', 'stroke', 'line', 'fill', 'style', 'styleAttr', 'styleRamp', 'filter', 'selected', 'lng', 'lat', 'z']) {
+      params.delete(key);
+    }
     const layers = [...this.controller.layers.keys()];
     if (layers.length) params.set('layers', layers.join(','));
     const opacity = [];

@@ -6,7 +6,7 @@
  * active development.
  */
 
-const TEST_CACHE_VERSION = 'test-v12';
+const TEST_CACHE_VERSION = 'test-v17';
 const TEST_STATIC_CACHE = `civgraph-${TEST_CACHE_VERSION}-static`;
 const TEST_RUNTIME_CACHE = `civgraph-${TEST_CACHE_VERSION}-runtime`;
 const TEST_TILE_CACHE = `civgraph-${TEST_CACHE_VERSION}-tiles`;
@@ -14,8 +14,13 @@ const TEST_PMTILES_CACHE = `civgraph-${TEST_CACHE_VERSION}-pmtiles`;
 const TEST_CACHES = [TEST_STATIC_CACHE, TEST_RUNTIME_CACHE, TEST_TILE_CACHE, TEST_PMTILES_CACHE];
 const TEST_CACHE_LIMITS = {
   [TEST_RUNTIME_CACHE]: 80,
-  [TEST_TILE_CACHE]: 500,
-  [TEST_PMTILES_CACHE]: 24
+  [TEST_TILE_CACHE]: 300,
+  [TEST_PMTILES_CACHE]: 12
+};
+const TEST_MAX_CACHE_BYTES = {
+  [TEST_RUNTIME_CACHE]: 16 * 1024 * 1024,
+  [TEST_TILE_CACHE]: 80 * 1024 * 1024,
+  [TEST_PMTILES_CACHE]: 180 * 1024 * 1024
 };
 
 self.addEventListener('install', (event) => {
@@ -134,8 +139,31 @@ async function trimCache(cacheName) {
   const keys = await cache.keys();
   const pressure = await storagePressure();
   const pressureLimit = pressure === 'high' ? Math.max(4, Math.floor(limit * 0.5)) : limit;
-  if (keys.length <= pressureLimit) return;
-  await Promise.all(keys.slice(0, keys.length - pressureLimit).map((key) => cache.delete(key)));
+  if (keys.length > pressureLimit) {
+    await Promise.all(keys.slice(0, keys.length - pressureLimit).map((key) => cache.delete(key)));
+  }
+  await trimCacheBytes(cacheName);
+}
+
+async function trimCacheBytes(cacheName) {
+  const maxBytes = TEST_MAX_CACHE_BYTES[cacheName];
+  if (!maxBytes) return;
+  const cache = await caches.open(cacheName);
+  const keys = await cache.keys();
+  let total = 0;
+  const measured = [];
+  for (const key of keys) {
+    const response = await cache.match(key);
+    const bytes = Number(response?.headers?.get('content-length') || 0);
+    total += bytes;
+    measured.push({ key, bytes });
+  }
+  if (total <= maxBytes) return;
+  for (const item of measured) {
+    await cache.delete(item.key);
+    total -= item.bytes;
+    if (total <= maxBytes) break;
+  }
 }
 
 async function storagePressure() {

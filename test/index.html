@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <title>Civgraph Test - MapLibre Rewrite</title>
-  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-012">
+  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-017">
 </head>
 <body>
+  <a href="#testSidebar" class="visually-hidden">Skip to catalogue</a>
+  <a href="#map" class="visually-hidden">Skip to map</a>
   <div id="testApp" class="test-shell">
     <header class="app-header test-app-header">
       <a href="/" class="app-header__brand" aria-label="Civgraph home">
@@ -16,10 +18,38 @@
       </a>
       <nav class="app-header__nav" aria-label="Main navigation">
         <a href="/" class="app-header__link">Home</a>
-        <a href="/test/" class="app-header__link app-header__link--active">MapLibre Test</a>
         <a href="/pages/about.html" class="app-header__link">About</a>
+        <a href="/test/" class="app-header__link app-header__link--active">MapLibre Test</a>
+        <button type="button" id="supportBtn" class="support-btn" title="Support Civgraph" aria-keyshortcuts="?">
+          <svg class="support-btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <span class="support-btn__text">Support Us</span>
+        </button>
+        <button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode" aria-keyshortcuts="t">
+          <svg class="theme-toggle__icon--sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"></circle>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+          </svg>
+          <svg class="theme-toggle__icon--moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
       </nav>
-      <button type="button" id="sidebarToggle" class="mobile-menu-btn test-sidebar-toggle" aria-controls="testSidebar" aria-expanded="false">Catalogue</button>
+      <button type="button" id="mobileSupportBtn" class="mobile-support-btn" aria-label="Support Civgraph">Support Us</button>
+      <button type="button" id="mobileMenuBtn" class="mobile-menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
+          <path d="M7 10l5 5 5-5z"></path>
+        </svg>
+      </button>
+      <div id="mobileMenu" class="mobile-menu hidden" role="menu" aria-label="Mobile navigation">
+        <a href="/" class="mobile-menu__link" role="menuitem">Home</a>
+        <a href="/pages/about.html" class="mobile-menu__link" role="menuitem">About</a>
+        <a href="/test/" class="mobile-menu__link mobile-menu__link--active" role="menuitem" aria-current="page">MapLibre Test</a>
+        <button type="button" id="mobileMenuTheme" class="mobile-menu__link mobile-menu__button" role="menuitem">Toggle theme</button>
+        <button type="button" id="mobileMenuSupport" class="mobile-menu__link mobile-menu__button" role="menuitem">Support Us</button>
+        <button type="button" id="sidebarToggle" class="mobile-menu__link mobile-menu__button" role="menuitem" aria-controls="testSidebar" aria-expanded="false">Catalogue</button>
+      </div>
     </header>
 
     <aside id="testSidebar" class="test-sidebar" aria-label="Map catalogue and information">
@@ -31,42 +61,100 @@
         <span class="test-badge">/test</span>
       </header>
 
-      <section class="test-panel">
-        <label class="test-search-label" for="mapSearch">Search test layers</label>
-        <input id="mapSearch" class="test-search" type="search" autocomplete="off" placeholder="Search maps">
+      <section class="test-panel test-panel--catalogue-shell" data-panel="search" aria-labelledby="panelSearchTitle">
+        <h2 id="panelSearchTitle" class="visually-hidden">Search</h2>
+        <div class="catalogue-sticky-shell test-catalogue-shell">
+          <div class="search-input">
+            <svg class="search-input__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <label class="visually-hidden" for="mapSearch">Search maps</label>
+            <input id="mapSearch" class="test-search search-input__field" type="search" autocomplete="off" placeholder="Search maps or features..." aria-keyshortcuts="/">
+            <button type="button" id="mapSearchClear" class="search-clear" aria-label="Clear search" title="Clear search">&times;</button>
+          </div>
+          <div class="catalogue-nav" aria-label="Catalogue navigation">
+            <button type="button" id="catalogueBack" class="panel-action panel-action--icon" title="Back" aria-label="Back" disabled>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M19 12H5M12 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+            <button type="button" id="catalogueForward" class="panel-action panel-action--icon" title="Forward" aria-label="Forward" disabled>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </button>
+            <button type="button" id="catalogueHistory" class="panel-action panel-action--icon" title="History" aria-label="History" aria-expanded="false" aria-controls="catalogueHistoryPanel">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </button>
+            <button type="button" id="catalogueHome" class="panel-action panel-action--icon" title="Back to list" aria-label="Back to list">
+              <span class="catalogue-home__icon" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+        <div id="catalogueFilters" class="catalogue-filters" aria-label="Catalogue filters"></div>
         <div id="catalogueStats" class="catalogue-stats" aria-live="polite"></div>
         <div id="featureResults" class="feature-results" aria-live="polite"></div>
       </section>
 
-      <section class="test-panel">
-        <h2>Catalogue</h2>
+      <section class="test-panel" data-panel="catalogue" aria-labelledby="panelCatalogueTitle">
+        <div class="test-panel__heading">
+          <h2 id="panelCatalogueTitle">Catalogue</h2>
+          <span class="test-panel__context">Main catalogue structure</span>
+        </div>
+        <div class="catalogue-toolbar" aria-label="Catalogue display controls">
+          <label>
+            View
+            <select id="catalogueView">
+              <option value="cards">Cards</option>
+              <option value="dense">Dense</option>
+              <option value="table">Table</option>
+            </select>
+          </label>
+          <label>
+            Sort
+            <select id="catalogueSort">
+              <option value="order">Catalogue order</option>
+              <option value="name">Name</option>
+              <option value="category">Category</option>
+              <option value="provider">Provider</option>
+              <option value="status">Status</option>
+            </select>
+          </label>
+        </div>
+        <div id="catalogueHistoryPanel" class="catalogue-history hidden" aria-label="Catalogue history"></div>
         <div id="catalogue" class="catalogue-list" aria-live="polite"></div>
+        <div id="catalogueDetail" class="catalogue-detail-panel" hidden></div>
       </section>
 
-      <section class="test-panel">
-        <h2>Active Layers</h2>
+      <section class="test-panel test-panel--secondary" data-panel="active" aria-labelledby="panelActiveTitle">
+        <h2 id="panelActiveTitle">Active Layers</h2>
         <div id="activeLayers" class="active-list">No active layers.</div>
       </section>
 
-      <section class="test-panel">
-        <h2>Time Series</h2>
+      <section class="test-panel test-panel--secondary" data-panel="time" aria-labelledby="panelTimeTitle">
+        <h2 id="panelTimeTitle">Time Series</h2>
         <div id="timeSeriesPanel" class="time-series-panel">No converted time-series chains.</div>
       </section>
 
-      <section class="test-panel">
-        <h2>Selected Feature</h2>
+      <section class="test-panel test-panel--secondary" data-panel="feature" aria-labelledby="panelFeatureTitle">
+        <h2 id="panelFeatureTitle">Selected Feature</h2>
         <div id="featureDetails" class="feature-details">Click a rendered feature.</div>
       </section>
 
-      <section class="test-panel">
-        <h2>Sources</h2>
+      <section class="test-panel test-panel--secondary" data-panel="sources" aria-labelledby="panelSourcesTitle">
+        <h2 id="panelSourcesTitle">Sources</h2>
+        <label class="visually-hidden" for="sourceFilter">Filter sources, references, downloads</label>
         <input id="sourceFilter" class="test-search test-search--compact" type="search" autocomplete="off" placeholder="Filter sources, references, downloads">
         <div id="sourcePanel" class="source-panel">Load a layer to inspect sources.</div>
       </section>
 
-      <section class="test-panel test-diagnostics">
+      <section class="test-panel test-panel--secondary test-diagnostics" data-panel="diagnostics" aria-labelledby="panelDiagnosticsTitle">
         <div class="test-panel__heading">
-          <h2>Diagnostics</h2>
+          <h2 id="panelDiagnosticsTitle">Diagnostics</h2>
           <button type="button" id="copyDiagnostics" class="panel-action">Copy</button>
         </div>
         <div class="diagnostics-controls">
@@ -79,25 +167,87 @@
             </select>
           </label>
           <label>
+            Type
+            <select id="diagnosticsType">
+              <option value="all">All types</option>
+              <option value="slow-load">Slow loads</option>
+              <option value="large-layer">Large layers</option>
+              <option value="large-tile">Large tiles</option>
+              <option value="missing-index">Missing indexes</option>
+              <option value="runtime">Runtime</option>
+            </select>
+          </label>
+          <label>
             Sort
             <select id="diagnosticsSort">
               <option value="severity">Severity</option>
               <option value="layer">Layer</option>
             </select>
           </label>
+          <button type="button" id="diagnosticsClearHistory" class="panel-action">Clear history</button>
         </div>
         <div id="diagnostics" class="diagnostics-panel">Starting...</div>
+      </section>
+
+      <section class="test-panel test-panel--secondary test-preferences" data-panel="preferences" aria-labelledby="panelPreferencesTitle">
+        <div class="test-panel__heading">
+          <h2 id="panelPreferencesTitle">Preferences</h2>
+          <button type="button" id="preferencesReset" class="panel-action panel-action--danger">Reset</button>
+        </div>
+        <div class="preferences-actions" aria-label="Preference tools">
+          <input id="preferencesProfileName" class="preferences-profile-name" type="text" autocomplete="off" placeholder="Profile name" aria-label="Preference profile name">
+          <button type="button" id="preferencesSaveProfile" class="panel-action">Save profile</button>
+          <select id="preferencesProfileSelect" aria-label="Saved preference profiles"></select>
+          <button type="button" id="preferencesApplyProfile" class="panel-action">Apply profile</button>
+          <button type="button" id="preferencesExport" class="panel-action">Export</button>
+          <button type="button" id="preferencesImport" class="panel-action">Import</button>
+          <button type="button" id="preferencesDeviceDefaults" class="panel-action">Device defaults</button>
+        </div>
+        <div class="preferences-reset-sections" aria-label="Reset preference sections">
+          <button type="button" id="preferencesResetShell" class="panel-action panel-action--danger">Reset shell</button>
+          <button type="button" id="preferencesResetCatalogue" class="panel-action panel-action--danger">Reset catalogue</button>
+          <button type="button" id="preferencesResetLayers" class="panel-action panel-action--danger">Reset layers</button>
+        </div>
+        <label class="preferences-payload-label" for="preferencesPayload">Preference import/export JSON</label>
+        <textarea id="preferencesPayload" class="preferences-payload" rows="5" spellcheck="false"></textarea>
+        <p id="preferencesStatus" class="preferences-status" aria-live="polite">Preferences are stored only in this browser.</p>
       </section>
     </aside>
 
     <main class="test-map-wrap">
-      <div id="map" class="test-map" role="application" aria-label="MapLibre test map"></div>
+      <div id="map" class="test-map" role="application" aria-label="MapLibre test map" aria-describedby="mapInstructions"></div>
+      <p id="mapInstructions" class="visually-hidden">Use the catalogue to load layers. Use plus and minus map controls to zoom. Selected features appear in the selected feature panel.</p>
       <div id="fallbackAlerts" class="fallback-alerts" aria-live="polite"></div>
       <div id="toast" class="test-toast" hidden></div>
+      <div id="screenReaderStatus" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
     </main>
   </div>
 
-  <script type="module" src="/test/build/test.bundle.js?v=test-012"></script>
+  <div id="supportModal" class="support-modal hidden" role="dialog" aria-modal="true" aria-labelledby="supportModalTitle">
+    <div class="support-modal__backdrop"></div>
+    <div class="support-modal__content" tabindex="-1">
+      <div class="support-modal__header">
+        <h2 id="supportModalTitle" class="support-modal__title">Support Civgraph</h2>
+        <button type="button" class="support-modal__close" aria-label="Close">&times;</button>
+      </div>
+      <div class="support-modal__options">
+        <a href="https://ko-fi.com/scottmoore0" target="_blank" rel="noopener noreferrer" class="support-modal__option support-modal__option--kofi">
+          <strong>Tip via Ko-fi</strong>
+          <span>One-off support for Civgraph development.</span>
+        </a>
+        <a href="https://scottmoore.xyz/p/support-the-boundaries-website" target="_blank" rel="noopener noreferrer" class="support-modal__option support-modal__option--sub">
+          <strong>Subscribe via Substack</strong>
+          <span>Monthly or yearly support.</span>
+        </a>
+      </div>
+      <div class="support-modal__message">
+        <p>Support helps cover data, archive, tooling, hosting, and development costs for Civgraph.</p>
+        <p>The site remains free to use, and map content is released under an open licence where possible.</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/test/build/test.bundle.js?v=test-017"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {

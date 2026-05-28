@@ -1,5 +1,5 @@
 import { DEFAULT_TEXT_SCALE } from './config.js';
-import { escapeHtml } from './utils.js';
+import { copyText, escapeHtml } from './utils.js';
 
 export function renderActiveLayers(els, controller, options = {}) {
   if (controller.layers.size === 0) {
@@ -14,10 +14,22 @@ export function renderActiveLayers(els, controller, options = {}) {
     const hasLabels = (record.labelLayerIds || []).length > 0;
     const styleState = record.styleState || options.conditionalStyling?.activeStyles?.get(id) || null;
     row.className = 'active-layer';
+    row.draggable = true;
+    row.dataset.layerId = id;
     row.innerHTML = `
-      <div>
-        <strong>${escapeHtml(record.config.name)}</strong>
-        <span>${escapeHtml(record.config.sourceType)} - z${record.config.minzoom}-${record.config.maxzoom}${record.config.tilePackage?.preferred ? ' - PMTiles' : ''}</span>
+      <div class="active-layer__header">
+        <div>
+          <strong>${escapeHtml(record.config.name)}</strong>
+          <span>${escapeHtml(record.config.sourceType)} - z${record.config.minzoom}-${record.config.maxzoom}${record.config.tilePackage?.preferred ? ' - PMTiles' : ''}</span>
+        </div>
+        <div class="active-layer__actions">
+          <button type="button" data-action="layer-drag" aria-label="Drag ${escapeHtml(record.config.name)} to reorder">Drag</button>
+          <button type="button" data-action="layer-up" aria-label="Move ${escapeHtml(record.config.name)} up">Up</button>
+          <button type="button" data-action="layer-down" aria-label="Move ${escapeHtml(record.config.name)} down">Down</button>
+          <button type="button" data-action="layer-fit" aria-label="Fit ${escapeHtml(record.config.name)}">Fit</button>
+          <button type="button" data-action="layer-copy" aria-label="Copy ${escapeHtml(record.config.name)} link">Copy</button>
+          <button type="button" data-action="layer-unload" aria-label="Unload ${escapeHtml(record.config.name)}">Unload</button>
+        </div>
       </div>
       <label>
         Opacity
@@ -48,28 +60,58 @@ export function renderActiveLayers(els, controller, options = {}) {
       ` : ''}
       ${!isRasterLike(record.config) ? renderLegend(record.config, styleState, record) : ''}
     `;
+    row.querySelector('[data-action="layer-fit"]')?.addEventListener('click', () => {
+      controller.fitToLayer(id);
+      options.onRendered?.();
+    });
+    row.querySelector('[data-action="layer-up"]')?.addEventListener('click', () => {
+      controller.moveLayerOrder(id, -1);
+      options.onRendered?.();
+    });
+    row.querySelector('[data-action="layer-down"]')?.addEventListener('click', () => {
+      controller.moveLayerOrder(id, 1);
+      options.onRendered?.();
+    });
+    row.querySelector('[data-action="layer-unload"]')?.addEventListener('click', () => {
+      controller.unloadLayer(id);
+      options.onRendered?.();
+    });
+    row.querySelector('[data-action="layer-copy"]')?.addEventListener('click', async (event) => {
+      try {
+        await copyText(makeLayerShareUrl(id, controller));
+        event.currentTarget.textContent = 'Copied';
+      } catch {
+        event.currentTarget.textContent = 'Failed';
+      }
+    });
     row.querySelector('[data-control="opacity"]').addEventListener('input', (event) => {
       controller.setOpacity(id, Number(event.target.value));
+      saveLayerControls(id, controller.layers.get(id));
       options.onRendered?.();
     });
     row.querySelector('[data-control="line-color"]')?.addEventListener('input', (event) => {
       controller.setLayerColor(id, event.target.value);
+      saveLayerControls(id, controller.layers.get(id));
       options.onRendered?.();
     });
     row.querySelector('[data-control="fill-color"]')?.addEventListener('input', (event) => {
       controller.setLayerFillColor(id, event.target.value);
+      saveLayerControls(id, controller.layers.get(id));
       options.onRendered?.();
     });
     row.querySelector('[data-control="gradient-attribute"]')?.addEventListener('change', (event) => {
       applyStyle(row, id, options);
+      saveLayerControls(id, controller.layers.get(id));
       options.onRendered?.();
     });
     row.querySelector('[data-control="style-mode"]')?.addEventListener('change', () => {
       applyStyle(row, id, options);
+      saveLayerControls(id, controller.layers.get(id));
       options.onRendered?.();
     });
     row.querySelector('[data-control="style-ramp"]')?.addEventListener('change', () => {
       applyStyle(row, id, options);
+      saveLayerControls(id, controller.layers.get(id));
       options.onRendered?.();
     });
     row.querySelector('[data-action="style-reset"]')?.addEventListener('click', () => {
@@ -91,6 +133,7 @@ export function renderActiveLayers(els, controller, options = {}) {
       if (preset.strokeWidth !== undefined) controller.setLayerStrokeWidth(id, Number(preset.strokeWidth));
       if (preset.color) controller.setLayerColor(id, preset.color);
       if (preset.fillColor) controller.setLayerFillColor(id, preset.fillColor);
+      saveLayerControls(id, controller.layers.get(id));
       options.onRendered?.();
     });
     row.querySelectorAll('[data-style-preset]').forEach((button) => {
@@ -101,19 +144,23 @@ export function renderActiveLayers(els, controller, options = {}) {
         if (select) select.value = mode;
         if (attr && !attr.value) attr.value = chooseAttributeForMode(record.config, mode);
         applyStyle(row, id, options);
+        saveLayerControls(id, controller.layers.get(id));
         options.onRendered?.();
       });
     });
     row.querySelector('[data-control="stroke-width"]')?.addEventListener('input', (event) => {
       controller.setLayerStrokeWidth(id, Number(event.target.value));
+      saveLayerControls(id, controller.layers.get(id));
       options.onRendered?.();
     });
     row.querySelector('[data-control="labels"]')?.addEventListener('change', (event) => {
       controller.setLayerLabelsEnabled(id, event.target.checked);
+      saveLayerControls(id, controller.layers.get(id));
       options.onRendered?.();
     });
     row.querySelector('[data-control="text-scale"]')?.addEventListener('input', (event) => {
       controller.setLayerTextScale(id, Number(event.target.value));
+      saveLayerControls(id, controller.layers.get(id));
       options.onRendered?.();
     });
     row.querySelectorAll('[data-legend-filter]').forEach((button) => {
@@ -130,6 +177,29 @@ export function renderActiveLayers(els, controller, options = {}) {
     });
     row.querySelector('[data-action="legend-clear-filter"]')?.addEventListener('click', () => {
       controller.clearLayerFilter(id);
+      options.onRendered?.();
+    });
+    row.addEventListener('dragstart', (event) => {
+      event.dataTransfer?.setData('text/plain', id);
+      event.dataTransfer.effectAllowed = 'move';
+      row.classList.add('active-layer--dragging');
+    });
+    row.addEventListener('dragend', () => {
+      row.classList.remove('active-layer--dragging');
+    });
+    row.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      row.classList.add('active-layer--drop-target');
+    });
+    row.addEventListener('dragleave', () => {
+      row.classList.remove('active-layer--drop-target');
+    });
+    row.addEventListener('drop', (event) => {
+      event.preventDefault();
+      row.classList.remove('active-layer--drop-target');
+      const draggedId = event.dataTransfer?.getData('text/plain');
+      if (!draggedId || draggedId === id) return;
+      controller.moveLayerBefore?.(draggedId, id);
       options.onRendered?.();
     });
     els.activeLayers.appendChild(row);
@@ -277,13 +347,17 @@ function isRasterLike(layer) {
 }
 
 function saveLayerPreset(id, record) {
-  localStorage.setItem(`civgraph:test:style:${id}`, JSON.stringify({
+  const value = {
     opacity: record.opacity,
     strokeWidth: record.strokeWidth,
     color: record.color,
     fillColor: record.fillColor,
+    labelsEnabled: record.labelsEnabled,
+    textScale: record.textScale,
     styleState: record.styleState || null
-  }));
+  };
+  localStorage.setItem(`civgraph:test:style:${id}`, JSON.stringify(value));
+  localStorage.setItem(`civgraph:test:controls:${id}`, JSON.stringify(value));
 }
 
 function loadLayerPreset(id) {
@@ -302,4 +376,29 @@ function applySavedPreset(row, preset) {
   if (mode) mode.value = style.type || '';
   if (attr) attr.value = style.attribute || '';
   if (ramp) ramp.value = style.rampName || 'blue-red';
+}
+
+function saveLayerControls(id, record) {
+  if (!record) return;
+  try {
+    localStorage.setItem(`civgraph:test:controls:${id}`, JSON.stringify({
+      opacity: record.opacity,
+      strokeWidth: record.strokeWidth,
+      color: record.color,
+      fillColor: record.fillColor,
+      labelsEnabled: record.labelsEnabled,
+      textScale: record.textScale,
+      styleState: record.styleState || null
+    }));
+  } catch {}
+}
+
+function makeLayerShareUrl(id, controller) {
+  const url = new URL(location.href);
+  const layers = new Set(controller.layers.keys());
+  layers.add(id);
+  const params = new URLSearchParams(location.hash.replace(/^#/, ''));
+  params.set('layers', [...layers].join(','));
+  url.hash = params.toString();
+  return url.toString();
 }

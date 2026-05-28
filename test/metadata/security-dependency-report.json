@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-05-28T22:12:02.974Z",
+  "npmAuditDecision": "npm audit currently reports dependency issues; do not run automated audit fix without reviewing transitive risk and native dependency compatibility.",
+  "checks": [
+    {
+      "name": "No third-party scripts in /test shell",
+      "ok": true,
+      "detail": "The /test shell should not add third-party script execution."
+    },
+    {
+      "name": "Service worker scoped to /test",
+      "ok": true,
+      "detail": "Service worker registration must stay scoped before promotion."
+    },
+    {
+      "name": "External support links use noopener noreferrer",
+      "ok": true,
+      "detail": "External links should not expose opener."
+    },
+    {
+      "name": "Clipboard writes use guarded helper",
+      "ok": true,
+      "detail": "Clipboard calls should go through copyText."
+    },
+    {
+      "name": "Telemetry is sanitized and same-origin gated",
+      "ok": true,
+      "detail": "Runtime telemetry must be sanitized and same-origin."
+    },
+    {
+      "name": "Diagnostics avoid raw secrets",
+      "ok": true,
+      "detail": "The static shell should not contain sensitive tokens."
+    }
+  ],
+  "pass": true
+}
