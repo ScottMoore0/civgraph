@@ -19,6 +19,8 @@ class Test2App {
   }
 
   async init() {
+    this.installRouteGuard();
+
     await dataService.init();
     await this.loadBooks();
 
@@ -62,6 +64,37 @@ class Test2App {
         this.updateURLState();
       });
     await window.__civgraphTest2.restorePromise;
+  }
+
+  installRouteGuard() {
+    if (window.__civgraphTest2RouteGuardInstalled) return;
+    window.__civgraphTest2RouteGuardInstalled = true;
+
+    const preserveCurrentPath = (url) => {
+      if (typeof url !== 'string' || !url.startsWith('#')) return url;
+      return `${window.location.pathname}${window.location.search || ''}${url}`;
+    };
+
+    const nativeReplaceState = history.replaceState.bind(history);
+    const nativePushState = history.pushState.bind(history);
+    history.replaceState = (state, title, url) => nativeReplaceState(state, title, preserveCurrentPath(url));
+    history.pushState = (state, title, url) => nativePushState(state, title, preserveCurrentPath(url));
+
+    document.addEventListener('click', (event) => {
+      const anchor = event.target.closest?.('a[href^="#"]');
+      if (!anchor) return;
+
+      const hash = anchor.getAttribute('href') || '';
+      event.preventDefault();
+      if (!hash || hash === '#') return;
+
+      const next = `${window.location.pathname}${window.location.search || ''}${hash}`;
+      history.pushState(null, '', next);
+
+      const id = decodeURIComponent(hash.slice(1));
+      const target = document.getElementById(id) || document.querySelector(`[name="${CSS.escape(id)}"]`);
+      target?.scrollIntoView({ block: 'start' });
+    }, true);
   }
 
   async loadBooks() {

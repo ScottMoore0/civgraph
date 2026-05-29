@@ -59,6 +59,7 @@ test('/test2 loads a converted layer through the main catalogue map callback', a
   expect(result.visible).toBe(true);
   expect(result.features).toBeGreaterThan(0);
   expect(result.canvasWidth).toBeGreaterThan(100);
+  expect(new URL(page.url()).pathname).toBe('/test2/');
 });
 
 test('/test2 supports catalogue detail, unsupported notices, and URL restore', async ({ page }) => {
@@ -69,6 +70,7 @@ test('/test2 supports catalogue detail, unsupported notices, and URL restore', a
   await expect(page.locator('#catalogueFlatView')).toContainText('Civil Parishes');
   await page.evaluate(async () => window.__civgraphTest2.app.loadMap('civil-parishes-by-province'));
   await expect(page).toHaveURL(/layers=civil-parishes-by-province/);
+  expect(new URL(page.url()).pathname).toBe('/test2/');
   await page.reload();
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.isLayerLoaded('civil-parishes-by-province'));
   await expect(page.locator('#catalogueFlatView')).toContainText('Civil Parishes');
@@ -85,6 +87,23 @@ test('/test2 supports catalogue detail, unsupported notices, and URL restore', a
   });
   expect(message).toMatch(/not converted|not yet converted/i);
   await expect(page.locator('#test2Status')).toContainText(/converted/i);
+});
+
+test('/test2 hash-only shell links and legacy hash writers preserve the test2 path', async ({ page }) => {
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
+
+  await page.locator('a[href="#flat-section-maps"]').first().click();
+  expect(new URL(page.url()).pathname).toBe('/test2/');
+  await expect(page).toHaveURL(/#flat-section-maps$/);
+
+  await page.evaluate(() => history.replaceState(null, '', '#manual-hash-state'));
+  expect(new URL(page.url()).pathname).toBe('/test2/');
+  await expect(page).toHaveURL(/#manual-hash-state$/);
+
+  await page.evaluate(() => history.pushState(null, '', '#manual-push-state'));
+  expect(new URL(page.url()).pathname).toBe('/test2/');
+  await expect(page).toHaveURL(/#manual-push-state$/);
 });
 
 test('/test2 MapLibre controls handle opacity, labels, feature details, and active layers', async ({ page }) => {

@@ -3,6 +3,7 @@ import { existsSync, readFileSync, statSync } from 'node:fs';
 
 const failures = [];
 const index = readFileSync('test2/index.html', 'utf8');
+const appSource = readFileSync('test2/src/app.js', 'utf8');
 
 function assert(condition, message) {
   if (!condition) failures.push(message);
@@ -18,6 +19,9 @@ assert(index.includes('class="app-header"'), '/test2 must preserve the productio
 assert(index.includes('class="pane pane--info"'), '/test2 must preserve the production catalogue pane');
 assert(index.includes('class="pane pane--map"'), '/test2 must preserve the production map pane');
 assert(index.includes('id="catalogueFlatView"'), '/test2 must preserve production catalogue containers');
+assert(appSource.includes('installRouteGuard()'), '/test2 must install the hash route guard before shell boot');
+assert(appSource.includes('preserveCurrentPath'), '/test2 hash-only URL updates must preserve the current path');
+assert(appSource.includes("a[href^=\"#\"]"), '/test2 must intercept hash-only catalogue anchors under <base href="/">');
 
 for (const path of [
   'test2/build/test2.bundle.js',

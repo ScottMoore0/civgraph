@@ -42,6 +42,25 @@ Test2 full data migration pass
   - No-data-loss note:
     - No source datasets were deleted. Failed, invalid, or over-budget generated outputs were retained in cache/quarantine locations where they can be inspected or regenerated later.
 
+Test2 hash route preservation bug
+- [x] Preserve `/test2/` in the browser URL when loading layers or clicking catalogue hash links.
+- [x] Add regression coverage proving hash-only URL updates cannot strip `/test2/`.
+- [x] Rebuild `/test2` and run focused checks.
+  - Symptom:
+    - Loading a layer on `/test2/` can change the URL to `https://civgraph.net/#...`, dropping `/test2/`.
+  - Root cause:
+    - `/test2/index.html` keeps `<base href="/">` so root-relative production assets resolve correctly, but hash-only URLs such as `#layers=...` are resolved against the document base URL by some legacy shell/catalogue paths.
+  - Permanent prevention action:
+    - Add a `/test2` route guard that preserves the current pathname for hash-only `history.pushState`/`replaceState` calls and hash-only catalogue anchors.
+  - What I changed:
+    - Added `Test2App.installRouteGuard()` before shell boot so hash-only history writes are rewritten to the current `/test2/` pathname and catalogue anchors are handled without letting `<base href="/">` resolve them at the site root.
+    - Bumped `/test2` bundle cache keys from `test2-001` to `test2-002` so the live route requests the rebuilt bundle.
+    - Added static route validation and Playwright coverage for layer-load URL state, catalogue hash-anchor navigation, and legacy hash-only `history.replaceState`/`pushState`.
+  - Verification:
+    - `npm run build:test2` passed.
+    - `npm run check:test2` passed.
+    - `npm run test:browser:test2` passed all 7 tests.
+
 Test2 parity completion pass for non-data-blocked work
 - [x] Implement MapLibre equivalents for Leaflet-only actions that are feasible without new data: opacity, label toggles, feature query, feature details, URL restore, group/variant load handling, fit/highlight, address marker, and unsupported-workflow warnings.
 - [x] Add `/test2` route validation so it cannot regress to loading Leaflet, the production bundle, or the production service worker.
