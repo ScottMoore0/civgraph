@@ -127,7 +127,9 @@ class Test2App {
 
     uiController.onMapUnload = async (mapId) => {
       const mapConfig = dataService.getMapById(mapId);
-      if (mapConfig?.isGroup && Array.isArray(mapConfig.members)) {
+      if (this.mapController.getLayerState(mapId)?.isGroup) {
+        this.mapController.unloadLayer(mapId);
+      } else if (mapConfig?.isGroup && Array.isArray(mapConfig.members)) {
         mapConfig.members.forEach((memberId) => this.mapController.unloadLayer(memberId));
       } else if (mapConfig?.isGroup && Array.isArray(mapConfig.variants)) {
         mapConfig.variants.forEach((variant) => this.mapController.unloadLayer(variant.id));
@@ -211,7 +213,27 @@ class Test2App {
       this.mapController.markGroupLoaded(mapId, mapConfig, [variantId]);
       return;
     }
+    const directLayer = this.mapController.resolveLayer(mapConfig?.id || mapId);
+    if (!directLayer?.loadable) {
+      const childIds = this.getConvertedCompositeChildIds(mapConfig);
+      if (childIds.length) {
+        for (const childId of childIds) await this.mapController.loadLayer(childId, { fit: false });
+        this.mapController.markGroupLoaded(mapConfig.id, mapConfig, childIds);
+        if (mapConfig.bounds) this.mapController.fitToBounds(mapConfig.bounds, { smooth: false });
+        return;
+      }
+    }
     await this.mapController.loadLayer(mapConfig || mapId);
+  }
+
+  getConvertedCompositeChildIds(mapConfig) {
+    if (!mapConfig) return [];
+    const explicitSources = Array.isArray(mapConfig.compositeSources) ? mapConfig.compositeSources : [];
+    const variantSources = !mapConfig.isGroup && Array.isArray(mapConfig.variants)
+      ? mapConfig.variants.map((variant) => variant.id)
+      : [];
+    const candidates = [...new Set([...explicitSources, ...variantSources].filter(Boolean))];
+    return candidates.filter((id) => this.mapController.resolveLayer(id)?.loadable);
   }
 
   renderCategoryPills() {
@@ -398,15 +420,18 @@ class Test2App {
   }
 
   getLoadedLayerIds() {
-    const ids = [...this.mapController.layerStates.entries()]
+    const ids = new Set([...this.mapController.layerStates.entries()]
       .filter(([, state]) => state.loaded)
-      .map(([id]) => id);
+      .map(([id]) => id));
+    for (const [id, state] of this.mapController.groupStates.entries()) {
+      if (state.loaded) ids.add(id);
+    }
     for (const map of dataService.getAllMaps()) {
-      if (map.isGroup && Array.isArray(map.members) && map.members.every((memberId) => ids.includes(memberId))) {
-        ids.push(map.id);
+      if (map.isGroup && Array.isArray(map.members) && map.members.every((memberId) => ids.has(memberId))) {
+        ids.add(map.id);
       }
     }
-    return ids;
+    return [...ids];
   }
 
   syncCatalogueMapState() {

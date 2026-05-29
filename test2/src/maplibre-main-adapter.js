@@ -155,7 +155,10 @@ export class Test2MapLibreMainAdapter {
   }
 
   getVisibleLayers() {
-    return [...this.layerStates.entries()].filter(([, state]) => state.visible).map(([id]) => id);
+    return [
+      ...[...this.layerStates.entries()].filter(([, state]) => state.visible).map(([id]) => id),
+      ...[...this.groupStates.entries()].filter(([, state]) => state.visible).map(([id]) => id)
+    ];
   }
 
   getLayerState(mainId) {

@@ -1,3 +1,31 @@
+Fix /test2 composite parent loading gaps
+- [x] Record the implementation request
+- [x] Inventory parent catalogue maps whose direct parent layer is not converted but whose child variants/composite sources are converted
+  - Found 13 parent entries with no direct converted parent layer and converted children. Most were already explicit `isGroup` entries; the visible non-group availability gaps are `all-ireland-townlands` and `eds-1926`.
+- [x] Implement generic `/test2` composite fallback loading for those parents
+  - `/test2` now checks whether the parent layer is directly loadable. If not, it loads converted `compositeSources` or converted non-group variants as child layers, marks the parent as a logical group, fits to the parent bounds, and includes the parent in loaded/visible state.
+- [x] Add regression coverage for townlands and other affected parents
+  - Added browser coverage proving `all-ireland-townlands` loads `ni-townlands` + `roi-townlands`, and `eds-1926` loads its converted regional children.
+  - Added route validation requiring the composite fallback path.
+- [x] Verify with `/test2` checks/build/browser tests
+  - `node --check test2/src/app.js`, `node --check test2/src/maplibre-main-adapter.js`, and `node --check tests/browser/test2-app.spec.js` passed.
+  - `npm run check:test2` passed.
+  - `npm run build:test2` passed after rerunning outside the sandbox because esbuild hit the known `spawn EPERM`.
+  - `npm run test:browser:test2` passed all 9 tests.
+- [x] Commit and push
+  - Included the composite-parent fallback and rebuilt `/test2` bundle in the deployment commit.
+
+Review why townlands is unavailable on /test2
+- [x] Record the question and inspect the metadata path
+- [x] Compare main catalogue townlands ids with converted MapLibre metadata
+- [x] Explain the cause and feasible fix
+  - Finding:
+    - The main catalogue's visible Townlands card is `all-ireland-townlands`, whose source is the all-island FGB and whose variants are `ni-townlands` and `roi-townlands`.
+    - `/test2` has converted PMTiles for `ni-townlands` and `roi-townlands`, plus the 1844 county variants, but it does not have a converted layer registered directly as `all-ireland-townlands`.
+    - `/test2` currently only expands `members`/`variants` automatically when the map object is marked `isGroup`. `all-ireland-townlands` has variants but is not marked `isGroup`, so `/test2` tries to resolve the parent id directly and reports it unavailable.
+  - Feasible fix:
+    - Treat main-site maps with `compositeSources` or variants as MapLibre composite loads when their converted child layers exist, so clicking the visible Townlands parent loads `ni-townlands` and `roi-townlands` together instead of requiring a parent PMTiles archive.
+
 Test2 full data migration pass
 - [x] Refresh the main-site port inventory and vector intake manifest without deleting or modifying source data.
 - [x] Convert all locally available vector candidates to generated MVT outputs.

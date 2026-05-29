@@ -26,6 +26,8 @@ assert(appSource.includes('installRouteGuard()'), '/test2 must install the hash 
 assert(appSource.includes('preserveCurrentPath'), '/test2 hash-only URL updates must preserve the current path');
 assert(appSource.includes("a[href^=\"#\"]"), '/test2 must intercept hash-only catalogue anchors under <base href="/">');
 assert(appSource.includes("params.has('lng') && params.has('lat')"), '/test2 must not treat missing viewport URL params as 0,0');
+assert(appSource.includes('getConvertedCompositeChildIds'), '/test2 must expand converted child sources when a main catalogue parent lacks a direct converted layer');
+assert(appSource.includes('compositeSources') && appSource.includes('mapConfig.variants.map'), '/test2 composite fallback must cover main composite sources and non-group variant parents');
 assert(mapControllerSource.includes('maplibre-dom-label'), '/test2 must use deduplicated DOM labels for main-site label interaction parity');
 assert(mapControllerSource.includes("'text-opacity': 0"), '/test2 native MapLibre symbol labels must stay visually hidden to avoid duplicate labels');
 assert(mapControllerSource.includes("this.map.on('dblclick', onDoubleClick)"), '/test2 feature geometry selection must be wired to double-click');

@@ -109,6 +109,73 @@ test('/test2 supports catalogue detail, unsupported notices, and URL restore', a
   await expect(page.locator('#test2Status')).toContainText(/converted/i);
 });
 
+test('/test2 loads converted child layers for main catalogue composite parents', async ({ page }) => {
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
+  const result = await page.evaluate(async () => {
+    const app = window.__civgraphTest2.app;
+    const calls = [];
+    const fitted = [];
+    const originalResolveLayer = app.mapController.resolveLayer.bind(app.mapController);
+    app.mapController.loadLayer = async (id, options = {}) => {
+      calls.push({ id, fit: options.fit });
+      app.mapController.layerStates.set(id, {
+        loaded: true,
+        visible: true,
+        config: { id, name: id },
+        testLayerId: `${id}-vector-test`,
+        layerIds: []
+      });
+      return app.mapController.layerStates.get(id);
+    };
+    app.mapController.fitToBounds = (bounds) => fitted.push(bounds);
+    app.mapController.resolveLayer = (id) => {
+      const layer = originalResolveLayer(id);
+      if (id === 'all-ireland-townlands' || id === 'eds-1926') return layer ? { ...layer, loadable: false } : { loadable: false };
+      return layer;
+    };
+
+    await app.loadMap('all-ireland-townlands');
+    const afterTownlands = {
+      calls: calls.map((call) => call.id),
+      fitFlags: calls.map((call) => call.fit),
+      loaded: app.isMapLoaded('all-ireland-townlands'),
+      visible: app.isMapVisible('all-ireland-townlands'),
+      loadedIds: app.getLoadedLayerIds(),
+      visibleIds: app.mapController.getVisibleLayers(),
+      group: app.mapController.getLayerState('all-ireland-townlands')
+    };
+
+    calls.length = 0;
+    await app.loadMap('eds-1926');
+    const afterEds = {
+      calls: calls.map((call) => call.id),
+      loaded: app.isMapLoaded('eds-1926'),
+      group: app.mapController.getLayerState('eds-1926')
+    };
+
+    return { afterTownlands, afterEds, fittedCount: fitted.length };
+  });
+
+  expect(result.afterTownlands.calls).toEqual(['ni-townlands', 'roi-townlands']);
+  expect(result.afterTownlands.fitFlags).toEqual([false, false]);
+  expect(result.afterTownlands.loaded).toBe(true);
+  expect(result.afterTownlands.visible).toBe(true);
+  expect(result.afterTownlands.loadedIds).toContain('all-ireland-townlands');
+  expect(result.afterTownlands.visibleIds).toContain('all-ireland-townlands');
+  expect(result.afterTownlands.group.childIds).toEqual(['ni-townlands', 'roi-townlands']);
+  expect(result.afterEds.calls).toEqual([
+    'eds-connacht-1926',
+    'eds-leinster-1926',
+    'eds-munster-1926',
+    'eds-ulster-1926',
+    'deds-ni-1926'
+  ]);
+  expect(result.afterEds.loaded).toBe(true);
+  expect(result.afterEds.group.childIds).toEqual(result.afterEds.calls);
+  expect(result.fittedCount).toBeGreaterThanOrEqual(1);
+});
+
 test('/test2 hash-only shell links and legacy hash writers preserve the test2 path', async ({ page }) => {
   await page.goto('/test2/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
