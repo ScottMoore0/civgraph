@@ -144,13 +144,17 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
   expect(labelState.nativeLabelOpacity).toBe(0);
 
   const firstLabel = page.locator('.maplibre-dom-label:not([hidden])').first();
+  const firstLabelText = await firstLabel.textContent();
   await firstLabel.hover();
   await expect(firstLabel).toHaveClass(/map-label--hover/);
   const hoverState = await firstLabel.evaluate((label) => {
     const app = window.__civgraphTest2;
     const id = label.dataset.featureId;
+    const labelStyle = getComputedStyle(label.querySelector('div'));
     return {
-      decoration: getComputedStyle(label.querySelector('div')).textDecorationLine,
+      color: labelStyle.color,
+      decoration: labelStyle.textDecorationLine,
+      textShadow: labelStyle.textShadow,
       fillColor: app.mapController.map.getPaintProperty('civil-parishes-vector-test-hover', 'fill-color'),
       strokeColor: app.mapController.map.getPaintProperty('civil-parishes-vector-test-hover-line', 'line-color'),
       featureHover: app.mapController.map.getFeatureState({
@@ -160,7 +164,10 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
       }).hover === true
     };
   });
+  expect(hoverState.color).toBe('rgb(255, 122, 26)');
   expect(hoverState.decoration).toContain('underline');
+  expect(hoverState.textShadow).toContain('rgb(255, 255, 255)');
+  expect(hoverState.textShadow).not.toContain('255, 122, 26');
   expect(hoverState.fillColor).toBe('#FDBA74');
   expect(hoverState.strokeColor).toBe('#FF7A1A');
   expect(hoverState.featureHover).toBe(true);
@@ -168,6 +175,8 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
   await firstLabel.click();
   await expect(page.locator('#featureInfo')).toBeVisible();
   await expect(page.locator('#featureInfoContent')).toContainText(/Civil Parishes|Parish|Name/i);
+  await expect(page.locator('#featureInfoContent')).not.toContainText('Unnamed Feature');
+  await expect(page.locator('#featureInfoContent .feature-info__primary-name').first()).toContainText(firstLabelText.trim());
   const featureCardPosition = await page.evaluate(() => {
     const mapPane = document.querySelector('.pane--map').getBoundingClientRect();
     const card = document.getElementById('featureInfo').getBoundingClientRect();
@@ -206,6 +215,7 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
   await expect(page.locator('#featureInfo')).toBeHidden();
   await page.mouse.dblclick(target.x, target.y);
   await expect(page.locator('#featureInfo')).toBeVisible();
+  await expect(page.locator('#featureInfoContent')).not.toContainText('Unnamed Feature');
 
   await page.locator('#mapControlsToggle').click();
   await expect(page.locator('#mapControlPanel')).toHaveClass(/map-control-panel--expanded/);
@@ -248,6 +258,7 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
   expect(selected).toBe(true);
   await expect(page.locator('#featureInfo')).toBeVisible();
   await expect(page.locator('#featureInfoContent')).toContainText(/Civil Parishes|Parish|Name/i);
+  await expect(page.locator('#featureInfoContent')).not.toContainText('Unnamed Feature');
 });
 
 test('/test2 mobile shell, support modal, theme toggle, and accessibility smoke pass', async ({ page }) => {

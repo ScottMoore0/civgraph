@@ -103,6 +103,25 @@ Test2 feature label and hover parity bugs
     - `npm run check:test2` passed.
     - `npm run test:browser:test2` passed all 8 tests.
 
+Test2 label colour and unnamed feature regression
+- [x] Make `/test2` hovered labels change text colour directly instead of looking orange-masked.
+- [x] Ensure `/test2` feature info cards receive nested `properties` so names resolve correctly.
+- [x] Add browser/static coverage for label colour and non-unnamed feature cards.
+  - Symptom:
+    - Hovered `/test2` labels looked like the original label had an orange mask/outline applied, and selecting a feature could show `Unnamed Feature` in the top-right card.
+  - Root cause:
+    - The `/test2` hover CSS used orange text-shadow rather than the main site’s orange text with white halo. The MapLibre adapter flattened feature properties onto the selected feature object, while the main feature-info renderer reads `feature.properties`.
+  - Permanent prevention action:
+    - Keep hovered label colour as direct `#ff7a1a` text with white halo, and require nested `properties`/`geometry` in the `/test2` selection adapter. Browser tests now assert named feature cards and direct orange text colour.
+  - What I changed:
+    - Updated `/test2` label hover CSS to use orange text and white halo, removing the orange mask effect.
+    - Updated `Test2MapLibreMainAdapter.handleSelection()` to pass `properties` and `geometry` in the shape expected by the main info-card renderer.
+    - Added route validation for direct label colour and nested selection payloads.
+  - Verification:
+    - `npm run build:test2` passed.
+    - `npm run check:test2` passed.
+    - `npm run test:browser:test2` passed all 8 tests.
+
 Test2 parity completion pass for non-data-blocked work
 - [x] Implement MapLibre equivalents for Leaflet-only actions that are feasible without new data: opacity, label toggles, feature query, feature details, URL restore, group/variant load handling, fit/highlight, address marker, and unsupported-workflow warnings.
 - [x] Add `/test2` route validation so it cannot regress to loading Leaflet, the production bundle, or the production service worker.

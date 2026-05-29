@@ -4,6 +4,7 @@ import { existsSync, readFileSync, statSync } from 'node:fs';
 const failures = [];
 const index = readFileSync('test2/index.html', 'utf8');
 const appSource = readFileSync('test2/src/app.js', 'utf8');
+const adapterSource = readFileSync('test2/src/maplibre-main-adapter.js', 'utf8');
 const mapControllerSource = readFileSync('test/src/map-controller.js', 'utf8');
 const test2Css = readFileSync('test2/src/test2.css', 'utf8');
 
@@ -29,6 +30,8 @@ assert(mapControllerSource.includes('maplibre-dom-label'), '/test2 must use dedu
 assert(mapControllerSource.includes("'text-opacity': 0"), '/test2 native MapLibre symbol labels must stay visually hidden to avoid duplicate labels');
 assert(mapControllerSource.includes("this.map.on('dblclick', onDoubleClick)"), '/test2 feature geometry selection must be wired to double-click');
 assert(test2Css.includes('.maplibre-dom-label.map-label--hover'), '/test2 DOM labels must expose hover styling');
+assert(test2Css.includes('color: #ff7a1a !important'), '/test2 hovered labels must change text colour directly like the main site');
+assert(adapterSource.includes('properties,') && adapterSource.includes('geometry: selection.feature?.geometry'), '/test2 feature selections must pass nested properties/geometry to main feature-info rendering');
 
 for (const path of [
   'test2/build/test2.bundle.js',

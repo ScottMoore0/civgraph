@@ -1,5 +1,21 @@
 # Lessons Log
 
+### 117) Preserve the main feature-info payload shape when adapting MapLibre selections
+- Mistake pattern: Flattening MapLibre feature properties onto the top-level selected-feature object while the main feature-info renderer expects `feature.properties`.
+- Impact: The top-right feature card can render `Unnamed Feature` even when the selected vector feature has a valid name/label property.
+- Guardrail:
+  1) engine adapters must preserve the main-site selection contract: `{ mapId, id, properties, geometry }`,
+  2) browser tests must assert selected feature cards do not contain `Unnamed Feature`,
+  3) static route validation should check the adapter passes nested `properties` and `geometry`.
+
+### 116) Label hover parity means direct text colour changes, not orange shadow masks
+- Mistake pattern: Implementing the requested orange label outline with an orange text-shadow that visually looked like a mask over the original label colour.
+- Impact: `/test2` label hover looked materially different from the main Leaflet label hover, where the text itself changes to orange and keeps a white halo.
+- Guardrail:
+  1) hovered map labels should use direct `#ff7a1a` text colour,
+  2) keep the text halo white unless the product explicitly asks for a different halo,
+  3) browser tests should assert computed label colour and that the hover shadow is not orange.
+
 ### 115) MapLibre label parity needs a DOM interaction layer, not only symbol-layer styling
 - Mistake pattern: Treating MapLibre symbol labels as equivalent to the main Leaflet label markers.
 - Impact: Vector-tile polygon fragments can create repeated labels, and native symbol labels cannot provide the same clickable, underlined, hover-synchronised label behaviour as the main site.

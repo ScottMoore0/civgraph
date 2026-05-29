@@ -434,11 +434,14 @@ export class Test2MapLibreMainAdapter {
   handleSelection(selection) {
     if (!selection) return;
     const mainId = this.testToMain.get(selection.layer.id) || selection.layer.sourceMapId || selection.layer.id;
+    const properties = selection.feature?.properties || {};
     const feature = {
-      ...(selection.feature?.properties || {}),
+      ...properties,
       id: selection.feature?.id,
       mapId: mainId,
-      mapName: selection.layer.name
+      mapName: selection.layer.name,
+      properties,
+      geometry: selection.feature?.geometry
     };
     const features = [feature];
     this.onFeatureClick?.(features);
