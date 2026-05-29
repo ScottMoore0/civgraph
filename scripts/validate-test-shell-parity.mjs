@@ -18,7 +18,13 @@ const checks = [
       'catalogueView',
       'catalogueSort',
       'catalogueFilters',
-      'catalogueDetail',
+      'searchInput',
+      'searchClear',
+      'categoryPills',
+      'providerPills',
+      'catalogueListView',
+      'catalogueFlatView',
+      'catalogueDetailView',
       'featureDetails',
       'sourcePanel',
       'diagnosticsSeverity',
@@ -33,7 +39,11 @@ const checks = [
       'preferencesDeviceDefaults',
       'preferencesPayload',
       'screenReaderStatus',
-      'mapInstructions'
+      'mapInstructions',
+      'activeLayersToggle',
+      'mapControlsToggle',
+      'map-control-panel',
+      'mapControlsClose'
     ]
   },
   {
@@ -269,7 +279,7 @@ const testIndex = await readFile('test/index.html', 'utf8');
 for (const forbidden of ['MapLibre rewrite', 'MapLibre Test</a>', 'class="test-header"']) {
   if (testIndex.includes(forbidden)) failures.push(`test/index.html: should not expose separate test shell marker ${forbidden}`);
 }
-for (const requiredShell of ['class="app-shell test-shell"', 'class="app-main test-main"', 'class="pane pane--info test-sidebar"', 'class="pane pane--map test-map-wrap"', 'class="catalogue-sticky-shell test-catalogue-shell"', 'class="map-tools"']) {
+for (const requiredShell of ['<body id="testApp" class="app-shell test-shell"', '<header class="app-header"', 'class="app-main test-main"', 'class="pane pane--info test-sidebar"', 'class="pane pane--map test-map-wrap"', 'class="catalogue-sticky-shell"', 'map-controls-toggle', 'map-control-panel']) {
   if (!testIndex.includes(requiredShell)) failures.push(`test/index.html: missing main-shell parity structure ${requiredShell}`);
 }
 

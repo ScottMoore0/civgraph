@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <title>Civgraph Test - MapLibre Rewrite</title>
-  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-018">
+  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-019">
 </head>
-<body>
+<body id="testApp" class="app-shell test-shell" data-split-state="balanced">
+  <div id="announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+  <a href="#main-content" class="visually-hidden">Skip to main content</a>
   <a href="#testSidebar" class="visually-hidden">Skip to catalogue</a>
   <a href="#map" class="visually-hidden">Skip to map</a>
-  <div id="testApp" class="app-shell test-shell" data-split-state="split">
-    <header class="app-header test-app-header">
+  <header class="app-header">
       <a href="/" class="app-header__brand" aria-label="Civgraph home">
         <img src="/assets/images/civgraph-logo-icon.svg" alt="" class="app-header__logo-icon">
         <span class="app-header__wordmark">Civgraph</span>
@@ -45,79 +46,90 @@
         <a href="/" class="mobile-menu__link" role="menuitem">Home</a>
         <a href="/pages/about.html" class="mobile-menu__link" role="menuitem">About</a>
       </div>
-    </header>
+  </header>
 
-    <main class="app-main test-main">
+  <main id="main-content" class="app-main test-main">
       <aside id="testSidebar" class="pane pane--info test-sidebar" aria-label="Map catalogue and information">
         <div class="pane__content pane-tab-content" data-tab-content="catalogue">
           <section class="catalogue-shell-panel" data-panel="search" aria-labelledby="panelSearchTitle">
             <h2 id="panelSearchTitle" class="visually-hidden">Search</h2>
-            <div class="catalogue-sticky-shell test-catalogue-shell">
+            <div class="catalogue-sticky-shell">
           <div class="search-input">
             <svg class="search-input__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <circle cx="11" cy="11" r="8"></circle>
               <path d="m21 21-4.35-4.35"></path>
             </svg>
-            <label class="visually-hidden" for="mapSearch">Search maps</label>
-            <input id="mapSearch" class="test-search search-input__field" type="search" autocomplete="off" placeholder="Search maps or addresses..." aria-keyshortcuts="/">
-            <button type="button" id="mapSearchClear" class="search-clear" aria-label="Clear search" title="Clear search">&times;</button>
+            <label class="visually-hidden" for="searchInput">Search maps</label>
+            <input id="searchInput" class="test-search search-input__field" type="search" autocomplete="off" placeholder="Search maps or addresses..." aria-keyshortcuts="/">
+            <button type="button" id="searchClear" class="search-clear" aria-label="Clear search" title="Clear search">&times;</button>
           </div>
           <div class="catalogue-nav" aria-label="Catalogue navigation">
-            <button type="button" id="catalogueBack" class="panel-action panel-action--icon" title="Back" aria-label="Back" disabled>
+            <button type="button" id="catalogueBack" class="btn btn--icon btn--sm panel-action panel-action--icon" title="Back" aria-label="Back" disabled>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="M19 12H5M12 19l-7-7 7-7"></path>
               </svg>
             </button>
-            <button type="button" id="catalogueForward" class="panel-action panel-action--icon" title="Forward" aria-label="Forward" disabled>
+            <button type="button" id="catalogueForward" class="btn btn--icon btn--sm panel-action panel-action--icon" title="Forward" aria-label="Forward" disabled>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="M5 12h14M12 5l7 7-7 7"></path>
               </svg>
             </button>
-            <button type="button" id="catalogueHistory" class="panel-action panel-action--icon" title="History" aria-label="History" aria-expanded="false" aria-controls="catalogueHistoryPanel">
+            <button type="button" id="catalogueHistory" class="btn btn--icon btn--sm panel-action panel-action--icon" title="History" aria-label="History" aria-expanded="false" aria-controls="catalogueHistoryPanel">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <circle cx="12" cy="12" r="10"></circle>
                 <polyline points="12 6 12 12 16 14"></polyline>
               </svg>
             </button>
-            <button type="button" id="catalogueHome" class="panel-action panel-action--icon" title="Back to list" aria-label="Back to list">
+            <button type="button" id="catalogueHome" class="btn btn--icon btn--sm panel-action panel-action--icon" title="Back to list" aria-label="Back to list">
               <span class="catalogue-home__icon" aria-hidden="true"></span>
             </button>
           </div>
         </div>
-            <div id="catalogueStats" class="filter-stats catalogue-stats" aria-live="polite" hidden></div>
+            <div id="filterStats" class="filter-stats catalogue-stats" aria-live="polite" hidden></div>
             <details class="catalogue-filter-drawer" hidden>
               <summary>Filters</summary>
-              <div id="catalogueFilters" class="catalogue-filters" aria-label="Catalogue filters"></div>
+              <div id="catalogueFilters" class="catalogue-filters" aria-label="Catalogue filters">
+                <div class="category-pills-container">
+                  <div id="categoryPills" class="category-pills" role="group" aria-label="Filter by category"></div>
+                </div>
+                <div class="provider-pills-container">
+                  <div class="provider-pills-label">Filter by Provider</div>
+                  <div id="providerPills" class="category-pills" role="group" aria-label="Filter by provider category"></div>
+                </div>
+              </div>
             </details>
             <div id="featureResults" class="feature-results" aria-live="polite"></div>
           </section>
 
           <section class="catalogue-main-panel" data-panel="catalogue" aria-labelledby="panelCatalogueTitle">
             <h2 id="panelCatalogueTitle" class="visually-hidden">Catalogue</h2>
-            <div class="catalogue-toolbar catalogue-toolbar--advanced" aria-label="Catalogue display controls" hidden>
-          <label>
-            View
-            <select id="catalogueView">
-              <option value="compact">Compact</option>
-              <option value="cards">Cards</option>
-              <option value="dense">Dense</option>
-              <option value="table">Table</option>
-            </select>
-          </label>
-          <label>
-            Sort
-            <select id="catalogueSort">
-              <option value="order">Catalogue order</option>
-              <option value="name">Name</option>
-              <option value="category">Category</option>
-              <option value="provider">Provider</option>
-              <option value="status">Status</option>
-            </select>
-          </label>
-        </div>
+            <div id="catalogueDetailView" class="catalogue-detail hidden" hidden></div>
+            <div id="catalogueListView">
+              <div class="catalogue-toolbar catalogue-toolbar--advanced" aria-label="Catalogue display controls" hidden>
+                <label>
+                  View
+                  <select id="catalogueView">
+                    <option value="compact">Compact</option>
+                    <option value="cards">Cards</option>
+                    <option value="dense">Dense</option>
+                    <option value="table">Table</option>
+                  </select>
+                </label>
+                <label>
+                  Sort
+                  <select id="catalogueSort">
+                    <option value="order">Catalogue order</option>
+                    <option value="name">Name</option>
+                    <option value="category">Category</option>
+                    <option value="provider">Provider</option>
+                    <option value="status">Status</option>
+                  </select>
+                </label>
+              </div>
             <div id="catalogueHistoryPanel" class="catalogue-history hidden" aria-label="Catalogue history"></div>
-            <div id="catalogue" class="catalogue-list catalogue-flat-view" aria-live="polite"></div>
-            <div id="catalogueDetail" class="catalogue-detail-panel" hidden></div>
+              <div id="catalogueFlatView" class="catalogue-list catalogue-flat-view" aria-live="polite"></div>
+              <div id="errorContainer" class="hidden" role="alert"></div>
+            </div>
           </section>
         </div>
       </aside>
@@ -127,12 +139,29 @@
       </div>
 
       <section class="pane pane--map test-map-wrap" aria-label="Interactive map">
-        <div id="map" class="test-map" role="application" aria-label="MapLibre test map" aria-describedby="mapInstructions"></div>
-        <p id="mapInstructions" class="visually-hidden">Use the catalogue to load layers. Use plus and minus map controls to zoom. Selected features appear in the selected feature panel.</p>
-        <button type="button" id="sidebarToggle" class="map-catalogue-toggle" aria-controls="testSidebar" aria-expanded="false">Catalogue</button>
-        <details class="map-tools" id="mapTools">
-          <summary>Map Tools</summary>
-          <div class="map-tools__content">
+        <div id="map" class="test-map" role="application" aria-label="MapLibre test map" aria-describedby="mapInstructions">
+          <button type="button" id="activeLayersToggle" class="active-layers-toggle" aria-expanded="false" title="Active Layers" aria-label="Active Layers">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
+              <path d="M7 10l5 5 5-5z"></path>
+            </svg>
+          </button>
+          <div class="map-controls">
+            <button type="button" id="mapControlsToggle" class="map-controls-toggle" aria-expanded="false" title="Map Settings" aria-label="Map Settings">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <text x="2" y="18" font-size="14" font-weight="bold" fill="currentColor" stroke="none">A</text>
+                <text x="13" y="18" font-size="10" font-weight="bold" fill="currentColor" stroke="none">a</text>
+              </svg>
+            </button>
+            <div class="map-control-panel map-tools map-control-panel--collapsed" id="mapTools" aria-hidden="true">
+              <div class="map-control-panel__footer map-tools__header">
+                <strong>Map settings</strong>
+                <button type="button" id="mapControlsClose" class="map-controls-toggle" title="Close settings" aria-label="Close settings">Close</button>
+              </div>
+              <div class="map-tools__content">
             <section class="test-panel test-panel--secondary" data-panel="active" aria-labelledby="panelActiveTitle">
               <h2 id="panelActiveTitle">Active Layers</h2>
               <div id="activeLayers" class="active-list">No active layers.</div>
@@ -215,14 +244,17 @@
               <textarea id="preferencesPayload" class="preferences-payload" rows="5" spellcheck="false"></textarea>
               <p id="preferencesStatus" class="preferences-status" aria-live="polite">Preferences are stored only in this browser.</p>
             </section>
+              </div>
+            </div>
           </div>
-        </details>
+        </div>
+        <p id="mapInstructions" class="visually-hidden">Use the catalogue to load layers. Use plus and minus map controls to zoom. Selected features appear in the selected feature panel.</p>
+        <button type="button" id="sidebarToggle" class="map-catalogue-toggle" aria-controls="testSidebar" aria-expanded="false">Catalogue</button>
         <div id="fallbackAlerts" class="fallback-alerts" aria-live="polite"></div>
         <div id="toast" class="test-toast" hidden></div>
         <div id="screenReaderStatus" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
       </section>
-    </main>
-  </div>
+  </main>
 
   <div id="supportModal" class="support-modal hidden" role="dialog" aria-modal="true" aria-labelledby="supportModalTitle">
     <div class="support-modal__backdrop"></div>
@@ -248,7 +280,7 @@
     </div>
   </div>
 
-  <script type="module" src="/test/build/test.bundle.js?v=test-018"></script>
+  <script type="module" src="/test/build/test.bundle.js?v=test-019"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {

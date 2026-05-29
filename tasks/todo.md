@@ -1,3 +1,67 @@
+Full main shell replacement for `/test`
+- [x] Replace the remaining `/test`-specific map tools shell with the main map-pane control shell
+- [x] Keep MapLibre mounted in the main map container and keep test diagnostics/source/preferences accessible as advanced controls
+- [x] Update browser/static/visual guardrails so `/test` cannot drift back to a separate shell
+- [x] Run build, `/test` checks, browser checks, visual checks, and production guardrails
+- [x] Record final remaining limits
+  - What I changed:
+    - Removed the visible `/test`-specific "Map Tools" disclosure pattern from the default map surface.
+    - Added the main map-pane shell controls: `activeLayersToggle`, `mapControlsToggle`, and a `map-control-panel` advanced drawer.
+    - Kept MapLibre mounted in `#map`; diagnostics, active layers, feature details, source panels, time series, and preferences now live in the advanced map-control panel.
+    - Added pointer-event scoping so the new map controls do not block the mobile catalogue toggle or map interaction.
+    - Updated browser/static guardrails to assert the main map-control shell, not the old `/test` details element.
+  - Verification:
+    - `npm run build:test` passed.
+    - `npm run check:test` passed with only the known warning-only large-tile/local-fallback findings.
+    - `npm run test:browser:test` passed all 15 tests after the hit-target fix.
+    - `npm run test:visual:test` passed with main/test header height `64px`, catalogue width `683px`, and main pane structure detected.
+    - `npm run check` passed production chunked-map guardrails.
+  - Remaining limit:
+    - The shell and catalogue DOM contract are now main-style with MapLibre wired in. Literal shared production controller code still requires a future extraction of `js/ui-controller.js` into engine-neutral catalogue rendering plus Leaflet/MapLibre engine adapters.
+
+Main catalogue contract reuse for `/test`
+- [x] Inspect production catalogue controller boundaries and identify reusable contracts
+- [x] Reduce `/test` catalogue divergence without importing Leaflet-specific production wiring
+- [x] Route load/detail/fit/share actions through the existing MapLibre controller adapter
+- [x] Preserve production root behaviour
+- [x] Run `/test` build, static checks, browser checks, and visual checks
+- [x] Record results and any remaining adapter work
+  - What I changed:
+    - Moved `/test` onto the production catalogue DOM contract: `searchInput`, `searchClear`, `filterStats`, `categoryPills`, `providerPills`, `catalogueListView`, `catalogueFlatView`, and `catalogueDetailView`.
+    - Updated `/test` DOM lookup code to resolve production IDs first while retaining fallback aliases for older test-only IDs.
+    - Updated the `/test` catalogue controller to toggle the main list/detail containers and render category/provider filters into the main pill containers.
+    - Kept load/detail/fit/share/unload actions routed through the existing MapLibre controller, not production Leaflet objects.
+    - Tightened the shell parity validation and browser tests to assert the main catalogue IDs.
+  - Verification:
+    - `npm run build:test` passed.
+    - `npm run check:test` passed with only the known warning-only large-tile/local-fallback findings.
+    - `npm run test:browser:test` passed all 15 tests, including real MapLibre vector-layer rendering.
+    - `npm run test:visual:test` passed with main/test header height `64px` and catalogue width `683px`.
+    - `npm run check` passed production chunked-map guardrails.
+  - Remaining adapter work:
+    - Literal shared production catalogue code still requires splitting `js/ui-controller.js` into engine-neutral catalogue rendering and Leaflet-specific action wiring. That is larger and should be done as a careful extraction, not by importing the current controller wholesale.
+
+Main shell with MapLibre engine for `/test`
+- [x] Inventory the main shell/catalogue DOM and `/test` MapLibre mount points
+- [x] Rework `/test` to use the main site shell as the primary DOM contract
+- [x] Keep MapLibre mounted in the map pane and route catalogue map actions to it
+- [x] Preserve `/test` isolation so production Leaflet remains untouched
+- [x] Build and run focused `/test` browser/visual checks
+- [x] Record verification and remaining gaps
+  - What I changed:
+    - Moved `/test` onto the same top-level shell contract as the main site: `body.app-shell`, direct `header.app-header`, direct `main.app-main`, `.pane--info`, split bar, and `.pane--map`.
+    - Removed the extra nested `/test` app-shell wrapper while keeping MapLibre mounted in the map pane at `#map`.
+    - Kept MapLibre-specific diagnostics, preferences, source panels, active layers, and feature details inside the map-side tools area rather than making them the catalogue shell.
+    - Bumped `/test` assets and scoped service-worker cache from `test-018`/`test-v18` to `test-019`/`test-v19`.
+    - Updated the shell-parity guardrail to require the direct main-shell structure rather than the old `/test`-specific catalogue-shell class.
+  - Verification:
+    - `npm run build:test` passed after esbuild required escalated spawn permission.
+    - `npm run check:test` passed with only the known warning-only large-tile/local-fallback findings.
+    - `npm run test:browser:test` passed all 15 tests, including the real MapLibre vector-layer rendering regression.
+    - `npm run test:visual:test` passed: main/test header height 64px, catalogue width 683px, main pane structure detected, no `/test` product header, and compact table catalogue detected.
+  - Remaining gap:
+    - This is now the same top-level shell pattern with MapLibre wired into the map pane, but the catalogue internals still use the `/test` metadata/controller renderer rather than literally importing `js/ui-controller.js`. A deeper adapter refactor can make the production catalogue controller engine-agnostic later.
+
 Test shell alignment review
 - [x] Compare the current `/test` navbar and catalogue pane against the main site
 - [x] Identify structural, visual, and workflow differences that still prevent alignment

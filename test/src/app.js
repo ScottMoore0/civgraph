@@ -159,6 +159,10 @@ async function main() {
     }
   });
   els.mobileSupportBtn?.addEventListener('click', () => openSupportModal(els));
+  els.mapControlsToggle?.addEventListener('click', () => {
+    setMapToolsOpen(els, els.mapTools?.classList.contains('map-control-panel--collapsed'));
+  });
+  els.mapControlsClose?.addEventListener('click', () => setMapToolsOpen(els, false));
   els.mobileMenuSupport?.addEventListener('click', () => {
     closeMobileMenu(els);
     openSupportModal(els);
@@ -177,6 +181,7 @@ async function main() {
       document.body.classList.remove('test-sidebar-open');
       els.sidebarToggle?.setAttribute('aria-expanded', 'false');
       writeShellHashState('sidebar', null);
+      setMapToolsOpen(els, false);
       closeMobileMenu(els, { restoreFocus: true });
       closeSupportModal(els);
     }
@@ -575,7 +580,7 @@ function restorePanelState(els) {
   if (!panelName) return;
   const panel = document.querySelector(`[data-panel="${CSS.escape(panelName)}"]`);
   if (!panel) return;
-  if (!els.sidebar?.contains(panel)) document.getElementById('mapTools')?.setAttribute('open', '');
+  if (!els.sidebar?.contains(panel)) setMapToolsOpen(els, true);
   panel.classList.add('test-panel--active');
   panel.scrollIntoView({ block: 'nearest' });
 }
@@ -618,7 +623,7 @@ function openPanelShortcut(els, panelName, focusTarget) {
   els.sidebarToggle?.setAttribute('aria-expanded', 'true');
   writeShellHashState('sidebar', '1');
   writeShellHashState('panel', panelName);
-  document.getElementById('mapTools')?.setAttribute('open', '');
+  setMapToolsOpen(els, true);
   const panel = document.querySelector(`[data-panel="${CSS.escape(panelName)}"]`);
   if (panel) {
     if (panel.classList.contains('test-panel--collapsed')) {
@@ -644,6 +649,14 @@ function togglePanelCollapsed(panel, button) {
   else names.delete(panel.dataset.panel);
   writeCollapsedPanels(names);
   writeShellHashState('panelsCollapsed', [...names].map(encodeURIComponent).join('|') || null);
+}
+
+function setMapToolsOpen(els, open) {
+  if (!els.mapTools) return;
+  els.mapTools.classList.toggle('map-control-panel--collapsed', !open);
+  els.mapTools.setAttribute('aria-hidden', String(!open));
+  els.mapControlsToggle?.setAttribute('aria-expanded', String(open));
+  if (!open) els.mapControlsToggle?.focus?.();
 }
 
 function readCollapsedPanels() {

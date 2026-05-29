@@ -3,7 +3,9 @@ const AxeBuilder = require('@axe-core/playwright').default;
 
 async function openMapTools(page) {
   await page.locator('#mapTools').evaluate((node) => {
-    node.open = true;
+    node.classList.remove('map-control-panel--collapsed');
+    node.setAttribute('aria-hidden', 'false');
+    document.getElementById('mapControlsToggle')?.setAttribute('aria-expanded', 'true');
   });
 }
 
@@ -15,7 +17,7 @@ test('/test shell starts with main navigation and diagnostics', async ({ page })
   await expect(page.getByRole('link', { name: 'MapLibre Test', exact: true })).toHaveCount(0);
   await expect(page.locator('#map')).toBeVisible();
   await openMapTools(page);
-  await expect(page.locator('#diagnostics')).toContainText('test-018');
+  await expect(page.locator('#diagnostics')).toContainText('test-019');
   await expect(page.locator('#diagnostics')).toContainText('Production Readiness');
   await expect(page.locator('#diagnostics')).toContainText('CI guardrails');
   await expect(page.locator('#diagnostics')).toContainText('Deployment Discipline');
@@ -31,22 +33,22 @@ test('/test catalogue supports grouped detail navigation and shared unconverted 
   await page.goto('/test/');
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
   await expect(page.locator('.catalogue-flat__toc-table .catalogue-flat__toc-row').first()).toBeVisible();
-  await expect(page.locator('#catalogueFilters')).toContainText('Category');
-  await expect(page.locator('#catalogue')).toHaveAttribute('data-view', 'compact');
+  await expect(page.locator('#categoryPills')).toContainText('All');
+  await expect(page.locator('#catalogueFlatView')).toHaveAttribute('data-view', 'compact');
   await expect(page.locator('#catalogueView')).toHaveValue('compact');
   await expect(page.locator('.catalogue-toolbar')).toBeHidden();
   const unconvertedId = await page.evaluate(() => window.__civgraphTest.metadataService.layers.find((layer) => layer.loadable === false || layer.isConverted === false)?.id);
   expect(unconvertedId).toBeTruthy();
   await page.evaluate((id) => window.__civgraphTest.catalogue.showDetail(id), unconvertedId);
-  await expect(page.locator('#catalogueDetail')).toBeVisible();
-  await expect(page.locator('#catalogueDetail')).toContainText('Not yet converted');
-  await expect(page.locator('#catalogueDetail')).toContainText('References');
-  await expect(page.locator('#catalogueDetail')).toContainText('Source files');
+  await expect(page.locator('#catalogueDetailView')).toBeVisible();
+  await expect(page.locator('#catalogueDetailView')).toContainText('Not yet converted');
+  await expect(page.locator('#catalogueDetailView')).toContainText('References');
+  await expect(page.locator('#catalogueDetailView')).toContainText('Source files');
   await expect(page).toHaveURL(/catalogue=/);
   await page.locator('#catalogueHistory').click();
   await expect(page.locator('#catalogueHistoryPanel')).toContainText('Catalogue home');
   await page.locator('#catalogueBack').click();
-  await expect(page.locator('#catalogue')).toBeVisible();
+  await expect(page.locator('#catalogueFlatView')).toBeVisible();
 });
 
 test('/test loads and renders a real MapLibre vector layer', async ({ page }) => {
@@ -91,7 +93,7 @@ test('/test supports keyboard shortcuts and accessibility smoke flow', async ({ 
   await expect(page.locator('#diagnostics')).toContainText('Axe-style checks');
   await expect(page.locator('#diagnostics')).toContainText('Screen-reader pass');
   await page.keyboard.press('/');
-  await expect(page.locator('#mapSearch')).toBeFocused();
+  await expect(page.locator('#searchInput')).toBeFocused();
   await page.keyboard.type('garda');
   await expect(page).toHaveURL(/q=garda/);
   await page.keyboard.press('Escape');
@@ -100,11 +102,11 @@ test('/test supports keyboard shortcuts and accessibility smoke flow', async ({ 
   await expect(page.locator('body')).toHaveClass(/test-sidebar-open/);
   await page.locator('#map').click();
   await page.keyboard.press('s');
-  await expect(page.locator('#mapTools')).toHaveAttribute('open', '');
+  await expect(page.locator('#mapTools')).not.toHaveClass(/map-control-panel--collapsed/);
   await expect(page.locator('#sourceFilter')).toBeFocused();
   await page.evaluate(() => document.activeElement?.blur?.());
   await page.keyboard.press('d');
-  await expect(page.locator('#mapTools')).toHaveAttribute('open', '');
+  await expect(page.locator('#mapTools')).not.toHaveClass(/map-control-panel--collapsed/);
   await expect(page.locator('#diagnosticsSeverity')).toBeFocused();
   await page.evaluate(() => document.activeElement?.blur?.());
   await page.keyboard.press('?');
@@ -184,7 +186,7 @@ test('/test catalogue URL restores detail, search, filters, and sidebar state', 
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
   await openMapTools(page);
   await expect(page.locator('body')).toHaveClass(/test-sidebar-open/);
-  await expect(page.locator('#mapSearch')).toHaveValue('bann');
+  await expect(page.locator('#searchInput')).toHaveValue('bann');
   await expect(page.locator('#catalogueView')).toHaveValue('table');
   await expect(page.locator('#catalogueSort')).toHaveValue('provider');
   await expect(page.locator('#sourceFilter')).toHaveValue('garda');
@@ -193,8 +195,8 @@ test('/test catalogue URL restores detail, search, filters, and sidebar state', 
   await expect(page).toHaveURL(/diagType=large-tile/);
   await page.locator('#diagnosticsClearHistory').click();
   await expect(page.locator('#toast')).toContainText('Diagnostics history cleared');
-  await expect(page.locator('#catalogueDetail')).toContainText('East and West of the Bann');
-  await expect(page.locator('#catalogueFilters')).toContainText('Regional Divides');
+  await expect(page.locator('#catalogueDetailView')).toContainText('East and West of the Bann');
+  await expect(page.locator('#categoryPills')).toContainText('Regional Divides');
 });
 
 test('/test restores URL layer and style state', async ({ page }) => {

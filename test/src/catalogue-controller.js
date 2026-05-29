@@ -124,8 +124,11 @@ export class TestCatalogue {
   }
 
   renderHome() {
+    this.els.catalogueList?.classList.remove('hidden');
+    if (this.els.catalogueList) this.els.catalogueList.hidden = false;
     this.els.catalogue.hidden = false;
     this.els.catalogueDetail.hidden = true;
+    this.els.catalogueDetail.classList.add('hidden');
     this.els.catalogue.innerHTML = '';
     this.els.catalogue.dataset.view = this.viewMode;
     if (this.els.catalogueStats) {
@@ -272,14 +275,19 @@ export class TestCatalogue {
   }
 
   renderFilters() {
-    if (!this.els.catalogueFilters) return;
     const categoryCounts = countBy(this.metadataService.layers, (layer) => layer.category || 'Uncategorised');
     const providerCounts = countBy(this.metadataService.layers, (layer) => formatProvider(layer.provider) || 'Unknown provider');
-    this.els.catalogueFilters.innerHTML = `
-      ${renderPillGroup('Category', 'category', categoryCounts, this.selectedCategory)}
-      ${renderPillGroup('Provider', 'provider', providerCounts, this.selectedProvider)}
-    `;
-    this.els.catalogueFilters.querySelectorAll('[data-filter-kind]').forEach((button) => {
+    if (this.els.categoryPills || this.els.providerPills) {
+      if (this.els.categoryPills) this.els.categoryPills.innerHTML = renderPillButtons('category', categoryCounts, this.selectedCategory);
+      if (this.els.providerPills) this.els.providerPills.innerHTML = renderPillButtons('provider', providerCounts, this.selectedProvider);
+    } else if (this.els.catalogueFilters) {
+      this.els.catalogueFilters.innerHTML = `
+        ${renderPillGroup('Category', 'category', categoryCounts, this.selectedCategory)}
+        ${renderPillGroup('Provider', 'provider', providerCounts, this.selectedProvider)}
+      `;
+    }
+    const filterRoot = this.els.catalogueFilters || document;
+    filterRoot.querySelectorAll('[data-filter-kind]').forEach((button) => {
       button.addEventListener('click', () => {
         const kind = button.dataset.filterKind;
         const value = button.dataset.filterValue || '';
@@ -331,8 +339,11 @@ export class TestCatalogue {
   renderDetail(layer) {
     const isLoaded = this.controller.layers.has(layer.id);
     const isConverted = layer.loadable !== false && layer.isConverted !== false;
+    if (this.els.catalogueList) this.els.catalogueList.hidden = true;
+    this.els.catalogueList?.classList.add('hidden');
     this.els.catalogue.hidden = true;
     this.els.catalogueDetail.hidden = false;
+    this.els.catalogueDetail.classList.remove('hidden');
     this.els.catalogueDetail.innerHTML = `
       <article class="catalogue-detail">
         <button type="button" class="catalogue-detail__back" data-action="home">Back to catalogue</button>
@@ -600,25 +611,30 @@ function countBy(layers, getValue) {
 
 function renderPillGroup(label, kind, entries, activeValue) {
   if (!entries.length) return '';
-  const visible = entries.slice(0, 10);
-  if (activeValue && !visible.some(([value]) => value === activeValue)) {
-    const activeEntry = entries.find(([value]) => value === activeValue);
-    if (activeEntry) visible.push(activeEntry);
-  }
   const containerClass = kind === 'provider' ? 'provider-pills-container' : 'category-pills-container';
   const labelClass = kind === 'provider' ? '<div class="provider-pills-label">Filter by Provider</div>' : '';
   return `
     <div class="${containerClass} catalogue-filter-group">
       ${labelClass || `<span>${escapeHtml(label)}</span>`}
-      <div class="category-pills">
-        <button type="button" data-filter-kind="${escapeHtml(kind)}" data-filter-value="" class="${activeValue ? '' : 'catalogue-filter-pill--active'}">All</button>
-        ${visible.map(([value, count]) => `
-          <button type="button" class="category-pill ${activeValue === value ? 'catalogue-filter-pill--active category-pill--active' : ''}" data-filter-kind="${escapeHtml(kind)}" data-filter-value="${escapeHtml(value)}">
-            ${escapeHtml(value)} <small>${count}</small>
-          </button>
-        `).join('')}
-      </div>
+      <div class="category-pills">${renderPillButtons(kind, entries, activeValue)}</div>
     </div>
+  `;
+}
+
+function renderPillButtons(kind, entries, activeValue) {
+  if (!entries.length) return '';
+  const visible = entries.slice(0, 10);
+  if (activeValue && !visible.some(([value]) => value === activeValue)) {
+    const activeEntry = entries.find(([value]) => value === activeValue);
+    if (activeEntry) visible.push(activeEntry);
+  }
+  return `
+    <button type="button" data-filter-kind="${escapeHtml(kind)}" data-filter-value="" class="category-pill ${activeValue ? '' : 'catalogue-filter-pill--active category-pill--active'}">All</button>
+    ${visible.map(([value, count]) => `
+      <button type="button" class="category-pill ${activeValue === value ? 'catalogue-filter-pill--active category-pill--active' : ''}" data-filter-kind="${escapeHtml(kind)}" data-filter-value="${escapeHtml(value)}">
+        ${escapeHtml(value)} <small>${count}</small>
+      </button>
+    `).join('')}
   `;
 }
 
