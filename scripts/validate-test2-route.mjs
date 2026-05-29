@@ -39,6 +39,12 @@ assert(mapControllerSource.includes("const INTERACTION_STROKE_COLOR = '#FF7A1A'"
 assert(mapControllerSource.includes('selectedFillId') && mapControllerSource.includes("['feature-state', 'selected']"), '/test2 polygon selections must include a selected fill, not only an outline');
 assert(!mapControllerSource.includes("'line-color': '#111827'") && !mapControllerSource.includes("'circle-color': '#111827'"), '/test2 selections must not use the old thick black selected styling');
 assert(adapterSource.includes('properties,') && adapterSource.includes('geometry: selection.feature?.geometry'), '/test2 feature selections must pass nested properties/geometry to main feature-info rendering');
+assert(mapControllerSource.includes('const DEFAULT_VECTOR_FILL_OPACITY = 0'), '/test2 ordinary MapLibre polygon fills must default transparent like the main Leaflet site');
+assert(mapControllerSource.includes("'fill-opacity': resolveFillOpacity(layer)"), '/test2 fill layers must resolve opacity from explicit map style before falling back to transparent');
+assert(adapterSource.includes('_fillOpacity: resolveFillOpacity(layer)'), '/test2 main-shell layer state must preserve explicit fill opacity and default ordinary fills to transparent');
+assert(appSource.includes('getMainMap: (mapId) => dataService.getMapById(mapId)'), '/test2 adapter must receive main-site map config so style parity is based on the source catalogue');
+assert(adapterSource.includes('applyMainStyle(layer, mainConfig') && adapterSource.includes('delete style.fillOpacity'), '/test2 must discard converted-metadata fill opacity when the main catalogue has no explicit fill opacity');
+assert(!mapControllerSource.includes('fillOpacity ?? 0.18') && !adapterSource.includes('fillOpacity ?? 0.18'), '/test2 must not reintroduce the old semi-opaque vector fill fallback');
 
 for (const path of [
   'test2/build/test2.bundle.js',

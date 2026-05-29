@@ -1,3 +1,20 @@
+Make /test2 polygon fills transparent by default like main
+- [x] Record the implementation request
+- [x] Inspect main-site style defaults and `/test2` MapLibre fill defaults
+  - Main Leaflet styling defaults ordinary polygon `fillOpacity` to `0`; `/test2` was still using a MapLibre fallback of `0.18`.
+- [x] Patch `/test2` style transfer so ordinary boundary fills default transparent while explicit fill settings are preserved
+  - Added a shared transparent vector fill fallback while keeping explicit per-map `style.fillOpacity` values and raster opacity handling intact.
+- [x] Add regression coverage for transparent defaults and explicit fill preservation
+  - Added route validation to forbid the old `0.18` fallback and browser coverage proving the representative civil-parishes fill starts transparent while real explicit main-site fill opacity remains preserved.
+- [x] Verify with `/test2` checks/build/browser tests
+  - `node --check` passed for the edited `/test`, `/test2`, test, and validation modules.
+  - `npm run check:test2` passed.
+  - `npm run build:test2` passed after rerunning outside the sandbox because esbuild hit the known `spawn EPERM`.
+  - `npm run test:browser:test2` passed all 9 tests, including the new transparent-fill assertion.
+  - Because the shared MapLibre controller changed, `npm run build:test`, `npm run check:test`, `npm run test:browser:test`, and `npm run check` also passed. Known `/test` tile-budget/CDN warnings remain warning-only.
+- [x] Commit and push
+  - Committed the transparent-fill parity fix, guardrails, tests, and rebuilt `/test`/`/test2` bundles for deployment.
+
 Fix /test2 composite parent loading gaps
 - [x] Record the implementation request
 - [x] Inventory parent catalogue maps whose direct parent layer is not converted but whose child variants/composite sources are converted

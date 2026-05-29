@@ -29,6 +29,7 @@ class Test2App {
 
     this.mapController = new Test2MapLibreMainAdapter('map', this.metadataService, {
       onFeatureClick: (features) => uiController.showFeatureInfo(features, dataService.getAllMaps()),
+      getMainMap: (mapId) => dataService.getMapById(mapId),
       onChange: () => {
         this.syncCatalogueMapState();
         this.updateActiveLayers();

@@ -22,6 +22,7 @@ import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates, bound
 
 const INTERACTION_FILL_COLOR = '#FDBA74';
 const INTERACTION_STROKE_COLOR = '#FF7A1A';
+const DEFAULT_VECTOR_FILL_OPACITY = 0;
 
 function isLocalTestTileTemplate(value) {
   return typeof value === 'string' && value.startsWith('/test/tiles/');
@@ -30,6 +31,17 @@ function isLocalTestTileTemplate(value) {
 function localTestTilesAvailable() {
   const hostname = globalThis.location?.hostname || '';
   return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+}
+
+function resolveFillOpacity(layer) {
+  return clamp(layer?.style?.fillOpacity ?? DEFAULT_VECTOR_FILL_OPACITY, 0, 1);
+}
+
+function resolveLayerOpacity(layer) {
+  if (layer?.sourceType === 'raster' || layer?.sourceType === 'image') {
+    return clamp(layer.rasterOpacity ?? layer.style?.opacity ?? 0.85, 0, 1);
+  }
+  return resolveFillOpacity(layer);
 }
 
 export class TestMapLibreController {
@@ -118,7 +130,7 @@ export class TestMapLibreController {
       domLabelsScheduled: 0,
       labelsEnabled: true,
       textScale: DEFAULT_TEXT_SCALE,
-      opacity: layer.style?.fillOpacity ?? layer.rasterOpacity ?? 0.18,
+      opacity: resolveLayerOpacity(layer),
       color: layer.style?.color || '#5B21B6',
       fillColor: layer.style?.fillColor || layer.style?.color || '#7C3AED'
     });
@@ -165,7 +177,7 @@ export class TestMapLibreController {
         'source-layer': layer.sourceLayer,
         paint: {
           'fill-color': layer.style?.fillColor || layer.style?.color || '#7C3AED',
-          'fill-opacity': clamp(layer.style?.fillOpacity ?? 0.18, 0, 1)
+          'fill-opacity': resolveFillOpacity(layer)
         }
       });
     }

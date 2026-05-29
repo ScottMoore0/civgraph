@@ -198,6 +198,20 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await loadCivilParishes(page);
   await expect(page.locator('.maplibre-dom-label:not([hidden])').first()).toBeVisible();
+  const styleParity = await page.evaluate(() => {
+    const adapter = window.__civgraphTest2.app.mapController;
+    const layer = { id: 'synthetic', style: { color: '#abcdef', fillOpacity: 0.18, weight: 1 } };
+    return {
+      transparentDefault: adapter.applyMainStyle(layer, { style: { color: '#123456', weight: 2 } }).style,
+      explicitFill: adapter.applyMainStyle(layer, { style: { color: '#123456', fillOpacity: 0.4, weight: 2 } }).style
+    };
+  });
+  expect(styleParity.transparentDefault.fillOpacity).toBeUndefined();
+  expect(styleParity.explicitFill.fillOpacity).toBe(0.4);
+  const defaultFillOpacity = await page.evaluate(() => (
+    window.__civgraphTest2.mapController.map.getPaintProperty('civil-parishes-vector-test-fill', 'fill-opacity')
+  ));
+  expect(defaultFillOpacity).toBe(0);
   const labelState = await page.evaluate(() => {
     const labels = [...document.querySelectorAll('.maplibre-dom-label:not([hidden])')];
     return {

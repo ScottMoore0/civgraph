@@ -17,6 +17,8 @@ const BASE_MAPS = {
   'usgs-topo': ['https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}']
 };
 
+const DEFAULT_VECTOR_FILL_OPACITY = 0;
+
 function normalizeBounds(bounds) {
   if (!Array.isArray(bounds) || bounds.length !== 2) return null;
   const a = bounds[0];
@@ -24,6 +26,10 @@ function normalizeBounds(bounds) {
   if (!Array.isArray(a) || !Array.isArray(b)) return null;
   const looksLeaflet = Math.abs(Number(a[0])) <= 90 && Math.abs(Number(a[1])) > 90;
   return looksLeaflet ? [[Number(a[1]), Number(a[0])], [Number(b[1]), Number(b[0])]] : bounds;
+}
+
+function resolveFillOpacity(layer) {
+  return clamp01(layer?.style?.fillOpacity ?? DEFAULT_VECTOR_FILL_OPACITY);
 }
 
 export class Test2MapLibreMainAdapter {
@@ -77,11 +83,12 @@ export class Test2MapLibreMainAdapter {
       throw error;
     }
 
-    const runtimeLayer = this.toRuntimeLayer(layer);
+    const mainConfig = config || this.options.getMainMap?.(mainId) || this.options.getMainMap?.(layer.sourceMapId) || null;
+    const runtimeLayer = this.toRuntimeLayer(layer, mainConfig);
     this.mainToTest.set(mainId, runtimeLayer.id);
     this.testToMain.set(runtimeLayer.id, mainId);
     await this.renderer.loadLayer(runtimeLayer);
-    const state = this.createMainLayerState(mainId, runtimeLayer, config);
+    const state = this.createMainLayerState(mainId, runtimeLayer, mainConfig);
     this.layerStates.set(mainId, {
       ...state
     });
@@ -381,17 +388,28 @@ export class Test2MapLibreMainAdapter {
       || null;
   }
 
-  toRuntimeLayer(layer) {
+  toRuntimeLayer(layer, mainConfig = null) {
+    const styledLayer = this.applyMainStyle(layer, mainConfig);
     const localHost = ['localhost', '127.0.0.1', '::1'].includes(location.hostname);
-    if (localHost && layer.sourceType === 'pmtiles' && layer.tilesFallback) {
+    if (localHost && styledLayer.sourceType === 'pmtiles' && styledLayer.tilesFallback) {
       return {
-        ...layer,
+        ...styledLayer,
         sourceType: 'mvt',
-        tiles: layer.tilesFallback,
+        tiles: styledLayer.tilesFallback,
         tileUrl: undefined
       };
     }
-    return layer;
+    return styledLayer;
+  }
+
+  applyMainStyle(layer, mainConfig = null) {
+    const mainStyle = mainConfig?.style || {};
+    const style = { ...(layer.style || {}) };
+    for (const key of ['color', 'fillColor', 'fillOpacity', 'weight', 'opacity', 'radius']) {
+      if (mainStyle[key] !== undefined) style[key] = mainStyle[key];
+    }
+    if (mainStyle.fillOpacity === undefined) delete style.fillOpacity;
+    return { ...layer, style };
   }
 
   createMainLayerState(mainId, layer, config) {
@@ -405,7 +423,7 @@ export class Test2MapLibreMainAdapter {
       geoJsonLayers: [],
       group: null,
       _strokeOpacity: 1,
-      _fillOpacity: layer.style?.fillOpacity ?? 0.18,
+      _fillOpacity: resolveFillOpacity(layer),
       _rasterOpacity: layer.rasterOpacity ?? layer.style?.opacity ?? 0.85
     };
     state.geoJsonLayers = [{
