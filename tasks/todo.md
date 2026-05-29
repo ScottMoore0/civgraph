@@ -103,6 +103,28 @@ Test2 feature label and hover parity bugs
     - `npm run check:test2` passed.
     - `npm run test:browser:test2` passed all 8 tests.
 
+Test2 selected feature orange parity regression
+- [x] Record the regression and scope
+  - Symptom:
+    - Selecting a feature in `/test2` showed a thick black outline, even though hover parity expects light orange fill, deeper orange stroke, and orange label styling.
+  - Root cause:
+    - The shared MapLibre selected layer used `#111827` for selected outlines/points, and selected labels defaulted to a dark colour instead of the orange hover colour.
+  - Permanent prevention action:
+    - Make selected MapLibre states reuse the main-style orange hover treatment and add route/browser checks for selected fill/stroke/label colours.
+- [x] Patch the shared MapLibre selected feature and label styling
+  - Added shared orange interaction constants, replaced the old black selected stroke/point colour, added selected polygon fill layers, and made selected labels use the same orange text/underline treatment as hover.
+- [x] Add/extend regression tests for selected styling
+  - Added static `/test2` route checks rejecting the old black selected styling and requiring selected fill/stroke/label support.
+  - Extended the `/test2` browser interaction test to assert selected label class, orange label text, selected fill colour, selected stroke colour, selected stroke width, and selected feature-state.
+- [x] Verify with focused `/test2` build/check/browser coverage
+  - `node --check test/src/map-controller.js`, `node --check test/src/labels.js`, `node --check tests/browser/test2-app.spec.js`, and `node scripts/validate-test2-route.mjs` passed.
+  - `npm run build:test2` passed after rerunning outside the sandbox because esbuild hit the known `spawn EPERM`.
+  - `npm run check:test2` passed.
+  - `npm run test:browser:test2` passed all 8 tests.
+  - `npm run check:test` passed with existing warning-only tile/CDN findings.
+- [x] Commit and push
+  - Included this selected-state parity fix in the follow-up `/test2` commit for deployment.
+
 Test2 label colour and unnamed feature regression
 - [x] Make `/test2` hovered labels change text colour directly instead of looking orange-masked.
 - [x] Ensure `/test2` feature info cards receive nested `properties` so names resolve correctly.

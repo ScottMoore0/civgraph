@@ -174,9 +174,35 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
 
   await firstLabel.click();
   await expect(page.locator('#featureInfo')).toBeVisible();
+  await expect(firstLabel).toHaveClass(/map-label--selected/);
   await expect(page.locator('#featureInfoContent')).toContainText(/Civil Parishes|Parish|Name/i);
   await expect(page.locator('#featureInfoContent')).not.toContainText('Unnamed Feature');
   await expect(page.locator('#featureInfoContent .feature-info__primary-name').first()).toContainText(firstLabelText.trim());
+  const selectedStyle = await firstLabel.evaluate((label) => {
+    const app = window.__civgraphTest2;
+    const id = label.dataset.featureId;
+    const labelStyle = getComputedStyle(label.querySelector('div'));
+    return {
+      labelColor: labelStyle.color,
+      labelDecoration: labelStyle.textDecorationLine,
+      fillColor: app.mapController.map.getPaintProperty('civil-parishes-vector-test-selected-fill', 'fill-color'),
+      fillOpacity: app.mapController.map.getPaintProperty('civil-parishes-vector-test-selected-fill', 'fill-opacity'),
+      strokeColor: app.mapController.map.getPaintProperty('civil-parishes-vector-test-selected', 'line-color'),
+      strokeWidth: app.mapController.map.getPaintProperty('civil-parishes-vector-test-selected', 'line-width'),
+      featureSelected: app.mapController.map.getFeatureState({
+        source: 'civil-parishes-vector-test-source',
+        sourceLayer: app.metadataService.getLayer('civil-parishes-vector-test').sourceLayer,
+        id
+      }).selected === true
+    };
+  });
+  expect(selectedStyle.labelColor).toBe('rgb(255, 122, 26)');
+  expect(selectedStyle.labelDecoration).toContain('underline');
+  expect(selectedStyle.fillColor).toBe('#FDBA74');
+  expect(selectedStyle.fillOpacity).toEqual(['case', ['boolean', ['feature-state', 'selected'], false], 0.42, 0]);
+  expect(selectedStyle.strokeColor).toBe('#FF7A1A');
+  expect(selectedStyle.strokeWidth).toEqual(['case', ['boolean', ['feature-state', 'selected'], false], 3, 0]);
+  expect(selectedStyle.featureSelected).toBe(true);
   const featureCardPosition = await page.evaluate(() => {
     const mapPane = document.querySelector('.pane--map').getBoundingClientRect();
     const card = document.getElementById('featureInfo').getBoundingClientRect();

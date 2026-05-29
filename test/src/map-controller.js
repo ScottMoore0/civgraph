@@ -20,6 +20,9 @@ import {
 } from './labels.js';
 import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates, boundsToMapLibre, clamp } from './utils.js';
 
+const INTERACTION_FILL_COLOR = '#FDBA74';
+const INTERACTION_STROKE_COLOR = '#FF7A1A';
+
 function isLocalTestTileTemplate(value) {
   return typeof value === 'string' && value.startsWith('/test/tiles/');
 }
@@ -91,6 +94,7 @@ export class TestMapLibreController {
     const rasterId = `${layer.id}-raster`;
     const hoverId = `${layer.id}-hover`;
     const hoverLineId = `${layer.id}-hover-line`;
+    const selectedFillId = `${layer.id}-selected-fill`;
     const selectedId = `${layer.id}-selected`;
     const labelId = `${layer.id}-label`;
 
@@ -101,14 +105,14 @@ export class TestMapLibreController {
     if (layer.sourceType === 'raster' || layer.sourceType === 'image') {
       this.addRasterLayer(layer, { sourceId, rasterId });
     } else {
-      this.addGeometryLayers(layer, { sourceId, fillId, lineId, hoverId, selectedId });
+      this.addGeometryLayers(layer, { sourceId, fillId, lineId, hoverId, selectedFillId, selectedId });
     }
     const labelLayerIds = this.addLabelLayers(layer, { sourceId, labelId });
 
     this.layers.set(layer.id, {
       config: layer,
       sourceId,
-      layerIds: [fillId, lineId, hoverId, hoverLineId, selectedId, labelId, rasterId].filter((id) => this.map.getLayer(id)),
+      layerIds: [fillId, lineId, hoverId, hoverLineId, selectedFillId, selectedId, labelId, rasterId].filter((id) => this.map.getLayer(id)),
       labelLayerIds,
       domLabelMarkers: new Map(),
       domLabelsScheduled: 0,
@@ -151,7 +155,7 @@ export class TestMapLibreController {
   }
 
   addGeometryLayers(layer, ids) {
-    const { sourceId, fillId, lineId, hoverId, selectedId } = ids;
+    const { sourceId, fillId, lineId, hoverId, selectedFillId, selectedId } = ids;
     const hoverLineId = `${layer.id}-hover-line`;
     if (layer.geometryType !== 'line' && layer.geometryType !== 'point') {
       this.map.addLayer({
@@ -189,8 +193,8 @@ export class TestMapLibreController {
         source: sourceId,
         'source-layer': layer.sourceLayer,
         paint: {
-          'circle-color': '#FDBA74',
-          'circle-stroke-color': '#FF7A1A',
+          'circle-color': INTERACTION_FILL_COLOR,
+          'circle-stroke-color': INTERACTION_STROKE_COLOR,
           'circle-stroke-width': ['case', ['boolean', ['feature-state', 'hover'], false], 2, 0],
           'circle-radius': ['case', ['boolean', ['feature-state', 'hover'], false], 7, 0],
           'circle-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.95, 0]
@@ -203,7 +207,7 @@ export class TestMapLibreController {
         source: sourceId,
         'source-layer': layer.sourceLayer,
         paint: {
-          'line-color': '#FF7A1A',
+          'line-color': INTERACTION_STROKE_COLOR,
           'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 3, 0],
           'line-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.95, 0]
         }
@@ -215,7 +219,7 @@ export class TestMapLibreController {
         source: sourceId,
         'source-layer': layer.sourceLayer,
         paint: {
-          'fill-color': '#FDBA74',
+          'fill-color': INTERACTION_FILL_COLOR,
           'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.42, 0]
         }
       });
@@ -225,25 +229,50 @@ export class TestMapLibreController {
         source: sourceId,
         'source-layer': layer.sourceLayer,
         paint: {
-          'line-color': '#FF7A1A',
+          'line-color': INTERACTION_STROKE_COLOR,
           'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 3, 0],
           'line-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.95, 0]
         }
       });
     }
 
+    if (layer.geometryType === 'point') {
+      this.map.addLayer({
+        id: selectedId,
+        type: 'circle',
+        source: sourceId,
+        'source-layer': layer.sourceLayer,
+        paint: {
+          'circle-color': INTERACTION_FILL_COLOR,
+          'circle-stroke-color': INTERACTION_STROKE_COLOR,
+          'circle-stroke-width': ['case', ['boolean', ['feature-state', 'selected'], false], 2.5, 0],
+          'circle-radius': ['case', ['boolean', ['feature-state', 'selected'], false], 8, 0],
+          'circle-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.95, 0]
+        }
+      });
+      return;
+    }
+
+    if (layer.geometryType !== 'line') {
+      this.map.addLayer({
+        id: selectedFillId,
+        type: 'fill',
+        source: sourceId,
+        'source-layer': layer.sourceLayer,
+        paint: {
+          'fill-color': INTERACTION_FILL_COLOR,
+          'fill-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.42, 0]
+        }
+      });
+    }
     this.map.addLayer({
       id: selectedId,
-      type: layer.geometryType === 'point' ? 'circle' : 'line',
+      type: 'line',
       source: sourceId,
       'source-layer': layer.sourceLayer,
-      paint: layer.geometryType === 'point' ? {
-        'circle-color': '#111827',
-        'circle-radius': ['case', ['boolean', ['feature-state', 'selected'], false], 8, 0],
-        'circle-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.95, 0]
-      } : {
-        'line-color': '#111827',
-        'line-width': ['case', ['boolean', ['feature-state', 'selected'], false], 4, 0],
+      paint: {
+        'line-color': INTERACTION_STROKE_COLOR,
+        'line-width': ['case', ['boolean', ['feature-state', 'selected'], false], 3, 0],
         'line-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.95, 0]
       }
     });
@@ -480,6 +509,7 @@ export class TestMapLibreController {
   selectFeatureById(layerId, featureId, properties = {}) {
     const record = this.layers.get(layerId);
     if (!record || featureId === undefined || featureId === null || record.config.sourceType === 'raster') return false;
+    this.setDomLabelSelected(this.selected?.layerId, this.selected?.id, false);
     this.clearFeatureState(this.selected, 'selected');
     this.selected = {
       layerId,
@@ -493,6 +523,7 @@ export class TestMapLibreController {
       sourceLayer: record.config.sourceLayer,
       id: featureId
     }, { selected: true });
+    this.setDomLabelSelected(layerId, featureId, true);
     this.options.onSelection?.({ layer: record.config, feature: { id: featureId, properties } });
     this.notifyChange();
     return true;
@@ -723,6 +754,7 @@ export class TestMapLibreController {
     if (id === null) return false;
     const record = this.layers.get(layer.id);
     if (!record) return false;
+    this.setDomLabelSelected(this.selected?.layerId, this.selected?.id, false);
     this.clearFeatureState(this.selected, 'selected');
     this.selected = {
       layerId: layer.id,
@@ -732,6 +764,7 @@ export class TestMapLibreController {
       properties: feature.properties
     };
     this.map.setFeatureState({ source: record.sourceId, sourceLayer: layer.sourceLayer, id }, { selected: true });
+    this.setDomLabelSelected(layer.id, id, true);
     this.options.onSelection?.({ layer, feature });
     this.notifyChange();
     return true;
@@ -781,6 +814,7 @@ export class TestMapLibreController {
       const element = marker.getElement();
       element.__civgraphFeature = feature;
       element.querySelector('div').textContent = label;
+      element.classList.toggle('map-label--selected', this.selected?.layerId === layerId && String(this.selected.id) === key);
       element.hidden = !record.labelsEnabled;
       marker.setLngLat(lngLat);
       if (!element.isConnected) marker.addTo(this.map);
@@ -840,6 +874,11 @@ export class TestMapLibreController {
   setDomLabelHover(layerId, featureId, isHover) {
     const marker = this.layers.get(layerId)?.domLabelMarkers?.get(String(featureId));
     marker?.getElement().classList.toggle('map-label--hover', Boolean(isHover));
+  }
+
+  setDomLabelSelected(layerId, featureId, isSelected) {
+    const marker = this.layers.get(layerId)?.domLabelMarkers?.get(String(featureId));
+    marker?.getElement().classList.toggle('map-label--selected', Boolean(isSelected));
   }
 
   clearFeatureState(selection, key) {

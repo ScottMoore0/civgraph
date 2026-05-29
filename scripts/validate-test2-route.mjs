@@ -30,7 +30,12 @@ assert(mapControllerSource.includes('maplibre-dom-label'), '/test2 must use dedu
 assert(mapControllerSource.includes("'text-opacity': 0"), '/test2 native MapLibre symbol labels must stay visually hidden to avoid duplicate labels');
 assert(mapControllerSource.includes("this.map.on('dblclick', onDoubleClick)"), '/test2 feature geometry selection must be wired to double-click');
 assert(test2Css.includes('.maplibre-dom-label.map-label--hover'), '/test2 DOM labels must expose hover styling');
+assert(test2Css.includes('.maplibre-dom-label.map-label--selected'), '/test2 selected DOM labels must keep the same orange styling as hover labels');
 assert(test2Css.includes('color: #ff7a1a !important'), '/test2 hovered labels must change text colour directly like the main site');
+assert(mapControllerSource.includes("const INTERACTION_FILL_COLOR = '#FDBA74'"), '/test2 selected and hover fills must share the main-style light orange colour');
+assert(mapControllerSource.includes("const INTERACTION_STROKE_COLOR = '#FF7A1A'"), '/test2 selected and hover strokes must share the main-style deep orange colour');
+assert(mapControllerSource.includes('selectedFillId') && mapControllerSource.includes("['feature-state', 'selected']"), '/test2 polygon selections must include a selected fill, not only an outline');
+assert(!mapControllerSource.includes("'line-color': '#111827'") && !mapControllerSource.includes("'circle-color': '#111827'"), '/test2 selections must not use the old thick black selected styling');
 assert(adapterSource.includes('properties,') && adapterSource.includes('geometry: selection.feature?.geometry'), '/test2 feature selections must pass nested properties/geometry to main feature-info rendering');
 
 for (const path of [

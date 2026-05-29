@@ -18,7 +18,7 @@ export function getLabelStyle(layer) {
   return {
     color: baseColor,
     hoverColor: resolveLabelColor(layer, style.hoverColor || '#ff7a1a'),
-    selectedColor: resolveLabelColor(layer, style.selectedColor || '#111827'),
+    selectedColor: resolveLabelColor(layer, style.selectedColor || '#ff7a1a'),
     haloColor: resolveLabelColor(layer, style.haloColor || '#ffffff'),
     haloWidth: clamp(style.haloWidth ?? 1.4, 0, 4),
     haloBlur: clamp(style.haloBlur ?? 0, 0, 2),
