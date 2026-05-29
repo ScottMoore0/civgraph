@@ -61,6 +61,26 @@ Test2 hash route preservation bug
     - `npm run check:test2` passed.
     - `npm run test:browser:test2` passed all 7 tests.
 
+Test2 default camera bug
+- [x] Preserve the Ireland default camera when `/test2/` loads without URL coordinates.
+- [x] Add regression coverage proving empty URL state does not jump to 0N 0W.
+- [x] Rebuild `/test2`, run focused tests, commit, and push.
+  - Symptom:
+    - Opening `/test2/` with no layer/viewport hash can centre the map near 0N 0W instead of Ireland.
+  - Root cause:
+    - URL restore used `Number(params.get('lng'))` and `Number(params.get('lat'))`; when params were missing, `Number(null)` became `0`, so the empty URL was interpreted as a valid `[0, 0]` camera.
+  - Permanent prevention action:
+    - Restore viewport only when both `lng` and `lat` params are explicitly present, and cover this with a browser regression.
+  - What I changed:
+    - Updated `/test2` URL restore so it only parses and applies a viewport when both `lng` and `lat` are present in the URL state.
+    - Added route validation that fails if the explicit viewport-param guard is removed.
+    - Added a browser regression proving an empty `/test2/` URL boots with a centre inside Ireland and a normal zoom level.
+    - Bumped `/test2` bundle cache keys from `test2-002` to `test2-003` so live clients fetch the rebuilt bundle.
+  - Verification:
+    - `npm run build:test2` passed.
+    - `npm run check:test2` passed.
+    - `npm run test:browser:test2` passed all 8 tests.
+
 Test2 parity completion pass for non-data-blocked work
 - [x] Implement MapLibre equivalents for Leaflet-only actions that are feasible without new data: opacity, label toggles, feature query, feature details, URL restore, group/variant load handling, fit/highlight, address marker, and unsupported-workflow warnings.
 - [x] Add `/test2` route validation so it cannot regress to loading Leaflet, the production bundle, or the production service worker.

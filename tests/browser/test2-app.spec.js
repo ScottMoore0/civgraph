@@ -38,6 +38,25 @@ test('/test2 boots the production shell with the MapLibre adapter', async ({ pag
   expect(state.hasLeaflet).toBe(false);
 });
 
+test('/test2 boots centred on Ireland when URL has no viewport state', async ({ page }) => {
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  const camera = await page.evaluate(() => {
+    const center = window.__civgraphTest2.mapController.map.getCenter();
+    return {
+      lng: center.lng,
+      lat: center.lat,
+      zoom: window.__civgraphTest2.mapController.map.getZoom()
+    };
+  });
+  expect(camera.lng).toBeGreaterThan(-12);
+  expect(camera.lng).toBeLessThan(-4);
+  expect(camera.lat).toBeGreaterThan(50);
+  expect(camera.lat).toBeLessThan(56);
+  expect(camera.zoom).toBeGreaterThan(4);
+});
+
 test('/test2 loads a converted layer through the main catalogue map callback', async ({ page }) => {
   await page.goto('/test2/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);

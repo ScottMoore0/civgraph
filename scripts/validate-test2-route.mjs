@@ -22,6 +22,7 @@ assert(index.includes('id="catalogueFlatView"'), '/test2 must preserve productio
 assert(appSource.includes('installRouteGuard()'), '/test2 must install the hash route guard before shell boot');
 assert(appSource.includes('preserveCurrentPath'), '/test2 hash-only URL updates must preserve the current path');
 assert(appSource.includes("a[href^=\"#\"]"), '/test2 must intercept hash-only catalogue anchors under <base href="/">');
+assert(appSource.includes("params.has('lng') && params.has('lat')"), '/test2 must not treat missing viewport URL params as 0,0');
 
 for (const path of [
   'test2/build/test2.bundle.js',

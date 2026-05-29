@@ -470,8 +470,9 @@ class Test2App {
     }
     const layers = (params.get('layers') || '').split(',').map((id) => id.trim()).filter(Boolean);
     await Promise.all(layers.map((id) => this.loadMap(id).catch((error) => this.showMapError(error))));
-    const lng = Number(params.get('lng'));
-    const lat = Number(params.get('lat'));
+    const hasViewport = params.has('lng') && params.has('lat');
+    const lng = hasViewport ? Number(params.get('lng')) : NaN;
+    const lat = hasViewport ? Number(params.get('lat')) : NaN;
     const z = Number(params.get('z'));
     if (Number.isFinite(lng) && Number.isFinite(lat)) {
       this.mapController.map?.jumpTo({ center: [lng, lat], zoom: Number.isFinite(z) ? z : undefined });
