@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 114) When shell parity is exact, create a true main-shell clone route before further visual tweaks
+- Mistake pattern: Continuing to incrementally reshape `/test` after the user wanted the main site shell preserved verbatim with only the map engine swapped.
+- Impact: The result could satisfy local guardrails while still looking unlike the main site to the user, because the route still owned too much shell/catalogue structure.
+- Guardrail:
+  1) for exact shell parity, start from the production `index.html` and remove/replace only engine-specific boot assets,
+  2) wire MapLibre behind the main catalogue callback surface rather than rebuilding the catalogue as a separate product,
+  3) keep the clone isolated under a new route until browser tests prove both catalogue rendering and one real MapLibre layer load.
+
 ### 113) Shell parity means shared shell assets and an engine boundary, not only similar markup
 - Mistake pattern: Repeated `/test` shell passes kept approximating the main navbar/catalogue with test-owned HTML/CSS/controllers, so visual and behavioural drift persisted even when structural checks passed.
 - Impact: The user still saw obvious differences and had to restate that `/test` should be the main site shell with only the map engine swapped.

@@ -1,3 +1,23 @@
+Test2 verbatim main shell with MapLibre map engine
+- [x] Keep `/test2` isolated from the production root route while using the production shell markup and CSS contract.
+- [x] Boot `/test2` with the main catalogue/data controllers, but route map actions through a MapLibre adapter instead of Leaflet.
+- [x] Preserve converted and unconverted catalogue entries in the main catalogue hierarchy.
+- [x] Add a build path and focused browser checks proving the shell loads and a converted MapLibre layer can render.
+- [x] Run verification and document remaining parity/data limitations.
+  - What I changed:
+    - Created `/test2` from the production `index.html`, keeping the production shell, navbar, split panes, catalogue containers, support modal, and main CSS contract.
+    - Replaced only the engine boot path: `/test2` loads `/test2/build/test2.bundle.js` and does not load Leaflet or register the production service worker.
+    - Added `test2/src/maplibre-main-adapter.js`, which exposes a main-catalogue callback surface backed by the existing MapLibre vector-tile renderer.
+    - Added `test2/src/app.js`, which initializes production `dataService` and `uiController`, renders the main catalogue hierarchy, and wires load/unload/toggle/fit/search/detail callbacks to MapLibre where feasible.
+    - Added `scripts/build-test2-app.mjs`, `npm run build:test2`, `npm run test:browser:test2`, and browser tests proving shell boot and a real converted vector-layer render.
+  - Verification:
+    - `npm run build:test2` passed after esbuild spawn required approved escalation.
+    - `npm run test:browser:test2` passed: production shell visible, no global Leaflet present, MapLibre adapter initialized, catalogue rows rendered, and Civil Parishes rendered as a MapLibre vector layer.
+    - `npm run check` passed the production chunked-map guardrails.
+  - Remaining limits:
+    - `/test2` is now the cleaner feasibility path for exact shell parity, but only maps with converted `/test` MapLibre metadata can render through MapLibre.
+    - Leaflet-specific advanced behaviours such as per-feature partial loading, election-map loading, and some active-layer opacity internals are stubbed or simplified until equivalent MapLibre data/control paths are built.
+
 Structural main-shell refactor for `/test`
 - [x] Load the same main shell CSS and visible shell markup on `/test`
 - [x] Introduce a MapLibre shell engine bridge so catalogue actions target MapLibre behind a main-style interface
