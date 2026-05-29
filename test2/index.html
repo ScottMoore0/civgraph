@@ -639,8 +639,8 @@
        isn't blocked. Self-hosting eliminates cold-load DNS lookups to unpkg
        and jsdelivr (~50-100ms each on cold mobile) and removes third-party
        SPOFs. Safe because no synchronous script (jquery-shim, election engine)
-       references any of these symbols at parse time; the module bundle
-       (build/app.bundle.js) is type=module which is implicitly deferred and
+       references any of these symbols at parse time; the /test2 module bundle
+       is type=module which is implicitly deferred and
        runs after these. Turf is kept on unpkg for now — it's only used by
        dynamic-import paths and isn't fetched on first paint. -->
   <script src="assets/js/fuse-7.0.0.min.js" defer></script>

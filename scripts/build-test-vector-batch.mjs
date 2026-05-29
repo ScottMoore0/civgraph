@@ -16,13 +16,20 @@ const ROOT = resolve(process.cwd());
 const PLAN_PATH = resolve(ROOT, 'test/metadata/main-site-port-plan.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/vector-conversion-report.json');
 const OUTPUT_ROOT = resolve(ROOT, 'test/tiles/generated');
+const SOURCE_CACHE_MANIFEST_PATH = resolve(ROOT, 'test/source-cache/vector-intake/manifest.json');
 const EXECUTE = process.argv.includes('--execute');
 const LIMIT = readNumberArg('--limit', Infinity);
 const MAX_SOURCE_MB = readNumberArg('--max-source-mb', Infinity);
 const ONLY_IDS = new Set(readStringArg('--ids', '').split(',').map((value) => value.trim()).filter(Boolean));
-const FORMATS = new Set(['.fgb', '.geojson', '.json', '.gpkg', '.shp']);
+const FORMATS = new Set(['.fgb', '.geojson', '.json', '.gpkg', '.shp', '.zip']);
+const FORCE = process.argv.includes('--force');
+const PER_LAYER_TIMEOUT_MS = readNumberArg('--per-layer-timeout-ms', 10 * 60 * 1000);
 
 const plan = JSON.parse(readFileSync(PLAN_PATH, 'utf8'));
+const sourceCache = existsSync(SOURCE_CACHE_MANIFEST_PATH)
+  ? JSON.parse(readFileSync(SOURCE_CACHE_MANIFEST_PATH, 'utf8'))
+  : { sources: [] };
+const cachedSourceById = new Map((sourceCache.sources || []).map((source) => [source.sourceMapId, source]));
 const candidates = [];
 const skipped = [];
 
@@ -52,6 +59,7 @@ for (const row of plan.rows || []) {
 const selected = candidates.filter((candidate) => candidate.sourceBytes / 1024 / 1024 <= MAX_SOURCE_MB).slice(0, LIMIT);
 const converted = [];
 const failed = [];
+const skippedExisting = [];
 
 if (EXECUTE) {
   mkdirSync(OUTPUT_ROOT, { recursive: true });
@@ -59,6 +67,14 @@ if (EXECUTE) {
     const sourcePath = resolve(ROOT, candidate.sourceFile.replace(/^\//, ''));
     const outputPath = resolve(ROOT, candidate.outputDirectory);
     assertInsideOutputRoot(outputPath);
+    if (!FORCE) {
+      const existing = verifyMvtDirectory(outputPath);
+      if (existing.ok) {
+        skippedExisting.push({ ...candidate, reason: 'existing verified generated output', sourceLayer: existing.sourceLayer, ...existing.stats });
+        writeReport();
+        continue;
+      }
+    }
     rmSync(outputPath, { recursive: true, force: true });
     mkdirSync(dirname(outputPath), { recursive: true });
     const layerName = slugify(candidate.sourceMapId).replace(/-/g, '_');
@@ -79,7 +95,7 @@ if (EXECUTE) {
       '-dsco', `SIMPLIFICATION_MAX_ZOOM=${profile.simplificationMaxZoom}`,
       '-lco', `NAME=${layerName}`,
       '-nln', layerName
-    ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 });
+    ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, timeout: PER_LAYER_TIMEOUT_MS });
     if (result.status === 0) {
       const verification = verifyMvtDirectory(outputPath);
       if (verification.ok) {
@@ -90,21 +106,36 @@ if (EXECUTE) {
     } else {
       failed.push({ ...candidate, error: (result.error?.message || result.stderr || result.stdout || '').trim() });
     }
+    writeReport();
   }
 }
 
-const report = {
+const report = buildReport();
+writeReport();
+console.log(`Wrote ${REPORT_PATH.replace(`${ROOT}\\`, '')}`);
+console.log(`Mode: ${report.mode}`);
+console.log(`Feasible local candidates: ${report.totals.feasibleLocalCandidates}`);
+console.log(`Skipped: ${report.totals.skipped}`);
+console.log(`Skipped existing generated: ${report.totals.skippedExisting}`);
+console.log(`Converted: ${report.totals.converted}`);
+if (!EXECUTE) console.log('Dry run only. Re-run with --execute --limit N after reviewing the report.');
+if (failed.length) process.exit(1);
+
+function buildReport() {
+  return {
   schemaVersion: 1,
   mode: EXECUTE ? 'execute' : 'dry-run',
   generatedAt: new Date().toISOString(),
   tool: 'ogr2ogr GDAL MVT',
   tippecanoeAvailable: commandAvailable('tippecanoe'),
+  perLayerTimeoutMs: PER_LAYER_TIMEOUT_MS,
   totals: {
     vectorRows: (plan.rows || []).filter((row) => row.conversionStatus === 'needsVectorTileConversion').length,
     feasibleLocalCandidates: candidates.length,
     skipped: skipped.length,
     selected: selected.length,
     converted: converted.length,
+    skippedExisting: skippedExisting.length,
     failed: failed.length
   },
   notes: [
@@ -114,22 +145,23 @@ const report = {
   ],
   candidates,
   selected,
+  skippedExisting,
   converted,
   failed,
   skipped
-};
+  };
+}
 
-mkdirSync(dirname(REPORT_PATH), { recursive: true });
-writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
-console.log(`Wrote ${REPORT_PATH.replace(`${ROOT}\\`, '')}`);
-console.log(`Mode: ${report.mode}`);
-console.log(`Feasible local candidates: ${report.totals.feasibleLocalCandidates}`);
-console.log(`Skipped: ${report.totals.skipped}`);
-console.log(`Converted: ${report.totals.converted}`);
-if (!EXECUTE) console.log('Dry run only. Re-run with --execute --limit N after reviewing the report.');
-if (failed.length) process.exit(1);
+function writeReport() {
+  mkdirSync(dirname(REPORT_PATH), { recursive: true });
+  writeFileSync(REPORT_PATH, `${JSON.stringify(buildReport(), null, 2)}\n`);
+}
 
 function chooseSource(row) {
+  const cached = cachedSourceById.get(row.sourceMapId);
+  if (cached?.localPath && FORMATS.has(extname(cached.localPath).toLowerCase())) {
+    return { file: cached.localPath, cachedFrom: cached.url };
+  }
   return (row.sourceFiles || []).find((source) => {
     const file = source.file || '';
     return !/^https?:\/\//i.test(file) && FORMATS.has(extname(file).toLowerCase());

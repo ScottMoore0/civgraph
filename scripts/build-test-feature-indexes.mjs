@@ -48,12 +48,13 @@ for (const layer of layers) {
     skipped += 1;
     continue;
   }
-  const columns = unique([
-    effectiveIdProperty,
-    ...nameProperties,
+  const propertyColumns = unique([effectiveIdProperty, ...nameProperties])
+    .map((key) => `${quoteSqlIdentifier(key)} AS ${quoteSqlIdentifier(key)}`);
+  const columns = [
+    ...propertyColumns,
     'ST_X(ST_Centroid(geometry)) AS lon',
     'ST_Y(ST_Centroid(geometry)) AS lat'
-  ]).join(',');
+  ].join(',');
   const result = spawnSync('ogr2ogr', [
     '-f', 'CSV',
     '/vsistdout/',

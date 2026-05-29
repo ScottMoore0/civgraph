@@ -18,7 +18,7 @@ export class TestMetadataService {
     this.portPlan = await this.loadPortPlan();
     this.metadata = normalizeMetadata(rawMetadata, this.portPlan);
     this.layers = this.metadata.layers;
-    this.layerById = new Map(this.layers.map((layer) => [layer.id, layer]));
+    this.layerById = buildLayerLookup(this.layers);
     return this.metadata;
   }
 
@@ -41,6 +41,16 @@ export class TestMetadataService {
     if (!terms.length) return this.layers;
     return this.layers.filter((layer) => terms.every((term) => layer.searchText.includes(term)));
   }
+}
+
+function buildLayerLookup(layers) {
+  const lookup = new Map();
+  for (const layer of layers || []) {
+    for (const key of [layer.id, layer.sourceMapId, layer.sourceMapId ? `port-${layer.sourceMapId}` : null]) {
+      if (key && !lookup.has(key)) lookup.set(key, layer);
+    }
+  }
+  return lookup;
 }
 
 export function normalizeMetadata(raw, portPlan = null) {

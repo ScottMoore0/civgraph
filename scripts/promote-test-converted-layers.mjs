@@ -42,7 +42,9 @@ const baseLayers = (test.layers || []).filter((layer) => !isGeneratedLayer(layer
 const promotedVectorLayers = [];
 const promotedRasterLayers = [];
 
-for (const converted of report.converted || []) {
+const verifiedConversions = [...(report.skippedExisting || []), ...(report.converted || [])];
+const verifiedBySourceId = new Map(verifiedConversions.map((row) => [row.sourceMapId, row]));
+for (const converted of verifiedBySourceId.values()) {
   const row = rowsById.get(converted.sourceMapId);
   if (!row) continue;
   const map = mainById.get(converted.sourceMapId) || {};

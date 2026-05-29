@@ -1,3 +1,69 @@
+Test2 full data migration pass
+- [x] Refresh the main-site port inventory and vector intake manifest without deleting or modifying source data.
+- [x] Convert all locally available vector candidates to generated MVT outputs.
+- [x] Promote verified generated vector/raster outputs into `test/metadata/maps-test.json`.
+- [x] Generate or refresh PMTiles archives for all promoted vector layers.
+- [x] Generate feature-search indexes for promoted vector layers.
+- [x] Generate/update CDN upload manifests and, where credentials permit, upload PMTiles to R2/CDN.
+- [x] Verify PMTiles byte-range support and switch metadata to authoritative CDN URLs where valid.
+- [x] Tune/validate heavy layers, raster/image entries, metadata-only entries, time-series chains, and election-data readiness reports.
+- [x] Run route, tile-budget, CDN-manifest, browser, visual, mobile-performance, and production checks.
+- [x] Record completed data work, unrecoverable blockers, and next required source/auth inputs.
+  - What I changed:
+    - Added a resumable vector-source downloader and cached remote vector sources under `test/source-cache/vector-intake` without modifying or deleting original source data.
+    - Extended the batch vector builder to use cached remote sources, support zip inputs, resume verified existing outputs, force rebuilds when needed, and write progress reports incrementally.
+    - Promoted verified conversions into `/test` metadata, generated PMTiles archives, uploaded active PMTiles to R2, verified byte-range serving through `https://data.civgraph.net`, and switched active metadata to CDN PMTiles URLs.
+    - Rebuilt feature-search indexes and fixed index generation for source fields with characters such as `name:en` and `name:ga`.
+    - Added URL alias lookup for `sourceMapId` and `port-*` ids so saved catalogue-detail URLs survive when a map becomes converted.
+    - Quarantined generated-but-invalid or over-budget output instead of deleting it: `test/tiles/generated/roi-counties-2011` was moved to `test/tiles/quarantine/roi-counties-2011`, and four over-budget PMTiles archives were moved to `test/pmtiles/quarantine`.
+  - Results:
+    - Main-site port plan: 901 rows; 702 converted, 47 still need vector-tile conversion, 152 metadata-only.
+    - Vector conversion report: 625 selected local/cached candidates; 617 converted, 8 failed, 124 skipped.
+    - Active `/test` metadata: 649 active MapLibre entries, including 544 PMTiles-backed layers and 105 raster/image entries. The runtime still shows 199 not-yet-converted catalogue entries via the port-plan merge.
+    - CDN manifest/range verification: 544 active PMTiles assets, 544 passed byte-range checks, 0 failed.
+    - Feature indexes: 493 index files generated; 492 active metadata entries currently reference feature indexes after demoting over-budget layers.
+  - Remaining blockers:
+    - Eight vector conversions still need data/build follow-up: `pc-1995`, six RWQ water-quality layers with missing MVT `vector_layers[0].id` metadata, and `habitat-deciduous-woodland`.
+    - Four converted datasets were deliberately not promoted because their generated tiles exceed hard mobile budgets and need retile/generalisation work: `wq-agricultural-critical-risk-vector-test`, `transport-carriageway-defects-2021-vector-test`, `dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025-vector-test`, and `dfi-surface-defects-2017-vector-test`.
+    - Nineteen active layers remain warning-level large-tile/large-directory cases; they pass hard budgets but should be retiled/generalised before production promotion.
+  - Verification:
+    - `npm run build:test` passed.
+    - `npm run build:test2` passed.
+    - `npm run check:test` passed with warning-only large-tile/local-fallback findings.
+    - `npm run check:test2` passed.
+    - `npm run verify:test:pmtiles-cdn` passed: 544/544 byte-range checks.
+    - `npm run test:browser:test` passed all 15 tests.
+    - `npm run test:browser:test2` passed all 6 tests.
+    - `npm run test:visual:test` passed: main/test header 64px and catalogue width 683px.
+    - `npm run test:visual:test2` passed: header 64px and catalogue width 683px.
+    - `npm run test:performance:test` passed: boot 412ms; representative layers loaded within the smoke budget.
+    - `npm run test:performance:test2` passed: boot 387ms, layer 1171ms, 4,882 rendered features, 64 MB heap.
+    - `npm run check` passed production chunked-map guardrails.
+  - No-data-loss note:
+    - No source datasets were deleted. Failed, invalid, or over-budget generated outputs were retained in cache/quarantine locations where they can be inspected or regenerated later.
+
+Test2 parity completion pass for non-data-blocked work
+- [x] Implement MapLibre equivalents for Leaflet-only actions that are feasible without new data: opacity, label toggles, feature query, feature details, URL restore, group/variant load handling, fit/highlight, address marker, and unsupported-workflow warnings.
+- [x] Add `/test2` route validation so it cannot regress to loading Leaflet, the production bundle, or the production service worker.
+- [x] Add visual, mobile/performance, deployment-readiness, and service-worker/cache guardrails for `/test2`.
+- [x] Expand browser coverage for catalogue detail, URL restore, controls, feature detail, mobile shell, support/theme, unsupported map warnings, and accessibility smoke.
+- [x] Run build/check/browser/performance verification and record remaining limits.
+  - What I changed:
+    - Extended the `/test2` MapLibre adapter to cover the feasible main-site action surface: layer/group loading, local MVT fallback for PMTiles during local testing, opacity/fill/raster controls, label toggles, text scaling, base-map switching, feature queries, feature details/highlighting, address markers, and group loaded-state aliases for main catalogue ids.
+    - Preserved `/test2` URL/share state for layers, search, viewport, active-layers panel, and map-controls panel. Fixed a route bug caused by `<base href="/">` so hashes now stay under `/test2/`, and fixed the boot race that could overwrite saved layer state before restore.
+    - Added `/test2` route isolation validation, visual shell regression, mobile performance smoke, production-readiness documentation, and browser coverage for catalogue detail, URL restore, controls, selected features, support/theme, accessibility smoke, unsupported-map notices, and service-worker isolation.
+    - Added scoped `/test2` CSS for MapLibre attribution accessibility and route status messages.
+  - Verification:
+    - `npm run build:test2` passed.
+    - `npm run check:test2` passed.
+    - `npm run test:browser:test2` passed all 6 tests.
+    - `npm run test:visual:test2` passed: header 64px, catalogue pane 683px.
+    - `npm run test:performance:test2` passed: mobile boot 370ms, civil-parishes layer 1084ms, 4882 rendered features, 64 MB heap.
+    - `npm run check` passed production chunked-map guardrails.
+  - Remaining limits:
+    - Data-blocked parity remains for unconverted maps, election workflows needing vector-tile geographies, full time-series chains that lack converted layers, and authoritative CDN/R2 byte-range monitoring until production PMTiles URLs are deployed.
+    - Leaflet-only internals that do not sensibly translate to MapLibre are represented through adapter equivalents or unsupported-workflow warnings rather than copied literally.
+
 Test2 verbatim main shell with MapLibre map engine
 - [x] Keep `/test2` isolated from the production root route while using the production shell markup and CSS contract.
 - [x] Boot `/test2` with the main catalogue/data controllers, but route map actions through a MapLibre adapter instead of Leaflet.

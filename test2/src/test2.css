@@ -1,0 +1,24 @@
+.maplibregl-ctrl-attrib a {
+  color: #064f63;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+[data-theme="dark"] .maplibregl-ctrl-attrib a {
+  color: #8fd3ff;
+}
+
+#test2Status.map-error {
+  position: absolute;
+  left: 16px;
+  bottom: 18px;
+  z-index: 30;
+  max-width: min(420px, calc(100% - 32px));
+  padding: 10px 12px;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  background: #fffbeb;
+  color: #78350f;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .12);
+  font-size: 13px;
+}

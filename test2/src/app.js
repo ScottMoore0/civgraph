@@ -1,4 +1,5 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
+import './test2.css';
 import dataService from '../../js/data-service.js';
 import featureLoader from '../../js/feature-loader.js';
 import uiController from '../../js/ui-controller.js';
@@ -14,6 +15,7 @@ class Test2App {
     this.searchQuery = '';
     this.mapController = null;
     this.metadataService = null;
+    this._suspendURLState = false;
   }
 
   async init() {
@@ -39,19 +41,27 @@ class Test2App {
     uiController.init();
     uiController.showAllMaps = true;
 
+    this._suspendURLState = true;
     this.mapController.init('map');
+    window.__civgraphTest2 = {
+      app: this,
+      mapController: this.mapController,
+      metadataService: this.metadataService,
+      restorePromise: null
+    };
     this.renderCategoryPills();
     this.updateMapList();
     this.setupSearch();
     this.setupThemeToggle();
     this.setupSupportModal();
-    this.restoreURLState();
-
-    window.__civgraphTest2 = {
-      app: this,
-      mapController: this.mapController,
-      metadataService: this.metadataService
-    };
+    this.setupMapControls();
+    window.__civgraphTest2.restorePromise = this.restoreURLState()
+      .catch((error) => this.showMapError(error))
+      .finally(() => {
+        this._suspendURLState = false;
+        this.updateURLState();
+      });
+    await window.__civgraphTest2.restorePromise;
   }
 
   async loadBooks() {
@@ -141,8 +151,8 @@ class Test2App {
     };
     uiController.onAddressSelect = (lat, lon, name) => this.mapController.addAddressMarker(lat, lon, name);
     uiController.onRemoveAddressMarker = () => this.mapController.removeAddressMarker();
-    uiController.onCheckIntersection = async () => [];
-    uiController.onGetLoadedFeatures = () => [];
+    uiController.onCheckIntersection = async (lat, lon) => this.mapController.queryFeaturesAtLngLat(lat, lon);
+    uiController.onGetLoadedFeatures = () => this.mapController.getLoadedFeatures();
     uiController.onZoomToBbox = (bounds, options) => this.mapController.fitToBounds(bounds, options);
     uiController.onHighlightFeature = (mapId, featureId, options) => this.mapController.highlightFeature(mapId, featureId, options);
     uiController.onLoadSingleFeature = async (mapId, featureId, featureName, bbox) => {
@@ -159,10 +169,13 @@ class Test2App {
     const mapConfig = dataService.getMapById(mapId);
     if (mapConfig?.isGroup && Array.isArray(mapConfig.members) && mapConfig.members.length) {
       for (const memberId of mapConfig.members) await this.loadMap(memberId);
+      this.mapController.markGroupLoaded(mapId, mapConfig, mapConfig.members);
       return;
     }
     if (mapConfig?.isGroup && Array.isArray(mapConfig.variants) && mapConfig.variants.length) {
-      await this.mapController.loadLayer(mapConfig.variants[0].id);
+      const variantId = mapConfig.variants[0].id;
+      await this.mapController.loadLayer(variantId);
+      this.mapController.markGroupLoaded(mapId, mapConfig, [variantId]);
       return;
     }
     await this.mapController.loadLayer(mapConfig || mapId);
@@ -252,6 +265,105 @@ class Test2App {
     });
   }
 
+  setupMapControls() {
+    const mapControlsToggle = document.getElementById('mapControlsToggle');
+    const mapControlPanel = document.getElementById('mapControlPanel');
+    const mapControlsClose = document.getElementById('mapControlsClose');
+    const activeLayersToggle = document.getElementById('activeLayersToggle');
+    const activeLayers = document.getElementById('activeLayers');
+    const activeLayersClose = document.getElementById('activeLayersClose');
+    const featureInfoClose = document.getElementById('featureInfoClose');
+
+    const setControlsOpen = (open) => {
+      mapControlsToggle?.setAttribute('aria-expanded', String(open));
+      mapControlPanel?.classList.toggle('map-control-panel--collapsed', !open);
+      mapControlPanel?.classList.toggle('map-control-panel--expanded', open);
+      this.updateURLState();
+    };
+
+    mapControlsToggle?.addEventListener('click', () => {
+      setControlsOpen(mapControlsToggle.getAttribute('aria-expanded') !== 'true');
+    });
+    mapControlsClose?.addEventListener('click', () => setControlsOpen(false));
+
+    const overlayToggle = document.getElementById('overlayToggle');
+    const overlayList = document.getElementById('overlayList');
+    overlayToggle?.addEventListener('click', () => {
+      const open = overlayToggle.getAttribute('aria-expanded') !== 'true';
+      overlayToggle.setAttribute('aria-expanded', String(open));
+      overlayList?.classList.toggle('overlay-list--collapsed', !open);
+      overlayList?.classList.toggle('overlay-list--expanded', open);
+    });
+
+    document.getElementById('baseMapSelect')?.addEventListener('change', (event) => {
+      this.mapController.setBaseMap(event.target.value);
+      this.updateURLState();
+    });
+
+    const outlineSlider = document.getElementById('transparencySlider');
+    const outlineValue = document.getElementById('transparencyValue');
+    outlineSlider?.addEventListener('input', () => {
+      const value = Number(outlineSlider.value);
+      this.mapController.setTransparency(value);
+      if (outlineValue) outlineValue.textContent = `${value}%`;
+      this.updateURLState();
+    });
+
+    const fillSlider = document.getElementById('fillTransparencySlider');
+    const fillValue = document.getElementById('fillTransparencyValue');
+    fillSlider?.addEventListener('input', () => {
+      const value = Number(fillSlider.value);
+      this.mapController.setFillTransparency(value);
+      if (fillValue) fillValue.textContent = `${value}%`;
+      this.updateURLState();
+    });
+
+    document.getElementById('labelsToggle')?.addEventListener('change', (event) => {
+      this.mapController.setLabelsEnabled(event.target.checked);
+      this.updateURLState();
+    });
+
+    let textScale = Number(localStorage.getItem('ni-boundaries.textScale') || '100');
+    const textSteps = [50, 60, 70, 80, 90, 100, 110, 125, 150, 175, 200];
+    const textValue = document.getElementById('textSizeValue');
+    const applyTextScale = () => {
+      if (textValue) textValue.textContent = `${textScale}%`;
+      this.mapController.setTextScale(textScale);
+      localStorage.setItem('ni-boundaries.textScale', String(textScale));
+      this.updateURLState();
+    };
+    document.getElementById('textSizeDecrease')?.addEventListener('click', () => {
+      const index = textSteps.indexOf(textScale);
+      textScale = textSteps[Math.max(0, index - 1)] || 100;
+      applyTextScale();
+    });
+    document.getElementById('textSizeIncrease')?.addEventListener('click', () => {
+      const index = textSteps.indexOf(textScale);
+      textScale = textSteps[Math.min(textSteps.length - 1, index + 1)] || 100;
+      applyTextScale();
+    });
+    applyTextScale();
+
+    activeLayersToggle?.addEventListener('click', () => {
+      const open = activeLayersToggle.getAttribute('aria-expanded') !== 'true';
+      activeLayersToggle.setAttribute('aria-expanded', String(open));
+      activeLayers?.classList.toggle('hidden', !open);
+      this.updateURLState();
+    });
+    activeLayersClose?.addEventListener('click', () => {
+      activeLayers?.classList.add('hidden');
+      activeLayersToggle?.setAttribute('aria-expanded', 'false');
+      this.updateURLState();
+    });
+    featureInfoClose?.addEventListener('click', () => uiController.hideFeatureInfo());
+
+    document.getElementById('conditionalStylingBtn')?.addEventListener('click', () => {
+      this.showMapError(new Error('Conditional styling controls for /test2 will use MapLibre expressions; this route currently supports base opacity, labels, and text scale.'));
+    });
+
+    this.mapController.map?.on('moveend', () => this.updateURLState());
+  }
+
   getLoadedLayerIds() {
     const ids = [...this.mapController.layerStates.entries()]
       .filter(([, state]) => state.loaded)
@@ -295,15 +407,26 @@ class Test2App {
   }
 
   updateURLState() {
+    if (this._suspendURLState) return;
     const loaded = this.getLoadedLayerIds();
     const params = new URLSearchParams();
+    const center = this.mapController.map?.getCenter?.();
+    const zoom = this.mapController.map?.getZoom?.();
     if (loaded.length) params.set('layers', loaded.join(','));
     if (this.searchQuery) params.set('q', this.searchQuery);
-    const next = params.toString() ? `#${params.toString()}` : location.pathname;
+    if (center) {
+      params.set('lng', center.lng.toFixed(5));
+      params.set('lat', center.lat.toFixed(5));
+    }
+    if (Number.isFinite(zoom)) params.set('z', zoom.toFixed(2));
+    if (document.getElementById('activeLayersToggle')?.getAttribute('aria-expanded') === 'true') params.set('activePanel', '1');
+    if (document.getElementById('mapControlsToggle')?.getAttribute('aria-expanded') === 'true') params.set('controls', '1');
+    const path = `${location.pathname}${location.search || ''}`;
+    const next = params.toString() ? `${path}#${params.toString()}` : path;
     history.replaceState(null, '', next);
   }
 
-  restoreURLState() {
+  async restoreURLState() {
     const params = new URLSearchParams(location.hash.replace(/^#/, ''));
     const query = params.get('q');
     if (query) {
@@ -313,7 +436,15 @@ class Test2App {
       this.updateMapList();
     }
     const layers = (params.get('layers') || '').split(',').map((id) => id.trim()).filter(Boolean);
-    layers.forEach((id) => this.loadMap(id).catch((error) => this.showMapError(error)));
+    await Promise.all(layers.map((id) => this.loadMap(id).catch((error) => this.showMapError(error))));
+    const lng = Number(params.get('lng'));
+    const lat = Number(params.get('lat'));
+    const z = Number(params.get('z'));
+    if (Number.isFinite(lng) && Number.isFinite(lat)) {
+      this.mapController.map?.jumpTo({ center: [lng, lat], zoom: Number.isFinite(z) ? z : undefined });
+    }
+    if (params.get('activePanel') === '1') document.getElementById('activeLayersToggle')?.click();
+    if (params.get('controls') === '1') document.getElementById('mapControlsToggle')?.click();
   }
 
   triggerDownload(url, filename) {
@@ -328,7 +459,16 @@ class Test2App {
   showMapError(error) {
     console.warn('[Test2]', error);
     const announcer = document.getElementById('announcer');
-    if (announcer) announcer.textContent = error?.message || 'Map layer is not available in /test2 yet.';
+    const message = error?.message || 'Map layer is not available in /test2 yet.';
+    if (announcer) announcer.textContent = message;
+    let status = document.getElementById('test2Status');
+    if (!status) {
+      status = document.createElement('div');
+      status.id = 'test2Status';
+      status.className = 'map-error';
+      document.querySelector('.pane--map')?.appendChild(status);
+    }
+    status.textContent = message;
   }
 }
 

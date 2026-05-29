@@ -11,6 +11,7 @@ import { spawn } from 'node:child_process';
 const ROOT = resolve(process.cwd());
 const MANIFEST_PATH = resolve(ROOT, 'test/metadata/cdn-upload-manifest.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-upload-report.json');
+const RANGE_REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-range-report.json');
 const BUCKET = process.env.TEST_R2_BUCKET || 'boundaries-data';
 const DRY_RUN = process.argv.includes('--dry-run');
 const ONLY_IDS = new Set([
@@ -18,6 +19,21 @@ const ONLY_IDS = new Set([
   ...readArgList('--ids')
 ].map((value) => value.trim()).filter(Boolean));
 const IS_WINDOWS = platform() === 'win32';
+
+if (process.argv.includes('--failed-range-report')) {
+  if (!existsSync(RANGE_REPORT_PATH)) {
+    console.error('No CDN range report found. Run `npm run verify:test:pmtiles-cdn` first.');
+    process.exit(1);
+  }
+  const rangeReport = JSON.parse(readFileSync(RANGE_REPORT_PATH, 'utf8'));
+  for (const item of rangeReport.results || []) {
+    if (!item.ok && item.layerId) ONLY_IDS.add(item.layerId);
+  }
+  if (!ONLY_IDS.size) {
+    console.log('No failed CDN range-report entries to upload.');
+    process.exit(0);
+  }
+}
 
 const manifest = JSON.parse(readFileSync(MANIFEST_PATH, 'utf8'));
 const assets = (manifest.assets || [])
@@ -56,25 +72,32 @@ for (const [index, asset] of assets.entries()) {
   } catch (err) {
     results.push({ layerId: asset.layerId, targetKey: asset.targetKey, ok: false, status: 'upload-failed', bytes, error: String(err.message).slice(0, 2000) });
   }
+  writeReport();
 }
 
-const report = {
-  schemaVersion: 1,
-  generatedAt: new Date().toISOString(),
-  bucket: BUCKET,
-  dryRun: DRY_RUN,
-  totals: {
-    assets: assets.length,
-    ok: results.filter((item) => item.ok).length,
-    failed: results.filter((item) => !item.ok).length,
-    bytes: results.reduce((sum, item) => sum + Number(item.bytes || 0), 0)
-  },
-  results
-};
-
-writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
+const report = writeReport();
 console.log(`Wrote ${REPORT_PATH.replace(`${ROOT}\\`, '').replaceAll('\\', '/')}`);
 if (report.totals.failed) process.exit(1);
+
+function writeReport() {
+  const report = {
+    schemaVersion: 1,
+    generatedAt: new Date().toISOString(),
+    bucket: BUCKET,
+    dryRun: DRY_RUN,
+    selectedIds: Array.from(ONLY_IDS),
+    totals: {
+      assets: assets.length,
+      processed: results.length,
+      ok: results.filter((item) => item.ok).length,
+      failed: results.filter((item) => !item.ok).length,
+      bytes: results.reduce((sum, item) => sum + Number(item.bytes || 0), 0)
+    },
+    results
+  };
+  writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
+  return report;
+}
 
 function runWrangler(args) {
   return new Promise((resolvePromise, rejectPromise) => {

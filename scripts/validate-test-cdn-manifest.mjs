@@ -53,8 +53,9 @@ if (!manifest) {
   if (!rangeReport) {
     errors.push('test/metadata/cdn-range-report.json is missing; run npm run verify:test:pmtiles-cdn');
   } else {
-    if ((rangeReport.totals?.ok || 0) !== pmtilesLayers.length) {
-      errors.push(`CDN range report verified ${rangeReport.totals?.ok || 0}/${pmtilesLayers.length} active PMTiles layers`);
+    const verifiedActiveLayers = pmtilesLayers.filter((layer) => verifiedByLayer.get(layer.id)?.ok).length;
+    if (verifiedActiveLayers !== pmtilesLayers.length) {
+      errors.push(`CDN range report verified ${verifiedActiveLayers}/${pmtilesLayers.length} active PMTiles layers`);
     }
     if (Date.parse(rangeReport.generatedAt) < Date.parse(manifest.generatedAt)) {
       warnings.push('CDN range report is older than CDN upload manifest; rerun npm run verify:test:pmtiles-cdn after manifest changes');
