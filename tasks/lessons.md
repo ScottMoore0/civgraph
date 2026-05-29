@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 115) MapLibre label parity needs a DOM interaction layer, not only symbol-layer styling
+- Mistake pattern: Treating MapLibre symbol labels as equivalent to the main Leaflet label markers.
+- Impact: Vector-tile polygon fragments can create repeated labels, and native symbol labels cannot provide the same clickable, underlined, hover-synchronised label behaviour as the main site.
+- Guardrail:
+  1) for main-site label parity, hide native MapLibre symbol text and render a deduplicated DOM label overlay keyed by feature id,
+  2) collision-suppress DOM labels so one label cannot intercept another label's pointer interaction,
+  3) browser tests must prove label uniqueness, label hover styling, label click selection, feature double-click selection, and feature-card placement in one interaction pass.
+
 ### 114) When shell parity is exact, create a true main-shell clone route before further visual tweaks
 - Mistake pattern: Continuing to incrementally reshape `/test` after the user wanted the main site shell preserved verbatim with only the map engine swapped.
 - Impact: The result could satisfy local guardrails while still looking unlike the main site to the user, because the route still owned too much shell/catalogue structure.

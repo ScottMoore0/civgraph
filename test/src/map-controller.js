@@ -3,7 +3,6 @@ import { PMTiles, Protocol } from 'pmtiles';
 import {
   CLICK_TOLERANCE_PX,
   DEFAULT_TEXT_SCALE,
-  HOVER_MIN_ZOOM,
   HOVER_THROTTLE_MS,
   IRELAND_BOUNDS
 } from './config.js';
@@ -14,6 +13,7 @@ import {
   buildLabelSortExpression,
   buildLabelTextExpression,
   buildLabelTextSizeExpression,
+  getFeatureLabel,
   getLabelMaxZoom,
   getLabelMinZoom,
   getLabelStyle
@@ -90,6 +90,7 @@ export class TestMapLibreController {
     const lineId = `${layer.id}-line`;
     const rasterId = `${layer.id}-raster`;
     const hoverId = `${layer.id}-hover`;
+    const hoverLineId = `${layer.id}-hover-line`;
     const selectedId = `${layer.id}-selected`;
     const labelId = `${layer.id}-label`;
 
@@ -107,8 +108,10 @@ export class TestMapLibreController {
     this.layers.set(layer.id, {
       config: layer,
       sourceId,
-      layerIds: [fillId, lineId, hoverId, selectedId, labelId, rasterId].filter((id) => this.map.getLayer(id)),
+      layerIds: [fillId, lineId, hoverId, hoverLineId, selectedId, labelId, rasterId].filter((id) => this.map.getLayer(id)),
       labelLayerIds,
+      domLabelMarkers: new Map(),
+      domLabelsScheduled: 0,
       labelsEnabled: true,
       textScale: DEFAULT_TEXT_SCALE,
       opacity: layer.style?.fillOpacity ?? layer.rasterOpacity ?? 0.18,
@@ -119,6 +122,7 @@ export class TestMapLibreController {
 
     if (layer.sourceType !== 'raster' && layer.sourceType !== 'image') {
       this.interactionCleanups.set(layer.id, this.bindLayerInteractions(layer, fillId, labelId, sourceId));
+      this.scheduleDomLabelRefresh(layer.id);
     }
     if (layer.sourceType === 'pmtiles') {
       this.fallbackCleanups.set(layer.id, this.monitorPmtilesFallback(layer, sourceId));
@@ -148,6 +152,7 @@ export class TestMapLibreController {
 
   addGeometryLayers(layer, ids) {
     const { sourceId, fillId, lineId, hoverId, selectedId } = ids;
+    const hoverLineId = `${layer.id}-hover-line`;
     if (layer.geometryType !== 'line' && layer.geometryType !== 'point') {
       this.map.addLayer({
         id: fillId,
@@ -177,21 +182,55 @@ export class TestMapLibreController {
       }
     });
 
-    this.map.addLayer({
-      id: hoverId,
-      type: layer.geometryType === 'point' ? 'circle' : 'line',
-      source: sourceId,
-      'source-layer': layer.sourceLayer,
-      paint: layer.geometryType === 'point' ? {
-        'circle-color': '#F59E0B',
-        'circle-radius': ['case', ['boolean', ['feature-state', 'hover'], false], 7, 0],
-        'circle-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.95, 0]
-      } : {
-        'line-color': '#F59E0B',
-        'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 3, 0],
-        'line-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.95, 0]
-      }
-    });
+    if (layer.geometryType === 'point') {
+      this.map.addLayer({
+        id: hoverId,
+        type: 'circle',
+        source: sourceId,
+        'source-layer': layer.sourceLayer,
+        paint: {
+          'circle-color': '#FDBA74',
+          'circle-stroke-color': '#FF7A1A',
+          'circle-stroke-width': ['case', ['boolean', ['feature-state', 'hover'], false], 2, 0],
+          'circle-radius': ['case', ['boolean', ['feature-state', 'hover'], false], 7, 0],
+          'circle-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.95, 0]
+        }
+      });
+    } else if (layer.geometryType === 'line') {
+      this.map.addLayer({
+        id: hoverId,
+        type: 'line',
+        source: sourceId,
+        'source-layer': layer.sourceLayer,
+        paint: {
+          'line-color': '#FF7A1A',
+          'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 3, 0],
+          'line-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.95, 0]
+        }
+      });
+    } else {
+      this.map.addLayer({
+        id: hoverId,
+        type: 'fill',
+        source: sourceId,
+        'source-layer': layer.sourceLayer,
+        paint: {
+          'fill-color': '#FDBA74',
+          'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.42, 0]
+        }
+      });
+      this.map.addLayer({
+        id: hoverLineId,
+        type: 'line',
+        source: sourceId,
+        'source-layer': layer.sourceLayer,
+        paint: {
+          'line-color': '#FF7A1A',
+          'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 3, 0],
+          'line-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.95, 0]
+        }
+      });
+    }
 
     this.map.addLayer({
       id: selectedId,
@@ -241,7 +280,7 @@ export class TestMapLibreController {
         'text-halo-color': labelStyle.haloColor,
         'text-halo-width': labelStyle.haloWidth,
         'text-halo-blur': labelStyle.haloBlur,
-        'text-opacity': ['interpolate', ['linear'], ['zoom'], labelMinZoom - 0.1, 0, labelMinZoom + 0.4, 1]
+        'text-opacity': 0
       }
     });
     return [labelId];
@@ -256,6 +295,7 @@ export class TestMapLibreController {
     this.interactionCleanups.delete(layerId);
     this.fallbackCleanups.get(layerId)?.();
     this.fallbackCleanups.delete(layerId);
+    this.clearDomLabels(layerId);
     for (const layerIdToRemove of [...record.layerIds].reverse()) {
       if (this.map.getLayer(layerIdToRemove)) this.map.removeLayer(layerIdToRemove);
     }
@@ -355,6 +395,9 @@ export class TestMapLibreController {
     for (const labelLayerId of record.labelLayerIds || []) {
       if (this.map.getLayer(labelLayerId)) this.map.setLayoutProperty(labelLayerId, 'visibility', visibility);
     }
+    for (const marker of record.domLabelMarkers?.values?.() || []) {
+      marker.getElement().hidden = !record.labelsEnabled;
+    }
     this.notifyChange();
   }
 
@@ -367,6 +410,7 @@ export class TestMapLibreController {
         this.map.setLayoutProperty(labelLayerId, 'text-size', buildLabelTextSizeExpression(record.config, record.textScale));
       }
     }
+    this.scheduleDomLabelRefresh(layerId);
     this.notifyChange();
   }
 
@@ -565,33 +609,12 @@ export class TestMapLibreController {
   }
 
   bindLayerInteractions(layer, fillId, labelId, sourceId) {
-    const idProperty = layer.promoteId || 'id';
     let lastHoverAt = 0;
     let pendingHoverEvent = null;
     let hoverFrame = 0;
-    const clearHover = () => {
-      this.clearFeatureState(this.hovered, 'hover');
-      this.hovered = null;
-      this.map.getCanvas().style.cursor = '';
-    };
-    const readFeatureId = (feature) => {
-      const id = feature?.id ?? feature?.properties?.[idProperty];
-      return id === undefined || id === null || id === '' ? null : id;
-    };
-    const setHover = (feature) => {
-      const id = readFeatureId(feature);
-      if (id === null) {
-        clearHover();
-        return;
-      }
-      if (this.hovered?.layerId === layer.id && this.hovered.id === id) return;
-      clearHover();
-      this.hovered = { layerId: layer.id, sourceId, sourceLayer: layer.sourceLayer, id };
-      this.map.setFeatureState({ source: sourceId, sourceLayer: layer.sourceLayer, id }, { hover: true });
-      this.map.getCanvas().style.cursor = 'pointer';
-    };
+    const clearHover = () => this.clearHover();
     const queryAtPoint = (point, radius = 0) => {
-      const queryLayers = [labelId, fillId, `${layer.id}-line`].filter((id) => id && this.map.getLayer(id));
+      const queryLayers = [fillId, `${layer.id}-line`].filter((id) => id && this.map.getLayer(id));
       if (queryLayers.length === 0) return [];
       const geometry = radius > 0 ? [[point.x - radius, point.y - radius], [point.x + radius, point.y + radius]] : point;
       return this.map.queryRenderedFeatures(geometry, { layers: queryLayers });
@@ -602,13 +625,17 @@ export class TestMapLibreController {
       pendingHoverEvent = null;
       if (!event || !this.layers.has(layer.id)) return;
       const sourceLoaded = typeof this.map.isSourceLoaded === 'function' ? this.map.isSourceLoaded(sourceId) : this.map.areTilesLoaded();
-      if (this.map.isMoving() || this.map.getZoom() < HOVER_MIN_ZOOM || !sourceLoaded) {
+      if (this.map.isMoving() || !sourceLoaded) {
         clearHover();
         return;
       }
-      setHover(queryAtPoint(event.point)[0]);
+      this.setHover(layer, queryAtPoint(event.point)[0]);
     };
     const onMouseMove = (event) => {
+      const original = event.originalEvent;
+      if (original && document.elementFromPoint(original.clientX, original.clientY)?.closest?.('.maplibre-dom-label')) {
+        return;
+      }
       pendingHoverEvent = event;
       const now = performance.now();
       if (now - lastHoverAt < HOVER_THROTTLE_MS) {
@@ -618,29 +645,201 @@ export class TestMapLibreController {
       lastHoverAt = now;
       if (!hoverFrame) hoverFrame = requestAnimationFrame(runHoverQuery);
     };
-    const onClick = (event) => {
-      const feature = queryAtPoint(event.point, CLICK_TOLERANCE_PX)[0];
-      if (!feature) return;
-      const id = readFeatureId(feature);
-      if (id === null) return;
-      this.clearFeatureState(this.selected, 'selected');
-      this.selected = { layerId: layer.id, sourceId, sourceLayer: layer.sourceLayer, id, properties: feature.properties };
-      this.map.setFeatureState({ source: sourceId, sourceLayer: layer.sourceLayer, id }, { selected: true });
-      this.options.onSelection?.({ layer, feature });
-      this.notifyChange();
+    const onContainerPointerMove = (event) => {
+      const labelElement = event.target?.closest?.('.maplibre-dom-label')
+        || document.elementFromPoint(event.clientX, event.clientY)?.closest?.('.maplibre-dom-label');
+      if (labelElement?.dataset?.layerId !== layer.id) return;
+      const feature = labelElement.__civgraphFeature;
+      if (feature) this.setHover(layer, feature);
     };
+    const onDoubleClick = (event) => {
+      event.preventDefault?.();
+      const feature = queryAtPoint(event.point, CLICK_TOLERANCE_PX)[0];
+      if (feature) this.selectFeature(layer, feature);
+    };
+    const onUpdateLabels = () => this.scheduleDomLabelRefresh(layer.id);
     const mapContainer = this.map.getContainer();
     this.map.on('mousemove', onMouseMove);
-    this.map.on('click', onClick);
+    this.map.on('dblclick', onDoubleClick);
     this.map.on('movestart', clearHover);
+    this.map.on('moveend', onUpdateLabels);
+    this.map.on('zoomend', onUpdateLabels);
+    this.map.on('idle', onUpdateLabels);
+    mapContainer.addEventListener('pointermove', onContainerPointerMove, true);
     mapContainer.addEventListener('mouseleave', clearHover);
     return () => {
       if (hoverFrame) cancelAnimationFrame(hoverFrame);
       this.map.off('mousemove', onMouseMove);
-      this.map.off('click', onClick);
+      this.map.off('dblclick', onDoubleClick);
       this.map.off('movestart', clearHover);
+      this.map.off('moveend', onUpdateLabels);
+      this.map.off('zoomend', onUpdateLabels);
+      this.map.off('idle', onUpdateLabels);
+      mapContainer.removeEventListener('pointermove', onContainerPointerMove, true);
       mapContainer.removeEventListener('mouseleave', clearHover);
     };
+  }
+
+  readFeatureId(layer, feature) {
+    const idProperty = layer?.promoteId || 'id';
+    const id = feature?.id ?? feature?.properties?.[idProperty] ?? feature?.properties?.id;
+    return id === undefined || id === null || id === '' ? null : id;
+  }
+
+  clearHover() {
+    const previous = this.hovered;
+    this.clearFeatureState(previous, 'hover');
+    this.setDomLabelHover(previous?.layerId, previous?.id, false);
+    this.hovered = null;
+    if (this.map?.getCanvas) this.map.getCanvas().style.cursor = '';
+  }
+
+  setHover(layer, feature) {
+    const id = this.readFeatureId(layer, feature);
+    if (id === null) {
+      this.clearHover();
+      return;
+    }
+    if (this.hovered?.layerId === layer.id && this.hovered.id === id) return;
+    this.clearHover();
+    const record = this.layers.get(layer.id);
+    this.hovered = {
+      layerId: layer.id,
+      sourceId: record?.sourceId,
+      sourceLayer: layer.sourceLayer,
+      id
+    };
+    this.setDomLabelHover(layer.id, id, true);
+    try {
+      this.map.setFeatureState({ source: record.sourceId, sourceLayer: layer.sourceLayer, id }, { hover: true });
+    } catch (error) {
+      console.warn('[TestMapLibreController] Could not set hover feature-state', error);
+    }
+    this.map.getCanvas().style.cursor = 'pointer';
+  }
+
+  selectFeature(layer, feature) {
+    const id = this.readFeatureId(layer, feature);
+    if (id === null) return false;
+    const record = this.layers.get(layer.id);
+    if (!record) return false;
+    this.clearFeatureState(this.selected, 'selected');
+    this.selected = {
+      layerId: layer.id,
+      sourceId: record.sourceId,
+      sourceLayer: layer.sourceLayer,
+      id,
+      properties: feature.properties
+    };
+    this.map.setFeatureState({ source: record.sourceId, sourceLayer: layer.sourceLayer, id }, { selected: true });
+    this.options.onSelection?.({ layer, feature });
+    this.notifyChange();
+    return true;
+  }
+
+  scheduleDomLabelRefresh(layerId) {
+    const record = this.layers.get(layerId);
+    if (!record || !record.config?.labelProperty || record.config.sourceType === 'raster' || record.config.sourceType === 'image') return;
+    if (record.domLabelsScheduled) return;
+    record.domLabelsScheduled = requestAnimationFrame(() => {
+      record.domLabelsScheduled = 0;
+      this.refreshDomLabels(layerId);
+    });
+  }
+
+  refreshDomLabels(layerId) {
+    const record = this.layers.get(layerId);
+    if (!record || !record.config?.labelProperty) return;
+    const layer = record.config;
+    const queryLayers = [`${layerId}-fill`, `${layerId}-line`].filter((id) => this.map.getLayer(id));
+    if (!queryLayers.length || !record.labelsEnabled || this.map.getZoom() < getLabelMinZoom(layer)) {
+      this.clearDomLabels(layerId);
+      return;
+    }
+    const features = this.map.queryRenderedFeatures({ layers: queryLayers });
+    const nextKeys = new Set();
+    const labelBoxes = [];
+    for (const feature of features) {
+      const id = this.readFeatureId(layer, feature);
+      if (id === null) continue;
+      const label = getFeatureLabel(layer, feature.properties);
+      if (!label) continue;
+      const lngLat = featureLabelLngLat(feature);
+      if (!lngLat) continue;
+      const key = String(id);
+      if (nextKeys.has(key)) continue;
+      const point = this.map.project(lngLat);
+      const box = labelCollisionBox(point, label);
+      if (labelBoxes.some((existing) => boxesOverlap(existing, box))) continue;
+      labelBoxes.push(box);
+      nextKeys.add(key);
+      let marker = record.domLabelMarkers.get(key);
+      if (!marker) {
+        marker = this.createDomLabelMarker(layer, feature, id, label);
+        record.domLabelMarkers.set(key, marker);
+      }
+      const element = marker.getElement();
+      element.__civgraphFeature = feature;
+      element.querySelector('div').textContent = label;
+      element.hidden = !record.labelsEnabled;
+      marker.setLngLat(lngLat);
+      if (!element.isConnected) marker.addTo(this.map);
+    }
+    for (const [key, marker] of record.domLabelMarkers) {
+      if (!nextKeys.has(key)) {
+        marker.remove();
+        record.domLabelMarkers.delete(key);
+      }
+    }
+  }
+
+  createDomLabelMarker(layer, feature, id, label) {
+    const labelStyle = getLabelStyle(layer);
+    const element = document.createElement('span');
+    element.className = 'map-label map-label--clickable maplibre-dom-label';
+    element.dataset.layerId = layer.id;
+    element.dataset.featureId = String(id);
+    element.__civgraphFeature = feature;
+    element.setAttribute('role', 'button');
+    element.setAttribute('tabindex', '0');
+    element.setAttribute('aria-label', `Show details for ${label}`);
+    const text = document.createElement('div');
+    text.textContent = label;
+    text.style.color = labelStyle.color;
+    text.style.fontSize = `${buildLabelTextSizeExpression(layer, this.layers.get(layer.id)?.textScale || DEFAULT_TEXT_SCALE)}px`;
+    element.appendChild(text);
+    const select = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      this.selectFeature(layer, element.__civgraphFeature || feature);
+    };
+    element.addEventListener('click', select);
+    element.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') select(event);
+    });
+    const hover = () => this.setHover(layer, element.__civgraphFeature || feature);
+    element.addEventListener('mouseenter', hover);
+    element.addEventListener('mouseover', hover);
+    element.addEventListener('pointerenter', hover);
+    element.addEventListener('mouseleave', () => this.clearHover());
+    element.addEventListener('pointerleave', () => this.clearHover());
+    return new maplibregl.Marker({ element, anchor: 'center' });
+  }
+
+  clearDomLabels(layerId) {
+    const record = this.layers.get(layerId);
+    if (!record?.domLabelMarkers) return;
+    if (record.domLabelsScheduled) {
+      cancelAnimationFrame(record.domLabelsScheduled);
+      record.domLabelsScheduled = 0;
+    }
+    for (const marker of record.domLabelMarkers.values()) marker.remove();
+    record.domLabelMarkers.clear();
+  }
+
+  setDomLabelHover(layerId, featureId, isHover) {
+    const marker = this.layers.get(layerId)?.domLabelMarkers?.get(String(featureId));
+    marker?.getElement().classList.toggle('map-label--hover', Boolean(isHover));
   }
 
   clearFeatureState(selection, key) {
@@ -680,6 +879,54 @@ export class TestMapLibreController {
 
 function isColor(value) {
   return typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value);
+}
+
+function featureLabelLngLat(feature) {
+  const props = feature?.properties || {};
+  const explicitLon = Number(props.label_lon ?? props.label_lng ?? props.lon ?? props.lng ?? props.longitude);
+  const explicitLat = Number(props.label_lat ?? props.lat ?? props.latitude);
+  if (Number.isFinite(explicitLon) && Number.isFinite(explicitLat)) return [explicitLon, explicitLat];
+  const points = [];
+  collectCoordinatePairs(feature?.geometry?.coordinates, points);
+  if (!points.length) return null;
+  let minLng = Infinity;
+  let minLat = Infinity;
+  let maxLng = -Infinity;
+  let maxLat = -Infinity;
+  for (const [lng, lat] of points) {
+    if (!Number.isFinite(lng) || !Number.isFinite(lat)) continue;
+    minLng = Math.min(minLng, lng);
+    maxLng = Math.max(maxLng, lng);
+    minLat = Math.min(minLat, lat);
+    maxLat = Math.max(maxLat, lat);
+  }
+  if (![minLng, maxLng, minLat, maxLat].every(Number.isFinite)) return null;
+  return [(minLng + maxLng) / 2, (minLat + maxLat) / 2];
+}
+
+function labelCollisionBox(point, label) {
+  const width = Math.min(Math.max(String(label).length * 7.5, 34), 150);
+  const height = Math.max(16, Math.ceil(String(label).length / 18) * 15);
+  const padding = 4;
+  return {
+    left: point.x - width / 2 - padding,
+    right: point.x + width / 2 + padding,
+    top: point.y - height / 2 - padding,
+    bottom: point.y + height / 2 + padding
+  };
+}
+
+function boxesOverlap(a, b) {
+  return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+}
+
+function collectCoordinatePairs(value, out) {
+  if (!Array.isArray(value)) return;
+  if (value.length >= 2 && typeof value[0] === 'number' && typeof value[1] === 'number') {
+    out.push([value[0], value[1]]);
+    return;
+  }
+  for (const item of value) collectCoordinatePairs(item, out);
 }
 
 function readLayerPreferences(layerId) {

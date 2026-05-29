@@ -81,6 +81,28 @@ Test2 default camera bug
     - `npm run check:test2` passed.
     - `npm run test:browser:test2` passed all 8 tests.
 
+Test2 feature label and hover parity bugs
+- [x] Ensure `/test2` renders no more than one visible label per visible feature.
+- [x] Match main-site hover semantics: light orange fill, deeper orange outline/label treatment, underlined hover label.
+- [x] Match main-site feature-card triggers where practical: label single-click and feature double-click open the top-right map-pane info card.
+- [x] Review nearby interaction discrepancies and add regression coverage.
+  - Symptom:
+    - `/test2` could show repeated labels for the same vector-tile feature, lacked main-site orange hover styling, and did not match the main site’s label-click/feature-card interaction.
+  - Root cause:
+    - `/test2` relied on native MapLibre symbol labels. Polygon features split across vector tiles can produce repeated symbol placements, and MapLibre text layers do not support the same DOM hover/click/underline behaviour as the Leaflet label markers on the main site.
+  - Permanent prevention action:
+    - Keep native MapLibre symbol labels visually hidden, render a deduplicated DOM label overlay for interactive labels, collision-suppress overlapping labels, and cover label count, hover state, label click, feature double-click, and map-pane card placement in browser tests.
+  - What I changed:
+    - Added deduplicated MapLibre DOM labels with one visible label per feature id and viewport collision suppression.
+    - Added orange feature hover layers: light orange polygon fill and deeper orange stroke/label treatment.
+    - Wired DOM label hover/click and geometry double-click into the same feature selection/info-card path as the main shell.
+    - Added route validation guardrails for DOM labels, hidden native symbols, and double-click selection wiring.
+    - Bumped `/test2` bundle cache keys from `test2-003` to `test2-004`.
+  - Verification:
+    - `npm run build:test2` passed.
+    - `npm run check:test2` passed.
+    - `npm run test:browser:test2` passed all 8 tests.
+
 Test2 parity completion pass for non-data-blocked work
 - [x] Implement MapLibre equivalents for Leaflet-only actions that are feasible without new data: opacity, label toggles, feature query, feature details, URL restore, group/variant load handling, fit/highlight, address marker, and unsupported-workflow warnings.
 - [x] Add `/test2` route validation so it cannot regress to loading Leaflet, the production bundle, or the production service worker.

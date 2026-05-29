@@ -26,6 +26,7 @@ test('/test2 boots the production shell with the MapLibre adapter', async ({ pag
   await expect(page.locator('#catalogueFlatView')).toBeVisible();
   await expect(page.locator('#map')).toBeVisible();
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
+  await page.waitForFunction(() => document.querySelectorAll('#catalogueFlatView table tr').length > 10);
   const state = await page.evaluate(() => ({
     hasMapLibre: Boolean(window.__civgraphTest2.mapController.map),
     layerCount: window.__civgraphTest2.metadataService.layers.length,
@@ -129,6 +130,83 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
   await page.goto('/test2/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await loadCivilParishes(page);
+  await expect(page.locator('.maplibre-dom-label:not([hidden])').first()).toBeVisible();
+  const labelState = await page.evaluate(() => {
+    const labels = [...document.querySelectorAll('.maplibre-dom-label:not([hidden])')];
+    return {
+      count: labels.length,
+      uniqueFeatureIds: new Set(labels.map((label) => `${label.dataset.layerId}:${label.dataset.featureId}`)).size,
+      nativeLabelOpacity: window.__civgraphTest2.mapController.map.getPaintProperty('civil-parishes-vector-test-label', 'text-opacity')
+    };
+  });
+  expect(labelState.count).toBeGreaterThan(0);
+  expect(labelState.uniqueFeatureIds).toBe(labelState.count);
+  expect(labelState.nativeLabelOpacity).toBe(0);
+
+  const firstLabel = page.locator('.maplibre-dom-label:not([hidden])').first();
+  await firstLabel.hover();
+  await expect(firstLabel).toHaveClass(/map-label--hover/);
+  const hoverState = await firstLabel.evaluate((label) => {
+    const app = window.__civgraphTest2;
+    const id = label.dataset.featureId;
+    return {
+      decoration: getComputedStyle(label.querySelector('div')).textDecorationLine,
+      fillColor: app.mapController.map.getPaintProperty('civil-parishes-vector-test-hover', 'fill-color'),
+      strokeColor: app.mapController.map.getPaintProperty('civil-parishes-vector-test-hover-line', 'line-color'),
+      featureHover: app.mapController.map.getFeatureState({
+        source: 'civil-parishes-vector-test-source',
+        sourceLayer: app.metadataService.getLayer('civil-parishes-vector-test').sourceLayer,
+        id
+      }).hover === true
+    };
+  });
+  expect(hoverState.decoration).toContain('underline');
+  expect(hoverState.fillColor).toBe('#FDBA74');
+  expect(hoverState.strokeColor).toBe('#FF7A1A');
+  expect(hoverState.featureHover).toBe(true);
+
+  await firstLabel.click();
+  await expect(page.locator('#featureInfo')).toBeVisible();
+  await expect(page.locator('#featureInfoContent')).toContainText(/Civil Parishes|Parish|Name/i);
+  const featureCardPosition = await page.evaluate(() => {
+    const mapPane = document.querySelector('.pane--map').getBoundingClientRect();
+    const card = document.getElementById('featureInfo').getBoundingClientRect();
+    return {
+      topDelta: card.top - mapPane.top,
+      rightDelta: mapPane.right - card.right
+    };
+  });
+  expect(featureCardPosition.topDelta).toBeGreaterThanOrEqual(0);
+  expect(featureCardPosition.topDelta).toBeLessThan(40);
+  expect(featureCardPosition.rightDelta).toBeGreaterThanOrEqual(0);
+  expect(featureCardPosition.rightDelta).toBeLessThan(40);
+
+  const target = await page.evaluate(() => {
+    const map = window.__civgraphTest2.mapController.map;
+    const feature = map.queryRenderedFeatures({
+      layers: ['civil-parishes-vector-test-fill'].filter((id) => map.getLayer(id))
+    })[0];
+    const coords = [];
+    const walk = (value) => {
+      if (!Array.isArray(value)) return;
+      if (value.length >= 2 && typeof value[0] === 'number' && typeof value[1] === 'number') {
+        coords.push([value[0], value[1]]);
+        return;
+      }
+      value.forEach(walk);
+    };
+    walk(feature?.geometry?.coordinates);
+    const lng = coords.reduce((sum, coord) => sum + coord[0], 0) / coords.length;
+    const lat = coords.reduce((sum, coord) => sum + coord[1], 0) / coords.length;
+    const point = map.project([lng, lat]);
+    const rect = map.getContainer().getBoundingClientRect();
+    return { x: rect.left + point.x, y: rect.top + point.y };
+  });
+  await page.locator('#featureInfoClose').click();
+  await expect(page.locator('#featureInfo')).toBeHidden();
+  await page.mouse.dblclick(target.x, target.y);
+  await expect(page.locator('#featureInfo')).toBeVisible();
+
   await page.locator('#mapControlsToggle').click();
   await expect(page.locator('#mapControlPanel')).toHaveClass(/map-control-panel--expanded/);
   await page.locator('#transparencySlider').fill('35');
@@ -139,13 +217,17 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
     return {
       lineOpacity: map.getPaintProperty('civil-parishes-vector-test-line', 'line-opacity'),
       fillOpacity: map.getPaintProperty('civil-parishes-vector-test-fill', 'fill-opacity'),
-      labelsVisibility: map.getLayoutProperty('civil-parishes-vector-test-label', 'visibility')
+      labelsVisibility: map.getLayoutProperty('civil-parishes-vector-test-label', 'visibility'),
+      domLabelsHidden: [...document.querySelectorAll('.maplibre-dom-label')].every((label) => label.hidden)
     };
   });
   expect(Number(paints.lineOpacity)).toBeCloseTo(0.65, 1);
   expect(Number(paints.fillOpacity)).toBeCloseTo(0.35, 1);
   expect(paints.labelsVisibility).toBe('none');
+  expect(paints.domLabelsHidden).toBe(true);
 
+  await page.locator('#featureInfoClose').click();
+  await expect(page.locator('#featureInfo')).toBeHidden();
   await page.locator('#activeLayersToggle').click();
   await expect(page.locator('#activeLayers')).toBeVisible();
   await expect(page.locator('#activeLayersList')).toContainText('Civil Parishes');

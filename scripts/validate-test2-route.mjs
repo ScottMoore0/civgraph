@@ -4,6 +4,8 @@ import { existsSync, readFileSync, statSync } from 'node:fs';
 const failures = [];
 const index = readFileSync('test2/index.html', 'utf8');
 const appSource = readFileSync('test2/src/app.js', 'utf8');
+const mapControllerSource = readFileSync('test/src/map-controller.js', 'utf8');
+const test2Css = readFileSync('test2/src/test2.css', 'utf8');
 
 function assert(condition, message) {
   if (!condition) failures.push(message);
@@ -23,6 +25,10 @@ assert(appSource.includes('installRouteGuard()'), '/test2 must install the hash 
 assert(appSource.includes('preserveCurrentPath'), '/test2 hash-only URL updates must preserve the current path');
 assert(appSource.includes("a[href^=\"#\"]"), '/test2 must intercept hash-only catalogue anchors under <base href="/">');
 assert(appSource.includes("params.has('lng') && params.has('lat')"), '/test2 must not treat missing viewport URL params as 0,0');
+assert(mapControllerSource.includes('maplibre-dom-label'), '/test2 must use deduplicated DOM labels for main-site label interaction parity');
+assert(mapControllerSource.includes("'text-opacity': 0"), '/test2 native MapLibre symbol labels must stay visually hidden to avoid duplicate labels');
+assert(mapControllerSource.includes("this.map.on('dblclick', onDoubleClick)"), '/test2 feature geometry selection must be wired to double-click');
+assert(test2Css.includes('.maplibre-dom-label.map-label--hover'), '/test2 DOM labels must expose hover styling');
 
 for (const path of [
   'test2/build/test2.bundle.js',
