@@ -5,10 +5,11 @@ const COLLAPSE_KEY = 'civgraph.test.catalogue.collapsed';
 const PREF_KEY = 'civgraph.test.catalogue.preferences';
 
 export class TestCatalogue {
-  constructor(els, metadataService, controller, options = {}) {
+  constructor(els, metadataService, mapEngine, options = {}) {
     this.els = els;
     this.metadataService = metadataService;
-    this.controller = controller;
+    this.mapEngine = mapEngine;
+    this.controller = mapEngine.controller || mapEngine;
     this.options = options;
     this.filteredLayers = [];
     this.featureResults = [];
@@ -252,7 +253,7 @@ export class TestCatalogue {
   renderCompactRow(layer) {
     const row = document.createElement('tr');
     const isConverted = layer.loadable !== false && layer.isConverted !== false;
-    const isLoaded = this.controller.layers.has(layer.id);
+    const isLoaded = this.mapEngine.isLoaded(layer.id);
     row.dataset.layerId = layer.id;
     row.className = `catalogue-flat__toc-row${isConverted ? '' : ' catalogue-flat__toc-row--unconverted'}${isLoaded ? ' catalogue-flat__toc-row--loaded' : ''}`;
     row.innerHTML = `
@@ -304,7 +305,7 @@ export class TestCatalogue {
 
   renderCard(layer) {
     const card = document.createElement('article');
-    const isLoaded = this.controller.layers.has(layer.id);
+    const isLoaded = this.mapEngine.isLoaded(layer.id);
     const isConverted = layer.loadable !== false && layer.isConverted !== false;
     card.className = `catalogue-card class-member${isLoaded ? ' catalogue-card--loaded' : ''}${isConverted ? '' : ' catalogue-card--unconverted'}`;
     card.dataset.layerId = layer.id;
@@ -337,8 +338,8 @@ export class TestCatalogue {
   }
 
   renderDetail(layer) {
-    const isLoaded = this.controller.layers.has(layer.id);
-    const isConverted = layer.loadable !== false && layer.isConverted !== false;
+    const isLoaded = this.mapEngine.isLoaded(layer.id);
+    const isConverted = this.mapEngine.isLoadable(layer);
     if (this.els.catalogueList) this.els.catalogueList.hidden = true;
     this.els.catalogueList?.classList.add('hidden');
     this.els.catalogue.hidden = true;
@@ -386,15 +387,13 @@ export class TestCatalogue {
       if (action === 'detail') return this.showDetail(layer.id);
       if (action === 'home') return this.showHome();
       if (action === 'load') {
-        if (layer.loadable === false || layer.isConverted === false) return;
-        await this.controller.loadLayer(layer);
+        await this.mapEngine.load(layer);
       }
       if (action === 'fit') {
-        if (this.controller.layers.has(layer.id)) this.controller.fitToLayer(layer.id);
-        else if (layer.bounds) this.controller.fitToBounds(layer.bounds);
+        this.mapEngine.fit(layer);
       }
-      if (action === 'copy') await copyLayerShare(layer, this.controller);
-      if (action === 'unload') this.controller.unloadLayer(layer.id);
+      if (action === 'copy') await this.mapEngine.copyShareUrl(layer);
+      if (action === 'unload') this.mapEngine.unload(layer.id);
       this.options.onLayerStateChange?.();
       this.render();
     } catch (err) {
@@ -559,7 +558,7 @@ export class TestCatalogue {
     try {
       const layer = this.metadataService.getLayer(result.layerId);
       if (!layer) return;
-      await this.controller.loadLayer(layer);
+      await this.mapEngine.load(layer);
       if (Array.isArray(result.center)) {
         this.controller.map.flyTo({ center: result.center, zoom: Math.max(this.controller.map.getZoom(), 11), duration: 250 });
       }
@@ -876,18 +875,6 @@ function formatProvider(provider) {
 
 function formatCompactPlace(layer) {
   return layer.place || layer.coverage || layer.region || formatProvider(layer.provider) || layer.category || '';
-}
-
-async function copyLayerShare(layer, controller) {
-  const url = new URL(location.href);
-  if (layer.loadable === false || layer.isConverted === false) {
-    url.hash = `catalogue=${encodeURIComponent(layer.id)}`;
-  } else {
-    const layers = new Set(controller.layers.keys());
-    layers.add(layer.id);
-    url.hash = `layers=${[...layers].join(',')}`;
-  }
-  await navigator.clipboard.writeText(url.toString());
 }
 
 function readCollapsed() {

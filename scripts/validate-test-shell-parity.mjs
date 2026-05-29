@@ -17,7 +17,6 @@ const checks = [
       'catalogueHome',
       'catalogueView',
       'catalogueSort',
-      'catalogueFilters',
       'searchInput',
       'searchClear',
       'categoryPills',
@@ -71,7 +70,7 @@ const checks = [
     required: [
       'groupByGroupAndCategory',
       'renderDetail',
-      'copyLayerShare',
+      'mapEngine.copyShareUrl',
       'applyHashState',
       'writeCatalogueHash',
       'renderFilters',
@@ -279,7 +278,22 @@ const testIndex = await readFile('test/index.html', 'utf8');
 for (const forbidden of ['MapLibre rewrite', 'MapLibre Test</a>', 'class="test-header"']) {
   if (testIndex.includes(forbidden)) failures.push(`test/index.html: should not expose separate test shell marker ${forbidden}`);
 }
-for (const requiredShell of ['<body id="testApp" class="app-shell test-shell"', '<header class="app-header"', 'class="app-main test-main"', 'class="pane pane--info test-sidebar"', 'class="pane pane--map test-map-wrap"', 'class="catalogue-sticky-shell"', 'map-controls-toggle', 'map-control-panel']) {
+for (const requiredShell of [
+  '<body id="testApp" class="app-shell test-shell"',
+  '<link rel="stylesheet" href="/build/main.critical.css',
+  '<link rel="stylesheet" href="/build/main.css',
+  '<header class="app-header"',
+  'class="app-header__link app-header__link--active"',
+  'class="app-main test-main"',
+  'class="pane pane--info"',
+  'class="pane pane--map"',
+  'class="pane-tabs"',
+  'class="catalogue-sticky-shell"',
+  'id="catalogueViewToggle"',
+  'id="mapControlPanel"',
+  'map-controls-toggle',
+  'map-control-panel'
+]) {
   if (!testIndex.includes(requiredShell)) failures.push(`test/index.html: missing main-shell parity structure ${requiredShell}`);
 }
 

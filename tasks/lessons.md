@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 113) Shell parity means shared shell assets and an engine boundary, not only similar markup
+- Mistake pattern: Repeated `/test` shell passes kept approximating the main navbar/catalogue with test-owned HTML/CSS/controllers, so visual and behavioural drift persisted even when structural checks passed.
+- Impact: The user still saw obvious differences and had to restate that `/test` should be the main site shell with only the map engine swapped.
+- Guardrail:
+  1) `/test` must load the production shell CSS and use the production visible shell contract for navbar, catalogue, split panes, and map controls,
+  2) MapLibre-specific behaviour must sit behind a shell engine adapter instead of changing the catalogue's public workflow,
+  3) parity checks must assert production CSS loading, main shell IDs/classes, and a real MapLibre layer load in the same verification pass.
+
 ### 112) Shell parity tests must prove the real map workflow, not only structural proxies
 - Mistake pattern: I changed `/test` to satisfy newly added shell/parity assertions while the assertions only checked DOM classes, widths, and screenshots, not that the MapLibre map could still initialize, load a layer, render tiles, and accept interaction in the changed shell.
 - Impact: The UI could pass visual/static/browser guardrails while still being visibly misaligned with the main site and while the interactive map regressed for the user.

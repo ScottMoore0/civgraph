@@ -4,13 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <title>Civgraph Test - MapLibre Rewrite</title>
-  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-019">
+  <title>Civgraph</title>
+  <link rel="stylesheet" href="/build/main.critical.css?v=27">
+  <link rel="stylesheet" href="/build/main.css?v=27">
+  <link rel="stylesheet" href="/test/build/test.bundle.css?v=test-020">
 </head>
 <body id="testApp" class="app-shell test-shell" data-split-state="balanced">
   <div id="announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
   <a href="#main-content" class="visually-hidden">Skip to main content</a>
-  <a href="#testSidebar" class="visually-hidden">Skip to catalogue</a>
   <a href="#map" class="visually-hidden">Skip to map</a>
   <header class="app-header">
       <a href="/" class="app-header__brand" aria-label="Civgraph home">
@@ -18,7 +19,7 @@
         <span class="app-header__wordmark">Civgraph</span>
       </a>
       <nav class="app-header__nav" aria-label="Main navigation">
-        <a href="/" class="app-header__link">Home</a>
+        <a href="/" class="app-header__link app-header__link--active">Home</a>
         <a href="/pages/about.html" class="app-header__link">About</a>
         <button type="button" id="supportBtn" class="support-btn" title="Support Civgraph" aria-keyshortcuts="?">
           <svg class="support-btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
@@ -42,18 +43,22 @@
           <path d="M7 10l5 5 5-5z"></path>
         </svg>
       </button>
-      <div id="mobileMenu" class="mobile-menu hidden" role="menu" aria-label="Mobile navigation">
-        <a href="/" class="mobile-menu__link" role="menuitem">Home</a>
-        <a href="/pages/about.html" class="mobile-menu__link" role="menuitem">About</a>
+      <div id="mobileMenu" class="mobile-menu hidden">
+        <a href="/" class="mobile-menu__link">Home</a>
+        <a href="/pages/about.html" class="mobile-menu__link">About</a>
       </div>
   </header>
 
   <main id="main-content" class="app-main test-main">
-      <aside id="testSidebar" class="pane pane--info test-sidebar" aria-label="Map catalogue and information">
+      <aside id="testSidebar" class="pane pane--info" aria-label="Map catalogue and information">
+        <div class="pane-tabs" role="tablist" hidden>
+          <button class="pane-tab pane-tab--active" data-tab="catalogue" role="tab" aria-selected="true" hidden>Catalogue</button>
+          <button class="pane-tab" data-tab="elections" role="tab" aria-selected="false" hidden>Elections</button>
+          <button class="pane-tab" data-tab="tables" role="tab" aria-selected="false" hidden>Tables</button>
+          <button class="pane-tab" data-tab="explore" role="tab" aria-selected="false" hidden>Explore</button>
+        </div>
         <div class="pane__content pane-tab-content" data-tab-content="catalogue">
-          <section class="catalogue-shell-panel" data-panel="search" aria-labelledby="panelSearchTitle">
-            <h2 id="panelSearchTitle" class="visually-hidden">Search</h2>
-            <div class="catalogue-sticky-shell">
+          <div class="catalogue-sticky-shell">
           <div class="search-input">
             <svg class="search-input__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <circle cx="11" cy="11" r="8"></circle>
@@ -63,49 +68,44 @@
             <input id="searchInput" class="test-search search-input__field" type="search" autocomplete="off" placeholder="Search maps or addresses..." aria-keyshortcuts="/">
             <button type="button" id="searchClear" class="search-clear" aria-label="Clear search" title="Clear search">&times;</button>
           </div>
-          <div class="catalogue-nav" aria-label="Catalogue navigation">
-            <button type="button" id="catalogueBack" class="btn btn--icon btn--sm panel-action panel-action--icon" title="Back" aria-label="Back" disabled>
+          <div id="catalogueNav" class="catalogue-nav">
+            <button type="button" id="catalogueBack" class="btn btn--icon btn--sm" title="Back" disabled>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="M19 12H5M12 19l-7-7 7-7"></path>
               </svg>
             </button>
-            <button type="button" id="catalogueForward" class="btn btn--icon btn--sm panel-action panel-action--icon" title="Forward" aria-label="Forward" disabled>
+            <button type="button" id="catalogueForward" class="btn btn--icon btn--sm" title="Forward" disabled>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="M5 12h14M12 5l7 7-7 7"></path>
               </svg>
             </button>
-            <button type="button" id="catalogueHistory" class="btn btn--icon btn--sm panel-action panel-action--icon" title="History" aria-label="History" aria-expanded="false" aria-controls="catalogueHistoryPanel">
+            <button type="button" id="catalogueHistory" class="btn btn--icon btn--sm" title="History" aria-expanded="false" aria-controls="catalogueHistoryPanel">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <circle cx="12" cy="12" r="10"></circle>
                 <polyline points="12 6 12 12 16 14"></polyline>
               </svg>
             </button>
-            <button type="button" id="catalogueHome" class="btn btn--icon btn--sm panel-action panel-action--icon" title="Back to list" aria-label="Back to list">
+            <button type="button" id="catalogueHome" class="btn btn--icon btn--sm" title="Back to List" aria-label="Back to List">
               <span class="catalogue-home__icon" aria-hidden="true"></span>
             </button>
           </div>
-        </div>
-            <div id="filterStats" class="filter-stats catalogue-stats" aria-live="polite" hidden></div>
-            <details class="catalogue-filter-drawer" hidden>
-              <summary>Filters</summary>
-              <div id="catalogueFilters" class="catalogue-filters" aria-label="Catalogue filters">
-                <div class="category-pills-container">
-                  <div id="categoryPills" class="category-pills" role="group" aria-label="Filter by category"></div>
-                </div>
-                <div class="provider-pills-container">
-                  <div class="provider-pills-label">Filter by Provider</div>
-                  <div id="providerPills" class="category-pills" role="group" aria-label="Filter by provider category"></div>
-                </div>
-              </div>
-            </details>
-            <div id="featureResults" class="feature-results" aria-live="polite"></div>
-          </section>
+          </div>
 
-          <section class="catalogue-main-panel" data-panel="catalogue" aria-labelledby="panelCatalogueTitle">
-            <h2 id="panelCatalogueTitle" class="visually-hidden">Catalogue</h2>
-            <div id="catalogueDetailView" class="catalogue-detail hidden" hidden></div>
-            <div id="catalogueListView">
-              <div class="catalogue-toolbar catalogue-toolbar--advanced" aria-label="Catalogue display controls" hidden>
+          <div id="catalogueDetailView" class="catalogue-detail hidden" hidden></div>
+
+          <div id="catalogueListView">
+            <div id="filterStats" class="filter-stats" hidden>Showing all maps</div>
+            <div id="addressResults" class="address-results hidden"></div>
+            <div id="featureResults" class="feature-results" aria-live="polite"></div>
+            <div class="category-pills-container">
+              <div id="categoryPills" class="category-pills" role="group" aria-label="Filter by category"></div>
+            </div>
+            <div class="provider-pills-container">
+              <div class="provider-pills-label">Filter by Provider</div>
+              <div id="providerPills" class="category-pills" role="group" aria-label="Filter by provider category"></div>
+            </div>
+            <div class="catalogue-view-toggle hidden" id="catalogueViewToggle" aria-hidden="true"></div>
+            <div class="catalogue-toolbar catalogue-toolbar--advanced" aria-label="Catalogue display controls" hidden>
                 <label>
                   View
                   <select id="catalogueView">
@@ -125,21 +125,24 @@
                     <option value="status">Status</option>
                   </select>
                 </label>
-              </div>
-            <div id="catalogueHistoryPanel" class="catalogue-history hidden" aria-label="Catalogue history"></div>
-              <div id="catalogueFlatView" class="catalogue-list catalogue-flat-view" aria-live="polite"></div>
-              <div id="errorContainer" class="hidden" role="alert"></div>
             </div>
-          </section>
+            <div id="catalogueHistoryPanel" class="catalogue-history hidden" aria-label="Catalogue history"></div>
+            <div id="catalogueFlatView" class="catalogue-flat-view" aria-live="polite"></div>
+            <div id="errorContainer" class="hidden" role="alert"></div>
+          </div>
         </div>
+
+        <div class="pane__content pane-tab-content pane-tab-content--hidden" data-tab-content="elections" hidden></div>
+        <div class="pane__content pane-tab-content pane-tab-content--hidden" data-tab-content="tables" hidden></div>
+        <div class="pane__content pane-tab-content pane-tab-content--hidden" data-tab-content="explore" hidden></div>
       </aside>
 
       <div class="split-drag" role="separator" aria-orientation="vertical" aria-label="Resize catalogue and map panes">
         <span class="split-drag__handle" aria-hidden="true"></span>
       </div>
 
-      <section class="pane pane--map test-map-wrap" aria-label="Interactive map">
-        <div id="map" class="test-map" role="application" aria-label="MapLibre test map" aria-describedby="mapInstructions">
+      <section class="pane pane--map" aria-label="Interactive map">
+        <div id="map" role="application" aria-label="Interactive map" aria-describedby="mapInstructions">
           <button type="button" id="activeLayersToggle" class="active-layers-toggle" aria-expanded="false" title="Active Layers" aria-label="Active Layers">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
               <path d="M7 10l5 5 5-5z"></path>
@@ -156,10 +159,17 @@
                 <text x="13" y="18" font-size="10" font-weight="bold" fill="currentColor" stroke="none">a</text>
               </svg>
             </button>
-            <div class="map-control-panel map-tools map-control-panel--collapsed" id="mapTools" aria-hidden="true">
-              <div class="map-control-panel__footer map-tools__header">
-                <strong>Map settings</strong>
-                <button type="button" id="mapControlsClose" class="map-controls-toggle" title="Close settings" aria-label="Close settings">Close</button>
+            <div id="mapControlPanel" class="map-control-panel map-control-panel--collapsed" aria-hidden="true">
+              <div class="control-group mb-3">
+                <label class="control-label" for="baseMapSelect">Base Map</label>
+                <select id="baseMapSelect" class="control-select">
+                  <option value="osm-standard" selected>OpenStreetMap</option>
+                  <option value="cartodb-dark">CartoDB Dark</option>
+                  <option value="cartodb-voyager">CartoDB Voyager</option>
+                </select>
+              </div>
+              <div class="map-control-panel__footer">
+                <button type="button" id="mapControlsClose" class="btn btn--sm" title="Close settings" aria-label="Close settings">Close</button>
               </div>
               <div class="map-tools__content">
             <section class="test-panel test-panel--secondary" data-panel="active" aria-labelledby="panelActiveTitle">
@@ -280,7 +290,7 @@
     </div>
   </div>
 
-  <script type="module" src="/test/build/test.bundle.js?v=test-019"></script>
+  <script type="module" src="/test/build/test.bundle.js?v=test-020"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {

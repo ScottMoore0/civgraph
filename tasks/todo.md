@@ -1,3 +1,28 @@
+Structural main-shell refactor for `/test`
+- [x] Load the same main shell CSS and visible shell markup on `/test`
+- [x] Introduce a MapLibre shell engine bridge so catalogue actions target MapLibre behind a main-style interface
+- [x] Remove remaining default-visible `/test` UI identity from navbar/catalogue/map controls
+- [x] Keep `/test`-only diagnostics/preferences available as advanced map-panel content, not as shell structure
+- [x] Strengthen parity guardrails for exact shell classes, main CSS loading, and real MapLibre layer loading
+- [x] Build and run `/test` static, browser, visual, and main guardrails
+- [x] Record verification and remaining limits
+  - What I changed:
+    - `/test` now links the production shell CSS (`/build/main.critical.css` and `/build/main.css`) before the scoped test bundle.
+    - Reworked the visible `/test` DOM toward the production shell contract: active Home nav state, direct main pane structure, production catalogue sticky shell/list/detail IDs, hidden legacy pane placeholders, and the production `mapControlPanel` map-control ID.
+    - Added `test/src/map-engine.js` as a MapLibre shell-engine bridge; the catalogue now calls `load`, `fit`, `unload`, and share-copy methods through that boundary instead of talking directly to MapLibre controller internals.
+    - Kept test-only diagnostics, source panels, feature panels, and preferences inside the advanced map settings panel rather than the default catalogue surface.
+    - Bumped `/test` bundle and service-worker cache versions to `test-020`/`test-v20`.
+    - Tightened the shell parity guardrail to assert production shell CSS loading and the main shell/control contract.
+  - Verification:
+    - `npm run build:test` passed.
+    - `npm run check:test` passed with only the known warning-only large-tile/local-fallback findings.
+    - `npm run test:browser:test` passed all 15 tests, including a real MapLibre vector-layer render.
+    - `npm run test:visual:test` passed: main/test header height 64px, catalogue width 683px, map visible, main pane structure detected, no `/test` product header, and compact table catalogue detected.
+    - `npm run check` passed the production chunked-map guardrails.
+  - Remaining limits:
+    - This is now a structural shell refactor with a MapLibre engine boundary, but full data parity is still limited by maps that are not converted to MapLibre-compatible sources.
+    - Advanced MapLibre diagnostics/preferences are intentionally not identical to the main Leaflet control panel because those are renderer-specific operational tools.
+
 Full main shell replacement for `/test`
 - [x] Replace the remaining `/test`-specific map tools shell with the main map-pane control shell
 - [x] Keep MapLibre mounted in the main map container and keep test diagnostics/source/preferences accessible as advanced controls

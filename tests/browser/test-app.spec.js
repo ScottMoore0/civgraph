@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const AxeBuilder = require('@axe-core/playwright').default;
 
 async function openMapTools(page) {
-  await page.locator('#mapTools').evaluate((node) => {
+  await page.locator('#mapControlPanel').evaluate((node) => {
     node.classList.remove('map-control-panel--collapsed');
     node.setAttribute('aria-hidden', 'false');
     document.getElementById('mapControlsToggle')?.setAttribute('aria-expanded', 'true');
@@ -17,7 +17,7 @@ test('/test shell starts with main navigation and diagnostics', async ({ page })
   await expect(page.getByRole('link', { name: 'MapLibre Test', exact: true })).toHaveCount(0);
   await expect(page.locator('#map')).toBeVisible();
   await openMapTools(page);
-  await expect(page.locator('#diagnostics')).toContainText('test-019');
+  await expect(page.locator('#diagnostics')).toContainText('test-020');
   await expect(page.locator('#diagnostics')).toContainText('Production Readiness');
   await expect(page.locator('#diagnostics')).toContainText('CI guardrails');
   await expect(page.locator('#diagnostics')).toContainText('Deployment Discipline');
@@ -102,11 +102,11 @@ test('/test supports keyboard shortcuts and accessibility smoke flow', async ({ 
   await expect(page.locator('body')).toHaveClass(/test-sidebar-open/);
   await page.locator('#map').click();
   await page.keyboard.press('s');
-  await expect(page.locator('#mapTools')).not.toHaveClass(/map-control-panel--collapsed/);
+  await expect(page.locator('#mapControlPanel')).not.toHaveClass(/map-control-panel--collapsed/);
   await expect(page.locator('#sourceFilter')).toBeFocused();
   await page.evaluate(() => document.activeElement?.blur?.());
   await page.keyboard.press('d');
-  await expect(page.locator('#mapTools')).not.toHaveClass(/map-control-panel--collapsed/);
+  await expect(page.locator('#mapControlPanel')).not.toHaveClass(/map-control-panel--collapsed/);
   await expect(page.locator('#diagnosticsSeverity')).toBeFocused();
   await page.evaluate(() => document.activeElement?.blur?.());
   await page.keyboard.press('?');

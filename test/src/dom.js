@@ -28,7 +28,7 @@ export function getElements() {
     mapSearchClear: byId('searchClear', 'mapSearchClear'),
     mapControlsClose: document.getElementById('mapControlsClose'),
     mapControlsToggle: document.getElementById('mapControlsToggle'),
-    mapTools: document.getElementById('mapTools'),
+    mapTools: byId('mapControlPanel', 'mapTools'),
     mobileMenuSupport: document.getElementById('mobileMenuSupport'),
     mobileMenuTheme: document.getElementById('mobileMenuTheme'),
     mobileMenu: document.getElementById('mobileMenu'),

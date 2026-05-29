@@ -3,6 +3,7 @@ import './styles.css';
 
 import { getElements } from './dom.js';
 import { TestMapLibreController } from './map-controller.js';
+import { MapLibreShellEngine } from './map-engine.js';
 import { TestMetadataService } from './metadata-service.js';
 import { TestCatalogue } from './catalogue-controller.js';
 import { renderActiveLayers } from './active-layers.js';
@@ -95,6 +96,7 @@ async function main() {
     }
   });
   controller.init();
+  const mapEngine = new MapLibreShellEngine(controller);
   setupThemeToggle(els);
   setupSupportModal(els);
   setupPanelState(els);
@@ -206,7 +208,7 @@ async function main() {
   conditionalStyling = new ConditionalStylingController(controller);
   elections = new ElectionService(metadataService, conditionalStyling);
 
-  catalogue = new TestCatalogue(els, metadataService, controller, {
+  catalogue = new TestCatalogue(els, metadataService, mapEngine, {
     onLayerStateChange: () => {
       renderActiveLayers(els, controller, { onRendered: renderDiagnostics, conditionalStyling });
       urlState?.write();
