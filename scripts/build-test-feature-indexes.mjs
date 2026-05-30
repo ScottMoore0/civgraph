@@ -11,14 +11,21 @@ import { spawnSync } from 'node:child_process';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
+const ONLY_IDS = new Set(readArgList('--ids'));
+const MAX_INDEX_ITEMS = readNumberArg('--max-items', 20000);
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
-const layers = (metadata.layers || []).filter((layer) => layer.featureIndexUrl && layer.sourceFile);
+const layers = (metadata.layers || [])
+  .filter((layer) => layer.featureIndexUrl && layer.sourceFile)
+  .filter((layer) => !ONLY_IDS.size || ONLY_IDS.has(layer.id) || ONLY_IDS.has(layer.sourceMapId));
 let built = 0;
 let skipped = 0;
 const outputRoot = resolve(ROOT, 'test/metadata/feature-indexes');
 if (existsSync(outputRoot)) {
   for (const entry of readdirSync(outputRoot, { withFileTypes: true })) {
-    if (entry.isFile() && entry.name.endsWith('.json')) rmSync(resolve(outputRoot, entry.name), { force: true });
+    if (!entry.isFile() || !entry.name.endsWith('.json')) continue;
+    if (!ONLY_IDS.size || layers.some((layer) => entry.name === basename(layer.featureIndexUrl))) {
+      rmSync(resolve(outputRoot, entry.name), { force: true });
+    }
   }
 }
 
@@ -50,11 +57,8 @@ for (const layer of layers) {
   }
   const propertyColumns = unique([effectiveIdProperty, ...nameProperties])
     .map((key) => `${quoteSqlIdentifier(key)} AS ${quoteSqlIdentifier(key)}`);
-  const columns = [
-    ...propertyColumns,
-    'ST_X(ST_Centroid(geometry)) AS lon',
-    'ST_Y(ST_Centroid(geometry)) AS lat'
-  ].join(',');
+  const columns = featureIndexColumns(layer, propertyColumns);
+  const where = featureIndexWhere(layer);
   const result = spawnSync('ogr2ogr', [
     '-f', 'CSV',
     '/vsistdout/',
@@ -62,7 +66,7 @@ for (const layer of layers) {
     '-dialect',
     'SQLite',
     '-sql',
-    `SELECT ${columns} FROM ${quoteSqlIdentifier(sourceLayerName)}`
+    `SELECT ${columns} FROM ${quoteSqlIdentifier(sourceLayerName)}${where}`
   ], {
     cwd: ROOT,
     encoding: 'utf8',
@@ -76,7 +80,7 @@ for (const layer of layers) {
   const items = rows
     .map((row) => Object.fromEntries(header.map((key, index) => [key, row[index]])))
     .map((props, index) => {
-      const name = nameProperties.map((key) => props[key]).find(Boolean) || String(props[idProperty] || '');
+      const name = nameProperties.map((key) => props[key]).find(Boolean) || fallbackFeatureName(layer, props, index);
       const lon = Number(props.lon);
       const lat = Number(props.lat);
       return {
@@ -87,8 +91,15 @@ for (const layer of layers) {
       };
     })
     .filter((item) => item.id !== undefined && item.name);
-  writeFileSync(indexPath, `${JSON.stringify({ layerId: layer.id, items }, null, 2)}\n`);
-  console.log(`${layer.id}: ${items.length} searchable features`);
+  const cappedItems = items.slice(0, MAX_INDEX_ITEMS);
+  writeFileSync(indexPath, `${JSON.stringify({
+    layerId: layer.id,
+    itemLimit: MAX_INDEX_ITEMS,
+    totalItems: items.length,
+    truncated: items.length > cappedItems.length,
+    items: cappedItems
+  })}\n`);
+  console.log(`${layer.id}: ${cappedItems.length}${items.length > cappedItems.length ? ` of ${items.length}` : ''} searchable features`);
   built += 1;
 }
 
@@ -96,6 +107,40 @@ console.log(`Built ${built} feature index(es); skipped ${skipped}.`);
 
 function guessNameProperties(properties) {
   return properties.filter((key) => /name|label|title|english|gaeilge|irish|county|sett|lea|district|division|region/i.test(key));
+}
+
+function featureIndexColumns(layer, propertyColumns) {
+  if (layer.sourceMapId === 'dcc-dcc-public-cycle-parking-stands') {
+    return [
+      ...propertyColumns,
+      'Latitude AS lon',
+      'Longitude AS lat'
+    ].join(',');
+  }
+  return [
+    ...propertyColumns,
+    'ST_X(ST_Centroid(geometry)) AS lon',
+    'ST_Y(ST_Centroid(geometry)) AS lat'
+  ].join(',');
+}
+
+function featureIndexWhere(layer) {
+  if (layer.sourceMapId === 'dcc-dcc-public-cycle-parking-stands') {
+    return ' WHERE Latitude BETWEEN -11 AND -4 AND Longitude BETWEEN 51 AND 56';
+  }
+  return '';
+}
+
+function fallbackFeatureName(layer, props, index) {
+  if (layer.sourceMapId === 'dcc-dcc-public-cycle-parking-stands') {
+    const lon = Number(props.lon);
+    const lat = Number(props.lat);
+    const suffix = Number.isFinite(lon) && Number.isFinite(lat)
+      ? ` (${lat.toFixed(5)}, ${lon.toFixed(5)})`
+      : '';
+    return `Cycle parking stand ${index + 1}${suffix}`;
+  }
+  return String(props[layer.idProperty || layer.promoteId || 'id'] || '');
 }
 
 function getSourceInfo(sourcePath) {
@@ -127,6 +172,27 @@ function chooseIdProperty(fields) {
 
 function layerNameFromSource(source) {
   return basename(source).replace(extname(source), '');
+}
+
+function readArgList(name) {
+  const values = [];
+  for (let index = 0; index < process.argv.length; index += 1) {
+    const arg = process.argv[index];
+    if (arg === name && process.argv[index + 1]) {
+      values.push(...process.argv[index + 1].split(','));
+      index += 1;
+    } else if (arg.startsWith(`${name}=`)) {
+      values.push(...arg.slice(name.length + 1).split(','));
+    }
+  }
+  return values.map((value) => value.trim()).filter(Boolean);
+}
+
+function readNumberArg(name, fallback) {
+  const index = process.argv.indexOf(name);
+  if (index < 0) return fallback;
+  const value = Number(process.argv[index + 1]);
+  return Number.isFinite(value) && value > 0 ? value : fallback;
 }
 
 function parseCsv(text) {

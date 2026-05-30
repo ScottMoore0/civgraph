@@ -4,9 +4,11 @@
   "testMetadata": "test/metadata/maps-test.json",
   "totals": {
     "total": 901,
-    "converted": 712,
-    "needsVectorTileConversion": 37,
-    "metadataOnly": 152
+    "converted": 749,
+    "convertedDirect": 747,
+    "convertedComposite": 2,
+    "needsVectorTileConversion": 1,
+    "metadataOnly": 151
   },
   "rows": [
     {
@@ -1075,10 +1077,19 @@
         "IHO",
         "Scott Moore"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "britain-ireland-seas-vector-test",
+      "bounds": [
+        [
+          46.5005658,
+          -16.0954192
+        ],
+        [
+          61.6447265,
+          12.0059423
+        ]
+      ],
       "style": {
         "color": "#0000FF",
         "fillColor": null,
@@ -1115,10 +1126,19 @@
         "OSNI",
         "OSi"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "ireland-island-vector-test",
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.4327895
+        ]
+      ],
       "style": {
         "color": "#228B22",
         "fillColor": null,
@@ -3582,9 +3602,9 @@
         "OSNI",
         "OSI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "convertedComposite",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "composite:ni-townlands,roi-townlands",
       "bounds": [
         [
           51.419897,
@@ -12365,9 +12385,9 @@
         "OSI",
         "OSM"
       ],
-      "conversionStatus": "metadataOnly",
+      "conversionStatus": "convertedComposite",
       "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "testLayerId": "composite:eds-connacht-1926,eds-leinster-1926,eds-munster-1926,eds-ulster-1926,deds-ni-1926",
       "bounds": null,
       "style": {
         "color": "#CD853F",
@@ -12379,7 +12399,7 @@
       "references": [],
       "sourceDownloads": [],
       "variants": 5,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "eds-connacht-1926",
@@ -14170,10 +14190,19 @@
       "sourceCredits": [
         "OSNI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "ni-1921-vector-test",
+      "bounds": [
+        [
+          54.0227244,
+          -8.1775025
+        ],
+        [
+          55.3129843,
+          -5.4327894
+        ]
+      ],
       "style": {
         "color": "#000080",
         "fillColor": null,
@@ -14208,10 +14237,19 @@
       "sourceCredits": [
         "OSI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "roi-1938-vector-test",
+      "bounds": [
+        [
+          51.4199027,
+          -10.5803779
+        ],
+        [
+          55.3829318,
+          -5.9945041
+        ]
+      ],
       "style": {
         "color": "#169B62",
         "fillColor": null,
@@ -19082,10 +19120,19 @@
       "sourceCredits": [
         "Historic Maps"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "historic-bullaun-stones-vector-test",
+      "bounds": [
+        [
+          51.47832,
+          -10.43896
+        ],
+        [
+          55.433,
+          -5.58733
+        ]
+      ],
       "style": {
         "color": "#8b5e3c",
         "fillColor": null,
@@ -19129,10 +19176,19 @@
       "sourceCredits": [
         "Historic Maps"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "historic-crannog-vector-test",
+      "bounds": [
+        [
+          51.60709,
+          -10.05118
+        ],
+        [
+          55.26959,
+          -5.50617
+        ]
+      ],
       "style": {
         "color": "#7f5539",
         "fillColor": null,
@@ -19176,10 +19232,19 @@
       "sourceCredits": [
         "Historic Maps"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "historic-ringfort-cashel-vector-test",
+      "bounds": [
+        [
+          51.45008,
+          -10.44832
+        ],
+        [
+          55.28635,
+          -5.68563
+        ]
+      ],
       "style": {
         "color": "#b5651d",
         "fillColor": null,
@@ -19223,10 +19288,19 @@
       "sourceCredits": [
         "Historic Maps"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "historic-ringfort-rath-vector-test",
+      "bounds": [
+        [
+          51.43459,
+          -10.54205
+        ],
+        [
+          55.38096,
+          -5.46899
+        ]
+      ],
       "style": {
         "color": "#a45a52",
         "fillColor": null,
@@ -19270,10 +19344,19 @@
       "sourceCredits": [
         "Historic Maps"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "historic-ringfort-unclassified-vector-test",
+      "bounds": [
+        [
+          51.56485,
+          -10.12056
+        ],
+        [
+          55.31137,
+          -6.07542
+        ]
+      ],
       "style": {
         "color": "#9c6644",
         "fillColor": null,
@@ -19317,10 +19400,19 @@
       "sourceCredits": [
         "Historic Maps"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "historic-rock-scribing-vector-test",
+      "bounds": [
+        [
+          51.4727,
+          -10.53881
+        ],
+        [
+          55.27693,
+          -6.11532
+        ]
+      ],
       "style": {
         "color": "#6d597a",
         "fillColor": null,
@@ -19364,10 +19456,19 @@
       "sourceCredits": [
         "Historic Maps"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "historic-standing-stones-vector-test",
+      "bounds": [
+        [
+          51.43066,
+          -10.54161
+        ],
+        [
+          55.38336,
+          -5.45941
+        ]
+      ],
       "style": {
         "color": "#9a8c98",
         "fillColor": null,
@@ -19411,10 +19512,19 @@
       "sourceCredits": [
         "Historic Maps"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "historic-wedge-tomb-vector-test",
+      "bounds": [
+        [
+          51.46271,
+          -10.44919
+        ],
+        [
+          55.29434,
+          -6.15167
+        ]
+      ],
       "style": {
         "color": "#774936",
         "fillColor": null,
@@ -19522,10 +19632,19 @@
       "sourceCredits": [
         "OSNI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "transport-lines-road-rail-vector-test",
+      "bounds": [
+        [
+          54.0273667,
+          -8.1730751
+        ],
+        [
+          55.2997368,
+          -5.4359642
+        ]
+      ],
       "style": {
         "color": "#4a5568",
         "fillColor": null,
@@ -27470,10 +27589,19 @@
         "DAERA",
         "NIEA"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "wq-agricultural-critical-risk-vector-test",
+      "bounds": [
+        [
+          54.0297884,
+          -8.1749509
+        ],
+        [
+          55.3103529,
+          -5.4333504
+        ]
+      ],
       "style": {
         "color": "#888888",
         "fillColor": null,
@@ -27669,17 +27797,17 @@
         "DfI",
         "Roads NI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "transport-carriageway-defects-2021-vector-test",
       "bounds": [
         [
-          54,
-          -8.3
+          54.0324722,
+          -8.1585901
         ],
         [
-          55.5,
-          -5.3
+          55.2991129,
+          -5.438019
         ]
       ],
       "style": {
@@ -28531,10 +28659,10 @@
       "bounds": [
         [
           54.0184519,
-          -8.202086
+          -8.2022696
         ],
         [
-          55.30894,
+          55.3089826,
           -5.4383929
         ]
       ],
@@ -29179,10 +29307,19 @@
       "sourceCredits": [
         "Ulster Wildlife"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "habitat-river-vector-test",
+      "bounds": [
+        [
+          54.0122177,
+          -8.2045567
+        ],
+        [
+          55.3142984,
+          -5.4599407
+        ]
+      ],
       "style": {
         "color": "#3a3a3a",
         "fillColor": "#4F89AE",
@@ -29394,10 +29531,19 @@
       "sourceCredits": [
         "Ulster Wildlife"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "habitat-woodland-grouped-vector-test",
+      "bounds": [
+        [
+          54.0184519,
+          -8.2022696
+        ],
+        [
+          55.3089826,
+          -5.4383929
+        ]
+      ],
       "style": {
         "color": "#3a3a3a",
         "fillColor": "#3F8D45",
@@ -30497,17 +30643,17 @@
       "sourceCredits": [
         "Office of Public Works"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "opw-nifm-river-flood-extents-current-vector-test",
       "bounds": [
         [
-          51.4,
-          -10.75
+          51.4799355,
+          -10.4635791
         ],
         [
-          55.5,
-          -5.4
+          55.3600108,
+          -6.0303749
         ]
       ],
       "style": {
@@ -32222,17 +32368,17 @@
       "sourceCredits": [
         "Department of Housing, Local Government and Heritage"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "roi-national-planning-applications-vector-test",
       "bounds": [
         [
-          51.4,
-          -10.5
+          51.4306495,
+          -10.4674118
         ],
         [
-          55.4,
-          -5.75
+          55.3784293,
+          -5.9938605
         ]
       ],
       "style": {
@@ -33006,10 +33152,19 @@
       "sourceCredits": [
         "Dublin City Council"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "dcc-dcc-public-cycle-parking-stands-vector-test",
+      "bounds": [
+        [
+          53.302703,
+          -6.349356
+        ],
+        [
+          53.400056,
+          -6.14895
+        ]
+      ],
       "style": {
         "color": "#FF6F00",
         "fillColor": null,
@@ -33323,10 +33478,19 @@
       "sourceCredits": [
         "Dublin City Council"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025-vector-test",
+      "bounds": [
+        [
+          53.2081105,
+          -6.4909179
+        ],
+        [
+          53.5318256,
+          -6.0637168
+        ]
+      ],
       "style": {
         "color": "#FF6F00",
         "fillColor": null,
@@ -38285,17 +38449,17 @@
       "sourceCredits": [
         "Department for Infrastructure - Roads"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "dfi-surface-defects-2008-vector-test",
       "bounds": [
         [
-          54,
-          -8.3
+          51.2185653,
+          -10.8634427
         ],
         [
-          55.5,
-          -5.3
+          55.2995493,
+          -5.4425119
         ]
       ],
       "style": {
@@ -38341,17 +38505,17 @@
       "sourceCredits": [
         "Department for Infrastructure - Roads"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "dfi-surface-defects-2011-vector-test",
       "bounds": [
         [
-          54,
-          -8.3
+          51.2185654,
+          -10.8634427
         ],
         [
-          55.5,
-          -5.3
+          55.2995493,
+          -5.4425119
         ]
       ],
       "style": {
@@ -38397,17 +38561,17 @@
       "sourceCredits": [
         "Department for Infrastructure - Roads"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "dfi-surface-defects-2012-vector-test",
       "bounds": [
         [
-          54,
-          -8.3
+          51.2185654,
+          -10.8634427
         ],
         [
-          55.5,
-          -5.3
+          55.2995493,
+          -5.4425119
         ]
       ],
       "style": {
@@ -38453,17 +38617,17 @@
       "sourceCredits": [
         "Department for Infrastructure - Roads"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "dfi-surface-defects-2013-vector-test",
       "bounds": [
         [
-          54,
-          -8.3
+          51.2185654,
+          -10.8639255
         ],
         [
-          55.5,
-          -5.3
+          55.2995493,
+          -5.4425119
         ]
       ],
       "style": {
@@ -38509,17 +38673,17 @@
       "sourceCredits": [
         "Department for Infrastructure - Roads"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "dfi-surface-defects-2014-vector-test",
       "bounds": [
         [
-          54,
-          -8.3
+          51.2185653,
+          -10.8634427
         ],
         [
-          55.5,
-          -5.3
+          55.2997032,
+          -5.438037
         ]
       ],
       "style": {
@@ -38565,17 +38729,17 @@
       "sourceCredits": [
         "Department for Infrastructure - Roads"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "dfi-surface-defects-2015-vector-test",
       "bounds": [
         [
-          54,
-          -8.3
+          51.2185653,
+          -10.8634427
         ],
         [
-          55.5,
-          -5.3
+          55.2399643,
+          -5.4377672
         ]
       ],
       "style": {
@@ -38621,17 +38785,17 @@
       "sourceCredits": [
         "Department for Infrastructure - Roads"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "dfi-surface-defects-2016-vector-test",
       "bounds": [
         [
-          54,
-          -8.3
+          51.2185654,
+          -10.8634427
         ],
         [
-          55.5,
-          -5.3
+          55.299608,
+          -5.4383331
         ]
       ],
       "style": {
@@ -38677,17 +38841,17 @@
       "sourceCredits": [
         "Department for Infrastructure - Roads"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "dfi-surface-defects-2017-vector-test",
       "bounds": [
         [
-          54,
-          -8.3
+          51.2185653,
+          -10.8634427
         ],
         [
-          55.5,
-          -5.3
+          55.2953362,
+          -5.4374308
         ]
       ],
       "style": {
@@ -38733,17 +38897,17 @@
       "sourceCredits": [
         "Department for Infrastructure - Roads"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "dfi-surface-defects-2018-vector-test",
       "bounds": [
         [
-          54,
-          -8.3
+          54.0276655,
+          -8.1527989
         ],
         [
-          55.5,
-          -5.3
+          55.2996029,
+          -5.4371218
         ]
       ],
       "style": {
@@ -38789,17 +38953,17 @@
       "sourceCredits": [
         "Department for Infrastructure - Roads"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "dfi-surface-defects-2019-vector-test",
       "bounds": [
         [
-          54,
-          -8.3
+          54.0275232,
+          -8.158806
         ],
         [
-          55.5,
-          -5.3
+          55.3012492,
+          -5.4380305
         ]
       ],
       "style": {
@@ -38845,17 +39009,17 @@
       "sourceCredits": [
         "Department for Infrastructure - Roads"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "dfi-surface-defects-2020-vector-test",
       "bounds": [
         [
-          54,
-          -8.3
+          54.0328488,
+          -8.1555511
         ],
         [
-          55.5,
-          -5.3
+          55.2989517,
+          -5.4381014
         ]
       ],
       "style": {
@@ -38901,17 +39065,17 @@
       "sourceCredits": [
         "Department for Infrastructure - Roads"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "dfi-surface-defects-2021-vector-test",
       "bounds": [
         [
-          54,
-          -8.3
+          54.0324722,
+          -8.1585901
         ],
         [
-          55.5,
-          -5.3
+          55.2991129,
+          -5.438019
         ]
       ],
       "style": {
@@ -38957,17 +39121,17 @@
       "sourceCredits": [
         "Department for Infrastructure - Roads"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "dfi-surface-defects-2010-vector-test",
       "bounds": [
         [
-          54,
-          -8.3
+          51.2185653,
+          -10.8634427
         ],
         [
-          55.5,
-          -5.3
+          55.2995493,
+          -5.4425119
         ]
       ],
       "style": {

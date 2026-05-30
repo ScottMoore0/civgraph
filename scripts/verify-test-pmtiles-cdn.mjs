@@ -11,8 +11,11 @@ const MANIFEST_PATH = resolve(ROOT, 'test/metadata/cdn-upload-manifest.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-range-report.json');
 const APPLY = process.argv.includes('--apply');
 const ORIGIN = process.env.TEST_CDN_VERIFY_ORIGIN || 'https://civgraph.net';
+const ONLY_IDS = new Set(readArgList('--ids'));
 const manifest = JSON.parse(readFileSync(MANIFEST_PATH, 'utf8'));
-const assets = (manifest.assets || []).filter((asset) => asset.kind === 'pmtiles');
+const assets = (manifest.assets || [])
+  .filter((asset) => asset.kind === 'pmtiles')
+  .filter((asset) => !ONLY_IDS.size || ONLY_IDS.has(asset.layerId));
 const results = [];
 
 for (const [index, asset] of assets.entries()) {
@@ -68,4 +71,18 @@ if (report.totals.failed) process.exit(1);
 
 if (APPLY) {
   await import('./switch-test-pmtiles-to-cdn.mjs');
+}
+
+function readArgList(name) {
+  const values = [];
+  for (let index = 0; index < process.argv.length; index += 1) {
+    const arg = process.argv[index];
+    if (arg === name && process.argv[index + 1]) {
+      values.push(...process.argv[index + 1].split(','));
+      index += 1;
+    } else if (arg.startsWith(`${name}=`)) {
+      values.push(...arg.slice(name.length + 1).split(','));
+    }
+  }
+  return values.map((value) => value.trim()).filter(Boolean);
 }

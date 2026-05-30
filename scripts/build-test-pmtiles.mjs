@@ -16,6 +16,23 @@ const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/pmtiles-build-report.json');
 const OUTPUT_DIR = resolve(ROOT, 'test/pmtiles/generated');
+const DECIDUOUS_LOD0_SOURCE = 'data/maps/biodiversity/habitat-deciduous-woodland-lod0.fgb';
+const DECIDUOUS_LOD1_SOURCE = 'data/maps/biodiversity/habitat-deciduous-woodland-lod1.fgb';
+const WGS84_UNKNOWN_SRS_IDS = new Set([
+  'ireland-island',
+  'ni-1921',
+  'roi-1938',
+  'historic-bullaun-stones',
+  'historic-crannog',
+  'historic-ringfort-cashel',
+  'historic-ringfort-rath',
+  'historic-ringfort-unclassified',
+  'historic-rock-scribing',
+  'historic-standing-stones',
+  'historic-wedge-tomb',
+  'transport-lines-road-rail',
+  'dcc-dcc-public-cycle-parking-stands'
+]);
 const MAX_GITHUB_BYTES = readNumberArg('--max-github-mb', 95) * 1024 * 1024;
 const EXECUTE = !process.argv.includes('--report-only');
 const FORCE = process.argv.includes('--force');
@@ -30,7 +47,8 @@ const layers = (metadata.layers || [])
 
 const tools = {
   ogr2ogr: findCommand('ogr2ogr'),
-  ogrinfo: findCommand('ogrinfo')
+  ogrinfo: findCommand('ogrinfo'),
+  sqlite3: findCommand('sqlite3')
 };
 const pmtilesDriver = tools.ogr2ogr ? hasGdalPmtilesDriver(tools.ogr2ogr) : false;
 const converted = [];
@@ -60,6 +78,8 @@ for (const layer of layers) {
   }
 
   rmSync(outputPath, { force: true });
+  rmSync(`${outputPath}.tmp.mbtiles`, { force: true });
+  rmSync(`${outputPath}.tmp.mbtiles.temp.db`, { force: true });
   const profile = getTileProfile(layer.sourceMapId || layer.id);
   const srsOptions = getSourceSrsOptions(layer.sourceMapId || layer.id);
   const result = buildArchive(layer, sourcePath, outputPath, profile, srsOptions);
@@ -190,6 +210,11 @@ function syncMetadata(report) {
 }
 
 function buildArchive(layer, sourcePath, outputPath, profile, srsOptions) {
+  if ((layer.sourceMapId || layer.id) === 'habitat-deciduous-woodland'
+    && existsSync(resolve(ROOT, DECIDUOUS_LOD0_SOURCE))
+    && existsSync(resolve(ROOT, DECIDUOUS_LOD1_SOURCE))) {
+    return buildDeciduousMultiZoomArchive(layer, outputPath, profile);
+  }
   if (usesMbtilesIntermediate(layer)) {
     const mbtilesPath = outputPath.replace(/\.pmtiles$/i, '.mbtiles');
     rmSync(mbtilesPath, { force: true });
@@ -197,7 +222,9 @@ function buildArchive(layer, sourcePath, outputPath, profile, srsOptions) {
       '-f', 'MBTiles',
       mbtilesPath,
       sourcePath,
+      ...getFailureOptions(layer.sourceMapId || layer.id),
       ...srsOptions,
+      ...getSourceQueryOptions(layer.sourceMapId || layer.id),
       '-dsco', `MINZOOM=${Number(layer.minzoom ?? 0)}`,
       '-dsco', `MAXZOOM=${Number(layer.maxzoom ?? 12)}`,
       '-dsco', `MAX_SIZE=${profile.maxSize}`,
@@ -212,6 +239,9 @@ function buildArchive(layer, sourcePath, outputPath, profile, srsOptions) {
       maxBuffer: 64 * 1024 * 1024
     });
     if (mbtilesResult.status !== 0 || !existsSync(mbtilesPath)) return mbtilesResult;
+    const layerName = layer.sourceLayer || safeLayerName(layer.id);
+    const metadataResult = ensureMbtilesVectorMetadata(mbtilesPath, layerName);
+    if (metadataResult.status !== 0) return metadataResult;
     const pmtilesResult = spawnSync(tools.ogr2ogr, [
       '-f', 'PMTiles',
       outputPath,
@@ -229,7 +259,9 @@ function buildArchive(layer, sourcePath, outputPath, profile, srsOptions) {
     '-f', 'PMTiles',
     outputPath,
     sourcePath,
+    ...getFailureOptions(layer.sourceMapId || layer.id),
     ...srsOptions,
+    ...getSourceQueryOptions(layer.sourceMapId || layer.id),
     '-dsco', `MINZOOM=${Number(layer.minzoom ?? 0)}`,
     '-dsco', `MAXZOOM=${Number(layer.maxzoom ?? 12)}`,
     '-dsco', `MAX_SIZE=${profile.maxSize}`,
@@ -243,6 +275,76 @@ function buildArchive(layer, sourcePath, outputPath, profile, srsOptions) {
     encoding: 'utf8',
     maxBuffer: 64 * 1024 * 1024
   });
+}
+
+function buildDeciduousMultiZoomArchive(layer, outputPath, profile) {
+  if (!tools.sqlite3) {
+    return { status: 1, stderr: 'sqlite3 is required to merge low/high zoom MBTiles before PMTiles packaging.', stdout: '' };
+  }
+  const lowMbtiles = outputPath.replace(/\.pmtiles$/i, '.lod0.mbtiles');
+  const highMbtiles = outputPath.replace(/\.pmtiles$/i, '.lod1.mbtiles');
+  rmSync(lowMbtiles, { force: true });
+  rmSync(highMbtiles, { force: true });
+  const layerName = layer.sourceLayer || safeLayerName(layer.id);
+  const low = spawnSync(tools.ogr2ogr, mbtilesArgs({
+    outputPath: lowMbtiles,
+    sourcePath: resolve(ROOT, DECIDUOUS_LOD0_SOURCE),
+    minzoom: 0,
+    maxzoom: 7,
+    profile,
+    layerName
+  }), { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  if (low.status !== 0 || !existsSync(lowMbtiles)) {
+    rmSync(lowMbtiles, { force: true });
+    rmSync(highMbtiles, { force: true });
+    return low;
+  }
+  const high = spawnSync(tools.ogr2ogr, mbtilesArgs({
+    outputPath: highMbtiles,
+    sourcePath: resolve(ROOT, DECIDUOUS_LOD1_SOURCE),
+    minzoom: 8,
+    maxzoom: 12,
+    profile,
+    layerName
+  }), { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  if (high.status !== 0 || !existsSync(highMbtiles)) {
+    rmSync(lowMbtiles, { force: true });
+    rmSync(highMbtiles, { force: true });
+    return high;
+  }
+  const merge = spawnSync(tools.sqlite3, [
+    lowMbtiles,
+    `ATTACH '${escapeSqlitePath(highMbtiles)}' AS high; INSERT OR REPLACE INTO tiles SELECT * FROM high.tiles; UPDATE metadata SET value='0' WHERE name='minzoom'; UPDATE metadata SET value='12' WHERE name='maxzoom'; UPDATE metadata SET value='${escapeSqliteValue(layer.name || layer.id)}' WHERE name='name'; DETACH high;`
+  ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 });
+  if (merge.status !== 0) {
+    rmSync(lowMbtiles, { force: true });
+    rmSync(highMbtiles, { force: true });
+    return merge;
+  }
+  const pmtiles = spawnSync(tools.ogr2ogr, [
+    '-f', 'PMTiles',
+    outputPath,
+    lowMbtiles
+  ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  rmSync(lowMbtiles, { force: true });
+  rmSync(highMbtiles, { force: true });
+  return pmtiles;
+}
+
+function mbtilesArgs({ outputPath, sourcePath, minzoom, maxzoom, profile, layerName }) {
+  return [
+    '-f', 'MBTiles',
+    outputPath,
+    sourcePath,
+    '-dsco', `MINZOOM=${minzoom}`,
+    '-dsco', `MAXZOOM=${maxzoom}`,
+    '-dsco', `MAX_SIZE=${profile.maxSize}`,
+    '-dsco', `MAX_FEATURES=${profile.maxFeatures}`,
+    '-dsco', `SIMPLIFICATION=${profile.simplification}`,
+    '-dsco', `SIMPLIFICATION_MAX_ZOOM=${profile.simplificationMaxZoom}`,
+    '-lco', `NAME=${layerName}`,
+    '-nln', layerName
+  ];
 }
 
 function usesMbtilesIntermediate(layer) {
@@ -322,11 +424,54 @@ function unique(values) {
 
 function getSourceSrsOptions(sourceMapId) {
   const id = String(sourceMapId || '').toLowerCase();
-  if (id === 'pc-1995' || id === 'ni-townlands-1844') {
+  if (id === 'pc-1995' || id === 'ni-townlands-1844' || WGS84_UNKNOWN_SRS_IDS.has(id)) {
     return ['-a_srs', 'EPSG:4326'];
   }
   if (id.startsWith('wq-rwq-')) {
     return ['-a_srs', 'EPSG:29903'];
   }
   return [];
+}
+
+function getSourceQueryOptions(sourceMapId) {
+  const id = String(sourceMapId || '').toLowerCase();
+  if (id === 'dcc-dcc-public-cycle-parking-stands') {
+    return [
+      '-dialect', 'SQLite',
+      '-sql', 'SELECT id, Name, description, Latitude, Longitude, MakePoint(Latitude, Longitude) AS geometry FROM Map_Coordinates WHERE Latitude BETWEEN -11 AND -4 AND Longitude BETWEEN 51 AND 56'
+    ];
+  }
+  return [];
+}
+
+function getFailureOptions(sourceMapId) {
+  if (String(sourceMapId || '').toLowerCase() === 'roi-national-planning-applications') {
+    return ['-skipfailures'];
+  }
+  return [];
+}
+
+function ensureMbtilesVectorMetadata(mbtilesPath, layerName) {
+  if (!tools.sqlite3) return { status: 0, stderr: '', stdout: '' };
+  const vectorLayers = JSON.stringify({
+    vector_layers: [{
+      id: layerName,
+      fields: {}
+    }]
+  });
+  return spawnSync(tools.sqlite3, [
+    mbtilesPath,
+    [
+      "CREATE TABLE IF NOT EXISTS metadata (name text, value text);",
+      `INSERT OR REPLACE INTO metadata(name, value) VALUES('json', '${escapeSqliteValue(vectorLayers)}');`
+    ].join('')
+  ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 });
+}
+
+function escapeSqlitePath(value) {
+  return String(value || '').replaceAll('\\', '/').replaceAll("'", "''");
+}
+
+function escapeSqliteValue(value) {
+  return String(value || '').replaceAll("'", "''");
 }

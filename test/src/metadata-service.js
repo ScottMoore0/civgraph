@@ -60,7 +60,7 @@ export function normalizeMetadata(raw, portPlan = null) {
   const convertedLayers = explicitLayers.map((layer, index) => normalizeLayer({ ...layer, conversionStatus: 'converted', loadable: true }, categories, index));
   const convertedSourceIds = new Set(convertedLayers.flatMap((layer) => [layer.id, layer.sourceMapId]).filter(Boolean));
   const unconvertedLayers = portRows
-    .filter((row) => row.conversionStatus !== 'converted' && !convertedSourceIds.has(row.sourceMapId))
+    .filter((row) => !isConvertedPortStatus(row.conversionStatus) && !convertedSourceIds.has(row.sourceMapId))
     .map((row, index) => normalizePortPlanRow(row, categories, convertedLayers.length + index));
   const layers = [...convertedLayers, ...unconvertedLayers];
   return {
@@ -128,7 +128,7 @@ function normalizeLayer(layer, categories, index) {
   ]);
   return {
     ...layer,
-    isConverted: layer.conversionStatus === 'converted' || layer.loadable === true,
+    isConverted: isConvertedPortStatus(layer.conversionStatus) || layer.loadable === true,
     loadable: layer.loadable !== false && layer.sourceType !== 'unconverted',
     category: category.name,
     categoryId: category.id,
@@ -223,6 +223,10 @@ function normalizePortPlanRow(row, categories, index) {
 function formatCredits(value) {
   if (Array.isArray(value)) return value.map((item) => String(item)).filter(Boolean);
   return value ? [String(value)] : [];
+}
+
+function isConvertedPortStatus(status) {
+  return status === 'converted' || status === 'convertedComposite';
 }
 
 function portRowToCategoryLayer(row) {

@@ -7,7 +7,7 @@
  * report; this avoids blindly generating hundreds of large tile pyramids.
  */
 
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, extname, relative, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { getTileProfile } from './test-tile-profiles.mjs';
@@ -17,6 +17,23 @@ const PLAN_PATH = resolve(ROOT, 'test/metadata/main-site-port-plan.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/vector-conversion-report.json');
 const OUTPUT_ROOT = resolve(ROOT, 'test/tiles/generated');
 const SOURCE_CACHE_MANIFEST_PATH = resolve(ROOT, 'test/source-cache/vector-intake/manifest.json');
+const DECIDUOUS_LOD0_SOURCE = 'data/maps/biodiversity/habitat-deciduous-woodland-lod0.fgb';
+const DECIDUOUS_LOD1_SOURCE = 'data/maps/biodiversity/habitat-deciduous-woodland-lod1.fgb';
+const WGS84_UNKNOWN_SRS_IDS = new Set([
+  'ireland-island',
+  'ni-1921',
+  'roi-1938',
+  'historic-bullaun-stones',
+  'historic-crannog',
+  'historic-ringfort-cashel',
+  'historic-ringfort-rath',
+  'historic-ringfort-unclassified',
+  'historic-rock-scribing',
+  'historic-standing-stones',
+  'historic-wedge-tomb',
+  'transport-lines-road-rail',
+  'dcc-dcc-public-cycle-parking-stands'
+]);
 const EXECUTE = process.argv.includes('--execute');
 const LIMIT = readNumberArg('--limit', Infinity);
 const MAX_SOURCE_MB = readNumberArg('--max-source-mb', Infinity);
@@ -80,24 +97,7 @@ if (EXECUTE) {
     const layerName = slugify(candidate.sourceMapId).replace(/-/g, '_');
     const profile = getTileProfile(candidate.sourceMapId);
     const srsOptions = getSourceSrsOptions(candidate.sourceMapId);
-    const result = spawnSync('ogr2ogr', [
-      '-f', 'MVT',
-      outputPath,
-      sourcePath,
-      ...srsOptions,
-      '-dsco', 'FORMAT=DIRECTORY',
-      '-dsco', 'MINZOOM=0',
-      '-dsco', 'MAXZOOM=12',
-      '-dsco', 'TILE_EXTENSION=pbf',
-      '-dsco', 'COMPRESS=NO',
-      '-dsco', `NAME=${candidate.name || candidate.sourceMapId}`,
-      '-dsco', `MAX_SIZE=${profile.maxSize}`,
-      '-dsco', `MAX_FEATURES=${profile.maxFeatures}`,
-      '-dsco', `SIMPLIFICATION=${profile.simplification}`,
-      '-dsco', `SIMPLIFICATION_MAX_ZOOM=${profile.simplificationMaxZoom}`,
-      '-lco', `NAME=${layerName}`,
-      '-nln', layerName
-    ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, timeout: PER_LAYER_TIMEOUT_MS });
+    const result = buildMvtOutput(candidate, sourcePath, outputPath, layerName, profile, srsOptions);
     if (result.status === 0) {
       const verification = verifyMvtDirectory(outputPath);
       if (verification.ok) {
@@ -175,11 +175,11 @@ function chooseSource(row) {
 }
 
 function localFallbackSource(sourceMapId) {
-  if (sourceMapId === 'habitat-deciduous-woodland' && existsSync(resolve(ROOT, 'data/maps/biodiversity/habitat-deciduous-woodland-lod0.fgb'))) {
+  if (sourceMapId === 'habitat-deciduous-woodland' && existsSync(resolve(ROOT, DECIDUOUS_LOD1_SOURCE))) {
     return {
-      file: 'data/maps/biodiversity/habitat-deciduous-woodland-lod0.fgb',
+      file: DECIDUOUS_LOD1_SOURCE,
       prefer: true,
-      note: 'Fallback to available LOD0 habitat-deciduous-woodland source so conversion remains bounded and mobile-safe.'
+      note: 'Fallback to available LOD1 habitat-deciduous-woodland source; conversion uses LOD0 for low zooms and LOD1 for detail zooms when both are present.'
     };
   }
   if (sourceMapId === 'habitat-wetland-grouped' && existsSync(resolve(ROOT, 'data/maps/biodiversity/habitat-wetland-grouped-lod1.fgb'))) {
@@ -289,17 +289,138 @@ function readStringArg(name, fallback) {
   return process.argv[index + 1] || fallback;
 }
 
+function buildMvtOutput(candidate, sourcePath, outputPath, layerName, profile, srsOptions) {
+  if (candidate.sourceMapId === 'habitat-deciduous-woodland'
+    && existsSync(resolve(ROOT, DECIDUOUS_LOD0_SOURCE))
+    && existsSync(resolve(ROOT, DECIDUOUS_LOD1_SOURCE))) {
+    return buildDeciduousMultiZoomMvt(outputPath, layerName, candidate.name || candidate.sourceMapId, profile);
+  }
+  return spawnSync('ogr2ogr', [
+    '-f', 'MVT',
+    outputPath,
+    sourcePath,
+    ...srsOptions,
+    ...getSourceQueryOptions(candidate.sourceMapId),
+    '-dsco', 'FORMAT=DIRECTORY',
+    '-dsco', 'MINZOOM=0',
+    '-dsco', 'MAXZOOM=12',
+    '-dsco', 'TILE_EXTENSION=pbf',
+    '-dsco', 'COMPRESS=NO',
+    '-dsco', `NAME=${candidate.name || candidate.sourceMapId}`,
+    '-dsco', `MAX_SIZE=${profile.maxSize}`,
+    '-dsco', `MAX_FEATURES=${profile.maxFeatures}`,
+    '-dsco', `SIMPLIFICATION=${profile.simplification}`,
+    '-dsco', `SIMPLIFICATION_MAX_ZOOM=${profile.simplificationMaxZoom}`,
+    '-lco', `NAME=${layerName}`,
+    '-nln', layerName
+  ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, timeout: PER_LAYER_TIMEOUT_MS });
+}
+
+function buildDeciduousMultiZoomMvt(outputPath, layerName, name, profile) {
+  const lowPath = `${outputPath}.__lod0`;
+  const highPath = `${outputPath}.__lod1`;
+  rmSync(lowPath, { recursive: true, force: true });
+  rmSync(highPath, { recursive: true, force: true });
+  const low = spawnSync('ogr2ogr', mvtArgs({
+    outputPath: lowPath,
+    sourcePath: resolve(ROOT, DECIDUOUS_LOD0_SOURCE),
+    layerName,
+    name,
+    minzoom: 0,
+    maxzoom: 7,
+    profile
+  }), { cwd: ROOT, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, timeout: PER_LAYER_TIMEOUT_MS });
+  if (low.status !== 0) {
+    rmSync(lowPath, { recursive: true, force: true });
+    rmSync(highPath, { recursive: true, force: true });
+    return low;
+  }
+  const high = spawnSync('ogr2ogr', mvtArgs({
+    outputPath: highPath,
+    sourcePath: resolve(ROOT, DECIDUOUS_LOD1_SOURCE),
+    layerName,
+    name,
+    minzoom: 8,
+    maxzoom: 12,
+    profile
+  }), { cwd: ROOT, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, timeout: PER_LAYER_TIMEOUT_MS });
+  if (high.status !== 0) {
+    rmSync(lowPath, { recursive: true, force: true });
+    rmSync(highPath, { recursive: true, force: true });
+    return high;
+  }
+
+  rmSync(outputPath, { recursive: true, force: true });
+  cpSync(lowPath, outputPath, { recursive: true });
+  cpSync(highPath, outputPath, { recursive: true, force: true });
+  normalizeMergedMvtMetadata(outputPath, 0, 12);
+  rmSync(lowPath, { recursive: true, force: true });
+  rmSync(highPath, { recursive: true, force: true });
+  return { status: 0, stdout: `${name} generated from LOD0 z0-z7 and LOD1 z8-z12.`, stderr: '' };
+}
+
+function mvtArgs({ outputPath, sourcePath, layerName, name, minzoom, maxzoom, profile }) {
+  return [
+    '-f', 'MVT',
+    outputPath,
+    sourcePath,
+    '-dsco', 'FORMAT=DIRECTORY',
+    '-dsco', `MINZOOM=${minzoom}`,
+    '-dsco', `MAXZOOM=${maxzoom}`,
+    '-dsco', 'TILE_EXTENSION=pbf',
+    '-dsco', 'COMPRESS=NO',
+    '-dsco', `NAME=${name}`,
+    '-dsco', `MAX_SIZE=${profile.maxSize}`,
+    '-dsco', `MAX_FEATURES=${profile.maxFeatures}`,
+    '-dsco', `SIMPLIFICATION=${profile.simplification}`,
+    '-dsco', `SIMPLIFICATION_MAX_ZOOM=${profile.simplificationMaxZoom}`,
+    '-lco', `NAME=${layerName}`,
+    '-nln', layerName
+  ];
+}
+
+function normalizeMergedMvtMetadata(outputPath, minzoom, maxzoom) {
+  const metadataPath = resolve(outputPath, 'metadata.json');
+  if (!existsSync(metadataPath)) return;
+  const metadata = JSON.parse(readFileSync(metadataPath, 'utf8'));
+  metadata.minzoom = minzoom;
+  metadata.maxzoom = maxzoom;
+  let json = {};
+  try {
+    json = JSON.parse(metadata.json || '{}');
+  } catch {
+    json = {};
+  }
+  for (const layer of json.vector_layers || []) {
+    layer.minzoom = minzoom;
+    layer.maxzoom = maxzoom;
+  }
+  metadata.json = `${JSON.stringify(json, null, 2)}\n`;
+  writeFileSync(metadataPath, `${JSON.stringify(metadata, null, 2)}\n`);
+}
+
 function slugify(value) {
   return String(value || 'layer').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
 function getSourceSrsOptions(sourceMapId) {
   const id = String(sourceMapId || '').toLowerCase();
-  if (id === 'pc-1995' || id === 'ni-townlands-1844') {
+  if (id === 'pc-1995' || id === 'ni-townlands-1844' || WGS84_UNKNOWN_SRS_IDS.has(id)) {
     return ['-a_srs', 'EPSG:4326'];
   }
   if (id.startsWith('wq-rwq-')) {
     return ['-a_srs', 'EPSG:29903'];
+  }
+  return [];
+}
+
+function getSourceQueryOptions(sourceMapId) {
+  const id = String(sourceMapId || '').toLowerCase();
+  if (id === 'dcc-dcc-public-cycle-parking-stands') {
+    return [
+      '-dialect', 'SQLite',
+      '-sql', 'SELECT id, Name, description, Latitude, Longitude, MakePoint(Latitude, Longitude) AS geometry FROM Map_Coordinates WHERE Latitude BETWEEN -11 AND -4 AND Longitude BETWEEN 51 AND 56'
+    ];
   }
   return [];
 }

@@ -1,35 +1,106 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-30T00:26:43.174Z",
+  "generatedAt": "2026-05-30T15:21:10.535Z",
   "bucket": "boundaries-data",
   "dryRun": false,
   "selectedIds": [
-    "habitat-deciduous-woodland-vector-test",
-    "habitat-wetland-grouped-vector-test"
+    "roi-national-planning-applications-vector-test"
   ],
   "totals": {
     "assets": 2,
-    "processed": 2,
-    "ok": 2,
-    "failed": 0,
-    "bytes": 6238819
+    "processed": 11,
+    "ok": 1,
+    "failed": 10,
+    "bytes": 288934069
   },
   "results": [
     {
-      "layerId": "habitat-wetland-grouped-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/habitat-wetland-grouped-vector-test.pmtiles",
+      "layerId": "roi-national-planning-applications-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/roi-national-planning-applications-vector-test.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 5813477,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.95.0)\n─────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/habitat-wetland-grouped-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 273203738,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.95.0)\n─────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/roi-national-planning-applications-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     },
     {
-      "layerId": "habitat-deciduous-woodland-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/habitat-deciduous-woodland-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 425342,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.95.0)\n─────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/habitat-deciduous-woodland-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "layerId": "roi-national-planning-applications-vector-test",
+      "targetKey": "data/maps/test/tiles/generated/roi-national-planning-applications/10/483/339.pbf",
+      "ok": false,
+      "status": "upload-failed",
+      "bytes": 1096690,
+      "error": "wrangler exited 3221226505: \u001b[33m▲ \u001b[43;33m[\u001b[43;30mWARNING\u001b[43;33m]\u001b[0m \u001b[1mA fetch request failed, likely due to a connectivity issue.\u001b[0m\n\n  \n  Common causes:\n    - No internet connection or network connectivity problems\n    - Firewall or VPN blocking the request\n    - Network proxy configuration issues\n  \n  Please check your network connection and try again.\n\n\n\u001b[31mX \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mfetch failed\u001b[0m\n\n\n🪵  Logs were written to \"C:\\Users\\scomo\\AppData\\Roaming\\xdg.config\\.wrangler\\logs\\wrangler-2026-05-30_14-55-29_844.log\"\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 76\r\n"
+    },
+    {
+      "layerId": "roi-national-planning-applications-vector-test",
+      "targetKey": "data/maps/test/tiles/generated/roi-national-planning-applications/10/486/338.pbf",
+      "ok": false,
+      "status": "upload-failed",
+      "bytes": 2366242,
+      "error": "wrangler exited 3221226505: \u001b[33m▲ \u001b[43;33m[\u001b[43;30mWARNING\u001b[43;33m]\u001b[0m \u001b[1mA fetch request failed, likely due to a connectivity issue.\u001b[0m\n\n  \n  Common causes:\n    - No internet connection or network connectivity problems\n    - Firewall or VPN blocking the request\n    - Network proxy configuration issues\n  \n  Please check your network connection and try again.\n\n\n\u001b[31mX \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mfetch failed\u001b[0m\n\n\n🪵  Logs were written to \"C:\\Users\\scomo\\AppData\\Roaming\\xdg.config\\.wrangler\\logs\\wrangler-2026-05-30_14-57-19_836.log\"\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 76\r\n"
+    },
+    {
+      "layerId": "roi-national-planning-applications-vector-test",
+      "targetKey": "data/maps/test/tiles/generated/roi-national-planning-applications/10/486/340.pbf",
+      "ok": false,
+      "status": "upload-failed",
+      "bytes": 2026258,
+      "error": "wrangler exited 3221226505: \u001b[33m▲ \u001b[43;33m[\u001b[43;30mWARNING\u001b[43;33m]\u001b[0m \u001b[1mA fetch request failed, likely due to a connectivity issue.\u001b[0m\n\n  \n  Common causes:\n    - No internet connection or network connectivity problems\n    - Firewall or VPN blocking the request\n    - Network proxy configuration issues\n  \n  Please check your network connection and try again.\n\n\n\u001b[31mX \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mfetch failed\u001b[0m\n\n\n🪵  Logs were written to \"C:\\Users\\scomo\\AppData\\Roaming\\xdg.config\\.wrangler\\logs\\wrangler-2026-05-30_14-57-23_764.log\"\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 76\r\n"
+    },
+    {
+      "layerId": "roi-national-planning-applications-vector-test",
+      "targetKey": "data/maps/test/tiles/generated/roi-national-planning-applications/10/487/330.pbf",
+      "ok": false,
+      "status": "upload-failed",
+      "bytes": 522379,
+      "error": "wrangler exited 3221226505: \u001b[33m▲ \u001b[43;33m[\u001b[43;30mWARNING\u001b[43;33m]\u001b[0m \u001b[1mA fetch request failed, likely due to a connectivity issue.\u001b[0m\n\n  \n  Common causes:\n    - No internet connection or network connectivity problems\n    - Firewall or VPN blocking the request\n    - Network proxy configuration issues\n  \n  Please check your network connection and try again.\n\n\n\u001b[31mX \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mfetch failed\u001b[0m\n\n\n🪵  Logs were written to \"C:\\Users\\scomo\\AppData\\Roaming\\xdg.config\\.wrangler\\logs\\wrangler-2026-05-30_14-57-43_566.log\"\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 76\r\n"
+    },
+    {
+      "layerId": "roi-national-planning-applications-vector-test",
+      "targetKey": "data/maps/test/tiles/generated/roi-national-planning-applications/10/487/335.pbf",
+      "ok": false,
+      "status": "upload-failed",
+      "bytes": 2429647,
+      "error": "wrangler exited 3221226505: \u001b[33m▲ \u001b[43;33m[\u001b[43;30mWARNING\u001b[43;33m]\u001b[0m \u001b[1mA fetch request failed, likely due to a connectivity issue.\u001b[0m\n\n  \n  Common causes:\n    - No internet connection or network connectivity problems\n    - Firewall or VPN blocking the request\n    - Network proxy configuration issues\n  \n  Please check your network connection and try again.\n\n\n\u001b[31mX \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mfetch failed\u001b[0m\n\n\n🪵  Logs were written to \"C:\\Users\\scomo\\AppData\\Roaming\\xdg.config\\.wrangler\\logs\\wrangler-2026-05-30_14-57-55_445.log\"\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 76\r\n"
+    },
+    {
+      "layerId": "roi-national-planning-applications-vector-test",
+      "targetKey": "data/maps/test/tiles/generated/roi-national-planning-applications/10/491/335.pbf",
+      "ok": false,
+      "status": "upload-failed",
+      "bytes": 1933164,
+      "error": "wrangler exited 3221226505: \u001b[33m▲ \u001b[43;33m[\u001b[43;30mWARNING\u001b[43;33m]\u001b[0m \u001b[1mA fetch request failed, likely due to a connectivity issue.\u001b[0m\n\n  \n  Common causes:\n    - No internet connection or network connectivity problems\n    - Firewall or VPN blocking the request\n    - Network proxy configuration issues\n  \n  Please check your network connection and try again.\n\n\n\u001b[31mX \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mfetch failed\u001b[0m\n\n\n🪵  Logs were written to \"C:\\Users\\scomo\\AppData\\Roaming\\xdg.config\\.wrangler\\logs\\wrangler-2026-05-30_15-01-04_522.log\"\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 76\r\n"
+    },
+    {
+      "layerId": "roi-national-planning-applications-vector-test",
+      "targetKey": "data/maps/test/tiles/generated/roi-national-planning-applications/10/491/336.pbf",
+      "ok": false,
+      "status": "upload-failed",
+      "bytes": 1028673,
+      "error": "wrangler exited 3221226505: \u001b[33m▲ \u001b[43;33m[\u001b[43;30mWARNING\u001b[43;33m]\u001b[0m \u001b[1mA fetch request failed, likely due to a connectivity issue.\u001b[0m\n\n  \n  Common causes:\n    - No internet connection or network connectivity problems\n    - Firewall or VPN blocking the request\n    - Network proxy configuration issues\n  \n  Please check your network connection and try again.\n\n\n\u001b[31mX \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mfetch failed\u001b[0m\n\n\n🪵  Logs were written to \"C:\\Users\\scomo\\AppData\\Roaming\\xdg.config\\.wrangler\\logs\\wrangler-2026-05-30_15-01-05_778.log\"\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 76\r\n"
+    },
+    {
+      "layerId": "roi-national-planning-applications-vector-test",
+      "targetKey": "data/maps/test/tiles/generated/roi-national-planning-applications/10/492/330.pbf",
+      "ok": false,
+      "status": "upload-failed",
+      "bytes": 2187825,
+      "error": "wrangler exited 3221226505: \u001b[33m▲ \u001b[43;33m[\u001b[43;30mWARNING\u001b[43;33m]\u001b[0m \u001b[1mA fetch request failed, likely due to a connectivity issue.\u001b[0m\n\n  \n  Common causes:\n    - No internet connection or network connectivity problems\n    - Firewall or VPN blocking the request\n    - Network proxy configuration issues\n  \n  Please check your network connection and try again.\n\n\n\u001b[31mX \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mfetch failed\u001b[0m\n\n\n🪵  Logs were written to \"C:\\Users\\scomo\\AppData\\Roaming\\xdg.config\\.wrangler\\logs\\wrangler-2026-05-30_15-01-22_996.log\"\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 76\r\n"
+    },
+    {
+      "layerId": "roi-national-planning-applications-vector-test",
+      "targetKey": "data/maps/test/tiles/generated/roi-national-planning-applications/10/492/331.pbf",
+      "ok": false,
+      "status": "upload-failed",
+      "bytes": 1704212,
+      "error": "wrangler exited 3221226505: \u001b[33m▲ \u001b[43;33m[\u001b[43;30mWARNING\u001b[43;33m]\u001b[0m \u001b[1mA fetch request failed, likely due to a connectivity issue.\u001b[0m\n\n  \n  Common causes:\n    - No internet connection or network connectivity problems\n    - Firewall or VPN blocking the request\n    - Network proxy configuration issues\n  \n  Please check your network connection and try again.\n\n\n\u001b[31mX \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mfetch failed\u001b[0m\n\n\n🪵  Logs were written to \"C:\\Users\\scomo\\AppData\\Roaming\\xdg.config\\.wrangler\\logs\\wrangler-2026-05-30_15-01-24_183.log\"\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 76\r\n"
+    },
+    {
+      "layerId": "roi-national-planning-applications-vector-test",
+      "targetKey": "data/maps/test/tiles/generated/roi-national-planning-applications/10/494/329.pbf",
+      "ok": false,
+      "status": "upload-failed",
+      "bytes": 435241,
+      "error": "wrangler exited 3221226505: \u001b[33m▲ \u001b[43;33m[\u001b[43;30mWARNING\u001b[43;33m]\u001b[0m \u001b[1mA fetch request failed, likely due to a connectivity issue.\u001b[0m\n\n  \n  Common causes:\n    - No internet connection or network connectivity problems\n    - Firewall or VPN blocking the request\n    - Network proxy configuration issues\n  \n  Please check your network connection and try again.\n\n\n\u001b[31mX \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mfetch failed\u001b[0m\n\n\n🪵  Logs were written to \"C:\\Users\\scomo\\AppData\\Roaming\\xdg.config\\.wrangler\\logs\\wrangler-2026-05-30_15-02-14_139.log\"\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 76\r\n"
     }
   ]
 }

@@ -43,13 +43,23 @@ function localPathFromUrlTemplate(value) {
     .replace('/{z}/{x}/{y}.mvt', '');
 }
 
-function isValidBounds(bounds) {
+function isValidBounds(bounds, layer = null) {
   if (!Array.isArray(bounds) || bounds.length !== 2) return false;
   const [[south, west], [north, east]] = bounds;
-  return [south, west, north, east].every(Number.isFinite)
-    && south < north
-    && west < east
-    && south >= 49
+  if (![south, west, north, east].every(Number.isFinite) || south >= north || west >= east) return false;
+  const nearNullIsland = Math.max(Math.abs(south), Math.abs(west), Math.abs(north), Math.abs(east)) < 1;
+  if (nearNullIsland) return false;
+  if (layer?.sourceMapId === 'britain-ireland-seas') {
+    return south >= 45
+      && north <= 63
+      && west >= -18
+      && east <= 14
+      && south < 57
+      && north > 49
+      && west < -4
+      && east > -12;
+  }
+  return south >= 49
     && north <= 57
     && west >= -12.5
     && east <= -4;
@@ -66,7 +76,7 @@ function validateLayer(layer) {
   if (!Number.isInteger(layer.minzoom) || !Number.isInteger(layer.maxzoom) || layer.minzoom < 0 || layer.maxzoom < layer.minzoom) {
     errors.push(`${layer.id}: invalid minzoom/maxzoom`);
   }
-  if (!isValidBounds(layer.bounds)) errors.push(`${layer.id}: invalid bounds`);
+  if (!isValidBounds(layer.bounds, layer)) errors.push(`${layer.id}: invalid bounds`);
   if (layer.sourceType !== 'image' && layer.geometryType !== undefined && !['polygon', 'line', 'point'].includes(layer.geometryType)) {
     errors.push(`${layer.id}: geometryType must be polygon, line, or point`);
   }

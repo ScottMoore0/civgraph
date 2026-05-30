@@ -3,8 +3,8 @@
  * Upload /test PMTiles archives from the CDN manifest to Cloudflare R2.
  */
 
-import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { join, relative, resolve } from 'node:path';
 import { platform } from 'node:os';
 import { spawn } from 'node:child_process';
 
@@ -37,7 +37,7 @@ if (process.argv.includes('--failed-range-report')) {
 
 const manifest = JSON.parse(readFileSync(MANIFEST_PATH, 'utf8'));
 const assets = (manifest.assets || [])
-  .filter((asset) => asset.kind === 'pmtiles')
+  .filter((asset) => asset.kind === 'pmtiles' || asset.kind === 'mvt-directory')
   .filter((asset) => !ONLY_IDS.size || ONLY_IDS.has(asset.layerId));
 const results = [];
 
@@ -49,6 +49,10 @@ if (!assets.length) {
 }
 
 for (const [index, asset] of assets.entries()) {
+  if (asset.kind === 'mvt-directory') {
+    await uploadMvtDirectory(asset, index, assets.length);
+    continue;
+  }
   const filePath = resolve(ROOT, asset.localPath || '');
   if (!existsSync(filePath)) {
     results.push({ layerId: asset.layerId, targetKey: asset.targetKey, ok: false, status: 'missing-local-file' });
@@ -78,6 +82,76 @@ for (const [index, asset] of assets.entries()) {
 const report = writeReport();
 console.log(`Wrote ${REPORT_PATH.replace(`${ROOT}\\`, '').replaceAll('\\', '/')}`);
 if (report.totals.failed) process.exit(1);
+
+async function uploadMvtDirectory(asset, assetIndex, assetCount) {
+  const directory = resolve(ROOT, asset.localPath || '');
+  if (!existsSync(directory)) {
+    results.push({ layerId: asset.layerId, targetPrefix: asset.targetPrefix, ok: false, status: 'missing-local-directory' });
+    writeReport();
+    return;
+  }
+  const files = listFiles(directory).filter((file) => file.endsWith('.pbf'));
+  let uploaded = 0;
+  let failed = 0;
+  let bytes = 0;
+  console.log(`[${assetIndex + 1}/${assetCount}] ${asset.targetPrefix} (${files.length} MVT files)`);
+  for (const [fileIndex, file] of files.entries()) {
+    const rel = relative(directory, file).replaceAll('\\', '/');
+    const targetKey = `${asset.targetPrefix}/${rel}`;
+    const fileBytes = statSync(file).size;
+    bytes += fileBytes;
+    if ((fileIndex + 1) % 250 === 0 || fileIndex === 0 || fileIndex === files.length - 1) {
+      console.log(`  ${fileIndex + 1}/${files.length} ${rel}`);
+    }
+    if (DRY_RUN) {
+      uploaded += 1;
+      continue;
+    }
+    try {
+      await runWrangler([
+        'r2', 'object', 'put',
+        `${BUCKET}/${targetKey}`,
+        '--file', file,
+        '--remote',
+        '--content-type', 'application/x-protobuf',
+        '--content-encoding', 'gzip'
+      ]);
+      uploaded += 1;
+    } catch (err) {
+      failed += 1;
+      results.push({
+        layerId: asset.layerId,
+        targetKey,
+        ok: false,
+        status: 'upload-failed',
+        bytes: fileBytes,
+        error: String(err.message).slice(0, 2000)
+      });
+    }
+    if ((fileIndex + 1) % 50 === 0) writeReport();
+  }
+  results.push({
+    layerId: asset.layerId,
+    targetPrefix: asset.targetPrefix,
+    ok: failed === 0,
+    status: failed === 0 ? (DRY_RUN ? 'dry-run' : 'uploaded-directory') : 'partial-directory-upload',
+    files: files.length,
+    uploaded,
+    failed,
+    bytes
+  });
+  writeReport();
+}
+
+function listFiles(directory) {
+  const output = [];
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    const fullPath = join(directory, entry.name);
+    if (entry.isDirectory()) output.push(...listFiles(fullPath));
+    else if (entry.isFile()) output.push(fullPath);
+  }
+  return output;
+}
 
 function writeReport() {
   const report = {

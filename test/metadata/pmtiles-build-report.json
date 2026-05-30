@@ -1,57 +1,34 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-05-30T00:23:55.398Z",
+  "generatedAt": "2026-05-30T14:32:58.649Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
-    "ogrinfo": "C:\\Program Files\\GDAL\\ogrinfo.exe"
+    "ogrinfo": "C:\\Program Files\\GDAL\\ogrinfo.exe",
+    "sqlite3": "C:\\Program Files\\GDAL\\sqlite3.exe"
   },
   "constrainedPath": "GDAL PMTiles driver",
   "pmtilesDriver": true,
   "outputDirectory": "test/pmtiles/generated",
   "maxGithubBytes": 99614720,
   "totals": {
-    "candidates": 2,
-    "converted": 2,
+    "candidates": 1,
+    "converted": 1,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 2,
-    "oversizedArchives": 0
+    "metadataPreferred": 0,
+    "oversizedArchives": 1
   },
   "converted": [
     {
-      "layerId": "habitat-wetland-grouped-vector-test",
-      "sourceMapId": "habitat-wetland-grouped",
-      "name": "Habitat Network — Wetland Habitat Networks (grouped)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "3500000",
-        "maxFeatures": "3500000",
-        "simplification": "8",
-        "simplificationMaxZoom": "8",
-        "note": "Retuned for grouped wetland habitat network tile pressure using bounded low-zoom simplification."
-      },
-      "output": "test/pmtiles/generated/habitat-wetland-grouped-vector-test.pmtiles",
-      "bytes": 5813477,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "habitat-deciduous-woodland-vector-test",
-      "sourceMapId": "habitat-deciduous-woodland",
-      "name": "Habitat Network — Deciduous Woodland",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "1000000",
-        "maxFeatures": "1000000",
-        "simplification": "4",
-        "simplificationMaxZoom": "8",
-        "note": "Retuned for deciduous woodland habitat network conversion using the bounded LOD0 source."
-      },
-      "output": "test/pmtiles/generated/habitat-deciduous-woodland-vector-test.pmtiles",
-      "bytes": 425342,
-      "exceedsGithubBudget": false
+      "layerId": "roi-national-planning-applications-vector-test",
+      "sourceMapId": "roi-national-planning-applications",
+      "name": "ROI National Planning Applications",
+      "sourceType": "mvt",
+      "status": "already-exists",
+      "output": "test/pmtiles/generated/roi-national-planning-applications-vector-test.pmtiles",
+      "bytes": 273203738,
+      "exceedsGithubBudget": true
     }
   ],
   "skipped": [],

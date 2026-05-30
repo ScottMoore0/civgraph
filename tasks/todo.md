@@ -100,6 +100,38 @@ Resolve remaining /test2 data and performance limits
 - [x] Document any residual blockers with evidence
   - No known warning-level limits remain from this list. The broader data-coverage gap remains separate: 188 main-site entries are still not directly converted/loadable in `/test2`, and `habitat-deciduous-woodland` intentionally uses the coarser LOD0 source for mobile safety until a multi-zoom LOD packaging workflow is added.
 
+Fix remaining /test2 data coverage and deciduous woodland LOD limits
+- [x] Commit and push the previously completed resolved-limits work
+  - Committed `0b102501f` (`Resolve test2 PMTiles coverage limits`) and pushed it to `main`.
+- [x] Re-inventory `/test2` direct-load coverage against the main-site catalogue and port plan
+  - Current port-plan status after the first conversion pass: 733 converted rows, 16 still marked `needsVectorTileConversion`, and 152 metadata-only rows.
+  - The 16 remaining vector rows are: `britain-ireland-seas`, `ireland-island`, `all-ireland-townlands`, `roi-counties-2011`, `ni-1921`, `roi-1938`, eight historic-point layers, `transport-lines-road-rail`, and `dcc-dcc-public-cycle-parking-stands`.
+- [x] Determine which remaining entries are already covered by composite/variant/metadata-only logic versus still needing real data conversion
+  - `all-ireland-townlands` is already loadable in `/test2` through converted `ni-townlands` and `roi-townlands` composite children, so the direct monolithic source should not be promoted just to satisfy a naive direct-row count.
+  - `ireland-island`, `ni-1921`, `roi-1938`, the historic point layers, and `transport-lines-road-rail` have valid lon/lat extents in their source FGBs but missing source SRS metadata, causing generated MVT bounds near 0,0.
+  - `britain-ireland-seas` generated correctly but falls outside the current Ireland-only promotion bounds gate.
+  - `dcc-dcc-public-cycle-parking-stands` has malformed stored geometry but usable latitude/longitude attribute fields that can be used to build corrected point geometry.
+  - `roi-counties-2011` remains suspect: the local GeoJSON itself has coordinates outside Ireland, so it should not be promoted until the source CRS/data issue is resolved or a better source is selected.
+- [x] Implement feasible metadata/conversion fixes for directly loadable entries without deleting or replacing existing source data
+  - Added WGS84 assignment for cached lon/lat FGBs with missing SRS metadata.
+  - Added a corrected DCC public-cycle-parking point build path using the source coordinate fields instead of the malformed stored geometry.
+  - Widened the promotion bounds gate only for `britain-ireland-seas`, while retaining the Null Island and Ireland-bounds guards for ordinary layers.
+  - Left `roi-counties-2011` unpromoted because the local source coordinates are already outside Ireland before conversion.
+- [x] Add or constrain a multi-zoom LOD PMTiles packaging path for `habitat-deciduous-woodland`, or document the exact blocker if GDAL cannot safely merge zoom tiers
+  - Added a constrained low/high zoom path: directory MVT uses LOD0 for z0-z7 and LOD1 for z8-z12; PMTiles packaging builds separate MBTiles tiers, merges their tile rows, then converts the merged archive to PMTiles.
+- [x] Regenerate affected metadata, indexes, reports, and bundles
+  - Regenerated 14 corrected MVT outputs, promoted 15 PMTiles-backed layers including `britain-ireland-seas`, rebuilt the CDN manifest, uploaded the 15 regenerated archives to R2 after retrying transient DNS failures, verified CDN byte-range support for the 15 regenerated archives, switched those layers to CDN URLs, and rebuilt targeted feature indexes.
+- [x] Verify `/test2` coverage, mobile smoke, tile budgets, CDN PMTiles, browser tests, and main build checks
+  - `npm run check:test` passed after the second pass: 799 loadable layers, 588 PMTiles layers, 40 CDN-PMTiles development fallback warnings suppressed, 0 warnings, 0 errors.
+  - `npm run verify:test:pmtiles-cdn` passed for all 588 active PMTiles layers after the targeted CDN range report was expanded back to a full report.
+  - `npm run check:test2`, `npm run check`, `npm run build:test`, and `npm run build:test2` passed; the two builds required approved non-sandbox execution because esbuild is blocked by sandbox `spawn EPERM`.
+  - Targeted mobile smoke for the corrected heavy layers and `habitat-deciduous-woodland-vector-test` passed after runtime min-zoom gates were added for dense transport/risk/habitat layers.
+- [x] Document residual data blockers with evidence
+  - Current `/test`/`/test2` metadata has 799 loadable layers and 154 unconverted catalogue entries.
+  - The only deliberately unpromoted vector row from the direct-fix set remains `roi-counties-2011`; the local source coordinates are outside Ireland before conversion, so promoting it would reintroduce invalid bounds.
+  - Dense transport/risk/habitat layers now use higher runtime min-zooms to avoid rendering hundreds of thousands of features at the default Ireland viewport on mobile.
+  - ROI national planning PMTiles could not be built directly from FGB with GDAL; the successful path is FGB -> retuned MBTiles -> PMTiles, producing a 273,203,738-byte archive that is under Wrangler's upload limit and byte-range verified on the CDN.
+
 Review main site versus /test2 parity
 - [x] Record the review request
 - [x] Inventory main and `/test2` shell, catalogue, map-engine, URL, interaction, and data paths

@@ -55,7 +55,7 @@ for (const converted of verifiedBySourceId.values()) {
 
 if (INCLUDE_RASTERS) {
   const rasterRows = (plan.rows || [])
-    .filter((row) => isValidBounds(row.bounds))
+    .filter((row) => isValidBounds(row.bounds, row))
     .filter((row) => findRasterFile(row))
     .slice(0, RASTER_LIMIT);
   for (const row of rasterRows) {
@@ -79,11 +79,23 @@ console.log(`Promoted ${promotedRasterLayers.length} raster image layer(s).`);
 console.log(`Wrote ${TEST_PATH.replace(`${ROOT}\\`, '')}`);
 
 function syncPortPlan(promotedLayers) {
-  if (!promotedLayers.length) return;
   const bySourceId = new Map(promotedLayers.map((layer) => [layer.sourceMapId, layer]));
+  const directSourceIds = new Set(layers.flatMap((layer) => [layer.sourceMapId, layer.id]).filter(Boolean));
   const rows = (plan.rows || []).map((row) => {
     const layer = bySourceId.get(row.sourceMapId);
-    if (!layer) return row;
+    if (!layer) {
+      const compositeChildIds = convertedCompositeChildIds(row, directSourceIds);
+      if (compositeChildIds.length) {
+        return {
+          ...row,
+          conversionStatus: 'convertedComposite',
+          recommendedTarget: row.recommendedTarget || 'composite-vector-tiles',
+          testLayerId: `composite:${compositeChildIds.join(',')}`,
+          unsupportedReason: null
+        };
+      }
+      return row;
+    }
     return {
       ...row,
       conversionStatus: 'converted',
@@ -92,7 +104,33 @@ function syncPortPlan(promotedLayers) {
       bounds: layer.bounds || row.bounds
     };
   });
-  writeFileSync(PLAN_PATH, `${JSON.stringify({ ...plan, rows }, null, 2)}\n`);
+  writeFileSync(PLAN_PATH, `${JSON.stringify({ ...plan, totals: summarizeRows(rows), rows }, null, 2)}\n`);
+}
+
+function convertedCompositeChildIds(row, directSourceIds) {
+  if (row.conversionStatus === 'converted') return [];
+  const map = mainById.get(row.sourceMapId);
+  if (!map) return [];
+  const candidates = [
+    ...(Array.isArray(map.compositeSources) ? map.compositeSources : []),
+    ...(!map.isGroup && Array.isArray(map.variants) ? map.variants.map((variant) => variant.id) : [])
+  ].filter(Boolean);
+  const uniqueCandidates = unique(candidates);
+  if (!uniqueCandidates.length) return [];
+  return uniqueCandidates.every((id) => directSourceIds.has(id)) ? uniqueCandidates : [];
+}
+
+function summarizeRows(rows) {
+  const directConverted = rows.filter((row) => row.conversionStatus === 'converted').length;
+  const compositeConverted = rows.filter((row) => row.conversionStatus === 'convertedComposite').length;
+  return {
+    total: rows.length,
+    converted: directConverted + compositeConverted,
+    convertedDirect: directConverted,
+    convertedComposite: compositeConverted,
+    needsVectorTileConversion: rows.filter((row) => row.conversionStatus === 'needsVectorTileConversion').length,
+    metadataOnly: rows.filter((row) => row.conversionStatus === 'metadataOnly').length
+  };
 }
 
 function buildVectorLayer(converted, row, map) {
@@ -103,7 +141,7 @@ function buildVectorLayer(converted, row, map) {
   const sourceInfo = getSourceInfo(resolve(ROOT, converted.sourceFile.replace(/^\//, '')));
   const parsed = parseTileMetadata(tileMetadata);
   const bounds = parsed.bounds || row.bounds;
-  if (!isValidBounds(bounds)) return null;
+  if (!isValidBounds(bounds, row)) return null;
   const fields = parsed.fields || {};
   const labelProperty = chooseProperty([map.labelProperty, 'label_name', 'name', 'NAME', 'Name', 'ENGLISH', 'SETTL_NAME', 'LEA'], fields);
   const labelFallbacks = ['name_en', 'name_ga', 'GAEILGE', 'IRISH', 'COUNTY', 'COUNTYNAME']
@@ -144,7 +182,7 @@ function buildVectorLayer(converted, row, map) {
     metadataUrl: `/${outputDir}/metadata.json`,
     sourceLayer: parsed.sourceLayer || converted.sourceLayer,
     promoteId: idProperty || undefined,
-    minzoom: Number(tileMetadata.minzoom ?? 0),
+    minzoom: Math.max(Number(tileMetadata.minzoom ?? 0), runtimeMinZoom(row.sourceMapId)),
     maxzoom: Number(tileMetadata.maxzoom ?? 12),
     bounds,
     style,
@@ -154,7 +192,7 @@ function buildVectorLayer(converted, row, map) {
     keywords: unique([...(map.keywords || []), row.name, row.category, row.group, 'maplibre', 'vector tiles']),
     labelProperty,
     labelPropertyFallbacks: labelFallbacks,
-    labelMinZoom: 0,
+    labelMinZoom: runtimeMinZoom(row.sourceMapId),
     labelMaxZoom: null,
     labelStyle: defaultLabelStyle(style.color),
     featureIndexUrl: labelProperty ? `/test/metadata/feature-indexes/${row.sourceMapId}-vector-test.json` : undefined,
@@ -317,6 +355,18 @@ function mergeCategories(existing, layers) {
   return [...categories.values()];
 }
 
+function runtimeMinZoom(sourceMapId) {
+  const id = String(sourceMapId || '').toLowerCase();
+  if (id.includes('dfi-surface-defects')
+    || id.includes('transport-carriageway-defects')
+    || id.includes('agricultural-critical-risk')
+    || id.includes('existing-protected-cycle-infrastructure')) {
+    return 10;
+  }
+  if (id.includes('habitat-woodland-grouped') || id.includes('habitat-river')) return 8;
+  return 0;
+}
+
 function isGeneratedLayer(layer) {
   return layer.generatedFrom?.pipeline === GENERATED_PIPELINE || layer.generatedFrom?.pipeline === RASTER_PIPELINE;
 }
@@ -325,13 +375,23 @@ function findRasterFile(row) {
   return (row.sourceFiles || []).find((source) => /\.(png|jpe?g|webp)$/i.test(source.file || '')) || null;
 }
 
-function isValidBounds(bounds) {
+function isValidBounds(bounds, row = null) {
   if (!Array.isArray(bounds) || bounds.length !== 2) return false;
   const [[south, west], [north, east]] = bounds;
-  return [south, west, north, east].every(Number.isFinite)
-    && south < north
-    && west < east
-    && south >= 49
+  if (![south, west, north, east].every(Number.isFinite) || south >= north || west >= east) return false;
+  const nearNullIsland = Math.max(Math.abs(south), Math.abs(west), Math.abs(north), Math.abs(east)) < 1;
+  if (nearNullIsland) return false;
+  if (row?.sourceMapId === 'britain-ireland-seas') {
+    return south >= 45
+      && north <= 63
+      && west >= -18
+      && east <= 14
+      && south < 57
+      && north > 49
+      && west < -4
+      && east > -12;
+  }
+  return south >= 49
     && north <= 57
     && west >= -12.5
     && east <= -4;

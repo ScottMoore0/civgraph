@@ -42,7 +42,37 @@ export function getTileProfile(id = '') {
       maxFeatures: '1000000',
       simplification: '4',
       simplificationMaxZoom: '8',
-      note: 'Retuned for deciduous woodland habitat network conversion using the bounded LOD0 source.'
+      note: 'Retuned for deciduous woodland habitat network conversion using LOD0 at low zooms and LOD1 at detail zooms.'
+    };
+  }
+  if (key.includes('habitat-river') || key.includes('habitat-woodland-grouped')) {
+    return {
+      maxSize: '2500000',
+      maxFeatures: '2500000',
+      simplification: '6',
+      simplificationMaxZoom: '8',
+      note: 'Retuned for dense habitat network layers to keep mobile tiles below hard budgets while retaining detail zoom coverage.'
+    };
+  }
+  if (key.includes('roi-national-planning-applications')) {
+    return {
+      maxSize: '2500000',
+      maxFeatures: '2500000',
+      simplification: '2',
+      simplificationMaxZoom: '8',
+      note: 'Retuned for very dense national planning records so PMTiles packaging and mobile loading stay bounded.'
+    };
+  }
+  if (key.includes('dfi-surface-defects')
+    || key.includes('transport-carriageway-defects')
+    || key.includes('agricultural-critical-risk')
+    || key.includes('existing-protected-cycle-infrastructure')) {
+    return {
+      maxSize: '3000000',
+      maxFeatures: '3000000',
+      simplification: '2',
+      simplificationMaxZoom: '8',
+      note: 'Retuned for dense transport and risk layers that otherwise produce oversized low-zoom tiles.'
     };
   }
   return {

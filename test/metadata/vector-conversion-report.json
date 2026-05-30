@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
   "mode": "execute",
-  "generatedAt": "2026-05-30T00:23:18.035Z",
+  "generatedAt": "2026-05-30T13:41:45.638Z",
   "tool": "ogr2ogr GDAL MVT",
   "tippecanoeAvailable": false,
   "perLayerTimeoutMs": 900000,
   "totals": {
-    "vectorRows": 36,
-    "feasibleLocalCandidates": 1,
+    "vectorRows": 1,
+    "feasibleLocalCandidates": 19,
     "skipped": 0,
-    "selected": 1,
-    "converted": 1,
+    "selected": 19,
+    "converted": 9,
     "skippedExisting": 0,
-    "failed": 0
+    "failed": 10
   },
   "notes": [
     "This report does not promote generated tile directories into maps-test.json automatically.",
@@ -21,47 +21,586 @@
   ],
   "candidates": [
     {
-      "sourceMapId": "habitat-deciduous-woodland",
-      "name": "Habitat Network — Deciduous Woodland",
+      "sourceMapId": "wq-agricultural-critical-risk",
+      "name": "Agricultural Critical Risk Areas (DAERA)",
+      "category": "Water Quality",
+      "sourceFile": "test/source-cache/vector-intake/wq-agricultural-critical-risk.fgb",
+      "sourceBytes": 94489808,
+      "outputDirectory": "test/tiles/generated/wq-agricultural-critical-risk"
+    },
+    {
+      "sourceMapId": "transport-carriageway-defects-2021",
+      "name": "Carriageway and Footway Surface Defects 2021",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/transport-carriageway-defects-2021.fgb",
+      "sourceBytes": 47052760,
+      "outputDirectory": "test/tiles/generated/transport-carriageway-defects-2021"
+    },
+    {
+      "sourceMapId": "habitat-river",
+      "name": "Habitat Network — River",
       "category": "Biodiversity & Habitats",
-      "sourceFile": "data/maps/biodiversity/habitat-deciduous-woodland-lod0.fgb",
-      "sourceBytes": 279448,
-      "outputDirectory": "test/tiles/generated/habitat-deciduous-woodland"
+      "sourceFile": "test/source-cache/vector-intake/habitat-river.fgb",
+      "sourceBytes": 79720128,
+      "outputDirectory": "test/tiles/generated/habitat-river"
+    },
+    {
+      "sourceMapId": "habitat-woodland-grouped",
+      "name": "Habitat Network — Woodland Habitat Networks (grouped)",
+      "category": "Biodiversity & Habitats",
+      "sourceFile": "test/source-cache/vector-intake/habitat-woodland-grouped.fgb",
+      "sourceBytes": 75629392,
+      "outputDirectory": "test/tiles/generated/habitat-woodland-grouped"
+    },
+    {
+      "sourceMapId": "roi-national-planning-applications",
+      "name": "ROI National Planning Applications",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/roi-national-planning-applications.fgb",
+      "sourceBytes": 595490088,
+      "outputDirectory": "test/tiles/generated/roi-national-planning-applications"
+    },
+    {
+      "sourceMapId": "dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025",
+      "name": "Dublin Metropolitan Area Existing Protected Cycle Infrastructure 2025 (DCC)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025.fgb",
+      "sourceBytes": 7548040,
+      "outputDirectory": "test/tiles/generated/dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2008",
+      "name": "NI Road Surface Defects 2008",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2008.fgb",
+      "sourceBytes": 56000792,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2008"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2011",
+      "name": "NI Road Surface Defects 2011",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2011.fgb",
+      "sourceBytes": 68923584,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2011"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2012",
+      "name": "NI Road Surface Defects 2012",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2012.fgb",
+      "sourceBytes": 63290792,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2012"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2013",
+      "name": "NI Road Surface Defects 2013",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2013.fgb",
+      "sourceBytes": 59336184,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2013"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2014",
+      "name": "NI Road Surface Defects 2014",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2014.fgb",
+      "sourceBytes": 48927360,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2014"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2015",
+      "name": "NI Road Surface Defects 2015",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2015.fgb",
+      "sourceBytes": 44947312,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2015"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2016",
+      "name": "NI Road Surface Defects 2016",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2016.fgb",
+      "sourceBytes": 43013824,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2016"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2017",
+      "name": "NI Road Surface Defects 2017",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2017.fgb",
+      "sourceBytes": 32739624,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2017"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2018",
+      "name": "NI Road Surface Defects 2018",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2018.fgb",
+      "sourceBytes": 51184008,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2018"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2019",
+      "name": "NI Road Surface Defects 2019",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2019.fgb",
+      "sourceBytes": 42734184,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2019"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2020",
+      "name": "NI Road Surface Defects 2020",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2020.fgb",
+      "sourceBytes": 36591312,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2020"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2021",
+      "name": "NI Road Surface Defects 2021",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2021.fgb",
+      "sourceBytes": 47052768,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2021"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2010",
+      "name": "NI Road Surface Defects 2010",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2010.fgb",
+      "sourceBytes": 74786688,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2010"
     }
   ],
   "selected": [
     {
-      "sourceMapId": "habitat-deciduous-woodland",
-      "name": "Habitat Network — Deciduous Woodland",
+      "sourceMapId": "wq-agricultural-critical-risk",
+      "name": "Agricultural Critical Risk Areas (DAERA)",
+      "category": "Water Quality",
+      "sourceFile": "test/source-cache/vector-intake/wq-agricultural-critical-risk.fgb",
+      "sourceBytes": 94489808,
+      "outputDirectory": "test/tiles/generated/wq-agricultural-critical-risk"
+    },
+    {
+      "sourceMapId": "transport-carriageway-defects-2021",
+      "name": "Carriageway and Footway Surface Defects 2021",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/transport-carriageway-defects-2021.fgb",
+      "sourceBytes": 47052760,
+      "outputDirectory": "test/tiles/generated/transport-carriageway-defects-2021"
+    },
+    {
+      "sourceMapId": "habitat-river",
+      "name": "Habitat Network — River",
       "category": "Biodiversity & Habitats",
-      "sourceFile": "data/maps/biodiversity/habitat-deciduous-woodland-lod0.fgb",
-      "sourceBytes": 279448,
-      "outputDirectory": "test/tiles/generated/habitat-deciduous-woodland"
+      "sourceFile": "test/source-cache/vector-intake/habitat-river.fgb",
+      "sourceBytes": 79720128,
+      "outputDirectory": "test/tiles/generated/habitat-river"
+    },
+    {
+      "sourceMapId": "habitat-woodland-grouped",
+      "name": "Habitat Network — Woodland Habitat Networks (grouped)",
+      "category": "Biodiversity & Habitats",
+      "sourceFile": "test/source-cache/vector-intake/habitat-woodland-grouped.fgb",
+      "sourceBytes": 75629392,
+      "outputDirectory": "test/tiles/generated/habitat-woodland-grouped"
+    },
+    {
+      "sourceMapId": "roi-national-planning-applications",
+      "name": "ROI National Planning Applications",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/roi-national-planning-applications.fgb",
+      "sourceBytes": 595490088,
+      "outputDirectory": "test/tiles/generated/roi-national-planning-applications"
+    },
+    {
+      "sourceMapId": "dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025",
+      "name": "Dublin Metropolitan Area Existing Protected Cycle Infrastructure 2025 (DCC)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025.fgb",
+      "sourceBytes": 7548040,
+      "outputDirectory": "test/tiles/generated/dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2008",
+      "name": "NI Road Surface Defects 2008",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2008.fgb",
+      "sourceBytes": 56000792,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2008"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2011",
+      "name": "NI Road Surface Defects 2011",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2011.fgb",
+      "sourceBytes": 68923584,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2011"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2012",
+      "name": "NI Road Surface Defects 2012",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2012.fgb",
+      "sourceBytes": 63290792,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2012"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2013",
+      "name": "NI Road Surface Defects 2013",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2013.fgb",
+      "sourceBytes": 59336184,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2013"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2014",
+      "name": "NI Road Surface Defects 2014",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2014.fgb",
+      "sourceBytes": 48927360,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2014"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2015",
+      "name": "NI Road Surface Defects 2015",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2015.fgb",
+      "sourceBytes": 44947312,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2015"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2016",
+      "name": "NI Road Surface Defects 2016",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2016.fgb",
+      "sourceBytes": 43013824,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2016"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2017",
+      "name": "NI Road Surface Defects 2017",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2017.fgb",
+      "sourceBytes": 32739624,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2017"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2018",
+      "name": "NI Road Surface Defects 2018",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2018.fgb",
+      "sourceBytes": 51184008,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2018"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2019",
+      "name": "NI Road Surface Defects 2019",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2019.fgb",
+      "sourceBytes": 42734184,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2019"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2020",
+      "name": "NI Road Surface Defects 2020",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2020.fgb",
+      "sourceBytes": 36591312,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2020"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2021",
+      "name": "NI Road Surface Defects 2021",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2021.fgb",
+      "sourceBytes": 47052768,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2021"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2010",
+      "name": "NI Road Surface Defects 2010",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2010.fgb",
+      "sourceBytes": 74786688,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2010"
     }
   ],
   "skippedExisting": [],
   "converted": [
     {
-      "sourceMapId": "habitat-deciduous-woodland",
-      "name": "Habitat Network — Deciduous Woodland",
-      "category": "Biodiversity & Habitats",
-      "sourceFile": "data/maps/biodiversity/habitat-deciduous-woodland-lod0.fgb",
-      "sourceBytes": 279448,
-      "outputDirectory": "test/tiles/generated/habitat-deciduous-woodland",
+      "sourceMapId": "wq-agricultural-critical-risk",
+      "name": "Agricultural Critical Risk Areas (DAERA)",
+      "category": "Water Quality",
+      "sourceFile": "test/source-cache/vector-intake/wq-agricultural-critical-risk.fgb",
+      "sourceBytes": 94489808,
+      "outputDirectory": "test/tiles/generated/wq-agricultural-critical-risk",
       "profile": {
-        "maxSize": "1000000",
-        "maxFeatures": "1000000",
-        "simplification": "4",
+        "maxSize": "3000000",
+        "maxFeatures": "3000000",
+        "simplification": "2",
         "simplificationMaxZoom": "8",
-        "note": "Retuned for deciduous woodland habitat network conversion using the bounded LOD0 source."
+        "note": "Retuned for dense transport and risk layers that otherwise produce oversized low-zoom tiles."
       },
-      "sourceLayer": "habitat_deciduous_woodland",
-      "files": 904,
-      "pbfFiles": 903,
-      "bytes": 501688,
-      "maxTileBytes": 30410
+      "sourceLayer": "wq_agricultural_critical_risk",
+      "files": 740,
+      "pbfFiles": 739,
+      "bytes": 128560049,
+      "maxTileBytes": 2946940
+    },
+    {
+      "sourceMapId": "transport-carriageway-defects-2021",
+      "name": "Carriageway and Footway Surface Defects 2021",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/transport-carriageway-defects-2021.fgb",
+      "sourceBytes": 47052760,
+      "outputDirectory": "test/tiles/generated/transport-carriageway-defects-2021",
+      "profile": {
+        "maxSize": "3000000",
+        "maxFeatures": "3000000",
+        "simplification": "2",
+        "simplificationMaxZoom": "8",
+        "note": "Retuned for dense transport and risk layers that otherwise produce oversized low-zoom tiles."
+      },
+      "sourceLayer": "transport_carriageway_defects_2021",
+      "files": 725,
+      "pbfFiles": 724,
+      "bytes": 91020820,
+      "maxTileBytes": 3121648
+    },
+    {
+      "sourceMapId": "dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025",
+      "name": "Dublin Metropolitan Area Existing Protected Cycle Infrastructure 2025 (DCC)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025.fgb",
+      "sourceBytes": 7548040,
+      "outputDirectory": "test/tiles/generated/dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025",
+      "profile": {
+        "maxSize": "3000000",
+        "maxFeatures": "3000000",
+        "simplification": "2",
+        "simplificationMaxZoom": "8",
+        "note": "Retuned for dense transport and risk layers that otherwise produce oversized low-zoom tiles."
+      },
+      "sourceLayer": "dcc_dublin_metropolitan_area_existing_protected_cycle_infrastructure_2025",
+      "files": 53,
+      "pbfFiles": 52,
+      "bytes": 45154513,
+      "maxTileBytes": 2996959
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2008",
+      "name": "NI Road Surface Defects 2008",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2008.fgb",
+      "sourceBytes": 56000792,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2008",
+      "profile": {
+        "maxSize": "3000000",
+        "maxFeatures": "3000000",
+        "simplification": "2",
+        "simplificationMaxZoom": "8",
+        "note": "Retuned for dense transport and risk layers that otherwise produce oversized low-zoom tiles."
+      },
+      "sourceLayer": "dfi_surface_defects_2008",
+      "files": 652,
+      "pbfFiles": 651,
+      "bytes": 77485804,
+      "maxTileBytes": 3117020
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2011",
+      "name": "NI Road Surface Defects 2011",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2011.fgb",
+      "sourceBytes": 68923584,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2011",
+      "profile": {
+        "maxSize": "3000000",
+        "maxFeatures": "3000000",
+        "simplification": "2",
+        "simplificationMaxZoom": "8",
+        "note": "Retuned for dense transport and risk layers that otherwise produce oversized low-zoom tiles."
+      },
+      "sourceLayer": "dfi_surface_defects_2011",
+      "files": 655,
+      "pbfFiles": 654,
+      "bytes": 88041223,
+      "maxTileBytes": 3113892
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2012",
+      "name": "NI Road Surface Defects 2012",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2012.fgb",
+      "sourceBytes": 63290792,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2012",
+      "profile": {
+        "maxSize": "3000000",
+        "maxFeatures": "3000000",
+        "simplification": "2",
+        "simplificationMaxZoom": "8",
+        "note": "Retuned for dense transport and risk layers that otherwise produce oversized low-zoom tiles."
+      },
+      "sourceLayer": "dfi_surface_defects_2012",
+      "files": 654,
+      "pbfFiles": 653,
+      "bytes": 82797598,
+      "maxTileBytes": 3128756
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2013",
+      "name": "NI Road Surface Defects 2013",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2013.fgb",
+      "sourceBytes": 59336184,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2013",
+      "profile": {
+        "maxSize": "3000000",
+        "maxFeatures": "3000000",
+        "simplification": "2",
+        "simplificationMaxZoom": "8",
+        "note": "Retuned for dense transport and risk layers that otherwise produce oversized low-zoom tiles."
+      },
+      "sourceLayer": "dfi_surface_defects_2013",
+      "files": 662,
+      "pbfFiles": 661,
+      "bytes": 87257353,
+      "maxTileBytes": 3129689
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2014",
+      "name": "NI Road Surface Defects 2014",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2014.fgb",
+      "sourceBytes": 48927360,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2014",
+      "profile": {
+        "maxSize": "3000000",
+        "maxFeatures": "3000000",
+        "simplification": "2",
+        "simplificationMaxZoom": "8",
+        "note": "Retuned for dense transport and risk layers that otherwise produce oversized low-zoom tiles."
+      },
+      "sourceLayer": "dfi_surface_defects_2014",
+      "files": 738,
+      "pbfFiles": 737,
+      "bytes": 95882198,
+      "maxTileBytes": 3118720
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2020",
+      "name": "NI Road Surface Defects 2020",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2020.fgb",
+      "sourceBytes": 36591312,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2020",
+      "profile": {
+        "maxSize": "3000000",
+        "maxFeatures": "3000000",
+        "simplification": "2",
+        "simplificationMaxZoom": "8",
+        "note": "Retuned for dense transport and risk layers that otherwise produce oversized low-zoom tiles."
+      },
+      "sourceLayer": "dfi_surface_defects_2020",
+      "files": 731,
+      "pbfFiles": 730,
+      "bytes": 79645893,
+      "maxTileBytes": 3093643
     }
   ],
-  "failed": [],
+  "failed": [
+    {
+      "sourceMapId": "habitat-river",
+      "name": "Habitat Network — River",
+      "category": "Biodiversity & Habitats",
+      "sourceFile": "test/source-cache/vector-intake/habitat-river.fgb",
+      "sourceBytes": 79720128,
+      "outputDirectory": "test/tiles/generated/habitat-river",
+      "error": "spawnSync ogr2ogr ETIMEDOUT"
+    },
+    {
+      "sourceMapId": "habitat-woodland-grouped",
+      "name": "Habitat Network — Woodland Habitat Networks (grouped)",
+      "category": "Biodiversity & Habitats",
+      "sourceFile": "test/source-cache/vector-intake/habitat-woodland-grouped.fgb",
+      "sourceBytes": 75629392,
+      "outputDirectory": "test/tiles/generated/habitat-woodland-grouped",
+      "error": ""
+    },
+    {
+      "sourceMapId": "roi-national-planning-applications",
+      "name": "ROI National Planning Applications",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/roi-national-planning-applications.fgb",
+      "sourceBytes": 595490088,
+      "outputDirectory": "test/tiles/generated/roi-national-planning-applications",
+      "error": ""
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2015",
+      "name": "NI Road Surface Defects 2015",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2015.fgb",
+      "sourceBytes": 44947312,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2015",
+      "error": "ERROR 1: WriteArrowBatch() failed\r\nERROR 1: Terminating translation prematurely after failed\r\ntranslation of layer surface-defects-2015 (use -skipfailures to skip errors)"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2016",
+      "name": "NI Road Surface Defects 2016",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2016.fgb",
+      "sourceBytes": 43013824,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2016",
+      "error": "ERROR 1: WriteArrowBatch() failed\r\nERROR 1: Terminating translation prematurely after failed\r\ntranslation of layer surface_defects2016 (use -skipfailures to skip errors)"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2017",
+      "name": "NI Road Surface Defects 2017",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2017.fgb",
+      "sourceBytes": 32739624,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2017",
+      "error": "ERROR 1: WriteArrowBatch() failed\r\nERROR 1: Terminating translation prematurely after failed\r\ntranslation of layer surface_defects2017 (use -skipfailures to skip errors)"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2018",
+      "name": "NI Road Surface Defects 2018",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2018.fgb",
+      "sourceBytes": 51184008,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2018",
+      "error": "ERROR 1: WriteArrowBatch() failed\r\nERROR 1: Terminating translation prematurely after failed\r\ntranslation of layer Surface_Defects_2018 (use -skipfailures to skip errors)"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2019",
+      "name": "NI Road Surface Defects 2019",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2019.fgb",
+      "sourceBytes": 42734184,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2019",
+      "error": "ERROR 1: WriteArrowBatch() failed\r\nERROR 1: Terminating translation prematurely after failed\r\ntranslation of layer Surface_Defects_2019 (use -skipfailures to skip errors)"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2021",
+      "name": "NI Road Surface Defects 2021",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2021.fgb",
+      "sourceBytes": 47052768,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2021",
+      "error": "ERROR 1: WriteArrowBatch() failed\r\nERROR 1: Terminating translation prematurely after failed\r\ntranslation of layer dfi-surface-defects-2021 (use -skipfailures to skip errors)"
+    },
+    {
+      "sourceMapId": "dfi-surface-defects-2010",
+      "name": "NI Road Surface Defects 2010",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/dfi-surface-defects-2010.fgb",
+      "sourceBytes": 74786688,
+      "outputDirectory": "test/tiles/generated/dfi-surface-defects-2010",
+      "error": "ERROR 1: WriteArrowBatch() failed\r\nERROR 1: Terminating translation prematurely after failed\r\ntranslation of layer surfacedefects_2010 (use -skipfailures to skip errors)"
+    }
+  ],
   "skipped": []
 }

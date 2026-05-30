@@ -19,8 +19,10 @@ for (const layer of metadata.layers || []) {
   if (layer.loadable === false) continue;
   if (layer.sourceType === 'pmtiles' && layer.tileUrl) {
     addAsset(layer, `pmtiles/generated/${layer.id}.pmtiles`);
+  } else if (layer.tilePackage?.localPath) {
+    addAsset(layer, `pmtiles/generated/${layer.id}.pmtiles`);
   }
-  if (layer.sourceType === 'mvt' && layer.tiles) {
+  if (layer.sourceType === 'mvt' && layer.tiles && !layer.tilePackage?.localPath) {
     const root = layer.tiles.replace('/{z}/{x}/{y}.pbf', '').replace(/^\//, '');
     assets.push({
       layerId: layer.id,
