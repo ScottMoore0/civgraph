@@ -76,7 +76,8 @@ if (INCLUDE_RASTERS) {
   }
 }
 
-const preAliasLayers = dedupeLayers([...baseLayers, ...promotedVectorLayers, ...promotedRasterLayers]);
+const preAliasLayers = dedupeLayers([...baseLayers, ...promotedVectorLayers, ...promotedRasterLayers])
+  .map((layer) => refreshLayerIdentity(layer));
 for (const row of plan.rows || []) {
   if (!row.cloneOf) continue;
   const target = findLayerForSource(preAliasLayers, row.cloneOf);
@@ -85,7 +86,8 @@ for (const row of plan.rows || []) {
   promotedAliasLayers.push(buildAliasLayer(row, map, target));
 }
 
-const layers = dedupeLayers([...preAliasLayers, ...promotedAliasLayers]);
+const layers = dedupeLayers([...preAliasLayers, ...promotedAliasLayers])
+  .map((layer) => refreshLayerIdentity(layer));
 const categories = mergeCategories(test.categories || [], layers);
 const next = {
   ...test,
@@ -201,7 +203,7 @@ function buildVectorLayer(converted, row, map) {
   const labelProperty = chooseProperty([map.labelProperty, 'label_name', 'name', 'NAME', 'Name', 'ENGLISH', 'SETTL_NAME', 'LEA'], fields);
   const labelFallbacks = ['name_en', 'name_ga', 'GAEILGE', 'IRISH', 'COUNTY', 'COUNTYNAME']
     .filter((key) => key !== labelProperty && fields[key]);
-  const idProperty = chooseProperty(['id', 'ID', 'OBJECTID', 'OBJECTID_1', 'FID', 'fid', 'ED_ID', 'GUID', 'SMALL_AREA'], fields);
+  const idProperty = chooseIdProperty(fields, parsed, map, labelProperty);
   const numericProperties = Object.entries(fields)
     .filter(([, type]) => /number|integer|real/i.test(String(type)))
     .map(([key]) => key)
@@ -410,6 +412,30 @@ function buildAliasLayer(row, map, target) {
   };
 }
 
+function refreshLayerIdentity(layer) {
+  if (!layer || ['raster', 'image'].includes(layer.sourceType)) return layer;
+  if (layer.promoteId && layer.idProperty) return layer;
+  const metadataPath = localMetadataPath(layer.metadataUrl);
+  if (!metadataPath || !existsSync(metadataPath)) return layer;
+  const map = mainById.get(layer.sourceMapId) || {};
+  const parsed = parseTileMetadata(JSON.parse(readFileSync(metadataPath, 'utf8')));
+  const fields = parsed.fields || {};
+  const labelProperty = layer.labelProperty || chooseProperty([map.labelProperty, 'label_name', 'name', 'NAME', 'Name', 'ENGLISH', 'SETTL_NAME', 'LEA'], fields);
+  const idProperty = chooseIdProperty(fields, parsed, map, labelProperty);
+  if (!idProperty) return layer;
+  return {
+    ...layer,
+    promoteId: layer.promoteId || idProperty,
+    idProperty: layer.idProperty || idProperty,
+    popupProperties: unique([labelProperty, idProperty, ...(layer.popupProperties || [])]).filter(Boolean)
+  };
+}
+
+function localMetadataPath(metadataUrl) {
+  if (!metadataUrl || /^https?:\/\//i.test(metadataUrl)) return null;
+  return resolve(ROOT, String(metadataUrl).replace(/^\//, ''));
+}
+
 function parseTileMetadata(metadata) {
   let json = {};
   try {
@@ -424,8 +450,66 @@ function parseTileMetadata(metadata) {
     fields: vectorLayer.fields || {},
     geometryType: geometryTypeFromTileStats(tilestatsLayer.geometry),
     bounds: boundsFromMetadata(metadata.bounds),
+    uniqueProperties: uniquePropertiesFromTilestats(tilestatsLayer),
     categoricalValues: categoricalValuesFromTilestats(tilestatsLayer)
   };
+}
+
+function chooseIdProperty(fields, parsed, map, labelProperty) {
+  const uniqueProperties = parsed.uniqueProperties || [];
+  const explicitCandidates = [
+    map.idProperty,
+    map.promoteId,
+    'id',
+    'ID',
+    'OBJECTID',
+    'OBJECTID_1',
+    'ObjectId',
+    'objectid',
+    'FID',
+    'fid',
+    'ogc_fid',
+    'GUID',
+    'GlobalID',
+    'Code',
+    'CODE',
+    'GEOGID',
+    'GEOG_ID',
+    'ED_ID',
+    'LEA_ID',
+    'WARD93_ID',
+    'SOA_CODE',
+    'SA2011',
+    'OA_CODE',
+    'SMALL_AREA'
+  ].filter(Boolean);
+  const explicit = chooseProperty(explicitCandidates, fields);
+  if (explicit) return explicit;
+
+  const uniqueIdLike = uniqueProperties.find((key) => fields[key] && isIdLikeProperty(key));
+  if (uniqueIdLike) return uniqueIdLike;
+
+  if (labelProperty && fields[labelProperty] && uniqueProperties.includes(labelProperty)) return labelProperty;
+
+  return uniqueProperties.find((key) => fields[key] && !isWeakIdentityProperty(key)) || null;
+}
+
+function uniquePropertiesFromTilestats(layer) {
+  const featureCount = Number(layer?.count);
+  if (!Number.isFinite(featureCount) || featureCount <= 0) return [];
+  return (layer.attributes || [])
+    .filter((attribute) => Number(attribute.count) === featureCount)
+    .map((attribute) => attribute.attribute)
+    .filter(Boolean);
+}
+
+function isIdLikeProperty(key) {
+  return /(^|[\s_-])(id|code|ref|reference|fid|guid|objectid|geogid)($|[\s_-])/i.test(String(key))
+    || /^(id|code|fid|guid|objectid|geogid)$/i.test(String(key));
+}
+
+function isWeakIdentityProperty(key) {
+  return /^(area|shape|length|perimeter|hectares|latitude|longitude|easting|northing|min|max|mean|x_|y_)/i.test(String(key));
 }
 
 function categoricalValuesFromTilestats(layer) {

@@ -2334,3 +2334,31 @@ Implement cloneOf alias layer wiring
     - `npm run check` passed the main chunked-map guardrails.
     - `npm run build:test` and `npm run build:test2` passed outside the sandbox after the sandboxed esbuild runs hit the known `spawn EPERM`.
     - `npm run test:browser:test2` passed: 11 tests.
+
+Fix Settlements 2015 labels and feature interaction
+- [x] Record the bug report and scope
+- [x] Inspect Settlements 2015 MapLibre metadata, generated tiles, feature ids, and label fields
+- [x] Determine whether the same missing-label/non-interactive pattern affects other converted layers
+- [x] Patch metadata generation/runtime guardrails so affected layers become labelable, hoverable, and clickable
+- [x] Regenerate metadata/build outputs and verify `/test2`
+- [x] Commit and push the fix
+  - Symptom:
+    - `Settlements 2015` rendered geometry on `/test2`, but feature labels were absent and features could not be hovered or selected.
+  - Root cause:
+    - The vector-tile metadata had a usable unique `Code` field and `Name` labels, but the promoted `/test` metadata lacked `promoteId`/`idProperty`. The MapLibre interaction path depends on a stable feature id for DOM labels, hover feature-state, and selection.
+  - Permanent prevention action:
+    - Extended `scripts/promote-test-converted-layers.mjs` to infer stable ids from tile metadata/tilestats for both newly promoted and pre-existing vector layers. The inference prefers explicit id/code/object id fields, then unique label fields, then other unique non-geometry fields.
+    - Added a `/test2` browser regression for `Settlements 2015` that checks `Code` promotion, visible DOM labels, hover styling, and non-empty feature details.
+  - Broader review:
+    - Before the fix, 314 labelable vector layers lacked configured stable ids. Regenerating metadata now enriches affected layers where tile metadata exposes a safe unique field, including `settlements-2015`.
+    - 118 labelable vector layers still lack an inferable stable id from local tile metadata. Those remain potential risk only where their tiles also lack embedded feature ids; they need source-specific ids or regenerated tiles with ids if they show the same behaviour.
+  - Verification:
+    - `npm run build:test:metadata` passed.
+    - `npm run build:test:promote` passed and assigned `settlements-2015-vector-test` `promoteId: Code`, `idProperty: Code`, and `labelProperty: Name`.
+    - `npm run switch:test:pmtiles-cdn` passed.
+    - `npm run check:test` passed with only the existing local dev fallback warning for resolved `roi-counties-2011`.
+    - `npm run check:test2` passed.
+    - `npm run check` passed.
+    - `npm run build:test` passed.
+    - `npm run build:test2` passed.
+    - `npm run test:browser:test2` passed: 12 tests, including the new `Settlements 2015` label/hover/detail regression.

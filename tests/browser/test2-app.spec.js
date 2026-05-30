@@ -82,6 +82,47 @@ test('/test2 loads a converted layer through the main catalogue map callback', a
   expect(new URL(page.url()).pathname).toBe('/test2/');
 });
 
+test('/test2 Settlements 2015 has labels, hover state, and feature details', async ({ page }) => {
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
+  await page.evaluate(async () => {
+    const app = window.__civgraphTest2.app;
+    await app.loadMap('settlements-2015');
+    await new Promise((resolve) => window.__civgraphTest2.mapController.map.once('idle', resolve));
+  });
+
+  const state = await page.evaluate(() => {
+    const map = window.__civgraphTest2.mapController.map;
+    const layer = window.__civgraphTest2.metadataService.getLayer('settlements-2015-vector-test');
+    const features = map.queryRenderedFeatures({
+      layers: ['settlements-2015-vector-test-fill'].filter((id) => map.getLayer(id))
+    });
+    return {
+      promoteId: layer.promoteId,
+      idProperty: layer.idProperty,
+      labelProperty: layer.labelProperty,
+      featureCount: features.length,
+      featureIds: features.slice(0, 8).map((feature) => feature.id ?? feature.properties?.[layer.promoteId]),
+      labelCount: document.querySelectorAll('.maplibre-dom-label[data-layer-id="settlements-2015-vector-test"]:not([hidden])').length
+    };
+  });
+  expect(state.promoteId).toBe('Code');
+  expect(state.idProperty).toBe('Code');
+  expect(state.labelProperty).toBe('Name');
+  expect(state.featureCount).toBeGreaterThan(0);
+  expect(state.featureIds.every((id) => id !== undefined && id !== null && id !== '')).toBe(true);
+  expect(state.labelCount).toBeGreaterThan(0);
+
+  const firstLabel = page.locator('.maplibre-dom-label[data-layer-id="settlements-2015-vector-test"]:not([hidden])').first();
+  await expect(firstLabel).toBeVisible();
+  await firstLabel.hover();
+  await expect(firstLabel).toHaveClass(/map-label--hover/);
+  await firstLabel.click();
+  await expect(page.locator('#featureInfo')).toBeVisible();
+  await expect(page.locator('#featureInfoContent')).toContainText(/Settlements 2015|Name|Code/i);
+  await expect(page.locator('#featureInfoContent')).not.toContainText('Unnamed Feature');
+});
+
 test('/test2 supports catalogue detail, unsupported notices, and URL restore', async ({ page }) => {
   await page.goto('/test2/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
