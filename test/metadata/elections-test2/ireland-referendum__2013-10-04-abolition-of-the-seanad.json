@@ -6,24 +6,26 @@
   "bodyGroup": null,
   "date": "2013-10-04-abolition-of-the-seanad",
   "year": 2013,
-  "sourceMapId": "dail-2013",
-  "layerId": "dail-2013-vector-test",
-  "labelProperty": "MAX_CON_NA",
+  "sourceMapId": "roi-1938",
+  "layerId": "roi-1938-vector-test",
+  "labelProperty": "Name",
   "geometryType": "polygon",
-  "loadable": false,
-  "displaySubtitle": "1 constituencies; 1 unmatched",
+  "loadable": true,
+  "displaySubtitle": "1 constituencies",
   "displayProvider": "Referendum (Ireland)",
   "constituencies": [
     "Ireland"
   ],
   "isByElection": true,
   "totalConstituencies": 1,
-  "matchedCount": 0,
-  "unmatchedCount": 1,
-  "unmatchedConstituencies": [
-    "Ireland"
+  "matchedCount": 1,
+  "unmatchedCount": 0,
+  "unmatchedConstituencies": [],
+  "availableStyleModes": [
+    "winner",
+    "leadingParty",
+    "seats"
   ],
-  "availableStyleModes": [],
   "results": [
     {
       "constituency": "Ireland",
@@ -66,11 +68,13 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/ireland-referendum/2013-10-04-abolition-of-the-seanad/ireland.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "Republic of Ireland",
+      "featureName": "Republic of Ireland",
+      "featureAliases": [
+        "Republic of Ireland"
+      ],
+      "matchName": "Republic of Ireland",
+      "matched": true
     }
   ]
 }

@@ -10,8 +10,8 @@
   "layerId": "deas-1984-vector-test",
   "labelProperty": "DEA",
   "geometryType": "polygon",
-  "loadable": false,
-  "displaySubtitle": "North Down; 4 unmatched",
+  "loadable": true,
+  "displaySubtitle": "North Down",
   "displayProvider": "Local government: North Down",
   "constituencies": [
     "lg85-NoD-Abbey",
@@ -21,15 +21,14 @@
   ],
   "isByElection": false,
   "totalConstituencies": 4,
-  "matchedCount": 0,
-  "unmatchedCount": 4,
-  "unmatchedConstituencies": [
-    "lg85-NoD-Abbey",
-    "lg85-NoD-Ballyholme-and-Groomsport",
-    "lg85-NoD-Bangor-West",
-    "lg85-NoD-Holywood"
+  "matchedCount": 4,
+  "unmatchedCount": 0,
+  "unmatchedConstituencies": [],
+  "availableStyleModes": [
+    "voteShare",
+    "majority",
+    "quota"
   ],
-  "availableStyleModes": [],
   "results": [
     {
       "constituency": "lg85-NoD-Abbey",
@@ -144,11 +143,13 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/local-government/1985-05-15/lg85-nod-abbey.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "4133",
+      "featureName": "ABBEY",
+      "featureAliases": [
+        "ABBEY"
+      ],
+      "matchName": "ABBEY",
+      "matched": true
     },
     {
       "constituency": "lg85-NoD-Ballyholme-and-Groomsport",
@@ -272,11 +273,13 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/local-government/1985-05-15/lg85-nod-ballyholme-and-groomsport.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "173",
+      "featureName": "BALLYHOLME and GROOMSPORT",
+      "featureAliases": [
+        "BALLYHOLME and GROOMSPORT"
+      ],
+      "matchName": "BALLYHOLME and GROOMSPORT",
+      "matched": true
     },
     {
       "constituency": "lg85-NoD-Bangor-West",
@@ -409,11 +412,13 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/local-government/1985-05-15/lg85-nod-bangor-west.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "56",
+      "featureName": "BANGOR WEST",
+      "featureAliases": [
+        "BANGOR WEST"
+      ],
+      "matchName": "BANGOR WEST",
+      "matched": true
     },
     {
       "constituency": "lg85-NoD-Holywood",
@@ -519,11 +524,13 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/local-government/1985-05-15/lg85-nod-holywood.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "51",
+      "featureName": "HOLYWOOD",
+      "featureAliases": [
+        "HOLYWOOD"
+      ],
+      "matchName": "HOLYWOOD",
+      "matched": true
     }
   ]
 }

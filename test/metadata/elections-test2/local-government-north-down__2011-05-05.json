@@ -10,8 +10,8 @@
   "layerId": "deas-1993-vector-test",
   "labelProperty": "DEA",
   "geometryType": "polygon",
-  "loadable": false,
-  "displaySubtitle": "North Down; 4 unmatched",
+  "loadable": true,
+  "displaySubtitle": "North Down",
   "displayProvider": "Local government: North Down",
   "constituencies": [
     "lg11-NoD-Abbey",
@@ -21,15 +21,15 @@
   ],
   "isByElection": false,
   "totalConstituencies": 4,
-  "matchedCount": 0,
-  "unmatchedCount": 4,
-  "unmatchedConstituencies": [
-    "lg11-NoD-Abbey",
-    "lg11-NoD-Ballyholme-and-Groomsport",
-    "lg11-NoD-Bangor-West",
-    "lg11-NoD-Holywood"
+  "matchedCount": 4,
+  "unmatchedCount": 0,
+  "unmatchedConstituencies": [],
+  "availableStyleModes": [
+    "voteShare",
+    "turnout",
+    "majority",
+    "quota"
   ],
-  "availableStyleModes": [],
   "results": [
     {
       "constituency": "lg11-NoD-Abbey",
@@ -198,11 +198,13 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/local-government/2011-05-05/lg11-nod-abbey.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "49",
+      "featureName": "ABBEY",
+      "featureAliases": [
+        "ABBEY"
+      ],
+      "matchName": "ABBEY",
+      "matched": true
     },
     {
       "constituency": "lg11-NoD-Ballyholme-and-Groomsport",
@@ -353,11 +355,13 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/local-government/2011-05-05/lg11-nod-ballyholme-and-groomsport.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "23",
+      "featureName": "BALLYHOLME AND GROOMSPORT",
+      "featureAliases": [
+        "BALLYHOLME AND GROOMSPORT"
+      ],
+      "matchName": "BALLYHOLME AND GROOMSPORT",
+      "matched": true
     },
     {
       "constituency": "lg11-NoD-Bangor-West",
@@ -499,11 +503,13 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/local-government/2011-05-05/lg11-nod-bangor-west.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "46",
+      "featureName": "BANGOR WEST",
+      "featureAliases": [
+        "BANGOR WEST"
+      ],
+      "matchName": "BANGOR WEST",
+      "matched": true
     },
     {
       "constituency": "lg11-NoD-Holywood",
@@ -600,11 +606,13 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/local-government/2011-05-05/lg11-nod-holywood.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "67",
+      "featureName": "HOLYWOOD",
+      "featureAliases": [
+        "HOLYWOOD"
+      ],
+      "matchName": "HOLYWOOD",
+      "matched": true
     }
   ]
 }

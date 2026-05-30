@@ -58,7 +58,99 @@ const NAME_ALIASES = new Map([
   ['connaught ulster', 'connacht ulster'],
   ['midlands north west', 'midlands north-west'],
   ['cavan monaghan', 'cavan-monaghan'],
-  ['carlow kilkenny', 'carlow-kilkenny']
+  ['carlow kilkenny', 'carlow-kilkenny'],
+  ['ireland', 'republic of ireland'],
+  ['derry area a', 'londonderry area a'],
+  ['derry area b', 'londonderry area b'],
+  ['derry area c', 'londonderry area c'],
+  ['derry area d', 'londonderry area d']
+]);
+
+const SOURCE_NAME_ALIASES = new Map([
+  ['dail-2023', new Map([
+    ['Limerick County (3)', 'Limerick']
+  ])],
+  ['dail-2017', new Map([
+    ['Limerick County (3)', 'Limerick']
+  ])],
+  ['dail-2009', new Map([
+    ['Kerry North-West Limerick', 'Kerry North Limerick West'],
+    ['Laois-Offaly', 'Laoighis Offaly'],
+    ['Roscommon-South Leitrim', 'Roscommon Leitrim South'],
+    ['Sligo-North Leitrim', 'Sligo Leitrim North']
+  ])],
+  ['dail-2005', new Map([
+    ['Cork North-Centrla', 'Cork North Central'],
+    ['Laois-Offaly', 'Laoighis Offaly'],
+    ['Roscommon-South Leitrim', 'Roscommon Leitrim South'],
+    ['Sligo-North Leitrim', 'Sligo Leitrim North']
+  ])],
+  ['pc-1918-ireland', new Map([
+    ['Connemara', 'Galway Connemara'],
+    ['Pembroke', 'Dublin Pembroke'],
+    ['Rathmines', 'Dublin Rathmines'],
+    ['Dublin County N', 'Dublin North'],
+    ['Dublin County S', 'Dublin South'],
+    ["Dublin St Stephen's Green", "Dublin St Stephen's"],
+    ['Cork City', 'Cork'],
+    ['LimerickCity', 'Limerick'],
+    ['Londonderry City', 'Londonderry'],
+    ['Waterford City', 'Waterford'],
+    ['Waterford', 'Waterford County'],
+    ['Waterford E', 'Waterford County'],
+    ['Leitrim S', 'Leitrim'],
+    ['Longford S', 'Longford'],
+    ['Louth S', 'Louth'],
+    ['Westmeath S', 'Westmeath'],
+    ['Birr', "King's County"],
+    ['Leix', "Queen's County"]
+  ])],
+  ['mep-1979', new Map([
+    ['CONNACHT-ULSTER', 'Connaught Ulster']
+  ])],
+  ['roi-local-authorities-1994', new Map([
+    ['DUBLIN CORPORATION', 'Dublin City'],
+    ['LAOIGHIS COUNTY COUNCIL', 'County Laois'],
+    ['TIPPERARY (NORTH RIDING) COUNTY COUNCIL', 'Tipperary North'],
+    ['TIPPERARY (SOUTH RIDING) COUNTY COUNCIL', 'Tipperary South']
+  ])],
+  ['roi-local-authorities-2002', new Map([
+    ['NORTH TIPPERARY COUNTY COUNCIL', 'Tipperary North'],
+    ['SOUTH TIPPERARY COUNTY COUNCIL', 'Tipperary South']
+  ])],
+  ['deas-1984', new Map([
+    ['BRAID VALLEY', 'Braid'],
+    ['LAGANSIDE', 'Laganbank']
+  ])]
+]);
+
+const LOCAL_GOVERNMENT_CODE_PREFIXES = new Map([
+  ['Antrim', 'AnT'],
+  ['Ards', 'ArD'],
+  ['Armagh', 'ArM'],
+  ['Ballymena', 'Bal'],
+  ['Ballymoney', 'Bly'],
+  ['Banbridge', 'Ban'],
+  ['Belfast', 'Bel'],
+  ['Carrickfergus', 'Car'],
+  ['Castlereagh', 'Cas'],
+  ['Coleraine', 'Col'],
+  ['Cookstown', 'Ckt'],
+  ['Craigavon', 'Crg'],
+  ['Derry', 'Der'],
+  ['Down', 'Dow'],
+  ['Dungannon', 'Dun'],
+  ['Fermanagh', 'Fer'],
+  ['Larne', 'Lar'],
+  ['Limavady', 'Lim'],
+  ['Lisburn', 'Lis'],
+  ['Magherafelt', 'Mag'],
+  ['Moyle', 'Moy'],
+  ['Newry and Mourne', 'NaM'],
+  ['Newtownabbey', 'New'],
+  ['North Down', 'NoD'],
+  ['Omagh', 'Oma'],
+  ['Strabane', 'Str']
 ]);
 
 const PARTY_COLOURS = new Map([
@@ -258,8 +350,14 @@ function resolveElectionGeography(entry) {
       [-Infinity, null]
     ]);
   }
-  if (body === 'President of Ireland') return { sourceMapId: 'roi-counties-2011', singleConstituency: true };
+  if (body === 'President of Ireland') return { sourceMapId: 'roi-1938', singleConstituency: true };
   if (body === 'Referendum (Ireland)') {
+    if (isNationalAggregateElection(entry)) return { sourceMapId: 'roi-1938', singleConstituency: true };
+    if (looksLikeRoiLocalAuthorityResults(entry)) {
+      if (year >= 2019) return { sourceMapId: 'roi-local-authorities-2024' };
+      if (year >= 2002) return { sourceMapId: 'roi-local-authorities-2002' };
+      if (year >= 1992) return { sourceMapId: 'roi-local-authorities-1994' };
+    }
     if (year >= 2024) return { sourceMapId: 'dail-2023' };
     if (year === 2019) return { sourceMapId: 'roi-local-authorities-2024' };
     if (year >= 2017) return { sourceMapId: 'dail-2017' };
@@ -274,7 +372,6 @@ function resolveElectionGeography(entry) {
       [2024, 'mep-2024'],
       [2019, 'mep-2019'],
       [2014, 'mep-2014'],
-      [2009, 'mep-2009'],
       [2004, 'mep-2004'],
       [-Infinity, 'mep-1979']
     ]);
@@ -282,9 +379,26 @@ function resolveElectionGeography(entry) {
   return { sourceMapId: null };
 }
 
+function isNationalAggregateElection(entry) {
+  const constituencies = entry.constituencies || [];
+  return constituencies.length === 1 && ['ireland', 'republic of ireland'].includes(normalizeName(constituencies[0]));
+}
+
+function looksLikeRoiLocalAuthorityResults(entry) {
+  const constituencies = entry.constituencies || [];
+  const localAuthorityLikeCount = constituencies.filter((name) => {
+    const normalized = normalizeName(name);
+    return /\b(city|county|borough)\b/.test(normalized)
+      || /\bfingal\b/.test(normalized)
+      || /\bdun laoghaire\b/.test(normalized)
+      || /\bsouth dublin\b/.test(normalized);
+  }).length;
+  return localAuthorityLikeCount >= 10 && localAuthorityLikeCount / Math.max(constituencies.length, 1) >= 0.5;
+}
+
 function buildElectionBundle(entry, geography, layer, featureIndex) {
   const key = electionKey(entry);
-  const featureLookup = buildFeatureLookup(featureIndex);
+  const featureLookup = buildFeatureLookup(featureIndex, geography?.sourceMapId);
   const dateDir = path.join(ELECTION_ROOT, entry.bodySlug, entry.date);
   const dirExists = existsSync(dateDir);
   const singleFeature = geography?.singleConstituency ? firstFeature(featureIndex) : null;
@@ -295,7 +409,7 @@ function buildElectionBundle(entry, geography, layer, featureIndex) {
     const resultPath = findResultFile(dateDir, constituency);
     const rawResult = resultPath ? readJson(resultPath) : null;
     const result = summarizeResult(rawResult, constituency);
-    const match = singleFeature || matchFeature(featureLookup, result.constituency || constituency);
+    const match = singleFeature || matchFeature(featureLookup, result.constituency || constituency, entry);
     if (!match && !geography?.singleConstituency) unmatched.push(result.constituency || constituency);
     results.push({
       ...result,
@@ -313,7 +427,7 @@ function buildElectionBundle(entry, geography, layer, featureIndex) {
       const resultPath = path.join(dateDir, file);
       const rawResult = readJson(resultPath);
       const result = summarizeResult(rawResult, file.replace(/\.json$/, ''));
-      const match = singleFeature || matchFeature(featureLookup, result.constituency);
+      const match = singleFeature || matchFeature(featureLookup, result.constituency, entry);
       if (!match && !geography?.singleConstituency) unmatched.push(result.constituency);
       results.push({
         ...result,
@@ -470,21 +584,32 @@ function loadFeatureIndexes(layers) {
   return indexes;
 }
 
-function buildFeatureLookup(index) {
+function buildFeatureLookup(index, sourceMapId) {
   const byName = new Map();
+  const sourceAliases = SOURCE_NAME_ALIASES.get(sourceMapId) || new Map();
   for (const item of index?.items || []) {
-    const names = unique([item.name, ...(item.aliases || [])]);
+    const explicitAliases = [];
+    for (const name of [item.name, ...(item.aliases || [])]) {
+      const alias = sourceAliases.get(name);
+      if (alias) explicitAliases.push(alias);
+    }
+    const names = unique([item.name, ...(item.aliases || []), ...explicitAliases]);
     for (const name of names) {
       for (const key of nameKeys(name)) {
         if (!byName.has(key)) byName.set(key, item);
+      }
+    }
+    for (const alias of explicitAliases) {
+      for (const key of nameKeys(alias)) {
+        byName.set(key, item);
       }
     }
   }
   return byName;
 }
 
-function matchFeature(lookup, name) {
-  for (const key of nameKeys(name)) {
+function matchFeature(lookup, name, entry = null) {
+  for (const key of matchNameKeys(name, entry)) {
     if (lookup.has(key)) return lookup.get(key);
   }
   return null;
@@ -500,12 +625,93 @@ function nameKeys(value) {
   return unique([
     normalized,
     alias ? normalizeName(alias) : null,
+    normalized.replace(/\bthe\b/g, ''),
     normalized.replace(/\band\b/g, ''),
+    normalized.replace(/\bcouncil\b/g, ''),
+    normalized.replace(/\bdistrict council\b/g, ''),
+    normalized.replace(/\bborough council\b/g, ''),
+    normalized.replace(/\bcity council\b/g, ''),
+    normalized.replace(/\bcity and district council\b/g, ''),
+    normalized.replace(/\bcity and county council\b/g, ''),
+    normalized.replace(/\bcounty council\b/g, ''),
+    normalized.replace(/\bcounty\b/g, ''),
+    normalized.replace(/\bcity\b/g, ''),
     normalized.replace(/\bnorth west\b/g, 'northwest'),
     normalized.replace(/\bsouth west\b/g, 'southwest'),
     normalized.replace(/\bnorth east\b/g, 'northeast'),
-    normalized.replace(/\bsouth east\b/g, 'southeast')
-  ].filter(Boolean));
+    normalized.replace(/\bsouth east\b/g, 'southeast'),
+    expandCompassTokens(normalized)
+  ].map(compactNameKey).filter(Boolean));
+}
+
+function compactNameKey(value) {
+  return String(value || '').replace(/\s+/g, ' ').trim();
+}
+
+function matchNameKeys(value, entry = null) {
+  const candidates = candidateMatchNames(value, entry);
+  return unique(candidates.flatMap((candidate) => nameKeys(candidate)));
+}
+
+function candidateMatchNames(value, entry = null) {
+  const raw = fixText(value || '').trim();
+  const candidates = new Set([raw]);
+  const normalized = normalizeName(raw);
+  if (!raw) return [];
+
+  const strippedLocalCode = raw.replace(/^lg\d{2}-[A-Za-z]{3}-/i, '').trim();
+  if (strippedLocalCode && strippedLocalCode !== raw) candidates.add(strippedLocalCode);
+  if (strippedLocalCode) {
+    candidates.add(strippedLocalCode.replace(/\bcorrected\b/ig, '').trim());
+    candidates.add(`The ${strippedLocalCode}`);
+  }
+
+  const body = entry?.body || '';
+  if (entry?.bodyGroup === 'local-government' && body) {
+    candidates.add(`${body} ${strippedLocalCode || raw}`);
+    const bodyPrefix = new RegExp(`^${escapeRegExp(body)}\\s+`, 'i');
+    if (bodyPrefix.test(strippedLocalCode || raw)) candidates.add((strippedLocalCode || raw).replace(bodyPrefix, '').trim());
+  }
+  const bodyCode = LOCAL_GOVERNMENT_CODE_PREFIXES.get(body);
+  const codedArea = raw.match(/^lg\d{2}-([A-Za-z]{3})-Area-([A-Z])$/i);
+  if (codedArea && bodyCode && codedArea[1].toLowerCase() === bodyCode.toLowerCase()) {
+    candidates.add(`${body} Area ${codedArea[2].toUpperCase()}`);
+  }
+
+  const councilArea = raw.match(/^(.+?)\s+Area\s+([A-Z])$/i);
+  if (councilArea) {
+    candidates.add(`${councilArea[1]} Area ${councilArea[2].toUpperCase()}`);
+    if (/^Derry$/i.test(councilArea[1])) candidates.add(`Londonderry Area ${councilArea[2].toUpperCase()}`);
+  }
+
+  if (/^derry\b/i.test(raw)) candidates.add(raw.replace(/^Derry\b/i, 'Londonderry'));
+  if (/^londonderry\b/i.test(raw)) candidates.add(raw.replace(/^Londonderry\b/i, 'Derry'));
+  if (/\bcorrected\b/i.test(raw)) {
+    const corrected = raw.replace(/[-\s]*corrected\b/ig, '').trim();
+    candidates.add(corrected);
+    if (entry?.bodyGroup === 'local-government' && body) candidates.add(`${body} ${corrected}`);
+  }
+  if (/\bcounty borough\b/.test(normalized)) candidates.add(raw.replace(/\bCounty Borough\b/ig, 'City'));
+
+  return [...candidates].filter(Boolean);
+}
+
+function expandCompassTokens(value) {
+  const compassMap = {
+    n: 'north',
+    s: 'south',
+    e: 'east',
+    w: 'west',
+    ne: 'north east',
+    nw: 'north west',
+    se: 'south east',
+    sw: 'south west'
+  };
+  return normalizeName(value).replace(/\b(ne|nw|se|sw|n|s|e|w)\b/g, (match) => compassMap[match] || match);
+}
+
+function escapeRegExp(value) {
+  return String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function findResultFile(dateDir, constituency) {
@@ -599,7 +805,7 @@ function normalizeName(value) {
     .replace(/\([^)]*\)/g, ' ')
     .replace(/&/g, ' and ')
     .replace(/[''`]/g, '')
-    .replace(/[-_/.,()]/g, ' ')
+    .replace(/[\u2010-\u2015-_/.,()]/g, ' ')
     .replace(/\bconstituency\b/gi, '')
     .replace(/\s+/g, ' ')
     .trim()

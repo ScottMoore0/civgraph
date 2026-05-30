@@ -6,12 +6,12 @@
   "bodyGroup": null,
   "date": "2009-06-05",
   "year": 2009,
-  "sourceMapId": "mep-2009",
-  "layerId": "mep-2009-vector-test",
+  "sourceMapId": "mep-2004",
+  "layerId": "mep-2004-vector-test",
   "labelProperty": "ENGLISH",
   "geometryType": "polygon",
   "loadable": true,
-  "displaySubtitle": "4 constituencies; 3 unmatched",
+  "displaySubtitle": "4 constituencies",
   "displayProvider": "European Parliament (Ireland)",
   "constituencies": [
     "Dublin",
@@ -21,13 +21,9 @@
   ],
   "isByElection": false,
   "totalConstituencies": 4,
-  "matchedCount": 1,
-  "unmatchedCount": 3,
-  "unmatchedConstituencies": [
-    "East",
-    "North West",
-    "South"
-  ],
+  "matchedCount": 4,
+  "unmatchedCount": 0,
+  "unmatchedConstituencies": [],
   "availableStyleModes": [
     "winner",
     "leadingParty",
@@ -148,13 +144,12 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/ireland-european/2009-06-05/dublin.json",
-      "featureId": "2ae19629-1433-13a3-e055-000000000001",
-      "featureName": "DUBLIN CITY COUNCIL",
+      "featureId": "DUBLIN",
+      "featureName": "DUBLIN",
       "featureAliases": [
-        "DUBLIN CITY COUNCIL",
         "DUBLIN"
       ],
-      "matchName": "DUBLIN CITY COUNCIL",
+      "matchName": "DUBLIN",
       "matched": true
     },
     {
@@ -279,11 +274,13 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/ireland-european/2009-06-05/east.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "EAST",
+      "featureName": "EAST",
+      "featureAliases": [
+        "EAST"
+      ],
+      "matchName": "EAST",
+      "matched": true
     },
     {
       "constituency": "North West",
@@ -425,11 +422,13 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/ireland-european/2009-06-05/north-west.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "NORTH-WEST",
+      "featureName": "NORTH-WEST",
+      "featureAliases": [
+        "NORTH-WEST"
+      ],
+      "matchName": "NORTH-WEST",
+      "matched": true
     },
     {
       "constituency": "South",
@@ -544,11 +543,13 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/ireland-european/2009-06-05/south.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "SOUTH",
+      "featureName": "SOUTH",
+      "featureAliases": [
+        "SOUTH"
+      ],
+      "matchName": "SOUTH",
+      "matched": true
     }
   ]
 }

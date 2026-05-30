@@ -1,3 +1,24 @@
+# Follow-up /test2 election name/geography/data mapping
+- [x] Record the follow-up request and preserve the already-pushed election integration commit
+  - Previous `/test2` election integration was committed as `997b7f197 Add test2 election catalogue integration` and pushed to `main`.
+- [x] Inspect the generated unmatched election report and the main-site election/geography data sources
+  - Compared `test/metadata/elections-test2-report.json` against `js/election-controller.js` geography rules, aliases, and `_aliasVariants`.
+- [x] Identify recurring unmatched geography/name patterns by election body, year, and source map
+  - Found repeatable gaps around national referendum/president geography, 2009 Irish EP source selection, Dáil alias carry-over, Unicode dash handling, ROI local-authority labels, and NI local-government code prefixes.
+- [x] Patch deterministic manifest-builder normalisation/crosswalk rules rather than editing generated bundles by hand
+  - Patched `scripts/build-test2-election-manifest.mjs` with source-specific aliases, stronger name-key compaction, Unicode dash normalisation, national aggregate geography rules, ROI local-authority referendum routing, 2009 EP reuse of 2004 boundaries, and local-government body/code variants.
+- [x] Regenerate `/test2` election metadata and report improved matched/unmatched coverage
+  - Regenerated `test/metadata/elections-test2.json`, `test/metadata/elections-test2-report.json`, and affected per-election bundles.
+  - Coverage improved from the pre-follow-up baseline of 489 loadable / 59 placeholders / 3,467 matched / 1,217 unmatched to 519 loadable / 29 placeholders / 3,946 matched / 738 unmatched.
+- [x] Verify with syntax checks, `/test2` validation/build/checks, and targeted browser coverage where affected
+  - `node --check scripts/build-test2-election-manifest.mjs` passed.
+  - `npm run check:test2` passed.
+  - `npm run build:test2` passed after approved rerun outside the sandbox because esbuild spawning was blocked by `EPERM`.
+  - `npm run test:browser:test2` passed after approved rerun outside the sandbox because Playwright browser spawning was blocked by `EPERM`: 14/14 tests passed.
+- [x] Document residual blockers with exact evidence
+  - Residual unmatched rows are dominated by intentionally unmapped pre-1974 Dáil elections (`sourceMapId: null`, 620 unmatched) because the main-site controller also records those eras as deferred until the relevant FGB sources are available.
+  - Remaining non-null mismatches are mostly not safe one-to-one aliases: university seats without polygons, Stormont by-elections without matching boundaries, referendum result names reported on older/newer constituency schemes, and split/merged seats such as Dublin Fingal East/West or Tipperary North/South.
+
 Bounded /test2 UI parity slice for URL/state/search/detail/source/active panel behavior
 - [x] Record the implementation request and owned-file scope
   - Scope is limited to `test2/src/app.js`, `test2/src/test2.css`, `tests/browser/test2-app.spec.js`, `scripts/validate-test2-route.mjs`, plus this task tracker.

@@ -10,8 +10,8 @@
   "layerId": "deas-1993-vector-test",
   "labelProperty": "DEA",
   "geometryType": "polygon",
-  "loadable": false,
-  "displaySubtitle": "North Down; 4 unmatched",
+  "loadable": true,
+  "displaySubtitle": "North Down",
   "displayProvider": "Local government: North Down",
   "constituencies": [
     "lg01-NoD-Abbey",
@@ -21,15 +21,15 @@
   ],
   "isByElection": false,
   "totalConstituencies": 4,
-  "matchedCount": 0,
-  "unmatchedCount": 4,
-  "unmatchedConstituencies": [
-    "lg01-NoD-Abbey",
-    "lg01-NoD-Ballyholme-&-Groomsport",
-    "lg01-NoD-Bangor-West",
-    "lg01-NoD-Holywood"
+  "matchedCount": 4,
+  "unmatchedCount": 0,
+  "unmatchedConstituencies": [],
+  "availableStyleModes": [
+    "voteShare",
+    "turnout",
+    "majority",
+    "quota"
   ],
-  "availableStyleModes": [],
   "results": [
     {
       "constituency": "lg01-NoD-Abbey",
@@ -162,11 +162,13 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/local-government/2001-06-07/lg01-nod-abbey.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "49",
+      "featureName": "ABBEY",
+      "featureAliases": [
+        "ABBEY"
+      ],
+      "matchName": "ABBEY",
+      "matched": true
     },
     {
       "constituency": "lg01-NoD-Ballyholme-&-Groomsport",
@@ -190,11 +192,13 @@
       "leadingColour": "#6b7280",
       "candidates": [],
       "sourceFile": null,
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "23",
+      "featureName": "BALLYHOLME AND GROOMSPORT",
+      "featureAliases": [
+        "BALLYHOLME AND GROOMSPORT"
+      ],
+      "matchName": "BALLYHOLME AND GROOMSPORT",
+      "matched": true
     },
     {
       "constituency": "lg01-NoD-Bangor-West",
@@ -318,11 +322,13 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/local-government/2001-06-07/lg01-nod-bangor-west.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "46",
+      "featureName": "BANGOR WEST",
+      "featureAliases": [
+        "BANGOR WEST"
+      ],
+      "matchName": "BANGOR WEST",
+      "matched": true
     },
     {
       "constituency": "lg01-NoD-Holywood",
@@ -437,11 +443,13 @@
         }
       ],
       "sourceFile": "election-viewer-package/data/elections/local-government/2001-06-07/lg01-nod-holywood.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "matched": false
+      "featureId": "67",
+      "featureName": "HOLYWOOD",
+      "featureAliases": [
+        "HOLYWOOD"
+      ],
+      "matchName": "HOLYWOOD",
+      "matched": true
     }
   ]
 }
