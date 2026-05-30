@@ -18,6 +18,7 @@ import {
   getLabelMinZoom,
   getLabelStyle
 } from './labels.js';
+import { repairFeatureProperties } from './feature-property-repairs.js';
 import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates, boundsToMapLibre, clamp } from './utils.js';
 
 const INTERACTION_FILL_COLOR = '#FDBA74';
@@ -861,7 +862,7 @@ export class TestMapLibreController {
     const normalizedFeature = {
       ...feature,
       id,
-      properties: feature.properties || {},
+      properties: repairFeatureProperties(layer, feature.properties || {}),
       geometry: feature.geometry || null
     };
     this.selected = {

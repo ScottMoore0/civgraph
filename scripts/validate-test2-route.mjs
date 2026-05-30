@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 
 const failures = [];
 const index = readFileSync('test2/index.html', 'utf8');
@@ -7,6 +7,8 @@ const appSource = readFileSync('test2/src/app.js', 'utf8');
 const adapterSource = readFileSync('test2/src/maplibre-main-adapter.js', 'utf8');
 const electionManagerSource = readFileSync('test2/src/election-manager.js', 'utf8');
 const mapControllerSource = readFileSync('test/src/map-controller.js', 'utf8');
+const labelsSource = readFileSync('test/src/labels.js', 'utf8');
+const featureRepairsSource = readFileSync('test/src/feature-property-repairs.js', 'utf8');
 const test2Css = readFileSync('test2/src/test2.css', 'utf8');
 
 function assert(condition, message) {
@@ -69,6 +71,11 @@ assert(adapterSource.includes('applyElectionStyle') && adapterSource.includes('c
 assert(electionManagerSource.includes('ELECTION_MANIFEST_URL') && electionManagerSource.includes('loadElection(body, date)'), '/test2 election manager must lazy-load generated election result bundles');
 assert(electionManagerSource.includes('voteShare') && electionManagerSource.includes('turnout') && electionManagerSource.includes('quota'), '/test2 election manager must expose requested election styling modes');
 assert(test2Css.includes('.test2-election-panel'), '/test2 election panel must have scoped route CSS');
+assert(featureRepairsSource.includes('ARMAGH AREA D') && featureRepairsSource.includes('DUNGANNON AREA C') && featureRepairsSource.includes('LIMAVADY AREA C'), '/test2 must repair known unnamed/misnamed deas-1972 feature labels');
+assert(labelsSource.includes('buildRepairedLabelValueExpression') && labelsSource.includes('repairFeatureProperties'), '/test2 label rendering must use repaired feature properties for known source-data label defects');
+assert(mapControllerSource.includes('repairFeatureProperties(layer, feature.properties || {})'), '/test2 feature selection payloads must include repaired source-data labels');
+assert(adapterSource.includes('repairFeatureProperties(layerConfig'), '/test2 normalized MapLibre features must include repaired source-data labels');
+assert(electionManagerSource.includes('buildRepairedLabelValueExpression') && electionManagerSource.includes('repairFeatureProperties'), '/test2 election matching/styling must use repaired source-data labels');
 
 for (const path of [
   'test2/build/test2.bundle.js',
@@ -76,6 +83,7 @@ for (const path of [
   'test2/src/app.js',
   'test2/src/maplibre-main-adapter.js',
   'test2/src/election-manager.js',
+  'test/src/feature-property-repairs.js',
   'test/metadata/elections-test2.json',
   'test/metadata/elections-test2-report.json'
 ]) {
@@ -87,6 +95,21 @@ if (existsSync('test/metadata/elections-test2.json')) {
   assert((electionManifest.elections || []).length > 100, '/test2 election manifest is unexpectedly small');
   assert((electionManifest.totals?.loadable || 0) > 100, '/test2 election manifest has too few loadable entries');
   assert((electionManifest.elections || []).some((entry) => entry.resultUrl && entry.stylingModes?.includes('winner')), '/test2 election manifest must include lazy result URLs and winner styling');
+}
+
+if (existsSync('test/metadata/elections-test2-report.json')) {
+  const electionReport = JSON.parse(readFileSync('test/metadata/elections-test2-report.json', 'utf8'));
+  assert(!electionReport.residualSummary?.['historic-dea-not-in-source'], '/test2 deas-1972 election residuals should be resolved by source-data label repairs');
+}
+
+if (existsSync('test/metadata/feature-indexes')) {
+  for (const filename of readdirSync('test/metadata/feature-indexes').filter((name) => name.endsWith('.json'))) {
+    const featureIndex = JSON.parse(readFileSync(`test/metadata/feature-indexes/${filename}`, 'utf8'));
+    const items = featureIndex.items || featureIndex.features || (Array.isArray(featureIndex) ? featureIndex : []);
+    const badItem = items.find((item) => !String(item.name || item.label || item.title || '').trim()
+      || /unnamed feature/i.test(String(item.name || item.label || item.title || '')));
+    assert(!badItem, `/test2 feature index ${filename} contains a blank or unnamed feature label`);
+  }
 }
 
 const bundleBytes = existsSync('test2/build/test2.bundle.js') ? statSync('test2/build/test2.bundle.js').size : 0;

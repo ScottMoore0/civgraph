@@ -56,7 +56,7 @@ for (const layer of layers) {
     skipped += 1;
     continue;
   }
-  const propertyColumns = unique([effectiveIdProperty, ...nameProperties])
+  const propertyColumns = unique([effectiveIdProperty, ...nameProperties, ...featureRepairProperties(layer)])
     .map((key) => `${quoteSqlIdentifier(key)} AS ${quoteSqlIdentifier(key)}`);
   const columns = featureIndexColumns(layer, propertyColumns);
   const where = featureIndexWhere(layer);
@@ -81,13 +81,16 @@ for (const layer of layers) {
   const items = rows
     .map((row) => Object.fromEntries(header.map((key, index) => [key, row[index]])))
     .map((props, index) => {
-      const name = nameProperties.map((key) => props[key]).find(Boolean) || fallbackFeatureName(layer, props, index);
+      const repairedProps = repairFeatureIndexProperties(layer, props);
+      const name = nameProperties
+        .map((key) => cleanIndexValue(repairedProps[key]))
+        .find(Boolean) || fallbackFeatureName(layer, repairedProps, index);
       const lon = Number(props.lon);
       const lat = Number(props.lat);
       return {
-        id: props[effectiveIdProperty] || `${layer.id}-${index}`,
+        id: cleanIndexValue(repairedProps[effectiveIdProperty]) || `${layer.id}-${index}`,
         name,
-        aliases: nameProperties.map((key) => props[key]).filter(Boolean),
+        aliases: nameProperties.map((key) => cleanIndexValue(repairedProps[key])).filter(Boolean),
         center: Number.isFinite(lon) && Number.isFinite(lat) ? [Number(lon.toFixed(6)), Number(lat.toFixed(6))] : null
       };
     })
@@ -132,6 +135,11 @@ function featureIndexWhere(layer) {
   return '';
 }
 
+function featureRepairProperties(layer) {
+  if (layer.sourceMapId === 'deas-1972' || layer.id === 'deas-1972-vector-test') return ['Area_SqKM'];
+  return [];
+}
+
 function fallbackFeatureName(layer, props, index) {
   if (layer.sourceMapId === 'dcc-dcc-public-cycle-parking-stands') {
     const lon = Number(props.lon);
@@ -141,7 +149,45 @@ function fallbackFeatureName(layer, props, index) {
       : '';
     return `Cycle parking stand ${index + 1}${suffix}`;
   }
-  return String(props[layer.idProperty || layer.promoteId || 'id'] || '');
+  const id = cleanIndexValue(props[layer.idProperty || layer.promoteId || 'id']);
+  return id ? `Feature ${id}` : `${layer.name || layer.id} feature ${index + 1}`;
+}
+
+function cleanIndexValue(value) {
+  if (value === undefined || value === null) return '';
+  return String(value).trim();
+}
+
+function repairFeatureIndexProperties(layer, props = {}) {
+  if (layer.sourceMapId !== 'deas-1972' && layer.id !== 'deas-1972-vector-test') return props;
+  const repairedName = deas1972RepairedName(props);
+  if (!repairedName) return props;
+  return {
+    ...props,
+    NAME: repairedName,
+    name: props.name || repairedName,
+    label_name: props.label_name || repairedName
+  };
+}
+
+function deas1972RepairedName(props = {}) {
+  if (isBlank(props.NAME) && nearly(props.Area_SqKM, 13.1719213882566)) return 'ARMAGH AREA D';
+  if (String(props.OBJECTID ?? '').trim() === '1624' && normalizeText(props.NAME) === 'DUNGANNON AREA D') return 'DUNGANNON AREA C';
+  if (isBlank(props.NAME) && nearly(props.Area_SqKM, 8.44105398081151)) return 'LIMAVADY AREA C';
+  return '';
+}
+
+function isBlank(value) {
+  return value === undefined || value === null || String(value).trim() === '';
+}
+
+function nearly(value, expected) {
+  const number = Number(value);
+  return Number.isFinite(number) && Math.abs(number - expected) < 0.0001;
+}
+
+function normalizeText(value) {
+  return String(value ?? '').trim().toUpperCase();
 }
 
 function getSourceInfo(sourcePath) {

@@ -1,3 +1,26 @@
+# /test2 deas-1972 unnamed feature review
+- [x] Record the user report that Armagh Area D, Dungannon Area C, and Limavady Area C appear as unnamed features on `/test2`
+  - User correctly identified that the features were present on the map but had broken labels, so the earlier “absent from source” classification needed review.
+- [x] Inspect the `deas-1972` source/index/tile metadata to confirm whether the geometries exist with blank or missing label fields
+  - `DEAs_1972.fgb` has 98 features. The previous feature index had 96 entries and 95 unique labels.
+  - Source rows confirmed: rowid 15 has null `NAME` and area 13.1719213882566 sq km, rowid 80 has null `NAME` and area 8.44105398081151 sq km, and OBJECTID 1624 was labelled `DUNGANNON AREA D` despite representing the missing small Dungannon feature.
+- [x] Trace the `/test2` label/name extraction and election geography matching path for `deas-1972`
+  - `/test2` DOM labels, selection details, feature-search sidecar indexes, and election styling all rely on the same name/label properties, so a metadata-only election alias would not fix map labels or click details.
+- [x] Implement a source-specific repair only if the unnamed features can be identified safely and deterministically
+  - Added a central `deas-1972` repair hook for `ARMAGH AREA D`, `DUNGANNON AREA C`, and `LIMAVADY AREA C`.
+  - Wired it into label expressions, DOM label text, selected-feature properties, MapLibre normalized features, election feature matching, and election style expressions.
+- [x] Regenerate affected metadata and verify the election residual report improves without speculative aliases
+  - Regenerated `test/metadata/feature-indexes/deas-1972-vector-test.json`: now 98 searchable features, including all three repaired names with no duplicate DEA labels.
+  - Regenerated `/test2` election metadata: matched constituencies improved from 3,948 to 3,957; unmatched dropped from 736 to 727; `historic-dea-not-in-source` is now 0.
+- [x] Run relevant `/test2` checks and document the result
+  - Review: the three DEAs were not absent; they were source-data labelling defects. The generated report no longer has any historic DEA residuals.
+- [x] Check for repeat unnamed-feature cases before committing
+  - Audited 525 generated feature-index files: no `Unnamed Feature` labels remained after the DEA repair, but three indexes contained whitespace-only names (`dlr-bicycle-parking-stands`, `osni-coverage-grid-10k`, and `translink-rail-bridges`).
+  - Audited 538 local source-backed converted layers against their generated indexes: 17 layers have source rows that do not produce searchable labels, mostly because the source label field is blank for some rows or because the configured label is ID-only.
+- [x] Add recurrence guardrails for blank feature-index labels
+  - Tightened `scripts/build-test-feature-indexes.mjs` so feature-index names/aliases/ids are trimmed and blank labels fall back to a stable feature name instead of indexing whitespace.
+  - Tightened `scripts/validate-test2-route.mjs` so `/test2` validation fails if any generated feature index contains a blank or `Unnamed Feature` label.
+
 # /test2 election residual parity classification against main site
 - [x] Record the parity-classification request
   - User asked whether main-site election functionality should be achievable on `/test2`; treated this as a parity audit plus safe residual mapping pass.

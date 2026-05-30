@@ -1,5 +1,6 @@
 import maplibregl from 'maplibre-gl';
 import { TestMapLibreController } from '../../test/src/map-controller.js';
+import { repairFeatureProperties } from '../../test/src/feature-property-repairs.js';
 
 const BASE_MAPS = {
   'osm-standard': ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
@@ -716,8 +717,8 @@ export class Test2MapLibreMainAdapter {
   }
 
   normalizeRenderedFeature(feature, mainId, state, record) {
-    const properties = { ...(feature.properties || {}) };
     const layerConfig = record?.config || state?.config || {};
+    const properties = repairFeatureProperties(layerConfig, { ...(feature.properties || {}) });
     const id = feature.id ?? properties[layerConfig.promoteId || 'id'] ?? properties.id;
     const featureName = readFeatureName(layerConfig, properties, id);
     return {

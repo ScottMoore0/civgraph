@@ -1,4 +1,9 @@
 import { DEFAULT_LABEL_MIN_ZOOM } from './config.js';
+import {
+  buildRepairedLabelFilterExpression,
+  buildRepairedLabelValueExpression,
+  repairFeatureProperties
+} from './feature-property-repairs.js';
 import { clamp, unique } from './utils.js';
 
 export function getLabelMinZoom(layer) {
@@ -64,12 +69,14 @@ export function getLabelProperties(layer) {
 export function buildLabelTextExpression(layer) {
   const props = getLabelProperties(layer);
   if (props.length === 0) return '';
-  return ['coalesce', ...props.map((prop) => ['get', prop]), ''];
+  return buildRepairedLabelValueExpression(layer, ['coalesce', ...props.map((prop) => ['get', prop]), '']);
 }
 
 export function buildLabelFilter(layer) {
   const props = getLabelProperties(layer);
-  return props.length > 0 ? ['any', ...props.map((prop) => ['has', prop])] : true;
+  const baseFilter = props.length > 0 ? ['any', ...props.map((prop) => ['has', prop])] : true;
+  const repairFilter = buildRepairedLabelFilterExpression(layer);
+  return repairFilter ? ['any', baseFilter, repairFilter] : baseFilter;
 }
 
 export function buildLabelTextSizeExpression(layer, scale) {
@@ -83,8 +90,9 @@ export function buildLabelSortExpression(layer) {
 }
 
 export function getFeatureLabel(layer, props) {
+  const repairedProps = repairFeatureProperties(layer, props || {});
   for (const prop of getLabelProperties(layer)) {
-    const value = cleanLabelValue(props?.[prop], layer.labelCleanup);
+    const value = cleanLabelValue(repairedProps?.[prop], layer.labelCleanup);
     if (value) return value;
   }
   return '';

@@ -1,3 +1,8 @@
+import {
+  buildRepairedLabelValueExpression,
+  repairFeatureProperties
+} from '../../test/src/feature-property-repairs.js';
+
 const ELECTION_MANIFEST_URL = '/test/metadata/elections-test2.json?v=test-020';
 const DEFAULT_MODE_ORDER = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority', 'seats', 'quota'];
 
@@ -161,13 +166,18 @@ export class Test2ElectionManager {
 
   findResultForFeature(layerResults, feature) {
     if (!layerResults) return null;
+    const repairedProperties = repairFeatureProperties({
+      id: this.activeBundle.layerId,
+      sourceMapId: this.activeBundle.sourceMapId,
+      labelProperty: this.activeBundle.labelProperty
+    }, feature.properties || {});
     const candidates = [
       feature.featureName,
       feature.name,
-      feature.properties?.[this.activeBundle.labelProperty],
-      feature.properties?.name,
-      feature.properties?.Name,
-      feature.properties?.NAME,
+      repairedProperties?.[this.activeBundle.labelProperty],
+      repairedProperties?.name,
+      repairedProperties?.Name,
+      repairedProperties?.NAME,
       feature.id
     ];
     for (const value of candidates) {
@@ -195,7 +205,12 @@ export class Test2ElectionManager {
       if (!result.matched || !result.matchName) continue;
       labels.push(result.matchName, this.colourForMode(mode, result));
     }
-    return ['match', ['to-string', ['get', this.activeBundle.labelProperty || 'name']], ...labels, '#9ca3af'];
+    const matchInput = buildRepairedLabelValueExpression({
+      id: this.activeBundle.layerId,
+      sourceMapId: this.activeBundle.sourceMapId,
+      labelProperty: this.activeBundle.labelProperty
+    }, ['to-string', ['get', this.activeBundle.labelProperty || 'name']]);
+    return ['match', ['to-string', matchInput], ...labels, '#9ca3af'];
   }
 
   colourForMode(mode, result) {

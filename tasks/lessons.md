@@ -1,5 +1,21 @@
 # Lessons Log
 
+### 119) Treat “absent from source” as unproven until unnamed and duplicate-labelled geometries are checked
+- Mistake pattern: Classifying election geographies as absent from a converted boundary source based only on the feature-search index and matched-name report.
+- Impact: `Armagh Area D`, `Dungannon Area C`, and `Limavady Area C` were reported as missing from `deas-1972` even though the geometries existed; two had null `NAME` values and one was mislabelled as a duplicate `DUNGANNON AREA D`.
+- Guardrail:
+  1) before reporting a residual as data-absent, inspect the underlying source feature count, blank label rows, duplicate labels, and nearby same-council geometry,
+  2) source-specific repairs must feed all consumers: rendered labels, selected-feature details, feature indexes, and election styling/matching,
+  3) route validation should fail if a known repaired residual reappears in the generated election report.
+
+### 120) Feature indexes must not preserve whitespace-only labels
+- Mistake pattern: Treating any non-null configured label value as usable for `/test2` feature search and detail names.
+- Impact: Some converted layers could carry whitespace-only labels in their feature-search sidecar files, which makes unnamed/empty feature display defects more likely even when the source geometry is present.
+- Guardrail:
+  1) trim label, alias, and id values before indexing,
+  2) if a configured label is blank after trimming, generate a stable fallback feature name,
+  3) fail `/test2` route validation if any generated feature index contains a blank or `Unnamed Feature` label.
+
 ### 118) MapLibre partial-feature filters need property-based IDs and render-cycle tests
 - Mistake pattern: Assuming MapLibre filter expressions using `['id']` behave like promoted feature IDs in every runtime path, then querying rendered features immediately after `setFilter`.
 - Impact: A partial feature could be marked loaded in adapter state while no feature rendered, or a hidden partial feature could appear in stale query results during the same render cycle.
