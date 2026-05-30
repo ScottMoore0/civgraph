@@ -123,6 +123,49 @@ test('/test2 Settlements 2015 has labels, hover state, and feature details', asy
   await expect(page.locator('#featureInfoContent')).not.toContainText('Unnamed Feature');
 });
 
+test('/test2 no-id vector layers still support labels, hover, and feature details', async ({ page }) => {
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
+  await page.evaluate(async () => {
+    const app = window.__civgraphTest2.app;
+    await app.loadMap('place-names-gazetteer');
+    await new Promise((resolve) => window.__civgraphTest2.mapController.map.once('idle', resolve));
+  });
+
+  const state = await page.evaluate(() => {
+    const map = window.__civgraphTest2.mapController.map;
+    const layer = window.__civgraphTest2.metadataService.getLayer('place-names-gazetteer-vector-test');
+    const queryLayers = ['place-names-gazetteer-vector-test-line'].filter((id) => map.getLayer(id));
+    const features = map.queryRenderedFeatures({ layers: queryLayers });
+    return {
+      promoteId: layer.promoteId || '',
+      idProperty: layer.idProperty || '',
+      featureCount: features.length,
+      nativeIds: features.slice(0, 8).map((feature) => feature.id ?? feature.properties?.id).filter(Boolean).length,
+      labelCount: document.querySelectorAll('.maplibre-dom-label[data-layer-id="place-names-gazetteer-vector-test"]:not([hidden])').length
+    };
+  });
+  expect(state.promoteId).toBe('');
+  expect(state.idProperty).toBe('');
+  expect(state.featureCount).toBeGreaterThan(0);
+  expect(state.nativeIds).toBe(0);
+  expect(state.labelCount).toBeGreaterThan(0);
+
+  const firstLabel = page.locator('.maplibre-dom-label[data-layer-id="place-names-gazetteer-vector-test"]:not([hidden])').first();
+  await expect(firstLabel).toBeVisible();
+  await firstLabel.hover();
+  await expect(firstLabel).toHaveClass(/map-label--hover/);
+  const hoverOverlay = await page.evaluate(() => {
+    const map = window.__civgraphTest2.mapController.map;
+    return map.queryRenderedFeatures({ layers: ['place-names-gazetteer-vector-test-fallback-hover'] }).length;
+  });
+  expect(hoverOverlay).toBeGreaterThan(0);
+  await firstLabel.click();
+  await expect(page.locator('#featureInfo')).toBeVisible();
+  await expect(page.locator('#featureInfoContent')).toContainText(/Place Names Gazetteer|Name/i);
+  await expect(page.locator('#featureInfoContent')).not.toContainText('Unnamed Feature');
+});
+
 test('/test2 supports catalogue detail, unsupported notices, and URL restore', async ({ page }) => {
   await page.goto('/test2/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);

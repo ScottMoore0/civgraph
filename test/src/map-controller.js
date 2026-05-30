@@ -23,6 +23,10 @@ import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates, bound
 const INTERACTION_FILL_COLOR = '#FDBA74';
 const INTERACTION_STROKE_COLOR = '#FF7A1A';
 const DEFAULT_VECTOR_FILL_OPACITY = 0;
+const EMPTY_FEATURE_COLLECTION = Object.freeze({
+  type: 'FeatureCollection',
+  features: []
+});
 
 function isLocalTestTileTemplate(value) {
   return typeof value === 'string' && value.startsWith('/test/tiles/');
@@ -114,17 +118,30 @@ export class TestMapLibreController {
 
     const source = this.buildSource(layer);
     this.map.addSource(sourceId, source);
+    let interactionOverlayIds = { layerIds: [], sourceIds: [] };
     if (layer.sourceType === 'raster' || layer.sourceType === 'image') {
       this.addRasterLayer(layer, { sourceId, rasterId });
     } else {
       this.addGeometryLayers(layer, { sourceId, fillId, lineId, hoverId, selectedFillId, selectedId });
+      interactionOverlayIds = this.addInteractionOverlayLayers(layer);
     }
     const labelLayerIds = this.addLabelLayers(layer, { sourceId, labelId });
 
     this.layers.set(layer.id, {
       config: layer,
       sourceId,
-      layerIds: [fillId, lineId, hoverId, hoverLineId, selectedFillId, selectedId, labelId, rasterId].filter((id) => this.map.getLayer(id)),
+      sourceIds: [sourceId, ...interactionOverlayIds.sourceIds],
+      layerIds: [
+        fillId,
+        lineId,
+        hoverId,
+        hoverLineId,
+        selectedFillId,
+        selectedId,
+        ...interactionOverlayIds.layerIds,
+        labelId,
+        rasterId
+      ].filter((id) => this.map.getLayer(id)),
       labelLayerIds,
       domLabelMarkers: new Map(),
       domLabelsScheduled: 0,
@@ -290,6 +307,69 @@ export class TestMapLibreController {
     });
   }
 
+  addInteractionOverlayLayers(layer) {
+    const hoverSourceId = `${layer.id}-fallback-hover-source`;
+    const selectedSourceId = `${layer.id}-fallback-selected-source`;
+    this.map.addSource(hoverSourceId, { type: 'geojson', data: EMPTY_FEATURE_COLLECTION });
+    this.map.addSource(selectedSourceId, { type: 'geojson', data: EMPTY_FEATURE_COLLECTION });
+    const layerIds = [];
+    const sourceIds = [hoverSourceId, selectedSourceId];
+    const addPointLayer = (id, source, radius) => {
+      this.map.addLayer({
+        id,
+        type: 'circle',
+        source,
+        paint: {
+          'circle-color': INTERACTION_FILL_COLOR,
+          'circle-stroke-color': INTERACTION_STROKE_COLOR,
+          'circle-stroke-width': 2.5,
+          'circle-radius': radius,
+          'circle-opacity': 0.95
+        }
+      });
+      layerIds.push(id);
+    };
+    const addLineLayer = (id, source, width = 3) => {
+      this.map.addLayer({
+        id,
+        type: 'line',
+        source,
+        paint: {
+          'line-color': INTERACTION_STROKE_COLOR,
+          'line-width': width,
+          'line-opacity': 0.95
+        }
+      });
+      layerIds.push(id);
+    };
+    const addFillLayer = (id, source) => {
+      this.map.addLayer({
+        id,
+        type: 'fill',
+        source,
+        paint: {
+          'fill-color': INTERACTION_FILL_COLOR,
+          'fill-opacity': 0.42
+        }
+      });
+      layerIds.push(id);
+    };
+
+    if (layer.geometryType === 'point') {
+      addPointLayer(`${layer.id}-fallback-hover`, hoverSourceId, 7);
+      addPointLayer(`${layer.id}-fallback-selected`, selectedSourceId, 8);
+    } else if (layer.geometryType === 'line') {
+      addLineLayer(`${layer.id}-fallback-hover`, hoverSourceId, 3);
+      addLineLayer(`${layer.id}-fallback-selected`, selectedSourceId, 3);
+    } else {
+      addFillLayer(`${layer.id}-fallback-hover-fill`, hoverSourceId);
+      addLineLayer(`${layer.id}-fallback-hover`, hoverSourceId, 3);
+      addFillLayer(`${layer.id}-fallback-selected-fill`, selectedSourceId);
+      addLineLayer(`${layer.id}-fallback-selected`, selectedSourceId, 3);
+    }
+    return { layerIds, sourceIds };
+  }
+
   addLabelLayers(layer, ids) {
     if (!layer.labelProperty) return [];
     const { sourceId, labelId } = ids;
@@ -340,7 +420,9 @@ export class TestMapLibreController {
     for (const layerIdToRemove of [...record.layerIds].reverse()) {
       if (this.map.getLayer(layerIdToRemove)) this.map.removeLayer(layerIdToRemove);
     }
-    if (this.map.getSource(record.sourceId)) this.map.removeSource(record.sourceId);
+    for (const sourceId of [...(record.sourceIds || []), record.sourceId]) {
+      if (this.map.getSource(sourceId)) this.map.removeSource(sourceId);
+    }
     this.layers.delete(layerId);
     if (this.selected?.layerId === layerId) {
       this.selected = null;
@@ -724,9 +806,15 @@ export class TestMapLibreController {
   }
 
   readFeatureId(layer, feature) {
+    return this.readFeatureIdentity(layer, feature).id;
+  }
+
+  readFeatureIdentity(layer, feature) {
     const idProperty = layer?.promoteId || 'id';
     const id = feature?.id ?? feature?.properties?.[idProperty] ?? feature?.properties?.id;
-    return id === undefined || id === null || id === '' ? null : id;
+    if (id !== undefined && id !== null && id !== '') return { id, generated: false };
+    const generated = generatedFeatureId(layer, feature);
+    return generated ? { id: generated, generated: true } : { id: null, generated: true };
   }
 
   clearHover() {
@@ -738,7 +826,7 @@ export class TestMapLibreController {
   }
 
   setHover(layer, feature) {
-    const id = this.readFeatureId(layer, feature);
+    const { id, generated } = this.readFeatureIdentity(layer, feature);
     if (id === null) {
       this.clearHover();
       return;
@@ -750,36 +838,75 @@ export class TestMapLibreController {
       layerId: layer.id,
       sourceId: record?.sourceId,
       sourceLayer: layer.sourceLayer,
-      id
+      id,
+      generated
     };
     this.setDomLabelHover(layer.id, id, true);
-    try {
-      this.map.setFeatureState({ source: record.sourceId, sourceLayer: layer.sourceLayer, id }, { hover: true });
-    } catch (error) {
-      console.warn('[TestMapLibreController] Could not set hover feature-state', error);
+    if (!generated) {
+      try {
+        this.map.setFeatureState({ source: record.sourceId, sourceLayer: layer.sourceLayer, id }, { hover: true });
+      } catch {}
     }
+    this.setInteractionOverlay(layer.id, 'hover', feature);
     this.map.getCanvas().style.cursor = 'pointer';
   }
 
   selectFeature(layer, feature) {
-    const id = this.readFeatureId(layer, feature);
+    const { id, generated } = this.readFeatureIdentity(layer, feature);
     if (id === null) return false;
     const record = this.layers.get(layer.id);
     if (!record) return false;
     this.setDomLabelSelected(this.selected?.layerId, this.selected?.id, false);
     this.clearFeatureState(this.selected, 'selected');
+    const normalizedFeature = {
+      ...feature,
+      id,
+      properties: feature.properties || {},
+      geometry: feature.geometry || null
+    };
     this.selected = {
       layerId: layer.id,
       sourceId: record.sourceId,
       sourceLayer: layer.sourceLayer,
       id,
-      properties: feature.properties
+      generated,
+      properties: normalizedFeature.properties
     };
-    this.map.setFeatureState({ source: record.sourceId, sourceLayer: layer.sourceLayer, id }, { selected: true });
+    if (!generated) {
+      try {
+        this.map.setFeatureState({ source: record.sourceId, sourceLayer: layer.sourceLayer, id }, { selected: true });
+      } catch {}
+    }
+    this.setInteractionOverlay(layer.id, 'selected', normalizedFeature);
     this.setDomLabelSelected(layer.id, id, true);
-    this.options.onSelection?.({ layer, feature });
+    this.options.onSelection?.({ layer, feature: normalizedFeature });
     this.notifyChange();
     return true;
+  }
+
+  setInteractionOverlay(layerId, state, feature) {
+    const record = this.layers.get(layerId);
+    const sourceId = `${layerId}-fallback-${state}-source`;
+    const source = record && this.map.getSource(sourceId);
+    if (!source?.setData) return;
+    const geometry = cloneGeometry(feature?.geometry);
+    if (!geometry) {
+      source.setData(EMPTY_FEATURE_COLLECTION);
+      return;
+    }
+    source.setData({
+      type: 'FeatureCollection',
+      features: [{
+        type: 'Feature',
+        geometry,
+        properties: { ...(feature.properties || {}) }
+      }]
+    });
+  }
+
+  clearInteractionOverlay(layerId, state) {
+    const source = layerId ? this.map.getSource(`${layerId}-fallback-${state}-source`) : null;
+    if (source?.setData) source.setData(EMPTY_FEATURE_COLLECTION);
   }
 
   scheduleDomLabelRefresh(layerId) {
@@ -894,9 +1021,13 @@ export class TestMapLibreController {
   }
 
   clearFeatureState(selection, key) {
+    if (selection?.layerId) this.clearInteractionOverlay(selection.layerId, key);
     if (!selection?.sourceId || selection.id === undefined || selection.id === null) return;
     if (!this.map.getSource(selection.sourceId)) return;
-    this.map.setFeatureState({ source: selection.sourceId, sourceLayer: selection.sourceLayer, id: selection.id }, { [key]: false });
+    if (selection.generated) return;
+    try {
+      this.map.setFeatureState({ source: selection.sourceId, sourceLayer: selection.sourceLayer, id: selection.id }, { [key]: false });
+    } catch {}
   }
 
   waitForMap() {
@@ -978,6 +1109,92 @@ function collectCoordinatePairs(value, out) {
     return;
   }
   for (const item of value) collectCoordinatePairs(item, out);
+}
+
+function generatedFeatureId(layer, feature) {
+  const properties = feature?.properties || {};
+  const label = getFeatureLabel(layer, properties) || '';
+  const geometryKey = geometrySignature(feature?.geometry);
+  const propertyKey = stablePropertySignature(properties, layer);
+  const key = [label, propertyKey, geometryKey].filter(Boolean).join('|');
+  return key ? `generated:${hashString(key)}` : null;
+}
+
+function geometrySignature(geometry) {
+  const points = [];
+  collectCoordinatePairs(geometry?.coordinates, points);
+  if (!points.length) return '';
+  let minLng = Infinity;
+  let minLat = Infinity;
+  let maxLng = -Infinity;
+  let maxLat = -Infinity;
+  for (const [lng, lat] of points) {
+    if (!Number.isFinite(lng) || !Number.isFinite(lat)) continue;
+    minLng = Math.min(minLng, lng);
+    maxLng = Math.max(maxLng, lng);
+    minLat = Math.min(minLat, lat);
+    maxLat = Math.max(maxLat, lat);
+  }
+  if (![minLng, minLat, maxLng, maxLat].every(Number.isFinite)) return '';
+  const first = points[0] || [];
+  const middle = points[Math.floor(points.length / 2)] || [];
+  const last = points[points.length - 1] || [];
+  return [
+    geometry?.type || 'Geometry',
+    points.length,
+    roundCoord(minLng),
+    roundCoord(minLat),
+    roundCoord(maxLng),
+    roundCoord(maxLat),
+    roundCoord(first[0]),
+    roundCoord(first[1]),
+    roundCoord(middle[0]),
+    roundCoord(middle[1]),
+    roundCoord(last[0]),
+    roundCoord(last[1])
+  ].join(':');
+}
+
+function stablePropertySignature(properties, layer) {
+  const keys = [
+    layer?.labelProperty,
+    ...(layer?.labelPropertyFallbacks || []),
+    ...(layer?.popupProperties || []),
+    'name',
+    'Name',
+    'NAME'
+  ].filter(Boolean);
+  return [...new Set(keys)]
+    .slice(0, 8)
+    .map((key) => {
+      const value = properties?.[key];
+      return value === undefined || value === null ? '' : `${key}=${String(value).slice(0, 80)}`;
+    })
+    .filter(Boolean)
+    .join(';');
+}
+
+function roundCoord(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number.toFixed(6) : '';
+}
+
+function hashString(value) {
+  let hash = 2166136261;
+  const text = String(value);
+  for (let index = 0; index < text.length; index += 1) {
+    hash ^= text.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return (hash >>> 0).toString(36);
+}
+
+function cloneGeometry(geometry) {
+  if (!geometry?.type || !geometry.coordinates) return null;
+  return JSON.parse(JSON.stringify({
+    type: geometry.type,
+    coordinates: geometry.coordinates
+  }));
 }
 
 function readLayerPreferences(layerId) {

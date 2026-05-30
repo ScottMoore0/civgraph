@@ -2362,3 +2362,43 @@ Fix Settlements 2015 labels and feature interaction
     - `npm run build:test` passed.
     - `npm run build:test2` passed.
     - `npm run test:browser:test2` passed: 12 tests, including the new `Settlements 2015` label/hover/detail regression.
+
+Review whether Settlements 2015 identity issue affects other maps
+- [x] Record the follow-up scope
+- [x] Scan converted MapLibre layers for missing stable feature identity
+- [x] Sample local vector tiles where available to confirm embedded feature ids or missing ids
+- [x] Report confirmed affected maps versus residual risk
+  - Review:
+    - After the Settlements 2015 fix, 118 labelable MapLibre vector layers still lacked explicit `promoteId`/`idProperty` in `/test/metadata/maps-test.json`.
+    - A headless `/test2` probe loaded those 118 at-risk layers. It confirmed 103 rendered visible features with no usable feature ids and no DOM labels, so they would have the same label/hover/click failure mode.
+    - 15 at-risk layers rendered no sampled features in the probe, so they remain inconclusive rather than confirmed working or confirmed broken.
+    - The fix class should be generalized further by assigning source-specific ids where available or regenerating those MVT/PMTiles outputs with stable generated feature ids.
+
+
+Continue fixing missing labels/hover/click on no-id MapLibre layers
+- [x] Record the implementation scope
+- [x] Inspect current MapLibre identity, hover, select, and label implementation
+- [x] Implement stable fallback feature keys for layers without embedded or promoted ids
+- [x] Add browser regression for a confirmed affected non-Settlements layer
+- [x] Run builds/checks/browser verification
+- [x] Commit and push the scoped fix
+  - Symptom:
+    - Converted `/test2` MapLibre layers whose vector tiles had no embedded feature ids and whose metadata had no safe `promoteId` could render geometry but fail DOM labels, hover feedback, and feature-card selection.
+  - Root cause:
+    - The shared MapLibre interaction path used feature ids as the key for labels, hover state, and selection. When neither MapLibre feature ids nor promoted property ids existed, those runtime paths had no stable key to attach to.
+  - Permanent prevention action:
+    - Added runtime-generated feature identities based on label properties, selected stable properties, and a rounded geometry signature.
+    - Added GeoJSON hover/selected overlay sources for every vector layer, so generated-id features can still receive Leaflet-like orange hover/selection highlighting even when MapLibre feature-state is unavailable.
+    - Preserved the existing feature-state path for layers with real/promoted ids, so id-backed layers keep the lower-cost native interaction behavior.
+    - Added a `/test2` browser regression for `place-names-gazetteer`, a confirmed no-id layer, checking labels, hover overlay, and non-empty feature details.
+  - Verification:
+    - `node --check test/src/map-controller.js` passed.
+    - `node --check tests/browser/test2-app.spec.js` passed.
+    - `npm run build:test2` passed.
+    - `npm run build:test` passed.
+    - `npm run check:test` passed with only the existing warning-class local fallback finding.
+    - `npm run check:test2` passed.
+    - `npm run check` passed.
+    - `npm run test:browser:test2` passed: 13 tests, including the new no-id layer regression.
+    - A broad custom all-layer probe was attempted, but the full sweep exceeded the practical browser-probe timeout; the maintained browser regression now verifies the generalized public interaction path against a representative confirmed affected layer.
+
