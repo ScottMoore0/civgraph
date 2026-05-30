@@ -307,6 +307,60 @@ export class Test2MapLibreMainAdapter {
     this.renderer?.setLayerLabelsEnabled(testId, !hidden);
   }
 
+  applyElectionStyle(mainId, style = {}) {
+    const state = this.layerStates.get(mainId)
+      || [...this.layerStates.values()].find((candidate) => candidate.testLayerId === mainId);
+    const testId = state?.testLayerId || this.mainToTest.get(mainId) || mainId;
+    const record = this.renderer?.layers.get(testId);
+    if (!record) return;
+
+    record._electionOriginalPaint ||= {};
+    const fillId = `${testId}-fill`;
+    const lineId = `${testId}-line`;
+    if (this.map.getLayer(fillId)) {
+      record._electionOriginalPaint.fillColor ??= this.map.getPaintProperty(fillId, 'fill-color');
+      record._electionOriginalPaint.fillOpacity ??= this.map.getPaintProperty(fillId, 'fill-opacity');
+      this.map.setPaintProperty(fillId, 'fill-color', style.fillColorExpression);
+      if (style.fillOpacity !== undefined) this.map.setPaintProperty(fillId, 'fill-opacity', clamp01(style.fillOpacity));
+    }
+    if (this.map.getLayer(lineId)) {
+      const property = record.config.geometryType === 'point' ? 'circle-color' : 'line-color';
+      record._electionOriginalPaint.lineColor ??= this.map.getPaintProperty(lineId, property);
+      this.map.setPaintProperty(lineId, property, style.lineColorExpression || style.fillColorExpression);
+    }
+    record.electionStyle = {
+      mode: style.mode || 'winner'
+    };
+    this.options.onChange?.(this);
+  }
+
+  clearElectionStyle(mainId) {
+    const state = this.layerStates.get(mainId)
+      || [...this.layerStates.values()].find((candidate) => candidate.testLayerId === mainId);
+    const testId = state?.testLayerId || this.mainToTest.get(mainId) || mainId;
+    const record = this.renderer?.layers.get(testId);
+    if (!record?._electionOriginalPaint) return;
+    const fillId = `${testId}-fill`;
+    const lineId = `${testId}-line`;
+    if (this.map.getLayer(fillId)) {
+      if (record._electionOriginalPaint.fillColor !== undefined) {
+        this.map.setPaintProperty(fillId, 'fill-color', record._electionOriginalPaint.fillColor);
+      }
+      if (record._electionOriginalPaint.fillOpacity !== undefined) {
+        this.map.setPaintProperty(fillId, 'fill-opacity', record._electionOriginalPaint.fillOpacity);
+      }
+    }
+    if (this.map.getLayer(lineId)) {
+      const property = record.config.geometryType === 'point' ? 'circle-color' : 'line-color';
+      if (record._electionOriginalPaint.lineColor !== undefined) {
+        this.map.setPaintProperty(lineId, property, record._electionOriginalPaint.lineColor);
+      }
+    }
+    delete record._electionOriginalPaint;
+    delete record.electionStyle;
+    this.options.onChange?.(this);
+  }
+
   setBaseMap(id) {
     const tiles = BASE_MAPS[id] || BASE_MAPS['osm-standard'];
     if (!this.map) return;
@@ -696,16 +750,11 @@ export class Test2MapLibreMainAdapter {
   handleSelection(selection) {
     if (!selection) return;
     const mainId = this.testToMain.get(selection.layer.id) || selection.layer.sourceMapId || selection.layer.id;
-    const properties = selection.feature?.properties || {};
-    const feature = {
-      ...properties,
-      id: selection.feature?.id,
-      mapId: mainId,
-      mapName: selection.layer.name,
-      properties,
-      geometry: selection.feature?.geometry
-    };
-    const features = [feature];
+    const state = this.layerStates.get(mainId);
+    const record = this.renderer?.layers.get(state?.testLayerId || selection.layer.id);
+    const feature = this.normalizeRenderedFeature(selection.feature, mainId, state, record);
+    const enrichedFeature = this.options.enrichFeature?.(feature, selection) || feature;
+    const features = [enrichedFeature];
     this.onFeatureClick?.(features);
     this.options.onFeatureClick?.(features);
   }

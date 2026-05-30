@@ -5,6 +5,7 @@ const failures = [];
 const index = readFileSync('test2/index.html', 'utf8');
 const appSource = readFileSync('test2/src/app.js', 'utf8');
 const adapterSource = readFileSync('test2/src/maplibre-main-adapter.js', 'utf8');
+const electionManagerSource = readFileSync('test2/src/election-manager.js', 'utf8');
 const mapControllerSource = readFileSync('test/src/map-controller.js', 'utf8');
 const test2Css = readFileSync('test2/src/test2.css', 'utf8');
 
@@ -48,7 +49,7 @@ assert(mapControllerSource.includes("const INTERACTION_FILL_COLOR = '#FDBA74'"),
 assert(mapControllerSource.includes("const INTERACTION_STROKE_COLOR = '#FF7A1A'"), '/test2 selected and hover strokes must share the main-style deep orange colour');
 assert(mapControllerSource.includes('selectedFillId') && mapControllerSource.includes("['feature-state', 'selected']"), '/test2 polygon selections must include a selected fill, not only an outline');
 assert(!mapControllerSource.includes("'line-color': '#111827'") && !mapControllerSource.includes("'circle-color': '#111827'"), '/test2 selections must not use the old thick black selected styling');
-assert(adapterSource.includes('properties,') && adapterSource.includes('geometry: selection.feature?.geometry'), '/test2 feature selections must pass nested properties/geometry to main feature-info rendering');
+assert(adapterSource.includes('normalizeRenderedFeature(selection.feature') && adapterSource.includes('this.options.enrichFeature'), '/test2 feature selections must pass normalized nested properties/geometry to main feature-info rendering');
 assert(adapterSource.includes('const OVERLAY_LAYERS') && adapterSource.includes('showOverlay(overlayId)') && adapterSource.includes('hideOverlay(overlayId)'), '/test2 adapter must support existing raster overlay toggles');
 assert(!adapterSource.includes('toggleOverlay() {\n    return false;\n  }'), '/test2 overlay toggles must not remain stubbed');
 assert(adapterSource.includes('applyPartialFeatureFilter') && adapterSource.includes('buildFeatureFilter'), '/test2 adapter must implement partial feature visibility with MapLibre filters');
@@ -60,14 +61,32 @@ assert(adapterSource.includes('_fillOpacity: resolveFillOpacity(layer)'), '/test
 assert(appSource.includes('getMainMap: (mapId) => dataService.getMapById(mapId)'), '/test2 adapter must receive main-site map config so style parity is based on the source catalogue');
 assert(adapterSource.includes('applyMainStyle(layer, mainConfig') && adapterSource.includes('delete style.fillOpacity'), '/test2 must discard converted-metadata fill opacity when the main catalogue has no explicit fill opacity');
 assert(!mapControllerSource.includes('fillOpacity ?? 0.18') && !adapterSource.includes('fillOpacity ?? 0.18'), '/test2 must not reintroduce the old semi-opaque vector fill fallback');
+assert(appSource.includes('Test2ElectionManager'), '/test2 must wire the election manager into the main shell route');
+assert(!appSource.includes('Election map workflows are not converted for /test2 yet'), '/test2 election callbacks must not remain disabled stubs');
+assert(appSource.includes('onBuildElectionCatalogueCards') && appSource.includes('this.elections?.buildCatalogueCards'), '/test2 catalogue must expose generated election entries');
+assert(appSource.includes('enrichFeature: (feature, selection) => this.elections?.enrichFeature'), '/test2 selected feature details must merge election results where active');
+assert(adapterSource.includes('applyElectionStyle') && adapterSource.includes('clearElectionStyle'), '/test2 adapter must support MapLibre election styling expressions');
+assert(electionManagerSource.includes('ELECTION_MANIFEST_URL') && electionManagerSource.includes('loadElection(body, date)'), '/test2 election manager must lazy-load generated election result bundles');
+assert(electionManagerSource.includes('voteShare') && electionManagerSource.includes('turnout') && electionManagerSource.includes('quota'), '/test2 election manager must expose requested election styling modes');
+assert(test2Css.includes('.test2-election-panel'), '/test2 election panel must have scoped route CSS');
 
 for (const path of [
   'test2/build/test2.bundle.js',
   'test2/build/test2.bundle.css',
   'test2/src/app.js',
-  'test2/src/maplibre-main-adapter.js'
+  'test2/src/maplibre-main-adapter.js',
+  'test2/src/election-manager.js',
+  'test/metadata/elections-test2.json',
+  'test/metadata/elections-test2-report.json'
 ]) {
   assert(existsSync(path), `${path} is missing`);
+}
+
+if (existsSync('test/metadata/elections-test2.json')) {
+  const electionManifest = JSON.parse(readFileSync('test/metadata/elections-test2.json', 'utf8'));
+  assert((electionManifest.elections || []).length > 100, '/test2 election manifest is unexpectedly small');
+  assert((electionManifest.totals?.loadable || 0) > 100, '/test2 election manifest has too few loadable entries');
+  assert((electionManifest.elections || []).some((entry) => entry.resultUrl && entry.stylingModes?.includes('winner')), '/test2 election manifest must include lazy result URLs and winner styling');
 }
 
 const bundleBytes = existsSync('test2/build/test2.bundle.js') ? statSync('test2/build/test2.bundle.js').size : 0;

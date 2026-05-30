@@ -205,6 +205,116 @@
   font-style: italic;
 }
 
+.test2-election-panel {
+  position: absolute;
+  top: 76px;
+  right: 14px;
+  z-index: 530;
+  width: min(340px, calc(100vw - 32px));
+  max-height: calc(100% - 96px);
+  overflow: auto;
+  background: var(--color-surface, #fff);
+  color: var(--color-text, #1a202c);
+  border: 1px solid var(--color-border, #d8e0ea);
+  border-radius: 8px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.18);
+  padding: 12px;
+}
+
+.test2-election-panel.hidden {
+  display: none;
+}
+
+.test2-election-panel__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--color-border, #d8e0ea);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.test2-election-panel__header h3 {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.test2-election-panel__header p,
+.test2-election-panel__eyebrow {
+  margin: 0;
+  color: var(--color-text-muted, #718096);
+  font-size: 12px;
+}
+
+.test2-election-panel__header button {
+  min-height: 32px;
+  padding: 4px 10px;
+}
+
+.test2-election-panel__mode {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.test2-election-panel__mode select {
+  width: 100%;
+  min-height: 34px;
+}
+
+.test2-election-panel__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+
+.test2-election-panel__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.test2-election-panel__legend-item i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(17, 24, 39, 0.2);
+}
+
+.test2-election-panel__legend-ramp {
+  width: 84px;
+  height: 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(17, 24, 39, 0.16);
+  background: linear-gradient(90deg, #fef3c7, #fde68a, #f59e0b, #d97706, #92400e);
+}
+
+.test2-election-panel__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.test2-election-panel__stats dt {
+  color: var(--color-text-muted, #718096);
+  font-size: 11px;
+}
+
+.test2-election-panel__stats dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  font-weight: 700;
+}
+
 @media (max-width: 640px) {
   .test2-source-panel {
     top: 64px;
@@ -212,5 +322,14 @@
     left: 10px;
     width: auto;
     max-height: calc(100% - 82px);
+  }
+
+  .test2-election-panel {
+    top: auto;
+    right: 10px;
+    bottom: 12px;
+    left: 10px;
+    width: auto;
+    max-height: 42vh;
   }
 }

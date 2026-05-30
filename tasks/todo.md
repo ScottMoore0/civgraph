@@ -2402,3 +2402,38 @@ Continue fixing missing labels/hover/click on no-id MapLibre layers
     - `npm run test:browser:test2` passed: 13 tests, including the new no-id layer regression.
     - A broad custom all-layer probe was attempted, but the full sweep exceeded the practical browser-probe timeout; the maintained browser regression now verifies the generalized public interaction path against a representative confirmed affected layer.
 
+Add election entries to /test2
+- [x] Record the implementation request and scope
+- [x] Generate a /test2 election catalogue manifest from `election-viewer-package/data/elections`
+- [x] Generate a geography crosswalk from election entry names to converted MapLibre layers
+- [x] Report unmatched election entries before promotion
+- [x] Add /test2 election browsing in the left catalogue
+- [x] Add MapLibre election styling modes for winner, leading party, vote share, turnout, majority, seats, and quota where data supports them
+- [x] Merge election result JSON into selected feature details
+- [x] Keep election result JSON lazy-loaded or bundled per election date
+- [x] Run verification and document residual unmatched/data limitations
+  - Implemented:
+    - Added `scripts/build-test2-election-manifest.mjs` to generate `test/metadata/elections-test2.json`, per-election lazy bundles in `test/metadata/elections-test2/`, and `test/metadata/elections-test2-report.json`.
+    - Added geography mapping from election bodies/dates to converted MapLibre layers, including Westminster, Assembly aliases, Stormont, Dail, Irish presidential/referendum/European Parliament, and NI local-government DEA layers.
+    - Wired `/test2` election catalogue callbacks through `Test2ElectionManager`, so generated election rows appear in the existing left catalogue and load via the main shell.
+    - Added MapLibre election styling for winner, leading party, vote share, turnout, majority, seats, and quota where each bundle has supporting data.
+    - Added selected-feature enrichment so the main feature card shows active election fields such as Election, Winning party, Leading party, Vote share, Turnout, Majority, Seats, Quota, and Valid poll.
+    - Kept the top-level manifest small and lazy-loads only the selected election's bundle.
+  - Generated coverage:
+    - 548 election catalogue entries.
+    - 489 loadable entries.
+    - 59 placeholder entries where geography/result matching is not sufficient yet.
+    - 3,467 matched constituency results.
+    - 1,217 unmatched constituency results listed in `test/metadata/elections-test2-report.json`.
+  - Verification:
+    - `node --check scripts/build-test2-election-manifest.mjs` passed.
+    - `node --check test2/src/election-manager.js` passed.
+    - `node --check test2/src/app.js` passed.
+    - `node --check test2/src/maplibre-main-adapter.js` passed.
+    - `node --check scripts/validate-test2-route.mjs` passed.
+    - `node --check tests/browser/test2-app.spec.js` passed.
+    - `npm run build:test2` passed after sandbox escalation for esbuild spawn.
+    - `npm run check:test2` passed.
+    - `npm run test:browser:test2` passed after sandbox escalation for Chromium/server spawn: 14 tests.
+    - `npm run check` passed.
+

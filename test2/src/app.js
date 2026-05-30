@@ -4,6 +4,7 @@ import dataService from '../../js/data-service.js';
 import featureLoader from '../../js/feature-loader.js';
 import uiController from '../../js/ui-controller.js';
 import { TestMetadataService } from '../../test/src/metadata-service.js';
+import { Test2ElectionManager } from './election-manager.js';
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
 
 class Test2App {
@@ -20,6 +21,7 @@ class Test2App {
     this.currentDetailMapId = null;
     this.currentSourceMapId = null;
     this.baseMapId = 'osm-standard';
+    this.elections = null;
   }
 
   async init() {
@@ -34,6 +36,7 @@ class Test2App {
     this.mapController = new Test2MapLibreMainAdapter('map', this.metadataService, {
       onFeatureClick: (features) => uiController.showFeatureInfo(features, dataService.getAllMaps()),
       getMainMap: (mapId) => dataService.getMapById(mapId),
+      enrichFeature: (feature, selection) => this.elections?.enrichFeature(feature, selection) || feature,
       onChange: () => {
         this.syncCatalogueMapState();
         this.updateActiveLayers();
@@ -46,6 +49,12 @@ class Test2App {
 
     this.wireUiCallbacks();
     this.installCatalogueStateBridge();
+    this.elections = new Test2ElectionManager({
+      app: this,
+      mapController: this.mapController,
+      onError: (error) => this.showMapError(error)
+    });
+    await this.elections.load();
     uiController.init();
     uiController.showAllMaps = true;
 
@@ -55,6 +64,7 @@ class Test2App {
       app: this,
       mapController: this.mapController,
       metadataService: this.metadataService,
+      elections: this.elections,
       restorePromise: null
     };
     this.renderCategoryPills();
@@ -115,10 +125,20 @@ class Test2App {
   }
 
   wireUiCallbacks() {
-    uiController.onBuildElectionCatalogueCards = async () => [];
-    uiController.onLoadElection = async () => this.showMapError(new Error('Election map workflows are not converted for /test2 yet.'));
-    uiController.onUnloadElection = () => {};
-    uiController.onCheckElectionLoaded = () => false;
+    uiController.onBuildElectionCatalogueCards = async () => this.elections?.buildCatalogueCards() || [];
+    uiController.onLoadElection = async (body, date) => {
+      try {
+        await this.elections?.loadElection(body, date);
+        this.updateMapList();
+      } catch (error) {
+        this.showMapError(error);
+      }
+    };
+    uiController.onUnloadElection = () => {
+      this.elections?.unloadElection();
+      this.updateMapList();
+    };
+    uiController.onCheckElectionLoaded = (body, date) => this.elections?.isElectionLoaded(body, date) || false;
     uiController.onSetupElectionTableControls = () => {};
 
     uiController.onSplitChange = () => {

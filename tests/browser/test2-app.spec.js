@@ -131,6 +131,9 @@ test('/test2 no-id vector layers still support labels, hover, and feature detail
     await app.loadMap('place-names-gazetteer');
     await new Promise((resolve) => window.__civgraphTest2.mapController.map.once('idle', resolve));
   });
+  await page.waitForFunction(() =>
+    document.querySelectorAll('.maplibre-dom-label[data-layer-id="place-names-gazetteer-vector-test"]:not([hidden])').length > 0
+  );
 
   const state = await page.evaluate(() => {
     const map = window.__civgraphTest2.mapController.map;
@@ -164,6 +167,53 @@ test('/test2 no-id vector layers still support labels, hover, and feature detail
   await expect(page.locator('#featureInfo')).toBeVisible();
   await expect(page.locator('#featureInfoContent')).toContainText(/Place Names Gazetteer|Name/i);
   await expect(page.locator('#featureInfoContent')).not.toContainText('Unnamed Feature');
+});
+
+test('/test2 loads generated election entries with MapLibre styling and enriched feature details', async ({ page }) => {
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.elections?.catalogue?.elections?.length);
+
+  const loaded = await page.evaluate(async () => {
+    const app = window.__civgraphTest2.app;
+    const entry = app.elections.catalogue.elections.find((item) =>
+      item.body === 'House of Commons of the United Kingdom'
+      && item.date === '2024-07-04'
+      && item.loadable
+    );
+    if (!entry) return null;
+    await app.elections.loadElection(entry.body, entry.date);
+    await new Promise((resolve) => window.__civgraphTest2.mapController.map.once('idle', resolve));
+    const map = window.__civgraphTest2.mapController.map;
+    return {
+      key: entry.key,
+      sourceMapId: entry.sourceMapId,
+      matchedCount: entry.matchedCount,
+      layerLoaded: app.mapController.isLayerLoaded(entry.sourceMapId),
+      panelVisible: !document.getElementById('test2ElectionPanel')?.classList.contains('hidden'),
+      fillColour: map.getPaintProperty('pc-2023-vector-test-fill', 'fill-color'),
+      labels: document.querySelectorAll('.maplibre-dom-label[data-layer-id="pc-2023-vector-test"]:not([hidden])').length
+    };
+  });
+
+  expect(loaded).toBeTruthy();
+  expect(loaded.sourceMapId).toBe('pc-2023');
+  expect(loaded.matchedCount).toBe(18);
+  expect(loaded.layerLoaded).toBe(true);
+  expect(loaded.panelVisible).toBe(true);
+  expect(JSON.stringify(loaded.fillColour)).toContain('match');
+  expect(loaded.labels).toBeGreaterThan(0);
+
+  await expect(page.locator('#test2ElectionPanel')).toContainText('House of Commons');
+  await expect(page.locator('#test2ElectionPanel')).toContainText('Matched');
+  await page.locator('#test2ElectionMode').selectOption('voteShare');
+  await expect(page.locator('#test2ElectionPanel')).toContainText('Vote share');
+
+  const firstLabel = page.locator('.maplibre-dom-label[data-layer-id="pc-2023-vector-test"]:not([hidden])').first();
+  await expect(firstLabel).toBeVisible();
+  await firstLabel.click();
+  await expect(page.locator('#featureInfo')).toBeVisible();
+  await expect(page.locator('#featureInfoContent')).toContainText('Election');
+  await expect(page.locator('#featureInfoContent')).toContainText(/Leading party|Winning party/);
 });
 
 test('/test2 supports catalogue detail, unsupported notices, and URL restore', async ({ page }) => {
