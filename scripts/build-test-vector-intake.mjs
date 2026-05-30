@@ -19,7 +19,11 @@ const convertedIds = new Set((conversionReport.converted || []).map((row) => row
 const rows = (plan.rows || []).filter((row) => row.conversionStatus === 'needsVectorTileConversion' && !convertedIds.has(row.sourceMapId));
 
 const items = rows.map((row) => {
-  const vectorSources = (row.sourceFiles || []).filter((source) => isVectorSource(source.file || ''));
+  const vectorSources = uniqueSources([
+    ...(row.sourceFiles || []),
+    ...(row.sourceDownloads || []).map((source) => ({ kind: source.label || 'download', file: source.url })),
+    ...(row.references || []).map((source) => ({ kind: source.label || 'reference', file: source.url }))
+  ].filter((source) => isVectorSource(source.file || '')));
   const remoteSources = vectorSources.filter((source) => /^https?:\/\//i.test(source.file || ''));
   const localSources = vectorSources.filter((source) => !/^https?:\/\//i.test(source.file || ''));
   const missingLocal = localSources.filter((source) => !existsSync(resolve(ROOT, source.file.replace(/^\//, ''))));
@@ -80,4 +84,14 @@ function isVectorSource(file) {
   if (!file) return false;
   const clean = file.split('?')[0].toLowerCase();
   return VECTOR_EXTENSIONS.has(extname(clean));
+}
+
+function uniqueSources(sources) {
+  const byFile = new Map();
+  for (const source of sources) {
+    const file = source.file || '';
+    if (!file || byFile.has(file)) continue;
+    byFile.set(file, source);
+  }
+  return [...byFile.values()];
 }

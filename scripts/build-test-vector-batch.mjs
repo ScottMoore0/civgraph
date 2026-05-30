@@ -79,10 +79,12 @@ if (EXECUTE) {
     mkdirSync(dirname(outputPath), { recursive: true });
     const layerName = slugify(candidate.sourceMapId).replace(/-/g, '_');
     const profile = getTileProfile(candidate.sourceMapId);
+    const srsOptions = getSourceSrsOptions(candidate.sourceMapId);
     const result = spawnSync('ogr2ogr', [
       '-f', 'MVT',
       outputPath,
       sourcePath,
+      ...srsOptions,
       '-dsco', 'FORMAT=DIRECTORY',
       '-dsco', 'MINZOOM=0',
       '-dsco', 'MAXZOOM=12',
@@ -158,14 +160,42 @@ function writeReport() {
 }
 
 function chooseSource(row) {
+  const preferredFallback = localFallbackSource(row.sourceMapId);
+  if (preferredFallback?.prefer) return preferredFallback;
   const cached = cachedSourceById.get(row.sourceMapId);
   if (cached?.localPath && FORMATS.has(extname(cached.localPath).toLowerCase())) {
     return { file: cached.localPath, cachedFrom: cached.url };
   }
+  const fallback = preferredFallback;
+  if (fallback) return fallback;
   return (row.sourceFiles || []).find((source) => {
     const file = source.file || '';
     return !/^https?:\/\//i.test(file) && FORMATS.has(extname(file).toLowerCase());
   }) || null;
+}
+
+function localFallbackSource(sourceMapId) {
+  if (sourceMapId === 'habitat-deciduous-woodland' && existsSync(resolve(ROOT, 'data/maps/biodiversity/habitat-deciduous-woodland-lod0.fgb'))) {
+    return {
+      file: 'data/maps/biodiversity/habitat-deciduous-woodland-lod0.fgb',
+      prefer: true,
+      note: 'Fallback to available LOD0 habitat-deciduous-woodland source so conversion remains bounded and mobile-safe.'
+    };
+  }
+  if (sourceMapId === 'habitat-wetland-grouped' && existsSync(resolve(ROOT, 'data/maps/biodiversity/habitat-wetland-grouped-lod1.fgb'))) {
+    return {
+      file: 'data/maps/biodiversity/habitat-wetland-grouped-lod1.fgb',
+      prefer: true,
+      note: 'Fallback to available LOD1 habitat-wetland-grouped source so conversion remains bounded and mobile-safe.'
+    };
+  }
+  if (sourceMapId === 'wards-1993-50k' && existsSync(resolve(ROOT, 'data/maps/local-government/Wards_1993.fgb'))) {
+    return {
+      file: 'data/maps/local-government/Wards_1993.fgb',
+      note: 'Fallback to available Wards_1993.fgb when Wards_1993_50k.fgb is not present in the checkout.'
+    };
+  }
+  return null;
 }
 
 function readNumberArg(name, fallback) {
@@ -261,4 +291,15 @@ function readStringArg(name, fallback) {
 
 function slugify(value) {
   return String(value || 'layer').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+function getSourceSrsOptions(sourceMapId) {
+  const id = String(sourceMapId || '').toLowerCase();
+  if (id === 'pc-1995' || id === 'ni-townlands-1844') {
+    return ['-a_srs', 'EPSG:4326'];
+  }
+  if (id.startsWith('wq-rwq-')) {
+    return ['-a_srs', 'EPSG:29903'];
+  }
+  return [];
 }

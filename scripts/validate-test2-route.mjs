@@ -26,6 +26,16 @@ assert(appSource.includes('installRouteGuard()'), '/test2 must install the hash 
 assert(appSource.includes('preserveCurrentPath'), '/test2 hash-only URL updates must preserve the current path');
 assert(appSource.includes("a[href^=\"#\"]"), '/test2 must intercept hash-only catalogue anchors under <base href="/">');
 assert(appSource.includes("params.has('lng') && params.has('lat')"), '/test2 must not treat missing viewport URL params as 0,0');
+assert(appSource.includes("params.set('hidden', hidden.join(','))"), '/test2 URL state must preserve loaded-but-hidden layers');
+assert(appSource.includes("params.set('detail', this.currentDetailMapId)"), '/test2 URL state must preserve catalogue detail views');
+assert(appSource.includes("params.set('source', this.currentSourceMapId)"), '/test2 URL state must preserve source panel views');
+assert(appSource.includes('installCatalogueStateBridge'), '/test2 must bridge production catalogue detail navigation into URL state');
+assert(appSource.includes('setupURLStateListener'), '/test2 must restore state on hash navigation, not only first boot');
+assert(appSource.includes('setActiveLayersPanelOpen') && appSource.includes('setMapControlsOpen'), '/test2 panel restore must set panel state directly instead of click-toggling');
+assert(appSource.includes('applyBaseMap') && appSource.includes('isStyleLoaded'), '/test2 restored base-map state must wait for the MapLibre style to load');
+assert(appSource.includes('setupSourcePanel') && appSource.includes('renderSourcePanel'), '/test2 must expose source metadata for active/restored layers');
+assert(test2Css.includes('.test2-source-panel'), '/test2 source panel must have scoped route CSS');
+assert(test2Css.includes('position: fixed') && test2Css.includes('z-index: 520'), '/test2 source panel must sit above restored map overlay panels');
 assert(appSource.includes('getConvertedCompositeChildIds'), '/test2 must expand converted child sources when a main catalogue parent lacks a direct converted layer');
 assert(appSource.includes('compositeSources') && appSource.includes('mapConfig.variants.map'), '/test2 composite fallback must cover main composite sources and non-group variant parents');
 assert(mapControllerSource.includes('maplibre-dom-label'), '/test2 must use deduplicated DOM labels for main-site label interaction parity');
@@ -39,6 +49,11 @@ assert(mapControllerSource.includes("const INTERACTION_STROKE_COLOR = '#FF7A1A'"
 assert(mapControllerSource.includes('selectedFillId') && mapControllerSource.includes("['feature-state', 'selected']"), '/test2 polygon selections must include a selected fill, not only an outline');
 assert(!mapControllerSource.includes("'line-color': '#111827'") && !mapControllerSource.includes("'circle-color': '#111827'"), '/test2 selections must not use the old thick black selected styling');
 assert(adapterSource.includes('properties,') && adapterSource.includes('geometry: selection.feature?.geometry'), '/test2 feature selections must pass nested properties/geometry to main feature-info rendering');
+assert(adapterSource.includes('const OVERLAY_LAYERS') && adapterSource.includes('showOverlay(overlayId)') && adapterSource.includes('hideOverlay(overlayId)'), '/test2 adapter must support existing raster overlay toggles');
+assert(!adapterSource.includes('toggleOverlay() {\n    return false;\n  }'), '/test2 overlay toggles must not remain stubbed');
+assert(adapterSource.includes('applyPartialFeatureFilter') && adapterSource.includes('buildFeatureFilter'), '/test2 adapter must implement partial feature visibility with MapLibre filters');
+assert(!adapterSource.includes('togglePartialFeature() {}') && !adapterSource.includes('unloadPartialFeature() {}'), '/test2 partial feature load/visibility methods must not remain empty stubs');
+assert(adapterSource.includes('normalizeRenderedFeature') && adapterSource.includes('featureName') && adapterSource.includes('properties,'), '/test2 loaded/query feature results must include rich normalized feature payloads');
 assert(mapControllerSource.includes('const DEFAULT_VECTOR_FILL_OPACITY = 0'), '/test2 ordinary MapLibre polygon fills must default transparent like the main Leaflet site');
 assert(mapControllerSource.includes("'fill-opacity': resolveFillOpacity(layer)"), '/test2 fill layers must resolve opacity from explicit map style before falling back to transparent');
 assert(adapterSource.includes('_fillOpacity: resolveFillOpacity(layer)'), '/test2 main-shell layer state must preserve explicit fill opacity and default ordinary fills to transparent');

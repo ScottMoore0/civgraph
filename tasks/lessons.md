@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 118) MapLibre partial-feature filters need property-based IDs and render-cycle tests
+- Mistake pattern: Assuming MapLibre filter expressions using `['id']` behave like promoted feature IDs in every runtime path, then querying rendered features immediately after `setFilter`.
+- Impact: A partial feature could be marked loaded in adapter state while no feature rendered, or a hidden partial feature could appear in stale query results during the same render cycle.
+- Guardrail:
+  1) build partial-feature filters from stable source properties such as `promoteId`, `id`, and label/name fields,
+  2) fall back from missing promoted IDs to feature labels where source data does not expose a usable feature id,
+  3) browser tests that assert MapLibre filter effects must wait for the next rendered state, not immediate post-`setFilter` query results.
+
 ### 117) Preserve the main feature-info payload shape when adapting MapLibre selections
 - Mistake pattern: Flattening MapLibre feature properties onto the top-level selected-feature object while the main feature-info renderer expects `feature.properties`.
 - Impact: The top-right feature card can render `Unnamed Feature` even when the selected vector feature has a valid name/label property.
@@ -1560,3 +1568,11 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
 - Test2 selected-feature parity guardrail (2026-05-29): when adapting Leaflet feature interactions to MapLibre, do not invent a separate selected outline style. If the main site uses orange fill/stroke/label treatment for interactive feedback, selected MapLibre state should persist that same treatment with `feature-state: selected`, including polygon fill, stroke, and DOM label classes. Add static and browser checks for selected state, not just hover.
 
 - Test2 fill-opacity parity guardrail (2026-05-29): ordinary MapLibre vector polygon fills must default to transparent to match the main Leaflet site. Preserve explicit per-map `style.fillOpacity` values, but never add a generic semi-opaque fallback such as `0.18`; guard this with static validation and a browser check on a representative boundary layer.
+
+- PMTiles render-validation guardrail (2026-05-30): do not treat a generated PMTiles archive as production-ready merely because `ogrinfo`, byte-range checks, or metadata validation pass. A PMTiles archive can validate structurally and still fail to render in MapLibre at the representative mobile viewport. For every new or retuned PMTiles build path, run a browser/mobile smoke that proves visible feature rendering for at least one relevant viewport before switching metadata to prefer the archive.
+
+- Feature-index rebuild guardrail (2026-05-30): when rebuilding `/test` feature-search indexes, verify the number of indexes written and the expected layer-specific index counts before accepting the run. If a sandboxed run deletes old indexes and rebuilds zero because GDAL field inspection is blocked, rerun with the correct permissions and do not leave metadata pointing at missing indexes.
+
+- All-layer mobile-smoke guardrail (2026-05-30): total smoke-test budgets must scale with the number of converted layers. A fixed total timeout that was reasonable for 18 PMTiles layers becomes obsolete after hundreds of layers are converted; keep strict per-layer budgets, but compute the total budget from the candidate layer count unless an explicit override is supplied.
+
+- PMTiles deployment-order guardrail (2026-05-30): after regenerating PMTiles, follow the full sequence `build archives -> build CDN manifest -> upload -> byte-range verify -> switch metadata to CDN`. PMTiles metadata can revert to local repo paths during rebuilds, so do not call CDN deployment complete until `maps-test.json` contains CDN URLs for all expected PMTiles layers and no local PMTiles URLs remain.

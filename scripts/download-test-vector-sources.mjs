@@ -25,8 +25,8 @@ const existingById = new Map((existingManifest.sources || []).map((source) => [s
 const items = (intake.items || [])
   .filter((item) => item.action === 'download-remote-source')
   .filter((item) => !ONLY_IDS.size || ONLY_IDS.has(item.sourceMapId))
-  .map((item) => ({ item, source: chooseRemoteSource(item) }))
-  .filter((entry) => entry.source)
+  .map((item) => ({ item, sources: chooseRemoteSources(item) }))
+  .filter((entry) => entry.sources.length)
   .slice(0, LIMIT);
 
 mkdirSync(CACHE_ROOT, { recursive: true });
@@ -79,8 +79,9 @@ console.log(`Wrote ${relativeReport(REPORT_PATH)}`);
 if (failed.length) process.exit(1);
 
 async function processEntry(entry) {
-  const { item, source } = entry;
-  const extension = cleanExtension(source.file) || '.fgb';
+  const { item, sources } = entry;
+  const firstSource = sources[0];
+  const extension = cleanExtension(firstSource.file) || '.fgb';
   const localPath = `test/source-cache/vector-intake/${slugify(item.sourceMapId)}${extension}`;
   const absolutePath = resolve(ROOT, localPath);
   const existing = existingById.get(item.sourceMapId);
@@ -88,7 +89,7 @@ async function processEntry(entry) {
     skipped.push({
       sourceMapId: item.sourceMapId,
       name: item.name,
-      url: source.file,
+      url: firstSource.file,
       localPath,
       bytes: statSync(absolutePath).size,
       reason: 'already cached'
@@ -99,35 +100,41 @@ async function processEntry(entry) {
     skipped.push({ ...existing, reason: 'already cached in manifest' });
     return;
   }
-  try {
-    const response = await fetch(source.file, { redirect: 'follow' });
-    if (!response.ok || !response.body) throw new Error(`HTTP ${response.status}`);
-    mkdirSync(dirname(absolutePath), { recursive: true });
-    const tempPath = `${absolutePath}.tmp`;
-    if (existsSync(tempPath)) unlinkSync(tempPath);
-    await pipeline(Readable.fromWeb(response.body), createWriteStream(tempPath));
-    renameSync(tempPath, absolutePath);
-    downloaded.push({
-      sourceMapId: item.sourceMapId,
-      name: item.name,
-      category: item.category,
-      url: source.file,
-      localPath,
-      bytes: statSync(absolutePath).size,
-      contentType: response.headers.get('content-type') || null
-    });
-  } catch (error) {
-    failed.push({
-      sourceMapId: item.sourceMapId,
-      name: item.name,
-      url: source.file,
-      error: error.message
-    });
+  const errors = [];
+  for (const source of sources) {
+    try {
+      const response = await fetch(source.file, { redirect: 'follow' });
+      if (!response.ok || !response.body) throw new Error(`HTTP ${response.status}`);
+      mkdirSync(dirname(absolutePath), { recursive: true });
+      const tempPath = `${absolutePath}.tmp`;
+      if (existsSync(tempPath)) unlinkSync(tempPath);
+      await pipeline(Readable.fromWeb(response.body), createWriteStream(tempPath));
+      renameSync(tempPath, absolutePath);
+      downloaded.push({
+        sourceMapId: item.sourceMapId,
+        name: item.name,
+        category: item.category,
+        url: source.file,
+        localPath,
+        bytes: statSync(absolutePath).size,
+        contentType: response.headers.get('content-type') || null
+      });
+      return;
+    } catch (error) {
+      errors.push(`${source.file}: ${error.message}`);
+    }
   }
+  failed.push({
+    sourceMapId: item.sourceMapId,
+    name: item.name,
+    url: sources.map((source) => source.file).join(' | '),
+    error: errors.join('; ')
+  });
 }
 
-function chooseRemoteSource(item) {
-  return (item.sourceFiles || []).find((source) => /^https?:\/\//i.test(source.file || '') && VECTOR_EXTENSIONS.has(cleanExtension(source.file)));
+function chooseRemoteSources(item) {
+  return uniqueSources((item.sourceFiles || [])
+    .filter((source) => /^https?:\/\//i.test(source.file || '') && VECTOR_EXTENSIONS.has(cleanExtension(source.file))));
 }
 
 function cleanExtension(file) {
@@ -157,6 +164,16 @@ function readStringArg(name, fallback) {
 
 function slugify(value) {
   return String(value || 'layer').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+function uniqueSources(sources) {
+  const byFile = new Map();
+  for (const source of sources) {
+    const file = source.file || '';
+    if (!file || byFile.has(file)) continue;
+    byFile.set(file, source);
+  }
+  return [...byFile.values()];
 }
 
 function relativeReport(path) {

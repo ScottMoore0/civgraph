@@ -13,11 +13,11 @@ const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/mobile-smoke-report.json');
 const PORT = Number(process.env.TEST_SMOKE_PORT || 4177);
 const MAX_LAYER_MS = Number(process.env.TEST_SMOKE_MAX_LAYER_MS || 5000);
-const MAX_TOTAL_MS = Number(process.env.TEST_SMOKE_MAX_TOTAL_MS || 60000);
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
 const candidateLayers = (metadata.layers || [])
   .filter((layer) => layer.loadable !== false && ['pmtiles', 'mvt'].includes(layer.sourceType))
   .filter((layer) => !process.env.TEST_SMOKE_LAYER_IDS || process.env.TEST_SMOKE_LAYER_IDS.split(',').includes(layer.id));
+const MAX_TOTAL_MS = Number(process.env.TEST_SMOKE_MAX_TOTAL_MS || Math.max(60000, candidateLayers.length * 1800));
 
 const server = createStaticServer();
 await new Promise((resolveListen) => server.listen(PORT, '127.0.0.1', resolveListen));

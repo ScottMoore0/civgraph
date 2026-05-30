@@ -13,16 +13,26 @@ const WARN_TILE_BYTES = 1.5 * 1024 * 1024;
 const FAIL_TILE_BYTES = 4 * 1024 * 1024;
 const WARN_LAYER_BYTES = 50 * 1024 * 1024;
 const FAIL_LAYER_BYTES = 500 * 1024 * 1024;
+const ACCEPTED_FEATURE_INDEX_OMISSIONS = new Set([
+  'omitted-pages-size-limit',
+  'omitted-low-value-repetitive-labels'
+]);
 
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
 const errors = [];
 const warnings = [];
 const layers = metadata.layers || [];
+const suppressedDevFallbackWarnings = [];
 
 for (const layer of layers) {
   if (layer.loadable === false) continue;
   if (!isValidBounds(layer.bounds)) errors.push(`${layer.id}: invalid bounds`);
-  if (['mvt', 'pmtiles'].includes(layer.sourceType) && layer.labelProperty && !layer.featureIndexUrl) {
+  if (
+    ['mvt', 'pmtiles'].includes(layer.sourceType)
+    && layer.labelProperty
+    && !layer.featureIndexUrl
+    && !ACCEPTED_FEATURE_INDEX_OMISSIONS.has(layer.featureIndexStatus)
+  ) {
     warnings.push(`${layer.id}: label layer has no feature-search index`);
   }
   if (layer.sourceType === 'pmtiles') {
@@ -31,9 +41,17 @@ for (const layer of layers) {
     if (local && !existsSync(resolve(ROOT, local))) errors.push(`${layer.id}: PMTiles archive missing: ${local}`);
   }
   const generated = layer.generatedFrom || {};
-  if (Number(generated.maxTileBytes || 0) > WARN_TILE_BYTES) warnings.push(`${layer.id}: max tile ${formatBytes(generated.maxTileBytes)} exceeds warning budget`);
+  const productionCdnPmtiles = layer.sourceType === 'pmtiles' && /^https:\/\/data\.civgraph\.net\//i.test(layer.tileUrl || '');
+  if (productionCdnPmtiles) {
+    const suppressed = [];
+    if (Number(generated.maxTileBytes || 0) > WARN_TILE_BYTES) suppressed.push(`dev fallback max tile ${formatBytes(generated.maxTileBytes)}`);
+    if (Number(generated.bytes || 0) > WARN_LAYER_BYTES) suppressed.push(`dev fallback directory ${formatBytes(generated.bytes)}`);
+    if (suppressed.length) suppressedDevFallbackWarnings.push(`${layer.id}: ${suppressed.join(', ')}`);
+  } else {
+    if (Number(generated.maxTileBytes || 0) > WARN_TILE_BYTES) warnings.push(`${layer.id}: max tile ${formatBytes(generated.maxTileBytes)} exceeds warning budget`);
+    if (Number(generated.bytes || 0) > WARN_LAYER_BYTES) warnings.push(`${layer.id}: generated tile directory ${formatBytes(generated.bytes)} is large`);
+  }
   if (Number(generated.maxTileBytes || 0) > FAIL_TILE_BYTES) errors.push(`${layer.id}: max tile ${formatBytes(generated.maxTileBytes)} exceeds fail budget`);
-  if (Number(generated.bytes || 0) > WARN_LAYER_BYTES) warnings.push(`${layer.id}: generated tile directory ${formatBytes(generated.bytes)} is large`);
   if (Number(generated.bytes || 0) > FAIL_LAYER_BYTES) errors.push(`${layer.id}: generated tile directory ${formatBytes(generated.bytes)} exceeds fail budget`);
 }
 
@@ -64,9 +82,11 @@ const report = {
     layers: layers.length,
     loadableLayers: layers.filter((layer) => layer.loadable !== false).length,
     pmtilesLayers: layers.filter((layer) => layer.sourceType === 'pmtiles').length,
+    suppressedDevFallbackWarnings: suppressedDevFallbackWarnings.length,
     warnings: warnings.length,
     errors: errors.length
   },
+  suppressedDevFallbackWarnings,
   warnings,
   errors
 };
@@ -77,6 +97,7 @@ writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
 console.log('Civgraph /test Tile Budget Check');
 console.log(`- layers: ${report.totals.layers}`);
 console.log(`- pmtiles: ${report.totals.pmtilesLayers}`);
+console.log(`- dev fallback warnings suppressed for CDN PMTiles: ${suppressedDevFallbackWarnings.length}`);
 console.log(`- warnings: ${warnings.length}`);
 console.log(`- errors: ${errors.length}`);
 if (warnings.length) {

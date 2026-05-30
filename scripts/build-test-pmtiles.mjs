@@ -61,24 +61,8 @@ for (const layer of layers) {
 
   rmSync(outputPath, { force: true });
   const profile = getTileProfile(layer.sourceMapId || layer.id);
-  const args = [
-    '-f', 'PMTiles',
-    outputPath,
-    sourcePath,
-    '-dsco', `MINZOOM=${Number(layer.minzoom ?? 0)}`,
-    '-dsco', `MAXZOOM=${Number(layer.maxzoom ?? 12)}`,
-    '-dsco', `MAX_SIZE=${profile.maxSize}`,
-    '-dsco', `MAX_FEATURES=${profile.maxFeatures}`,
-    '-dsco', `SIMPLIFICATION=${profile.simplification}`,
-    '-dsco', `SIMPLIFICATION_MAX_ZOOM=${profile.simplificationMaxZoom}`,
-    '-lco', `NAME=${layer.sourceLayer || safeLayerName(layer.id)}`,
-    '-nln', layer.sourceLayer || safeLayerName(layer.id)
-  ];
-  const result = spawnSync(tools.ogr2ogr, args, {
-    cwd: ROOT,
-    encoding: 'utf8',
-    maxBuffer: 64 * 1024 * 1024
-  });
+  const srsOptions = getSourceSrsOptions(layer.sourceMapId || layer.id);
+  const result = buildArchive(layer, sourcePath, outputPath, profile, srsOptions);
   if (result.status !== 0 || !existsSync(outputPath)) {
     failed.push(row(layer, 'ogr2ogr-failed', {
       sourceFile: layer.sourceFile,
@@ -153,8 +137,24 @@ if (failed.length) process.exit(1);
 function syncMetadata(report) {
   let preferred = 0;
   let oversized = 0;
+  const successfulLayerIds = new Set(report.converted
+    .filter((item) => item.status === 'converted' || item.status === 'already-exists')
+    .map((item) => item.layerId));
+  const failedLayerIds = new Set(report.failed.map((item) => item.layerId));
   const nextLayers = (metadata.layers || []).map((layer) => {
     if (!['mvt', 'pmtiles'].includes(layer.sourceType)) return layer;
+    if (IDS.size && failedLayerIds.has(layer.id)) {
+      return {
+        ...layer,
+        sourceType: 'mvt',
+        tiles: layer.tilesFallback || layer.tiles,
+        tileUrl: undefined,
+        tilesFallback: undefined,
+        tilePackage: undefined,
+        warning: unique([...(layer.warning ? [layer.warning] : []), 'PMTiles archive failed validation; directory MVT remains preferred.']).join(' ')
+      };
+    }
+    if (IDS.size && !successfulLayerIds.has(layer.id)) return layer;
     const archivePath = resolve(OUTPUT_DIR, `${layer.id}.pmtiles`);
     if (!existsSync(archivePath)) return layer;
     const size = statSync(archivePath).size;
@@ -187,6 +187,69 @@ function syncMetadata(report) {
   });
   writeFileSync(METADATA_PATH, `${JSON.stringify({ ...metadata, layers: nextLayers }, null, 2)}\n`);
   return { preferred, oversized };
+}
+
+function buildArchive(layer, sourcePath, outputPath, profile, srsOptions) {
+  if (usesMbtilesIntermediate(layer)) {
+    const mbtilesPath = outputPath.replace(/\.pmtiles$/i, '.mbtiles');
+    rmSync(mbtilesPath, { force: true });
+    const mbtilesResult = spawnSync(tools.ogr2ogr, [
+      '-f', 'MBTiles',
+      mbtilesPath,
+      sourcePath,
+      ...srsOptions,
+      '-dsco', `MINZOOM=${Number(layer.minzoom ?? 0)}`,
+      '-dsco', `MAXZOOM=${Number(layer.maxzoom ?? 12)}`,
+      '-dsco', `MAX_SIZE=${profile.maxSize}`,
+      '-dsco', `MAX_FEATURES=${profile.maxFeatures}`,
+      '-dsco', `SIMPLIFICATION=${profile.simplification}`,
+      '-dsco', `SIMPLIFICATION_MAX_ZOOM=${profile.simplificationMaxZoom}`,
+      '-lco', `NAME=${layer.sourceLayer || safeLayerName(layer.id)}`,
+      '-nln', layer.sourceLayer || safeLayerName(layer.id)
+    ], {
+      cwd: ROOT,
+      encoding: 'utf8',
+      maxBuffer: 64 * 1024 * 1024
+    });
+    if (mbtilesResult.status !== 0 || !existsSync(mbtilesPath)) return mbtilesResult;
+    const pmtilesResult = spawnSync(tools.ogr2ogr, [
+      '-f', 'PMTiles',
+      outputPath,
+      mbtilesPath
+    ], {
+      cwd: ROOT,
+      encoding: 'utf8',
+      maxBuffer: 64 * 1024 * 1024
+    });
+    rmSync(mbtilesPath, { force: true });
+    return pmtilesResult;
+  }
+
+  return spawnSync(tools.ogr2ogr, [
+    '-f', 'PMTiles',
+    outputPath,
+    sourcePath,
+    ...srsOptions,
+    '-dsco', `MINZOOM=${Number(layer.minzoom ?? 0)}`,
+    '-dsco', `MAXZOOM=${Number(layer.maxzoom ?? 12)}`,
+    '-dsco', `MAX_SIZE=${profile.maxSize}`,
+    '-dsco', `MAX_FEATURES=${profile.maxFeatures}`,
+    '-dsco', `SIMPLIFICATION=${profile.simplification}`,
+    '-dsco', `SIMPLIFICATION_MAX_ZOOM=${profile.simplificationMaxZoom}`,
+    '-lco', `NAME=${layer.sourceLayer || safeLayerName(layer.id)}`,
+    '-nln', layer.sourceLayer || safeLayerName(layer.id)
+  ], {
+    cwd: ROOT,
+    encoding: 'utf8',
+    maxBuffer: 64 * 1024 * 1024
+  });
+}
+
+function usesMbtilesIntermediate(layer) {
+  return new Set([
+    'habitat-wetland-grouped',
+    'habitat-wetland-grouped-vector-test'
+  ]).has(layer.sourceMapId || layer.id);
 }
 
 function describeArchive(outputPath) {
@@ -255,4 +318,15 @@ function safeLayerName(value) {
 
 function unique(values) {
   return [...new Set(values.filter(Boolean))];
+}
+
+function getSourceSrsOptions(sourceMapId) {
+  const id = String(sourceMapId || '').toLowerCase();
+  if (id === 'pc-1995' || id === 'ni-townlands-1844') {
+    return ['-a_srs', 'EPSG:4326'];
+  }
+  if (id.startsWith('wq-rwq-')) {
+    return ['-a_srs', 'EPSG:29903'];
+  }
+  return [];
 }

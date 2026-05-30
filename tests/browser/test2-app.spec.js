@@ -109,6 +109,78 @@ test('/test2 supports catalogue detail, unsupported notices, and URL restore', a
   await expect(page.locator('#test2Status')).toContainText(/converted/i);
 });
 
+test('/test2 restores and persists detail, source, hidden layer, and panel URL state', async ({ page }) => {
+  const hash = [
+    'layers=civil-parishes-by-province',
+    'hidden=civil-parishes-by-province',
+    'q=civil%20parishes',
+    'detail=civil-parishes-by-province',
+    'source=civil-parishes-by-province',
+    'activePanel=1',
+    'controls=1',
+    'base=cartodb-positron',
+    'lng=-7.20',
+    'lat=53.35',
+    'z=6.25'
+  ].join('&');
+  await page.goto(`/test2/#${hash}`);
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+
+  await expect(page.locator('#searchInput')).toHaveValue('civil parishes');
+  await expect(page.locator('#catalogueDetailView')).toBeVisible();
+  await expect(page.locator('#catalogueDetailView')).toContainText('Civil Parishes');
+  await expect(page.locator('#test2SourcePanel')).toBeVisible();
+  await expect(page.locator('#test2SourcePanel')).toContainText('Civil Parishes');
+  await expect(page.locator('#test2SourcePanel')).toContainText(/References|Downloads|Tiles/);
+  await expect(page.locator('#test2SourcePanel')).toHaveCSS('position', 'fixed');
+  await expect.poll(() => page.locator('#test2SourcePanel').evaluate((panel) => Number(getComputedStyle(panel).zIndex))).toBeGreaterThan(500);
+  await expect(page.locator('#activeLayers')).toBeVisible();
+  await expect(page.locator('#activeLayersList')).toContainText('Civil Parishes');
+  await expect(page.locator('#activeLayersList .test2-source-btn').first()).toBeVisible();
+  await expect(page.locator('#mapControlPanel')).toHaveClass(/map-control-panel--expanded/);
+  await expect(page.locator('#baseMapSelect')).toHaveValue('cartodb-positron');
+
+  const restored = await page.evaluate(() => {
+    const app = window.__civgraphTest2.app;
+    const center = app.mapController.map.getCenter();
+    return {
+      loaded: app.isMapLoaded('civil-parishes-by-province'),
+      visible: app.isMapVisible('civil-parishes-by-province'),
+      detail: app.currentDetailMapId,
+      source: app.currentSourceMapId,
+      lng: center.lng,
+      lat: center.lat,
+      zoom: app.mapController.map.getZoom()
+    };
+  });
+  expect(restored.loaded).toBe(true);
+  expect(restored.visible).toBe(false);
+  expect(restored.detail).toBe('civil-parishes-by-province');
+  expect(restored.source).toBe('civil-parishes-by-province');
+  expect(restored.lng).toBeCloseTo(-7.2, 1);
+  expect(restored.lat).toBeCloseTo(53.35, 1);
+  expect(restored.zoom).toBeCloseTo(6.25, 1);
+  expect(new URL(page.url()).pathname).toBe('/test2/');
+  await expect(page).toHaveURL(/hidden=civil-parishes-by-province/);
+  await expect(page).toHaveURL(/detail=civil-parishes-by-province/);
+  await expect(page).toHaveURL(/source=civil-parishes-by-province/);
+  await expect(page).toHaveURL(/activePanel=1/);
+  await expect(page).toHaveURL(/controls=1/);
+
+  await page.locator('#test2SourcePanelClose').click();
+  await expect(page.locator('#test2SourcePanel')).toBeHidden();
+  await expect(page).not.toHaveURL(/source=civil-parishes-by-province/);
+
+  await page.locator('#catalogueBackLink').click();
+  await expect(page.locator('#catalogueListView')).toBeVisible();
+  await expect(page).not.toHaveURL(/detail=civil-parishes-by-province/);
+
+  await page.locator('#activeLayersClose').click();
+  await expect(page.locator('#activeLayers')).toBeHidden();
+  await expect(page).not.toHaveURL(/activePanel=1/);
+});
+
 test('/test2 loads converted child layers for main catalogue composite parents', async ({ page }) => {
   await page.goto('/test2/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
@@ -174,6 +246,125 @@ test('/test2 loads converted child layers for main catalogue composite parents',
   expect(result.afterEds.loaded).toBe(true);
   expect(result.afterEds.group.childIds).toEqual(result.afterEds.calls);
   expect(result.fittedCount).toBeGreaterThanOrEqual(1);
+});
+
+test('/test2 adapter supports overlays, partial features, and rich loaded-feature payloads', async ({ page }) => {
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
+
+  const overlayState = await page.evaluate(() => {
+    const adapter = window.__civgraphTest2.app.mapController;
+    const shown = adapter.toggleOverlay('voyager-labels', true);
+    const visible = adapter.map.getLayoutProperty('test2-overlay-voyager-labels', 'visibility') || 'visible';
+    const hidden = adapter.toggleOverlay('voyager-labels', false);
+    return {
+      shown,
+      hidden,
+      layerExists: Boolean(adapter.map.getLayer('test2-overlay-voyager-labels')),
+      visible,
+      hiddenVisibility: adapter.map.getLayoutProperty('test2-overlay-voyager-labels', 'visibility'),
+      unsupported: adapter.toggleOverlay('missing-overlay', true)
+    };
+  });
+  expect(overlayState.shown).toBe(true);
+  expect(overlayState.hidden).toBe(true);
+  expect(overlayState.layerExists).toBe(true);
+  expect(overlayState.visible).toBe('visible');
+  expect(overlayState.hiddenVisibility).toBe('none');
+  expect(overlayState.unsupported).toBe(false);
+
+  await loadCivilParishes(page);
+  const richPayload = await page.evaluate(() => {
+    const features = window.__civgraphTest2.app.mapController.getLoadedFeatures(25);
+    const ids = features.map((feature) => `${feature.mapId}:${feature.id}`);
+    return {
+      count: features.length,
+      unique: new Set(ids).size,
+      first: features[0]
+    };
+  });
+  expect(richPayload.count).toBeGreaterThan(0);
+  expect(richPayload.unique).toBe(richPayload.count);
+  expect(richPayload.first.mapId).toBe('civil-parishes-by-province');
+  expect(richPayload.first.mapName).toMatch(/Civil Parishes/i);
+  expect(richPayload.first.featureName).toBeTruthy();
+  expect(richPayload.first.properties).toBeTruthy();
+  expect(richPayload.first.geometry).toBeTruthy();
+
+  const partialState = await page.evaluate(async () => {
+    const app = window.__civgraphTest2.app;
+    const adapter = app.mapController;
+    const map = window.__civgraphTest2.mapController.map;
+    const mapConfig = {
+      id: 'civil-parishes-by-province',
+      name: 'Civil Parishes by Province',
+      labelProperty: 'name',
+      style: {}
+    };
+    const first = map.queryRenderedFeatures({ layers: ['civil-parishes-vector-test-fill'] })[0];
+    const featureId = first.id ?? first.properties?.id;
+    const featureName = first.properties?.name || first.properties?.NAME || first.properties?.Name || String(featureId);
+
+    adapter.unloadLayer('civil-parishes-by-province');
+    await adapter.loadSingleFeature(mapConfig, featureId, featureName, null);
+    await new Promise((resolve) => map.once('idle', resolve));
+    const afterLoadFeatures = map.queryRenderedFeatures({ layers: ['civil-parishes-vector-test-fill'] });
+    const afterLoadIds = [...new Set(afterLoadFeatures.map((feature) => feature.id ?? feature.properties?.id).map(String))];
+    const state = adapter.getLayerState('civil-parishes-by-province');
+    const afterLoadFeatureNames = [...state.featureNames.values()];
+
+    adapter.togglePartialFeature('civil-parishes-by-province', featureId);
+    await new Promise((resolve) => setTimeout(resolve, 750));
+    const afterHideCount = map.queryRenderedFeatures({ layers: ['civil-parishes-vector-test-fill'] }).length;
+    const hiddenVisible = adapter.isFeatureVisible('civil-parishes-by-province', featureId);
+
+    adapter.togglePartialFeature('civil-parishes-by-province', featureId);
+    await new Promise((resolve) => setTimeout(resolve, 750));
+    const afterShowCount = map.queryRenderedFeatures({ layers: ['civil-parishes-vector-test-fill'] }).length;
+    const shownVisible = adapter.isFeatureVisible('civil-parishes-by-province', featureId);
+
+    adapter.unloadPartialFeature('civil-parishes-by-province', featureId);
+    const unloaded = adapter.isLayerLoaded('civil-parishes-by-province');
+
+    await adapter.loadSingleFeature(mapConfig, featureId, featureName, null);
+    await adapter.expandToFullMap(mapConfig);
+    await new Promise((resolve) => map.once('idle', resolve));
+    const expandedCount = map.queryRenderedFeatures({ layers: ['civil-parishes-vector-test-fill'] }).length;
+    const expandedState = adapter.getLayerState('civil-parishes-by-province');
+
+    return {
+      featureId: String(featureId),
+      partial: state.isPartial,
+      baseLoaded: state.baseLoaded,
+      loaded: adapter.isFeatureLoaded('civil-parishes-by-province', featureId),
+      featureNames: afterLoadFeatureNames,
+      afterLoadCount: afterLoadFeatures.length,
+      afterLoadIds,
+      afterHideCount,
+      hiddenVisible,
+      afterShowCount,
+      shownVisible,
+      unloaded,
+      expandedCount,
+      expandedPartial: expandedState.isPartial,
+      expandedBaseLoaded: expandedState.baseLoaded
+    };
+  });
+
+  expect(partialState.partial).toBe(true);
+  expect(partialState.baseLoaded).toBe(false);
+  expect(partialState.loaded).toBe(true);
+  expect(partialState.featureNames[0]).toBeTruthy();
+  expect(partialState.afterLoadCount).toBeGreaterThan(0);
+  expect(partialState.afterLoadIds).toEqual([partialState.featureId]);
+  expect(partialState.afterHideCount).toBe(0);
+  expect(partialState.hiddenVisible).toBe(false);
+  expect(partialState.afterShowCount).toBeGreaterThan(0);
+  expect(partialState.shownVisible).toBe(true);
+  expect(partialState.unloaded).toBe(false);
+  expect(partialState.expandedCount).toBeGreaterThan(partialState.afterShowCount);
+  expect(partialState.expandedPartial).toBe(false);
+  expect(partialState.expandedBaseLoaded).toBe(true);
 });
 
 test('/test2 hash-only shell links and legacy hash writers preserve the test2 path', async ({ page }) => {

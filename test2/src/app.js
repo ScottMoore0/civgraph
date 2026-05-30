@@ -16,6 +16,10 @@ class Test2App {
     this.mapController = null;
     this.metadataService = null;
     this._suspendURLState = false;
+    this._restoringURLState = false;
+    this.currentDetailMapId = null;
+    this.currentSourceMapId = null;
+    this.baseMapId = 'osm-standard';
   }
 
   async init() {
@@ -41,6 +45,7 @@ class Test2App {
     globalThis.mapController = this.mapController;
 
     this.wireUiCallbacks();
+    this.installCatalogueStateBridge();
     uiController.init();
     uiController.showAllMaps = true;
 
@@ -58,6 +63,8 @@ class Test2App {
     this.setupThemeToggle();
     this.setupSupportModal();
     this.setupMapControls();
+    this.setupSourcePanel();
+    this.setupURLStateListener();
     window.__civgraphTest2.restorePromise = this.restoreURLState()
       .catch((error) => this.showMapError(error))
       .finally(() => {
@@ -149,7 +156,12 @@ class Test2App {
       this.updateURLState();
     };
 
-    uiController.onHideMap = (mapId) => this.mapController.hideLayer(mapId);
+    uiController.onHideMap = (mapId) => {
+      this.mapController.hideLayer(mapId);
+      this.syncCatalogueMapState();
+      this.updateActiveLayers();
+      this.updateURLState();
+    };
     uiController.onCheckMapLoaded = (mapId) => this.isMapLoaded(mapId);
     uiController.onCheckMapVisible = (mapId) => this.isMapVisible(mapId);
     uiController.onReorderLayers = (ids) => this.mapController.setLayerDrawOrder(ids);
@@ -170,15 +182,18 @@ class Test2App {
     uiController.onCategoryChange = (categoryId) => {
       this.currentCategory = categoryId;
       this.updateMapList();
+      this.updateURLState();
     };
     uiController.onProviderCategoryChange = (providerId, providers) => {
       this.currentProviderCategory = providerId;
       this.currentProviderList = providers || [];
       this.updateMapList();
+      this.updateURLState();
     };
     uiController.onAuthorFilter = (authors) => {
       this.currentAuthor = !authors || authors.length === 0 ? 'all' : authors;
       this.updateMapList();
+      this.updateURLState();
     };
     uiController.onDownloadFgb = async (mapId) => {
       const mapConfig = dataService.getMapById(mapId);
@@ -199,6 +214,34 @@ class Test2App {
       this.updateActiveLayers();
       uiController.showFeatureInfo([{ ...result.feature, mapId, id: featureId }], dataService.getAllMaps());
     };
+  }
+
+  installCatalogueStateBridge() {
+    if (uiController.__test2CatalogueStateBridgeInstalled) return;
+    uiController.__test2CatalogueStateBridgeInstalled = true;
+
+    const showDetail = uiController.showCatalogueDetailView.bind(uiController);
+    uiController.showCatalogueDetailView = (mapId, addToHistory = true) => {
+      const result = showDetail(mapId, addToHistory);
+      this.currentDetailMapId = mapId || null;
+      this.updateURLState();
+      return result;
+    };
+
+    const showList = uiController.showCatalogueListView.bind(uiController);
+    uiController.showCatalogueListView = (addToHistory = false) => {
+      const result = showList(addToHistory);
+      this.currentDetailMapId = null;
+      this.updateURLState();
+      return result;
+    };
+  }
+
+  setupURLStateListener() {
+    window.addEventListener('hashchange', () => {
+      if (this._suspendURLState || this._restoringURLState) return;
+      this.restoreURLState({ updateAfterRestore: false }).catch((error) => this.showMapError(error));
+    });
   }
 
   async loadMap(mapId) {
@@ -281,6 +324,7 @@ class Test2App {
     uiController.onSearch = (query) => {
       this.searchQuery = query;
       this.updateMapList();
+      this.updateURLState();
     };
     uiController.setupSearch();
     document.addEventListener('click', (event) => {
@@ -330,17 +374,10 @@ class Test2App {
     const activeLayersClose = document.getElementById('activeLayersClose');
     const featureInfoClose = document.getElementById('featureInfoClose');
 
-    const setControlsOpen = (open) => {
-      mapControlsToggle?.setAttribute('aria-expanded', String(open));
-      mapControlPanel?.classList.toggle('map-control-panel--collapsed', !open);
-      mapControlPanel?.classList.toggle('map-control-panel--expanded', open);
-      this.updateURLState();
-    };
-
     mapControlsToggle?.addEventListener('click', () => {
-      setControlsOpen(mapControlsToggle.getAttribute('aria-expanded') !== 'true');
+      this.setMapControlsOpen(mapControlsToggle.getAttribute('aria-expanded') !== 'true');
     });
-    mapControlsClose?.addEventListener('click', () => setControlsOpen(false));
+    mapControlsClose?.addEventListener('click', () => this.setMapControlsOpen(false));
 
     const overlayToggle = document.getElementById('overlayToggle');
     const overlayList = document.getElementById('overlayList');
@@ -351,8 +388,8 @@ class Test2App {
       overlayList?.classList.toggle('overlay-list--expanded', open);
     });
 
-    document.getElementById('baseMapSelect')?.addEventListener('change', (event) => {
-      this.mapController.setBaseMap(event.target.value);
+    document.getElementById('baseMapSelect')?.addEventListener('change', async (event) => {
+      await this.applyBaseMap(event.target.value || 'osm-standard');
       this.updateURLState();
     });
 
@@ -401,16 +438,9 @@ class Test2App {
     applyTextScale();
 
     activeLayersToggle?.addEventListener('click', () => {
-      const open = activeLayersToggle.getAttribute('aria-expanded') !== 'true';
-      activeLayersToggle.setAttribute('aria-expanded', String(open));
-      activeLayers?.classList.toggle('hidden', !open);
-      this.updateURLState();
+      this.setActiveLayersPanelOpen(activeLayersToggle.getAttribute('aria-expanded') !== 'true');
     });
-    activeLayersClose?.addEventListener('click', () => {
-      activeLayers?.classList.add('hidden');
-      activeLayersToggle?.setAttribute('aria-expanded', 'false');
-      this.updateURLState();
-    });
+    activeLayersClose?.addEventListener('click', () => this.setActiveLayersPanelOpen(false));
     featureInfoClose?.addEventListener('click', () => uiController.hideFeatureInfo());
 
     document.getElementById('conditionalStylingBtn')?.addEventListener('click', () => {
@@ -418,6 +448,190 @@ class Test2App {
     });
 
     this.mapController.map?.on('moveend', () => this.updateURLState());
+  }
+
+  setMapControlsOpen(open) {
+    const mapControlsToggle = document.getElementById('mapControlsToggle');
+    const mapControlPanel = document.getElementById('mapControlPanel');
+    mapControlsToggle?.setAttribute('aria-expanded', String(Boolean(open)));
+    mapControlPanel?.classList.toggle('map-control-panel--collapsed', !open);
+    mapControlPanel?.classList.toggle('map-control-panel--expanded', Boolean(open));
+    this.updateURLState();
+  }
+
+  setActiveLayersPanelOpen(open) {
+    const activeLayersToggle = document.getElementById('activeLayersToggle');
+    const activeLayers = document.getElementById('activeLayers');
+    activeLayersToggle?.setAttribute('aria-expanded', String(Boolean(open)));
+    activeLayers?.classList.toggle('hidden', !open);
+    this.updateURLState();
+  }
+
+  async applyBaseMap(baseMapId) {
+    this.baseMapId = baseMapId || 'osm-standard';
+    const map = this.mapController?.map;
+    if (!map) return;
+    if (typeof map.isStyleLoaded === 'function' && !map.isStyleLoaded()) {
+      await new Promise((resolve) => map.once('load', resolve));
+    }
+    this.mapController.setBaseMap(this.baseMapId);
+  }
+
+  setupSourcePanel() {
+    if (document.getElementById('test2SourcePanel')) return;
+    const panel = document.createElement('aside');
+    panel.id = 'test2SourcePanel';
+    panel.className = 'test2-source-panel hidden';
+    panel.setAttribute('aria-label', 'Layer sources');
+    panel.innerHTML = `
+      <div class="test2-source-panel__header">
+        <h3>Sources</h3>
+        <button type="button" id="test2SourcePanelClose" class="test2-source-panel__close" aria-label="Close sources">Close</button>
+      </div>
+      <div id="test2SourcePanelContent" class="test2-source-panel__content">Load a layer to inspect sources.</div>
+    `;
+    document.body.appendChild(panel);
+    document.getElementById('test2SourcePanelClose')?.addEventListener('click', () => this.closeSourcePanel());
+  }
+
+  bindActiveLayerSourceButtons() {
+    const rows = document.querySelectorAll('#activeLayersList .active-layer-item[data-map-id]');
+    rows.forEach((row) => {
+      if (row.querySelector('.test2-source-btn')) return;
+      const mapId = row.dataset.mapId;
+      const actions = row.querySelector('.active-layer-item__actions');
+      if (!actions || !mapId) return;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'active-layer-item__btn test2-source-btn';
+      button.dataset.mapId = mapId;
+      button.title = 'Sources';
+      button.setAttribute('aria-label', `Show sources for ${row.querySelector('.active-layer-item__name')?.textContent || mapId}`);
+      button.innerHTML = '<span aria-hidden="true">i</span>';
+      button.addEventListener('click', () => this.openSourcePanel(mapId));
+      actions.insertBefore(button, actions.firstChild);
+    });
+  }
+
+  openSourcePanel(mapId) {
+    this.currentSourceMapId = mapId || null;
+    const panel = document.getElementById('test2SourcePanel');
+    if (!panel || !this.currentSourceMapId) return;
+    panel.classList.remove('hidden');
+    this.renderSourcePanel();
+    this.updateURLState();
+  }
+
+  closeSourcePanel() {
+    this.currentSourceMapId = null;
+    document.getElementById('test2SourcePanel')?.classList.add('hidden');
+    this.updateURLState();
+  }
+
+  renderSourcePanel() {
+    const content = document.getElementById('test2SourcePanelContent');
+    if (!content) return;
+    const records = this.getSourceRecords(this.currentSourceMapId);
+    if (!records.length) {
+      content.textContent = 'No source metadata is available for this layer yet.';
+      return;
+    }
+    content.innerHTML = records.map((record) => this.renderSourceRecord(record)).join('');
+    content.querySelectorAll('[data-copy-source-link]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard?.writeText(button.dataset.copySourceLink || '');
+          button.textContent = 'Copied';
+        } catch {
+          button.textContent = 'Failed';
+        }
+      });
+    });
+  }
+
+  getSourceRecords(mapId) {
+    if (!mapId) return [];
+    const groupState = this.mapController.getLayerState(mapId);
+    const childIds = groupState?.isGroup
+      ? groupState.childIds || []
+      : this.getConvertedCompositeChildIds(dataService.getMapById(mapId));
+    const ids = childIds.length ? childIds : [mapId];
+    return ids
+      .map((id) => {
+        const layer = this.mapController.resolveLayer(id);
+        const mainConfig = dataService.getMapById(id) || dataService.getMapById(layer?.sourceMapId) || null;
+        if (!layer && !mainConfig) return null;
+        return { id, layer, mainConfig };
+      })
+      .filter(Boolean);
+  }
+
+  renderSourceRecord(record) {
+    const layer = record.layer || {};
+    const mainConfig = record.mainConfig || {};
+    const title = layer.name || mainConfig.name || record.id;
+    const provider = [layer.provider, mainConfig.provider].flat(2).filter(Boolean).join(', ');
+    const sourceId = layer.sourceMapId || mainConfig.id || record.id;
+    const references = [...(mainConfig.references || []), ...(layer.references || [])];
+    const downloads = [...(mainConfig.sourceDownloads || []), ...(layer.sourceDownloads || [])];
+    const technical = [
+      layer.tileUrl ? { label: 'PMTiles archive', url: layer.tileUrl } : null,
+      layer.metadataUrl ? { label: 'Tile metadata', url: layer.metadataUrl } : null,
+      layer.tilesFallback ? { label: 'Directory tile fallback', url: layer.tilesFallback.replace('/{z}/{x}/{y}.pbf', '/metadata.json') } : null
+    ].filter(Boolean);
+    const share = this.buildLayerShareUrl(sourceId);
+    return `
+      <article class="test2-source-panel__record" data-source-map-id="${escapeHtml(sourceId)}">
+        <header>
+          <h4>${escapeHtml(title)}</h4>
+          <button type="button" data-copy-source-link="${escapeHtml(share)}">Copy layer</button>
+        </header>
+        <dl>
+          ${provider ? `<div><dt>Provider</dt><dd>${escapeHtml(provider)}</dd></div>` : ''}
+          <div><dt>Source ID</dt><dd>${escapeHtml(sourceId)}</dd></div>
+          ${layer.sourceType ? `<div><dt>Format</dt><dd>${escapeHtml(layer.sourceType)}</dd></div>` : ''}
+        </dl>
+        ${mainConfig.description || layer.description ? `<p>${escapeHtml(mainConfig.description || layer.description)}</p>` : ''}
+        ${this.renderSourceLinks('References', references.map((item, index) => ({
+          label: item.label || `Reference ${index + 1}`,
+          url: item.url || item.file,
+          note: item.note || item.description
+        })))}
+        ${this.renderSourceLinks('Downloads', downloads.map((item, index) => ({
+          label: item.label || `Download ${index + 1}`,
+          url: item.file || item.url,
+          note: item.note || item.description
+        })))}
+        ${this.renderSourceLinks('Tiles', technical)}
+      </article>
+    `;
+  }
+
+  renderSourceLinks(title, links) {
+    const validLinks = links.filter((link) => link.url);
+    if (!validLinks.length) {
+      return `<details class="test2-source-panel__group"><summary>${escapeHtml(title)} <span>0</span></summary><p>No ${escapeHtml(title.toLowerCase())} recorded.</p></details>`;
+    }
+    return `
+      <details class="test2-source-panel__group" open>
+        <summary>${escapeHtml(title)} <span>${validLinks.length}</span></summary>
+        ${validLinks.map((link) => `
+          <div class="test2-source-panel__link-row">
+            <a href="${escapeHtml(link.url)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a>
+            ${link.note ? `<small>${escapeHtml(link.note)}</small>` : ''}
+            <button type="button" data-copy-source-link="${escapeHtml(link.url)}">Copy</button>
+          </div>
+        `).join('')}
+      </details>
+    `;
+  }
+
+  buildLayerShareUrl(mapId) {
+    const url = new URL(location.href);
+    const params = this.getCurrentURLParams();
+    params.set('layers', mapId);
+    url.hash = params.toString();
+    return url.toString();
   }
 
   getLoadedLayerIds() {
@@ -451,6 +665,8 @@ class Test2App {
       visibilityMap.set(id, state.visible);
     }
     uiController.updateActiveLayers(loadedMaps, visibilityMap, new Map());
+    this.bindActiveLayerSourceButtons();
+    if (this.currentSourceMapId) this.renderSourcePanel();
   }
 
   isMapLoaded(mapId) {
@@ -466,18 +682,27 @@ class Test2App {
   }
 
   updateURLState() {
-    if (this._suspendURLState) return;
+    if (this._suspendURLState || this._restoringURLState) return;
     const loaded = this.getLoadedLayerIds();
+    const hidden = loaded.filter((id) => !this.isMapVisible(id));
     const params = new URLSearchParams();
     const center = this.mapController.map?.getCenter?.();
     const zoom = this.mapController.map?.getZoom?.();
     if (loaded.length) params.set('layers', loaded.join(','));
+    if (hidden.length) params.set('hidden', hidden.join(','));
     if (this.searchQuery) params.set('q', this.searchQuery);
+    if (this.currentDetailMapId && !document.getElementById('catalogueDetailView')?.classList.contains('hidden')) {
+      params.set('detail', this.currentDetailMapId);
+    }
+    if (this.currentSourceMapId && !document.getElementById('test2SourcePanel')?.classList.contains('hidden')) {
+      params.set('source', this.currentSourceMapId);
+    }
     if (center) {
       params.set('lng', center.lng.toFixed(5));
       params.set('lat', center.lat.toFixed(5));
     }
     if (Number.isFinite(zoom)) params.set('z', zoom.toFixed(2));
+    if (this.baseMapId && this.baseMapId !== 'osm-standard') params.set('base', this.baseMapId);
     if (document.getElementById('activeLayersToggle')?.getAttribute('aria-expanded') === 'true') params.set('activePanel', '1');
     if (document.getElementById('mapControlsToggle')?.getAttribute('aria-expanded') === 'true') params.set('controls', '1');
     const path = `${location.pathname}${location.search || ''}`;
@@ -485,26 +710,69 @@ class Test2App {
     history.replaceState(null, '', next);
   }
 
-  async restoreURLState() {
-    const params = new URLSearchParams(location.hash.replace(/^#/, ''));
+  getCurrentURLParams() {
+    return new URLSearchParams(location.hash.replace(/^#/, ''));
+  }
+
+  async restoreURLState(options = {}) {
+    this._restoringURLState = true;
+    const shouldUpdateAfterRestore = options.updateAfterRestore !== false;
+    const params = this.getCurrentURLParams();
     const query = params.get('q');
-    if (query) {
-      this.searchQuery = query;
+    try {
+      this.searchQuery = query || '';
       const search = document.getElementById('searchInput');
-      if (search) search.value = query;
+      if (search) search.value = this.searchQuery;
+      document.getElementById('searchClear')?.classList.toggle('visible', this.searchQuery.length > 0);
       this.updateMapList();
+
+      const baseMap = params.get('base');
+      if (baseMap) {
+        const select = document.getElementById('baseMapSelect');
+        if (select) select.value = baseMap;
+        await this.applyBaseMap(baseMap);
+      }
+
+      const layers = (params.get('layers') || '').split(',').map((id) => id.trim()).filter(Boolean);
+      await Promise.all(layers.map((id) => this.loadMap(id).catch((error) => this.showMapError(error))));
+
+      const hidden = new Set((params.get('hidden') || '').split(',').map((id) => id.trim()).filter(Boolean));
+      hidden.forEach((id) => this.mapController.hideLayer(id));
+      this.syncCatalogueMapState();
+      this.updateActiveLayers();
+
+      const detailId = params.get('detail');
+      if (detailId && dataService.getMapById(detailId)) {
+        uiController.showCatalogueDetailView(detailId, false);
+        this.currentDetailMapId = detailId;
+      } else if (!detailId && this.currentDetailMapId) {
+        uiController.showCatalogueListView(false);
+      }
+
+      const sourceId = params.get('source');
+      if (sourceId) {
+        this.currentSourceMapId = sourceId;
+        document.getElementById('test2SourcePanel')?.classList.remove('hidden');
+        this.renderSourcePanel();
+      } else {
+        this.currentSourceMapId = null;
+        document.getElementById('test2SourcePanel')?.classList.add('hidden');
+      }
+
+      const hasViewport = params.has('lng') && params.has('lat');
+      const lng = hasViewport ? Number(params.get('lng')) : NaN;
+      const lat = hasViewport ? Number(params.get('lat')) : NaN;
+      const z = Number(params.get('z') || params.get('zoom'));
+      if (Number.isFinite(lng) && Number.isFinite(lat)) {
+        this.mapController.map?.jumpTo({ center: [lng, lat], zoom: Number.isFinite(z) ? z : undefined });
+      }
+
+      this.setActiveLayersPanelOpen(params.get('activePanel') === '1');
+      this.setMapControlsOpen(params.get('controls') === '1');
+    } finally {
+      this._restoringURLState = false;
+      if (shouldUpdateAfterRestore) this.updateURLState();
     }
-    const layers = (params.get('layers') || '').split(',').map((id) => id.trim()).filter(Boolean);
-    await Promise.all(layers.map((id) => this.loadMap(id).catch((error) => this.showMapError(error))));
-    const hasViewport = params.has('lng') && params.has('lat');
-    const lng = hasViewport ? Number(params.get('lng')) : NaN;
-    const lat = hasViewport ? Number(params.get('lat')) : NaN;
-    const z = Number(params.get('z'));
-    if (Number.isFinite(lng) && Number.isFinite(lat)) {
-      this.mapController.map?.jumpTo({ center: [lng, lat], zoom: Number.isFinite(z) ? z : undefined });
-    }
-    if (params.get('activePanel') === '1') document.getElementById('activeLayersToggle')?.click();
-    if (params.get('controls') === '1') document.getElementById('mapControlsToggle')?.click();
   }
 
   triggerDownload(url, filename) {

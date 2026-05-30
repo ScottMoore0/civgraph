@@ -17,6 +17,28 @@ const BASE_MAPS = {
   'usgs-topo': ['https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}']
 };
 
+const OVERLAY_LAYERS = {
+  'voyager-labels': {
+    tiles: [
+      'https://a.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}.png',
+      'https://b.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}.png',
+      'https://c.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}.png'
+    ],
+    attribution: '&copy; CARTO',
+    maxzoom: 20
+  },
+  'merit-catchments': {
+    tiles: ['https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/MERIT_River_Basins_v1/MapServer/tile/{z}/{y}/{x}'],
+    attribution: '&copy; MERIT-Basins',
+    maxzoom: 12
+  },
+  'merit-rivers': {
+    tiles: ['https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/MERIT_Rivers_v1/MapServer/tile/{z}/{y}/{x}'],
+    attribution: '&copy; MERIT-Basins',
+    maxzoom: 12
+  }
+};
+
 const DEFAULT_VECTOR_FILL_OPACITY = 0;
 
 function normalizeBounds(bounds) {
@@ -43,6 +65,7 @@ export class Test2MapLibreMainAdapter {
     this.groupStates = new Map();
     this.mainToTest = new Map();
     this.testToMain = new Map();
+    this.overlayLayers = new Map();
     this.addressMarker = null;
     this.onFeatureClick = null;
   }
@@ -64,6 +87,10 @@ export class Test2MapLibreMainAdapter {
     const mainId = typeof mapOrId === 'string' ? mapOrId : mapOrId?.id;
     const config = typeof mapOrId === 'object' && mapOrId ? mapOrId : null;
     if (!mainId) return null;
+
+    if (!options.partial && this.layerStates.get(mainId)?.isPartial) {
+      this.unloadLayer(mainId);
+    }
 
     if (config?.isGroup && Array.isArray(config.members) && config.members.length) {
       const results = [];
@@ -102,6 +129,8 @@ export class Test2MapLibreMainAdapter {
   }
 
   async expandToFullMap(mapConfig) {
+    const mainId = typeof mapConfig === 'string' ? mapConfig : mapConfig?.id;
+    if (mainId && this.layerStates.get(mainId)?.isPartial) this.unloadLayer(mainId);
     return this.loadLayer(mapConfig);
   }
 
@@ -130,12 +159,24 @@ export class Test2MapLibreMainAdapter {
   }
 
   toggleLayer(mainId) {
+    const groupState = this.groupStates.get(mainId);
+    if (groupState) {
+      this.setLayerVisibility(mainId, !groupState.visible);
+      return;
+    }
     const state = this.layerStates.get(mainId);
     if (!state) return;
     this.setLayerVisibility(mainId, !state.visible);
   }
 
   setLayerVisibility(mainId, visible) {
+    const groupState = this.groupStates.get(mainId);
+    if (groupState) {
+      for (const childId of groupState.childIds || []) this.setLayerVisibility(childId, visible);
+      groupState.visible = Boolean(visible);
+      this.options.onChange?.(this);
+      return;
+    }
     const state = this.layerStates.get(mainId);
     const testId = state?.testLayerId || this.mainToTest.get(mainId) || mainId;
     const record = this.renderer?.layers.get(testId);
@@ -282,7 +323,53 @@ export class Test2MapLibreMainAdapter {
   }
 
   toggleOverlay() {
-    return false;
+    const [overlayId, enabled = true] = arguments;
+    if (enabled) return this.showOverlay(overlayId);
+    return this.hideOverlay(overlayId);
+  }
+
+  showOverlay(overlayId) {
+    if (!this.map || !overlayId) return false;
+    if (this.overlayLayers.has(overlayId)) {
+      const overlay = this.overlayLayers.get(overlayId);
+      const layerId = overlay.layerId;
+      if (this.map.getLayer(layerId)) this.map.setLayoutProperty(layerId, 'visibility', 'visible');
+      overlay.visible = true;
+      return true;
+    }
+    const config = OVERLAY_LAYERS[overlayId];
+    if (!config) return false;
+    const sourceId = `test2-overlay-${overlayId}-source`;
+    const layerId = `test2-overlay-${overlayId}`;
+    if (!this.map.getSource(sourceId)) {
+      this.map.addSource(sourceId, {
+        type: 'raster',
+        tiles: config.tiles,
+        tileSize: 256,
+        attribution: config.attribution,
+        maxzoom: config.maxzoom
+      });
+    }
+    if (!this.map.getLayer(layerId)) {
+      this.map.addLayer({
+        id: layerId,
+        type: 'raster',
+        source: sourceId,
+        paint: { 'raster-opacity': 0.82 }
+      });
+    }
+    this.overlayLayers.set(overlayId, { sourceId, layerId, visible: true });
+    this.options.onChange?.(this);
+    return true;
+  }
+
+  hideOverlay(overlayId) {
+    const overlay = this.overlayLayers.get(overlayId);
+    if (!this.map || !overlay) return false;
+    if (this.map.getLayer(overlay.layerId)) this.map.setLayoutProperty(overlay.layerId, 'visibility', 'none');
+    overlay.visible = false;
+    this.options.onChange?.(this);
+    return true;
   }
 
   fitToLayer(mainId) {
@@ -307,32 +394,108 @@ export class Test2MapLibreMainAdapter {
   }
 
   async loadSingleFeature(mapConfig, featureId, featureName, bbox) {
-    const state = await this.loadLayer(mapConfig, { fit: false });
-    this.highlightFeature(mapConfig.id, featureId, { properties: { name: featureName || featureId } });
+    const mainId = mapConfig?.id;
+    const alreadyFull = mainId ? this.layerStates.get(mainId)?.baseLoaded === true && !this.layerStates.get(mainId)?.isPartial : false;
+    let state = this.layerStates.get(mainId);
+    if (!state || !this.renderer?.layers.has(state.testLayerId)) {
+      state = await this.loadLayer(mapConfig, { fit: false, partial: true });
+    }
+    this.ensurePartialFeatureState(state);
+    const properties = { name: featureName || featureId };
+    const requestedId = normalizeFeatureId(featureId);
+    const existing = this.findRenderedFeature(mainId, requestedId, featureName);
+    const id = requestedId || normalizeFeatureId(existing?.id) || normalizeFeatureId(featureName);
+    if (existing?.properties) Object.assign(properties, existing.properties);
+    if (!alreadyFull) {
+      state.isPartial = true;
+      state.baseLoaded = false;
+      state.loadedIndices.add(id);
+      state.featureNames.set(id, featureName || existing?.featureName || `Feature ${featureId}`);
+      state.featureVisibility.set(id, true);
+      state.featureProperties.set(id, properties);
+      if (existing?.geometry) state.featureGeometry.set(id, existing.geometry);
+      this.applyPartialFeatureFilter(mainId);
+    }
+    this.highlightFeature(mainId, id, { properties });
     if (bbox) this.fitToBounds(bbox);
-    return { state, feature: { id: featureId, name: featureName, mapId: mapConfig.id } };
+    return {
+      state,
+      feature: {
+        id,
+        mapId: mainId,
+        name: featureName || existing?.featureName || properties.name,
+        featureName: featureName || existing?.featureName || properties.name,
+        properties,
+        geometry: existing?.geometry || state.featureGeometry.get(id) || null
+      }
+    };
   }
 
-  togglePartialFeature() {}
-  unloadPartialFeature() {}
-  isFeatureLoaded() { return false; }
-  isFeatureVisible() { return false; }
-  findFeaturesAtPoint() { return []; }
+  togglePartialFeature(mapId, featureId) {
+    const state = this.layerStates.get(mapId);
+    const id = normalizeFeatureId(featureId);
+    if (!state?.featureVisibility?.has(id)) return;
+    state.featureVisibility.set(id, state.featureVisibility.get(id) === false);
+    this.applyPartialFeatureFilter(mapId);
+    this.options.onChange?.(this);
+  }
+
+  unloadPartialFeature(mapId, featureId) {
+    const state = this.layerStates.get(mapId);
+    const id = normalizeFeatureId(featureId);
+    if (!state?.loadedIndices?.has(id)) return;
+    state.loadedIndices.delete(id);
+    state.featureNames?.delete(id);
+    state.featureVisibility?.delete(id);
+    state.featureProperties?.delete(id);
+    state.featureGeometry?.delete(id);
+    if (this.renderer?.selected?.layerId === state.testLayerId && normalizeFeatureId(this.renderer.selected.id) === id) {
+      this.renderer.clearFeatureState?.(this.renderer.selected, 'selected');
+      this.renderer.setDomLabelSelected?.(state.testLayerId, id, false);
+      this.renderer.selected = null;
+    }
+    if (state.loadedIndices.size === 0 && state.isPartial && !state.baseLoaded) {
+      this.unloadLayer(mapId);
+      return;
+    }
+    this.applyPartialFeatureFilter(mapId);
+    this.options.onChange?.(this);
+  }
+
+  isFeatureLoaded(mapId, featureId) {
+    const state = this.layerStates.get(mapId);
+    if (!state) return false;
+    if (state.baseLoaded && !state.isPartial) return true;
+    return state.loadedIndices?.has(normalizeFeatureId(featureId)) || false;
+  }
+
+  isFeatureVisible(mapId, featureId) {
+    const state = this.layerStates.get(mapId);
+    if (!state) return false;
+    if (state.baseLoaded && !state.isPartial) return this.isLayerVisible(mapId);
+    const id = normalizeFeatureId(featureId);
+    return Boolean(state.loadedIndices?.has(id) && state.featureVisibility?.get(id) !== false && state.visible);
+  }
+
+  findFeaturesAtPoint(lat, lon, radius = 8) {
+    return this.queryFeaturesAtLngLat(lat, lon, radius);
+  }
 
   getLoadedFeatures(limit = 500) {
     const features = [];
+    const seen = new Set();
     for (const [mainId, state] of this.layerStates) {
+      if (!state.visible) continue;
       const record = this.renderer?.layers.get(state.testLayerId);
-      const queryLayers = (record?.layerIds || []).filter((id) => this.map.getLayer(id) && !/hover|selected/i.test(id));
+      const queryLayers = this.getQueryableLayerIds(record);
       if (!queryLayers.length) continue;
       const rendered = this.map.queryRenderedFeatures({ layers: queryLayers });
       for (const feature of rendered) {
-        features.push({
-          ...(feature.properties || {}),
-          id: feature.id,
-          mapId: mainId,
-          mapName: state.config?.name || mainId
-        });
+        const normalized = this.normalizeRenderedFeature(feature, mainId, state, record);
+        const key = featureDedupeKey(normalized);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        features.push(normalized);
         if (features.length >= limit) return features;
       }
     }
@@ -344,23 +507,26 @@ export class Test2MapLibreMainAdapter {
     const point = this.map.project([Number(lon), Number(lat)]);
     const layers = [];
     for (const state of this.layerStates.values()) {
+      if (!state.visible) continue;
       const record = this.renderer?.layers.get(state.testLayerId);
-      layers.push(...(record?.layerIds || []).filter((id) => this.map.getLayer(id) && !/hover|selected/i.test(id)));
+      layers.push(...this.getQueryableLayerIds(record));
     }
     if (!layers.length) return [];
     const features = this.map.queryRenderedFeatures(
       [[point.x - radius, point.y - radius], [point.x + radius, point.y + radius]],
       { layers }
     );
+    const seen = new Set();
     return features.map((feature) => {
       const layerId = feature.layer?.id?.replace(/-(fill|line|label|raster)$/, '');
       const mainId = this.testToMain.get(layerId) || layerId;
-      return {
-        ...(feature.properties || {}),
-        id: feature.id,
-        mapId: mainId,
-        mapName: this.layerStates.get(mainId)?.config?.name || mainId
-      };
+      const state = this.layerStates.get(mainId);
+      return this.normalizeRenderedFeature(feature, mainId, state, this.renderer?.layers.get(state?.testLayerId));
+    }).filter((feature) => {
+      const key = featureDedupeKey(feature);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
     });
   }
 
@@ -424,7 +590,14 @@ export class Test2MapLibreMainAdapter {
       group: null,
       _strokeOpacity: 1,
       _fillOpacity: resolveFillOpacity(layer),
-      _rasterOpacity: layer.rasterOpacity ?? layer.style?.opacity ?? 0.85
+      _rasterOpacity: layer.rasterOpacity ?? layer.style?.opacity ?? 0.85,
+      isPartial: false,
+      baseLoaded: true,
+      loadedIndices: new Set(),
+      featureNames: new Map(),
+      featureVisibility: new Map(),
+      featureProperties: new Map(),
+      featureGeometry: new Map()
     };
     state.geoJsonLayers = [{
       setStyle: (style = {}) => {
@@ -438,6 +611,74 @@ export class Test2MapLibreMainAdapter {
       })
     };
     return state;
+  }
+
+  ensurePartialFeatureState(state) {
+    state.loadedIndices ||= new Set();
+    state.featureNames ||= new Map();
+    state.featureVisibility ||= new Map();
+    state.featureProperties ||= new Map();
+    state.featureGeometry ||= new Map();
+  }
+
+  applyPartialFeatureFilter(mainId) {
+    const state = this.layerStates.get(mainId);
+    if (!state?.isPartial) return;
+    this.ensurePartialFeatureState(state);
+    const record = this.renderer?.layers.get(state.testLayerId);
+    if (!record) return;
+    const visibleIds = [...state.loadedIndices].filter((id) => state.featureVisibility.get(id) !== false);
+    const filter = buildFeatureFilter(record.config, visibleIds, state);
+    for (const layerId of this.getQueryableLayerIds(record, { includeHidden: true })) {
+      if (this.map.getLayer(layerId)) this.map.setFilter(layerId, filter);
+    }
+    this.renderer?.scheduleDomLabelRefresh?.(state.testLayerId);
+  }
+
+  getQueryableLayerIds(record, options = {}) {
+    if (!record) return [];
+    return (record.layerIds || []).filter((id) => {
+      if (!this.map.getLayer(id)) return false;
+      if (/-((hover)|(hover-line)|(selected)|(selected-fill)|(label)|(raster))$/.test(id)) return false;
+      if (options.includeHidden) return true;
+      return this.map.getLayoutProperty(id, 'visibility') !== 'none';
+    });
+  }
+
+  findRenderedFeature(mainId, featureId, featureName = null) {
+    const state = this.layerStates.get(mainId);
+    const record = this.renderer?.layers.get(state?.testLayerId);
+    const queryLayers = this.getQueryableLayerIds(record);
+    if (!queryLayers.length) return null;
+    const targetId = normalizeFeatureId(featureId);
+    const targetName = normalizeSearchValue(featureName);
+    const features = this.map.queryRenderedFeatures({ layers: queryLayers });
+    for (const feature of features) {
+      const normalized = this.normalizeRenderedFeature(feature, mainId, state, record);
+      if (normalizeFeatureId(normalized.id) === targetId) return normalized;
+      if (targetName && normalizeSearchValue(normalized.featureName) === targetName) return normalized;
+    }
+    return null;
+  }
+
+  normalizeRenderedFeature(feature, mainId, state, record) {
+    const properties = { ...(feature.properties || {}) };
+    const layerConfig = record?.config || state?.config || {};
+    const id = feature.id ?? properties[layerConfig.promoteId || 'id'] ?? properties.id;
+    const featureName = readFeatureName(layerConfig, properties, id);
+    return {
+      ...properties,
+      id,
+      mapId: mainId,
+      mapName: state?.config?.name || layerConfig.name || mainId,
+      layerName: state?.config?.name || layerConfig.name || mainId,
+      featureName,
+      name: properties.name || featureName,
+      color: layerConfig.style?.color || layerConfig.style?.fillColor || '#3388ff',
+      properties,
+      geometry: feature.geometry || null,
+      sourceLayer: feature.sourceLayer || layerConfig.sourceLayer || null
+    };
   }
 
   toMainConfig(layer) {
@@ -474,6 +715,68 @@ function clamp01(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return 0;
   return Math.max(0, Math.min(1, number));
+}
+
+function normalizeFeatureId(value) {
+  if (typeof value === 'number') return Number.isFinite(value) ? value : String(value);
+  const text = String(value ?? '').trim();
+  if (text !== '' && /^-?\d+(?:\.\d+)?$/.test(text)) return Number(text);
+  return text;
+}
+
+function normalizeSearchValue(value) {
+  return String(value ?? '').trim().toLowerCase();
+}
+
+function buildFeatureFilter(layer, ids, state = null) {
+  if (!ids.length) return noVisibleFeatureFilter();
+  const rawValues = [...new Set(ids.filter((id) => id !== undefined && id !== null && id !== ''))];
+  const nameValues = ids
+    .map((id) => state?.featureNames?.get(id))
+    .filter((value) => value !== undefined && value !== null && String(value).trim());
+  const stringValues = [...new Set([...rawValues, ...nameValues].map((id) => String(id)))];
+  if (!stringValues.length) return noVisibleFeatureFilter();
+  const clauses = [];
+  for (const property of [layer?.promoteId, 'id'].filter(Boolean)) {
+    clauses.push(['in', ['to-string', ['get', property]], ['literal', stringValues]]);
+  }
+  for (const property of featureNameProperties(layer)) {
+    clauses.push(['in', ['to-string', ['get', property]], ['literal', stringValues]]);
+  }
+  return ['any', ...clauses];
+}
+
+function noVisibleFeatureFilter() {
+  return ['==', ['get', '__civgraph_no_visible_feature__'], '__civgraph_visible_feature__'];
+}
+
+function readFeatureName(layer, properties, fallbackId) {
+  const candidates = featureNameProperties(layer);
+  for (const key of candidates) {
+    const value = properties?.[key];
+    if (value !== undefined && value !== null && String(value).trim()) return String(value).trim();
+  }
+  return fallbackId !== undefined && fallbackId !== null && fallbackId !== '' ? `Feature ${fallbackId}` : 'Unnamed feature';
+}
+
+function featureNameProperties(layer) {
+  return [...new Set([
+    layer?.labelProperty,
+    layer?.nameProperty,
+    'name',
+    'Name',
+    'NAME',
+    'label',
+    'LABEL',
+    'title',
+    'TITLE'
+  ].filter(Boolean))];
+}
+
+function featureDedupeKey(feature) {
+  if (feature?.id !== undefined && feature?.id !== null && feature?.id !== '') return `${feature.mapId}:${feature.id}`;
+  const geometryKey = JSON.stringify(feature?.geometry?.coordinates || '').slice(0, 120);
+  return `${feature?.mapId}:${feature?.featureName || feature?.name || 'feature'}:${geometryKey}`;
 }
 
 function escapeHtml(value) {

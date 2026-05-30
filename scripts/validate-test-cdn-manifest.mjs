@@ -12,12 +12,14 @@ const MANIFEST_PATH = resolve(ROOT, 'test/metadata/cdn-upload-manifest.json');
 const QUARANTINE_PATH = resolve(ROOT, 'test/metadata/quarantine/roi-counties-2011.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-manifest-validation-report.json');
 const RANGE_REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-range-report.json');
+const MAP_CONTROLLER_PATH = resolve(ROOT, 'test/src/map-controller.js');
 
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
 const manifest = existsSync(MANIFEST_PATH) ? JSON.parse(readFileSync(MANIFEST_PATH, 'utf8')) : null;
 const rangeReport = existsSync(RANGE_REPORT_PATH) ? JSON.parse(readFileSync(RANGE_REPORT_PATH, 'utf8')) : null;
 const errors = [];
 const warnings = [];
+const notes = [];
 
 if (!manifest) {
   errors.push('test/metadata/cdn-upload-manifest.json is missing; run npm run build:test:cdn-manifest');
@@ -67,7 +69,11 @@ if (!manifest) {
     if (!assetByLocal.has(normalize(localPath))) errors.push(`${localPath}: local PMTiles archive is not represented in CDN manifest`);
   }
   if (localOnlyFallbacks.length) {
-    warnings.push(`${localOnlyFallbacks.length} production PMTiles layer(s) retain local-only directory fallbacks; runtime must keep fallback disabled off localhost`);
+    if (runtimeDisablesLocalFallbacks()) {
+      notes.push(`${localOnlyFallbacks.length} PMTiles layer(s) retain local directory fallbacks for development only; production fallback is disabled by runtime guard.`);
+    } else {
+      errors.push(`${localOnlyFallbacks.length} production PMTiles layer(s) retain local-only directory fallbacks without a runtime production guard`);
+    }
   }
 }
 
@@ -90,7 +96,8 @@ for (const layer of metadata.layers || []) {
 const report = {
   schemaVersion: 1,
   generatedAt: new Date().toISOString(),
-  totals: { warnings: warnings.length, errors: errors.length },
+  totals: { warnings: warnings.length, errors: errors.length, notes: notes.length },
+  notes,
   warnings,
   errors
 };
@@ -99,6 +106,10 @@ writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
 console.log('Civgraph /test CDN Manifest Validation');
 console.log(`- warnings: ${warnings.length}`);
 console.log(`- errors: ${errors.length}`);
+if (notes.length) {
+  console.log('\nNotes:');
+  for (const note of notes) console.log(`- ${note}`);
+}
 if (warnings.length) {
   console.log('\nWarnings:');
   for (const warning of warnings) console.log(`- ${warning}`);
@@ -121,4 +132,12 @@ function listLocalPmtiles() {
 
 function normalize(value) {
   return String(value || '').replaceAll('\\', '/').replace(/^\/+/, '');
+}
+
+function runtimeDisablesLocalFallbacks() {
+  if (!existsSync(MAP_CONTROLLER_PATH)) return false;
+  const source = readFileSync(MAP_CONTROLLER_PATH, 'utf8');
+  return /function\s+localTestTilesAvailable/.test(source)
+    && /fallbackUnavailable/.test(source)
+    && /Directory MVT fallback is not deployed on production Pages/.test(source);
 }

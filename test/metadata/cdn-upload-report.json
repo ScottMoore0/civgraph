@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-05-30T00:26:43.174Z",
+  "bucket": "boundaries-data",
+  "dryRun": false,
+  "selectedIds": [
+    "habitat-deciduous-woodland-vector-test",
+    "habitat-wetland-grouped-vector-test"
+  ],
+  "totals": {
+    "assets": 2,
+    "processed": 2,
+    "ok": 2,
+    "failed": 0,
+    "bytes": 6238819
+  },
+  "results": [
+    {
+      "layerId": "habitat-wetland-grouped-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/habitat-wetland-grouped-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 5813477,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.95.0)\n─────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/habitat-wetland-grouped-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "habitat-deciduous-woodland-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/habitat-deciduous-woodland-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 425342,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.95.0)\n─────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/habitat-deciduous-woodland-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    }
+  ]
+}

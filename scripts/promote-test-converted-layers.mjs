@@ -28,6 +28,8 @@ const main = JSON.parse(readFileSync(MAIN_PATH, 'utf8'));
 const plan = JSON.parse(readFileSync(PLAN_PATH, 'utf8'));
 const report = JSON.parse(readFileSync(REPORT_PATH, 'utf8'));
 const test = JSON.parse(readFileSync(TEST_PATH, 'utf8'));
+const verifiedConversions = [...(report.skippedExisting || []), ...(report.converted || [])];
+const verifiedSourceIds = new Set(verifiedConversions.map((row) => row.sourceMapId));
 
 const mainById = new Map((main.maps || []).map((map) => [map.id, map]));
 for (const map of main.maps || []) {
@@ -38,11 +40,10 @@ for (const map of main.maps || []) {
 const categoriesById = new Map((main.categories || []).map((category) => [category.id, category]));
 const rowsById = new Map((plan.rows || []).map((row) => [row.sourceMapId, row]));
 
-const baseLayers = (test.layers || []).filter((layer) => !isGeneratedLayer(layer));
+const baseLayers = (test.layers || []).filter((layer) => !isGeneratedLayer(layer) || !verifiedSourceIds.has(layer.sourceMapId));
 const promotedVectorLayers = [];
 const promotedRasterLayers = [];
 
-const verifiedConversions = [...(report.skippedExisting || []), ...(report.converted || [])];
 const verifiedBySourceId = new Map(verifiedConversions.map((row) => [row.sourceMapId, row]));
 for (const converted of verifiedBySourceId.values()) {
   const row = rowsById.get(converted.sourceMapId);
@@ -72,9 +73,27 @@ const next = {
 };
 
 writeFileSync(TEST_PATH, `${JSON.stringify(next, null, 2)}\n`);
+syncPortPlan(promotedVectorLayers);
 console.log(`Promoted ${promotedVectorLayers.length} vector layer(s).`);
 console.log(`Promoted ${promotedRasterLayers.length} raster image layer(s).`);
 console.log(`Wrote ${TEST_PATH.replace(`${ROOT}\\`, '')}`);
+
+function syncPortPlan(promotedLayers) {
+  if (!promotedLayers.length) return;
+  const bySourceId = new Map(promotedLayers.map((layer) => [layer.sourceMapId, layer]));
+  const rows = (plan.rows || []).map((row) => {
+    const layer = bySourceId.get(row.sourceMapId);
+    if (!layer) return row;
+    return {
+      ...row,
+      conversionStatus: 'converted',
+      recommendedTarget: row.recommendedTarget || 'mvt-or-pmtiles',
+      testLayerId: layer.id,
+      bounds: layer.bounds || row.bounds
+    };
+  });
+  writeFileSync(PLAN_PATH, `${JSON.stringify({ ...plan, rows }, null, 2)}\n`);
+}
 
 function buildVectorLayer(converted, row, map) {
   const outputDir = converted.outputDirectory.replace(/\\/g, '/');
