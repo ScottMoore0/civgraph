@@ -1,3 +1,25 @@
+# /test2 election residual parity classification against main site
+- [x] Record the parity-classification request
+  - User asked whether main-site election functionality should be achievable on `/test2`; treated this as a parity audit plus safe residual mapping pass.
+- [x] Inspect remaining unmatched `/test2` election rows and group by source map/body/year/name pattern
+  - Reviewed the generated unmatched report after the previous mapping pass and grouped residuals by body, source map, and recurring name pattern.
+- [x] Compare each residual class against `js/election-controller.js` main-site geography rules and available converted feature indexes
+  - Confirmed which rows have no main-site source map, which need synthetic/aggregate layers, and which are absent from the selected converted source feature indexes.
+- [x] Add only safe remaining crosswalks where the main site has equivalent geometry and the mapping is one-to-one or explicitly documented
+  - Added the remaining safe `deas-1993` aliases: `KNOCKIVEAGH -> Knockveagh` and `DUNMURRY CROSS -> Dunmurray Cross`.
+- [x] Add residual classification to the generated `/test2` election report so blocked cases are explainable
+  - Added per-row `unmatchedDetails` and summarized residual classifications to `test/metadata/elections-test2-report.json`.
+- [x] Regenerate election metadata and verify improved or justified residual coverage
+  - Regenerated `/test2` election metadata: 548 elections, 519 loadable, 29 placeholders, 3,948 matched constituencies, 736 unmatched constituencies.
+  - Residual classes are now fully classified: 620 main-geography-unsourced, 59 referendum-boundary-split-merge, 31 university-seat-no-polygon, 15 stormont-seat-not-in-source, 9 historic-dea-not-in-source, 1 regional-list-seat-no-layer, 1 source-result-name-error.
+- [x] Run syntax, `/test2` route, build, and browser checks
+  - `node --check scripts/build-test2-election-manifest.mjs` passed.
+  - `npm run check:test2` passed.
+  - `npm run build:test2` passed after approved rerun outside the sandbox because esbuild spawning was blocked by `EPERM`.
+  - `npm run test:browser:test2` passed after approved rerun outside the sandbox because Playwright browser spawning was blocked by `EPERM`: 14/14 tests passed.
+- [x] Document final parity status and blockers
+  - Review: all remaining election geography gaps are now either safe one-to-one mappings already applied or explicitly classified as data/aggregation/synthetic-layer/source-cleanup work. No unclassified residual class remains in the generated report.
+
 # Follow-up /test2 election name/geography/data mapping
 - [x] Record the follow-up request and preserve the already-pushed election integration commit
   - Previous `/test2` election integration was committed as `997b7f197 Add test2 election catalogue integration` and pushed to `main`.

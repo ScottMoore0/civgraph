@@ -118,6 +118,10 @@ const SOURCE_NAME_ALIASES = new Map([
     ['NORTH TIPPERARY COUNTY COUNCIL', 'Tipperary North'],
     ['SOUTH TIPPERARY COUNTY COUNCIL', 'Tipperary South']
   ])],
+  ['deas-1993', new Map([
+    ['KNOCKIVEAGH', 'Knockveagh'],
+    ['DUNMURRY CROSS', 'Dunmurray Cross']
+  ])],
   ['deas-1984', new Map([
     ['BRAID VALLEY', 'Braid'],
     ['LAGANSIDE', 'Laganbank']
@@ -227,6 +231,7 @@ function main() {
     };
     manifestEntries.push(manifestEntry);
     if (!bundle.loadable || bundle.unmatchedCount > 0) {
+      const unmatchedDetails = buildUnmatchedDetails(bundle);
       reportEntries.push({
         key: bundle.key,
         body: bundle.body,
@@ -237,7 +242,9 @@ function main() {
         loadable: bundle.loadable,
         matchedCount: bundle.matchedCount,
         unmatchedCount: bundle.unmatchedCount,
-        unmatchedConstituencies: bundle.unmatchedConstituencies
+        unmatchedConstituencies: bundle.unmatchedConstituencies,
+        unmatchedDetails,
+        residualSummary: summarizeResiduals(unmatchedDetails)
       });
     }
   }
@@ -261,6 +268,7 @@ function main() {
     generatedAt: manifest.generatedAt,
     totals: manifest.totals,
     unmatchedElections: reportEntries.length,
+    residualSummary: summarizeResiduals(reportEntries.flatMap((entry) => entry.unmatchedDetails || [])),
     entries: reportEntries.sort(compareElectionEntries)
   };
 
@@ -796,6 +804,105 @@ function compareElectionEntries(a, b) {
   const dateCompare = String(b.date).localeCompare(String(a.date));
   if (dateCompare !== 0) return dateCompare;
   return String(a.body).localeCompare(String(b.body));
+}
+
+function buildUnmatchedDetails(bundle) {
+  return (bundle.unmatchedConstituencies || []).map((constituency) => ({
+    constituency,
+    ...classifyUnmatchedConstituency(bundle, constituency)
+  }));
+}
+
+function summarizeResiduals(details) {
+  const counts = {};
+  for (const detail of details || []) {
+    counts[detail.code || 'unclassified-needs-review'] = (counts[detail.code || 'unclassified-needs-review'] || 0) + 1;
+  }
+  return Object.fromEntries(Object.entries(counts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])));
+}
+
+function classifyUnmatchedConstituency(bundle, constituency) {
+  const name = normalizeName(constituency);
+  const sourceMapId = bundle.sourceMapId || null;
+  const body = bundle.body || '';
+
+  if (!sourceMapId) {
+    return {
+      code: 'main-geography-unsourced',
+      parityStatus: 'blocked-on-data',
+      reason: 'The main-site geography rules do not identify a sourced boundary file for this election date/body, so /test2 cannot produce faithful MapLibre geometry yet.'
+    };
+  }
+
+  if (/\buniversity\b|\buniveristy\b|\btrinity college\b/.test(name)) {
+    return {
+      code: 'university-seat-no-polygon',
+      parityStatus: 'blocked-on-data',
+      reason: 'The selected main-site geography source does not contain a polygon for this university seat.'
+    };
+  }
+
+  if (body === 'Northern Ireland Forum for Political Dialogue' && name === 'northern ireland') {
+    return {
+      code: 'regional-list-seat-no-layer',
+      parityStatus: 'blocked-on-implementation',
+      reason: 'The main-site geography uses Westminster constituencies for the territorial Forum seats; the separate NI-wide top-up/list result needs a synthetic or secondary region layer.'
+    };
+  }
+
+  if (body === 'Parliament of Northern Ireland') {
+    return {
+      code: 'stormont-seat-not-in-source',
+      parityStatus: 'blocked-on-data',
+      reason: 'This historical Stormont result name is absent from the selected Stormont boundary source; it is not safe to alias it to a different constituency.'
+    };
+  }
+
+  if (body === 'House of Commons of the United Kingdom' && sourceMapId === 'pc-1920') {
+    return {
+      code: 'westminster-seat-not-in-source',
+      parityStatus: 'blocked-on-data',
+      reason: 'This result name is absent from the selected Westminster boundary source; it is not safe to alias it to a different constituency.'
+    };
+  }
+
+  if (body === 'Referendum (Ireland)' && sourceMapId?.startsWith('dail-')) {
+    return {
+      code: 'referendum-boundary-split-merge',
+      parityStatus: 'blocked-on-aggregation',
+      reason: 'The result row is reported on a constituency scheme that is split from, merged into, or otherwise different from the main-site selected Dail boundary layer. This needs aggregation/splitting logic or a more exact boundary source, not a one-to-one alias.'
+    };
+  }
+
+  if (body === 'D\u00e1il \u00c9ireann' && sourceMapId === 'dail-2023' && /wexford3/.test(name)) {
+    return {
+      code: 'source-result-name-error',
+      parityStatus: 'blocked-on-data-cleanup',
+      reason: 'The result constituency name appears to contain a source-data typo and should be cleaned upstream before map matching.'
+    };
+  }
+
+  if (bundle.bodyGroup === 'local-government' && sourceMapId?.startsWith('deas-')) {
+    return {
+      code: 'historic-dea-not-in-source',
+      parityStatus: 'blocked-on-data',
+      reason: 'This local-government DEA result name is absent from the selected DEA boundary source; it is not safe to alias it without a documented one-to-one boundary equivalence.'
+    };
+  }
+
+  if (sourceMapId === 'pc-1918-ireland') {
+    return {
+      code: 'historic-seat-not-in-source',
+      parityStatus: 'blocked-on-data',
+      reason: 'This 1918 result name is absent from the selected all-Ireland Westminster boundary source.'
+    };
+  }
+
+  return {
+    code: 'unclassified-needs-review',
+    parityStatus: 'needs-review',
+    reason: 'No safe deterministic mapping has been identified yet.'
+  };
 }
 
 function normalizeName(value) {
