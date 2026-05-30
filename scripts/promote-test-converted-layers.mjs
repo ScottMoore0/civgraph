@@ -23,6 +23,7 @@ const INCLUDE_RASTERS = !process.argv.includes('--no-rasters');
 const RASTER_LIMIT = readNumberArg('--raster-limit', Infinity);
 const GENERATED_PIPELINE = 'build-test-vector-batch';
 const RASTER_PIPELINE = 'promote-test-raster-image';
+const RASTER_TILE_PIPELINE = 'promote-test-raster-tiles';
 
 const main = JSON.parse(readFileSync(MAIN_PATH, 'utf8'));
 const plan = JSON.parse(readFileSync(PLAN_PATH, 'utf8'));
@@ -39,8 +40,18 @@ for (const map of main.maps || []) {
 }
 const categoriesById = new Map((main.categories || []).map((category) => [category.id, category]));
 const rowsById = new Map((plan.rows || []).map((row) => [row.sourceMapId, row]));
+const rasterRows = INCLUDE_RASTERS
+  ? (plan.rows || [])
+    .filter((row) => isValidBounds(row.bounds, row))
+    .filter((row) => findRasterFile(row) || findRasterTileTemplate(row))
+    .slice(0, RASTER_LIMIT)
+  : [];
+const regeneratedSourceIds = new Set([
+  ...verifiedSourceIds,
+  ...rasterRows.map((row) => row.sourceMapId)
+]);
 
-const baseLayers = (test.layers || []).filter((layer) => !isGeneratedLayer(layer) || !verifiedSourceIds.has(layer.sourceMapId));
+const baseLayers = (test.layers || []).filter((layer) => !isGeneratedLayer(layer) || !regeneratedSourceIds.has(layer.sourceMapId));
 const promotedVectorLayers = [];
 const promotedRasterLayers = [];
 
@@ -54,17 +65,15 @@ for (const converted of verifiedBySourceId.values()) {
 }
 
 if (INCLUDE_RASTERS) {
-  const rasterRows = (plan.rows || [])
-    .filter((row) => isValidBounds(row.bounds, row))
-    .filter((row) => findRasterFile(row))
-    .slice(0, RASTER_LIMIT);
   for (const row of rasterRows) {
     const map = mainById.get(row.sourceMapId) || {};
-    promotedRasterLayers.push(buildRasterImageLayer(row, map));
+    promotedRasterLayers.push(findRasterTileTemplate(row)
+      ? buildRasterTileLayer(row, map)
+      : buildRasterImageLayer(row, map));
   }
 }
 
-const layers = [...baseLayers, ...promotedVectorLayers, ...promotedRasterLayers];
+const layers = dedupeLayers([...baseLayers, ...promotedVectorLayers, ...promotedRasterLayers]);
 const categories = mergeCategories(test.categories || [], layers);
 const next = {
   ...test,
@@ -73,9 +82,9 @@ const next = {
 };
 
 writeFileSync(TEST_PATH, `${JSON.stringify(next, null, 2)}\n`);
-syncPortPlan(promotedVectorLayers);
+syncPortPlan([...promotedVectorLayers, ...promotedRasterLayers]);
 console.log(`Promoted ${promotedVectorLayers.length} vector layer(s).`);
-console.log(`Promoted ${promotedRasterLayers.length} raster image layer(s).`);
+console.log(`Promoted ${promotedRasterLayers.length} raster layer(s).`);
 console.log(`Wrote ${TEST_PATH.replace(`${ROOT}\\`, '')}`);
 
 function syncPortPlan(promotedLayers) {
@@ -107,13 +116,35 @@ function syncPortPlan(promotedLayers) {
   writeFileSync(PLAN_PATH, `${JSON.stringify({ ...plan, totals: summarizeRows(rows), rows }, null, 2)}\n`);
 }
 
+function dedupeLayers(inputLayers) {
+  const byId = new Map();
+  const order = [];
+  for (const layer of inputLayers) {
+    if (!layer?.id) continue;
+    if (!byId.has(layer.id)) {
+      byId.set(layer.id, layer);
+      order.push(layer.id);
+      continue;
+    }
+    byId.set(layer.id, chooseLayerForDuplicate(byId.get(layer.id), layer));
+  }
+  return order.map((id) => byId.get(id)).filter(Boolean);
+}
+
+function chooseLayerForDuplicate(current, next) {
+  const currentGenerated = isGeneratedLayer(current);
+  const nextGenerated = isGeneratedLayer(next);
+  if (currentGenerated !== nextGenerated) return currentGenerated ? next : current;
+  return next;
+}
+
 function convertedCompositeChildIds(row, directSourceIds) {
   if (row.conversionStatus === 'converted') return [];
   const map = mainById.get(row.sourceMapId);
   if (!map) return [];
   const candidates = [
     ...(Array.isArray(map.compositeSources) ? map.compositeSources : []),
-    ...(!map.isGroup && Array.isArray(map.variants) ? map.variants.map((variant) => variant.id) : [])
+    ...(Array.isArray(map.variants) ? map.variants.map((variant) => variant.id) : [])
   ].filter(Boolean);
   const uniqueCandidates = unique(candidates);
   if (!uniqueCandidates.length) return [];
@@ -129,7 +160,8 @@ function summarizeRows(rows) {
     convertedDirect: directConverted,
     convertedComposite: compositeConverted,
     needsVectorTileConversion: rows.filter((row) => row.conversionStatus === 'needsVectorTileConversion').length,
-    metadataOnly: rows.filter((row) => row.conversionStatus === 'metadataOnly').length
+    metadataOnly: rows.filter((row) => row.conversionStatus === 'metadataOnly').length,
+    needsMapLibreSourceMapping: rows.filter((row) => row.conversionStatus === 'needsMapLibreSourceMapping').length
   };
 }
 
@@ -264,6 +296,43 @@ function buildRasterImageLayer(row, map) {
   };
 }
 
+function buildRasterTileLayer(row, map) {
+  const raster = findRasterTileTemplate(row);
+  const style = normalizeStyle(row.style || map.style);
+  const rasterStyle = map.rasterStyle || {};
+  return {
+    id: `${row.sourceMapId}-raster-test`,
+    sourceMapId: row.sourceMapId,
+    name: row.name || map.name || row.sourceMapId,
+    category: row.category || map.category || 'Raster',
+    group: row.group || null,
+    date: row.date || map.date || null,
+    provider: row.provider || map.provider || null,
+    description: row.description || map.description || '',
+    renderer: 'maplibre',
+    sourceType: 'raster',
+    geometryType: 'raster',
+    tiles: hostedUrl(raster.file),
+    bounds: row.bounds,
+    minzoom: Number(rasterStyle.minZoom ?? 0),
+    maxzoom: Number(rasterStyle.maxZoom ?? 20),
+    maxNativeZoom: Number(rasterStyle.maxNativeZoom ?? rasterStyle.maxZoom ?? 20),
+    tileSize: Number(rasterStyle.tileSize ?? 256),
+    rasterOpacity: Number(map.opacity ?? rasterStyle.opacity ?? style.fillOpacity ?? 0.78),
+    style,
+    references: row.references || map.references || [],
+    sourceDownloads: buildSourceDownloads(row, map, raster.file),
+    sourceCredits: row.sourceCredits || creditsFromProvider(row.provider || map.provider),
+    keywords: unique([...(map.keywords || []), row.name, row.category, row.group, 'maplibre', 'raster tiles']),
+    status: 'converted-raster-tiles',
+    notes: `Raster XYZ tile layer using metadata bounds and tile template ${hostedUrl(raster.file)}.`,
+    generatedFrom: {
+      pipeline: RASTER_TILE_PIPELINE,
+      sourceFile: raster.file
+    }
+  };
+}
+
 function parseTileMetadata(metadata) {
   let json = {};
   try {
@@ -368,11 +437,20 @@ function runtimeMinZoom(sourceMapId) {
 }
 
 function isGeneratedLayer(layer) {
-  return layer.generatedFrom?.pipeline === GENERATED_PIPELINE || layer.generatedFrom?.pipeline === RASTER_PIPELINE;
+  return layer.generatedFrom?.pipeline === GENERATED_PIPELINE
+    || layer.generatedFrom?.pipeline === RASTER_PIPELINE
+    || layer.generatedFrom?.pipeline === RASTER_TILE_PIPELINE;
 }
 
 function findRasterFile(row) {
   return (row.sourceFiles || []).find((source) => /\.(png|jpe?g|webp)$/i.test(source.file || '')) || null;
+}
+
+function findRasterTileTemplate(row) {
+  return (row.sourceFiles || []).find((source) => {
+    const file = source.file || '';
+    return /\{z\}.*\{x\}.*\{y\}/i.test(file) && /\.(png|jpe?g|webp)(?:[?#].*)?$/i.test(file);
+  }) || null;
 }
 
 function isValidBounds(bounds, row = null) {

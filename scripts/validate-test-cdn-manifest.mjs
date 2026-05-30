@@ -20,6 +20,7 @@ const rangeReport = existsSync(RANGE_REPORT_PATH) ? JSON.parse(readFileSync(RANG
 const errors = [];
 const warnings = [];
 const notes = [];
+const resolvedCountiesLayer = (metadata.layers || []).find((layer) => isResolvedRoiCountiesLayer(layer));
 
 if (!manifest) {
   errors.push('test/metadata/cdn-upload-manifest.json is missing; run npm run build:test:cdn-manifest');
@@ -77,18 +78,20 @@ if (!manifest) {
   }
 }
 
-if (!existsSync(QUARANTINE_PATH)) {
+if (!resolvedCountiesLayer && !existsSync(QUARANTINE_PATH)) {
   errors.push('test/metadata/quarantine/roi-counties-2011.json is missing');
-} else {
+} else if (!resolvedCountiesLayer) {
   const quarantine = JSON.parse(readFileSync(QUARANTINE_PATH, 'utf8'));
   if (quarantine.sourceMapId !== 'roi-counties-2011') errors.push('roi-counties-2011 quarantine record has wrong sourceMapId');
   if (!/invalid|bounds|not promoted/i.test(`${quarantine.reason} ${quarantine.action}`)) {
     warnings.push('roi-counties-2011 quarantine record should explain invalid bounds and non-promotion');
   }
+} else {
+  notes.push('roi-counties-2011 quarantine has been superseded by the resolved PMTiles/CDN layer built from the valid FlatGeobuf source.');
 }
 
 for (const layer of metadata.layers || []) {
-  if (layer.sourceMapId === 'roi-counties-2011' || layer.id.includes('roi-counties-2011')) {
+  if (!resolvedCountiesLayer && (layer.sourceMapId === 'roi-counties-2011' || layer.id.includes('roi-counties-2011'))) {
     errors.push(`${layer.id}: quarantined roi-counties-2011 must not be present in active /test metadata`);
   }
 }
@@ -132,6 +135,36 @@ function listLocalPmtiles() {
 
 function normalize(value) {
   return String(value || '').replaceAll('\\', '/').replace(/^\/+/, '');
+}
+
+function isResolvedRoiCountiesLayer(layer) {
+  return (layer.id === 'roi-counties-2011-vector-test' || layer.sourceMapId === 'roi-counties-2011')
+    && layer.sourceType === 'pmtiles'
+    && /^https:\/\/data\.civgraph\.net\/data\/maps\/test\/pmtiles\/generated\/roi-counties-2011-vector-test\.pmtiles$/i.test(layer.tileUrl || '')
+    && /data\/maps\/baronies-parishes\/ROI_Counties_2011\.fgb$/i.test(String(layer.sourceFile || '').replaceAll('\\', '/'))
+    && isValidBounds(layer.bounds, layer);
+}
+
+function isValidBounds(bounds, layer = null) {
+  if (!Array.isArray(bounds) || bounds.length !== 2) return false;
+  const [[south, west], [north, east]] = bounds;
+  if (![south, west, north, east].every(Number.isFinite) || south >= north || west >= east) return false;
+  const nearNullIsland = Math.max(Math.abs(south), Math.abs(west), Math.abs(north), Math.abs(east)) < 1;
+  if (nearNullIsland) return false;
+  if (layer?.sourceMapId === 'britain-ireland-seas') {
+    return south >= 45
+      && north <= 63
+      && west >= -18
+      && east <= 14
+      && south < 57
+      && north > 49
+      && west < -4
+      && east > -12;
+  }
+  return south >= 49
+    && north <= 57
+    && west >= -12.5
+    && east <= -4;
 }
 
 function runtimeDisablesLocalFallbacks() {

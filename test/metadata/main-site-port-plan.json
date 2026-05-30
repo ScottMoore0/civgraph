@@ -4,11 +4,12 @@
   "testMetadata": "test/metadata/maps-test.json",
   "totals": {
     "total": 901,
-    "converted": 749,
-    "convertedDirect": 747,
-    "convertedComposite": 2,
-    "needsVectorTileConversion": 1,
-    "metadataOnly": 151
+    "converted": 762,
+    "convertedDirect": 749,
+    "convertedComposite": 13,
+    "needsVectorTileConversion": 0,
+    "metadataOnly": 139,
+    "needsMapLibreSourceMapping": 0
   },
   "rows": [
     {
@@ -1080,16 +1081,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "britain-ireland-seas-vector-test",
-      "bounds": [
-        [
-          46.5005658,
-          -16.0954192
-        ],
-        [
-          61.6447265,
-          12.0059423
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#0000FF",
         "fillColor": null,
@@ -1129,16 +1121,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "ireland-island-vector-test",
-      "bounds": [
-        [
-          51.4198973,
-          -10.6629709
-        ],
-        [
-          55.4465803,
-          -5.4327895
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#228B22",
         "fillColor": null,
@@ -1177,9 +1160,9 @@
         "ESA",
         "Scott Moore"
       ],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "conversionStatus": "converted",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "copernicus-dem-30m-ireland-raster-test",
       "bounds": [
         [
           51.2,
@@ -5004,7 +4987,16 @@
       "conversionStatus": "converted",
       "recommendedTarget": "maplibre-raster-or-image-source",
       "testLayerId": "wards-1993-wards92-cookstown-raster-image-test",
-      "bounds": null,
+      "bounds": [
+        [
+          54.4990944,
+          -7.1190399
+        ],
+        [
+          54.9774444,
+          -5.9192104
+        ]
+      ],
       "style": {
         "color": "#FF01C5",
         "fillColor": null,
@@ -5080,7 +5072,16 @@
       "conversionStatus": "converted",
       "recommendedTarget": "maplibre-raster-or-image-source",
       "testLayerId": "wards-1993-wards92-craigavon-raster-image-test",
-      "bounds": null,
+      "bounds": [
+        [
+          54.3367241,
+          -6.7160354
+        ],
+        [
+          54.8126732,
+          -5.4883984
+        ]
+      ],
       "style": {
         "color": "#FF01C5",
         "fillColor": null,
@@ -5156,7 +5157,16 @@
       "conversionStatus": "converted",
       "recommendedTarget": "maplibre-raster-or-image-source",
       "testLayerId": "wards-1993-wards92-derry-raster-image-test",
-      "bounds": null,
+      "bounds": [
+        [
+          54.6499534,
+          -8.1144028
+        ],
+        [
+          55.1486971,
+          -6.9260059
+        ]
+      ],
       "style": {
         "color": "#FF01C5",
         "fillColor": null,
@@ -5232,7 +5242,16 @@
       "conversionStatus": "converted",
       "recommendedTarget": "maplibre-raster-or-image-source",
       "testLayerId": "wards-1993-wards92-down-raster-image-test",
-      "bounds": null,
+      "bounds": [
+        [
+          54.0742221,
+          -6.1942151
+        ],
+        [
+          54.5815998,
+          -5.0286409
+        ]
+      ],
       "style": {
         "color": "#FF01C5",
         "fillColor": null,
@@ -5308,7 +5327,16 @@
       "conversionStatus": "converted",
       "recommendedTarget": "maplibre-raster-or-image-source",
       "testLayerId": "wards-1993-wards92-dungannon-raster-image-test",
-      "bounds": null,
+      "bounds": [
+        [
+          54.2691126,
+          -7.6344572
+        ],
+        [
+          54.7750605,
+          -6.4358669
+        ]
+      ],
       "style": {
         "color": "#FF01C5",
         "fillColor": null,
@@ -5384,7 +5412,16 @@
       "conversionStatus": "converted",
       "recommendedTarget": "maplibre-raster-or-image-source",
       "testLayerId": "wards-1993-wards92-larne-raster-image-test",
-      "bounds": null,
+      "bounds": [
+        [
+          54.5989377,
+          -6.2083904
+        ],
+        [
+          55.1134461,
+          -4.9937356
+        ]
+      ],
       "style": {
         "color": "#FF01C5",
         "fillColor": null,
@@ -5460,7 +5497,16 @@
       "conversionStatus": "converted",
       "recommendedTarget": "maplibre-raster-or-image-source",
       "testLayerId": "wards-1993-wards92-limavady-raster-image-test",
-      "bounds": null,
+      "bounds": [
+        [
+          54.7626292,
+          -7.2367822
+        ],
+        [
+          55.2527488,
+          -6.0432451
+        ]
+      ],
       "style": {
         "color": "#FF01C5",
         "fillColor": null,
@@ -5536,7 +5582,16 @@
       "conversionStatus": "converted",
       "recommendedTarget": "maplibre-raster-or-image-source",
       "testLayerId": "wards-1993-wards92-lisburn-raster-image-test",
-      "bounds": null,
+      "bounds": [
+        [
+          53.7367722,
+          -7.6786205
+        ],
+        [
+          54.7249865,
+          -5.3643119
+        ]
+      ],
       "style": {
         "color": "#FF01C5",
         "fillColor": null,
@@ -5612,7 +5667,16 @@
       "conversionStatus": "converted",
       "recommendedTarget": "maplibre-raster-or-image-source",
       "testLayerId": "wards-1993-wards92-magherafelt-raster-image-test",
-      "bounds": null,
+      "bounds": [
+        [
+          54.5156852,
+          -7.252476
+        ],
+        [
+          54.9978772,
+          -6.0355576
+        ]
+      ],
       "style": {
         "color": "#FF01C5",
         "fillColor": null,
@@ -5688,7 +5752,16 @@
       "conversionStatus": "converted",
       "recommendedTarget": "maplibre-raster-or-image-source",
       "testLayerId": "wards-1993-wards92-moyle-raster-image-test",
-      "bounds": null,
+      "bounds": [
+        [
+          54.8936189,
+          -6.6355644
+        ],
+        [
+          55.3940312,
+          -5.4234482
+        ]
+      ],
       "style": {
         "color": "#FF01C5",
         "fillColor": null,
@@ -5764,7 +5837,16 @@
       "conversionStatus": "converted",
       "recommendedTarget": "maplibre-raster-or-image-source",
       "testLayerId": "wards-1993-wards92-newtownabbey-raster-image-test",
-      "bounds": null,
+      "bounds": [
+        [
+          54.466499,
+          -6.2540447
+        ],
+        [
+          54.9663509,
+          -5.0265907
+        ]
+      ],
       "style": {
         "color": "#FF01C5",
         "fillColor": null,
@@ -5840,7 +5922,16 @@
       "conversionStatus": "converted",
       "recommendedTarget": "maplibre-raster-or-image-source",
       "testLayerId": "wards-1993-wards92-newry-mourne-1-raster-image-test",
-      "bounds": null,
+      "bounds": [
+        [
+          53.9895965,
+          -6.7915955
+        ],
+        [
+          54.4805661,
+          -5.5909917
+        ]
+      ],
       "style": {
         "color": "#FF01C5",
         "fillColor": null,
@@ -5916,7 +6007,16 @@
       "conversionStatus": "converted",
       "recommendedTarget": "maplibre-raster-or-image-source",
       "testLayerId": "wards-1993-wards92-north-down-raster-image-test",
-      "bounds": null,
+      "bounds": [
+        [
+          54.290357,
+          -6.6739883
+        ],
+        [
+          54.7971719,
+          -5.4128014
+        ]
+      ],
       "style": {
         "color": "#FF01C5",
         "fillColor": null,
@@ -5992,7 +6092,16 @@
       "conversionStatus": "converted",
       "recommendedTarget": "maplibre-raster-or-image-source",
       "testLayerId": "wards-1993-wards92-omagh-raster-image-test",
-      "bounds": null,
+      "bounds": [
+        [
+          54.3574456,
+          -7.9916838
+        ],
+        [
+          54.8290745,
+          -6.8314484
+        ]
+      ],
       "style": {
         "color": "#FF01C5",
         "fillColor": null,
@@ -6068,7 +6177,16 @@
       "conversionStatus": "converted",
       "recommendedTarget": "maplibre-raster-or-image-source",
       "testLayerId": "wards-1993-wards92-strabane-raster-image-test",
-      "bounds": null,
+      "bounds": [
+        [
+          54.5608827,
+          -7.9909504
+        ],
+        [
+          55.0329544,
+          -6.8240187
+        ]
+      ],
       "style": {
         "color": "#FF01C5",
         "fillColor": null,
@@ -9763,10 +9881,19 @@
         "OSNI",
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
-      "bounds": null,
+      "testLayerId": "roi-counties-2011-vector-test",
+      "bounds": [
+        [
+          51.4198971,
+          -10.6628504
+        ],
+        [
+          55.4465759,
+          -5.9962842
+        ]
+      ],
       "style": {
         "color": "#00A9E6",
         "fillColor": null,
@@ -11112,9 +11239,9 @@
       "sourceCredits": [
         "CSO"
       ],
-      "conversionStatus": "metadataOnly",
+      "conversionStatus": "convertedComposite",
       "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "testLayerId": "composite:eds-connacht-2022,eds-leinster-2022,eds-munster-2022,eds-ulster-2022",
       "bounds": null,
       "style": {
         "color": "#1B5E20",
@@ -11126,7 +11253,7 @@
       "references": [],
       "sourceDownloads": [],
       "variants": 4,
-      "unsupportedReason": "group entry needs child/variant conversion"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "eds-connacht-2022",
@@ -11297,9 +11424,9 @@
       "sourceCredits": [
         "CSO"
       ],
-      "conversionStatus": "metadataOnly",
+      "conversionStatus": "convertedComposite",
       "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "testLayerId": "composite:eds-connacht-2006,eds-leinster-2006,eds-munster-2006,eds-ulster-2006,eds-census-2011",
       "bounds": null,
       "style": {
         "color": "#2E7D32",
@@ -11311,7 +11438,7 @@
       "references": [],
       "sourceDownloads": [],
       "variants": 5,
-      "unsupportedReason": "group entry needs child/variant conversion"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "eds-connacht-2006",
@@ -11522,9 +11649,9 @@
         "OSI",
         "OSM"
       ],
-      "conversionStatus": "metadataOnly",
+      "conversionStatus": "convertedComposite",
       "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "testLayerId": "composite:eds-connacht-1911,eds-leinster-1911,eds-munster-1911,eds-ulster-1911",
       "bounds": null,
       "style": {
         "color": "#8B4513",
@@ -11536,7 +11663,7 @@
       "references": [],
       "sourceDownloads": [],
       "variants": 4,
-      "unsupportedReason": "group entry needs child/variant conversion"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "eds-connacht-1911",
@@ -11813,9 +11940,9 @@
         "OSI",
         "OSM"
       ],
-      "conversionStatus": "metadataOnly",
+      "conversionStatus": "convertedComposite",
       "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "testLayerId": "composite:eds-roi-1921-connacht,eds-roi-1921-leinster,eds-roi-1921-munster,eds-roi-1921-ulster",
       "bounds": null,
       "style": {
         "color": "#9C6E3F",
@@ -11827,7 +11954,7 @@
       "references": [],
       "sourceDownloads": [],
       "variants": 4,
-      "unsupportedReason": "group entry needs child/variant conversion"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "eds-roi-1921-connacht",
@@ -12008,9 +12135,9 @@
         "OSI",
         "OSM"
       ],
-      "conversionStatus": "metadataOnly",
+      "conversionStatus": "convertedComposite",
       "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "testLayerId": "composite:eds-roi-1921-connacht,eds-roi-1921-leinster,eds-roi-1921-munster,eds-roi-1921-ulster",
       "bounds": null,
       "style": {
         "color": "#9C6E3F",
@@ -12022,7 +12149,7 @@
       "references": [],
       "sourceDownloads": [],
       "variants": 4,
-      "unsupportedReason": "group entry needs child/variant conversion"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "eds-roi-1921-connacht",
@@ -14193,16 +14320,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "ni-1921-vector-test",
-      "bounds": [
-        [
-          54.0227244,
-          -8.1775025
-        ],
-        [
-          55.3129843,
-          -5.4327894
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#000080",
         "fillColor": null,
@@ -14240,16 +14358,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "roi-1938-vector-test",
-      "bounds": [
-        [
-          51.4199027,
-          -10.5803779
-        ],
-        [
-          55.3829318,
-          -5.9945041
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#169B62",
         "fillColor": null,
@@ -19123,16 +19232,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "historic-bullaun-stones-vector-test",
-      "bounds": [
-        [
-          51.47832,
-          -10.43896
-        ],
-        [
-          55.433,
-          -5.58733
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#8b5e3c",
         "fillColor": null,
@@ -19179,16 +19279,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "historic-crannog-vector-test",
-      "bounds": [
-        [
-          51.60709,
-          -10.05118
-        ],
-        [
-          55.26959,
-          -5.50617
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#7f5539",
         "fillColor": null,
@@ -19235,16 +19326,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "historic-ringfort-cashel-vector-test",
-      "bounds": [
-        [
-          51.45008,
-          -10.44832
-        ],
-        [
-          55.28635,
-          -5.68563
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#b5651d",
         "fillColor": null,
@@ -19291,16 +19373,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "historic-ringfort-rath-vector-test",
-      "bounds": [
-        [
-          51.43459,
-          -10.54205
-        ],
-        [
-          55.38096,
-          -5.46899
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#a45a52",
         "fillColor": null,
@@ -19347,16 +19420,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "historic-ringfort-unclassified-vector-test",
-      "bounds": [
-        [
-          51.56485,
-          -10.12056
-        ],
-        [
-          55.31137,
-          -6.07542
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#9c6644",
         "fillColor": null,
@@ -19403,16 +19467,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "historic-rock-scribing-vector-test",
-      "bounds": [
-        [
-          51.4727,
-          -10.53881
-        ],
-        [
-          55.27693,
-          -6.11532
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#6d597a",
         "fillColor": null,
@@ -19459,16 +19514,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "historic-standing-stones-vector-test",
-      "bounds": [
-        [
-          51.43066,
-          -10.54161
-        ],
-        [
-          55.38336,
-          -5.45941
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#9a8c98",
         "fillColor": null,
@@ -19515,16 +19561,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "historic-wedge-tomb-vector-test",
-      "bounds": [
-        [
-          51.46271,
-          -10.44919
-        ],
-        [
-          55.29434,
-          -6.15167
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#774936",
         "fillColor": null,
@@ -19635,16 +19672,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "transport-lines-road-rail-vector-test",
-      "bounds": [
-        [
-          54.0273667,
-          -8.1730751
-        ],
-        [
-          55.2997368,
-          -5.4359642
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#4a5568",
         "fillColor": null,
@@ -20069,9 +20097,9 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "metadataOnly",
+      "conversionStatus": "convertedComposite",
       "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "testLayerId": "composite:eds-connacht-2019,eds-leinster-2019,eds-munster-2019,eds-ulster-2019",
       "bounds": null,
       "style": {
         "color": "#1C6B3A",
@@ -20083,7 +20111,7 @@
       "references": [],
       "sourceDownloads": [],
       "variants": 4,
-      "unsupportedReason": "group entry needs child/variant conversion"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "eds-connacht-2019",
@@ -20254,9 +20282,9 @@
       "sourceCredits": [
         "Phelim Birch"
       ],
-      "conversionStatus": "metadataOnly",
+      "conversionStatus": "convertedComposite",
       "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "testLayerId": "composite:eds-connacht-1997,eds-leinster-1997,eds-munster-1997,eds-ulster-1997",
       "bounds": null,
       "style": {
         "color": "#2E7D32",
@@ -20268,7 +20296,7 @@
       "references": [],
       "sourceDownloads": [],
       "variants": 4,
-      "unsupportedReason": "group entry needs child/variant conversion"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "eds-connacht-1997",
@@ -20439,9 +20467,9 @@
       "sourceCredits": [
         "Phelim Birch"
       ],
-      "conversionStatus": "metadataOnly",
+      "conversionStatus": "convertedComposite",
       "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "testLayerId": "composite:eds-connacht-1994,eds-leinster-1994,eds-munster-1994,eds-ulster-1994",
       "bounds": null,
       "style": {
         "color": "#2B8A3E",
@@ -20453,7 +20481,7 @@
       "references": [],
       "sourceDownloads": [],
       "variants": 4,
-      "unsupportedReason": "group entry needs child/variant conversion"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "eds-connacht-1994",
@@ -20624,9 +20652,9 @@
       "sourceCredits": [
         "Phelim Birch"
       ],
-      "conversionStatus": "metadataOnly",
+      "conversionStatus": "convertedComposite",
       "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "testLayerId": "composite:eds-connacht-1986,eds-leinster-1986,eds-munster-1986,eds-ulster-1986",
       "bounds": null,
       "style": {
         "color": "#256D36",
@@ -20638,7 +20666,7 @@
       "references": [],
       "sourceDownloads": [],
       "variants": 4,
-      "unsupportedReason": "group entry needs child/variant conversion"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "eds-connacht-1986",
@@ -24573,9 +24601,9 @@
         "GSNI",
         "British Geological Survey"
       ],
-      "conversionStatus": "metadataOnly",
+      "conversionStatus": "convertedComposite",
       "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "testLayerId": "composite:gsni-bedrock-by-formation,gsni-bedrock-by-age",
       "bounds": null,
       "style": null,
       "sourceFiles": [],
@@ -24604,7 +24632,7 @@
         }
       ],
       "variants": 2,
-      "unsupportedReason": "group entry needs child/variant conversion"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "gsni-bedrock-by-formation",
@@ -24807,9 +24835,9 @@
         "GSNI",
         "British Geological Survey"
       ],
-      "conversionStatus": "metadataOnly",
+      "conversionStatus": "convertedComposite",
       "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "testLayerId": "composite:gsni-superficial-by-deposit,gsni-superficial-conventional",
       "bounds": null,
       "style": null,
       "sourceFiles": [],
@@ -24834,7 +24862,7 @@
         }
       ],
       "variants": 2,
-      "unsupportedReason": "group entry needs child/variant conversion"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "gsni-superficial-by-deposit",
@@ -25814,8 +25842,8 @@
         "OSNI"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "osni-eire-thuaidh-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "osni-eire-thuaidh-raster-test",
       "bounds": [
         [
           53.97,
@@ -25870,8 +25898,8 @@
         "OSNI"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "osni-mid-scale-raster-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "osni-mid-scale-raster-raster-test",
       "bounds": [
         [
           53.95,
@@ -25922,8 +25950,8 @@
         "OSNI"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "osni-streetmaps-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "osni-streetmaps-raster-test",
       "bounds": [
         [
           54.04,
@@ -25974,8 +26002,8 @@
         "OSNI"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "osni-1m-county-boundaries-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "osni-1m-county-boundaries-raster-test",
       "bounds": [
         [
           54,
@@ -26026,8 +26054,8 @@
         "OSNI"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "osni-1m-infrastructure-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "osni-1m-infrastructure-raster-test",
       "bounds": [
         [
           54,
@@ -26078,8 +26106,8 @@
         "OSNI"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "osni-1m-locations-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "osni-1m-locations-raster-test",
       "bounds": [
         [
           54,
@@ -26130,8 +26158,8 @@
         "OSNI"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "osni-1m-natural-environment-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "osni-1m-natural-environment-raster-test",
       "bounds": [
         [
           54,
@@ -26182,8 +26210,8 @@
         "OSNI"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "osni-1m-parliamentary-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "osni-1m-parliamentary-raster-test",
       "bounds": [
         [
           54,
@@ -26724,8 +26752,8 @@
         "Tellus"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "tellus-mag-tmi-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "tellus-mag-tmi-raster-test",
       "bounds": [
         [
           53.99,
@@ -26782,8 +26810,8 @@
         "Tellus"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "tellus-mag-rtp-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "tellus-mag-rtp-raster-test",
       "bounds": [
         [
           53.99,
@@ -26836,8 +26864,8 @@
         "Tellus"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "tellus-mag-rtp-tilt-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "tellus-mag-rtp-tilt-raster-test",
       "bounds": [
         [
           53.99,
@@ -26890,8 +26918,8 @@
         "Tellus"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "tellus-em-3khz-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "tellus-em-3khz-raster-test",
       "bounds": [
         [
           53.99,
@@ -26948,8 +26976,8 @@
         "Tellus"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "tellus-em-14khz-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "tellus-em-14khz-raster-test",
       "bounds": [
         [
           53.99,
@@ -27002,8 +27030,8 @@
         "Tellus"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "tellus-rad-k-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "tellus-rad-k-raster-test",
       "bounds": [
         [
           53.99,
@@ -27060,8 +27088,8 @@
         "Tellus"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "tellus-rad-u-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "tellus-rad-u-raster-test",
       "bounds": [
         [
           53.99,
@@ -27114,8 +27142,8 @@
         "Tellus"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "tellus-rad-th-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "tellus-rad-th-raster-test",
       "bounds": [
         [
           53.99,
@@ -27168,8 +27196,8 @@
         "Tellus"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "tellus-rad-total-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "tellus-rad-total-raster-test",
       "bounds": [
         [
           53.99,
@@ -27222,8 +27250,8 @@
         "Tellus"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "tellus-rad-ternary-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "tellus-rad-ternary-raster-test",
       "bounds": [
         [
           53.99,
@@ -27276,8 +27304,8 @@
         "Ordnance Survey"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "osni-sixinch-edition-1-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "osni-sixinch-edition-1-raster-test",
       "bounds": [
         [
           53.95,
@@ -27370,8 +27398,8 @@
         "Ordnance Survey"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "osni-sixinch-edition-2-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "osni-sixinch-edition-2-raster-test",
       "bounds": [
         [
           53.95,
@@ -27592,16 +27620,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "wq-agricultural-critical-risk-vector-test",
-      "bounds": [
-        [
-          54.0297884,
-          -8.1749509
-        ],
-        [
-          55.3103529,
-          -5.4333504
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#888888",
         "fillColor": null,
@@ -27644,8 +27663,8 @@
         "NIEA"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "maplibre-raster-or-image-source",
-      "testLayerId": "wq-network-contribution-image-test",
+      "recommendedTarget": "maplibre-raster-or-vector-source",
+      "testLayerId": "wq-network-contribution-raster-test",
       "bounds": [
         [
           54,
@@ -27802,12 +27821,12 @@
       "testLayerId": "transport-carriageway-defects-2021-vector-test",
       "bounds": [
         [
-          54.0324722,
-          -8.1585901
+          54,
+          -8.3
         ],
         [
-          55.2991129,
-          -5.438019
+          55.5,
+          -5.3
         ]
       ],
       "style": {
@@ -28656,16 +28675,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "habitat-deciduous-woodland-vector-test",
-      "bounds": [
-        [
-          54.0184519,
-          -8.2022696
-        ],
-        [
-          55.3089826,
-          -5.4383929
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#3a3a3a",
         "fillColor": "#3F8D45",
@@ -29310,16 +29320,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "habitat-river-vector-test",
-      "bounds": [
-        [
-          54.0122177,
-          -8.2045567
-        ],
-        [
-          55.3142984,
-          -5.4599407
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#3a3a3a",
         "fillColor": "#4F89AE",
@@ -29534,16 +29535,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "habitat-woodland-grouped-vector-test",
-      "bounds": [
-        [
-          54.0184519,
-          -8.2022696
-        ],
-        [
-          55.3089826,
-          -5.4383929
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#3a3a3a",
         "fillColor": "#3F8D45",
@@ -30648,12 +30640,12 @@
       "testLayerId": "opw-nifm-river-flood-extents-current-vector-test",
       "bounds": [
         [
-          51.4799355,
-          -10.4635791
+          51.4,
+          -10.75
         ],
         [
-          55.3600108,
-          -6.0303749
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -32373,12 +32365,12 @@
       "testLayerId": "roi-national-planning-applications-vector-test",
       "bounds": [
         [
-          51.4306495,
-          -10.4674118
+          51.4,
+          -10.5
         ],
         [
-          55.3784293,
-          -5.9938605
+          55.4,
+          -5.75
         ]
       ],
       "style": {
@@ -33155,16 +33147,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "dcc-dcc-public-cycle-parking-stands-vector-test",
-      "bounds": [
-        [
-          53.302703,
-          -6.349356
-        ],
-        [
-          53.400056,
-          -6.14895
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#FF6F00",
         "fillColor": null,
@@ -33481,16 +33464,7 @@
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025-vector-test",
-      "bounds": [
-        [
-          53.2081105,
-          -6.4909179
-        ],
-        [
-          53.5318256,
-          -6.0637168
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#FF6F00",
         "fillColor": null,
@@ -38454,12 +38428,12 @@
       "testLayerId": "dfi-surface-defects-2008-vector-test",
       "bounds": [
         [
-          51.2185653,
-          -10.8634427
+          54,
+          -8.3
         ],
         [
-          55.2995493,
-          -5.4425119
+          55.5,
+          -5.3
         ]
       ],
       "style": {
@@ -38510,12 +38484,12 @@
       "testLayerId": "dfi-surface-defects-2011-vector-test",
       "bounds": [
         [
-          51.2185654,
-          -10.8634427
+          54,
+          -8.3
         ],
         [
-          55.2995493,
-          -5.4425119
+          55.5,
+          -5.3
         ]
       ],
       "style": {
@@ -38566,12 +38540,12 @@
       "testLayerId": "dfi-surface-defects-2012-vector-test",
       "bounds": [
         [
-          51.2185654,
-          -10.8634427
+          54,
+          -8.3
         ],
         [
-          55.2995493,
-          -5.4425119
+          55.5,
+          -5.3
         ]
       ],
       "style": {
@@ -38622,12 +38596,12 @@
       "testLayerId": "dfi-surface-defects-2013-vector-test",
       "bounds": [
         [
-          51.2185654,
-          -10.8639255
+          54,
+          -8.3
         ],
         [
-          55.2995493,
-          -5.4425119
+          55.5,
+          -5.3
         ]
       ],
       "style": {
@@ -38678,12 +38652,12 @@
       "testLayerId": "dfi-surface-defects-2014-vector-test",
       "bounds": [
         [
-          51.2185653,
-          -10.8634427
+          54,
+          -8.3
         ],
         [
-          55.2997032,
-          -5.438037
+          55.5,
+          -5.3
         ]
       ],
       "style": {
@@ -38734,12 +38708,12 @@
       "testLayerId": "dfi-surface-defects-2015-vector-test",
       "bounds": [
         [
-          51.2185653,
-          -10.8634427
+          54,
+          -8.3
         ],
         [
-          55.2399643,
-          -5.4377672
+          55.5,
+          -5.3
         ]
       ],
       "style": {
@@ -38790,12 +38764,12 @@
       "testLayerId": "dfi-surface-defects-2016-vector-test",
       "bounds": [
         [
-          51.2185654,
-          -10.8634427
+          54,
+          -8.3
         ],
         [
-          55.299608,
-          -5.4383331
+          55.5,
+          -5.3
         ]
       ],
       "style": {
@@ -38846,12 +38820,12 @@
       "testLayerId": "dfi-surface-defects-2017-vector-test",
       "bounds": [
         [
-          51.2185653,
-          -10.8634427
+          54,
+          -8.3
         ],
         [
-          55.2953362,
-          -5.4374308
+          55.5,
+          -5.3
         ]
       ],
       "style": {
@@ -38902,12 +38876,12 @@
       "testLayerId": "dfi-surface-defects-2018-vector-test",
       "bounds": [
         [
-          54.0276655,
-          -8.1527989
+          54,
+          -8.3
         ],
         [
-          55.2996029,
-          -5.4371218
+          55.5,
+          -5.3
         ]
       ],
       "style": {
@@ -38958,12 +38932,12 @@
       "testLayerId": "dfi-surface-defects-2019-vector-test",
       "bounds": [
         [
-          54.0275232,
-          -8.158806
+          54,
+          -8.3
         ],
         [
-          55.3012492,
-          -5.4380305
+          55.5,
+          -5.3
         ]
       ],
       "style": {
@@ -39014,12 +38988,12 @@
       "testLayerId": "dfi-surface-defects-2020-vector-test",
       "bounds": [
         [
-          54.0328488,
-          -8.1555511
+          54,
+          -8.3
         ],
         [
-          55.2989517,
-          -5.4381014
+          55.5,
+          -5.3
         ]
       ],
       "style": {
@@ -39070,12 +39044,12 @@
       "testLayerId": "dfi-surface-defects-2021-vector-test",
       "bounds": [
         [
-          54.0324722,
-          -8.1585901
+          54,
+          -8.3
         ],
         [
-          55.2991129,
-          -5.438019
+          55.5,
+          -5.3
         ]
       ],
       "style": {
@@ -39126,12 +39100,12 @@
       "testLayerId": "dfi-surface-defects-2010-vector-test",
       "bounds": [
         [
-          51.2185653,
-          -10.8634427
+          54,
+          -8.3
         ],
         [
-          55.2995493,
-          -5.4425119
+          55.5,
+          -5.3
         ]
       ],
       "style": {

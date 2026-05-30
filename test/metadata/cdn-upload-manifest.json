@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-30T15:15:24.702Z",
+  "generatedAt": "2026-05-30T15:47:41.977Z",
   "cdnBase": "https://data.civgraph.net/data/maps/test",
   "r2Prefix": "data/maps/test",
   "assets": [
@@ -1343,15 +1343,6 @@
       "targetKey": "data/maps/test/pmtiles/generated/civil-parishes-ulster-vector-test.pmtiles",
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/civil-parishes-ulster-vector-test.pmtiles",
       "bytes": 5019739,
-      "exists": true
-    },
-    {
-      "layerId": "civil-parishes-vector-test",
-      "kind": "pmtiles",
-      "localPath": "test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
-      "targetKey": "data/maps/test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
-      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
-      "bytes": 19407418,
       "exists": true
     },
     {
@@ -5303,6 +5294,15 @@
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roi-national-planning-applications-vector-test.pmtiles",
       "bytes": 273203738,
       "exists": true
+    },
+    {
+      "layerId": "roi-counties-2011-vector-test",
+      "kind": "pmtiles",
+      "localPath": "test/pmtiles/generated/roi-counties-2011-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/roi-counties-2011-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roi-counties-2011-vector-test.pmtiles",
+      "bytes": 2159255,
+      "exists": true
     }
   ],
   "commands": [
@@ -5455,7 +5455,6 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/civil-parishes-leinster-vector-test.pmtiles --file test/pmtiles/generated/civil-parishes-leinster-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/civil-parishes-munster-vector-test.pmtiles --file test/pmtiles/generated/civil-parishes-munster-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/civil-parishes-ulster-vector-test.pmtiles --file test/pmtiles/generated/civil-parishes-ulster-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/civil-parishes-vector-test.pmtiles --file test/pmtiles/generated/civil-parishes-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/mep-1979-vector-test.pmtiles --file test/pmtiles/generated/mep-1979-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/mep-2004-vector-test.pmtiles --file test/pmtiles/generated/mep-2004-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/mep-2009-vector-test.pmtiles --file test/pmtiles/generated/mep-2009-vector-test.pmtiles --remote --content-type application/octet-stream",
@@ -5893,6 +5892,7 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/habitat-deciduous-woodland-vector-test.pmtiles --file test/pmtiles/generated/habitat-deciduous-woodland-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dcc-dcc-public-cycle-parking-stands-vector-test.pmtiles --file test/pmtiles/generated/dcc-dcc-public-cycle-parking-stands-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/britain-ireland-seas-vector-test.pmtiles --file test/pmtiles/generated/britain-ireland-seas-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/roi-national-planning-applications-vector-test.pmtiles --file test/pmtiles/generated/roi-national-planning-applications-vector-test.pmtiles --remote --content-type application/octet-stream"
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/roi-national-planning-applications-vector-test.pmtiles --file test/pmtiles/generated/roi-national-planning-applications-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/roi-counties-2011-vector-test.pmtiles --file test/pmtiles/generated/roi-counties-2011-vector-test.pmtiles --remote --content-type application/octet-stream"
   ]
 }

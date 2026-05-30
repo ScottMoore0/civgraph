@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-05-30T14:32:58.649Z",
+  "generatedAt": "2026-05-30T15:47:38.642Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -16,19 +16,26 @@
     "converted": 1,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 0,
-    "oversizedArchives": 1
+    "metadataPreferred": 1,
+    "oversizedArchives": 0
   },
   "converted": [
     {
-      "layerId": "roi-national-planning-applications-vector-test",
-      "sourceMapId": "roi-national-planning-applications",
-      "name": "ROI National Planning Applications",
+      "layerId": "roi-counties-2011-vector-test",
+      "sourceMapId": "roi-counties-2011",
+      "name": "Counties of Ireland",
       "sourceType": "mvt",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/roi-national-planning-applications-vector-test.pmtiles",
-      "bytes": 273203738,
-      "exceedsGithubBudget": true
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/roi-counties-2011-vector-test.pmtiles",
+      "bytes": 2159255,
+      "exceedsGithubBudget": false
     }
   ],
   "skipped": [],

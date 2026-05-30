@@ -101,12 +101,12 @@ function classifyConversionStatus(map, sourceFiles) {
   if (map.isGroup && !sourceFiles.length) return 'metadataOnly';
   if (sourceFiles.some((entry) => /\.(png|jpe?g|webp|tif|tiff)$/i.test(entry.file))) return 'needsRasterStrategy';
   if (sourceFiles.some((entry) => /\.(fgb|geojson|json|shp|gpkg)$/i.test(entry.file))) return 'needsVectorTileConversion';
-  if (map.tileUrl || sourceFiles.some((entry) => /\/tiles?\//i.test(entry.file))) return 'needsMapLibreSourceMapping';
+  if (map.tileUrl || sourceFiles.some((entry) => isTileTemplate(entry.file) || /\/tiles?\//i.test(entry.file))) return 'needsMapLibreSourceMapping';
   return 'metadataOnly';
 }
 
 function recommendedTarget(map, sourceFiles) {
-  if (map.tileUrl || sourceFiles.some((entry) => /\/tiles?\//i.test(entry.file))) return 'maplibre-raster-or-vector-source';
+  if (map.tileUrl || sourceFiles.some((entry) => isTileTemplate(entry.file) || /\/tiles?\//i.test(entry.file))) return 'maplibre-raster-or-vector-source';
   if (sourceFiles.some((entry) => /\.(fgb|geojson|json|shp|gpkg)$/i.test(entry.file))) return 'mvt-or-pmtiles';
   if (sourceFiles.some((entry) => /\.(png|jpe?g|webp|tif|tiff)$/i.test(entry.file))) return 'maplibre-raster-or-image-source';
   return 'catalogue-metadata';
@@ -116,6 +116,10 @@ function unsupportedReason(map, sourceFiles) {
   if (map.isGroup && !sourceFiles.length) return 'group entry needs child/variant conversion';
   if (!sourceFiles.length && !map.tileUrl) return 'no direct source file recorded';
   return null;
+}
+
+function isTileTemplate(file) {
+  return /\{z\}.*\{x\}.*\{y\}/i.test(String(file || ''));
 }
 
 function summarizeStyle(style) {

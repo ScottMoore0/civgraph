@@ -168,10 +168,24 @@ function chooseSource(row) {
   }
   const fallback = preferredFallback;
   if (fallback) return fallback;
-  return (row.sourceFiles || []).find((source) => {
+  return [...(row.sourceFiles || [])].sort(compareSourcePreference).find((source) => {
     const file = source.file || '';
     return !/^https?:\/\//i.test(file) && FORMATS.has(extname(file).toLowerCase());
   }) || null;
+}
+
+function compareSourcePreference(left, right) {
+  return sourceRank(left) - sourceRank(right);
+}
+
+function sourceRank(source) {
+  const ext = extname(source?.file || '').toLowerCase();
+  if (ext === '.fgb') return 0;
+  if (ext === '.gpkg') return 1;
+  if (ext === '.shp') return 2;
+  if (ext === '.zip') return 3;
+  if (ext === '.geojson' || ext === '.json') return 4;
+  return 10;
 }
 
 function localFallbackSource(sourceMapId) {

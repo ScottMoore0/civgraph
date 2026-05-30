@@ -2268,3 +2268,30 @@ Align /test catalogue shell and pane with main site
     - Approved `npm run test:browser:test` passed all 14 browser tests.
     - Approved `npm run test:visual:test` passed. The visual report shows main header 64px, `/test` header 64px, `/test` catalogue width 437px, and map area 929x704px at 1366x768.
     - `npm run check` passed the main chunked-map guardrails.
+
+Complete remaining /test2 data coverage
+- [x] Record the implementation request and scope
+- [x] Identify the remaining unconverted/load-blocked catalogue entries and classify by source availability
+- [x] Fix `roi-counties-2011` if a valid replacement/source geometry can be found without deleting existing data
+- [x] Convert/promote every feasible remaining vector/raster source into the `/test`/`/test2` MapLibre metadata path
+- [x] Regenerate feature indexes, CDN manifests, and build outputs
+- [x] Upload and byte-range verify PMTiles where CDN deployment is required
+- [x] Run `/test` and `/test2` validation, build, and representative/mobile smoke checks
+- [ ] Commit and push the completed data-coverage pass
+  - Review:
+    - Fixed `roi-counties-2011` by preferring the valid local FlatGeobuf source `data/maps/baronies-parishes/ROI_Counties_2011.fgb` over the invalid local GeoJSON source, then regenerated MVT, built PMTiles, uploaded it to R2/CDN, verified byte-range serving, switched metadata to the CDN PMTiles URL, and generated its feature-search index.
+    - Promoted hosted raster-tile sources such as `copernicus-dem-30m-ireland` as MapLibre raster layers instead of leaving them as source-mapping blockers.
+    - Made promotion idempotent and composite-aware: duplicate generated layer IDs are removed, raster promotions are included in the port-plan sync, and fully converted group/variant parents now count as `convertedComposite`.
+    - Updated the stale `roi-counties-2011` quarantine guardrails so they now require the resolved PMTiles/CDN layer from the valid FGB source instead of permanently banning the map.
+    - Current port-plan totals: 901 rows; 762 converted/loadable rows; 749 direct conversions; 13 composite parent conversions; 0 vector-conversion blockers; 0 MapLibre source-mapping blockers; 139 metadata-only rows with no direct source file recorded.
+    - Remaining metadata-only rows are not code blockers and cannot be honestly converted from the current repository metadata because they have no direct geometry/raster source recorded. They are concentrated in Elections and Government, Built Environment, Physical Geography, and Public Services catalogue placeholders/raw metadata entries.
+  - Verification:
+    - `npm run build:test:pmtiles -- --ids roi-counties-2011-vector-test --force` passed outside the sandbox using GDAL.
+    - `npm run deploy:test:pmtiles -- --ids roi-counties-2011-vector-test` uploaded the new PMTiles archive.
+    - `npm run verify:test:pmtiles-cdn` passed for all 588 active PMTiles assets.
+    - `npm run switch:test:pmtiles-cdn` switched all active PMTiles metadata to CDN URLs.
+    - `npm run build:test:feature-indexes -- --ids roi-counties-2011-vector-test` built 26 searchable features.
+    - `npm run check:test`, `npm run check:test2`, and `npm run check` passed.
+    - `npm run build:test` and `npm run build:test2` passed outside the sandbox after esbuild hit the known sandbox `spawn EPERM`.
+    - `TEST_SMOKE_LAYER_IDS=roi-counties-2011-vector-test npm run smoke:test:mobile` passed: 1244ms, 173 rendered features.
+    - `npm run test:browser:test2`, `npm run test:visual:test2`, and `npm run test:performance:test2` passed.

@@ -57,16 +57,19 @@ for (const layer of layers) {
   }
 }
 
+const resolvedCountiesLayer = layers.find((layer) => isResolvedRoiCountiesLayer(layer));
 const invalidCountiesDir = resolve(ROOT, 'test/tiles/generated/roi-counties-2011');
-if (existsSync(invalidCountiesDir)) {
+if (existsSync(invalidCountiesDir) && !resolvedCountiesLayer) {
   errors.push('test/tiles/generated/roi-counties-2011 must be removed or quarantined outside the active generated tile path');
+} else if (existsSync(invalidCountiesDir)) {
+  warnings.push('test/tiles/generated/roi-counties-2011 exists as a local generated fallback for the resolved PMTiles/CDN counties layer');
 }
 const quarantinePath = resolve(ROOT, 'test/metadata/quarantine/roi-counties-2011.json');
-if (!existsSync(quarantinePath)) {
+if (!resolvedCountiesLayer && !existsSync(quarantinePath)) {
   errors.push('test/metadata/quarantine/roi-counties-2011.json must exist while roi-counties-2011 remains excluded');
 }
 for (const layer of layers) {
-  if (layer.id.includes('roi-counties-2011') || layer.sourceMapId === 'roi-counties-2011') {
+  if (!resolvedCountiesLayer && (layer.id.includes('roi-counties-2011') || layer.sourceMapId === 'roi-counties-2011')) {
     errors.push(`${layer.id}: quarantined roi-counties-2011 must not be active in maps-test.json`);
   }
 }
@@ -138,6 +141,14 @@ function isValidBounds(bounds, layer = null) {
 function localPath(value) {
   if (typeof value !== 'string' || /^https?:\/\//i.test(value)) return null;
   return value.replace(/^\//, '').replaceAll('\\', '/');
+}
+
+function isResolvedRoiCountiesLayer(layer) {
+  return (layer.id === 'roi-counties-2011-vector-test' || layer.sourceMapId === 'roi-counties-2011')
+    && layer.sourceType === 'pmtiles'
+    && /^https:\/\/data\.civgraph\.net\/data\/maps\/test\/pmtiles\/generated\/roi-counties-2011-vector-test\.pmtiles$/i.test(layer.tileUrl || '')
+    && /data\/maps\/baronies-parishes\/ROI_Counties_2011\.fgb$/i.test(String(layer.sourceFile || '').replaceAll('\\', '/'))
+    && isValidBounds(layer.bounds, layer);
 }
 
 function formatBytes(bytes) {

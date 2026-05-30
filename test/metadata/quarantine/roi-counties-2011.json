@@ -1,7 +1,8 @@
 {
   "schemaVersion": 1,
   "sourceMapId": "roi-counties-2011",
-  "reason": "Generated MVT metadata reported bounds outside the Ireland validation envelope, so the layer was not promoted into maps-test.json.",
-  "action": "Removed test/tiles/generated/roi-counties-2011 from the active generated tile path. Regenerate from a corrected source or corrected CRS/bounds before promotion.",
-  "guardrail": "npm run check:test fails if test/tiles/generated/roi-counties-2011 exists again."
+  "status": "resolved",
+  "reason": "The earlier generated MVT output used the local ROI_Counties_2011.geojson source, whose coordinates were outside the Ireland validation envelope.",
+  "action": "Resolved by preferring the valid local FlatGeobuf source at data/maps/baronies-parishes/ROI_Counties_2011.fgb, regenerating the MVT output, packaging it as PMTiles, uploading it to the data CDN, and switching maps-test.json to the verified CDN PMTiles URL.",
+  "guardrail": "npm run check:test now requires an active roi-counties-2011 PMTiles/CDN layer to use data/maps/baronies-parishes/ROI_Counties_2011.fgb with valid Ireland bounds."
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-30T15:20:36.575Z",
+  "generatedAt": "2026-05-30T15:55:23.693Z",
   "budgets": {
     "warnTileBytes": 1572864,
     "failTileBytes": 4194304,
@@ -8,11 +8,11 @@
     "failLayerBytes": 524288000
   },
   "totals": {
-    "layers": 799,
-    "loadableLayers": 799,
+    "layers": 661,
+    "loadableLayers": 661,
     "pmtilesLayers": 588,
     "suppressedDevFallbackWarnings": 40,
-    "warnings": 0,
+    "warnings": 1,
     "errors": 0
   },
   "suppressedDevFallbackWarnings": [
@@ -57,6 +57,8 @@
     "historic-standing-stones-vector-test: dev fallback max tile 2.3 MB",
     "roi-national-planning-applications-vector-test: dev fallback max tile 2.5 MB, dev fallback directory 715.3 MB"
   ],
-  "warnings": [],
+  "warnings": [
+    "test/tiles/generated/roi-counties-2011 exists as a local generated fallback for the resolved PMTiles/CDN counties layer"
+  ],
   "errors": []
 }

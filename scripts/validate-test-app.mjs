@@ -77,7 +77,7 @@ function validateLayer(layer) {
     errors.push(`${layer.id}: invalid minzoom/maxzoom`);
   }
   if (!isValidBounds(layer.bounds, layer)) errors.push(`${layer.id}: invalid bounds`);
-  if (layer.sourceType !== 'image' && layer.geometryType !== undefined && !['polygon', 'line', 'point'].includes(layer.geometryType)) {
+  if (!['image', 'raster'].includes(layer.sourceType) && layer.geometryType !== undefined && !['polygon', 'line', 'point'].includes(layer.geometryType)) {
     errors.push(`${layer.id}: geometryType must be polygon, line, or point`);
   }
   if (layer.references !== undefined && !Array.isArray(layer.references)) {
