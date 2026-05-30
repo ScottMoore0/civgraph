@@ -42,6 +42,7 @@ const IDS = readIds();
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
 const layers = (metadata.layers || [])
   .filter((layer) => ['mvt', 'pmtiles'].includes(layer.sourceType))
+  .filter((layer) => !layer.aliasOf)
   .filter((layer) => layer.sourceFile)
   .filter((layer) => !IDS.size || IDS.has(layer.id) || IDS.has(layer.sourceMapId));
 

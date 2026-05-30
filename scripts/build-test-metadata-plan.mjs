@@ -53,14 +53,18 @@ console.log(`Metadata only: ${totals.metadataOnly || 0}`);
 
 function buildRow(map, parent) {
   const converted = convertedBySource.get(map.id) || convertedById.get(map.id);
+  const cloneTarget = map.cloneOf ? (convertedBySource.get(map.cloneOf) || convertedById.get(map.cloneOf)) : null;
   const category = categories.get(map.category) || {};
   const sourceFiles = collectSourceFiles(map);
   const conversionStatus = converted
-    ? 'converted'
+    ? (converted.aliasOf ? 'convertedAlias' : 'converted')
+    : cloneTarget
+      ? 'convertedAlias'
     : classifyConversionStatus(map, sourceFiles);
 
   return {
     sourceMapId: map.id,
+    cloneOf: map.cloneOf || null,
     parentId: map.parentId || parent?.id || null,
     name: map.name || map.label || map.id,
     category: category.name || map.category || null,
@@ -74,14 +78,15 @@ function buildRow(map, parent) {
     sourceCredits: summarizeCredits(map, parent),
     conversionStatus,
     recommendedTarget: recommendedTarget(map, sourceFiles),
-    testLayerId: converted?.id || null,
+    testLayerId: converted?.id || (cloneTarget ? `${map.id}-alias-test` : null),
+    aliasTargetLayerId: converted?.aliasTargetLayerId || cloneTarget?.id || null,
     bounds: map.bounds || parent?.bounds || null,
     style: summarizeStyle(map.style || parent?.style),
     sourceFiles,
     references: summarizeLinks(map.references || parent?.references),
     sourceDownloads: summarizeLinks(map.sourceDownloads || parent?.sourceDownloads || map.osniDownloads || parent?.osniDownloads),
     variants: Array.isArray(map.variants) ? map.variants.length : 0,
-    unsupportedReason: converted ? null : unsupportedReason(map, sourceFiles)
+    unsupportedReason: converted || cloneTarget ? null : unsupportedReason(map, sourceFiles)
   };
 }
 

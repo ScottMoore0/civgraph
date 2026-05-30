@@ -24,6 +24,7 @@ const RASTER_LIMIT = readNumberArg('--raster-limit', Infinity);
 const GENERATED_PIPELINE = 'build-test-vector-batch';
 const RASTER_PIPELINE = 'promote-test-raster-image';
 const RASTER_TILE_PIPELINE = 'promote-test-raster-tiles';
+const ALIAS_PIPELINE = 'promote-test-clone-alias';
 
 const main = JSON.parse(readFileSync(MAIN_PATH, 'utf8'));
 const plan = JSON.parse(readFileSync(PLAN_PATH, 'utf8'));
@@ -48,12 +49,14 @@ const rasterRows = INCLUDE_RASTERS
   : [];
 const regeneratedSourceIds = new Set([
   ...verifiedSourceIds,
-  ...rasterRows.map((row) => row.sourceMapId)
+  ...rasterRows.map((row) => row.sourceMapId),
+  ...(plan.rows || []).filter((row) => row.cloneOf).map((row) => row.sourceMapId)
 ]);
 
 const baseLayers = (test.layers || []).filter((layer) => !isGeneratedLayer(layer) || !regeneratedSourceIds.has(layer.sourceMapId));
 const promotedVectorLayers = [];
 const promotedRasterLayers = [];
+const promotedAliasLayers = [];
 
 const verifiedBySourceId = new Map(verifiedConversions.map((row) => [row.sourceMapId, row]));
 for (const converted of verifiedBySourceId.values()) {
@@ -73,7 +76,16 @@ if (INCLUDE_RASTERS) {
   }
 }
 
-const layers = dedupeLayers([...baseLayers, ...promotedVectorLayers, ...promotedRasterLayers]);
+const preAliasLayers = dedupeLayers([...baseLayers, ...promotedVectorLayers, ...promotedRasterLayers]);
+for (const row of plan.rows || []) {
+  if (!row.cloneOf) continue;
+  const target = findLayerForSource(preAliasLayers, row.cloneOf);
+  if (!target || target.loadable === false) continue;
+  const map = mainById.get(row.sourceMapId) || {};
+  promotedAliasLayers.push(buildAliasLayer(row, map, target));
+}
+
+const layers = dedupeLayers([...preAliasLayers, ...promotedAliasLayers]);
 const categories = mergeCategories(test.categories || [], layers);
 const next = {
   ...test,
@@ -82,9 +94,10 @@ const next = {
 };
 
 writeFileSync(TEST_PATH, `${JSON.stringify(next, null, 2)}\n`);
-syncPortPlan([...promotedVectorLayers, ...promotedRasterLayers]);
+syncPortPlan([...promotedVectorLayers, ...promotedRasterLayers, ...promotedAliasLayers]);
 console.log(`Promoted ${promotedVectorLayers.length} vector layer(s).`);
 console.log(`Promoted ${promotedRasterLayers.length} raster layer(s).`);
+console.log(`Promoted ${promotedAliasLayers.length} alias layer(s).`);
 console.log(`Wrote ${TEST_PATH.replace(`${ROOT}\\`, '')}`);
 
 function syncPortPlan(promotedLayers) {
@@ -107,9 +120,10 @@ function syncPortPlan(promotedLayers) {
     }
     return {
       ...row,
-      conversionStatus: 'converted',
-      recommendedTarget: row.recommendedTarget || 'mvt-or-pmtiles',
+      conversionStatus: layer.aliasOf ? 'convertedAlias' : 'converted',
+      recommendedTarget: layer.aliasOf ? 'maplibre-clone-alias' : (row.recommendedTarget || 'mvt-or-pmtiles'),
       testLayerId: layer.id,
+      aliasTargetLayerId: layer.aliasTargetLayerId || row.aliasTargetLayerId || null,
       bounds: layer.bounds || row.bounds
     };
   });
@@ -154,15 +168,24 @@ function convertedCompositeChildIds(row, directSourceIds) {
 function summarizeRows(rows) {
   const directConverted = rows.filter((row) => row.conversionStatus === 'converted').length;
   const compositeConverted = rows.filter((row) => row.conversionStatus === 'convertedComposite').length;
+  const aliasConverted = rows.filter((row) => row.conversionStatus === 'convertedAlias').length;
   return {
     total: rows.length,
-    converted: directConverted + compositeConverted,
+    converted: directConverted + compositeConverted + aliasConverted,
     convertedDirect: directConverted,
     convertedComposite: compositeConverted,
+    convertedAlias: aliasConverted,
     needsVectorTileConversion: rows.filter((row) => row.conversionStatus === 'needsVectorTileConversion').length,
     metadataOnly: rows.filter((row) => row.conversionStatus === 'metadataOnly').length,
     needsMapLibreSourceMapping: rows.filter((row) => row.conversionStatus === 'needsMapLibreSourceMapping').length
   };
+}
+
+function findLayerForSource(inputLayers, sourceMapId) {
+  return inputLayers.find((layer) => layer.sourceMapId === sourceMapId && layer.loadable !== false)
+    || inputLayers.find((layer) => layer.id === sourceMapId && layer.loadable !== false)
+    || inputLayers.find((layer) => layer.id === `${sourceMapId}-vector-test` && layer.loadable !== false)
+    || null;
 }
 
 function buildVectorLayer(converted, row, map) {
@@ -333,6 +356,60 @@ function buildRasterTileLayer(row, map) {
   };
 }
 
+function buildAliasLayer(row, map, target) {
+  const style = normalizeStyle(row.style || map.style || target.style);
+  const references = (row.references || []).length ? row.references : (target.references || []);
+  const sourceDownloads = (row.sourceDownloads || []).length ? row.sourceDownloads : (target.sourceDownloads || []);
+  const sourceCredits = (row.sourceCredits || []).length
+    ? row.sourceCredits
+    : (target.sourceCredits || creditsFromProvider(row.provider || map.provider || target.provider));
+  return {
+    ...target,
+    id: `${row.sourceMapId}-alias-test`,
+    sourceMapId: row.sourceMapId,
+    name: row.name || map.name || row.sourceMapId,
+    category: row.category || target.category || map.category || 'Maps',
+    categoryId: row.categoryId || target.categoryId || null,
+    group: row.group || target.group || null,
+    date: row.date || map.date || target.date || null,
+    dateAdded: row.dateAdded || target.dateAdded || null,
+    dateEffective: row.dateEffective || target.dateEffective || null,
+    provider: row.provider || map.provider || target.provider || null,
+    description: row.description || map.description || map.note || target.description || '',
+    style,
+    labelStyle: {
+      ...(target.labelStyle || {}),
+      color: style.color || target.labelStyle?.color || target.style?.color
+    },
+    references,
+    sourceDownloads,
+    sourceCredits,
+    keywords: unique([
+      ...(target.keywords || []),
+      ...(map.keywords || []),
+      row.name,
+      row.category,
+      row.group,
+      row.sourceMapId,
+      row.cloneOf,
+      'maplibre',
+      'clone alias'
+    ]),
+    status: 'converted-alias',
+    conversionStatus: 'convertedAlias',
+    aliasOf: row.cloneOf,
+    cloneOf: row.cloneOf,
+    aliasTargetLayerId: target.id,
+    notes: `${row.name || row.sourceMapId} reuses the converted geometry from ${target.name || row.cloneOf}.`,
+    generatedFrom: {
+      pipeline: ALIAS_PIPELINE,
+      sourceMapId: row.sourceMapId,
+      cloneOf: row.cloneOf,
+      targetLayerId: target.id
+    }
+  };
+}
+
 function parseTileMetadata(metadata) {
   let json = {};
   try {
@@ -439,7 +516,8 @@ function runtimeMinZoom(sourceMapId) {
 function isGeneratedLayer(layer) {
   return layer.generatedFrom?.pipeline === GENERATED_PIPELINE
     || layer.generatedFrom?.pipeline === RASTER_PIPELINE
-    || layer.generatedFrom?.pipeline === RASTER_TILE_PIPELINE;
+    || layer.generatedFrom?.pipeline === RASTER_TILE_PIPELINE
+    || layer.generatedFrom?.pipeline === ALIAS_PIPELINE;
 }
 
 function findRasterFile(row) {

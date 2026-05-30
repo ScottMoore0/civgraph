@@ -25,11 +25,14 @@ const resolvedCountiesLayer = (metadata.layers || []).find((layer) => isResolved
 if (!manifest) {
   errors.push('test/metadata/cdn-upload-manifest.json is missing; run npm run build:test:cdn-manifest');
 } else {
-  const pmtilesLayers = (metadata.layers || []).filter((layer) => layer.sourceType === 'pmtiles');
+  const pmtilesLayers = (metadata.layers || []).filter((layer) => layer.sourceType === 'pmtiles' && !layer.aliasOf);
   const assets = (manifest.assets || []).filter((asset) => asset.kind === 'pmtiles');
   const assetByLayer = new Map(assets.map((asset) => [asset.layerId, asset]));
   const assetByLocal = new Map(assets.map((asset) => [normalize(asset.localPath), asset]));
   const verifiedByLayer = new Map((rangeReport?.results || []).map((item) => [item.layerId, item]));
+  const activeAliasLocalArchives = new Set((metadata.layers || [])
+    .filter((layer) => layer.aliasOf && layer.sourceMapId)
+    .map((layer) => normalize(`test/pmtiles/generated/${layer.sourceMapId}-vector-test.pmtiles`)));
   const localOnlyFallbacks = [];
 
   for (const layer of pmtilesLayers) {
@@ -67,7 +70,11 @@ if (!manifest) {
 
   const localArchives = listLocalPmtiles();
   for (const localPath of localArchives) {
+    if (activeAliasLocalArchives.has(normalize(localPath))) continue;
     if (!assetByLocal.has(normalize(localPath))) errors.push(`${localPath}: local PMTiles archive is not represented in CDN manifest`);
+  }
+  if (activeAliasLocalArchives.size) {
+    notes.push(`${activeAliasLocalArchives.size} duplicate local PMTiles archive path(s) are superseded by explicit clone aliases and are intentionally excluded from the CDN manifest.`);
   }
   if (localOnlyFallbacks.length) {
     if (runtimeDisablesLocalFallbacks()) {

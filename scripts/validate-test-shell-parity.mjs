@@ -305,7 +305,7 @@ if (!String(packageJson.scripts?.['check:test'] || '').includes('validate-test-s
 const metadata = JSON.parse(await readFile('test/metadata/maps-test.json', 'utf8'));
 const portPlan = JSON.parse(await readFile('test/metadata/main-site-port-plan.json', 'utf8'));
 const loadable = metadata.layers.filter((layer) => layer.loadable !== false);
-const unconverted = portPlan.rows.filter((row) => !['converted', 'convertedComposite'].includes(row.conversionStatus));
+const unconverted = portPlan.rows.filter((row) => !['converted', 'convertedComposite', 'convertedAlias'].includes(row.conversionStatus));
 if (!metadata.categories?.length) failures.push('maps-test.json: categories are missing');
 if (!loadable.length) failures.push('maps-test.json: no loadable layers');
 if (!unconverted.length) failures.push('main-site-port-plan.json: no unconverted catalogue entries for runtime metadata normalization');

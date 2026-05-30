@@ -17,6 +17,7 @@ const assets = [];
 
 for (const layer of metadata.layers || []) {
   if (layer.loadable === false) continue;
+  if (layer.aliasOf) continue;
   if (layer.sourceType === 'pmtiles' && layer.tileUrl) {
     addAsset(layer, `pmtiles/generated/${layer.id}.pmtiles`);
   } else if (layer.tilePackage?.localPath) {

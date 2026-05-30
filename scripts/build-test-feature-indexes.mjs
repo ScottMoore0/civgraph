@@ -16,6 +16,7 @@ const MAX_INDEX_ITEMS = readNumberArg('--max-items', 20000);
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
 const layers = (metadata.layers || [])
   .filter((layer) => layer.featureIndexUrl && layer.sourceFile)
+  .filter((layer) => !layer.aliasOf)
   .filter((layer) => !ONLY_IDS.size || ONLY_IDS.has(layer.id) || ONLY_IDS.has(layer.sourceMapId));
 let built = 0;
 let skipped = 0;

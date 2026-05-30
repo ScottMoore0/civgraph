@@ -2295,3 +2295,42 @@ Complete remaining /test2 data coverage
     - `npm run build:test` and `npm run build:test2` passed outside the sandbox after esbuild hit the known sandbox `spawn EPERM`.
     - `TEST_SMOKE_LAYER_IDS=roi-counties-2011-vector-test npm run smoke:test:mobile` passed: 1244ms, 173 rendered features.
     - `npm run test:browser:test2`, `npm run test:visual:test2`, and `npm run test:performance:test2` passed.
+
+Review remaining metadata-only alias rows
+- [x] Record the review request and scope
+- [x] Identify metadata-only rows whose descriptions say they reuse another map's boundaries
+- [x] Check whether each referenced boundary map is already converted/loadable in `/test` and `/test2`
+- [x] Determine where alias wiring should be implemented and which rows should remain true placeholders
+- [x] Report findings inline in chat
+  - Review:
+    - Found 13 remaining metadata-only rows with formal `cloneOf` mappings in `data/database/maps.json`.
+    - Every `cloneOf` target already has an active converted PMTiles layer in `/test/metadata/maps-test.json`.
+    - These should be wired as converted alias layers during metadata promotion/generation, not by duplicating geometry or hardcoding runtime special cases.
+    - The remaining explicit placeholder rows without `cloneOf`, source files, or same-boundary descriptions should stay metadata-only until source geometry or a verified alias target is added to `data/database/maps.json`.
+
+Implement cloneOf alias layer wiring
+- [x] Record the implementation request and scope
+- [x] Preserve main-site `cloneOf` metadata in the `/test` port plan
+- [x] Generate first-class `/test` alias layers for clone rows whose target layer is already converted/loadable
+- [x] Regenerate metadata, CDN reports, and build outputs
+- [x] Verify `/test` and `/test2` checks still pass
+- [x] Commit and push the alias-layer implementation
+  - Review:
+    - Added deterministic `cloneOf`/`aliasOf` support to the metadata plan and promotion pipeline, so explicit same-boundary catalogue rows become first-class loadable `/test` and `/test2` MapLibre entries without duplicating geometry.
+    - Promoted 59 explicit alias layers: 7 devolved-constituency aliases, 1 census/statistical alias, 5 referendum aliases, and 46 historic-boundary/admin-area date aliases.
+    - Alias layers reuse the target layer's PMTiles/CDN source, source layer, fallback, bounds, feature schema, and MapLibre source mechanics while keeping the alias row's catalogue name, date, category, provider, credits, references, keywords, and status metadata.
+    - Kept physical PMTiles deployment disciplined: alias rows are skipped by PMTiles generation, feature-index generation, and CDN upload-manifest generation because they intentionally reuse target archives.
+    - Added validation guardrails requiring alias layers to point at real loadable targets and requiring local duplicate alias archives to remain excluded from the CDN manifest.
+    - Current port-plan totals: 901 rows; 774 converted/loadable rows; 702 direct conversions; 13 composite parent conversions; 59 alias conversions; 126 metadata-only rows; 0 MapLibre source-mapping blockers.
+    - The one remaining vector-conversion row is the old `civil-parishes` variant source; the active catalogue workflow already uses the converted unified `civil-parishes-by-province` layer.
+  - Verification:
+    - `npm run build:test:metadata` passed and regenerated the port plan.
+    - `npm run build:test:promote` passed: 1 vector layer, 106 raster layers, and 59 alias layers promoted.
+    - `npm run build:test:cdn-manifest` passed and generated 542 physical PMTiles upload targets, excluding alias duplicates.
+    - `npm run switch:test:pmtiles-cdn` passed and switched 542 physical PMTiles layers to CDN URLs while preserving alias reuse.
+    - `npm run verify:test:pmtiles-cdn` passed for all 542 physical PMTiles assets.
+    - `npm run check:test` passed. Known warning-only finding remains for the local dev fallback directory for resolved `roi-counties-2011`.
+    - `npm run check:test2` passed.
+    - `npm run check` passed the main chunked-map guardrails.
+    - `npm run build:test` and `npm run build:test2` passed outside the sandbox after the sandboxed esbuild runs hit the known `spawn EPERM`.
+    - `npm run test:browser:test2` passed: 11 tests.

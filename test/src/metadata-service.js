@@ -226,7 +226,7 @@ function formatCredits(value) {
 }
 
 function isConvertedPortStatus(status) {
-  return status === 'converted' || status === 'convertedComposite';
+  return status === 'converted' || status === 'convertedComposite' || status === 'convertedAlias';
 }
 
 function portRowToCategoryLayer(row) {

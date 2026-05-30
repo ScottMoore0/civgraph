@@ -272,13 +272,39 @@ function validatePortPlan(metadata) {
   if (!Array.isArray(plan.rows) || plan.rows.length === 0) {
     errors.push('main-site port plan must contain rows');
   }
-  const convertedIds = new Set((plan.rows || []).filter((row) => row.conversionStatus === 'converted').map((row) => row.testLayerId));
+  const convertedIds = new Set((plan.rows || [])
+    .filter((row) => ['converted', 'convertedAlias'].includes(row.conversionStatus))
+    .map((row) => row.testLayerId));
   for (const layer of metadata.layers || []) {
     if (!convertedIds.has(layer.id)) {
       errors.push(`${layer.id}: missing converted row in main-site port plan`);
     }
   }
   return { errors, warnings };
+}
+
+function validateAliasLayers(metadata) {
+  const errors = [];
+  const layers = metadata.layers || [];
+  const byId = new Map(layers.map((layer) => [layer.id, layer]));
+  const aliases = layers.filter((layer) => layer.aliasOf || layer.cloneOf || layer.conversionStatus === 'convertedAlias');
+  for (const layer of aliases) {
+    if (layer.status !== 'converted-alias') errors.push(`${layer.id}: alias layer must have converted-alias status`);
+    if (layer.conversionStatus !== 'convertedAlias') errors.push(`${layer.id}: alias layer must have convertedAlias conversionStatus`);
+    if (!layer.aliasOf || !layer.cloneOf) errors.push(`${layer.id}: alias layer must retain aliasOf and cloneOf metadata`);
+    if (!layer.aliasTargetLayerId) errors.push(`${layer.id}: alias layer missing aliasTargetLayerId`);
+    const target = byId.get(layer.aliasTargetLayerId);
+    if (!target) {
+      errors.push(`${layer.id}: alias target layer missing: ${layer.aliasTargetLayerId}`);
+      continue;
+    }
+    if (target.loadable === false) errors.push(`${layer.id}: alias target layer is not loadable`);
+    if (layer.sourceType !== target.sourceType) errors.push(`${layer.id}: alias sourceType differs from target ${target.id}`);
+    if (layer.tileUrl !== target.tileUrl) errors.push(`${layer.id}: alias tileUrl differs from target ${target.id}`);
+    if (layer.tiles !== target.tiles) errors.push(`${layer.id}: alias tiles fallback differs from target ${target.id}`);
+    if (layer.sourceLayer !== target.sourceLayer) errors.push(`${layer.id}: alias sourceLayer differs from target ${target.id}`);
+  }
+  return errors;
 }
 
 function main() {
@@ -292,6 +318,7 @@ function main() {
   const portPlanResult = validatePortPlan(metadata);
   errors.push(...portPlanResult.errors);
   warnings.push(...portPlanResult.warnings);
+  errors.push(...validateAliasLayers(metadata));
 
   for (const layer of layers) {
     const result = validateLayer(layer);
