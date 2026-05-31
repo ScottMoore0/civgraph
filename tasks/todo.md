@@ -1,3 +1,25 @@
+# /test2 election parity final gap closure
+- [x] Record scope
+  - Target gaps: local-government DEA/district/council mode parity, richer count-table parity, previous-election deltas, recall-petition UI parity, overlay placement/collision parity, richer entity pages, election-specific URL substate, unmatched/unconverted geography handling, and split-pane/tab micro-interactions.
+  - Constraint: preserve the main site and keep `/test2` MapLibre-native; do not port Leaflet layer objects literally.
+- [x] Implement non-data-blocked parity work
+  - Fixed shared elected-status detection so `Not Elected` is not counted as elected, capped explicit elected candidates to the declared seat count, and preserved non-transferable count rows in generated bundles.
+  - Added richer previous-election deltas for constituencies and candidates, district/council aggregate result mode for local-government bundles, recall overview/incumbent UI hooks, richer entity metrics, count event hints, non-transferable count display, and election-specific URL state.
+  - Added MapLibre-native overlay collision suppression and kept vote-bar/seat-circle overlay source diagnostics available for regression checks.
+- [x] Rebuild generated `/test2` election bundles where shared election-domain logic changes
+  - Regenerated `test/metadata/elections-test2.json`, `test/metadata/elections-test2-report.json`, per-election result bundles, and `/test2` build artifacts through `npm run build:test2`.
+- [x] Add/tighten regression guardrails
+  - Extended `scripts/validate-test2-route.mjs` to require election URL restore, DEA/district switching, recall overview/incumbent hooks, non-transferable count preservation, count events, safe elected-status matching, and overlay collision suppression.
+- [x] Verify with static checks, `/test2` build, and browser coverage where available
+  - `node --check js/election-domain.mjs`, `node --check test2/src/election-manager.js`, and `node --check test2/src/app.js` passed.
+  - `npm run build:test2` passed after approved sandbox escalation for esbuild process spawning.
+  - `npm run check:test2` passed.
+  - `npm run test:browser:test2` passed after approved sandbox escalation for Playwright worker/browser spawning: 20/20 tests passed.
+  - `npm run build` passed after approved sandbox escalation for esbuild process spawning.
+  - `npm run check` passed.
+- [x] Document remaining data-blocked limitations, if any
+  - Remaining unmatched geography rows in `elections-test2-report.json` are still classified as blocked on source data/aggregation/data cleanup rather than silent feasible implementation work. The non-data-blocked `Not Elected`/seat-count correctness bug was fixed and regenerated.
+
 # /test2 remaining election parity gap closure
 - [x] Record scope
   - Target gaps: local-government council/district aggregate views, vote-bar overlay mode, recall-petition rendering where data exists, detailed count-table parity, and explicit reporting for data-blocked election coverage.

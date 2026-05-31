@@ -42,7 +42,7 @@
   "partySummary": [
     {
       "party": "DUP",
-      "seats": 15,
+      "seats": 14,
       "stood": 20,
       "votes": 15100,
       "colour": "#d46a4c",
@@ -50,7 +50,7 @@
     },
     {
       "party": "UUP",
-      "seats": 11,
+      "seats": 9,
       "stood": 14,
       "votes": 9726,
       "colour": "#48a5ee",
@@ -58,7 +58,7 @@
     },
     {
       "party": "Alliance",
-      "seats": 8,
+      "seats": 7,
       "stood": 8,
       "votes": 8970,
       "colour": "#f6cb2f",
@@ -66,7 +66,7 @@
     },
     {
       "party": "Sinn Féin",
-      "seats": 6,
+      "seats": 5,
       "stood": 8,
       "votes": 6269,
       "colour": "#326760",
@@ -82,19 +82,11 @@
     },
     {
       "party": "Independent",
-      "seats": 2,
+      "seats": 1,
       "stood": 5,
       "votes": 2564,
       "colour": "#b8b8b8",
       "share": 5.342891079205652
-    },
-    {
-      "party": "Green",
-      "seats": 1,
-      "stood": 1,
-      "votes": 341,
-      "colour": "#8dc63f",
-      "share": 0.7105795078038717
     },
     {
       "party": "TUV",
@@ -111,6 +103,14 @@
       "votes": 473,
       "colour": "#6b7280",
       "share": 0.9856425430827898
+    },
+    {
+      "party": "Green",
+      "seats": 0,
+      "stood": 1,
+      "votes": 341,
+      "colour": "#8dc63f",
+      "share": 0.7105795078038717
     }
   ],
   "entityIndex": {
@@ -122,7 +122,7 @@
         "firstPrefs": 15100,
         "finalVotes": 18470,
         "stood": 20,
-        "elected": 15,
+        "elected": 14,
         "constituencies": [
           "Airport",
           "Antrim",
@@ -211,7 +211,7 @@
             "constituency": "Dunsilly",
             "firstPref": 907,
             "finalVotes": 939,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "182306166",
@@ -302,7 +302,7 @@
         "firstPrefs": 9726,
         "finalVotes": 12489,
         "stood": 14,
-        "elected": 11,
+        "elected": 9,
         "constituencies": [
           "Airport",
           "Antrim",
@@ -327,7 +327,7 @@
             "constituency": "Airport",
             "firstPref": 568,
             "finalVotes": 704,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "366364248",
@@ -423,7 +423,7 @@
             "constituency": "Three Mile Water",
             "firstPref": 514,
             "finalVotes": 843,
-            "status": "Elected"
+            "status": "Not Elected"
           }
         ],
         "shareOfTotal": 20.267144553960282
@@ -434,7 +434,7 @@
         "firstPrefs": 8970,
         "finalVotes": 9443,
         "stood": 8,
-        "elected": 8,
+        "elected": 7,
         "constituencies": [
           "Airport",
           "Antrim",
@@ -467,7 +467,7 @@
             "constituency": "Ballyclare",
             "firstPref": 775,
             "finalVotes": 900,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "1887547068",
@@ -518,7 +518,7 @@
         "firstPrefs": 6269,
         "finalVotes": 7483,
         "stood": 8,
-        "elected": 6,
+        "elected": 5,
         "constituencies": [
           "Airport",
           "Antrim",
@@ -549,7 +549,7 @@
             "constituency": "Antrim",
             "firstPref": 583,
             "finalVotes": 740,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "3145019370",
@@ -649,7 +649,7 @@
         "firstPrefs": 2564,
         "finalVotes": 3014,
         "stood": 5,
-        "elected": 2,
+        "elected": 1,
         "constituencies": [
           "Antrim",
           "Ballyclare",
@@ -687,7 +687,7 @@
             "constituency": "Macedon",
             "firstPref": 343,
             "finalVotes": 560,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "1027248750",
@@ -699,28 +699,6 @@
           }
         ],
         "shareOfTotal": 5.342891079205652
-      },
-      {
-        "name": "Green",
-        "colour": "#8DC63F",
-        "firstPrefs": 341,
-        "finalVotes": 761,
-        "stood": 1,
-        "elected": 1,
-        "constituencies": [
-          "Glengormley Urban"
-        ],
-        "candidates": [
-          {
-            "personId": "2103183749",
-            "name": "Paul Veronica",
-            "constituency": "Glengormley Urban",
-            "firstPref": 341,
-            "finalVotes": 761,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 0.7105795078038717
       },
       {
         "name": "TUV",
@@ -792,6 +770,28 @@
           }
         ],
         "shareOfTotal": 0.9856425430827898
+      },
+      {
+        "name": "Green",
+        "colour": "#8DC63F",
+        "firstPrefs": 341,
+        "finalVotes": 761,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Glengormley Urban"
+        ],
+        "candidates": [
+          {
+            "personId": "2103183749",
+            "name": "Paul Veronica",
+            "constituency": "Glengormley Urban",
+            "firstPref": 341,
+            "finalVotes": 761,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 0.7105795078038717
       }
     ],
     "candidates": [
@@ -1237,27 +1237,6 @@
         "shareOfTotal": 1.992123194898831
       },
       {
-        "personId": "2155026797",
-        "name": "Jordan Greer",
-        "party": "DUP",
-        "colour": "#D46A4C",
-        "firstPrefs": 907,
-        "finalVotes": 939,
-        "electedCount": 1,
-        "constituencies": [
-          "Dunsilly"
-        ],
-        "appearances": [
-          {
-            "constituency": "Dunsilly",
-            "firstPref": 907,
-            "finalVotes": 939,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.8900164621058992
-      },
-      {
         "personId": "308307723",
         "name": "Michael Goodman",
         "party": "Sinn Féin",
@@ -1403,27 +1382,6 @@
           }
         ],
         "shareOfTotal": 1.6691325095334348
-      },
-      {
-        "personId": "1150337709",
-        "name": "Gary English",
-        "party": "Alliance",
-        "colour": "#F6CB2F",
-        "firstPrefs": 775,
-        "finalVotes": 900,
-        "electedCount": 1,
-        "constituencies": [
-          "Ballyclare"
-        ],
-        "appearances": [
-          {
-            "constituency": "Ballyclare",
-            "firstPref": 775,
-            "finalVotes": 900,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.6149534268269812
       },
       {
         "personId": "1615674105",
@@ -1615,69 +1573,6 @@
         "shareOfTotal": 1.2565379566150576
       },
       {
-        "personId": "277906296",
-        "name": "Gerard Magee",
-        "party": "Sinn Féin",
-        "colour": "#326760",
-        "firstPrefs": 583,
-        "finalVotes": 740,
-        "electedCount": 1,
-        "constituencies": [
-          "Antrim"
-        ],
-        "appearances": [
-          {
-            "constituency": "Antrim",
-            "firstPref": 583,
-            "finalVotes": 740,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.214861739148555
-      },
-      {
-        "personId": "1808392487",
-        "name": "Mervyn Rea",
-        "party": "UUP",
-        "colour": "#48A5EE",
-        "firstPrefs": 568,
-        "finalVotes": 704,
-        "electedCount": 1,
-        "constituencies": [
-          "Airport"
-        ],
-        "appearances": [
-          {
-            "constituency": "Airport",
-            "firstPref": 568,
-            "finalVotes": 704,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.1836045760486777
-      },
-      {
-        "personId": "2354899832",
-        "name": "Stephen McCarthy",
-        "party": "UUP",
-        "colour": "#48A5EE",
-        "firstPrefs": 514,
-        "finalVotes": 843,
-        "electedCount": 1,
-        "constituencies": [
-          "Three Mile Water"
-        ],
-        "appearances": [
-          {
-            "constituency": "Three Mile Water",
-            "firstPref": 514,
-            "finalVotes": 843,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.0710787888891204
-      },
-      {
         "personId": "1847109518",
         "name": "Sam Flanagan",
         "party": "DUP",
@@ -1720,48 +1615,6 @@
         "shareOfTotal": 0.866865323303257
       },
       {
-        "personId": "45466384",
-        "name": "Stafford Ward",
-        "party": "Independent",
-        "colour": "#DCDCDC",
-        "firstPrefs": 343,
-        "finalVotes": 560,
-        "electedCount": 1,
-        "constituencies": [
-          "Macedon"
-        ],
-        "appearances": [
-          {
-            "constituency": "Macedon",
-            "firstPref": 343,
-            "finalVotes": 560,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 0.714747129550522
-      },
-      {
-        "personId": "2103183749",
-        "name": "Paul Veronica",
-        "party": "Green",
-        "colour": "#8DC63F",
-        "firstPrefs": 341,
-        "finalVotes": 761,
-        "electedCount": 1,
-        "constituencies": [
-          "Glengormley Urban"
-        ],
-        "appearances": [
-          {
-            "constituency": "Glengormley Urban",
-            "firstPref": 341,
-            "finalVotes": 761,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 0.7105795078038717
-      },
-      {
         "personId": "3018403699",
         "name": "Dean McCullough",
         "party": "DUP",
@@ -1783,6 +1636,90 @@
         "shareOfTotal": 0.6689032903373691
       },
       {
+        "personId": "2155026797",
+        "name": "Jordan Greer",
+        "party": "DUP",
+        "colour": "#D46A4C",
+        "firstPrefs": 907,
+        "finalVotes": 939,
+        "electedCount": 0,
+        "constituencies": [
+          "Dunsilly"
+        ],
+        "appearances": [
+          {
+            "constituency": "Dunsilly",
+            "firstPref": 907,
+            "finalVotes": 939,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.8900164621058992
+      },
+      {
+        "personId": "1150337709",
+        "name": "Gary English",
+        "party": "Alliance",
+        "colour": "#F6CB2F",
+        "firstPrefs": 775,
+        "finalVotes": 900,
+        "electedCount": 0,
+        "constituencies": [
+          "Ballyclare"
+        ],
+        "appearances": [
+          {
+            "constituency": "Ballyclare",
+            "firstPref": 775,
+            "finalVotes": 900,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.6149534268269812
+      },
+      {
+        "personId": "277906296",
+        "name": "Gerard Magee",
+        "party": "Sinn Féin",
+        "colour": "#326760",
+        "firstPrefs": 583,
+        "finalVotes": 740,
+        "electedCount": 0,
+        "constituencies": [
+          "Antrim"
+        ],
+        "appearances": [
+          {
+            "constituency": "Antrim",
+            "firstPref": 583,
+            "finalVotes": 740,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.214861739148555
+      },
+      {
+        "personId": "1808392487",
+        "name": "Mervyn Rea",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 568,
+        "finalVotes": 704,
+        "electedCount": 0,
+        "constituencies": [
+          "Airport"
+        ],
+        "appearances": [
+          {
+            "constituency": "Airport",
+            "firstPref": 568,
+            "finalVotes": 704,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.1836045760486777
+      },
+      {
         "personId": "1437002964",
         "name": "Andrew Maguire",
         "party": "Sinn Féin",
@@ -1802,6 +1739,27 @@
           }
         ],
         "shareOfTotal": 1.1502636020754755
+      },
+      {
+        "personId": "2354899832",
+        "name": "Stephen McCarthy",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 514,
+        "finalVotes": 843,
+        "electedCount": 0,
+        "constituencies": [
+          "Three Mile Water"
+        ],
+        "appearances": [
+          {
+            "constituency": "Three Mile Water",
+            "firstPref": 514,
+            "finalVotes": 843,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.0710787888891204
       },
       {
         "personId": "3318181323",
@@ -1993,6 +1951,27 @@
         "shareOfTotal": 0.7230823730438225
       },
       {
+        "personId": "45466384",
+        "name": "Stafford Ward",
+        "party": "Independent",
+        "colour": "#DCDCDC",
+        "firstPrefs": 343,
+        "finalVotes": 560,
+        "electedCount": 0,
+        "constituencies": [
+          "Macedon"
+        ],
+        "appearances": [
+          {
+            "constituency": "Macedon",
+            "firstPref": 343,
+            "finalVotes": 560,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 0.714747129550522
+      },
+      {
         "personId": "3727557741",
         "name": "Norman Ramsey",
         "party": "UUP",
@@ -2009,6 +1988,27 @@
             "firstPref": 341,
             "finalVotes": 352,
             "status": "Excluded"
+          }
+        ],
+        "shareOfTotal": 0.7105795078038717
+      },
+      {
+        "personId": "2103183749",
+        "name": "Paul Veronica",
+        "party": "Green",
+        "colour": "#8DC63F",
+        "firstPrefs": 341,
+        "finalVotes": 761,
+        "electedCount": 0,
+        "constituencies": [
+          "Glengormley Urban"
+        ],
+        "appearances": [
+          {
+            "constituency": "Glengormley Urban",
+            "firstPref": 341,
+            "finalVotes": 761,
+            "status": "Not Elected"
           }
         ],
         "shareOfTotal": 0.7105795078038717
@@ -2165,8 +2165,8 @@
   "results": [
     {
       "constituency": "Airport",
-      "winnerParty": "UUP",
-      "winnerName": "6 elected",
+      "winnerParty": "DUP",
+      "winnerName": "5 elected",
       "leadingParty": "Alliance",
       "leadingName": "Vikki McAuley",
       "leadingVotes": 1221,
@@ -2174,14 +2174,15 @@
       "turnoutPct": 50.71,
       "majority": 57,
       "majorityPct": 0.81,
-      "seatsWon": 6,
+      "seatsWon": 5,
       "seatsTotal": 5,
       "quota": 1176,
       "electorate": 14042,
       "totalPoll": 7121,
+      "spoiled": 69,
       "validPoll": 7052,
       "totalVotes": 7052,
-      "colour": "#48a5ee",
+      "colour": "#d46a4c",
       "leadingColour": "#f6cb2f",
       "candidates": [
         {
@@ -2475,8 +2476,8 @@
           "party": "UUP",
           "firstPrefs": 568,
           "finalVotes": 704,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -2924,63 +2925,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 893
-            }
-          ]
-        },
-        {
-          "id": "1808392487",
-          "name": "Mervyn Rea",
-          "party": "UUP",
-          "firstPrefs": 568,
-          "finalVotes": 704,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#48A5EE",
-          "counts": [
-            {
-              "count": 1,
-              "total": 568,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 568
-            },
-            {
-              "count": 2,
-              "total": 571,
-              "transfers": 3.16,
-              "status": "Not Elected",
-              "firstPrefs": 568
-            },
-            {
-              "count": 3,
-              "total": 584,
-              "transfers": 13,
-              "status": "Not Elected",
-              "firstPrefs": 568
-            },
-            {
-              "count": 4,
-              "total": 702,
-              "transfers": 118,
-              "status": "Not Elected",
-              "firstPrefs": 568
-            },
-            {
-              "count": 5,
-              "total": 704,
-              "transfers": 2,
-              "status": "Not Elected",
-              "firstPrefs": 568
-            },
-            {
-              "count": 6,
-              "total": 704,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 568
             }
           ]
         }
@@ -3925,6 +3869,32 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 51
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 1.56,
+          "transfers": 1.56,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 3.76,
+          "transfers": 2.2,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 35.2,
+          "transfers": 31.44,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 39.8,
+          "transfers": 4.6,
+          "status": ""
         }
       ],
       "forum": null,
@@ -4903,7 +4873,7 @@
     {
       "constituency": "Antrim",
       "winnerParty": "DUP",
-      "winnerName": "7 elected",
+      "winnerName": "6 elected",
       "leadingParty": "Alliance",
       "leadingName": "Neil Kelly",
       "leadingVotes": 1689,
@@ -4911,11 +4881,12 @@
       "turnoutPct": 43.27,
       "majority": 955,
       "majorityPct": 14.85,
-      "seatsWon": 7,
+      "seatsWon": 6,
       "seatsTotal": 6,
       "quota": 919,
       "electorate": 15051,
       "totalPoll": 6512,
+      "spoiled": 80,
       "validPoll": 6432,
       "totalVotes": 6432,
       "colour": "#d46a4c",
@@ -5282,8 +5253,8 @@
           "party": "Sinn Féin",
           "firstPrefs": 583,
           "finalVotes": 740,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -6056,77 +6027,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 416
-            }
-          ]
-        },
-        {
-          "id": "277906296",
-          "name": "Gerard Magee",
-          "party": "Sinn Féin",
-          "firstPrefs": 583,
-          "finalVotes": 740,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#326760",
-          "counts": [
-            {
-              "count": 1,
-              "total": 583,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 583
-            },
-            {
-              "count": 2,
-              "total": 637,
-              "transfers": 54.06,
-              "status": "Not Elected",
-              "firstPrefs": 583
-            },
-            {
-              "count": 3,
-              "total": 725,
-              "transfers": 88.92,
-              "status": "Not Elected",
-              "firstPrefs": 583
-            },
-            {
-              "count": 4,
-              "total": 727,
-              "transfers": 2,
-              "status": "Not Elected",
-              "firstPrefs": 583
-            },
-            {
-              "count": 5,
-              "total": 728,
-              "transfers": 0.36,
-              "status": "Not Elected",
-              "firstPrefs": 583
-            },
-            {
-              "count": 6,
-              "total": 728,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 583
-            },
-            {
-              "count": 7,
-              "total": 740,
-              "transfers": 12.55,
-              "status": "Not Elected",
-              "firstPrefs": 583
-            },
-            {
-              "count": 8,
-              "total": 740,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 583
             }
           ]
         }
@@ -7679,6 +7579,44 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 85
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 5,
+          "transfers": 5,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 9.55,
+          "transfers": 4.55,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 39.25,
+          "transfers": 29.7,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 55.9,
+          "transfers": 16.65,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 57.95,
+          "transfers": 2.05,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 216.74,
+          "transfers": 158.79,
+          "status": ""
         }
       ],
       "forum": null,
@@ -9267,7 +9205,7 @@
     {
       "constituency": "Ballyclare",
       "winnerParty": "UUP",
-      "winnerName": "6 elected",
+      "winnerName": "5 elected",
       "leadingParty": "UUP",
       "leadingName": "Danny Kinahan",
       "leadingVotes": 1253,
@@ -9275,11 +9213,12 @@
       "turnoutPct": 51.71,
       "majority": 71,
       "majorityPct": 1.05,
-      "seatsWon": 6,
+      "seatsWon": 5,
       "seatsTotal": 5,
       "quota": 1127,
       "electorate": 13190,
       "totalPoll": 6821,
+      "spoiled": 63,
       "validPoll": 6758,
       "totalVotes": 6758,
       "colour": "#48a5ee",
@@ -9483,8 +9422,8 @@
           "party": "Alliance",
           "firstPrefs": 775,
           "finalVotes": 900,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -10180,70 +10119,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 861
-            }
-          ]
-        },
-        {
-          "id": "1150337709",
-          "name": "Gary English",
-          "party": "Alliance",
-          "firstPrefs": 775,
-          "finalVotes": 900,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#F6CB2F",
-          "counts": [
-            {
-              "count": 1,
-              "total": 775,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 775
-            },
-            {
-              "count": 2,
-              "total": 783,
-              "transfers": 8.9,
-              "status": "Not Elected",
-              "firstPrefs": 775
-            },
-            {
-              "count": 3,
-              "total": 799,
-              "transfers": 15.6,
-              "status": "Not Elected",
-              "firstPrefs": 775
-            },
-            {
-              "count": 4,
-              "total": 811,
-              "transfers": 11.85,
-              "status": "Not Elected",
-              "firstPrefs": 775
-            },
-            {
-              "count": 5,
-              "total": 819,
-              "transfers": 8.2,
-              "status": "Not Elected",
-              "firstPrefs": 775
-            },
-            {
-              "count": 6,
-              "total": 900,
-              "transfers": 81,
-              "status": "Not Elected",
-              "firstPrefs": 775
-            },
-            {
-              "count": 7,
-              "total": 900,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 775
             }
           ]
         }
@@ -11474,6 +11349,38 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 67
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 2.7,
+          "transfers": 2.7,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 7.2,
+          "transfers": 4.5,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 7.5,
+          "transfers": 0.3,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 10,
+          "transfers": 2.5,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 147.75,
+          "transfers": 137.75,
+          "status": ""
         }
       ],
       "forum": null,
@@ -12738,8 +12645,8 @@
     },
     {
       "constituency": "Dunsilly",
-      "winnerParty": "DUP",
-      "winnerName": "6 elected",
+      "winnerParty": "Sinn Féin",
+      "winnerName": "5 elected",
       "leadingParty": "Sinn Féin",
       "leadingName": "Henry Cushinan",
       "leadingVotes": 1064,
@@ -12747,14 +12654,15 @@
       "turnoutPct": 52.64,
       "majority": 75,
       "majorityPct": 1.15,
-      "seatsWon": 6,
+      "seatsWon": 5,
       "seatsTotal": 5,
       "quota": 1086,
       "electorate": 12519,
       "totalPoll": 6590,
+      "spoiled": 76,
       "validPoll": 6514,
       "totalVotes": 6514,
-      "colour": "#d46a4c",
+      "colour": "#326760",
       "leadingColour": "#326760",
       "candidates": [
         {
@@ -12934,8 +12842,8 @@
           "party": "DUP",
           "firstPrefs": 907,
           "finalVotes": 939,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -13497,63 +13405,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 965
-            }
-          ]
-        },
-        {
-          "id": "2155026797",
-          "name": "Jordan Greer",
-          "party": "DUP",
-          "firstPrefs": 907,
-          "finalVotes": 939,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#D46A4C",
-          "counts": [
-            {
-              "count": 1,
-              "total": 907,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 907
-            },
-            {
-              "count": 2,
-              "total": 935,
-              "transfers": 28,
-              "status": "Not Elected",
-              "firstPrefs": 907
-            },
-            {
-              "count": 3,
-              "total": 935,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 907
-            },
-            {
-              "count": 4,
-              "total": 935,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 907
-            },
-            {
-              "count": 5,
-              "total": 939,
-              "transfers": 4,
-              "status": "Not Elected",
-              "firstPrefs": 907
-            },
-            {
-              "count": 6,
-              "total": 939,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 907
             }
           ]
         }
@@ -14482,6 +14333,26 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 50
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 3,
+          "total": 7,
+          "transfers": 7,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 68,
+          "transfers": 61,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 241,
+          "transfers": 173,
+          "status": ""
         }
       ],
       "forum": null,
@@ -15444,7 +15315,7 @@
     {
       "constituency": "Glengormley Urban",
       "winnerParty": "DUP",
-      "winnerName": "8 elected",
+      "winnerName": "7 elected",
       "leadingParty": "Alliance",
       "leadingName": "Julian McGrath",
       "leadingVotes": 1345,
@@ -15452,11 +15323,12 @@
       "turnoutPct": 50.89,
       "majority": 246,
       "majorityPct": 3.1,
-      "seatsWon": 8,
+      "seatsWon": 7,
       "seatsTotal": 7,
       "quota": 993,
       "electorate": 15810,
       "totalPoll": 8046,
+      "spoiled": 107,
       "validPoll": 7939,
       "totalVotes": 7939,
       "colour": "#d46a4c",
@@ -16036,8 +15908,8 @@
           "party": "Green",
           "firstPrefs": 341,
           "finalVotes": 761,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -16668,77 +16540,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 801
-            }
-          ]
-        },
-        {
-          "id": "2103183749",
-          "name": "Paul Veronica",
-          "party": "Green",
-          "firstPrefs": 341,
-          "finalVotes": 761,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#8DC63F",
-          "counts": [
-            {
-              "count": 1,
-              "total": 341,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 341
-            },
-            {
-              "count": 2,
-              "total": 471,
-              "transfers": 130.41,
-              "status": "Not Elected",
-              "firstPrefs": 341
-            },
-            {
-              "count": 3,
-              "total": 558,
-              "transfers": 86.67,
-              "status": "Not Elected",
-              "firstPrefs": 341
-            },
-            {
-              "count": 4,
-              "total": 558,
-              "transfers": 0.45,
-              "status": "Not Elected",
-              "firstPrefs": 341
-            },
-            {
-              "count": 5,
-              "total": 586,
-              "transfers": 27.58,
-              "status": "Not Elected",
-              "firstPrefs": 341
-            },
-            {
-              "count": 6,
-              "total": 629,
-              "transfers": 43,
-              "status": "Not Elected",
-              "firstPrefs": 341
-            },
-            {
-              "count": 7,
-              "total": 761,
-              "transfers": 131.89,
-              "status": "Not Elected",
-              "firstPrefs": 341
-            },
-            {
-              "count": 8,
-              "total": 761,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 341
             }
           ]
         }
@@ -18291,6 +18092,44 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 85
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 3.7,
+          "transfers": 3.7,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 13.23,
+          "transfers": 9.53,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 21.49,
+          "transfers": 8.26,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 38.59,
+          "transfers": 17.1,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 52.4,
+          "transfers": 13.81,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 391.47,
+          "transfers": 339.07,
+          "status": ""
         }
       ],
       "forum": null,
@@ -19879,7 +19718,7 @@
     {
       "constituency": "Macedon",
       "winnerParty": "DUP",
-      "winnerName": "7 elected",
+      "winnerName": "6 elected",
       "leadingParty": "Alliance",
       "leadingName": "Billy Webb",
       "leadingVotes": 1127,
@@ -19887,11 +19726,12 @@
       "turnoutPct": 46.58,
       "majority": 84,
       "majorityPct": 1.34,
-      "seatsWon": 7,
+      "seatsWon": 6,
       "seatsTotal": 6,
       "quota": 895,
       "electorate": 13593,
       "totalPoll": 6331,
+      "spoiled": 73,
       "validPoll": 6258,
       "totalVotes": 6258,
       "colour": "#d46a4c",
@@ -20258,8 +20098,8 @@
           "party": "Independent",
           "firstPrefs": 343,
           "finalVotes": 560,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -21032,77 +20872,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 765
-            }
-          ]
-        },
-        {
-          "id": "45466384",
-          "name": "Stafford Ward",
-          "party": "Independent",
-          "firstPrefs": 343,
-          "finalVotes": 560,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#DCDCDC",
-          "counts": [
-            {
-              "count": 1,
-              "total": 343,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 343
-            },
-            {
-              "count": 2,
-              "total": 452,
-              "transfers": 109.8,
-              "status": "Not Elected",
-              "firstPrefs": 343
-            },
-            {
-              "count": 3,
-              "total": 458,
-              "transfers": 6.16,
-              "status": "Not Elected",
-              "firstPrefs": 343
-            },
-            {
-              "count": 4,
-              "total": 463,
-              "transfers": 4.3,
-              "status": "Not Elected",
-              "firstPrefs": 343
-            },
-            {
-              "count": 5,
-              "total": 499,
-              "transfers": 36.46,
-              "status": "Not Elected",
-              "firstPrefs": 343
-            },
-            {
-              "count": 6,
-              "total": 545,
-              "transfers": 45.5,
-              "status": "Not Elected",
-              "firstPrefs": 343
-            },
-            {
-              "count": 7,
-              "total": 560,
-              "transfers": 15,
-              "status": "Not Elected",
-              "firstPrefs": 343
-            },
-            {
-              "count": 8,
-              "total": 560,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 343
             }
           ]
         }
@@ -22655,6 +22424,44 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 85
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 5.5,
+          "transfers": 5.5,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 11.26,
+          "transfers": 5.76,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 18.86,
+          "transfers": 7.6,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 43.12,
+          "transfers": 24.26,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 103.14,
+          "transfers": 60.02,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 243.92,
+          "transfers": 140.78,
+          "status": ""
         }
       ],
       "forum": null,
@@ -24243,7 +24050,7 @@
     {
       "constituency": "Three Mile Water",
       "winnerParty": "DUP",
-      "winnerName": "7 elected",
+      "winnerName": "6 elected",
       "leadingParty": "DUP",
       "leadingName": "Mark Cooper",
       "leadingVotes": 1230,
@@ -24251,11 +24058,12 @@
       "turnoutPct": 48.35,
       "majority": 127,
       "majorityPct": 1.81,
-      "seatsWon": 7,
+      "seatsWon": 6,
       "seatsTotal": 6,
       "quota": 1006,
       "electorate": 14694,
       "totalPoll": 7105,
+      "spoiled": 69,
       "validPoll": 7036,
       "totalVotes": 7036,
       "colour": "#d46a4c",
@@ -24622,8 +24430,8 @@
           "party": "UUP",
           "firstPrefs": 514,
           "finalVotes": 843,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -25396,77 +25204,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 749
-            }
-          ]
-        },
-        {
-          "id": "2354899832",
-          "name": "Stephen McCarthy",
-          "party": "UUP",
-          "firstPrefs": 514,
-          "finalVotes": 843,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#48A5EE",
-          "counts": [
-            {
-              "count": 1,
-              "total": 514,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 514
-            },
-            {
-              "count": 2,
-              "total": 522,
-              "transfers": 8.64,
-              "status": "Not Elected",
-              "firstPrefs": 514
-            },
-            {
-              "count": 3,
-              "total": 528,
-              "transfers": 5.49,
-              "status": "Not Elected",
-              "firstPrefs": 514
-            },
-            {
-              "count": 4,
-              "total": 589,
-              "transfers": 61.28,
-              "status": "Not Elected",
-              "firstPrefs": 514
-            },
-            {
-              "count": 5,
-              "total": 591,
-              "transfers": 2.04,
-              "status": "Not Elected",
-              "firstPrefs": 514
-            },
-            {
-              "count": 6,
-              "total": 651,
-              "transfers": 59.88,
-              "status": "Not Elected",
-              "firstPrefs": 514
-            },
-            {
-              "count": 7,
-              "total": 843,
-              "transfers": 192,
-              "status": "Not Elected",
-              "firstPrefs": 514
-            },
-            {
-              "count": 8,
-              "total": 843,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 514
             }
           ]
         }
@@ -27019,6 +26756,44 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 85
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 8,
+          "transfers": 8,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 8.88,
+          "transfers": 0.88,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 16.96,
+          "transfers": 8.08,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 21.94,
+          "transfers": 4.98,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 49.42,
+          "transfers": 27.48,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 197.09,
+          "transfers": 147.67,
+          "status": ""
         }
       ],
       "forum": null,

@@ -42,7 +42,7 @@
   "partySummary": [
     {
       "party": "DUP",
-      "seats": 21,
+      "seats": 20,
       "stood": 26,
       "votes": 18520,
       "colour": "#d46a4c",
@@ -74,19 +74,11 @@
     },
     {
       "party": "NI21",
-      "seats": 3,
+      "seats": 1,
       "stood": 12,
       "votes": 3173,
       "colour": "#6b7280",
       "share": 6.929914604582087
-    },
-    {
-      "party": "Sinn Féin",
-      "seats": 2,
-      "stood": 3,
-      "votes": 2150,
-      "colour": "#326760",
-      "share": 4.695655972219189
     },
     {
       "party": "TUV",
@@ -97,12 +89,12 @@
       "share": 5.9405508113656715
     },
     {
-      "party": "Conservative",
-      "seats": 1,
-      "stood": 1,
-      "votes": 376,
-      "colour": "#0087dc",
-      "share": 0.8211937886299604
+      "party": "Sinn Féin",
+      "seats": 0,
+      "stood": 3,
+      "votes": 2150,
+      "colour": "#326760",
+      "share": 4.695655972219189
     },
     {
       "party": "UKIP",
@@ -129,6 +121,14 @@
       "share": 1.5178980933452726
     },
     {
+      "party": "Conservative",
+      "seats": 0,
+      "stood": 1,
+      "votes": 376,
+      "colour": "#0087dc",
+      "share": 0.8211937886299604
+    },
+    {
       "party": "Independent",
       "seats": 0,
       "stood": 3,
@@ -146,7 +146,7 @@
         "firstPrefs": 18520,
         "finalVotes": 23427,
         "stood": 26,
-        "elected": 21,
+        "elected": 20,
         "constituencies": [
           "Castlereagh East",
           "Castlereagh South",
@@ -323,7 +323,7 @@
             "constituency": "Lisburn North",
             "firstPref": 526,
             "finalVotes": 669,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "2648367674",
@@ -624,7 +624,7 @@
         "firstPrefs": 3173,
         "finalVotes": 4700,
         "stood": 12,
-        "elected": 3,
+        "elected": 1,
         "constituencies": [
           "Castlereagh East",
           "Castlereagh South",
@@ -665,7 +665,7 @@
             "constituency": "Downshire East",
             "firstPref": 426,
             "finalVotes": 860,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "1352499932",
@@ -721,7 +721,7 @@
             "constituency": "Lisburn South",
             "firstPref": 442,
             "finalVotes": 735,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "2882994005",
@@ -733,46 +733,6 @@
           }
         ],
         "shareOfTotal": 6.931428446599821
-      },
-      {
-        "name": "Sinn Féin",
-        "colour": "#326760",
-        "firstPrefs": 2150,
-        "finalVotes": 2353,
-        "stood": 3,
-        "elected": 2,
-        "constituencies": [
-          "Castlereagh South",
-          "Killultagh",
-          "Lisburn North"
-        ],
-        "candidates": [
-          {
-            "personId": "2864123835",
-            "name": "Nuala Toman",
-            "constituency": "Castlereagh South",
-            "firstPref": 803,
-            "finalVotes": 823,
-            "status": "Elected"
-          },
-          {
-            "personId": "2235880544",
-            "name": "Mary Quinn",
-            "constituency": "Killultagh",
-            "firstPref": 854,
-            "finalVotes": 900,
-            "status": "Elected"
-          },
-          {
-            "personId": "488866306",
-            "name": "Jacqui McGeough",
-            "constituency": "Lisburn North",
-            "firstPref": 493,
-            "finalVotes": 630,
-            "status": "Excluded"
-          }
-        ],
-        "shareOfTotal": 4.696681739738297
       },
       {
         "name": "TUV",
@@ -842,26 +802,44 @@
         "shareOfTotal": 5.9418485265526355
       },
       {
-        "name": "Conservative",
-        "colour": "#9E9E9E",
-        "firstPrefs": 376,
-        "finalVotes": 551,
-        "stood": 1,
-        "elected": 1,
+        "name": "Sinn Féin",
+        "colour": "#326760",
+        "firstPrefs": 2150,
+        "finalVotes": 2353,
+        "stood": 3,
+        "elected": 0,
         "constituencies": [
-          "Downshire West"
+          "Castlereagh South",
+          "Killultagh",
+          "Lisburn North"
         ],
         "candidates": [
           {
-            "personId": "717988024",
-            "name": "Neil Johnston",
-            "constituency": "Downshire West",
-            "firstPref": 376,
-            "finalVotes": 551,
-            "status": "Elected"
+            "personId": "2864123835",
+            "name": "Nuala Toman",
+            "constituency": "Castlereagh South",
+            "firstPref": 803,
+            "finalVotes": 823,
+            "status": "Not Elected"
+          },
+          {
+            "personId": "2235880544",
+            "name": "Mary Quinn",
+            "constituency": "Killultagh",
+            "firstPref": 854,
+            "finalVotes": 900,
+            "status": "Not Elected"
+          },
+          {
+            "personId": "488866306",
+            "name": "Jacqui McGeough",
+            "constituency": "Lisburn North",
+            "firstPref": 493,
+            "finalVotes": 630,
+            "status": "Excluded"
           }
         ],
-        "shareOfTotal": 0.8213731786705114
+        "shareOfTotal": 4.696681739738297
       },
       {
         "name": "UKIP",
@@ -973,6 +951,28 @@
           }
         ],
         "shareOfTotal": 1.5182296786595888
+      },
+      {
+        "name": "Conservative",
+        "colour": "#9E9E9E",
+        "firstPrefs": 376,
+        "finalVotes": 551,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Downshire West"
+        ],
+        "candidates": [
+          {
+            "personId": "717988024",
+            "name": "Neil Johnston",
+            "constituency": "Downshire West",
+            "firstPref": 376,
+            "finalVotes": 551,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 0.8213731786705114
       },
       {
         "name": "Independent",
@@ -1310,27 +1310,6 @@
         "shareOfTotal": 1.8874107084343665
       },
       {
-        "personId": "2235880544",
-        "name": "Mary Quinn",
-        "party": "Sinn Féin",
-        "colour": "#326760",
-        "firstPrefs": 854,
-        "finalVotes": 900,
-        "electedCount": 1,
-        "constituencies": [
-          "Killultagh"
-        ],
-        "appearances": [
-          {
-            "constituency": "Killultagh",
-            "firstPref": 854,
-            "finalVotes": 900,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.8655656770867466
-      },
-      {
         "personId": "3043079260",
         "name": "David Drysdale",
         "party": "DUP",
@@ -1392,27 +1371,6 @@
           }
         ],
         "shareOfTotal": 1.7672630360224568
-      },
-      {
-        "personId": "2864123835",
-        "name": "Nuala Toman",
-        "party": "Sinn Féin",
-        "colour": "#326760",
-        "firstPrefs": 803,
-        "finalVotes": 823,
-        "electedCount": 1,
-        "constituencies": [
-          "Castlereagh South"
-        ],
-        "appearances": [
-          {
-            "constituency": "Castlereagh South",
-            "firstPref": 803,
-            "finalVotes": 823,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.7541560172138846
       },
       {
         "personId": "60468200",
@@ -1772,27 +1730,6 @@
         "shareOfTotal": 1.1665246739629072
       },
       {
-        "personId": "2874931812",
-        "name": "Yvonne Craig",
-        "party": "DUP",
-        "colour": "#D46A4C",
-        "firstPrefs": 526,
-        "finalVotes": 669,
-        "electedCount": 1,
-        "constituencies": [
-          "Lisburn North"
-        ],
-        "appearances": [
-          {
-            "constituency": "Lisburn North",
-            "firstPref": 526,
-            "finalVotes": 669,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.149048648884811
-      },
-      {
         "personId": "2261169700",
         "name": "Tim Morrow",
         "party": "Alliance",
@@ -1877,27 +1814,6 @@
         "shareOfTotal": 1.0485615046857593
       },
       {
-        "personId": "1159718314",
-        "name": "David Cairns",
-        "party": "NI21",
-        "colour": "#008080",
-        "firstPrefs": 442,
-        "finalVotes": 735,
-        "electedCount": 1,
-        "constituencies": [
-          "Lisburn South"
-        ],
-        "appearances": [
-          {
-            "constituency": "Lisburn South",
-            "firstPref": 442,
-            "finalVotes": 735,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 0.9655503855648032
-      },
-      {
         "personId": "1951302260",
         "name": "Amanda Grehan",
         "party": "Alliance",
@@ -1917,48 +1833,6 @@
           }
         ],
         "shareOfTotal": 0.9393363479476594
-      },
-      {
-        "personId": "2952386658",
-        "name": "Christina Dobson",
-        "party": "NI21",
-        "colour": "#008080",
-        "firstPrefs": 426,
-        "finalVotes": 860,
-        "electedCount": 1,
-        "constituencies": [
-          "Downshire East"
-        ],
-        "appearances": [
-          {
-            "constituency": "Downshire East",
-            "firstPref": 426,
-            "finalVotes": 860,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 0.9305983354086114
-      },
-      {
-        "personId": "717988024",
-        "name": "Neil Johnston",
-        "party": "Conservative",
-        "colour": "#9E9E9E",
-        "firstPrefs": 376,
-        "finalVotes": 551,
-        "electedCount": 1,
-        "constituencies": [
-          "Downshire West"
-        ],
-        "appearances": [
-          {
-            "constituency": "Downshire West",
-            "firstPref": 376,
-            "finalVotes": 551,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 0.8213731786705114
       },
       {
         "personId": "3886370180",
@@ -1982,6 +1856,48 @@
         "shareOfTotal": 0.7187015313366975
       },
       {
+        "personId": "2235880544",
+        "name": "Mary Quinn",
+        "party": "Sinn Féin",
+        "colour": "#326760",
+        "firstPrefs": 854,
+        "finalVotes": 900,
+        "electedCount": 0,
+        "constituencies": [
+          "Killultagh"
+        ],
+        "appearances": [
+          {
+            "constituency": "Killultagh",
+            "firstPref": 854,
+            "finalVotes": 900,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.8655656770867466
+      },
+      {
+        "personId": "2864123835",
+        "name": "Nuala Toman",
+        "party": "Sinn Féin",
+        "colour": "#326760",
+        "firstPrefs": 803,
+        "finalVotes": 823,
+        "electedCount": 0,
+        "constituencies": [
+          "Castlereagh South"
+        ],
+        "appearances": [
+          {
+            "constituency": "Castlereagh South",
+            "firstPref": 803,
+            "finalVotes": 823,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.7541560172138846
+      },
+      {
         "personId": "3506748086",
         "name": "Lynda Spratt",
         "party": "DUP",
@@ -2001,6 +1917,27 @@
           }
         ],
         "shareOfTotal": 1.5291521943333988
+      },
+      {
+        "personId": "2874931812",
+        "name": "Yvonne Craig",
+        "party": "DUP",
+        "colour": "#D46A4C",
+        "firstPrefs": 526,
+        "finalVotes": 669,
+        "electedCount": 0,
+        "constituencies": [
+          "Lisburn North"
+        ],
+        "appearances": [
+          {
+            "constituency": "Lisburn North",
+            "firstPref": 526,
+            "finalVotes": 669,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.149048648884811
       },
       {
         "personId": "2471402091",
@@ -2171,6 +2108,27 @@
         "shareOfTotal": 0.9655503855648032
       },
       {
+        "personId": "1159718314",
+        "name": "David Cairns",
+        "party": "NI21",
+        "colour": "#008080",
+        "firstPrefs": 442,
+        "finalVotes": 735,
+        "electedCount": 0,
+        "constituencies": [
+          "Lisburn South"
+        ],
+        "appearances": [
+          {
+            "constituency": "Lisburn South",
+            "firstPref": 442,
+            "finalVotes": 735,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 0.9655503855648032
+      },
+      {
         "personId": "626431127",
         "name": "Alex Swan",
         "party": "UUP",
@@ -2190,6 +2148,27 @@
           }
         ],
         "shareOfTotal": 0.9437053542171833
+      },
+      {
+        "personId": "2952386658",
+        "name": "Christina Dobson",
+        "party": "NI21",
+        "colour": "#008080",
+        "firstPrefs": 426,
+        "finalVotes": 860,
+        "electedCount": 0,
+        "constituencies": [
+          "Downshire East"
+        ],
+        "appearances": [
+          {
+            "constituency": "Downshire East",
+            "firstPref": 426,
+            "finalVotes": 860,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 0.9305983354086114
       },
       {
         "personId": "2472878761",
@@ -2253,6 +2232,27 @@
           }
         ],
         "shareOfTotal": 0.8716167507700373
+      },
+      {
+        "personId": "717988024",
+        "name": "Neil Johnston",
+        "party": "Conservative",
+        "colour": "#9E9E9E",
+        "firstPrefs": 376,
+        "finalVotes": 551,
+        "electedCount": 0,
+        "constituencies": [
+          "Downshire West"
+        ],
+        "appearances": [
+          {
+            "constituency": "Downshire West",
+            "firstPref": 376,
+            "finalVotes": 551,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 0.8213731786705114
       },
       {
         "personId": "2416184680",
@@ -2777,6 +2777,7 @@
       "quota": 942,
       "electorate": 13645,
       "totalPoll": 6690,
+      "spoiled": 103,
       "validPoll": 6587,
       "totalVotes": 6587,
       "colour": "#d46a4c",
@@ -6499,6 +6500,50 @@
           "id": 123
         }
       ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 12,
+          "transfers": 12,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 41,
+          "transfers": 29,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 49,
+          "transfers": 8,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 77,
+          "transfers": 28,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 211,
+          "transfers": 134,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 261,
+          "transfers": 50,
+          "status": ""
+        },
+        {
+          "count": 8,
+          "total": 261,
+          "transfers": 0,
+          "status": ""
+        }
+      ],
       "forum": null,
       "countNumbers": [
         1,
@@ -8768,7 +8813,7 @@
     {
       "constituency": "Castlereagh South",
       "winnerParty": "Alliance",
-      "winnerName": "8 elected",
+      "winnerName": "7 elected",
       "leadingParty": "Alliance",
       "leadingName": "Ireland",
       "leadingVotes": 1221,
@@ -8776,11 +8821,12 @@
       "turnoutPct": 50.27,
       "majority": 257,
       "majorityPct": 3.17,
-      "seatsWon": 8,
+      "seatsWon": 7,
       "seatsTotal": 7,
       "quota": 1015,
       "electorate": 16309,
       "totalPoll": 8198,
+      "spoiled": 88,
       "validPoll": 8110,
       "totalVotes": 8110,
       "colour": "#f6cb2f",
@@ -9147,8 +9193,8 @@
           "party": "Sinn Féin",
           "firstPrefs": 803,
           "finalVotes": 823,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -10134,77 +10180,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 876
-            }
-          ]
-        },
-        {
-          "id": "2864123835",
-          "name": "Nuala Toman",
-          "party": "Sinn Féin",
-          "firstPrefs": 803,
-          "finalVotes": 823,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#326760",
-          "counts": [
-            {
-              "count": 1,
-              "total": 803,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 803
-            },
-            {
-              "count": 2,
-              "total": 803,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 803
-            },
-            {
-              "count": 3,
-              "total": 809,
-              "transfers": 6.8,
-              "status": "Not Elected",
-              "firstPrefs": 803
-            },
-            {
-              "count": 4,
-              "total": 822,
-              "transfers": 13.17,
-              "status": "Not Elected",
-              "firstPrefs": 803
-            },
-            {
-              "count": 5,
-              "total": 823,
-              "transfers": 1,
-              "status": "Not Elected",
-              "firstPrefs": 803
-            },
-            {
-              "count": 6,
-              "total": 823,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 803
-            },
-            {
-              "count": 7,
-              "total": 823,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 803
-            },
-            {
-              "count": 8,
-              "total": 823,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 803
             }
           ]
         }
@@ -12045,6 +12020,44 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 101
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 3,
+          "transfers": 3,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 5.68,
+          "transfers": 2.68,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 52.87,
+          "transfers": 47.19,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 74.04,
+          "transfers": 21.17,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 137.38,
+          "transfers": 63.34,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 212.75,
+          "transfers": 75.37,
+          "status": ""
         }
       ],
       "forum": null,
@@ -13921,7 +13934,7 @@
     {
       "constituency": "Downshire East",
       "winnerParty": "DUP",
-      "winnerName": "6 elected",
+      "winnerName": "5 elected",
       "leadingParty": "DUP",
       "leadingName": "Luke Poots",
       "leadingVotes": 1245,
@@ -13929,11 +13942,12 @@
       "turnoutPct": 52.43,
       "majority": 511,
       "majorityPct": 8.53,
-      "seatsWon": 6,
+      "seatsWon": 5,
       "seatsTotal": 5,
       "quota": 1000,
       "electorate": 11563,
       "totalPoll": 6062,
+      "spoiled": 72,
       "validPoll": 5990,
       "totalVotes": 5990,
       "colour": "#d46a4c",
@@ -14497,8 +14511,8 @@
           "party": "NI21",
           "firstPrefs": 426,
           "finalVotes": 860,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -15410,98 +15424,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 691
-            }
-          ]
-        },
-        {
-          "id": "2952386658",
-          "name": "Christina Dobson",
-          "party": "NI21",
-          "firstPrefs": 426,
-          "finalVotes": 860,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#008080",
-          "counts": [
-            {
-              "count": 1,
-              "total": 426,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 426
-            },
-            {
-              "count": 2,
-              "total": 430,
-              "transfers": 4.8,
-              "status": "Not Elected",
-              "firstPrefs": 426
-            },
-            {
-              "count": 3,
-              "total": 450,
-              "transfers": 19.2,
-              "status": "Not Elected",
-              "firstPrefs": 426
-            },
-            {
-              "count": 4,
-              "total": 646,
-              "transfers": 196.2,
-              "status": "Not Elected",
-              "firstPrefs": 426
-            },
-            {
-              "count": 5,
-              "total": 654,
-              "transfers": 8.2,
-              "status": "Not Elected",
-              "firstPrefs": 426
-            },
-            {
-              "count": 6,
-              "total": 654,
-              "transfers": 0.48,
-              "status": "Not Elected",
-              "firstPrefs": 426
-            },
-            {
-              "count": 7,
-              "total": 673,
-              "transfers": 19.04,
-              "status": "Not Elected",
-              "firstPrefs": 426
-            },
-            {
-              "count": 8,
-              "total": 722,
-              "transfers": 48.56,
-              "status": "Not Elected",
-              "firstPrefs": 426
-            },
-            {
-              "count": 9,
-              "total": 810,
-              "transfers": 88,
-              "status": "Not Elected",
-              "firstPrefs": 426
-            },
-            {
-              "count": 10,
-              "total": 860,
-              "transfers": 50,
-              "status": "Not Elected",
-              "firstPrefs": 426
-            },
-            {
-              "count": 11,
-              "total": 860,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 426
             }
           ]
         }
@@ -17824,6 +17746,56 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 128
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 3,
+          "total": 12,
+          "transfers": 12,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 19.2,
+          "transfers": 7.2,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 27.6,
+          "transfers": 8.4,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 29.04,
+          "transfers": 1.44,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 44.72,
+          "transfers": 15.68,
+          "status": ""
+        },
+        {
+          "count": 8,
+          "total": 237.8,
+          "transfers": 193.08,
+          "status": ""
+        },
+        {
+          "count": 9,
+          "total": 243.8,
+          "transfers": 6,
+          "status": ""
+        },
+        {
+          "count": 10,
+          "total": 254.64,
+          "transfers": 10.84,
+          "status": ""
         }
       ],
       "forum": null,
@@ -20185,7 +20157,7 @@
     {
       "constituency": "Downshire West",
       "winnerParty": "UUP",
-      "winnerName": "6 elected",
+      "winnerName": "5 elected",
       "leadingParty": "UUP",
       "leadingName": "Jim Dillon",
       "leadingVotes": 912,
@@ -20193,11 +20165,12 @@
       "turnoutPct": 49.96,
       "majority": 32,
       "majorityPct": 0.55,
-      "seatsWon": 6,
+      "seatsWon": 5,
       "seatsTotal": 5,
       "quota": 963,
       "electorate": 11673,
       "totalPoll": 5832,
+      "spoiled": 60,
       "validPoll": 5772,
       "totalVotes": 5772,
       "colour": "#48a5ee",
@@ -20669,8 +20642,8 @@
           "party": "Conservative",
           "firstPrefs": 376,
           "finalVotes": 551,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -21858,98 +21831,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 493
-            }
-          ]
-        },
-        {
-          "id": "717988024",
-          "name": "Neil Johnston",
-          "party": "Conservative",
-          "firstPrefs": 376,
-          "finalVotes": 551,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#9E9E9E",
-          "counts": [
-            {
-              "count": 1,
-              "total": 376,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 376
-            },
-            {
-              "count": 2,
-              "total": 383,
-              "transfers": 7,
-              "status": "Not Elected",
-              "firstPrefs": 376
-            },
-            {
-              "count": 3,
-              "total": 392,
-              "transfers": 9,
-              "status": "Not Elected",
-              "firstPrefs": 376
-            },
-            {
-              "count": 4,
-              "total": 400,
-              "transfers": 8,
-              "status": "Not Elected",
-              "firstPrefs": 376
-            },
-            {
-              "count": 5,
-              "total": 432,
-              "transfers": 32,
-              "status": "Not Elected",
-              "firstPrefs": 376
-            },
-            {
-              "count": 6,
-              "total": 432,
-              "transfers": 0.66,
-              "status": "Not Elected",
-              "firstPrefs": 376
-            },
-            {
-              "count": 7,
-              "total": 434,
-              "transfers": 2,
-              "status": "Not Elected",
-              "firstPrefs": 376
-            },
-            {
-              "count": 8,
-              "total": 434,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 376
-            },
-            {
-              "count": 9,
-              "total": 475,
-              "transfers": 40.64,
-              "status": "Not Elected",
-              "firstPrefs": 376
-            },
-            {
-              "count": 10,
-              "total": 551,
-              "transfers": 76.17,
-              "status": "Not Elected",
-              "firstPrefs": 376
-            },
-            {
-              "count": 11,
-              "total": 551,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 376
             }
           ]
         }
@@ -24684,6 +24565,62 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 151
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 16,
+          "transfers": 16,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 23,
+          "transfers": 7,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 54,
+          "transfers": 31,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 86,
+          "transfers": 32,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 86.12,
+          "transfers": 0.12,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 94.12,
+          "transfers": 8,
+          "status": ""
+        },
+        {
+          "count": 8,
+          "total": 94.2,
+          "transfers": 0.08,
+          "status": ""
+        },
+        {
+          "count": 9,
+          "total": 172.18,
+          "transfers": 77.98,
+          "status": ""
+        },
+        {
+          "count": 10,
+          "total": 323.99,
+          "transfers": 151.81,
+          "status": ""
         }
       ],
       "forum": null,
@@ -27457,7 +27394,7 @@
     {
       "constituency": "Killultagh",
       "winnerParty": "DUP",
-      "winnerName": "6 elected",
+      "winnerName": "5 elected",
       "leadingParty": "DUP",
       "leadingName": "Thomas Beckett",
       "leadingVotes": 1216,
@@ -27465,11 +27402,12 @@
       "turnoutPct": 50.8,
       "majority": 36,
       "majorityPct": 0.56,
-      "seatsWon": 6,
+      "seatsWon": 5,
       "seatsTotal": 5,
       "quota": 1080,
       "electorate": 12863,
       "totalPoll": 6534,
+      "spoiled": 59,
       "validPoll": 6475,
       "totalVotes": 6475,
       "colour": "#d46a4c",
@@ -27652,8 +27590,8 @@
           "party": "Sinn Féin",
           "firstPrefs": 854,
           "finalVotes": 900,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -28215,63 +28153,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 864
-            }
-          ]
-        },
-        {
-          "id": "2235880544",
-          "name": "Mary Quinn",
-          "party": "Sinn Féin",
-          "firstPrefs": 854,
-          "finalVotes": 900,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#326760",
-          "counts": [
-            {
-              "count": 1,
-              "total": 854,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 854
-            },
-            {
-              "count": 2,
-              "total": 854,
-              "transfers": 0.33,
-              "status": "Not Elected",
-              "firstPrefs": 854
-            },
-            {
-              "count": 3,
-              "total": 854,
-              "transfers": 0.09,
-              "status": "Not Elected",
-              "firstPrefs": 854
-            },
-            {
-              "count": 4,
-              "total": 870,
-              "transfers": 16.09,
-              "status": "Not Elected",
-              "firstPrefs": 854
-            },
-            {
-              "count": 5,
-              "total": 900,
-              "transfers": 30.11,
-              "status": "Not Elected",
-              "firstPrefs": 854
-            },
-            {
-              "count": 6,
-              "total": 900,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 854
             }
           ]
         }
@@ -29216,6 +29097,32 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 51
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 4.99,
+          "transfers": 4.99,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 9.5,
+          "transfers": 4.51,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 68.62,
+          "transfers": 59.12,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 282.37,
+          "transfers": 213.75,
+          "status": ""
         }
       ],
       "forum": null,
@@ -30194,7 +30101,7 @@
     {
       "constituency": "Lisburn North",
       "winnerParty": "DUP",
-      "winnerName": "7 elected",
+      "winnerName": "6 elected",
       "leadingParty": "UUP",
       "leadingName": "Brian Bloomfield",
       "leadingVotes": 1026,
@@ -30202,11 +30109,12 @@
       "turnoutPct": 47.08,
       "majority": 291,
       "majorityPct": 4.4,
-      "seatsWon": 7,
+      "seatsWon": 6,
       "seatsTotal": 6,
       "quota": 946,
       "electorate": 14284,
       "totalPoll": 6725,
+      "spoiled": 109,
       "validPoll": 6616,
       "totalVotes": 6616,
       "colour": "#d46a4c",
@@ -30678,8 +30586,8 @@
           "party": "DUP",
           "firstPrefs": 526,
           "finalVotes": 669,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -32051,98 +31959,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 534
-            }
-          ]
-        },
-        {
-          "id": "2874931812",
-          "name": "Yvonne Craig",
-          "party": "DUP",
-          "firstPrefs": 526,
-          "finalVotes": 669,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#D46A4C",
-          "counts": [
-            {
-              "count": 1,
-              "total": 526,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 526
-            },
-            {
-              "count": 2,
-              "total": 527,
-              "transfers": 1,
-              "status": "Not Elected",
-              "firstPrefs": 526
-            },
-            {
-              "count": 3,
-              "total": 535,
-              "transfers": 8.8,
-              "status": "Not Elected",
-              "firstPrefs": 526
-            },
-            {
-              "count": 4,
-              "total": 554,
-              "transfers": 18.48,
-              "status": "Not Elected",
-              "firstPrefs": 526
-            },
-            {
-              "count": 5,
-              "total": 558,
-              "transfers": 4.08,
-              "status": "Not Elected",
-              "firstPrefs": 526
-            },
-            {
-              "count": 6,
-              "total": 597,
-              "transfers": 38.72,
-              "status": "Not Elected",
-              "firstPrefs": 526
-            },
-            {
-              "count": 7,
-              "total": 598,
-              "transfers": 1.08,
-              "status": "Not Elected",
-              "firstPrefs": 526
-            },
-            {
-              "count": 8,
-              "total": 664,
-              "transfers": 65.88,
-              "status": "Not Elected",
-              "firstPrefs": 526
-            },
-            {
-              "count": 9,
-              "total": 669,
-              "transfers": 5,
-              "status": "Not Elected",
-              "firstPrefs": 526
-            },
-            {
-              "count": 10,
-              "total": 669,
-              "transfers": 0.29,
-              "status": "Not Elected",
-              "firstPrefs": 526
-            },
-            {
-              "count": 11,
-              "total": 669,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 526
             }
           ]
         }
@@ -35075,6 +34891,62 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 162
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 1,
+          "transfers": 1,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 2.68,
+          "transfers": 1.68,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 19,
+          "transfers": 16.32,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 26.16,
+          "transfers": 7.16,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 52.08,
+          "transfers": 25.92,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 110.8,
+          "transfers": 58.72,
+          "status": ""
+        },
+        {
+          "count": 8,
+          "total": 254.2,
+          "transfers": 143.4,
+          "status": ""
+        },
+        {
+          "count": 9,
+          "total": 686.2,
+          "transfers": 432,
+          "status": ""
+        },
+        {
+          "count": 10,
+          "total": 686.59,
+          "transfers": 0.39,
+          "status": ""
         }
       ],
       "forum": null,
@@ -38046,7 +37918,7 @@
     {
       "constituency": "Lisburn South",
       "winnerParty": "DUP",
-      "winnerName": "7 elected",
+      "winnerName": "6 elected",
       "leadingParty": "UUP",
       "leadingName": "Tim Mitchell",
       "leadingVotes": 874,
@@ -38054,11 +37926,12 @@
       "turnoutPct": 43.4,
       "majority": 61,
       "majorityPct": 0.98,
-      "seatsWon": 7,
+      "seatsWon": 6,
       "seatsTotal": 6,
       "quota": 890,
       "electorate": 14566,
       "totalPoll": 6321,
+      "spoiled": 94,
       "validPoll": 6227,
       "totalVotes": 6227,
       "colour": "#d46a4c",
@@ -38616,8 +38489,8 @@
           "party": "NI21",
           "firstPrefs": 442,
           "finalVotes": 735,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -39467,84 +39340,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 430
-            }
-          ]
-        },
-        {
-          "id": "1159718314",
-          "name": "David Cairns",
-          "party": "NI21",
-          "firstPrefs": 442,
-          "finalVotes": 735,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#008080",
-          "counts": [
-            {
-              "count": 1,
-              "total": 442,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 442
-            },
-            {
-              "count": 2,
-              "total": 553,
-              "transfers": 111,
-              "status": "Not Elected",
-              "firstPrefs": 442
-            },
-            {
-              "count": 3,
-              "total": 642,
-              "transfers": 89,
-              "status": "Not Elected",
-              "firstPrefs": 442
-            },
-            {
-              "count": 4,
-              "total": 680,
-              "transfers": 38,
-              "status": "Not Elected",
-              "firstPrefs": 442
-            },
-            {
-              "count": 5,
-              "total": 695,
-              "transfers": 15,
-              "status": "Not Elected",
-              "firstPrefs": 442
-            },
-            {
-              "count": 6,
-              "total": 697,
-              "transfers": 2.96,
-              "status": "Not Elected",
-              "firstPrefs": 442
-            },
-            {
-              "count": 7,
-              "total": 710,
-              "transfers": 13,
-              "status": "Not Elected",
-              "firstPrefs": 442
-            },
-            {
-              "count": 8,
-              "total": 735,
-              "transfers": 24.44,
-              "status": "Not Elected",
-              "firstPrefs": 442
-            },
-            {
-              "count": 9,
-              "total": 735,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 442
             }
           ]
         }
@@ -41617,6 +41412,50 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 114
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 24,
+          "transfers": 24,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 86,
+          "transfers": 62,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 144,
+          "transfers": 58,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 172,
+          "transfers": 28,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 174.16,
+          "transfers": 2.16,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 184.16,
+          "transfers": 10,
+          "status": ""
+        },
+        {
+          "count": 8,
+          "total": 184.28,
+          "transfers": 0.12,
+          "status": ""
         }
       ],
       "forum": null,

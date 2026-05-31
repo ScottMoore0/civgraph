@@ -78,6 +78,7 @@ export function partyColour(value, fallback = '#6b7280') {
 export function statusKind(status) {
   const normalized = normalizeName(status);
   if (!normalized) return '';
+  if (/not elected|unelected|not deemed elected/.test(normalized)) return 'not-elected';
   if (/elected|made quota|counted as elected|deemed elected/.test(normalized)) return 'elected';
   if (/excluded|eliminated/.test(normalized)) return 'excluded';
   return normalized;
@@ -111,7 +112,7 @@ export function summarizeCandidateRows(rows = []) {
     const name = candidateDisplayName(row);
     const party = normalizeParty(row.Party_Name || row.party || row.party_name);
     const key = row.Candidate_Id || row.person_id || `${name}|${party}`;
-    if (!String(key || '').trim() || normalizeName(key) === 'nontransferable') continue;
+    if (!String(key || '').trim() || isNonTransferableRow(row, key, name, party)) continue;
     const existing = byCandidate.get(key) || {
       id: String(key),
       name,
@@ -158,9 +159,11 @@ export function extractElected(result = {}) {
   const candidates = Array.isArray(result.candidates) ? result.candidates : [];
   const explicit = candidates.filter((candidate) => candidate.elected);
   if (explicit.length) {
+    const seats = parseNumber(result.seatsTotal ?? result.seatsWon);
     return explicit
       .map((candidate) => ({ ...candidate, colour: candidate.colour || partyColour(candidate.party) }))
-      .sort((a, b) => numberOrZero(a.electedAt) - numberOrZero(b.electedAt) || numberOrZero(b.finalVotes) - numberOrZero(a.finalVotes));
+      .sort((a, b) => numberOrZero(a.electedAt) - numberOrZero(b.electedAt) || numberOrZero(b.finalVotes) - numberOrZero(a.finalVotes))
+      .slice(0, seats && seats > 0 ? seats : explicit.length);
   }
   const seats = parseNumber(result.seatsTotal ?? result.seatsWon);
   if (seats && seats > 0) {
@@ -188,6 +191,7 @@ export function summarizeResult(raw, fallbackConstituency) {
   const runnerUp = ranked[1] || null;
   const validPoll = parseNumber(info.Valid_Poll ?? raw?.meta?.valid_poll ?? raw?.meta?.validPoll);
   const totalPoll = parseNumber(info.Total_Poll ?? raw?.meta?.total_poll ?? raw?.meta?.totalPoll);
+  const spoiled = parseNumber(info.Spoiled ?? raw?.meta?.spoiled ?? raw?.spoiled);
   const electorate = parseNumber(info.Total_Electorate ?? raw?.meta?.electorate ?? raw?.electorate);
   const totalVotes = validPoll || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs), 0);
   const turnoutPct = parseNumber(raw?.turnout_pct ?? raw?.meta?.turnout_pct ?? raw?.meta?.turnoutPct)
@@ -218,6 +222,7 @@ export function summarizeResult(raw, fallbackConstituency) {
     quota: quota || null,
     electorate: electorate || null,
     totalPoll: totalPoll || null,
+    spoiled: spoiled || null,
     validPoll: validPoll || totalVotes || null,
     totalVotes: totalVotes || null,
     colour: partyColour(winnerParty || leading?.party),
@@ -226,6 +231,7 @@ export function summarizeResult(raw, fallbackConstituency) {
     elected,
     countInfo: info,
     countGroup: Array.isArray(source.countGroup) ? source.countGroup : [],
+    nonTransferable: summarizeNonTransferableRows(rows),
     forum: source.forum || null,
     countNumbers,
     ...(recallPetition ? { recallPetition } : {}),
@@ -352,19 +358,45 @@ export function compareResults(currentResults = [], previousResults = []) {
   const previousByName = new Map(previousResults.map((result) => [normalizeName(result.constituency), result]));
   return currentResults.map((result) => {
     const previous = previousByName.get(normalizeName(result.constituency));
+    const previousCandidates = new Map((previous?.candidates || []).map((candidate) => [
+      candidateCompareKey(candidate),
+      candidate
+    ]));
+    const candidates = (result.candidates || []).map((candidate) => {
+      const previousCandidate = previousCandidates.get(candidateCompareKey(candidate));
+      return {
+        ...candidate,
+        previous: previousCandidate ? {
+          firstPrefs: previousCandidate.firstPrefs,
+          finalVotes: previousCandidate.finalVotes,
+          elected: previousCandidate.elected,
+          status: previousCandidate.status
+        } : null,
+        deltas: previousCandidate ? {
+          firstPrefs: numberOrZero(candidate.firstPrefs) - numberOrZero(previousCandidate.firstPrefs),
+          finalVotes: numberOrZero(candidate.finalVotes) - numberOrZero(previousCandidate.finalVotes)
+        } : null
+      };
+    });
     return {
       ...result,
+      candidates,
       previous: previous ? {
         leadingParty: previous.leadingParty,
         winnerParty: previous.winnerParty,
         leadingVotes: previous.leadingVotes,
+        leadingPct: previous.leadingPct,
+        turnoutPct: previous.turnoutPct,
+        seatsWon: previous.seatsWon,
         validPoll: previous.validPoll,
-        seatsWon: previous.seatsWon
+        candidates: previous.candidates || []
       } : null,
       deltas: previous ? {
         leadingVotes: numberOrZero(result.leadingVotes) - numberOrZero(previous.leadingVotes),
         leadingPct: result.leadingPct !== null && previous.leadingPct !== null ? round(result.leadingPct - previous.leadingPct, 2) : null,
-        turnoutPct: result.turnoutPct !== null && previous.turnoutPct !== null ? round(result.turnoutPct - previous.turnoutPct, 2) : null
+        turnoutPct: result.turnoutPct !== null && previous.turnoutPct !== null ? round(result.turnoutPct - previous.turnoutPct, 2) : null,
+        seatsWon: numberOrZero(result.seatsWon) - numberOrZero(previous.seatsWon),
+        validPoll: numberOrZero(result.validPoll) - numberOrZero(previous.validPoll)
       } : null
     };
   });
@@ -414,4 +446,38 @@ function topCount(counts) {
 
 function unique(values) {
   return [...new Set(values.filter((value) => value !== null && value !== undefined && value !== ''))];
+}
+
+function isNonTransferableRow(row = {}, key = '', name = '', party = '') {
+  return [
+    key,
+    name,
+    party,
+    row.Candidate_Id,
+    row.candidateName,
+    row.Party_Name
+  ].some((value) => /non\s*transferable/.test(normalizeName(value)));
+}
+
+function summarizeNonTransferableRows(rows = []) {
+  const counts = [];
+  for (const row of Array.isArray(rows) ? rows : []) {
+    const name = candidateDisplayName(row);
+    const party = normalizeParty(row.Party_Name || row.party || row.party_name);
+    const key = row.Candidate_Id || row.person_id || `${name}|${party}`;
+    if (!isNonTransferableRow(row, key, name, party)) continue;
+    const count = parseNumber(row.Count_Number ?? row.count);
+    if (!count) continue;
+    counts.push({
+      count,
+      total: parseNumber(row.Total_Votes ?? row.total),
+      transfers: parseNumber(row.Transfers ?? row.transfer ?? row.transfers),
+      status: fixText(row.Status || row.status || '')
+    });
+  }
+  return counts.sort((a, b) => a.count - b.count);
+}
+
+function candidateCompareKey(candidate = {}) {
+  return normalizeName(candidate.id || `${candidate.name || ''}|${candidate.party || ''}`);
 }

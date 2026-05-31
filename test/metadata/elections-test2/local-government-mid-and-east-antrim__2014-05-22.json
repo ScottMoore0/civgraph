@@ -50,7 +50,7 @@
     },
     {
       "party": "UUP",
-      "seats": 11,
+      "seats": 9,
       "stood": 11,
       "votes": 8577,
       "colour": "#48a5ee",
@@ -58,7 +58,7 @@
     },
     {
       "party": "TUV",
-      "seats": 7,
+      "seats": 5,
       "stood": 10,
       "votes": 6863,
       "colour": "#0c3a6a",
@@ -66,7 +66,7 @@
     },
     {
       "party": "Alliance",
-      "seats": 4,
+      "seats": 3,
       "stood": 10,
       "votes": 4277,
       "colour": "#f6cb2f",
@@ -74,7 +74,7 @@
     },
     {
       "party": "Sinn Féin",
-      "seats": 4,
+      "seats": 3,
       "stood": 5,
       "votes": 3118,
       "colour": "#326760",
@@ -97,20 +97,20 @@
       "share": 4.077257912811427
     },
     {
-      "party": "PUP",
-      "seats": 1,
-      "stood": 5,
-      "votes": 1352,
-      "colour": "#6b7280",
-      "share": 2.957324408863224
-    },
-    {
       "party": "UKIP",
       "seats": 1,
       "stood": 1,
       "votes": 749,
       "colour": "#6b7280",
       "share": 1.6383402235492266
+    },
+    {
+      "party": "PUP",
+      "seats": 0,
+      "stood": 5,
+      "votes": 1352,
+      "colour": "#6b7280",
+      "share": 2.957324408863224
     },
     {
       "party": "NI21",
@@ -366,7 +366,7 @@
         "firstPrefs": 8577,
         "finalVotes": 10306,
         "stood": 11,
-        "elected": 11,
+        "elected": 9,
         "constituencies": [
           "Ballymena",
           "Bannside",
@@ -399,7 +399,7 @@
             "constituency": "Bannside",
             "firstPref": 668,
             "finalVotes": 792,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "4294734835",
@@ -415,7 +415,7 @@
             "constituency": "Braid",
             "firstPref": 559,
             "finalVotes": 897,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "3453967817",
@@ -474,7 +474,7 @@
         "firstPrefs": 6863,
         "finalVotes": 8651,
         "stood": 10,
-        "elected": 7,
+        "elected": 5,
         "constituencies": [
           "Ballymena",
           "Bannside",
@@ -555,7 +555,7 @@
             "constituency": "Knockagh",
             "firstPref": 557,
             "finalVotes": 789,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "1455629387",
@@ -563,7 +563,7 @@
             "constituency": "Larne Lough",
             "firstPref": 606,
             "finalVotes": 678,
-            "status": "Elected"
+            "status": "Not Elected"
           }
         ],
         "shareOfTotal": 15.011592808084343
@@ -574,7 +574,7 @@
         "firstPrefs": 4277,
         "finalVotes": 6282,
         "stood": 10,
-        "elected": 4,
+        "elected": 3,
         "constituencies": [
           "Ballymena",
           "Bannside",
@@ -615,7 +615,7 @@
             "constituency": "Carrick Castle",
             "firstPref": 504,
             "finalVotes": 874,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "3703292738",
@@ -674,7 +674,7 @@
         "firstPrefs": 3118,
         "finalVotes": 3831,
         "stood": 5,
-        "elected": 4,
+        "elected": 3,
         "constituencies": [
           "Ballymena",
           "Bannside",
@@ -689,7 +689,7 @@
             "constituency": "Ballymena",
             "firstPref": 477,
             "finalVotes": 605,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "1174870527",
@@ -856,12 +856,34 @@
         "shareOfTotal": 4.077168730040684
       },
       {
+        "name": "UKIP",
+        "colour": "#6D3177",
+        "firstPrefs": 749,
+        "finalVotes": 984,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Carrick Castle"
+        ],
+        "candidates": [
+          {
+            "personId": "1392676644",
+            "name": "Noel Jordan",
+            "constituency": "Carrick Castle",
+            "firstPref": 749,
+            "finalVotes": 984,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 1.638304387768494
+      },
+      {
         "name": "PUP",
         "colour": "#2B45A2",
         "firstPrefs": 1352,
         "finalVotes": 1724,
         "stood": 5,
-        "elected": 1,
+        "elected": 0,
         "constituencies": [
           "Braid",
           "Carrick Castle",
@@ -891,7 +913,7 @@
             "constituency": "Coast Road",
             "firstPref": 464,
             "finalVotes": 688,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "3381722001",
@@ -911,28 +933,6 @@
           }
         ],
         "shareOfTotal": 2.957259722647535
-      },
-      {
-        "name": "UKIP",
-        "colour": "#6D3177",
-        "firstPrefs": 749,
-        "finalVotes": 984,
-        "stood": 1,
-        "elected": 1,
-        "constituencies": [
-          "Carrick Castle"
-        ],
-        "candidates": [
-          {
-            "personId": "1392676644",
-            "name": "Noel Jordan",
-            "constituency": "Carrick Castle",
-            "firstPref": 749,
-            "finalVotes": 984,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.638304387768494
       },
       {
         "name": "NI21",
@@ -1531,27 +1531,6 @@
         "shareOfTotal": 1.5792466862067458
       },
       {
-        "personId": "1742817886",
-        "name": "Andrew Wright",
-        "party": "UUP",
-        "colour": "#48A5EE",
-        "firstPrefs": 668,
-        "finalVotes": 792,
-        "electedCount": 1,
-        "constituencies": [
-          "Bannside"
-        ],
-        "appearances": [
-          {
-            "constituency": "Bannside",
-            "firstPref": 668,
-            "finalVotes": 792,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.4611312830832495
-      },
-      {
         "personId": "2563828741",
         "name": "Gordon Lyons",
         "party": "DUP",
@@ -1592,27 +1571,6 @@
           }
         ],
         "shareOfTotal": 1.388949647841113
-      },
-      {
-        "personId": "1455629387",
-        "name": "Kenneth Johnston",
-        "party": "TUV",
-        "colour": "#0C3A6A",
-        "firstPrefs": 606,
-        "finalVotes": 678,
-        "electedCount": 1,
-        "constituencies": [
-          "Larne Lough"
-        ],
-        "appearances": [
-          {
-            "constituency": "Larne Lough",
-            "firstPref": 606,
-            "finalVotes": 678,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.3255173017192354
       },
       {
         "personId": "2442045875",
@@ -1762,69 +1720,6 @@
         "shareOfTotal": 1.257710311037228
       },
       {
-        "personId": "3342892051",
-        "name": "Brian Thompson",
-        "party": "UUP",
-        "colour": "#48A5EE",
-        "firstPrefs": 559,
-        "finalVotes": 897,
-        "electedCount": 1,
-        "constituencies": [
-          "Braid"
-        ],
-        "appearances": [
-          {
-            "constituency": "Braid",
-            "firstPref": 559,
-            "finalVotes": 897,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.2227131545561922
-      },
-      {
-        "personId": "713888849",
-        "name": "Ken McFaul",
-        "party": "TUV",
-        "colour": "#0C3A6A",
-        "firstPrefs": 557,
-        "finalVotes": 789,
-        "electedCount": 1,
-        "constituencies": [
-          "Knockagh"
-        ],
-        "appearances": [
-          {
-            "constituency": "Knockagh",
-            "firstPref": 557,
-            "finalVotes": 789,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.2183385099960629
-      },
-      {
-        "personId": "2391383235",
-        "name": "Gavin Norris",
-        "party": "Alliance",
-        "colour": "#F6CB2F",
-        "firstPrefs": 504,
-        "finalVotes": 874,
-        "electedCount": 1,
-        "constituencies": [
-          "Carrick Castle"
-        ],
-        "appearances": [
-          {
-            "constituency": "Carrick Castle",
-            "firstPref": 504,
-            "finalVotes": 874,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.1024104291526313
-      },
-      {
         "personId": "3566581450",
         "name": "Paul Sinclair",
         "party": "Alliance",
@@ -1844,48 +1739,6 @@
           }
         ],
         "shareOfTotal": 1.0477273721510127
-      },
-      {
-        "personId": "3077369038",
-        "name": "Marian Maguire",
-        "party": "Sinn Féin",
-        "colour": "#326760",
-        "firstPrefs": 477,
-        "finalVotes": 605,
-        "electedCount": 1,
-        "constituencies": [
-          "Ballymena"
-        ],
-        "appearances": [
-          {
-            "constituency": "Ballymena",
-            "firstPref": 477,
-            "finalVotes": 605,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.0433527275908832
-      },
-      {
-        "personId": "4268834505",
-        "name": "Jonathan Hodge",
-        "party": "PUP",
-        "colour": "#2B45A2",
-        "firstPrefs": 464,
-        "finalVotes": 688,
-        "electedCount": 1,
-        "constituencies": [
-          "Coast Road"
-        ],
-        "appearances": [
-          {
-            "constituency": "Coast Road",
-            "firstPref": 464,
-            "finalVotes": 688,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.0149175379500415
       },
       {
         "personId": "1534421877",
@@ -2014,6 +1867,48 @@
         "shareOfTotal": 1.4720678944835732
       },
       {
+        "personId": "1742817886",
+        "name": "Andrew Wright",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 668,
+        "finalVotes": 792,
+        "electedCount": 0,
+        "constituencies": [
+          "Bannside"
+        ],
+        "appearances": [
+          {
+            "constituency": "Bannside",
+            "firstPref": 668,
+            "finalVotes": 792,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.4611312830832495
+      },
+      {
+        "personId": "1455629387",
+        "name": "Kenneth Johnston",
+        "party": "TUV",
+        "colour": "#0C3A6A",
+        "firstPrefs": 606,
+        "finalVotes": 678,
+        "electedCount": 0,
+        "constituencies": [
+          "Larne Lough"
+        ],
+        "appearances": [
+          {
+            "constituency": "Larne Lough",
+            "firstPref": 606,
+            "finalVotes": 678,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.3255173017192354
+      },
+      {
         "personId": "3940531917",
         "name": "Roy McPeake",
         "party": "TUV",
@@ -2098,6 +1993,48 @@
         "shareOfTotal": 1.2445863773568397
       },
       {
+        "personId": "3342892051",
+        "name": "Brian Thompson",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 559,
+        "finalVotes": 897,
+        "electedCount": 0,
+        "constituencies": [
+          "Braid"
+        ],
+        "appearances": [
+          {
+            "constituency": "Braid",
+            "firstPref": 559,
+            "finalVotes": 897,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.2227131545561922
+      },
+      {
+        "personId": "713888849",
+        "name": "Ken McFaul",
+        "party": "TUV",
+        "colour": "#0C3A6A",
+        "firstPrefs": 557,
+        "finalVotes": 789,
+        "electedCount": 0,
+        "constituencies": [
+          "Knockagh"
+        ],
+        "appearances": [
+          {
+            "constituency": "Knockagh",
+            "firstPref": 557,
+            "finalVotes": 789,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.2183385099960629
+      },
+      {
         "personId": "1736564411",
         "name": "Catherine O'Hara",
         "party": "SDLP",
@@ -2117,6 +2054,27 @@
           }
         ],
         "shareOfTotal": 1.1461568747539264
+      },
+      {
+        "personId": "2391383235",
+        "name": "Gavin Norris",
+        "party": "Alliance",
+        "colour": "#F6CB2F",
+        "firstPrefs": 504,
+        "finalVotes": 874,
+        "electedCount": 0,
+        "constituencies": [
+          "Carrick Castle"
+        ],
+        "appearances": [
+          {
+            "constituency": "Carrick Castle",
+            "firstPref": 504,
+            "finalVotes": 874,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.1024104291526313
       },
       {
         "personId": "2904657477",
@@ -2140,6 +2098,27 @@
         "shareOfTotal": 1.0586639835513365
       },
       {
+        "personId": "3077369038",
+        "name": "Marian Maguire",
+        "party": "Sinn Féin",
+        "colour": "#326760",
+        "firstPrefs": 477,
+        "finalVotes": 605,
+        "electedCount": 0,
+        "constituencies": [
+          "Ballymena"
+        ],
+        "appearances": [
+          {
+            "constituency": "Ballymena",
+            "firstPref": 477,
+            "finalVotes": 605,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.0433527275908832
+      },
+      {
         "personId": "3997940922",
         "name": "Robert Stewart",
         "party": "DUP",
@@ -2159,6 +2138,27 @@
           }
         ],
         "shareOfTotal": 1.0433527275908832
+      },
+      {
+        "personId": "4268834505",
+        "name": "Jonathan Hodge",
+        "party": "PUP",
+        "colour": "#2B45A2",
+        "firstPrefs": 464,
+        "finalVotes": 688,
+        "electedCount": 0,
+        "constituencies": [
+          "Coast Road"
+        ],
+        "appearances": [
+          {
+            "constituency": "Coast Road",
+            "firstPref": 464,
+            "finalVotes": 688,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.0149175379500415
       },
       {
         "personId": "3547334987",
@@ -2775,7 +2775,7 @@
     {
       "constituency": "Ballymena",
       "winnerParty": "DUP",
-      "winnerName": "8 elected",
+      "winnerName": "7 elected",
       "leadingParty": "Independent",
       "leadingName": "James Henry",
       "leadingVotes": 1042,
@@ -2783,11 +2783,12 @@
       "turnoutPct": 42.5,
       "majority": 304,
       "majorityPct": 4.62,
-      "seatsWon": 8,
+      "seatsWon": 7,
       "seatsTotal": 7,
       "quota": 822,
       "electorate": 15691,
       "totalPoll": 6669,
+      "spoiled": 94,
       "validPoll": 6575,
       "totalVotes": 6575,
       "colour": "#d46a4c",
@@ -3294,8 +3295,8 @@
           "party": "Sinn Féin",
           "firstPrefs": 477,
           "finalVotes": 605,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -4871,105 +4872,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 427
-            }
-          ]
-        },
-        {
-          "id": "3077369038",
-          "name": "Marian Maguire",
-          "party": "Sinn Féin",
-          "firstPrefs": 477,
-          "finalVotes": 605,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#326760",
-          "counts": [
-            {
-              "count": 1,
-              "total": 477,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 477
-            },
-            {
-              "count": 2,
-              "total": 479,
-              "transfers": 2.42,
-              "status": "Not Elected",
-              "firstPrefs": 477
-            },
-            {
-              "count": 3,
-              "total": 479,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 477
-            },
-            {
-              "count": 4,
-              "total": 484,
-              "transfers": 5,
-              "status": "Not Elected",
-              "firstPrefs": 477
-            },
-            {
-              "count": 5,
-              "total": 516,
-              "transfers": 31.88,
-              "status": "Not Elected",
-              "firstPrefs": 477
-            },
-            {
-              "count": 6,
-              "total": 548,
-              "transfers": 31.95,
-              "status": "Not Elected",
-              "firstPrefs": 477
-            },
-            {
-              "count": 7,
-              "total": 548,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 477
-            },
-            {
-              "count": 8,
-              "total": 548,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 477
-            },
-            {
-              "count": 9,
-              "total": 548,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 477
-            },
-            {
-              "count": 10,
-              "total": 548,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 477
-            },
-            {
-              "count": 11,
-              "total": 605,
-              "transfers": 57.2,
-              "status": "Not Elected",
-              "firstPrefs": 477
-            },
-            {
-              "count": 12,
-              "total": 605,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 477
             }
           ]
         }
@@ -8170,6 +8072,68 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 177
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 1.53,
+          "transfers": 1.53,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 20.5,
+          "transfers": 18.97,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 55.48,
+          "transfers": 34.98,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 68.14,
+          "transfers": 12.66,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 69.4,
+          "transfers": 1.26,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 87.48,
+          "transfers": 18.08,
+          "status": ""
+        },
+        {
+          "count": 8,
+          "total": 88.7,
+          "transfers": 1.22,
+          "status": ""
+        },
+        {
+          "count": 9,
+          "total": 103.65,
+          "transfers": 14.95,
+          "status": ""
+        },
+        {
+          "count": 10,
+          "total": 152.51,
+          "transfers": 48.86,
+          "status": ""
+        },
+        {
+          "count": 11,
+          "total": 445.83,
+          "transfers": 293.32,
+          "status": ""
         }
       ],
       "forum": null,
@@ -11410,7 +11374,7 @@
     {
       "constituency": "Bannside",
       "winnerParty": "DUP",
-      "winnerName": "7 elected",
+      "winnerName": "6 elected",
       "leadingParty": "TUV",
       "leadingName": "Timothy Gaston",
       "leadingVotes": 1212,
@@ -11418,11 +11382,12 @@
       "turnoutPct": 56.42,
       "majority": 177,
       "majorityPct": 2.26,
-      "seatsWon": 7,
+      "seatsWon": 6,
       "seatsTotal": 6,
       "quota": 1117,
       "electorate": 14039,
       "totalPoll": 7921,
+      "spoiled": 105,
       "validPoll": 7816,
       "totalVotes": 7816,
       "colour": "#d46a4c",
@@ -11860,8 +11825,8 @@
           "party": "UUP",
           "firstPrefs": 668,
           "finalVotes": 792,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -12563,77 +12528,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 867
-            }
-          ]
-        },
-        {
-          "id": "1742817886",
-          "name": "Andrew Wright",
-          "party": "UUP",
-          "firstPrefs": 668,
-          "finalVotes": 792,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#48A5EE",
-          "counts": [
-            {
-              "count": 1,
-              "total": 668,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 668
-            },
-            {
-              "count": 2,
-              "total": 720,
-              "transfers": 52,
-              "status": "Not Elected",
-              "firstPrefs": 668
-            },
-            {
-              "count": 3,
-              "total": 724,
-              "transfers": 4.56,
-              "status": "Not Elected",
-              "firstPrefs": 668
-            },
-            {
-              "count": 4,
-              "total": 747,
-              "transfers": 22.96,
-              "status": "Not Elected",
-              "firstPrefs": 668
-            },
-            {
-              "count": 5,
-              "total": 750,
-              "transfers": 2.73,
-              "status": "Not Elected",
-              "firstPrefs": 668
-            },
-            {
-              "count": 6,
-              "total": 751,
-              "transfers": 1.56,
-              "status": "Not Elected",
-              "firstPrefs": 668
-            },
-            {
-              "count": 7,
-              "total": 792,
-              "transfers": 40.7,
-              "status": "Not Elected",
-              "firstPrefs": 668
-            },
-            {
-              "count": 8,
-              "total": 792,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 668
             }
           ]
         }
@@ -14186,6 +14080,44 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 85
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 151,
+          "transfers": 151,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 151.28,
+          "transfers": 0.28,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 169.84,
+          "transfers": 18.56,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 172.89,
+          "transfers": 3.05,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 172.91,
+          "transfers": 0.02,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 239.65,
+          "transfers": 66.74,
+          "status": ""
         }
       ],
       "forum": null,
@@ -15774,7 +15706,7 @@
     {
       "constituency": "Braid",
       "winnerParty": "DUP",
-      "winnerName": "8 elected",
+      "winnerName": "7 elected",
       "leadingParty": "UUP",
       "leadingName": "Robin Cherry",
       "leadingVotes": 961,
@@ -15782,11 +15714,12 @@
       "turnoutPct": 53.81,
       "majority": 29,
       "majorityPct": 0.33,
-      "seatsWon": 8,
+      "seatsWon": 7,
       "seatsTotal": 7,
       "quota": 1102,
       "electorate": 16543,
       "totalPoll": 8902,
+      "spoiled": 88,
       "validPoll": 8814,
       "totalVotes": 8814,
       "colour": "#d46a4c",
@@ -16563,8 +16496,8 @@
           "party": "UUP",
           "firstPrefs": 559,
           "finalVotes": 897,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -17491,91 +17424,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 800
-            }
-          ]
-        },
-        {
-          "id": "3342892051",
-          "name": "Brian Thompson",
-          "party": "UUP",
-          "firstPrefs": 559,
-          "finalVotes": 897,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#48A5EE",
-          "counts": [
-            {
-              "count": 1,
-              "total": 559,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 559
-            },
-            {
-              "count": 2,
-              "total": 618,
-              "transfers": 59,
-              "status": "Not Elected",
-              "firstPrefs": 559
-            },
-            {
-              "count": 3,
-              "total": 666,
-              "transfers": 48,
-              "status": "Not Elected",
-              "firstPrefs": 559
-            },
-            {
-              "count": 4,
-              "total": 668,
-              "transfers": 2.04,
-              "status": "Not Elected",
-              "firstPrefs": 559
-            },
-            {
-              "count": 5,
-              "total": 692,
-              "transfers": 24,
-              "status": "Not Elected",
-              "firstPrefs": 559
-            },
-            {
-              "count": 6,
-              "total": 745,
-              "transfers": 53,
-              "status": "Not Elected",
-              "firstPrefs": 559
-            },
-            {
-              "count": 7,
-              "total": 848,
-              "transfers": 103.31,
-              "status": "Not Elected",
-              "firstPrefs": 559
-            },
-            {
-              "count": 8,
-              "total": 889,
-              "transfers": 41.17,
-              "status": "Not Elected",
-              "firstPrefs": 559
-            },
-            {
-              "count": 9,
-              "total": 897,
-              "transfers": 7.98,
-              "status": "Not Elected",
-              "firstPrefs": 559
-            },
-            {
-              "count": 10,
-              "total": 897,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 559
             }
           ]
         }
@@ -20060,6 +19908,56 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 137
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 97,
+          "transfers": 97,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 103,
+          "transfers": 6,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 103.22,
+          "transfers": 0.22,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 317.56,
+          "transfers": 214.34,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 363.56,
+          "transfers": 46,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 367.11,
+          "transfers": 3.55,
+          "status": ""
+        },
+        {
+          "count": 8,
+          "total": 372.26,
+          "transfers": 5.15,
+          "status": ""
+        },
+        {
+          "count": 9,
+          "total": 372.55,
+          "transfers": 0.29,
+          "status": ""
         }
       ],
       "forum": null,
@@ -22582,7 +22480,7 @@
     {
       "constituency": "Carrick Castle",
       "winnerParty": "DUP",
-      "winnerName": "6 elected",
+      "winnerName": "5 elected",
       "leadingParty": "UUP",
       "leadingName": "John Stewart",
       "leadingVotes": 939,
@@ -22590,11 +22488,12 @@
       "turnoutPct": 45.76,
       "majority": 57,
       "majorityPct": 0.98,
-      "seatsWon": 6,
+      "seatsWon": 5,
       "seatsTotal": 5,
       "quota": 971,
       "electorate": 12878,
       "totalPoll": 5893,
+      "spoiled": 69,
       "validPoll": 5824,
       "totalVotes": 5824,
       "colour": "#d46a4c",
@@ -22974,8 +22873,8 @@
           "party": "Alliance",
           "firstPrefs": 504,
           "finalVotes": 874,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -24163,98 +24062,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 439
-            }
-          ]
-        },
-        {
-          "id": "2391383235",
-          "name": "Gavin Norris",
-          "party": "Alliance",
-          "firstPrefs": 504,
-          "finalVotes": 874,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#F6CB2F",
-          "counts": [
-            {
-              "count": 1,
-              "total": 504,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 504
-            },
-            {
-              "count": 2,
-              "total": 523,
-              "transfers": 19,
-              "status": "Not Elected",
-              "firstPrefs": 504
-            },
-            {
-              "count": 3,
-              "total": 526,
-              "transfers": 3,
-              "status": "Not Elected",
-              "firstPrefs": 504
-            },
-            {
-              "count": 4,
-              "total": 527,
-              "transfers": 1.9,
-              "status": "Not Elected",
-              "firstPrefs": 504
-            },
-            {
-              "count": 5,
-              "total": 536,
-              "transfers": 9,
-              "status": "Not Elected",
-              "firstPrefs": 504
-            },
-            {
-              "count": 6,
-              "total": 852,
-              "transfers": 316,
-              "status": "Not Elected",
-              "firstPrefs": 504
-            },
-            {
-              "count": 7,
-              "total": 867,
-              "transfers": 14.85,
-              "status": "Not Elected",
-              "firstPrefs": 504
-            },
-            {
-              "count": 8,
-              "total": 868,
-              "transfers": 1.16,
-              "status": "Not Elected",
-              "firstPrefs": 504
-            },
-            {
-              "count": 9,
-              "total": 872,
-              "transfers": 4,
-              "status": "Not Elected",
-              "firstPrefs": 504
-            },
-            {
-              "count": 10,
-              "total": 874,
-              "transfers": 1.35,
-              "status": "Not Elected",
-              "firstPrefs": 504
-            },
-            {
-              "count": 11,
-              "total": 874,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 504
             }
           ]
         }
@@ -26791,6 +26598,62 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 140
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 28,
+          "transfers": 28,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 46,
+          "transfers": 18,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 46.05,
+          "transfers": 0.05,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 354.05,
+          "transfers": 308,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 354.05,
+          "transfers": 0,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 398.05,
+          "transfers": 44,
+          "status": ""
+        },
+        {
+          "count": 8,
+          "total": 399.08,
+          "transfers": 1.03,
+          "status": ""
+        },
+        {
+          "count": 9,
+          "total": 400.53,
+          "transfers": 1.45,
+          "status": ""
+        },
+        {
+          "count": 10,
+          "total": 414.2,
+          "transfers": 13.67,
+          "status": ""
         }
       ],
       "forum": null,
@@ -29366,7 +29229,7 @@
     {
       "constituency": "Coast Road",
       "winnerParty": "DUP",
-      "winnerName": "6 elected",
+      "winnerName": "5 elected",
       "leadingParty": "UUP",
       "leadingName": "Maureen Morrow",
       "leadingVotes": 946,
@@ -29374,11 +29237,12 @@
       "turnoutPct": 43.81,
       "majority": 190,
       "majorityPct": 3.53,
-      "seatsWon": 6,
+      "seatsWon": 5,
       "seatsTotal": 5,
       "quota": 898,
       "electorate": 12427,
       "totalPoll": 5444,
+      "spoiled": 58,
       "validPoll": 5386,
       "totalVotes": 5386,
       "colour": "#d46a4c",
@@ -29942,8 +29806,8 @@
           "party": "PUP",
           "firstPrefs": 464,
           "finalVotes": 688,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -30947,98 +30811,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 575
-            }
-          ]
-        },
-        {
-          "id": "4268834505",
-          "name": "Jonathan Hodge",
-          "party": "PUP",
-          "firstPrefs": 464,
-          "finalVotes": 688,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#2B45A2",
-          "counts": [
-            {
-              "count": 1,
-              "total": 464,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 464
-            },
-            {
-              "count": 2,
-              "total": 466,
-              "transfers": 2.25,
-              "status": "Not Elected",
-              "firstPrefs": 464
-            },
-            {
-              "count": 3,
-              "total": 473,
-              "transfers": 7.05,
-              "status": "Not Elected",
-              "firstPrefs": 464
-            },
-            {
-              "count": 4,
-              "total": 477,
-              "transfers": 4.1,
-              "status": "Not Elected",
-              "firstPrefs": 464
-            },
-            {
-              "count": 5,
-              "total": 523,
-              "transfers": 46.3,
-              "status": "Not Elected",
-              "firstPrefs": 464
-            },
-            {
-              "count": 6,
-              "total": 536,
-              "transfers": 13.1,
-              "status": "Not Elected",
-              "firstPrefs": 464
-            },
-            {
-              "count": 7,
-              "total": 553,
-              "transfers": 17,
-              "status": "Not Elected",
-              "firstPrefs": 464
-            },
-            {
-              "count": 8,
-              "total": 558,
-              "transfers": 4.6,
-              "status": "Not Elected",
-              "firstPrefs": 464
-            },
-            {
-              "count": 9,
-              "total": 610,
-              "transfers": 51.66,
-              "status": "Not Elected",
-              "firstPrefs": 464
-            },
-            {
-              "count": 10,
-              "total": 688,
-              "transfers": 78.26,
-              "status": "Not Elected",
-              "firstPrefs": 464
-            },
-            {
-              "count": 11,
-              "total": 688,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 464
             }
           ]
         }
@@ -33575,6 +33347,62 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 140
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 3.7,
+          "transfers": 3.7,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 8.7,
+          "transfers": 5,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 16.8,
+          "transfers": 8.1,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 78.2,
+          "transfers": 61.4,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 174.05,
+          "transfers": 95.85,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 180.25,
+          "transfers": 6.2,
+          "status": ""
+        },
+        {
+          "count": 8,
+          "total": 180.32,
+          "transfers": 0.07,
+          "status": ""
+        },
+        {
+          "count": 9,
+          "total": 229.45,
+          "transfers": 49.13,
+          "status": ""
+        },
+        {
+          "count": 10,
+          "total": 230.96,
+          "transfers": 1.51,
+          "status": ""
         }
       ],
       "forum": null,
@@ -36150,7 +35978,7 @@
     {
       "constituency": "Knockagh",
       "winnerParty": "DUP",
-      "winnerName": "6 elected",
+      "winnerName": "5 elected",
       "leadingParty": "UUP",
       "leadingName": "Andrew Wilson",
       "leadingVotes": 912,
@@ -36158,11 +35986,12 @@
       "turnoutPct": 47.01,
       "majority": 58,
       "majorityPct": 1.03,
-      "seatsWon": 6,
+      "seatsWon": 5,
       "seatsTotal": 5,
       "quota": 937,
       "electorate": 12090,
       "totalPoll": 5683,
+      "spoiled": 65,
       "validPoll": 5618,
       "totalVotes": 5618,
       "colour": "#d46a4c",
@@ -36429,8 +36258,8 @@
           "party": "TUV",
           "firstPrefs": 557,
           "finalVotes": 789,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -37697,91 +37526,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 581
-            }
-          ]
-        },
-        {
-          "id": "713888849",
-          "name": "Ken McFaul",
-          "party": "TUV",
-          "firstPrefs": 557,
-          "finalVotes": 789,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#0C3A6A",
-          "counts": [
-            {
-              "count": 1,
-              "total": 557,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 557
-            },
-            {
-              "count": 2,
-              "total": 561,
-              "transfers": 4,
-              "status": "Not Elected",
-              "firstPrefs": 557
-            },
-            {
-              "count": 3,
-              "total": 578,
-              "transfers": 17,
-              "status": "Not Elected",
-              "firstPrefs": 557
-            },
-            {
-              "count": 4,
-              "total": 588,
-              "transfers": 10,
-              "status": "Not Elected",
-              "firstPrefs": 557
-            },
-            {
-              "count": 5,
-              "total": 588,
-              "transfers": 0.68,
-              "status": "Not Elected",
-              "firstPrefs": 557
-            },
-            {
-              "count": 6,
-              "total": 588,
-              "transfers": 0.2,
-              "status": "Not Elected",
-              "firstPrefs": 557
-            },
-            {
-              "count": 7,
-              "total": 721,
-              "transfers": 132.68,
-              "status": "Not Elected",
-              "firstPrefs": 557
-            },
-            {
-              "count": 8,
-              "total": 733,
-              "transfers": 12,
-              "status": "Not Elected",
-              "firstPrefs": 557
-            },
-            {
-              "count": 9,
-              "total": 789,
-              "transfers": 56.36,
-              "status": "Not Elected",
-              "firstPrefs": 557
-            },
-            {
-              "count": 10,
-              "total": 789,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 557
             }
           ]
         }
@@ -40266,6 +40010,56 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 137
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 17,
+          "transfers": 17,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 38,
+          "transfers": 21,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 51,
+          "transfers": 13,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 51.78,
+          "transfers": 0.78,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 51.78,
+          "transfers": 0,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 156.12,
+          "transfers": 104.34,
+          "status": ""
+        },
+        {
+          "count": 8,
+          "total": 176.12,
+          "transfers": 20,
+          "status": ""
+        },
+        {
+          "count": 9,
+          "total": 273.5,
+          "transfers": 97.38,
+          "status": ""
         }
       ],
       "forum": null,
@@ -42788,7 +42582,7 @@
     {
       "constituency": "Larne Lough",
       "winnerParty": "DUP",
-      "winnerName": "6 elected",
+      "winnerName": "5 elected",
       "leadingParty": "DUP",
       "leadingName": "Gregg McKeen",
       "leadingVotes": 966,
@@ -42796,11 +42590,12 @@
       "turnoutPct": 44.89,
       "majority": 39,
       "majorityPct": 0.69,
-      "seatsWon": 6,
+      "seatsWon": 5,
       "seatsTotal": 5,
       "quota": 948,
       "electorate": 12826,
       "totalPoll": 5757,
+      "spoiled": 72,
       "validPoll": 5685,
       "totalVotes": 5685,
       "colour": "#d46a4c",
@@ -43025,8 +42820,8 @@
           "party": "TUV",
           "firstPrefs": 606,
           "finalVotes": 678,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -43870,77 +43665,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 457
-            }
-          ]
-        },
-        {
-          "id": "1455629387",
-          "name": "Kenneth Johnston",
-          "party": "TUV",
-          "firstPrefs": 606,
-          "finalVotes": 678,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#0C3A6A",
-          "counts": [
-            {
-              "count": 1,
-              "total": 606,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 606
-            },
-            {
-              "count": 2,
-              "total": 606,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 606
-            },
-            {
-              "count": 3,
-              "total": 615,
-              "transfers": 9,
-              "status": "Not Elected",
-              "firstPrefs": 606
-            },
-            {
-              "count": 4,
-              "total": 621,
-              "transfers": 6,
-              "status": "Not Elected",
-              "firstPrefs": 606
-            },
-            {
-              "count": 5,
-              "total": 621,
-              "transfers": 0.51,
-              "status": "Not Elected",
-              "firstPrefs": 606
-            },
-            {
-              "count": 6,
-              "total": 657,
-              "transfers": 36.02,
-              "status": "Not Elected",
-              "firstPrefs": 606
-            },
-            {
-              "count": 7,
-              "total": 678,
-              "transfers": 21,
-              "status": "Not Elected",
-              "firstPrefs": 606
-            },
-            {
-              "count": 8,
-              "total": 678,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 606
             }
           ]
         }
@@ -45493,6 +45217,44 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 85
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 17,
+          "transfers": 17,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 17,
+          "transfers": 0,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 43,
+          "transfers": 26,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 51.71,
+          "transfers": 8.71,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 192.77,
+          "transfers": 141.06,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 391.82,
+          "transfers": 199.05,
+          "status": ""
         }
       ],
       "forum": null,

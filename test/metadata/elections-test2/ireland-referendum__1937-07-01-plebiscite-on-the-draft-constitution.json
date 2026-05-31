@@ -31,19 +31,19 @@
   ],
   "partySummary": [
     {
-      "party": "No",
-      "seats": 1,
-      "stood": 1,
-      "votes": 0,
-      "colour": "#d46a4c",
-      "share": null
-    },
-    {
       "party": "Yes",
       "seats": 1,
       "stood": 1,
       "votes": 0,
       "colour": "#2aa82c",
+      "share": null
+    },
+    {
+      "party": "No",
+      "seats": 0,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#d46a4c",
       "share": null
     }
   ],
@@ -78,7 +78,7 @@
         "firstPrefs": 0,
         "finalVotes": 0,
         "stood": 1,
-        "elected": 1,
+        "elected": 0,
         "constituencies": [
           "Ireland"
         ],
@@ -89,7 +89,7 @@
             "constituency": "Ireland",
             "firstPref": 0,
             "finalVotes": 0,
-            "status": "Elected"
+            "status": "Not Elected"
           }
         ],
         "shareOfTotal": null
@@ -124,7 +124,7 @@
         "colour": "#d46a4c",
         "firstPrefs": 0,
         "finalVotes": 0,
-        "electedCount": 1,
+        "electedCount": 0,
         "constituencies": [
           "Ireland"
         ],
@@ -133,7 +133,7 @@
             "constituency": "Ireland",
             "firstPref": 0,
             "finalVotes": 0,
-            "status": "Elected"
+            "status": "Not Elected"
           }
         ],
         "shareOfTotal": null
@@ -144,7 +144,7 @@
     {
       "constituency": "Ireland",
       "winnerParty": "Yes",
-      "winnerName": "2 elected",
+      "winnerName": "Yes",
       "leadingParty": "Yes",
       "leadingName": "Yes",
       "leadingVotes": 0,
@@ -152,11 +152,12 @@
       "turnoutPct": null,
       "majority": 0,
       "majorityPct": null,
-      "seatsWon": 2,
+      "seatsWon": 1,
       "seatsTotal": null,
       "quota": null,
       "electorate": null,
       "totalPoll": null,
+      "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
       "colour": "#2aa82c",
@@ -190,8 +191,8 @@
           "party": "No",
           "firstPrefs": 0,
           "finalVotes": null,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -229,34 +230,13 @@
               "firstPrefs": 0
             }
           ]
-        },
-        {
-          "id": "No|No",
-          "name": "No",
-          "party": "No",
-          "firstPrefs": 0,
-          "finalVotes": null,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#d46a4c",
-          "counts": [
-            {
-              "count": 1,
-              "total": null,
-              "transfers": null,
-              "status": "Not Elected",
-              "firstPrefs": 0
-            }
-          ]
         }
       ],
       "countInfo": {
         "electorate": null
       },
       "countGroup": [],
+      "nonTransferable": [],
       "forum": null,
       "countNumbers": [
         1

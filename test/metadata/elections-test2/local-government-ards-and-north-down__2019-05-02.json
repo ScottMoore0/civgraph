@@ -42,7 +42,7 @@
   "partySummary": [
     {
       "party": "DUP",
-      "seats": 16,
+      "seats": 14,
       "stood": 19,
       "votes": 16759,
       "colour": "#d46a4c",
@@ -58,7 +58,7 @@
     },
     {
       "party": "UUP",
-      "seats": 9,
+      "seats": 8,
       "stood": 12,
       "votes": 8943,
       "colour": "#48a5ee",
@@ -66,7 +66,7 @@
     },
     {
       "party": "Green",
-      "seats": 6,
+      "seats": 3,
       "stood": 7,
       "votes": 5106,
       "colour": "#8dc63f",
@@ -74,7 +74,7 @@
     },
     {
       "party": "Independent",
-      "seats": 4,
+      "seats": 3,
       "stood": 8,
       "votes": 4321,
       "colour": "#b8b8b8",
@@ -97,14 +97,6 @@
       "share": 1.384296697605864
     },
     {
-      "party": "Sinn Féin",
-      "seats": 1,
-      "stood": 2,
-      "votes": 267,
-      "colour": "#326760",
-      "share": 0.5318089471377923
-    },
-    {
       "party": "UKIP",
       "seats": 0,
       "stood": 3,
@@ -119,6 +111,14 @@
       "votes": 660,
       "colour": "#0087dc",
       "share": 1.3145839142731943
+    },
+    {
+      "party": "Sinn Féin",
+      "seats": 0,
+      "stood": 2,
+      "votes": 267,
+      "colour": "#326760",
+      "share": 0.5318089471377923
     }
   ],
   "entityIndex": {
@@ -130,7 +130,7 @@
         "firstPrefs": 16759,
         "finalVotes": 21232,
         "stood": 19,
-        "elected": 16,
+        "elected": 14,
         "constituencies": [
           "Ards Peninsula",
           "Bangor Central",
@@ -227,7 +227,7 @@
             "constituency": "Bangor West",
             "firstPref": 749,
             "finalVotes": 791,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "3071177356",
@@ -267,7 +267,7 @@
             "constituency": "Holywood and Clandeboye",
             "firstPref": 677,
             "finalVotes": 742,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "857679056",
@@ -402,7 +402,7 @@
         "firstPrefs": 8943,
         "finalVotes": 11770,
         "stood": 12,
-        "elected": 9,
+        "elected": 8,
         "constituencies": [
           "Ards Peninsula",
           "Bangor Central",
@@ -507,7 +507,7 @@
             "constituency": "Newtownards",
             "firstPref": 481,
             "finalVotes": 734,
-            "status": "Elected"
+            "status": "Not Elected"
           }
         ],
         "shareOfTotal": 17.812612038401785
@@ -518,7 +518,7 @@
         "firstPrefs": 5106,
         "finalVotes": 6292,
         "stood": 7,
-        "elected": 6,
+        "elected": 3,
         "constituencies": [
           "Ards Peninsula",
           "Bangor Central",
@@ -535,7 +535,7 @@
             "constituency": "Ards Peninsula",
             "firstPref": 319,
             "finalVotes": 434,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "3316706188",
@@ -551,7 +551,7 @@
             "constituency": "Bangor East and Donaghadee",
             "firstPref": 735,
             "finalVotes": 986,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "3484412610",
@@ -567,7 +567,7 @@
             "constituency": "Comber",
             "firstPref": 372,
             "finalVotes": 816,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "432802378",
@@ -594,7 +594,7 @@
         "firstPrefs": 4321,
         "finalVotes": 5584,
         "stood": 8,
-        "elected": 4,
+        "elected": 3,
         "constituencies": [
           "Bangor Central",
           "Bangor East and Donaghadee",
@@ -616,7 +616,7 @@
             "constituency": "Bangor Central",
             "firstPref": 423,
             "finalVotes": 788,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "3981253860",
@@ -712,37 +712,6 @@
           }
         ],
         "shareOfTotal": 1.384296697605864
-      },
-      {
-        "name": "Sinn Féin",
-        "colour": "#326760",
-        "firstPrefs": 267,
-        "finalVotes": 455,
-        "stood": 2,
-        "elected": 1,
-        "constituencies": [
-          "Ards Peninsula",
-          "Bangor West"
-        ],
-        "candidates": [
-          {
-            "personId": "1912776745",
-            "name": "Murdoch McKibbin",
-            "constituency": "Ards Peninsula",
-            "firstPref": 196,
-            "finalVotes": 384,
-            "status": "Elected"
-          },
-          {
-            "personId": "756739159",
-            "name": "Kieran Maxwell",
-            "constituency": "Bangor West",
-            "firstPref": 71,
-            "finalVotes": 71,
-            "status": "Excluded"
-          }
-        ],
-        "shareOfTotal": 0.5318089471377923
       },
       {
         "name": "UKIP",
@@ -841,6 +810,37 @@
           }
         ],
         "shareOfTotal": 1.3145839142731943
+      },
+      {
+        "name": "Sinn Féin",
+        "colour": "#326760",
+        "firstPrefs": 267,
+        "finalVotes": 455,
+        "stood": 2,
+        "elected": 0,
+        "constituencies": [
+          "Ards Peninsula",
+          "Bangor West"
+        ],
+        "candidates": [
+          {
+            "personId": "1912776745",
+            "name": "Murdoch McKibbin",
+            "constituency": "Ards Peninsula",
+            "firstPref": 196,
+            "finalVotes": 384,
+            "status": "Not Elected"
+          },
+          {
+            "personId": "756739159",
+            "name": "Kieran Maxwell",
+            "constituency": "Bangor West",
+            "firstPref": 71,
+            "finalVotes": 71,
+            "status": "Excluded"
+          }
+        ],
+        "shareOfTotal": 0.5318089471377923
       }
     ],
     "candidates": [
@@ -1517,27 +1517,6 @@
         "shareOfTotal": 1.507787913795164
       },
       {
-        "personId": "3265808953",
-        "name": "Alan Graham",
-        "party": "DUP",
-        "colour": "#D46A4C",
-        "firstPrefs": 749,
-        "finalVotes": 791,
-        "electedCount": 1,
-        "constituencies": [
-          "Bangor West"
-        ],
-        "appearances": [
-          {
-            "constituency": "Bangor West",
-            "firstPref": 749,
-            "finalVotes": 791,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.4918535633191252
-      },
-      {
         "personId": "2846897736",
         "name": "Richard Smart",
         "party": "UUP",
@@ -1574,27 +1553,6 @@
             "constituency": "Ards Peninsula",
             "firstPref": 735,
             "finalVotes": 1511,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.4639684499860575
-      },
-      {
-        "personId": "3595085794",
-        "name": "Hannah McNamara",
-        "party": "Green",
-        "colour": "#8DC63F",
-        "firstPrefs": 735,
-        "finalVotes": 986,
-        "electedCount": 1,
-        "constituencies": [
-          "Bangor East and Donaghadee"
-        ],
-        "appearances": [
-          {
-            "constituency": "Bangor East and Donaghadee",
-            "firstPref": 735,
-            "finalVotes": 986,
             "status": "Elected"
           }
         ],
@@ -1641,27 +1599,6 @@
           }
         ],
         "shareOfTotal": 1.384296697605864
-      },
-      {
-        "personId": "2309252784",
-        "name": "Roberta Dunlop",
-        "party": "DUP",
-        "colour": "#D46A4C",
-        "firstPrefs": 677,
-        "finalVotes": 742,
-        "electedCount": 1,
-        "constituencies": [
-          "Holywood and Clandeboye"
-        ],
-        "appearances": [
-          {
-            "constituency": "Holywood and Clandeboye",
-            "firstPref": 677,
-            "finalVotes": 742,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.3484444090347767
       },
       {
         "personId": "318614568",
@@ -1748,111 +1685,6 @@
         "shareOfTotal": 1.0018722861809346
       },
       {
-        "personId": "90792452",
-        "name": "Ian Dickson",
-        "party": "UUP",
-        "colour": "#48A5EE",
-        "firstPrefs": 481,
-        "finalVotes": 734,
-        "electedCount": 1,
-        "constituencies": [
-          "Newtownards"
-        ],
-        "appearances": [
-          {
-            "constituency": "Newtownards",
-            "firstPref": 481,
-            "finalVotes": 734,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 0.9580528223718281
-      },
-      {
-        "personId": "4072193164",
-        "name": "Noelle Robinson",
-        "party": "Independent",
-        "colour": "#DCDCDC",
-        "firstPrefs": 423,
-        "finalVotes": 788,
-        "electedCount": 1,
-        "constituencies": [
-          "Bangor Central"
-        ],
-        "appearances": [
-          {
-            "constituency": "Bangor Central",
-            "firstPref": 423,
-            "finalVotes": 788,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 0.8425287814205474
-      },
-      {
-        "personId": "1529760318",
-        "name": "Ricky Bamford",
-        "party": "Green",
-        "colour": "#8DC63F",
-        "firstPrefs": 372,
-        "finalVotes": 816,
-        "electedCount": 1,
-        "constituencies": [
-          "Comber"
-        ],
-        "appearances": [
-          {
-            "constituency": "Comber",
-            "firstPref": 372,
-            "finalVotes": 816,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 0.7409472971358004
-      },
-      {
-        "personId": "2098122546",
-        "name": "Michele Strong",
-        "party": "Green",
-        "colour": "#8DC63F",
-        "firstPrefs": 319,
-        "finalVotes": 434,
-        "electedCount": 1,
-        "constituencies": [
-          "Ards Peninsula"
-        ],
-        "appearances": [
-          {
-            "constituency": "Ards Peninsula",
-            "firstPref": 319,
-            "finalVotes": 434,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 0.635382225232044
-      },
-      {
-        "personId": "1912776745",
-        "name": "Murdoch McKibbin",
-        "party": "Sinn Féin",
-        "colour": "#326760",
-        "firstPrefs": 196,
-        "finalVotes": 384,
-        "electedCount": 1,
-        "constituencies": [
-          "Ards Peninsula"
-        ],
-        "appearances": [
-          {
-            "constituency": "Ards Peninsula",
-            "firstPref": 196,
-            "finalVotes": 384,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 0.39039158666294865
-      },
-      {
         "personId": "3634970852",
         "name": "John Montgomery",
         "party": "UKIP",
@@ -1881,6 +1713,48 @@
         "shareOfTotal": 1.7089590885551527
       },
       {
+        "personId": "3265808953",
+        "name": "Alan Graham",
+        "party": "DUP",
+        "colour": "#D46A4C",
+        "firstPrefs": 749,
+        "finalVotes": 791,
+        "electedCount": 0,
+        "constituencies": [
+          "Bangor West"
+        ],
+        "appearances": [
+          {
+            "constituency": "Bangor West",
+            "firstPref": 749,
+            "finalVotes": 791,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.4918535633191252
+      },
+      {
+        "personId": "3595085794",
+        "name": "Hannah McNamara",
+        "party": "Green",
+        "colour": "#8DC63F",
+        "firstPrefs": 735,
+        "finalVotes": 986,
+        "electedCount": 0,
+        "constituencies": [
+          "Bangor East and Donaghadee"
+        ],
+        "appearances": [
+          {
+            "constituency": "Bangor East and Donaghadee",
+            "firstPref": 735,
+            "finalVotes": 986,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.4639684499860575
+      },
+      {
         "personId": "3200852724",
         "name": "Janice MacArthur",
         "party": "DUP",
@@ -1902,6 +1776,27 @@
         "shareOfTotal": 1.3982392542723976
       },
       {
+        "personId": "2309252784",
+        "name": "Roberta Dunlop",
+        "party": "DUP",
+        "colour": "#D46A4C",
+        "firstPrefs": 677,
+        "finalVotes": 742,
+        "electedCount": 0,
+        "constituencies": [
+          "Holywood and Clandeboye"
+        ],
+        "appearances": [
+          {
+            "constituency": "Holywood and Clandeboye",
+            "firstPref": 677,
+            "finalVotes": 742,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.3484444090347767
+      },
+      {
         "personId": "402878890",
         "name": "Ian Henry",
         "party": "UUP",
@@ -1921,6 +1816,48 @@
           }
         ],
         "shareOfTotal": 1.0795522447516233
+      },
+      {
+        "personId": "90792452",
+        "name": "Ian Dickson",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 481,
+        "finalVotes": 734,
+        "electedCount": 0,
+        "constituencies": [
+          "Newtownards"
+        ],
+        "appearances": [
+          {
+            "constituency": "Newtownards",
+            "firstPref": 481,
+            "finalVotes": 734,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 0.9580528223718281
+      },
+      {
+        "personId": "4072193164",
+        "name": "Noelle Robinson",
+        "party": "Independent",
+        "colour": "#DCDCDC",
+        "firstPrefs": 423,
+        "finalVotes": 788,
+        "electedCount": 0,
+        "constituencies": [
+          "Bangor Central"
+        ],
+        "appearances": [
+          {
+            "constituency": "Bangor Central",
+            "firstPref": 423,
+            "finalVotes": 788,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 0.8425287814205474
       },
       {
         "personId": "4080300156",
@@ -1965,6 +1902,27 @@
         "shareOfTotal": 0.7449308847548102
       },
       {
+        "personId": "1529760318",
+        "name": "Ricky Bamford",
+        "party": "Green",
+        "colour": "#8DC63F",
+        "firstPrefs": 372,
+        "finalVotes": 816,
+        "electedCount": 0,
+        "constituencies": [
+          "Comber"
+        ],
+        "appearances": [
+          {
+            "constituency": "Comber",
+            "firstPref": 372,
+            "finalVotes": 816,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 0.7409472971358004
+      },
+      {
         "personId": "3981253860",
         "name": "Maria Lourenço",
         "party": "Independent",
@@ -1984,6 +1942,27 @@
           }
         ],
         "shareOfTotal": 0.7210293590407522
+      },
+      {
+        "personId": "2098122546",
+        "name": "Michele Strong",
+        "party": "Green",
+        "colour": "#8DC63F",
+        "firstPrefs": 319,
+        "finalVotes": 434,
+        "electedCount": 0,
+        "constituencies": [
+          "Ards Peninsula"
+        ],
+        "appearances": [
+          {
+            "constituency": "Ards Peninsula",
+            "firstPref": 319,
+            "finalVotes": 434,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 0.635382225232044
       },
       {
         "personId": "2890528569",
@@ -2089,6 +2068,27 @@
           }
         ],
         "shareOfTotal": 0.4182766999960164
+      },
+      {
+        "personId": "1912776745",
+        "name": "Murdoch McKibbin",
+        "party": "Sinn Féin",
+        "colour": "#326760",
+        "firstPrefs": 196,
+        "finalVotes": 384,
+        "electedCount": 0,
+        "constituencies": [
+          "Ards Peninsula"
+        ],
+        "appearances": [
+          {
+            "constituency": "Ards Peninsula",
+            "firstPref": 196,
+            "finalVotes": 384,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 0.39039158666294865
       },
       {
         "personId": "3050676098",
@@ -2264,7 +2264,7 @@
     {
       "constituency": "Ards Peninsula",
       "winnerParty": "DUP",
-      "winnerName": "8 elected",
+      "winnerName": "6 elected",
       "leadingParty": "DUP",
       "leadingName": "Robert Adair",
       "leadingVotes": 2189,
@@ -2272,11 +2272,12 @@
       "turnoutPct": 45.25,
       "majority": 568,
       "majorityPct": 7.25,
-      "seatsWon": 8,
+      "seatsWon": 6,
       "seatsTotal": 6,
       "quota": 1120,
       "electorate": 17582,
       "totalPoll": 7956,
+      "spoiled": 119,
       "validPoll": 7837,
       "totalVotes": 7837,
       "colour": "#d46a4c",
@@ -2714,8 +2715,8 @@
           "party": "Green",
           "firstPrefs": 319,
           "finalVotes": 434,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -2856,8 +2857,8 @@
           "party": "Sinn Féin",
           "firstPrefs": 196,
           "finalVotes": 384,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -3417,148 +3418,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 832
-            }
-          ]
-        },
-        {
-          "id": "2098122546",
-          "name": "Michele Strong",
-          "party": "Green",
-          "firstPrefs": 319,
-          "finalVotes": 434,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#8DC63F",
-          "counts": [
-            {
-              "count": 1,
-              "total": 319,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 319
-            },
-            {
-              "count": 2,
-              "total": 333,
-              "transfers": 14,
-              "status": "Not Elected",
-              "firstPrefs": 319
-            },
-            {
-              "count": 3,
-              "total": 372,
-              "transfers": 39.9,
-              "status": "Not Elected",
-              "firstPrefs": 319
-            },
-            {
-              "count": 4,
-              "total": 375,
-              "transfers": 3,
-              "status": "Not Elected",
-              "firstPrefs": 319
-            },
-            {
-              "count": 5,
-              "total": 383,
-              "transfers": 7.35,
-              "status": "Not Elected",
-              "firstPrefs": 319
-            },
-            {
-              "count": 6,
-              "total": 388,
-              "transfers": 5,
-              "status": "Not Elected",
-              "firstPrefs": 319
-            },
-            {
-              "count": 7,
-              "total": 434,
-              "transfers": 46,
-              "status": "Not Elected",
-              "firstPrefs": 319
-            },
-            {
-              "count": 8,
-              "total": 434,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 319
-            }
-          ]
-        },
-        {
-          "id": "1912776745",
-          "name": "Murdoch McKibbin",
-          "party": "Sinn Féin",
-          "firstPrefs": 196,
-          "finalVotes": 384,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#326760",
-          "counts": [
-            {
-              "count": 1,
-              "total": 196,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 196
-            },
-            {
-              "count": 2,
-              "total": 197,
-              "transfers": 1.5,
-              "status": "Not Elected",
-              "firstPrefs": 196
-            },
-            {
-              "count": 3,
-              "total": 380,
-              "transfers": 183.4,
-              "status": "Not Elected",
-              "firstPrefs": 196
-            },
-            {
-              "count": 4,
-              "total": 381,
-              "transfers": 0.5,
-              "status": "Not Elected",
-              "firstPrefs": 196
-            },
-            {
-              "count": 5,
-              "total": 382,
-              "transfers": 1,
-              "status": "Not Elected",
-              "firstPrefs": 196
-            },
-            {
-              "count": 6,
-              "total": 382,
-              "transfers": 0.2,
-              "status": "Not Elected",
-              "firstPrefs": 196
-            },
-            {
-              "count": 7,
-              "total": 384,
-              "transfers": 2,
-              "status": "Not Elected",
-              "firstPrefs": 196
-            },
-            {
-              "count": 8,
-              "total": 384,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 196
             }
           ]
         }
@@ -5111,6 +4970,44 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 85
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 2,
+          "transfers": 2,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 13,
+          "transfers": 11,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 25,
+          "transfers": 12,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 41.1,
+          "transfers": 16.1,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 42.65,
+          "transfers": 1.55,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 281.2,
+          "transfers": 238.55,
+          "status": ""
         }
       ],
       "forum": null,
@@ -6699,7 +6596,7 @@
     {
       "constituency": "Bangor Central",
       "winnerParty": "DUP",
-      "winnerName": "7 elected",
+      "winnerName": "6 elected",
       "leadingParty": "Alliance",
       "leadingName": "Karen Douglas",
       "leadingVotes": 1346,
@@ -6707,11 +6604,12 @@
       "turnoutPct": 41.01,
       "majority": 300,
       "majorityPct": 4.08,
-      "seatsWon": 7,
+      "seatsWon": 6,
       "seatsTotal": 6,
       "quota": 1052,
       "electorate": 18166,
       "totalPoll": 7450,
+      "spoiled": 93,
       "validPoll": 7357,
       "totalVotes": 7357,
       "colour": "#d46a4c",
@@ -7416,8 +7314,8 @@
           "party": "Independent",
           "firstPrefs": 423,
           "finalVotes": 788,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -8597,105 +8495,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 503
-            }
-          ]
-        },
-        {
-          "id": "4072193164",
-          "name": "Noelle Robinson",
-          "party": "Independent",
-          "firstPrefs": 423,
-          "finalVotes": 788,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#DCDCDC",
-          "counts": [
-            {
-              "count": 1,
-              "total": 423,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 423
-            },
-            {
-              "count": 2,
-              "total": 446,
-              "transfers": 23.76,
-              "status": "Not Elected",
-              "firstPrefs": 423
-            },
-            {
-              "count": 3,
-              "total": 461,
-              "transfers": 14.54,
-              "status": "Not Elected",
-              "firstPrefs": 423
-            },
-            {
-              "count": 4,
-              "total": 491,
-              "transfers": 30.58,
-              "status": "Not Elected",
-              "firstPrefs": 423
-            },
-            {
-              "count": 5,
-              "total": 513,
-              "transfers": 21.22,
-              "status": "Not Elected",
-              "firstPrefs": 423
-            },
-            {
-              "count": 6,
-              "total": 543,
-              "transfers": 30.1,
-              "status": "Not Elected",
-              "firstPrefs": 423
-            },
-            {
-              "count": 7,
-              "total": 544,
-              "transfers": 1,
-              "status": "Not Elected",
-              "firstPrefs": 423
-            },
-            {
-              "count": 8,
-              "total": 681,
-              "transfers": 137.26,
-              "status": "Not Elected",
-              "firstPrefs": 423
-            },
-            {
-              "count": 9,
-              "total": 723,
-              "transfers": 42.16,
-              "status": "Not Elected",
-              "firstPrefs": 423
-            },
-            {
-              "count": 10,
-              "total": 769,
-              "transfers": 46,
-              "status": "Not Elected",
-              "firstPrefs": 423
-            },
-            {
-              "count": 11,
-              "total": 788,
-              "transfers": 19,
-              "status": "Not Elected",
-              "firstPrefs": 423
-            },
-            {
-              "count": 12,
-              "total": 788,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 423
             }
           ]
         }
@@ -11680,6 +11479,68 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 165
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 7.46,
+          "transfers": 7.46,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 11.22,
+          "transfers": 3.76,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 40.2,
+          "transfers": 28.98,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 61.96,
+          "transfers": 21.76,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 99.14,
+          "transfers": 37.18,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 105.14,
+          "transfers": 6,
+          "status": ""
+        },
+        {
+          "count": 8,
+          "total": 201.06,
+          "transfers": 95.92,
+          "status": ""
+        },
+        {
+          "count": 9,
+          "total": 276.72,
+          "transfers": 75.66,
+          "status": ""
+        },
+        {
+          "count": 10,
+          "total": 283.48,
+          "transfers": 6.76,
+          "status": ""
+        },
+        {
+          "count": 11,
+          "total": 374.32,
+          "transfers": 90.84,
+          "status": ""
         }
       ],
       "forum": null,
@@ -14704,7 +14565,7 @@
     {
       "constituency": "Bangor East and Donaghadee",
       "winnerParty": "DUP",
-      "winnerName": "7 elected",
+      "winnerName": "6 elected",
       "leadingParty": "UUP",
       "leadingName": "Mark Brooks",
       "leadingVotes": 1327,
@@ -14712,11 +14573,12 @@
       "turnoutPct": 44.19,
       "majority": 24,
       "majorityPct": 0.32,
-      "seatsWon": 7,
+      "seatsWon": 6,
       "seatsTotal": 6,
       "quota": 1086,
       "electorate": 17416,
       "totalPoll": 7696,
+      "spoiled": 98,
       "validPoll": 7598,
       "totalVotes": 7598,
       "colour": "#d46a4c",
@@ -15196,8 +15058,8 @@
           "party": "Green",
           "firstPrefs": 735,
           "finalVotes": 986,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -15891,84 +15753,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 765
-            }
-          ]
-        },
-        {
-          "id": "3595085794",
-          "name": "Hannah McNamara",
-          "party": "Green",
-          "firstPrefs": 735,
-          "finalVotes": 986,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#8DC63F",
-          "counts": [
-            {
-              "count": 1,
-              "total": 735,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 735
-            },
-            {
-              "count": 2,
-              "total": 752,
-              "transfers": 17,
-              "status": "Not Elected",
-              "firstPrefs": 735
-            },
-            {
-              "count": 3,
-              "total": 772,
-              "transfers": 20.88,
-              "status": "Not Elected",
-              "firstPrefs": 735
-            },
-            {
-              "count": 4,
-              "total": 915,
-              "transfers": 142.74,
-              "status": "Not Elected",
-              "firstPrefs": 735
-            },
-            {
-              "count": 5,
-              "total": 929,
-              "transfers": 13.68,
-              "status": "Not Elected",
-              "firstPrefs": 735
-            },
-            {
-              "count": 6,
-              "total": 947,
-              "transfers": 18.14,
-              "status": "Not Elected",
-              "firstPrefs": 735
-            },
-            {
-              "count": 7,
-              "total": 950,
-              "transfers": 2.72,
-              "status": "Not Elected",
-              "firstPrefs": 735
-            },
-            {
-              "count": 8,
-              "total": 986,
-              "transfers": 36.04,
-              "status": "Not Elected",
-              "firstPrefs": 735
-            },
-            {
-              "count": 9,
-              "total": 986,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 735
             }
           ]
         }
@@ -17555,6 +17339,50 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 87
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 14,
+          "transfers": 14,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 21.9,
+          "transfers": 7.9,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 22.54,
+          "transfers": 0.64,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 25.52,
+          "transfers": 2.98,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 47.08,
+          "transfers": 21.56,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 49.33,
+          "transfers": 2.25,
+          "status": ""
+        },
+        {
+          "count": 8,
+          "total": 125.05,
+          "transfers": 75.72,
+          "status": ""
         }
       ],
       "forum": null,
@@ -19178,7 +19006,7 @@
     {
       "constituency": "Bangor West",
       "winnerParty": "Alliance",
-      "winnerName": "6 elected",
+      "winnerName": "5 elected",
       "leadingParty": "Alliance",
       "leadingName": "Connie Egan",
       "leadingVotes": 1151,
@@ -19186,11 +19014,12 @@
       "turnoutPct": 42.65,
       "majority": 161,
       "majorityPct": 2.82,
-      "seatsWon": 6,
+      "seatsWon": 5,
       "seatsTotal": 5,
       "quota": 952,
       "electorate": 13585,
       "totalPoll": 5794,
+      "spoiled": 85,
       "validPoll": 5709,
       "totalVotes": 5709,
       "colour": "#f6cb2f",
@@ -19374,8 +19203,8 @@
           "party": "DUP",
           "firstPrefs": 749,
           "finalVotes": 791,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -19754,49 +19583,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 703
-            }
-          ]
-        },
-        {
-          "id": "3265808953",
-          "name": "Alan Graham",
-          "party": "DUP",
-          "firstPrefs": 749,
-          "finalVotes": 791,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#D46A4C",
-          "counts": [
-            {
-              "count": 1,
-              "total": 749,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 749
-            },
-            {
-              "count": 2,
-              "total": 787,
-              "transfers": 38,
-              "status": "Not Elected",
-              "firstPrefs": 749
-            },
-            {
-              "count": 3,
-              "total": 791,
-              "transfers": 4.42,
-              "status": "Not Elected",
-              "firstPrefs": 749
-            },
-            {
-              "count": 4,
-              "total": 791,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 749
             }
           ]
         }
@@ -20421,6 +20207,20 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 33
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 31,
+          "transfers": 31,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 40.79,
+          "transfers": 9.79,
+          "status": ""
         }
       ],
       "forum": null,
@@ -21077,7 +20877,7 @@
     {
       "constituency": "Comber",
       "winnerParty": "DUP",
-      "winnerName": "6 elected",
+      "winnerName": "5 elected",
       "leadingParty": "Alliance",
       "leadingName": "Deborah Girvan",
       "leadingVotes": 1516,
@@ -21085,11 +20885,12 @@
       "turnoutPct": 46.24,
       "majority": 434,
       "majorityPct": 6.65,
-      "seatsWon": 6,
+      "seatsWon": 5,
       "seatsTotal": 5,
       "quota": 1088,
       "electorate": 14244,
       "totalPoll": 6587,
+      "spoiled": 60,
       "validPoll": 6527,
       "totalVotes": 6527,
       "colour": "#d46a4c",
@@ -21485,8 +21286,8 @@
           "party": "Green",
           "firstPrefs": 372,
           "finalVotes": 816,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -21990,70 +21791,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 695
-            }
-          ]
-        },
-        {
-          "id": "1529760318",
-          "name": "Ricky Bamford",
-          "party": "Green",
-          "firstPrefs": 372,
-          "finalVotes": 816,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#8DC63F",
-          "counts": [
-            {
-              "count": 1,
-              "total": 372,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 372
-            },
-            {
-              "count": 2,
-              "total": 582,
-              "transfers": 210.3,
-              "status": "Not Elected",
-              "firstPrefs": 372
-            },
-            {
-              "count": 3,
-              "total": 737,
-              "transfers": 155.1,
-              "status": "Not Elected",
-              "firstPrefs": 372
-            },
-            {
-              "count": 4,
-              "total": 780,
-              "transfers": 43.2,
-              "status": "Not Elected",
-              "firstPrefs": 372
-            },
-            {
-              "count": 5,
-              "total": 797,
-              "transfers": 17,
-              "status": "Not Elected",
-              "firstPrefs": 372
-            },
-            {
-              "count": 6,
-              "total": 816,
-              "transfers": 19,
-              "status": "Not Elected",
-              "firstPrefs": 372
-            },
-            {
-              "count": 7,
-              "total": 816,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 372
             }
           ]
         }
@@ -23284,6 +23021,38 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 67
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 2.6,
+          "transfers": 2.6,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 94.5,
+          "transfers": 91.9,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 118.8,
+          "transfers": 24.3,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 165.9,
+          "transfers": 47.1,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 179.7,
+          "transfers": 13.8,
+          "status": ""
         }
       ],
       "forum": null,
@@ -24549,7 +24318,7 @@
     {
       "constituency": "Holywood and Clandeboye",
       "winnerParty": "Alliance",
-      "winnerName": "6 elected",
+      "winnerName": "5 elected",
       "leadingParty": "Alliance",
       "leadingName": "Andrew Muir",
       "leadingVotes": 1397,
@@ -24557,11 +24326,12 @@
       "turnoutPct": 45.87,
       "majority": 86,
       "majorityPct": 1.26,
-      "seatsWon": 6,
+      "seatsWon": 5,
       "seatsTotal": 5,
       "quota": 1140,
       "electorate": 15052,
       "totalPoll": 6904,
+      "spoiled": 67,
       "validPoll": 6837,
       "totalVotes": 6837,
       "colour": "#f6cb2f",
@@ -24857,8 +24627,8 @@
           "party": "DUP",
           "firstPrefs": 677,
           "finalVotes": 742,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -25489,77 +25259,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 507
-            }
-          ]
-        },
-        {
-          "id": "2309252784",
-          "name": "Roberta Dunlop",
-          "party": "DUP",
-          "firstPrefs": 677,
-          "finalVotes": 742,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#D46A4C",
-          "counts": [
-            {
-              "count": 1,
-              "total": 677,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 677
-            },
-            {
-              "count": 2,
-              "total": 681,
-              "transfers": 4.32,
-              "status": "Not Elected",
-              "firstPrefs": 677
-            },
-            {
-              "count": 3,
-              "total": 697,
-              "transfers": 15.81,
-              "status": "Not Elected",
-              "firstPrefs": 677
-            },
-            {
-              "count": 4,
-              "total": 712,
-              "transfers": 15.36,
-              "status": "Not Elected",
-              "firstPrefs": 677
-            },
-            {
-              "count": 5,
-              "total": 721,
-              "transfers": 8.74,
-              "status": "Not Elected",
-              "firstPrefs": 677
-            },
-            {
-              "count": 6,
-              "total": 730,
-              "transfers": 9,
-              "status": "Not Elected",
-              "firstPrefs": 677
-            },
-            {
-              "count": 7,
-              "total": 742,
-              "transfers": 12,
-              "status": "Not Elected",
-              "firstPrefs": 677
-            },
-            {
-              "count": 8,
-              "total": 742,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 677
             }
           ]
         }
@@ -26824,6 +26523,44 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 69
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 3.2,
+          "transfers": 3.2,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 6.18,
+          "transfers": 2.98,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 95.18,
+          "transfers": 89,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 96.83,
+          "transfers": 1.65,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 110.95,
+          "transfers": 14.12,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 390.87,
+          "transfers": 279.92,
+          "status": ""
         }
       ],
       "forum": null,
@@ -28124,7 +27861,7 @@
     {
       "constituency": "Newtownards",
       "winnerParty": "DUP",
-      "winnerName": "8 elected",
+      "winnerName": "7 elected",
       "leadingParty": "Independent",
       "leadingName": "Jimmy Menagh",
       "leadingVotes": 2138,
@@ -28132,11 +27869,12 @@
       "turnoutPct": 41.38,
       "majority": 906,
       "majorityPct": 10.86,
-      "seatsWon": 8,
+      "seatsWon": 7,
       "seatsTotal": 7,
       "quota": 1043,
       "electorate": 20491,
       "totalPoll": 8479,
+      "spoiled": 138,
       "validPoll": 8341,
       "totalVotes": 8341,
       "colour": "#d46a4c",
@@ -28645,8 +28383,8 @@
           "party": "UUP",
           "firstPrefs": 481,
           "finalVotes": 734,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -29419,77 +29157,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 574
-            }
-          ]
-        },
-        {
-          "id": "90792452",
-          "name": "Ian Dickson",
-          "party": "UUP",
-          "firstPrefs": 481,
-          "finalVotes": 734,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#48A5EE",
-          "counts": [
-            {
-              "count": 1,
-              "total": 481,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 481
-            },
-            {
-              "count": 2,
-              "total": 585,
-              "transfers": 104.98,
-              "status": "Not Elected",
-              "firstPrefs": 481
-            },
-            {
-              "count": 3,
-              "total": 599,
-              "transfers": 13.8,
-              "status": "Not Elected",
-              "firstPrefs": 481
-            },
-            {
-              "count": 4,
-              "total": 602,
-              "transfers": 2.31,
-              "status": "Not Elected",
-              "firstPrefs": 481
-            },
-            {
-              "count": 5,
-              "total": 607,
-              "transfers": 5.2,
-              "status": "Not Elected",
-              "firstPrefs": 481
-            },
-            {
-              "count": 6,
-              "total": 677,
-              "transfers": 70.18,
-              "status": "Not Elected",
-              "firstPrefs": 481
-            },
-            {
-              "count": 7,
-              "total": 734,
-              "transfers": 56.69,
-              "status": "Not Elected",
-              "firstPrefs": 481
-            },
-            {
-              "count": 8,
-              "total": 734,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 481
             }
           ]
         }
@@ -31186,6 +30853,44 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 93
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 5.76,
+          "transfers": 5.76,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 16.41,
+          "transfers": 10.65,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 28.11,
+          "transfers": 11.7,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 30.57,
+          "transfers": 2.46,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 147.75,
+          "transfers": 117.18,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 278.08,
+          "transfers": 130.33,
+          "status": ""
         }
       ],
       "forum": null,

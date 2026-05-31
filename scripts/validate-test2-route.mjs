@@ -35,6 +35,7 @@ assert(appSource.includes("params.has('lng') && params.has('lat')"), '/test2 mus
 assert(appSource.includes("params.set('hidden', hidden.join(','))"), '/test2 URL state must preserve loaded-but-hidden layers');
 assert(appSource.includes("params.set('detail', this.currentDetailMapId)"), '/test2 URL state must preserve catalogue detail views');
 assert(appSource.includes("params.set('source', this.currentSourceMapId)"), '/test2 URL state must preserve source panel views');
+assert(appSource.includes("params.set('electionBody', electionState.body)") && appSource.includes('restoreURLState?.(params)'), '/test2 URL state must preserve and restore active election body/date/substate');
 assert(appSource.includes('installCatalogueStateBridge'), '/test2 must bridge production catalogue detail navigation into URL state');
 assert(appSource.includes('setupURLStateListener'), '/test2 must restore state on hash navigation, not only first boot');
 assert(appSource.includes('setActiveLayersPanelOpen') && appSource.includes('setMapControlsOpen'), '/test2 panel restore must set panel state directly instead of click-toggling');
@@ -91,13 +92,18 @@ assert(electionManagerSource.includes('voteShare') && electionManagerSource.incl
 assert(electionManagerSource.includes('renderSeatCircles') && electionManagerSource.includes('test2-election-seat-layer'), '/test2 election manager must render seat circles for ordinary elections');
 assert(electionManagerSource.includes('renderVoteBars') && electionManagerSource.includes('test2-election-vote-bar-layer'), '/test2 election manager must render vote-bar overlays for ordinary elections');
 assert(electionManagerSource.includes('renderLocalPartySummaryTable') && electionManagerSource.includes('By Local Party'), '/test2 local-government elections must expose local party/district aggregate views');
+assert(electionManagerSource.includes('activeLocalMode') && electionManagerSource.includes('renderDistrictResults') && electionManagerSource.includes('data-election-local-mode'), '/test2 local-government elections must expose DEA/district mode switching');
 assert(electionManagerSource.includes('renderRecallPetitionResult') && electionDomainSource.includes('recallPetition'), '/test2 recall-petition data must be preserved and rendered when available');
+assert(electionManagerSource.includes('renderRecallPetitionOverview') && electionManagerSource.includes('Incumbent'), '/test2 recall-petition UI must include overview and incumbent detail support where data exists');
 assert(electionManagerSource.includes('test2ElectionCountDetail') && electionManagerSource.includes('test2-election-count-detail'), '/test2 count tables must expose a detailed count view');
+assert(electionManagerSource.includes('nonTransferable') && electionManagerSource.includes('inferCountEvents') && electionDomainSource.includes('isNonTransferableRow'), '/test2 count parity must preserve non-transferable rows and count event hints');
+assert(electionDomainSource.includes('not elected') && electionDomainSource.indexOf('not elected') < electionDomainSource.indexOf('/elected|made quota'), '/test2 election domain must not classify "Not Elected" as elected');
 assert(electionManagerSource.includes('electionResultsPane') && electionManagerSource.includes('election-results-pane--open'), '/test2 election results must render in the production below-map election pane');
 assert(electionDomainSource.includes('summarizeResult') && electionDomainSource.includes('extractElected') && electionDomainSource.includes('buildEntityIndex'), '/test2 must use shared election-domain logic for result summaries, elected extraction, and entity indexes');
 assert(electionManagerSource.includes("from '../../js/election-domain.mjs'") && electionManagerSource.includes('renderCountTable') && electionManagerSource.includes('renderEntityPanel'), '/test2 election rendering must consume shared domain logic and expose count/entity views');
 assert(electionManifestBuilderSource.includes('OUT_ANCHOR_DIR') && electionManifestBuilderSource.includes('geometryAnchor') && electionManifestBuilderSource.includes('anchorUrl'), '/test2 election manifest build must generate geometry-derived election anchor sidecars');
 assert(electionManifestBuilderSource.includes('previousKey') && electionManifestBuilderSource.includes('partySummary') && electionManifestBuilderSource.includes('entityIndex'), '/test2 election bundles must include previous-election linkage and rich pane data');
+assert(electionManagerSource.includes('filterOverlayGroupsByCollision') && electionManagerSource.includes('boxesOverlap'), '/test2 election overlays must have MapLibre-native collision suppression');
 assert(test2Css.includes('body.app-shell.test2-election-open'), '/test2 must resize the production shell when the election pane opens below the map');
 assert(featureRepairsSource.includes('ARMAGH AREA D') && featureRepairsSource.includes('DUNGANNON AREA C') && featureRepairsSource.includes('LIMAVADY AREA C'), '/test2 must repair known unnamed/misnamed deas-1972 feature labels');
 assert(labelsSource.includes('buildRepairedLabelValueExpression') && labelsSource.includes('repairFeatureProperties'), '/test2 label rendering must use repaired feature properties for known source-data label defects');

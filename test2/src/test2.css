@@ -358,6 +358,33 @@ body.app-shell.test2-election-open #electionResultsPane.election-results-pane--o
   max-width: 150px;
 }
 
+.test2-election-local-mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--color-border, #d8e0ea);
+  border-radius: 6px;
+  background: var(--color-surface-elevated, #f7fafc);
+}
+
+.test2-election-local-mode button {
+  min-height: 28px;
+  padding: 3px 8px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-text-muted, #718096);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.test2-election-local-mode button.is-active {
+  background: var(--color-primary, #1a365d);
+  color: #fff;
+}
+
 .test2-election-panel__summary {
   display: grid;
   gap: 8px;
@@ -433,6 +460,13 @@ body.app-shell.test2-election-open #electionResultsPane.election-results-pane--o
 
 .test2-election-table__summary {
   background: var(--color-surface-elevated, #f7fafc);
+}
+
+.test2-election-table__event-row th {
+  background: #fff7ed;
+  color: #9a3412;
+  font-size: 10px;
+  text-transform: none;
 }
 
 .test2-election-coverage-notice,

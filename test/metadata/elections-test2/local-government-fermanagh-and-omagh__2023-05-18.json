@@ -42,7 +42,7 @@
   "partySummary": [
     {
       "party": "Sinn Féin",
-      "seats": 22,
+      "seats": 21,
       "stood": 22,
       "votes": 26749,
       "colour": "#326760",
@@ -50,7 +50,7 @@
     },
     {
       "party": "UUP",
-      "seats": 8,
+      "seats": 7,
       "stood": 9,
       "votes": 7467,
       "colour": "#48a5ee",
@@ -58,7 +58,7 @@
     },
     {
       "party": "DUP",
-      "seats": 7,
+      "seats": 6,
       "stood": 9,
       "votes": 8580,
       "colour": "#d46a4c",
@@ -66,19 +66,11 @@
     },
     {
       "party": "SDLP",
-      "seats": 5,
+      "seats": 3,
       "stood": 7,
       "votes": 4283,
       "colour": "#2aa82c",
       "share": 7.884902152101475
-    },
-    {
-      "party": "Independent",
-      "seats": 3,
-      "stood": 6,
-      "votes": 2482,
-      "colour": "#b8b8b8",
-      "share": 4.569303558607485
     },
     {
       "party": "Alliance",
@@ -87,6 +79,14 @@
       "votes": 3248,
       "colour": "#f6cb2f",
       "share": 5.979491522303429
+    },
+    {
+      "party": "Independent",
+      "seats": 1,
+      "stood": 6,
+      "votes": 2482,
+      "colour": "#b8b8b8",
+      "share": 4.569303558607485
     },
     {
       "party": "TUV",
@@ -122,7 +122,7 @@
         "firstPrefs": 26749,
         "finalVotes": 28882,
         "stood": 22,
-        "elected": 22,
+        "elected": 21,
         "constituencies": [
           "Enniskillen",
           "Erne East",
@@ -155,7 +155,7 @@
             "constituency": "Enniskillen",
             "firstPref": 780,
             "finalVotes": 963,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "3541846621",
@@ -318,7 +318,7 @@
         "firstPrefs": 7467,
         "finalVotes": 9942,
         "stood": 9,
-        "elected": 8,
+        "elected": 7,
         "constituencies": [
           "Enniskillen",
           "Erne East",
@@ -391,7 +391,7 @@
             "constituency": "Omagh",
             "firstPref": 489,
             "finalVotes": 695,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "10131389",
@@ -410,7 +410,7 @@
         "firstPrefs": 8580,
         "finalVotes": 9790,
         "stood": 9,
-        "elected": 7,
+        "elected": 6,
         "constituencies": [
           "Enniskillen",
           "Erne East",
@@ -467,7 +467,7 @@
             "constituency": "Erne West",
             "firstPref": 687,
             "finalVotes": 699,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "2044196032",
@@ -502,7 +502,7 @@
         "firstPrefs": 4283,
         "finalVotes": 6852,
         "stood": 7,
-        "elected": 5,
+        "elected": 3,
         "constituencies": [
           "Enniskillen",
           "Erne East",
@@ -535,7 +535,7 @@
             "constituency": "Erne North",
             "firstPref": 783,
             "finalVotes": 1034,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "personId": "3433542257",
@@ -567,75 +567,10 @@
             "constituency": "West Tyrone",
             "firstPref": 746,
             "finalVotes": 1049,
-            "status": "Elected"
+            "status": "Not Elected"
           }
         ],
         "shareOfTotal": 7.884902152101475
-      },
-      {
-        "name": "Independent",
-        "colour": "#DCDCDC",
-        "firstPrefs": 2482,
-        "finalVotes": 3970,
-        "stood": 6,
-        "elected": 3,
-        "constituencies": [
-          "Erne East",
-          "Erne West",
-          "Mid Tyrone",
-          "Omagh"
-        ],
-        "candidates": [
-          {
-            "personId": "1912301164",
-            "name": "Eamon Keenan",
-            "constituency": "Erne East",
-            "firstPref": 560,
-            "finalVotes": 1068,
-            "status": "Elected"
-          },
-          {
-            "personId": "730279581",
-            "name": "Tina McDermott",
-            "constituency": "Erne East",
-            "firstPref": 238,
-            "finalVotes": 351,
-            "status": "Excluded"
-          },
-          {
-            "personId": "4224291033",
-            "name": "Paul McColdrick",
-            "constituency": "Erne West",
-            "firstPref": 506,
-            "finalVotes": 580,
-            "status": "Excluded"
-          },
-          {
-            "personId": "4194828538",
-            "name": "Emmet McAleer",
-            "constituency": "Mid Tyrone",
-            "firstPref": 629,
-            "finalVotes": 946,
-            "status": "Elected"
-          },
-          {
-            "personId": "65441",
-            "name": "Josephine Deehan",
-            "constituency": "Omagh",
-            "firstPref": 469,
-            "finalVotes": 940,
-            "status": "Elected"
-          },
-          {
-            "personId": "2893575619",
-            "name": "Kathy Dunphy",
-            "constituency": "Omagh",
-            "firstPref": 80,
-            "finalVotes": 85,
-            "status": "Excluded"
-          }
-        ],
-        "shareOfTotal": 4.569303558607485
       },
       {
         "name": "Alliance",
@@ -712,6 +647,71 @@
           }
         ],
         "shareOfTotal": 5.979491522303429
+      },
+      {
+        "name": "Independent",
+        "colour": "#DCDCDC",
+        "firstPrefs": 2482,
+        "finalVotes": 3970,
+        "stood": 6,
+        "elected": 1,
+        "constituencies": [
+          "Erne East",
+          "Erne West",
+          "Mid Tyrone",
+          "Omagh"
+        ],
+        "candidates": [
+          {
+            "personId": "1912301164",
+            "name": "Eamon Keenan",
+            "constituency": "Erne East",
+            "firstPref": 560,
+            "finalVotes": 1068,
+            "status": "Not Elected"
+          },
+          {
+            "personId": "730279581",
+            "name": "Tina McDermott",
+            "constituency": "Erne East",
+            "firstPref": 238,
+            "finalVotes": 351,
+            "status": "Excluded"
+          },
+          {
+            "personId": "4224291033",
+            "name": "Paul McColdrick",
+            "constituency": "Erne West",
+            "firstPref": 506,
+            "finalVotes": 580,
+            "status": "Excluded"
+          },
+          {
+            "personId": "4194828538",
+            "name": "Emmet McAleer",
+            "constituency": "Mid Tyrone",
+            "firstPref": 629,
+            "finalVotes": 946,
+            "status": "Not Elected"
+          },
+          {
+            "personId": "65441",
+            "name": "Josephine Deehan",
+            "constituency": "Omagh",
+            "firstPref": 469,
+            "finalVotes": 940,
+            "status": "Elected"
+          },
+          {
+            "personId": "2893575619",
+            "name": "Kathy Dunphy",
+            "constituency": "Omagh",
+            "firstPref": 80,
+            "finalVotes": 85,
+            "status": "Excluded"
+          }
+        ],
+        "shareOfTotal": 4.569303558607485
       },
       {
         "name": "TUV",
@@ -1463,48 +1463,6 @@
         "shareOfTotal": 1.5261694802923471
       },
       {
-        "personId": "3316339205",
-        "name": "John Coyle",
-        "party": "SDLP",
-        "colour": "#2AA82C",
-        "firstPrefs": 783,
-        "finalVotes": 1034,
-        "electedCount": 1,
-        "constituencies": [
-          "Erne North"
-        ],
-        "appearances": [
-          {
-            "constituency": "Erne North",
-            "firstPref": 783,
-            "finalVotes": 1034,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.4414845634124338
-      },
-      {
-        "personId": "1542672061",
-        "name": "Andrea McManus",
-        "party": "Sinn Féin",
-        "colour": "#326760",
-        "firstPrefs": 780,
-        "finalVotes": 963,
-        "electedCount": 1,
-        "constituencies": [
-          "Enniskillen"
-        ],
-        "appearances": [
-          {
-            "constituency": "Enniskillen",
-            "firstPref": 780,
-            "finalVotes": 963,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.4359616340507004
-      },
-      {
         "personId": "1831073976",
         "name": "Eddie Roofe",
         "party": "Alliance",
@@ -1547,48 +1505,6 @@
         "shareOfTotal": 1.4230747988733223
       },
       {
-        "personId": "2799776666",
-        "name": "Mary Garrity",
-        "party": "SDLP",
-        "colour": "#2AA82C",
-        "firstPrefs": 746,
-        "finalVotes": 1049,
-        "electedCount": 1,
-        "constituencies": [
-          "West Tyrone"
-        ],
-        "appearances": [
-          {
-            "constituency": "West Tyrone",
-            "firstPref": 746,
-            "finalVotes": 1049,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.3733684346177213
-      },
-      {
-        "personId": "951136263",
-        "name": "Aaron Elliott",
-        "party": "DUP",
-        "colour": "#D46A4C",
-        "firstPrefs": 687,
-        "finalVotes": 699,
-        "electedCount": 1,
-        "constituencies": [
-          "Erne West"
-        ],
-        "appearances": [
-          {
-            "constituency": "Erne West",
-            "firstPref": 687,
-            "finalVotes": 699,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.2647508238369631
-      },
-      {
         "personId": "865819421",
         "name": "Roy Crawford",
         "party": "UUP",
@@ -1610,27 +1526,6 @@
         "shareOfTotal": 1.22793129475874
       },
       {
-        "personId": "4194828538",
-        "name": "Emmet McAleer",
-        "party": "Independent",
-        "colour": "#DCDCDC",
-        "firstPrefs": 629,
-        "finalVotes": 946,
-        "electedCount": 1,
-        "constituencies": [
-          "Mid Tyrone"
-        ],
-        "appearances": [
-          {
-            "constituency": "Mid Tyrone",
-            "firstPref": 629,
-            "finalVotes": 946,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.157974189510116
-      },
-      {
         "personId": "1877854758",
         "name": "Robert Irvine",
         "party": "UUP",
@@ -1650,27 +1545,6 @@
           }
         ],
         "shareOfTotal": 1.034628767098069
-      },
-      {
-        "personId": "1912301164",
-        "name": "Eamon Keenan",
-        "party": "Independent",
-        "colour": "#DCDCDC",
-        "firstPrefs": 560,
-        "finalVotes": 1068,
-        "electedCount": 1,
-        "constituencies": [
-          "Erne East"
-        ],
-        "appearances": [
-          {
-            "constituency": "Erne East",
-            "firstPref": 560,
-            "finalVotes": 1068,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 1.0309468141902467
       },
       {
         "personId": "868374808",
@@ -1736,27 +1610,6 @@
         "shareOfTotal": 0.9149652975938437
       },
       {
-        "personId": "1933399096",
-        "name": "Matthew Bell",
-        "party": "UUP",
-        "colour": "#48A5EE",
-        "firstPrefs": 489,
-        "finalVotes": 695,
-        "electedCount": 1,
-        "constituencies": [
-          "Omagh"
-        ],
-        "appearances": [
-          {
-            "constituency": "Omagh",
-            "firstPref": 489,
-            "finalVotes": 695,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 0.9002374859625545
-      },
-      {
         "personId": "65441",
         "name": "Josephine Deehan",
         "party": "Independent",
@@ -1778,6 +1631,90 @@
         "shareOfTotal": 0.8634179568843315
       },
       {
+        "personId": "3316339205",
+        "name": "John Coyle",
+        "party": "SDLP",
+        "colour": "#2AA82C",
+        "firstPrefs": 783,
+        "finalVotes": 1034,
+        "electedCount": 0,
+        "constituencies": [
+          "Erne North"
+        ],
+        "appearances": [
+          {
+            "constituency": "Erne North",
+            "firstPref": 783,
+            "finalVotes": 1034,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.4414845634124338
+      },
+      {
+        "personId": "1542672061",
+        "name": "Andrea McManus",
+        "party": "Sinn Féin",
+        "colour": "#326760",
+        "firstPrefs": 780,
+        "finalVotes": 963,
+        "electedCount": 0,
+        "constituencies": [
+          "Enniskillen"
+        ],
+        "appearances": [
+          {
+            "constituency": "Enniskillen",
+            "firstPref": 780,
+            "finalVotes": 963,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.4359616340507004
+      },
+      {
+        "personId": "2799776666",
+        "name": "Mary Garrity",
+        "party": "SDLP",
+        "colour": "#2AA82C",
+        "firstPrefs": 746,
+        "finalVotes": 1049,
+        "electedCount": 0,
+        "constituencies": [
+          "West Tyrone"
+        ],
+        "appearances": [
+          {
+            "constituency": "West Tyrone",
+            "firstPref": 746,
+            "finalVotes": 1049,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.3733684346177213
+      },
+      {
+        "personId": "951136263",
+        "name": "Aaron Elliott",
+        "party": "DUP",
+        "colour": "#D46A4C",
+        "firstPrefs": 687,
+        "finalVotes": 699,
+        "electedCount": 0,
+        "constituencies": [
+          "Erne West"
+        ],
+        "appearances": [
+          {
+            "constituency": "Erne West",
+            "firstPref": 687,
+            "finalVotes": 699,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.2647508238369631
+      },
+      {
         "personId": "552669134",
         "name": "Rosemary Barton",
         "party": "UUP",
@@ -1797,6 +1734,48 @@
           }
         ],
         "shareOfTotal": 1.2647508238369631
+      },
+      {
+        "personId": "4194828538",
+        "name": "Emmet McAleer",
+        "party": "Independent",
+        "colour": "#DCDCDC",
+        "firstPrefs": 629,
+        "finalVotes": 946,
+        "electedCount": 0,
+        "constituencies": [
+          "Mid Tyrone"
+        ],
+        "appearances": [
+          {
+            "constituency": "Mid Tyrone",
+            "firstPref": 629,
+            "finalVotes": 946,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.157974189510116
+      },
+      {
+        "personId": "1912301164",
+        "name": "Eamon Keenan",
+        "party": "Independent",
+        "colour": "#DCDCDC",
+        "firstPrefs": 560,
+        "finalVotes": 1068,
+        "electedCount": 0,
+        "constituencies": [
+          "Erne East"
+        ],
+        "appearances": [
+          {
+            "constituency": "Erne East",
+            "firstPref": 560,
+            "finalVotes": 1068,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 1.0309468141902467
       },
       {
         "personId": "2382922063",
@@ -1881,6 +1860,27 @@
           }
         ],
         "shareOfTotal": 0.9278521327712218
+      },
+      {
+        "personId": "1933399096",
+        "name": "Matthew Bell",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 489,
+        "finalVotes": 695,
+        "electedCount": 0,
+        "constituencies": [
+          "Omagh"
+        ],
+        "appearances": [
+          {
+            "constituency": "Omagh",
+            "firstPref": 489,
+            "finalVotes": 695,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 0.9002374859625545
       },
       {
         "personId": "2504593316",
@@ -2140,7 +2140,7 @@
     {
       "constituency": "Enniskillen",
       "winnerParty": "Sinn Féin",
-      "winnerName": "7 elected",
+      "winnerName": "6 elected",
       "leadingParty": "DUP",
       "leadingName": "Keith Elliott",
       "leadingVotes": 1029,
@@ -2148,11 +2148,12 @@
       "turnoutPct": 56.99,
       "majority": 5,
       "majorityPct": 0.07,
-      "seatsWon": 7,
+      "seatsWon": 6,
       "seatsTotal": 6,
       "quota": 1097,
       "electorate": 13642,
       "totalPoll": 7775,
+      "spoiled": 99,
       "validPoll": 7676,
       "totalVotes": 7676,
       "colour": "#326760",
@@ -2419,8 +2420,8 @@
           "party": "Sinn Féin",
           "firstPrefs": 780,
           "finalVotes": 963,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -3602,91 +3603,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 562
-            }
-          ]
-        },
-        {
-          "id": "1542672061",
-          "name": "Andrea McManus",
-          "party": "Sinn Féin",
-          "firstPrefs": 780,
-          "finalVotes": 963,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#326760",
-          "counts": [
-            {
-              "count": 1,
-              "total": 780,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 780
-            },
-            {
-              "count": 2,
-              "total": 780,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 780
-            },
-            {
-              "count": 3,
-              "total": 780,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 780
-            },
-            {
-              "count": 4,
-              "total": 817,
-              "transfers": 37,
-              "status": "Not Elected",
-              "firstPrefs": 780
-            },
-            {
-              "count": 5,
-              "total": 884,
-              "transfers": 67,
-              "status": "Not Elected",
-              "firstPrefs": 780
-            },
-            {
-              "count": 6,
-              "total": 941,
-              "transfers": 57.6,
-              "status": "Not Elected",
-              "firstPrefs": 780
-            },
-            {
-              "count": 7,
-              "total": 961,
-              "transfers": 20.37,
-              "status": "Not Elected",
-              "firstPrefs": 780
-            },
-            {
-              "count": 8,
-              "total": 963,
-              "transfers": 2,
-              "status": "Not Elected",
-              "firstPrefs": 780
-            },
-            {
-              "count": 9,
-              "total": 963,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 780
-            },
-            {
-              "count": 10,
-              "total": 963,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 780
             }
           ]
         }
@@ -5811,6 +5727,56 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 117
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 1,
+          "transfers": 1,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 1.5,
+          "transfers": 0.5,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 56.2,
+          "transfers": 54.7,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 133.2,
+          "transfers": 77,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 133.68,
+          "transfers": 0.48,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 133.85,
+          "transfers": 0.17,
+          "status": ""
+        },
+        {
+          "count": 8,
+          "total": 218.11,
+          "transfers": 84.26,
+          "status": ""
+        },
+        {
+          "count": 9,
+          "total": 218.39,
+          "transfers": 0.28,
+          "status": ""
         }
       ],
       "forum": null,
@@ -7973,7 +7939,7 @@
     {
       "constituency": "Erne East",
       "winnerParty": "Sinn Féin",
-      "winnerName": "7 elected",
+      "winnerName": "6 elected",
       "leadingParty": "Sinn Féin",
       "leadingName": "Sheamus Greene",
       "leadingVotes": 1753,
@@ -7981,11 +7947,12 @@
       "turnoutPct": 70.82,
       "majority": 343,
       "majorityPct": 4.05,
-      "seatsWon": 7,
+      "seatsWon": 6,
       "seatsTotal": 6,
       "quota": 1212,
       "electorate": 12127,
       "totalPoll": 8588,
+      "spoiled": 110,
       "validPoll": 8478,
       "totalVotes": 8478,
       "colour": "#326760",
@@ -8352,8 +8319,8 @@
           "party": "Independent",
           "firstPrefs": 560,
           "finalVotes": 1068,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -9055,77 +9022,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 498
-            }
-          ]
-        },
-        {
-          "id": "1912301164",
-          "name": "Eamon Keenan",
-          "party": "Independent",
-          "firstPrefs": 560,
-          "finalVotes": 1068,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#DCDCDC",
-          "counts": [
-            {
-              "count": 1,
-              "total": 560,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 560
-            },
-            {
-              "count": 2,
-              "total": 719,
-              "transfers": 159.39,
-              "status": "Not Elected",
-              "firstPrefs": 560
-            },
-            {
-              "count": 3,
-              "total": 719,
-              "transfers": 0.42,
-              "status": "Not Elected",
-              "firstPrefs": 560
-            },
-            {
-              "count": 4,
-              "total": 760,
-              "transfers": 40.8,
-              "status": "Not Elected",
-              "firstPrefs": 560
-            },
-            {
-              "count": 5,
-              "total": 764,
-              "transfers": 4.2,
-              "status": "Not Elected",
-              "firstPrefs": 560
-            },
-            {
-              "count": 6,
-              "total": 794,
-              "transfers": 29.54,
-              "status": "Not Elected",
-              "firstPrefs": 560
-            },
-            {
-              "count": 7,
-              "total": 1068,
-              "transfers": 273.82,
-              "status": "Not Elected",
-              "firstPrefs": 560
-            },
-            {
-              "count": 8,
-              "total": 1068,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 560
             }
           ]
         }
@@ -10534,6 +10430,44 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 77
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 2.77,
+          "transfers": 2.77,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 6.85,
+          "transfers": 4.08,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 7.55,
+          "transfers": 0.7,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 12.61,
+          "transfers": 5.06,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 14.71,
+          "transfers": 2.1,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 203.97,
+          "transfers": 189.26,
+          "status": ""
         }
       ],
       "forum": null,
@@ -11978,7 +11912,7 @@
     {
       "constituency": "Erne North",
       "winnerParty": "Sinn Féin",
-      "winnerName": "6 elected",
+      "winnerName": "5 elected",
       "leadingParty": "Sinn Féin",
       "leadingName": "Debbie Coyle",
       "leadingVotes": 1561,
@@ -11986,11 +11920,12 @@
       "turnoutPct": 62.5,
       "majority": 169,
       "majorityPct": 2.38,
-      "seatsWon": 6,
+      "seatsWon": 5,
       "seatsTotal": 5,
       "quota": 1184,
       "electorate": 11509,
       "totalPoll": 7193,
+      "spoiled": 93,
       "validPoll": 7100,
       "totalVotes": 7100,
       "colour": "#326760",
@@ -12258,8 +12193,8 @@
           "party": "SDLP",
           "firstPrefs": 783,
           "finalVotes": 1034,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -12891,70 +12826,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 529
-            }
-          ]
-        },
-        {
-          "id": "3316339205",
-          "name": "John Coyle",
-          "party": "SDLP",
-          "firstPrefs": 783,
-          "finalVotes": 1034,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#2AA82C",
-          "counts": [
-            {
-              "count": 1,
-              "total": 783,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 783
-            },
-            {
-              "count": 2,
-              "total": 815,
-              "transfers": 32.16,
-              "status": "Not Elected",
-              "firstPrefs": 783
-            },
-            {
-              "count": 3,
-              "total": 818,
-              "transfers": 3.5,
-              "status": "Not Elected",
-              "firstPrefs": 783
-            },
-            {
-              "count": 4,
-              "total": 818,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 783
-            },
-            {
-              "count": 5,
-              "total": 1023,
-              "transfers": 204.88,
-              "status": "Not Elected",
-              "firstPrefs": 783
-            },
-            {
-              "count": 6,
-              "total": 1034,
-              "transfers": 10.94,
-              "status": "Not Elected",
-              "firstPrefs": 783
-            },
-            {
-              "count": 7,
-              "total": 1034,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 783
             }
           ]
         }
@@ -14185,6 +14056,38 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 67
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 6.2,
+          "transfers": 6.2,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 20.02,
+          "transfers": 13.82,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 24.3,
+          "transfers": 4.28,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 80.4,
+          "transfers": 56.1,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 156.52,
+          "transfers": 76.12,
+          "status": ""
         }
       ],
       "forum": null,
@@ -15450,7 +15353,7 @@
     {
       "constituency": "Erne West",
       "winnerParty": "Sinn Féin",
-      "winnerName": "6 elected",
+      "winnerName": "5 elected",
       "leadingParty": "Sinn Féin",
       "leadingName": "Anthony Feely",
       "leadingVotes": 1493,
@@ -15458,11 +15361,12 @@
       "turnoutPct": 68.35,
       "majority": 131,
       "majorityPct": 1.73,
-      "seatsWon": 6,
+      "seatsWon": 5,
       "seatsTotal": 5,
       "quota": 1265,
       "electorate": 11196,
       "totalPoll": 7652,
+      "spoiled": 66,
       "validPoll": 7586,
       "totalVotes": 7586,
       "colour": "#326760",
@@ -15759,8 +15663,8 @@
           "party": "DUP",
           "firstPrefs": 687,
           "finalVotes": 699,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -16208,63 +16112,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 1197
-            }
-          ]
-        },
-        {
-          "id": "951136263",
-          "name": "Aaron Elliott",
-          "party": "DUP",
-          "firstPrefs": 687,
-          "finalVotes": 699,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#D46A4C",
-          "counts": [
-            {
-              "count": 1,
-              "total": 687,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 687
-            },
-            {
-              "count": 2,
-              "total": 687,
-              "transfers": 0.9,
-              "status": "Not Elected",
-              "firstPrefs": 687
-            },
-            {
-              "count": 3,
-              "total": 692,
-              "transfers": 5,
-              "status": "Not Elected",
-              "firstPrefs": 687
-            },
-            {
-              "count": 4,
-              "total": 693,
-              "transfers": 0.15,
-              "status": "Not Elected",
-              "firstPrefs": 687
-            },
-            {
-              "count": 5,
-              "total": 699,
-              "transfers": 6,
-              "status": "Not Elected",
-              "firstPrefs": 687
-            },
-            {
-              "count": 6,
-              "total": 699,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 687
             }
           ]
         }
@@ -17209,6 +17056,32 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 51
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 7.2,
+          "transfers": 7.2,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 28.65,
+          "transfers": 21.45,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 51.55,
+          "transfers": 22.9,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 343.2,
+          "transfers": 291.65,
+          "status": ""
         }
       ],
       "forum": null,
@@ -18187,7 +18060,7 @@
     {
       "constituency": "Mid Tyrone",
       "winnerParty": "Sinn Féin",
-      "winnerName": "7 elected",
+      "winnerName": "6 elected",
       "leadingParty": "Sinn Féin",
       "leadingName": "Pádraigín Kelly",
       "leadingVotes": 1621,
@@ -18195,11 +18068,12 @@
       "turnoutPct": 66.2,
       "majority": 157,
       "majorityPct": 1.84,
-      "seatsWon": 7,
+      "seatsWon": 6,
       "seatsTotal": 6,
       "quota": 1221,
       "electorate": 13083,
       "totalPoll": 8661,
+      "spoiled": 119,
       "validPoll": 8542,
       "totalVotes": 8542,
       "colour": "#326760",
@@ -18679,8 +18553,8 @@
           "party": "Independent",
           "firstPrefs": 629,
           "finalVotes": 946,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -19374,84 +19248,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 497
-            }
-          ]
-        },
-        {
-          "id": "4194828538",
-          "name": "Emmet McAleer",
-          "party": "Independent",
-          "firstPrefs": 629,
-          "finalVotes": 946,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#DCDCDC",
-          "counts": [
-            {
-              "count": 1,
-              "total": 629,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 629
-            },
-            {
-              "count": 2,
-              "total": 646,
-              "transfers": 17.28,
-              "status": "Not Elected",
-              "firstPrefs": 629
-            },
-            {
-              "count": 3,
-              "total": 656,
-              "transfers": 10.56,
-              "status": "Not Elected",
-              "firstPrefs": 629
-            },
-            {
-              "count": 4,
-              "total": 739,
-              "transfers": 82.28,
-              "status": "Not Elected",
-              "firstPrefs": 629
-            },
-            {
-              "count": 5,
-              "total": 812,
-              "transfers": 73.64,
-              "status": "Not Elected",
-              "firstPrefs": 629
-            },
-            {
-              "count": 6,
-              "total": 843,
-              "transfers": 30.24,
-              "status": "Not Elected",
-              "firstPrefs": 629
-            },
-            {
-              "count": 7,
-              "total": 867,
-              "transfers": 24.92,
-              "status": "Not Elected",
-              "firstPrefs": 629
-            },
-            {
-              "count": 8,
-              "total": 946,
-              "transfers": 79,
-              "status": "Not Elected",
-              "firstPrefs": 629
-            },
-            {
-              "count": 9,
-              "total": 946,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 629
             }
           ]
         }
@@ -21038,6 +20834,50 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 87
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 13.6,
+          "transfers": 13.6,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 38.12,
+          "transfers": 24.52,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 38.24,
+          "transfers": 0.12,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 113.44,
+          "transfers": 75.2,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 180.68,
+          "transfers": 67.24,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 231.4,
+          "transfers": 50.72,
+          "status": ""
+        },
+        {
+          "count": 8,
+          "total": 402.84,
+          "transfers": 171.44,
+          "status": ""
         }
       ],
       "forum": null,
@@ -22661,7 +22501,7 @@
     {
       "constituency": "Omagh",
       "winnerParty": "Sinn Féin",
-      "winnerName": "7 elected",
+      "winnerName": "6 elected",
       "leadingParty": "Sinn Féin",
       "leadingName": "Barry McElduff",
       "leadingVotes": 1342,
@@ -22669,11 +22509,12 @@
       "turnoutPct": 50.75,
       "majority": 204,
       "majorityPct": 3.07,
-      "seatsWon": 7,
+      "seatsWon": 6,
       "seatsTotal": 6,
       "quota": 949,
       "electorate": 13279,
       "totalPoll": 6739,
+      "spoiled": 103,
       "validPoll": 6636,
       "totalVotes": 6636,
       "colour": "#326760",
@@ -23040,8 +22881,8 @@
           "party": "UUP",
           "firstPrefs": 489,
           "finalVotes": 695,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -23814,77 +23655,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 469
-            }
-          ]
-        },
-        {
-          "id": "1933399096",
-          "name": "Matthew Bell",
-          "party": "UUP",
-          "firstPrefs": 489,
-          "finalVotes": 695,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#48A5EE",
-          "counts": [
-            {
-              "count": 1,
-              "total": 489,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 489
-            },
-            {
-              "count": 2,
-              "total": 489,
-              "transfers": 0.29,
-              "status": "Not Elected",
-              "firstPrefs": 489
-            },
-            {
-              "count": 3,
-              "total": 668,
-              "transfers": 178.84,
-              "status": "Not Elected",
-              "firstPrefs": 489
-            },
-            {
-              "count": 4,
-              "total": 673,
-              "transfers": 5.34,
-              "status": "Not Elected",
-              "firstPrefs": 489
-            },
-            {
-              "count": 5,
-              "total": 674,
-              "transfers": 1.32,
-              "status": "Not Elected",
-              "firstPrefs": 489
-            },
-            {
-              "count": 6,
-              "total": 675,
-              "transfers": 0.44,
-              "status": "Not Elected",
-              "firstPrefs": 489
-            },
-            {
-              "count": 7,
-              "total": 695,
-              "transfers": 19.91,
-              "status": "Not Elected",
-              "firstPrefs": 489
-            },
-            {
-              "count": 8,
-              "total": 695,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 489
             }
           ]
         }
@@ -25437,6 +25207,44 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 85
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 8.46,
+          "transfers": 8.46,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 9.61,
+          "transfers": 1.15,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 36.01,
+          "transfers": 26.4,
+          "status": ""
+        },
+        {
+          "count": 5,
+          "total": 39.67,
+          "transfers": 3.66,
+          "status": ""
+        },
+        {
+          "count": 6,
+          "total": 42.07,
+          "transfers": 2.4,
+          "status": ""
+        },
+        {
+          "count": 7,
+          "total": 245.34,
+          "transfers": 203.27,
+          "status": ""
         }
       ],
       "forum": null,
@@ -27025,7 +26833,7 @@
     {
       "constituency": "West Tyrone",
       "winnerParty": "Sinn Féin",
-      "winnerName": "7 elected",
+      "winnerName": "6 elected",
       "leadingParty": "DUP",
       "leadingName": "Mark Buchanan",
       "leadingVotes": 1619,
@@ -27033,11 +26841,12 @@
       "turnoutPct": 66.5,
       "majority": 340,
       "majorityPct": 4.1,
-      "seatsWon": 7,
+      "seatsWon": 6,
       "seatsTotal": 6,
       "quota": 1186,
       "electorate": 12652,
       "totalPoll": 8413,
+      "spoiled": 112,
       "validPoll": 8301,
       "totalVotes": 8301,
       "colour": "#326760",
@@ -27349,8 +27158,8 @@
           "party": "SDLP",
           "firstPrefs": 746,
           "finalVotes": 1049,
-          "elected": true,
-          "electedAt": 1,
+          "elected": false,
+          "electedAt": null,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
@@ -27742,56 +27551,6 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 1093
-            }
-          ]
-        },
-        {
-          "id": "2799776666",
-          "name": "Mary Garrity",
-          "party": "SDLP",
-          "firstPrefs": 746,
-          "finalVotes": 1049,
-          "elected": true,
-          "electedAt": 1,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Not Elected",
-          "colour": "#2AA82C",
-          "counts": [
-            {
-              "count": 1,
-              "total": 746,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 746
-            },
-            {
-              "count": 2,
-              "total": 750,
-              "transfers": 4.32,
-              "status": "Not Elected",
-              "firstPrefs": 746
-            },
-            {
-              "count": 3,
-              "total": 1044,
-              "transfers": 294.13,
-              "status": "Not Elected",
-              "firstPrefs": 746
-            },
-            {
-              "count": 4,
-              "total": 1049,
-              "transfers": 5.32,
-              "status": "Not Elected",
-              "firstPrefs": 746
-            },
-            {
-              "count": 5,
-              "total": 1049,
-              "transfers": 0,
-              "status": "Not Elected",
-              "firstPrefs": 746
             }
           ]
         }
@@ -28576,6 +28335,26 @@
           "Party_Colour": "#666666",
           "candidateName": "Non-transferable",
           "id": 42
+        }
+      ],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 13.15,
+          "transfers": 13.15,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 108.93,
+          "transfers": 95.78,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 112.75,
+          "transfers": 3.82,
+          "status": ""
         }
       ],
       "forum": null,

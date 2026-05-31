@@ -873,6 +873,17 @@ class Test2App {
     if (this.baseMapId && this.baseMapId !== 'osm-standard') params.set('base', this.baseMapId);
     if (document.getElementById('activeLayersToggle')?.getAttribute('aria-expanded') === 'true') params.set('activePanel', '1');
     if (document.getElementById('mapControlsToggle')?.getAttribute('aria-expanded') === 'true') params.set('controls', '1');
+    const electionState = this.elections?.getURLState?.();
+    if (electionState) {
+      params.set('electionBody', electionState.body);
+      params.set('electionDate', electionState.date);
+      params.set('electionMode', electionState.mode);
+      params.set('electionOverlay', electionState.overlay);
+      params.set('electionView', electionState.view);
+      params.set('electionLocalMode', electionState.localMode);
+      if (electionState.selected) params.set('electionSelected', electionState.selected);
+      if (electionState.countDetail) params.set('electionCountDetail', '1');
+    }
     const path = `${location.pathname}${location.search || ''}`;
     const next = params.toString() ? `${path}#${params.toString()}` : path;
     history.replaceState(null, '', next);
@@ -903,6 +914,8 @@ class Test2App {
 
       const layers = (params.get('layers') || '').split(',').map((id) => id.trim()).filter(Boolean);
       await Promise.all(layers.map((id) => this.loadMap(id).catch((error) => this.showMapError(error))));
+
+      await this.elections?.restoreURLState?.(params);
 
       const hidden = new Set((params.get('hidden') || '').split(',').map((id) => id.trim()).filter(Boolean));
       hidden.forEach((id) => this.mapController.hideLayer(id));
