@@ -351,13 +351,42 @@ class Test2App {
 
   focusActiveElectionCatalogueEntry(entry, options = {}) {
     if (!entry?.body || !entry?.date) return;
-    const focusRow = () => {
+    const restoreCatalogueListState = () => {
+      this.searchQuery = '';
+      this.currentCategory = 'all';
+      this.currentProviderCategory = 'all-providers';
+      this.currentProviderList = [];
+      const search = document.getElementById('searchInput');
+      if (search) search.value = '';
+      document.getElementById('searchClear')?.classList.remove('visible');
+      uiController.showCatalogueListView?.(false);
+      this.updateMapList();
+    };
+    const focusRow = (attempt = 0) => {
       const rows = [...document.querySelectorAll('#catalogueFlatView .flat-election-entry')];
       const target = rows.find((row) => row.dataset.electionBody === entry.body && row.dataset.electionDate === entry.date);
+      if (!target && attempt === 0) {
+        restoreCatalogueListState();
+        requestAnimationFrame(() => focusRow(1));
+        return;
+      }
       if (!target) return;
-      rows.forEach((row) => row.classList.toggle('class-member--loaded', row === target));
+      rows.forEach((row) => {
+        const active = row === target;
+        row.classList.toggle('class-member--loaded', active);
+        row.classList.toggle('flat-election-entry--active', active);
+        const button = row.querySelector('.election-load-btn');
+        if (button) button.setAttribute('title', active ? 'Unload' : 'Load');
+      });
       target.querySelector('.election-load-btn')?.setAttribute('title', 'Unload');
-      if (options.scroll) target.scrollIntoView({ block: 'nearest' });
+      if (options.scroll) {
+        const scroller = target.closest('.pane__content') || document.querySelector('.pane__content[data-tab-content="catalogue"]');
+        if (scroller?.scrollTo) {
+          scroller.scrollTo({ top: Math.max(0, target.offsetTop - 72), behavior: 'auto' });
+        } else {
+          target.scrollIntoView({ block: 'nearest' });
+        }
+      }
     };
     requestAnimationFrame(() => requestAnimationFrame(focusRow));
   }
@@ -892,7 +921,7 @@ class Test2App {
       params.set('lng', center.lng.toFixed(5));
       params.set('lat', center.lat.toFixed(5));
     }
-    if (Number.isFinite(zoom)) params.set('z', zoom.toFixed(2));
+    if (Number.isFinite(zoom)) params.set('zoom', zoom.toFixed(2));
     if (this.baseMapId && this.baseMapId !== 'osm-standard') params.set('base', this.baseMapId);
     if (document.getElementById('activeLayersToggle')?.getAttribute('aria-expanded') === 'true') params.set('activePanel', '1');
     if (document.getElementById('mapControlsToggle')?.getAttribute('aria-expanded') === 'true') params.set('controls', '1');
@@ -971,7 +1000,8 @@ class Test2App {
       const hasViewport = params.has('lng') && params.has('lat');
       const lng = hasViewport ? Number(params.get('lng')) : NaN;
       const lat = hasViewport ? Number(params.get('lat')) : NaN;
-      const z = Number(params.get('z') || params.get('zoom'));
+      const zoomParam = params.get('zoom') ?? params.get('z');
+      const z = Number(zoomParam);
       if (Number.isFinite(lng) && Number.isFinite(lat)) {
         this.mapController.map?.jumpTo({ center: [lng, lat], zoom: Number.isFinite(z) ? z : undefined });
       }

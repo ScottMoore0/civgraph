@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 128) Test2 election parity needs restore-state guardrails, not only visual tuning
+- Mistake pattern: Treating active election parity as a visual issue while `/test2` could restore the map layer without restoring the main catalogue state, main-style `zoom` URL key, low-zoom label density, and table interaction model.
+- Impact: `/test2` could show the correct election layer but still look unlike main: catalogue scrolled elsewhere, labels over-dense at low zoom, native MapLibre controls visible, and election tables unable to reproduce main-style sorting.
+- Guardrail:
+  1) browser tests must restore a canonical election URL and assert active catalogue row focus, viewport, low-zoom label suppression, and expected party table order,
+  2) `/test2` route validation must check main-style zoom URL writing, custom controls, election label threshold hooks, table sort controls, and deterministic seat-circle draw order,
+  3) MapLibre-specific controls and styling should sit behind the test2 adapter while preserving the production shell’s visible contract.
+
 ### 127) General local elections are jurisdiction-wide catalogue events, not council-row events
 - Mistake pattern: Generating `/test2` election catalogue entries directly from council-specific local-government bodies, so one NI-wide local election appeared as one election per council.
 - Impact: `/test2` diverged from the main site's election catalogue contract and made local-election timelines/results feel fragmented.

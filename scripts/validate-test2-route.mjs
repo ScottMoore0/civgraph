@@ -50,9 +50,9 @@ assert(appSource.includes('getConvertedCompositeChildIds'), '/test2 must expand 
 assert(appSource.includes('compositeSources') && appSource.includes('mapConfig.variants.map'), '/test2 composite fallback must cover main composite sources and non-group variant parents');
 assert(mapControllerSource.includes('maplibre-dom-label'), '/test2 must use deduplicated DOM labels for main-site label interaction parity');
 assert(mapControllerSource.includes("'text-opacity': 0"), '/test2 native MapLibre symbol labels must stay visually hidden to avoid duplicate labels');
-assert(mapControllerSource.includes("NavigationControl({ visualizePitch: true }), 'top-left'"), '/test2 MapLibre zoom/navigation controls must not share the active-layers top-right corner');
+assert(adapterSource.includes('installMainStyleMapControls') && test2Css.includes('.test2-main-zoom-control'), '/test2 must replace visible MapLibre zoom controls with main-style custom controls');
 assert(mapControllerSource.includes("ScaleControl({ unit: 'metric' }), 'bottom-right'"), '/test2 MapLibre scale control must not share the bottom-left settings corner');
-assert(test2Css.includes('#map .maplibregl-ctrl-top-left') && test2Css.includes('#map .maplibregl-ctrl-bottom-right'), '/test2 route CSS must explicitly place MapLibre controls away from production shell overlays');
+assert(test2Css.includes('#map .maplibregl-ctrl-top-left') && test2Css.includes('display: none') && test2Css.includes('#map .maplibregl-ctrl-bottom-right'), '/test2 route CSS must hide native MapLibre zoom controls and keep scale away from production shell overlays');
 assert(mapControllerSource.includes("this.map.on('dblclick', onDoubleClick)"), '/test2 feature geometry selection must be wired to double-click');
 assert(mapControllerSource.includes('this.map.doubleClickZoom?.disable()'), '/test2 must disable MapLibre double-tap zoom so mobile feature taps can open details');
 assert(mapControllerSource.includes("this.map.on('click', onClick)"), '/test2 feature geometry selection must be wired to ordinary tap/click as well as double-click');
@@ -99,6 +99,8 @@ assert(electionManagerSource.includes('test2-election-seat-halo-layer') && elect
 assert(!electionManagerSource.includes('* 0.002'), '/test2 seat circles must not use old geographic-degree offsets for pixel seat layouts');
 assert(electionManagerSource.includes('getCanonicalLayerId') && electionManagerSource.includes('mainElectionSlug') && appSource.includes('isCanonicalElectionLayerId'), '/test2 election URL state must use main-style canonical election layer IDs instead of raw geography IDs');
 assert(appSource.includes('focusActiveElectionCatalogueEntry') && appSource.includes('flat-election-entry'), '/test2 active election URL/catalogue restore must focus the same election catalogue state as main');
+assert(appSource.includes('flat-election-entry--active') && appSource.includes('restoreCatalogueListState') && appSource.includes("params.set('zoom'"), '/test2 must restore active election catalogue state and use main-style zoom URL state');
+assert(mapControllerSource.includes('test2LabelMinZoomOverride') && adapterSource.includes('labelMinZoomOverride'), '/test2 election label density must be tunable through the MapLibre adapter');
 assert(electionManagerSource.includes('renderVoteBars') && electionManagerSource.includes('test2-election-vote-bar-layer'), '/test2 election manager must render vote-bar overlays for ordinary elections');
 assert(electionManagerSource.includes('renderLocalPartySummaryTable') && electionManagerSource.includes('By Local Party'), '/test2 local-government elections must expose local party/district aggregate views');
 assert(electionManagerSource.includes('activeLocalMode') && electionManagerSource.includes('renderDistrictResults') && electionManagerSource.includes('data-election-local-mode'), '/test2 local-government elections must expose DEA/district mode switching');
@@ -128,6 +130,8 @@ assert(electionManifestBuilderSource.includes('localByDate') && electionManifest
 assert(electionManifestBuilderSource.includes('matchEntryForConstituency') && electionManifestBuilderSource.includes('localBodyByConstituency'), '/test2 grouped local-election entries must preserve council-specific matching context');
 assert(electionManagerSource.includes('filterOverlayGroupsByCollision') && electionManagerSource.includes('boxesOverlap'), '/test2 election overlays must have MapLibre-native collision suppression');
 assert(electionManagerSource.includes('projectAnchorBounds') && electionManagerSource.includes('pixelArea'), '/test2 election overlay collision must use generated anchor bounds, not only centre-point spacing');
+assert(electionManagerSource.includes('orderPartyRowsLikeMain') && electionManagerSource.includes('setupResultsTableControls') && electionManagerSource.includes('test2SortDirection'), '/test2 election tables must preserve main-style party ordering and interactive sort controls');
+assert(electionManagerSource.includes('circle-sort-key') && electionManagerSource.includes('seatOrder'), '/test2 seat-circle drawing order must be deterministic like the main overlay DOM order');
 assert(uiControllerSource.includes('ensureMobileThumbnailDismissal') && uiControllerSource.includes('catalogue-flat__toc-thumbzoom--visible'), '/test2/main catalogue thumbnails must dismiss stuck mobile hover previews on outside touch/click');
 assert(electionManagerSource.includes('renderCouncilResults') && electionManagerSource.includes('buildCouncilSummary'), '/test2 grouped local elections must expose a council-level results view');
 assert(electionManagerSource.includes('buildLocalAggregateSeatCircleGroups') && electionManagerSource.includes('aggregateType'), '/test2 local-government district/council mode must aggregate seat-circle overlays instead of always drawing DEA-level groups');

@@ -977,7 +977,10 @@ export class TestMapLibreController {
     if (!record || !record.config?.labelProperty) return;
     const layer = record.config;
     const queryLayers = [`${layerId}-fill`, `${layerId}-line`].filter((id) => this.map.getLayer(id));
-    if (!queryLayers.length || !record.labelsEnabled || this.map.getZoom() < getLabelMinZoom(layer)) {
+    const labelMinZoom = Number.isFinite(Number(layer.test2LabelMinZoomOverride))
+      ? Number(layer.test2LabelMinZoomOverride)
+      : getLabelMinZoom(layer);
+    if (!queryLayers.length || !record.labelsEnabled || this.map.getZoom() < labelMinZoom) {
       this.clearDomLabels(layerId);
       return;
     }

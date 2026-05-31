@@ -331,8 +331,13 @@ export class Test2ElectionManager {
     this.mapController.applyElectionStyle?.(this.activeEntry.sourceMapId, {
       mode: this.activeMode,
       fillColorExpression: expression,
-      lineColorExpression: expression,
-      fillOpacity: this.activeBundle.geometryType === 'point' ? undefined : 0.38
+      lineColorExpression: '#31546a',
+      fillOpacity: this.activeBundle.geometryType === 'point' ? undefined : 0.28,
+      lineOpacity: this.activeBundle.geometryType === 'point' ? undefined : 0.72,
+      lineWidth: this.activeBundle.geometryType === 'point'
+        ? undefined
+        : ['interpolate', ['linear'], ['zoom'], 4, 0.65, 7, 0.9, 10, 1.25, 13, 1.7],
+      labelMinZoomOverride: 7.35
     });
     this.renderLegend();
   }
@@ -460,6 +465,7 @@ export class Test2ElectionManager {
       });
     });
     this.renderLegend();
+    this.setupResultsTableControls(pane);
   }
 
   renderOverallResults(view = 'party') {
@@ -507,6 +513,7 @@ export class Test2ElectionManager {
 
   renderMainParityPartyTable(rowsWithDeltas = [], results = []) {
     if (!rowsWithDeltas.length) return '<div class="election-no-data">No results data available.</div>';
+    const orderedRows = this.orderPartyRowsLikeMain(rowsWithDeltas);
     const totalSeats = rowsWithDeltas.reduce((sum, row) => sum + numberOrZero(row.seats), 0);
     const totalValid = sumNumbers(results, 'validPoll') || rowsWithDeltas.reduce((sum, row) => sum + numberOrZero(row.votes), 0);
     const totalPoll = sumNumbers(results, 'totalPoll') || totalValid + sumNumbers(results, 'spoiled');
@@ -560,7 +567,7 @@ export class Test2ElectionManager {
               </tr>
             </thead>
             <tbody>
-              ${rowsWithDeltas.map((row, index) => {
+              ${orderedRows.map((row, index) => {
                 const seatPct = pct(numberOrZero(row.seats), totalSeats);
                 const prevSeatPct = row.previous ? pct(numberOrZero(row.previous.seats), prevTotalSeats) : null;
                 const votePct = Number.isFinite(Number(row.share)) ? Number(row.share) : pct(numberOrZero(row.votes), totalValid);
@@ -720,6 +727,112 @@ export class Test2ElectionManager {
 
   renderElectionEntityButton(kind, key, labelHtml, extraClass = '') {
     return `<button type="button" class="election-entity-link ${extraClass}" data-election-entity="${escapeHtml(kind)}" data-election-entity-key="${escapeHtml(key || '')}">${labelHtml}</button>`;
+  }
+
+  orderPartyRowsLikeMain(rows = []) {
+    return [...rows].sort((a, b) => {
+      const seatDelta = numberOrZero(b.seats) - numberOrZero(a.seats);
+      if (seatDelta) return seatDelta;
+      const voteDelta = numberOrZero(b.votes) - numberOrZero(a.votes);
+      if (voteDelta) return voteDelta;
+      return String(a.party || '').localeCompare(String(b.party || ''), undefined, { numeric: true, sensitivity: 'base' });
+    });
+  }
+
+  setupResultsTableControls(container) {
+    const tables = [...(container?.querySelectorAll?.('.election-party-table, .election-count-table') || [])];
+    tables.forEach((table) => this.setupSingleResultsTableControls(table));
+  }
+
+  setupSingleResultsTableControls(table) {
+    if (!table || table.dataset.test2TableControlsReady === '1') return;
+    const tbody = table.querySelector('tbody');
+    const headers = [...table.querySelectorAll('thead th[data-leaf-col-idx]')];
+    if (!tbody || headers.length === 0) return;
+    table.dataset.test2TableControlsReady = '1';
+    const original = [...tbody.querySelectorAll('tr')].map((row, index) => ({ row, index }));
+    const isFixed = (row) => row.classList.contains('election-table-summary-row') || row.classList.contains('election-table-note-row');
+    const sortable = original.filter(({ row }) => !isFixed(row));
+    const fixed = original.filter(({ row }) => isFixed(row));
+    const parseNumeric = (text) => {
+      const cleaned = String(text || '')
+        .replace(/,/g, '')
+        .replace(/%/g, '')
+        .replace(/\+/g, '')
+        .replace(/\u2212/g, '-')
+        .trim();
+      if (!cleaned || cleaned === '-' || cleaned.toLowerCase() === 'n/a') return null;
+      const value = Number(cleaned);
+      return Number.isFinite(value) ? value : null;
+    };
+    const parseOrdinal = (text) => {
+      const match = String(text || '').trim().toLowerCase().match(/^(\d+)(st|nd|rd|th)?$/);
+      return match ? Number(match[1]) : null;
+    };
+    const cellText = (row, index) => row.children[index]?.textContent?.trim() || '';
+    const inferKind = (index) => {
+      const sample = sortable.slice(0, 40).map(({ row }) => cellText(row, index)).filter(Boolean);
+      if (!sample.length) return 'text';
+      if (sample.filter((value) => parseOrdinal(value) !== null).length / sample.length >= 0.8) return 'ordinal';
+      if (sample.filter((value) => parseNumeric(value) !== null).length / sample.length >= 0.8) return 'numeric';
+      return 'text';
+    };
+    const applySort = (column, direction) => {
+      const kind = inferKind(column);
+      const rows = direction === 'default'
+        ? [...sortable].sort((a, b) => a.index - b.index)
+        : [...sortable].sort((a, b) => {
+          const av = cellText(a.row, column);
+          const bv = cellText(b.row, column);
+          let comparison = 0;
+          if (kind === 'ordinal') {
+            const ao = parseOrdinal(av);
+            const bo = parseOrdinal(bv);
+            comparison = ao !== null && bo !== null ? ao - bo : av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
+          } else if (kind === 'numeric') {
+            const an = parseNumeric(av);
+            const bn = parseNumeric(bv);
+            if (an !== null && bn !== null) comparison = an - bn;
+            else if (an !== null) comparison = 1;
+            else if (bn !== null) comparison = -1;
+            else comparison = av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
+          } else {
+            comparison = av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
+          }
+          return direction === 'asc' ? comparison : -comparison;
+        });
+      tbody.innerHTML = '';
+      rows.forEach(({ row }, index) => {
+        const rankCell = row.querySelector('.election-rank-col');
+        if (rankCell) rankCell.textContent = rankLabel(index);
+        tbody.appendChild(row);
+      });
+      fixed.forEach(({ row }) => tbody.appendChild(row));
+      headers.forEach((header) => {
+        const button = header.querySelector('.election-results-sort');
+        if (!button) return;
+        const active = Number(header.dataset.leafColIdx) === column && direction !== 'default';
+        button.textContent = active ? (direction === 'asc' ? '\u2191' : '\u2193') : '\u2195';
+        button.classList.toggle('election-results-sort--active', active);
+      });
+    };
+    headers.forEach((header) => {
+      const button = header.querySelector('.election-results-sort');
+      if (!button) return;
+      button.tabIndex = 0;
+      button.removeAttribute('aria-hidden');
+      button.setAttribute('aria-label', 'Sort column');
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const column = Number(header.dataset.leafColIdx);
+        const current = table.dataset.test2SortColumn === String(column) ? (table.dataset.test2SortDirection || 'default') : 'default';
+        const next = current === 'default' ? 'desc' : (current === 'desc' ? 'asc' : 'default');
+        table.dataset.test2SortColumn = String(column);
+        table.dataset.test2SortDirection = next;
+        applySort(column, next);
+      });
+    });
   }
 
   renderMainParitySummaryRow(label, candidateValue, seatValue, seatPct, seatPctDelta, voteValue, voteDelta, pctValue, pctDelta) {
@@ -1523,6 +1636,7 @@ export class Test2ElectionManager {
     const groups = this.buildSeatCircleGroups(centres);
     const visibleGroups = this.filterOverlayGroupsByCollision(groups);
     const features = [];
+    let seatOrder = 0;
     for (const group of visibleGroups) {
       const { result, center, seats, positions, groupWidth, groupHeight } = group;
       const minX = Math.min(...positions.map((point) => point.x));
@@ -1543,7 +1657,8 @@ export class Test2ElectionManager {
             party: seat.party || result.winnerParty || result.leadingParty || '',
             colour: seat.colour || partyColour(seat.party || result.winnerParty || result.leadingParty),
             resultKey: normalizeName(result.matchName || result.constituency || ''),
-            aggregateType: result.aggregateType || ''
+            aggregateType: result.aggregateType || '',
+            seatOrder: seatOrder++
           }
         });
       });
@@ -1561,6 +1676,9 @@ export class Test2ElectionManager {
         id: SEAT_HALO_LAYER_ID,
         type: 'circle',
         source: SEAT_SOURCE_ID,
+        layout: {
+          'circle-sort-key': ['coalesce', ['get', 'seatOrder'], 0]
+        },
         paint: {
           'circle-color': '#ffffff',
           'circle-radius': 7,
@@ -1573,6 +1691,9 @@ export class Test2ElectionManager {
         id: SEAT_LAYER_ID,
         type: 'circle',
         source: SEAT_SOURCE_ID,
+        layout: {
+          'circle-sort-key': ['coalesce', ['get', 'seatOrder'], 0]
+        },
         paint: {
           'circle-color': ['coalesce', ['get', 'colour'], '#6b7280'],
           'circle-radius': 6,

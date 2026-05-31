@@ -1,3 +1,29 @@
+# /test2 remaining main-visible election parity gaps
+- [x] Record scope
+  - User request: fix active election catalogue restore, Dáil 2024 table ordering/aggregation, URL viewport restore, low-zoom label density, election fill/stroke style, seat-circle placement/collision, and MapLibre controls so `/test2` aligns with main where feasible.
+  - Main remains read-only reference; changes should be scoped to `/test2`, tests/validation, build outputs, and task notes.
+  - Completed: task scope recorded before implementation.
+- [x] Inspect current divergence
+  - Compare main URL semantics, catalogue row focus, election party table sorting/aggregation, label thresholds, election style expressions, seat overlay placement, and control DOM/CSS.
+  - Completed: found `/test2` was only best-effort scrolling active election rows, wrote `z` instead of main-style `zoom`, lacked active election table sort controls, used dense low-zoom DOM labels, used party-coloured polygon strokes, rendered seat overlays without explicit draw order, and still exposed native MapLibre zoom controls.
+- [x] Implement `/test2` parity fixes
+  - Force active election URL restores to open/focus the same decade catalogue row as main.
+  - Preserve `zoom` and `z` URL semantics and avoid later election fitting overwriting restored viewport.
+  - Align Dáil 2024 party table ordering/aggregation and default election pane state to main.
+  - Reduce low-zoom labels and tune election fill/stroke to match main visually.
+  - Tighten seat-circle ordering, anchors, offsets, and collision thresholds.
+  - Replace/restyle MapLibre controls with main-style custom controls where sensible.
+  - Completed: `/test2` now forces active election restores back to the main catalogue list state, writes main-style `zoom` while still reading legacy `z`, orders overall party tables by main-style seats/votes, enables table sort buttons, suppresses election labels below zoom 7.35, uses lower-opacity election fills and muted strokes, gives seat circles deterministic draw order, and installs custom Leaflet-like zoom controls over MapLibre.
+- [x] Add guardrails
+  - Extend `/test2` static/browser checks for catalogue focus, URL viewport restore, table order, labels, seat overlay, and controls.
+  - Completed: route validation now checks custom controls, catalogue/zoom restore, election label threshold hooks, table controls, and seat-circle draw order; browser coverage now verifies Dáil 2024 active restore/table/viewport/label behavior.
+- [x] Verify
+  - Run `/test2` validation, rebuild, and browser tests.
+  - Completed: `npm run check:test2`, `npm run build:test2`, and `npm run test:browser -- tests/browser/test2-app.spec.js` all pass.
+- [x] Review
+  - Summarize implemented changes and remaining Leaflet/MapLibre-specific limits.
+  - Completed: no code-blocking limit remains for this request; remaining visual differences would require another screenshot-led tuning pass rather than a known failing guardrail.
+
 # Shared election rendering/domain extraction
 - [x] Record scope
   - Implement the 1-10 extraction sequence: shared view-model shape, shared domain helpers, shared renderer, main/test2 wiring, map-adapter boundary, parity tests, and visual/overlay guardrails.

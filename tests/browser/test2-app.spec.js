@@ -73,6 +73,55 @@ test('/test2 boots centred on Ireland when URL has no viewport state', async ({ 
   expect(camera.zoom).toBeGreaterThan(4);
 });
 
+test('/test2 restores active Dail election catalogue, viewport, labels, and party table state', async ({ page }) => {
+  await page.goto('/test2/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForFunction(() => document.querySelector('#catalogueFlatView .flat-election-entry--active'));
+
+  const restored = await page.evaluate(() => {
+    const app = window.__civgraphTest2.app;
+    const map = app.mapController.map;
+    const activeRow = document.querySelector('#catalogueFlatView .flat-election-entry--active');
+    const scroller = activeRow?.closest('.pane__content');
+    const rowTexts = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)')]
+      .slice(0, 4)
+      .map((row) => row.children[1]?.textContent?.trim()?.replace(/\s+/g, ' '));
+    return {
+      path: location.pathname,
+      hash: location.hash,
+      activeRowText: activeRow?.textContent || '',
+      activeRowTop: activeRow ? activeRow.getBoundingClientRect().top : null,
+      scrollerTop: scroller ? scroller.getBoundingClientRect().top : null,
+      lng: map.getCenter().lng,
+      lat: map.getCenter().lat,
+      zoom: map.getZoom(),
+      domLabels: document.querySelectorAll('.maplibre-dom-label').length,
+      rowTexts
+    };
+  });
+
+  expect(restored.path).toBe('/test2/');
+  expect(restored.hash).toContain('layers=election-dil-ireann-2024-11-29');
+  expect(restored.hash).toContain('zoom=7.00');
+  expect(restored.activeRowText).toContain('29 Nov 2024');
+  expect(restored.activeRowText).toMatch(/D.il/);
+  expect(restored.activeRowTop).toBeGreaterThanOrEqual(restored.scrollerTop - 4);
+  expect(restored.lng).toBeCloseTo(-8.12, 1);
+  expect(restored.lat).toBeCloseTo(53.48, 1);
+  expect(restored.zoom).toBeCloseTo(7, 1);
+  expect(restored.domLabels).toBe(0);
+  expect(restored.rowTexts[0]).toMatch(/Fianna F.il/);
+  expect(restored.rowTexts[1]).toMatch(/Sinn F.in/);
+  expect(restored.rowTexts[2]).toBe('Fine Gael');
+  expect(restored.rowTexts[3]).toBe('Independent');
+
+  await page.locator('#electionPaneContent th[data-leaf-col-idx="8"] .election-results-sort').click();
+  const firstAfterSort = await page.locator('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)').first().textContent();
+  expect(firstAfterSort).toMatch(/Fianna F.il/);
+  await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="8"] .election-results-sort')).toHaveClass(/election-results-sort--active/);
+});
+
 test('/test2 dismisses stuck mobile thumbnail previews on outside tap', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/test2/');
@@ -94,13 +143,13 @@ test('/test2 production overlay controls do not overlap MapLibre controls', asyn
   await page.goto('/test2/');
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
   await page.waitForSelector('#activeLayersToggle');
-  await page.waitForSelector('.maplibregl-ctrl-zoom-in');
+  await page.waitForSelector('.test2-main-zoom-control');
   await page.waitForSelector('#mapControlsToggle');
   await page.waitForSelector('.maplibregl-ctrl-scale');
 
   const layout = await page.evaluate(() => {
     const active = document.getElementById('activeLayersToggle')?.getBoundingClientRect();
-    const zoom = document.querySelector('.maplibregl-ctrl-zoom-in')?.closest('.maplibregl-ctrl-group')?.getBoundingClientRect();
+    const zoom = document.querySelector('.test2-main-zoom-control')?.getBoundingClientRect();
     const settings = document.getElementById('mapControlsToggle')?.getBoundingClientRect();
     const scale = document.querySelector('.maplibregl-ctrl-scale')?.getBoundingClientRect();
     const overlaps = (a, b) => Boolean(a && b
@@ -135,7 +184,7 @@ test('/test2 mobile map and catalogue controls do not collide', async ({ page })
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
   await page.waitForSelector('#mobileToggle');
   await page.waitForSelector('#activeLayersToggle');
-  await page.waitForSelector('.maplibregl-ctrl-zoom-in');
+  await page.waitForSelector('.test2-main-zoom-control');
   await page.waitForSelector('#mapControlsToggle');
   await page.waitForSelector('.maplibregl-ctrl-scale');
 
@@ -151,7 +200,7 @@ test('/test2 mobile map and catalogue controls do not collide', async ({ page })
       && a.top < b.bottom
       && a.bottom > b.top);
     const active = rect(document.getElementById('activeLayersToggle'));
-    const zoom = rect(document.querySelector('.maplibregl-ctrl-zoom-in')?.closest('.maplibregl-ctrl-group'));
+    const zoom = rect(document.querySelector('.test2-main-zoom-control'));
     const settings = rect(document.getElementById('mapControlsToggle'));
     const scale = rect(document.querySelector('.maplibregl-ctrl-scale'));
     return {
@@ -385,6 +434,10 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
     await loadPromise;
     await new Promise((resolve) => window.__civgraphTest2.mapController.map.once('idle', resolve));
     const map = window.__civgraphTest2.mapController.map;
+    map.jumpTo({ zoom: 8.4 });
+    await new Promise((resolve) => map.once('idle', resolve));
+    const state = app.mapController.getLayerState(entry.sourceMapId);
+    if (state?.testLayerId) app.mapController.renderer?.refreshDomLabels?.(state.testLayerId);
     const seatSource = map.getSource('test2-election-seat-source');
     const expectedSeatCount = app.elections.activeBundle.results
       .reduce((sum, result) => sum + app.elections.seatCandidatesForResult(result).length, 0);
@@ -462,10 +515,27 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   expect(barOverlay.hasSeatCircles).toBe(false);
   expect(barOverlay.barCount).toBeGreaterThan(0);
   await page.locator('#test2ElectionOverlay').selectOption('circles');
+  await page.evaluate(() => window.uiController?.setSplitState?.('map-full'));
+  await page.waitForTimeout(100);
 
   const firstLabel = page.locator('.maplibre-dom-label:not([hidden])').first();
   await expect(firstLabel).toBeVisible();
-  await firstLabel.click();
+  const clickedLabel = await page.evaluate(() => {
+    const mapPane = document.querySelector('.pane--map')?.getBoundingClientRect();
+    const electionPane = document.getElementById('electionResultsPane')?.getBoundingClientRect();
+    const labels = [...document.querySelectorAll('.maplibre-dom-label:not([hidden])')];
+    const maxBottom = Math.min(mapPane?.bottom ?? Infinity, electionPane?.top ?? Infinity);
+    const target = labels.find((label) => {
+      const rect = label.getBoundingClientRect();
+      return rect.left >= (mapPane?.left ?? 0)
+        && rect.right <= (mapPane?.right ?? window.innerWidth)
+        && rect.top >= (mapPane?.top ?? 0)
+        && rect.bottom <= maxBottom;
+    }) || labels[0];
+    target?.click();
+    return target?.textContent?.trim() || '';
+  });
+  expect(clickedLabel).toBeTruthy();
   await expect(page.locator('#featureInfo')).toBeVisible();
   await expect(page.locator('#featureInfoContent')).toContainText('Election');
   await expect(page.locator('#featureInfoContent')).toContainText(/Leading party|Winning party/);
@@ -649,7 +719,7 @@ test('/test2 restores and persists detail, source, hidden layer, and panel URL s
     'base=cartodb-positron',
     'lng=-7.20',
     'lat=53.35',
-    'z=6.25'
+    'zoom=6.25'
   ].join('&');
   await page.goto(`/test2/#${hash}`);
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
@@ -695,6 +765,7 @@ test('/test2 restores and persists detail, source, hidden layer, and panel URL s
   await expect(page).toHaveURL(/source=civil-parishes-by-province/);
   await expect(page).toHaveURL(/activePanel=1/);
   await expect(page).toHaveURL(/controls=1/);
+  await expect(page).toHaveURL(/zoom=6\.25/);
 
   await page.locator('#test2SourcePanelClose').click();
   await expect(page.locator('#test2SourcePanel')).toBeHidden();

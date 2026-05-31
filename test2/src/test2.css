@@ -7,6 +7,7 @@
 #map .maplibregl-ctrl-top-left {
   top: 10px;
   left: 12px;
+  display: none;
 }
 
 #map .maplibregl-ctrl-top-right {
@@ -44,6 +45,43 @@
 
 #map .maplibregl-ctrl-compass {
   display: none;
+}
+
+#map .test2-main-zoom-control {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  z-index: 15;
+  margin: 0;
+  border: 1px solid rgba(0, 0, 0, .35);
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, .35);
+  overflow: hidden;
+}
+
+#map .test2-main-zoom-control__button {
+  display: block;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid #cfd7df;
+  background: #fff;
+  color: #000;
+  font: 700 22px/28px Arial, Helvetica, sans-serif;
+  text-align: center;
+  cursor: pointer;
+}
+
+#map .test2-main-zoom-control__button:last-child {
+  border-bottom: 0;
+}
+
+#map .test2-main-zoom-control__button:hover,
+#map .test2-main-zoom-control__button:focus-visible {
+  background: #f4f4f4;
+  outline: none;
 }
 
 #map .maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon,
@@ -399,6 +437,11 @@ body.app-shell.test2-election-open #electionResultsPane.election-results-pane--o
 .flat-election-entry--loading {
   opacity: .78;
   pointer-events: none;
+}
+
+.flat-election-entry--active {
+  background: rgba(219, 234, 254, .42);
+  box-shadow: inset 3px 0 0 var(--color-primary, #1a365d);
 }
 
 .flat-election-entry--loading .election-load-btn {

@@ -81,7 +81,30 @@ export class Test2MapLibreMainAdapter {
     this.renderer.init();
     this.map = this.renderer.map;
     this.map.invalidateSize = () => this.invalidateSize();
+    this.installMainStyleMapControls();
     return this;
+  }
+
+  installMainStyleMapControls() {
+    const map = this.map;
+    const host = map?.getContainer?.();
+    if (!map || !host || host.querySelector('.test2-main-zoom-control')) return;
+    const control = document.createElement('div');
+    control.className = 'leaflet-control leaflet-bar leaflet-control-zoom test2-main-zoom-control';
+    control.setAttribute('aria-label', 'Zoom controls');
+    control.innerHTML = `
+      <button type="button" class="leaflet-control-zoom-in test2-main-zoom-control__button" aria-label="Zoom in" title="Zoom in">+</button>
+      <button type="button" class="leaflet-control-zoom-out test2-main-zoom-control__button" aria-label="Zoom out" title="Zoom out">-</button>
+    `;
+    control.querySelector('.leaflet-control-zoom-in')?.addEventListener('click', (event) => {
+      event.preventDefault();
+      map.zoomIn({ duration: 150 });
+    });
+    control.querySelector('.leaflet-control-zoom-out')?.addEventListener('click', (event) => {
+      event.preventDefault();
+      map.zoomOut({ duration: 150 });
+    });
+    host.appendChild(control);
   }
 
   async loadLayer(mapOrId, options = {}) {
@@ -327,7 +350,19 @@ export class Test2MapLibreMainAdapter {
     if (this.map.getLayer(lineId)) {
       const property = record.config.geometryType === 'point' ? 'circle-color' : 'line-color';
       record._electionOriginalPaint.lineColor ??= this.map.getPaintProperty(lineId, property);
+      record._electionOriginalPaint.lineOpacity ??= this.map.getPaintProperty(lineId, record.config.geometryType === 'point' ? 'circle-opacity' : 'line-opacity');
+      record._electionOriginalPaint.lineWidth ??= this.map.getPaintProperty(lineId, record.config.geometryType === 'point' ? 'circle-radius' : 'line-width');
       this.map.setPaintProperty(lineId, property, style.lineColorExpression || style.fillColorExpression);
+      if (style.lineOpacity !== undefined) {
+        this.map.setPaintProperty(lineId, record.config.geometryType === 'point' ? 'circle-opacity' : 'line-opacity', clamp01(style.lineOpacity));
+      }
+      if (style.lineWidth !== undefined && record.config.geometryType !== 'point') {
+        this.map.setPaintProperty(lineId, 'line-width', style.lineWidth);
+      }
+    }
+    if (Number.isFinite(Number(style.labelMinZoomOverride))) {
+      record.config.test2LabelMinZoomOverride = Number(style.labelMinZoomOverride);
+      this.renderer?.refreshDomLabels?.(testId);
     }
     record.electionStyle = {
       mode: style.mode || 'winner'
@@ -356,7 +391,15 @@ export class Test2MapLibreMainAdapter {
       if (record._electionOriginalPaint.lineColor !== undefined) {
         this.map.setPaintProperty(lineId, property, record._electionOriginalPaint.lineColor);
       }
+      if (record._electionOriginalPaint.lineOpacity !== undefined) {
+        this.map.setPaintProperty(lineId, record.config.geometryType === 'point' ? 'circle-opacity' : 'line-opacity', record._electionOriginalPaint.lineOpacity);
+      }
+      if (record._electionOriginalPaint.lineWidth !== undefined && record.config.geometryType !== 'point') {
+        this.map.setPaintProperty(lineId, 'line-width', record._electionOriginalPaint.lineWidth);
+      }
     }
+    delete record.config.test2LabelMinZoomOverride;
+    this.renderer?.refreshDomLabels?.(testId);
     delete record._electionOriginalPaint;
     delete record.electionStyle;
     this.options.onChange?.(this);
