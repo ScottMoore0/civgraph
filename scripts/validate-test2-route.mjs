@@ -49,6 +49,10 @@ assert(mapControllerSource.includes("NavigationControl({ visualizePitch: true })
 assert(mapControllerSource.includes("ScaleControl({ unit: 'metric' }), 'bottom-right'"), '/test2 MapLibre scale control must not share the bottom-left settings corner');
 assert(test2Css.includes('#map .maplibregl-ctrl-top-left') && test2Css.includes('#map .maplibregl-ctrl-bottom-right'), '/test2 route CSS must explicitly place MapLibre controls away from production shell overlays');
 assert(mapControllerSource.includes("this.map.on('dblclick', onDoubleClick)"), '/test2 feature geometry selection must be wired to double-click');
+assert(mapControllerSource.includes('this.map.doubleClickZoom?.disable()'), '/test2 must disable MapLibre double-tap zoom so mobile feature taps can open details');
+assert(mapControllerSource.includes("this.map.on('click', onClick)"), '/test2 feature geometry selection must be wired to ordinary tap/click as well as double-click');
+assert(test2Css.includes('#mobileToggle.mobile-toggle') && test2Css.includes('bottom: 14px !important'), '/test2 mobile catalogue toggle must be positioned away from catalogue history controls');
+assert(test2Css.includes('#map .timeline-slider') && test2Css.includes('pointer-events: none'), '/test2 timeline chrome must not block feature labels except on real timeline controls');
 assert(test2Css.includes('.maplibre-dom-label.map-label--hover'), '/test2 DOM labels must expose hover styling');
 assert(test2Css.includes('.maplibre-dom-label.map-label--selected'), '/test2 selected DOM labels must keep the same orange styling as hover labels');
 assert(test2Css.includes('color: #ff7a1a !important'), '/test2 hovered labels must change text colour directly like the main site');
@@ -56,6 +60,7 @@ assert(mapControllerSource.includes("const INTERACTION_FILL_COLOR = '#FDBA74'"),
 assert(mapControllerSource.includes("const INTERACTION_STROKE_COLOR = '#FF7A1A'"), '/test2 selected and hover strokes must share the main-style deep orange colour');
 assert(mapControllerSource.includes('selectedFillId') && mapControllerSource.includes("['feature-state', 'selected']"), '/test2 polygon selections must include a selected fill, not only an outline');
 assert(mapControllerSource.includes('Polygon vector-tile features are clipped at tile boundaries'), '/test2 polygon interaction strokes must stay disabled to avoid tile-seam highlight artifacts');
+assert(mapControllerSource.includes("'fill-antialias': false"), '/test2 polygon interaction fills must disable antialiasing to avoid tile-fragment seam lines');
 assert(!mapControllerSource.includes("'line-color': '#111827'") && !mapControllerSource.includes("'circle-color': '#111827'"), '/test2 selections must not use the old thick black selected styling');
 assert(mapControllerSource.includes('loadDuplicateFeatureIds') && mapControllerSource.includes('duplicateIds?.has(String(id))'), '/test2 must avoid MapLibre feature-state cross-highlighting when a source has duplicate promoted feature IDs');
 assert(adapterSource.includes('normalizeRenderedFeature(selection.feature') && adapterSource.includes('this.options.enrichFeature'), '/test2 feature selections must pass normalized nested properties/geometry to main feature-info rendering');
@@ -73,6 +78,7 @@ assert(!mapControllerSource.includes('fillOpacity ?? 0.18') && !adapterSource.in
 assert(appSource.includes('Test2ElectionManager'), '/test2 must wire the election manager into the main shell route');
 assert(!appSource.includes('Election map workflows are not converted for /test2 yet'), '/test2 election callbacks must not remain disabled stubs');
 assert(appSource.includes('onBuildElectionCatalogueCards') && appSource.includes('this.elections?.buildCatalogueCards'), '/test2 catalogue must expose generated election entries');
+assert(appSource.includes('includeMobileElectionCatalogue = true'), '/test2 must opt in to visible election catalogue entries on mobile');
 assert(appSource.includes('enrichFeature: (feature, selection) => this.elections?.enrichFeature'), '/test2 selected feature details must merge election results where active');
 assert(appSource.includes('setupTimelineControls') && appSource.includes('setTimelineItems'), '/test2 must wire the production timeline slider for map chains and elections');
 assert(adapterSource.includes('applyElectionStyle') && adapterSource.includes('clearElectionStyle'), '/test2 adapter must support MapLibre election styling expressions');

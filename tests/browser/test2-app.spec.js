@@ -27,15 +27,18 @@ test('/test2 boots the production shell with the MapLibre adapter', async ({ pag
   await expect(page.locator('#map')).toBeVisible();
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await page.waitForFunction(() => document.querySelectorAll('#catalogueFlatView table tr').length > 10);
+  await page.waitForFunction(() => document.querySelectorAll('#catalogueFlatView .flat-election-entry').length > 10);
   const state = await page.evaluate(() => ({
     hasMapLibre: Boolean(window.__civgraphTest2.mapController.map),
     layerCount: window.__civgraphTest2.metadataService.layers.length,
     rows: document.querySelectorAll('#catalogueFlatView table tr').length,
+    electionRows: document.querySelectorAll('#catalogueFlatView .flat-election-entry').length,
     hasLeaflet: Boolean(window.L)
   }));
   expect(state.hasMapLibre).toBe(true);
   expect(state.layerCount).toBeGreaterThan(10);
   expect(state.rows).toBeGreaterThan(10);
+  expect(state.electionRows).toBeGreaterThan(10);
   expect(state.hasLeaflet).toBe(false);
 });
 
@@ -95,6 +98,69 @@ test('/test2 production overlay controls do not overlap MapLibre controls', asyn
   expect(layout.settingsScaleOverlaps).toBe(false);
   expect(layout.zoom.left).toBeLessThan(layout.active.left);
   expect(layout.settings.right).toBeLessThan(layout.scale.left);
+});
+
+test('/test2 mobile map and catalogue controls do not collide', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
+  await page.waitForSelector('#mobileToggle');
+  await page.waitForSelector('#activeLayersToggle');
+  await page.waitForSelector('.maplibregl-ctrl-zoom-in');
+  await page.waitForSelector('#mapControlsToggle');
+  await page.waitForSelector('.maplibregl-ctrl-scale');
+
+  await page.evaluate(() => window.uiController?.setSplitState?.('map-full'));
+  const mapLayout = await page.evaluate(() => {
+    const rect = (el) => {
+      const value = el?.getBoundingClientRect();
+      return value ? { left: value.left, right: value.right, top: value.top, bottom: value.bottom } : null;
+    };
+    const overlaps = (a, b) => Boolean(a && b
+      && a.left < b.right
+      && a.right > b.left
+      && a.top < b.bottom
+      && a.bottom > b.top);
+    const active = rect(document.getElementById('activeLayersToggle'));
+    const zoom = rect(document.querySelector('.maplibregl-ctrl-zoom-in')?.closest('.maplibregl-ctrl-group'));
+    const settings = rect(document.getElementById('mapControlsToggle'));
+    const scale = rect(document.querySelector('.maplibregl-ctrl-scale'));
+    return {
+      active,
+      zoom,
+      settings,
+      scale,
+      activeZoomOverlaps: overlaps(active, zoom),
+      settingsScaleOverlaps: overlaps(settings, scale)
+    };
+  });
+  expect(mapLayout.activeZoomOverlaps).toBe(false);
+  expect(mapLayout.settingsScaleOverlaps).toBe(false);
+
+  await page.evaluate(() => window.uiController?.setSplitState?.('info-full'));
+  const catalogueLayout = await page.evaluate(() => {
+    const rect = (el) => {
+      const value = el?.getBoundingClientRect();
+      return value ? { left: value.left, right: value.right, top: value.top, bottom: value.bottom } : null;
+    };
+    const overlaps = (a, b) => Boolean(a && b
+      && a.left < b.right
+      && a.right > b.left
+      && a.top < b.bottom
+      && a.bottom > b.top);
+    const toggle = rect(document.getElementById('mobileToggle'));
+    const history = rect(document.getElementById('catalogueHistory'));
+    const home = rect(document.getElementById('catalogueHome'));
+    return {
+      toggle,
+      history,
+      home,
+      toggleHistoryOverlaps: overlaps(toggle, history),
+      toggleHomeOverlaps: overlaps(toggle, home)
+    };
+  });
+  expect(catalogueLayout.toggleHistoryOverlaps).toBe(false);
+  expect(catalogueLayout.toggleHomeOverlaps).toBe(false);
 });
 
 test('/test2 loads a converted layer through the main catalogue map callback', async ({ page }) => {
@@ -724,7 +790,12 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
       decoration: labelStyle.textDecorationLine,
       textShadow: labelStyle.textShadow,
       fillColor: app.mapController.map.getPaintProperty('civil-parishes-vector-test-hover', 'fill-color'),
+      baseFillAntialias: app.mapController.map.getPaintProperty('civil-parishes-vector-test-fill', 'fill-antialias'),
+      hoverFillAntialias: app.mapController.map.getPaintProperty('civil-parishes-vector-test-hover', 'fill-antialias'),
       hoverLineLayerExists: Boolean(app.mapController.map.getLayer('civil-parishes-vector-test-hover-line')),
+      fallbackHoverCount: app.mapController.map.queryRenderedFeatures({
+        layers: ['civil-parishes-vector-test-fallback-hover-fill'].filter((layerId) => app.mapController.map.getLayer(layerId))
+      }).length,
       featureHover: app.mapController.map.getFeatureState({
         source: 'civil-parishes-vector-test-source',
         sourceLayer: app.metadataService.getLayer('civil-parishes-vector-test').sourceLayer,
@@ -737,7 +808,10 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
   expect(hoverState.textShadow).toContain('rgb(255, 255, 255)');
   expect(hoverState.textShadow).not.toContain('255, 122, 26');
   expect(hoverState.fillColor).toBe('#FDBA74');
+  expect(hoverState.baseFillAntialias).toBe(false);
+  expect(hoverState.hoverFillAntialias).toBe(false);
   expect(hoverState.hoverLineLayerExists).toBe(false);
+  expect(hoverState.fallbackHoverCount).toBe(0);
   expect(hoverState.featureHover).toBe(true);
 
   await firstLabel.click();
@@ -755,7 +829,11 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
       labelDecoration: labelStyle.textDecorationLine,
       fillColor: app.mapController.map.getPaintProperty('civil-parishes-vector-test-selected-fill', 'fill-color'),
       fillOpacity: app.mapController.map.getPaintProperty('civil-parishes-vector-test-selected-fill', 'fill-opacity'),
+      selectedFillAntialias: app.mapController.map.getPaintProperty('civil-parishes-vector-test-selected-fill', 'fill-antialias'),
       selectedLineLayerExists: Boolean(app.mapController.map.getLayer('civil-parishes-vector-test-selected')),
+      fallbackSelectedCount: app.mapController.map.queryRenderedFeatures({
+        layers: ['civil-parishes-vector-test-fallback-selected-fill'].filter((layerId) => app.mapController.map.getLayer(layerId))
+      }).length,
       featureSelected: app.mapController.map.getFeatureState({
         source: 'civil-parishes-vector-test-source',
         sourceLayer: app.metadataService.getLayer('civil-parishes-vector-test').sourceLayer,
@@ -767,7 +845,9 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
   expect(selectedStyle.labelDecoration).toContain('underline');
   expect(selectedStyle.fillColor).toBe('#FDBA74');
   expect(selectedStyle.fillOpacity).toEqual(['case', ['boolean', ['feature-state', 'selected'], false], 0.42, 0]);
+  expect(selectedStyle.selectedFillAntialias).toBe(false);
   expect(selectedStyle.selectedLineLayerExists).toBe(false);
+  expect(selectedStyle.fallbackSelectedCount).toBe(0);
   expect(selectedStyle.featureSelected).toBe(true);
   const featureCardPosition = await page.evaluate(() => {
     const mapPane = document.querySelector('.pane--map').getBoundingClientRect();
@@ -851,6 +931,52 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
   await expect(page.locator('#featureInfo')).toBeVisible();
   await expect(page.locator('#featureInfoContent')).toContainText(/Civil Parishes|Parish|Name/i);
   await expect(page.locator('#featureInfoContent')).not.toContainText('Unnamed Feature');
+});
+
+test('/test2 mobile-sized feature taps select geometry without double-tap zoom', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
+  await page.evaluate(() => window.uiController?.setSplitState?.('map-full'));
+  await loadCivilParishes(page);
+
+  const target = await page.evaluate(() => {
+    const map = window.__civgraphTest2.mapController.map;
+    const feature = map.queryRenderedFeatures({
+      layers: ['civil-parishes-vector-test-fill'].filter((id) => map.getLayer(id))
+    })[0];
+    const coords = [];
+    const walk = (value) => {
+      if (!Array.isArray(value)) return;
+      if (value.length >= 2 && typeof value[0] === 'number' && typeof value[1] === 'number') {
+        coords.push([value[0], value[1]]);
+        return;
+      }
+      value.forEach(walk);
+    };
+    walk(feature?.geometry?.coordinates);
+    const lng = coords.reduce((sum, coord) => sum + coord[0], 0) / coords.length;
+    const lat = coords.reduce((sum, coord) => sum + coord[1], 0) / coords.length;
+    const point = map.project([lng, lat]);
+    const rect = map.getContainer().getBoundingClientRect();
+    return {
+      x: rect.left + point.x,
+      y: rect.top + point.y,
+      zoom: map.getZoom()
+    };
+  });
+
+  const doubleClickZoomDisabled = await page.evaluate(() => {
+    const handler = window.__civgraphTest2.mapController.map.doubleClickZoom;
+    return typeof handler?.isEnabled === 'function' ? handler.isEnabled() === false : true;
+  });
+  expect(doubleClickZoomDisabled).toBe(true);
+
+  await page.mouse.dblclick(target.x, target.y);
+  await expect(page.locator('#featureInfo')).toBeVisible();
+  await expect(page.locator('#featureInfoContent')).not.toContainText('Unnamed Feature');
+  const zoomAfter = await page.evaluate(() => window.__civgraphTest2.mapController.map.getZoom());
+  expect(Math.abs(zoomAfter - target.zoom)).toBeLessThan(0.25);
 });
 
 test('/test2 mobile shell, support modal, theme toggle, and accessibility smoke pass', async ({ page }) => {

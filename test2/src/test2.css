@@ -5,7 +5,7 @@
 }
 
 #map .maplibregl-ctrl-top-left {
-  top: 56px;
+  top: 68px;
   left: 12px;
 }
 
@@ -21,15 +21,61 @@
 
 #map .maplibregl-ctrl-bottom-right {
   right: 12px;
-  bottom: 12px;
+  bottom: 14px;
+}
+
+#map .active-layers-toggle {
+  top: 14px !important;
+  right: 14px !important;
 }
 
 #map .map-controls {
+  bottom: 66px;
+  left: 14px;
   pointer-events: none;
 }
 
 #map .map-controls > * {
   pointer-events: auto;
+}
+
+#map .timeline-slider {
+  pointer-events: none;
+}
+
+#map .timeline-range,
+#map .timeline-btn {
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  #map .maplibregl-ctrl-top-left {
+    top: 72px;
+    left: 12px;
+  }
+
+  #map .active-layers-toggle {
+    top: 14px !important;
+    right: 14px !important;
+  }
+
+  #map .map-controls {
+    bottom: 76px;
+    left: 12px;
+    max-width: min(280px, calc(100vw - 104px));
+  }
+
+  #map .maplibregl-ctrl-bottom-right {
+    right: 12px;
+    bottom: 14px;
+  }
+
+  #mobileToggle.mobile-toggle {
+    top: auto !important;
+    left: auto !important;
+    right: 14px !important;
+    bottom: 14px !important;
+  }
 }
 
 body.app-shell.test2-election-open {

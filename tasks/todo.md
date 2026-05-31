@@ -1,3 +1,36 @@
+# /test2 mobile/control/election regression fixes
+- [x] Record the recurring regression report
+  - Active-layers collapse/expand button still overlaps zoom controls.
+  - Mobile double-tapping a feature zooms instead of opening the feature card.
+  - Settings/accessibility button still overlaps the scale control.
+  - Mobile catalogue show/hide button obscures catalogue history/top controls.
+  - Polygon hover/click still shows horizontal/vertical internal seam lines.
+  - Election entries are not visible in the catalogue pane.
+- [x] Inspect current `/test2` control layout, touch interaction, polygon interaction layers, and catalogue election rendering
+  - Reviewed `/test2` shell CSS, MapLibre control placement, geometry click/double-click wiring, polygon hover/selection rendering, timeline pointer handling, and the main catalogue bounded-mobile election filter.
+- [x] Fix desktop and mobile map control collisions permanently
+  - Moved MapLibre zoom controls below the active-layers toggle, kept active layers at the top-right, moved scale to bottom-right, moved the settings/accessibility controls above the scale area, and moved the mobile catalogue show/hide button away from catalogue history/home controls.
+- [x] Fix mobile feature double-tap/tap feature selection without requiring label taps
+  - Disabled MapLibre double-click zoom on `/test2` and wired ordinary feature geometry click/double-click selection so the feature card opens from the geometry itself, not only from DOM labels.
+- [x] Remove polygon internal hover/click seam lines
+  - Disabled polygon fill antialiasing and stopped using clipped fallback polygon interaction overlays for ordinary polygon features; duplicate-ID/generated-ID fallbacks remain available only where required.
+- [x] Restore visible election entries in the catalogue pane
+  - Added a `/test2` opt-in so the production catalogue can show election entries on mobile while preserving the main site's bounded mobile shortcut elsewhere.
+- [x] Add or tighten browser/static regression coverage for each reported recurrence
+  - Added static `/test2` route guard checks for double-click zoom disabling, geometry selection wiring, control placement CSS, timeline pointer pass-through, polygon antialiasing, and election catalogue opt-in.
+  - Added browser checks for visible election rows, mobile control non-overlap, MapLibre interaction-layer seam prevention, and mobile-sized geometry double-click selection.
+- [x] Update lessons/guardrails for the recurring failures
+  - Added guardrails for route-scoped control placement, vector-tile seam prevention, mobile geometry selection, and route-specific election catalogue parity opt-ins.
+- [x] Verify with `/test2` route checks, build, and browser tests
+  - `node scripts/validate-test2-route.mjs` passed.
+  - `npm run check:test2` passed.
+  - `npm run build:test2` passed after approved sandbox escalation because esbuild process spawning was blocked by `EPERM`.
+  - `npm run test:browser:test2` passed after approved sandbox escalation because Playwright browser spawning was blocked by `EPERM`: 19/19 tests passed.
+
+## Review
+- The reported `/test2` regressions now have code fixes plus guardrails: control collisions are checked by browser bounding boxes, mobile geometry selection no longer depends on label taps, ordinary polygon hover/selection avoids tile-fragment seam overlays, and election catalogue rows are asserted visible.
+- Remaining unrelated untracked local scratch/generated files were not staged or modified as part of this task.
+
 # /test2 full election-domain parity implementation
 - [x] Record the requested full election parity scope
   - Extract shared election-domain logic from `js/election-controller.js`.

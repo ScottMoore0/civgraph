@@ -1,5 +1,37 @@
 # Lessons Log
 
+### 124) Route-specific catalogue shortcuts need explicit parity opt-ins
+- Mistake pattern: Reusing the main site's bounded mobile catalogue shortcut on `/test2` without checking whether the route needs broader catalogue visibility for parity testing.
+- Impact: Election entries could be hidden from the `/test2` catalogue pane even though the MapLibre election implementation was present.
+- Guardrail:
+  1) route-specific catalogue shortcuts must be controlled by named opt-ins,
+  2) `/test2` browser boot checks must assert election rows are visible,
+  3) performance shortcuts should hide expensive browsing aids only when the route has an equivalent accessible entry point.
+
+### 123) Mobile feature selection must be geometry-driven, not label-only
+- Mistake pattern: Treating DOM-label taps as sufficient parity for feature selection while leaving mobile double-tap gestures controlled by the map zoom handler.
+- Impact: On mobile, users had to tap small labels to open feature cards; double-tapping feature geometry zoomed instead of selecting.
+- Guardrail:
+  1) `/test2` disables MapLibre double-click zoom where main-site feature double-click/tap selection is required,
+  2) geometry click/double-click handlers must query rendered features with tolerance and open the main feature card,
+  3) browser tests must assert mobile-sized geometry double-click selection does not materially change zoom.
+
+### 122) Map control parity must be tested against production overlay positions
+- Mistake pattern: Moving MapLibre controls to another default slot and declaring overlap fixed without checking every production overlay in the real `/test2` shell.
+- Impact: The active-layers button could still overlap zoom controls, and the settings button could overlap the scale control, because production shell overlays and MapLibre controls were not laid out as one control system.
+- Guardrail:
+  1) place MapLibre controls under route-scoped CSS that accounts for production overlay buttons,
+  2) browser tests must check active-layers, zoom, settings, and scale bounding boxes together,
+  3) parity work must include the visible production workflows, not only the map canvas.
+
+### 121) Polygon hover strokes on vector-tile fragments can draw tile seams
+- Mistake pattern: Using thick MapLibre line layers or GeoJSON fallback line overlays for polygon hover/selection on MVT features.
+- Impact: Tile-clipped polygon fragments can show horizontal or vertical internal highlight lines when a feature is hovered or selected.
+- Guardrail:
+  1) `/test2` polygon interaction should use fill plus DOM-label state unless an unclipped full-geometry outline source is available,
+  2) duplicate promoted IDs must use generated interaction keys and avoid shared feature-state,
+  3) browser/static checks should assert polygon interaction line layers are absent or disabled for polygon sources.
+
 ### 119) Treat “absent from source” as unproven until unnamed and duplicate-labelled geometries are checked
 - Mistake pattern: Classifying election geographies as absent from a converted boundary source based only on the feature-search index and matched-name report.
 - Impact: `Armagh Area D`, `Dungannon Area C`, and `Limavady Area C` were reported as missing from `deas-1972` even though the geometries existed; two had null `NAME` values and one was mislabelled as a duplicate `DUNGANNON AREA D`.

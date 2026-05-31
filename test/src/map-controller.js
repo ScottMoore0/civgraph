@@ -89,6 +89,7 @@ export class TestMapLibreController {
       attributionControl: true
     });
 
+    this.map.doubleClickZoom?.disable();
     this.map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-left');
     this.map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-right');
     this.map.on('moveend', () => this.notifyChange());
@@ -197,7 +198,8 @@ export class TestMapLibreController {
         'source-layer': layer.sourceLayer,
         paint: {
           'fill-color': layer.style?.fillColor || layer.style?.color || '#7C3AED',
-          'fill-opacity': resolveFillOpacity(layer)
+          'fill-opacity': resolveFillOpacity(layer),
+          'fill-antialias': false
         }
       });
     }
@@ -252,7 +254,8 @@ export class TestMapLibreController {
         'source-layer': layer.sourceLayer,
         paint: {
           'fill-color': INTERACTION_FILL_COLOR,
-          'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.42, 0]
+          'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.42, 0],
+          'fill-antialias': false
         }
       });
     }
@@ -282,7 +285,8 @@ export class TestMapLibreController {
         'source-layer': layer.sourceLayer,
         paint: {
           'fill-color': INTERACTION_FILL_COLOR,
-          'fill-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.42, 0]
+          'fill-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.42, 0],
+          'fill-antialias': false
         }
       });
       return;
@@ -342,7 +346,8 @@ export class TestMapLibreController {
         source,
         paint: {
           'fill-color': INTERACTION_FILL_COLOR,
-          'fill-opacity': 0.42
+          'fill-opacity': 0.42,
+          'fill-antialias': false
         }
       });
       layerIds.push(id);
@@ -777,9 +782,20 @@ export class TestMapLibreController {
       const feature = queryAtPoint(event.point, CLICK_TOLERANCE_PX)[0];
       if (feature) this.selectFeature(layer, feature);
     };
+    const onClick = (event) => {
+      const original = event.originalEvent;
+      if (original && document.elementFromPoint(original.clientX, original.clientY)?.closest?.('.maplibre-dom-label, .maplibregl-ctrl, .map-controls, .active-layers-toggle')) {
+        return;
+      }
+      const feature = queryAtPoint(event.point, CLICK_TOLERANCE_PX)[0];
+      if (!feature) return;
+      event.preventDefault?.();
+      this.selectFeature(layer, feature);
+    };
     const onUpdateLabels = () => this.scheduleDomLabelRefresh(layer.id);
     const mapContainer = this.map.getContainer();
     this.map.on('mousemove', onMouseMove);
+    this.map.on('click', onClick);
     this.map.on('dblclick', onDoubleClick);
     this.map.on('movestart', clearHover);
     this.map.on('moveend', onUpdateLabels);
@@ -790,6 +806,7 @@ export class TestMapLibreController {
     return () => {
       if (hoverFrame) cancelAnimationFrame(hoverFrame);
       this.map.off('mousemove', onMouseMove);
+      this.map.off('click', onClick);
       this.map.off('dblclick', onDoubleClick);
       this.map.off('movestart', clearHover);
       this.map.off('moveend', onUpdateLabels);
@@ -872,7 +889,11 @@ export class TestMapLibreController {
         this.map.setFeatureState({ source: record.sourceId, sourceLayer: layer.sourceLayer, id }, { hover: true });
       } catch {}
     }
-    this.setInteractionOverlay(layer.id, 'hover', feature);
+    if (generated || layer.geometryType === 'point' || layer.geometryType === 'line') {
+      this.setInteractionOverlay(layer.id, 'hover', feature);
+    } else {
+      this.clearInteractionOverlay(layer.id, 'hover');
+    }
     this.map.getCanvas().style.cursor = 'pointer';
   }
 
@@ -902,7 +923,11 @@ export class TestMapLibreController {
         this.map.setFeatureState({ source: record.sourceId, sourceLayer: layer.sourceLayer, id }, { selected: true });
       } catch {}
     }
-    this.setInteractionOverlay(layer.id, 'selected', normalizedFeature);
+    if (generated || layer.geometryType === 'point' || layer.geometryType === 'line') {
+      this.setInteractionOverlay(layer.id, 'selected', normalizedFeature);
+    } else {
+      this.clearInteractionOverlay(layer.id, 'selected');
+    }
     this.setDomLabelSelected(layer.id, id, true);
     this.options.onSelection?.({ layer, feature: normalizedFeature });
     this.notifyChange();

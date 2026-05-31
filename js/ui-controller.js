@@ -3673,7 +3673,9 @@ class UIController {
         electionsAnchor.id = 'flat-section-elections';
         electionsAnchor.className = 'catalogue-flat__anchor';
         cardsContainer.appendChild(electionsAnchor);
-        const electionCardsToRender = boundedMobileCatalogue ? [] : decadeElectionCards;
+        const electionCardsToRender = (boundedMobileCatalogue && !this.includeMobileElectionCatalogue)
+            ? []
+            : decadeElectionCards;
         for (let defIndex = 0; defIndex < electionCardsToRender.length; defIndex++) {
             if (this._flatRenderToken !== renderToken) return;
             const def = electionCardsToRender[defIndex];

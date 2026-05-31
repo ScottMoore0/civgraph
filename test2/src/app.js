@@ -63,6 +63,7 @@ class Test2App {
     await this.elections.load();
     uiController.init();
     uiController.showAllMaps = true;
+    uiController.includeMobileElectionCatalogue = true;
 
     this._suspendURLState = true;
     this.mapController.init('map');
