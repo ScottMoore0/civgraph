@@ -935,6 +935,41 @@ button.catalogue-flat__toc-toplink {
   color: var(--color-primary, #1a365d);
 }
 
+.catalogue-flat__toc-election-row td {
+  vertical-align: top;
+}
+
+.catalogue-flat__toc-election-row .catalogue-flat__toc-link {
+  font-variant-numeric: tabular-nums;
+}
+
+.catalogue-flat__toc-election-row--placeholder {
+  opacity: 0.72;
+}
+
+.catalogue-flat__toc-link--disabled {
+  cursor: default;
+}
+
+.catalogue-flat__toc-link--disabled:hover,
+.catalogue-flat__toc-link--disabled:focus-visible {
+  color: inherit;
+  background: transparent;
+}
+
+.catalogue-flat__toc-status {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 5px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 999px;
+  color: var(--color-text-muted, #718096);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
 .catalogue-flat__toc-row--indented .catalogue-flat__toc-link {
   padding-left: 18px;
 }

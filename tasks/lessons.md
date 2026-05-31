@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 125) Catalogue visibility tests must target the visible browsing surface
+- Mistake pattern: Treating hidden or far-below-the-fold catalogue card DOM as proof that entries are available in the map catalogue.
+- Impact: `/test2` had 548 election card entries, but the primary top catalogue table only showed decade jump buttons, so users saw no election entries available to pick.
+- Guardrail:
+  1) catalogue parity tests must assert visible rows in the default top catalogue surface,
+  2) buried detail/card DOM counts are supporting evidence only,
+  3) route-specific catalogue additions should avoid thumbnail/network churn and be gated explicitly when they would alter the main site.
+
 ### 124) Route-specific catalogue shortcuts need explicit parity opt-ins
 - Mistake pattern: Reusing the main site's bounded mobile catalogue shortcut on `/test2` without checking whether the route needs broader catalogue visibility for parity testing.
 - Impact: Election entries could be hidden from the `/test2` catalogue pane even though the MapLibre election implementation was present.

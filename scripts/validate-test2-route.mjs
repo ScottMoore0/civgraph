@@ -8,6 +8,7 @@ const adapterSource = readFileSync('test2/src/maplibre-main-adapter.js', 'utf8')
 const electionManagerSource = readFileSync('test2/src/election-manager.js', 'utf8');
 const electionDomainSource = readFileSync('js/election-domain.mjs', 'utf8');
 const electionManifestBuilderSource = readFileSync('scripts/build-test2-election-manifest.mjs', 'utf8');
+const uiControllerSource = readFileSync('js/ui-controller.js', 'utf8');
 const mapControllerSource = readFileSync('test/src/map-controller.js', 'utf8');
 const labelsSource = readFileSync('test/src/labels.js', 'utf8');
 const featureRepairsSource = readFileSync('test/src/feature-property-repairs.js', 'utf8');
@@ -79,6 +80,8 @@ assert(appSource.includes('Test2ElectionManager'), '/test2 must wire the electio
 assert(!appSource.includes('Election map workflows are not converted for /test2 yet'), '/test2 election callbacks must not remain disabled stubs');
 assert(appSource.includes('onBuildElectionCatalogueCards') && appSource.includes('this.elections?.buildCatalogueCards'), '/test2 catalogue must expose generated election entries');
 assert(appSource.includes('includeMobileElectionCatalogue = true'), '/test2 must opt in to visible election catalogue entries on mobile');
+assert(appSource.includes('includeElectionTocRows = true'), '/test2 must opt in to visible election rows in the top catalogue table');
+assert(uiControllerSource.includes('flat-election-toc-link') && uiControllerSource.includes('catalogue-flat__toc-election-row'), '/test2 catalogue must render elections as pickable top-table rows, not only buried decade cards');
 assert(appSource.includes('enrichFeature: (feature, selection) => this.elections?.enrichFeature'), '/test2 selected feature details must merge election results where active');
 assert(appSource.includes('setupTimelineControls') && appSource.includes('setTimelineItems'), '/test2 must wire the production timeline slider for map chains and elections');
 assert(adapterSource.includes('applyElectionStyle') && adapterSource.includes('clearElectionStyle'), '/test2 adapter must support MapLibre election styling expressions');

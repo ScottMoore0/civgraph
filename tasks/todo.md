@@ -1,3 +1,29 @@
+# /test2 election catalogue recurrence fix
+- [x] Record recurrence
+  - Symptom: election entries still do not appear in the `/test2` map catalogue after the previous mobile catalogue opt-in fix.
+  - Root cause: election entries were generated and visible in lower decade cards, but the default top catalogue table only exposed decade jump buttons. The prior test counted buried card entries rather than rows visible in the primary catalogue surface.
+  - Permanent prevention action: add top-table election rows plus a regression check against visible top catalogue rows, not just hidden/lower card DOM.
+  - Verification evidence: headless render check found 519 top-table pickable election rows; first row was `29 Nov 2024 Dáil Éireann` at `top=283.21875`.
+- [x] Inspect the production catalogue render path used by `/test2`
+  - Confirmed `onBuildElectionCatalogueCards` returned 548 entries and 519 loadable entries, but the top table rendered only decade links while real entry rows began around 5,296px down the scroll surface.
+- [x] Fix election entry visibility in the default `/test2` catalogue
+  - Added route-gated top-table election rows under the Elections heading, with no thumbnails/network churn and with placeholders marked disabled.
+  - Kept the existing decade card sections below for browsing by decade.
+- [x] Add or tighten static/browser guardrails for visible election catalogue rows
+  - Added `/test2` static route checks for `includeElectionTocRows`, `flat-election-toc-link`, and `catalogue-flat__toc-election-row`.
+  - Updated browser boot coverage to require more than 10 loadable election rows in the top catalogue table and to assert the first visible election row appears near the top of the viewport.
+- [x] Rebuild and verify `/test2`
+  - `node scripts/validate-test2-route.mjs` passed.
+  - `npm run build:test2` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
+  - `npm run build` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
+  - Render inspection passed: 519 top-table election rows and 548 lower decade-card election rows.
+  - `npm run check:test2` passed.
+  - `npm run test:browser:test2` passed after approved sandbox escalation because Playwright spawning was blocked by `EPERM`: 19/19 tests passed.
+
+## Review
+- The catalogue now exposes elections in the immediately visible top-table surface, so users do not need to infer that decade buttons hide real entries thousands of pixels lower in the pane.
+- The fix is route-gated for `/test2` via `includeElectionTocRows`/`includeMobileElectionCatalogue`, avoiding an unintended main-site catalogue reshuffle.
+
 # /test2 mobile/control/election regression fixes
 - [x] Record the recurring regression report
   - Active-layers collapse/expand button still overlaps zoom controls.

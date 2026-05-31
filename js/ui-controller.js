@@ -3263,6 +3263,9 @@ class UIController {
                 electionEntries: entries
             };
         });
+        const electionTocEntries = (this.includeElectionTocRows || this.includeMobileElectionCatalogue)
+            ? decadeElectionCards.flatMap(def => def.electionEntries || [])
+            : [];
 
         const stripBracketParts = (name) => String(name || '').replace(/\s*\([^)]*\)/g, '').trim();
         const collectCardMaps = (def) => {
@@ -3327,6 +3330,37 @@ class UIController {
                         <div class="catalogue-flat__toc-decade-buttons">${decadeButtonsHtml}</div>
                     </td>
                 </tr>`;
+        electionTocEntries.forEach(entry => {
+            const dateFormatted = formatElectionDate(entry.date);
+            const bodyShort = entry.displayProvider || shortBodyName(entry.body);
+            const subtitle = entry.displaySubtitle || (entry.isByElection
+                ? (entry.constituencies || []).join(', ')
+                : `${(entry.constituencies || []).filter(c => c !== 'Northern Ireland').length || entry.totalConstituencies || 0} constituencies`);
+            const statusBadge = entry.placeholder
+                ? '<span class="catalogue-flat__toc-status">To Be Added</span>'
+                : '';
+            const rowClass = `catalogue-flat__toc-election-row${entry.placeholder ? ' catalogue-flat__toc-election-row--placeholder' : ''}`;
+            const linkClass = entry.placeholder
+                ? 'catalogue-flat__toc-link catalogue-flat__toc-link--disabled flat-election-toc-link'
+                : 'catalogue-flat__toc-link flat-election-toc-link';
+            tocHtml += `
+                <tr class="${rowClass}">
+                    <td>
+                        <a href="#" class="${linkClass}"
+                           data-election-body="${this.escapeHtml(entry.body)}"
+                           data-election-date="${this.escapeHtml(entry.date)}"
+                           data-election-placeholder="${entry.placeholder ? '1' : '0'}">
+                            <span class="catalogue-flat__toc-namecell">
+                                <span class="catalogue-flat__toc-color" style="background:#4b5563"></span>
+                                <span class="catalogue-flat__toc-thumb catalogue-flat__toc-thumb--fallback"></span>
+                                <span class="catalogue-flat__toc-name">${this.escapeHtml(dateFormatted)} <span class="flat-election-body">${this.escapeHtml(bodyShort)}</span>${statusBadge}</span>
+                            </span>
+                        </a>
+                    </td>
+                    <td>${this.escapeHtml(subtitle)}</td>
+                    <td>${this.escapeHtml(entry.extent || '')}</td>
+                </tr>`;
+        });
 
         tocHtml += `
                 <tr class="catalogue-flat__toc-heading-row">
@@ -3810,10 +3844,14 @@ class UIController {
             cardsContainer.insertAdjacentHTML('beforeend', this.renderMobileCatalogueExpandControl());
         }
 
-        cardsContainer.querySelectorAll('.flat-election-link, .election-load-btn, .flat-election-entry').forEach(el => {
+        container.querySelectorAll('.flat-election-link, .election-load-btn, .flat-election-entry, .flat-election-toc-link').forEach(el => {
             el.addEventListener('click', (e) => {
                 const host = e.currentTarget.closest('.flat-election-entry') || e.currentTarget;
-                if (host?.dataset?.electionPlaceholder === '1') return;
+                if (host?.dataset?.electionPlaceholder === '1') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return;
+                }
                 if (e.currentTarget.classList.contains('flat-election-entry') &&
                     e.target.closest('.flat-election-link, .election-load-btn')) {
                     return;
