@@ -22,6 +22,9 @@ class Test2App {
     this.currentSourceMapId = null;
     this.baseMapId = 'osm-standard';
     this.elections = null;
+    this.timelineItems = [];
+    this.timelineOnSelect = null;
+    this.timelineApplying = false;
   }
 
   async init() {
@@ -34,7 +37,10 @@ class Test2App {
     await this.metadataService.load();
 
     this.mapController = new Test2MapLibreMainAdapter('map', this.metadataService, {
-      onFeatureClick: (features) => uiController.showFeatureInfo(features, dataService.getAllMaps()),
+      onFeatureClick: (features) => {
+        uiController.showFeatureInfo(features, dataService.getAllMaps());
+        if (features?.[0]) this.elections?.showFeatureResults(features[0]);
+      },
       getMainMap: (mapId) => dataService.getMapById(mapId),
       enrichFeature: (feature, selection) => this.elections?.enrichFeature(feature, selection) || feature,
       onChange: () => {
@@ -73,6 +79,7 @@ class Test2App {
     this.setupThemeToggle();
     this.setupSupportModal();
     this.setupMapControls();
+    this.setupTimelineControls();
     this.setupSourcePanel();
     this.setupURLStateListener();
     window.__civgraphTest2.restorePromise = this.restoreURLState()
@@ -470,6 +477,145 @@ class Test2App {
     this.mapController.map?.on('moveend', () => this.updateURLState());
   }
 
+  setupTimelineControls() {
+    const range = document.getElementById('timelineRange');
+    const prev = document.getElementById('timelinePrev');
+    const next = document.getElementById('timelineNext');
+    const reset = document.getElementById('timelineReset');
+    const applyIndex = async (index) => {
+      if (!this.timelineItems.length || !this.timelineOnSelect) return;
+      const safeIndex = Math.max(0, Math.min(this.timelineItems.length - 1, Number(index) || 0));
+      if (range) range.value = String(safeIndex);
+      this.updateTimelineLabel(safeIndex);
+      await this.timelineOnSelect(this.timelineItems[safeIndex], safeIndex);
+    };
+    range?.addEventListener('change', (event) => applyIndex(event.target.value).catch((error) => this.showMapError(error)));
+    range?.addEventListener('input', (event) => this.updateTimelineLabel(event.target.value));
+    prev?.addEventListener('click', () => applyIndex((Number(range?.value) || 0) - 1).catch((error) => this.showMapError(error)));
+    next?.addEventListener('click', () => applyIndex((Number(range?.value) || 0) + 1).catch((error) => this.showMapError(error)));
+    reset?.addEventListener('click', () => {
+      const latest = Math.max(0, this.timelineItems.length - 1);
+      applyIndex(latest).catch((error) => this.showMapError(error));
+    });
+  }
+
+  setTimelineItems(items, activeIndex, onSelect) {
+    const slider = document.getElementById('timelineSlider');
+    const range = document.getElementById('timelineRange');
+    this.timelineItems = Array.isArray(items) ? items : [];
+    this.timelineOnSelect = typeof onSelect === 'function' ? onSelect : null;
+    if (!slider || !range || this.timelineItems.length < 2 || !this.timelineOnSelect) {
+      this.hideTimeline();
+      return;
+    }
+    const safeIndex = Math.max(0, Math.min(this.timelineItems.length - 1, Number(activeIndex) || 0));
+    range.min = '0';
+    range.max = String(this.timelineItems.length - 1);
+    range.value = String(safeIndex);
+    slider.classList.remove('hidden');
+    this.updateTimelineLabel(safeIndex);
+  }
+
+  updateTimelineLabel(index) {
+    const item = this.timelineItems[Math.max(0, Math.min(this.timelineItems.length - 1, Number(index) || 0))];
+    const label = document.getElementById('timelineLabel');
+    if (label) label.textContent = item?.label || '';
+  }
+
+  hideTimeline() {
+    this.timelineItems = [];
+    this.timelineOnSelect = null;
+    document.getElementById('timelineSlider')?.classList.add('hidden');
+  }
+
+  updateTimeline() {
+    if (this.timelineApplying) return;
+    if (this.elections?.activeEntry) {
+      this.elections.updateElectionTimeline();
+      return;
+    }
+    const activeIds = this.getLoadedLayerIds()
+      .filter((id) => dataService.getMapById(id))
+      .filter((id) => this.isMapVisible(id));
+    const chains = [];
+    const chainIds = new Set();
+    for (const id of activeIds) {
+      const chain = dataService.getChainForMap?.(id);
+      if (!chain || chainIds.has(chain.id)) continue;
+      chainIds.add(chain.id);
+      chains.push(chain);
+    }
+    if (!chains.length) {
+      this.hideTimeline();
+      return;
+    }
+    const timestamps = (dataService.getApplicableDates?.(chains) || [])
+      .filter((timestamp) => Number.isFinite(Number(timestamp)))
+      .sort((a, b) => a - b);
+    if (timestamps.length < 2) {
+      this.hideTimeline();
+      return;
+    }
+    const currentTimestamp = this.getCurrentTimelineTimestamp(activeIds);
+    const activeIndex = timestamps.findIndex((timestamp) => timestamp === currentTimestamp);
+    const items = timestamps.map((timestamp) => ({
+      timestamp,
+      label: this.formatTimelineTimestamp(timestamp)
+    }));
+    this.setTimelineItems(items, activeIndex >= 0 ? activeIndex : timestamps.length - 1, async (item) => {
+      await this.applyTimelineTimestamp(item.timestamp);
+    });
+  }
+
+  getCurrentTimelineTimestamp(activeIds) {
+    const activeTimestamps = activeIds
+      .map((id) => dataService.parseMapDate?.(dataService.getMapById(id)?.date))
+      .filter((timestamp) => Number.isFinite(Number(timestamp)));
+    return activeTimestamps.length ? Math.max(...activeTimestamps) : null;
+  }
+
+  formatTimelineTimestamp(timestamp) {
+    const date = new Date(Number(timestamp));
+    if (!Number.isFinite(date.getTime())) return '';
+    return date.toISOString().slice(0, 10).replace(/-01-01$/, '');
+  }
+
+  async applyTimelineTimestamp(timestamp) {
+    const activeIds = this.getLoadedLayerIds()
+      .filter((id) => dataService.getMapById(id))
+      .filter((id) => this.isMapVisible(id));
+    const equivalents = dataService.getEquivalentMapsForDate?.(activeIds, timestamp) || {};
+    this.timelineApplying = true;
+    try {
+      for (const [oldId, newId] of Object.entries(equivalents)) {
+        if (!newId || newId === oldId || !dataService.getMapById(newId)) continue;
+        await this.unloadMap(oldId);
+        await this.loadMap(newId);
+      }
+      this.syncCatalogueMapState();
+      this.updateActiveLayers();
+      this.updateURLState();
+    } finally {
+      this.timelineApplying = false;
+      this.updateTimeline();
+    }
+  }
+
+  async unloadMap(mapId) {
+    const mapConfig = dataService.getMapById(mapId);
+    if (this.mapController.getLayerState(mapId)?.isGroup) {
+      this.mapController.unloadLayer(mapId);
+    } else if (mapConfig?.isGroup && Array.isArray(mapConfig.members)) {
+      mapConfig.members.forEach((memberId) => this.mapController.unloadLayer(memberId));
+      this.mapController.unloadLayer(mapId);
+    } else if (mapConfig?.isGroup && Array.isArray(mapConfig.variants)) {
+      mapConfig.variants.forEach((variant) => this.mapController.unloadLayer(variant.id));
+      this.mapController.unloadLayer(mapId);
+    } else {
+      this.mapController.unloadLayer(mapId);
+    }
+  }
+
   setMapControlsOpen(open) {
     const mapControlsToggle = document.getElementById('mapControlsToggle');
     const mapControlPanel = document.getElementById('mapControlPanel');
@@ -687,6 +833,7 @@ class Test2App {
     uiController.updateActiveLayers(loadedMaps, visibilityMap, new Map());
     this.bindActiveLayerSourceButtons();
     if (this.currentSourceMapId) this.renderSourcePanel();
+    this.updateTimeline();
   }
 
   isMapLoaded(mapId) {

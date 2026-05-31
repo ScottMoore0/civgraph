@@ -63,6 +63,7 @@ export class TestMapLibreController {
     this.fallbackLayers = new Map();
     this.interactionCleanups = new Map();
     this.fallbackCleanups = new Map();
+    this.duplicateFeatureIdCache = new Map();
     maplibregl.addProtocol('pmtiles', this.protocol.tile);
   }
 
@@ -88,8 +89,8 @@ export class TestMapLibreController {
       attributionControl: true
     });
 
-    this.map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
-    this.map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
+    this.map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-left');
+    this.map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-right');
     this.map.on('moveend', () => this.notifyChange());
     this.map.on('idle', () => this.notifyChange());
     this.map.fitBounds(IRELAND_BOUNDS, { padding: 28, duration: 0 });
@@ -116,6 +117,7 @@ export class TestMapLibreController {
     const labelId = `${layer.id}-label`;
 
     await this.waitForMap();
+    const duplicateFeatureIds = await this.loadDuplicateFeatureIds(layer);
 
     const source = this.buildSource(layer);
     this.map.addSource(sourceId, source);
@@ -146,6 +148,7 @@ export class TestMapLibreController {
       labelLayerIds,
       domLabelMarkers: new Map(),
       domLabelsScheduled: 0,
+      duplicateFeatureIds,
       labelsEnabled: true,
       textScale: DEFAULT_TEXT_SCALE,
       opacity: resolveLayerOpacity(layer),
@@ -186,7 +189,6 @@ export class TestMapLibreController {
 
   addGeometryLayers(layer, ids) {
     const { sourceId, fillId, lineId, hoverId, selectedFillId, selectedId } = ids;
-    const hoverLineId = `${layer.id}-hover-line`;
     if (layer.geometryType !== 'line' && layer.geometryType !== 'point') {
       this.map.addLayer({
         id: fillId,
@@ -253,17 +255,6 @@ export class TestMapLibreController {
           'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.42, 0]
         }
       });
-      this.map.addLayer({
-        id: hoverLineId,
-        type: 'line',
-        source: sourceId,
-        'source-layer': layer.sourceLayer,
-        paint: {
-          'line-color': INTERACTION_STROKE_COLOR,
-          'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 3, 0],
-          'line-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.95, 0]
-        }
-      });
     }
 
     if (layer.geometryType === 'point') {
@@ -294,6 +285,7 @@ export class TestMapLibreController {
           'fill-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.42, 0]
         }
       });
+      return;
     }
     this.map.addLayer({
       id: selectedId,
@@ -363,10 +355,12 @@ export class TestMapLibreController {
       addLineLayer(`${layer.id}-fallback-hover`, hoverSourceId, 3);
       addLineLayer(`${layer.id}-fallback-selected`, selectedSourceId, 3);
     } else {
+      // Polygon vector-tile features are clipped at tile boundaries. Drawing
+      // interaction strokes from those fragments exposes internal tile seams,
+      // so polygon interaction uses fill + DOM-label state unless full
+      // unclipped outline geometry is available.
       addFillLayer(`${layer.id}-fallback-hover-fill`, hoverSourceId);
-      addLineLayer(`${layer.id}-fallback-hover`, hoverSourceId, 3);
       addFillLayer(`${layer.id}-fallback-selected-fill`, selectedSourceId);
-      addLineLayer(`${layer.id}-fallback-selected`, selectedSourceId, 3);
     }
     return { layerIds, sourceIds };
   }
@@ -813,9 +807,39 @@ export class TestMapLibreController {
   readFeatureIdentity(layer, feature) {
     const idProperty = layer?.promoteId || 'id';
     const id = feature?.id ?? feature?.properties?.[idProperty] ?? feature?.properties?.id;
-    if (id !== undefined && id !== null && id !== '') return { id, generated: false };
+    if (id !== undefined && id !== null && id !== '') {
+      const duplicateIds = this.layers.get(layer.id)?.duplicateFeatureIds;
+      if (duplicateIds?.has(String(id))) {
+        const generated = generatedFeatureId(layer, feature) || fallbackGeneratedFeatureId(layer, feature, id);
+        return generated ? { id: generated, generated: true, sourceFeatureId: id, duplicatePromoteId: true } : { id, generated: false };
+      }
+      return { id, generated: false };
+    }
     const generated = generatedFeatureId(layer, feature);
     return generated ? { id: generated, generated: true } : { id: null, generated: true };
+  }
+
+  async loadDuplicateFeatureIds(layer) {
+    const url = layer?.featureIndexUrl;
+    if (!url) return new Set();
+    if (!this.duplicateFeatureIdCache.has(url)) {
+      this.duplicateFeatureIdCache.set(url, fetch(url, { cache: 'force-cache' })
+        .then((response) => response.ok ? response.json() : null)
+        .then((index) => {
+          const items = Array.isArray(index)
+            ? index
+            : (Array.isArray(index?.items) ? index.items : (Array.isArray(index?.features) ? index.features : []));
+          const counts = new Map();
+          for (const item of items) {
+            if (item?.id === undefined || item?.id === null || item.id === '') continue;
+            const key = String(item.id);
+            counts.set(key, (counts.get(key) || 0) + 1);
+          }
+          return new Set([...counts].filter(([, count]) => count > 1).map(([key]) => key));
+        })
+        .catch(() => new Set()));
+    }
+    return this.duplicateFeatureIdCache.get(url);
   }
 
   clearHover() {
@@ -1118,6 +1142,20 @@ function generatedFeatureId(layer, feature) {
   const geometryKey = geometrySignature(feature?.geometry);
   const propertyKey = stablePropertySignature(properties, layer);
   const key = [label, propertyKey, geometryKey].filter(Boolean).join('|');
+  return key ? `generated:${hashString(key)}` : null;
+}
+
+function fallbackGeneratedFeatureId(layer, feature, rawId) {
+  const properties = feature?.properties || {};
+  const label = getFeatureLabel(layer, properties) || '';
+  const propertyKey = stablePropertySignature(properties, layer);
+  const key = [
+    layer?.id || '',
+    rawId === undefined || rawId === null ? '' : String(rawId),
+    label,
+    propertyKey,
+    JSON.stringify(properties).slice(0, 500)
+  ].filter(Boolean).join('|');
   return key ? `generated:${hashString(key)}` : null;
 }
 

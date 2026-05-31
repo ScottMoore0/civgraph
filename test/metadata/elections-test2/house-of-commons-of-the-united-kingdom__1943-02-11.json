@@ -10,6 +10,9 @@
   "layerId": "pc-1920-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+  "previousKey": "house-of-commons-of-the-united-kingdom__1943-02-09",
+  "previousDate": "1943-02-09",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "House of Commons of the United Kingdom",
@@ -28,6 +31,168 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 42371,
+      "colour": "#48a5ee",
+      "share": 69.39694706498952
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 17253,
+      "colour": "#6b7280",
+      "share": 28.25766509433962
+    },
+    {
+      "party": "Independent Unionist",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1432,
+      "colour": "#6b7280",
+      "share": 2.3453878406708597
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 61056,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 42371,
+        "finalVotes": 42371,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Antrim"
+        ],
+        "candidates": [
+          {
+            "personId": "15374944",
+            "name": "John Campbell",
+            "constituency": "Antrim",
+            "firstPref": 42371,
+            "finalVotes": 42371,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 69.39694706498952
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 17253,
+        "finalVotes": 17253,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Antrim"
+        ],
+        "candidates": [
+          {
+            "personId": "12394690",
+            "name": "Robert Getgood",
+            "constituency": "Antrim",
+            "firstPref": 17253,
+            "finalVotes": 17253,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 28.25766509433962
+      },
+      {
+        "name": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 1432,
+        "finalVotes": 1432,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Antrim"
+        ],
+        "candidates": [
+          {
+            "personId": "3566492",
+            "name": "Reginald Press",
+            "constituency": "Antrim",
+            "firstPref": 1432,
+            "finalVotes": 1432,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 2.3453878406708597
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "15374944",
+        "name": "John Campbell",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 42371,
+        "finalVotes": 42371,
+        "electedCount": 1,
+        "constituencies": [
+          "Antrim"
+        ],
+        "appearances": [
+          {
+            "constituency": "Antrim",
+            "firstPref": 42371,
+            "finalVotes": 42371,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 69.39694706498952
+      },
+      {
+        "personId": "12394690",
+        "name": "Robert Getgood",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 17253,
+        "finalVotes": 17253,
+        "electedCount": 0,
+        "constituencies": [
+          "Antrim"
+        ],
+        "appearances": [
+          {
+            "constituency": "Antrim",
+            "firstPref": 17253,
+            "finalVotes": 17253,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 28.25766509433962
+      },
+      {
+        "personId": "3566492",
+        "name": "Reginald Press",
+        "party": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 1432,
+        "finalVotes": 1432,
+        "electedCount": 0,
+        "constituencies": [
+          "Antrim"
+        ],
+        "appearances": [
+          {
+            "constituency": "Antrim",
+            "firstPref": 1432,
+            "finalVotes": 1432,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 2.3453878406708597
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Antrim",
@@ -51,33 +216,223 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "15374944",
           "name": "John Campbell",
           "party": "UUP",
           "firstPrefs": 42371,
           "finalVotes": 42371,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 42371,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 42371
+            }
+          ]
         },
         {
+          "id": "12394690",
           "name": "Robert Getgood",
           "party": "NI Labour",
           "firstPrefs": 17253,
           "finalVotes": 17253,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#DC241F",
+          "counts": [
+            {
+              "count": 1,
+              "total": 17253,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 17253
+            }
+          ]
         },
         {
+          "id": "3566492",
           "name": "Reginald Press",
           "party": "Independent Unionist",
           "firstPrefs": 1432,
           "finalVotes": 1432,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#AADFFF",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1432,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 1432
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "15374944",
+          "name": "John Campbell",
+          "party": "UUP",
+          "firstPrefs": 42371,
+          "finalVotes": 42371,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 42371,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 42371
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Antrim",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "135795",
+        "Total_Poll": "",
+        "Valid_Poll": "61056"
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "42371.00",
+          "Candidate_Id": "15374944",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "John",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Campbell",
+          "Total_Votes": "42371.00",
+          "Transfers": "0.00",
+          "candidateName": "John Campbell",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "17253.00",
+          "Candidate_Id": "12394690",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Robert",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DC241F",
+          "Party_Name": "NI Labour",
+          "Status": "",
+          "Surname": "Getgood",
+          "Total_Votes": "17253.00",
+          "Transfers": "0.00",
+          "candidateName": "Robert Getgood",
+          "id": 1
+        },
+        {
+          "Candidate_First_Pref_Votes": "1432.00",
+          "Candidate_Id": "3566492",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Reginald",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#AADFFF",
+          "Party_Name": "Independent Unionist",
+          "Status": "",
+          "Surname": "Press",
+          "Total_Votes": "1432.00",
+          "Transfers": "0.00",
+          "candidateName": "Reginald Press",
+          "id": 2
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Antrim",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "135795",
+            "Total_Poll": "",
+            "Valid_Poll": "61056"
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "42371.00",
+              "Candidate_Id": "15374944",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "John",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Campbell",
+              "Total_Votes": "42371.00",
+              "Transfers": "0.00",
+              "candidateName": "John Campbell",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "17253.00",
+              "Candidate_Id": "12394690",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Robert",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DC241F",
+              "Party_Name": "NI Labour",
+              "Status": "",
+              "Surname": "Getgood",
+              "Total_Votes": "17253.00",
+              "Transfers": "0.00",
+              "candidateName": "Robert Getgood",
+              "id": 1
+            },
+            {
+              "Candidate_First_Pref_Votes": "1432.00",
+              "Candidate_Id": "3566492",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Reginald",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#AADFFF",
+              "Party_Name": "Independent Unionist",
+              "Status": "",
+              "Surname": "Press",
+              "Total_Votes": "1432.00",
+              "Transfers": "0.00",
+              "candidateName": "Reginald Press",
+              "id": 2
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1943-02-11/antrim.json",
       "featureId": "pc-1920-vector-test-6",
       "featureName": "ANTRIM",
@@ -85,6 +440,14 @@
         "ANTRIM"
       ],
       "matchName": "ANTRIM",
+      "anchor": {
+        "center": [
+          -6.175593,
+          54.864713
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.42601065028206064
+      },
       "matched": true
     }
   ]

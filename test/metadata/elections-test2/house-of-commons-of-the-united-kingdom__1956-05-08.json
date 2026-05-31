@@ -10,6 +10,9 @@
   "layerId": "pc-1948-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/pc-1948-vector-test.json",
+  "previousKey": "house-of-commons-of-the-united-kingdom__1955-08-11",
+  "previousDate": "1955-08-11",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "House of Commons of the United Kingdom",
@@ -28,6 +31,168 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "Independent Unionist",
+      "seats": 1,
+      "stood": 1,
+      "votes": 28605,
+      "colour": "#6b7280",
+      "share": 48.36010143702452
+    },
+    {
+      "party": "Sinn Féin",
+      "seats": 0,
+      "stood": 1,
+      "votes": 24124,
+      "colour": "#326760",
+      "share": 40.78444632290786
+    },
+    {
+      "party": "Nationalist Party",
+      "seats": 0,
+      "stood": 1,
+      "votes": 6421,
+      "colour": "#6b7280",
+      "share": 10.855452240067624
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 59150,
+    "parties": [
+      {
+        "name": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 28605,
+        "finalVotes": 28605,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Mid Ulster"
+        ],
+        "candidates": [
+          {
+            "personId": "8566548",
+            "name": "George Forrest",
+            "constituency": "Mid Ulster",
+            "firstPref": 28605,
+            "finalVotes": 28605,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 48.36010143702452
+      },
+      {
+        "name": "Sinn Féin",
+        "colour": "#326760",
+        "firstPrefs": 24124,
+        "finalVotes": 24124,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Mid Ulster"
+        ],
+        "candidates": [
+          {
+            "personId": "9657918",
+            "name": "Thomas Mitchell",
+            "constituency": "Mid Ulster",
+            "firstPref": 24124,
+            "finalVotes": 24124,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 40.78444632290786
+      },
+      {
+        "name": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 6421,
+        "finalVotes": 6421,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Mid Ulster"
+        ],
+        "candidates": [
+          {
+            "personId": "8514631",
+            "name": "Michael O'Neill",
+            "constituency": "Mid Ulster",
+            "firstPref": 6421,
+            "finalVotes": 6421,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 10.855452240067624
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "8566548",
+        "name": "George Forrest",
+        "party": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 28605,
+        "finalVotes": 28605,
+        "electedCount": 1,
+        "constituencies": [
+          "Mid Ulster"
+        ],
+        "appearances": [
+          {
+            "constituency": "Mid Ulster",
+            "firstPref": 28605,
+            "finalVotes": 28605,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 48.36010143702452
+      },
+      {
+        "personId": "9657918",
+        "name": "Thomas Mitchell",
+        "party": "Sinn Féin",
+        "colour": "#326760",
+        "firstPrefs": 24124,
+        "finalVotes": 24124,
+        "electedCount": 0,
+        "constituencies": [
+          "Mid Ulster"
+        ],
+        "appearances": [
+          {
+            "constituency": "Mid Ulster",
+            "firstPref": 24124,
+            "finalVotes": 24124,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 40.78444632290786
+      },
+      {
+        "personId": "8514631",
+        "name": "Michael O'Neill",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 6421,
+        "finalVotes": 6421,
+        "electedCount": 0,
+        "constituencies": [
+          "Mid Ulster"
+        ],
+        "appearances": [
+          {
+            "constituency": "Mid Ulster",
+            "firstPref": 6421,
+            "finalVotes": 6421,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 10.855452240067624
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Mid Ulster",
@@ -51,33 +216,223 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
+          "id": "8566548",
           "name": "George Forrest",
           "party": "Independent Unionist",
           "firstPrefs": 28605,
           "finalVotes": 28605,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#6b7280"
+          "colour": "#AADFFF",
+          "counts": [
+            {
+              "count": 1,
+              "total": 28605,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 28605
+            }
+          ]
         },
         {
+          "id": "9657918",
           "name": "Thomas Mitchell",
           "party": "Sinn Féin",
           "firstPrefs": 24124,
           "finalVotes": 24124,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#326760"
+          "colour": "#326760",
+          "counts": [
+            {
+              "count": 1,
+              "total": 24124,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 24124
+            }
+          ]
         },
         {
+          "id": "8514631",
           "name": "Michael O'Neill",
           "party": "Nationalist Party",
           "firstPrefs": 6421,
           "finalVotes": 6421,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#32CD32",
+          "counts": [
+            {
+              "count": 1,
+              "total": 6421,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 6421
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "8566548",
+          "name": "George Forrest",
+          "party": "Independent Unionist",
+          "firstPrefs": 28605,
+          "finalVotes": 28605,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#AADFFF",
+          "counts": [
+            {
+              "count": 1,
+              "total": 28605,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 28605
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Mid Ulster",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "66891",
+        "Total_Poll": "",
+        "Valid_Poll": "59150"
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "28605.00",
+          "Candidate_Id": "8566548",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "George",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#AADFFF",
+          "Party_Name": "Independent Unionist",
+          "Status": "Elected",
+          "Surname": "Forrest",
+          "Total_Votes": "28605.00",
+          "Transfers": "0.00",
+          "candidateName": "George Forrest",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "24124.00",
+          "Candidate_Id": "9657918",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Thomas",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#326760",
+          "Party_Name": "Sinn Féin",
+          "Status": "",
+          "Surname": "Mitchell",
+          "Total_Votes": "24124.00",
+          "Transfers": "0.00",
+          "candidateName": "Thomas Mitchell",
+          "id": 1
+        },
+        {
+          "Candidate_First_Pref_Votes": "6421.00",
+          "Candidate_Id": "8514631",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Michael",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#32CD32",
+          "Party_Name": "Nationalist Party",
+          "Status": "",
+          "Surname": "O'Neill",
+          "Total_Votes": "6421.00",
+          "Transfers": "0.00",
+          "candidateName": "Michael O'Neill",
+          "id": 2
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Mid Ulster",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "66891",
+            "Total_Poll": "",
+            "Valid_Poll": "59150"
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "28605.00",
+              "Candidate_Id": "8566548",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "George",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#AADFFF",
+              "Party_Name": "Independent Unionist",
+              "Status": "Elected",
+              "Surname": "Forrest",
+              "Total_Votes": "28605.00",
+              "Transfers": "0.00",
+              "candidateName": "George Forrest",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "24124.00",
+              "Candidate_Id": "9657918",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Thomas",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#326760",
+              "Party_Name": "Sinn Féin",
+              "Status": "",
+              "Surname": "Mitchell",
+              "Total_Votes": "24124.00",
+              "Transfers": "0.00",
+              "candidateName": "Thomas Mitchell",
+              "id": 1
+            },
+            {
+              "Candidate_First_Pref_Votes": "6421.00",
+              "Candidate_Id": "8514631",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Michael",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#32CD32",
+              "Party_Name": "Nationalist Party",
+              "Status": "",
+              "Surname": "O'Neill",
+              "Total_Votes": "6421.00",
+              "Transfers": "0.00",
+              "candidateName": "Michael O'Neill",
+              "id": 2
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1956-05-08/mid-ulster.json",
       "featureId": "2141",
       "featureName": "MID ULSTER",
@@ -85,6 +440,14 @@
         "MID ULSTER"
       ],
       "matchName": "MID ULSTER",
+      "anchor": {
+        "center": [
+          -7.164037,
+          54.727205
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.38936211219346994
+      },
       "matched": true
     }
   ]

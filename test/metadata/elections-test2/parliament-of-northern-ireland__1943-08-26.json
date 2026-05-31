@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1943-08-11",
+  "previousDate": "1943-08-11",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
@@ -26,6 +29,66 @@
     "leadingParty",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#48a5ee",
+      "share": null
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 0,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Carrick"
+        ],
+        "candidates": [
+          {
+            "personId": "6899216",
+            "name": "John Dermot Campbell",
+            "constituency": "Carrick",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "6899216",
+        "name": "John Dermot Campbell",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 1,
+        "constituencies": [
+          "Carrick"
+        ],
+        "appearances": [
+          {
+            "constituency": "Carrick",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Carrick",
@@ -49,15 +112,115 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "6899216",
           "name": "John Dermot Campbell",
           "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "6899216",
+          "name": "John Dermot Campbell",
+          "party": "UUP",
+          "firstPrefs": null,
+          "finalVotes": null,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Carrick",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_Id": "6899216",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "John Dermot",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Campbell",
+          "Total_Votes": "",
+          "Transfers": "0.00",
+          "candidateName": "John Dermot Campbell",
+          "id": 0
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Carrick",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_Id": "6899216",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "John Dermot",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Campbell",
+              "Total_Votes": "",
+              "Transfers": "0.00",
+              "candidateName": "John Dermot Campbell",
+              "id": 0
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1943-08-26/carrick.json",
       "featureId": "21",
       "featureName": "CARRICK",
@@ -66,6 +229,14 @@
         "ANTRIM"
       ],
       "matchName": "CARRICK",
+      "anchor": {
+        "center": [
+          -5.918372,
+          54.718139
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.0214159205613742
+      },
       "matched": true
     }
   ]

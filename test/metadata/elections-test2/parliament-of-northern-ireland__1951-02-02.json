@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1950-12-06",
+  "previousDate": "1950-12-06",
   "loadable": false,
   "displaySubtitle": "1 constituencies; 1 unmatched",
   "displayProvider": "Parliament of Northern Ireland",
@@ -24,6 +27,66 @@
     "Antrim Borough"
   ],
   "availableStyleModes": [],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#48a5ee",
+      "share": null
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 0,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Antrim Borough"
+        ],
+        "candidates": [
+          {
+            "personId": "2833040",
+            "name": "Nat Minford",
+            "constituency": "Antrim Borough",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "2833040",
+        "name": "Nat Minford",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 1,
+        "constituencies": [
+          "Antrim Borough"
+        ],
+        "appearances": [
+          {
+            "constituency": "Antrim Borough",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Antrim Borough",
@@ -47,20 +110,121 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "2833040",
           "name": "Nat Minford",
           "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "2833040",
+          "name": "Nat Minford",
+          "party": "UUP",
+          "firstPrefs": null,
+          "finalVotes": null,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Antrim Borough",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_Id": "2833040",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Nat",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Minford",
+          "Total_Votes": "",
+          "Transfers": "0.00",
+          "candidateName": "Nat Minford",
+          "id": 0
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Antrim Borough",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_Id": "2833040",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Nat",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Minford",
+              "Total_Votes": "",
+              "Transfers": "0.00",
+              "candidateName": "Nat Minford",
+              "id": 0
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1951-02-02/antrim-borough.json",
       "featureId": null,
       "featureName": null,
       "featureAliases": [],
       "matchName": null,
+      "anchor": null,
       "matched": false
     }
   ]

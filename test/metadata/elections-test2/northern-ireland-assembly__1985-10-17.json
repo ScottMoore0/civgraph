@@ -10,6 +10,9 @@
   "layerId": "assembly-areas-1970-alias-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/assembly-areas-1970-alias-test.json",
+  "previousKey": "northern-ireland-assembly__1984-03-01",
+  "previousDate": "1984-03-01",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Northern Ireland Assembly",
@@ -26,8 +29,120 @@
     "leadingParty",
     "voteShare",
     "turnout",
-    "majority"
+    "majority",
+    "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 17528,
+      "colour": "#48a5ee",
+      "share": 86.06501031130314
+    },
+    {
+      "party": "Independent Unionist",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2838,
+      "colour": "#6b7280",
+      "share": 13.934989688696847
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 20366,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 17528,
+        "finalVotes": 17528,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "South Down"
+        ],
+        "candidates": [
+          {
+            "personId": "68645",
+            "name": "Jeffrey Donaldson",
+            "constituency": "South Down",
+            "firstPref": 17528,
+            "finalVotes": 17528,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 86.06501031130314
+      },
+      {
+        "name": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 2838,
+        "finalVotes": 2838,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "South Down"
+        ],
+        "candidates": [
+          {
+            "personId": "39330",
+            "name": "Ethel Smyth",
+            "constituency": "South Down",
+            "firstPref": 2838,
+            "finalVotes": 2838,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 13.934989688696847
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "68645",
+        "name": "Jeffrey Donaldson",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 17528,
+        "finalVotes": 17528,
+        "electedCount": 0,
+        "constituencies": [
+          "South Down"
+        ],
+        "appearances": [
+          {
+            "constituency": "South Down",
+            "firstPref": 17528,
+            "finalVotes": 17528,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 86.06501031130314
+      },
+      {
+        "personId": "39330",
+        "name": "Ethel Smyth",
+        "party": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 2838,
+        "finalVotes": 2838,
+        "electedCount": 0,
+        "constituencies": [
+          "South Down"
+        ],
+        "appearances": [
+          {
+            "constituency": "South Down",
+            "firstPref": 2838,
+            "finalVotes": 2838,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 13.934989688696847
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "South Down",
@@ -40,7 +155,7 @@
       "turnoutPct": 21.25,
       "majority": 14690,
       "majorityPct": 72.13,
-      "seatsWon": null,
+      "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
       "electorate": 98126,
@@ -51,24 +166,169 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "68645",
           "name": "Jeffrey Donaldson",
           "party": "UUP",
           "firstPrefs": 17528,
           "finalVotes": 17528,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 17528,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 17528
+            }
+          ]
         },
         {
+          "id": "39330",
           "name": "Ethel Smyth",
           "party": "Independent Unionist",
           "firstPrefs": 2838,
           "finalVotes": 2838,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#AADFFF",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2838,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 2838
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "68645",
+          "name": "Jeffrey Donaldson",
+          "party": "UUP",
+          "firstPrefs": 17528,
+          "finalVotes": 17528,
+          "elected": true,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Deemed elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 17528,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 17528
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "South Down",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "486",
+        "Total_Electorate": "98126",
+        "Total_Poll": "20852",
+        "Valid_Poll": "20366"
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "2838",
+          "Candidate_Id": "39330",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Ethel",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#AADFFF",
+          "Party_Name": "Independent Unionist",
+          "Status": "",
+          "Surname": "Smyth",
+          "Total_Votes": "2838.00",
+          "Transfers": "0.00",
+          "candidateName": "Ethel Smyth",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "17528",
+          "Candidate_Id": "68645",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Jeffrey",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "",
+          "Surname": "Donaldson",
+          "Total_Votes": "17528.00",
+          "Transfers": "0.00",
+          "candidateName": "Jeffrey Donaldson",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "2838",
+              "Candidate_Id": "39330",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Ethel",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#AADFFF",
+              "Party_Name": "Independent Unionist",
+              "Status": "",
+              "Surname": "Smyth",
+              "Total_Votes": "2838.00",
+              "Transfers": "0.00",
+              "candidateName": "Ethel Smyth",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "17528",
+              "Candidate_Id": "68645",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Jeffrey",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "",
+              "Surname": "Donaldson",
+              "Total_Votes": "17528.00",
+              "Transfers": "0.00",
+              "candidateName": "Jeffrey Donaldson",
+              "id": 1
+            }
+          ],
+          "countInfo": {
+            "Constituency_Name": "South Down",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "486",
+            "Total_Electorate": "98126",
+            "Total_Poll": "20852",
+            "Valid_Poll": "20366"
+          }
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/northern-ireland-assembly/1985-10-17/south-down.json",
       "featureId": "2121",
       "featureName": "SOUTH DOWN",
@@ -76,6 +336,14 @@
         "SOUTH DOWN"
       ],
       "matchName": "SOUTH DOWN",
+      "anchor": {
+        "center": [
+          -5.95816,
+          54.26746
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.23927384063844198
+      },
       "matched": true
     }
   ]

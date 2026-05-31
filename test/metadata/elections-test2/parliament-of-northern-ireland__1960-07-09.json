@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1960-02-16",
+  "previousDate": "1960-02-16",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
@@ -26,6 +29,66 @@
     "leadingParty",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#48a5ee",
+      "share": null
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 0,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "South Londonderry"
+        ],
+        "candidates": [
+          {
+            "personId": "1195838",
+            "name": "James Dawson Chichester-Clark",
+            "constituency": "South Londonderry",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "1195838",
+        "name": "James Dawson Chichester-Clark",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 1,
+        "constituencies": [
+          "South Londonderry"
+        ],
+        "appearances": [
+          {
+            "constituency": "South Londonderry",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "South Londonderry",
@@ -49,15 +112,115 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "1195838",
           "name": "James Dawson Chichester-Clark",
           "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "1195838",
+          "name": "James Dawson Chichester-Clark",
+          "party": "UUP",
+          "firstPrefs": null,
+          "finalVotes": null,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "South Londonderry",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_Id": "1195838",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "James Dawson",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Chichester-Clark",
+          "Total_Votes": "",
+          "Transfers": "0.00",
+          "candidateName": "James Dawson Chichester-Clark",
+          "id": 0
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "South Londonderry",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_Id": "1195838",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "James Dawson",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Chichester-Clark",
+              "Total_Votes": "",
+              "Transfers": "0.00",
+              "candidateName": "James Dawson Chichester-Clark",
+              "id": 0
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1960-07-09/south-londonderry.json",
       "featureId": "43",
       "featureName": "SOUTH LONDONDERRY",
@@ -66,6 +229,14 @@
         "LONDONDERRY"
       ],
       "matchName": "SOUTH LONDONDERRY",
+      "anchor": {
+        "center": [
+          -6.607912,
+          54.824185
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.06431268079431329
+      },
       "matched": true
     }
   ]

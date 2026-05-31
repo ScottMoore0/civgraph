@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1945-10-15",
+  "previousDate": "1945-10-15",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
@@ -28,6 +31,117 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "NI Labour",
+      "seats": 1,
+      "stood": 1,
+      "votes": 5566,
+      "colour": "#6b7280",
+      "share": 66.66666666666666
+    },
+    {
+      "party": "Socialist Republican Party",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2783,
+      "colour": "#6b7280",
+      "share": 33.33333333333333
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 8349,
+    "parties": [
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 5566,
+        "finalVotes": 5566,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Belfast Central"
+        ],
+        "candidates": [
+          {
+            "personId": "8764901",
+            "name": "Frank Hanna",
+            "constituency": "Belfast Central",
+            "firstPref": 5566,
+            "finalVotes": 5566,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 66.66666666666666
+      },
+      {
+        "name": "Socialist Republican Party",
+        "colour": "#FF6666",
+        "firstPrefs": 2783,
+        "finalVotes": 2783,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast Central"
+        ],
+        "candidates": [
+          {
+            "personId": "8751161",
+            "name": "Victor Halley",
+            "constituency": "Belfast Central",
+            "firstPref": 2783,
+            "finalVotes": 2783,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 33.33333333333333
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "8764901",
+        "name": "Frank Hanna",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 5566,
+        "finalVotes": 5566,
+        "electedCount": 1,
+        "constituencies": [
+          "Belfast Central"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Central",
+            "firstPref": 5566,
+            "finalVotes": 5566,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 66.66666666666666
+      },
+      {
+        "personId": "8751161",
+        "name": "Victor Halley",
+        "party": "Socialist Republican Party",
+        "colour": "#FF6666",
+        "firstPrefs": 2783,
+        "finalVotes": 2783,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast Central"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Central",
+            "firstPref": 2783,
+            "finalVotes": 2783,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 33.33333333333333
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Belfast Central",
@@ -51,24 +165,169 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
+          "id": "8764901",
           "name": "Frank Hanna",
           "party": "NI Labour",
           "firstPrefs": 5566,
           "finalVotes": 5566,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#6b7280"
+          "colour": "#DC241F",
+          "counts": [
+            {
+              "count": 1,
+              "total": 5566,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 5566
+            }
+          ]
         },
         {
+          "id": "8751161",
           "name": "Victor Halley",
           "party": "Socialist Republican Party",
           "firstPrefs": 2783,
           "finalVotes": 2783,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#FF6666",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2783,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 2783
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "8764901",
+          "name": "Frank Hanna",
+          "party": "NI Labour",
+          "firstPrefs": 5566,
+          "finalVotes": 5566,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#DC241F",
+          "counts": [
+            {
+              "count": 1,
+              "total": 5566,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 5566
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Belfast Central",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "5566.00",
+          "Candidate_Id": "8764901",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Frank",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DC241F",
+          "Party_Name": "NI Labour",
+          "Status": "Elected",
+          "Surname": "Hanna",
+          "Total_Votes": "5566.00",
+          "Transfers": "0.00",
+          "candidateName": "Frank Hanna",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "2783.00",
+          "Candidate_Id": "8751161",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Victor",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#FF6666",
+          "Party_Name": "Socialist Republican Party",
+          "Status": "",
+          "Surname": "Halley",
+          "Total_Votes": "2783.00",
+          "Transfers": "0.00",
+          "candidateName": "Victor Halley",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Belfast Central",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "5566.00",
+              "Candidate_Id": "8764901",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Frank",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DC241F",
+              "Party_Name": "NI Labour",
+              "Status": "Elected",
+              "Surname": "Hanna",
+              "Total_Votes": "5566.00",
+              "Transfers": "0.00",
+              "candidateName": "Frank Hanna",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "2783.00",
+              "Candidate_Id": "8751161",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Victor",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#FF6666",
+              "Party_Name": "Socialist Republican Party",
+              "Status": "",
+              "Surname": "Halley",
+              "Total_Votes": "2783.00",
+              "Transfers": "0.00",
+              "candidateName": "Victor Halley",
+              "id": 1
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1946-08-22/belfast-central.json",
       "featureId": "3",
       "featureName": "BELFAST CENTRAL",
@@ -77,6 +336,14 @@
         "BELFAST"
       ],
       "matchName": "BELFAST CENTRAL",
+      "anchor": {
+        "center": [
+          -5.931586,
+          54.601638
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.00019969622024570716
+      },
       "matched": true
     }
   ]

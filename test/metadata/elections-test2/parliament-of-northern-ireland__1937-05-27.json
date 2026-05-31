@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1937-05-07",
+  "previousDate": "1937-05-07",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
@@ -28,6 +31,117 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 6545,
+      "colour": "#48a5ee",
+      "share": 50.9417808219178
+    },
+    {
+      "party": "Independent Unionist",
+      "seats": 0,
+      "stood": 1,
+      "votes": 6303,
+      "colour": "#6b7280",
+      "share": 49.05821917808219
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 12848,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 6545,
+        "finalVotes": 6545,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Larne"
+        ],
+        "candidates": [
+          {
+            "personId": "4757788",
+            "name": "Harold Claude Robinson",
+            "constituency": "Larne",
+            "firstPref": 6545,
+            "finalVotes": 6545,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 50.9417808219178
+      },
+      {
+        "name": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 6303,
+        "finalVotes": 6303,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Larne"
+        ],
+        "candidates": [
+          {
+            "personId": "12609132",
+            "name": "Andrew Ferris",
+            "constituency": "Larne",
+            "firstPref": 6303,
+            "finalVotes": 6303,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 49.05821917808219
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "4757788",
+        "name": "Harold Claude Robinson",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 6545,
+        "finalVotes": 6545,
+        "electedCount": 1,
+        "constituencies": [
+          "Larne"
+        ],
+        "appearances": [
+          {
+            "constituency": "Larne",
+            "firstPref": 6545,
+            "finalVotes": 6545,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 50.9417808219178
+      },
+      {
+        "personId": "12609132",
+        "name": "Andrew Ferris",
+        "party": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 6303,
+        "finalVotes": 6303,
+        "electedCount": 0,
+        "constituencies": [
+          "Larne"
+        ],
+        "appearances": [
+          {
+            "constituency": "Larne",
+            "firstPref": 6303,
+            "finalVotes": 6303,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 49.05821917808219
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Larne",
@@ -51,24 +165,169 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "4757788",
           "name": "Harold Claude Robinson",
           "party": "UUP",
           "firstPrefs": 6545,
           "finalVotes": 6545,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 6545,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 6545
+            }
+          ]
         },
         {
+          "id": "12609132",
           "name": "Andrew Ferris",
           "party": "Independent Unionist",
           "firstPrefs": 6303,
           "finalVotes": 6303,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#AADFFF",
+          "counts": [
+            {
+              "count": 1,
+              "total": 6303,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 6303
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "4757788",
+          "name": "Harold Claude Robinson",
+          "party": "UUP",
+          "firstPrefs": 6545,
+          "finalVotes": 6545,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 6545,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 6545
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Larne",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "6545.00",
+          "Candidate_Id": "4757788",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Harold Claude",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Robinson",
+          "Total_Votes": "6545.00",
+          "Transfers": "0.00",
+          "candidateName": "Harold Claude Robinson",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "6303.00",
+          "Candidate_Id": "12609132",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Andrew",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#AADFFF",
+          "Party_Name": "Independent Unionist",
+          "Status": "",
+          "Surname": "Ferris",
+          "Total_Votes": "6303.00",
+          "Transfers": "0.00",
+          "candidateName": "Andrew Ferris",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Larne",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "6545.00",
+              "Candidate_Id": "4757788",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Harold Claude",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Robinson",
+              "Total_Votes": "6545.00",
+              "Transfers": "0.00",
+              "candidateName": "Harold Claude Robinson",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "6303.00",
+              "Candidate_Id": "12609132",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Andrew",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#AADFFF",
+              "Party_Name": "Independent Unionist",
+              "Status": "",
+              "Surname": "Ferris",
+              "Total_Votes": "6303.00",
+              "Transfers": "0.00",
+              "candidateName": "Andrew Ferris",
+              "id": 1
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1937-05-27/larne.json",
       "featureId": "22",
       "featureName": "LARNE",
@@ -77,6 +336,14 @@
         "ANTRIM"
       ],
       "matchName": "LARNE",
+      "anchor": {
+        "center": [
+          -5.939627,
+          54.848888
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.06205217027151153
+      },
       "matched": true
     }
   ]

@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1967-05-25",
+  "previousDate": "1967-05-25",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
@@ -28,13 +31,175 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 4428,
+      "colour": "#48a5ee",
+      "share": 50.306748466257666
+    },
+    {
+      "party": "Independent",
+      "seats": 0,
+      "stood": 1,
+      "votes": 3270,
+      "colour": "#b8b8b8",
+      "share": 37.15064758009543
+    },
+    {
+      "party": "Ulster Liberal",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1104,
+      "colour": "#6b7280",
+      "share": 12.5426039536469
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 8802,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 4428,
+        "finalVotes": 4428,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Lisnaskea"
+        ],
+        "candidates": [
+          {
+            "personId": "10266557",
+            "name": "Captain John Brooke",
+            "constituency": "Lisnaskea",
+            "firstPref": 4428,
+            "finalVotes": 4428,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 50.306748466257666
+      },
+      {
+        "name": "Independent",
+        "colour": "#DCDCDC",
+        "firstPrefs": 3270,
+        "finalVotes": 3270,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Lisnaskea"
+        ],
+        "candidates": [
+          {
+            "personId": "3016055",
+            "name": "F. G. Patterson",
+            "constituency": "Lisnaskea",
+            "firstPref": 3270,
+            "finalVotes": 3270,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 37.15064758009543
+      },
+      {
+        "name": "Ulster Liberal",
+        "colour": "#DAA520",
+        "firstPrefs": 1104,
+        "finalVotes": 1104,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Lisnaskea"
+        ],
+        "candidates": [
+          {
+            "personId": "2482069",
+            "name": "Stanley Wynne",
+            "constituency": "Lisnaskea",
+            "firstPref": 1104,
+            "finalVotes": 1104,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 12.5426039536469
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "10266557",
+        "name": "Captain John Brooke",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 4428,
+        "finalVotes": 4428,
+        "electedCount": 1,
+        "constituencies": [
+          "Lisnaskea"
+        ],
+        "appearances": [
+          {
+            "constituency": "Lisnaskea",
+            "firstPref": 4428,
+            "finalVotes": 4428,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 50.306748466257666
+      },
+      {
+        "personId": "3016055",
+        "name": "F. G. Patterson",
+        "party": "Independent",
+        "colour": "#DCDCDC",
+        "firstPrefs": 3270,
+        "finalVotes": 3270,
+        "electedCount": 0,
+        "constituencies": [
+          "Lisnaskea"
+        ],
+        "appearances": [
+          {
+            "constituency": "Lisnaskea",
+            "firstPref": 3270,
+            "finalVotes": 3270,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 37.15064758009543
+      },
+      {
+        "personId": "2482069",
+        "name": "Stanley Wynne",
+        "party": "Ulster Liberal",
+        "colour": "#DAA520",
+        "firstPrefs": 1104,
+        "finalVotes": 1104,
+        "electedCount": 0,
+        "constituencies": [
+          "Lisnaskea"
+        ],
+        "appearances": [
+          {
+            "constituency": "Lisnaskea",
+            "firstPref": 1104,
+            "finalVotes": 1104,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 12.5426039536469
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Lisnaskea",
       "winnerParty": "UUP",
-      "winnerName": "Captain   John Brooke",
+      "winnerName": "Captain John Brooke",
       "leadingParty": "UUP",
-      "leadingName": "Captain   John Brooke",
+      "leadingName": "Captain John Brooke",
       "leadingVotes": 4428,
       "leadingPct": 50.31,
       "turnoutPct": null,
@@ -51,33 +216,223 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "name": "Captain   John Brooke",
+          "id": "10266557",
+          "name": "Captain John Brooke",
           "party": "UUP",
           "firstPrefs": 4428,
           "finalVotes": 4428,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 4428,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 4428
+            }
+          ]
         },
         {
+          "id": "3016055",
           "name": "F. G. Patterson",
           "party": "Independent",
           "firstPrefs": 3270,
           "finalVotes": 3270,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#b8b8b8"
+          "colour": "#DCDCDC",
+          "counts": [
+            {
+              "count": 1,
+              "total": 3270,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 3270
+            }
+          ]
         },
         {
+          "id": "2482069",
           "name": "Stanley Wynne",
           "party": "Ulster Liberal",
           "firstPrefs": 1104,
           "finalVotes": 1104,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#DAA520",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1104,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 1104
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "10266557",
+          "name": "Captain John Brooke",
+          "party": "UUP",
+          "firstPrefs": 4428,
+          "finalVotes": 4428,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 4428,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 4428
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Lisnaskea",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "4428.00",
+          "Candidate_Id": "10266557",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Captain   John",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Brooke",
+          "Total_Votes": "4428.00",
+          "Transfers": "0.00",
+          "candidateName": "Captain   John Brooke",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "3270.00",
+          "Candidate_Id": "3016055",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "F. G.",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DCDCDC",
+          "Party_Name": "Independent",
+          "Status": "",
+          "Surname": "Patterson",
+          "Total_Votes": "3270.00",
+          "Transfers": "0.00",
+          "candidateName": "F. G. Patterson",
+          "id": 1
+        },
+        {
+          "Candidate_First_Pref_Votes": "1104.00",
+          "Candidate_Id": "2482069",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Stanley",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DAA520",
+          "Party_Name": "Ulster Liberal",
+          "Status": "",
+          "Surname": "Wynne",
+          "Total_Votes": "1104.00",
+          "Transfers": "0.00",
+          "candidateName": "Stanley Wynne",
+          "id": 2
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Lisnaskea",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "4428.00",
+              "Candidate_Id": "10266557",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Captain   John",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Brooke",
+              "Total_Votes": "4428.00",
+              "Transfers": "0.00",
+              "candidateName": "Captain   John Brooke",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "3270.00",
+              "Candidate_Id": "3016055",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "F. G.",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DCDCDC",
+              "Party_Name": "Independent",
+              "Status": "",
+              "Surname": "Patterson",
+              "Total_Votes": "3270.00",
+              "Transfers": "0.00",
+              "candidateName": "F. G. Patterson",
+              "id": 1
+            },
+            {
+              "Candidate_First_Pref_Votes": "1104.00",
+              "Candidate_Id": "2482069",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Stanley",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DAA520",
+              "Party_Name": "Ulster Liberal",
+              "Status": "",
+              "Surname": "Wynne",
+              "Total_Votes": "1104.00",
+              "Transfers": "0.00",
+              "candidateName": "Stanley Wynne",
+              "id": 2
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1968-03-22/lisnaskea.json",
       "featureId": "39",
       "featureName": "LISNASKEA",
@@ -86,6 +441,14 @@
         "FERMANAGH"
       ],
       "matchName": "LISNASKEA",
+      "anchor": {
+        "center": [
+          -7.416296,
+          54.332395
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.07384294316484862
+      },
       "matched": true
     }
   ]

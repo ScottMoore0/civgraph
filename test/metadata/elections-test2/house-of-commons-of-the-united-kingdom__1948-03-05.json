@@ -10,6 +10,9 @@
   "layerId": "pc-1920-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+  "previousKey": "house-of-commons-of-the-united-kingdom__1946-06-06",
+  "previousDate": "1946-06-06",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "House of Commons of the United Kingdom",
@@ -28,6 +31,117 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 36736,
+      "colour": "#48a5ee",
+      "share": 60.06736649334511
+    },
+    {
+      "party": "Nationalist Party",
+      "seats": 0,
+      "stood": 1,
+      "votes": 24422,
+      "colour": "#6b7280",
+      "share": 39.932633506654895
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 61158,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 36736,
+        "finalVotes": 36736,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Armagh"
+        ],
+        "candidates": [
+          {
+            "personId": "6216379",
+            "name": "James Harden",
+            "constituency": "Armagh",
+            "firstPref": 36736,
+            "finalVotes": 36736,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 60.06736649334511
+      },
+      {
+        "name": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 24422,
+        "finalVotes": 24422,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Armagh"
+        ],
+        "candidates": [
+          {
+            "personId": "7284710",
+            "name": "James O'Reilly",
+            "constituency": "Armagh",
+            "firstPref": 24422,
+            "finalVotes": 24422,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 39.932633506654895
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "6216379",
+        "name": "James Harden",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 36736,
+        "finalVotes": 36736,
+        "electedCount": 1,
+        "constituencies": [
+          "Armagh"
+        ],
+        "appearances": [
+          {
+            "constituency": "Armagh",
+            "firstPref": 36736,
+            "finalVotes": 36736,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 60.06736649334511
+      },
+      {
+        "personId": "7284710",
+        "name": "James O'Reilly",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 24422,
+        "finalVotes": 24422,
+        "electedCount": 0,
+        "constituencies": [
+          "Armagh"
+        ],
+        "appearances": [
+          {
+            "constituency": "Armagh",
+            "firstPref": 24422,
+            "finalVotes": 24422,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 39.932633506654895
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Armagh",
@@ -51,24 +165,169 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "6216379",
           "name": "James Harden",
           "party": "UUP",
           "firstPrefs": 36736,
           "finalVotes": 36736,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 36736,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 36736
+            }
+          ]
         },
         {
+          "id": "7284710",
           "name": "James O'Reilly",
           "party": "Nationalist Party",
           "firstPrefs": 24422,
           "finalVotes": 24422,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#32CD32",
+          "counts": [
+            {
+              "count": 1,
+              "total": 24422,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 24422
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "6216379",
+          "name": "James Harden",
+          "party": "UUP",
+          "firstPrefs": 36736,
+          "finalVotes": 36736,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 36736,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 36736
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Armagh",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "70337",
+        "Total_Poll": "",
+        "Valid_Poll": "61158"
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "36736.00",
+          "Candidate_Id": "6216379",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "James",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Harden",
+          "Total_Votes": "36736.00",
+          "Transfers": "0.00",
+          "candidateName": "James Harden",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "24422.00",
+          "Candidate_Id": "7284710",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "James",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#32CD32",
+          "Party_Name": "Nationalist Party",
+          "Status": "",
+          "Surname": "O'Reilly",
+          "Total_Votes": "24422.00",
+          "Transfers": "0.00",
+          "candidateName": "James O'Reilly",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Armagh",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "70337",
+            "Total_Poll": "",
+            "Valid_Poll": "61158"
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "36736.00",
+              "Candidate_Id": "6216379",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "James",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Harden",
+              "Total_Votes": "36736.00",
+              "Transfers": "0.00",
+              "candidateName": "James Harden",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "24422.00",
+              "Candidate_Id": "7284710",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "James",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#32CD32",
+              "Party_Name": "Nationalist Party",
+              "Status": "",
+              "Surname": "O'Reilly",
+              "Total_Votes": "24422.00",
+              "Transfers": "0.00",
+              "candidateName": "James O'Reilly",
+              "id": 1
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1948-03-05/armagh.json",
       "featureId": "2121",
       "featureName": "ARMAGH",
@@ -76,6 +335,14 @@
         "ARMAGH"
       ],
       "matchName": "ARMAGH",
+      "anchor": {
+        "center": [
+          -6.578953,
+          54.302356
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.18316234252550323
+      },
       "matched": true
     }
   ]

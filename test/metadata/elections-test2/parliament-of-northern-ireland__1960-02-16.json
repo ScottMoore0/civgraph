@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1960-02-05",
+  "previousDate": "1960-02-05",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
@@ -28,6 +31,117 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 4320,
+      "colour": "#48a5ee",
+      "share": 64.15206415206414
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2414,
+      "colour": "#6b7280",
+      "share": 35.847935847935844
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 6734,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 4320,
+        "finalVotes": 4320,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Belfast Shankill"
+        ],
+        "candidates": [
+          {
+            "personId": "15951787",
+            "name": "Desmond Boal",
+            "constituency": "Belfast Shankill",
+            "firstPref": 4320,
+            "finalVotes": 4320,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 64.15206415206414
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 2414,
+        "finalVotes": 2414,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast Shankill"
+        ],
+        "candidates": [
+          {
+            "personId": "15015669",
+            "name": "Samuel Cree",
+            "constituency": "Belfast Shankill",
+            "firstPref": 2414,
+            "finalVotes": 2414,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 35.847935847935844
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "15951787",
+        "name": "Desmond Boal",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 4320,
+        "finalVotes": 4320,
+        "electedCount": 1,
+        "constituencies": [
+          "Belfast Shankill"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Shankill",
+            "firstPref": 4320,
+            "finalVotes": 4320,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 64.15206415206414
+      },
+      {
+        "personId": "15015669",
+        "name": "Samuel Cree",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 2414,
+        "finalVotes": 2414,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast Shankill"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Shankill",
+            "firstPref": 2414,
+            "finalVotes": 2414,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 35.847935847935844
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Belfast Shankill",
@@ -51,24 +165,169 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "15951787",
           "name": "Desmond Boal",
           "party": "UUP",
           "firstPrefs": 4320,
           "finalVotes": 4320,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 4320,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 4320
+            }
+          ]
         },
         {
+          "id": "15015669",
           "name": "Samuel Cree",
           "party": "NI Labour",
           "firstPrefs": 2414,
           "finalVotes": 2414,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#DC241F",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2414,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 2414
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "15951787",
+          "name": "Desmond Boal",
+          "party": "UUP",
+          "firstPrefs": 4320,
+          "finalVotes": 4320,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 4320,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 4320
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Belfast Shankill",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "4320.00",
+          "Candidate_Id": "15951787",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Desmond",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Boal",
+          "Total_Votes": "4320.00",
+          "Transfers": "0.00",
+          "candidateName": "Desmond Boal",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "2414.00",
+          "Candidate_Id": "15015669",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Samuel",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DC241F",
+          "Party_Name": "NI Labour",
+          "Status": "",
+          "Surname": "Cree",
+          "Total_Votes": "2414.00",
+          "Transfers": "0.00",
+          "candidateName": "Samuel Cree",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Belfast Shankill",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "4320.00",
+              "Candidate_Id": "15951787",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Desmond",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Boal",
+              "Total_Votes": "4320.00",
+              "Transfers": "0.00",
+              "candidateName": "Desmond Boal",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "2414.00",
+              "Candidate_Id": "15015669",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Samuel",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DC241F",
+              "Party_Name": "NI Labour",
+              "Status": "",
+              "Surname": "Cree",
+              "Total_Votes": "2414.00",
+              "Transfers": "0.00",
+              "candidateName": "Samuel Cree",
+              "id": 1
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1960-02-16/belfast-shankill.json",
       "featureId": "11",
       "featureName": "BELFAST SHANKILL",
@@ -77,6 +336,14 @@
         "BELFAST"
       ],
       "matchName": "BELFAST SHANKILL",
+      "anchor": {
+        "center": [
+          -5.973574,
+          54.620925
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.0007538940237256527
+      },
       "matched": true
     }
   ]

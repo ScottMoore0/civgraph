@@ -10,6 +10,9 @@
   "layerId": "pc-1920-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+  "previousKey": "house-of-commons-of-the-united-kingdom__1945-07-05",
+  "previousDate": "1945-07-05",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "House of Commons of the United Kingdom",
@@ -28,6 +31,197 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 50699,
+      "colour": "#48a5ee",
+      "share": 51.43712271090144
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 28846,
+      "colour": "#6b7280",
+      "share": 29.265966621011515
+    },
+    {
+      "party": "Independent Unionist",
+      "seats": 0,
+      "stood": 2,
+      "votes": 19020,
+      "colour": "#6b7280",
+      "share": 19.29691066808705
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 98565,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 50699,
+        "finalVotes": 50699,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Down"
+        ],
+        "candidates": [
+          {
+            "personId": "9769016",
+            "name": "Charles Mullan",
+            "constituency": "Down",
+            "firstPref": 50699,
+            "finalVotes": 50699,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 51.43712271090144
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 28846,
+        "finalVotes": 28846,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Down"
+        ],
+        "candidates": [
+          {
+            "personId": "1904592",
+            "name": "Desmond Donnelly",
+            "constituency": "Down",
+            "firstPref": 28846,
+            "finalVotes": 28846,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 29.265966621011515
+      },
+      {
+        "name": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 19020,
+        "finalVotes": 19020,
+        "stood": 2,
+        "elected": 0,
+        "constituencies": [
+          "Down"
+        ],
+        "candidates": [
+          {
+            "personId": "10252861",
+            "name": "James Little",
+            "constituency": "Down",
+            "firstPref": 16895,
+            "finalVotes": 16895,
+            "status": ""
+          },
+          {
+            "personId": "16446479",
+            "name": "James Brown",
+            "constituency": "Down",
+            "firstPref": 2125,
+            "finalVotes": 2125,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 19.29691066808705
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "9769016",
+        "name": "Charles Mullan",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 50699,
+        "finalVotes": 50699,
+        "electedCount": 1,
+        "constituencies": [
+          "Down"
+        ],
+        "appearances": [
+          {
+            "constituency": "Down",
+            "firstPref": 50699,
+            "finalVotes": 50699,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 51.43712271090144
+      },
+      {
+        "personId": "1904592",
+        "name": "Desmond Donnelly",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 28846,
+        "finalVotes": 28846,
+        "electedCount": 0,
+        "constituencies": [
+          "Down"
+        ],
+        "appearances": [
+          {
+            "constituency": "Down",
+            "firstPref": 28846,
+            "finalVotes": 28846,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 29.265966621011515
+      },
+      {
+        "personId": "10252861",
+        "name": "James Little",
+        "party": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 16895,
+        "finalVotes": 16895,
+        "electedCount": 0,
+        "constituencies": [
+          "Down"
+        ],
+        "appearances": [
+          {
+            "constituency": "Down",
+            "firstPref": 16895,
+            "finalVotes": 16895,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 17.14097296200477
+      },
+      {
+        "personId": "16446479",
+        "name": "James Brown",
+        "party": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 2125,
+        "finalVotes": 2125,
+        "electedCount": 0,
+        "constituencies": [
+          "Down"
+        ],
+        "appearances": [
+          {
+            "constituency": "Down",
+            "firstPref": 2125,
+            "finalVotes": 2125,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 2.1559377060822804
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Down",
@@ -51,42 +245,277 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "9769016",
           "name": "Charles Mullan",
           "party": "UUP",
           "firstPrefs": 50699,
           "finalVotes": 50699,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 50699,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 50699
+            }
+          ]
         },
         {
+          "id": "1904592",
           "name": "Desmond Donnelly",
           "party": "NI Labour",
           "firstPrefs": 28846,
           "finalVotes": 28846,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#DC241F",
+          "counts": [
+            {
+              "count": 1,
+              "total": 28846,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 28846
+            }
+          ]
         },
         {
+          "id": "10252861",
           "name": "James Little",
           "party": "Independent Unionist",
           "firstPrefs": 16895,
           "finalVotes": 16895,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#AADFFF",
+          "counts": [
+            {
+              "count": 1,
+              "total": 16895,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 16895
+            }
+          ]
         },
         {
+          "id": "16446479",
           "name": "James Brown",
           "party": "Independent Unionist",
           "firstPrefs": 2125,
           "finalVotes": 2125,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#AADFFF",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2125,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 2125
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "9769016",
+          "name": "Charles Mullan",
+          "party": "UUP",
+          "firstPrefs": 50699,
+          "finalVotes": 50699,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 50699,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 50699
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Down",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "147978",
+        "Total_Poll": "",
+        "Valid_Poll": "98565"
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "50699.00",
+          "Candidate_Id": "9769016",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Charles",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Mullan",
+          "Total_Votes": "50699.00",
+          "Transfers": "0.00",
+          "candidateName": "Charles Mullan",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "28846.00",
+          "Candidate_Id": "1904592",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Desmond",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DC241F",
+          "Party_Name": "NI Labour",
+          "Status": "",
+          "Surname": "Donnelly",
+          "Total_Votes": "28846.00",
+          "Transfers": "0.00",
+          "candidateName": "Desmond Donnelly",
+          "id": 1
+        },
+        {
+          "Candidate_First_Pref_Votes": "16895.00",
+          "Candidate_Id": "10252861",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "James",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#AADFFF",
+          "Party_Name": "Independent Unionist",
+          "Status": "",
+          "Surname": "Little",
+          "Total_Votes": "16895.00",
+          "Transfers": "0.00",
+          "candidateName": "James Little",
+          "id": 2
+        },
+        {
+          "Candidate_First_Pref_Votes": "2125.00",
+          "Candidate_Id": "16446479",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "James",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#AADFFF",
+          "Party_Name": "Independent Unionist",
+          "Status": "",
+          "Surname": "Brown",
+          "Total_Votes": "2125.00",
+          "Transfers": "0.00",
+          "candidateName": "James Brown",
+          "id": 3
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Down",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "147978",
+            "Total_Poll": "",
+            "Valid_Poll": "98565"
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "50699.00",
+              "Candidate_Id": "9769016",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Charles",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Mullan",
+              "Total_Votes": "50699.00",
+              "Transfers": "0.00",
+              "candidateName": "Charles Mullan",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "28846.00",
+              "Candidate_Id": "1904592",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Desmond",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DC241F",
+              "Party_Name": "NI Labour",
+              "Status": "",
+              "Surname": "Donnelly",
+              "Total_Votes": "28846.00",
+              "Transfers": "0.00",
+              "candidateName": "Desmond Donnelly",
+              "id": 1
+            },
+            {
+              "Candidate_First_Pref_Votes": "16895.00",
+              "Candidate_Id": "10252861",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "James",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#AADFFF",
+              "Party_Name": "Independent Unionist",
+              "Status": "",
+              "Surname": "Little",
+              "Total_Votes": "16895.00",
+              "Transfers": "0.00",
+              "candidateName": "James Little",
+              "id": 2
+            },
+            {
+              "Candidate_First_Pref_Votes": "2125.00",
+              "Candidate_Id": "16446479",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "James",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#AADFFF",
+              "Party_Name": "Independent Unionist",
+              "Status": "",
+              "Surname": "Brown",
+              "Total_Votes": "2125.00",
+              "Transfers": "0.00",
+              "candidateName": "James Brown",
+              "id": 3
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1946-06-06/down.json",
       "featureId": "2120",
       "featureName": "DOWN",
@@ -94,6 +523,14 @@
         "DOWN"
       ],
       "matchName": "DOWN",
+      "anchor": {
+        "center": [
+          -5.916564,
+          54.351431
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.36144711336254254
+      },
       "matched": true
     }
   ]

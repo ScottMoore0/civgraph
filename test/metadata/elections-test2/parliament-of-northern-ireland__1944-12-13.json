@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1943-08-26",
+  "previousDate": "1943-08-26",
   "loadable": false,
   "displaySubtitle": "1 constituencies; 1 unmatched",
   "displayProvider": "Parliament of Northern Ireland",
@@ -24,6 +27,117 @@
     "Queen's University of Belfast"
   ],
   "availableStyleModes": [],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 1178,
+      "colour": "#48a5ee",
+      "share": 53.59417652411283
+    },
+    {
+      "party": "Independent",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1020,
+      "colour": "#b8b8b8",
+      "share": 46.40582347588717
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 2198,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 1178,
+        "finalVotes": 1178,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Queen's University of Belfast"
+        ],
+        "candidates": [
+          {
+            "personId": "13526242",
+            "name": "Herbert Quin",
+            "constituency": "Queen's University of Belfast",
+            "firstPref": 1178,
+            "finalVotes": 1178,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 53.59417652411283
+      },
+      {
+        "name": "Independent",
+        "colour": "#DCDCDC",
+        "firstPrefs": 1020,
+        "finalVotes": 1020,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Queen's University of Belfast"
+        ],
+        "candidates": [
+          {
+            "personId": "13545743",
+            "name": "Irene Calvert",
+            "constituency": "Queen's University of Belfast",
+            "firstPref": 1020,
+            "finalVotes": 1020,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 46.40582347588717
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "13526242",
+        "name": "Herbert Quin",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 1178,
+        "finalVotes": 1178,
+        "electedCount": 1,
+        "constituencies": [
+          "Queen's University of Belfast"
+        ],
+        "appearances": [
+          {
+            "constituency": "Queen's University of Belfast",
+            "firstPref": 1178,
+            "finalVotes": 1178,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 53.59417652411283
+      },
+      {
+        "personId": "13545743",
+        "name": "Irene Calvert",
+        "party": "Independent",
+        "colour": "#DCDCDC",
+        "firstPrefs": 1020,
+        "finalVotes": 1020,
+        "electedCount": 0,
+        "constituencies": [
+          "Queen's University of Belfast"
+        ],
+        "appearances": [
+          {
+            "constituency": "Queen's University of Belfast",
+            "firstPref": 1020,
+            "finalVotes": 1020,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 46.40582347588717
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Queen's University of Belfast",
@@ -47,29 +161,175 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "13526242",
           "name": "Herbert Quin",
           "party": "UUP",
           "firstPrefs": 1178,
           "finalVotes": 1178,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1178,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1178
+            }
+          ]
         },
         {
+          "id": "13545743",
           "name": "Irene Calvert",
           "party": "Independent",
           "firstPrefs": 1020,
           "finalVotes": 1020,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#b8b8b8"
+          "colour": "#DCDCDC",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1020,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 1020
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "13526242",
+          "name": "Herbert Quin",
+          "party": "UUP",
+          "firstPrefs": 1178,
+          "finalVotes": 1178,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1178,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1178
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Queen's University of Belfast",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "1178.00",
+          "Candidate_Id": "13526242",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Herbert",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Quin",
+          "Total_Votes": "1178.00",
+          "Transfers": "0.00",
+          "candidateName": "Herbert Quin",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "1020.00",
+          "Candidate_Id": "13545743",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Irene",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DCDCDC",
+          "Party_Name": "Independent",
+          "Status": "",
+          "Surname": "Calvert",
+          "Total_Votes": "1020.00",
+          "Transfers": "0.00",
+          "candidateName": "Irene Calvert",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Queen's University of Belfast",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "1178.00",
+              "Candidate_Id": "13526242",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Herbert",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Quin",
+              "Total_Votes": "1178.00",
+              "Transfers": "0.00",
+              "candidateName": "Herbert Quin",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "1020.00",
+              "Candidate_Id": "13545743",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Irene",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DCDCDC",
+              "Party_Name": "Independent",
+              "Status": "",
+              "Surname": "Calvert",
+              "Total_Votes": "1020.00",
+              "Transfers": "0.00",
+              "candidateName": "Irene Calvert",
+              "id": 1
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1944-12-13/queens-university-of-belfast.json",
       "featureId": null,
       "featureName": null,
       "featureAliases": [],
       "matchName": null,
+      "anchor": null,
       "matched": false
     }
   ]

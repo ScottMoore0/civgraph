@@ -10,6 +10,9 @@
   "layerId": "pc-1948-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/pc-1948-vector-test.json",
+  "previousKey": "house-of-commons-of-the-united-kingdom__1955-05-26",
+  "previousDate": "1955-05-26",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "House of Commons of the United Kingdom",
@@ -28,6 +31,117 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "Sinn Féin",
+      "seats": 1,
+      "stood": 1,
+      "votes": 30392,
+      "colour": "#326760",
+      "share": 50.671913034779415
+    },
+    {
+      "party": "UUP",
+      "seats": 0,
+      "stood": 1,
+      "votes": 29586,
+      "colour": "#48a5ee",
+      "share": 49.32808696522058
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 59978,
+    "parties": [
+      {
+        "name": "Sinn Féin",
+        "colour": "#326760",
+        "firstPrefs": 30392,
+        "finalVotes": 30392,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Mid Ulster"
+        ],
+        "candidates": [
+          {
+            "personId": "9657918",
+            "name": "Thomas Mitchell",
+            "constituency": "Mid Ulster",
+            "firstPref": 30392,
+            "finalVotes": 30392,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 50.671913034779415
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 29586,
+        "finalVotes": 29586,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Mid Ulster"
+        ],
+        "candidates": [
+          {
+            "personId": "15020240",
+            "name": "Charles Beattie",
+            "constituency": "Mid Ulster",
+            "firstPref": 29586,
+            "finalVotes": 29586,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 49.32808696522058
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "9657918",
+        "name": "Thomas Mitchell",
+        "party": "Sinn Féin",
+        "colour": "#326760",
+        "firstPrefs": 30392,
+        "finalVotes": 30392,
+        "electedCount": 1,
+        "constituencies": [
+          "Mid Ulster"
+        ],
+        "appearances": [
+          {
+            "constituency": "Mid Ulster",
+            "firstPref": 30392,
+            "finalVotes": 30392,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 50.671913034779415
+      },
+      {
+        "personId": "15020240",
+        "name": "Charles Beattie",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 29586,
+        "finalVotes": 29586,
+        "electedCount": 0,
+        "constituencies": [
+          "Mid Ulster"
+        ],
+        "appearances": [
+          {
+            "constituency": "Mid Ulster",
+            "firstPref": 29586,
+            "finalVotes": 29586,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 49.32808696522058
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Mid Ulster",
@@ -51,24 +165,169 @@
       "leadingColour": "#326760",
       "candidates": [
         {
+          "id": "9657918",
           "name": "Thomas Mitchell",
           "party": "Sinn Féin",
           "firstPrefs": 30392,
           "finalVotes": 30392,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#326760"
+          "colour": "#326760",
+          "counts": [
+            {
+              "count": 1,
+              "total": 30392,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 30392
+            }
+          ]
         },
         {
+          "id": "15020240",
           "name": "Charles Beattie",
           "party": "UUP",
           "firstPrefs": 29586,
           "finalVotes": 29586,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 29586,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 29586
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "9657918",
+          "name": "Thomas Mitchell",
+          "party": "Sinn Féin",
+          "firstPrefs": 30392,
+          "finalVotes": 30392,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#326760",
+          "counts": [
+            {
+              "count": 1,
+              "total": 30392,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 30392
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Mid Ulster",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "66847",
+        "Total_Poll": "",
+        "Valid_Poll": "59978"
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "30392.00",
+          "Candidate_Id": "9657918",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Thomas",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#326760",
+          "Party_Name": "Sinn Féin",
+          "Status": "Elected",
+          "Surname": "Mitchell",
+          "Total_Votes": "30392.00",
+          "Transfers": "0.00",
+          "candidateName": "Thomas Mitchell",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "29586.00",
+          "Candidate_Id": "15020240",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Charles",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "",
+          "Surname": "Beattie",
+          "Total_Votes": "29586.00",
+          "Transfers": "0.00",
+          "candidateName": "Charles Beattie",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Mid Ulster",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "66847",
+            "Total_Poll": "",
+            "Valid_Poll": "59978"
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "30392.00",
+              "Candidate_Id": "9657918",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Thomas",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#326760",
+              "Party_Name": "Sinn Féin",
+              "Status": "Elected",
+              "Surname": "Mitchell",
+              "Total_Votes": "30392.00",
+              "Transfers": "0.00",
+              "candidateName": "Thomas Mitchell",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "29586.00",
+              "Candidate_Id": "15020240",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Charles",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "",
+              "Surname": "Beattie",
+              "Total_Votes": "29586.00",
+              "Transfers": "0.00",
+              "candidateName": "Charles Beattie",
+              "id": 1
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1955-08-11/mid-ulster.json",
       "featureId": "2141",
       "featureName": "MID ULSTER",
@@ -76,6 +335,14 @@
         "MID ULSTER"
       ],
       "matchName": "MID ULSTER",
+      "anchor": {
+        "center": [
+          -7.164037,
+          54.727205
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.38936211219346994
+      },
       "matched": true
     }
   ]

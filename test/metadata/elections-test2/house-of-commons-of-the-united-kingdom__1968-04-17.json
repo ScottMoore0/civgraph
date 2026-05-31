@@ -10,6 +10,9 @@
   "layerId": "pc-1948-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/pc-1948-vector-test.json",
+  "previousKey": "house-of-commons-of-the-united-kingdom__1966-03-31",
+  "previousDate": "1966-03-31",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "House of Commons of the United Kingdom",
@@ -28,6 +31,117 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "Unity",
+      "seats": 1,
+      "stood": 1,
+      "votes": 33648,
+      "colour": "#6b7280",
+      "share": 53.33756043433463
+    },
+    {
+      "party": "UUP",
+      "seats": 0,
+      "stood": 1,
+      "votes": 29437,
+      "colour": "#48a5ee",
+      "share": 46.66243956566537
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 63085,
+    "parties": [
+      {
+        "name": "Unity",
+        "colour": "#90EE90",
+        "firstPrefs": 33648,
+        "finalVotes": 33648,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Mid Ulster"
+        ],
+        "candidates": [
+          {
+            "personId": "6809204",
+            "name": "Bernadette Devlin",
+            "constituency": "Mid Ulster",
+            "firstPref": 33648,
+            "finalVotes": 33648,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 53.33756043433463
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 29437,
+        "finalVotes": 29437,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Mid Ulster"
+        ],
+        "candidates": [
+          {
+            "personId": "7830473",
+            "name": "Anna Forrest",
+            "constituency": "Mid Ulster",
+            "firstPref": 29437,
+            "finalVotes": 29437,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 46.66243956566537
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "6809204",
+        "name": "Bernadette Devlin",
+        "party": "Unity",
+        "colour": "#90EE90",
+        "firstPrefs": 33648,
+        "finalVotes": 33648,
+        "electedCount": 1,
+        "constituencies": [
+          "Mid Ulster"
+        ],
+        "appearances": [
+          {
+            "constituency": "Mid Ulster",
+            "firstPref": 33648,
+            "finalVotes": 33648,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 53.33756043433463
+      },
+      {
+        "personId": "7830473",
+        "name": "Anna Forrest",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 29437,
+        "finalVotes": 29437,
+        "electedCount": 0,
+        "constituencies": [
+          "Mid Ulster"
+        ],
+        "appearances": [
+          {
+            "constituency": "Mid Ulster",
+            "firstPref": 29437,
+            "finalVotes": 29437,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 46.66243956566537
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Mid Ulster",
@@ -51,24 +165,169 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
+          "id": "6809204",
           "name": "Bernadette Devlin",
           "party": "Unity",
           "firstPrefs": 33648,
           "finalVotes": 33648,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#6b7280"
+          "colour": "#90EE90",
+          "counts": [
+            {
+              "count": 1,
+              "total": 33648,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 33648
+            }
+          ]
         },
         {
+          "id": "7830473",
           "name": "Anna Forrest",
           "party": "UUP",
           "firstPrefs": 29437,
           "finalVotes": 29437,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 29437,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 29437
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "6809204",
+          "name": "Bernadette Devlin",
+          "party": "Unity",
+          "firstPrefs": 33648,
+          "finalVotes": 33648,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#90EE90",
+          "counts": [
+            {
+              "count": 1,
+              "total": 33648,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 33648
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Mid Ulster",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "68973",
+        "Total_Poll": "",
+        "Valid_Poll": "63085"
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "33648.00",
+          "Candidate_Id": "6809204",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Bernadette",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#90EE90",
+          "Party_Name": "Unity",
+          "Status": "Elected",
+          "Surname": "Devlin",
+          "Total_Votes": "33648.00",
+          "Transfers": "0.00",
+          "candidateName": "Bernadette Devlin",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "29437.00",
+          "Candidate_Id": "7830473",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Anna",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "",
+          "Surname": "Forrest",
+          "Total_Votes": "29437.00",
+          "Transfers": "0.00",
+          "candidateName": "Anna Forrest",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Mid Ulster",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "68973",
+            "Total_Poll": "",
+            "Valid_Poll": "63085"
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "33648.00",
+              "Candidate_Id": "6809204",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Bernadette",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#90EE90",
+              "Party_Name": "Unity",
+              "Status": "Elected",
+              "Surname": "Devlin",
+              "Total_Votes": "33648.00",
+              "Transfers": "0.00",
+              "candidateName": "Bernadette Devlin",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "29437.00",
+              "Candidate_Id": "7830473",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Anna",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "",
+              "Surname": "Forrest",
+              "Total_Votes": "29437.00",
+              "Transfers": "0.00",
+              "candidateName": "Anna Forrest",
+              "id": 1
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1968-04-17/mid-ulster.json",
       "featureId": "2141",
       "featureName": "MID ULSTER",
@@ -76,6 +335,14 @@
         "MID ULSTER"
       ],
       "matchName": "MID ULSTER",
+      "anchor": {
+        "center": [
+          -7.164037,
+          54.727205
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.38936211219346994
+      },
       "matched": true
     }
   ]

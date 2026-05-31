@@ -10,6 +10,9 @@
   "layerId": "stormont-1920-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1920-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1921-05-24",
+  "previousDate": "1921-05-24",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
@@ -28,6 +31,117 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "Independent Unionist",
+      "seats": 1,
+      "stood": 1,
+      "votes": 25761,
+      "colour": "#6b7280",
+      "share": 57.09314953126039
+    },
+    {
+      "party": "UUP",
+      "seats": 0,
+      "stood": 1,
+      "votes": 19360,
+      "colour": "#48a5ee",
+      "share": 42.90685046873961
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 45121,
+    "parties": [
+      {
+        "name": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 25761,
+        "finalVotes": 25761,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Belfast West"
+        ],
+        "candidates": [
+          {
+            "personId": "12887811",
+            "name": "Philip James Woods",
+            "constituency": "Belfast West",
+            "firstPref": 25761,
+            "finalVotes": 25761,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 57.09314953126039
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 19360,
+        "finalVotes": 19360,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast West"
+        ],
+        "candidates": [
+          {
+            "personId": "5975812",
+            "name": "Joseph Davison",
+            "constituency": "Belfast West",
+            "firstPref": 19360,
+            "finalVotes": 19360,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 42.90685046873961
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "12887811",
+        "name": "Philip James Woods",
+        "party": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 25761,
+        "finalVotes": 25761,
+        "electedCount": 1,
+        "constituencies": [
+          "Belfast West"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast West",
+            "firstPref": 25761,
+            "finalVotes": 25761,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 57.09314953126039
+      },
+      {
+        "personId": "5975812",
+        "name": "Joseph Davison",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 19360,
+        "finalVotes": 19360,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast West"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast West",
+            "firstPref": 19360,
+            "finalVotes": 19360,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 42.90685046873961
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Belfast West",
@@ -51,24 +165,169 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
+          "id": "12887811",
           "name": "Philip James Woods",
           "party": "Independent Unionist",
           "firstPrefs": 25761,
           "finalVotes": 25761,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#6b7280"
+          "colour": "#AADFFF",
+          "counts": [
+            {
+              "count": 1,
+              "total": 25761,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 25761
+            }
+          ]
         },
         {
+          "id": "5975812",
           "name": "Joseph Davison",
           "party": "UUP",
           "firstPrefs": 19360,
           "finalVotes": 19360,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 19360,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 19360
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "12887811",
+          "name": "Philip James Woods",
+          "party": "Independent Unionist",
+          "firstPrefs": 25761,
+          "finalVotes": 25761,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#AADFFF",
+          "counts": [
+            {
+              "count": 1,
+              "total": 25761,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 25761
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Belfast West",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "25761.00",
+          "Candidate_Id": "12887811",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Philip James",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#AADFFF",
+          "Party_Name": "Independent Unionist",
+          "Status": "Elected",
+          "Surname": "Woods",
+          "Total_Votes": "25761.00",
+          "Transfers": "0.00",
+          "candidateName": "Philip James Woods",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "19360.00",
+          "Candidate_Id": "5975812",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Joseph",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "",
+          "Surname": "Davison",
+          "Total_Votes": "19360.00",
+          "Transfers": "0.00",
+          "candidateName": "Joseph Davison",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Belfast West",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "25761.00",
+              "Candidate_Id": "12887811",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Philip James",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#AADFFF",
+              "Party_Name": "Independent Unionist",
+              "Status": "Elected",
+              "Surname": "Woods",
+              "Total_Votes": "25761.00",
+              "Transfers": "0.00",
+              "candidateName": "Philip James Woods",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "19360.00",
+              "Candidate_Id": "5975812",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Joseph",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "",
+              "Surname": "Davison",
+              "Total_Votes": "19360.00",
+              "Transfers": "0.00",
+              "candidateName": "Joseph Davison",
+              "id": 1
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1923-05-02/belfast-west.json",
       "featureId": "2102",
       "featureName": "BELFAST WEST",
@@ -76,6 +335,14 @@
         "BELFAST WEST"
       ],
       "matchName": "BELFAST WEST",
+      "anchor": {
+        "center": [
+          -5.955354,
+          54.592842
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.0019081696789999083
+      },
       "matched": true
     }
   ]

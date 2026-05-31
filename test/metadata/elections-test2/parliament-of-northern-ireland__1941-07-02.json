@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1941-03-27",
+  "previousDate": "1941-03-27",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
@@ -26,6 +29,66 @@
     "leadingParty",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "Nationalist Party",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": null
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 0,
+    "parties": [
+      {
+        "name": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Mid Tyrone"
+        ],
+        "candidates": [
+          {
+            "personId": "1994138",
+            "name": "Michael McGurk",
+            "constituency": "Mid Tyrone",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "1994138",
+        "name": "Michael McGurk",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 1,
+        "constituencies": [
+          "Mid Tyrone"
+        ],
+        "appearances": [
+          {
+            "constituency": "Mid Tyrone",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Mid Tyrone",
@@ -49,15 +112,115 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
+          "id": "1994138",
           "name": "Michael McGurk",
           "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#6b7280"
+          "colour": "#32CD32",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "1994138",
+          "name": "Michael McGurk",
+          "party": "Nationalist Party",
+          "firstPrefs": null,
+          "finalVotes": null,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#32CD32",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Mid Tyrone",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_Id": "1994138",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Michael",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#32CD32",
+          "Party_Name": "Nationalist Party",
+          "Status": "Elected",
+          "Surname": "McGurk",
+          "Total_Votes": "",
+          "Transfers": "0.00",
+          "candidateName": "Michael McGurk",
+          "id": 0
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Mid Tyrone",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_Id": "1994138",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Michael",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#32CD32",
+              "Party_Name": "Nationalist Party",
+              "Status": "Elected",
+              "Surname": "McGurk",
+              "Total_Votes": "",
+              "Transfers": "0.00",
+              "candidateName": "Michael McGurk",
+              "id": 0
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1941-07-02/mid-tyrone.json",
       "featureId": "45",
       "featureName": "MID TYRONE",
@@ -66,6 +229,14 @@
         "TYRONE"
       ],
       "matchName": "MID TYRONE",
+      "anchor": {
+        "center": [
+          -7.034605,
+          54.669779
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.1331460164727788
+      },
       "matched": true
     }
   ]

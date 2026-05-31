@@ -10,6 +10,9 @@
   "layerId": "roi-1938-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/roi-1938-vector-test.json",
+  "previousKey": "ireland-president__1983-12-03",
+  "previousDate": "1983-12-03",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "President of Ireland",
@@ -27,6 +30,168 @@
     "seats",
     "quota"
   ],
+  "partySummary": [
+    {
+      "party": "Independent",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#b8b8b8",
+      "share": null
+    },
+    {
+      "party": "Fianna Fáil Lozenge",
+      "seats": 0,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": null
+    },
+    {
+      "party": "Fine Gael Lozenge",
+      "seats": 0,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": null
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 0,
+    "parties": [
+      {
+        "name": "Independent",
+        "colour": "#b8b8b8",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Ireland"
+        ],
+        "candidates": [
+          {
+            "personId": "Mary Robinson|Independent",
+            "name": "Mary Robinson",
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      },
+      {
+        "name": "Fianna Fáil Lozenge",
+        "colour": "#6b7280",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Ireland"
+        ],
+        "candidates": [
+          {
+            "personId": "Brian Lenihan|Fianna Fáil Lozenge",
+            "name": "Brian Lenihan",
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": null
+      },
+      {
+        "name": "Fine Gael Lozenge",
+        "colour": "#6b7280",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Ireland"
+        ],
+        "candidates": [
+          {
+            "personId": "Austin Currie|Fine Gael Lozenge",
+            "name": "Austin Currie",
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "Mary Robinson|Independent",
+        "name": "Mary Robinson",
+        "party": "Independent",
+        "colour": "#b8b8b8",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 1,
+        "constituencies": [
+          "Ireland"
+        ],
+        "appearances": [
+          {
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      },
+      {
+        "personId": "Brian Lenihan|Fianna Fáil Lozenge",
+        "name": "Brian Lenihan",
+        "party": "Fianna Fáil Lozenge",
+        "colour": "#6b7280",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 0,
+        "constituencies": [
+          "Ireland"
+        ],
+        "appearances": [
+          {
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": null
+      },
+      {
+        "personId": "Austin Currie|Fine Gael Lozenge",
+        "name": "Austin Currie",
+        "party": "Fine Gael Lozenge",
+        "colour": "#6b7280",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 0,
+        "constituencies": [
+          "Ireland"
+        ],
+        "appearances": [
+          {
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Ireland",
@@ -50,33 +215,150 @@
       "leadingColour": "#b8b8b8",
       "candidates": [
         {
+          "id": "Mary Robinson|Independent",
           "name": "Mary Robinson",
           "party": "Independent",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Made Quota",
-          "colour": "#b8b8b8"
+          "colour": "#b8b8b8",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": null,
+              "status": "Made Quota",
+              "firstPrefs": null
+            }
+          ]
         },
         {
+          "id": "Brian Lenihan|Fianna Fáil Lozenge",
           "name": "Brian Lenihan",
           "party": "Fianna Fáil Lozenge",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#6b7280",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": null,
+              "status": "",
+              "firstPrefs": null
+            }
+          ]
         },
         {
+          "id": "Austin Currie|Fine Gael Lozenge",
           "name": "Austin Currie",
           "party": "Fine Gael Lozenge",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#6b7280",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": null,
+              "status": "",
+              "firstPrefs": null
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "Mary Robinson|Independent",
+          "name": "Mary Robinson",
+          "party": "Independent",
+          "firstPrefs": null,
+          "finalVotes": null,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Made Quota",
+          "colour": "#b8b8b8",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": null,
+              "status": "Made Quota",
+              "firstPrefs": null
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "electorate": 2471308,
+        "quota": 787326
+      },
+      "countGroup": [],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "body": "President of Ireland",
+        "year": 1990,
+        "date": null,
+        "election_id": "1990P",
+        "title": "ElectionsIreland.org: 1990 Presidential - Ireland First Preference Votes",
+        "candidates": [
+          {
+            "name": "Mary Robinson",
+            "party": "Independent",
+            "counts": [
+              612265,
+              0.78,
+              2,
+              1
+            ],
+            "status": "Made Quota"
+          },
+          {
+            "name": "Brian Lenihan",
+            "party": " Fianna Fáil Lozenge",
+            "counts": [
+              694484,
+              0.88
+            ],
+            "status": ""
+          },
+          {
+            "name": "Austin Currie",
+            "party": " Fine Gael Lozenge",
+            "counts": [
+              267902,
+              0.34
+            ],
+            "status": ""
+          }
+        ],
+        "meta": {
+          "electorate": 2471308,
+          "quota": 787326
+        },
+        "source_url": "https://electionsireland.org/result.cfm?election=1990P&cons=194",
+        "constituency": "Ireland"
+      },
       "sourceFile": "election-viewer-package/data/elections/ireland-president/1990-11-07/ireland.json",
       "featureId": "Republic of Ireland",
       "featureName": "Republic of Ireland",
@@ -84,6 +366,14 @@
         "Republic of Ireland"
       ],
       "matchName": "Republic of Ireland",
+      "anchor": {
+        "center": [
+          -8.238735,
+          53.415231
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 9.327450873861716
+      },
       "matched": true
     }
   ]

@@ -10,6 +10,9 @@
   "layerId": "pc-1920-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+  "previousKey": "house-of-commons-of-the-united-kingdom__1929-05-30",
+  "previousDate": "1929-05-30",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "House of Commons of the United Kingdom",
@@ -26,6 +29,66 @@
     "leadingParty",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "Nationalist Party",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": null
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 0,
+    "parties": [
+      {
+        "name": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Fermanagh and Tyrone"
+        ],
+        "candidates": [
+          {
+            "personId": "453258",
+            "name": "Cahir Healy",
+            "constituency": "Fermanagh and Tyrone",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "453258",
+        "name": "Cahir Healy",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 1,
+        "constituencies": [
+          "Fermanagh and Tyrone"
+        ],
+        "appearances": [
+          {
+            "constituency": "Fermanagh and Tyrone",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Fermanagh and Tyrone",
@@ -49,15 +112,115 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
+          "id": "453258",
           "name": "Cahir Healy",
           "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#6b7280"
+          "colour": "#32CD32",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "453258",
+          "name": "Cahir Healy",
+          "party": "Nationalist Party",
+          "firstPrefs": null,
+          "finalVotes": null,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#32CD32",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Fermanagh and Tyrone",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_Id": "453258",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Cahir",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#32CD32",
+          "Party_Name": "Nationalist Party",
+          "Status": "Elected",
+          "Surname": "Healy",
+          "Total_Votes": "",
+          "Transfers": "0.00",
+          "candidateName": "Cahir Healy",
+          "id": 0
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Fermanagh and Tyrone",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_Id": "453258",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Cahir",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#32CD32",
+              "Party_Name": "Nationalist Party",
+              "Status": "Elected",
+              "Surname": "Healy",
+              "Total_Votes": "",
+              "Transfers": "0.00",
+              "candidateName": "Cahir Healy",
+              "id": 0
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1931-03-07/fermanagh-and-tyrone.json",
       "featureId": "2140",
       "featureName": "FERMANAGH AND TYRONE",
@@ -65,6 +228,14 @@
         "FERMANAGH AND TYRONE"
       ],
       "matchName": "FERMANAGH AND TYRONE",
+      "anchor": {
+        "center": [
+          -7.292286,
+          54.529357
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.7092169312329989
+      },
       "matched": true
     }
   ]

@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1961-04-20",
+  "previousDate": "1961-04-20",
   "loadable": false,
   "displaySubtitle": "1 constituencies; 1 unmatched",
   "displayProvider": "Parliament of Northern Ireland",
@@ -24,6 +27,66 @@
     "Queen's University of Belfast"
   ],
   "availableStyleModes": [],
+  "partySummary": [
+    {
+      "party": "Ulster Liberal",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": null
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 0,
+    "parties": [
+      {
+        "name": "Ulster Liberal",
+        "colour": "#DAA520",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Queen's University of Belfast"
+        ],
+        "candidates": [
+          {
+            "personId": "262009",
+            "name": "Sheelagh Murnaghan",
+            "constituency": "Queen's University of Belfast",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "262009",
+        "name": "Sheelagh Murnaghan",
+        "party": "Ulster Liberal",
+        "colour": "#DAA520",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 1,
+        "constituencies": [
+          "Queen's University of Belfast"
+        ],
+        "appearances": [
+          {
+            "constituency": "Queen's University of Belfast",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Queen's University of Belfast",
@@ -47,20 +110,121 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
+          "id": "262009",
           "name": "Sheelagh Murnaghan",
           "party": "Ulster Liberal",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#6b7280"
+          "colour": "#DAA520",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "262009",
+          "name": "Sheelagh Murnaghan",
+          "party": "Ulster Liberal",
+          "firstPrefs": null,
+          "finalVotes": null,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#DAA520",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Queen's University of Belfast",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_Id": "262009",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Sheelagh",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DAA520",
+          "Party_Name": "Ulster Liberal",
+          "Status": "Elected",
+          "Surname": "Murnaghan",
+          "Total_Votes": "",
+          "Transfers": "0.00",
+          "candidateName": "Sheelagh Murnaghan",
+          "id": 0
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Queen's University of Belfast",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_Id": "262009",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Sheelagh",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DAA520",
+              "Party_Name": "Ulster Liberal",
+              "Status": "Elected",
+              "Surname": "Murnaghan",
+              "Total_Votes": "",
+              "Transfers": "0.00",
+              "candidateName": "Sheelagh Murnaghan",
+              "id": 0
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1961-11-22/queens-university-of-belfast.json",
       "featureId": null,
       "featureName": null,
       "featureAliases": [],
       "matchName": null,
+      "anchor": null,
       "matched": false
     }
   ]

@@ -10,6 +10,9 @@
   "layerId": "roi-1938-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/roi-1938-vector-test.json",
+  "previousKey": "ireland-president__1938-05-04",
+  "previousDate": "1938-05-04",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "President of Ireland",
@@ -27,6 +30,168 @@
     "seats",
     "quota"
   ],
+  "partySummary": [
+    {
+      "party": "Fianna Fáil Lozenge",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": null
+    },
+    {
+      "party": "Fine Gael Lozenge",
+      "seats": 0,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": null
+    },
+    {
+      "party": "Independent",
+      "seats": 0,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#b8b8b8",
+      "share": null
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 0,
+    "parties": [
+      {
+        "name": "Fianna Fáil Lozenge",
+        "colour": "#6b7280",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Ireland"
+        ],
+        "candidates": [
+          {
+            "personId": "Seán T O'Kelly|Fianna Fáil Lozenge",
+            "name": "Seán T O'Kelly",
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      },
+      {
+        "name": "Fine Gael Lozenge",
+        "colour": "#6b7280",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Ireland"
+        ],
+        "candidates": [
+          {
+            "personId": "General Seán MacEoin|Fine Gael Lozenge",
+            "name": "General Seán MacEoin",
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": null
+      },
+      {
+        "name": "Independent",
+        "colour": "#b8b8b8",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Ireland"
+        ],
+        "candidates": [
+          {
+            "personId": "Dr Patrick McCartan|Independent",
+            "name": "Dr Patrick McCartan",
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "Seán T O'Kelly|Fianna Fáil Lozenge",
+        "name": "Seán T O'Kelly",
+        "party": "Fianna Fáil Lozenge",
+        "colour": "#6b7280",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 1,
+        "constituencies": [
+          "Ireland"
+        ],
+        "appearances": [
+          {
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      },
+      {
+        "personId": "General Seán MacEoin|Fine Gael Lozenge",
+        "name": "General Seán MacEoin",
+        "party": "Fine Gael Lozenge",
+        "colour": "#6b7280",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 0,
+        "constituencies": [
+          "Ireland"
+        ],
+        "appearances": [
+          {
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": null
+      },
+      {
+        "personId": "Dr Patrick McCartan|Independent",
+        "name": "Dr Patrick McCartan",
+        "party": "Independent",
+        "colour": "#b8b8b8",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 0,
+        "constituencies": [
+          "Ireland"
+        ],
+        "appearances": [
+          {
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Ireland",
@@ -50,33 +215,150 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
+          "id": "Seán T O'Kelly|Fianna Fáil Lozenge",
           "name": "Seán T O'Kelly",
           "party": "Fianna Fáil Lozenge",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Made Quota",
-          "colour": "#6b7280"
+          "colour": "#6b7280",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": null,
+              "status": "Made Quota",
+              "firstPrefs": null
+            }
+          ]
         },
         {
+          "id": "General Seán MacEoin|Fine Gael Lozenge",
           "name": "General Seán MacEoin",
           "party": "Fine Gael Lozenge",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#6b7280",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": null,
+              "status": "",
+              "firstPrefs": null
+            }
+          ]
         },
         {
+          "id": "Dr Patrick McCartan|Independent",
           "name": "Dr Patrick McCartan",
           "party": "Independent",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#b8b8b8"
+          "colour": "#b8b8b8",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": null,
+              "status": "",
+              "firstPrefs": null
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "Seán T O'Kelly|Fianna Fáil Lozenge",
+          "name": "Seán T O'Kelly",
+          "party": "Fianna Fáil Lozenge",
+          "firstPrefs": null,
+          "finalVotes": null,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Made Quota",
+          "colour": "#6b7280",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": null,
+              "status": "Made Quota",
+              "firstPrefs": null
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "electorate": 1803463,
+        "quota": 543170
+      },
+      "countGroup": [],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "body": "President of Ireland",
+        "year": 1945,
+        "date": null,
+        "election_id": "1945P",
+        "title": "ElectionsIreland.org: 1945 Presidential - Ireland First Preference Votes",
+        "candidates": [
+          {
+            "name": "Seán T O'Kelly",
+            "party": " Fianna Fáil Lozenge",
+            "counts": [
+              537965,
+              0.99,
+              2,
+              1
+            ],
+            "status": "Made Quota"
+          },
+          {
+            "name": "General Seán MacEoin",
+            "party": " Fine Gael Lozenge",
+            "counts": [
+              335539,
+              0.62
+            ],
+            "status": ""
+          },
+          {
+            "name": "Dr Patrick McCartan",
+            "party": "Independent",
+            "counts": [
+              212834,
+              0.39
+            ],
+            "status": ""
+          }
+        ],
+        "meta": {
+          "electorate": 1803463,
+          "quota": 543170
+        },
+        "source_url": "https://electionsireland.org/result.cfm?election=1945P&cons=194",
+        "constituency": "Ireland"
+      },
       "sourceFile": "election-viewer-package/data/elections/ireland-president/1945-06-16/ireland.json",
       "featureId": "Republic of Ireland",
       "featureName": "Republic of Ireland",
@@ -84,6 +366,14 @@
         "Republic of Ireland"
       ],
       "matchName": "Republic of Ireland",
+      "anchor": {
+        "center": [
+          -8.238735,
+          53.415231
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 9.327450873861716
+      },
       "matched": true
     }
   ]

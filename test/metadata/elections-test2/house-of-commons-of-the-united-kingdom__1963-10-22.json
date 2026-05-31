@@ -10,6 +10,9 @@
   "layerId": "pc-1948-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/pc-1948-vector-test.json",
+  "previousKey": "house-of-commons-of-the-united-kingdom__1959-10-08",
+  "previousDate": "1959-10-08",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "House of Commons of the United Kingdom",
@@ -28,6 +31,168 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 17989,
+      "colour": "#48a5ee",
+      "share": 64.31073931073931
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 7209,
+      "colour": "#6b7280",
+      "share": 25.77220077220077
+    },
+    {
+      "party": "Ulster Liberal",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2774,
+      "colour": "#6b7280",
+      "share": 9.917059917059918
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 27972,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 17989,
+        "finalVotes": 17989,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "candidates": [
+          {
+            "personId": "11233074",
+            "name": "Rafton Pounder",
+            "constituency": "Belfast South",
+            "firstPref": 17989,
+            "finalVotes": 17989,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 64.31073931073931
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 7209,
+        "finalVotes": 7209,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "candidates": [
+          {
+            "personId": "7938596",
+            "name": "Norman Seawright",
+            "constituency": "Belfast South",
+            "firstPref": 7209,
+            "finalVotes": 7209,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 25.77220077220077
+      },
+      {
+        "name": "Ulster Liberal",
+        "colour": "#A0A0A0",
+        "firstPrefs": 2774,
+        "finalVotes": 2774,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "candidates": [
+          {
+            "personId": "10013581",
+            "name": "Albert Hamilton",
+            "constituency": "Belfast South",
+            "firstPref": 2774,
+            "finalVotes": 2774,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 9.917059917059918
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "11233074",
+        "name": "Rafton Pounder",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 17989,
+        "finalVotes": 17989,
+        "electedCount": 1,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast South",
+            "firstPref": 17989,
+            "finalVotes": 17989,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 64.31073931073931
+      },
+      {
+        "personId": "7938596",
+        "name": "Norman Seawright",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 7209,
+        "finalVotes": 7209,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast South",
+            "firstPref": 7209,
+            "finalVotes": 7209,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 25.77220077220077
+      },
+      {
+        "personId": "10013581",
+        "name": "Albert Hamilton",
+        "party": "Ulster Liberal",
+        "colour": "#A0A0A0",
+        "firstPrefs": 2774,
+        "finalVotes": 2774,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast South",
+            "firstPref": 2774,
+            "finalVotes": 2774,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 9.917059917059918
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Belfast South",
@@ -51,33 +216,223 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "11233074",
           "name": "Rafton Pounder",
           "party": "UUP",
           "firstPrefs": 17989,
           "finalVotes": 17989,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 17989,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 17989
+            }
+          ]
         },
         {
+          "id": "7938596",
           "name": "Norman Seawright",
           "party": "NI Labour",
           "firstPrefs": 7209,
           "finalVotes": 7209,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#DC241F",
+          "counts": [
+            {
+              "count": 1,
+              "total": 7209,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 7209
+            }
+          ]
         },
         {
+          "id": "10013581",
           "name": "Albert Hamilton",
           "party": "Ulster Liberal",
           "firstPrefs": 2774,
           "finalVotes": 2774,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#A0A0A0",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2774,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 2774
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "11233074",
+          "name": "Rafton Pounder",
+          "party": "UUP",
+          "firstPrefs": 17989,
+          "finalVotes": 17989,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 17989,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 17989
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Belfast South",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "57864",
+        "Total_Poll": "",
+        "Valid_Poll": "27972"
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "17989.00",
+          "Candidate_Id": "11233074",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Rafton",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Pounder",
+          "Total_Votes": "17989.00",
+          "Transfers": "0.00",
+          "candidateName": "Rafton Pounder",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "7209.00",
+          "Candidate_Id": "7938596",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Norman",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DC241F",
+          "Party_Name": "NI Labour",
+          "Status": "",
+          "Surname": "Seawright",
+          "Total_Votes": "7209.00",
+          "Transfers": "0.00",
+          "candidateName": "Norman Seawright",
+          "id": 1
+        },
+        {
+          "Candidate_First_Pref_Votes": "2774.00",
+          "Candidate_Id": "10013581",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Albert",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#A0A0A0",
+          "Party_Name": "Ulster Liberal",
+          "Status": "",
+          "Surname": "Hamilton",
+          "Total_Votes": "2774.00",
+          "Transfers": "0.00",
+          "candidateName": "Albert Hamilton",
+          "id": 2
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Belfast South",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "57864",
+            "Total_Poll": "",
+            "Valid_Poll": "27972"
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "17989.00",
+              "Candidate_Id": "11233074",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Rafton",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Pounder",
+              "Total_Votes": "17989.00",
+              "Transfers": "0.00",
+              "candidateName": "Rafton Pounder",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "7209.00",
+              "Candidate_Id": "7938596",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Norman",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DC241F",
+              "Party_Name": "NI Labour",
+              "Status": "",
+              "Surname": "Seawright",
+              "Total_Votes": "7209.00",
+              "Transfers": "0.00",
+              "candidateName": "Norman Seawright",
+              "id": 1
+            },
+            {
+              "Candidate_First_Pref_Votes": "2774.00",
+              "Candidate_Id": "10013581",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Albert",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#A0A0A0",
+              "Party_Name": "Ulster Liberal",
+              "Status": "",
+              "Surname": "Hamilton",
+              "Total_Votes": "2774.00",
+              "Transfers": "0.00",
+              "candidateName": "Albert Hamilton",
+              "id": 2
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1963-10-22/belfast-south.json",
       "featureId": "2104",
       "featureName": "BELFAST SOUTH",
@@ -85,6 +440,14 @@
         "BELFAST SOUTH"
       ],
       "matchName": "BELFAST SOUTH",
+      "anchor": {
+        "center": [
+          -5.928704,
+          54.574406
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.001987357174321705
+      },
       "matched": true
     }
   ]

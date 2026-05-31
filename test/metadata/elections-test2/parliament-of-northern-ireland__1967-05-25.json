@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1966-11-23",
+  "previousDate": "1966-11-23",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
@@ -26,6 +29,66 @@
     "leadingParty",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "Nationalist Party",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": null
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 0,
+    "parties": [
+      {
+        "name": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "South Down"
+        ],
+        "candidates": [
+          {
+            "personId": "1409096",
+            "name": "Michael Keogh",
+            "constituency": "South Down",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "1409096",
+        "name": "Michael Keogh",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 1,
+        "constituencies": [
+          "South Down"
+        ],
+        "appearances": [
+          {
+            "constituency": "South Down",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "South Down",
@@ -49,15 +112,115 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
+          "id": "1409096",
           "name": "Michael Keogh",
           "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#6b7280"
+          "colour": "#32CD32",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "1409096",
+          "name": "Michael Keogh",
+          "party": "Nationalist Party",
+          "firstPrefs": null,
+          "finalVotes": null,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#32CD32",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "South Down",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_Id": "1409096",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Michael",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#32CD32",
+          "Party_Name": "Nationalist Party",
+          "Status": "Elected",
+          "Surname": "Keogh",
+          "Total_Votes": "",
+          "Transfers": "0.00",
+          "candidateName": "Michael Keogh",
+          "id": 0
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "South Down",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_Id": "1409096",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Michael",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#32CD32",
+              "Party_Name": "Nationalist Party",
+              "Status": "Elected",
+              "Surname": "Keogh",
+              "Total_Votes": "",
+              "Transfers": "0.00",
+              "candidateName": "Michael Keogh",
+              "id": 0
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1967-05-25/south-down.json",
       "featureId": "36",
       "featureName": "SOUTH DOWN",
@@ -66,6 +229,14 @@
         "DOWN"
       ],
       "matchName": "SOUTH DOWN",
+      "anchor": {
+        "center": [
+          -6.177791,
+          54.131473
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.036390700627556734
+      },
       "matched": true
     }
   ]

@@ -10,6 +10,9 @@
   "layerId": "assembly-areas-1970-alias-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/assembly-areas-1970-alias-test.json",
+  "previousKey": "northern-ireland-assembly__1982-10-20",
+  "previousDate": "1982-10-20",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Northern Ireland Assembly",
@@ -27,8 +30,120 @@
     "voteShare",
     "turnout",
     "majority",
+    "seats",
     "quota"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 26907,
+      "colour": "#48a5ee",
+      "share": 84.54142709020644
+    },
+    {
+      "party": "Workers' Party",
+      "seats": 0,
+      "stood": 1,
+      "votes": 4920,
+      "colour": "#6b7280",
+      "share": 15.458572909793572
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 31827,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 26907,
+        "finalVotes": 26907,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Armagh"
+        ],
+        "candidates": [
+          {
+            "personId": "80795",
+            "name": "Jim Speers",
+            "constituency": "Armagh",
+            "firstPref": 26907,
+            "finalVotes": 26907,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 84.54142709020644
+      },
+      {
+        "name": "Workers' Party",
+        "colour": "#930C1A",
+        "firstPrefs": 4920,
+        "finalVotes": 4920,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Armagh"
+        ],
+        "candidates": [
+          {
+            "personId": "99076",
+            "name": "Tom French",
+            "constituency": "Armagh",
+            "firstPref": 4920,
+            "finalVotes": 4920,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 15.458572909793572
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "80795",
+        "name": "Jim Speers",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 26907,
+        "finalVotes": 26907,
+        "electedCount": 0,
+        "constituencies": [
+          "Armagh"
+        ],
+        "appearances": [
+          {
+            "constituency": "Armagh",
+            "firstPref": 26907,
+            "finalVotes": 26907,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 84.54142709020644
+      },
+      {
+        "personId": "99076",
+        "name": "Tom French",
+        "party": "Workers' Party",
+        "colour": "#930C1A",
+        "firstPrefs": 4920,
+        "finalVotes": 4920,
+        "electedCount": 0,
+        "constituencies": [
+          "Armagh"
+        ],
+        "appearances": [
+          {
+            "constituency": "Armagh",
+            "firstPref": 4920,
+            "finalVotes": 4920,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 15.458572909793572
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Armagh",
@@ -41,7 +156,7 @@
       "turnoutPct": 34.07,
       "majority": 21987,
       "majorityPct": 69.08,
-      "seatsWon": null,
+      "seatsWon": 1,
       "seatsTotal": 1,
       "quota": 15914,
       "electorate": 95100,
@@ -52,24 +167,171 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "80795",
           "name": "Jim Speers",
           "party": "UUP",
           "firstPrefs": 26907,
           "finalVotes": 26907,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 26907,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 26907
+            }
+          ]
         },
         {
+          "id": "99076",
           "name": "Tom French",
           "party": "Workers' Party",
           "firstPrefs": 4920,
           "finalVotes": 4920,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#930C1A",
+          "counts": [
+            {
+              "count": 1,
+              "total": 4920,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 4920
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "80795",
+          "name": "Jim Speers",
+          "party": "UUP",
+          "firstPrefs": 26907,
+          "finalVotes": 26907,
+          "elected": true,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Deemed elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 26907,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 26907
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Armagh",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Quota": "15914",
+        "Spoiled": "571",
+        "Total_Electorate": "95100",
+        "Total_Poll": "32398",
+        "Valid_Poll": "31827"
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "26907",
+          "Candidate_Id": "80795",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Jim",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "",
+          "Surname": "Speers",
+          "Total_Votes": "26907.00",
+          "Transfers": "0.00",
+          "candidateName": "Jim Speers",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "4920",
+          "Candidate_Id": "99076",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Tom",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#930C1A",
+          "Party_Name": "Workers' Party",
+          "Status": "",
+          "Surname": "French",
+          "Total_Votes": "4920.00",
+          "Transfers": "0.00",
+          "candidateName": "Tom French",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "26907",
+              "Candidate_Id": "80795",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Jim",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "",
+              "Surname": "Speers",
+              "Total_Votes": "26907.00",
+              "Transfers": "0.00",
+              "candidateName": "Jim Speers",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "4920",
+              "Candidate_Id": "99076",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Tom",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#930C1A",
+              "Party_Name": "Workers' Party",
+              "Status": "",
+              "Surname": "French",
+              "Total_Votes": "4920.00",
+              "Transfers": "0.00",
+              "candidateName": "Tom French",
+              "id": 1
+            }
+          ],
+          "countInfo": {
+            "Constituency_Name": "Armagh",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Quota": "15914",
+            "Spoiled": "571",
+            "Total_Electorate": "95100",
+            "Total_Poll": "32398",
+            "Valid_Poll": "31827"
+          }
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/northern-ireland-assembly/1983-04-27/armagh.json",
       "featureId": "2122",
       "featureName": "ARMAGH",
@@ -77,6 +339,14 @@
         "ARMAGH"
       ],
       "matchName": "ARMAGH",
+      "anchor": {
+        "center": [
+          -6.578953,
+          54.302356
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.18316234759954678
+      },
       "matched": true
     }
   ]

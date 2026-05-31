@@ -10,6 +10,9 @@
   "layerId": "pc-1948-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/pc-1948-vector-test.json",
+  "previousKey": "house-of-commons-of-the-united-kingdom__1953-04-15",
+  "previousDate": "1953-04-15",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "House of Commons of the United Kingdom",
@@ -26,6 +29,66 @@
     "leadingParty",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#48a5ee",
+      "share": null
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 0,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Armagh"
+        ],
+        "candidates": [
+          {
+            "personId": "9301952",
+            "name": "Christopher Armstrong",
+            "constituency": "Armagh",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "9301952",
+        "name": "Christopher Armstrong",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 1,
+        "constituencies": [
+          "Armagh"
+        ],
+        "appearances": [
+          {
+            "constituency": "Armagh",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Armagh",
@@ -49,15 +112,115 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "9301952",
           "name": "Christopher Armstrong",
           "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "9301952",
+          "name": "Christopher Armstrong",
+          "party": "UUP",
+          "firstPrefs": null,
+          "finalVotes": null,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": null
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Armagh",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_Id": "9301952",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Christopher",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Armstrong",
+          "Total_Votes": "",
+          "Transfers": "0.00",
+          "candidateName": "Christopher Armstrong",
+          "id": 0
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Armagh",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_Id": "9301952",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Christopher",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Armstrong",
+              "Total_Votes": "",
+              "Transfers": "0.00",
+              "candidateName": "Christopher Armstrong",
+              "id": 0
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1954-11-20/armagh.json",
       "featureId": "2122",
       "featureName": "ARMAGH",
@@ -65,6 +228,14 @@
         "ARMAGH"
       ],
       "matchName": "ARMAGH",
+      "anchor": {
+        "center": [
+          -6.578953,
+          54.302356
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.18316234759954675
+      },
       "matched": true
     }
   ]

@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1941-12-03",
+  "previousDate": "1941-12-03",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
@@ -28,6 +31,168 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "Independent Republican",
+      "seats": 1,
+      "stood": 1,
+      "votes": 4595,
+      "colour": "#6b7280",
+      "share": 54.78717062119948
+    },
+    {
+      "party": "Nationalist Party",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1971,
+      "colour": "#6b7280",
+      "share": 23.500655776797423
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1821,
+      "colour": "#6b7280",
+      "share": 21.712173602003098
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 8387,
+    "parties": [
+      {
+        "name": "Independent Republican",
+        "colour": "#CDFFAB",
+        "firstPrefs": 4595,
+        "finalVotes": 4595,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Belfast Falls"
+        ],
+        "candidates": [
+          {
+            "personId": "3703395",
+            "name": "Eamon Donnelly",
+            "constituency": "Belfast Falls",
+            "firstPref": 4595,
+            "finalVotes": 4595,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 54.78717062119948
+      },
+      {
+        "name": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 1971,
+        "finalVotes": 1971,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast Falls"
+        ],
+        "candidates": [
+          {
+            "personId": "9026227",
+            "name": "George McGouran",
+            "constituency": "Belfast Falls",
+            "firstPref": 1971,
+            "finalVotes": 1971,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 23.500655776797423
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 1821,
+        "finalVotes": 1821,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast Falls"
+        ],
+        "candidates": [
+          {
+            "personId": "11480739",
+            "name": "John Glass",
+            "constituency": "Belfast Falls",
+            "firstPref": 1821,
+            "finalVotes": 1821,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 21.712173602003098
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "3703395",
+        "name": "Eamon Donnelly",
+        "party": "Independent Republican",
+        "colour": "#CDFFAB",
+        "firstPrefs": 4595,
+        "finalVotes": 4595,
+        "electedCount": 1,
+        "constituencies": [
+          "Belfast Falls"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Falls",
+            "firstPref": 4595,
+            "finalVotes": 4595,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 54.78717062119948
+      },
+      {
+        "personId": "9026227",
+        "name": "George McGouran",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 1971,
+        "finalVotes": 1971,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast Falls"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Falls",
+            "firstPref": 1971,
+            "finalVotes": 1971,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 23.500655776797423
+      },
+      {
+        "personId": "11480739",
+        "name": "John Glass",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 1821,
+        "finalVotes": 1821,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast Falls"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Falls",
+            "firstPref": 1821,
+            "finalVotes": 1821,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 21.712173602003098
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Belfast Falls",
@@ -51,33 +216,223 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
+          "id": "3703395",
           "name": "Eamon Donnelly",
           "party": "Independent Republican",
           "firstPrefs": 4595,
           "finalVotes": 4595,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#6b7280"
+          "colour": "#CDFFAB",
+          "counts": [
+            {
+              "count": 1,
+              "total": 4595,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 4595
+            }
+          ]
         },
         {
+          "id": "9026227",
           "name": "George McGouran",
           "party": "Nationalist Party",
           "firstPrefs": 1971,
           "finalVotes": 1971,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#32CD32",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1971,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 1971
+            }
+          ]
         },
         {
+          "id": "11480739",
           "name": "John Glass",
           "party": "NI Labour",
           "firstPrefs": 1821,
           "finalVotes": 1821,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#DC241F",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1821,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 1821
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "3703395",
+          "name": "Eamon Donnelly",
+          "party": "Independent Republican",
+          "firstPrefs": 4595,
+          "finalVotes": 4595,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#CDFFAB",
+          "counts": [
+            {
+              "count": 1,
+              "total": 4595,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 4595
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Belfast Falls",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "4595.00",
+          "Candidate_Id": "3703395",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Eamon",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#CDFFAB",
+          "Party_Name": "Independent Republican",
+          "Status": "Elected",
+          "Surname": "Donnelly",
+          "Total_Votes": "4595.00",
+          "Transfers": "0.00",
+          "candidateName": "Eamon Donnelly",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "1971.00",
+          "Candidate_Id": "9026227",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "George",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#32CD32",
+          "Party_Name": "Nationalist Party",
+          "Status": "",
+          "Surname": "McGouran",
+          "Total_Votes": "1971.00",
+          "Transfers": "0.00",
+          "candidateName": "George McGouran",
+          "id": 1
+        },
+        {
+          "Candidate_First_Pref_Votes": "1821.00",
+          "Candidate_Id": "11480739",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "John",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DC241F",
+          "Party_Name": "NI Labour",
+          "Status": "",
+          "Surname": "Glass",
+          "Total_Votes": "1821.00",
+          "Transfers": "0.00",
+          "candidateName": "John Glass",
+          "id": 2
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Belfast Falls",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "4595.00",
+              "Candidate_Id": "3703395",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Eamon",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#CDFFAB",
+              "Party_Name": "Independent Republican",
+              "Status": "Elected",
+              "Surname": "Donnelly",
+              "Total_Votes": "4595.00",
+              "Transfers": "0.00",
+              "candidateName": "Eamon Donnelly",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "1971.00",
+              "Candidate_Id": "9026227",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "George",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#32CD32",
+              "Party_Name": "Nationalist Party",
+              "Status": "",
+              "Surname": "McGouran",
+              "Total_Votes": "1971.00",
+              "Transfers": "0.00",
+              "candidateName": "George McGouran",
+              "id": 1
+            },
+            {
+              "Candidate_First_Pref_Votes": "1821.00",
+              "Candidate_Id": "11480739",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "John",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DC241F",
+              "Party_Name": "NI Labour",
+              "Status": "",
+              "Surname": "Glass",
+              "Total_Votes": "1821.00",
+              "Transfers": "0.00",
+              "candidateName": "John Glass",
+              "id": 2
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1942-04-02/belfast-falls.json",
       "featureId": "8",
       "featureName": "BELFAST FALLS",
@@ -86,6 +441,14 @@
         "BELFAST"
       ],
       "matchName": "BELFAST FALLS",
+      "anchor": {
+        "center": [
+          -5.96715,
+          54.592675
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.0004545280069781972
+      },
       "matched": true
     }
   ]

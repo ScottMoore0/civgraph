@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1945-04-12",
+  "previousDate": "1945-04-12",
   "loadable": true,
   "displaySubtitle": "2 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
@@ -29,6 +32,177 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 2,
+      "stood": 2,
+      "votes": 13204,
+      "colour": "#48a5ee",
+      "share": 73.38001556074248
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 2,
+      "votes": 4790,
+      "colour": "#6b7280",
+      "share": 26.619984439257532
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 17994,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 13204,
+        "finalVotes": 13204,
+        "stood": 2,
+        "elected": 2,
+        "constituencies": [
+          "Carrick",
+          "Larne"
+        ],
+        "candidates": [
+          {
+            "personId": "972555",
+            "name": "Lancelot Curran",
+            "constituency": "Carrick",
+            "firstPref": 6905,
+            "finalVotes": 6905,
+            "status": "Elected"
+          },
+          {
+            "personId": "5452839",
+            "name": "Walter Topping",
+            "constituency": "Larne",
+            "firstPref": 6299,
+            "finalVotes": 6299,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 73.38001556074248
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 4790,
+        "finalVotes": 4790,
+        "stood": 2,
+        "elected": 0,
+        "constituencies": [
+          "Carrick",
+          "Larne"
+        ],
+        "candidates": [
+          {
+            "personId": "4275711",
+            "name": "William Calwell",
+            "constituency": "Carrick",
+            "firstPref": 2741,
+            "finalVotes": 2741,
+            "status": ""
+          },
+          {
+            "personId": "7040313",
+            "name": "Vivian Simpson",
+            "constituency": "Larne",
+            "firstPref": 2049,
+            "finalVotes": 2049,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 26.619984439257532
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "972555",
+        "name": "Lancelot Curran",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 6905,
+        "finalVotes": 6905,
+        "electedCount": 1,
+        "constituencies": [
+          "Carrick"
+        ],
+        "appearances": [
+          {
+            "constituency": "Carrick",
+            "firstPref": 6905,
+            "finalVotes": 6905,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 38.37390241191508
+      },
+      {
+        "personId": "5452839",
+        "name": "Walter Topping",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 6299,
+        "finalVotes": 6299,
+        "electedCount": 1,
+        "constituencies": [
+          "Larne"
+        ],
+        "appearances": [
+          {
+            "constituency": "Larne",
+            "firstPref": 6299,
+            "finalVotes": 6299,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 35.00611314882739
+      },
+      {
+        "personId": "4275711",
+        "name": "William Calwell",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 2741,
+        "finalVotes": 2741,
+        "electedCount": 0,
+        "constituencies": [
+          "Carrick"
+        ],
+        "appearances": [
+          {
+            "constituency": "Carrick",
+            "firstPref": 2741,
+            "finalVotes": 2741,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 15.232855396243192
+      },
+      {
+        "personId": "7040313",
+        "name": "Vivian Simpson",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 2049,
+        "finalVotes": 2049,
+        "electedCount": 0,
+        "constituencies": [
+          "Larne"
+        ],
+        "appearances": [
+          {
+            "constituency": "Larne",
+            "firstPref": 2049,
+            "finalVotes": 2049,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 11.387129043014339
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Carrick",
@@ -52,24 +226,169 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "972555",
           "name": "Lancelot Curran",
           "party": "UUP",
           "firstPrefs": 6905,
           "finalVotes": 6905,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 6905,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 6905
+            }
+          ]
         },
         {
+          "id": "4275711",
           "name": "William Calwell",
           "party": "NI Labour",
           "firstPrefs": 2741,
           "finalVotes": 2741,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#DC241F",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2741,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 2741
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "972555",
+          "name": "Lancelot Curran",
+          "party": "UUP",
+          "firstPrefs": 6905,
+          "finalVotes": 6905,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 6905,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 6905
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Carrick",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "6905.00",
+          "Candidate_Id": "972555",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Lancelot",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Curran",
+          "Total_Votes": "6905.00",
+          "Transfers": "0.00",
+          "candidateName": "Lancelot Curran",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "2741.00",
+          "Candidate_Id": "4275711",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "William",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DC241F",
+          "Party_Name": "NI Labour",
+          "Status": "",
+          "Surname": "Calwell",
+          "Total_Votes": "2741.00",
+          "Transfers": "0.00",
+          "candidateName": "William Calwell",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Carrick",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "6905.00",
+              "Candidate_Id": "972555",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Lancelot",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Curran",
+              "Total_Votes": "6905.00",
+              "Transfers": "0.00",
+              "candidateName": "Lancelot Curran",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "2741.00",
+              "Candidate_Id": "4275711",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "William",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DC241F",
+              "Party_Name": "NI Labour",
+              "Status": "",
+              "Surname": "Calwell",
+              "Total_Votes": "2741.00",
+              "Transfers": "0.00",
+              "candidateName": "William Calwell",
+              "id": 1
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1945-04-19/carrick.json",
       "featureId": "21",
       "featureName": "CARRICK",
@@ -78,6 +397,14 @@
         "ANTRIM"
       ],
       "matchName": "CARRICK",
+      "anchor": {
+        "center": [
+          -5.918372,
+          54.718139
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.0214159205613742
+      },
       "matched": true
     },
     {
@@ -102,24 +429,169 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "5452839",
           "name": "Walter Topping",
           "party": "UUP",
           "firstPrefs": 6299,
           "finalVotes": 6299,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 6299,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 6299
+            }
+          ]
         },
         {
+          "id": "7040313",
           "name": "Vivian Simpson",
           "party": "NI Labour",
           "firstPrefs": 2049,
           "finalVotes": 2049,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#DC241F",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2049,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 2049
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "5452839",
+          "name": "Walter Topping",
+          "party": "UUP",
+          "firstPrefs": 6299,
+          "finalVotes": 6299,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 6299,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 6299
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Larne",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "6299.00",
+          "Candidate_Id": "5452839",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Walter",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Topping",
+          "Total_Votes": "6299.00",
+          "Transfers": "0.00",
+          "candidateName": "Walter Topping",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "2049.00",
+          "Candidate_Id": "7040313",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Vivian",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DC241F",
+          "Party_Name": "NI Labour",
+          "Status": "",
+          "Surname": "Simpson",
+          "Total_Votes": "2049.00",
+          "Transfers": "0.00",
+          "candidateName": "Vivian Simpson",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Larne",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "6299.00",
+              "Candidate_Id": "5452839",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Walter",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Topping",
+              "Total_Votes": "6299.00",
+              "Transfers": "0.00",
+              "candidateName": "Walter Topping",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "2049.00",
+              "Candidate_Id": "7040313",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Vivian",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DC241F",
+              "Party_Name": "NI Labour",
+              "Status": "",
+              "Surname": "Simpson",
+              "Total_Votes": "2049.00",
+              "Transfers": "0.00",
+              "candidateName": "Vivian Simpson",
+              "id": 1
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1945-04-19/larne.json",
       "featureId": "22",
       "featureName": "LARNE",
@@ -128,6 +600,14 @@
         "ANTRIM"
       ],
       "matchName": "LARNE",
+      "anchor": {
+        "center": [
+          -5.939627,
+          54.848888
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.06205217027151153
+      },
       "matched": true
     }
   ]

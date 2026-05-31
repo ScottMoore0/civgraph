@@ -10,6 +10,9 @@
   "layerId": "pc-1970-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/pc-1970-vector-test.json",
+  "previousKey": "house-of-commons-of-the-united-kingdom__1979-05-03",
+  "previousDate": "1979-05-03",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "House of Commons of the United Kingdom",
@@ -26,8 +29,120 @@
     "leadingParty",
     "voteShare",
     "turnout",
-    "majority"
+    "majority",
+    "seats"
   ],
+  "partySummary": [
+    {
+      "party": "Anti H-Block",
+      "seats": 1,
+      "stood": 1,
+      "votes": 30493,
+      "colour": "#6b7280",
+      "share": 51.21516988864442
+    },
+    {
+      "party": "UUP",
+      "seats": 0,
+      "stood": 1,
+      "votes": 29046,
+      "colour": "#48a5ee",
+      "share": 48.78483011135558
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 59539,
+    "parties": [
+      {
+        "name": "Anti H-Block",
+        "colour": "#008800",
+        "firstPrefs": 30493,
+        "finalVotes": 30493,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Fermanagh and South Tyrone"
+        ],
+        "candidates": [
+          {
+            "personId": "29701",
+            "name": "Bobby Sands",
+            "constituency": "Fermanagh and South Tyrone",
+            "firstPref": 30493,
+            "finalVotes": 30493,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 51.21516988864442
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 29046,
+        "finalVotes": 29046,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Fermanagh and South Tyrone"
+        ],
+        "candidates": [
+          {
+            "personId": "26641",
+            "name": "Harry West",
+            "constituency": "Fermanagh and South Tyrone",
+            "firstPref": 29046,
+            "finalVotes": 29046,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 48.78483011135558
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "29701",
+        "name": "Bobby Sands",
+        "party": "Anti H-Block",
+        "colour": "#008800",
+        "firstPrefs": 30493,
+        "finalVotes": 30493,
+        "electedCount": 0,
+        "constituencies": [
+          "Fermanagh and South Tyrone"
+        ],
+        "appearances": [
+          {
+            "constituency": "Fermanagh and South Tyrone",
+            "firstPref": 30493,
+            "finalVotes": 30493,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 51.21516988864442
+      },
+      {
+        "personId": "26641",
+        "name": "Harry West",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 29046,
+        "finalVotes": 29046,
+        "electedCount": 0,
+        "constituencies": [
+          "Fermanagh and South Tyrone"
+        ],
+        "appearances": [
+          {
+            "constituency": "Fermanagh and South Tyrone",
+            "firstPref": 29046,
+            "finalVotes": 29046,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 48.78483011135558
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Fermanagh and South Tyrone",
@@ -40,7 +155,7 @@
       "turnoutPct": 86.83,
       "majority": 1447,
       "majorityPct": 2.43,
-      "seatsWon": null,
+      "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
       "electorate": 72349,
@@ -51,24 +166,169 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
+          "id": "29701",
           "name": "Bobby Sands",
           "party": "Anti H-Block",
           "firstPrefs": 30493,
           "finalVotes": 30493,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#008800",
+          "counts": [
+            {
+              "count": 1,
+              "total": 30493,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 30493
+            }
+          ]
         },
         {
+          "id": "26641",
           "name": "Harry West",
           "party": "UUP",
           "firstPrefs": 29046,
           "finalVotes": 29046,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 29046,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 29046
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "29701",
+          "name": "Bobby Sands",
+          "party": "Anti H-Block",
+          "firstPrefs": 30493,
+          "finalVotes": 30493,
+          "elected": true,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Deemed elected",
+          "colour": "#008800",
+          "counts": [
+            {
+              "count": 1,
+              "total": 30493,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 30493
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Fermanagh and South Tyrone",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "3280",
+        "Total_Electorate": "72349",
+        "Total_Poll": "62819",
+        "Valid_Poll": "59539"
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "30493",
+          "Candidate_Id": "29701",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Bobby",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#008800",
+          "Party_Name": "Anti H-Block",
+          "Status": "",
+          "Surname": "Sands",
+          "Total_Votes": "30493.00",
+          "Transfers": "0.00",
+          "candidateName": "Bobby Sands",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "29046",
+          "Candidate_Id": "26641",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Harry",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "",
+          "Surname": "West",
+          "Total_Votes": "29046.00",
+          "Transfers": "0.00",
+          "candidateName": "Harry West",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "30493",
+              "Candidate_Id": "29701",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Bobby",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#008800",
+              "Party_Name": "Anti H-Block",
+              "Status": "",
+              "Surname": "Sands",
+              "Total_Votes": "30493.00",
+              "Transfers": "0.00",
+              "candidateName": "Bobby Sands",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "29046",
+              "Candidate_Id": "26641",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Harry",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "",
+              "Surname": "West",
+              "Total_Votes": "29046.00",
+              "Transfers": "0.00",
+              "candidateName": "Harry West",
+              "id": 1
+            }
+          ],
+          "countInfo": {
+            "Constituency_Name": "Fermanagh and South Tyrone",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "3280",
+            "Total_Electorate": "72349",
+            "Total_Poll": "62819",
+            "Valid_Poll": "59539"
+          }
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1981-04-09/fermanagh-and-south-tyrone.json",
       "featureId": "2140",
       "featureName": "FERMANAGH AND SOUTH TYRONE",
@@ -76,6 +336,14 @@
         "FERMANAGH AND SOUTH TYRONE"
       ],
       "matchName": "FERMANAGH AND SOUTH TYRONE",
+      "anchor": {
+        "center": [
+          -7.359373,
+          54.361906
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.4125040185820163
+      },
       "matched": true
     }
   ]

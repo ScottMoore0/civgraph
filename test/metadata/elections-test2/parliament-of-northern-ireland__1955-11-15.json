@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1955-10-15",
+  "previousDate": "1955-10-15",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
@@ -28,6 +31,117 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 5609,
+      "colour": "#48a5ee",
+      "share": 52.021888332405865
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 5173,
+      "colour": "#6b7280",
+      "share": 47.978111667594135
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 10782,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 5609,
+        "finalVotes": 5609,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Belfast Woodvale"
+        ],
+        "candidates": [
+          {
+            "personId": "8832321",
+            "name": "Neville Martin",
+            "constituency": "Belfast Woodvale",
+            "firstPref": 5609,
+            "finalVotes": 5609,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 52.021888332405865
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 5173,
+        "finalVotes": 5173,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast Woodvale"
+        ],
+        "candidates": [
+          {
+            "personId": "10073461",
+            "name": "Billy Boyd",
+            "constituency": "Belfast Woodvale",
+            "firstPref": 5173,
+            "finalVotes": 5173,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 47.978111667594135
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "8832321",
+        "name": "Neville Martin",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 5609,
+        "finalVotes": 5609,
+        "electedCount": 1,
+        "constituencies": [
+          "Belfast Woodvale"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Woodvale",
+            "firstPref": 5609,
+            "finalVotes": 5609,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 52.021888332405865
+      },
+      {
+        "personId": "10073461",
+        "name": "Billy Boyd",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 5173,
+        "finalVotes": 5173,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast Woodvale"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Woodvale",
+            "firstPref": 5173,
+            "finalVotes": 5173,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 47.978111667594135
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Belfast Woodvale",
@@ -51,24 +165,169 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "8832321",
           "name": "Neville Martin",
           "party": "UUP",
           "firstPrefs": 5609,
           "finalVotes": 5609,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 5609,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 5609
+            }
+          ]
         },
         {
+          "id": "10073461",
           "name": "Billy Boyd",
           "party": "NI Labour",
           "firstPrefs": 5173,
           "finalVotes": 5173,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#DC241F",
+          "counts": [
+            {
+              "count": 1,
+              "total": 5173,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 5173
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "8832321",
+          "name": "Neville Martin",
+          "party": "UUP",
+          "firstPrefs": 5609,
+          "finalVotes": 5609,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 5609,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 5609
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Belfast Woodvale",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "5609.00",
+          "Candidate_Id": "8832321",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Neville",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Martin",
+          "Total_Votes": "5609.00",
+          "Transfers": "0.00",
+          "candidateName": "Neville Martin",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "5173.00",
+          "Candidate_Id": "10073461",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Billy",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DC241F",
+          "Party_Name": "NI Labour",
+          "Status": "",
+          "Surname": "Boyd",
+          "Total_Votes": "5173.00",
+          "Transfers": "0.00",
+          "candidateName": "Billy Boyd",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Belfast Woodvale",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "5609.00",
+              "Candidate_Id": "8832321",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Neville",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Martin",
+              "Total_Votes": "5609.00",
+              "Transfers": "0.00",
+              "candidateName": "Neville Martin",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "5173.00",
+              "Candidate_Id": "10073461",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Billy",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DC241F",
+              "Party_Name": "NI Labour",
+              "Status": "",
+              "Surname": "Boyd",
+              "Total_Votes": "5173.00",
+              "Transfers": "0.00",
+              "candidateName": "Billy Boyd",
+              "id": 1
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1955-11-15/belfast-woodvale.json",
       "featureId": "16",
       "featureName": "BELFAST WOODVALE",
@@ -77,6 +336,14 @@
         "BELFAST"
       ],
       "matchName": "BELFAST WOODVALE",
+      "anchor": {
+        "center": [
+          -5.967016,
+          54.604189
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.0006328380720816056
+      },
       "matched": true
     }
   ]

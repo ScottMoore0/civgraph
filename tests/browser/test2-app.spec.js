@@ -58,6 +58,45 @@ test('/test2 boots centred on Ireland when URL has no viewport state', async ({ 
   expect(camera.zoom).toBeGreaterThan(4);
 });
 
+test('/test2 production overlay controls do not overlap MapLibre controls', async ({ page }) => {
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
+  await page.waitForSelector('#activeLayersToggle');
+  await page.waitForSelector('.maplibregl-ctrl-zoom-in');
+  await page.waitForSelector('#mapControlsToggle');
+  await page.waitForSelector('.maplibregl-ctrl-scale');
+
+  const layout = await page.evaluate(() => {
+    const active = document.getElementById('activeLayersToggle')?.getBoundingClientRect();
+    const zoom = document.querySelector('.maplibregl-ctrl-zoom-in')?.closest('.maplibregl-ctrl-group')?.getBoundingClientRect();
+    const settings = document.getElementById('mapControlsToggle')?.getBoundingClientRect();
+    const scale = document.querySelector('.maplibregl-ctrl-scale')?.getBoundingClientRect();
+    const overlaps = (a, b) => Boolean(a && b
+      && a.left < b.right
+      && a.right > b.left
+      && a.top < b.bottom
+      && a.bottom > b.top);
+    const rect = (value) => value ? { left: value.left, right: value.right, top: value.top, bottom: value.bottom } : null;
+    return {
+      activeZoomOverlaps: overlaps(active, zoom),
+      settingsScaleOverlaps: overlaps(settings, scale),
+      active: rect(active),
+      zoom: rect(zoom),
+      settings: rect(settings),
+      scale: rect(scale)
+    };
+  });
+
+  expect(layout.active).not.toBeNull();
+  expect(layout.zoom).not.toBeNull();
+  expect(layout.settings).not.toBeNull();
+  expect(layout.scale).not.toBeNull();
+  expect(layout.activeZoomOverlaps).toBe(false);
+  expect(layout.settingsScaleOverlaps).toBe(false);
+  expect(layout.zoom.left).toBeLessThan(layout.active.left);
+  expect(layout.settings.right).toBeLessThan(layout.scale.left);
+});
+
 test('/test2 loads a converted layer through the main catalogue map callback', async ({ page }) => {
   await page.goto('/test2/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
@@ -121,6 +160,71 @@ test('/test2 Settlements 2015 has labels, hover state, and feature details', asy
   await expect(page.locator('#featureInfo')).toBeVisible();
   await expect(page.locator('#featureInfoContent')).toContainText(/Settlements 2015|Name|Code/i);
   await expect(page.locator('#featureInfoContent')).not.toContainText('Unnamed Feature');
+});
+
+test('/test2 duplicate promoted IDs do not cross-highlight distant DEAs', async ({ page }) => {
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
+  const state = await page.evaluate(async () => {
+    const app = window.__civgraphTest2.app;
+    const adapter = window.__civgraphTest2.mapController;
+    const layer = window.__civgraphTest2.metadataService.getLayer('deas-1972-vector-test');
+    if (layer?.tilesFallback) {
+      layer.sourceType = 'mvt';
+      layer.tiles = layer.tilesFallback;
+    }
+    await app.loadMap('deas-1972');
+    const map = adapter.map;
+    await new Promise((resolve) => map.once('idle', resolve));
+    const renderer = adapter.renderer;
+    const record = renderer.layers.get('deas-1972-vector-test');
+    const queryLayers = ['deas-1972-vector-test-fill', 'deas-1972-vector-test-line'].filter((id) => map.getLayer(id));
+    const features = map.queryRenderedFeatures({ layers: queryLayers });
+    const featureName = (feature) => String(feature?.properties?.NAME || feature?.properties?.label_name || '').toUpperCase();
+    const down = features.find((feature) => featureName(feature) === 'DOWN AREA C');
+    const belfast = features.find((feature) => featureName(feature) === 'BELFAST AREA H');
+    const downIdentity = down ? renderer.readFeatureIdentity(record.config, down) : null;
+    const belfastIdentity = belfast ? renderer.readFeatureIdentity(record.config, belfast) : null;
+    if (down) renderer.setHover(record.config, down);
+    const rawState = map.getFeatureState({
+      source: record.sourceId,
+      sourceLayer: record.config.sourceLayer,
+      id: 28
+    });
+    await new Promise((resolve) => {
+      const timeout = setTimeout(resolve, 250);
+      map.once('idle', () => {
+        clearTimeout(timeout);
+        resolve();
+      });
+    });
+    const overlayLayers = ['deas-1972-vector-test-fallback-hover-fill']
+      .filter((id) => map.getLayer(id));
+    return {
+      duplicateIdDetected: record.duplicateFeatureIds?.has('28') || false,
+      foundDown: Boolean(down),
+      foundBelfast: Boolean(belfast),
+      downId: downIdentity?.id || null,
+      belfastId: belfastIdentity?.id || null,
+      downGenerated: downIdentity?.generated || false,
+      belfastGenerated: belfastIdentity?.generated || false,
+      activeHoverId: renderer.hovered?.id || null,
+      activeHoverGenerated: renderer.hovered?.generated || false,
+      rawFeatureStateHover: rawState?.hover === true,
+      hoverOverlayCount: overlayLayers.length ? map.queryRenderedFeatures({ layers: overlayLayers }).length : 0
+    };
+  });
+
+  expect(state.duplicateIdDetected).toBe(true);
+  expect(state.foundDown).toBe(true);
+  expect(state.foundBelfast).toBe(true);
+  expect(state.downGenerated).toBe(true);
+  expect(state.belfastGenerated).toBe(true);
+  expect(state.downId).not.toBe(state.belfastId);
+  expect(state.activeHoverId).toBe(state.downId);
+  expect(state.activeHoverGenerated).toBe(true);
+  expect(state.rawFeatureStateHover).toBe(false);
+  expect(state.hoverOverlayCount).toBeGreaterThan(0);
 });
 
 test('/test2 no-id vector layers still support labels, hover, and feature details', async ({ page }) => {
@@ -189,8 +293,11 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
       sourceMapId: entry.sourceMapId,
       matchedCount: entry.matchedCount,
       layerLoaded: app.mapController.isLayerLoaded(entry.sourceMapId),
-      panelVisible: !document.getElementById('test2ElectionPanel')?.classList.contains('hidden'),
+      panelVisible: document.getElementById('electionResultsPane')?.classList.contains('election-results-pane--open'),
+      timelineVisible: !document.getElementById('timelineSlider')?.classList.contains('hidden'),
       fillColour: map.getPaintProperty('pc-2023-vector-test-fill', 'fill-color'),
+      seatCircleLayer: Boolean(map.getLayer('test2-election-seat-layer')),
+      seatCircleCount: map.queryRenderedFeatures({ layers: ['test2-election-seat-layer'] }).length,
       labels: document.querySelectorAll('.maplibre-dom-label[data-layer-id="pc-2023-vector-test"]:not([hidden])').length
     };
   });
@@ -200,13 +307,16 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   expect(loaded.matchedCount).toBe(18);
   expect(loaded.layerLoaded).toBe(true);
   expect(loaded.panelVisible).toBe(true);
+  expect(loaded.timelineVisible).toBe(true);
   expect(JSON.stringify(loaded.fillColour)).toContain('match');
+  expect(loaded.seatCircleLayer).toBe(true);
+  expect(loaded.seatCircleCount).toBeGreaterThan(0);
   expect(loaded.labels).toBeGreaterThan(0);
 
-  await expect(page.locator('#test2ElectionPanel')).toContainText('House of Commons');
-  await expect(page.locator('#test2ElectionPanel')).toContainText('Matched');
+  await expect(page.locator('#electionResultsPane')).toContainText('House of Commons');
+  await expect(page.locator('#electionResultsPane')).toContainText('Matched');
   await page.locator('#test2ElectionMode').selectOption('voteShare');
-  await expect(page.locator('#test2ElectionPanel')).toContainText('Vote share');
+  await expect(page.locator('#electionResultsPane')).toContainText('Vote share');
 
   const firstLabel = page.locator('.maplibre-dom-label[data-layer-id="pc-2023-vector-test"]:not([hidden])').first();
   await expect(firstLabel).toBeVisible();
@@ -214,6 +324,58 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   await expect(page.locator('#featureInfo')).toBeVisible();
   await expect(page.locator('#featureInfoContent')).toContainText('Election');
   await expect(page.locator('#featureInfoContent')).toContainText(/Leading party|Winning party/);
+  await expect(page.locator('#electionResultsPane')).toContainText(/Candidate|Party|Votes/);
+});
+
+test('/test2 election bundles cover representative main-site election types', async ({ page }) => {
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.elections?.catalogue?.elections?.length);
+
+  const coverage = await page.evaluate(async () => {
+    const app = window.__civgraphTest2.app;
+    const examples = [
+      { key: 'dail', find: (entry) => entry.body === 'Dáil Éireann' && entry.loadable },
+      { key: 'westminster', find: (entry) => entry.body === 'House of Commons of the United Kingdom' && entry.date === '2024-07-04' },
+      { key: 'assembly', find: (entry) => entry.body === 'Northern Ireland Assembly' && entry.loadable },
+      { key: 'deas1972', find: (entry) => entry.body === 'Newry and Mourne' && entry.date === '1973-05-30' },
+      { key: 'localGovernment', find: (entry) => entry.bodyGroup === 'local-government' && entry.loadable },
+      { key: 'referendum', find: (entry) => entry.body === 'Referendum (Ireland)' && entry.loadable },
+      { key: 'recallOrPlaceholder', find: (entry) => /recall/i.test(entry.body) || /recall/i.test(entry.key) || entry.placeholder }
+    ];
+    const output = {};
+    for (const example of examples) {
+      const entry = app.elections.catalogue.elections.find(example.find);
+      if (!entry) {
+        output[example.key] = null;
+        continue;
+      }
+      const bundle = entry.loadable ? await app.elections.loadBundle(entry) : null;
+      output[example.key] = {
+        body: entry.body,
+        date: entry.date,
+        loadable: entry.loadable,
+        placeholder: entry.placeholder,
+        anchorUrl: entry.anchorUrl,
+        previousKey: entry.previousKey,
+        resultCount: bundle?.results?.length || 0,
+        partySummary: bundle?.partySummary?.length || 0,
+        entityParties: bundle?.entityIndex?.parties?.length || 0,
+        hasCounts: Boolean(bundle?.results?.some((result) => result.hasCountDetail || result.countGroup?.length || result.candidates?.some((candidate) => candidate.counts?.length)))
+      };
+    }
+    return output;
+  });
+
+  for (const key of ['dail', 'westminster', 'assembly', 'deas1972', 'localGovernment', 'referendum']) {
+    expect(coverage[key], `${key} example should exist`).toBeTruthy();
+    expect(coverage[key].loadable, `${key} example should be loadable`).toBe(true);
+    expect(coverage[key].resultCount, `${key} should carry result rows`).toBeGreaterThan(0);
+    expect(coverage[key].partySummary, `${key} should carry party summary rows`).toBeGreaterThan(0);
+  }
+  expect(coverage.westminster.anchorUrl).toMatch(/election-anchors-test2/);
+  expect(coverage.westminster.previousKey).toBeTruthy();
+  expect(coverage.assembly.hasCounts).toBe(true);
+  expect(coverage.recallOrPlaceholder).toBeTruthy();
 });
 
 test('/test2 supports catalogue detail, unsupported notices, and URL restore', async ({ page }) => {
@@ -562,7 +724,7 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
       decoration: labelStyle.textDecorationLine,
       textShadow: labelStyle.textShadow,
       fillColor: app.mapController.map.getPaintProperty('civil-parishes-vector-test-hover', 'fill-color'),
-      strokeColor: app.mapController.map.getPaintProperty('civil-parishes-vector-test-hover-line', 'line-color'),
+      hoverLineLayerExists: Boolean(app.mapController.map.getLayer('civil-parishes-vector-test-hover-line')),
       featureHover: app.mapController.map.getFeatureState({
         source: 'civil-parishes-vector-test-source',
         sourceLayer: app.metadataService.getLayer('civil-parishes-vector-test').sourceLayer,
@@ -575,7 +737,7 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
   expect(hoverState.textShadow).toContain('rgb(255, 255, 255)');
   expect(hoverState.textShadow).not.toContain('255, 122, 26');
   expect(hoverState.fillColor).toBe('#FDBA74');
-  expect(hoverState.strokeColor).toBe('#FF7A1A');
+  expect(hoverState.hoverLineLayerExists).toBe(false);
   expect(hoverState.featureHover).toBe(true);
 
   await firstLabel.click();
@@ -593,8 +755,7 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
       labelDecoration: labelStyle.textDecorationLine,
       fillColor: app.mapController.map.getPaintProperty('civil-parishes-vector-test-selected-fill', 'fill-color'),
       fillOpacity: app.mapController.map.getPaintProperty('civil-parishes-vector-test-selected-fill', 'fill-opacity'),
-      strokeColor: app.mapController.map.getPaintProperty('civil-parishes-vector-test-selected', 'line-color'),
-      strokeWidth: app.mapController.map.getPaintProperty('civil-parishes-vector-test-selected', 'line-width'),
+      selectedLineLayerExists: Boolean(app.mapController.map.getLayer('civil-parishes-vector-test-selected')),
       featureSelected: app.mapController.map.getFeatureState({
         source: 'civil-parishes-vector-test-source',
         sourceLayer: app.metadataService.getLayer('civil-parishes-vector-test').sourceLayer,
@@ -606,8 +767,7 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
   expect(selectedStyle.labelDecoration).toContain('underline');
   expect(selectedStyle.fillColor).toBe('#FDBA74');
   expect(selectedStyle.fillOpacity).toEqual(['case', ['boolean', ['feature-state', 'selected'], false], 0.42, 0]);
-  expect(selectedStyle.strokeColor).toBe('#FF7A1A');
-  expect(selectedStyle.strokeWidth).toEqual(['case', ['boolean', ['feature-state', 'selected'], false], 3, 0]);
+  expect(selectedStyle.selectedLineLayerExists).toBe(false);
   expect(selectedStyle.featureSelected).toBe(true);
   const featureCardPosition = await page.evaluate(() => {
     const mapPane = document.querySelector('.pane--map').getBoundingClientRect();

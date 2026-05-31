@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1950-01-20",
+  "previousDate": "1950-01-20",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
@@ -28,6 +31,197 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 3939,
+      "colour": "#48a5ee",
+      "share": 33.11753825458214
+    },
+    {
+      "party": "Independent Unionist",
+      "seats": 0,
+      "stood": 2,
+      "votes": 5062,
+      "colour": "#6b7280",
+      "share": 42.55927358331932
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2893,
+      "colour": "#6b7280",
+      "share": 24.323188162098536
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 11894,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 3939,
+        "finalVotes": 3939,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Belfast Woodvale"
+        ],
+        "candidates": [
+          {
+            "personId": "4710146",
+            "name": "Robert Harcourt",
+            "constituency": "Belfast Woodvale",
+            "firstPref": 3939,
+            "finalVotes": 3939,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 33.11753825458214
+      },
+      {
+        "name": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 5062,
+        "finalVotes": 5062,
+        "stood": 2,
+        "elected": 0,
+        "constituencies": [
+          "Belfast Woodvale"
+        ],
+        "candidates": [
+          {
+            "personId": "7128195",
+            "name": "Robert Hill",
+            "constituency": "Belfast Woodvale",
+            "firstPref": 3529,
+            "finalVotes": 3529,
+            "status": ""
+          },
+          {
+            "personId": "7673226",
+            "name": "David H. Walker",
+            "constituency": "Belfast Woodvale",
+            "firstPref": 1533,
+            "finalVotes": 1533,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 42.55927358331932
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 2893,
+        "finalVotes": 2893,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast Woodvale"
+        ],
+        "candidates": [
+          {
+            "personId": "12124727",
+            "name": "Charles Hull",
+            "constituency": "Belfast Woodvale",
+            "firstPref": 2893,
+            "finalVotes": 2893,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 24.323188162098536
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "4710146",
+        "name": "Robert Harcourt",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 3939,
+        "finalVotes": 3939,
+        "electedCount": 1,
+        "constituencies": [
+          "Belfast Woodvale"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Woodvale",
+            "firstPref": 3939,
+            "finalVotes": 3939,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 33.11753825458214
+      },
+      {
+        "personId": "7128195",
+        "name": "Robert Hill",
+        "party": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 3529,
+        "finalVotes": 3529,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast Woodvale"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Woodvale",
+            "firstPref": 3529,
+            "finalVotes": 3529,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 29.670422061543633
+      },
+      {
+        "personId": "12124727",
+        "name": "Charles Hull",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 2893,
+        "finalVotes": 2893,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast Woodvale"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Woodvale",
+            "firstPref": 2893,
+            "finalVotes": 2893,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 24.323188162098536
+      },
+      {
+        "personId": "7673226",
+        "name": "David H. Walker",
+        "party": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 1533,
+        "finalVotes": 1533,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast Woodvale"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Woodvale",
+            "firstPref": 1533,
+            "finalVotes": 1533,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 12.888851521775685
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Belfast Woodvale",
@@ -51,42 +245,277 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "4710146",
           "name": "Robert Harcourt",
           "party": "UUP",
           "firstPrefs": 3939,
           "finalVotes": 3939,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 3939,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 3939
+            }
+          ]
         },
         {
+          "id": "7128195",
           "name": "Robert Hill",
           "party": "Independent Unionist",
           "firstPrefs": 3529,
           "finalVotes": 3529,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#AADFFF",
+          "counts": [
+            {
+              "count": 1,
+              "total": 3529,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 3529
+            }
+          ]
         },
         {
+          "id": "12124727",
           "name": "Charles Hull",
           "party": "NI Labour",
           "firstPrefs": 2893,
           "finalVotes": 2893,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#DC241F",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2893,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 2893
+            }
+          ]
         },
         {
+          "id": "7673226",
           "name": "David H. Walker",
           "party": "Independent Unionist",
           "firstPrefs": 1533,
           "finalVotes": 1533,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#AADFFF",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1533,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 1533
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "4710146",
+          "name": "Robert Harcourt",
+          "party": "UUP",
+          "firstPrefs": 3939,
+          "finalVotes": 3939,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 3939,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 3939
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Belfast Woodvale",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "3939.00",
+          "Candidate_Id": "4710146",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Robert",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Harcourt",
+          "Total_Votes": "3939.00",
+          "Transfers": "0.00",
+          "candidateName": "Robert Harcourt",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "3529.00",
+          "Candidate_Id": "7128195",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Robert",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#AADFFF",
+          "Party_Name": "Independent Unionist",
+          "Status": "",
+          "Surname": "Hill",
+          "Total_Votes": "3529.00",
+          "Transfers": "0.00",
+          "candidateName": "Robert Hill",
+          "id": 1
+        },
+        {
+          "Candidate_First_Pref_Votes": "2893.00",
+          "Candidate_Id": "12124727",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Charles",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DC241F",
+          "Party_Name": "NI Labour",
+          "Status": "",
+          "Surname": "Hull",
+          "Total_Votes": "2893.00",
+          "Transfers": "0.00",
+          "candidateName": "Charles Hull",
+          "id": 2
+        },
+        {
+          "Candidate_First_Pref_Votes": "1533.00",
+          "Candidate_Id": "7673226",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "David H.",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#AADFFF",
+          "Party_Name": "Independent Unionist",
+          "Status": "",
+          "Surname": "Walker",
+          "Total_Votes": "1533.00",
+          "Transfers": "0.00",
+          "candidateName": "David H. Walker",
+          "id": 3
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Belfast Woodvale",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "3939.00",
+              "Candidate_Id": "4710146",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Robert",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Harcourt",
+              "Total_Votes": "3939.00",
+              "Transfers": "0.00",
+              "candidateName": "Robert Harcourt",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "3529.00",
+              "Candidate_Id": "7128195",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Robert",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#AADFFF",
+              "Party_Name": "Independent Unionist",
+              "Status": "",
+              "Surname": "Hill",
+              "Total_Votes": "3529.00",
+              "Transfers": "0.00",
+              "candidateName": "Robert Hill",
+              "id": 1
+            },
+            {
+              "Candidate_First_Pref_Votes": "2893.00",
+              "Candidate_Id": "12124727",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Charles",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DC241F",
+              "Party_Name": "NI Labour",
+              "Status": "",
+              "Surname": "Hull",
+              "Total_Votes": "2893.00",
+              "Transfers": "0.00",
+              "candidateName": "Charles Hull",
+              "id": 2
+            },
+            {
+              "Candidate_First_Pref_Votes": "1533.00",
+              "Candidate_Id": "7673226",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "David H.",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#AADFFF",
+              "Party_Name": "Independent Unionist",
+              "Status": "",
+              "Surname": "Walker",
+              "Total_Votes": "1533.00",
+              "Transfers": "0.00",
+              "candidateName": "David H. Walker",
+              "id": 3
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1950-04-04/belfast-woodvale.json",
       "featureId": "16",
       "featureName": "BELFAST WOODVALE",
@@ -95,6 +524,14 @@
         "BELFAST"
       ],
       "matchName": "BELFAST WOODVALE",
+      "anchor": {
+        "center": [
+          -5.967016,
+          54.604189
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.0006328380720816056
+      },
       "matched": true
     }
   ]

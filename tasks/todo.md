@@ -1,3 +1,106 @@
+# /test2 full election-domain parity implementation
+- [x] Record the requested full election parity scope
+  - Extract shared election-domain logic from `js/election-controller.js`.
+  - Extend `scripts/build-test2-election-manifest.mjs` so generated bundles carry fields needed by main-style panes, count views, entity pages, and animation views.
+  - Generate election anchor sidecars for seat circles from source geometry.
+  - Replace simplified `/test2` election rendering with engine-neutral main-style rendering.
+  - Keep MapLibre-specific drawing isolated in `/test2` MapLibre adapter/manager.
+  - Systematically close unmatched geography report where feasible.
+  - Add parity tests for Dail, Westminster, NI Assembly, 1972 DEAs, local government, referendum, and recall petition examples.
+- [x] Audit current election data/model/rendering seams before editing
+  - Reviewed main-site election logic in `js/election-controller.js`, the existing `/test2` MapLibre election manager, generated election metadata, feature indexes, and election-viewer animation hooks.
+- [x] Extract shared election-domain helpers
+  - Added `js/election-domain.mjs` for result normalisation, elected-candidate extraction, winner/leading-party summaries, party/candidate/entity aggregate builders, previous-election comparisons, and seat-circle positioning.
+- [x] Extend generated election bundles and anchor sidecars
+  - Extended `scripts/build-test2-election-manifest.mjs` so bundles now include party summaries, entity indexes, count metadata, count rows, forum rows, animation payloads, previous-election links, and source-geometry anchors.
+  - Added generated sidecars under `test/metadata/election-anchors-test2/`.
+- [x] Upgrade `/test2` election result rendering
+  - Replaced the simplified result pane with engine-neutral main-style overall, constituency/DEA, candidate, party/entity, count-table, and transfer-animation entry views.
+  - Added a thin `/test2` adapter that invokes the existing main-site animation engine when count animation payloads are available.
+- [x] Close feasible unmatched geography cases
+  - Regenerated the election report with a closure summary. Feasible unmatched cases are now classified as zero; the remaining unmatched rows are data/source-coverage residuals rather than unreviewed alias work.
+- [x] Add parity tests for representative election types
+  - Added browser coverage for Dail, Westminster, NI Assembly, 1972 DEA/local-government, referendum, and recall/placeholder catalogue examples.
+- [x] Verify with route checks, generated metadata checks, build, and browser tests
+  - `npm run build:test2:elections` passed: 548 elections, 519 loadable, 29 placeholders, 3,957 matched constituencies, 727 unmatched.
+  - `npm run check:test2` passed.
+  - `npm run build:test2` passed after approved sandbox escalation because esbuild process spawning was blocked by `EPERM`.
+  - `npm run test:browser:test2` passed after approved sandbox escalation because Playwright browser spawning was blocked by `EPERM`: 17/17 tests passed.
+
+## Review
+- The election-domain/data/rendering path is now substantially engine-neutral, with MapLibre drawing still isolated in `/test2` code.
+- Remaining unmatched election rows are documented in `test/metadata/elections-test2-report.json`; the build now reports no feasible alias/source-name closure work left in the generated report.
+
+# Main-site election layer parity feasibility audit for /test2
+- [x] Record the audit request
+  - Examine the main-site election layers functionality in maximum detail.
+  - Explain the feasibility of implementing election layers functionality on par with the main site on `/test2`.
+- [x] Inspect main-site election layer architecture, data loading, map styling, overlays, panes, and timeline integration
+  - Main-site election functionality is concentrated in `js/election-controller.js`, with catalogue hooks in `js/ui-controller.js`, timeline election mode in `js/time-slider-controller.js`, and production CSS for the split election pane in `assets/css/main.css`.
+  - It includes geography resolution, FlatGeobuf loading, result payload loading, winner/party colouring, seat-circle overlays, recall/referendum special cases, local-government aggregation, split-pane results, table controls, entity detail pages, count views, and STV animation hooks.
+- [x] Inspect current `/test2` election layer architecture and generated election metadata
+  - `/test2` has a separate `Test2ElectionManager` using generated metadata under `test/metadata/elections-test2*.json`.
+  - It already supports generated election catalogue entries, MapLibre style modes, feature-result enrichment, simplified overall and constituency panes, basic seat-circle overlays, and election timeline switching.
+- [x] Compare parity gaps and classify feasibility
+  - Straightforward parity remains feasible for map styling, URL/timeline state, split-pane placement, seat-circle visibility, and selected-feature result routing.
+  - Full main-site parity requires porting substantial engine-neutral election-domain logic from the Leaflet controller: result tables, count views, entity pages, local-government council modes, previous-election deltas, and animation data plumbing.
+  - Data-dependent gaps remain where generated bundles cannot match every constituency to a converted MapLibre layer, where exact split/merge aggregation is needed, or where exact overlay anchors need richer geometry-derived sidecars.
+- [x] Document findings and provide an implementation feasibility answer
+  - Review: implementing election layers on `/test2` to user-visible parity with the main site is feasible, but not by copying the Leaflet layer code verbatim. The sensible route is to extract/port the main election data and rendering model into engine-neutral modules, then keep MapLibre-specific map drawing in `/test2`.
+
+# /test2 production map control, timeline, and election pane parity
+- [x] Record the user report
+  - Active-layers button still overlaps the zoom controls on `/test2`.
+  - The bottom-left settings button overlaps the map scale.
+  - `/test2` lacks the main-site timeline slider.
+  - Election entries do not match main-site parity: seat circles are missing for ordinary elections, the election pane should appear below the map, and it should show overall results by default plus constituency/DEA-specific results after selection.
+- [x] Inspect production shell, timeline, and election UI contracts
+  - Confirmed `/test2` already contained the main shell controls: `#activeLayersToggle`, `#mapControlsToggle`, `#timelineSlider`, and `#electionResultsPane`.
+  - Confirmed the regression was architectural: `/test2` still rendered a floating `test2ElectionPanel` instead of using the production below-map election pane.
+- [x] Implement a permanent control-placement fix
+  - Moved MapLibre scale control to bottom-right so it no longer shares the bottom-left settings/timeline corner.
+  - Added `/test2` control-placement CSS for top-left/top-right/bottom-left/bottom-right MapLibre controls.
+  - Scoped `.map-controls` pointer events so the container cannot block map/label clicks; only the actual controls remain clickable.
+- [x] Implement timeline slider parity where the selected map/election has a time-series chain
+  - Added `/test2` timeline controller wiring for the existing production `#timelineSlider` controls.
+  - Map chains now use `dataService` chain/date equivalents, and election entries expose a date timeline for the active election body.
+- [x] Implement election seat-circle and below-map election pane parity
+  - Election entries now render into `#electionResultsPane` below the map and resize the production shell while open.
+  - Overall results render by default with matched/unmatched/seat/vote summaries and party/result tables.
+  - Clicking a selected constituency/DEA feature renders constituency-specific candidate/results details in the election pane.
+  - Ordinary elections render MapLibre seat-circle overlays from generated feature-index centres; referendums/recall-style entries are excluded.
+- [x] Add regression coverage and verify
+  - Added static route guardrails for scale-control placement, timeline wiring, seat-circle rendering, and below-map election pane usage.
+  - Expanded browser coverage for active-layers vs zoom overlap, settings vs scale overlap, election pane visibility, timeline visibility, seat-circle layer rendering, and enriched election feature details.
+  - `node --check` passed for `test2/src/app.js`, `test2/src/election-manager.js`, `test/src/map-controller.js`, `tests/browser/test2-app.spec.js`, and `scripts/validate-test2-route.mjs`.
+  - `npm run check:test2` passed.
+  - `npm run build:test2` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
+  - `npm run test:browser:test2` passed after approved sandbox escalation because Playwright browser spawning was blocked by `EPERM`: 16/16 tests passed.
+
+# /test2 active-layer control overlap and duplicate hover highlight
+- [x] Record the user report
+  - The `/test2` active-layers expand/collapse button overlaps the MapLibre zoom controls.
+  - On `deas-1972`, hovering `Down Area C` can also highlight `Belfast Area H`, which is distant and unrelated.
+  - Additional report: polygon hover/click highlighting can show horizontal and vertical lines inside features.
+- [x] Inspect the map-control layout and MapLibre interaction-state path
+  - Initial finding: `/test2` uses the production active-layers button at top right while MapLibre navigation controls were also mounted top right.
+  - Initial finding: `test/metadata/feature-indexes/deas-1972-vector-test.json` confirms `DOWN AREA C` and `BELFAST AREA H` both have id `28`.
+  - Additional finding: polygon interaction stroke layers are drawn from vector-tile fragments, so tile clipping can appear as internal horizontal/vertical highlight seams.
+- [x] Implement a permanent fix
+  - Move MapLibre zoom/navigation controls out of the active-layers button corner.
+  - Detect duplicate promoted feature IDs from layer feature indexes and use a generated per-geometry interaction key plus the existing single-feature overlay instead of shared MapLibre feature-state for those duplicates.
+  - Disable polygon interaction stroke overlays; retain transparent base fills, orange hover/selected fills, and orange DOM label hover/selection. Line and point maps keep stroke-style interaction.
+- [x] Add regression coverage
+  - Browser coverage should prove active-layers and zoom controls do not overlap.
+  - Browser coverage should prove duplicate promoted IDs such as `deas-1972` id `28` do not produce shared hover feature-state.
+  - Browser coverage should prove polygon interaction line layers are absent for civil parishes, preventing tile-seam highlight artifacts from returning.
+- [x] Verify and document results
+  - Run `/test2` route checks and targeted browser tests.
+  - `node --check test\src\map-controller.js`, `node --check tests\browser\test2-app.spec.js`, and `node --check scripts\validate-test2-route.mjs` passed.
+  - `npm run check:test2` passed.
+  - `npm run build:test2` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
+  - `npm run test:browser:test2` passed after approved sandbox escalation because Playwright browser spawning was blocked by `EPERM`: 16/16 tests passed.
+
 # /test2 deas-1972 unnamed feature review
 - [x] Record the user report that Armagh Area D, Dungannon Area C, and Limavady Area C appear as unnamed features on `/test2`
   - User correctly identified that the features were present on the map but had broken labels, so the earlier “absent from source” classification needed review.

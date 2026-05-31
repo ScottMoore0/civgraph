@@ -10,6 +10,9 @@
   "layerId": "roi-1938-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/roi-1938-vector-test.json",
+  "previousKey": "ireland-president__1973-05-30",
+  "previousDate": "1973-05-30",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "President of Ireland",
@@ -26,6 +29,66 @@
     "leadingParty",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "Independent",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#b8b8b8",
+      "share": null
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 0,
+    "parties": [
+      {
+        "name": "Independent",
+        "colour": "#b8b8b8",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Ireland"
+        ],
+        "candidates": [
+          {
+            "personId": "Cearbhall O Dalaigh|Independent",
+            "name": "Cearbhall O Dalaigh",
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "Cearbhall O Dalaigh|Independent",
+        "name": "Cearbhall O Dalaigh",
+        "party": "Independent",
+        "colour": "#b8b8b8",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 1,
+        "constituencies": [
+          "Ireland"
+        ],
+        "appearances": [
+          {
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Ireland",
@@ -49,15 +112,80 @@
       "leadingColour": "#b8b8b8",
       "candidates": [
         {
+          "id": "Cearbhall O Dalaigh|Independent",
           "name": "Cearbhall O Dalaigh",
           "party": "Independent",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Made Quota",
-          "colour": "#b8b8b8"
+          "colour": "#b8b8b8",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": null,
+              "status": "Made Quota",
+              "firstPrefs": null
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "Cearbhall O Dalaigh|Independent",
+          "name": "Cearbhall O Dalaigh",
+          "party": "Independent",
+          "firstPrefs": null,
+          "finalVotes": null,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Made Quota",
+          "colour": "#b8b8b8",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": null,
+              "status": "Made Quota",
+              "firstPrefs": null
+            }
+          ]
+        }
+      ],
+      "countInfo": {},
+      "countGroup": [],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "body": "President of Ireland",
+        "year": 1974,
+        "date": null,
+        "election_id": "1974P",
+        "title": "ElectionsIreland.org: 1974 Presidential - Ireland First Preference Votes",
+        "candidates": [
+          {
+            "name": "Cearbhall O Dalaigh",
+            "party": "Independent",
+            "counts": [
+              1,
+              1
+            ],
+            "status": "Made Quota"
+          }
+        ],
+        "meta": {},
+        "source_url": "https://electionsireland.org/result.cfm?election=1974P&cons=194",
+        "constituency": "Ireland"
+      },
       "sourceFile": "election-viewer-package/data/elections/ireland-president/1974-12-03/ireland.json",
       "featureId": "Republic of Ireland",
       "featureName": "Republic of Ireland",
@@ -65,6 +193,14 @@
         "Republic of Ireland"
       ],
       "matchName": "Republic of Ireland",
+      "anchor": {
+        "center": [
+          -8.238735,
+          53.415231
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 9.327450873861716
+      },
       "matched": true
     }
   ]

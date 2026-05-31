@@ -10,6 +10,9 @@
   "layerId": "stormont-1929-vector-test",
   "labelProperty": "NAME",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1960-11-29",
+  "previousDate": "1960-11-29",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
@@ -28,6 +31,117 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 6212,
+      "colour": "#48a5ee",
+      "share": 61.52322472021392
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 3885,
+      "colour": "#6b7280",
+      "share": 38.476775279786075
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 10097,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 6212,
+        "finalVotes": 6212,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Belfast Bloomfield"
+        ],
+        "candidates": [
+          {
+            "personId": "9063542",
+            "name": "Walter Scott",
+            "constituency": "Belfast Bloomfield",
+            "firstPref": 6212,
+            "finalVotes": 6212,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 61.52322472021392
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 3885,
+        "finalVotes": 3885,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast Bloomfield"
+        ],
+        "candidates": [
+          {
+            "personId": "6251252",
+            "name": "Robert McFarland Bingham",
+            "constituency": "Belfast Bloomfield",
+            "firstPref": 3885,
+            "finalVotes": 3885,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 38.476775279786075
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "9063542",
+        "name": "Walter Scott",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 6212,
+        "finalVotes": 6212,
+        "electedCount": 1,
+        "constituencies": [
+          "Belfast Bloomfield"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Bloomfield",
+            "firstPref": 6212,
+            "finalVotes": 6212,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 61.52322472021392
+      },
+      {
+        "personId": "6251252",
+        "name": "Robert McFarland Bingham",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 3885,
+        "finalVotes": 3885,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast Bloomfield"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Bloomfield",
+            "firstPref": 3885,
+            "finalVotes": 3885,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 38.476775279786075
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Belfast Bloomfield",
@@ -51,24 +165,169 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "9063542",
           "name": "Walter Scott",
           "party": "UUP",
           "firstPrefs": 6212,
           "finalVotes": 6212,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 6212,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 6212
+            }
+          ]
         },
         {
+          "id": "6251252",
           "name": "Robert McFarland Bingham",
           "party": "NI Labour",
           "firstPrefs": 3885,
           "finalVotes": 3885,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#DC241F",
+          "counts": [
+            {
+              "count": 1,
+              "total": 3885,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 3885
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "9063542",
+          "name": "Walter Scott",
+          "party": "UUP",
+          "firstPrefs": 6212,
+          "finalVotes": 6212,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 6212,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 6212
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Belfast Bloomfield",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "6212.00",
+          "Candidate_Id": "9063542",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Walter",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Scott",
+          "Total_Votes": "6212.00",
+          "Transfers": "0.00",
+          "candidateName": "Walter Scott",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "3885.00",
+          "Candidate_Id": "6251252",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Robert McFarland",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DC241F",
+          "Party_Name": "NI Labour",
+          "Status": "",
+          "Surname": "Bingham",
+          "Total_Votes": "3885.00",
+          "Transfers": "0.00",
+          "candidateName": "Robert McFarland Bingham",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Belfast Bloomfield",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "6212.00",
+              "Candidate_Id": "9063542",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Walter",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Scott",
+              "Total_Votes": "6212.00",
+              "Transfers": "0.00",
+              "candidateName": "Walter Scott",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "3885.00",
+              "Candidate_Id": "6251252",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Robert McFarland",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DC241F",
+              "Party_Name": "NI Labour",
+              "Status": "",
+              "Surname": "Bingham",
+              "Total_Votes": "3885.00",
+              "Transfers": "0.00",
+              "candidateName": "Robert McFarland Bingham",
+              "id": 1
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1961-04-20/belfast-bloomfield.json",
       "featureId": "2",
       "featureName": "BELFAST BLOOMFIELD",
@@ -77,6 +336,14 @@
         "BELFAST"
       ],
       "matchName": "BELFAST BLOOMFIELD",
+      "anchor": {
+        "center": [
+          -5.868585,
+          54.589345
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.0006946031792549553
+      },
       "matched": true
     }
   ]

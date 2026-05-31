@@ -10,6 +10,9 @@
   "layerId": "pc-1920-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+  "previousKey": "house-of-commons-of-the-united-kingdom__1931-10-27",
+  "previousDate": "1931-10-27",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "House of Commons of the United Kingdom",
@@ -28,6 +31,117 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "Nationalist Party",
+      "seats": 1,
+      "stood": 1,
+      "votes": 28790,
+      "colour": "#6b7280",
+      "share": 61.41342605431003
+    },
+    {
+      "party": "Ind Nat",
+      "seats": 0,
+      "stood": 1,
+      "votes": 18089,
+      "colour": "#6b7280",
+      "share": 38.58657394568997
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 46879,
+    "parties": [
+      {
+        "name": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 28790,
+        "finalVotes": 28790,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Fermanagh and Tyrone"
+        ],
+        "candidates": [
+          {
+            "personId": "4606096",
+            "name": "Joseph Stewart",
+            "constituency": "Fermanagh and Tyrone",
+            "firstPref": 28790,
+            "finalVotes": 28790,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 61.41342605431003
+      },
+      {
+        "name": "Ind Nat",
+        "colour": "#A0A0A0",
+        "firstPrefs": 18089,
+        "finalVotes": 18089,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Fermanagh and Tyrone"
+        ],
+        "candidates": [
+          {
+            "personId": "720523",
+            "name": "Dominic McCrossan",
+            "constituency": "Fermanagh and Tyrone",
+            "firstPref": 18089,
+            "finalVotes": 18089,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 38.58657394568997
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "4606096",
+        "name": "Joseph Stewart",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 28790,
+        "finalVotes": 28790,
+        "electedCount": 1,
+        "constituencies": [
+          "Fermanagh and Tyrone"
+        ],
+        "appearances": [
+          {
+            "constituency": "Fermanagh and Tyrone",
+            "firstPref": 28790,
+            "finalVotes": 28790,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 61.41342605431003
+      },
+      {
+        "personId": "720523",
+        "name": "Dominic McCrossan",
+        "party": "Ind Nat",
+        "colour": "#A0A0A0",
+        "firstPrefs": 18089,
+        "finalVotes": 18089,
+        "electedCount": 0,
+        "constituencies": [
+          "Fermanagh and Tyrone"
+        ],
+        "appearances": [
+          {
+            "constituency": "Fermanagh and Tyrone",
+            "firstPref": 18089,
+            "finalVotes": 18089,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 38.58657394568997
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Fermanagh and Tyrone",
@@ -51,24 +165,169 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
+          "id": "4606096",
           "name": "Joseph Stewart",
           "party": "Nationalist Party",
           "firstPrefs": 28790,
           "finalVotes": 28790,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#6b7280"
+          "colour": "#32CD32",
+          "counts": [
+            {
+              "count": 1,
+              "total": 28790,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 28790
+            }
+          ]
         },
         {
+          "id": "720523",
           "name": "Dominic McCrossan",
           "party": "Ind Nat",
           "firstPrefs": 18089,
           "finalVotes": 18089,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#A0A0A0",
+          "counts": [
+            {
+              "count": 1,
+              "total": 18089,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 18089
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "4606096",
+          "name": "Joseph Stewart",
+          "party": "Nationalist Party",
+          "firstPrefs": 28790,
+          "finalVotes": 28790,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#32CD32",
+          "counts": [
+            {
+              "count": 1,
+              "total": 28790,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 28790
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Fermanagh and Tyrone",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "118884",
+        "Total_Poll": "",
+        "Valid_Poll": "46879"
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "28790.00",
+          "Candidate_Id": "4606096",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Joseph",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#32CD32",
+          "Party_Name": "Nationalist Party",
+          "Status": "Elected",
+          "Surname": "Stewart",
+          "Total_Votes": "28790.00",
+          "Transfers": "0.00",
+          "candidateName": "Joseph Stewart",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "18089.00",
+          "Candidate_Id": "720523",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Dominic",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#A0A0A0",
+          "Party_Name": "Ind Nat",
+          "Status": "",
+          "Surname": "McCrossan",
+          "Total_Votes": "18089.00",
+          "Transfers": "0.00",
+          "candidateName": "Dominic McCrossan",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Fermanagh and Tyrone",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "118884",
+            "Total_Poll": "",
+            "Valid_Poll": "46879"
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "28790.00",
+              "Candidate_Id": "4606096",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Joseph",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#32CD32",
+              "Party_Name": "Nationalist Party",
+              "Status": "Elected",
+              "Surname": "Stewart",
+              "Total_Votes": "28790.00",
+              "Transfers": "0.00",
+              "candidateName": "Joseph Stewart",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "18089.00",
+              "Candidate_Id": "720523",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Dominic",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#A0A0A0",
+              "Party_Name": "Ind Nat",
+              "Status": "",
+              "Surname": "McCrossan",
+              "Total_Votes": "18089.00",
+              "Transfers": "0.00",
+              "candidateName": "Dominic McCrossan",
+              "id": 1
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1934-06-27/fermanagh-and-tyrone.json",
       "featureId": "2140",
       "featureName": "FERMANAGH AND TYRONE",
@@ -76,6 +335,14 @@
         "FERMANAGH AND TYRONE"
       ],
       "matchName": "FERMANAGH AND TYRONE",
+      "anchor": {
+        "center": [
+          -7.292286,
+          54.529357
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.7092169312329989
+      },
       "matched": true
     }
   ]

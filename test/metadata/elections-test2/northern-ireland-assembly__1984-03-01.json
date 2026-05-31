@@ -10,6 +10,9 @@
   "layerId": "assembly-areas-1970-alias-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/assembly-areas-1970-alias-test.json",
+  "previousKey": "northern-ireland-assembly__1983-04-27",
+  "previousDate": "1983-04-27",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Northern Ireland Assembly",
@@ -23,8 +26,69 @@
   "unmatchedConstituencies": [],
   "availableStyleModes": [
     "winner",
-    "leadingParty"
+    "leadingParty",
+    "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#48a5ee",
+      "share": null
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 0,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "candidates": [
+          {
+            "personId": "89297",
+            "name": "Frank Millar Jr",
+            "constituency": "Belfast South",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "89297",
+        "name": "Frank Millar Jr",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast South",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Belfast South",
@@ -37,7 +101,7 @@
       "turnoutPct": null,
       "majority": null,
       "majorityPct": null,
-      "seatsWon": null,
+      "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
       "electorate": 66683,
@@ -48,15 +112,117 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "89297",
           "name": "Frank Millar Jr",
           "party": "UUP",
           "firstPrefs": 0,
           "finalVotes": 0,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 0,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 0
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "89297",
+          "name": "Frank Millar Jr",
+          "party": "UUP",
+          "firstPrefs": 0,
+          "finalVotes": 0,
+          "elected": true,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Deemed elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 0,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 0
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Belfast South",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Quota": "0",
+        "Spoiled": "0",
+        "Total_Electorate": "66683",
+        "Total_Poll": "0",
+        "Valid_Poll": "0"
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "0",
+          "Candidate_Id": "89297",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Frank",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "",
+          "Surname": "Millar Jr",
+          "Total_Votes": "0.00",
+          "Transfers": "0.00",
+          "candidateName": "Frank Millar Jr",
+          "id": 0
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "0",
+              "Candidate_Id": "89297",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Frank",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "",
+              "Surname": "Millar Jr",
+              "Total_Votes": "0.00",
+              "Transfers": "0.00",
+              "candidateName": "Frank Millar Jr",
+              "id": 0
+            }
+          ],
+          "countInfo": {
+            "Constituency_Name": "Belfast South",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Quota": "0",
+            "Spoiled": "0",
+            "Total_Electorate": "66683",
+            "Total_Poll": "0",
+            "Valid_Poll": "0"
+          }
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/northern-ireland-assembly/1984-03-01/belfast-south.json",
       "featureId": "2104",
       "featureName": "BELFAST SOUTH",
@@ -64,6 +230,14 @@
         "BELFAST SOUTH"
       ],
       "matchName": "BELFAST SOUTH",
+      "anchor": {
+        "center": [
+          -5.951189,
+          54.555737
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.005103384756181319
+      },
       "matched": true
     }
   ]

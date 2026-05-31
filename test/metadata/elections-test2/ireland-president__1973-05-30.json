@@ -10,6 +10,9 @@
   "layerId": "roi-1938-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/roi-1938-vector-test.json",
+  "previousKey": "ireland-president__1966-06-01",
+  "previousDate": "1966-06-01",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "President of Ireland",
@@ -27,6 +30,117 @@
     "seats",
     "quota"
   ],
+  "partySummary": [
+    {
+      "party": "Fianna Fáil Lozenge",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": null
+    },
+    {
+      "party": "Fine Gael Lozenge",
+      "seats": 0,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": null
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 0,
+    "parties": [
+      {
+        "name": "Fianna Fáil Lozenge",
+        "colour": "#6b7280",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Ireland"
+        ],
+        "candidates": [
+          {
+            "personId": "Erskine Childers|Fianna Fáil Lozenge",
+            "name": "Erskine Childers",
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      },
+      {
+        "name": "Fine Gael Lozenge",
+        "colour": "#6b7280",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Ireland"
+        ],
+        "candidates": [
+          {
+            "personId": "Tom O'Higgins|Fine Gael Lozenge",
+            "name": "Tom O'Higgins",
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "Erskine Childers|Fianna Fáil Lozenge",
+        "name": "Erskine Childers",
+        "party": "Fianna Fáil Lozenge",
+        "colour": "#6b7280",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 1,
+        "constituencies": [
+          "Ireland"
+        ],
+        "appearances": [
+          {
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      },
+      {
+        "personId": "Tom O'Higgins|Fine Gael Lozenge",
+        "name": "Tom O'Higgins",
+        "party": "Fine Gael Lozenge",
+        "colour": "#6b7280",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 0,
+        "constituencies": [
+          "Ireland"
+        ],
+        "appearances": [
+          {
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Ireland",
@@ -50,24 +164,119 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
+          "id": "Erskine Childers|Fianna Fáil Lozenge",
           "name": "Erskine Childers",
           "party": "Fianna Fáil Lozenge",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Made Quota",
-          "colour": "#6b7280"
+          "colour": "#6b7280",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": null,
+              "status": "Made Quota",
+              "firstPrefs": null
+            }
+          ]
         },
         {
+          "id": "Tom O'Higgins|Fine Gael Lozenge",
           "name": "Tom O'Higgins",
           "party": "Fine Gael Lozenge",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#6b7280",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": null,
+              "status": "",
+              "firstPrefs": null
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "Erskine Childers|Fianna Fáil Lozenge",
+          "name": "Erskine Childers",
+          "party": "Fianna Fáil Lozenge",
+          "firstPrefs": null,
+          "finalVotes": null,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Made Quota",
+          "colour": "#6b7280",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": null,
+              "status": "Made Quota",
+              "firstPrefs": null
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "electorate": 1977817,
+        "quota": 611820
+      },
+      "countGroup": [],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "body": "President of Ireland",
+        "year": 1973,
+        "date": null,
+        "election_id": "1973P",
+        "title": "ElectionsIreland.org: 1973 Presidential - Ireland First Preference Votes",
+        "candidates": [
+          {
+            "name": "Erskine Childers",
+            "party": " Fianna Fáil Lozenge",
+            "counts": [
+              635867,
+              1.04,
+              1,
+              1
+            ],
+            "status": "Made Quota"
+          },
+          {
+            "name": "Tom O'Higgins",
+            "party": " Fine Gael Lozenge",
+            "counts": [
+              587771,
+              0.96
+            ],
+            "status": ""
+          }
+        ],
+        "meta": {
+          "electorate": 1977817,
+          "quota": 611820
+        },
+        "source_url": "https://electionsireland.org/result.cfm?election=1973P&cons=194",
+        "constituency": "Ireland"
+      },
       "sourceFile": "election-viewer-package/data/elections/ireland-president/1973-05-30/ireland.json",
       "featureId": "Republic of Ireland",
       "featureName": "Republic of Ireland",
@@ -75,6 +284,14 @@
         "Republic of Ireland"
       ],
       "matchName": "Republic of Ireland",
+      "anchor": {
+        "center": [
+          -8.238735,
+          53.415231
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 9.327450873861716
+      },
       "matched": true
     }
   ]

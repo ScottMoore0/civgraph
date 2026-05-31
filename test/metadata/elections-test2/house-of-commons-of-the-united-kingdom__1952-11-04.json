@@ -10,6 +10,9 @@
   "layerId": "pc-1948-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/pc-1948-vector-test.json",
+  "previousKey": "house-of-commons-of-the-united-kingdom__1952-10-27",
+  "previousDate": "1952-10-27",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "House of Commons of the United Kingdom",
@@ -28,6 +31,117 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 23067,
+      "colour": "#48a5ee",
+      "share": 75.08300240869735
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 7655,
+      "colour": "#6b7280",
+      "share": 24.91699759130265
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 30722,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 23067,
+        "finalVotes": 23067,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "candidates": [
+          {
+            "personId": "14461047",
+            "name": "David Campbell",
+            "constituency": "Belfast South",
+            "firstPref": 23067,
+            "finalVotes": 23067,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 75.08300240869735
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 7655,
+        "finalVotes": 7655,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "candidates": [
+          {
+            "personId": "12376293",
+            "name": "Samuel Napier",
+            "constituency": "Belfast South",
+            "firstPref": 7655,
+            "finalVotes": 7655,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 24.91699759130265
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "14461047",
+        "name": "David Campbell",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 23067,
+        "finalVotes": 23067,
+        "electedCount": 1,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast South",
+            "firstPref": 23067,
+            "finalVotes": 23067,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 75.08300240869735
+      },
+      {
+        "personId": "12376293",
+        "name": "Samuel Napier",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 7655,
+        "finalVotes": 7655,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast South",
+            "firstPref": 7655,
+            "finalVotes": 7655,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 24.91699759130265
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Belfast South",
@@ -51,24 +165,169 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "14461047",
           "name": "David Campbell",
           "party": "UUP",
           "firstPrefs": 23067,
           "finalVotes": 23067,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 23067,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 23067
+            }
+          ]
         },
         {
+          "id": "12376293",
           "name": "Samuel Napier",
           "party": "NI Labour",
           "firstPrefs": 7655,
           "finalVotes": 7655,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#DC241F",
+          "counts": [
+            {
+              "count": 1,
+              "total": 7655,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 7655
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "14461047",
+          "name": "David Campbell",
+          "party": "UUP",
+          "firstPrefs": 23067,
+          "finalVotes": 23067,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 23067,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 23067
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Belfast South",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "66196",
+        "Total_Poll": "",
+        "Valid_Poll": "30722"
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "23067.00",
+          "Candidate_Id": "14461047",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "David",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Campbell",
+          "Total_Votes": "23067.00",
+          "Transfers": "0.00",
+          "candidateName": "David Campbell",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "7655.00",
+          "Candidate_Id": "12376293",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Samuel",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DC241F",
+          "Party_Name": "NI Labour",
+          "Status": "",
+          "Surname": "Napier",
+          "Total_Votes": "7655.00",
+          "Transfers": "0.00",
+          "candidateName": "Samuel Napier",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Belfast South",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "66196",
+            "Total_Poll": "",
+            "Valid_Poll": "30722"
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "23067.00",
+              "Candidate_Id": "14461047",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "David",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Campbell",
+              "Total_Votes": "23067.00",
+              "Transfers": "0.00",
+              "candidateName": "David Campbell",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "7655.00",
+              "Candidate_Id": "12376293",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Samuel",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DC241F",
+              "Party_Name": "NI Labour",
+              "Status": "",
+              "Surname": "Napier",
+              "Total_Votes": "7655.00",
+              "Transfers": "0.00",
+              "candidateName": "Samuel Napier",
+              "id": 1
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1952-11-04/belfast-south.json",
       "featureId": "2104",
       "featureName": "BELFAST SOUTH",
@@ -76,6 +335,14 @@
         "BELFAST SOUTH"
       ],
       "matchName": "BELFAST SOUTH",
+      "anchor": {
+        "center": [
+          -5.928704,
+          54.574406
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.001987357174321705
+      },
       "matched": true
     }
   ]

@@ -10,6 +10,9 @@
   "layerId": "roi-1938-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/roi-1938-vector-test.json",
+  "previousKey": "ireland-president__1945-06-16",
+  "previousDate": "1945-06-16",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "President of Ireland",
@@ -26,6 +29,66 @@
     "leadingParty",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "Fianna Fáil Lozenge",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": null
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 0,
+    "parties": [
+      {
+        "name": "Fianna Fáil Lozenge",
+        "colour": "#6b7280",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Ireland"
+        ],
+        "candidates": [
+          {
+            "personId": "Seán T O'Kelly|Fianna Fáil Lozenge",
+            "name": "Seán T O'Kelly",
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "Seán T O'Kelly|Fianna Fáil Lozenge",
+        "name": "Seán T O'Kelly",
+        "party": "Fianna Fáil Lozenge",
+        "colour": "#6b7280",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "electedCount": 1,
+        "constituencies": [
+          "Ireland"
+        ],
+        "appearances": [
+          {
+            "constituency": "Ireland",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Ireland",
@@ -49,15 +112,80 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
+          "id": "Seán T O'Kelly|Fianna Fáil Lozenge",
           "name": "Seán T O'Kelly",
           "party": "Fianna Fáil Lozenge",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Made Quota",
-          "colour": "#6b7280"
+          "colour": "#6b7280",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": null,
+              "status": "Made Quota",
+              "firstPrefs": null
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "Seán T O'Kelly|Fianna Fáil Lozenge",
+          "name": "Seán T O'Kelly",
+          "party": "Fianna Fáil Lozenge",
+          "firstPrefs": null,
+          "finalVotes": null,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Made Quota",
+          "colour": "#6b7280",
+          "counts": [
+            {
+              "count": 1,
+              "total": null,
+              "transfers": null,
+              "status": "Made Quota",
+              "firstPrefs": null
+            }
+          ]
+        }
+      ],
+      "countInfo": {},
+      "countGroup": [],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "body": "President of Ireland",
+        "year": 1952,
+        "date": null,
+        "election_id": "1952P",
+        "title": "ElectionsIreland.org: 1952 Presidential - Ireland First Preference Votes",
+        "candidates": [
+          {
+            "name": "Seán T O'Kelly",
+            "party": " Fianna Fáil Lozenge",
+            "counts": [
+              1,
+              1
+            ],
+            "status": "Made Quota"
+          }
+        ],
+        "meta": {},
+        "source_url": "https://electionsireland.org/result.cfm?election=1952P&cons=194",
+        "constituency": "Ireland"
+      },
       "sourceFile": "election-viewer-package/data/elections/ireland-president/1952-04-25/ireland.json",
       "featureId": "Republic of Ireland",
       "featureName": "Republic of Ireland",
@@ -65,6 +193,14 @@
         "Republic of Ireland"
       ],
       "matchName": "Republic of Ireland",
+      "anchor": {
+        "center": [
+          -8.238735,
+          53.415231
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 9.327450873861716
+      },
       "matched": true
     }
   ]

@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
+import * as ElectionDomain from '../js/election-domain.mjs';
 
 const ROOT = process.cwd();
 const ELECTION_ROOT = path.join(ROOT, 'election-viewer-package', 'data', 'elections');
@@ -8,6 +10,7 @@ const ELECTION_INDEX = path.join(ROOT, 'election-viewer-package', 'data', 'elect
 const MAP_METADATA = path.join(ROOT, 'test', 'metadata', 'maps-test.json');
 const FEATURE_INDEX_DIR = path.join(ROOT, 'test', 'metadata', 'feature-indexes');
 const OUT_DIR = path.join(ROOT, 'test', 'metadata', 'elections-test2');
+const OUT_ANCHOR_DIR = path.join(ROOT, 'test', 'metadata', 'election-anchors-test2');
 const OUT_MANIFEST = path.join(ROOT, 'test', 'metadata', 'elections-test2.json');
 const OUT_REPORT = path.join(ROOT, 'test', 'metadata', 'elections-test2-report.json');
 
@@ -181,16 +184,19 @@ const PARTY_COLOURS = new Map([
   ['no', '#d46a4c']
 ]);
 
-function main() {
+async function main() {
   const electionIndex = readJson(ELECTION_INDEX);
   const mapMetadata = readJson(MAP_METADATA);
   const layers = Array.isArray(mapMetadata.layers) ? mapMetadata.layers : [];
   const layerBySource = buildLayerLookup(layers);
   const featureIndexes = loadFeatureIndexes(layers);
   const entries = buildUniqueElectionEntries(electionIndex);
+  const previousKeyByKey = buildPreviousElectionKeyLookup(entries);
 
   rmSync(OUT_DIR, { recursive: true, force: true });
   mkdirSync(OUT_DIR, { recursive: true });
+  rmSync(OUT_ANCHOR_DIR, { recursive: true, force: true });
+  mkdirSync(OUT_ANCHOR_DIR, { recursive: true });
 
   const manifestEntries = [];
   const reportEntries = [];
@@ -201,7 +207,7 @@ function main() {
     const geography = resolveElectionGeography(entry);
     const layer = geography?.sourceMapId ? layerBySource.get(geography.sourceMapId) : null;
     const featureIndex = layer ? featureIndexes.get(layer.id) || featureIndexes.get(layer.sourceMapId) : null;
-    const bundle = buildElectionBundle(entry, geography, layer, featureIndex);
+    const bundle = await buildElectionBundle(entry, geography, layer, featureIndex, previousKeyByKey.get(electionKey(entry)) || null);
     const bundlePath = path.join(OUT_DIR, `${bundle.key}.json`);
     writeJson(bundlePath, bundle);
 
@@ -227,6 +233,9 @@ function main() {
       totalConstituencies: bundle.totalConstituencies,
       unmatchedConstituencies: bundle.unmatchedConstituencies.slice(0, 30),
       resultUrl: `/test/metadata/elections-test2/${bundle.key}.json`,
+      anchorUrl: bundle.anchorUrl,
+      previousKey: bundle.previousKey,
+      previousDate: bundle.previousDate,
       stylingModes: bundle.availableStyleModes
     };
     manifestEntries.push(manifestEntry);
@@ -269,6 +278,7 @@ function main() {
     totals: manifest.totals,
     unmatchedElections: reportEntries.length,
     residualSummary: summarizeResiduals(reportEntries.flatMap((entry) => entry.unmatchedDetails || [])),
+    closureSummary: summarizeClosure(reportEntries.flatMap((entry) => entry.unmatchedDetails || [])),
     entries: reportEntries.sort(compareElectionEntries)
   };
 
@@ -306,6 +316,22 @@ function buildUniqueElectionEntries(index) {
     }
   }
   return [...byKey.values()];
+}
+
+function buildPreviousElectionKeyLookup(entries) {
+  const byBody = new Map();
+  for (const entry of entries) {
+    if (!byBody.has(entry.body)) byBody.set(entry.body, []);
+    byBody.get(entry.body).push(entry);
+  }
+  const previousByKey = new Map();
+  for (const bodyEntries of byBody.values()) {
+    bodyEntries.sort((a, b) => String(a.date).localeCompare(String(b.date)));
+    for (let i = 1; i < bodyEntries.length; i += 1) {
+      previousByKey.set(electionKey(bodyEntries[i]), electionKey(bodyEntries[i - 1]));
+    }
+  }
+  return previousByKey;
 }
 
 function resolveElectionGeography(entry) {
@@ -404,19 +430,20 @@ function looksLikeRoiLocalAuthorityResults(entry) {
   return localAuthorityLikeCount >= 10 && localAuthorityLikeCount / Math.max(constituencies.length, 1) >= 0.5;
 }
 
-function buildElectionBundle(entry, geography, layer, featureIndex) {
+async function buildElectionBundle(entry, geography, layer, featureIndex, previousKey = null) {
   const key = electionKey(entry);
   const featureLookup = buildFeatureLookup(featureIndex, geography?.sourceMapId);
   const dateDir = path.join(ELECTION_ROOT, entry.bodySlug, entry.date);
   const dirExists = existsSync(dateDir);
   const singleFeature = geography?.singleConstituency ? firstFeature(featureIndex) : null;
+  const anchorIndex = layer ? await loadOrBuildAnchorIndex(layer, featureIndex) : null;
   const results = [];
   const unmatched = [];
 
   for (const constituency of entry.constituencies || []) {
     const resultPath = findResultFile(dateDir, constituency);
     const rawResult = resultPath ? readJson(resultPath) : null;
-    const result = summarizeResult(rawResult, constituency);
+    const result = ElectionDomain.summarizeResult(rawResult, constituency);
     const match = singleFeature || matchFeature(featureLookup, result.constituency || constituency, entry);
     if (!match && !geography?.singleConstituency) unmatched.push(result.constituency || constituency);
     results.push({
@@ -426,6 +453,7 @@ function buildElectionBundle(entry, geography, layer, featureIndex) {
       featureName: match?.name ?? null,
       featureAliases: match?.aliases || [],
       matchName: match?.name ?? null,
+      anchor: anchorIndex ? findAnchorForMatch(anchorIndex, match, result) : null,
       matched: Boolean(match)
     });
   }
@@ -434,7 +462,7 @@ function buildElectionBundle(entry, geography, layer, featureIndex) {
     for (const file of readdirSync(dateDir).filter((name) => name.endsWith('.json') && name !== '_index.json')) {
       const resultPath = path.join(dateDir, file);
       const rawResult = readJson(resultPath);
-      const result = summarizeResult(rawResult, file.replace(/\.json$/, ''));
+      const result = ElectionDomain.summarizeResult(rawResult, file.replace(/\.json$/, ''));
       const match = singleFeature || matchFeature(featureLookup, result.constituency, entry);
       if (!match && !geography?.singleConstituency) unmatched.push(result.constituency);
       results.push({
@@ -444,6 +472,7 @@ function buildElectionBundle(entry, geography, layer, featureIndex) {
         featureName: match?.name ?? null,
         featureAliases: match?.aliases || [],
         matchName: match?.name ?? null,
+        anchor: anchorIndex ? findAnchorForMatch(anchorIndex, match, result) : null,
         matched: Boolean(match)
       });
     }
@@ -453,6 +482,9 @@ function buildElectionBundle(entry, geography, layer, featureIndex) {
   const unmatchedCount = results.length - matchedCount;
   const availableStyleModes = STYLE_MODES.filter((mode) => modeAvailable(mode, results));
   const year = Number(String(entry.date).slice(0, 4));
+  const previousDate = previousKey ? previousKey.split('__').pop()?.replace(/-/g, '-') : null;
+  const partySummary = ElectionDomain.buildPartySummary(results);
+  const entityIndex = ElectionDomain.buildEntityIndex(results);
   return {
     schemaVersion: 1,
     key,
@@ -465,6 +497,9 @@ function buildElectionBundle(entry, geography, layer, featureIndex) {
     layerId: layer?.id || null,
     labelProperty: layer?.labelProperty || null,
     geometryType: layer?.geometryType || null,
+    anchorUrl: anchorIndex?.url || null,
+    previousKey,
+    previousDate,
     loadable: Boolean(layer && geography?.sourceMapId && results.length > 0 && matchedCount > 0),
     displaySubtitle: formatElectionSubtitle(entry, results, unmatchedCount),
     displayProvider: entry.bodyGroup === 'local-government' ? `Local government: ${entry.body}` : entry.body,
@@ -475,98 +510,10 @@ function buildElectionBundle(entry, geography, layer, featureIndex) {
     unmatchedCount,
     unmatchedConstituencies: unique(unmatched),
     availableStyleModes,
+    partySummary,
+    entityIndex,
     results: results.sort((a, b) => String(a.constituency).localeCompare(String(b.constituency)))
   };
-}
-
-function summarizeResult(raw, fallbackConstituency) {
-  const source = raw?.Constituency || raw || {};
-  const info = source.countInfo || raw?.meta || raw?.metaData || {};
-  const forumRows = Array.isArray(source.forum?.rows) ? source.forum.rows : null;
-  const rows = forumRows || source.countGroup || raw?.candidates || [];
-  const constituency = fixText(source.constituency || raw?.constituency || info.Constituency_Name || fallbackConstituency);
-  const candidates = forumRows ? summarizeForumRows(forumRows) : summarizeCandidateRows(rows);
-  const ranked = [...candidates].sort((a, b) => numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs));
-  const elected = candidates.filter((candidate) => candidate.elected);
-  const leading = ranked[0] || null;
-  const runnerUp = ranked[1] || null;
-  const seatsTotal = parseNumber(info.Number_Of_Seats ?? raw?.meta?.seats ?? raw?.seats);
-  const validPoll = parseNumber(info.Valid_Poll ?? raw?.meta?.valid_poll ?? raw?.meta?.validPoll);
-  const totalPoll = parseNumber(info.Total_Poll ?? raw?.meta?.total_poll ?? raw?.meta?.totalPoll);
-  const electorate = parseNumber(info.Total_Electorate ?? raw?.meta?.electorate ?? raw?.electorate);
-  const totalVotes = validPoll || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs), 0);
-  const turnoutPct = parseNumber(raw?.turnout_pct ?? raw?.meta?.turnout_pct ?? raw?.meta?.turnoutPct)
-    || (electorate && totalPoll ? round((totalPoll / electorate) * 100, 2) : null);
-  const majority = leading && runnerUp ? numberOrZero(leading.firstPrefs) - numberOrZero(runnerUp.firstPrefs) : null;
-  const majorityPct = majority !== null && totalVotes ? round((majority / totalVotes) * 100, 2) : null;
-  const electedByParty = countBy(elected, (candidate) => candidate.party || 'Independent');
-  const topElectedParty = topCount(electedByParty);
-  const winnerParty = topElectedParty?.key || leading?.party || null;
-  const winnerName = elected.length === 1 ? elected[0].name : elected.length ? `${elected.length} elected` : leading?.name || null;
-  const leadingPct = leading && totalVotes ? round((numberOrZero(leading.firstPrefs) / totalVotes) * 100, 2) : null;
-  const quota = parseNumber(info.Quota ?? raw?.meta?.quota ?? raw?.quota);
-
-  return {
-    constituency,
-    winnerParty,
-    winnerName,
-    leadingParty: leading?.party || null,
-    leadingName: leading?.name || null,
-    leadingVotes: leading?.firstPrefs ?? null,
-    leadingPct,
-    turnoutPct,
-    majority,
-    majorityPct,
-    seatsWon: elected.length || topElectedParty?.count || null,
-    seatsTotal: seatsTotal || null,
-    quota: quota || null,
-    electorate: electorate || null,
-    totalPoll: totalPoll || null,
-    validPoll: validPoll || totalVotes || null,
-    totalVotes: totalVotes || null,
-    colour: partyColour(winnerParty || leading?.party),
-    leadingColour: partyColour(leading?.party),
-    candidates: candidates.slice(0, 20)
-  };
-}
-
-function summarizeForumRows(rows) {
-  return rows.map((row) => ({
-    name: row.party ? `${fixText(row.party)} list` : 'List',
-    party: normalizeParty(row.party),
-    firstPrefs: parseNumber(row.votes),
-    voteShare: parseNumber(row.vote_share),
-    elected: Number(row.allocated_seats || 0) > 0,
-    seats: parseNumber(row.allocated_seats)
-  }));
-}
-
-function summarizeCandidateRows(rows) {
-  const byCandidate = new Map();
-  for (const row of Array.isArray(rows) ? rows : []) {
-    const name = fixText(row.candidateName || row.name || [row.Firstname, row.Surname].filter(Boolean).join(' '));
-    const party = normalizeParty(row.Party_Name || row.party || row.party_name);
-    const key = row.Candidate_Id || row.person_id || `${name}|${party}`;
-    const existing = byCandidate.get(key) || {
-      name,
-      party,
-      firstPrefs: null,
-      finalVotes: null,
-      elected: false,
-      status: '',
-      colour: partyColour(party)
-    };
-    const countNo = parseNumber(row.Count_Number);
-    const firstPref = parseNumber(row.Candidate_First_Pref_Votes ?? row.first_pref ?? row.firstPreferenceVotes ?? row.votes);
-    const totalVotes = parseNumber(row.Total_Votes ?? row.final_votes ?? row.finalVote);
-    if ((countNo === 1 || existing.firstPrefs === null) && firstPref !== null) existing.firstPrefs = firstPref;
-    if (totalVotes !== null) existing.finalVotes = Math.max(existing.finalVotes || 0, totalVotes);
-    const status = fixText(row.Status || row.status || row.outcome || '');
-    existing.status = existing.status || status;
-    existing.elected = existing.elected || /elected|made quota|counted_as_elected/i.test(status) || row.counted_as_elected === true;
-    byCandidate.set(key, existing);
-  }
-  return [...byCandidate.values()].sort((a, b) => numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs));
 }
 
 function buildLayerLookup(layers) {
@@ -590,6 +537,162 @@ function loadFeatureIndexes(layers) {
     if (layer.sourceMapId) indexes.set(layer.sourceMapId, index);
   }
   return indexes;
+}
+
+const anchorCache = new Map();
+
+async function loadOrBuildAnchorIndex(layer, featureIndex) {
+  if (!layer?.id) return null;
+  if (anchorCache.has(layer.id)) return anchorCache.get(layer.id);
+  const outputPath = path.join(OUT_ANCHOR_DIR, `${layer.id}.json`);
+  const sourceFile = layer.sourceFile ? path.join(ROOT, layer.sourceFile) : null;
+  const items = [];
+
+  let generatedFromSourceGeometry = false;
+  if (sourceFile && existsSync(sourceFile) && /\.fgb$/i.test(sourceFile)) {
+    try {
+      const sourceBytes = new Uint8Array(readFileSync(sourceFile));
+      for await (const feature of deserialize(sourceBytes)) {
+        const props = feature.properties || {};
+        const name = fixText(props[layer.labelProperty] || props.NAME || props.Name || props.name || props.label_name || '');
+        const anchor = geometryAnchor(feature.geometry);
+        if (!anchor) continue;
+        items.push({
+          id: props[layer.promoteId || 'id'] ?? props.id ?? props.OBJECTID ?? null,
+          name,
+          aliases: name ? [name] : [],
+          anchor,
+          center: anchor.center,
+          area: anchor.area
+        });
+      }
+      generatedFromSourceGeometry = items.length > 0;
+    } catch (error) {
+      console.warn(`[test2 elections] Falling back to feature-index anchors for ${layer.id}: ${error.message}`);
+    }
+  }
+
+  if (!items.length) {
+    for (const item of featureIndex?.items || []) {
+      if (!Array.isArray(item.center)) continue;
+      items.push({
+        id: item.id ?? null,
+        name: item.name || '',
+        aliases: item.aliases || [],
+        anchor: { center: item.center, method: 'feature-index-center', area: null },
+        center: item.center,
+        area: null
+      });
+    }
+  }
+
+  const byName = new Map();
+  for (const item of items) {
+    for (const key of [item.name, ...(item.aliases || [])].flatMap((name) => nameKeys(name))) {
+      if (key && !byName.has(key)) byName.set(key, item);
+    }
+  }
+
+  const anchorIndex = {
+    schemaVersion: 1,
+    layerId: layer.id,
+    sourceMapId: layer.sourceMapId || null,
+    generatedFrom: layer.sourceFile || layer.featureIndexUrl || null,
+    generatedFromSourceGeometry,
+    url: `/test/metadata/election-anchors-test2/${layer.id}.json`,
+    items,
+    byName
+  };
+  writeJson(outputPath, {
+    schemaVersion: anchorIndex.schemaVersion,
+    layerId: anchorIndex.layerId,
+    sourceMapId: anchorIndex.sourceMapId,
+    generatedFrom: anchorIndex.generatedFrom,
+    generatedFromSourceGeometry: anchorIndex.generatedFromSourceGeometry,
+    items
+  });
+  anchorCache.set(layer.id, anchorIndex);
+  return anchorIndex;
+}
+
+function findAnchorForMatch(anchorIndex, match, result) {
+  if (!anchorIndex) return null;
+  for (const value of [match?.name, ...(match?.aliases || []), result?.matchName, result?.constituency]) {
+    for (const key of nameKeys(value)) {
+      const hit = anchorIndex.byName.get(key);
+      if (hit?.anchor?.center) return hit.anchor;
+    }
+  }
+  return null;
+}
+
+function geometryAnchor(geometry) {
+  if (!geometry) return null;
+  if (geometry.type === 'Point') return { center: geometry.coordinates, method: 'point', area: null };
+  if (geometry.type === 'MultiPoint' && Array.isArray(geometry.coordinates?.[0])) {
+    return { center: geometry.coordinates[0], method: 'multipoint-first', area: null };
+  }
+  const rings = [];
+  if (geometry.type === 'Polygon') rings.push(geometry.coordinates?.[0]);
+  if (geometry.type === 'MultiPolygon') {
+    for (const polygon of geometry.coordinates || []) rings.push(polygon?.[0]);
+  }
+  let best = null;
+  for (const ring of rings) {
+    const stats = ringStats(ring);
+    if (!stats) continue;
+    if (!best || stats.area > best.area) best = stats;
+  }
+  if (best) return { center: best.center, method: 'largest-ring-bounds-center', area: best.area };
+  const bbox = coordinateBounds(flatCoordinates(geometry.coordinates));
+  return bbox ? { center: bbox.center, method: 'geometry-bounds-center', area: null } : null;
+}
+
+function ringStats(ring) {
+  if (!Array.isArray(ring) || ring.length < 3) return null;
+  let area = 0;
+  let minLng = Infinity;
+  let minLat = Infinity;
+  let maxLng = -Infinity;
+  let maxLat = -Infinity;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i, i += 1) {
+    const [lng1, lat1] = ring[j];
+    const [lng2, lat2] = ring[i];
+    area += (lng1 + lng2) * (lat1 - lat2);
+    minLng = Math.min(minLng, lng2);
+    maxLng = Math.max(maxLng, lng2);
+    minLat = Math.min(minLat, lat2);
+    maxLat = Math.max(maxLat, lat2);
+  }
+  return {
+    area: Math.abs(area) * 0.5,
+    center: [round((minLng + maxLng) / 2, 6), round((minLat + maxLat) / 2, 6)]
+  };
+}
+
+function flatCoordinates(value, out = []) {
+  if (!Array.isArray(value)) return out;
+  if (typeof value[0] === 'number' && typeof value[1] === 'number') {
+    out.push(value);
+    return out;
+  }
+  value.forEach((child) => flatCoordinates(child, out));
+  return out;
+}
+
+function coordinateBounds(coords) {
+  if (!coords.length) return null;
+  let minLng = Infinity;
+  let minLat = Infinity;
+  let maxLng = -Infinity;
+  let maxLat = -Infinity;
+  for (const [lng, lat] of coords) {
+    minLng = Math.min(minLng, lng);
+    maxLng = Math.max(maxLng, lng);
+    minLat = Math.min(minLat, lat);
+    maxLat = Math.max(maxLat, lat);
+  }
+  return { center: [round((minLng + maxLng) / 2, 6), round((minLat + maxLat) / 2, 6)] };
 }
 
 function buildFeatureLookup(index, sourceMapId) {
@@ -821,6 +924,21 @@ function summarizeResiduals(details) {
   return Object.fromEntries(Object.entries(counts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])));
 }
 
+function summarizeClosure(details) {
+  const byStatus = {};
+  const feasibleNow = [];
+  for (const detail of details || []) {
+    const status = detail.parityStatus || 'unclassified-needs-review';
+    byStatus[status] = (byStatus[status] || 0) + 1;
+    if (!/^blocked-on-/.test(status)) feasibleNow.push(detail);
+  }
+  return {
+    byStatus: Object.fromEntries(Object.entries(byStatus).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))),
+    feasibleUnmatchedRemaining: feasibleNow.length,
+    feasibleExamples: feasibleNow.slice(0, 20)
+  };
+}
+
 function classifyUnmatchedConstituency(bundle, constituency) {
   const name = normalizeName(constituency);
   const sourceMapId = bundle.sourceMapId || null;
@@ -964,4 +1082,7 @@ function slash(value) {
   return String(value).replace(/\\/g, '/');
 }
 
-main();
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

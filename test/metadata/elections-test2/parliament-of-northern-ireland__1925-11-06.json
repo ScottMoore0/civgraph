@@ -10,6 +10,9 @@
   "layerId": "stormont-1920-vector-test",
   "labelProperty": "Name",
   "geometryType": "polygon",
+  "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1920-vector-test.json",
+  "previousKey": "parliament-of-northern-ireland__1925-04-03",
+  "previousDate": "1925-04-03",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
@@ -28,6 +31,117 @@
     "majority",
     "seats"
   ],
+  "partySummary": [
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 18857,
+      "colour": "#48a5ee",
+      "share": 68.04387832425216
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 8856,
+      "colour": "#6b7280",
+      "share": 31.956121675747845
+    }
+  ],
+  "entityIndex": {
+    "totalValid": 27713,
+    "parties": [
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 18857,
+        "finalVotes": 18857,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "candidates": [
+          {
+            "personId": "1241435",
+            "name": "Anthony Babington",
+            "constituency": "Belfast South",
+            "firstPref": 18857,
+            "finalVotes": 18857,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 68.04387832425216
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 8856,
+        "finalVotes": 8856,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "candidates": [
+          {
+            "personId": "13446188",
+            "name": "G. M. Donaldson",
+            "constituency": "Belfast South",
+            "firstPref": 8856,
+            "finalVotes": 8856,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 31.956121675747845
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "1241435",
+        "name": "Anthony Babington",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 18857,
+        "finalVotes": 18857,
+        "electedCount": 1,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast South",
+            "firstPref": 18857,
+            "finalVotes": 18857,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 68.04387832425216
+      },
+      {
+        "personId": "13446188",
+        "name": "G. M. Donaldson",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 8856,
+        "finalVotes": 8856,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast South"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast South",
+            "firstPref": 8856,
+            "finalVotes": 8856,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 31.956121675747845
+      }
+    ]
+  },
   "results": [
     {
       "constituency": "Belfast South",
@@ -51,24 +165,169 @@
       "leadingColour": "#48a5ee",
       "candidates": [
         {
+          "id": "1241435",
           "name": "Anthony Babington",
           "party": "UUP",
           "firstPrefs": 18857,
           "finalVotes": 18857,
           "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
           "status": "Elected",
-          "colour": "#48a5ee"
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 18857,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 18857
+            }
+          ]
         },
         {
+          "id": "13446188",
           "name": "G. M. Donaldson",
           "party": "NI Labour",
           "firstPrefs": 8856,
           "finalVotes": 8856,
           "elected": false,
+          "electedAt": null,
+          "excluded": false,
+          "excludedAt": null,
           "status": "",
-          "colour": "#6b7280"
+          "colour": "#DC241F",
+          "counts": [
+            {
+              "count": 1,
+              "total": 8856,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 8856
+            }
+          ]
         }
       ],
+      "elected": [
+        {
+          "id": "1241435",
+          "name": "Anthony Babington",
+          "party": "UUP",
+          "firstPrefs": 18857,
+          "finalVotes": 18857,
+          "elected": true,
+          "electedAt": 1,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 18857,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 18857
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Belfast South",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "18857.00",
+          "Candidate_Id": "1241435",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Anthony",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Babington",
+          "Total_Votes": "18857.00",
+          "Transfers": "0.00",
+          "candidateName": "Anthony Babington",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "8856.00",
+          "Candidate_Id": "13446188",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "G. M.",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DC241F",
+          "Party_Name": "NI Labour",
+          "Status": "",
+          "Surname": "Donaldson",
+          "Total_Votes": "8856.00",
+          "Transfers": "0.00",
+          "candidateName": "G. M. Donaldson",
+          "id": 1
+        }
+      ],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Belfast South",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "18857.00",
+              "Candidate_Id": "1241435",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Anthony",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Babington",
+              "Total_Votes": "18857.00",
+              "Transfers": "0.00",
+              "candidateName": "Anthony Babington",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "8856.00",
+              "Candidate_Id": "13446188",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "G. M.",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DC241F",
+              "Party_Name": "NI Labour",
+              "Status": "",
+              "Surname": "Donaldson",
+              "Total_Votes": "8856.00",
+              "Transfers": "0.00",
+              "candidateName": "G. M. Donaldson",
+              "id": 1
+            }
+          ]
+        }
+      },
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1925-11-06/belfast-south.json",
       "featureId": "2103",
       "featureName": "BELFAST SOUTH",
@@ -76,6 +335,14 @@
         "BELFAST SOUTH"
       ],
       "matchName": "BELFAST SOUTH",
+      "anchor": {
+        "center": [
+          -5.928704,
+          54.574406
+        ],
+        "method": "largest-ring-bounds-center",
+        "area": 0.0019873572525001826
+      },
       "matched": true
     }
   ]
