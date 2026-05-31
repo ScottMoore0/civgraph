@@ -77,6 +77,7 @@ assert(adapterSource.includes('_fillOpacity: resolveFillOpacity(layer)'), '/test
 assert(appSource.includes('getMainMap: (mapId) => dataService.getMapById(mapId)'), '/test2 adapter must receive main-site map config so style parity is based on the source catalogue');
 assert(adapterSource.includes('applyMainStyle(layer, mainConfig') && adapterSource.includes('delete style.fillOpacity'), '/test2 must discard converted-metadata fill opacity when the main catalogue has no explicit fill opacity');
 assert(!mapControllerSource.includes('fillOpacity ?? 0.18') && !adapterSource.includes('fillOpacity ?? 0.18'), '/test2 must not reintroduce the old semi-opaque vector fill fallback');
+assert(mapControllerSource.includes('if (!feature)') && mapControllerSource.includes('this.clearHover();'), '/test2 map interactions must clear transient hover state on empty map taps/clicks');
 assert(appSource.includes('Test2ElectionManager'), '/test2 must wire the election manager into the main shell route');
 assert(!appSource.includes('Election map workflows are not converted for /test2 yet'), '/test2 election callbacks must not remain disabled stubs');
 assert(appSource.includes('onBuildElectionCatalogueCards') && appSource.includes('this.elections?.buildCatalogueCards'), '/test2 catalogue must expose generated election entries');
@@ -90,6 +91,8 @@ assert(adapterSource.includes('applyElectionStyle') && adapterSource.includes('c
 assert(electionManagerSource.includes('ELECTION_MANIFEST_URL') && electionManagerSource.includes('loadElection(body, date)'), '/test2 election manager must lazy-load generated election result bundles');
 assert(electionManagerSource.includes('voteShare') && electionManagerSource.includes('turnout') && electionManagerSource.includes('quota'), '/test2 election manager must expose requested election styling modes');
 assert(electionManagerSource.includes('renderSeatCircles') && electionManagerSource.includes('test2-election-seat-layer'), '/test2 election manager must render seat circles for ordinary elections');
+assert(electionManagerSource.includes('test2-election-seat-halo-layer') && electionManagerSource.includes('offsetSeatByPixels'), '/test2 seat circles must use main-style fixed pixel dots with a halo and pixel-offset placement');
+assert(!electionManagerSource.includes('* 0.002'), '/test2 seat circles must not use old geographic-degree offsets for pixel seat layouts');
 assert(electionManagerSource.includes('renderVoteBars') && electionManagerSource.includes('test2-election-vote-bar-layer'), '/test2 election manager must render vote-bar overlays for ordinary elections');
 assert(electionManagerSource.includes('renderLocalPartySummaryTable') && electionManagerSource.includes('By Local Party'), '/test2 local-government elections must expose local party/district aggregate views');
 assert(electionManagerSource.includes('activeLocalMode') && electionManagerSource.includes('renderDistrictResults') && electionManagerSource.includes('data-election-local-mode'), '/test2 local-government elections must expose DEA/district mode switching');
@@ -106,6 +109,7 @@ assert(electionManifestBuilderSource.includes('previousKey') && electionManifest
 assert(electionManifestBuilderSource.includes('localByDate') && electionManifestBuilderSource.includes('Local Government Districts'), '/test2 election manifest builder must group general local elections by jurisdiction/date instead of per council');
 assert(electionManifestBuilderSource.includes('matchEntryForConstituency') && electionManifestBuilderSource.includes('localBodyByConstituency'), '/test2 grouped local-election entries must preserve council-specific matching context');
 assert(electionManagerSource.includes('filterOverlayGroupsByCollision') && electionManagerSource.includes('boxesOverlap'), '/test2 election overlays must have MapLibre-native collision suppression');
+assert(uiControllerSource.includes('ensureMobileThumbnailDismissal') && uiControllerSource.includes('catalogue-flat__toc-thumbzoom--visible'), '/test2/main catalogue thumbnails must dismiss stuck mobile hover previews on outside touch/click');
 assert(electionManagerSource.includes('renderCouncilResults') && electionManagerSource.includes('buildCouncilSummary'), '/test2 grouped local elections must expose a council-level results view');
 assert(electionManagerSource.includes('activeEntityKind') && appSource.includes('electionEntityKind') && electionManagerSource.includes('electionEntityReturnView'), '/test2 election entity pages must round-trip through URL state');
 assert(electionManagerSource.includes('withCouncilDeltas') && electionManagerSource.includes('Seat change') && electionManagerSource.includes('Turnout change'), '/test2 grouped local council summaries must expose previous-election deltas where available');

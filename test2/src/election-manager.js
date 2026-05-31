@@ -15,9 +15,12 @@ import {
 const ELECTION_MANIFEST_URL = '/test/metadata/elections-test2.json?v=test-020';
 const DEFAULT_MODE_ORDER = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority', 'seats', 'quota'];
 const SEAT_SOURCE_ID = 'test2-election-seat-source';
+const SEAT_HALO_LAYER_ID = 'test2-election-seat-halo-layer';
 const SEAT_LAYER_ID = 'test2-election-seat-layer';
 const VOTE_BAR_SOURCE_ID = 'test2-election-vote-bar-source';
 const VOTE_BAR_LAYER_ID = 'test2-election-vote-bar-layer';
+const SEAT_CIRCLE_SIZE = 12;
+const SEAT_CIRCLE_SPACING = SEAT_CIRCLE_SIZE + 1;
 
 const MODE_LABELS = {
   winner: 'Winner',
@@ -1197,15 +1200,32 @@ export class Test2ElectionManager {
       if (!center) continue;
       const seats = this.seatCandidatesForResult(result);
       if (!seats.length) continue;
-      groups.push({ result, center, seats, area: Number(result.anchor?.area || 0) });
+      const positions = seatPositions(seats.length, SEAT_CIRCLE_SPACING);
+      const groupWidth = Math.max(...positions.map((point) => point.x)) - Math.min(...positions.map((point) => point.x)) + SEAT_CIRCLE_SIZE;
+      const groupHeight = Math.max(...positions.map((point) => point.y)) - Math.min(...positions.map((point) => point.y)) + SEAT_CIRCLE_SIZE;
+      groups.push({
+        result,
+        center,
+        seats,
+        positions,
+        groupWidth,
+        groupHeight,
+        area: Number(result.anchor?.area || 0)
+      });
     }
     const visibleGroups = this.filterOverlayGroupsByCollision(groups);
     const features = [];
     for (const group of visibleGroups) {
-      const { result, center, seats } = group;
-      const positions = seatPositions(seats.length, 13);
+      const { result, center, seats, positions, groupWidth, groupHeight } = group;
+      const minX = Math.min(...positions.map((point) => point.x));
+      const minY = Math.min(...positions.map((point) => point.y));
       seats.forEach((seat, indexWithinResult) => {
-        const [lng, lat] = offsetSeat(center, positions[indexWithinResult], seats.length);
+        const position = positions[indexWithinResult];
+        const pixelOffset = {
+          x: position.x - minX + (SEAT_CIRCLE_SIZE / 2) - (groupWidth / 2),
+          y: position.y - minY + (SEAT_CIRCLE_SIZE / 2) - (groupHeight / 2)
+        };
+        const [lng, lat] = offsetSeatByPixels(map, center, pixelOffset);
         features.push({
           type: 'Feature',
           geometry: { type: 'Point', coordinates: [lng, lat] },
@@ -1227,6 +1247,18 @@ export class Test2ElectionManager {
       map.addSource(SEAT_SOURCE_ID, { type: 'geojson', data });
     }
     map.getSource(SEAT_SOURCE_ID)._data = data;
+    if (!map.getLayer(SEAT_HALO_LAYER_ID)) {
+      map.addLayer({
+        id: SEAT_HALO_LAYER_ID,
+        type: 'circle',
+        source: SEAT_SOURCE_ID,
+        paint: {
+          'circle-color': '#ffffff',
+          'circle-radius': 7,
+          'circle-opacity': 0.98
+        }
+      });
+    }
     if (!map.getLayer(SEAT_LAYER_ID)) {
       map.addLayer({
         id: SEAT_LAYER_ID,
@@ -1234,9 +1266,9 @@ export class Test2ElectionManager {
         source: SEAT_SOURCE_ID,
         paint: {
           'circle-color': ['coalesce', ['get', 'colour'], '#6b7280'],
-          'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 4, 9, 7, 12, 10],
-          'circle-stroke-color': '#ffffff',
-          'circle-stroke-width': 1.5,
+          'circle-radius': 6,
+          'circle-stroke-color': 'rgba(0,0,0,0.6)',
+          'circle-stroke-width': 1,
           'circle-opacity': 0.95
         }
       });
@@ -1343,8 +1375,8 @@ export class Test2ElectionManager {
         return {
           ...group,
           point,
-          width: Math.max(24, Math.min(96, Math.ceil(Math.sqrt(group.seats.length) * 24))),
-          height: Math.max(20, Math.ceil(group.seats.length / 3) * 18)
+          width: group.groupWidth,
+          height: group.groupHeight
         };
       })
       .filter((group) => Number.isFinite(group.point?.x) && Number.isFinite(group.point?.y));
@@ -1376,6 +1408,7 @@ export class Test2ElectionManager {
     const map = this.mapController?.map;
     if (!map) return;
     if (map.getLayer(SEAT_LAYER_ID)) map.removeLayer(SEAT_LAYER_ID);
+    if (map.getLayer(SEAT_HALO_LAYER_ID)) map.removeLayer(SEAT_HALO_LAYER_ID);
     if (map.getSource(SEAT_SOURCE_ID)) map.removeSource(SEAT_SOURCE_ID);
   }
 
@@ -1574,24 +1607,16 @@ function buildCouncilSummary(results = []) {
   }).sort((a, b) => String(a.council).localeCompare(String(b.council)));
 }
 
-function offsetSeat(center, positionOrIndex, total) {
+function offsetSeatByPixels(map, center, pixelOffset) {
   const lng = Number(center?.[0]);
   const lat = Number(center?.[1]);
-  if (!Number.isFinite(lng) || !Number.isFinite(lat) || total <= 1) return [lng, lat];
-  if (positionOrIndex && typeof positionOrIndex === 'object') {
-    const lngScale = Math.max(0.35, Math.cos(lat * Math.PI / 180));
-    return [
-      lng + Number(positionOrIndex.x || 0) * 0.002 / lngScale,
-      lat - Number(positionOrIndex.y || 0) * 0.002
-    ];
-  }
-  const angle = Math.PI * 2 * Number(positionOrIndex || 0) / total;
-  const radius = Math.min(0.055, 0.012 + Math.sqrt(total) * 0.004);
-  const lngScale = Math.max(0.35, Math.cos(lat * Math.PI / 180));
-  return [
-    lng + Math.cos(angle) * radius / lngScale,
-    lat + Math.sin(angle) * radius
-  ];
+  if (!map || !Number.isFinite(lng) || !Number.isFinite(lat)) return [lng, lat];
+  const projected = map.project([lng, lat]);
+  const unprojected = map.unproject([
+    projected.x + Number(pixelOffset?.x || 0),
+    projected.y + Number(pixelOffset?.y || 0)
+  ]);
+  return [unprojected.lng, unprojected.lat];
 }
 
 function normalizeName(value) {

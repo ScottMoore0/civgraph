@@ -405,26 +405,104 @@ export function compareResults(currentResults = [], previousResults = []) {
 export function seatPositions(total, spacing = 13) {
   if (total <= 0) return [];
   if (total === 1) return [{ x: 0, y: 0 }];
-  const rows = [];
-  let remaining = total;
-  while (remaining > 0) {
-    const take = remaining >= 5 ? (rows.length % 2 === 0 ? 3 : 2) : Math.min(remaining, remaining <= 3 ? remaining : 2);
-    rows.push(take);
-    remaining -= take;
-  }
-  const rowHeight = spacing * 0.9;
-  const totalHeight = (rows.length - 1) * rowHeight;
-  const positions = [];
-  rows.forEach((count, rowIndex) => {
-    const width = (count - 1) * spacing;
-    for (let i = 0; i < count; i += 1) {
-      positions.push({
-        x: i * spacing - width / 2,
-        y: rowIndex * rowHeight - totalHeight / 2
+  if (total === 2) return [{ x: 0, y: 0 }, { x: spacing, y: 0 }];
+  if (total === 3) return [{ x: 0, y: 0 }, { x: spacing, y: 0 }, { x: spacing * 2, y: 0 }];
+  if (total > 12) {
+    const spanRadians = Math.PI;
+    const getRowsFromNRows = (rowTotal) => {
+      const rowThicc = 1 / ((4 * rowTotal) - 2);
+      return Array.from({ length: rowTotal }, (_, rowIndex) => {
+        const rowArcRadius = 0.5 + (2 * rowIndex * rowThicc);
+        return Math.max(1, Math.floor((spanRadians * rowArcRadius) / (2 * rowThicc)));
       });
+    };
+    let nRows = 1;
+    let capacities = getRowsFromNRows(nRows);
+    while (capacities.reduce((sum, value) => sum + value, 0) < total) {
+      nRows += 1;
+      capacities = getRowsFromNRows(nRows);
     }
+
+    const totalCapacity = capacities.reduce((sum, value) => sum + value, 0);
+    const fillRatio = total / totalCapacity;
+    const rowCounts = capacities.map((capacity) => Math.max(1, Math.round(capacity * fillRatio)));
+    let assigned = rowCounts.reduce((sum, value) => sum + value, 0);
+    while (assigned > total) {
+      const idx = findLastIndex(rowCounts, (count) => count > 1);
+      if (idx < 0) break;
+      rowCounts[idx] -= 1;
+      assigned -= 1;
+    }
+    while (assigned < total) {
+      const target = capacities
+        .map((capacity, idx) => ({ idx, deficit: capacity - rowCounts[idx] }))
+        .filter((item) => item.deficit > 0)
+        .sort((a, b) => b.deficit - a.deficit)[0];
+      if (!target) break;
+      rowCounts[target.idx] += 1;
+      assigned += 1;
+    }
+
+    const rowThicc = 1 / ((4 * nRows) - 2);
+    const desiredCenterSpacing = spacing * 1.02;
+    const scale = desiredCenterSpacing / (2 * rowThicc);
+    const positions = [];
+
+    rowCounts.forEach((countOnRow, rowIndex) => {
+      const rowArcRadius = 0.5 + (2 * rowIndex * rowThicc);
+      if (countOnRow <= 0) return;
+      if (countOnRow === 1) {
+        positions.push({ x: scale, y: 0 });
+        return;
+      }
+      const angleMargin = Math.asin(rowThicc / rowArcRadius);
+      const angleIncrement = (Math.PI - (2 * angleMargin)) / (countOnRow - 1);
+      for (let seat = 0; seat < countOnRow; seat += 1) {
+        const angle = angleMargin + (seat * angleIncrement);
+        positions.push({
+          x: ((rowArcRadius * Math.cos(angle)) + 1) * scale,
+          y: (-Math.sin(angle) * rowArcRadius) * scale
+        });
+      }
+    });
+
+    const minX = Math.min(...positions.map((point) => point.x));
+    const minY = Math.min(...positions.map((point) => point.y));
+    positions.forEach((point) => {
+      point.x -= minX;
+      point.y -= minY;
+    });
+    positions.sort((a, b) => a.x - b.x || a.y - b.y);
+    return positions;
+  }
+
+  const topCount = Math.ceil(total / 2);
+  const botCount = total - topCount;
+  const positions = [];
+  const topWidth = (topCount - 1) * spacing;
+  const topStartX = -topWidth / 2;
+  for (let index = 0; index < topCount; index += 1) {
+    positions.push({ x: topStartX + index * spacing, y: 0 });
+  }
+  const botWidth = (botCount - 1) * spacing;
+  const botStartX = -botWidth / 2;
+  for (let index = 0; index < botCount; index += 1) {
+    positions.push({ x: botStartX + index * spacing, y: spacing });
+  }
+  const minX = Math.min(...positions.map((point) => point.x));
+  const minY = Math.min(...positions.map((point) => point.y));
+  positions.forEach((point) => {
+    point.x -= minX;
+    point.y -= minY;
   });
   return positions;
+}
+
+function findLastIndex(items, predicate) {
+  for (let index = items.length - 1; index >= 0; index -= 1) {
+    if (predicate(items[index], index, items)) return index;
+  }
+  return -1;
 }
 
 function countBy(items, keyFn) {

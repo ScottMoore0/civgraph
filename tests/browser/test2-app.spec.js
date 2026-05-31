@@ -73,6 +73,23 @@ test('/test2 boots centred on Ireland when URL has no viewport state', async ({ 
   expect(camera.zoom).toBeGreaterThan(4);
 });
 
+test('/test2 dismisses stuck mobile thumbnail previews on outside tap', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.uiController?.ensureMobileThumbnailDismissal);
+  const dismissed = await page.evaluate(() => {
+    window.uiController.ensureMobileThumbnailDismissal();
+    const zoom = document.createElement('span');
+    zoom.className = 'catalogue-flat__toc-thumbzoom catalogue-flat__toc-thumbzoom--visible';
+    document.body.appendChild(zoom);
+    document.body.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, clientX: 20, clientY: 20 }));
+    const stillVisible = zoom.classList.contains('catalogue-flat__toc-thumbzoom--visible');
+    zoom.remove();
+    return !stillVisible;
+  });
+  expect(dismissed).toBe(true);
+});
+
 test('/test2 production overlay controls do not overlap MapLibre controls', async ({ page }) => {
   await page.goto('/test2/');
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
@@ -366,6 +383,9 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
     await app.elections.loadElection(entry.body, entry.date);
     await new Promise((resolve) => window.__civgraphTest2.mapController.map.once('idle', resolve));
     const map = window.__civgraphTest2.mapController.map;
+    const seatSource = map.getSource('test2-election-seat-source');
+    const expectedSeatCount = app.elections.activeBundle.results
+      .reduce((sum, result) => sum + app.elections.seatCandidatesForResult(result).length, 0);
     return {
       key: entry.key,
       sourceMapId: entry.sourceMapId,
@@ -374,8 +394,12 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
       panelVisible: document.getElementById('electionResultsPane')?.classList.contains('election-results-pane--open'),
       timelineVisible: !document.getElementById('timelineSlider')?.classList.contains('hidden'),
       fillColour: map.getPaintProperty('pc-2023-vector-test-fill', 'fill-color'),
+      seatHaloLayer: Boolean(map.getLayer('test2-election-seat-halo-layer')),
       seatCircleLayer: Boolean(map.getLayer('test2-election-seat-layer')),
-      seatCircleCount: map.queryRenderedFeatures({ layers: ['test2-election-seat-layer'] }).length,
+      seatCircleRadius: map.getPaintProperty('test2-election-seat-layer', 'circle-radius'),
+      seatCircleStroke: map.getPaintProperty('test2-election-seat-layer', 'circle-stroke-color'),
+      expectedSeatCount,
+      seatSourceCount: seatSource?._data?.features?.length || 0,
       labels: document.querySelectorAll('.maplibre-dom-label[data-layer-id="pc-2023-vector-test"]:not([hidden])').length
     };
   });
@@ -387,8 +411,12 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   expect(loaded.panelVisible).toBe(true);
   expect(loaded.timelineVisible).toBe(true);
   expect(JSON.stringify(loaded.fillColour)).toContain('match');
+  expect(loaded.seatHaloLayer).toBe(true);
   expect(loaded.seatCircleLayer).toBe(true);
-  expect(loaded.seatCircleCount).toBeGreaterThan(0);
+  expect(loaded.seatCircleRadius).toBe(6);
+  expect(String(loaded.seatCircleStroke)).toContain('0,0,0');
+  expect(loaded.seatSourceCount).toBeGreaterThan(0);
+  expect(loaded.seatSourceCount).toBeLessThanOrEqual(loaded.expectedSeatCount);
   expect(loaded.labels).toBeGreaterThan(0);
 
   await expect(page.locator('#electionResultsPane')).toContainText('House of Commons');

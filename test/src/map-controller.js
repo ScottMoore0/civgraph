@@ -788,7 +788,10 @@ export class TestMapLibreController {
         return;
       }
       const feature = queryAtPoint(event.point, CLICK_TOLERANCE_PX)[0];
-      if (!feature) return;
+      if (!feature) {
+        this.clearHover();
+        return;
+      }
       event.preventDefault?.();
       this.selectFeature(layer, feature);
     };

@@ -2826,3 +2826,22 @@ Add election entries to /test2
 - Remaining gaps:
   - The generated unmatched report still classifies all remaining unmatched election rows as blocked on data, blocked on boundary aggregation, or source-data cleanup; no currently feasible unmatched geography remains unclassified.
   - Exact Leaflet overlay pixel placement is intentionally not copied; `/test2` uses MapLibre-native seat/vote overlays with collision suppression and verified click/feature integration.
+
+# /test2 mobile hover cleanup and seat-circle parity
+- [x] Record scope and recurring defect
+  - Mobile transient hover/label/feature UI must clear when the user taps empty map space rather than only when another feature/entry is tapped.
+  - Seat-circle placement/count visibility must follow the main site's election overlay logic more closely.
+  - Add a guardrail so the same interaction and overlay drift does not recur.
+- [x] Inspect main/test2 implementations
+  - Compare main Leaflet click/hover cleanup and election seat-circle rendering to `/test2` MapLibre logic.
+- [x] Implement fixes
+  - Add centralized mobile empty-tap cleanup for stuck thumbnail previews and transient MapLibre hover state.
+  - Align `/test2` seat-circle grouping/placement with the main election overlay semantics as far as feasible in MapLibre.
+- [x] Verify
+  - Run syntax checks, `/test2` route checks, browser tests, and relevant build checks.
+- [x] Review
+  - Added shared thumbnail outside-tap cleanup for mobile/stuck synthetic hover previews.
+  - Added empty-map click hover cleanup to the MapLibre controller.
+  - Changed `/test2` election seat circles to use the shared main-style seat-position algorithm, fixed 12px-equivalent MapLibre dots, white halo, black outline, and pixel-offset placement instead of geographic-degree offsets and zoom-scaled radii.
+  - Added route/static checks and browser coverage for mobile thumbnail dismissal and seat-circle paint/halo/source generation.
+  - Verification passed: `node --check` on edited JS files, `node scripts/validate-test2-route.mjs`, `npm run build:test2`, `npm run check:test2`, `npm run test:browser:test2` (21/21), `npm run build`, and `npm run check`.

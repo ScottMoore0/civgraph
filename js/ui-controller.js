@@ -3948,6 +3948,7 @@ class UIController {
             const zoom = wrap.querySelector('.catalogue-flat__toc-thumbzoom');
             if (zoom) zoom.classList.remove('catalogue-flat__toc-thumbzoom--visible');
         }, true);
+        this.ensureMobileThumbnailDismissal();
 
         if (this._flatRenderToken !== renderToken) return;
         this.hydrateLazyThumbnails(container);
@@ -4009,6 +4010,24 @@ class UIController {
                 this.requestFlatViewRender(this._lastMapListOptions || {}, { defer: this.isMobile });
             }
         }
+    }
+
+    /** Mobile browsers can leave synthetic hover previews stuck after a tap. */
+    ensureMobileThumbnailDismissal() {
+        if (this._mobileThumbnailDismissalBound || typeof document === 'undefined') return;
+        this._mobileThumbnailDismissalBound = true;
+        const hide = (event = null) => {
+            const target = event?.target;
+            if (target?.closest?.('.catalogue-flat__toc-thumbwrap, .thumb-zone, .thumbnail-preview')) return;
+            document.querySelectorAll('.catalogue-flat__toc-thumbzoom--visible').forEach((zoom) => {
+                zoom.classList.remove('catalogue-flat__toc-thumbzoom--visible');
+            });
+            const preview = document.querySelector('.thumbnail-preview');
+            if (preview) preview.style.display = 'none';
+        };
+        document.addEventListener('pointerdown', hide, true);
+        document.addEventListener('touchstart', hide, true);
+        document.addEventListener('scroll', hide, true);
     }
 
     // ============================================
@@ -10000,6 +10019,7 @@ if (typeof window !== 'undefined') {
         preview.style.left = x + 'px';
         preview.style.top = y + 'px';
     });
+    uiController.ensureMobileThumbnailDismissal?.();
 })();
 
 export default uiController;
