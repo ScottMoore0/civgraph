@@ -2791,3 +2791,38 @@ Add election entries to /test2
   - `npm run test:browser:test2` passed after approved sandbox escalation: 20/20 tests.
   - `npm run build` passed after approved sandbox escalation for esbuild spawning.
   - `npm run check` passed.
+
+# /test2 election remaining parity gap closure
+- [x] Record scope and implementation plan
+  - Close remaining non-data election-layer parity gaps after the grouped local-election commit/push.
+  - Keep data-blocked unmatched geography work reported rather than hiding it.
+  - Preserve MapLibre-specific drawing boundaries while improving user-facing parity.
+- [x] Improve election URL/substate parity
+  - Preserve and restore entity pages, selected result, local mode, count detail, style mode, and overlay mode.
+- [x] Improve local-government pane parity
+  - Show grouped local-election council context clearly in selected DEA titles and tables.
+  - Add previous-election deltas to council/local-government summaries where prior grouped local data exists.
+- [x] Add guardrails
+  - Extend static and browser checks for entity URL state, local/council deltas, and grouped local state.
+- [x] Verify and document result
+
+## Review
+- Implemented:
+  - `/test2` election URL state now includes entity-page state (`electionEntityKind`, `electionEntityKey`, `electionEntityReturnView`) and restores entity pages after reload/share.
+  - Grouped NI local-election selected DEA titles and stats now include council context.
+  - Grouped local council summaries now include seat, valid-vote, and turnout deltas where a previous grouped local-election bundle exists.
+  - Local-party tables now include seat, first-preference, and share deltas where the prior result has a matching party/DEA row.
+  - Added static and browser guardrails covering URL entity state and local-government delta columns.
+- Verification:
+  - `node --check test2/src/election-manager.js` passed.
+  - `node --check test2/src/app.js` passed.
+  - `node --check scripts/validate-test2-route.mjs` passed.
+  - `node --check tests/browser/test2-app.spec.js` passed.
+  - `npm run build:test2` passed after approved sandbox escalation for esbuild spawning.
+  - `npm run check:test2` passed.
+  - `npm run check` passed.
+  - `npm run test:browser:test2` passed after approved sandbox escalation: 20/20 tests.
+  - `npm run build` passed after approved sandbox escalation for esbuild spawning.
+- Remaining gaps:
+  - The generated unmatched report still classifies all remaining unmatched election rows as blocked on data, blocked on boundary aggregation, or source-data cleanup; no currently feasible unmatched geography remains unclassified.
+  - Exact Leaflet overlay pixel placement is intentionally not copied; `/test2` uses MapLibre-native seat/vote overlays with collision suppression and verified click/feature integration.

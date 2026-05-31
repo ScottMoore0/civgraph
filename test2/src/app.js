@@ -883,6 +883,11 @@ class Test2App {
       params.set('electionLocalMode', electionState.localMode);
       if (electionState.selected) params.set('electionSelected', electionState.selected);
       if (electionState.countDetail) params.set('electionCountDetail', '1');
+      if (electionState.entityKind && electionState.entityKey) {
+        params.set('electionEntityKind', electionState.entityKind);
+        params.set('electionEntityKey', electionState.entityKey);
+        if (electionState.entityReturnView) params.set('electionEntityReturnView', electionState.entityReturnView);
+      }
     }
     const path = `${location.pathname}${location.search || ''}`;
     const next = params.toString() ? `${path}#${params.toString()}` : path;

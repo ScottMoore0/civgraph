@@ -488,6 +488,10 @@ test('/test2 election pane supports local-government aggregates and detailed cou
     app.elections.activeLocalMode = 'district';
     app.elections.renderPanel(null, 'council');
     const councilText = document.getElementById('electionResultsPane')?.textContent || '';
+    const firstParty = app.elections.activeBundle.entityIndex?.parties?.[0]?.name || null;
+    if (firstParty) app.elections.renderEntityPanel('party', firstParty);
+    app.updateURLState();
+    const entityParams = new URLSearchParams(location.hash.replace(/^#/, ''));
     const assemblyEntry = app.elections.catalogue.elections.find((entry) => entry.body === 'Northern Ireland Assembly' && entry.loadable);
     await app.elections.loadElection(assemblyEntry.body, assemblyEntry.date);
     const countResult = app.elections.activeBundle.results.find((result) => result.hasCountDetail);
@@ -500,6 +504,8 @@ test('/test2 election pane supports local-government aggregates and detailed cou
       localBodies: localEntry.localBodies?.length || 0,
       localText,
       councilText,
+      entityKind: entityParams.get('electionEntityKind'),
+      entityKey: entityParams.get('electionEntityKey'),
       countResult: countResult?.constituency || null,
       before,
       after
@@ -511,6 +517,9 @@ test('/test2 election pane supports local-government aggregates and detailed cou
   expect(state.localBody).toBe('Local Government Districts');
   expect(state.localBodies).toBeGreaterThan(1);
   expect(state.councilText).toMatch(/By Council|Councils|Leading party/);
+  expect(state.councilText).toMatch(/Seat change|Vote change|Turnout change/);
+  expect(state.entityKind).toBe('party');
+  expect(state.entityKey).toBeTruthy();
   expect(state.countResult).toBeTruthy();
   expect(state.before).toContain('Show detailed count values');
   expect(state.after).toContain('Hide detailed count values');
