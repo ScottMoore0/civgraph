@@ -5,7 +5,7 @@
 }
 
 #map .maplibregl-ctrl-top-left {
-  top: 68px;
+  top: 10px;
   left: 12px;
 }
 
@@ -22,6 +22,44 @@
 #map .maplibregl-ctrl-bottom-right {
   right: 12px;
   bottom: 14px;
+}
+
+#map .maplibregl-ctrl-group {
+  border: 1px solid #b7c1c8;
+  border-radius: 4px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, .35);
+  overflow: hidden;
+}
+
+#map .maplibregl-ctrl-group button {
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  color: #111827;
+}
+
+#map .maplibregl-ctrl-group button + button {
+  border-top: 1px solid #cfd7df;
+}
+
+#map .maplibregl-ctrl-compass {
+  display: none;
+}
+
+#map .maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon,
+#map .maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon {
+  background-image: none;
+  display: grid;
+  place-items: center;
+  font: 700 21px/1 Arial, Helvetica, sans-serif;
+}
+
+#map .maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon::before {
+  content: "+";
+}
+
+#map .maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon::before {
+  content: "-";
 }
 
 #map .active-layers-toggle {
@@ -50,7 +88,7 @@
 
 @media (max-width: 768px) {
   #map .maplibregl-ctrl-top-left {
-    top: 72px;
+    top: 12px;
     left: 12px;
   }
 

@@ -138,6 +138,7 @@ class Test2App {
       try {
         await this.elections?.loadElection(body, date);
         this.updateMapList();
+        this.focusActiveElectionCatalogueEntry(this.elections?.activeEntry, { scroll: true });
       } catch (error) {
         this.showMapError(error);
       }
@@ -346,6 +347,19 @@ class Test2App {
       featureCounts,
       totalMaps: allMaps.length
     });
+  }
+
+  focusActiveElectionCatalogueEntry(entry, options = {}) {
+    if (!entry?.body || !entry?.date) return;
+    const focusRow = () => {
+      const rows = [...document.querySelectorAll('#catalogueFlatView .flat-election-entry')];
+      const target = rows.find((row) => row.dataset.electionBody === entry.body && row.dataset.electionDate === entry.date);
+      if (!target) return;
+      rows.forEach((row) => row.classList.toggle('class-member--loaded', row === target));
+      target.querySelector('.election-load-btn')?.setAttribute('title', 'Unload');
+      if (options.scroll) target.scrollIntoView({ block: 'nearest' });
+    };
+    requestAnimationFrame(() => requestAnimationFrame(focusRow));
   }
 
   setupSearch() {
@@ -852,11 +866,20 @@ class Test2App {
   updateURLState() {
     if (this._suspendURLState || this._restoringURLState) return;
     const loaded = this.getLoadedLayerIds();
-    const hidden = loaded.filter((id) => !this.isMapVisible(id));
+    const electionState = this.elections?.getURLState?.();
+    const electionSourceIds = new Set([
+      this.elections?.activeEntry?.sourceMapId,
+      this.elections?.activeBundle?.sourceMapId,
+      this.elections?.activeBundle?.layerId
+    ].filter(Boolean));
+    const urlLoaded = electionState?.layerId
+      ? [electionState.layerId, ...loaded.filter((id) => !electionSourceIds.has(id))]
+      : loaded;
+    const hidden = urlLoaded.filter((id) => id !== electionState?.layerId && !electionSourceIds.has(id) && !this.isMapVisible(id));
     const params = new URLSearchParams();
     const center = this.mapController.map?.getCenter?.();
     const zoom = this.mapController.map?.getZoom?.();
-    if (loaded.length) params.set('layers', loaded.join(','));
+    if (urlLoaded.length) params.set('layers', urlLoaded.join(','));
     if (hidden.length) params.set('hidden', hidden.join(','));
     if (this.searchQuery) params.set('q', this.searchQuery);
     if (this.currentDetailMapId && !document.getElementById('catalogueDetailView')?.classList.contains('hidden')) {
@@ -873,7 +896,6 @@ class Test2App {
     if (this.baseMapId && this.baseMapId !== 'osm-standard') params.set('base', this.baseMapId);
     if (document.getElementById('activeLayersToggle')?.getAttribute('aria-expanded') === 'true') params.set('activePanel', '1');
     if (document.getElementById('mapControlsToggle')?.getAttribute('aria-expanded') === 'true') params.set('controls', '1');
-    const electionState = this.elections?.getURLState?.();
     if (electionState) {
       params.set('electionBody', electionState.body);
       params.set('electionDate', electionState.date);
@@ -918,7 +940,8 @@ class Test2App {
       }
 
       const layers = (params.get('layers') || '').split(',').map((id) => id.trim()).filter(Boolean);
-      await Promise.all(layers.map((id) => this.loadMap(id).catch((error) => this.showMapError(error))));
+      const mapLayers = layers.filter((id) => !this.elections?.isCanonicalElectionLayerId?.(id));
+      await Promise.all(mapLayers.map((id) => this.loadMap(id).catch((error) => this.showMapError(error))));
 
       await this.elections?.restoreURLState?.(params);
 

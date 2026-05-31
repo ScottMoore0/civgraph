@@ -100,6 +100,7 @@ export class Test2ElectionManager {
   buildCatalogueCards() {
     return (this.catalogue?.elections || []).map((entry) => ({
       ...entry,
+      canonicalLayerId: this.getCanonicalLayerId(entry),
       placeholder: !entry.loadable,
       displaySubtitle: entry.displaySubtitle || `${entry.totalConstituencies || 0} constituencies`,
       displayProvider: entry.displayProvider || entry.body,
@@ -155,6 +156,7 @@ export class Test2ElectionManager {
     this.updateElectionTimeline();
     this.app.syncCatalogueMapState();
     this.app.updateActiveLayers();
+    this.app.focusActiveElectionCatalogueEntry?.(entry, { scroll: true });
     this.app.updateURLState();
   }
 
@@ -183,6 +185,7 @@ export class Test2ElectionManager {
   getURLState() {
     if (!this.activeEntry) return null;
     return {
+      layerId: this.getCanonicalLayerId(this.activeEntry),
       body: this.activeEntry.body,
       date: this.activeEntry.date,
       mode: this.activeMode,
@@ -198,8 +201,16 @@ export class Test2ElectionManager {
   }
 
   async restoreURLState(params) {
-    const body = params.get('electionBody');
-    const date = params.get('electionDate');
+    let body = params.get('electionBody');
+    let date = params.get('electionDate');
+    if (!body || !date) {
+      const layerIds = (params.get('layers') || '').split(',').map((id) => id.trim()).filter(Boolean);
+      const canonicalEntry = layerIds.map((id) => this.findEntryByCanonicalLayerId(id)).find(Boolean);
+      if (canonicalEntry) {
+        body = canonicalEntry.body;
+        date = canonicalEntry.date;
+      }
+    }
     if (!body || !date) return;
     await this.loadElection(body, date);
     const mode = params.get('electionMode');
@@ -221,6 +232,7 @@ export class Test2ElectionManager {
       this.activeEntityReturnView = params.get('electionEntityReturnView') || view || 'party';
       this.renderEntityPanel(entityKind, entityKey, { updateURL: false });
     }
+    this.app.focusActiveElectionCatalogueEntry?.(this.activeEntry, { scroll: true });
   }
 
   async loadBundle(entry) {
@@ -488,7 +500,7 @@ export class Test2ElectionManager {
           ${result.previous ? `<div><dt>Previous winner</dt><dd>${escapeHtml(result.previous.winnerParty || result.previous.leadingParty || '')}</dd></div>` : ''}
           ${result.deltas?.turnoutPct !== null && result.deltas?.turnoutPct !== undefined ? `<div><dt>Turnout change</dt><dd>${formatSignedPercent(result.deltas.turnoutPct)}</dd></div>` : ''}
         </dl>
-        ${view === 'counts' ? this.renderCountTable(result, candidates) : view === 'animation' ? this.renderAnimationNotice(result) : this.renderConstituencyCandidateTable(candidates, result)}
+        ${view === 'counts' ? this.renderCountTable(result, candidates) : view === 'animation' ? this.renderAnimationNotice(result) : view === 'party' ? this.renderConstituencyPartyTable(candidates, result) : this.renderConstituencyCandidateTable(candidates, result)}
       </section>
     `;
   }
@@ -630,8 +642,80 @@ export class Test2ElectionManager {
     `;
   }
 
+  renderConstituencyPartyTable(candidates = [], result = {}) {
+    if (!candidates.length) return '<p class="election-no-data">No party-level result table is available for this entry.</p>';
+    const validPoll = numberOrZero(result.validPoll) || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs ?? candidate.votes), 0);
+    const byParty = new Map();
+    for (const candidate of candidates) {
+      const party = candidate.party || 'Independent/Other';
+      const key = normalizeName(party) || party;
+      if (!byParty.has(key)) {
+        byParty.set(key, {
+          party,
+          colour: candidate.colour || electionPartyColour(party) || partyColour(party),
+          stood: 0,
+          seats: 0,
+          firstPrefs: 0
+        });
+      }
+      const row = byParty.get(key);
+      row.stood += 1;
+      row.seats += candidate.elected ? 1 : 0;
+      row.firstPrefs += numberOrZero(candidate.firstPrefs ?? candidate.votes);
+    }
+    const rows = [...byParty.values()].sort((a, b) => {
+      if (b.seats !== a.seats) return b.seats - a.seats;
+      if (b.firstPrefs !== a.firstPrefs) return b.firstPrefs - a.firstPrefs;
+      return a.party.localeCompare(b.party);
+    });
+    return `
+      <div class="election-party-wrapper election-party-wrapper--pane-sticky">
+        <table class="election-party-table election-party-table--grouped election-results-table--fixed election-results-table--constituency-party">
+          <thead>
+            <tr>
+              <th rowspan="2" data-leaf-col-idx="0">#</th>
+              <th rowspan="2" data-leaf-col-idx="1">Party</th>
+              <th colspan="2">Candidates</th>
+              <th colspan="2">Seats</th>
+              <th colspan="4">1st preferences</th>
+            </tr>
+            <tr>
+              ${this.renderMainParityLeafTh('No.', 2)}
+              ${this.renderMainParityLeafTh('+/-', 3)}
+              ${this.renderMainParityLeafTh('No.', 4)}
+              ${this.renderMainParityLeafTh('+/-', 5)}
+              ${this.renderMainParityLeafTh('No.', 6)}
+              ${this.renderMainParityLeafTh('+/-', 7)}
+              ${this.renderMainParityLeafTh('%', 8)}
+              ${this.renderMainParityLeafTh('+/-', 9)}
+            </tr>
+          </thead>
+          <tbody>
+            ${rows.map((row, index) => {
+              const share = validPoll ? row.firstPrefs / validPoll * 100 : null;
+              return `
+                <tr>
+                  <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
+                  <td>${this.renderElectionEntityButton('party', normalizeName(row.party), `<span class="election-party-dot" style="background:${escapeHtml(row.colour)}"></span>${escapeHtml(row.party)}`, 'election-cell-wrap')}</td>
+                  <td class="election-num">${formatNumber(row.stood)}</td>
+                  <td class="election-num">-</td>
+                  <td class="election-num">${formatNumber(row.seats)}</td>
+                  <td class="election-num">-</td>
+                  <td class="election-num">${formatNumber(row.firstPrefs)}</td>
+                  <td class="election-num">-</td>
+                  <td class="election-num">${share === null ? '-' : formatFixedPercent(share)}</td>
+                  <td class="election-num">-</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
   renderMainParityLeafTh(label, index) {
-    return `<th class="election-num" data-leaf-col-idx="${index}"><span>${escapeHtml(label)}</span><button type="button" class="election-results-sort" tabindex="-1" aria-hidden="true">↕</button></th>`;
+    return `<th class="election-num" data-leaf-col-idx="${index}"><span>${escapeHtml(label)}</span><button type="button" class="election-results-sort" tabindex="-1" aria-hidden="true">&#8597;</button></th>`;
   }
 
   renderElectionEntityButton(kind, key, labelHtml, extraClass = '') {
@@ -1492,7 +1576,7 @@ export class Test2ElectionManager {
         paint: {
           'circle-color': ['coalesce', ['get', 'colour'], '#6b7280'],
           'circle-radius': 6,
-          'circle-stroke-color': 'rgba(0,0,0,0.6)',
+          'circle-stroke-color': 'rgba(255,255,255,0.95)',
           'circle-stroke-width': 1,
           'circle-opacity': 0.95
         }
@@ -1881,6 +1965,29 @@ export class Test2ElectionManager {
   findEntry(body, date) {
     return (this.catalogue?.elections || []).find((entry) => entry.body === body && entry.date === date) || null;
   }
+
+  getCanonicalLayerId(entry = this.activeEntry) {
+    if (!entry?.body || !entry?.date) return '';
+    return `election-${mainElectionSlug(entry.body)}-${entry.date}`;
+  }
+
+  findEntryByCanonicalLayerId(layerId) {
+    if (!layerId) return null;
+    return (this.catalogue?.elections || []).find((entry) => this.getCanonicalLayerId(entry) === layerId) || null;
+  }
+
+  isCanonicalElectionLayerId(layerId) {
+    return Boolean(this.findEntryByCanonicalLayerId(layerId));
+  }
+}
+
+function mainElectionSlug(value) {
+  return String(value || '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s]+/g, '-')
+    .replace(/-+/g, '-');
 }
 
 function resultKeys(result) {

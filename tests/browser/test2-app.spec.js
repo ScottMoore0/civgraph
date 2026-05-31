@@ -401,9 +401,10 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
       seatCircleLayer: Boolean(map.getLayer('test2-election-seat-layer')),
       seatCircleRadius: map.getPaintProperty('test2-election-seat-layer', 'circle-radius'),
       seatCircleStroke: map.getPaintProperty('test2-election-seat-layer', 'circle-stroke-color'),
+      urlLayers: new URL(location.href).hash,
       expectedSeatCount,
       seatSourceCount: seatSource?._data?.features?.length || 0,
-      labels: document.querySelectorAll('.maplibre-dom-label[data-layer-id="pc-2023-vector-test"]:not([hidden])').length,
+      labels: document.querySelectorAll('.maplibre-dom-label:not([hidden])').length,
       mainParityRenderer: Boolean(document.querySelector('[data-election-renderer="test2-main-parity"]')),
       groupedPartyTable: Boolean(document.querySelector('[data-election-renderer="test2-main-parity"] .election-party-table--grouped')),
       paneTitle: document.getElementById('electionPaneTitle')?.textContent || '',
@@ -424,7 +425,9 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   expect(loaded.seatHaloLayer).toBe(true);
   expect(loaded.seatCircleLayer).toBe(true);
   expect(loaded.seatCircleRadius).toBe(6);
-  expect(String(loaded.seatCircleStroke)).toContain('0,0,0');
+  expect(String(loaded.seatCircleStroke)).toContain('255,255,255');
+  expect(loaded.urlLayers).toContain('layers=election-house-of-commons-of-the-united-kingdom-2024-07-04');
+  expect(loaded.urlLayers).not.toContain('layers=pc-2023');
   expect(loaded.seatSourceCount).toBeGreaterThan(0);
   expect(loaded.seatSourceCount).toBeLessThanOrEqual(loaded.expectedSeatCount);
   expect(loaded.labels).toBeGreaterThan(0);
@@ -460,13 +463,14 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   expect(barOverlay.barCount).toBeGreaterThan(0);
   await page.locator('#test2ElectionOverlay').selectOption('circles');
 
-  const firstLabel = page.locator('.maplibre-dom-label[data-layer-id="pc-2023-vector-test"]:not([hidden])').first();
+  const firstLabel = page.locator('.maplibre-dom-label:not([hidden])').first();
   await expect(firstLabel).toBeVisible();
   await firstLabel.click();
   await expect(page.locator('#featureInfo')).toBeVisible();
   await expect(page.locator('#featureInfoContent')).toContainText('Election');
   await expect(page.locator('#featureInfoContent')).toContainText(/Leading party|Winning party/);
   await expect(page.locator('#electionResultsPane')).toContainText(/Candidate|Party|Votes/);
+  await expect(page.locator('#electionPaneContent .election-results-table--constituency-party')).toHaveCount(1);
 });
 
 test('/test2 election bundles cover representative main-site election types', async ({ page }) => {

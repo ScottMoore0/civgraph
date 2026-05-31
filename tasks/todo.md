@@ -2918,6 +2918,28 @@ Add election entries to /test2
   - The generated unmatched report still classifies all remaining unmatched election rows as blocked on data, blocked on boundary aggregation, or source-data cleanup; no currently feasible unmatched geography remains unclassified.
   - Exact Leaflet overlay pixel placement is intentionally not copied; `/test2` uses MapLibre-native seat/vote overlays with collision suppression and verified click/feature integration.
 
+# /test2 election state, catalogue, map, and pane parity pass
+- [ ] Record scope
+  - User request: amend `/test2` so election URL IDs, catalogue state, election pane state/aggregation/order, map labels/hover/seat circles, and map controls align with main as far as feasible and sensible.
+  - Main runtime files remain read-only reference for this pass; implement alignment in `/test2`, generated `/test2` assets, validation, and tests only.
+- [x] Inspect current divergence
+  - Compare canonical election IDs, catalogue active state, result-pane selected/overall state, party sorting/aggregation, label layers, seat-circle placement, and controls.
+- [x] Implement `/test2` parity fixes
+  - Fix main election ID aliases and URL state.
+  - Open the catalogue in the same active election state as main.
+  - Align result-pane overall/selected feature state and party ordering/aggregation where data permits.
+  - Tighten table CSS/template parity.
+  - Align MapLibre labels, hover/selection style, seat-circle offsets/collision, and controls with main where sensible.
+- [x] Add guardrails
+  - Extend static/browser checks for URL/state mapping, catalogue active state, pane table ordering, controls, labels, and overlays.
+- [x] Verify
+  - Run syntax checks, `/test2` validation, build, and browser tests.
+- [x] Review
+  - Summarize implemented fixes and remaining data/MapLibre-specific limits.
+  - Result: `/test2` now writes main-style canonical `election-...` layer IDs into URL state, restores elections from those IDs, focuses the active decade catalogue row, keeps selected-area “By Party” in a main-style party table, uses white-stroked seat circles, and restyles MapLibre zoom controls to read closer to Leaflet controls.
+  - Verification: `npm run check:test2`, `npm run build:test2`, and `npm run test:browser -- tests/browser/test2-app.spec.js` all passed after the changes.
+  - Remaining limits: exact Leaflet DOM overlay placement cannot be copied directly because `/test2` is MapLibre; current seat-circle placement remains MapLibre-native with generated anchors and collision suppression.
+
 # /test2 mobile hover cleanup and seat-circle parity
 - [x] Record scope and recurring defect
   - Mobile transient hover/label/feature UI must clear when the user taps empty map space rather than only when another feature/entry is tapped.
