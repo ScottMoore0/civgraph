@@ -395,6 +395,21 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   await expect(page.locator('#electionResultsPane')).toContainText('Matched');
   await page.locator('#test2ElectionMode').selectOption('voteShare');
   await expect(page.locator('#electionResultsPane')).toContainText('Vote share');
+  await page.locator('#test2ElectionOverlay').selectOption('bars');
+  await page.waitForFunction(() => window.__civgraphTest2.mapController.map.getLayer('test2-election-vote-bar-layer'));
+  const barOverlay = await page.evaluate(() => {
+    const map = window.__civgraphTest2.mapController.map;
+    const source = map.getSource('test2-election-vote-bar-source');
+    return {
+      hasBars: Boolean(map.getLayer('test2-election-vote-bar-layer')),
+      hasSeatCircles: Boolean(map.getLayer('test2-election-seat-layer')),
+      barCount: source?._data?.features?.length || map.queryRenderedFeatures({ layers: ['test2-election-vote-bar-layer'] }).length
+    };
+  });
+  expect(barOverlay.hasBars).toBe(true);
+  expect(barOverlay.hasSeatCircles).toBe(false);
+  expect(barOverlay.barCount).toBeGreaterThan(0);
+  await page.locator('#test2ElectionOverlay').selectOption('circles');
 
   const firstLabel = page.locator('.maplibre-dom-label[data-layer-id="pc-2023-vector-test"]:not([hidden])').first();
   await expect(firstLabel).toBeVisible();
@@ -454,6 +469,40 @@ test('/test2 election bundles cover representative main-site election types', as
   expect(coverage.westminster.previousKey).toBeTruthy();
   expect(coverage.assembly.hasCounts).toBe(true);
   expect(coverage.recallOrPlaceholder).toBeTruthy();
+});
+
+test('/test2 election pane supports local-government aggregates and detailed counts', async ({ page }) => {
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.elections?.catalogue?.elections?.length);
+
+  const state = await page.evaluate(async () => {
+    const app = window.__civgraphTest2.app;
+    const localEntry = app.elections.catalogue.elections.find((entry) => entry.bodyGroup === 'local-government' && entry.loadable);
+    await app.elections.loadElection(localEntry.body, localEntry.date);
+    app.elections.renderPanel(null, 'local-party');
+    const localText = document.getElementById('electionResultsPane')?.textContent || '';
+    const assemblyEntry = app.elections.catalogue.elections.find((entry) => entry.body === 'Northern Ireland Assembly' && entry.loadable);
+    await app.elections.loadElection(assemblyEntry.body, assemblyEntry.date);
+    const countResult = app.elections.activeBundle.results.find((result) => result.hasCountDetail);
+    app.elections.renderPanel(countResult, 'counts');
+    const before = document.getElementById('electionPaneContent')?.textContent || '';
+    document.getElementById('test2ElectionCountDetail')?.click();
+    const after = document.getElementById('electionPaneContent')?.textContent || '';
+    return {
+      localBody: localEntry.body,
+      localText,
+      countResult: countResult?.constituency || null,
+      before,
+      after
+    };
+  });
+
+  expect(state.localText).toContain('By Local Party');
+  expect(state.localText).toMatch(/DEA|First prefs|DEA share/);
+  expect(state.countResult).toBeTruthy();
+  expect(state.before).toContain('Show detailed count values');
+  expect(state.after).toContain('Hide detailed count values');
+  expect(state.after).toMatch(/valid poll|transfer/i);
 });
 
 test('/test2 supports catalogue detail, unsupported notices, and URL restore', async ({ page }) => {

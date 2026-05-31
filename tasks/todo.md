@@ -1,3 +1,30 @@
+# /test2 remaining election parity gap closure
+- [x] Record scope
+  - Target gaps: local-government council/district aggregate views, vote-bar overlay mode, recall-petition rendering where data exists, detailed count-table parity, and explicit reporting for data-blocked election coverage.
+  - Constraint: keep MapLibre source/layer handling native to `/test2`; do not port Leaflet layer objects or overlay groups literally.
+- [x] Audit current generated election bundle shape for local-government, recall, and count data
+  - Local-government bundles already carry candidate, party, DEA, seat, vote, and entity-index fields, so the council/district aggregate view can be computed in the `/test2` election manager.
+  - Count bundles already carry count numbers and per-candidate count rows for representative NI Assembly examples; detailed count display can be expanded without new source data.
+  - Recall-petition source data is not currently present in the generated loadable examples, but the shared summary now preserves `recallPetition` if/when it appears.
+- [x] Implement feasible MapLibre-native parity work
+  - Added a MapLibre-native overlay selector for seat circles versus vote bars.
+  - Added vote-bar GeoJSON/line rendering with click-through to the election pane.
+  - Added local-government “By Local Party” aggregate tables and DEA-aware labels.
+  - Added visible data-coverage notices for unmatched result rows.
+  - Added recall-petition result rendering for future bundles that carry petition data.
+  - Expanded count tables with a detailed toggle, transfer/status notes, and summary rows.
+- [x] Add/tighten regression coverage
+  - Static `/test2` validation now requires vote bars, local-party aggregates, recall preservation/rendering, and detailed count-table support.
+  - Browser coverage now exercises vote-bar overlay switching, local-government aggregate rendering, and detailed count toggle rendering.
+- [x] Rebuild and verify
+  - `node scripts/validate-test2-route.mjs` passed.
+  - `npm run build:test2` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
+  - `npm run check:test2` passed.
+  - `npm run build` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
+  - `npm run test:browser:test2` passed after approved sandbox escalation because Playwright worker spawning was blocked by `EPERM`: 20/20 tests passed.
+- [x] Commit and push
+  - Committed and pushed the `/test2` election parity closure work on `main`.
+
 # /test2 election-layer parity audit and catalogue TOC correction
 - [x] Record the correction and scope
   - Symptom: individual election entries should not be listed directly in the catalogue table of contents.

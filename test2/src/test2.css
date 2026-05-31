@@ -431,6 +431,37 @@ body.app-shell.test2-election-open #electionResultsPane.election-results-pane--o
   font-weight: 700;
 }
 
+.test2-election-table__summary {
+  background: var(--color-surface-elevated, #f7fafc);
+}
+
+.test2-election-coverage-notice,
+.test2-election-count-toolbar {
+  margin: 8px 0;
+}
+
+.test2-election-coverage-notice {
+  padding: 8px 10px;
+  border: 1px solid var(--color-border, #d8e0ea);
+  border-radius: 6px;
+  background: var(--color-surface-elevated, #f7fafc);
+  color: var(--color-text-muted, #718096);
+  font-size: 12px;
+}
+
+.test2-election-coverage-notice p {
+  margin: 4px 0 0;
+}
+
+.test2-election-count-detail {
+  display: grid;
+  gap: 2px;
+  margin-top: 3px;
+  color: var(--color-text-muted, #718096);
+  font-size: 11px;
+  font-weight: 400;
+}
+
 .test2-election-animation-ready {
   display: grid;
   gap: 6px;

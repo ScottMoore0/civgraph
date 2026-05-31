@@ -179,6 +179,7 @@ export function summarizeResult(raw, fallbackConstituency) {
   const forumRows = Array.isArray(source.forum?.rows) ? source.forum.rows : null;
   const rows = forumRows || source.countGroup || raw?.candidates || [];
   const constituency = fixText(source.constituency || raw?.constituency || info.Constituency_Name || fallbackConstituency);
+  const recallPetition = source.recallPetition || raw?.recallPetition || raw?.petition || null;
   const candidates = forumRows ? summarizeForumRows(forumRows) : summarizeCandidateRows(rows);
   const ranked = [...candidates].sort((a, b) => numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs));
   const seatsTotal = parseNumber(info.Number_Of_Seats ?? raw?.meta?.seats ?? raw?.seats);
@@ -227,6 +228,7 @@ export function summarizeResult(raw, fallbackConstituency) {
     countGroup: Array.isArray(source.countGroup) ? source.countGroup : [],
     forum: source.forum || null,
     countNumbers,
+    ...(recallPetition ? { recallPetition } : {}),
     hasCountDetail: countNumbers.length > 1 || candidates.some((candidate) => (candidate.counts || []).length > 1),
     animationPayload: raw || null
   };
