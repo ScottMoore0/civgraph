@@ -62,6 +62,7 @@ const NAME_ALIASES = new Map([
   ['midlands north west', 'midlands north-west'],
   ['cavan monaghan', 'cavan-monaghan'],
   ['carlow kilkenny', 'carlow-kilkenny'],
+  ['wicklow wexford3', 'wicklow wexford'],
   ['ireland', 'republic of ireland'],
   ['derry area a', 'londonderry area a'],
   ['derry area b', 'londonderry area b'],
@@ -498,17 +499,21 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     const result = ElectionDomain.summarizeResult(rawResult, constituency);
     const matchEntry = matchEntryForConstituency(entry, result.constituency || constituency);
     const match = singleFeature || matchFeature(featureLookup, result.constituency || constituency, matchEntry);
-    if (!match && !geography?.singleConstituency) unmatched.push(result.constituency || constituency);
+    const syntheticRegion = !match && isForumRegionalListResult(entry, result.constituency || constituency)
+      ? syntheticRegionMatch(anchorIndex, layer, 'Northern Ireland')
+      : null;
+    if (!match && !syntheticRegion && !geography?.singleConstituency) unmatched.push(result.constituency || constituency);
     results.push({
       ...result,
       localBody: entry.bodyGroup === 'local-government' ? matchEntry.body : null,
       sourceFile: resultPath ? slash(path.relative(ROOT, resultPath)) : null,
-      featureId: match?.id ?? null,
-      featureName: match?.name ?? null,
-      featureAliases: match?.aliases || [],
-      matchName: match?.name ?? null,
-      anchor: anchorIndex ? findAnchorForMatch(anchorIndex, match, result) : null,
-      matched: Boolean(match)
+      featureId: match?.id ?? syntheticRegion?.id ?? null,
+      featureName: match?.name ?? syntheticRegion?.name ?? null,
+      featureAliases: match?.aliases || syntheticRegion?.aliases || [],
+      matchName: match?.name ?? syntheticRegion?.name ?? null,
+      anchor: syntheticRegion?.anchor || (anchorIndex ? findAnchorForMatch(anchorIndex, match, result) : null),
+      syntheticRegion: syntheticRegion?.syntheticRegion || null,
+      matched: Boolean(match || syntheticRegion)
     });
   }
 
@@ -519,17 +524,21 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       const result = ElectionDomain.summarizeResult(rawResult, file.replace(/\.json$/, ''));
       const matchEntry = matchEntryForConstituency(entry, result.constituency);
       const match = singleFeature || matchFeature(featureLookup, result.constituency, matchEntry);
-      if (!match && !geography?.singleConstituency) unmatched.push(result.constituency);
+      const syntheticRegion = !match && isForumRegionalListResult(entry, result.constituency)
+        ? syntheticRegionMatch(anchorIndex, layer, 'Northern Ireland')
+        : null;
+      if (!match && !syntheticRegion && !geography?.singleConstituency) unmatched.push(result.constituency);
       results.push({
         ...result,
         localBody: entry.bodyGroup === 'local-government' ? matchEntry.body : null,
         sourceFile: slash(path.relative(ROOT, resultPath)),
-        featureId: match?.id ?? null,
-        featureName: match?.name ?? null,
-        featureAliases: match?.aliases || [],
-        matchName: match?.name ?? null,
-        anchor: anchorIndex ? findAnchorForMatch(anchorIndex, match, result) : null,
-        matched: Boolean(match)
+        featureId: match?.id ?? syntheticRegion?.id ?? null,
+        featureName: match?.name ?? syntheticRegion?.name ?? null,
+        featureAliases: match?.aliases || syntheticRegion?.aliases || [],
+        matchName: match?.name ?? syntheticRegion?.name ?? null,
+        anchor: syntheticRegion?.anchor || (anchorIndex ? findAnchorForMatch(anchorIndex, match, result) : null),
+        syntheticRegion: syntheticRegion?.syntheticRegion || null,
+        matched: Boolean(match || syntheticRegion)
       });
     }
   }
@@ -696,11 +705,54 @@ function findAnchorForMatch(anchorIndex, match, result) {
   return null;
 }
 
+function isForumRegionalListResult(entry, constituency) {
+  return entry?.body === 'Northern Ireland Forum for Political Dialogue'
+    && normalizeName(constituency) === 'northern ireland';
+}
+
+function syntheticRegionMatch(anchorIndex, layer, name) {
+  const bounds = unionAnchorBounds(anchorIndex?.items || []) || layerBounds(layer?.bounds);
+  if (!bounds) return null;
+  const center = boundsCenter(bounds);
+  const area = (bounds.east - bounds.west) * (bounds.north - bounds.south);
+  return {
+    id: `synthetic:${normalizeName(name).replace(/\s+/g, '-')}`,
+    name,
+    aliases: [name],
+    syntheticRegion: normalizeName(name),
+    anchor: {
+      center,
+      bounds,
+      method: 'synthetic-region-bounds-center',
+      area: Math.abs(area)
+    }
+  };
+}
+
+function unionAnchorBounds(items = []) {
+  let union = null;
+  for (const item of items) {
+    const bounds = item?.anchor?.bounds || item?.bounds || null;
+    union = mergeBounds(union, bounds);
+  }
+  return union;
+}
+
+function layerBounds(bounds) {
+  if (!Array.isArray(bounds) || !Array.isArray(bounds[0]) || !Array.isArray(bounds[1])) return null;
+  const [[south, west], [north, east]] = bounds;
+  return normalizeBounds({ west, south, east, north });
+}
+
 function geometryAnchor(geometry) {
   if (!geometry) return null;
-  if (geometry.type === 'Point') return { center: geometry.coordinates, method: 'point', area: null };
+  if (geometry.type === 'Point') {
+    const bounds = pointBounds(geometry.coordinates);
+    return { center: geometry.coordinates, bounds, method: 'point', area: null };
+  }
   if (geometry.type === 'MultiPoint' && Array.isArray(geometry.coordinates?.[0])) {
-    return { center: geometry.coordinates[0], method: 'multipoint-first', area: null };
+    const bounds = coordinateBounds(geometry.coordinates)?.bounds || pointBounds(geometry.coordinates[0]);
+    return { center: geometry.coordinates[0], bounds, method: 'multipoint-first', area: null };
   }
   const rings = [];
   if (geometry.type === 'Polygon') rings.push(geometry.coordinates?.[0]);
@@ -713,9 +765,9 @@ function geometryAnchor(geometry) {
     if (!stats) continue;
     if (!best || stats.area > best.area) best = stats;
   }
-  if (best) return { center: best.center, method: 'largest-ring-bounds-center', area: best.area };
+  if (best) return { center: best.center, bounds: best.bounds, method: 'largest-ring-bounds-center', area: best.area };
   const bbox = coordinateBounds(flatCoordinates(geometry.coordinates));
-  return bbox ? { center: bbox.center, method: 'geometry-bounds-center', area: null } : null;
+  return bbox ? { center: bbox.center, bounds: bbox.bounds, method: 'geometry-bounds-center', area: null } : null;
 }
 
 function ringStats(ring) {
@@ -736,7 +788,8 @@ function ringStats(ring) {
   }
   return {
     area: Math.abs(area) * 0.5,
-    center: [round((minLng + maxLng) / 2, 6), round((minLat + maxLat) / 2, 6)]
+    center: [round((minLng + maxLng) / 2, 6), round((minLat + maxLat) / 2, 6)],
+    bounds: normalizeBounds({ west: minLng, south: minLat, east: maxLng, north: maxLat })
   };
 }
 
@@ -762,7 +815,49 @@ function coordinateBounds(coords) {
     minLat = Math.min(minLat, lat);
     maxLat = Math.max(maxLat, lat);
   }
-  return { center: [round((minLng + maxLng) / 2, 6), round((minLat + maxLat) / 2, 6)] };
+  const bounds = normalizeBounds({ west: minLng, south: minLat, east: maxLng, north: maxLat });
+  return { center: boundsCenter(bounds), bounds };
+}
+
+function pointBounds(point) {
+  const lng = Number(point?.[0]);
+  const lat = Number(point?.[1]);
+  if (!Number.isFinite(lng) || !Number.isFinite(lat)) return null;
+  return normalizeBounds({ west: lng, south: lat, east: lng, north: lat });
+}
+
+function normalizeBounds(bounds) {
+  const west = Number(bounds?.west);
+  const south = Number(bounds?.south);
+  const east = Number(bounds?.east);
+  const north = Number(bounds?.north);
+  if (![west, south, east, north].every(Number.isFinite)) return null;
+  return {
+    west: round(Math.min(west, east), 6),
+    south: round(Math.min(south, north), 6),
+    east: round(Math.max(west, east), 6),
+    north: round(Math.max(south, north), 6)
+  };
+}
+
+function mergeBounds(a, b) {
+  const right = normalizeBounds(b);
+  if (!right) return a ? normalizeBounds(a) : null;
+  const left = normalizeBounds(a);
+  if (!left) return right;
+  return normalizeBounds({
+    west: Math.min(left.west, right.west),
+    south: Math.min(left.south, right.south),
+    east: Math.max(left.east, right.east),
+    north: Math.max(left.north, right.north)
+  });
+}
+
+function boundsCenter(bounds) {
+  const normalized = normalizeBounds(bounds);
+  return normalized
+    ? [round((normalized.west + normalized.east) / 2, 6), round((normalized.south + normalized.north) / 2, 6)]
+    : null;
 }
 
 function buildFeatureLookup(index, sourceMapId) {

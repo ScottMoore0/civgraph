@@ -458,6 +458,7 @@ test('/test2 election bundles cover representative main-site election types', as
       { key: 'dail', find: (entry) => entry.body === 'Dáil Éireann' && entry.loadable },
       { key: 'westminster', find: (entry) => entry.body === 'House of Commons of the United Kingdom' && entry.date === '2024-07-04' },
       { key: 'assembly', find: (entry) => entry.body === 'Northern Ireland Assembly' && entry.loadable },
+      { key: 'forum1996', find: (entry) => entry.body === 'Northern Ireland Forum for Political Dialogue' && entry.date === '1996-05-30' },
       { key: 'deas1972', find: (entry) => entry.body === 'Local Government Districts' && entry.date === '1973-05-30' },
       { key: 'localGovernment', find: (entry) => entry.bodyGroup === 'local-government' && entry.loadable },
       { key: 'referendum', find: (entry) => entry.body === 'Referendum (Ireland)' && entry.loadable },
@@ -478,9 +479,13 @@ test('/test2 election bundles cover representative main-site election types', as
         placeholder: entry.placeholder,
         anchorUrl: entry.anchorUrl,
         previousKey: entry.previousKey,
+        matchedCount: entry.matchedCount,
+        totalConstituencies: entry.totalConstituencies,
         localBodies: entry.localBodies?.length || 0,
         displayTitle: entry.displayTitle || '',
         resultCount: bundle?.results?.length || 0,
+        syntheticRegions: bundle?.results?.filter((result) => result.syntheticRegion).length || 0,
+        boundedAnchors: bundle?.results?.filter((result) => result.anchor?.bounds).length || 0,
         partySummary: bundle?.partySummary?.length || 0,
         entityParties: bundle?.entityIndex?.parties?.length || 0,
         hasCounts: Boolean(bundle?.results?.some((result) => result.hasCountDetail || result.countGroup?.length || result.candidates?.some((candidate) => candidate.counts?.length)))
@@ -489,7 +494,7 @@ test('/test2 election bundles cover representative main-site election types', as
     return output;
   });
 
-  for (const key of ['dail', 'westminster', 'assembly', 'deas1972', 'localGovernment', 'referendum']) {
+  for (const key of ['dail', 'westminster', 'assembly', 'forum1996', 'deas1972', 'localGovernment', 'referendum']) {
     expect(coverage[key], `${key} example should exist`).toBeTruthy();
     expect(coverage[key].loadable, `${key} example should be loadable`).toBe(true);
     expect(coverage[key].resultCount, `${key} should carry result rows`).toBeGreaterThan(0);
@@ -497,6 +502,9 @@ test('/test2 election bundles cover representative main-site election types', as
   }
   expect(coverage.westminster.anchorUrl).toMatch(/election-anchors-test2/);
   expect(coverage.westminster.previousKey).toBeTruthy();
+  expect(coverage.westminster.boundedAnchors).toBeGreaterThan(0);
+  expect(coverage.forum1996.matchedCount).toBe(coverage.forum1996.totalConstituencies);
+  expect(coverage.forum1996.syntheticRegions).toBe(1);
   expect(coverage.deas1972.localBodies).toBeGreaterThan(1);
   expect(coverage.deas1972.displayTitle).toContain('Northern Ireland local election');
   expect(coverage.assembly.hasCounts).toBe(true);

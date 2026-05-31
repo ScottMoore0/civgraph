@@ -1206,6 +1206,7 @@ export class Test2ElectionManager {
       groups.push({
         result,
         center,
+        bounds: result.anchor?.bounds || null,
         seats,
         positions,
         groupWidth,
@@ -1372,25 +1373,23 @@ export class Test2ElectionManager {
     const projected = groups
       .map((group) => {
         const point = map.project(group.center);
+        const bounds = projectAnchorBounds(map, group.bounds);
         return {
           ...group,
           point,
+          bounds,
           width: group.groupWidth,
-          height: group.groupHeight
+          height: group.groupHeight,
+          pixelArea: bounds ? Math.abs(bounds.maxX - bounds.minX) * Math.abs(bounds.maxY - bounds.minY) : 0
         };
       })
       .filter((group) => Number.isFinite(group.point?.x) && Number.isFinite(group.point?.y));
     if (!projected.length) return [];
-    const bounds = projected.reduce((acc, group) => ({
-      minX: Math.min(acc.minX, group.point.x),
-      maxX: Math.max(acc.maxX, group.point.x),
-      minY: Math.min(acc.minY, group.point.y),
-      maxY: Math.max(acc.maxY, group.point.y)
-    }), { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity });
-    if ((bounds.maxX - bounds.minX) < 120 || (bounds.maxY - bounds.minY) < 120) return [];
+    const totalBounds = projected.reduce((acc, group) => mergePixelBounds(acc, group.bounds || pointPixelBounds(group.point)), null);
+    if (!totalBounds || (totalBounds.maxX - totalBounds.minX) < 120 || (totalBounds.maxY - totalBounds.minY) < 120) return [];
     const boxes = [];
     const visible = [];
-    for (const group of projected.sort((a, b) => b.area - a.area || b.seats.length - a.seats.length)) {
+    for (const group of projected.sort((a, b) => b.pixelArea - a.pixelArea || b.area - a.area || b.seats.length - a.seats.length)) {
       const box = {
         minX: group.point.x - group.width / 2,
         maxX: group.point.x + group.width / 2,
@@ -1617,6 +1616,42 @@ function offsetSeatByPixels(map, center, pixelOffset) {
     projected.y + Number(pixelOffset?.y || 0)
   ]);
   return [unprojected.lng, unprojected.lat];
+}
+
+function projectAnchorBounds(map, bounds) {
+  const west = Number(bounds?.west);
+  const south = Number(bounds?.south);
+  const east = Number(bounds?.east);
+  const north = Number(bounds?.north);
+  if (!map || ![west, south, east, north].every(Number.isFinite)) return null;
+  const nw = map.project([west, north]);
+  const se = map.project([east, south]);
+  return {
+    minX: Math.min(nw.x, se.x),
+    maxX: Math.max(nw.x, se.x),
+    minY: Math.min(nw.y, se.y),
+    maxY: Math.max(nw.y, se.y)
+  };
+}
+
+function pointPixelBounds(point) {
+  return {
+    minX: point.x,
+    maxX: point.x,
+    minY: point.y,
+    maxY: point.y
+  };
+}
+
+function mergePixelBounds(a, b) {
+  if (!b) return a;
+  if (!a) return { ...b };
+  return {
+    minX: Math.min(a.minX, b.minX),
+    maxX: Math.max(a.maxX, b.maxX),
+    minY: Math.min(a.minY, b.minY),
+    maxY: Math.max(a.maxY, b.maxY)
+  };
 }
 
 function normalizeName(value) {

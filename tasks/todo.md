@@ -2845,3 +2845,46 @@ Add election entries to /test2
   - Changed `/test2` election seat circles to use the shared main-style seat-position algorithm, fixed 12px-equivalent MapLibre dots, white halo, black outline, and pixel-offset placement instead of geographic-degree offsets and zoom-scaled radii.
   - Added route/static checks and browser coverage for mobile thumbnail dismissal and seat-circle paint/halo/source generation.
   - Verification passed: `node --check` on edited JS files, `node scripts/validate-test2-route.mjs`, `npm run build:test2`, `npm run check:test2`, `npm run test:browser:test2` (21/21), `npm run build`, and `npm run check`.
+
+# /test2 remaining feasible parity gap resolution
+- [x] Record scope and recurring defect
+  - Resolve remaining non-data `/test2` parity gaps where they are feasible and sensible.
+  - Focus on election overlay/data parity where the report still marks an implementation-blocked residual.
+  - Do not fabricate unavailable boundary data; keep genuinely data-blocked rows classified in the generated report.
+- [x] Resolve implementation-blocked Forum regional-list gap
+  - Add a synthetic Northern Ireland-wide anchor for the 1996 Forum regional/list result so it contributes to `/test2` election overlays and panes.
+  - Remove the `blocked-on-implementation` residual from the generated unmatched report.
+- [x] Improve election overlay placement parity
+  - Preserve generated anchor bounds in election anchor sidecars.
+  - Use anchor bounds for MapLibre overlay total-extent and greedy collision sorting, mirroring the main Leaflet bounds-based overlay logic more closely.
+- [x] Add guardrails and regenerate outputs
+  - Extend `/test2` route validation and browser tests to prevent regressions in synthetic regional result handling and bounds-aware overlay placement.
+  - Regenerate `/test2` election metadata and build output.
+- [x] Verify
+  - Run syntax checks, route validation, `/test2` build/check/browser tests, and full build/check where needed.
+- [x] Review
+  - Summarize what was resolved and list only remaining data/architecture-blocked gaps.
+
+## Review
+- Implemented:
+  - Generated election anchor sidecars now carry bounds as well as centres.
+  - `/test2` election overlay collision now uses projected anchor bounds for the overall map extent and greedy placement order, instead of relying only on centre-point spread.
+  - The 1996 Northern Ireland Forum regional/list row for `Northern Ireland` now gets a synthetic NI-wide anchor derived from the selected Forum/PC1995 layer bounds.
+  - The `Wicklow Wexford3` source-result typo now maps safely to the `Wicklow-Wexford (3)` Dáil 2023 feature.
+  - The generated report changed from 3,957 matched / 727 unmatched with one `blocked-on-implementation` residual to 3,959 matched / 725 unmatched and no implementation/data-cleanup residuals.
+  - Added static route validation and browser coverage for synthetic regional results, bounded anchors, and zero feasible election residuals.
+- Verification:
+  - `node --check scripts/build-test2-election-manifest.mjs` passed.
+  - `node --check test2/src/election-manager.js` passed.
+  - `node --check scripts/validate-test2-route.mjs` passed.
+  - `node --check tests/browser/test2-app.spec.js` passed.
+  - `npm run build:test2:elections` passed.
+  - `npm run build:test2` passed after approved sandbox escalation for esbuild spawning.
+  - `npm run check:test2` passed.
+  - `npm run test:browser:test2` passed after approved sandbox escalation: 21/21 tests.
+  - `npm run build` passed after approved sandbox escalation for esbuild spawning.
+  - `npm run check` passed.
+- Remaining gaps:
+  - 725 unmatched election rows remain classified as `blocked-on-data` or `blocked-on-aggregation`.
+  - No `blocked-on-implementation`, `blocked-on-data-cleanup`, or unclassified feasible unmatched election geography remains in `test/metadata/elections-test2-report.json`.
+  - Exact renderer identity with Leaflet remains intentionally impossible/senseless because `/test2` uses MapLibre vector/canvas rendering, but the overlay semantics now use the same seat positioning and bounds-aware placement concepts.

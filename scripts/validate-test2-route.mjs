@@ -109,6 +109,7 @@ assert(electionManifestBuilderSource.includes('previousKey') && electionManifest
 assert(electionManifestBuilderSource.includes('localByDate') && electionManifestBuilderSource.includes('Local Government Districts'), '/test2 election manifest builder must group general local elections by jurisdiction/date instead of per council');
 assert(electionManifestBuilderSource.includes('matchEntryForConstituency') && electionManifestBuilderSource.includes('localBodyByConstituency'), '/test2 grouped local-election entries must preserve council-specific matching context');
 assert(electionManagerSource.includes('filterOverlayGroupsByCollision') && electionManagerSource.includes('boxesOverlap'), '/test2 election overlays must have MapLibre-native collision suppression');
+assert(electionManagerSource.includes('projectAnchorBounds') && electionManagerSource.includes('pixelArea'), '/test2 election overlay collision must use generated anchor bounds, not only centre-point spacing');
 assert(uiControllerSource.includes('ensureMobileThumbnailDismissal') && uiControllerSource.includes('catalogue-flat__toc-thumbzoom--visible'), '/test2/main catalogue thumbnails must dismiss stuck mobile hover previews on outside touch/click');
 assert(electionManagerSource.includes('renderCouncilResults') && electionManagerSource.includes('buildCouncilSummary'), '/test2 grouped local elections must expose a council-level results view');
 assert(electionManagerSource.includes('activeEntityKind') && appSource.includes('electionEntityKind') && electionManagerSource.includes('electionEntityReturnView'), '/test2 election entity pages must round-trip through URL state');
@@ -120,6 +121,7 @@ assert(labelsSource.includes('buildRepairedLabelValueExpression') && labelsSourc
 assert(mapControllerSource.includes('repairFeatureProperties(layer, feature.properties || {})'), '/test2 feature selection payloads must include repaired source-data labels');
 assert(adapterSource.includes('repairFeatureProperties(layerConfig'), '/test2 normalized MapLibre features must include repaired source-data labels');
 assert(electionManagerSource.includes('buildRepairedLabelValueExpression') && electionManagerSource.includes('repairFeatureProperties'), '/test2 election matching/styling must use repaired source-data labels');
+assert(electionManifestBuilderSource.includes('syntheticRegionMatch') && electionManifestBuilderSource.includes('synthetic-region-bounds-center'), '/test2 election manifest builder must synthesize safe regional anchors for non-feature regional-list rows');
 
 for (const path of [
   'test2/build/test2.bundle.js',
@@ -142,6 +144,8 @@ if (existsSync('test/metadata/elections-test2.json')) {
   assert((electionManifest.totals?.loadable || 0) > 100, '/test2 election manifest has too few loadable entries');
   assert((electionManifest.elections || []).some((entry) => entry.resultUrl && entry.stylingModes?.includes('winner')), '/test2 election manifest must include lazy result URLs and winner styling');
   assert((electionManifest.elections || []).some((entry) => entry.anchorUrl && entry.previousKey), '/test2 election manifest must include anchor sidecars and previous-election links where available');
+  const forumEntry = (electionManifest.elections || []).find((entry) => entry.body === 'Northern Ireland Forum for Political Dialogue' && entry.date === '1996-05-30');
+  assert(forumEntry?.matchedCount === forumEntry?.totalConstituencies, '/test2 1996 Forum election must include the NI-wide regional-list result via a synthetic anchor');
   const localEntries = (electionManifest.elections || []).filter((entry) => entry.bodyGroup === 'local-government');
   const generalLocalEntries = localEntries.filter((entry) => (entry.localBodies || []).length > 1);
   const generalLocalDates = new Map();
@@ -159,6 +163,8 @@ if (existsSync('test/metadata/elections-test2.json')) {
 if (existsSync('test/metadata/elections-test2-report.json')) {
   const electionReport = JSON.parse(readFileSync('test/metadata/elections-test2-report.json', 'utf8'));
   assert(!electionReport.residualSummary?.['historic-dea-not-in-source'], '/test2 deas-1972 election residuals should be resolved by source-data label repairs');
+  assert(!electionReport.closureSummary?.byStatus?.['blocked-on-implementation'], '/test2 must not leave feasible implementation-blocked election geography gaps in the generated report');
+  assert(!electionReport.closureSummary?.byStatus?.['blocked-on-data-cleanup'], '/test2 must not leave deterministic source-name typo fixes in the generated election gap report');
   assert(electionReport.closureSummary?.feasibleUnmatchedRemaining === 0, '/test2 election unmatched report must classify all remaining gaps as blocked, not silently feasible');
 }
 

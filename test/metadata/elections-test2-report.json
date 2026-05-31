@@ -1,58 +1,29 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-31T11:45:21.443Z",
+  "generatedAt": "2026-05-31T12:33:44.391Z",
   "totals": {
     "elections": 268,
     "loadable": 239,
     "placeholders": 29,
-    "matchedConstituencies": 3957,
-    "unmatchedConstituencies": 727
+    "matchedConstituencies": 3959,
+    "unmatchedConstituencies": 725
   },
-  "unmatchedElections": 63,
+  "unmatchedElections": 61,
   "residualSummary": {
     "main-geography-unsourced": 620,
     "referendum-boundary-split-merge": 59,
     "university-seat-no-polygon": 31,
-    "stormont-seat-not-in-source": 15,
-    "regional-list-seat-no-layer": 1,
-    "source-result-name-error": 1
+    "stormont-seat-not-in-source": 15
   },
   "closureSummary": {
     "byStatus": {
       "blocked-on-data": 666,
-      "blocked-on-aggregation": 59,
-      "blocked-on-data-cleanup": 1,
-      "blocked-on-implementation": 1
+      "blocked-on-aggregation": 59
     },
     "feasibleUnmatchedRemaining": 0,
     "feasibleExamples": []
   },
   "entries": [
-    {
-      "key": "dail-eireann__2024-11-29",
-      "body": "Dáil Éireann",
-      "date": "2024-11-29",
-      "bodyGroup": null,
-      "sourceMapId": "dail-2023",
-      "layerId": "dail-2023-vector-test",
-      "loadable": true,
-      "matchedCount": 42,
-      "unmatchedCount": 1,
-      "unmatchedConstituencies": [
-        "Wicklow Wexford3"
-      ],
-      "unmatchedDetails": [
-        {
-          "constituency": "Wicklow Wexford3",
-          "code": "source-result-name-error",
-          "parityStatus": "blocked-on-data-cleanup",
-          "reason": "The result constituency name appears to contain a source-data typo and should be cleaned upstream before map matching."
-        }
-      ],
-      "residualSummary": {
-        "source-result-name-error": 1
-      }
-    },
     {
       "key": "ireland-referendum__2024-03-08-the-family",
       "body": "Referendum (Ireland)",
@@ -510,31 +481,6 @@
       ],
       "residualSummary": {
         "referendum-boundary-split-merge": 3
-      }
-    },
-    {
-      "key": "northern-ireland-forum-for-political-dialogue__1996-05-30",
-      "body": "Northern Ireland Forum for Political Dialogue",
-      "date": "1996-05-30",
-      "bodyGroup": null,
-      "sourceMapId": "forum-1995",
-      "layerId": "forum-1995-alias-test",
-      "loadable": true,
-      "matchedCount": 18,
-      "unmatchedCount": 1,
-      "unmatchedConstituencies": [
-        "Northern Ireland"
-      ],
-      "unmatchedDetails": [
-        {
-          "constituency": "Northern Ireland",
-          "code": "regional-list-seat-no-layer",
-          "parityStatus": "blocked-on-implementation",
-          "reason": "The main-site geography uses Westminster constituencies for the territorial Forum seats; the separate NI-wide top-up/list result needs a synthetic or secondary region layer."
-        }
-      ],
-      "residualSummary": {
-        "regional-list-seat-no-layer": 1
       }
     },
     {
