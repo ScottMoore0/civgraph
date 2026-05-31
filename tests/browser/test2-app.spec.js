@@ -28,15 +28,16 @@ test('/test2 boots the production shell with the MapLibre adapter', async ({ pag
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await page.waitForFunction(() => document.querySelectorAll('#catalogueFlatView table tr').length > 10);
   await page.waitForFunction(() => document.querySelectorAll('#catalogueFlatView .flat-election-entry').length > 10);
-  await page.waitForFunction(() => document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc .flat-election-toc-link[data-election-placeholder="0"]').length > 10);
+  await page.waitForFunction(() => document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc .catalogue-flat__toc-decade-btn').length > 10);
   const state = await page.evaluate(() => ({
     hasMapLibre: Boolean(window.__civgraphTest2.mapController.map),
     layerCount: window.__civgraphTest2.metadataService.layers.length,
     rows: document.querySelectorAll('#catalogueFlatView table tr').length,
     electionRows: document.querySelectorAll('#catalogueFlatView .flat-election-entry').length,
-    topElectionRows: document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc .flat-election-toc-link[data-election-placeholder="0"]').length,
-    firstTopElection: (() => {
-      const el = document.querySelector('#catalogueFlatView .catalogue-flat__toc .flat-election-toc-link[data-election-placeholder="0"]');
+    electionTocRows: document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc .flat-election-toc-link').length,
+    decadeButtons: document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc .catalogue-flat__toc-decade-btn').length,
+    firstElectionCard: (() => {
+      const el = document.querySelector('#catalogueFlatView .flat-election-entry[data-election-placeholder="0"]');
       const rect = el?.getBoundingClientRect();
       return rect ? { text: el.textContent, top: rect.top, height: rect.height } : null;
     })(),
@@ -46,10 +47,10 @@ test('/test2 boots the production shell with the MapLibre adapter', async ({ pag
   expect(state.layerCount).toBeGreaterThan(10);
   expect(state.rows).toBeGreaterThan(10);
   expect(state.electionRows).toBeGreaterThan(10);
-  expect(state.topElectionRows).toBeGreaterThan(10);
-  expect(state.firstTopElection).not.toBeNull();
-  expect(state.firstTopElection.top).toBeLessThan(900);
-  expect(state.firstTopElection.text).toContain('Dáil');
+  expect(state.decadeButtons).toBeGreaterThan(10);
+  expect(state.electionTocRows).toBe(0);
+  expect(state.firstElectionCard).not.toBeNull();
+  expect(state.firstElectionCard.text).toContain('Dáil');
   expect(state.hasLeaflet).toBe(false);
 });
 

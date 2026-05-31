@@ -64,7 +64,6 @@ class Test2App {
     uiController.init();
     uiController.showAllMaps = true;
     uiController.includeMobileElectionCatalogue = true;
-    uiController.includeElectionTocRows = true;
 
     this._suspendURLState = true;
     this.mapController.init('map');

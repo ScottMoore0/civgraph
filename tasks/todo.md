@@ -1,3 +1,37 @@
+# /test2 election-layer parity audit and catalogue TOC correction
+- [x] Record the correction and scope
+  - Symptom: individual election entries should not be listed directly in the catalogue table of contents.
+  - Required behaviour: keep by-decade election TOC entries, and keep individual elections inside their decade sections/cards.
+  - Audit scope: compare main-site election layer logic against `/test2`, then align `/test2` where feasible and sensible for MapLibre.
+- [x] Audit main-site election-layer logic
+  - Main `ElectionController` resolves body/date through a large geography matrix, loads result JSON plus FGB geometry, builds lookups and previous-election data, styles Leaflet geographies, adds seat-circle/vote-bar overlays, opens the below-map election pane, drives URL/timeline state, and builds catalogue cards grouped by decade.
+  - The main catalogue table of contents exposes Elections as decade jump buttons only. Individual election entries appear inside the decade cards, not as separate TOC rows.
+- [x] Audit `/test2` election-layer logic
+  - `/test2` uses `Test2ElectionManager` with a generated election manifest, lazy result bundles, MapLibre style expressions, generated anchor sidecars for seat circles, feature-result enrichment, the production below-map election pane, and the production timeline controls.
+  - `/test2` had drifted from main by adding individual top-table election rows through `includeElectionTocRows`, while also keeping the decade card entries.
+- [x] Compare gaps and classify feasible/sensible parity work
+  - Feasible and sensible now: main-style decade-only election TOC; generated election entries remain inside decade sections; MapLibre election styling and seat circles remain engine-specific; result/feature enrichment remains shared-domain based.
+  - Not sensible to copy literally: Leaflet FGB layer objects, Leaflet overlay groups, and main-controller layer visibility internals. `/test2` should keep MapLibre source/layer handling for those.
+  - Remaining parity gaps outside this correction are data/coverage and deeper local-government/election-pane exactness, not blockers for the requested TOC correction.
+- [x] Remove individual election rows from the catalogue TOC while preserving decade navigation
+  - Removed `/test2`'s `includeElectionTocRows` opt-in.
+  - Removed the shared renderer's individual election TOC row generation and event wiring.
+  - Removed the CSS that existed only for those individual TOC rows.
+- [x] Implement feasible election parity fixes discovered in the audit
+  - Kept `includeMobileElectionCatalogue = true` so individual elections remain accessible inside decade cards on `/test2`, including mobile, while the TOC itself matches the main site.
+- [x] Add/tighten regression coverage
+  - Static route validation now fails if `/test2` reintroduces `includeElectionTocRows` or individual election TOC row classes.
+  - Browser coverage now asserts more than 10 decade TOC buttons, more than 10 election entries inside cards, and zero individual election TOC links.
+- [x] Rebuild and verify
+  - `node scripts/validate-test2-route.mjs` passed.
+  - `npm run build:test2` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
+  - `npm run build` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
+  - `npm run check:test2` passed.
+  - `npm run test:browser:test2` passed after approved sandbox escalation because Playwright worker spawning was blocked by `EPERM`: 19/19 tests passed.
+- [x] Summarize implemented alignment and remaining gaps
+  - Implemented alignment: `/test2` now matches the main catalogue contract for elections: decade buttons in the TOC, individual entries inside decade sections, and MapLibre-specific load/render logic underneath.
+  - Remaining gaps: exact main-site local-government council/DEA aggregate display, vote-bar overlay mode, recall-petition special rendering, detailed count-event table parity, and data coverage for entries whose geographies are not yet converted.
+
 # /test2 election catalogue recurrence fix
 - [x] Record recurrence
   - Symptom: election entries still do not appear in the `/test2` map catalogue after the previous mobile catalogue opt-in fix.
@@ -23,6 +57,7 @@
 ## Review
 - The catalogue now exposes elections in the immediately visible top-table surface, so users do not need to infer that decade buttons hide real entries thousands of pixels lower in the pane.
 - The fix is route-gated for `/test2` via `includeElectionTocRows`/`includeMobileElectionCatalogue`, avoiding an unintended main-site catalogue reshuffle.
+- Superseded by the correction above: individual election TOC rows were removed because the main-site navigation contract is decade TOC buttons plus individual elections inside decade cards.
 
 # /test2 mobile/control/election regression fixes
 - [x] Record the recurring regression report

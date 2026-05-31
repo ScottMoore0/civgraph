@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 126) Catalogue parity means matching the main navigation contract, not adding shortcut rows
+- Mistake pattern: Fixing election discoverability by adding individual election rows to the top catalogue table of contents.
+- Impact: `/test2` diverged from the main site, where the TOC exposes decade jump buttons and individual elections live inside their decade sections/cards.
+- Guardrail:
+  1) before adding route-specific shortcuts, compare the main interaction contract,
+  2) `/test2` tests should assert decade TOC buttons remain and individual election TOC rows are absent,
+  3) discoverability fixes should keep entries in the same hierarchy as the main site unless there is a documented MapLibre-specific reason to differ.
+
 ### 125) Catalogue visibility tests must target the visible browsing surface
 - Mistake pattern: Treating hidden or far-below-the-fold catalogue card DOM as proof that entries are available in the map catalogue.
 - Impact: `/test2` had 548 election card entries, but the primary top catalogue table only showed decade jump buttons, so users saw no election entries available to pick.
