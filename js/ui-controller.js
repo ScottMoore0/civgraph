@@ -3809,7 +3809,7 @@ class UIController {
         }
 
         container.querySelectorAll('.flat-election-link, .election-load-btn, .flat-election-entry').forEach(el => {
-            el.addEventListener('click', (e) => {
+            el.addEventListener('click', async (e) => {
                 const host = e.currentTarget.closest('.flat-election-entry') || e.currentTarget;
                 if (host?.dataset?.electionPlaceholder === '1') {
                     e.preventDefault();
@@ -3826,12 +3826,42 @@ class UIController {
                 const body = source.dataset.electionBody || source.closest('.flat-election-entry')?.dataset.electionBody;
                 const date = source.dataset.electionDate || source.closest('.flat-election-entry')?.dataset.electionDate;
                 if (!body || !date) return;
+                const matchingRows = [...container.querySelectorAll('.flat-election-entry')]
+                    .filter(row => row.dataset.electionBody === body && row.dataset.electionDate === date);
+                const matchingButtons = [...container.querySelectorAll('.election-load-btn')]
+                    .filter(button => button.dataset.electionBody === body && button.dataset.electionDate === date);
+                if (matchingRows.some(row => row.classList.contains('flat-election-entry--loading'))) return;
                 // Only the load button toggles; clicking the name/row always loads.
                 const isLoadBtn = source.classList.contains('election-load-btn');
                 if (isLoadBtn && this.onCheckElectionLoaded?.(body, date)) {
                     this.onUnloadElection?.();
                 } else {
-                    this.onLoadElection?.(body, date);
+                    matchingRows.forEach(row => {
+                        row.classList.add('flat-election-entry--loading');
+                        row.setAttribute('aria-busy', 'true');
+                    });
+                    matchingButtons.forEach(button => {
+                        button.disabled = true;
+                        button.setAttribute('aria-busy', 'true');
+                        button.dataset.previousTitle = button.getAttribute('title') || '';
+                        button.setAttribute('title', 'Loading');
+                    });
+                    try {
+                        await this.onLoadElection?.(body, date);
+                    } finally {
+                        matchingRows.forEach(row => {
+                            row.classList.remove('flat-election-entry--loading');
+                            row.removeAttribute('aria-busy');
+                        });
+                        matchingButtons.forEach(button => {
+                            button.disabled = false;
+                            button.removeAttribute('aria-busy');
+                            if (button.dataset.previousTitle !== undefined) {
+                                button.setAttribute('title', button.dataset.previousTitle);
+                                delete button.dataset.previousTitle;
+                            }
+                        });
+                    }
                 }
             });
         });

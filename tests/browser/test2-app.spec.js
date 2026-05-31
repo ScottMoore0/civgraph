@@ -380,7 +380,9 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
       && item.loadable
     );
     if (!entry) return null;
-    await app.elections.loadElection(entry.body, entry.date);
+    const loadPromise = app.elections.loadElection(entry.body, entry.date);
+    const loadingText = document.getElementById('electionResultsPane')?.textContent || '';
+    await loadPromise;
     await new Promise((resolve) => window.__civgraphTest2.mapController.map.once('idle', resolve));
     const map = window.__civgraphTest2.mapController.map;
     const seatSource = map.getSource('test2-election-seat-source');
@@ -391,6 +393,7 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
       sourceMapId: entry.sourceMapId,
       matchedCount: entry.matchedCount,
       layerLoaded: app.mapController.isLayerLoaded(entry.sourceMapId),
+      loadingText,
       panelVisible: document.getElementById('electionResultsPane')?.classList.contains('election-results-pane--open'),
       timelineVisible: !document.getElementById('timelineSlider')?.classList.contains('hidden'),
       fillColour: map.getPaintProperty('pc-2023-vector-test-fill', 'fill-color'),
@@ -400,12 +403,15 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
       seatCircleStroke: map.getPaintProperty('test2-election-seat-layer', 'circle-stroke-color'),
       expectedSeatCount,
       seatSourceCount: seatSource?._data?.features?.length || 0,
-      labels: document.querySelectorAll('.maplibre-dom-label[data-layer-id="pc-2023-vector-test"]:not([hidden])').length
+      labels: document.querySelectorAll('.maplibre-dom-label[data-layer-id="pc-2023-vector-test"]:not([hidden])').length,
+      sharedRenderer: Boolean(document.querySelector('[data-election-renderer="shared"]')),
+      sharedRendererTables: document.querySelectorAll('[data-election-renderer="shared"] .election-party-table, [data-election-renderer="shared"] .election-count-table').length
     };
   });
 
   expect(loaded).toBeTruthy();
   expect(loaded.sourceMapId).toBe('pc-2023');
+  expect(loaded.loadingText).toContain('Loading election results');
   expect(loaded.matchedCount).toBe(18);
   expect(loaded.layerLoaded).toBe(true);
   expect(loaded.panelVisible).toBe(true);
@@ -418,6 +424,8 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   expect(loaded.seatSourceCount).toBeGreaterThan(0);
   expect(loaded.seatSourceCount).toBeLessThanOrEqual(loaded.expectedSeatCount);
   expect(loaded.labels).toBeGreaterThan(0);
+  expect(loaded.sharedRenderer).toBe(true);
+  expect(loaded.sharedRendererTables).toBeGreaterThan(0);
 
   await expect(page.locator('#electionResultsPane')).toContainText('House of Commons');
   await expect(page.locator('#electionResultsPane')).toContainText('Matched');
@@ -519,10 +527,17 @@ test('/test2 election pane supports local-government aggregates and detailed cou
     const app = window.__civgraphTest2.app;
     const localEntry = app.elections.catalogue.elections.find((entry) => entry.bodyGroup === 'local-government' && entry.loadable);
     await app.elections.loadElection(localEntry.body, localEntry.date);
+    await app.elections.renderElectionOverlay();
+    const deaSeatSource = app.mapController.map.getSource('test2-election-seat-source')?._data || null;
+    const deaSeatCount = deaSeatSource?.features?.length || 0;
     app.elections.renderPanel(null, 'local-party');
     const localText = document.getElementById('electionResultsPane')?.textContent || '';
     app.elections.activeLocalMode = 'district';
     app.elections.renderPanel(null, 'council');
+    await app.elections.renderElectionOverlay();
+    const aggregateSeatSource = app.mapController.map.getSource('test2-election-seat-source')?._data || null;
+    const aggregateTypes = [...new Set((aggregateSeatSource?.features || []).map((feature) => feature.properties?.aggregateType).filter(Boolean))];
+    const aggregateSeatCount = aggregateSeatSource?.features?.length || 0;
     const councilText = document.getElementById('electionResultsPane')?.textContent || '';
     const firstParty = app.elections.activeBundle.entityIndex?.parties?.[0]?.name || null;
     if (firstParty) app.elections.renderEntityPanel('party', firstParty);
@@ -538,6 +553,9 @@ test('/test2 election pane supports local-government aggregates and detailed cou
     return {
       localBody: localEntry.body,
       localBodies: localEntry.localBodies?.length || 0,
+      deaSeatCount,
+      aggregateSeatCount,
+      aggregateTypes,
       localText,
       councilText,
       entityKind: entityParams.get('electionEntityKind'),
@@ -552,6 +570,10 @@ test('/test2 election pane supports local-government aggregates and detailed cou
   expect(state.localText).toMatch(/DEA|First prefs|DEA share/);
   expect(state.localBody).toBe('Local Government Districts');
   expect(state.localBodies).toBeGreaterThan(1);
+  expect(state.deaSeatCount).toBeGreaterThan(0);
+  expect(state.aggregateSeatCount).toBeGreaterThan(0);
+  expect(state.aggregateSeatCount).toBeLessThanOrEqual(state.deaSeatCount);
+  expect(state.aggregateTypes).toContain('council');
   expect(state.councilText).toMatch(/By Council|Councils|Leading party/);
   expect(state.councilText).toMatch(/Seat change|Vote change|Turnout change/);
   expect(state.entityKind).toBe('party');

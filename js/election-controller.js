@@ -8,6 +8,8 @@
 import mapController from './map-controller.js';
 import timeSliderController from './time-slider-controller.js';
 import { formatElectionDate, shortBodyName, escapeHtml, renderElectionConstituencyFeatureLink } from './election-utils.js';
+import { buildElectionViewModelFromMainController } from './election-view-model.mjs';
+import { renderElectionSummaryFromViewModel } from './election-renderer.mjs';
 
 class ElectionController {
     constructor() {
@@ -38,6 +40,8 @@ class ElectionController {
         this._globalEntityIndexPromise = null;
         this._specialElection = null;
         this.bodyGroup = null;
+        this._sharedElectionViewModel = null;
+        this._sharedElectionRenderedHtml = '';
         this._indexBodyData = null;
         this._allBodyDates = [];
         this._currentGeo = null;
@@ -3641,6 +3645,17 @@ class ElectionController {
         this._suppressedNonElectionLayerIds.clear();
     }
 
+    _mirrorSharedElectionRenderer(view = 'party', selectedConstituency = null) {
+        try {
+            this._sharedElectionViewModel = buildElectionViewModelFromMainController(this, view, selectedConstituency);
+            this._sharedElectionRenderedHtml = renderElectionSummaryFromViewModel(this._sharedElectionViewModel);
+        } catch (error) {
+            console.warn('[Election] Shared renderer mirror failed', error);
+            this._sharedElectionViewModel = null;
+            this._sharedElectionRenderedHtml = '';
+        }
+    }
+
     _showNIWideResults() {
         const content = this.splitPaneEl?.querySelector('#electionPaneContent');
         if (!content) return;
@@ -3648,6 +3663,7 @@ class ElectionController {
             this._showRecallPetitionOverview(content);
             return;
         }
+        this._mirrorSharedElectionRenderer('party');
         this._restoreHeaderTabs();
         this._renderNIWideView('party', content);
     }
@@ -3848,6 +3864,7 @@ class ElectionController {
     }
 
     _renderNIWideView(tabId, container) {
+        this._mirrorSharedElectionRenderer(tabId);
         this._hideAnimation();
         this._currentResultsView = { type: 'niwide', tabId };
         container.style.overflowY = 'auto';
@@ -5245,6 +5262,7 @@ class ElectionController {
     }
 
     _showConstituencyPanel(constName, preferredTab = null) {
+        this._mirrorSharedElectionRenderer(preferredTab || 'party', constName);
         this.selectedConstituency = constName;
         if (this._specialElection?.type === 'recall-petition') {
             this._showRecallPetitionPanel(constName);

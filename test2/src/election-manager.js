@@ -3,6 +3,10 @@ import {
   repairFeatureProperties
 } from '../../test/src/feature-property-repairs.js';
 import {
+  createElectionRenderer,
+  numericColour as sharedNumericColour
+} from '../../js/election-renderer.mjs';
+import {
   buildCandidateSummary,
   buildEntityIndex,
   buildPartySummary,
@@ -19,6 +23,8 @@ const SEAT_HALO_LAYER_ID = 'test2-election-seat-halo-layer';
 const SEAT_LAYER_ID = 'test2-election-seat-layer';
 const VOTE_BAR_SOURCE_ID = 'test2-election-vote-bar-source';
 const VOTE_BAR_LAYER_ID = 'test2-election-vote-bar-layer';
+const RECALL_LABEL_SOURCE_ID = 'test2-election-recall-label-source';
+const RECALL_LABEL_LAYER_ID = 'test2-election-recall-label-layer';
 const SEAT_CIRCLE_SIZE = 12;
 const SEAT_CIRCLE_SPACING = SEAT_CIRCLE_SIZE + 1;
 
@@ -78,8 +84,10 @@ export class Test2ElectionManager {
     this.resultsByLayer = new Map();
     this.seatCircleClickBound = false;
     this.voteBarClickBound = false;
+    this.recallLabelClickBound = false;
     this.overlayRefreshBound = false;
     this.loadSerial = 0;
+    this.sharedRenderer = createElectionRenderer(this);
   }
 
   async load() {
@@ -111,9 +119,19 @@ export class Test2ElectionManager {
       this.unloadElection();
     }
 
-    await this.app.loadMap(entry.sourceMapId);
-    const bundle = await this.loadBundle(entry);
-    const previousBundle = await this.loadPreviousBundle(entry);
+    this.renderLoadingPanel(entry);
+    const mapPromise = this.app.loadMap(entry.sourceMapId);
+    const bundlePromise = this.loadBundle(entry);
+    const previousBundlePromise = this.loadPreviousBundle(entry);
+    const featureIndexPromise = bundlePromise
+      .then((loadedBundle) => this.loadFeatureIndexForBundle(loadedBundle))
+      .catch(() => null);
+    const [bundle, previousBundle] = await Promise.all([
+      bundlePromise,
+      previousBundlePromise,
+      mapPromise,
+      featureIndexPromise
+    ]).then(([loadedBundle, loadedPreviousBundle]) => [loadedBundle, loadedPreviousBundle]);
     if (requestId !== this.loadSerial) return;
     this.activeEntry = entry;
     this.activeBundle = bundle;
@@ -131,8 +149,9 @@ export class Test2ElectionManager {
     this.countDetailedView = false;
     this.indexBundle(bundle);
     this.applyActiveStyle();
-    await this.renderElectionOverlay();
     this.renderPanel();
+    await nextFrame();
+    await this.renderElectionOverlay();
     this.updateElectionTimeline();
     this.app.syncCatalogueMapState();
     this.app.updateActiveLayers();
@@ -323,11 +342,11 @@ export class Test2ElectionManager {
   colourForMode(mode, result) {
     if (mode === 'winner') return partyColour(result.winnerParty) || result.colour || '#6b7280';
     if (mode === 'leadingParty') return partyColour(result.leadingParty) || result.leadingColour || '#6b7280';
-    if (mode === 'turnout') return numericColour(result.turnoutPct, 35, 80);
-    if (mode === 'voteShare') return numericColour(result.leadingPct, 10, 70);
-    if (mode === 'majority') return numericColour(result.majorityPct, 0, 45);
-    if (mode === 'seats') return numericColour(result.seatsWon ?? result.seatsTotal, 1, 6);
-    if (mode === 'quota') return numericColour(result.quota, 1_000, 120_000);
+    if (mode === 'turnout') return sharedNumericColour(result.turnoutPct, 35, 80);
+    if (mode === 'voteShare') return sharedNumericColour(result.leadingPct, 10, 70);
+    if (mode === 'majority') return sharedNumericColour(result.majorityPct, 0, 45);
+    if (mode === 'seats') return sharedNumericColour(result.seatsWon ?? result.seatsTotal, 1, 6);
+    if (mode === 'quota') return sharedNumericColour(result.quota, 1_000, 120_000);
     return '#6b7280';
   }
 
@@ -359,10 +378,10 @@ export class Test2ElectionManager {
           </select>
         </label>
       ` : '';
-      const localModeControl = !selectedResult && this.activeBundle.bodyGroup === 'local-government' ? `
+      const localModeControl = !selectedResult && this.isLocalGovernmentElection() ? `
         <div class="test2-election-local-mode" role="group" aria-label="Local government result level">
           <button type="button" class="${this.activeLocalMode === 'dea' ? 'is-active' : ''}" data-election-local-mode="dea">DEA</button>
-          <button type="button" class="${this.activeLocalMode === 'district' ? 'is-active' : ''}" data-election-local-mode="district">${this.activeBundle.localBodies?.length > 1 ? 'Council' : 'District'}</button>
+          <button type="button" class="${this.activeLocalMode === 'district' ? 'is-active' : ''}" data-election-local-mode="district">${this.localBodyCount() > 1 ? 'Council' : 'District'}</button>
         </div>
       ` : '';
       headerRight.innerHTML = `
@@ -374,7 +393,7 @@ export class Test2ElectionManager {
           </select>
         </label>
         ${overlayControl}
-        <button type="button" id="test2ElectionClose" class="election-pane__close" aria-label="Unload election">&times;</button>
+        <button type="button" id="electionCloseBtn" class="election-pane__close" aria-label="Unload election">&times;</button>
       `;
     }
     content.innerHTML = selectedResult
@@ -383,7 +402,7 @@ export class Test2ElectionManager {
     pane.classList.add('election-results-pane--open');
     document.body.classList.add('test2-election-open');
     back?.addEventListener('click', () => this.renderPanel(null, 'party'));
-    pane.querySelector('#test2ElectionClose')?.addEventListener('click', () => this.unloadElection());
+    pane.querySelector('#electionCloseBtn, #test2ElectionClose')?.addEventListener('click', () => this.unloadElection());
     pane.querySelector('#test2ElectionMode')?.addEventListener('change', (event) => {
       this.activeMode = event.target.value;
       this.applyActiveStyle();
@@ -397,6 +416,7 @@ export class Test2ElectionManager {
       button.addEventListener('click', () => {
         this.activeLocalMode = button.dataset.electionLocalMode === 'district' ? 'district' : 'dea';
         this.renderPanel(null, this.activeLocalMode === 'district' ? 'party' : this.activePanelView);
+        this.renderElectionOverlay().catch((error) => console.warn('[test2 elections] Overlay refresh failed', error));
         this.app.updateURLState();
       });
     });
@@ -436,9 +456,10 @@ export class Test2ElectionManager {
   }
 
   renderOverallResults(view = 'party') {
+    return this.sharedRenderer.renderOverallResults(view);
     const results = this.currentResults();
     if (results.some((result) => result.recallPetition)) return this.renderRecallPetitionOverview(results);
-    if (this.activeBundle.bodyGroup === 'local-government' && this.activeLocalMode === 'district') {
+    if (this.isLocalGovernmentElection() && this.activeLocalMode === 'district') {
       return this.renderDistrictResults(view);
     }
     const rows = this.activeBundle.partySummary?.length ? this.activeBundle.partySummary : buildPartySummary(results);
@@ -453,12 +474,12 @@ export class Test2ElectionManager {
         ${this.renderViewTabs([
           ['party', 'By Party'],
           ['candidate', 'By Candidate'],
-          ['constituency', this.activeBundle.bodyGroup === 'local-government' ? 'By DEA' : 'By Constituency'],
-          ...(this.activeBundle.bodyGroup === 'local-government' ? [['local-party', 'By Local Party']] : [])
+          ['constituency', this.isLocalGovernmentElection() ? 'By DEA' : 'By Constituency'],
+          ...(this.isLocalGovernmentElection() ? [['local-party', 'By Local Party']] : [])
         ], view)}
         <div class="test2-election-panel__summary">
           <dl class="test2-election-panel__stats">
-            <div><dt>${this.activeBundle.bodyGroup === 'local-government' ? 'DEAs' : 'Constituencies'}</dt><dd>${formatNumber(results.length)}</dd></div>
+            <div><dt>${this.isLocalGovernmentElection() ? 'DEAs' : 'Constituencies'}</dt><dd>${formatNumber(results.length)}</dd></div>
             <div><dt>Matched</dt><dd>${formatNumber(this.activeBundle.matchedCount)}</dd></div>
             <div><dt>Unmatched</dt><dd>${formatNumber(this.activeBundle.unmatchedCount)}</dd></div>
             ${totalSeats ? `<div><dt>Seats</dt><dd>${formatNumber(totalSeats)}</dd></div>` : ''}
@@ -492,13 +513,14 @@ export class Test2ElectionManager {
   }
 
   renderConstituencyResults(result, view = 'party') {
+    return this.sharedRenderer.renderConstituencyResults(result, view);
     if (result.recallPetition) return this.renderRecallPetitionResult(result);
     const candidates = [...(result.candidates || [])].sort((a, b) => {
       const elected = Number(Boolean(b.elected)) - Number(Boolean(a.elected));
       if (elected) return elected;
       return Number(b.finalVotes ?? b.firstPrefs ?? b.votes ?? 0) - Number(a.finalVotes ?? a.firstPrefs ?? a.votes ?? 0);
     });
-    const areaLabel = this.activeBundle?.bodyGroup === 'local-government' ? 'DEA' : 'Constituency';
+    const areaLabel = this.isLocalGovernmentElection() ? 'DEA' : 'Constituency';
     return `
       <section class="test2-election-panel" aria-label="${escapeHtml(result.constituency)} results">
         ${this.renderViewTabs([
@@ -508,7 +530,7 @@ export class Test2ElectionManager {
         ], view)}
         <dl class="test2-election-panel__stats">
           <div><dt>${areaLabel}</dt><dd>${escapeHtml(result.constituency || '')}</dd></div>
-          ${this.activeBundle?.bodyGroup === 'local-government' && result.localBody ? `<div><dt>Council</dt><dd>${escapeHtml(result.localBody)}</dd></div>` : ''}
+          ${this.isLocalGovernmentElection() && result.localBody ? `<div><dt>Council</dt><dd>${escapeHtml(result.localBody)}</dd></div>` : ''}
           ${result.seatsTotal ? `<div><dt>Seats</dt><dd>${formatNumber(result.seatsTotal)}</dd></div>` : ''}
           ${result.validPoll ? `<div><dt>Valid poll</dt><dd>${formatNumber(result.validPoll)}</dd></div>` : ''}
           ${result.turnoutPct ? `<div><dt>Turnout</dt><dd>${formatPercent(result.turnoutPct)}</dd></div>` : ''}
@@ -537,6 +559,14 @@ export class Test2ElectionManager {
         ` : `<p class="election-no-data">No candidate-level result table is available for this entry.</p>`}
       </section>
     `;
+  }
+
+  isLocalGovernmentElection() {
+    return (this.activeBundle?.bodyGroup || this.activeEntry?.bodyGroup) === 'local-government';
+  }
+
+  localBodyCount() {
+    return Number(this.activeBundle?.localBodies?.length || this.activeEntry?.localBodies?.length || 0);
   }
 
   currentResults() {
@@ -600,7 +630,8 @@ export class Test2ElectionManager {
   }
 
   renderDistrictResults(view = 'party') {
-    if (this.activeBundle?.localBodies?.length > 1) {
+    return this.sharedRenderer.renderDistrictResults(view);
+    if (this.localBodyCount() > 1) {
       return this.renderCouncilResults(view);
     }
     const results = this.currentResults();
@@ -643,6 +674,7 @@ export class Test2ElectionManager {
   }
 
   renderCouncilResults(view = 'party') {
+    return this.sharedRenderer.renderCouncilResults(view);
     const results = this.currentResults();
     const councilRows = this.withCouncilDeltas(buildCouncilSummary(results));
     const rows = this.withPartyDeltas(buildPartySummary(results));
@@ -681,6 +713,7 @@ export class Test2ElectionManager {
   }
 
   renderCouncilSummaryTable(rows = []) {
+    return this.sharedRenderer.renderCouncilSummaryTable(rows);
     return `
       <div class="test2-election-table-wrap">
         <table class="test2-election-table catalogue-detail__entity-table">
@@ -706,6 +739,7 @@ export class Test2ElectionManager {
   }
 
   renderDistrictPartyTable(rows = []) {
+    return this.sharedRenderer.renderDistrictPartyTable(rows);
     return `
       <div class="test2-election-table-wrap">
         <table class="test2-election-table catalogue-detail__entity-table">
@@ -729,6 +763,7 @@ export class Test2ElectionManager {
   }
 
   renderRecallPetitionOverview(results = []) {
+    return this.sharedRenderer.renderRecallPetitionOverview(results);
     return `
       <section class="test2-election-panel" aria-label="Recall petition overview">
         <div class="test2-election-panel__summary">
@@ -765,6 +800,7 @@ export class Test2ElectionManager {
   }
 
   renderViewTabs(tabs, active) {
+    return this.sharedRenderer.renderViewTabs(tabs, active);
     return `
       <div class="election-view-tabs test2-election-tabs" role="tablist">
         ${tabs.map(([id, label]) => `
@@ -775,6 +811,7 @@ export class Test2ElectionManager {
   }
 
   renderCandidateSummaryTable(candidates) {
+    return this.sharedRenderer.renderCandidateSummaryTable(candidates);
     return `
       <div class="test2-election-table-wrap">
         <table class="test2-election-table catalogue-detail__entity-table">
@@ -798,6 +835,7 @@ export class Test2ElectionManager {
   }
 
   renderConstituencySummaryTable(results) {
+    return this.sharedRenderer.renderConstituencySummaryTable(results);
     return `
       <div class="test2-election-table-wrap test2-election-table-wrap--constituencies">
         <table class="test2-election-table catalogue-detail__entity-table">
@@ -821,6 +859,7 @@ export class Test2ElectionManager {
   }
 
   renderLocalPartySummaryTable(results) {
+    return this.sharedRenderer.renderLocalPartySummaryTable(results);
     const rows = this.withLocalPartyDeltas(buildLocalPartySummary(results));
     if (!rows.length) return '<p class="election-no-data">No local-party summary is available for this election.</p>';
     return `
@@ -848,6 +887,7 @@ export class Test2ElectionManager {
   }
 
   renderDataCoverageNotice() {
+    return this.sharedRenderer.renderDataCoverageNotice();
     const unmatched = Number(this.activeBundle?.unmatchedCount || 0);
     if (!unmatched) return '';
     return `
@@ -858,6 +898,7 @@ export class Test2ElectionManager {
   }
 
   renderCountTable(result, candidates) {
+    return this.sharedRenderer.renderCountTable(result, candidates);
     const countNumbers = result.countNumbers?.length
       ? result.countNumbers
       : [...new Set(candidates.flatMap((candidate) => (candidate.counts || []).map((count) => count.count)))].sort((a, b) => a - b);
@@ -929,6 +970,7 @@ export class Test2ElectionManager {
   }
 
   renderRecallPetitionResult(result) {
+    return this.sharedRenderer.renderRecallPetitionResult(result);
     const petition = result.recallPetition || {};
     const signed = petition.signed ?? petition.signatures ?? result.leadingVotes ?? null;
     const threshold = petition.threshold ?? petition.required ?? null;
@@ -966,6 +1008,7 @@ export class Test2ElectionManager {
   }
 
   renderAnimationNotice(result) {
+    return this.sharedRenderer.renderAnimationNotice(result);
     if (result.hasCountDetail && result.animationPayload) {
       const key = normalizeName(result.matchName || result.constituency || '');
       return `
@@ -1061,6 +1104,7 @@ export class Test2ElectionManager {
   }
 
   renderPartyEntity(entity) {
+    return this.sharedRenderer.renderPartyEntity(entity);
     return `
       <section class="election-entity-page">
         <div class="election-entity-page__hero">
@@ -1085,6 +1129,7 @@ export class Test2ElectionManager {
   }
 
   renderCandidateEntity(entity) {
+    return this.sharedRenderer.renderCandidateEntity(entity);
     return `
       <section class="election-entity-page">
         <div class="election-entity-page__hero">
@@ -1153,10 +1198,10 @@ export class Test2ElectionManager {
   ensurePanel() {
     const pane = document.getElementById('electionResultsPane');
     if (!pane) return null;
-    if (!pane.querySelector('#electionPaneTitle')) {
+    if (!pane.querySelector('#electionPaneTitle') || !pane.querySelector('#electionPaneContent') || !pane.querySelector('.election-pane__header-right')) {
       pane.innerHTML = `
         <div class="election-pane__header">
-          <button type="button" id="electionPaneBack" class="election-pane__back hidden" aria-label="Back to overall election results">Back</button>
+          <button type="button" id="electionPaneBack" class="election-pane__back hidden" aria-label="Back to overall election results">&lt;</button>
           <h3 id="electionPaneTitle" class="election-pane__title">Election results</h3>
           <div class="election-pane__header-right"></div>
         </div>
@@ -1164,6 +1209,28 @@ export class Test2ElectionManager {
       `;
     }
     return pane;
+  }
+
+  renderLoadingPanel(entry) {
+    const pane = this.ensurePanel();
+    const title = document.getElementById('electionPaneTitle');
+    const content = document.getElementById('electionPaneContent');
+    const back = document.getElementById('electionPaneBack');
+    if (!pane || !title || !content) return;
+    title.textContent = entry?.displayTitle || entry?.body || 'Election results';
+    back?.classList.add('hidden');
+    const headerRight = pane.querySelector('.election-pane__header-right');
+    if (headerRight) {
+      headerRight.innerHTML = '<span class="test2-election-loading-badge" aria-live="polite">Loading election</span>';
+    }
+    content.innerHTML = `
+      <div class="election-loading test2-election-loading" role="status" aria-live="polite">
+        <strong>Loading election results</strong>
+        <span>Preparing the map layer, result bundle, labels, and seat circles.</span>
+      </div>
+    `;
+    pane.classList.add('election-results-pane--open');
+    document.body.classList.add('test2-election-open');
   }
 
   removePanel() {
@@ -1175,7 +1242,12 @@ export class Test2ElectionManager {
 
   async renderElectionOverlay() {
     this.removeElectionOverlays();
-    if (!this.activeBundle || !this.shouldRenderElectionOverlays()) return;
+    if (!this.activeBundle) return;
+    if (this.shouldRenderRecallLabels()) {
+      await this.renderRecallLabels();
+      return;
+    }
+    if (!this.shouldRenderElectionOverlays()) return;
     this.bindOverlayRefresh();
     if (this.overlayMode === 'bars') {
       await this.renderVoteBars();
@@ -1187,6 +1259,7 @@ export class Test2ElectionManager {
   removeElectionOverlays() {
     this.removeSeatCircles();
     this.removeVoteBars();
+    this.removeRecallLabels();
   }
 
   async renderSeatCircles() {
@@ -1194,26 +1267,7 @@ export class Test2ElectionManager {
     const index = await this.loadFeatureIndex();
     const centres = this.buildFeatureCentreLookup(index?.items || []);
     const map = this.mapController.map;
-    const groups = [];
-    for (const result of this.activeBundle.results || []) {
-      const center = result.anchor?.center || this.findCentreForResult(centres, result);
-      if (!center) continue;
-      const seats = this.seatCandidatesForResult(result);
-      if (!seats.length) continue;
-      const positions = seatPositions(seats.length, SEAT_CIRCLE_SPACING);
-      const groupWidth = Math.max(...positions.map((point) => point.x)) - Math.min(...positions.map((point) => point.x)) + SEAT_CIRCLE_SIZE;
-      const groupHeight = Math.max(...positions.map((point) => point.y)) - Math.min(...positions.map((point) => point.y)) + SEAT_CIRCLE_SIZE;
-      groups.push({
-        result,
-        center,
-        bounds: result.anchor?.bounds || null,
-        seats,
-        positions,
-        groupWidth,
-        groupHeight,
-        area: Number(result.anchor?.area || 0)
-      });
-    }
+    const groups = this.buildSeatCircleGroups(centres);
     const visibleGroups = this.filterOverlayGroupsByCollision(groups);
     const features = [];
     for (const group of visibleGroups) {
@@ -1235,7 +1289,8 @@ export class Test2ElectionManager {
             candidate: seat.name || '',
             party: seat.party || result.winnerParty || result.leadingParty || '',
             colour: seat.colour || partyColour(seat.party || result.winnerParty || result.leadingParty),
-            resultKey: normalizeName(result.matchName || result.constituency || '')
+            resultKey: normalizeName(result.matchName || result.constituency || ''),
+            aggregateType: result.aggregateType || ''
           }
         });
       });
@@ -1278,6 +1333,13 @@ export class Test2ElectionManager {
       this.seatCircleClickBound = true;
       map.on('click', SEAT_LAYER_ID, (event) => {
         const key = event.features?.[0]?.properties?.resultKey;
+        const aggregateType = event.features?.[0]?.properties?.aggregateType;
+        if (aggregateType === 'council' || aggregateType === 'district') {
+          this.activeLocalMode = 'district';
+          this.renderPanel(null, aggregateType === 'council' ? 'council' : 'party');
+          this.app.updateURLState();
+          return;
+        }
         const result = (this.activeBundle?.results || []).find((item) => normalizeName(item.matchName || item.constituency) === key);
         if (result) this.renderPanel(result);
       });
@@ -1354,6 +1416,77 @@ export class Test2ElectionManager {
     }
   }
 
+  buildSeatCircleGroups(centres) {
+    if (this.activeBundle?.bodyGroup === 'local-government' && this.activeLocalMode === 'district') {
+      return this.buildLocalAggregateSeatCircleGroups(centres);
+    }
+    return (this.activeBundle?.results || [])
+      .map((result) => this.createSeatCircleGroup(result, this.seatCandidatesForResult(result), result.anchor?.center || this.findCentreForResult(centres, result), result.anchor?.bounds || null, Number(result.anchor?.area || 0)))
+      .filter(Boolean);
+  }
+
+  buildLocalAggregateSeatCircleGroups(centres) {
+    const byBody = new Map();
+    for (const result of this.activeBundle?.results || []) {
+      const key = this.localBodyCount() > 1 ? (result.localBody || 'Unknown council') : (this.activeBundle.displayTitle || this.activeBundle.body || 'District');
+      if (!byBody.has(key)) {
+        byBody.set(key, {
+          result: {
+            constituency: key,
+            matchName: key,
+            localBody: key,
+            aggregateType: this.localBodyCount() > 1 ? 'council' : 'district',
+            winnerParty: '',
+            leadingParty: ''
+          },
+          results: [],
+          seats: [],
+          bounds: null,
+          centerAccumulator: { lng: 0, lat: 0, weight: 0 },
+          area: 0
+        });
+      }
+      const group = byBody.get(key);
+      group.results.push(result);
+      group.seats.push(...this.seatCandidatesForResult(result));
+      group.bounds = mergeGeoBounds(group.bounds, result.anchor?.bounds || null);
+      const center = result.anchor?.center || this.findCentreForResult(centres, result);
+      const weight = Math.max(1, Number(result.anchor?.area || 1));
+      if (Array.isArray(center) && center.length >= 2 && Number.isFinite(Number(center[0])) && Number.isFinite(Number(center[1]))) {
+        group.centerAccumulator.lng += Number(center[0]) * weight;
+        group.centerAccumulator.lat += Number(center[1]) * weight;
+        group.centerAccumulator.weight += weight;
+      }
+      group.area += Number(result.anchor?.area || 0);
+    }
+    return [...byBody.values()].map((group) => {
+      const summary = buildPartySummary(group.results)[0] || null;
+      group.result.winnerParty = summary?.party || '';
+      group.result.leadingParty = summary?.party || '';
+      const center = geoBoundsCenter(group.bounds) || (group.centerAccumulator.weight
+        ? [group.centerAccumulator.lng / group.centerAccumulator.weight, group.centerAccumulator.lat / group.centerAccumulator.weight]
+        : null);
+      return this.createSeatCircleGroup(group.result, group.seats, center, group.bounds, group.area);
+    }).filter(Boolean);
+  }
+
+  createSeatCircleGroup(result, seats, center, bounds, area) {
+    if (!center || !seats?.length) return null;
+    const positions = seatPositions(seats.length, SEAT_CIRCLE_SPACING);
+    const groupWidth = Math.max(...positions.map((point) => point.x)) - Math.min(...positions.map((point) => point.x)) + SEAT_CIRCLE_SIZE;
+    const groupHeight = Math.max(...positions.map((point) => point.y)) - Math.min(...positions.map((point) => point.y)) + SEAT_CIRCLE_SIZE;
+    return {
+      result,
+      center,
+      bounds,
+      seats,
+      positions,
+      groupWidth,
+      groupHeight,
+      area: Number(area || 0)
+    };
+  }
+
   bindOverlayRefresh() {
     const map = this.mapController?.map;
     if (!map || this.overlayRefreshBound) return;
@@ -1418,10 +1551,80 @@ export class Test2ElectionManager {
     if (map.getSource(VOTE_BAR_SOURCE_ID)) map.removeSource(VOTE_BAR_SOURCE_ID);
   }
 
+  async renderRecallLabels() {
+    if (!this.activeBundle || !this.shouldRenderRecallLabels()) return;
+    const index = await this.loadFeatureIndex();
+    const centres = this.buildFeatureCentreLookup(index?.items || []);
+    const features = [];
+    for (const result of this.activeBundle.results || []) {
+      const center = result.anchor?.center || this.findCentreForResult(centres, result);
+      if (!center) continue;
+      const triggered = recallTriggered(result);
+      features.push({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: center },
+        properties: {
+          label: result.recallPetition?.outcome || (triggered ? 'By-election triggered' : 'Petition not successful'),
+          resultKey: normalizeName(result.matchName || result.constituency || '')
+        }
+      });
+    }
+    if (!features.length) return;
+    const map = this.mapController.map;
+    const data = { type: 'FeatureCollection', features };
+    if (map.getSource(RECALL_LABEL_SOURCE_ID)) {
+      map.getSource(RECALL_LABEL_SOURCE_ID).setData(data);
+    } else {
+      map.addSource(RECALL_LABEL_SOURCE_ID, { type: 'geojson', data });
+    }
+    map.getSource(RECALL_LABEL_SOURCE_ID)._data = data;
+    if (!map.getLayer(RECALL_LABEL_LAYER_ID)) {
+      map.addLayer({
+        id: RECALL_LABEL_LAYER_ID,
+        type: 'symbol',
+        source: RECALL_LABEL_SOURCE_ID,
+        layout: {
+          'text-field': ['get', 'label'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 5, 11, 9, 13, 12, 15],
+          'text-anchor': 'center',
+          'text-allow-overlap': false
+        },
+        paint: {
+          'text-color': '#111827',
+          'text-halo-color': '#ffffff',
+          'text-halo-width': 2
+        }
+      });
+    }
+    if (!this.recallLabelClickBound) {
+      this.recallLabelClickBound = true;
+      map.on('click', RECALL_LABEL_LAYER_ID, (event) => {
+        const key = event.features?.[0]?.properties?.resultKey;
+        const result = (this.activeBundle?.results || []).find((item) => normalizeName(item.matchName || item.constituency) === key);
+        if (result) this.renderPanel(result);
+      });
+      map.on('mouseenter', RECALL_LABEL_LAYER_ID, () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', RECALL_LABEL_LAYER_ID, () => { map.getCanvas().style.cursor = ''; });
+    }
+  }
+
+  removeRecallLabels() {
+    const map = this.mapController?.map;
+    if (!map) return;
+    if (map.getLayer(RECALL_LABEL_LAYER_ID)) map.removeLayer(RECALL_LABEL_LAYER_ID);
+    if (map.getSource(RECALL_LABEL_SOURCE_ID)) map.removeSource(RECALL_LABEL_SOURCE_ID);
+  }
+
   shouldRenderElectionOverlays() {
     const body = normalizeName(this.activeBundle?.body || this.activeEntry?.body || '');
     const type = normalizeName(this.activeBundle?.type || this.activeEntry?.type || '');
     return !body.includes('referendum') && !body.includes('recall petition') && !type.includes('referendum') && !type.includes('recall');
+  }
+
+  shouldRenderRecallLabels() {
+    const body = normalizeName(this.activeBundle?.body || this.activeEntry?.body || '');
+    const type = normalizeName(this.activeBundle?.type || this.activeEntry?.type || '');
+    return body.includes('recall petition') || type.includes('recall') || Boolean((this.activeBundle?.results || []).some((result) => result.recallPetition));
   }
 
   shouldRenderSeatCircles() {
@@ -1429,8 +1632,13 @@ export class Test2ElectionManager {
   }
 
   async loadFeatureIndex() {
-    const layer = this.app.metadataService.getLayer(this.activeBundle.layerId)
-      || this.app.metadataService.getLayer(this.activeBundle.sourceMapId);
+    return this.loadFeatureIndexForBundle(this.activeBundle);
+  }
+
+  async loadFeatureIndexForBundle(bundle) {
+    if (!bundle) return null;
+    const layer = this.app.metadataService.getLayer(bundle.layerId)
+      || this.app.metadataService.getLayer(bundle.sourceMapId);
     const url = layer?.featureIndexUrl;
     if (!url) return null;
     if (this.featureIndexCache.has(url)) return this.featureIndexCache.get(url);
@@ -1634,6 +1842,26 @@ function projectAnchorBounds(map, bounds) {
   };
 }
 
+function mergeGeoBounds(a, b) {
+  if (!b) return a;
+  if (!a) return { ...b };
+  const west = Math.min(Number(a.west), Number(b.west));
+  const south = Math.min(Number(a.south), Number(b.south));
+  const east = Math.max(Number(a.east), Number(b.east));
+  const north = Math.max(Number(a.north), Number(b.north));
+  if (![west, south, east, north].every(Number.isFinite)) return a || b || null;
+  return { west, south, east, north };
+}
+
+function geoBoundsCenter(bounds) {
+  const west = Number(bounds?.west);
+  const south = Number(bounds?.south);
+  const east = Number(bounds?.east);
+  const north = Number(bounds?.north);
+  if (![west, south, east, north].every(Number.isFinite)) return null;
+  return [(west + east) / 2, (south + north) / 2];
+}
+
 function pointPixelBounds(point) {
   return {
     minX: point.x,
@@ -1652,6 +1880,10 @@ function mergePixelBounds(a, b) {
     minY: Math.min(a.minY, b.minY),
     maxY: Math.max(a.maxY, b.maxY)
   };
+}
+
+function nextFrame() {
+  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }
 
 function normalizeName(value) {

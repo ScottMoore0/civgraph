@@ -1,3 +1,94 @@
+# Shared election rendering/domain extraction
+- [x] Record scope
+  - Implement the 1-10 extraction sequence: shared view-model shape, shared domain helpers, shared renderer, main/test2 wiring, map-adapter boundary, parity tests, and visual/overlay guardrails.
+  - Preserve main-site behaviour while allowing `/test2` to use the same election view-model and renderer where sensible.
+  - Avoid porting Leaflet objects into `/test2`; only domain/view rendering should be shared.
+- [x] Inspect current main/test2 election render and domain seams
+  - Confirmed `js/election-domain.mjs` already holds core summary/elected/entity helpers.
+  - Confirmed `/test2/src/election-manager.js` still owned a separate election pane renderer, while main `js/election-controller.js` owned the richer production pane rendering and Leaflet overlays.
+- [x] Add shared ElectionViewModel/domain helpers
+  - Added `js/election-view-model.mjs` with `buildElectionViewModel`, `buildElectionViewModelFromTest2Manager`, `buildElectionViewModelFromMainController`, local-party/council summaries, and shared totals helpers.
+- [x] Add shared election renderer and wire main/test2
+  - Added `js/election-renderer.mjs` with `SharedElectionRenderer`, `createElectionRenderer`, `renderElectionSummaryFromViewModel`, shared numeric colour ramps, overall/constituency/local/recall/count/entity rendering, and shared renderer markers.
+  - Wired `/test2` election pane methods to delegate to `this.sharedRenderer`.
+  - Wired the main election controller to mirror shared view-model/renderer output through `_mirrorSharedElectionRenderer` while preserving its existing visible production rendering.
+- [x] Keep map-specific overlays in main/test2 adapters only
+  - No Leaflet overlay objects were ported to `/test2`.
+  - Map-specific drawing remains in `js/election-controller.js`, `test2/src/election-manager.js`, and `test2/src/maplibre-main-adapter.js`; the new shared modules only build data/view HTML.
+- [x] Add parity and visual/overlay guardrails
+  - Extended `scripts/validate-test2-route.mjs` to require shared view-model and shared renderer usage from both main and `/test2`.
+  - Extended `/test2` browser coverage to assert loaded election panes render through `[data-election-renderer="shared"]` and include production-style election table classes.
+- [x] Verify with static checks, builds, and test suites
+  - `node --check js/election-view-model.mjs`, `node --check js/election-renderer.mjs`, `node --check test2/src/election-manager.js`, and `node --check js/election-controller.js` passed.
+  - `npm run check:test2` passed.
+  - `npm run build:test2` passed after approved escalation for esbuild process spawning.
+  - `npm run test:browser:test2` passed after approved escalation for Playwright/browser worker spawning: 21/21 tests.
+  - `npm run build` passed after approved escalation for esbuild process spawning.
+  - `npm run check` passed.
+
+# Main vs /test2 exhaustive discrepancy audit
+- [x] Record scope
+  - Compare the current main site and `/test2` across shell, catalogue, map engine, feature labels/interactions, election overlays, election panes, URL/timeline state, mobile behaviour, data coverage, and guardrails.
+  - Classify discrepancies as sensible MapLibre differences, feasible non-data-blocked parity work, data-blocked parity work, or not sensible to copy.
+  - Report findings without changing runtime behaviour unless needed to complete the audit.
+- [x] Inspect current shell/catalogue/map architecture
+  - Main still loads the production Leaflet bundle and `data/database/maps.json` directly; `/test2` preserves the production shell but runs `test2/src/app.js` with `Test2MapLibreMainAdapter`, `TestMetadataService`, and generated PMTiles/MVT/raster metadata.
+  - `/test2` metadata currently contains 674 loadable layers: 601 PMTiles, 1 directory MVT, 22 raster-tile layers, 50 image layers, and 59 converted aliases.
+  - Direct ID comparison against 751 main map rows found 139 main rows not directly represented in `/test2` metadata; the sample rows largely have no direct `files` entries, so they need alias/source/placeholder review rather than blind conversion.
+- [x] Inspect current election overlay/pane/data coverage
+  - `/test2` election metadata currently contains 268 election entries, 239 loadable entries, and 29 placeholders.
+  - The generated report records 3,959 matched constituency/result links and 725 unmatched links, all classified as blocked on source data or aggregation rather than feasible implementation work.
+  - Main election logic remains substantially richer in `js/election-controller.js`; `/test2` shares election-domain helpers but renders through a MapLibre-native manager and generated sidecars.
+- [x] Inspect validation and browser coverage
+  - `npm run check:test2` passed during this audit.
+  - Existing `/test2` browser coverage includes shell boot, Ireland default viewport, control collision checks, mobile catalogue controls, converted layer loading, Settlements 2015 labels/interactions, duplicate-ID cross-highlight prevention, no-ID layer interactions, election load/styling/seat circles/vote bars, representative election bundle coverage, local-government aggregate/count views, URL restore, source panel, active layer controls, mobile feature taps, mobile shell/accessibility smoke, and service-worker isolation.
+  - Remaining proof gaps are visual-regression/pixel comparison, real-device mobile stress, exhaustive all-layer interaction checks, and exact election-pane microinteraction comparison.
+- [x] Report findings and remaining work
+  - Findings reported in chat with discrepancies classified as deliberate MapLibre differences, feasible non-data-blocked parity work, data-blocked parity work, and not-sensible-to-copy differences.
+
+# /test2 feasible election parity implementation pass
+- [x] Record scope
+  - Improve `/test2` election seat-circle parity where MapLibre-native implementation can sensibly match main-site Leaflet behaviour.
+  - Improve `/test2` election pane parity where shared/election-domain rendering can sensibly match main-site behaviour.
+  - Improve mobile `+` election-entry load responsiveness with parallel loading, busy/cancel state, and progressive rendering where feasible.
+  - Preserve the main site and avoid porting Leaflet-only layer objects into `/test2`.
+- [x] Inspect current election overlay, pane, catalogue click, and generated bundle paths
+  - Reviewed `test2/src/election-manager.js`, `js/ui-controller.js`, `test2/src/app.js`, `test2/src/maplibre-main-adapter.js`, `/test2` CSS, and the existing browser election tests.
+- [x] Implement feasible MapLibre-native parity improvements
+  - Added a progressive election-loading pane before heavy work completes.
+  - Parallelised election map loading, result bundle loading, previous-result loading, and feature-index prefetching.
+  - Added catalogue-row/button busy state with duplicate-tap blocking for mobile `+` loads.
+  - Added local-government council/district aggregate seat-circle groups when the election pane is in aggregate mode.
+  - Added recall-petition map labels where recall data is available.
+  - Aligned the `/test2` pane close/back ids and behaviour closer to the production election pane.
+- [x] Add or tighten automated guardrails
+  - Extended `scripts/validate-test2-route.mjs` to require the progressive/parallel election load path, local aggregate overlays, recall labels, and mobile busy state.
+  - Extended browser coverage for the loading skeleton and aggregate seat-circle overlay mode.
+- [x] Verify and document remaining data/architecture limits
+  - `node --check test2/src/election-manager.js`, `node --check js/ui-controller.js`, and `node --check scripts/validate-test2-route.mjs` passed.
+  - `npm run build:test2` passed after approved escalation for esbuild process spawning.
+  - `npm run check:test2` passed.
+  - `npm run test:browser:test2` passed after approved escalation for Playwright process spawning: 21/21 tests.
+  - `npm run build` passed after approved escalation for esbuild process spawning.
+  - `npm run check` passed.
+  - Remaining exact-parity limits are data/architecture constraints: unconverted/unmatched election geographies, MapLibre-vs-Leaflet rendering differences, and any exact count/entity detail that the generated bundles still do not carry.
+
+# Main vs /test2 election seat-circle and pane parity audit
+- [x] Record scope
+  - Compare main-site Leaflet election seat-circle overlays against `/test2` MapLibre election overlays.
+  - Compare main-site election pane behaviour against `/test2` election pane behaviour.
+  - Identify remaining differences exhaustively and classify feasibility.
+  - Explain feasibility of making mobile `+` election-entry loads maximally fast, stable, and responsive.
+- [x] Inspect main-site election overlay and pane logic
+  - Reviewed `js/election-controller.js` seat overlays, selected-constituency pane, overall pane, count table, animation, entity detail, and recall-special paths.
+- [x] Inspect `/test2` MapLibre election overlay and pane logic
+  - Reviewed `test2/src/election-manager.js`, shared `js/election-domain.mjs`, URL state, catalogue load hooks, and browser/performance test coverage.
+- [x] Compare generated data/anchor model and mobile load path
+  - Checked generated `/test2` election metadata/report coverage, loadable/placeholders/unmatched counts, representative bundles, anchor availability, and current mobile performance coverage.
+- [x] Report findings and feasibility
+  - Findings: seat-circle layout algorithm is now largely shared, but rendering technology, anchor provenance, elected-candidate extraction fidelity, recall overlay handling, local/council aggregate overlay mode, and pane markup/table richness still differ.
+  - Mobile `+` load feasibility: strong; best next step is a dedicated two-phase election-load fast path with parallel bundle/map/index fetch, busy/cancel state, skeleton pane, cached/precomputed overlay inputs, deferred heavy tables, and a Pixel/mobile election-load performance test.
+
 # /test2 election parity final gap closure
 - [x] Record scope
   - Target gaps: local-government DEA/district/council mode parity, richer count-table parity, previous-election deltas, recall-petition UI parity, overlay placement/collision parity, richer entity pages, election-specific URL substate, unmatched/unconverted geography handling, and split-pane/tab micro-interactions.

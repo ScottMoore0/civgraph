@@ -358,6 +358,57 @@ body.app-shell.test2-election-open #electionResultsPane.election-results-pane--o
   max-width: 150px;
 }
 
+.flat-election-entry--loading {
+  opacity: .78;
+  pointer-events: none;
+}
+
+.flat-election-entry--loading .election-load-btn {
+  position: relative;
+}
+
+.flat-election-entry--loading .election-load-btn::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 999px;
+  animation: test2ElectionSpin .8s linear infinite;
+}
+
+.flat-election-entry--loading .election-load-btn > * {
+  opacity: 0;
+}
+
+.test2-election-loading,
+.test2-election-loading-badge {
+  color: var(--color-text-muted, #718096);
+  font-size: 12px;
+}
+
+.test2-election-loading {
+  display: grid;
+  gap: 4px;
+}
+
+.test2-election-loading-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 2px 8px;
+  border: 1px solid var(--color-border, #d8e0ea);
+  border-radius: 999px;
+  background: var(--color-surface-elevated, #f7fafc);
+  font-weight: 700;
+}
+
+@keyframes test2ElectionSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .test2-election-local-mode {
   display: inline-flex;
   align-items: center;
