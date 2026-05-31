@@ -219,8 +219,10 @@ async function main() {
       date: bundle.date,
       bodySlug: bundle.bodySlug,
       bodyGroup: bundle.bodyGroup,
+      displayTitle: bundle.displayTitle,
       displaySubtitle: bundle.displaySubtitle,
       displayProvider: bundle.displayProvider,
+      localBodies: bundle.localBodies,
       constituencies: bundle.constituencies,
       isByElection: bundle.isByElection,
       sourceMapId: bundle.sourceMapId,
@@ -296,8 +298,35 @@ async function main() {
 
 function buildUniqueElectionEntries(index) {
   const byKey = new Map();
+  const localByDate = new Map();
   for (const [bodyIndex, body] of (index.bodies || []).entries()) {
     for (const dateEntry of body.dates || []) {
+      const bodyGroup = body.slug === 'local-government' || LOCAL_GOVERNMENT_BODIES.has(body.name) ? 'local-government' : null;
+      if (bodyGroup === 'local-government') {
+        const dateKey = dateEntry.date;
+        if (!localByDate.has(dateKey)) {
+          localByDate.set(dateKey, {
+            body: 'Local Government Districts',
+            bodySlug: 'local-government',
+            bodyGroup,
+            date: dateEntry.date,
+            bodyIndexes: [],
+            bodies: [],
+            constituencies: [],
+            localBodyByConstituency: {}
+          });
+        }
+        const group = localByDate.get(dateKey);
+        group.bodyIndexes.push(bodyIndex);
+        if (!group.bodies.includes(body.name)) group.bodies.push(body.name);
+        for (const constituency of dateEntry.constituencies || []) {
+          if (!group.constituencies.includes(constituency)) group.constituencies.push(constituency);
+          if (constituency && !group.localBodyByConstituency[constituency]) {
+            group.localBodyByConstituency[constituency] = body.name;
+          }
+        }
+        continue;
+      }
       const key = `${body.name}|${dateEntry.date}`;
       const existing = byKey.get(key);
       if (existing) {
@@ -308,10 +337,33 @@ function buildUniqueElectionEntries(index) {
       byKey.set(key, {
         body: body.name,
         bodySlug: body.slug,
-        bodyGroup: body.slug === 'local-government' || LOCAL_GOVERNMENT_BODIES.has(body.name) ? 'local-government' : null,
+        bodyGroup,
         date: dateEntry.date,
         bodyIndexes: [bodyIndex],
         constituencies: unique(dateEntry.constituencies || [])
+      });
+    }
+  }
+  for (const group of localByDate.values()) {
+    if (group.bodies.length > 1) {
+      const year = String(group.date || '').slice(0, 4);
+      group.displayTitle = year ? `${year} Northern Ireland local election` : 'Northern Ireland local election';
+      group.displayProvider = 'Local Government Districts';
+      byKey.set(`${group.body}|${group.date}`, {
+        ...group,
+        constituencies: unique(group.constituencies),
+        bodies: [...group.bodies].sort((a, b) => a.localeCompare(b)),
+        bodyIndexes: unique(group.bodyIndexes)
+      });
+    } else {
+      const body = group.bodies[0] || group.body;
+      byKey.set(`${body}|${group.date}`, {
+        ...group,
+        body,
+        displayProvider: `Local government: ${body}`,
+        constituencies: unique(group.constituencies),
+        bodies: [body],
+        bodyIndexes: unique(group.bodyIndexes)
       });
     }
   }
@@ -444,10 +496,12 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     const resultPath = findResultFile(dateDir, constituency);
     const rawResult = resultPath ? readJson(resultPath) : null;
     const result = ElectionDomain.summarizeResult(rawResult, constituency);
-    const match = singleFeature || matchFeature(featureLookup, result.constituency || constituency, entry);
+    const matchEntry = matchEntryForConstituency(entry, result.constituency || constituency);
+    const match = singleFeature || matchFeature(featureLookup, result.constituency || constituency, matchEntry);
     if (!match && !geography?.singleConstituency) unmatched.push(result.constituency || constituency);
     results.push({
       ...result,
+      localBody: entry.bodyGroup === 'local-government' ? matchEntry.body : null,
       sourceFile: resultPath ? slash(path.relative(ROOT, resultPath)) : null,
       featureId: match?.id ?? null,
       featureName: match?.name ?? null,
@@ -463,10 +517,12 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       const resultPath = path.join(dateDir, file);
       const rawResult = readJson(resultPath);
       const result = ElectionDomain.summarizeResult(rawResult, file.replace(/\.json$/, ''));
-      const match = singleFeature || matchFeature(featureLookup, result.constituency, entry);
+      const matchEntry = matchEntryForConstituency(entry, result.constituency);
+      const match = singleFeature || matchFeature(featureLookup, result.constituency, matchEntry);
       if (!match && !geography?.singleConstituency) unmatched.push(result.constituency);
       results.push({
         ...result,
+        localBody: entry.bodyGroup === 'local-government' ? matchEntry.body : null,
         sourceFile: slash(path.relative(ROOT, resultPath)),
         featureId: match?.id ?? null,
         featureName: match?.name ?? null,
@@ -491,6 +547,9 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     body: entry.body,
     bodySlug: entry.bodySlug,
     bodyGroup: entry.bodyGroup,
+    displayTitle: entry.displayTitle || null,
+    localBodies: entry.bodies || null,
+    localBodyByConstituency: entry.localBodyByConstituency || null,
     date: entry.date,
     year,
     sourceMapId: geography?.sourceMapId || null,
@@ -502,7 +561,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     previousDate,
     loadable: Boolean(layer && geography?.sourceMapId && results.length > 0 && matchedCount > 0),
     displaySubtitle: formatElectionSubtitle(entry, results, unmatchedCount),
-    displayProvider: entry.bodyGroup === 'local-government' ? `Local government: ${entry.body}` : entry.body,
+    displayProvider: entry.displayProvider || (entry.bodyGroup === 'local-government' ? `Local government: ${entry.body}` : entry.body),
     constituencies: entry.constituencies,
     isByElection: (entry.constituencies || []).length > 0 && (entry.constituencies || []).length < 3,
     totalConstituencies: results.length,
@@ -513,6 +572,17 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     partySummary,
     entityIndex,
     results: results.sort((a, b) => String(a.constituency).localeCompare(String(b.constituency)))
+  };
+}
+
+function matchEntryForConstituency(entry, constituency) {
+  if (entry?.bodyGroup !== 'local-government') return entry;
+  const localBody = entry.localBodyByConstituency?.[constituency]
+    || entry.localBodyByConstituency?.[fixText(constituency || '').trim()];
+  if (!localBody || localBody === entry.body) return entry;
+  return {
+    ...entry,
+    body: localBody
   };
 }
 
@@ -847,7 +917,9 @@ function sourceByYear(year, rows) {
 
 function formatElectionSubtitle(entry, results, unmatchedCount) {
   const total = results.length || entry.constituencies.length;
-  const prefix = entry.bodyGroup === 'local-government' ? entry.body : `${total} constituencies`;
+  const prefix = entry.bodyGroup === 'local-government'
+    ? (entry.bodies?.length > 1 ? `${total} DEAs` : entry.body)
+    : `${total} constituencies`;
   return unmatchedCount > 0 ? `${prefix}; ${unmatchedCount} unmatched` : prefix;
 }
 

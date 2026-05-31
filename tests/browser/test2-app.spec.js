@@ -430,7 +430,7 @@ test('/test2 election bundles cover representative main-site election types', as
       { key: 'dail', find: (entry) => entry.body === 'Dáil Éireann' && entry.loadable },
       { key: 'westminster', find: (entry) => entry.body === 'House of Commons of the United Kingdom' && entry.date === '2024-07-04' },
       { key: 'assembly', find: (entry) => entry.body === 'Northern Ireland Assembly' && entry.loadable },
-      { key: 'deas1972', find: (entry) => entry.body === 'Newry and Mourne' && entry.date === '1973-05-30' },
+      { key: 'deas1972', find: (entry) => entry.body === 'Local Government Districts' && entry.date === '1973-05-30' },
       { key: 'localGovernment', find: (entry) => entry.bodyGroup === 'local-government' && entry.loadable },
       { key: 'referendum', find: (entry) => entry.body === 'Referendum (Ireland)' && entry.loadable },
       { key: 'recallOrPlaceholder', find: (entry) => /recall/i.test(entry.body) || /recall/i.test(entry.key) || entry.placeholder }
@@ -450,6 +450,8 @@ test('/test2 election bundles cover representative main-site election types', as
         placeholder: entry.placeholder,
         anchorUrl: entry.anchorUrl,
         previousKey: entry.previousKey,
+        localBodies: entry.localBodies?.length || 0,
+        displayTitle: entry.displayTitle || '',
         resultCount: bundle?.results?.length || 0,
         partySummary: bundle?.partySummary?.length || 0,
         entityParties: bundle?.entityIndex?.parties?.length || 0,
@@ -467,6 +469,8 @@ test('/test2 election bundles cover representative main-site election types', as
   }
   expect(coverage.westminster.anchorUrl).toMatch(/election-anchors-test2/);
   expect(coverage.westminster.previousKey).toBeTruthy();
+  expect(coverage.deas1972.localBodies).toBeGreaterThan(1);
+  expect(coverage.deas1972.displayTitle).toContain('Northern Ireland local election');
   expect(coverage.assembly.hasCounts).toBe(true);
   expect(coverage.recallOrPlaceholder).toBeTruthy();
 });
@@ -481,6 +485,9 @@ test('/test2 election pane supports local-government aggregates and detailed cou
     await app.elections.loadElection(localEntry.body, localEntry.date);
     app.elections.renderPanel(null, 'local-party');
     const localText = document.getElementById('electionResultsPane')?.textContent || '';
+    app.elections.activeLocalMode = 'district';
+    app.elections.renderPanel(null, 'council');
+    const councilText = document.getElementById('electionResultsPane')?.textContent || '';
     const assemblyEntry = app.elections.catalogue.elections.find((entry) => entry.body === 'Northern Ireland Assembly' && entry.loadable);
     await app.elections.loadElection(assemblyEntry.body, assemblyEntry.date);
     const countResult = app.elections.activeBundle.results.find((result) => result.hasCountDetail);
@@ -490,7 +497,9 @@ test('/test2 election pane supports local-government aggregates and detailed cou
     const after = document.getElementById('electionPaneContent')?.textContent || '';
     return {
       localBody: localEntry.body,
+      localBodies: localEntry.localBodies?.length || 0,
       localText,
+      councilText,
       countResult: countResult?.constituency || null,
       before,
       after
@@ -499,6 +508,9 @@ test('/test2 election pane supports local-government aggregates and detailed cou
 
   expect(state.localText).toContain('By Local Party');
   expect(state.localText).toMatch(/DEA|First prefs|DEA share/);
+  expect(state.localBody).toBe('Local Government Districts');
+  expect(state.localBodies).toBeGreaterThan(1);
+  expect(state.councilText).toMatch(/By Council|Councils|Leading party/);
   expect(state.countResult).toBeTruthy();
   expect(state.before).toContain('Show detailed count values');
   expect(state.after).toContain('Hide detailed count values');

@@ -88,7 +88,8 @@ export class Test2ElectionManager {
       ...entry,
       placeholder: !entry.loadable,
       displaySubtitle: entry.displaySubtitle || `${entry.totalConstituencies || 0} constituencies`,
-      displayProvider: entry.displayProvider || entry.body
+      displayProvider: entry.displayProvider || entry.body,
+      displayTitle: entry.displayTitle || entry.body
     }));
   }
 
@@ -319,9 +320,10 @@ export class Test2ElectionManager {
     const nextView = view || this.activePanelView || 'party';
     this.activePanelView = nextView;
     this.activeSelectedResultKey = selectedResult ? normalizeName(selectedResult.matchName || selectedResult.constituency || '') : null;
+    const electionTitle = this.activeBundle.displayTitle || this.activeBundle.body;
     title.textContent = selectedResult?.constituency
-      ? `${selectedResult.constituency} - ${this.activeBundle.body}`
-      : `${this.activeBundle.body} - ${this.activeBundle.date}`;
+      ? `${selectedResult.constituency} - ${electionTitle}`
+      : electionTitle;
     back?.classList.toggle('hidden', !selectedResult);
     const headerRight = pane.querySelector('.election-pane__header-right');
     if (headerRight) {
@@ -337,7 +339,7 @@ export class Test2ElectionManager {
       const localModeControl = !selectedResult && this.activeBundle.bodyGroup === 'local-government' ? `
         <div class="test2-election-local-mode" role="group" aria-label="Local government result level">
           <button type="button" class="${this.activeLocalMode === 'dea' ? 'is-active' : ''}" data-election-local-mode="dea">DEA</button>
-          <button type="button" class="${this.activeLocalMode === 'district' ? 'is-active' : ''}" data-election-local-mode="district">District</button>
+          <button type="button" class="${this.activeLocalMode === 'district' ? 'is-active' : ''}" data-election-local-mode="district">${this.activeBundle.localBodies?.length > 1 ? 'Council' : 'District'}</button>
         </div>
       ` : '';
       headerRight.innerHTML = `
@@ -537,6 +539,9 @@ export class Test2ElectionManager {
   }
 
   renderDistrictResults(view = 'party') {
+    if (this.activeBundle?.localBodies?.length > 1) {
+      return this.renderCouncilResults(view);
+    }
     const results = this.currentResults();
     const councilRows = this.withPartyDeltas(buildPartySummary(results));
     const candidates = buildCandidateSummary(results);
@@ -556,7 +561,7 @@ export class Test2ElectionManager {
         ], view)}
         <div class="test2-election-panel__summary">
           <dl class="test2-election-panel__stats">
-            <div><dt>District</dt><dd>${escapeHtml(this.activeBundle.body)}</dd></div>
+            <div><dt>District</dt><dd>${escapeHtml(this.activeBundle.displayTitle || this.activeBundle.body)}</dd></div>
             <div><dt>DEAs</dt><dd>${formatNumber(results.length)}</dd></div>
             ${totalSeats ? `<div><dt>Seats</dt><dd>${formatNumber(totalSeats)}</dd></div>` : ''}
             ${validPoll ? `<div><dt>Valid poll</dt><dd>${formatNumber(validPoll)}</dd></div>` : ''}
@@ -573,6 +578,66 @@ export class Test2ElectionManager {
           : view === 'constituency' ? this.renderConstituencySummaryTable(results)
           : this.renderDistrictPartyTable(councilRows)}
       </section>
+    `;
+  }
+
+  renderCouncilResults(view = 'party') {
+    const results = this.currentResults();
+    const councilRows = buildCouncilSummary(results);
+    const rows = this.withPartyDeltas(buildPartySummary(results));
+    const candidates = buildCandidateSummary(results);
+    const localRows = buildLocalPartySummary(results);
+    const totalSeats = rows.reduce((sum, row) => sum + numberOrZero(row.seats), 0);
+    const validPoll = sumNumbers(results, 'validPoll');
+    const electorate = sumNumbers(results, 'electorate');
+    return `
+      <section class="test2-election-panel" aria-label="${escapeHtml(this.activeBundle.displayTitle || this.activeBundle.body)} council results">
+        ${this.renderViewTabs([
+          ['party', 'By Party'],
+          ['council', 'By Council'],
+          ['candidate', 'By Candidate'],
+          ['local-party', 'By Local Party'],
+          ['constituency', 'By DEA']
+        ], view)}
+        <div class="test2-election-panel__summary">
+          <dl class="test2-election-panel__stats">
+            <div><dt>Councils</dt><dd>${formatNumber(councilRows.length)}</dd></div>
+            <div><dt>DEAs</dt><dd>${formatNumber(results.length)}</dd></div>
+            ${totalSeats ? `<div><dt>Seats</dt><dd>${formatNumber(totalSeats)}</dd></div>` : ''}
+            ${validPoll ? `<div><dt>Valid poll</dt><dd>${formatNumber(validPoll)}</dd></div>` : ''}
+            ${electorate ? `<div><dt>Electorate</dt><dd>${formatNumber(electorate)}</dd></div>` : ''}
+          </dl>
+          <div id="test2ElectionLegend" class="test2-election-panel__legend"></div>
+        </div>
+        ${this.renderDataCoverageNotice()}
+        ${view === 'council' ? this.renderCouncilSummaryTable(councilRows)
+          : view === 'candidate' ? this.renderCandidateSummaryTable(candidates)
+          : view === 'local-party' ? this.renderLocalPartySummaryTable(results)
+          : view === 'constituency' ? this.renderConstituencySummaryTable(results)
+          : this.renderDistrictPartyTable(rows)}
+      </section>
+    `;
+  }
+
+  renderCouncilSummaryTable(rows = []) {
+    return `
+      <div class="test2-election-table-wrap">
+        <table class="test2-election-table catalogue-detail__entity-table">
+          <thead><tr><th>Council</th><th>DEAs</th><th>Leading party</th><th>Seats</th><th>Valid votes</th><th>Turnout</th></tr></thead>
+          <tbody>
+            ${rows.map((row) => `
+              <tr>
+                <td>${escapeHtml(row.council)}</td>
+                <td>${formatNumber(row.deas)}</td>
+                <td><span class="test2-party-swatch" style="background:${escapeHtml(row.colour)}"></span>${escapeHtml(row.leadingParty || '')}</td>
+                <td>${formatNumber(row.seats)}</td>
+                <td>${formatNumber(row.validPoll)}</td>
+                <td>${formatPercent(row.turnoutPct)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
     `;
   }
 
@@ -925,7 +990,7 @@ export class Test2ElectionManager {
           <div>
             <div class="election-entity-page__eyebrow">Party Information</div>
             <h3 class="election-entity-page__title">${escapeHtml(entity.name || '')}</h3>
-            <p class="election-entity-page__subtitle">${escapeHtml(this.activeBundle.body)} - ${escapeHtml(this.activeBundle.date)}</p>
+            <p class="election-entity-page__subtitle">${escapeHtml(this.activeBundle.displayTitle || this.activeBundle.body)} - ${escapeHtml(this.activeBundle.date)}</p>
           </div>
         </div>
         <div class="election-entity-metrics">
@@ -1393,6 +1458,45 @@ function buildLocalPartySummary(results = []) {
     || String(a.constituency).localeCompare(String(b.constituency))
     || b.firstPrefs - a.firstPrefs
   );
+}
+
+function buildCouncilSummary(results = []) {
+  const councils = new Map();
+  for (const result of results) {
+    const council = result.localBody || 'Unknown council';
+    if (!councils.has(council)) {
+      councils.set(council, {
+        council,
+        deas: 0,
+        seats: 0,
+        validPoll: 0,
+        electorate: 0,
+        partySeats: new Map(),
+        partyVotes: new Map()
+      });
+    }
+    const row = councils.get(council);
+    row.deas += 1;
+    row.seats += Number(result.seatsWon ?? result.seatsTotal ?? 0) || 0;
+    row.validPoll += Number(result.validPoll || result.totalVotes || 0) || 0;
+    row.electorate += Number(result.electorate || 0) || 0;
+    for (const candidate of result.candidates || []) {
+      const party = candidate.party || 'Independent/Other';
+      row.partyVotes.set(party, (row.partyVotes.get(party) || 0) + (Number(candidate.firstPrefs ?? candidate.votes ?? 0) || 0));
+      if (candidate.elected) row.partySeats.set(party, (row.partySeats.get(party) || 0) + 1);
+    }
+  }
+  return [...councils.values()].map((row) => {
+    const leading = [...row.partySeats.entries()].sort((a, b) => b[1] - a[1] || (row.partyVotes.get(b[0]) || 0) - (row.partyVotes.get(a[0]) || 0))[0]
+      || [...row.partyVotes.entries()].sort((a, b) => b[1] - a[1])[0]
+      || ['', 0];
+    return {
+      ...row,
+      leadingParty: leading[0],
+      colour: partyColour(leading[0]),
+      turnoutPct: row.electorate ? row.validPoll / row.electorate * 100 : null
+    };
+  }).sort((a, b) => String(a.council).localeCompare(String(b.council)));
 }
 
 function offsetSeat(center, positionOrIndex, total) {

@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 127) General local elections are jurisdiction-wide catalogue events, not council-row events
+- Mistake pattern: Generating `/test2` election catalogue entries directly from council-specific local-government bodies, so one NI-wide local election appeared as one election per council.
+- Impact: `/test2` diverged from the main site's election catalogue contract and made local-election timelines/results feel fragmented.
+- Guardrail:
+  1) generated election manifests must collapse multi-council local-government dates into one jurisdiction/date entry,
+  2) preserve per-council context as metadata for result matching and council-mode panes rather than as separate top-level catalogue events,
+  3) route validation and browser tests must fail if grouped local-election dates produce more than one catalogue entry.
+
 ### 126) Catalogue parity means matching the main navigation contract, not adding shortcut rows
 - Mistake pattern: Fixing election discoverability by adding individual election rows to the top catalogue table of contents.
 - Impact: `/test2` diverged from the main site, where the TOC exposes decade jump buttons and individual elections live inside their decade sections/cards.

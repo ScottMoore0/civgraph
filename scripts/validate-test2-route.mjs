@@ -103,7 +103,10 @@ assert(electionDomainSource.includes('summarizeResult') && electionDomainSource.
 assert(electionManagerSource.includes("from '../../js/election-domain.mjs'") && electionManagerSource.includes('renderCountTable') && electionManagerSource.includes('renderEntityPanel'), '/test2 election rendering must consume shared domain logic and expose count/entity views');
 assert(electionManifestBuilderSource.includes('OUT_ANCHOR_DIR') && electionManifestBuilderSource.includes('geometryAnchor') && electionManifestBuilderSource.includes('anchorUrl'), '/test2 election manifest build must generate geometry-derived election anchor sidecars');
 assert(electionManifestBuilderSource.includes('previousKey') && electionManifestBuilderSource.includes('partySummary') && electionManifestBuilderSource.includes('entityIndex'), '/test2 election bundles must include previous-election linkage and rich pane data');
+assert(electionManifestBuilderSource.includes('localByDate') && electionManifestBuilderSource.includes('Local Government Districts'), '/test2 election manifest builder must group general local elections by jurisdiction/date instead of per council');
+assert(electionManifestBuilderSource.includes('matchEntryForConstituency') && electionManifestBuilderSource.includes('localBodyByConstituency'), '/test2 grouped local-election entries must preserve council-specific matching context');
 assert(electionManagerSource.includes('filterOverlayGroupsByCollision') && electionManagerSource.includes('boxesOverlap'), '/test2 election overlays must have MapLibre-native collision suppression');
+assert(electionManagerSource.includes('renderCouncilResults') && electionManagerSource.includes('buildCouncilSummary'), '/test2 grouped local elections must expose a council-level results view');
 assert(test2Css.includes('body.app-shell.test2-election-open'), '/test2 must resize the production shell when the election pane opens below the map');
 assert(featureRepairsSource.includes('ARMAGH AREA D') && featureRepairsSource.includes('DUNGANNON AREA C') && featureRepairsSource.includes('LIMAVADY AREA C'), '/test2 must repair known unnamed/misnamed deas-1972 feature labels');
 assert(labelsSource.includes('buildRepairedLabelValueExpression') && labelsSource.includes('repairFeatureProperties'), '/test2 label rendering must use repaired feature properties for known source-data label defects');
@@ -132,6 +135,18 @@ if (existsSync('test/metadata/elections-test2.json')) {
   assert((electionManifest.totals?.loadable || 0) > 100, '/test2 election manifest has too few loadable entries');
   assert((electionManifest.elections || []).some((entry) => entry.resultUrl && entry.stylingModes?.includes('winner')), '/test2 election manifest must include lazy result URLs and winner styling');
   assert((electionManifest.elections || []).some((entry) => entry.anchorUrl && entry.previousKey), '/test2 election manifest must include anchor sidecars and previous-election links where available');
+  const localEntries = (electionManifest.elections || []).filter((entry) => entry.bodyGroup === 'local-government');
+  const generalLocalEntries = localEntries.filter((entry) => (entry.localBodies || []).length > 1);
+  const generalLocalDates = new Map();
+  for (const entry of generalLocalEntries) {
+    const key = `${entry.displayProvider || ''}|${entry.date}`;
+    generalLocalDates.set(key, (generalLocalDates.get(key) || 0) + 1);
+    assert(entry.body === 'Local Government Districts', `/test2 grouped local election ${entry.date} must use the synthetic all-district body`);
+    assert(/Northern Ireland local election/.test(entry.displayTitle || ''), `/test2 grouped local election ${entry.date} must carry an all-NI title`);
+  }
+  assert(generalLocalEntries.length >= 10, '/test2 should expose historical NI general local elections as grouped date entries');
+  assert([...generalLocalDates.values()].every((count) => count === 1), '/test2 must not expose multiple council rows for the same grouped local-election date');
+  assert(localEntries.some((entry) => (entry.localBodies || []).length === 1 && entry.body !== 'Local Government Districts'), '/test2 must preserve single-council local by-elections as their own entries');
 }
 
 if (existsSync('test/metadata/elections-test2-report.json')) {

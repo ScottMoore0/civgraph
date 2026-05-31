@@ -2749,3 +2749,45 @@ Add election entries to /test2
     - `npm run test:browser:test2` passed after sandbox escalation for Chromium/server spawn: 14 tests.
     - `npm run check` passed.
 
+
+# /test2 election-layer parity review and local-election grouping
+- [x] Record scope and relevant guardrails
+  - Exhaustively compare main-site and `/test2` election layers around seat circles, feature labels, map interaction, and election pane structure.
+  - Implement local-election catalogue grouping so all-NI and all-ROI local elections appear as one election event rather than one row per council.
+  - Preserve main-site catalogue contract and keep MapLibre drawing in `/test2` engine-specific code.
+- [x] Audit main-site election implementation
+  - Review election geometry matching, labels, seat circles/vote overlays, result pane structure, local-government grouping, URL/timeline behaviour, and entity/count views.
+- [x] Audit `/test2` election implementation
+  - Review generated manifest/bundles, MapLibre election manager, seat-circle anchors, DOM labels, feature result selection, and election pane rendering.
+- [x] Implement grouped local-election catalogue events
+  - Generate grouped parent local-election events for NI/ROI-wide local elections and keep council-level bundles as child/selectable detail data where needed.
+  - Ensure catalogue browsing lists one event per jurisdiction/date while preserving per-council results and map interaction.
+- [x] Add guardrails and verification
+  - Add static checks or browser checks preventing council-level local elections from reappearing as separate catalogue events for the same jurisdiction/date.
+  - Rebuild `/test2` metadata and app bundles, then run route checks and relevant tests.
+- [x] Review
+  - Summarize implemented grouping and remaining parity gaps, distinguishing code-feasible work from data-blocked work.
+
+## Review
+- Main-site finding:
+  - The Leaflet election controller groups ordinary NI local-government elections by date into one "Northern Ireland local election" catalogue entry, then loads all council DEA result files through the shared `local-government` source path.
+  - Main uses Leaflet vector layers for election geography, suppresses labels underneath the election layer, adds seat-circle/vote-bar overlays through a Leaflet overlay group, and renders the production below-map `#electionResultsPane` with overall, council, DEA, party, candidate, count, entity, and animation views.
+- `/test2` finding:
+  - `/test2` already used the production shell and below-map pane, shared election-domain summary helpers, MapLibre style expressions, generated anchor sidecars, DOM labels, MapLibre feature enrichment, seat circles, vote bars, local-party views, count views, entity pages, URL election substate, and timeline wiring.
+  - The main parity drift fixed here was catalogue/data shape: generated `/test2` entries listed NI local elections once per council/date, so the catalogue and timeline treated one all-NI election as many council elections.
+- Implemented:
+  - `scripts/build-test2-election-manifest.mjs` now groups multi-council local-government dates into one synthetic `Local Government Districts` entry, while preserving a per-constituency council lookup for matching old DEA source names.
+  - General local-election entries now carry `displayTitle`, `displayProvider`, `localBodies`, and per-result `localBody` metadata.
+  - `/test2` election rendering now uses the grouped title and exposes a council-level view for grouped local elections.
+  - Single-council local by-elections remain separate entries.
+  - Generated manifest changed from 548 total elections / 294 local-government entries to 268 total elections / 14 local-government entries, while matched/unmatched constituency totals stayed stable at 3,957 matched and 727 unmatched.
+- Verification:
+  - `node --check scripts/build-test2-election-manifest.mjs` passed.
+  - `node --check test2/src/election-manager.js` passed.
+  - `node --check tests/browser/test2-app.spec.js` passed.
+  - `npm run build:test2:elections` passed.
+  - `npm run build:test2` passed after approved sandbox escalation for esbuild spawning.
+  - `npm run check:test2` passed.
+  - `npm run test:browser:test2` passed after approved sandbox escalation: 20/20 tests.
+  - `npm run build` passed after approved sandbox escalation for esbuild spawning.
+  - `npm run check` passed.
