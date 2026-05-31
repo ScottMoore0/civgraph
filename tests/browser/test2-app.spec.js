@@ -404,8 +404,12 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
       expectedSeatCount,
       seatSourceCount: seatSource?._data?.features?.length || 0,
       labels: document.querySelectorAll('.maplibre-dom-label[data-layer-id="pc-2023-vector-test"]:not([hidden])').length,
-      sharedRenderer: Boolean(document.querySelector('[data-election-renderer="shared"]')),
-      sharedRendererTables: document.querySelectorAll('[data-election-renderer="shared"] .election-party-table, [data-election-renderer="shared"] .election-count-table').length
+      mainParityRenderer: Boolean(document.querySelector('[data-election-renderer="test2-main-parity"]')),
+      groupedPartyTable: Boolean(document.querySelector('[data-election-renderer="test2-main-parity"] .election-party-table--grouped')),
+      paneTitle: document.getElementById('electionPaneTitle')?.textContent || '',
+      headerTabs: [...document.querySelectorAll('#electionPaneHeaderRight .election-view-tab')].map((button) => button.textContent.trim()),
+      headerHasStyleControl: Boolean(document.querySelector('#electionPaneHeaderRight #test2ElectionMode')),
+      mapDisplayControl: Boolean(document.querySelector('.test2-election-map-display #test2ElectionMode'))
     };
   });
 
@@ -424,11 +428,20 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   expect(loaded.seatSourceCount).toBeGreaterThan(0);
   expect(loaded.seatSourceCount).toBeLessThanOrEqual(loaded.expectedSeatCount);
   expect(loaded.labels).toBeGreaterThan(0);
-  expect(loaded.sharedRenderer).toBe(true);
-  expect(loaded.sharedRendererTables).toBeGreaterThan(0);
+  expect(loaded.mainParityRenderer).toBe(true);
+  expect(loaded.groupedPartyTable).toBe(true);
+  expect(loaded.paneTitle).toContain('Westminster');
+  expect(loaded.headerTabs).toEqual(['By Party', 'By Candidate', 'By Local Party']);
+  expect(loaded.headerHasStyleControl).toBe(false);
+  expect(loaded.mapDisplayControl).toBe(true);
 
-  await expect(page.locator('#electionResultsPane')).toContainText('House of Commons');
-  await expect(page.locator('#electionResultsPane')).toContainText('Matched');
+  await expect(page.locator('#electionResultsPane')).toContainText('Westminster');
+  await expect(page.locator('#electionResultsPane')).toContainText('1st preferences');
+  await page.locator('#electionPaneHeaderRight [data-election-view="candidate"]').click();
+  await expect(page.locator('#electionPaneContent')).toContainText('Constituency / DEA');
+  await expect(page.locator('#electionPaneContent .election-party-table--candidate-sticky3')).toHaveCount(1);
+  await page.locator('#electionPaneHeaderRight [data-election-view="party"]').click();
+  await page.locator('.test2-election-map-display summary').click();
   await page.locator('#test2ElectionMode').selectOption('voteShare');
   await expect(page.locator('#electionResultsPane')).toContainText('Vote share');
   await page.locator('#test2ElectionOverlay').selectOption('bars');
@@ -532,6 +545,7 @@ test('/test2 election pane supports local-government aggregates and detailed cou
     const deaSeatCount = deaSeatSource?.features?.length || 0;
     app.elections.renderPanel(null, 'local-party');
     const localText = document.getElementById('electionResultsPane')?.textContent || '';
+    const localPartyTable = Boolean(document.querySelector('#electionPaneContent .election-party-table--district-local-party-sticky4'));
     app.elections.activeLocalMode = 'district';
     app.elections.renderPanel(null, 'council');
     await app.elections.renderElectionOverlay();
@@ -548,8 +562,10 @@ test('/test2 election pane supports local-government aggregates and detailed cou
     const countResult = app.elections.activeBundle.results.find((result) => result.hasCountDetail);
     app.elections.renderPanel(countResult, 'counts');
     const before = document.getElementById('electionPaneContent')?.textContent || '';
+    const countTable = Boolean(document.querySelector('#electionPaneContent .election-count-table--grouped'));
     document.getElementById('test2ElectionCountDetail')?.click();
     const after = document.getElementById('electionPaneContent')?.textContent || '';
+    const countWrapper = Boolean(document.querySelector('#electionPaneContent .election-count-wrapper--pane-sticky'));
     return {
       localBody: localEntry.body,
       localBodies: localEntry.localBodies?.length || 0,
@@ -557,17 +573,21 @@ test('/test2 election pane supports local-government aggregates and detailed cou
       aggregateSeatCount,
       aggregateTypes,
       localText,
+      localPartyTable,
       councilText,
       entityKind: entityParams.get('electionEntityKind'),
       entityKey: entityParams.get('electionEntityKey'),
       countResult: countResult?.constituency || null,
+      countTable,
+      countWrapper,
       before,
       after
     };
   });
 
   expect(state.localText).toContain('By Local Party');
-  expect(state.localText).toMatch(/DEA|First prefs|DEA share/);
+  expect(state.localText).toMatch(/DEA|1st preferences|Candidates|Seats/);
+  expect(state.localPartyTable).toBe(true);
   expect(state.localBody).toBe('Local Government Districts');
   expect(state.localBodies).toBeGreaterThan(1);
   expect(state.deaSeatCount).toBeGreaterThan(0);
@@ -579,6 +599,8 @@ test('/test2 election pane supports local-government aggregates and detailed cou
   expect(state.entityKind).toBe('party');
   expect(state.entityKey).toBeTruthy();
   expect(state.countResult).toBeTruthy();
+  expect(state.countTable).toBe(true);
+  expect(state.countWrapper).toBe(true);
   expect(state.before).toContain('Show detailed count values');
   expect(state.after).toContain('Hide detailed count values');
   expect(state.after).toMatch(/valid poll|transfer/i);

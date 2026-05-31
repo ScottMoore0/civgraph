@@ -1653,3 +1653,11 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
 - Test2 mobile hover cleanup guardrail (2026-05-31): mobile browsers may keep synthetic hover UI alive after taps because `mouseleave` is not a reliable cleanup signal. Any catalogue thumbnail or map-hover UI that can be shown by hover must also have a document-level outside tap/pointer cleanup path and a browser/static guardrail.
 - Test2 seat-circle parity guardrail (2026-05-31): when matching main-site election overlays in MapLibre, copy the Leaflet overlay semantics, not just the visible idea. Seat dots should use the shared main seat-position algorithm, fixed pixel sizing, pixel offsets around the anchor, and main-style halo/border treatment; degree-based offsets and zoom-scaled circle radii drift from the main site.
 - Test2 election residual guardrail (2026-05-31): do not leave a generated election unmatched row classified as `blocked-on-implementation` if a faithful synthetic map artefact can represent it without inventing source boundaries. For regional/top-up results with no per-feature polygon, derive a bounded synthetic anchor from the selected source layer and add validation that the generated report has no implementation-blocked residuals.
+
+### 128) Main parity work must not mutate main unless explicitly requested
+- Mistake pattern: Trying to close `/test2` parity gaps by introducing shared renderer/domain wiring into main runtime files.
+- Impact: The user wants main as the fixed reference implementation; changing it undermines parity comparison and risks production behaviour.
+- Guardrail:
+  1) for `/test2` parity requests, treat main runtime files as read-only reference unless the user explicitly asks to change main,
+  2) implement alignment in `/test2` adapters/renderers and `/test2` generated artifacts,
+  3) tests should compare `/test2` against main contracts without requiring main code changes.
