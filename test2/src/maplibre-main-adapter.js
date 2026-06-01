@@ -344,8 +344,14 @@ export class Test2MapLibreMainAdapter {
     if (this.map.getLayer(fillId)) {
       record._electionOriginalPaint.fillColor ??= this.map.getPaintProperty(fillId, 'fill-color');
       record._electionOriginalPaint.fillOpacity ??= this.map.getPaintProperty(fillId, 'fill-opacity');
-      this.map.setPaintProperty(fillId, 'fill-color', style.fillColorExpression);
-      if (style.fillOpacity !== undefined) this.map.setPaintProperty(fillId, 'fill-opacity', clamp01(style.fillOpacity));
+      if (style.fillColorExpression !== undefined) {
+        this.map.setPaintProperty(fillId, 'fill-color', style.fillColorExpression);
+      }
+      if (style.fillOpacityExpression !== undefined) {
+        this.map.setPaintProperty(fillId, 'fill-opacity', style.fillOpacityExpression);
+      } else if (style.fillOpacity !== undefined) {
+        this.map.setPaintProperty(fillId, 'fill-opacity', clamp01(style.fillOpacity));
+      }
     }
     if (this.map.getLayer(lineId)) {
       const property = record.config.geometryType === 'point' ? 'circle-color' : 'line-color';
@@ -353,7 +359,9 @@ export class Test2MapLibreMainAdapter {
       record._electionOriginalPaint.lineOpacity ??= this.map.getPaintProperty(lineId, record.config.geometryType === 'point' ? 'circle-opacity' : 'line-opacity');
       record._electionOriginalPaint.lineWidth ??= this.map.getPaintProperty(lineId, record.config.geometryType === 'point' ? 'circle-radius' : 'line-width');
       this.map.setPaintProperty(lineId, property, style.lineColorExpression || style.fillColorExpression);
-      if (style.lineOpacity !== undefined) {
+      if (style.lineOpacityExpression !== undefined) {
+        this.map.setPaintProperty(lineId, record.config.geometryType === 'point' ? 'circle-opacity' : 'line-opacity', style.lineOpacityExpression);
+      } else if (style.lineOpacity !== undefined) {
         this.map.setPaintProperty(lineId, record.config.geometryType === 'point' ? 'circle-opacity' : 'line-opacity', clamp01(style.lineOpacity));
       }
       if (style.lineWidth !== undefined && record.config.geometryType !== 'point') {

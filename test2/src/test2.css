@@ -146,11 +146,34 @@
     bottom: 14px;
   }
 
-  #mobileToggle.mobile-toggle {
-    top: auto !important;
-    left: auto !important;
-    right: 14px !important;
-    bottom: 14px !important;
+  .app-header #mobileToggle.mobile-toggle.mobile-toggle--navbar {
+    position: static !important;
+    inset: auto !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    margin: 0 0 0 2px;
+    padding: 0;
+    color: var(--color-text-inverse);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: var(--radius-md);
+    box-shadow: none;
+    z-index: auto;
+  }
+
+  .app-header #mobileToggle.mobile-toggle.mobile-toggle--navbar:hover,
+  .app-header #mobileToggle.mobile-toggle.mobile-toggle--navbar:focus-visible {
+    background: rgba(255, 255, 255, 0.22);
+  }
+}
+
+@media (min-width: 769px) {
+  .app-header #mobileToggle.mobile-toggle.mobile-toggle--navbar {
+    display: none !important;
   }
 }
 

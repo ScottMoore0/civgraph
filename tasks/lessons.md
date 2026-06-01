@@ -1669,3 +1669,21 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   1) for `/test2` parity requests, treat main runtime files as read-only reference unless the user explicitly asks to change main,
   2) implement alignment in `/test2` adapters/renderers and `/test2` generated artifacts,
   3) tests should compare `/test2` against main contracts without requiring main code changes.
+
+### 129) Screenshot parity gaps require contract reuse, not visual approximation
+- Mistake pattern: Repeatedly responding to main-vs-`/test2` screenshots with isolated CSS/data tweaks instead of treating the screenshot as evidence that `/test2` is still running a different catalogue/election/map contract.
+- Impact: The page can pass local guardrail tests while still looking and behaving differently in the exact user-visible comparison, especially for viewport restore, map framing, election table values/order, label density, and seat-circle placement.
+- Guardrail:
+  1) before claiming parity, reproduce the same URL/state on main and `/test2` in side-by-side screenshots,
+  2) identify every visible difference as either intentional MapLibre architecture or a failing parity item,
+  3) fix parity by reusing or mirroring the main shell/election view-model contracts in `/test2`, not by hand-tuning symptoms,
+  4) add visual/DOM assertions for the exact compared state, including map center/zoom, catalogue active row position, election pane first rows/values, and overlay counts/positions.
+
+### 130) Test2 election paint parity must mirror main constants
+- Mistake pattern: Treating `/test2` election polygon styling as an independent MapLibre design surface, using approximate fill opacity, stroke colour, and zoom-varying stroke width instead of the main election layer paint contract.
+- Impact: Election entries can load and function correctly but still visibly disagree with main in the screenshots the user is using as the acceptance criterion.
+- Guardrail:
+  1) read main `ElectionController` paint constants before adjusting `/test2` election style,
+  2) encode those constants in `/test2` as a named contract rather than scattered literals,
+  3) keep hover/selected orange interaction styling separate from base election styling,
+  4) add static/browser checks for fill colour fallback, matched fill opacity, unmatched fill opacity, stroke colour, stroke opacity, and stroke width.

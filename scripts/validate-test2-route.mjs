@@ -56,7 +56,9 @@ assert(test2Css.includes('#map .maplibregl-ctrl-top-left') && test2Css.includes(
 assert(mapControllerSource.includes("this.map.on('dblclick', onDoubleClick)"), '/test2 feature geometry selection must be wired to double-click');
 assert(mapControllerSource.includes('this.map.doubleClickZoom?.disable()'), '/test2 must disable MapLibre double-tap zoom so mobile feature taps can open details');
 assert(mapControllerSource.includes("this.map.on('click', onClick)"), '/test2 feature geometry selection must be wired to ordinary tap/click as well as double-click');
-assert(test2Css.includes('#mobileToggle.mobile-toggle') && test2Css.includes('bottom: 14px !important'), '/test2 mobile catalogue toggle must be positioned away from catalogue history controls');
+assert(appSource.includes('relocateMobileCatalogueToggle') && appSource.includes('mobile-toggle--navbar'), '/test2 must move the mobile catalogue toggle into the navbar instead of leaving it as a floating map overlay');
+assert(test2Css.includes('.app-header #mobileToggle.mobile-toggle.mobile-toggle--navbar') && test2Css.includes('position: static !important'), '/test2 mobile catalogue toggle must be styled as a navbar control on mobile');
+assert(!test2Css.includes('bottom: 14px !important'), '/test2 mobile catalogue toggle must not be restored to the bottom-right map overlay position');
 assert(test2Css.includes('#map .timeline-slider') && test2Css.includes('pointer-events: none'), '/test2 timeline chrome must not block feature labels except on real timeline controls');
 assert(test2Css.includes('.maplibre-dom-label.map-label--hover'), '/test2 DOM labels must expose hover styling');
 assert(test2Css.includes('.maplibre-dom-label.map-label--selected'), '/test2 selected DOM labels must keep the same orange styling as hover labels');
@@ -91,6 +93,7 @@ assert(!uiControllerSource.includes('flat-election-toc-link') && !uiControllerSo
 assert(appSource.includes('enrichFeature: (feature, selection) => this.elections?.enrichFeature'), '/test2 selected feature details must merge election results where active');
 assert(appSource.includes('setupTimelineControls') && appSource.includes('setTimelineItems'), '/test2 must wire the production timeline slider for map chains and elections');
 assert(adapterSource.includes('applyElectionStyle') && adapterSource.includes('clearElectionStyle'), '/test2 adapter must support MapLibre election styling expressions');
+assert(adapterSource.includes('fillOpacityExpression') && adapterSource.includes('lineOpacityExpression'), '/test2 adapter must accept expression-based election opacity so main matched/unmatched paint can be mirrored');
 assert(electionManagerSource.includes('ELECTION_MANIFEST_URL') && electionManagerSource.includes('loadElection(body, date)'), '/test2 election manager must lazy-load generated election result bundles');
 assert(electionManagerSource.includes('renderLoadingPanel') && electionManagerSource.includes('Promise.all') && electionManagerSource.includes('loadFeatureIndexForBundle'), '/test2 election loads must use a progressive pane and parallel map/result/index fetch path');
 assert(electionManagerSource.includes('voteShare') && electionManagerSource.includes('turnout') && electionManagerSource.includes('quota'), '/test2 election manager must expose requested election styling modes');
@@ -131,6 +134,10 @@ assert(electionManifestBuilderSource.includes('matchEntryForConstituency') && el
 assert(electionManagerSource.includes('filterOverlayGroupsByCollision') && electionManagerSource.includes('boxesOverlap'), '/test2 election overlays must have MapLibre-native collision suppression');
 assert(electionManagerSource.includes('projectAnchorBounds') && electionManagerSource.includes('pixelArea'), '/test2 election overlay collision must use generated anchor bounds, not only centre-point spacing');
 assert(electionManagerSource.includes('orderPartyRowsLikeMain') && electionManagerSource.includes('setupResultsTableControls') && electionManagerSource.includes('test2SortDirection'), '/test2 election tables must preserve main-style party ordering and interactive sort controls');
+assert(electionManagerSource.includes('MAIN_ELECTION_GEOGRAPHY_STYLE') && electionManagerSource.includes("unmatchedFillColor: '#dfe4ec'") && electionManagerSource.includes('matchedFillOpacity: 0.6') && electionManagerSource.includes("matchedStrokeColor: '#333'"), '/test2 election geography styling must mirror main fill/stroke constants');
+assert(electionManagerSource.includes('buildElectionMatchExpression') && electionManagerSource.includes('fillOpacityExpression'), '/test2 election geography styling must distinguish matched and unmatched features with MapLibre expressions');
+assert(electionDomainSource.includes('buildMainLikePartySummaryFromRawResults') && electionManifestBuilderSource.includes('mainLikePartySummary'), '/test2 election bundles must carry main-controller-compatible party summaries, not only independent test2 summaries');
+assert(electionManagerSource.includes('this.activeBundle.mainLikePartySummary') && electionManagerSource.includes('this.previousBundle?.mainLikePartySummary'), '/test2 election pane must consume main-compatible current and previous party summaries');
 assert(electionManagerSource.includes('circle-sort-key') && electionManagerSource.includes('seatOrder'), '/test2 seat-circle drawing order must be deterministic like the main overlay DOM order');
 assert(uiControllerSource.includes('ensureMobileThumbnailDismissal') && uiControllerSource.includes('catalogue-flat__toc-thumbzoom--visible'), '/test2/main catalogue thumbnails must dismiss stuck mobile hover previews on outside touch/click');
 assert(electionManagerSource.includes('renderCouncilResults') && electionManagerSource.includes('buildCouncilSummary'), '/test2 grouped local elections must expose a council-level results view');
@@ -170,6 +177,11 @@ if (existsSync('test/metadata/elections-test2.json')) {
   assert((electionManifest.totals?.loadable || 0) > 100, '/test2 election manifest has too few loadable entries');
   assert((electionManifest.elections || []).some((entry) => entry.resultUrl && entry.stylingModes?.includes('winner')), '/test2 election manifest must include lazy result URLs and winner styling');
   assert((electionManifest.elections || []).some((entry) => entry.anchorUrl && entry.previousKey), '/test2 election manifest must include anchor sidecars and previous-election links where available');
+  const dail2024Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/dail-eireann__2024-11-29.json', 'utf8'));
+  const dail2024Rows = dail2024Bundle.mainLikePartySummary || [];
+  assert(dail2024Rows[0]?.party === 'Fine Gael' && dail2024Rows[0]?.stood === 11 && dail2024Rows[0]?.seats === 42 && dail2024Rows[0]?.votes === 108352, '/test2 Dail 2024 bundle must preserve the main-controller party summary contract for the screenshot parity state');
+  assert(dail2024Bundle.mainLikeTotals?.validPoll === 412346, '/test2 Dail 2024 bundle must preserve the main-controller valid-poll denominator for the screenshot parity state');
+  assert(dail2024Bundle.mainLikeTotals?.totalSeats === 0, '/test2 Dail 2024 bundle must preserve the main-controller seat-total denominator for the screenshot parity state');
   const forumEntry = (electionManifest.elections || []).find((entry) => entry.body === 'Northern Ireland Forum for Political Dialogue' && entry.date === '1996-05-30');
   assert(forumEntry?.matchedCount === forumEntry?.totalConstituencies, '/test2 1996 Forum election must include the NI-wide regional-list result via a synthetic anchor');
   const localEntries = (electionManifest.elections || []).filter((entry) => entry.bodyGroup === 'local-government');

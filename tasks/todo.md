@@ -1,3 +1,27 @@
+# /test2 election colour and mobile menu parity correction
+- [x] Record scope
+  - User correction: election entry fill/stroke colours on `/test2` still differ from main, suggesting other parity drift; mobile menu/catalogue button should live on the navbar instead of floating out of sight or colliding with map controls.
+  - Main remains the fixed reference. Runtime changes should be scoped to `/test2`, generated `/test2` build output, tests/validation, and task notes.
+  - Completed: task scope recorded before implementation.
+- [x] Inspect current divergence
+  - Compare main election paint constants with `/test2` MapLibre election expressions.
+  - Inspect mobile catalogue/menu toggle placement and collision tests.
+  - Completed: main uses unmatched `#dfe4ec` fill at `0.42`, matched winner fill at `0.6`, fixed `#333` matched stroke, `#a1aab8` unmatched stroke, fixed `1.5` weight, and `0.8` opacity; `/test2` was using `0.28` fill, `#31546a` stroke, and zoom-varying stroke width. The mobile catalogue toggle was still styled as a floating map overlay.
+- [x] Implement `/test2` parity fixes
+  - Mirror main election polygon paint contract for matched and unmatched election geography: fill colour, fill opacity, stroke colour, stroke opacity, and stroke width.
+  - Keep MapLibre-only interaction layers separate so hover/selected orange feedback is not regressed.
+  - Move the mobile catalogue/menu toggle into the navbar on `/test2` and style it as a navbar control on mobile.
+  - Completed: `/test2` election base styling now uses a named main-style paint contract with MapLibre match expressions for matched/unmatched fill and stroke, while the adapter accepts expression-based opacity. The mobile catalogue toggle is moved into `.app-header` and styled as a navbar button on mobile.
+- [x] Add guardrails
+  - Add or update static/browser checks proving `/test2` uses main election paint values and the mobile toggle sits in the navbar without colliding with map controls.
+  - Completed: route validation now requires the main-style election paint contract and navbar relocation hook; browser checks assert the mobile toggle is inside the header and election fill/stroke/opacity/width paint values match the main contract.
+- [x] Verify
+  - Run `/test2` validation, rebuild, and focused browser checks.
+  - Completed: `node --check` passed for changed `/test2` sources and validation script; `npm run check:test2` passed; `npm run build:test2` passed after approved esbuild escalation; focused Playwright checks for mobile controls and election styling passed; full `npm run test:browser:test2` passed with 23/23 tests.
+- [x] Review
+  - Summarize implemented changes and remaining sensible MapLibre differences, if any.
+  - Completed: ready to report the implemented `/test2` election paint parity and mobile navbar-toggle fix.
+
 # /test2 remaining main-visible election parity gaps
 - [x] Record scope
   - User request: fix active election catalogue restore, Dáil 2024 table ordering/aggregation, URL viewport restore, low-zoom label density, election fill/stroke style, seat-circle placement/collision, and MapLibre controls so `/test2` aligns with main where feasible.
@@ -2945,7 +2969,7 @@ Add election entries to /test2
   - Exact Leaflet overlay pixel placement is intentionally not copied; `/test2` uses MapLibre-native seat/vote overlays with collision suppression and verified click/feature integration.
 
 # /test2 election state, catalogue, map, and pane parity pass
-- [ ] Record scope
+- [x] Record scope
   - User request: amend `/test2` so election URL IDs, catalogue state, election pane state/aggregation/order, map labels/hover/seat circles, and map controls align with main as far as feasible and sensible.
   - Main runtime files remain read-only reference for this pass; implement alignment in `/test2`, generated `/test2` assets, validation, and tests only.
 - [x] Inspect current divergence
@@ -3074,3 +3098,37 @@ Add election entries to /test2
 - [x] Review remaining limits
   - Document any data-blocked or MapLibre-specific limits left after implementation.
   - Remaining limits: exact count/entity data completeness is constrained by what the generated `/test2` election bundles carry; MapLibre overlay placement remains renderer-specific rather than a Leaflet DOM clone.
+
+# /test2 election parity contract refactor
+- [x] Record scope
+  - Treat main as the fixed reference implementation.
+  - Mirror or reuse main election view-model generation in `/test2` to eliminate screenshot-visible drift.
+  - Keep MapLibre-specific differences restricted to final drawing: polygons, DOM labels, hover/selection, and seat circles.
+- [x] Inspect main/test2 contracts
+  - Compare main election controller view-model construction, URL restore, catalogue active state, party table ordering/aggregation, feature label thresholds, and seat-circle placement against `/test2`.
+- [x] Implement contract-level fixes
+  - Make `/test2` use main-style normalized election pane data and table ordering/values for the active election.
+  - Restore URL/catalogue/election state before any map fitting or MapLibre-specific framing.
+  - Keep final MapLibre drawing as an adapter around the normalized election state.
+- [x] Add side-by-side parity guardrails
+  - Add tests for the exact Dáil 2024 comparison URL/state: active catalogue row, viewport/zoom, pane title, first rows/values, labels, and overlay presence.
+  - Add assertions that `/test2` has not drifted into separate simplified election rendering for this path.
+- [x] Verify
+  - Run syntax checks, `/test2` validation, build, and browser tests.
+  - `npm run build:test2:elections` passed.
+  - `npm run build:test2` passed after approved sandbox escalation for esbuild helper spawning.
+  - `npm run check:test2` passed.
+  - Focused side-by-side Dail 2024 tests passed: `npm run test:browser -- tests/browser/test2-app.spec.js -g "Dail 2024 election pane matches|restores active Dail"`.
+  - Full `/test2` browser suite passed after approved sandbox escalation: `npm run test:browser:test2` passed, 23/23 tests.
+  - `npm run build` passed after approved sandbox escalation for esbuild helper spawning.
+  - `npm run check` passed.
+- [x] Review
+  - Document what was aligned, what remains impossible/senseless because of MapLibre-vs-Leaflet rendering, and any genuinely data-blocked gaps.
+  - Aligned: main-like Dail 2024 party order, candidate/seat/vote values, visible percentage/delta cells, active catalogue restore, and exact DOM rows for the screenshot state.
+  - Remaining engine-specific limits: pixel-perfect Leaflet tile/DOM rendering cannot be identical in MapLibre, but the election pane contract now has a side-by-side regression test.
+  - Remaining data-blocked limits: unmatched election geographies remain in `test/metadata/elections-test2-report.json` and are separate from this Dail 2024 view-model parity fix.
+- [x] Recurring issue prevention
+  - Symptom: `/test2` repeatedly looked close but still differed from main in election rows, percentages, catalogue restore, and screenshot comparisons.
+  - Root cause: `/test2` used an independently cleaned-up election view-model instead of main's raw-controller election table contract; visual tweaks could not fix data-contract drift.
+  - Permanent prevention action: generated `/test2` election bundles now carry `mainLikePartySummary` and `mainLikeTotals`; `/test2` renders the main-like table from those fields; validation asserts the Dail 2024 contract; browser tests compare main and `/test2` side by side for the exact Dail 2024 state.
+  - Verification evidence: focused side-by-side Dail 2024 DOM parity test passed, full `/test2` browser suite passed 23/23, and production build/check passed.

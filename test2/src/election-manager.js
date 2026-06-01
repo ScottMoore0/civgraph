@@ -28,6 +28,16 @@ const RECALL_LABEL_LAYER_ID = 'test2-election-recall-label-layer';
 const SEAT_CIRCLE_SIZE = 12;
 const SEAT_CIRCLE_SPACING = SEAT_CIRCLE_SIZE + 1;
 
+const MAIN_ELECTION_GEOGRAPHY_STYLE = Object.freeze({
+  unmatchedFillColor: '#dfe4ec',
+  unmatchedFillOpacity: 0.42,
+  unmatchedStrokeColor: '#a1aab8',
+  matchedFillOpacity: 0.6,
+  matchedStrokeColor: '#333',
+  strokeOpacity: 0.8,
+  strokeWidth: 1.5
+});
+
 const MODE_LABELS = {
   winner: 'Winner',
   leadingParty: 'Leading party',
@@ -327,33 +337,60 @@ export class Test2ElectionManager {
 
   applyActiveStyle() {
     if (!this.activeEntry || !this.activeBundle) return;
-    const expression = this.buildColourExpression(this.activeMode);
+    const fillColorExpression = this.buildColourExpression(
+      this.activeMode,
+      MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedFillColor
+    );
+    const isPointGeometry = this.activeBundle.geometryType === 'point';
     this.mapController.applyElectionStyle?.(this.activeEntry.sourceMapId, {
       mode: this.activeMode,
-      fillColorExpression: expression,
-      lineColorExpression: '#31546a',
-      fillOpacity: this.activeBundle.geometryType === 'point' ? undefined : 0.28,
-      lineOpacity: this.activeBundle.geometryType === 'point' ? undefined : 0.72,
-      lineWidth: this.activeBundle.geometryType === 'point'
+      fillColorExpression,
+      lineColorExpression: isPointGeometry
+        ? fillColorExpression
+        : this.buildElectionMatchExpression(
+          () => MAIN_ELECTION_GEOGRAPHY_STYLE.matchedStrokeColor,
+          MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedStrokeColor
+        ),
+      fillOpacityExpression: isPointGeometry
         ? undefined
-        : ['interpolate', ['linear'], ['zoom'], 4, 0.65, 7, 0.9, 10, 1.25, 13, 1.7],
+        : this.buildElectionMatchExpression(
+          () => MAIN_ELECTION_GEOGRAPHY_STYLE.matchedFillOpacity,
+          MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedFillOpacity
+        ),
+      lineOpacity: isPointGeometry ? undefined : MAIN_ELECTION_GEOGRAPHY_STYLE.strokeOpacity,
+      lineWidth: isPointGeometry ? undefined : MAIN_ELECTION_GEOGRAPHY_STYLE.strokeWidth,
       labelMinZoomOverride: 7.35
     });
     this.renderLegend();
   }
 
-  buildColourExpression(mode) {
-    const labels = [];
-    for (const result of this.activeBundle.results || []) {
-      if (!result.matched || !result.matchName) continue;
-      labels.push(result.matchName, this.colourForMode(mode, result));
-    }
-    const matchInput = buildRepairedLabelValueExpression({
+  buildElectionMatchInput() {
+    return buildRepairedLabelValueExpression({
       id: this.activeBundle.layerId,
       sourceMapId: this.activeBundle.sourceMapId,
       labelProperty: this.activeBundle.labelProperty
     }, ['to-string', ['get', this.activeBundle.labelProperty || 'name']]);
-    return ['match', ['to-string', matchInput], ...labels, '#9ca3af'];
+  }
+
+  buildElectionMatchExpression(valueForResult, fallback) {
+    const labels = [];
+    const seen = new Set();
+    for (const result of this.activeBundle.results || []) {
+      if (!result.matched || !result.matchName) continue;
+      const label = String(result.matchName);
+      if (seen.has(label)) continue;
+      seen.add(label);
+      labels.push(label, valueForResult(result));
+    }
+    if (!labels.length) return fallback;
+    return ['match', ['to-string', this.buildElectionMatchInput()], ...labels, fallback];
+  }
+
+  buildColourExpression(mode, fallback = MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedFillColor) {
+    return this.buildElectionMatchExpression(
+      (result) => this.colourForMode(mode, result),
+      fallback
+    );
   }
 
   colourForMode(mode, result) {
@@ -474,8 +511,10 @@ export class Test2ElectionManager {
     if (this.isLocalGovernmentElection() && this.activeLocalMode === 'district') {
       return this.renderDistrictResults(view);
     }
-    const rows = this.activeBundle.partySummary?.length ? this.activeBundle.partySummary : buildPartySummary(results);
-    const rowsWithDeltas = this.withPartyDeltas(rows);
+    const rows = this.activeBundle.mainLikePartySummary?.length
+      ? this.activeBundle.mainLikePartySummary
+      : (this.activeBundle.partySummary?.length ? this.activeBundle.partySummary : buildPartySummary(results));
+    const rowsWithDeltas = this.withPartyDeltas(rows, { mainLike: Boolean(this.activeBundle.mainLikePartySummary?.length) });
     const candidates = buildCandidateSummary(results);
     return `
       <section class="test2-election-panel test2-election-panel--main-parity" aria-label="Election results summary" data-election-renderer="test2-main-parity">
@@ -514,22 +553,47 @@ export class Test2ElectionManager {
   renderMainParityPartyTable(rowsWithDeltas = [], results = []) {
     if (!rowsWithDeltas.length) return '<div class="election-no-data">No results data available.</div>';
     const orderedRows = this.orderPartyRowsLikeMain(rowsWithDeltas);
-    const totalSeats = rowsWithDeltas.reduce((sum, row) => sum + numberOrZero(row.seats), 0);
-    const totalValid = sumNumbers(results, 'validPoll') || rowsWithDeltas.reduce((sum, row) => sum + numberOrZero(row.votes), 0);
-    const totalPoll = sumNumbers(results, 'totalPoll') || totalValid + sumNumbers(results, 'spoiled');
-    const totalElectorate = sumNumbers(results, 'electorate');
-    const totalSpoiled = sumNumbers(results, 'spoiled');
+    const mainLikeTotals = this.activeBundle?.mainLikeTotals || null;
+    const totalSeats = Number.isFinite(Number(mainLikeTotals?.totalSeats))
+      ? Number(mainLikeTotals.totalSeats)
+      : rowsWithDeltas.reduce((sum, row) => sum + numberOrZero(row.seats), 0);
+    const totalValid = Number.isFinite(Number(mainLikeTotals?.validPoll))
+      ? Number(mainLikeTotals.validPoll)
+      : (sumNumbers(results, 'validPoll') || rowsWithDeltas.reduce((sum, row) => sum + numberOrZero(row.votes), 0));
+    const totalPoll = Number.isFinite(Number(mainLikeTotals?.totalPoll))
+      ? Number(mainLikeTotals.totalPoll)
+      : (sumNumbers(results, 'totalPoll') || totalValid + sumNumbers(results, 'spoiled'));
+    const totalElectorate = Number.isFinite(Number(mainLikeTotals?.totalElectorate))
+      ? Number(mainLikeTotals.totalElectorate)
+      : sumNumbers(results, 'electorate');
+    const totalSpoiled = Number.isFinite(Number(mainLikeTotals?.totalSpoiled))
+      ? Number(mainLikeTotals.totalSpoiled)
+      : sumNumbers(results, 'spoiled');
     const didNotVote = totalElectorate ? Math.max(0, totalElectorate - totalPoll) : 0;
-    const prevRows = this.previousBundle?.partySummary?.length
+    const prevRows = this.previousBundle?.mainLikePartySummary?.length
+      ? this.previousBundle.mainLikePartySummary
+      : this.previousBundle?.partySummary?.length
       ? this.previousBundle.partySummary
       : (this.previousBundle?.results?.length ? buildPartySummary(this.previousBundle.results) : []);
-    const prevTotalSeats = prevRows.reduce((sum, row) => sum + numberOrZero(row.seats), 0);
-    const prevTotalValid = this.previousBundle?.results?.length
+    const prevMainLikeTotals = this.previousBundle?.mainLikeTotals || null;
+    const prevRowSeatTotal = prevRows.reduce((sum, row) => sum + numberOrZero(row.seats), 0);
+    const prevTotalSeats = Number.isFinite(Number(prevMainLikeTotals?.totalSeats)) && Number(prevMainLikeTotals.totalSeats) > 0
+      ? Number(prevMainLikeTotals.totalSeats)
+      : prevRowSeatTotal;
+    const prevTotalValid = Number.isFinite(Number(prevMainLikeTotals?.validPoll))
+      ? Number(prevMainLikeTotals.validPoll)
+      : this.previousBundle?.results?.length
       ? (sumNumbers(this.previousBundle.results, 'validPoll') || prevRows.reduce((sum, row) => sum + numberOrZero(row.votes), 0))
       : 0;
-    const prevTotalPoll = this.previousBundle?.results?.length ? (sumNumbers(this.previousBundle.results, 'totalPoll') || prevTotalValid + sumNumbers(this.previousBundle.results, 'spoiled')) : 0;
-    const prevTotalElectorate = this.previousBundle?.results?.length ? sumNumbers(this.previousBundle.results, 'electorate') : 0;
-    const prevTotalSpoiled = this.previousBundle?.results?.length ? sumNumbers(this.previousBundle.results, 'spoiled') : 0;
+    const prevTotalPoll = Number.isFinite(Number(prevMainLikeTotals?.totalPoll))
+      ? Number(prevMainLikeTotals.totalPoll)
+      : (this.previousBundle?.results?.length ? (sumNumbers(this.previousBundle.results, 'totalPoll') || prevTotalValid + sumNumbers(this.previousBundle.results, 'spoiled')) : 0);
+    const prevTotalElectorate = Number.isFinite(Number(prevMainLikeTotals?.totalElectorate))
+      ? Number(prevMainLikeTotals.totalElectorate)
+      : (this.previousBundle?.results?.length ? sumNumbers(this.previousBundle.results, 'electorate') : 0);
+    const prevTotalSpoiled = Number.isFinite(Number(prevMainLikeTotals?.totalSpoiled))
+      ? Number(prevMainLikeTotals.totalSpoiled)
+      : (this.previousBundle?.results?.length ? sumNumbers(this.previousBundle.results, 'spoiled') : 0);
     const prevDidNotVote = prevTotalElectorate ? Math.max(0, prevTotalElectorate - prevTotalPoll) : 0;
     const pct = (value, denominator) => denominator ? (value / denominator * 100) : 0;
     const turnoutPct = pct(totalPoll, totalElectorate);
@@ -882,8 +946,10 @@ export class Test2ElectionManager {
     return previous.length ? compareResults(current, previous) : current;
   }
 
-  withPartyDeltas(rows = []) {
-    const previousRows = this.previousBundle?.results?.length ? buildPartySummary(this.previousBundle.results) : [];
+  withPartyDeltas(rows = [], options = {}) {
+    const previousRows = options.mainLike && this.previousBundle?.mainLikePartySummary?.length
+      ? this.previousBundle.mainLikePartySummary
+      : (this.previousBundle?.results?.length ? buildPartySummary(this.previousBundle.results) : []);
     const previousByParty = new Map(previousRows.map((row) => [normalizeName(row.party), row]));
     return rows.map((row) => {
       const previous = previousByParty.get(normalizeName(row.party));

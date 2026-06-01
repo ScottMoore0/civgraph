@@ -87,6 +87,10 @@ test('/test2 restores active Dail election catalogue, viewport, labels, and part
     const rowTexts = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)')]
       .slice(0, 4)
       .map((row) => row.children[1]?.textContent?.trim()?.replace(/\s+/g, ' '));
+    const firstRowCells = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)')[0]?.children || []]
+      .map((cell) => cell.textContent?.trim()?.replace(/\s+/g, ' '));
+    const secondRowCells = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)')[1]?.children || []]
+      .map((cell) => cell.textContent?.trim()?.replace(/\s+/g, ' '));
     return {
       path: location.pathname,
       hash: location.hash,
@@ -97,7 +101,9 @@ test('/test2 restores active Dail election catalogue, viewport, labels, and part
       lat: map.getCenter().lat,
       zoom: map.getZoom(),
       domLabels: document.querySelectorAll('.maplibre-dom-label').length,
-      rowTexts
+      rowTexts,
+      firstRowCells,
+      secondRowCells
     };
   });
 
@@ -111,15 +117,60 @@ test('/test2 restores active Dail election catalogue, viewport, labels, and part
   expect(restored.lat).toBeCloseTo(53.48, 1);
   expect(restored.zoom).toBeCloseTo(7, 1);
   expect(restored.domLabels).toBe(0);
-  expect(restored.rowTexts[0]).toMatch(/Fianna F.il/);
-  expect(restored.rowTexts[1]).toMatch(/Sinn F.in/);
-  expect(restored.rowTexts[2]).toBe('Fine Gael');
-  expect(restored.rowTexts[3]).toBe('Independent');
+  expect(restored.rowTexts[0]).toBe('Fine Gael');
+  expect(restored.rowTexts[1]).toMatch(/Fianna F.il/);
+  expect(restored.rowTexts[2]).toBe('Independent');
+  expect(restored.rowTexts[3]).toMatch(/Sinn F.in/);
+  expect(restored.firstRowCells.slice(0, 12)).toEqual([
+    '1st',
+    'Fine Gael',
+    '11',
+    '+9',
+    '42',
+    '-5',
+    '0.00%',
+    '-24.10%',
+    '108,352',
+    '+85,218',
+    '26.28%',
+    '+21.82%'
+  ]);
+  expect(restored.secondRowCells.slice(0, 5)).toEqual(['2nd', expect.stringMatching(/Fianna F.il/), '10', '+8', '39']);
 
   await page.locator('#electionPaneContent th[data-leaf-col-idx="8"] .election-results-sort').click();
   const firstAfterSort = await page.locator('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)').first().textContent();
-  expect(firstAfterSort).toMatch(/Fianna F.il/);
+  expect(firstAfterSort).toMatch(/Fine Gael/);
   await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="8"] .election-results-sort')).toHaveClass(/election-results-sort--active/);
+});
+
+test('/test2 Dail 2024 election pane matches the main DOM contract for the compared state', async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 960, height: 920 } });
+  const mainPage = await context.newPage();
+  const test2Page = await context.newPage();
+  const hash = 'layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00';
+  const extractPartyRows = async (page) => {
+    await page.waitForSelector('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)', { timeout: 25000 });
+    return page.evaluate(() => [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)')]
+      .slice(0, 4)
+      .map((row) => [...row.children].slice(0, 12).map((cell) => cell.textContent?.trim()?.replace(/\s+/g, ' '))));
+  };
+
+  await Promise.all([
+    mainPage.goto('/'),
+    test2Page.goto(`/test2/#${hash}`)
+  ]);
+  await mainPage.waitForFunction(() => window.uiController?.onLoadElection);
+  await mainPage.evaluate(() => window.uiController.onLoadElection('Dáil Éireann', '2024-11-29'));
+  await test2Page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await test2Page.evaluate(() => window.__civgraphTest2.restorePromise);
+
+  const [mainRows, test2Rows] = await Promise.all([
+    extractPartyRows(mainPage),
+    extractPartyRows(test2Page)
+  ]);
+
+  expect(test2Rows).toEqual(mainRows);
+  await context.close();
 });
 
 test('/test2 dismisses stuck mobile thumbnail previews on outside tap', async ({ page }) => {
@@ -227,16 +278,27 @@ test('/test2 mobile map and catalogue controls do not collide', async ({ page })
       && a.top < b.bottom
       && a.bottom > b.top);
     const toggle = rect(document.getElementById('mobileToggle'));
+    const header = rect(document.querySelector('.app-header'));
     const history = rect(document.getElementById('catalogueHistory'));
     const home = rect(document.getElementById('catalogueHome'));
+    const toggleParent = document.getElementById('mobileToggle')?.parentElement?.className || '';
     return {
       toggle,
+      header,
       history,
       home,
+      toggleParent,
+      toggleInsideHeader: Boolean(toggle && header
+        && toggle.top >= header.top
+        && toggle.bottom <= header.bottom
+        && toggle.left >= header.left
+        && toggle.right <= header.right),
       toggleHistoryOverlaps: overlaps(toggle, history),
       toggleHomeOverlaps: overlaps(toggle, home)
     };
   });
+  expect(catalogueLayout.toggleParent).toContain('app-header');
+  expect(catalogueLayout.toggleInsideHeader).toBe(true);
   expect(catalogueLayout.toggleHistoryOverlaps).toBe(false);
   expect(catalogueLayout.toggleHomeOverlaps).toBe(false);
 });
@@ -450,6 +512,10 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
       panelVisible: document.getElementById('electionResultsPane')?.classList.contains('election-results-pane--open'),
       timelineVisible: !document.getElementById('timelineSlider')?.classList.contains('hidden'),
       fillColour: map.getPaintProperty('pc-2023-vector-test-fill', 'fill-color'),
+      fillOpacity: map.getPaintProperty('pc-2023-vector-test-fill', 'fill-opacity'),
+      lineColour: map.getPaintProperty('pc-2023-vector-test-line', 'line-color'),
+      lineOpacity: map.getPaintProperty('pc-2023-vector-test-line', 'line-opacity'),
+      lineWidth: map.getPaintProperty('pc-2023-vector-test-line', 'line-width'),
       seatHaloLayer: Boolean(map.getLayer('test2-election-seat-halo-layer')),
       seatCircleLayer: Boolean(map.getLayer('test2-election-seat-layer')),
       seatCircleRadius: map.getPaintProperty('test2-election-seat-layer', 'circle-radius'),
@@ -475,6 +541,13 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   expect(loaded.panelVisible).toBe(true);
   expect(loaded.timelineVisible).toBe(true);
   expect(JSON.stringify(loaded.fillColour)).toContain('match');
+  expect(JSON.stringify(loaded.fillColour)).toContain('#dfe4ec');
+  expect(JSON.stringify(loaded.fillOpacity)).toContain('0.6');
+  expect(JSON.stringify(loaded.fillOpacity)).toContain('0.42');
+  expect(JSON.stringify(loaded.lineColour)).toContain('#333');
+  expect(JSON.stringify(loaded.lineColour)).toContain('#a1aab8');
+  expect(loaded.lineOpacity).toBe(0.8);
+  expect(loaded.lineWidth).toBe(1.5);
   expect(loaded.seatHaloLayer).toBe(true);
   expect(loaded.seatCircleLayer).toBe(true);
   expect(loaded.seatCircleRadius).toBe(6);

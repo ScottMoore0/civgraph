@@ -62,6 +62,7 @@ class Test2App {
     });
     await this.elections.load();
     uiController.init();
+    this.relocateMobileCatalogueToggle();
     uiController.showAllMaps = true;
     uiController.includeMobileElectionCatalogue = true;
 
@@ -90,6 +91,19 @@ class Test2App {
         this.updateURLState();
       });
     await window.__civgraphTest2.restorePromise;
+  }
+
+  relocateMobileCatalogueToggle() {
+    const toggle = document.getElementById('mobileToggle');
+    const header = document.querySelector('.app-header');
+    const menuButton = document.getElementById('mobileMenuBtn');
+    if (!toggle || !header || !menuButton) return;
+    toggle.classList.add('mobile-toggle--navbar');
+    toggle.removeAttribute('style');
+    toggle.setAttribute('aria-label', 'Show or hide catalogue');
+    if (toggle.parentElement !== header) {
+      header.insertBefore(toggle, menuButton);
+    }
   }
 
   installRouteGuard() {

@@ -491,11 +491,13 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
   const singleFeature = geography?.singleConstituency ? firstFeature(featureIndex) : null;
   const anchorIndex = layer ? await loadOrBuildAnchorIndex(layer, featureIndex) : null;
   const results = [];
+  const rawEntries = [];
   const unmatched = [];
 
   for (const constituency of entry.constituencies || []) {
     const resultPath = findResultFile(dateDir, constituency);
     const rawResult = resultPath ? readJson(resultPath) : null;
+    if (rawResult) rawEntries.push({ constituency, raw: rawResult });
     const result = ElectionDomain.summarizeResult(rawResult, constituency);
     const matchEntry = matchEntryForConstituency(entry, result.constituency || constituency);
     const match = singleFeature || matchFeature(featureLookup, result.constituency || constituency, matchEntry);
@@ -521,6 +523,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     for (const file of readdirSync(dateDir).filter((name) => name.endsWith('.json') && name !== '_index.json')) {
       const resultPath = path.join(dateDir, file);
       const rawResult = readJson(resultPath);
+      rawEntries.push({ constituency: file.replace(/\.json$/, ''), raw: rawResult });
       const result = ElectionDomain.summarizeResult(rawResult, file.replace(/\.json$/, ''));
       const matchEntry = matchEntryForConstituency(entry, result.constituency);
       const match = singleFeature || matchFeature(featureLookup, result.constituency, matchEntry);
@@ -549,6 +552,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
   const year = Number(String(entry.date).slice(0, 4));
   const previousDate = previousKey ? previousKey.split('__').pop()?.replace(/-/g, '-') : null;
   const partySummary = ElectionDomain.buildPartySummary(results);
+  const mainLikePartySummary = ElectionDomain.buildMainLikePartySummaryFromRawResults(rawEntries);
   const entityIndex = ElectionDomain.buildEntityIndex(results);
   return {
     schemaVersion: 1,
@@ -579,6 +583,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     unmatchedConstituencies: unique(unmatched),
     availableStyleModes,
     partySummary,
+    mainLikePartySummary: mainLikePartySummary.rows,
+    mainLikeTotals: mainLikePartySummary.totals,
     entityIndex,
     results: results.sort((a, b) => String(a.constituency).localeCompare(String(b.constituency)))
   };
