@@ -112,10 +112,33 @@ export class Test2ElectionManager {
       ...entry,
       canonicalLayerId: this.getCanonicalLayerId(entry),
       placeholder: !entry.loadable,
-      displaySubtitle: entry.displaySubtitle || `${entry.totalConstituencies || 0} constituencies`,
-      displayProvider: entry.displayProvider || entry.body,
+      displaySubtitle: this.getMainCatalogueSubtitle(entry),
+      displayProvider: this.getMainCatalogueProvider(entry),
       displayTitle: entry.displayTitle || entry.body
     }));
+  }
+
+  getMainCatalogueProvider(entry) {
+    if (!entry) return '';
+    if (entry.displayProvider && entry.displayProvider !== entry.body) return entry.displayProvider;
+    if (entry.bodyGroup === 'local-government') return 'Local Government Districts';
+    return shortElectionBody(entry.body);
+  }
+
+  getMainCatalogueSubtitle(entry) {
+    if (!entry) return '';
+    if (entry.displaySubtitle) return entry.displaySubtitle;
+    const constituencies = Array.isArray(entry.constituencies) ? entry.constituencies : [];
+    if (entry.isByElection && constituencies.length) return constituencies.join(', ');
+    if (entry.body === 'European Parliament' && constituencies.filter((value) => value !== 'Northern Ireland').length === 0) {
+      return 'Northern Ireland';
+    }
+    if (entry.bodyGroup === 'local-government') {
+      const total = Number(entry.totalConstituencies ?? constituencies.length);
+      return `${Number.isFinite(total) ? total : 0} DEAs`;
+    }
+    const total = Number(entry.totalConstituencies ?? constituencies.filter((value) => value !== 'Northern Ireland').length);
+    return `${Number.isFinite(total) ? total : 0} constituencies`;
   }
 
   async loadElection(body, date) {
@@ -442,7 +465,7 @@ export class Test2ElectionManager {
       headerRight.innerHTML = `
         ${localModeControl}
         ${headerTabs.map(([id, label]) => `<button type="button" class="election-view-tab${id === nextView ? ' election-view-tab--active' : ''}" data-election-view="${escapeHtml(id)}">${escapeHtml(label)}</button>`).join('')}
-        <button type="button" id="electionCloseBtn" class="election-pane__close" aria-label="Unload election">&times;</button>
+        <button type="button" id="electionCloseBtn" class="election-pane__close" aria-label="Unload election">&#10005;</button>
       `;
     }
     content.innerHTML = selectedResult
@@ -786,7 +809,7 @@ export class Test2ElectionManager {
   }
 
   renderMainParityLeafTh(label, index) {
-    return `<th class="election-num" data-leaf-col-idx="${index}"><span>${escapeHtml(label)}</span><button type="button" class="election-results-sort" tabindex="-1" aria-hidden="true">&#8597;</button></th>`;
+    return `<th class="election-num" data-leaf-col-idx="${index}"><span>${escapeHtml(label)}</span><button type="button" class="election-th-btn" data-table-filter-sort-btn="1" tabindex="-1" aria-hidden="true" aria-label="Sort and Filter" title="Sort and Filter">&#8645;</button></th>`;
   }
 
   renderElectionEntityButton(kind, key, labelHtml, extraClass = '') {
@@ -873,15 +896,16 @@ export class Test2ElectionManager {
       });
       fixed.forEach(({ row }) => tbody.appendChild(row));
       headers.forEach((header) => {
-        const button = header.querySelector('.election-results-sort');
+        const button = header.querySelector('.election-th-btn, .election-results-sort');
         if (!button) return;
         const active = Number(header.dataset.leafColIdx) === column && direction !== 'default';
-        button.textContent = active ? (direction === 'asc' ? '\u2191' : '\u2193') : '\u2195';
+        button.innerHTML = active ? (direction === 'asc' ? '\u2191' : '\u2193') : '&#8645;';
+        button.classList.toggle('election-th-btn--active', active);
         button.classList.toggle('election-results-sort--active', active);
       });
     };
     headers.forEach((header) => {
-      const button = header.querySelector('.election-results-sort');
+      const button = header.querySelector('.election-th-btn, .election-results-sort');
       if (!button) return;
       button.tabIndex = 0;
       button.removeAttribute('aria-hidden');

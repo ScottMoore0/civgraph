@@ -89,6 +89,13 @@ export class Test2MapLibreMainAdapter {
     const map = this.map;
     const host = map?.getContainer?.();
     if (!map || !host || host.querySelector('.test2-main-zoom-control')) return;
+    host.querySelectorAll([
+      '.maplibregl-ctrl-top-left .maplibregl-ctrl-group',
+      '.maplibregl-ctrl-top-right .maplibregl-ctrl-group',
+      '.maplibregl-ctrl-bottom-left .maplibregl-ctrl-group',
+      '.maplibregl-ctrl-bottom-right .maplibregl-ctrl-group',
+      '.maplibregl-ctrl-scale'
+    ].join(',')).forEach((element) => element.remove());
     const control = document.createElement('div');
     control.className = 'leaflet-control leaflet-bar leaflet-control-zoom test2-main-zoom-control';
     control.setAttribute('aria-label', 'Zoom controls');

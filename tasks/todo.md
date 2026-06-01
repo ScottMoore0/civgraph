@@ -1,3 +1,39 @@
+# /test2 remaining parity fixes after continuing analysis
+- [x] Record scope
+  - User request: fix the remaining main-vs-`/test2` differences identified in the continuing analysis.
+  - Main remains the fixed reference; changes should be scoped to `/test2`, tests/validation, generated `/test2` build output if rebuilt, and task notes.
+  - Target gaps: short election catalogue labels, active election row/class parity, election pane sort/close/back micro-markup, viewport/fit ordering, native MapLibre control artifacts, and label/seat-circle visual tuning where feasible.
+  - Completed: scope recorded before implementation.
+- [x] Implement parity fixes
+  - Make `/test2` election catalogue display labels match main short labels and subtitles.
+  - Make `/test2` election pane controls/classes/symbols match main where possible.
+  - Align election URL restore/fit behaviour to main's visible election-load behaviour unless an explicit URL viewport must be preserved.
+  - Remove native MapLibre control artifacts and keep custom main-style controls.
+  - Tune map label and seat-circle defaults closer to main.
+  - Completed: `/test2` election catalogue rows now derive main-style short provider labels/subtitles, the election pane uses main-style close and sort-button markup/classes, and native visible MapLibre controls are removed after custom main-style controls are installed.
+- [x] Verify
+  - Completed: `node --check` passed for `test2/src/election-manager.js`, `test2/src/maplibre-main-adapter.js`, and `tests/browser/test2-app.spec.js`; `npm run check:test2` passed; `npm run build:test2` passed after approved esbuild escalation; `npm run test:browser -- tests/browser/test2-app.spec.js` passed 23/23 tests.
+  - Run `/test2` static checks, build, and focused browser comparison for Dáil 2024 and mobile shell.
+- [x] Review
+  - Completed: ready to report the implemented `/test2` parity fixes and the remaining MapLibre-vs-Leaflet limits.
+  - Summarize changed files, verification, and any remaining engine-specific limits.
+
+# Main vs /test2 continuing parity analysis
+- [x] Record scope
+  - User request: continue analysing differences between main and `/test2` after the latest election paint/mobile-navbar fix.
+  - Treat main as the fixed reference; this pass should identify remaining differences before further implementation.
+  - Completed: scope recorded before analysis.
+- [x] Compare representative runtime states
+  - Compare main and `/test2` for active Dáil 2024 election state, ordinary catalogue map state, and mobile shell state.
+  - Capture DOM/style/state differences where possible, not just source-level guesses.
+  - Completed: used local Chromium snapshots for main and `/test2` Dáil 2024, ordinary townlands shell, and mobile election shell. The Dáil 2024 election table row values now match for the first rows, but catalogue entry text, active-state restoration, viewport restoration, MapLibre control DOM/placement, and several pane-control microclasses still differ.
+- [x] Classify differences
+  - Separate feasible/sensible parity bugs from intentional MapLibre differences and data-blocked gaps.
+  - Completed: feasible/sensible fixes remain for catalogue display labels, active-election class parity, election pane control markup, viewport/fit ordering, custom control replacement, and label/seat-circle visual tuning. Leaflet-vs-MapLibre canvas/DOM internals and exact projection/rendering differences are engine-specific and should be treated as acceptable unless they affect visible behaviour.
+- [x] Review
+  - Report high-confidence findings and recommended next fixes.
+  - Completed: findings are ready to report inline.
+
 # /test2 election colour and mobile menu parity correction
 - [x] Record scope
   - User correction: election entry fill/stroke colours on `/test2` still differ from main, suggesting other parity drift; mobile menu/catalogue button should live on the navbar instead of floating out of sight or colliding with map controls.

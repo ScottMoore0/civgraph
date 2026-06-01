@@ -51,8 +51,8 @@ assert(appSource.includes('compositeSources') && appSource.includes('mapConfig.v
 assert(mapControllerSource.includes('maplibre-dom-label'), '/test2 must use deduplicated DOM labels for main-site label interaction parity');
 assert(mapControllerSource.includes("'text-opacity': 0"), '/test2 native MapLibre symbol labels must stay visually hidden to avoid duplicate labels');
 assert(adapterSource.includes('installMainStyleMapControls') && test2Css.includes('.test2-main-zoom-control'), '/test2 must replace visible MapLibre zoom controls with main-style custom controls');
-assert(mapControllerSource.includes("ScaleControl({ unit: 'metric' }), 'bottom-right'"), '/test2 MapLibre scale control must not share the bottom-left settings corner');
-assert(test2Css.includes('#map .maplibregl-ctrl-top-left') && test2Css.includes('display: none') && test2Css.includes('#map .maplibregl-ctrl-bottom-right'), '/test2 route CSS must hide native MapLibre zoom controls and keep scale away from production shell overlays');
+assert(adapterSource.includes('.maplibregl-ctrl-scale') && adapterSource.includes('element.remove()'), '/test2 must remove native MapLibre controls after boot so only main-style map controls remain visible');
+assert(test2Css.includes('#map .maplibregl-ctrl-top-left') && test2Css.includes('display: none') && test2Css.includes('#map .maplibregl-ctrl-bottom-right'), '/test2 route CSS must hide native MapLibre control containers while custom main-style controls are installed');
 assert(mapControllerSource.includes("this.map.on('dblclick', onDoubleClick)"), '/test2 feature geometry selection must be wired to double-click');
 assert(mapControllerSource.includes('this.map.doubleClickZoom?.disable()'), '/test2 must disable MapLibre double-tap zoom so mobile feature taps can open details');
 assert(mapControllerSource.includes("this.map.on('click', onClick)"), '/test2 feature geometry selection must be wired to ordinary tap/click as well as double-click');

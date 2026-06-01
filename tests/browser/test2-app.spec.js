@@ -137,10 +137,10 @@ test('/test2 restores active Dail election catalogue, viewport, labels, and part
   ]);
   expect(restored.secondRowCells.slice(0, 5)).toEqual(['2nd', expect.stringMatching(/Fianna F.il/), '10', '+8', '39']);
 
-  await page.locator('#electionPaneContent th[data-leaf-col-idx="8"] .election-results-sort').click();
+  await page.locator('#electionPaneContent th[data-leaf-col-idx="8"] .election-th-btn').click();
   const firstAfterSort = await page.locator('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)').first().textContent();
   expect(firstAfterSort).toMatch(/Fine Gael/);
-  await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="8"] .election-results-sort')).toHaveClass(/election-results-sort--active/);
+  await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="8"] .election-th-btn')).toHaveClass(/election-th-btn--active/);
 });
 
 test('/test2 Dail 2024 election pane matches the main DOM contract for the compared state', async ({ browser }) => {
@@ -196,13 +196,14 @@ test('/test2 production overlay controls do not overlap MapLibre controls', asyn
   await page.waitForSelector('#activeLayersToggle');
   await page.waitForSelector('.test2-main-zoom-control');
   await page.waitForSelector('#mapControlsToggle');
-  await page.waitForSelector('.maplibregl-ctrl-scale');
+  await page.waitForSelector('.test2-main-zoom-control');
 
   const layout = await page.evaluate(() => {
     const active = document.getElementById('activeLayersToggle')?.getBoundingClientRect();
     const zoom = document.querySelector('.test2-main-zoom-control')?.getBoundingClientRect();
     const settings = document.getElementById('mapControlsToggle')?.getBoundingClientRect();
-    const scale = document.querySelector('.maplibregl-ctrl-scale')?.getBoundingClientRect();
+    const nativeMapLibreControls = [...document.querySelectorAll('.maplibregl-ctrl-group, .maplibregl-ctrl-scale')]
+      .filter((element) => element.getBoundingClientRect().width > 0 && element.getBoundingClientRect().height > 0).length;
     const overlaps = (a, b) => Boolean(a && b
       && a.left < b.right
       && a.right > b.left
@@ -211,22 +212,20 @@ test('/test2 production overlay controls do not overlap MapLibre controls', asyn
     const rect = (value) => value ? { left: value.left, right: value.right, top: value.top, bottom: value.bottom } : null;
     return {
       activeZoomOverlaps: overlaps(active, zoom),
-      settingsScaleOverlaps: overlaps(settings, scale),
+      visibleNativeMapLibreControls: nativeMapLibreControls,
       active: rect(active),
       zoom: rect(zoom),
       settings: rect(settings),
-      scale: rect(scale)
+      scale: null
     };
   });
 
   expect(layout.active).not.toBeNull();
   expect(layout.zoom).not.toBeNull();
   expect(layout.settings).not.toBeNull();
-  expect(layout.scale).not.toBeNull();
   expect(layout.activeZoomOverlaps).toBe(false);
-  expect(layout.settingsScaleOverlaps).toBe(false);
+  expect(layout.visibleNativeMapLibreControls).toBe(0);
   expect(layout.zoom.left).toBeLessThan(layout.active.left);
-  expect(layout.settings.right).toBeLessThan(layout.scale.left);
 });
 
 test('/test2 mobile map and catalogue controls do not collide', async ({ page }) => {
@@ -237,7 +236,7 @@ test('/test2 mobile map and catalogue controls do not collide', async ({ page })
   await page.waitForSelector('#activeLayersToggle');
   await page.waitForSelector('.test2-main-zoom-control');
   await page.waitForSelector('#mapControlsToggle');
-  await page.waitForSelector('.maplibregl-ctrl-scale');
+  await page.waitForSelector('.test2-main-zoom-control');
 
   await page.evaluate(() => window.uiController?.setSplitState?.('map-full'));
   const mapLayout = await page.evaluate(() => {
@@ -253,18 +252,20 @@ test('/test2 mobile map and catalogue controls do not collide', async ({ page })
     const active = rect(document.getElementById('activeLayersToggle'));
     const zoom = rect(document.querySelector('.test2-main-zoom-control'));
     const settings = rect(document.getElementById('mapControlsToggle'));
-    const scale = rect(document.querySelector('.maplibregl-ctrl-scale'));
+    const nativeMapLibreControls = [...document.querySelectorAll('.maplibregl-ctrl-group, .maplibregl-ctrl-scale')]
+      .filter((element) => element.getBoundingClientRect().width > 0 && element.getBoundingClientRect().height > 0).length;
     return {
       active,
       zoom,
       settings,
-      scale,
+      visibleNativeMapLibreControls: nativeMapLibreControls,
       activeZoomOverlaps: overlaps(active, zoom),
-      settingsScaleOverlaps: overlaps(settings, scale)
+      settingsScaleOverlaps: false
     };
   });
   expect(mapLayout.activeZoomOverlaps).toBe(false);
   expect(mapLayout.settingsScaleOverlaps).toBe(false);
+  expect(mapLayout.visibleNativeMapLibreControls).toBe(0);
 
   await page.evaluate(() => window.uiController?.setSplitState?.('info-full'));
   const catalogueLayout = await page.evaluate(() => {
