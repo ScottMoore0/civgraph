@@ -1770,9 +1770,9 @@ export class Test2ElectionManager {
           'circle-sort-key': ['coalesce', ['get', 'seatOrder'], 0]
         },
         paint: {
-          'circle-color': '#ffffff',
+          'circle-color': '#000000',
           'circle-radius': 7,
-          'circle-opacity': 0.98
+          'circle-opacity': 0.92
         }
       });
     }
@@ -1787,7 +1787,7 @@ export class Test2ElectionManager {
         paint: {
           'circle-color': ['coalesce', ['get', 'colour'], '#6b7280'],
           'circle-radius': 6,
-          'circle-stroke-color': 'rgba(255,255,255,0.95)',
+          'circle-stroke-color': '#000000',
           'circle-stroke-width': 1,
           'circle-opacity': 0.95
         }

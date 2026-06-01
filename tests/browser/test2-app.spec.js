@@ -519,6 +519,7 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
       lineWidth: map.getPaintProperty('pc-2023-vector-test-line', 'line-width'),
       seatHaloLayer: Boolean(map.getLayer('test2-election-seat-halo-layer')),
       seatCircleLayer: Boolean(map.getLayer('test2-election-seat-layer')),
+      seatHaloColour: map.getPaintProperty('test2-election-seat-halo-layer', 'circle-color'),
       seatCircleRadius: map.getPaintProperty('test2-election-seat-layer', 'circle-radius'),
       seatCircleStroke: map.getPaintProperty('test2-election-seat-layer', 'circle-stroke-color'),
       urlLayers: new URL(location.href).hash,
@@ -551,8 +552,9 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   expect(loaded.lineWidth).toBe(1.5);
   expect(loaded.seatHaloLayer).toBe(true);
   expect(loaded.seatCircleLayer).toBe(true);
+  expect(loaded.seatHaloColour).toBe('#000000');
   expect(loaded.seatCircleRadius).toBe(6);
-  expect(String(loaded.seatCircleStroke)).toContain('255,255,255');
+  expect(loaded.seatCircleStroke).toBe('#000000');
   expect(loaded.urlLayers).toContain('layers=election-house-of-commons-of-the-united-kingdom-2024-07-04');
   expect(loaded.urlLayers).not.toContain('layers=pc-2023');
   expect(loaded.seatSourceCount).toBeGreaterThan(0);

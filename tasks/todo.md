@@ -1,3 +1,18 @@
+# /test2 black seat-circle outline
+- [x] Record scope
+  - User request: change election seat circles so their outline is black, not white.
+  - Scope: `/test2` election seat-circle paint, validation/browser guardrails, rebuilt `/test2` bundle, and task/lesson notes.
+- [x] Implement
+  - Change both the seat-circle halo and inner stroke away from white so the visible outline is black.
+  - Update browser/static checks that previously expected a white seat-circle stroke.
+  - Completed: `/test2` now paints the seat-circle halo and inner stroke black, and the static/browser guardrails assert the black paint.
+- [x] Verify
+  - Run syntax checks, `/test2` route validation, rebuild, and focused browser checks for election seat circles.
+  - Completed: `node --check` passed for changed JS/test files; `npm run check:test2` passed; `npm run build:test2` passed after approved esbuild escalation; `npm run test:browser -- tests/browser/test2-app.spec.js` passed 23/23.
+- [x] Review
+  - Summarize changed files and remaining status.
+  - Completed: ready to report the black seat-circle outline change.
+
 # /test2 remaining parity fixes after continuing analysis
 - [x] Record scope
   - User request: fix the remaining main-vs-`/test2` differences identified in the continuing analysis.

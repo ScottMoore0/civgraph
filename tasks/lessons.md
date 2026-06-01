@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 129) Seat-circle outline colour is a visible contract, not an incidental default
+- Mistake pattern: Preserving the earlier white MapLibre seat-circle halo/stroke while the user expected black outlines for election seat circles.
+- Impact: `/test2` seat circles could pass broad election-rendering tests while still visibly diverging from the requested map styling.
+- Guardrail:
+  1) browser tests must assert the exact `test2-election-seat-layer` stroke colour,
+  2) route validation should check the seat-circle paint constants directly,
+  3) when changing visual parity details, update both the visible paint and any lower/halo layer that creates the apparent outline.
+
 ### 128) Test2 election parity needs restore-state guardrails, not only visual tuning
 - Mistake pattern: Treating active election parity as a visual issue while `/test2` could restore the map layer without restoring the main catalogue state, main-style `zoom` URL key, low-zoom label density, and table interaction model.
 - Impact: `/test2` could show the correct election layer but still look unlike main: catalogue scrolled elsewhere, labels over-dense at low zoom, native MapLibre controls visible, and election tables unable to reproduce main-style sorting.
