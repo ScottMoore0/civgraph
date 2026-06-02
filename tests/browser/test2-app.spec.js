@@ -247,6 +247,7 @@ test('/test2 Dail election candidate and count panes follow the main pane contra
   const test2Page = await context.newPage();
   const hash = 'layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00';
   const tableSignature = async (page) => page.evaluate(() => ({
+    renderer: document.querySelector('#electionPaneContent [data-election-renderer]')?.getAttribute('data-election-renderer') || '',
     headerTabs: [...document.querySelectorAll('#electionPaneHeaderRight .election-view-tab')].map((button) => button.textContent.trim()),
     detailToggle: document.querySelector('#electionPaneHeaderRight #test2ElectionCountDetail, #electionPaneHeaderRight [data-role="detail-toggle"]')?.textContent?.trim() || '',
     oldCountToolbar: Boolean(document.querySelector('#electionPaneContent .test2-election-count-toolbar')),
@@ -274,6 +275,7 @@ test('/test2 Dail election candidate and count panes follow the main pane contra
   await test2Page.waitForSelector('#electionPaneContent .election-count-table--candidate-sticky3 tbody tr');
   const [mainCandidate, test2Candidate] = await Promise.all([tableSignature(mainPage), tableSignature(test2Page)]);
   expect(mainCandidate.headers.length).toBeGreaterThan(0);
+  expect(test2Candidate.renderer).toBe('test2-main-pane-contract');
   expect(test2Candidate.headers).toEqual(mainCandidate.headers);
   expect(test2Candidate.firstRows[0].slice(0, 10)).toEqual(mainCandidate.firstRows[0].slice(0, 10));
   expect(test2Candidate.tableClass).toContain('election-count-table--candidate-sticky3');
@@ -286,6 +288,7 @@ test('/test2 Dail election candidate and count panes follow the main pane contra
   });
   await test2Page.waitForSelector('#electionPaneContent .election-count-table tbody tr');
   const test2Count = await tableSignature(test2Page);
+  expect(test2Count.renderer).toBe('test2-main-pane-contract');
   expect(test2Count.detailToggle).toMatch(/Detailed View: Off|Detailed View: On/);
   expect(test2Count.oldCountToolbar).toBe(false);
   expect(test2Count.headers.join(' ')).toMatch(/Name|Party|Status/);
@@ -672,8 +675,8 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
       urlLayers: new URL(location.href).hash,
       expectedSeatCount,
       labels: document.querySelectorAll('.maplibre-dom-label:not([hidden])').length,
-      mainParityRenderer: Boolean(document.querySelector('[data-election-renderer="test2-main-parity"]')),
-      groupedPartyTable: Boolean(document.querySelector('[data-election-renderer="test2-main-parity"] .election-party-table--grouped')),
+      mainParityRenderer: Boolean(document.querySelector('[data-election-renderer="test2-main-pane-contract"]')),
+      groupedPartyTable: Boolean(document.querySelector('[data-election-renderer="test2-main-pane-contract"] .election-party-table--grouped')),
       paneTitle: document.getElementById('electionPaneTitle')?.textContent || '',
       headerTabs: [...document.querySelectorAll('#electionPaneHeaderRight .election-view-tab')].map((button) => button.textContent.trim()),
       headerHasStyleControl: Boolean(document.querySelector('#electionPaneHeaderRight #test2ElectionMode')),
@@ -721,8 +724,8 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   await expect(page.locator('#electionResultsPane')).toContainText('Westminster');
   await expect(page.locator('#electionResultsPane')).toContainText('1st preferences');
   await page.locator('#electionPaneHeaderRight [data-election-view="candidate"]').click();
-  await expect(page.locator('#electionPaneContent')).toContainText('Constituency / DEA');
-  await expect(page.locator('#electionPaneContent .election-party-table--candidate-sticky3')).toHaveCount(1);
+  await expect(page.locator('#electionPaneContent')).toContainText('Constituency');
+  await expect(page.locator('#electionPaneContent .election-count-table--candidate-sticky3')).toHaveCount(1);
   await page.locator('#electionPaneHeaderRight [data-election-view="party"]').click();
   await page.locator('.test2-election-map-display summary').click();
   await page.locator('#test2ElectionMode').selectOption('voteShare');

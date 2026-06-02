@@ -7,6 +7,7 @@ import {
   createElectionRenderer,
   numericColour as sharedNumericColour
 } from '../../js/election-renderer.mjs';
+import { Test2MainElectionPaneContract } from './election-pane-main-contract.js';
 import {
   buildCandidateSummary,
   buildEntityIndex,
@@ -106,6 +107,7 @@ export class Test2ElectionManager {
     this.overlayRefreshBound = false;
     this.loadSerial = 0;
     this.sharedRenderer = createElectionRenderer(this);
+    this.mainPaneContract = new Test2MainElectionPaneContract(this);
   }
 
   async load() {
@@ -453,35 +455,9 @@ export class Test2ElectionManager {
     back?.classList.toggle('hidden', !selectedResult);
     const headerRight = pane.querySelector('.election-pane__header-right');
     if (headerRight) {
-      const localModeControl = !selectedResult && this.isLocalGovernmentElection() ? `
-        <div class="test2-election-local-mode" role="group" aria-label="Local government result level">
-          <button type="button" class="${this.activeLocalMode === 'dea' ? 'is-active' : ''}" data-election-local-mode="dea">DEA</button>
-          <button type="button" class="${this.activeLocalMode === 'district' ? 'is-active' : ''}" data-election-local-mode="district">${this.localBodyCount() > 1 ? 'Council' : 'District'}</button>
-        </div>
-      ` : '';
-      const selectedTabs = [
-        ['party', 'By Party'],
-        ['counts', this.isForumResult(selectedResult) ? 'By Round' : 'By Count']
-      ];
-      if (selectedResult && this.resultHasAnimation(selectedResult)) {
-        selectedTabs.push(['animation', this.isForumResult(selectedResult) ? 'Allocation' : 'Transfers']);
-      }
-      const headerTabs = selectedResult
-        ? selectedTabs
-        : [
-          ['party', 'By Party'],
-          ['candidate', 'By Candidate'],
-          ['local-party', 'By Local Party']
-        ];
-      headerRight.innerHTML = `
-        ${localModeControl}
-        ${headerTabs.map(([id, label]) => `<button type="button" class="election-view-tab${id === nextView ? ' election-view-tab--active' : ''}" data-election-view="${escapeHtml(id)}">${escapeHtml(label)}</button>${selectedResult && id === 'counts' ? `<button type="button" id="test2ElectionCountDetail" class="election-detail-toggle-btn election-detail-toggle-btn--header" data-role="detail-toggle" aria-pressed="${this.countDetailedView ? 'true' : 'false'}">${this.countDetailedView ? 'Detailed View: On' : 'Detailed View: Off'}</button>` : ''}`).join('')}
-        <button type="button" id="electionCloseBtn" class="election-pane__close" aria-label="Unload election">&#10005;</button>
-      `;
+      headerRight.innerHTML = this.mainPaneContract.renderHeaderRight(selectedResult, nextView);
     }
-    content.innerHTML = selectedResult
-      ? this.renderConstituencyResults(selectedResult, nextView)
-      : this.renderOverallResults(nextView);
+    content.innerHTML = this.mainPaneContract.renderPanelContent(selectedResult, nextView);
     pane.classList.add('election-results-pane--open');
     document.body.classList.add('test2-election-open');
     back?.addEventListener('click', () => this.renderPanel(null, 'party'));
@@ -540,59 +516,19 @@ export class Test2ElectionManager {
   }
 
   renderOverallResults(view = 'party') {
-    return this.sharedRenderer.renderOverallResults(view);
+    return this.mainPaneContract.renderOverallResults(view);
   }
 
   renderMainCompatibleOverallResults(view = 'party') {
-    const results = this.currentResults();
-    if (results.some((result) => result.recallPetition)) return this.renderRecallPetitionOverview(results);
-    if (this.isLocalGovernmentElection() && this.activeLocalMode === 'district') {
-      return this.renderDistrictResults(view);
-    }
-    const rows = this.activeBundle.mainLikePartySummary?.length
-      ? this.activeBundle.mainLikePartySummary
-      : (this.activeBundle.partySummary?.length ? this.activeBundle.partySummary : buildPartySummary(results));
-    const rowsWithDeltas = this.withPartyDeltas(rows, { mainLike: Boolean(this.activeBundle.mainLikePartySummary?.length) });
-    const candidateRows = this.activeBundle.mainLikeCandidateSummary?.length
-      ? this.withCandidateDeltas(this.activeBundle.mainLikeCandidateSummary, { mainLike: true })
-      : this.withCandidateDeltas(buildCandidateSummary(results));
-    return `
-      <section class="test2-election-panel test2-election-panel--main-parity" aria-label="Election results summary" data-election-renderer="test2-main-parity">
-        ${this.renderDataCoverageNotice()}
-        ${view === 'candidate' ? this.renderCandidateSummaryTable(candidateRows) : view === 'local-party' ? this.renderLocalPartySummaryTable(results) : this.renderMainParityPartyTable(rowsWithDeltas, results)}
-      </section>
-      ${this.renderMapDisplayControls()}
-    `;
+    return this.mainPaneContract.renderOverallResults(view);
   }
 
   renderConstituencyResults(result, view = 'party') {
-    return this.sharedRenderer.renderConstituencyResults(result, view);
+    return this.mainPaneContract.renderConstituencyResults(result, view);
   }
 
   renderMainCompatibleConstituencyResults(result, view = 'party') {
-    if (result.recallPetition) return this.renderRecallPetitionResult(result);
-    const effectiveView = view === 'animation' && !this.resultHasAnimation(result) ? 'counts' : view;
-    const candidates = [...(result.candidates || [])].sort((a, b) => {
-      const elected = Number(Boolean(b.elected)) - Number(Boolean(a.elected));
-      if (elected) return elected;
-      return Number(b.finalVotes ?? b.firstPrefs ?? b.votes ?? 0) - Number(a.finalVotes ?? a.firstPrefs ?? a.votes ?? 0);
-    });
-    const areaLabel = this.isLocalGovernmentElection() ? 'DEA' : 'Constituency';
-    return `
-      <section class="test2-election-panel" aria-label="${escapeHtml(result.constituency)} results">
-        <dl class="test2-election-panel__stats">
-          <div><dt>${areaLabel}</dt><dd>${escapeHtml(result.constituency || '')}</dd></div>
-          ${this.isLocalGovernmentElection() && result.localBody ? `<div><dt>Council</dt><dd>${escapeHtml(result.localBody)}</dd></div>` : ''}
-          ${result.seatsTotal ? `<div><dt>Seats</dt><dd>${formatNumber(result.seatsTotal)}</dd></div>` : ''}
-          ${result.validPoll ? `<div><dt>Valid poll</dt><dd>${formatNumber(result.validPoll)}</dd></div>` : ''}
-          ${result.turnoutPct ? `<div><dt>Turnout</dt><dd>${formatPercent(result.turnoutPct)}</dd></div>` : ''}
-          ${result.quota ? `<div><dt>Quota</dt><dd>${formatNumber(result.quota)}</dd></div>` : ''}
-          ${result.previous ? `<div><dt>Previous winner</dt><dd>${escapeHtml(result.previous.winnerParty || result.previous.leadingParty || '')}</dd></div>` : ''}
-          ${result.deltas?.turnoutPct !== null && result.deltas?.turnoutPct !== undefined ? `<div><dt>Turnout change</dt><dd>${formatSignedPercent(result.deltas.turnoutPct)}</dd></div>` : ''}
-        </dl>
-        ${effectiveView === 'counts' ? this.renderCountTable(result, candidates) : effectiveView === 'animation' ? this.renderAnimationNotice(result) : effectiveView === 'party' ? this.renderConstituencyPartyTable(candidates, result) : this.renderConstituencyCandidateTable(candidates, result)}
-      </section>
-    `;
+    return this.mainPaneContract.renderConstituencyResults(result, view);
   }
 
   renderMainParityPartyTable(rowsWithDeltas = [], results = []) {
@@ -1284,6 +1220,18 @@ export class Test2ElectionManager {
     return previous.length ? compareResults(current, previous) : current;
   }
 
+  formatNumberForPane(value) {
+    return formatNumber(value);
+  }
+
+  formatPercentForPane(value) {
+    return formatPercent(value);
+  }
+
+  formatSignedPercentForPane(value) {
+    return formatSignedPercent(value);
+  }
+
   withPartyDeltas(rows = [], options = {}) {
     const previousRows = options.mainLike && this.previousBundle?.mainLikePartySummary?.length
       ? this.previousBundle.mainLikePartySummary
@@ -1973,7 +1921,7 @@ export class Test2ElectionManager {
     this.activeSelectedResultKey = null;
     title.textContent = entity.name || entity.personId || 'Election entity';
     back?.classList.remove('hidden');
-    content.innerHTML = kind === 'candidate' ? this.renderCandidateEntity(entity) : this.renderPartyEntity(entity);
+    content.innerHTML = this.mainPaneContract.renderEntityPanel(kind, entity);
     back?.addEventListener('click', () => {
       const returnView = this.activeEntityReturnView || 'party';
       this.activeEntityKind = null;

@@ -1768,3 +1768,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) generate explicit main-like sidecars for `/test2` whenever main's visible pane uses legacy or synthetic data semantics,
   3) keep MapLibre-specific code at the drawing/selection boundary only,
   4) add focused public-DOM comparisons for each representative election pane state before claiming parity.
+
+### 132) For exact election pane parity, stop hand-porting render branches
+- Mistake pattern: Continuing to patch individual `/test2` election pane differences branch by branch after the user has shown repeated visible discrepancies.
+- Impact: Each patch can fix one table or mode while another main-specific branch remains different, because `/test2` still owns a separate election pane implementation.
+- Guardrail:
+  1) make the main election pane renderer/view-model the source contract for `/test2`,
+  2) extract or mirror main pane methods behind a host adapter instead of reimplementing them in `Test2ElectionManager`,
+  3) keep only map-engine operations, feature selection, and overlay drawing in the `/test2` MapLibre adapter,
+  4) reject "as-is" copying only where the code calls Leaflet/main globals directly, and wrap those calls with explicit adapter methods.

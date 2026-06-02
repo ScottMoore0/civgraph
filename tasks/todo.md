@@ -1,3 +1,27 @@
+# Wire /test2 election pane through main-pane contract
+- [x] Record scope
+  - User request: proceed as far as sensible and feasible after repeated election-pane parity drift, preserving MapLibre in `/test2`.
+  - Scope: amend `/test2` so visible election pane rendering enters through a main-like pane contract; keep MapLibre-specific map styling, labels, hover/selection, seat circles, and overlays in `/test2` map/election code.
+- [x] Inspect current drift
+  - Completed: `/test2` had a shared renderer, but `Test2ElectionManager` still duplicated the visible header, overall pane, selected-area pane, and entity-pane entrypoints. This allowed candidate/count/entity fixes to keep diverging from the main pane contract.
+- [x] Wire main-pane contract
+  - Added `test2/src/election-pane-main-contract.js` and made `Test2ElectionManager` delegate visible election pane header, overall, selected-area, and entity rendering through that contract.
+- [x] Add guardrails
+  - Updated static `/test2` route validation and browser tests so visible election panes must expose the main-pane contract marker and use the contract entrypoints.
+- [x] Verify
+  - Passed syntax checks for the changed modules, `npm run check:test2`, `npm run build:test2`, focused Playwright election-pane checks, and the full `/test2` browser suite: 27 passed.
+- [x] Review
+  - MapLibre remains preserved in `/test2`; map drawing, hover/selection, labels, and seat-circle placement remain in the MapLibre adapter/election manager boundary. Remaining parity work should now happen by tightening the contract, not by adding independent pane branches.
+  - Document what was completed and any remaining sensible limits.
+
+# Feasibility of copying main election pane into /test2
+- [x] Record scope
+  - User request: explain whether the main site's election pane functionality can be copied and slotted into `/test2` as-is after remaining parity discrepancies.
+- [x] Inspect relevant code structure
+  - Completed: main election logic is concentrated in `js/election-controller.js` at about 6998 lines and still mixes pane rendering, domain transformations, URL/entity state, Leaflet layers, Leaflet bounds, and DOM overlays. `/test2` uses a separate `Test2ElectionManager` at about 2892 lines plus a 462-line shared renderer, so current parity drift is caused by duplicated pane contracts.
+- [x] Review
+  - Completed: direct copy-as-is is not feasible because the main controller depends on Leaflet and main app globals, but copying/extracting the pane half behind a small host adapter is feasible and is the right route for exact parity.
+
 # Implement full election pane parity extraction for /test2
 - [x] Record scope
   - User request: do the proposed steps 1-4 now: extract/mirror main election pane rendering, make `/test2` render from that normalized pane contract, keep MapLibre-specific behaviour at the final map layer, and expand parity tests.
