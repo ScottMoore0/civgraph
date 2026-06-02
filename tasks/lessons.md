@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 134) Election overlays should suppress ordinary geography labels
+- Mistake pattern: `/test2` election styling tuned feature-label zoom density instead of explicitly hiding ordinary constituency/geography labels once an election layer was active.
+- Impact: Election maps could show normal feature labels on top of election styling and seat-circle overlays, diverging from the intended election-layer presentation.
+- Guardrail:
+  1) election style application should carry an explicit `hideLabels` contract,
+  2) the adapter must preserve and restore the previous label-enabled state when election styling is cleared,
+  3) browser tests should assert zero visible `.maplibre-dom-label` elements while an election layer is active and confirm feature details still work through geometry selection.
+
 ### 133) Fixed overlay menus need viewport containment tests, not only interaction tests
 - Mistake pattern: `/test2` election table sort/filter menus gained main-style functionality, but the overlay placement still used scroll-adjusted coordinates for a fixed-position element and did not constrain menu height.
 - Impact: A sort/filter pane could spill out of the browser window, especially near viewport edges or on short/mobile screens.

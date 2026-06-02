@@ -379,6 +379,10 @@ export class Test2MapLibreMainAdapter {
       record.config.test2LabelMinZoomOverride = Number(style.labelMinZoomOverride);
       this.renderer?.refreshDomLabels?.(testId);
     }
+    if (style.hideLabels === true) {
+      record._electionOriginalPaint.labelsEnabled ??= record.labelsEnabled;
+      this.renderer?.setLayerLabelsEnabled(testId, false);
+    }
     record.electionStyle = {
       mode: style.mode || 'winner'
     };
@@ -412,6 +416,9 @@ export class Test2MapLibreMainAdapter {
       if (record._electionOriginalPaint.lineWidth !== undefined && record.config.geometryType !== 'point') {
         this.map.setPaintProperty(lineId, 'line-width', record._electionOriginalPaint.lineWidth);
       }
+    }
+    if (record._electionOriginalPaint.labelsEnabled !== undefined) {
+      this.renderer?.setLayerLabelsEnabled(testId, Boolean(record._electionOriginalPaint.labelsEnabled));
     }
     delete record.config.test2LabelMinZoomOverride;
     this.renderer?.refreshDomLabels?.(testId);

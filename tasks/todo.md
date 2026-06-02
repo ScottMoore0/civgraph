@@ -1,3 +1,23 @@
+# /test2 election layer feature-label suppression
+- [x] Record scope
+  - User request: make feature labels for an election layer not show when the election layer is loaded.
+  - Scope: `/test2` election layer label handling, route validation/browser guardrails, rebuilt `/test2` output if needed, and verification. Main remains the fixed reference.
+- [x] Inspect label/election paths
+  - Check where `/test2` applies election styles and where ordinary MapLibre/DOM feature labels are controlled.
+  - Completed: `/test2` election loading applies a `labelMinZoomOverride` through the MapLibre adapter, allowing ordinary feature labels to appear on active election layers.
+- [x] Implement suppression
+  - Suppress ordinary feature labels while an election layer is loaded, without affecting election-specific seat circles, vote bars, recall labels, or the results pane.
+  - Completed: election styling now passes `hideLabels: true` through the `/test2` MapLibre adapter, which stores/restores the layer's previous label-enabled state and hides ordinary feature labels for the active election geography.
+- [x] Add guardrails
+  - Add static/browser coverage proving ordinary feature labels remain hidden for loaded election layers.
+  - Completed: route validation now requires the election label suppression path, and the representative election browser test expects zero visible `.maplibre-dom-label` elements while still selecting a feature from geometry.
+- [x] Verify
+  - Run syntax checks, `/test2` validation, build, and focused browser tests.
+  - Completed: `node --check test2/src/election-manager.js`, `node --check test2/src/maplibre-main-adapter.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, focused representative election Playwright coverage, and the full `npm run test:browser:test2` suite all passed. Build/browser runs required approved escalation for local binary/browser spawning.
+- [x] Review
+  - Summarize behaviour and residual limits.
+  - Completed: active `/test2` election layers now suppress ordinary geography feature labels while preserving election-specific overlays and geometry-based feature selection. The adapter restores the previous label-enabled state when election styling is cleared.
+
 # /test2 election sort/filter menu viewport containment
 - [x] Record scope
   - User request: make `/test2` election results sort/filter panes stay wholly within the browser window where possible when a sort/filter button is clicked.

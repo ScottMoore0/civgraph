@@ -390,7 +390,7 @@ export class Test2ElectionManager {
         ),
       lineOpacity: isPointGeometry ? undefined : MAIN_ELECTION_GEOGRAPHY_STYLE.strokeOpacity,
       lineWidth: isPointGeometry ? undefined : MAIN_ELECTION_GEOGRAPHY_STYLE.strokeWidth,
-      labelMinZoomOverride: 7.35
+      hideLabels: true
     });
     this.renderLegend();
   }

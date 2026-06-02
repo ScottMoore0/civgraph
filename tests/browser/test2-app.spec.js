@@ -638,7 +638,7 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   expect(loaded.seatDotShadow).toMatch(/255, 255, 255|white|rgb\(255 255 255/i);
   expect(loaded.urlLayers).toContain('layers=election-house-of-commons-of-the-united-kingdom-2024-07-04');
   expect(loaded.urlLayers).not.toContain('layers=pc-2023');
-  expect(loaded.labels).toBeGreaterThan(0);
+  expect(loaded.labels).toBe(0);
   expect(loaded.mainParityRenderer).toBe(true);
   expect(loaded.groupedPartyTable).toBe(true);
   expect(loaded.paneTitle).toContain('Westminster');
@@ -673,24 +673,21 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   await page.evaluate(() => window.uiController?.setSplitState?.('map-full'));
   await page.waitForTimeout(100);
 
-  const firstLabel = page.locator('.maplibre-dom-label:not([hidden])').first();
-  await expect(firstLabel).toBeVisible();
-  const clickedLabel = await page.evaluate(() => {
-    const mapPane = document.querySelector('.pane--map')?.getBoundingClientRect();
-    const electionPane = document.getElementById('electionResultsPane')?.getBoundingClientRect();
-    const labels = [...document.querySelectorAll('.maplibre-dom-label:not([hidden])')];
-    const maxBottom = Math.min(mapPane?.bottom ?? Infinity, electionPane?.top ?? Infinity);
-    const target = labels.find((label) => {
-      const rect = label.getBoundingClientRect();
-      return rect.left >= (mapPane?.left ?? 0)
-        && rect.right <= (mapPane?.right ?? window.innerWidth)
-        && rect.top >= (mapPane?.top ?? 0)
-        && rect.bottom <= maxBottom;
-    }) || labels[0];
-    target?.click();
-    return target?.textContent?.trim() || '';
+  await expect(page.locator('.maplibre-dom-label:not([hidden])')).toHaveCount(0);
+  const selectedGeometry = await page.evaluate(() => {
+    const app = window.__civgraphTest2.app;
+    const mapController = window.__civgraphTest2.mapController;
+    const state = app.mapController.getLayerState('pc-2023');
+    const testLayerId = state?.testLayerId || 'pc-2023-vector-test';
+    const record = mapController.renderer?.layers.get(testLayerId);
+    const layerIds = [`${testLayerId}-fill`, `${testLayerId}-line`].filter((id) => mapController.map.getLayer(id));
+    const feature = mapController.map.queryRenderedFeatures({ layers: layerIds })
+      .find((candidate) => candidate?.properties);
+    if (!record || !feature) return null;
+    mapController.renderer.selectFeature(record.config, feature);
+    return feature.properties?.name || feature.properties?.Name || feature.id || true;
   });
-  expect(clickedLabel).toBeTruthy();
+  expect(selectedGeometry).toBeTruthy();
   await expect(page.locator('#featureInfo')).toBeVisible();
   await expect(page.locator('#featureInfoContent')).toContainText('Election');
   await expect(page.locator('#featureInfoContent')).toContainText(/Leading party|Winning party/);
