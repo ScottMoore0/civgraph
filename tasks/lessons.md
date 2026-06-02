@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 137) Election pane parity must test every pane mode, not only the overall party table
+- Mistake pattern: `/test2` was repeatedly aligned against the visible Dáil 2024 overall party table while candidate, local-party, selected constituency/DEA, count, recall, entity, local-government, and animation panes were still rendered through separate or simplified branches.
+- Impact: A focused parity test could pass while screenshots still showed real differences, because the test covered only one pane state and the shared renderer still delegated many secondary states to `/test2`-specific markup.
+- Guardrail:
+  1) parity tests must cover representative overall, candidate, local-party, selected-area party, selected-area count, entity, recall, and local-government states,
+  2) main election pane rendering should be extracted/mirrored as an engine-neutral module before adding more visual fixes,
+  3) `/test2` should keep MapLibre-specific code only at map drawing/selection boundaries, not in election pane HTML/view-model generation.
+
 ### 136) Election pane parity needs a shared entrypoint, not separate route render branches
 - Mistake pattern: `/test2` kept improving visible election pane parity through route-specific rendering branches while the main site retained the canonical election pane logic elsewhere.
 - Impact: Each screenshot-driven fix could close one discrepancy while leaving other modes free to drift, because overall, selected-area, count, local-party, entity, and special-case panes did not all enter through one shared contract.
@@ -1751,3 +1759,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) encode those constants in `/test2` as a named contract rather than scattered literals,
   3) keep hover/selected orange interaction styling separate from base election styling,
   4) add static/browser checks for fill colour fallback, matched fill opacity, unmatched fill opacity, stroke colour, stroke opacity, and stroke width.
+
+### 131) Test2 election pane parity must compare public DOM contracts
+- Mistake pattern: Trying to prove `/test2` election pane parity by inspecting private main controller internals or by using cleaner normalized election data than the main site visibly renders.
+- Impact: Tests can either fail for harness reasons or pass while `/test2` still disagrees with main's legacy scraper/pseudo-count candidate and count pane semantics.
+- Guardrail:
+  1) treat the main page's public DOM and public UI methods as the parity oracle,
+  2) generate explicit main-like sidecars for `/test2` whenever main's visible pane uses legacy or synthetic data semantics,
+  3) keep MapLibre-specific code at the drawing/selection boundary only,
+  4) add focused public-DOM comparisons for each representative election pane state before claiming parity.

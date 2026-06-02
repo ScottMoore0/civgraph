@@ -553,6 +553,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
   const previousDate = previousKey ? previousKey.split('__').pop()?.replace(/-/g, '-') : null;
   const partySummary = ElectionDomain.buildPartySummary(results);
   const mainLikePartySummary = ElectionDomain.buildMainLikePartySummaryFromRawResults(rawEntries);
+  const mainLikeCandidateSummary = ElectionDomain.buildMainLikeCandidateSummaryFromRawResults(rawEntries);
   const entityIndex = ElectionDomain.buildEntityIndex(results);
   return {
     schemaVersion: 1,
@@ -585,6 +586,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     partySummary,
     mainLikePartySummary: mainLikePartySummary.rows,
     mainLikeTotals: mainLikePartySummary.totals,
+    mainLikeCandidateSummary: mainLikeCandidateSummary.rows,
+    mainLikeCandidateTotals: mainLikeCandidateSummary.totals,
     entityIndex,
     results: results.sort((a, b) => String(a.constituency).localeCompare(String(b.constituency)))
   };

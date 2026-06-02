@@ -1,3 +1,31 @@
+# Implement full election pane parity extraction for /test2
+- [x] Record scope
+  - User request: do the proposed steps 1-4 now: extract/mirror main election pane rendering, make `/test2` render from that normalized pane contract, keep MapLibre-specific behaviour at the final map layer, and expand parity tests.
+  - Scope: main remains the fixed reference; implementation should amend `/test2`/shared/test paths, not change main's visible behaviour except for safe shared code additions if unavoidable.
+- [x] Inspect current render paths
+  - Completed: confirmed `/test2` still had candidate/count panes driven by route-specific normalized data rather than the same main-like pane contract. The Dail 2024 candidate pane was the clearest failing state because main's legacy scraper/pseudo-count semantics produced different visible first-row values.
+- [x] Implement fuller renderer alignment
+  - Completed: added shared election-domain generation for main-like candidate summaries, carried those sidecars into `/test2` election bundles, and made `/test2` candidate/count panes render from those main-like view models where available.
+- [x] Isolate MapLibre-specific controls
+  - Completed: moved MapLibre map display controls outside the canonical main-like results section, keeping the election pane surface focused on the main-compatible result/table contract while preserving MapLibre-only drawing/selection code at the map boundary.
+- [x] Add tests/guardrails
+  - Completed: expanded static validation and browser coverage so `/test2` Dail candidate rows are compared against the public main-site DOM, and so count pane markup uses the main-like detail-toggle/table contract rather than the old `/test2` toolbar.
+- [x] Verify
+  - Completed: `node --check js/election-domain.mjs`, `node --check scripts/build-test2-election-manifest.mjs`, `node --check test2/src/election-manager.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, `npx playwright test tests/browser/test2-app.spec.js --grep candidate`, and `npx playwright test tests/browser/test2-app.spec.js --grep "local-government aggregates"` all passed. Build and browser runs required approved escalation for local binary/browser spawning.
+- [x] Review
+  - Completed: `/test2` now has generated main-like candidate sidecars and stricter pane parity tests for candidate/count states. Remaining parity work, if any, should be found by adding more public-DOM comparisons for additional election types rather than by inspecting private main controller internals.
+
+# Investigate remaining main vs /test2 election pane differences
+- [x] Record scope
+  - User request: investigate why visible differences remain between the election pane on main and `/test2`.
+  - Scope: compare multiple election-pane states beyond the existing Dáil 2024 overall party-table guardrail, identify remaining differences, classify root causes, and report findings. No fix requested yet.
+- [x] Compare representative pane states
+  - Completed: inspected main candidate, local-party, selected constituency, count, recall, entity, and animation render branches against `/test2` and the shared renderer. The current browser parity coverage is narrow: it covers the Dáil 2024 overall party table state, not the broader pane family.
+- [x] Identify differences
+  - Completed: remaining differences are mostly pane-rendering/template/domain differences, not MapLibre map-engine differences. Candidate, local-party, selected-area, count, recall/entity, local-government, and animation branches still contain `/test2`-specific markup or simplified domain logic.
+- [x] Review
+  - Completed: investigation shows the previous shared-renderer refactor created a shared entrypoint and main-compatible adapters for key visible paths, but it did not extract the full canonical main election pane renderer. Full parity requires moving the remaining main branches into an engine-neutral renderer and expanding DOM parity tests across all pane states.
+
 # Shared election pane renderer refactor for /test2 parity
 - [x] Record scope
   - User request: implement the structural alignment plan so `/test2` uses the same election pane contract as the main site, while keeping MapLibre-specific behaviour confined to map drawing and selection.

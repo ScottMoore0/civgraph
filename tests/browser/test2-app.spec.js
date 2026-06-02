@@ -241,6 +241,59 @@ test('/test2 Dail 2024 election pane matches the main DOM contract for the compa
   await context.close();
 });
 
+test('/test2 Dail election candidate and count panes follow the main pane contract', async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 1120, height: 920 } });
+  const mainPage = await context.newPage();
+  const test2Page = await context.newPage();
+  const hash = 'layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00';
+  const tableSignature = async (page) => page.evaluate(() => ({
+    headerTabs: [...document.querySelectorAll('#electionPaneHeaderRight .election-view-tab')].map((button) => button.textContent.trim()),
+    detailToggle: document.querySelector('#electionPaneHeaderRight #test2ElectionCountDetail, #electionPaneHeaderRight [data-role="detail-toggle"]')?.textContent?.trim() || '',
+    oldCountToolbar: Boolean(document.querySelector('#electionPaneContent .test2-election-count-toolbar')),
+    tableClass: document.querySelector('#electionPaneContent table')?.className || '',
+    headers: [...document.querySelectorAll('#electionPaneContent table thead th')].map((th) => th.textContent.trim().replace(/\s+/g, ' ')).slice(0, 18),
+    firstRows: [...document.querySelectorAll('#electionPaneContent table tbody tr:not(.election-table-summary-row)')]
+      .slice(0, 3)
+      .map((row) => [...row.children].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')).slice(0, 12))
+  }));
+
+  await Promise.all([
+    mainPage.goto('/'),
+    test2Page.goto(`/test2/#${hash}`)
+  ]);
+  await mainPage.waitForFunction(() => window.uiController?.onLoadElection);
+  await mainPage.evaluate(() => window.uiController.onLoadElection('Dáil Éireann', '2024-11-29'));
+  await test2Page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await test2Page.evaluate(() => window.__civgraphTest2.restorePromise);
+
+  await mainPage.waitForSelector('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)');
+  await test2Page.waitForSelector('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)');
+  await mainPage.locator('#electionPaneHeaderRight .election-view-tab', { hasText: 'By Candidate' }).click();
+  await test2Page.locator('#electionPaneHeaderRight .election-view-tab', { hasText: 'By Candidate' }).click();
+  await mainPage.waitForSelector('#electionPaneContent .election-count-table--candidate-sticky3 tbody tr');
+  await test2Page.waitForSelector('#electionPaneContent .election-count-table--candidate-sticky3 tbody tr');
+  const [mainCandidate, test2Candidate] = await Promise.all([tableSignature(mainPage), tableSignature(test2Page)]);
+  expect(mainCandidate.headers.length).toBeGreaterThan(0);
+  expect(test2Candidate.headers).toEqual(mainCandidate.headers);
+  expect(test2Candidate.firstRows[0].slice(0, 10)).toEqual(mainCandidate.firstRows[0].slice(0, 10));
+  expect(test2Candidate.tableClass).toContain('election-count-table--candidate-sticky3');
+
+  await test2Page.evaluate(() => {
+    const manager = window.__civgraphTest2.app.elections;
+    const result = manager.activeBundle.results.find((row) => row.hasCountDetail)
+      || manager.activeBundle.results[0];
+    manager.renderPanel(result, 'counts');
+  });
+  await test2Page.waitForSelector('#electionPaneContent .election-count-table tbody tr');
+  const test2Count = await tableSignature(test2Page);
+  expect(test2Count.detailToggle).toMatch(/Detailed View: Off|Detailed View: On/);
+  expect(test2Count.oldCountToolbar).toBe(false);
+  expect(test2Count.headers.join(' ')).toMatch(/Name|Party|Status/);
+  expect(test2Count.headers.join(' ')).toMatch(/1st\s*pref|Count/);
+  expect(test2Count.tableClass).toContain('election-count-table');
+  await context.close();
+});
+
 test('/test2 dismisses stuck mobile thumbnail previews on outside tap', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/test2/');
@@ -903,10 +956,10 @@ test('/test2 election pane supports local-government aggregates and detailed cou
     await app.elections.loadElection(assemblyEntry.body, assemblyEntry.date);
     const countResult = app.elections.activeBundle.results.find((result) => result.hasCountDetail);
     app.elections.renderPanel(countResult, 'counts');
-    const before = document.getElementById('electionPaneContent')?.textContent || '';
-    const countTable = Boolean(document.querySelector('#electionPaneContent .election-count-table--grouped'));
+    const before = document.getElementById('electionResultsPane')?.textContent || '';
+    const countTable = Boolean(document.querySelector('#electionPaneContent .election-count-table'));
     document.getElementById('test2ElectionCountDetail')?.click();
-    const after = document.getElementById('electionPaneContent')?.textContent || '';
+    const after = document.getElementById('electionResultsPane')?.textContent || '';
     const countWrapper = Boolean(document.querySelector('#electionPaneContent .election-count-wrapper--pane-sticky'));
     return {
       localBody: localEntry.body,
@@ -943,9 +996,9 @@ test('/test2 election pane supports local-government aggregates and detailed cou
   expect(state.countResult).toBeTruthy();
   expect(state.countTable).toBe(true);
   expect(state.countWrapper).toBe(true);
-  expect(state.before).toContain('Show detailed count values');
-  expect(state.after).toContain('Hide detailed count values');
-  expect(state.after).toMatch(/valid poll|transfer/i);
+  expect(state.before).toContain('Detailed View: Off');
+  expect(state.after).toContain('Detailed View: On');
+  expect(state.after).toMatch(/Valid votes|transfer|Count/i);
 });
 
 test('/test2 supports catalogue detail, unsupported notices, and URL restore', async ({ page }) => {

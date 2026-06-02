@@ -422,12 +422,128 @@ function safeValidPoll(info = {}, countGroup = []) {
   return Number.isFinite(fallback) && fallback > 0 ? fallback : 0;
 }
 
+function candidateKey(name, party) {
+  const norm = (value) => String(value || '').toLowerCase().replace(/\s+/g, ' ').trim();
+  return `${norm(name)}|${norm(party)}`;
+}
+
 function isValidCandidateRow(row = {}) {
   const cid = String(row.Candidate_Id || '').trim();
   const name = candidateDisplayName(row, '');
   if (!cid || cid.toLowerCase() === 'nontransferable') return false;
   if (!name || name.toLowerCase() === 'party') return false;
   return true;
+}
+
+export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
+  const rows = [];
+  let totalValid = 0;
+
+  for (const entry of rawEntries || []) {
+    const payload = normalizeScraperPayloadForMain(entry.raw, entry.constituency);
+    const cg = payload?.Constituency?.countGroup || [];
+    const info = payload?.Constituency?.countInfo || {};
+    if (!cg.length) continue;
+
+    const constValid = safeValidPoll(info, cg);
+    const seatCount = parseNumber(info.Number_Of_Seats) || 0;
+    const constituency = fixText(entry.constituency || info.Constituency_Name || '');
+    totalValid += constValid;
+
+    const byCandidate = new Map();
+    const countNums = unique(cg.map((row) => parseInt(row.Count_Number, 10) || 1)).sort((a, b) => a - b);
+    const lastCount = countNums[countNums.length - 1] || 1;
+    const totalCountCount = countNums.length || 1;
+
+    for (const row of cg) {
+      if (!isValidCandidateRow(row)) continue;
+      const cid = String(row.Candidate_Id || '');
+      const countNum = parseInt(row.Count_Number, 10) || 1;
+      if (!byCandidate.has(cid)) {
+        const name = candidateDisplayName(row);
+        const party = normalizeParty(row.Party_Name);
+        byCandidate.set(cid, {
+          id: cid,
+          personId: cid,
+          constituency,
+          name,
+          party,
+          colour: row.Party_Colour || partyColour(party),
+          firstPrefs: 0,
+          votes: 0,
+          constPct: 0,
+          firstPrefPct: 0,
+          finalVotes: 0,
+          elected: false,
+          electedAt: null,
+          excluded: false,
+          excludedAt: null,
+          resolvedCount: null,
+          countDisplay: '',
+          status: '',
+          counts: {}
+        });
+      }
+      const candidate = byCandidate.get(cid);
+      const total = numberOrZero(row.Total_Votes);
+      if (countNum === 1) {
+        candidate.firstPrefs = total;
+        candidate.votes = total;
+        candidate.constPct = constValid > 0 ? (total / constValid * 100) : 0;
+        candidate.firstPrefPct = candidate.constPct;
+      }
+      candidate.counts[countNum] = {
+        total,
+        transfers: numberOrZero(row.Transfers),
+        status: row.Status || ''
+      };
+      if (total > candidate.finalVotes) candidate.finalVotes = total;
+    }
+
+    byCandidate.forEach((candidate) => {
+      const lifecycle = inferMainLikeCandidateLifecycle(candidate, info, lastCount);
+      candidate.electedAt = lifecycle.electedAt;
+      candidate.excludedAt = lifecycle.excludedAt;
+    });
+
+    const explicitElected = [...byCandidate.values()].filter((candidate) => !!candidate.electedAt).length;
+    if (seatCount > 0 && explicitElected < seatCount) {
+      const needed = seatCount - explicitElected;
+      [...byCandidate.values()]
+        .filter((candidate) => !candidate.electedAt && !candidate.excludedAt)
+        .sort((a, b) => numberOrZero(b.finalVotes) - numberOrZero(a.finalVotes))
+        .slice(0, needed)
+        .forEach((candidate) => {
+          candidate.electedAt ||= lastCount;
+        });
+    }
+
+    byCandidate.forEach((candidate) => {
+      candidate.resolvedCount = candidate.electedAt
+        ? (candidate.electedAt || lastCount)
+        : candidate.excludedAt
+        ? (candidate.excludedAt || lastCount)
+        : lastCount;
+      candidate.elected = Boolean(candidate.electedAt);
+      candidate.excluded = Boolean(candidate.excludedAt);
+      candidate.status = candidate.electedAt ? 'Elected' : (candidate.excludedAt ? 'Excluded' : 'Not Elected');
+      candidate.countDisplay = `${candidate.resolvedCount}/${totalCountCount}`;
+      candidate.candidateKey = candidateKey(candidate.name, candidate.party);
+      rows.push(candidate);
+    });
+  }
+
+  return {
+    rows: rows.sort((a, b) => {
+      const pctDelta = numberOrZero(b.constPct) - numberOrZero(a.constPct);
+      if (Math.abs(pctDelta) > 1e-9) return pctDelta;
+      return numberOrZero(b.votes) - numberOrZero(a.votes)
+        || String(a.name || '').localeCompare(String(b.name || ''));
+    }),
+    totals: {
+      validPoll: totalValid
+    }
+  };
 }
 
 export function summarizeResult(raw, fallbackConstituency) {
