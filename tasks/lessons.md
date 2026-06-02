@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 138) Site-wide navigation changes must check main, test, and test2 shells
+- Mistake pattern: The Browse/login entry point was added to the main shell and About page, but `/test2` was left without the Browse link even though it is an active user-facing shell.
+- Impact: Users viewing `/test2` could not reach the new Browse/contributor workflow from the navbar, creating an avoidable parity gap.
+- Guardrail:
+  1) any navbar or top-level route change must grep `index.html`, `pages/about.html`, `test/index.html`, and `test2/index.html`,
+  2) route links under `/test2` must use absolute URLs for site-wide pages unless a scoped `/test2` page exists,
+  3) task reviews should explicitly state whether the main shell, `/test`, and `/test2` were changed or intentionally left unchanged.
+
 ### 137) Election pane parity must test every pane mode, not only the overall party table
 - Mistake pattern: `/test2` was repeatedly aligned against the visible Dáil 2024 overall party table while candidate, local-party, selected constituency/DEA, count, recall, entity, local-government, and animation panes were still rendered through separate or simplified branches.
 - Impact: A focused parity test could pass while screenshots still showed real differences, because the test covered only one pane state and the shared renderer still delegated many secondary states to `/test2`-specific markup.

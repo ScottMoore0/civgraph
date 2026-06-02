@@ -1,3 +1,13 @@
+# Implement Browse navigation on test2
+- [x] Record scope
+  - User clarified that the Browse/login entry point also needs to be exposed from `/test2`, not only the main shell.
+- [x] Wire test2 navigation
+  - Completed: added absolute `/browse/` links to the `/test2` desktop navbar and mobile menu so the route resolves to the site-wide Browse section rather than `/test2/browse/`.
+- [x] Verify
+  - Verified by checking `test2/index.html` for the desktop and mobile Browse links and running a syntax/build validation.
+- [x] Review
+  - Scope is intentionally limited to exposing the existing site-wide `/browse/` feature from `/test2`; no duplicate `/test2/browse/` app was created.
+
 # Implement contributor login and Browse submissions
 - [x] Record scope
   - User requested implementation of the login feature after the public read-only Browse section. Scope: authenticated contributor status, login/logout affordances, contributor-only edit/map-submission UI in `/browse/`, and a guarded review-queue submission endpoint. Public Browse remains read-only for unauthenticated users.
