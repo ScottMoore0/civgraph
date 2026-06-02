@@ -2,6 +2,7 @@ import {
   buildRepairedLabelValueExpression,
   repairFeatureProperties
 } from '../../test/src/feature-property-repairs.js';
+import maplibregl from 'maplibre-gl';
 import {
   createElectionRenderer,
   numericColour as sharedNumericColour
@@ -98,6 +99,7 @@ export class Test2ElectionManager {
     this.seatCircleClickBound = false;
     this.seatCircleOverlay = null;
     this.seatCircleOverlayState = { groups: [], dotCount: 0 };
+    this.seatCircleMarkers = [];
     this.overlayRefreshPending = false;
     this.voteBarClickBound = false;
     this.recallLabelClickBound = false;
@@ -1735,6 +1737,7 @@ export class Test2ElectionManager {
     if (!overlay) return;
     overlay.innerHTML = '';
     this.removeLegacySeatCircleLayers();
+    this.removeSeatCircleMarkers();
     this.seatCircleOverlayState = { groups: [], dotCount: 0 };
 
     for (const group of visibleGroups) {
@@ -1752,13 +1755,11 @@ export class Test2ElectionManager {
       seatGroup.dataset.resultKey = resultKey;
       seatGroup.dataset.aggregateType = aggregateType;
       seatGroup.dataset.constituency = result.constituency || result.matchName || '';
+      seatGroup.dataset.lng = String(center[0]);
+      seatGroup.dataset.lat = String(center[1]);
       seatGroup.setAttribute('aria-label', `Show election result for ${result.constituency || result.matchName || 'selected constituency'}`);
-      seatGroup.style.position = 'absolute';
-      seatGroup.style.left = `${projected.x}px`;
-      seatGroup.style.top = `${projected.y}px`;
       seatGroup.style.width = `${groupWidth}px`;
       seatGroup.style.height = `${groupHeight}px`;
-      seatGroup.style.transform = 'translate(-50%, -50%)';
 
       const inner = document.createElement('div');
       inner.className = 'seat-group';
@@ -1791,12 +1792,17 @@ export class Test2ElectionManager {
         }
       });
 
-      overlay.appendChild(seatGroup);
+      const marker = new maplibregl.Marker({ element: seatGroup, anchor: 'center' })
+        .setLngLat(center)
+        .addTo(map);
+      this.seatCircleMarkers.push(marker);
       this.seatCircleOverlayState.groups.push({
         key: resultKey,
         aggregateType,
         constituency: result.constituency || result.matchName || '',
         seats: seats.length,
+        lng: Number(center[0]),
+        lat: Number(center[1]),
         width: groupWidth,
         height: groupHeight,
         x: projected.x,
@@ -1846,18 +1852,24 @@ export class Test2ElectionManager {
   }
 
   async waitForSeatCircleOverlay() {
-    if (this.seatCircleOverlay?.children?.length) return this.getSeatCircleOverlayState();
+    if (this.seatCircleMarkers?.length || this.seatCircleOverlayState?.dotCount) return this.getSeatCircleOverlayState();
     await this.renderSeatCircles();
     return this.getSeatCircleOverlayState();
   }
 
   removeSeatCircles() {
     this.removeLegacySeatCircleLayers();
+    this.removeSeatCircleMarkers();
     if (this.seatCircleOverlay) {
       this.seatCircleOverlay.remove();
       this.seatCircleOverlay = null;
     }
     this.seatCircleOverlayState = { groups: [], dotCount: 0 };
+  }
+
+  removeSeatCircleMarkers() {
+    for (const marker of this.seatCircleMarkers || []) marker.remove();
+    this.seatCircleMarkers = [];
   }
 
   async renderVoteBars() {
@@ -2006,6 +2018,31 @@ export class Test2ElectionManager {
     const refresh = () => this.scheduleElectionOverlayRefresh();
     map.on('zoomend', refresh);
     map.on('moveend', refresh);
+  }
+
+  updateSeatCircleOverlayPositions() {
+    const map = this.mapController?.map;
+    if (!map || !this.seatCircleMarkers?.length) return this.getSeatCircleOverlayState();
+    const stateByKey = new Map((this.seatCircleOverlayState?.groups || []).map((group) => [
+      `${group.key || ''}|${group.aggregateType || ''}|${group.constituency || ''}`,
+      group
+    ]));
+    for (const marker of this.seatCircleMarkers) {
+      const seatGroup = marker.getElement();
+      const lng = Number(seatGroup.dataset.lng);
+      const lat = Number(seatGroup.dataset.lat);
+      if (!Number.isFinite(lng) || !Number.isFinite(lat)) continue;
+      const projected = map.project([lng, lat]);
+      if (!Number.isFinite(projected?.x) || !Number.isFinite(projected?.y)) continue;
+      marker.setLngLat([lng, lat]);
+      const key = `${seatGroup.dataset.resultKey || ''}|${seatGroup.dataset.aggregateType || ''}|${seatGroup.dataset.constituency || ''}`;
+      const state = stateByKey.get(key);
+      if (state) {
+        state.x = projected.x;
+        state.y = projected.y;
+      }
+    }
+    return this.getSeatCircleOverlayState();
   }
 
   scheduleElectionOverlayRefresh() {

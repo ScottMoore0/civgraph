@@ -1,3 +1,24 @@
+# /test2 live seat-circle pan anchoring
+- [x] Record scope
+  - User request: fix `/test2` so election seat-circle DOM overlays remain positioned over their respective features while the user pans the MapLibre map, matching the main site's Leaflet marker behaviour.
+  - Scope: live overlay positioning during `move`/`zoom`/`render`, retaining expensive collision rebuilds on `moveend`/`zoomend`, tests/guardrails, rebuilt `/test2` output if needed, and lesson/task notes. Main remains the fixed reference and must not be changed.
+- [x] Inspect current overlay behaviour
+  - Confirm whether `/test2` stores map anchors per DOM group and whether camera movement updates positions before `moveend`.
+  - Completed: `/test2` wrote one-time `left/top` pixel positions into an absolute overlay and only rebuilt on `moveend`/`zoomend`, so active panning moved the MapLibre map while the seat-circle DOM stayed behind.
+- [x] Implement live anchoring
+  - Store each seat-circle group's longitude/latitude anchor in DOM/state and update existing DOM group `left/top` positions through a requestAnimationFrame-throttled live-position pass on MapLibre camera movement.
+  - Keep full collision/group rebuilds on final movement events only.
+  - Completed: replaced the fixed overlay positioning with MapLibre-managed DOM `Marker` instances using the same main-style `.election-seat-circle`, `.seat-group`, and `.seat-dot` markup. Collision/group rebuilds still happen on movement end; MapLibre now keeps the DOM groups anchored continuously during pan/zoom.
+- [x] Add guardrails
+  - Add static and browser coverage proving `/test2` has a live positioning path and that DOM seat circles move when the map centre changes.
+  - Completed: route validation now requires map-anchored DOM markers, geographic anchors, marker cleanup, and no MapLibre circle paint fallback. Browser coverage now checks that a seat-circle group's DOM centre stays within 3px of its projected anchor before, during, and after an animated pan.
+- [x] Verify
+  - Run syntax checks, `/test2` route validation, build, and focused browser tests.
+  - Completed: `node --check test2/src/election-manager.js`, `node --check tests/browser/test2-app.spec.js`, `npm run check:test2`, `npm run build:test2`, focused pan test, and the full `npm run test:browser -- tests/browser/test2-app.spec.js` suite all passed. Build/browser runs required approved sandbox escalation for local binary execution.
+- [x] Review
+  - Summarize what now matches main and any remaining MapLibre/anchor-sidecar limits.
+  - Completed: `/test2` now has main-like pan behaviour because seat-circle DOM groups are anchored by the map engine rather than manually positioned in a static overlay. Remaining possible differences are only anchor-source/collision differences, not pan drift.
+
 # /test2 seat-circle zoom behaviour parity
 - [x] Record scope
   - User request: align `/test2` election seat-circle zoom behaviour to the main site insofar as feasible and sensible.

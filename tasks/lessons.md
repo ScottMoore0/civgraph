@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 131) DOM map overlays must be map-anchored, not fixed-position reprojected only at movement end
+- Mistake pattern: Replacing MapLibre paint-layer seat circles with a fixed absolute DOM overlay, then trying to approximate Leaflet marker behaviour by recalculating `left/top` after `moveend`/`zoomend`.
+- Impact: During active pan gestures, MapLibre moved the map while `/test2` seat-circle DOM groups stayed at stale pixel positions, visibly detaching from their constituencies.
+- Guardrail:
+  1) use MapLibre-managed DOM `Marker` instances for seat-circle groups so the engine keeps DOM overlays anchored during pan/zoom,
+  2) keep collision/group rebuilds on final camera events instead of rebuilding expensive layout mid-gesture,
+  3) browser tests must sample seat-circle DOM centres against `map.project(lng, lat)` before, during, and after an animated pan.
+
 ### 130) Seat-circle parity must cover zoom algorithms, not only dot styling
 - Mistake pattern: Closing visible seat-circle requests by changing stroke/halo styling while leaving collision, projected bounds, and rebuild timing close-but-not-identical to the main Leaflet implementation.
 - Impact: `/test2` could look acceptable at one zoom but still diverge from main when zooming because group visibility and collision decisions were produced by slightly different mechanics.

@@ -503,7 +503,7 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
     if (state?.testLayerId) app.mapController.renderer?.refreshDomLabels?.(state.testLayerId);
     await app.elections.waitForSeatCircleOverlay();
     const seatState = app.elections.getSeatCircleOverlayState();
-    const seatGroups = [...document.querySelectorAll('#test2-election-seat-overlay .election-seat-circle')];
+    const seatGroups = [...document.querySelectorAll('.test2-election-seat-circle')];
     const firstSeatGroup = seatGroups[0]?.getBoundingClientRect();
     const firstSeatDot = seatGroups[0]?.querySelector('.seat-dot');
     const firstSeatDotStyle = firstSeatDot ? getComputedStyle(firstSeatDot) : null;
@@ -594,7 +594,7 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
     const source = map.getSource('test2-election-vote-bar-source');
     return {
       hasBars: Boolean(map.getLayer('test2-election-vote-bar-layer')),
-      hasSeatCircles: Boolean(document.getElementById('test2-election-seat-overlay')),
+      hasSeatCircles: Boolean(document.querySelector('.test2-election-seat-circle')),
       barCount: source?._data?.features?.length || map.queryRenderedFeatures({ layers: ['test2-election-vote-bar-layer'] }).length
     };
   });
@@ -634,7 +634,7 @@ test('/test2 DOM seat circles keep main-style fixed dots while zooming', async (
   await page.goto('/test2/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
-  await page.waitForFunction(() => document.querySelector('#test2-election-seat-overlay .seat-dot'));
+  await page.waitForFunction(() => document.querySelector('.test2-election-seat-circle .seat-dot'));
 
   const samples = await page.evaluate(async () => {
     const app = window.__civgraphTest2.app;
@@ -647,7 +647,7 @@ test('/test2 DOM seat circles keep main-style fixed dots while zooming', async (
       await app.elections.renderElectionOverlay();
       await app.elections.waitForSeatCircleOverlay();
       const state = app.elections.getSeatCircleOverlayState();
-      const firstGroup = document.querySelector('#test2-election-seat-overlay .election-seat-circle');
+      const firstGroup = document.querySelector('.test2-election-seat-circle');
       const firstDot = firstGroup?.querySelector('.seat-dot');
       const groupRect = firstGroup?.getBoundingClientRect();
       const dotRect = firstDot?.getBoundingClientRect();
@@ -678,6 +678,53 @@ test('/test2 DOM seat circles keep main-style fixed dots while zooming', async (
     expect(sample.firstDotBorder).toMatch(/0, 0, 0|black|rgb\(0 0 0/i);
     expect(sample.firstDotShadow).toMatch(/255, 255, 255|white|rgb\(255 255 255/i);
   }
+});
+
+test('/test2 DOM seat circles stay anchored while panning', async ({ page }) => {
+  await page.goto('/test2/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForFunction(() => document.querySelector('.test2-election-seat-circle[data-lng][data-lat]'));
+
+  const samples = await page.evaluate(async () => {
+    const app = window.__civgraphTest2.app;
+    const map = app.mapController.map;
+    const sample = () => {
+      const group = document.querySelector('.test2-election-seat-circle[data-lng][data-lat]');
+      const mapRect = map.getContainer().getBoundingClientRect();
+      const groupRect = group.getBoundingClientRect();
+      const lng = Number(group.dataset.lng);
+      const lat = Number(group.dataset.lat);
+      const projected = map.project([lng, lat]);
+      const groupCenter = {
+        x: groupRect.left - mapRect.left + groupRect.width / 2,
+        y: groupRect.top - mapRect.top + groupRect.height / 2
+      };
+      return {
+        groupCenter,
+        projected: { x: projected.x, y: projected.y },
+        dx: Math.abs(groupCenter.x - projected.x),
+        dy: Math.abs(groupCenter.y - projected.y)
+      };
+    };
+
+    const before = sample();
+    map.panBy([140, 0], { duration: 400, essential: true });
+    await new Promise((resolve) => setTimeout(resolve, 120));
+    const during = sample();
+    if (map.isMoving()) {
+      await new Promise((resolve) => map.once('moveend', resolve));
+    }
+    app.elections.updateSeatCircleOverlayPositions();
+    const after = sample();
+    return { before, during, after };
+  });
+
+  for (const key of ['before', 'during', 'after']) {
+    expect(samples[key].dx, `${key} seat-circle x anchor drift`).toBeLessThan(3);
+    expect(samples[key].dy, `${key} seat-circle y anchor drift`).toBeLessThan(3);
+  }
+  expect(Math.abs(samples.during.groupCenter.x - samples.before.groupCenter.x)).toBeGreaterThan(5);
 });
 
 test('/test2 election bundles cover representative main-site election types', async ({ page }) => {
