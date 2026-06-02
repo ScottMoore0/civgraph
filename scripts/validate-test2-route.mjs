@@ -146,8 +146,12 @@ assert(
     && electionManagerSource.includes('data-action="sort-asc"')
     && electionManagerSource.includes('data-action="deselect-all"')
     && electionManagerSource.includes('data-action="clear-filter"')
-    && electionManagerSource.includes('election-th-btn--open'),
-  '/test2 election tables must preserve main-style party ordering and full menu-based sort/filter controls'
+    && electionManagerSource.includes('election-th-btn--open')
+    && electionManagerSource.includes('positionElectionFilterMenu')
+    && electionManagerSource.includes('clampToViewport')
+    && electionManagerSource.includes("window.addEventListener('resize', activeMenuPositioner)")
+    && electionManagerSource.includes("window.addEventListener('scroll', activeMenuPositioner, true)"),
+  '/test2 election tables must preserve main-style party ordering, full menu-based sort/filter controls, and viewport-contained filter menus'
 );
 assert(electionManagerSource.includes('MAIN_ELECTION_GEOGRAPHY_STYLE') && electionManagerSource.includes("unmatchedFillColor: '#dfe4ec'") && electionManagerSource.includes('matchedFillOpacity: 0.6') && electionManagerSource.includes("matchedStrokeColor: '#333'"), '/test2 election geography styling must mirror main fill/stroke constants');
 assert(electionManagerSource.includes('buildElectionMatchExpression') && electionManagerSource.includes('fillOpacityExpression'), '/test2 election geography styling must distinguish matched and unmatched features with MapLibre expressions');

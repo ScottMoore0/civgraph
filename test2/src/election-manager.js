@@ -856,6 +856,7 @@ export class Test2ElectionManager {
     const fixedRows = originalRows.filter(({ row }) => !sortableRows.some((item) => item.row === row));
     let activeMenu = null;
     let activeMenuBtn = null;
+    let activeMenuPositioner = null;
 
     const parseMaybeNumber = (text) => {
       const cleaned = String(text || '')
@@ -921,8 +922,72 @@ export class Test2ElectionManager {
     const closeMenu = () => {
       if (activeMenu) activeMenu.remove();
       if (activeMenuBtn) activeMenuBtn.classList.remove('election-th-btn--open');
+      if (activeMenuPositioner) {
+        window.removeEventListener('resize', activeMenuPositioner);
+        window.removeEventListener('scroll', activeMenuPositioner, true);
+      }
       activeMenu = null;
       activeMenuBtn = null;
+      activeMenuPositioner = null;
+    };
+
+    const clampToViewport = (value, min, max) => {
+      if (max < min) return min;
+      return Math.min(Math.max(value, min), max);
+    };
+
+    const positionElectionFilterMenu = (menu, anchorBtn) => {
+      if (!menu || !anchorBtn) return;
+      const margin = 8;
+      const gap = 4;
+      const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+      const viewportMaxWidth = Math.max(160, viewportWidth - (margin * 2));
+      const viewportMaxHeight = Math.max(120, viewportHeight - (margin * 2));
+      const targetWidth = Math.min(248, viewportMaxWidth);
+      const anchorRect = anchorBtn.getBoundingClientRect();
+
+      menu.style.width = `${targetWidth}px`;
+      menu.style.maxWidth = `${viewportMaxWidth}px`;
+      menu.style.maxHeight = `${viewportMaxHeight}px`;
+      menu.style.overflow = 'hidden';
+
+      const valuesHost = menu.querySelector('[data-role="values"]');
+      if (valuesHost) valuesHost.style.maxHeight = '';
+
+      const measuredRect = menu.getBoundingClientRect();
+      const belowSpace = Math.max(0, viewportHeight - anchorRect.bottom - margin - gap);
+      const aboveSpace = Math.max(0, anchorRect.top - margin - gap);
+      const measuredHeight = Math.min(measuredRect.height || viewportMaxHeight, viewportMaxHeight);
+      const openAbove = measuredHeight > belowSpace && aboveSpace > belowSpace;
+      const availableHeight = Math.max(120, Math.min(viewportMaxHeight, openAbove ? aboveSpace : belowSpace));
+      menu.style.maxHeight = `${availableHeight}px`;
+
+      if (valuesHost) {
+        const children = [...menu.children];
+        const nonValuesHeight = children
+          .filter((child) => child !== valuesHost)
+          .reduce((sum, child) => sum + child.getBoundingClientRect().height, 0);
+        const gapHeight = Math.max(0, children.length - 1) * 6;
+        valuesHost.style.maxHeight = `${Math.max(48, availableHeight - nonValuesHeight - gapHeight - 2)}px`;
+      }
+
+      const finalRect = menu.getBoundingClientRect();
+      const left = clampToViewport(
+        anchorRect.right - finalRect.width,
+        margin,
+        viewportWidth - finalRect.width - margin
+      );
+      const preferredTop = openAbove
+        ? anchorRect.top - finalRect.height - gap
+        : anchorRect.bottom + gap;
+      const top = clampToViewport(
+        preferredTop,
+        margin,
+        viewportHeight - finalRect.height - margin
+      );
+      menu.style.left = `${left}px`;
+      menu.style.top = `${top}px`;
     };
 
     const getUniqueValues = (colIdx) => {
@@ -1002,24 +1067,6 @@ export class Test2ElectionManager {
       activeMenuBtn = anchorBtn;
       anchorBtn.classList.add('election-th-btn--open');
 
-      const rect = anchorBtn.getBoundingClientRect();
-      const menuWidth = 248;
-      const margin = 8;
-      const scrollX = window.scrollX || window.pageXOffset || 0;
-      const scrollY = window.scrollY || window.pageYOffset || 0;
-      const preferredLeft = scrollX + rect.right - menuWidth;
-      const maxLeft = scrollX + window.innerWidth - menuWidth - margin;
-      menu.style.left = `${Math.max(scrollX + margin, Math.min(preferredLeft, maxLeft))}px`;
-
-      const menuHeight = menu.offsetHeight || 320;
-      const belowTop = scrollY + rect.bottom + 4;
-      const aboveTop = scrollY + rect.top - menuHeight - 4;
-      const viewportBottom = scrollY + window.innerHeight - margin;
-      const viewportTop = scrollY + margin;
-      const fitsBelow = belowTop + menuHeight <= viewportBottom;
-      const fitsAbove = aboveTop >= viewportTop;
-      menu.style.top = `${(fitsBelow || !fitsAbove) ? belowTop : aboveTop}px`;
-
       const valuesHost = menu.querySelector('[data-role="values"]');
       const renderValues = (needle = '') => {
         const query = needle.trim().toLowerCase();
@@ -1039,9 +1086,16 @@ export class Test2ElectionManager {
           });
       };
       renderValues();
+      positionElectionFilterMenu(menu, anchorBtn);
+      activeMenuPositioner = () => positionElectionFilterMenu(menu, anchorBtn);
+      window.addEventListener('resize', activeMenuPositioner);
+      window.addEventListener('scroll', activeMenuPositioner, true);
 
       const search = menu.querySelector('.election-filter-menu__search');
-      search?.addEventListener('input', () => renderValues(search.value || ''));
+      search?.addEventListener('input', () => {
+        renderValues(search.value || '');
+        positionElectionFilterMenu(menu, anchorBtn);
+      });
 
       menu.addEventListener('click', (event) => {
         const button = event.target.closest('button[data-action]');
@@ -1065,9 +1119,11 @@ export class Test2ElectionManager {
         } else if (action === 'select-all') {
           options.forEach((value) => selected.add(value));
           renderValues(search?.value || '');
+          positionElectionFilterMenu(menu, anchorBtn);
         } else if (action === 'deselect-all') {
           selected.clear();
           renderValues(search?.value || '');
+          positionElectionFilterMenu(menu, anchorBtn);
         } else if (action === 'clear-filter') {
           filterState.delete(colIdx);
           applyState();

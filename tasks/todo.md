@@ -1,3 +1,23 @@
+# /test2 election sort/filter menu viewport containment
+- [x] Record scope
+  - User request: make `/test2` election results sort/filter panes stay wholly within the browser window where possible when a sort/filter button is clicked.
+  - Scope: `/test2` election filter menu positioning, max-height/overflow behaviour, browser/static guardrails, rebuilt `/test2` output if needed, task notes, and verification. Main remains the fixed reference.
+- [x] Inspect current positioning
+  - Check current menu left/top calculation and CSS constraints to identify why the menu can spill out of the viewport.
+  - Completed: the menu is fixed-position but the old placement mixed in `scrollX`/`scrollY`, measured before values rendered, and had no viewport-aware menu/value-list height cap.
+- [x] Implement containment
+  - Clamp menu left/top against viewport edges, constrain width/height on small screens, and make value lists scroll when the available viewport space is tight.
+  - Completed: `/test2` now positions filter menus with viewport coordinates, clamps width/height, makes the values list internally scrollable, and repositions on resize/scroll plus value-search rerenders.
+- [x] Add guardrails
+  - Add browser coverage that opens the menu near constrained viewport edges and asserts it remains inside the viewport.
+  - Completed: browser tests now assert `.election-filter-menu` bounds against the viewport in normal and constrained mobile-sized viewports, and static validation requires the viewport-clamping path.
+- [x] Verify
+  - Run syntax checks, `/test2` validation, build, and focused browser tests.
+  - Completed: `node --check test2/src/election-manager.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, and `npm run test:browser:test2` all passed. Build/browser verification required approved escalation for local binary/browser spawning.
+- [x] Review
+  - Summarize containment behaviour and remaining edge-case limits.
+  - Completed: sort/filter panes now remain within the viewport where possible, with internal value-list scrolling on constrained screens. Remaining limit: extremely tiny browser windows can force the menu to use the minimum viable height/width, but it still clamps to the visible viewport.
+
 # /test2 election results sort/filter parity
 - [x] Record scope
   - User request: change `/test2` election results pane sort buttons so they have the same functionality as the sort/filter buttons in the main election results pane.

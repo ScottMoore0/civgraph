@@ -15,6 +15,35 @@ async function loadCivilParishes(page) {
   });
 }
 
+async function expectElectionFilterMenuInsideViewport(page) {
+  const bounds = await page.locator('.election-filter-menu').evaluate((menu) => {
+    const rect = menu.getBoundingClientRect();
+    const values = menu.querySelector('.election-filter-menu__values');
+    const valuesRect = values?.getBoundingClientRect();
+    return {
+      left: rect.left,
+      top: rect.top,
+      right: rect.right,
+      bottom: rect.bottom,
+      width: rect.width,
+      height: rect.height,
+      viewportWidth: window.innerWidth,
+      viewportHeight: window.innerHeight,
+      valuesHeight: valuesRect?.height || 0,
+      valuesClientHeight: values?.clientHeight || 0,
+      valuesScrollHeight: values?.scrollHeight || 0
+    };
+  });
+  expect(bounds.left).toBeGreaterThanOrEqual(-1);
+  expect(bounds.top).toBeGreaterThanOrEqual(-1);
+  expect(bounds.right).toBeLessThanOrEqual(bounds.viewportWidth + 1);
+  expect(bounds.bottom).toBeLessThanOrEqual(bounds.viewportHeight + 1);
+  expect(bounds.width).toBeGreaterThan(100);
+  expect(bounds.height).toBeGreaterThan(100);
+  expect(bounds.valuesHeight).toBeGreaterThan(20);
+  expect(bounds.valuesScrollHeight + 2).toBeGreaterThanOrEqual(bounds.valuesClientHeight);
+}
+
 test('/test2 boots the production shell with the MapLibre adapter', async ({ page }) => {
   await page.goto('/test2/');
   await expect(page.getByRole('link', { name: 'Civgraph' })).toBeVisible();
@@ -140,6 +169,7 @@ test('/test2 restores active Dail election catalogue, viewport, labels, and part
   await page.locator('#electionPaneContent th[data-leaf-col-idx="8"] .election-th-btn').click();
   await expect(page.locator('.election-filter-menu')).toBeVisible();
   await expect(page.locator('.election-filter-menu')).toContainText('Sort Largest to Smallest');
+  await expectElectionFilterMenuInsideViewport(page);
   await page.locator('.election-filter-menu [data-action="sort-desc"]').click();
   const firstAfterSort = await page.locator('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)').first().textContent();
   expect(firstAfterSort).toMatch(/Fine Gael/);
@@ -148,8 +178,10 @@ test('/test2 restores active Dail election catalogue, viewport, labels, and part
   await page.locator('#electionPaneContent th[data-leaf-col-idx="1"] .election-th-btn').click();
   await expect(page.locator('.election-filter-menu')).toBeVisible();
   await expect(page.locator('.election-filter-menu')).toContainText('Sort A to Z');
+  await expectElectionFilterMenuInsideViewport(page);
   await page.locator('.election-filter-menu__search').fill('Sinn');
   await expect(page.locator('.election-filter-menu__value', { hasText: /Sinn/ })).toBeVisible();
+  await expectElectionFilterMenuInsideViewport(page);
   await page.locator('.election-filter-menu [data-action="deselect-all"]').click();
   await page.locator('.election-filter-menu__value', { hasText: /Sinn/ }).locator('input').check();
   await page.locator('.election-filter-menu [data-action="apply"]').click();
@@ -161,6 +193,22 @@ test('/test2 restores active Dail election catalogue, viewport, labels, and part
   await page.locator('#electionPaneContent th[data-leaf-col-idx="1"] .election-th-btn').click();
   await page.locator('.election-filter-menu [data-action="clear-filter"]').click();
   await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="1"] .election-th-btn')).not.toHaveClass(/election-th-btn--active/);
+});
+
+test('/test2 election sort/filter menu stays inside a constrained viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 420 });
+  await page.goto('/test2/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForSelector('#electionPaneContent th[data-leaf-col-idx="1"] .election-th-btn');
+
+  await page.locator('#electionPaneContent th[data-leaf-col-idx="1"] .election-th-btn').click();
+  await expect(page.locator('.election-filter-menu')).toBeVisible();
+  await expectElectionFilterMenuInsideViewport(page);
+
+  await page.locator('.election-filter-menu__search').fill('Sinn');
+  await expect(page.locator('.election-filter-menu__value', { hasText: /Sinn/ })).toBeVisible();
+  await expectElectionFilterMenuInsideViewport(page);
 });
 
 test('/test2 Dail 2024 election pane matches the main DOM contract for the compared state', async ({ browser }) => {

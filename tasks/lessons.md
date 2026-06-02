@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 133) Fixed overlay menus need viewport containment tests, not only interaction tests
+- Mistake pattern: `/test2` election table sort/filter menus gained main-style functionality, but the overlay placement still used scroll-adjusted coordinates for a fixed-position element and did not constrain menu height.
+- Impact: A sort/filter pane could spill out of the browser window, especially near viewport edges or on short/mobile screens.
+- Guardrail:
+  1) fixed-position overlays must be positioned using viewport-relative `getBoundingClientRect()` values, not page scroll offsets,
+  2) large overlay content should cap height and scroll internally,
+  3) browser tests must assert overlay bounds against `window.innerWidth`/`window.innerHeight` in at least one constrained viewport.
+
 ### 132) Visual parity controls must share behaviour, not just icons
 - Mistake pattern: `/test2` rendered election table header sort buttons that looked like the main site's sort/filter buttons, but implemented only direct click-to-sort behaviour.
 - Impact: The visible table controls suggested main-site parity while missing the actual main workflow: per-column menu, value search, select/deselect all, clear/apply filter, reset sort, active-state arrows, and outside/Escape dismissal.
