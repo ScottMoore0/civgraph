@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse Civgraph maps, elections, features, parties, persons, books, tables, and sources.">
+  <title>Browse - Civgraph</title>
+  <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+  <link rel="stylesheet" href="browse.css">
+</head>
+
+<body>
+  <div id="announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+  <header class="app-header">
+    <a href="../" class="app-header__brand">
+      <img src="../assets/images/civgraph-logo-icon.svg" alt="" class="app-header__logo-icon">
+      <span class="app-header__wordmark">Civgraph</span>
+    </a>
+
+    <nav class="app-header__nav" aria-label="Main navigation">
+      <a href="../" class="app-header__link">Home</a>
+      <a href="./" class="app-header__link app-header__link--active">Browse</a>
+      <a href="../pages/about.html" class="app-header__link">About</a>
+      <a href="https://ko-fi.com/scottmoore0" class="support-btn" target="_blank" rel="noopener noreferrer">
+        <svg class="support-btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" />
+        </svg>
+        <span>Support Us</span>
+      </a>
+    </nav>
+
+    <button type="button" id="browseMenuBtn" class="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div id="browseMobileMenu" class="mobile-menu hidden">
+      <a href="../" class="mobile-menu__link">Home</a>
+      <a href="./" class="mobile-menu__link mobile-menu__link--active">Browse</a>
+      <a href="../pages/about.html" class="mobile-menu__link">About</a>
+      <a href="https://ko-fi.com/scottmoore0" class="mobile-menu__link" target="_blank" rel="noopener noreferrer">Support Us</a>
+    </div>
+  </header>
+
+  <main class="browse-shell">
+    <aside class="browse-sidebar" aria-label="Browse sections">
+      <div class="browse-search">
+        <label class="visually-hidden" for="browseSearch">Search browse data</label>
+        <svg class="browse-search__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input id="browseSearch" class="browse-search__field" type="search" placeholder="Search maps, elections, people...">
+      </div>
+      <section id="contributorPanel" class="contributor-panel" aria-label="Contributor tools"></section>
+      <nav id="browseGroups" class="browse-groups" aria-label="Browse data groups"></nav>
+    </aside>
+
+    <section class="browse-content" aria-live="polite">
+      <div id="browseHero" class="browse-hero"></div>
+      <div id="browseResults" class="browse-results"></div>
+    </section>
+  </main>
+
+  <div id="contributorModal" class="contributor-modal hidden" role="dialog" aria-modal="true" aria-labelledby="contributorModalTitle">
+    <div class="contributor-modal__backdrop" data-contributor-close></div>
+    <section class="contributor-modal__panel">
+      <header class="contributor-modal__header">
+        <h2 id="contributorModalTitle">Contributor submission</h2>
+        <button type="button" class="contributor-modal__close" data-contributor-close aria-label="Close">×</button>
+      </header>
+      <form id="contributorForm" class="contributor-form"></form>
+    </section>
+  </div>
+
+  <script type="module" src="browse.js"></script>
+</body>
+
+</html>

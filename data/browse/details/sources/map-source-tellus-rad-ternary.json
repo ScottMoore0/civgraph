@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "item": {
+    "id": "map-source:tellus-rad-ternary",
+    "slug": "map-source-tellus-rad-ternary",
+    "type": "map-source",
+    "title": "Tellus Radiometric — K/Th/U Ternary RGB source files",
+    "subtitle": "Geology and Geophysics / GSNI, Tellus",
+    "category": "Map sources",
+    "provider": [
+      "GSNI",
+      "Tellus"
+    ],
+    "description": "The iconic radiometric ternary composite — K mapped to red, Th to green, U to blue. Reds = potassic (granite, certain volcanics); greens = thorium-rich (resistate sediments, heavy minerals); blues = uranium-rich (organic shales, mineralisation); whites/pale = high in all three; blacks = low overall. The most interpretively powerful single radiometric view. Each band stretched independently to mean ± 2σ.",
+    "sourceMapId": "tellus-rad-ternary",
+    "references": [
+      {
+        "label": "OSNI Open Data — Tellus Radiometric Grids",
+        "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometric-grids"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "label",
+        "url": "ESRI File Geodatabase (ZIP, 842 MB)"
+      },
+      {
+        "label": "file",
+        "url": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Radiometrics_ESRIGRID.zip"
+      },
+      {
+        "label": "xyz",
+        "url": "https://data.civgraph.net/data/maps/geology/tellus-rad-ternary/{z}/{x}/{y}.png"
+      }
+    ],
+    "interactiveUrl": "/#layers=tellus-rad-ternary",
+    "browseUrl": "/browse/sources/map-source-tellus-rad-ternary"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "groups": [
+    {
+      "id": "maps",
+      "label": "Maps",
+      "description": "Catalogue map entries, metadata, downloads, source credits, and interactive-map links."
+    },
+    {
+      "id": "elections",
+      "label": "Elections",
+      "description": "Election entries by election, with links to open the corresponding election layer."
+    },
+    {
+      "id": "features",
+      "label": "Features",
+      "description": "Boundary features by source map, including election geography groups where available."
+    },
+    {
+      "id": "parties",
+      "label": "Parties / Labels",
+      "description": "Party and ticket labels observed in election data."
+    },
+    {
+      "id": "persons",
+      "label": "Persons",
+      "description": "Candidate and elected-person entries observed in election bundles."
+    },
+    {
+      "id": "sources",
+      "label": "Books / Tables / Sources",
+      "description": "Books, tables, datasets, map downloads, source files, and references."
+    }
+  ],
+  "counts": {
+    "maps": 821,
+    "elections": 268,
+    "featureGroups": 94,
+    "featureRecords": 63874,
+    "parties": 759,
+    "persons": 13892,
+    "sources": 1019
+  },
+  "entrypoints": {
+    "maps": "/data/browse/maps.json",
+    "elections": "/data/browse/elections.json",
+    "features": "/data/browse/features.json",
+    "parties": "/data/browse/parties.json",
+    "persons": "/data/browse/persons.json",
+    "sources": "/data/browse/sources.json"
+  },
+  "notes": [
+    "Browse is generated from static repository data.",
+    "Feature records are grouped by map and loaded lazily from existing spatial-index sidecars to avoid creating thousands of static files.",
+    "Open in interactive map and Open election layer links target the main site route with hash state."
+  ]
+}

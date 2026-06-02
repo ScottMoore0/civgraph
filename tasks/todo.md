@@ -1,3 +1,59 @@
+# Implement contributor login and Browse submissions
+- [x] Record scope
+  - User requested implementation of the login feature after the public read-only Browse section. Scope: authenticated contributor status, login/logout affordances, contributor-only edit/map-submission UI in `/browse/`, and a guarded review-queue submission endpoint. Public Browse remains read-only for unauthenticated users.
+- [x] Add auth/status API
+  - Implement Cloudflare Access-backed contributor detection via Pages Functions, with optional email allowlist env vars and login/logout URLs.
+  - Completed: added `/_api/auth/status` plus shared Function auth helper using Cloudflare Access email/JWT headers, optional contributor/admin allowlists, local dev email overrides, and Access login/logout URLs.
+- [x] Add submission API
+  - Implement authenticated JSON proposal submission for metadata edits and map-upload requests. Store durably when a KV/R2/D1 binding is configured; otherwise fail explicitly rather than pretending to persist data.
+  - Completed: added `POST /_api/contributions/submit` for authenticated `metadata-edit` and `map-submission` JSON proposals. It persists to configured KV/R2 bindings and returns an explicit `503` if no durable queue is configured.
+- [x] Add Browse contributor UI
+  - Show login/logout/status controls; reveal edit and map-submission controls only for allowed authenticated contributors.
+  - Completed: added contributor panel, Cloudflare Access login/logout links, contributor-only propose-edit controls on detail pages, and a map submission form in `/browse/`.
+- [x] Document deployment setup
+  - Document Cloudflare Access policy, contributor allowlist env vars, and required review-queue binding.
+  - Completed: added `docs/contributor-auth-and-browse-submissions.md` covering routes, Access setup, env vars, queue bindings, review workflow, and current upload limits.
+- [x] Verify
+  - Run syntax checks, Browse generation/build checks, and targeted browser smoke checks.
+- [x] Review
+  - Verified: `node --check functions/_api/_auth.js`, `node --check functions/_api/auth/status.js`, `node --check functions/_api/contributions/submit.js`, `node --check browse/browse.js`, `npm run build`, and `npm run check` all passed.
+  - Browser smoke: opened local `/browse/` and `#/maps/east-west-bann`; confirmed the unauthenticated contributor panel shows a Cloudflare Access login link, Browse data still loads, and contributor-only edit controls stay hidden when unauthenticated. The local static server cannot exercise Cloudflare Access headers; production verification requires Access policy and queue binding configuration.
+
+# Implement read-only Browse section
+- [x] Record scope
+  - User requested implementation of the agreed Browse section: maps, elections, features, parties/labels, persons, and books/tables/sources, with public browse pages and buttons back to the interactive map/election layer.
+- [x] Build data indexes
+  - Generate compact Browse indexes and detail JSON from existing map database, election manifests/results, party IDs, person IDs, and books/source metadata.
+  - Completed: added `scripts/build-browse-indexes.mjs`, generating `data/browse/index.json` plus maps, elections, features, parties, persons, and sources indexes. Output currently covers 821 map/data entries, 268 elections, 94 feature groups / 63,874 feature records, 759 parties/labels, 13,892 persons, and 1,019 sources.
+  - Deployment guardrail: person browsing uses the compact `persons.json` index instead of per-person files, keeping Browse output to 2,874 files rather than 16,764.
+- [x] Build Browse UI
+  - Add `/browse/` shell and client app with category lists, search, detail views, and open-in-map/open-election links.
+  - Completed: added `browse/index.html`, `browse/browse.css`, and `browse/browse.js`. The UI supports the six agreed entity groups, search, list/detail views, lazy feature-map loading from spatial-index sidecars, and action links back to the main interactive map.
+- [x] Wire navigation/build
+  - Add Browse navbar link and integrate Browse generation into build scripts where sensible.
+  - Completed: added Browse links to the main desktop and mobile nav and the About page nav. Added `build:browse` and made `npm run build` generate Browse data before bundling.
+- [x] Verify
+  - Run syntax checks, Browse index generation, site build checks, and focused smoke tests.
+- [x] Review
+  - Verified: `node --check scripts/build-browse-indexes.mjs`, `node --check browse/browse.js`, `node scripts/build-browse-indexes.mjs`, `npm run build` (rerun with approved escalation for esbuild spawn), and `npm run check` all passed.
+  - Browser smoke: opened `http://127.0.0.1:8765/browse/`, `#/elections/dail-eireann__2024-11-29`, `#/maps/east-west-bann`, and `#/features/east-west-bann`; verified generated counts, detail rendering, mobile layout, unique generated slugs, and main-route action URLs such as `/#layers=election-dail-eireann-2024-11-29`.
+
+# Feasibility review: login/logout and Browse static data section
+- [x] Scope
+  - User asked for feasibility of user login/logout and a navbar Browse link for static browsing of election, party, person, map, and related data.
+  - Clarification: login is intended for selected users to edit Browse entries and submit maps for upload.
+- [x] Review current site/data structure
+  - Inspected the main shell/navbar, `js/data-service.js`, map database manifests, election package data, `/test2` election manifests, and Cloudflare Pages Functions.
+- [x] Explain feasibility
+  - Conclusion: a generated static Browse section is highly feasible and fits the current architecture; login/logout is feasible through Cloudflare Pages Functions plus an identity provider, but should be deferred until there is a concrete account-backed feature.
+  - Revised conclusion after clarification: authenticated contributor workflows are feasible and justified, but should use a review queue rather than letting users directly mutate production static data or upload live map assets.
+
+# Implementation plan: Browse plus authenticated contribution workflow
+- [x] Scope
+  - User requested a maximally detailed, fully derisked implementation plan for read-only Browse, login/logout, contributor edits, and map submissions.
+- [x] Plan
+  - Provide architecture, phases, data model, workflows, validation, security controls, deployment strategy, risks, and acceptance criteria.
+
 # Wire /test2 election pane through main-pane contract
 - [x] Record scope
   - User request: proceed as far as sensible and feasible after repeated election-pane parity drift, preserving MapLibre in `/test2`.

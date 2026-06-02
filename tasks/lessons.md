@@ -1777,3 +1777,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) extract or mirror main pane methods behind a host adapter instead of reimplementing them in `Test2ElectionManager`,
   3) keep only map-engine operations, feature selection, and overlay drawing in the `/test2` MapLibre adapter,
   4) reject "as-is" copying only where the code calls Leaflet/main globals directly, and wrap those calls with explicit adapter methods.
+
+### 133) Login feasibility means contribution governance, not just account UI
+- Mistake pattern: Treating user login/logout as optional cosmetic account infrastructure before checking whether the user intends authenticated editing or uploads.
+- Impact: The architecture recommendation can understate the need for roles, audit logs, review queues, upload validation, and protection against direct production data mutation.
+- Guardrail:
+  1) when login is proposed for Civgraph, ask or infer whether authenticated users will edit data, submit corrections, upload maps, or access admin workflows,
+  2) if edits/uploads are involved, recommend staged submissions plus approval/publish pipelines,
+  3) keep production static data immutable from ordinary user sessions,
+  4) separate contributor permissions from admin publish permissions.
