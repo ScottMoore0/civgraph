@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 130) Seat-circle parity must cover zoom algorithms, not only dot styling
+- Mistake pattern: Closing visible seat-circle requests by changing stroke/halo styling while leaving collision, projected bounds, and rebuild timing close-but-not-identical to the main Leaflet implementation.
+- Impact: `/test2` could look acceptable at one zoom but still diverge from main when zooming because group visibility and collision decisions were produced by slightly different mechanics.
+- Guardrail:
+  1) route validation must assert the main-style constants and collision math directly,
+  2) browser tests must sample election DOM seat circles across multiple zoom levels,
+  3) MapLibre-specific code should be isolated to projection and final overlay positioning while the seat-circle domain/layout rules mirror main.
+
 ### 129) Seat-circle outline colour is a visible contract, not an incidental default
 - Mistake pattern: Preserving the earlier white MapLibre seat-circle halo/stroke while the user expected black outlines for election seat circles.
 - Impact: `/test2` seat circles could pass broad election-rendering tests while still visibly diverging from the requested map styling.

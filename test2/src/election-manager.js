@@ -28,6 +28,8 @@ const RECALL_LABEL_SOURCE_ID = 'test2-election-recall-label-source';
 const RECALL_LABEL_LAYER_ID = 'test2-election-recall-label-layer';
 const SEAT_CIRCLE_SIZE = 12;
 const SEAT_CIRCLE_SPACING = SEAT_CIRCLE_SIZE + 1;
+const SEAT_CIRCLE_COLLISION_MARGIN = 4;
+const SEAT_CIRCLE_MIN_TOTAL_EXTENT = 120;
 
 const MAIN_ELECTION_GEOGRAPHY_STYLE = Object.freeze({
   unmatchedFillColor: '#dfe4ec',
@@ -96,6 +98,7 @@ export class Test2ElectionManager {
     this.seatCircleClickBound = false;
     this.seatCircleOverlay = null;
     this.seatCircleOverlayState = { groups: [], dotCount: 0 };
+    this.overlayRefreshPending = false;
     this.voteBarClickBound = false;
     this.recallLabelClickBound = false;
     this.overlayRefreshBound = false;
@@ -2000,13 +2003,19 @@ export class Test2ElectionManager {
     const map = this.mapController?.map;
     if (!map || this.overlayRefreshBound) return;
     this.overlayRefreshBound = true;
-    const refresh = () => {
-      if (this.activeBundle && this.shouldRenderElectionOverlays()) {
-        this.renderElectionOverlay().catch((error) => console.warn('[test2 elections] Overlay refresh failed', error));
-      }
-    };
+    const refresh = () => this.scheduleElectionOverlayRefresh();
     map.on('zoomend', refresh);
     map.on('moveend', refresh);
+  }
+
+  scheduleElectionOverlayRefresh() {
+    if (this.overlayRefreshPending || !this.activeBundle || !this.shouldRenderElectionOverlays()) return;
+    this.overlayRefreshPending = true;
+    requestAnimationFrame(() => {
+      this.overlayRefreshPending = false;
+      if (!this.activeBundle || !this.shouldRenderElectionOverlays()) return;
+      this.renderElectionOverlay().catch((error) => console.warn('[test2 elections] Overlay refresh failed', error));
+    });
   }
 
   filterOverlayGroupsByCollision(groups = []) {
@@ -2028,18 +2037,24 @@ export class Test2ElectionManager {
       .filter((group) => Number.isFinite(group.point?.x) && Number.isFinite(group.point?.y));
     if (!projected.length) return [];
     const totalBounds = projected.reduce((acc, group) => mergePixelBounds(acc, group.bounds || pointPixelBounds(group.point)), null);
-    if (!totalBounds || (totalBounds.maxX - totalBounds.minX) < 120 || (totalBounds.maxY - totalBounds.minY) < 120) return [];
-    const boxes = [];
+    if (!totalBounds
+      || Math.abs(totalBounds.maxX - totalBounds.minX) < SEAT_CIRCLE_MIN_TOTAL_EXTENT
+      || Math.abs(totalBounds.maxY - totalBounds.minY) < SEAT_CIRCLE_MIN_TOTAL_EXTENT) {
+      return [];
+    }
+    const placed = [];
     const visible = [];
-    for (const group of projected.sort((a, b) => b.pixelArea - a.pixelArea || b.area - a.area || b.seats.length - a.seats.length)) {
-      const box = {
-        minX: group.point.x - group.width / 2,
-        maxX: group.point.x + group.width / 2,
-        minY: group.point.y - group.height / 2,
-        maxY: group.point.y + group.height / 2
-      };
-      if (boxes.some((existing) => boxesOverlap(existing, box))) continue;
-      boxes.push(box);
+    for (const group of projected.sort((a, b) => b.pixelArea - a.pixelArea)) {
+      const myHalfW = group.width / 2 + SEAT_CIRCLE_COLLISION_MARGIN;
+      const myHalfH = group.height / 2 + SEAT_CIRCLE_COLLISION_MARGIN;
+      const overlaps = placed.some((existing) => {
+        const otherHalfW = existing.width / 2 + SEAT_CIRCLE_COLLISION_MARGIN;
+        const otherHalfH = existing.height / 2 + SEAT_CIRCLE_COLLISION_MARGIN;
+        return Math.abs(group.point.x - existing.point.x) < (myHalfW + otherHalfW)
+          && Math.abs(group.point.y - existing.point.y) < (myHalfH + otherHalfH);
+      });
+      if (overlaps) continue;
+      placed.push(group);
       visible.push(group);
     }
     return visible;
@@ -2358,13 +2373,13 @@ function projectAnchorBounds(map, bounds) {
   const east = Number(bounds?.east);
   const north = Number(bounds?.north);
   if (!map || ![west, south, east, north].every(Number.isFinite)) return null;
-  const nw = map.project([west, north]);
-  const se = map.project([east, south]);
+  const ne = map.project([east, north]);
+  const sw = map.project([west, south]);
   return {
-    minX: Math.min(nw.x, se.x),
-    maxX: Math.max(nw.x, se.x),
-    minY: Math.min(nw.y, se.y),
-    maxY: Math.max(nw.y, se.y)
+    minX: Math.min(ne.x, sw.x),
+    maxX: Math.max(ne.x, sw.x),
+    minY: Math.min(ne.y, sw.y),
+    maxY: Math.max(ne.y, sw.y)
   };
 }
 
@@ -2557,10 +2572,6 @@ function recallTriggered(result = {}) {
   const signed = Number(petition.signed ?? petition.signatures ?? result.leadingVotes);
   const threshold = Number(petition.threshold ?? petition.required);
   return Number.isFinite(signed) && Number.isFinite(threshold) ? signed >= threshold : false;
-}
-
-function boxesOverlap(a, b) {
-  return a.minX <= b.maxX && a.maxX >= b.minX && a.minY <= b.maxY && a.maxY >= b.minY;
 }
 
 function escapeHtml(value) {

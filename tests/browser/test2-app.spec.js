@@ -567,6 +567,7 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   expect(loaded.seatFirstGroup.height).toBeGreaterThanOrEqual(12);
   expect(loaded.seatDotBorder).toMatch(/0, 0, 0|black|rgb\(0 0 0/i);
   expect(loaded.seatDotShadow).toMatch(/0, 0, 0|black|rgb\(0 0 0/i);
+  expect(loaded.seatDotShadow).toMatch(/255, 255, 255|white|rgb\(255 255 255/i);
   expect(loaded.urlLayers).toContain('layers=election-house-of-commons-of-the-united-kingdom-2024-07-04');
   expect(loaded.urlLayers).not.toContain('layers=pc-2023');
   expect(loaded.labels).toBeGreaterThan(0);
@@ -627,6 +628,56 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   await expect(page.locator('#featureInfoContent')).toContainText(/Leading party|Winning party/);
   await expect(page.locator('#electionResultsPane')).toContainText(/Candidate|Party|Votes/);
   await expect(page.locator('#electionPaneContent .election-results-table--constituency-party')).toHaveCount(1);
+});
+
+test('/test2 DOM seat circles keep main-style fixed dots while zooming', async ({ page }) => {
+  await page.goto('/test2/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForFunction(() => document.querySelector('#test2-election-seat-overlay .seat-dot'));
+
+  const samples = await page.evaluate(async () => {
+    const app = window.__civgraphTest2.app;
+    const map = app.mapController.map;
+    const zooms = [5.5, 6.5, 7, 8.4, 9.5];
+    const results = [];
+    for (const zoom of zooms) {
+      map.jumpTo({ zoom });
+      await new Promise((resolve) => map.once('idle', resolve));
+      await app.elections.renderElectionOverlay();
+      await app.elections.waitForSeatCircleOverlay();
+      const state = app.elections.getSeatCircleOverlayState();
+      const firstGroup = document.querySelector('#test2-election-seat-overlay .election-seat-circle');
+      const firstDot = firstGroup?.querySelector('.seat-dot');
+      const groupRect = firstGroup?.getBoundingClientRect();
+      const dotRect = firstDot?.getBoundingClientRect();
+      const dotStyle = firstDot ? getComputedStyle(firstDot) : null;
+      results.push({
+        zoom,
+        groupCount: state.groups.length,
+        dotCount: state.dotCount,
+        firstGroupWidth: groupRect?.width || 0,
+        firstGroupHeight: groupRect?.height || 0,
+        firstDotWidth: dotRect?.width || 0,
+        firstDotHeight: dotRect?.height || 0,
+        firstDotBorder: dotStyle?.borderColor || '',
+        firstDotShadow: dotStyle?.boxShadow || ''
+      });
+    }
+    return results;
+  });
+
+  expect(samples).toHaveLength(5);
+  for (const sample of samples) {
+    expect(sample.groupCount, `seat groups at zoom ${sample.zoom}`).toBeGreaterThan(0);
+    expect(sample.dotCount, `seat dots at zoom ${sample.zoom}`).toBeGreaterThan(0);
+    expect(sample.firstGroupWidth).toBeGreaterThanOrEqual(12);
+    expect(sample.firstGroupHeight).toBeGreaterThanOrEqual(12);
+    expect(sample.firstDotWidth).toBeCloseTo(12, 0);
+    expect(sample.firstDotHeight).toBeCloseTo(12, 0);
+    expect(sample.firstDotBorder).toMatch(/0, 0, 0|black|rgb\(0 0 0/i);
+    expect(sample.firstDotShadow).toMatch(/255, 255, 255|white|rgb\(255 255 255/i);
+  }
 });
 
 test('/test2 election bundles cover representative main-site election types', async ({ page }) => {

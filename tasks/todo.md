@@ -1,3 +1,48 @@
+# /test2 seat-circle zoom behaviour parity
+- [x] Record scope
+  - User request: align `/test2` election seat-circle zoom behaviour to the main site insofar as feasible and sensible.
+  - Scope: `/test2` seat-circle extent hiding, projected bounds, greedy collision ordering, rebuild timing, guardrails, rebuilt `/test2` output if needed, and task notes. Main remains the fixed reference.
+- [x] Inspect current algorithms
+  - Compare main Leaflet `_renderOverlays()` with `/test2` `renderSeatCircles()` and `filterOverlayGroupsByCollision()`.
+  - Completed: main uses a 120px total-extent cutoff, largest-first projected-area ordering, and 4px greedy collision spacing after projecting live Leaflet bounds. `/test2` was close but used a looser bounding-box collision helper and different projected-corner handling.
+- [x] Implement algorithm parity
+  - Mirror main's total-extent hide rule, largest-first pixel-area ordering, 4px greedy collision margin, and fixed-size DOM dot rendering.
+  - Keep MapLibre-specific projection/rendering isolated to the final `/test2` DOM overlay step.
+  - Completed: `/test2` now uses named main-style constants, NE/SW projected bounds, largest-first sorting, and center-distance greedy collision math. Seat dots remain fixed DOM dots with the main black inner stroke plus white halo.
+- [x] Implement rebuild timing parity
+  - Rebuild after final map camera events and prevent duplicate overlapping rebuilds from paired `zoomend`/`moveend` events.
+  - Completed: overlay refreshes are now coalesced through `scheduleElectionOverlayRefresh()` so paired MapLibre camera events do not create overlapping DOM rebuilds.
+- [x] Update guardrails
+  - Add or tighten static/browser checks for main-style collision constants, projected bound logic, and zoom-level DOM overlay behaviour.
+  - Completed: `/test2` route validation now checks the seat-circle constants, coalesced refresh path, NE/SW projection, and main-style collision math. Browser coverage samples election seat-circle DOM overlays across several zoom levels.
+- [x] Verify
+  - Run syntax checks, `/test2` validation, build, and focused browser tests.
+  - Completed: `node --check test2/src/election-manager.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, and `npm run test:browser -- tests/browser/test2-app.spec.js` all passed. Build and browser tests required approved sandbox escalation for local binary execution.
+- [x] Review
+  - Summarize what now matches main and what remains limited by MapLibre projection/generated anchors.
+  - Completed: behaviour is now aligned on the feasible mechanics: fixed DOM dots, black-plus-white halo, 120px extent cutoff, 4px greedy collision margin, largest-first ordering, and coalesced rebuild timing. Remaining possible differences are exact anchor positions where `/test2` uses generated sidecar anchors/MapLibre projection rather than main's live Leaflet geometry path.
+
+# /test2 seat-circle black stroke plus white halo
+- [x] Record scope
+  - User request: update `/test2` election seat circles so each dot has a black outline with a white outline around it, matching the main site, and compare zoom behaviour on main versus `/test2`.
+  - Scope: `/test2` DOM seat-dot CSS, static/browser guardrails, rebuilt `/test2` output if needed, zoom-behaviour review, and task notes. Main site remains the fixed reference.
+- [x] Inspect current styling and main reference
+  - Compare current `/test2` DOM seat-dot styling with the main site's `.seat-dot` CSS.
+  - Completed: main uses `.seat-dot { border: 1px solid rgba(0, 0, 0, 0.6); box-shadow: 0 0 0 1px #fff, 0 0.5px 2px rgba(0, 0, 0, 0.15); }`; `/test2` had a black-only outline/shadow from the previous change.
+- [x] Implement visual parity
+  - Apply main-style black inner stroke plus white outer halo to `/test2` DOM seat dots.
+  - Update validation and browser tests so future changes cannot regress back to a black-only halo.
+  - Completed: `/test2` DOM seat dots now use the main black inner stroke plus white outer halo; static and browser tests assert both the black border and the white halo.
+- [x] Verify
+  - Run syntax checks, `/test2` validation, build, and focused browser tests.
+  - Completed: `node --check tests/browser/test2-app.spec.js` passed; `npm run check:test2` passed; `npm run build:test2` passed after approved esbuild escalation; `npm run test:browser -- tests/browser/test2-app.spec.js` passed 24/24 after approved Playwright escalation.
+- [x] Compare zoom behaviour
+  - Review main Leaflet DOM marker rebuild mechanics and `/test2` MapLibre-plus-DOM overlay rebuild mechanics while zooming.
+  - Completed: main rebuilds Leaflet `L.divIcon` markers on `zoomend`; `/test2` rebuilds an absolute DOM overlay on `zoomend` and `moveend`. The new browser guardrail samples `/test2` at zooms 5.5, 6.5, 7, 8.4, and 9.5 and confirms countable DOM groups, fixed 12px dots, black stroke, and white halo.
+- [x] Review
+  - Summarize implementation, verification, and remaining zoom/engine differences.
+  - Completed: ready to report that the visible dot outline styling now matches main, while exact placement/count transitions can still vary slightly because main computes live Leaflet bounds/centroids and `/test2` uses MapLibre projection plus generated anchor sidecars.
+
 # /test2 DOM election seat-circle overlays
 - [x] Record scope
   - User request: implement DOM overlays for `/test2` election seat circles so they match main Leaflet seat-circle mechanics more closely while preserving MapLibre as the map engine.
