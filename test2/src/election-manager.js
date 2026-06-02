@@ -817,7 +817,7 @@ export class Test2ElectionManager {
   }
 
   renderMainParityLeafTh(label, index) {
-    return `<th class="election-num" data-leaf-col-idx="${index}"><span>${escapeHtml(label)}</span><button type="button" class="election-th-btn" data-table-filter-sort-btn="1" tabindex="-1" aria-hidden="true" aria-label="Sort and Filter" title="Sort and Filter">&#8645;</button></th>`;
+    return `<th class="election-num" data-leaf-col-idx="${index}">${escapeHtml(label)}</th>`;
   }
 
   renderElectionEntityButton(kind, key, labelHtml, extraClass = '') {
@@ -842,93 +842,313 @@ export class Test2ElectionManager {
   setupSingleResultsTableControls(table) {
     if (!table || table.dataset.test2TableControlsReady === '1') return;
     const tbody = table.querySelector('tbody');
-    const headers = [...table.querySelectorAll('thead th[data-leaf-col-idx]')];
+    const leafHeaders = [...table.querySelectorAll('thead th[data-leaf-col-idx]')];
+    const headers = leafHeaders.length ? leafHeaders : [...table.querySelectorAll('thead th')];
     if (!tbody || headers.length === 0) return;
     table.dataset.test2TableControlsReady = '1';
-    const original = [...tbody.querySelectorAll('tr')].map((row, index) => ({ row, index }));
-    const isFixed = (row) => row.classList.contains('election-table-summary-row') || row.classList.contains('election-table-note-row');
-    const sortable = original.filter(({ row }) => !isFixed(row));
-    const fixed = original.filter(({ row }) => isFixed(row));
-    const parseNumeric = (text) => {
+
+    const sortState = { col: null, dir: 'default' };
+    const filterState = new Map();
+    const originalRows = [...tbody.querySelectorAll('tr')].map((row, idx) => ({ row, idx }));
+    const sortableRows = originalRows.filter(({ row }) => (
+      !row.classList.contains('election-table-summary-row') && !row.classList.contains('election-table-note-row')
+    ));
+    const fixedRows = originalRows.filter(({ row }) => !sortableRows.some((item) => item.row === row));
+    let activeMenu = null;
+    let activeMenuBtn = null;
+
+    const parseMaybeNumber = (text) => {
       const cleaned = String(text || '')
         .replace(/,/g, '')
         .replace(/%/g, '')
-        .replace(/\+/g, '')
-        .replace(/\u2212/g, '-')
+        .replace(/[+\u2212]/g, (match) => (match === '\u2212' ? '-' : '+'))
         .trim();
-      if (!cleaned || cleaned === '-' || cleaned.toLowerCase() === 'n/a') return null;
+      if (!cleaned || cleaned === '-' || cleaned === '�' || cleaned.toLowerCase() === 'n/a') return null;
       const value = Number(cleaned);
       return Number.isFinite(value) ? value : null;
     };
-    const parseOrdinal = (text) => {
-      const match = String(text || '').trim().toLowerCase().match(/^(\d+)(st|nd|rd|th)?$/);
-      return match ? Number(match[1]) : null;
+    const parseMaybeOrdinal = (text) => {
+      const cleaned = String(text || '').trim().toLowerCase();
+      if (!cleaned) return null;
+      const rank = cleaned.match(/^(\d+)(st|nd|rd|th)?$/);
+      if (rank) return Number(rank[1]);
+      const count = cleaned.match(/count\s+(\d+)/);
+      if (count) return Number(count[1]);
+      return null;
     };
-    const cellText = (row, index) => row.children[index]?.textContent?.trim() || '';
-    const inferKind = (index) => {
-      const sample = sortable.slice(0, 40).map(({ row }) => cellText(row, index)).filter(Boolean);
-      if (!sample.length) return 'text';
-      if (sample.filter((value) => parseOrdinal(value) !== null).length / sample.length >= 0.8) return 'ordinal';
-      if (sample.filter((value) => parseNumeric(value) !== null).length / sample.length >= 0.8) return 'numeric';
+    const getCellText = (row, colIdx) => {
+      const cell = row.children[colIdx];
+      return cell ? cell.textContent.trim() : '';
+    };
+    const headerColumnIndex = (th, fallbackIdx) => {
+      const mapped = Number(th?.dataset?.leafColIdx);
+      return Number.isFinite(mapped) ? mapped : fallbackIdx;
+    };
+    const inferColumnKind = (colIdx, th) => {
+      const sample = sortableRows.slice(0, 40).map(({ row }) => getCellText(row, colIdx)).filter(Boolean);
+      const numHits = sample.filter((value) => parseMaybeNumber(value) !== null).length;
+      const ordHits = sample.filter((value) => parseMaybeOrdinal(value) !== null).length;
+      const headerText = (th?.textContent || '').trim().toLowerCase();
+      if (headerText.includes('rank')) return 'ordinal';
+      if (sample.length > 0 && numHits / sample.length >= 0.8) return 'numeric';
+      if (sample.length > 0 && ordHits / sample.length >= 0.8) return 'ordinal';
       return 'text';
     };
-    const applySort = (column, direction) => {
-      const kind = inferKind(column);
-      const rows = direction === 'default'
-        ? [...sortable].sort((a, b) => a.index - b.index)
-        : [...sortable].sort((a, b) => {
-          const av = cellText(a.row, column);
-          const bv = cellText(b.row, column);
-          let comparison = 0;
-          if (kind === 'ordinal') {
-            const ao = parseOrdinal(av);
-            const bo = parseOrdinal(bv);
-            comparison = ao !== null && bo !== null ? ao - bo : av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
-          } else if (kind === 'numeric') {
-            const an = parseNumeric(av);
-            const bn = parseNumeric(bv);
-            if (an !== null && bn !== null) comparison = an - bn;
-            else if (an !== null) comparison = 1;
-            else if (bn !== null) comparison = -1;
-            else comparison = av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
-          } else {
-            comparison = av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
-          }
-          return direction === 'asc' ? comparison : -comparison;
-        });
-      tbody.innerHTML = '';
-      rows.forEach(({ row }, index) => {
-        const rankCell = row.querySelector('.election-rank-col');
-        if (rankCell) rankCell.textContent = rankLabel(index);
-        tbody.appendChild(row);
+
+    const compareRows = (a, b, colIdx, direction, kind) => {
+      if (direction === 'default') return a.idx - b.idx;
+      const av = getCellText(a.row, colIdx);
+      const bv = getCellText(b.row, colIdx);
+      let comparison = 0;
+      if (kind === 'numeric') {
+        const an = parseMaybeNumber(av);
+        const bn = parseMaybeNumber(bv);
+        if (an !== null && bn !== null) comparison = an - bn;
+        else if (an !== null) comparison = 1;
+        else if (bn !== null) comparison = -1;
+        else comparison = av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
+      } else if (kind === 'ordinal') {
+        const ao = parseMaybeOrdinal(av);
+        const bo = parseMaybeOrdinal(bv);
+        if (ao !== null && bo !== null) comparison = ao - bo;
+        else comparison = av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
+      } else {
+        comparison = av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
+      }
+      return direction === 'asc' ? comparison : -comparison;
+    };
+
+    const closeMenu = () => {
+      if (activeMenu) activeMenu.remove();
+      if (activeMenuBtn) activeMenuBtn.classList.remove('election-th-btn--open');
+      activeMenu = null;
+      activeMenuBtn = null;
+    };
+
+    const getUniqueValues = (colIdx) => {
+      const values = new Map();
+      sortableRows.forEach(({ row }) => {
+        const raw = getCellText(row, colIdx);
+        if (!values.has(raw)) values.set(raw, raw);
       });
-      fixed.forEach(({ row }) => tbody.appendChild(row));
-      headers.forEach((header) => {
-        const button = header.querySelector('.election-th-btn, .election-results-sort');
+      return [...values.values()].sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+    };
+
+    const applyState = () => {
+      let visibleRows = sortableRows.filter(({ row }) => {
+        for (const [colIdx, selected] of filterState.entries()) {
+          if (!(selected instanceof Set) || selected.size === 0) continue;
+          const value = getCellText(row, colIdx);
+          if (!selected.has(value)) return false;
+        }
+        return true;
+      });
+      const colIdx = sortState.col ?? headerColumnIndex(headers[0], 0);
+      const sortHeader = headers.find((th, idx) => headerColumnIndex(th, idx) === colIdx) || headers[0];
+      const kind = inferColumnKind(colIdx, sortHeader);
+      visibleRows = [...visibleRows].sort((a, b) => compareRows(a, b, colIdx, sortState.dir, kind));
+      tbody.innerHTML = '';
+      visibleRows.forEach(({ row }) => tbody.appendChild(row));
+      fixedRows.forEach(({ row }) => tbody.appendChild(row));
+
+      headers.forEach((header, idx) => {
+        const button = header.querySelector('[data-table-filter-sort-btn]');
         if (!button) return;
-        const active = Number(header.dataset.leafColIdx) === column && direction !== 'default';
-        button.innerHTML = active ? (direction === 'asc' ? '\u2191' : '\u2193') : '&#8645;';
-        button.classList.toggle('election-th-btn--active', active);
-        button.classList.toggle('election-results-sort--active', active);
+        const column = headerColumnIndex(header, idx);
+        const filtered = filterState.has(column) && (filterState.get(column)?.size ?? 0) > 0;
+        const sorted = sortState.col === column && sortState.dir !== 'default';
+        button.classList.toggle('election-th-btn--active', filtered || sorted);
+        if (sorted && sortState.dir === 'asc') button.innerHTML = '&#8593;';
+        else if (sorted && sortState.dir === 'desc') button.innerHTML = '&#8595;';
+        else button.innerHTML = '&#8645;';
       });
     };
-    headers.forEach((header) => {
-      const button = header.querySelector('.election-th-btn, .election-results-sort');
-      if (!button) return;
-      button.tabIndex = 0;
-      button.removeAttribute('aria-hidden');
-      button.setAttribute('aria-label', 'Sort column');
-      button.addEventListener('click', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        const column = Number(header.dataset.leafColIdx);
-        const current = table.dataset.test2SortColumn === String(column) ? (table.dataset.test2SortDirection || 'default') : 'default';
-        const next = current === 'default' ? 'desc' : (current === 'desc' ? 'asc' : 'default');
-        table.dataset.test2SortColumn = String(column);
-        table.dataset.test2SortDirection = next;
-        applySort(column, next);
+
+    const openMenuForColumn = (idx, anchorBtn) => {
+      closeMenu();
+      const th = headers[idx];
+      const colIdx = headerColumnIndex(th, idx);
+      const kind = inferColumnKind(colIdx, th);
+      const options = getUniqueValues(colIdx);
+      const current = filterState.get(colIdx);
+      const selected = new Set(current instanceof Set ? current : options);
+      const sortAscLabel = kind === 'numeric'
+        ? 'Sort Smallest to Largest'
+        : (kind === 'ordinal' ? 'Sort Lowest to Highest' : 'Sort A to Z');
+      const sortDescLabel = kind === 'numeric'
+        ? 'Sort Largest to Smallest'
+        : (kind === 'ordinal' ? 'Sort Highest to Lowest' : 'Sort Z to A');
+
+      const menu = document.createElement('div');
+      menu.className = 'election-filter-menu';
+      menu.innerHTML = `
+        <button type="button" class="election-filter-menu__action" data-action="sort-asc">${sortAscLabel}</button>
+        <button type="button" class="election-filter-menu__action" data-action="sort-desc">${sortDescLabel}</button>
+        <button type="button" class="election-filter-menu__action" data-action="reset-sort">Reset Sort</button>
+        <div class="election-filter-menu__divider"></div>
+        <input type="search" class="election-filter-menu__search" placeholder="Search values..." aria-label="Search values">
+        <div class="election-filter-menu__row">
+          <button type="button" class="election-filter-menu__mini" data-action="select-all">Select All</button>
+          <button type="button" class="election-filter-menu__mini" data-action="deselect-all">Deselect All</button>
+        </div>
+        <div class="election-filter-menu__values" data-role="values"></div>
+        <div class="election-filter-menu__row election-filter-menu__row--footer">
+          <button type="button" class="election-filter-menu__mini" data-action="clear-filter">Clear Filter</button>
+          <button type="button" class="election-filter-menu__mini election-filter-menu__mini--primary" data-action="apply">Apply</button>
+        </div>
+      `;
+      document.body.appendChild(menu);
+      activeMenu = menu;
+      activeMenuBtn = anchorBtn;
+      anchorBtn.classList.add('election-th-btn--open');
+
+      const rect = anchorBtn.getBoundingClientRect();
+      const menuWidth = 248;
+      const margin = 8;
+      const scrollX = window.scrollX || window.pageXOffset || 0;
+      const scrollY = window.scrollY || window.pageYOffset || 0;
+      const preferredLeft = scrollX + rect.right - menuWidth;
+      const maxLeft = scrollX + window.innerWidth - menuWidth - margin;
+      menu.style.left = `${Math.max(scrollX + margin, Math.min(preferredLeft, maxLeft))}px`;
+
+      const menuHeight = menu.offsetHeight || 320;
+      const belowTop = scrollY + rect.bottom + 4;
+      const aboveTop = scrollY + rect.top - menuHeight - 4;
+      const viewportBottom = scrollY + window.innerHeight - margin;
+      const viewportTop = scrollY + margin;
+      const fitsBelow = belowTop + menuHeight <= viewportBottom;
+      const fitsAbove = aboveTop >= viewportTop;
+      menu.style.top = `${(fitsBelow || !fitsAbove) ? belowTop : aboveTop}px`;
+
+      const valuesHost = menu.querySelector('[data-role="values"]');
+      const renderValues = (needle = '') => {
+        const query = needle.trim().toLowerCase();
+        valuesHost.innerHTML = '';
+        options
+          .filter((raw) => !query || String(raw).toLowerCase().includes(query))
+          .forEach((raw) => {
+            const item = document.createElement('label');
+            item.className = 'election-filter-menu__value';
+            item.innerHTML = `<input type="checkbox" value="${escapeHtml(raw)}" ${selected.has(raw) ? 'checked' : ''}><span>${escapeHtml(raw || '(Blank)')}</span>`;
+            const checkbox = item.querySelector('input');
+            checkbox.addEventListener('change', () => {
+              if (checkbox.checked) selected.add(raw);
+              else selected.delete(raw);
+            });
+            valuesHost.appendChild(item);
+          });
+      };
+      renderValues();
+
+      const search = menu.querySelector('.election-filter-menu__search');
+      search?.addEventListener('input', () => renderValues(search.value || ''));
+
+      menu.addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-action]');
+        if (!button) return;
+        const action = button.dataset.action;
+        if (action === 'sort-asc') {
+          sortState.col = colIdx;
+          sortState.dir = 'asc';
+          applyState();
+          closeMenu();
+        } else if (action === 'sort-desc') {
+          sortState.col = colIdx;
+          sortState.dir = 'desc';
+          applyState();
+          closeMenu();
+        } else if (action === 'reset-sort') {
+          sortState.col = null;
+          sortState.dir = 'default';
+          applyState();
+          closeMenu();
+        } else if (action === 'select-all') {
+          options.forEach((value) => selected.add(value));
+          renderValues(search?.value || '');
+        } else if (action === 'deselect-all') {
+          selected.clear();
+          renderValues(search?.value || '');
+        } else if (action === 'clear-filter') {
+          filterState.delete(colIdx);
+          applyState();
+          closeMenu();
+        } else if (action === 'apply') {
+          if (selected.size === 0 || selected.size === options.length) filterState.delete(colIdx);
+          else filterState.set(colIdx, new Set(selected));
+          applyState();
+          closeMenu();
+        }
       });
+    };
+
+    const handleDocumentClick = (event) => {
+      if (!activeMenu) return;
+      if (activeMenu.contains(event.target)) return;
+      if (activeMenuBtn && activeMenuBtn.contains(event.target)) return;
+      closeMenu();
+    };
+    const handleDocumentKeydown = (event) => {
+      if (event.key === 'Escape') closeMenu();
+    };
+    document.addEventListener('click', handleDocumentClick);
+    document.addEventListener('keydown', handleDocumentKeydown);
+
+    headers.forEach((header, idx) => {
+      const label = header.innerHTML;
+      header.innerHTML = '';
+      const wrap = document.createElement('div');
+      wrap.className = 'election-th-controls';
+      if (header.classList.contains('election-col-compact')
+        || header.classList.contains('election-col-int')
+        || header.classList.contains('election-col-delta')
+        || header.classList.contains('election-col-delta-small')
+        || header.classList.contains('election-col-delta-votes')
+        || header.classList.contains('election-col-pct')
+        || header.classList.contains('election-col-pct-main')
+        || header.classList.contains('election-col-pct-small')
+        || header.classList.contains('election-col-pct-delta-main')
+        || header.classList.contains('election-col-pct-delta-small')
+        || header.classList.contains('election-col-count')
+        || header.classList.contains('election-col-status-count')
+        || header.classList.contains('election-col-votes')) {
+        wrap.classList.add('election-th-controls--compact');
+      }
+
+      const labelSpan = document.createElement('span');
+      labelSpan.className = 'election-th-label';
+      labelSpan.innerHTML = label;
+      wrap.appendChild(labelSpan);
+
+      if (!header.classList.contains('election-colour-col')) {
+        const actions = document.createElement('span');
+        actions.className = 'election-th-actions';
+        const menuBtn = document.createElement('button');
+        menuBtn.type = 'button';
+        menuBtn.className = 'election-th-btn';
+        menuBtn.setAttribute('data-table-filter-sort-btn', '1');
+        menuBtn.setAttribute('aria-label', 'Sort and Filter');
+        menuBtn.setAttribute('title', 'Sort and Filter');
+        menuBtn.innerHTML = '&#8645;';
+        menuBtn.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          if (activeMenu && activeMenuBtn === menuBtn) closeMenu();
+          else openMenuForColumn(idx, menuBtn);
+        });
+        actions.appendChild(menuBtn);
+        wrap.appendChild(actions);
+      }
+
+      header.appendChild(wrap);
     });
+
+    table.addEventListener('test2:dispose-table-controls', () => {
+      closeMenu();
+      document.removeEventListener('click', handleDocumentClick);
+      document.removeEventListener('keydown', handleDocumentKeydown);
+    }, { once: true });
+
+    applyState();
   }
 
   renderMainParitySummaryRow(label, candidateValue, seatValue, seatPct, seatPctDelta, voteValue, voteDelta, pctValue, pctDelta) {

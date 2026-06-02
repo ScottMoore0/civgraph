@@ -138,7 +138,17 @@ assert(electionManifestBuilderSource.includes('localByDate') && electionManifest
 assert(electionManifestBuilderSource.includes('matchEntryForConstituency') && electionManifestBuilderSource.includes('localBodyByConstituency'), '/test2 grouped local-election entries must preserve council-specific matching context');
 assert(electionManagerSource.includes('filterOverlayGroupsByCollision') && electionManagerSource.includes('SEAT_CIRCLE_COLLISION_MARGIN'), '/test2 election overlays must have main-style MapLibre-native collision suppression');
 assert(electionManagerSource.includes('projectAnchorBounds') && electionManagerSource.includes('pixelArea'), '/test2 election overlay collision must use generated anchor bounds, not only centre-point spacing');
-assert(electionManagerSource.includes('orderPartyRowsLikeMain') && electionManagerSource.includes('setupResultsTableControls') && electionManagerSource.includes('test2SortDirection'), '/test2 election tables must preserve main-style party ordering and interactive sort controls');
+assert(
+  electionManagerSource.includes('orderPartyRowsLikeMain')
+    && electionManagerSource.includes('setupResultsTableControls')
+    && electionManagerSource.includes('election-filter-menu')
+    && electionManagerSource.includes('filterState')
+    && electionManagerSource.includes('data-action="sort-asc"')
+    && electionManagerSource.includes('data-action="deselect-all"')
+    && electionManagerSource.includes('data-action="clear-filter"')
+    && electionManagerSource.includes('election-th-btn--open'),
+  '/test2 election tables must preserve main-style party ordering and full menu-based sort/filter controls'
+);
 assert(electionManagerSource.includes('MAIN_ELECTION_GEOGRAPHY_STYLE') && electionManagerSource.includes("unmatchedFillColor: '#dfe4ec'") && electionManagerSource.includes('matchedFillOpacity: 0.6') && electionManagerSource.includes("matchedStrokeColor: '#333'"), '/test2 election geography styling must mirror main fill/stroke constants');
 assert(electionManagerSource.includes('buildElectionMatchExpression') && electionManagerSource.includes('fillOpacityExpression'), '/test2 election geography styling must distinguish matched and unmatched features with MapLibre expressions');
 assert(electionDomainSource.includes('buildMainLikePartySummaryFromRawResults') && electionManifestBuilderSource.includes('mainLikePartySummary'), '/test2 election bundles must carry main-controller-compatible party summaries, not only independent test2 summaries');

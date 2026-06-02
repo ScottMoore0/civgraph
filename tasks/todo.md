@@ -1,3 +1,28 @@
+# /test2 election results sort/filter parity
+- [x] Record scope
+  - User request: change `/test2` election results pane sort buttons so they have the same functionality as the sort/filter buttons in the main election results pane.
+  - Scope: `/test2` election party/count table controls, menu/filter/sort behaviour, active state, guardrails/tests, verification, and review. Main remains the fixed reference and must not be edited.
+- [x] Compare main and `/test2` controls
+  - Inspect main `js/election-controller.js` table controls and current `/test2` `test2/src/election-manager.js` controls.
+  - Completed: main has full menu-based sort/filter controls with value search, select all/deselect all, clear/apply filter, reset sort, active state, and asc/desc/default arrows; `/test2` only cycles sort direction on direct button clicks and has no filter menu.
+- [x] Implement main-parity controls
+  - Replace the simplified `/test2` table-control implementation with the main-style menu/filter/sort behaviour, adapted only where MapLibre/test2 table markup requires it.
+  - Completed: `/test2` now builds each election party/count table header into the main-style `.election-th-controls` structure, opens `.election-filter-menu`, supports numeric/ordinal/text sort labels, reset sort, value search, select all, deselect all, clear filter, apply filter, active/open button states, and outside/Escape dismissal.
+- [x] Add guardrails
+  - Tighten static validation and browser coverage so `/test2` cannot regress to sort-only table buttons.
+  - Completed: static validation now requires menu/filter primitives, and the `/test2` browser test opens a numeric sort menu, applies descending sort, opens a party filter menu, filters to Sinn Féin, and clears the filter.
+- [x] Verify
+  - Run syntax checks, `/test2` validation, build, and focused browser tests.
+  - Completed: `node --check test2/src/election-manager.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, and `npm run test:browser:test2` all passed. Build/browser runs required approved escalation for local binary/browser spawning.
+- [x] Review
+  - Summarize implemented parity, verification evidence, and any residual limits.
+  - Completed: `/test2` now mirrors the main election results table sort/filter control contract while keeping the MapLibre-specific map implementation untouched.
+- [x] Recurring issue prevention
+  - Symptom: `/test2` table buttons visually resembled main but did not expose the main sort/filter menu.
+  - Root cause: parity work previously checked button presence and sort behaviour, not the complete interaction contract.
+  - Permanent prevention action: route validation asserts the menu/filter primitives, and browser coverage exercises numeric sort plus text filtering.
+  - Verification evidence: full `/test2` Playwright suite passed with the new menu/filter assertions.
+
 # /test2 live seat-circle pan anchoring
 - [x] Record scope
   - User request: fix `/test2` so election seat-circle DOM overlays remain positioned over their respective features while the user pans the MapLibre map, matching the main site's Leaflet marker behaviour.

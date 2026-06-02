@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 132) Visual parity controls must share behaviour, not just icons
+- Mistake pattern: `/test2` rendered election table header sort buttons that looked like the main site's sort/filter buttons, but implemented only direct click-to-sort behaviour.
+- Impact: The visible table controls suggested main-site parity while missing the actual main workflow: per-column menu, value search, select/deselect all, clear/apply filter, reset sort, active-state arrows, and outside/Escape dismissal.
+- Guardrail:
+  1) when a control is ported for parity, compare the interaction contract as well as the markup/CSS,
+  2) `/test2` route validation must assert menu/filter primitives, not just button presence,
+  3) browser tests must exercise at least one numeric sort menu action and one text-column filter apply/clear flow.
+
 ### 131) DOM map overlays must be map-anchored, not fixed-position reprojected only at movement end
 - Mistake pattern: Replacing MapLibre paint-layer seat circles with a fixed absolute DOM overlay, then trying to approximate Leaflet marker behaviour by recalculating `left/top` after `moveend`/`zoomend`.
 - Impact: During active pan gestures, MapLibre moved the map while `/test2` seat-circle DOM groups stayed at stale pixel positions, visibly detaching from their constituencies.
