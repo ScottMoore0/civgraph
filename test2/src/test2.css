@@ -84,6 +84,23 @@
   outline: none;
 }
 
+#map .test2-main-zoom-control__compass {
+  display: grid;
+  place-items: center;
+}
+
+#map .test2-main-zoom-control__compass-icon {
+  width: 18px;
+  height: 18px;
+  fill: #111827;
+  transform-origin: 50% 50%;
+  transition: transform 120ms ease, fill 120ms ease;
+}
+
+#map .test2-main-zoom-control__compass--active .test2-main-zoom-control__compass-icon {
+  fill: #064f63;
+}
+
 #map .maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon,
 #map .maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon {
   background-image: none;

@@ -102,6 +102,11 @@ export class Test2MapLibreMainAdapter {
     control.innerHTML = `
       <button type="button" class="leaflet-control-zoom-in test2-main-zoom-control__button" aria-label="Zoom in" title="Zoom in">+</button>
       <button type="button" class="leaflet-control-zoom-out test2-main-zoom-control__button" aria-label="Zoom out" title="Zoom out">-</button>
+      <button type="button" class="leaflet-control-compass test2-main-zoom-control__button test2-main-zoom-control__compass" aria-label="Reset north" title="Reset north">
+        <svg class="test2-main-zoom-control__compass-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 2l5 18-5-3-5 3 5-18z"></path>
+        </svg>
+      </button>
     `;
     control.querySelector('.leaflet-control-zoom-in')?.addEventListener('click', (event) => {
       event.preventDefault();
@@ -111,6 +116,21 @@ export class Test2MapLibreMainAdapter {
       event.preventDefault();
       map.zoomOut({ duration: 150 });
     });
+    const compassButton = control.querySelector('.leaflet-control-compass');
+    const compassIcon = control.querySelector('.test2-main-zoom-control__compass-icon');
+    const updateCompass = () => {
+      const bearing = Number(map.getBearing?.() || 0);
+      if (compassIcon) compassIcon.style.transform = `rotate(${-bearing}deg)`;
+      compassButton?.classList.toggle('test2-main-zoom-control__compass--active', Math.abs(bearing) > 0.1);
+    };
+    compassButton?.addEventListener('click', (event) => {
+      event.preventDefault();
+      map.easeTo({ bearing: 0, pitch: 0, duration: 150 });
+    });
+    map.on('rotate', updateCompass);
+    map.on('rotateend', updateCompass);
+    map.on('pitch', updateCompass);
+    updateCompass();
     host.appendChild(control);
   }
 

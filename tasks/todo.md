@@ -1,3 +1,23 @@
+# /test2 compass control and timeline date parity
+- [x] Record scope
+  - User request: restore the compass button by the zoom buttons on the interactive map, and change the timeline slider date format to `DD MMM YYYY`.
+  - Scope: `/test2` map controls, timeline display formatting, rebuilt `/test2` output if needed, and focused verification. Main remains the fixed reference.
+- [x] Inspect map-control and timeline code
+  - Locate where `/test2` replaces MapLibre controls with main-style controls and where the timeline date label is rendered.
+  - Completed: `/test2` creates custom main-style controls in `test2/src/maplibre-main-adapter.js`, and timeline labels are rendered through `test2/src/app.js`.
+- [x] Restore compass control
+  - Add a main-style compass/reset-bearing button beside the custom zoom controls without reintroducing control overlap.
+  - Completed: added a `leaflet-control-compass` button to the custom control with reset-north/reset-pitch behaviour and route-scoped styling.
+- [x] Change timeline format
+  - Render timeline labels as `DD MMM YYYY`.
+  - Completed: timeline items now pass through a central formatter that handles timestamps, years, ISO dates, election dates, and labels as `DD MMM YYYY`.
+- [x] Verify
+  - Run syntax checks, `/test2` validation/build, and focused browser/static checks where practical.
+  - Completed: `node --check test2/src/app.js`, `node --check test2/src/maplibre-main-adapter.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, focused Playwright checks for map controls and election timeline, and the full `npm run test:browser:test2` suite all passed. Build/browser runs required approved escalation for local binary/browser spawning.
+- [x] Review
+  - Summarize behaviour and residual limits.
+  - Completed: `/test2` now has a visible compass/reset-north button in the main-style zoom control, and timeline labels render as `DD MMM YYYY`.
+
 # /test2 election layer feature-label suppression
 - [x] Record scope
   - User request: make feature labels for an election layer not show when the election layer is loaded.

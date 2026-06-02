@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 135) Custom MapLibre controls must preserve the full main control set and visible date contract
+- Mistake pattern: `/test2` replaced native MapLibre controls with a custom main-style zoom control, but only recreated zoom in/out and omitted the compass/reset-north control; timeline labels also relied on caller-supplied labels instead of a fixed visible date format.
+- Impact: The map pane looked and behaved differently from the main interactive map, and timeline labels could appear as raw ISO dates or unpadded dates instead of the requested `DD MMM YYYY` presentation.
+- Guardrail:
+  1) route validation should assert the custom compass/reset-north control exists when native controls are hidden,
+  2) browser tests should verify the compass resets bearing/pitch,
+  3) timeline labels should pass through one central formatter and browser tests should assert a representative election label uses `DD MMM YYYY`.
+
 ### 134) Election overlays should suppress ordinary geography labels
 - Mistake pattern: `/test2` election styling tuned feature-label zoom density instead of explicitly hiding ordinary constituency/geography labels once an election layer was active.
 - Impact: Election maps could show normal feature labels on top of election styling and seat-circle overlays, diverging from the intended election-layer presentation.

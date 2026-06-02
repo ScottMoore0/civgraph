@@ -263,12 +263,14 @@ test('/test2 production overlay controls do not overlap MapLibre controls', asyn
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
   await page.waitForSelector('#activeLayersToggle');
   await page.waitForSelector('.test2-main-zoom-control');
+  await page.waitForSelector('.leaflet-control-compass');
   await page.waitForSelector('#mapControlsToggle');
   await page.waitForSelector('.test2-main-zoom-control');
 
   const layout = await page.evaluate(() => {
     const active = document.getElementById('activeLayersToggle')?.getBoundingClientRect();
     const zoom = document.querySelector('.test2-main-zoom-control')?.getBoundingClientRect();
+    const compass = document.querySelector('.leaflet-control-compass')?.getBoundingClientRect();
     const settings = document.getElementById('mapControlsToggle')?.getBoundingClientRect();
     const nativeMapLibreControls = [...document.querySelectorAll('.maplibregl-ctrl-group, .maplibregl-ctrl-scale')]
       .filter((element) => element.getBoundingClientRect().width > 0 && element.getBoundingClientRect().height > 0).length;
@@ -283,6 +285,7 @@ test('/test2 production overlay controls do not overlap MapLibre controls', asyn
       visibleNativeMapLibreControls: nativeMapLibreControls,
       active: rect(active),
       zoom: rect(zoom),
+      compass: rect(compass),
       settings: rect(settings),
       scale: null
     };
@@ -290,10 +293,24 @@ test('/test2 production overlay controls do not overlap MapLibre controls', asyn
 
   expect(layout.active).not.toBeNull();
   expect(layout.zoom).not.toBeNull();
+  expect(layout.compass).not.toBeNull();
   expect(layout.settings).not.toBeNull();
   expect(layout.activeZoomOverlaps).toBe(false);
   expect(layout.visibleNativeMapLibreControls).toBe(0);
   expect(layout.zoom.left).toBeLessThan(layout.active.left);
+
+  const resetBearing = await page.evaluate(async () => {
+    const map = window.__civgraphTest2.mapController.map;
+    map.jumpTo({ bearing: 35, pitch: 20 });
+    document.querySelector('.leaflet-control-compass')?.click();
+    await new Promise((resolve) => map.once('moveend', resolve));
+    return {
+      bearing: map.getBearing(),
+      pitch: map.getPitch()
+    };
+  });
+  expect(Math.abs(resetBearing.bearing)).toBeLessThan(0.5);
+  expect(Math.abs(resetBearing.pitch)).toBeLessThan(0.5);
 });
 
 test('/test2 mobile map and catalogue controls do not collide', async ({ page }) => {
@@ -585,6 +602,7 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
       loadingText,
       panelVisible: document.getElementById('electionResultsPane')?.classList.contains('election-results-pane--open'),
       timelineVisible: !document.getElementById('timelineSlider')?.classList.contains('hidden'),
+      timelineLabel: document.getElementById('timelineLabel')?.textContent || '',
       fillColour: map.getPaintProperty('pc-2023-vector-test-fill', 'fill-color'),
       fillOpacity: map.getPaintProperty('pc-2023-vector-test-fill', 'fill-opacity'),
       lineColour: map.getPaintProperty('pc-2023-vector-test-line', 'line-color'),
@@ -617,6 +635,7 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   expect(loaded.layerLoaded).toBe(true);
   expect(loaded.panelVisible).toBe(true);
   expect(loaded.timelineVisible).toBe(true);
+  expect(loaded.timelineLabel).toBe('04 Jul 2024');
   expect(JSON.stringify(loaded.fillColour)).toContain('match');
   expect(JSON.stringify(loaded.fillColour)).toContain('#dfe4ec');
   expect(JSON.stringify(loaded.fillOpacity)).toContain('0.6');

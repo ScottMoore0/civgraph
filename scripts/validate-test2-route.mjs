@@ -51,6 +51,7 @@ assert(appSource.includes('compositeSources') && appSource.includes('mapConfig.v
 assert(mapControllerSource.includes('maplibre-dom-label'), '/test2 must use deduplicated DOM labels for main-site label interaction parity');
 assert(mapControllerSource.includes("'text-opacity': 0"), '/test2 native MapLibre symbol labels must stay visually hidden to avoid duplicate labels');
 assert(adapterSource.includes('installMainStyleMapControls') && test2Css.includes('.test2-main-zoom-control'), '/test2 must replace visible MapLibre zoom controls with main-style custom controls');
+assert(adapterSource.includes('leaflet-control-compass') && adapterSource.includes("map.easeTo({ bearing: 0, pitch: 0") && test2Css.includes('.test2-main-zoom-control__compass'), '/test2 custom main-style map controls must include a compass/reset-north button beside zoom');
 assert(adapterSource.includes('.maplibregl-ctrl-scale') && adapterSource.includes('element.remove()'), '/test2 must remove native MapLibre controls after boot so only main-style map controls remain visible');
 assert(test2Css.includes('#map .maplibregl-ctrl-top-left') && test2Css.includes('display: none') && test2Css.includes('#map .maplibregl-ctrl-bottom-right'), '/test2 route CSS must hide native MapLibre control containers while custom main-style controls are installed');
 assert(mapControllerSource.includes("this.map.on('dblclick', onDoubleClick)"), '/test2 feature geometry selection must be wired to double-click');
@@ -92,6 +93,7 @@ assert(uiControllerSource.includes('catalogue-flat__toc-decade-btn') && uiContro
 assert(!uiControllerSource.includes('flat-election-toc-link') && !uiControllerSource.includes('catalogue-flat__toc-election-row'), '/test2 must not render individual election entries directly in the catalogue table of contents');
 assert(appSource.includes('enrichFeature: (feature, selection) => this.elections?.enrichFeature'), '/test2 selected feature details must merge election results where active');
 assert(appSource.includes('setupTimelineControls') && appSource.includes('setTimelineItems'), '/test2 must wire the production timeline slider for map chains and elections');
+assert(appSource.includes('formatTimelineItemLabel') && appSource.includes("day: '2-digit'") && appSource.includes("month: 'short'") && appSource.includes("year: 'numeric'"), '/test2 timeline labels must render as DD MMM YYYY');
 assert(adapterSource.includes('applyElectionStyle') && adapterSource.includes('clearElectionStyle'), '/test2 adapter must support MapLibre election styling expressions');
 assert(adapterSource.includes('fillOpacityExpression') && adapterSource.includes('lineOpacityExpression'), '/test2 adapter must accept expression-based election opacity so main matched/unmatched paint can be mirrored');
 assert(electionManagerSource.includes('ELECTION_MANIFEST_URL') && electionManagerSource.includes('loadElection(body, date)'), '/test2 election manager must lazy-load generated election result bundles');

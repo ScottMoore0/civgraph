@@ -577,7 +577,7 @@ class Test2App {
   updateTimelineLabel(index) {
     const item = this.timelineItems[Math.max(0, Math.min(this.timelineItems.length - 1, Number(index) || 0))];
     const label = document.getElementById('timelineLabel');
-    if (label) label.textContent = item?.label || '';
+    if (label) label.textContent = this.formatTimelineItemLabel(item);
   }
 
   hideTimeline() {
@@ -635,7 +635,45 @@ class Test2App {
   formatTimelineTimestamp(timestamp) {
     const date = new Date(Number(timestamp));
     if (!Number.isFinite(date.getTime())) return '';
-    return date.toISOString().slice(0, 10).replace(/-01-01$/, '');
+    return this.formatTimelineDate(date);
+  }
+
+  formatTimelineItemLabel(item) {
+    if (!item) return '';
+    const candidates = [item.timestamp, item.date, item.label];
+    for (const candidate of candidates) {
+      const date = this.parseTimelineDate(candidate);
+      if (date) return this.formatTimelineDate(date);
+    }
+    return item.label || '';
+  }
+
+  parseTimelineDate(value) {
+    if (value === null || value === undefined || value === '') return null;
+    if (typeof value === 'number' || /^\d+$/.test(String(value))) {
+      const numeric = Number(value);
+      const date = numeric > 9999 ? new Date(numeric) : new Date(Date.UTC(numeric, 0, 1));
+      return Number.isFinite(date.getTime()) ? date : null;
+    }
+    const isoMatch = String(value).trim().match(/^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/);
+    if (isoMatch) {
+      const year = Number(isoMatch[1]);
+      const month = Number(isoMatch[2] || 1) - 1;
+      const day = Number(isoMatch[3] || 1);
+      const date = new Date(Date.UTC(year, month, day));
+      return Number.isFinite(date.getTime()) ? date : null;
+    }
+    const parsed = new Date(value);
+    return Number.isFinite(parsed.getTime()) ? parsed : null;
+  }
+
+  formatTimelineDate(date) {
+    return date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      timeZone: 'UTC'
+    });
   }
 
   async applyTimelineTimestamp(timestamp) {
