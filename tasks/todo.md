@@ -1,3 +1,39 @@
+# /test2 DOM election seat-circle overlays
+- [x] Record scope
+  - User request: implement DOM overlays for `/test2` election seat circles so they match main Leaflet seat-circle mechanics more closely while preserving MapLibre as the map engine.
+  - Scope: `/test2` election overlay rendering, DOM/CSS parity, browser/static guardrails, rebuilt `/test2` output if needed, and task notes. Main site remains read-only reference.
+- [x] Inspect current `/test2` rendering
+  - Locate MapLibre circle-layer seat-circle code, tests, and validation checks that assume `test2-election-seat-layer`.
+  - Completed: `/test2` previously rendered election seat circles through `test2-election-seat-source`, `test2-election-seat-halo-layer`, and `test2-election-seat-layer`; browser/static checks asserted those MapLibre layers.
+- [x] Implement DOM overlay
+  - Replace MapLibre seat-circle source/layers with an absolute DOM overlay using `.election-seat-circle`, `.seat-group`, and `.seat-dot` markup.
+  - Recompute on election overlay render, `zoomend`, and `moveend`; support click/keyboard behavior for constituency and local aggregate groups.
+  - Completed: `test2/src/election-manager.js` now projects seat-circle group anchors into an absolute `#test2-election-seat-overlay`, renders main-style DOM groups/dots, keeps click and keyboard activation, exposes deterministic overlay state for tests, and removes legacy MapLibre circle layers.
+- [x] Update guardrails
+  - Change route validation and browser tests to assert DOM seat groups, dot counts, black outline styling, and removal when switching to bar overlays.
+  - Completed: `scripts/validate-test2-route.mjs` and `tests/browser/test2-app.spec.js` now assert DOM overlay markup, dot counts, black outline styling, no legacy MapLibre seat-circle layers, and cleanup when switching overlays.
+- [x] Verify
+  - Run syntax checks, `/test2` validation, build, and focused browser tests.
+  - Completed: `node --check` passed for changed JS/test files; `npm run check:test2` passed; `npm run build:test2` passed after approved esbuild escalation; `npm run test:browser -- tests/browser/test2-app.spec.js` passed 23/23.
+- [x] Review
+  - Summarize implemented DOM-overlay behavior and any remaining MapLibre-specific limits.
+  - Completed: `/test2` now keeps MapLibre for the map engine but uses DOM seat-circle overlays closer to the main site's Leaflet/CSS mechanics. Remaining possible differences are anchor-source differences and WebGL polygon/label rendering, not seat-circle paint-layer mechanics.
+
+# Main vs /test2 seat-circle zoom comparison
+- [x] Record scope
+  - User request: compare how election seat circles display while zooming on the main site versus `/test2`.
+  - Scope: analysis only unless a later fix is requested; inspect main Leaflet logic, `/test2` MapLibre logic, and runtime behaviour if feasible.
+- [x] Inspect implementation
+  - Compare main Leaflet DOM marker seat-circle rendering with `/test2` MapLibre source/layer rendering.
+  - Identify whether zoom changes recompute seat-circle anchors, offsets, visibility, and collision handling.
+  - Completed: main uses Leaflet `L.divIcon` marker groups rebuilt on `zoomend`; `/test2` uses MapLibre GeoJSON point features with circle layers rebuilt on `zoomend` and `moveend`. Both use 12px seats, 13px spacing, shared/identical seat layout math, 120px total-extent hiding, and greedy collision filtering, but they render through different engines.
+- [x] Runtime probe
+  - If feasible, run a focused local/browser probe at representative zoom levels for the same election URL.
+  - Completed: `/test2` Playwright probe succeeded for Dáil 2024 at zooms 5.5, 6.5, 7.0, 8.4, and 9.5. Seat cluster spacing stayed stable at about 26px x 13px for a five-seat group, while source counts increased as zoom/collision allowed more groups. Main runtime probe through the bare harness did not reliably drive the full catalogue election load, so main behavior was verified from production source.
+- [x] Review
+  - Summarize visible differences, root causes, and whether `/test2` can be aligned further.
+  - Completed: ready to explain that remaining differences are DOM-marker-vs-WebGL rendering, viewport/rendered-feature counting, anchoring data, halo/stroke styling, and exact timing of recomputation during zoom gestures.
+
 # /test2 black seat-circle outline
 - [x] Record scope
   - User request: change election seat circles so their outline is black, not white.

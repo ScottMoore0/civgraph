@@ -501,7 +501,12 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
     await new Promise((resolve) => map.once('idle', resolve));
     const state = app.mapController.getLayerState(entry.sourceMapId);
     if (state?.testLayerId) app.mapController.renderer?.refreshDomLabels?.(state.testLayerId);
-    const seatSource = map.getSource('test2-election-seat-source');
+    await app.elections.waitForSeatCircleOverlay();
+    const seatState = app.elections.getSeatCircleOverlayState();
+    const seatGroups = [...document.querySelectorAll('#test2-election-seat-overlay .election-seat-circle')];
+    const firstSeatGroup = seatGroups[0]?.getBoundingClientRect();
+    const firstSeatDot = seatGroups[0]?.querySelector('.seat-dot');
+    const firstSeatDotStyle = firstSeatDot ? getComputedStyle(firstSeatDot) : null;
     const expectedSeatCount = app.elections.activeBundle.results
       .reduce((sum, result) => sum + app.elections.seatCandidatesForResult(result).length, 0);
     return {
@@ -519,12 +524,14 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
       lineWidth: map.getPaintProperty('pc-2023-vector-test-line', 'line-width'),
       seatHaloLayer: Boolean(map.getLayer('test2-election-seat-halo-layer')),
       seatCircleLayer: Boolean(map.getLayer('test2-election-seat-layer')),
-      seatHaloColour: map.getPaintProperty('test2-election-seat-halo-layer', 'circle-color'),
-      seatCircleRadius: map.getPaintProperty('test2-election-seat-layer', 'circle-radius'),
-      seatCircleStroke: map.getPaintProperty('test2-election-seat-layer', 'circle-stroke-color'),
+      seatOverlay: Boolean(document.getElementById('test2-election-seat-overlay')),
+      seatGroupCount: seatGroups.length,
+      seatDotCount: seatState.dotCount,
+      seatFirstGroup: firstSeatGroup ? { width: firstSeatGroup.width, height: firstSeatGroup.height } : null,
+      seatDotBorder: firstSeatDotStyle?.borderColor || '',
+      seatDotShadow: firstSeatDotStyle?.boxShadow || '',
       urlLayers: new URL(location.href).hash,
       expectedSeatCount,
-      seatSourceCount: seatSource?._data?.features?.length || 0,
       labels: document.querySelectorAll('.maplibre-dom-label:not([hidden])').length,
       mainParityRenderer: Boolean(document.querySelector('[data-election-renderer="test2-main-parity"]')),
       groupedPartyTable: Boolean(document.querySelector('[data-election-renderer="test2-main-parity"] .election-party-table--grouped')),
@@ -550,15 +557,18 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   expect(JSON.stringify(loaded.lineColour)).toContain('#a1aab8');
   expect(loaded.lineOpacity).toBe(0.8);
   expect(loaded.lineWidth).toBe(1.5);
-  expect(loaded.seatHaloLayer).toBe(true);
-  expect(loaded.seatCircleLayer).toBe(true);
-  expect(loaded.seatHaloColour).toBe('#000000');
-  expect(loaded.seatCircleRadius).toBe(6);
-  expect(loaded.seatCircleStroke).toBe('#000000');
+  expect(loaded.seatHaloLayer).toBe(false);
+  expect(loaded.seatCircleLayer).toBe(false);
+  expect(loaded.seatOverlay).toBe(true);
+  expect(loaded.seatGroupCount).toBeGreaterThan(0);
+  expect(loaded.seatDotCount).toBeGreaterThan(0);
+  expect(loaded.seatDotCount).toBeLessThanOrEqual(loaded.expectedSeatCount);
+  expect(loaded.seatFirstGroup.width).toBeGreaterThanOrEqual(12);
+  expect(loaded.seatFirstGroup.height).toBeGreaterThanOrEqual(12);
+  expect(loaded.seatDotBorder).toMatch(/0, 0, 0|black|rgb\(0 0 0/i);
+  expect(loaded.seatDotShadow).toMatch(/0, 0, 0|black|rgb\(0 0 0/i);
   expect(loaded.urlLayers).toContain('layers=election-house-of-commons-of-the-united-kingdom-2024-07-04');
   expect(loaded.urlLayers).not.toContain('layers=pc-2023');
-  expect(loaded.seatSourceCount).toBeGreaterThan(0);
-  expect(loaded.seatSourceCount).toBeLessThanOrEqual(loaded.expectedSeatCount);
   expect(loaded.labels).toBeGreaterThan(0);
   expect(loaded.mainParityRenderer).toBe(true);
   expect(loaded.groupedPartyTable).toBe(true);
@@ -583,7 +593,7 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
     const source = map.getSource('test2-election-vote-bar-source');
     return {
       hasBars: Boolean(map.getLayer('test2-election-vote-bar-layer')),
-      hasSeatCircles: Boolean(map.getLayer('test2-election-seat-layer')),
+      hasSeatCircles: Boolean(document.getElementById('test2-election-seat-overlay')),
       barCount: source?._data?.features?.length || map.queryRenderedFeatures({ layers: ['test2-election-vote-bar-layer'] }).length
     };
   });
@@ -691,17 +701,17 @@ test('/test2 election pane supports local-government aggregates and detailed cou
     const localEntry = app.elections.catalogue.elections.find((entry) => entry.bodyGroup === 'local-government' && entry.loadable);
     await app.elections.loadElection(localEntry.body, localEntry.date);
     await app.elections.renderElectionOverlay();
-    const deaSeatSource = app.mapController.map.getSource('test2-election-seat-source')?._data || null;
-    const deaSeatCount = deaSeatSource?.features?.length || 0;
+    const deaSeatState = app.elections.getSeatCircleOverlayState();
+    const deaSeatCount = deaSeatState.dotCount;
     app.elections.renderPanel(null, 'local-party');
     const localText = document.getElementById('electionResultsPane')?.textContent || '';
     const localPartyTable = Boolean(document.querySelector('#electionPaneContent .election-party-table--district-local-party-sticky4'));
     app.elections.activeLocalMode = 'district';
     app.elections.renderPanel(null, 'council');
     await app.elections.renderElectionOverlay();
-    const aggregateSeatSource = app.mapController.map.getSource('test2-election-seat-source')?._data || null;
-    const aggregateTypes = [...new Set((aggregateSeatSource?.features || []).map((feature) => feature.properties?.aggregateType).filter(Boolean))];
-    const aggregateSeatCount = aggregateSeatSource?.features?.length || 0;
+    const aggregateSeatState = app.elections.getSeatCircleOverlayState();
+    const aggregateTypes = [...new Set((aggregateSeatState.groups || []).map((group) => group.aggregateType).filter(Boolean))];
+    const aggregateSeatCount = aggregateSeatState.dotCount;
     const councilText = document.getElementById('electionResultsPane')?.textContent || '';
     const firstParty = app.elections.activeBundle.entityIndex?.parties?.[0]?.name || null;
     if (firstParty) app.elections.renderEntityPanel('party', firstParty);

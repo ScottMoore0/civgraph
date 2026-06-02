@@ -21,6 +21,7 @@ const DEFAULT_MODE_ORDER = ['winner', 'leadingParty', 'voteShare', 'turnout', 'm
 const SEAT_SOURCE_ID = 'test2-election-seat-source';
 const SEAT_HALO_LAYER_ID = 'test2-election-seat-halo-layer';
 const SEAT_LAYER_ID = 'test2-election-seat-layer';
+const SEAT_OVERLAY_ID = 'test2-election-seat-overlay';
 const VOTE_BAR_SOURCE_ID = 'test2-election-vote-bar-source';
 const VOTE_BAR_LAYER_ID = 'test2-election-vote-bar-layer';
 const RECALL_LABEL_SOURCE_ID = 'test2-election-recall-label-source';
@@ -93,6 +94,8 @@ export class Test2ElectionManager {
     this.featureIndexCache = new Map();
     this.resultsByLayer = new Map();
     this.seatCircleClickBound = false;
+    this.seatCircleOverlay = null;
+    this.seatCircleOverlayState = { groups: [], dotCount: 0 };
     this.voteBarClickBound = false;
     this.recallLabelClickBound = false;
     this.overlayRefreshBound = false;
@@ -1725,91 +1728,133 @@ export class Test2ElectionManager {
     const map = this.mapController.map;
     const groups = this.buildSeatCircleGroups(centres);
     const visibleGroups = this.filterOverlayGroupsByCollision(groups);
-    const features = [];
-    let seatOrder = 0;
+    const overlay = this.ensureSeatCircleOverlay();
+    if (!overlay) return;
+    overlay.innerHTML = '';
+    this.removeLegacySeatCircleLayers();
+    this.seatCircleOverlayState = { groups: [], dotCount: 0 };
+
     for (const group of visibleGroups) {
       const { result, center, seats, positions, groupWidth, groupHeight } = group;
+      const projected = map.project(center);
+      if (!Number.isFinite(projected?.x) || !Number.isFinite(projected?.y)) continue;
       const minX = Math.min(...positions.map((point) => point.x));
       const minY = Math.min(...positions.map((point) => point.y));
+      const resultKey = normalizeName(result.matchName || result.constituency || '');
+      const aggregateType = result.aggregateType || '';
+      const seatGroup = document.createElement('div');
+      seatGroup.className = 'election-seat-circle test2-election-seat-circle';
+      seatGroup.tabIndex = 0;
+      seatGroup.role = 'button';
+      seatGroup.dataset.resultKey = resultKey;
+      seatGroup.dataset.aggregateType = aggregateType;
+      seatGroup.dataset.constituency = result.constituency || result.matchName || '';
+      seatGroup.setAttribute('aria-label', `Show election result for ${result.constituency || result.matchName || 'selected constituency'}`);
+      seatGroup.style.position = 'absolute';
+      seatGroup.style.left = `${projected.x}px`;
+      seatGroup.style.top = `${projected.y}px`;
+      seatGroup.style.width = `${groupWidth}px`;
+      seatGroup.style.height = `${groupHeight}px`;
+      seatGroup.style.transform = 'translate(-50%, -50%)';
+
+      const inner = document.createElement('div');
+      inner.className = 'seat-group';
+      inner.style.position = 'relative';
+      inner.style.width = `${groupWidth}px`;
+      inner.style.height = `${groupHeight}px`;
+
       seats.forEach((seat, indexWithinResult) => {
         const position = positions[indexWithinResult];
-        const pixelOffset = {
-          x: position.x - minX + (SEAT_CIRCLE_SIZE / 2) - (groupWidth / 2),
-          y: position.y - minY + (SEAT_CIRCLE_SIZE / 2) - (groupHeight / 2)
-        };
-        const [lng, lat] = offsetSeatByPixels(map, center, pixelOffset);
-        features.push({
-          type: 'Feature',
-          geometry: { type: 'Point', coordinates: [lng, lat] },
-          properties: {
-            constituency: result.constituency || result.matchName || '',
-            candidate: seat.name || '',
-            party: seat.party || result.winnerParty || result.leadingParty || '',
-            colour: seat.colour || partyColour(seat.party || result.winnerParty || result.leadingParty),
-            resultKey: normalizeName(result.matchName || result.constituency || ''),
-            aggregateType: result.aggregateType || '',
-            seatOrder: seatOrder++
-          }
-        });
+        if (!position) return;
+        const dot = document.createElement('div');
+        dot.className = 'seat-dot test2-election-seat-dot';
+        dot.style.position = 'absolute';
+        dot.style.left = `${position.x - minX}px`;
+        dot.style.top = `${position.y - minY}px`;
+        dot.style.width = `${SEAT_CIRCLE_SIZE}px`;
+        dot.style.height = `${SEAT_CIRCLE_SIZE}px`;
+        dot.style.background = seat.colour || partyColour(seat.party || result.winnerParty || result.leadingParty);
+        dot.title = `${seat.name || 'Elected candidate'} (${seat.party || result.winnerParty || result.leadingParty || 'Unknown party'})`;
+        inner.appendChild(dot);
       });
-    }
-    if (!features.length) return;
-    const data = { type: 'FeatureCollection', features };
-    if (map.getSource(SEAT_SOURCE_ID)) {
-      map.getSource(SEAT_SOURCE_ID).setData(data);
-    } else {
-      map.addSource(SEAT_SOURCE_ID, { type: 'geojson', data });
-    }
-    map.getSource(SEAT_SOURCE_ID)._data = data;
-    if (!map.getLayer(SEAT_HALO_LAYER_ID)) {
-      map.addLayer({
-        id: SEAT_HALO_LAYER_ID,
-        type: 'circle',
-        source: SEAT_SOURCE_ID,
-        layout: {
-          'circle-sort-key': ['coalesce', ['get', 'seatOrder'], 0]
-        },
-        paint: {
-          'circle-color': '#000000',
-          'circle-radius': 7,
-          'circle-opacity': 0.92
+
+      seatGroup.appendChild(inner);
+      const activate = () => this.handleSeatCircleActivation(resultKey, aggregateType);
+      seatGroup.addEventListener('click', activate);
+      seatGroup.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          activate();
         }
       });
-    }
-    if (!map.getLayer(SEAT_LAYER_ID)) {
-      map.addLayer({
-        id: SEAT_LAYER_ID,
-        type: 'circle',
-        source: SEAT_SOURCE_ID,
-        layout: {
-          'circle-sort-key': ['coalesce', ['get', 'seatOrder'], 0]
-        },
-        paint: {
-          'circle-color': ['coalesce', ['get', 'colour'], '#6b7280'],
-          'circle-radius': 6,
-          'circle-stroke-color': '#000000',
-          'circle-stroke-width': 1,
-          'circle-opacity': 0.95
-        }
+
+      overlay.appendChild(seatGroup);
+      this.seatCircleOverlayState.groups.push({
+        key: resultKey,
+        aggregateType,
+        constituency: result.constituency || result.matchName || '',
+        seats: seats.length,
+        width: groupWidth,
+        height: groupHeight,
+        x: projected.x,
+        y: projected.y
       });
+      this.seatCircleOverlayState.dotCount += seats.length;
     }
-    if (!this.seatCircleClickBound) {
-      this.seatCircleClickBound = true;
-      map.on('click', SEAT_LAYER_ID, (event) => {
-        const key = event.features?.[0]?.properties?.resultKey;
-        const aggregateType = event.features?.[0]?.properties?.aggregateType;
-        if (aggregateType === 'council' || aggregateType === 'district') {
-          this.activeLocalMode = 'district';
-          this.renderPanel(null, aggregateType === 'council' ? 'council' : 'party');
-          this.app.updateURLState();
-          return;
-        }
-        const result = (this.activeBundle?.results || []).find((item) => normalizeName(item.matchName || item.constituency) === key);
-        if (result) this.renderPanel(result);
-      });
-      map.on('mouseenter', SEAT_LAYER_ID, () => { map.getCanvas().style.cursor = 'pointer'; });
-      map.on('mouseleave', SEAT_LAYER_ID, () => { map.getCanvas().style.cursor = ''; });
+  }
+
+  ensureSeatCircleOverlay() {
+    if (this.seatCircleOverlay?.isConnected) return this.seatCircleOverlay;
+    const container = this.mapController?.map?.getContainer?.() || document.getElementById('map');
+    if (!container) return null;
+    const overlay = document.createElement('div');
+    overlay.id = SEAT_OVERLAY_ID;
+    overlay.className = 'test2-election-seat-overlay';
+    overlay.setAttribute('aria-label', 'Election seat circles');
+    container.appendChild(overlay);
+    this.seatCircleOverlay = overlay;
+    return overlay;
+  }
+
+  handleSeatCircleActivation(key, aggregateType = '') {
+    if (aggregateType === 'council' || aggregateType === 'district') {
+      this.activeLocalMode = 'district';
+      this.renderPanel(null, aggregateType === 'council' ? 'council' : 'party');
+      this.app.updateURLState();
+      return;
     }
+    const result = (this.activeBundle?.results || []).find((item) => normalizeName(item.matchName || item.constituency) === key);
+    if (result) this.renderPanel(result);
+  }
+
+  removeLegacySeatCircleLayers() {
+    const map = this.mapController?.map;
+    if (!map) return;
+    if (map.getLayer(SEAT_LAYER_ID)) map.removeLayer(SEAT_LAYER_ID);
+    if (map.getLayer(SEAT_HALO_LAYER_ID)) map.removeLayer(SEAT_HALO_LAYER_ID);
+    if (map.getSource(SEAT_SOURCE_ID)) map.removeSource(SEAT_SOURCE_ID);
+  }
+
+  getSeatCircleOverlayState() {
+    return {
+      groups: [...(this.seatCircleOverlayState?.groups || [])],
+      dotCount: Number(this.seatCircleOverlayState?.dotCount || 0)
+    };
+  }
+
+  async waitForSeatCircleOverlay() {
+    if (this.seatCircleOverlay?.children?.length) return this.getSeatCircleOverlayState();
+    await this.renderSeatCircles();
+    return this.getSeatCircleOverlayState();
+  }
+
+  removeSeatCircles() {
+    this.removeLegacySeatCircleLayers();
+    if (this.seatCircleOverlay) {
+      this.seatCircleOverlay.remove();
+      this.seatCircleOverlay = null;
+    }
+    this.seatCircleOverlayState = { groups: [], dotCount: 0 };
   }
 
   async renderVoteBars() {
@@ -1998,14 +2043,6 @@ export class Test2ElectionManager {
       visible.push(group);
     }
     return visible;
-  }
-
-  removeSeatCircles() {
-    const map = this.mapController?.map;
-    if (!map) return;
-    if (map.getLayer(SEAT_LAYER_ID)) map.removeLayer(SEAT_LAYER_ID);
-    if (map.getLayer(SEAT_HALO_LAYER_ID)) map.removeLayer(SEAT_HALO_LAYER_ID);
-    if (map.getSource(SEAT_SOURCE_ID)) map.removeSource(SEAT_SOURCE_ID);
   }
 
   removeVoteBars() {
