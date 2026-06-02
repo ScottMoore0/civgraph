@@ -537,6 +537,10 @@ export class Test2ElectionManager {
   }
 
   renderOverallResults(view = 'party') {
+    return this.sharedRenderer.renderOverallResults(view);
+  }
+
+  renderMainCompatibleOverallResults(view = 'party') {
     const results = this.currentResults();
     if (results.some((result) => result.recallPetition)) return this.renderRecallPetitionOverview(results);
     if (this.isLocalGovernmentElection() && this.activeLocalMode === 'district') {
@@ -557,6 +561,10 @@ export class Test2ElectionManager {
   }
 
   renderConstituencyResults(result, view = 'party') {
+    return this.sharedRenderer.renderConstituencyResults(result, view);
+  }
+
+  renderMainCompatibleConstituencyResults(result, view = 'party') {
     if (result.recallPetition) return this.renderRecallPetitionResult(result);
     const candidates = [...(result.candidates || [])].sort((a, b) => {
       const elected = Number(Boolean(b.elected)) - Number(Boolean(a.elected));

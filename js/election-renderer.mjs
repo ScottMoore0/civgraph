@@ -58,6 +58,9 @@ export class SharedElectionRenderer {
   }
 
   renderOverallResults(view = 'party') {
+    if (typeof this.host.renderMainCompatibleOverallResults === 'function') {
+      return this.host.renderMainCompatibleOverallResults(view);
+    }
     const model = this.viewModel(null, view);
     const results = model.results;
     if (model.recallPetition) return this.renderRecallPetitionOverview(results);
@@ -95,6 +98,9 @@ export class SharedElectionRenderer {
   }
 
   renderConstituencyResults(result, view = 'party') {
+    if (typeof this.host.renderMainCompatibleConstituencyResults === 'function') {
+      return this.host.renderMainCompatibleConstituencyResults(result, view);
+    }
     if (result.recallPetition) return this.renderRecallPetitionResult(result);
     const candidates = [...(result.candidates || [])].sort((a, b) =>
       Number(Boolean(b.elected)) - Number(Boolean(a.elected))

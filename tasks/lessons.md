@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 136) Election pane parity needs a shared entrypoint, not separate route render branches
+- Mistake pattern: `/test2` kept improving visible election pane parity through route-specific rendering branches while the main site retained the canonical election pane logic elsewhere.
+- Impact: Each screenshot-driven fix could close one discrepancy while leaving other modes free to drift, because overall, selected-area, count, local-party, entity, and special-case panes did not all enter through one shared contract.
+- Guardrail:
+  1) `/test2` visible election pane rendering must enter through `SharedElectionRenderer`,
+  2) main-compatible host adapters should be explicitly named and validated,
+  3) browser tests should compare representative main and `/test2` election pane DOM for canonical URLs.
+
 ### 135) Custom MapLibre controls must preserve the full main control set and visible date contract
 - Mistake pattern: `/test2` replaced native MapLibre controls with a custom main-style zoom control, but only recreated zoom in/out and omitted the compass/reset-north control; timeline labels also relied on caller-supplied labels instead of a fixed visible date format.
 - Impact: The map pane looked and behaved differently from the main interactive map, and timeline labels could appear as raw ISO dates or unpadded dates instead of the requested `DD MMM YYYY` presentation.

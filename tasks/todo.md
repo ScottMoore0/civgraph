@@ -1,3 +1,43 @@
+# Shared election pane renderer refactor for /test2 parity
+- [x] Record scope
+  - User request: implement the structural alignment plan so `/test2` uses the same election pane contract as the main site, while keeping MapLibre-specific behaviour confined to map drawing and selection.
+  - Scope: inspect existing main/shared election render paths, extract or reuse engine-neutral pane rendering where feasible, wire `/test2` toward that renderer, add parity guardrails, and verify. Main remains the fixed reference.
+- [x] Inspect current shared/main/test2 election render paths
+  - Identify current shared modules and remaining `/test2`-specific render branches.
+  - Completed: main uses `js/election-controller.js` as the canonical live pane, while `/test2` had a mix of shared-renderer fallback and route-specific visible pane branches. The best safe extraction point was the shared renderer entrypoint plus explicit main-compatible host adapters.
+- [x] Implement shared pane alignment
+  - Move reachable `/test2` pane rendering toward the main-compatible renderer/view-model instead of route-specific markup.
+  - Completed: `SharedElectionRenderer` now supports `renderMainCompatibleOverallResults` and `renderMainCompatibleConstituencyResults` host adapters; `/test2` visible overall/selected election pane rendering now enters through the shared renderer and delegates to those main-compatible adapters.
+- [x] Preserve MapLibre-only responsibilities
+  - Keep polygon styling, labels, hover/selection, seat circles, and viewport logic in `/test2` map/election manager code.
+  - Completed: MapLibre-specific drawing, style, overlay, seat-circle, feature matching, and viewport logic remain in `/test2` manager/adapter code; the change only affects pane-rendering entrypoints and renderer validation.
+- [x] Add guardrails
+  - Add tests/static validation proving `/test2` uses main-compatible pane classes/structure for representative election views.
+  - Completed: `scripts/validate-test2-route.mjs` now asserts that shared renderer supports the main-compatible host adapters and that `/test2` visible overall/selected pane rendering enters through `this.sharedRenderer`.
+- [x] Verify
+  - Run syntax checks and focused `/test2` validation/tests.
+  - Completed: `node --check js/election-renderer.mjs`, `node --check test2/src/election-manager.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, focused Playwright parity test `npx playwright test tests/browser/test2-app.spec.js --grep "Dail 2024 election pane"`, and full `npm run test:browser:test2` all passed. Build and Playwright needed approved escalation for local process/browser spawning.
+- [x] Review
+  - Summarize what changed, what remains, and verification evidence.
+  - Completed: `/test2` is now structurally closer to using the same election pane contract: shared renderer entrypoints own the visible overall/selected pane flow, while route-specific main-compatible host adapters provide the current main-parity table markup. Remaining full parity work is further extraction of every main special-case branch into true engine-neutral renderer modules, not more map-engine work.
+
+# Election pane main vs /test2 parity review
+- [x] Record scope
+  - User request: review the election pane for the main site versus `/test2`, and explain how to maximally align the `/test2` election pane to the main site.
+  - Scope: compare current main election pane rendering/domain logic with `/test2` election pane rendering, identify remaining parity gaps, and recommend feasible/sensible alignment steps. No code changes requested in this task.
+- [x] Inspect main election pane
+  - Review main election controller/domain/renderer/style paths.
+  - Completed: main still renders the canonical pane through `js/election-controller.js`, including bespoke overall, selected constituency, council/district, count, recall-petition, entity, sort/filter, and animation branches.
+- [x] Inspect `/test2` election pane
+  - Review `/test2` election manager, adapter, tests, and relevant styles.
+  - Completed: `/test2` uses `test2/src/election-manager.js` plus shared helpers, but still has route-specific pane renderers, `test2-*` wrapper classes, local mode controls, map-display controls, and generated bundle assumptions.
+- [x] Compare parity
+  - Compare pane structure, tables, tabs, controls, selected-feature state, timeline, URL state, and data assumptions.
+  - Completed: the remaining drift is caused by duplicated/adapted pane rendering rather than a single engine-neutral renderer shared by main and `/test2`.
+- [x] Review
+  - Summarize findings and alignment plan.
+  - Completed: maximal alignment requires extracting/mirroring the main election pane view-model and renderer, then keeping MapLibre-specific logic only at the final map drawing/selection layer.
+
 # /test2 compass control and timeline date parity
 - [x] Record scope
   - User request: restore the compass button by the zoom buttons on the interactive map, and change the timeline slider date format to `DD MMM YYYY`.
