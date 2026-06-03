@@ -10,6 +10,7 @@ const ENTITY_CONFIG = {
 
 const state = {
   manifest: null,
+  isHome: true,
   activeType: 'maps',
   activeId: null,
   query: '',
@@ -62,6 +63,14 @@ function bindEvents() {
   });
 
   document.addEventListener('click', (event) => {
+    const portalJump = event.target.closest('[data-portal-jump]');
+    if (portalJump) {
+      event.preventDefault();
+      const target = document.querySelector(portalJump.getAttribute('href'));
+      target?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      return;
+    }
+
     const link = event.target.closest('[data-browse-link]');
     if (link) {
       event.preventDefault();
@@ -92,6 +101,7 @@ function bindEvents() {
 
 function applyRoute() {
   const route = parseRoute();
+  state.isHome = route.isHome;
   state.activeType = route.type;
   state.activeId = route.id;
   state.selectedFeatureMap = route.params.get('map');
@@ -103,18 +113,22 @@ function parseRoute() {
   const hash = decodeURIComponent(location.hash.replace(/^#\/?/, ''));
   const parts = hash.split('/').filter(Boolean);
   const params = new URLSearchParams(location.search);
+  const hasExplicitType = params.has('type') || parts.length > 0;
+  if (!hasExplicitType) {
+    return { isHome: true, type: 'maps', id: null, params };
+  }
   let type = params.get('type') || parts[0] || 'maps';
   let id = params.get('id') || parts[1] || null;
   if (type === 'people') type = 'persons';
   if (!ENTITY_CONFIG[type]) type = 'maps';
-  return { type, id, params };
+  return { isHome: false, type, id, params };
 }
 
 function renderGroups() {
   const counts = state.manifest?.counts || {};
   els.groups.innerHTML = (state.manifest?.groups || []).map((group) => {
     const count = countForGroup(group.id, counts);
-    const active = group.id === state.activeType ? ' browse-group-link--active' : '';
+    const active = !state.isHome && group.id === state.activeType ? ' browse-group-link--active' : '';
     return `
       <a href="#/${group.id}" class="browse-group-link${active}" data-browse-link>
         <span class="browse-group-link__name">${escapeHtml(group.label)}</span>
@@ -131,6 +145,12 @@ function countForGroup(id, counts) {
 }
 
 async function renderCurrent() {
+  if (state.isHome) {
+    state.currentDetail = null;
+    setPortalHero();
+    renderPortalLanding();
+    return;
+  }
   const config = ENTITY_CONFIG[state.activeType];
   state.currentDetail = null;
   setHero(config, null);
@@ -150,6 +170,169 @@ async function renderCurrent() {
     return;
   }
   renderList(state.activeType, data.items || []);
+}
+
+function setPortalHero() {
+  const counts = state.manifest?.counts || {};
+  const total = (counts.maps || 0)
+    + (counts.elections || 0)
+    + (counts.featureGroups || 0)
+    + (counts.parties || 0)
+    + (counts.persons || 0)
+    + (counts.sources || 0);
+  els.hero.innerHTML = `
+    <p class="browse-kicker">Browse</p>
+    <h1 class="browse-title">Civgraph data directory</h1>
+    <p class="browse-description">A structured portal into maps, elections, boundary features, parties and labels, people, books, tables, downloads, and source records. Use the directory below to browse by subject, or search within a chosen section.</p>
+    <div class="browse-portal-stats" aria-label="Browse totals">
+      ${renderPortalStat('Maps', counts.maps)}
+      ${renderPortalStat('Elections', counts.elections)}
+      ${renderPortalStat('Feature groups', counts.featureGroups)}
+      ${renderPortalStat('Parties / labels', counts.parties)}
+      ${renderPortalStat('Persons', counts.persons)}
+      ${renderPortalStat('Sources', counts.sources)}
+      ${renderPortalStat('Total entries', total)}
+    </div>
+  `;
+}
+
+function renderPortalLanding() {
+  const query = state.query.trim();
+  if (query) {
+    els.results.innerHTML = `
+      <section class="browse-portal-search-note">
+        <h2>Choose a section to search</h2>
+        <p>The Browse search is scoped to the active section so large indexes stay responsive. Select Maps, Elections, Features, Parties / Labels, Persons, or Sources, then search within that section.</p>
+      </section>
+      ${renderPortalSections()}
+    `;
+    return;
+  }
+  els.results.innerHTML = `
+    <nav class="browse-portal-jump" aria-label="Browse directory sections">
+      ${portalSections().map((section) => `<a href="#portal-${escapeAttr(section.id)}" data-portal-jump>${escapeHtml(section.title)}</a>`).join('')}
+    </nav>
+    ${renderPortalSections()}
+  `;
+}
+
+function renderPortalSections() {
+  return `
+    <div class="browse-portal">
+      ${portalSections().map(renderPortalSection).join('')}
+    </div>
+  `;
+}
+
+function portalSections() {
+  const counts = state.manifest?.counts || {};
+  return [
+    {
+      id: 'maps',
+      title: 'Maps',
+      href: '#/maps',
+      count: counts.maps,
+      summary: 'Catalogue entries, map metadata, downloads, source credits, and interactive-map links.',
+      columns: [
+        { heading: 'Historic geographies', links: [['Townlands', '#/maps'], ['Civil parishes', '#/maps'], ['Baronies', '#/maps'], ['Counties', '#/maps'], ['Provinces', '#/maps']] },
+        { heading: 'Electoral boundaries', links: [['Dáil constituencies', '#/maps'], ['Westminster constituencies', '#/maps'], ['Assembly constituencies', '#/maps'], ['DEAs and wards', '#/maps']] },
+        { heading: 'Reference and open data', links: [['Administrative areas', '#/maps'], ['Settlements', '#/maps'], ['Infrastructure', '#/maps'], ['Environmental datasets', '#/maps']] }
+      ]
+    },
+    {
+      id: 'elections',
+      title: 'Elections',
+      href: '#/elections',
+      count: counts.elections,
+      summary: 'Election entries by date, body, geography, result data, and links to open election layers.',
+      columns: [
+        { heading: 'By election type', links: [['Dáil Éireann', '#/elections'], ['Westminster', '#/elections'], ['NI Assembly', '#/elections'], ['Local government', '#/elections'], ['Referendums', '#/elections']] },
+        { heading: 'By decade', links: [['2020s', '#/elections'], ['2010s', '#/elections'], ['2000s', '#/elections'], ['1990s', '#/elections'], ['Earlier elections', '#/elections']] },
+        { heading: 'Election data', links: [['Overall results', '#/elections'], ['Constituency results', '#/features'], ['Parties and labels', '#/parties'], ['Candidates and representatives', '#/persons']] }
+      ]
+    },
+    {
+      id: 'features',
+      title: 'Features',
+      href: '#/features',
+      count: counts.featureGroups,
+      summary: 'Boundary and geography feature groups, with feature records loaded lazily by source map.',
+      columns: [
+        { heading: 'Administrative features', links: [['Counties', '#/features'], ['Local authorities', '#/features'], ['Civil parishes', '#/features'], ['Townlands', '#/features']] },
+        { heading: 'Election geographies', links: [['Constituencies', '#/features'], ['DEAs', '#/features'], ['Wards', '#/features'], ['Electoral divisions', '#/features']] },
+        { heading: 'Linked records', links: [['Features with election results', '#/features'], ['Feature source maps', '#/features'], ['Open source map', '#/features']] }
+      ]
+    },
+    {
+      id: 'parties',
+      title: 'Parties / labels',
+      href: '#/parties',
+      count: counts.parties,
+      summary: 'Political parties, tickets, labels, aliases, colours, and observed election appearances.',
+      columns: [
+        { heading: 'Party data', links: [['Canonical parties', '#/parties'], ['Political tickets', '#/parties'], ['Independent labels', '#/parties']] },
+        { heading: 'Colour and label checks', links: [['Party colours', '#/parties'], ['Observed labels', '#/parties'], ['Aliases and abbreviations', '#/parties']] },
+        { heading: 'Related records', links: [['Election summaries', '#/elections'], ['Candidates', '#/persons'], ['Sources', '#/sources']] }
+      ]
+    },
+    {
+      id: 'persons',
+      title: 'Persons',
+      href: '#/persons',
+      count: counts.persons,
+      summary: 'Candidate and elected-person entries observed across the election data.',
+      columns: [
+        { heading: 'People indexes', links: [['Candidates', '#/persons'], ['Elected representatives', '#/persons'], ['Repeated candidates', '#/persons']] },
+        { heading: 'Election links', links: [['Contests stood', '#/persons'], ['Seats won', '#/persons'], ['Party histories', '#/parties']] },
+        { heading: 'Research routes', links: [['Search persons', '#/persons'], ['Election entries', '#/elections'], ['Source records', '#/sources']] }
+      ]
+    },
+    {
+      id: 'sources',
+      title: 'Books / tables / sources',
+      href: '#/sources',
+      count: counts.sources,
+      summary: 'Books, tables, datasets, map source files, downloads, references, and provider records.',
+      columns: [
+        { heading: 'Source types', links: [['Books', '#/sources'], ['Tables', '#/sources'], ['Map sources', '#/sources'], ['Datasets', '#/sources']] },
+        { heading: 'Download routes', links: [['Source files', '#/sources'], ['Map downloads', '#/sources'], ['References', '#/sources']] },
+        { heading: 'Providers', links: [['OSI / OSNI', '#/sources'], ['CSO / NISRA', '#/sources'], ['Local authorities', '#/sources'], ['Open data portals', '#/sources']] }
+      ]
+    }
+  ];
+}
+
+function renderPortalSection(section) {
+  return `
+    <section id="portal-${escapeAttr(section.id)}" class="browse-portal-section">
+      <div class="browse-portal-section__header">
+        <div>
+          <h2><a href="${escapeAttr(section.href)}" data-browse-link>${escapeHtml(section.title)}</a></h2>
+          <p>${escapeHtml(section.summary)}</p>
+        </div>
+        <a href="${escapeAttr(section.href)}" class="browse-portal-section__count" data-browse-link>${formatNumber(section.count || 0)}</a>
+      </div>
+      <div class="browse-portal-columns">
+        ${section.columns.map((column) => `
+          <div class="browse-portal-column">
+            <h3>${escapeHtml(column.heading)}</h3>
+            <ul>
+              ${column.links.map(([label, href]) => `<li><a href="${escapeAttr(href)}" data-browse-link>${escapeHtml(label)}</a></li>`).join('')}
+            </ul>
+          </div>
+        `).join('')}
+      </div>
+    </section>
+  `;
+}
+
+function renderPortalStat(label, value) {
+  return `
+    <div class="browse-portal-stat">
+      <strong>${formatNumber(value || 0)}</strong>
+      <span>${escapeHtml(label)}</span>
+    </div>
+  `;
 }
 
 function setHero(config, item) {

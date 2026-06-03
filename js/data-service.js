@@ -10,6 +10,7 @@ class DataService {
     this.geographies = null;
     this.baseUrl = '';
     this.fuse = null;
+    this.mapClassIndex = new Map();
   }
 
   /**
@@ -33,6 +34,7 @@ class DataService {
     }
     this.books = booksData;
     this.geographies = geographiesData;
+    this.buildMapClassIndex();
 
     // Initialize Fuse.js for fuzzy search
     this.initFuseSearch();
@@ -136,6 +138,129 @@ class DataService {
       }
     }
     return undefined;
+  }
+
+  /**
+   * Build a lookup from loadable map IDs to the catalogue card/section they
+   * appear under. This lets UI surfaces disambiguate date-derived titles such
+   * as "1972" without hard-coding individual map IDs.
+   */
+  buildMapClassIndex() {
+    this.mapClassIndex = new Map();
+    const maps = this.maps?.maps || [];
+    const classes = this.maps?.classes || [];
+
+    for (const cls of classes) {
+      for (const mapId of cls.maps || []) {
+        if (!this.mapClassIndex.has(mapId)) {
+          this.mapClassIndex.set(mapId, {
+            classId: cls.id,
+            className: cls.name,
+            scope: cls.scope || null
+          });
+        }
+      }
+    }
+
+    for (const map of maps) {
+      for (const variant of map.variants || []) {
+        if (variant?.id && !this.mapClassIndex.has(variant.id)) {
+          this.mapClassIndex.set(variant.id, {
+            classId: map.id,
+            className: map.name || map.title || map.id,
+            scope: map.scope || null,
+            parentId: map.id
+          });
+        }
+      }
+    }
+  }
+
+  getMapClassInfo(id) {
+    if (!id) return null;
+    return this.mapClassIndex?.get(id) || null;
+  }
+
+  getMapDisplayTitle(mapOrId) {
+    const map = typeof mapOrId === 'string' ? this.getMapById(mapOrId) : mapOrId;
+    if (!map) return typeof mapOrId === 'string' ? mapOrId : '';
+    const name = String(map.name || map.title || map.label || map.id || '').trim();
+    if (!name) return '';
+
+    const classInfo = this.getMapClassInfo(map.id) || (map.parentId ? this.getMapClassInfo(map.parentId) : null);
+    const parentTitle = String(classInfo?.className || map.parentName || '').trim();
+    const derivedName = this.getDerivedMapNamePart(map, name, parentTitle);
+    if (!parentTitle || !derivedName) return name;
+    return `${parentTitle} - ${derivedName}`;
+  }
+
+  getDerivedMapNamePart(map, name = map?.name || map?.title || '', parentTitle = '') {
+    const text = String(name || '').trim();
+    if (!text) return '';
+
+    const parent = String(parentTitle || '').trim();
+    if (parent) {
+      const parentPattern = this.escapeRegExp(parent).replace(/\\ /g, '\\s+');
+      const parentDateMatch = text.match(new RegExp(`^${parentPattern}\\s+(.+)$`, 'i'));
+      if (parentDateMatch && this.isDerivedMapName(map, parentDateMatch[1])) {
+        return parentDateMatch[1].trim();
+      }
+    }
+
+    return this.isDerivedMapName(map, text) ? text : '';
+  }
+
+  isDerivedMapName(map, name = map?.name || map?.title || '') {
+    const text = String(name || '').trim();
+    if (!text) return false;
+    if (/^\d{4}$/.test(text)) return true;
+    if (/^\d{1,2}\s+[A-Za-z]{3,9}\s+\d{4}(?:\s*\([^)]*\))?$/.test(text)) return true;
+    if (/^[A-Za-z]{3,9}\s+\d{4}$/.test(text)) return true;
+
+    const formattedDate = this.formatPlainMapDate(map?.date);
+    const year = this.getPlainMapYear(map?.date);
+    const normalText = this.normaliseDisplayText(text);
+    for (const candidate of [formattedDate, year]) {
+      const normalCandidate = this.normaliseDisplayText(candidate);
+      if (normalCandidate && (normalText === normalCandidate || normalText.startsWith(`${normalCandidate} (`))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  escapeRegExp(value) {
+    return String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  formatPlainMapDate(dateStr) {
+    if (!dateStr) return '';
+    const str = String(dateStr);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    if (/^\d{4}$/.test(str)) return str;
+    if (/^\d{4}-\d{2}$/.test(str)) {
+      const [y, m] = str.split('-').map(Number);
+      return `${months[m - 1]} ${y}`;
+    }
+    if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+      const [y, m, d] = str.split('-').map(Number);
+      return `${String(d).padStart(2, '0')} ${monthNames[m - 1]} ${y}`;
+    }
+    return str;
+  }
+
+  getPlainMapYear(dateStr) {
+    const match = String(dateStr || '').match(/^(\d{4})/);
+    return match ? match[1] : '';
+  }
+
+  normaliseDisplayText(value) {
+    return String(value || '')
+      .replace(/<[^>]+>/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase();
   }
 
   /**

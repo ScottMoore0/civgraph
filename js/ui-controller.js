@@ -7544,6 +7544,7 @@ class UIController {
             const color = map.style?.color || '#3388ff';
             const authors = map.authors?.join(', ') || '';
             const date = map.date ? this.getYear(map.date) : '';
+            const layerTitle = dataService.getMapDisplayTitle?.(map) || map.name;
             const featureRows = partial?.featureItems?.length
                 ? (partial.featureItems || []).map((item) => `
                     <div class="active-layer-item__feature" data-map-id="${map.id}" data-feature-index="${item.index}">
@@ -7587,7 +7588,7 @@ class UIController {
                     </button>
                     <div class="active-layer-item__color" style="background: ${color}"></div>
                     <div class="active-layer-item__info">
-                        <span class="active-layer-item__name">${this.escapeHtml(map.name)}</span>
+                        <span class="active-layer-item__name">${this.escapeHtml(layerTitle)}</span>
                         <span class="active-layer-item__meta">
                             ${authors}${authors && date ? ' · ' : ''}${date ? `<em>${date}</em>` : ''}
                             ${partial?.featureItems?.length ? `<span class="active-layer-item__partial-badge">${partial.featureNames?.length || partial.featureItems.length || 1} feature${(partial.featureNames?.length || partial.featureItems.length || 1) > 1 ? 's' : ''}</span>` : ''}

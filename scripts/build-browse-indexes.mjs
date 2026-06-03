@@ -34,7 +34,8 @@ function main() {
   const electionManifest = readJson('test/metadata/elections-test2.json', { elections: [], totals: {} });
 
   const categoriesById = new Map((mapsData.categories || []).map((category) => [category.id, category]));
-  const maps = buildMaps(mapsData, dataEntriesData, categoriesById);
+  const mapClassInfoById = buildMapClassInfo(mapsData);
+  const maps = buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById);
   const elections = buildElections(electionManifest);
   const electionDetails = readElectionDetails(elections);
   const featureGroups = buildFeatureGroups(spatialIndex, maps, elections);
@@ -104,13 +105,14 @@ function main() {
   console.log(`- sources: ${sources.length}`);
 }
 
-function buildMaps(mapsData, dataEntriesData, categoriesById) {
+function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById) {
   const mapRecords = (mapsData.maps || []).map((map) => {
     const category = categoriesById.get(map.category) || {};
     const files = normalizeFiles(map.files || map.file || map.sourceFile || map.data || null);
     const references = normalizeReferences(map.references || map.sourceReferences || map.sources);
     const downloads = normalizeLinks(map.downloads || map.sourceDownload || map.sourceDownloads || map.download || files);
-    const title = cleanText(map.name || map.title || map.id);
+    const rawTitle = cleanText(map.name || map.title || map.id);
+    const title = mapDisplayTitle(map, mapClassInfoById.get(map.id), rawTitle);
     return compactObject({
       id: map.id,
       slug: map.slug || slugify(map.id || title),
@@ -130,9 +132,14 @@ function buildMaps(mapsData, dataEntriesData, categoriesById) {
       featured: Boolean(map.featured),
       loadable: Boolean(map.files || map.file || map.url || map.source || map.tiles || map.pmtiles || map.geojson),
       labelProperty: map.labelProperty || null,
+      parentCard: mapClassInfoById.get(map.id)?.className || null,
       variants: normalizeArray(map.variants).map((variant) => typeof variant === 'string' ? { id: variant } : compactObject({
         id: variant.id || variant.mapId || variant.slug || variant.name,
-        title: variant.name || variant.title || variant.id || variant.mapId,
+        title: mapDisplayTitle(
+          { ...map, ...variant, id: variant.id || variant.mapId || variant.slug || variant.name, name: variant.name || variant.title || variant.label || variant.id || variant.mapId },
+          mapClassInfoById.get(variant.id || variant.mapId || variant.slug || variant.name),
+          variant.name || variant.title || variant.label || variant.id || variant.mapId
+        ),
         date: variant.date || variant.year || null
       })),
       sourceFiles: files,
@@ -171,6 +178,112 @@ function buildMaps(mapsData, dataEntriesData, categoriesById) {
   }).filter((entry) => entry.id);
 
   return [...mapRecords, ...dataEntries].sort(sortByTitle);
+}
+
+function buildMapClassInfo(mapsData) {
+  const infoById = new Map();
+  const mapsById = new Map((mapsData.maps || []).map((map) => [map.id, map]));
+
+  for (const cls of mapsData.classes || []) {
+    for (const mapId of cls.maps || []) {
+      if (!infoById.has(mapId)) {
+        infoById.set(mapId, {
+          classId: cls.id,
+          className: cls.name,
+          scope: cls.scope || null
+        });
+      }
+    }
+  }
+
+  for (const map of mapsData.maps || []) {
+    for (const variant of map.variants || []) {
+      const variantId = variant?.id || variant?.mapId || variant?.slug || variant?.name;
+      if (!variantId || infoById.has(variantId)) continue;
+      const parent = mapsById.get(map.id) || map;
+      infoById.set(variantId, {
+        classId: parent.id,
+        className: parent.name || parent.title || parent.id,
+        scope: parent.scope || null,
+        parentId: parent.id
+      });
+    }
+  }
+
+  return infoById;
+}
+
+function mapDisplayTitle(map, classInfo, fallbackTitle = '') {
+  const title = cleanText(fallbackTitle || map?.name || map?.title || map?.label || map?.id);
+  if (!title) return title;
+  const parentTitle = cleanText(classInfo?.className || map?.parentName || '');
+  const derivedName = derivedMapNamePart(map, title, parentTitle);
+  if (!parentTitle || !derivedName) return title;
+  return `${parentTitle} - ${derivedName}`;
+}
+
+function derivedMapNamePart(map, title, parentTitle = '') {
+  const text = cleanText(title);
+  if (!text) return '';
+  if (parentTitle) {
+    const parentPattern = escapeRegExp(parentTitle).replace(/\\ /g, '\\s+');
+    const parentDateMatch = text.match(new RegExp(`^${parentPattern}\\s+(.+)$`, 'i'));
+    if (parentDateMatch && isDerivedMapName(map, parentDateMatch[1])) {
+      return parentDateMatch[1].trim();
+    }
+  }
+  return isDerivedMapName(map, text) ? text : '';
+}
+
+function isDerivedMapName(map, title) {
+  const text = cleanText(title);
+  if (!text) return false;
+  if (/^\d{4}$/.test(text)) return true;
+  if (/^\d{1,2}\s+[A-Za-z]{3,9}\s+\d{4}(?:\s*\([^)]*\))?$/.test(text)) return true;
+  if (/^[A-Za-z]{3,9}\s+\d{4}$/.test(text)) return true;
+
+  const normalText = normalizeDisplayText(text);
+  for (const candidate of [formatPlainMapDate(map?.date), plainMapYear(map?.date)]) {
+    const normalCandidate = normalizeDisplayText(candidate);
+    if (normalCandidate && (normalText === normalCandidate || normalText.startsWith(`${normalCandidate} (`))) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function formatPlainMapDate(dateStr) {
+  if (!dateStr) return '';
+  const str = String(dateStr);
+  const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const longMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  if (/^\d{4}$/.test(str)) return str;
+  if (/^\d{4}-\d{2}$/.test(str)) {
+    const [year, month] = str.split('-').map(Number);
+    return `${shortMonths[month - 1]} ${year}`;
+  }
+  if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+    const [year, month, day] = str.split('-').map(Number);
+    return `${String(day).padStart(2, '0')} ${longMonths[month - 1]} ${year}`;
+  }
+  return str;
+}
+
+function plainMapYear(dateStr) {
+  const match = String(dateStr || '').match(/^(\d{4})/);
+  return match ? match[1] : '';
+}
+
+function normalizeDisplayText(value) {
+  return cleanText(value)
+    .replace(/<[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+function escapeRegExp(value) {
+  return String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function buildElections(manifest) {

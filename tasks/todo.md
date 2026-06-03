@@ -1,3 +1,27 @@
+# Normalize derived map-layer display titles
+- [x] Record scope
+  - User requested map layers whose names are derived values, usually dates, to display as `[catalogue card title] - [derived name]` in the active layers panel and Browse section.
+- [x] Identify metadata paths
+  - Locate where derived layer names and parent catalogue card titles are stored/generated, plus where active-layer and Browse titles are rendered.
+- [x] Implement title rule
+  - Apply the rule centrally enough that derived layer titles are consistent without changing non-derived map names.
+- [x] Verify
+  - Verified: `node --check js\data-service.js`, `node --check js\ui-controller.js`, and `node --check scripts\build-browse-indexes.mjs` passed. `npm run build` passed with approved escalation. Representative generated Browse titles after `node scripts\build-browse-indexes.mjs`: `deas-1972` -> `District Electoral Areas - 1972`, `wards-1972` -> `Wards - 1972`, `eds-roi-1921-05-03` -> `District Electoral Divisions - 03 May 1921`, `roi-local-authorities-1930` -> `Local Authorities - 1930`.
+- [x] Review
+  - Active-layer display now uses `dataService.getMapDisplayTitle()`; Browse generation mirrors the same card-plus-derived-name rule. Build-generated `data/browse` timestamp churn was reverted after verification because deployment regenerates those files from the updated script.
+
+# Implement portal-style Browse landing page
+- [x] Record scope
+  - User requested the main pane of `/browse/` be structured more like Wikipedia's Contents/Portals page: compact directory landing, top-level portal sections, grouped link lists, and dense browsing rather than a card-heavy default page.
+- [x] Add portal landing renderer
+  - Completed: changed the empty `/browse/` route to render a Civgraph data directory landing page with counts, section jump links, and grouped portal sections for maps, elections, features, parties/labels, persons, and sources. Existing `#/maps`, `#/elections`, detail pages, and action links remain unchanged.
+- [x] Add portal styling
+  - Completed: added compact stats, jump links, section headers, three-column grouped link lists, and responsive one-column mobile layout.
+- [x] Verify
+  - Verified: `node --check browse\browse.js` passed; `npm run build` passed with the approved escalation needed for the local esbuild spawn. Browser smoke opened `http://127.0.0.1:8765/browse/` and confirmed the portal landing renders with totals and sections; opened `#/maps` and confirmed existing section routing still renders the Browse list flow.
+- [x] Review
+  - The landing page intentionally uses the manifest counts and curated section links instead of eagerly loading every Browse index, keeping the home route light. Build-generated `data/browse` JSON churn was reverted after verification so this change remains scoped to the Browse portal UI and task log.
+
 # Implement Browse navigation on test2
 - [x] Record scope
   - User clarified that the Browse/login entry point also needs to be exposed from `/test2`, not only the main shell.
