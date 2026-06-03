@@ -156,7 +156,7 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
       loadable: Boolean(map.files || map.file || map.url || map.source || map.tiles || map.pmtiles || map.geojson),
       labelProperty: map.labelProperty || null,
       parentCard: mapClassInfoById.get(map.id)?.className || null,
-      thumbnail: thumbnailForCandidates(thumbnailIds, [map.cloneOf, map.id], map.name || map.title || map.id, 'map'),
+      thumbnail: thumbnailForCandidates(thumbnailIds, [map.id, map.cloneOf], map.name || map.title || map.id, 'map'),
       variants: normalizeArray(map.variants).map((variant) => typeof variant === 'string' ? { id: variant } : compactObject({
         id: variant.id || variant.mapId || variant.slug || variant.name,
         title: mapDisplayTitle(
@@ -703,10 +703,12 @@ function writeDetailFiles(kind, records, enhance = null) {
 function readThumbnailManifest() {
   const relPath = path.join('assets', 'thumbnails', 'manifest.json');
   const fullPath = path.join(ROOT, relPath);
+  const excluded = readJson('assets/thumbnails/excluded-transparent.json', []);
+  const excludedIds = new Set(Array.isArray(excluded) ? excluded.map(String) : []);
   if (!existsSync(fullPath)) return new Set();
   try {
     const ids = JSON.parse(readFileSync(fullPath, 'utf8'));
-    return new Set(Array.isArray(ids) ? ids.map(String) : []);
+    return new Set(Array.isArray(ids) ? ids.map(String).filter((id) => !excludedIds.has(id.replace(/-60$/, ''))) : []);
   } catch (error) {
     console.warn(`Could not read ${relPath}: ${error.message}`);
     return new Set();

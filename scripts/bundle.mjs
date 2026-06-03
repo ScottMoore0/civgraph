@@ -26,9 +26,20 @@ const globalExternals = {
 {
     const thumbnailDir = 'assets/thumbnails';
     if (existsSync(thumbnailDir)) {
+        let excludedTransparent = new Set();
+        const excludedTransparentPath = `${thumbnailDir}/excluded-transparent.json`;
+        if (existsSync(excludedTransparentPath)) {
+            try {
+                const rawExcluded = JSON.parse(readFileSync(excludedTransparentPath, 'utf8'));
+                excludedTransparent = new Set(Array.isArray(rawExcluded) ? rawExcluded.map(String) : []);
+            } catch (error) {
+                console.warn(`Could not read ${excludedTransparentPath}: ${error.message}`);
+            }
+        }
         const ids = readdirSync(thumbnailDir)
             .filter((name) => name.toLowerCase().endsWith('.webp'))
             .map((name) => name.replace(/\.webp$/i, ''))
+            .filter((id) => !excludedTransparent.has(id.replace(/-60$/, '')))
             .sort();
         writeFileSync(`${thumbnailDir}/manifest.json`, JSON.stringify(ids));
         console.log(`Thumbnail manifest: ${ids.length} webp assets`);

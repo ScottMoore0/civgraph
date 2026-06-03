@@ -474,21 +474,28 @@ function renderMapLeadPanel(item) {
     ['Group', item.group],
     ['Date / years', item.date || joinList(item.years)],
     ['Provider', joinList(item.provider)],
-    ['Status', item.status],
-    ['Layer ID', item.id || item.key]
+    ['Status', item.status]
   ];
   return `
     <section class="browse-detail__panel browse-map-lead">
       <div class="browse-map-lead__preview">
         ${renderThumbnail(item, 'detail')}
+        ${renderMapThumbnailNote(item)}
       </div>
       <div class="browse-map-lead__content">
-        <h2>Overview</h2>
-        <div class="browse-detail__body">
-          ${item.description ? `<p class="browse-map-lead__summary">${escapeHtml(item.description)}</p>` : ''}
-          ${renderDefinitionRows(summaryRows, 'browse-definition-grid browse-definition-grid--compact')}
+        <div class="browse-map-lead__eyebrow">Map overview</div>
+        <h2 class="browse-map-lead__heading">${escapeHtml(item.title || item.name || item.id || 'Map')}</h2>
+        ${item.description ? `<p class="browse-map-lead__summary">${escapeHtml(item.description)}</p>` : ''}
+        <div class="browse-map-facts">
+          ${summaryRows.filter(([, value]) => value !== undefined && value !== null && value !== '').map(([label, value]) => `
+            <div class="browse-map-fact">
+              <dt>${escapeHtml(label)}</dt>
+              <dd>${escapeHtml(String(value))}</dd>
+            </div>
+          `).join('')}
+        </div>
+        <div class="browse-map-lead__badges">
           ${renderBadges(item)}
-          ${renderMapThumbnailNote(item)}
         </div>
       </div>
     </section>
@@ -499,34 +506,64 @@ function renderMapThumbnailNote(item) {
   const thumbnail = item.thumbnail || fallbackThumbnail(item);
   if (thumbnail.kind === 'asset') {
     return `
-      <p class="browse-thumb-caption">
-        Thumbnail asset: ${escapeHtml(thumbnail.id || fileName(thumbnail.url))}
+      <p class="browse-thumb-caption browse-map-thumbnail-note">
+        Thumbnail asset: <span>${escapeHtml(thumbnail.id || fileName(thumbnail.url))}</span>
         ${thumbnail.url ? ` · <a href="${escapeAttr(thumbnail.url)}" target="_blank" rel="noopener noreferrer">Open actual size</a>` : ''}
       </p>
     `;
   }
   return `
-    <p class="browse-thumb-caption">
-      No rendered source thumbnail is available yet. Browse is showing a cartographic fallback with grey land context; source geometry is still available through the links below where provided.
+    <p class="browse-thumb-caption browse-map-thumbnail-note">
+      Cartographic fallback thumbnail with grey land context.
     </p>
   `;
 }
 
 function renderMapMetadataPanel(item) {
-  const rows = [
-    ['Map ID', item.id || item.key],
-    ['Parent catalogue card', item.parentCard],
-    ['Source map', item.sourceMapId],
-    ['Layer', item.layerId],
-    ['Label property', item.labelProperty],
-    ['Loadable', item.loadable === undefined ? '' : item.loadable ? 'Yes' : 'No'],
-    ['Featured', item.featured === undefined ? '' : item.featured ? 'Yes' : 'No'],
-    ['Keywords', joinList(item.keywords)]
+  const groups = [
+    ['Identity', [
+      ['Map ID', item.id || item.key],
+      ['Layer title', item.title || item.name],
+      ['Status', item.status]
+    ]],
+    ['Catalogue', [
+      ['Parent card', item.parentCard],
+      ['Category', item.category],
+      ['Group', item.group],
+      ['Keywords', joinList(item.keywords)]
+    ]],
+    ['Technical', [
+      ['Source map', item.sourceMapId],
+      ['Layer', item.layerId],
+      ['Label property', item.labelProperty],
+      ['Loadable', item.loadable === undefined ? '' : item.loadable ? 'Yes' : 'No'],
+      ['Featured', item.featured === undefined ? '' : item.featured ? 'Yes' : 'No']
+    ]]
   ];
   return `
-    <section class="browse-detail__panel">
-      <h2>Map Metadata</h2>
-      <div class="browse-detail__body">${renderDefinitionRows(rows, 'browse-definition-grid')}</div>
+    <section class="browse-detail__panel browse-map-metadata-panel">
+      <h2>Metadata</h2>
+      <div class="browse-detail__body browse-map-info-groups">
+        ${groups.map(([title, rows]) => renderMapInfoGroup(title, rows)).join('')}
+      </div>
+    </section>
+  `;
+}
+
+function renderMapInfoGroup(title, rows) {
+  const filteredRows = rows.filter(([, value]) => value !== undefined && value !== null && value !== '');
+  if (!filteredRows.length) return '';
+  return `
+    <section class="browse-map-info-group">
+      <h3>${escapeHtml(title)}</h3>
+      <dl class="browse-map-info-list">
+        ${filteredRows.map(([label, value]) => `
+          <div>
+            <dt>${escapeHtml(label)}</dt>
+            <dd>${escapeHtml(String(value))}</dd>
+          </div>
+        `).join('')}
+      </dl>
     </section>
   `;
 }

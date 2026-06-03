@@ -1794,3 +1794,21 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) if edits/uploads are involved, recommend staged submissions plus approval/publish pipelines,
   3) keep production static data immutable from ordinary user sessions,
   4) separate contributor permissions from admin publish permissions.
+
+### 134) Browse thumbnail quality requires visual cartographic checks, not asset existence
+- Mistake pattern: Counting generated thumbnail assets as coverage while the rendered asset still has a transparent/checkerboard background, weak or invisible land context, or a projection/crop that does not read as a proper map.
+- Impact: Browse map pages can technically have thumbnails but still look unfinished or distorted, especially for historic boundary maps where the user expects grey Ireland/Britain/island/Europe underlay context.
+- Guardrail:
+  1) thumbnail generation must use an explicit cartographic projection appropriate to the visible geographic scope,
+  2) rendered thumbnail images must have an opaque light basemap background and grey land underlay, not depend on page CSS checkerboards,
+  3) detail-page smoke checks must inspect representative thumbnail pixels or screenshots for visible land/background, not only manifest presence,
+  4) map Browse detail layout should be reviewed visually as an information page, not accepted because raw fields are technically present.
+
+### 135) Thumbnail land underlays need context-frame verification
+- Mistake pattern: Fixing thumbnail transparency by drawing land underlay, but framing the thumbnail so tightly to the feature bounds that the land appears as cropped, misshapen grey fragments.
+- Impact: The generated thumbnail is technically opaque and has land pixels, but visually looks wrong and undermines Browse page quality.
+- Guardrail:
+  1) use a familiar web-map projection for thumbnails unless a specific dataset requires otherwise,
+  2) apply a minimum context span around small/high-level maps so Britain/Ireland/islands/coastline read as land context rather than blobs,
+  3) visually inspect the representative asset after generation, not just alpha/colour histograms,
+  4) stop any broad thumbnail regeneration immediately if the first representative thumbnail fails the visual check.

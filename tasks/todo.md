@@ -3587,3 +3587,24 @@ Add election entries to /test2
   - Completed: `scripts/regen-thumbnails.py` now resolves local data-host mirrors, compressed `.fgb.gz` sources, and LOD fallbacks before considering downloads.
   - Verification evidence: `node --check browse/browse.js` passed; `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build` passed after approved sandbox escalation for esbuild helper spawning; thumbnail manifest has 1,182 entries; Browse map coverage is 656 asset thumbnails and 165 runtime cartographic fallbacks.
   - Browser smoke note: the local static server returned HTTP 200 from the workspace shell, but the in-app browser loopback navigation stayed blocked/refused, so final visual verification used build/static checks rather than a browser screenshot.
+
+# Correct Browse map thumbnails and map metadata presentation
+- [x] Record correction
+  - User showed that the Browse map thumbnail still appears sparse/transparent and the Overview/Metadata boxes still look raw and poorly spaced.
+  - Correction goal: use a proper map-thumbnail projection with visible grey land context and clean up map Overview/Metadata presentation.
+- [x] Fix thumbnail projection and underlay
+  - Switched generated thumbnails to Web Mercator for a familiar web-map appearance.
+  - Added minimum context spans so small/high-level maps do not crop grey land into misshapen fragments.
+  - Made generated assets opaque and rerendered transparent/generated thumbnail assets where local geometry was available.
+  - Added `assets/thumbnails/excluded-transparent.json` and manifest filtering so source-unavailable transparent assets use the Browse cartographic fallback instead of stale transparent WebPs.
+- [x] Fix Browse map detail layout
+  - Collapse thumbnail/overview/metadata into cleaner map-specific panels and avoid field grids that look like unstyled raw metadata.
+  - Improve thumbnail sizing/caption treatment on map detail pages.
+- [x] Verify
+  - Run syntax checks, thumbnail generation for representative maps, Browse index/build checks, and thumbnail coverage checks.
+- [x] Review
+  - Document exactly what changed and any remaining limits.
+  - Visual check: `assets/thumbnails/admin-areas-1924-04-01.webp` now shows the 1924 map over a broader recognizable grey Ireland/Britain land context rather than a cropped/misshapen underlay.
+  - Manifest check: `assets/thumbnails/manifest.json` has 854 WebP entries and zero transparent non-60 thumbnails in the manifest; 168 source-unavailable transparent thumbnails are excluded and use runtime cartographic fallback.
+  - Browse check: `admin-areas-1924-04-01` now references its own thumbnail asset, not the 1936 clone asset.
+  - Verification evidence: `node --check browse/browse.js` passed; `node --check scripts/build-browse-indexes.mjs` passed; `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build` passed after approved esbuild spawn escalation; `npm run check` passed.

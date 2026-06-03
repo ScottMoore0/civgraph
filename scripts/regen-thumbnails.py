@@ -1,6 +1,7 @@
 """
 Regenerate map thumbnails with a light grey landmass background
-(Ireland, Britain, Isle of Man, etc.) for geographic context.
+(Ireland, Britain, Isle of Man, outlying islands, and nearby Europe where
+the map extent permits) for geographic context.
 
 Usage:
     python scripts/regen-thumbnails.py [--map-id MAP_ID]
@@ -22,12 +23,14 @@ DATA_HOST_PREFIX = 'https://data.civgraph.net/'
 ALLOW_DOWNLOADS = '--download' in sys.argv
 MAX_SIZE = 120  # max dimension in pixels
 DPI = 72
-LAND_COLOR = '#d4d4d4'
-LAND_EDGE = '#bfbfbf'
-BG_COLOR = '#ffffff'
-PADDING = 0.08  # 8% padding around features
+LAND_COLOR = '#d5dbe3'
+LAND_EDGE = '#c1c9d2'
+BG_COLOR = '#f5f8fb'
+PADDING = 0.12  # 12% padding around features; context floors below add broader land
 
-TARGET_SRS = 'EPSG:29902'  # Irish Grid — equal-area, no distortion over Ireland/NI
+TARGET_SRS = 'EPSG:3857'  # Web Mercator - matches normal web-map appearance for thumbnails
+DEFAULT_MIN_CONTEXT_SPAN = 820000  # metres: keeps high-level Irish maps in a recognizable land frame
+LOCAL_MIN_CONTEXT_SPAN = 120000    # metres: keeps local open-data layers legible
 
 EMPTY_GEOMS = {'polys': [], 'lines': [], 'points': []}
 
@@ -79,7 +82,7 @@ def load_geojson_geometries(path):
     return g
 
 def _ogr2ogr_to_geojson(src_path):
-    """Convert src_path to GeoJSON in Irish Grid, trying SRS fallbacks for
+    """Convert src_path to GeoJSON in the thumbnail target projection, trying SRS fallbacks for
     FGBs that lack embedded SRS. Returns geometries dict or None."""
     import subprocess, tempfile
     ogr_src = src_path
@@ -88,9 +91,10 @@ def _ogr2ogr_to_geojson(src_path):
     attempts = [
         ['-t_srs', TARGET_SRS],                          # source has SRS metadata
         ['-s_srs', 'EPSG:4326', '-t_srs', TARGET_SRS],   # assume WGS84 source
-        ['-s_srs', TARGET_SRS, '-t_srs', TARGET_SRS],    # already Irish Grid
+        ['-s_srs', 'EPSG:29902', '-t_srs', TARGET_SRS],  # Irish Grid
         ['-s_srs', 'EPSG:29903', '-t_srs', TARGET_SRS],  # NI Irish Grid (TM65 variant)
         ['-s_srs', 'EPSG:2157', '-t_srs', TARGET_SRS],   # ITM
+        ['-s_srs', TARGET_SRS, '-t_srs', TARGET_SRS],    # already in thumbnail target projection
     ]
     for args in attempts:
         tmp = tempfile.mktemp(suffix='.geojson')
@@ -111,12 +115,12 @@ def _ogr2ogr_to_geojson(src_path):
     return None
 
 def load_fgb_geometries(path):
-    """Load geometries from an FGB via ogr2ogr → temp GeoJSON in Irish Grid."""
+    """Load geometries from an FGB via ogr2ogr into the thumbnail projection."""
     g = _ogr2ogr_to_geojson(path)
     return g if g is not None else _empty_geoms()
 
-def reproject_geojson_to_irish_grid(src_path):
-    """Reproject a GeoJSON file to Irish Grid via ogr2ogr."""
+def reproject_geojson_to_thumbnail_srs(src_path):
+    """Reproject a GeoJSON file to the thumbnail projection via ogr2ogr."""
     g = _ogr2ogr_to_geojson(src_path)
     return g if g is not None else _empty_geoms()
 
@@ -179,7 +183,7 @@ def _load_one_source(files):
     geojson = files.get('geojson', '')
     geojson_local = _local_data_host_path(geojson) if geojson.startswith('http') else geojson
     if geojson_local and not geojson_local.startswith('http') and os.path.exists(geojson_local):
-        return reproject_geojson_to_irish_grid(geojson_local)
+        return reproject_geojson_to_thumbnail_srs(geojson_local)
     fgb = files.get('fgb', '')
     fgb_local = _local_data_host_path(fgb) if fgb.startswith('http') else fgb
     fgb_local = _lod_fallback_path(fgb_local)
@@ -193,7 +197,7 @@ def _load_one_source(files):
     if ALLOW_DOWNLOADS and geojson and geojson.startswith('http'):
         cached = _cached_download(geojson)
         if cached:
-            return reproject_geojson_to_irish_grid(cached)
+            return reproject_geojson_to_thumbnail_srs(cached)
     return _empty_geoms()
 
 def load_map_geometries(map_config):
@@ -248,6 +252,24 @@ def compute_bounds(geoms):
         return None
     return (min(all_x), min(all_y), max(all_x), max(all_y))
 
+def min_context_span(map_config):
+    """Pick a minimum viewport size so grey land context is recognizable.
+
+    Small high-level maps, such as NI administrative areas, look wrong when
+    the land underlay is cropped tightly to the feature bounds. Local authority
+    service/open-data layers need a smaller floor so the actual features remain
+    visible at thumbnail scale.
+    """
+    text = ' '.join(str(map_config.get(key, '')) for key in (
+        'id', 'name', 'title', 'category', 'group', 'provider'
+    )).lower()
+    if any(token in text for token in (
+        'dcc', 'dlr', 'fingal', 'dublin city council', 'dun laoghaire',
+        'dún laoghaire', 'local authority open data', 'open data'
+    )):
+        return LOCAL_MIN_CONTEXT_SPAN
+    return DEFAULT_MIN_CONTEXT_SPAN
+
 def render_thumbnail(map_config, land_polys, out_path):
     """Render a single thumbnail on a square canvas. Handles polygons,
     lines, and points; if a layer contains a mix, all are drawn."""
@@ -265,7 +287,7 @@ def render_thumbnail(map_config, land_polys, out_path):
     # Point datasets clustered at one location → enforce a minimum extent
     # so the canvas isn't degenerate.
     if dx < 1e-6 and dy < 1e-6:
-        # Pure single-point or coincident points — pad ±5km in Irish Grid metres
+        # Pure single-point or coincident points - pad by 5km in projected metres.
         minx -= 5000; maxx += 5000; miny -= 5000; maxy += 5000
         dx, dy = maxx - minx, maxy - miny
     elif dx < 1e-6 or dy < 1e-6:
@@ -278,6 +300,20 @@ def render_thumbnail(map_config, land_polys, out_path):
     minx -= px; maxx += px; miny -= py; maxy += py
     dx = maxx - minx
     dy = maxy - miny
+
+    # Preserve a recognizable land underlay. Without this, small maps crop
+    # coastlines into abstract grey fragments at thumbnail size.
+    span_floor = min_context_span(map_config)
+    if dx < span_floor:
+        cx = (minx + maxx) / 2
+        minx = cx - span_floor / 2
+        maxx = cx + span_floor / 2
+        dx = maxx - minx
+    if dy < span_floor:
+        cy = (miny + maxy) / 2
+        miny = cy - span_floor / 2
+        maxy = cy + span_floor / 2
+        dy = maxy - miny
 
     # Expand the shorter axis to make the viewport square in geographic coords
     if dx > dy:
@@ -295,9 +331,9 @@ def render_thumbnail(map_config, land_polys, out_path):
     ax.set_ylim(miny, maxy)
     ax.set_aspect('equal')
     ax.axis('off')
-    fig.patch.set_facecolor('none')
-    fig.patch.set_alpha(0)
-    ax.set_facecolor('none')
+    fig.patch.set_facecolor(BG_COLOR)
+    fig.patch.set_alpha(1)
+    ax.set_facecolor(BG_COLOR)
 
     # Draw land background
     land_patches = polys_to_patches(land_polys)
@@ -332,7 +368,7 @@ def render_thumbnail(map_config, land_polys, out_path):
                    edgecolors='none', alpha=0.85, zorder=4)
 
     fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
-    fig.savefig(out_path, dpi=DPI, transparent=True, bbox_inches='tight', pad_inches=0.02)
+    fig.savefig(out_path, dpi=DPI, transparent=False, facecolor=BG_COLOR, bbox_inches='tight', pad_inches=0.02)
     plt.close(fig)
     # Also emit a WebP sibling — ~30-50% smaller than PNG at visually-identical
     # quality for thumbnails this small. HTML uses <picture><source srcset=".webp">
@@ -370,7 +406,7 @@ def main():
     with open(MAPS_JSON, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
-    land_geoms = reproject_geojson_to_irish_grid(LAND_GEOJSON)
+    land_geoms = reproject_geojson_to_thumbnail_srs(LAND_GEOJSON)
     land_polys = land_geoms['polys']
     print(f'Loaded {len(land_polys)} land polygons')
 
@@ -399,9 +435,10 @@ def main():
         if not explicit_request and (m.get('hidden') or m.get('placeholder') or m.get('incomplete')):
             continue
 
-        # Use cloneOf if set
-        clone = m.get('cloneOf')
-        out_name = f'{clone or mid}.png'
+        # Write each visible map row to its own thumbnail ID. Browse may still
+        # fall back to cloneOf assets, but per-row assets keep detail pages from
+        # advertising the wrong dated map as the thumbnail source.
+        out_name = f'{mid}.png'
         out_path = os.path.join(THUMB_DIR, out_name)
         if missing_only and out_name in existing_thumbs:
             continue
