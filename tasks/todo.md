@@ -3568,3 +3568,22 @@ Add election entries to /test2
   - Root cause: `/test2` used an independently cleaned-up election view-model instead of main's raw-controller election table contract; visual tweaks could not fix data-contract drift.
   - Permanent prevention action: generated `/test2` election bundles now carry `mainLikePartySummary` and `mainLikeTotals`; `/test2` renders the main-like table from those fields; validation asserts the Dail 2024 contract; browser tests compare main and `/test2` side by side for the exact Dail 2024 state.
   - Verification evidence: focused side-by-side Dail 2024 DOM parity test passed, full `/test2` browser suite passed 23/23, and production build/check passed.
+
+# Improve Browse map detail layout and thumbnail quality
+- [x] Record scope
+  - User requested cleaner overview/metadata presentation on Browse map pages and proper-looking thumbnails for every map, with non-distorted cartographic projection and grey land context for Ireland/Britain/outlying areas/Europe.
+- [x] Inspect current Browse and thumbnail pipeline
+  - Review existing Browse renderer, generated map detail metadata, thumbnail manifest, and generation script.
+- [x] Improve map detail presentation
+  - Make map pages show a cleaner summary, status/metadata grid, grouped source/reference/downloads, and keep raw metadata secondary.
+- [x] Improve thumbnail coverage and quality
+  - Ensure every map Browse page renders a proper-looking map thumbnail: real manifest asset where available, upgraded generated asset pipeline where local geometry is available, and a cartographic fallback where geometry/assets are unavailable.
+- [x] Verify
+  - Run syntax checks, Browse generation, build, thumbnail coverage checks, and representative browser smoke tests.
+- [x] Review
+  - Document completed changes, verification evidence, and any remaining data/source limits.
+  - Completed: Browse map pages now use a map-specific lead panel, compact definition-grid metadata, grouped source/reference/download sections, and secondary raw metadata.
+  - Completed: map thumbnails now prefer real generated WebP assets; maps without a local/generated asset render a cartographic fallback SVG with grey land context and feature-like overlays instead of a text placeholder.
+  - Completed: `scripts/regen-thumbnails.py` now resolves local data-host mirrors, compressed `.fgb.gz` sources, and LOD fallbacks before considering downloads.
+  - Verification evidence: `node --check browse/browse.js` passed; `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build` passed after approved sandbox escalation for esbuild helper spawning; thumbnail manifest has 1,182 entries; Browse map coverage is 656 asset thumbnails and 165 runtime cartographic fallbacks.
+  - Browser smoke note: the local static server returned HTTP 200 from the workspace shell, but the in-app browser loopback navigation stayed blocked/refused, so final visual verification used build/static checks rather than a browser screenshot.

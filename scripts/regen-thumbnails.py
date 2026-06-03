@@ -18,6 +18,8 @@ import numpy as np
 THUMB_DIR = 'assets/thumbnails'
 MAPS_JSON = 'data/database/maps.json'
 LAND_GEOJSON = 'british_isles_land.geojson'
+DATA_HOST_PREFIX = 'https://data.civgraph.net/'
+ALLOW_DOWNLOADS = '--download' in sys.argv
 MAX_SIZE = 120  # max dimension in pixels
 DPI = 72
 LAND_COLOR = '#d4d4d4'
@@ -80,6 +82,9 @@ def _ogr2ogr_to_geojson(src_path):
     """Convert src_path to GeoJSON in Irish Grid, trying SRS fallbacks for
     FGBs that lack embedded SRS. Returns geometries dict or None."""
     import subprocess, tempfile
+    ogr_src = src_path
+    if isinstance(src_path, str) and src_path.lower().endswith('.gz'):
+        ogr_src = '/vsigzip/' + os.path.abspath(src_path).replace('\\', '/')
     attempts = [
         ['-t_srs', TARGET_SRS],                          # source has SRS metadata
         ['-s_srs', 'EPSG:4326', '-t_srs', TARGET_SRS],   # assume WGS84 source
@@ -91,7 +96,7 @@ def _ogr2ogr_to_geojson(src_path):
         tmp = tempfile.mktemp(suffix='.geojson')
         try:
             r = subprocess.run(['ogr2ogr', '-f', 'GeoJSON', '-skipfailures',
-                                *args, tmp, src_path],
+                                *args, tmp, ogr_src],
                                capture_output=True, timeout=180)
             if r.returncode == 0 and os.path.exists(tmp) and os.path.getsize(tmp) > 200:
                 geoms = load_geojson_geometries(tmp)
@@ -141,20 +146,51 @@ def _cached_download(url, timeout=600):
             except: pass
     return None
 
+def _local_data_host_path(url):
+    """Resolve hosted civgraph data URLs to the repo-local mirror when present."""
+    if not isinstance(url, str) or not url.startswith(DATA_HOST_PREFIX):
+        return None
+    local = url[len(DATA_HOST_PREFIX):].split('?', 1)[0]
+    if os.path.exists(local):
+        return local
+    if local.lower().endswith('.fgb') and os.path.exists(local + '.gz'):
+        return local + '.gz'
+    return None
+
+def _lod_fallback_path(path):
+    """Use local LOD FGB variants where a full local monolith is not present."""
+    if not path:
+        return path
+    if os.path.exists(path):
+        return path
+    if path.lower().endswith('.fgb') and os.path.exists(path + '.gz'):
+        return path + '.gz'
+    if not path.lower().endswith('.fgb'):
+        return path
+    stem = path[:-4]
+    for suffix in ('-lod0.fgb', '-lod1.fgb', '-lod2.fgb'):
+        candidate = stem + suffix
+        if os.path.exists(candidate):
+            return candidate
+    return path
+
 def _load_one_source(files):
     """Try GeoJSON/FGB local or remote for a single files dict."""
     geojson = files.get('geojson', '')
-    if geojson and not geojson.startswith('http') and os.path.exists(geojson):
-        return reproject_geojson_to_irish_grid(geojson)
+    geojson_local = _local_data_host_path(geojson) if geojson.startswith('http') else geojson
+    if geojson_local and not geojson_local.startswith('http') and os.path.exists(geojson_local):
+        return reproject_geojson_to_irish_grid(geojson_local)
     fgb = files.get('fgb', '')
-    if fgb and not fgb.startswith('http') and os.path.exists(fgb):
-        return load_fgb_geometries(fgb)
+    fgb_local = _local_data_host_path(fgb) if fgb.startswith('http') else fgb
+    fgb_local = _lod_fallback_path(fgb_local)
+    if fgb_local and not fgb_local.startswith('http') and os.path.exists(fgb_local):
+        return load_fgb_geometries(fgb_local)
     # Prefer FGB over remote GeoJSON because FGB is significantly smaller
-    if fgb and fgb.startswith('http'):
+    if ALLOW_DOWNLOADS and fgb and fgb.startswith('http'):
         cached = _cached_download(fgb)
         if cached:
             return load_fgb_geometries(cached)
-    if geojson and geojson.startswith('http'):
+    if ALLOW_DOWNLOADS and geojson and geojson.startswith('http'):
         cached = _cached_download(geojson)
         if cached:
             return reproject_geojson_to_irish_grid(cached)
@@ -359,7 +395,8 @@ def main():
             continue
         if id_filter_set and mid not in id_filter_set:
             continue
-        if m.get('hidden') or m.get('placeholder') or m.get('incomplete'):
+        explicit_request = bool(filter_id or id_filter_set)
+        if not explicit_request and (m.get('hidden') or m.get('placeholder') or m.get('incomplete')):
             continue
 
         # Use cloneOf if set

@@ -388,16 +388,17 @@ async function renderDetail(type, indexItem) {
   const item = detail?.item || indexItem;
   state.currentDetail = { type, item };
   setHero(config, item);
+  const isMap = type === 'maps';
   els.results.innerHTML = `
-    <div class="browse-detail">
+    <div class="browse-detail${isMap ? ' browse-detail--map' : ''}">
       ${renderDetailActions(config, item)}
       ${renderContributorDetailActions(type, item)}
-      ${renderThumbnailPanel(item)}
-      ${renderOverviewPanel(type, item)}
-      ${renderMetadataPanel(item)}
+      ${isMap ? renderMapLeadPanel(item) : renderThumbnailPanel(item)}
+      ${isMap ? renderMapMetadataPanel(item) : renderOverviewPanel(type, item)}
+      ${isMap ? renderMapSourcePanel(item) : renderMetadataPanel(item)}
+      ${isMap ? '' : renderLinksPanel(item)}
       ${renderAllFieldsPanel(item)}
       ${renderRelatedPanel(type, item)}
-      ${renderLinksPanel(item)}
       ${renderRawMetadataPanel(item)}
     </div>
   `;
@@ -467,6 +468,98 @@ function renderMetadataPanel(item) {
   `;
 }
 
+function renderMapLeadPanel(item) {
+  const summaryRows = [
+    ['Category', item.category],
+    ['Group', item.group],
+    ['Date / years', item.date || joinList(item.years)],
+    ['Provider', joinList(item.provider)],
+    ['Status', item.status],
+    ['Layer ID', item.id || item.key]
+  ];
+  return `
+    <section class="browse-detail__panel browse-map-lead">
+      <div class="browse-map-lead__preview">
+        ${renderThumbnail(item, 'detail')}
+      </div>
+      <div class="browse-map-lead__content">
+        <h2>Overview</h2>
+        <div class="browse-detail__body">
+          ${item.description ? `<p class="browse-map-lead__summary">${escapeHtml(item.description)}</p>` : ''}
+          ${renderDefinitionRows(summaryRows, 'browse-definition-grid browse-definition-grid--compact')}
+          ${renderBadges(item)}
+          ${renderMapThumbnailNote(item)}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderMapThumbnailNote(item) {
+  const thumbnail = item.thumbnail || fallbackThumbnail(item);
+  if (thumbnail.kind === 'asset') {
+    return `
+      <p class="browse-thumb-caption">
+        Thumbnail asset: ${escapeHtml(thumbnail.id || fileName(thumbnail.url))}
+        ${thumbnail.url ? ` · <a href="${escapeAttr(thumbnail.url)}" target="_blank" rel="noopener noreferrer">Open actual size</a>` : ''}
+      </p>
+    `;
+  }
+  return `
+    <p class="browse-thumb-caption">
+      No rendered source thumbnail is available yet. Browse is showing a cartographic fallback with grey land context; source geometry is still available through the links below where provided.
+    </p>
+  `;
+}
+
+function renderMapMetadataPanel(item) {
+  const rows = [
+    ['Map ID', item.id || item.key],
+    ['Parent catalogue card', item.parentCard],
+    ['Source map', item.sourceMapId],
+    ['Layer', item.layerId],
+    ['Label property', item.labelProperty],
+    ['Loadable', item.loadable === undefined ? '' : item.loadable ? 'Yes' : 'No'],
+    ['Featured', item.featured === undefined ? '' : item.featured ? 'Yes' : 'No'],
+    ['Keywords', joinList(item.keywords)]
+  ];
+  return `
+    <section class="browse-detail__panel">
+      <h2>Map Metadata</h2>
+      <div class="browse-detail__body">${renderDefinitionRows(rows, 'browse-definition-grid')}</div>
+    </section>
+  `;
+}
+
+function renderMapSourcePanel(item) {
+  const groups = [
+    ['Downloads', item.downloads || []],
+    ['Source files', item.sourceFiles || []],
+    ['References', item.references || []]
+  ].filter(([, links]) => links.length);
+  if (!groups.length) return '';
+  return `
+    <section class="browse-detail__panel">
+      <h2>Sources, References, Downloads</h2>
+      <div class="browse-link-groups">
+        ${groups.map(([label, links]) => `
+          <section class="browse-link-group">
+            <h3>${escapeHtml(label)}</h3>
+            <ul>
+              ${links.map((link) => `
+                <li>
+                  <span>${escapeHtml(link.label || link.name || link.type || 'Source')}</span>
+                  ${link.url ? `<a href="${escapeAttr(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(fileName(link.url) || link.url)}</a>` : ''}
+                </li>
+              `).join('')}
+            </ul>
+          </section>
+        `).join('')}
+      </div>
+    </section>
+  `;
+}
+
 function renderRelatedPanel(type, item) {
   if (type === 'elections') return renderElectionRelated(item);
   if (type === 'parties') return renderSimpleTable('Linked Elections', ['Date', 'Election', 'Stood', 'Seats', 'Votes'], item.relatedElections || [], (row) => [
@@ -516,7 +609,7 @@ function renderLinksPanel(item) {
 }
 
 function renderThumbnail(item, context = 'card') {
-  const thumbnail = item.thumbnail || fallbackThumbnail(item);
+  const thumbnail = normalizedThumbnail(item);
   if (!thumbnail) return '';
   if (thumbnail.kind === 'asset' && thumbnail.url) {
     const src = context === 'card' ? (thumbnail.smallUrl || thumbnail.url) : thumbnail.url;
@@ -529,6 +622,13 @@ function renderThumbnail(item, context = 'card') {
       </figure>
     `;
   }
+  if (thumbnail.kind === 'map-fallback') {
+    return `
+      <figure class="browse-thumb browse-thumb--${escapeAttr(context)} browse-thumb--map-fallback" aria-label="${escapeAttr(thumbnail.alt || item.title || 'Map thumbnail')}">
+        ${renderMapFallbackSvg(item, thumbnail)}
+      </figure>
+    `;
+  }
   return `
     <div class="browse-thumb browse-thumb--${escapeAttr(context)} browse-thumb--placeholder browse-thumb--${escapeAttr(thumbnail.type || item.type || 'entry')}" aria-hidden="true">
       <span>${escapeHtml(thumbnail.label || thumbnailInitials(item.title || item.name || item.id))}</span>
@@ -537,7 +637,7 @@ function renderThumbnail(item, context = 'card') {
 }
 
 function renderThumbnailPanel(item) {
-  const thumbnail = item.thumbnail || fallbackThumbnail(item);
+  const thumbnail = normalizedThumbnail(item);
   const caption = thumbnail.kind === 'asset'
     ? `Thumbnail asset: ${thumbnail.id || fileName(thumbnail.url)}`
     : 'No image asset is available for this item; Browse is showing a generated placeholder.';
@@ -553,12 +653,59 @@ function renderThumbnailPanel(item) {
   `;
 }
 
+function normalizedThumbnail(item) {
+  const thumbnail = item.thumbnail || fallbackThumbnail(item);
+  if (thumbnail?.kind === 'placeholder' && (item?.type === 'map' || item?.type === 'data-entry')) {
+    return fallbackThumbnail(item);
+  }
+  return thumbnail;
+}
+
 function fallbackThumbnail(item) {
+  if (item?.type === 'map' || item?.type === 'data-entry' || item?.category || item?.parentCard) {
+    return {
+      kind: 'map-fallback',
+      label: item.category || item.parentCard || 'Map',
+      alt: `${item.title || item.name || item.id || 'Map'} preview`,
+      type: 'map'
+    };
+  }
   return {
     kind: 'placeholder',
     label: thumbnailInitials(item.title || item.name || item.id || item.key || 'C'),
     type: item.type || 'entry'
   };
+}
+
+function renderMapFallbackSvg(item, thumbnail) {
+  const color = mapFallbackColor(item);
+  const label = thumbnail.label || item.category || item.parentCard || 'Map';
+  const title = item.title || item.name || item.id || 'Map';
+  return `
+    <svg class="browse-map-fallback-svg" viewBox="0 0 120 120" role="img" aria-labelledby="map-fallback-${escapeAttr(slugify(title))}">
+      <title id="map-fallback-${escapeAttr(slugify(title))}">${escapeHtml(title)} map preview</title>
+      <rect width="120" height="120" rx="8" fill="#f8fafc"/>
+      <path d="M0 75 C18 68 31 73 46 66 C59 60 67 44 82 40 C98 35 108 44 120 38 L120 120 L0 120 Z" fill="#d7dce2"/>
+      <path d="M76 13 C87 18 94 27 96 40 C99 57 88 70 76 80 C65 89 50 87 41 76 C31 64 31 49 38 36 C46 21 60 8 76 13 Z" fill="#c9d0d8" stroke="#aeb8c2" stroke-width="1"/>
+      <path d="M42 26 C50 34 48 46 41 55 C33 65 21 63 16 52 C10 39 18 24 31 21 C35 20 39 22 42 26 Z" fill="#c9d0d8" stroke="#aeb8c2" stroke-width="1"/>
+      <path d="M55 52 C58 56 57 62 52 65 C47 67 42 64 41 59 C40 53 45 49 50 49 C52 49 54 50 55 52 Z" fill="#c9d0d8" stroke="#aeb8c2" stroke-width="1"/>
+      <path d="M14 77 C24 72 34 76 46 70 C58 64 67 55 81 52 C94 49 104 54 114 50" fill="none" stroke="#aeb8c2" stroke-width="1" opacity=".7"/>
+      <path d="M20 82 C31 79 38 84 50 78 C63 72 71 63 86 61 C99 59 107 63 117 60" fill="none" stroke="#aeb8c2" stroke-width="1" opacity=".45"/>
+      <circle cx="60" cy="60" r="25" fill="${escapeAttr(color)}" opacity=".12"/>
+      <path d="M35 74 C47 58 54 49 71 43 C82 40 91 41 101 45" fill="none" stroke="${escapeAttr(color)}" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+      <path d="M31 84 C42 78 52 79 63 72 C74 65 80 58 92 57" fill="none" stroke="${escapeAttr(color)}" stroke-width="2" stroke-linecap="round" opacity=".75"/>
+      <rect x="8" y="91" width="104" height="21" rx="5" fill="rgba(255,255,255,.86)"/>
+      <text x="60" y="104" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="8" font-weight="700" fill="#334155">${escapeHtml(truncate(label, 24))}</text>
+    </svg>
+  `;
+}
+
+function mapFallbackColor(item) {
+  const source = item.rawMetadata?.style?.color || item.color || '';
+  if (/^#[0-9a-f]{6}$/i.test(source)) return source;
+  const palette = ['#2563eb', '#059669', '#7c3aed', '#dc2626', '#0891b2', '#ca8a04'];
+  const seed = String(item.categoryId || item.category || item.parentCard || item.id || '').split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  return palette[seed % palette.length];
 }
 
 function thumbnailInitials(value) {
@@ -922,10 +1069,10 @@ function renderTablePanel(title, headers, rows) {
   `;
 }
 
-function renderDefinitionRows(rows) {
+function renderDefinitionRows(rows, className = 'browse-detail__meta') {
   const filtered = rows.filter(([, value]) => value !== null && value !== undefined && value !== '');
   if (!filtered.length) return '';
-  return `<dl class="browse-detail__meta">${filtered.map(([key, value]) => `<div><dt>${escapeHtml(key)}</dt><dd>${escapeHtml(String(value))}</dd></div>`).join('')}</dl>`;
+  return `<dl class="${escapeAttr(className)}">${filtered.map(([key, value]) => `<div><dt>${escapeHtml(key)}</dt><dd>${escapeHtml(String(value))}</dd></div>`).join('')}</dl>`;
 }
 
 function renderBadges(item) {
@@ -1042,6 +1189,12 @@ function formatNumber(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return value === null || value === undefined ? '' : String(value);
   return new Intl.NumberFormat('en-GB').format(number);
+}
+
+function truncate(value, maxLength = 32) {
+  const text = String(value || '');
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, Math.max(0, maxLength - 1)).trim()}…`;
 }
 
 function slugify(value) {
