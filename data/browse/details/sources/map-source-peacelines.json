@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:peacelines",
     "slug": "map-source-peacelines",
@@ -13,6 +13,13 @@
     ],
     "description": "Man-made structures and infrastructure",
     "sourceMapId": "peacelines",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "peacelines",
+      "url": "/assets/thumbnails/peacelines.webp",
+      "smallUrl": "/assets/thumbnails/peacelines-60.webp",
+      "alt": "Peacelines"
+    },
     "references": [
       {
         "label": "Peacelines (NIO) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
@@ -54,6 +61,64 @@
       }
     ],
     "interactiveUrl": "/#layers=peacelines",
-    "browseUrl": "/browse/sources/map-source-peacelines"
+    "browseUrl": "/browse/sources/map-source-peacelines",
+    "rawMetadata": {
+      "id": "peacelines",
+      "name": "Peacelines",
+      "slug": "peacelines",
+      "category": "built-environment",
+      "featured": true,
+      "provider": [
+        "Northern Ireland Office"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Peacelines.fgb"
+      },
+      "style": {
+        "color": "#8B0000",
+        "weight": 2
+      },
+      "keywords": [
+        "peace",
+        "wall",
+        "interface",
+        "belfast",
+        "barrier"
+      ],
+      "labelProperty": "PEACELINE",
+      "useLOD": true,
+      "references": [
+        {
+          "label": "Peacelines (NIO) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
+          "url": "https://www.nisra.gov.uk/support/geography/peacelines-nio",
+          "note": ""
+        },
+        {
+          "label": "Peacelines Boundary in GIS format | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
+          "url": "https://www.nisra.gov.uk/publications/peacelines-boundary-gis-format",
+          "note": ""
+        },
+        {
+          "label": "Peacelines — ESRI Shapefile (ZIP) download",
+          "url": "https://www.nisra.gov.uk/files/nisra/publications/ESRI-Peacelines.zip",
+          "note": ""
+        },
+        {
+          "label": "Peacelines — MapInfo (ZIP) download",
+          "url": "https://www.nisra.gov.uk/files/nisra/publications/Mapinfo-Peacelines.zip",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "ESRI Shapefile (ZIP)",
+          "file": "https://www.nisra.gov.uk/files/nisra/publications/ESRI-Peacelines.zip"
+        },
+        {
+          "label": "MapInfo (ZIP)",
+          "file": "https://www.nisra.gov.uk/files/nisra/publications/Mapinfo-Peacelines.zip"
+        }
+      ]
+    }
   }
 }

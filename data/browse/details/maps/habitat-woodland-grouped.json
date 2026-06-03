@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "habitat-woodland-grouped",
     "slug": "habitat-woodland-grouped",
@@ -25,6 +25,13 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "Class",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "habitat-woodland-grouped",
+      "url": "/assets/thumbnails/habitat-woodland-grouped.webp",
+      "smallUrl": "/assets/thumbnails/habitat-woodland-grouped-60.webp",
+      "alt": "Habitat Network — Woodland Habitat Networks (grouped)"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -44,6 +51,54 @@
       }
     ],
     "interactiveUrl": "/#layers=habitat-woodland-grouped",
-    "browseUrl": "/browse/maps/habitat-woodland-grouped"
+    "browseUrl": "/browse/maps/habitat-woodland-grouped",
+    "rawMetadata": {
+      "id": "habitat-woodland-grouped",
+      "name": "Habitat Network — Woodland Habitat Networks (grouped)",
+      "slug": "habitat-woodland-grouped",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of woodland habitat networks (grouped) habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-woodland-grouped.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#3F8D45",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#3F8D45"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "woodland habitat networks (grouped)"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Woodland Habitat Networks (grouped) Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/8cc0d885-994c-432c-af8e-44ff55b4761d",
+          "note": ""
+        }
+      ]
+    }
   }
 }

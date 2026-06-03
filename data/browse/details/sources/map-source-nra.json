@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:nra",
     "slug": "map-source-nra",
@@ -13,6 +13,13 @@
     ],
     "description": "Statistical geography for census data",
     "sourceMapId": "nra",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "nra",
+      "url": "/assets/thumbnails/nra.webp",
+      "smallUrl": "/assets/thumbnails/nra-60.webp",
+      "alt": "Neighbourhood Renewal Areas"
+    },
     "references": [
       {
         "label": "Neighbourhood Renewal Areas Boundary in GIS format | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
@@ -50,6 +57,57 @@
       }
     ],
     "interactiveUrl": "/#layers=nra",
-    "browseUrl": "/browse/sources/map-source-nra"
+    "browseUrl": "/browse/sources/map-source-nra",
+    "rawMetadata": {
+      "id": "nra",
+      "name": "Neighbourhood Renewal Areas",
+      "slug": "neighbourhood-renewal-areas",
+      "category": "census",
+      "featured": true,
+      "provider": [
+        "Department for Communities"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/census-areas/NRA.fgb"
+      },
+      "style": {
+        "color": "#A38841",
+        "weight": 2
+      },
+      "labelProperty": "NRA",
+      "keywords": [
+        "NRA",
+        "neighbourhood renewal",
+        "deprivation"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "Neighbourhood Renewal Areas Boundary in GIS format | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
+          "url": "https://www.nisra.gov.uk/publications/neighbourhood-renewal-areas-boundary-gis-format",
+          "note": ""
+        },
+        {
+          "label": "Neighbourhood Renewal Areas — Shapefile (ZIP) download",
+          "url": "https://www.nisra.gov.uk/files/nisra/publications/N-R-A-ESRI.zip",
+          "note": ""
+        },
+        {
+          "label": "Neighbourhood Renewal Areas — MapInfo download",
+          "url": "https://www.nisra.gov.uk/files/nisra/publications/N-R-A-MapInfo.zip",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Shapefile (ZIP)",
+          "file": "https://www.nisra.gov.uk/files/nisra/publications/N-R-A-ESRI.zip"
+        },
+        {
+          "label": "MapInfo",
+          "file": "https://www.nisra.gov.uk/files/nisra/publications/N-R-A-MapInfo.zip"
+        }
+      ]
+    }
   }
 }

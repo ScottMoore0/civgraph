@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "data-2021-born-in-ni-ward",
     "slug": "data-2021-born-in-ni-ward",
@@ -21,7 +21,69 @@
     ],
     "status": "available",
     "loadable": false,
+    "thumbnail": {
+      "kind": "asset",
+      "id": "wards-2012",
+      "url": "/assets/thumbnails/wards-2012.webp",
+      "smallUrl": "/assets/thumbnails/wards-2012-60.webp",
+      "alt": "Born in Northern Ireland (Census 2021, by Ward 2014)"
+    },
+    "sourceFiles": [
+      {
+        "label": "ms-a16-born-in-ni-ward.csv",
+        "url": "data/census/derived/ms-a16-born-in-ni-ward.csv"
+      }
+    ],
+    "references": [
+      {
+        "label": "NISRA Census 2021, Main Statistics Phase 1, MS-A16 (Country of birth — basic)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "ms-a16-born-in-ni-ward.csv",
+        "url": "data/census/derived/ms-a16-born-in-ni-ward.csv"
+      }
+    ],
     "interactiveUrl": "/#layers=data-2021-born-in-ni-ward",
-    "browseUrl": "/browse/maps/data-2021-born-in-ni-ward"
+    "browseUrl": "/browse/maps/data-2021-born-in-ni-ward",
+    "rawMetadata": {
+      "id": "data-2021-born-in-ni-ward",
+      "type": "data-entry",
+      "name": "Born in Northern Ireland (Census 2021, by Ward 2014)",
+      "slug": "data-2021-born-in-ni-ward",
+      "category": "data-population",
+      "description": "Born in Northern Ireland (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-a16-born-in-ni-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "BornInNI_pct",
+      "ramp": "viridis",
+      "domain": [
+        70,
+        95
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "BornInNI",
+        "BornInNI_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "born in ni",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A16 (Country of birth — basic)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    }
   }
 }

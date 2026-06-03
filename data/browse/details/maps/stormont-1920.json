@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "stormont-1920",
     "slug": "stormont-1920",
@@ -29,14 +29,22 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "Name",
+    "parentCard": "NI Parliament",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "stormont-1920",
+      "url": "/assets/thumbnails/stormont-1920.webp",
+      "smallUrl": "/assets/thumbnails/stormont-1920-60.webp",
+      "alt": "1920 NI Parliament"
+    },
     "variants": [
       {
         "id": "stormont-1920-v1",
-        "title": "stormont-1920-v1"
+        "title": "Version 1"
       },
       {
         "id": "stormont-1920-v2",
-        "title": "stormont-1920-v2"
+        "title": "Version 2"
       }
     ],
     "sourceFiles": [
@@ -52,6 +60,54 @@
       }
     ],
     "interactiveUrl": "/#layers=stormont-1920",
-    "browseUrl": "/browse/maps/stormont-1920"
+    "browseUrl": "/browse/maps/stormont-1920",
+    "rawMetadata": {
+      "id": "stormont-1920",
+      "name": "1920 NI Parliament",
+      "slug": "stormont-1920",
+      "category": "devolved",
+      "note": "Same as the 1920 Parliamentary Constituencies map. Used in the 1921 and 1925 Parliament of Northern Ireland elections.",
+      "date": 1920,
+      "provider": [
+        "Scott Moore"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/parliamentary/PC1920.fgb"
+      },
+      "style": {
+        "color": "#800080",
+        "weight": 2
+      },
+      "variants": [
+        {
+          "id": "stormont-1920-v1",
+          "label": "Version 1",
+          "description": "First digitisation",
+          "isDefault": true,
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/parliamentary/PC1920.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "stormont-1920-v2",
+          "label": "Version 2",
+          "description": "Alternative digitisation",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/parliamentary/PC_1920.fgb"
+          },
+          "useLOD": true
+        }
+      ],
+      "keywords": [
+        "stormont",
+        "constituency",
+        "1920",
+        "northern ireland",
+        "partition"
+      ],
+      "labelProperty": "Name",
+      "useLOD": true
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "tellus-mag-rtp",
     "slug": "tellus-mag-rtp",
@@ -26,6 +26,11 @@
     "status": "available",
     "featured": false,
     "loadable": true,
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "TM",
+      "type": "map"
+    },
     "sourceFiles": [
       {
         "label": "xyz",
@@ -49,6 +54,58 @@
       }
     ],
     "interactiveUrl": "/#layers=tellus-mag-rtp",
-    "browseUrl": "/browse/maps/tellus-mag-rtp"
+    "browseUrl": "/browse/maps/tellus-mag-rtp",
+    "rawMetadata": {
+      "id": "tellus-mag-rtp",
+      "name": "Tellus Magnetic — Reduction-to-Pole (RTP)",
+      "slug": "tellus-mag-rtp",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "TMI corrected by reduction-to-pole, which compensates for the dipolar shape of magnetic anomalies caused by NI's inclined magnetic field. RTP places the peak directly above the source body, simplifying interpretation. ±3σ rainbow ramp.",
+      "files": {
+        "xyz": "https://data.civgraph.net/data/maps/geology/tellus-mag-rtp/{z}/{x}/{y}.png"
+      },
+      "rasterStyle": {
+        "opacity": 0.85,
+        "minZoom": 5,
+        "maxZoom": 18,
+        "maxNativeZoom": 13
+      },
+      "bounds": [
+        [
+          53.99,
+          -8.19
+        ],
+        [
+          55.33,
+          -5.32
+        ]
+      ],
+      "keywords": [
+        "tellus",
+        "gsni",
+        "geophysics",
+        "magnetic",
+        "rtp",
+        "reduction to pole",
+        "airborne"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — Tellus Magnetic Grids",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-magnetic-grids",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "ESRI File Geodatabase (ZIP, 601 MB)",
+          "file": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Magnetics_ESRIGRID.zip"
+        }
+      ]
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:roi-gaeltacht-areas",
     "slug": "map-source-roi-gaeltacht-areas",
@@ -14,6 +14,13 @@
     ],
     "description": "Council and district boundaries",
     "sourceMapId": "roi-gaeltacht-areas",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "roi-gaeltacht-areas",
+      "url": "/assets/thumbnails/roi-gaeltacht-areas.webp",
+      "smallUrl": "/assets/thumbnails/roi-gaeltacht-areas-60.webp",
+      "alt": "Gaeltacht Areas"
+    },
     "downloads": [
       {
         "label": "geojson",
@@ -41,6 +48,37 @@
       }
     ],
     "interactiveUrl": "/#layers=roi-gaeltacht-areas",
-    "browseUrl": "/browse/sources/map-source-roi-gaeltacht-areas"
+    "browseUrl": "/browse/sources/map-source-roi-gaeltacht-areas",
+    "rawMetadata": {
+      "id": "roi-gaeltacht-areas",
+      "name": "Gaeltacht Areas",
+      "slug": "roi-gaeltacht-areas",
+      "category": "local-government",
+      "date": "1982",
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "geojson": "data/maps/local-government/ROI_Gaeltacht_Areas.geojson",
+        "fgb": "data/maps/local-government/ROI_Gaeltacht_Areas.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/Gaeltacht.zip"
+        }
+      },
+      "style": {
+        "color": "#FF6F00",
+        "weight": 2
+      },
+      "keywords": [
+        "gaeltacht",
+        "irish speaking",
+        "republic of ireland",
+        "ireland",
+        "irish language",
+        "gaeilge"
+      ],
+      "labelProperty": "NAME",
+      "useLOD": true
+    }
   }
 }

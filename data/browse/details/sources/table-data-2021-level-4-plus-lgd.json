@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "table:data-2021-level-4-plus-lgd",
     "slug": "table-data-2021-level-4-plus-lgd",
@@ -9,6 +9,62 @@
     "subtitle": "data-population",
     "category": "data-population",
     "description": "Level 4+ qualifications (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
-    "browseUrl": "/browse/sources/table-data-2021-level-4-plus-lgd"
+    "thumbnail": {
+      "kind": "asset",
+      "id": "lgd-2012",
+      "url": "/assets/thumbnails/lgd-2012.webp",
+      "smallUrl": "/assets/thumbnails/lgd-2012-60.webp",
+      "alt": "Level 4+ qualifications (Census 2021, by LGD)"
+    },
+    "references": [
+      {
+        "label": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "ms-g01-level-4-plus-lgd.csv",
+        "url": "data/census/derived/ms-g01-level-4-plus-lgd.csv"
+      }
+    ],
+    "browseUrl": "/browse/sources/table-data-2021-level-4-plus-lgd",
+    "rawMetadata": {
+      "id": "data-2021-level-4-plus-lgd",
+      "type": "data-entry",
+      "name": "Level 4+ qualifications (Census 2021, by LGD)",
+      "slug": "data-2021-level-4-plus-lgd",
+      "category": "data-population",
+      "description": "Level 4+ qualifications (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-g01-level-4-plus-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "Level4Plus_pct",
+      "ramp": "viridis",
+      "domain": [
+        28,
+        40
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "Level4Plus",
+        "Level4Plus_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "level 4 plus",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    }
   }
 }

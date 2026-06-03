@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "habitat-grassland-grouped",
     "slug": "habitat-grassland-grouped",
@@ -25,6 +25,13 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "Class",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "habitat-grassland-grouped",
+      "url": "/assets/thumbnails/habitat-grassland-grouped.webp",
+      "smallUrl": "/assets/thumbnails/habitat-grassland-grouped-60.webp",
+      "alt": "Habitat Network — Grassland Habitat Networks (grouped)"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -44,6 +51,54 @@
       }
     ],
     "interactiveUrl": "/#layers=habitat-grassland-grouped",
-    "browseUrl": "/browse/maps/habitat-grassland-grouped"
+    "browseUrl": "/browse/maps/habitat-grassland-grouped",
+    "rawMetadata": {
+      "id": "habitat-grassland-grouped",
+      "name": "Habitat Network — Grassland Habitat Networks (grouped)",
+      "slug": "habitat-grassland-grouped",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of grassland habitat networks (grouped) habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-grassland-grouped.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#A8B85C",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#A8B85C"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "grassland habitat networks (grouped)"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Grassland Habitat Networks (grouped) Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/f311e7ab-085e-491a-bda2-939e039541d2",
+          "note": ""
+        }
+      ]
+    }
   }
 }

@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "roi-settlements-2011",
     "slug": "roi-settlements-2011",
     "type": "map",
-    "title": "Settlements 2011",
+    "title": "Settlements - 2011",
     "subtitle": "2011",
     "categoryId": "settlements",
     "category": "Settlements",
@@ -33,6 +33,14 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "SETTL_NAME",
+    "parentCard": "Settlements",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "roi-settlements-2011",
+      "url": "/assets/thumbnails/roi-settlements-2011.webp",
+      "smallUrl": "/assets/thumbnails/roi-settlements-2011-60.webp",
+      "alt": "Settlements 2011"
+    },
     "sourceFiles": [
       {
         "label": "geojson",
@@ -62,6 +70,41 @@
       }
     ],
     "interactiveUrl": "/#layers=roi-settlements-2011",
-    "browseUrl": "/browse/maps/roi-settlements-2011"
+    "browseUrl": "/browse/maps/roi-settlements-2011",
+    "rawMetadata": {
+      "id": "roi-settlements-2011",
+      "name": "Settlements 2011",
+      "slug": "roi-settlements-2011",
+      "category": "settlements",
+      "date": "2011",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "files": {
+        "geojson": "data/maps/physical/ROI_Settlements_2011.geojson",
+        "fgb": "data/maps/physical/ROI_Settlements_2011.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/ROI_Settlements_2011_Shapefile.zip"
+        }
+      },
+      "style": {
+        "color": "#221F58",
+        "weight": 2
+      },
+      "keywords": [
+        "settlements",
+        "republic of ireland",
+        "ireland",
+        "urban",
+        "towns",
+        "cities",
+        "2011",
+        "census",
+        "population"
+      ],
+      "labelProperty": "SETTL_NAME",
+      "priorityProperty": "TOTAL2011",
+      "useLOD": true
+    }
   }
 }

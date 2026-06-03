@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:transport-carriageway-defects-2021",
     "slug": "map-source-transport-carriageway-defects-2021",
@@ -14,6 +14,13 @@
     ],
     "description": "Every recorded surface defect (potholes, cracks, ruts, surface damage) on Northern Ireland's public roads and footways during 2021, with division/section/response-time attributes. ~124 K point records — DfI's authoritative road-condition survey for that year.",
     "sourceMapId": "transport-carriageway-defects-2021",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "transport-carriageway-defects-2021",
+      "url": "/assets/thumbnails/transport-carriageway-defects-2021.webp",
+      "smallUrl": "/assets/thumbnails/transport-carriageway-defects-2021-60.webp",
+      "alt": "Carriageway and Footway Surface Defects 2021"
+    },
     "references": [
       {
         "label": "OSNI Open Data — Carriageway and Footway Surface Defects",
@@ -31,6 +38,54 @@
       }
     ],
     "interactiveUrl": "/#layers=transport-carriageway-defects-2021",
-    "browseUrl": "/browse/sources/map-source-transport-carriageway-defects-2021"
+    "browseUrl": "/browse/sources/map-source-transport-carriageway-defects-2021",
+    "rawMetadata": {
+      "id": "transport-carriageway-defects-2021",
+      "name": "Carriageway and Footway Surface Defects 2021",
+      "slug": "transport-carriageway-defects-2021",
+      "category": "transport",
+      "provider": [
+        "DfI",
+        "Roads NI"
+      ],
+      "description": "Every recorded surface defect (potholes, cracks, ruts, surface damage) on Northern Ireland's public roads and footways during 2021, with division/section/response-time attributes. ~124 K point records — DfI's authoritative road-condition survey for that year.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/transport/carriageway-footway-defects-2021.fgb"
+      },
+      "style": {
+        "color": "#cf4e00",
+        "radius": 2,
+        "weight": 0.5,
+        "fillOpacity": 0.85
+      },
+      "keywords": [
+        "roads",
+        "defects",
+        "potholes",
+        "dfi",
+        "road condition",
+        "footway",
+        "carriageway"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "OSNI Open Data — Carriageway and Footway Surface Defects",
+          "url": "https://admin.opendatani.gov.uk/dataset/carriageway-and-footway-surface-defects",
+          "note": ""
+        }
+      ],
+      "chunked": true,
+      "bounds": [
+        [
+          54,
+          -8.3
+        ],
+        [
+          55.5,
+          -5.3
+        ]
+      ]
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:gsni-tellus-stream-sediments-boron",
     "slug": "map-source-gsni-tellus-stream-sediments-boron",
@@ -14,6 +14,13 @@
     ],
     "description": "Tellus stream-sediment samples specifically analysed for boron, which requires a separate analytical method from the main XRF panel. ~5,840 points.",
     "sourceMapId": "gsni-tellus-stream-sediments-boron",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "gsni-tellus-stream-sediments-boron",
+      "url": "/assets/thumbnails/gsni-tellus-stream-sediments-boron.webp",
+      "smallUrl": "/assets/thumbnails/gsni-tellus-stream-sediments-boron-60.webp",
+      "alt": "Tellus Stream Sediments (Boron)"
+    },
     "references": [
       {
         "label": "GSNI Tellus Regional Stream Sediments — Open Data NI",
@@ -43,6 +50,62 @@
       }
     ],
     "interactiveUrl": "/#layers=gsni-tellus-stream-sediments-boron",
-    "browseUrl": "/browse/sources/map-source-gsni-tellus-stream-sediments-boron"
+    "browseUrl": "/browse/sources/map-source-gsni-tellus-stream-sediments-boron",
+    "rawMetadata": {
+      "id": "gsni-tellus-stream-sediments-boron",
+      "name": "Tellus Stream Sediments (Boron)",
+      "slug": "gsni-tellus-stream-sediments-boron",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "Tellus stream-sediment samples specifically analysed for boron, which requires a separate analytical method from the main XRF panel. ~5,840 points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-stream-sediments-boron.fgb"
+      },
+      "style": {
+        "color": "#48a148",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.85
+      },
+      "labelProperty": "SAMPLE_NO",
+      "keywords": [
+        "tellus",
+        "boron",
+        "stream",
+        "sediment",
+        "gsni",
+        "geochemistry"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Regional Stream Sediments — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-stream-sediments",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — Boron",
+          "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/2a93e611-0888-415c-ad1f-02d0ae2eb669/download/regionalsedimentsxrfboron.geojson"
+        },
+        {
+          "label": "CSV — Boron",
+          "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/f0f51e58-0544-43fd-a2fb-ac58b7f3781f/download/regionalsedimentsxrfboron.csv"
+        }
+      ],
+      "colorScale": {
+        "property": "B",
+        "ramp": "plasma",
+        "domain": [
+          3,
+          100
+        ],
+        "logarithmic": false
+      }
+    }
   }
 }

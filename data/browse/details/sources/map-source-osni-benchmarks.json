@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:osni-benchmarks",
     "slug": "map-source-osni-benchmarks",
@@ -13,6 +13,13 @@
     ],
     "description": "Historic OSNI benchmarks — small brass plates or chiselled grooves set into permanent features (bridges, walls, milestones) whose heights above Ordnance Datum were precisely determined by levelling surveys. Used by surveyors as known reference points before GPS. ~10,000 points across Northern Ireland, each attributed with its height in metres.",
     "sourceMapId": "osni-benchmarks",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "osni-benchmarks",
+      "url": "/assets/thumbnails/osni-benchmarks.webp",
+      "smallUrl": "/assets/thumbnails/osni-benchmarks-60.webp",
+      "alt": "OSNI Benchmarks (Height Reference Points)"
+    },
     "references": [
       {
         "label": "OSNI Open Data - BenchMarks - Height",
@@ -58,6 +65,62 @@
       }
     ],
     "interactiveUrl": "/#layers=osni-benchmarks",
-    "browseUrl": "/browse/sources/map-source-osni-benchmarks"
+    "browseUrl": "/browse/sources/map-source-osni-benchmarks",
+    "rawMetadata": {
+      "id": "osni-benchmarks",
+      "name": "OSNI Benchmarks (Height Reference Points)",
+      "slug": "osni-benchmarks",
+      "category": "osni-reference",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Historic OSNI benchmarks — small brass plates or chiselled grooves set into permanent features (bridges, walls, milestones) whose heights above Ordnance Datum were precisely determined by levelling surveys. Used by surveyors as known reference points before GPS. ~10,000 points across Northern Ireland, each attributed with its height in metres.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/osni-reference/benchmarks.fgb"
+      },
+      "style": {
+        "color": "#b87333",
+        "weight": 1,
+        "radius": 3,
+        "fillOpacity": 0.8
+      },
+      "labelProperty": "BM_Height",
+      "keywords": [
+        "osni",
+        "benchmark",
+        "bench mark",
+        "height",
+        "datum",
+        "levelling",
+        "survey",
+        "trigonometric"
+      ],
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data - BenchMarks - Height",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-benchmarks-height",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON",
+          "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/3c5df17a-e28d-439b-9164-c2e6e0830b31/download/osni_open_data_benchmarks_height.geojson"
+        },
+        {
+          "label": "ESRI Shapefile (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/4214da40-17a5-4af7-8f22-3d84706f774a/download/osni_open_data_benchmarks_height.zip"
+        },
+        {
+          "label": "KML",
+          "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/1f593808-f938-43dc-8f82-f6391905a79f/download/osni_open_data_benchmarks_height.kml"
+        },
+        {
+          "label": "CSV",
+          "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/5f6a8d59-cef0-4d48-9f5a-79c8dfc000f5/download/osni_open_data_benchmarks_height.csv"
+        }
+      ]
+    }
   }
 }

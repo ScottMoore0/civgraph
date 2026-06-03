@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:osni-1m-parliamentary",
     "slug": "map-source-osni-1m-parliamentary",
@@ -13,6 +13,11 @@
     ],
     "description": "Small-scale (1:1,000,000) thematic map showing Northern Ireland’s Westminster parliamentary constituency boundaries. Re-tiled as an interactive overlay at zoom 6–11.",
     "sourceMapId": "osni-1m-parliamentary",
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "O1",
+      "type": "map"
+    },
     "references": [
       {
         "label": "OSNI Open Data — 1:1M Parliamentary",
@@ -34,6 +39,57 @@
       }
     ],
     "interactiveUrl": "/#layers=osni-1m-parliamentary",
-    "browseUrl": "/browse/sources/map-source-osni-1m-parliamentary"
+    "browseUrl": "/browse/sources/map-source-osni-1m-parliamentary",
+    "rawMetadata": {
+      "id": "osni-1m-parliamentary",
+      "name": "OSNI 1:1M Thematic — Parliamentary Boundaries",
+      "slug": "osni-1m-parliamentary",
+      "category": "osni-raster",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Small-scale (1:1,000,000) thematic map showing Northern Ireland’s Westminster parliamentary constituency boundaries. Re-tiled as an interactive overlay at zoom 6–11.",
+      "files": {
+        "xyz": "https://data.civgraph.net/data/maps/osni-raster/1m-parliamentary/{z}/{x}/{y}.png"
+      },
+      "rasterStyle": {
+        "opacity": 0.8,
+        "minZoom": 4,
+        "maxZoom": 14,
+        "maxNativeZoom": 11
+      },
+      "bounds": [
+        [
+          54,
+          -8.87
+        ],
+        [
+          55.45,
+          -5.41
+        ]
+      ],
+      "keywords": [
+        "osni",
+        "1:1m",
+        "1 million",
+        "thematic",
+        "parliamentary",
+        "constituencies",
+        "westminster"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — 1:1M Parliamentary",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-1million-raster-parliamentary-boundaries",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Georeferenced JPEG (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/064c9b69-16d0-47d0-b418-ef065289f669/resource/ee78bcca-cd51-4a3e-ad73-9ebbc86c66bc/download/osniopendata_1million_parliamentary.zip"
+        }
+      ]
+    }
   }
 }

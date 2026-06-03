@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:niea-waste-sites-2021",
     "slug": "map-source-niea-waste-sites-2021",
@@ -14,6 +14,13 @@
     ],
     "description": "Locations of 32,519 authorised waste treatment and storage sites in Northern Ireland (as of February 2021). Spatially chunked into 45 cells with LOD overview; full set only loads features in the current viewport.",
     "sourceMapId": "niea-waste-sites-2021",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "niea-waste-sites-2021",
+      "url": "/assets/thumbnails/niea-waste-sites-2021.webp",
+      "smallUrl": "/assets/thumbnails/niea-waste-sites-2021-60.webp",
+      "alt": "NIEA Authorised Waste Sites (Feb 2021)"
+    },
     "references": [
       {
         "label": "Source — admin.opendatani.gov.uk",
@@ -47,6 +54,60 @@
       }
     ],
     "interactiveUrl": "/#layers=niea-waste-sites-2021",
-    "browseUrl": "/browse/sources/map-source-niea-waste-sites-2021"
+    "browseUrl": "/browse/sources/map-source-niea-waste-sites-2021",
+    "rawMetadata": {
+      "id": "niea-waste-sites-2021",
+      "name": "NIEA Authorised Waste Sites (Feb 2021)",
+      "slug": "niea-waste-sites-2021",
+      "category": "environment",
+      "provider": [
+        "NIEA"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.fgb",
+        "downloads": {
+          "geojson": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.geojson"
+        },
+        "geojson": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.geojson"
+      },
+      "chunked": true,
+      "useLOD": true,
+      "enforceChunkOnly": true,
+      "maxLODLevel": 1,
+      "style": {
+        "color": "#37474F",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "NIEA",
+        "waste",
+        "treatment",
+        "storage",
+        "environment",
+        "pollution",
+        "recycling"
+      ],
+      "description": "Locations of 32,519 authorised waste treatment and storage sites in Northern Ireland (as of February 2021). Spatially chunked into 45 cells with LOD overview; full set only loads features in the current viewport.",
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/",
+          "note": ""
+        }
+      ],
+      "date": "2021-02-01",
+      "labelProperty": "RefID",
+      "bounds": [
+        [
+          54,
+          -8.2
+        ],
+        [
+          55.5,
+          -5.2
+        ]
+      ]
+    }
   }
 }

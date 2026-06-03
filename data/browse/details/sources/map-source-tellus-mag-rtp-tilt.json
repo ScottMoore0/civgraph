@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:tellus-mag-rtp-tilt",
     "slug": "map-source-tellus-mag-rtp-tilt",
@@ -14,6 +14,11 @@
     ],
     "description": "Tilt derivative of the RTP magnetic field — an edge-detection filter that highlights the boundaries of magnetic source bodies regardless of their amplitude. Excellent for tracing dykes, faults, and contacts. ±3σ rainbow ramp.",
     "sourceMapId": "tellus-mag-rtp-tilt",
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "TM",
+      "type": "map"
+    },
     "references": [
       {
         "label": "OSNI Open Data — Tellus Magnetic Grids",
@@ -35,6 +40,59 @@
       }
     ],
     "interactiveUrl": "/#layers=tellus-mag-rtp-tilt",
-    "browseUrl": "/browse/sources/map-source-tellus-mag-rtp-tilt"
+    "browseUrl": "/browse/sources/map-source-tellus-mag-rtp-tilt",
+    "rawMetadata": {
+      "id": "tellus-mag-rtp-tilt",
+      "name": "Tellus Magnetic — RTP Tilt Derivative",
+      "slug": "tellus-mag-rtp-tilt",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "Tilt derivative of the RTP magnetic field — an edge-detection filter that highlights the boundaries of magnetic source bodies regardless of their amplitude. Excellent for tracing dykes, faults, and contacts. ±3σ rainbow ramp.",
+      "files": {
+        "xyz": "https://data.civgraph.net/data/maps/geology/tellus-mag-rtp-tilt/{z}/{x}/{y}.png"
+      },
+      "rasterStyle": {
+        "opacity": 0.85,
+        "minZoom": 5,
+        "maxZoom": 18,
+        "maxNativeZoom": 13
+      },
+      "bounds": [
+        [
+          53.99,
+          -8.19
+        ],
+        [
+          55.33,
+          -5.32
+        ]
+      ],
+      "keywords": [
+        "tellus",
+        "gsni",
+        "geophysics",
+        "magnetic",
+        "tilt",
+        "derivative",
+        "edge detection",
+        "airborne"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — Tellus Magnetic Grids",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-magnetic-grids",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "ESRI File Geodatabase (ZIP, 601 MB)",
+          "file": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Magnetics_ESRIGRID.zip"
+        }
+      ]
+    }
   }
 }

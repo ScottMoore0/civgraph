@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:wq-network-contribution",
     "slug": "map-source-wq-network-contribution",
@@ -14,6 +14,11 @@
     ],
     "description": "Per-river-basin pollution-contribution scores from the SciMAP hydrological model (CEH Land Cover 2007 + Met Office rainfall + 5 m DTM), rasterised at 25 m and rendered as a Web Mercator tile pyramid coloured on inferno (low → high contribution). Raw GRIDCODE values of 58–100 stretch the inferno ramp from dark purple to pale yellow. Each parcel of land is scored for how much sediment / nutrient pollution its upstream catchment contributes to receiving waters. 26 catchment datasets were rasterised individually, mosaicked, and re-projected; per-catchment download links remain in sourceDownloads for the raw vector data.",
     "sourceMapId": "wq-network-contribution",
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "DN",
+      "type": "map"
+    },
     "references": [
       {
         "label": "DAERA Open Data Hub — Network Contribution datasets",
@@ -235,6 +240,160 @@
       }
     ],
     "interactiveUrl": "/#layers=wq-network-contribution",
-    "browseUrl": "/browse/sources/map-source-wq-network-contribution"
+    "browseUrl": "/browse/sources/map-source-wq-network-contribution",
+    "rawMetadata": {
+      "id": "wq-network-contribution",
+      "name": "DAERA Network Contribution — SciMAP modelled pollution scores by river basin (26 catchments)",
+      "slug": "wq-network-contribution",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-river-basin pollution-contribution scores from the SciMAP hydrological model (CEH Land Cover 2007 + Met Office rainfall + 5 m DTM), rasterised at 25 m and rendered as a Web Mercator tile pyramid coloured on inferno (low → high contribution). Raw GRIDCODE values of 58–100 stretch the inferno ramp from dark purple to pale yellow. Each parcel of land is scored for how much sediment / nutrient pollution its upstream catchment contributes to receiving waters. 26 catchment datasets were rasterised individually, mosaicked, and re-projected; per-catchment download links remain in sourceDownloads for the raw vector data.",
+      "keywords": [
+        "scimap",
+        "pollution",
+        "river",
+        "catchment",
+        "daera",
+        "niea",
+        "network contribution",
+        "runoff",
+        "diffuse"
+      ],
+      "references": [
+        {
+          "label": "DAERA Open Data Hub — Network Contribution datasets",
+          "url": "https://opendata-daerani.hub.arcgis.com/search?q=network%20contribution",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Ballinderry Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/ballinderry-network-contribution"
+        },
+        {
+          "label": "Belfast Lough Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/belfast-lough-network-contribution"
+        },
+        {
+          "label": "Braid And Main Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/braid-and-main-network-contribution"
+        },
+        {
+          "label": "Burn Dennet And Foyle Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/burn-dennet-and-foyle-network-contribution"
+        },
+        {
+          "label": "Bush Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/bush-network-contribution"
+        },
+        {
+          "label": "Carlingford And Newry Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/carlingford-and-newry-network-contribution"
+        },
+        {
+          "label": "Derg And Mourne Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/derg-and-mourne-network-contribution"
+        },
+        {
+          "label": "Faughan Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/faughan-network-contribution"
+        },
+        {
+          "label": "Glens Rathlin Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/glens-rathlin-network-contribution"
+        },
+        {
+          "label": "Lagan Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/lagan-network-contribution"
+        },
+        {
+          "label": "Larne Lough Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/larne-lough-network-contribution"
+        },
+        {
+          "label": "Lough Melvin And Arney Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/lough-melvin-and-arney-network-contribution"
+        },
+        {
+          "label": "Lough Neagh Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/lough-neagh-network-contribution"
+        },
+        {
+          "label": "Lower Bann Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/lower-bann-network-contribution"
+        },
+        {
+          "label": "Lower Lough Erne Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/lower-lough-erne-network-contribution"
+        },
+        {
+          "label": "Moyola Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/moyola-network-contribution"
+        },
+        {
+          "label": "Owenkillew Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/owenkillew-network-contribution"
+        },
+        {
+          "label": "Quoile Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/quoile-network-contribution"
+        },
+        {
+          "label": "River Blackwater Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/river-blackwater-network-contribution"
+        },
+        {
+          "label": "Roe Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/roe-network-contribution"
+        },
+        {
+          "label": "Six Mile Water Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/six-mile-water-network-contribution"
+        },
+        {
+          "label": "South Down Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/south-down-network-contribution"
+        },
+        {
+          "label": "Strangford Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/strangford-network-contribution"
+        },
+        {
+          "label": "Strule Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/strule-network-contribution"
+        },
+        {
+          "label": "Upper Bann Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/upper-bann-network-contribution"
+        },
+        {
+          "label": "Upper Lough Erne Network Contribution",
+          "file": "https://opendata-daerani.hub.arcgis.com/datasets/upper-lough-erne-network-contribution"
+        }
+      ],
+      "files": {
+        "xyz": "https://data.civgraph.net/data/maps/water-quality/network-contribution-tiles/{z}/{x}/{y}.png"
+      },
+      "rasterStyle": {
+        "opacity": 0.78,
+        "minZoom": 5,
+        "maxZoom": 17,
+        "maxNativeZoom": 13
+      },
+      "bounds": [
+        [
+          54,
+          -8.2
+        ],
+        [
+          55.32,
+          -5.43
+        ]
+      ]
+    }
   }
 }

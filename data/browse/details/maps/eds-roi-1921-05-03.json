@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "eds-roi-1921-05-03",
     "slug": "eds-roi-1921-05-03",
     "type": "map",
-    "title": "03 May 1921",
+    "title": "District Electoral Divisions - 03 May 1921",
     "subtitle": "1921",
     "categoryId": "electoral-divisions",
     "category": "Electoral Divisions",
@@ -31,25 +31,95 @@
     "featured": true,
     "loadable": false,
     "labelProperty": "ED_NAME",
+    "parentCard": "District Electoral Divisions",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "eds-roi-1921-05-03",
+      "url": "/assets/thumbnails/eds-roi-1921-05-03.webp",
+      "smallUrl": "/assets/thumbnails/eds-roi-1921-05-03-60.webp",
+      "alt": "03 May 1921"
+    },
     "variants": [
       {
         "id": "eds-roi-1921-connacht",
-        "title": "eds-roi-1921-connacht"
+        "title": "Connacht"
       },
       {
         "id": "eds-roi-1921-leinster",
-        "title": "eds-roi-1921-leinster"
+        "title": "Leinster"
       },
       {
         "id": "eds-roi-1921-munster",
-        "title": "eds-roi-1921-munster"
+        "title": "Munster"
       },
       {
         "id": "eds-roi-1921-ulster",
-        "title": "eds-roi-1921-ulster"
+        "title": "Ulster (outside Northern Ireland)"
       }
     ],
     "interactiveUrl": "/#layers=eds-roi-1921-05-03",
-    "browseUrl": "/browse/maps/eds-roi-1921-05-03"
+    "browseUrl": "/browse/maps/eds-roi-1921-05-03",
+    "rawMetadata": {
+      "id": "eds-roi-1921-05-03",
+      "name": "03 May 1921",
+      "slug": "eds-roi-1921-05-03",
+      "category": "electoral-divisions",
+      "date": "1921-05-03",
+      "featured": true,
+      "provider": [
+        "OSI",
+        "OSM"
+      ],
+      "keywords": [
+        "electoral",
+        "division",
+        "ED",
+        "1921",
+        "partition",
+        "placeholder"
+      ],
+      "style": {
+        "color": "#9C6E3F",
+        "weight": 2
+      },
+      "labelProperty": "ED_NAME",
+      "useLOD": true,
+      "description": "Southern Ireland Electoral Divisions on 3 May 1921 (Government of Ireland Act commencement) - boundaries unchanged through to 1926, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
+      "variants": [
+        {
+          "id": "eds-roi-1921-connacht",
+          "label": "Connacht",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Connacht1926EDs.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-roi-1921-leinster",
+          "label": "Leinster",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Leinster1926EDs.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-roi-1921-munster",
+          "label": "Munster",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Munster1926EDs.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-roi-1921-ulster",
+          "label": "Ulster (outside Northern Ireland)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Ulster1926EDs.fgb"
+          },
+          "useLOD": true
+        }
+      ],
+      "isGroup": true
+    }
   }
 }

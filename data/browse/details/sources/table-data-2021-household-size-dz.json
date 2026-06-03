@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "table:data-2021-household-size-dz",
     "slug": "table-data-2021-household-size-dz",
@@ -9,6 +9,60 @@
     "subtitle": "data-population",
     "category": "data-population",
     "description": "Average household size (Data Zone) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
-    "browseUrl": "/browse/sources/table-data-2021-household-size-dz"
+    "thumbnail": {
+      "kind": "asset",
+      "id": "dz-2021",
+      "url": "/assets/thumbnails/dz-2021.webp",
+      "smallUrl": "/assets/thumbnails/dz-2021-60.webp",
+      "alt": "Average household size (Census 2021, by Data Zone)"
+    },
+    "references": [
+      {
+        "label": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "ms-e02-dz.csv",
+        "url": "data/census/derived/ms-e02-dz.csv"
+      }
+    ],
+    "browseUrl": "/browse/sources/table-data-2021-household-size-dz",
+    "rawMetadata": {
+      "id": "data-2021-household-size-dz",
+      "type": "data-entry",
+      "name": "Average household size (Census 2021, by Data Zone)",
+      "slug": "data-2021-household-size-dz",
+      "category": "data-population",
+      "description": "Average household size (Data Zone) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "dz-2021",
+      "csv": "data/census/derived/ms-e02-dz.csv",
+      "joinKey": "DZ2021_cd",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AverageHouseholdSize",
+      "ramp": "viridis",
+      "domain": [
+        1.8,
+        3.1
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AverageHouseholdSize"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "household size",
+        "data zone"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    }
   }
 }

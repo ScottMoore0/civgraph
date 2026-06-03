@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:osni-streetmaps",
     "slug": "map-source-osni-streetmaps",
@@ -13,6 +13,11 @@
     ],
     "description": "Detailed printed street-map sheets for 109 towns and villages across Northern Ireland — 0.85 m/pixel native resolution showing individual streets, building outlines, and town features. Coverage is sparse (only published towns are mapped); the rest of NI is blank in this layer. Served as XYZ tiles at zoom 8–16.",
     "sourceMapId": "osni-streetmaps",
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "OS",
+      "type": "map"
+    },
     "references": [
       {
         "label": "OSNI Open Data — StreetMaps",
@@ -34,6 +39,57 @@
       }
     ],
     "interactiveUrl": "/#layers=osni-streetmaps",
-    "browseUrl": "/browse/sources/map-source-osni-streetmaps"
+    "browseUrl": "/browse/sources/map-source-osni-streetmaps",
+    "rawMetadata": {
+      "id": "osni-streetmaps",
+      "name": "OSNI StreetMaps — Town Sheets",
+      "slug": "osni-streetmaps",
+      "category": "osni-raster",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Detailed printed street-map sheets for 109 towns and villages across Northern Ireland — 0.85 m/pixel native resolution showing individual streets, building outlines, and town features. Coverage is sparse (only published towns are mapped); the rest of NI is blank in this layer. Served as XYZ tiles at zoom 8–16.",
+      "files": {
+        "xyz": "https://data.civgraph.net/data/maps/osni-raster/streetmaps/{z}/{x}/{y}.png"
+      },
+      "rasterStyle": {
+        "opacity": 0.9,
+        "minZoom": 8,
+        "maxZoom": 19,
+        "maxNativeZoom": 16
+      },
+      "bounds": [
+        [
+          54.04,
+          -7.68
+        ],
+        [
+          55.23,
+          -5.45
+        ]
+      ],
+      "keywords": [
+        "osni",
+        "streetmap",
+        "street map",
+        "town",
+        "village",
+        "urban",
+        "streets"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — StreetMaps",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-streetmaps",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Georeferenced town sheets (TIF + TFW, ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/33f1a92f-8abf-4eed-b944-b816043c58a4/resource/fb6ea3cf-8ea0-4c3f-b3a7-a2bf74e8d47b/download/osni_opendata_streetmaps.zip"
+        }
+      ]
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "table:data-2021-unemployed-settlement",
     "slug": "table-data-2021-unemployed-settlement",
@@ -9,6 +9,62 @@
     "subtitle": "data-population",
     "category": "data-population",
     "description": "Unemployed (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
-    "browseUrl": "/browse/sources/table-data-2021-unemployed-settlement"
+    "thumbnail": {
+      "kind": "asset",
+      "id": "settlements-2015",
+      "url": "/assets/thumbnails/settlements-2015.webp",
+      "smallUrl": "/assets/thumbnails/settlements-2015-60.webp",
+      "alt": "Unemployed (Census 2021, by Settlement)"
+    },
+    "references": [
+      {
+        "label": "NISRA Census 2021, Main Statistics Phase 1, MS-H02 (Economic activity by sex)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "ms-h02-unemployed-settlement.csv",
+        "url": "data/census/derived/ms-h02-unemployed-settlement.csv"
+      }
+    ],
+    "browseUrl": "/browse/sources/table-data-2021-unemployed-settlement",
+    "rawMetadata": {
+      "id": "data-2021-unemployed-settlement",
+      "type": "data-entry",
+      "name": "Unemployed (Census 2021, by Settlement)",
+      "slug": "data-2021-unemployed-settlement",
+      "category": "data-population",
+      "description": "Unemployed (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-h02-unemployed-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "Unemployed_pct",
+      "ramp": "viridis",
+      "domain": [
+        1,
+        4
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "Unemployed",
+        "Unemployed_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "unemployed",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-H02 (Economic activity by sex)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    }
   }
 }

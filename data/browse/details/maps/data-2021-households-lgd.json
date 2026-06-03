@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "data-2021-households-lgd",
     "slug": "data-2021-households-lgd",
@@ -21,7 +21,67 @@
     ],
     "status": "available",
     "loadable": false,
+    "thumbnail": {
+      "kind": "asset",
+      "id": "lgd-2012",
+      "url": "/assets/thumbnails/lgd-2012.webp",
+      "smallUrl": "/assets/thumbnails/lgd-2012-60.webp",
+      "alt": "Total households (Census 2021, by LGD)"
+    },
+    "sourceFiles": [
+      {
+        "label": "ms-e01-lgd.csv",
+        "url": "data/census/derived/ms-e01-lgd.csv"
+      }
+    ],
+    "references": [
+      {
+        "label": "NISRA Census 2021, Main Statistics Phase 1, MS-E01 (Households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "ms-e01-lgd.csv",
+        "url": "data/census/derived/ms-e01-lgd.csv"
+      }
+    ],
     "interactiveUrl": "/#layers=data-2021-households-lgd",
-    "browseUrl": "/browse/maps/data-2021-households-lgd"
+    "browseUrl": "/browse/maps/data-2021-households-lgd",
+    "rawMetadata": {
+      "id": "data-2021-households-lgd",
+      "type": "data-entry",
+      "name": "Total households (Census 2021, by LGD)",
+      "slug": "data-2021-households-lgd",
+      "category": "data-population",
+      "description": "Households (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-e01-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AllHouseholds",
+      "ramp": "viridis",
+      "domain": [
+        45000,
+        150000
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AllHouseholds"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "households",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E01 (Households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    }
   }
 }

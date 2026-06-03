@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "habitat-heath",
     "slug": "habitat-heath",
@@ -25,6 +25,13 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "Class",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "habitat-heath",
+      "url": "/assets/thumbnails/habitat-heath.webp",
+      "smallUrl": "/assets/thumbnails/habitat-heath-60.webp",
+      "alt": "Habitat Network — Heath"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -44,6 +51,54 @@
       }
     ],
     "interactiveUrl": "/#layers=habitat-heath",
-    "browseUrl": "/browse/maps/habitat-heath"
+    "browseUrl": "/browse/maps/habitat-heath",
+    "rawMetadata": {
+      "id": "habitat-heath",
+      "name": "Habitat Network — Heath",
+      "slug": "habitat-heath",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of heath habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-heath.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#8C6F47",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#8C6F47"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "heath"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Heath Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/11cae57f-ed15-4a0d-82b4-86871060a6f3",
+          "note": ""
+        }
+      ]
+    }
   }
 }

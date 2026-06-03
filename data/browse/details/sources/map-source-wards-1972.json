@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:wards-1972",
     "slug": "map-source-wards-1972",
     "type": "map-source",
-    "title": "Wards 1972 source files",
+    "title": "Wards - 1972 source files",
     "subtitle": "Electoral Areas / Scott Moore",
     "category": "Map sources",
     "date": 1972,
@@ -14,6 +14,13 @@
     ],
     "description": "Electoral ward boundaries",
     "sourceMapId": "wards-1972",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "wards-1972",
+      "url": "/assets/thumbnails/wards-1972.webp",
+      "smallUrl": "/assets/thumbnails/wards-1972-60.webp",
+      "alt": "Wards 1972"
+    },
     "downloads": [
       {
         "label": "fgb",
@@ -25,6 +32,144 @@
       }
     ],
     "interactiveUrl": "/#layers=wards-1972",
-    "browseUrl": "/browse/sources/map-source-wards-1972"
+    "browseUrl": "/browse/sources/map-source-wards-1972",
+    "rawMetadata": {
+      "id": "wards-1972",
+      "name": "Wards 1972",
+      "slug": "wards-1972",
+      "category": "wards",
+      "featured": true,
+      "provider": [
+        "Scott Moore"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/local-government/Wards_1972.fgb"
+      },
+      "style": {
+        "color": "#00B1C8",
+        "weight": 2
+      },
+      "labelProperty": "NAME",
+      "keywords": [
+        "ward",
+        "1972",
+        "electoral",
+        "digitised"
+      ],
+      "date": 1972,
+      "useLOD": true,
+      "variants": [
+        {
+          "id": "wards-1972-wards73-belfast-raster",
+          "label": "Belfast LGD 1973",
+          "files": {
+            "image": "data/maps/raster/wards73-belfast.png"
+          },
+          "bounds": [
+            [
+              54.514191,
+              -6.134575
+            ],
+            [
+              54.6864559,
+              -5.7408266
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1972",
+          "coLoadWardIndices": [
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            144,
+            146,
+            147,
+            151,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            185,
+            186,
+            188,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            209
+          ]
+        },
+        {
+          "id": "wards-1972-wards73-strabane-raster",
+          "label": "Strabane LGD 1973",
+          "files": {
+            "image": "data/maps/raster/wards73-strabane.png"
+          },
+          "bounds": [
+            [
+              54.5681504,
+              -7.9598153
+            ],
+            [
+              55.0100852,
+              -6.8580715
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1972",
+          "coLoadWardIndices": [
+            419,
+            420,
+            421,
+            422,
+            423,
+            424,
+            425,
+            426,
+            427,
+            428,
+            472,
+            473,
+            474,
+            475,
+            486
+          ]
+        }
+      ]
+    }
   }
 }

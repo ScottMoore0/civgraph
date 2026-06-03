@@ -32,16 +32,21 @@ function main() {
   const spatialIndex = readJson('data/database/spatial-index.json', { maps: [], features: [] });
   const partyIds = readJson('election-viewer-package/data/party-ids.json', { party_ids: [], aliases: {} });
   const electionManifest = readJson('test/metadata/elections-test2.json', { elections: [], totals: {} });
+  const thumbnailIds = readThumbnailManifest();
 
   const categoriesById = new Map((mapsData.categories || []).map((category) => [category.id, category]));
   const mapClassInfoById = buildMapClassInfo(mapsData);
-  const maps = buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById);
-  const elections = buildElections(electionManifest);
+  const maps = buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, thumbnailIds);
+  const elections = buildElections(electionManifest, thumbnailIds);
   const electionDetails = readElectionDetails(elections);
   const featureGroups = buildFeatureGroups(spatialIndex, maps, elections);
   const { parties, partyDetails } = buildParties(partyIds, electionDetails);
   const { persons, personDetails } = buildPersons(electionDetails);
-  const sources = buildSources(booksData, dataEntriesData, maps, elections);
+  const sources = buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds);
+  const rawMapsById = new Map((mapsData.maps || []).map((map) => [map.id, map]));
+  const rawDataEntriesById = new Map(normalizeArray(dataEntriesData.dataEntries || dataEntriesData.entries).map((entry) => [entry.id || entry.slug || slugify(entry.name || entry.title), entry]));
+  const rawElectionsByKey = new Map(normalizeArray(electionManifest.elections).map((entry) => [entry.key, entry]));
+  const rawBooksById = new Map(normalizeArray(booksData.books || booksData.items).map((book) => [`book:${book.id || book.slug || slugify(book.title || book.name)}`, book]));
   ensureUniqueSlugs(maps);
   ensureUniqueSlugs(elections);
   ensureUniqueSlugs(featureGroups);
@@ -63,10 +68,28 @@ function main() {
   writeJson('persons.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: persons.length, items: persons });
   writeJson('sources.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: sources.length, items: sources });
 
-  writeDetailFiles('maps', maps);
-  writeDetailFiles('elections', elections);
+  writeDetailFiles('maps', maps, (record) => ({
+    rawMetadata: record.type === 'data-entry'
+      ? rawDataEntriesById.get(record.id)
+      : rawMapsById.get(record.id)
+  }));
+  writeDetailFiles('elections', elections, (record) => ({
+    rawMetadata: compactObject({
+      manifest: rawElectionsByKey.get(record.key),
+      resultUrl: record.resultUrl,
+      anchorUrl: record.anchorUrl
+    })
+  }));
   writeDetailFiles('parties', Object.values(partyDetails));
-  writeDetailFiles('sources', sources);
+  writeDetailFiles('sources', sources, (record) => ({
+    rawMetadata: sourceRawMetadata(record, {
+      rawMapsById,
+      rawDataEntriesById,
+      rawElectionsByKey,
+      rawBooksById,
+      electionDetails
+    })
+  }));
 
   writeJson('index.json', {
     schemaVersion: 1,
@@ -105,7 +128,7 @@ function main() {
   console.log(`- sources: ${sources.length}`);
 }
 
-function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById) {
+function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, thumbnailIds) {
   const mapRecords = (mapsData.maps || []).map((map) => {
     const category = categoriesById.get(map.category) || {};
     const files = normalizeFiles(map.files || map.file || map.sourceFile || map.data || null);
@@ -133,6 +156,7 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById) 
       loadable: Boolean(map.files || map.file || map.url || map.source || map.tiles || map.pmtiles || map.geojson),
       labelProperty: map.labelProperty || null,
       parentCard: mapClassInfoById.get(map.id)?.className || null,
+      thumbnail: thumbnailForCandidates(thumbnailIds, [map.cloneOf, map.id], map.name || map.title || map.id, 'map'),
       variants: normalizeArray(map.variants).map((variant) => typeof variant === 'string' ? { id: variant } : compactObject({
         id: variant.id || variant.mapId || variant.slug || variant.name,
         title: mapDisplayTitle(
@@ -169,9 +193,10 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById) 
       keywords: normalizeArray(entry.keywords),
       status: entry.hidden ? 'hidden' : 'available',
       loadable: Boolean(entry.mapId || entry.layerId || entry.sourceMapId),
-      sourceFiles: normalizeFiles(entry.files || entry.file || entry.sourceFile),
-      references: normalizeReferences(entry.references || entry.sources),
-      downloads: normalizeLinks(entry.downloads || entry.download || entry.sourceDownload),
+      thumbnail: thumbnailForCandidates(thumbnailIds, [entry.layerId, entry.mapId, entry.sourceMapId, entry.geography, id], entry.name || entry.title || id, 'table'),
+      sourceFiles: normalizeFiles([entry.files, entry.file, entry.sourceFile, entry.csv].filter(Boolean)),
+      references: normalizeReferences(entry.references || entry.sources || entry.source),
+      downloads: normalizeLinks([entry.downloads, entry.download, entry.sourceDownload, entry.file, entry.files, entry.csv].filter(Boolean)),
       interactiveUrl: interactiveLayerUrl(entry.layerId || entry.mapId || entry.sourceMapId || id),
       browseUrl: `/browse/maps/${encodeURIComponent(id)}`
     });
@@ -286,7 +311,7 @@ function escapeRegExp(value) {
   return String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function buildElections(manifest) {
+function buildElections(manifest, thumbnailIds) {
   return (manifest.elections || []).map((entry) => {
     const title = cleanText(entry.displayTitle || entry.body || entry.bodySlug || entry.key);
     const layerId = mainElectionLayerId(entry);
@@ -318,6 +343,7 @@ function buildElections(manifest) {
       resultUrl: entry.resultUrl || null,
       anchorUrl: entry.anchorUrl || null,
       previousKey: entry.previousKey || null,
+      thumbnail: thumbnailForCandidates(thumbnailIds, [entry.sourceMapId, entry.layerId], title, 'election'),
       interactiveUrl: interactiveLayerUrl(layerId),
       browseUrl: `/browse/elections/${encodeURIComponent(entry.key)}`
     });
@@ -400,6 +426,7 @@ function buildFeatureGroups(spatialIndex, maps, elections) {
       relatedElections: relatedElections.slice(0, SAMPLE_RELATED_LIMIT),
       relatedElectionCount: relatedElections.length,
       sampleFeatures: sampleByMap.get(group.id) || [],
+      thumbnail: map.thumbnail || null,
       interactiveUrl: interactiveLayerUrl(group.id),
       browseUrl: `/browse/features?map=${encodeURIComponent(group.id)}`
     });
@@ -571,22 +598,14 @@ function buildPersons(electionDetails) {
   }));
 
   const items = Object.values(details).map((person) => compactObject({
-    id: person.id,
-    slug: person.slug,
-    type: 'person',
-    title: person.title,
-    subtitle: person.subtitle,
-    firstYear: person.firstYear,
-    lastYear: person.lastYear,
-    parties: person.parties.slice(0, 4),
-    totals: person.totals,
-    browseUrl: person.browseUrl
+    ...person,
+    relatedElectionCount: person.elections.length
   })).sort((a, b) => (b.totals.elected - a.totals.elected) || (b.totals.stood - a.totals.stood) || a.title.localeCompare(b.title));
 
   return { persons: items, personDetails: details };
 }
 
-function buildSources(booksData, dataEntriesData, maps, elections) {
+function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds) {
   const sources = [];
   const bookCategories = new Map((booksData.categories || []).map((category) => [category.id, category]));
   for (const book of normalizeArray(booksData.books || booksData.items)) {
@@ -602,8 +621,9 @@ function buildSources(booksData, dataEntriesData, maps, elections) {
       date: book.date || book.year || null,
       provider: normalizeArray(book.provider || book.publisher),
       description: cleanText(book.description || ''),
+      thumbnail: thumbnailForCandidates(thumbnailIds, [`book-${book.id || book.slug}`, book.thumbnailId], book.title || book.name || id, 'book'),
       references: normalizeReferences(book.references),
-      downloads: normalizeLinks(book.downloads || book.url || book.archiveUrl || book.pdf),
+      downloads: normalizeLinks([book.downloads, book.file, book.pdf, book.url, book.archiveUrl].filter(Boolean)),
       browseUrl: `/browse/sources/${encodeURIComponent(slugify(id))}`
     }));
   }
@@ -619,12 +639,14 @@ function buildSources(booksData, dataEntriesData, maps, elections) {
       date: entry.date || entry.year || null,
       provider: normalizeArray(entry.provider || entry.providers),
       description: cleanText(entry.description || ''),
-      references: normalizeReferences(entry.references || entry.sources),
-      downloads: normalizeLinks(entry.downloads || entry.sourceDownload || entry.file || entry.files),
+      thumbnail: thumbnailForCandidates(thumbnailIds, [entry.layerId, entry.mapId, entry.sourceMapId, entry.geography, entry.id], entry.title || entry.name || id, 'table'),
+      references: normalizeReferences(entry.references || entry.sources || entry.source),
+      downloads: normalizeLinks([entry.downloads, entry.sourceDownload, entry.file, entry.files, entry.csv].filter(Boolean)),
       browseUrl: `/browse/sources/${encodeURIComponent(slugify(id))}`
     }));
   }
   for (const map of maps) {
+    if (map.type !== 'map') continue;
     if (!map.sourceFiles?.length && !map.downloads?.length && !map.references?.length) continue;
     const id = `map-source:${map.id}`;
     sources.push(compactObject({
@@ -638,6 +660,7 @@ function buildSources(booksData, dataEntriesData, maps, elections) {
       provider: map.provider,
       description: map.description,
       sourceMapId: map.id,
+      thumbnail: map.thumbnail || null,
       references: map.references,
       downloads: [...(map.downloads || []), ...(map.sourceFiles || [])],
       interactiveUrl: map.interactiveUrl,
@@ -658,6 +681,7 @@ function buildSources(booksData, dataEntriesData, maps, elections) {
       provider: normalizeArray(election.provider),
       description: `Generated election bundle for ${election.title}.`,
       sourceMapId: election.sourceMapId,
+      thumbnail: election.thumbnail || null,
       downloads: normalizeLinks([election.resultUrl, election.anchorUrl].filter(Boolean)),
       interactiveUrl: election.interactiveUrl,
       browseUrl: `/browse/sources/${encodeURIComponent(slugify(id))}`
@@ -666,13 +690,67 @@ function buildSources(booksData, dataEntriesData, maps, elections) {
   return sources.sort(sortByTitle);
 }
 
-function writeDetailFiles(kind, records) {
+function writeDetailFiles(kind, records, enhance = null) {
   const dir = path.join(DETAILS_DIR, kind);
   mkdirSync(dir, { recursive: true });
   for (const record of records) {
     const slug = record.slug || slugify(record.id || record.key || record.title);
-    writeJson(path.join('details', kind, `${slug}.json`), { schemaVersion: 1, generatedAt: GENERATED_AT, item: record });
+    const extra = enhance ? compactObject(enhance(record) || {}) : {};
+    writeJson(path.join('details', kind, `${slug}.json`), { schemaVersion: 1, generatedAt: GENERATED_AT, item: compactObject({ ...record, ...extra }) });
   }
+}
+
+function readThumbnailManifest() {
+  const relPath = path.join('assets', 'thumbnails', 'manifest.json');
+  const fullPath = path.join(ROOT, relPath);
+  if (!existsSync(fullPath)) return new Set();
+  try {
+    const ids = JSON.parse(readFileSync(fullPath, 'utf8'));
+    return new Set(Array.isArray(ids) ? ids.map(String) : []);
+  } catch (error) {
+    console.warn(`Could not read ${relPath}: ${error.message}`);
+    return new Set();
+  }
+}
+
+function thumbnailForCandidates(thumbnailIds, candidates, label, fallbackType = 'entry') {
+  const ids = normalizeArray(candidates).map((id) => String(id || '').trim()).filter(Boolean);
+  for (const id of ids) {
+    if (!thumbnailIds.has(id)) continue;
+    return compactObject({
+      kind: 'asset',
+      id,
+      url: `/assets/thumbnails/${id}.webp`,
+      smallUrl: thumbnailIds.has(`${id}-60`) ? `/assets/thumbnails/${id}-60.webp` : null,
+      alt: cleanText(label || id)
+    });
+  }
+  return compactObject({
+    kind: 'placeholder',
+    label: thumbnailInitials(label || ids[0] || fallbackType),
+    type: fallbackType
+  });
+}
+
+function thumbnailInitials(value) {
+  const words = cleanText(value).split(/\s+/).filter(Boolean);
+  const initials = words.slice(0, 2).map((word) => word[0]).join('').toUpperCase();
+  return initials || 'C';
+}
+
+function sourceRawMetadata(record, context) {
+  if (record.type === 'book') return context.rawBooksById.get(record.id);
+  if (record.type === 'table') return context.rawDataEntriesById.get(String(record.id || '').replace(/^table:/, ''));
+  if (record.type === 'map-source') return context.rawMapsById.get(record.sourceMapId);
+  if (record.type === 'election-source') {
+    const key = String(record.id || '').replace(/^election-source:/, '');
+    return compactObject({
+      manifest: context.rawElectionsByKey.get(key),
+      resultUrl: record.downloads?.[0]?.url,
+      anchorUrl: record.downloads?.[1]?.url
+    });
+  }
+  return null;
 }
 
 function ensureUniqueSlugs(records) {

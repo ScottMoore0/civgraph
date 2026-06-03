@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "wq-surface-water-bodies-2015",
     "slug": "wq-surface-water-bodies-2015",
@@ -26,6 +26,13 @@
     "status": "available",
     "featured": false,
     "loadable": true,
+    "thumbnail": {
+      "kind": "asset",
+      "id": "wq-surface-water-bodies-2015",
+      "url": "/assets/thumbnails/wq-surface-water-bodies-2015.webp",
+      "smallUrl": "/assets/thumbnails/wq-surface-water-bodies-2015-60.webp",
+      "alt": "WFD Surface Water Bodies — Status 2015"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -49,6 +56,53 @@
       }
     ],
     "interactiveUrl": "/#layers=wq-surface-water-bodies-2015",
-    "browseUrl": "/browse/maps/wq-surface-water-bodies-2015"
+    "browseUrl": "/browse/maps/wq-surface-water-bodies-2015",
+    "rawMetadata": {
+      "id": "wq-surface-water-bodies-2015",
+      "name": "WFD Surface Water Bodies — Status 2015",
+      "slug": "wq-surface-water-bodies-2015",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Polygons of every Water Framework Directive surface water body (rivers, lakes, transitional, coastal) across Northern Ireland with their 2015 ecological-status classification — high, good, moderate, poor or bad.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/surface-water-bodies-status-20151.fgb"
+      },
+      "style": {
+        "color": "#1f78b4",
+        "weight": 1,
+        "fillOpacity": 0.35
+      },
+      "keywords": [
+        "wfd",
+        "water framework",
+        "surface water",
+        "water body",
+        "status",
+        "2015",
+        "ecological"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "OSNI Open Data — Surface Water Bodies Status 2015",
+          "url": "https://admin.opendatani.gov.uk/dataset/surface-water-bodies-status-20151",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON",
+          "file": "https://admin.opendatani.gov.uk/dataset/d4e5b8a1-5c01-4d4f-9b67-d6e7d4b04b5a"
+        }
+      ],
+      "colorMap": {
+        "property": "Stat_2015",
+        "palette": "wfd",
+        "default": "#9e9e9e"
+      }
+    }
   }
 }

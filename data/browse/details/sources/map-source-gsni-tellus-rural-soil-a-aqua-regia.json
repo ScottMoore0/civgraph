@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:gsni-tellus-rural-soil-a-aqua-regia",
     "slug": "map-source-gsni-tellus-rural-soil-a-aqua-regia",
@@ -14,6 +14,13 @@
     ],
     "description": "A-horizon (topsoil) samples from the Tellus rural soil survey digested with aqua regia and analysed for the trace/heavy metal elements that resist XRF. Complements the A-horizon XRF layer. ~6,870 points.",
     "sourceMapId": "gsni-tellus-rural-soil-a-aqua-regia",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "gsni-tellus-rural-soil-a-aqua-regia",
+      "url": "/assets/thumbnails/gsni-tellus-rural-soil-a-aqua-regia.webp",
+      "smallUrl": "/assets/thumbnails/gsni-tellus-rural-soil-a-aqua-regia-60.webp",
+      "alt": "Tellus Rural Soil (A Horizon — Aqua Regia Digest)"
+    },
     "references": [
       {
         "label": "GSNI Tellus Rural Soil Survey — Open Data NI",
@@ -43,6 +50,64 @@
       }
     ],
     "interactiveUrl": "/#layers=gsni-tellus-rural-soil-a-aqua-regia",
-    "browseUrl": "/browse/sources/map-source-gsni-tellus-rural-soil-a-aqua-regia"
+    "browseUrl": "/browse/sources/map-source-gsni-tellus-rural-soil-a-aqua-regia",
+    "rawMetadata": {
+      "id": "gsni-tellus-rural-soil-a-aqua-regia",
+      "name": "Tellus Rural Soil (A Horizon — Aqua Regia Digest)",
+      "slug": "gsni-tellus-rural-soil-a-aqua-regia",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "A-horizon (topsoil) samples from the Tellus rural soil survey digested with aqua regia and analysed for the trace/heavy metal elements that resist XRF. Complements the A-horizon XRF layer. ~6,870 points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-rural-soil-a-aqua-regia.fgb"
+      },
+      "style": {
+        "color": "#c9723a",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.85
+      },
+      "labelProperty": "Sample",
+      "keywords": [
+        "tellus",
+        "soil",
+        "a horizon",
+        "topsoil",
+        "aqua regia",
+        "digest",
+        "gsni",
+        "agriculture"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Rural Soil Survey — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/rural-soil-survey",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — A Soils Aqua Regia",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/28fa598c-18c2-4c39-b077-bf884953d00b/download/regional-soils-a-aquaregia-hdl.geojson"
+        },
+        {
+          "label": "CSV — A Soils Aqua Regia",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/8ce52d8f-9b4f-4df6-b276-27e724164549/download/regionalsoilsaaquaregiahdl.csv"
+        }
+      ],
+      "colorScale": {
+        "property": "As",
+        "ramp": "inferno",
+        "domain": [
+          1,
+          20
+        ],
+        "logarithmic": false
+      }
+    }
   }
 }

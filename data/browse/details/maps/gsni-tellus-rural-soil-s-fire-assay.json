@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "gsni-tellus-rural-soil-s-fire-assay",
     "slug": "gsni-tellus-rural-soil-s-fire-assay",
@@ -28,6 +28,13 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "Sample",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "gsni-tellus-rural-soil-s-fire-assay",
+      "url": "/assets/thumbnails/gsni-tellus-rural-soil-s-fire-assay.webp",
+      "smallUrl": "/assets/thumbnails/gsni-tellus-rural-soil-s-fire-assay-60.webp",
+      "alt": "Tellus Rural Soil (S Horizon — Fire Assay for Au and PGE)"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -59,6 +66,64 @@
       }
     ],
     "interactiveUrl": "/#layers=gsni-tellus-rural-soil-s-fire-assay",
-    "browseUrl": "/browse/maps/gsni-tellus-rural-soil-s-fire-assay"
+    "browseUrl": "/browse/maps/gsni-tellus-rural-soil-s-fire-assay",
+    "rawMetadata": {
+      "id": "gsni-tellus-rural-soil-s-fire-assay",
+      "name": "Tellus Rural Soil (S Horizon — Fire Assay for Au and PGE)",
+      "slug": "gsni-tellus-rural-soil-s-fire-assay",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "S-horizon subsoil samples subjected to fire assay specifically to recover gold (Au) and platinum group elements. The classical mineral-prospecting technique applied across the Tellus survey grid. ~6,850 points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-rural-soil-s-fire-assay.fgb"
+      },
+      "style": {
+        "color": "#bfa028",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.85
+      },
+      "labelProperty": "Sample",
+      "keywords": [
+        "tellus",
+        "soil",
+        "fire assay",
+        "gold",
+        "platinum",
+        "pge",
+        "prospecting",
+        "gsni"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Rural Soil Survey — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/rural-soil-survey",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — S Soils Fire Assay",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/a868ea07-643a-4481-b473-32a48f56ead0/download/regional-soils-s-fireassay-au-pge.geojson"
+        },
+        {
+          "label": "CSV — S Soils Fire Assay",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/e9a4568a-677d-419a-a2ce-31940900bbe9/download/regionalsoilssfireassayaupge.csv"
+        }
+      ],
+      "colorScale": {
+        "property": "Auppb",
+        "ramp": "inferno",
+        "domain": [
+          0.1,
+          10
+        ],
+        "logarithmic": true
+      }
+    }
   }
 }

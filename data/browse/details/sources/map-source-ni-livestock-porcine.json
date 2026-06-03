@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:ni-livestock-porcine",
     "slug": "map-source-ni-livestock-porcine",
@@ -14,6 +14,13 @@
     ],
     "description": "Locations of porcine (pigs) herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
     "sourceMapId": "ni-livestock-porcine",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "ni-livestock-porcine",
+      "url": "/assets/thumbnails/ni-livestock-porcine.webp",
+      "smallUrl": "/assets/thumbnails/ni-livestock-porcine-60.webp",
+      "alt": "NI Porcine (Pigs) Holdings (April 2019)"
+    },
     "references": [
       {
         "label": "Source — admin.opendatani.gov.uk",
@@ -47,6 +54,48 @@
       }
     ],
     "interactiveUrl": "/#layers=ni-livestock-porcine",
-    "browseUrl": "/browse/sources/map-source-ni-livestock-porcine"
+    "browseUrl": "/browse/sources/map-source-ni-livestock-porcine",
+    "rawMetadata": {
+      "id": "ni-livestock-porcine",
+      "name": "NI Porcine (Pigs) Holdings (April 2019)",
+      "slug": "ni-livestock-porcine",
+      "category": "environment",
+      "provider": [
+        "DAERA"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-porcine.fgb",
+        "downloads": {
+          "geojson": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-porcine.geojson"
+        },
+        "geojson": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-porcine.geojson"
+      },
+      "style": {
+        "color": "#FFB6C1",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "DAERA",
+        "livestock",
+        "farming",
+        "agriculture",
+        "porcine",
+        "porcine (pigs)",
+        "herd",
+        "flock",
+        "rural"
+      ],
+      "description": "Locations of porcine (pigs) herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/",
+          "note": ""
+        }
+      ],
+      "date": "2019-04-01",
+      "labelProperty": "Herd Map Ref"
+    }
   }
 }

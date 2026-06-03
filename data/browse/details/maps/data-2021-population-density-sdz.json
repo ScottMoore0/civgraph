@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "data-2021-population-density-sdz",
     "slug": "data-2021-population-density-sdz",
@@ -21,7 +21,67 @@
     ],
     "status": "available",
     "loadable": false,
+    "thumbnail": {
+      "kind": "asset",
+      "id": "sdz-2021",
+      "url": "/assets/thumbnails/sdz-2021.webp",
+      "smallUrl": "/assets/thumbnails/sdz-2021-60.webp",
+      "alt": "Population density (Census 2021, by Super Data Zone)"
+    },
+    "sourceFiles": [
+      {
+        "label": "ms-a14-sdz.csv",
+        "url": "data/census/derived/ms-a14-sdz.csv"
+      }
+    ],
+    "references": [
+      {
+        "label": "NISRA Census 2021, Main Statistics Phase 1, MS-A14 (Population density)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "ms-a14-sdz.csv",
+        "url": "data/census/derived/ms-a14-sdz.csv"
+      }
+    ],
     "interactiveUrl": "/#layers=data-2021-population-density-sdz",
-    "browseUrl": "/browse/maps/data-2021-population-density-sdz"
+    "browseUrl": "/browse/maps/data-2021-population-density-sdz",
+    "rawMetadata": {
+      "id": "data-2021-population-density-sdz",
+      "type": "data-entry",
+      "name": "Population density (Census 2021, by Super Data Zone)",
+      "slug": "data-2021-population-density-sdz",
+      "category": "data-population",
+      "description": "Population density (Super Data Zone) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "sdz-2021",
+      "csv": "data/census/derived/ms-a14-sdz.csv",
+      "joinKey": "SDZ2021_cd",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "PopulationDensity",
+      "ramp": "viridis",
+      "domain": [
+        0.3,
+        70
+      ],
+      "logarithmic": true,
+      "tableColumns": [
+        "Geography",
+        "PopulationDensity"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "population density",
+        "super data zone"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A14 (Population density)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    }
   }
 }

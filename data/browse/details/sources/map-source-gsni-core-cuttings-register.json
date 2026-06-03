@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:gsni-core-cuttings-register",
     "slug": "map-source-gsni-core-cuttings-register",
@@ -13,6 +13,13 @@
     ],
     "description": "Registered borehole cores and cuttings held by the Geological Survey of Northern Ireland. Only records with geographic coordinates are shown on the map (~140 of ~345).",
     "sourceMapId": "gsni-core-cuttings-register",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "gsni-core-cuttings-register",
+      "url": "/assets/thumbnails/gsni-core-cuttings-register.webp",
+      "smallUrl": "/assets/thumbnails/gsni-core-cuttings-register-60.webp",
+      "alt": "GSNI Core and Cuttings Register"
+    },
     "references": [
       {
         "label": "Spreadsheet of Core and Cuttings held by GSNI — Open Data NI",
@@ -42,6 +49,52 @@
       }
     ],
     "interactiveUrl": "/#layers=gsni-core-cuttings-register",
-    "browseUrl": "/browse/sources/map-source-gsni-core-cuttings-register"
+    "browseUrl": "/browse/sources/map-source-gsni-core-cuttings-register",
+    "rawMetadata": {
+      "id": "gsni-core-cuttings-register",
+      "name": "GSNI Core and Cuttings Register",
+      "slug": "gsni-core-cuttings-register",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI"
+      ],
+      "description": "Registered borehole cores and cuttings held by the Geological Survey of Northern Ireland. Only records with geographic coordinates are shown on the map (~140 of ~345).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/gsni-core-cuttings.fgb"
+      },
+      "style": {
+        "color": "#4a4a4a",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.8
+      },
+      "labelProperty": "Borehole or Locality Name",
+      "keywords": [
+        "borehole",
+        "core",
+        "cuttings",
+        "gsni",
+        "drilling",
+        "stratigraphy"
+      ],
+      "useLOD": false,
+      "references": [
+        {
+          "label": "Spreadsheet of Core and Cuttings held by GSNI — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/spreadsheet-of-core-and-cuttings-held-by-gsni",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "CSV (original, November 2018)",
+          "file": "https://admin.opendatani.gov.uk/dataset/06884c94-fcb1-4d7d-a258-bbde98388ff1/resource/2160c85d-adee-482e-89fd-703bcf450779/download/november-2018-gsni-core-and-cuttings.csv"
+        },
+        {
+          "label": "References (TXT)",
+          "file": "https://admin.opendatani.gov.uk/dataset/06884c94-fcb1-4d7d-a258-bbde98388ff1/resource/622208ff-bac7-4fc0-a288-82039c5b6fa5/download/references.txt"
+        }
+      ]
+    }
   }
 }

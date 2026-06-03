@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "habitat-river",
     "slug": "habitat-river",
@@ -25,6 +25,13 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "Class",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "habitat-river",
+      "url": "/assets/thumbnails/habitat-river.webp",
+      "smallUrl": "/assets/thumbnails/habitat-river-60.webp",
+      "alt": "Habitat Network — River"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -44,6 +51,54 @@
       }
     ],
     "interactiveUrl": "/#layers=habitat-river",
-    "browseUrl": "/browse/maps/habitat-river"
+    "browseUrl": "/browse/maps/habitat-river",
+    "rawMetadata": {
+      "id": "habitat-river",
+      "name": "Habitat Network — River",
+      "slug": "habitat-river",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of river habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-river.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#4F89AE",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#4F89AE"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "river"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — River Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/bde1d3a6-9276-442d-89e7-8a064af48898",
+          "note": ""
+        }
+      ]
+    }
   }
 }

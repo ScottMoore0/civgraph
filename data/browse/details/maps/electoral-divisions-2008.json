@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "eds-2006",
     "slug": "electoral-divisions-2008",
@@ -30,29 +30,109 @@
     "featured": true,
     "loadable": false,
     "labelProperty": "EDNAME",
+    "parentCard": "District Electoral Divisions",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "eds-2006",
+      "url": "/assets/thumbnails/eds-2006.webp",
+      "smallUrl": "/assets/thumbnails/eds-2006-60.webp",
+      "alt": "Electoral Divisions 2008"
+    },
     "variants": [
       {
         "id": "eds-connacht-2006",
-        "title": "eds-connacht-2006"
+        "title": "Connacht"
       },
       {
         "id": "eds-leinster-2006",
-        "title": "eds-leinster-2006"
+        "title": "Leinster"
       },
       {
         "id": "eds-munster-2006",
-        "title": "eds-munster-2006"
+        "title": "Munster"
       },
       {
         "id": "eds-ulster-2006",
-        "title": "eds-ulster-2006"
+        "title": "Ulster"
       },
       {
         "id": "eds-census-2011",
-        "title": "eds-census-2011"
+        "title": "Census 2011 (with demographics)"
       }
     ],
     "interactiveUrl": "/#layers=eds-2006",
-    "browseUrl": "/browse/maps/eds-2006"
+    "browseUrl": "/browse/maps/eds-2006",
+    "rawMetadata": {
+      "id": "eds-2006",
+      "name": "Electoral Divisions 2008",
+      "slug": "electoral-divisions-2008",
+      "category": "wards",
+      "isGroup": true,
+      "featured": true,
+      "provider": [
+        "CSO"
+      ],
+      "style": {
+        "color": "#2E7D32",
+        "weight": 2
+      },
+      "keywords": [
+        "electoral division",
+        "ED",
+        "2006",
+        "census",
+        "all ireland",
+        "CSO"
+      ],
+      "variants": [
+        {
+          "id": "eds-connacht-2006",
+          "label": "Connacht",
+          "description": "Electoral Divisions in Connacht province",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2006_CSO_EDs_Connacht.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-leinster-2006",
+          "label": "Leinster",
+          "description": "Electoral Divisions in Leinster province",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2006_CSO_EDs_Leinster.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-munster-2006",
+          "label": "Munster",
+          "description": "Electoral Divisions in Munster province",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2006_CSO_EDs_Munster.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-ulster-2006",
+          "label": "Ulster",
+          "description": "Electoral Divisions in Ulster province",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2006_CSO_EDs_Ulster.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-census-2011",
+          "label": "Census 2011 (with demographics)",
+          "description": "All 3,409 Electoral Divisions with Census 2011 population and housing data",
+          "files": {
+            "fgb": "data/maps/electoral-divisions/ROI_EDs_Census_2011.fgb"
+          },
+          "useLOD": true
+        }
+      ],
+      "date": 2006,
+      "labelProperty": "EDNAME"
+    }
   }
 }

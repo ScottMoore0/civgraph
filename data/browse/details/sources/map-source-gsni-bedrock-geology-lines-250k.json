@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:gsni-bedrock-geology-lines-250k",
     "slug": "map-source-gsni-bedrock-geology-lines-250k",
@@ -14,6 +14,13 @@
     ],
     "description": "Faults, bedrock boundaries, fold axial traces, dykes and bedrock lineaments across Northern Ireland at 1:250,000 scale.",
     "sourceMapId": "gsni-bedrock-geology-lines-250k",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "gsni-bedrock-geology-lines-250k",
+      "url": "/assets/thumbnails/gsni-bedrock-geology-lines-250k.webp",
+      "smallUrl": "/assets/thumbnails/gsni-bedrock-geology-lines-250k-60.webp",
+      "alt": "Bedrock Geology 1:250,000 (Lines)"
+    },
     "references": [
       {
         "label": "GSNI 250K Geology — Open Data NI",
@@ -51,6 +58,58 @@
       }
     ],
     "interactiveUrl": "/#layers=gsni-bedrock-geology-lines-250k",
-    "browseUrl": "/browse/sources/map-source-gsni-bedrock-geology-lines-250k"
+    "browseUrl": "/browse/sources/map-source-gsni-bedrock-geology-lines-250k",
+    "rawMetadata": {
+      "id": "gsni-bedrock-geology-lines-250k",
+      "name": "Bedrock Geology 1:250,000 (Lines)",
+      "slug": "gsni-bedrock-geology-lines-250k",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "British Geological Survey"
+      ],
+      "description": "Faults, bedrock boundaries, fold axial traces, dykes and bedrock lineaments across Northern Ireland at 1:250,000 scale.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/bedrock-geology-lines.fgb"
+      },
+      "style": {
+        "color": "#5a2d0c",
+        "weight": 1,
+        "fillOpacity": 0
+      },
+      "labelProperty": "FEATURE_D",
+      "keywords": [
+        "geology",
+        "fault",
+        "fracture",
+        "fold",
+        "bedrock",
+        "dyke",
+        "gsni",
+        "lineament"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI 250K Geology — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON (original)",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/a1ea4f61-bfff-4ef1-98f7-84552f7c1911/download/ni250kbedrockgeologylines.geojson"
+        },
+        {
+          "label": "GeoPackage",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/9380def2-3529-4d09-9eec-2d1f57241aa9/download/ni_250k_bedrock_geology_lines.gpkg"
+        },
+        {
+          "label": "ESRI Shapefile (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/fa614ca9-4833-4381-988e-92103b0b3ce5/download/ni250kbedrockgeologylines.zip"
+        }
+      ]
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "habitat-traditional-orchard",
     "slug": "habitat-traditional-orchard",
@@ -25,6 +25,13 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "Class",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "habitat-traditional-orchard",
+      "url": "/assets/thumbnails/habitat-traditional-orchard.webp",
+      "smallUrl": "/assets/thumbnails/habitat-traditional-orchard-60.webp",
+      "alt": "Habitat Network — Traditional Orchard"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -44,6 +51,54 @@
       }
     ],
     "interactiveUrl": "/#layers=habitat-traditional-orchard",
-    "browseUrl": "/browse/maps/habitat-traditional-orchard"
+    "browseUrl": "/browse/maps/habitat-traditional-orchard",
+    "rawMetadata": {
+      "id": "habitat-traditional-orchard",
+      "name": "Habitat Network — Traditional Orchard",
+      "slug": "habitat-traditional-orchard",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of traditional orchard habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-traditional-orchard.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#A3C266",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#A3C266"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "traditional orchard"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Traditional Orchard Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/c4f05bd7-5dd5-4504-b6d7-23940957c3cd",
+          "note": ""
+        }
+      ]
+    }
   }
 }

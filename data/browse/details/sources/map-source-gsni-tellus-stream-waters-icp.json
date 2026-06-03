@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:gsni-tellus-stream-waters-icp",
     "slug": "map-source-gsni-tellus-stream-waters-icp",
@@ -14,6 +14,13 @@
     ],
     "description": "Regional stream-water samples collected under the Tellus survey, analysed by ICP-MS for dissolved elements. Approximately 5,900 sample points.",
     "sourceMapId": "gsni-tellus-stream-waters-icp",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "gsni-tellus-stream-waters-icp",
+      "url": "/assets/thumbnails/gsni-tellus-stream-waters-icp.webp",
+      "smallUrl": "/assets/thumbnails/gsni-tellus-stream-waters-icp-60.webp",
+      "alt": "Tellus Stream Waters (Regional ICP)"
+    },
     "references": [
       {
         "label": "GSNI Tellus Regional Stream Waters — Open Data NI",
@@ -51,6 +58,67 @@
       }
     ],
     "interactiveUrl": "/#layers=gsni-tellus-stream-waters-icp",
-    "browseUrl": "/browse/sources/map-source-gsni-tellus-stream-waters-icp"
+    "browseUrl": "/browse/sources/map-source-gsni-tellus-stream-waters-icp",
+    "rawMetadata": {
+      "id": "gsni-tellus-stream-waters-icp",
+      "name": "Tellus Stream Waters (Regional ICP)",
+      "slug": "gsni-tellus-stream-waters-icp",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "Regional stream-water samples collected under the Tellus survey, analysed by ICP-MS for dissolved elements. Approximately 5,900 sample points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-stream-waters-icp.fgb"
+      },
+      "style": {
+        "color": "#2a8ec6",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.85
+      },
+      "labelProperty": "SAMPLENO",
+      "keywords": [
+        "tellus",
+        "geochemistry",
+        "stream",
+        "water",
+        "icp",
+        "dissolved",
+        "gsni"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Regional Stream Waters — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-stream-waters-icp",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — ICP (original)",
+          "file": "https://admin.opendatani.gov.uk/dataset/c4c559be-77db-4d3b-9b6a-ecc24feb3e21/resource/648a10b6-fd24-43d1-b2de-e659af7d7a9b/download/regionalwatersicp.geojson"
+        },
+        {
+          "label": "CSV — ICP",
+          "file": "https://admin.opendatani.gov.uk/dataset/c4c559be-77db-4d3b-9b6a-ecc24feb3e21/resource/96ec94aa-0257-4fd4-b5f5-20b86a7d5a69/download/regionalwatersicp.csv"
+        },
+        {
+          "label": "Methodology and Detection Limits (PDF)",
+          "file": "https://admin.opendatani.gov.uk/dataset/c4c559be-77db-4d3b-9b6a-ecc24feb3e21/resource/96871e7f-3f5b-4f27-8d8e-192fe0f6919f/download/tellusmethodologyanddetectionlimits.pdf"
+        }
+      ],
+      "colorScale": {
+        "property": "AS_",
+        "ramp": "inferno",
+        "domain": [
+          0.05,
+          5
+        ],
+        "logarithmic": true
+      }
+    }
   }
 }

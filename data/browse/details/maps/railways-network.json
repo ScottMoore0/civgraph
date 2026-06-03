@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "railways-network",
     "slug": "railways-network",
@@ -22,6 +22,13 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "Route_Section",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "railways-network",
+      "url": "/assets/thumbnails/railways-network.webp",
+      "smallUrl": "/assets/thumbnails/railways-network-60.webp",
+      "alt": "Railways"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -65,6 +72,56 @@
       }
     ],
     "interactiveUrl": "/#layers=railways-network",
-    "browseUrl": "/browse/maps/railways-network"
+    "browseUrl": "/browse/maps/railways-network",
+    "rawMetadata": {
+      "id": "railways-network",
+      "name": "Railways",
+      "slug": "railways-network",
+      "category": "built-environment",
+      "provider": [
+        "Translink"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/transport/Translink_Rail_Network.fgb",
+        "geojson": "https://data.civgraph.net/data/maps/transport/Translink_Rail_Network.geojson"
+      },
+      "labelProperty": "Route_Section",
+      "style": {
+        "color": "#1f4e79",
+        "weight": 2
+      },
+      "keywords": [
+        "railway",
+        "transport",
+        "network"
+      ],
+      "references": [
+        {
+          "label": "Northern Ireland Railways NIR Railway Network (www.opendatani.gov.uk)",
+          "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-railways-nir-railway-network",
+          "note": ""
+        },
+        {
+          "label": "Railways — GeoJSON download",
+          "url": "https://admin.opendatani.gov.uk/dataset/0297b4a0-5cea-4c22-97cc-346c76df33ed/resource/6faa0aca-ca1c-4499-9d6f-29fad88314d6/download/translink_rail_network.geojson",
+          "note": ""
+        },
+        {
+          "label": "Railways — Shapefile (ZIP) download",
+          "url": "https://admin.opendatani.gov.uk/dataset/0297b4a0-5cea-4c22-97cc-346c76df33ed/resource/7bc41442-ef8b-4343-acc4-7a78d37cd6a0/download/nirshp.zip",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON",
+          "file": "https://admin.opendatani.gov.uk/dataset/0297b4a0-5cea-4c22-97cc-346c76df33ed/resource/6faa0aca-ca1c-4499-9d6f-29fad88314d6/download/translink_rail_network.geojson"
+        },
+        {
+          "label": "Shapefile (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/0297b4a0-5cea-4c22-97cc-346c76df33ed/resource/7bc41442-ef8b-4343-acc4-7a78d37cd6a0/download/nirshp.zip"
+        }
+      ]
+    }
   }
 }

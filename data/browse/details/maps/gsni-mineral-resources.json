@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "gsni-mineral-resources",
     "slug": "gsni-mineral-resources",
@@ -30,6 +30,13 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "mineral_type",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "gsni-mineral-resources",
+      "url": "/assets/thumbnails/gsni-mineral-resources.webp",
+      "smallUrl": "/assets/thumbnails/gsni-mineral-resources-60.webp",
+      "alt": "Mineral Resources (Northern Ireland)"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -74,6 +81,65 @@
       }
     ],
     "interactiveUrl": "/#layers=gsni-mineral-resources",
-    "browseUrl": "/browse/maps/gsni-mineral-resources"
+    "browseUrl": "/browse/maps/gsni-mineral-resources",
+    "rawMetadata": {
+      "id": "gsni-mineral-resources",
+      "name": "Mineral Resources (Northern Ireland)",
+      "slug": "gsni-mineral-resources",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI"
+      ],
+      "description": "Mapped surface extent of commercially significant mineral resources — coal, lignite, sand and gravel, limestone, sandstone, peat, clay, igneous rock and others — merged into one layer attributed by mineral_type.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/gsni-mineral-resources.fgb"
+      },
+      "style": {
+        "color": "#b8860b",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "labelProperty": "mineral_type",
+      "keywords": [
+        "mineral",
+        "coal",
+        "lignite",
+        "limestone",
+        "sand",
+        "gravel",
+        "peat",
+        "resource",
+        "gsni",
+        "extraction",
+        "quarry"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Northern Ireland Mineral Resources — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-northern-ireland-mineral-resources",
+          "note": ""
+        },
+        {
+          "label": "PDF versions of NI Mineral Maps (British Geological Survey)",
+          "url": "https://www.bgs.ac.uk/mineralsuk/planning/resource.html#NI",
+          "note": "External BGS index page listing PDF mineral resource maps for Northern Ireland."
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoPackage (ZIP, 21 MB)",
+          "file": "https://admin.opendatani.gov.uk/dataset/a47e1630-086f-4b92-9416-1197cc8c633a/resource/fcc4d397-b585-4659-82af-3e484040d294/download/mineralresourcesgeopackage.zip"
+        },
+        {
+          "label": "ESRI Shapefile (ZIP, 20 MB)",
+          "file": "https://admin.opendatani.gov.uk/dataset/a47e1630-086f-4b92-9416-1197cc8c633a/resource/87be45a3-52b7-4724-8d62-859a5d4946e4/download/mineralresources.shp.zip"
+        },
+        {
+          "label": "JSON per-mineral (ZIP, 22 MB)",
+          "file": "https://admin.opendatani.gov.uk/dataset/a47e1630-086f-4b92-9416-1197cc8c633a/resource/d9e9d0ba-3072-4efc-ba4c-6ff26fad1c22/download/mineralresourcesjson.zip"
+        }
+      ]
+    }
   }
 }

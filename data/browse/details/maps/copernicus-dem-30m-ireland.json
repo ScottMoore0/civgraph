@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "copernicus-dem-30m-ireland",
     "slug": "copernicus-dem-30m-ireland",
@@ -33,6 +33,11 @@
     "status": "available",
     "featured": true,
     "loadable": true,
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "CD",
+      "type": "map"
+    },
     "sourceFiles": [
       {
         "label": "xyz",
@@ -46,6 +51,55 @@
       }
     ],
     "interactiveUrl": "/#layers=copernicus-dem-30m-ireland",
-    "browseUrl": "/browse/maps/copernicus-dem-30m-ireland"
+    "browseUrl": "/browse/maps/copernicus-dem-30m-ireland",
+    "rawMetadata": {
+      "id": "copernicus-dem-30m-ireland",
+      "name": "Copernicus DEM 30m (Ireland)",
+      "slug": "copernicus-dem-30m-ireland",
+      "category": "physical-geography",
+      "featured": true,
+      "provider": [
+        "Copernicus",
+        "ESA",
+        "Scott Moore"
+      ],
+      "description": "Static pre-coloured elevation raster tiles derived from Copernicus GLO-30 DEM. Rendered as nearest-neighbour cells with a terrain colour ramp.",
+      "files": {
+        "xyz": "data/maps/physical/copernicus-dem-30m-ireland-tiles/{z}/{x}/{y}.webp?v=20260225-stripingfix1"
+      },
+      "rasterStyle": {
+        "opacity": 0.78,
+        "minZoom": 5,
+        "maxZoom": 20,
+        "maxNativeZoom": 10,
+        "pixelated": true
+      },
+      "bounds": [
+        [
+          51.2,
+          -10.9
+        ],
+        [
+          55.7,
+          -5.2
+        ]
+      ],
+      "style": {
+        "color": "#91CF60",
+        "weight": 0,
+        "fillOpacity": 0.78
+      },
+      "keywords": [
+        "elevation",
+        "DEM",
+        "DTM",
+        "copernicus",
+        "glo-30",
+        "terrain",
+        "height",
+        "hypsometric"
+      ],
+      "date": 2026
+    }
   }
 }

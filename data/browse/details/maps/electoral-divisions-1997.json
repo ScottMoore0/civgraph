@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "eds-1997",
     "slug": "electoral-divisions-1997",
@@ -29,25 +29,91 @@
     "featured": true,
     "loadable": false,
     "labelProperty": "ENGLISH",
+    "parentCard": "District Electoral Divisions",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "eds-1997",
+      "url": "/assets/thumbnails/eds-1997.webp",
+      "smallUrl": "/assets/thumbnails/eds-1997-60.webp",
+      "alt": "Electoral Divisions 1997"
+    },
     "variants": [
       {
         "id": "eds-connacht-1997",
-        "title": "eds-connacht-1997"
+        "title": "Connacht (= 1986 boundaries)"
       },
       {
         "id": "eds-leinster-1997",
-        "title": "eds-leinster-1997"
+        "title": "Leinster"
       },
       {
         "id": "eds-munster-1997",
-        "title": "eds-munster-1997"
+        "title": "Munster"
       },
       {
         "id": "eds-ulster-1997",
-        "title": "eds-ulster-1997"
+        "title": "Ulster (ROI: Cavan/Donegal/Monaghan)"
       }
     ],
     "interactiveUrl": "/#layers=eds-1997",
-    "browseUrl": "/browse/maps/eds-1997"
+    "browseUrl": "/browse/maps/eds-1997",
+    "rawMetadata": {
+      "id": "eds-1997",
+      "name": "Electoral Divisions 1997",
+      "slug": "electoral-divisions-1997",
+      "category": "wards",
+      "isGroup": true,
+      "featured": true,
+      "provider": [
+        "Phelim Birch"
+      ],
+      "style": {
+        "color": "#2E7D32",
+        "weight": 2
+      },
+      "keywords": [
+        "electoral division",
+        "ED",
+        "1997",
+        "all ireland",
+        "historic"
+      ],
+      "variants": [
+        {
+          "id": "eds-connacht-1997",
+          "label": "Connacht (= 1986 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Connacht_1986.fgb"
+          },
+          "useLOD": false
+        },
+        {
+          "id": "eds-leinster-1997",
+          "label": "Leinster",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Leinster_1997.fgb"
+          },
+          "useLOD": false
+        },
+        {
+          "id": "eds-munster-1997",
+          "label": "Munster",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
+          },
+          "useLOD": false
+        },
+        {
+          "id": "eds-ulster-1997",
+          "label": "Ulster (ROI: Cavan/Donegal/Monaghan)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+          },
+          "useLOD": true
+        }
+      ],
+      "date": 1997,
+      "labelProperty": "ENGLISH"
+    }
   }
 }

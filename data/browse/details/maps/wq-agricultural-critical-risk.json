@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "wq-agricultural-critical-risk",
     "slug": "wq-agricultural-critical-risk",
@@ -27,6 +27,13 @@
     "status": "available",
     "featured": false,
     "loadable": true,
+    "thumbnail": {
+      "kind": "asset",
+      "id": "wq-agricultural-critical-risk",
+      "url": "/assets/thumbnails/wq-agricultural-critical-risk.webp",
+      "smallUrl": "/assets/thumbnails/wq-agricultural-critical-risk-60.webp",
+      "alt": "Agricultural Critical Risk Areas (DAERA)"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -46,6 +53,52 @@
       }
     ],
     "interactiveUrl": "/#layers=wq-agricultural-critical-risk",
-    "browseUrl": "/browse/maps/wq-agricultural-critical-risk"
+    "browseUrl": "/browse/maps/wq-agricultural-critical-risk",
+    "rawMetadata": {
+      "id": "wq-agricultural-critical-risk",
+      "name": "Agricultural Critical Risk Areas (DAERA)",
+      "slug": "wq-agricultural-critical-risk",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "DAERA classification of land parcels by their relative risk of contributing diffuse agricultural pollution to receiving waters. Each parcel is scored 0–1 (`riskscore2`) by combining slope, hydrological connectivity, soil characteristics, rainfall, river-buffer proximity and land-use rules. Companion to the Network Contribution datasets — the polygon equivalent of the per-river-basin SciMAP score.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/agricultural-critical-risk-areas.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "weight": 0.2,
+        "fillOpacity": 0.6
+      },
+      "colorScale": {
+        "property": "riskscore2",
+        "ramp": "inferno",
+        "domain": [
+          0,
+          1
+        ],
+        "logarithmic": false
+      },
+      "keywords": [
+        "agriculture",
+        "farming",
+        "pollution",
+        "risk",
+        "daera",
+        "nutrient",
+        "runoff",
+        "diffuse"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "OSNI Open Data — Agricultural Critical Risk Areas",
+          "url": "https://admin.opendatani.gov.uk/dataset/agricultural-critical-risk-areas",
+          "note": ""
+        }
+      ]
+    }
   }
 }

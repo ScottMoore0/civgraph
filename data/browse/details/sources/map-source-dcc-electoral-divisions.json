@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:dcc-electoral-divisions",
     "slug": "map-source-dcc-electoral-divisions",
@@ -13,6 +13,13 @@
     ],
     "description": "Electoral Divisions (DCC) — published by Dublin City Council.",
     "sourceMapId": "dcc-electoral-divisions",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "dcc-electoral-divisions",
+      "url": "/assets/thumbnails/dcc-electoral-divisions.webp",
+      "smallUrl": "/assets/thumbnails/dcc-electoral-divisions-60.webp",
+      "alt": "Electoral Divisions (DCC)"
+    },
     "references": [
       {
         "label": "Source — data.gov.ie",
@@ -46,6 +53,46 @@
       }
     ],
     "interactiveUrl": "/#layers=dcc-electoral-divisions",
-    "browseUrl": "/browse/sources/map-source-dcc-electoral-divisions"
+    "browseUrl": "/browse/sources/map-source-dcc-electoral-divisions",
+    "rawMetadata": {
+      "id": "dcc-electoral-divisions",
+      "name": "Electoral Divisions (DCC)",
+      "slug": "dcc-electoral-divisions",
+      "category": "built-environment",
+      "provider": [
+        "Dublin City Council"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/roi-dcc/dcc-electoral-divisions.fgb",
+        "downloads": {
+          "geojson": "https://data.civgraph.net/data/maps/roi-dcc/dcc-electoral-divisions.geojson"
+        },
+        "geojson": "https://data.civgraph.net/data/maps/roi-dcc/dcc-electoral-divisions.geojson"
+      },
+      "style": {
+        "color": "#FF6F00",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "ROI",
+        "ireland",
+        "dublin",
+        "dcc",
+        "amenity",
+        "council",
+        "electoral",
+        "divisions"
+      ],
+      "description": "Electoral Divisions (DCC) — published by Dublin City Council.",
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/",
+          "note": ""
+        }
+      ],
+      "labelProperty": "DlCnstt"
+    }
   }
 }

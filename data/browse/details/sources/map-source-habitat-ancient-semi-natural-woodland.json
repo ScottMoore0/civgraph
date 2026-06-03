@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:habitat-ancient-semi-natural-woodland",
     "slug": "map-source-habitat-ancient-semi-natural-woodland",
@@ -13,6 +13,13 @@
     ],
     "description": "Spatial extent of ancient semi-natural woodland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
     "sourceMapId": "habitat-ancient-semi-natural-woodland",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "habitat-ancient-semi-natural-woodland",
+      "url": "/assets/thumbnails/habitat-ancient-semi-natural-woodland.webp",
+      "smallUrl": "/assets/thumbnails/habitat-ancient-semi-natural-woodland-60.webp",
+      "alt": "Habitat Network — Ancient Semi-Natural Woodland"
+    },
     "references": [
       {
         "label": "Open Data NI — Ancient Semi-Natural Woodland Habitat Network",
@@ -30,6 +37,54 @@
       }
     ],
     "interactiveUrl": "/#layers=habitat-ancient-semi-natural-woodland",
-    "browseUrl": "/browse/sources/map-source-habitat-ancient-semi-natural-woodland"
+    "browseUrl": "/browse/sources/map-source-habitat-ancient-semi-natural-woodland",
+    "rawMetadata": {
+      "id": "habitat-ancient-semi-natural-woodland",
+      "name": "Habitat Network — Ancient Semi-Natural Woodland",
+      "slug": "habitat-ancient-semi-natural-woodland",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of ancient semi-natural woodland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-ancient-semi-natural-woodland.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#1F5E2C",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#1F5E2C"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "ancient semi-natural woodland"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Ancient Semi-Natural Woodland Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/0602c59a-2e65-40e7-88cf-4335afed4e09",
+          "note": ""
+        }
+      ]
+    }
   }
 }

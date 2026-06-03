@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "data-2021-level-4-plus-settlement",
     "slug": "data-2021-level-4-plus-settlement",
@@ -21,7 +21,69 @@
     ],
     "status": "available",
     "loadable": false,
+    "thumbnail": {
+      "kind": "asset",
+      "id": "settlements-2015",
+      "url": "/assets/thumbnails/settlements-2015.webp",
+      "smallUrl": "/assets/thumbnails/settlements-2015-60.webp",
+      "alt": "Level 4+ qualifications (Census 2021, by Settlement)"
+    },
+    "sourceFiles": [
+      {
+        "label": "ms-g01-level-4-plus-settlement.csv",
+        "url": "data/census/derived/ms-g01-level-4-plus-settlement.csv"
+      }
+    ],
+    "references": [
+      {
+        "label": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "ms-g01-level-4-plus-settlement.csv",
+        "url": "data/census/derived/ms-g01-level-4-plus-settlement.csv"
+      }
+    ],
     "interactiveUrl": "/#layers=data-2021-level-4-plus-settlement",
-    "browseUrl": "/browse/maps/data-2021-level-4-plus-settlement"
+    "browseUrl": "/browse/maps/data-2021-level-4-plus-settlement",
+    "rawMetadata": {
+      "id": "data-2021-level-4-plus-settlement",
+      "type": "data-entry",
+      "name": "Level 4+ qualifications (Census 2021, by Settlement)",
+      "slug": "data-2021-level-4-plus-settlement",
+      "category": "data-population",
+      "description": "Level 4+ qualifications (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-g01-level-4-plus-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "Level4Plus_pct",
+      "ramp": "viridis",
+      "domain": [
+        15,
+        50
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "Level4Plus",
+        "Level4Plus_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "level 4 plus",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    }
   }
 }

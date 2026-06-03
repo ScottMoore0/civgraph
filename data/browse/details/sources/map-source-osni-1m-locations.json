@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:osni-1m-locations",
     "slug": "map-source-osni-1m-locations",
@@ -13,6 +13,11 @@
     ],
     "description": "Small-scale (1:1,000,000) thematic map labelling major settlements and locations across Northern Ireland. Re-tiled as an interactive overlay at zoom 6–11.",
     "sourceMapId": "osni-1m-locations",
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "O1",
+      "type": "map"
+    },
     "references": [
       {
         "label": "OSNI Open Data — 1:1M Locations",
@@ -34,6 +39,57 @@
       }
     ],
     "interactiveUrl": "/#layers=osni-1m-locations",
-    "browseUrl": "/browse/sources/map-source-osni-1m-locations"
+    "browseUrl": "/browse/sources/map-source-osni-1m-locations",
+    "rawMetadata": {
+      "id": "osni-1m-locations",
+      "name": "OSNI 1:1M Thematic — Locations",
+      "slug": "osni-1m-locations",
+      "category": "osni-raster",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Small-scale (1:1,000,000) thematic map labelling major settlements and locations across Northern Ireland. Re-tiled as an interactive overlay at zoom 6–11.",
+      "files": {
+        "xyz": "https://data.civgraph.net/data/maps/osni-raster/1m-locations/{z}/{x}/{y}.png"
+      },
+      "rasterStyle": {
+        "opacity": 0.8,
+        "minZoom": 4,
+        "maxZoom": 14,
+        "maxNativeZoom": 11
+      },
+      "bounds": [
+        [
+          54,
+          -8.87
+        ],
+        [
+          55.45,
+          -5.41
+        ]
+      ],
+      "keywords": [
+        "osni",
+        "1:1m",
+        "1 million",
+        "thematic",
+        "locations",
+        "settlements",
+        "placenames"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — 1:1M Locations",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-1million-raster-location",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Georeferenced JPEG (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/8a435c6c-fb4c-465b-aba1-4f71438d9eeb/resource/cc266db3-dcc9-4b6d-8458-ff954ce0f5b9/download/osniopendata_1million_locations.zip"
+        }
+      ]
+    }
   }
 }

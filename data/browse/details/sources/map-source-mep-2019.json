@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:mep-2019",
     "slug": "map-source-mep-2019",
     "type": "map-source",
-    "title": "European Parliament Constituencies 2019 source files",
+    "title": "European Parliament Constituencies - 2019 source files",
     "subtitle": "European Regions / OSI, OSNI",
     "category": "Map sources",
     "date": 2019,
@@ -15,6 +15,13 @@
     ],
     "description": "NUTS regions and MEP constituencies",
     "sourceMapId": "mep-2019",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "mep-2019",
+      "url": "/assets/thumbnails/mep-2019.webp",
+      "smallUrl": "/assets/thumbnails/mep-2019-60.webp",
+      "alt": "European Parliament Constituencies 2019"
+    },
     "downloads": [
       {
         "label": "fgb",
@@ -26,6 +33,34 @@
       }
     ],
     "interactiveUrl": "/#layers=mep-2019",
-    "browseUrl": "/browse/sources/map-source-mep-2019"
+    "browseUrl": "/browse/sources/map-source-mep-2019",
+    "rawMetadata": {
+      "id": "mep-2019",
+      "name": "European Parliament Constituencies 2019",
+      "slug": "mep-2019",
+      "category": "european",
+      "featured": true,
+      "provider": [
+        "OSI",
+        "OSNI"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2019MEPConstituencies.fgb"
+      },
+      "style": {
+        "color": "#003399",
+        "weight": 2
+      },
+      "keywords": [
+        "MEP",
+        "european parliament",
+        "2019",
+        "EU",
+        "brexit"
+      ],
+      "labelProperty": "ENGLISH",
+      "date": 2019,
+      "useLOD": true
+    }
   }
 }

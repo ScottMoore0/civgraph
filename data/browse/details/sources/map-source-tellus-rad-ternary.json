@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:tellus-rad-ternary",
     "slug": "map-source-tellus-rad-ternary",
@@ -14,6 +14,11 @@
     ],
     "description": "The iconic radiometric ternary composite — K mapped to red, Th to green, U to blue. Reds = potassic (granite, certain volcanics); greens = thorium-rich (resistate sediments, heavy minerals); blues = uranium-rich (organic shales, mineralisation); whites/pale = high in all three; blacks = low overall. The most interpretively powerful single radiometric view. Each band stretched independently to mean ± 2σ.",
     "sourceMapId": "tellus-rad-ternary",
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "TR",
+      "type": "map"
+    },
     "references": [
       {
         "label": "OSNI Open Data — Tellus Radiometric Grids",
@@ -35,6 +40,60 @@
       }
     ],
     "interactiveUrl": "/#layers=tellus-rad-ternary",
-    "browseUrl": "/browse/sources/map-source-tellus-rad-ternary"
+    "browseUrl": "/browse/sources/map-source-tellus-rad-ternary",
+    "rawMetadata": {
+      "id": "tellus-rad-ternary",
+      "name": "Tellus Radiometric — K/Th/U Ternary RGB",
+      "slug": "tellus-rad-ternary",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "The iconic radiometric ternary composite — K mapped to red, Th to green, U to blue. Reds = potassic (granite, certain volcanics); greens = thorium-rich (resistate sediments, heavy minerals); blues = uranium-rich (organic shales, mineralisation); whites/pale = high in all three; blacks = low overall. The most interpretively powerful single radiometric view. Each band stretched independently to mean ± 2σ.",
+      "files": {
+        "xyz": "https://data.civgraph.net/data/maps/geology/tellus-rad-ternary/{z}/{x}/{y}.png"
+      },
+      "rasterStyle": {
+        "opacity": 0.9,
+        "minZoom": 5,
+        "maxZoom": 18,
+        "maxNativeZoom": 13
+      },
+      "bounds": [
+        [
+          53.99,
+          -8.19
+        ],
+        [
+          55.33,
+          -5.32
+        ]
+      ],
+      "keywords": [
+        "tellus",
+        "gsni",
+        "geophysics",
+        "radiometric",
+        "ternary",
+        "rgb",
+        "composite",
+        "k th u",
+        "airborne"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — Tellus Radiometric Grids",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometric-grids",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "ESRI File Geodatabase (ZIP, 842 MB)",
+          "file": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Radiometrics_ESRIGRID.zip"
+        }
+      ]
+    }
   }
 }

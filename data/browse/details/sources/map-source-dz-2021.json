@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:dz-2021",
     "slug": "map-source-dz-2021",
@@ -14,6 +14,13 @@
     ],
     "description": "Statistical geography for census data",
     "sourceMapId": "dz-2021",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "dz-2021",
+      "url": "/assets/thumbnails/dz-2021.webp",
+      "smallUrl": "/assets/thumbnails/dz-2021-60.webp",
+      "alt": "Data Zone 2021"
+    },
     "references": [
       {
         "label": "Data Zones (Census 2021) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
@@ -31,6 +38,50 @@
       }
     ],
     "interactiveUrl": "/#layers=dz-2021",
-    "browseUrl": "/browse/sources/map-source-dz-2021"
+    "browseUrl": "/browse/sources/map-source-dz-2021",
+    "rawMetadata": {
+      "id": "dz-2021",
+      "name": "Data Zone 2021",
+      "slug": "dz-2021",
+      "category": "census",
+      "featured": true,
+      "provider": [
+        "NISRA"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/census-areas/DZ2021.fgb"
+      },
+      "style": {
+        "color": "#1F618D",
+        "weight": 2
+      },
+      "labelProperty": "DZ2021_nm",
+      "keywords": [
+        "DZ",
+        "data zone",
+        "census",
+        "2021",
+        "statistical"
+      ],
+      "date": 2021,
+      "chunked": true,
+      "references": [
+        {
+          "label": "Data Zones (Census 2021) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
+          "url": "https://www.nisra.gov.uk/support/geography/data-zones-census-2021#toc-1",
+          "note": ""
+        }
+      ],
+      "bounds": [
+        [
+          54.022725,
+          -8.177484
+        ],
+        [
+          55.312985,
+          -5.43279
+        ]
+      ]
+    }
   }
 }

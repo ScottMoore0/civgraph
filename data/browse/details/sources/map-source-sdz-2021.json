@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:sdz-2021",
     "slug": "map-source-sdz-2021",
@@ -14,6 +14,13 @@
     ],
     "description": "Statistical geography for census data",
     "sourceMapId": "sdz-2021",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "sdz-2021",
+      "url": "/assets/thumbnails/sdz-2021.webp",
+      "smallUrl": "/assets/thumbnails/sdz-2021-60.webp",
+      "alt": "Super Data Zone 2021"
+    },
     "references": [
       {
         "label": "Super Data Zone boundaries in GIS format | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
@@ -63,6 +70,79 @@
       }
     ],
     "interactiveUrl": "/#layers=sdz-2021",
-    "browseUrl": "/browse/sources/map-source-sdz-2021"
+    "browseUrl": "/browse/sources/map-source-sdz-2021",
+    "rawMetadata": {
+      "id": "sdz-2021",
+      "name": "Super Data Zone 2021",
+      "slug": "sdz-2021",
+      "category": "census",
+      "featured": true,
+      "provider": [
+        "NISRA"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/census-areas/SDZ2021.fgb"
+      },
+      "style": {
+        "color": "#5B2C6F",
+        "weight": 2
+      },
+      "labelProperty": "SDZ2021_nm",
+      "keywords": [
+        "SDZ",
+        "super data zone",
+        "census",
+        "2021",
+        "statistical"
+      ],
+      "date": 2021,
+      "chunked": true,
+      "references": [
+        {
+          "label": "Super Data Zone boundaries in GIS format | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
+          "url": "https://www.nisra.gov.uk/publications/super-data-zone-boundaries-gis-format",
+          "note": ""
+        },
+        {
+          "label": "Super Data Zone 2021 — ESRI Shapefile (ZIP) download",
+          "url": "https://www.nisra.gov.uk/files/nisra/publications/geography-sdz2021-esri-shapefile.zip",
+          "note": ""
+        },
+        {
+          "label": "Super Data Zone 2021 — zip download",
+          "url": "https://www.nisra.gov.uk/files/nisra/publications/geography-sdz2021-geojson.zip",
+          "note": ""
+        },
+        {
+          "label": "Super Data Zone 2021 — zip download",
+          "url": "https://www.nisra.gov.uk/files/nisra/publications/geography-sdz2021-geodatabase.zip",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "ESRI Shapefile (ZIP)",
+          "file": "https://www.nisra.gov.uk/files/nisra/publications/geography-sdz2021-esri-shapefile.zip"
+        },
+        {
+          "label": "zip",
+          "file": "https://www.nisra.gov.uk/files/nisra/publications/geography-sdz2021-geojson.zip"
+        },
+        {
+          "label": "zip",
+          "file": "https://www.nisra.gov.uk/files/nisra/publications/geography-sdz2021-geodatabase.zip"
+        }
+      ],
+      "bounds": [
+        [
+          54.022725,
+          -8.177484
+        ],
+        [
+          55.312985,
+          -5.43279
+        ]
+      ]
+    }
   }
 }

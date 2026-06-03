@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:osni-coverage-grid-50k",
     "slug": "map-source-osni-coverage-grid-50k",
@@ -13,6 +13,13 @@
     ],
     "description": "Polygonal overlay of OSNI 1:50,000-scale printed-map tile footprints, labelled by tile identifier — the coarser complement to the 1:10K coverage grid.",
     "sourceMapId": "osni-coverage-grid-50k",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "osni-coverage-grid-50k",
+      "url": "/assets/thumbnails/osni-coverage-grid-50k.webp",
+      "smallUrl": "/assets/thumbnails/osni-coverage-grid-50k-60.webp",
+      "alt": "OSNI Map Sheet Coverage Grid — 1:50,000"
+    },
     "references": [
       {
         "label": "OSNI Open Data - Coverage Grid - 50K",
@@ -58,6 +65,61 @@
       }
     ],
     "interactiveUrl": "/#layers=osni-coverage-grid-50k",
-    "browseUrl": "/browse/sources/map-source-osni-coverage-grid-50k"
+    "browseUrl": "/browse/sources/map-source-osni-coverage-grid-50k",
+    "rawMetadata": {
+      "id": "osni-coverage-grid-50k",
+      "name": "OSNI Map Sheet Coverage Grid — 1:50,000",
+      "slug": "osni-coverage-grid-50k",
+      "category": "osni-reference",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Polygonal overlay of OSNI 1:50,000-scale printed-map tile footprints, labelled by tile identifier — the coarser complement to the 1:10K coverage grid.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/osni-reference/coverage-grid-50k.fgb"
+      },
+      "style": {
+        "color": "#555555",
+        "weight": 1.5,
+        "fillOpacity": 0
+      },
+      "labelProperty": "TILE",
+      "keywords": [
+        "osni",
+        "coverage",
+        "grid",
+        "sheet",
+        "index",
+        "1:50000",
+        "50k",
+        "tile"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "OSNI Open Data - Coverage Grid - 50K",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-coverage-grid-50k",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON",
+          "file": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/f55e4028-f24b-454f-807e-073b284396f6/download/osni_open_data_coverage_grid_50k.geojson"
+        },
+        {
+          "label": "ESRI Shapefile (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/c9ed17bd-02cb-4b48-954e-1196908bced0/download/osni_open_data_coverage_grid_50k.zip"
+        },
+        {
+          "label": "KML",
+          "file": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/793ad260-7414-4925-80aa-00a3affb1531/download/osni_open_data_coverage_grid_50k.kml"
+        },
+        {
+          "label": "CSV",
+          "file": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/dec2d495-4119-460a-9795-dd02ee6a3b2a/download/osni_open_data_coverage_grid_50k.csv"
+        }
+      ]
+    }
   }
 }

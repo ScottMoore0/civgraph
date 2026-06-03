@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:dfi-pedestrian-crossings",
     "slug": "map-source-dfi-pedestrian-crossings",
@@ -13,6 +13,13 @@
     ],
     "description": "Locations of pedestrian crossings on the public road network in Northern Ireland.",
     "sourceMapId": "dfi-pedestrian-crossings",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "dfi-pedestrian-crossings",
+      "url": "/assets/thumbnails/dfi-pedestrian-crossings.webp",
+      "smallUrl": "/assets/thumbnails/dfi-pedestrian-crossings-60.webp",
+      "alt": "NI Pedestrian Crossings"
+    },
     "references": [
       {
         "label": "Source — admin.opendatani.gov.uk",
@@ -46,6 +53,43 @@
       }
     ],
     "interactiveUrl": "/#layers=dfi-pedestrian-crossings",
-    "browseUrl": "/browse/sources/map-source-dfi-pedestrian-crossings"
+    "browseUrl": "/browse/sources/map-source-dfi-pedestrian-crossings",
+    "rawMetadata": {
+      "id": "dfi-pedestrian-crossings",
+      "name": "NI Pedestrian Crossings",
+      "slug": "dfi-pedestrian-crossings",
+      "category": "transport",
+      "provider": [
+        "Department for Infrastructure - Roads"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/transport-infra/dfi-pedestrian-crossings.fgb",
+        "downloads": {
+          "geojson": "https://data.civgraph.net/data/maps/transport-infra/dfi-pedestrian-crossings.geojson"
+        },
+        "geojson": "https://data.civgraph.net/data/maps/transport-infra/dfi-pedestrian-crossings.geojson"
+      },
+      "style": {
+        "color": "#558B2F",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "pedestrian",
+        "crossing",
+        "roads",
+        "accessibility",
+        "safety"
+      ],
+      "description": "Locations of pedestrian crossings on the public road network in Northern Ireland.",
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/",
+          "note": ""
+        }
+      ],
+      "labelProperty": "ITEM_TYPE_NAME"
+    }
   }
 }

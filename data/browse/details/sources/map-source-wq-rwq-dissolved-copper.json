@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:wq-rwq-dissolved-copper",
     "slug": "map-source-wq-rwq-dissolved-copper",
@@ -14,6 +14,13 @@
     ],
     "description": "Per-monitoring-site mean dissolved copper for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 377 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
     "sourceMapId": "wq-rwq-dissolved-copper",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "wq-rwq-dissolved-copper",
+      "url": "/assets/thumbnails/wq-rwq-dissolved-copper.webp",
+      "smallUrl": "/assets/thumbnails/wq-rwq-dissolved-copper-60.webp",
+      "alt": "River Water Quality 1990–2018 — Dissolved copper"
+    },
     "references": [
       {
         "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved copper)",
@@ -31,6 +38,53 @@
       }
     ],
     "interactiveUrl": "/#layers=wq-rwq-dissolved-copper",
-    "browseUrl": "/browse/sources/map-source-wq-rwq-dissolved-copper"
+    "browseUrl": "/browse/sources/map-source-wq-rwq-dissolved-copper",
+    "rawMetadata": {
+      "id": "wq-rwq-dissolved-copper",
+      "name": "River Water Quality 1990–2018 — Dissolved copper",
+      "slug": "wq-rwq-dissolved-copper",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean dissolved copper for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 377 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-copper.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "inferno",
+        "domain": [
+          0.5,
+          20
+        ],
+        "logarithmic": true
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "dissolved copper",
+        "dissolved-copper"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved copper)",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-copper1",
+          "note": ""
+        }
+      ]
+    }
   }
 }

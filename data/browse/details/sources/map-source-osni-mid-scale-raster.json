@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:osni-mid-scale-raster",
     "slug": "map-source-osni-mid-scale-raster",
@@ -13,6 +13,11 @@
     ],
     "description": "Topographic raster cartography at 1:10,000 scale across all of Northern Ireland — a 292-sheet mosaic of OSNI base-map tiles. Useful background context for site-level work; shows roads, settlements, contours and named features. Served as XYZ tiles at zoom 8–15.",
     "sourceMapId": "osni-mid-scale-raster",
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "OM",
+      "type": "map"
+    },
     "references": [
       {
         "label": "OSNI Open Data — Mid Scale Raster",
@@ -34,6 +39,57 @@
       }
     ],
     "interactiveUrl": "/#layers=osni-mid-scale-raster",
-    "browseUrl": "/browse/sources/map-source-osni-mid-scale-raster"
+    "browseUrl": "/browse/sources/map-source-osni-mid-scale-raster",
+    "rawMetadata": {
+      "id": "osni-mid-scale-raster",
+      "name": "OSNI Mid-Scale Raster — 1:10,000",
+      "slug": "osni-mid-scale-raster",
+      "category": "osni-raster",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Topographic raster cartography at 1:10,000 scale across all of Northern Ireland — a 292-sheet mosaic of OSNI base-map tiles. Useful background context for site-level work; shows roads, settlements, contours and named features. Served as XYZ tiles at zoom 8–15.",
+      "files": {
+        "xyz": "https://data.civgraph.net/data/maps/osni-raster/mid-scale-raster/{z}/{x}/{y}.png"
+      },
+      "rasterStyle": {
+        "opacity": 0.85,
+        "minZoom": 5,
+        "maxZoom": 18,
+        "maxNativeZoom": 15
+      },
+      "bounds": [
+        [
+          53.95,
+          -8.19
+        ],
+        [
+          55.33,
+          -5.4
+        ]
+      ],
+      "keywords": [
+        "osni",
+        "raster",
+        "topographic",
+        "1:10000",
+        "10k",
+        "mid scale",
+        "base map"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — Mid Scale Raster",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-10-000-raster-mid-scale-raster",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Georeferenced sheets (TIF + TFW, ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/48376012-8061-4369-8cf5-24961f2f02c6/resource/27c90279-f13d-4216-9349-23b7dceb3082/download/osni_opendata_midscaleraster.zip"
+        }
+      ]
+    }
   }
 }

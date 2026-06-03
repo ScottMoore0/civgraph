@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "civil-parishes-by-province",
     "slug": "civil-parishes",
@@ -28,26 +28,34 @@
     "featured": true,
     "loadable": true,
     "labelProperty": "name_en",
+    "parentCard": "Civil Parishes of Ireland",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "civil-parishes-by-province",
+      "url": "/assets/thumbnails/civil-parishes-by-province.webp",
+      "smallUrl": "/assets/thumbnails/civil-parishes-by-province-60.webp",
+      "alt": "Civil Parishes of Ireland"
+    },
     "variants": [
       {
         "id": "civil-parishes-connacht",
-        "title": "civil-parishes-connacht"
+        "title": "Connacht Civil Parishes"
       },
       {
         "id": "civil-parishes-leinster",
-        "title": "civil-parishes-leinster"
+        "title": "Leinster Civil Parishes"
       },
       {
         "id": "civil-parishes-munster",
-        "title": "civil-parishes-munster"
+        "title": "Munster Civil Parishes"
       },
       {
         "id": "civil-parishes-ulster",
-        "title": "civil-parishes-ulster"
+        "title": "Ulster Civil Parishes"
       },
       {
         "id": "civil-parishes",
-        "title": "civil-parishes"
+        "title": "Civil Parishes of Northern Ireland"
       }
     ],
     "sourceFiles": [
@@ -69,6 +77,141 @@
       }
     ],
     "interactiveUrl": "/#layers=civil-parishes-by-province",
-    "browseUrl": "/browse/maps/civil-parishes-by-province"
+    "browseUrl": "/browse/maps/civil-parishes-by-province",
+    "rawMetadata": {
+      "id": "civil-parishes-by-province",
+      "name": "Civil Parishes of Ireland",
+      "slug": "civil-parishes",
+      "category": "civil-parishes",
+      "featured": true,
+      "provider": [
+        "OSI",
+        "OSM"
+      ],
+      "style": {
+        "color": "#9932CC",
+        "weight": 2
+      },
+      "keywords": [
+        "civil parish",
+        "parish",
+        "all ireland",
+        "province",
+        "all-ireland",
+        "unified",
+        "lod",
+        "chunked"
+      ],
+      "labelProperty": "name_en",
+      "variants": [
+        {
+          "id": "civil-parishes-connacht",
+          "label": "Connacht Civil Parishes",
+          "description": "Civil Parishes in Connacht",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/ParishesConnacht.fgb"
+          },
+          "useLOD": true,
+          "mobileMaxLODLevel": 1
+        },
+        {
+          "id": "civil-parishes-leinster",
+          "label": "Leinster Civil Parishes",
+          "description": "Civil Parishes in Leinster",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/ParishesLeinster.fgb"
+          },
+          "useLOD": true,
+          "mobileMaxLODLevel": 1
+        },
+        {
+          "id": "civil-parishes-munster",
+          "label": "Munster Civil Parishes",
+          "description": "Civil Parishes in Munster",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/ParishesMunster.fgb"
+          },
+          "useLOD": true,
+          "mobileMaxLODLevel": 1
+        },
+        {
+          "id": "civil-parishes-ulster",
+          "label": "Ulster Civil Parishes",
+          "description": "Civil Parishes in Ulster",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/ParishesUlster.fgb"
+          },
+          "useLOD": true,
+          "mobileMaxLODLevel": 1
+        },
+        {
+          "id": "civil-parishes",
+          "label": "Civil Parishes of Northern Ireland",
+          "slug": "civil-parishes",
+          "description": "Civil Parishes of Northern Ireland",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Civil_Parishes.fgb"
+          },
+          "useLOD": true,
+          "provider": [
+            "OSM",
+            "OSNI"
+          ],
+          "style": {
+            "color": "#E26FCA",
+            "weight": 2
+          },
+          "labelProperty": "NAME_TAG",
+          "keywords": [
+            "parish",
+            "civil parish",
+            "historic"
+          ],
+          "references": [
+            {
+              "label": "OSNI Civil Parishes — FlatGeobuf download",
+              "url": "https://data.civgraph.net/data/maps/baronies-parishes/OSNI_Civil_Parishes.fgb",
+              "note": "OSNI Baronies and Parishes maps obtained via FOI request to Mapping.Helpdesk@finance-ni.gov.uk, who commented as follows: \"The Parish and Baronies dataset was created in 2007 based on the existing Townlands dataset combined with NISRA data for a specific project. While it was originally envisaged that the dataset would be released as an additional OSNI product for public supply, it proved difficult to verify the exact townlands making up parishes due to conflicts within source material. The data was developed to a state that was fit-for-purpose at the time, however, OSNI was unable to fully QA the product and so was not considered to be at a sufficient standard to add to our product catalogue. As customers enquired after the dataset, as a goodwill gesture, we agreed to share it on request, with the understanding that it is not an official product and so we could not stand over its accuracy or completeness. For the same reason, there is no documentation or analysis of the data to support it. Therefore, the only additional information we can provide you with is what we have observed from our own review of the data: there are topographical errors, such as sliver polygons, missing attribution and additional fields that could be cleansed out if desired.\""
+            }
+          ],
+          "sourceDownloads": [
+            {
+              "label": "OSNI Civil Parishes (FGB)",
+              "file": "https://data.civgraph.net/data/maps/baronies-parishes/OSNI_Civil_Parishes.fgb"
+            }
+          ],
+          "mobileMaxLODLevel": 1
+        }
+      ],
+      "references": [
+        {
+          "label": "Civil Parishes of Ireland -- OSNI provenance",
+          "url": "",
+          "note": "OSNI Baronies and Parishes maps obtained via FOI request to Mapping.Helpdesk@finance-ni.gov.uk, who commented as follows: \"The Parish and Baronies dataset was created in 2007 based on the existing Townlands dataset combined with NISRA data for a specific project. While it was originally envisaged that the dataset would be released as an additional OSNI product for public supply, it proved difficult to verify the exact townlands making up parishes due to conflicts within source material. The data was developed to a state that was fit-for-purpose at the time, however, OSNI was unable to fully QA the product and so was not considered to be at a sufficient standard to add to our product catalogue. As customers enquired after the dataset, as a goodwill gesture, we agreed to share it on request, with the understanding that it is not an official product and so we could not stand over its accuracy or completeness. For the same reason, there is no documentation or analysis of the data to support it. Therefore, the only additional information we can provide you with is what we have observed from our own review of the data: there are topographical errors, such as sliver polygons, missing attribution and additional fields that could be cleansed out if desired.\""
+        }
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Civil_Parishes_Ireland_v2.fgb"
+      },
+      "bounds": [
+        [
+          51.35,
+          -10.75
+        ],
+        [
+          55.55,
+          -5.35
+        ]
+      ],
+      "chunked": true,
+      "chunkOnly": true,
+      "useLOD": true,
+      "maxLODLevel": 2,
+      "mobileMaxLODLevel": 1,
+      "chunkOverviewMaxZoom": 13,
+      "chunkInitialBuffer": 0.1,
+      "chunkLoadConcurrency": 1,
+      "description": "Unified all-Ireland civil parish boundaries. The interactive layer uses overview LODs at low and medium zooms, then viewport chunks at high zooms."
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:designated-lca",
     "slug": "map-source-designated-lca",
@@ -14,6 +14,13 @@
     ],
     "description": "The Northern Ireland Landscape Character Assessment (NIEA, 2000) subdivides the countryside into 130 Landscape Character Areas based on local geology, landform, land use, settlement and ecology. LCAs underpin landscape policy and planning decisions.",
     "sourceMapId": "designated-lca",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "designated-lca",
+      "url": "/assets/thumbnails/designated-lca.webp",
+      "smallUrl": "/assets/thumbnails/designated-lca-60.webp",
+      "alt": "Landscape Character Areas (LCA)"
+    },
     "references": [
       {
         "label": "Open Data NI — Landscape Character Areas (LCA)",
@@ -31,6 +38,44 @@
       }
     ],
     "interactiveUrl": "/#layers=designated-lca",
-    "browseUrl": "/browse/sources/map-source-designated-lca"
+    "browseUrl": "/browse/sources/map-source-designated-lca",
+    "rawMetadata": {
+      "id": "designated-lca",
+      "name": "Landscape Character Areas (LCA)",
+      "slug": "designated-lca",
+      "category": "designated-sites",
+      "provider": [
+        "DAERA",
+        "Northern Ireland Environment Agency"
+      ],
+      "description": "The Northern Ireland Landscape Character Assessment (NIEA, 2000) subdivides the countryside into 130 Landscape Character Areas based on local geology, landform, land use, settlement and ecology. LCAs underpin landscape policy and planning decisions.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-lca.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.6,
+        "fillColor": "#C9B07A",
+        "fillOpacity": 0.55
+      },
+      "labelProperty": "LCA_NAME",
+      "useLOD": false,
+      "keywords": [
+        "designated",
+        "protected",
+        "conservation",
+        "niea",
+        "daera",
+        "natural environment",
+        "landscape character areas (lca)"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Landscape Character Areas (LCA)",
+          "url": "https://admin.opendatani.gov.uk/dataset/landscape-character-areas",
+          "note": ""
+        }
+      ]
+    }
   }
 }

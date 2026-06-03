@@ -608,13 +608,17 @@ a:hover {
 
 .browse-card {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
   gap: var(--space-3);
   padding: var(--space-4);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
   box-shadow: var(--shadow-sm);
+}
+
+.browse-card__main {
+  min-width: 0;
 }
 
 .browse-card__title {
@@ -639,7 +643,7 @@ a:hover {
 }
 
 .browse-card__summary {
-  grid-column: 1 / -1;
+  grid-column: 2 / -1;
   margin: 0;
   color: var(--color-text-muted);
   line-height: 1.45;
@@ -648,6 +652,7 @@ a:hover {
 
 .browse-card__status {
   align-self: start;
+  grid-column: 3;
   padding: 3px 8px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-full);
@@ -669,6 +674,86 @@ a:hover {
   color: #92400e;
   background: #fffbeb;
   border-color: #fcd34d;
+}
+
+.browse-card > .browse-actions {
+  grid-column: 2 / -1;
+  margin-top: 0;
+}
+
+.browse-thumb {
+  display: grid;
+  place-items: center;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-elevated);
+}
+
+.browse-thumb--card {
+  width: 72px;
+  height: 72px;
+  grid-row: span 3;
+}
+
+.browse-thumb--detail {
+  display: inline-grid;
+  max-width: 100%;
+  padding: var(--space-2);
+  background: repeating-conic-gradient(#f7fafc 0% 25%, #edf2f7 0% 50%) 50% / 16px 16px;
+}
+
+.browse-thumb img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.browse-thumb--card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.browse-thumb--detail img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+}
+
+.browse-thumb--placeholder {
+  color: var(--color-primary);
+  background: linear-gradient(135deg, #ebf4ff 0%, #f7fafc 100%);
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+
+.browse-thumb--placeholder span {
+  padding: var(--space-2);
+  text-align: center;
+}
+
+.browse-thumb--election {
+  color: #1f2937;
+  background: linear-gradient(135deg, #fef3c7 0%, #eff6ff 100%);
+}
+
+.browse-thumb--party {
+  color: #276749;
+  background: linear-gradient(135deg, #dcfce7 0%, #f7fafc 100%);
+}
+
+.browse-thumb--person {
+  color: #5b21b6;
+  background: linear-gradient(135deg, #ede9fe 0%, #f7fafc 100%);
+}
+
+.browse-thumb-caption {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+  font-size: .86rem;
+  line-height: 1.4;
 }
 
 .browse-tabs {
@@ -742,6 +827,33 @@ a:hover {
   text-transform: uppercase;
   letter-spacing: .04em;
   background: var(--color-surface-elevated);
+}
+
+.browse-field-json,
+.browse-raw pre {
+  max-width: 100%;
+  max-height: 420px;
+  margin: 0;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: #1f2937;
+  background: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  font-size: .78rem;
+  line-height: 1.45;
+}
+
+.browse-raw summary {
+  cursor: pointer;
+  color: var(--color-primary);
+  font-weight: 800;
+}
+
+.browse-raw pre {
+  margin-top: var(--space-3);
 }
 
 .browse-note {
@@ -989,7 +1101,17 @@ a:hover {
     grid-template-columns: 1fr;
   }
 
+  .browse-card__main,
+  .browse-card__summary,
+  .browse-card > .browse-actions,
   .browse-card__status {
+    grid-column: auto;
     justify-self: start;
+  }
+
+  .browse-thumb--card {
+    width: 84px;
+    height: 84px;
+    grid-row: auto;
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:wq-river-quality-1990-2018",
     "slug": "map-source-wq-river-quality-1990-2018",
@@ -14,6 +14,11 @@
     ],
     "description": "Long-term chemistry time-series from NI rivers, 1990–2018, broken down by 14 individual parameters (pH, dissolved oxygen, BOD, ammonia, nitrate, nitrite, dissolved iron, suspended solids, plus extended set: alkalinity, conductivity, dissolved copper, dissolved zinc, soluble phosphorus). The \"umbrella\" package contains the spatial monitoring sites + summary; per-parameter packages contain the full time-series CSVs. No interactive map layer — use the WFD Monitoring Sites layer to see where samples are taken.",
     "sourceMapId": "wq-river-quality-1990-2018",
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "RW",
+      "type": "map"
+    },
     "references": [
       {
         "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (umbrella)",
@@ -135,6 +140,97 @@
       }
     ],
     "interactiveUrl": "/#layers=wq-river-quality-1990-2018",
-    "browseUrl": "/browse/sources/map-source-wq-river-quality-1990-2018"
+    "browseUrl": "/browse/sources/map-source-wq-river-quality-1990-2018",
+    "rawMetadata": {
+      "id": "wq-river-quality-1990-2018",
+      "name": "River Water Quality Monitoring 1990–2018 (14 chemistry parameters)",
+      "slug": "wq-river-quality-1990-2018",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Long-term chemistry time-series from NI rivers, 1990–2018, broken down by 14 individual parameters (pH, dissolved oxygen, BOD, ammonia, nitrate, nitrite, dissolved iron, suspended solids, plus extended set: alkalinity, conductivity, dissolved copper, dissolved zinc, soluble phosphorus). The \"umbrella\" package contains the spatial monitoring sites + summary; per-parameter packages contain the full time-series CSVs. No interactive map layer — use the WFD Monitoring Sites layer to see where samples are taken.",
+      "keywords": [
+        "river",
+        "water quality",
+        "monitoring",
+        "chemistry",
+        "time series",
+        "long term",
+        "1990",
+        "2018",
+        "pH",
+        "dissolved oxygen",
+        "ammonia",
+        "nitrate"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (umbrella)",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-20181",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Combined sites (GeoJSON)",
+          "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-20181"
+        },
+        {
+          "label": "pH (per-parameter dataset)",
+          "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ph1"
+        },
+        {
+          "label": "Dissolved oxygen",
+          "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-oxygen1"
+        },
+        {
+          "label": "Biochemical oxygen demand (BOD)",
+          "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-biochemical-oxygen-demand1"
+        },
+        {
+          "label": "Ammonia",
+          "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ammonia1"
+        },
+        {
+          "label": "Nitrate",
+          "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrate1"
+        },
+        {
+          "label": "Nitrite",
+          "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrite1"
+        },
+        {
+          "label": "Dissolved iron",
+          "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-iron1"
+        },
+        {
+          "label": "Dissolved copper",
+          "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-copper1"
+        },
+        {
+          "label": "Dissolved zinc",
+          "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-zinc1"
+        },
+        {
+          "label": "Suspended solids",
+          "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-suspended-solids1"
+        },
+        {
+          "label": "Conductivity",
+          "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-conductivity1"
+        },
+        {
+          "label": "Alkalinity",
+          "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-alkalinity1"
+        },
+        {
+          "label": "Soluble phosphorus",
+          "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-soluble-phosphorus1"
+        }
+      ],
+      "placeholder": true
+    }
   }
 }

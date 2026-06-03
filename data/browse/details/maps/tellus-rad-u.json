@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "tellus-rad-u",
     "slug": "tellus-rad-u",
@@ -27,6 +27,11 @@
     "status": "available",
     "featured": false,
     "loadable": true,
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "TR",
+      "type": "map"
+    },
     "sourceFiles": [
       {
         "label": "xyz",
@@ -50,6 +55,59 @@
       }
     ],
     "interactiveUrl": "/#layers=tellus-rad-u",
-    "browseUrl": "/browse/maps/tellus-rad-u"
+    "browseUrl": "/browse/maps/tellus-rad-u",
+    "rawMetadata": {
+      "id": "tellus-rad-u",
+      "name": "Tellus Radiometric — Uranium-Equivalent (eU ppm)",
+      "slug": "tellus-rad-u",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "Uranium-equivalent concentration from the 1.76 MeV bismuth-214 daughter peak. Highlights uranium-bearing granites, organic-rich shales, phosphatic horizons, and mineralised zones. Viridis colormap, ±2-3σ stretch.",
+      "files": {
+        "xyz": "https://data.civgraph.net/data/maps/geology/tellus-rad-u/{z}/{x}/{y}.png"
+      },
+      "rasterStyle": {
+        "opacity": 0.85,
+        "minZoom": 5,
+        "maxZoom": 18,
+        "maxNativeZoom": 13
+      },
+      "bounds": [
+        [
+          53.99,
+          -8.19
+        ],
+        [
+          55.33,
+          -5.32
+        ]
+      ],
+      "keywords": [
+        "tellus",
+        "gsni",
+        "geophysics",
+        "radiometric",
+        "uranium",
+        "u",
+        "gamma",
+        "airborne"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — Tellus Radiometric Grids",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometric-grids",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "ESRI File Geodatabase (ZIP, 842 MB)",
+          "file": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Radiometrics_ESRIGRID.zip"
+        }
+      ]
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:roads-pothole-enquiries",
     "slug": "map-source-roads-pothole-enquiries",
@@ -13,6 +13,13 @@
     ],
     "description": "Pothole reports submitted to DfI Roads — point dataset showing locations of public reports per year (selected: latest available 2025–2026).",
     "sourceMapId": "roads-pothole-enquiries",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "roads-pothole-enquiries",
+      "url": "/assets/thumbnails/roads-pothole-enquiries.webp",
+      "smallUrl": "/assets/thumbnails/roads-pothole-enquiries-60.webp",
+      "alt": "Pothole Enquiries"
+    },
     "downloads": [
       {
         "label": "fgb",
@@ -24,6 +31,29 @@
       }
     ],
     "interactiveUrl": "/#layers=roads-pothole-enquiries",
-    "browseUrl": "/browse/sources/map-source-roads-pothole-enquiries"
+    "browseUrl": "/browse/sources/map-source-roads-pothole-enquiries",
+    "rawMetadata": {
+      "id": "roads-pothole-enquiries",
+      "name": "Pothole Enquiries",
+      "slug": "roads-pothole-enquiries",
+      "category": "transport",
+      "provider": [
+        "Department for Infrastructure - Roads"
+      ],
+      "description": "Pothole reports submitted to DfI Roads — point dataset showing locations of public reports per year (selected: latest available 2025–2026).",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/transport/roads-pothole-enquiries.fgb"
+      },
+      "style": {
+        "color": "#E0A60C",
+        "weight": 2
+      },
+      "labelProperty": "Region",
+      "keywords": [
+        "transport",
+        "pothole enquiries"
+      ],
+      "useLOD": true
+    }
   }
 }

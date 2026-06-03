@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:niea-river-segments",
     "slug": "map-source-niea-river-segments",
@@ -13,6 +13,13 @@
     ],
     "description": "NIEA River Segments — published by NIEA Water Management Unit (Water Framework Directive boundaries).",
     "sourceMapId": "niea-river-segments",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "niea-river-segments",
+      "url": "/assets/thumbnails/niea-river-segments.webp",
+      "smallUrl": "/assets/thumbnails/niea-river-segments-60.webp",
+      "alt": "NIEA River Segments"
+    },
     "references": [
       {
         "label": "Source — admin.opendatani.gov.uk",
@@ -38,6 +45,42 @@
       }
     ],
     "interactiveUrl": "/#layers=niea-river-segments",
-    "browseUrl": "/browse/sources/map-source-niea-river-segments"
+    "browseUrl": "/browse/sources/map-source-niea-river-segments",
+    "rawMetadata": {
+      "id": "niea-river-segments",
+      "name": "NIEA River Segments",
+      "slug": "niea-river-segments",
+      "category": "water-quality",
+      "provider": [
+        "NIEA"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/niea-river-segments.fgb",
+        "downloads": {
+          "zip": "https://data.civgraph.net/data/maps/water-quality/niea-river-segments.zip"
+        }
+      },
+      "style": {
+        "color": "#01579B",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "NIEA",
+        "water",
+        "WFD",
+        "niea river segments"
+      ],
+      "description": "NIEA River Segments — published by NIEA Water Management Unit (Water Framework Directive boundaries).",
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/",
+          "note": ""
+        }
+      ],
+      "labelProperty": "RWB_CD",
+      "useLOD": true
+    }
   }
 }

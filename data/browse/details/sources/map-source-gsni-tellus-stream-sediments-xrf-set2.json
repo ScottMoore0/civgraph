@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:gsni-tellus-stream-sediments-xrf-set2",
     "slug": "map-source-gsni-tellus-stream-sediments-xrf-set2",
@@ -14,6 +14,13 @@
     ],
     "description": "Second set of regional stream-sediment samples (Tellus survey), analysed by XRF for an additional suite of major and trace elements beyond the Set 1 panel. ~5,870 points.",
     "sourceMapId": "gsni-tellus-stream-sediments-xrf-set2",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "gsni-tellus-stream-sediments-xrf-set2",
+      "url": "/assets/thumbnails/gsni-tellus-stream-sediments-xrf-set2.webp",
+      "smallUrl": "/assets/thumbnails/gsni-tellus-stream-sediments-xrf-set2-60.webp",
+      "alt": "Tellus Stream Sediments (Regional XRF — Set 2)"
+    },
     "references": [
       {
         "label": "GSNI Tellus Regional Stream Sediments — Open Data NI",
@@ -43,6 +50,63 @@
       }
     ],
     "interactiveUrl": "/#layers=gsni-tellus-stream-sediments-xrf-set2",
-    "browseUrl": "/browse/sources/map-source-gsni-tellus-stream-sediments-xrf-set2"
+    "browseUrl": "/browse/sources/map-source-gsni-tellus-stream-sediments-xrf-set2",
+    "rawMetadata": {
+      "id": "gsni-tellus-stream-sediments-xrf-set2",
+      "name": "Tellus Stream Sediments (Regional XRF — Set 2)",
+      "slug": "gsni-tellus-stream-sediments-xrf-set2",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "Second set of regional stream-sediment samples (Tellus survey), analysed by XRF for an additional suite of major and trace elements beyond the Set 1 panel. ~5,870 points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-stream-sediments-xrf-set2.fgb"
+      },
+      "style": {
+        "color": "#6e4fa8",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.85
+      },
+      "labelProperty": "SAMPLE_NO",
+      "keywords": [
+        "tellus",
+        "geochemistry",
+        "stream",
+        "sediment",
+        "xrf",
+        "set2",
+        "gsni"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Regional Stream Sediments — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-stream-sediments",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — XRF Set 2",
+          "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/acf0cf00-85c0-41fd-b974-67e7f67c03ad/download/regionalsedimentsxrfset2.geojson"
+        },
+        {
+          "label": "CSV — XRF Set 2",
+          "file": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/de28b76a-42cf-4b0c-b302-225ade45edf0/download/regionalsedimentsxrfset2.csv"
+        }
+      ],
+      "colorScale": {
+        "property": "CO",
+        "ramp": "viridis",
+        "domain": [
+          3,
+          80
+        ],
+        "logarithmic": false
+      }
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:habitat-deciduous-woodland",
     "slug": "map-source-habitat-deciduous-woodland",
@@ -13,6 +13,13 @@
     ],
     "description": "Spatial extent of deciduous woodland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
     "sourceMapId": "habitat-deciduous-woodland",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "habitat-deciduous-woodland",
+      "url": "/assets/thumbnails/habitat-deciduous-woodland.webp",
+      "smallUrl": "/assets/thumbnails/habitat-deciduous-woodland-60.webp",
+      "alt": "Habitat Network — Deciduous Woodland"
+    },
     "references": [
       {
         "label": "Open Data NI — Deciduous Woodland Habitat Network",
@@ -30,6 +37,54 @@
       }
     ],
     "interactiveUrl": "/#layers=habitat-deciduous-woodland",
-    "browseUrl": "/browse/sources/map-source-habitat-deciduous-woodland"
+    "browseUrl": "/browse/sources/map-source-habitat-deciduous-woodland",
+    "rawMetadata": {
+      "id": "habitat-deciduous-woodland",
+      "name": "Habitat Network — Deciduous Woodland",
+      "slug": "habitat-deciduous-woodland",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of deciduous woodland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-deciduous-woodland.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#3F8D45",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#3F8D45"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "deciduous woodland"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Deciduous Woodland Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/b15b4d96-9513-43b6-a310-a23c5c7fff37",
+          "note": ""
+        }
+      ]
+    }
   }
 }

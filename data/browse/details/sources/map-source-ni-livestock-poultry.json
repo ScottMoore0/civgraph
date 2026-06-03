@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:ni-livestock-poultry",
     "slug": "map-source-ni-livestock-poultry",
@@ -14,6 +14,13 @@
     ],
     "description": "Locations of poultry herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
     "sourceMapId": "ni-livestock-poultry",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "ni-livestock-poultry",
+      "url": "/assets/thumbnails/ni-livestock-poultry.webp",
+      "smallUrl": "/assets/thumbnails/ni-livestock-poultry-60.webp",
+      "alt": "NI Poultry Holdings (April 2019)"
+    },
     "references": [
       {
         "label": "Source — admin.opendatani.gov.uk",
@@ -47,6 +54,48 @@
       }
     ],
     "interactiveUrl": "/#layers=ni-livestock-poultry",
-    "browseUrl": "/browse/sources/map-source-ni-livestock-poultry"
+    "browseUrl": "/browse/sources/map-source-ni-livestock-poultry",
+    "rawMetadata": {
+      "id": "ni-livestock-poultry",
+      "name": "NI Poultry Holdings (April 2019)",
+      "slug": "ni-livestock-poultry",
+      "category": "environment",
+      "provider": [
+        "DAERA"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-poultry.fgb",
+        "downloads": {
+          "geojson": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-poultry.geojson"
+        },
+        "geojson": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-poultry.geojson"
+      },
+      "style": {
+        "color": "#FFC107",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "DAERA",
+        "livestock",
+        "farming",
+        "agriculture",
+        "poultry",
+        "poultry",
+        "herd",
+        "flock",
+        "rural"
+      ],
+      "description": "Locations of poultry herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/",
+          "note": ""
+        }
+      ],
+      "date": "2019-04-01",
+      "labelProperty": "Map Ref"
+    }
   }
 }

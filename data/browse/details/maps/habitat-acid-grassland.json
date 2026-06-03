@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "habitat-acid-grassland",
     "slug": "habitat-acid-grassland",
@@ -25,6 +25,13 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "Class",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "habitat-acid-grassland",
+      "url": "/assets/thumbnails/habitat-acid-grassland.webp",
+      "smallUrl": "/assets/thumbnails/habitat-acid-grassland-60.webp",
+      "alt": "Habitat Network — Acid Grassland"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -44,6 +51,54 @@
       }
     ],
     "interactiveUrl": "/#layers=habitat-acid-grassland",
-    "browseUrl": "/browse/maps/habitat-acid-grassland"
+    "browseUrl": "/browse/maps/habitat-acid-grassland",
+    "rawMetadata": {
+      "id": "habitat-acid-grassland",
+      "name": "Habitat Network — Acid Grassland",
+      "slug": "habitat-acid-grassland",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of acid grassland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-acid-grassland.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#B8C277",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#B8C277"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "acid grassland"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Acid Grassland Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/f4cdfd0e-f655-444d-a5fb-f052a04c6737",
+          "note": ""
+        }
+      ]
+    }
   }
 }

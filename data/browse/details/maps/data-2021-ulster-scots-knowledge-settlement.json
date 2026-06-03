@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "data-2021-ulster-scots-knowledge-settlement",
     "slug": "data-2021-ulster-scots-knowledge-settlement",
@@ -21,7 +21,69 @@
     ],
     "status": "available",
     "loadable": false,
+    "thumbnail": {
+      "kind": "asset",
+      "id": "settlements-2015",
+      "url": "/assets/thumbnails/settlements-2015.webp",
+      "smallUrl": "/assets/thumbnails/settlements-2015-60.webp",
+      "alt": "Some ability in Ulster-Scots (Census 2021, by Settlement)"
+    },
+    "sourceFiles": [
+      {
+        "label": "ms-b08-ulster-scots-settlement.csv",
+        "url": "data/census/derived/ms-b08-ulster-scots-settlement.csv"
+      }
+    ],
+    "references": [
+      {
+        "label": "NISRA Census 2021, Main Statistics Phase 1, MS-B08 (Knowledge of Ulster-Scots)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "ms-b08-ulster-scots-settlement.csv",
+        "url": "data/census/derived/ms-b08-ulster-scots-settlement.csv"
+      }
+    ],
     "interactiveUrl": "/#layers=data-2021-ulster-scots-knowledge-settlement",
-    "browseUrl": "/browse/maps/data-2021-ulster-scots-knowledge-settlement"
+    "browseUrl": "/browse/maps/data-2021-ulster-scots-knowledge-settlement",
+    "rawMetadata": {
+      "id": "data-2021-ulster-scots-knowledge-settlement",
+      "type": "data-entry",
+      "name": "Some ability in Ulster-Scots (Census 2021, by Settlement)",
+      "slug": "data-2021-ulster-scots-knowledge-settlement",
+      "category": "data-population",
+      "description": "Some ability in Ulster-Scots (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-b08-ulster-scots-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "SomeUlsterScots_pct",
+      "ramp": "viridis",
+      "domain": [
+        2,
+        32
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "SomeUlsterScots",
+        "SomeUlsterScots_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "ulster scots knowledge",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B08 (Knowledge of Ulster-Scots)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    }
   }
 }

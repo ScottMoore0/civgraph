@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:gsni-superficial-geology-polygons-250k",
     "slug": "map-source-gsni-superficial-geology-polygons-250k",
@@ -14,6 +14,13 @@
     ],
     "description": "Superficial (Quaternary) deposits — glacial till, alluvium, peat, raised beach and other surface materials — mapped at 1:250,000 scale.",
     "sourceMapId": "gsni-superficial-geology-polygons-250k",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "gsni-superficial-geology-polygons-250k",
+      "url": "/assets/thumbnails/gsni-superficial-geology-polygons-250k.webp",
+      "smallUrl": "/assets/thumbnails/gsni-superficial-geology-polygons-250k-60.webp",
+      "alt": "Superficial Geology 1:250,000"
+    },
     "references": [
       {
         "label": "GSNI 250K Geology — Open Data NI",
@@ -47,6 +54,89 @@
       }
     ],
     "interactiveUrl": "/#layers=gsni-superficial-geology-polygons-250k",
-    "browseUrl": "/browse/sources/map-source-gsni-superficial-geology-polygons-250k"
+    "browseUrl": "/browse/sources/map-source-gsni-superficial-geology-polygons-250k",
+    "rawMetadata": {
+      "id": "gsni-superficial-geology-polygons-250k",
+      "name": "Superficial Geology 1:250,000",
+      "slug": "gsni-superficial-geology-polygons-250k",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "British Geological Survey"
+      ],
+      "description": "Superficial (Quaternary) deposits — glacial till, alluvium, peat, raised beach and other surface materials — mapped at 1:250,000 scale.",
+      "keywords": [
+        "geology",
+        "superficial",
+        "quaternary",
+        "till",
+        "alluvium",
+        "peat",
+        "drift",
+        "gsni"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI 250K Geology — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON (original)",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/19b4e12e-0e00-4091-8419-0c744d72cb96/download/ni250ksuperficialgeologypolygons.geojson"
+        },
+        {
+          "label": "GeoPackage",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/e490914d-9e13-4cc9-915b-3cac75643a95/download/ni_250k_superficial_geology_polygons.gpkg"
+        },
+        {
+          "label": "ESRI Shapefile (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/32306dee-1748-4d68-b465-acfd1e5ae344/download/ni250ksuperficialgeologypolygons.zip"
+        }
+      ],
+      "isGroup": true,
+      "variants": [
+        {
+          "id": "gsni-superficial-by-deposit",
+          "label": "By deposit type (BGS palette)",
+          "description": "Quaternary superficial deposits coloured by deposit-type using the official BGS / GSNI 1:250K palette from the published QGIS style file. ALLUVIUM yellow, TILL pale cyan, PEAT brown, GLACIAL SAND AND GRAVEL pink — the colours used in the BGS Geology of Britain Viewer.",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/geology/superficial-geology-polygons.fgb"
+          },
+          "style": {
+            "weight": 0.6
+          },
+          "labelProperty": "LEX_D",
+          "useLOD": true,
+          "isDefault": true,
+          "colorMap": {
+            "property": "LEX_D",
+            "palette": "bgs_lex_superficial",
+            "default": "#cccccc"
+          }
+        },
+        {
+          "id": "gsni-superficial-conventional",
+          "label": "By deposit type (conventional earth-tones)",
+          "description": "Quaternary superficial deposits coloured using the conventional textbook earth-tone palette (TILL brown, ALLUVIUM yellow, BLOWN SAND cream) rather than the BGS-pink convention.",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/geology/superficial-geology-polygons.fgb"
+          },
+          "style": {
+            "weight": 0.6
+          },
+          "labelProperty": "LEX_D",
+          "useLOD": true,
+          "colorMap": {
+            "property": "LEX_D",
+            "palette": "superficial",
+            "default": "#bdbdbd"
+          }
+        }
+      ]
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:all-ireland-townlands",
     "slug": "map-source-all-ireland-townlands",
@@ -14,6 +14,13 @@
     ],
     "description": "Ireland",
     "sourceMapId": "all-ireland-townlands",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "all-ireland-townlands",
+      "url": "/assets/thumbnails/all-ireland-townlands.webp",
+      "smallUrl": "/assets/thumbnails/all-ireland-townlands-60.webp",
+      "alt": "Ireland"
+    },
     "references": [
       {
         "label": "OSNI Open Data - Largescale Boundaries - Townlands",
@@ -37,6 +44,197 @@
       }
     ],
     "interactiveUrl": "/#layers=all-ireland-townlands",
-    "browseUrl": "/browse/sources/map-source-all-ireland-townlands"
+    "browseUrl": "/browse/sources/map-source-all-ireland-townlands",
+    "rawMetadata": {
+      "id": "all-ireland-townlands",
+      "name": "Ireland",
+      "slug": "townlands-all-ireland",
+      "category": "townlands",
+      "featured": true,
+      "files": {
+        "fgb": "data/maps/townlands/Townlands_AllIreland.fgb"
+      },
+      "downloads": {
+        "fgb": "https://archive.org/download/civgraph-townlands-allireland-fgb/Townlands_AllIreland.fgb"
+      },
+      "useLOD": true,
+      "provider": [
+        "OSNI",
+        "OSI"
+      ],
+      "style": {
+        "color": "#A87000",
+        "weight": 2
+      },
+      "labelProperty": "ENG_NAME_VALUE",
+      "keywords": [
+        "townland",
+        "townlands",
+        "ireland",
+        "all ireland",
+        "osni",
+        "osi"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data - Largescale Boundaries - Townlands",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-townlands",
+          "note": "Northern Ireland townlands. Open Government Licence v3."
+        },
+        {
+          "label": "Townlands - National Statutory Boundaries - Ungeneralised - 2024 (Tailte Éireann)",
+          "url": "https://data-osi.opendata.arcgis.com/datasets/osi::townlands-national-statutory-boundaries-ungeneralised-2024/about",
+          "note": "Republic of Ireland townlands. Creative Commons Attribution 4.0."
+        }
+      ],
+      "compositeSources": [
+        "ni-townlands",
+        "roi-townlands"
+      ],
+      "labelPropertyFallbacks": [
+        "TownlandNa",
+        "Name"
+      ],
+      "description": "Ireland",
+      "variants": [
+        {
+          "id": "ni-townlands",
+          "label": "Northern Ireland",
+          "description": "Northern Ireland",
+          "slug": "townlands-ni",
+          "files": {
+            "fgb": "data/maps/townlands/OSNI_Townlands.fgb"
+          },
+          "chunked": true,
+          "useLOD": true,
+          "provider": [
+            "OSNI"
+          ],
+          "style": {
+            "color": "#A87000",
+            "weight": 2
+          },
+          "labelProperty": "TownlandNa",
+          "priorityProperty": "Area_SqKM",
+          "keywords": [
+            "townland",
+            "townlands",
+            "northern ireland",
+            "osni"
+          ],
+          "references": [
+            {
+              "label": "OSNI Open Data - Largescale Boundaries - Townlands",
+              "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-townlands",
+              "note": "Open Government Licence v3."
+            },
+            {
+              "label": "OSNI Open Data - Largescale Boundaries - Townlands (data.gov.uk)",
+              "url": "https://www.data.gov.uk/dataset/18e1bd0f-1829-496e-9b21-a5d8f6159940/osni-open-data-largescale-boundaries-townlands6"
+            }
+          ],
+          "lodVectorBackstops": [
+            {
+              "level": "z7",
+              "fgb": "https://data.civgraph.net/data/maps/townlands/backstops/ni-townlands-backstop-z7.fgb",
+              "maxZoom": 8
+            },
+            {
+              "level": "z10",
+              "fgb": "https://data.civgraph.net/data/maps/townlands/backstops/ni-townlands-backstop-z10.fgb",
+              "maxZoom": 11
+            }
+          ],
+          "bounds": [
+            [
+              54.022724,
+              -8.177503
+            ],
+            [
+              55.312985,
+              -5.432784
+            ]
+          ]
+        },
+        {
+          "id": "roi-townlands",
+          "label": "Republic of Ireland",
+          "description": "Republic of Ireland",
+          "slug": "townlands-roi",
+          "files": {
+            "fgb": "data/maps/townlands/OSI_Townlands.fgb"
+          },
+          "chunked": true,
+          "useLOD": true,
+          "provider": [
+            "OSI"
+          ],
+          "style": {
+            "color": "#A87000",
+            "weight": 2
+          },
+          "labelProperty": "ENG_NAME_VALUE",
+          "keywords": [
+            "townland",
+            "townlands",
+            "republic of ireland",
+            "osi",
+            "tailte eireann"
+          ],
+          "references": [
+            {
+              "label": "Townlands - National Statutory Boundaries - Ungeneralised - 2024 (Tailte Éireann)",
+              "url": "https://data-osi.opendata.arcgis.com/datasets/osi::townlands-national-statutory-boundaries-ungeneralised-2024/about",
+              "note": "Creative Commons Attribution 4.0."
+            }
+          ],
+          "lodVectorBackstops": [
+            {
+              "level": "z7",
+              "fgb": "https://data.civgraph.net/data/maps/townlands/backstops/roi-townlands-backstop-z7.fgb",
+              "maxZoom": 8
+            },
+            {
+              "level": "z10",
+              "fgb": "https://data.civgraph.net/data/maps/townlands/backstops/roi-townlands-backstop-z10.fgb",
+              "maxZoom": 11
+            }
+          ],
+          "bounds": [
+            [
+              51.419897,
+              -10.618624
+            ],
+            [
+              55.435141,
+              -5.994495
+            ]
+          ]
+        }
+      ],
+      "chunked": true,
+      "lodVectorBackstops": [
+        {
+          "level": "z7",
+          "fgb": "https://data.civgraph.net/data/maps/townlands/backstops/all-ireland-townlands-backstop-z7.fgb",
+          "maxZoom": 8
+        },
+        {
+          "level": "z10",
+          "fgb": "https://data.civgraph.net/data/maps/townlands/backstops/all-ireland-townlands-backstop-z10.fgb",
+          "maxZoom": 11
+        }
+      ],
+      "bounds": [
+        [
+          51.419897,
+          -10.618624
+        ],
+        [
+          55.435141,
+          -5.432784
+        ]
+      ]
+    }
   }
 }

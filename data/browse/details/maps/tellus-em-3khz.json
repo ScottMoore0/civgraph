@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "tellus-em-3khz",
     "slug": "tellus-em-3khz",
@@ -27,6 +27,11 @@
     "status": "available",
     "featured": false,
     "loadable": true,
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "TE",
+      "type": "map"
+    },
     "sourceFiles": [
       {
         "label": "xyz",
@@ -58,6 +63,63 @@
       }
     ],
     "interactiveUrl": "/#layers=tellus-em-3khz",
-    "browseUrl": "/browse/maps/tellus-em-3khz"
+    "browseUrl": "/browse/maps/tellus-em-3khz",
+    "rawMetadata": {
+      "id": "tellus-em-3khz",
+      "name": "Tellus Electromagnetic — 3 kHz Apparent Conductivity",
+      "slug": "tellus-em-3khz",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "Apparent ground conductivity at 3 kHz from the Tellus airborne EM survey — penetrates ~50–150 m, mapping conductive saline groundwater, clay-rich soils, mineralised zones, and pollution plumes. Viridis colormap (low = purple, high = yellow), -2σ to +4σ stretch.",
+      "files": {
+        "xyz": "https://data.civgraph.net/data/maps/geology/tellus-em-3khz/{z}/{x}/{y}.png"
+      },
+      "rasterStyle": {
+        "opacity": 0.85,
+        "minZoom": 5,
+        "maxZoom": 18,
+        "maxNativeZoom": 13
+      },
+      "bounds": [
+        [
+          53.99,
+          -8.19
+        ],
+        [
+          55.33,
+          -5.32
+        ]
+      ],
+      "keywords": [
+        "tellus",
+        "gsni",
+        "geophysics",
+        "electromagnetic",
+        "conductivity",
+        "3khz",
+        "em",
+        "airborne"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — Tellus Electromagnetic Grids",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-electromagnetic-grids",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "ESRI File Geodatabase (ZIP, 225 MB)",
+          "file": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Electromagnetics_ESRIGRID.zip"
+        },
+        {
+          "label": "ASCII Grid (ZIP, 380 MB)",
+          "file": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Electromagnetics_ASCII.zip"
+        }
+      ]
+    }
   }
 }

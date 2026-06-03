@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "gsni-tellus-rural-soil-s-near-total",
     "slug": "gsni-tellus-rural-soil-s-near-total",
@@ -28,6 +28,13 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "Sample",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "gsni-tellus-rural-soil-s-near-total",
+      "url": "/assets/thumbnails/gsni-tellus-rural-soil-s-near-total.webp",
+      "smallUrl": "/assets/thumbnails/gsni-tellus-rural-soil-s-near-total-60.webp",
+      "alt": "Tellus Rural Soil (S Horizon — Near-Total Digest)"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -59,6 +66,64 @@
       }
     ],
     "interactiveUrl": "/#layers=gsni-tellus-rural-soil-s-near-total",
-    "browseUrl": "/browse/maps/gsni-tellus-rural-soil-s-near-total"
+    "browseUrl": "/browse/maps/gsni-tellus-rural-soil-s-near-total",
+    "rawMetadata": {
+      "id": "gsni-tellus-rural-soil-s-near-total",
+      "name": "Tellus Rural Soil (S Horizon — Near-Total Digest)",
+      "slug": "gsni-tellus-rural-soil-s-near-total",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "S-horizon (subsoil) samples digested with HF-HClO4-HNO3 (\"near total\") and analysed by ICP-MS — a more aggressive extraction than aqua regia, recovering more of the silicate-bound element pool. ~6,870 points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-rural-soil-s-near-total.fgb"
+      },
+      "style": {
+        "color": "#7e4720",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.85
+      },
+      "labelProperty": "Sample",
+      "keywords": [
+        "tellus",
+        "soil",
+        "s horizon",
+        "subsoil",
+        "near total",
+        "digest",
+        "icp-ms",
+        "gsni"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Rural Soil Survey — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/rural-soil-survey",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — S Soils Near-Total Digest",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/7bf16f02-1855-410a-8277-edaabd8c5e40/download/regional-soils-s-neartotal-hdl.geojson"
+        },
+        {
+          "label": "CSV — S Soils Near-Total Digest",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/577d757b-c953-469f-b3b3-0ea44bd3bb6b/download/regional_-neartotal_s_hdl.csv"
+        }
+      ],
+      "colorScale": {
+        "property": "Pb",
+        "ramp": "magma",
+        "domain": [
+          5,
+          80
+        ],
+        "logarithmic": false
+      }
+    }
   }
 }

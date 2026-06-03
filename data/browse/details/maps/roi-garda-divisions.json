@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "roi-garda-divisions",
     "slug": "roi-garda-divisions",
@@ -30,6 +30,14 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "DIVISION",
+    "parentCard": "An Garda Síochána Areas",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "roi-garda-divisions",
+      "url": "/assets/thumbnails/roi-garda-divisions.webp",
+      "smallUrl": "/assets/thumbnails/roi-garda-divisions-60.webp",
+      "alt": "Garda Divisions"
+    },
     "sourceFiles": [
       {
         "label": "geojson",
@@ -59,6 +67,37 @@
       }
     ],
     "interactiveUrl": "/#layers=roi-garda-divisions",
-    "browseUrl": "/browse/maps/roi-garda-divisions"
+    "browseUrl": "/browse/maps/roi-garda-divisions",
+    "rawMetadata": {
+      "id": "roi-garda-divisions",
+      "name": "Garda Divisions",
+      "slug": "roi-garda-divisions",
+      "category": "local-government",
+      "date": "2011",
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "geojson": "data/maps/local-government/ROI_Garda_Divisions.geojson",
+        "fgb": "data/maps/local-government/ROI_Garda_Divisions.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/Garda_Divisions.zip"
+        }
+      },
+      "style": {
+        "color": "#2E7D32",
+        "weight": 2
+      },
+      "keywords": [
+        "garda",
+        "police",
+        "republic of ireland",
+        "ireland",
+        "divisions",
+        "an garda siochana"
+      ],
+      "labelProperty": "DIVISION",
+      "useLOD": true
+    }
   }
 }

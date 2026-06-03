@@ -363,7 +363,8 @@ function renderCard(type, item, config) {
   const summary = item.description || summaryForItem(type, item);
   return `
     <article class="browse-card">
-      <div>
+      ${renderThumbnail(item, 'card')}
+      <div class="browse-card__main">
         <h2 class="browse-card__title"><a href="#/${type}/${encodeURIComponent(slug)}" data-browse-link>${escapeHtml(item.title || item.name || item.id)}</a></h2>
         <div class="browse-card__meta">${renderMeta(metaForItem(type, item))}</div>
       </div>
@@ -391,10 +392,13 @@ async function renderDetail(type, indexItem) {
     <div class="browse-detail">
       ${renderDetailActions(config, item)}
       ${renderContributorDetailActions(type, item)}
+      ${renderThumbnailPanel(item)}
       ${renderOverviewPanel(type, item)}
       ${renderMetadataPanel(item)}
+      ${renderAllFieldsPanel(item)}
       ${renderRelatedPanel(type, item)}
       ${renderLinksPanel(item)}
+      ${renderRawMetadataPanel(item)}
     </div>
   `;
 }
@@ -509,6 +513,101 @@ function renderLinksPanel(item) {
     escapeHtml(row[1] || ''),
     row[2] ? `<a href="${escapeAttr(row[2])}" target="_blank" rel="noopener noreferrer">${escapeHtml(row[2])}</a>` : ''
   ]));
+}
+
+function renderThumbnail(item, context = 'card') {
+  const thumbnail = item.thumbnail || fallbackThumbnail(item);
+  if (!thumbnail) return '';
+  if (thumbnail.kind === 'asset' && thumbnail.url) {
+    const src = context === 'card' ? (thumbnail.smallUrl || thumbnail.url) : thumbnail.url;
+    const srcset = context === 'card' && thumbnail.smallUrl && thumbnail.url
+      ? ` srcset="${escapeAttr(thumbnail.smallUrl)} 60w, ${escapeAttr(thumbnail.url)} 120w" sizes="72px"`
+      : '';
+    return `
+      <figure class="browse-thumb browse-thumb--${escapeAttr(context)}">
+        <img src="${escapeAttr(src)}"${srcset} alt="${escapeAttr(thumbnail.alt || item.title || '')}" loading="lazy" decoding="async">
+      </figure>
+    `;
+  }
+  return `
+    <div class="browse-thumb browse-thumb--${escapeAttr(context)} browse-thumb--placeholder browse-thumb--${escapeAttr(thumbnail.type || item.type || 'entry')}" aria-hidden="true">
+      <span>${escapeHtml(thumbnail.label || thumbnailInitials(item.title || item.name || item.id))}</span>
+    </div>
+  `;
+}
+
+function renderThumbnailPanel(item) {
+  const thumbnail = item.thumbnail || fallbackThumbnail(item);
+  const caption = thumbnail.kind === 'asset'
+    ? `Thumbnail asset: ${thumbnail.id || fileName(thumbnail.url)}`
+    : 'No image asset is available for this item; Browse is showing a generated placeholder.';
+  return `
+    <section class="browse-detail__panel browse-detail__panel--thumbnail">
+      <h2>Thumbnail</h2>
+      <div class="browse-detail__body">
+        ${renderThumbnail(item, 'detail')}
+        <p class="browse-thumb-caption">${escapeHtml(caption)}</p>
+        ${thumbnail.kind === 'asset' && thumbnail.url ? `<p class="browse-thumb-caption"><a href="${escapeAttr(thumbnail.url)}" target="_blank" rel="noopener noreferrer">Open thumbnail at actual size</a></p>` : ''}
+      </div>
+    </section>
+  `;
+}
+
+function fallbackThumbnail(item) {
+  return {
+    kind: 'placeholder',
+    label: thumbnailInitials(item.title || item.name || item.id || item.key || 'C'),
+    type: item.type || 'entry'
+  };
+}
+
+function thumbnailInitials(value) {
+  const words = String(value || '').trim().split(/\s+/).filter(Boolean);
+  return words.slice(0, 2).map((word) => word[0]).join('').toUpperCase() || 'C';
+}
+
+function renderAllFieldsPanel(item) {
+  const rows = Object.entries(item)
+    .filter(([key, value]) => !['rawMetadata', 'thumbnail'].includes(key) && value !== null && value !== undefined && value !== '')
+    .map(([key, value]) => [humanizeKey(key), renderFieldValue(value)]);
+  if (!rows.length) return '';
+  return renderTablePanel('All Browse Fields', ['Field', 'Value'], rows.map(([key, value]) => [
+    escapeHtml(key),
+    value
+  ]));
+}
+
+function renderRawMetadataPanel(item) {
+  if (!item.rawMetadata) return '';
+  const json = JSON.stringify(item.rawMetadata, null, 2);
+  return `
+    <section class="browse-detail__panel">
+      <h2>Raw Source Metadata</h2>
+      <div class="browse-detail__body">
+        <details class="browse-raw">
+          <summary>Show original generated/source fields</summary>
+          <pre>${escapeHtml(json)}</pre>
+        </details>
+      </div>
+    </section>
+  `;
+}
+
+function renderFieldValue(value) {
+  if (Array.isArray(value)) {
+    if (!value.length) return '';
+    if (value.every((item) => item === null || ['string', 'number', 'boolean'].includes(typeof item))) {
+      return escapeHtml(value.join(', '));
+    }
+    return `<pre class="browse-field-json">${escapeHtml(JSON.stringify(value, null, 2))}</pre>`;
+  }
+  if (typeof value === 'object') {
+    return `<pre class="browse-field-json">${escapeHtml(JSON.stringify(value, null, 2))}</pre>`;
+  }
+  if (typeof value === 'string' && /^https?:\/\//i.test(value)) {
+    return `<a href="${escapeAttr(value)}" target="_blank" rel="noopener noreferrer">${escapeHtml(value)}</a>`;
+  }
+  return escapeHtml(String(value));
 }
 
 async function refreshAuth() {
@@ -953,6 +1052,18 @@ function slugify(value) {
     .replace(/&/g, ' and ')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '') || 'entry';
+}
+
+function humanizeKey(value) {
+  return String(value || '')
+    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+    .replace(/[_-]+/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function fileName(value) {
+  const text = String(value || '');
+  return text.split(/[\\/]/).pop()?.split('?')[0] || text;
 }
 
 function escapeHtml(value) {

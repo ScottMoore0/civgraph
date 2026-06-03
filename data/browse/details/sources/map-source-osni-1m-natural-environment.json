@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:osni-1m-natural-environment",
     "slug": "map-source-osni-1m-natural-environment",
@@ -13,6 +13,11 @@
     ],
     "description": "Small-scale (1:1,000,000) thematic map of Northern Ireland’s natural environment — drainage, lakes, mountains, and broad land cover. Re-tiled as an interactive overlay at zoom 6–11.",
     "sourceMapId": "osni-1m-natural-environment",
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "O1",
+      "type": "map"
+    },
     "references": [
       {
         "label": "OSNI Open Data — 1:1M Natural Environment",
@@ -34,6 +39,58 @@
       }
     ],
     "interactiveUrl": "/#layers=osni-1m-natural-environment",
-    "browseUrl": "/browse/sources/map-source-osni-1m-natural-environment"
+    "browseUrl": "/browse/sources/map-source-osni-1m-natural-environment",
+    "rawMetadata": {
+      "id": "osni-1m-natural-environment",
+      "name": "OSNI 1:1M Thematic — Natural Environment",
+      "slug": "osni-1m-natural-environment",
+      "category": "osni-raster",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Small-scale (1:1,000,000) thematic map of Northern Ireland’s natural environment — drainage, lakes, mountains, and broad land cover. Re-tiled as an interactive overlay at zoom 6–11.",
+      "files": {
+        "xyz": "https://data.civgraph.net/data/maps/osni-raster/1m-natural-environment/{z}/{x}/{y}.png"
+      },
+      "rasterStyle": {
+        "opacity": 0.8,
+        "minZoom": 4,
+        "maxZoom": 14,
+        "maxNativeZoom": 11
+      },
+      "bounds": [
+        [
+          54,
+          -8.87
+        ],
+        [
+          55.45,
+          -5.41
+        ]
+      ],
+      "keywords": [
+        "osni",
+        "1:1m",
+        "1 million",
+        "thematic",
+        "natural environment",
+        "rivers",
+        "lakes",
+        "mountains"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — 1:1M Natural Environment",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-1million-raster-natural-environment",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Georeferenced JPEG",
+          "file": "https://admin.opendatani.gov.uk/dataset/c7aacf24-b53d-47bf-b394-7a1adabb4bdc/resource/d9b365af-506c-46c4-b2eb-72e8955fae63/download/osniopendata_1million_naturalenvironment.zip"
+        }
+      ]
+    }
   }
 }

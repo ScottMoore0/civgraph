@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "eoni-polling-stations",
     "slug": "eoni-polling-stations",
@@ -31,6 +31,13 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "BUILDING_NAME",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "eoni-polling-stations",
+      "url": "/assets/thumbnails/eoni-polling-stations.webp",
+      "smallUrl": "/assets/thumbnails/eoni-polling-stations-60.webp",
+      "alt": "EONI Polling Stations"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -51,6 +58,45 @@
       }
     ],
     "interactiveUrl": "/#layers=eoni-polling-stations",
-    "browseUrl": "/browse/maps/eoni-polling-stations"
+    "browseUrl": "/browse/maps/eoni-polling-stations",
+    "rawMetadata": {
+      "id": "eoni-polling-stations",
+      "name": "EONI Polling Stations",
+      "slug": "eoni-polling-stations",
+      "category": "polling",
+      "featured": false,
+      "provider": [
+        "Electoral Office for Northern Ireland",
+        "Land & Property Services"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/polling/eoni-polling-stations.fgb"
+      },
+      "style": {
+        "color": "#205493",
+        "weight": 1,
+        "fillColor": "#3F7CC0",
+        "fillOpacity": 0.85,
+        "radius": 5
+      },
+      "labelProperty": "BUILDING_NAME",
+      "keywords": [
+        "polling",
+        "voting",
+        "election",
+        "polling station",
+        "EONI",
+        "voter"
+      ],
+      "description": "All 607 polling stations used by the Electoral Office for Northern Ireland (EONI). Each station's record includes the building name, full address, postcode, the count of properties assigned to it, and the number of ballot boxes. Sourced via the EONI Polling Stations and Properties ArcGIS service published on the OSNI Spatial NI Hub.",
+      "references": [
+        {
+          "label": "EONI Polling Stations app (interactive)",
+          "url": "https://osni-spatialni.hub.arcgis.com/apps/d37660935b1645a696f50ac086bc0eff/explore",
+          "note": "Source — OSNI Spatial NI"
+        }
+      ],
+      "date": "2026-04-27"
+    }
   }
 }

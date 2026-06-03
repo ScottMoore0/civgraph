@@ -1,3 +1,19 @@
+# Maximize Browse item detail and thumbnails
+- [x] Record scope
+  - User requested richer Browse pages so all available information is exposed for each item, and each item thumbnail is provided, including actual-size thumbnail display on item pages.
+- [x] Inspect data and thumbnails
+  - Locate thumbnail manifest/assets and identify where generated Browse records currently drop source fields.
+- [x] Enrich generated data
+  - Preserve raw/source metadata and add thumbnail metadata without bloating list indexes unnecessarily.
+- [x] Improve Browse rendering
+  - Add actual-size thumbnail panels, richer structured detail panels, and collapsible raw metadata for each item.
+- [x] Verify
+  - Run generation/build checks and inspect representative map/election/source detail output.
+- [x] Review
+  - Document implemented behavior and any remaining constraints.
+  - Implemented manifest-backed thumbnails for maps/elections/features/sources, safe generated placeholders where no image asset exists, actual-size thumbnail panels, all-field tables, raw source metadata panels, richer source-file extraction, and person detail availability without adding thousands of static detail files.
+  - Verification evidence: `node --check browse/browse.js`, `node --check scripts/build-browse-indexes.mjs`, `npm run build`, generated JSON spot checks for `deas-1972`, `data-2021-population-lgd`, `book-dea-prov-1992`, `dail-eireann__2024-11-29`, and browser smoke checks for `/browse/#/maps/deas-1972` and `/browse/#/persons/name-yes`.
+
 # Normalize derived map-layer display titles
 - [x] Record scope
   - User requested map layers whose names are derived values, usually dates, to display as `[catalogue card title] - [derived name]` in the active layers panel and Browse section.

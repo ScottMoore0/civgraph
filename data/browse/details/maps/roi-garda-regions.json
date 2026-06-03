@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "roi-garda-regions",
     "slug": "roi-garda-regions",
@@ -30,6 +30,14 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "REGION",
+    "parentCard": "An Garda Síochána Areas",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "roi-garda-regions",
+      "url": "/assets/thumbnails/roi-garda-regions.webp",
+      "smallUrl": "/assets/thumbnails/roi-garda-regions-60.webp",
+      "alt": "Garda Regions"
+    },
     "sourceFiles": [
       {
         "label": "geojson",
@@ -59,6 +67,37 @@
       }
     ],
     "interactiveUrl": "/#layers=roi-garda-regions",
-    "browseUrl": "/browse/maps/roi-garda-regions"
+    "browseUrl": "/browse/maps/roi-garda-regions",
+    "rawMetadata": {
+      "id": "roi-garda-regions",
+      "name": "Garda Regions",
+      "slug": "roi-garda-regions",
+      "category": "local-government",
+      "date": "2011",
+      "provider": [
+        "CSO"
+      ],
+      "files": {
+        "geojson": "data/maps/local-government/ROI_Garda_Regions.geojson",
+        "fgb": "data/maps/local-government/ROI_Garda_Regions.fgb",
+        "downloads": {
+          "shapefile": "data/downloads/Garda_Regions.zip"
+        }
+      },
+      "style": {
+        "color": "#1B5E20",
+        "weight": 2
+      },
+      "keywords": [
+        "garda",
+        "police",
+        "republic of ireland",
+        "ireland",
+        "regions",
+        "an garda siochana"
+      ],
+      "labelProperty": "REGION",
+      "useLOD": true
+    }
   }
 }

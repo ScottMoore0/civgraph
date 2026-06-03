@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "data-2021-no-quals-lgd",
     "slug": "data-2021-no-quals-lgd",
@@ -21,7 +21,69 @@
     ],
     "status": "available",
     "loadable": false,
+    "thumbnail": {
+      "kind": "asset",
+      "id": "lgd-2012",
+      "url": "/assets/thumbnails/lgd-2012.webp",
+      "smallUrl": "/assets/thumbnails/lgd-2012-60.webp",
+      "alt": "No qualifications (Census 2021, by LGD)"
+    },
+    "sourceFiles": [
+      {
+        "label": "ms-g01-no-quals-lgd.csv",
+        "url": "data/census/derived/ms-g01-no-quals-lgd.csv"
+      }
+    ],
+    "references": [
+      {
+        "label": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "ms-g01-no-quals-lgd.csv",
+        "url": "data/census/derived/ms-g01-no-quals-lgd.csv"
+      }
+    ],
     "interactiveUrl": "/#layers=data-2021-no-quals-lgd",
-    "browseUrl": "/browse/maps/data-2021-no-quals-lgd"
+    "browseUrl": "/browse/maps/data-2021-no-quals-lgd",
+    "rawMetadata": {
+      "id": "data-2021-no-quals-lgd",
+      "type": "data-entry",
+      "name": "No qualifications (Census 2021, by LGD)",
+      "slug": "data-2021-no-quals-lgd",
+      "category": "data-population",
+      "description": "No qualifications (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "lgd-2012",
+      "csv": "data/census/derived/ms-g01-no-quals-lgd.csv",
+      "joinKey": "LGDCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "NoQuals_pct",
+      "ramp": "viridis",
+      "domain": [
+        17,
+        30
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "NoQuals",
+        "NoQuals_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "no quals",
+        "lgd"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    }
   }
 }

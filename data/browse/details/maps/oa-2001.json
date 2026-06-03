@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "oa-2001",
     "slug": "oa-2001",
@@ -29,6 +29,14 @@
     "featured": true,
     "loadable": true,
     "labelProperty": "OA_CODE",
+    "parentCard": "Small Census Units",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "oa-2001",
+      "url": "/assets/thumbnails/oa-2001.webp",
+      "smallUrl": "/assets/thumbnails/oa-2001-60.webp",
+      "alt": "Output Area 2001"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -48,6 +56,51 @@
       }
     ],
     "interactiveUrl": "/#layers=oa-2001",
-    "browseUrl": "/browse/maps/oa-2001"
+    "browseUrl": "/browse/maps/oa-2001",
+    "rawMetadata": {
+      "id": "oa-2001",
+      "name": "Output Area 2001",
+      "slug": "oa-2001",
+      "category": "census",
+      "featured": true,
+      "provider": [
+        "NISRA"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/census-areas/OA2001.fgb"
+      },
+      "style": {
+        "color": "#7D3C98",
+        "weight": 2
+      },
+      "labelProperty": "OA_CODE",
+      "keywords": [
+        "OA",
+        "output area",
+        "census",
+        "2001",
+        "statistical"
+      ],
+      "date": 2001,
+      "chunked": true,
+      "chunkLoadConcurrency": 4,
+      "references": [
+        {
+          "label": "Output Areas (Census 2001) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
+          "url": "https://www.nisra.gov.uk/support/geography/output-areas-census-2001",
+          "note": ""
+        }
+      ],
+      "bounds": [
+        [
+          54.022725,
+          -8.177502
+        ],
+        [
+          55.312965,
+          -5.432789
+        ]
+      ]
+    }
   }
 }

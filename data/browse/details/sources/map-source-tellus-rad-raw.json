@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:tellus-rad-raw",
     "slug": "map-source-tellus-rad-raw",
@@ -15,6 +15,11 @@
     ],
     "description": "Raw airborne gamma-ray spectrometer readings along each Tellus flight line — K, U, Th window counts plus total count, before gridding into the radiometric maps already on this site. Useful for re-processing or quality-assessing the gridded products.",
     "sourceMapId": "tellus-rad-raw",
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "TR",
+      "type": "map"
+    },
     "references": [
       {
         "label": "OSNI Open Data — Tellus Radiometrics (raw)",
@@ -32,6 +37,46 @@
       }
     ],
     "interactiveUrl": "/#layers=tellus-rad-raw",
-    "browseUrl": "/browse/sources/map-source-tellus-rad-raw"
+    "browseUrl": "/browse/sources/map-source-tellus-rad-raw",
+    "rawMetadata": {
+      "id": "tellus-rad-raw",
+      "name": "Tellus Radiometric — raw airborne flight-line data",
+      "slug": "tellus-rad-raw",
+      "category": "geology-geophysics",
+      "placeholder": true,
+      "provider": [
+        "GSNI",
+        "Tellus",
+        "BGS"
+      ],
+      "description": "Raw airborne gamma-ray spectrometer readings along each Tellus flight line — K, U, Th window counts plus total count, before gridding into the radiometric maps already on this site. Useful for re-processing or quality-assessing the gridded products.",
+      "keywords": [
+        "tellus",
+        "gsni",
+        "bgs",
+        "geophysics",
+        "radiometric",
+        "gamma",
+        "airborne",
+        "raw",
+        "flight line",
+        "potassium",
+        "uranium",
+        "thorium"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — Tellus Radiometrics (raw)",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometrics",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Tellus Radiometrics raw (ZIP, 56 MB)",
+          "file": "http://resources.bgs.ac.uk/gsni/geophysics/Radiometrics.zip"
+        }
+      ]
+    }
   }
 }

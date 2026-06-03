@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "habitat-lowland-meadow",
     "slug": "habitat-lowland-meadow",
@@ -25,6 +25,13 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "Class",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "habitat-lowland-meadow",
+      "url": "/assets/thumbnails/habitat-lowland-meadow.webp",
+      "smallUrl": "/assets/thumbnails/habitat-lowland-meadow-60.webp",
+      "alt": "Habitat Network — Lowland Meadow"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -44,6 +51,54 @@
       }
     ],
     "interactiveUrl": "/#layers=habitat-lowland-meadow",
-    "browseUrl": "/browse/maps/habitat-lowland-meadow"
+    "browseUrl": "/browse/maps/habitat-lowland-meadow",
+    "rawMetadata": {
+      "id": "habitat-lowland-meadow",
+      "name": "Habitat Network — Lowland Meadow",
+      "slug": "habitat-lowland-meadow",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of lowland meadow habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-lowland-meadow.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#9DC07F",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#9DC07F"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "lowland meadow"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Lowland Meadow Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/c3d5eef0-5ddc-4ba4-a278-b292b1e00b65",
+          "note": ""
+        }
+      ]
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "eds-2022",
     "slug": "electoral-divisions-2023",
@@ -30,25 +30,96 @@
     "featured": true,
     "loadable": false,
     "labelProperty": "ED_ENGLISH",
+    "parentCard": "District Electoral Divisions",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "eds-2022",
+      "url": "/assets/thumbnails/eds-2022.webp",
+      "smallUrl": "/assets/thumbnails/eds-2022-60.webp",
+      "alt": "Electoral Divisions 2023"
+    },
     "variants": [
       {
         "id": "eds-connacht-2022",
-        "title": "eds-connacht-2022"
+        "title": "Connacht"
       },
       {
         "id": "eds-leinster-2022",
-        "title": "eds-leinster-2022"
+        "title": "Leinster"
       },
       {
         "id": "eds-munster-2022",
-        "title": "eds-munster-2022"
+        "title": "Munster"
       },
       {
         "id": "eds-ulster-2022",
-        "title": "eds-ulster-2022"
+        "title": "Ulster"
       }
     ],
     "interactiveUrl": "/#layers=eds-2022",
-    "browseUrl": "/browse/maps/eds-2022"
+    "browseUrl": "/browse/maps/eds-2022",
+    "rawMetadata": {
+      "id": "eds-2022",
+      "name": "Electoral Divisions 2023",
+      "slug": "electoral-divisions-2023",
+      "category": "wards",
+      "isGroup": true,
+      "featured": true,
+      "provider": [
+        "CSO"
+      ],
+      "style": {
+        "color": "#1B5E20",
+        "weight": 2
+      },
+      "keywords": [
+        "electoral division",
+        "ED",
+        "2022",
+        "census",
+        "all ireland",
+        "CSO"
+      ],
+      "variants": [
+        {
+          "id": "eds-connacht-2022",
+          "label": "Connacht",
+          "description": "Electoral Divisions in Connacht province",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2022_CSO_EDs_Connacht.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-leinster-2022",
+          "label": "Leinster",
+          "description": "Electoral Divisions in Leinster province",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2022_CSO_EDs_Leinster.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-munster-2022",
+          "label": "Munster",
+          "description": "Electoral Divisions in Munster province",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2022_CSO_EDs_Munster.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "eds-ulster-2022",
+          "label": "Ulster",
+          "description": "Electoral Divisions in Ulster province",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2022_CSO_EDs_Ulster.fgb"
+          },
+          "useLOD": true
+        }
+      ],
+      "date": 2022,
+      "labelProperty": "ED_ENGLISH"
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:osni-eire-thuaidh",
     "slug": "map-source-osni-eire-thuaidh",
@@ -13,6 +13,11 @@
     ],
     "description": "Bilingual map of Northern Ireland with place-names rendered in Irish (Gaeilge) alongside their English forms. Cropped raster cartography in Irish Grid TM65, served as XYZ tiles at zoom 6–12.",
     "sourceMapId": "osni-eire-thuaidh",
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "OÉ",
+      "type": "map"
+    },
     "references": [
       {
         "label": "OSNI Open Data — Éire Thuaidh",
@@ -42,6 +47,61 @@
       }
     ],
     "interactiveUrl": "/#layers=osni-eire-thuaidh",
-    "browseUrl": "/browse/sources/map-source-osni-eire-thuaidh"
+    "browseUrl": "/browse/sources/map-source-osni-eire-thuaidh",
+    "rawMetadata": {
+      "id": "osni-eire-thuaidh",
+      "name": "OSNI Éire Thuaidh — Irish-Translated Map",
+      "slug": "osni-eire-thuaidh",
+      "category": "osni-raster",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Bilingual map of Northern Ireland with place-names rendered in Irish (Gaeilge) alongside their English forms. Cropped raster cartography in Irish Grid TM65, served as XYZ tiles at zoom 6–12.",
+      "files": {
+        "xyz": "https://data.civgraph.net/data/maps/osni-raster/eire-thuaidh/{z}/{x}/{y}.png"
+      },
+      "rasterStyle": {
+        "opacity": 0.85,
+        "minZoom": 5,
+        "maxZoom": 18,
+        "maxNativeZoom": 12
+      },
+      "bounds": [
+        [
+          53.97,
+          -8.91
+        ],
+        [
+          55.46,
+          -5.32
+        ]
+      ],
+      "keywords": [
+        "osni",
+        "eire thuaidh",
+        "irish",
+        "gaeilge",
+        "bilingual",
+        "placenames",
+        "place names"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — Éire Thuaidh",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-eire-thuaidh-irish-translated-map",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Georeferenced raster (TIF, ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/3ec0145e-911e-4a66-859a-3bab141270b9/resource/d2c0d511-3f14-4a88-825b-a112e29b85b5/download/osni_opendata_eirethuaidh.zip"
+        },
+        {
+          "label": "Un-georeferenced raster (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/3ec0145e-911e-4a66-859a-3bab141270b9/resource/f953185e-5f9b-4e42-8b54-56c5e85eb060/download/osni_opendata_eirethuaidh.zip"
+        }
+      ]
+    }
   }
 }

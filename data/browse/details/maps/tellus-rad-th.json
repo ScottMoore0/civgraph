@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "tellus-rad-th",
     "slug": "tellus-rad-th",
@@ -27,6 +27,11 @@
     "status": "available",
     "featured": false,
     "loadable": true,
+    "thumbnail": {
+      "kind": "placeholder",
+      "label": "TR",
+      "type": "map"
+    },
     "sourceFiles": [
       {
         "label": "xyz",
@@ -50,6 +55,59 @@
       }
     ],
     "interactiveUrl": "/#layers=tellus-rad-th",
-    "browseUrl": "/browse/maps/tellus-rad-th"
+    "browseUrl": "/browse/maps/tellus-rad-th",
+    "rawMetadata": {
+      "id": "tellus-rad-th",
+      "name": "Tellus Radiometric — Thorium-Equivalent (eTh ppm)",
+      "slug": "tellus-rad-th",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "Thorium-equivalent concentration from the 2.61 MeV thallium-208 daughter peak. Often correlates with heavy minerals (monazite, zircon) in placer deposits and resistate sediments. Rainbow colormap, ±2-3σ stretch.",
+      "files": {
+        "xyz": "https://data.civgraph.net/data/maps/geology/tellus-rad-th/{z}/{x}/{y}.png"
+      },
+      "rasterStyle": {
+        "opacity": 0.85,
+        "minZoom": 5,
+        "maxZoom": 18,
+        "maxNativeZoom": 13
+      },
+      "bounds": [
+        [
+          53.99,
+          -8.19
+        ],
+        [
+          55.33,
+          -5.32
+        ]
+      ],
+      "keywords": [
+        "tellus",
+        "gsni",
+        "geophysics",
+        "radiometric",
+        "thorium",
+        "th",
+        "gamma",
+        "airborne"
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data — Tellus Radiometric Grids",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometric-grids",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "ESRI File Geodatabase (ZIP, 842 MB)",
+          "file": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Radiometrics_ESRIGRID.zip"
+        }
+      ]
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:env-noise-agglomeration-lden",
     "slug": "map-source-env-noise-agglomeration-lden",
@@ -13,6 +13,13 @@
     ],
     "description": "Strategic noise mapping for the Belfast Metropolitan Urban Area agglomeration: combined noise from all sources (road, rail, industry, airports, ports) over 24 hours weighted by time of day (Lden). Round 3 (2017) under the EU Environmental Noise Directive 2002/49/EC. Polygons are the standard 5 dB Lden bands, coloured to the END convention.",
     "sourceMapId": "env-noise-agglomeration-lden",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "env-noise-agglomeration-lden",
+      "url": "/assets/thumbnails/env-noise-agglomeration-lden.webp",
+      "smallUrl": "/assets/thumbnails/env-noise-agglomeration-lden-60.webp",
+      "alt": "Environmental Noise — Belfast Agglomeration Lden (Round 3)"
+    },
     "references": [
       {
         "label": "OSNI Open Data — Environmental Noise Directive (Round 3)",
@@ -30,6 +37,46 @@
       }
     ],
     "interactiveUrl": "/#layers=env-noise-agglomeration-lden",
-    "browseUrl": "/browse/sources/map-source-env-noise-agglomeration-lden"
+    "browseUrl": "/browse/sources/map-source-env-noise-agglomeration-lden",
+    "rawMetadata": {
+      "id": "env-noise-agglomeration-lden",
+      "name": "Environmental Noise — Belfast Agglomeration Lden (Round 3)",
+      "slug": "env-noise-agglomeration-lden",
+      "category": "environment",
+      "provider": [
+        "DAERA"
+      ],
+      "description": "Strategic noise mapping for the Belfast Metropolitan Urban Area agglomeration: combined noise from all sources (road, rail, industry, airports, ports) over 24 hours weighted by time of day (Lden). Round 3 (2017) under the EU Environmental Noise Directive 2002/49/EC. Polygons are the standard 5 dB Lden bands, coloured to the END convention.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/environment/noise-agglomeration-lden-r3.fgb"
+      },
+      "style": {
+        "weight": 0.2,
+        "fillOpacity": 0.55
+      },
+      "colorMap": {
+        "property": "gridcode",
+        "palette": "noise_lden",
+        "default": "#cccccc"
+      },
+      "keywords": [
+        "noise",
+        "environmental noise",
+        "lden",
+        "belfast",
+        "agglomeration",
+        "daera",
+        "round 3",
+        "end"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "OSNI Open Data — Environmental Noise Directive (Round 3)",
+          "url": "https://admin.opendatani.gov.uk/dataset/environmental-noise-directive-noise-mapping",
+          "note": ""
+        }
+      ]
+    }
   }
 }

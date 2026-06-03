@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:wq-rwq-nitrite",
     "slug": "map-source-wq-rwq-nitrite",
@@ -14,6 +14,13 @@
     ],
     "description": "Per-monitoring-site mean nitrite (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
     "sourceMapId": "wq-rwq-nitrite",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "wq-rwq-nitrite",
+      "url": "/assets/thumbnails/wq-rwq-nitrite.webp",
+      "smallUrl": "/assets/thumbnails/wq-rwq-nitrite-60.webp",
+      "alt": "River Water Quality 1990–2018 — Nitrite (as N)"
+    },
     "references": [
       {
         "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Nitrite (as N))",
@@ -31,6 +38,53 @@
       }
     ],
     "interactiveUrl": "/#layers=wq-rwq-nitrite",
-    "browseUrl": "/browse/sources/map-source-wq-rwq-nitrite"
+    "browseUrl": "/browse/sources/map-source-wq-rwq-nitrite",
+    "rawMetadata": {
+      "id": "wq-rwq-nitrite",
+      "name": "River Water Quality 1990–2018 — Nitrite (as N)",
+      "slug": "wq-rwq-nitrite",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean nitrite (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-nitrite.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "inferno",
+        "domain": [
+          0.005,
+          0.5
+        ],
+        "logarithmic": true
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "nitrite (as n)",
+        "nitrite"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Nitrite (as N))",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrite1",
+          "note": ""
+        }
+      ]
+    }
   }
 }

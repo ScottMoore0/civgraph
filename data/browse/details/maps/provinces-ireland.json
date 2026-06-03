@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "provinces",
     "slug": "provinces-ireland",
@@ -30,6 +30,13 @@
     "featured": true,
     "loadable": true,
     "labelProperty": "PROVINCE",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "provinces",
+      "url": "/assets/thumbnails/provinces.webp",
+      "smallUrl": "/assets/thumbnails/provinces-60.webp",
+      "alt": "Provinces of Ireland 2019"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -81,6 +88,70 @@
       }
     ],
     "interactiveUrl": "/#layers=provinces",
-    "browseUrl": "/browse/maps/provinces"
+    "browseUrl": "/browse/maps/provinces",
+    "rawMetadata": {
+      "id": "provinces",
+      "name": "Provinces of Ireland 2019",
+      "slug": "provinces-ireland",
+      "category": "counties",
+      "date": "2019",
+      "provider": [
+        "OSI"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Provinces.fgb"
+      },
+      "style": {
+        "color": "#884EA0",
+        "weight": 2
+      },
+      "labelProperty": "PROVINCE",
+      "keywords": [
+        "province",
+        "ulster",
+        "munster",
+        "leinster",
+        "connacht",
+        "2019"
+      ],
+      "featured": true,
+      "useLOD": true,
+      "references": [
+        {
+          "label": "Provinces - National Statutory Boundaries - 2019 (data-osi.opendata.arcgis.com)",
+          "url": "https://data-osi.opendata.arcgis.com/datasets/osi::provinces-national-statutory-boundaries-2019/about",
+          "note": ""
+        },
+        {
+          "label": "Provinces of Ireland — GeoJSON download",
+          "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.geojson",
+          "note": ""
+        },
+        {
+          "label": "Provinces of Ireland — KML download",
+          "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.kml",
+          "note": ""
+        },
+        {
+          "label": "Provinces of Ireland — Shapefile (ZIP) download",
+          "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.zip",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON",
+          "file": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.geojson"
+        },
+        {
+          "label": "KML",
+          "file": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.kml"
+        },
+        {
+          "label": "Shapefile (ZIP)",
+          "file": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.zip"
+        }
+      ]
+    }
   }
 }

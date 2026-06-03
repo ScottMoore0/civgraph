@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "wq-lake-water-bodies",
     "slug": "wq-lake-water-bodies",
@@ -24,6 +24,13 @@
     "status": "available",
     "featured": false,
     "loadable": true,
+    "thumbnail": {
+      "kind": "asset",
+      "id": "wq-lake-water-bodies",
+      "url": "/assets/thumbnails/wq-lake-water-bodies.webp",
+      "smallUrl": "/assets/thumbnails/wq-lake-water-bodies-60.webp",
+      "alt": "Lake Water Bodies"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -43,6 +50,40 @@
       }
     ],
     "interactiveUrl": "/#layers=wq-lake-water-bodies",
-    "browseUrl": "/browse/maps/wq-lake-water-bodies"
+    "browseUrl": "/browse/maps/wq-lake-water-bodies",
+    "rawMetadata": {
+      "id": "wq-lake-water-bodies",
+      "name": "Lake Water Bodies",
+      "slug": "wq-lake-water-bodies",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Polygons of lakes and standing waters classified as WFD water bodies in Northern Ireland.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/lake-water-bodies1.fgb"
+      },
+      "style": {
+        "color": "#1f78b4",
+        "weight": 1,
+        "fillOpacity": 0.5
+      },
+      "keywords": [
+        "lake",
+        "lough",
+        "water body",
+        "wfd",
+        "standing water"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "OSNI Open Data — Lake Water Bodies",
+          "url": "https://admin.opendatani.gov.uk/dataset/lake-water-bodies1",
+          "note": ""
+        }
+      ]
+    }
   }
 }

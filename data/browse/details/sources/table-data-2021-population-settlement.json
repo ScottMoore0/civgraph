@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "table:data-2021-population-settlement",
     "slug": "table-data-2021-population-settlement",
@@ -9,6 +9,61 @@
     "subtitle": "data-population",
     "category": "data-population",
     "description": "Usual resident population (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by population on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
-    "browseUrl": "/browse/sources/table-data-2021-population-settlement"
+    "thumbnail": {
+      "kind": "asset",
+      "id": "settlements-2015",
+      "url": "/assets/thumbnails/settlements-2015.webp",
+      "smallUrl": "/assets/thumbnails/settlements-2015-60.webp",
+      "alt": "Usual resident population (Census 2021, by Settlement)"
+    },
+    "references": [
+      {
+        "label": "NISRA Census 2021 Main Statistics Phase 1, MS-A01 (Usual resident population)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "ms-a01-settlement.csv",
+        "url": "data/census/derived/ms-a01-settlement.csv"
+      }
+    ],
+    "browseUrl": "/browse/sources/table-data-2021-population-settlement",
+    "rawMetadata": {
+      "id": "data-2021-population-settlement",
+      "name": "Usual resident population (Census 2021, by Settlement)",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-a01-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AllUsualResidents",
+      "ramp": "viridis",
+      "domain": [
+        50,
+        350000
+      ],
+      "logarithmic": true,
+      "type": "data-entry",
+      "slug": "data-2021-population-settlement",
+      "category": "data-population",
+      "description": "Usual resident population (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by population on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "tableColumns": [
+        "Geography",
+        "AllUsualResidents"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "population",
+        "demographics",
+        "nisra",
+        "data",
+        "usual residents"
+      ],
+      "source": {
+        "title": "NISRA Census 2021 Main Statistics Phase 1, MS-A01 (Usual resident population)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    }
   }
 }

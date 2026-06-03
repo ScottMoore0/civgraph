@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:roi-settlements-ungeneralised",
     "slug": "map-source-roi-settlements-ungeneralised",
     "type": "map-source",
-    "title": "Settlements 2015 source files",
+    "title": "Settlements - 2015 source files",
     "subtitle": "Settlements / Tailte Éireann",
     "category": "Map sources",
     "date": "2015",
@@ -14,6 +14,13 @@
     ],
     "description": "Urban and rural settlement boundaries",
     "sourceMapId": "roi-settlements-ungeneralised",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "roi-settlements-ungeneralised",
+      "url": "/assets/thumbnails/roi-settlements-ungeneralised.webp",
+      "smallUrl": "/assets/thumbnails/roi-settlements-ungeneralised-60.webp",
+      "alt": "Settlements 2015"
+    },
     "downloads": [
       {
         "label": "geojson",
@@ -33,6 +40,36 @@
       }
     ],
     "interactiveUrl": "/#layers=roi-settlements-ungeneralised",
-    "browseUrl": "/browse/sources/map-source-roi-settlements-ungeneralised"
+    "browseUrl": "/browse/sources/map-source-roi-settlements-ungeneralised",
+    "rawMetadata": {
+      "id": "roi-settlements-ungeneralised",
+      "name": "Settlements 2015",
+      "slug": "roi-settlements-ungeneralised",
+      "category": "settlements",
+      "featured": true,
+      "date": "2015",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "files": {
+        "geojson": "Settlements_Ungeneralised_-6398853129460496398.geojson",
+        "fgb": "https://data.civgraph.net/data/maps/physical/Settlements_ROI_Ungeneralised.fgb"
+      },
+      "style": {
+        "color": "#221F58",
+        "weight": 2
+      },
+      "keywords": [
+        "settlements",
+        "republic of ireland",
+        "ireland",
+        "urban",
+        "towns",
+        "cities",
+        "2015",
+        "ungeneralised"
+      ],
+      "labelProperty": "SETTL_NAME"
+    }
   }
 }

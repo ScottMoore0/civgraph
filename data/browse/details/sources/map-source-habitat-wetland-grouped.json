@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:habitat-wetland-grouped",
     "slug": "map-source-habitat-wetland-grouped",
@@ -13,6 +13,13 @@
     ],
     "description": "Spatial extent of wetland habitat networks (grouped) habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
     "sourceMapId": "habitat-wetland-grouped",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "habitat-wetland-grouped",
+      "url": "/assets/thumbnails/habitat-wetland-grouped.webp",
+      "smallUrl": "/assets/thumbnails/habitat-wetland-grouped-60.webp",
+      "alt": "Habitat Network — Wetland Habitat Networks (grouped)"
+    },
     "references": [
       {
         "label": "Open Data NI — Wetland Habitat Networks (grouped) Habitat Network",
@@ -30,6 +37,54 @@
       }
     ],
     "interactiveUrl": "/#layers=habitat-wetland-grouped",
-    "browseUrl": "/browse/sources/map-source-habitat-wetland-grouped"
+    "browseUrl": "/browse/sources/map-source-habitat-wetland-grouped",
+    "rawMetadata": {
+      "id": "habitat-wetland-grouped",
+      "name": "Habitat Network — Wetland Habitat Networks (grouped)",
+      "slug": "habitat-wetland-grouped",
+      "category": "biodiversity",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of wetland habitat networks (grouped) habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-wetland-grouped.fgb"
+      },
+      "style": {
+        "color": "#3a3a3a",
+        "weight": 0.2,
+        "fillColor": "#7CA89A",
+        "fillOpacity": 0.6
+      },
+      "colorMap": {
+        "property": "Class",
+        "palette": {
+          "Associated Habitats": "#666666",
+          "Fragmentation Action Zone": "#D4894C",
+          "Network Enhancement Zone 1": "#E8C85C",
+          "Network Enhancement Zone 2": "#C8A442",
+          "Network Expansion Zone": "#9CCB7C",
+          "Existing Habitat": "#2E7D32"
+        },
+        "default": "#7CA89A"
+      },
+      "labelProperty": "Class",
+      "useLOD": true,
+      "keywords": [
+        "habitat",
+        "biodiversity",
+        "nature recovery",
+        "ulster wildlife",
+        "habitat network",
+        "wetland habitat networks (grouped)"
+      ],
+      "references": [
+        {
+          "label": "Open Data NI — Wetland Habitat Networks (grouped) Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/8e581af0-a6bb-43b6-b2d9-1f4d5ed96013",
+          "note": ""
+        }
+      ]
+    }
   }
 }

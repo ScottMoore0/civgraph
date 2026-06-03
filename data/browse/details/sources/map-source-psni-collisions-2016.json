@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:psni-collisions-2016",
     "slug": "map-source-psni-collisions-2016",
@@ -14,6 +14,13 @@
     ],
     "description": "Locations of police-recorded injury road traffic collisions in NI during 2016, with attributes for severity, casualty type, and date.",
     "sourceMapId": "psni-collisions-2016",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "psni-collisions-2016",
+      "url": "/assets/thumbnails/psni-collisions-2016.webp",
+      "smallUrl": "/assets/thumbnails/psni-collisions-2016-60.webp",
+      "alt": "PSNI Road Traffic Collisions 2016"
+    },
     "references": [
       {
         "label": "Source — admin.opendatani.gov.uk",
@@ -47,6 +54,46 @@
       }
     ],
     "interactiveUrl": "/#layers=psni-collisions-2016",
-    "browseUrl": "/browse/sources/map-source-psni-collisions-2016"
+    "browseUrl": "/browse/sources/map-source-psni-collisions-2016",
+    "rawMetadata": {
+      "id": "psni-collisions-2016",
+      "name": "PSNI Road Traffic Collisions 2016",
+      "slug": "psni-collisions-2016",
+      "category": "transport",
+      "provider": [
+        "Police Service of Northern Ireland"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/transport-safety/psni-collisions-2016.fgb",
+        "downloads": {
+          "geojson": "https://data.civgraph.net/data/maps/transport-safety/psni-collisions-2016.geojson"
+        },
+        "geojson": "https://data.civgraph.net/data/maps/transport-safety/psni-collisions-2016.geojson"
+      },
+      "style": {
+        "color": "#D32F2F",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "PSNI",
+        "collisions",
+        "road safety",
+        "traffic",
+        "2016",
+        "casualties",
+        "northern ireland"
+      ],
+      "description": "Locations of police-recorded injury road traffic collisions in NI during 2016, with attributes for severity, casualty type, and date.",
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/",
+          "note": ""
+        }
+      ],
+      "date": "2016",
+      "labelProperty": "a_ref"
+    }
   }
 }

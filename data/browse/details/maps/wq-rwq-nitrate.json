@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "wq-rwq-nitrate",
     "slug": "wq-rwq-nitrate",
@@ -27,6 +27,13 @@
     "featured": false,
     "loadable": true,
     "labelProperty": "Station_Name",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "wq-rwq-nitrate",
+      "url": "/assets/thumbnails/wq-rwq-nitrate.webp",
+      "smallUrl": "/assets/thumbnails/wq-rwq-nitrate-60.webp",
+      "alt": "River Water Quality 1990–2018 — Nitrate (as N)"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -46,6 +53,53 @@
       }
     ],
     "interactiveUrl": "/#layers=wq-rwq-nitrate",
-    "browseUrl": "/browse/maps/wq-rwq-nitrate"
+    "browseUrl": "/browse/maps/wq-rwq-nitrate",
+    "rawMetadata": {
+      "id": "wq-rwq-nitrate",
+      "name": "River Water Quality 1990–2018 — Nitrate (as N)",
+      "slug": "wq-rwq-nitrate",
+      "category": "water-quality",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-monitoring-site mean nitrate (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-nitrate.fgb"
+      },
+      "style": {
+        "color": "#888888",
+        "radius": 5,
+        "weight": 0.5,
+        "fillOpacity": 0.9
+      },
+      "colorScale": {
+        "property": "mean_value",
+        "ramp": "inferno",
+        "domain": [
+          0.5,
+          15
+        ],
+        "logarithmic": false
+      },
+      "keywords": [
+        "water quality",
+        "river",
+        "monitoring",
+        "daera",
+        "niea",
+        "nitrate (as n)",
+        "nitrate"
+      ],
+      "labelProperty": "Station_Name",
+      "useLOD": false,
+      "references": [
+        {
+          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Nitrate (as N))",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrate1",
+          "note": ""
+        }
+      ]
+    }
   }
 }

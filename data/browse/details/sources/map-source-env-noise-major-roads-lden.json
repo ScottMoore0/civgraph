@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:env-noise-major-roads-lden",
     "slug": "map-source-env-noise-major-roads-lden",
@@ -13,6 +13,13 @@
     ],
     "description": "Lden noise contours along Northern Ireland's major road network (>3 million vehicle passages per year), Round 3 (2017) of the EU Environmental Noise Directive. Bands rendered in the standard END Lden palette.",
     "sourceMapId": "env-noise-major-roads-lden",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "env-noise-major-roads-lden",
+      "url": "/assets/thumbnails/env-noise-major-roads-lden.webp",
+      "smallUrl": "/assets/thumbnails/env-noise-major-roads-lden-60.webp",
+      "alt": "Environmental Noise — Major Roads Lden (Round 3)"
+    },
     "references": [
       {
         "label": "OSNI Open Data — Environmental Noise Directive (Round 3)",
@@ -30,6 +37,46 @@
       }
     ],
     "interactiveUrl": "/#layers=env-noise-major-roads-lden",
-    "browseUrl": "/browse/sources/map-source-env-noise-major-roads-lden"
+    "browseUrl": "/browse/sources/map-source-env-noise-major-roads-lden",
+    "rawMetadata": {
+      "id": "env-noise-major-roads-lden",
+      "name": "Environmental Noise — Major Roads Lden (Round 3)",
+      "slug": "env-noise-major-roads-lden",
+      "category": "environment",
+      "provider": [
+        "DAERA"
+      ],
+      "description": "Lden noise contours along Northern Ireland's major road network (>3 million vehicle passages per year), Round 3 (2017) of the EU Environmental Noise Directive. Bands rendered in the standard END Lden palette.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/environment/noise-major-roads-lden-r3.fgb"
+      },
+      "style": {
+        "weight": 0.2,
+        "fillOpacity": 0.55
+      },
+      "colorMap": {
+        "property": "gridcode",
+        "palette": "noise_lden",
+        "default": "#cccccc"
+      },
+      "keywords": [
+        "noise",
+        "environmental noise",
+        "lden",
+        "major roads",
+        "traffic",
+        "daera",
+        "round 3",
+        "end"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "OSNI Open Data — Environmental Noise Directive (Round 3)",
+          "url": "https://admin.opendatani.gov.uk/dataset/environmental-noise-directive-noise-mapping",
+          "note": ""
+        }
+      ]
+    }
   }
 }

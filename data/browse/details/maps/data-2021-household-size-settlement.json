@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "data-2021-household-size-settlement",
     "slug": "data-2021-household-size-settlement",
@@ -21,7 +21,67 @@
     ],
     "status": "available",
     "loadable": false,
+    "thumbnail": {
+      "kind": "asset",
+      "id": "settlements-2015",
+      "url": "/assets/thumbnails/settlements-2015.webp",
+      "smallUrl": "/assets/thumbnails/settlements-2015-60.webp",
+      "alt": "Average household size (Census 2021, by Settlement)"
+    },
+    "sourceFiles": [
+      {
+        "label": "ms-e02-settlement.csv",
+        "url": "data/census/derived/ms-e02-settlement.csv"
+      }
+    ],
+    "references": [
+      {
+        "label": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "ms-e02-settlement.csv",
+        "url": "data/census/derived/ms-e02-settlement.csv"
+      }
+    ],
     "interactiveUrl": "/#layers=data-2021-household-size-settlement",
-    "browseUrl": "/browse/maps/data-2021-household-size-settlement"
+    "browseUrl": "/browse/maps/data-2021-household-size-settlement",
+    "rawMetadata": {
+      "id": "data-2021-household-size-settlement",
+      "type": "data-entry",
+      "name": "Average household size (Census 2021, by Settlement)",
+      "slug": "data-2021-household-size-settlement",
+      "category": "data-population",
+      "description": "Average household size (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "settlements-2015",
+      "csv": "data/census/derived/ms-e02-settlement.csv",
+      "joinKey": "Code",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AverageHouseholdSize",
+      "ramp": "viridis",
+      "domain": [
+        2.15,
+        2.9
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AverageHouseholdSize"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "household size",
+        "settlement"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    }
   }
 }

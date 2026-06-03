@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:catholic-dioceses",
     "slug": "map-source-catholic-dioceses",
@@ -13,6 +13,13 @@
     ],
     "description": "Man-made structures and infrastructure",
     "sourceMapId": "catholic-dioceses",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "catholic-dioceses",
+      "url": "/assets/thumbnails/catholic-dioceses.webp",
+      "smallUrl": "/assets/thumbnails/catholic-dioceses-60.webp",
+      "alt": "Catholic Dioceses"
+    },
     "references": [
       {
         "label": "Census 2011 Boundary Files - CSO - Central Statistics Office (www.cso.ie)",
@@ -38,6 +45,47 @@
       }
     ],
     "interactiveUrl": "/#layers=catholic-dioceses",
-    "browseUrl": "/browse/sources/map-source-catholic-dioceses"
+    "browseUrl": "/browse/sources/map-source-catholic-dioceses",
+    "rawMetadata": {
+      "id": "catholic-dioceses",
+      "name": "Catholic Dioceses",
+      "slug": "catholic-dioceses",
+      "category": "built-environment",
+      "provider": [
+        "User Provided"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/built-environment/CatholicDioceses.fgb"
+      },
+      "labelProperty": "diocese",
+      "style": {
+        "color": "#7b1fa2",
+        "weight": 2
+      },
+      "keywords": [
+        "catholic",
+        "dioceses",
+        "religion",
+        "ecclesiastical"
+      ],
+      "references": [
+        {
+          "label": "Census 2011 Boundary Files - CSO - Central Statistics Office (www.cso.ie)",
+          "url": "https://www.cso.ie/en/census/census2011boundaryfiles/",
+          "note": ""
+        },
+        {
+          "label": "Catholic Dioceses — Diocese.zip",
+          "url": "https://www.cso.ie/en/media/csoie/census/census2011boundaryfiles/Diocese.zip",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Diocese.zip",
+          "file": "https://www.cso.ie/en/media/csoie/census/census2011boundaryfiles/Diocese.zip"
+        }
+      ]
+    }
   }
 }

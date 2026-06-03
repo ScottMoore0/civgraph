@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:translink-rail-stations",
     "slug": "map-source-translink-rail-stations",
@@ -13,6 +13,13 @@
     ],
     "description": "NI Railways Stations — public transport infrastructure published by Translink.",
     "sourceMapId": "translink-rail-stations",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "translink-rail-stations",
+      "url": "/assets/thumbnails/translink-rail-stations.webp",
+      "smallUrl": "/assets/thumbnails/translink-rail-stations-60.webp",
+      "alt": "NI Railways Stations"
+    },
     "references": [
       {
         "label": "Source — admin.opendatani.gov.uk",
@@ -46,6 +53,43 @@
       }
     ],
     "interactiveUrl": "/#layers=translink-rail-stations",
-    "browseUrl": "/browse/sources/map-source-translink-rail-stations"
+    "browseUrl": "/browse/sources/map-source-translink-rail-stations",
+    "rawMetadata": {
+      "id": "translink-rail-stations",
+      "name": "NI Railways Stations",
+      "slug": "translink-rail-stations",
+      "category": "transport",
+      "provider": [
+        "Translink"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-stations.fgb",
+        "downloads": {
+          "geojson": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-stations.geojson"
+        },
+        "geojson": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-stations.geojson"
+      },
+      "style": {
+        "color": "#1565C0",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "keywords": [
+        "translink",
+        "public transport",
+        "transit",
+        "ni railways stations",
+        "northern ireland"
+      ],
+      "description": "NI Railways Stations — public transport infrastructure published by Translink.",
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/",
+          "note": ""
+        }
+      ],
+      "labelProperty": "Station"
+    }
   }
 }

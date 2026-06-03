@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "table:data-2021-households-ward",
     "slug": "table-data-2021-households-ward",
@@ -9,6 +9,60 @@
     "subtitle": "data-population",
     "category": "data-population",
     "description": "Households (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
-    "browseUrl": "/browse/sources/table-data-2021-households-ward"
+    "thumbnail": {
+      "kind": "asset",
+      "id": "wards-2012",
+      "url": "/assets/thumbnails/wards-2012.webp",
+      "smallUrl": "/assets/thumbnails/wards-2012-60.webp",
+      "alt": "Total households (Census 2021, by Ward 2014)"
+    },
+    "references": [
+      {
+        "label": "NISRA Census 2021, Main Statistics Phase 1, MS-E01 (Households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "ms-e01-ward.csv",
+        "url": "data/census/derived/ms-e01-ward.csv"
+      }
+    ],
+    "browseUrl": "/browse/sources/table-data-2021-households-ward",
+    "rawMetadata": {
+      "id": "data-2021-households-ward",
+      "type": "data-entry",
+      "name": "Total households (Census 2021, by Ward 2014)",
+      "slug": "data-2021-households-ward",
+      "category": "data-population",
+      "description": "Households (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-e01-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "AllHouseholds",
+      "ramp": "viridis",
+      "domain": [
+        1100,
+        2500
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "AllHouseholds"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "households",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E01 (Households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    }
   }
 }

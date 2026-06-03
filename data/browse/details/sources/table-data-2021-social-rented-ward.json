@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "table:data-2021-social-rented-ward",
     "slug": "table-data-2021-social-rented-ward",
@@ -9,6 +9,62 @@
     "subtitle": "data-population",
     "category": "data-population",
     "description": "Social-rented households (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
-    "browseUrl": "/browse/sources/table-data-2021-social-rented-ward"
+    "thumbnail": {
+      "kind": "asset",
+      "id": "wards-2012",
+      "url": "/assets/thumbnails/wards-2012.webp",
+      "smallUrl": "/assets/thumbnails/wards-2012-60.webp",
+      "alt": "Social-rented households (Census 2021, by Ward 2014)"
+    },
+    "references": [
+      {
+        "label": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "ms-e15-social-rented-ward.csv",
+        "url": "data/census/derived/ms-e15-social-rented-ward.csv"
+      }
+    ],
+    "browseUrl": "/browse/sources/table-data-2021-social-rented-ward",
+    "rawMetadata": {
+      "id": "data-2021-social-rented-ward",
+      "type": "data-entry",
+      "name": "Social-rented households (Census 2021, by Ward 2014)",
+      "slug": "data-2021-social-rented-ward",
+      "category": "data-population",
+      "description": "Social-rented households (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "geography": "wards-2012",
+      "csv": "data/census/derived/ms-e15-social-rented-ward.csv",
+      "joinKey": "WardCode",
+      "csvKeyColumn": "GeographyCode",
+      "valueColumn": "SocialRented_pct",
+      "ramp": "viridis",
+      "domain": [
+        0,
+        50
+      ],
+      "logarithmic": false,
+      "tableColumns": [
+        "Geography",
+        "Total",
+        "SocialRented",
+        "SocialRented_pct"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "social rented",
+        "ward 2014"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    }
   }
 }

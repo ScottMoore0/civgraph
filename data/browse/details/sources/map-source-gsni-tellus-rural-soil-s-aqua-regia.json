@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:gsni-tellus-rural-soil-s-aqua-regia",
     "slug": "map-source-gsni-tellus-rural-soil-s-aqua-regia",
@@ -14,6 +14,13 @@
     ],
     "description": "S-horizon (subsoil) samples from the Tellus rural soil survey, aqua regia digest. The deeper soil samples — useful for distinguishing surface anthropogenic contamination from underlying geology. ~6,870 points.",
     "sourceMapId": "gsni-tellus-rural-soil-s-aqua-regia",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "gsni-tellus-rural-soil-s-aqua-regia",
+      "url": "/assets/thumbnails/gsni-tellus-rural-soil-s-aqua-regia.webp",
+      "smallUrl": "/assets/thumbnails/gsni-tellus-rural-soil-s-aqua-regia-60.webp",
+      "alt": "Tellus Rural Soil (S Horizon — Aqua Regia Digest)"
+    },
     "references": [
       {
         "label": "GSNI Tellus Rural Soil Survey — Open Data NI",
@@ -43,6 +50,63 @@
       }
     ],
     "interactiveUrl": "/#layers=gsni-tellus-rural-soil-s-aqua-regia",
-    "browseUrl": "/browse/sources/map-source-gsni-tellus-rural-soil-s-aqua-regia"
+    "browseUrl": "/browse/sources/map-source-gsni-tellus-rural-soil-s-aqua-regia",
+    "rawMetadata": {
+      "id": "gsni-tellus-rural-soil-s-aqua-regia",
+      "name": "Tellus Rural Soil (S Horizon — Aqua Regia Digest)",
+      "slug": "gsni-tellus-rural-soil-s-aqua-regia",
+      "category": "geology-geophysics",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "S-horizon (subsoil) samples from the Tellus rural soil survey, aqua regia digest. The deeper soil samples — useful for distinguishing surface anthropogenic contamination from underlying geology. ~6,870 points.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/geology/tellus-rural-soil-s-aqua-regia.fgb"
+      },
+      "style": {
+        "color": "#a55e2e",
+        "weight": 1,
+        "radius": 4,
+        "fillOpacity": 0.85
+      },
+      "labelProperty": "Sample",
+      "keywords": [
+        "tellus",
+        "soil",
+        "s horizon",
+        "subsoil",
+        "aqua regia",
+        "digest",
+        "gsni"
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "GSNI Tellus Rural Soil Survey — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/rural-soil-survey",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON — S Soils Aqua Regia",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/e7b13c9c-a159-4d26-b529-6ff3c5611fd7/download/regional-soils-s-aquaregia-hdl.geojson"
+        },
+        {
+          "label": "CSV — S Soils Aqua Regia",
+          "file": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/00961fff-d94d-452a-8654-9ddb998b717d/download/regionalsoilssaquaregiahdl.csv"
+        }
+      ],
+      "colorScale": {
+        "property": "Pb",
+        "ramp": "magma",
+        "domain": [
+          5,
+          80
+        ],
+        "logarithmic": false
+      }
+    }
   }
 }

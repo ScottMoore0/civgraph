@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "data-2021-population-density-dea",
     "slug": "data-2021-population-density-dea",
@@ -21,7 +21,67 @@
     ],
     "status": "available",
     "loadable": false,
+    "thumbnail": {
+      "kind": "asset",
+      "id": "deas-2012",
+      "url": "/assets/thumbnails/deas-2012.webp",
+      "smallUrl": "/assets/thumbnails/deas-2012-60.webp",
+      "alt": "Population density (Census 2021, by DEA)"
+    },
+    "sourceFiles": [
+      {
+        "label": "ms-a14-dea.csv",
+        "url": "data/census/derived/ms-a14-dea.csv"
+      }
+    ],
+    "references": [
+      {
+        "label": "NISRA Census 2021, Main Statistics Phase 1, MS-A14 (Population density)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "ms-a14-dea.csv",
+        "url": "data/census/derived/ms-a14-dea.csv"
+      }
+    ],
     "interactiveUrl": "/#layers=data-2021-population-density-dea",
-    "browseUrl": "/browse/maps/data-2021-population-density-dea"
+    "browseUrl": "/browse/maps/data-2021-population-density-dea",
+    "rawMetadata": {
+      "id": "data-2021-population-density-dea",
+      "type": "data-entry",
+      "name": "Population density (Census 2021, by DEA)",
+      "slug": "data-2021-population-density-dea",
+      "category": "data-population",
+      "description": "Population density (DEA) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "geography": "deas-2012",
+      "csv": "data/census/derived/ms-a14-dea.csv",
+      "joinKey": "FinalR_DEA",
+      "csvKeyColumn": "Geography",
+      "valueColumn": "PopulationDensity",
+      "ramp": "viridis",
+      "domain": [
+        0.3,
+        35
+      ],
+      "logarithmic": true,
+      "tableColumns": [
+        "Geography",
+        "PopulationDensity"
+      ],
+      "keywords": [
+        "census",
+        "2021",
+        "nisra",
+        "data",
+        "population density",
+        "dea"
+      ],
+      "source": {
+        "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A14 (Population density)",
+        "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+      }
+    }
   }
 }

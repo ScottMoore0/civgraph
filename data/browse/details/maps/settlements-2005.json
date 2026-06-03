@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "settlements-2005",
     "slug": "settlements-2005",
     "type": "map",
-    "title": "Settlements 2005",
+    "title": "Settlements - 2005",
     "subtitle": "2005",
     "categoryId": "settlements",
     "category": "Settlements",
@@ -29,6 +29,14 @@
     "featured": true,
     "loadable": true,
     "labelProperty": "LOCATION",
+    "parentCard": "Settlements",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "settlements-2005",
+      "url": "/assets/thumbnails/settlements-2005.webp",
+      "smallUrl": "/assets/thumbnails/settlements-2005-60.webp",
+      "alt": "Settlements 2005"
+    },
     "sourceFiles": [
       {
         "label": "fgb",
@@ -42,6 +50,34 @@
       }
     ],
     "interactiveUrl": "/#layers=settlements-2005",
-    "browseUrl": "/browse/maps/settlements-2005"
+    "browseUrl": "/browse/maps/settlements-2005",
+    "rawMetadata": {
+      "id": "settlements-2005",
+      "name": "Settlements 2005",
+      "slug": "settlements-2005",
+      "category": "settlements",
+      "featured": true,
+      "date": "2005",
+      "provider": [
+        "NISRA"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/physical/Settlements_2005.fgb"
+      },
+      "style": {
+        "color": "#FA0000",
+        "weight": 2
+      },
+      "keywords": [
+        "settlements",
+        "urban",
+        "towns",
+        "cities",
+        "2005"
+      ],
+      "labelProperty": "LOCATION",
+      "priorityProperty": "POP_2001",
+      "useLOD": true
+    }
   }
 }

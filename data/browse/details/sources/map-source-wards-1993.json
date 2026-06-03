@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:wards-1993",
     "slug": "map-source-wards-1993",
     "type": "map-source",
-    "title": "Wards 1993 source files",
+    "title": "Wards - 1993 source files",
     "subtitle": "Electoral Areas / OSNI",
     "category": "Map sources",
     "date": 1993,
@@ -14,6 +14,13 @@
     ],
     "description": "Electoral ward boundaries",
     "sourceMapId": "wards-1993",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "wards-1993",
+      "url": "/assets/thumbnails/wards-1993.webp",
+      "smallUrl": "/assets/thumbnails/wards-1993-60.webp",
+      "alt": "Wards 1993"
+    },
     "references": [
       {
         "label": "OSNI Open Data - Largescale Boundaries - Wards (1993) - Open Data NI (admin.opendatani.gov.uk)",
@@ -75,6 +82,580 @@
       }
     ],
     "interactiveUrl": "/#layers=wards-1993",
-    "browseUrl": "/browse/sources/map-source-wards-1993"
+    "browseUrl": "/browse/sources/map-source-wards-1993",
+    "rawMetadata": {
+      "id": "wards-1993",
+      "name": "Wards 1993",
+      "slug": "wards-1993",
+      "category": "wards",
+      "featured": true,
+      "provider": [
+        "OSNI"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/local-government/Wards_1993.fgb"
+      },
+      "style": {
+        "color": "#FF01C5",
+        "weight": 2
+      },
+      "labelProperty": "NAME",
+      "keywords": [
+        "ward",
+        "1993",
+        "electoral"
+      ],
+      "date": 1993,
+      "variants": [
+        {
+          "id": "wards-1993-largescale",
+          "label": "Largescale",
+          "description": "OSNI largescale boundary resolution",
+          "files": {
+            "fgb": "data/maps/local-government/Wards_1993_Largescale.fgb"
+          },
+          "useLOD": true
+        },
+        {
+          "id": "wards-1993-50k",
+          "label": "50K",
+          "description": "OSNI 50K boundary resolution",
+          "files": {
+            "fgb": "data/maps/local-government/Wards_1993_50k.fgb"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-antrim-raster",
+          "label": "Antrim LGD 1992",
+          "files": {
+            "image": "data/maps/raster/wards92-antrim.png"
+          },
+          "bounds": [
+            [
+              54.4173899,
+              -6.5886851
+            ],
+            [
+              54.9096233,
+              -5.4198804
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            142,
+            143,
+            144,
+            368,
+            476,
+            478,
+            479,
+            480,
+            481,
+            482,
+            483,
+            484,
+            485,
+            486,
+            487,
+            488,
+            489,
+            490,
+            491
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-ards-raster",
+          "label": "Ards LGD 1992",
+          "files": {
+            "image": "data/maps/raster/wards92-ards.png"
+          },
+          "bounds": [
+            [
+              54.2600751,
+              -5.9520938
+            ],
+            [
+              54.7595124,
+              -4.7473262
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            261,
+            262,
+            268,
+            269,
+            270,
+            271,
+            272,
+            273,
+            274,
+            275,
+            276,
+            277,
+            278,
+            279,
+            280,
+            281,
+            282,
+            283,
+            284,
+            285,
+            309,
+            310,
+            311,
+            312,
+            313,
+            314,
+            315,
+            316,
+            317,
+            318,
+            319,
+            320,
+            321,
+            322
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-armagh-raster",
+          "label": "Armagh LGD 1992",
+          "files": {
+            "image": "data/maps/raster/wards92-armagh.png"
+          },
+          "bounds": [
+            [
+              54.0977043,
+              -7.0047467
+            ],
+            [
+              54.5765811,
+              -5.8399728
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            55,
+            99,
+            100,
+            101,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            117,
+            615
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-banbridge-raster",
+          "label": "Banbridge LGD 1992",
+          "files": {
+            "image": "data/maps/raster/wards92-banbridge.png"
+          },
+          "bounds": [
+            [
+              54.0123227,
+              -6.464054
+            ],
+            [
+              54.4968213,
+              -5.3472805
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            18,
+            54,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            73,
+            74,
+            75,
+            97,
+            98,
+            253
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-belfast-1-raster",
+          "label": "Belfast LGD 1992 (Sheet 1)",
+          "files": {
+            "image": "data/maps/raster/wards92-belfast-1.png"
+          },
+          "bounds": [
+            [
+              54.512724,
+              -6.0940699
+            ],
+            [
+              54.6867806,
+              -5.6764156
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            165,
+            166,
+            167,
+            171,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185,
+            186,
+            187,
+            188,
+            189,
+            190,
+            191,
+            192,
+            193,
+            194,
+            195,
+            206,
+            222,
+            223,
+            224,
+            225,
+            226,
+            227,
+            228,
+            229,
+            230,
+            233
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-ballymena-raster",
+          "label": "Ballymena LGD 1992",
+          "files": {
+            "image": "data/maps/raster/wards92-ballymena.png"
+          },
+          "bounds": [
+            [
+              54.7308664,
+              -6.5888839
+            ],
+            [
+              55.2182601,
+              -5.3998639
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            389,
+            454,
+            455,
+            456,
+            457,
+            458,
+            459,
+            460,
+            461,
+            462,
+            463,
+            464,
+            465,
+            466,
+            467,
+            468,
+            469,
+            470,
+            471,
+            472,
+            473,
+            474,
+            475,
+            477
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-ballymoney-raster",
+          "label": "Ballymoney LGD 1992",
+          "files": {
+            "image": "data/maps/raster/wards92-ballymoney.png"
+          },
+          "bounds": [
+            [
+              54.8561739,
+              -6.708678
+            ],
+            [
+              55.3418207,
+              -5.5045562
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            394,
+            395,
+            396,
+            397,
+            398,
+            434,
+            435,
+            436,
+            437,
+            438,
+            439,
+            440,
+            442,
+            443,
+            444,
+            452
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-coleraine-raster",
+          "label": "Coleraine LGD 1992",
+          "files": {
+            "image": "data/maps/raster/wards92-coleraine.png"
+          },
+          "bounds": [
+            [
+              54.8164252,
+              -7.4521651
+            ],
+            [
+              55.3233861,
+              -6.2234599
+            ]
+          ],
+          "opacity": 0.8,
+          "description": "OSNI scanned raster map",
+          "coLoadMapId": "wards-1993",
+          "coLoadWardIndices": [
+            416,
+            418,
+            419,
+            420,
+            421,
+            422,
+            423,
+            424,
+            425,
+            426,
+            427,
+            428,
+            429,
+            430,
+            431,
+            432,
+            433,
+            441,
+            445,
+            446,
+            453,
+            543
+          ]
+        },
+        {
+          "id": "wards-1993-wards92-cookstown-raster",
+          "label": "Cookstown Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-cookstown.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-craigavon-raster",
+          "label": "Craigavon Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-craigavon.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-derry-raster",
+          "label": "Derry Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-derry.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-down-raster",
+          "label": "Down Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-down.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-dungannon-raster",
+          "label": "Dungannon Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-dungannon.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-larne-raster",
+          "label": "Larne Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-larne.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-limavady-raster",
+          "label": "Limavady Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-limavady.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-lisburn-raster",
+          "label": "Lisburn Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-lisburn.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-magherafelt-raster",
+          "label": "Magherafelt Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-magherafelt.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-moyle-raster",
+          "label": "Moyle Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-moyle.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-newtownabbey-raster",
+          "label": "Newtownabbey Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-newtownabbey.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-newry-mourne-1-raster",
+          "label": "Newry & Mourne Wards 1992 (Sheet 1) (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-newry-mourne-1.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-north-down-raster",
+          "label": "North Down Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-north-down.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-omagh-raster",
+          "label": "Omagh Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-omagh.png"
+          }
+        },
+        {
+          "id": "wards-1993-wards92-strabane-raster",
+          "label": "Strabane Wards 1992 (Historic Map Scan)",
+          "files": {
+            "image": "data/maps/raster/wards92-strabane.png"
+          }
+        }
+      ],
+      "useLOD": true,
+      "references": [
+        {
+          "label": "OSNI Open Data - Largescale Boundaries - Wards (1993) - Open Data NI (admin.opendatani.gov.uk)",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-wards-1993",
+          "note": ""
+        },
+        {
+          "label": "Wards 1993 — GeoJSON download",
+          "url": "https://admin.opendatani.gov.uk/dataset/aa140654-cbd8-45b9-82ed-4aeb05725929/resource/1c67d5ef-4882-4567-8a86-295f39e25fde/download/osni_open_data_largescale_boundaries_wards_1993.geojson",
+          "note": ""
+        },
+        {
+          "label": "Wards 1993 — KML download",
+          "url": "https://admin.opendatani.gov.uk/dataset/aa140654-cbd8-45b9-82ed-4aeb05725929/resource/e8f19cf9-9881-4ff2-92c3-2f6742ac5f5e/download/osni_open_data_largescale_boundaries_wards_1993.kml",
+          "note": ""
+        },
+        {
+          "label": "Wards 1993 — ZIP download",
+          "url": "https://admin.opendatani.gov.uk/dataset/aa140654-cbd8-45b9-82ed-4aeb05725929/resource/989150bf-8933-47b7-9dce-063205491507/download/osni_open_data_largescale_boundaries_wards_1993.zip",
+          "note": ""
+        },
+        {
+          "label": "Wards 1993 — CSV download",
+          "url": "https://admin.opendatani.gov.uk/dataset/aa140654-cbd8-45b9-82ed-4aeb05725929/resource/d1e380e8-5a9d-4aba-a137-572418b4bdc9/download/osni_open_data_largescale_boundaries_wards_1993.csv",
+          "note": ""
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "GeoJSON",
+          "file": "https://admin.opendatani.gov.uk/dataset/aa140654-cbd8-45b9-82ed-4aeb05725929/resource/1c67d5ef-4882-4567-8a86-295f39e25fde/download/osni_open_data_largescale_boundaries_wards_1993.geojson"
+        },
+        {
+          "label": "KML",
+          "file": "https://admin.opendatani.gov.uk/dataset/aa140654-cbd8-45b9-82ed-4aeb05725929/resource/e8f19cf9-9881-4ff2-92c3-2f6742ac5f5e/download/osni_open_data_largescale_boundaries_wards_1993.kml"
+        },
+        {
+          "label": "ZIP",
+          "file": "https://admin.opendatani.gov.uk/dataset/aa140654-cbd8-45b9-82ed-4aeb05725929/resource/989150bf-8933-47b7-9dce-063205491507/download/osni_open_data_largescale_boundaries_wards_1993.zip"
+        },
+        {
+          "label": "CSV",
+          "file": "https://admin.opendatani.gov.uk/dataset/aa140654-cbd8-45b9-82ed-4aeb05725929/resource/d1e380e8-5a9d-4aba-a137-572418b4bdc9/download/osni_open_data_largescale_boundaries_wards_1993.csv"
+        }
+      ]
+    }
   }
 }

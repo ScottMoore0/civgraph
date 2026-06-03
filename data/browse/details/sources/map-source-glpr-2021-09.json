@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-02T22:48:24.015Z",
+  "generatedAt": "2026-06-03T17:36:42.566Z",
   "item": {
     "id": "map-source:glpr-2021-09",
     "slug": "map-source-glpr-2021-09",
@@ -14,6 +14,13 @@
     ],
     "description": "Public sector land and property holdings across Northern Ireland — published by Land & Property Services as periodic snapshots.",
     "sourceMapId": "glpr-2021-09",
+    "thumbnail": {
+      "kind": "asset",
+      "id": "glpr-2021-09",
+      "url": "/assets/thumbnails/glpr-2021-09.webp",
+      "smallUrl": "/assets/thumbnails/glpr-2021-09-60.webp",
+      "alt": "September 2021"
+    },
     "references": [
       {
         "label": "Government Land and Property Register — admin.opendatani.gov.uk",
@@ -55,6 +62,47 @@
       }
     ],
     "interactiveUrl": "/#layers=glpr-2021-09",
-    "browseUrl": "/browse/sources/map-source-glpr-2021-09"
+    "browseUrl": "/browse/sources/map-source-glpr-2021-09",
+    "rawMetadata": {
+      "id": "glpr-2021-09",
+      "name": "September 2021",
+      "slug": "glpr-2021-09",
+      "category": "land-property",
+      "date": "2021-09-01",
+      "provider": [
+        "Land & Property Services"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/land-property/glpr-2021-09.fgb",
+        "geojson": "https://data.civgraph.net/data/maps/land-property/glpr-2021-09.geojson",
+        "downloads": {
+          "shapefile": "https://data.civgraph.net/data/maps/land-property/glpr-2021-09-shapefile.zip",
+          "geojson": "https://data.civgraph.net/data/maps/land-property/glpr-2021-09.geojson"
+        }
+      },
+      "style": {
+        "color": "#7B68EE",
+        "weight": 1,
+        "fillOpacity": 0.4
+      },
+      "labelProperty": "OWNER",
+      "keywords": [
+        "GLPR",
+        "government land",
+        "property",
+        "public sector",
+        "asset",
+        "northern ireland",
+        "2021"
+      ],
+      "references": [
+        {
+          "label": "Government Land and Property Register — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/dataset/government-land-and-property-assets",
+          "note": ""
+        }
+      ],
+      "useLOD": true
+    }
   }
 }
