@@ -3608,3 +3608,21 @@ Add election entries to /test2
   - Manifest check: `assets/thumbnails/manifest.json` has 854 WebP entries and zero transparent non-60 thumbnails in the manifest; 168 source-unavailable transparent thumbnails are excluded and use runtime cartographic fallback.
   - Browse check: `admin-areas-1924-04-01` now references its own thumbnail asset, not the 1936 clone asset.
   - Verification evidence: `node --check browse/browse.js` passed; `node --check scripts/build-browse-indexes.mjs` passed; `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build` passed after approved esbuild spawn escalation; `npm run check` passed.
+
+# Tighten Browse thumbnail framing and map info cards
+- [x] Record correction
+  - User showed that the corrected grey land underlay is now too zoomed out, leaving too much empty space around the map features.
+  - User also challenged the sparse Overview and Metadata cards, which read as awkward raw fields rather than polished Browse information.
+- [x] Fix thumbnail framing
+  - Replace the hard 820 km context floor with adaptive context framing that retains grey land context without shrinking the target features excessively.
+  - Regenerate representative affected thumbnails and update the manifest/Browse data as needed.
+- [x] Fix Browse map information presentation
+  - Make the map detail layout denser and clearer, with compact overview facts and metadata rows instead of sparse cards.
+- [x] Verify
+  - Run syntax checks, representative thumbnail inspection, Browse generation/build checks, and production build/check.
+- [x] Review
+  - Document changed files, verification evidence, and any remaining limits.
+  - Completed: thumbnail framing now uses adaptive feature-footprint context instead of the previous hard 820 km context floor.
+  - Completed: representative thumbnails were regenerated and visually inspected: `admin-areas-1924-04-01.webp` now has tighter NI feature framing with grey Britain/Ireland context; `counties-ireland-1927.webp` remains an all-island map with visible grey coastline context.
+  - Completed: Browse map detail pages now use a compact map overview block and table-like metadata groups instead of sparse mini-cards.
+  - Verification evidence: `node --check browse/browse.js` passed; `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build:browse` passed; `npm run build` passed after approved esbuild spawn escalation; `npm run check` passed; local static HTTP check returned 200.

@@ -26,11 +26,13 @@ DPI = 72
 LAND_COLOR = '#d5dbe3'
 LAND_EDGE = '#c1c9d2'
 BG_COLOR = '#f5f8fb'
-PADDING = 0.12  # 12% padding around features; context floors below add broader land
+PADDING = 0.10  # 10% padding around features; adaptive context below adds broader land
 
 TARGET_SRS = 'EPSG:3857'  # Web Mercator - matches normal web-map appearance for thumbnails
-DEFAULT_MIN_CONTEXT_SPAN = 820000  # metres: keeps high-level Irish maps in a recognizable land frame
-LOCAL_MIN_CONTEXT_SPAN = 120000    # metres: keeps local open-data layers legible
+DEFAULT_MIN_CONTEXT_SPAN = 260000  # metres: contextual regional frame without shrinking features too far
+ALL_IRELAND_MIN_CONTEXT_SPAN = 520000
+LOCAL_MIN_CONTEXT_SPAN = 90000     # metres: keeps local open-data layers legible
+MAX_CONTEXT_SPAN = 680000          # cap locator context so feature footprints stay dominant
 
 EMPTY_GEOMS = {'polys': [], 'lines': [], 'points': []}
 
@@ -252,13 +254,12 @@ def compute_bounds(geoms):
         return None
     return (min(all_x), min(all_y), max(all_x), max(all_y))
 
-def min_context_span(map_config):
-    """Pick a minimum viewport size so grey land context is recognizable.
+def context_span(map_config, feature_span):
+    """Pick an adaptive viewport size so grey land context is recognizable.
 
-    Small high-level maps, such as NI administrative areas, look wrong when
-    the land underlay is cropped tightly to the feature bounds. Local authority
-    service/open-data layers need a smaller floor so the actual features remain
-    visible at thumbnail scale.
+    Small high-level maps need context so coastlines read as land, but a single
+    large floor makes the features too small. Scale context from the feature
+    footprint and then bound it by catalogue scope.
     """
     text = ' '.join(str(map_config.get(key, '')) for key in (
         'id', 'name', 'title', 'category', 'group', 'provider'
@@ -267,8 +268,13 @@ def min_context_span(map_config):
         'dcc', 'dlr', 'fingal', 'dublin city council', 'dun laoghaire',
         'dún laoghaire', 'local authority open data', 'open data'
     )):
-        return LOCAL_MIN_CONTEXT_SPAN
-    return DEFAULT_MIN_CONTEXT_SPAN
+        return min(max(feature_span * 1.65, LOCAL_MIN_CONTEXT_SPAN), 220000)
+    if any(token in text for token in (
+        'all-ireland', 'all ireland', 'ireland', 'counties', 'provinces',
+        'dail', 'dÃ¡il', 'european parliament'
+    )):
+        return min(max(feature_span * 1.28, ALL_IRELAND_MIN_CONTEXT_SPAN), MAX_CONTEXT_SPAN)
+    return min(max(feature_span * 1.75, DEFAULT_MIN_CONTEXT_SPAN), MAX_CONTEXT_SPAN)
 
 def render_thumbnail(map_config, land_polys, out_path):
     """Render a single thumbnail on a square canvas. Handles polygons,
@@ -303,7 +309,7 @@ def render_thumbnail(map_config, land_polys, out_path):
 
     # Preserve a recognizable land underlay. Without this, small maps crop
     # coastlines into abstract grey fragments at thumbnail size.
-    span_floor = min_context_span(map_config)
+    span_floor = context_span(map_config, max(dx, dy))
     if dx < span_floor:
         cx = (minx + maxx) / 2
         minx = cx - span_floor / 2

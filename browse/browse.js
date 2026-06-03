@@ -472,28 +472,27 @@ function renderMapLeadPanel(item) {
   const summaryRows = [
     ['Category', item.category],
     ['Group', item.group],
-    ['Date / years', item.date || joinList(item.years)],
     ['Provider', joinList(item.provider)],
+    ['Date / years', item.date || joinList(item.years)],
     ['Status', item.status]
   ];
   return `
-    <section class="browse-detail__panel browse-map-lead">
+    <section class="browse-detail__panel browse-map-lead" aria-labelledby="browse-map-overview-heading">
       <div class="browse-map-lead__preview">
         ${renderThumbnail(item, 'detail')}
         ${renderMapThumbnailNote(item)}
       </div>
       <div class="browse-map-lead__content">
-        <div class="browse-map-lead__eyebrow">Map overview</div>
-        <h2 class="browse-map-lead__heading">${escapeHtml(item.title || item.name || item.id || 'Map')}</h2>
+        <h2 id="browse-map-overview-heading" class="browse-map-lead__heading">Overview</h2>
         ${item.description ? `<p class="browse-map-lead__summary">${escapeHtml(item.description)}</p>` : ''}
-        <div class="browse-map-facts">
+        <dl class="browse-map-facts">
           ${summaryRows.filter(([, value]) => value !== undefined && value !== null && value !== '').map(([label, value]) => `
             <div class="browse-map-fact">
               <dt>${escapeHtml(label)}</dt>
               <dd>${escapeHtml(String(value))}</dd>
             </div>
           `).join('')}
-        </div>
+        </dl>
         <div class="browse-map-lead__badges">
           ${renderBadges(item)}
         </div>

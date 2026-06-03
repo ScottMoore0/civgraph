@@ -1812,3 +1812,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) apply a minimum context span around small/high-level maps so Britain/Ireland/islands/coastline read as land context rather than blobs,
   3) visually inspect the representative asset after generation, not just alpha/colour histograms,
   4) stop any broad thumbnail regeneration immediately if the first representative thumbnail fails the visual check.
+
+### 136) Thumbnail context floors must be adaptive
+- Mistake pattern: Fixing a cropped/misshapen land underlay with a single large minimum context span for every non-local map.
+- Impact: Small or regional boundary maps become tiny within the thumbnail, with excessive empty sea/land around the actual features.
+- Guardrail:
+  1) use an adaptive context span based on feature extent and catalogue scope rather than one global floor,
+  2) cap all-island/regional locator context so the feature footprint remains visually dominant,
+  3) visually inspect both the grey underlay shape and the feature-to-canvas ratio before committing,
+  4) do not regenerate the full thumbnail set from a representative fix until the representative thumbnail passes both checks.
