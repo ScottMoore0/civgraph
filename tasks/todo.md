@@ -3694,7 +3694,9 @@ Add election entries to /test2
 - [x] Verify
   - Run syntax/project checks and local browser smoke for the exact map route.
   - Verification evidence: `node --check browse/browse.js` passed; `npm run check` passed; exact local route smoke for `#/maps/admin-areas-1924-04-01` confirmed no public `All Browse Fields`, no top-level raw metadata panel, no public `Map ID`, `Label property`, `Loadable`, or `Featured`, and a closed `Technical data` section; `npm run build` passed after approved esbuild spawn escalation.
-- [ ] Commit and push
+- [x] Commit and push
   - Commit only renderer/style/task-log/lesson changes, leaving pre-existing generated `data/browse` churn unstaged.
-- [ ] Review
+- [x] Review
   - Document verification evidence and remaining notes.
+  - Completed: committed `44ce80e79 Hide technical Browse fields by default` and pushed `main` to GitHub.
+  - Remaining note: Cloudflare Pages still needs to finish deploying the pushed commit before `https://civgraph.net/browse/#/maps/admin-areas-1924-04-01` reflects the change.
