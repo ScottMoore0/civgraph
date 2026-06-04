@@ -491,7 +491,17 @@ function renderOverviewPanel(type, item) {
   if (type === 'maps') {
     rows.push(['Category', item.category], ['Group', item.group], ['Provider', joinList(item.provider)], ['Date / years', item.date || joinList(item.years)]);
   } else if (type === 'elections') {
-    rows.push(['Body', item.body], ['Date', formatDate(item.date)], ['Geography', item.geography], ['Constituencies', item.totalConstituencies], ['Matched / unmatched', `${item.matchedCount || 0} / ${item.unmatchedCount || 0}`]);
+    if (item.entryKind && item.entryKind !== 'election') {
+      rows.push(
+        ['Entry type', resultKindLabel(item.resultKind || item.entryKind)],
+        ['Election', item.parentTitle],
+        ['Result', item.resultName],
+        ['Date', formatDate(item.date)],
+        ['Geography', item.geography]
+      );
+    } else {
+      rows.push(['Body', item.body], ['Date', formatDate(item.date)], ['Geography', item.geography], ['Constituencies', item.totalConstituencies], ['Matched / unmatched', `${item.matchedCount || 0} / ${item.unmatchedCount || 0}`]);
+    }
   } else if (type === 'parties') {
     rows.push(['Canonical name', item.canonicalName], ['Observed labels', joinList(item.observedNames?.slice(0, 8))], ['Years', item.subtitle], ['Occurrences', item.occurrenceCount]);
   } else if (type === 'persons') {
@@ -517,11 +527,21 @@ function renderMetadataPanel(type, item) {
     ['Keywords', joinList(item.keywords)]
   ];
   if (type === 'elections') {
-    rows.push(
-      ['Matched constituencies/features', item.matchedCount],
-      ['Unmatched constituencies/features', item.unmatchedCount],
-      ['Result source', item.resultUrl ? 'Available' : '']
-    );
+    if (item.entryKind && item.entryKind !== 'election') {
+      rows.push(
+        ['Parent election key', item.parentElectionKey],
+        ['Matched feature', item.matched === undefined ? '' : item.matched ? 'Yes' : 'No'],
+        ['Feature name', item.featureName],
+        ['Local body', item.localBody]
+      );
+    } else {
+      rows.push(
+        ['Matched constituencies/features', item.matchedCount],
+        ['Unmatched constituencies/features', item.unmatchedCount],
+        ['Result entries', item.resultEntryCount],
+        ['Result source', item.resultUrl ? 'Available' : '']
+      );
+    }
   } else if (type === 'parties') {
     rows.push(
       ['Total labels', item.observedNames?.length],
@@ -688,6 +708,14 @@ function renderRelatedPanel(type, item) {
 }
 
 function renderElectionRelated(item) {
+  if (item.entryKind && item.entryKind !== 'election') {
+    const parentRows = item.parentElectionKey ? [[
+      item.date ? formatDate(item.date) : '',
+      item.parentBrowseUrl ? `<a href="#/elections/${encodeURIComponent((item.parentBrowseUrl || '').split('/').pop() || item.parentElectionKey)}" data-browse-link>${escapeHtml(item.parentTitle || item.parentElectionKey)}</a>` : escapeHtml(item.parentTitle || item.parentElectionKey),
+      item.interactiveUrl ? `<a href="${escapeAttr(item.interactiveUrl)}">Open election layer</a>` : ''
+    ]] : [];
+    return renderTablePanel('Parent Election', ['Date', 'Election', 'Interactive layer'], parentRows);
+  }
   const partyRows = (item.partySummary || []).map((party) => [
     party.colour ? `<span class="browse-badge" style="border-color:${escapeAttr(party.colour)}">${escapeHtml(party.party || '')}</span>` : escapeHtml(party.party || ''),
     formatNumber(party.stood),
@@ -695,11 +723,23 @@ function renderElectionRelated(item) {
     formatNumber(party.votes),
     party.share === undefined ? '' : `${Number(party.share).toFixed(2)}%`
   ]);
-  const constituencyRows = (item.constituencies || []).map((name) => [escapeHtml(name)]);
+  const constituencyRows = (item.resultEntries || []).length
+    ? (item.resultEntries || []).map((entry) => [
+      entry.browseUrl ? `<a href="#/elections/${encodeURIComponent((entry.browseUrl || '').split('/').pop() || entry.key)}" data-browse-link>${escapeHtml(entry.resultName || entry.title || entry.key)}</a>` : escapeHtml(entry.resultName || entry.title || entry.key),
+      escapeHtml(resultKindLabel(entry.resultKind || 'result'))
+    ])
+    : (item.constituencies || []).map((name) => [escapeHtml(name), '']);
   return `
     ${renderTablePanel('Party Summary', ['Party', 'Stood', 'Seats', 'Votes', 'Share'], partyRows)}
-    ${renderTablePanel('Constituencies / Features', ['Name'], constituencyRows)}
+    ${renderTablePanel('Constituencies / Features', ['Name', 'Type'], constituencyRows)}
   `;
+}
+
+function resultKindLabel(value) {
+  return String(value || '')
+    .replace(/^election-/, '')
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
 function renderLinksPanel(item) {

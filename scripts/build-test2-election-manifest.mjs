@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync
 import path from 'node:path';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
 import * as ElectionDomain from '../js/election-domain.mjs';
+import { canonicalElectionTitle, isElectionByElectionScope } from '../js/election-names.mjs';
 
 const ROOT = process.cwd();
 const ELECTION_ROOT = path.join(ROOT, 'election-viewer-package', 'data', 'elections');
@@ -347,8 +348,7 @@ function buildUniqueElectionEntries(index) {
   }
   for (const group of localByDate.values()) {
     if (group.bodies.length > 1) {
-      const year = String(group.date || '').slice(0, 4);
-      group.displayTitle = year ? `${year} Northern Ireland local election` : 'Northern Ireland local election';
+      group.displayTitle = canonicalElectionTitle(group);
       group.displayProvider = 'Local Government Districts';
       byKey.set(`${group.body}|${group.date}`, {
         ...group,
@@ -361,6 +361,7 @@ function buildUniqueElectionEntries(index) {
       byKey.set(`${body}|${group.date}`, {
         ...group,
         body,
+        displayTitle: canonicalElectionTitle({ ...group, body }),
         displayProvider: `Local government: ${body}`,
         constituencies: unique(group.constituencies),
         bodies: [body],
@@ -368,7 +369,10 @@ function buildUniqueElectionEntries(index) {
       });
     }
   }
-  return [...byKey.values()];
+  return [...byKey.values()].map((entry) => ({
+    ...entry,
+    displayTitle: entry.displayTitle || canonicalElectionTitle(entry)
+  }));
 }
 
 function buildPreviousElectionKeyLookup(entries) {
@@ -561,7 +565,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     body: entry.body,
     bodySlug: entry.bodySlug,
     bodyGroup: entry.bodyGroup,
-    displayTitle: entry.displayTitle || null,
+    displayTitle: entry.displayTitle || canonicalElectionTitle(entry),
     localBodies: entry.bodies || null,
     localBodyByConstituency: entry.localBodyByConstituency || null,
     date: entry.date,
@@ -577,7 +581,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     displaySubtitle: formatElectionSubtitle(entry, results, unmatchedCount),
     displayProvider: entry.displayProvider || (entry.bodyGroup === 'local-government' ? `Local government: ${entry.body}` : entry.body),
     constituencies: entry.constituencies,
-    isByElection: (entry.constituencies || []).length > 0 && (entry.constituencies || []).length < 3,
+    isByElection: isElectionByElectionScope(entry),
     totalConstituencies: results.length,
     matchedCount,
     unmatchedCount,

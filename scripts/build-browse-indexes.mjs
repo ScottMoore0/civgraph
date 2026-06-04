@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { canonicalElectionTitle, electionResultEntryLabel } from '../js/election-names.mjs';
 
 const ROOT = process.cwd();
 const OUT_DIR = path.join(ROOT, 'data', 'browse');
@@ -37,12 +38,27 @@ function main() {
   const categoriesById = new Map((mapsData.categories || []).map((category) => [category.id, category]));
   const mapClassInfoById = buildMapClassInfo(mapsData);
   const maps = buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, thumbnailIds);
-  const elections = buildElections(electionManifest, thumbnailIds);
-  const electionDetails = readElectionDetails(elections);
-  const featureGroups = buildFeatureGroups(spatialIndex, maps, elections);
+  let elections = buildElections(electionManifest, thumbnailIds);
+  const parentElections = elections;
+  const electionDetails = readElectionDetails(parentElections);
+  const electionResultEntries = buildElectionResultSubEntries(parentElections, electionDetails);
+  for (const parent of parentElections) {
+    parent.resultEntries = electionResultEntries
+      .filter((entry) => entry.parentElectionKey === parent.key)
+      .map((entry) => compactObject({
+        key: entry.key,
+        title: entry.title,
+        resultName: entry.resultName,
+        resultKind: entry.resultKind,
+        browseUrl: entry.browseUrl
+      }));
+    parent.resultEntryCount = parent.resultEntries.length;
+  }
+  elections = [...parentElections, ...electionResultEntries];
+  const featureGroups = buildFeatureGroups(spatialIndex, maps, parentElections);
   const { parties, partyDetails } = buildParties(partyIds, electionDetails);
   const { persons, personDetails } = buildPersons(electionDetails);
-  const sources = buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds);
+  const sources = buildSources(booksData, dataEntriesData, maps, parentElections, thumbnailIds);
   const rawMapsById = new Map((mapsData.maps || []).map((map) => [map.id, map]));
   const rawDataEntriesById = new Map(normalizeArray(dataEntriesData.dataEntries || dataEntriesData.entries).map((entry) => [entry.id || entry.slug || slugify(entry.name || entry.title), entry]));
   const rawElectionsByKey = new Map(normalizeArray(electionManifest.elections).map((entry) => [entry.key, entry]));
@@ -75,7 +91,8 @@ function main() {
   }));
   writeDetailFiles('elections', elections, (record) => ({
     rawMetadata: compactObject({
-      manifest: rawElectionsByKey.get(record.key),
+      manifest: rawElectionsByKey.get(record.parentElectionKey || record.key),
+      result: record.resultMetadata || null,
       resultUrl: record.resultUrl,
       anchorUrl: record.anchorUrl
     })
@@ -313,13 +330,14 @@ function escapeRegExp(value) {
 
 function buildElections(manifest, thumbnailIds) {
   return (manifest.elections || []).map((entry) => {
-    const title = cleanText(entry.displayTitle || entry.body || entry.bodySlug || entry.key);
+    const title = cleanText(entry.displayTitle || canonicalElectionTitle(entry) || entry.body || entry.bodySlug || entry.key);
     const layerId = mainElectionLayerId(entry);
     const decade = Number.isFinite(Number(entry.date?.slice(0, 4))) ? `${Math.floor(Number(entry.date.slice(0, 4)) / 10) * 10}s` : null;
     return compactObject({
       id: entry.key,
       key: entry.key,
       type: 'election',
+      entryKind: 'election',
       title,
       body: cleanText(entry.body || title),
       bodySlug: entry.bodySlug || slugify(title),
@@ -360,7 +378,7 @@ function readElectionDetails(elections) {
       const detail = JSON.parse(readFileSync(fullPath, 'utf8'));
       detailFiles.set(election.key, detail);
       Object.assign(election, compactObject({
-        title: cleanText(detail.displayTitle || detail.body || election.title),
+        title: cleanText(detail.displayTitle || canonicalElectionTitle(detail) || detail.body || election.title),
         body: cleanText(detail.body || election.body),
         provider: cleanText(detail.displayProvider || election.provider),
         subtitle: cleanText(detail.displaySubtitle || election.subtitle),
@@ -384,6 +402,106 @@ function readElectionDetails(elections) {
     }
   }
   return detailFiles;
+}
+
+function buildElectionResultSubEntries(parentElections, electionDetails) {
+  const byKey = new Map(parentElections.map((election) => [election.key, election]));
+  const entries = [];
+  for (const [key, detail] of electionDetails) {
+    const parent = byKey.get(key);
+    if (!parent) continue;
+    const parentTitle = cleanText(detail.displayTitle || parent.title || canonicalElectionTitle(detail));
+    const common = {
+      parentElectionKey: parent.key,
+      parentTitle,
+      parentBrowseUrl: `/browse/elections/${encodeURIComponent(parent.slug || parent.key)}`,
+      body: parent.body,
+      bodySlug: parent.bodySlug,
+      bodyGroup: parent.bodyGroup,
+      date: parent.date,
+      year: parent.year,
+      decade: parent.decade,
+      provider: parent.provider,
+      category: parent.category,
+      geography: parent.geography,
+      sourceMapId: parent.sourceMapId,
+      layerId: parent.layerId,
+      loadable: parent.loadable,
+      placeholder: parent.placeholder,
+      status: parent.status,
+      resultUrl: parent.resultUrl,
+      anchorUrl: parent.anchorUrl,
+      thumbnail: parent.thumbnail,
+      interactiveUrl: parent.interactiveUrl
+    };
+    entries.push(compactObject({
+      ...common,
+      id: `${parent.key}::overall`,
+      key: `${parent.key}::overall`,
+      slug: `${slugify(parent.key)}-overall-results`,
+      type: 'election',
+      entryKind: 'election-overall-result',
+      resultKind: 'overall',
+      resultName: 'Overall results',
+      title: electionResultEntryLabel(parentTitle, null, { overall: true }),
+      subtitle: compactJoin(['Overall election result', parent.subtitle]),
+      description: `Overall results for ${parentTitle}.`,
+      totalConstituencies: detail.totalConstituencies || parent.totalConstituencies,
+      matchedCount: detail.matchedCount ?? parent.matchedCount,
+      unmatchedCount: detail.unmatchedCount ?? parent.unmatchedCount,
+      partySummary: parent.partySummary,
+      totals: parent.totals,
+      resultMetadata: compactObject({
+        kind: 'overall',
+        partySummaryRows: normalizeArray(detail.mainLikePartySummary || detail.partySummary).length,
+        constituencyResults: normalizeArray(detail.results).length
+      }),
+      browseUrl: `/browse/elections/${encodeURIComponent(`${slugify(parent.key)}-overall-results`)}`
+    }));
+
+    for (const result of normalizeArray(detail.results)) {
+      const resultName = cleanText(result.constituency || result.featureName || result.matchName);
+      if (!resultName) continue;
+      const regionalList = isNorthernIrelandForumRegionalList(detail, resultName);
+      const displayResultName = regionalList ? 'Regional List' : resultName;
+      const slug = `${slugify(parent.key)}-${slugify(displayResultName)}`;
+      entries.push(compactObject({
+        ...common,
+        id: `${parent.key}::${slugify(displayResultName)}`,
+        key: `${parent.key}::${slugify(displayResultName)}`,
+        slug,
+        type: 'election',
+        entryKind: 'election-constituency-result',
+        resultKind: regionalList ? 'regional-list' : parent.bodyGroup === 'local-government' ? 'dea-result' : 'constituency-result',
+        resultName: displayResultName,
+        sourceResultName: resultName,
+        title: electionResultEntryLabel(parentTitle, displayResultName, { regionalList }),
+        subtitle: compactJoin([regionalList ? 'Regional List result' : 'Constituency / DEA result', parentTitle]),
+        description: `${displayResultName} result in ${parentTitle}.`,
+        constituency: resultName,
+        featureId: result.featureId || null,
+        featureName: result.featureName || null,
+        matched: Boolean(result.matched),
+        localBody: result.localBody || null,
+        partySummary: normalizeArray(result.partySummary || result.summary || result.parties).slice(0, 16),
+        resultMetadata: compactObject({
+          kind: regionalList ? 'regional-list' : 'constituency',
+          constituency: resultName,
+          featureName: result.featureName,
+          matched: Boolean(result.matched),
+          localBody: result.localBody,
+          sourceFile: result.sourceFile
+        }),
+        browseUrl: `/browse/elections/${encodeURIComponent(slug)}`
+      }));
+    }
+  }
+  return entries.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')) || String(a.title || '').localeCompare(String(b.title || '')));
+}
+
+function isNorthernIrelandForumRegionalList(detail, resultName) {
+  return normalizeName(detail?.body) === 'northern ireland forum for political dialogue'
+    && normalizeName(resultName) === 'northern ireland';
 }
 
 function buildFeatureGroups(spatialIndex, maps, elections) {
@@ -493,7 +611,7 @@ function buildParties(partyIds, electionDetails) {
       if (party.relatedElections.length < PARTY_RELATED_LIMIT) {
         party.relatedElections.push(compactObject({
           key,
-          title: cleanText(detail.body || detail.displayTitle || key),
+          title: cleanText(detail.displayTitle || canonicalElectionTitle(detail) || detail.body || key),
           date: detail.date,
           seats: row.seats ?? row.elected,
           stood: row.stood,
@@ -533,7 +651,7 @@ function buildPersons(electionDetails) {
   for (const [key, election] of electionDetails) {
     const context = {
       key,
-      title: cleanText(election.body || election.displayTitle || key),
+      title: cleanText(election.displayTitle || canonicalElectionTitle(election) || election.body || key),
       date: election.date,
       year: Number(election.year || election.date?.slice(0, 4)) || null,
       interactiveUrl: interactiveLayerUrl(mainElectionLayerId(election))

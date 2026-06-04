@@ -10,6 +10,7 @@ import timeSliderController from './time-slider-controller.js';
 import { formatElectionDate, shortBodyName, escapeHtml, renderElectionConstituencyFeatureLink } from './election-utils.js';
 import { buildElectionViewModelFromMainController } from './election-view-model.mjs';
 import { renderElectionSummaryFromViewModel } from './election-renderer.mjs';
+import { canonicalElectionTitle, isElectionByElectionScope } from './election-names.mjs';
 
 class ElectionController {
     constructor() {
@@ -1637,30 +1638,14 @@ class ElectionController {
 
     _buildElectionDisplayName(body, date, duplicateYearCount, duplicateMonthCount, constituencies = []) {
         const special = this._getSpecialElectionConfig(body, date);
-        if (special?.displayName) return special.displayName;
-        const bodyLabel = this._getBodyElectionLabel(body);
-        const d = new Date(`${date}T00:00:00`);
-        if (Number.isNaN(d.getTime())) {
-            return `${date} ${bodyLabel} election`;
-        }
-        const nonNiConstituencies = (constituencies || []).filter((name) => name !== 'Northern Ireland');
-        const isByElection = this._isByElectionScope(constituencies);
-
-        let prefix = d.getFullYear().toString();
-        if ((duplicateYearCount || 0) > 1) {
-            prefix = d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
-        }
-        if ((duplicateMonthCount || 0) > 1) {
-            prefix = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-        }
-        if (this._isLocalGovernmentBody(body)) {
-            if (isByElection) {
-                const deaName = nonNiConstituencies[0] || bodyLabel;
-                return `${prefix} ${deaName} by-election`;
-            }
-            return this._localElectionTitle(date);
-        }
-        return `${prefix} ${bodyLabel} ${isByElection ? 'by-election' : 'election'}`;
+        return canonicalElectionTitle({
+            body,
+            bodyGroup: this._isLocalGovernmentBody(body) ? 'local-government' : null,
+            date,
+            constituencies,
+            specialType: special?.type || null,
+            specialDisplayName: special?.displayName || null
+        });
     }
 
     _buildElectionTimeline(indexData) {
@@ -1698,7 +1683,13 @@ class ElectionController {
                         bodyMonthCounts.get(bodyMonthKey) || 0,
                         dateData.constituencies || []
                     ),
-                    isByElection: this._isByElectionScope(dateData.constituencies || []),
+                    isByElection: isElectionByElectionScope({
+                        body: bodyData.name,
+                        bodyGroup: this._isLocalGovernmentBody(bodyData.name) ? 'local-government' : null,
+                        date,
+                        constituencies: dateData.constituencies || [],
+                        specialType: this._getSpecialElectionConfig(bodyData.name, date)?.type || null
+                    }),
                     constituencies: (dateData.constituencies || []).filter((name) => name !== 'Northern Ireland')
                 });
             });
@@ -3582,13 +3573,16 @@ class ElectionController {
         }
 
         // Create a synthetic map config for the UI
+        const activeDisplayName = this._buildElectionDisplayName(
+            this.body,
+            this.date,
+            0,
+            0,
+            this.constituencies || []
+        );
         this.electionMapConfig = {
             id,
-            name: this._specialElection?.title
-                ? `${this._specialElection.title} ${this._formatDate(this.date)}`
-                : this._isLocalGovernmentBody()
-                    ? this._localElectionTitle(this.date)
-                    : `${this._shortBodyName(this.body)} ${this._formatDate(this.date)}`,
+            name: activeDisplayName,
             style: { color: '#1a365d' },
             provider: ['Election Viewer'],
             date: this.date

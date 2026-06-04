@@ -3702,3 +3702,24 @@ Add election entries to /test2
   - Document verification evidence and remaining notes.
   - Completed: committed `44ce80e79 Hide technical Browse fields by default` and pushed `main` to GitHub.
   - Follow-up: direct production fetch confirmed `browse.js?v=82b9865bc` contained the fix, while the live hash route still used cached unversioned `browse.js`; added versioned Browse asset URLs in `browse/index.html`.
+
+# Canonical election names and Browse election result sub-entries
+- [x] Record scope
+  - User requested canonical public election names in active layer cards and Browse, covering Dail, European ROI/NI, NI Assembly, UK Parliament NI, NI Forum, Constitutional Convention, Parliament of NI, by-elections, recall petitions, and ROI/NI local elections.
+  - User also requested sub-entries for each election's overall result and each constituency/DEA result, including the NI Forum Regional List.
+- [x] Inspect current election naming and Browse generation
+  - Identify every path that produces active layer titles, `/test2` election manifest labels, and Browse election records.
+- [x] Implement shared canonical election naming
+  - Add one pure naming utility used by the main controller and generated `/test2`/Browse manifest data.
+- [x] Generate Browse election result sub-entries
+  - Add overall-result and constituency/DEA result records under each parent election without hiding the parent election.
+- [x] Verify
+  - Regenerate affected manifests/Browse indexes, run syntax/project checks, and spot-check representative records.
+- [x] Review
+  - Document files changed, verification evidence, and any remaining naming/data limits.
+  - Completed: added `js/election-names.mjs` and wired it into the main election controller, `/test2` election manifest generation, and Browse generation.
+  - Completed: the active layer card name now uses the same canonical title builder rather than short-body/date labels.
+  - Completed: `/test2` manifest display titles now include requested forms such as `2024 Irish general election`, `2024 European Parliament election (ROI)`, `2019 European Parliament election (NI)`, `2024 general election in Northern Ireland`, `2018 North Antrim recall petition`, `1975 Northern Ireland Constitutional convention`, `16 Apr 1970 Northern Ireland by-elections`, and `2023 Northern Ireland local election`.
+  - Completed: Browse elections now include 268 parent election records plus 4,952 child result records, for 5,220 election Browse entries total.
+  - Completed: each parent Browse election now carries `resultEntries`; child records include an overall-results entry plus constituency/DEA entries, including `Regional List - 1996 Northern Ireland Forum election`.
+  - Verification evidence: `node --check` passed for `js/election-names.mjs`, `js/election-controller.js`, `scripts/build-test2-election-manifest.mjs`, `scripts/build-browse-indexes.mjs`, and `browse/browse.js`; `npm run build:test2:elections` passed; `npm run build:browse` passed; representative Node spot-checks passed; `npm run check` passed; `npm run check:test2` passed; `npm run build` passed after approved esbuild spawn escalation.
