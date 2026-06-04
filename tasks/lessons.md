@@ -1821,3 +1821,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) cap all-island/regional locator context so the feature footprint remains visually dominant,
   3) visually inspect both the grey underlay shape and the feature-to-canvas ratio before committing,
   4) do not regenerate the full thumbnail set from a representative fix until the representative thumbnail passes both checks.
+
+### 137) Thumbnail framing needs an explicit feature-footprint target
+- Mistake pattern: Treating adaptive regional context as sufficient when the rendered thumbnail still leaves too much empty canvas around the actual boundary features.
+- Impact: The land underlay is recognizable, but the item being browsed is visually secondary and the thumbnail still looks poorly framed at catalogue size.
+- Guardrail:
+  1) add a measurable feature pixel-footprint target for representative thumbnails, not only a context-span heuristic,
+  2) regional maps such as NI-only administrative areas should use a tighter locator frame than all-island maps,
+  3) validate generated thumbnails at their displayed Browse size as well as at source asset size,
+  4) if a feature occupies too little of the square canvas, reduce context or shift to a tighter crop before broad regeneration.

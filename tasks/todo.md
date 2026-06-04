@@ -3626,3 +3626,19 @@ Add election entries to /test2
   - Completed: representative thumbnails were regenerated and visually inspected: `admin-areas-1924-04-01.webp` now has tighter NI feature framing with grey Britain/Ireland context; `counties-ireland-1927.webp` remains an all-island map with visible grey coastline context.
   - Completed: Browse map detail pages now use a compact map overview block and table-like metadata groups instead of sparse mini-cards.
   - Verification evidence: `node --check browse/browse.js` passed; `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build:browse` passed; `npm run build` passed after approved esbuild spawn escalation; `npm run check` passed; local static HTTP check returned 200.
+
+# Fix residual empty space in Browse thumbnails
+- [x] Record correction
+  - User showed that `admin-areas-1924-04-01` still has too much empty land/sea around the actual features despite the adaptive context fix.
+  - Correction goal: keep grey land context visible while making the target map features visually dominant at the displayed thumbnail size.
+- [x] Implement feature-footprint framing
+  - Add a tighter context profile for regional/historic administrative maps and an explicit minimum feature-footprint target.
+- [x] Regenerate and inspect representative thumbnails
+  - Regenerate `admin-areas-1924-04-01` and related thumbnail outputs, then inspect the actual image.
+- [x] Verify
+  - Run syntax checks and Browse/build checks that cover thumbnail generation.
+- [x] Review
+  - Document changed files, verification evidence, and any remaining limits.
+  - Completed: `scripts/regen-thumbnails.py` now applies a specific regional administrative thumbnail profile with an explicit feature-footprint cap, reducing the representative viewport from about 619 km to about 439 km.
+  - Completed: regenerated `assets/thumbnails/admin-areas-1924-04-01.png`, `.webp`, and `-60.webp`; visual inspection shows the NI boundaries now dominate the thumbnail while retaining grey Ireland/Britain context.
+  - Verification evidence: `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build:browse` passed; generated Browse JSON churn was reverted; `npm run check` passed.

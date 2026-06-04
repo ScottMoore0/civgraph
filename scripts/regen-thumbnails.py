@@ -32,6 +32,9 @@ TARGET_SRS = 'EPSG:3857'  # Web Mercator - matches normal web-map appearance for
 DEFAULT_MIN_CONTEXT_SPAN = 260000  # metres: contextual regional frame without shrinking features too far
 ALL_IRELAND_MIN_CONTEXT_SPAN = 520000
 LOCAL_MIN_CONTEXT_SPAN = 90000     # metres: keeps local open-data layers legible
+REGIONAL_ADMIN_MIN_CONTEXT_SPAN = 170000
+REGIONAL_ADMIN_MAX_CONTEXT_SPAN = 500000
+REGIONAL_ADMIN_FEATURE_FOOTPRINT = 0.78
 MAX_CONTEXT_SPAN = 680000          # cap locator context so feature footprints stay dominant
 
 EMPTY_GEOMS = {'polys': [], 'lines': [], 'points': []}
@@ -254,6 +257,12 @@ def compute_bounds(geoms):
         return None
     return (min(all_x), min(all_y), max(all_x), max(all_y))
 
+def _cap_to_feature_footprint(span, feature_span, min_footprint):
+    """Prevent locator context from making the target layer visually secondary."""
+    if feature_span <= 0 or min_footprint <= 0:
+        return span
+    return min(span, feature_span / min_footprint)
+
 def context_span(map_config, feature_span):
     """Pick an adaptive viewport size so grey land context is recognizable.
 
@@ -269,6 +278,14 @@ def context_span(map_config, feature_span):
         'dún laoghaire', 'local authority open data', 'open data'
     )):
         return min(max(feature_span * 1.65, LOCAL_MIN_CONTEXT_SPAN), 220000)
+    if any(token in text for token in (
+        'admin-areas', 'administrative areas', 'historic administrative'
+    )):
+        span = min(
+            max(feature_span * 1.24, REGIONAL_ADMIN_MIN_CONTEXT_SPAN),
+            REGIONAL_ADMIN_MAX_CONTEXT_SPAN,
+        )
+        return _cap_to_feature_footprint(span, feature_span, REGIONAL_ADMIN_FEATURE_FOOTPRINT)
     if any(token in text for token in (
         'all-ireland', 'all ireland', 'ireland', 'counties', 'provinces',
         'dail', 'dÃ¡il', 'european parliament'
