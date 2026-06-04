@@ -3662,3 +3662,39 @@ Add election entries to /test2
   - Completed: Browse thumbnail asset URLs now append `?v=20260604-tight-admin-frame` in `src`, `srcset`, and actual-size links.
   - Completed: regenerated `assets/thumbnails/admin-areas-1924-04-01.png`, `.webp`, and `-60.webp`; visual inspection shows a much tighter feature-fitted frame.
   - Verification evidence: `node --check browse/browse.js` passed; `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build:browse` passed; `npm run check` passed; `npm run build` passed after approved esbuild spawn escalation.
+
+# Split Browse detail data into general-interest and technical tiers
+- [x] Record scope
+  - User requested that Browse pages distinguish general-interest data from technical data.
+  - Goal: show public-facing descriptions, dates, providers, status, source/reference/download information, election/person/party facts, and useful thumbnails prominently, while hiding generated IDs, raw JSON, internal map wiring, URLs, geometry/index sidecars, and similar implementation fields under an expandable technical section.
+- [x] Inspect current Browse detail renderer
+  - Review `browse/browse.js` detail rendering and existing panel styles.
+- [x] Implement public/technical classification
+  - Replace the always-visible all-fields table with a collapsed technical panel.
+  - Keep source/reference/download information visible.
+  - Keep raw source metadata available, but closed by default.
+- [x] Verify
+  - Run syntax checks and project checks.
+- [x] Review
+  - Document changed files, verification evidence, and remaining limits.
+  - Completed: Browse detail pages now render public-facing Overview/Details/Sources/Related sections first and put internal IDs, generated URLs, spatial indexes, layer wiring, and raw metadata into a collapsed `Technical data` section.
+  - Completed: the old always-visible `All Browse Fields` table and separate raw metadata panel were removed from the primary detail flow.
+  - Completed: generated election JSON and seat-anchor URLs are no longer primary action buttons; they remain accessible in the technical panel.
+  - Verification evidence: `node --check browse/browse.js` passed; `npm run check` passed; local browser smoke for `#/maps/admin-areas-1924-04-01` confirmed Overview/Metadata/Sources visible, `Technical data` closed, and `All Browse Fields` absent; local browser smoke for `#/elections/dail-eireann-2024-11-29` confirmed Overview/Details visible, `Technical data` closed, and seat-anchor action hidden; `npm run build` passed after approved esbuild spawn escalation.
+  - Remaining note: `data/browse` generated JSON files were already dirty before this task and remain dirty; this task intentionally changed the renderer rather than regenerating or reverting those datasets.
+
+# Fix live Browse technical-detail leakage
+- [x] Record correction
+  - User reviewed `https://civgraph.net/browse/#/maps/admin-areas-1924-04-01` and found the live page still showed technical details as general information.
+  - Symptom: production still displayed `All Browse Fields`, a top-level raw metadata panel, map IDs, label property/loadable/featured technical fields, and runtime badges in public panels.
+  - Root cause: the renderer split was local/unpushed, and the local overview still exposed `Featured`/`Loadable` as public badges.
+  - Permanent prevention action: deploy the Browse renderer split and remove `Featured`/`Loadable` from public badges; keep those flags in collapsed technical data.
+- [x] Tighten public Browse badges
+  - Removed runtime/catalogue `Featured` and `Loadable` flags from public detail badges.
+- [x] Verify
+  - Run syntax/project checks and local browser smoke for the exact map route.
+  - Verification evidence: `node --check browse/browse.js` passed; `npm run check` passed; exact local route smoke for `#/maps/admin-areas-1924-04-01` confirmed no public `All Browse Fields`, no top-level raw metadata panel, no public `Map ID`, `Label property`, `Loadable`, or `Featured`, and a closed `Technical data` section; `npm run build` passed after approved esbuild spawn escalation.
+- [ ] Commit and push
+  - Commit only renderer/style/task-log/lesson changes, leaving pre-existing generated `data/browse` churn unstaged.
+- [ ] Review
+  - Document verification evidence and remaining notes.

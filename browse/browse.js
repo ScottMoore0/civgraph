@@ -9,6 +9,68 @@ const ENTITY_CONFIG = {
   sources: { label: 'Books / Tables / Sources', singular: 'Source', index: 'sources.json', detailDir: 'sources' }
 };
 
+const TECHNICAL_FIELD_KEYS = new Set([
+  'anchorUrl',
+  'bbox',
+  'bounds',
+  'browseUrl',
+  'chunkIndexUrl',
+  'cloneOf',
+  'derivedFrom',
+  'detailUrl',
+  'featureIndexUrl',
+  'id',
+  'interactiveUrl',
+  'key',
+  'labelProperty',
+  'layerId',
+  'loadable',
+  'mapId',
+  'parentCardId',
+  'pmtilesUrl',
+  'rawMetadata',
+  'resultUrl',
+  'slug',
+  'sourceMapId',
+  'sourceMapUrl',
+  'spatialIndexUrl',
+  'thumbnail',
+  'tileUrl',
+  'tilesUrl',
+  'type'
+]);
+
+const PUBLIC_METADATA_KEYS = new Set([
+  'body',
+  'canonicalName',
+  'category',
+  'constituencies',
+  'date',
+  'description',
+  'downloads',
+  'elections',
+  'featured',
+  'geography',
+  'group',
+  'keywords',
+  'name',
+  'observedNames',
+  'parentCard',
+  'partySummary',
+  'provider',
+  'references',
+  'relatedElections',
+  'sampleFeatures',
+  'sourceFiles',
+  'status',
+  'subtitle',
+  'title',
+  'totals',
+  'url',
+  'variants',
+  'years'
+]);
+
 const state = {
   manifest: null,
   isHome: true,
@@ -396,11 +458,10 @@ async function renderDetail(type, indexItem) {
       ${renderContributorDetailActions(type, item)}
       ${isMap ? renderMapLeadPanel(item) : renderThumbnailPanel(item)}
       ${isMap ? renderMapMetadataPanel(item) : renderOverviewPanel(type, item)}
-      ${isMap ? renderMapSourcePanel(item) : renderMetadataPanel(item)}
+      ${isMap ? renderMapSourcePanel(item) : renderMetadataPanel(type, item)}
       ${isMap ? '' : renderLinksPanel(item)}
-      ${renderAllFieldsPanel(item)}
       ${renderRelatedPanel(type, item)}
-      ${renderRawMetadataPanel(item)}
+      ${renderTechnicalPanel(type, item)}
     </div>
   `;
 }
@@ -408,8 +469,6 @@ async function renderDetail(type, indexItem) {
 function renderDetailActions(config, item) {
   const actions = [];
   if (item.interactiveUrl) actions.push(`<a class="browse-btn browse-btn--primary" href="${escapeAttr(item.interactiveUrl)}">${escapeHtml(config.action || 'Open in interactive map')}</a>`);
-  if (item.resultUrl) actions.push(`<a class="browse-btn" href="${escapeAttr(item.resultUrl)}" target="_blank" rel="noopener noreferrer">Election JSON</a>`);
-  if (item.anchorUrl) actions.push(`<a class="browse-btn" href="${escapeAttr(item.anchorUrl)}" target="_blank" rel="noopener noreferrer">Seat anchors</a>`);
   if (!actions.length) return '';
   return `<div class="browse-actions">${actions.join('')}</div>`;
 }
@@ -452,18 +511,37 @@ function renderOverviewPanel(type, item) {
   `;
 }
 
-function renderMetadataPanel(item) {
+function renderMetadataPanel(type, item) {
   const rows = [
-    ['ID', item.id || item.key],
     ['Status', item.status],
-    ['Source map', item.sourceMapId],
-    ['Layer', item.layerId],
-    ['Label property', item.labelProperty],
     ['Keywords', joinList(item.keywords)]
   ];
+  if (type === 'elections') {
+    rows.push(
+      ['Matched constituencies/features', item.matchedCount],
+      ['Unmatched constituencies/features', item.unmatchedCount],
+      ['Result source', item.resultUrl ? 'Available' : '']
+    );
+  } else if (type === 'parties') {
+    rows.push(
+      ['Total labels', item.observedNames?.length],
+      ['Election appearances', item.occurrenceCount]
+    );
+  } else if (type === 'persons') {
+    rows.push(
+      ['Contests', item.totals?.stood],
+      ['Elected', item.totals?.elected]
+    );
+  } else if (type === 'sources') {
+    rows.push(
+      ['Source files', item.sourceFiles?.length],
+      ['References', item.references?.length],
+      ['Downloads', item.downloads?.length]
+    );
+  }
   return `
     <section class="browse-detail__panel">
-      <h2>Metadata</h2>
+      <h2>Details</h2>
       <div class="browse-detail__body">${renderDefinitionRows(rows)}</div>
     </section>
   `;
@@ -521,8 +599,7 @@ function renderMapThumbnailNote(item) {
 
 function renderMapMetadataPanel(item) {
   const groups = [
-    ['Identity', [
-      ['Map ID', item.id || item.key],
+    ['Map', [
       ['Layer title', item.title || item.name],
       ['Status', item.status]
     ]],
@@ -531,13 +608,6 @@ function renderMapMetadataPanel(item) {
       ['Category', item.category],
       ['Group', item.group],
       ['Keywords', joinList(item.keywords)]
-    ]],
-    ['Technical', [
-      ['Source map', item.sourceMapId],
-      ['Layer', item.layerId],
-      ['Label property', item.labelProperty],
-      ['Loadable', item.loadable === undefined ? '' : item.loadable ? 'Yes' : 'No'],
-      ['Featured', item.featured === undefined ? '' : item.featured ? 'Yes' : 'No']
     ]]
   ];
   return `
@@ -634,6 +704,7 @@ function renderElectionRelated(item) {
 
 function renderLinksPanel(item) {
   const rows = [];
+  if (item.url) rows.push(['Source link', item.title || item.name || item.url, item.url]);
   for (const link of item.downloads || []) rows.push(['Download', link.label, link.url]);
   for (const link of item.sourceFiles || []) rows.push(['Source file', link.label, link.url]);
   for (const ref of item.references || []) rows.push(['Reference', ref.label || ref.url, ref.url]);
@@ -758,28 +829,74 @@ function thumbnailInitials(value) {
   return words.slice(0, 2).map((word) => word[0]).join('').toUpperCase() || 'C';
 }
 
-function renderAllFieldsPanel(item) {
-  const rows = Object.entries(item)
-    .filter(([key, value]) => !['rawMetadata', 'thumbnail'].includes(key) && value !== null && value !== undefined && value !== '')
-    .map(([key, value]) => [humanizeKey(key), renderFieldValue(value)]);
-  if (!rows.length) return '';
-  return renderTablePanel('All Browse Fields', ['Field', 'Value'], rows.map(([key, value]) => [
-    escapeHtml(key),
-    value
-  ]));
+function renderTechnicalPanel(type, item) {
+  const technicalRows = technicalFieldEntries(type, item);
+  const publicHiddenRows = publicFieldEntries(type, item);
+  const rawJson = item.rawMetadata ? JSON.stringify(item.rawMetadata, null, 2) : '';
+  if (!technicalRows.length && !rawJson && !publicHiddenRows.length) return '';
+  return `
+    <section class="browse-detail__panel browse-detail__panel--technical">
+      <details class="browse-technical">
+        <summary>
+          <span>Technical data</span>
+          <small>Internal IDs, generated fields, source-map wiring, and raw JSON</small>
+        </summary>
+        <div class="browse-technical__body">
+          ${technicalRows.length ? renderTechnicalTable('Technical fields', technicalRows) : ''}
+          ${publicHiddenRows.length ? renderTechnicalTable('Additional generated fields', publicHiddenRows) : ''}
+          ${rawJson ? `
+            <section class="browse-technical__raw">
+              <h3>Raw source metadata</h3>
+              <pre class="browse-field-json">${escapeHtml(rawJson)}</pre>
+            </section>
+          ` : ''}
+        </div>
+      </details>
+    </section>
+  `;
 }
 
-function renderRawMetadataPanel(item) {
-  if (!item.rawMetadata) return '';
-  const json = JSON.stringify(item.rawMetadata, null, 2);
+function technicalFieldEntries(type, item) {
+  const entries = Object.entries(item)
+    .filter(([key, value]) => isTechnicalField(type, key, value))
+    .map(([key, value]) => [humanizeKey(key), renderFieldValue(value)]);
+  if (item.rawMetadata && !entries.some(([label]) => label === 'Raw metadata')) {
+    entries.push(['Raw metadata', escapeHtml('Available below')]);
+  }
+  return entries;
+}
+
+function publicFieldEntries(type, item) {
+  return Object.entries(item)
+    .filter(([key, value]) => !isEmptyValue(value))
+    .filter(([key]) => !TECHNICAL_FIELD_KEYS.has(key) && !PUBLIC_METADATA_KEYS.has(key))
+    .map(([key, value]) => [humanizeKey(key), renderFieldValue(value)]);
+}
+
+function isTechnicalField(type, key, value) {
+  if (isEmptyValue(value)) return false;
+  if (key === 'rawMetadata') return false;
+  if (key === 'url') return false;
+  if (TECHNICAL_FIELD_KEYS.has(key)) return true;
+  if (/^(.*Url|.*Id|.*Key)$/i.test(key)) return true;
+  if (/(bbox|bounds|tile|pmtiles|spatial|index|geometry|geojson|mvt|chunk|lod)/i.test(key)) return true;
+  if (type === 'maps' && ['featured', 'loadable', 'placeholder'].includes(key)) return true;
+  return false;
+}
+
+function isEmptyValue(value) {
+  return value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0);
+}
+
+function renderTechnicalTable(title, rows) {
   return `
-    <section class="browse-detail__panel">
-      <h2>Raw Source Metadata</h2>
-      <div class="browse-detail__body">
-        <details class="browse-raw">
-          <summary>Show original generated/source fields</summary>
-          <pre>${escapeHtml(json)}</pre>
-        </details>
+    <section class="browse-technical__group">
+      <h3>${escapeHtml(title)}</h3>
+      <div class="browse-table-wrap">
+        <table class="browse-table browse-table--technical">
+          <thead><tr><th>Field</th><th>Value</th></tr></thead>
+          <tbody>${rows.map(([key, value]) => `<tr><td>${escapeHtml(key)}</td><td>${value}</td></tr>`).join('')}</tbody>
+        </table>
       </div>
     </section>
   `;
@@ -1076,7 +1193,6 @@ async function renderFeatureGroupDetail(item) {
           ${renderDefinitionRows([
             ['Feature count', formatNumber(item.featureCount)],
             ['Source map', item.sourceMapId],
-            ['Spatial index', item.spatialIndexUrl],
             ['Related elections', item.relatedElectionCount]
           ])}
         </div>
@@ -1089,6 +1205,7 @@ async function renderFeatureGroupDetail(item) {
         escapeHtml(feature.name || feature.label || 'Unnamed feature'),
         escapeHtml(Array.isArray(feature.bbox) ? feature.bbox.map((value) => Number(value).toFixed(5)).join(', ') : '')
       ]))}
+      ${renderTechnicalPanel('features', item)}
       ${(featureData?.features?.length || 0) > 500 ? '<p class="browse-description">Showing the first 500 matching features. Use search to narrow the list.</p>' : ''}
     </div>
   `;
@@ -1122,8 +1239,6 @@ function renderDefinitionRows(rows, className = 'browse-detail__meta') {
 
 function renderBadges(item) {
   const badges = [];
-  if (item.featured) badges.push('Featured');
-  if (item.loadable) badges.push('Loadable');
   if (item.placeholder) badges.push('Placeholder');
   if (item.status) badges.push(item.status);
   if (!badges.length) return '';

@@ -824,6 +824,62 @@ a:hover {
   padding: var(--space-4);
 }
 
+.browse-detail__panel--technical {
+  border-style: dashed;
+  background: #f8fafc;
+}
+
+.browse-technical {
+  padding: 0;
+}
+
+.browse-technical summary {
+  display: flex;
+  gap: var(--space-2);
+  align-items: baseline;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  list-style-position: inside;
+  color: var(--color-text);
+  font-weight: 800;
+}
+
+.browse-technical summary:hover {
+  background: var(--color-surface-elevated);
+}
+
+.browse-technical summary small {
+  color: var(--color-text-muted);
+  font-size: .78rem;
+  font-weight: 650;
+  line-height: 1.35;
+  text-align: right;
+}
+
+.browse-technical__body {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.browse-technical__group h3,
+.browse-technical__raw h3 {
+  margin: 0 0 var(--space-2);
+  color: var(--color-text-muted);
+  font-size: .78rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.browse-table--technical td:first-child {
+  width: 11rem;
+  color: var(--color-text-muted);
+  font-weight: 750;
+}
+
 .browse-map-lead {
   display: grid;
   grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);

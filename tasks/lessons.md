@@ -1839,3 +1839,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) apply versioning to `src`, `srcset`, and "open actual size" links,
   3) verify the rendered HTML requests the versioned asset, not just that the local file changed,
   4) prefer runtime asset URL versioning over broad generated Browse JSON rewrites unless the data contract itself changed.
+
+### 139) Browse public pages must not expose generated record internals as primary content
+- Mistake pattern: Treating a locally verified Browse renderer change as sufficient when production still served the old renderer, and leaving runtime/catalogue flags such as `Featured` and `Loadable` visible in public map overview badges.
+- Impact: The live Browse page still looked like a generated technical record, with internal IDs, JSON-ish fields, and runtime flags shown as ordinary user-facing information.
+- Guardrail:
+  1) for Browse information-architecture fixes, verify the exact production URL as well as the local route before saying the issue is fixed,
+  2) keep `All Browse Fields`, raw source metadata, IDs, generated URLs, label properties, spatial indexes, `featured`, and `loadable` under a collapsed technical details section,
+  3) public Browse panels should prioritize description, date, category/group, provider/credits, status, sources/references/downloads, variants, and related entries,
+  4) if production differs from local, identify whether the change is uncommitted/unpushed, cached, or served from a different asset path before making further visual claims.
