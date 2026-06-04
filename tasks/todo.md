@@ -3687,10 +3687,12 @@ Add election entries to /test2
 - [x] Record correction
   - User reviewed `https://civgraph.net/browse/#/maps/admin-areas-1924-04-01` and found the live page still showed technical details as general information.
   - Symptom: production still displayed `All Browse Fields`, a top-level raw metadata panel, map IDs, label property/loadable/featured technical fields, and runtime badges in public panels.
-  - Root cause: the renderer split was local/unpushed, and the local overview still exposed `Featured`/`Loadable` as public badges.
-  - Permanent prevention action: deploy the Browse renderer split and remove `Featured`/`Loadable` from public badges; keep those flags in collapsed technical data.
+  - Root cause: the renderer split was local/unpushed at first; after push, production served the fixed `browse.js` only on a cache-busted URL because the unversioned Browse script can remain cached for 4 hours.
+  - Permanent prevention action: deploy the Browse renderer split, remove `Featured`/`Loadable` from public badges, and version Browse CSS/JS includes; keep runtime/catalogue flags in collapsed technical data.
 - [x] Tighten public Browse badges
   - Removed runtime/catalogue `Featured` and `Loadable` flags from public detail badges.
+- [x] Bust Browse asset cache
+  - Versioned the standalone Browse CSS and JS includes so production users do not keep loading the old renderer from cache.
 - [x] Verify
   - Run syntax/project checks and local browser smoke for the exact map route.
   - Verification evidence: `node --check browse/browse.js` passed; `npm run check` passed; exact local route smoke for `#/maps/admin-areas-1924-04-01` confirmed no public `All Browse Fields`, no top-level raw metadata panel, no public `Map ID`, `Label property`, `Loadable`, or `Featured`, and a closed `Technical data` section; `npm run build` passed after approved esbuild spawn escalation.
@@ -3699,4 +3701,4 @@ Add election entries to /test2
 - [x] Review
   - Document verification evidence and remaining notes.
   - Completed: committed `44ce80e79 Hide technical Browse fields by default` and pushed `main` to GitHub.
-  - Remaining note: Cloudflare Pages still needs to finish deploying the pushed commit before `https://civgraph.net/browse/#/maps/admin-areas-1924-04-01` reflects the change.
+  - Follow-up: direct production fetch confirmed `browse.js?v=82b9865bc` contained the fix, while the live hash route still used cached unversioned `browse.js`; added versioned Browse asset URLs in `browse/index.html`.

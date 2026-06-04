@@ -1847,4 +1847,5 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   1) for Browse information-architecture fixes, verify the exact production URL as well as the local route before saying the issue is fixed,
   2) keep `All Browse Fields`, raw source metadata, IDs, generated URLs, label properties, spatial indexes, `featured`, and `loadable` under a collapsed technical details section,
   3) public Browse panels should prioritize description, date, category/group, provider/credits, status, sources/references/downloads, variants, and related entries,
-  4) if production differs from local, identify whether the change is uncommitted/unpushed, cached, or served from a different asset path before making further visual claims.
+  4) if production differs from local, identify whether the change is uncommitted/unpushed, cached, or served from a different asset path before making further visual claims,
+  5) when changing standalone Browse assets, version the `browse.js`/`browse.css` includes as well as any thumbnails because Cloudflare can cache those files independently of the hash-route HTML.
