@@ -3643,6 +3643,25 @@ Add election entries to /test2
   - Completed: regenerated `assets/thumbnails/admin-areas-1924-04-01.png`, `.webp`, and `-60.webp`; visual inspection shows the NI boundaries now dominate the thumbnail while retaining grey Ireland/Britain context.
   - Verification evidence: `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build:browse` passed; generated Browse JSON churn was reverted; `npm run check` passed.
 
+# Fix live Browse election names and deployment size
+- [x] Record correction
+  - Symptom: production `/browse/#/elections` still showed old election names such as `Dáil Éireann`, `House of Commons of the United Kingdom`, and `European Parliament (Ireland)` after canonical naming work was committed.
+  - Root cause: the generated data had the corrected names locally, but the previous implementation also committed thousands of per-result election detail JSON files, pushing the tracked repository to 24,806 files, above Cloudflare Pages' 20,000-file deployment limit. Browse JSON fetches were also unversioned, so stale `data/browse/*.json` could remain cached after deployment.
+  - Permanent prevention action: keep election result subentries in the compact election index, write detail files only for parent election records, prune stale generated election-result detail files, and version Browse JSON fetches.
+  - Verification evidence: pending.
+- [x] Update Browse data generation
+  - Stop emitting static detail JSON files for election overall/constituency/DEA subentries while preserving those subentries in `data/browse/elections.json`.
+- [x] Update Browse runtime
+  - Add cache-busting/no-store fetch behaviour for Browse JSON and allow election subentry detail routes to render from the index record.
+- [x] Regenerate and verify
+  - Regenerate Browse indexes, confirm file count is below the Pages deployment cap, and run project checks.
+- [x] Commit and push
+  - Commit the scoped generator/runtime/data fix and push to `main`.
+  - Completed: `npm run build:browse` regenerated `data/browse/elections.json` with 5,220 records and pruned `data/browse/details/elections` to 268 parent election detail files.
+  - Completed: projected tracked repository file count after staged deletions is 19,854, under the 20,000-file Cloudflare Pages deployment cap.
+  - Completed: local browser smoke for `http://127.0.0.1:8765/browse/#/elections` showed `5,220` election records and canonical titles including `2024 Irish general election`, `2024 general election in Northern Ireland`, and `2024 European Parliament election (ROI)`.
+  - Verification evidence: `node --check browse/browse.js` passed; `node --check scripts/build-browse-indexes.mjs` passed; `npm run check` passed; `npm run check:test2` passed; `npm run build` passed after approved esbuild spawn escalation.
+
 # Force tight Browse thumbnail framing and bypass stale thumbnail cache
 - [x] Record recurrence
   - Symptom: User still sees the old-looking `admin-areas-1924-04-01` thumbnail after the first framing fix was committed and pushed.

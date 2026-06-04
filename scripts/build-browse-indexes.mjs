@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { canonicalElectionTitle, electionResultEntryLabel } from '../js/election-names.mjs';
 
@@ -89,14 +89,14 @@ function main() {
       ? rawDataEntriesById.get(record.id)
       : rawMapsById.get(record.id)
   }));
-  writeDetailFiles('elections', elections, (record) => ({
+  writeDetailFiles('elections', parentElections, (record) => ({
     rawMetadata: compactObject({
       manifest: rawElectionsByKey.get(record.parentElectionKey || record.key),
       result: record.resultMetadata || null,
       resultUrl: record.resultUrl,
       anchorUrl: record.anchorUrl
     })
-  }));
+  }), { prune: true });
   writeDetailFiles('parties', Object.values(partyDetails));
   writeDetailFiles('sources', sources, (record) => ({
     rawMetadata: sourceRawMetadata(record, {
@@ -808,9 +808,20 @@ function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds)
   return sources.sort(sortByTitle);
 }
 
-function writeDetailFiles(kind, records, enhance = null) {
+function writeDetailFiles(kind, records, enhance = null, options = {}) {
   const dir = path.join(DETAILS_DIR, kind);
   mkdirSync(dir, { recursive: true });
+  const desiredFiles = new Set();
+  for (const record of records) {
+    const slug = record.slug || slugify(record.id || record.key || record.title);
+    desiredFiles.add(`${slug}.json`);
+  }
+  if (options.prune) {
+    for (const file of readdirSync(dir)) {
+      if (!file.endsWith('.json') || desiredFiles.has(file)) continue;
+      rmSync(path.join(dir, file), { force: true });
+    }
+  }
   for (const record of records) {
     const slug = record.slug || slugify(record.id || record.key || record.title);
     const extra = enhance ? compactObject(enhance(record) || {}) : {};

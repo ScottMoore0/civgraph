@@ -1,4 +1,5 @@
 const DATA_ROOT = '../data/browse';
+const BROWSE_DATA_VERSION = '20260604-election-names-v2';
 const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
 const ENTITY_CONFIG = {
   maps: { label: 'Maps', singular: 'Map', index: 'maps.json', detailDir: 'maps', action: 'Open in interactive map' },
@@ -1301,18 +1302,48 @@ async function loadIndex(type) {
 async function loadDetail(type, item) {
   const config = ENTITY_CONFIG[type];
   if (!config.detailDir) return { item };
+  if (type === 'elections' && item.entryKind && item.entryKind !== 'election') return { item };
   const slug = item.slug || slugify(item.id || item.key || item.title);
   const cacheKey = `${type}:${slug}`;
   if (state.details.has(cacheKey)) return state.details.get(cacheKey);
-  const detail = await loadJson(`${DATA_ROOT}/details/${config.detailDir}/${encodeURIComponent(slug)}.json`);
+  let detail;
+  try {
+    detail = await loadJson(`${DATA_ROOT}/details/${config.detailDir}/${encodeURIComponent(slug)}.json`);
+  } catch (error) {
+    if (type === 'elections' && error.status === 404) {
+      detail = { item };
+    } else {
+      throw error;
+    }
+  }
   state.details.set(cacheKey, detail);
   return detail;
 }
 
 async function loadJson(url) {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`${response.status} ${response.statusText} for ${url}`);
+  const requestUrl = versionBrowseDataUrl(url);
+  const response = await fetch(requestUrl, { cache: 'no-store' });
+  if (!response.ok) {
+    const error = new Error(`${response.status} ${response.statusText} for ${url}`);
+    error.status = response.status;
+    error.url = requestUrl;
+    throw error;
+  }
   return response.json();
+}
+
+function versionBrowseDataUrl(url) {
+  if (!url || typeof window === 'undefined') return url;
+  try {
+    const parsed = new URL(url, window.location.href);
+    if (parsed.origin === window.location.origin && /\/data\//.test(parsed.pathname)) {
+      parsed.searchParams.set('v', BROWSE_DATA_VERSION);
+      return parsed.href;
+    }
+  } catch {
+    return url;
+  }
+  return url;
 }
 
 function filterItems(items, query) {

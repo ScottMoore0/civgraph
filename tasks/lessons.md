@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 139) Generated Browse data must stay within Pages limits and use versioned fetches
+- Mistake pattern: Canonical Browse election names were generated correctly, but the fix also committed thousands of per-result detail JSON files and left Browse data fetches unversioned.
+- Impact: The production site could continue showing old names because deployment may fail above Cloudflare Pages' 20,000-file limit, and stale `data/browse/*.json` can be served even when the Browse script is updated.
+- Guardrail:
+  1) generated Browse subentries should live in compact indexes unless their detail pages genuinely need separate static files,
+  2) Browse generators must prune stale generated detail files for categories where static detail output has been intentionally reduced,
+  3) Browse runtime JSON fetches should include an explicit data version and no-store cache mode whenever generated data shape changes.
+
 ### 138) Site-wide navigation changes must check main, test, and test2 shells
 - Mistake pattern: The Browse/login entry point was added to the main shell and About page, but `/test2` was left without the Browse link even though it is an active user-facing shell.
 - Impact: Users viewing `/test2` could not reach the new Browse/contributor workflow from the navbar, creating an avoidable parity gap.
