@@ -1,4 +1,5 @@
 const DATA_ROOT = '../data/browse';
+const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
 const ENTITY_CONFIG = {
   maps: { label: 'Maps', singular: 'Map', index: 'maps.json', detailDir: 'maps', action: 'Open in interactive map' },
   elections: { label: 'Elections', singular: 'Election', index: 'elections.json', detailDir: 'elections', action: 'Open election layer' },
@@ -507,7 +508,7 @@ function renderMapThumbnailNote(item) {
     return `
       <p class="browse-thumb-caption browse-map-thumbnail-note">
         Thumbnail asset: <span>${escapeHtml(thumbnail.id || fileName(thumbnail.url))}</span>
-        ${thumbnail.url ? ` · <a href="${escapeAttr(thumbnail.url)}" target="_blank" rel="noopener noreferrer">Open actual size</a>` : ''}
+        ${thumbnail.url ? ` · <a href="${escapeAttr(versionedThumbnailUrl(thumbnail.url))}" target="_blank" rel="noopener noreferrer">Open actual size</a>` : ''}
       </p>
     `;
   }
@@ -648,9 +649,11 @@ function renderThumbnail(item, context = 'card') {
   const thumbnail = normalizedThumbnail(item);
   if (!thumbnail) return '';
   if (thumbnail.kind === 'asset' && thumbnail.url) {
-    const src = context === 'card' ? (thumbnail.smallUrl || thumbnail.url) : thumbnail.url;
+    const url = versionedThumbnailUrl(thumbnail.url);
+    const smallUrl = thumbnail.smallUrl ? versionedThumbnailUrl(thumbnail.smallUrl) : null;
+    const src = context === 'card' ? (smallUrl || url) : url;
     const srcset = context === 'card' && thumbnail.smallUrl && thumbnail.url
-      ? ` srcset="${escapeAttr(thumbnail.smallUrl)} 60w, ${escapeAttr(thumbnail.url)} 120w" sizes="72px"`
+      ? ` srcset="${escapeAttr(smallUrl)} 60w, ${escapeAttr(url)} 120w" sizes="72px"`
       : '';
     return `
       <figure class="browse-thumb browse-thumb--${escapeAttr(context)}">
@@ -672,6 +675,12 @@ function renderThumbnail(item, context = 'card') {
   `;
 }
 
+function versionedThumbnailUrl(url) {
+  if (!url || !url.startsWith('/assets/thumbnails/')) return url;
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}v=${THUMBNAIL_ASSET_VERSION}`;
+}
+
 function renderThumbnailPanel(item) {
   const thumbnail = normalizedThumbnail(item);
   const caption = thumbnail.kind === 'asset'
@@ -683,7 +692,7 @@ function renderThumbnailPanel(item) {
       <div class="browse-detail__body">
         ${renderThumbnail(item, 'detail')}
         <p class="browse-thumb-caption">${escapeHtml(caption)}</p>
-        ${thumbnail.kind === 'asset' && thumbnail.url ? `<p class="browse-thumb-caption"><a href="${escapeAttr(thumbnail.url)}" target="_blank" rel="noopener noreferrer">Open thumbnail at actual size</a></p>` : ''}
+        ${thumbnail.kind === 'asset' && thumbnail.url ? `<p class="browse-thumb-caption"><a href="${escapeAttr(versionedThumbnailUrl(thumbnail.url))}" target="_blank" rel="noopener noreferrer">Open thumbnail at actual size</a></p>` : ''}
       </div>
     </section>
   `;

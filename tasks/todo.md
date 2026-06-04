@@ -3642,3 +3642,23 @@ Add election entries to /test2
   - Completed: `scripts/regen-thumbnails.py` now applies a specific regional administrative thumbnail profile with an explicit feature-footprint cap, reducing the representative viewport from about 619 km to about 439 km.
   - Completed: regenerated `assets/thumbnails/admin-areas-1924-04-01.png`, `.webp`, and `-60.webp`; visual inspection shows the NI boundaries now dominate the thumbnail while retaining grey Ireland/Britain context.
   - Verification evidence: `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build:browse` passed; generated Browse JSON churn was reverted; `npm run check` passed.
+
+# Force tight Browse thumbnail framing and bypass stale thumbnail cache
+- [x] Record recurrence
+  - Symptom: User still sees the old-looking `admin-areas-1924-04-01` thumbnail after the first framing fix was committed and pushed.
+  - Root cause: the previous crop was improved but still not aggressively feature-fitted enough, and the asset URL stayed unchanged so browser/CDN cache could continue serving the old image.
+  - Permanent prevention action: tighten the regional admin feature-footprint target further and make Browse asset thumbnail URLs versioned.
+  - Verification evidence: pending.
+- [x] Tighten crop again
+  - Increase the feature-footprint requirement for regional administrative thumbnails so the features occupy the frame rather than just a locator context.
+- [x] Add cache-busting for thumbnail asset URLs
+  - Version Browse thumbnail `src`, `srcset`, and actual-size links so same-name regenerated assets are not silently cached.
+- [x] Regenerate and verify
+  - Regenerate the representative thumbnail and inspect it at source/display size.
+- [x] Commit and push
+  - Run checks, commit, and push to production branch.
+  - Completed: regional admin footprint target increased from 0.78 to 0.92 and context multiplier reduced from 1.24 to 1.08.
+  - Completed: `admin-areas-1924-04-01` now computes a representative feature ratio of about 0.926 rather than about 0.806.
+  - Completed: Browse thumbnail asset URLs now append `?v=20260604-tight-admin-frame` in `src`, `srcset`, and actual-size links.
+  - Completed: regenerated `assets/thumbnails/admin-areas-1924-04-01.png`, `.webp`, and `-60.webp`; visual inspection shows a much tighter feature-fitted frame.
+  - Verification evidence: `node --check browse/browse.js` passed; `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build:browse` passed; `npm run check` passed; `npm run build` passed after approved esbuild spawn escalation.

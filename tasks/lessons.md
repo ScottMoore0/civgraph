@@ -1830,3 +1830,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) regional maps such as NI-only administrative areas should use a tighter locator frame than all-island maps,
   3) validate generated thumbnails at their displayed Browse size as well as at source asset size,
   4) if a feature occupies too little of the square canvas, reduce context or shift to a tighter crop before broad regeneration.
+
+### 138) Regenerated thumbnails need URL invalidation
+- Mistake pattern: Regenerating same-name thumbnail assets and assuming production users will see the new pixels immediately.
+- Impact: Browser/CDN cache can keep showing the old asset, making a real generated fix appear unchanged on the live site.
+- Guardrail:
+  1) whenever a same-path thumbnail asset is materially changed, also advance the Browse thumbnail URL version or use a fingerprinted asset path,
+  2) apply versioning to `src`, `srcset`, and "open actual size" links,
+  3) verify the rendered HTML requests the versioned asset, not just that the local file changed,
+  4) prefer runtime asset URL versioning over broad generated Browse JSON rewrites unless the data contract itself changed.

@@ -34,7 +34,7 @@ ALL_IRELAND_MIN_CONTEXT_SPAN = 520000
 LOCAL_MIN_CONTEXT_SPAN = 90000     # metres: keeps local open-data layers legible
 REGIONAL_ADMIN_MIN_CONTEXT_SPAN = 170000
 REGIONAL_ADMIN_MAX_CONTEXT_SPAN = 500000
-REGIONAL_ADMIN_FEATURE_FOOTPRINT = 0.78
+REGIONAL_ADMIN_FEATURE_FOOTPRINT = 0.92
 MAX_CONTEXT_SPAN = 680000          # cap locator context so feature footprints stay dominant
 
 EMPTY_GEOMS = {'polys': [], 'lines': [], 'points': []}
@@ -282,7 +282,7 @@ def context_span(map_config, feature_span):
         'admin-areas', 'administrative areas', 'historic administrative'
     )):
         span = min(
-            max(feature_span * 1.24, REGIONAL_ADMIN_MIN_CONTEXT_SPAN),
+            max(feature_span * 1.08, REGIONAL_ADMIN_MIN_CONTEXT_SPAN),
             REGIONAL_ADMIN_MAX_CONTEXT_SPAN,
         )
         return _cap_to_feature_footprint(span, feature_span, REGIONAL_ADMIN_FEATURE_FOOTPRINT)
