@@ -1,5 +1,14 @@
 # Lessons Log
 
+### 143) Selected election pane parity must use the same default table mode
+- Mistake pattern: Treating a shared election pane shell as enough while `/test2` selected-result count panes still default to a detailed generated count matrix that main does not show by default.
+- Impact: The tab labels look close, but the table columns, widths, status text, and perceived result ordering visibly diverge from main in the exact screenshot workflow the user is using.
+- Guardrail:
+  1) selected constituency/DEA `By Count` views must default to the same compact first-preference table as main,
+  2) wide per-count matrices must only appear behind the explicit detailed/count-animation path that main exposes,
+  3) transfer animation scaffolds must auto-start when rendered and must not require a separate "run" button,
+  4) `check:test2` or a browser smoke must cover the exact Dail 2024 selected-constituency count and transfer workflow.
+
 ### 139) Generated Browse data must stay within Pages limits and use versioned fetches
 - Mistake pattern: Canonical Browse election names were generated correctly, but the fix also committed thousands of per-result detail JSON files and left Browse data fetches unversioned.
 - Impact: The production site could continue showing old names because deployment may fail above Cloudflare Pages' 20,000-file limit, and stale `data/browse/*.json` can be served even when the Browse script is updated.

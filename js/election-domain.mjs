@@ -190,6 +190,7 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
   });
   return {
     Constituency: {
+      __syntheticCountGroup: true,
       countInfo: {
         Constituency_Name: payload.constituency || fallbackConstituency || '',
         Constituency_Number: '',
@@ -549,6 +550,7 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
 export function summarizeResult(raw, fallbackConstituency) {
   const mainPayload = normalizeScraperPayloadForMain(raw, fallbackConstituency);
   const source = mainPayload?.Constituency || raw?.Constituency || raw || {};
+  const syntheticCountGroup = Boolean(source.__syntheticCountGroup);
   const info = source.countInfo || raw?.meta || raw?.metaData || {};
   const forumRows = Array.isArray(source.forum?.rows) ? source.forum.rows : null;
   const rows = forumRows || source.countGroup || raw?.candidates || [];
@@ -602,6 +604,7 @@ export function summarizeResult(raw, fallbackConstituency) {
     elected,
     countInfo: info,
     countGroup: Array.isArray(source.countGroup) ? source.countGroup : [],
+    syntheticCountGroup,
     nonTransferable: summarizeNonTransferableRows(rows),
     forum: source.forum || null,
     countNumbers,

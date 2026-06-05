@@ -1661,9 +1661,10 @@ export class Test2ElectionManager {
   }
 
   renderCountTable(result, candidates) {
-    const rawCountNumbers = result.countNumbers?.length
+    const sourceCountNumbers = result.countNumbers?.length
       ? result.countNumbers
       : [...new Set(candidates.flatMap((candidate) => (candidate.counts || []).map((count) => count.count)))].sort((a, b) => a - b);
+    const rawCountNumbers = result.syntheticCountGroup ? [1] : sourceCountNumbers;
     if (!rawCountNumbers.length) return '<p class="election-no-data">No count-by-count data is available for this entry.</p>';
     const countEvents = inferCountEvents(candidates, rawCountNumbers);
     const nonTransferable = new Map((result.nonTransferable || []).map((row) => [Number(row.count), row]));
@@ -1685,11 +1686,13 @@ export class Test2ElectionManager {
       return 1 + visibleCounts.filter((count) => Number(count) <= raw).length;
     };
     const orderedCandidates = [...candidates].sort((a, b) => {
-      const elected = Number(Boolean(b.elected)) - Number(Boolean(a.elected));
-      if (elected) return elected;
-      const aCount = Number(a.electedAt || a.finalCount || 999);
-      const bCount = Number(b.electedAt || b.finalCount || 999);
-      if (a.elected && b.elected && aCount !== bCount) return aCount - bCount;
+      if (!result.syntheticCountGroup) {
+        const elected = Number(Boolean(b.elected)) - Number(Boolean(a.elected));
+        if (elected) return elected;
+        const aCount = Number(a.electedAt || a.finalCount || 999);
+        const bCount = Number(b.electedAt || b.finalCount || 999);
+        if (a.elected && b.elected && aCount !== bCount) return aCount - bCount;
+      }
       return numberOrZero(b.finalVotes ?? b.firstPrefs ?? b.votes) - numberOrZero(a.finalVotes ?? a.firstPrefs ?? a.votes)
         || String(a.name || '').localeCompare(String(b.name || ''), undefined, { numeric: true, sensitivity: 'base' });
     });
@@ -1742,23 +1745,28 @@ export class Test2ElectionManager {
           <tbody>
             ${orderedCandidates.map((candidate, index) => {
               const counts = new Map((candidate.counts || []).map((count) => [Number(count.count), count]));
-              const firstPrefs = numberOrZero(candidate.firstPrefs ?? candidate.votes);
+              const syntheticFirstCount = result.syntheticCountGroup ? counts.get(1) : null;
+              const firstPrefs = result.syntheticCountGroup
+                ? numberOrZero(syntheticFirstCount?.firstPrefs ?? syntheticFirstCount?.total)
+                : numberOrZero(candidate.firstPrefs ?? candidate.votes);
               const firstPrefPct = validPoll > 0 ? firstPrefs / validPoll * 100 : 0;
-              const statusCount = candidate.elected
+              const statusCount = result.syntheticCountGroup
+                ? 'Not Elected<br>Count 1/1'
+                : candidate.elected
                 ? `Elected<br>Count ${displayCountForRaw(candidate.electedAt || candidate.finalCount || rawCountNumbers[rawCountNumbers.length - 1])}/${totalCountCount}`
                 : candidate.excluded
                 ? `Excluded<br>Count ${displayCountForRaw(candidate.excludedAt || candidate.finalCount || rawCountNumbers[rawCountNumbers.length - 1])}/${totalCountCount}`
                 : `Not Elected<br>Count ${displayCountForRaw(candidate.finalCount || rawCountNumbers[rawCountNumbers.length - 1])}/${totalCountCount}`;
               return `
-                <tr class="election-count-row${candidate.elected ? ' election-count-row--elected' : ''}">
+                <tr class="election-count-row${!result.syntheticCountGroup && candidate.elected ? ' election-count-row--elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td class="election-colour-col"><span class="election-party-dot" style="background:${escapeHtml(candidate.colour || electionPartyColour(candidate.party) || partyColour(candidate.party))}"></span></td>
                   <td class="election-col-name">${this.renderElectionEntityButton('candidate', candidate.id || `${candidate.name}|${candidate.party}`, escapeHtml(candidate.name || ''), 'election-cell-wrap election-cell-wrap--count-name')}</td>
                   <td class="election-col-party">${this.renderElectionEntityButton('party', normalizeName(candidate.party), escapeHtml(candidate.party || ''), 'election-cell-wrap election-cell-wrap--count-party')}</td>
                   <td class="election-col-status"><span class="election-cell-wrap election-cell-wrap--count-status">${statusCount}</span></td>
-                  <td class="election-num">${candidate.deltas ? formatMainDelta(candidate.deltas.firstPrefs) : '<span class="election-na"><em>N/A</em></span>'}</td>
+                  <td class="election-num">${!result.syntheticCountGroup && candidate.deltas ? formatMainDelta(candidate.deltas.firstPrefs) : '<span class="election-na"><em>N/A</em></span>'}</td>
                   <td class="election-num">${formatFixedPercent(firstPrefPct)}</td>
-                  ${this.countDetailedView ? `<td class="election-num">${candidate.deltas?.firstPrefPct !== null && candidate.deltas?.firstPrefPct !== undefined ? formatMainPercentDelta(candidate.deltas.firstPrefPct) : '<span class="election-na"><em>N/A</em></span>'}</td>` : ''}
+                  ${this.countDetailedView ? `<td class="election-num">${!result.syntheticCountGroup && candidate.deltas?.firstPrefPct !== null && candidate.deltas?.firstPrefPct !== undefined ? formatMainPercentDelta(candidate.deltas.firstPrefPct) : '<span class="election-na"><em>N/A</em></span>'}</td>` : ''}
                   <td class="election-num">${formatNumber(firstPrefs)}</td>
                   ${visibleCounts.map((count) => {
                     const row = counts.get(Number(count));

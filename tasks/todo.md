@@ -3846,3 +3846,16 @@ Add election entries to /test2
   - Completed: removed the `/test2` Transfers-tab early fallback and made the tab auto-run `stages2.js` against the generated animation payload.
   - Completed: added a `check:test2` guardrail asserting Dáil 2024 Mayo carries a multi-stage animation payload.
   - Verification evidence: `node --check js/election-domain.mjs`, `node --check test2/src/election-manager.js`, and `node --check scripts/validate-test2-route.mjs` passed; `npm run build:test2:elections` passed; generated Dáil 2024 Mayo has `hasCountDetail: true`, count stages `1-5`, and 16 animation rows; `npm run check:test2` passed; local Playwright smoke for explicit Dáil 2024 Mayo `/test2` election state showed active tab `Transfers`, no no-data fallback, visible animation container, stage numbers `12345`, and 59 animation children; `npm run check` passed; `npm run build:test2` and `npm run build` passed after approved esbuild spawn escalation.
+# Align test2 selected-election count panes and transfer autoplay
+- [x] Record correction
+  - Symptom: For Dail 2024 selected constituencies, the main site's `By Count` pane shows the compact first-preference count table while `/test2` shows a wide detailed multi-count table with compressed headers; the Transfers pane also behaves as though it needs a separate start action rather than auto-starting like main.
+  - Root cause: `/test2` was correctly carrying synthetic multi-stage rows for transfer animation, but the visible Count table consumed those same synthetic rows as if they were real per-count table data.
+  - Permanent prevention action: make `/test2` selected-result count rendering use the same default compact count contract as main, keep detailed count columns behind the explicit detailed toggle only, and add route checks/smoke coverage for the exact Dail 2024 selected constituency count/transfer state.
+- [x] Compare main and test2 selected-result count/transfer render paths
+  - Compared `js/election-controller.js`, `js/election-main-pane-contract.mjs`, `js/election-domain.mjs`, and `test2/src/election-manager.js`.
+- [x] Implement compact-by-default count pane and transfer autoplay parity
+  - Added `syntheticCountGroup` to generated summaries and made `/test2` suppress synthetic multi-count columns/status styling in visible Count tables while retaining animation payloads for Transfers.
+- [x] Verify with route checks, build, and targeted browser smoke
+  - Verification evidence: syntax checks passed; `npm run build:test2:elections` passed; generated Dail 2024 Mayo/Roscommon Galway records carry `syntheticCountGroup: true` and multi-stage animation payloads; `npm run check:test2` passed; browser smoke for `/test2` Dail 2024 Roscommon Galway `By Count` with detailed view on had 9 headers, no `Count 2`/`Count 3` headers, `Not Elected Count 1/1` rows, and main-like first-preference values; browser smoke for the same result's Transfers view showed no run button, visible animation container, populated stage numbers, and animation rows; `npm run check` and `npm run build` passed after approved esbuild spawn escalation.
+- [x] Commit and push
+  - Completed: staging, commit, and push performed after verified route checks, browser smoke, and builds.
