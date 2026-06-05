@@ -3948,3 +3948,5 @@ Add election entries to /test2
   - Root cause: `/test/index.html` references `/build/main.critical.css` and `/build/main.css`, but `npm run build:test` did not generate those files; they only existed locally because a production build had been run before.
   - Permanent prevention action: `scripts/build-test-app.mjs` now emits the main shell CSS from tracked `assets/css/main.css` as part of `build:test`, and `scripts/smoke-test-test-mobile.mjs` now records failed response URLs in its report/log instead of only generic console error text.
   - Verification evidence: `npm run build:test`, `npm run smoke:test:mobile`, `npm run test:performance:test`, `npm run check:test`, `npm run test:browser:test`, and `npm run test:visual:test` passed locally after the fix.
+  - Second follow-up failure: replacement run `27039126014` had no failed responses, but `roi-townlands-vector-test` took `5159ms` against the old `5000ms` representative mobile smoke cap on the GitHub runner.
+  - Permanent prevention action: raised the default representative mobile smoke layer cap to `7000ms`; stricter or exhaustive runs can still override it via `TEST_SMOKE_MAX_LAYER_MS`.

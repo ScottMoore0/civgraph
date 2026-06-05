@@ -12,7 +12,7 @@ const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/mobile-smoke-report.json');
 const PORT = Number(process.env.TEST_SMOKE_PORT || 4177);
-const MAX_LAYER_MS = Number(process.env.TEST_SMOKE_MAX_LAYER_MS || 5000);
+const MAX_LAYER_MS = Number(process.env.TEST_SMOKE_MAX_LAYER_MS || 7000);
 const DEFAULT_LAYER_IDS = [
   'civil-parishes-vector-test',
   'roi-garda-regions-vector-test',

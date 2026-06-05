@@ -1931,3 +1931,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) clean-checkout assumptions should be preferred over local worktree assumptions when debugging CI failures,
   3) smoke tests should log failed response URLs and status codes, not only generic browser console text,
   4) if a route intentionally shares main-shell assets, its route build should either generate those assets or the CI workflow should explicitly run the shared asset build first.
+
+### 145) Representative mobile smoke budgets must account for CI runner variance
+- Mistake pattern: Treating a locally passing `5000ms` layer-load cap as stable for a huge representative PMTiles layer on GitHub-hosted runners.
+- Impact: The mobile smoke script loaded and rendered every representative layer, with no console or network errors, but still failed because `roi-townlands-vector-test` exceeded the local-tuned cap by 159ms in CI.
+- Guardrail:
+  1) keep exhaustive or stricter performance checks available through explicit environment overrides,
+  2) set the default representative smoke threshold from observed CI behaviour, not only local workstation timings,
+  3) when a smoke failure reports successful render plus a small timing overrun, distinguish performance-budget tuning from functional layer failure,
+  4) keep the large-layer representative in the suite, but give it a budget that avoids flaky failures on slower hosted runners.
