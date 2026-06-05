@@ -1958,3 +1958,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) parity tests must compare selected-result table DOM against main for named screenshot cases, not just overall election tables,
   3) do not claim full parity from source-shape checks alone; require runtime DOM comparison for the specific panes the user is comparing,
   4) any `/test2` election improvement that changes visible pane data must first prove it matches main or be deliberately scoped as a MapLibre-only/map-only difference.
+
+### 148) General /test2 parity claims need a matrix and runtime audit
+- Mistake pattern: Answering a general parity question from the strength of a narrow election-pane regression suite.
+- Impact: The user can reasonably infer that all main-vs-`/test2` behaviours are proven when only one repeated failure class has strong evidence.
+- Guardrail:
+  1) separate narrow pane parity from general site parity in all explanations,
+  2) keep a committed parity matrix that classifies must-match, MapLibre-equivalent, acceptable engine difference, and blocked-on-data areas,
+  3) run a representative browser audit before saying general parity is achieved,
+  4) report any untested area as unproven rather than implicitly covered by adjacent tests.

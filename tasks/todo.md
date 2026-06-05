@@ -3986,3 +3986,24 @@ Add election entries to /test2
   - Completed: added a browser regression that loads main and `/test2` side-by-side, selects Roscommon Galway for Dáil 2024 on both, and compares the visible title, tabs, headers, and first selected-party rows.
   - Completed: added route validation so the selected-pane formatter and candidate-name admissibility do not drift silently.
   - Verification evidence: `node --check test2/src/election-manager.js`, `node --check scripts/validate-test2-route.mjs`, `node --check tests/browser/test2-app.spec.js`, `node --check js/election-main-pane-contract.mjs`, `node scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, and focused browser checks for `Dail 2024 election pane|Dail election candidate|selected Dail constituency` passed.
+
+# General main vs /test2 parity audit guardrail
+- [x] Record scope
+  - Task: implement a repeatable general parity audit for the site areas outside the election pane, covering shell, catalogue, map controls, ordinary maps, feature cards, election layers, timeline, Browse routes, URL restore, and mobile states.
+  - Symptom: general parity had only been described verbally; only selected election-pane parity had strong automated evidence.
+  - Root cause: the repo lacked a single matrix/report distinguishing must-match parity, MapLibre-appropriate differences, acceptable engine differences, and data-blocked gaps.
+  - Permanent prevention action: add an executable audit and a committed parity matrix so future claims about `/test2` parity are backed by named states and classifications.
+- [x] Inspect existing guardrails
+  - Completed: reused current `/test2` browser/static-check pattern, Playwright static-server style, and route validation instead of adding another unrelated framework.
+- [x] Implement parity matrix and automated report
+  - Add a source-controlled parity matrix for representative main and `/test2` states.
+  - Add a Playwright-driven CLI audit that compares DOM-visible shell/catalogue/map/election/Browse/mobile invariants and writes a classified report.
+- [x] Verify
+  - Completed: ran syntax checks, the new audit, `/test2` checks, the existing `/test2` shell visual regression, and the general production checks.
+- [x] Commit and push
+  - Completed: staged only scoped parity-audit files and task/lesson updates for commit and push.
+- Review:
+  - Completed: added `docs/test2-general-parity-matrix.json` to define must-match, MapLibre-equivalent, acceptable-engine-difference, and blocked-on-data parity categories.
+  - Completed: added `scripts/audit-test2-general-parity.mjs`, which loads main and `/test2` side by side and checks representative shell, catalogue, map control, ordinary-map, election-overall, selected-election, election-overlay, timeline, Browse, URL restore, and mobile states.
+  - Completed: exposed the audit as `npm run audit:test2:parity` and made `npm run check:test2` assert that the audit and matrix remain present.
+  - Verification evidence: `node --check scripts/audit-test2-general-parity.mjs`, `node --check scripts/validate-test2-route.mjs`, JSON matrix parsing, `npm run check:test2`, `npm run audit:test2:parity`, `npm run test:visual:test2`, and `npm run check` passed. Playwright-based commands required approved escalation because the Windows sandbox blocks Chromium spawn.

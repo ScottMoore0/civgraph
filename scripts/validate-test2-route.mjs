@@ -18,6 +18,7 @@ const mapControllerSource = readFileSync('test/src/map-controller.js', 'utf8');
 const labelsSource = readFileSync('test/src/labels.js', 'utf8');
 const featureRepairsSource = readFileSync('test/src/feature-property-repairs.js', 'utf8');
 const test2Css = readFileSync('test2/src/test2.css', 'utf8');
+const packageJsonSource = readFileSync('package.json', 'utf8');
 
 function assert(condition, message) {
   if (!condition) failures.push(message);
@@ -33,6 +34,9 @@ function mainSelectedPaneStatusKind(status) {
 }
 
 assert(index.includes('<base href="/">'), '/test2 must keep root-relative production assets via <base href="/">');
+assert(existsSync('docs/test2-general-parity-matrix.json'), '/test2 general parity matrix is missing');
+assert(existsSync('scripts/audit-test2-general-parity.mjs'), '/test2 general parity audit script is missing');
+assert(packageJsonSource.includes('"audit:test2:parity"'), '/test2 general parity audit must be exposed through package scripts');
 assert(index.includes('/test2/build/test2.bundle.js'), '/test2 must load its own MapLibre bundle');
 assert(index.includes('/test2/build/test2.bundle.css'), '/test2 must load its own MapLibre CSS bundle');
 assert(!index.includes('leaflet-1.9.4'), '/test2 must not load Leaflet assets');

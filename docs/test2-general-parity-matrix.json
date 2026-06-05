@@ -1,0 +1,165 @@
+{
+  "version": 1,
+  "purpose": "General parity matrix for the /test2 MapLibre route against the production main route.",
+  "rules": [
+    {
+      "classification": "must-match-main",
+      "meaning": "The visible shell, state, text, pane structure, or data contract should match main. A difference is a bug unless explicitly reclassified."
+    },
+    {
+      "classification": "maplibre-specific-equivalent",
+      "meaning": "The user-facing behaviour should match main, but the implementation is allowed to differ because /test2 uses MapLibre/vector tiles instead of Leaflet/FGB."
+    },
+    {
+      "classification": "acceptable-engine-difference",
+      "meaning": "The difference is expected and should not be hidden: MapLibre canvas/control internals, attribution text, tile loading mechanics, and vector-tile hit-testing internals can differ."
+    },
+    {
+      "classification": "blocked-on-data",
+      "meaning": "The parity target cannot be fully exercised until matching source geometry, tile packages, search indexes, or election/geography mappings exist."
+    }
+  ],
+  "areas": [
+    {
+      "id": "shell.desktop",
+      "title": "Desktop application shell",
+      "classification": "must-match-main",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "Top navbar branding, links, support button, theme button, header height, and main split-pane structure match main.",
+        "Search input placement and catalogue pane width match main within a tight tolerance."
+      ]
+    },
+    {
+      "id": "catalogue.default",
+      "title": "Default catalogue browsing",
+      "classification": "must-match-main",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "The catalogue uses the production flat catalogue containers and row classes.",
+        "The top-level browsing workflow remains catalogue-first.",
+        "By-decade election entries remain cards/sections rather than individual election rows in the table of contents."
+      ]
+    },
+    {
+      "id": "map.controls",
+      "title": "Map controls",
+      "classification": "maplibre-specific-equivalent",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "Visible zoom, compass, settings/accessibility, active-layer controls, timeline, and mobile catalogue controls do not collide.",
+        "The controls look and behave like main where practical, even though their backing implementation is MapLibre."
+      ]
+    },
+    {
+      "id": "ordinary.maps",
+      "title": "Ordinary converted map layers",
+      "classification": "maplibre-specific-equivalent",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "Representative converted non-election layers load from the main catalogue callback.",
+        "Ordinary polygon fills default transparent unless the main catalogue explicitly styles them otherwise.",
+        "Labels, hover, click, and feature details work through MapLibre feature queries."
+      ]
+    },
+    {
+      "id": "feature.cards",
+      "title": "Feature details cards",
+      "classification": "maplibre-specific-equivalent",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "Feature labels and selected feature info use repaired source properties and avoid generic 'Unnamed Feature' output where the main data has a usable label.",
+        "Feature details appear in the same top-right map pane location and catalogue/detail workflow as main."
+      ]
+    },
+    {
+      "id": "elections.overall-pane",
+      "title": "Election overall result pane",
+      "classification": "must-match-main",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "The Dail 2024 overall party table rows, headers, tab state, and pane title match main for the representative URL.",
+        "The visible election pane is rendered through the shared main-pane contract."
+      ]
+    },
+    {
+      "id": "elections.selected-pane",
+      "title": "Election selected constituency/DEA panes",
+      "classification": "must-match-main",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "Selected constituency party/candidate/count pane DOM matches main for named screenshot cases.",
+        "Main row-admissibility, status semantics, sort/filter controls, and selected-pane percent formatting are preserved."
+      ]
+    },
+    {
+      "id": "elections.map-overlays",
+      "title": "Election map overlays",
+      "classification": "maplibre-specific-equivalent",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "Election fills, strokes, labels, timeline, and seat-circle DOM overlays visually mirror main where possible.",
+        "MapLibre-specific drawing remains confined to polygon styling, feature hit-testing, and anchor positioning."
+      ]
+    },
+    {
+      "id": "timeline",
+      "title": "Timeline slider",
+      "classification": "must-match-main",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "Timeline dates render as DD MMM YYYY.",
+        "Layer/election switching keeps the same user-facing timeline controls as main."
+      ]
+    },
+    {
+      "id": "browse",
+      "title": "Browse routes",
+      "classification": "must-match-main",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "Browse navbar route works from the shared shell.",
+        "Map Browse pages show prominent general-interest information, thumbnail, sources/downloads where available, and hide raw technical fields behind collapsed technical details."
+      ]
+    },
+    {
+      "id": "url.restore",
+      "title": "URL/share restore",
+      "classification": "must-match-main",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "Layer IDs, election IDs, viewport, hidden layers, detail/source panels, selected election substate, and mobile/sidebar state restore without leaving /test2."
+      ]
+    },
+    {
+      "id": "mobile",
+      "title": "Mobile shell and controls",
+      "classification": "must-match-main",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "The catalogue/menu toggle belongs in the navbar on mobile.",
+        "Touch targets are usable and controls do not overlap zoom, scale, timeline, or catalogue history controls."
+      ]
+    },
+    {
+      "id": "data.coverage",
+      "title": "Full catalogue data coverage",
+      "classification": "blocked-on-data",
+      "coverage": "reported-only",
+      "expectations": [
+        "Every main catalogue entry needs converted/loadable MapLibre-compatible geometry or an explicit not-yet-converted state.",
+        "Remaining invalid or absent source geometries must be fixed before exact map-layer parity is possible."
+      ]
+    },
+    {
+      "id": "engine.internals",
+      "title": "Rendering-engine internals",
+      "classification": "acceptable-engine-difference",
+      "coverage": "reported-only",
+      "expectations": [
+        "Leaflet DOM/SVG internals and MapLibre canvas/source internals are not expected to match.",
+        "Only the visible behaviour and public UI contract are parity targets."
+      ]
+    }
+  ]
+}
