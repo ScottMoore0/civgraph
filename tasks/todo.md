@@ -3643,6 +3643,54 @@ Add election entries to /test2
   - Completed: regenerated `assets/thumbnails/admin-areas-1924-04-01.png`, `.webp`, and `-60.webp`; visual inspection shows the NI boundaries now dominate the thumbnail while retaining grey Ireland/Britain context.
   - Verification evidence: `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build:browse` passed; generated Browse JSON churn was reverted; `npm run check` passed.
 
+# Explain election-data corroboration sources
+- [x] Record scope
+  - User asked what the site's election data is corroborated against, including whether Wikipedia, ARK Elections on CAIN, or other sources are used.
+- [x] Inspect source metadata
+  - Review election manifests, generated Browse election/source records, raw result files, and scripts for source/corroboration references.
+- [x] Summarize findings
+  - Explain confirmed sources, likely source roles, and any limits in the current metadata.
+  - Completed: confirmed source/corroboration evidence in `election-viewer-package`, Browse/test2 manifests, representative result JSON, and scripts including ARK/CAIN converters/comparators, Wikipedia scrapers/comparators, ElectionsIreland/Wayback scrapers, EONI archive/PDF scripts, and BKNI workbook comparison scripts.
+  - Completed: final answer distinguishes embedded final `source_url` values from build/audit-only corroboration tooling, and notes that final result rows do not yet have uniform per-fact provenance.
+
+# Check Browse election reference exposure
+- [x] Record scope
+  - User asked whether election entries and sub-entries have references indicating their sources in the same way many map Browse entries do.
+- [x] Inspect generated Browse/source records
+  - Checked `data/browse/elections.json`, `data/browse/details/elections/*.json`, `data/browse/sources.json`, `scripts/build-browse-indexes.mjs`, and representative `/test2` election bundles.
+- [x] Summarize finding
+  - Completed: election Browse entries generally expose generated result bundle URLs and anchor sidecar downloads, while map-style `references` arrays/public source citations are not currently propagated onto election entries or result sub-entries.
+  - Completed: some raw/test2 election bundles contain `source_url` fields, but this is uneven and not surfaced consistently as Browse references.
+
+# Explain feasibility of election entry references
+- [x] Record scope
+  - User asked whether specific references can be added for each election entry and sub-entry, including Wikipedia, ARK Elections/CAIN, and other source pages, with multiple sources where possible.
+- [x] Assess reference model
+  - Explain feasible data model, generation pipeline, source coverage, and limits.
+- [x] Summarize implementation approach
+  - Distinguish straightforward reference propagation from harder source-matching/corroboration work.
+  - Completed: assessed that election references are feasible via a normalized source registry plus per-election/per-result `references` arrays, with automatic extraction from existing `source_url` fields and targeted generated links for Wikipedia, ElectionsIreland, ARK/CAIN, EONI, BKNI, and related audit sources.
+  - Completed: noted that multiple-source citation is feasible for many NI and major election entries, but complete per-sub-entry coverage requires source matching and manual review for older or unevenly sourced datasets.
+
+# Implement election entry and result references
+- [x] Record scope
+  - User asked to implement election references in full after the feasibility assessment.
+- [x] Add election reference generation
+  - Added generated parent-election references for Wikipedia overview pages, corpus/source sites such as ElectionsIreland, ARK Elections/CAIN, and EONI, and summaries for per-result source pages.
+  - Added result-level references for overall results and constituency/DEA result sub-entries, extracting existing raw `source_url` values where present and adding corroborating overview/source-corpus links.
+- [x] Propagate references through Browse records
+  - Parent election records, result sub-entry records, detail files, and generated election source records now carry `references` arrays.
+  - Normalized reference metadata now preserves `source`, `role`, `scope`, and `type` so Browse can distinguish overview, primary-result, corpus, and corroboration links.
+- [x] Regenerate Browse data
+  - Ran `npm run build:browse` to regenerate `data/browse` with election references.
+- [x] Verify
+  - Verification evidence: `node --check scripts/build-browse-indexes.mjs` passed; `npm run build:browse` passed; `npm run check` passed.
+  - Verification evidence: generated `data/browse/elections.json` contains references on all 5,220 election records, including all 268 parent election records; representative checks confirmed Dáil 2024 parent, overall result, Dublin Central result, NI Assembly 2022 parent, and Belfast East result references.
+  - Verification evidence: generated `data/browse/sources.json` election-source records also carry the propagated election references.
+- [x] Review
+  - Completed: election Browse entries now expose explicit source/corroboration references rather than only generated bundle/anchor downloads.
+  - Remaining note: some constituency/DEA sub-entry references are generated/inferred corroboration links where the raw result file does not carry a direct source URL; those records are labelled with source/role/scope metadata so they can be refined later if a stricter hand-reviewed citation pass is required.
+
 # Fix live Browse election names and deployment size
 - [x] Record correction
   - Symptom: production `/browse/#/elections` still showed old election names such as `Dáil Éireann`, `House of Commons of the United Kingdom`, and `European Parliament (Ireland)` after canonical naming work was committed.
@@ -3742,3 +3790,43 @@ Add election entries to /test2
   - Completed: Browse elections now include 268 parent election records plus 4,952 child result records, for 5,220 election Browse entries total.
   - Completed: each parent Browse election now carries `resultEntries`; child records include an overall-results entry plus constituency/DEA entries, including `Regional List - 1996 Northern Ireland Forum election`.
   - Verification evidence: `node --check` passed for `js/election-names.mjs`, `js/election-controller.js`, `scripts/build-test2-election-manifest.mjs`, `scripts/build-browse-indexes.mjs`, and `browse/browse.js`; `npm run build:test2:elections` passed; `npm run build:browse` passed; representative Node spot-checks passed; `npm run check` passed; `npm run check:test2` passed; `npm run build` passed after approved esbuild spawn escalation.
+# Break down Browse parent election entries
+- [x] Record scope
+  - User asked what the 268 parent election entries consist of.
+- [x] Inspect generated election index
+  - Break parent entries down by body, geography, decade, and status.
+- [x] Summarize inline
+  - Provide concise breakdown in chat.
+  - Completed: inspected `data/browse/elections.json`; confirmed 268 parent election records, with 178 Northern Ireland and 90 Republic of Ireland records, and broke them down by body, public contest type, decade, and conversion status.
+# Compare main and test2 election panes
+- [x] Record scope
+  - User asked for a maximum-detail comparison of main vs test2 election panes and feasibility of taking the main election pane logic into test2 as-is, with only MapLibre wiring changes.
+- [x] Inspect main election pane code paths
+  - Review main election controller/template/rendering logic and where it depends on Leaflet or main app state.
+- [x] Inspect test2 election pane code paths
+  - Review test2 election manager/pane rendering and adapter boundaries.
+- [x] Compare behavior
+  - Compare screenshots and code mechanics for title/state, tabs, tables, sort/filter, constituency selection, count/detail/transfer views, and map coupling.
+- [x] Summarize feasibility
+  - Explain what can be mirrored directly, what needs an adapter, and what cannot be literally copied without creating regressions.
+  - Completed: compared main `js/election-controller.js` pane/table/filter/animation logic with test2 `test2/src/election-manager.js` and `test2/src/election-pane-main-contract.js`.
+  - Completed: concluded that exact "as-is" reuse is feasible only after isolating the main pane as an engine-neutral module or feeding test2 an exact main-controller-shaped state; MapLibre-specific drawing can remain separate, but current test2's separate renderer will continue to drift.
+# Share main election pane logic with test2
+- [x] Record scope
+  - User asked to execute the structural refactor so test2 uses main election pane logic as far as feasible while preserving MapLibre.
+- [x] Inspect boundaries
+  - Identify main election pane methods that can be extracted or mirrored without dragging Leaflet drawing into test2.
+- [x] Implement shared pane module
+  - Move/copy the main pane rendering and table-control logic behind an engine-neutral host contract.
+- [x] Wire test2
+  - Replace test2's separate pane renderer path with the shared main-compatible renderer where feasible.
+- [x] Verify
+  - Run syntax checks, build/check scripts, and spot-check representative election pane outputs.
+- [x] Review
+  - Document what was implemented and any remaining constraints.
+  - Completed: added `js/election-main-pane-contract.mjs` as the shared engine-neutral election pane contract and changed `/test2` to instantiate it directly.
+  - Completed: reduced `test2/src/election-pane-main-contract.js` to a compatibility re-export so the old local wrapper no longer owns the visible pane contract.
+  - Completed: changed selected-result pane titles to use the main-style area title rather than appending the election title, and removed the test2-only selected-result stats strip before the table.
+  - Completed: updated `scripts/validate-test2-route.mjs` so `check:test2` enforces the shared contract path instead of checking stale local-wrapper strings.
+  - Verification evidence: `node --check js/election-main-pane-contract.mjs`, `node --check test2/src/election-manager.js`, `node --check test2/src/election-pane-main-contract.js`, and `node --check scripts/validate-test2-route.mjs` passed; `npm run check:test2` passed; `npm run check` passed; `npm run build:test2` passed after approved esbuild spawn escalation.
+  - Remaining constraint: this is a structural shared-contract step, not a literal wholesale extraction of every private method from `js/election-controller.js`; MapLibre selection/drawing remains in `/test2`, and exact transfer-animation/count-data parity still depends on the available generated election sidecars.

@@ -7,7 +7,7 @@ import {
   createElectionRenderer,
   numericColour as sharedNumericColour
 } from '../../js/election-renderer.mjs';
-import { Test2MainElectionPaneContract } from './election-pane-main-contract.js';
+import { MainElectionPaneContract } from '../../js/election-main-pane-contract.mjs';
 import {
   buildCandidateSummary,
   buildEntityIndex,
@@ -107,7 +107,7 @@ export class Test2ElectionManager {
     this.overlayRefreshBound = false;
     this.loadSerial = 0;
     this.sharedRenderer = createElectionRenderer(this);
-    this.mainPaneContract = new Test2MainElectionPaneContract(this);
+    this.mainPaneContract = new MainElectionPaneContract(this);
   }
 
   async load() {
@@ -448,10 +448,7 @@ export class Test2ElectionManager {
     this.activeSelectedResultKey = selectedResult ? normalizeName(selectedResult.matchName || selectedResult.constituency || '') : null;
     this.activeEntityKind = null;
     this.activeEntityKey = null;
-    const electionTitle = this.formatPaneElectionTitle();
-    title.textContent = selectedResult?.constituency
-      ? `${selectedResult.constituency}${selectedResult.localBody ? ` (${selectedResult.localBody})` : ''} - ${electionTitle}`
-      : electionTitle;
+    title.textContent = this.mainPaneContract.renderTitle(selectedResult);
     back?.classList.toggle('hidden', !selectedResult);
     const headerRight = pane.querySelector('.election-pane__header-right');
     if (headerRight) {

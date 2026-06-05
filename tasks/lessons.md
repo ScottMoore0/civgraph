@@ -1857,3 +1857,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   3) public Browse panels should prioritize description, date, category/group, provider/credits, status, sources/references/downloads, variants, and related entries,
   4) if production differs from local, identify whether the change is uncommitted/unpushed, cached, or served from a different asset path before making further visual claims,
   5) when changing standalone Browse assets, version the `browse.js`/`browse.css` includes as well as any thumbnails because Cloudflare can cache those files independently of the hash-route HTML.
+
+### 140) Test2 election pane parity needs shared-source enforcement
+- Mistake pattern: Leaving `/test2` with a local election-pane wrapper after deciding the main election pane is the parity reference.
+- Impact: Even if individual table methods are copied from main, the wrapper can keep adding route-specific title text, stats strips, attributes, or tab behaviour that visibly diverges from the main site.
+- Guardrail:
+  1) put engine-neutral election pane contracts in `js/`, not only under `test2/src/`,
+  2) make `/test2` instantiate the shared contract directly and keep the local file as a compatibility re-export only,
+  3) make `check:test2` inspect the shared source and the test2 instantiation path,
+  4) remove route-specific selected-result chrome unless it is explicitly present in main's public pane.
