@@ -13,10 +13,18 @@ const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/mobile-smoke-report.json');
 const PORT = Number(process.env.TEST_SMOKE_PORT || 4177);
 const MAX_LAYER_MS = Number(process.env.TEST_SMOKE_MAX_LAYER_MS || 5000);
+const DEFAULT_LAYER_IDS = [
+  'civil-parishes-vector-test',
+  'roi-garda-regions-vector-test',
+  'roi-townlands-vector-test'
+];
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
+const requestedLayerIds = process.env.TEST_SMOKE_LAYER_IDS
+  ? process.env.TEST_SMOKE_LAYER_IDS.split(',').map((item) => item.trim()).filter(Boolean)
+  : (process.env.TEST_SMOKE_ALL === '1' ? null : DEFAULT_LAYER_IDS);
 const candidateLayers = (metadata.layers || [])
   .filter((layer) => layer.loadable !== false && ['pmtiles', 'mvt'].includes(layer.sourceType))
-  .filter((layer) => !process.env.TEST_SMOKE_LAYER_IDS || process.env.TEST_SMOKE_LAYER_IDS.split(',').includes(layer.id));
+  .filter((layer) => !requestedLayerIds || requestedLayerIds.includes(layer.id));
 const MAX_TOTAL_MS = Number(process.env.TEST_SMOKE_MAX_TOTAL_MS || Math.max(60000, candidateLayers.length * 1800));
 
 const server = createStaticServer();

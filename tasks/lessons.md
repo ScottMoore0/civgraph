@@ -1920,4 +1920,5 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) if a sandbox blocks the production command, rerun with approved escalation rather than treating the route-specific build as sufficient,
   3) inspect the exact failed run/deploy log before assuming the failure is unrelated,
   4) browser smoke tests must exercise production-deployable PMTiles/CDN sources, not force local directory-MVT fallbacks that are removed by Pages cleanup,
-  5) add a validation check for the failing command path before committing the fix.
+  5) mobile/browser smoke defaults must be CI-bounded, with exhaustive all-layer runs behind an explicit opt-in env var,
+  6) add a validation check for the failing command path before committing the fix.
