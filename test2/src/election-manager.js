@@ -246,6 +246,19 @@ export class Test2ElectionManager {
   async restoreURLState(params) {
     let body = params.get('electionBody');
     let date = params.get('electionDate');
+    const mainElectionParam = params.get('election');
+    let mainElectionSelected = null;
+    if (mainElectionParam && !body && !date) {
+      const parts = mainElectionParam.split(':');
+      if (parts.length >= 2) {
+        const bodySlug = parts[0];
+        date = parts[1];
+        mainElectionSelected = parts.length > 2 ? parts[2] : null;
+        const slugify = (value) => String(value || '').toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s]+/g, '-').replace(/-+/g, '-');
+        const mainEntry = (this.catalogue?.elections || []).find((entry) => slugify(entry.body) === bodySlug && entry.date === date);
+        if (mainEntry) body = mainEntry.body;
+      }
+    }
     if (!body || !date) {
       const layerIds = (params.get('layers') || '').split(',').map((id) => id.trim()).filter(Boolean);
       const canonicalEntry = layerIds.map((id) => this.findEntryByCanonicalLayerId(id)).find(Boolean);
@@ -263,15 +276,27 @@ export class Test2ElectionManager {
     }
     this.overlayMode = params.get('electionOverlay') === 'bars' ? 'bars' : this.overlayMode;
     this.activeLocalMode = params.get('electionLocalMode') === 'district' ? 'district' : this.activeLocalMode;
-    this.countDetailedView = params.get('electionCountDetail') === '1';
-    const selected = params.get('electionSelected');
-    const view = params.get('electionView') || this.activePanelView || 'party';
-    const selectedResult = selected ? this.findResultByKey(selected) : null;
+    const explicitSelected = params.has('electionSelected') || Boolean(mainElectionSelected);
+    const selected = params.get('electionSelected') || mainElectionSelected || '';
+    const selectedResult = explicitSelected ? this.findResultByKey(selected) : null;
+    const validSelected = Boolean(selectedResult);
+    const explicitView = params.has('electionView');
+    const requestedView = explicitView ? params.get('electionView') : null;
+    const view = validSelected
+      ? (requestedView || 'party')
+      : (requestedView && requestedView !== 'counts' && requestedView !== 'animation' ? requestedView : 'party');
+    this.countDetailedView = validSelected && params.get('electionCountDetail') === '1';
+    if (!validSelected) {
+      this.activeSelectedResultKey = null;
+      this.activeEntityKind = null;
+      this.activeEntityKey = null;
+      this.activeEntityReturnView = null;
+    }
     await this.renderElectionOverlay();
-    this.renderPanel(selectedResult, view);
+    this.renderPanel(validSelected ? selectedResult : null, view);
     const entityKind = params.get('electionEntityKind');
     const entityKey = params.get('electionEntityKey');
-    if (entityKind && entityKey) {
+    if (validSelected && entityKind && entityKey) {
       this.activeEntityReturnView = params.get('electionEntityReturnView') || view || 'party';
       this.renderEntityPanel(entityKind, entityKey, { updateURL: false });
     }

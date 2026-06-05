@@ -3859,3 +3859,23 @@ Add election entries to /test2
   - Verification evidence: syntax checks passed; `npm run build:test2:elections` passed; generated Dail 2024 Mayo/Roscommon Galway records carry `syntheticCountGroup: true` and multi-stage animation payloads; `npm run check:test2` passed; browser smoke for `/test2` Dail 2024 Roscommon Galway `By Count` with detailed view on had 9 headers, no `Count 2`/`Count 3` headers, `Not Elected Count 1/1` rows, and main-like first-preference values; browser smoke for the same result's Transfers view showed no run button, visible animation container, populated stage numbers, and animation rows; `npm run check` and `npm run build` passed after approved esbuild spawn escalation.
 - [x] Commit and push
   - Completed: staging, commit, and push performed after verified route checks, browser smoke, and builds.
+
+# Fix test2 election pane URL state parity
+- [x] Record correction
+  - Symptom: A main URL with only `#layers=election-dil-ireann-2024-11-29` shows the overall Dail election pane, while `/test2` can restore a selected constituency `By Count` pane such as Roscommon Galway.
+  - Root cause: `/test2` election URL restore used previous `activePanelView` and accepted selected/count substate too broadly, so layer-only election URLs could inherit selected-area count/detail state that main does not restore.
+  - Permanent prevention action: Add a guardrail that layer-only election URLs restore the overall election pane, not a stale or inferred selected feature pane.
+- [x] Inspect state restoration
+  - Review `/test2` URL parsing, selected election result restoration, feature selection, and election pane defaulting.
+- [x] Implement fix
+  - Clear selected result and selected count view unless the URL explicitly requests election selected-result state.
+- [x] Verify
+  - `node --check test2\src\election-manager.js` passed.
+  - `node --check scripts\validate-test2-route.mjs` passed.
+  - `npm run check:test2` passed.
+  - `npm run build:test2` passed after rerunning outside the sandbox because Windows blocked esbuild spawn in the sandbox.
+  - Browser smoke against `/test2/#layers=election-dil-ireann-2024-11-29&zoom=7&lat=53.70000&lng=-8.20000` restored `Dáil - 29 Nov 2024`, `By Party`, no selected constituency, and first rows Fine Gael, Fianna Fail, Independent, Sinn Fein.
+  - Browser smoke against a hostile URL with `electionView=counts&electionCountDetail=1` but no valid selected result normalized back to the same overall `By Party` pane.
+  - `npm run check` passed.
+- [x] Commit and push
+  - Staged and pushed only the `/test2` election URL restore fix, generated `/test2` assets/metadata, and task/lesson guardrail notes.

@@ -1,5 +1,14 @@
 # Lessons Log
 
+### 144) Election pane parity screenshots must compare identical URL and pane state
+- Mistake pattern: Treating a screenshot mismatch as purely a renderer/CSS issue while the main site and `/test2` are actually in different election pane states, such as main showing overall `By Party` and `/test2` showing a selected constituency `By Count`.
+- Impact: Fixes can improve one pane mode while the user still sees large residual differences because route restoration, selected feature state, active tab, detailed toggle, and viewport state are not first normalized before comparison.
+- Guardrail:
+  1) every parity comparison must first print and compare canonical state: active layer, selected constituency/DEA, election view tab, detailed toggle, timeline date, viewport, and URL hash,
+  2) screenshots must be taken from the same canonical state on both main and `/test2`,
+  3) if the states differ, fix state restoration before touching table markup,
+  4) browser smoke should fail when `/test2` loads a selected-area pane from a URL that should restore the main overall pane.
+
 ### 143) Selected election pane parity must use the same default table mode
 - Mistake pattern: Treating a shared election pane shell as enough while `/test2` selected-result count panes still default to a detailed generated count matrix that main does not show by default.
 - Impact: The tab labels look close, but the table columns, widths, status text, and perceived result ordering visibly diverge from main in the exact screenshot workflow the user is using.
