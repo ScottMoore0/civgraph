@@ -1912,3 +1912,11 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) scraper-style result files must be normalised into the same synthetic count payload main uses, not passed through raw,
   3) `/test2` must auto-run the persistent animation scaffold when the Transfers tab is selected,
   4) `check:test2` must assert a known screenshot case, Dáil 2024 Mayo, has a multi-stage animation payload.
+### 143) Pushed fixes must verify the deploy command, not only the edited route
+- Mistake pattern: Passing the route-specific check/build for `/test2` and pushing, while the actual deployment/run can execute a broader or different command path.
+- Impact: A local fix can be correct for the edited bundle but still trigger a failed run notification after push.
+- Guardrail:
+  1) when a pushed site change affects bundled assets, run both the route-specific check and the production deploy command path where feasible,
+  2) if a sandbox blocks the production command, rerun with approved escalation rather than treating the route-specific build as sufficient,
+  3) inspect the exact failed run/deploy log before assuming the failure is unrelated,
+  4) add a validation check for the failing command path before committing the fix.

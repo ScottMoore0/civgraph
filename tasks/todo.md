@@ -3924,3 +3924,18 @@ Add election entries to /test2
   - Completed: added previous-election matching for selected results so selected-party deltas are calculated from the matching previous constituency/DEA result.
   - Completed: added route validation that fails if selected-party panes reuse the overall grouped headers.
   - Verification evidence: `node --check test2/src/election-manager.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2` after approved esbuild spawn escalation, targeted renderer contract smoke, and `npm run check` passed.
+
+# Fix failed run after test2 selected-pane parity push
+- [x] Record failure and lesson
+  - Symptom: user received a run-failed notification immediately after the `/test2` selected-party election pane parity commits were pushed.
+  - Root cause: the failing workflow was `Test rewrite readiness`, not the edited `/test2` path. In a clean CI checkout, `/test` metadata referenced local-only generated artifacts: a missing local MVT tile directory for `opw-nifm-river-flood-extents-current-vector-test` and a missing feature-search index for `dfi-surface-defects-2017-vector-test`.
+  - Permanent prevention action: verify the exact failed run command path after push failures, and keep `/test` metadata from advertising local-only generated files unless those files are committed or served from CDN.
+- [x] Reproduce locally
+  - Ran `/test2`, `/test`, and production build checks. Local `/test` initially masked the CI failure because the missing generated files existed untracked on this machine.
+- [x] Inspect remote failure if local checks pass
+  - Used GitHub Actions logs for run `27035384699`; failure occurred in `npm run build:test` via `scripts/validate-test-app.mjs`.
+- [x] Implement fix and guardrail
+  - Updated `opw-nifm-river-flood-extents-current-vector-test` to use CDN tile and metadata URLs instead of repo-local generated paths.
+  - Removed stale `featureIndexUrl` from `dfi-surface-defects-2017-vector-test` until that feature index is generated and committed or served remotely.
+- [x] Verify, commit, and push
+  - Verification evidence: `node scripts/validate-test-app.mjs`, `npm run build:test`, `npm run check:test`, and `npm run check:test2` passed. `npm run check:test` now emits only a non-fatal missing feature-search warning for the DfI layer.
