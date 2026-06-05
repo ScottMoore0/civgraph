@@ -1,5 +1,10 @@
 # Lessons Log
 
+### 145) Layer-level election parity is not enough when selected substate is serialized
+- Mistake pattern: Verifying a layer-only election URL while `/test2` can still write and restore selected constituency/DEA substate such as `electionSelected`, `electionView`, and `electionCountDetail`.
+- Impact: The active election layer matches main, but the visible pane can still diverge badly because main is showing the parent election and `/test2` is showing a selected constituency result.
+- Guardrail: Any election pane parity check must inspect the full final hash after restore and assert whether selected substate is present. If main does not expose that substate for the same workflow, `/test2` must not serialize or restore it for that workflow.
+
 ### 144) Election pane parity screenshots must compare identical URL and pane state
 - Mistake pattern: Treating a screenshot mismatch as purely a renderer/CSS issue while the main site and `/test2` are actually in different election pane states, such as main showing overall `By Party` and `/test2` showing a selected constituency `By Count`.
 - Impact: Fixes can improve one pane mode while the user still sees large residual differences because route restoration, selected feature state, active tab, detailed toggle, and viewport state are not first normalized before comparison.

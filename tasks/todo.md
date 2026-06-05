@@ -3879,3 +3879,13 @@ Add election entries to /test2
   - `npm run check` passed.
 - [x] Commit and push
   - Staged and pushed only the `/test2` election URL restore fix, generated `/test2` assets/metadata, and task/lesson guardrail notes.
+
+# Explain remaining main/test2 election pane visual mismatch
+- [x] Record recurrence
+  - Symptom: User still sees main showing the overall Dail election pane while `/test2` shows a selected constituency pane such as Roscommon Galway for the same apparent election layer.
+  - Root cause: `/test2` still serializes and restores selected-result substate (`electionSelected`, `electionView`, `electionCountDetail`) whereas the main screenshot is the parent election pane. The same active election layer can therefore render a different visible pane.
+  - Permanent prevention action: Add parity checks against the full final hash and pane state, not only the active layer ID.
+- [x] Inspect state restoration and deployed bundle assumptions
+  - Reviewed `/test2` URL parsing, URL writing, storage/pane state, selected feature handling, generated build state, and main URL-state references.
+- [x] Explain findings
+  - Explained that the screenshot is comparing `Dáil - 29 Nov 2024` overall results on main against `Roscommon Galway` selected-result state on `/test2`, so visual alignment cannot happen until `/test2` stops persisting/restoring that substate differently from main.
