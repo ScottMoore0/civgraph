@@ -3916,8 +3916,9 @@ Add election entries to /test2
   - Add regression check that `/test2` does not use overall grouped headers in selected constituency `By Party` mode.
 - [x] Verify
   - Run syntax checks, `/test2` route checks, builds, and local browser/DOM smoke tests.
-- [ ] Commit and push
+- [x] Commit and push
   - Commit and push only verified `/test2` structural parity changes and task/lesson updates.
+  - Completed: committed and pushed `832dc21ef` (`Align test2 selected party election panes`).
 - Review:
   - Completed: changed `/test2` selected constituency/DEA `By Party` rendering from a simplified grouped candidate-summary aggregate to a main-style flat selected-party table derived from the same `countGroup` shape used by the main election controller.
   - Completed: added previous-election matching for selected results so selected-party deltas are calculated from the matching previous constituency/DEA result.
