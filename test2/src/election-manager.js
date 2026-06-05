@@ -791,7 +791,7 @@ export class Test2ElectionManager {
                   <td class="election-num${isFirstPrefWinner ? ' election-party-emphasis' : ''}">${formatNumber(row.firstPrefs)}</td>
                   <td class="election-num">${formatMainDelta(row.firstPrefsDelta)}</td>
                   <td class="election-num${isFirstPrefWinner ? ' election-party-emphasis' : ''}">${formatFixedPercent(row.pct)}</td>
-                  <td class="election-num">${formatMainPercentDelta(row.pctDelta)}</td>
+                  <td class="election-num">${formatMainSelectedPercentDelta(row.pctDelta)}</td>
                 </tr>
               `;
             }).join('')}
@@ -901,7 +901,7 @@ export class Test2ElectionManager {
   }
 
   renderSelectedPartySummaryRow(label, stoodValue, electedValue, voteValue, voteDelta, pctValue, pctDelta) {
-    return `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>${escapeHtml(label)}</strong></td><td class="election-num">${stoodValue === null || stoodValue === undefined ? '-' : formatNumber(stoodValue)}</td><td class="election-num">${stoodValue === null || stoodValue === undefined ? '-' : formatMainDelta(0)}</td><td class="election-num">${electedValue === null || electedValue === undefined ? '-' : formatNumber(electedValue)}</td><td class="election-num">${electedValue === null || electedValue === undefined ? '-' : formatMainDelta(0)}</td><td class="election-num election-cell-strong">${voteValue ? formatNumber(voteValue) : '-'}</td><td class="election-num">${formatMainDelta(voteDelta)}</td><td class="election-num election-cell-strong">${Number.isFinite(Number(pctValue)) ? formatFixedPercent(pctValue) : '-'}</td><td class="election-num">${formatMainPercentDelta(pctDelta)}</td></tr>`;
+    return `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>${escapeHtml(label)}</strong></td><td class="election-num">${stoodValue === null || stoodValue === undefined ? '-' : formatNumber(stoodValue)}</td><td class="election-num">${stoodValue === null || stoodValue === undefined ? '-' : formatMainDelta(0)}</td><td class="election-num">${electedValue === null || electedValue === undefined ? '-' : formatNumber(electedValue)}</td><td class="election-num">${electedValue === null || electedValue === undefined ? '-' : formatMainDelta(0)}</td><td class="election-num election-cell-strong">${voteValue ? formatNumber(voteValue) : '-'}</td><td class="election-num">${formatMainDelta(voteDelta)}</td><td class="election-num election-cell-strong">${Number.isFinite(Number(pctValue)) ? formatFixedPercent(pctValue) : '-'}</td><td class="election-num">${formatMainSelectedPercentDelta(pctDelta)}</td></tr>`;
   }
 
   renderMainParityLeafTh(label, index) {
@@ -2827,9 +2827,23 @@ function resultKeys(result) {
 function isMainStyleCandidateRow(row = {}) {
   const candidateId = String(row.Candidate_Id || '').trim();
   if (!candidateId || candidateId.toLowerCase() === 'nontransferable') return false;
+  const candidateName = mainStyleCandidateDisplayName(row);
+  if (!candidateName) return false;
+  if (candidateName.toLowerCase() === 'party') return false;
   const party = String(row.Party_Name || '').trim().toLowerCase();
   if (party === 'party') return false;
   return true;
+}
+
+function mainStyleCandidateDisplayName(row = {}) {
+  return String(
+    row.candidateName
+    || `${row.Firstname || ''} ${row.Surname || ''}`.trim()
+    || ''
+  )
+    .replace(/[�]+/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
 }
 
 function selectedPaneStatusKind(status) {
@@ -3089,6 +3103,13 @@ function formatMainPercentDelta(value) {
   if (!Number.isFinite(number)) return '';
   const className = number > 0 ? 'election-delta election-delta--up' : number < 0 ? 'election-delta election-delta--down' : 'election-delta';
   return `<span class="${className}">${number > 0 ? '+' : ''}${number.toFixed(2)}%</span>`;
+}
+
+function formatMainSelectedPercentDelta(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return '';
+  const className = number > 0 ? 'election-delta election-delta--up' : number < 0 ? 'election-delta election-delta--down' : 'election-delta';
+  return `<span class="${className}">${number > 0 ? '+' : ''}${number.toFixed(2)}</span>`;
 }
 
 function rankLabel(index) {

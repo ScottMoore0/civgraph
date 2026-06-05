@@ -3967,3 +3967,22 @@ Add election entries to /test2
   - Broader browser-suite note: `npm run test:browser:test2` still depends on local generated vector-tile fixtures that are absent in this checkout (`/test/tiles/generated/...` 404s), so I treated the data-fixture failures as outside this scoped pane-semantics fix and used the focused parity tests for this commit.
 - [x] Commit and push
   - Will be committed and pushed as the final step for this scoped parity fix.
+
+# Full /test2 parity pass after selected-pane mismatch recurrence
+- [x] Record recurrence and scope
+  - Symptom: user still sees visible `/test2` election-pane differences against main for the same election and selected constituency screenshots after multiple parity commits.
+  - Root cause: `/test2` still had selected-result view-model rules that differed from main's election controller. Specifically, selected-party rows admitted candidate/count rows without the same main `_isValidCandidateRow` candidate-name requirement, and selected-party percent-delta cells used the generic percent-sign formatter instead of main's selected-pane fixed-decimal formatter.
+  - Permanent prevention action: add an exact main-vs-`/test2` selected-result DOM comparison for the screenshot case, not only route/static source checks.
+- [x] Fix selected-result view-model drift
+  - Mirror main's candidate-row validity rules in `/test2` selected party/count derivation.
+  - Keep MapLibre-specific behaviour confined to map drawing and feature selection.
+- [x] Verify
+  - Run syntax checks, route checks, focused browser parity tests, build checks, and the broader feasible check path.
+- [x] Commit and push
+  - Completed: staged only scoped parity files and task/lesson updates for commit and push.
+- Review:
+  - Completed: mirrored main candidate-row admissibility in `/test2` selected constituency/DEA party derivation by requiring a candidate id and main-style displayable candidate name before aggregating rows.
+  - Completed: changed selected-party percent-delta formatting to match main's selected-pane fixed-decimal output without an appended percent sign.
+  - Completed: added a browser regression that loads main and `/test2` side-by-side, selects Roscommon Galway for Dáil 2024 on both, and compares the visible title, tabs, headers, and first selected-party rows.
+  - Completed: added route validation so the selected-pane formatter and candidate-name admissibility do not drift silently.
+  - Verification evidence: `node --check test2/src/election-manager.js`, `node --check scripts/validate-test2-route.mjs`, `node --check tests/browser/test2-app.spec.js`, `node --check js/election-main-pane-contract.mjs`, `node scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, and focused browser checks for `Dail 2024 election pane|Dail election candidate|selected Dail constituency` passed.

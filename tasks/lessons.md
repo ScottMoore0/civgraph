@@ -1949,3 +1949,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) validation must include named screenshot cases, not only generic table class/header checks,
   3) when a user reports visual parity drift, inspect row-level data and rendered DOM before making further CSS changes,
   4) keep MapLibre-specific differences confined to map drawing and feature selection, not the election pane's view-model semantics.
+
+### 147) Selected election pane parity requires exact main row admissibility
+- Mistake pattern: Treating a generated `/test2` count row as valid because it has a candidate id and party, while main's election controller also requires a displayable candidate name.
+- Impact: `/test2` can show more complete or sensible selected-constituency party rows than main, but that is still a parity failure when the goal is exact main behaviour with only the map engine swapped.
+- Guardrail:
+  1) selected-result row filtering must mirror main `_isValidCandidateRow`, including candidate-display-name requirements,
+  2) parity tests must compare selected-result table DOM against main for named screenshot cases, not just overall election tables,
+  3) do not claim full parity from source-shape checks alone; require runtime DOM comparison for the specific panes the user is comparing,
+  4) any `/test2` election improvement that changes visible pane data must first prove it matches main or be deliberately scoped as a MapLibre-only/map-only difference.

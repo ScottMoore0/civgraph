@@ -297,6 +297,62 @@ test('/test2 Dail election candidate and count panes follow the main pane contra
   await context.close();
 });
 
+test('/test2 selected Dail constituency party pane matches main controller output', async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 1120, height: 920 } });
+  const mainPage = await context.newPage();
+  const test2Page = await context.newPage();
+  const hash = 'layers=election-dil-ireann-2024-11-29&electionSelected=roscommon-galway&electionView=party&lng=-8.12&lat=53.48&zoom=7.00';
+  const tableSignature = async (page) => page.evaluate(() => ({
+    title: document.querySelector('#electionPaneTitle')?.textContent?.trim() || '',
+    tabs: [...document.querySelectorAll('#electionPaneHeaderRight .election-view-tab')].map((button) => button.textContent.trim()),
+    tableClass: document.querySelector('#electionPaneContent table')?.className || '',
+    headers: [...document.querySelectorAll('#electionPaneContent table thead th')]
+      .map((th) => th.textContent.trim().replace(/\s+/g, ' ')),
+    firstRows: [...document.querySelectorAll('#electionPaneContent table tbody tr:not(.election-table-summary-row):not(.election-table-note-row)')]
+      .slice(0, 8)
+      .map((row) => [...row.children].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')).slice(0, 11))
+  }));
+
+  await Promise.all([
+    mainPage.goto('/'),
+    test2Page.goto(`/test2/#${hash}`)
+  ]);
+  await mainPage.waitForFunction(() => window.uiController?.onLoadElection);
+  await mainPage.evaluate(async () => {
+    await window.uiController.onLoadElection('Dáil Éireann', '2024-11-29');
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    let target = null;
+    const candidates = [];
+    const visitLayer = (layer) => {
+      const props = layer?.feature?.properties || {};
+      const label = String(props.CONSTITUENCY || props.Constituency || props.constituency || props.CONSTITUENCYNAME || props.ConstituencyName || props.Name || props.name || Object.values(props).find((value) => /roscommon/i.test(String(value))) || '');
+      if (label) candidates.push(label);
+      if (/roscommon[\s-]+galway/i.test(label)) target = layer;
+      if (!target && typeof layer?.eachLayer === 'function') layer.eachLayer(visitLayer);
+    };
+    window.mapController.map.eachLayer(visitLayer);
+    if (!target) throw new Error(`Main Roscommon Galway election feature not found. Candidates: ${candidates.slice(0, 30).join(' | ')}`);
+    const latlng = target.getBounds?.().getCenter?.() || target.getLatLng?.() || window.mapController.map.getCenter();
+    target.fire('click', { target, layer: target, latlng });
+  });
+  await test2Page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await test2Page.evaluate(() => window.__civgraphTest2.restorePromise);
+
+  await mainPage.waitForSelector('#electionPaneContent .election-party-table tbody tr');
+  await test2Page.waitForSelector('#electionPaneContent .election-party-table tbody tr');
+  const [mainSignature, test2Signature] = await Promise.all([
+    tableSignature(mainPage),
+    tableSignature(test2Page)
+  ]);
+
+  expect(test2Signature.title).toBe(mainSignature.title);
+  expect(test2Signature.tabs).toEqual(mainSignature.tabs);
+  expect(test2Signature.tableClass).toContain('election-party-table');
+  expect(test2Signature.headers).toEqual(mainSignature.headers);
+  expect(test2Signature.firstRows).toEqual(mainSignature.firstRows);
+  await context.close();
+});
+
 test('/test2 dismisses stuck mobile thumbnail previews on outside tap', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/test2/');
