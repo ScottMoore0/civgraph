@@ -141,6 +141,51 @@ async function extractElectionPartyRows(page) {
     .map((row) => [...row.children].slice(0, 12).map((cell) => cell.textContent?.trim()?.replace(/\s+/g, ' '))));
 }
 
+async function extractElectionPaneSnapshot(page, options = {}) {
+  const waitForTable = options.waitForTable !== false;
+  if (waitForTable) {
+    await page.waitForSelector('#electionPaneContent table, #electionPaneContent .election-animation-container, #electionPaneContent .election-no-data', { timeout: 30000 });
+  }
+  return page.evaluate(() => {
+    const pane = document.querySelector('#electionResultsPane') || document.querySelector('.election-results-pane');
+    const content = document.querySelector('#electionPaneContent');
+    const normalise = (value) => String(value || '').replace(/\s+/g, ' ').trim();
+    const table = content?.querySelector('table');
+    return {
+      title: normalise(document.querySelector('#electionPaneTitle')?.textContent || pane?.querySelector('.election-results-title')?.textContent || ''),
+      activeControls: [...document.querySelectorAll('.election-detail-toggle-btn--active, .election-results-pane__tab--active, [aria-pressed="true"]')]
+        .map((el) => normalise(el.textContent)),
+      controlTexts: [...document.querySelectorAll('#electionResultsPane button, .election-results-pane button')]
+        .map((el) => normalise(el.textContent))
+        .filter(Boolean),
+      renderer: content?.querySelector('[data-election-renderer]')?.getAttribute('data-election-renderer') || '',
+      tableClasses: table?.className || '',
+      headers: table ? [...table.querySelectorAll('thead th')].slice(0, 20).map((th) => normalise(th.textContent)) : [],
+      rows: table ? [...table.querySelectorAll('tbody tr:not(.election-table-summary-row)')].slice(0, 8).map((row) => [...row.children].slice(0, 12).map((cell) => normalise(cell.textContent))) : [],
+      hasSortButtons: Boolean(content?.querySelector('.election-th-btn')),
+      hasFilterMenuPrimitive: Boolean(content?.querySelector('[data-sort-key], [data-leaf-col-idx]')),
+      hasEntityLinks: Boolean(content?.querySelector('[data-election-entity]')),
+      hasAnimationContainer: Boolean(content?.querySelector('#electionAnimationContainer, .election-animation-container')),
+      hasTransferScaffold: Boolean(content && /Stages|transfers|No transfer animation data|Loading transfer animation|Made Quota|Non-transferable|Electorate/i.test(content.textContent || '')),
+      text: normalise(content?.textContent || '').slice(0, 1000)
+    };
+  });
+}
+
+async function clickElectionPaneControl(page, labelPattern) {
+  await page.waitForSelector('#electionResultsPane, .election-results-pane', { timeout: 30000 });
+  const clicked = await page.evaluate((patternSource) => {
+    const pattern = new RegExp(patternSource, 'i');
+    const buttons = [...document.querySelectorAll('#electionResultsPane button, .election-results-pane button')];
+    const button = buttons.find((candidate) => pattern.test(String(candidate.textContent || '').replace(/\s+/g, ' ').trim()));
+    if (!button) return false;
+    button.click();
+    return true;
+  }, labelPattern.source);
+  assert(clicked, `Could not find election pane control matching ${labelPattern}`);
+  await page.waitForTimeout(250);
+}
+
 async function loadMainDail2024(page) {
   await bootMain(page, '/');
   await page.waitForFunction(() => window.uiController?.onLoadElection, null, { timeout: 30000 });
@@ -203,6 +248,36 @@ async function extractBrowseMapPage(page) {
   }));
 }
 
+async function extractBrowseRoute(page, hash) {
+  await page.goto(`${BASE}/browse/${hash}`);
+  await page.waitForSelector('main, .browse-shell, body', { timeout: 25000 });
+  await page.waitForFunction(() => document.body.textContent && document.body.textContent.length > 200, null, { timeout: 25000 });
+  await page.waitForFunction(() => {
+    const text = document.body.textContent || '';
+    return document.querySelectorAll('.browse-card').length > 0
+      || document.querySelectorAll('details').length > 0
+      || /Open in interactive map|Open election layer/i.test(text);
+  }, null, { timeout: 25000 });
+  return page.evaluate(() => {
+    const normalise = (value) => String(value || '').replace(/\s+/g, ' ').trim();
+    return {
+      hash: location.hash,
+      title: normalise(document.querySelector('h1')?.textContent || ''),
+      recordCountText: normalise([...document.querySelectorAll('main, .browse-main, body')]
+        .map((el) => el.textContent || '')
+        .join(' ')
+        .match(/\b\d[\d,]* of \d[\d,]* records\b|\b\d[\d,]* records\b/i)?.[0] || ''),
+      cards: document.querySelectorAll('.browse-card, .browse-list-item, .browse-record-card, article').length,
+      links: [...document.querySelectorAll('a, button')].map((el) => normalise(el.textContent)).filter(Boolean).slice(0, 20),
+      hasThumbnail: Boolean(document.querySelector('img, canvas, .browse-thumbnail')),
+      hasOpenMap: /Open in interactive map/.test(document.body.textContent || ''),
+      hasOpenElection: /Open election layer/.test(document.body.textContent || ''),
+      hasTechnicalDetails: /Technical data|Technical details|Full technical details|All Browse Fields/i.test(document.body.textContent || ''),
+      collapsedDetails: [...document.querySelectorAll('details')].filter((el) => !el.open).length
+    };
+  });
+}
+
 async function extractMobileState(page) {
   await page.setViewportSize({ width: 390, height: 760 });
   await bootTest2(page);
@@ -235,6 +310,43 @@ async function extractMobileState(page) {
       toggleInHeader: Boolean(header && mobileToggle && mobileToggle.top >= header.top && mobileToggle.bottom <= header.bottom + 2),
       toggleOverlapsZoom: overlaps(mobileToggle, zoom),
       settingsOverlapsTimeline: overlaps(settings, timeline)
+    };
+  });
+}
+
+async function extractMobileElectionState(page, viewport) {
+  await page.setViewportSize(viewport);
+  await bootTest2(page, '#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
+  return page.evaluate(() => {
+    const rect = (selector) => {
+      const el = document.querySelector(selector);
+      if (!el) return null;
+      const box = el.getBoundingClientRect();
+      return {
+        left: Math.round(box.left),
+        top: Math.round(box.top),
+        right: Math.round(box.right),
+        bottom: Math.round(box.bottom),
+        width: Math.round(box.width),
+        height: Math.round(box.height)
+      };
+    };
+    const overlaps = (a, b) => a && b && !(a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top);
+    const header = rect('.app-header');
+    const mobileToggle = rect('#mobileToggle');
+    const zoom = rect('.test2-main-zoom-control');
+    const timeline = rect('.timeline-slider');
+    const pane = rect('#electionResultsPane');
+    return {
+      header,
+      mobileToggle,
+      zoom,
+      timeline,
+      pane,
+      toggleInHeader: Boolean(header && mobileToggle && mobileToggle.top >= header.top && mobileToggle.bottom <= header.bottom + 2),
+      toggleOverlapsZoom: overlaps(mobileToggle, zoom),
+      paneVisible: Boolean(pane && pane.height > 30),
+      timelineVisible: Boolean(timeline && timeline.width > 120)
     };
   });
 }
@@ -301,6 +413,99 @@ try {
     return state;
   });
 
+  await runCheck('ordinary.maps.multilayer', async () => {
+    const state = await test2Page.evaluate(async () => {
+      const app = window.__civgraphTest2.app;
+      const map = window.__civgraphTest2.mapController.map;
+      const requestedIds = ['settlements-2015', 'deas-1972', 'admin-areas-1924-04-01'];
+      const cases = [];
+      for (const id of requestedIds) {
+        const layer = window.__civgraphTest2.metadataService.getLayer(id);
+        if (!layer) {
+          cases.push({ id, exists: false });
+          continue;
+        }
+        await app.loadMap(id);
+        await new Promise((resolve) => map.once('idle', resolve));
+        const styleLayers = map.getStyle().layers || [];
+        const layerIds = styleLayers.filter((styleLayer) => styleLayer.id.includes(id)).map((styleLayer) => styleLayer.id);
+        const queryLayers = layerIds.filter((layerId) => map.getLayer(layerId) && !/label|hover|selected/i.test(layerId));
+        const rendered = queryLayers.length ? map.queryRenderedFeatures({ layers: queryLayers }).slice(0, 10) : [];
+        const fillLayer = styleLayers.find((styleLayer) => styleLayer.id.includes(id) && styleLayer.type === 'fill');
+        cases.push({
+          id,
+          exists: true,
+          loaded: app.loadedMaps?.has?.(id) || app.loadedMapIds?.has?.(id) || layerIds.length > 0,
+          titleVisible: (document.querySelector('#activeLayersList')?.textContent || '').includes(layer.name || id),
+          geometryType: layer.geometryType || '',
+          styleLayerCount: layerIds.length,
+          renderedFeatureCount: rendered.length,
+          fillOpacity: fillLayer ? map.getPaintProperty(fillLayer.id, 'fill-opacity') : null
+        });
+      }
+      return { cases, activeLayerText: document.querySelector('#activeLayersList')?.textContent || '' };
+    });
+    const loadedCases = state.cases.filter((entry) => entry.exists);
+    assert(loadedCases.length >= 3, `/test2 ordinary multi-layer coverage has too few available cases: ${loadedCases.length}`);
+    for (const entry of loadedCases) {
+      assert(entry.loaded, `/test2 did not load representative ordinary layer ${entry.id}`);
+      assert(entry.styleLayerCount > 0, `/test2 ordinary layer ${entry.id} has no MapLibre style layers`);
+    }
+    return state;
+  });
+
+  await runCheck('feature.cards', async () => {
+    const state = await test2Page.evaluate(async () => {
+      const app = window.__civgraphTest2.app;
+      const adapter = window.__civgraphTest2.mapController;
+      const map = adapter.map;
+      const index = await fetch('/test/metadata/feature-indexes/deas-1972-vector-test.json').then((response) => response.json());
+      const indexed = (index.items || []).find((item) => item.name === 'BELFAST AREA H')
+        || (index.items || []).find((item) => /BELFAST AREA/i.test(item.name || ''))
+        || (index.items || []).find((item) => item.name && !/Unnamed Feature/i.test(item.name));
+      if (!indexed) return { featureFound: false, indexedFeatureCount: index.items?.length || 0 };
+      if (Array.isArray(indexed.center)) {
+        map.jumpTo({ center: indexed.center, zoom: 10 });
+        await new Promise((resolve) => map.once('idle', resolve));
+      }
+      await app.loadMap('deas-1972');
+      await new Promise((resolve) => map.once('idle', resolve));
+      const mainMapConfig = window.dataService?.getMapById?.('deas-1972') || { id: 'deas-1972', name: 'District Electoral Areas - 1972' };
+      const loaded = await adapter.loadSingleFeature(mainMapConfig, indexed.id, indexed.name);
+      await new Promise((resolve) => map.once('idle', resolve));
+      const feature = loaded?.feature || {
+        id: indexed.id,
+        name: indexed.name,
+        properties: { name: indexed.name, NAME: indexed.name },
+        geometry: null
+      };
+      const id = feature.id || indexed.id || feature.name;
+      window.uiController?.showFeatureInfo?.([{
+        mapId: 'deas-1972',
+        id,
+        name: feature.name,
+        featureName: feature.name,
+        properties: feature.properties || {},
+        geometry: feature.geometry || null
+      }], [mainMapConfig]);
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      const panel = document.querySelector('#featureInfo, .feature-info, #featureInfoPanel');
+      return {
+        featureFound: true,
+        indexedFeatureCount: index.items?.length || 0,
+        selectedName: feature.name,
+        panelVisible: Boolean(panel && panel.getBoundingClientRect().width > 50 && panel.getBoundingClientRect().height > 50),
+        panelText: String(panel?.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 500),
+        panelTop: panel ? Math.round(panel.getBoundingClientRect().top) : null,
+        panelRight: panel ? Math.round(window.innerWidth - panel.getBoundingClientRect().right) : null
+      };
+    });
+    assert(state.featureFound, `/test2 could not find a representative indexed feature for feature-card coverage; count=${state.indexedFeatureCount}`);
+    assert(state.panelVisible, '/test2 feature card did not become visible');
+    assert(!/Unnamed Feature/i.test(state.panelText), '/test2 feature card contains Unnamed Feature');
+    return state;
+  });
+
   await runCheck('elections.overall-pane', async () => {
     const electionHash = '#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00';
     await loadMainDail2024(mainPage);
@@ -325,7 +530,77 @@ try {
     return { mainRows: mainRows.slice(0, 8), test2Rows: test2Rows.slice(0, 8) };
   });
 
+  await runCheck('elections.mode-coverage', async () => {
+    await loadMainDail2024(mainPage);
+    await bootTest2(test2Page, '#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
+
+    const modeEvidence = {};
+    await clickElectionPaneControl(mainPage, /By Candidate/);
+    await clickElectionPaneControl(test2Page, /By Candidate/);
+    const [mainCandidate, test2Candidate] = await Promise.all([
+      extractElectionPaneSnapshot(mainPage),
+      extractElectionPaneSnapshot(test2Page)
+    ]);
+    assert(JSON.stringify(test2Candidate.headers.slice(0, 8)) === JSON.stringify(mainCandidate.headers.slice(0, 8)), '/test2 overall candidate pane headers differ from main');
+    assert(JSON.stringify(test2Candidate.rows.slice(0, 5).map((row) => row.slice(0, 6))) === JSON.stringify(mainCandidate.rows.slice(0, 5).map((row) => row.slice(0, 6))), '/test2 overall candidate pane first rows differ from main');
+    modeEvidence.candidate = { main: mainCandidate, test2: test2Candidate };
+
+    await loadMainDail2024(mainPage);
+    await selectMainRoscommonGalway(mainPage);
+    await bootTest2(test2Page, '#layers=election-dil-ireann-2024-11-29&electionSelected=roscommon-galway&electionView=party&lng=-8.12&lat=53.48&zoom=7.00');
+
+    modeEvidence.party = await extractElectionPaneSnapshot(test2Page);
+    assert(/Roscommon Galway/i.test(modeEvidence.party.title), `/test2 selected party pane title mismatch: ${modeEvidence.party.title}`);
+    assert(modeEvidence.party.headers.some((header) => /\bParty\b/i.test(header)), '/test2 selected party pane missing Party header');
+    assert(modeEvidence.party.hasSortButtons, '/test2 selected party pane missing main-style sort/filter buttons');
+
+    await clickElectionPaneControl(mainPage, /By Count/);
+    await clickElectionPaneControl(test2Page, /By Count/);
+    const [mainCount, test2Count] = await Promise.all([
+      extractElectionPaneSnapshot(mainPage),
+      extractElectionPaneSnapshot(test2Page)
+    ]);
+    assert(JSON.stringify(test2Count.headers.slice(0, 8)) === JSON.stringify(mainCount.headers.slice(0, 8)), '/test2 selected count pane headers differ from main');
+    assert(JSON.stringify(test2Count.rows.slice(0, 5).map((row) => row.slice(0, 6))) === JSON.stringify(mainCount.rows.slice(0, 5).map((row) => row.slice(0, 6))), '/test2 selected count pane first rows differ from main');
+    modeEvidence.count = { main: mainCount, test2: test2Count };
+
+    await clickElectionPaneControl(mainPage, /Transfers/);
+    await clickElectionPaneControl(test2Page, /Transfers/);
+    const [mainTransfers, test2Transfers] = await Promise.all([
+      extractElectionPaneSnapshot(mainPage, { waitForTable: false }),
+      extractElectionPaneSnapshot(test2Page, { waitForTable: false })
+    ]);
+    assert(test2Transfers.hasTransferScaffold, `/test2 transfer pane missing transfer/animation scaffold; text="${test2Transfers.text}" controls="${test2Transfers.controlTexts.join(' | ')}"`);
+    assert(test2Transfers.hasAnimationContainer || /No transfer animation data|Loading transfer animation|Stages|Made Quota|Non-transferable|Electorate/i.test(test2Transfers.text), '/test2 transfer pane did not expose main-style transfer state');
+    modeEvidence.transfers = { main: mainTransfers, test2: test2Transfers };
+
+    await bootTest2(test2Page, '#layers=election-house-of-commons-of-the-united-kingdom-2024-07-04&lng=-6.8&lat=54.6&zoom=7.00');
+    const westminster = await extractElectionPaneSnapshot(test2Page);
+    assert(/Westminster|House of Commons/i.test(westminster.text + westminster.title), '/test2 representative non-Dail election did not load the expected pane');
+    assert(westminster.rows.length > 0 || /constituencies/i.test(westminster.text), '/test2 representative non-Dail election pane has no result evidence');
+    modeEvidence.nonDail = westminster;
+
+    await bootTest2(test2Page, '#layers=election-dil-ireann-2024-11-29&electionSelected=roscommon-galway&electionView=party&lng=-8.12&lat=53.48&zoom=7.00');
+    const entityState = await test2Page.evaluate(() => {
+      const link = document.querySelector('#electionPaneContent [data-election-entity]');
+      if (!link) return { hasEntityLink: false };
+      link.click();
+      return {
+        hasEntityLink: true,
+        entityKind: link.getAttribute('data-election-entity'),
+        hashAfterClick: location.hash
+      };
+    });
+    await test2Page.waitForTimeout(200);
+    const entitySnapshot = await extractElectionPaneSnapshot(test2Page, { waitForTable: false });
+    assert(entityState.hasEntityLink, '/test2 selected election pane has no entity links');
+    assert(/electionEntityKind=/.test(entityState.hashAfterClick) || /Party Information|Candidate Information/i.test(entitySnapshot.text), '/test2 election entity link did not preserve entity route state');
+    modeEvidence.entity = { entityState, entitySnapshot };
+    return modeEvidence;
+  });
+
   await runCheck('elections.map-overlays', async () => {
+    await bootTest2(test2Page, '#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
     const state = await test2Page.evaluate(() => ({
       seatCircles: document.querySelectorAll('.test2-election-seat-circle .seat-dot').length,
       renderer: document.querySelector('[data-election-renderer]')?.getAttribute('data-election-renderer') || '',
@@ -358,6 +633,32 @@ try {
     return state;
   });
 
+  await runCheck('browse.coverage', async () => {
+    const browsePage = await context.newPage();
+    const routes = [
+      { hash: '#/maps', title: /Maps/i, minCards: 1 },
+      { hash: '#/elections', title: /Elections/i, minCards: 1, action: 'election' },
+      { hash: '#/features', title: /Features/i, minCards: 1 },
+      { hash: '#/parties', title: /Parties|Labels/i, minCards: 1 },
+      { hash: '#/persons', title: /Persons/i, minCards: 1 },
+      { hash: '#/sources', title: /Sources|Books|Tables/i, minCards: 1 },
+      { hash: '#/elections/dail-eireann__2024-11-29', title: /2024|Irish general|D.il/i, minCards: 0, action: 'electionDetail' },
+      { hash: '#/sources/map-source-admin-areas-1924-04-01', title: /Administrative Areas|source/i, minCards: 0, detail: true }
+    ];
+    const evidence = [];
+    for (const route of routes) {
+      const state = await extractBrowseRoute(browsePage, route.hash);
+      assert(route.title.test(state.title), `Browse route ${route.hash} title mismatch: ${state.title}`);
+      assert(state.cards >= route.minCards, `Browse route ${route.hash} has too few cards/items: ${state.cards}`);
+      if (route.action === 'election') assert(state.links.some((text) => /Open election layer/i.test(text)) || state.hasOpenElection, `Browse route ${route.hash} missing election action`);
+      if (route.action === 'electionDetail') assert(state.hasOpenElection, `Browse election detail ${route.hash} missing Open election layer action`);
+      if (route.detail) assert(state.hasTechnicalDetails && state.collapsedDetails > 0, `Browse detail ${route.hash} missing collapsed technical details`);
+      evidence.push(state);
+    }
+    await browsePage.close();
+    return { routes: evidence };
+  });
+
   await runCheck('url.restore', async () => {
     await bootTest2(test2Page, '#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00&hidden=settlements-2015');
     const state = await test2Page.evaluate(() => {
@@ -387,6 +688,18 @@ try {
     assert(state.toggleInHeader, '/test2 mobile catalogue toggle is not in the navbar');
     assert(!state.toggleOverlapsZoom, '/test2 mobile catalogue toggle overlaps zoom controls');
     assert(!state.settingsOverlapsTimeline, '/test2 settings/accessibility control overlaps the timeline');
+    return state;
+  });
+
+  await runCheck('mobile.landscape', async () => {
+    const landscapeContext = await browser.newContext({ viewport: { width: 812, height: 390 }, isMobile: true, hasTouch: true });
+    const landscapePage = await landscapeContext.newPage();
+    const state = await extractMobileElectionState(landscapePage, { width: 812, height: 390 });
+    await landscapeContext.close();
+    assert(state.toggleInHeader, '/test2 landscape mobile catalogue toggle is not in the navbar');
+    assert(!state.toggleOverlapsZoom, '/test2 landscape mobile catalogue toggle overlaps zoom controls');
+    assert(state.timelineVisible, '/test2 landscape mobile election timeline is not visible');
+    assert(state.paneVisible, '/test2 landscape mobile election pane is not visible');
     return state;
   });
 

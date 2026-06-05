@@ -1,3 +1,17 @@
+# Expand /test2 general parity coverage
+- [x] Record scope
+  - User requested closing parity point 1 only: broaden the automated proof that `/test2` matches main across more representative UI states.
+  - Explicitly deferred for this task: full catalogue/vector data coverage, unresolved election geographies, and production/deployment hardening.
+- [x] Expand parity matrix and audit harness
+  - Add broader representative checks for ordinary maps, feature cards, election pane modes, Browse categories/detail pages, URL substates, and mobile layouts.
+- [x] Verify
+  - Run the expanded audit and existing `/test2` validation/visual checks.
+- [x] Review
+  - Document what coverage was added and what remains deliberately deferred.
+  - Added automated runtime coverage for representative ordinary non-election layers, feature-card loading, election pane party/candidate/count/transfer/entity/non-Dáil modes, Browse category/detail routes, and mobile landscape shell/control layout.
+  - Verification evidence: `node --check scripts/audit-test2-general-parity.mjs`, `node --check scripts/validate-test2-route.mjs`, `npm run audit:test2:parity`, `npm run check:test2`, `npm run check`, and `npm run test:visual:test2` all passed.
+  - Expanded parity report result: 16 pass, 0 fail, 0 warn, 2 reported-only. The reported-only items are deliberately deferred point-2/point-3/point-4 scope: full data coverage, blocked geography/data gaps, and production/engine hardening.
+
 # Maximize Browse item detail and thumbnails
 - [x] Record scope
   - User requested richer Browse pages so all available information is exposed for each item, and each item thumbnail is provided, including actual-size thumbnail display on item pages.

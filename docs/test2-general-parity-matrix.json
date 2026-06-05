@@ -63,6 +63,17 @@
       ]
     },
     {
+      "id": "ordinary.maps.multilayer",
+      "title": "Ordinary multi-layer coverage",
+      "classification": "maplibre-specific-equivalent",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "Several representative converted non-election layers load through the same main catalogue callback contract.",
+        "The audit records geometry type, active-layer display, and whether the layer has visible/queryable rendered features.",
+        "Known heavy or source-blocked data gaps remain outside this check and are covered by the reported-only data coverage item."
+      ]
+    },
+    {
       "id": "feature.cards",
       "title": "Feature details cards",
       "classification": "maplibre-specific-equivalent",
@@ -90,6 +101,17 @@
       "expectations": [
         "Selected constituency party/candidate/count pane DOM matches main for named screenshot cases.",
         "Main row-admissibility, status semantics, sort/filter controls, and selected-pane percent formatting are preserved."
+      ]
+    },
+    {
+      "id": "elections.mode-coverage",
+      "title": "Election pane mode coverage",
+      "classification": "must-match-main",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "Representative selected election panes expose the same party, candidate, count, and transfer mode contracts as main.",
+        "A representative non-Dail election loads through the same catalogue/election pane contract.",
+        "Entity links preserve the main-style entity page route and return state."
       ]
     },
     {
@@ -123,6 +145,17 @@
       ]
     },
     {
+      "id": "browse.coverage",
+      "title": "Browse category and detail coverage",
+      "classification": "must-match-main",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "Maps, elections, features, parties/labels, persons, and sources category routes render records and expected actions.",
+        "Representative detail pages expose general-interest information while keeping technical metadata collapsed.",
+        "Browse actions link back to the interactive route without introducing /test2 path drift."
+      ]
+    },
+    {
       "id": "url.restore",
       "title": "URL/share restore",
       "classification": "must-match-main",
@@ -139,6 +172,16 @@
       "expectations": [
         "The catalogue/menu toggle belongs in the navbar on mobile.",
         "Touch targets are usable and controls do not overlap zoom, scale, timeline, or catalogue history controls."
+      ]
+    },
+    {
+      "id": "mobile.landscape",
+      "title": "Mobile landscape shell and controls",
+      "classification": "must-match-main",
+      "coverage": "automated-runtime",
+      "expectations": [
+        "Mobile landscape preserves the navbar catalogue toggle and avoids control overlap.",
+        "Election restore still presents a usable map, catalogue, timeline, and election pane layout."
       ]
     },
     {
