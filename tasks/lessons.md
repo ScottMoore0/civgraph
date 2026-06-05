@@ -1,5 +1,10 @@
 # Lessons Log
 
+### 146) Same selected election pane still needs same selected table contract
+- Mistake pattern: Fixing parent-vs-selected election state and then assuming the remaining selected-result pane is visually aligned because both sides show the same constituency/DEA title.
+- Impact: Main and `/test2` can both show `Roscommon Galway`, but still diverge because main's selected `By Party` table uses the constituency party contract (`Stood`, `Elected`, `1st prefs`) while `/test2` may use a broader grouped overall-election table contract (`Candidates`, `Seats`, grouped first preferences).
+- Guardrail: Parity tests for selected election panes must assert table headers, first five row labels, first-preference values, elected/seat values, summary rows, and active tab for a known constituency such as Roscommon Galway 2024.
+
 ### 145) Layer-level election parity is not enough when selected substate is serialized
 - Mistake pattern: Verifying a layer-only election URL while `/test2` can still write and restore selected constituency/DEA substate such as `electionSelected`, `electionView`, and `electionCountDetail`.
 - Impact: The active election layer matches main, but the visible pane can still diverge badly because main is showing the parent election and `/test2` is showing a selected constituency result.

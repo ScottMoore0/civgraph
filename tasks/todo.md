@@ -3889,3 +3889,13 @@ Add election entries to /test2
   - Reviewed `/test2` URL parsing, URL writing, storage/pane state, selected feature handling, generated build state, and main URL-state references.
 - [x] Explain findings
   - Explained that the screenshot is comparing `Dáil - 29 Nov 2024` overall results on main against `Roscommon Galway` selected-result state on `/test2`, so visual alignment cannot happen until `/test2` stops persisting/restoring that substate differently from main.
+
+# Explain corrected main/test2 selected election pane mismatch
+- [x] Record correction
+  - Symptom: Corrected screenshot shows both main and `/test2` on `Roscommon Galway`, but `/test2` still has a visibly different selected-result `By Party` table.
+  - Root cause: Main uses the selected-constituency party table contract (`Stood`, `Elected`, `1st prefs`, flat selected-result headers and main summary rows), while `/test2` is still rendering selected-party results through a broader grouped aggregate table contract in places.
+  - Permanent prevention action: Add selected-result pane parity checks that assert headers, row order, key values, active tab, and summary rows for Roscommon Galway 2024.
+- [x] Inspect render paths
+  - Compared main `js/election-controller.js` selected party table path with `/test2` selected constituency rendering in `test2/src/election-manager.js`.
+- [x] Explain findings
+  - Explained that this is now a selected-result table contract/data-model mismatch, not a URL state mismatch.
