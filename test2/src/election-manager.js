@@ -14,6 +14,7 @@ import {
   buildPartySummary,
   compareResults,
   extractElected,
+  normalizeParty,
   partyColour as electionPartyColour,
   seatPositions
 } from '../../js/election-domain.mjs';
@@ -721,74 +722,186 @@ export class Test2ElectionManager {
 
   renderConstituencyPartyTable(candidates = [], result = {}) {
     if (!candidates.length) return '<p class="election-no-data">No party-level result table is available for this entry.</p>';
-    const validPoll = numberOrZero(result.validPoll) || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs ?? candidate.votes), 0);
-    const byParty = new Map();
-    for (const candidate of candidates) {
-      const party = candidate.party || 'Independent/Other';
-      const key = normalizeName(party) || party;
-      if (!byParty.has(key)) {
-        byParty.set(key, {
-          party,
-          colour: candidate.colour || electionPartyColour(party) || partyColour(party),
-          stood: 0,
-          seats: 0,
-          firstPrefs: 0
-        });
-      }
-      const row = byParty.get(key);
-      row.stood += 1;
-      row.seats += candidate.elected ? 1 : 0;
-      row.firstPrefs += numberOrZero(candidate.firstPrefs ?? candidate.votes);
-    }
-    const rows = [...byParty.values()].sort((a, b) => {
-      if (b.seats !== a.seats) return b.seats - a.seats;
-      if (b.firstPrefs !== a.firstPrefs) return b.firstPrefs - a.firstPrefs;
-      return a.party.localeCompare(b.party);
+    const current = this.buildMainStyleConstituencyPartyRows(result, candidates);
+    const previousResult = this.findPreviousSelectedResult(result);
+    const previous = this.buildMainStyleConstituencyPartyRows(previousResult, previousResult?.candidates || []);
+    const previousByParty = new Map(previous.rows.map((row) => [normalizeName(row.party), row]));
+    const rows = current.rows.map((row) => {
+      const previousRow = previousByParty.get(normalizeName(row.party)) || { stood: 0, seats: 0, firstPrefs: 0, pct: 0 };
+      return {
+        ...row,
+        stoodDelta: row.stood - numberOrZero(previousRow.stood),
+        electedDelta: row.seats - numberOrZero(previousRow.seats),
+        firstPrefsDelta: row.firstPrefs - numberOrZero(previousRow.firstPrefs),
+        pctDelta: row.pct - numberOrZero(previousRow.pct)
+      };
+    }).sort((a, b) => {
+      if (numberOrZero(b.seats) !== numberOrZero(a.seats)) return numberOrZero(b.seats) - numberOrZero(a.seats);
+      if (numberOrZero(b.firstPrefs) !== numberOrZero(a.firstPrefs)) return numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs);
+      return String(a.party || '').localeCompare(String(b.party || ''));
     });
+    const maxSeats = Math.max(0, ...rows.map((row) => numberOrZero(row.seats)));
+    const maxFirstPrefs = Math.max(0, ...rows.map((row) => numberOrZero(row.firstPrefs)));
+    const validDelta = current.validPoll - previous.validPoll;
+    const turnoutDelta = current.totalPoll - previous.totalPoll;
+    const spoiledDelta = current.spoiled - previous.spoiled;
+    const didNotVoteDelta = current.didNotVote - previous.didNotVote;
+    const electorateDelta = current.electorate - previous.electorate;
     return `
       <div class="election-party-wrapper election-party-wrapper--pane-sticky">
-        <table class="election-party-table election-party-table--grouped election-results-table--fixed election-results-table--constituency-party">
+        <table class="election-party-table election-results-table--constituency-party">
           <thead>
             <tr>
-              <th rowspan="2" data-leaf-col-idx="0">#</th>
-              <th rowspan="2" data-leaf-col-idx="1">Party</th>
-              <th colspan="2">Candidates</th>
-              <th colspan="2">Seats</th>
-              <th colspan="4">1st preferences</th>
-            </tr>
-            <tr>
-              ${this.renderMainParityLeafTh('No.', 2)}
-              ${this.renderMainParityLeafTh('+/-', 3)}
-              ${this.renderMainParityLeafTh('No.', 4)}
-              ${this.renderMainParityLeafTh('+/-', 5)}
-              ${this.renderMainParityLeafTh('No.', 6)}
-              ${this.renderMainParityLeafTh('+/-', 7)}
-              ${this.renderMainParityLeafTh('%', 8)}
-              ${this.renderMainParityLeafTh('+/-', 9)}
+              <th data-sort-key="rank">#</th>
+              <th class="election-colour-col"></th>
+              <th data-sort-key="party">Party</th>
+              <th class="election-num" data-sort-key="stood">Stood</th>
+              <th class="election-num" data-sort-key="stoodDelta">+/-</th>
+              <th class="election-num" data-sort-key="elected">Elected</th>
+              <th class="election-num" data-sort-key="electedDelta">+/-</th>
+              <th class="election-num" data-sort-key="firstPrefs">1st prefs</th>
+              <th class="election-num" data-sort-key="firstPrefsDelta">+/-</th>
+              <th class="election-num" data-sort-key="firstPrefsPct">1st prefs %</th>
+              <th class="election-num" data-sort-key="firstPrefsPctDelta">+/-</th>
             </tr>
           </thead>
           <tbody>
             ${rows.map((row, index) => {
-              const share = validPoll ? row.firstPrefs / validPoll * 100 : null;
+              const isSeatWinner = row.seats === maxSeats && maxSeats > 0;
+              const isFirstPrefWinner = row.firstPrefs === maxFirstPrefs && maxFirstPrefs > 0;
               return `
-                <tr>
-                  <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                  <td>${this.renderElectionEntityButton('party', normalizeName(row.party), `<span class="election-party-dot" style="background:${escapeHtml(row.colour)}"></span>${escapeHtml(row.party)}`, 'election-cell-wrap')}</td>
+                <tr class="election-party-row"
+                  data-rank="${index + 1}"
+                  data-party="${escapeHtml(row.party)}"
+                  data-stood="${row.stood}"
+                  data-stooddelta="${row.stoodDelta}"
+                  data-elected="${row.seats}"
+                  data-electeddelta="${row.electedDelta}"
+                  data-firstprefs="${row.firstPrefs}"
+                  data-firstprefsdelta="${row.firstPrefsDelta}"
+                  data-firstprefspct="${row.pct}"
+                  data-firstprefspctdelta="${row.pctDelta}">
+                  <td class="election-rank-col${isSeatWinner ? ' election-party-emphasis' : ''}">${escapeHtml(rankLabel(index))}</td>
+                  <td class="election-colour-col"><span class="election-party-dot" style="background:${escapeHtml(row.colour)}"></span></td>
+                  <td class="${isSeatWinner ? ' election-party-emphasis' : ''}">${this.renderElectionEntityButton('party', normalizeName(row.party), escapeHtml(row.party), 'election-cell-wrap')}</td>
                   <td class="election-num">${formatNumber(row.stood)}</td>
-                  <td class="election-num">-</td>
-                  <td class="election-num">${formatNumber(row.seats)}</td>
-                  <td class="election-num">-</td>
-                  <td class="election-num">${formatNumber(row.firstPrefs)}</td>
-                  <td class="election-num">-</td>
-                  <td class="election-num">${share === null ? '-' : formatFixedPercent(share)}</td>
-                  <td class="election-num">-</td>
+                  <td class="election-num">${formatMainDelta(row.stoodDelta)}</td>
+                  <td class="election-num${isSeatWinner ? ' election-party-emphasis' : ''}">${formatNumber(row.seats)}</td>
+                  <td class="election-num">${formatMainDelta(row.electedDelta)}</td>
+                  <td class="election-num${isFirstPrefWinner ? ' election-party-emphasis' : ''}">${formatNumber(row.firstPrefs)}</td>
+                  <td class="election-num">${formatMainDelta(row.firstPrefsDelta)}</td>
+                  <td class="election-num${isFirstPrefWinner ? ' election-party-emphasis' : ''}">${formatFixedPercent(row.pct)}</td>
+                  <td class="election-num">${formatMainPercentDelta(row.pctDelta)}</td>
                 </tr>
               `;
             }).join('')}
+            <tr class="election-table-note-row"><td class="election-rank-col">-</td><td></td><td colspan="9"><strong>No change in party control</strong></td></tr>
+            ${this.renderSelectedPartySummaryRow('Valid votes', current.totalStood, current.totalElected, current.validPoll, validDelta, current.validPct, current.validPct - previous.validPct)}
+            ${this.renderSelectedPartySummaryRow('Turnout', null, null, current.totalPoll, turnoutDelta, current.turnoutPct, current.turnoutPct - previous.turnoutPct)}
+            ${this.renderSelectedPartySummaryRow('Spoiled', null, null, current.spoiled, spoiledDelta, current.spoiledPct, current.spoiledPct - previous.spoiledPct)}
+            ${this.renderSelectedPartySummaryRow('Did not vote', null, null, current.didNotVote, didNotVoteDelta, current.didNotVotePct, current.didNotVotePct - previous.didNotVotePct)}
+            ${this.renderSelectedPartySummaryRow('Electorate', null, null, current.electorate, electorateDelta, 100, 0)}
           </tbody>
         </table>
       </div>
     `;
+  }
+
+  buildMainStyleConstituencyPartyRows(result = {}, fallbackCandidates = []) {
+    const countGroup = Array.isArray(result?.countGroup) ? result.countGroup : [];
+    const countInfo = result?.countInfo || {};
+    const validPoll = numberOrZero(countInfo.Valid_Poll ?? result?.validPoll);
+    const totalPoll = numberOrZero(countInfo.Total_Poll ?? result?.totalPoll);
+    const electorate = numberOrZero(countInfo.Total_Electorate ?? result?.electorate);
+    const spoiled = numberOrZero(countInfo.Spoiled ?? result?.spoiled);
+    const didNotVote = electorate ? Math.max(0, electorate - totalPoll) : 0;
+    const partyMap = new Map();
+    const seenCandidates = new Set();
+    const electedCandidates = new Set();
+    const candidateFinalById = new Map();
+    const candidateMetaById = new Map();
+    const rows = countGroup.length ? countGroup : fallbackCandidates.map((candidate, index) => ({
+      Candidate_Id: candidate.id || candidate.candidateId || String(index + 1),
+      Count_Number: '1',
+      Party_Name: candidate.party || 'Independent/Other',
+      Party_Colour: candidate.colour || electionPartyColour(candidate.party) || partyColour(candidate.party),
+      Status: candidate.elected ? 'Elected' : candidate.status || '',
+      Total_Votes: candidate.firstPrefs ?? candidate.votes ?? 0
+    }));
+    for (const row of rows) {
+      if (!isMainStyleCandidateRow(row)) continue;
+      const party = normalizeParty(row.Party_Name) || 'Independent/Other';
+      const candidateId = String(row.Candidate_Id || '');
+      const totalVotes = numberOrZero(row.Total_Votes);
+      const countNumber = parseInt(row.Count_Number, 10) || 1;
+      if (!partyMap.has(party)) {
+        partyMap.set(party, {
+          party,
+          colour: row.Party_Colour || electionPartyColour(party) || partyColour(party),
+          stood: 0,
+          seats: 0,
+          firstPrefs: 0,
+          pct: 0
+        });
+      }
+      if (!candidateMetaById.has(candidateId)) candidateMetaById.set(candidateId, { party, excluded: false });
+      if (countNumber === 1 && !seenCandidates.has(candidateId)) {
+        seenCandidates.add(candidateId);
+        const totals = partyMap.get(party);
+        totals.firstPrefs += totalVotes;
+        totals.stood += 1;
+      }
+      if (!candidateFinalById.has(candidateId) || totalVotes > numberOrZero(candidateFinalById.get(candidateId)?.votes)) {
+        candidateFinalById.set(candidateId, { party, votes: totalVotes });
+      }
+      const status = String(row.Status || '').toLowerCase();
+      if (status.includes('excluded')) candidateMetaById.get(candidateId).excluded = true;
+      if ((status.includes('elected') || status.includes('quota')) && !status.includes('not elected') && !electedCandidates.has(candidateId)) {
+        electedCandidates.add(candidateId);
+        partyMap.get(party).seats += 1;
+      }
+    }
+    const seatCount = numberOrZero(countInfo.Number_Of_Seats ?? result?.seatsTotal ?? result?.seatsWon);
+    if (seatCount > 0 && electedCandidates.size < seatCount) {
+      [...candidateFinalById.entries()]
+        .filter(([candidateId]) => !electedCandidates.has(candidateId) && !candidateMetaById.get(candidateId)?.excluded)
+        .sort((a, b) => numberOrZero(b[1]?.votes) - numberOrZero(a[1]?.votes))
+        .slice(0, seatCount - electedCandidates.size)
+        .forEach(([candidateId, data]) => {
+          electedCandidates.add(candidateId);
+          if (partyMap.has(data.party)) partyMap.get(data.party).seats += 1;
+        });
+    }
+    const outputRows = [...partyMap.values()].map((row) => ({
+      ...row,
+      pct: validPoll > 0 ? (row.firstPrefs / validPoll * 100) : 0
+    }));
+    const totalStood = outputRows.reduce((sum, row) => sum + numberOrZero(row.stood), 0);
+    const totalElected = outputRows.reduce((sum, row) => sum + numberOrZero(row.seats), 0);
+    return {
+      rows: outputRows,
+      validPoll,
+      totalPoll,
+      electorate,
+      spoiled,
+      didNotVote,
+      turnoutPct: electorate > 0 ? (totalPoll / electorate * 100) : 0,
+      validPct: electorate > 0 ? (validPoll / electorate * 100) : 0,
+      spoiledPct: electorate > 0 ? (spoiled / electorate * 100) : 0,
+      didNotVotePct: electorate > 0 ? (didNotVote / electorate * 100) : 0,
+      totalStood,
+      totalElected
+    };
+  }
+
+  findPreviousSelectedResult(result = {}) {
+    const keys = new Set(resultKeys(result));
+    if (!keys.size) return null;
+    return (this.previousBundle?.results || []).find((candidate) => resultKeys(candidate).some((key) => keys.has(key))) || null;
+  }
+
+  renderSelectedPartySummaryRow(label, stoodValue, electedValue, voteValue, voteDelta, pctValue, pctDelta) {
+    return `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>${escapeHtml(label)}</strong></td><td class="election-num">${stoodValue === null || stoodValue === undefined ? '-' : formatNumber(stoodValue)}</td><td class="election-num">${stoodValue === null || stoodValue === undefined ? '-' : formatMainDelta(0)}</td><td class="election-num">${electedValue === null || electedValue === undefined ? '-' : formatNumber(electedValue)}</td><td class="election-num">${electedValue === null || electedValue === undefined ? '-' : formatMainDelta(0)}</td><td class="election-num election-cell-strong">${voteValue ? formatNumber(voteValue) : '-'}</td><td class="election-num">${formatMainDelta(voteDelta)}</td><td class="election-num election-cell-strong">${Number.isFinite(Number(pctValue)) ? formatFixedPercent(pctValue) : '-'}</td><td class="election-num">${formatMainPercentDelta(pctDelta)}</td></tr>`;
   }
 
   renderMainParityLeafTh(label, index) {
@@ -2709,6 +2822,14 @@ function resultKeys(result) {
     result.constituency,
     ...(result.featureAliases || [])
   ].map(normalizeName).filter(Boolean);
+}
+
+function isMainStyleCandidateRow(row = {}) {
+  const candidateId = String(row.Candidate_Id || '').trim();
+  if (!candidateId || candidateId.toLowerCase() === 'nontransferable') return false;
+  const party = String(row.Party_Name || '').trim().toLowerCase();
+  if (party === 'party') return false;
+  return true;
 }
 
 function sumNumbers(results, key) {

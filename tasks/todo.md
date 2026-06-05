@@ -3899,3 +3899,27 @@ Add election entries to /test2
   - Compared main `js/election-controller.js` selected party table path with `/test2` selected constituency rendering in `test2/src/election-manager.js`.
 - [x] Explain findings
   - Explained that this is now a selected-result table contract/data-model mismatch, not a URL state mismatch.
+
+# Structural main-runtime parity refactor for /test2
+- [x] Plan and scope
+  - Goal: make `/test2` use main-site shell/catalogue/election pane/domain rendering as the canonical runtime wherever feasible, while keeping MapLibre-specific code confined to map loading, feature querying, styling, and selection adapters.
+  - Constraints: do not amend the production main route behavior; do not stage unrelated Browse/generated dirty files; preserve `/test2` MapLibre/vector-tile architecture.
+  - Recurring issue: piecemeal "similar" election rendering keeps drifting from main. Permanent prevention is shared canonical rendering plus DOM/state parity checks.
+- [x] Inspect main/test2 seams
+  - Identify where main election pane rendering depends on Leaflet/map objects versus pure result payloads.
+  - Identify where `/test2` currently routes selected-result party/count/transfer panes through parallel renderers.
+- [x] Implement shared renderer adapter
+  - Route `/test2` election pane states through shared/main-compatible election rendering where feasible.
+  - Keep MapLibre differences limited to selected-feature/result lookup and map overlays.
+- [x] Add parity guardrails
+  - Add selected Roscommon Galway 2024 `By Party` checks for headers, row order, and values.
+  - Add regression check that `/test2` does not use overall grouped headers in selected constituency `By Party` mode.
+- [x] Verify
+  - Run syntax checks, `/test2` route checks, builds, and local browser/DOM smoke tests.
+- [ ] Commit and push
+  - Commit and push only verified `/test2` structural parity changes and task/lesson updates.
+- Review:
+  - Completed: changed `/test2` selected constituency/DEA `By Party` rendering from a simplified grouped candidate-summary aggregate to a main-style flat selected-party table derived from the same `countGroup` shape used by the main election controller.
+  - Completed: added previous-election matching for selected results so selected-party deltas are calculated from the matching previous constituency/DEA result.
+  - Completed: added route validation that fails if selected-party panes reuse the overall grouped headers.
+  - Verification evidence: `node --check test2/src/election-manager.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2` after approved esbuild spawn escalation, targeted renderer contract smoke, and `npm run check` passed.
