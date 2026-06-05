@@ -854,9 +854,9 @@ export class Test2ElectionManager {
       if (!candidateFinalById.has(candidateId) || totalVotes > numberOrZero(candidateFinalById.get(candidateId)?.votes)) {
         candidateFinalById.set(candidateId, { party, votes: totalVotes });
       }
-      const status = String(row.Status || '').toLowerCase();
-      if (status.includes('excluded')) candidateMetaById.get(candidateId).excluded = true;
-      if ((status.includes('elected') || status.includes('quota')) && !status.includes('not elected') && !electedCandidates.has(candidateId)) {
+      const status = selectedPaneStatusKind(row.Status);
+      if (status === 'excluded') candidateMetaById.get(candidateId).excluded = true;
+      if (status === 'elected' && !electedCandidates.has(candidateId)) {
         electedCandidates.add(candidateId);
         partyMap.get(party).seats += 1;
       }
@@ -2830,6 +2830,15 @@ function isMainStyleCandidateRow(row = {}) {
   const party = String(row.Party_Name || '').trim().toLowerCase();
   if (party === 'party') return false;
   return true;
+}
+
+function selectedPaneStatusKind(status) {
+  const text = String(status || '').toLowerCase();
+  if (!text) return 'unknown';
+  if (text.includes('not elected')) return 'not_elected';
+  if (text.includes('excluded')) return 'excluded';
+  if (text.includes('elected')) return 'elected';
+  return 'unknown';
 }
 
 function sumNumbers(results, key) {

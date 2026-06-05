@@ -23,6 +23,15 @@ function assert(condition, message) {
   if (!condition) failures.push(message);
 }
 
+function mainSelectedPaneStatusKind(status) {
+  const text = String(status || '').toLowerCase();
+  if (!text) return 'unknown';
+  if (text.includes('not elected')) return 'not_elected';
+  if (text.includes('excluded')) return 'excluded';
+  if (text.includes('elected')) return 'elected';
+  return 'unknown';
+}
+
 assert(index.includes('<base href="/">'), '/test2 must keep root-relative production assets via <base href="/">');
 assert(index.includes('/test2/build/test2.bundle.js'), '/test2 must load its own MapLibre bundle');
 assert(index.includes('/test2/build/test2.bundle.css'), '/test2 must load its own MapLibre CSS bundle');
@@ -133,7 +142,7 @@ assert(electionRendererSource.includes('renderMainCompatibleOverallResults') && 
 assert(electionManagerSource.includes('createElectionRenderer(this)') && electionManagerSource.includes('this.sharedRenderer'), '/test2 must keep shared election renderer available for secondary fallback views');
 assert(mainElectionPaneContractSource.includes('class MainElectionPaneContract') && mainElectionPaneContractSource.includes('renderHeaderRight') && mainElectionPaneContractSource.includes('renderPanelContent'), '/test2 must expose an explicit shared main election pane contract for visible pane parity');
 assert(electionPaneContractSource.includes('MainElectionPaneContract as Test2MainElectionPaneContract') && electionPaneContractSource.includes('../../js/election-main-pane-contract.mjs'), '/test2 local election pane contract must re-export the shared main election pane contract');
-assert(mainElectionPaneContractSource.includes('data-election-renderer="main-pane-contract"'), '/test2 main election pane contract must stamp visible pane output for parity tests');
+assert(mainElectionPaneContractSource.includes("this.rendererId = host?.paneRendererId || 'test2-main-pane-contract'") && mainElectionPaneContractSource.includes('data-election-renderer="${escapeHtml(this.rendererId)}"'), '/test2 main election pane contract must stamp visible pane output with the test2 parity renderer id');
 assert(electionManagerSource.includes('this.mainPaneContract = new MainElectionPaneContract(this)') && electionManagerSource.includes('this.mainPaneContract.renderHeaderRight(selectedResult, nextView)') && electionManagerSource.includes('this.mainPaneContract.renderPanelContent(selectedResult, nextView)'), '/test2 visible election pane header/content must enter through the shared main-pane contract');
 assert(electionManagerSource.includes("renderOverallResults(view = 'party') {\n    return this.mainPaneContract.renderOverallResults(view);") && electionManagerSource.includes("renderConstituencyResults(result, view = 'party') {\n    return this.mainPaneContract.renderConstituencyResults(result, view);"), '/test2 visible election pane helpers must delegate to the main-pane contract, not bypass it with route-specific branches');
 assert(electionManagerSource.includes('renderMainCompatibleOverallResults') && electionManagerSource.includes('renderMainCompatibleConstituencyResults') && electionManagerSource.includes('return this.mainPaneContract.renderOverallResults(view);') && electionManagerSource.includes('return this.mainPaneContract.renderConstituencyResults(result, view);'), '/test2 must expose main-compatible shared-renderer host adapters backed by the main-pane contract');
@@ -145,6 +154,13 @@ const selectedPartySource = selectedPartyStart >= 0 && selectedPartyEnd > select
   : '';
 assert(selectedPartySource.includes('election-results-table--constituency-party') && selectedPartySource.includes('data-sort-key="stood"') && selectedPartySource.includes('data-sort-key="elected"') && selectedPartySource.includes('data-sort-key="firstPrefs"') && selectedPartySource.includes('No change in party control'), '/test2 selected constituency/DEA party panes must use the main flat selected-party table contract');
 assert(!selectedPartySource.includes('<th colspan="2">Candidates</th>') && !selectedPartySource.includes('<th colspan="2">Seats</th>') && !selectedPartySource.includes('<th colspan="4">1st preferences</th>'), '/test2 selected constituency/DEA party panes must not reuse the overall grouped party table headers');
+assert(selectedPartySource.includes('selectedPaneStatusKind(row.Status)') && !selectedPartySource.includes("status.includes('quota')") && !selectedPartySource.includes('status.includes("quota")'), '/test2 selected constituency/DEA party panes must use main selected-pane status semantics and must not count quota-only statuses as directly elected');
+const selectedPaneStatusStart = electionManagerSource.indexOf('function selectedPaneStatusKind(status)');
+const selectedPaneStatusEnd = electionManagerSource.indexOf('\nfunction sumNumbers', selectedPaneStatusStart);
+const selectedPaneStatusSource = selectedPaneStatusStart >= 0 && selectedPaneStatusEnd > selectedPaneStatusStart
+  ? electionManagerSource.slice(selectedPaneStatusStart, selectedPaneStatusEnd)
+  : '';
+assert(selectedPaneStatusSource.includes("text.includes('not elected')") && selectedPaneStatusSource.includes("text.includes('excluded')") && selectedPaneStatusSource.includes("text.includes('elected')") && !selectedPaneStatusSource.includes('quota'), '/test2 selected-pane status helper must mirror main _statusKind ordering without broad quota normalization');
 assert(electionManagerSource.includes('buildMainStyleConstituencyPartyRows') && electionManagerSource.includes('result?.countGroup') && electionManagerSource.includes('findPreviousSelectedResult'), '/test2 selected constituency/DEA party panes must derive rows from the main-shaped countGroup payload and previous-election result');
 assert(electionManagerSource.includes('renderConstituencyCandidateTable') && electionManagerSource.includes('election-party-table--candidate-sticky3'), '/test2 candidate panes must use the main grouped candidate-table contract');
 assert(electionManagerSource.includes('renderLocalPartySummaryTable') && electionManagerSource.includes('election-party-table--district-local-party-sticky4'), '/test2 local-party panes must use the main grouped local-party table contract');
@@ -230,6 +246,13 @@ if (existsSync('test/metadata/elections-test2.json')) {
   const dail2024MayoAnimationRows = dail2024Mayo?.animationPayload?.Constituency?.countGroup || [];
   assert(dail2024MayoAnimationRows.some((row) => Number(row.Count_Number) > 1), '/test2 Dail 2024 Mayo must carry the main-style synthetic transfer animation payload');
   assert(dail2024Mayo?.syntheticCountGroup === true, '/test2 Dail 2024 Mayo must mark scraper-derived count rows as synthetic so Count pane output stays main-compatible');
+  const dail2024RoscommonGalway = (dail2024Bundle.results || []).find((result) => String(result.constituency || '').toLowerCase() === 'roscommon galway');
+  const roscommonGalwayCountRows = dail2024RoscommonGalway?.countGroup || [];
+  const roscommonGalwayMadeQuotaRows = roscommonGalwayCountRows.filter((row) => /quota/i.test(String(row.Status || '')));
+  assert(roscommonGalwayMadeQuotaRows.length >= 2, '/test2 Dail 2024 Roscommon Galway must retain the quota-status rows used by the screenshot parity guard');
+  assert(roscommonGalwayMadeQuotaRows.every((row) => mainSelectedPaneStatusKind(row.Status) !== 'elected'), '/test2 selected-pane status guard must keep Dail 2024 Roscommon Galway Made Quota rows out of the direct elected set');
+  assert(roscommonGalwayCountRows.some((row) => String(row.Party_Name || '') === 'Independent Ireland' && Number(row.Count_Number) === 1 && Number(row.Total_Votes) === 12002), '/test2 Dail 2024 Roscommon Galway must retain main-compatible first-count Independent Ireland row data');
+  assert(roscommonGalwayCountRows.some((row) => String(row.Party_Name || '') === 'Sinn Féin' && Number(row.Count_Number) > 1 && Number(row.Total_Votes) === 8039), '/test2 Dail 2024 Roscommon Galway must retain later-count Sinn Fein quota row data without turning it into first preferences');
   const forumEntry = (electionManifest.elections || []).find((entry) => entry.body === 'Northern Ireland Forum for Political Dialogue' && entry.date === '1996-05-30');
   assert(forumEntry?.matchedCount === forumEntry?.totalConstituencies, '/test2 1996 Forum election must include the NI-wide regional-list result via a synthetic anchor');
   const localEntries = (electionManifest.elections || []).filter((entry) => entry.bodyGroup === 'local-government');

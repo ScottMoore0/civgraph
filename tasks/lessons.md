@@ -1940,3 +1940,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) set the default representative smoke threshold from observed CI behaviour, not only local workstation timings,
   3) when a smoke failure reports successful render plus a small timing overrun, distinguish performance-budget tuning from functional layer failure,
   4) keep the large-layer representative in the suite, but give it a budget that avoids flaky failures on slower hosted runners.
+
+### 146) Test2 election pane parity must use main pane semantics, not generally better normalized semantics
+- Mistake pattern: Using a shared helper that normalizes election status values more broadly than the main selected election pane does.
+- Impact: `/test2` can show internally sensible results, but still diverge from main visually and numerically for the same selected constituency, such as treating `Made Quota` rows as elected in a selected party table when main does not.
+- Guardrail:
+  1) selected election pane rendering should use main-pane-specific status rules, even where MapLibre overlays use richer election-domain extraction,
+  2) validation must include named screenshot cases, not only generic table class/header checks,
+  3) when a user reports visual parity drift, inspect row-level data and rendered DOM before making further CSS changes,
+  4) keep MapLibre-specific differences confined to map drawing and feature selection, not the election pane's view-model semantics.
