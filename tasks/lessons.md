@@ -1922,3 +1922,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   4) browser smoke tests must exercise production-deployable PMTiles/CDN sources, not force local directory-MVT fallbacks that are removed by Pages cleanup,
   5) mobile/browser smoke defaults must be CI-bounded, with exhaustive all-layer runs behind an explicit opt-in env var,
   6) add a validation check for the failing command path before committing the fix.
+
+### 144) Test builds must produce every asset their smoke page references
+- Mistake pattern: Letting `/test/index.html` reference generated production shell CSS while `build:test` only generated the `/test` bundle.
+- Impact: Local verification passed because `build/main.critical.css` and `build/main.css` happened to exist from earlier production builds, but a clean CI checkout 404ed those files and failed the mobile smoke job.
+- Guardrail:
+  1) any route-specific build used by CI must generate every same-origin asset referenced by its smoke-test HTML,
+  2) clean-checkout assumptions should be preferred over local worktree assumptions when debugging CI failures,
+  3) smoke tests should log failed response URLs and status codes, not only generic browser console text,
+  4) if a route intentionally shares main-shell assets, its route build should either generate those assets or the CI workflow should explicitly run the shared asset build first.

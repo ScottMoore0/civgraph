@@ -31,6 +31,7 @@ const server = createStaticServer();
 await new Promise((resolveListen) => server.listen(PORT, '127.0.0.1', resolveListen));
 
 const consoleErrors = [];
+const failedResponses = [];
 const layerResults = [];
 let browser;
 try {
@@ -43,6 +44,14 @@ try {
   });
   page.on('console', (message) => {
     if (message.type() === 'error') consoleErrors.push(message.text());
+  });
+  page.on('response', (response) => {
+    if (response.status() >= 400) {
+      failedResponses.push({
+        status: response.status(),
+        url: response.url()
+      });
+    }
   });
   await page.goto(`http://127.0.0.1:${PORT}/test/index.html`, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length, null, { timeout: 30000 });
@@ -112,11 +121,13 @@ const report = {
   totalDurationMs: typeof totalDurationMs === 'number' ? totalDurationMs : null,
   layerResults,
   consoleErrors,
+  failedResponses,
   pass: layerResults.length > 0
     && layerResults.every((result) => result.durationMs < MAX_LAYER_MS)
     && layerResults.every((result) => !String(result.status || '').includes('timeout'))
     && (typeof totalDurationMs !== 'number' || totalDurationMs < MAX_TOTAL_MS)
     && consoleErrors.length === 0
+    && failedResponses.length === 0
 };
 
 writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
@@ -127,6 +138,10 @@ for (const result of layerResults) {
 if (consoleErrors.length) {
   console.log('\nConsole errors:');
   for (const error of consoleErrors) console.log(`- ${error}`);
+}
+if (failedResponses.length) {
+  console.log('\nFailed responses:');
+  for (const response of failedResponses) console.log(`- ${response.status} ${response.url}`);
 }
 console.log(`Wrote ${REPORT_PATH.replace(`${ROOT}\\`, '').replaceAll('\\', '/')}`);
 if (!report.pass) process.exit(1);
