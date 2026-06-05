@@ -3830,3 +3830,19 @@ Add election entries to /test2
   - Completed: updated `scripts/validate-test2-route.mjs` so `check:test2` enforces the shared contract path instead of checking stale local-wrapper strings.
   - Verification evidence: `node --check js/election-main-pane-contract.mjs`, `node --check test2/src/election-manager.js`, `node --check test2/src/election-pane-main-contract.js`, and `node --check scripts/validate-test2-route.mjs` passed; `npm run check:test2` passed; `npm run check` passed; `npm run build:test2` passed after approved esbuild spawn escalation.
   - Remaining constraint: this is a structural shared-contract step, not a literal wholesale extraction of every private method from `js/election-controller.js`; MapLibre selection/drawing remains in `/test2`, and exact transfer-animation/count-data parity still depends on the available generated election sidecars.
+
+# Restore test2 election transfer animation parity
+- [x] Record correction
+  - Symptom: The main site shows a Transfers pane for Dáil 2024 Mayo, but `/test2` shows `No transfer animation data is available for this entry.`
+  - Root cause: `/test2` still returned the simplified shared animation notice before its real animation branch could run, and the generated summary treated ElectionsIreland-style scraper payloads as candidate-only data instead of normalising them into the main controller's synthetic count payload.
+  - Permanent prevention action: normalise generated election results through the same main-shaped animation payload contract and add a `check:test2` assertion for the exact Dáil 2024 Mayo transfer case.
+- [x] Mirror main synthetic transfer payloads
+  - Ensure scraper-style result JSON is converted into `{ Constituency: { countInfo, countGroup } }` for animation use, including synthetic count stages from `final_count`.
+- [x] Wire test2 Transfers tab to the main animation scaffold
+  - Remove the early no-data fallback and auto-run `stages2.js` when the Transfers tab is rendered.
+- [x] Verify and document
+  - Rebuild election bundles, rebuild `/test2`, run route checks, and smoke-test the Mayo Transfers tab.
+  - Completed: changed `summarizeResult()` so scraper-style election result files are normalized through the same main-shaped synthetic count payload used by the production election controller.
+  - Completed: removed the `/test2` Transfers-tab early fallback and made the tab auto-run `stages2.js` against the generated animation payload.
+  - Completed: added a `check:test2` guardrail asserting Dáil 2024 Mayo carries a multi-stage animation payload.
+  - Verification evidence: `node --check js/election-domain.mjs`, `node --check test2/src/election-manager.js`, and `node --check scripts/validate-test2-route.mjs` passed; `npm run build:test2:elections` passed; generated Dáil 2024 Mayo has `hasCountDetail: true`, count stages `1-5`, and 16 animation rows; `npm run check:test2` passed; local Playwright smoke for explicit Dáil 2024 Mayo `/test2` election state showed active tab `Transfers`, no no-data fallback, visible animation container, stage numbers `12345`, and 59 animation children; `npm run check` passed; `npm run build:test2` and `npm run build` passed after approved esbuild spawn escalation.

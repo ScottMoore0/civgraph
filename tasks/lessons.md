@@ -1866,3 +1866,21 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) make `/test2` instantiate the shared contract directly and keep the local file as a compatibility re-export only,
   3) make `check:test2` inspect the shared source and the test2 instantiation path,
   4) remove route-specific selected-result chrome unless it is explicitly present in main's public pane.
+
+### 142) Commit and push should be the default completion step
+- Mistake pattern: Waiting for a separate explicit commit/push request after completing and verifying non-sensitive site changes.
+- Impact: The user sees local fixes described as complete but not live, adding avoidable back-and-forth and delaying production verification.
+- Guardrail:
+  1) after verified non-sensitive changes, stage the relevant files, commit, and push without waiting for a separate instruction,
+  2) do not commit or push private, sensitive, secret, credential, or clearly unrelated local changes,
+  3) obey any explicit user instruction not to commit/push for a specific task,
+  4) report the commit hash and push result in the final response.
+
+### 141) Election transfer parity requires the main animation payload contract
+- Mistake pattern: Treating visible election pane sharing as sufficient while leaving `/test2` with a simplified transfer-animation data path.
+- Impact: The tab chrome can look close to main, but the Transfers tab still displays a no-data message because `stages2.js` needs a main-shaped `{ Constituency: { countInfo, countGroup } }` payload.
+- Guardrail:
+  1) generated `/test2` election bundles must carry the main animation payload shape for every result that main would animate,
+  2) scraper-style result files must be normalised into the same synthetic count payload main uses, not passed through raw,
+  3) `/test2` must auto-run the persistent animation scaffold when the Transfers tab is selected,
+  4) `check:test2` must assert a known screenshot case, Dáil 2024 Mayo, has a multi-stage animation payload.

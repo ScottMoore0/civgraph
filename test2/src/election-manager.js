@@ -508,6 +508,9 @@ export class Test2ElectionManager {
         if (result) this.runAnimation(result);
       });
     });
+    if (selectedResult && nextView === 'animation' && this.resultHasAnimation(selectedResult)) {
+      window.requestAnimationFrame(() => this.runAnimation(selectedResult));
+    }
     this.renderLegend();
     this.setupResultsTableControls(pane);
   }
@@ -1843,36 +1846,26 @@ export class Test2ElectionManager {
   }
 
   renderAnimationNotice(result) {
-    return this.sharedRenderer.renderAnimationNotice(result);
     if (result.hasCountDetail && result.animationPayload) {
-      const key = normalizeName(result.matchName || result.constituency || '');
       return `
         <div class="test2-election-animation-ready">
-          <div class="election-animation-actions">
-            <button type="button" class="btn btn-primary" data-election-animation="${escapeHtml(key)}">Run transfer animation</button>
-          </div>
-          <div id="test2ElectionAnimationStatus" class="election-no-data" aria-live="polite"></div>
+          <div id="test2ElectionAnimationStatus" class="election-no-data" aria-live="polite">Loading transfer animation...</div>
           <div id="electionAnimationContainer" class="election-animation-container" style="display:none;">
-            <div id="menuBar">
-              <div id="controls">
-                <a href="#" id="again" title="Restart"><i class="fa fa-backward"></i></a>
-                <a href="#" id="pause-replay" class="fa fa-pause" title="Play/Pause"></a>
-                <a href="#" id="step" title="Step"><i class="fa fa-forward"></i></a>
+            <div class="ev-animation-top-row">
+              <div class="ev-animation-controls">
+                <i id="pause-replay" class="fa fa-pause" title="Pause / Replay"></i>
               </div>
               <div id="stageNumbers"></div>
-              <div id="quota"></div>
-              <div style="clear:both;"></div>
-              <div style="float:right; font-size:14px; color:#888;">Seats: <span id="seats-span"></span></div>
             </div>
-            <div id="animation"></div>
+            <div id="quota"></div>
+            <div id="animation" class="ev-animation-stage"></div>
             <div id="count_matrix"></div>
             <div id="transfers"></div>
-            <div id="transfers_constituency"></div>
           </div>
         </div>
       `;
     }
-    return '<p class="election-no-data">No transfer animation data is available for this entry.</p>';
+    return this.sharedRenderer.renderAnimationNotice(result);
   }
 
   runAnimation(result) {

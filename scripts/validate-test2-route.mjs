@@ -217,6 +217,9 @@ if (existsSync('test/metadata/elections-test2.json')) {
   assert(dail2024Rows[0]?.party === 'Fine Gael' && dail2024Rows[0]?.stood === 11 && dail2024Rows[0]?.seats === 42 && dail2024Rows[0]?.votes === 108352, '/test2 Dail 2024 bundle must preserve the main-controller party summary contract for the screenshot parity state');
   assert(dail2024Bundle.mainLikeTotals?.validPoll === 412346, '/test2 Dail 2024 bundle must preserve the main-controller valid-poll denominator for the screenshot parity state');
   assert(dail2024Bundle.mainLikeTotals?.totalSeats === 0, '/test2 Dail 2024 bundle must preserve the main-controller seat-total denominator for the screenshot parity state');
+  const dail2024Mayo = (dail2024Bundle.results || []).find((result) => String(result.constituency || '').toLowerCase() === 'mayo');
+  const dail2024MayoAnimationRows = dail2024Mayo?.animationPayload?.Constituency?.countGroup || [];
+  assert(dail2024MayoAnimationRows.some((row) => Number(row.Count_Number) > 1), '/test2 Dail 2024 Mayo must carry the main-style synthetic transfer animation payload');
   const forumEntry = (electionManifest.elections || []).find((entry) => entry.body === 'Northern Ireland Forum for Political Dialogue' && entry.date === '1996-05-30');
   assert(forumEntry?.matchedCount === forumEntry?.totalConstituencies, '/test2 1996 Forum election must include the NI-wide regional-list result via a synthetic anchor');
   const localEntries = (electionManifest.elections || []).filter((entry) => entry.bodyGroup === 'local-government');

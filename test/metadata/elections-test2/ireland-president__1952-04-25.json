@@ -30,16 +30,17 @@
   "availableStyleModes": [
     "winner",
     "leadingParty",
+    "voteShare",
     "seats"
   ],
   "partySummary": [
     {
-      "party": "Fianna Fáil Lozenge",
+      "party": "Fianna Fáil",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
-      "colour": "#6b7280",
-      "share": null
+      "votes": 1,
+      "colour": "#66bb66",
+      "share": 100
     }
   ],
   "mainLikePartySummary": [
@@ -93,13 +94,13 @@
     "validPoll": 1
   },
   "entityIndex": {
-    "totalValid": 0,
+    "totalValid": 1,
     "parties": [
       {
-        "name": "Fianna Fáil Lozenge",
-        "colour": "#6b7280",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "name": "Fianna Fáil",
+        "colour": "#66bb66",
+        "firstPrefs": 1,
+        "finalVotes": 1,
         "stood": 1,
         "elected": 1,
         "constituencies": [
@@ -107,25 +108,25 @@
         ],
         "candidates": [
           {
-            "personId": "Seán T O'Kelly|Fianna Fáil Lozenge",
+            "personId": "1",
             "name": "Seán T O'Kelly",
             "constituency": "Ireland",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 1,
+            "finalVotes": 1,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 100
       }
     ],
     "candidates": [
       {
-        "personId": "Seán T O'Kelly|Fianna Fáil Lozenge",
+        "personId": "1",
         "name": "Seán T O'Kelly",
-        "party": "Fianna Fáil Lozenge",
-        "colour": "#6b7280",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "party": "Fianna Fáil",
+        "colour": "#66bb66",
+        "firstPrefs": 1,
+        "finalVotes": 1,
         "electedCount": 1,
         "constituencies": [
           "Ireland"
@@ -133,24 +134,24 @@
         "appearances": [
           {
             "constituency": "Ireland",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 1,
+            "finalVotes": 1,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 100
       }
     ]
   },
   "results": [
     {
       "constituency": "Ireland",
-      "winnerParty": "Fianna Fáil Lozenge",
+      "winnerParty": "Fianna Fáil",
       "winnerName": "Seán T O'Kelly",
-      "leadingParty": "Fianna Fáil Lozenge",
+      "leadingParty": "Fianna Fáil",
       "leadingName": "Seán T O'Kelly",
-      "leadingVotes": null,
-      "leadingPct": null,
+      "leadingVotes": 1,
+      "leadingPct": 100,
       "turnoutPct": null,
       "majority": null,
       "majorityPct": null,
@@ -160,60 +161,85 @@
       "electorate": null,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
-      "colour": "#6b7280",
-      "leadingColour": "#6b7280",
+      "validPoll": 1,
+      "totalVotes": 1,
+      "colour": "#66bb66",
+      "leadingColour": "#66bb66",
       "candidates": [
         {
-          "id": "Seán T O'Kelly|Fianna Fáil Lozenge",
+          "id": "1",
           "name": "Seán T O'Kelly",
-          "party": "Fianna Fáil Lozenge",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "party": "Fianna Fáil",
+          "firstPrefs": 1,
+          "finalVotes": 1,
           "elected": true,
           "electedAt": 1,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
-          "colour": "#6b7280",
+          "colour": "#66bb66",
           "counts": [
             {
               "count": 1,
-              "total": null,
-              "transfers": null,
+              "total": 1,
+              "transfers": 0,
               "status": "Made Quota",
-              "firstPrefs": null
+              "firstPrefs": 1
             }
           ]
         }
       ],
       "elected": [
         {
-          "id": "Seán T O'Kelly|Fianna Fáil Lozenge",
+          "id": "1",
           "name": "Seán T O'Kelly",
-          "party": "Fianna Fáil Lozenge",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "party": "Fianna Fáil",
+          "firstPrefs": 1,
+          "finalVotes": 1,
           "elected": true,
           "electedAt": 1,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
-          "colour": "#6b7280",
+          "colour": "#66bb66",
           "counts": [
             {
               "count": 1,
-              "total": null,
-              "transfers": null,
+              "total": 1,
+              "transfers": 0,
               "status": "Made Quota",
-              "firstPrefs": null
+              "firstPrefs": 1
             }
           ]
         }
       ],
-      "countInfo": {},
-      "countGroup": [],
+      "countInfo": {
+        "Constituency_Name": "Ireland",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_Id": "1",
+          "Candidate_First_Pref_Votes": "1",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Seán",
+          "Surname": "T O'Kelly",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#66bb66",
+          "Party_Name": "Fianna Fáil",
+          "Status": "Made Quota",
+          "Total_Votes": "1",
+          "Transfers": "0",
+          "candidateName": "Seán T O'Kelly",
+          "id": 0
+        }
+      ],
       "nonTransferable": [],
       "forum": null,
       "countNumbers": [
@@ -221,25 +247,35 @@
       ],
       "hasCountDetail": false,
       "animationPayload": {
-        "body": "President of Ireland",
-        "year": 1952,
-        "date": null,
-        "election_id": "1952P",
-        "title": "ElectionsIreland.org: 1952 Presidential - Ireland First Preference Votes",
-        "candidates": [
-          {
-            "name": "Seán T O'Kelly",
-            "party": " Fianna Fáil Lozenge",
-            "counts": [
-              1,
-              1
-            ],
-            "status": "Made Quota"
-          }
-        ],
-        "meta": {},
-        "source_url": "https://electionsireland.org/result.cfm?election=1952P&cons=194",
-        "constituency": "Ireland"
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Ireland",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_Id": "1",
+              "Candidate_First_Pref_Votes": "1",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Seán",
+              "Surname": "T O'Kelly",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#66bb66",
+              "Party_Name": "Fianna Fáil",
+              "Status": "Made Quota",
+              "Total_Votes": "1",
+              "Transfers": "0",
+              "candidateName": "Seán T O'Kelly",
+              "id": 0
+            }
+          ]
+        }
       },
       "localBody": null,
       "sourceFile": "election-viewer-package/data/elections/ireland-president/1952-04-25/ireland.json",

@@ -547,7 +547,8 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
 }
 
 export function summarizeResult(raw, fallbackConstituency) {
-  const source = raw?.Constituency || raw || {};
+  const mainPayload = normalizeScraperPayloadForMain(raw, fallbackConstituency);
+  const source = mainPayload?.Constituency || raw?.Constituency || raw || {};
   const info = source.countInfo || raw?.meta || raw?.metaData || {};
   const forumRows = Array.isArray(source.forum?.rows) ? source.forum.rows : null;
   const rows = forumRows || source.countGroup || raw?.candidates || [];
@@ -606,7 +607,7 @@ export function summarizeResult(raw, fallbackConstituency) {
     countNumbers,
     ...(recallPetition ? { recallPetition } : {}),
     hasCountDetail: countNumbers.length > 1 || candidates.some((candidate) => (candidate.counts || []).length > 1),
-    animationPayload: raw || null
+    animationPayload: mainPayload || raw || null
   };
 }
 

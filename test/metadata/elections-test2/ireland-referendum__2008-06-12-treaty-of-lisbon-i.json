@@ -151,7 +151,7 @@
         ],
         "candidates": [
           {
-            "personId": "No|No",
+            "personId": "2",
             "name": "No",
             "constituency": "Ireland",
             "firstPref": 0,
@@ -173,7 +173,7 @@
         ],
         "candidates": [
           {
-            "personId": "Yes|Yes",
+            "personId": "1",
             "name": "Yes",
             "constituency": "Ireland",
             "firstPref": 0,
@@ -186,7 +186,7 @@
     ],
     "candidates": [
       {
-        "personId": "No|No",
+        "personId": "2",
         "name": "No",
         "party": "No",
         "colour": "#d46a4c",
@@ -207,7 +207,7 @@
         "shareOfTotal": null
       },
       {
-        "personId": "Yes|Yes",
+        "personId": "1",
         "name": "Yes",
         "party": "Yes",
         "colour": "#2aa82c",
@@ -253,11 +253,11 @@
       "leadingColour": "#2aa82c",
       "candidates": [
         {
-          "id": "Yes|Yes",
+          "id": "1",
           "name": "Yes",
           "party": "Yes",
           "firstPrefs": 0,
-          "finalVotes": null,
+          "finalVotes": 0,
           "elected": false,
           "electedAt": null,
           "excluded": false,
@@ -267,30 +267,30 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
-              "transfers": null,
+              "total": 0,
+              "transfers": 0,
               "status": "Not Elected",
               "firstPrefs": 0
             }
           ]
         },
         {
-          "id": "No|No",
+          "id": "2",
           "name": "No",
           "party": "No",
           "firstPrefs": 0,
-          "finalVotes": null,
+          "finalVotes": 0,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 2,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
           "colour": "#d46a4c",
           "counts": [
             {
-              "count": 1,
-              "total": null,
-              "transfers": null,
+              "count": 2,
+              "total": 0,
+              "transfers": 0,
               "status": "Made Quota",
               "firstPrefs": 0
             }
@@ -299,22 +299,22 @@
       ],
       "elected": [
         {
-          "id": "No|No",
+          "id": "2",
           "name": "No",
           "party": "No",
           "firstPrefs": 0,
-          "finalVotes": null,
+          "finalVotes": 0,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 2,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
           "colour": "#d46a4c",
           "counts": [
             {
-              "count": 1,
-              "total": null,
-              "transfers": null,
+              "count": 2,
+              "total": 0,
+              "transfers": 0,
               "status": "Made Quota",
               "firstPrefs": 0
             }
@@ -322,54 +322,101 @@
         }
       ],
       "countInfo": {
-        "electorate": null
+        "Constituency_Name": "Ireland",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "",
+        "Spoiled": "",
+        "Total_Electorate": "",
+        "Total_Poll": "",
+        "Valid_Poll": ""
       },
-      "countGroup": [],
+      "countGroup": [
+        {
+          "Candidate_Id": "1",
+          "Candidate_First_Pref_Votes": "0",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Yes",
+          "Surname": "",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#2aa82c",
+          "Party_Name": "Yes",
+          "Status": "Not Elected",
+          "Total_Votes": "0",
+          "Transfers": "0",
+          "candidateName": "Yes",
+          "id": 0
+        },
+        {
+          "Candidate_Id": "2",
+          "Candidate_First_Pref_Votes": "0",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "No",
+          "Surname": "",
+          "Occurred_On_Count": "2",
+          "Party_Colour": "#d46a4c",
+          "Party_Name": "No",
+          "Status": "Made Quota",
+          "Total_Votes": "0",
+          "Transfers": "0",
+          "candidateName": "No",
+          "id": 1
+        }
+      ],
       "nonTransferable": [],
       "forum": null,
       "countNumbers": [
-        1
+        1,
+        2
       ],
-      "hasCountDetail": false,
+      "hasCountDetail": true,
       "animationPayload": {
-        "body": "Referendum (Ireland)",
-        "constituency": "Ireland",
-        "meta": {
-          "electorate": null
-        },
-        "topic": "Treaty of Lisbon I",
-        "outcome": "rejected",
-        "yes_pct": 46.6,
-        "no_pct": 53.4,
-        "ref_id": "2008R",
-        "candidates": [
-          {
-            "name": "Yes",
-            "party": "Yes",
-            "first_pref": 0,
-            "final_count": 1,
-            "counts": [
-              0,
-              0.466,
-              1,
-              2
-            ],
-            "status": "Not Elected"
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Ireland",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "",
+            "Spoiled": "",
+            "Total_Electorate": "",
+            "Total_Poll": "",
+            "Valid_Poll": ""
           },
-          {
-            "name": "No",
-            "party": "No",
-            "first_pref": 0,
-            "final_count": 2,
-            "counts": [
-              0,
-              0.534,
-              1,
-              1
-            ],
-            "status": "Made Quota"
-          }
-        ]
+          "countGroup": [
+            {
+              "Candidate_Id": "1",
+              "Candidate_First_Pref_Votes": "0",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Yes",
+              "Surname": "",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#2aa82c",
+              "Party_Name": "Yes",
+              "Status": "Not Elected",
+              "Total_Votes": "0",
+              "Transfers": "0",
+              "candidateName": "Yes",
+              "id": 0
+            },
+            {
+              "Candidate_Id": "2",
+              "Candidate_First_Pref_Votes": "0",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "No",
+              "Surname": "",
+              "Occurred_On_Count": "2",
+              "Party_Colour": "#d46a4c",
+              "Party_Name": "No",
+              "Status": "Made Quota",
+              "Total_Votes": "0",
+              "Transfers": "0",
+              "candidateName": "No",
+              "id": 1
+            }
+          ]
+        }
       },
       "localBody": null,
       "sourceFile": "election-viewer-package/data/elections/ireland-referendum/2008-06-12-treaty-of-lisbon-i/ireland.json",
