@@ -57,8 +57,7 @@ test('/test loads and renders a real MapLibre vector layer', async ({ page }) =>
   const result = await page.evaluate(async () => {
     const app = window.__civgraphTest;
     const layer = app.metadataService.getLayer('civil-parishes-vector-test');
-    const localLayer = { ...layer, sourceType: 'mvt', tiles: layer.tilesFallback || layer.tiles };
-    await app.controller.loadLayer(localLayer);
+    await app.controller.loadLayer(layer);
     await new Promise((resolve) => app.controller.map.once('idle', resolve));
     const renderedLayers = ['civil-parishes-vector-test-fill', 'civil-parishes-vector-test-line', 'civil-parishes-vector-test-label']
       .filter((id) => app.controller.map.getLayer(id));

@@ -3937,5 +3937,8 @@ Add election entries to /test2
 - [x] Implement fix and guardrail
   - Updated `opw-nifm-river-flood-extents-current-vector-test` to use CDN tile and metadata URLs instead of repo-local generated paths.
   - Removed stale `featureIndexUrl` from `dfi-surface-defects-2017-vector-test` until that feature index is generated and committed or served remotely.
+  - Updated the `/test` browser smoke so it exercises the current PMTiles civil-parishes source rather than forcing a local directory-MVT fallback that is removed from Pages deployments.
+  - Made `/test` catalogue detail pages always render a `Source files` section, including an explicit empty state, so unconverted/detail entries satisfy the shell contract consistently.
 - [x] Verify, commit, and push
-  - Verification evidence: `node scripts/validate-test-app.mjs`, `npm run build:test`, `npm run check:test`, and `npm run check:test2` passed. `npm run check:test` now emits only a non-fatal missing feature-search warning for the DfI layer.
+  - Verification evidence: `node scripts/validate-test-app.mjs`, `npm run build:test`, `npm run check:test`, `npm run check:test2`, and `npm run test:browser:test` passed. `npm run check:test` now emits only a non-fatal missing feature-search warning for the DfI layer.
+  - CI evidence: run `27036348924` passed `npm run build:test` and `npm run check:test:ci-safe`; its later browser-smoke failure was reproduced and fixed locally before the follow-up push.

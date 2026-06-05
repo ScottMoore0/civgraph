@@ -1919,4 +1919,5 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   1) when a pushed site change affects bundled assets, run both the route-specific check and the production deploy command path where feasible,
   2) if a sandbox blocks the production command, rerun with approved escalation rather than treating the route-specific build as sufficient,
   3) inspect the exact failed run/deploy log before assuming the failure is unrelated,
-  4) add a validation check for the failing command path before committing the fix.
+  4) browser smoke tests must exercise production-deployable PMTiles/CDN sources, not force local directory-MVT fallbacks that are removed by Pages cleanup,
+  5) add a validation check for the failing command path before committing the fix.

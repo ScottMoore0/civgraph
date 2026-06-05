@@ -823,7 +823,12 @@ function renderDetailLinks(title, links) {
 
 function renderDetailSources(layer) {
   const files = layer.sourceFiles || [];
-  if (!files.length) return '';
+  if (!files.length) return `
+    <section class="catalogue-detail__section">
+      <div class="catalogue-detail__section-title">Source files</div>
+      <p class="catalogue-card__conversion">No source files recorded.</p>
+    </section>
+  `;
   return `
     <section class="catalogue-detail__section">
       <div class="catalogue-detail__section-title">Source files (${files.length})</div>
