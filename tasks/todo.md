@@ -1,3 +1,23 @@
+# Diagnose collaborator blank screen on live site
+- [x] Record scope
+  - User provided collaborator screenshot plus saved `Civgraph.html` and `Civgraph.mhtml` showing the live site shell but an empty catalogue/map area.
+  - Scope: inspect captured source, compare with current repo build expectations, identify root cause, and implement a repo fix if the failure is caused by site code.
+- [x] Inspect supplied source captures
+  - Check HTML/MHTML/HAR for script/CSS references, inline state, service-worker hints, console/error clues, asset versions, and failed network requests.
+  - User also supplied `C:\Users\scomo\Downloads\civgraph.net.har`.
+- [x] Compare with current app build/runtime
+  - Verify whether the captured source is stale, missing critical scripts, failing module initialization, or blocked by cache/service-worker/deployment cleanup.
+- [x] Diagnose and fix
+  - If the issue is code-side, patch it and add a focused guardrail.
+- [x] Verify and review
+  - Run the relevant build/check and document the diagnosis and required user/collaborator action if cache state is involved.
+  - The supplied HAR contains zero network entries, so it cannot identify which request failed for the collaborator.
+  - The saved MHTML shows the normal live shell and the expected `build/app.bundle.js?v=116` module reference; the screenshot matches the app before JavaScript has populated the catalogue/map.
+  - A live browser check from this environment loaded the site successfully; all core app data loaded, with only `/__debug/log` returning 405 before this fix.
+  - Added a startup guard in `index.html` so blocked/failed startup shows an actionable notice instead of leaving the static shell blank.
+  - Changed runtime debug logging in `js/app.js` to opt in via `?debug` or `localStorage.civgraphDebug = "1"`, removing production debug beacons by default.
+  - Verification: `npm run build` passed after sandbox escalation; local browser startup reached `data-app-boot="ready"` with the notice hidden; `npm run check` passed.
+
 # Align /test2 election pane DOM and styling contract to main
 - [x] Record scope
   - User requested the required fixes after identifying why `/test2` election pane formatting/styling still diverges from the main site.

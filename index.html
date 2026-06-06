@@ -106,9 +106,79 @@
   <meta property="og:url" content="https://civgraph.net">
   <meta property="og:image" content="https://civgraph.net/assets/images/og-preview.png">
   <meta name="twitter:card" content="summary_large_image">
+
+  <style>
+    .app-boot-notice {
+      position: fixed;
+      top: calc(var(--header-height, 64px) + 1rem);
+      left: 50%;
+      z-index: 10000;
+      width: min(520px, calc(100vw - 2rem));
+      transform: translateX(-50%);
+      padding: 1rem 1.125rem;
+      color: var(--color-text, #1a202c);
+      background: var(--color-surface, #fff);
+      border: 1px solid var(--color-error, #e53e3e);
+      border-left: 4px solid var(--color-error, #e53e3e);
+      border-radius: .5rem;
+      box-shadow: var(--shadow-xl, 0 20px 25px -5px rgba(0, 0, 0, .1));
+      font-size: .9375rem;
+      line-height: 1.45;
+    }
+
+    .app-boot-notice.hidden {
+      display: none;
+    }
+
+    .app-boot-notice__title {
+      display: block;
+      margin-bottom: .35rem;
+      font-weight: 700;
+    }
+
+    .app-boot-notice__detail {
+      color: var(--color-text-muted, #718096);
+    }
+
+    .app-boot-notice__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-top: .75rem;
+    }
+
+    .app-boot-notice__action {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: .4rem .7rem;
+      color: var(--color-text-inverse, #fff);
+      background: var(--color-primary, #1a365d);
+      border-radius: .375rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+  </style>
 </head>
 
 <body class="app-shell" data-split-state="balanced">
+  <noscript>
+    <div class="app-boot-notice" role="alert">
+      <strong class="app-boot-notice__title">Civgraph needs JavaScript to run.</strong>
+      <span class="app-boot-notice__detail">Enable JavaScript for civgraph.net, then reload the page.</span>
+    </div>
+  </noscript>
+
+  <div id="appBootNotice" class="app-boot-notice hidden" role="alert" aria-live="assertive">
+    <strong class="app-boot-notice__title">Civgraph did not finish starting.</strong>
+    <span id="appBootNoticeDetail" class="app-boot-notice__detail">
+      Reload the page. If this message remains, check whether a browser extension or network policy is blocking JavaScript.
+    </span>
+    <div class="app-boot-notice__actions">
+      <a class="app-boot-notice__action" href="/">Reload Civgraph</a>
+    </div>
+  </div>
+
   <!-- Screen reader announcements -->
   <div id="announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
 
@@ -658,6 +728,71 @@
   <script src="election-viewer-package/js/animation_preview.js"></script>
   <script src="election-viewer-package/js/animation_preview_manager.js"></script>
   <script src="election-viewer-package/js/election_viewer.js"></script>
+
+  <!-- Startup guard: if the application bundle or one of its dependencies is
+       blocked by cache, an extension, or a network policy, show a useful
+       message instead of leaving the static shell blank. -->
+  <script>
+    (function () {
+      var bootTimeoutMs = 8000;
+
+      function showBootNotice(title, detail) {
+        var notice = document.getElementById('appBootNotice');
+        if (!notice) return;
+        var titleEl = notice.querySelector('.app-boot-notice__title');
+        var detailEl = document.getElementById('appBootNoticeDetail');
+        if (titleEl && title) titleEl.textContent = title;
+        if (detailEl && detail) detailEl.textContent = detail;
+        notice.classList.remove('hidden');
+      }
+
+      function hideBootNotice() {
+        var notice = document.getElementById('appBootNotice');
+        if (notice) notice.classList.add('hidden');
+      }
+
+      document.body.dataset.appBoot = 'pending';
+      window.__civgraphBoot = {
+        ready: function () {
+          document.body.dataset.appBoot = 'ready';
+          hideBootNotice();
+        },
+        failed: function (error) {
+          document.body.dataset.appBoot = 'failed';
+          showBootNotice(
+            'Civgraph failed to start.',
+            error && error.message
+              ? 'Startup error: ' + error.message
+              : 'Reload the page. If this message remains, check whether a browser extension or network policy is blocking JavaScript.'
+          );
+        }
+      };
+
+      window.addEventListener('error', function (event) {
+        if (document.body.dataset.appBoot === 'ready') return;
+        var target = event && event.target;
+        if (target && target.tagName === 'SCRIPT') {
+          showBootNotice(
+            'Civgraph could not load a required script.',
+            'The browser did not load ' + (target.getAttribute('src') || 'a script') + '. Reload, disable content blockers for civgraph.net, or clear site data.'
+          );
+          return;
+        }
+        if (event && event.message) {
+          showBootNotice('Civgraph hit a startup error.', event.message);
+        }
+      }, true);
+
+      window.setTimeout(function () {
+        if (document.body.dataset.appBoot !== 'ready') {
+          showBootNotice(
+            'Civgraph is taking longer than expected to start.',
+            'If the catalogue and map do not appear, reload the page or clear cached site data for civgraph.net.'
+          );
+        }
+      }, bootTimeoutMs);
+    })();
+  </script>
 
   <!-- Application (bundled + minified) -->
   <script type="module" src="build/app.bundle.js?v=116"></script>

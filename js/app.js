@@ -46,7 +46,7 @@ class App {
         this._activeMapLoad = null;
         this._fgbChunkManifest = null;
         this._fgbChunkManifestLoaded = false;
-        this._runtimeDebugEnabled = true;
+        this._runtimeDebugEnabled = this.shouldEnableRuntimeDebug();
         this._runtimeDebugSessionId = null;
     }
 
@@ -55,6 +55,7 @@ class App {
      */
     async init() {
         console.log('[App] Starting NI Boundaries...');
+        document.body.dataset.appBoot = 'initializing';
 
         try {
             this.setupRuntimeDebugLogging();
@@ -552,6 +553,7 @@ class App {
 
             this.initialized = true;
             console.log('[App] Initialization complete');
+            window.__civgraphBoot?.ready?.();
 
             // Setup column layout responsiveness
             this.updateColumnLayout();
@@ -571,11 +573,21 @@ class App {
 
         } catch (err) {
             console.error('[App] Initialization failed:', err);
+            window.__civgraphBoot?.failed?.(err);
             this.runtimeDebugLog('app-init-error', {
                 message: String(err?.message || err || ''),
                 stack: String(err?.stack || '')
             });
             this.showError('Failed to load application. Please refresh the page.');
+        }
+    }
+
+    shouldEnableRuntimeDebug() {
+        try {
+            const params = new URLSearchParams(window.location.search);
+            return params.has('debug') || window.localStorage?.getItem('civgraphDebug') === '1';
+        } catch (_) {
+            return false;
         }
     }
 
