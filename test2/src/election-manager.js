@@ -62,16 +62,18 @@ const PARTY_COLOURS = new Map([
   ['dup', '#d46a4c'],
   ['fianna fail', '#66bb66'],
   ['fine gael', '#6699ff'],
-  ['green', '#8dc63f'],
+  ['green', '#22ac6f'],
+  ['green party', '#22ac6f'],
   ['independent', '#b8b8b8'],
+  ['independent ireland', '#3bee56'],
   ['irish labour', '#cc0000'],
   ['labour', '#cc0000'],
-  ['pbp', '#e91d50'],
+  ['pbp', '#ff0090'],
   ['sdlp', '#2aa82c'],
   ['sinn fein', '#326760'],
-  ['social democrats', '#752f8a'],
-  ['solidarity pbp', '#e91d50'],
-  ['solidarity-pbp', '#e91d50'],
+  ['social democrats', '#752f8b'],
+  ['solidarity pbp', '#8e2420'],
+  ['solidarity-pbp', '#8e2420'],
   ['tuv', '#0c3a6a'],
   ['uup', '#48a5ee'],
   ['yes', '#2aa82c'],
@@ -79,24 +81,29 @@ const PARTY_COLOURS = new Map([
 ]);
 
 const ROI_MAIN_PARTY_COLOURS = new Map([
-  ['fianna fail', '#66BB6A'],
-  ['fine gael', '#1E88E5'],
-  ['sinn fein', '#00695C'],
-  ['labour', '#D32F2F'],
-  ['the labour party', '#D32F2F'],
-  ['green comhaontas glas', '#4CAF50'],
-  ['green party', '#4CAF50'],
-  ['social democrats', '#6A1B9A'],
-  ['people before profit solidarity', '#EF5350'],
-  ['solidarity people before profit', '#EF5350'],
-  ['people before profit', '#EF5350'],
-  ['aontu', '#C62828'],
-  ['progressive democrats', '#1565C0'],
-  ['workers party republican clubs', '#B71C1C'],
-  ['independents 4 change', '#FB8C00'],
-  ['renua', '#7E57C2'],
-  ['independent', '#9E9E9E'],
-  ['non party independent', '#9E9E9E'],
+  ['fianna fail', '#66BB66'],
+  ['fine gael', '#6699FF'],
+  ['sinn fein', '#326760'],
+  ['labour', '#CC0000'],
+  ['irish labour', '#CC0000'],
+  ['the labour party', '#CC0000'],
+  ['green comhaontas glas', '#22AC6F'],
+  ['green party', '#22AC6F'],
+  ['green', '#22AC6F'],
+  ['social democrats', '#752F8B'],
+  ['people before profit solidarity', '#FF0090'],
+  ['pbp solidarity', '#FF0090'],
+  ['solidarity people before profit', '#8E2420'],
+  ['solidarity pbp', '#8E2420'],
+  ['people before profit', '#FF0090'],
+  ['aontu', '#44532A'],
+  ['independent ireland', '#3BEE56'],
+  ['progressive democrats', '#1251A2'],
+  ['workers party republican clubs', '#930C1A'],
+  ['independents 4 change', '#FFC0CB'],
+  ['renua', '#FFA500'],
+  ['independent', '#DCDCDC'],
+  ['non party independent', '#DCDCDC'],
   ['yes', '#43A047'],
   ['no', '#E53935']
 ]);
@@ -228,8 +235,11 @@ export class Test2ElectionManager {
     this.app.updateURLState();
   }
 
-  unloadElection() {
-    if (this.activeEntry?.sourceMapId) this.mapController.clearElectionStyle?.(this.activeEntry.sourceMapId);
+  unloadElection(options = {}) {
+    const { unloadBackingLayer = true } = options || {};
+    const sourceMapId = this.activeEntry?.sourceMapId;
+    const backingLayerIds = unloadBackingLayer ? this.getActiveElectionBackingLayerIds() : [];
+    if (sourceMapId) this.mapController.clearElectionStyle?.(sourceMapId);
     this.removeElectionOverlays();
     this.resultsByLayer.clear();
     this.activeEntry = null;
@@ -240,10 +250,31 @@ export class Test2ElectionManager {
     this.activeEntityKey = null;
     this.activeEntityReturnView = 'party';
     this.removePanel();
+    this.unloadElectionBackingLayers(backingLayerIds);
     this.app.updateTimeline();
     this.app.syncCatalogueMapState();
     this.app.updateActiveLayers();
     this.app.updateURLState();
+  }
+
+  getActiveElectionBackingLayerIds(entry = this.activeEntry, bundle = this.activeBundle) {
+    return [...new Set([
+      entry?.sourceMapId,
+      bundle?.sourceMapId,
+      bundle?.layerId
+    ].filter(Boolean))];
+  }
+
+  unloadElectionBackingLayers(layerIds = []) {
+    for (const layerId of layerIds) {
+      if (
+        this.mapController.getLayerState?.(layerId)
+        || this.mapController.groupStates?.has(layerId)
+        || this.mapController.isLayerLoaded?.(layerId)
+      ) {
+        this.mapController.unloadLayer(layerId);
+      }
+    }
   }
 
   isElectionLoaded(body, date) {
@@ -512,11 +543,15 @@ export class Test2ElectionManager {
     return false;
   }
 
+  getElectionWidePercentLabel() {
+    return `% of ${this.usesMainRoiPartyPalette() ? 'ROI' : 'NI'}`;
+  }
+
   mainPanePartyColour(party, explicit = '') {
     const normalizedParty = normalizeName(party);
     if (!normalizedParty) return explicit || '#6b7280';
     if (this.usesMainRoiPartyPalette()) {
-      return ROI_MAIN_PARTY_COLOURS.get(normalizedParty) || '#b0bec5';
+      return ROI_MAIN_PARTY_COLOURS.get(normalizedParty) || explicit || electionPartyColour(party) || partyColour(party) || '#b0bec5';
     }
     return explicit || electionPartyColour(party) || partyColour(party) || '#6b7280';
   }
@@ -868,10 +903,10 @@ export class Test2ElectionManager {
   buildMainStyleConstituencyPartyRows(result = {}, fallbackCandidates = []) {
     const countGroup = Array.isArray(result?.countGroup) ? result.countGroup : [];
     const countInfo = result?.countInfo || {};
-    const validPoll = numberOrZero(countInfo.Valid_Poll ?? result?.validPoll);
-    const totalPoll = numberOrZero(countInfo.Total_Poll ?? result?.totalPoll);
-    const electorate = numberOrZero(countInfo.Total_Electorate ?? result?.electorate);
-    const spoiled = numberOrZero(countInfo.Spoiled ?? result?.spoiled);
+    const validPoll = numberOrZero(countInfo.Valid_Poll) || numberOrZero(result?.validPoll);
+    const totalPoll = numberOrZero(countInfo.Total_Poll) || numberOrZero(result?.totalPoll);
+    const electorate = numberOrZero(countInfo.Total_Electorate) || numberOrZero(result?.electorate);
+    const spoiled = numberOrZero(countInfo.Spoiled) || numberOrZero(result?.spoiled);
     const didNotVote = electorate ? Math.max(0, electorate - totalPoll) : 0;
     const partyMap = new Map();
     const seenCandidates = new Set();
@@ -1405,8 +1440,9 @@ export class Test2ElectionManager {
 
   resultHasAnimation(result = null) {
     if (!result) return false;
-    if (result.animationPayload) return true;
     if (this.isForumResult(result)) return true;
+    const animationRows = result.animationPayload?.Constituency?.countGroup || [];
+    if (Array.isArray(animationRows) && animationRows.some((row) => Number(row.Count_Number) > 1)) return true;
     if (Array.isArray(result.countNumbers) && result.countNumbers.some((count) => Number(count) > 1)) return true;
     return Boolean(result.hasCountDetail && (result.candidates || []).some((candidate) => (candidate.counts || []).some((count) => Number(count.count) > 1)));
   }
@@ -1695,6 +1731,7 @@ export class Test2ElectionManager {
   renderCandidateSummaryTable(candidates) {
     if (!candidates.length) return '<p class="election-no-data">No candidate summary is available for this election.</p>';
     const isLocal = this.isLocalGovernmentElection();
+    const widePercentLabel = this.getElectionWidePercentLabel();
     const totalValid = sumNumbers(this.currentResults(), 'validPoll') || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs ?? candidate.votes), 0);
     const ordered = [...candidates].sort((a, b) => {
       const pctDelta = numberOrZero(b.firstPrefPct) - numberOrZero(a.firstPrefPct);
@@ -1717,7 +1754,7 @@ export class Test2ElectionManager {
               ${geographyHeaders}
               <th colspan="2">Status</th>
               <th colspan="4">1st preferences</th>
-              <th colspan="2">% of NI</th>
+              <th colspan="2">${escapeHtml(widePercentLabel)}</th>
             </tr>
             <tr>
               ${isLocal ? `<th rowspan="2" data-leaf-col-idx="3">District</th><th rowspan="2" data-leaf-col-idx="4">DEA</th>` : ''}
@@ -2137,6 +2174,7 @@ export class Test2ElectionManager {
   }
 
   renderPartyEntity(entity) {
+    const widePercentLabel = this.getElectionWidePercentLabel();
     return `
       <section class="election-entity-page">
         <div class="election-entity-page__hero">
@@ -2151,7 +2189,7 @@ export class Test2ElectionManager {
           <div class="election-entity-metric"><span class="election-entity-metric__label">Candidates stood</span><strong>${formatNumber(entity.stood)}</strong></div>
           <div class="election-entity-metric"><span class="election-entity-metric__label">Candidates elected</span><strong>${formatNumber(entity.elected)}</strong></div>
           <div class="election-entity-metric"><span class="election-entity-metric__label">1st prefs</span><strong>${formatNumber(entity.firstPrefs)}</strong></div>
-          <div class="election-entity-metric"><span class="election-entity-metric__label">% of NI</span><strong>${formatPercent(entity.shareOfTotal)}</strong></div>
+          <div class="election-entity-metric"><span class="election-entity-metric__label">${escapeHtml(widePercentLabel)}</span><strong>${formatPercent(entity.shareOfTotal)}</strong></div>
           <div class="election-entity-metric"><span class="election-entity-metric__label">Final-round votes</span><strong>${formatNumber(entity.finalVotes)}</strong></div>
           <div class="election-entity-metric"><span class="election-entity-metric__label">Constituencies</span><strong>${formatNumber(entity.constituencies?.length || 0)}</strong></div>
         </div>
@@ -2166,6 +2204,7 @@ export class Test2ElectionManager {
   }
 
   renderCandidateEntity(entity) {
+    const widePercentLabel = this.getElectionWidePercentLabel();
     return `
       <section class="election-entity-page">
         <div class="election-entity-page__hero">
@@ -2178,7 +2217,7 @@ export class Test2ElectionManager {
         </div>
         <div class="election-entity-metrics">
           <div class="election-entity-metric"><span class="election-entity-metric__label">1st prefs</span><strong>${formatNumber(entity.firstPrefs)}</strong></div>
-          <div class="election-entity-metric"><span class="election-entity-metric__label">% of NI</span><strong>${formatPercent(entity.shareOfTotal)}</strong></div>
+          <div class="election-entity-metric"><span class="election-entity-metric__label">${escapeHtml(widePercentLabel)}</span><strong>${formatPercent(entity.shareOfTotal)}</strong></div>
           <div class="election-entity-metric"><span class="election-entity-metric__label">Final-round votes</span><strong>${formatNumber(entity.finalVotes)}</strong></div>
           <div class="election-entity-metric"><span class="election-entity-metric__label">Constituency count</span><strong>${formatNumber(entity.constituencies?.length || 0)}</strong></div>
           <div class="election-entity-metric"><span class="election-entity-metric__label">Election wins</span><strong>${formatNumber(entity.electedCount)}</strong></div>
@@ -2955,7 +2994,7 @@ function selectedPaneStatusKind(status) {
   if (!text) return 'unknown';
   if (text.includes('not elected')) return 'not_elected';
   if (text.includes('excluded')) return 'excluded';
-  if (text.includes('elected')) return 'elected';
+  if (text.includes('elected') || text.includes('made quota') || text.includes('counted as elected') || text.includes('deemed elected')) return 'elected';
   return 'unknown';
 }
 

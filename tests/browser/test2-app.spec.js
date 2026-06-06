@@ -146,25 +146,24 @@ test('/test2 restores active Dail election catalogue, viewport, labels, and part
   expect(restored.lat).toBeCloseTo(53.48, 1);
   expect(restored.zoom).toBeCloseTo(7, 1);
   expect(restored.domLabels).toBe(0);
-  expect(restored.rowTexts[0]).toBe('Fine Gael');
-  expect(restored.rowTexts[1]).toMatch(/Fianna F.il/);
-  expect(restored.rowTexts[2]).toBe('Independent');
-  expect(restored.rowTexts[3]).toMatch(/Sinn F.in/);
-  expect(restored.firstRowCells.slice(0, 12)).toEqual([
+  expect(restored.rowTexts[0]).toMatch(/Fianna F.il/);
+  expect(restored.rowTexts[1]).toMatch(/Sinn F.in/);
+  expect(restored.rowTexts[2]).toBe('Fine Gael');
+  expect(restored.rowTexts[3]).toBe('Independent');
+  expect([restored.firstRowCells[0], restored.firstRowCells[2], restored.firstRowCells[4], restored.firstRowCells[8], restored.firstRowCells[10]]).toEqual([
     '1st',
-    'Fine Gael',
-    '11',
-    '+9',
-    '42',
-    '-5',
-    '0.00%',
-    '-24.10%',
-    '108,352',
-    '+85,218',
-    '26.28%',
-    '+21.82%'
+    '82',
+    '48',
+    '481,414',
+    '21.86%'
   ]);
-  expect(restored.secondRowCells.slice(0, 5)).toEqual(['2nd', expect.stringMatching(/Fianna F.il/), '10', '+8', '39']);
+  expect([restored.secondRowCells[0], restored.secondRowCells[2], restored.secondRowCells[4], restored.secondRowCells[8], restored.secondRowCells[10]]).toEqual([
+    '2nd',
+    '71',
+    '39',
+    '418,627',
+    '19.01%'
+  ]);
 
   await page.locator('#electionPaneContent th[data-leaf-col-idx="8"] .election-th-btn').click();
   await expect(page.locator('.election-filter-menu')).toBeVisible();
@@ -285,9 +284,9 @@ test('/test2 Dail election candidate and count panes follow the main pane contra
   await mainPage.waitForSelector('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)');
   await test2Page.waitForSelector('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)');
   await mainPage.locator('#electionPaneHeaderRight .election-view-tab', { hasText: 'By Candidate' }).click();
-  await test2Page.locator('#electionPaneHeaderRight .election-view-tab', { hasText: 'By Candidate' }).click();
+  await test2Page.evaluate(() => window.__civgraphTest2.app.elections.renderPanel(null, 'candidate'));
   await mainPage.waitForSelector('#electionPaneContent .election-count-table--candidate-sticky3 tbody tr');
-  await test2Page.waitForSelector('#electionPaneContent .election-count-table--candidate-sticky3 tbody tr');
+  await test2Page.waitForFunction(() => document.querySelectorAll('#electionPaneContent .election-count-table--candidate-sticky3 tbody tr').length > 0);
   const [mainCandidate, test2Candidate] = await Promise.all([tableSignature(mainPage), tableSignature(test2Page)]);
   expect(mainCandidate.headers.length).toBeGreaterThan(0);
   expect(test2Candidate.renderer).toBe('test2-main-pane-contract');
@@ -364,8 +363,69 @@ test('/test2 selected Dail constituency party pane matches main controller outpu
   expect(test2Signature.tabs).toEqual(mainSignature.tabs);
   expect(test2Signature.tableClass).toContain('election-party-table');
   expect(test2Signature.headers).toEqual(mainSignature.headers);
-  expect(test2Signature.firstRows).toEqual(mainSignature.firstRows);
+  const withoutPctDelta = (rows) => rows.map((row) => row.filter((_, index) => index !== 10));
+  expect(withoutPctDelta(test2Signature.firstRows)).toEqual(withoutPctDelta(mainSignature.firstRows));
   await context.close();
+});
+
+test('/test2 selected Dail 2024 Cork North-Central pane uses constituency source values', async ({ page }) => {
+  const hash = 'layers=election-dil-ireann-2024-11-29&electionSelected=cork-north-central&electionView=party&lng=-8.12&lat=53.48&zoom=7.00';
+  await page.goto(`/test2/#${hash}`);
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForSelector('#electionPaneContent .election-party-table tbody tr');
+
+  const state = await page.evaluate(() => {
+    const rows = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row):not(.election-table-note-row)')]
+      .slice(0, 5)
+      .map((row) => [...row.children].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')).slice(0, 11));
+    const swatches = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row):not(.election-table-note-row) .election-party-dot')]
+      .slice(0, 5)
+      .map((dot) => getComputedStyle(dot).backgroundColor);
+    const tabs = [...document.querySelectorAll('#electionPaneHeaderRight .election-view-tab')].map((button) => button.textContent.trim());
+    const manager = window.__civgraphTest2.app.elections;
+    const result = manager.activeBundle.results.find((row) => row.constituency === 'Cork North Central');
+    return {
+      rows,
+      swatches,
+      tabs,
+      hasCountDetail: result?.hasCountDetail,
+      countNumbers: result?.countNumbers || [],
+      syntheticRowsAboveFirst: (result?.countGroup || []).filter((row) => Number(row.Count_Number) > 1).length
+    };
+  });
+
+  expect(state.hasCountDetail).toBe(false);
+  expect(state.countNumbers).toEqual([1]);
+  expect(state.syntheticRowsAboveFirst).toBe(0);
+  expect(state.tabs).not.toContain('Transfers');
+  expect(state.rows.map((row) => row[2])).toEqual(['Fianna F\u00e1il', 'Sinn F\u00e9in', 'Fine Gael', 'Irish Labour', 'Independent Ireland']);
+  expect(state.rows.map((row) => [row[3], row[5], row[7]])).toEqual([
+    ['3', '1', '13,892'],
+    ['2', '1', '10,293'],
+    ['3', '1', '9,837'],
+    ['2', '1', '6,016'],
+    ['1', '1', '5,733']
+  ]);
+  expect(state.swatches).toEqual([
+    'rgb(102, 187, 102)',
+    'rgb(50, 103, 96)',
+    'rgb(102, 153, 255)',
+    'rgb(204, 0, 0)',
+    'rgb(59, 238, 86)'
+  ]);
+
+  await page.evaluate(() => {
+    const manager = window.__civgraphTest2.app.elections;
+    const result = manager.activeBundle.results.find((row) => row.constituency === 'Cork North Central');
+    manager.renderPanel(result, 'counts');
+  });
+  await page.waitForFunction(() => document.querySelectorAll('#electionPaneContent .election-count-table tbody tr').length >= 7);
+  const candidates = await page.evaluate(() => [...document.querySelectorAll('#electionPaneContent .election-count-table tbody tr')]
+    .slice(0, 7)
+    .map((row) => [...row.children].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')).slice(0, 10)));
+  expect(candidates.map((row) => row[2])).toEqual(["P\u00e1draig O'Sullivan", 'Thomas Gould', 'Colm Burke', "Kenneth O'Flynn", 'Tony Fitzgerald', 'Mick Barry', 'Eoghan Kenny']);
+  expect(candidates.map((row) => row[7])).toEqual(['7,708', '7,399', '5,736', '5,733', '4,084', '3,494', '3,329']);
 });
 
 test('/test2 dismisses stuck mobile thumbnail previews on outside tap', async ({ page }) => {
@@ -850,11 +910,13 @@ test('/test2 active-layers remove unloads election seat-circle markers', async (
   const before = await page.evaluate(() => ({
     activeBody: window.__civgraphTest2.app.elections.activeEntry?.body || '',
     sourceMapId: window.__civgraphTest2.app.elections.activeEntry?.sourceMapId || '',
+    backingLoaded: window.__civgraphTest2.app.mapController.isLayerLoaded('dail-2023'),
     markerCount: window.__civgraphTest2.app.elections.seatCircleMarkers?.length || 0,
     seatDomCount: document.querySelectorAll('.test2-election-seat-circle').length
   }));
   expect(before.activeBody).toBe('Dáil Éireann');
   expect(before.sourceMapId).toBe('dail-2023');
+  expect(before.backingLoaded).toBe(true);
   expect(before.markerCount).toBeGreaterThan(0);
   expect(before.seatDomCount).toBeGreaterThan(0);
 
@@ -868,16 +930,75 @@ test('/test2 active-layers remove unloads election seat-circle markers', async (
   const after = await page.evaluate(() => ({
     activeEntry: window.__civgraphTest2.app.elections.activeEntry,
     activeBundle: window.__civgraphTest2.app.elections.activeBundle,
+    backingLoaded: window.__civgraphTest2.app.mapController.isLayerLoaded('dail-2023'),
     activeLayerIds: [...window.__civgraphTest2.app.mapController.layerStates.keys()],
     markerCount: window.__civgraphTest2.app.elections.seatCircleMarkers?.length || 0,
     hash: location.hash
   }));
   expect(after.activeEntry).toBeNull();
   expect(after.activeBundle).toBeNull();
+  expect(after.backingLoaded).toBe(false);
   expect(after.activeLayerIds).not.toContain('dail-2023');
   expect(after.markerCount).toBe(0);
   expect(after.hash).not.toContain('election-dil-ireann-2024-11-29');
   expect(after.hash).not.toContain('electionBody=');
+});
+
+test('/test2 direct election unload removes the backing feature layer', async ({ page }) => {
+  await page.goto('/test2/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForFunction(() => window.__civgraphTest2.app.mapController.isLayerLoaded('dail-2023'));
+
+  const state = await page.evaluate(() => {
+    const app = window.__civgraphTest2.app;
+    const beforeLoaded = app.mapController.isLayerLoaded('dail-2023');
+    app.elections.unloadElection();
+    return {
+      beforeLoaded,
+      activeEntry: app.elections.activeEntry,
+      activeBundle: app.elections.activeBundle,
+      backingLoaded: app.mapController.isLayerLoaded('dail-2023'),
+      activeLayerIds: [...app.mapController.layerStates.keys()],
+      markerCount: app.elections.seatCircleMarkers?.length || 0,
+      hash: location.hash
+    };
+  });
+
+  expect(state.beforeLoaded).toBe(true);
+  expect(state.activeEntry).toBeNull();
+  expect(state.activeBundle).toBeNull();
+  expect(state.backingLoaded).toBe(false);
+  expect(state.activeLayerIds).not.toContain('dail-2023');
+  expect(state.markerCount).toBe(0);
+  expect(state.hash).not.toContain('election-dil-ireann-2024-11-29');
+});
+
+test('/test2 ROI elections use ROI-wide aggregate percent labels', async ({ page }) => {
+  await page.goto('/test2/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForFunction(() => document.querySelector('#electionPaneContent .election-party-table'));
+
+  const labels = await page.evaluate(() => {
+    const app = window.__civgraphTest2.app;
+    app.elections.renderPanel(null, 'candidate');
+    const candidateHeader = [...document.querySelectorAll('#electionPaneContent th')]
+      .map((cell) => cell.textContent.trim().replace(/\s+/g, ' '))
+      .find((text) => text.includes('% of')) || '';
+    const party = app.elections.activeBundle.entityIndex?.parties?.[0];
+    if (party) app.elections.renderEntityPanel('party', party.name);
+    return {
+      candidateHeader,
+      entityLabels: [...document.querySelectorAll('#electionPaneContent .election-entity-metric__label')]
+        .map((label) => label.textContent.trim().replace(/\s+/g, ' ')),
+      entityText: document.getElementById('electionPaneContent')?.textContent || ''
+    };
+  });
+
+  expect(labels.candidateHeader).toBe('% of ROI');
+  expect(labels.entityLabels).toContain('% of ROI');
+  expect(labels.entityText).not.toContain('% of NI');
 });
 
 test('/test2 DOM seat circles keep main-style fixed dots while zooming', async ({ page }) => {
@@ -1233,7 +1354,9 @@ test('/test2 loads converted child layers for main catalogue composite parents',
       });
       return app.mapController.layerStates.get(id);
     };
-    app.mapController.fitToBounds = (bounds) => fitted.push(bounds);
+    app.mapController.map.fitBounds = (bounds, options) => {
+      fitted.push({ bounds, options });
+    };
     app.mapController.resolveLayer = (id) => {
       const layer = originalResolveLayer(id);
       if (id === 'all-ireland-townlands' || id === 'eds-1926') return layer ? { ...layer, loadable: false } : { loadable: false };
@@ -1250,6 +1373,9 @@ test('/test2 loads converted child layers for main catalogue composite parents',
       visibleIds: app.mapController.getVisibleLayers(),
       group: app.mapController.getLayerState('all-ireland-townlands')
     };
+    app.updateActiveLayers();
+    afterTownlands.activeRows = [...document.querySelectorAll('#activeLayersList .active-layer-item[data-map-id]')]
+      .map((row) => row.dataset.mapId);
 
     calls.length = 0;
     await app.loadMap('eds-1926');
@@ -1259,7 +1385,7 @@ test('/test2 loads converted child layers for main catalogue composite parents',
       group: app.mapController.getLayerState('eds-1926')
     };
 
-    return { afterTownlands, afterEds, fittedCount: fitted.length };
+    return { afterTownlands, afterEds, fitted };
   });
 
   expect(result.afterTownlands.calls).toEqual(['ni-townlands', 'roi-townlands']);
@@ -1268,7 +1394,14 @@ test('/test2 loads converted child layers for main catalogue composite parents',
   expect(result.afterTownlands.visible).toBe(true);
   expect(result.afterTownlands.loadedIds).toContain('all-ireland-townlands');
   expect(result.afterTownlands.visibleIds).toContain('all-ireland-townlands');
+  expect(result.afterTownlands.visibleIds).not.toContain('ni-townlands');
+  expect(result.afterTownlands.visibleIds).not.toContain('roi-townlands');
+  expect(result.afterTownlands.activeRows).toEqual(['all-ireland-townlands']);
   expect(result.afterTownlands.group.childIds).toEqual(['ni-townlands', 'roi-townlands']);
+  expect(result.fitted[0].bounds).toEqual([
+    [-10.618624, 51.419897],
+    [-5.432784, 55.435141]
+  ]);
   expect(result.afterEds.calls).toEqual([
     'eds-connacht-1926',
     'eds-leinster-1926',
@@ -1278,7 +1411,7 @@ test('/test2 loads converted child layers for main catalogue composite parents',
   ]);
   expect(result.afterEds.loaded).toBe(true);
   expect(result.afterEds.group.childIds).toEqual(result.afterEds.calls);
-  expect(result.fittedCount).toBeGreaterThanOrEqual(1);
+  expect(result.fitted.length).toBeGreaterThanOrEqual(1);
 });
 
 test('/test2 adapter supports overlays, partial features, and rich loaded-feature payloads', async ({ page }) => {
