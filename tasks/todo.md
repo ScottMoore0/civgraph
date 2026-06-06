@@ -1,7 +1,26 @@
+# Correct /test2 synthetic non-geographical election anchors to northeast
+- [x] Record correction
+  - User clarified that synthetic non-geographical constituencies should be placed near the northeast, not the northwest, of the active election geography.
+  - Scope: change `/test2` generated election anchors only; do not alter the main site.
+- [x] Inspect current implementation
+  - Found the prior implementation in `scripts/build-test2-election-manifest.mjs` generated `synthetic-northwest-non-geographic` anchors and selected the feature closest to the northwestern corner.
+- [x] Implement northeast placement
+  - Changed synthetic non-geographical anchor generation to select the feature closest to the northeastern corner and place the synthetic label/seat circles near that feature with inward padding and deterministic stacking.
+  - Changed the generated anchor method to `synthetic-northeast-non-geographic`.
+- [x] Verify
+  - Regenerate `/test2` election metadata and run syntax, route, `/test2`, and full checks.
+- [x] Review
+  - Document verification evidence, commit, and push the scoped correction.
+  - Regenerated `/test2` election metadata. Coverage remained stable at 249 loadable election entries, 19 placeholders, 4,004 matched rows, and 680 unmatched rows.
+  - Representative generated anchors now use `synthetic-northeast-non-geographic`: 1996 Forum Regional List at `[-5.784092, 55.007114]`; 1921 Queen's University at `[-5.784092, 55.20297]`.
+  - Added route-validation assertions that those representative rows must keep the northeast synthetic-anchor method.
+  - Verification passed: `node --check scripts/build-test2-election-manifest.mjs`, `node --check scripts/validate-test2-route.mjs`, `node scripts/build-test2-election-manifest.mjs`, `npm run check:test2`, `npm run check`, `npm run build:test2`, and a targeted generated-row anchor check.
+
 # Add /test2 synthetic anchors for non-geographical election constituencies
 - [x] Record scope
   - User requested `/test2` support for non-geographical constituencies such as the 1996 Forum Regional List and Queen's University seats, without changing the main site.
-  - Scope: generate synthetic result anchors near the northwestern edge of the active election geography, render seat circles and labels as clickable DOM overlay items, and wire clicks into the existing `/test2` election pane selection.
+  - Scope: generate synthetic result anchors near the edge of the active election geography, render seat circles and labels as clickable DOM overlay items, and wire clicks into the existing `/test2` election pane selection.
+  - Correction: the intended edge is northeast, not northwest; see the correction task above.
 - [x] Inspect current non-geographical result handling
   - Review the election manifest builder, unmatched report classes, and `/test2` seat-circle overlay code.
 - [x] Implement synthetic anchors
@@ -14,7 +33,7 @@
 - [x] Review
   - Document implemented behavior, examples covered, and any remaining limits.
   - Added generalized non-geographical synthetic anchor matching for Forum Regional List, university, and Trinity College-style election result rows.
-  - Synthetic rows are placed near the northwestern side of the active election geography, stacked deterministically when multiple non-geographical rows exist in one election.
+  - Synthetic rows were initially placed near the northwestern side of the active election geography; this was superseded by the northeast correction task above.
   - `/test2` now renders a clickable DOM overlay label plus seat circles for these synthetic rows, and prioritizes them in overlay collision handling so they remain visible.
   - Regenerated `/test2` election metadata. Coverage moved to 249 loadable election entries, 19 placeholders, 4,004 matched rows, and 680 unmatched rows.
   - Remaining unmatched classes are now `main-geography-unsourced`, `referendum-boundary-split-merge`, and `stormont-seat-not-in-source`; `university-seat-no-polygon` has been eliminated.

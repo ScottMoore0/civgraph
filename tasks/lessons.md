@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 147) Directional synthetic map placement must be encoded and validated literally
+- Mistake pattern: Implementing synthetic non-geographical election anchors near the northwest side when the intended placement was northeast.
+- Impact: `/test2` could render the new non-geographical entries and pass broad clickability checks while still placing them in the wrong part of the map.
+- Guardrail:
+  1) directional placement requirements must be reflected in function names and generated method strings,
+  2) route validation must assert the exact generated method string,
+  3) metadata checks should inspect representative synthetic rows after regeneration, not only runtime rendering.
+
 ### 146) Same selected election pane still needs same selected table contract
 - Mistake pattern: Fixing parent-vs-selected election state and then assuming the remaining selected-result pane is visually aligned because both sides show the same constituency/DEA title.
 - Impact: Main and `/test2` can both show `Roscommon Galway`, but still diverge because main's selected `By Party` table uses the constituency party contract (`Stood`, `Elected`, `1st prefs`) while `/test2` may use a broader grouped overall-election table contract (`Candidates`, `Seats`, grouped first preferences).

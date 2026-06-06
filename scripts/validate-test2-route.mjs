@@ -220,7 +220,7 @@ assert(labelsSource.includes('buildRepairedLabelValueExpression') && labelsSourc
 assert(mapControllerSource.includes('repairFeatureProperties(layer, feature.properties || {})'), '/test2 feature selection payloads must include repaired source-data labels');
 assert(adapterSource.includes('repairFeatureProperties(layerConfig'), '/test2 normalized MapLibre features must include repaired source-data labels');
 assert(electionManagerSource.includes('buildRepairedLabelValueExpression') && electionManagerSource.includes('repairFeatureProperties'), '/test2 election matching/styling must use repaired source-data labels');
-assert(electionManifestBuilderSource.includes('isSyntheticNonGeographicResult') && electionManifestBuilderSource.includes('syntheticNonGeographicMatch') && electionManifestBuilderSource.includes('synthetic-northwest-non-geographic'), '/test2 election manifest builder must synthesize safe northwest anchors for non-geographical election rows');
+assert(electionManifestBuilderSource.includes('isSyntheticNonGeographicResult') && electionManifestBuilderSource.includes('syntheticNonGeographicMatch') && electionManifestBuilderSource.includes('synthetic-northeast-non-geographic'), '/test2 election manifest builder must synthesize safe northeast anchors for non-geographical election rows');
 assert(electionManagerSource.includes('test2-election-synthetic-label') && electionManagerSource.includes('result.syntheticNonGeographic') && test2Css.includes('.test2-election-synthetic-label'), '/test2 election overlays must render clickable labels for synthetic non-geographical constituency entries');
 assert(electionManagerSource.includes('syntheticDelta') && electionManagerSource.includes('syntheticNonGeographic'), '/test2 election overlay collision must prioritize synthetic non-geographical markers so they do not disappear behind real constituencies');
 
@@ -270,9 +270,11 @@ if (existsSync('test/metadata/elections-test2.json')) {
   const forum1996Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/northern-ireland-forum-for-political-dialogue__1996-05-30.json', 'utf8'));
   const forumRegionalList = (forum1996Bundle.results || []).find((result) => result.syntheticNonGeographic && result.featureName === 'Regional List');
   assert(forumRegionalList?.matched === true && Array.isArray(forumRegionalList.anchor?.center), '/test2 1996 Forum Regional List must be a clickable synthetic non-geographical result with a map anchor');
+  assert(forumRegionalList?.anchor?.method === 'synthetic-northeast-non-geographic', '/test2 1996 Forum Regional List synthetic anchor must stay on the northeast side of the election geography');
   const stormont1921Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/parliament-of-northern-ireland__1921-05-24.json', 'utf8'));
   const queensUniversity = (stormont1921Bundle.results || []).find((result) => result.syntheticNonGeographic && /Queen's University/.test(result.constituency || ''));
   assert(queensUniversity?.matched === true && Array.isArray(queensUniversity.anchor?.center), '/test2 Queen\'s University Stormont rows must be clickable synthetic non-geographical results with map anchors');
+  assert(queensUniversity?.anchor?.method === 'synthetic-northeast-non-geographic', '/test2 Queen\'s University synthetic anchor must stay on the northeast side of the election geography');
   const localEntries = (electionManifest.elections || []).filter((entry) => entry.bodyGroup === 'local-government');
   const generalLocalEntries = localEntries.filter((entry) => (entry.localBodies || []).length > 1);
   const generalLocalDates = new Map();

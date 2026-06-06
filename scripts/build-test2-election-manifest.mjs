@@ -833,7 +833,7 @@ function isSyntheticNonGeographicResult(entry, constituency) {
 function syntheticNonGeographicMatch(anchorIndex, layer, name, state = { count: 0 }) {
   const bounds = unionAnchorBounds(anchorIndex?.items || []) || layerBounds(layer?.bounds);
   if (!bounds) return null;
-  const anchor = northWestSyntheticAnchor(anchorIndex?.items || [], bounds, state.count || 0);
+  const anchor = northEastSyntheticAnchor(anchorIndex?.items || [], bounds, state.count || 0);
   state.count = (state.count || 0) + 1;
   const center = anchor?.center || boundsCenter(bounds);
   const area = (bounds.east - bounds.west) * (bounds.north - bounds.south);
@@ -847,7 +847,7 @@ function syntheticNonGeographicMatch(anchorIndex, layer, name, state = { count: 
     anchor: {
       center,
       bounds: anchor?.bounds || pointBounds(center) || bounds,
-      method: 'synthetic-northwest-non-geographic',
+      method: 'synthetic-northeast-non-geographic',
       area: Math.abs(area)
     }
   };
@@ -859,7 +859,7 @@ function syntheticNonGeographicLabel(name) {
   return fixText(name || '').trim() || 'Non-geographical constituency';
 }
 
-function northWestSyntheticAnchor(items = [], unionBounds, index = 0) {
+function northEastSyntheticAnchor(items = [], unionBounds, index = 0) {
   const bounds = normalizeBounds(unionBounds);
   if (!bounds) return null;
   const width = Math.max(0.01, bounds.east - bounds.west);
@@ -868,9 +868,9 @@ function northWestSyntheticAnchor(items = [], unionBounds, index = 0) {
   const padLat = height * 0.04;
   const stepLat = height * 0.055;
   const stepLng = width * 0.02;
-  const nwFeature = northWestAnchorItem(items, bounds);
-  const featureBounds = normalizeBounds(nwFeature?.anchor?.bounds || nwFeature?.bounds) || bounds;
-  const lng = clamp(featureBounds.west + padLng + (index % 2) * stepLng, bounds.west + padLng, bounds.east - padLng);
+  const neFeature = northEastAnchorItem(items, bounds);
+  const featureBounds = normalizeBounds(neFeature?.anchor?.bounds || neFeature?.bounds) || bounds;
+  const lng = clamp(featureBounds.east - padLng - (index % 2) * stepLng, bounds.west + padLng, bounds.east - padLng);
   const lat = clamp(featureBounds.north - padLat - Math.floor(index / 2) * stepLat, bounds.south + padLat, bounds.north - padLat);
   const center = [round(lng, 6), round(lat, 6)];
   return {
@@ -879,7 +879,7 @@ function northWestSyntheticAnchor(items = [], unionBounds, index = 0) {
   };
 }
 
-function northWestAnchorItem(items = [], bounds) {
+function northEastAnchorItem(items = [], bounds) {
   const normalizedBounds = normalizeBounds(bounds);
   if (!normalizedBounds) return null;
   let best = null;
@@ -887,10 +887,10 @@ function northWestAnchorItem(items = [], bounds) {
     const itemBounds = normalizeBounds(item?.anchor?.bounds || item?.bounds);
     if (!itemBounds) continue;
     const score = Math.hypot(
-      itemBounds.west - normalizedBounds.west,
+      itemBounds.east - normalizedBounds.east,
       itemBounds.north - normalizedBounds.north
     );
-    if (!best || score < best.score || (score === best.score && itemBounds.west < best.bounds.west)) {
+    if (!best || score < best.score || (score === best.score && itemBounds.east > best.bounds.east)) {
       best = { item, bounds: itemBounds, score };
     }
   }
