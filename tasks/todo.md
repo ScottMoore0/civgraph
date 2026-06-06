@@ -1,3 +1,22 @@
+# Fix recurring `/test2` real-phone touch gestures
+- [x] Record scope and recurrence
+  - Task: fix the reported live-phone failure where `/test2` still cannot pan, pinch zoom, rotate, or tilt after the previous gesture-handler patch.
+  - Constraints: change `/test2` and shared MapLibre support only; do not change the main site; avoid staging unrelated generated metadata/scratch changes; commit and push after verification unless sensitive/private.
+  - Plan: inspect the actual mobile touch path, patch the MapLibre runtime/CSS/service-worker cache contract, add guardrails that verify touch hit-testing and cache versioning, rebuild/check, and push.
+- [x] Diagnose and patch root causes
+  - Scope: MapLibre canvas hit-testing, CSS `touch-action`, overlay pointer events, browser default touch gestures, service-worker cache freshness.
+  - Done: fixed two root causes that were not covered by the prior handler-only guardrail. First, `/test2/sw.js` used a static cache version, so phones could keep stale gesture code after deploys. Second, the map touch contract was only expressed in CSS/handler flags, not enforced at runtime after split/catalogue transitions. The shared MapLibre renderer now applies the touch contract inline, prevents browser page gestures from stealing map touchmove/gesture events, and refreshes resize/touch state through a `ResizeObserver`; the `/test2` adapter forwards diagnostics and reapplies the contract during `invalidateSize()`.
+  - Permanent prevention action: route validation now requires the scoped service-worker version to match the current `/test2` bundle hash, and mobile browser tests wait for and assert the actual canvas hit-test condition.
+- [x] Verify and deliver
+  - Scope: source validation, `/test2` build/check, focused mobile browser tests, scoped commit/push.
+  - Verification evidence: `node --check` passed for edited source/test/script files; escalated `npm run build:test2` passed and rewrote `/test2/sw.js` to `test2-sw-b3620f1af138`; `npm run check:test2` passed; focused mobile Playwright tests for catalogue/gesture state and election seat-circle overlays passed; escalated `npm run check` passed, including Pages asset-budget validation.
+
+## Recurring issue: `/test2` phone gestures still blocked after handler-only fixes
+- Symptom: on a real phone, `/test2` still cannot pan, pinch zoom, rotate, or tilt despite MapLibre handler flags being enabled in automated tests.
+- Root cause: the previous fix proved MapLibre handlers were enabled but did not guarantee live phones received the new code or that touch events remained bound to the MapLibre canvas after mobile shell transitions. The scoped service worker kept a static cache version, and touch settings were not re-applied inline after catalogue/map split changes.
+- Permanent prevention action: `/test2` build now ties the service-worker version to the current bundle hash; route validation enforces that relationship; the shared MapLibre renderer re-applies the touch contract at runtime and through resize observation; mobile browser tests assert canvas hit-testing as well as handler flags.
+- Verification evidence: focused mobile Playwright tests passed for both plain mobile map mode and the election seat-circle overlay case; `/test2` and repository checks passed.
+
 # Fix `/test2` phone pan, pinch, and tilt regression
 - [x] Record scope and plan
   - Task: fix the reported live-phone failure where `/test2` still cannot pan, drag, pinch zoom, or tilt on mobile after the previous mobile performance fix.

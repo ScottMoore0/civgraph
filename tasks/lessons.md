@@ -2057,3 +2057,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) tests must also assert the actual canvas and canvas-container `touch-action`,
   3) any mobile overlay/label used on top of MapLibre must have coarse-pointer hit-testing assertions,
   4) never call a mobile gesture fix complete from handler flags alone.
+
+### 156) Real-phone gesture fixes must invalidate stale `/test2` service-worker caches
+- Mistake pattern: Fixing `/test2` mobile gestures in source and generated bundles while leaving the scoped service worker on a static cache version.
+- Impact: a real phone can keep serving older `/test2` JavaScript/CSS from the previous service-worker cache, making the live site behave as if the fix was never deployed even when local tests pass.
+- Guardrail:
+  1) `/test2` build output must advance the scoped service-worker version when the built bundle hash changes,
+  2) route validation must compare the service-worker version against the current `/test2/build/test2.bundle.js?v=...` hash,
+  3) mobile gesture tests must verify actual hit-testing at a map point, not just handler flags,
+  4) runtime code should apply the touch contract inline on the MapLibre container/canvas so stale or reordered CSS cannot silently undo it.

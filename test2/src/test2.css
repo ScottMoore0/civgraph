@@ -8,6 +8,21 @@
   min-height: 0;
 }
 
+#map,
+#map .maplibregl-map,
+#map .maplibregl-canvas-container,
+#map .maplibregl-canvas {
+  touch-action: none !important;
+  overscroll-behavior: contain;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+#map .maplibregl-canvas {
+  pointer-events: auto;
+}
+
 .pane--map > #timelineSlider.timeline-slider {
   position: static;
   inset: auto;

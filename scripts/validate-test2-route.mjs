@@ -7,6 +7,7 @@ const appSource = readFileSync('test2/src/app.js', 'utf8');
 const adapterSource = readFileSync('test2/src/maplibre-main-adapter.js', 'utf8');
 const electionManagerSource = readFileSync('test2/src/election-manager.js', 'utf8');
 const electionPaneContractSource = readFileSync('test2/src/election-pane-main-contract.js', 'utf8');
+const test2ServiceWorkerSource = readFileSync('test2/sw.js', 'utf8');
 const mainElectionPaneContractSource = readFileSync('js/election-main-pane-contract.mjs', 'utf8');
 const electionDomainSource = readFileSync('js/election-domain.mjs', 'utf8');
 const electionViewModelSource = readFileSync('js/election-view-model.mjs', 'utf8');
@@ -22,6 +23,7 @@ const packageJsonSource = readFileSync('package.json', 'utf8');
 const portPlan = JSON.parse(readFileSync('test/metadata/main-site-port-plan.json', 'utf8'));
 const testMetadata = JSON.parse(readFileSync('test/metadata/maps-test.json', 'utf8'));
 const mapsDb = JSON.parse(readFileSync('data/database/maps.json', 'utf8'));
+const test2BundleVersion = index.match(/\/test2\/build\/test2\.bundle\.js\?v=([0-9a-f]{12})/)?.[1] || '';
 
 function assert(condition, message) {
   if (!condition) failures.push(message);
@@ -105,6 +107,8 @@ assert(existsSync('scripts/audit-test2-general-parity.mjs'), '/test2 general par
 assert(packageJsonSource.includes('"audit:test2:parity"'), '/test2 general parity audit must be exposed through package scripts');
 assert(index.includes('/test2/build/test2.bundle.js'), '/test2 must load its own MapLibre bundle');
 assert(index.includes('/test2/build/test2.bundle.css'), '/test2 must load its own MapLibre CSS bundle');
+assert(Boolean(test2BundleVersion), '/test2 bundle script must include a content-hash cache key');
+assert(test2ServiceWorkerSource.includes(`const VERSION = 'test2-sw-${test2BundleVersion}';`), '/test2 scoped service-worker cache version must match the current bundle hash so phones cannot retain stale gesture code');
 assert(index.includes('href="/build/main.css'), '/test2 must load shared main CSS from the site root, not route-relative /test2/build/main.css');
 assert(!index.includes('leaflet-1.9.4'), '/test2 must not load Leaflet assets');
 assert(!index.includes('build/app.bundle.js'), '/test2 must not load the production app bundle');
@@ -141,6 +145,8 @@ assert(test2Css.includes('#map .maplibregl-ctrl-top-left') && test2Css.includes(
 assert(mapControllerSource.includes("this.map.on('dblclick', onDoubleClick)"), '/test2 feature geometry selection must be wired to double-click');
 assert(mapControllerSource.includes('this.map.doubleClickZoom?.disable()'), '/test2 must disable MapLibre double-tap zoom so mobile feature taps can open details');
 assert(mapControllerSource.includes("this.map.on('click', onClick)"), '/test2 feature geometry selection must be wired to ordinary tap/click as well as double-click');
+assert(mapControllerSource.includes('installMobileGestureGuards') && mapControllerSource.includes('installMobileGestureResizeObserver') && mapControllerSource.includes('ResizeObserver') && mapControllerSource.includes('applyMobileTouchContract') && mapControllerSource.includes('getMobileGestureDiagnostics') && adapterSource.includes('getMobileGestureDiagnostics') && adapterSource.includes('applyMobileTouchContract'), '/test2 MapLibre controller and adapter must runtime-enforce the mobile touch contract and expose gesture diagnostics');
+assert(test2Css.includes('#map .maplibregl-map') && test2Css.includes('overscroll-behavior: contain') && test2Css.includes('-webkit-touch-callout: none'), '/test2 route CSS must apply a full mobile touch contract to the map container and canvas');
 assert(appSource.includes('relocateMobileCatalogueToggle') && appSource.includes('mobile-toggle--navbar'), '/test2 must move the mobile catalogue toggle into the navbar instead of leaving it as a floating map overlay');
 assert(test2Css.includes('.app-header #mobileToggle.mobile-toggle.mobile-toggle--navbar') && test2Css.includes('position: static !important'), '/test2 mobile catalogue toggle must be styled as a navbar control on mobile');
 assert(!test2Css.includes('bottom: 14px !important'), '/test2 mobile catalogue toggle must not be restored to the bottom-right map overlay position');
@@ -175,7 +181,7 @@ assert(!mapControllerSource.includes('fillOpacity ?? 0.18') && !adapterSource.in
 assert(mapControllerSource.includes('if (!feature)') && mapControllerSource.includes('this.clearHover();'), '/test2 map interactions must clear transient hover state on empty map taps/clicks');
 assert(appSource.includes('Test2ElectionManager'), '/test2 must wire the election manager into the main shell route');
 assert(!appSource.includes('Election map workflows are not converted for /test2 yet'), '/test2 election callbacks must not remain disabled stubs');
-assert(appSource.includes('onBuildElectionCatalogueCards') && appSource.includes('this.elections?.buildCatalogueCards'), '/test2 catalogue must expose generated election entries');
+assert(appSource.includes('onBuildElectionCatalogueCards') && appSource.includes('this.elections.buildCatalogueCards()'), '/test2 catalogue must expose generated election entries');
 assert(appSource.includes('includeMobileElectionCatalogue = true'), '/test2 must opt in to visible election catalogue entries on mobile');
 assert(!appSource.includes('includeElectionTocRows = true'), '/test2 must not opt in to individual election rows in the top catalogue table');
 assert(uiControllerSource.includes('catalogue-flat__toc-decade-btn') && uiControllerSource.includes('flat-election-entry'), '/test2 catalogue must keep main-style decade TOC buttons with election entries inside decade cards');

@@ -658,8 +658,7 @@ test('/test2 mobile catalogue stays bounded and map gestures stay enabled', asyn
   await page.evaluate(() => window.uiController?.setSplitState?.('info-full'));
   await page.waitForFunction(() => document.querySelector('#catalogueFlatView')?.dataset.rendered === 'true');
 
-  const state = await page.evaluate(() => {
-    const map = window.__civgraphTest2.mapController.map;
+  const catalogueState = await page.evaluate(() => {
     const electionCards = document.querySelectorAll('#catalogueFlatView .c1-card[data-c1-id^="flat-elections"]').length;
     const mapCards = [...document.querySelectorAll('#catalogueFlatView .c1-card[data-c1-id]')]
       .filter((card) => !(card.dataset.c1Id || '').startsWith('flat-elections')).length;
@@ -670,7 +669,25 @@ test('/test2 mobile catalogue stays bounded and map gestures stay enabled', asyn
       showMore: Boolean(document.querySelector('#catalogueFlatView [data-mobile-catalogue-full]')),
       showAllMaps: window.uiController.showAllMaps,
       mapLimit: window.uiController._mobileInitialMapCardLimit,
-      electionLimit: window.uiController._mobileInitialElectionCardLimit,
+      electionLimit: window.uiController._mobileInitialElectionCardLimit
+    };
+  });
+
+  await page.evaluate(() => window.uiController?.setSplitState?.('map-full'));
+  await page.waitForFunction(() => document.body.dataset.splitState === 'map-full');
+  await page.waitForFunction(() => {
+    const diagnostics = window.__civgraphTest2?.mapController?.getMobileGestureDiagnostics?.();
+    return diagnostics
+      && diagnostics.rootTouchAction === 'none'
+      && diagnostics.canvasTouchAction === 'none'
+      && diagnostics.canvasContainerTouchAction === 'none'
+      && diagnostics.topWithinMap
+      && (diagnostics.topIsCanvas || diagnostics.topWithinCanvasContainer);
+  });
+
+  const gestureState = await page.evaluate(() => {
+    const map = window.__civgraphTest2.mapController.map;
+    return {
       dragPanEnabled: typeof map.dragPan?.isEnabled === 'function' ? map.dragPan.isEnabled() : true,
       dragRotateEnabled: typeof map.dragRotate?.isEnabled === 'function' ? map.dragRotate.isEnabled() : true,
       touchZoomEnabled: typeof map.touchZoomRotate?.isEnabled === 'function' ? map.touchZoomRotate.isEnabled() : true,
@@ -678,25 +695,29 @@ test('/test2 mobile catalogue stays bounded and map gestures stay enabled', asyn
       doubleClickZoomDisabled: typeof map.doubleClickZoom?.isEnabled === 'function' ? !map.doubleClickZoom.isEnabled() : true,
       canvasTouchAction: getComputedStyle(map.getCanvas()).touchAction,
       canvasContainerTouchAction: getComputedStyle(map.getCanvasContainer()).touchAction,
+      gestureDiagnostics: window.__civgraphTest2.mapController.getMobileGestureDiagnostics?.(),
       hasTouchZoomRotateClass: map.getCanvasContainer().classList.contains('maplibregl-touch-zoom-rotate'),
       hasTouchDragPanClass: map.getCanvasContainer().classList.contains('maplibregl-touch-drag-pan')
     };
   });
 
-  expect(state.showAllMaps).toBe(false);
-  expect(state.showMore).toBe(true);
-  expect(state.mapCards).toBeLessThanOrEqual(state.mapLimit);
-  expect(state.electionCards).toBeLessThanOrEqual(state.electionLimit);
-  expect(state.electionRows).toBeLessThanOrEqual(80);
-  expect(state.dragPanEnabled).toBe(true);
-  expect(state.dragRotateEnabled).toBe(true);
-  expect(state.touchZoomEnabled).toBe(true);
-  expect(state.touchPitchEnabled).toBe(true);
-  expect(state.doubleClickZoomDisabled).toBe(true);
-  expect(state.canvasTouchAction).toBe('none');
-  expect(state.canvasContainerTouchAction).toBe('none');
-  expect(state.hasTouchZoomRotateClass).toBe(true);
-  expect(state.hasTouchDragPanClass).toBe(true);
+  expect(catalogueState.showAllMaps).toBe(false);
+  expect(catalogueState.showMore).toBe(true);
+  expect(catalogueState.mapCards).toBeLessThanOrEqual(catalogueState.mapLimit);
+  expect(catalogueState.electionCards).toBeLessThanOrEqual(catalogueState.electionLimit);
+  expect(catalogueState.electionRows).toBeLessThanOrEqual(80);
+  expect(gestureState.dragPanEnabled).toBe(true);
+  expect(gestureState.dragRotateEnabled).toBe(true);
+  expect(gestureState.touchZoomEnabled).toBe(true);
+  expect(gestureState.touchPitchEnabled).toBe(true);
+  expect(gestureState.doubleClickZoomDisabled).toBe(true);
+  expect(gestureState.canvasTouchAction).toBe('none');
+  expect(gestureState.canvasContainerTouchAction).toBe('none');
+  expect(gestureState.gestureDiagnostics.rootTouchAction).toBe('none');
+  expect(gestureState.gestureDiagnostics.topIsCanvas || gestureState.gestureDiagnostics.topWithinCanvasContainer).toBe(true);
+  expect(gestureState.gestureDiagnostics.topWithinMap).toBe(true);
+  expect(gestureState.hasTouchZoomRotateClass).toBe(true);
+  expect(gestureState.hasTouchDragPanClass).toBe(true);
 });
 
 test('/test2 mobile election seat-circle overlays do not block map gestures', async ({ page }) => {
@@ -704,6 +725,15 @@ test('/test2 mobile election seat-circle overlays do not block map gestures', as
   await page.goto('/test2/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForFunction(() => {
+    const diagnostics = window.__civgraphTest2?.mapController?.getMobileGestureDiagnostics?.();
+    return diagnostics
+      && diagnostics.rootTouchAction === 'none'
+      && diagnostics.canvasTouchAction === 'none'
+      && diagnostics.canvasContainerTouchAction === 'none'
+      && diagnostics.topWithinMap
+      && (diagnostics.topIsCanvas || diagnostics.topWithinCanvasContainer);
+  });
 
   const overlayState = await page.evaluate(() => {
     const map = window.__civgraphTest2.mapController.map;
@@ -723,6 +753,7 @@ test('/test2 mobile election seat-circle overlays do not block map gestures', as
       labelPointerEvents,
       canvasTouchAction: getComputedStyle(map.getCanvas()).touchAction,
       canvasContainerTouchAction: getComputedStyle(map.getCanvasContainer()).touchAction,
+      gestureDiagnostics: window.__civgraphTest2.mapController.getMobileGestureDiagnostics?.(),
       dragPanEnabled: typeof map.dragPan?.isEnabled === 'function' ? map.dragPan.isEnabled() : true,
       dragRotateEnabled: typeof map.dragRotate?.isEnabled === 'function' ? map.dragRotate.isEnabled() : true,
       touchZoomEnabled: typeof map.touchZoomRotate?.isEnabled === 'function' ? map.touchZoomRotate.isEnabled() : true,
@@ -734,6 +765,9 @@ test('/test2 mobile election seat-circle overlays do not block map gestures', as
   expect(overlayState.labelPointerEvents).toBe('none');
   expect(overlayState.canvasTouchAction).toBe('none');
   expect(overlayState.canvasContainerTouchAction).toBe('none');
+  expect(overlayState.gestureDiagnostics.rootTouchAction).toBe('none');
+  expect(overlayState.gestureDiagnostics.topIsCanvas || overlayState.gestureDiagnostics.topWithinCanvasContainer).toBe(true);
+  expect(overlayState.gestureDiagnostics.topWithinMap).toBe(true);
   expect(overlayState.dragPanEnabled).toBe(true);
   expect(overlayState.dragRotateEnabled).toBe(true);
   expect(overlayState.touchZoomEnabled).toBe(true);

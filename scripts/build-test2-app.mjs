@@ -56,6 +56,7 @@ const cssVersion = existsSync('test2/build/test2.bundle.css')
   ? contentHash('test2/build/test2.bundle.css')
   : jsVersion;
 updateHtmlVersions(jsVersion, cssVersion);
+updateServiceWorkerVersion(jsVersion);
 
 console.log(`Test2 bundle: ${(jsBytes / 1024).toFixed(1)} KB`);
 console.log(`Test2 CSS: ${(cssBytes / 1024).toFixed(1)} KB`);
@@ -84,4 +85,16 @@ function updateHtmlVersions(jsVersion, cssVersion) {
     .replace(/\/test2\/build\/test2\.bundle\.js\?v=[^"']+/g, `/test2/build/test2.bundle.js?v=${jsVersion}`)
     .replace(/\/test2\/build\/test2\.bundle\.css\?v=[^"']+/g, `/test2/build/test2.bundle.css?v=${cssVersion}`);
   writeFileSync(htmlPath, html);
+}
+
+function updateServiceWorkerVersion(jsVersion) {
+  const swPath = 'test2/sw.js';
+  if (!existsSync(swPath)) return;
+  const nextVersion = `test2-sw-${jsVersion}`;
+  const source = readFileSync(swPath, 'utf8');
+  const nextSource = source.replace(/const VERSION = 'test2-sw-[^']+';/, `const VERSION = '${nextVersion}';`);
+  if (nextSource === source && !source.includes(`const VERSION = '${nextVersion}';`)) {
+    throw new Error('Could not update /test2 service worker version');
+  }
+  writeFileSync(swPath, nextSource);
 }

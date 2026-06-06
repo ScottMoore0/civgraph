@@ -97,6 +97,9 @@ export class TestMapLibreController {
     this.duplicateFeatureIdCache = new Map();
     this.pmtilesArchiveCache = new Map();
     this.runtimeProfile = resolveRuntimeProfile();
+    this.mobileGestureGuardInstalled = false;
+    this.mobileGestureResizeObserver = null;
+    this.mobileGestureResizeFrame = 0;
     maplibregl.addProtocol('pmtiles', this.protocol.tile);
   }
 
@@ -147,9 +150,17 @@ export class TestMapLibreController {
     });
 
     this.map.doubleClickZoom?.disable();
+    this.installMobileGestureGuards();
     this.enableGestureHandlers();
-    this.map.on('load', () => this.enableGestureHandlers());
-    this.map.on('styledata', () => this.enableGestureHandlers());
+    this.applyMobileTouchContract();
+    this.map.on('load', () => {
+      this.enableGestureHandlers();
+      this.applyMobileTouchContract();
+    });
+    this.map.on('styledata', () => {
+      this.enableGestureHandlers();
+      this.applyMobileTouchContract();
+    });
     this.map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-left');
     this.map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-right');
     this.map.on('moveend', () => this.notifyChange());
@@ -166,6 +177,108 @@ export class TestMapLibreController {
     this.map.touchPitch?.enable?.({ around: 'center' });
     this.map.scrollZoom?.enable?.();
     this.map.keyboard?.enable?.();
+    this.applyMobileTouchContract();
+  }
+
+  installMobileGestureGuards() {
+    if (!this.map || this.mobileGestureGuardInstalled) return;
+    const root = this.map.getContainer?.();
+    if (!root?.addEventListener) return;
+    this.mobileGestureGuardInstalled = true;
+    const chromeSelector = [
+      'button',
+      'a',
+      'input',
+      'select',
+      'textarea',
+      '[contenteditable="true"]',
+      '.maplibregl-ctrl',
+      '.test2-main-zoom-control',
+      '.active-layers-toggle',
+      '.map-controls',
+      '.map-control-panel',
+      '.active-layers',
+      '.feature-info',
+      '.test2-source-panel',
+      '.test2-election-pane-resizer',
+      '#timelineSlider'
+    ].join(',');
+    const isChromeTarget = (target) => Boolean(target?.closest?.(chromeSelector));
+    const preventBrowserMapGesture = (event) => {
+      if (isChromeTarget(event.target)) return;
+      if (event.cancelable) event.preventDefault();
+    };
+    const preventBrowserMultiTouchStart = (event) => {
+      if (!event.touches || event.touches.length < 2 || isChromeTarget(event.target)) return;
+      if (event.cancelable) event.preventDefault();
+    };
+    root.addEventListener('touchstart', preventBrowserMultiTouchStart, { passive: false });
+    root.addEventListener('touchmove', preventBrowserMapGesture, { passive: false });
+    root.addEventListener('gesturestart', preventBrowserMapGesture, { passive: false });
+    root.addEventListener('gesturechange', preventBrowserMapGesture, { passive: false });
+    root.addEventListener('gestureend', preventBrowserMapGesture, { passive: false });
+    this.installMobileGestureResizeObserver(root);
+  }
+
+  installMobileGestureResizeObserver(root) {
+    if (!this.map || this.mobileGestureResizeObserver || typeof ResizeObserver === 'undefined') return;
+    const scheduleRefresh = () => {
+      if (this.mobileGestureResizeFrame) return;
+      this.mobileGestureResizeFrame = requestAnimationFrame(() => {
+        this.mobileGestureResizeFrame = 0;
+        this.applyMobileTouchContract();
+        this.map?.resize?.();
+      });
+    };
+    this.mobileGestureResizeObserver = new ResizeObserver(scheduleRefresh);
+    this.mobileGestureResizeObserver.observe(root);
+    const canvasContainer = this.map.getCanvasContainer?.();
+    if (canvasContainer && canvasContainer !== root) this.mobileGestureResizeObserver.observe(canvasContainer);
+  }
+
+  applyMobileTouchContract() {
+    if (!this.map) return;
+    const elements = [
+      document.getElementById(typeof this.container === 'string' ? this.container : ''),
+      this.map.getContainer?.(),
+      this.map.getCanvasContainer?.(),
+      this.map.getCanvas?.()
+    ].filter(Boolean);
+    for (const element of new Set(elements)) {
+      element.style.touchAction = 'none';
+      element.style.overscrollBehavior = 'contain';
+      element.style.userSelect = 'none';
+      element.style.webkitUserSelect = 'none';
+      element.style.webkitTouchCallout = 'none';
+    }
+    const canvas = this.map.getCanvas?.();
+    if (canvas) canvas.style.pointerEvents = 'auto';
+  }
+
+  getMobileGestureDiagnostics() {
+    if (!this.map) return null;
+    this.applyMobileTouchContract();
+    const canvas = this.map.getCanvas?.();
+    const canvasContainer = this.map.getCanvasContainer?.();
+    const root = this.map.getContainer?.();
+    const rect = canvas?.getBoundingClientRect?.();
+    const x = rect ? rect.left + rect.width * 0.5 : 0;
+    const y = rect ? rect.top + rect.height * 0.5 : 0;
+    const top = rect ? document.elementFromPoint(x, y) : null;
+    return {
+      topTag: top?.tagName || '',
+      topClass: top?.className ? String(top.className) : '',
+      topIsCanvas: top === canvas,
+      topWithinMap: Boolean(top?.closest?.('#map')),
+      topWithinCanvasContainer: Boolean(canvasContainer?.contains?.(top)),
+      rootTouchAction: root ? getComputedStyle(root).touchAction : '',
+      canvasTouchAction: canvas ? getComputedStyle(canvas).touchAction : '',
+      canvasContainerTouchAction: canvasContainer ? getComputedStyle(canvasContainer).touchAction : '',
+      dragPanEnabled: typeof this.map.dragPan?.isEnabled === 'function' ? this.map.dragPan.isEnabled() : true,
+      dragRotateEnabled: typeof this.map.dragRotate?.isEnabled === 'function' ? this.map.dragRotate.isEnabled() : true,
+      touchZoomEnabled: typeof this.map.touchZoomRotate?.isEnabled === 'function' ? this.map.touchZoomRotate.isEnabled() : true,
+      touchPitchEnabled: typeof this.map.touchPitch?.isEnabled === 'function' ? this.map.touchPitch.isEnabled() : true
+    };
   }
 
   async loadLayer(layer) {

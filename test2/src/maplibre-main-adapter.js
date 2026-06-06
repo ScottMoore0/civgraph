@@ -103,7 +103,16 @@ export class Test2MapLibreMainAdapter {
     this.map = this.renderer.map;
     this.map.invalidateSize = () => this.invalidateSize();
     this.installMainStyleMapControls();
+    this.applyMobileTouchContract();
     return this;
+  }
+
+  applyMobileTouchContract() {
+    this.renderer?.applyMobileTouchContract?.();
+  }
+
+  getMobileGestureDiagnostics() {
+    return this.renderer?.getMobileGestureDiagnostics?.() || null;
   }
 
   installMainStyleMapControls() {
@@ -592,7 +601,11 @@ export class Test2MapLibreMainAdapter {
 
   invalidateSize() {
     if (!this.map) return;
-    setTimeout(() => this.map.resize(), 0);
+    this.applyMobileTouchContract();
+    setTimeout(() => {
+      this.applyMobileTouchContract();
+      this.map.resize();
+    }, 0);
   }
 
   highlightFeature(mainId, featureId, options = {}) {
