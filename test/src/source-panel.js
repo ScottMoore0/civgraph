@@ -6,7 +6,8 @@ function isLocalTestTileTemplate(value) {
 
 function localTestTilesAvailable() {
   const hostname = globalThis.location?.hostname || '';
-  return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+  return globalThis.__civgraphUseLocalTileFallback === true
+    && (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1');
 }
 
 export function renderSourcePanel(els, controller, options = {}) {

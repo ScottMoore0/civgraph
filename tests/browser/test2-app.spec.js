@@ -1,18 +1,23 @@
 const { test, expect } = require('@playwright/test');
 const AxeBuilder = require('@axe-core/playwright').default;
+const fs = require('fs');
+const path = require('path');
+
+const CIVIL_PARISHES_FALLBACK_DIR = path.join(__dirname, '..', '..', 'test', 'tiles', 'civil-parishes-v3');
 
 async function loadCivilParishes(page) {
-  return page.evaluate(async () => {
+  const useLocalFallback = fs.existsSync(CIVIL_PARISHES_FALLBACK_DIR);
+  return page.evaluate(async ({ useLocalFallback }) => {
     const app = window.__civgraphTest2.app;
     const layer = window.__civgraphTest2.metadataService.getLayer('civil-parishes-vector-test');
-    if (layer?.tilesFallback) {
+    if (useLocalFallback && layer?.tilesFallback) {
       layer.sourceType = 'mvt';
       layer.tiles = layer.tilesFallback;
     }
     await app.loadMap('civil-parishes-by-province');
     await new Promise((resolve) => window.__civgraphTest2.mapController.map.once('idle', resolve));
     return true;
-  });
+  }, { useLocalFallback });
 }
 
 async function expectElectionFilterMenuInsideViewport(page) {
@@ -667,8 +672,14 @@ test('/test2 mobile catalogue stays bounded and map gestures stay enabled', asyn
       mapLimit: window.uiController._mobileInitialMapCardLimit,
       electionLimit: window.uiController._mobileInitialElectionCardLimit,
       dragPanEnabled: typeof map.dragPan?.isEnabled === 'function' ? map.dragPan.isEnabled() : true,
+      dragRotateEnabled: typeof map.dragRotate?.isEnabled === 'function' ? map.dragRotate.isEnabled() : true,
       touchZoomEnabled: typeof map.touchZoomRotate?.isEnabled === 'function' ? map.touchZoomRotate.isEnabled() : true,
-      doubleClickZoomDisabled: typeof map.doubleClickZoom?.isEnabled === 'function' ? !map.doubleClickZoom.isEnabled() : true
+      touchPitchEnabled: typeof map.touchPitch?.isEnabled === 'function' ? map.touchPitch.isEnabled() : true,
+      doubleClickZoomDisabled: typeof map.doubleClickZoom?.isEnabled === 'function' ? !map.doubleClickZoom.isEnabled() : true,
+      canvasTouchAction: getComputedStyle(map.getCanvas()).touchAction,
+      canvasContainerTouchAction: getComputedStyle(map.getCanvasContainer()).touchAction,
+      hasTouchZoomRotateClass: map.getCanvasContainer().classList.contains('maplibregl-touch-zoom-rotate'),
+      hasTouchDragPanClass: map.getCanvasContainer().classList.contains('maplibregl-touch-drag-pan')
     };
   });
 
@@ -678,8 +689,14 @@ test('/test2 mobile catalogue stays bounded and map gestures stay enabled', asyn
   expect(state.electionCards).toBeLessThanOrEqual(state.electionLimit);
   expect(state.electionRows).toBeLessThanOrEqual(80);
   expect(state.dragPanEnabled).toBe(true);
+  expect(state.dragRotateEnabled).toBe(true);
   expect(state.touchZoomEnabled).toBe(true);
+  expect(state.touchPitchEnabled).toBe(true);
   expect(state.doubleClickZoomDisabled).toBe(true);
+  expect(state.canvasTouchAction).toBe('none');
+  expect(state.canvasContainerTouchAction).toBe('none');
+  expect(state.hasTouchZoomRotateClass).toBe(true);
+  expect(state.hasTouchDragPanClass).toBe(true);
 });
 
 test('/test2 mobile election seat-circle overlays do not block map gestures', async ({ page }) => {
@@ -690,21 +707,37 @@ test('/test2 mobile election seat-circle overlays do not block map gestures', as
 
   const overlayState = await page.evaluate(() => {
     const map = window.__civgraphTest2.mapController.map;
+    const mapElement = document.getElementById('map');
     const probe = document.createElement('div');
     probe.className = 'test2-election-seat-circle';
-    document.body.appendChild(probe);
+    mapElement.appendChild(probe);
     const ordinaryPointerEvents = getComputedStyle(probe).pointerEvents;
     probe.remove();
+    const labelProbe = document.createElement('span');
+    labelProbe.className = 'maplibre-dom-label';
+    mapElement.appendChild(labelProbe);
+    const labelPointerEvents = getComputedStyle(labelProbe).pointerEvents;
+    labelProbe.remove();
     return {
       ordinaryPointerEvents,
+      labelPointerEvents,
+      canvasTouchAction: getComputedStyle(map.getCanvas()).touchAction,
+      canvasContainerTouchAction: getComputedStyle(map.getCanvasContainer()).touchAction,
       dragPanEnabled: typeof map.dragPan?.isEnabled === 'function' ? map.dragPan.isEnabled() : true,
-      touchZoomEnabled: typeof map.touchZoomRotate?.isEnabled === 'function' ? map.touchZoomRotate.isEnabled() : true
+      dragRotateEnabled: typeof map.dragRotate?.isEnabled === 'function' ? map.dragRotate.isEnabled() : true,
+      touchZoomEnabled: typeof map.touchZoomRotate?.isEnabled === 'function' ? map.touchZoomRotate.isEnabled() : true,
+      touchPitchEnabled: typeof map.touchPitch?.isEnabled === 'function' ? map.touchPitch.isEnabled() : true
     };
   });
 
   expect(overlayState.ordinaryPointerEvents).toBe('none');
+  expect(overlayState.labelPointerEvents).toBe('none');
+  expect(overlayState.canvasTouchAction).toBe('none');
+  expect(overlayState.canvasContainerTouchAction).toBe('none');
   expect(overlayState.dragPanEnabled).toBe(true);
+  expect(overlayState.dragRotateEnabled).toBe(true);
   expect(overlayState.touchZoomEnabled).toBe(true);
+  expect(overlayState.touchPitchEnabled).toBe(true);
 });
 
 test('/test2 loads a converted layer through the main catalogue map callback', async ({ page }) => {
@@ -1874,12 +1907,24 @@ test('/test2 mobile-sized feature taps select geometry without double-tap zoom',
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await page.evaluate(() => window.uiController?.setSplitState?.('map-full'));
   await loadCivilParishes(page);
+  await page.waitForFunction(() => {
+    const map = window.__civgraphTest2?.mapController?.map;
+    if (!map) return false;
+    const layers = ['civil-parishes-vector-test-fill'].filter((id) => map.getLayer(id));
+    if (layers.length === 0) return false;
+    const hasCoordinates = (value) => {
+      if (!Array.isArray(value)) return false;
+      if (value.length >= 2 && typeof value[0] === 'number' && typeof value[1] === 'number') return true;
+      return value.some(hasCoordinates);
+    };
+    return map.queryRenderedFeatures({ layers }).some((feature) => hasCoordinates(feature?.geometry?.coordinates));
+  }, { timeout: 15000 });
 
   const target = await page.evaluate(() => {
     const map = window.__civgraphTest2.mapController.map;
-    const feature = map.queryRenderedFeatures({
+    const features = map.queryRenderedFeatures({
       layers: ['civil-parishes-vector-test-fill'].filter((id) => map.getLayer(id))
-    })[0];
+    });
     const coords = [];
     const walk = (value) => {
       if (!Array.isArray(value)) return;
@@ -1889,7 +1934,12 @@ test('/test2 mobile-sized feature taps select geometry without double-tap zoom',
       }
       value.forEach(walk);
     };
-    walk(feature?.geometry?.coordinates);
+    const feature = features.find((candidate) => {
+      coords.length = 0;
+      walk(candidate?.geometry?.coordinates);
+      return coords.length > 0;
+    });
+    if (!feature || coords.length === 0) throw new Error('No civil parish geometry was available to tap');
     const lng = coords.reduce((sum, coord) => sum + coord[0], 0) / coords.length;
     const lat = coords.reduce((sum, coord) => sum + coord[1], 0) / coords.length;
     const point = map.project([lng, lat]);

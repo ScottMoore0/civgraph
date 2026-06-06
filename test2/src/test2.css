@@ -413,6 +413,21 @@ body.test2-election-pane-resizing * {
     1px 1px 0 #fff;
 }
 
+@media (max-width: 768px), (pointer: coarse) {
+  #map .maplibregl-canvas-container,
+  #map .maplibregl-canvas {
+    touch-action: none !important;
+  }
+
+  #map .test2-election-seat-overlay,
+  #map .maplibre-dom-label,
+  #map .maplibre-dom-label *,
+  #map .test2-election-seat-circle,
+  #map .test2-election-seat-circle * {
+    pointer-events: none !important;
+  }
+}
+
 #test2Status.map-error {
   position: absolute;
   left: 16px;

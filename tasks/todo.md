@@ -1,3 +1,28 @@
+# Fix `/test2` phone pan, pinch, and tilt regression
+- [x] Record scope and plan
+  - Task: fix the reported live-phone failure where `/test2` still cannot pan, drag, pinch zoom, or tilt on mobile after the previous mobile performance fix.
+  - Constraints: change `/test2` and shared MapLibre support only; do not change the main site; preserve the mobile catalogue performance work; avoid staging unrelated generated data churn; commit and push after verification.
+  - Plan: inspect actual MapLibre touch-handler setup, mobile CSS hit-testing, overlay/control layers, and generated bundle output; patch root touch blockers and enable the expected MapLibre mobile gestures; add browser guardrails that assert touch/pitch/rotate capability rather than only handler presence; rebuild/check, commit, and push.
+- [x] Diagnose remaining phone gesture blocker
+  - Scope: MapLibre drag/touch/pitch/rotate handlers, custom controls, mobile shell overlays, CSS `touch-action`/`pointer-events`, generated `/test2` bundle.
+  - Done: the remaining blocker was not one single handler flag. The shared MapLibre controller explicitly disabled touch rotation and never enabled touch pitch, while later `/test2` label CSS overrode the earlier mobile passive-overlay rule and let DOM labels/seat-circle overlays receive touch starts above the canvas. Local `/test2` tests were also made unreliable by automatic localhost MVT fallback to missing tile directories.
+- [x] Implement durable fix
+  - Scope: enable pan/pinch/tilt correctly on mobile, ensure non-map overlays cannot steal canvas gestures, and retain feature selection where feasible.
+  - Done: enabled `dragRotate`, `touchPitch`, and `pitchWithRotate`; added a shared `enableGestureHandlers()` path that re-enables pan, rotate, pinch, pitch, scroll, and keyboard handlers after load/style changes; made coarse-pointer labels and election seat-circle overlays passive above the map; changed localhost directory-MVT fallback to explicit opt-in so PMTiles remain authoritative unless a test deliberately opts into local fixtures.
+- [x] Verify and update guardrails
+  - Scope: source checks, `/test2` build/check, mobile browser tests for handler state and touch-action/hit-test conditions.
+  - Done: added mobile browser assertions for `dragPan`, `dragRotate`, `touchZoomRotate`, `touchPitch`, canvas/container `touch-action`, MapLibre touch classes, passive election seat-circle overlays, and passive DOM labels.
+  - Verification evidence: `node --check` passed for the edited source/test files; `npm run build:test2` passed; focused mobile Playwright tests in `tests/browser/test2-app.spec.js --grep "mobile"` passed; `npm run check:test2` passed; escalated `npm run check` passed, including the Pages file-budget guardrail.
+- [x] Commit and push
+  - Scope: path-limited staging of only this fix and generated `/test2` artifacts.
+  - Pending final commit/push after this task note update.
+
+## Recurring issue: `/test2` phone gestures blocked by overlay/CSS drift
+- Symptom: on a real phone, `/test2` could still fail to pan, pinch zoom, rotate, or tilt even after prior mobile-performance fixes.
+- Root cause: gesture handler verification was too shallow, and mobile CSS could drift so MapLibre was enabled internally but touch starts were intercepted by overlay DOM or missing pitch/rotation handlers.
+- Permanent prevention action: mobile browser tests now assert both MapLibre handler state and the effective CSS/hit-testing contract on the actual canvas, labels, and election seat-circle overlays.
+- Verification evidence: focused mobile Playwright coverage and `/test2` route checks pass after enabling all required gesture handlers and making overlays passive on coarse-pointer/mobile contexts.
+
 # Fix `/test2` mobile pan/pinch and catalogue performance
 - [x] Record scope and plan
   - Task: diagnose why `/test2` map panning/dragging/pinch zoom fails on mobile and why the catalogue pane is extremely slow on mobile.

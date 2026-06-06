@@ -764,7 +764,7 @@ export class Test2MapLibreMainAdapter {
   toRuntimeLayer(layer, mainConfig = null) {
     const styledLayer = this.applyMainStyle(layer, mainConfig);
     const localHost = ['localhost', '127.0.0.1', '::1'].includes(location.hostname);
-    const shouldUseLocalFallback = globalThis.__civgraphUseLocalTileFallback !== false;
+    const shouldUseLocalFallback = globalThis.__civgraphUseLocalTileFallback === true;
     if (shouldUseLocalFallback && localHost && styledLayer.sourceType === 'pmtiles' && styledLayer.tilesFallback) {
       return {
         ...styledLayer,

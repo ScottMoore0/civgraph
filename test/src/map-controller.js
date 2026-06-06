@@ -35,7 +35,8 @@ function isLocalTestTileTemplate(value) {
 
 function localTestTilesAvailable() {
   const hostname = globalThis.location?.hostname || '';
-  return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+  return globalThis.__civgraphUseLocalTileFallback === true
+    && (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1');
 }
 
 function getDomLabelLimit(layer) {
@@ -131,8 +132,11 @@ export class TestMapLibreController {
       refreshExpiredTiles: false,
       renderWorldCopies: false,
       interactive: true,
+      dragRotate: true,
       dragPan: true,
       touchZoomRotate: true,
+      touchPitch: true,
+      pitchWithRotate: true,
       scrollZoom: true,
       cooperativeGestures: false
     });
@@ -143,15 +147,25 @@ export class TestMapLibreController {
     });
 
     this.map.doubleClickZoom?.disable();
-    this.map.dragPan?.enable?.();
-    this.map.touchZoomRotate?.enable?.();
-    this.map.touchZoomRotate?.disableRotation?.();
-    this.map.scrollZoom?.enable?.();
+    this.enableGestureHandlers();
+    this.map.on('load', () => this.enableGestureHandlers());
+    this.map.on('styledata', () => this.enableGestureHandlers());
     this.map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-left');
     this.map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-right');
     this.map.on('moveend', () => this.notifyChange());
     this.map.on('idle', () => this.notifyChange());
     this.map.fitBounds(IRELAND_BOUNDS, { padding: 28, duration: 0 });
+  }
+
+  enableGestureHandlers() {
+    if (!this.map) return;
+    this.map.dragPan?.enable?.();
+    this.map.dragRotate?.enable?.();
+    this.map.touchZoomRotate?.enable?.({ around: 'center' });
+    this.map.touchZoomRotate?.enableRotation?.();
+    this.map.touchPitch?.enable?.({ around: 'center' });
+    this.map.scrollZoom?.enable?.();
+    this.map.keyboard?.enable?.();
   }
 
   async loadLayer(layer) {

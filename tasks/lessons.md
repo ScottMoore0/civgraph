@@ -2048,3 +2048,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) keep non-runtime source/reference directories out of Pages output through `scripts/clean-for-pages.sh` and `.cfignore`,
   3) prefer R2/CDN or packed manifests for high-file-count data rather than thousands of individual Pages assets,
   4) do not call a performance hardening complete until both production build and Pages asset-budget checks pass.
+
+### 155) Mobile map gesture fixes must verify CSS hit testing, not only handler flags
+- Mistake pattern: Enabling MapLibre `dragPan` and `touchZoomRotate` after a phone-gesture report, while leaving rotation/pitch explicitly disabled and allowing later CSS to re-enable pointer events on DOM labels.
+- Impact: Browser tests can say mobile gestures are enabled, but real phones still cannot pan, pinch, rotate, or pitch when labels or overlays intercept touches, or when the canvas does not have the expected `touch-action` contract.
+- Guardrail:
+  1) mobile gesture regressions must check `dragPan`, `dragRotate`, `touchZoomRotate`, and `touchPitch` handler state,
+  2) tests must also assert the actual canvas and canvas-container `touch-action`,
+  3) any mobile overlay/label used on top of MapLibre must have coarse-pointer hit-testing assertions,
+  4) never call a mobile gesture fix complete from handler flags alone.
