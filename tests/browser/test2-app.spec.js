@@ -826,6 +826,45 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   await expect(page.locator('#electionPaneContent .election-results-table--constituency-party')).toHaveCount(1);
 });
 
+test('/test2 active-layers remove unloads election seat-circle markers', async ({ page }) => {
+  await page.goto('/test2/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForFunction(() => document.querySelectorAll('.test2-election-seat-circle').length > 0);
+
+  const before = await page.evaluate(() => ({
+    activeBody: window.__civgraphTest2.app.elections.activeEntry?.body || '',
+    sourceMapId: window.__civgraphTest2.app.elections.activeEntry?.sourceMapId || '',
+    markerCount: window.__civgraphTest2.app.elections.seatCircleMarkers?.length || 0,
+    seatDomCount: document.querySelectorAll('.test2-election-seat-circle').length
+  }));
+  expect(before.activeBody).toBe('Dáil Éireann');
+  expect(before.sourceMapId).toBe('dail-2023');
+  expect(before.markerCount).toBeGreaterThan(0);
+  expect(before.seatDomCount).toBeGreaterThan(0);
+
+  await page.evaluate(() => {
+    window.__civgraphTest2.app.setActiveLayersPanelOpen(true);
+    document.querySelector('#activeLayersList .active-layer-item[data-map-id="dail-2023"] .remove-btn')?.click();
+  });
+  await expect(page.locator('.test2-election-seat-circle')).toHaveCount(0);
+  await expect(page.locator('#test2-election-seat-overlay')).toHaveCount(0);
+
+  const after = await page.evaluate(() => ({
+    activeEntry: window.__civgraphTest2.app.elections.activeEntry,
+    activeBundle: window.__civgraphTest2.app.elections.activeBundle,
+    activeLayerIds: [...window.__civgraphTest2.app.mapController.layerStates.keys()],
+    markerCount: window.__civgraphTest2.app.elections.seatCircleMarkers?.length || 0,
+    hash: location.hash
+  }));
+  expect(after.activeEntry).toBeNull();
+  expect(after.activeBundle).toBeNull();
+  expect(after.activeLayerIds).not.toContain('dail-2023');
+  expect(after.markerCount).toBe(0);
+  expect(after.hash).not.toContain('election-dil-ireann-2024-11-29');
+  expect(after.hash).not.toContain('electionBody=');
+});
+
 test('/test2 DOM seat circles keep main-style fixed dots while zooming', async ({ page }) => {
   await page.goto('/test2/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);

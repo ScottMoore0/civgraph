@@ -177,6 +177,10 @@ class Test2App {
     };
 
     uiController.onMapUnload = async (mapId) => {
+      if (this.unloadActiveElectionForLayer(mapId)) {
+        this.updateMapList();
+        return;
+      }
       const mapConfig = dataService.getMapById(mapId);
       if (this.mapController.getLayerState(mapId)?.isGroup) {
         this.mapController.unloadLayer(mapId);
@@ -698,6 +702,7 @@ class Test2App {
   }
 
   async unloadMap(mapId) {
+    if (this.unloadActiveElectionForLayer(mapId)) return;
     const mapConfig = dataService.getMapById(mapId);
     if (this.mapController.getLayerState(mapId)?.isGroup) {
       this.mapController.unloadLayer(mapId);
@@ -710,6 +715,60 @@ class Test2App {
     } else {
       this.mapController.unloadLayer(mapId);
     }
+  }
+
+  unloadActiveElectionForLayer(mapId) {
+    if (!mapId || !this.elections?.activeEntry) return false;
+    if (!this.isActiveElectionLayerId(mapId)) return false;
+    const backingLayerIds = this.getActiveElectionBackingLayerIds(mapId);
+    this.elections.unloadElection();
+    for (const layerId of backingLayerIds) {
+      if (this.mapController.getLayerState(layerId) || this.mapController.groupStates?.has(layerId)) {
+        this.mapController.unloadLayer(layerId);
+      }
+    }
+    return true;
+  }
+
+  isActiveElectionLayerId(mapId) {
+    if (!mapId || !this.elections?.activeEntry) return false;
+    const activeElectionIds = this.getActiveElectionLayerIds();
+    const candidateIds = this.getMapUnloadCandidateIds(mapId);
+    return [...candidateIds].some((candidateId) => activeElectionIds.has(candidateId));
+  }
+
+  getActiveElectionLayerIds() {
+    if (!this.elections?.activeEntry) return new Set();
+    const activeEntry = this.elections.activeEntry;
+    const activeBundle = this.elections.activeBundle;
+    return new Set([
+      this.elections.getCanonicalLayerId?.(activeEntry),
+      activeEntry?.sourceMapId,
+      activeBundle?.sourceMapId,
+      activeBundle?.layerId
+    ].filter(Boolean));
+  }
+
+  getMapUnloadCandidateIds(mapId) {
+    const mapConfig = dataService.getMapById(mapId);
+    return new Set([
+      mapId,
+      ...(Array.isArray(mapConfig?.members) ? mapConfig.members : []),
+      ...(Array.isArray(mapConfig?.variants) ? mapConfig.variants.map((variant) => variant?.id).filter(Boolean) : [])
+    ].filter(Boolean));
+  }
+
+  getActiveElectionBackingLayerIds(mapId) {
+    const activeEntry = this.elections?.activeEntry;
+    const activeBundle = this.elections?.activeBundle;
+    const backingIds = new Set([
+      activeEntry?.sourceMapId,
+      activeBundle?.sourceMapId,
+      activeBundle?.layerId
+    ].filter(Boolean));
+    const candidateIds = this.getMapUnloadCandidateIds(mapId);
+    const requestedBackingIds = [...candidateIds].filter((candidateId) => backingIds.has(candidateId));
+    return requestedBackingIds.length ? requestedBackingIds : [...backingIds];
   }
 
   setMapControlsOpen(open) {
