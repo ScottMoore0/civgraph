@@ -197,7 +197,6 @@ async function main() {
 
   rmSync(OUT_DIR, { recursive: true, force: true });
   mkdirSync(OUT_DIR, { recursive: true });
-  rmSync(OUT_ANCHOR_DIR, { recursive: true, force: true });
   mkdirSync(OUT_ANCHOR_DIR, { recursive: true });
 
   const manifestEntries = [];
@@ -504,18 +503,24 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     if (rawResult) rawEntries.push({ constituency, raw: rawResult });
     const result = ElectionDomain.summarizeResult(rawResult, constituency);
     const matchEntry = matchEntryForConstituency(entry, result.constituency || constituency);
-    const match = singleFeature || matchFeature(featureLookup, result.constituency || constituency, matchEntry);
+    const matchSet = matchFeaturesForResult(featureLookup, entry, geography, result, matchEntry, singleFeature);
+    const match = matchSet[0] || null;
     const syntheticRegion = !match && isForumRegionalListResult(entry, result.constituency || constituency)
       ? syntheticRegionMatch(anchorIndex, layer, 'Northern Ireland')
       : null;
     if (!match && !syntheticRegion && !geography?.singleConstituency) unmatched.push(result.constituency || constituency);
+    const featureMatches = syntheticRegion
+      ? [normalizeFeatureMatch(syntheticRegion)]
+      : matchSet.map(normalizeFeatureMatch).filter(Boolean);
+    const featureMatchFields = buildFeatureMatchFields(featureMatches, match, syntheticRegion);
     results.push({
       ...result,
       localBody: entry.bodyGroup === 'local-government' ? matchEntry.body : null,
       sourceFile: resultPath ? slash(path.relative(ROOT, resultPath)) : null,
       featureId: match?.id ?? syntheticRegion?.id ?? null,
       featureName: match?.name ?? syntheticRegion?.name ?? null,
-      featureAliases: match?.aliases || syntheticRegion?.aliases || [],
+      featureAliases: featureMatchFields.featureAliases,
+      ...featureMatchFields.extra,
       matchName: match?.name ?? syntheticRegion?.name ?? null,
       anchor: syntheticRegion?.anchor || (anchorIndex ? findAnchorForMatch(anchorIndex, match, result) : null),
       syntheticRegion: syntheticRegion?.syntheticRegion || null,
@@ -530,18 +535,24 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       rawEntries.push({ constituency: file.replace(/\.json$/, ''), raw: rawResult });
       const result = ElectionDomain.summarizeResult(rawResult, file.replace(/\.json$/, ''));
       const matchEntry = matchEntryForConstituency(entry, result.constituency);
-      const match = singleFeature || matchFeature(featureLookup, result.constituency, matchEntry);
+      const matchSet = matchFeaturesForResult(featureLookup, entry, geography, result, matchEntry, singleFeature);
+      const match = matchSet[0] || null;
       const syntheticRegion = !match && isForumRegionalListResult(entry, result.constituency)
         ? syntheticRegionMatch(anchorIndex, layer, 'Northern Ireland')
         : null;
       if (!match && !syntheticRegion && !geography?.singleConstituency) unmatched.push(result.constituency);
+      const featureMatches = syntheticRegion
+        ? [normalizeFeatureMatch(syntheticRegion)]
+        : matchSet.map(normalizeFeatureMatch).filter(Boolean);
+      const featureMatchFields = buildFeatureMatchFields(featureMatches, match, syntheticRegion);
       results.push({
         ...result,
         localBody: entry.bodyGroup === 'local-government' ? matchEntry.body : null,
         sourceFile: slash(path.relative(ROOT, resultPath)),
         featureId: match?.id ?? syntheticRegion?.id ?? null,
         featureName: match?.name ?? syntheticRegion?.name ?? null,
-        featureAliases: match?.aliases || syntheticRegion?.aliases || [],
+        featureAliases: featureMatchFields.featureAliases,
+        ...featureMatchFields.extra,
         matchName: match?.name ?? syntheticRegion?.name ?? null,
         anchor: syntheticRegion?.anchor || (anchorIndex ? findAnchorForMatch(anchorIndex, match, result) : null),
         syntheticRegion: syntheticRegion?.syntheticRegion || null,
@@ -608,6 +619,71 @@ function matchEntryForConstituency(entry, constituency) {
   };
 }
 
+const REFERENDUM_RESULT_FEATURE_SPLITS = Object.freeze({
+  'dail-2023': {
+    'dublin fingal': ['Dublin Fingal East', 'Dublin Fingal West'],
+    'laois offaly': ['Laois', 'Offaly'],
+    'tipperary': ['Tipperary North', 'Tipperary South']
+  },
+  'dail-2013': {
+    'laois offaly': ['Laois', 'Offaly']
+  },
+  'dail-2005': {
+    'meath': ['Meath East', 'Meath West']
+  },
+  'dail-1998': {
+    'kildare': ['Kildare North', 'Kildare South']
+  }
+});
+
+function matchFeaturesForResult(featureLookup, entry, geography, result, matchEntry, singleFeature = null) {
+  if (singleFeature) return [singleFeature];
+  const direct = matchFeature(featureLookup, result.constituency, matchEntry);
+  if (direct) return [direct];
+  const splitTargets = referendumSplitTargets(entry, geography, result);
+  if (!splitTargets.length) return [];
+  const matches = [];
+  for (const target of splitTargets) {
+    const match = matchFeature(featureLookup, target, matchEntry);
+    if (!match) return [];
+    matches.push(match);
+  }
+  return matches;
+}
+
+function referendumSplitTargets(entry, geography, result) {
+  if (entry?.body !== 'Referendum (Ireland)') return [];
+  const sourceMapId = geography?.sourceMapId || '';
+  const targets = REFERENDUM_RESULT_FEATURE_SPLITS[sourceMapId]?.[normalizeName(result?.constituency)];
+  return Array.isArray(targets) ? targets : [];
+}
+
+function normalizeFeatureMatch(match) {
+  if (!match) return null;
+  return {
+    id: match.id ?? null,
+    name: match.name || '',
+    aliases: unique([match.name, ...(match.aliases || [])].filter(Boolean))
+  };
+}
+
+function buildFeatureMatchFields(featureMatches, match, syntheticRegion) {
+  if (featureMatches.length <= 1) {
+    return {
+      featureAliases: match?.aliases || syntheticRegion?.aliases || [],
+      extra: {}
+    };
+  }
+  return {
+    featureAliases: unique(featureMatches.flatMap((item) => [item.name, ...(item.aliases || [])]).filter(Boolean)),
+    extra: {
+      featureIds: unique(featureMatches.map((item) => item.id).filter((value) => value !== null && value !== undefined)),
+      featureNames: unique(featureMatches.map((item) => item.name).filter(Boolean)),
+      featureMatches
+    }
+  };
+}
+
 function buildLayerLookup(layers) {
   const lookup = new Map();
   for (const layer of layers) {
@@ -638,6 +714,12 @@ async function loadOrBuildAnchorIndex(layer, featureIndex) {
   if (anchorCache.has(layer.id)) return anchorCache.get(layer.id);
   const outputPath = path.join(OUT_ANCHOR_DIR, `${layer.id}.json`);
   const sourceFile = layer.sourceFile ? path.join(ROOT, layer.sourceFile) : null;
+  if (existsSync(outputPath) && (!sourceFile || !existsSync(sourceFile))) {
+    const persisted = readJson(outputPath);
+    const anchorIndex = hydrateAnchorIndex(layer, persisted);
+    anchorCache.set(layer.id, anchorIndex);
+    return anchorIndex;
+  }
   const items = [];
 
   let generatedFromSourceGeometry = false;
@@ -705,6 +787,26 @@ async function loadOrBuildAnchorIndex(layer, featureIndex) {
   });
   anchorCache.set(layer.id, anchorIndex);
   return anchorIndex;
+}
+
+function hydrateAnchorIndex(layer, persisted) {
+  const items = Array.isArray(persisted?.items) ? persisted.items : [];
+  const byName = new Map();
+  for (const item of items) {
+    for (const key of [item.name, ...(item.aliases || [])].flatMap((name) => nameKeys(name))) {
+      if (key && !byName.has(key)) byName.set(key, item);
+    }
+  }
+  return {
+    schemaVersion: persisted?.schemaVersion || 1,
+    layerId: persisted?.layerId || layer.id,
+    sourceMapId: persisted?.sourceMapId || layer.sourceMapId || null,
+    generatedFrom: persisted?.generatedFrom || layer.sourceFile || layer.featureIndexUrl || null,
+    generatedFromSourceGeometry: Boolean(persisted?.generatedFromSourceGeometry),
+    url: `/test/metadata/election-anchors-test2/${layer.id}.json`,
+    items,
+    byName
+  };
 }
 
 function findAnchorForMatch(anchorIndex, match, result) {

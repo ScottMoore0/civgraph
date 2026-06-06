@@ -435,11 +435,12 @@ export class Test2ElectionManager {
     const labels = [];
     const seen = new Set();
     for (const result of this.activeBundle.results || []) {
-      if (!result.matched || !result.matchName) continue;
-      const label = String(result.matchName);
-      if (seen.has(label)) continue;
-      seen.add(label);
-      labels.push(label, valueForResult(result));
+      if (!result.matched) continue;
+      for (const label of resultFeatureLabels(result)) {
+        if (seen.has(label)) continue;
+        seen.add(label);
+        labels.push(label, valueForResult(result));
+      }
     }
     if (!labels.length) return fallback;
     return ['match', ['to-string', this.buildElectionMatchInput()], ...labels, fallback];
@@ -2820,8 +2821,30 @@ function resultKeys(result) {
     result.matchName,
     result.featureName,
     result.constituency,
-    ...(result.featureAliases || [])
+    ...(result.featureAliases || []),
+    ...(result.featureNames || []),
+    ...((result.featureMatches || []).flatMap((match) => [
+      match?.name,
+      ...(match?.aliases || [])
+    ]))
   ].map(normalizeName).filter(Boolean);
+}
+
+function resultFeatureLabels(result) {
+  const labels = [];
+  for (const match of result.featureMatches || []) {
+    labels.push(match?.name, ...(match?.aliases || []));
+  }
+  labels.push(result.matchName, result.featureName, ...(result.featureNames || []), ...(result.featureAliases || []));
+  const seen = new Set();
+  return labels
+    .map((label) => String(label || '').trim())
+    .filter((label) => {
+      const key = normalizeName(label);
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
 }
 
 function isMainStyleCandidateRow(row = {}) {

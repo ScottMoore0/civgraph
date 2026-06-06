@@ -17,7 +17,7 @@
   "previousKey": "ireland-referendum__1992-11-25-travel",
   "previousDate": "1992-11-25-travel",
   "loadable": true,
-  "displaySubtitle": "41 constituencies; 3 unmatched",
+  "displaySubtitle": "41 constituencies; 2 unmatched",
   "displayProvider": "Referendum (Ireland)",
   "constituencies": [
     "Carlow–Kilkenny",
@@ -64,10 +64,9 @@
   ],
   "isByElection": false,
   "totalConstituencies": 41,
-  "matchedCount": 38,
-  "unmatchedCount": 3,
+  "matchedCount": 39,
+  "unmatchedCount": 2,
   "unmatchedConstituencies": [
-    "Kildare",
     "Mayo East",
     "Mayo West"
   ],
@@ -9363,13 +9362,57 @@
       },
       "localBody": null,
       "sourceFile": "election-viewer-package/data/elections/ireland-referendum/1995-11-24-dissolution-of-marriage/kildare.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "27",
+      "featureName": "Kildare North",
+      "featureAliases": [
+        "Kildare North",
+        "Cill Dara Thuaidh",
+        "Kildare South",
+        "Cill Dara Theas"
+      ],
+      "featureIds": [
+        "27",
+        "28"
+      ],
+      "featureNames": [
+        "Kildare North",
+        "Kildare South"
+      ],
+      "featureMatches": [
+        {
+          "id": "27",
+          "name": "Kildare North",
+          "aliases": [
+            "Kildare North",
+            "Cill Dara Thuaidh"
+          ]
+        },
+        {
+          "id": "28",
+          "name": "Kildare South",
+          "aliases": [
+            "Kildare South",
+            "Cill Dara Theas"
+          ]
+        }
+      ],
+      "matchName": "Kildare North",
+      "anchor": {
+        "center": [
+          288417.901969,
+          229144.346266
+        ],
+        "bounds": {
+          "west": 274323.618032,
+          "south": 215467.638612,
+          "east": 302512.185906,
+          "north": 242821.05392
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 409393667.10360175
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Laois–Offaly",

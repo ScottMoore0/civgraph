@@ -1,3 +1,38 @@
+# Close /test2 point-3 election geography coverage
+- [x] Record scope
+  - User requested executing point 3 in full. Scope: close every feasible unresolved election geography gap in `/test2` by using the main-site election geography rules, converted MapLibre layers, aliases, feature-name repairs, synthetic region handling, and generated anchor sidecars.
+  - Out of scope unless directly required to close feasible geography gaps: point 4 production hardening/deployment monitoring.
+- [x] Audit current unmatched election geographies
+  - Inspect `test/metadata/elections-test2-report.json`, the manifest builder, and main election geography resolver to separate code/crosswalk gaps from absent-source/aggregation-only gaps.
+  - Current report: 268 election entries; 239 loadable; 29 placeholders; 3,959 matched rows; 725 unmatched rows. The remaining classes were older unsourced main-site geographies, university seats with no polygon, historical Stormont seats absent from selected sources, and referendum Dail-boundary split/merge rows.
+  - Main-site resolver confirms older Dail eras remain intentionally unsourced in main as well; these are not `/test2` implementation gaps.
+  - Identified a safe implementation subset: referendum rows where one result row exactly covers several converted Dail polygons can be fanned out to those polygon labels without changing result totals.
+- [x] Implement feasible geography fixes
+  - Add deterministic crosswalks, aliases, source-name repairs, synthetic regions, or converted-layer registrations where source data exists and the main site can be mirrored through MapLibre.
+  - Added multi-feature match support in the `/test2` election manifest and runtime style/index lookup so a single election result row can style/select multiple equivalent converted features.
+  - Added safe referendum fan-outs for `Dublin Fingal`, `Laois-Offaly`, `Tipperary`, `Meath`, and `Kildare` where the target converted layer splits the same result geography into multiple features.
+- [x] Regenerate election outputs
+  - Rebuild `/test2` election manifest, per-election bundles, reports, and anchor sidecars as needed.
+  - Regenerated `/test2` election manifest and affected referendum bundles. Coverage improved from 3,959 matched / 725 unmatched to 3,973 matched / 711 unmatched.
+  - Hardened the builder so source-derived election anchor sidecars are preserved when local source-cache FGB files are unavailable; this prevents fallback centre anchors from overwriting better committed anchors.
+- [x] Verify
+  - Run syntax checks, manifest/report assertions, `/test2` route validation, parity audit, and standard checks.
+  - Passed `node --check scripts/build-test2-election-manifest.mjs`.
+  - Passed `node --check test2/src/election-manager.js`.
+  - Passed `node scripts/build-test2-election-manifest.mjs`.
+  - Passed `npm run check:test2`.
+  - Passed `npm run check`.
+- [x] Review
+  - Document remaining unmatched cases and why they are or are not genuinely blocked.
+  - Remaining report classes after the feasible fixes: 620 `main-geography-unsourced`, 31 `university-seat-no-polygon`, 15 `stormont-seat-not-in-source`, and 45 `referendum-boundary-split-merge`.
+  - The report now has `feasibleUnmatchedRemaining: 0`; remaining rows are data-blocked or aggregation-blocked because the selected main-site geography source does not contain an equivalent one-to-one polygon.
+
+## Recurring issue: election anchor sidecars overwritten when local source-cache is absent
+- Symptom: running `scripts/build-test2-election-manifest.mjs` in a checkout without local `test/source-cache/vector-intake/*.fgb` files rewrote committed source-derived anchor sidecars with lower-quality feature-index centres.
+- Root cause: the builder deleted `test/metadata/election-anchors-test2` before generation, then fell back to feature-index anchors when source FGBs were absent.
+- Permanent prevention action: the builder no longer deletes the anchor sidecar directory and now hydrates existing anchor sidecars when source geometry is unavailable.
+- Verification evidence: after restoring anchors and rebuilding, `git diff -- test/metadata/election-anchors-test2` is empty, while the generated manifest still reports improved election coverage.
+
 # Close /test2 point-2 data coverage parity
 - [x] Record scope
   - User requested completing remaining point 2 work so `/test2` reaches main-site catalogue/data coverage parity where feasible.
