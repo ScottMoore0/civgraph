@@ -1,3 +1,31 @@
+# Align /test2 election pane DOM and styling contract to main
+- [x] Record scope
+  - User requested the required fixes after identifying why `/test2` election pane formatting/styling still diverges from the main site.
+  - Scope: amend `/test2` election pane rendering and CSS only; do not change main-site behaviour.
+- [x] Inspect current implementation
+  - Compare loaded CSS order, `/test2` election pane wrapper/renderer, and main election table styles.
+- [x] Implement
+  - Remove or neutralize `/test2` election-table overrides that supersede main CSS.
+  - Emit main-compatible party-cell, delta-class, and overall-table markup in `/test2`.
+- [x] Verify
+  - Run focused `/test2` checks and a DOM/CSS contract check for the Dáil 2024 election pane.
+- [x] Review
+  - Removed the `/test2` main-parity wrapper around election pane content so the visible pane starts with the same main `election-summary` / table contract.
+  - Removed `/test2` table CSS overrides that were changing main table width, borders, padding, and delta colours.
+  - Aligned overall party-table classing, party-cell markup, entity button data attributes, table-control ready markers, delta classes, and main-style ROI party colours.
+  - Rebuilt `/test2` bundle and verified with `npm run check:test2` after the rebuild.
+
+# Explain remaining main/test2 election pane styling mismatch
+- [x] Record scope
+  - User asked why `/test2` is still not visually aligned with the main site election pane formatting/styling.
+  - Scope: inspect the election pane render/CSS paths and explain the root causes; do not change application behavior in this pass.
+- [x] Inspect renderers and styles
+  - Compare main election pane classes/styles with the `/test2` election pane classes/styles.
+- [x] Review
+  - Summarize why visible differences remain and what would close them.
+  - Found that `/test2` is still using its own `test2/src/election-manager.js` render branches and `.test2-election-panel--main-parity` CSS rather than rendering the exact main election pane DOM/CSS contract.
+  - The pasted DOM differs in wrapper structure, table classes, party-cell markup, delta class names, table-control attributes, and party-colour sources; these are enough to explain the visible table formatting differences.
+
 # Correct /test2 synthetic non-geographical election anchors to northeast
 - [x] Record correction
   - User clarified that synthetic non-geographical constituencies should be placed near the northeast, not the northwest, of the active election geography.

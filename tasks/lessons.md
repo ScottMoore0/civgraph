@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 148) Election pane visual parity requires the same DOM contract, not a main-like renderer
+- Mistake pattern: Treating `/test2` election pane output as aligned because it uses many main class names while it still has `/test2` wrapper classes, extra fixed-table classes, different entity-button markup, different delta class names, and a separate party-colour source.
+- Impact: Screenshots remain visibly different even when the high-level table headings and values look similar, because CSS selectors, table layout, inline wrapping, sticky sizing, and colour tokens are not receiving the exact same DOM/class contract as the main site.
+- Guardrail:
+  1) election pane parity checks must diff representative rendered DOM, not only screenshots or row values,
+  2) `/test2` should render the exact main election pane markup for shared pane modes or use a single shared renderer,
+  3) `/test2`-specific CSS may position the pane container but must not override inner election table sizing, entity links, party dots, or delta classes unless the override is intentionally documented and tested.
+
 ### 147) Directional synthetic map placement must be encoded and validated literally
 - Mistake pattern: Implementing synthetic non-geographical election anchors near the northwest side when the intended placement was northeast.
 - Impact: `/test2` could render the new non-geographical entries and pass broad clickability checks while still placing them in the wrong part of the map.

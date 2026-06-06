@@ -69,10 +69,8 @@ export class MainElectionPaneContract {
       ? this.host.withCandidateDeltas(this.host.activeBundle.mainLikeCandidateSummary, { mainLike: true })
       : this.host.withCandidateDeltas(buildCandidateSummary(results));
     return `
-      <section class="test2-election-panel test2-election-panel--main-parity" aria-label="Election results summary" data-election-renderer="${escapeHtml(this.rendererId)}">
-        ${this.host.renderDataCoverageNotice()}
-        ${view === 'candidate' ? this.host.renderCandidateSummaryTable(candidateRows) : view === 'local-party' ? this.host.renderLocalPartySummaryTable(results) : this.host.renderMainParityPartyTable(rowsWithDeltas, results)}
-      </section>
+      ${this.host.renderDataCoverageNotice()}
+      ${view === 'candidate' ? this.host.renderCandidateSummaryTable(candidateRows) : view === 'local-party' ? this.host.renderLocalPartySummaryTable(results) : this.host.renderMainParityPartyTable(rowsWithDeltas, results)}
       ${this.host.renderMapDisplayControls()}
     `;
   }
@@ -86,9 +84,7 @@ export class MainElectionPaneContract {
       return Number(b.finalVotes ?? b.firstPrefs ?? b.votes ?? 0) - Number(a.finalVotes ?? a.firstPrefs ?? a.votes ?? 0);
     });
     return `
-      <section class="test2-election-panel test2-election-panel--main-parity" aria-label="${escapeHtml(result.constituency)} results" data-election-renderer="${escapeHtml(this.rendererId)}">
-        ${effectiveView === 'counts' ? this.host.renderCountTable(result, candidates) : effectiveView === 'animation' ? this.host.renderAnimationNotice(result) : effectiveView === 'party' ? this.host.renderConstituencyPartyTable(candidates, result) : this.host.renderConstituencyCandidateTable(candidates, result)}
-      </section>
+      ${effectiveView === 'counts' ? this.host.renderCountTable(result, candidates) : effectiveView === 'animation' ? this.host.renderAnimationNotice(result) : effectiveView === 'party' ? this.host.renderConstituencyPartyTable(candidates, result) : this.host.renderConstituencyCandidateTable(candidates, result)}
     `;
   }
 

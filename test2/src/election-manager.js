@@ -78,6 +78,29 @@ const PARTY_COLOURS = new Map([
   ['no', '#d46a4c']
 ]);
 
+const ROI_MAIN_PARTY_COLOURS = new Map([
+  ['fianna fail', '#66BB6A'],
+  ['fine gael', '#1E88E5'],
+  ['sinn fein', '#00695C'],
+  ['labour', '#D32F2F'],
+  ['the labour party', '#D32F2F'],
+  ['green comhaontas glas', '#4CAF50'],
+  ['green party', '#4CAF50'],
+  ['social democrats', '#6A1B9A'],
+  ['people before profit solidarity', '#EF5350'],
+  ['solidarity people before profit', '#EF5350'],
+  ['people before profit', '#EF5350'],
+  ['aontu', '#C62828'],
+  ['progressive democrats', '#1565C0'],
+  ['workers party republican clubs', '#B71C1C'],
+  ['independents 4 change', '#FB8C00'],
+  ['renua', '#7E57C2'],
+  ['independent', '#9E9E9E'],
+  ['non party independent', '#9E9E9E'],
+  ['yes', '#43A047'],
+  ['no', '#E53935']
+]);
+
 export class Test2ElectionManager {
   constructor({ app, mapController, onError } = {}) {
     this.app = app;
@@ -455,14 +478,47 @@ export class Test2ElectionManager {
   }
 
   colourForMode(mode, result) {
-    if (mode === 'winner') return partyColour(result.winnerParty) || result.colour || '#6b7280';
-    if (mode === 'leadingParty') return partyColour(result.leadingParty) || result.leadingColour || '#6b7280';
+    if (mode === 'winner') return this.mainPanePartyColour(result.winnerParty, result.colour) || '#6b7280';
+    if (mode === 'leadingParty') return this.mainPanePartyColour(result.leadingParty, result.leadingColour) || '#6b7280';
     if (mode === 'turnout') return sharedNumericColour(result.turnoutPct, 35, 80);
     if (mode === 'voteShare') return sharedNumericColour(result.leadingPct, 10, 70);
     if (mode === 'majority') return sharedNumericColour(result.majorityPct, 0, 45);
     if (mode === 'seats') return sharedNumericColour(result.seatsWon ?? result.seatsTotal, 1, 6);
     if (mode === 'quota') return sharedNumericColour(result.quota, 1_000, 120_000);
     return '#6b7280';
+  }
+
+  usesMainRoiPartyPalette() {
+    const values = [
+      this.activeBundle?.body,
+      this.activeEntry?.body,
+      this.activeBundle?.bodyGroup,
+      this.activeEntry?.bodyGroup,
+      this.activeBundle?.jurisdiction,
+      this.activeEntry?.jurisdiction,
+      this.activeBundle?.region,
+      this.activeEntry?.region,
+      this.activeBundle?.id,
+      this.activeEntry?.id,
+      this.activeEntry?.key
+    ].map((value) => normalizeName(value));
+    const joined = values.join(' ');
+    if (joined.includes('dail')) return true;
+    if (joined.includes('president of ireland')) return true;
+    if (joined.includes('referendum ireland')) return true;
+    if (joined.includes('european parliament ireland')) return true;
+    if (joined.includes('republic of ireland') && joined.includes('european parliament')) return true;
+    if (joined.includes('irish local')) return true;
+    return false;
+  }
+
+  mainPanePartyColour(party, explicit = '') {
+    const normalizedParty = normalizeName(party);
+    if (!normalizedParty) return explicit || '#6b7280';
+    if (this.usesMainRoiPartyPalette()) {
+      return ROI_MAIN_PARTY_COLOURS.get(normalizedParty) || '#b0bec5';
+    }
+    return explicit || electionPartyColour(party) || partyColour(party) || '#6b7280';
   }
 
   renderPanel(selectedResult = null, view = null) {
@@ -617,7 +673,7 @@ export class Test2ElectionManager {
     return `
       <div class="election-summary election-summary--niwide">
         <div class="election-party-wrapper election-party-wrapper--pane-sticky">
-          <table class="election-party-table election-party-table--grouped election-results-table--fixed">
+          <table class="election-party-table election-party-table--grouped">
             <thead>
               <tr>
                 <th rowspan="2" data-leaf-col-idx="0">#</th>
@@ -648,7 +704,7 @@ export class Test2ElectionManager {
                 return `
                   <tr>
                     <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                    <td><button type="button" class="election-entity-link election-cell-wrap" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(row.party))}"><span class="election-party-dot" style="background:${escapeHtml(row.colour || partyColour(row.party))}"></span>${escapeHtml(row.party)}</button></td>
+                    <td><span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(row.party, row.colour))}"></span>${this.renderElectionEntityButton('party', row.party, escapeHtml(row.party), 'election-cell-wrap')}</td>
                     <td class="election-num">${formatNumber(row.stood)}</td>
                     <td class="election-num">${formatMainDelta(row.deltas?.stood)}</td>
                     <td class="election-num">${formatNumber(row.seats)}</td>
@@ -706,7 +762,7 @@ export class Test2ElectionManager {
                 <tr class="${candidate.elected ? 'election-row--elected test2-election-table__elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td>${this.renderElectionEntityButton('candidate', candidate.id || `${candidate.name}|${candidate.party}`, candidate.name || candidate.candidate || '', 'election-cell-wrap')}</td>
-                  <td>${this.renderElectionEntityButton('party', normalizeName(candidate.party), `<span class="election-party-dot" style="background:${escapeHtml(candidate.colour || electionPartyColour(candidate.party) || partyColour(candidate.party))}"></span>${escapeHtml(candidate.party || '')}`, 'election-cell-wrap')}</td>
+                  <td>${this.renderElectionEntityButton('party', candidate.party, `<span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(candidate.party, candidate.colour))}"></span>${escapeHtml(candidate.party || '')}`, 'election-cell-wrap')}</td>
                   <td class="election-num">${formatNumber(firstPrefs)}</td>
                   <td class="election-num">${candidate.deltas ? formatMainDelta(candidate.deltas.firstPrefs) : ''}</td>
                   <td class="election-num">${firstPrefPct === null ? '' : formatFixedPercent(firstPrefPct)}</td>
@@ -784,8 +840,8 @@ export class Test2ElectionManager {
                   data-firstprefspct="${row.pct}"
                   data-firstprefspctdelta="${row.pctDelta}">
                   <td class="election-rank-col${isSeatWinner ? ' election-party-emphasis' : ''}">${escapeHtml(rankLabel(index))}</td>
-                  <td class="election-colour-col"><span class="election-party-dot" style="background:${escapeHtml(row.colour)}"></span></td>
-                  <td class="${isSeatWinner ? ' election-party-emphasis' : ''}">${this.renderElectionEntityButton('party', normalizeName(row.party), escapeHtml(row.party), 'election-cell-wrap')}</td>
+                  <td class="election-colour-col"><span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(row.party, row.colour))}"></span></td>
+                  <td class="${isSeatWinner ? ' election-party-emphasis' : ''}">${this.renderElectionEntityButton('party', row.party, escapeHtml(row.party), 'election-cell-wrap')}</td>
                   <td class="election-num">${formatNumber(row.stood)}</td>
                   <td class="election-num">${formatMainDelta(row.stoodDelta)}</td>
                   <td class="election-num${isSeatWinner ? ' election-party-emphasis' : ''}">${formatNumber(row.seats)}</td>
@@ -826,7 +882,7 @@ export class Test2ElectionManager {
       Candidate_Id: candidate.id || candidate.candidateId || String(index + 1),
       Count_Number: '1',
       Party_Name: candidate.party || 'Independent/Other',
-      Party_Colour: candidate.colour || electionPartyColour(candidate.party) || partyColour(candidate.party),
+      Party_Colour: this.mainPanePartyColour(candidate.party, candidate.colour),
       Status: candidate.elected ? 'Elected' : candidate.status || '',
       Total_Votes: candidate.firstPrefs ?? candidate.votes ?? 0
     }));
@@ -839,7 +895,7 @@ export class Test2ElectionManager {
       if (!partyMap.has(party)) {
         partyMap.set(party, {
           party,
-          colour: row.Party_Colour || electionPartyColour(party) || partyColour(party),
+          colour: this.mainPanePartyColour(party, row.Party_Colour),
           stood: 0,
           seats: 0,
           firstPrefs: 0,
@@ -915,7 +971,8 @@ export class Test2ElectionManager {
   }
 
   renderElectionEntityButton(kind, key, labelHtml, extraClass = '') {
-    return `<button type="button" class="election-entity-link ${extraClass}" data-election-entity="${escapeHtml(kind)}" data-election-entity-key="${escapeHtml(key || '')}">${labelHtml}</button>`;
+    const safeKind = escapeHtml(kind);
+    return `<button type="button" class="election-entity-link ${extraClass}" data-election-entity="${safeKind}" data-election-entity-kind="${safeKind}" data-election-entity-key="${escapeHtml(key || '')}">${labelHtml}</button>`;
   }
 
   orderPartyRowsLikeMain(rows = []) {
@@ -934,12 +991,12 @@ export class Test2ElectionManager {
   }
 
   setupSingleResultsTableControls(table) {
-    if (!table || table.dataset.test2TableControlsReady === '1') return;
+    if (!table || table.dataset.tableControlsReady === '1') return;
     const tbody = table.querySelector('tbody');
     const leafHeaders = [...table.querySelectorAll('thead th[data-leaf-col-idx]')];
     const headers = leafHeaders.length ? leafHeaders : [...table.querySelectorAll('thead th')];
     if (!tbody || headers.length === 0) return;
-    table.dataset.test2TableControlsReady = '1';
+    table.dataset.tableControlsReady = '1';
 
     const sortState = { col: null, dir: 'default' };
     const filterState = new Map();
@@ -1693,7 +1750,7 @@ export class Test2ElectionManager {
                 <tr class="${candidate.elected ? 'election-row--elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td>${this.renderElectionEntityButton('candidate', candidate.id || `${candidate.name}|${candidate.party}`, escapeHtml(candidate.name || ''), 'election-cell-wrap')}</td>
-                  <td>${this.renderElectionEntityButton('party', normalizeName(candidate.party), `<span class="election-party-dot" style="background:${escapeHtml(candidate.colour || electionPartyColour(candidate.party) || partyColour(candidate.party))}"></span>${escapeHtml(candidate.party || '')}`, 'election-cell-wrap')}</td>
+                  <td>${this.renderElectionEntityButton('party', candidate.party, `<span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(candidate.party, candidate.colour))}"></span>${escapeHtml(candidate.party || '')}`, 'election-cell-wrap')}</td>
                   ${isLocal ? `<td><span class="election-cell-wrap">${escapeHtml(localBody)}</span></td>` : ''}
                   <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(normalizeName(candidate.constituency || ''))}">${escapeHtml(candidate.constituency || '')}</button></td>
                   <td><span class="election-cell-wrap">${status === 'Elected' ? '<strong>Elected</strong>' : escapeHtml(status)}</span></td>
@@ -1769,7 +1826,7 @@ export class Test2ElectionManager {
             ${rows.map((row, index) => `
               <tr>
                 <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                <td>${this.renderElectionEntityButton('party', normalizeName(row.party), `<span class="election-party-dot" style="background:${escapeHtml(row.colour || partyColour(row.party))}"></span>${escapeHtml(row.party)}`, 'election-cell-wrap')}</td>
+                <td>${this.renderElectionEntityButton('party', row.party, `<span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(row.party, row.colour))}"></span>${escapeHtml(row.party)}`, 'election-cell-wrap')}</td>
                 <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(row.resultKey)}">${escapeHtml(row.constituency)}</button></td>
                 <td class="election-num">${formatNumber(row.stood)}</td>
                 <td class="election-num">${row.deltas ? formatMainDelta(row.deltas.stood) : ''}</td>
@@ -1900,9 +1957,9 @@ export class Test2ElectionManager {
               return `
                 <tr class="election-count-row${!result.syntheticCountGroup && candidate.elected ? ' election-count-row--elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                  <td class="election-colour-col"><span class="election-party-dot" style="background:${escapeHtml(candidate.colour || electionPartyColour(candidate.party) || partyColour(candidate.party))}"></span></td>
+                  <td class="election-colour-col"><span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(candidate.party, candidate.colour))}"></span></td>
                   <td class="election-col-name">${this.renderElectionEntityButton('candidate', candidate.id || `${candidate.name}|${candidate.party}`, escapeHtml(candidate.name || ''), 'election-cell-wrap election-cell-wrap--count-name')}</td>
-                  <td class="election-col-party">${this.renderElectionEntityButton('party', normalizeName(candidate.party), escapeHtml(candidate.party || ''), 'election-cell-wrap election-cell-wrap--count-party')}</td>
+                  <td class="election-col-party">${this.renderElectionEntityButton('party', candidate.party, escapeHtml(candidate.party || ''), 'election-cell-wrap election-cell-wrap--count-party')}</td>
                   <td class="election-col-status"><span class="election-cell-wrap election-cell-wrap--count-status">${statusCount}</span></td>
                   <td class="election-num">${!result.syntheticCountGroup && candidate.deltas ? formatMainDelta(candidate.deltas.firstPrefs) : '<span class="election-na"><em>N/A</em></span>'}</td>
                   <td class="election-num">${formatFixedPercent(firstPrefPct)}</td>
@@ -2173,7 +2230,7 @@ export class Test2ElectionManager {
       for (const result of this.activeBundle.results || []) {
         const party = mode === 'winner' ? result.winnerParty : result.leadingParty;
         if (!party) continue;
-        parties.set(party, partyColour(party));
+        parties.set(party, this.mainPanePartyColour(party));
       }
       target.innerHTML = [...parties.entries()].slice(0, 12).map(([party, colour]) => `
         <span class="test2-election-panel__legend-item"><i style="background:${escapeHtml(colour)}"></i>${escapeHtml(party)}</span>
@@ -2320,7 +2377,7 @@ export class Test2ElectionManager {
         dot.style.top = `${dotOffsetY + position.y - minY}px`;
         dot.style.width = `${SEAT_CIRCLE_SIZE}px`;
         dot.style.height = `${SEAT_CIRCLE_SIZE}px`;
-        dot.style.background = seat.colour || partyColour(seat.party || result.winnerParty || result.leadingParty);
+        dot.style.background = seat.colour || this.mainPanePartyColour(seat.party || result.winnerParty || result.leadingParty);
         dot.title = `${seat.name || 'Elected candidate'} (${seat.party || result.winnerParty || result.leadingParty || 'Unknown party'})`;
         inner.appendChild(dot);
       });
@@ -2441,7 +2498,7 @@ export class Test2ElectionManager {
         properties: {
           constituency: result.constituency || result.matchName || '',
           party: result.leadingParty || result.winnerParty || '',
-          colour: partyColour(result.leadingParty || result.winnerParty),
+          colour: this.mainPanePartyColour(result.leadingParty || result.winnerParty),
           share,
           resultKey: normalizeName(result.matchName || result.constituency || '')
         }
@@ -2786,14 +2843,14 @@ export class Test2ElectionManager {
       return [{
         name: result.winnerName || winner?.name || result.leadingName || '',
         party: result.winnerParty || winner?.party || result.leadingParty || '',
-        colour: partyColour(result.winnerParty || winner?.party || result.leadingParty)
+        colour: this.mainPanePartyColour(result.winnerParty || winner?.party || result.leadingParty)
       }];
     }
     const seatCount = Math.max(0, Number(result.seatsWon || result.seatsTotal || 0));
     return Array.from({ length: seatCount }, (_, index) => ({
       name: index === 0 ? (result.winnerName || result.leadingName || '') : '',
       party: result.winnerParty || result.leadingParty || '',
-      colour: partyColour(result.winnerParty || result.leadingParty)
+      colour: this.mainPanePartyColour(result.winnerParty || result.leadingParty)
     }));
   }
 
@@ -3141,21 +3198,21 @@ function formatFixedPercent(value) {
 function formatMainDelta(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
-  const className = number > 0 ? 'election-delta election-delta--up' : number < 0 ? 'election-delta election-delta--down' : 'election-delta';
+  const className = number > 0 ? 'election-delta election-delta--pos' : number < 0 ? 'election-delta election-delta--neg' : 'election-delta';
   return `<span class="${className}">${number > 0 ? '+' : ''}${number.toLocaleString('en-GB')}</span>`;
 }
 
 function formatMainPercentDelta(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
-  const className = number > 0 ? 'election-delta election-delta--up' : number < 0 ? 'election-delta election-delta--down' : 'election-delta';
+  const className = number > 0 ? 'election-delta election-delta--pos' : number < 0 ? 'election-delta election-delta--neg' : 'election-delta';
   return `<span class="${className}">${number > 0 ? '+' : ''}${number.toFixed(2)}%</span>`;
 }
 
 function formatMainSelectedPercentDelta(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
-  const className = number > 0 ? 'election-delta election-delta--up' : number < 0 ? 'election-delta election-delta--down' : 'election-delta';
+  const className = number > 0 ? 'election-delta election-delta--pos' : number < 0 ? 'election-delta election-delta--neg' : 'election-delta';
   return `<span class="${className}">${number > 0 ? '+' : ''}${number.toFixed(2)}</span>`;
 }
 
