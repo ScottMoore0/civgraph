@@ -48,6 +48,26 @@ function getDomLabelLimit(layer) {
   return 320;
 }
 
+function resolveRuntimeProfile() {
+  const width = Number(globalThis.innerWidth || 1024);
+  const memory = Number(globalThis.navigator?.deviceMemory || 4);
+  const cores = Number(globalThis.navigator?.hardwareConcurrency || 4);
+  const dpr = Number(globalThis.devicePixelRatio || 1);
+  const reducedMotion = Boolean(globalThis.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches);
+  const lowEnd = width < 700 || memory <= 2 || cores <= 2;
+  const medium = !lowEnd && (width < 1100 || memory <= 4 || cores <= 4);
+  const workerCount = lowEnd ? 1 : Math.max(1, Math.min(3, cores - 1));
+  return {
+    deviceClass: lowEnd ? 'low' : (medium ? 'medium' : 'high'),
+    workerCount,
+    maxTileCacheSize: lowEnd ? 80 : (medium ? 140 : 260),
+    maxParallelImageRequests: lowEnd ? 8 : (medium ? 12 : 16),
+    fadeDuration: (lowEnd || reducedMotion) ? 0 : 100,
+    pixelRatio: lowEnd ? Math.min(dpr, 1.5) : Math.min(dpr, 2),
+    reducedMotion
+  };
+}
+
 function resolveFillOpacity(layer) {
   return clamp(layer?.style?.fillOpacity ?? DEFAULT_VECTOR_FILL_OPACITY, 0, 1);
 }
@@ -74,10 +94,18 @@ export class TestMapLibreController {
     this.interactionCleanups = new Map();
     this.fallbackCleanups = new Map();
     this.duplicateFeatureIdCache = new Map();
+    this.pmtilesArchiveCache = new Map();
+    this.runtimeProfile = resolveRuntimeProfile();
     maplibregl.addProtocol('pmtiles', this.protocol.tile);
   }
 
   init() {
+    if (Number.isFinite(this.runtimeProfile.workerCount)) {
+      maplibregl.workerCount = this.runtimeProfile.workerCount;
+    }
+    if (Number.isFinite(this.runtimeProfile.maxParallelImageRequests)) {
+      maplibregl.maxParallelImageRequests = this.runtimeProfile.maxParallelImageRequests;
+    }
     this.map = new maplibregl.Map({
       container: this.container,
       style: {
@@ -96,7 +124,17 @@ export class TestMapLibreController {
       zoom: 5.8,
       minZoom: 4,
       maxZoom: 16,
-      attributionControl: true
+      attributionControl: true,
+      fadeDuration: this.runtimeProfile.fadeDuration,
+      maxTileCacheSize: this.runtimeProfile.maxTileCacheSize,
+      pixelRatio: this.runtimeProfile.pixelRatio,
+      refreshExpiredTiles: false,
+      renderWorldCopies: false
+    });
+
+    this.recordMetric({
+      event: 'runtime-profile',
+      profile: this.runtimeProfile
     });
 
     this.map.doubleClickZoom?.disable();
@@ -647,7 +685,10 @@ export class TestMapLibreController {
   buildSource(layer) {
     if (layer.sourceType === 'pmtiles') {
       if (!layer.tileUrl) throw new Error('missing PMTiles URL');
-      this.protocol.add(new PMTiles(layer.tileUrl));
+      if (!this.pmtilesArchiveCache.has(layer.tileUrl)) {
+        this.pmtilesArchiveCache.set(layer.tileUrl, new PMTiles(layer.tileUrl));
+      }
+      this.protocol.add(this.pmtilesArchiveCache.get(layer.tileUrl));
       return { type: 'vector', url: `pmtiles://${layer.tileUrl}`, minzoom: layer.minzoom, maxzoom: layer.maxzoom, promoteId: layer.promoteId };
     }
     if (layer.sourceType === 'mvt') {
@@ -1138,6 +1179,10 @@ export class TestMapLibreController {
   recordMetric(metric) {
     this.metrics.push(metric);
     this.options.onMetric?.(metric);
+  }
+
+  getMetrics() {
+    return [...this.metrics];
   }
 }
 

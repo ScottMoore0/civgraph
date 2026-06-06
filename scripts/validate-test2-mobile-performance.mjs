@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 import { chromium, devices } from '@playwright/test';
 import { spawn } from 'node:child_process';
+import { mkdirSync, writeFileSync } from 'node:fs';
 
 const PORT = Number(process.env.TEST2_PERF_PORT || 5053);
 const BASE = `http://127.0.0.1:${PORT}`;
 const MODE = (process.env.TEST2_PERF_MODE || 'fixture').toLowerCase();
 const USE_CDN = MODE === 'cdn' || MODE === 'production';
+const REPORT_PATH = process.env.TEST2_PERF_REPORT || 'test2/build/mobile-performance-report.json';
 const BUDGETS = {
   bootMs: Number(process.env.TEST2_PERF_BOOT_MS || 5000),
   fixtureLayerMs: Number(process.env.TEST2_PERF_FIXTURE_LAYER_MS || 2000),
@@ -242,6 +244,10 @@ try {
       scenarios,
       canvas: { width: map.getCanvas().width, height: map.getCanvas().height },
       memory: performance.memory?.usedJSHeapSize || 0,
+      serviceWorker: await app.getServiceWorkerStatus?.().catch((error) => ({
+        available: false,
+        reason: String(error?.message || error)
+      })),
       budgets
     };
   }, { budgets: BUDGETS, cdnScenarios: CDN_LAYER_SCENARIOS, useCdn: USE_CDN });
@@ -274,6 +280,19 @@ try {
     failures.push('fixture mode did not exercise any local rendering or bundle path');
   }
 
+  writeReport({
+    generatedAt: new Date().toISOString(),
+    mode: result.mode,
+    bootMs,
+    canvas: result.canvas,
+    memory: result.memory,
+    serviceWorker: result.serviceWorker || null,
+    requestStats,
+    budgets: BUDGETS,
+    scenarios: result.scenarios,
+    failures
+  });
+
   if (failures.length) {
     console.error('Test2 Mobile Performance Validation');
     console.error(`mode=${result.mode} boot=${bootMs}ms heap=${result.memory || 'n/a'} pmtiles=${requestStats.pmtilesRequests} fallbackTiles=${requestStats.fallbackTileRequests} failedTiles=${requestStats.failedTiles}`);
@@ -298,4 +317,9 @@ async function waitForServer() {
     await new Promise((resolve) => setTimeout(resolve, 250));
   }
   throw new Error('local static server did not start');
+}
+
+function writeReport(report) {
+  mkdirSync('test2/build', { recursive: true });
+  writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
 }

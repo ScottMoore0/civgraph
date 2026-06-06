@@ -34,10 +34,13 @@ class Test2App {
     this.searchWorkerCallbacks = new Map();
     this.workerSearchQuery = '';
     this.workerSearchResultIds = null;
+    this.serviceWorkerStatusPromise = null;
+    this.performanceBudget = null;
   }
 
   async init() {
     this.installRouteGuard();
+    this.registerServiceWorker();
 
     await dataService.init();
     dataService.fuse = null;
@@ -80,7 +83,9 @@ class Test2App {
       mapController: this.mapController,
       metadataService: this.metadataService,
       elections: null,
-      restorePromise: null
+      restorePromise: null,
+      serviceWorkerStatusPromise: this.serviceWorkerStatusPromise,
+      getPerformanceStatus: () => this.collectPerformanceStatus()
     };
     this.prepareSearchWorker();
     this.renderCategoryPills();
@@ -89,6 +94,7 @@ class Test2App {
     this.setupThemeToggle();
     this.setupSupportModal();
     this.setupMapControls();
+    this.setupPerformanceDashboard();
     this.setupTimelineControls();
     this.setupElectionPaneResize();
     this.setupSourcePanel();
@@ -101,6 +107,91 @@ class Test2App {
         this.updateURLState();
       });
     await window.__civgraphTest2.restorePromise;
+  }
+
+  registerServiceWorker() {
+    if (!('serviceWorker' in navigator) || location.protocol === 'file:') {
+      this.serviceWorkerStatusPromise = Promise.resolve({ available: false, reason: 'service-worker API unavailable' });
+      return;
+    }
+    const path = window.location.pathname || '/';
+    const canRegister = path.startsWith('/test2/') || path === '/test2';
+    if (!canRegister) {
+      this.serviceWorkerStatusPromise = Promise.resolve({ available: false, reason: 'outside /test2 scope' });
+      return;
+    }
+    this.serviceWorkerStatusPromise = navigator.serviceWorker.register('/test2/sw.js', { scope: '/test2/' })
+      .then(async (registration) => {
+        await navigator.serviceWorker.ready.catch(() => registration);
+        return this.getServiceWorkerStatus(registration);
+      })
+      .catch((error) => ({
+        available: false,
+        reason: String(error?.message || error)
+      }));
+  }
+
+  async getServiceWorkerStatus(registration = null) {
+    if (!('serviceWorker' in navigator)) return { available: false, reason: 'service-worker API unavailable' };
+    const activeRegistration = registration || await navigator.serviceWorker.getRegistration('/test2/');
+    const target = navigator.serviceWorker.controller
+      || activeRegistration?.active
+      || activeRegistration?.waiting
+      || activeRegistration?.installing;
+    if (!target) return { available: true, controlled: false, reason: 'registered but not yet controlling this page' };
+    return new Promise((resolve) => {
+      const channel = new MessageChannel();
+      const timer = setTimeout(() => resolve({ available: true, controlled: Boolean(navigator.serviceWorker.controller), reason: 'status timeout' }), 900);
+      channel.port1.onmessage = (event) => {
+        clearTimeout(timer);
+        resolve({
+          available: true,
+          controlled: Boolean(navigator.serviceWorker.controller),
+          ...(event.data || {})
+        });
+      };
+      target.postMessage({ type: 'TEST2_SW_STATUS' }, [channel.port2]);
+    });
+  }
+
+  async collectPerformanceStatus() {
+    const budget = await this.loadPerformanceBudget();
+    const serviceWorker = await this.getServiceWorkerStatus().catch((error) => ({
+      available: false,
+      reason: String(error?.message || error)
+    }));
+    const mapMetrics = this.mapController?.getMetrics?.() || this.mapController?.metrics || [];
+    const electionOverlay = this.elections?.getSeatCircleOverlayState?.() || null;
+    return {
+      generatedAt: new Date().toISOString(),
+      budget,
+      serviceWorker,
+      map: {
+        runtimeProfile: this.mapController?.runtimeProfile || null,
+        loadedLayers: this.mapController?.layers?.size || 0,
+        metrics: mapMetrics.slice(-40),
+        fallbackCount: mapMetrics.filter((metric) => /fallback/i.test(metric?.event || '')).length
+      },
+      elections: {
+        active: this.elections?.activeEntry?.key || null,
+        seatCircleRenderMs: Number(this.elections?.lastSeatCircleRenderMs || 0),
+        overlay: electionOverlay
+      },
+      browser: {
+        memory: performance.memory?.usedJSHeapSize || 0,
+        deviceMemory: navigator.deviceMemory || null,
+        hardwareConcurrency: navigator.hardwareConcurrency || null,
+        dpr: window.devicePixelRatio || 1
+      }
+    };
+  }
+
+  async loadPerformanceBudget() {
+    if (this.performanceBudget) return this.performanceBudget;
+    this.performanceBudget = fetch('/test2/build/performance-dashboard.json', { cache: 'no-cache' })
+      .then((response) => response.ok ? response.json() : null)
+      .catch(() => null);
+    return this.performanceBudget;
   }
 
   relocateMobileCatalogueToggle() {
@@ -805,6 +896,49 @@ class Test2App {
     this.mapController.map?.on('moveend', () => this.updateURLState());
   }
 
+  setupPerformanceDashboard() {
+    const button = document.getElementById('performanceDashboardRefresh');
+    const render = () => this.renderPerformanceDashboard().catch((error) => {
+      const target = document.getElementById('performanceDashboardStatus');
+      if (target) target.textContent = `Performance status unavailable: ${error?.message || error}`;
+    });
+    button?.addEventListener('click', render);
+    this.serviceWorkerStatusPromise?.finally(() => render());
+    setTimeout(render, 1200);
+  }
+
+  async renderPerformanceDashboard() {
+    const target = document.getElementById('performanceDashboardStatus');
+    if (!target) return;
+    const status = await this.collectPerformanceStatus();
+    const budget = status.budget || {};
+    const failedBudgets = Number(budget?.totals?.failed || 0);
+    const warningBudgets = Number(budget?.totals?.warnings || 0);
+    const budgetClass = failedBudgets ? 'danger' : (warningBudgets ? 'warning' : 'ok');
+    const serviceWorker = status.serviceWorker || {};
+    const storage = serviceWorker.storage || {};
+    const cacheSummary = serviceWorker.caches
+      ? Object.entries(serviceWorker.caches).map(([name, count]) => `${shortCacheName(name)}: ${count}`).join(', ')
+      : 'not controlling this page yet';
+    const rows = [
+      ['Budgets', `${budget?.summary || 'No budget report'}${failedBudgets ? ` (${failedBudgets} fail)` : ''}`, budgetClass],
+      ['Service worker', serviceWorker.available ? (serviceWorker.controlled ? 'controlled' : 'registered') : 'unavailable', serviceWorker.available ? 'ok' : 'warning'],
+      ['Cache entries', cacheSummary, 'neutral'],
+      ['Storage', storage.quota ? `${formatBytes(storage.usage)} / ${formatBytes(storage.quota)}` : 'unreported', 'neutral'],
+      ['Runtime', status.map.runtimeProfile?.deviceClass || 'unknown', 'neutral'],
+      ['Loaded layers', String(status.map.loadedLayers || 0), 'neutral'],
+      ['Fallbacks', String(status.map.fallbackCount || 0), status.map.fallbackCount ? 'warning' : 'ok'],
+      ['Seat circles', status.elections.seatCircleRenderMs ? `${status.elections.seatCircleRenderMs}ms` : 'not active', 'neutral'],
+      ['Heap', status.browser.memory ? formatBytes(status.browser.memory) : 'unreported', 'neutral']
+    ];
+    target.innerHTML = rows.map(([label, value, state]) => `
+      <div class="test2-performance-dashboard__row test2-performance-dashboard__row--${state}">
+        <span>${escapeHtml(label)}</span>
+        <strong>${escapeHtml(value)}</strong>
+      </div>
+    `).join('');
+  }
+
   setupTimelineControls() {
     const range = document.getElementById('timelineRange');
     const prev = document.getElementById('timelinePrev');
@@ -1457,6 +1591,25 @@ function escapeHtml(value) {
     '"': '&quot;',
     "'": '&#39;'
   }[ch]));
+}
+
+function formatBytes(value) {
+  const bytes = Number(value || 0);
+  if (!Number.isFinite(bytes) || bytes <= 0) return '0 B';
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let amount = bytes;
+  let unitIndex = 0;
+  while (amount >= 1024 && unitIndex < units.length - 1) {
+    amount /= 1024;
+    unitIndex += 1;
+  }
+  return `${amount.toFixed(unitIndex === 0 ? 0 : 1)} ${units[unitIndex]}`;
+}
+
+function shortCacheName(name) {
+  return String(name || '')
+    .replace(/^civgraph-test2-sw-v\d+-/, '')
+    .replace(/^civgraph-/, '');
 }
 
 function normalizeSearchText(value) {

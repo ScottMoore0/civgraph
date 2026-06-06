@@ -143,6 +143,9 @@ export class Test2ElectionManager {
     this.lastSeatCircleRenderMs = 0;
     this.overlayRefreshPending = false;
     this.seatCirclePositionUpdatePending = false;
+    this.overlayWorker = null;
+    this.overlayWorkerSeq = 0;
+    this.overlayWorkerCallbacks = new Map();
     this.voteBarClickBound = false;
     this.recallLabelClickBound = false;
     this.overlayRefreshBound = false;
@@ -2377,7 +2380,7 @@ export class Test2ElectionManager {
     const centres = this.buildFeatureCentreLookup(index?.items || []);
     const map = this.mapController.map;
     const groups = this.buildSeatCircleGroups(centres);
-    const visibleGroups = this.limitSeatCircleGroups(this.filterOverlayGroupsByCollision(groups));
+    const visibleGroups = await this.filterOverlayGroupsByCollisionAsync(groups);
     const overlay = this.ensureSeatCircleOverlay();
     if (!overlay) return;
     overlay.innerHTML = '';
@@ -2690,11 +2693,7 @@ export class Test2ElectionManager {
   }
 
   limitSeatCircleGroups(groups = []) {
-    const width = Number(window.innerWidth || 1024);
-    const memory = Number(navigator.deviceMemory || 4);
-    const limit = width < 700 || memory <= 2
-      ? SEAT_CIRCLE_GROUP_LIMIT_MOBILE
-      : (width < 1100 || memory <= 4 ? SEAT_CIRCLE_GROUP_LIMIT_TABLET : SEAT_CIRCLE_GROUP_LIMIT_DESKTOP);
+    const limit = this.getSeatCircleGroupLimit();
     if (groups.length <= limit) return groups;
     return [...groups]
       .sort((a, b) => {
@@ -2703,6 +2702,14 @@ export class Test2ElectionManager {
         return syntheticDelta || seatsDelta || (b.area || 0) - (a.area || 0);
       })
       .slice(0, limit);
+  }
+
+  getSeatCircleGroupLimit() {
+    const width = Number(window.innerWidth || 1024);
+    const memory = Number(navigator.deviceMemory || 4);
+    return width < 700 || memory <= 2
+      ? SEAT_CIRCLE_GROUP_LIMIT_MOBILE
+      : (width < 1100 || memory <= 4 ? SEAT_CIRCLE_GROUP_LIMIT_TABLET : SEAT_CIRCLE_GROUP_LIMIT_DESKTOP);
   }
 
   scheduleSeatCirclePositionUpdate() {
@@ -2746,6 +2753,89 @@ export class Test2ElectionManager {
       this.overlayRefreshPending = false;
       if (!this.activeBundle || !this.shouldRenderElectionOverlays()) return;
       this.renderElectionOverlay().catch((error) => console.warn('[test2 elections] Overlay refresh failed', error));
+    });
+  }
+
+  async filterOverlayGroupsByCollisionAsync(groups = []) {
+    const fallback = () => this.limitSeatCircleGroups(this.filterOverlayGroupsByCollision(groups));
+    const map = this.mapController?.map;
+    if (!map || groups.length <= 1) return fallback();
+    const worker = this.getOverlayWorker();
+    if (!worker) return fallback();
+    const projected = groups
+      .map((group, index) => {
+        const point = map.project(group.center);
+        const bounds = projectAnchorBounds(map, group.bounds);
+        return {
+          index,
+          x: point?.x,
+          y: point?.y,
+          bounds,
+          width: group.groupWidth,
+          height: group.groupHeight,
+          pixelArea: bounds ? Math.abs(bounds.maxX - bounds.minX) * Math.abs(bounds.maxY - bounds.minY) : 0,
+          seats: group.seats?.length || 0,
+          area: group.area || 0,
+          synthetic: Boolean(group.result?.syntheticNonGeographic)
+        };
+      })
+      .filter((group) => Number.isFinite(group.x) && Number.isFinite(group.y));
+    if (!projected.length) return [];
+    const selectedIndexes = await this.runOverlayWorker(projected, {
+      limit: this.getSeatCircleGroupLimit(),
+      margin: SEAT_CIRCLE_COLLISION_MARGIN,
+      minTotalExtent: SEAT_CIRCLE_MIN_TOTAL_EXTENT
+    }).catch(() => null);
+    if (!Array.isArray(selectedIndexes)) return fallback();
+    return selectedIndexes.map((index) => groups[index]).filter(Boolean);
+  }
+
+  getOverlayWorker() {
+    if (this.overlayWorker) return this.overlayWorker;
+    if (typeof Worker === 'undefined') return null;
+    try {
+      const worker = new Worker('/test2/src/overlay-worker.js', { type: 'module' });
+      worker.addEventListener('message', (event) => {
+        const { id, selectedIndexes } = event.data || {};
+        const callback = this.overlayWorkerCallbacks.get(id);
+        if (!callback) return;
+        clearTimeout(callback.timer);
+        this.overlayWorkerCallbacks.delete(id);
+        callback.resolve(selectedIndexes || []);
+      });
+      worker.addEventListener('error', (event) => {
+        for (const [id, callback] of this.overlayWorkerCallbacks) {
+          clearTimeout(callback.timer);
+          callback.reject(event.error || new Error('Election overlay worker failed'));
+          this.overlayWorkerCallbacks.delete(id);
+        }
+        this.overlayWorker?.terminate?.();
+        this.overlayWorker = null;
+      });
+      this.overlayWorker = worker;
+      return worker;
+    } catch {
+      this.overlayWorker = null;
+      return null;
+    }
+  }
+
+  runOverlayWorker(groups, options) {
+    const worker = this.getOverlayWorker();
+    if (!worker) return Promise.reject(new Error('Election overlay worker unavailable'));
+    const id = ++this.overlayWorkerSeq;
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        this.overlayWorkerCallbacks.delete(id);
+        reject(new Error('Election overlay worker timed out'));
+      }, 700);
+      this.overlayWorkerCallbacks.set(id, { resolve, reject, timer });
+      worker.postMessage({
+        id,
+        type: 'filterSeatCircleGroups',
+        groups,
+        options
+      });
     });
   }
 

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-06-06T18:31:47.391Z",
+  "summary": "Performance budgets pass",
+  "budgets": {
+    "entryJsBytes": 716800,
+    "entryCssBytes": 163840,
+    "chunkJsBytes": 1843200,
+    "metadataIndexBytes": 3584000,
+    "sourceMapCount": 0
+  },
+  "totals": {
+    "checks": 7,
+    "failed": 0,
+    "warnings": 0,
+    "passed": 7
+  },
+  "checks": [
+    {
+      "name": "Entry JS",
+      "status": "pass",
+      "value": 427510,
+      "maxBytes": 716800,
+      "valueLabel": "417.5 KB / 700.0 KB",
+      "path": "test2/build/test2.bundle.js"
+    },
+    {
+      "name": "Entry CSS",
+      "status": "pass",
+      "value": 86950,
+      "maxBytes": 163840,
+      "valueLabel": "84.9 KB / 160.0 KB",
+      "path": "test2/build/test2.bundle.css"
+    },
+    {
+      "name": "Split JS chunks",
+      "status": "pass",
+      "value": 1187254,
+      "maxBytes": 1843200,
+      "valueLabel": "1.1 MB / 1.8 MB",
+      "path": "test2/build/chunks"
+    },
+    {
+      "name": "Startup metadata index",
+      "status": "pass",
+      "value": 2745405,
+      "maxBytes": 3584000,
+      "valueLabel": "2.6 MB / 3.4 MB",
+      "path": "test/metadata/maps-test-index.json"
+    },
+    {
+      "name": "Scoped service worker",
+      "status": "pass",
+      "value": true,
+      "valueLabel": "present",
+      "path": "test2/sw.js"
+    },
+    {
+      "name": "Production source maps disabled",
+      "status": "pass",
+      "value": 0,
+      "maxCount": 0,
+      "valueLabel": "0 map file(s)",
+      "path": "test2/build"
+    },
+    {
+      "name": "PMTiles metadata coverage",
+      "status": "pass",
+      "value": 602,
+      "total": 602,
+      "valueLabel": "602/602 PMTiles layers use CDN URLs"
+    }
+  ]
+}

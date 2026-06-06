@@ -1,3 +1,21 @@
+# Implement remaining `/test2` performance recommendations 1-6
+- [x] Record scope and plan
+  - Task: implement the six remaining recommendations from `docs/test2-performance-recommendations.md`: scoped service worker, PMTiles/CDN validation, MapLibre mobile runtime tuning, workerized election overlay placement, source-map/diagnostic deploy hygiene, and a performance budget dashboard.
+  - Constraints: keep the main site unchanged; keep work scoped to `/test2`, shared `/test` MapLibre support where required, scripts, headers, and task notes; avoid staging unrelated dirty Browse/election generated metadata already present in the worktree.
+  - Plan: add `/test2` service worker and runtime status hooks; add PMTiles/CDN static/network validation; tune MapLibre worker/cache/animation settings by device profile; move seat-circle collision filtering to a worker with fallback; make `/test2` source maps opt-in; generate/read a performance dashboard JSON; rebuild, validate, commit, and push.
+- [x] Add `/test2` service worker and cache diagnostics
+  - Done: added `/test2/sw.js`, registered it from `/test2`, exposed cache/storage status through message passing, skipped PMTiles/full bundles from SW caching, and added quota-aware runtime eviction.
+- [x] Add PMTiles/CDN validation and monitoring
+  - Done: added `scripts/validate-test2-pmtiles-cdn.mjs`, wired it into `check:test2`, added optional network byte-range monitoring via `npm run monitor:test2:cdn`, and generated `test/metadata/test2-cdn-validation-report.json`.
+- [x] Tune MapLibre mobile/runtime settings
+  - Done: added runtime device profiling, worker/tile-cache/fade/pixel-ratio tuning, PMTiles archive reuse, and runtime-profile metrics in the shared MapLibre controller used by `/test2`.
+- [x] Workerize election overlay collision calculations
+  - Done: added `test2/src/overlay-worker.js` and moved seat-circle collision/limit filtering to the worker path with the existing synchronous collision code retained as fallback.
+- [x] Reduce source-map/diagnostic deploy exposure and add performance dashboard
+  - Done: made `/test2` source maps opt-in via `TEST2_SOURCEMAPS=1` or `--sourcemap`, removed stale `.map` files during normal builds, added no-cache/noindex headers for diagnostic reports and maps, generated `performance-dashboard.json`, and added a compact in-app Performance status panel.
+- [x] Verify, review, commit, and push
+  - Verification evidence: `node --check` passed for the new/edited `/test2` service worker, overlay worker, app/election-manager/controller files, and validation/build scripts. Escalated `npm run build:test2` passed with source maps disabled and 7/7 performance budgets passing. `npm run check:test2`, `npm run check`, and escalated fixture-mode `npm run test:performance:test2` passed; the mobile performance report confirmed the `/test2` service worker controlled the page with populated static/runtime caches.
+
 # Fix `/test2` 2024 Dail constituency percentages and splitter
 - [x] Record scope and plan
   - Task: diagnose why 2024 Irish general election selected constituency panes still show wrong first-preference percentages on `/test2`, and make the horizontal bar above the bottom election pane draggable.

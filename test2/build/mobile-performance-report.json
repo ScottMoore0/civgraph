@@ -1,0 +1,63 @@
+{
+  "generatedAt": "2026-06-06T18:32:52.784Z",
+  "mode": "fixture",
+  "bootMs": 719,
+  "canvas": {
+    "width": 606,
+    "height": 1006
+  },
+  "memory": 23100000,
+  "serviceWorker": {
+    "available": true,
+    "controlled": true,
+    "version": "test2-sw-v1",
+    "scope": "http://127.0.0.1:5053/test2/",
+    "caches": {
+      "civgraph-test2-sw-v1-static": 2,
+      "civgraph-test2-sw-v1-runtime": 1
+    },
+    "storage": {
+      "usage": 152367,
+      "quota": 2034543143
+    }
+  },
+  "requestStats": {
+    "failedTiles": 0,
+    "pmtilesRequests": 0,
+    "fallbackTileRequests": 0
+  },
+  "budgets": {
+    "bootMs": 5000,
+    "fixtureLayerMs": 2000,
+    "layerLoadMs": 12000,
+    "electionBundleMs": 5000,
+    "electionLoadMs": 16000,
+    "hoverMs": 250,
+    "seatCircleMs": 2500,
+    "heapBytes": 471859200,
+    "maxFailedTiles": 0
+  },
+  "scenarios": [
+    {
+      "label": "Offline vector fixture",
+      "mode": "fixture",
+      "durationMs": 498,
+      "features": 6
+    },
+    {
+      "label": "Dail election bundle",
+      "mode": "fixture",
+      "election": "dail-eireann__2024-11-29",
+      "durationMs": 43,
+      "results": 43
+    },
+    {
+      "label": "Local-government election bundle",
+      "mode": "fixture",
+      "election": "local-government-local-government-districts__2023-05-18",
+      "durationMs": 83,
+      "results": 80
+    }
+  ],
+  "failures": []
+}

@@ -30,7 +30,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/test2/build/test2.bundle.js?v=21661736209f" fetchpriority="high">
+  <link rel="modulepreload" href="/test2/build/test2.bundle.js?v=6878c50c0155" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -67,7 +67,7 @@
        paint. Browsers without JS fall back via <noscript>. -->
     <link rel="stylesheet" href="/build/main.css?v=27" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="/build/main.css?v=27"></noscript>
-  <link rel="stylesheet" href="/test2/build/test2.bundle.css?v=020a70a73c02">
+  <link rel="stylesheet" href="/test2/build/test2.bundle.css?v=d477496e832b">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
   <link rel="stylesheet" href="election-viewer-package/css/election-viewer.css" media="print" onload="this.media='all'">
@@ -519,6 +519,19 @@
               </button>
             </div>
 
+            <!-- Performance status -->
+            <div id="performanceDashboard" class="control-group mt-4 test2-performance-dashboard" aria-live="polite">
+              <div class="test2-performance-dashboard__header">
+                <span class="control-label">Performance</span>
+                <button type="button" id="performanceDashboardRefresh" class="btn btn--sm" title="Refresh performance status">
+                  Refresh
+                </button>
+              </div>
+              <div id="performanceDashboardStatus" class="test2-performance-dashboard__body">
+                Status not loaded yet.
+              </div>
+            </div>
+
             <!-- Close button at bottom of panel -->
             <div class="map-control-panel__footer">
               <button type="button" id="mapControlsClose" class="map-controls-toggle" title="Close settings">
@@ -635,7 +648,7 @@
   <script src="assets/js/pako-2.1.0.min.js" defer></script>
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/test2/build/test2.bundle.js?v=21661736209f"></script>
+  <script type="module" src="/test2/build/test2.bundle.js?v=6878c50c0155"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

@@ -10,12 +10,13 @@ import path from 'node:path';
 
 mkdirSync('test2/build', { recursive: true });
 rmSync('test2/build/chunks', { recursive: true, force: true });
+const emitSourceMaps = process.env.TEST2_SOURCEMAPS === '1' || process.argv.includes('--sourcemap');
 
 const result = await esbuild.build({
   entryPoints: ['test2/src/app.js'],
   bundle: true,
   minify: true,
-  sourcemap: true,
+  sourcemap: emitSourceMaps,
   format: 'esm',
   splitting: true,
   outdir: 'test2/build',
@@ -33,6 +34,12 @@ const result = await esbuild.build({
 });
 
 if (result.errors.length) process.exit(1);
+
+if (!emitSourceMaps) {
+  for (const outputPath of outputFiles('test2/build')) {
+    if (/\.map$/.test(outputPath)) rmSync(outputPath, { force: true });
+  }
+}
 
 for (const outputPath of outputFiles('test2/build')) {
   if (!/\.(js|css|map)$/.test(outputPath)) continue;
@@ -53,6 +60,7 @@ updateHtmlVersions(jsVersion, cssVersion);
 console.log(`Test2 bundle: ${(jsBytes / 1024).toFixed(1)} KB`);
 console.log(`Test2 CSS: ${(cssBytes / 1024).toFixed(1)} KB`);
 console.log(`Test2 entry versions: js=${jsVersion} css=${cssVersion}`);
+console.log(`Test2 source maps: ${emitSourceMaps ? 'enabled' : 'disabled'}`);
 
 function outputFiles(dir) {
   if (!existsSync(dir)) return [];
