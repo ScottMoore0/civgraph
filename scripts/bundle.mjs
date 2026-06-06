@@ -11,6 +11,7 @@
 
 import * as esbuild from 'esbuild';
 import { readFileSync, renameSync, existsSync, statSync, mkdirSync, writeFileSync, unlinkSync, readdirSync } from 'fs';
+import { createHash } from 'crypto';
 
 // Globals provided by CDN script tags — esbuild must not try to bundle these
 const globalExternals = {
@@ -20,6 +21,16 @@ const globalExternals = {
     '@turf/turf': 'turf',
     'fuse.js': 'Fuse'
 };
+
+function hashFile(path, length = 12) {
+    return createHash('sha256').update(readFileSync(path)).digest('hex').slice(0, length);
+}
+
+function updateIndexAssetVersion(html, assetPath, version) {
+    const escaped = assetPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const pattern = new RegExp(`${escaped}(?:\\?v=[^"'>\\s]+)?`, 'g');
+    return html.replace(pattern, `${assetPath}?v=${version}`);
+}
 
 // Keep thumbnail rendering deterministic: the UI checks this manifest before
 // emitting thumbnail <img> tags, preventing repeated mobile 404 churn.
@@ -170,6 +181,23 @@ console.log('Bundle created: build/app.bundle.js');
     about += headerMedia.join('\n') + '\n';
     writeFileSync('build/about.css', about);
     console.log(`About CSS extracted: build/about.css (${(about.length / 1024).toFixed(1)} KB)`);
+}
+
+// Keep non-fingerprinted entry asset URLs aligned with generated content.
+// Cloudflare serves /build/* with long-lived cache headers, and the main app
+// bundle imports hashed dynamic chunks. Reusing the same app.bundle.js URL after
+// chunks change can strand clients on a stale bundle that imports deleted
+// chunks. Query versions are derived from the generated file contents so every
+// changed bundle/CSS gets a new cache key automatically.
+{
+    const indexPath = 'index.html';
+    let html = readFileSync(indexPath, 'utf8');
+    const appVersion = hashFile('build/app.bundle.js');
+    const cssVersion = hashFile('build/main.css');
+    html = updateIndexAssetVersion(html, 'build/app.bundle.js', appVersion);
+    html = updateIndexAssetVersion(html, 'build/main.css', cssVersion);
+    writeFileSync(indexPath, html);
+    console.log(`Asset versions: app ${appVersion}, css ${cssVersion}`);
 }
 
 // Performance budgets — fail the build if assets grow unexpectedly

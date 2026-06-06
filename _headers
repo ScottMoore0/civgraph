@@ -38,7 +38,25 @@
   Cache-Control: public, max-age=0, must-revalidate
   Service-Worker-Allowed: /
 
-# JS/CSS bundles — fingerprinted filenames, cache forever
+# Entry bundles are not filename-fingerprinted. They carry content-derived query
+# versions, but must still revalidate so a reused URL cannot strand clients on
+# stale dynamic imports.
+/build/app.bundle.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/build/app.bundle.js.map
+  Cache-Control: public, max-age=0, must-revalidate
+
+/build/main.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/build/main.critical.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/build/about.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Hashed JS chunks and other generated build assets can cache forever.
 /build/*
   Cache-Control: public, max-age=31536000, immutable
 

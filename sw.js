@@ -10,10 +10,11 @@
  *
  * On activate, any cache not carrying the current CACHE_VERSION suffix is
  * deleted. Bump CACHE_VERSION when you change SW strategy logic; fingerprinted
- * resources (build/*?v=N) invalidate naturally via their URL.
+ * resources (build/*?v=N) invalidate naturally via their URL; entry assets
+ * still use network-first as a stale-bundle safety rail.
  */
 
-const CACHE_VERSION = 'v6'; // v6: evict stale dynamic JS chunks after chunked-map hardening
+const CACHE_VERSION = 'v7'; // v7: make non-fingerprinted build entry assets network-first
 const STATIC_CACHE  = `civgraph-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `civgraph-runtime-${CACHE_VERSION}`;
 const FGB_CACHE     = `civgraph-fgb-${CACHE_VERSION}`;
@@ -109,7 +110,18 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // Fingerprinted bundles + stable assets — cache-first.
+    // Non-fingerprinted generated entry assets must revalidate. They use
+    // content-derived query versions, but network-first prevents a reused URL
+    // from pinning a stale app bundle that imports deleted chunks.
+    if (url.pathname === '/build/app.bundle.js' ||
+        url.pathname === '/build/main.css' ||
+        url.pathname === '/build/main.critical.css' ||
+        url.pathname === '/build/about.css') {
+        event.respondWith(networkFirst(req, STATIC_CACHE));
+        return;
+    }
+
+    // Fingerprinted chunks + stable assets — cache-first.
     if (url.pathname.startsWith('/build/') ||
         url.pathname.startsWith('/assets/fonts/') ||
         url.pathname.startsWith('/assets/css/leaflet-') ||
