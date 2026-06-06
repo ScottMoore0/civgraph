@@ -56,8 +56,10 @@
 /build/about.css
   Cache-Control: public, max-age=0, must-revalidate
 
-# Hashed JS chunks and other generated build assets can cache forever.
-/build/*
+# Hashed dynamic JS chunks can cache forever. Keep this scoped below
+# /build/chunks/ so stable root entry assets above do not inherit immutable
+# caching.
+/build/chunks/*
   Cache-Control: public, max-age=31536000, immutable
 
 # Fonts — never change, cache forever
