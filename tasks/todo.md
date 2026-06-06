@@ -1,3 +1,161 @@
+# Commit Browse/election metadata update
+- [x] Record scope and plan
+  - Task: commit generator/reference logic plus generated Browse/election outputs together, include only the Dail 2024 `/test2` guard changes, and keep unrelated timeline/layout validator changes out of the metadata commit.
+  - Plan: reduce timestamp-only generator churn where practical; regenerate Browse indexes; stage generated Browse/election outputs and a narrow validator hunk; run metadata/check validations; commit the scoped update.
+- [ ] Reduce generated timestamp churn
+  - Preserve existing top-level `generatedAt` values when regenerated JSON is unchanged apart from that timestamp.
+- [ ] Regenerate Browse/election outputs
+  - Run the Browse index generator from the intended generator state.
+- [ ] Stage scoped commit
+  - Stage generator/reference logic, regenerated Browse/election outputs, and only the Dail 2024 guard hunk from `scripts/validate-test2-route.mjs`.
+- [ ] Verify
+  - Run syntax/static checks and JSON parse validation over the staged metadata scope.
+- [ ] Review
+  - Report commit hash, verification evidence, and any remaining ambiguous dirty worktree items.
+
+# Fix timeline placement and catalogue metadata defects
+- [x] Record scope and plan
+  - Task: fix `/test2` timeline placement so the slider is a separate below-map pane, repair catalogue time-series recognition for Counties and Provinces, load all-ROI parent Electoral Divisions maps for 2019/1997/1994/1986, update requested catalogue labels/names, and generate/attach missing thumbnails where appropriate.
+  - Plan: inspect generated shell/build output and source CSS for route-specific overrides; inspect catalogue metadata generation and map entries for the named maps; apply source-level metadata/layout fixes; regenerate bundles/catalogue assets/thumbnails as needed; verify with static checks and browser smoke.
+- [x] Fix `/test2` timeline layout
+  - Ensure no `/test2` source or built CSS positions the timeline as map overlay chrome and verify visible geometry.
+  - Done: `/test2` now loads shared CSS from `/build/main.css`, and route CSS scopes `#timelineSlider` as an in-flow pane below `#map`.
+- [x] Fix catalogue time-series grouping
+  - Ensure Counties and Provinces cards are recognised as time series.
+  - Done: Counties and Provinces now have class/time-series metadata and flat cards use class-backed sections.
+- [x] Fix Electoral Divisions parent loads
+  - Make 2019, 1997, 1994, and 1986 ED parent maps load ROI-wide maps rather than provincial child variants.
+  - Done: `/test2` grouped variant parents now load all child variants and fit combined bounds; child variants remain individually loadable.
+- [x] Fix labels and display names
+  - Rename Tailte Built-Up Areas to `TÉ Built-Up Areas`; label those maps with `F_CODE` and `NAMN1` respectively; show CSO Urban Areas 2022 as derived name `2022`; rename NI Historic Environment Division heritage layer to `Heritage Sites`; use `Address` for NI Government Land and Property Register labels; use `Development Address` for ROI National Planning Applications labels.
+  - Done: canonical map metadata and flat catalogue titles/rendering now match the requested names and label attributes.
+- [x] Generate missing thumbnails
+  - Generate and wire thumbnails for Heritage Sites and other catalogue maps lacking thumbnails where source data supports it.
+  - Done: existing WebP thumbnails are wired by the regenerated manifest; validation now guards the requested thumbnail IDs.
+- [x] Verify
+  - Run metadata/static checks, rebuilds, and browser-smoke the timeline and representative catalogue cards.
+  - Verification evidence: `node --check test2/src/app.js`, `node --check scripts/validate-test2-route.mjs`, JSON parses, `node scripts/build-browse-indexes.mjs`, `node scripts/build-test2-app.mjs`, `node scripts/bundle.mjs`, `npm run check:test2`, `npm run check`, metadata spot check, `git diff --check`, and headless browser geometry smoke passed.
+  - Browser geometry evidence: `timelineInsideMap=false`, `timelineBelowMap=true`, map height `598px`, timeline height `58px`, timeline `position=static`, and `/test2` loads `/build/main.css` from the site root.
+- [x] Review
+  - Summarize changed files, verification evidence, and residual risks.
+  - Review: implemented scoped source fixes plus regenerated browse indexes, main bundle assets, `/test2` bundle assets, and thumbnail manifest. The in-app Browser tab crashed during a data-layer load, so final visual geometry verification used headless Playwright against the local static server.
+
+# Commit and push timeline/catalogue fixes
+- [x] Record scope
+  - Task: commit and push the focused timeline placement, catalogue metadata, and thumbnail-manifest fix while leaving unrelated dirty worktree changes unstaged.
+- [x] Stage scoped files
+  - Stage only source/generated files needed for this fix.
+  - Done: staged the focused source, metadata, thumbnail manifest, root/test2 shell, and regenerated `/test2` bundle files for this fix.
+- [ ] Commit
+  - Create a focused commit with a clear message.
+- [ ] Push
+  - Push the current branch to its upstream.
+- [ ] Review
+  - Record commit hash, push target, and any residual unstaged changes.
+
+# Review Browse/election metadata dirty worktree
+- [x] Record scope
+  - Task: review the dirty Browse/election metadata changes and recommend whether to commit, regenerate, split, or discard them.
+  - Constraint: review only unless a clearly mechanical note update is needed; do not stage/commit generated metadata in this pass.
+- [x] Inventory metadata deltas
+  - Count and categorize changed Browse, election, anchor, and generated index files.
+- [x] Inspect representative/high-risk diffs
+  - Review sample changes for source provenance, schema consistency, totals, party/person references, and obviously bad values.
+- [x] Check generator consistency
+  - Compare dirty generator/check script changes against generated outputs to determine whether outputs should be regenerated before commit.
+- [x] Review
+  - Summarize recommendation, blockers, and any decisions needed from the user.
+  - Inventory: 3,142 changed Browse/test metadata JSON files under `data/browse` and `test/metadata`, including 268 election detail pages, 266 `/test2` election bundles, 759 party detail pages, 821 map detail pages, 1,019 source detail pages, and the top-level Browse indexes.
+  - Findings: the changes are not merely citation/reference additions. They also correct election/party summary data that was previously polluted by partial or constituency-level figures, especially Dail 2024 and party `relatedElections` summaries.
+  - Representative improvement: Dail 2024 Browse summary changes from partial figures such as Fine Gael 42 seats / 108,352 votes and valid poll 412,346 to full-election figures such as Fianna Fail 48 seats, Sinn Fein 39, Fine Gael 38, total seats 174, and valid poll 2,202,453.
+  - Representative improvement: referendum metadata now reports matched constituencies consistently, e.g. 2024 Care changes from 36 matched / 3 unmatched to 39 matched / 0 unmatched.
+  - Risk: `scripts/build-browse-indexes.mjs` adds inferred Wikipedia/corpus references programmatically. These are useful, but some reference URLs/roles are heuristic rather than independently verified per election/result.
+  - Risk: many non-election map/source detail files appear changed only because `generatedAt` was refreshed; these create noisy churn and should be avoided or accepted explicitly as generated-output churn.
+  - Verification evidence: `npm run check` passed; `npm run check:test2` passed; PowerShell JSON parse over all 3,142 changed Browse/test metadata JSON files found 0 parse failures.
+  - Recommendation: keep the substantive election summary/matching corrections, but regenerate once from the intended generator state and commit as a dedicated generated metadata update. Prefer splitting/limiting timestamp-only map/source churn if feasible.
+
+# Move timeline slider below interactive map
+- [x] Record scope and plan
+  - Task: make the unified timeline slider a separate rectangular row below the interactive map instead of DOM controls hovering over it, while keeping the map and timeline visible above any bottom election/Census data pane.
+  - Plan: move the `timelineSlider` markup out of `#map`, make `.pane--map` reserve rows for map and timeline, cap bottom results/data panes so they cannot collapse the map/timeline, and trigger map resize when the timeline visibility changes.
+- [x] Update shell markup
+  - Move `#timelineSlider` after `#map` in both the main and `/test2` shells while preserving existing element ids for JS compatibility.
+- [x] Update layout CSS
+  - Convert timeline styling from overlay/card positioning to an in-flow rectangular row and constrain bottom pane heights.
+- [x] Update resize hooks
+  - Ensure Leaflet/MapLibre resize after timeline show/hide changes the map container height.
+- [x] Verify
+  - Run focused syntax/build/checks and browser-smoke the visible map/timeline/bottom-pane geometry.
+- [x] Review
+  - Summarize changed files, verification evidence, and residual risks.
+  - Moved `#timelineSlider` outside `#map` in the main and `/test2` shells so it is a sibling row inside `.pane--map`, below the map and above bottom data panes.
+  - Updated shared and `/test2` CSS so `.pane--map` reserves map and timeline space, the timeline is an in-flow rectangular row, map overlay controls remain inside the map, and election panes are height-capped against the reserved map/timeline rows.
+  - Added resize notifications after timeline show/hide so Leaflet/MapLibre can recompute the map viewport when the row appears or disappears.
+  - Updated `/test2` route validation to guard against putting `.timeline-slider` back under `#map`.
+  - Verification evidence: `node --check js/time-slider-controller.js`, `node --check test2/src/app.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, and `npm run check` passed. Rebuilt main and `/test2` bundles; esbuild required approved escalation because the Windows sandbox blocks process spawn.
+  - Browser evidence on `/test2/index.html#layers=election-dil-ireann-2024-11-29&zoom=7&lat=53.7&lng=-8.2`: `timelineInsideMap=false`, `timelineBelowMap=true`, `paneBelowTimeline=true`, map height `332px`, timeline height `50px`, election pane height `274px`, and the election pane was open. A later narrow-viewport retry timed out in browser control after the desktop/election-pane pass, so responsive behavior is covered by CSS/static checks rather than a completed browser measurement.
+
+# Cleanly separate /test2 fix from dirty worktree
+- [x] Record scope
+  - Task: carry out the user's requested cleanup actions where safe: commit the focused `/test2` seat-circle unload fix, classify the wider dirty worktree, avoid committing ambiguous generated/cache/scratch files, and add ignore rules only for clearly local artifacts.
+  - Constraint: do not revert or delete unrelated user work; do not make one bulk commit.
+- [x] Commit scoped fix
+  - Stage only files required for the verified `/test2` election seat-circle unload fix and commit them separately.
+- [x] Classify remaining dirt
+  - Summarize tracked generated/data/app changes and untracked local artifacts by category.
+- [x] Tighten ignore rules where unambiguous
+  - Add ignore entries only for local caches, temporary probe outputs, and one-off local artifacts that should not be committed.
+- [x] Review
+  - Report what was committed, what remains dirty, and which decisions need user clarification.
+  - Committed the isolated seat-circle fix as `07ec4233b Fix test2 election active-layer unload`, using a clean temporary worktree so unrelated local edits in the same files were not included.
+  - Committed unambiguous ignore rules as `52def5cd8 Ignore local processing caches` and `a1406d809 Ignore browser control artifacts`; this reduced visible untracked files from 3,320 to 26 by hiding local caches/quarantine outputs, root tmp output, transient missing-ID/session files, and browser-control artifacts.
+  - Verification evidence for the isolated fix: clean `/test2` bundle build succeeded; `node --check` passed for `test2/src/app.js`, `tests/browser/test2-app.spec.js`, and `scripts/validate-test2-route.mjs`; targeted Playwright test `tests/browser/test2-app.spec.js --grep "active-layers remove"` passed in the clean temporary worktree.
+  - `npm run check:test2` in the clean worktree is currently blocked by a separate pending `test2/src/election-manager.js` main-pane contract change that exists in the dirty main worktree and was deliberately not pulled into the seat-circle commit.
+  - Remaining visible untracked files are ambiguous: 8 data/chunk JSON outputs, 17 scratch/research scripts, and 1 private/reference repo directory group. These should not be committed or ignored without a product/data decision.
+
+# Fix /test2 election seat circles persisting after unload
+- [x] Record scope
+  - Task: ensure unloading an active `/test2` election layer from any visible UI path removes its associated seat-circle markers, election pane, URL election state, and election styling.
+  - Root cause from investigation: the active-layers remove button calls generic `onMapUnload(mapId)`, which removes only the backing MapLibre source layer and bypasses `Test2ElectionManager.unloadElection()`.
+- [x] Implement unload routing fix
+  - Route active election backing source IDs, bundle IDs, and canonical election IDs through `unloadElection()` before generic map unload.
+- [x] Add regression coverage
+  - Add a browser test that removes Dail 2024 from the active-layers panel and asserts no `.test2-election-seat-circle` nodes remain and election manager state is cleared.
+- [x] Verify
+  - Run syntax/route checks and targeted browser test.
+- [x] Review
+  - Document changed files and verification evidence.
+  - Changed `test2/src/app.js` so active election canonical IDs and backing source IDs are detected before generic unload. Active-layer removal now tears down `Test2ElectionManager` first, then unloads the backing MapLibre layer.
+  - Added `tests/browser/test2-app.spec.js` coverage for the active-layers remove button on Dail 2024, asserting no seat-circle DOM markers, no overlay node, no active election state, and no backing `dail-2023` layer state afterward.
+  - Added a static `/test2` route validation guard in `scripts/validate-test2-route.mjs`.
+  - Rebuilt `test2/build/test2.bundle.js` and CSS assets from the changed source.
+  - Verification evidence: `node --check test2/src/app.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npx playwright test tests/browser/test2-app.spec.js --grep "active-layers remove"`, and `npm run check` passed. Browser/esbuild commands required approved escalation because the Windows sandbox blocks process spawn.
+
+# Research /test2 election seat circles persisting after unload
+- [x] Record scope and expected behavior
+  - Task: determine why `/test2` constituency seat-circle overlays remain visible after unloading their associated election layer.
+  - Expected behavior: loading an election layer may render seat circles for constituency results; unloading that election layer must remove the associated seat-circle DOM/MapLibre marker overlays and clear any election-only styling state.
+- [x] Inspect election load/unload lifecycle
+  - Scope: trace `/test2` layer activation, active-layer removal, election manager teardown, map-controller source/layer cleanup, and URL/state clearing.
+- [x] Inspect seat-circle rendering ownership
+  - Scope: identify whether seat circles are MapLibre style layers, DOM overlays, or MapLibre `Marker` instances, and which collection owns their cleanup.
+- [x] Verify root cause with code/runtime evidence
+  - Scope: prove whether the unload path skips election overlay cleanup, whether markers are attached outside the active layer registry, or whether stale election state triggers redraw after removal.
+- [x] Review
+  - Summarize cause, affected files/functions, and the minimal guardrail/fix.
+  - Root cause: `/test2` election seat circles are MapLibre `Marker` DOM overlays owned by `Test2ElectionManager.seatCircleMarkers`, not MapLibre style layers owned by `mapController.layerStates`.
+  - The election catalogue unload path calls `Test2ElectionManager.unloadElection()`, which removes markers through `removeElectionOverlays()` -> `removeSeatCircles()` -> `removeSeatCircleMarkers()`.
+  - The active-layers remove button calls the generic `uiController.onMapUnload(mapId)` path. For an election this unloads only the underlying source map layer such as `dail-2023` through `mapController.unloadLayer(mapId)`, bypassing `Test2ElectionManager.unloadElection()`.
+  - Runtime evidence: after loading `election-dil-ireann-2024-11-29`, there were 35 `.test2-election-seat-circle` DOM markers and one source layer state (`dail-2023`). After generic `mapController.unloadLayer('dail-2023')`, layer states were empty but the election manager still had 35 markers and an active Dáil election. After `elections.unloadElection()`, marker count was 0 and `#test2-election-seat-overlay` was removed.
+  - Minimal fix: route `onMapUnload`/`unloadMap` through `elections.unloadElection()` when the requested `mapId` is the active election's `sourceMapId`, `activeBundle.sourceMapId`, `activeBundle.layerId`, or canonical election layer id; add a browser regression that removes the election from the active-layers panel and asserts zero `.test2-election-seat-circle` nodes and no active election state.
+
+# Fix stale app bundle cache causing collaborator startup failure
+- [x] Record recurrence
+  - Symptom: collaborator sees `Civgraph could not load a required script` for `build/app.bundle.js?v=116`; HAR shows `app.bundle.js?v=116` loaded from long-lived Cloudflare cache and then importing a deleted chunk URL.
+  - Root cause: `/build/*` was cached as immutable for one year, but the main entry bundle used a stable filename and manually maintained query version. The query version stayed at `v=116` while esbuild changed the imported chunk filenames, so stale clients loaded an old bundle that requested `build/chunks/v116/chunk-6K4TDOYH.js`. Cloudflare served the missing chunk path as HTML, which the browser rejected as a module script.
+  - Permanent prevention action: make `scripts/bundle.mjs` derive app/CSS query versions from generated file contents, revalidate non-fingerprinted entry assets in `_headers`, and make the service worker use network-first for those entry assets.
+  - Verification evidence: HAR `civgraph.net (1).har` showed stale `build/app.bundle.js?v=116` importing deleted `build/chunks/v116/chunk-6K4TDOYH.js`, which Cloudflare returned as `text/html`; `npm run build` now writes `build/app.bundle.js?v=307cf4769710` and `build/main.css?v=65e347f836c8`, matching the generated file SHA-256 prefixes; `npm run check` passed.
+
 # Diagnose collaborator blank screen on live site
 - [x] Record scope
   - User provided collaborator screenshot plus saved `Civgraph.html` and `Civgraph.mhtml` showing the live site shell but an empty catalogue/map area.
@@ -4168,3 +4326,94 @@ Add election entries to /test2
   - Completed: added `scripts/audit-test2-general-parity.mjs`, which loads main and `/test2` side by side and checks representative shell, catalogue, map control, ordinary-map, election-overall, selected-election, election-overlay, timeline, Browse, URL restore, and mobile states.
   - Completed: exposed the audit as `npm run audit:test2:parity` and made `npm run check:test2` assert that the audit and matrix remain present.
   - Verification evidence: `node --check scripts/audit-test2-general-parity.mjs`, `node --check scripts/validate-test2-route.mjs`, JSON matrix parsing, `npm run check:test2`, `npm run audit:test2:parity`, `npm run test:visual:test2`, and `npm run check` passed. Playwright-based commands required approved escalation because the Windows sandbox blocks Chromium spawn.
+
+# Explain Civgraph election entry data sources
+- [x] Identify website election-entry data used by Civgraph.net
+  - Scope: inspect generated Browse election detail records, runtime election manifests, and election pane data contracts.
+- [x] Identify Wikipedia, ARK Elections, and other upstream data shapes
+  - Scope: inspect import/scrape/compare scripts, cached source records, and generated reports.
+- [x] Summarize provenance, fields, coverage, and gaps
+  - Scope: provide an explanation with file references and verification evidence.
+- Review:
+  - Website/runtime data: main reads `election-viewer-package/data/elections_index.json` plus per-result files under `election-viewer-package/data/elections`; `/test2` and Browse derive generated election bundles from that package.
+  - Generated coverage evidence: `test/metadata/elections-test2.json` has 268 parent elections, 249 loadable entries, 19 placeholders, 4,004 matched constituency/area results, and 680 unmatched names; `data/browse/elections.json` has 5,220 Browse election items.
+  - Source evidence: raw result files include 7,344 JSON files, with 2,727 detected ElectionsIreland URLs and 1,218 detected Wikipedia URLs; Browse parent references aggregate 339 Wikipedia, 169 ARK/CAIN, 98 ElectionsIreland, and 26 EONI references.
+  - Inspected source pipelines: `build-test2-election-manifest.mjs`, `build-browse-indexes.mjs`, `election-domain.mjs`, `election-controller.js`, `ark_to_election_json.py`, `compare_ark_wiki.py`, and Wikipedia scrape scripts for parliamentary, Stormont, local, and referendum data.
+
+# Research /test2 townlands map pan to Madagascar
+- [x] Record scope and likely failure mode
+  - Task: research why loading the townlands map on `/test2` pans away from Ireland toward the Madagascar/Indian Ocean area, and explain how to fix it.
+  - Additional task: explain how the parent townlands map entry should appear as one entry in the `Active map layers` card, rather than as separate Northern Ireland and Republic of Ireland child variants.
+  - Result: confirmed a latitude/longitude order mismatch in the `/test2` composite-parent fit path. The parent townlands bounds are Leaflet-style `[[south, west], [north, east]]`; `/test2` can pass those unchanged to MapLibre, which reads them as `[[west, south], [east, north]]`.
+- [x] Inspect `/test2` map bounds and feature-load code
+  - Completed: compared MapLibre adapter bounds handling, UI feature bbox handling, layer catalogue bounds metadata, and composite/group active-layer handling.
+- [x] Verify with concrete coordinate examples or code evidence
+  - Verification evidence: source parent bounds `[[51.419897, -10.618624], [55.435141, -5.432784]]` should center at `lat 53.427519, lon -8.025704`; interpreted as MapLibre lon/lat pairs it centers at `lat -8.025704, lon 53.427519`, matching the reported Indian Ocean/Madagascar-area pan.
+- [x] Summarize fix and guardrail
+  - Fix: replace `/test2` heuristic bounds normalization with explicit Leaflet-to-MapLibre conversion for two-corner bounds, add four-number bbox support, and keep one shared conversion helper with `/test`.
+  - Active-layer fix: when a converted composite parent is loaded, list the parent group in the active-layer card and suppress its child layer rows; proxy parent visibility/opacity/removal to child layers.
+  - Guardrail: add a `/test2` regression that loads `all-ireland-townlands`, asserts the map center remains within Ireland, and asserts `#activeLayersList` contains one `all-ireland-townlands` row with no `ni-townlands`/`roi-townlands` child rows.
+
+# Fix /test2 townlands parent loading
+- [x] Patch bounds normalization
+  - Completed: `/test2` now converts two-corner catalogue Leaflet bounds through the shared `/test` MapLibre conversion helper, and supports four-number feature bboxes as direct lon/lat bboxes.
+- [x] Patch parent active-layer presentation
+  - Completed: `/test2` now builds loaded/visible/active map IDs with group parents first and suppresses child layer rows for loaded parent groups.
+- [x] Patch parent active-layer controls
+  - Completed: group states now expose proxy opacity handlers for child layers, and the shared active-layer UI reads controller `getLayerState()` when available.
+- [x] Add regression coverage
+  - Completed: extended the `/test2` composite-parent browser spec to assert converted all-Ireland townlands fit bounds and a single parent active-layer row.
+- [x] Verify
+  - Verification evidence: `node --check test2/src/maplibre-main-adapter.js`, `node --check test2/src/app.js`, `node --check js/ui-controller.js`, `node --check tests/browser/test2-app.spec.js`, `npm run check:test2`, `npm run build:test2`, and focused Playwright `npx playwright test tests/browser/test2-app.spec.js -g "converted child layers"` passed. Build and Playwright required approved escalation because the Windows sandbox blocked process/browser spawn.
+  - Browser smoke evidence: local `_dev-server.js` serves `http://127.0.0.1:3000/test2/index.html#layers=all-ireland-townlands&activePanel=1`; the restored URL settled at Ireland coordinates `lng=-8.02570&lat=53.47498&zoom=5.93`, the active-layer panel showed one `all-ireland-townlands` row, and console warning/error logs were empty.
+  - Review: fixed the parent townlands pan by converting catalogue Leaflet bounds to MapLibre bounds explicitly, fixed parent composite active-layer display by suppressing child rows, and added a regression for all-Ireland townlands parent bounds plus the single active-layer row.
+
+# Fix 2024 Irish general election constituency results
+- [x] Record scope
+  - Task: diagnose and resolve incorrect 2024 Dáil Éireann election results in the election pane by comparing the generated/site data with Wikipedia's 2024 Irish general election aggregate and constituency result pages.
+  - Primary symptom: the election pane still shows impossible headline rows such as Fine Gael `42` seats from only `11` candidates and zero seat percentages, indicating remaining count-table/scraper normalization defects in the displayed pane path.
+- [x] Compare generated data against Wikipedia
+  - Scope: audit party totals and constituency winners/candidate rows for the 2024 Dáil election, using the Wikipedia 2024 general election page and the current constituency pages linked from the Dáil constituencies page.
+- [x] Patch source normalization or importer
+  - Scope: fix the smallest root-cause path that produces wrong 2024 Dáil pane rows, preserving correct handling for true count-table elections and synthetic scraper records.
+- [x] Regenerate data and bundles
+  - Scope: rebuild `/test2` election bundles, Browse details, `/test2` app bundle, and production bundle as needed.
+- [x] Verify and document
+  - Scope: run syntax checks, route checks, focused data audits, and a browser regression for the 2024 Dáil pane; record evidence here.
+  - Diagnosis: the bad screenshot row came from treating ElectionsIreland scraper-shaped records as if they were real STV count tables; the old parity test only asserted that main and `/test2` matched each other, so it could pass while both showed wrong 2024 values.
+  - Source comparison: Wikipedia's 2024 headline table reports 174 Dáil seats, total valid votes `2,202,453`, and the top rows Fianna Fáil `48/82/481,414`, Sinn Féin `39/71/418,627`, Fine Gael `38/80/458,134`, Independent `16/171/290,748`; the constituency table confirms Kildare South has one reserved Ceann Comhairle seat and only three contested seats.
+  - Completed: preserved scraper-aware summary derivation and Ceann Comhairle auto-return handling, then tightened `tests/browser/test2-app.spec.js` so the 2024 Dáil pane must show the actual Wikipedia headline values, not merely match main.
+  - Verification evidence: `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run build:test2`, `npx playwright test tests/browser/test2-app.spec.js -g "Dail 2024 election pane matches"`, `npm run check:test2`, `npm run check`, and a focused generated-data audit passed. Browser/esbuild commands required approved escalation because the Windows sandbox blocks Chromium/esbuild process spawn.
+
+# Fix erroneous Irish general election data on /test2
+- [x] Investigate 2024 Dáil data failure first
+  - Symptom: `/test2` shows wrong 2024 Irish general election totals and party rows.
+  - Initial finding: the raw 2024 ElectionsIreland constituency files contain plausible candidate first preferences, but the generated `mainLikePartySummary` is wrong because scraper-style payloads are converted into count rows using `final_count` as `Count_Number`, so only candidates with final_count/count 1 contribute first-preference votes and many seats are inferred incorrectly.
+  - Completed: confirmed the fixed 2024 source-normalized totals are `validPoll=2,202,453`, `totalSeats=174`, and top rows Fianna Fáil `48/82/481,414`, Sinn Féin `39/71/418,627`, Fine Gael `38/80/458,134`, Independent `16/171/290,748`.
+  - Root cause: generated and production summary paths were applying full STV transfer-table semantics to ElectionsIreland scraper records, the production status parser did not treat `Made Quota` as elected, and the automatically returned Ceann Comhairle placeholder was not being counted as an affiliated party seat while excluded from contested first-preference totals.
+- [x] Determine and implement the 2024 fix
+  - Completed: added scraper-aware summary derivation in `js/election-domain.mjs` so scraper records count contested candidate `first_pref`, count stood once per contested candidate, count explicit elected-like statuses, and normalize the automatically returned Ceann Comhairle seat to the known party affiliation while preserving true count-table behavior.
+  - Completed: updated `js/election-controller.js` so production valid-poll, winner colour, party/candidate/entity/local summaries, and previous-election deltas recognize synthetic scraper rows; aligned `_statusKind()` so `Made Quota`, `counted as elected`, `deemed elected`, and auto-returned seats count as elected.
+- [x] Audit other Irish general elections and adjacent ElectionsIreland entries
+  - Completed: regenerated all `/test2` election bundles and audited every `dail-eireann__*.json`; `mainLikePartySummary` now has zero drift from source-shaped `partySummary` across the Dáil series.
+  - Finding: broad all-election comparisons still show non-Dáil mismatches where `partySummary` is not authoritative for seats, so the permanent guardrail is scoped to Dáil source-shaped summaries rather than blindly forcing all election families to match.
+- [x] Add guardrails and regenerate data
+  - Completed: replaced the old Dáil 2024 parity guard in `scripts/validate-test2-route.mjs` with source-correct assertions for 2024 totals and a modern Dáil drift detector.
+  - Completed: regenerated `/test2` election bundles, `/test2` app bundle, Browse indexes, and the production app bundle so both `/test2` and main use the corrected election summaries.
+- [x] Verify and document
+  - Verification evidence: `node --check js/election-domain.mjs`, `node --check js/election-controller.js`, `node --check scripts/validate-test2-route.mjs`, `npm run build:test2:elections`, `npm run build:browse`, `npm run build:test2`, `npm run build`, `npm run check:test2`, `npm run check`, focused Dáil drift audit (`dailDriftCount=0`), and focused Playwright `npx playwright test tests/browser/test2-app.spec.js -g "Dail 2024 election pane matches"` passed.
+  - Note: `npm run build:test2`, `npm run build`, and Playwright required approved escalation because the Windows sandbox blocks esbuild/browser process spawn.
+
+# Fix /test2 election backing-layer unload and ROI labels
+- [x] Inspect election load/unload and metric-label paths
+  - Completed: direct catalogue/pane unload went through `Test2ElectionManager.unloadElection()`, while active-layer removal had a separate app shortcut; the live ROI label paths are the host candidate-summary table and entity metric renderers.
+- [x] Implement backing-layer teardown
+  - Completed: `unloadElection()` now captures the active election backing `sourceMapId`/bundle IDs before clearing state and unloads those layers by default; the active-layer shortcut opts out and keeps its targeted cleanup.
+- [x] Implement ROI-aware aggregate labels
+  - Completed: aggregate percent labels now derive from the same ROI election detection already used for the ROI party palette, yielding `% of ROI` for ROI elections and `% of NI` otherwise.
+- [x] Add regression coverage
+  - Completed: added direct unload and ROI-label browser regressions, and tightened the active-layer removal regression to assert `dail-2023` is no longer loaded.
+- [x] Verify and document
+  - Verification evidence: `node --check test2/src/election-manager.js`, `node --check test2/src/app.js`, `node --check tests/browser/test2-app.spec.js`, `npm run build:test2`, `npm run check:test2`, and focused Playwright `npx playwright test tests/browser/test2-app.spec.js --grep "active-layers remove|direct election unload|ROI elections"` passed. Build and Playwright required approved escalation because the Windows sandbox blocked esbuild/Chromium spawn.
+  - Browser smoke evidence: local `http://127.0.0.1:3000/test2/index.html#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00` restored the Dáil election pane and URL election state; console noise was limited to expected local/offline misses for the RUM endpoint and remote FGB resources.
+  - Review: direct election unload now removes the active election's backing feature layer, active-layer removal still clears the same backing layer and election overlays, and Dáil/ROI election aggregate metric labels now show `% of ROI` instead of `% of NI`.

@@ -289,6 +289,28 @@
       ]
     },
     {
+      "id": "counties",
+      "name": "Counties",
+      "segments": [
+        {
+          "classIds": [
+            "ni-counties"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "provinces",
+      "name": "Provinces",
+      "segments": [
+        {
+          "classIds": [
+            "ireland-provinces"
+          ]
+        }
+      ]
+    },
+    {
       "id": "parliamentary",
       "name": "Constituencies",
       "category": "parliamentary",
@@ -666,8 +688,22 @@
       "category": "counties",
       "maps": [
         "counties-ireland",
+        "counties-ireland-1957",
+        "counties-ireland-1955",
         "counties-ireland-1927",
-        "counties-ireland-1922"
+        "counties-ireland-1922",
+        "counties-ireland-1915"
+      ]
+    },
+    {
+      "id": "ireland-provinces",
+      "name": "Provinces",
+      "scope": "Ireland",
+      "category": "counties",
+      "maps": [
+        "provinces",
+        "provinces-1955",
+        "provinces-1899"
       ]
     },
     {
@@ -21387,7 +21423,7 @@
         "color": "#B07050",
         "weight": 2
       },
-      "labelProperty": "ENGLISH_NA",
+      "labelProperty": "F_CODE",
       "keywords": [
         "settlements",
         "built-up areas (ireland 1m)"
@@ -21409,7 +21445,7 @@
         "color": "#A05040",
         "weight": 2
       },
-      "labelProperty": "ENGLISH_NA",
+      "labelProperty": "NAMN1",
       "keywords": [
         "settlements",
         "built-up areas — points (ireland 250k)"
@@ -21437,6 +21473,7 @@
         "settlements",
         "cso urban areas 2022"
       ],
+      "date": 2022,
       "useLOD": true
     },
     {
@@ -21680,7 +21717,7 @@
         "weight": 1,
         "fillOpacity": 0.4
       },
-      "labelProperty": "OWNER",
+      "labelProperty": "Address",
       "keywords": [
         "GLPR",
         "government land",
@@ -21721,7 +21758,7 @@
         "weight": 1,
         "fillOpacity": 0.4
       },
-      "labelProperty": "OWNER",
+      "labelProperty": "Address",
       "keywords": [
         "GLPR",
         "government land",
@@ -21762,7 +21799,7 @@
         "weight": 1,
         "fillOpacity": 0.4
       },
-      "labelProperty": "OWNER",
+      "labelProperty": "Address",
       "keywords": [
         "GLPR",
         "government land",
@@ -21802,7 +21839,7 @@
         "weight": 1,
         "fillOpacity": 0.4
       },
-      "labelProperty": "OWNER",
+      "labelProperty": "Address",
       "keywords": [
         "GLPR",
         "government land",
@@ -21843,7 +21880,7 @@
         "weight": 1,
         "fillOpacity": 0.4
       },
-      "labelProperty": "OWNER",
+      "labelProperty": "Address",
       "keywords": [
         "GLPR",
         "government land",
@@ -21883,7 +21920,7 @@
         "weight": 1,
         "fillOpacity": 0.4
       },
-      "labelProperty": "OWNER",
+      "labelProperty": "Address",
       "keywords": [
         "GLPR",
         "government land",
@@ -23006,7 +23043,7 @@
           "note": ""
         }
       ],
-      "labelProperty": "PlanningAuthority",
+      "labelProperty": "Development Address",
       "bounds": [
         [
           51.4,

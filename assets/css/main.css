@@ -129,6 +129,8 @@
   /* Layout */
   --header-height: 64px;
   --sidebar-width: 320px;
+  --map-min-height: 220px;
+  --timeline-row-height: 58px;
 }
 
 /* ============================================
@@ -250,6 +252,7 @@ a:hover {
   --clamped-split: clamp(20px, var(--split-position), calc(100% - 20px));
   grid-template-columns: var(--clamped-split) auto calc(100% - var(--clamped-split));
   height: calc(100vh - var(--header-height));
+  min-height: min(calc(100vh - var(--header-height)), calc(var(--map-min-height) + var(--timeline-row-height)));
   overflow: hidden;
   position: relative;
 }
@@ -365,6 +368,7 @@ a:hover {
   position: relative;
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 
 .pane__header {
@@ -4152,9 +4156,11 @@ button.catalogue-flat__toc-toplink {
    ============================================ */
 #map {
   width: 100%;
-  height: 100%;
   flex: 1 1 auto;
-  min-height: 0;
+  height: auto;
+  min-height: min(var(--map-min-height), 100%);
+  position: relative;
+  overflow: hidden;
   background: var(--color-gray-100);
 }
 
@@ -4198,8 +4204,7 @@ button.catalogue-flat__toc-toplink {
   left: var(--space-4);
   z-index: 1000;
   display: flex;
-  flex-direction: column-reverse;
-  /* Timeline at bottom, settings above */
+  flex-direction: column;
   align-items: flex-start;
   gap: var(--space-2);
 }
@@ -4215,18 +4220,25 @@ button.catalogue-flat__toc-toplink {
 /* ============================================
    Timeline Slider (Unified Time Navigation)
    ============================================ */
-.timeline-slider {
+.pane--map > .timeline-slider {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-3);
-  padding: var(--space-3);
+  flex: 0 0 auto;
+  height: auto;
+  min-height: var(--timeline-row-height);
+  width: 100%;
+  padding: var(--space-2) var(--space-4);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 
-.timeline-slider.hidden {
+.pane--map > .timeline-slider.hidden {
   display: none;
 }
 
@@ -4239,7 +4251,7 @@ button.catalogue-flat__toc-toplink {
 .timeline-range {
   -webkit-appearance: none;
   appearance: none;
-  width: 120px;
+  width: clamp(86px, 22vw, 220px);
   height: 8px;
   background: linear-gradient(to right, var(--color-primary-100), var(--color-primary-200));
   border-radius: 4px;
@@ -4477,6 +4489,11 @@ button.catalogue-flat__toc-toplink {
 }
 
 @media (max-width: 768px) {
+  :root {
+    --map-min-height: 180px;
+    --timeline-row-height: 54px;
+  }
+
   .map-load-status {
     top: calc(var(--header-height) + 6px);
     font-size: 0.78rem;
@@ -5852,6 +5869,26 @@ html:not([data-theme]) .feature-info__value,
   .map-controls {
     bottom: var(--space-4);
     max-width: calc(100vw - var(--space-8));
+  }
+
+  .pane--map > .timeline-slider {
+    gap: var(--space-2);
+    min-height: var(--timeline-row-height);
+    padding: var(--space-2);
+  }
+
+  .pane--map > .timeline-slider .timeline-range {
+    width: clamp(70px, 24vw, 150px);
+  }
+
+  .pane--map > .timeline-slider .timeline-label {
+    width: 78px;
+    font-size: var(--text-xs);
+  }
+
+  .pane--map > .timeline-slider .timeline-btn {
+    width: 30px;
+    height: 30px;
   }
 
   .map-control-panel {
@@ -10385,6 +10422,7 @@ kbd {
   width: 100%;
   /* Default height; overridden by drag logic */
   height: calc(40vh - 6px);
+  max-height: min(42vh, max(120px, calc(100vh - var(--header-height, 64px) - var(--map-min-height, 220px) - var(--timeline-row-height, 58px) - 6px)));
   min-height: 120px;
   animation: electionSlideUp 0.25s ease;
   overflow-y: auto;

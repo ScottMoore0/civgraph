@@ -21,9 +21,73 @@ const test2Css = readFileSync('test2/src/test2.css', 'utf8');
 const packageJsonSource = readFileSync('package.json', 'utf8');
 const portPlan = JSON.parse(readFileSync('test/metadata/main-site-port-plan.json', 'utf8'));
 const testMetadata = JSON.parse(readFileSync('test/metadata/maps-test.json', 'utf8'));
+const mapsDb = JSON.parse(readFileSync('data/database/maps.json', 'utf8'));
 
 function assert(condition, message) {
   if (!condition) failures.push(message);
+}
+
+function findMap(id) {
+  const direct = mapsDb.maps?.find((map) => map.id === id);
+  if (direct) return direct;
+  for (const map of mapsDb.maps || []) {
+    const variant = map.variants?.find((item) => item.id === id);
+    if (variant) return { ...map, ...variant, parentId: map.id };
+  }
+  return null;
+}
+
+function assertCatalogueMetadata() {
+  const chainClassIds = new Set();
+  for (const chain of mapsDb.timeSeriesChains || []) {
+    for (const segment of chain.segments || []) {
+      for (const classId of segment.classIds || []) chainClassIds.add(classId);
+    }
+    for (const column of chain.columns || []) {
+      for (const classId of column.classIds || []) chainClassIds.add(classId);
+    }
+  }
+
+  const classById = new Map((mapsDb.classes || []).map((item) => [item.id, item]));
+  assert(chainClassIds.has('ni-counties'), 'Counties class must be attached to a time-series chain');
+  assert(chainClassIds.has('ireland-provinces'), 'Provinces class must be attached to a time-series chain');
+  assert((classById.get('ni-counties')?.maps || []).includes('counties-ireland-1955'), 'Counties class must include historical county variants instead of unrelated ED maps');
+  assert((classById.get('ireland-provinces')?.maps || []).includes('provinces-1899'), 'Provinces class must exist and include historical province maps');
+
+  for (const id of ['eds-2019', 'eds-1997', 'eds-1994', 'eds-1986']) {
+    const map = findMap(id);
+    assert(map?.isGroup === true && Array.isArray(map.variants) && map.variants.length >= 4, `${id} parent map must remain a grouped all-ROI load across all provincial variants`);
+  }
+
+  assert(findMap('tailte-built-up-1m')?.labelProperty === 'F_CODE', 'TÉ Built-Up Areas polygon map must label with F_CODE');
+  assert(findMap('tailte-built-up-points-250k')?.labelProperty === 'NAMN1', 'TÉ Built-Up Areas point map must label with NAMN1');
+  assert(findMap('cso-urban-areas-2022')?.date === 2022, 'CSO Urban Areas 2022 must have date metadata so catalogue display derives 2022');
+  assert(uiControllerSource.includes("name: 'TÉ Built-Up Areas'"), 'Catalogue must title Tailte built-up areas as TÉ Built-Up Areas');
+  assert(uiControllerSource.includes("name: 'Heritage Sites'"), 'Catalogue must title NI HED heritage card as Heritage Sites');
+  assert(uiControllerSource.includes("map.id === 'cso-urban-areas-2022'") && uiControllerSource.includes("displayName = '2022'"), 'Catalogue must display CSO Urban Areas 2022 using derived name 2022');
+
+  const thumbnailIds = new Set(JSON.parse(readFileSync('assets/thumbnails/manifest.json', 'utf8')));
+  for (const id of [
+    'hed-listed-buildings',
+    'hed-sites-and-monuments',
+    'hed-scheduled-monument-areas',
+    'hed-defence-heritage',
+    'hed-industrial-heritage',
+    'ni-listed-buildings',
+    'ni-scheduled-monument-areas',
+    'ni-defence-heritage',
+    'ni-industrial-heritage',
+    'glpr-2020-03',
+    'glpr-2021-03',
+    'roi-national-planning-applications'
+  ]) {
+    assert(thumbnailIds.has(id), `${id} must be present in the catalogue thumbnail manifest`);
+  }
+
+  for (const id of ['glpr-2020-03', 'glpr-2021-03', 'glpr-2021-08', 'glpr-2021-09', 'glpr-2022-04', 'glpr-2023-04']) {
+    assert(findMap(id)?.labelProperty === 'Address', `${id} must label GLPR features by Address`);
+  }
+  assert(findMap('roi-national-planning-applications')?.labelProperty === 'Development Address', 'ROI National Planning Applications must label features by Development Address');
 }
 
 function mainSelectedPaneStatusKind(status) {
@@ -41,6 +105,7 @@ assert(existsSync('scripts/audit-test2-general-parity.mjs'), '/test2 general par
 assert(packageJsonSource.includes('"audit:test2:parity"'), '/test2 general parity audit must be exposed through package scripts');
 assert(index.includes('/test2/build/test2.bundle.js'), '/test2 must load its own MapLibre bundle');
 assert(index.includes('/test2/build/test2.bundle.css'), '/test2 must load its own MapLibre CSS bundle');
+assert(index.includes('href="/build/main.css'), '/test2 must load shared main CSS from the site root, not route-relative /test2/build/main.css');
 assert(!index.includes('leaflet-1.9.4'), '/test2 must not load Leaflet assets');
 assert(!index.includes('build/app.bundle.js'), '/test2 must not load the production app bundle');
 assert(!index.includes("register('/sw.js'"), '/test2 must not register the production service worker');
@@ -79,7 +144,12 @@ assert(mapControllerSource.includes("this.map.on('click', onClick)"), '/test2 fe
 assert(appSource.includes('relocateMobileCatalogueToggle') && appSource.includes('mobile-toggle--navbar'), '/test2 must move the mobile catalogue toggle into the navbar instead of leaving it as a floating map overlay');
 assert(test2Css.includes('.app-header #mobileToggle.mobile-toggle.mobile-toggle--navbar') && test2Css.includes('position: static !important'), '/test2 mobile catalogue toggle must be styled as a navbar control on mobile');
 assert(!test2Css.includes('bottom: 14px !important'), '/test2 mobile catalogue toggle must not be restored to the bottom-right map overlay position');
-assert(test2Css.includes('#map .timeline-slider') && test2Css.includes('pointer-events: none'), '/test2 timeline chrome must not block feature labels except on real timeline controls');
+assert(index.indexOf('id="timelineSlider"') > index.indexOf('</div><!-- end #map -->'), '/test2 timeline slider must be a separate row below #map, not a DOM overlay inside the map');
+assert(!test2Css.includes('#map .timeline-slider'), '/test2 route CSS must not style the timeline as map-overlay chrome');
+assert(test2Css.includes('.pane--map > #timelineSlider.timeline-slider') && test2Css.includes('position: static') && test2Css.includes('min-height: var(--timeline-row-height)'), '/test2 timeline slider must be styled as an in-flow rectangular pane below the interactive map');
+assert(test2Css.includes('#map .map-controls') && test2Css.includes('bottom: 14px'), '/test2 map controls should sit inside the map now that the timeline is an in-flow row');
+assert(appSource.includes('const variantIds = mapConfig.variants') && appSource.includes('fitToLayers(variantIds)'), '/test2 parent maps with variants must load every child variant as one grouped layer instead of only the first variant');
+assertCatalogueMetadata();
 assert(test2Css.includes('.maplibre-dom-label.map-label--hover'), '/test2 DOM labels must expose hover styling');
 assert(test2Css.includes('.maplibre-dom-label.map-label--selected'), '/test2 selected DOM labels must keep the same orange styling as hover labels');
 assert(test2Css.includes('color: #ff7a1a !important'), '/test2 hovered labels must change text colour directly like the main site');
@@ -262,9 +332,31 @@ if (existsSync('test/metadata/elections-test2.json')) {
   assert((electionManifest.elections || []).some((entry) => entry.anchorUrl && entry.previousKey), '/test2 election manifest must include anchor sidecars and previous-election links where available');
   const dail2024Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/dail-eireann__2024-11-29.json', 'utf8'));
   const dail2024Rows = dail2024Bundle.mainLikePartySummary || [];
-  assert(dail2024Rows[0]?.party === 'Fine Gael' && dail2024Rows[0]?.stood === 11 && dail2024Rows[0]?.seats === 42 && dail2024Rows[0]?.votes === 108352, '/test2 Dail 2024 bundle must preserve the main-controller party summary contract for the screenshot parity state');
-  assert(dail2024Bundle.mainLikeTotals?.validPoll === 412346, '/test2 Dail 2024 bundle must preserve the main-controller valid-poll denominator for the screenshot parity state');
-  assert(dail2024Bundle.mainLikeTotals?.totalSeats === 0, '/test2 Dail 2024 bundle must preserve the main-controller seat-total denominator for the screenshot parity state');
+  const dail2024ByParty = new Map(dail2024Rows.map((row) => [row.party, row]));
+  const assertDail2024Party = (party, expected) => {
+    const row = dail2024ByParty.get(party);
+    assert(row?.stood === expected.stood && row?.seats === expected.seats && row?.votes === expected.votes, `/test2 Dail 2024 ${party} summary must use ElectionsIreland first preferences and explicit elected statuses`);
+  };
+  assertDail2024Party('Fianna F\u00e1il', { stood: 82, seats: 48, votes: 481414 });
+  assertDail2024Party('Sinn F\u00e9in', { stood: 71, seats: 39, votes: 418627 });
+  assertDail2024Party('Fine Gael', { stood: 80, seats: 38, votes: 458134 });
+  assertDail2024Party('Independent', { stood: 171, seats: 16, votes: 290748 });
+  assert(!dail2024ByParty.has('Ceann Comhairle (Speaker)'), '/test2 Dail 2024 bundle must count the automatically returned Ceann Comhairle under party affiliation, not as a standalone contested party row');
+  assert(dail2024Bundle.mainLikeTotals?.validPoll === 2202453, '/test2 Dail 2024 bundle must exclude the Ceann Comhairle placeholder from the first-preference valid-poll denominator');
+  assert(dail2024Bundle.mainLikeTotals?.totalSeats === 174, '/test2 Dail 2024 bundle must include the automatically returned Ceann Comhairle seat');
+  const dail2024IndependentRows = new Map((dail2024Bundle.partySummary || []).map((row) => [row.party, row]));
+  for (const [party, row] of dail2024ByParty) {
+    const independent = dail2024IndependentRows.get(party);
+    assert(!independent || (row.stood === independent.stood && row.seats === independent.seats && row.votes === independent.votes), `/test2 Dail 2024 ${party} main-like summary must match the independent source-shaped summary`);
+  }
+  for (const filename of readdirSync('test/metadata/elections-test2').filter((name) => /^dail-eireann__20\d\d-\d\d-\d\d\.json$/.test(name))) {
+    const bundle = JSON.parse(readFileSync(`test/metadata/elections-test2/${filename}`, 'utf8'));
+    const partyRows = new Map((bundle.partySummary || []).map((row) => [row.party, row]));
+    for (const row of bundle.mainLikePartySummary || []) {
+      const sourceRow = partyRows.get(row.party);
+      assert(sourceRow && row.stood === sourceRow.stood && row.seats === sourceRow.seats && row.votes === sourceRow.votes, `/test2 ${filename} ${row.party} main-like summary must not drift from source-shaped partySummary`);
+    }
+  }
   const dail2024Mayo = (dail2024Bundle.results || []).find((result) => String(result.constituency || '').toLowerCase() === 'mayo');
   const dail2024MayoAnimationRows = dail2024Mayo?.animationPayload?.Constituency?.countGroup || [];
   assert(dail2024MayoAnimationRows.some((row) => Number(row.Count_Number) > 1), '/test2 Dail 2024 Mayo must carry the main-style synthetic transfer animation payload');

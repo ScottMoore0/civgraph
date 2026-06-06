@@ -1,3 +1,50 @@
+.app-shell {
+  --map-min-height: 220px;
+  --timeline-row-height: 58px;
+}
+
+.pane--map {
+  min-height: 0;
+}
+
+.pane--map > #timelineSlider.timeline-slider {
+  position: static;
+  inset: auto;
+  z-index: auto;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: none;
+  height: auto;
+  min-height: var(--timeline-row-height);
+  margin: 0;
+  padding: var(--space-2) var(--space-4);
+  appearance: none;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+  box-shadow: none;
+  cursor: default;
+  transform: none;
+}
+
+.pane--map > #timelineSlider.timeline-slider.hidden {
+  display: none;
+}
+
+.pane--map > #timelineSlider.timeline-slider .timeline-range {
+  width: clamp(86px, 22vw, 220px);
+}
+
+.pane--map > #timelineSlider.timeline-slider .timeline-label {
+  max-width: min(32vw, 180px);
+}
+
 .maplibregl-ctrl-attrib a {
   color: #064f63;
   text-decoration: underline;
@@ -16,7 +63,7 @@
 }
 
 #map .maplibregl-ctrl-bottom-left {
-  bottom: 74px;
+  bottom: 14px;
   left: 12px;
 }
 
@@ -123,21 +170,12 @@
 }
 
 #map .map-controls {
-  bottom: 66px;
+  bottom: 14px;
   left: 14px;
   pointer-events: none;
 }
 
 #map .map-controls > * {
-  pointer-events: auto;
-}
-
-#map .timeline-slider {
-  pointer-events: none;
-}
-
-#map .timeline-range,
-#map .timeline-btn {
   pointer-events: auto;
 }
 
@@ -190,6 +228,25 @@
 }
 
 @media (max-width: 768px) {
+  .app-shell {
+    --map-min-height: 180px;
+    --timeline-row-height: 54px;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider {
+    gap: 6px;
+    min-height: var(--timeline-row-height);
+    padding: 6px 8px;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider .timeline-range {
+    width: clamp(76px, 26vw, 140px);
+  }
+
+  .pane--map > #timelineSlider.timeline-slider .timeline-label {
+    max-width: 96px;
+  }
+
   #map .maplibregl-ctrl-top-left {
     top: 12px;
     left: 12px;
@@ -201,7 +258,7 @@
   }
 
   #map .map-controls {
-    bottom: 76px;
+    bottom: 14px;
     left: 12px;
     max-width: min(280px, calc(100vw - 104px));
   }
@@ -243,7 +300,10 @@
 }
 
 body.app-shell.test2-election-open {
-  grid-template-rows: var(--header-height, 64px) minmax(0, 1fr) minmax(150px, 38vh);
+  grid-template-rows:
+    var(--header-height, 64px)
+    minmax(calc(var(--map-min-height, 220px) + var(--timeline-row-height, 58px)), 1fr)
+    minmax(120px, min(38vh, max(120px, calc(100vh - var(--header-height, 64px) - var(--map-min-height, 220px) - var(--timeline-row-height, 58px) - 6px))));
 }
 
 body.app-shell.test2-election-open .app-main {

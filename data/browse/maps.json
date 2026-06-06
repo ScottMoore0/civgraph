@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-06T14:25:09.880Z",
   "total": 821,
   "items": [
     {
@@ -3766,7 +3766,7 @@
       "status": "available",
       "featured": false,
       "loadable": true,
-      "labelProperty": "OWNER",
+      "labelProperty": "Address",
       "thumbnail": {
         "kind": "asset",
         "id": "glpr-2022-04",
@@ -3848,7 +3848,7 @@
       "status": "available",
       "featured": true,
       "loadable": true,
-      "labelProperty": "OWNER",
+      "labelProperty": "Address",
       "thumbnail": {
         "kind": "asset",
         "id": "glpr-2023-04",
@@ -4228,7 +4228,7 @@
       "status": "available",
       "featured": false,
       "loadable": true,
-      "labelProperty": "OWNER",
+      "labelProperty": "Address",
       "thumbnail": {
         "kind": "asset",
         "id": "glpr-2021-08",
@@ -6201,7 +6201,7 @@
       "status": "available",
       "featured": false,
       "loadable": true,
-      "labelProperty": "ENGLISH_NA",
+      "labelProperty": "NAMN1",
       "thumbnail": {
         "kind": "asset",
         "id": "tailte-built-up-points-250k",
@@ -6243,7 +6243,7 @@
       "status": "available",
       "featured": false,
       "loadable": true,
-      "labelProperty": "ENGLISH_NA",
+      "labelProperty": "F_CODE",
       "thumbnail": {
         "kind": "asset",
         "id": "tailte-built-up-1m",
@@ -8315,17 +8315,17 @@
         },
         {
           "id": "counties-ireland-1957",
-          "title": "Counties of Ireland - 1957 (all-island)",
+          "title": "Counties of Ireland 1957 (all-island)",
           "date": "1957"
         },
         {
           "id": "counties-ireland-1915",
-          "title": "Counties of Ireland - 1915 (all-island, pre-rename)",
+          "title": "Counties of Ireland 1915 (all-island, pre-rename)",
           "date": "1915"
         },
         {
           "id": "counties-ireland-1955",
-          "title": "Counties of Ireland - 1955 (all-island)",
+          "title": "Counties of Ireland 1955 (all-island)",
           "date": "1955"
         }
       ],
@@ -10478,10 +10478,15 @@
       "slug": "cso-urban-areas-2022",
       "type": "map",
       "title": "CSO Urban Areas 2022",
+      "subtitle": "2022",
       "categoryId": "settlements",
       "category": "Settlements",
       "group": "Communities",
       "description": "Census 2022 urban area definitions — ungeneralised statistical boundaries from Tailte Éireann / CSO.",
+      "date": 2022,
+      "years": [
+        2022
+      ],
       "provider": [
         "Tailte Éireann",
         "Central Statistics Office"
@@ -24325,11 +24330,13 @@
       "status": "available",
       "featured": false,
       "loadable": true,
-      "labelProperty": "OWNER",
+      "labelProperty": "Address",
       "thumbnail": {
-        "kind": "placeholder",
-        "label": "M2",
-        "type": "map"
+        "kind": "asset",
+        "id": "glpr-2020-03",
+        "url": "/assets/thumbnails/glpr-2020-03.webp",
+        "smallUrl": "/assets/thumbnails/glpr-2020-03-60.webp",
+        "alt": "March 2020"
       },
       "sourceFiles": [
         {
@@ -24405,11 +24412,13 @@
       "status": "available",
       "featured": false,
       "loadable": true,
-      "labelProperty": "OWNER",
+      "labelProperty": "Address",
       "thumbnail": {
-        "kind": "placeholder",
-        "label": "M2",
-        "type": "map"
+        "kind": "asset",
+        "id": "glpr-2021-03",
+        "url": "/assets/thumbnails/glpr-2021-03.webp",
+        "smallUrl": "/assets/thumbnails/glpr-2021-03-60.webp",
+        "alt": "March 2021"
       },
       "sourceFiles": [
         {
@@ -26226,9 +26235,11 @@
       "loadable": true,
       "labelProperty": "dhr_number",
       "thumbnail": {
-        "kind": "placeholder",
-        "label": "ND",
-        "type": "map"
+        "kind": "asset",
+        "id": "ni-defence-heritage",
+        "url": "/assets/thumbnails/ni-defence-heritage.webp",
+        "smallUrl": "/assets/thumbnails/ni-defence-heritage-60.webp",
+        "alt": "NI Defence Heritage"
       },
       "sourceFiles": [
         {
@@ -26296,9 +26307,11 @@
       "loadable": true,
       "labelProperty": "CO",
       "thumbnail": {
-        "kind": "placeholder",
-        "label": "NI",
-        "type": "map"
+        "kind": "asset",
+        "id": "ni-industrial-heritage",
+        "url": "/assets/thumbnails/ni-industrial-heritage.webp",
+        "smallUrl": "/assets/thumbnails/ni-industrial-heritage-60.webp",
+        "alt": "NI Industrial Heritage Record"
       },
       "sourceFiles": [
         {
@@ -26366,9 +26379,11 @@
       "loadable": true,
       "labelProperty": "HB_ref",
       "thumbnail": {
-        "kind": "placeholder",
-        "label": "NL",
-        "type": "map"
+        "kind": "asset",
+        "id": "ni-listed-buildings",
+        "url": "/assets/thumbnails/ni-listed-buildings.webp",
+        "smallUrl": "/assets/thumbnails/ni-listed-buildings-60.webp",
+        "alt": "NI Listed Buildings"
       },
       "sourceFiles": [
         {
@@ -28762,9 +28777,11 @@
       "loadable": true,
       "labelProperty": "COUNTY",
       "thumbnail": {
-        "kind": "placeholder",
-        "label": "NS",
-        "type": "map"
+        "kind": "asset",
+        "id": "ni-scheduled-monument-areas",
+        "url": "/assets/thumbnails/ni-scheduled-monument-areas.webp",
+        "smallUrl": "/assets/thumbnails/ni-scheduled-monument-areas-60.webp",
+        "alt": "NI Scheduled Historic Monument Areas"
       },
       "sourceFiles": [
         {
@@ -33780,6 +33797,7 @@
       "featured": false,
       "loadable": true,
       "labelProperty": "PROVINCE",
+      "parentCard": "Provinces",
       "thumbnail": {
         "kind": "asset",
         "id": "provinces-1899",
@@ -33837,6 +33855,7 @@
       "featured": false,
       "loadable": true,
       "labelProperty": "PROVINCE",
+      "parentCard": "Provinces",
       "thumbnail": {
         "kind": "asset",
         "id": "provinces-1955",
@@ -33888,6 +33907,7 @@
       "featured": true,
       "loadable": true,
       "labelProperty": "PROVINCE",
+      "parentCard": "Provinces",
       "thumbnail": {
         "kind": "asset",
         "id": "provinces",
@@ -36482,11 +36502,13 @@
       "status": "available",
       "featured": false,
       "loadable": true,
-      "labelProperty": "PlanningAuthority",
+      "labelProperty": "Development Address",
       "thumbnail": {
-        "kind": "placeholder",
-        "label": "RN",
-        "type": "map"
+        "kind": "asset",
+        "id": "roi-national-planning-applications",
+        "url": "/assets/thumbnails/roi-national-planning-applications.webp",
+        "smallUrl": "/assets/thumbnails/roi-national-planning-applications-60.webp",
+        "alt": "ROI National Planning Applications"
       },
       "sourceFiles": [
         {
@@ -36758,7 +36780,7 @@
       "status": "available",
       "featured": false,
       "loadable": true,
-      "labelProperty": "OWNER",
+      "labelProperty": "Address",
       "thumbnail": {
         "kind": "asset",
         "id": "glpr-2021-09",

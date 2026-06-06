@@ -73,8 +73,8 @@
   <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
        loaded async via media=print + onload swap so it doesn't block first
        paint. Browsers without JS fall back via <noscript>. -->
-  <link rel="stylesheet" href="build/main.css?v=27" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="build/main.css?v=27"></noscript>
+    <link rel="stylesheet" href="/build/main.css?v=27" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/build/main.css?v=27"></noscript>
   <link rel="stylesheet" href="/test2/build/test2.bundle.css?v=test2-009">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
@@ -407,37 +407,9 @@
           </svg>
         </button>
 
-        <!-- Map Controls - Stacked Layout: Settings above Timeline -->
+        <!-- Map Controls -->
         <div class="map-controls">
-          <!-- Timeline Slider FIRST (stays at bottom with column-reverse) -->
-          <div id="timelineSlider" class="timeline-slider hidden">
-            <input type="range" id="timelineRange" class="timeline-range" min="0" max="100" value="100"
-              aria-label="Timeline">
-            <span id="timelineLabel" class="timeline-label">2023</span>
-            <div class="timeline-nav-group">
-              <button type="button" id="timelinePrev" class="timeline-btn timeline-btn--nav" title="Previous date"
-                aria-label="Previous date">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M15 18l-6-6 6-6" />
-                </svg>
-              </button>
-              <button type="button" id="timelineNext" class="timeline-btn timeline-btn--nav" title="Next date"
-                aria-label="Next date">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
-              </button>
-            </div>
-            <button type="button" id="timelineReset" class="timeline-btn timeline-btn--reset"
-              title="Reset to original layers" aria-label="Reset timeline">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                <path d="M3 3v5h5" />
-              </svg>
-            </button>
-          </div>
-
-          <!-- Settings Button (appears above timeline) -->
+          <!-- Settings Button -->
           <button type="button" id="mapControlsToggle" class="map-controls-toggle" aria-expanded="false"
             title="Map Settings">
             <!-- Gear icon -->
@@ -574,6 +546,34 @@
           </div>
         </div>
       </div><!-- end #map -->
+
+      <!-- Timeline Slider -->
+      <div id="timelineSlider" class="timeline-slider hidden" aria-label="Timeline controls">
+        <input type="range" id="timelineRange" class="timeline-range" min="0" max="100" value="100"
+          aria-label="Timeline">
+        <span id="timelineLabel" class="timeline-label">2023</span>
+        <div class="timeline-nav-group">
+          <button type="button" id="timelinePrev" class="timeline-btn timeline-btn--nav" title="Previous date"
+            aria-label="Previous date">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <button type="button" id="timelineNext" class="timeline-btn timeline-btn--nav" title="Next date"
+            aria-label="Next date">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+        <button type="button" id="timelineReset" class="timeline-btn timeline-btn--reset"
+          title="Reset to original layers" aria-label="Reset timeline">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+          </svg>
+        </button>
+      </div>
 
       <!-- Active Layers Panel -->
       <div id="activeLayers" class="active-layers hidden">

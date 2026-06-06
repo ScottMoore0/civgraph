@@ -2523,8 +2523,8 @@ class UIController {
             { id: 'flat-townlands', name: 'Townlands', years: '', extent: 'Ireland', mapIds: ['all-ireland-townlands'] },
             { id: 'flat-civil-parishes', name: 'Civil Parishes', years: '', extent: 'Ireland', classIds: ['ireland-civil-parishes'], thumbMapId: 'civil-parishes-by-province' },
             { id: 'flat-baronies', name: 'Baronies', years: '', extent: 'Ireland', mapIds: ['baronies-all-ireland'] },
-            { id: 'flat-counties', name: 'Counties (Ireland)', years: '1899-1977', extent: 'Ireland', mapIds: ['counties-ireland', 'eds-roi-1957', 'counties-ireland-1955'] },
-            { id: 'flat-provinces', name: 'Provinces', years: '1899-2019', extent: 'Ireland', mapIds: ['provinces', 'provinces-1899', 'provinces-1955'] },
+            { id: 'flat-counties', name: 'Counties (Ireland)', years: '1899-1977', extent: 'Ireland', classIds: ['ni-counties'] },
+            { id: 'flat-provinces', name: 'Provinces', years: '1899-2019', extent: 'Ireland', classIds: ['ireland-provinces'] },
             { id: 'flat-polities', name: 'Polities', years: '', extent: '', mapIds: ['ni-1921', 'roi-1938'] },
             // ── Topography ──
             { id: 'flat-place-names', name: 'Place Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['place-names-gazetteer'] },
@@ -2564,7 +2564,7 @@ class UIController {
             { id: 'flat-settlements', name: 'Settlements', years: '2005-2015', extent: 'Northern Ireland', classIds: ['ni-settlements'] },
             { id: 'flat-settlements-roi', name: 'Settlements', years: '2011-2015', extent: 'Republic of Ireland', classIds: ['roi-settlements'] },
             { id: 'flat-roi-legal-towns', name: 'Legal Towns and Cities (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-legal-towns'] },
-            { id: 'flat-tailte-builtup', name: 'Tailte Built-Up Areas (Ireland)', years: '', extent: 'Ireland',
+            { id: 'flat-tailte-builtup', name: 'TÉ Built-Up Areas', years: '', extent: 'Ireland',
               mapIds: ['tailte-built-up-1m', 'tailte-built-up-points-250k'] },
             { id: 'flat-cso-urban', name: 'CSO Urban Areas (2022)', years: '2022', extent: 'Republic of Ireland',
               mapIds: ['cso-urban-areas-2022'] },
@@ -2790,7 +2790,7 @@ class UIController {
                 extent: 'Ireland',
                 mapIds: ['catholic-dioceses']
             },
-            { id: 'flat-hed-heritage', name: 'NI Historic Environment Division — Heritage Sites', years: '', extent: 'Northern Ireland',
+            { id: 'flat-hed-heritage', name: 'Heritage Sites', years: '', extent: 'Northern Ireland',
               mapIds: [
                   'hed-listed-buildings', 'hed-scheduled-monument-areas', 'hed-sites-and-monuments',
                   'hed-defence-heritage', 'hed-industrial-heritage',
@@ -3417,7 +3417,7 @@ class UIController {
             {
                 heading: 'Settlements & Built-Up Areas',
                 members: [
-                    'Settlements', 'Tailte Built-Up Areas', 'CSO Urban Areas'
+                    'Settlements', 'TÉ Built-Up Areas', 'CSO Urban Areas'
                 ]
             },
             {
@@ -3467,7 +3467,7 @@ class UIController {
                 heading: 'Heritage & Built Environment',
                 members: [
                     'Historic Sites', 'Catholic Parishes', 'Catholic Dioceses',
-                    'NI Historic Environment Division — Heritage Sites',
+                    'Heritage Sites',
                     'NI Government Land & Property Register',
                     'Peacelines',
                     'ROI National Planning Applications'
@@ -4571,7 +4571,9 @@ class UIController {
             let displayName;
             let dateSubtitle = '';
 
-            if (fullDateClasses.includes(cls.id) || fullDateClassNames.has(normalizedClassName)) {
+            if (map.id === 'cso-urban-areas-2022') {
+                displayName = '2022';
+            } else if (fullDateClasses.includes(cls.id) || fullDateClassNames.has(normalizedClassName)) {
                 // Show full date as the derived name
                 displayName = this.formatMapDate(map.date) || map.name;
             } else if (yearWithSubtitleClasses.includes(cls.id)) {
@@ -7558,7 +7560,7 @@ class UIController {
                 : '';
 
             const isRaster = !!(map.files?.image && !map.files?.fgb);
-            const layerState = mapController?.layerStates?.get(map.id);
+            const layerState = mapController?.getLayerState?.(map.id) || mapController?.layerStates?.get(map.id);
             const curStrokeOp = Math.round((layerState?._strokeOpacity ?? 1) * 100);
             const curFillOp = Math.round((layerState?._fillOpacity ?? (map.style?.fillOpacity ?? 0)) * 100);
             const curRasterOp = Math.round((layerState?._rasterOpacity ?? (map.opacity ?? 0.8)) * 100);
@@ -7674,7 +7676,7 @@ class UIController {
         const syncOpacity = (mapId, type, value) => {
             value = Math.max(0, Math.min(100, parseInt(value) || 0));
             const frac = value / 100;
-            const state = mapController?.layerStates?.get(mapId);
+            const state = mapController?.getLayerState?.(mapId) || mapController?.layerStates?.get(mapId);
             if (!state) return;
 
             if (type === 'raster') {

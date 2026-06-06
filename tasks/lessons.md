@@ -1,5 +1,21 @@
 # Lessons Log
 
+### 151) Route-specific built CSS must be browser-checked after shared layout changes
+- Mistake pattern: Moving the shared timeline markup outside `#map` and verifying a desktop route without fully accounting for `/test2` route-specific CSS and generated bundle output that can keep the control visually behaving like map chrome.
+- Impact: The user still saw the timeline slider over the `/test2` interactive map instead of as a separate below-map rectangular pane.
+- Guardrail:
+  1) any map/timeline layout fix must inspect both source and generated CSS for route-specific selectors,
+  2) browser smoke must target the exact route the user names, including `/test2`, and record geometry from the rendered route,
+  3) static validation should fail if `.timeline-slider` is positioned, sized, or scoped as a `#map` overlay in either source or built route CSS.
+
+### 150) Immutable split-bundle entry URLs must be content-versioned automatically
+- Mistake pattern: Treating `build/app.bundle.js?v=116` as a safe immutable asset even though `app.bundle.js` has a stable filename and imports content-hashed dynamic chunks that change across builds.
+- Impact: Cloudflare/browser/service-worker caches can keep an old app bundle that imports deleted chunk files. Missing chunk URLs can be served as HTML by the static fallback, and browsers then reject the module graph with a script-load/MIME failure that leaves the static shell blank.
+- Guardrail:
+  1) the build script must derive entry asset query versions from generated file content, not hand-maintained counters,
+  2) non-fingerprinted entry assets such as `app.bundle.js` and generated CSS should revalidate even when chunks remain immutable,
+  3) HAR reviews for blank startup must check imported module chunks and MIME types, not only the top-level bundle status.
+
 ### 148) Election pane visual parity requires the same DOM contract, not a main-like renderer
 - Mistake pattern: Treating `/test2` election pane output as aligned because it uses many main class names while it still has `/test2` wrapper classes, extra fixed-table classes, different entity-button markup, different delta class names, and a separate party-colour source.
 - Impact: Screenshots remain visibly different even when the high-level table headings and values look similar, because CSS selectors, table layout, inline wrapping, sticky sizing, and colour tokens are not receiving the exact same DOM/class contract as the main site.
@@ -1983,3 +1999,17 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) keep a committed parity matrix that classifies must-match, MapLibre-equivalent, acceptable engine difference, and blocked-on-data areas,
   3) run a representative browser audit before saying general parity is achieved,
   4) report any untested area as unproven rather than implicitly covered by adjacent tests.
+
+### 149) Election pane parity must not preserve source-data errors
+- Mistake pattern: Treating `mainLikePartySummary` as the visible truth for `/test2` Dail elections because it matched the main pane contract, even when the helper was deriving totals incorrectly from ElectionsIreland scraper-shaped records.
+- Impact: `/test2` can faithfully reproduce a main-compatible table while showing wrong party stood/vote/seat totals for Irish general elections, especially where scraper records use `final_count` as a terminal status/count indicator rather than a full transfer-table count number.
+- Guardrail:
+  1) for generated election bundles, validate visible summaries against source-shape-aware totals before parity checks,
+  2) scraper-shaped records with `meta` + `candidates` need their own summary path based on contested `first_pref`, explicit candidate status, and automatic Ceann Comhairle return handling,
+  3) transfer-table semantics should only be applied to true `Constituency.countGroup` payloads,
+  4) route validation must include known Dail 2024 aggregate totals and a cross-election drift audit for ElectionsIreland-derived entries.
+
+### 150) Election parity tests must assert known external truth
+- Mistake pattern: A browser regression compared main and `/test2` election panes without asserting the actual 2024 Dáil values from Wikipedia/Oireachtas-style summaries, so equal-but-wrong panes were treated as passing.
+- Impact: A user could still see impossible rows such as Fine Gael `42` seats from `11` candidates even though the parity test was green.
+- Guardrail: for high-value election fixtures, browser tests must assert at least the top headline rows and totals from an external reference in addition to cross-route parity; use Unicode escapes for party names with accents in test literals to avoid mojibake.

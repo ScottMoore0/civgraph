@@ -299,9 +299,13 @@ class Test2App {
       return;
     }
     if (mapConfig?.isGroup && Array.isArray(mapConfig.variants) && mapConfig.variants.length) {
-      const variantId = mapConfig.variants[0].id;
-      await this.mapController.loadLayer(variantId);
-      this.mapController.markGroupLoaded(mapId, mapConfig, [variantId]);
+      const variantIds = mapConfig.variants
+        .map((variant) => variant?.id)
+        .filter((variantId) => this.mapController.resolveLayer(variantId)?.loadable);
+      for (const variantId of variantIds) await this.mapController.loadLayer(variantId, { fit: false });
+      this.mapController.markGroupLoaded(mapId, mapConfig, variantIds);
+      if (mapConfig.bounds) this.mapController.fitToBounds(mapConfig.bounds, { smooth: false });
+      else this.mapController.fitToLayers(variantIds);
       return;
     }
     const directLayer = this.mapController.resolveLayer(mapConfig?.id || mapId);
@@ -576,6 +580,7 @@ class Test2App {
     range.value = String(safeIndex);
     slider.classList.remove('hidden');
     this.updateTimelineLabel(safeIndex);
+    this.notifyTimelineLayoutChanged();
   }
 
   updateTimelineLabel(index) {
@@ -588,6 +593,11 @@ class Test2App {
     this.timelineItems = [];
     this.timelineOnSelect = null;
     document.getElementById('timelineSlider')?.classList.add('hidden');
+    this.notifyTimelineLayoutChanged();
+  }
+
+  notifyTimelineLayoutChanged() {
+    requestAnimationFrame(() => this.mapController?.invalidateSize?.());
   }
 
   updateTimeline() {
@@ -721,7 +731,7 @@ class Test2App {
     if (!mapId || !this.elections?.activeEntry) return false;
     if (!this.isActiveElectionLayerId(mapId)) return false;
     const backingLayerIds = this.getActiveElectionBackingLayerIds(mapId);
-    this.elections.unloadElection();
+    this.elections.unloadElection({ unloadBackingLayer: false });
     for (const layerId of backingLayerIds) {
       if (this.mapController.getLayerState(layerId) || this.mapController.groupStates?.has(layerId)) {
         this.mapController.unloadLayer(layerId);
@@ -956,11 +966,15 @@ class Test2App {
   }
 
   getLoadedLayerIds() {
-    const ids = new Set([...this.mapController.layerStates.entries()]
-      .filter(([, state]) => state.loaded)
-      .map(([id]) => id));
+    const groupedChildIds = new Set();
+    const ids = new Set();
     for (const [id, state] of this.mapController.groupStates.entries()) {
-      if (state.loaded) ids.add(id);
+      if (!state.loaded) continue;
+      ids.add(id);
+      for (const childId of state.childIds || []) groupedChildIds.add(childId);
+    }
+    for (const [id, state] of this.mapController.layerStates.entries()) {
+      if (state.loaded && !groupedChildIds.has(id)) ids.add(id);
     }
     for (const map of dataService.getAllMaps()) {
       if (map.isGroup && Array.isArray(map.members) && map.members.every((memberId) => ids.has(memberId))) {
@@ -980,7 +994,16 @@ class Test2App {
   updateActiveLayers() {
     const loadedMaps = [];
     const visibilityMap = new Map();
+    const groupedChildIds = new Set();
+    for (const [id, state] of this.mapController.groupStates) {
+      if (!state.loaded) continue;
+      const config = dataService.getMapById(id) || state.config;
+      if (config) loadedMaps.push(config);
+      visibilityMap.set(id, state.visible);
+      for (const childId of state.childIds || []) groupedChildIds.add(childId);
+    }
     for (const [id, state] of this.mapController.layerStates) {
+      if (groupedChildIds.has(id)) continue;
       const config = dataService.getMapById(id) || state.config;
       if (config) loadedMaps.push(config);
       visibilityMap.set(id, state.visible);
