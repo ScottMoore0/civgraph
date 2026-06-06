@@ -13,11 +13,20 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 const MAIN_METADATA_PATH = 'data/database/maps.json';
 const TEST_METADATA_PATH = 'test/metadata/maps-test.json';
 const OUTPUT_PATH = 'test/metadata/main-site-port-plan.json';
+const MANUAL_ALIAS_TARGETS = new Map([
+  // The main catalogue still exposes the older NI-only civil-parishes variant.
+  // /test2 intentionally loads the unified civil-parishes PMTiles layer for
+  // this catalogue route, matching the post-Leaflet performance strategy.
+  ['civil-parishes', 'civil-parishes-by-province']
+]);
 
 const main = JSON.parse(readFileSync(MAIN_METADATA_PATH, 'utf8'));
 const test = JSON.parse(readFileSync(TEST_METADATA_PATH, 'utf8'));
 const convertedBySource = new Map((test.layers || []).map((layer) => [layer.sourceMapId || layer.id, layer]));
 const convertedById = new Map((test.layers || []).map((layer) => [layer.id, layer]));
+const convertedSourceIds = new Set((test.layers || [])
+  .flatMap((layer) => [layer.sourceMapId, layer.id])
+  .filter(Boolean));
 const categories = new Map((main.categories || []).map((category) => [category.id, category]));
 const rows = [];
 
@@ -28,11 +37,7 @@ for (const map of main.maps || []) {
   }
 }
 
-const totals = rows.reduce((acc, row) => {
-  acc.total += 1;
-  acc[row.conversionStatus] = (acc[row.conversionStatus] || 0) + 1;
-  return acc;
-}, { total: 0 });
+const totals = summarizeRows(rows);
 
 const payload = {
   schemaVersion: 1,
@@ -47,6 +52,9 @@ writeFileSync(OUTPUT_PATH, `${JSON.stringify(payload, null, 2)}\n`);
 console.log(`Wrote ${OUTPUT_PATH}`);
 console.log(`Rows: ${rows.length}`);
 console.log(`Converted: ${totals.converted || 0}`);
+console.log(`- direct: ${totals.convertedDirect || 0}`);
+console.log(`- composite: ${totals.convertedComposite || 0}`);
+console.log(`- alias: ${totals.convertedAlias || 0}`);
 console.log(`Needs vector tiles: ${totals.needsVectorTileConversion || 0}`);
 console.log(`Needs raster strategy: ${totals.needsRasterStrategy || 0}`);
 console.log(`Metadata only: ${totals.metadataOnly || 0}`);
@@ -54,12 +62,19 @@ console.log(`Metadata only: ${totals.metadataOnly || 0}`);
 function buildRow(map, parent) {
   const converted = convertedBySource.get(map.id) || convertedById.get(map.id);
   const cloneTarget = map.cloneOf ? (convertedBySource.get(map.cloneOf) || convertedById.get(map.cloneOf)) : null;
+  const manualAliasTargetId = MANUAL_ALIAS_TARGETS.get(map.id) || null;
+  const manualAliasTarget = manualAliasTargetId
+    ? (convertedBySource.get(manualAliasTargetId) || convertedById.get(manualAliasTargetId))
+    : null;
+  const compositeChildIds = !parent ? convertedCompositeChildIds(map) : [];
   const category = categories.get(map.category) || {};
   const sourceFiles = collectSourceFiles(map);
   const conversionStatus = converted
     ? (converted.aliasOf ? 'convertedAlias' : 'converted')
-    : cloneTarget
+    : (cloneTarget || manualAliasTarget)
       ? 'convertedAlias'
+      : compositeChildIds.length
+        ? 'convertedComposite'
     : classifyConversionStatus(map, sourceFiles);
 
   return {
@@ -77,16 +92,51 @@ function buildRow(map, parent) {
     description: map.description || map.note || parent?.description || parent?.note || null,
     sourceCredits: summarizeCredits(map, parent),
     conversionStatus,
-    recommendedTarget: recommendedTarget(map, sourceFiles),
-    testLayerId: converted?.id || (cloneTarget ? `${map.id}-alias-test` : null),
-    aliasTargetLayerId: converted?.aliasTargetLayerId || cloneTarget?.id || null,
-    bounds: map.bounds || parent?.bounds || null,
+    recommendedTarget: converted || cloneTarget || manualAliasTarget
+      ? (converted?.aliasOf || cloneTarget || manualAliasTarget ? 'maplibre-clone-alias' : recommendedTarget(map, sourceFiles))
+      : compositeChildIds.length
+        ? 'composite-vector-tiles'
+        : recommendedTarget(map, sourceFiles),
+    testLayerId: converted?.id
+      || (cloneTarget || manualAliasTarget ? `${map.id}-alias-test` : null)
+      || (compositeChildIds.length ? `composite:${compositeChildIds.join(',')}` : null),
+    aliasTargetLayerId: converted?.aliasTargetLayerId || cloneTarget?.id || manualAliasTarget?.id || null,
+    bounds: map.bounds || parent?.bounds || converted?.bounds || cloneTarget?.bounds || manualAliasTarget?.bounds || null,
     style: summarizeStyle(map.style || parent?.style),
     sourceFiles,
     references: summarizeLinks(map.references || parent?.references),
     sourceDownloads: summarizeLinks(map.sourceDownloads || parent?.sourceDownloads || map.osniDownloads || parent?.osniDownloads),
     variants: Array.isArray(map.variants) ? map.variants.length : 0,
-    unsupportedReason: converted || cloneTarget ? null : unsupportedReason(map, sourceFiles)
+    unsupportedReason: converted || cloneTarget || manualAliasTarget || compositeChildIds.length ? null : unsupportedReason(map, sourceFiles)
+  };
+}
+
+function convertedCompositeChildIds(map) {
+  const candidates = [
+    ...(Array.isArray(map.compositeSources) ? map.compositeSources : []),
+    ...(Array.isArray(map.variants)
+      ? map.variants.filter((variant) => !variant.placeholder).map((variant) => variant.id)
+      : [])
+  ].filter(Boolean);
+  const uniqueCandidates = [...new Set(candidates)];
+  if (!uniqueCandidates.length) return [];
+  return uniqueCandidates.every((id) => convertedSourceIds.has(id)) ? uniqueCandidates : [];
+}
+
+function summarizeRows(inputRows) {
+  const directConverted = inputRows.filter((row) => row.conversionStatus === 'converted').length;
+  const compositeConverted = inputRows.filter((row) => row.conversionStatus === 'convertedComposite').length;
+  const aliasConverted = inputRows.filter((row) => row.conversionStatus === 'convertedAlias').length;
+  return {
+    total: inputRows.length,
+    converted: directConverted + compositeConverted + aliasConverted,
+    convertedDirect: directConverted,
+    convertedComposite: compositeConverted,
+    convertedAlias: aliasConverted,
+    needsVectorTileConversion: inputRows.filter((row) => row.conversionStatus === 'needsVectorTileConversion').length,
+    needsRasterStrategy: inputRows.filter((row) => row.conversionStatus === 'needsRasterStrategy').length,
+    metadataOnly: inputRows.filter((row) => row.conversionStatus === 'metadataOnly').length,
+    needsMapLibreSourceMapping: inputRows.filter((row) => row.conversionStatus === 'needsMapLibreSourceMapping').length
   };
 }
 

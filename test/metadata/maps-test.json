@@ -343,6 +343,135 @@
       }
     },
     {
+      "id": "civil-parishes-alias-test",
+      "sourceMapId": "civil-parishes",
+      "name": "Civil Parishes of Ireland",
+      "category": "Civil Parishes",
+      "group": "History",
+      "renderer": "maplibre",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "tiles": "/test/tiles/civil-parishes-v3/{z}/{x}/{y}.pbf",
+      "metadataUrl": "/test/tiles/civil-parishes-v3/metadata.json",
+      "sourceLayer": "civil_parishes",
+      "promoteId": "id",
+      "minzoom": 0,
+      "maxzoom": 12,
+      "bounds": [
+        [
+          51.35,
+          -10.75
+        ],
+        [
+          55.55,
+          -5.35
+        ]
+      ],
+      "style": {
+        "color": "#E26FCA",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "provider": "Historic boundary data prepared for Civgraph test vector-tile pilot",
+      "references": [
+        {
+          "label": "OSNI Civil Parishes — FlatGeobuf download",
+          "url": "https://data.civgraph.net/data/maps/baronies-parishes/OSNI_Civil_Parishes.fgb"
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "OSNI Civil Parishes (FGB)",
+          "url": "https://data.civgraph.net/data/maps/baronies-parishes/OSNI_Civil_Parishes.fgb"
+        }
+      ],
+      "keywords": [
+        "civil parishes",
+        "history",
+        "ireland",
+        "maplibre",
+        "vector tiles",
+        "civil-parishes",
+        "Civil Parishes",
+        "Northern Ireland",
+        "maplibre",
+        "clone alias"
+      ],
+      "labelProperty": "name_en",
+      "labelPropertyFallbacks": [
+        "name_ga"
+      ],
+      "labelCanonicalProperty": "label_name",
+      "labelRankProperty": "label_rank",
+      "labelMinZoomProperty": "label_minzoom",
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelDensity": "collision-only",
+      "labelStyle": {
+        "color": "#E26FCA",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.4,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "featureIndexUrl": "/test/metadata/feature-indexes/civil-parishes-vector-test.json",
+      "sourceFile": "data/maps/baronies-parishes/Civil_Parishes_Ireland_v2.fgb",
+      "sourceDatasetLayer": "Civil_Parishes_Ireland_v2",
+      "idProperty": "id",
+      "popupProperties": [
+        "label_name",
+        "label_rank",
+        "label_minzoom",
+        "name_en",
+        "name_ga",
+        "province_source",
+        "minElev_m",
+        "meanElev_m",
+        "maxElev_m"
+      ],
+      "status": "converted-alias",
+      "notes": "civil-parishes reuses the unified converted Civil Parishes of Ireland layer.",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
+      "tilesFallback": "/test/tiles/civil-parishes-v3/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
+        "url": "/test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
+        "bytes": 19407418,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-05-29T23:46:15.302Z",
+        "fallback": "/test/tiles/civil-parishes-v3/{z}/{x}/{y}.pbf",
+        "serving": "cdn",
+        "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
+        "r2Key": "data/maps/test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
+        "localUrl": "/test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
+        "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+      },
+      "description": "Civil Parishes of Northern Ireland",
+      "sourceCredits": [
+        "OSM",
+        "OSNI",
+        "OSI"
+      ],
+      "conversionStatus": "convertedAlias",
+      "aliasOf": "civil-parishes-by-province",
+      "cloneOf": null,
+      "aliasTargetLayerId": "civil-parishes-vector-test",
+      "generatedFrom": {
+        "pipeline": "promote-test-clone-alias",
+        "sourceMapId": "civil-parishes",
+        "cloneOf": null,
+        "aliasOf": "civil-parishes-by-province",
+        "targetLayerId": "civil-parishes-vector-test"
+      }
+    },
+    {
       "id": "east-west-bann-vector-test",
       "sourceMapId": "east-west-bann",
       "name": "East and West of the Bann",

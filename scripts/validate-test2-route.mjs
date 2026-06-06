@@ -19,6 +19,8 @@ const labelsSource = readFileSync('test/src/labels.js', 'utf8');
 const featureRepairsSource = readFileSync('test/src/feature-property-repairs.js', 'utf8');
 const test2Css = readFileSync('test2/src/test2.css', 'utf8');
 const packageJsonSource = readFileSync('package.json', 'utf8');
+const portPlan = JSON.parse(readFileSync('test/metadata/main-site-port-plan.json', 'utf8'));
+const testMetadata = JSON.parse(readFileSync('test/metadata/maps-test.json', 'utf8'));
 
 function assert(condition, message) {
   if (!condition) failures.push(message);
@@ -63,6 +65,8 @@ assert(test2Css.includes('.test2-source-panel'), '/test2 source panel must have 
 assert(test2Css.includes('position: fixed') && test2Css.includes('z-index: 520'), '/test2 source panel must sit above restored map overlay panels');
 assert(appSource.includes('getConvertedCompositeChildIds'), '/test2 must expand converted child sources when a main catalogue parent lacks a direct converted layer');
 assert(appSource.includes('compositeSources') && appSource.includes('mapConfig.variants.map'), '/test2 composite fallback must cover main composite sources and non-group variant parents');
+assert(buildPlanSourceIncludesCompositeCoverage(), '/test2 port-plan generation must classify converted composite/alias rows without reintroducing false conversion gaps');
+assertPoint2Coverage();
 assert(mapControllerSource.includes('maplibre-dom-label'), '/test2 must use deduplicated DOM labels for main-site label interaction parity');
 assert(mapControllerSource.includes("'text-opacity': 0"), '/test2 native MapLibre symbol labels must stay visually hidden to avoid duplicate labels');
 assert(adapterSource.includes('installMainStyleMapControls') && test2Css.includes('.test2-main-zoom-control'), '/test2 must replace visible MapLibre zoom controls with main-style custom controls');
@@ -304,3 +308,24 @@ if (failures.length) {
 }
 
 console.log('PASS: /test2 route shell and engine isolation checks passed.');
+
+function buildPlanSourceIncludesCompositeCoverage() {
+  const source = readFileSync('scripts/build-test-metadata-plan.mjs', 'utf8');
+  return source.includes('MANUAL_ALIAS_TARGETS')
+    && source.includes('convertedCompositeChildIds')
+    && source.includes('convertedSourceIds');
+}
+
+function assertPoint2Coverage() {
+  const actionableStatuses = new Set(['needsVectorTileConversion', 'needsRasterStrategy', 'needsMapLibreSourceMapping']);
+  const actionableRows = (portPlan.rows || []).filter((row) => actionableStatuses.has(row.conversionStatus));
+  assert(actionableRows.length === 0, `/test2 point-2 data coverage has ${actionableRows.length} actionable unconverted row(s): ${actionableRows.slice(0, 5).map((row) => row.sourceMapId).join(', ')}`);
+
+  const townlands = (portPlan.rows || []).find((row) => row.sourceMapId === 'all-ireland-townlands');
+  assert(townlands?.conversionStatus === 'convertedComposite' && /ni-townlands/.test(townlands.testLayerId || '') && /roi-townlands/.test(townlands.testLayerId || ''), '/test2 all-Ireland Townlands must resolve through converted NI and ROI Townlands child layers');
+
+  const civilPlan = (portPlan.rows || []).find((row) => row.sourceMapId === 'civil-parishes');
+  const civilAlias = (testMetadata.layers || []).find((layer) => layer.sourceMapId === 'civil-parishes' && layer.aliasTargetLayerId === 'civil-parishes-vector-test');
+  assert(civilPlan?.conversionStatus === 'convertedAlias', '/test2 Civil Parishes legacy catalogue row must be recorded as a converted alias');
+  assert(Boolean(civilAlias), '/test2 maps-test metadata must include a loadable Civil Parishes alias to the unified converted layer');
+}

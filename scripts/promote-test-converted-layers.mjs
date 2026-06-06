@@ -25,6 +25,11 @@ const GENERATED_PIPELINE = 'build-test-vector-batch';
 const RASTER_PIPELINE = 'promote-test-raster-image';
 const RASTER_TILE_PIPELINE = 'promote-test-raster-tiles';
 const ALIAS_PIPELINE = 'promote-test-clone-alias';
+const MANUAL_ALIAS_TARGETS = new Map([
+  // The legacy NI civil-parishes catalogue variant should resolve to the
+  // unified converted civil-parishes layer used by /test and /test2.
+  ['civil-parishes', 'civil-parishes-by-province']
+]);
 
 const main = JSON.parse(readFileSync(MAIN_PATH, 'utf8'));
 const plan = JSON.parse(readFileSync(PLAN_PATH, 'utf8'));
@@ -50,7 +55,9 @@ const rasterRows = INCLUDE_RASTERS
 const regeneratedSourceIds = new Set([
   ...verifiedSourceIds,
   ...rasterRows.map((row) => row.sourceMapId),
-  ...(plan.rows || []).filter((row) => row.cloneOf).map((row) => row.sourceMapId)
+  ...(plan.rows || [])
+    .filter((row) => row.cloneOf || MANUAL_ALIAS_TARGETS.has(row.sourceMapId))
+    .map((row) => row.sourceMapId)
 ]);
 
 const baseLayers = (test.layers || []).filter((layer) => !isGeneratedLayer(layer) || !regeneratedSourceIds.has(layer.sourceMapId));
@@ -79,11 +86,12 @@ if (INCLUDE_RASTERS) {
 const preAliasLayers = dedupeLayers([...baseLayers, ...promotedVectorLayers, ...promotedRasterLayers])
   .map((layer) => refreshLayerIdentity(layer));
 for (const row of plan.rows || []) {
-  if (!row.cloneOf) continue;
-  const target = findLayerForSource(preAliasLayers, row.cloneOf);
+  const aliasTargetId = row.cloneOf || MANUAL_ALIAS_TARGETS.get(row.sourceMapId);
+  if (!aliasTargetId) continue;
+  const target = findLayerForSource(preAliasLayers, aliasTargetId);
   if (!target || target.loadable === false) continue;
   const map = mainById.get(row.sourceMapId) || {};
-  promotedAliasLayers.push(buildAliasLayer(row, map, target));
+  promotedAliasLayers.push(buildAliasLayer(row, map, target, aliasTargetId));
 }
 
 const layers = dedupeLayers([...preAliasLayers, ...promotedAliasLayers])
@@ -358,7 +366,7 @@ function buildRasterTileLayer(row, map) {
   };
 }
 
-function buildAliasLayer(row, map, target) {
+function buildAliasLayer(row, map, target, aliasTargetId = row.cloneOf) {
   const style = normalizeStyle(row.style || map.style || target.style);
   const references = (row.references || []).length ? row.references : (target.references || []);
   const sourceDownloads = (row.sourceDownloads || []).length ? row.sourceDownloads : (target.sourceDownloads || []);
@@ -393,20 +401,21 @@ function buildAliasLayer(row, map, target) {
       row.category,
       row.group,
       row.sourceMapId,
-      row.cloneOf,
+      aliasTargetId,
       'maplibre',
       'clone alias'
     ]),
     status: 'converted-alias',
     conversionStatus: 'convertedAlias',
-    aliasOf: row.cloneOf,
-    cloneOf: row.cloneOf,
+    aliasOf: aliasTargetId,
+    cloneOf: row.cloneOf || null,
     aliasTargetLayerId: target.id,
-    notes: `${row.name || row.sourceMapId} reuses the converted geometry from ${target.name || row.cloneOf}.`,
+    notes: `${row.name || row.sourceMapId} reuses the converted geometry from ${target.name || aliasTargetId}.`,
     generatedFrom: {
       pipeline: ALIAS_PIPELINE,
       sourceMapId: row.sourceMapId,
-      cloneOf: row.cloneOf,
+      cloneOf: row.cloneOf || null,
+      aliasOf: aliasTargetId,
       targetLayerId: target.id
     }
   };

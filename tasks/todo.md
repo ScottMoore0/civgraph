@@ -1,3 +1,25 @@
+# Close /test2 point-2 data coverage parity
+- [x] Record scope
+  - User requested completing remaining point 2 work so `/test2` reaches main-site catalogue/data coverage parity where feasible.
+  - Scope: identify main catalogue entries that `/test2` still cannot load, wire safe alias/same-boundary entries to existing converted layers, convert or register locally available sources where feasible, and verify the remaining gap is not code/config work.
+  - Out of scope for this pass unless discovered as directly necessary: point 3 unresolved election geographies and point 4 production hardening/deployment monitoring.
+- [x] Audit current coverage gap
+  - Determine which main map catalogue entries and election-layer entries are not loadable in `/test2`, and classify each as alias/same-boundary, locally convertible, source-missing, raster-only, or intentionally unsupported.
+  - Current generated port plan now reports 901 rows: 775 converted/loadable through direct, alias, or composite routes; 0 actionable vector/raster/source-mapping gaps; 126 metadata-only no-source placeholders.
+  - Confirmed the prior two actionable false gaps were `all-ireland-townlands` and `civil-parishes`.
+- [x] Implement feasible coverage fixes
+  - Wire alias/same-boundary entries to converted layers and register any locally available converted outputs without deleting source data.
+  - Added composite detection to `scripts/build-test-metadata-plan.mjs` so parent entries with fully converted children, including all-Ireland Townlands, no longer regress to `needsVectorTileConversion`.
+  - Added a Civil Parishes legacy-route alias in `test/metadata/maps-test.json`, pointing `civil-parishes` to the unified `civil-parishes-vector-test` PMTiles layer.
+  - Updated the promotion script so future alias regeneration preserves the same manual alias rule.
+- [x] Verify
+  - Run generation, route validation, parity/data-coverage audits, and build checks.
+  - Verification evidence: `node scripts/build-test-metadata-plan.mjs`, `node scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run audit:test2:parity`, and `npm run check` all passed. The full parity audit now includes `data.coverage` as a passing automated check.
+- [x] Review
+  - Document resolved entries and any residual data-blocked rows.
+  - Added route validation and parity-audit guardrails for zero actionable conversion rows, all-Ireland Townlands composite loading through `ni-townlands` + `roi-townlands`, and Civil Parishes alias loading through `civil-parishes-vector-test`.
+  - Remaining 126 metadata-only rows are no-source placeholder catalogue rows, not currently feasible conversion work.
+
 # Expand /test2 general parity coverage
 - [x] Record scope
   - User requested closing parity point 1 only: broaden the automated proof that `/test2` matches main across more representative UI states.

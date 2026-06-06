@@ -355,6 +355,31 @@ function normalise(value) {
   return String(value || '').replace(/\s+/g, ' ').trim();
 }
 
+function extractDataCoverageState() {
+  const plan = JSON.parse(readFileSync('test/metadata/main-site-port-plan.json', 'utf8'));
+  const metadata = JSON.parse(readFileSync('test/metadata/maps-test.json', 'utf8'));
+  const actionableStatuses = new Set(['needsVectorTileConversion', 'needsRasterStrategy', 'needsMapLibreSourceMapping']);
+  const actionableRows = (plan.rows || []).filter((row) => actionableStatuses.has(row.conversionStatus));
+  const metadataOnlyRows = (plan.rows || []).filter((row) => row.conversionStatus === 'metadataOnly');
+  const civilAlias = (metadata.layers || []).find((layer) => layer.sourceMapId === 'civil-parishes' && layer.aliasTargetLayerId === 'civil-parishes-vector-test');
+  const townlands = (plan.rows || []).find((row) => row.sourceMapId === 'all-ireland-townlands');
+  const civilPlan = (plan.rows || []).find((row) => row.sourceMapId === 'civil-parishes');
+  return {
+    totals: plan.totals,
+    actionableRows: actionableRows.map((row) => ({ id: row.sourceMapId, status: row.conversionStatus, name: row.name })).slice(0, 20),
+    metadataOnlyCount: metadataOnlyRows.length,
+    metadataOnlySample: metadataOnlyRows.slice(0, 12).map((row) => ({ id: row.sourceMapId, name: row.name, reason: row.unsupportedReason })),
+    townlands,
+    civilPlan,
+    civilAlias: civilAlias ? {
+      id: civilAlias.id,
+      sourceMapId: civilAlias.sourceMapId,
+      aliasOf: civilAlias.aliasOf,
+      aliasTargetLayerId: civilAlias.aliasTargetLayerId
+    } : null
+  };
+}
+
 try {
   await waitForServer();
   const browser = await chromium.launch();
@@ -703,15 +728,16 @@ try {
     return state;
   });
 
-  results.push({
-    id: 'data.coverage',
-    title: matrixById.get('data.coverage')?.title || 'Full catalogue data coverage',
-    classification: 'blocked-on-data',
-    status: 'reported-only',
-    evidence: {
-      note: 'Full catalogue coverage still depends on converted/loadable vector tiles or explicit not-yet-converted states for every main catalogue entry.'
-    }
+  await runCheck('data.coverage', async () => {
+    const state = extractDataCoverageState();
+    assert(state.actionableRows.length === 0, `/test2 has actionable unconverted catalogue rows: ${JSON.stringify(state.actionableRows.slice(0, 5))}`);
+    assert(state.townlands?.conversionStatus === 'convertedComposite', '/test2 all-Ireland Townlands is not recorded as a converted composite');
+    assert(/ni-townlands/.test(state.townlands?.testLayerId || '') && /roi-townlands/.test(state.townlands?.testLayerId || ''), '/test2 all-Ireland Townlands composite does not include both NI and ROI child layers');
+    assert(state.civilPlan?.conversionStatus === 'convertedAlias', '/test2 Civil Parishes legacy route is not recorded as a converted alias');
+    assert(state.civilAlias?.aliasTargetLayerId === 'civil-parishes-vector-test', '/test2 Civil Parishes alias is missing from maps-test metadata');
+    return state;
   });
+
   results.push({
     id: 'engine.internals',
     title: matrixById.get('engine.internals')?.title || 'Rendering-engine internals',

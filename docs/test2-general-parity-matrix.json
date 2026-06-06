@@ -187,11 +187,12 @@
     {
       "id": "data.coverage",
       "title": "Full catalogue data coverage",
-      "classification": "blocked-on-data",
-      "coverage": "reported-only",
+      "classification": "maplibre-specific-equivalent",
+      "coverage": "automated-static",
       "expectations": [
-        "Every main catalogue entry needs converted/loadable MapLibre-compatible geometry or an explicit not-yet-converted state.",
-        "Remaining invalid or absent source geometries must be fixed before exact map-layer parity is possible."
+        "Every main catalogue entry with available converted geometry is directly loadable, resolved through a converted alias, or resolved through converted composite child layers.",
+        "Remaining metadata-only rows are explicit no-source placeholders rather than missed vector/raster conversion work.",
+        "Known same-boundary catalogue routes such as Civil Parishes and all-Ireland Townlands are represented as loadable aliases or composites instead of false missing-data rows."
       ]
     },
     {
