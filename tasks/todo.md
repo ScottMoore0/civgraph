@@ -1,3 +1,26 @@
+# Add /test2 synthetic anchors for non-geographical election constituencies
+- [x] Record scope
+  - User requested `/test2` support for non-geographical constituencies such as the 1996 Forum Regional List and Queen's University seats, without changing the main site.
+  - Scope: generate synthetic result anchors near the northwestern edge of the active election geography, render seat circles and labels as clickable DOM overlay items, and wire clicks into the existing `/test2` election pane selection.
+- [x] Inspect current non-geographical result handling
+  - Review the election manifest builder, unmatched report classes, and `/test2` seat-circle overlay code.
+- [x] Implement synthetic anchors
+  - Add deterministic synthetic anchor generation for non-geographical election result rows where the geography layer is otherwise loadable.
+  - Preserve real polygon behavior for ordinary matched features.
+- [x] Render and select synthetic entries
+  - Ensure synthetic labels/seat circles display, avoid being treated as real polygons, and select the corresponding result in the election pane.
+- [x] Verify
+  - Regenerate election metadata and run syntax, manifest, `/test2`, and standard checks.
+- [x] Review
+  - Document implemented behavior, examples covered, and any remaining limits.
+  - Added generalized non-geographical synthetic anchor matching for Forum Regional List, university, and Trinity College-style election result rows.
+  - Synthetic rows are placed near the northwestern side of the active election geography, stacked deterministically when multiple non-geographical rows exist in one election.
+  - `/test2` now renders a clickable DOM overlay label plus seat circles for these synthetic rows, and prioritizes them in overlay collision handling so they remain visible.
+  - Regenerated `/test2` election metadata. Coverage moved to 249 loadable election entries, 19 placeholders, 4,004 matched rows, and 680 unmatched rows.
+  - Remaining unmatched classes are now `main-geography-unsourced`, `referendum-boundary-split-merge`, and `stormont-seat-not-in-source`; `university-seat-no-polygon` has been eliminated.
+  - Verification passed: `node --check scripts/build-test2-election-manifest.mjs`, `node --check test2/src/election-manager.js`, `node scripts/build-test2-election-manifest.mjs`, `npm run check:test2`, `npm run check`, and `npm run build:test2`.
+  - Browser smoke passed locally for `/test2`: the 1996 Forum Regional List renders as a visible synthetic marker; Queen's University of Belfast renders as a visible synthetic marker in the 1921 Parliament of Northern Ireland election; clicking Queen's selects that non-geographical result in the election pane and URL state.
+
 # Close /test2 point-3 election geography coverage
 - [x] Record scope
   - User requested executing point 3 in full. Scope: close every feasible unresolved election geography gap in `/test2` by using the main-site election geography rules, converted MapLibre layers, aliases, feature-name repairs, synthetic region handling, and generated anchor sidecars.

@@ -33,6 +33,7 @@ const SEAT_CIRCLE_SIZE = 12;
 const SEAT_CIRCLE_SPACING = SEAT_CIRCLE_SIZE + 1;
 const SEAT_CIRCLE_COLLISION_MARGIN = 4;
 const SEAT_CIRCLE_MIN_TOTAL_EXTENT = 120;
+const SYNTHETIC_ELECTION_LABEL_HEIGHT = 18;
 
 const MAIN_ELECTION_GEOGRAPHY_STYLE = Object.freeze({
   unmatchedFillColor: '#dfe4ec',
@@ -2272,10 +2273,14 @@ export class Test2ElectionManager {
       if (!Number.isFinite(projected?.x) || !Number.isFinite(projected?.y)) continue;
       const minX = Math.min(...positions.map((point) => point.x));
       const minY = Math.min(...positions.map((point) => point.y));
+      const maxX = Math.max(...positions.map((point) => point.x));
+      const dotWidth = maxX - minX + SEAT_CIRCLE_SIZE;
+      const dotOffsetX = Math.max(0, (groupWidth - dotWidth) / 2);
+      const dotOffsetY = result.syntheticNonGeographic ? SYNTHETIC_ELECTION_LABEL_HEIGHT + 4 : 0;
       const resultKey = normalizeName(result.matchName || result.constituency || '');
       const aggregateType = result.aggregateType || '';
       const seatGroup = document.createElement('div');
-      seatGroup.className = 'election-seat-circle test2-election-seat-circle';
+      seatGroup.className = `election-seat-circle test2-election-seat-circle${result.syntheticNonGeographic ? ' test2-election-seat-circle--synthetic' : ''}`;
       seatGroup.tabIndex = 0;
       seatGroup.role = 'button';
       seatGroup.dataset.resultKey = resultKey;
@@ -2293,14 +2298,26 @@ export class Test2ElectionManager {
       inner.style.width = `${groupWidth}px`;
       inner.style.height = `${groupHeight}px`;
 
+      if (result.syntheticNonGeographic) {
+        const label = document.createElement('div');
+        label.className = 'test2-election-synthetic-label';
+        label.textContent = result.featureName || result.matchName || result.constituency || 'Non-geographical constituency';
+        label.title = 'Non-geographical constituency';
+        label.style.position = 'absolute';
+        label.style.left = '0';
+        label.style.top = '0';
+        label.style.width = `${groupWidth}px`;
+        inner.appendChild(label);
+      }
+
       seats.forEach((seat, indexWithinResult) => {
         const position = positions[indexWithinResult];
         if (!position) return;
         const dot = document.createElement('div');
         dot.className = 'seat-dot test2-election-seat-dot';
         dot.style.position = 'absolute';
-        dot.style.left = `${position.x - minX}px`;
-        dot.style.top = `${position.y - minY}px`;
+        dot.style.left = `${dotOffsetX + position.x - minX}px`;
+        dot.style.top = `${dotOffsetY + position.y - minY}px`;
         dot.style.width = `${SEAT_CIRCLE_SIZE}px`;
         dot.style.height = `${SEAT_CIRCLE_SIZE}px`;
         dot.style.background = seat.colour || partyColour(seat.party || result.winnerParty || result.leadingParty);
@@ -2523,8 +2540,12 @@ export class Test2ElectionManager {
   createSeatCircleGroup(result, seats, center, bounds, area) {
     if (!center || !seats?.length) return null;
     const positions = seatPositions(seats.length, SEAT_CIRCLE_SPACING);
-    const groupWidth = Math.max(...positions.map((point) => point.x)) - Math.min(...positions.map((point) => point.x)) + SEAT_CIRCLE_SIZE;
-    const groupHeight = Math.max(...positions.map((point) => point.y)) - Math.min(...positions.map((point) => point.y)) + SEAT_CIRCLE_SIZE;
+    const dotWidth = Math.max(...positions.map((point) => point.x)) - Math.min(...positions.map((point) => point.x)) + SEAT_CIRCLE_SIZE;
+    const dotHeight = Math.max(...positions.map((point) => point.y)) - Math.min(...positions.map((point) => point.y)) + SEAT_CIRCLE_SIZE;
+    const syntheticLabel = result.syntheticNonGeographic ? (result.featureName || result.matchName || result.constituency || '') : '';
+    const syntheticLabelWidth = syntheticLabel ? Math.min(180, Math.max(72, syntheticLabel.length * 6.8 + 16)) : 0;
+    const groupWidth = Math.max(dotWidth, syntheticLabelWidth);
+    const groupHeight = dotHeight + (syntheticLabel ? SYNTHETIC_ELECTION_LABEL_HEIGHT + 4 : 0);
     return {
       result,
       center,
@@ -2607,7 +2628,10 @@ export class Test2ElectionManager {
     }
     const placed = [];
     const visible = [];
-    for (const group of projected.sort((a, b) => b.pixelArea - a.pixelArea)) {
+    for (const group of projected.sort((a, b) => {
+      const syntheticDelta = Number(Boolean(b.result?.syntheticNonGeographic)) - Number(Boolean(a.result?.syntheticNonGeographic));
+      return syntheticDelta || b.pixelArea - a.pixelArea;
+    })) {
       const myHalfW = group.width / 2 + SEAT_CIRCLE_COLLISION_MARGIN;
       const myHalfH = group.height / 2 + SEAT_CIRCLE_COLLISION_MARGIN;
       const overlaps = placed.some((existing) => {

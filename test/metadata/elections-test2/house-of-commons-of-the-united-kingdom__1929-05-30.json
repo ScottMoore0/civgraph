@@ -17,7 +17,7 @@
   "previousKey": "house-of-commons-of-the-united-kingdom__1929-01-29",
   "previousDate": "1929-01-29",
   "loadable": true,
-  "displaySubtitle": "10 constituencies; 1 unmatched",
+  "displaySubtitle": "10 constituencies",
   "displayProvider": "House of Commons of the United Kingdom",
   "constituencies": [
     "Antrim",
@@ -33,11 +33,9 @@
   ],
   "isByElection": false,
   "totalConstituencies": 10,
-  "matchedCount": 9,
-  "unmatchedCount": 1,
-  "unmatchedConstituencies": [
-    "Queen's University of Belfast"
-  ],
+  "matchedCount": 10,
+  "unmatchedCount": 0,
+  "unmatchedConstituencies": [],
   "availableStyleModes": [
     "winner",
     "leadingParty",
@@ -3878,13 +3876,29 @@
       },
       "localBody": null,
       "sourceFile": "election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1929-05-30/queens-university-of-belfast.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
-      "syntheticRegion": null,
-      "matched": false
+      "featureId": "synthetic:non-geographic:queens-university-of-belfast",
+      "featureName": "Queen's University of Belfast",
+      "featureAliases": [
+        "Queen's University of Belfast"
+      ],
+      "matchName": "Queen's University of Belfast",
+      "anchor": {
+        "center": [
+          -8.081426,
+          54.89624
+        ],
+        "bounds": {
+          "west": -8.081426,
+          "south": 54.89624,
+          "east": -8.081426,
+          "north": 54.89624
+        },
+        "method": "synthetic-northwest-non-geographic",
+        "area": 3.374433161303996
+      },
+      "syntheticRegion": "queens university of belfast",
+      "syntheticNonGeographic": true,
+      "matched": true
     }
   ]
 }

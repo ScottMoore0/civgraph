@@ -16,20 +16,22 @@
   "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
   "previousKey": "house-of-commons-of-the-united-kingdom__1940-02-08",
   "previousDate": "1940-02-08",
-  "loadable": false,
-  "displaySubtitle": "1 constituencies; 1 unmatched",
+  "loadable": true,
+  "displaySubtitle": "1 constituencies",
   "displayProvider": "House of Commons of the United Kingdom",
   "constituencies": [
     "Queen's University of Belfast"
   ],
   "isByElection": true,
   "totalConstituencies": 1,
-  "matchedCount": 0,
-  "unmatchedCount": 1,
-  "unmatchedConstituencies": [
-    "Queen's University of Belfast"
+  "matchedCount": 1,
+  "unmatchedCount": 0,
+  "unmatchedConstituencies": [],
+  "availableStyleModes": [
+    "winner",
+    "leadingParty",
+    "seats"
   ],
-  "availableStyleModes": [],
   "partySummary": [
     {
       "party": "UUP",
@@ -277,13 +279,29 @@
       },
       "localBody": null,
       "sourceFile": "election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1940-11-02/queens-university-of-belfast.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
-      "syntheticRegion": null,
-      "matched": false
+      "featureId": "synthetic:non-geographic:queens-university-of-belfast",
+      "featureName": "Queen's University of Belfast",
+      "featureAliases": [
+        "Queen's University of Belfast"
+      ],
+      "matchName": "Queen's University of Belfast",
+      "anchor": {
+        "center": [
+          -8.081426,
+          54.89624
+        ],
+        "bounds": {
+          "west": -8.081426,
+          "south": 54.89624,
+          "east": -8.081426,
+          "north": 54.89624
+        },
+        "method": "synthetic-northwest-non-geographic",
+        "area": 3.374433161303996
+      },
+      "syntheticRegion": "queens university of belfast",
+      "syntheticNonGeographic": true,
+      "matched": true
     }
   ]
 }

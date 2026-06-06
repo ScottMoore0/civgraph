@@ -220,7 +220,9 @@ assert(labelsSource.includes('buildRepairedLabelValueExpression') && labelsSourc
 assert(mapControllerSource.includes('repairFeatureProperties(layer, feature.properties || {})'), '/test2 feature selection payloads must include repaired source-data labels');
 assert(adapterSource.includes('repairFeatureProperties(layerConfig'), '/test2 normalized MapLibre features must include repaired source-data labels');
 assert(electionManagerSource.includes('buildRepairedLabelValueExpression') && electionManagerSource.includes('repairFeatureProperties'), '/test2 election matching/styling must use repaired source-data labels');
-assert(electionManifestBuilderSource.includes('syntheticRegionMatch') && electionManifestBuilderSource.includes('synthetic-region-bounds-center'), '/test2 election manifest builder must synthesize safe regional anchors for non-feature regional-list rows');
+assert(electionManifestBuilderSource.includes('isSyntheticNonGeographicResult') && electionManifestBuilderSource.includes('syntheticNonGeographicMatch') && electionManifestBuilderSource.includes('synthetic-northwest-non-geographic'), '/test2 election manifest builder must synthesize safe northwest anchors for non-geographical election rows');
+assert(electionManagerSource.includes('test2-election-synthetic-label') && electionManagerSource.includes('result.syntheticNonGeographic') && test2Css.includes('.test2-election-synthetic-label'), '/test2 election overlays must render clickable labels for synthetic non-geographical constituency entries');
+assert(electionManagerSource.includes('syntheticDelta') && electionManagerSource.includes('syntheticNonGeographic'), '/test2 election overlay collision must prioritize synthetic non-geographical markers so they do not disappear behind real constituencies');
 
 for (const path of [
   'test2/build/test2.bundle.js',
@@ -265,6 +267,12 @@ if (existsSync('test/metadata/elections-test2.json')) {
   assert(roscommonGalwayCountRows.some((row) => String(row.Party_Name || '') === 'Sinn Féin' && Number(row.Count_Number) > 1 && Number(row.Total_Votes) === 8039), '/test2 Dail 2024 Roscommon Galway must retain later-count Sinn Fein quota row data without turning it into first preferences');
   const forumEntry = (electionManifest.elections || []).find((entry) => entry.body === 'Northern Ireland Forum for Political Dialogue' && entry.date === '1996-05-30');
   assert(forumEntry?.matchedCount === forumEntry?.totalConstituencies, '/test2 1996 Forum election must include the NI-wide regional-list result via a synthetic anchor');
+  const forum1996Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/northern-ireland-forum-for-political-dialogue__1996-05-30.json', 'utf8'));
+  const forumRegionalList = (forum1996Bundle.results || []).find((result) => result.syntheticNonGeographic && result.featureName === 'Regional List');
+  assert(forumRegionalList?.matched === true && Array.isArray(forumRegionalList.anchor?.center), '/test2 1996 Forum Regional List must be a clickable synthetic non-geographical result with a map anchor');
+  const stormont1921Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/parliament-of-northern-ireland__1921-05-24.json', 'utf8'));
+  const queensUniversity = (stormont1921Bundle.results || []).find((result) => result.syntheticNonGeographic && /Queen's University/.test(result.constituency || ''));
+  assert(queensUniversity?.matched === true && Array.isArray(queensUniversity.anchor?.center), '/test2 Queen\'s University Stormont rows must be clickable synthetic non-geographical results with map anchors');
   const localEntries = (electionManifest.elections || []).filter((entry) => entry.bodyGroup === 'local-government');
   const generalLocalEntries = localEntries.filter((entry) => (entry.localBodies || []).length > 1);
   const generalLocalDates = new Map();
@@ -282,6 +290,7 @@ if (existsSync('test/metadata/elections-test2.json')) {
 if (existsSync('test/metadata/elections-test2-report.json')) {
   const electionReport = JSON.parse(readFileSync('test/metadata/elections-test2-report.json', 'utf8'));
   assert(!electionReport.residualSummary?.['historic-dea-not-in-source'], '/test2 deas-1972 election residuals should be resolved by source-data label repairs');
+  assert(!electionReport.residualSummary?.['university-seat-no-polygon'], '/test2 university-seat rows should be represented by synthetic non-geographical anchors, not left as unmatched polygon gaps');
   assert(!electionReport.closureSummary?.byStatus?.['blocked-on-implementation'], '/test2 must not leave feasible implementation-blocked election geography gaps in the generated report');
   assert(!electionReport.closureSummary?.byStatus?.['blocked-on-data-cleanup'], '/test2 must not leave deterministic source-name typo fixes in the generated election gap report');
   assert(electionReport.closureSummary?.feasibleUnmatchedRemaining === 0, '/test2 election unmatched report must classify all remaining gaps as blocked, not silently feasible');

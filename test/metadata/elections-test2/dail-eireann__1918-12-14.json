@@ -17,7 +17,7 @@
   "previousKey": null,
   "previousDate": null,
   "loadable": true,
-  "displaySubtitle": "103 constituencies; 3 unmatched",
+  "displaySubtitle": "103 constituencies",
   "displayProvider": "Dáil Éireann",
   "constituencies": [
     "Antrim East",
@@ -126,13 +126,9 @@
   ],
   "isByElection": false,
   "totalConstituencies": 103,
-  "matchedCount": 100,
-  "unmatchedCount": 3,
-  "unmatchedConstituencies": [
-    "Dublin University(Trinity College)",
-    "National University of Ireland",
-    "Queen's University Belfast"
-  ],
+  "matchedCount": 103,
+  "unmatchedCount": 0,
+  "unmatchedConstituencies": [],
   "availableStyleModes": [
     "winner",
     "leadingParty",
@@ -20740,13 +20736,29 @@
       "animationPayload": null,
       "localBody": null,
       "sourceFile": null,
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
-      "syntheticRegion": null,
-      "matched": false
+      "featureId": "synthetic:non-geographic:dublin-university",
+      "featureName": "Dublin University(Trinity College)",
+      "featureAliases": [
+        "Dublin University(Trinity College)"
+      ],
+      "matchName": "Dublin University(Trinity College)",
+      "anchor": {
+        "center": [
+          -9.956193,
+          54.188028
+        ],
+        "bounds": {
+          "west": -9.956193,
+          "south": 54.188028,
+          "east": -9.956193,
+          "north": 54.188028
+        },
+        "method": "synthetic-northwest-non-geographic",
+        "area": 19.86291223140001
+      },
+      "syntheticRegion": "dublin university",
+      "syntheticNonGeographic": true,
+      "matched": true
     },
     {
       "constituency": "Fermanagh North",
@@ -27490,13 +27502,29 @@
       },
       "localBody": null,
       "sourceFile": "election-viewer-package/data/elections/dail-eireann/1918-12-14/national-university-of-ireland.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
-      "syntheticRegion": null,
-      "matched": false
+      "featureId": "synthetic:non-geographic:national-university-of-ireland",
+      "featureName": "National University of Ireland",
+      "featureAliases": [
+        "National University of Ireland"
+      ],
+      "matchName": "National University of Ireland",
+      "anchor": {
+        "center": [
+          -9.855248,
+          54.188028
+        ],
+        "bounds": {
+          "west": -9.855248,
+          "south": 54.188028,
+          "east": -9.855248,
+          "north": 54.188028
+        },
+        "method": "synthetic-northwest-non-geographic",
+        "area": 19.86291223140001
+      },
+      "syntheticRegion": "national university of ireland",
+      "syntheticNonGeographic": true,
+      "matched": true
     },
     {
       "constituency": "Queen's County",
@@ -27905,13 +27933,29 @@
       },
       "localBody": null,
       "sourceFile": "election-viewer-package/data/elections/dail-eireann/1918-12-14/queens-university-belfast.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
-      "syntheticRegion": null,
-      "matched": false
+      "featureId": "synthetic:non-geographic:queens-university-belfast",
+      "featureName": "Queen's University Belfast",
+      "featureAliases": [
+        "Queen's University Belfast"
+      ],
+      "matchName": "Queen's University Belfast",
+      "anchor": {
+        "center": [
+          -9.956193,
+          53.971581
+        ],
+        "bounds": {
+          "west": -9.956193,
+          "south": 53.971581,
+          "east": -9.956193,
+          "north": 53.971581
+        },
+        "method": "synthetic-northwest-non-geographic",
+        "area": 19.86291223140001
+      },
+      "syntheticRegion": "queens university belfast",
+      "syntheticNonGeographic": true,
+      "matched": true
     },
     {
       "constituency": "Roscommon North",

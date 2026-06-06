@@ -16,20 +16,22 @@
   "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
   "previousKey": "parliament-of-northern-ireland__1934-06-04",
   "previousDate": "1934-06-04",
-  "loadable": false,
-  "displaySubtitle": "1 constituencies; 1 unmatched",
+  "loadable": true,
+  "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
   "constituencies": [
     "Queen's University of Belfast"
   ],
   "isByElection": true,
   "totalConstituencies": 1,
-  "matchedCount": 0,
-  "unmatchedCount": 1,
-  "unmatchedConstituencies": [
-    "Queen's University of Belfast"
+  "matchedCount": 1,
+  "unmatchedCount": 0,
+  "unmatchedConstituencies": [],
+  "availableStyleModes": [
+    "winner",
+    "leadingParty",
+    "seats"
   ],
-  "availableStyleModes": [],
   "partySummary": [
     {
       "party": "UUP",
@@ -277,13 +279,29 @@
       },
       "localBody": null,
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1935-03-22/queens-university-of-belfast.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
-      "syntheticRegion": null,
-      "matched": false
+      "featureId": "synthetic:non-geographic:queens-university-of-belfast",
+      "featureName": "Queen's University of Belfast",
+      "featureAliases": [
+        "Queen's University of Belfast"
+      ],
+      "matchName": "Queen's University of Belfast",
+      "anchor": {
+        "center": [
+          -7.824815,
+          54.688159
+        ],
+        "bounds": {
+          "west": -7.824815,
+          "south": 54.688159,
+          "east": -7.824815,
+          "north": 54.688159
+        },
+        "method": "synthetic-northwest-non-geographic",
+        "area": 3.3749782862319933
+      },
+      "syntheticRegion": "queens university of belfast",
+      "syntheticNonGeographic": true,
+      "matched": true
     }
   ]
 }

@@ -17,7 +17,7 @@
   "previousKey": "parliament-of-northern-ireland__1945-04-19",
   "previousDate": "1945-04-19",
   "loadable": true,
-  "displaySubtitle": "49 constituencies; 2 unmatched",
+  "displaySubtitle": "49 constituencies; 1 unmatched",
   "displayProvider": "Parliament of Northern Ireland",
   "constituencies": [
     "Antrim Borough",
@@ -72,11 +72,10 @@
   ],
   "isByElection": false,
   "totalConstituencies": 49,
-  "matchedCount": 47,
-  "unmatchedCount": 2,
+  "matchedCount": 48,
+  "unmatchedCount": 1,
   "unmatchedConstituencies": [
-    "Antrim Borough",
-    "Queen's University of Belfast"
+    "Antrim Borough"
   ],
   "availableStyleModes": [
     "winner",
@@ -13917,13 +13916,29 @@
       },
       "localBody": null,
       "sourceFile": "election-viewer-package/data/elections/parliament-of-northern-ireland/1945-06-14/queens-university-of-belfast.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
-      "syntheticRegion": null,
-      "matched": false
+      "featureId": "synthetic:non-geographic:queens-university-of-belfast",
+      "featureName": "Queen's University of Belfast",
+      "featureAliases": [
+        "Queen's University of Belfast"
+      ],
+      "matchName": "Queen's University of Belfast",
+      "anchor": {
+        "center": [
+          -7.824815,
+          54.688159
+        ],
+        "bounds": {
+          "west": -7.824815,
+          "south": 54.688159,
+          "east": -7.824815,
+          "north": 54.688159
+        },
+        "method": "synthetic-northwest-non-geographic",
+        "area": 3.3749782862319933
+      },
+      "syntheticRegion": "queens university of belfast",
+      "syntheticNonGeographic": true,
+      "matched": true
     },
     {
       "constituency": "South Antrim",
