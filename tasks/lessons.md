@@ -2066,3 +2066,21 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) route validation must compare the service-worker version against the current `/test2/build/test2.bundle.js?v=...` hash,
   3) mobile gesture tests must verify actual hit-testing at a map point, not just handler flags,
   4) runtime code should apply the touch contract inline on the MapLibre container/canvas so stale or reordered CSS cannot silently undo it.
+
+### 157) `/test2` fixes must account for the root service worker before the scoped worker controls the page
+- Mistake pattern: Updating the `/test2` scoped service worker and bundle hash while leaving the root Civgraph service worker free to serve stale `/test2` assets through its general stale-while-revalidate route.
+- Impact: a collaborator or phone already controlled by the root service worker can keep receiving stale `/test2` JavaScript/CSS before `/test2/sw.js` takes control, so live behaviour still looks broken after a correct scoped deploy.
+- Guardrail:
+  1) root `sw.js` must route `/test2/`, `/test2/index.html`, `/test2/sw.js`, and `/test2/build/test2.bundle.{js,css}` network-first or bypass-cache,
+  2) any root service-worker strategy change must bump `CACHE_VERSION`,
+  3) `/test2` route validation must assert the root service worker contains explicit `/test2` network-first handling,
+  4) mobile gesture tests must include actual touch-event pan/pinch/pitch movement, not only handler-state and hit-test diagnostics.
+
+### 158) Mobile gesture fixes must prove actual map movement
+- Mistake pattern: Calling `preventDefault()` on normal touch/pointer events while trying to protect MapLibre from page-level gestures, then relying on handler-state diagnostics to infer the map will pan, pinch, and pitch on a real phone.
+- Impact: the map can look correctly configured in diagnostics while real touch events never reach MapLibre's gesture handlers, or native pinch/pitch propagation can remain unreliable on phones.
+- Guardrail:
+  1) mobile map fixes must use passive listeners for ordinary touch/pointer observation and reserve `preventDefault()` for browser gesture events or tightly scoped fallback gesture handling,
+  2) tests must dispatch actual touch input and assert that pan changes center, pinch changes zoom, and tilt/pitch changes pitch,
+  3) if a direct touch fallback is added, expose runtime diagnostics proving it is installed,
+  4) stale-cache fixes and gesture fixes must be validated together because either one can make a live phone appear unfixed.

@@ -49,6 +49,54 @@ async function expectElectionFilterMenuInsideViewport(page) {
   expect(bounds.valuesScrollHeight + 2).toBeGreaterThanOrEqual(bounds.valuesClientHeight);
 }
 
+async function enableTouchInput(page) {
+  const client = await page.context().newCDPSession(page);
+  await client.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
+  return client;
+}
+
+async function dispatchTouch(client, type, points) {
+  await client.send('Input.dispatchTouchEvent', {
+    type,
+    touchPoints: points.map((point, index) => ({
+      x: Math.round(point.x),
+      y: Math.round(point.y),
+      radiusX: 2,
+      radiusY: 2,
+      force: 1,
+      id: point.id || index + 1
+    }))
+  });
+}
+
+async function performTouchGesture(client, startPoints, endPoints, steps = 8) {
+  await dispatchTouch(client, 'touchStart', startPoints);
+  for (let step = 1; step <= steps; step++) {
+    const progress = step / steps;
+    const points = startPoints.map((start, index) => {
+      const end = endPoints[index] || start;
+      return {
+        id: start.id || index + 1,
+        x: start.x + (end.x - start.x) * progress,
+        y: start.y + (end.y - start.y) * progress
+      };
+    });
+    await dispatchTouch(client, 'touchMove', points);
+  }
+  await dispatchTouch(client, 'touchEnd', []);
+}
+
+async function getMapCanvasCenter(page) {
+  const box = await page.locator('#map .maplibregl-canvas').boundingBox();
+  expect(box).toBeTruthy();
+  return {
+    x: box.x + box.width / 2,
+    y: box.y + box.height / 2,
+    width: box.width,
+    height: box.height
+  };
+}
+
 test('/test2 boots the production shell with the MapLibre adapter', async ({ page }) => {
   await page.goto('/test2/');
   await expect(page.getByRole('link', { name: 'Civgraph' })).toBeVisible();
@@ -716,8 +764,104 @@ test('/test2 mobile catalogue stays bounded and map gestures stay enabled', asyn
   expect(gestureState.gestureDiagnostics.rootTouchAction).toBe('none');
   expect(gestureState.gestureDiagnostics.topIsCanvas || gestureState.gestureDiagnostics.topWithinCanvasContainer).toBe(true);
   expect(gestureState.gestureDiagnostics.topWithinMap).toBe(true);
+  expect(gestureState.gestureDiagnostics.guardTargetCount).toBeGreaterThanOrEqual(2);
   expect(gestureState.hasTouchZoomRotateClass).toBe(true);
   expect(gestureState.hasTouchDragPanClass).toBe(true);
+});
+
+test('/test2 mobile map accepts actual touch pan pinch and pitch gestures', async ({ browser }) => {
+  const context = await browser.newContext({
+    baseURL: 'http://127.0.0.1:5050',
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+    deviceScaleFactor: 2
+  });
+  const page = await context.newPage();
+  let client = null;
+  try {
+    await page.goto('/test2/');
+    await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
+    await page.evaluate(() => window.uiController?.setSplitState?.('map-full'));
+    await page.waitForFunction(() => document.body.dataset.splitState === 'map-full');
+    await page.waitForFunction(() => {
+      const diagnostics = window.__civgraphTest2?.mapController?.getMobileGestureDiagnostics?.();
+      return diagnostics
+        && diagnostics.topWithinMap
+        && (diagnostics.topIsCanvas || diagnostics.topWithinCanvasContainer)
+        && diagnostics.dragPanEnabled
+        && diagnostics.touchZoomEnabled
+        && diagnostics.touchPitchEnabled
+        && diagnostics.guardTargetCount >= 2;
+    });
+
+    client = await enableTouchInput(page);
+    const center = await getMapCanvasCenter(page);
+    const initial = await page.evaluate(() => {
+      const map = window.__civgraphTest2.mapController.map;
+      const center = map.getCenter();
+      return {
+        lng: center.lng,
+        lat: center.lat,
+        zoom: map.getZoom(),
+        pitch: map.getPitch()
+      };
+    });
+
+    await performTouchGesture(client, [
+      { id: 1, x: center.x + 70, y: center.y }
+    ], [
+      { id: 1, x: center.x - 90, y: center.y + 10 }
+    ]);
+    await page.waitForTimeout(250);
+
+    const afterPan = await page.evaluate(() => {
+      const map = window.__civgraphTest2.mapController.map;
+      const center = map.getCenter();
+      return {
+        lng: center.lng,
+        lat: center.lat,
+        zoom: map.getZoom()
+      };
+    });
+    expect(Math.abs(afterPan.lng - initial.lng) + Math.abs(afterPan.lat - initial.lat)).toBeGreaterThan(0.01);
+
+    const pinchCenter = await getMapCanvasCenter(page);
+    const zoomBeforePinch = afterPan.zoom;
+    await performTouchGesture(client, [
+      { id: 1, x: pinchCenter.x - 22, y: pinchCenter.y },
+      { id: 2, x: pinchCenter.x + 22, y: pinchCenter.y }
+    ], [
+      { id: 1, x: pinchCenter.x - 95, y: pinchCenter.y },
+      { id: 2, x: pinchCenter.x + 95, y: pinchCenter.y }
+    ]);
+    await page.waitForTimeout(350);
+
+    const afterPinch = await page.evaluate(() => window.__civgraphTest2.mapController.map.getZoom());
+    expect(afterPinch).toBeGreaterThan(zoomBeforePinch + 0.1);
+
+    await page.evaluate(() => {
+      const map = window.__civgraphTest2.mapController.map;
+      map.setPitch(0);
+      map.setBearing(0);
+    });
+    await page.waitForTimeout(100);
+    const pitchCenter = await getMapCanvasCenter(page);
+    await performTouchGesture(client, [
+      { id: 1, x: pitchCenter.x - 42, y: pitchCenter.y + 110 },
+      { id: 2, x: pitchCenter.x + 42, y: pitchCenter.y + 110 }
+    ], [
+      { id: 1, x: pitchCenter.x - 42, y: pitchCenter.y - 120 },
+      { id: 2, x: pitchCenter.x + 42, y: pitchCenter.y - 120 }
+    ], 10);
+    await page.waitForTimeout(350);
+
+    const afterPitch = await page.evaluate(() => window.__civgraphTest2.mapController.map.getPitch());
+    expect(afterPitch).toBeGreaterThan(1);
+  } finally {
+    await client?.detach?.().catch(() => {});
+    await context.close();
+  }
 });
 
 test('/test2 mobile election seat-circle overlays do not block map gestures', async ({ page }) => {
@@ -768,6 +912,7 @@ test('/test2 mobile election seat-circle overlays do not block map gestures', as
   expect(overlayState.gestureDiagnostics.rootTouchAction).toBe('none');
   expect(overlayState.gestureDiagnostics.topIsCanvas || overlayState.gestureDiagnostics.topWithinCanvasContainer).toBe(true);
   expect(overlayState.gestureDiagnostics.topWithinMap).toBe(true);
+  expect(overlayState.gestureDiagnostics.guardTargetCount).toBeGreaterThanOrEqual(2);
   expect(overlayState.dragPanEnabled).toBe(true);
   expect(overlayState.dragRotateEnabled).toBe(true);
   expect(overlayState.touchZoomEnabled).toBe(true);

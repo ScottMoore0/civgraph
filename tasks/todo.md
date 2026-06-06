@@ -1,3 +1,22 @@
+# Fix recurring `/test2` phone pan/pinch/tilt failure after live retest
+- [x] Record recurrence and scope
+  - Task: fix the reported real-phone failure where `/test2` still cannot pan, pinch zoom, or tilt after the prior mobile gesture and scoped-service-worker fixes.
+  - Constraints: do not change the main site UI/Leaflet behaviour; keep changes scoped to `/test2`, shared MapLibre support, root service-worker routing for `/test2`, validations, and generated `/test2` artifacts; avoid staging unrelated dirty election/browse/generated files; commit and push after verification unless sensitive/private.
+  - Plan: harden the actual phone touch path on the MapLibre root/canvas; prevent the root service worker from stale-serving `/test2` bundle/CSS; add tests that dispatch real mobile touch pan/pinch/pitch gestures; rebuild/check; commit and push.
+- [x] Patch root causes
+  - Scope: root service-worker `/test2` cache routing, MapLibre touch/pointer event guards, runtime diagnostics, validation checks.
+  - Done: changed the root service worker to route all `/test2/` entry/runtime assets network-first, while keeping `/test2/pmtiles/` network-only and static chunk/assets cache-first. This prevents the root worker from stale-serving the old `/test2` bundle before the scoped `/test2/sw.js` controls the page. In the MapLibre controller, normal touch/pointer guards are now passive so one-finger pan reaches MapLibre, browser gesture events are still suppressed, and a direct two-finger fallback translates real touch pinch/pitch gestures into `jumpTo()` updates when Chromium/phone gesture synthesis does not hand those gestures through consistently.
+  - Permanent prevention action: route validation now asserts root-service-worker `/test2` handling and the mobile diagnostics expose guard target count plus direct two-finger fallback installation. Browser tests dispatch real touch events and assert actual center, zoom, and pitch movement.
+- [x] Verify and deliver
+  - Scope: source checks, `/test2` build/check, focused mobile browser gesture tests, Pages guardrails, scoped commit/push.
+  - Verification evidence: `node --check` passed for edited source/test/script files; escalated `npm run build:test2` passed and generated `/test2` bundle `ad2892ef2fda`; escalated `npm run check:test2` passed; focused Playwright test `/test2 mobile map accepts actual touch pan pinch and pitch gestures` passed; mobile `/test2` Playwright group passed, including gesture, catalogue, overlay, and mobile shell checks. Full repository check remains to be run before commit/push.
+
+## Recurring issue: `/test2` real-phone gestures still blocked after stale-cache and handler fixes
+- Symptom: a real phone still could not pan, pinch zoom, or tilt on `/test2` after previous mobile gesture fixes.
+- Root cause: the previous guardrail proved handler state and canvas hit-testing, but it still let the root service worker stale-serve `/test2` entry assets and did not prove actual touch-event movement. A later guard also called `preventDefault()` on normal touch/pointer events, which could stop MapLibre from consuming one-finger pan while still making tests look superficially green.
+- Permanent prevention action: root `sw.js` now explicitly handles `/test2/` with fresh entry/runtime routing, mobile gesture guards are passive for normal touch/pointer events, a direct two-finger fallback handles pinch/pitch if native gesture propagation is unreliable, and browser tests now dispatch actual touch gestures and assert map center/zoom/pitch changes.
+- Verification evidence: real-touch Playwright test and the mobile `/test2` browser group passed after the root worker and touch-event changes.
+
 # Fix recurring `/test2` real-phone touch gestures
 - [x] Record scope and recurrence
   - Task: fix the reported live-phone failure where `/test2` still cannot pan, pinch zoom, rotate, or tilt after the previous gesture-handler patch.

@@ -8,6 +8,7 @@ const adapterSource = readFileSync('test2/src/maplibre-main-adapter.js', 'utf8')
 const electionManagerSource = readFileSync('test2/src/election-manager.js', 'utf8');
 const electionPaneContractSource = readFileSync('test2/src/election-pane-main-contract.js', 'utf8');
 const test2ServiceWorkerSource = readFileSync('test2/sw.js', 'utf8');
+const rootServiceWorkerSource = readFileSync('sw.js', 'utf8');
 const mainElectionPaneContractSource = readFileSync('js/election-main-pane-contract.mjs', 'utf8');
 const electionDomainSource = readFileSync('js/election-domain.mjs', 'utf8');
 const electionViewModelSource = readFileSync('js/election-view-model.mjs', 'utf8');
@@ -146,6 +147,8 @@ assert(mapControllerSource.includes("this.map.on('dblclick', onDoubleClick)"), '
 assert(mapControllerSource.includes('this.map.doubleClickZoom?.disable()'), '/test2 must disable MapLibre double-tap zoom so mobile feature taps can open details');
 assert(mapControllerSource.includes("this.map.on('click', onClick)"), '/test2 feature geometry selection must be wired to ordinary tap/click as well as double-click');
 assert(mapControllerSource.includes('installMobileGestureGuards') && mapControllerSource.includes('installMobileGestureResizeObserver') && mapControllerSource.includes('ResizeObserver') && mapControllerSource.includes('applyMobileTouchContract') && mapControllerSource.includes('getMobileGestureDiagnostics') && adapterSource.includes('getMobileGestureDiagnostics') && adapterSource.includes('applyMobileTouchContract'), '/test2 MapLibre controller and adapter must runtime-enforce the mobile touch contract and expose gesture diagnostics');
+assert(mapControllerSource.includes('pointerdown') && mapControllerSource.includes('pointermove') && mapControllerSource.includes('guardTargetCount'), '/test2 mobile gesture guards must cover touch-capable pointer events and expose target diagnostics');
+assert(rootServiceWorkerSource.includes("const CACHE_VERSION = 'v8'") && rootServiceWorkerSource.includes("url.pathname.startsWith('/test2/')") && rootServiceWorkerSource.includes("url.pathname.startsWith('/test2/pmtiles/')") && rootServiceWorkerSource.includes('networkOnly(req)') && rootServiceWorkerSource.includes('networkFirst(req, RUNTIME_CACHE)'), 'root service worker must explicitly route /test2 entry assets network-first and avoid caching /test2 PMTiles');
 assert(test2Css.includes('#map .maplibregl-map') && test2Css.includes('overscroll-behavior: contain') && test2Css.includes('-webkit-touch-callout: none'), '/test2 route CSS must apply a full mobile touch contract to the map container and canvas');
 assert(appSource.includes('relocateMobileCatalogueToggle') && appSource.includes('mobile-toggle--navbar'), '/test2 must move the mobile catalogue toggle into the navbar instead of leaving it as a floating map overlay');
 assert(test2Css.includes('.app-header #mobileToggle.mobile-toggle.mobile-toggle--navbar') && test2Css.includes('position: static !important'), '/test2 mobile catalogue toggle must be styled as a navbar control on mobile');

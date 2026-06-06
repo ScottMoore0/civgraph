@@ -24,10 +24,54 @@ import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates, bound
 const INTERACTION_FILL_COLOR = '#FDBA74';
 const INTERACTION_STROKE_COLOR = '#FF7A1A';
 const DEFAULT_VECTOR_FILL_OPACITY = 0;
+const MOBILE_GESTURE_CHROME_SELECTOR = [
+  'button',
+  'a',
+  'input',
+  'select',
+  'textarea',
+  '[contenteditable="true"]',
+  '.maplibregl-ctrl',
+  '.test2-main-zoom-control',
+  '.active-layers-toggle',
+  '.map-controls',
+  '.map-control-panel',
+  '.active-layers',
+  '.feature-info',
+  '.test2-source-panel',
+  '.test2-election-pane-resizer',
+  '#timelineSlider'
+].join(',');
 const EMPTY_FEATURE_COLLECTION = Object.freeze({
   type: 'FeatureCollection',
   features: []
 });
+
+function isMobileGestureChromeTarget(target) {
+  return Boolean(target?.closest?.(MOBILE_GESTURE_CHROME_SELECTOR));
+}
+
+function firstTwoTouchPoints(event) {
+  if (!event?.touches || event.touches.length < 2) return null;
+  const first = event.touches[0];
+  const second = event.touches[1];
+  if (!first || !second) return null;
+  return [
+    { x: first.clientX, y: first.clientY },
+    { x: second.clientX, y: second.clientY }
+  ];
+}
+
+function midpoint(points) {
+  return {
+    x: (points[0].x + points[1].x) / 2,
+    y: (points[0].y + points[1].y) / 2
+  };
+}
+
+function distance(points) {
+  return Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y);
+}
 
 function isLocalTestTileTemplate(value) {
   return typeof value === 'string' && value.startsWith('/test/tiles/');
@@ -98,8 +142,11 @@ export class TestMapLibreController {
     this.pmtilesArchiveCache = new Map();
     this.runtimeProfile = resolveRuntimeProfile();
     this.mobileGestureGuardInstalled = false;
+    this.mobileGestureGuardTargetCount = 0;
     this.mobileGestureResizeObserver = null;
     this.mobileGestureResizeFrame = 0;
+    this.directTwoFingerGestureInstalled = false;
+    this.directTwoFingerGestureState = null;
     maplibregl.addProtocol('pmtiles', this.protocol.tile);
   }
 
@@ -150,8 +197,9 @@ export class TestMapLibreController {
     });
 
     this.map.doubleClickZoom?.disable();
-    this.installMobileGestureGuards();
     this.enableGestureHandlers();
+    this.installMobileGestureGuards();
+    this.installDirectTwoFingerGestureFallback();
     this.applyMobileTouchContract();
     this.map.on('load', () => {
       this.enableGestureHandlers();
@@ -185,39 +233,89 @@ export class TestMapLibreController {
     const root = this.map.getContainer?.();
     if (!root?.addEventListener) return;
     this.mobileGestureGuardInstalled = true;
-    const chromeSelector = [
-      'button',
-      'a',
-      'input',
-      'select',
-      'textarea',
-      '[contenteditable="true"]',
-      '.maplibregl-ctrl',
-      '.test2-main-zoom-control',
-      '.active-layers-toggle',
-      '.map-controls',
-      '.map-control-panel',
-      '.active-layers',
-      '.feature-info',
-      '.test2-source-panel',
-      '.test2-election-pane-resizer',
-      '#timelineSlider'
-    ].join(',');
-    const isChromeTarget = (target) => Boolean(target?.closest?.(chromeSelector));
     const preventBrowserMapGesture = (event) => {
-      if (isChromeTarget(event.target)) return;
+      if (isMobileGestureChromeTarget(event.target)) return;
       if (event.cancelable) event.preventDefault();
     };
-    const preventBrowserMultiTouchStart = (event) => {
-      if (!event.touches || event.touches.length < 2 || isChromeTarget(event.target)) return;
-      if (event.cancelable) event.preventDefault();
+    const refreshTouchContract = (event) => {
+      if (isMobileGestureChromeTarget(event.target)) return;
+      this.applyMobileTouchContract();
     };
-    root.addEventListener('touchstart', preventBrowserMultiTouchStart, { passive: false });
-    root.addEventListener('touchmove', preventBrowserMapGesture, { passive: false });
-    root.addEventListener('gesturestart', preventBrowserMapGesture, { passive: false });
-    root.addEventListener('gesturechange', preventBrowserMapGesture, { passive: false });
-    root.addEventListener('gestureend', preventBrowserMapGesture, { passive: false });
+    const guardTargets = new Set([
+      root,
+      this.map.getCanvasContainer?.()
+    ].filter(Boolean));
+    const nonPassive = { passive: false };
+    const passive = { passive: true };
+    for (const target of guardTargets) {
+      target.addEventListener('touchstart', refreshTouchContract, passive);
+      target.addEventListener('touchmove', refreshTouchContract, passive);
+      target.addEventListener('gesturestart', preventBrowserMapGesture, nonPassive);
+      target.addEventListener('gesturechange', preventBrowserMapGesture, nonPassive);
+      target.addEventListener('gestureend', preventBrowserMapGesture, nonPassive);
+      target.addEventListener('pointerdown', refreshTouchContract, passive);
+      target.addEventListener('pointermove', refreshTouchContract, passive);
+    }
+    this.mobileGestureGuardTargetCount = guardTargets.size;
     this.installMobileGestureResizeObserver(root);
+  }
+
+  installDirectTwoFingerGestureFallback() {
+    if (!this.map || this.directTwoFingerGestureInstalled) return;
+    const root = this.map.getContainer?.();
+    if (!root?.addEventListener) return;
+    this.directTwoFingerGestureInstalled = true;
+
+    const captureOptions = { passive: false, capture: true };
+    const blockBrowserGesture = (event) => {
+      if (event.cancelable) event.preventDefault();
+      event.stopPropagation();
+    };
+    const begin = (event) => {
+      if (isMobileGestureChromeTarget(event.target)) return false;
+      const points = firstTwoTouchPoints(event);
+      if (!points) return false;
+      const initialDistance = distance(points);
+      if (!Number.isFinite(initialDistance) || initialDistance <= 0) return false;
+      this.directTwoFingerGestureState = {
+        distance: initialDistance,
+        midpoint: midpoint(points),
+        zoom: this.map.getZoom(),
+        pitch: this.map.getPitch()
+      };
+      this.map.dragPan?.disable?.();
+      blockBrowserGesture(event);
+      return true;
+    };
+    const move = (event) => {
+      if (isMobileGestureChromeTarget(event.target)) return;
+      const points = firstTwoTouchPoints(event);
+      if (!points) return;
+      if (!this.directTwoFingerGestureState && !begin(event)) return;
+      const state = this.directTwoFingerGestureState;
+      const nextDistance = distance(points);
+      if (!state || !Number.isFinite(nextDistance) || nextDistance <= 0) return;
+      const nextMidpoint = midpoint(points);
+      const minZoom = typeof this.map.getMinZoom === 'function' ? this.map.getMinZoom() : 0;
+      const maxZoom = typeof this.map.getMaxZoom === 'function' ? this.map.getMaxZoom() : 22;
+      const scale = nextDistance / state.distance;
+      const zoom = clamp(state.zoom + Math.log2(Math.max(scale, 0.01)), minZoom, maxZoom);
+      const pitch = clamp(state.pitch - ((nextMidpoint.y - state.midpoint.y) * 0.22), 0, 60);
+      this.map.jumpTo({ zoom, pitch });
+      blockBrowserGesture(event);
+    };
+    const end = (event) => {
+      if (!this.directTwoFingerGestureState) return;
+      if (event.touches && event.touches.length >= 2) return;
+      this.directTwoFingerGestureState = null;
+      this.map.dragPan?.enable?.();
+      blockBrowserGesture(event);
+    };
+
+    root.addEventListener('touchstart', begin, captureOptions);
+    root.addEventListener('touchmove', move, captureOptions);
+    root.addEventListener('touchend', end, captureOptions);
+    root.addEventListener('touchcancel', end, captureOptions);
   }
 
   installMobileGestureResizeObserver(root) {
@@ -250,6 +348,7 @@ export class TestMapLibreController {
       element.style.userSelect = 'none';
       element.style.webkitUserSelect = 'none';
       element.style.webkitTouchCallout = 'none';
+      element.style.webkitOverflowScrolling = 'auto';
     }
     const canvas = this.map.getCanvas?.();
     if (canvas) canvas.style.pointerEvents = 'auto';
@@ -277,7 +376,9 @@ export class TestMapLibreController {
       dragPanEnabled: typeof this.map.dragPan?.isEnabled === 'function' ? this.map.dragPan.isEnabled() : true,
       dragRotateEnabled: typeof this.map.dragRotate?.isEnabled === 'function' ? this.map.dragRotate.isEnabled() : true,
       touchZoomEnabled: typeof this.map.touchZoomRotate?.isEnabled === 'function' ? this.map.touchZoomRotate.isEnabled() : true,
-      touchPitchEnabled: typeof this.map.touchPitch?.isEnabled === 'function' ? this.map.touchPitch.isEnabled() : true
+      touchPitchEnabled: typeof this.map.touchPitch?.isEnabled === 'function' ? this.map.touchPitch.isEnabled() : true,
+      guardTargetCount: this.mobileGestureGuardTargetCount || 0,
+      directTwoFingerGestureInstalled: this.directTwoFingerGestureInstalled
     };
   }
 

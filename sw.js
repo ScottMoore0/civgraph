@@ -14,7 +14,7 @@
  * still use network-first as a stale-bundle safety rail.
  */
 
-const CACHE_VERSION = 'v7'; // v7: make non-fingerprinted build entry assets network-first
+const CACHE_VERSION = 'v8'; // v8: keep /test2 entry assets out of the root SW stale route
 const STATIC_CACHE  = `civgraph-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `civgraph-runtime-${CACHE_VERSION}`;
 const FGB_CACHE     = `civgraph-fgb-${CACHE_VERSION}`;
@@ -76,6 +76,20 @@ self.addEventListener('fetch', (event) => {
 
     // Cross-origin: only handle ones we know about (data CDN, tile servers).
     const sameOrigin = url.origin === self.location.origin;
+
+    if (sameOrigin && url.pathname.startsWith('/test2/')) {
+        if (url.pathname.startsWith('/test2/pmtiles/') || url.pathname.endsWith('.pmtiles')) {
+            event.respondWith(networkOnly(req));
+            return;
+        }
+        if (url.pathname.startsWith('/test2/build/chunks/') ||
+            url.pathname.startsWith('/test2/assets/')) {
+            event.respondWith(cacheFirstWithCap(req, STATIC_CACHE));
+            return;
+        }
+        event.respondWith(networkFirst(req, RUNTIME_CACHE));
+        return;
+    }
 
     // FGB map data — immutable; cache-first with LRU cap.
     if ((sameOrigin && url.pathname.startsWith('/data/maps/')) ||
@@ -168,6 +182,14 @@ async function networkFirst(req, cacheName) {
             const shell = await cache.match('/') || await cache.match('/index.html');
             if (shell) return shell;
         }
+        return new Response('Offline', { status: 503, statusText: 'Offline' });
+    }
+}
+
+async function networkOnly(req) {
+    try {
+        return await fetch(req);
+    } catch {
         return new Response('Offline', { status: 503, statusText: 'Offline' });
     }
 }
