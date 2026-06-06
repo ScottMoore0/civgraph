@@ -2409,6 +2409,7 @@ export class Test2ElectionManager {
       seatGroup.dataset.constituency = result.constituency || result.matchName || '';
       seatGroup.dataset.lng = String(center[0]);
       seatGroup.dataset.lat = String(center[1]);
+      seatGroup.dataset.nonGeographic = result.syntheticNonGeographic ? 'true' : 'false';
       seatGroup.setAttribute('aria-label', `Show election result for ${result.constituency || result.matchName || 'selected constituency'}`);
       seatGroup.style.width = `${groupWidth}px`;
       seatGroup.style.height = `${groupHeight}px`;

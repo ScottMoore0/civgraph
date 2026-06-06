@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 154) Mobile MapLibre checks must include overlay hit-testing and catalogue bounds
+- Mistake pattern: Treating `/test2` mobile stability as covered by desktop parity checks, generic control-overlap checks, or successful layer loading while not asserting whether DOM overlays intercept touch starts above the MapLibre canvas or whether the mobile catalogue stays bounded.
+- Impact: a phone can still fail at the most basic map operations, with pan/drag/pinch gestures blocked or delayed and the catalogue pane slowed by a desktop-scale render path.
+- Guardrail:
+  1) mobile `/test2` browser checks must assert MapLibre `dragPan` and `touchZoomRotate` handlers are enabled, with double-click zoom disabled where feature double-tap selection is expected,
+  2) mobile overlay elements such as DOM labels and election seat circles must be passive unless an explicit mobile interaction path is tested,
+  3) mobile catalogue checks must assert bounded initial map/election card counts and a visible "show more" path instead of allowing full-catalogue DOM to render on first open.
+
 ### 153) Selected constituency fixes must verify final rendered percentages, not only normalized rows
 - Mistake pattern: The Dail 2024 scraper-row fix verified that synthetic rows stayed first-count-only, but did not assert that selected constituency party panes received a non-zero valid-poll denominator and rendered non-zero first-preference percentages.
 - Impact: `/test2` could still show constituency first-preference vote totals with every `1st prefs %` cell at `0.00%`, leaving the election pane materially wrong even after the scraper normalization commit.

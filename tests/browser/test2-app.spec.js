@@ -645,6 +645,68 @@ test('/test2 mobile map and catalogue controls do not collide', async ({ page })
   expect(catalogueLayout.toggleHomeOverlaps).toBe(false);
 });
 
+test('/test2 mobile catalogue stays bounded and map gestures stay enabled', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
+
+  await page.evaluate(() => window.uiController?.setSplitState?.('info-full'));
+  await page.waitForFunction(() => document.querySelector('#catalogueFlatView')?.dataset.rendered === 'true');
+
+  const state = await page.evaluate(() => {
+    const map = window.__civgraphTest2.mapController.map;
+    const electionCards = document.querySelectorAll('#catalogueFlatView .c1-card[data-c1-id^="flat-elections"]').length;
+    const mapCards = [...document.querySelectorAll('#catalogueFlatView .c1-card[data-c1-id]')]
+      .filter((card) => !(card.dataset.c1Id || '').startsWith('flat-elections')).length;
+    return {
+      electionCards,
+      mapCards,
+      electionRows: document.querySelectorAll('#catalogueFlatView .flat-election-entry').length,
+      showMore: Boolean(document.querySelector('#catalogueFlatView [data-mobile-catalogue-full]')),
+      showAllMaps: window.uiController.showAllMaps,
+      mapLimit: window.uiController._mobileInitialMapCardLimit,
+      electionLimit: window.uiController._mobileInitialElectionCardLimit,
+      dragPanEnabled: typeof map.dragPan?.isEnabled === 'function' ? map.dragPan.isEnabled() : true,
+      touchZoomEnabled: typeof map.touchZoomRotate?.isEnabled === 'function' ? map.touchZoomRotate.isEnabled() : true,
+      doubleClickZoomDisabled: typeof map.doubleClickZoom?.isEnabled === 'function' ? !map.doubleClickZoom.isEnabled() : true
+    };
+  });
+
+  expect(state.showAllMaps).toBe(false);
+  expect(state.showMore).toBe(true);
+  expect(state.mapCards).toBeLessThanOrEqual(state.mapLimit);
+  expect(state.electionCards).toBeLessThanOrEqual(state.electionLimit);
+  expect(state.electionRows).toBeLessThanOrEqual(80);
+  expect(state.dragPanEnabled).toBe(true);
+  expect(state.touchZoomEnabled).toBe(true);
+  expect(state.doubleClickZoomDisabled).toBe(true);
+});
+
+test('/test2 mobile election seat-circle overlays do not block map gestures', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/test2/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+
+  const overlayState = await page.evaluate(() => {
+    const map = window.__civgraphTest2.mapController.map;
+    const probe = document.createElement('div');
+    probe.className = 'test2-election-seat-circle';
+    document.body.appendChild(probe);
+    const ordinaryPointerEvents = getComputedStyle(probe).pointerEvents;
+    probe.remove();
+    return {
+      ordinaryPointerEvents,
+      dragPanEnabled: typeof map.dragPan?.isEnabled === 'function' ? map.dragPan.isEnabled() : true,
+      touchZoomEnabled: typeof map.touchZoomRotate?.isEnabled === 'function' ? map.touchZoomRotate.isEnabled() : true
+    };
+  });
+
+  expect(overlayState.ordinaryPointerEvents).toBe('none');
+  expect(overlayState.dragPanEnabled).toBe(true);
+  expect(overlayState.touchZoomEnabled).toBe(true);
+});
+
 test('/test2 loads a converted layer through the main catalogue map callback', async ({ page }) => {
   await page.goto('/test2/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);

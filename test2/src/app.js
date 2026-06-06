@@ -73,8 +73,7 @@ class Test2App {
     this.installCatalogueStateBridge();
     uiController.init();
     this.relocateMobileCatalogueToggle();
-    uiController.showAllMaps = true;
-    uiController.includeMobileElectionCatalogue = true;
+    this.configureCataloguePerformanceProfile();
 
     this._suspendURLState = true;
     this.mapController.init('map');
@@ -205,6 +204,23 @@ class Test2App {
     if (toggle.parentElement !== header) {
       header.insertBefore(toggle, menuButton);
     }
+  }
+
+  configureCataloguePerformanceProfile() {
+    const mobileQuery = window.matchMedia?.('(max-width: 768px), (pointer: coarse)');
+    const apply = () => {
+      const isMobileLike = Boolean(uiController.isMobile || mobileQuery?.matches);
+      uiController.showAllMaps = !isMobileLike;
+      uiController.includeMobileElectionCatalogue = true;
+      uiController._mobileInitialMapCardLimit = isMobileLike ? 12 : 24;
+      uiController._mobileInitialElectionCardLimit = isMobileLike ? 2 : 15;
+      if (!isMobileLike) uiController._mobileCatalogueExpanded = false;
+    };
+    apply();
+    mobileQuery?.addEventListener?.('change', () => {
+      apply();
+      uiController.requestFlatViewRender?.(uiController._lastMapListOptions || {}, { defer: true });
+    });
   }
 
   setupElectionPaneResize() {

@@ -1,3 +1,27 @@
+# Fix `/test2` mobile pan/pinch and catalogue performance
+- [x] Record scope and plan
+  - Task: diagnose why `/test2` map panning/dragging/pinch zoom fails on mobile and why the catalogue pane is extremely slow on mobile.
+  - Constraints: do not change the main site; keep fixes scoped to `/test2` and shared MapLibre support only where required; avoid staging unrelated generated Browse/election working-tree changes; verify with mobile-oriented checks before committing and pushing.
+  - Plan: inspect touch/pointer CSS and overlay event handlers; inspect catalogue render/search/filter/history code for mobile bottlenecks; reproduce with mobile viewport automation where feasible; patch touch-action/pointer-event blockers; reduce mobile catalogue DOM/render work; add or update mobile regression checks; rebuild/check; commit and push.
+- [x] Diagnose touch/pan/pinch blocker
+  - Scope: `/test2` shell CSS, mobile catalogue controls, map overlays, MapLibre gesture options, service-worker/runtime interactions.
+  - Done: MapLibre itself was not the root blocker. Mobile DOM overlays used by feature labels and election seat circles could receive pointer events above the canvas, and the shared controller did not explicitly re-enable all touch handlers after route setup.
+- [x] Diagnose catalogue mobile slowness
+  - Scope: catalogue render path, search worker, image/thumbnail loading, DOM row counts, election decade rendering, layout thrashing.
+  - Done: `/test2` forced `showAllMaps = true` and rendered election decade catalogue entries on mobile, bypassing the existing bounded mobile catalogue path. `renderFlatView()` also attached repeated per-render listeners instead of using one delegated event layer.
+- [x] Implement fixes and guardrails
+  - Scope: minimal `/test2` code/CSS/tests needed for mobile map gestures and catalogue responsiveness.
+  - Done: `/test2` now applies a mobile catalogue performance profile, keeps only bounded initial map/election catalogue DOM on mobile, uses one delegated flat-catalogue listener set, disables thumbnail hover zoom on mobile, explicitly enables MapLibre drag/touch handlers, and makes mobile map overlay labels/seat circles passive to touch gestures.
+- [x] Verify, review, commit, and push
+  - Scope: local build/check/mobile tests, task review, scoped commit, push.
+  - Verification evidence: `node --check` passed for the edited source/test files; escalated `npm run build:test2` passed; `npm run check:test2` passed; focused mobile Playwright checks for catalogue bounds, gesture handlers, and passive seat-circle overlays passed; escalated `npm run check` passed.
+
+## Recurring issue: `/test2` mobile map gestures and catalogue responsiveness
+- Symptom: on phones, `/test2` can feel frozen because pan/drag/pinch gestures do not reliably reach the MapLibre canvas, while the catalogue pane is slow to open or scroll.
+- Root cause: mobile overlays could intercept touch starts above the map, and `/test2` forced the desktop/full catalogue render path on mobile, including election decade cards and repeated per-render event binding.
+- Permanent prevention action: mobile browser tests now assert the bounded catalogue profile, initial DOM limits, enabled MapLibre drag/touch handlers, disabled double-click zoom, and passive mobile seat-circle overlays.
+- Verification evidence: focused Playwright mobile checks and the full `/test2` check/build path pass after the fix.
+
 # Fix deployment failure after `/test2` performance hardening
 - [x] Record scope and plan
   - Task: diagnose and fix the deployment failure introduced after the `/test2` performance-hardening push.

@@ -129,7 +129,12 @@ export class TestMapLibreController {
       maxTileCacheSize: this.runtimeProfile.maxTileCacheSize,
       pixelRatio: this.runtimeProfile.pixelRatio,
       refreshExpiredTiles: false,
-      renderWorldCopies: false
+      renderWorldCopies: false,
+      interactive: true,
+      dragPan: true,
+      touchZoomRotate: true,
+      scrollZoom: true,
+      cooperativeGestures: false
     });
 
     this.recordMetric({
@@ -138,6 +143,10 @@ export class TestMapLibreController {
     });
 
     this.map.doubleClickZoom?.disable();
+    this.map.dragPan?.enable?.();
+    this.map.touchZoomRotate?.enable?.();
+    this.map.touchZoomRotate?.disableRotation?.();
+    this.map.scrollZoom?.enable?.();
     this.map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-left');
     this.map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-right');
     this.map.on('moveend', () => this.notifyChange());

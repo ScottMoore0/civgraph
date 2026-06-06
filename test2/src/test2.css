@@ -292,6 +292,20 @@
   .app-header #mobileToggle.mobile-toggle.mobile-toggle--navbar:focus-visible {
     background: rgba(255, 255, 255, 0.22);
   }
+
+  .maplibre-dom-label,
+  .maplibre-dom-label * {
+    pointer-events: none !important;
+  }
+
+  .test2-election-seat-circle,
+  .test2-election-seat-circle * {
+    pointer-events: none !important;
+  }
+
+  .test2-election-seat-circle[data-non-geographic="true"] {
+    touch-action: manipulation;
+  }
 }
 
 @media (min-width: 769px) {

@@ -74,6 +74,7 @@ class UIController {
         this._mobileCatalogueExpanded = false;
         this._mobileCatalogueDeferred = false;
         this._mobileInitialMapCardLimit = 24;
+        this._mobileInitialElectionCardLimit = 2;
     }
 
     init() {
@@ -2004,6 +2005,155 @@ class UIController {
         return `<div class="catalogue-flat__mobile-more"><button type="button" class="btn btn--sm btn--outline" data-mobile-catalogue-full="1">Show more</button></div>`;
     }
 
+    bindFlatViewDelegates(container) {
+        if (!container || container.dataset.flatDelegatesBound === 'true') return;
+        container.dataset.flatDelegatesBound = 'true';
+        container.addEventListener('click', (event) => this.handleFlatViewDelegatedClick(event));
+        container.addEventListener('mouseenter', (event) => this.handleFlatThumbnailMouseEnter(event), true);
+        container.addEventListener('mouseleave', (event) => this.handleFlatThumbnailMouseLeave(event), true);
+    }
+
+    async handleFlatViewDelegatedClick(event) {
+        const target = event.target;
+        const mobileExpand = target.closest?.('[data-mobile-catalogue-full]');
+        if (mobileExpand) {
+            event.preventDefault();
+            this._mobileCatalogueExpanded = true;
+            this.requestFlatViewRender({ ...(this._lastMapListOptions || {}), fullCatalogue: true }, { defer: true });
+            return;
+        }
+
+        const bookView = target.closest?.('[data-book-view]');
+        if (bookView) {
+            event.preventDefault();
+            this.openCatalogueBookViewer(bookView.dataset.bookView, bookView.dataset.bookFormat || 'pdf');
+            return;
+        }
+
+        const tocLink = target.closest?.('.catalogue-flat__toc-link, .catalogue-flat__toc-toplink');
+        if (tocLink) {
+            this.handleFlatTocClick(event, tocLink);
+            return;
+        }
+
+        const placeholderToggle = target.closest?.('.class-card__placeholder-toggle');
+        if (placeholderToggle) {
+            event.preventDefault();
+            const card = placeholderToggle.closest('.c1-card, .class-card, .map-card');
+            if (!card) return;
+            const showing = placeholderToggle.dataset.showing === 'true';
+            const key = this._getCardPlaceholderKey(card);
+            if (!showing && key) this._showPlaceholdersCards.add(key);
+            else if (key) this._showPlaceholdersCards.delete(key);
+            this._applyPlaceholderToggle(card, !showing);
+            return;
+        }
+
+        const electionTarget = target.closest?.('.flat-election-link, .election-load-btn, .flat-election-entry');
+        if (electionTarget) {
+            await this.handleFlatElectionClick(event, electionTarget);
+        }
+    }
+
+    handleFlatTocClick(event, link) {
+        event.preventDefault();
+        const href = link.getAttribute('href') || '';
+        if (!href.startsWith('#')) return;
+        const targetId = href.substring(1);
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return;
+        }
+        if (this.isMobile && !this._mobileCatalogueExpanded) {
+            this._mobileCatalogueExpanded = true;
+            this.requestFlatViewRender({ ...(this._lastMapListOptions || {}), fullCatalogue: true }, { defer: true });
+            window.setTimeout(() => {
+                document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 350);
+        }
+    }
+
+    async handleFlatElectionClick(event, source) {
+        const host = source.closest('.flat-election-entry') || source;
+        if (host?.dataset?.electionPlaceholder === '1') {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+        }
+        if (source.classList.contains('flat-election-entry') &&
+            event.target.closest('.flat-election-link, .election-load-btn')) {
+            return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        const container = document.getElementById('catalogueFlatView') || document;
+        const body = source.dataset.electionBody || source.closest('.flat-election-entry')?.dataset.electionBody;
+        const date = source.dataset.electionDate || source.closest('.flat-election-entry')?.dataset.electionDate;
+        if (!body || !date) return;
+        const matchingRows = [...container.querySelectorAll('.flat-election-entry')]
+            .filter(row => row.dataset.electionBody === body && row.dataset.electionDate === date);
+        const matchingButtons = [...container.querySelectorAll('.election-load-btn')]
+            .filter(button => button.dataset.electionBody === body && button.dataset.electionDate === date);
+        if (matchingRows.some(row => row.classList.contains('flat-election-entry--loading'))) return;
+        const isLoadBtn = source.classList.contains('election-load-btn');
+        if (isLoadBtn && this.onCheckElectionLoaded?.(body, date)) {
+            this.onUnloadElection?.();
+            return;
+        }
+        matchingRows.forEach(row => {
+            row.classList.add('flat-election-entry--loading');
+            row.setAttribute('aria-busy', 'true');
+        });
+        matchingButtons.forEach(button => {
+            button.disabled = true;
+            button.setAttribute('aria-busy', 'true');
+            button.dataset.previousTitle = button.getAttribute('title') || '';
+            button.setAttribute('title', 'Loading');
+        });
+        try {
+            await this.onLoadElection?.(body, date);
+        } finally {
+            matchingRows.forEach(row => {
+                row.classList.remove('flat-election-entry--loading');
+                row.removeAttribute('aria-busy');
+            });
+            matchingButtons.forEach(button => {
+                button.disabled = false;
+                button.removeAttribute('aria-busy');
+                if (button.dataset.previousTitle !== undefined) {
+                    button.setAttribute('title', button.dataset.previousTitle);
+                    delete button.dataset.previousTitle;
+                }
+            });
+        }
+    }
+
+    handleFlatThumbnailMouseEnter(event) {
+        if (this.isMobile) return;
+        const wrap = event.target.closest('.catalogue-flat__toc-thumbwrap');
+        if (!wrap || wrap.classList.contains('catalogue-flat__toc-thumbwrap--missing')) return;
+        const zoom = wrap.querySelector('.catalogue-flat__toc-thumbzoom');
+        if (!zoom) return;
+        this.loadLazyThumbnailImage(zoom.querySelector('img[data-thumbnail-src]'));
+        const rect = wrap.getBoundingClientRect();
+        let left = rect.right + 8;
+        let top = rect.top + rect.height / 2 - 60;
+        if (left + 128 > window.innerWidth) left = rect.left - 128;
+        if (top < 4) top = 4;
+        if (top + 128 > window.innerHeight) top = window.innerHeight - 128;
+        zoom.style.left = left + 'px';
+        zoom.style.top = top + 'px';
+        zoom.classList.add('catalogue-flat__toc-thumbzoom--visible');
+    }
+
+    handleFlatThumbnailMouseLeave(event) {
+        const wrap = event.target.closest('.catalogue-flat__toc-thumbwrap');
+        if (!wrap) return;
+        const zoom = wrap.querySelector('.catalogue-flat__toc-thumbzoom');
+        if (zoom) zoom.classList.remove('catalogue-flat__toc-thumbzoom--visible');
+    }
+
     syncMapCatalogueState(options = {}) {
         this._lastMapListOptions = { ...(this._lastMapListOptions || {}), ...(options || {}) };
         const root = document.getElementById('catalogueFlatView') || document;
@@ -3671,9 +3821,12 @@ class UIController {
         electionsAnchor.id = 'flat-section-elections';
         electionsAnchor.className = 'catalogue-flat__anchor';
         cardsContainer.appendChild(electionsAnchor);
-        const electionCardsToRender = (boundedMobileCatalogue && !this.includeMobileElectionCatalogue)
-            ? []
-            : decadeElectionCards;
+        let electionCardsToRender = decadeElectionCards;
+        if (boundedMobileCatalogue) {
+            electionCardsToRender = this.includeMobileElectionCatalogue
+                ? decadeElectionCards.slice(0, this._mobileInitialElectionCardLimit)
+                : [];
+        }
         for (let defIndex = 0; defIndex < electionCardsToRender.length; defIndex++) {
             if (this._flatRenderToken !== renderToken) return;
             const def = electionCardsToRender[defIndex];
@@ -3808,63 +3961,7 @@ class UIController {
             cardsContainer.insertAdjacentHTML('beforeend', this.renderMobileCatalogueExpandControl());
         }
 
-        container.querySelectorAll('.flat-election-link, .election-load-btn, .flat-election-entry').forEach(el => {
-            el.addEventListener('click', async (e) => {
-                const host = e.currentTarget.closest('.flat-election-entry') || e.currentTarget;
-                if (host?.dataset?.electionPlaceholder === '1') {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return;
-                }
-                if (e.currentTarget.classList.contains('flat-election-entry') &&
-                    e.target.closest('.flat-election-link, .election-load-btn')) {
-                    return;
-                }
-                e.preventDefault();
-                e.stopPropagation();
-                const source = e.currentTarget;
-                const body = source.dataset.electionBody || source.closest('.flat-election-entry')?.dataset.electionBody;
-                const date = source.dataset.electionDate || source.closest('.flat-election-entry')?.dataset.electionDate;
-                if (!body || !date) return;
-                const matchingRows = [...container.querySelectorAll('.flat-election-entry')]
-                    .filter(row => row.dataset.electionBody === body && row.dataset.electionDate === date);
-                const matchingButtons = [...container.querySelectorAll('.election-load-btn')]
-                    .filter(button => button.dataset.electionBody === body && button.dataset.electionDate === date);
-                if (matchingRows.some(row => row.classList.contains('flat-election-entry--loading'))) return;
-                // Only the load button toggles; clicking the name/row always loads.
-                const isLoadBtn = source.classList.contains('election-load-btn');
-                if (isLoadBtn && this.onCheckElectionLoaded?.(body, date)) {
-                    this.onUnloadElection?.();
-                } else {
-                    matchingRows.forEach(row => {
-                        row.classList.add('flat-election-entry--loading');
-                        row.setAttribute('aria-busy', 'true');
-                    });
-                    matchingButtons.forEach(button => {
-                        button.disabled = true;
-                        button.setAttribute('aria-busy', 'true');
-                        button.dataset.previousTitle = button.getAttribute('title') || '';
-                        button.setAttribute('title', 'Loading');
-                    });
-                    try {
-                        await this.onLoadElection?.(body, date);
-                    } finally {
-                        matchingRows.forEach(row => {
-                            row.classList.remove('flat-election-entry--loading');
-                            row.removeAttribute('aria-busy');
-                        });
-                        matchingButtons.forEach(button => {
-                            button.disabled = false;
-                            button.removeAttribute('aria-busy');
-                            if (button.dataset.previousTitle !== undefined) {
-                                button.setAttribute('title', button.dataset.previousTitle);
-                                delete button.dataset.previousTitle;
-                            }
-                        });
-                    }
-                }
-            });
-        });
+        this.bindFlatViewDelegates(container);
 
         // Keep books section below unchanged.
         if (!boundedMobileCatalogue && this.booksData && this.booksData.books && this.booksData.books.length > 0) {
@@ -3910,74 +4007,6 @@ class UIController {
             });
         }
 
-        // Wire smooth-scroll for TOC links
-        container.querySelectorAll('.catalogue-flat__toc-link, .catalogue-flat__toc-toplink').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href').substring(1);
-                const targetEl = document.getElementById(targetId);
-                if (targetEl) {
-                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } else if (boundedMobileCatalogue) {
-                    this._mobileCatalogueExpanded = true;
-                    this.requestFlatViewRender({ ...(this._lastMapListOptions || {}), fullCatalogue: true }, { defer: true });
-                    const scrollWhenReady = () => {
-                        const hydratedTarget = document.getElementById(targetId);
-                        if (hydratedTarget) hydratedTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    };
-                    window.setTimeout(scrollWhenReady, 350);
-                }
-            });
-        });
-        container.querySelectorAll('[data-book-view]').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                this.openCatalogueBookViewer(btn.dataset.bookView, btn.dataset.bookFormat || 'pdf');
-            });
-        });
-        container.querySelector('[data-mobile-catalogue-full]')?.addEventListener('click', () => {
-            this._mobileCatalogueExpanded = true;
-            this.requestFlatViewRender({ ...(this._lastMapListOptions || {}), fullCatalogue: true }, { defer: true });
-        });
-
-        // Placeholder toggle — show/hide "To Be Added" entries per card
-        container.addEventListener('click', (e) => {
-            const toggle = e.target.closest('.class-card__placeholder-toggle');
-            if (!toggle) return;
-            e.preventDefault();
-            const card = toggle.closest('.c1-card, .class-card, .map-card');
-            if (!card) return;
-            const showing = toggle.dataset.showing === 'true';
-            const key = this._getCardPlaceholderKey(card);
-            if (!showing && key) this._showPlaceholdersCards.add(key);
-            else if (key) this._showPlaceholdersCards.delete(key);
-            this._applyPlaceholderToggle(card, !showing);
-        });
-
-        // Thumbnail hover zoom — position the popup in fixed viewport coords
-        // so it escapes the scrollable pane's overflow clipping.
-        container.addEventListener('mouseenter', (e) => {
-            const wrap = e.target.closest('.catalogue-flat__toc-thumbwrap');
-            if (!wrap || wrap.classList.contains('catalogue-flat__toc-thumbwrap--missing')) return;
-            const zoom = wrap.querySelector('.catalogue-flat__toc-thumbzoom');
-            if (!zoom) return;
-            this.loadLazyThumbnailImage(zoom.querySelector('img[data-thumbnail-src]'));
-            const rect = wrap.getBoundingClientRect();
-            let left = rect.right + 8;
-            let top = rect.top + rect.height / 2 - 60;
-            // Keep within viewport
-            if (left + 128 > window.innerWidth) left = rect.left - 128;
-            if (top < 4) top = 4;
-            if (top + 128 > window.innerHeight) top = window.innerHeight - 128;
-            zoom.style.left = left + 'px';
-            zoom.style.top = top + 'px';
-            zoom.classList.add('catalogue-flat__toc-thumbzoom--visible');
-        }, true);
-        container.addEventListener('mouseleave', (e) => {
-            const wrap = e.target.closest('.catalogue-flat__toc-thumbwrap');
-            if (!wrap) return;
-            const zoom = wrap.querySelector('.catalogue-flat__toc-thumbzoom');
-            if (zoom) zoom.classList.remove('catalogue-flat__toc-thumbzoom--visible');
-        }, true);
         this.ensureMobileThumbnailDismissal();
 
         if (this._flatRenderToken !== renderToken) return;
