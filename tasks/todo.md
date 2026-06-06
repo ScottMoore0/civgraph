@@ -1,3 +1,22 @@
+# Fix deployment failure after `/test2` performance hardening
+- [x] Record scope and plan
+  - Task: diagnose and fix the deployment failure introduced after the `/test2` performance-hardening push.
+  - Constraints: do not sweep unrelated generated Browse/election working-tree changes into the fix; keep changes minimal; verify the Cloudflare Pages build/output path locally.
+  - Plan: reproduce the production build command locally, inspect `/test2` build artifacts and `_headers` changes from the last commit, identify the deployment blocker, patch the smallest fix, run main and `/test2` checks, then commit and push only the corrective files.
+- [x] Reproduce and isolate deployment blocker
+  - Done: production `npm run build` passed outside the local sandbox, so the blocker was not a bundle/build error. Tracked deployable file count after the existing clean exclusions was 21,350, above Cloudflare Pages' 20,000-file limit.
+  - Root cause: recent generated `/test2` sidecars pushed the root-output Pages deployment over the file cap, and `scripts/clean-for-pages.sh` did not prune enough non-runtime source/reference material.
+- [x] Apply minimal fix
+  - Done: updated `scripts/clean-for-pages.sh` and `.cfignore` to exclude repository-only source/reference directories and unreferenced `data/census` files from Pages output, and added `scripts/validate-pages-file-budget.mjs` plus `npm run check:pages-assets`.
+- [x] Verify, document, commit, and push
+  - Verification evidence: `npm run build` passed; `npm run check` passed; `npm run check:pages-assets` reports 15,274 deployable files out of the 20,000-file cap. Lesson 153 records the recurrence guardrail.
+
+## Recurring issue: Cloudflare Pages asset-count deployment failures
+- Symptom: Pages deployment can fail after successful build because the root output contains more than 20,000 files.
+- Root cause: `/test2` metadata/performance sharding increased the tracked asset count, and the clean step originally only removed tile pyramids/node_modules/oversized files.
+- Permanent prevention action: `check:pages-assets` now validates the deployable tracked file count against the Cloudflare cap, and the Pages clean step prunes repository-only source/reference directories and unreferenced census source dumps.
+- Verification evidence: asset-budget validator reports 15,274 deployable files out of 20,000; full `npm run check` passes.
+
 # Implement remaining `/test2` performance recommendations 1-6
 - [x] Record scope and plan
   - Task: implement the six remaining recommendations from `docs/test2-performance-recommendations.md`: scoped service worker, PMTiles/CDN validation, MapLibre mobile runtime tuning, workerized election overlay placement, source-map/diagnostic deploy hygiene, and a performance budget dashboard.

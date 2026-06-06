@@ -1,6 +1,6 @@
 # Lessons Log
 
-### 152) Selected constituency fixes must verify final rendered percentages, not only normalized rows
+### 153) Selected constituency fixes must verify final rendered percentages, not only normalized rows
 - Mistake pattern: The Dail 2024 scraper-row fix verified that synthetic rows stayed first-count-only, but did not assert that selected constituency party panes received a non-zero valid-poll denominator and rendered non-zero first-preference percentages.
 - Impact: `/test2` could still show constituency first-preference vote totals with every `1st prefs %` cell at `0.00%`, leaving the election pane materially wrong even after the scraper normalization commit.
 - Guardrail:
@@ -2026,3 +2026,17 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
 - Mistake pattern: Completing implementation and validation locally, then discussing the fix as if it were delivered while it still exists only in the dirty working tree.
 - Impact: The user cannot see the correction on the remote site or branch, and follow-up work risks mixing intended fixes with unrelated dirty/generated files.
 - Guardrail: after any user asks whether a fix is committed or requests delivery, immediately check `git log`, `git status --branch --short`, and `git diff --cached --name-only`; stage only the intended files, commit, push, and report the commit hash plus remote branch.
+
+### 152) Aggregate election fixes must audit selected constituency panes
+- Mistake pattern: Fixing Dail headline totals while leaving selected-constituency tables and transfer tabs to interpret ElectionsIreland scraper rows as full STV count rows.
+- Impact: A constituency pane can show correct aggregate party totals but wrong local first preferences, wrong candidate rows, and fake transfer stages such as candidates with zero votes marked as `Made Quota`.
+- Guardrail: every Dail scraper-data fix must validate at least one named selected constituency against external constituency-level results, assert synthetic scraper rows stay first-count-only, and ensure the Transfers tab is exposed only for true multi-count transfer data.
+
+### 154) Performance sharding must include Pages asset-count validation
+- Mistake pattern: Adding useful `/test2` runtime sidecars and diagnostics without checking the total Cloudflare Pages asset count after the root-output clean step.
+- Impact: The application can build and pass runtime checks locally, but Cloudflare Pages deployment can still fail at asset validation because the repository output exceeds the 20,000-file cap.
+- Guardrail:
+  1) every change that adds generated sidecars, metadata shards, reports, or reference data must run `npm run check:pages-assets`,
+  2) keep non-runtime source/reference directories out of Pages output through `scripts/clean-for-pages.sh` and `.cfignore`,
+  3) prefer R2/CDN or packed manifests for high-file-count data rather than thousands of individual Pages assets,
+  4) do not call a performance hardening complete until both production build and Pages asset-budget checks pass.

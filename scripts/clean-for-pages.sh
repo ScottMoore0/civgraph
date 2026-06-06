@@ -26,6 +26,24 @@ if [ "${CF_PAGES:-}" = "1" ] || [ "${CI:-}" = "true" ]; then
   remove_path "node_modules"
 fi
 
+# Build/source/reference material below is useful in the repository but is not
+# fetched by the static runtime. Keeping it in a root-output Pages deployment
+# pushes the asset count over Cloudflare's 20,000-file limit.
+remove_path ".github"
+remove_path "archive"
+remove_path "boundary-gazette"
+remove_path "docs"
+remove_path "electionsni-reference"
+remove_path "ocr_output"
+remove_path "scripts"
+remove_path "tasks"
+remove_path "tests"
+
+# Census CSV/reference dumps are local/source material. Runtime catalogue and
+# map data currently do not reference these files, so they should not be
+# deployed as individual Pages assets.
+remove_path "data/census"
+
 # Remove files exceeding Cloudflare Pages' 25 MB per-file limit.
 find . -not -path './.git/*' -size +25M -delete
 
