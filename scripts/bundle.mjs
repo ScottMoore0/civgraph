@@ -22,8 +22,10 @@ const globalExternals = {
     'fuse.js': 'Fuse'
 };
 
-function hashFile(path, length = 12) {
-    return createHash('sha256').update(readFileSync(path)).digest('hex').slice(0, length);
+function hashFile(path, length = 12, salt = '') {
+    const hash = createHash('sha256').update(readFileSync(path));
+    if (salt) hash.update(salt);
+    return hash.digest('hex').slice(0, length);
 }
 
 function updateIndexAssetVersion(html, assetPath, version) {
@@ -187,13 +189,18 @@ console.log('Bundle created: build/app.bundle.js');
 // Cloudflare serves /build/* with long-lived cache headers, and the main app
 // bundle imports hashed dynamic chunks. Reusing the same app.bundle.js URL after
 // chunks change can strand clients on a stale bundle that imports deleted
-// chunks. Query versions are derived from the generated file contents so every
-// changed bundle/CSS gets a new cache key automatically.
+// chunks. Query versions are derived from the generated file contents plus the
+// entry cache policy, so content changes and header/SW cache-policy changes get
+// a new cache key automatically.
 {
     const indexPath = 'index.html';
     let html = readFileSync(indexPath, 'utf8');
-    const appVersion = hashFile('build/app.bundle.js');
-    const cssVersion = hashFile('build/main.css');
+    const entryPolicyVersion = ['_headers', 'sw.js']
+        .filter(path => existsSync(path))
+        .map(path => hashFile(path))
+        .join(':');
+    const appVersion = hashFile('build/app.bundle.js', 12, entryPolicyVersion);
+    const cssVersion = hashFile('build/main.css', 12, entryPolicyVersion);
     html = updateIndexAssetVersion(html, 'build/app.bundle.js', appVersion);
     html = updateIndexAssetVersion(html, 'build/main.css', cssVersion);
     writeFileSync(indexPath, html);
