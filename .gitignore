@@ -72,6 +72,7 @@ data/spatial-index.json
 
 # Temporary processing directories
 temp/
+tmp/
 data/temp/
 
 # Large cached data files
@@ -207,10 +208,19 @@ data/maps/townlands/Townlands_AllIreland-lod*.fgb
 # Test outputs
 tests/browser/contrast-audit-report.json
 test/pmtiles/generated/*.pmtiles
+test/pmtiles/quarantine/
+test/source-cache/
 test/tiles/generated/
 test/tiles/civil-parishes-v3/
+test/tiles/quarantine/
 test/metadata/feature-indexes/dfi-surface-defects-2017-vector-test.json
 test/metadata/feature-indexes/habitat-wetland-grouped-vector-test.json
+
+# Local comparison/scratch outputs
+scripts/_compare_cache/
+/missing_ids.txt
+/missing_thumbnails.txt
+/session-ses_*.md
 
 # Wrangler local state
 .wrangler/
