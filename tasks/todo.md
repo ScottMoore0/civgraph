@@ -1,3 +1,23 @@
+# Fix `/test2` 2024 Dail constituency percentages and splitter
+- [x] Record scope and plan
+  - Task: diagnose why 2024 Irish general election selected constituency panes still show wrong first-preference percentages on `/test2`, and make the horizontal bar above the bottom election pane draggable.
+  - Plan: fix the generated constituency denominator contract, guard the selected-party renderer against blank totals, add all-constituency validation, wire a pointer/keyboard splitter, rebuild `/test2`, and verify with a named browser regression.
+- [x] Diagnose selected constituency result math
+  - Done: Galway East had `validPoll: 54214`, but synthetic `countInfo.Valid_Poll` was blank. The selected-party pane can treat that blank as present, leaving first-preference percentages at `0.00%`.
+- [x] Fix selected-pane calculations and generated data
+  - Done: scraper normalizers now populate `Valid_Poll` and seat counts, selected-party summary rows treat unknown turnout/spoiled/did-not-vote values as unknown instead of false zeroes, and the 2024 Dail bundle was regenerated.
+- [x] Implement draggable election-pane splitter
+  - Done: added an accessible horizontal resize handle at the top of the `/test2` election pane with pointer drag, keyboard resize, and double-click reset support.
+- [x] Verify and review
+  - Done: added static validation over all 2024 Dail synthetic constituencies plus a Galway East browser regression that asserts visible percentages and splitter resizing.
+  - Verification evidence: `npm run build:test2`, `npm run check:test2`, `npm run check`, and focused Playwright `npx playwright test tests/browser/test2-app.spec.js --grep "Galway East"` passed.
+
+## Recurring issue: `/test2` selected Dail constituency percentage regressions
+- Symptom: selected Dail 2024 constituency panes can show real first-preference vote totals but `0.00%` first-preference percentages.
+- Root cause: scraper-shaped synthetic count payloads did not populate the main-pane `countInfo.Valid_Poll` denominator, and previous checks inspected row shape without asserting final rendered percentages.
+- Permanent prevention action: route validation now checks every 2024 Dail synthetic scraper constituency has a nonblank valid-poll denominator and positive computed first-preference percentages when votes exist; the browser suite checks Galway East rendered values and splitter drag.
+- Verification evidence: `scripts/validate-test2-route.mjs` and the Galway East Playwright regression both pass.
+
 # Commit Browse/election metadata update
 - [x] Record scope and plan
   - Task: commit generator/reference logic plus generated Browse/election outputs together, include only the Dail 2024 `/test2` guard changes, and keep unrelated timeline/layout validator changes out of the metadata commit.

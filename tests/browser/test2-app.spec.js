@@ -428,6 +428,75 @@ test('/test2 selected Dail 2024 Cork North-Central pane uses constituency source
   expect(candidates.map((row) => row[7])).toEqual(['7,708', '7,399', '5,736', '5,733', '4,084', '3,494', '3,329']);
 });
 
+test('/test2 selected Dail 2024 Galway East pane computes constituency percentages and resizes', async ({ page }) => {
+  test.setTimeout(90000);
+  const hash = 'layers=election-dil-ireann-2024-11-29&electionSelected=galway-east&electionView=party&lng=-8.12&lat=53.48&zoom=7.00';
+  await page.goto(`/test2/#${hash}`);
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise, null, { timeout: 60000 });
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForSelector('#electionPaneContent .election-party-table tbody tr');
+
+  const state = await page.evaluate(() => {
+    const rows = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row):not(.election-table-note-row)')]
+      .slice(0, 6)
+      .map((row) => [...row.children].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')).slice(0, 11));
+    const summary = [...document.querySelectorAll('#electionPaneContent .election-table-summary-row')]
+      .map((row) => [...row.children].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')));
+    const manager = window.__civgraphTest2.app.elections;
+    const result = manager.activeBundle.results.find((row) => row.constituency === 'Galway East');
+    return {
+      rows,
+      summary,
+      validPoll: result?.validPoll,
+      countInfoValidPoll: result?.countInfo?.Valid_Poll,
+      syntheticRowsAboveFirst: (result?.countGroup || []).filter((row) => Number(row.Count_Number) > 1).length
+    };
+  });
+
+  expect(state.validPoll).toBe(54214);
+  expect(state.countInfoValidPoll).toBe('54214');
+  expect(state.syntheticRowsAboveFirst).toBe(0);
+  expect(state.rows.map((row) => [row[2], row[3], row[5], row[7], row[9]])).toEqual([
+    ['Fianna F\u00e1il', '2', '1', '14,196', '26.19%'],
+    ['Fine Gael', '3', '1', '11,744', '21.66%'],
+    ['Independent', '3', '1', '11,000', '20.29%'],
+    ['Sinn F\u00e9in', '1', '1', '7,459', '13.76%'],
+    ['Independent Ireland', '1', '0', '5,150', '9.50%'],
+    ['Aont\u00fa', '1', '0', '1,554', '2.87%']
+  ]);
+  expect(state.summary.map((row) => row[2])).toEqual(['Valid votes', 'Electorate']);
+  expect(state.summary[0].slice(3, 11)).toEqual(['14', '0', '4', '0', '54,214', '+11,694', '61.75%', '+0.34']);
+
+  const beforeResize = await page.evaluate(() => {
+    const pane = document.getElementById('electionResultsPane').getBoundingClientRect();
+    const appMain = document.querySelector('.app-main').getBoundingClientRect();
+    const handle = document.querySelector('[data-election-pane-resize]').getBoundingClientRect();
+    return {
+      paneHeight: Math.round(pane.height),
+      appMainHeight: Math.round(appMain.height),
+      handleX: Math.round(handle.left + handle.width / 2),
+      handleY: Math.round(handle.top + handle.height / 2)
+    };
+  });
+  await page.mouse.move(beforeResize.handleX, beforeResize.handleY);
+  await page.mouse.down();
+  await page.mouse.move(beforeResize.handleX, beforeResize.handleY - 70);
+  await page.mouse.up();
+  await page.waitForTimeout(100);
+  const afterResize = await page.evaluate(() => {
+    const pane = document.getElementById('electionResultsPane').getBoundingClientRect();
+    const appMain = document.querySelector('.app-main').getBoundingClientRect();
+    return {
+      paneHeight: Math.round(pane.height),
+      appMainHeight: Math.round(appMain.height),
+      cssHeight: getComputedStyle(document.body).getPropertyValue('--test2-election-pane-height').trim()
+    };
+  });
+  expect(afterResize.paneHeight).toBeGreaterThan(beforeResize.paneHeight + 20);
+  expect(afterResize.appMainHeight).toBeLessThan(beforeResize.appMainHeight - 20);
+  expect(afterResize.cssHeight).toMatch(/px$/);
+});
+
 test('/test2 dismisses stuck mobile thumbnail previews on outside tap', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/test2/');

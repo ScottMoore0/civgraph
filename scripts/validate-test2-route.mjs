@@ -223,7 +223,7 @@ assert(mainElectionPaneContractSource.includes('class MainElectionPaneContract')
 assert(electionPaneContractSource.includes('MainElectionPaneContract as Test2MainElectionPaneContract') && electionPaneContractSource.includes('../../js/election-main-pane-contract.mjs'), '/test2 local election pane contract must re-export the shared main election pane contract');
 assert(mainElectionPaneContractSource.includes("this.rendererId = host?.paneRendererId || 'test2-main-pane-contract'") && !mainElectionPaneContractSource.includes('test2-election-panel--main-parity'), '/test2 main election pane contract must not add a test2-only wrapper around visible main-pane output');
 assert(electionManagerSource.includes('this.mainPaneContract = new MainElectionPaneContract(this)') && electionManagerSource.includes('this.mainPaneContract.renderHeaderRight(selectedResult, nextView)') && electionManagerSource.includes('this.mainPaneContract.renderPanelContent(selectedResult, nextView)'), '/test2 visible election pane header/content must enter through the shared main-pane contract');
-assert(electionManagerSource.includes("renderOverallResults(view = 'party') {\n    return this.mainPaneContract.renderOverallResults(view);") && electionManagerSource.includes("renderConstituencyResults(result, view = 'party') {\n    return this.mainPaneContract.renderConstituencyResults(result, view);"), '/test2 visible election pane helpers must delegate to the main-pane contract, not bypass it with route-specific branches');
+assert(/renderOverallResults\(view = 'party'\)\s*{\s*return this\.mainPaneContract\.renderOverallResults\(view\);/.test(electionManagerSource) && /renderConstituencyResults\(result, view = 'party'\)\s*{\s*return this\.mainPaneContract\.renderConstituencyResults\(result, view\);/.test(electionManagerSource), '/test2 visible election pane helpers must delegate to the main-pane contract, not bypass it with route-specific branches');
 assert(electionManagerSource.includes('renderMainCompatibleOverallResults') && electionManagerSource.includes('renderMainCompatibleConstituencyResults') && electionManagerSource.includes('return this.mainPaneContract.renderOverallResults(view);') && electionManagerSource.includes('return this.mainPaneContract.renderConstituencyResults(result, view);'), '/test2 must expose main-compatible shared-renderer host adapters backed by the main-pane contract');
 assert(electionManagerSource.includes('renderMainParityPartyTable') && electionManagerSource.includes('election-party-table election-party-table--grouped') && electionManagerSource.includes('Candidates') && electionManagerSource.includes('1st preferences'), '/test2 visible election pane must follow the main grouped party-table contract');
 const overallPartyStart = electionManagerSource.indexOf('renderMainParityPartyTable(rowsWithDeltas = [], results = [])');
@@ -235,6 +235,8 @@ assert(overallPartySource.includes('<table class="election-party-table election-
 assert(overallPartySource.includes('data-election-entity-kind="${safeKind}"') || electionManagerSource.includes('data-election-entity-kind="${safeKind}"'), '/test2 election entity buttons must expose the main data-election-entity-kind contract');
 assert(electionManagerSource.includes('dataset.tableControlsReady') && !electionManagerSource.includes('test2TableControlsReady'), '/test2 election table controls must use the main data-table-controls-ready marker, not a test2-only marker');
 assert(electionManagerSource.includes('ROI_MAIN_PARTY_COLOURS') && electionManagerSource.includes('mainPanePartyColour') && electionManagerSource.includes("'fine gael', '#6699FF'"), '/test2 Dail/election pane colours must route through the Wikipedia-aligned ROI party palette');
+assert(electionManagerSource.includes("ELECTION_MANIFEST_URL = '/test/metadata/elections-test2.json?v=test-021'"), '/test2 election metadata cache key must be bumped when generated election bundle contracts change');
+assert(electionManagerSource.includes('`${entry.resultUrl}?v=test-021`'), '/test2 election result bundle cache key must be bumped when generated constituency result JSON changes');
 assert(electionManagerSource.includes('election-delta--pos') && electionManagerSource.includes('election-delta--neg') && !electionManagerSource.includes('election-delta--up') && !electionManagerSource.includes('election-delta--down'), '/test2 election pane deltas must use the same pos/neg classes as main');
 const selectedPartyStart = electionManagerSource.indexOf('renderConstituencyPartyTable(candidates = [], result = {})');
 const selectedPartyEnd = electionManagerSource.indexOf('renderMainParityLeafTh', selectedPartyStart);
@@ -253,6 +255,7 @@ const selectedPaneStatusSource = selectedPaneStatusStart >= 0 && selectedPaneSta
   : '';
 assert(selectedPaneStatusSource.includes("text.includes('not elected')") && selectedPaneStatusSource.includes("text.includes('excluded')") && selectedPaneStatusSource.includes("text.includes('elected')") && selectedPaneStatusSource.includes('made quota'), '/test2 selected-pane status helper must treat Dail scraper Made Quota statuses as elected after guarding against Not Elected');
 assert(electionManagerSource.includes('buildMainStyleConstituencyPartyRows') && electionManagerSource.includes('result?.countGroup') && electionManagerSource.includes('findPreviousSelectedResult'), '/test2 selected constituency/DEA party panes must derive rows from the main-shaped countGroup payload and previous-election result');
+assert(electionManagerSource.includes('numberOrZero(countInfo.Valid_Poll) || numberOrZero(result?.validPoll)') && !electionManagerSource.includes('countInfo.Valid_Poll ?? result?.validPoll'), '/test2 selected constituency party panes must treat blank countInfo Valid_Poll as missing and fall back to result.validPoll');
 assert(electionManagerSource.includes('renderConstituencyCandidateTable') && electionManagerSource.includes('election-party-table--candidate-sticky3'), '/test2 candidate panes must use the main grouped candidate-table contract');
 assert(electionManagerSource.includes('renderLocalPartySummaryTable') && electionManagerSource.includes('election-party-table--district-local-party-sticky4'), '/test2 local-party panes must use the main grouped local-party table contract');
 const resultHasAnimationStart = electionManagerSource.indexOf('resultHasAnimation(result = null)');
@@ -264,6 +267,9 @@ assert(resultHasAnimationSource.includes('animationRows') && resultHasAnimationS
 assert(electionManagerSource.includes('renderCountTable') && electionManagerSource.includes('election-count-row') && electionManagerSource.includes('election-count-wrapper--pane-sticky') && electionManagerSource.includes('visibleCounts'), '/test2 count panes must use the main visible-count table contract');
 assert(electionDomainSource.includes('__syntheticCountGroup: true') && electionDomainSource.includes('syntheticCountGroup') && electionManagerSource.includes('result.syntheticCountGroup ? [1]') && electionManagerSource.includes('Not Elected<br>Count 1/1'), '/test2 scraper-style election results must use synthetic count payloads for animation without exposing synthetic multi-count columns in the visible Count pane');
 assert(electionManagerSource.includes('renderPartyEntity') && electionManagerSource.includes('renderCandidateEntity') && electionManagerSource.includes('election-entity-page__hero'), '/test2 entity panes must use main-style entity page structure');
+assert(appSource.includes('setupElectionPaneResize()') && appSource.includes('[data-election-pane-resize]') && appSource.includes('--test2-election-pane-height'), '/test2 must wire a draggable horizontal splitter for the bottom election pane');
+assert(electionManagerSource.includes('data-election-pane-resize') && electionManagerSource.includes('aria-orientation="horizontal"'), '/test2 election pane must render an accessible horizontal resize handle between the map/catalogue area and results pane');
+assert(test2Css.includes('.test2-election-pane-resizer') && test2Css.includes('cursor: row-resize') && test2Css.includes('grid-template-rows') && test2Css.includes('var(--test2-election-pane-height)'), '/test2 CSS must expose the election-pane row-resize handle and use its height variable in the open-pane grid');
 assert(!/headerRight\.innerHTML = `[\s\S]{0,700}<span>Style<\/span>/.test(electionManagerSource), '/test2 must not put MapLibre style controls in the main election pane header');
 assert(electionControllerSource.includes('buildElectionViewModelFromMainController') && electionControllerSource.includes('renderElectionSummaryFromViewModel') && electionControllerSource.includes('_mirrorSharedElectionRenderer'), 'main election controller must mirror the shared view-model/renderer path for parity checks');
 assert(electionManifestBuilderSource.includes('OUT_ANCHOR_DIR') && electionManifestBuilderSource.includes('geometryAnchor') && electionManifestBuilderSource.includes('anchorUrl'), '/test2 election manifest build must generate geometry-derived election anchor sidecars');
@@ -390,13 +396,24 @@ if (existsSync('test/metadata/elections-test2.json')) {
   assertCorkCandidate('Eoghan Kenny', 'Irish Labour', 3329, 'elected', '#cc0000');
   const dail2024BadSyntheticRows = [];
   const dail2024FakeTransferResults = [];
+  const dail2024BlankValidPollResults = [];
+  const dail2024ZeroPercentRows = [];
   for (const result of dail2024Bundle.results || []) {
     const rows = Array.isArray(result.countGroup) ? result.countGroup : [];
     const syntheticRows = rows.filter((row) => String(row.Synthetic_Scraper_Row || '') === '1');
     if (!syntheticRows.length) continue;
+    const validPoll = Number(result.countInfo?.Valid_Poll || result.validPoll || 0);
+    if (!validPoll) {
+      dail2024BlankValidPollResults.push(result.constituency || 'Unknown');
+    }
     for (const row of syntheticRows) {
       if (Number(row.Count_Number) !== 1) {
         dail2024BadSyntheticRows.push(`${result.constituency || 'Unknown'}:${row.candidateName || row.Candidate || 'Unknown'}`);
+      }
+      const firstPrefs = Number(row.Candidate_First_Pref_Votes || row.Total_Votes || 0);
+      const firstPrefPct = validPoll > 0 ? firstPrefs / validPoll * 100 : 0;
+      if (firstPrefs > 0 && firstPrefPct <= 0) {
+        dail2024ZeroPercentRows.push(`${result.constituency || 'Unknown'}:${row.candidateName || row.Candidate || 'Unknown'}`);
       }
     }
     const countNumbers = Array.isArray(result.countNumbers) ? result.countNumbers : [];
@@ -404,6 +421,8 @@ if (existsSync('test/metadata/elections-test2.json')) {
       dail2024FakeTransferResults.push(result.constituency || 'Unknown');
     }
   }
+  assert(dail2024BlankValidPollResults.length === 0, `/test2 Dail 2024 all synthetic scraper constituencies must expose a non-blank Valid_Poll denominator: ${dail2024BlankValidPollResults.slice(0, 5).join(', ')}`);
+  assert(dail2024ZeroPercentRows.length === 0, `/test2 Dail 2024 selected constituency rows with votes must compute non-zero first-preference percentages: ${dail2024ZeroPercentRows.slice(0, 5).join(', ')}`);
   assert(dail2024BadSyntheticRows.length === 0, `/test2 Dail 2024 all synthetic scraper rows must stay first-count-only: ${dail2024BadSyntheticRows.slice(0, 5).join(', ')}`);
   assert(dail2024FakeTransferResults.length === 0, `/test2 Dail 2024 scraper-only results must not expose fake count detail: ${dail2024FakeTransferResults.slice(0, 5).join(', ')}`);
   const forumEntry = (electionManifest.elections || []).find((entry) => entry.body === 'Northern Ireland Forum for Political Dialogue' && entry.date === '1996-05-30');

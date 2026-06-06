@@ -82,6 +82,7 @@ class Test2App {
     this.setupSupportModal();
     this.setupMapControls();
     this.setupTimelineControls();
+    this.setupElectionPaneResize();
     this.setupSourcePanel();
     this.setupURLStateListener();
     window.__civgraphTest2.restorePromise = this.restoreURLState()
@@ -104,6 +105,87 @@ class Test2App {
     if (toggle.parentElement !== header) {
       header.insertBefore(toggle, menuButton);
     }
+  }
+
+  setupElectionPaneResize() {
+    if (this._electionPaneResizeReady) return;
+    this._electionPaneResizeReady = true;
+    const minPaneHeight = 120;
+    const defaultPaneHeight = () => Math.round(Math.min(window.innerHeight * 0.38, Math.max(minPaneHeight, window.innerHeight * 0.32)));
+    const parseCssPx = (value, fallback) => {
+      const number = Number.parseFloat(String(value || '').trim());
+      return Number.isFinite(number) ? number : fallback;
+    };
+    const maxPaneHeight = () => {
+      const rootStyle = getComputedStyle(document.body);
+      const header = document.querySelector('.app-header')?.getBoundingClientRect().height || parseCssPx(rootStyle.getPropertyValue('--header-height'), 64);
+      const mapMin = parseCssPx(rootStyle.getPropertyValue('--map-min-height'), 220);
+      const timeline = document.getElementById('timelineSlider');
+      const timelineHeight = timeline && !timeline.classList.contains('hidden')
+        ? timeline.getBoundingClientRect().height
+        : 0;
+      return Math.max(minPaneHeight, window.innerHeight - header - mapMin - timelineHeight - 6);
+    };
+    const clampPaneHeight = (height) => Math.max(minPaneHeight, Math.min(maxPaneHeight(), Math.round(height)));
+    const invalidateMapSize = () => {
+      requestAnimationFrame(() => this.mapController?.invalidateSize?.());
+    };
+    const setPaneHeight = (height, options = {}) => {
+      const { invalidate = true } = options || {};
+      const nextHeight = clampPaneHeight(height);
+      document.body.style.setProperty('--test2-election-pane-height', `${nextHeight}px`);
+      if (invalidate) invalidateMapSize();
+      return nextHeight;
+    };
+    const startDrag = (event) => {
+      const handle = event.target.closest?.('[data-election-pane-resize]');
+      if (!handle) return;
+      const pane = document.getElementById('electionResultsPane');
+      if (!pane?.classList.contains('election-results-pane--open')) return;
+      event.preventDefault();
+      handle.setPointerCapture?.(event.pointerId);
+      document.body.classList.add('test2-election-pane-resizing');
+      const onMove = (moveEvent) => {
+        setPaneHeight(window.innerHeight - moveEvent.clientY, { invalidate: false });
+      };
+      const onEnd = () => {
+        document.body.classList.remove('test2-election-pane-resizing');
+        window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onEnd);
+        window.removeEventListener('pointercancel', onEnd);
+        invalidateMapSize();
+      };
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onEnd);
+      window.addEventListener('pointercancel', onEnd);
+    };
+    document.addEventListener('pointerdown', startDrag);
+    document.addEventListener('keydown', (event) => {
+      const handle = event.target.closest?.('[data-election-pane-resize]');
+      if (!handle) return;
+      const pane = document.getElementById('electionResultsPane');
+      if (!pane?.classList.contains('election-results-pane--open')) return;
+      const current = pane.getBoundingClientRect().height || defaultPaneHeight();
+      const step = event.shiftKey ? 50 : 20;
+      if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        setPaneHeight(current + step);
+      } else if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        setPaneHeight(current - step);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        setPaneHeight(maxPaneHeight());
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        setPaneHeight(minPaneHeight);
+      }
+    });
+    document.addEventListener('dblclick', (event) => {
+      if (!event.target.closest?.('[data-election-pane-resize]')) return;
+      event.preventDefault();
+      setPaneHeight(defaultPaneHeight());
+    });
   }
 
   installRouteGuard() {

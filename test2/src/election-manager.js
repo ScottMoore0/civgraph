@@ -19,7 +19,7 @@ import {
   seatPositions
 } from '../../js/election-domain.mjs';
 
-const ELECTION_MANIFEST_URL = '/test/metadata/elections-test2.json?v=test-020';
+const ELECTION_MANIFEST_URL = '/test/metadata/elections-test2.json?v=test-021';
 const DEFAULT_MODE_ORDER = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority', 'seats', 'quota'];
 const SEAT_SOURCE_ID = 'test2-election-seat-source';
 const SEAT_HALO_LAYER_ID = 'test2-election-seat-halo-layer';
@@ -361,7 +361,7 @@ export class Test2ElectionManager {
 
   async loadBundle(entry) {
     if (this.bundleCache.has(entry.key)) return this.bundleCache.get(entry.key);
-    const response = await fetch(`${entry.resultUrl}?v=test-020`, { cache: 'no-cache' });
+    const response = await fetch(`${entry.resultUrl}?v=test-021`, { cache: 'no-cache' });
     if (!response.ok) throw new Error(`Failed to load election results for ${entry.body} ${entry.date}: ${response.status}`);
     const bundle = await response.json();
     this.bundleCache.set(entry.key, bundle);
@@ -835,11 +835,13 @@ export class Test2ElectionManager {
     });
     const maxSeats = Math.max(0, ...rows.map((row) => numberOrZero(row.seats)));
     const maxFirstPrefs = Math.max(0, ...rows.map((row) => numberOrZero(row.firstPrefs)));
-    const validDelta = current.validPoll - previous.validPoll;
-    const turnoutDelta = current.totalPoll - previous.totalPoll;
-    const spoiledDelta = current.spoiled - previous.spoiled;
-    const didNotVoteDelta = current.didNotVote - previous.didNotVote;
-    const electorateDelta = current.electorate - previous.electorate;
+    const knownDelta = (currentValue, previousValue) => currentValue !== null && previousValue !== null ? currentValue - previousValue : null;
+    const validDelta = knownDelta(current.validPoll, previous.validPoll);
+    const turnoutDelta = knownDelta(current.totalPoll, previous.totalPoll);
+    const spoiledDelta = knownDelta(current.spoiled, previous.spoiled);
+    const didNotVoteDelta = knownDelta(current.didNotVote, previous.didNotVote);
+    const electorateDelta = knownDelta(current.electorate, previous.electorate);
+    const shouldRenderSummary = (currentValue, previousValue) => currentValue !== null || previousValue !== null;
     return `
       <div class="election-party-wrapper election-party-wrapper--pane-sticky">
         <table class="election-party-table election-results-table--constituency-party">
@@ -889,11 +891,11 @@ export class Test2ElectionManager {
               `;
             }).join('')}
             <tr class="election-table-note-row"><td class="election-rank-col">-</td><td></td><td colspan="9"><strong>No change in party control</strong></td></tr>
-            ${this.renderSelectedPartySummaryRow('Valid votes', current.totalStood, current.totalElected, current.validPoll, validDelta, current.validPct, current.validPct - previous.validPct)}
-            ${this.renderSelectedPartySummaryRow('Turnout', null, null, current.totalPoll, turnoutDelta, current.turnoutPct, current.turnoutPct - previous.turnoutPct)}
-            ${this.renderSelectedPartySummaryRow('Spoiled', null, null, current.spoiled, spoiledDelta, current.spoiledPct, current.spoiledPct - previous.spoiledPct)}
-            ${this.renderSelectedPartySummaryRow('Did not vote', null, null, current.didNotVote, didNotVoteDelta, current.didNotVotePct, current.didNotVotePct - previous.didNotVotePct)}
-            ${this.renderSelectedPartySummaryRow('Electorate', null, null, current.electorate, electorateDelta, 100, 0)}
+            ${this.renderSelectedPartySummaryRow('Valid votes', current.totalStood, current.totalElected, current.validPoll, validDelta, current.validPct, knownDelta(current.validPct, previous.validPct))}
+            ${shouldRenderSummary(current.totalPoll, previous.totalPoll) ? this.renderSelectedPartySummaryRow('Turnout', null, null, current.totalPoll, turnoutDelta, current.turnoutPct, knownDelta(current.turnoutPct, previous.turnoutPct)) : ''}
+            ${shouldRenderSummary(current.spoiled, previous.spoiled) ? this.renderSelectedPartySummaryRow('Spoiled', null, null, current.spoiled, spoiledDelta, current.spoiledPct, knownDelta(current.spoiledPct, previous.spoiledPct)) : ''}
+            ${shouldRenderSummary(current.didNotVote, previous.didNotVote) ? this.renderSelectedPartySummaryRow('Did not vote', null, null, current.didNotVote, didNotVoteDelta, current.didNotVotePct, knownDelta(current.didNotVotePct, previous.didNotVotePct)) : ''}
+            ${shouldRenderSummary(current.electorate, previous.electorate) ? this.renderSelectedPartySummaryRow('Electorate', null, null, current.electorate, electorateDelta, 100, 0) : ''}
           </tbody>
         </table>
       </div>
@@ -904,10 +906,10 @@ export class Test2ElectionManager {
     const countGroup = Array.isArray(result?.countGroup) ? result.countGroup : [];
     const countInfo = result?.countInfo || {};
     const validPoll = numberOrZero(countInfo.Valid_Poll) || numberOrZero(result?.validPoll);
-    const totalPoll = numberOrZero(countInfo.Total_Poll) || numberOrZero(result?.totalPoll);
-    const electorate = numberOrZero(countInfo.Total_Electorate) || numberOrZero(result?.electorate);
-    const spoiled = numberOrZero(countInfo.Spoiled) || numberOrZero(result?.spoiled);
-    const didNotVote = electorate ? Math.max(0, electorate - totalPoll) : 0;
+    const totalPoll = (numberOrZero(countInfo.Total_Poll) || numberOrZero(result?.totalPoll)) || null;
+    const electorate = (numberOrZero(countInfo.Total_Electorate) || numberOrZero(result?.electorate)) || null;
+    const spoiled = (numberOrZero(countInfo.Spoiled) || numberOrZero(result?.spoiled)) || null;
+    const didNotVote = electorate !== null && totalPoll !== null ? Math.max(0, electorate - totalPoll) : null;
     const partyMap = new Map();
     const seenCandidates = new Set();
     const electedCandidates = new Set();
@@ -978,10 +980,10 @@ export class Test2ElectionManager {
       electorate,
       spoiled,
       didNotVote,
-      turnoutPct: electorate > 0 ? (totalPoll / electorate * 100) : 0,
+      turnoutPct: electorate !== null && totalPoll !== null && electorate > 0 ? (totalPoll / electorate * 100) : null,
       validPct: electorate > 0 ? (validPoll / electorate * 100) : 0,
-      spoiledPct: electorate > 0 ? (spoiled / electorate * 100) : 0,
-      didNotVotePct: electorate > 0 ? (didNotVote / electorate * 100) : 0,
+      spoiledPct: electorate !== null && spoiled !== null && electorate > 0 ? (spoiled / electorate * 100) : null,
+      didNotVotePct: electorate !== null && didNotVote !== null && electorate > 0 ? (didNotVote / electorate * 100) : null,
       totalStood,
       totalElected
     };
@@ -994,7 +996,9 @@ export class Test2ElectionManager {
   }
 
   renderSelectedPartySummaryRow(label, stoodValue, electedValue, voteValue, voteDelta, pctValue, pctDelta) {
-    return `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>${escapeHtml(label)}</strong></td><td class="election-num">${stoodValue === null || stoodValue === undefined ? '-' : formatNumber(stoodValue)}</td><td class="election-num">${stoodValue === null || stoodValue === undefined ? '-' : formatMainDelta(0)}</td><td class="election-num">${electedValue === null || electedValue === undefined ? '-' : formatNumber(electedValue)}</td><td class="election-num">${electedValue === null || electedValue === undefined ? '-' : formatMainDelta(0)}</td><td class="election-num election-cell-strong">${voteValue ? formatNumber(voteValue) : '-'}</td><td class="election-num">${formatMainDelta(voteDelta)}</td><td class="election-num election-cell-strong">${Number.isFinite(Number(pctValue)) ? formatFixedPercent(pctValue) : '-'}</td><td class="election-num">${formatMainSelectedPercentDelta(pctDelta)}</td></tr>`;
+    const hasVoteDelta = voteDelta !== null && voteDelta !== undefined;
+    const hasPctDelta = pctDelta !== null && pctDelta !== undefined && Number.isFinite(Number(pctDelta));
+    return `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>${escapeHtml(label)}</strong></td><td class="election-num">${stoodValue === null || stoodValue === undefined ? '-' : formatNumber(stoodValue)}</td><td class="election-num">${stoodValue === null || stoodValue === undefined ? '-' : formatMainDelta(0)}</td><td class="election-num">${electedValue === null || electedValue === undefined ? '-' : formatNumber(electedValue)}</td><td class="election-num">${electedValue === null || electedValue === undefined ? '-' : formatMainDelta(0)}</td><td class="election-num election-cell-strong">${voteValue ? formatNumber(voteValue) : '-'}</td><td class="election-num">${hasVoteDelta ? formatMainDelta(voteDelta) : '-'}</td><td class="election-num election-cell-strong">${Number.isFinite(Number(pctValue)) ? formatFixedPercent(pctValue) : '-'}</td><td class="election-num">${hasPctDelta ? formatMainSelectedPercentDelta(pctDelta) : '-'}</td></tr>`;
   }
 
   renderMainParityLeafTh(label, index) {
@@ -2287,6 +2291,7 @@ export class Test2ElectionManager {
     if (!pane) return null;
     if (!pane.querySelector('#electionPaneTitle') || !pane.querySelector('#electionPaneContent') || !pane.querySelector('#electionPaneHeaderRight')) {
       pane.innerHTML = `
+        <div class="test2-election-pane-resizer" data-election-pane-resize role="separator" aria-label="Resize election results pane" aria-orientation="horizontal" tabindex="0" title="Drag to resize election results"></div>
         <div class="election-pane__header">
           <button type="button" id="electionPaneBack" class="election-pane__back hidden" aria-label="Back to overall election results">&lt;</button>
           <h3 id="electionPaneTitle" class="election-pane__title">Election results</h3>

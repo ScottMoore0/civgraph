@@ -189,17 +189,23 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
       id: index
     };
   });
+  const validPoll = parseNumber(meta.Valid_Poll ?? meta.valid_poll ?? meta.validPoll)
+    || countGroup.reduce((sum, row) => sum + numberOrZero(row.Candidate_First_Pref_Votes), 0);
+  const totalPoll = parseNumber(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
+  const spoiled = parseNumber(meta.Spoiled ?? meta.spoiled);
+  const seatCount = parseNumber(payload.seats)
+    || countGroup.filter((row) => statusKind(row.Status) === 'elected').length;
   return {
     Constituency: {
       __syntheticCountGroup: true,
       countInfo: {
         Constituency_Name: payload.constituency || fallbackConstituency || '',
         Constituency_Number: '',
-        Number_Of_Seats: payload.seats != null ? String(payload.seats) : '',
-        Spoiled: '',
+        Number_Of_Seats: seatCount ? String(seatCount) : '',
+        Spoiled: spoiled != null ? String(spoiled) : '',
         Total_Electorate: meta.electorate != null ? String(meta.electorate) : '',
-        Total_Poll: '',
-        Valid_Poll: ''
+        Total_Poll: totalPoll != null ? String(totalPoll) : '',
+        Valid_Poll: validPoll ? String(validPoll) : ''
       },
       countGroup
     }

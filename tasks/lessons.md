@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 152) Selected constituency fixes must verify final rendered percentages, not only normalized rows
+- Mistake pattern: The Dail 2024 scraper-row fix verified that synthetic rows stayed first-count-only, but did not assert that selected constituency party panes received a non-zero valid-poll denominator and rendered non-zero first-preference percentages.
+- Impact: `/test2` could still show constituency first-preference vote totals with every `1st prefs %` cell at `0.00%`, leaving the election pane materially wrong even after the scraper normalization commit.
+- Guardrail:
+  1) selected election pane validation must inspect computed table rows for every 2024 Dail constituency, not only representative raw bundle rows,
+  2) any row with first-preference votes and a constituency valid poll must have a positive first-preference percentage unless the votes are zero,
+  3) browser smoke for a reported constituency must assert visible percentage text and summary rows, not just row names/votes/status.
+
 ### 151) Route-specific built CSS must be browser-checked after shared layout changes
 - Mistake pattern: Moving the shared timeline markup outside `#map` and verifying a desktop route without fully accounting for `/test2` route-specific CSS and generated bundle output that can keep the control visually behaving like map chrome.
 - Impact: The user still saw the timeline slider over the `/test2` interactive map instead of as a separate below-map rectangular pane.

@@ -1,6 +1,7 @@
 .app-shell {
   --map-min-height: 220px;
   --timeline-row-height: 58px;
+  --test2-election-pane-height: min(38vh, max(120px, calc(100vh - var(--header-height, 64px) - var(--map-min-height, 220px) - var(--timeline-row-height, 58px) - 6px)));
 }
 
 .pane--map {
@@ -303,7 +304,7 @@ body.app-shell.test2-election-open {
   grid-template-rows:
     var(--header-height, 64px)
     minmax(calc(var(--map-min-height, 220px) + var(--timeline-row-height, 58px)), 1fr)
-    minmax(120px, min(38vh, max(120px, calc(100vh - var(--header-height, 64px) - var(--map-min-height, 220px) - var(--timeline-row-height, 58px) - 6px))));
+    minmax(120px, var(--test2-election-pane-height));
 }
 
 body.app-shell.test2-election-open .app-main {
@@ -314,6 +315,43 @@ body.app-shell.test2-election-open .app-main {
 body.app-shell.test2-election-open #electionResultsPane.election-results-pane--open {
   height: auto;
   min-height: 0;
+}
+
+.test2-election-pane-resizer {
+  position: relative;
+  flex: 0 0 8px;
+  width: 100%;
+  min-height: 8px;
+  cursor: row-resize;
+  background: var(--color-border, #d8e0ea);
+  border-top: 1px solid #174569;
+  border-bottom: 1px solid #c4ced8;
+  touch-action: none;
+}
+
+.test2-election-pane-resizer::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  width: 44px;
+  height: 2px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #5f7184;
+}
+
+.test2-election-pane-resizer:hover,
+.test2-election-pane-resizer:focus-visible,
+body.test2-election-pane-resizing .test2-election-pane-resizer {
+  background: #bdd7f3;
+  outline: none;
+}
+
+body.test2-election-pane-resizing,
+body.test2-election-pane-resizing * {
+  cursor: row-resize !important;
+  user-select: none !important;
 }
 
 [data-theme="dark"] .maplibregl-ctrl-attrib a {

@@ -1541,17 +1541,23 @@ class ElectionController {
                 id: idx
             };
         });
+        const validPoll = parseFloat(meta.Valid_Poll ?? meta.valid_poll ?? meta.validPoll)
+            || countGroup.reduce((sum, row) => sum + (parseFloat(row.Candidate_First_Pref_Votes) || 0), 0);
+        const totalPoll = parseFloat(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
+        const spoiled = parseFloat(meta.Spoiled ?? meta.spoiled);
+        const seatCount = (parseFloat(payload.seats) || 0)
+            || countGroup.filter((row) => this._statusKind(row.Status) === 'elected').length;
         return {
             Constituency: {
                 __syntheticCountGroup: true,
                 countInfo: {
                     Constituency_Name: payload.constituency || '',
                     Constituency_Number: '',
-                    Number_Of_Seats: payload.seats != null ? String(payload.seats) : '',
-                    Spoiled: '',
+                    Number_Of_Seats: seatCount ? String(seatCount) : '',
+                    Spoiled: Number.isFinite(spoiled) ? String(spoiled) : '',
                     Total_Electorate: meta.electorate != null ? String(meta.electorate) : '',
-                    Total_Poll: '',
-                    Valid_Poll: ''
+                    Total_Poll: Number.isFinite(totalPoll) ? String(totalPoll) : '',
+                    Valid_Poll: validPoll ? String(validPoll) : ''
                 },
                 countGroup
             }
