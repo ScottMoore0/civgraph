@@ -212,6 +212,7 @@ test('/test2 election sort/filter menu stays inside a constrained viewport', asy
 });
 
 test('/test2 Dail 2024 election pane matches the main DOM contract for the compared state', async ({ browser }) => {
+  test.setTimeout(60000);
   const context = await browser.newContext({ viewport: { width: 960, height: 920 } });
   const mainPage = await context.newPage();
   const test2Page = await context.newPage();
@@ -238,6 +239,20 @@ test('/test2 Dail 2024 election pane matches the main DOM contract for the compa
   ]);
 
   expect(test2Rows).toEqual(mainRows);
+  const rowsByParty = new Map(test2Rows.map((row) => [row[1], row]));
+  const expectPartySummary = (party, { stood, seats, votes, share }) => {
+    const row = rowsByParty.get(party);
+    expect(row, `${party} row`).toBeTruthy();
+    expect(row[2], `${party} candidates`).toBe(String(stood));
+    expect(row[4], `${party} seats`).toBe(String(seats));
+    expect(row[8], `${party} first preferences`).toBe(votes);
+    expect(row[10], `${party} vote share`).toBe(share);
+  };
+  expect(test2Rows.map((row) => row[1])).toEqual(['Fianna F\u00e1il', 'Sinn F\u00e9in', 'Fine Gael', 'Independent']);
+  expectPartySummary('Fianna F\u00e1il', { stood: 82, seats: 48, votes: '481,414', share: '21.86%' });
+  expectPartySummary('Sinn F\u00e9in', { stood: 71, seats: 39, votes: '418,627', share: '19.01%' });
+  expectPartySummary('Fine Gael', { stood: 80, seats: 38, votes: '458,134', share: '20.80%' });
+  expectPartySummary('Independent', { stood: 171, seats: 16, votes: '290,748', share: '13.20%' });
   await context.close();
 });
 

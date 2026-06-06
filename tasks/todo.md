@@ -2,16 +2,20 @@
 - [x] Record scope and plan
   - Task: commit generator/reference logic plus generated Browse/election outputs together, include only the Dail 2024 `/test2` guard changes, and keep unrelated timeline/layout validator changes out of the metadata commit.
   - Plan: reduce timestamp-only generator churn where practical; regenerate Browse indexes; stage generated Browse/election outputs and a narrow validator hunk; run metadata/check validations; commit the scoped update.
-- [ ] Reduce generated timestamp churn
+- [x] Reduce generated timestamp churn
   - Preserve existing top-level `generatedAt` values when regenerated JSON is unchanged apart from that timestamp.
-- [ ] Regenerate Browse/election outputs
+- [x] Regenerate Browse/election outputs
   - Run the Browse index generator from the intended generator state.
-- [ ] Stage scoped commit
+- [x] Stage scoped commit
   - Stage generator/reference logic, regenerated Browse/election outputs, and only the Dail 2024 guard hunk from `scripts/validate-test2-route.mjs`.
-- [ ] Verify
+- [x] Verify
   - Run syntax/static checks and JSON parse validation over the staged metadata scope.
-- [ ] Review
+- [x] Review
   - Report commit hash, verification evidence, and any remaining ambiguous dirty worktree items.
+  - Done: committed `9e152a9fb Add Browse election references and metadata` with 974 scoped files: `scripts/build-browse-indexes.mjs`, generated election Browse details/indexes, party details/indexes, election-source details/indexes, and `/test2` generated election metadata.
+  - Scope check: commit excludes map catalogue files, map-source/table-source detail files, `data/browse/maps.json`, `data/browse/features.json`, task logs, JS app files, `/test2` app/test files, election anchor sidecars, and `scripts/validate-test2-route.mjs`.
+  - Note: the Dail 2024 `/test2` validPoll/totalSeats/Ceann Comhairle guard is already present in parent commit `124102874`, so it is included in the branch history but not repeated in the metadata commit.
+  - Verification evidence: `node --check scripts/build-browse-indexes.mjs`, staged JSON parse over 973 JSON files, `npm run check`, and `npm run check:test2` passed.
 
 # Fix timeline placement and catalogue metadata defects
 - [x] Record scope and plan
@@ -4417,3 +4421,11 @@ Add election entries to /test2
   - Verification evidence: `node --check test2/src/election-manager.js`, `node --check test2/src/app.js`, `node --check tests/browser/test2-app.spec.js`, `npm run build:test2`, `npm run check:test2`, and focused Playwright `npx playwright test tests/browser/test2-app.spec.js --grep "active-layers remove|direct election unload|ROI elections"` passed. Build and Playwright required approved escalation because the Windows sandbox blocked esbuild/Chromium spawn.
   - Browser smoke evidence: local `http://127.0.0.1:3000/test2/index.html#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00` restored the Dáil election pane and URL election state; console noise was limited to expected local/offline misses for the RUM endpoint and remote FGB resources.
   - Review: direct election unload now removes the active election's backing feature layer, active-layer removal still clears the same backing layer and election overlays, and Dáil/ROI election aggregate metric labels now show `% of ROI` instead of `% of NI`.
+
+# Commit and push 2024 Dail election data fix
+- [x] Confirm uncommitted state
+  - Completed: verified the 2024 Dail fix had not yet been committed or pushed; HEAD still matched `origin/main`.
+- [x] Scope staging to the requested fix
+  - Completed: cleared a broad generated staged set, then staged only the Dail summary source fixes, 2024 Dail generated data/source details, and the Dail 2024 browser assertion hunk.
+- [x] Commit and push
+  - Completed: create a targeted commit and push it to the current remote branch.

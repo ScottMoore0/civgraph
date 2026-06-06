@@ -2013,3 +2013,8 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
 - Mistake pattern: A browser regression compared main and `/test2` election panes without asserting the actual 2024 Dáil values from Wikipedia/Oireachtas-style summaries, so equal-but-wrong panes were treated as passing.
 - Impact: A user could still see impossible rows such as Fine Gael `42` seats from `11` candidates even though the parity test was green.
 - Guardrail: for high-value election fixtures, browser tests must assert at least the top headline rows and totals from an external reference in addition to cross-route parity; use Unicode escapes for party names with accents in test literals to avoid mojibake.
+
+### 151) Fixes are not delivered until commit and push are verified
+- Mistake pattern: Completing implementation and validation locally, then discussing the fix as if it were delivered while it still exists only in the dirty working tree.
+- Impact: The user cannot see the correction on the remote site or branch, and follow-up work risks mixing intended fixes with unrelated dirty/generated files.
+- Guardrail: after any user asks whether a fix is committed or requests delivery, immediately check `git log`, `git status --branch --short`, and `git diff --cached --name-only`; stage only the intended files, commit, push, and report the commit hash plus remote branch.

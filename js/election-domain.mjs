@@ -121,6 +121,7 @@ export function summarizeCandidateRows(rows = []) {
       finalVotes: null,
       elected: false,
       electedAt: null,
+      autoReturnedCeannComhairle: String(row.Auto_Returned_Ceann_Comhairle || '') === '1',
       excluded: false,
       excludedAt: null,
       status: '',
@@ -160,18 +161,16 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
   const meta = payload.meta || {};
   const lastCount = Math.max(1, ...payload.candidates.map((candidate) => parseInt(candidate.final_count, 10) || 1));
   const countGroup = payload.candidates.map((candidate, index) => {
-    const firstPref = parseNumber(
-      candidate.first_pref != null
-        ? candidate.first_pref
-        : (Array.isArray(candidate.counts) ? candidate.counts[0] : 0)
-    ) || 0;
+    const autoReturned = scraperCandidateIsAutoReturned(candidate);
+    const firstPref = scraperCandidateFirstPref(candidate);
     const occurredOn = parseInt(candidate.final_count, 10) || lastCount;
     const name = fixText(candidate.name || '').trim();
     const space = name.indexOf(' ');
     const firstname = space > 0 ? name.slice(0, space) : name;
     const surname = space > 0 ? name.slice(space + 1) : '';
-    const party = normalizeParty(String(candidate.party || '').replace(/\s*Lozenge\s*$/i, '').trim() || 'Independent');
+    const party = scraperCandidateParty(candidate);
     return {
+      Auto_Returned_Ceann_Comhairle: autoReturned ? '1' : '',
       Candidate_Id: String(index + 1),
       Candidate_First_Pref_Votes: String(firstPref),
       Constituency_Number: '',
@@ -181,7 +180,7 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
       Occurred_On_Count: String(occurredOn),
       Party_Colour: partyColour(party),
       Party_Name: party,
-      Status: candidate.status || '',
+      Status: autoReturned ? (candidate.status || 'Elected (auto returned)') : (candidate.status || ''),
       Total_Votes: String(firstPref),
       Transfers: '0',
       candidateName: name,
@@ -205,6 +204,57 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
   };
 }
 
+function isScraperCandidatePayload(payload = {}) {
+  return Boolean(payload && !payload.Constituency && Array.isArray(payload.candidates));
+}
+
+const CEANN_COMHAIRLE_AFFILIATION_BY_NAME = new Map([
+  ['michael hayes', 'Cumann na nGaedheal'],
+  ['frank fahy', 'Fianna F\u00e1il'],
+  ['cormac breslin', 'Fianna F\u00e1il'],
+  ['seamus pattison', 'Irish Labour'],
+  ['seamus kirk', 'Fianna F\u00e1il'],
+  ['sean barrett', 'Fine Gael'],
+  ['sean o fearghail', 'Fianna F\u00e1il'],
+  ["rory o'hanlon", 'Fianna F\u00e1il'],
+  ['rory ohanlon', 'Fianna F\u00e1il']
+]);
+
+function isCeannComhairleParty(value) {
+  return normalizeName(value).includes('ceann comhairle');
+}
+
+function scraperCandidateIsAutoReturned(candidate = {}) {
+  return isCeannComhairleParty(candidate.party);
+}
+
+function scraperCandidateAffiliatedParty(candidate = {}) {
+  const candidateName = normalizeName(fixText(candidate.name || ''));
+  return CEANN_COMHAIRLE_AFFILIATION_BY_NAME.get(candidateName) || 'Ceann Comhairle (Speaker)';
+}
+
+function scraperCandidateIsElected(candidate = {}) {
+  return statusKind(candidate.status) === 'elected'
+    || candidate.counted_as_elected === true
+    || scraperCandidateIsAutoReturned(candidate);
+}
+
+function scraperCandidateFirstPref(candidate = {}) {
+  if (scraperCandidateIsAutoReturned(candidate)) return 0;
+  return parseNumber(
+    candidate.first_pref != null
+      ? candidate.first_pref
+      : (Array.isArray(candidate.counts) ? candidate.counts[0] : null)
+  ) || 0;
+}
+
+function scraperCandidateParty(candidate = {}) {
+  if (scraperCandidateIsAutoReturned(candidate)) {
+    return normalizeParty(scraperCandidateAffiliatedParty(candidate));
+  }
+  return normalizeParty(String(candidate.party || '').replace(/\s*Lozenge\s*$/i, '').trim() || 'Independent');
+}
+
 export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
   const partyTotals = new Map();
   let totalValid = 0;
@@ -214,6 +264,59 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
   let totalSeats = 0;
 
   for (const entry of rawEntries || []) {
+    const raw = entry?.raw;
+    if (isScraperCandidatePayload(raw)) {
+      const meta = raw.meta || {};
+      let constituencyValid = parseNumber(meta.Valid_Poll ?? meta.valid_poll ?? meta.validPoll);
+      let inferredValid = 0;
+      let explicitSeats = parseNumber(raw.seats ?? meta.seats ?? meta.Number_Of_Seats);
+      let electedCount = 0;
+
+      for (const candidate of raw.candidates || []) {
+        const party = scraperCandidateParty(candidate);
+        const votes = scraperCandidateFirstPref(candidate);
+        inferredValid += votes;
+        if (!partyTotals.has(party)) {
+          partyTotals.set(party, {
+            party,
+            seats: 0,
+            stood: 0,
+            votes: 0,
+            colour: partyColour(party)
+          });
+        }
+        const totals = partyTotals.get(party);
+        const elected = scraperCandidateIsElected(candidate);
+        const autoReturned = scraperCandidateIsAutoReturned(candidate);
+        if (!autoReturned) {
+          totals.votes += votes;
+          totals.stood += 1;
+        }
+        if (elected) {
+          const seatParty = scraperCandidateParty(candidate);
+          if (!partyTotals.has(seatParty)) {
+            partyTotals.set(seatParty, {
+              party: seatParty,
+              seats: 0,
+              stood: 0,
+              votes: 0,
+              colour: partyColour(seatParty)
+            });
+          }
+          partyTotals.get(seatParty).seats += 1;
+          electedCount += 1;
+        }
+      }
+
+      if (constituencyValid === null) constituencyValid = inferredValid;
+      totalValid += constituencyValid || 0;
+      totalPoll += numberOrZero(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
+      totalElectorate += numberOrZero(meta.Total_Electorate ?? meta.electorate ?? meta.electorate_total);
+      totalSpoiled += numberOrZero(meta.Spoiled ?? meta.spoiled);
+      totalSeats += explicitSeats !== null && explicitSeats > 0 ? explicitSeats : electedCount;
+      continue;
+    }
+
     const payload = normalizeScraperPayloadForMain(entry.raw, entry.constituency);
     const cg = payload?.Constituency?.countGroup || [];
     const info = payload?.Constituency?.countInfo || {};
@@ -441,6 +544,57 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
   let totalValid = 0;
 
   for (const entry of rawEntries || []) {
+    const raw = entry?.raw;
+    if (isScraperCandidatePayload(raw)) {
+      const meta = raw.meta || {};
+      const inferredValid = (raw.candidates || []).reduce((sum, candidate) => sum + scraperCandidateFirstPref(candidate), 0);
+      const constValid = parseNumber(meta.Valid_Poll ?? meta.valid_poll ?? meta.validPoll) || inferredValid;
+      const constituency = fixText(raw.constituency || entry.constituency || '');
+      totalValid += constValid;
+
+      for (const [index, candidate] of (raw.candidates || []).entries()) {
+        const name = fixText(candidate.name || '').trim();
+        const party = scraperCandidateParty(candidate);
+        const votes = scraperCandidateFirstPref(candidate);
+        const autoReturned = scraperCandidateIsAutoReturned(candidate);
+        const elected = scraperCandidateIsElected(candidate);
+        const excluded = statusKind(candidate.status) === 'excluded';
+        const finalCount = parseNumber(candidate.final_count);
+        const resolvedCount = Number.isInteger(finalCount) && finalCount > 0 ? finalCount : null;
+        const status = autoReturned ? 'Elected (auto returned)' : (elected ? 'Elected' : (excluded ? 'Excluded' : fixText(candidate.status || '') || 'Not Elected'));
+        rows.push({
+          id: String(index + 1),
+          personId: String(index + 1),
+          constituency,
+          name,
+          party,
+          colour: partyColour(party),
+          firstPrefs: votes,
+          votes,
+          constPct: constValid > 0 ? (votes / constValid * 100) : 0,
+          firstPrefPct: constValid > 0 ? (votes / constValid * 100) : 0,
+          finalVotes: votes,
+          elected,
+          electedAt: elected ? (resolvedCount || 1) : null,
+          excluded,
+          excludedAt: excluded ? (resolvedCount || null) : null,
+          resolvedCount,
+          countDisplay: resolvedCount ? String(resolvedCount) : '',
+          status,
+          autoReturnedCeannComhairle: autoReturned,
+          counts: [{
+            total: votes,
+            transfers: 0,
+            status: fixText(candidate.status || ''),
+            firstPrefs: votes,
+            count: resolvedCount || 1
+          }],
+          candidateKey: candidateKey(name, party)
+        });
+      }
+      continue;
+    }
+
     const payload = normalizeScraperPayloadForMain(entry.raw, entry.constituency);
     const cg = payload?.Constituency?.countGroup || [];
     const info = payload?.Constituency?.countInfo || {};
@@ -625,6 +779,7 @@ export function buildPartySummary(results = []) {
       rows.get(key).seats += 1;
     }
     for (const candidate of result.candidates || []) {
+      if (candidate.autoReturnedCeannComhairle) continue;
       const votes = numberOrZero(candidate.firstPrefs ?? candidate.votes);
       const party = candidate.party || 'Independent/Other';
       const key = normalizeName(party) || party;
@@ -701,9 +856,11 @@ export function buildEntityIndex(results = []) {
         });
       }
       const partyEntry = parties.get(partyKey);
-      partyEntry.firstPrefs += numberOrZero(candidate.firstPrefs);
-      partyEntry.finalVotes += numberOrZero(candidate.finalVotes);
-      partyEntry.stood += 1;
+      if (!candidate.autoReturnedCeannComhairle) {
+        partyEntry.firstPrefs += numberOrZero(candidate.firstPrefs);
+        partyEntry.finalVotes += numberOrZero(candidate.finalVotes);
+        partyEntry.stood += 1;
+      }
       if (candidate.elected) partyEntry.elected += 1;
       partyEntry.constituencies.add(result.constituency);
       partyEntry.candidates.push({

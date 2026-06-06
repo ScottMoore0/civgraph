@@ -586,6 +586,14 @@ class ElectionController {
         const direct = parseFloat(info?.Valid_Poll);
         if (Number.isFinite(direct) && direct > 0) return direct;
 
+        if (this._isSyntheticScraperCountGroup(countGroup)) {
+            const syntheticSum = (countGroup || []).reduce((sum, row) => {
+                if (!this._isValidCandidateRow(row)) return sum;
+                return sum + (parseFloat(row?.Candidate_First_Pref_Votes || row?.Total_Votes) || 0);
+            }, 0);
+            if (syntheticSum > 0) return syntheticSum;
+        }
+
         let firstCountSum = 0;
         const seen = new Set();
         (countGroup || []).forEach((row) => {
@@ -601,6 +609,40 @@ class ElectionController {
         const spoiled = parseFloat(info?.Spoiled);
         const fallback = totalPoll - spoiled;
         return (Number.isFinite(fallback) && fallback > 0) ? fallback : 0;
+    }
+
+    _isSyntheticScraperCountGroup(countGroup = []) {
+        return Array.isArray(countGroup)
+            && countGroup.length > 0
+            && countGroup.some((row) => String(row?.Synthetic_Scraper_Row || '') === '1');
+    }
+
+    _isSyntheticScraperPayload(payload) {
+        return Boolean(payload?.Constituency?.__syntheticCountGroup)
+            || this._isSyntheticScraperCountGroup(payload?.Constituency?.countGroup || []);
+    }
+
+    _isCeannComhairleParty(value) {
+        return this._normaliseElectionName(value).includes('ceann comhairle');
+    }
+
+    _ceannComhairleAffiliation(candidateName) {
+        const map = {
+            'michael hayes': 'Cumann na nGaedheal',
+            'frank fahy': 'Fianna Fáil',
+            'cormac breslin': 'Fianna Fáil',
+            'seamus pattison': 'Irish Labour',
+            'seamus kirk': 'Fianna Fáil',
+            'sean barrett': 'Fine Gael',
+            'sean o fearghail': 'Fianna Fáil',
+            "rory o'hanlon": 'Fianna Fáil',
+            'rory ohanlon': 'Fianna Fáil'
+        };
+        return map[this._normaliseElectionName(candidateName)] || 'Ceann Comhairle (Speaker)';
+    }
+
+    _isAutoReturnedCeannComhairleRow(row) {
+        return String(row?.Auto_Returned_Ceann_Comhairle || '') === '1';
     }
 
     _isValidCandidateRow(row) {
@@ -849,8 +891,15 @@ class ElectionController {
             const aggregate = councilMap.get(councilName);
             const cg = payload.Constituency.countGroup || [];
             const info = payload.Constituency.countInfo || {};
+            const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
             const constituencyValidPoll = this._safeValidPoll(info, cg);
-            const constituencySeatCount = this._getSeatCount(info);
+            const explicitScraperSeatCount = isSyntheticScraper
+                ? new Set(cg
+                    .filter((row) => this._isValidCandidateRow(row) && this._statusKind(row.Status) === 'elected')
+                    .map((row) => String(row.Candidate_Id || '')))
+                    .size
+                : 0;
+            const constituencySeatCount = this._getSeatCount(info) || explicitScraperSeatCount;
             const constituencyLastCount = Math.max(1, ...cg.map((row) => parseInt(row.Count_Number, 10) || 1));
             aggregate.constituencies.push(canonicalConstituency);
             aggregate.validPoll += constituencyValidPoll;
@@ -867,7 +916,9 @@ class ElectionController {
                 const candidateName = this._candidateDisplayName(row, cid);
                 const party = this._normaliseLivePartyName(row.Party_Name);
                 const colour = row.Party_Colour || '#b0bec5';
-                const votes = parseFloat(row.Total_Votes) || 0;
+                const votes = isSyntheticScraper
+                    ? (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0)
+                    : (parseFloat(row.Total_Votes) || 0);
                 const localKey = `${party}::${canonicalConstituency}`;
 
                 if (!aggregate.candidateMap.has(cid)) {
@@ -898,32 +949,34 @@ class ElectionController {
                     transfers: parseFloat(row.Transfers) || 0,
                     status: row.Status || ''
                 };
-                if (countNum === 1 && !seenRoundOne.has(cid)) {
+                if ((isSyntheticScraper || countNum === 1) && !seenRoundOne.has(cid)) {
                     seenRoundOne.add(cid);
                     candidate.firstPrefs = votes;
-                    if (!aggregate.partyMap.has(party)) {
-                        aggregate.partyMap.set(party, { party, colour, stood: 0, firstPrefs: 0, elected: 0 });
-                    }
-                    const partyRow = aggregate.partyMap.get(party);
-                    partyRow.stood += 1;
-                    partyRow.firstPrefs += votes;
+                    if (!this._isAutoReturnedCeannComhairleRow(row)) {
+                        if (!aggregate.partyMap.has(party)) {
+                            aggregate.partyMap.set(party, { party, colour, stood: 0, firstPrefs: 0, elected: 0 });
+                        }
+                        const partyRow = aggregate.partyMap.get(party);
+                        partyRow.stood += 1;
+                        partyRow.firstPrefs += votes;
 
-                    if (!aggregate.localPartyMap.has(localKey)) {
-                        aggregate.localPartyMap.set(localKey, {
-                            key: localKey,
-                            party,
-                            constituency: canonicalConstituency,
-                            colour,
-                            stood: 0,
-                            firstPrefs: 0,
-                            elected: 0,
-                            validPoll: constituencyValidPoll,
-                            totalSeats: constituencySeatCount
-                        });
+                        if (!aggregate.localPartyMap.has(localKey)) {
+                            aggregate.localPartyMap.set(localKey, {
+                                key: localKey,
+                                party,
+                                constituency: canonicalConstituency,
+                                colour,
+                                stood: 0,
+                                firstPrefs: 0,
+                                elected: 0,
+                                validPoll: constituencyValidPoll,
+                                totalSeats: constituencySeatCount
+                            });
+                        }
+                        const localRow = aggregate.localPartyMap.get(localKey);
+                        localRow.stood += 1;
+                        localRow.firstPrefs += votes;
                     }
-                    const localRow = aggregate.localPartyMap.get(localKey);
-                    localRow.stood += 1;
-                    localRow.firstPrefs += votes;
                 }
                 if (votes >= candidate.finalVotes) {
                     candidate.finalVotes = votes;
@@ -940,6 +993,7 @@ class ElectionController {
 
             const constituencyCandidates = [...aggregate.candidateMap.values()].filter((candidate) => candidate.constituency === canonicalConstituency);
             constituencyCandidates.forEach((candidate) => {
+                if (isSyntheticScraper) return;
                 const lifecycle = this._inferCandidateLifecycle(candidate, info, constituencyLastCount);
                 candidate.electedAt = lifecycle.electedAt || candidate.electedAt;
                 candidate.excludedAt = lifecycle.excludedAt || candidate.excludedAt;
@@ -947,7 +1001,7 @@ class ElectionController {
                 if (candidate.excludedAt) candidate.excluded = true;
             });
             const explicitElected = constituencyCandidates.filter((candidate) => !!candidate.electedAt).length;
-            if (constituencySeatCount > 0 && explicitElected < constituencySeatCount) {
+            if (!isSyntheticScraper && constituencySeatCount > 0 && explicitElected < constituencySeatCount) {
                 const needed = constituencySeatCount - explicitElected;
                 constituencyCandidates
                     .filter((candidate) => !candidate.electedAt && !candidate.excludedAt)
@@ -1457,17 +1511,19 @@ class ElectionController {
         const lastCount = Math.max(1, ...payload.candidates.map((c) => parseInt(c.final_count, 10) || 1));
         const stripParty = (p) => String(p || '').replace(/\s*Lozenge\s*$/i, '').trim() || 'Independent';
         const countGroup = payload.candidates.map((c, idx) => {
-            const fp = parseFloat(
+            const autoReturned = this._isCeannComhairleParty(c.party);
+            const fp = autoReturned ? 0 : (parseFloat(
                 c.first_pref != null ? c.first_pref :
                 (Array.isArray(c.counts) ? c.counts[0] : 0)
-            ) || 0;
+            ) || 0);
             const occurredOn = parseInt(c.final_count, 10) || lastCount;
             const name = String(c.name || '').trim();
             const space = name.indexOf(' ');
             const firstname = space > 0 ? name.slice(0, space) : name;
             const surname = space > 0 ? name.slice(space + 1) : '';
-            const party = stripParty(c.party);
+            const party = autoReturned ? this._ceannComhairleAffiliation(name) : stripParty(c.party);
             return {
+                Auto_Returned_Ceann_Comhairle: autoReturned ? '1' : '',
                 Candidate_Id: String(idx + 1),
                 Candidate_First_Pref_Votes: String(fp),
                 Constituency_Number: '',
@@ -1477,7 +1533,8 @@ class ElectionController {
                 Occurred_On_Count: String(occurredOn),
                 Party_Colour: this._roiPartyColour(party),
                 Party_Name: party,
-                Status: c.status || '',
+                Status: autoReturned ? (c.status || 'Elected (auto returned)') : (c.status || ''),
+                Synthetic_Scraper_Row: '1',
                 Total_Votes: String(fp),
                 Transfers: '0',
                 candidateName: name,
@@ -1486,6 +1543,7 @@ class ElectionController {
         });
         return {
             Constituency: {
+                __syntheticCountGroup: true,
                 countInfo: {
                     Constituency_Name: payload.constituency || '',
                     Constituency_Number: '',
@@ -1706,8 +1764,16 @@ class ElectionController {
         const electionKey = `${body}::${date}`;
         const cg = payload?.Constituency?.countGroup || [];
         const info = payload?.Constituency?.countInfo || {};
-        const constValid = parseFloat(info.Valid_Poll) || 0;
+        const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
+        const constValid = this._safeValidPoll(info, cg);
         const seatCount = parseInt(info.Number_Of_Seats, 10) || 0;
+        const explicitScraperSeatCount = isSyntheticScraper
+            ? new Set(cg
+                .filter((row) => this._isValidCandidateRow(row) && this._statusKind(row.Status) === 'elected')
+                .map((row) => String(row.Candidate_Id || '')))
+                .size
+            : 0;
+        const effectiveSeatCount = seatCount || explicitScraperSeatCount;
         const mapLayerYear = this._getConstituencyMapYear(body, date);
         if (!Array.isArray(cg) || cg.length === 0) return;
 
@@ -1715,13 +1781,13 @@ class ElectionController {
         const electionEntry = index.elections.get(electionKey);
         if (electionEntry) {
             electionEntry.totalValid += constValid;
-            electionEntry.totalSeats += seatCount;
+            electionEntry.totalSeats += effectiveSeatCount;
             if (!electionEntry.constituencyStats) electionEntry.constituencyStats = new Map();
             if (constName && !electionEntry.constituencyStats.has(constName)) {
                 electionEntry.constituencyStats.set(constName, {
                     name: constName,
                     valid: constValid,
-                    seats: seatCount,
+                    seats: effectiveSeatCount,
                     partyStats: new Map()
                 });
             }
@@ -1748,6 +1814,7 @@ class ElectionController {
                     firstPref: 0,
                     finalVotes: 0,
                     elected: false,
+                    autoReturnedCeannComhairle: this._isAutoReturnedCeannComhairleRow(row),
                     excluded: false,
                     electedAt: null,
                     excludedAt: null
@@ -1755,8 +1822,10 @@ class ElectionController {
             }
             const candidate = byCandidate.get(cid);
             const total = parseFloat(row.Total_Votes) || 0;
-            if (countNum === 1) {
-                candidate.firstPref = parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0;
+            if (isSyntheticScraper || countNum === 1) {
+                candidate.firstPref = isSyntheticScraper
+                    ? (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0)
+                    : (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0);
             }
             if (total > candidate.finalVotes) candidate.finalVotes = total;
             if (this._statusKind(row.Status) === 'elected') {
@@ -1770,7 +1839,7 @@ class ElectionController {
         });
 
         const explicitElected = [...byCandidate.values()].filter(c => c.elected).length;
-        if (seatCount > 0 && explicitElected < seatCount) {
+        if (!isSyntheticScraper && seatCount > 0 && explicitElected < seatCount) {
             const needed = seatCount - explicitElected;
             const deemable = [...byCandidate.values()]
                 .filter((candidate) => !candidate.elected && !candidate.excluded)
@@ -1859,9 +1928,11 @@ class ElectionController {
             if (body) partyEntry.bodies.add(body);
             if (date) partyEntry.dates.add(date);
             if (constName) partyEntry.constituencies.add(constName);
-            partyEntry.firstPrefs += candidate.firstPref;
-            partyEntry.finalVotes += candidate.finalVotes;
-            partyEntry.stood += 1;
+            if (!candidate.autoReturnedCeannComhairle) {
+                partyEntry.firstPrefs += candidate.firstPref;
+                partyEntry.finalVotes += candidate.finalVotes;
+                partyEntry.stood += 1;
+            }
             if (candidate.elected) partyEntry.elected += 1;
             partyEntry.candidates.push({
                 personId,
@@ -1890,8 +1961,10 @@ class ElectionController {
                     });
                 }
                 const partyStats = electionEntry.partyStats.get(partyName);
-                partyStats.votes += candidate.firstPref;
-                partyStats.stood += 1;
+                if (!candidate.autoReturnedCeannComhairle) {
+                    partyStats.votes += candidate.firstPref;
+                    partyStats.stood += 1;
+                }
                 if (candidate.elected) partyStats.elected += 1;
                 if (constName) partyStats.constituencies.add(constName);
 
@@ -1907,8 +1980,10 @@ class ElectionController {
                         });
                     }
                     const constPartyStats = constituencyStats.partyStats.get(partyName);
-                    constPartyStats.votes += candidate.firstPref;
-                    constPartyStats.stood += 1;
+                    if (!candidate.autoReturnedCeannComhairle) {
+                        constPartyStats.votes += candidate.firstPref;
+                        constPartyStats.stood += 1;
+                    }
                     if (candidate.elected) constPartyStats.elected += 1;
                 }
             }
@@ -2932,10 +3007,17 @@ class ElectionController {
 
         // Colour by party with highest first-preference vote total
         const partyVotes = {};
+        const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
+        const seen = new Set();
         cg.forEach(row => {
-            if (String(row.Count_Number) === '1') {
+            const countNum = parseInt(row.Count_Number, 10) || 1;
+            const cid = String(row.Candidate_Id || '');
+            if ((isSyntheticScraper || countNum === 1) && !seen.has(cid)) {
+                seen.add(cid);
                 const party = this._normaliseLivePartyName(row.Party_Name);
-                const votes = parseFloat(row.Total_Votes) || 0;
+                const votes = isSyntheticScraper
+                    ? (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0)
+                    : (parseFloat(row.Total_Votes) || 0);
                 if (!partyVotes[party]) {
                     partyVotes[party] = { votes: 0, colour: row.Party_Colour || '#b0bec5' };
                 }
@@ -3007,6 +3089,7 @@ class ElectionController {
         const excluded = new Set();
         const seen = new Set();
         const lastCount = Math.max(...cg.map(r => +r.Count_Number || 0));
+        const isSyntheticScraper = this._isSyntheticScraperPayload(result);
         const grouped = new Map();
 
         cg.forEach((row) => {
@@ -3025,6 +3108,22 @@ class ElectionController {
 
         // Pass 1: collect explicitly elected candidates and track excluded
         grouped.forEach((entry, cid) => {
+            if (isSyntheticScraper) {
+                const electedRow = entry.rows.find((row) => this._statusKind(row.Status) === 'elected');
+                entry.rows.forEach((row) => {
+                    if (this._statusKind(row.Status) === 'excluded') excluded.add(cid);
+                });
+                if (electedRow && !seen.has(cid)) {
+                    seen.add(cid);
+                    elected.push({
+                        name: entry.name,
+                        party: entry.party,
+                        colour: entry.colour,
+                        count: parseInt(electedRow.Occurred_On_Count || electedRow.Count_Number, 10) || 1
+                    });
+                }
+                return;
+            }
             const candidate = { counts: {} };
             entry.rows.forEach((row) => {
                 candidate.counts[parseInt(row.Count_Number, 10) || 1] = {
@@ -3048,7 +3147,7 @@ class ElectionController {
 
         // Pass 2: add "deemed elected" â€” candidates remaining at final count
         // who were never excluded (they fill remaining seats)
-        if (elected.length < numSeats) {
+        if (!isSyntheticScraper && elected.length < numSeats) {
             const finalRound = cg.filter(r => +r.Count_Number === lastCount);
             // Sort by vote total descending so highest-voted fill remaining seats first
             finalRound.sort((a, b) => (parseFloat(b.Total_Votes) || 0) - (parseFloat(a.Total_Votes) || 0));
@@ -3899,12 +3998,10 @@ class ElectionController {
             const info = payload.Constituency.countInfo;
             if (!info || !cg) continue;
             const isForum = this._isForumPayload(payload);
+            const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
             const forum = isForum ? (payload.Constituency.forum || {}) : null;
             const forumTotals = isForum ? (forum.totals || {}) : null;
             const forumValidTotal = isForum ? parseFloat(forumTotals?.valid_total) : NaN;
-            totalSeats += isForum
-                ? (parseInt(forumTotals?.seat_total, 10) || parseInt(info.Number_Of_Seats, 10) || 0)
-                : (parseInt(info.Number_Of_Seats, 10) || 0);
             totalValid += isForum
                 ? (Number.isFinite(forumValidTotal) ? forumValidTotal : (parseFloat(info.Valid_Poll) || 0))
                 : this._safeValidPoll(info, cg);
@@ -3924,10 +4021,17 @@ class ElectionController {
                     partyTotals[party].stood += stood || 1;
                 });
             } else {
+                const seen = new Set();
                 cg.forEach(row => {
-                    if (row.Count_Number === '1' && this._isValidCandidateRow(row)) {
+                    const countNum = parseInt(row.Count_Number, 10) || 1;
+                    const cid = String(row.Candidate_Id || '');
+                    if ((isSyntheticScraper || countNum === 1) && this._isValidCandidateRow(row) && !seen.has(cid)) {
+                        seen.add(cid);
+                        if (this._isAutoReturnedCeannComhairleRow(row)) return;
                         const party = this._normaliseLivePartyName(row.Party_Name);
-                        const votes = parseFloat(row.Total_Votes) || 0;
+                        const votes = isSyntheticScraper
+                            ? (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0)
+                            : (parseFloat(row.Total_Votes) || 0);
                         if (!partyTotals[party]) partyTotals[party] = { votes: 0, seats: 0, colour: row.Party_Colour || '#b0bec5', stood: 0 };
                         partyTotals[party].votes += votes;
                         partyTotals[party].stood += 1;
@@ -3937,6 +4041,9 @@ class ElectionController {
 
             // Match constituency-level seat logic: include explicit and deemed elected.
             const constituencyElected = this._extractElected(payload);
+            totalSeats += isForum
+                ? (parseInt(forumTotals?.seat_total, 10) || parseInt(info.Number_Of_Seats, 10) || constituencyElected.length || 0)
+                : (parseInt(info.Number_Of_Seats, 10) || (isSyntheticScraper ? constituencyElected.length : 0));
             constituencyElected.forEach((member) => {
                 const key = `${info.Constituency_Name || ''}::${member.name}`;
                 if (electedSet.has(key)) return;
@@ -3952,6 +4059,7 @@ class ElectionController {
             const cg = payload.Constituency.countGroup;
             const info = payload.Constituency.countInfo;
             if (!info || !cg) continue;
+            const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
             prevTotalValid += this._safeValidPoll(info, cg);
             prevTotalPoll += parseFloat(info.Total_Poll) || 0;
             prevTotalElectorate += parseFloat(info.Total_Electorate) || 0;
@@ -3965,13 +4073,16 @@ class ElectionController {
                 const countNum = parseInt(row.Count_Number, 10) || 1;
                 const cid = String(row.Candidate_Id || '');
                 const party = this._normaliseLivePartyName(row.Party_Name);
-                if (countNum === 1 && this._isValidCandidateRow(row) && !seen.has(cid)) {
+                if ((isSyntheticScraper || countNum === 1) && this._isValidCandidateRow(row) && !seen.has(cid)) {
                     seen.add(cid);
+                    if (this._isAutoReturnedCeannComhairleRow(row)) return;
                     if (!prevPartyTotals.has(party)) {
                         prevPartyTotals.set(party, { votes: 0, stood: 0, seats: 0 });
                     }
                     const prev = prevPartyTotals.get(party);
-                    prev.votes += parseFloat(row.Total_Votes) || 0;
+                    prev.votes += isSyntheticScraper
+                        ? (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0)
+                        : (parseFloat(row.Total_Votes) || 0);
                     prev.stood += 1;
                 }
             });
@@ -4094,6 +4205,7 @@ class ElectionController {
         Object.entries(this.resultsByConstituency).forEach(([constName, payload]) => {
             const cg = payload?.Constituency?.countGroup || [];
             const info = payload?.Constituency?.countInfo || {};
+            const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
             const constValid = this._safeValidPoll(info, cg);
             const seatCount = parseInt(info.Number_Of_Seats, 10) || 0;
             const cleanedConstName = this._cleanConstituencyDisplayName(constName);
@@ -4125,8 +4237,10 @@ class ElectionController {
                 }
                 const cand = byCandidate.get(cid);
                 const total = parseFloat(row.Total_Votes) || 0;
-                if (countNum === 1) {
-                    cand.votes = parseFloat(row.Total_Votes) || 0;
+                if (isSyntheticScraper || countNum === 1) {
+                    cand.votes = isSyntheticScraper
+                        ? (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0)
+                        : (parseFloat(row.Total_Votes) || 0);
                     cand.constPct = constValid > 0 ? (cand.votes / constValid * 100) : 0;
                 }
                 cand.counts[countNum] = {
@@ -4135,14 +4249,17 @@ class ElectionController {
                     status: row.Status || ''
                 };
                 if (total > cand.finalVotes) cand.finalVotes = total;
+                if (isSyntheticScraper && this._statusKind(row.Status) === 'elected') cand.electedAt ||= countNum;
+                if (isSyntheticScraper && this._statusKind(row.Status) === 'excluded') cand.excludedAt ||= countNum;
             });
             byCandidate.forEach((cand) => {
+                if (isSyntheticScraper) return;
                 const lifecycle = this._inferCandidateLifecycle(cand, info, lastCount);
                 cand.electedAt = lifecycle.electedAt;
                 cand.excludedAt = lifecycle.excludedAt;
             });
             const explicitElected = [...byCandidate.values()].filter(c => !!c.electedAt).length;
-            if (seatCount > 0 && explicitElected < seatCount) {
+            if (!isSyntheticScraper && seatCount > 0 && explicitElected < seatCount) {
                 const needed = seatCount - explicitElected;
                 const deemable = [...byCandidate.values()]
                     .filter((candidate) => !candidate.electedAt && !candidate.excludedAt)
@@ -4166,6 +4283,7 @@ class ElectionController {
         Object.entries(this.previousResultsByConstituency || {}).forEach(([constName, payload]) => {
             const cg = payload?.Constituency?.countGroup || [];
             const info = payload?.Constituency?.countInfo || {};
+            const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
             const constValid = this._safeValidPoll(info, cg);
             const seatCount = parseInt(info.Number_Of_Seats, 10) || 0;
             prevTotalValid += constValid;
@@ -4174,12 +4292,14 @@ class ElectionController {
             cg.forEach(row => {
                 const countNum = parseInt(row.Count_Number, 10) || 1;
                 const cid = String(row.Candidate_Id || '');
-                if (countNum !== 1 || !this._isValidCandidateRow(row) || seen.has(cid)) return;
+                if ((!isSyntheticScraper && countNum !== 1) || !this._isValidCandidateRow(row) || seen.has(cid)) return;
                 seen.add(cid);
                 const name = this._candidateDisplayName(row);
                 const party = this._normaliseLivePartyName(row.Party_Name);
                 const key = this._candidateKey(name, party);
-                const prevVotes = parseFloat(row.Total_Votes) || 0;
+                const prevVotes = isSyntheticScraper
+                    ? (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0)
+                    : (parseFloat(row.Total_Votes) || 0);
                 prevByCandidate.set(key, {
                     votes: prevVotes,
                     constPct: constValid > 0 ? (prevVotes / constValid * 100) : null
@@ -4278,6 +4398,7 @@ class ElectionController {
         Object.entries(this.resultsByConstituency).forEach(([constName, payload]) => {
             const cg = payload?.Constituency?.countGroup || [];
             const info = payload?.Constituency?.countInfo || {};
+            const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
             const constValid = this._safeValidPoll(info, cg);
             totalValid += constValid;
 
@@ -4292,12 +4413,15 @@ class ElectionController {
                         colour: row.Party_Colour || '#b0bec5',
                         votes: 0,
                         elected: false,
+                        autoReturnedCeannComhairle: this._isAutoReturnedCeannComhairleRow(row),
                         excluded: false
                     });
                 }
                 const cand = byCandidate.get(cid);
-                if (countNum === 1) {
-                    cand.votes = parseFloat(row.Total_Votes) || 0;
+                if (isSyntheticScraper || countNum === 1) {
+                    cand.votes = isSyntheticScraper
+                        ? (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0)
+                        : (parseFloat(row.Total_Votes) || 0);
                 }
                 if (this._statusKind(row.Status) === 'elected') cand.elected = true;
                 if (this._statusKind(row.Status) === 'excluded') cand.excluded = true;
@@ -4305,7 +4429,7 @@ class ElectionController {
 
             const seatCount = parseInt(info.Number_Of_Seats, 10) || 0;
             const explicitElected = [...byCandidate.values()].filter(c => c.elected).length;
-            if (seatCount > 0 && explicitElected < seatCount) {
+            if (!isSyntheticScraper && seatCount > 0 && explicitElected < seatCount) {
                 const countNums = [...new Set(cg.map(r => parseInt(r.Count_Number, 10) || 1))].sort((a, b) => a - b);
                 const lastCount = countNums[countNums.length - 1] || 1;
                 const needed = seatCount - explicitElected;
@@ -4341,15 +4465,18 @@ class ElectionController {
                     });
                 }
                 const lp = byLocalParty.get(party);
-                lp.votes += cand.votes || 0;
-                lp.stood += 1;
+                if (!cand.autoReturnedCeannComhairle) {
+                    lp.votes += cand.votes || 0;
+                    lp.stood += 1;
+                }
                 if (cand.elected) lp.elected += 1;
             });
 
             byLocalParty.forEach((lp) => {
                 lp.constPct = constValid > 0 ? (lp.votes / constValid * 100) : 0;
-                lp.seatPct = seatCount > 0 ? (lp.elected / seatCount * 100) : 0;
-                lp.totalSeats = seatCount;
+                const effectiveSeatCount = seatCount || (isSyntheticScraper ? explicitElected : 0);
+                lp.seatPct = effectiveSeatCount > 0 ? (lp.elected / effectiveSeatCount * 100) : 0;
+                lp.totalSeats = effectiveSeatCount;
                 lp.lgd = this._getCouncilNameForConstituency(constName) || '';
                 rows.push(lp);
             });
@@ -4358,6 +4485,7 @@ class ElectionController {
         Object.entries(this.previousResultsByConstituency || {}).forEach(([constName, payload]) => {
             const cg = payload?.Constituency?.countGroup || [];
             const info = payload?.Constituency?.countInfo || {};
+            const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
             const constValid = this._safeValidPoll(info, cg);
             const seatCount = parseInt(info.Number_Of_Seats, 10) || 0;
             prevTotalValid += constValid;
@@ -4375,12 +4503,15 @@ class ElectionController {
             cg.forEach(row => {
                 const countNum = parseInt(row.Count_Number, 10) || 1;
                 const cid = String(row.Candidate_Id || '');
-                if (countNum !== 1 || !this._isValidCandidateRow(row) || seenCandidates.has(cid)) return;
+                if ((!isSyntheticScraper && countNum !== 1) || !this._isValidCandidateRow(row) || seenCandidates.has(cid)) return;
                 seenCandidates.add(cid);
+                if (this._isAutoReturnedCeannComhairleRow(row)) return;
                 const party = this._normaliseLivePartyName(row.Party_Name);
                 if (!snapshot.has(party)) snapshot.set(party, { votes: 0, stood: 0 });
                 const entry = snapshot.get(party);
-                entry.votes += parseFloat(row.Total_Votes) || 0;
+                entry.votes += isSyntheticScraper
+                    ? (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0)
+                    : (parseFloat(row.Total_Votes) || 0);
                 entry.stood += 1;
             });
             snapshot.forEach((entry, party) => {
@@ -4610,7 +4741,8 @@ class ElectionController {
         Object.entries(this.resultsByConstituency || {}).forEach(([constName, payload]) => {
             const cg = payload?.Constituency?.countGroup || [];
             const info = payload?.Constituency?.countInfo || {};
-            const constValid = parseFloat(info.Valid_Poll) || 0;
+            const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
+            const constValid = this._safeValidPoll(info, cg);
             const seatCount = parseInt(info.Number_Of_Seats, 10) || 0;
             totalValid += constValid;
             if (cg.length === 0) return;
@@ -4633,6 +4765,7 @@ class ElectionController {
                         firstPref: 0,
                         finalVotes: 0,
                         elected: false,
+                        autoReturnedCeannComhairle: this._isAutoReturnedCeannComhairleRow(row),
                         excluded: false,
                         electedAt: null,
                         excludedAt: null
@@ -4640,8 +4773,10 @@ class ElectionController {
                 }
                 const candidate = byCandidate.get(cid);
                 const total = parseFloat(row.Total_Votes) || 0;
-                if (countNum === 1) {
-                    candidate.firstPref = parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0;
+                if (isSyntheticScraper || countNum === 1) {
+                    candidate.firstPref = isSyntheticScraper
+                        ? (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0)
+                        : (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0);
                 }
                 if (total > candidate.finalVotes) candidate.finalVotes = total;
                 if (this._statusKind(row.Status) === 'elected') {
@@ -4655,7 +4790,7 @@ class ElectionController {
             });
 
             const explicitElected = [...byCandidate.values()].filter(c => c.elected).length;
-            if (seatCount > 0 && explicitElected < seatCount) {
+            if (!isSyntheticScraper && seatCount > 0 && explicitElected < seatCount) {
                 const needed = seatCount - explicitElected;
                 const deemable = [...byCandidate.values()]
                     .filter((candidate) => !candidate.elected && !candidate.excluded)
@@ -4717,9 +4852,11 @@ class ElectionController {
                     });
                 }
                 const partyEntry = parties.get(partyName);
-                partyEntry.firstPrefs += candidate.firstPref;
-                partyEntry.finalVotes += candidate.finalVotes;
-                partyEntry.stood += 1;
+                if (!candidate.autoReturnedCeannComhairle) {
+                    partyEntry.firstPrefs += candidate.firstPref;
+                    partyEntry.finalVotes += candidate.finalVotes;
+                    partyEntry.stood += 1;
+                }
                 if (candidate.elected) partyEntry.elected += 1;
                 partyEntry.constituencies.add(constName);
                 partyEntry.candidates.push({
@@ -5488,7 +5625,8 @@ class ElectionController {
         }
         const cg = payload.Constituency.countGroup;
         const info = payload.Constituency.countInfo;
-        const validPoll = parseFloat(info.Valid_Poll) || 0;
+        const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
+        const validPoll = this._safeValidPoll(info, cg);
         const totalPoll = parseFloat(info.Total_Poll) || 0;
         const electorate = parseFloat(info.Total_Electorate) || 0;
         const spoiled = parseFloat(info.Spoiled) || 0;
@@ -5529,10 +5667,14 @@ class ElectionController {
                 candidateMetaById[cid] = { party, excluded: false };
             }
 
-            if (countNum === 1 && !seenCandidates.has(cid)) {
+            if ((isSyntheticScraper || countNum === 1) && !seenCandidates.has(cid)) {
                 seenCandidates.add(cid);
-                partyMap[party].firstPrefs += total;
-                partyMap[party].stood += 1;
+                if (!this._isAutoReturnedCeannComhairleRow(row)) {
+                    partyMap[party].firstPrefs += isSyntheticScraper
+                        ? (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0)
+                        : total;
+                    partyMap[party].stood += 1;
+                }
             }
 
             if (!candidateFinalById[cid] || total > candidateFinalById[cid].votes) {
@@ -6150,6 +6292,7 @@ class ElectionController {
         }
         const cg = payload.Constituency.countGroup;
         const info = payload.Constituency.countInfo;
+        const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
         const countNums = [...new Set(cg.map(r => parseInt(r.Count_Number, 10)))].sort((a, b) => a - b);
         const numSeats = this._getSeatCount(info);
         const lastCount = countNums[countNums.length - 1] || 1;
@@ -6192,10 +6335,16 @@ class ElectionController {
             if (countNum === 1) {
                 candidates[id].firstPref = parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0;
             }
+            if (isSyntheticScraper) {
+                candidates[id].firstPref = parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0;
+                if (this._statusKind(row.Status) === 'elected') candidates[id].electedAt ||= countNum;
+                if (this._statusKind(row.Status) === 'excluded') candidates[id].excludedAt ||= countNum;
+            }
             if (total > candidates[id].finalVotes) candidates[id].finalVotes = total;
         });
 
         Object.values(candidates).forEach((candidate) => {
+            if (isSyntheticScraper) return;
             const lifecycle = this._inferCandidateLifecycle(candidate, info, lastCount);
             candidate.electedAt = lifecycle.electedAt;
             candidate.excludedAt = lifecycle.excludedAt;
@@ -6800,13 +6949,15 @@ class ElectionController {
     _buildConstituencyResults(constName, payload) {
         const cg = payload.Constituency.countGroup;
         const info = payload.Constituency.countInfo;
-        const validPoll = parseFloat(info.Valid_Poll) || 0;
+        const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
+        const validPoll = this._safeValidPoll(info, cg);
 
         // Get first-pref data
         const candidates = [];
         const seen = new Set();
         cg.forEach(row => {
-            if (row.Count_Number === '1' && !seen.has(row.Candidate_Id)) {
+            const countNum = parseInt(row.Count_Number, 10) || 1;
+            if ((isSyntheticScraper || countNum === 1) && !seen.has(row.Candidate_Id)) {
                 seen.add(row.Candidate_Id);
                 // Find status
                 let status = '';
@@ -6818,7 +6969,9 @@ class ElectionController {
                     name: this._candidateDisplayName(row),
                     party: this._normaliseLivePartyName(row.Party_Name),
                     colour: row.Party_Colour || '#b0bec5',
-                    votes: parseFloat(row.Total_Votes) || 0,
+                    votes: isSyntheticScraper
+                        ? (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0)
+                        : (parseFloat(row.Total_Votes) || 0),
                     status
                 });
             }
@@ -6887,16 +7040,19 @@ class ElectionController {
         const payload = this._getPreviousConstituencyPayload(constName);
         const map = new Map();
         const cg = payload?.Constituency?.countGroup || [];
+        const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
         const seen = new Set();
         cg.forEach(row => {
             const countNum = parseInt(row.Count_Number, 10) || 1;
             const cid = String(row.Candidate_Id || '');
-            if (countNum !== 1 || !this._isValidCandidateRow(row) || seen.has(cid)) return;
+            if ((!isSyntheticScraper && countNum !== 1) || !this._isValidCandidateRow(row) || seen.has(cid)) return;
             seen.add(cid);
             const name = this._candidateDisplayName(row);
             const party = this._normaliseLivePartyName(row.Party_Name);
             const key = this._candidateKey(name, party);
-            map.set(key, parseFloat(row.Total_Votes) || 0);
+            map.set(key, isSyntheticScraper
+                ? (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0)
+                : (parseFloat(row.Total_Votes) || 0));
         });
         return map;
     }
@@ -6905,15 +7061,18 @@ class ElectionController {
         const payload = this._getPreviousConstituencyPayload(constName);
         const partyMap = new Map();
         const cg = payload?.Constituency?.countGroup || [];
+        const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
         const seen = new Set();
         cg.forEach(row => {
             const countNum = parseInt(row.Count_Number, 10) || 1;
             const cid = String(row.Candidate_Id || '');
-            if (countNum !== 1 || !this._isValidCandidateRow(row) || seen.has(cid)) return;
+            if ((!isSyntheticScraper && countNum !== 1) || !this._isValidCandidateRow(row) || seen.has(cid)) return;
             seen.add(cid);
             const party = this._normaliseLivePartyName(row.Party_Name);
             const prev = partyMap.get(party) || 0;
-            partyMap.set(party, prev + (parseFloat(row.Total_Votes) || 0));
+            partyMap.set(party, prev + (isSyntheticScraper
+                ? (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0)
+                : (parseFloat(row.Total_Votes) || 0)));
         });
         return partyMap;
     }
@@ -6922,6 +7081,7 @@ class ElectionController {
         const payload = this._getPreviousConstituencyPayload(constName);
         const stats = new Map();
         const cg = payload?.Constituency?.countGroup || [];
+        const isSyntheticScraper = this._isSyntheticScraperPayload(payload);
         const seen = new Set();
         const electedSeen = new Set();
         cg.forEach((row) => {
@@ -6932,10 +7092,14 @@ class ElectionController {
                 stats.set(party, { stood: 0, seats: 0, firstPrefs: 0 });
             }
             const partyStats = stats.get(party);
-            if (countNum === 1 && this._isValidCandidateRow(row) && !seen.has(cid)) {
+            if ((isSyntheticScraper || countNum === 1) && this._isValidCandidateRow(row) && !seen.has(cid)) {
                 seen.add(cid);
-                partyStats.stood += 1;
-                partyStats.firstPrefs += parseFloat(row.Total_Votes) || 0;
+                if (!this._isAutoReturnedCeannComhairleRow(row)) {
+                    partyStats.stood += 1;
+                    partyStats.firstPrefs += isSyntheticScraper
+                        ? (parseFloat(row.Candidate_First_Pref_Votes || row.Total_Votes) || 0)
+                        : (parseFloat(row.Total_Votes) || 0);
+                }
             }
             if (this._isValidCandidateRow(row) && this._statusKind(row.Status) === 'elected' && !electedSeen.has(cid)) {
                 electedSeen.add(cid);
@@ -7285,7 +7449,7 @@ class ElectionController {
         if (!s) return 'unknown';
         if (s.includes('not elected')) return 'not_elected';
         if (s.includes('excluded')) return 'excluded';
-        if (s.includes('elected')) return 'elected';
+        if (s.includes('elected') || s.includes('made quota') || s.includes('counted as elected') || s.includes('deemed elected')) return 'elected';
         return 'unknown';
     }
 
