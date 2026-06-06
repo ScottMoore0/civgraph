@@ -1,0 +1,281 @@
+{
+  "id": "translink-ulsterbus-goldliner-routes-vector-test",
+  "sourceMapId": "translink-ulsterbus-goldliner-routes",
+  "name": "Ulsterbus & Goldliner Bus Routes",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": "2025-09-23",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Translink"
+  ],
+  "description": "Ulsterbus and Goldliner inter-urban bus route geometries — Translink network data converted to FGB.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/translink-ulsterbus-goldliner-routes/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/translink-ulsterbus-goldliner-routes/metadata.json",
+  "sourceLayer": "translink_ulsterbus_goldliner_routes",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.3493852,
+      -9.1596393
+    ],
+    [
+      55.2373889,
+      -5.4357889
+    ]
+  ],
+  "style": {
+    "color": "#FFA000",
+    "fillColor": "#FFA000",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/translink-ulsterbus-goldliner-routes.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Translink"
+  ],
+  "keywords": [
+    "translink",
+    "bus",
+    "ulsterbus",
+    "goldliner",
+    "transit",
+    "routes",
+    "NI",
+    "Ulsterbus & Goldliner Bus Routes",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FFA000",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/translink-ulsterbus-goldliner-routes.fgb",
+  "sourceDatasetLayer": "translink-ulsterbus-goldliner-routes",
+  "popupProperties": [
+    "SubNetwork",
+    "OpBranch",
+    "FromStopID",
+    "FromStopAreaID",
+    "FromStoppingPointID",
+    "ToStopID",
+    "ToStopAreaID",
+    "ToStoppingPointID",
+    "DrawClass",
+    "IsOnStreet"
+  ],
+  "numericProperties": [
+    "FromStopID",
+    "FromStopAreaID",
+    "ToStopID",
+    "ToStopAreaID",
+    "DrawClass",
+    "IsOnStreet",
+    "TmpKeyPTLink",
+    "ExistsInData",
+    "TmpKeyLine"
+  ],
+  "categoricalProperties": [
+    "SubNetwork",
+    "OpBranch",
+    "FromStoppingPointID",
+    "ToStoppingPointID",
+    "LineDIVA",
+    "LineEFA",
+    "Project",
+    "OperCode",
+    "OperDep"
+  ],
+  "categoricalValues": {
+    "SubNetwork": [
+      "nir"
+    ],
+    "OpBranch": [
+      " \"10\"",
+      " \"12\"",
+      " \"13\"",
+      " \"14\"",
+      " \"17\"",
+      " \"18\"",
+      " \"19\"",
+      " \"2\"",
+      " \"20\"",
+      " \"21\"",
+      " \"4\"",
+      " \"5\"",
+      " \"7\"",
+      " \"8\"",
+      " \"9\""
+    ],
+    "FromStoppingPointID": [
+      " \"1\"",
+      " \"12108\"",
+      " \"12679\"",
+      " \"12682\"",
+      " \"12684\"",
+      " \"12711\"",
+      " \"15515\"",
+      " \"15696\"",
+      " \"15697\"",
+      " \"15776\"",
+      " \"15778\"",
+      " \"15786\"",
+      " \"15908\"",
+      " \"15910\"",
+      " \"15912\"",
+      " \"15918\"",
+      " \"15947\"",
+      " \"15948\"",
+      " \"16781\"",
+      " \"17068\"",
+      " \"17378\"",
+      " \"3777\"",
+      " \"3786\"",
+      " \"3788\"",
+      " \"3809\"",
+      " \"3813\"",
+      " \"3817\"",
+      " \"3834\"",
+      " \"3836\"",
+      " \"3840\"",
+      " \"3844\"",
+      " \"3927\""
+    ],
+    "ToStoppingPointID": [
+      " \"1\"",
+      " \"12680\"",
+      " \"12683\"",
+      " \"12688\"",
+      " \"12712\"",
+      " \"15515\"",
+      " \"15696\"",
+      " \"15697\"",
+      " \"15908\"",
+      " \"15910\"",
+      " \"15912\"",
+      " \"15916\"",
+      " \"15924\"",
+      " \"15947\"",
+      " \"15948\"",
+      " \"17068\"",
+      " \"17315\"",
+      " \"17377\"",
+      " \"2\"",
+      " \"3778\"",
+      " \"3781\"",
+      " \"3787\"",
+      " \"3789\"",
+      " \"3807\"",
+      " \"3810\"",
+      " \"3814\"",
+      " \"3818\"",
+      " \"3835\"",
+      " \"3837\"",
+      " \"3845\"",
+      " \"3927\"",
+      " \"3940\""
+    ],
+    "LineDIVA": [
+      " 02040",
+      " 02063",
+      " 02069",
+      " 02070",
+      " 02270",
+      " 02270U",
+      " 02271",
+      " 0240B",
+      " 0240C",
+      " 0240E",
+      " 02463",
+      " 0269A",
+      " 0269B",
+      " 0269C",
+      " 0270A",
+      " 0403D",
+      " 05278",
+      " 070X3",
+      " 070X4",
+      " 08014",
+      " 08014D",
+      " 08015",
+      " 08016",
+      " 08017",
+      " 08018",
+      " 08020",
+      " 08034",
+      " 08037",
+      " 08125",
+      " 08126",
+      " 0816A",
+      " 0816B"
+    ],
+    "LineEFA": [
+      " "
+    ],
+    "Project": [
+      " y18"
+    ],
+    "OperCode": [
+      " "
+    ],
+    "OperDep": [
+      " "
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/translink-ulsterbus-goldliner-routes.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/translink-ulsterbus-goldliner-routes.fgb",
+    "bytes": 29134286,
+    "files": 817,
+    "pbfFiles": 816,
+    "maxTileBytes": 2275752
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/translink-ulsterbus-goldliner-routes-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/translink-ulsterbus-goldliner-routes/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/translink-ulsterbus-goldliner-routes-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/translink-ulsterbus-goldliner-routes-vector-test.pmtiles",
+    "bytes": 7712734,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/translink-ulsterbus-goldliner-routes/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/translink-ulsterbus-goldliner-routes-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/translink-ulsterbus-goldliner-routes-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/translink-ulsterbus-goldliner-routes-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

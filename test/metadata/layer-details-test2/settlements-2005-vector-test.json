@@ -1,0 +1,221 @@
+{
+  "id": "settlements-2005-vector-test",
+  "sourceMapId": "settlements-2005",
+  "name": "Settlements 2005",
+  "category": "Settlements",
+  "group": "Communities",
+  "date": "2005",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "NISRA"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/settlements-2005/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/settlements-2005/metadata.json",
+  "sourceLayer": "settlements_2005",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0520387,
+      -7.6780637
+    ],
+    [
+      55.2132771,
+      -5.4356202
+    ]
+  ],
+  "style": {
+    "color": "#FA0000",
+    "fillColor": "#FA0000",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/settlements-2005.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "NISRA"
+  ],
+  "keywords": [
+    "settlements",
+    "urban",
+    "towns",
+    "cities",
+    "2005",
+    "Settlements 2005",
+    "Settlements",
+    "Communities",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "LOCATION",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FA0000",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/settlements-2005-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/settlements-2005.fgb",
+  "sourceDatasetLayer": "settlements-2005",
+  "popupProperties": [
+    "LOCATION",
+    "LGD",
+    "BAND_NAME",
+    "BAND",
+    "POP_2001",
+    "HSCE_2001",
+    "GEOAREA_HA",
+    "EASTING",
+    "NORTHING",
+    "minElev_m"
+  ],
+  "numericProperties": [
+    "POP_2001",
+    "HSCE_2001",
+    "GEOAREA_HA",
+    "EASTING",
+    "NORTHING",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "LOCATION",
+    "LGD",
+    "BAND_NAME",
+    "BAND"
+  ],
+  "categoricalValues": {
+    "LOCATION": [
+      "AHOGHILL",
+      "ANNAHILT",
+      "ANNALONG",
+      "ANTRIM",
+      "ARDGLASS",
+      "BANGOR",
+      "BELLAGHY",
+      "COMBER",
+      "CROSSGAR",
+      "CRUMLIN",
+      "CULMORE",
+      "DERRY",
+      "DOAGH",
+      "DUNDRUM",
+      "DUNGIVEN",
+      "EGLINTON",
+      "GLENAVY",
+      "KEADY",
+      "KILKEEL",
+      "KILREA",
+      "LARNE",
+      "LIMAVADY",
+      "MAGHERA",
+      "MILLISLE",
+      "MOIRA",
+      "MOY",
+      "NEWRY",
+      "OMAGH",
+      "PORTRUSH",
+      "RICHHILL",
+      "SEAHILL",
+      "STRABANE"
+    ],
+    "LGD": [
+      "ANTRIM",
+      "ARDS",
+      "ARMAGH",
+      "BELFAST",
+      "DERRY",
+      "DOWN",
+      "LARNE",
+      "LIMAVADY",
+      "LISBURN",
+      "MOYLE",
+      "OMAGH",
+      "STRABANE",
+      "BALLYMENA",
+      "BALLYMONEY",
+      "BANBRIDGE",
+      "CARRICKFERGUS",
+      "CASTLEREAGH",
+      "COLERAINE",
+      "COOKSTOWN",
+      "CRAIGAVON",
+      "DUNGANNON",
+      "FERMANAGH",
+      "MAGHERAFELT",
+      "NEWRY AND MOURNE",
+      "NEWTOWNABBEY",
+      "NORTH DOWN"
+    ],
+    "BAND_NAME": [
+      "VILLAGE",
+      "BELFAST METROPOLITAN URBAN AREA",
+      "DERRY URBAN AREA",
+      "INTERMEDIATE SETTLEMENT",
+      "LARGE TOWN",
+      "MEDIUM TOWM",
+      "MEDIUM TOWN",
+      "SMALL TOWN"
+    ],
+    "BAND": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/settlements-2005.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/settlements-2005.fgb",
+    "bytes": 921391,
+    "files": 357,
+    "pbfFiles": 356,
+    "maxTileBytes": 26847
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/settlements-2005-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/settlements-2005/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/settlements-2005-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/settlements-2005-vector-test.pmtiles",
+    "bytes": 587932,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/settlements-2005/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/settlements-2005-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/settlements-2005-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/settlements-2005-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "LOCATION",
+  "idProperty": "LOCATION"
+}

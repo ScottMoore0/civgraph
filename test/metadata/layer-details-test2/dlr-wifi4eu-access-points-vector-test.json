@@ -1,0 +1,183 @@
+{
+  "id": "dlr-wifi4eu-access-points-vector-test",
+  "sourceMapId": "dlr-wifi4eu-access-points",
+  "name": "Wifi4eu Access Points (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Wifi4eu Access Points (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-wifi4eu-access-points/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-wifi4eu-access-points/metadata.json",
+  "sourceLayer": "dlr_wifi4eu_access_points",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.211432,
+      -6.274821
+    ],
+    [
+      53.30425,
+      -6.104496
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-wifi4eu-access-points.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "wifi4eu",
+    "access",
+    "points",
+    "Wifi4eu Access Points (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "WiFi4EU_Voucher_",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-wifi4eu-access-points-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-wifi4eu-access-points.fgb",
+  "sourceDatasetLayer": "dlr-wifi4eu-access-points",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "WiFi4EU_Voucher_",
+    "OBJECTID",
+    "Location",
+    "Indoor_Or_Outdoor",
+    "Lat",
+    "Long",
+    "x_itm",
+    "y_itm"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "Lat",
+    "Long",
+    "x_itm",
+    "y_itm"
+  ],
+  "categoricalProperties": [
+    "WiFi4EU_Voucher_",
+    "Location",
+    "Indoor_Or_Outdoor"
+  ],
+  "categoricalValues": {
+    "WiFi4EU_Voucher_": [
+      "Voucher A",
+      "Voucher B",
+      "Voucher C",
+      "Voucher D"
+    ],
+    "Location": [
+      "DLR Pier",
+      "Seapoint",
+      "Ballybrack Project Centre",
+      "Ballyogan Parish Hall",
+      "Blackrock Park",
+      "Cabinteely FC, Kilbogget",
+      "Cabinteely Grainstore",
+      "Cabinteely Park Playground",
+      "Cois Cairn Community Centre",
+      "DLR BATHS Lobby",
+      "DLR Baths Café",
+      "DLR Baths Outdoor",
+      "DLR Dock Tower",
+      "DLR Plaza",
+      "Dalkey Library",
+      "Deerpark, Tenis Club",
+      "Dundrum Library",
+      "Essence Café Dundrum",
+      "Fernhill Gardens",
+      "Furry Hill",
+      "Glencullen Community Ctr.",
+      "Killiney Hill  Café",
+      "Killiney beach, Lifeguard Hut",
+      "Kirwan park, DeLaSalle",
+      "Loreto Court Community Rooms",
+      "Loughlinstown Community Rooms",
+      "Nutgrove Loreto Community Facility",
+      "Patrician Villas Community Ctr",
+      "Peoples Park, near Café",
+      "Rochestown House Community Ctr",
+      "SJOG  Burton Hall",
+      "Sallynoggin Community Ctr"
+    ],
+    "Indoor_Or_Outdoor": [
+      "Indoor",
+      "Outdoor"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-wifi4eu-access-points.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-wifi4eu-access-points.fgb",
+    "bytes": 73844,
+    "files": 23,
+    "pbfFiles": 22,
+    "maxTileBytes": 4753
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-wifi4eu-access-points-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-wifi4eu-access-points/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-wifi4eu-access-points-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-wifi4eu-access-points-vector-test.pmtiles",
+    "bytes": 42916,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-wifi4eu-access-points/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-wifi4eu-access-points-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-wifi4eu-access-points-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-wifi4eu-access-points-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

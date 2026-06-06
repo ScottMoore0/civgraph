@@ -1,0 +1,129 @@
+{
+  "id": "habitat-heath-vector-test",
+  "sourceMapId": "habitat-heath",
+  "name": "Habitat Network — Heath",
+  "category": "Biodiversity & Habitats",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Ulster Wildlife"
+  ],
+  "description": "Spatial extent of heath habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/habitat-heath/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/habitat-heath/metadata.json",
+  "sourceLayer": "habitat_heath",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0121947,
+      -8.2046152
+    ],
+    [
+      55.3374112,
+      -5.4195612
+    ]
+  ],
+  "style": {
+    "color": "#3a3a3a",
+    "fillColor": "#8C6F47",
+    "fillOpacity": 0.6,
+    "weight": 0.2
+  },
+  "references": [
+    {
+      "label": "Open Data NI — Heath Habitat Network",
+      "url": "https://admin.opendatani.gov.uk/dataset/11cae57f-ed15-4a0d-82b4-86871060a6f3"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/habitat-heath.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Ulster Wildlife"
+  ],
+  "keywords": [
+    "habitat",
+    "biodiversity",
+    "nature recovery",
+    "ulster wildlife",
+    "habitat network",
+    "heath",
+    "Habitat Network — Heath",
+    "Biodiversity & Habitats",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Class",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#3a3a3a",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/habitat-heath-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/habitat-heath.fgb",
+  "sourceDatasetLayer": "habitat-heath",
+  "popupProperties": [
+    "Class"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Class"
+  ],
+  "categoricalValues": {
+    "Class": [
+      "Associated Habitats",
+      "Fragmentation Action Zone",
+      "Network Enhancement Zone 1",
+      "Network Enhancement Zone 2",
+      "Network Expansion Zone",
+      "Primary Habitat",
+      "Restorable Habitat"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/habitat-heath.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/habitat-heath.fgb",
+    "bytes": 25167793,
+    "files": 858,
+    "pbfFiles": 857,
+    "maxTileBytes": 1135913
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-heath-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/habitat-heath/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/habitat-heath-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/habitat-heath-vector-test.pmtiles",
+    "bytes": 10085512,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/habitat-heath/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-heath-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/habitat-heath-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/habitat-heath-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "id": "fingal-trees-vector-test",
+  "sourceMapId": "fingal-trees",
+  "name": "Trees (Fingal)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Fingal County Council"
+  ],
+  "description": "Trees (Fingal) — published by Fingal County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/fingal-trees/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/fingal-trees/metadata.json",
+  "sourceLayer": "fingal_trees",
+  "promoteId": "id",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.3643606,
+      -6.4709469
+    ],
+    [
+      53.6185982,
+      -6.0533574
+    ]
+  ],
+  "style": {
+    "color": "#7C4DFF",
+    "fillColor": "#7C4DFF",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/fingal-trees.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Fingal County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "fingal",
+    "amenity",
+    "council",
+    "trees",
+    "Trees (Fingal)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "id",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#7C4DFF",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/fingal-trees-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/fingal-trees.fgb",
+  "sourceDatasetLayer": "fingal-trees",
+  "idProperty": "id",
+  "popupProperties": [
+    "id",
+    "Name",
+    "description",
+    "timestamp",
+    "begin",
+    "end",
+    "altitudeMode",
+    "tessellate",
+    "extrude",
+    "visibility"
+  ],
+  "numericProperties": [
+    "tessellate",
+    "extrude",
+    "visibility",
+    "drawOrder"
+  ],
+  "categoricalProperties": [
+    "Name",
+    "description"
+  ],
+  "categoricalValues": {
+    "Name": [
+      "163200",
+      "163204",
+      "163208",
+      "163212",
+      "163216",
+      "163220",
+      "163224",
+      "163228",
+      "163232",
+      "163236",
+      "163240",
+      "163244",
+      "163248",
+      "163252",
+      "163256",
+      "163260",
+      "163264",
+      "163268",
+      "163272",
+      "163276",
+      "163400",
+      "163404",
+      "163408",
+      "163412",
+      "163416",
+      "163420",
+      "163424",
+      "163428",
+      "163432",
+      "163436",
+      "163452",
+      "163456"
+    ],
+    "description": [
+      " ",
+      "AAAA Suitable location",
+      "ACCA Acer campestre",
+      "ACEPH Abies cephalonica",
+      "ACPL Acer platanoides",
+      "ACPLC Acer platanoides 'Crimson King'",
+      "ACPLD Acer platanoides 'Drummondii'",
+      "ACPLG Acer platanoides 'Globosum'",
+      "ACPLS Acer platanoides 'Crimson Sentry'",
+      "ACPS Acer pseudoplatanus",
+      "ACPSF Acer pseudoplatanus f. purpureum",
+      "ACPSL Acer pseudoplatanus 'Leopoldii'",
+      "ACSA Acer saccharinum",
+      "ACSP Acer spp.",
+      "AEHI Aesculus hippocastanum",
+      "ALCOR Alnus cordata",
+      "ALGL Alnus glutinosa",
+      "ALIN Alnus incana",
+      "ALSP Alnus spp.",
+      "AMELA Amelanchier lamarchii",
+      "BEJA Betula jacquemontii",
+      "BEPE Betula pendula",
+      "BESP Betula spp.",
+      "CABE Carpinus betulus",
+      "CABEF Carpinus betulus 'Fastigiata'",
+      "CASA Castanea sativa",
+      "COAU Cordyline australis",
+      "COSP Corylus spp.",
+      "COTSP Cotoneaster spp.",
+      "CRG Crataegus crus-galli",
+      "CRMON Crataegus monogyna",
+      "CRMOP Crat. oxyacanthoides 'Paul's Scarlet'"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/fingal-trees.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/fingal-trees.fgb",
+    "bytes": 16372585,
+    "files": 42,
+    "pbfFiles": 41,
+    "maxTileBytes": 1248915
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/fingal-trees-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/fingal-trees/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/fingal-trees-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/fingal-trees-vector-test.pmtiles",
+    "bytes": 3342716,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/fingal-trees/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/fingal-trees-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/fingal-trees-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/fingal-trees-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

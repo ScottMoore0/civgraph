@@ -1,0 +1,116 @@
+{
+  "id": "tailte-built-up-1m-vector-test",
+  "sourceMapId": "tailte-built-up-1m",
+  "name": "Built-Up Areas (Ireland 1M)",
+  "category": "Settlements",
+  "group": "Communities",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Built-up area polygons used in the National 1M Map of Ireland (Tailte Éireann).",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/tailte-built-up-1m/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tailte-built-up-1m/metadata.json",
+  "sourceLayer": "tailte_built_up_1m",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.857815,
+      -9.129961
+    ],
+    [
+      53.410343,
+      -6.050072
+    ]
+  ],
+  "style": {
+    "color": "#B07050",
+    "fillColor": "#B07050",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tailte-built-up-1m.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "settlements",
+    "built-up areas (ireland 1m)",
+    "Built-Up Areas (Ireland 1M)",
+    "Settlements",
+    "Communities",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#B07050",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/tailte-built-up-1m.fgb",
+  "sourceDatasetLayer": "tailte-built-up-1m",
+  "popupProperties": [
+    "FCsubtype",
+    "F_CODE"
+  ],
+  "numericProperties": [
+    "FCsubtype"
+  ],
+  "categoricalProperties": [
+    "F_CODE"
+  ],
+  "categoricalValues": {
+    "F_CODE": [
+      "AL020"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tailte-built-up-1m.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tailte-built-up-1m.fgb",
+    "bytes": 16164,
+    "files": 89,
+    "pbfFiles": 88,
+    "maxTileBytes": 529
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-built-up-1m-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tailte-built-up-1m/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tailte-built-up-1m-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tailte-built-up-1m-vector-test.pmtiles",
+    "bytes": 17147,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/tailte-built-up-1m/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-built-up-1m-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-built-up-1m-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tailte-built-up-1m-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

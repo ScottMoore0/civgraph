@@ -1,0 +1,146 @@
+{
+  "id": "elb-1993-vector-test",
+  "sourceMapId": "elb-1993",
+  "name": "Education and Library Boards 1993",
+  "category": "Education and Library Boards",
+  "group": "Public Services",
+  "date": 1993,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/elb-1993/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/elb-1993/metadata.json",
+  "sourceLayer": "elb_1993",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227244,
+      -8.1775025
+    ],
+    [
+      55.3129843,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#0100C7",
+    "fillColor": "#0100C7",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Education and Library Boards 1993",
+      "url": null
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/elb-1993.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI"
+  ],
+  "keywords": [
+    "education",
+    "library board",
+    "1993",
+    "ELB",
+    "Education and Library Boards 1993",
+    "Education and Library Boards",
+    "Public Services",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0100C7",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/elb-1993-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/elb-1993.fgb",
+  "sourceDatasetLayer": "elb-1993",
+  "popupProperties": [
+    "NAME",
+    "AreaSqKM",
+    "Shape_Length",
+    "Shape_Area",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "AreaSqKM",
+    "Shape_Length",
+    "Shape_Area",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "NAME"
+  ],
+  "categoricalValues": {
+    "NAME": [
+      "Belfast Education and Library Board",
+      "North Eastern Education and Library Board",
+      "South Eastern Education and Library Board",
+      "Southern Education and Library Board",
+      "Western Education and Library Board"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/elb-1993.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/elb-1993.fgb",
+    "bytes": 1233472,
+    "files": 757,
+    "pbfFiles": 756,
+    "maxTileBytes": 13219
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/elb-1993-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/elb-1993/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/elb-1993-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/elb-1993-vector-test.pmtiles",
+    "bytes": 656755,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/elb-1993/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/elb-1993-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/elb-1993-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/elb-1993-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "NAME",
+  "idProperty": "NAME"
+}

@@ -1,0 +1,197 @@
+{
+  "id": "osni-coverage-grid-10k-vector-test",
+  "sourceMapId": "osni-coverage-grid-10k",
+  "name": "OSNI Map Sheet Coverage Grid — 1:10,000",
+  "category": "OSNI Reference Layers",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI"
+  ],
+  "description": "Polygonal overlay of Ordnance Survey of Northern Ireland 1:10,000-scale printed-map tile footprints, labelled by sheet name. Useful for locating which historic / current OSNI sheet covers a site.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/osni-coverage-grid-10k/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/osni-coverage-grid-10k/metadata.json",
+  "sourceLayer": "osni_coverage_grid_10k",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.9912888,
+      -8.1859447
+    ],
+    [
+      55.315858,
+      -5.370678
+    ]
+  ],
+  "style": {
+    "color": "#888888",
+    "fillColor": "#888888",
+    "fillOpacity": 0,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "OSNI Open Data - Coverage Grid - 10K",
+      "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-coverage-grid-10k"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/osni-coverage-grid-10k.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/3400824a-ae20-483d-b633-a936d8f45f8b/download/osni_open_data_coverage_grid_10k.geojson"
+    },
+    {
+      "label": "ESRI Shapefile (ZIP)",
+      "url": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/6fdf1a41-1f4a-4905-88f5-57c06a7cd5fb/download/osni_open_data_coverage_grid_10k.zip"
+    },
+    {
+      "label": "KML",
+      "url": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/19fa57b5-5f62-4e0a-a40b-5f6fc3485f6f/download/osni_open_data_coverage_grid_10k.kml"
+    },
+    {
+      "label": "CSV",
+      "url": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/cdfe704d-8281-400c-a06d-d50f9fe43fc3/download/osni_open_data_coverage_grid_10k.csv"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI"
+  ],
+  "keywords": [
+    "osni",
+    "coverage",
+    "grid",
+    "sheet",
+    "index",
+    "1:10000",
+    "10k",
+    "tile",
+    "OSNI Map Sheet Coverage Grid — 1:10,000",
+    "OSNI Reference Layers",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#888888",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/osni-coverage-grid-10k-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/osni-coverage-grid-10k.fgb",
+  "sourceDatasetLayer": "osni-coverage-grid-10k",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "NAME",
+    "OBJECTID",
+    "CLASS",
+    "UR_EASTING",
+    "UR_NORTHIN",
+    "LL_EASTING",
+    "LL_NORTHIN",
+    "Shape_Length",
+    "Shape_Area"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "UR_EASTING",
+    "UR_NORTHIN",
+    "LL_EASTING",
+    "LL_NORTHIN",
+    "Shape_Length",
+    "Shape_Area"
+  ],
+  "categoricalProperties": [
+    "NAME",
+    "CLASS"
+  ],
+  "categoricalValues": {
+    "NAME": [
+      "124ne.tif",
+      "125nw.tif",
+      "141ne.tif",
+      "141se.tif",
+      "142nw.tif",
+      "142sw.tif",
+      "143ne.tif",
+      "143nw.tif",
+      "143se.tif",
+      "143sw.tif",
+      "160se.tif",
+      "161sw.tif",
+      "162se.tif",
+      "162sw.tif",
+      "179se.tif",
+      "180sw.tif",
+      "181se.tif",
+      "181sw.tif",
+      "182se.tif",
+      "182sw.tif",
+      "183sw.tif",
+      "184sw.tif",
+      "198se.tif",
+      "199sw.tif",
+      "200se.tif",
+      "200sw.tif",
+      "201se.tif",
+      "201sw.tif",
+      "202sw.tif",
+      "203sw.tif",
+      "217se.tif",
+      "218sw.tif"
+    ],
+    "CLASS": [
+      " ",
+      "H",
+      "L",
+      "M"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/osni-coverage-grid-10k.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/osni-coverage-grid-10k.fgb",
+    "bytes": 1254041,
+    "files": 818,
+    "pbfFiles": 817,
+    "maxTileBytes": 65800
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-coverage-grid-10k-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/osni-coverage-grid-10k/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/osni-coverage-grid-10k-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/osni-coverage-grid-10k-vector-test.pmtiles",
+    "bytes": 615247,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/osni-coverage-grid-10k/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-coverage-grid-10k-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/osni-coverage-grid-10k-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/osni-coverage-grid-10k-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

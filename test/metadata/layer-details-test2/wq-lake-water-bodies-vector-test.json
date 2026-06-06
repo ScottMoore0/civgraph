@@ -1,0 +1,207 @@
+{
+  "id": "wq-lake-water-bodies-vector-test",
+  "sourceMapId": "wq-lake-water-bodies",
+  "name": "Lake Water Bodies",
+  "category": "Water Quality",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "DAERA",
+    "NIEA"
+  ],
+  "description": "Polygons of lakes and standing waters classified as WFD water bodies in Northern Ireland.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/wq-lake-water-bodies/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/wq-lake-water-bodies/metadata.json",
+  "sourceLayer": "wq_lake_water_bodies",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0774757,
+      -8.2775386
+    ],
+    [
+      54.8169163,
+      -5.6684668
+    ]
+  ],
+  "style": {
+    "color": "#1f78b4",
+    "fillColor": "#1f78b4",
+    "fillOpacity": 0.5,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "OSNI Open Data — Lake Water Bodies",
+      "url": "https://admin.opendatani.gov.uk/dataset/lake-water-bodies1"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/wq-lake-water-bodies.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "DAERA",
+    "NIEA"
+  ],
+  "keywords": [
+    "lake",
+    "lough",
+    "water body",
+    "wfd",
+    "standing water",
+    "Lake Water Bodies",
+    "Water Quality",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#1f78b4",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/wq-lake-water-bodies.fgb",
+  "sourceDatasetLayer": "wq-lake-water-bodies",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "OBJECTID",
+    "OBJECTID_1",
+    "localId",
+    "namespace",
+    "spZoneType",
+    "Area_km2",
+    "GlobalID"
+  ],
+  "numericProperties": [
+    "OBJECTID_1",
+    "OBJECTID",
+    "Area_km2"
+  ],
+  "categoricalProperties": [
+    "localId",
+    "namespace",
+    "spZoneType",
+    "GlobalID"
+  ],
+  "categoricalValues": {
+    "localId": [
+      "UKGBNI3NB0016",
+      "UKGBNI3NB0017",
+      "UKGBNI3NB0018",
+      "UKGBNI3NB0020",
+      "UKGBNI3NB0021",
+      "UKGBNI3NB0026",
+      "UKGBNI3NB0027",
+      "UKGBNI3NB0032",
+      "UKGBNI3NB0034",
+      "UKGBNI3NB0035",
+      "UKGBNI3NE0019",
+      "UKGBNI3NE0023",
+      "UKGBNI3NE0028",
+      "UKGBNI3NW0006",
+      "UKGBNI3NW0007",
+      "UKGBNI3NW0008",
+      "UKGBNI3NW0011",
+      "UKGBNI3NW0014",
+      "UKGBNI3NW0022",
+      "UKGBNI3NW0033",
+      "UKGBNI3NW0036"
+    ],
+    "namespace": [
+      "Cam Lough",
+      "Castlehume Lough",
+      "Clea Lakes",
+      "Lough Beg",
+      "Lough Fea",
+      "Lough Gullion",
+      "Lough Island Reavey",
+      "Lough Macnean Lower",
+      "Lough Macnean Upper",
+      "Lough Melvin",
+      "Lough Mourne",
+      "Lough Neagh",
+      "Lough Ross Monaghan",
+      "Lough Scolban",
+      "Lower Lough Erne Devenish",
+      "Lower Lough Erne Kesh",
+      "Portmore Lough",
+      "Silent Valley Reservoir",
+      "Spelga Dam",
+      "Stonyford Reservoir",
+      "Upper Lough Erne"
+    ],
+    "spZoneType": [
+      "lakeWaterBody"
+    ],
+    "GlobalID": [
+      "0c82f0d9-853d-4603-ab91-7dcf94cea298",
+      "1191fef2-7f95-4f2a-ae77-7366c1d0c3f2",
+      "1b7c1403-cab4-426f-b6cd-f0bd13d7d22d",
+      "2d51e878-df8d-49f3-9a73-ca7ed4e2378a",
+      "428a7cc2-e7f1-4645-87af-d4c2fc9c51f4",
+      "42efe767-4abd-47a0-a4f2-f0abbc0fd9ab",
+      "542de8c4-85ca-491a-adfa-45638ecd9626",
+      "58cd4402-f813-4c07-9a8c-dca69f61acfd",
+      "81315ae5-8151-44b5-8cfa-05384eb16ef4",
+      "831ccb77-6187-4bff-a3b7-7f9bb59b3193",
+      "91747e97-6ba0-4fce-827b-4e069c0f2d20",
+      "a7cb520e-f376-4bd7-913c-ced918020d69",
+      "b2490ff5-2e38-45b9-82cd-aaf016a88788",
+      "c304aa7c-6791-4fa1-bb67-ea42270af809",
+      "c8b2ca01-8132-4eb8-bcc7-a91e42a706f2",
+      "c8c27e0a-93d3-4082-b243-d387c00496fd",
+      "cbe26593-6c08-4544-982f-a1052c594a45",
+      "e77b25bf-83de-4343-b042-dd7ac11c6885",
+      "ea38b336-195c-4f51-8ed1-d09f786e02f2",
+      "eb9fb705-95b0-47ff-9421-57e296d142d2",
+      "f420f4c2-a7bb-4c23-9b81-00a49f6edd25"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/wq-lake-water-bodies.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/wq-lake-water-bodies.fgb",
+    "bytes": 550738,
+    "files": 146,
+    "pbfFiles": 145,
+    "maxTileBytes": 26044
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/wq-lake-water-bodies-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/wq-lake-water-bodies/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/wq-lake-water-bodies-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/wq-lake-water-bodies-vector-test.pmtiles",
+    "bytes": 308784,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/wq-lake-water-bodies/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/wq-lake-water-bodies-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/wq-lake-water-bodies-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/wq-lake-water-bodies-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "id": "niea-catchment-stakeholder-groups-vector-test",
+  "sourceMapId": "niea-catchment-stakeholder-groups",
+  "name": "NIEA Catchment Stakeholder Groups",
+  "category": "Water Quality",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "NIEA"
+  ],
+  "description": "NIEA Catchment Stakeholder Groups — published by NIEA Water Management Unit (Water Framework Directive boundaries).",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/niea-catchment-stakeholder-groups/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/niea-catchment-stakeholder-groups/metadata.json",
+  "sourceLayer": "niea_catchment_stakeholder_groups",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0228788,
+      -8.1778127
+    ],
+    [
+      55.3129653,
+      -5.4327314
+    ]
+  ],
+  "style": {
+    "color": "#039BE5",
+    "fillColor": "#039BE5",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/niea-catchment-stakeholder-groups.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "NIEA"
+  ],
+  "keywords": [
+    "NIEA",
+    "water",
+    "WFD",
+    "niea catchment stakeholder groups",
+    "NIEA Catchment Stakeholder Groups",
+    "Water Quality",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#039BE5",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/niea-catchment-stakeholder-groups-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/niea-catchment-stakeholder-groups.fgb",
+  "sourceDatasetLayer": "niea-catchment-stakeholder-groups",
+  "popupProperties": [
+    "NAME",
+    "Shape_area",
+    "Shape_len"
+  ],
+  "numericProperties": [
+    "Shape_area",
+    "Shape_len"
+  ],
+  "categoricalProperties": [
+    "NAME"
+  ],
+  "categoricalValues": {
+    "NAME": [
+      "Belfast Lough & Lagan",
+      "Bush & Glens",
+      "Carlingford & Mourne",
+      "Erne & Melvin",
+      "Lower Foyle",
+      "Lower Neagh Bann",
+      "Strangford & Lecale",
+      "Upper Foyle",
+      "Upper Neagh Bann"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/niea-catchment-stakeholder-groups.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/niea-catchment-stakeholder-groups.fgb",
+    "bytes": 655796,
+    "files": 756,
+    "pbfFiles": 755,
+    "maxTileBytes": 24439
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/niea-catchment-stakeholder-groups-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/niea-catchment-stakeholder-groups/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/niea-catchment-stakeholder-groups-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/niea-catchment-stakeholder-groups-vector-test.pmtiles",
+    "bytes": 474130,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/niea-catchment-stakeholder-groups/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/niea-catchment-stakeholder-groups-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/niea-catchment-stakeholder-groups-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/niea-catchment-stakeholder-groups-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "NAME",
+  "idProperty": "NAME"
+}

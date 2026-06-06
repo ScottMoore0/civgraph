@@ -1,0 +1,167 @@
+{
+  "id": "dlr-public-toilets-vector-test",
+  "sourceMapId": "dlr-public-toilets",
+  "name": "Public Toilets (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Public Toilets (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-public-toilets/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-public-toilets/metadata.json",
+  "sourceLayer": "dlr_public_toilets",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.222198,
+      -6.275508
+    ],
+    [
+      53.302465,
+      -6.104661
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-public-toilets.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "public",
+    "toilets",
+    "Public Toilets (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Location",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-public-toilets-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-public-toilets.fgb",
+  "sourceDatasetLayer": "dlr-public-toilets",
+  "popupProperties": [
+    "Location",
+    "ObjectId",
+    "_id",
+    "Opening Hours",
+    "Latitude",
+    "Longitude"
+  ],
+  "numericProperties": [
+    "_id",
+    "Latitude",
+    "Longitude",
+    "ObjectId"
+  ],
+  "categoricalProperties": [
+    "Location",
+    "Opening Hours"
+  ],
+  "categoricalValues": {
+    "Location": [
+      "Bullock Harbour Toilet, Dalkey, Dun Laoghaire-Rathdown, D18",
+      "Cabinteely Park Playground, Dun Laoghaire-Rathdown, D18",
+      "Cabinteely Park: Changing Places, Dun Laoghaire-Rathdown, D18",
+      "Deansgrange Cemetery, 2 Deansgrange Rd, D18",
+      "East Pier Lighthouse, Dun Laoghaire-Rathdown, D18",
+      "Fernhill Car Park, Enniskerry Rd, D18",
+      "Fernhill House, Enniskerry Rd, D18",
+      "Forty Foot, Dun Laoghaire-Rathdown, D18",
+      "Killiney Beach Toilet, Station Road, Killiney, D18",
+      "Killiney Hill Tea Rooms, Killiney Hill Rd, Killiney, D18",
+      "Marlay Craft Courtyard, Grange Rd, Rathfarnham, D16",
+      "Marlay Craft Courtyard: Changing Place, Grange Rd, Rathfarnham, D16",
+      "Marlay Lower Courtyard: Toilet, Grange Rd, Rathfarnham, D16",
+      "Marlay Park Playground restrooms, Grange Rd, Rathfarnham, D16",
+      "People's Park, Dun Laoghaire-Rathdown, D18",
+      "Sandycove Ave East Toilet, Dun Laoghaire-Rathdown, D18",
+      "Sandycove Avenue West Toilet, Dun Laoghaire-Rathdown, D18",
+      "Seapoint Toilet, Seapoint Beach, D4",
+      "Shanganagh Park & Cemetery: Changing Places, Shankill, D18",
+      "Traders Wharf, Dun Laoghaire-Rathdown, D18",
+      "Whiterock Toilet, Killiney Hill Rd, Killiney, D18"
+    ],
+    "Opening Hours": [
+      "10pm to 4:30pm Monday to Sunday",
+      "8:30 to 4pm Monday to Sunday",
+      "8am to 11:30pm Monday to Sunday",
+      "8am to 5pm Monday to Sunday",
+      "8am to 8pm Monday to Sunday",
+      "9am to 5pm Monday to Sunday",
+      "All day Monday to Sunday",
+      "Open Access January to December"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-public-toilets.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-public-toilets.fgb",
+    "bytes": 40615,
+    "files": 22,
+    "pbfFiles": 21,
+    "maxTileBytes": 2560
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-public-toilets-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-public-toilets/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-public-toilets-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-public-toilets-vector-test.pmtiles",
+    "bytes": 21270,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-public-toilets/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-public-toilets-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-public-toilets-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-public-toilets-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "ObjectId",
+  "idProperty": "ObjectId"
+}

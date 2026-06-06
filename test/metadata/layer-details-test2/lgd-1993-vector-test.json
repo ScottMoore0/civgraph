@@ -1,0 +1,209 @@
+{
+  "id": "lgd-1993-vector-test",
+  "sourceMapId": "lgd-1993",
+  "name": "Local Government Districts 1993",
+  "category": "Local Government Districts",
+  "group": "Elections and Government",
+  "date": 1993,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/lgd-1993/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/lgd-1993/metadata.json",
+  "sourceLayer": "lgd_1993",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227244,
+      -8.1775025
+    ],
+    [
+      55.3129843,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#004C73",
+    "fillColor": "#004C73",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/lgd-1993.fgb"
+    },
+    {
+      "label": "OSNI 50k GeoJSON",
+      "url": "https://archive.org/download/civgraph-osni-boundary-data/osni_open_data_50k_boundaries_local_government_districts_1993.geojson"
+    },
+    {
+      "label": "OSNI 50k KML",
+      "url": "https://archive.org/download/civgraph-osni-boundary-data/osni_open_data_50k_boundaries_local_government_districts_1993.kml"
+    },
+    {
+      "label": "OSNI 50k CSV",
+      "url": "https://archive.org/download/civgraph-osni-boundary-data/osni_open_data_50k_boundaries_local_government_districts_1993.csv"
+    },
+    {
+      "label": "OSNI 50k Shapefile (ZIP)",
+      "url": "https://archive.org/download/civgraph-osni-boundary-data/osni_open_data_50k_boundaries_local_government_districts_1993.zip"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI"
+  ],
+  "keywords": [
+    "council",
+    "local government",
+    "district",
+    "1993",
+    "Local Government Districts 1993",
+    "Local Government Districts",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "LGDNAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#004C73",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/lgd-1993-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/lgd-1993.fgb",
+  "sourceDatasetLayer": "lgd-1993",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "LGDNAME",
+    "OBJECTID",
+    "LGD_ID",
+    "LGD_CODE",
+    "AreaSqKM",
+    "Shape_Length",
+    "Shape_Area",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "LGD_ID",
+    "AreaSqKM",
+    "Shape_Length",
+    "Shape_Area",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "LGDNAME",
+    "LGD_CODE"
+  ],
+  "categoricalValues": {
+    "LGDNAME": [
+      "ANTRIM",
+      "ARDS",
+      "ARMAGH",
+      "BELFAST",
+      "DERRY",
+      "DOWN",
+      "LARNE",
+      "LIMAVADY",
+      "LISBURN",
+      "MOYLE",
+      "OMAGH",
+      "STRABANE",
+      "BALLYMENA",
+      "BALLYMONEY",
+      "BANBRIDGE",
+      "CARRICKFERGUS",
+      "CASTLEREAGH",
+      "COLERAINE",
+      "COOKSTOWN",
+      "CRAIGAVON",
+      "DUNGANNON",
+      "FERMANAGH",
+      "MAGHERAFELT",
+      "NEWRY and MOURNE",
+      "NEWTOWNABBEY",
+      "NORTH DOWN"
+    ],
+    "LGD_CODE": [
+      "95AA",
+      "95BB",
+      "95CC",
+      "95DD",
+      "95EE",
+      "95FF",
+      "95GG",
+      "95HH",
+      "95II",
+      "95JJ",
+      "95KK",
+      "95LL",
+      "95MM",
+      "95NN",
+      "95OO",
+      "95PP",
+      "95QQ",
+      "95RR",
+      "95SS",
+      "95TT",
+      "95UU",
+      "95VV",
+      "95WW",
+      "95XX",
+      "95YY",
+      "95ZZ"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/lgd-1993.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/lgd-1993.fgb",
+    "bytes": 2071901,
+    "files": 757,
+    "pbfFiles": 756,
+    "maxTileBytes": 24566
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/lgd-1993-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/lgd-1993/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/lgd-1993-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/lgd-1993-vector-test.pmtiles",
+    "bytes": 1183762,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/lgd-1993/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/lgd-1993-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/lgd-1993-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/lgd-1993-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

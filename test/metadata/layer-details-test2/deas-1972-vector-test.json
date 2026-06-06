@@ -1,0 +1,167 @@
+{
+  "id": "deas-1972-vector-test",
+  "sourceMapId": "deas-1972",
+  "name": "District Electoral Areas 1972",
+  "category": "District Electoral Areas",
+  "group": "Elections and Government",
+  "date": 1972,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Scott Moore"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/deas-1972/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/deas-1972/metadata.json",
+  "sourceLayer": "deas_1972",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227244,
+      -8.1775025
+    ],
+    [
+      55.3129847,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#63B3FF",
+    "fillColor": "#63B3FF",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/deas-1972.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Scott Moore"
+  ],
+  "keywords": [
+    "DEA",
+    "1972",
+    "electoral",
+    "district",
+    "digitised",
+    "District Electoral Areas 1972",
+    "District Electoral Areas",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#63B3FF",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/deas-1972-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/deas-1972.fgb",
+  "sourceDatasetLayer": "deas-1972",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "NAME",
+    "OBJECTID",
+    "Area_SqKM",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "Area_SqKM",
+    "OBJECTID",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "NAME"
+  ],
+  "categoricalValues": {
+    "NAME": [
+      "ANTRIM AREA A",
+      "ANTRIM AREA B",
+      "ANTRIM AREA C",
+      "ARDS AREA A",
+      "ARDS AREA B",
+      "ARDS AREA C",
+      "ARMAGH AREA A",
+      "ARMAGH AREA B",
+      "ARMAGH AREA C",
+      "BALLYMENA AREA A",
+      "BALLYMENA AREA B",
+      "BALLYMENA AREA C",
+      "BALLYMENA AREA D",
+      "BALLYMONEY AREA A",
+      "BALLYMONEY AREA B",
+      "BALLYMONEY AREA C",
+      "BANBRIDGE AREA A",
+      "BANBRIDGE AREA B",
+      "BELFAST AREA A",
+      "BELFAST AREA B",
+      "BELFAST AREA C",
+      "BELFAST AREA D",
+      "BELFAST AREA E",
+      "BELFAST AREA F",
+      "BELFAST AREA G",
+      "BELFAST AREA H",
+      "CARRICKFERGUS AREA A",
+      "CARRICKFERGUS AREA B",
+      "CARRICKFERGUS AREA C",
+      "CASTLEREAGH AREA A",
+      "CASTLEREAGH AREA B",
+      "CASTLEREAGH AREA C"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/deas-1972.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/deas-1972.fgb",
+    "bytes": 3560211,
+    "files": 755,
+    "pbfFiles": 754,
+    "maxTileBytes": 50880
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/deas-1972-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/deas-1972/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/deas-1972-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/deas-1972-vector-test.pmtiles",
+    "bytes": 2062724,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/deas-1972/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/deas-1972-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/deas-1972-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/deas-1972-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

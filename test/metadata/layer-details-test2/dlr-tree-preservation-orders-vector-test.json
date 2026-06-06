@@ -1,0 +1,171 @@
+{
+  "id": "dlr-tree-preservation-orders-vector-test",
+  "sourceMapId": "dlr-tree-preservation-orders",
+  "name": "Tree Preservation Orders (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Tree Preservation Orders (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-tree-preservation-orders/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-tree-preservation-orders/metadata.json",
+  "sourceLayer": "dlr_tree_preservation_orders",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2088312,
+      -6.2113989
+    ],
+    [
+      53.3050942,
+      -6.1198322
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-tree-preservation-orders.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "tree",
+    "preservation",
+    "orders",
+    "Tree Preservation Orders (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Location",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-tree-preservation-orders-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-tree-preservation-orders.fgb",
+  "sourceDatasetLayer": "dlr-tree-preservation-orders",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Location",
+    "OBJECTID",
+    "Year",
+    "FileNo",
+    "DLRRegNo"
+  ],
+  "numericProperties": [
+    "OBJECTID"
+  ],
+  "categoricalProperties": [
+    "Location",
+    "Year",
+    "FileNo",
+    "DLRRegNo"
+  ],
+  "categoricalValues": {
+    "Location": [
+      "Belgrave Square",
+      "Carysfort College Blackrock",
+      "Carysfort House, Stillorgan",
+      "Corbawn Lane, Shanganagh including Dorney Court",
+      "Palermo, Old Connaught",
+      "St. Helen's, Stillorgan",
+      "Talbot Lodge",
+      "Wilson Road Mount Merrion"
+    ],
+    "Year": [
+      "1980",
+      "1987",
+      "1988",
+      "1989",
+      "1990",
+      "1998",
+      "July 1984"
+    ],
+    "FileNo": [
+      "SES/1/6",
+      "SES/11/6",
+      "SES/11/7",
+      "SES/12/7",
+      "Dun Laoghaire",
+      "SES/03/71",
+      "SES/23/01"
+    ],
+    "DLRRegNo": [
+      "1",
+      "2",
+      "3",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-tree-preservation-orders.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-tree-preservation-orders.fgb",
+    "bytes": 12552,
+    "files": 18,
+    "pbfFiles": 17,
+    "maxTileBytes": 719
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-tree-preservation-orders-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-tree-preservation-orders/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-tree-preservation-orders-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-tree-preservation-orders-vector-test.pmtiles",
+    "bytes": 8403,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-tree-preservation-orders/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-tree-preservation-orders-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-tree-preservation-orders-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-tree-preservation-orders-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

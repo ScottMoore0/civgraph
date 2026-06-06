@@ -1,0 +1,168 @@
+{
+  "id": "ni-livestock-ovine-vector-test",
+  "sourceMapId": "ni-livestock-ovine",
+  "name": "NI Ovine (Sheep) Holdings (April 2019)",
+  "category": "Environment",
+  "group": "Physical Geography",
+  "date": "2019-04-01",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "DAERA"
+  ],
+  "description": "Locations of ovine (sheep) herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/ni-livestock-ovine/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/ni-livestock-ovine/metadata.json",
+  "sourceLayer": "ni_livestock_ovine",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0271547,
+      -8.1518732
+    ],
+    [
+      55.3018129,
+      -5.4405551
+    ]
+  ],
+  "style": {
+    "color": "#FFEBCD",
+    "fillColor": "#FFEBCD",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/ni-livestock-ovine.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "DAERA"
+  ],
+  "keywords": [
+    "DAERA",
+    "livestock",
+    "farming",
+    "agriculture",
+    "ovine",
+    "ovine (sheep)",
+    "herd",
+    "flock",
+    "rural",
+    "NI Ovine (Sheep) Holdings (April 2019)",
+    "Environment",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Herd Map Ref",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FFEBCD",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/ni-livestock-ovine-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/ni-livestock-ovine.fgb",
+  "sourceDatasetLayer": "ni-livestock-ovine",
+  "popupProperties": [
+    "Herd Map Ref",
+    "Long Map Ref",
+    "X Coord",
+    "Y Coord",
+    "X Co-ord",
+    "Y Co-ord"
+  ],
+  "numericProperties": [
+    "Long Map Ref",
+    "X Coord",
+    "Y Coord",
+    "X Co-ord",
+    "Y Co-ord"
+  ],
+  "categoricalProperties": [
+    "Herd Map Ref"
+  ],
+  "categoricalValues": {
+    "Herd Map Ref": [
+      "J445454",
+      "J446451",
+      "J453449",
+      "J453456",
+      "J455428",
+      "J455463",
+      "J460418",
+      "J466421",
+      "J466427",
+      "J467428",
+      "J479423",
+      "J481432",
+      "J485423",
+      "J487462",
+      "J496445",
+      "J497463",
+      "J504391",
+      "J504400",
+      "J508423",
+      "J508435",
+      "J509443",
+      "J510383",
+      "J513428",
+      "J515454",
+      "J516394",
+      "J518444",
+      "J519408",
+      "J520442",
+      "J521435",
+      "J522435",
+      "J523406",
+      "J523445"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/ni-livestock-ovine.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/ni-livestock-ovine.fgb",
+    "bytes": 11973784,
+    "files": 722,
+    "pbfFiles": 721,
+    "maxTileBytes": 863031
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-livestock-ovine-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/ni-livestock-ovine/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/ni-livestock-ovine-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/ni-livestock-ovine-vector-test.pmtiles",
+    "bytes": 5577593,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/ni-livestock-ovine/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-livestock-ovine-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/ni-livestock-ovine-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/ni-livestock-ovine-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

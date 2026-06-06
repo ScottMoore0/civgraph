@@ -1,0 +1,127 @@
+{
+  "id": "highlands-without-settlements-vector-test",
+  "sourceMapId": "highlands-without-settlements",
+  "name": "Highlands Without Settlements",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": 2026,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI",
+    "Scott Moore"
+  ],
+  "description": "Areas of Northern Ireland at 243m (797ft) or higher elevation - above the highest point within any settlement (Hannahstown at 242.9m). Generated from OSNI 50m DTM.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/highlands-without-settlements/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/highlands-without-settlements/metadata.json",
+  "sourceLayer": "highlands_without_settlements",
+  "promoteId": "FID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0767105,
+      -8.0177026
+    ],
+    [
+      55.2056976,
+      -5.8262257
+    ]
+  ],
+  "style": {
+    "color": "#8B4513",
+    "fillColor": "#8B4513",
+    "fillOpacity": 0,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/highlands-without-settlements.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI",
+    "Scott Moore"
+  ],
+  "keywords": [
+    "highlands",
+    "elevation",
+    "mountains",
+    "settlements",
+    "243m",
+    "Highlands Without Settlements",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#8B4513",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/highlands-without-settlements.fgb",
+  "sourceDatasetLayer": "highlands-without-settlements",
+  "idProperty": "FID",
+  "popupProperties": [
+    "FID",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "FID",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [],
+  "categoricalValues": {},
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/highlands-without-settlements.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/highlands-without-settlements.fgb",
+    "bytes": 714755,
+    "files": 351,
+    "pbfFiles": 350,
+    "maxTileBytes": 39475
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/highlands-without-settlements-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/highlands-without-settlements/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/highlands-without-settlements-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/highlands-without-settlements-vector-test.pmtiles",
+    "bytes": 364118,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/highlands-without-settlements/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/highlands-without-settlements-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/highlands-without-settlements-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/highlands-without-settlements-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

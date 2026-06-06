@@ -1,0 +1,167 @@
+{
+  "id": "provinces-vector-test",
+  "sourceMapId": "provinces",
+  "name": "Provinces of Ireland 2019",
+  "category": "Counties",
+  "group": "History",
+  "date": "2019",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSI"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/provinces/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/provinces/metadata.json",
+  "sourceLayer": "provinces",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198973,
+      -10.6812354
+    ],
+    [
+      55.4469322,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#884EA0",
+    "fillColor": "#884EA0",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Provinces - National Statutory Boundaries - 2019 (data-osi.opendata.arcgis.com)",
+      "url": "https://data-osi.opendata.arcgis.com/datasets/osi::provinces-national-statutory-boundaries-2019/about"
+    },
+    {
+      "label": "Provinces of Ireland — GeoJSON download",
+      "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.geojson"
+    },
+    {
+      "label": "Provinces of Ireland — KML download",
+      "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.kml"
+    },
+    {
+      "label": "Provinces of Ireland — Shapefile (ZIP) download",
+      "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.zip"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/provinces.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.geojson"
+    },
+    {
+      "label": "KML",
+      "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.kml"
+    },
+    {
+      "label": "Shapefile (ZIP)",
+      "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.zip"
+    }
+  ],
+  "sourceCredits": [
+    "OSI"
+  ],
+  "keywords": [
+    "province",
+    "ulster",
+    "munster",
+    "leinster",
+    "connacht",
+    "2019",
+    "Provinces of Ireland 2019",
+    "Counties",
+    "History",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "PROVINCE",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#884EA0",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/provinces-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/provinces.fgb",
+  "sourceDatasetLayer": "provinces",
+  "popupProperties": [
+    "PROVINCE",
+    "AREA",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "AREA",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "PROVINCE"
+  ],
+  "categoricalValues": {
+    "PROVINCE": [
+      "Connacht",
+      "Leinster",
+      "Munster",
+      "Ulster"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/provinces.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/provinces.fgb",
+    "bytes": 6477962,
+    "files": 3922,
+    "pbfFiles": 3921,
+    "maxTileBytes": 35868
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/provinces-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/provinces/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/provinces-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/provinces-vector-test.pmtiles",
+    "bytes": 3648359,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/provinces/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/provinces-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/provinces-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/provinces-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "PROVINCE",
+  "idProperty": "PROVINCE"
+}

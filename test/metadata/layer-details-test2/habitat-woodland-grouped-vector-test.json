@@ -1,0 +1,129 @@
+{
+  "id": "habitat-woodland-grouped-vector-test",
+  "sourceMapId": "habitat-woodland-grouped",
+  "name": "Habitat Network — Woodland Habitat Networks (grouped)",
+  "category": "Biodiversity & Habitats",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Ulster Wildlife"
+  ],
+  "description": "Spatial extent of woodland habitat networks (grouped) habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/habitat-woodland-grouped/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/habitat-woodland-grouped/metadata.json",
+  "sourceLayer": "habitat_woodland_grouped",
+  "minzoom": 8,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0184519,
+      -8.2022696
+    ],
+    [
+      55.3089826,
+      -5.4383929
+    ]
+  ],
+  "style": {
+    "color": "#3a3a3a",
+    "fillColor": "#3F8D45",
+    "fillOpacity": 0.6,
+    "weight": 0.2
+  },
+  "references": [
+    {
+      "label": "Open Data NI — Woodland Habitat Networks (grouped) Habitat Network",
+      "url": "https://admin.opendatani.gov.uk/dataset/8cc0d885-994c-432c-af8e-44ff55b4761d"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/habitat-woodland-grouped.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Ulster Wildlife"
+  ],
+  "keywords": [
+    "habitat",
+    "biodiversity",
+    "nature recovery",
+    "ulster wildlife",
+    "habitat network",
+    "woodland habitat networks (grouped)",
+    "Habitat Network — Woodland Habitat Networks (grouped)",
+    "Biodiversity & Habitats",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Class",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 8,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#3a3a3a",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/habitat-woodland-grouped-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/habitat-woodland-grouped.fgb",
+  "sourceDatasetLayer": "habitat-woodland-grouped",
+  "popupProperties": [
+    "Class"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Class"
+  ],
+  "categoricalValues": {
+    "Class": [
+      "Associated Habitats",
+      "Fragmentation Action Zone",
+      "Network Enhancement Zone 1",
+      "Network Enhancement Zone 2",
+      "Network Expansion Zone",
+      "Primary Habitat",
+      "Restorable Habitat"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/habitat-woodland-grouped.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/habitat-woodland-grouped.fgb",
+    "bytes": 48443024,
+    "files": 913,
+    "pbfFiles": 912,
+    "maxTileBytes": 3164404
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-woodland-grouped-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/habitat-woodland-grouped/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/habitat-woodland-grouped-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/habitat-woodland-grouped-vector-test.pmtiles",
+    "bytes": 19549619,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-30T12:53:39.885Z",
+    "fallback": "/test/tiles/generated/habitat-woodland-grouped/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-woodland-grouped-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/habitat-woodland-grouped-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/habitat-woodland-grouped-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

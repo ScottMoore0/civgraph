@@ -1,0 +1,187 @@
+{
+  "id": "dlr-local-electoral-areas-vector-test",
+  "sourceMapId": "dlr-local-electoral-areas",
+  "name": "Local Electoral Areas (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Local Electoral Areas (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/dlr-local-electoral-areas/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-local-electoral-areas/metadata.json",
+  "sourceLayer": "dlr_local_electoral_areas",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.1986269,
+      -6.2992753
+    ],
+    [
+      53.3148151,
+      -6.081761
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-local-electoral-areas.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "local",
+    "electoral",
+    "areas",
+    "Local Electoral Areas (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "LE_ID",
+  "labelPropertyFallbacks": [
+    "GAEILGE",
+    "COUNTY"
+  ],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-local-electoral-areas-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-local-electoral-areas.fgb",
+  "sourceDatasetLayer": "dlr-local-electoral-areas",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "LE_ID",
+    "OBJECTID",
+    "FID",
+    "ENGLISH",
+    "GAEILGE",
+    "CONTAE",
+    "COUNTY",
+    "PROVINCE",
+    "GUID",
+    "CENTROID_X",
+    "CENTROID_Y"
+  ],
+  "numericProperties": [
+    "FID",
+    "CENTROID_X",
+    "CENTROID_Y",
+    "AREA",
+    "OBJECTID",
+    "Shape__Are",
+    "Shape__Len"
+  ],
+  "categoricalProperties": [
+    "LE_ID",
+    "ENGLISH",
+    "GAEILGE",
+    "CONTAE",
+    "COUNTY",
+    "PROVINCE",
+    "GUID"
+  ],
+  "categoricalValues": {
+    "LE_ID": [
+      "13260405",
+      "13260406",
+      "13260407",
+      "13260408",
+      "13260409",
+      "13260410"
+    ],
+    "ENGLISH": [
+      "BLACKROCK LEA-6",
+      "DUNDRUM LEA-7",
+      "DÚN LAOGHAIRE LEA-7",
+      "GLENCULLEN-SANDYFORD LEA-7",
+      "KILLINEY-SHANKILL LEA-7",
+      "STILLORGAN LEA-6"
+    ],
+    "GAEILGE": [
+      " "
+    ],
+    "CONTAE": [
+      "Baile Átha Cliath"
+    ],
+    "COUNTY": [
+      "DUBLIN"
+    ],
+    "PROVINCE": [
+      "Leinster"
+    ],
+    "GUID": [
+      "2ae19629-3efc-13a3-e055-000000000001",
+      "2ae19629-3efd-13a3-e055-000000000001",
+      "2ae19629-3f3f-13a3-e055-000000000001",
+      "2ae19629-3f40-13a3-e055-000000000001",
+      "2ae19629-3f4e-13a3-e055-000000000001",
+      "2ae19629-3f4f-13a3-e055-000000000001"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-local-electoral-areas.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-local-electoral-areas.fgb",
+    "bytes": 72303,
+    "files": 26,
+    "pbfFiles": 25,
+    "maxTileBytes": 6747
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-local-electoral-areas-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-local-electoral-areas/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-local-electoral-areas-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-local-electoral-areas-vector-test.pmtiles",
+    "bytes": 45949,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-local-electoral-areas/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-local-electoral-areas-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-local-electoral-areas-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-local-electoral-areas-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

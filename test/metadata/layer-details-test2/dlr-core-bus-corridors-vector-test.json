@@ -1,0 +1,140 @@
+{
+  "id": "dlr-core-bus-corridors-vector-test",
+  "sourceMapId": "dlr-core-bus-corridors",
+  "name": "Core Bus Corridors (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Core Bus Corridors (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/dlr-core-bus-corridors/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-core-bus-corridors/metadata.json",
+  "sourceLayer": "dlr_core_bus_corridors",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2079371,
+      -6.2229191
+    ],
+    [
+      53.3189602,
+      -6.1142731
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-core-bus-corridors.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "core",
+    "bus",
+    "corridors",
+    "Core Bus Corridors (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Route",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-core-bus-corridors-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-core-bus-corridors.fgb",
+  "sourceDatasetLayer": "dlr-core-bus-corridors",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Route",
+    "OBJECTID",
+    "Comment",
+    "SHAPE_Length"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "SHAPE_Length"
+  ],
+  "categoricalProperties": [
+    "Route",
+    "Comment"
+  ],
+  "categoricalValues": {
+    "Route": [
+      "Blackrock to Merrion",
+      "Bray to City",
+      "City to Bray",
+      "Merrion to Blackrock"
+    ],
+    "Comment": [
+      "Core Bus Corridors"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-core-bus-corridors.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-core-bus-corridors.fgb",
+    "bytes": 10117,
+    "files": 20,
+    "pbfFiles": 19,
+    "maxTileBytes": 974
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-core-bus-corridors-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-core-bus-corridors/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-core-bus-corridors-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-core-bus-corridors-vector-test.pmtiles",
+    "bytes": 8340,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-core-bus-corridors/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-core-bus-corridors-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-core-bus-corridors-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-core-bus-corridors-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

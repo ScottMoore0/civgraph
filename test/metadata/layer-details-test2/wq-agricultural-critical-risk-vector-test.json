@@ -1,0 +1,200 @@
+{
+  "id": "wq-agricultural-critical-risk-vector-test",
+  "sourceMapId": "wq-agricultural-critical-risk",
+  "name": "Agricultural Critical Risk Areas (DAERA)",
+  "category": "Water Quality",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "DAERA",
+    "NIEA"
+  ],
+  "description": "DAERA classification of land parcels by their relative risk of contributing diffuse agricultural pollution to receiving waters. Each parcel is scored 0–1 (`riskscore2`) by combining slope, hydrological connectivity, soil characteristics, rainfall, river-buffer proximity and land-use rules. Companion to the Network Contribution datasets — the polygon equivalent of the per-river-basin SciMAP score.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/wq-agricultural-critical-risk/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/wq-agricultural-critical-risk/metadata.json",
+  "sourceLayer": "wq_agricultural_critical_risk",
+  "promoteId": "OBJECTID",
+  "minzoom": 10,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0297884,
+      -8.1749509
+    ],
+    [
+      55.3103529,
+      -5.4333504
+    ]
+  ],
+  "style": {
+    "color": "#888888",
+    "fillColor": "#888888",
+    "fillOpacity": 0.6,
+    "weight": 0.2
+  },
+  "references": [
+    {
+      "label": "OSNI Open Data — Agricultural Critical Risk Areas",
+      "url": "https://admin.opendatani.gov.uk/dataset/agricultural-critical-risk-areas"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/wq-agricultural-critical-risk.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "DAERA",
+    "NIEA"
+  ],
+  "keywords": [
+    "agriculture",
+    "farming",
+    "pollution",
+    "risk",
+    "daera",
+    "nutrient",
+    "runoff",
+    "diffuse",
+    "Agricultural Critical Risk Areas (DAERA)",
+    "Water Quality",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 10,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#888888",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/wq-agricultural-critical-risk.fgb",
+  "sourceDatasetLayer": "wq-agricultural-critical-risk",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "OBJECTID",
+    "bh",
+    "shape_star",
+    "shape_stle",
+    "hydoconnec",
+    "rainfall_2",
+    "slope_2",
+    "landclass2",
+    "host_2",
+    "soilp_2"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "shape_star",
+    "shape_stle",
+    "rainfall_2",
+    "slope_2",
+    "landclass2",
+    "host_2",
+    "soilp_2",
+    "q10_2",
+    "riverbuff2",
+    "rwb_stat_2",
+    "erosion",
+    "riskscore2",
+    "ruleid",
+    "SHAPE__Length",
+    "SHAPE__Area"
+  ],
+  "categoricalProperties": [
+    "bh",
+    "hydoconnec",
+    "override",
+    "GlobalID"
+  ],
+  "categoricalValues": {
+    "bh": [
+      "Arable and horticulture",
+      "Improved grassland"
+    ],
+    "hydoconnec": [
+      "No",
+      "Yes"
+    ],
+    "override": [
+      ""
+    ],
+    "GlobalID": [
+      "026c460c-acd4-431a-b9c8-d3ddccddc290",
+      "02ac877c-574c-4074-81ce-a093da0d28ca",
+      "0422cc91-5f4a-4c07-8e48-67f237790fed",
+      "063583fc-c5b9-467c-81ec-5eaab3524ea4",
+      "0812e6b7-59be-43ec-9c94-b994e2dfc8f7",
+      "08891ca5-7781-431c-9c0e-593abbc87686",
+      "089cee8d-b1c8-4e58-b0a3-f5074adf60df",
+      "09026e28-71e3-415e-87b4-e6e2605e75c9",
+      "0b1e331b-1515-430b-8251-8ca24bde1c37",
+      "0e8fd17a-a19f-4243-b58c-db3129424f21",
+      "11b5f9c4-d772-4bd6-bd0e-63e448cd3605",
+      "12e03894-a3e1-4486-8928-6d06a35b7ded",
+      "17bd1f21-8eee-4542-9152-d5a3712ba490",
+      "1e9d9717-87dc-449b-a28c-56e71bf9ec80",
+      "1f1e3369-923d-46e5-a45a-20afee5e55bf",
+      "1f9fef00-81d1-49cf-84c6-f66210954d76",
+      "26845144-7620-4b69-89b5-817c28325cc8",
+      "2c606563-61ad-4d56-b0e5-831ade73115f",
+      "2e71f487-4975-4fdd-ae85-cb825a466d76",
+      "396548a7-06ef-4a50-9e82-024873371440",
+      "3d901d3e-068e-4db4-b9c6-f3dfaec190f6",
+      "3e02bdf4-454a-4b7e-bf6b-f79c94929e07",
+      "3f182f0c-9854-4328-b7bd-9f641e6132b5",
+      "3f9291e2-5625-42ab-b59c-4efe9b0df72b",
+      "4f913ec0-efa0-4dd5-b68a-941d9be24165",
+      "5143fcc5-7c04-4889-b1b3-e5c2d6ac4693",
+      "55cafd87-b0a0-4778-86b2-20ab41b43059",
+      "5685f44d-8c6e-46f1-bb68-c4bb0069d11a",
+      "56ce9937-e7f9-4ffd-b423-c310c7c461ff",
+      "5f895007-003b-44f8-ba57-85d6c7350e4f",
+      "600a37cc-52dd-4f2b-a8f3-9e5a8b648a40",
+      "6424344d-0868-4e9f-9261-b68a881f0222"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/wq-agricultural-critical-risk.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/wq-agricultural-critical-risk.fgb",
+    "bytes": 170419138,
+    "files": 740,
+    "pbfFiles": 739,
+    "maxTileBytes": 9492194
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/wq-agricultural-critical-risk-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/wq-agricultural-critical-risk-vector-test.pmtiles",
+    "bytes": 103944833,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-30T12:53:39.885Z",
+    "fallback": "/test/tiles/generated/wq-agricultural-critical-risk/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/wq-agricultural-critical-risk-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/wq-agricultural-critical-risk-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/wq-agricultural-critical-risk-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "warning": "PMTiles archive exceeds Git hosting budget; directory MVT remains preferred.",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/wq-agricultural-critical-risk-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/wq-agricultural-critical-risk/{z}/{x}/{y}.pbf"
+}

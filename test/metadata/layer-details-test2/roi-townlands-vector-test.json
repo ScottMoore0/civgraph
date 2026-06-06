@@ -1,0 +1,195 @@
+{
+  "id": "roi-townlands-vector-test",
+  "sourceMapId": "roi-townlands",
+  "name": "Ireland",
+  "category": "Townlands",
+  "group": "Communities",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSI"
+  ],
+  "description": "Republic of Ireland",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/roi-townlands/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roi-townlands-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/roi-townlands/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/roi-townlands/metadata.json",
+  "sourceLayer": "roi_townlands",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198973,
+      -10.6186236
+    ],
+    [
+      55.4351414,
+      -5.9944947
+    ]
+  ],
+  "style": {
+    "color": "#A87000",
+    "fillColor": "#A87000",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Townlands - National Statutory Boundaries - Ungeneralised - 2024 (Tailte Éireann)",
+      "url": "https://data-osi.opendata.arcgis.com/datasets/osi::townlands-national-statutory-boundaries-ungeneralised-2024/about"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "data/maps/townlands/OSI_Townlands.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSI",
+    "OSNI"
+  ],
+  "keywords": [
+    "townland",
+    "townlands",
+    "republic of ireland",
+    "osi",
+    "tailte eireann",
+    "Ireland",
+    "Townlands",
+    "Communities",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "ENG_NAME_VALUE",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#A87000",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/roi-townlands-vector-test.json",
+  "sourceFile": "data/maps/townlands/OSI_Townlands.fgb",
+  "sourceDatasetLayer": "OSI_Townlands",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "ENG_NAME_VALUE",
+    "OBJECTID",
+    "GLE_NAME_VALUE"
+  ],
+  "numericProperties": [
+    "OBJECTID"
+  ],
+  "categoricalProperties": [
+    "ENG_NAME_VALUE",
+    "GLE_NAME_VALUE"
+  ],
+  "categoricalValues": {
+    "ENG_NAME_VALUE": [
+      "CAHER",
+      "CLASH",
+      "CURRAGH",
+      "DEERPARK",
+      "DROMORE",
+      "FOXHOLE",
+      "GALBALLY",
+      "GLENBEG",
+      "KILCASH",
+      "KILLESK",
+      "KILMACOE",
+      "KILMURRY",
+      "KNOCKROE",
+      "LONGFORD",
+      "MOANROE",
+      "NICHAREE",
+      "REAROE",
+      "SHOUKS",
+      "YOLETOWN",
+      "ADAMSTOWN",
+      "BALLINDONEY WEST",
+      "BALLYBANE",
+      "BALLYCLOHY",
+      "BALLYCONDON COMMONS",
+      "BALLYDAVID",
+      "BALLYDORGAN",
+      "BALLYDUFF UPPER",
+      "BALLYFAUSKEEN",
+      "BALLYGARRAN",
+      "BALLYGOMAN",
+      "BALLYGRANGANS",
+      "BALLYHOOK"
+    ],
+    "GLE_NAME_VALUE": [
+      "An Baile Bán",
+      "An Baile Dubh Uachtarach",
+      "An Bhuaile Bhuí",
+      "An Chathair",
+      "An Chlais",
+      "An Cloichreán",
+      "An Cnoc Rua",
+      "An Coinicéar Íochtarach",
+      "An Currach",
+      "An Curraichín",
+      "An Drom Mór",
+      "An Drom Rua Íochtarach",
+      "An Eochair Riabhaigh",
+      "An Gallbhaile",
+      "An Garraí Dubh",
+      "An Gleann Beag",
+      "An Goirtín Uachtarach",
+      "An Longfort",
+      "An Mhóin Rua",
+      "An Ré Rua",
+      "An Sceichín Uachtarach",
+      "An Seanbhaile",
+      "Baile Anraí Beag",
+      "Baile Anraí Mór",
+      "Baile Dháith",
+      "Baile Ghómain",
+      "Baile Grangáin",
+      "Baile Mhaoiléir",
+      "Baile Mhichíl",
+      "Baile Pháiscín",
+      "Baile Uí Dheargáin",
+      "Baile Uí Dhonnagáin"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from data/maps/townlands/OSI_Townlands.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "data/maps/townlands/OSI_Townlands.fgb",
+    "bytes": 88359993,
+    "files": 3308,
+    "pbfFiles": 3307,
+    "maxTileBytes": 3022371
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/roi-townlands-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/roi-townlands-vector-test.pmtiles",
+    "bytes": 55157748,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/roi-townlands/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roi-townlands-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/roi-townlands-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/roi-townlands-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

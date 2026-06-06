@@ -1,0 +1,189 @@
+{
+  "id": "dcc-moby-bikes-vector-test",
+  "sourceMapId": "dcc-moby-bikes",
+  "name": "Moby Bikes (DCC)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dublin City Council"
+  ],
+  "description": "Moby Bikes (DCC) — published by Dublin City Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dcc-moby-bikes/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dcc-moby-bikes/metadata.json",
+  "sourceLayer": "dcc_moby_bikes",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2553978,
+      -6.4417868
+    ],
+    [
+      53.4084282,
+      -6.0744781
+    ]
+  ],
+  "style": {
+    "color": "#FF6F00",
+    "fillColor": "#FF6F00",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dcc-moby-bikes.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dublin City Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dcc",
+    "amenity",
+    "council",
+    "moby",
+    "bikes",
+    "Moby Bikes (DCC)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "system_id",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FF6F00",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dcc-moby-bikes-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dcc-moby-bikes.fgb",
+  "sourceDatasetLayer": "dcc-moby-bikes",
+  "popupProperties": [
+    "system_id",
+    "bike_id",
+    "last_updated",
+    "is_reserved",
+    "is_disabled",
+    "vehicle_type_id",
+    "station_id",
+    "current_fuel_percent",
+    "current_range_meters",
+    "last_updated_dt"
+  ],
+  "numericProperties": [
+    "last_updated",
+    "current_range_meters"
+  ],
+  "categoricalProperties": [
+    "system_id",
+    "bike_id",
+    "vehicle_type_id",
+    "station_id",
+    "last_updated_dt"
+  ],
+  "categoricalValues": {
+    "system_id": [
+      "mobymoby_dublin"
+    ],
+    "bike_id": [
+      "3472894557668323892",
+      "3473173820720099892",
+      "3473182616846676532",
+      "3473454196134851124",
+      "3473457507604967988",
+      "3473459723757630004",
+      "3474017150450348596",
+      "3474019358046761524",
+      "3474025972313174580",
+      "3474580108943372852",
+      "3474583403216843316",
+      "3474867094413455924",
+      "3544385903184392756",
+      "3544393621240623668",
+      "3544948874629362228",
+      "3545233643846054452",
+      "3545511798762451252",
+      "3545516214039425588",
+      "3545803160821248564",
+      "3546076977837716020",
+      "3546083562056135220",
+      "3546357344696087092",
+      "3546360639019823668",
+      "3546638819672797748",
+      "3546644300118110772",
+      "3616724972199292980",
+      "3616728257899344436",
+      "3616728275146256948",
+      "3616729396015346228",
+      "3616731577892287028",
+      "3616732677437207092",
+      "3617008633314095668"
+    ],
+    "vehicle_type_id": [
+      "3645",
+      "3646"
+    ],
+    "station_id": [
+      ""
+    ],
+    "last_updated_dt": [
+      "2026-04-26T15:09:16",
+      "2026-04-26T15:10:16",
+      "2026-04-26T15:12:18",
+      "2026-04-26T15:13:18"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dcc-moby-bikes.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dcc-moby-bikes.fgb",
+    "bytes": 577121,
+    "files": 40,
+    "pbfFiles": 39,
+    "maxTileBytes": 39798
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-moby-bikes-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dcc-moby-bikes/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dcc-moby-bikes-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dcc-moby-bikes-vector-test.pmtiles",
+    "bytes": 199235,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dcc-moby-bikes/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-moby-bikes-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dcc-moby-bikes-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dcc-moby-bikes-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "bike_id",
+  "idProperty": "bike_id"
+}

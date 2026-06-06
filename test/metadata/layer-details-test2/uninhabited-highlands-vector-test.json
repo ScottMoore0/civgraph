@@ -1,0 +1,125 @@
+{
+  "id": "uninhabited-highlands-vector-test",
+  "sourceMapId": "uninhabited-highlands",
+  "name": "Uninhabited Highlands",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Scott Moore",
+    "OpenTopography.org"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/uninhabited-highlands/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/uninhabited-highlands/metadata.json",
+  "sourceLayer": "uninhabited_highlands",
+  "promoteId": "FID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.6391667,
+      -10
+    ],
+    [
+      55,
+      -5.8958333
+    ]
+  ],
+  "style": {
+    "color": "#000000",
+    "fillColor": "#000000",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/uninhabited-highlands.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Scott Moore",
+    "OpenTopography.org"
+  ],
+  "keywords": [
+    "highlands",
+    "uninhabited",
+    "mountains",
+    "Uninhabited Highlands",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#000000",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/uninhabited-highlands.fgb",
+  "sourceDatasetLayer": "uninhabited-highlands",
+  "idProperty": "FID",
+  "popupProperties": [
+    "FID",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "FID",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [],
+  "categoricalValues": {},
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/uninhabited-highlands.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/uninhabited-highlands.fgb",
+    "bytes": 486298,
+    "files": 590,
+    "pbfFiles": 589,
+    "maxTileBytes": 13847
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/uninhabited-highlands-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/uninhabited-highlands/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/uninhabited-highlands-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/uninhabited-highlands-vector-test.pmtiles",
+    "bytes": 271615,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/uninhabited-highlands/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/uninhabited-highlands-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/uninhabited-highlands-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/uninhabited-highlands-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "id": "ttwa-2011-vector-test",
+  "sourceMapId": "ttwa-2011",
+  "name": "Travel To Work Areas 2011",
+  "category": "Census Statistical Areas",
+  "group": "Public Services",
+  "date": 2011,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "NISRA"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/ttwa-2011/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/ttwa-2011/metadata.json",
+  "sourceLayer": "ttwa_2011",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227249,
+      -8.1775025
+    ],
+    [
+      55.3129665,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#4D989E",
+    "fillColor": "#4D989E",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Northern Ireland Travel to Work Areas (TTWAs) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
+      "url": "https://www.nisra.gov.uk/support/geography/northern-ireland-travel-work-areas-ttwas"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/ttwa-2011.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "NISRA"
+  ],
+  "keywords": [
+    "TTWA",
+    "travel to work",
+    "commuting",
+    "2011",
+    "Travel To Work Areas 2011",
+    "Census Statistical Areas",
+    "Public Services",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "TTWA11NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#4D989E",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/ttwa-2011-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/ttwa-2011.fgb",
+  "sourceDatasetLayer": "ttwa-2011",
+  "popupProperties": [
+    "TTWA11NAME",
+    "TTWA11",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "TTWA11",
+    "TTWA11NAME"
+  ],
+  "categoricalValues": {
+    "TTWA11": [
+      "N12000001",
+      "N12000002",
+      "N12000003",
+      "N12000004",
+      "N12000005",
+      "N12000006",
+      "N12000007",
+      "N12000008",
+      "N12000009",
+      "N12000010"
+    ],
+    "TTWA11NAME": [
+      "Belfast",
+      "Derry",
+      "Ballymena",
+      "Coleraine",
+      "Cookstown and Magherafelt",
+      "Craigavon",
+      "Dungannon",
+      "Enniskillen",
+      "Newry and Banbridge",
+      "Omagh and Strabane"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/ttwa-2011.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/ttwa-2011.fgb",
+    "bytes": 1579351,
+    "files": 757,
+    "pbfFiles": 756,
+    "maxTileBytes": 17978
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ttwa-2011-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/ttwa-2011/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/ttwa-2011-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/ttwa-2011-vector-test.pmtiles",
+    "bytes": 886490,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/ttwa-2011/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ttwa-2011-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/ttwa-2011-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/ttwa-2011-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "TTWA11NAME",
+  "idProperty": "TTWA11NAME"
+}

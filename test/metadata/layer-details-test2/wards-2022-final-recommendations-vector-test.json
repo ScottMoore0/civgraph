@@ -1,0 +1,233 @@
+{
+  "id": "wards-2022-final-recommendations-vector-test",
+  "sourceMapId": "wards-2022-final-recommendations",
+  "name": "2022 (Final Recommendations)",
+  "category": "Electoral Areas",
+  "group": "Elections and Government",
+  "date": "2022-05-01",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Local Government Boundary Commission for Northern Ireland",
+    "Land & Property Services"
+  ],
+  "description": "Northern Ireland's 462 wards as set out in the LGBC Final Recommendations published May 2022. Same ward count as the existing 2014 boundaries but with substantially redrawn lines. New WardCode scheme. Each ward includes its electorate count and the LGD it sits in. These are recommendations and may not yet be in legal force — verify current statutory status before using for official purposes.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/wards-2022-final-recommendations/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/wards-2022-final-recommendations/metadata.json",
+  "sourceLayer": "wards_2022_final_recommendations",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227244,
+      -8.1774834
+    ],
+    [
+      55.3129843,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#5B3B8B",
+    "fillColor": "#5B3B8B",
+    "fillOpacity": 0.05,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "LGBC 21/22 Public Consultation app",
+      "url": "https://osni-spatialni.hub.arcgis.com/apps/a350095c9c7e49ff8daf78d9f8f80edc/explore"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/wards-2022-final-recommendations.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Local Government Boundary Commission for Northern Ireland",
+    "Land & Property Services"
+  ],
+  "keywords": [
+    "ward",
+    "boundary commission",
+    "final recommendations",
+    "2022",
+    "2023",
+    "proposal",
+    "2022 (Final Recommendations)",
+    "Electoral Areas",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "WARDNAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#5B3B8B",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/wards-2022-final-recommendations-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/wards-2022-final-recommendations.fgb",
+  "sourceDatasetLayer": "wards-2022-final-recommendations",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "WARDNAME",
+    "OBJECTID",
+    "WardCode",
+    "LGDNAME",
+    "LGDCode",
+    "Electorate",
+    "Shape_Length",
+    "Shape_Area"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "Electorate",
+    "Shape_Length",
+    "Shape_Area"
+  ],
+  "categoricalProperties": [
+    "WARDNAME",
+    "WardCode",
+    "LGDNAME",
+    "LGDCode"
+  ],
+  "categoricalValues": {
+    "WARDNAME": [
+      "ANNALONG",
+      "ARDBOE",
+      "BELVOIR",
+      "BINNIAN",
+      "BROWNLOW",
+      "CAMLOUGH",
+      "CLADY",
+      "COAGH",
+      "CRUMLIN",
+      "DERRYBOY",
+      "DONARD",
+      "DROMARA",
+      "DROMORE",
+      "DRUMBO",
+      "DUNDRUM",
+      "FORKHILL",
+      "GILFORD",
+      "GLENAVY",
+      "GRANSHA",
+      "HILLHALL",
+      "HILLTOWN",
+      "KEADY",
+      "KILLYMAN",
+      "KILMORE",
+      "LAGAN",
+      "LECALE",
+      "LEGONIEL",
+      "LOUGHRY",
+      "MAHON",
+      "MAZE",
+      "MOY",
+      "NAVAN"
+    ],
+    "WardCode": [
+      "N08000102",
+      "N08000105",
+      "N08000108",
+      "N08000109",
+      "N08000113",
+      "N08000116",
+      "N08000124",
+      "N08000129",
+      "N08000201",
+      "N08000203",
+      "N08000205",
+      "N08000206",
+      "N08000207",
+      "N08000209",
+      "N08000214",
+      "N08000215",
+      "N08000216",
+      "N08000217",
+      "N08000218",
+      "N08000219",
+      "N08000220",
+      "N08000225",
+      "N08000226",
+      "N08000228",
+      "N08000229",
+      "N08000231",
+      "N08000233",
+      "N08000234",
+      "N08000235",
+      "N08000236",
+      "N08000239",
+      "N08000240"
+    ],
+    "LGDNAME": [
+      "BELFAST",
+      "ANTRIM AND NEWTOWNABBEY",
+      "ARDS AND NORTH DOWN",
+      "ARMAGH, BANBRIDGE AND CRAIGAVON",
+      "CAUSEWAY COAST AND GLENS",
+      "DERRY AND STRABANE",
+      "FERMANAGH AND OMAGH",
+      "LISBURN AND CASTLEREAGH",
+      "MID AND EAST ANTRIM",
+      "MID ULSTER",
+      "NEWRY, MOURNE AND DOWN"
+    ],
+    "LGDCode": [
+      "N09000001",
+      "N09000002",
+      "N09000003",
+      "N09000004",
+      "N09000005",
+      "N09000006",
+      "N09000007",
+      "N09000008",
+      "N09000009",
+      "N09000010",
+      "N09000011"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/wards-2022-final-recommendations.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/wards-2022-final-recommendations.fgb",
+    "bytes": 5514589,
+    "files": 757,
+    "pbfFiles": 756,
+    "maxTileBytes": 109322
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/wards-2022-final-recommendations-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/wards-2022-final-recommendations/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/wards-2022-final-recommendations-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/wards-2022-final-recommendations-vector-test.pmtiles",
+    "bytes": 3375682,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/wards-2022-final-recommendations/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/wards-2022-final-recommendations-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/wards-2022-final-recommendations-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/wards-2022-final-recommendations-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

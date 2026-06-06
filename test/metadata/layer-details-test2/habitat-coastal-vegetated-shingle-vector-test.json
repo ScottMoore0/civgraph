@@ -1,0 +1,127 @@
+{
+  "id": "habitat-coastal-vegetated-shingle-vector-test",
+  "sourceMapId": "habitat-coastal-vegetated-shingle",
+  "name": "Habitat Network — Coastal Vegetated Shingle",
+  "category": "Biodiversity & Habitats",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Ulster Wildlife"
+  ],
+  "description": "Spatial extent of coastal vegetated shingle habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/habitat-coastal-vegetated-shingle/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/habitat-coastal-vegetated-shingle/metadata.json",
+  "sourceLayer": "habitat_coastal_vegetated_shingle",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.22291,
+      -6.2013078
+    ],
+    [
+      55.2292397,
+      -5.4548781
+    ]
+  ],
+  "style": {
+    "color": "#3a3a3a",
+    "fillColor": "#D5C3A1",
+    "fillOpacity": 0.6,
+    "weight": 0.2
+  },
+  "references": [
+    {
+      "label": "Open Data NI — Coastal Vegetated Shingle Habitat Network",
+      "url": "https://admin.opendatani.gov.uk/dataset/bc57fe1b-d5f1-4f1a-af96-494618f3b53b"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/habitat-coastal-vegetated-shingle.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Ulster Wildlife"
+  ],
+  "keywords": [
+    "habitat",
+    "biodiversity",
+    "nature recovery",
+    "ulster wildlife",
+    "habitat network",
+    "coastal vegetated shingle",
+    "Habitat Network — Coastal Vegetated Shingle",
+    "Biodiversity & Habitats",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Class",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#3a3a3a",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/habitat-coastal-vegetated-shingle-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/habitat-coastal-vegetated-shingle.fgb",
+  "sourceDatasetLayer": "habitat-coastal-vegetated-shingle",
+  "popupProperties": [
+    "Class"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Class"
+  ],
+  "categoricalValues": {
+    "Class": [
+      "Associated Habitats",
+      "Fragmentation Action Zone",
+      "Network Enhancement Zone 2",
+      "Primary Habitat",
+      "Restorable Habitat"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/habitat-coastal-vegetated-shingle.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/habitat-coastal-vegetated-shingle.fgb",
+    "bytes": 304169,
+    "files": 65,
+    "pbfFiles": 64,
+    "maxTileBytes": 25653
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-coastal-vegetated-shingle-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/habitat-coastal-vegetated-shingle/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/habitat-coastal-vegetated-shingle-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/habitat-coastal-vegetated-shingle-vector-test.pmtiles",
+    "bytes": 145625,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/habitat-coastal-vegetated-shingle/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-coastal-vegetated-shingle-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/habitat-coastal-vegetated-shingle-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/habitat-coastal-vegetated-shingle-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

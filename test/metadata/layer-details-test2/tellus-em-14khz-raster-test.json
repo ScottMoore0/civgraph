@@ -1,0 +1,79 @@
+{
+  "id": "tellus-em-14khz-raster-test",
+  "sourceMapId": "tellus-em-14khz",
+  "name": "Tellus Electromagnetic — 14 kHz Apparent Conductivity",
+  "category": "Geology and Geophysics",
+  "group": "Physical Geography",
+  "date": null,
+  "provider": [
+    "GSNI",
+    "Tellus"
+  ],
+  "description": "Apparent ground conductivity at 14 kHz — shallower depth (~10–30 m) than the 3 kHz channel, more sensitive to surface and near-surface conductors. Useful for soil moisture, near-surface alteration, and thin clay layers. Viridis colormap, -2σ to +4σ stretch.",
+  "renderer": "maplibre",
+  "sourceType": "raster",
+  "geometryType": "raster",
+  "tiles": "https://data.civgraph.net/data/maps/geology/tellus-em-14khz/{z}/{x}/{y}.png",
+  "bounds": [
+    [
+      53.99,
+      -8.19
+    ],
+    [
+      55.33,
+      -5.32
+    ]
+  ],
+  "minzoom": 5,
+  "maxzoom": 18,
+  "maxNativeZoom": 13,
+  "tileSize": 256,
+  "rasterOpacity": 0.85,
+  "style": {
+    "color": "#4F46E5",
+    "fillColor": "#818CF8",
+    "fillOpacity": 0.18,
+    "weight": 1.5
+  },
+  "references": [
+    {
+      "label": "OSNI Open Data — Tellus Electromagnetic Grids",
+      "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-electromagnetic-grids"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "https://data.civgraph.net/data/maps/geology/tellus-em-14khz/{z}/{x}/{y}.png"
+    },
+    {
+      "label": "ESRI File Geodatabase (ZIP, 225 MB)",
+      "url": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Electromagnetics_ESRIGRID.zip"
+    }
+  ],
+  "sourceCredits": [
+    "GSNI",
+    "Tellus"
+  ],
+  "keywords": [
+    "tellus",
+    "gsni",
+    "geophysics",
+    "electromagnetic",
+    "conductivity",
+    "14khz",
+    "em",
+    "airborne",
+    "Tellus Electromagnetic — 14 kHz Apparent Conductivity",
+    "Geology and Geophysics",
+    "Physical Geography",
+    "maplibre",
+    "raster tiles"
+  ],
+  "status": "converted-raster-tiles",
+  "notes": "Raster XYZ tile layer using metadata bounds and tile template https://data.civgraph.net/data/maps/geology/tellus-em-14khz/{z}/{x}/{y}.png.",
+  "generatedFrom": {
+    "pipeline": "promote-test-raster-tiles",
+    "sourceFile": "https://data.civgraph.net/data/maps/geology/tellus-em-14khz/{z}/{x}/{y}.png"
+  }
+}

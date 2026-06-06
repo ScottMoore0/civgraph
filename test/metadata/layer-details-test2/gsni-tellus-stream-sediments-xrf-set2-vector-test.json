@@ -1,0 +1,154 @@
+{
+  "id": "gsni-tellus-stream-sediments-xrf-set2-vector-test",
+  "sourceMapId": "gsni-tellus-stream-sediments-xrf-set2",
+  "name": "Tellus Stream Sediments (Regional XRF — Set 2)",
+  "category": "Geology and Geophysics",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "GSNI",
+    "Tellus"
+  ],
+  "description": "Second set of regional stream-sediment samples (Tellus survey), analysed by XRF for an additional suite of major and trace elements beyond the Set 1 panel. ~5,870 points.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/gsni-tellus-stream-sediments-xrf-set2/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/gsni-tellus-stream-sediments-xrf-set2/metadata.json",
+  "sourceLayer": "gsni_tellus_stream_sediments_xrf_set2",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0406377,
+      -8.1371664
+    ],
+    [
+      55.2973606,
+      -5.4662857
+    ]
+  ],
+  "style": {
+    "color": "#6e4fa8",
+    "fillColor": "#6e4fa8",
+    "fillOpacity": 0.85,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "GSNI Tellus Regional Stream Sediments — Open Data NI",
+      "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-stream-sediments"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/gsni-tellus-stream-sediments-xrf-set2.fgb"
+    },
+    {
+      "label": "GeoJSON — XRF Set 2",
+      "url": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/acf0cf00-85c0-41fd-b974-67e7f67c03ad/download/regionalsedimentsxrfset2.geojson"
+    },
+    {
+      "label": "CSV — XRF Set 2",
+      "url": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/de28b76a-42cf-4b0c-b302-225ade45edf0/download/regionalsedimentsxrfset2.csv"
+    }
+  ],
+  "sourceCredits": [
+    "GSNI",
+    "Tellus"
+  ],
+  "keywords": [
+    "tellus",
+    "geochemistry",
+    "stream",
+    "sediment",
+    "xrf",
+    "set2",
+    "gsni",
+    "Tellus Stream Sediments (Regional XRF — Set 2)",
+    "Geology and Geophysics",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "SAMPLE_NO",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#6e4fa8",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/gsni-tellus-stream-sediments-xrf-set2-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/gsni-tellus-stream-sediments-xrf-set2.fgb",
+  "sourceDatasetLayer": "gsni-tellus-stream-sediments-xrf-set2",
+  "popupProperties": [
+    "SAMPLE_NO",
+    "YEAR",
+    "LABNO",
+    "EASTING",
+    "NORTHING",
+    "TIO2",
+    "V",
+    "CO",
+    "GA",
+    "RB"
+  ],
+  "numericProperties": [
+    "SAMPLE_NO",
+    "YEAR",
+    "LABNO",
+    "EASTING",
+    "NORTHING",
+    "TIO2",
+    "V",
+    "CO",
+    "GA",
+    "RB",
+    "SR",
+    "Y",
+    "ZR",
+    "NB",
+    "BI",
+    "TH"
+  ],
+  "categoricalProperties": [],
+  "categoricalValues": {},
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/gsni-tellus-stream-sediments-xrf-set2.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/gsni-tellus-stream-sediments-xrf-set2.fgb",
+    "bytes": 8516590,
+    "files": 693,
+    "pbfFiles": 692,
+    "maxTileBytes": 548785
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/gsni-tellus-stream-sediments-xrf-set2-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/gsni-tellus-stream-sediments-xrf-set2/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/gsni-tellus-stream-sediments-xrf-set2-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/gsni-tellus-stream-sediments-xrf-set2-vector-test.pmtiles",
+    "bytes": 4518099,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/gsni-tellus-stream-sediments-xrf-set2/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/gsni-tellus-stream-sediments-xrf-set2-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/gsni-tellus-stream-sediments-xrf-set2-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/gsni-tellus-stream-sediments-xrf-set2-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

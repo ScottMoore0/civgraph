@@ -1,0 +1,176 @@
+{
+  "id": "dlr-council-offices-vector-test",
+  "sourceMapId": "dlr-council-offices",
+  "name": "Council Offices (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Council Offices (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-council-offices/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-council-offices/metadata.json",
+  "sourceLayer": "dlr_council_offices",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2550737,
+      -6.2447152
+    ],
+    [
+      53.2948185,
+      -6.134815
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-council-offices.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "offices",
+    "Council Offices (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "CouncilID",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-council-offices-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-council-offices.fgb",
+  "sourceDatasetLayer": "dlr-council-offices",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "CouncilID",
+    "OBJECTID",
+    "Number",
+    "Administrative_Authority",
+    "Name",
+    "Address",
+    "Phone",
+    "Lat",
+    "Long",
+    "y_itm"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "Number",
+    "Lat",
+    "Long",
+    "y_itm",
+    "x_itm"
+  ],
+  "categoricalProperties": [
+    "CouncilID",
+    "Administrative_Authority",
+    "Name",
+    "Address",
+    "Phone",
+    "Email",
+    "Website"
+  ],
+  "categoricalValues": {
+    "CouncilID": [
+      "DLR"
+    ],
+    "Administrative_Authority": [
+      "Dún Laoghaire Rathdown County Council"
+    ],
+    "Name": [
+      "Ballyogan Operations Centre",
+      "County Hall",
+      "DLR Leisure Head Office",
+      "Dundrum Local Office",
+      "Harbour Square"
+    ],
+    "Address": [
+      "Ballyogan Road, Carrickmines, DUBLIN 18, County Dublin",
+      "Carnegie House, Library Road Dún Laoghaire, Co. Dublin, County Dublin",
+      "Dundrum Office Park, Main Street, Dundrum, Dublin 14, County Dublin",
+      "Harbour Square, Dún Laoghaire, County Dublin",
+      "Marine Road, Dún Laoghaire, County Dublin"
+    ],
+    "Phone": [
+      "01 205 4700",
+      "01 2054700",
+      "01 2904800",
+      "01 5375026"
+    ],
+    "Email": [
+      "info@dlrcoco.ie"
+    ],
+    "Website": [
+      "www.dlrcoco.ie"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-council-offices.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-council-offices.fgb",
+    "bytes": 20899,
+    "files": 17,
+    "pbfFiles": 16,
+    "maxTileBytes": 1138
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-council-offices-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-council-offices/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-council-offices-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-council-offices-vector-test.pmtiles",
+    "bytes": 12515,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-council-offices/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-council-offices-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-council-offices-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-council-offices-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

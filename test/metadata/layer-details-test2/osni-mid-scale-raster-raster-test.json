@@ -1,0 +1,76 @@
+{
+  "id": "osni-mid-scale-raster-raster-test",
+  "sourceMapId": "osni-mid-scale-raster",
+  "name": "OSNI Mid-Scale Raster — 1:10,000",
+  "category": "OSNI Raster Maps",
+  "group": "Built Environment",
+  "date": null,
+  "provider": [
+    "OSNI"
+  ],
+  "description": "Topographic raster cartography at 1:10,000 scale across all of Northern Ireland — a 292-sheet mosaic of OSNI base-map tiles. Useful background context for site-level work; shows roads, settlements, contours and named features. Served as XYZ tiles at zoom 8–15.",
+  "renderer": "maplibre",
+  "sourceType": "raster",
+  "geometryType": "raster",
+  "tiles": "https://data.civgraph.net/data/maps/osni-raster/mid-scale-raster/{z}/{x}/{y}.png",
+  "bounds": [
+    [
+      53.95,
+      -8.19
+    ],
+    [
+      55.33,
+      -5.4
+    ]
+  ],
+  "minzoom": 5,
+  "maxzoom": 18,
+  "maxNativeZoom": 15,
+  "tileSize": 256,
+  "rasterOpacity": 0.85,
+  "style": {
+    "color": "#4F46E5",
+    "fillColor": "#818CF8",
+    "fillOpacity": 0.18,
+    "weight": 1.5
+  },
+  "references": [
+    {
+      "label": "OSNI Open Data — Mid Scale Raster",
+      "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-10-000-raster-mid-scale-raster"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "https://data.civgraph.net/data/maps/osni-raster/mid-scale-raster/{z}/{x}/{y}.png"
+    },
+    {
+      "label": "Georeferenced sheets (TIF + TFW, ZIP)",
+      "url": "https://admin.opendatani.gov.uk/dataset/48376012-8061-4369-8cf5-24961f2f02c6/resource/27c90279-f13d-4216-9349-23b7dceb3082/download/osni_opendata_midscaleraster.zip"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI"
+  ],
+  "keywords": [
+    "osni",
+    "raster",
+    "topographic",
+    "1:10000",
+    "10k",
+    "mid scale",
+    "base map",
+    "OSNI Mid-Scale Raster — 1:10,000",
+    "OSNI Raster Maps",
+    "Built Environment",
+    "maplibre",
+    "raster tiles"
+  ],
+  "status": "converted-raster-tiles",
+  "notes": "Raster XYZ tile layer using metadata bounds and tile template https://data.civgraph.net/data/maps/osni-raster/mid-scale-raster/{z}/{x}/{y}.png.",
+  "generatedFrom": {
+    "pipeline": "promote-test-raster-tiles",
+    "sourceFile": "https://data.civgraph.net/data/maps/osni-raster/mid-scale-raster/{z}/{x}/{y}.png"
+  }
+}

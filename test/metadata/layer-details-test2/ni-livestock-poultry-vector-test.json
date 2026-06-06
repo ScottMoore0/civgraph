@@ -1,0 +1,171 @@
+{
+  "id": "ni-livestock-poultry-vector-test",
+  "sourceMapId": "ni-livestock-poultry",
+  "name": "NI Poultry Holdings (April 2019)",
+  "category": "Environment",
+  "group": "Physical Geography",
+  "date": "2019-04-01",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "DAERA"
+  ],
+  "description": "Locations of poultry herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/ni-livestock-poultry/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/ni-livestock-poultry/metadata.json",
+  "sourceLayer": "ni_livestock_poultry",
+  "promoteId": "ID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0301429,
+      -8.1533383
+    ],
+    [
+      55.2807937,
+      -5.4390435
+    ]
+  ],
+  "style": {
+    "color": "#FFC107",
+    "fillColor": "#FFC107",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/ni-livestock-poultry.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "DAERA"
+  ],
+  "keywords": [
+    "DAERA",
+    "livestock",
+    "farming",
+    "agriculture",
+    "poultry",
+    "herd",
+    "flock",
+    "rural",
+    "NI Poultry Holdings (April 2019)",
+    "Environment",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Map Ref",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FFC107",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/ni-livestock-poultry-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/ni-livestock-poultry.fgb",
+  "sourceDatasetLayer": "ni-livestock-poultry",
+  "idProperty": "ID",
+  "popupProperties": [
+    "Map Ref",
+    "ID",
+    "X Coord",
+    "Y Coord",
+    "Long Map Ref",
+    "Xcord",
+    "Ycord"
+  ],
+  "numericProperties": [
+    "ID",
+    "X Coord",
+    "Y Coord",
+    "Long Map Ref",
+    "Xcord",
+    "Ycord"
+  ],
+  "categoricalProperties": [
+    "Map Ref"
+  ],
+  "categoricalValues": {
+    "Map Ref": [
+      "J343333",
+      "J349348",
+      "J354353",
+      "J359332",
+      "J361317",
+      "J361327",
+      "J361354",
+      "J362347",
+      "J363312",
+      "J364321",
+      "J366307",
+      "J366329",
+      "J367326",
+      "J367343",
+      "J368313",
+      "J368327",
+      "J368329",
+      "J369327",
+      "J369329",
+      "J369346",
+      "J373326",
+      "J374285",
+      "J375313",
+      "J375338",
+      "J376323",
+      "J377317",
+      "J377323",
+      "J377325",
+      "J379327",
+      "J381326",
+      "J386332",
+      "J386343"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/ni-livestock-poultry.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/ni-livestock-poultry.fgb",
+    "bytes": 6385501,
+    "files": 677,
+    "pbfFiles": 676,
+    "maxTileBytes": 458150
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-livestock-poultry-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/ni-livestock-poultry/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/ni-livestock-poultry-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/ni-livestock-poultry-vector-test.pmtiles",
+    "bytes": 2875478,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/ni-livestock-poultry/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-livestock-poultry-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/ni-livestock-poultry-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/ni-livestock-poultry-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

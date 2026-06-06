@@ -1,0 +1,151 @@
+{
+  "id": "dlr-skateboard-parks-vector-test",
+  "sourceMapId": "dlr-skateboard-parks",
+  "name": "Skateboard Parks (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Skateboard Parks (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-skateboard-parks/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-skateboard-parks/metadata.json",
+  "sourceLayer": "dlr_skateboard_parks",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2577625,
+      -6.1904179
+    ],
+    [
+      53.2875577,
+      -6.152974
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-skateboard-parks.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "skateboard",
+    "parks",
+    "Skateboard Parks (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-skateboard-parks-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-skateboard-parks.fgb",
+  "sourceDatasetLayer": "dlr-skateboard-parks",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Name",
+    "OBJECTID",
+    "Address",
+    "Phone",
+    "Info",
+    "ITM_X",
+    "ITM_Y"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "ITM_X",
+    "ITM_Y"
+  ],
+  "categoricalProperties": [
+    "Name",
+    "Address",
+    "Phone",
+    "Info"
+  ],
+  "categoricalValues": {
+    "Name": [
+      "Ballyogan Concrete skatepark",
+      "Monkstown Skatepark"
+    ],
+    "Address": [
+      "Ballyogan Road Ballyogan Dublin 18",
+      "Bluepool centre, Monkstown, Dublin"
+    ],
+    "Phone": [
+      "01 230 1458"
+    ],
+    "Info": [
+      "Open/Free",
+      "Pay as You Go Prices: Adult €5, Child €3"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-skateboard-parks.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-skateboard-parks.fgb",
+    "bytes": 8477,
+    "files": 17,
+    "pbfFiles": 16,
+    "maxTileBytes": 393
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-skateboard-parks-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-skateboard-parks/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-skateboard-parks-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-skateboard-parks-vector-test.pmtiles",
+    "bytes": 6181,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-skateboard-parks/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-skateboard-parks-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-skateboard-parks-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-skateboard-parks-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

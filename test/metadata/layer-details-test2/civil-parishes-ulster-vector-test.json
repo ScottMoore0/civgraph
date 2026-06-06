@@ -1,0 +1,213 @@
+{
+  "id": "civil-parishes-ulster-vector-test",
+  "sourceMapId": "civil-parishes-ulster",
+  "name": "Civil Parishes of Ireland",
+  "category": "Civil Parishes",
+  "group": "History",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSI",
+    "OSM"
+  ],
+  "description": "Civil Parishes in Ulster",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/civil-parishes-ulster/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/civil-parishes-ulster/metadata.json",
+  "sourceLayer": "civil_parishes_ulster",
+  "promoteId": "id",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.7671609,
+      -8.834788
+    ],
+    [
+      55.4465808,
+      -5.4267884
+    ]
+  ],
+  "style": {
+    "color": "#9932CC",
+    "fillColor": "#9932CC",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Civil Parishes of Ireland -- OSNI provenance",
+      "url": null
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/civil-parishes-ulster.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSI",
+    "OSM"
+  ],
+  "keywords": [
+    "civil parish",
+    "parish",
+    "all ireland",
+    "province",
+    "all-ireland",
+    "unified",
+    "lod",
+    "chunked",
+    "Civil Parishes of Ireland",
+    "Civil Parishes",
+    "History",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "name_en",
+  "labelPropertyFallbacks": [
+    "name_ga"
+  ],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#9932CC",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/civil-parishes-ulster-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/civil-parishes-ulster.fgb",
+  "sourceDatasetLayer": "civil-parishes-ulster",
+  "idProperty": "id",
+  "popupProperties": [
+    "name_en",
+    "id",
+    "name_ga",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "id",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "name_en",
+    "name_ga"
+  ],
+  "categoricalValues": {
+    "name_en": [
+      "Aghabog",
+      "Aghaderg",
+      "Aghaloo",
+      "Annahilt",
+      "Armagh",
+      "Ballee",
+      "Ballybay",
+      "Blaris",
+      "Carnteel",
+      "Clonduff",
+      "Clonoe",
+      "Creggan",
+      "Donagh",
+      "Down",
+      "Dromara",
+      "Dromore",
+      "Drumbo",
+      "Drumcree",
+      "Drumgath",
+      "Drumgoon",
+      "Drumsnat",
+      "Dunsfort",
+      "Eglish",
+      "Ematris",
+      "Forkill",
+      "Glenavy",
+      "Grange",
+      "Keady",
+      "Kilcoo",
+      "Kilkeel",
+      "Killanny",
+      "Killevy"
+    ],
+    "name_ga": [
+      "An Dún",
+      "An tIúr",
+      "Bláras",
+      "Béal Ia",
+      "Domhnach",
+      "Droim Ga",
+      "Foirceal",
+      "Mucnú",
+      "Sabhall",
+      "Searcóg",
+      "Achadh Dearg",
+      "Achadh Gallan",
+      "Achadh Lú",
+      "Achadh na Muileann",
+      "Aireagal Dochiaróg",
+      "Aireagal an Triúcha",
+      "An Baile Mór",
+      "An Baile Úr",
+      "An Chill Mhór",
+      "An Chill Íseal",
+      "An Cnoc agus An Bhréadach",
+      "An Creagán",
+      "An Croimghlinn",
+      "An Céide",
+      "An Domhnach Mór",
+      "An Droim Mór",
+      "An Ghráinseach",
+      "An Mullach",
+      "An Mullach Breac",
+      "An tAchadh Bog",
+      "An tSeanchill",
+      "An tSeanchoill"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/civil-parishes-ulster.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/civil-parishes-ulster.fgb",
+    "bytes": 8216728,
+    "files": 1162,
+    "pbfFiles": 1161,
+    "maxTileBytes": 129761
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/civil-parishes-ulster-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/civil-parishes-ulster/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/civil-parishes-ulster-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/civil-parishes-ulster-vector-test.pmtiles",
+    "bytes": 5019739,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/civil-parishes-ulster/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/civil-parishes-ulster-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/civil-parishes-ulster-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/civil-parishes-ulster-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "id": "dlr-coco-markets-vector-test",
+  "sourceMapId": "dlr-coco-markets",
+  "name": "Coco Markets (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Coco Markets (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-coco-markets/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-coco-markets/metadata.json",
+  "sourceLayer": "dlr_coco_markets",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2777073,
+      -6.2703464
+    ],
+    [
+      53.2905872,
+      -6.1283791
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-coco-markets.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "coco",
+    "markets",
+    "Coco Markets (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-coco-markets-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-coco-markets.fgb",
+  "sourceDatasetLayer": "dlr-coco-markets",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Name",
+    "OBJECTID",
+    "Location",
+    "Day_of_Operation",
+    "Time",
+    "ITM_X",
+    "ITM_Y",
+    "Info"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "ITM_X",
+    "ITM_Y"
+  ],
+  "categoricalProperties": [
+    "Name",
+    "Location",
+    "Day_of_Operation",
+    "Time",
+    "Info"
+  ],
+  "categoricalValues": {
+    "Name": [
+      "Dún Laoghaire CoCo Market",
+      "Marlay Park CoCo Market"
+    ],
+    "Location": [
+      "Marlay Park, Rathfarnham",
+      "People’s Park, Dún Laoghaire"
+    ],
+    "Day_of_Operation": [
+      "Sunday",
+      "Saturday & Sunday"
+    ],
+    "Time": [
+      "11am - 4pm",
+      "Sat 10am - 4pm, Sun 11am - 4pm"
+    ],
+    "Info": [
+      "https://www.dlrcoco.ie/en/markets/d%C3%BAn-laoghaire-coco-market",
+      "https://www.dlrcoco.ie/en/markets/marlay-park-coco-market"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-coco-markets.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-coco-markets.fgb",
+    "bytes": 10644,
+    "files": 17,
+    "pbfFiles": 16,
+    "maxTileBytes": 534
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-coco-markets-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-coco-markets/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-coco-markets-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-coco-markets-vector-test.pmtiles",
+    "bytes": 6846,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-coco-markets/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-coco-markets-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-coco-markets-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-coco-markets-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

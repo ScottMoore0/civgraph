@@ -1,0 +1,197 @@
+{
+  "id": "roads-pedestrian-crossings-vector-test",
+  "sourceMapId": "roads-pedestrian-crossings",
+  "name": "Pedestrian Crossings",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Department for Infrastructure - Roads"
+  ],
+  "description": "Locations of pedestrian crossings across Northern Ireland (DfI Roads).",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/roads-pedestrian-crossings/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/roads-pedestrian-crossings/metadata.json",
+  "sourceLayer": "roads_pedestrian_crossings",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.2185653,
+      -10.8634427
+    ],
+    [
+      55.204343,
+      -5.528969
+    ]
+  ],
+  "style": {
+    "color": "#C9302C",
+    "fillColor": "#C9302C",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/roads-pedestrian-crossings.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Department for Infrastructure - Roads"
+  ],
+  "keywords": [
+    "transport",
+    "pedestrian crossings",
+    "Pedestrian Crossings",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#C9302C",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/roads-pedestrian-crossings.fgb",
+  "sourceDatasetLayer": "roads-pedestrian-crossings",
+  "popupProperties": [
+    "ITEM_TYPE_NAME",
+    "CROSSING_TYPE_NAME",
+    "SECTION_NAME",
+    "EASTING",
+    "NORTHING",
+    "START_DATE"
+  ],
+  "numericProperties": [
+    "EASTING",
+    "NORTHING"
+  ],
+  "categoricalProperties": [
+    "ITEM_TYPE_NAME",
+    "CROSSING_TYPE_NAME",
+    "SECTION_NAME",
+    "START_DATE"
+  ],
+  "categoricalValues": {
+    "ITEM_TYPE_NAME": [
+      "PEDESTRIAN_CROSSING"
+    ],
+    "CROSSING_TYPE_NAME": [
+      "?",
+      "SIGNAL CONTROLLED",
+      "UNCONTROLLED"
+    ],
+    "SECTION_NAME": [
+      "7035A0007_01 - SAINTFIELD RD1: CARRYDUFF RBT TO COMBER RD -  CASTLEREAGH",
+      "7035A0007_02 - SAINTFIELD RD1: COMBER RD TO LISDOONAN RD -  CASTLEREAGH",
+      "7035A0023_07 - CASTLEREAGH RD1: GRAND PDE1 TO ORBY ST1(BOUNDARY) -  BELFAST SOUTH",
+      "7035A0023_08 - CASTLEREAGH RD1: ORBY ST1(BOUNDARY) TO UPPER KNOCKBREDA RD -  BELFAST SOUTH",
+      "7035A0023_09 - BALLYGOWAN RD2: UPPER KNOCKBREDA RD1 TO START OF DUAL C/WAY (S/BOUND) -  BELFAST SOUTH",
+      "7035A0024_10 - SAINTFIELD RD1: ORMEAU RD TO START OF CENTRAL RESERVATION -  BELFAST SOUTH",
+      "7035A0024_11 - SAINTFIELD RD1: BREDA PK TO KNOCKBRACKEN RD -  CASTLEREAGH",
+      "7035A0024_12 - SAINTFIELD RD1: KNOCKBRACKEN RD TO CARRYDUFF RBT -  CASTLEREAGH",
+      "7035A0024_14 - BALLYNAHINCH RD1: CARRYDUFF RBT TO CHURCH RD -  CASTLEREAGH",
+      "7035A0024_15 - BALLYNAHINCH RD1: CHURCH RD TO DRUMALIG RD (MAINT. BOUNDARY) -  CASTLEREAGH",
+      "7035A0055_17 - BELVOIR RD1: MILLTOWN RD2 TO NEWTOWNBREDA RD1 (NORTH C/WAY) -  BELFAST SOUTH",
+      "7035A0055_18 - BELVOIR RD1: NEWTOWNBREDA RD1 TO MILLTOWN RD1 (SOUTH C/WAY) -  BELFAST SOUTH",
+      "7035A0055_19 - UPPER KNOCKBREDA RD1: SAINTFIELD RD TO CREGAGH RD -  BELFAST SOUTH",
+      "7035A0055_21 - UPPER KNOCKBREDA RD1: BALLYGOWAN RD2 TO ROCKY RD1 -  BELFAST SOUTH",
+      "7035A0055_22 - KNOCK RD1: CASTLEREAGH RD TO GLEN RD -  BELFAST SOUTH",
+      "7035A0055_23 - KNOCK RD1: GLEN RD TO END OF DUAL CARRIAGEWAY -  BELFAST SOUTH",
+      "7035A0055_24 - KNOCK RD1: START OF DUAL CARRIAGEWAY TO GLEN RD -  BELFAST SOUTH",
+      "7035A0055_25 - KNOCK RD1: GLEN RD TO BALLYGOWAN RD2 -  BELFAST SOUTH",
+      "7035A0055_42 - NEWTOWNBREDA RD1: BELVOIR RD TO SAINTFIELD RD -  BELFAST SOUTH",
+      "7035A0055_43 - NEWTOWNBREDA RD1: SAINTFIELD RD TO BELVOIR RD -  BELFAST SOUTH",
+      "7035B0178_03 - COMBER RD1: CLONTONACALLY RD1 TO SAINTFIELD RD -  CASTLEREAGH",
+      "7035B0178_04 - CHURCH RD5: SAINTFIELD RD TO BALLYNAHINCH RD -  CASTLEREAGH",
+      "7035B0178_05 - HILLSBOROUGH RD5: BALLYNAHINCH RD1 TO MOSS RD(BOUNDARY) -  CASTLEREAGH",
+      "7035C0701_03 - MOUNT MERRION AV1: KNOCKBREDA RD TO BELLS BRIDGE RBT -  BELFAST SOUTH",
+      "7035C0701_05 - LADAS DR1: BELL'S BRIDGE RBT TO CASTLEREAGH RD -  BELFAST SOUTH",
+      "7035C0704_04 - CREGAGH RD1: RAVENHILL AV1 TO BELL'S BRIDGE RBT1 -  BELFAST SOUTH",
+      "7035C0704_05 - CREGAGH RD3: BELLS BRIDGE RBT1 TO UPPER KNOCKBREDA RD1 -  BELFAST SOUTH",
+      "7035U0119_01 - MONTGOMERY RD1: CREGAGH RD TO CASTLEREAGH RD -  BELFAST SOUTH",
+      "7035U0124_03 - GLEN RD1: BALLYGOWAN RD2 TO KNOCK RD -  BELFAST SOUTH",
+      "7035U0199_01 - UPPER GALWALLY RD1: SAINTFIELD RD TO UPPER KNOCKBREDA RD -  BELFAST SOUTH",
+      "7035U0501_31 - ROSETTA RD1: MOUNT MERRION AV1 TO DUAL CARRIAGEWAY -  BELFAST SOUTH",
+      "7035U0519_09 - IVANHOE AV1: SAINTFIELD RD TO KNOCKBRACKEN DR -  CASTLEREAGH"
+    ],
+    "START_DATE": [
+      "01/01/1986 00:00:00",
+      "01/02/2012 00:00:00",
+      "01/08/2007 00:00:00",
+      "02/03/2006 00:00:00",
+      "02/05/2006 00:00:00",
+      "02/06/2006 00:00:00",
+      "03/02/1999 00:00:00",
+      "03/02/2000 00:00:00",
+      "03/06/2005 00:00:00",
+      "03/07/2006 00:00:00",
+      "03/08/2007 00:00:00",
+      "04/02/1999 00:00:00",
+      "04/07/2006 00:00:00",
+      "04/08/2006 00:00:00",
+      "04/10/1999 00:00:00",
+      "05/01/1996 00:00:00",
+      "05/04/2012 00:00:00",
+      "05/07/2010 00:00:00",
+      "05/10/1999 00:00:00",
+      "05/12/2005 00:00:00",
+      "06/03/2006 00:00:00",
+      "06/10/1999 00:00:00",
+      "06/10/2004 00:00:00",
+      "06/11/2002 00:00:00",
+      "07/01/2009 00:00:00",
+      "07/03/2006 00:00:00",
+      "07/07/2005 00:00:00",
+      "07/12/2011 00:00:00",
+      "08/03/2006 00:00:00",
+      "08/05/2006 00:00:00",
+      "08/06/2004 00:00:00",
+      "08/11/2006 00:00:00"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/roads-pedestrian-crossings.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/roads-pedestrian-crossings.fgb",
+    "bytes": 2040465,
+    "files": 215,
+    "pbfFiles": 214,
+    "maxTileBytes": 146101
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roads-pedestrian-crossings-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/roads-pedestrian-crossings/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/roads-pedestrian-crossings-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/roads-pedestrian-crossings-vector-test.pmtiles",
+    "bytes": 744390,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/roads-pedestrian-crossings/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roads-pedestrian-crossings-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/roads-pedestrian-crossings-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/roads-pedestrian-crossings-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

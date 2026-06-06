@@ -1,0 +1,220 @@
+{
+  "id": "soa-2011-vector-test",
+  "sourceMapId": "soa-2011",
+  "name": "Super Output Area 2011",
+  "category": "Census Statistical Areas",
+  "group": "Public Services",
+  "date": 2011,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "NISRA"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/soa-2011/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/soa-2011/metadata.json",
+  "sourceLayer": "soa_2011",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227249,
+      -8.1775025
+    ],
+    [
+      55.3129665,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#117A65",
+    "fillColor": "#117A65",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Super Output Area Boundaries in GIS format | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
+      "url": "https://www.nisra.gov.uk/publications/super-output-area-boundaries-gis-format"
+    },
+    {
+      "label": "Super Output Area 2011 — ESRI Shapefile (ZIP) download",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/SOA2011_Esri_Shapefile_0.zip"
+    },
+    {
+      "label": "Super Output Area 2011 — MapInfo (ZIP) download",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/SOA2011_MapInfo_Tab_0.zip"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/soa-2011.fgb"
+    },
+    {
+      "label": "ESRI Shapefile (ZIP)",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/SOA2011_Esri_Shapefile_0.zip"
+    },
+    {
+      "label": "MapInfo (ZIP)",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/SOA2011_MapInfo_Tab_0.zip"
+    }
+  ],
+  "sourceCredits": [
+    "NISRA"
+  ],
+  "keywords": [
+    "SOA",
+    "super output area",
+    "census",
+    "2011",
+    "statistical",
+    "Super Output Area 2011",
+    "Census Statistical Areas",
+    "Public Services",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "SOA_LABEL",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#117A65",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/soa-2011-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/soa-2011.fgb",
+  "sourceDatasetLayer": "soa-2011",
+  "popupProperties": [
+    "SOA_LABEL",
+    "SOA_CODE",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "SOA_CODE",
+    "SOA_LABEL"
+  ],
+  "categoricalValues": {
+    "SOA_CODE": [
+      "95AA01S2",
+      "95AA04W1",
+      "95AA06S1",
+      "95BB14S1",
+      "95BB16S1",
+      "95CC02W1",
+      "95CC04W1",
+      "95CC05W1",
+      "95CC07W1",
+      "95CC09S2",
+      "95CC10W1",
+      "95CC12W1",
+      "95CC14W1",
+      "95CC15W1",
+      "95CC16W1",
+      "95CC17W1",
+      "95CC19W1",
+      "95CC22W1",
+      "95FF02W1",
+      "95FF03W1",
+      "95FF04W1",
+      "95FF06S2",
+      "95FF08W1",
+      "95FF10W1",
+      "95FF11W1",
+      "95FF12W1",
+      "95FF13W1",
+      "95FF14W1",
+      "95GG08S1",
+      "95GG08S3",
+      "95GG21S3",
+      "95GG27S1"
+    ],
+    "SOA_LABEL": [
+      "Ardboe",
+      "Bannside",
+      "Benburb",
+      "Binnian",
+      "Blaris_2",
+      "Camlough",
+      "Clady",
+      "Coagh",
+      "Coolhill",
+      "Creggan",
+      "Donard_1",
+      "Dundrum",
+      "Dunmore",
+      "Falls_3",
+      "Fort",
+      "Gransha",
+      "Hockley",
+      "Killeen",
+      "Killyman",
+      "Milford",
+      "Moira_1",
+      "Quilly",
+      "Seaforde",
+      "Spelga",
+      "The Mall",
+      "Aghagallon_1",
+      "Aghagallon_2",
+      "Aldergrove_2",
+      "Annalong_1",
+      "Ardglass_2",
+      "Ballinderry_1",
+      "Ballymacbrennan_1"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/soa-2011.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/soa-2011.fgb",
+    "bytes": 7872827,
+    "files": 757,
+    "pbfFiles": 756,
+    "maxTileBytes": 169268
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/soa-2011-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/soa-2011/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/soa-2011-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/soa-2011-vector-test.pmtiles",
+    "bytes": 4598729,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/soa-2011/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/soa-2011-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/soa-2011-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/soa-2011-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "SOA_CODE",
+  "idProperty": "SOA_CODE"
+}

@@ -1,0 +1,148 @@
+{
+  "id": "ttwa-2007-vector-test",
+  "sourceMapId": "ttwa-2007",
+  "name": "Travel To Work Areas 2007",
+  "category": "Census Statistical Areas",
+  "group": "Public Services",
+  "date": 2007,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "NISRA"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/ttwa-2007/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/ttwa-2007/metadata.json",
+  "sourceLayer": "ttwa_2007",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227249,
+      -8.1775025
+    ],
+    [
+      55.3129653,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#A38841",
+    "fillColor": "#A38841",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Northern Ireland Travel to Work Areas (TTWAs) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
+      "url": "https://www.nisra.gov.uk/support/geography/northern-ireland-travel-work-areas-ttwas"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/ttwa-2007.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "NISRA"
+  ],
+  "keywords": [
+    "TTWA",
+    "travel to work",
+    "commuting",
+    "2007",
+    "Travel To Work Areas 2007",
+    "Census Statistical Areas",
+    "Public Services",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "TTWA_NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#A38841",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/ttwa-2007-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/ttwa-2007.fgb",
+  "sourceDatasetLayer": "ttwa-2007",
+  "popupProperties": [
+    "TTWA_NAME",
+    "TTWA",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "TTWA",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "TTWA_NAME"
+  ],
+  "categoricalValues": {
+    "TTWA_NAME": [
+      "Belfast",
+      "Derry",
+      "Newry",
+      "Omagh",
+      "Strabane",
+      "Ballymena",
+      "Coleraine",
+      "Craigavon",
+      "Dungannon",
+      "Enniskillen",
+      "Mid-Ulster"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/ttwa-2007.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/ttwa-2007.fgb",
+    "bytes": 1590699,
+    "files": 756,
+    "pbfFiles": 755,
+    "maxTileBytes": 17902
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ttwa-2007-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/ttwa-2007/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/ttwa-2007-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/ttwa-2007-vector-test.pmtiles",
+    "bytes": 899840,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/ttwa-2007/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ttwa-2007-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/ttwa-2007-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/ttwa-2007-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "TTWA_NAME",
+  "idProperty": "TTWA_NAME"
+}

@@ -1,0 +1,289 @@
+{
+  "id": "eds-munster-2006-vector-test",
+  "sourceMapId": "eds-munster-2006",
+  "name": "Munster Electoral Divisions 2006",
+  "category": "Electoral Divisions",
+  "group": "Built Environment",
+  "date": 2006,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "CSO"
+  ],
+  "description": "Electoral Divisions in Munster province",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/eds-munster-2006/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/eds-munster-2006/metadata.json",
+  "sourceLayer": "eds_munster_2006",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198971,
+      -10.6628504
+    ],
+    [
+      53.1687699,
+      -6.9500213
+    ]
+  ],
+  "style": {
+    "color": "#2E7D32",
+    "fillColor": "#2E7D32",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/eds-munster-2006.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "CSO"
+  ],
+  "keywords": [
+    "electoral division",
+    "ED",
+    "2006",
+    "census",
+    "all ireland",
+    "CSO",
+    "Munster Electoral Divisions 2006",
+    "Electoral Divisions",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "EDNAME",
+  "labelPropertyFallbacks": [
+    "COUNTY",
+    "COUNTYNAME"
+  ],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#2E7D32",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/eds-munster-2006-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/eds-munster-2006.fgb",
+  "sourceDatasetLayer": "eds-munster-2006",
+  "popupProperties": [
+    "EDNAME",
+    "NUTS1",
+    "NUTS1NAME",
+    "NUTS2",
+    "NUTS2NAME",
+    "NUTS3",
+    "NUTS3NAME",
+    "COUNTY",
+    "COUNTYNAME",
+    "CSOED",
+    "OSIED"
+  ],
+  "numericProperties": [
+    "LAND_AREA",
+    "TOTAL_AREA"
+  ],
+  "categoricalProperties": [
+    "NUTS1",
+    "NUTS1NAME",
+    "NUTS2",
+    "NUTS2NAME",
+    "NUTS3",
+    "NUTS3NAME",
+    "COUNTY",
+    "COUNTYNAME",
+    "CSOED",
+    "OSIED",
+    "EDNAME"
+  ],
+  "categoricalValues": {
+    "NUTS1": [
+      "IE0"
+    ],
+    "NUTS1NAME": [
+      "Ireland"
+    ],
+    "NUTS2": [
+      "IE02"
+    ],
+    "NUTS2NAME": [
+      "Southern and Eastern"
+    ],
+    "NUTS3": [
+      "IE023",
+      "IE024",
+      "IE025"
+    ],
+    "NUTS3NAME": [
+      "Mid-West",
+      "South-East (IE)",
+      "South-West (IE)"
+    ],
+    "COUNTY": [
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25"
+    ],
+    "COUNTYNAME": [
+      "Clare County",
+      "Cork City",
+      "Cork County",
+      "Kerry County",
+      "Limerick City",
+      "Limerick County",
+      "North Tipperary",
+      "South Tipperary",
+      "Waterford City",
+      "Waterford County"
+    ],
+    "CSOED": [
+      "17019",
+      "18011",
+      "18012",
+      "18014",
+      "18016",
+      "18021",
+      "18023",
+      "18025",
+      "18029",
+      "18031",
+      "18057",
+      "18065",
+      "18079",
+      "18080",
+      "18083",
+      "18084",
+      "18085",
+      "18087",
+      "18088",
+      "18089",
+      "18094",
+      "18095",
+      "18097",
+      "18101",
+      "18103",
+      "18104",
+      "18123",
+      "18124",
+      "18126",
+      "18127",
+      "18128",
+      "18130"
+    ],
+    "OSIED": [
+      "047007",
+      "047010",
+      "047015",
+      "047018",
+      "047019",
+      "047022",
+      "047023",
+      "047028",
+      "047035",
+      "047037",
+      "047038",
+      "047045",
+      "047053",
+      "047054",
+      "047059",
+      "047060",
+      "047070",
+      "047075",
+      "047076",
+      "047077",
+      "047079",
+      "047084",
+      "047087",
+      "047091",
+      "047093",
+      "047102",
+      "047103",
+      "047105",
+      "047106",
+      "047112",
+      "047115",
+      "047122"
+    ],
+    "EDNAME": [
+      "Aglish",
+      "Ardagh",
+      "Ballynoe",
+      "Blarney",
+      "Carrig",
+      "Clenor",
+      "Clogheen",
+      "Clonmult",
+      "Cloyne",
+      "Commons",
+      "Coolmain",
+      "Corkbeg",
+      "Dangan",
+      "Dripsey",
+      "Dromore",
+      "Firmount",
+      "Gowlane",
+      "Inch",
+      "Kilcor",
+      "Kildinan",
+      "Killeagh",
+      "Kilworth",
+      "Leitrim",
+      "Lisgoold",
+      "Matehy",
+      "Mogeely",
+      "Monanimy",
+      "Rahan",
+      "Seskinan",
+      "Ballinadee",
+      "Ballinspittle",
+      "Ballintemple"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/eds-munster-2006.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/eds-munster-2006.fgb",
+    "bytes": 4863884,
+    "files": 1186,
+    "pbfFiles": 1185,
+    "maxTileBytes": 173648
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-munster-2006-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/eds-munster-2006/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/eds-munster-2006-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/eds-munster-2006-vector-test.pmtiles",
+    "bytes": 3464973,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/eds-munster-2006/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-munster-2006-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/eds-munster-2006-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/eds-munster-2006-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "id": "peacelines-vector-test",
+  "sourceMapId": "peacelines",
+  "name": "Peacelines",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Northern Ireland Office"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/peacelines/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/peacelines/metadata.json",
+  "sourceLayer": "peacelines",
+  "promoteId": "ID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.4223277,
+      -7.3257736
+    ],
+    [
+      54.9940083,
+      -5.9034053
+    ]
+  ],
+  "style": {
+    "color": "#8B0000",
+    "fillColor": "#8B0000",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Peacelines (NIO) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
+      "url": "https://www.nisra.gov.uk/support/geography/peacelines-nio"
+    },
+    {
+      "label": "Peacelines Boundary in GIS format | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
+      "url": "https://www.nisra.gov.uk/publications/peacelines-boundary-gis-format"
+    },
+    {
+      "label": "Peacelines — ESRI Shapefile (ZIP) download",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/ESRI-Peacelines.zip"
+    },
+    {
+      "label": "Peacelines — MapInfo (ZIP) download",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/Mapinfo-Peacelines.zip"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/peacelines.fgb"
+    },
+    {
+      "label": "ESRI Shapefile (ZIP)",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/ESRI-Peacelines.zip"
+    },
+    {
+      "label": "MapInfo (ZIP)",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/Mapinfo-Peacelines.zip"
+    }
+  ],
+  "sourceCredits": [
+    "Northern Ireland Office"
+  ],
+  "keywords": [
+    "peace",
+    "wall",
+    "interface",
+    "belfast",
+    "barrier",
+    "Peacelines",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "PEACELINE",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#8B0000",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/peacelines-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/peacelines.fgb",
+  "sourceDatasetLayer": "peacelines",
+  "idProperty": "ID",
+  "popupProperties": [
+    "PEACELINE",
+    "ID",
+    "LOCATION",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft"
+  ],
+  "numericProperties": [
+    "ID"
+  ],
+  "categoricalProperties": [
+    "PEACELINE",
+    "LOCATION"
+  ],
+  "categoricalValues": {
+    "PEACELINE": [
+      "Torrens",
+      "Alexandra Park",
+      "Alliance Avenue",
+      "Ardoyne_Woodvale",
+      "Bann Boulevard",
+      "Corcrain Road",
+      "Duncairn Gardens",
+      "Dungiven Road",
+      "Falls and Shankill",
+      "Henry Street",
+      "Longlands Road",
+      "Lower Tullyally",
+      "Lower oldpark_Cliftonville",
+      "Margretta Park",
+      "Mountainview Parade",
+      "Newington Street",
+      "Roden street",
+      "Serpentine Gardens",
+      "Short Strand",
+      "Squires Hill",
+      "The Diamond",
+      "Upper West Belfast"
+    ],
+    "LOCATION": [
+      "Belfast",
+      "Derry",
+      "Lurgan",
+      "Portadown"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/peacelines.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/peacelines.fgb",
+    "bytes": 16433,
+    "files": 35,
+    "pbfFiles": 34,
+    "maxTileBytes": 1101
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/peacelines-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/peacelines/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/peacelines-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/peacelines-vector-test.pmtiles",
+    "bytes": 12861,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/peacelines/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/peacelines-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/peacelines-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/peacelines-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

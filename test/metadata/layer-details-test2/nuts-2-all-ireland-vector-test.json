@@ -1,0 +1,168 @@
+{
+  "id": "nuts-2-all-ireland-vector-test",
+  "sourceMapId": "nuts-2-all-ireland",
+  "name": "NUTS 2 Regions (All Ireland)",
+  "category": "Census Statistical Areas",
+  "group": "Public Services",
+  "date": "2011",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "CSO",
+    "OSNI"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/nuts-2-all-ireland/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/nuts-2-all-ireland-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/nuts-2-all-ireland/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/nuts-2-all-ireland/metadata.json",
+  "sourceLayer": "nuts_2_all_ireland",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198971,
+      -10.6628504
+    ],
+    [
+      55.4465759,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#8E6C00",
+    "fillColor": "#8E6C00",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "data/maps/census-areas/NUTS2_All_Ireland.geojson"
+    }
+  ],
+  "sourceCredits": [
+    "CSO",
+    "OSNI"
+  ],
+  "keywords": [
+    "NUTS",
+    "NUTS 2",
+    "european",
+    "region",
+    "eurostat",
+    "BMW",
+    "border midland western",
+    "southern eastern",
+    "northern ireland",
+    "all ireland",
+    "NUTS 2 Regions (All Ireland)",
+    "Census Statistical Areas",
+    "Public Services",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NUTS2NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#8E6C00",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/nuts-2-all-ireland-vector-test.json",
+  "sourceFile": "data/maps/census-areas/NUTS2_All_Ireland.geojson",
+  "sourceDatasetLayer": "NUTS2_All_Ireland",
+  "popupProperties": [
+    "NUTS2NAME",
+    "NUTS1",
+    "NUTS1NAME",
+    "NUTS2",
+    "Male2011",
+    "Female2011",
+    "Total2011",
+    "PPOcc2011",
+    "Unocc2011",
+    "HS2011"
+  ],
+  "numericProperties": [
+    "Male2011",
+    "Female2011",
+    "Total2011",
+    "PPOcc2011",
+    "Unocc2011",
+    "HS2011",
+    "Vacant2011",
+    "PCVac2011",
+    "TOTAL_AREA",
+    "LAND_AREA"
+  ],
+  "categoricalProperties": [
+    "NUTS1",
+    "NUTS1NAME",
+    "NUTS2",
+    "NUTS2NAME",
+    "CREATEDATE"
+  ],
+  "categoricalValues": {
+    "NUTS1": [
+      "IE0",
+      "UKN"
+    ],
+    "NUTS1NAME": [
+      "Ireland",
+      "Northern Ireland"
+    ],
+    "NUTS2": [
+      "IE01",
+      "IE02",
+      "UKN0"
+    ],
+    "NUTS2NAME": [
+      "Border,Midland and Western",
+      "Northern Ireland",
+      "Southern and Eastern"
+    ],
+    "CREATEDATE": [
+      "27-03-2012"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from data/maps/census-areas/NUTS2_All_Ireland.geojson with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "data/maps/census-areas/NUTS2_All_Ireland.geojson",
+    "bytes": 3922913,
+    "files": 3911,
+    "pbfFiles": 3910,
+    "maxTileBytes": 38088
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/nuts-2-all-ireland-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/nuts-2-all-ireland-vector-test.pmtiles",
+    "bytes": 2109500,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/nuts-2-all-ireland/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/nuts-2-all-ireland-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/nuts-2-all-ireland-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/nuts-2-all-ireland-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "NUTS2NAME",
+  "idProperty": "NUTS2NAME"
+}

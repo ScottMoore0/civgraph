@@ -1,0 +1,249 @@
+{
+  "id": "tii-collision-rates-2011-2013-vector-test",
+  "sourceMapId": "tii-collision-rates-2011-2013",
+  "name": "TII Collision Rates 2011-2013",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Transport Infrastructure Ireland"
+  ],
+  "description": "TII Collision Rates 2011-2013 — published by Transport Infrastructure Ireland.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/tii-collision-rates-2011-2013/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tii-collision-rates-2011-2013/metadata.json",
+  "sourceLayer": "tii_collision_rates_2011_2013",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.541965,
+      -10.2749616
+    ],
+    [
+      55.1834605,
+      -6.0877185
+    ]
+  ],
+  "style": {
+    "color": "#C62828",
+    "fillColor": "#C62828",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tii-collision-rates-2011-2013.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Transport Infrastructure Ireland"
+  ],
+  "keywords": [
+    "TII",
+    "transport",
+    "roads",
+    "tii collision rates 2011-2013",
+    "ireland",
+    "TII Collision Rates 2011-2013",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Site_ID",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#C62828",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/tii-collision-rates-2011-2013-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/tii-collision-rates-2011-2013.fgb",
+  "sourceDatasetLayer": "tii-collision-rates-2011-2013",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Site_ID",
+    "OBJECTID",
+    "County_ID",
+    "Route_ID",
+    "Ch_Start",
+    "Ch_End",
+    "Length_km",
+    "Sum_Coll",
+    "Exposure",
+    "Coll_Rate"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "Ch_Start",
+    "Ch_End",
+    "Length_km",
+    "Sum_Coll",
+    "Exposure",
+    "Coll_Rate",
+    "SHAPE_Leng"
+  ],
+  "categoricalProperties": [
+    "Site_ID",
+    "County_ID",
+    "Route_ID",
+    "Threshold",
+    "Cluster"
+  ],
+  "categoricalValues": {
+    "Site_ID": [
+      "N08KK_017.0",
+      "N08KK_019.0",
+      "N08LS_006.0",
+      "N08LS_012.0",
+      "N08TY_027.0",
+      "N08TY_071.0",
+      "N08TY_075.0",
+      "N08TY_081.0",
+      "N08TY_083.0",
+      "N08TY_090.0",
+      "N09KK_077.0",
+      "N09KK_078.0",
+      "N09KK_085.0",
+      "N09KK_091.0",
+      "N09KK_097.0",
+      "N09KK_105.0",
+      "N09KK_111.0",
+      "N09KK_112.0",
+      "N09KK_118.0",
+      "N10KK_002.0",
+      "N10KK_011.7",
+      "N10KK_013.0",
+      "N11WX_117.0",
+      "N11WX_122.0",
+      "N11WX_129.4",
+      "N24KK_100.0",
+      "N24KK_101.0",
+      "N24KK_109.5",
+      "N24KK_116.0",
+      "N24TY_046.0",
+      "N24TY_053.4",
+      "N24TY_061.7"
+    ],
+    "County_ID": [
+      "CE",
+      "CK",
+      "CN",
+      "CW",
+      "DL",
+      "DN",
+      "GY",
+      "KE",
+      "KK",
+      "KY",
+      "LD",
+      "LH",
+      "LK",
+      "LM",
+      "LS",
+      "MH",
+      "MN",
+      "MO",
+      "OY",
+      "RN",
+      "SO",
+      "TY",
+      "WD",
+      "WH",
+      "WW",
+      "WX"
+    ],
+    "Route_ID": [
+      "N01",
+      "N02",
+      "N03",
+      "N04",
+      "N05",
+      "N06",
+      "N07",
+      "N08",
+      "N09",
+      "N10",
+      "N11",
+      "N12",
+      "N13",
+      "N14",
+      "N15",
+      "N16",
+      "N17",
+      "N18",
+      "N19",
+      "N20",
+      "N21",
+      "N22",
+      "N23",
+      "N24",
+      "N25",
+      "N26",
+      "N27",
+      "N28",
+      "N29",
+      "N30",
+      "N31",
+      "N33"
+    ],
+    "Threshold": [
+      "Above Collision Rate",
+      "Below Collision Rate",
+      "By-Passed Post Sept 2011",
+      "Twice Above Collision Rate",
+      "Twice Below Collision Rate"
+    ],
+    "Cluster": [
+      "Cluster"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tii-collision-rates-2011-2013.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tii-collision-rates-2011-2013.fgb",
+    "bytes": 8152739,
+    "files": 1605,
+    "pbfFiles": 1604,
+    "maxTileBytes": 592408
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tii-collision-rates-2011-2013-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tii-collision-rates-2011-2013/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tii-collision-rates-2011-2013-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tii-collision-rates-2011-2013-vector-test.pmtiles",
+    "bytes": 5030598,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/tii-collision-rates-2011-2013/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tii-collision-rates-2011-2013-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tii-collision-rates-2011-2013-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tii-collision-rates-2011-2013-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "id": "dlr-transport-vector-test",
+  "sourceMapId": "dlr-transport",
+  "name": "Transport (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Transport (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/dlr-transport/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-transport/metadata.json",
+  "sourceLayer": "dlr_transport",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.1986971,
+      -6.2669138
+    ],
+    [
+      53.3212193,
+      -6.0952459
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-transport.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "transport",
+    "Transport (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "DESCRIPTION",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-transport-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-transport.fgb",
+  "sourceDatasetLayer": "dlr-transport",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "DESCRIPTION",
+    "OBJECTID",
+    "MAP_NUMBER",
+    "HYPERLINK",
+    "Override",
+    "TRANSPORT_TYPE",
+    "SHAPE_Length"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "SHAPE_Length"
+  ],
+  "categoricalProperties": [
+    "DESCRIPTION",
+    "MAP_NUMBER",
+    "HYPERLINK",
+    "TRANSPORT_TYPE"
+  ],
+  "categoricalValues": {
+    "DESCRIPTION": [
+      "Ballinteer Road ( M50 to Ballinteer Avenue )",
+      "Ballychorus Road - Rathmichael Road",
+      "Blacklen Road",
+      "Blackthorn Drive- Drummartin Link Road Separation",
+      "Bracken Road Extension to Drummartin Link Road",
+      "Braken Road Extension",
+      "Cherrywood Road",
+      "Cherrywood SDZ (necessary roads infrastructure as detailed in Cherrywood SDZ).",
+      "Cherrywood to Dun Laoghaire Strategic Route ( R118, Wyattville Road to Glenageary Roundabout )",
+      "Clayfarm Loop Road_Updated Sept 2020",
+      "ESB Link Road and Link to Arena Road",
+      "East Coast Cycle (incorporating the Sutton to Sandycove Cycle way)",
+      "Enniskerry Road (Stepaside to Glenamuck District Distributor Road)",
+      "Glenamuck Road Link to N11 via ( Cherrywood )",
+      "Harold's Grange Road, College Road",
+      "Kilgobbin Road",
+      "Kilgobbin Road (Mount Eagle to Ballyogan Road).",
+      "Kiltiernan - Glenamuck Link Distributor Road_updated Sept 20",
+      "Leopardstown Link Road - Murphystown Link Road",
+      "Link Road from Leopardstown to Carrickmines Interchange",
+      "Luas spur at Old Connaught to Fassaroe",
+      "M 50 3rd lane ( Sandyford interchange to M11 )",
+      "M11 Upgrade (M50 to Fassaroe).",
+      "M11 Upgrade (M50 to Fassaroe). -TEMP LINE FOR LEGIBILITY ",
+      "M50 Western Parallel Road ",
+      "Murphystown Link Road",
+      "Proposed Luas Line Extension",
+      "Proposed Sutton to Sandycove Walkway-Cycleway as a component part of the National East Coast Trail Cycle Route",
+      "Rochestown Avenue",
+      "Sandyford / Enniskerry Road (Coolkill to Aiken’s Village)",
+      "Sandyford to Coast",
+      "Shanganagh Road"
+    ],
+    "MAP_NUMBER": [
+      "1,2,5,6",
+      "10",
+      "10, 14",
+      "14",
+      "2,3",
+      "5",
+      "5, 6",
+      "5, 9",
+      "6",
+      "6, 10",
+      "6, 9, 10",
+      "7",
+      "7, 10",
+      "9",
+      "1,,2,3,4,7,10,14",
+      "2, 3, 4, 7, 10, 14",
+      "5, 6, 9, 10, 14"
+    ],
+    "HYPERLINK": [
+      "https://www.dlrcoco.ie/en/planning/county-development-plans"
+    ],
+    "TRANSPORT_TYPE": [
+      "6 Year Motorway Proposal",
+      "6 Year Road Objectives/Traffic Management/Active Travel Upgrades",
+      "East Coast Cycle Route (incorporating the S2S)",
+      "Long Term Motorway Proposals",
+      "Long Term Road Objectives/Traffic Management/Active Travel Upgrades",
+      "Proposed Luas Line Extension",
+      "Strategic Road Reservation"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-transport.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-transport.fgb",
+    "bytes": 106210,
+    "files": 23,
+    "pbfFiles": 22,
+    "maxTileBytes": 11327
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-transport-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-transport/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-transport-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-transport-vector-test.pmtiles",
+    "bytes": 63893,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-transport/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-transport-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-transport-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-transport-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

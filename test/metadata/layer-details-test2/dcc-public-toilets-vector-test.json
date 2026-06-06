@@ -1,0 +1,169 @@
+{
+  "id": "dcc-public-toilets-vector-test",
+  "sourceMapId": "dcc-public-toilets",
+  "name": "Public Toilets (DCC)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dublin City Council"
+  ],
+  "description": "Public Toilets (DCC) — published by Dublin City Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dcc-public-toilets/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dcc-public-toilets/metadata.json",
+  "sourceLayer": "dcc_public_toilets",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.309142,
+      -6.3576291
+    ],
+    [
+      53.3964896,
+      -6.1711733
+    ]
+  ],
+  "style": {
+    "color": "#FF6F00",
+    "fillColor": "#FF6F00",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dcc-public-toilets.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dublin City Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dcc",
+    "amenity",
+    "council",
+    "public",
+    "toilets",
+    "Public Toilets (DCC)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Location",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FF6F00",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dcc-public-toilets-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dcc-public-toilets.fgb",
+  "sourceDatasetLayer": "dcc-public-toilets",
+  "popupProperties": [
+    "Location",
+    "#",
+    "Opening Hours"
+  ],
+  "numericProperties": [
+    "#"
+  ],
+  "categoricalProperties": [
+    "Location",
+    "Opening Hours"
+  ],
+  "categoricalValues": {
+    "Location": [
+      "Albert College Park, Whitehall, Dublin 9.",
+      "Ballyfermot Leisure Centre, Blackditch Road, Ballyfermot, Dublin 10",
+      "Ballyfermot Library, Ballyfermot Road, Kylemore, Dublin 10",
+      "Ballymun Leisure Centre, Ballymun Road, Ballymun, Dublin 9",
+      "Ballymun Library, Ballymun Road, Ballymun, Dublin 9",
+      "Bull Island, Dollymount Strand, Dublin 3.",
+      "Cabra Library, Navan Road, Cabra, Dublin 7",
+      "Cabra Parkside Sports Centre, Ratoath Road, Cabra, Dublin 7",
+      "City Hall, Dame Street, Dublin 2",
+      "Clontarf Rd. Sports Pitches, Clontarf Road, Dublin 3",
+      "Coolock Library, Barryscourt Road, Kilmore, Dublin 17",
+      "Dolphins Barn Library, Parnell Road, Crumlin, Dublin 12",
+      "Drumcondra Library, Millmount Avenue, Drumcondra, Dublin 9",
+      "Finglas Leisure Centre, Mellowes Road, Finglas, Dublin 11",
+      "Grafton Street, Dublin 2.",
+      "Irishtown Stadium, Strand Street, Dublin 4",
+      "Kevin Street Library, Lower Kevin Street, Dublin 8",
+      "Markievicz Leisure Centre, Townsend Street, Dublin 2",
+      "Pearse Street Library, Pearse Street, Dublin 2",
+      "Pembroke Library, Anglesea Road, Dublin 4",
+      "Raheny Library, Howth Road, Raheny, Dublin 5",
+      "Rathmines Library, Rathmines, Dublin 6",
+      "Ryders Row, Dublin 1",
+      "St Patrick's Park, Dublin 8.",
+      "St. Catherine�s Sports Centre, Marrowbone Lane, Dublin 8",
+      "Strand Road (beside Martello Tower), Sandymount, Dublin 4",
+      "Terenure Library, Templeogue Road, Terenure, Dublin 6W",
+      "Walkinstown Library, Percy French Road, Walkinstown, Dublin 12"
+    ],
+    "Opening Hours": [
+      "",
+      "10am to 10pm Monday to Sunday",
+      "10am to 5pm Monday to Sunday",
+      "10am to 6pm Monday to Sunday",
+      "10am to 8pm Monday to Friday, 10am to 5pm Saturday and Sunday",
+      "24 hours, every day.",
+      "Monday & Thursday 1pm to 8pm, Tuesday, Wednesday, Friday & Saturday 10am to 4pm",
+      "Monday & Thursday 1pm to 8pm, Tuesday, Wednesday, Friday & Saturday 10am to 4pm\n",
+      "Monday 1pm to 8pm, Tuesday, Wednesday, Thursday, Friday and Saturday 10am to 4pm"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dcc-public-toilets.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dcc-public-toilets.fgb",
+    "bytes": 43177,
+    "files": 29,
+    "pbfFiles": 28,
+    "maxTileBytes": 2594
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-public-toilets-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dcc-public-toilets/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dcc-public-toilets-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dcc-public-toilets-vector-test.pmtiles",
+    "bytes": 21797,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dcc-public-toilets/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-public-toilets-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dcc-public-toilets-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dcc-public-toilets-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "Location",
+  "idProperty": "Location"
+}

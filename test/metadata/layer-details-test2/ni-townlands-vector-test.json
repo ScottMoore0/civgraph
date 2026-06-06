@@ -1,0 +1,166 @@
+{
+  "id": "ni-townlands-vector-test",
+  "sourceMapId": "ni-townlands",
+  "name": "Ireland",
+  "category": "Townlands",
+  "group": "Communities",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI"
+  ],
+  "description": "Northern Ireland",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/ni-townlands/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-townlands-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/ni-townlands/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/ni-townlands/metadata.json",
+  "sourceLayer": "ni_townlands",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227241,
+      -8.1775033
+    ],
+    [
+      55.3129855,
+      -5.4327843
+    ]
+  ],
+  "style": {
+    "color": "#A87000",
+    "fillColor": "#A87000",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "OSNI Open Data - Largescale Boundaries - Townlands",
+      "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-townlands"
+    },
+    {
+      "label": "OSNI Open Data - Largescale Boundaries - Townlands (data.gov.uk)",
+      "url": "https://www.data.gov.uk/dataset/18e1bd0f-1829-496e-9b21-a5d8f6159940/osni-open-data-largescale-boundaries-townlands6"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "data/maps/townlands/OSNI_Townlands.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI",
+    "OSI"
+  ],
+  "keywords": [
+    "townland",
+    "townlands",
+    "northern ireland",
+    "osni",
+    "Ireland",
+    "Townlands",
+    "Communities",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "TownlandNa",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#A87000",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/ni-townlands-vector-test.json",
+  "sourceFile": "data/maps/townlands/OSNI_Townlands.fgb",
+  "sourceDatasetLayer": "OSNI_Townlands",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "TownlandNa",
+    "OBJECTID",
+    "TOWNLAND_I",
+    "Area_SqKM"
+  ],
+  "numericProperties": [
+    "TOWNLAND_I",
+    "Area_SqKM",
+    "OBJECTID"
+  ],
+  "categoricalProperties": [
+    "TownlandNa"
+  ],
+  "categoricalValues": {
+    "TownlandNa": [
+      "BALLARD",
+      "BALLYDOO",
+      "CABRAGH",
+      "CARNALLY",
+      "CLOUGH",
+      "COOLE",
+      "CORBET",
+      "CORKLEY",
+      "DRUMART",
+      "DRUMCREE",
+      "DRUMILLY",
+      "ESKRAGH",
+      "GREENAN",
+      "GUINESS",
+      "KILMORE",
+      "LAGAN",
+      "LEITRIM",
+      "LEODE",
+      "LISLEA",
+      "MAZE",
+      "MOYAD",
+      "SEACASH",
+      "SEAFIN",
+      "SHEAN",
+      "TAMLAGHT",
+      "TIREARLY",
+      "TULLY",
+      "TULLYARD",
+      "ARTASOOLY",
+      "BALLAGHBEG",
+      "BALLINDERRY",
+      "BALLINTEMPLE"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from data/maps/townlands/OSNI_Townlands.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "data/maps/townlands/OSNI_Townlands.fgb",
+    "bytes": 29597501,
+    "files": 755,
+    "pbfFiles": 754,
+    "maxTileBytes": 819820
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/ni-townlands-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/ni-townlands-vector-test.pmtiles",
+    "bytes": 17325472,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/ni-townlands/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-townlands-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/ni-townlands-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/ni-townlands-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "id": "dlr-boundary-plan-areas-vector-test",
+  "sourceMapId": "dlr-boundary-plan-areas",
+  "name": "Boundary Plan Areas (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Boundary Plan Areas (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/dlr-boundary-plan-areas/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-boundary-plan-areas/metadata.json",
+  "sourceLayer": "dlr_boundary_plan_areas",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.1986955,
+      -6.2508403
+    ],
+    [
+      53.3054525,
+      -6.1039969
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-boundary-plan-areas.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "boundary",
+    "plan",
+    "areas",
+    "Boundary Plan Areas (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Objective",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-boundary-plan-areas-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-boundary-plan-areas.fgb",
+  "sourceDatasetLayer": "dlr-boundary-plan-areas",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Objective",
+    "OBJECTID",
+    "Map_Number",
+    "Feature_Type1",
+    "Hyperlink",
+    "Area__Ha_",
+    "SHAPE_Length",
+    "SHAPE_Area"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "Area__Ha_",
+    "SHAPE_Length",
+    "SHAPE_Area"
+  ],
+  "categoricalProperties": [
+    "Objective",
+    "Map_Number",
+    "Feature_Type1",
+    "Hyperlink"
+  ],
+  "categoricalValues": {
+    "Objective": [
+      "Boundary of Adopted Cherrywood Planning Scheme",
+      "Boundary of Ballyogan and Environs Local Area Plan",
+      "Boundary of Blackrock Local Area Plan",
+      "Boundary of Deansgrange Local Area Plan",
+      "Boundary of Dun Laoghaire Local Area Plan - Proposed",
+      "Boundary of Dundrum Local Area Plan - Proposed",
+      "Boundary of Glencullen Local Area Plan",
+      "Boundary of Goatstown Local Area Plan",
+      "Boundary of Kiltiernan Local Area Plan - Modified for Kiltiernan LAP 2013",
+      "Boundary of Old Connaught Local Area Plan - Proposed New",
+      "Boundary of Rathmichael / Ferndale Road Local Area Plan",
+      "Boundary of Sallynoggin Local Area Plan",
+      "Boundary of Sandyford Urban Framework Plan",
+      "Boundary of Stillorgan Local Area Plan",
+      "Boundary of Woodbrook-Shanganagh Local Area Plan"
+    ],
+    "Map_Number": [
+      "1, 2",
+      "1, 5",
+      "10, 14",
+      "12, 13",
+      "14",
+      "2",
+      "3, 4",
+      "3, 6, 7",
+      "3, 7",
+      "6",
+      "6,9",
+      "7, 9, 10",
+      "9, 13"
+    ],
+    "Feature_Type1": [
+      "Boundary of lands for which a Local Area Plan will be prepared",
+      "Cherrywood Planning Scheme",
+      "Local Area Plan",
+      "Urban Framework Plan"
+    ],
+    "Hyperlink": [
+      "",
+      "https://www.dlrcoco.ie/en/planning/cherrywood-sdz",
+      "https://www.dlrcoco.ie/en/planning/local-area-plans/ballyogan-environs-local-area-plan",
+      "https://www.dlrcoco.ie/en/planning/local-area-plans/blackrock-local-area-plan",
+      "https://www.dlrcoco.ie/en/planning/local-area-plans/deansgrange-local-area-plan",
+      "https://www.dlrcoco.ie/en/planning/local-area-plans/dundrum-lap-2019-2025",
+      "https://www.dlrcoco.ie/en/planning/local-area-plans/glencullen-local-area-plan",
+      "https://www.dlrcoco.ie/en/planning/local-area-plans/goatstown-local-area-plan",
+      "https://www.dlrcoco.ie/en/planning/local-area-plans/kiltiernan-local-area-plan",
+      "https://www.dlrcoco.ie/en/planning/local-area-plans/sandyford-urban-framework-plan",
+      "https://www.dlrcoco.ie/en/planning/local-area-plans/stillorgan-local-area-plan-2018-%E2%80%93-2024",
+      "https://www.dlrcoco.ie/en/planning/local-area-plans/woodbrook-shanganagh-lap-2017-2023"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-boundary-plan-areas.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-boundary-plan-areas.fgb",
+    "bytes": 88769,
+    "files": 25,
+    "pbfFiles": 24,
+    "maxTileBytes": 10566
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-boundary-plan-areas-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-boundary-plan-areas/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-boundary-plan-areas-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-boundary-plan-areas-vector-test.pmtiles",
+    "bytes": 51176,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-boundary-plan-areas/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-boundary-plan-areas-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-boundary-plan-areas-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-boundary-plan-areas-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "id": "baronies-all-ireland-vector-test",
+  "sourceMapId": "baronies-all-ireland",
+  "name": "Baronies",
+  "category": "Baronies",
+  "group": "History",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSM",
+    "OSNI",
+    "Tailte Éireann"
+  ],
+  "description": "Ireland",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/baronies-all-ireland/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/baronies-all-ireland/metadata.json",
+  "sourceLayer": "baronies_all_ireland",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4199132,
+      -10.6629709
+    ],
+    [
+      55.4464441,
+      -5.4268158
+    ]
+  ],
+  "style": {
+    "color": "#6475A9",
+    "fillColor": "#6475A9",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "OSNI Largescale Baronies — FlatGeobuf download",
+      "url": "https://data.civgraph.net/data/maps/baronies-parishes/OSNI_Baronies_Largescale.fgb"
+    },
+    {
+      "label": "Baronies - National Statutory Boundaries - 2019 - Generalised 20m (Tailte Éireann)",
+      "url": "https://data-osi.opendata.arcgis.com/datasets/osi::baronies-national-statutory-boundaries-2019-generalised-20m/about"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/baronies-all-ireland.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSM",
+    "OSNI",
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "barony",
+    "baronies",
+    "ireland",
+    "all ireland",
+    "historic",
+    "administrative",
+    "Baronies",
+    "History",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#6475A9",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/baronies-all-ireland-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/baronies-all-ireland.fgb",
+  "sourceDatasetLayer": "baronies-all-ireland",
+  "popupProperties": [
+    "Name"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Name"
+  ],
+  "categoricalValues": {
+    "Name": [
+      "ARKLOW",
+      "BALLYBOY",
+      "BANTRY",
+      "BARGY",
+      "BRAWNY",
+      "CALLAN",
+      "CARBURY",
+      "CARLOW",
+      "CLANE",
+      "CLONLISK",
+      "CONNELL",
+      "COOLOCK",
+      "CRANNAGH",
+      "DUNBOYNE",
+      "EGLISH",
+      "FORTH",
+      "GALMOY",
+      "GEASHILL",
+      "GOREY",
+      "GOWRAN",
+      "IDA",
+      "IKERRIN",
+      "IVERK",
+      "KELLS",
+      "RATHDOWN",
+      "RATOATH",
+      "SKREEN",
+      "BALLAGHKEEN NORTH",
+      "BALLAGHKEEN SOUTH",
+      "BALLINACOR NORTH",
+      "BALLINACOR SOUTH",
+      "BALLYADAMS"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/baronies-all-ireland.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/baronies-all-ireland.fgb",
+    "bytes": 4521284,
+    "files": 3911,
+    "pbfFiles": 3910,
+    "maxTileBytes": 118458
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/baronies-all-ireland-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/baronies-all-ireland/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/baronies-all-ireland-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/baronies-all-ireland-vector-test.pmtiles",
+    "bytes": 3745882,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/baronies-all-ireland/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/baronies-all-ireland-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/baronies-all-ireland-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/baronies-all-ireland-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

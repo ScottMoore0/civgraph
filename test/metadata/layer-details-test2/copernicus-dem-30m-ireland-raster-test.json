@@ -1,0 +1,71 @@
+{
+  "id": "copernicus-dem-30m-ireland-raster-test",
+  "sourceMapId": "copernicus-dem-30m-ireland",
+  "name": "Copernicus DEM 30m (Ireland)",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": 2026,
+  "provider": [
+    "Copernicus",
+    "ESA",
+    "Scott Moore"
+  ],
+  "description": "Static pre-coloured elevation raster tiles derived from Copernicus GLO-30 DEM. Rendered as nearest-neighbour cells with a terrain colour ramp.",
+  "renderer": "maplibre",
+  "sourceType": "raster",
+  "geometryType": "raster",
+  "tiles": "https://data.civgraph.net/data/maps/physical/copernicus-dem-30m-ireland-tiles/{z}/{x}/{y}.webp?v=20260225-stripingfix1",
+  "bounds": [
+    [
+      51.2,
+      -10.9
+    ],
+    [
+      55.7,
+      -5.2
+    ]
+  ],
+  "minzoom": 5,
+  "maxzoom": 20,
+  "maxNativeZoom": 10,
+  "tileSize": 256,
+  "rasterOpacity": 0.78,
+  "style": {
+    "color": "#91CF60",
+    "fillColor": "#91CF60",
+    "fillOpacity": 0.78,
+    "weight": 0
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "data/maps/physical/copernicus-dem-30m-ireland-tiles/{z}/{x}/{y}.webp?v=20260225-stripingfix1"
+    }
+  ],
+  "sourceCredits": [
+    "Copernicus",
+    "ESA",
+    "Scott Moore"
+  ],
+  "keywords": [
+    "elevation",
+    "DEM",
+    "DTM",
+    "copernicus",
+    "glo-30",
+    "terrain",
+    "height",
+    "hypsometric",
+    "Copernicus DEM 30m (Ireland)",
+    "Physical Geography",
+    "maplibre",
+    "raster tiles"
+  ],
+  "status": "converted-raster-tiles",
+  "notes": "Raster XYZ tile layer using metadata bounds and tile template https://data.civgraph.net/data/maps/physical/copernicus-dem-30m-ireland-tiles/{z}/{x}/{y}.webp?v=20260225-stripingfix1.",
+  "generatedFrom": {
+    "pipeline": "promote-test-raster-tiles",
+    "sourceFile": "data/maps/physical/copernicus-dem-30m-ireland-tiles/{z}/{x}/{y}.webp?v=20260225-stripingfix1"
+  }
+}

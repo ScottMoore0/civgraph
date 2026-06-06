@@ -1,0 +1,621 @@
+{
+  "id": "westmeath-townlands-vector-test",
+  "sourceMapId": "westmeath-townlands",
+  "name": "Townlands 1844",
+  "category": "Townlands",
+  "group": "Communities",
+  "date": 1844,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI",
+    "OSI"
+  ],
+  "description": "Townlands in County Westmeath",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/westmeath-townlands/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/westmeath-townlands/metadata.json",
+  "sourceLayer": "westmeath_townlands",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.3179625,
+      -7.9729562
+    ],
+    [
+      53.7881095,
+      -6.9547883
+    ]
+  ],
+  "style": {
+    "color": "#A87000",
+    "fillColor": "#A87000",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "OSNI Open Data - Largescale Boundaries - Townlands",
+      "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-townlands"
+    },
+    {
+      "label": "OSNI Open Data - Largescale Boundaries - Townlands (data.gov.uk)",
+      "url": "https://www.data.gov.uk/dataset/18e1bd0f-1829-496e-9b21-a5d8f6159940/osni-open-data-largescale-boundaries-townlands6"
+    },
+    {
+      "label": "Townlands - National Statutory Boundaries - Ungeneralised - 2024 (Tailte Éireann)",
+      "url": "https://data-osi.opendata.arcgis.com/datasets/osi::townlands-national-statutory-boundaries-ungeneralised-2024/about"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/westmeath-townlands.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI",
+    "OSI"
+  ],
+  "keywords": [
+    "townland",
+    "townlands",
+    "1844",
+    "all",
+    "ireland",
+    "northern ireland",
+    "republic",
+    "Townlands 1844",
+    "Townlands",
+    "Communities",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "ENG_NAME_VALUE",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#A87000",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/westmeath-townlands-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/westmeath-townlands.fgb",
+  "sourceDatasetLayer": "westmeath-townlands",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "ENG_NAME_VALUE",
+    "OBJECTID",
+    "GUID",
+    "GMS_JOB_ID",
+    "CAPTURE_SPECIFICATION",
+    "CAPTURE_SPECIFICATION_VALUE",
+    "URI",
+    "POLY_GEOM_CAPTURE_DATE",
+    "POLY_GEOM_CAPTURE_SRC",
+    "POLY_GEOM_CAPTURE_SRC_VALUE",
+    "POLY_GEOM_CHANGE_CODE"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "GMS_JOB_ID",
+    "CAPTURE_SPECIFICATION",
+    "POLY_GEOM_CAPTURE_SRC",
+    "POLY_GEOM_CHANGE_CODE",
+    "POLY_GEOM_CAPTURE_METH",
+    "POLY_GEOM_CAPTURE_RES",
+    "POLY_GEOM_HT_ERR_VALUE",
+    "POLY_GEOM_VALID_AUTH",
+    "BDY_TYPE_ID",
+    "BDY_TYPE_CAPTURE_SRC",
+    "BDY_TYPE_CHANGE_CODE",
+    "BDY_TYPE_VALID_AUTH",
+    "BDY_ID",
+    "BDY_ID_CAPTURE_SRC",
+    "BDY_ID_CHANGE_CODE"
+  ],
+  "categoricalProperties": [
+    "GUID",
+    "CAPTURE_SPECIFICATION_VALUE",
+    "URI",
+    "POLY_GEOM_CAPTURE_DATE",
+    "POLY_GEOM_CAPTURE_SRC_VALUE",
+    "POLY_GEOM_CHANGE_CODE_VALUE",
+    "POLY_GEOM_CHANGE_DATE",
+    "POLY_GEOM_CAPTURE_METH_VALUE",
+    "POLY_GEOM_CAPTURE_RES_VALUE",
+    "POLY_GEOM_VALID_AUTH_VALUE",
+    "POLY_GEOM_VALID_DATE",
+    "BDY_TYPE_VALUE",
+    "BDY_TYPE_CAPTURE_DATE",
+    "BDY_TYPE_CAPTURE_SRC_VALUE",
+    "BDY_TYPE_CHANGE_CODE_VALUE",
+    "BDY_TYPE_CHANGE_DATE",
+    "BDY_TYPE_VALID_AUTH_VALUE",
+    "BDY_TYPE_VALID_DATE",
+    "BDY_ID_CAPTURE_DATE",
+    "BDY_ID_CAPTURE_SRC_VALUE",
+    "BDY_ID_CHANGE_CODE_VALUE",
+    "BDY_ID_CHANGE_DATE",
+    "BDY_ID_VALID_AUTH_VALUE",
+    "BDY_ID_VALID_DATE",
+    "ENG_NAME_VALUE",
+    "ENG_NAME_CAPTURE_DATE",
+    "ENG_NAME_CAPTURE_SRC_VALUE",
+    "ENG_NAME_CHANGE_CODE_VALUE",
+    "ENG_NAME_CHANGE_DATE",
+    "ENG_NAME_VALID_AUTH_VALUE",
+    "ENG_NAME_VALID_DATE",
+    "GAELTACHT_AREA",
+    "SE_ANNO_CAD_DATA",
+    "GLE_NAME_VALUE",
+    "GLE_NAME_CAPTURE_DATE",
+    "GLE_NAME_CAPTURE_SRC_VALUE",
+    "GLE_NAME_CHANGE_CODE_VALUE",
+    "GLE_NAME_CHANGE_DATE",
+    "GLE_NAME_VALID_AUTH_VALUE",
+    "GLE_NAME_VALID_DATE"
+  ],
+  "categoricalValues": {
+    "GUID": [
+      "01830060-7ec9-4e8e-931f-6a0c1214a101",
+      "07322bf5-eec0-49d8-b49d-f9b74a325907",
+      "079eb45f-f7b7-4455-a109-8f22758674c1",
+      "07e6b3d0-66ae-466b-81aa-aafda9aed74b",
+      "0b4ee639-0117-449c-9e64-fd47a71326ae",
+      "0bf6dcb5-9332-4e40-bd1c-4e03ba1958d4",
+      "0e0d90f6-5663-42f3-9af8-370e49f98a0e",
+      "0f0913af-32da-44f1-9dad-0b05fb78d3ce",
+      "13e41908-836f-40fa-b670-f3547ca2aa1d",
+      "14f253e8-67ac-4816-8385-8fc856584a9b",
+      "16ca5df5-ed06-43ae-a2c7-a163f2229ccb",
+      "179ee154-2280-4190-a9a9-842991cc8951",
+      "186c817f-670d-4c4d-9052-03e45b525fc1",
+      "191bde50-b2b2-47c1-8fcb-3f28bc18fe72",
+      "1aa0c46c-d955-4d51-a233-d7efd136c985",
+      "1d47025c-6003-414c-8f46-fb81058728e2",
+      "1f17fb57-3398-4539-b13c-5b2d0c7c13a9",
+      "2012c335-b00d-4cc2-bba4-9fc8925a55ce",
+      "21ceae4c-8439-4c63-9cf0-2aa38365deb3",
+      "25298325-bd0b-4a25-86b2-8132e69328f7",
+      "26189c2f-84fe-45d4-b27c-f68057dd3e42",
+      "264a1bab-e20d-48f8-a76d-3371b25c1fe6",
+      "26da7dbd-11ca-4590-92f6-b2a123c33c89",
+      "2cd8035c-45dd-43cf-8fe4-e95a9a8fb526",
+      "351271c7-1a37-42b8-9e21-ae1570595ae7",
+      "36b4c037-3760-48c8-97af-11420d840321",
+      "382faecd-f3cc-41fe-b406-4b8d835a65f0",
+      "3b8c24d2-c17a-48f6-a211-d3c7301b2a9f",
+      "3bb692b2-ca55-4820-ac7f-4410ad3ad0a6",
+      "3be4ea5a-6024-464b-999d-94b5ecc13b5a",
+      "3d89e228-1736-43cd-b0ef-c649db34e2e8",
+      "40efcc43-d086-4b83-b6a2-fb43f637aea4"
+    ],
+    "CAPTURE_SPECIFICATION_VALUE": [
+      "PRIME2"
+    ],
+    "URI": [
+      " "
+    ],
+    "POLY_GEOM_CAPTURE_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-08-23T00:00:00"
+    ],
+    "POLY_GEOM_CAPTURE_SRC_VALUE": [
+      "OSi"
+    ],
+    "POLY_GEOM_CHANGE_CODE_VALUE": [
+      "New Feature",
+      "Reengineered"
+    ],
+    "POLY_GEOM_CHANGE_DATE": [
+      "2017-08-01T00:00:00",
+      "2018-07-06T00:00:00",
+      "2018-07-09T00:00:00",
+      "2018-07-10T00:00:00",
+      "2018-07-11T00:00:00",
+      "2018-07-13T00:00:00",
+      "2018-07-16T00:00:00",
+      "2018-07-17T00:00:00",
+      "2018-07-18T00:00:00",
+      "2018-07-19T00:00:00",
+      "2018-07-23T00:00:00",
+      "2018-07-25T00:00:00",
+      "2018-07-26T00:00:00",
+      "2018-07-27T00:00:00",
+      "2018-08-09T00:00:00",
+      "2018-08-10T00:00:00",
+      "2018-08-13T00:00:00",
+      "2018-10-08T00:00:00",
+      "2018-11-30T00:00:00",
+      "2018-12-04T00:00:00",
+      "2018-12-05T00:00:00",
+      "2018-12-06T00:00:00",
+      "2019-02-27T00:00:00",
+      "2019-05-21T00:00:00",
+      "2019-06-27T00:00:00",
+      "2019-06-28T00:00:00",
+      "2019-07-01T00:00:00",
+      "2019-07-02T00:00:00",
+      "2019-07-03T00:00:00",
+      "2019-07-04T00:00:00",
+      "2019-07-05T00:00:00",
+      "2019-07-08T00:00:00"
+    ],
+    "POLY_GEOM_CAPTURE_METH_VALUE": [
+      "OSi"
+    ],
+    "POLY_GEOM_CAPTURE_RES_VALUE": [
+      "5000",
+      "PRIME2 Reengineering"
+    ],
+    "POLY_GEOM_VALID_AUTH_VALUE": [
+      "OSi"
+    ],
+    "POLY_GEOM_VALID_DATE": [
+      "2017-08-01T00:00:00",
+      "2018-07-06T00:00:00",
+      "2018-07-09T00:00:00",
+      "2018-07-10T00:00:00",
+      "2018-07-11T00:00:00",
+      "2018-07-13T00:00:00",
+      "2018-07-16T00:00:00",
+      "2018-07-17T00:00:00",
+      "2018-07-18T00:00:00",
+      "2018-07-19T00:00:00",
+      "2018-07-23T00:00:00",
+      "2018-07-25T00:00:00",
+      "2018-07-26T00:00:00",
+      "2018-07-27T00:00:00",
+      "2018-08-09T00:00:00",
+      "2018-08-10T00:00:00",
+      "2018-08-13T00:00:00",
+      "2018-10-08T00:00:00",
+      "2018-11-30T00:00:00",
+      "2018-12-04T00:00:00",
+      "2018-12-05T00:00:00",
+      "2018-12-06T00:00:00",
+      "2019-02-27T00:00:00",
+      "2019-05-21T00:00:00",
+      "2019-06-27T00:00:00",
+      "2019-06-28T00:00:00",
+      "2019-07-01T00:00:00",
+      "2019-07-02T00:00:00",
+      "2019-07-03T00:00:00",
+      "2019-07-04T00:00:00",
+      "2019-07-05T00:00:00",
+      "2019-07-08T00:00:00"
+    ],
+    "BDY_TYPE_VALUE": [
+      "Townland"
+    ],
+    "BDY_TYPE_CAPTURE_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-08-23T00:00:00"
+    ],
+    "BDY_TYPE_CAPTURE_SRC_VALUE": [
+      "OSi"
+    ],
+    "BDY_TYPE_CHANGE_CODE_VALUE": [
+      "New Feature",
+      "Reengineered"
+    ],
+    "BDY_TYPE_CHANGE_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-08-23T00:00:00"
+    ],
+    "BDY_TYPE_VALID_AUTH_VALUE": [
+      "OSi"
+    ],
+    "BDY_TYPE_VALID_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-08-23T00:00:00"
+    ],
+    "BDY_ID_CAPTURE_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-08-23T00:00:00"
+    ],
+    "BDY_ID_CAPTURE_SRC_VALUE": [
+      "OSi"
+    ],
+    "BDY_ID_CHANGE_CODE_VALUE": [
+      "Enhancement and Enrichment",
+      "New Feature",
+      "Reengineered"
+    ],
+    "BDY_ID_CHANGE_DATE": [
+      "2017-08-01T00:00:00",
+      "2018-07-06T00:00:00",
+      "2018-07-09T00:00:00",
+      "2018-07-10T00:00:00",
+      "2018-07-11T00:00:00",
+      "2018-07-13T00:00:00",
+      "2018-07-16T00:00:00",
+      "2018-07-17T00:00:00",
+      "2018-07-18T00:00:00",
+      "2018-07-19T00:00:00",
+      "2018-07-23T00:00:00",
+      "2018-07-25T00:00:00",
+      "2018-07-26T00:00:00",
+      "2018-07-27T00:00:00",
+      "2018-08-09T00:00:00",
+      "2018-08-10T00:00:00",
+      "2018-08-13T00:00:00",
+      "2018-10-08T00:00:00",
+      "2018-11-30T00:00:00",
+      "2018-12-04T00:00:00",
+      "2018-12-05T00:00:00",
+      "2018-12-06T00:00:00",
+      "2019-02-27T00:00:00",
+      "2019-05-21T00:00:00",
+      "2019-06-27T00:00:00",
+      "2019-06-28T00:00:00",
+      "2019-07-01T00:00:00",
+      "2019-07-02T00:00:00",
+      "2019-07-03T00:00:00",
+      "2019-07-04T00:00:00",
+      "2019-07-05T00:00:00",
+      "2019-07-08T00:00:00"
+    ],
+    "BDY_ID_VALID_AUTH_VALUE": [
+      "OSi"
+    ],
+    "BDY_ID_VALID_DATE": [
+      "2017-08-01T00:00:00",
+      "2018-07-06T00:00:00",
+      "2018-07-09T00:00:00",
+      "2018-07-10T00:00:00",
+      "2018-07-11T00:00:00",
+      "2018-07-13T00:00:00",
+      "2018-07-16T00:00:00",
+      "2018-07-17T00:00:00",
+      "2018-07-18T00:00:00",
+      "2018-07-19T00:00:00",
+      "2018-07-23T00:00:00",
+      "2018-07-25T00:00:00",
+      "2018-07-26T00:00:00",
+      "2018-07-27T00:00:00",
+      "2018-08-09T00:00:00",
+      "2018-08-10T00:00:00",
+      "2018-08-13T00:00:00",
+      "2018-10-08T00:00:00",
+      "2018-11-30T00:00:00",
+      "2018-12-04T00:00:00",
+      "2018-12-05T00:00:00",
+      "2018-12-06T00:00:00",
+      "2019-02-27T00:00:00",
+      "2019-05-21T00:00:00",
+      "2019-06-27T00:00:00",
+      "2019-06-28T00:00:00",
+      "2019-07-01T00:00:00",
+      "2019-07-02T00:00:00",
+      "2019-07-03T00:00:00",
+      "2019-07-04T00:00:00",
+      "2019-07-05T00:00:00",
+      "2019-07-08T00:00:00"
+    ],
+    "ENG_NAME_VALUE": [
+      "BALLINA",
+      "BALLYHAW",
+      "BALROE",
+      "BANAGHER",
+      "BOTTOMY",
+      "BRACKLIN",
+      "BROCKAGH",
+      "CLONAVA",
+      "CLONCROW",
+      "CLONLOST",
+      "CLOONAGH",
+      "CORNAHER",
+      "CORRY",
+      "DRUMMAN",
+      "DYSART",
+      "GLENGORM",
+      "GLENIDAN",
+      "KILLAGH",
+      "KILLUA",
+      "KILTOBER",
+      "LOUGHAN",
+      "LYNN",
+      "MACETOWN",
+      "MILLTOWN",
+      "NEWDOWN",
+      "NEWTOWN",
+      "PORTJACK",
+      "RAHEEN",
+      "RATH",
+      "RATRASS",
+      "RUSSAGH",
+      "SHINGLIS"
+    ],
+    "ENG_NAME_CAPTURE_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-08-23T00:00:00"
+    ],
+    "ENG_NAME_CAPTURE_SRC_VALUE": [
+      "OSi"
+    ],
+    "ENG_NAME_CHANGE_CODE_VALUE": [
+      "New Feature",
+      "Reengineered"
+    ],
+    "ENG_NAME_CHANGE_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-08-23T00:00:00",
+      "2020-08-10T00:00:00",
+      "2023-06-09T00:00:00",
+      "2023-06-13T00:00:00"
+    ],
+    "ENG_NAME_VALID_AUTH_VALUE": [
+      "OSi"
+    ],
+    "ENG_NAME_VALID_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-08-23T00:00:00",
+      "2020-08-10T00:00:00",
+      "2023-06-09T00:00:00",
+      "2023-06-13T00:00:00"
+    ],
+    "GAELTACHT_AREA": [
+      "N"
+    ],
+    "SE_ANNO_CAD_DATA": [
+      "",
+      "00",
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "08",
+      "0C",
+      "0D",
+      "10",
+      "1C",
+      "1D",
+      "20",
+      "2A",
+      "2B",
+      "2C",
+      "31",
+      "3C",
+      "40",
+      "42",
+      "44",
+      "49",
+      "4B",
+      "4D",
+      "4F",
+      "50",
+      "52",
+      "53",
+      "55",
+      "5C",
+      "62"
+    ],
+    "GLE_NAME_VALUE": [
+      "An Carn",
+      "An Halla",
+      "An tIúr",
+      "Cluanach",
+      "Cuasán",
+      "Impir",
+      "Lainn",
+      "Mídín",
+      "Abhainn na Daoile",
+      "An Charraig",
+      "An Coillín Beag",
+      "An Coillín Mór",
+      "An Droim Mór",
+      "An Díseart",
+      "An Dún Mór",
+      "An Lochán",
+      "An Muileann gCearr",
+      "An Múr Rua",
+      "An Rosach",
+      "An Tulachán",
+      "An tEanach",
+      "Ard na gCliabh",
+      "Baile Fhobhair",
+      "Baile Ghrífín",
+      "Baile Ghéin",
+      "Baile Hog",
+      "Baile Marlainn",
+      "Baile Mhic Cearúill",
+      "Baile Mhic Eoil",
+      "Baile Mháis",
+      "Baile Phiarais",
+      "Baile Roibín (Levinge)"
+    ],
+    "GLE_NAME_CAPTURE_DATE": [
+      "2017-08-01T00:00:00",
+      "2021-01-20T00:00:00",
+      "2021-01-20T11:18:41",
+      "2022-07-01T00:00:00",
+      "2022-09-12T00:00:00",
+      "2025-01-24T09:10:56",
+      "2025-03-25T11:59:34",
+      "2025-06-03T16:23:41"
+    ],
+    "GLE_NAME_CAPTURE_SRC_VALUE": [
+      "OSi"
+    ],
+    "GLE_NAME_CHANGE_CODE_VALUE": [
+      "Enhancement and Enrichment",
+      "New Feature",
+      "Reengineered"
+    ],
+    "GLE_NAME_CHANGE_DATE": [
+      "2017-08-01T00:00:00",
+      "2021-01-20T11:18:41",
+      "2021-01-20T11:19:18",
+      "2022-07-01T00:00:00",
+      "2022-09-12T00:00:00",
+      "2023-06-09T00:00:00",
+      "2023-06-13T00:00:00",
+      "2025-01-24T09:10:56",
+      "2025-03-25T11:59:34",
+      "2025-06-03T16:23:41"
+    ],
+    "GLE_NAME_VALID_AUTH_VALUE": [
+      "OSi"
+    ],
+    "GLE_NAME_VALID_DATE": [
+      "2017-08-01T00:00:00",
+      "2022-07-01T00:00:00",
+      "2022-09-12T00:00:00",
+      "2023-06-09T00:00:00",
+      "2023-06-13T00:00:00",
+      "2025-01-24T09:10:56",
+      "2025-03-06T18:30:11",
+      "2025-03-06T18:30:12",
+      "2025-03-06T18:30:13",
+      "2025-03-06T18:30:15",
+      "2025-03-06T18:30:16",
+      "2025-03-06T18:30:17",
+      "2025-03-06T18:30:18",
+      "2025-03-06T18:30:20",
+      "2025-03-06T18:30:21",
+      "2025-03-25T11:59:34",
+      "2025-06-03T16:23:41"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/westmeath-townlands.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/westmeath-townlands.fgb",
+    "bytes": 5113272,
+    "files": 136,
+    "pbfFiles": 135,
+    "maxTileBytes": 335208
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/westmeath-townlands-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/westmeath-townlands/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/westmeath-townlands-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/westmeath-townlands-vector-test.pmtiles",
+    "bytes": 2435317,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/westmeath-townlands/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/westmeath-townlands-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/westmeath-townlands-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/westmeath-townlands-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

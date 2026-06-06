@@ -1,0 +1,120 @@
+{
+  "id": "env-noise-major-roads-lden-vector-test",
+  "sourceMapId": "env-noise-major-roads-lden",
+  "name": "Environmental Noise — Major Roads Lden (Round 3)",
+  "category": "Environment",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "DAERA"
+  ],
+  "description": "Lden noise contours along Northern Ireland's major road network (>3 million vehicle passages per year), Round 3 (2017) of the EU Environmental Noise Directive. Bands rendered in the standard END Lden palette.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/env-noise-major-roads-lden/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/env-noise-major-roads-lden/metadata.json",
+  "sourceLayer": "env_noise_major_roads_lden",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0962072,
+      -7.6666111
+    ],
+    [
+      55.1943147,
+      -5.5591735
+    ]
+  ],
+  "style": {
+    "color": "#4F46E5",
+    "fillColor": "#818CF8",
+    "fillOpacity": 0.55,
+    "weight": 0.2
+  },
+  "references": [
+    {
+      "label": "OSNI Open Data — Environmental Noise Directive (Round 3)",
+      "url": "https://admin.opendatani.gov.uk/dataset/environmental-noise-directive-noise-mapping"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/env-noise-major-roads-lden.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "DAERA"
+  ],
+  "keywords": [
+    "noise",
+    "environmental noise",
+    "lden",
+    "major roads",
+    "traffic",
+    "daera",
+    "round 3",
+    "end",
+    "Environmental Noise — Major Roads Lden (Round 3)",
+    "Environment",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#4F46E5",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/env-noise-major-roads-lden.fgb",
+  "sourceDatasetLayer": "env-noise-major-roads-lden",
+  "popupProperties": [
+    "gridcode"
+  ],
+  "numericProperties": [
+    "gridcode"
+  ],
+  "categoricalProperties": [],
+  "categoricalValues": {},
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/env-noise-major-roads-lden.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/env-noise-major-roads-lden.fgb",
+    "bytes": 33325275,
+    "files": 355,
+    "pbfFiles": 354,
+    "maxTileBytes": 1494755
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/env-noise-major-roads-lden-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/env-noise-major-roads-lden/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/env-noise-major-roads-lden-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/env-noise-major-roads-lden-vector-test.pmtiles",
+    "bytes": 11994031,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/env-noise-major-roads-lden/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/env-noise-major-roads-lden-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/env-noise-major-roads-lden-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/env-noise-major-roads-lden-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

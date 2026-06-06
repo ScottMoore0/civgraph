@@ -1,0 +1,145 @@
+{
+  "id": "pc-1970-vector-test",
+  "sourceMapId": "pc-1970",
+  "name": "Parliamentary Constituencies 1970",
+  "category": "Parliamentary Constituencies",
+  "group": "Elections and Government",
+  "date": 1970,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Parlconst.org"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/pc-1970/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/pc-1970/metadata.json",
+  "sourceLayer": "pc_1970",
+  "promoteId": "id",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227186,
+      -8.1774905
+    ],
+    [
+      55.3129748,
+      -5.4327734
+    ]
+  ],
+  "style": {
+    "color": "#D466D6",
+    "fillColor": "#D466D6",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/pc-1970.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Parlconst.org"
+  ],
+  "keywords": [
+    "constituency",
+    "westminster",
+    "parliament",
+    "1970",
+    "1974",
+    "Parliamentary Constituencies 1970",
+    "Parliamentary Constituencies",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#D466D6",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/pc-1970-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/pc-1970.fgb",
+  "sourceDatasetLayer": "pc-1970",
+  "idProperty": "id",
+  "popupProperties": [
+    "Name",
+    "id",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "id",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "Name"
+  ],
+  "categoricalValues": {
+    "Name": [
+      "ARMAGH",
+      "BELFAST EAST",
+      "BELFAST NORTH",
+      "BELFAST SOUTH",
+      "BELFAST WEST",
+      "FERMANAGH AND SOUTH TYRONE",
+      "LONDONDERRY",
+      "MID ULSTER",
+      "NORTH ANTRIM",
+      "NORTH DOWN",
+      "SOUTH ANTRIM",
+      "SOUTH DOWN"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/pc-1970.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/pc-1970.fgb",
+    "bytes": 1226862,
+    "files": 756,
+    "pbfFiles": 755,
+    "maxTileBytes": 14664
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/pc-1970-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/pc-1970/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/pc-1970-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/pc-1970-vector-test.pmtiles",
+    "bytes": 689366,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/pc-1970/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/pc-1970-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/pc-1970-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/pc-1970-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

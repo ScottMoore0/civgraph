@@ -1,0 +1,134 @@
+{
+  "id": "provinces-1899-vector-test",
+  "sourceMapId": "provinces-1899",
+  "name": "Provinces of Ireland 1899",
+  "category": "Counties",
+  "group": "History",
+  "date": "1899",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Phelim Birch"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/provinces-1899/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/provinces-1899/metadata.json",
+  "sourceLayer": "provinces_1899",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198973,
+      -10.6812354
+    ],
+    [
+      55.4469322,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#884EA0",
+    "fillColor": "#884EA0",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/provinces-1899.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Phelim Birch"
+  ],
+  "keywords": [
+    "province",
+    "ulster",
+    "munster",
+    "leinster",
+    "connacht",
+    "ireland",
+    "all-island",
+    "1899",
+    "historic",
+    "Provinces of Ireland 1899",
+    "Counties",
+    "History",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "PROVINCE",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#884EA0",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/provinces-1899-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/provinces-1899.fgb",
+  "sourceDatasetLayer": "provinces-1899",
+  "popupProperties": [
+    "PROVINCE",
+    "CUIGE"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "PROVINCE",
+    "CUIGE"
+  ],
+  "categoricalValues": {
+    "PROVINCE": [
+      "Connacht",
+      "Leinster",
+      "Munster",
+      "Ulster"
+    ],
+    "CUIGE": [
+      "Laighin",
+      "Mumhain",
+      "Ulaidh",
+      "Connachta"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/provinces-1899.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/provinces-1899.fgb",
+    "bytes": 6119410,
+    "files": 3922,
+    "pbfFiles": 3921,
+    "maxTileBytes": 35615
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/provinces-1899-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/provinces-1899/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/provinces-1899-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/provinces-1899-vector-test.pmtiles",
+    "bytes": 3548887,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/provinces-1899/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/provinces-1899-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/provinces-1899-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/provinces-1899-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "PROVINCE",
+  "idProperty": "PROVINCE"
+}

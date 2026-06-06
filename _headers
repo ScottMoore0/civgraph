@@ -31,6 +31,53 @@
   Cache-Control: public, max-age=31536000, immutable
   X-Robots-Tag: noindex, nofollow
 
+# Verbatim-shell MapLibre test route. HTML and root entry files must revalidate,
+# while generated chunks and sidecars can be cached aggressively.
+/test2/
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Robots-Tag: noindex, nofollow
+
+/test2/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Robots-Tag: noindex, nofollow
+
+/test2/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+  Service-Worker-Allowed: /test2/
+  X-Robots-Tag: noindex, nofollow
+
+/test2/build/test2.bundle.js
+  Cache-Control: no-cache, must-revalidate
+  X-Robots-Tag: noindex, nofollow
+
+/test2/build/test2.bundle.css
+  Cache-Control: no-cache, must-revalidate
+  X-Robots-Tag: noindex, nofollow
+
+/test2/build/chunks/*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Robots-Tag: noindex, nofollow
+
+/test2/src/*
+  Cache-Control: no-cache, must-revalidate
+  X-Robots-Tag: noindex, nofollow
+
+/test/metadata/maps-test-index.json
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Robots-Tag: noindex, nofollow
+
+/test/metadata/layer-details-test2/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  X-Robots-Tag: noindex, nofollow
+
+/test/metadata/duplicate-feature-ids/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  X-Robots-Tag: noindex, nofollow
+
+/test/metadata/elections-test2-summaries/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  X-Robots-Tag: noindex, nofollow
+
 # Service worker — must revalidate on every load so deploys propagate to all
 # clients within one navigation. The SW itself caches downstream resources;
 # its own file should never be cached aggressively or we can't ship fixes.

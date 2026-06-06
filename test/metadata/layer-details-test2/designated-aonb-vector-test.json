@@ -1,0 +1,215 @@
+{
+  "id": "designated-aonb-vector-test",
+  "sourceMapId": "designated-aonb",
+  "name": "Areas of Outstanding Natural Beauty (AONB)",
+  "category": "Designated & Protected Sites",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "DAERA",
+    "Northern Ireland Environment Agency"
+  ],
+  "description": "Eight Areas of Outstanding Natural Beauty designated under Article 14 of the Nature Conservation and Amenity Lands (Northern Ireland) Order 1985 for landscape protection. Includes the Mournes, Antrim Coast & Glens, Causeway Coast, Ring of Gullion, Sperrins, Strangford Lough, Erne Lakeland and Lagan Valley AONBs.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/designated-aonb/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/designated-aonb/metadata.json",
+  "sourceLayer": "designated_aonb",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0216137,
+      -7.4371108
+    ],
+    [
+      55.3130294,
+      -5.4436077
+    ]
+  ],
+  "style": {
+    "color": "#3a3a3a",
+    "fillColor": "#7BAA66",
+    "fillOpacity": 0.55,
+    "weight": 0.6
+  },
+  "references": [
+    {
+      "label": "Open Data NI — Areas of Outstanding Natural Beauty (AONB)",
+      "url": "https://admin.opendatani.gov.uk/dataset/areas-of-outstanding-natural-beauty"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/designated-aonb.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "DAERA",
+    "Northern Ireland Environment Agency"
+  ],
+  "keywords": [
+    "designated",
+    "protected",
+    "conservation",
+    "niea",
+    "daera",
+    "natural environment",
+    "areas of outstanding natural beauty (aonb)",
+    "Areas of Outstanding Natural Beauty (AONB)",
+    "Designated & Protected Sites",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAME",
+  "labelPropertyFallbacks": [
+    "COUNTY"
+  ],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#3a3a3a",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/designated-aonb-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/designated-aonb.fgb",
+  "sourceDatasetLayer": "designated-aonb",
+  "popupProperties": [
+    "NAME",
+    "ID_REF",
+    "Id",
+    "LEGISLATIN",
+    "DIST_COUNC",
+    "COUNTY",
+    "CALC_AREA",
+    "D_DEC_DATE",
+    "Area_Hecta",
+    "COMMENTS"
+  ],
+  "numericProperties": [
+    "Id",
+    "CALC_AREA",
+    "Area_Hecta",
+    "GIS_AREA",
+    "Shape_STAr",
+    "Shape_STLe"
+  ],
+  "categoricalProperties": [
+    "NAME",
+    "LEGISLATIN",
+    "DIST_COUNC",
+    "COUNTY",
+    "ID_REF",
+    "D_DEC_DATE",
+    "Hyperlink",
+    "COMMENTS"
+  ],
+  "categoricalValues": {
+    "NAME": [
+      "Mourne",
+      "Sperrin",
+      "Antrim Coast and Glens",
+      "Binevenagh",
+      "Causeway Coast",
+      "Lagan Valley",
+      "Ring of Gullion",
+      "Strangford and Lecale"
+    ],
+    "LEGISLATIN": [
+      "NCALO",
+      "Amenity Lands Act"
+    ],
+    "DIST_COUNC": [
+      "Ards, Down",
+      "Ballymena, Ballymoney, Larne, Moyle",
+      "Belfast, Castlereagh, Lisburn",
+      "Coleraine, Cookstown, Derry, Limavady, Magherafelt, Omagh",
+      "Coleraine, Limavady",
+      "Down, Newry & Mourne",
+      "Moyle, Coleraine",
+      "Newry & Mourne"
+    ],
+    "COUNTY": [
+      "Antrim",
+      "Armagh",
+      "Derry",
+      "Down",
+      "Antrim, Down",
+      "Derry, Tyrone"
+    ],
+    "ID_REF": [
+      "AONB1",
+      "AONB2",
+      "AONB3",
+      "AONB4",
+      "AONB5",
+      "AONB6",
+      "AONB7",
+      "AONB8"
+    ],
+    "D_DEC_DATE": [
+      "1965",
+      "07/07/1988",
+      "08/06/2010",
+      "09/12/1986",
+      "11/08/2008",
+      "12/12/1991",
+      "19/06/2006",
+      "22/03/1989"
+    ],
+    "Hyperlink": [
+      "https://www.daera-ni.gov.uk/articles/antrim-coast-and-glens-aonb",
+      "https://www.daera-ni.gov.uk/articles/binevenagh-aonb",
+      "https://www.daera-ni.gov.uk/articles/causeway-coast-aonb",
+      "https://www.daera-ni.gov.uk/articles/lagan-valley-aonb",
+      "https://www.daera-ni.gov.uk/articles/mourne-aonb",
+      "https://www.daera-ni.gov.uk/articles/ring-gullion-aonb",
+      "https://www.daera-ni.gov.uk/articles/sperrin-aonb",
+      "https://www.daera-ni.gov.uk/articles/strangford-and-lecale-aonb"
+    ],
+    "COMMENTS": [
+      "Designation relates to the bounded area above the low water mark of mean tide"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/designated-aonb.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/designated-aonb.fgb",
+    "bytes": 449470,
+    "files": 328,
+    "pbfFiles": 327,
+    "maxTileBytes": 8095
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/designated-aonb-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/designated-aonb/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/designated-aonb-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/designated-aonb-vector-test.pmtiles",
+    "bytes": 337691,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/designated-aonb/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/designated-aonb-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/designated-aonb-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/designated-aonb-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "ID_REF",
+  "idProperty": "ID_REF"
+}

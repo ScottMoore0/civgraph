@@ -1,0 +1,205 @@
+{
+  "id": "civil-parishes-munster-vector-test",
+  "sourceMapId": "civil-parishes-munster",
+  "name": "Civil Parishes of Ireland",
+  "category": "Civil Parishes",
+  "group": "History",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSI",
+    "OSM"
+  ],
+  "description": "Civil Parishes in Munster",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/civil-parishes-munster/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/civil-parishes-munster/metadata.json",
+  "sourceLayer": "civil_parishes_munster",
+  "promoteId": "id",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.3888583,
+      -10.662971
+    ],
+    [
+      53.209314,
+      -6.9499934
+    ]
+  ],
+  "style": {
+    "color": "#9932CC",
+    "fillColor": "#9932CC",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Civil Parishes of Ireland -- OSNI provenance",
+      "url": null
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/civil-parishes-munster.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSI",
+    "OSM"
+  ],
+  "keywords": [
+    "civil parish",
+    "parish",
+    "all ireland",
+    "province",
+    "all-ireland",
+    "unified",
+    "lod",
+    "chunked",
+    "Civil Parishes of Ireland",
+    "Civil Parishes",
+    "History",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "name_en",
+  "labelPropertyFallbacks": [
+    "name_ga"
+  ],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#9932CC",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/civil-parishes-munster-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/civil-parishes-munster.fgb",
+  "sourceDatasetLayer": "civil-parishes-munster",
+  "idProperty": "id",
+  "popupProperties": [
+    "name_en",
+    "id",
+    "name_ga",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft"
+  ],
+  "numericProperties": [
+    "id"
+  ],
+  "categoricalProperties": [
+    "name_en",
+    "name_ga"
+  ],
+  "categoricalValues": {
+    "name_en": [
+      "Affane",
+      "Aghern",
+      "Aglish",
+      "Ardagh",
+      "Ardmore",
+      "Ballynoe",
+      "Brigown",
+      "Britway",
+      "Caherlag",
+      "Clenor",
+      "Clonea",
+      "Clonmult",
+      "Corkbeg",
+      "Cullen",
+      "Farahy",
+      "Gortroe",
+      "Grenagh",
+      "Inch",
+      "Killathy",
+      "Kilronan",
+      "Leitrim",
+      "Lickoran",
+      "Lislee",
+      "Litter",
+      "Macroney",
+      "Mallow",
+      "Matehy",
+      "Mothel",
+      "Rahan",
+      "Ringrone",
+      "Seskinan",
+      "Tisaxon"
+    ],
+    "name_ga": [
+      "Ardach",
+      "Eochaill",
+      "Greanach",
+      "Leitir",
+      "Liatroim",
+      "Lios Lao",
+      "Mala",
+      "Maothail",
+      "Raithean",
+      "Aird Mhór",
+      "An Caisleán Nua",
+      "An Cuileann",
+      "An Domhnach Mór",
+      "An Eaglais",
+      "An Fhairche",
+      "An Gort Rua",
+      "An Seanraithean",
+      "An Sráidbhaile",
+      "An Teampall Geal",
+      "Ard na Gaoithe",
+      "Baile Chaisleáin an Róistigh",
+      "Baile Charránaigh",
+      "Baile Cloiche",
+      "Baile Mhac Airt",
+      "Baile Nua Uí Liatháin",
+      "Baile Uí Bhéacáin",
+      "Baile an Mharascalaigh",
+      "Baile an Teampaill",
+      "Baile na Baoi",
+      "Bréachmhaigh",
+      "Brí Ghabhann",
+      "Béal Átha hÚlla"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/civil-parishes-munster.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/civil-parishes-munster.fgb",
+    "bytes": 9359375,
+    "files": 1228,
+    "pbfFiles": 1227,
+    "maxTileBytes": 103145
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/civil-parishes-munster-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/civil-parishes-munster/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/civil-parishes-munster-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/civil-parishes-munster-vector-test.pmtiles",
+    "bytes": 6250189,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/civil-parishes-munster/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/civil-parishes-munster-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/civil-parishes-munster-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/civil-parishes-munster-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

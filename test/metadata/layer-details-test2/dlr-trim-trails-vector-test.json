@@ -1,0 +1,152 @@
+{
+  "id": "dlr-trim-trails-vector-test",
+  "sourceMapId": "dlr-trim-trails",
+  "name": "Trim Trails (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Trim Trails (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-trim-trails/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-trim-trails/metadata.json",
+  "sourceLayer": "dlr_trim_trails",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.224524,
+      -6.2637234
+    ],
+    [
+      53.3040789,
+      -6.1161125
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-trim-trails.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "trim",
+    "trails",
+    "Trim Trails (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Location",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-trim-trails-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-trim-trails.fgb",
+  "sourceDatasetLayer": "dlr-trim-trails",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Location",
+    "OBJECTID",
+    "Type",
+    "ITM_X",
+    "ITM_Y"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "ITM_X",
+    "ITM_Y"
+  ],
+  "categoricalProperties": [
+    "Location",
+    "Type"
+  ],
+  "categoricalValues": {
+    "Location": [
+      "Ballawley Park",
+      "Blackrock Park",
+      "Cabinteely Park",
+      "Deer Park",
+      "Fernhill Park",
+      "Hudson Park",
+      "Kilbogget Park",
+      "Loughlinstown Linear Park",
+      "Marley Park",
+      "Newtown Smith Park",
+      "Rathsallagh Open Space",
+      "Shanganagh Park",
+      "Stillorgan Heath ",
+      "The Gallops"
+    ],
+    "Type": [
+      "exercise stations",
+      "trim trail"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-trim-trails.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-trim-trails.fgb",
+    "bytes": 18182,
+    "files": 21,
+    "pbfFiles": 20,
+    "maxTileBytes": 1051
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-trim-trails-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-trim-trails/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-trim-trails-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-trim-trails-vector-test.pmtiles",
+    "bytes": 12257,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-trim-trails/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-trim-trails-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-trim-trails-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-trim-trails-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

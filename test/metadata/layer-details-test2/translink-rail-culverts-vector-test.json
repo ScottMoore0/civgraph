@@ -1,0 +1,173 @@
+{
+  "id": "translink-rail-culverts-vector-test",
+  "sourceMapId": "translink-rail-culverts",
+  "name": "NI Railways Culverts",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Translink"
+  ],
+  "description": "NI Railways Culverts — public transport infrastructure published by Translink.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/translink-rail-culverts/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/translink-rail-culverts/metadata.json",
+  "sourceLayer": "translink_rail_culverts",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0690612,
+      -7.3151313
+    ],
+    [
+      55.1949227,
+      -5.7220652
+    ]
+  ],
+  "style": {
+    "color": "#7B1FA2",
+    "fillColor": "#7B1FA2",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/translink-rail-culverts.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Translink"
+  ],
+  "keywords": [
+    "translink",
+    "public transport",
+    "transit",
+    "ni railways culverts",
+    "northern ireland",
+    "NI Railways Culverts",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Structure_No",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#7B1FA2",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/translink-rail-culverts-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/translink-rail-culverts.fgb",
+  "sourceDatasetLayer": "translink-rail-culverts",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Structure_No",
+    "OBJECTID",
+    "Section",
+    "Type_Description",
+    "Easting",
+    "Northing",
+    "Lat",
+    "Long"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "Section",
+    "Easting",
+    "Northing",
+    "Lat",
+    "Long"
+  ],
+  "categoricalProperties": [
+    "Structure_No",
+    "Type_Description"
+  ],
+  "categoricalValues": {
+    "Structure_No": [
+      "C01.001",
+      "C01.001A",
+      "C01.001B",
+      "C01.001C",
+      "C01.001D",
+      "C01.001E",
+      "C01.002",
+      "C01.003",
+      "C01.004",
+      "C01.005",
+      "C01.005A",
+      "C01.006",
+      "C01.007",
+      "C01.008",
+      "C01.009",
+      "C01.009A",
+      "C01.010",
+      "C01.010A",
+      "C01.011",
+      "C01.012",
+      "C01.013",
+      "C01.014",
+      "C01.015",
+      "C01.016",
+      "C01.017",
+      "C01.018",
+      "C01.019",
+      "C01.020",
+      "C01.021",
+      "C01.021A",
+      "C01.022",
+      "C01.023 "
+    ],
+    "Type_Description": [
+      "Minor Culvert"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/translink-rail-culverts.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/translink-rail-culverts.fgb",
+    "bytes": 503923,
+    "files": 130,
+    "pbfFiles": 129,
+    "maxTileBytes": 35495
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/translink-rail-culverts-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/translink-rail-culverts/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/translink-rail-culverts-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/translink-rail-culverts-vector-test.pmtiles",
+    "bytes": 294812,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/translink-rail-culverts/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/translink-rail-culverts-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/translink-rail-culverts-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/translink-rail-culverts-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

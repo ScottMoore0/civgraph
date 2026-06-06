@@ -1,0 +1,213 @@
+{
+  "id": "civil-parishes-connacht-vector-test",
+  "sourceMapId": "civil-parishes-connacht",
+  "name": "Civil Parishes of Ireland",
+  "category": "Civil Parishes",
+  "group": "History",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSI",
+    "OSM"
+  ],
+  "description": "Civil Parishes in Connacht",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/civil-parishes-connacht/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/civil-parishes-connacht/metadata.json",
+  "sourceLayer": "civil_parishes_connacht",
+  "promoteId": "id",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      52.9681498,
+      -10.3023128
+    ],
+    [
+      54.4743682,
+      -7.584171
+    ]
+  ],
+  "style": {
+    "color": "#9932CC",
+    "fillColor": "#9932CC",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Civil Parishes of Ireland -- OSNI provenance",
+      "url": null
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/civil-parishes-connacht.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSI",
+    "OSM"
+  ],
+  "keywords": [
+    "civil parish",
+    "parish",
+    "all ireland",
+    "province",
+    "all-ireland",
+    "unified",
+    "lod",
+    "chunked",
+    "Civil Parishes of Ireland",
+    "Civil Parishes",
+    "History",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "name_en",
+  "labelPropertyFallbacks": [
+    "name_ga"
+  ],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#9932CC",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/civil-parishes-connacht-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/civil-parishes-connacht.fgb",
+  "sourceDatasetLayer": "civil-parishes-connacht",
+  "idProperty": "id",
+  "popupProperties": [
+    "name_en",
+    "id",
+    "name_ga",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "id",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "name_en",
+    "name_ga"
+  ],
+  "categoricalValues": {
+    "name_en": [
+      "Ardcarn",
+      "Ardrahan",
+      "Athenry",
+      "Aughrim",
+      "Beagh",
+      "Cam",
+      "Clonbern",
+      "Clonfert",
+      "Clonkeen",
+      "Cloone",
+      "Creagh",
+      "Creeve",
+      "Cummer",
+      "Drum",
+      "Duniry",
+      "Dunmore",
+      "Dysart",
+      "Elphin",
+      "Fenagh",
+      "Fuerty",
+      "Kilbride",
+      "Kilcrone",
+      "Kilglass",
+      "Killaan",
+      "Killian",
+      "Killinan",
+      "Killora",
+      "Killoran",
+      "Killukin",
+      "Kilmeane",
+      "Kilmeen",
+      "Kilquain"
+    ],
+    "name_ga": [
+      "Ail Finn",
+      "An Droim",
+      "An Múr",
+      "Camach",
+      "Comar",
+      "Eachroim",
+      "Fíonach",
+      "Fíorta",
+      "Leacach",
+      "Maothail",
+      "Tíne",
+      "Óigeala",
+      "An Bheitheach",
+      "An Chraobh",
+      "An Chríoch",
+      "An Díseart",
+      "An Leac Dhearg",
+      "An Sráidbhaile",
+      "Ard Carna",
+      "Ard Raithin",
+      "Baile Mhic an Bhaird",
+      "Baile na Cille",
+      "Baile Átha an Rí",
+      "Buíbheanach",
+      "Carraig Álainn",
+      "Cill Alachtáin",
+      "Cill Bheaganta",
+      "Cill Bheagnait",
+      "Cill Bheanáin",
+      "Cill Bhríde",
+      "Cill Chluaine",
+      "Cill Choirín"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/civil-parishes-connacht.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/civil-parishes-connacht.fgb",
+    "bytes": 4800731,
+    "files": 948,
+    "pbfFiles": 947,
+    "maxTileBytes": 76783
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/civil-parishes-connacht-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/civil-parishes-connacht/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/civil-parishes-connacht-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/civil-parishes-connacht-vector-test.pmtiles",
+    "bytes": 3311222,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/civil-parishes-connacht/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/civil-parishes-connacht-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/civil-parishes-connacht-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/civil-parishes-connacht-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

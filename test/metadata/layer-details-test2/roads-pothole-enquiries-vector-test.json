@@ -1,0 +1,201 @@
+{
+  "id": "roads-pothole-enquiries-vector-test",
+  "sourceMapId": "roads-pothole-enquiries",
+  "name": "Pothole Enquiries",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Department for Infrastructure - Roads"
+  ],
+  "description": "Pothole reports submitted to DfI Roads — point dataset showing locations of public reports per year (selected: latest available 2025–2026).",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/roads-pothole-enquiries/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/roads-pothole-enquiries/metadata.json",
+  "sourceLayer": "roads_pothole_enquiries",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.2185653,
+      -10.8634427
+    ],
+    [
+      55.2990322,
+      -5.4376847
+    ]
+  ],
+  "style": {
+    "color": "#E0A60C",
+    "fillColor": "#E0A60C",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/roads-pothole-enquiries.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Department for Infrastructure - Roads"
+  ],
+  "keywords": [
+    "transport",
+    "pothole enquiries",
+    "Pothole Enquiries",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#E0A60C",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/roads-pothole-enquiries.fgb",
+  "sourceDatasetLayer": "roads-pothole-enquiries",
+  "popupProperties": [
+    "ENQUIRY_TYPE",
+    "ENQUIRY_CATEGORY",
+    "DATE_RECORDED",
+    "DIVISION",
+    "CLIENT_OFFICE_NAME",
+    "EASTING",
+    "NORTHING",
+    "APPROVAL_STATUS_NAME"
+  ],
+  "numericProperties": [
+    "EASTING",
+    "NORTHING"
+  ],
+  "categoricalProperties": [
+    "ENQUIRY_TYPE",
+    "ENQUIRY_CATEGORY",
+    "DATE_RECORDED",
+    "DIVISION",
+    "CLIENT_OFFICE_NAME",
+    "APPROVAL_STATUS_NAME"
+  ],
+  "categoricalValues": {
+    "ENQUIRY_TYPE": [
+      "Pothole"
+    ],
+    "ENQUIRY_CATEGORY": [
+      "Call Centre Public Enquiry",
+      "Complaints",
+      "Correspondence",
+      "Public Enquiry",
+      "RT Room Public Enquiry"
+    ],
+    "DATE_RECORDED": [
+      "02/02/2018 15:44:00",
+      "03/02/2018 08:32:00",
+      "03/02/2018 08:33:00",
+      "03/02/2018 08:34:00",
+      "03/02/2018 08:35:00",
+      "03/11/2017 10:59:00",
+      "04/01/2018 15:45:00",
+      "05/02/2018 14:00:50",
+      "05/03/2018 10:25:00",
+      "06/02/2018 13:46:00",
+      "06/02/2018 15:20:05",
+      "06/03/2018 09:25:00",
+      "06/11/2017 08:54:00",
+      "07/11/2017 15:01:00",
+      "08/01/2018 09:53:00",
+      "08/01/2018 15:08:00",
+      "08/02/2018 09:40:00",
+      "09/03/2018 10:53:44",
+      "10/03/2018 10:41:00",
+      "11/01/2018 16:06:00",
+      "12/01/2018 11:35:00",
+      "12/03/2018 11:48:00",
+      "12/03/2018 11:55:00",
+      "13/03/2018 08:55:12",
+      "13/03/2018 09:08:09",
+      "13/09/2017 12:43:00",
+      "13/11/2017 09:39:00",
+      "14/02/2018 13:53:00",
+      "14/03/2018 10:55:00",
+      "14/03/2018 11:11:00",
+      "15/02/2018 11:54:00",
+      "15/02/2018 13:55:00"
+    ],
+    "DIVISION": [
+      "ALL CLIENTS",
+      "EASTERN DIVISION",
+      "NORTHERN DIVISION",
+      "SOUTHERN DIVISION",
+      "WESTERN DIVISION"
+    ],
+    "CLIENT_OFFICE_NAME": [
+      "?",
+      "ANTRIM & NEWTOWNABBEY",
+      "ARDS & NORTH DOWN",
+      "ARMAGH CITY, BANBRIDGE & CRAIGAVON (EAST)",
+      "ARMAGH CITY, BANBRIDGE & CRAIGAVON (WEST)",
+      "BELFAST NORTH",
+      "BELFAST SOUTH",
+      "CASTLEREAGH / LISBURN",
+      "CAUSEWAY COAST & GLENS (EAST)",
+      "CAUSEWAY COAST & GLENS (WEST)",
+      "FERMANAGH & OMAGH (EAST)",
+      "FERMANAGH & OMAGH (WEST)",
+      "LONDONDERRY & STRABANE",
+      "MID & EAST ANTRIM",
+      "MID ULSTER (NORTH)",
+      "MID ULSTER (SOUTH)",
+      "NEWRY MOURNE & DOWN (EAST)",
+      "NEWRY MOURNE & DOWN (WEST)"
+    ],
+    "APPROVAL_STATUS_NAME": [
+      "Completed Enquiries",
+      "Enquiries In Progress",
+      "New Enquiries"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/roads-pothole-enquiries.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/roads-pothole-enquiries.fgb",
+    "bytes": 19524590,
+    "files": 701,
+    "pbfFiles": 700,
+    "maxTileBytes": 1450441
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roads-pothole-enquiries-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/roads-pothole-enquiries/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/roads-pothole-enquiries-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/roads-pothole-enquiries-vector-test.pmtiles",
+    "bytes": 7629398,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/roads-pothole-enquiries/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roads-pothole-enquiries-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/roads-pothole-enquiries-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/roads-pothole-enquiries-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

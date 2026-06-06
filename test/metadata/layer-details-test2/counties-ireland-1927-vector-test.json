@@ -1,0 +1,198 @@
+{
+  "id": "counties-ireland-1927-vector-test",
+  "sourceMapId": "counties-ireland-1927",
+  "name": "Counties of Ireland 1927 (all-island, Donegal)",
+  "category": "Counties",
+  "group": "History",
+  "date": "1927",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Phelim Birch"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/counties-ireland-1927/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/counties-ireland-1927/metadata.json",
+  "sourceLayer": "counties_ireland_1927",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198973,
+      -10.6812354
+    ],
+    [
+      55.4469322,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#00A9E6",
+    "fillColor": "#00A9E6",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/counties-ireland-1927.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Phelim Birch"
+  ],
+  "keywords": [
+    "county",
+    "ireland",
+    "all-island",
+    "32 counties",
+    "1927",
+    "donegal",
+    "offaly",
+    "laois",
+    "traditional",
+    "Counties of Ireland 1927 (all-island, Donegal)",
+    "Counties",
+    "History",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "COUNTY",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#00A9E6",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/counties-ireland-1927-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/counties-ireland-1927.fgb",
+  "sourceDatasetLayer": "counties-ireland-1927",
+  "popupProperties": [
+    "COUNTY",
+    "CONTAE",
+    "PROVINCE"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "CONTAE",
+    "COUNTY",
+    "PROVINCE"
+  ],
+  "categoricalValues": {
+    "CONTAE": [
+      "An Clár",
+      "An Dún",
+      "An Mhí",
+      "Aontroim",
+      "Ciarraí",
+      "Corcaigh",
+      "Doire",
+      "Gaillimh",
+      "Laois",
+      "Liatroim",
+      "Lú",
+      "Maigh Eo",
+      "Sligeach",
+      "An Cabhán",
+      "An Iarmhí",
+      "An Longfort",
+      "Ard Mhacha",
+      "Baile Átha Cliath",
+      "Ceatharlach",
+      "Cill Chainnigh",
+      "Cill Dara",
+      "Cill Mhantáin",
+      "Dún na nGall",
+      "Fear Manach",
+      "Loch Garman",
+      "Luimneach",
+      "Muineachán",
+      "Port Láirge",
+      "Ros Comáin",
+      "Tiobraid Árann",
+      "Tír Eoghain",
+      "Uíbh Fhailí"
+    ],
+    "COUNTY": [
+      "ANTRIM",
+      "ARMAGH",
+      "CARLOW",
+      "CAVAN",
+      "CLARE",
+      "CORK",
+      "DERRY",
+      "DONEGAL",
+      "DOWN",
+      "DUBLIN",
+      "GALWAY",
+      "KERRY",
+      "KILDARE",
+      "KILKENNY",
+      "LAOIGHIS",
+      "LEITRIM",
+      "LIMERICK",
+      "LONGFORD",
+      "LOUTH",
+      "MAYO",
+      "MEATH",
+      "MONAGHAN",
+      "OFFALY",
+      "SLIGO",
+      "TYRONE",
+      "WEXFORD",
+      "WICKLOW",
+      "FERMANAGH",
+      "ROSCOMMON",
+      "TIPPERARY",
+      "WATERFORD",
+      "WESTMEATH"
+    ],
+    "PROVINCE": [
+      "Connacht",
+      "Leinster",
+      "Munster",
+      "Ulster"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/counties-ireland-1927.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/counties-ireland-1927.fgb",
+    "bytes": 8021353,
+    "files": 3922,
+    "pbfFiles": 3921,
+    "maxTileBytes": 55335
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/counties-ireland-1927-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/counties-ireland-1927/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/counties-ireland-1927-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/counties-ireland-1927-vector-test.pmtiles",
+    "bytes": 4954747,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/counties-ireland-1927/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/counties-ireland-1927-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/counties-ireland-1927-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/counties-ireland-1927-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "COUNTY",
+  "idProperty": "COUNTY"
+}

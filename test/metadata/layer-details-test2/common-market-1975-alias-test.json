@@ -1,0 +1,133 @@
+{
+  "id": "common-market-1975-alias-test",
+  "sourceMapId": "common-market-1975",
+  "name": "1975 Common Market Referendum Constituency",
+  "category": "Referendums",
+  "group": "Elections and Government",
+  "date": 1975,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI"
+  ],
+  "description": "Northern Ireland as a single constituency for the 1975 EEC referendum.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/ni-1921/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/ni-1921/metadata.json",
+  "sourceLayer": "ni_1921",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227244,
+      -8.1775025
+    ],
+    [
+      55.3129843,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#003399",
+    "fillColor": "#003399",
+    "fillOpacity": 0.18,
+    "weight": 3
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/ni-1921.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI"
+  ],
+  "keywords": [
+    "northern ireland",
+    "polity",
+    "1921",
+    "partition",
+    "Northern Ireland 1921",
+    "Polities",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles",
+    "common market",
+    "eec",
+    "referendum",
+    "1975",
+    "1975 Common Market Referendum Constituency",
+    "Referendums",
+    "common-market-1975",
+    "ni-1921",
+    "clone alias"
+  ],
+  "labelProperty": "Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#003399",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/ni-1921-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/ni-1921.fgb",
+  "sourceDatasetLayer": "ni-1921",
+  "popupProperties": [
+    "Name",
+    "Date"
+  ],
+  "numericProperties": [
+    "Date"
+  ],
+  "categoricalProperties": [
+    "Name"
+  ],
+  "categoricalValues": {
+    "Name": [
+      "Northern Ireland"
+    ]
+  },
+  "status": "converted-alias",
+  "notes": "1975 Common Market Referendum Constituency reuses the converted geometry from Northern Ireland 1921.",
+  "generatedFrom": {
+    "pipeline": "promote-test-clone-alias",
+    "sourceMapId": "common-market-1975",
+    "cloneOf": "ni-1921",
+    "targetLayerId": "ni-1921-vector-test"
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-1921-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/ni-1921/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/ni-1921-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/ni-1921-vector-test.pmtiles",
+    "bytes": 742207,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-30T10:32:05.863Z",
+    "fallback": "/test/tiles/generated/ni-1921/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-1921-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/ni-1921-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/ni-1921-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "Name",
+  "idProperty": "Name",
+  "categoryId": "referendums",
+  "conversionStatus": "convertedAlias",
+  "aliasOf": "ni-1921",
+  "cloneOf": "ni-1921",
+  "aliasTargetLayerId": "ni-1921-vector-test"
+}

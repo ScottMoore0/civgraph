@@ -1,0 +1,129 @@
+{
+  "id": "habitat-lowland-meadow-vector-test",
+  "sourceMapId": "habitat-lowland-meadow",
+  "name": "Habitat Network — Lowland Meadow",
+  "category": "Biodiversity & Habitats",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Ulster Wildlife"
+  ],
+  "description": "Spatial extent of lowland meadow habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/habitat-lowland-meadow/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/habitat-lowland-meadow/metadata.json",
+  "sourceLayer": "habitat_lowland_meadow",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0307374,
+      -8.180633
+    ],
+    [
+      55.3129801,
+      -5.494739
+    ]
+  ],
+  "style": {
+    "color": "#3a3a3a",
+    "fillColor": "#9DC07F",
+    "fillOpacity": 0.6,
+    "weight": 0.2
+  },
+  "references": [
+    {
+      "label": "Open Data NI — Lowland Meadow Habitat Network",
+      "url": "https://admin.opendatani.gov.uk/dataset/c3d5eef0-5ddc-4ba4-a278-b292b1e00b65"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/habitat-lowland-meadow.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Ulster Wildlife"
+  ],
+  "keywords": [
+    "habitat",
+    "biodiversity",
+    "nature recovery",
+    "ulster wildlife",
+    "habitat network",
+    "lowland meadow",
+    "Habitat Network — Lowland Meadow",
+    "Biodiversity & Habitats",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Class",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#3a3a3a",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/habitat-lowland-meadow-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/habitat-lowland-meadow.fgb",
+  "sourceDatasetLayer": "habitat-lowland-meadow",
+  "popupProperties": [
+    "Class"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Class"
+  ],
+  "categoricalValues": {
+    "Class": [
+      "Associated Habitats",
+      "Fragmentation Action Zone",
+      "Network Enhancement Zone 1",
+      "Network Enhancement Zone 2",
+      "Network Expansion Zone",
+      "Primary Habitat",
+      "Restorable Habitat"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/habitat-lowland-meadow.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/habitat-lowland-meadow.fgb",
+    "bytes": 2704909,
+    "files": 365,
+    "pbfFiles": 364,
+    "maxTileBytes": 98174
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-lowland-meadow-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/habitat-lowland-meadow/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/habitat-lowland-meadow-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/habitat-lowland-meadow-vector-test.pmtiles",
+    "bytes": 1187023,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/habitat-lowland-meadow/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-lowland-meadow-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/habitat-lowland-meadow-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/habitat-lowland-meadow-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

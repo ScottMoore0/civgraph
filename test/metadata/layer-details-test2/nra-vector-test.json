@@ -1,0 +1,182 @@
+{
+  "id": "nra-vector-test",
+  "sourceMapId": "nra",
+  "name": "Neighbourhood Renewal Areas",
+  "category": "Census Statistical Areas",
+  "group": "Public Services",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Department for Communities"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/nra/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/nra/metadata.json",
+  "sourceLayer": "nra",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.1576332,
+      -7.6623507
+    ],
+    [
+      55.1529059,
+      -5.6888266
+    ]
+  ],
+  "style": {
+    "color": "#A38841",
+    "fillColor": "#A38841",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Neighbourhood Renewal Areas Boundary in GIS format | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
+      "url": "https://www.nisra.gov.uk/publications/neighbourhood-renewal-areas-boundary-gis-format"
+    },
+    {
+      "label": "Neighbourhood Renewal Areas — Shapefile (ZIP) download",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/N-R-A-ESRI.zip"
+    },
+    {
+      "label": "Neighbourhood Renewal Areas — MapInfo download",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/N-R-A-MapInfo.zip"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/nra.fgb"
+    },
+    {
+      "label": "Shapefile (ZIP)",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/N-R-A-ESRI.zip"
+    },
+    {
+      "label": "MapInfo",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/N-R-A-MapInfo.zip"
+    }
+  ],
+  "sourceCredits": [
+    "Department for Communities"
+  ],
+  "keywords": [
+    "NRA",
+    "neighbourhood renewal",
+    "deprivation",
+    "Neighbourhood Renewal Areas",
+    "Census Statistical Areas",
+    "Public Services",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NRA",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#A38841",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/nra-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/nra.fgb",
+  "sourceDatasetLayer": "nra",
+  "popupProperties": [
+    "NRA",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "NRA"
+  ],
+  "categoricalValues": {
+    "NRA": [
+      "Armagh",
+      "Bangor",
+      "Brownlow",
+      "Colin",
+      "Ligoniel",
+      "Limavady",
+      "Lurgan",
+      "Newry",
+      "Omagh",
+      "Strabane",
+      "Andersonstown",
+      "Ballyclare",
+      "Ballymena",
+      "Coalisland",
+      "Coleraine Churchlands",
+      "Coleraine East",
+      "Crumlin_Ardoyne",
+      "Downpatrick",
+      "Dungannon",
+      "Enniskillen",
+      "Falls_Clonard",
+      "Greater Shankill",
+      "Inner East Belfast",
+      "Inner North Belfast",
+      "Inner South Belfast",
+      "Outer North Derry",
+      "Outer West Belfast",
+      "Outer West Derry",
+      "Portadown North West",
+      "Rathcoole",
+      "South West Belfast",
+      "Triax - Cityside"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/nra.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/nra.fgb",
+    "bytes": 105542,
+    "files": 123,
+    "pbfFiles": 122,
+    "maxTileBytes": 5377
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/nra-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/nra/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/nra-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/nra-vector-test.pmtiles",
+    "bytes": 78219,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/nra/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/nra-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/nra-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/nra-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "NRA",
+  "idProperty": "NRA"
+}

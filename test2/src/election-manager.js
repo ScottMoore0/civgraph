@@ -34,6 +34,13 @@ const SEAT_CIRCLE_SPACING = SEAT_CIRCLE_SIZE + 1;
 const SEAT_CIRCLE_COLLISION_MARGIN = 4;
 const SEAT_CIRCLE_MIN_TOTAL_EXTENT = 120;
 const SYNTHETIC_ELECTION_LABEL_HEIGHT = 18;
+const ELECTION_BUNDLE_CACHE_LIMIT = 4;
+const ELECTION_FEATURE_INDEX_CACHE_LIMIT = 3;
+const SEAT_CIRCLE_GROUP_LIMIT_DESKTOP = 260;
+const SEAT_CIRCLE_GROUP_LIMIT_TABLET = 160;
+const SEAT_CIRCLE_GROUP_LIMIT_MOBILE = 90;
+
+let electionAnimationRuntimePromise = null;
 
 const MAIN_ELECTION_GEOGRAPHY_STYLE = Object.freeze({
   unmatchedFillColor: '#dfe4ec',
@@ -133,7 +140,9 @@ export class Test2ElectionManager {
     this.seatCircleOverlay = null;
     this.seatCircleOverlayState = { groups: [], dotCount: 0 };
     this.seatCircleMarkers = [];
+    this.lastSeatCircleRenderMs = 0;
     this.overlayRefreshPending = false;
+    this.seatCirclePositionUpdatePending = false;
     this.voteBarClickBound = false;
     this.recallLabelClickBound = false;
     this.overlayRefreshBound = false;
@@ -143,7 +152,7 @@ export class Test2ElectionManager {
   }
 
   async load() {
-    const response = await fetch(ELECTION_MANIFEST_URL, { cache: 'no-cache' });
+    const response = await fetch(ELECTION_MANIFEST_URL, { cache: 'force-cache' });
     if (!response.ok) throw new Error(`Failed to load /test2 election catalogue: ${response.status}`);
     this.catalogue = await response.json();
     return this.catalogue;
@@ -361,10 +370,10 @@ export class Test2ElectionManager {
 
   async loadBundle(entry) {
     if (this.bundleCache.has(entry.key)) return this.bundleCache.get(entry.key);
-    const response = await fetch(`${entry.resultUrl}?v=test-021`, { cache: 'no-cache' });
+    const response = await fetch(`${entry.resultUrl}?v=test-021`, { cache: 'force-cache' });
     if (!response.ok) throw new Error(`Failed to load election results for ${entry.body} ${entry.date}: ${response.status}`);
     const bundle = await response.json();
-    this.bundleCache.set(entry.key, bundle);
+    rememberLimitedCache(this.bundleCache, entry.key, bundle, ELECTION_BUNDLE_CACHE_LIMIT);
     return bundle;
   }
 
@@ -2114,10 +2123,16 @@ export class Test2ElectionManager {
     return this.sharedRenderer.renderAnimationNotice(result);
   }
 
-  runAnimation(result) {
+  async runAnimation(result) {
     const container = document.getElementById('electionAnimationContainer');
     const status = document.getElementById('test2ElectionAnimationStatus');
     if (!container || !result?.animationPayload) return;
+    try {
+      await ensureElectionAnimationRuntime();
+    } catch (error) {
+      if (status) status.textContent = `The election animation engine could not load: ${error.message}`;
+      return;
+    }
     if (typeof window.$?.preloadElectionData !== 'function' || typeof window.animateStages !== 'function') {
       if (status) status.textContent = 'The election animation engine is not available on this route.';
       return;
@@ -2355,12 +2370,14 @@ export class Test2ElectionManager {
   }
 
   async renderSeatCircles() {
+    const started = performance.now();
+    this.lastSeatCircleRenderMs = 0;
     if (!this.activeBundle || !this.shouldRenderElectionOverlays()) return;
     const index = await this.loadFeatureIndex();
     const centres = this.buildFeatureCentreLookup(index?.items || []);
     const map = this.mapController.map;
     const groups = this.buildSeatCircleGroups(centres);
-    const visibleGroups = this.filterOverlayGroupsByCollision(groups);
+    const visibleGroups = this.limitSeatCircleGroups(this.filterOverlayGroupsByCollision(groups));
     const overlay = this.ensureSeatCircleOverlay();
     if (!overlay) return;
     overlay.innerHTML = '';
@@ -2454,6 +2471,7 @@ export class Test2ElectionManager {
       });
       this.seatCircleOverlayState.dotCount += seats.length;
     }
+    this.lastSeatCircleRenderMs = Math.round(performance.now() - started);
   }
 
   ensureSeatCircleOverlay() {
@@ -2664,8 +2682,36 @@ export class Test2ElectionManager {
     if (!map || this.overlayRefreshBound) return;
     this.overlayRefreshBound = true;
     const refresh = () => this.scheduleElectionOverlayRefresh();
+    const updatePositions = () => this.scheduleSeatCirclePositionUpdate();
+    map.on('move', updatePositions);
+    map.on('zoom', updatePositions);
     map.on('zoomend', refresh);
     map.on('moveend', refresh);
+  }
+
+  limitSeatCircleGroups(groups = []) {
+    const width = Number(window.innerWidth || 1024);
+    const memory = Number(navigator.deviceMemory || 4);
+    const limit = width < 700 || memory <= 2
+      ? SEAT_CIRCLE_GROUP_LIMIT_MOBILE
+      : (width < 1100 || memory <= 4 ? SEAT_CIRCLE_GROUP_LIMIT_TABLET : SEAT_CIRCLE_GROUP_LIMIT_DESKTOP);
+    if (groups.length <= limit) return groups;
+    return [...groups]
+      .sort((a, b) => {
+        const syntheticDelta = Number(Boolean(b.result?.syntheticNonGeographic)) - Number(Boolean(a.result?.syntheticNonGeographic));
+        const seatsDelta = (b.seats?.length || 0) - (a.seats?.length || 0);
+        return syntheticDelta || seatsDelta || (b.area || 0) - (a.area || 0);
+      })
+      .slice(0, limit);
+  }
+
+  scheduleSeatCirclePositionUpdate() {
+    if (this.seatCirclePositionUpdatePending || !this.seatCircleMarkers?.length) return;
+    this.seatCirclePositionUpdatePending = true;
+    requestAnimationFrame(() => {
+      this.seatCirclePositionUpdatePending = false;
+      this.updateSeatCircleOverlayPositions();
+    });
   }
 
   updateSeatCircleOverlayPositions() {
@@ -2846,14 +2892,14 @@ export class Test2ElectionManager {
     const url = layer?.featureIndexUrl;
     if (!url) return null;
     if (this.featureIndexCache.has(url)) return this.featureIndexCache.get(url);
-    const response = await fetch(url, { cache: 'no-cache' });
+    const response = await fetch(url, { cache: 'force-cache' });
     if (!response.ok) return null;
     const raw = await response.json();
     const index = {
       ...raw,
       items: raw.items || raw.features || (Array.isArray(raw) ? raw : [])
     };
-    this.featureIndexCache.set(url, index);
+    rememberLimitedCache(this.featureIndexCache, url, index, ELECTION_FEATURE_INDEX_CACHE_LIMIT);
     return index;
   }
 
@@ -3164,8 +3210,53 @@ function mergePixelBounds(a, b) {
   };
 }
 
+function ensureElectionAnimationRuntime() {
+  if (typeof window.$?.preloadElectionData === 'function' && typeof window.animateStages === 'function') {
+    return Promise.resolve();
+  }
+  if (!electionAnimationRuntimePromise) {
+    const scripts = [
+      '/test2/js/jquery-shim.js',
+      '/test2/election-viewer-package/js/stages2.js?v=2',
+      '/test2/election-viewer-package/js/animation_preview.js',
+      '/test2/election-viewer-package/js/animation_preview_manager.js',
+      '/test2/election-viewer-package/js/election_viewer.js'
+    ];
+    electionAnimationRuntimePromise = scripts.reduce(
+      (promise, src) => promise.then(() => loadScriptOnce(src)),
+      Promise.resolve()
+    );
+  }
+  return electionAnimationRuntimePromise;
+}
+
+function loadScriptOnce(src) {
+  const existing = [...document.querySelectorAll('script[data-test2-runtime-src]')]
+    .find((script) => script.dataset.test2RuntimeSrc === src);
+  if (existing) return Promise.resolve();
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.dataset.test2RuntimeSrc = src;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error(src));
+    document.head.appendChild(script);
+  });
+}
+
 function nextFrame() {
   return new Promise((resolve) => requestAnimationFrame(() => resolve()));
+}
+
+function rememberLimitedCache(cache, key, value, limit) {
+  if (!cache || !key) return value;
+  if (cache.has(key)) cache.delete(key);
+  cache.set(key, value);
+  while (cache.size > limit) {
+    const oldestKey = cache.keys().next().value;
+    cache.delete(oldestKey);
+  }
+  return value;
 }
 
 function normalizeName(value) {

@@ -1,0 +1,125 @@
+{
+  "id": "habitat-river-vector-test",
+  "sourceMapId": "habitat-river",
+  "name": "Habitat Network — River",
+  "category": "Biodiversity & Habitats",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Ulster Wildlife"
+  ],
+  "description": "Spatial extent of river habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/habitat-river/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/habitat-river/metadata.json",
+  "sourceLayer": "habitat_river",
+  "minzoom": 8,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0122177,
+      -8.2045567
+    ],
+    [
+      55.3142984,
+      -5.4599407
+    ]
+  ],
+  "style": {
+    "color": "#3a3a3a",
+    "fillColor": "#4F89AE",
+    "fillOpacity": 0.6,
+    "weight": 0.2
+  },
+  "references": [
+    {
+      "label": "Open Data NI — River Habitat Network",
+      "url": "https://admin.opendatani.gov.uk/dataset/bde1d3a6-9276-442d-89e7-8a064af48898"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/habitat-river.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Ulster Wildlife"
+  ],
+  "keywords": [
+    "habitat",
+    "biodiversity",
+    "nature recovery",
+    "ulster wildlife",
+    "habitat network",
+    "river",
+    "Habitat Network — River",
+    "Biodiversity & Habitats",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Class",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 8,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#3a3a3a",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/habitat-river-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/habitat-river.fgb",
+  "sourceDatasetLayer": "habitat-river",
+  "popupProperties": [
+    "Class"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Class"
+  ],
+  "categoricalValues": {
+    "Class": [
+      "Associated Habitats",
+      "Network Enhancement Zone 2",
+      "Primary Habitat"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/habitat-river.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/habitat-river.fgb",
+    "bytes": 53014373,
+    "files": 935,
+    "pbfFiles": 934,
+    "maxTileBytes": 2829031
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-river-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/habitat-river/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/habitat-river-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/habitat-river-vector-test.pmtiles",
+    "bytes": 19938353,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-30T12:53:39.885Z",
+    "fallback": "/test/tiles/generated/habitat-river/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-river-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/habitat-river-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/habitat-river-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

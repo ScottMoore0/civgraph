@@ -1,0 +1,226 @@
+{
+  "id": "dlr-dlr-public-lighting-vector-test",
+  "sourceMapId": "dlr-dlr-public-lighting",
+  "name": "Dlr Public Lighting (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Dlr Public Lighting (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-dlr-public-lighting/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-dlr-public-lighting/metadata.json",
+  "sourceLayer": "dlr_dlr_public_lighting",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2007,
+      -6.32033
+    ],
+    [
+      53.31403,
+      -6.09257
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-dlr-public-lighting.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "public",
+    "lighting",
+    "Dlr Public Lighting (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Shape",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-dlr-public-lighting-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-dlr-public-lighting.fgb",
+  "sourceDatasetLayer": "dlr-dlr-public-lighting",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Shape",
+    "OBJECTID",
+    "LAMP",
+    "PostalStreetName",
+    "UnitNumber",
+    "BurningItemList",
+    "WATTS",
+    "ASSESSWATT",
+    "Latitude",
+    "Longitude"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "UnitNumber",
+    "WATTS",
+    "ASSESSWATT",
+    "Latitude",
+    "Longitude",
+    "x_itm",
+    "y_itm"
+  ],
+  "categoricalProperties": [
+    "LAMP",
+    "PostalStreetName",
+    "BurningItemList"
+  ],
+  "categoricalValues": {
+    "LAMP": [
+      "2D",
+      "CDM",
+      "CDM-T",
+      "CDOT",
+      "CFL",
+      "CPOT",
+      "FLU",
+      "HPI-T",
+      "LED",
+      "PLL",
+      "SON",
+      "SOX",
+      "SXHF"
+    ],
+    "PostalStreetName": [
+      "Olcavar",
+      "PINEWOOD",
+      "R118",
+      "ALLEYS RIVER ROAD",
+      "ASHLAWN PARK",
+      "Aughmore Lane (was Kiltuck Park)",
+      "BALLYBETAGH ROAD",
+      "BALLYBRIDE OFF LORDELLO",
+      "BALLYBRIDE ROAD",
+      "BALLYCORUS ROAD",
+      "BALLYMAN ROAD",
+      "BALLYOGAN ESTATE",
+      "BALLYOGAN ROAD",
+      "BALLYOGAN WOOD/VALE",
+      "BARNHILL GROVE",
+      "BRENNANSTOWN ROAD",
+      "BRENNANSTOWN VALE",
+      "BRIDES GLEN ROAD",
+      "BRIGHTON ESTATE",
+      "Beech Park, Cabinteely",
+      "Brennanstown Ave & Sq",
+      "CASTLE FARM",
+      "CASTLE VIEW",
+      "CHERRINGTON PARK",
+      "CHURCHVIEW ROAD",
+      "COIS CAIRN OLD CONNA AVE",
+      "COOLEVIN - WILLOW VALE",
+      "CORKE ABBEY",
+      "CORKE ABBEY ENTRANCE (OVERHEAD)",
+      "CRINKEN GLEN",
+      "CRINKEN LANE",
+      "CROMLECH CLOSE"
+    ],
+    "BurningItemList": [
+      "100 W CDO Standard Gear and Dawn To Dusk Photocell",
+      "100W CDO Retrofit Sodium and Dawn To Dusk Photocell",
+      "100W Sodium HP with Electronic Gear and Dawn To Dusk Photocell",
+      "100W Sodium HP with Electronic Gear with D2D PhotoCell (X 1) Guarantee EXPIRED on 00:00:00",
+      "100W Sodium HP with Std Gear and Dawn To Dusk Photocell",
+      "100W Sodium HP with Std Gear with D2D PhotoCell (X 1) Guarantee EXPIRED on 00:00:00",
+      "100W Sodium HP with Std Gear with D2D PhotoCell (X 1) Guarantee EXPIRED on 01/01/2007",
+      "100W Sodium HP with Std Gear with D2D PhotoCell (X 1) Guarantee EXPIRED on 13/07/2007",
+      "100W Sodium HP with Std Gear with D2D PhotoCell (X 1) Guarantee EXPIRED on 27/05/2008",
+      "108W DW Windsor Kirium 3 45 LED and Dawn To Dusk Photocell",
+      "116W CiviTEQ 60 LED L70 D&T and Dawn To Dusk Photocell",
+      "125W Holophane VMAX L144 V5 D4D4 LED and Dawn To Dusk Photocell",
+      "125W Holophane VMAX L144 V5 D4D4 and Dawn To Dusk Photocell",
+      "127W Urbis Ampera 64 LED Elec Gear (126 on UMR) and Dawn To Dusk Photocell",
+      "127W Urbis Ampera Midi 64 LED and Dawn To Dusk Photocell",
+      "133W Thorn R2L2 M 72L600NRPN740CL1CLO LED and Dawn To Dusk Photocell",
+      "133W Thorn R2L2 M 72L600NRPN740CL1CLO and Dawn To Dusk Photocell",
+      "13W Urbis Axia 2-1 8 LED and Dawn To Dusk Photocell",
+      "140W Cosmo and Dawn To Dusk Photocell",
+      "144W CW WE-EF VFL540SE S65 3000K 48LED and Dawn To Dusk Photocell",
+      "149W Thorn R2L2 M 84L and Dawn To Dusk Photocell",
+      "14W Urbis Ampera Mini 8 LED and Dawn To Dusk Photocell",
+      "150W CDO Retrofit Sodium and Dawn To Dusk Photocell",
+      "150W Sodium HP with Electronic Gear and Dawn To Dusk Photocell",
+      "150W Sodium HP with Std Gear and Dawn To Dusk Photocell",
+      "150W Sodium HP with Std Gear with D2D PhotoCell (X 1) Guarantee EXPIRED on 00:00:00",
+      "150W Sodium HP with Std Gear with D2D PhotoCell (X 1) Guarantee EXPIRED on 01/11/2005",
+      "18W 3000lm Holophane Factor LED and Dawn To Dusk Photocell",
+      "18W Holophane Factor L024 LED and Dawn To Dusk Photocell",
+      "194W Urbis Ampera 96 LED Elec Gear and Dawn To Dusk Photocell",
+      "198W Iridium LED and Dawn To Dusk Photocell",
+      "20W Fluorescent (U) and Dawn To Dusk Photocell"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-dlr-public-lighting.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-dlr-public-lighting.fgb",
+    "bytes": 27364100,
+    "files": 26,
+    "pbfFiles": 25,
+    "maxTileBytes": 2078380
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-dlr-public-lighting-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-dlr-public-lighting/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-dlr-public-lighting-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-dlr-public-lighting-vector-test.pmtiles",
+    "bytes": 12472457,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-dlr-public-lighting/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-dlr-public-lighting-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-dlr-public-lighting-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-dlr-public-lighting-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

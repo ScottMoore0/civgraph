@@ -1,0 +1,227 @@
+{
+  "id": "roi-baronies-vector-test",
+  "sourceMapId": "roi-baronies",
+  "name": "Baronies",
+  "category": "Baronies",
+  "group": "History",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Republic of Ireland",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/roi-baronies/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/roi-baronies/metadata.json",
+  "sourceLayer": "roi_baronies",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4199132,
+      -10.6629709
+    ],
+    [
+      55.4464441,
+      -5.996287
+    ]
+  ],
+  "style": {
+    "color": "#6475A9",
+    "fillColor": "#6475A9",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Baronies - National Statutory Boundaries - 2019 - Generalised 20m",
+      "url": "https://data-osi.opendata.arcgis.com/datasets/osi::baronies-national-statutory-boundaries-2019-generalised-20m/about"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/roi-baronies.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann",
+    "OSM",
+    "OSNI"
+  ],
+  "keywords": [
+    "barony",
+    "baronies",
+    "republic of ireland",
+    "tailte eireann",
+    "Baronies",
+    "History",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#6475A9",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/roi-baronies-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/roi-baronies.fgb",
+  "sourceDatasetLayer": "roi-baronies",
+  "popupProperties": [
+    "Name",
+    "Name_GA",
+    "County",
+    "Province"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Name",
+    "Name_GA",
+    "County",
+    "Province"
+  ],
+  "categoricalValues": {
+    "Name": [
+      "ARKLOW",
+      "BALLYBOY",
+      "BANTRY",
+      "BARGY",
+      "BRAWNY",
+      "CALLAN",
+      "CARBURY",
+      "CARLOW",
+      "CLANE",
+      "CLONLISK",
+      "CONNELL",
+      "COONAGH",
+      "CRANNAGH",
+      "EGLISH",
+      "FORTH",
+      "GALMOY",
+      "GEASHILL",
+      "GOREY",
+      "GOWRAN",
+      "IDA",
+      "IKERRIN",
+      "IMOKILLY",
+      "IVERK",
+      "KELLS",
+      "LONGFORD",
+      "MOYCARN",
+      "RATHDOWN",
+      "BALLAGHKEEN NORTH",
+      "BALLAGHKEEN SOUTH",
+      "BALLINACOR NORTH",
+      "BALLINACOR SOUTH",
+      "BALLYADAMS"
+    ],
+    "Name_GA": [
+      "Cairbre",
+      "Callainn",
+      "Claonadh",
+      "Connail",
+      "Crannach",
+      "Fotharta",
+      "Gabhrán",
+      "Guaire",
+      "Géisill",
+      "An Bealach Caoin Theas",
+      "An Bealach Caoin Thuaidh",
+      "An Caisleán Nua",
+      "An Choill Uachtarach",
+      "An Chrois Uachtarach",
+      "An Daingean Uachtarach",
+      "An Daingean Íochtarach",
+      "An Eaglais",
+      "An Fhorrach agus an Réabán Thiar",
+      "An Fhorrach agus an Réabán Thoir",
+      "An Ghailltír",
+      "An Longfort",
+      "An Léim Theas",
+      "An Léim Thuaidh",
+      "An Nás Theas",
+      "An Nás Thuaidh",
+      "An Sráidbhaile",
+      "An Trian Meánach",
+      "An tInbhear Mór",
+      "Baile Mhic Comhainn",
+      "Baile an Bhairínigh",
+      "Baile an Bhriotaigh",
+      "Baile an Chúlaígh"
+    ],
+    "County": [
+      "CARLOW",
+      "CAVAN",
+      "CLARE",
+      "CORK",
+      "DONEGAL",
+      "DUBLIN",
+      "GALWAY",
+      "KERRY",
+      "KILDARE",
+      "KILKENNY",
+      "LAOIS",
+      "LEITRIM",
+      "LIMERICK",
+      "LONGFORD",
+      "LOUTH",
+      "MAYO",
+      "MEATH",
+      "MONAGHAN",
+      "OFFALY",
+      "SLIGO",
+      "WEXFORD",
+      "WICKLOW",
+      "ROSCOMMON",
+      "TIPPERARY",
+      "WATERFORD",
+      "WESTMEATH"
+    ],
+    "Province": [
+      "Connacht",
+      "Leinster",
+      "Munster",
+      "Ulster"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/roi-baronies.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/roi-baronies.fgb",
+    "bytes": 3694112,
+    "files": 3327,
+    "pbfFiles": 3326,
+    "maxTileBytes": 100524
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roi-baronies-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/roi-baronies/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/roi-baronies-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/roi-baronies-vector-test.pmtiles",
+    "bytes": 3094310,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/roi-baronies/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roi-baronies-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/roi-baronies-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/roi-baronies-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

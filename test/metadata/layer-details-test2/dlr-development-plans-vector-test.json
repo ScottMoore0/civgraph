@@ -1,0 +1,170 @@
+{
+  "id": "dlr-development-plans-vector-test",
+  "sourceMapId": "dlr-development-plans",
+  "name": "Development Plans (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Development Plans (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/dlr-development-plans/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-development-plans/metadata.json",
+  "sourceLayer": "dlr_development_plans",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2328495,
+      -6.2442173
+    ],
+    [
+      53.3087412,
+      -6.0911313
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-development-plans.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "development",
+    "plans",
+    "Development Plans (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "OBJECTIVE",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-development-plans-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-development-plans.fgb",
+  "sourceDatasetLayer": "dlr-development-plans",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "OBJECTIVE",
+    "OBJECTID",
+    "DESCRIPTIO",
+    "SHAPE_LENG",
+    "SHAPE_AREA"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "SHAPE_LENG",
+    "SHAPE_AREA"
+  ],
+  "categoricalProperties": [
+    "OBJECTIVE",
+    "DESCRIPTIO"
+  ],
+  "categoricalValues": {
+    "OBJECTIVE": [
+      "Architectural Conservation Area",
+      "Candidate Architectural Conservation Area"
+    ],
+    "DESCRIPTIO": [
+      "Foxrock",
+      "Killiney",
+      "Arkle Square, Brewery Road, Stillorgan",
+      "Balally Cottages, Sandyford Road, Sandyford",
+      "Booterstown Avenue",
+      "Campfield Terrace, Kilmacud Road Upper",
+      "Castle Cottages, Roebuck Road, Clonskeagh",
+      "Clarinda Park North, East, West / Corrig Road",
+      "Cross Avenue, Blackrock",
+      "Croswaite Park South, East, West",
+      "Dalkey Village",
+      "De Vesci Terrace & Gardens, Willowbank, Vesey Place & Gardens, Dun Laoghaire",
+      "Dun Laoghaire Harbour, Dun Laoghaire Seafront, Pavilion Complex, Moran Park and Adelaide Street",
+      "Friends Burial Ground, Temple Hill, Blackrock",
+      "Haigh Terrace To Melifont Avenue",
+      "Idrone Terrace, Blackrock",
+      "Knocksinna Conservation Area",
+      "Monkstown",
+      "Montpelier Place, Temple Hill, Blackrock",
+      "Moss Cottages, Enniskerry Road, Kiltiernan",
+      "Newtown Villas, Blackrock",
+      "Pembroke Cottages, Ballinteer Road, Dundrum",
+      "Pembroke Cottages, Main Street, Dundrum",
+      "Pembrooke Cottages, Booterstown Avenue",
+      "Peoples Park, Dun Laoghaire",
+      "Royal Terrace North, East, West / Royal Terrace Lane / Myrtle Avenue",
+      "Sandycove Point, Sandycove.",
+      "Seafort Parade, Rock Road, Blackrock",
+      "Silchester Road, Marlbrough Road, Glenageary",
+      "Sydenham Road, Dundrum",
+      "Sydenham Villas, Dundrum",
+      "Sydney Avenue, Blackrock"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-development-plans.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-development-plans.fgb",
+    "bytes": 61200,
+    "files": 19,
+    "pbfFiles": 18,
+    "maxTileBytes": 8744
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-development-plans-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-development-plans/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-development-plans-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-development-plans-vector-test.pmtiles",
+    "bytes": 39068,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-development-plans/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-development-plans-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-development-plans-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-development-plans-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

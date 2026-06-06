@@ -1,0 +1,102 @@
+{
+  "id": "civil-parishes-vector-test",
+  "sourceMapId": "civil-parishes-by-province",
+  "name": "Civil Parishes of Ireland",
+  "category": "Civil Parishes",
+  "group": "History",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/civil-parishes-v3/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/civil-parishes-v3/metadata.json",
+  "sourceLayer": "civil_parishes",
+  "promoteId": "id",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.35,
+      -10.75
+    ],
+    [
+      55.55,
+      -5.35
+    ]
+  ],
+  "style": {
+    "color": "#7C3AED",
+    "fillColor": "#A78BFA",
+    "fillOpacity": 0.18,
+    "weight": 1.2
+  },
+  "provider": "Historic boundary data prepared for Civgraph test vector-tile pilot",
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Civil Parishes source FlatGeobuf",
+      "file": "/data/maps/baronies-parishes/Civil_Parishes_Ireland_v2.fgb"
+    }
+  ],
+  "keywords": [
+    "civil parishes",
+    "history",
+    "ireland",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "name_en",
+  "labelPropertyFallbacks": [
+    "name_ga"
+  ],
+  "labelCanonicalProperty": "label_name",
+  "labelRankProperty": "label_rank",
+  "labelMinZoomProperty": "label_minzoom",
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelDensity": "collision-only",
+  "labelStyle": {
+    "color": "#9932CC",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.4,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/civil-parishes-vector-test.json",
+  "sourceFile": "data/maps/baronies-parishes/Civil_Parishes_Ireland_v2.fgb",
+  "sourceDatasetLayer": "Civil_Parishes_Ireland_v2",
+  "idProperty": "id",
+  "popupProperties": [
+    "label_name",
+    "label_rank",
+    "label_minzoom",
+    "name_en",
+    "name_ga",
+    "province_source",
+    "minElev_m",
+    "meanElev_m",
+    "maxElev_m"
+  ],
+  "status": "pilot",
+  "notes": "Generated from data/maps/baronies-parishes/Civil_Parishes_Ireland_v2.fgb with GDAL MVT output. The v3 tile pyramid keeps high tile limits and uses moderate low-zoom geometry simplification for smoother interaction.",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/civil-parishes-v3/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
+    "bytes": 19407418,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/civil-parishes-v3/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/civil-parishes-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

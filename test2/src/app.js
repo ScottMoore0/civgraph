@@ -4,7 +4,6 @@ import dataService from '../../js/data-service.js';
 import featureLoader from '../../js/feature-loader.js';
 import uiController from '../../js/ui-controller.js';
 import { TestMetadataService } from '../../test/src/metadata-service.js';
-import { Test2ElectionManager } from './election-manager.js';
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
 
 class Test2App {
@@ -25,15 +24,29 @@ class Test2App {
     this.timelineItems = [];
     this.timelineOnSelect = null;
     this.timelineApplying = false;
+    this.booksPromise = null;
+    this.electionModulePromise = null;
+    this.electionLoadPromise = null;
+    this.electionCatalogueWarmScheduled = false;
+    this.searchWorker = null;
+    this.searchWorkerReady = false;
+    this.searchWorkerSeq = 0;
+    this.searchWorkerCallbacks = new Map();
+    this.workerSearchQuery = '';
+    this.workerSearchResultIds = null;
   }
 
   async init() {
     this.installRouteGuard();
 
     await dataService.init();
-    await this.loadBooks();
+    dataService.fuse = null;
+    this.booksPromise = this.loadBooks();
 
-    this.metadataService = new TestMetadataService();
+    this.metadataService = new TestMetadataService('/test/metadata/maps-test-index.json?v=test-022', undefined, {
+      cache: 'force-cache',
+      portPlanCache: 'force-cache'
+    });
     await this.metadataService.load();
 
     this.mapController = new Test2MapLibreMainAdapter('map', this.metadataService, {
@@ -55,12 +68,6 @@ class Test2App {
 
     this.wireUiCallbacks();
     this.installCatalogueStateBridge();
-    this.elections = new Test2ElectionManager({
-      app: this,
-      mapController: this.mapController,
-      onError: (error) => this.showMapError(error)
-    });
-    await this.elections.load();
     uiController.init();
     this.relocateMobileCatalogueToggle();
     uiController.showAllMaps = true;
@@ -72,9 +79,10 @@ class Test2App {
       app: this,
       mapController: this.mapController,
       metadataService: this.metadataService,
-      elections: this.elections,
+      elections: null,
       restorePromise: null
     };
+    this.prepareSearchWorker();
     this.renderCategoryPills();
     this.updateMapList();
     this.setupSearch();
@@ -85,6 +93,7 @@ class Test2App {
     this.setupElectionPaneResize();
     this.setupSourcePanel();
     this.setupURLStateListener();
+    this.scheduleElectionCatalogueWarm();
     window.__civgraphTest2.restorePromise = this.restoreURLState()
       .catch((error) => this.showMapError(error))
       .finally(() => {
@@ -228,11 +237,58 @@ class Test2App {
     }
   }
 
+  async ensureElections(options = {}) {
+    if (this.elections?.catalogue) return this.elections;
+    if (!this.electionModulePromise) {
+      this.electionModulePromise = import('./election-manager.js');
+    }
+    const { Test2ElectionManager } = await this.electionModulePromise;
+    if (!this.elections) {
+      this.elections = new Test2ElectionManager({
+        app: this,
+        mapController: this.mapController,
+        onError: (error) => this.showMapError(error)
+      });
+      if (window.__civgraphTest2) window.__civgraphTest2.elections = this.elections;
+    }
+    if (!this.electionLoadPromise) {
+      this.electionLoadPromise = this.elections.load();
+    }
+    await this.electionLoadPromise;
+    if (options.refreshCatalogue) this.updateMapList();
+    return this.elections;
+  }
+
+  scheduleElectionCatalogueWarm() {
+    if (this.electionCatalogueWarmScheduled || this.elections?.catalogue) return;
+    this.electionCatalogueWarmScheduled = true;
+    const warm = () => {
+      this.ensureElections({ refreshCatalogue: true }).catch((error) => {
+        console.warn('[Test2] Election catalogue warmup failed', error);
+      });
+    };
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(warm, { timeout: 2500 });
+    } else {
+      setTimeout(warm, 750);
+    }
+  }
+
+  hasElectionURLState(params, layers = []) {
+    if ([...layers].some((id) => String(id).startsWith('election-'))) return true;
+    return params.has('electionBody') || params.has('electionDate') || params.has('electionMode') || params.has('electionView');
+  }
+
   wireUiCallbacks() {
-    uiController.onBuildElectionCatalogueCards = async () => this.elections?.buildCatalogueCards() || [];
+    uiController.onBuildElectionCatalogueCards = async () => {
+      if (this.elections?.catalogue) return this.elections.buildCatalogueCards();
+      this.scheduleElectionCatalogueWarm();
+      return [];
+    };
     uiController.onLoadElection = async (body, date) => {
       try {
-        await this.elections?.loadElection(body, date);
+        const elections = await this.ensureElections();
+        await elections.loadElection(body, date);
         this.updateMapList();
         this.focusActiveElectionCatalogueEntry(this.elections?.activeEntry, { scroll: true });
       } catch (error) {
@@ -376,7 +432,7 @@ class Test2App {
   async loadMap(mapId) {
     const mapConfig = dataService.getMapById(mapId);
     if (mapConfig?.isGroup && Array.isArray(mapConfig.members) && mapConfig.members.length) {
-      for (const memberId of mapConfig.members) await this.loadMap(memberId);
+      await Promise.all(mapConfig.members.map((memberId) => this.loadMap(memberId)));
       this.mapController.markGroupLoaded(mapId, mapConfig, mapConfig.members);
       return;
     }
@@ -384,7 +440,7 @@ class Test2App {
       const variantIds = mapConfig.variants
         .map((variant) => variant?.id)
         .filter((variantId) => this.mapController.resolveLayer(variantId)?.loadable);
-      for (const variantId of variantIds) await this.mapController.loadLayer(variantId, { fit: false });
+      await Promise.all(variantIds.map((variantId) => this.mapController.loadLayer(variantId, { fit: false })));
       this.mapController.markGroupLoaded(mapId, mapConfig, variantIds);
       if (mapConfig.bounds) this.mapController.fitToBounds(mapConfig.bounds, { smooth: false });
       else this.mapController.fitToLayers(variantIds);
@@ -394,7 +450,7 @@ class Test2App {
     if (!directLayer?.loadable) {
       const childIds = this.getConvertedCompositeChildIds(mapConfig);
       if (childIds.length) {
-        for (const childId of childIds) await this.mapController.loadLayer(childId, { fit: false });
+        await Promise.all(childIds.map((childId) => this.mapController.loadLayer(childId, { fit: false })));
         this.mapController.markGroupLoaded(mapConfig.id, mapConfig, childIds);
         if (mapConfig.bounds) this.mapController.fitToBounds(mapConfig.bounds, { smooth: false });
         return;
@@ -435,7 +491,7 @@ class Test2App {
     }
 
     if (this.searchQuery) {
-      maps = dataService.searchMaps(this.searchQuery);
+      maps = this.searchMapsForCatalogue(this.searchQuery, allMaps);
       if (this.currentCategory !== 'all') maps = maps.filter((map) => map.category === this.currentCategory);
     }
 
@@ -496,8 +552,36 @@ class Test2App {
   }
 
   setupSearch() {
+    const originalInitializeFuse = uiController.initializeFuse?.bind(uiController);
+    uiController.initializeFuse = () => {
+      if (!this.searchWorker) originalInitializeFuse?.();
+    };
+    uiController.performSearch = async (query) => {
+      const ids = await this.searchCatalogueWithWorker(query, 50);
+      const idSet = new Set(ids);
+      const results = dataService.getAllMaps()
+        .filter((map) => idSet.has(map.id))
+        .slice(0, 20)
+        .map((item) => ({ item }));
+      let addressResults = [];
+      try {
+        if (query && query.length >= 2) addressResults = await uiController.searchAddresses(query);
+      } catch {}
+      uiController.renderCombinedAutocomplete(results, [], addressResults, query);
+    };
     uiController.onSearch = (query) => {
       this.searchQuery = query;
+      if (query?.length >= 2) {
+        this.searchCatalogueWithWorker(query, 1000).then((ids) => {
+          if (this.searchQuery !== query) return;
+          this.workerSearchQuery = query;
+          this.workerSearchResultIds = ids;
+          this.updateMapList();
+        }).catch(() => {});
+      } else {
+        this.workerSearchQuery = '';
+        this.workerSearchResultIds = null;
+      }
       this.updateMapList();
       this.updateURLState();
     };
@@ -507,6 +591,102 @@ class Test2App {
         document.querySelectorAll('.overflow-menu--open').forEach((menu) => menu.classList.remove('overflow-menu--open'));
       }
     });
+  }
+
+  prepareSearchWorker() {
+    if (!('Worker' in window)) return;
+    try {
+      this.searchWorker = new Worker('/test2/src/search-worker.js?v=test2-search-001', { type: 'module' });
+      this.searchWorker.addEventListener('message', (event) => {
+        const message = event.data || {};
+        if (message.type === 'ready') {
+          this.searchWorkerReady = true;
+          return;
+        }
+        if (message.type === 'results') {
+          const callback = this.searchWorkerCallbacks.get(message.seq);
+          if (!callback) return;
+          this.searchWorkerCallbacks.delete(message.seq);
+          callback.resolve(Array.isArray(message.ids) ? message.ids : []);
+        }
+      });
+      this.searchWorker.addEventListener('error', () => {
+        this.searchWorkerReady = false;
+      });
+      this.searchWorker.postMessage({
+        type: 'init',
+        maps: dataService.getAllMaps().map((map) => ({
+          id: map.id,
+          name: map.name,
+          category: map.category,
+          group: map.group,
+          provider: map.provider,
+          description: map.description,
+          date: map.date,
+          dateRange: map.dateRange,
+          keywords: map.keywords
+        }))
+      });
+    } catch (error) {
+      console.warn('[Test2] Search worker unavailable', error);
+      this.searchWorker = null;
+    }
+  }
+
+  async searchCatalogueWithWorker(query, limit = 200) {
+    const trimmed = String(query || '').trim();
+    if (!trimmed || trimmed.length < 2) return [];
+    if (!this.searchWorker) return this.simpleSearchMapIds(trimmed, limit);
+    const seq = ++this.searchWorkerSeq;
+    return new Promise((resolve) => {
+      const timeout = setTimeout(() => {
+        this.searchWorkerCallbacks.delete(seq);
+        resolve(this.simpleSearchMapIds(trimmed, limit));
+      }, 900);
+      this.searchWorkerCallbacks.set(seq, {
+        resolve: (ids) => {
+          clearTimeout(timeout);
+          resolve(ids);
+        }
+      });
+      this.searchWorker.postMessage({ type: 'search', query: trimmed, limit, seq });
+    });
+  }
+
+  searchMapsForCatalogue(query, allMaps) {
+    if (this.workerSearchQuery === query && Array.isArray(this.workerSearchResultIds)) {
+      const idSet = new Set(this.workerSearchResultIds);
+      return allMaps.filter((map) => idSet.has(map.id));
+    }
+    const fallbackIds = new Set(this.simpleSearchMapIds(query, 1000));
+    return allMaps.filter((map) => fallbackIds.has(map.id));
+  }
+
+  simpleSearchMapIds(query, limit = 200) {
+    const terms = normalizeSearchText(query).split(/\s+/).filter(Boolean);
+    if (!terms.length) return [];
+    return dataService.getAllMaps()
+      .map((map) => {
+        const text = normalizeSearchText([
+          map.id,
+          map.name,
+          map.category,
+          map.group,
+          map.provider,
+          map.description,
+          map.date,
+          map.dateRange,
+          ...(Array.isArray(map.keywords) ? map.keywords : [])
+        ].flat().filter(Boolean).join(' '));
+        const name = normalizeSearchText(map.name || '');
+        if (!terms.every((term) => text.includes(term))) return null;
+        const score = terms.reduce((sum, term) => sum + (name.startsWith(term) ? 100 : (name.includes(term) ? 60 : 10)), 0);
+        return { id: map.id, score, name: map.name || '' };
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name))
+      .slice(0, limit)
+      .map((item) => item.id);
   }
 
   setupThemeToggle() {
@@ -941,10 +1121,10 @@ class Test2App {
     this.updateURLState();
   }
 
-  renderSourcePanel() {
+  async renderSourcePanel() {
     const content = document.getElementById('test2SourcePanelContent');
     if (!content) return;
-    const records = this.getSourceRecords(this.currentSourceMapId);
+    const records = await this.getSourceRecords(this.currentSourceMapId);
     if (!records.length) {
       content.textContent = 'No source metadata is available for this layer yet.';
       return;
@@ -962,14 +1142,14 @@ class Test2App {
     });
   }
 
-  getSourceRecords(mapId) {
+  async getSourceRecords(mapId) {
     if (!mapId) return [];
     const groupState = this.mapController.getLayerState(mapId);
     const childIds = groupState?.isGroup
       ? groupState.childIds || []
       : this.getConvertedCompositeChildIds(dataService.getMapById(mapId));
     const ids = childIds.length ? childIds : [mapId];
-    return ids
+    const records = ids
       .map((id) => {
         const layer = this.mapController.resolveLayer(id);
         const mainConfig = dataService.getMapById(id) || dataService.getMapById(layer?.sourceMapId) || null;
@@ -977,6 +1157,10 @@ class Test2App {
         return { id, layer, mainConfig };
       })
       .filter(Boolean);
+    await Promise.all(records.map((record) => record.layer?.id
+      ? this.metadataService.loadLayerDetails(record.layer.id).catch(() => null)
+      : null));
+    return records;
   }
 
   renderSourceRecord(record) {
@@ -1185,6 +1369,9 @@ class Test2App {
       }
 
       const layers = (params.get('layers') || '').split(',').map((id) => id.trim()).filter(Boolean);
+      if (this.hasElectionURLState(params, layers)) {
+        await this.ensureElections({ refreshCatalogue: true });
+      }
       const mapLayers = layers.filter((id) => !this.elections?.isCanonicalElectionLayerId?.(id));
       await Promise.all(mapLayers.map((id) => this.loadMap(id).catch((error) => this.showMapError(error))));
 
@@ -1207,7 +1394,7 @@ class Test2App {
       if (sourceId) {
         this.currentSourceMapId = sourceId;
         document.getElementById('test2SourcePanel')?.classList.remove('hidden');
-        this.renderSourcePanel();
+        await this.renderSourcePanel();
       } else {
         this.currentSourceMapId = null;
         document.getElementById('test2SourcePanel')?.classList.add('hidden');
@@ -1270,4 +1457,13 @@ function escapeHtml(value) {
     '"': '&quot;',
     "'": '&#39;'
   }[ch]));
+}
+
+function normalizeSearchText(value) {
+  return String(value || '')
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
 }

@@ -1,0 +1,136 @@
+{
+  "id": "dlr-strategic-land-reserve-vector-test",
+  "sourceMapId": "dlr-strategic-land-reserve",
+  "name": "Strategic Land Reserve (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Strategic Land Reserve (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/dlr-strategic-land-reserve/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-strategic-land-reserve/metadata.json",
+  "sourceLayer": "dlr_strategic_land_reserve",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2128955,
+      -6.1352262
+    ],
+    [
+      53.2215038,
+      -6.1261877
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-strategic-land-reserve.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "strategic",
+    "land",
+    "reserve",
+    "Strategic Land Reserve (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-strategic-land-reserve-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-strategic-land-reserve.fgb",
+  "sourceDatasetLayer": "dlr-strategic-land-reserve",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Name",
+    "OBJECTID",
+    "Area__ha_",
+    "Shape_Length",
+    "Shape_Area"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "Area__ha_",
+    "Shape_Length",
+    "Shape_Area"
+  ],
+  "categoricalProperties": [
+    "Name"
+  ],
+  "categoricalValues": {
+    "Name": [
+      "Old Connaught SLR"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-strategic-land-reserve.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-strategic-land-reserve.fgb",
+    "bytes": 5002,
+    "files": 10,
+    "pbfFiles": 9,
+    "maxTileBytes": 1176
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-strategic-land-reserve-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-strategic-land-reserve/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-strategic-land-reserve-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-strategic-land-reserve-vector-test.pmtiles",
+    "bytes": 3326,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-strategic-land-reserve/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-strategic-land-reserve-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-strategic-land-reserve-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-strategic-land-reserve-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

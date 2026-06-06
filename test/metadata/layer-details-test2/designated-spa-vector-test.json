@@ -1,0 +1,292 @@
+{
+  "id": "designated-spa-vector-test",
+  "sourceMapId": "designated-spa",
+  "name": "Special Protection Areas (SPA)",
+  "category": "Designated & Protected Sites",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "DAERA",
+    "Northern Ireland Environment Agency"
+  ],
+  "description": "Designated under the EU Birds Directive for vulnerable, migratory and other significant bird species. 16 SPAs in NI form part of the Natura 2000 network. Many overlap with Ramsar / SAC / ASSI designations.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/designated-spa/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/designated-spa/metadata.json",
+  "sourceLayer": "designated_spa",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0145862,
+      -8.0414544
+    ],
+    [
+      55.3209827,
+      -5.4062308
+    ]
+  ],
+  "style": {
+    "color": "#3a3a3a",
+    "fillColor": "#A6C572",
+    "fillOpacity": 0.55,
+    "weight": 0.6
+  },
+  "references": [
+    {
+      "label": "Open Data NI — Special Protection Areas (SPA)",
+      "url": "https://admin.opendatani.gov.uk/dataset/special-protection-areas"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/designated-spa.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "DAERA",
+    "Northern Ireland Environment Agency"
+  ],
+  "keywords": [
+    "designated",
+    "protected",
+    "conservation",
+    "niea",
+    "daera",
+    "natural environment",
+    "special protection areas (spa)",
+    "Special Protection Areas (SPA)",
+    "Designated & Protected Sites",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAME",
+  "labelPropertyFallbacks": [
+    "COUNTY"
+  ],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#3a3a3a",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/designated-spa-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/designated-spa.fgb",
+  "sourceDatasetLayer": "designated-spa",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "NAME",
+    "OBJECTID",
+    "REFERENCE",
+    "DEC_AREA",
+    "GRID_REF",
+    "COUNTY",
+    "CLASSIFIED",
+    "MAP_SCALE",
+    "Latitude",
+    "Longitude"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "DEC_AREA",
+    "Shape_STAr",
+    "Shape_STLe",
+    "Shape_ST_1",
+    "Shape_ST_2"
+  ],
+  "categoricalProperties": [
+    "REFERENCE",
+    "NAME",
+    "GRID_REF",
+    "COUNTY",
+    "CLASSIFIED",
+    "MAP_SCALE",
+    "Latitude",
+    "Longitude",
+    "Status",
+    "Hyperlink"
+  ],
+  "categoricalValues": {
+    "REFERENCE": [
+      "UK9020011",
+      "UK9020021",
+      "UK9020031",
+      "UK9020042",
+      "UK9020051",
+      "UK9020071",
+      "UK9020091",
+      "UK9020101",
+      "UK9020111",
+      "UK9020161",
+      "UK9020221",
+      "UK9020271",
+      "UK9020290",
+      "UK9020291",
+      "UK9020301",
+      "UK9020302"
+    ],
+    "NAME": [
+      "Antrim Hills",
+      "Belfast Lough",
+      "Belfast Lough Open Water",
+      "Carlingford Lough",
+      "Copeland Islands",
+      "Killough Bay",
+      "Larne Lough",
+      "Lough Foyle",
+      "Lough Neagh and Lough Beg",
+      "Outer Ards",
+      "Pettigoe Plateau",
+      "Rathlin Island",
+      "Sheep Island",
+      "Slieve Beagh-Mullaghfad-Lisnaskea\r\n",
+      "Strangford Lough",
+      "Upper Lough Erne"
+    ],
+    "GRID_REF": [
+      "C621273",
+      "D049459",
+      "D127507",
+      "D150253",
+      "H010650",
+      "H330280",
+      "H522446",
+      "J030700",
+      "J230129",
+      "J353783",
+      "J403829",
+      "J450987",
+      "J543367",
+      "J560579",
+      "J593835",
+      "J627693"
+    ],
+    "COUNTY": [
+      "Antrim",
+      "Down",
+      "Antrim, Armagh, Down, Londonderry, Tyrone",
+      "Antrim, Down",
+      "Fermanagh",
+      "Londonderry",
+      "Tyrone, Fremanagh"
+    ],
+    "CLASSIFIED": [
+      "1992-12-21T00:00:00",
+      "1996-04-01T00:00:00",
+      "1996-11-19T00:00:00",
+      "1997-03-04T00:00:00",
+      "1998-03-09T00:00:00",
+      "1998-08-05T00:00:00",
+      "1999-02-02T00:00:00",
+      "1999-02-25T00:00:00",
+      "2002-12-11T00:00:00",
+      "2003-03-20T00:00:00",
+      "2006-03-28T00:00:00",
+      "2006-03-31T00:00:00",
+      "2009-09-29T00:00:00"
+    ],
+    "MAP_SCALE": [
+      "1:10000",
+      "1:2500",
+      "1:10000 GIS generated map",
+      "1:10000 MIA GIS generated map",
+      "1:10000, but copy of declaration map"
+    ],
+    "Latitude": [
+      "54 03 00 N",
+      "54 12 00 N",
+      "54 15 21 N",
+      "54 26 40 N",
+      "54 32 00 N",
+      "54 32 47 N",
+      "54 34 11 N",
+      "54 38 00 N",
+      "54 41 00 N",
+      "54 41 17 N",
+      "54 48 54 N",
+      "55 03 45 N",
+      "55 05 24 N",
+      "55 14 56 N",
+      "55 17 30 N"
+    ],
+    "Longitude": [
+      "05 29 02 W",
+      "05 31 03 W",
+      "05 35 40 W",
+      "05 37 50 W",
+      "05 44 38 W",
+      "05 49 00 W",
+      "05 54 00 W",
+      "06 07 00 W",
+      "06 11 54 W",
+      "06 13 30 W",
+      "06 21 00 W",
+      "06 24 34 W",
+      "07 01 37 W",
+      "07 29 40 W",
+      "07 59 04 W"
+    ],
+    "Status": [
+      "Classified"
+    ],
+    "Hyperlink": [
+      "https://www.daera-ni.gov.uk/publications/larne-lough-special-protection-area",
+      "https://www.daera-ni.gov.uk/publications/lough-foyle-special-protection-area",
+      "https://www.daera-ni.gov.uk/publications/lough-neagh-special-protection-area",
+      "https://www.daera-ni.gov.uk/publications/outer-ards-special-protection-area",
+      "https://www.daera-ni.gov.uk/publications/pettigoe-special-protection-area",
+      "https://www.daera-ni.gov.uk/publications/rathlin-special-protection-area",
+      "https://www.daera-ni.gov.uk/publications/sheep-island-special-protection-area",
+      "https://www.daera-ni.gov.uk/publications/slieve-beagh-mullaghfad-lisnaskea-special-protection-area",
+      "https://www.daera-ni.gov.uk/publications/special-protection-area-antrim-hills",
+      "https://www.daera-ni.gov.uk/publications/special-protection-area-belfast-lough",
+      "https://www.daera-ni.gov.uk/publications/special-protection-area-belfast-lough-open-water",
+      "https://www.daera-ni.gov.uk/publications/special-protection-area-carlingford-lough",
+      "https://www.daera-ni.gov.uk/publications/special-protection-area-copeland-islands",
+      "https://www.daera-ni.gov.uk/publications/special-protection-area-killough-bay",
+      "https://www.daera-ni.gov.uk/publications/strangford-lough-special-protection-area",
+      "https://www.daera-ni.gov.uk/publications/upper-lough-erne-special-protection-area"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/designated-spa.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/designated-spa.fgb",
+    "bytes": 881106,
+    "files": 261,
+    "pbfFiles": 260,
+    "maxTileBytes": 20821
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/designated-spa-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/designated-spa/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/designated-spa-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/designated-spa-vector-test.pmtiles",
+    "bytes": 603626,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/designated-spa/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/designated-spa-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/designated-spa-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/designated-spa-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

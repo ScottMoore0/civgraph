@@ -1,0 +1,126 @@
+{
+  "id": "gsi-groundwater-flooding-low-vector-test",
+  "sourceMapId": "gsi-groundwater-flooding-low",
+  "name": "Groundwater Flooding — Low Probability (ROI)",
+  "category": "Geology and Geophysics",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Geological Survey Ireland"
+  ],
+  "description": "Modelled low-probability groundwater flood extents at 1:20,000 (GSI).",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/gsi-groundwater-flooding-low/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/gsi-groundwater-flooding-low/metadata.json",
+  "sourceLayer": "gsi_groundwater_flooding_low",
+  "promoteId": "ID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      52.32571,
+      -9.4017822
+    ],
+    [
+      54.4834043,
+      -6.6941167
+    ]
+  ],
+  "style": {
+    "color": "#A6CEE3",
+    "fillColor": "#A6CEE3",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/gsi-groundwater-flooding-low.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Geological Survey Ireland"
+  ],
+  "keywords": [
+    "geology-geophysics",
+    "groundwater flooding — low probability (roi)",
+    "Groundwater Flooding — Low Probability (ROI)",
+    "Geology and Geophysics",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#A6CEE3",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/gsi-groundwater-flooding-low.fgb",
+  "sourceDatasetLayer": "gsi-groundwater-flooding-low",
+  "idProperty": "ID",
+  "popupProperties": [
+    "ID",
+    "MDL_SOURCE",
+    "AREA_M2",
+    "SHAPE_AREA",
+    "SHAPE_LEN"
+  ],
+  "numericProperties": [
+    "ID",
+    "AREA_M2",
+    "SHAPE_AREA",
+    "SHAPE_LEN"
+  ],
+  "categoricalProperties": [
+    "MDL_SOURCE"
+  ],
+  "categoricalValues": {
+    "MDL_SOURCE": [
+      "GSI",
+      "GSI, TCD",
+      "TCD"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/gsi-groundwater-flooding-low.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/gsi-groundwater-flooding-low.fgb",
+    "bytes": 1974843,
+    "files": 366,
+    "pbfFiles": 365,
+    "maxTileBytes": 67110
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/gsi-groundwater-flooding-low-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/gsi-groundwater-flooding-low/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/gsi-groundwater-flooding-low-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/gsi-groundwater-flooding-low-vector-test.pmtiles",
+    "bytes": 979625,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/gsi-groundwater-flooding-low/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/gsi-groundwater-flooding-low-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/gsi-groundwater-flooding-low-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/gsi-groundwater-flooding-low-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,598 @@
+{
+  "id": "leitrim-townlands-vector-test",
+  "sourceMapId": "leitrim-townlands",
+  "name": "Townlands 1844",
+  "category": "Townlands",
+  "group": "Communities",
+  "date": 1844,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI",
+    "OSI"
+  ],
+  "description": "Townlands in County Leitrim",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/leitrim-townlands/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/leitrim-townlands/metadata.json",
+  "sourceLayer": "leitrim_townlands",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.8059671,
+      -8.4276501
+    ],
+    [
+      54.4743682,
+      -7.584171
+    ]
+  ],
+  "style": {
+    "color": "#A87000",
+    "fillColor": "#A87000",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "OSNI Open Data - Largescale Boundaries - Townlands",
+      "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-townlands"
+    },
+    {
+      "label": "OSNI Open Data - Largescale Boundaries - Townlands (data.gov.uk)",
+      "url": "https://www.data.gov.uk/dataset/18e1bd0f-1829-496e-9b21-a5d8f6159940/osni-open-data-largescale-boundaries-townlands6"
+    },
+    {
+      "label": "Townlands - National Statutory Boundaries - Ungeneralised - 2024 (Tailte Éireann)",
+      "url": "https://data-osi.opendata.arcgis.com/datasets/osi::townlands-national-statutory-boundaries-ungeneralised-2024/about"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/leitrim-townlands.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI",
+    "OSI"
+  ],
+  "keywords": [
+    "townland",
+    "townlands",
+    "1844",
+    "all",
+    "ireland",
+    "northern ireland",
+    "republic",
+    "Townlands 1844",
+    "Townlands",
+    "Communities",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "ENG_NAME_VALUE",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#A87000",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/leitrim-townlands-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/leitrim-townlands.fgb",
+  "sourceDatasetLayer": "leitrim-townlands",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "ENG_NAME_VALUE",
+    "OBJECTID",
+    "GUID",
+    "GMS_JOB_ID",
+    "CAPTURE_SPECIFICATION",
+    "CAPTURE_SPECIFICATION_VALUE",
+    "URI",
+    "POLY_GEOM_CAPTURE_DATE",
+    "POLY_GEOM_CAPTURE_SRC",
+    "POLY_GEOM_CAPTURE_SRC_VALUE",
+    "POLY_GEOM_CHANGE_CODE"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "GMS_JOB_ID",
+    "CAPTURE_SPECIFICATION",
+    "POLY_GEOM_CAPTURE_SRC",
+    "POLY_GEOM_CHANGE_CODE",
+    "POLY_GEOM_CAPTURE_METH",
+    "POLY_GEOM_CAPTURE_RES",
+    "POLY_GEOM_HT_ERR_VALUE",
+    "POLY_GEOM_VALID_AUTH",
+    "BDY_TYPE_ID",
+    "BDY_TYPE_CAPTURE_SRC",
+    "BDY_TYPE_CHANGE_CODE",
+    "BDY_TYPE_VALID_AUTH",
+    "BDY_ID",
+    "BDY_ID_CAPTURE_SRC",
+    "BDY_ID_CHANGE_CODE"
+  ],
+  "categoricalProperties": [
+    "GUID",
+    "CAPTURE_SPECIFICATION_VALUE",
+    "URI",
+    "POLY_GEOM_CAPTURE_DATE",
+    "POLY_GEOM_CAPTURE_SRC_VALUE",
+    "POLY_GEOM_CHANGE_CODE_VALUE",
+    "POLY_GEOM_CHANGE_DATE",
+    "POLY_GEOM_CAPTURE_METH_VALUE",
+    "POLY_GEOM_CAPTURE_RES_VALUE",
+    "POLY_GEOM_VALID_AUTH_VALUE",
+    "POLY_GEOM_VALID_DATE",
+    "BDY_TYPE_VALUE",
+    "BDY_TYPE_CAPTURE_DATE",
+    "BDY_TYPE_CAPTURE_SRC_VALUE",
+    "BDY_TYPE_CHANGE_CODE_VALUE",
+    "BDY_TYPE_CHANGE_DATE",
+    "BDY_TYPE_VALID_AUTH_VALUE",
+    "BDY_TYPE_VALID_DATE",
+    "BDY_ID_CAPTURE_DATE",
+    "BDY_ID_CAPTURE_SRC_VALUE",
+    "BDY_ID_CHANGE_CODE_VALUE",
+    "BDY_ID_CHANGE_DATE",
+    "BDY_ID_VALID_AUTH_VALUE",
+    "BDY_ID_VALID_DATE",
+    "ENG_NAME_VALUE",
+    "ENG_NAME_CAPTURE_DATE",
+    "ENG_NAME_CAPTURE_SRC_VALUE",
+    "ENG_NAME_CHANGE_CODE_VALUE",
+    "ENG_NAME_CHANGE_DATE",
+    "ENG_NAME_VALID_AUTH_VALUE",
+    "ENG_NAME_VALID_DATE",
+    "GLE_NAME_VALUE",
+    "GLE_NAME_CAPTURE_DATE",
+    "GLE_NAME_CAPTURE_SRC_VALUE",
+    "GLE_NAME_CHANGE_CODE_VALUE",
+    "GLE_NAME_CHANGE_DATE",
+    "GLE_NAME_VALID_AUTH_VALUE",
+    "GLE_NAME_VALID_DATE",
+    "GAELTACHT_AREA",
+    "SE_ANNO_CAD_DATA"
+  ],
+  "categoricalValues": {
+    "GUID": [
+      "01840d80-1252-465e-93e8-61968a0805c6",
+      "039600a6-83b1-48a8-b203-f3b9194751e9",
+      "0649d14d-e243-4e35-9d86-ded5ac5aa5c5",
+      "07d17c8e-4cd4-4a36-94a5-8df8ae571129",
+      "0a8babb9-8f9a-427c-b49a-eb6fe59e5c0f",
+      "0c9adaa5-48e1-4fa9-a0b5-11f26271bea1",
+      "0d9515e0-65b8-4227-80f7-cbcaaf543de6",
+      "1741e197-143a-48cb-a89f-b5296f994715",
+      "17f7f12d-97bb-4287-beb0-5214c52264f2",
+      "1b57b7eb-7f27-459a-84cc-8cd5ad71519e",
+      "1d848275-b87c-40be-8624-878bb5f4cbad",
+      "202de92a-fe0c-489a-9b1a-fc8894995ce3",
+      "21933baf-bc19-4f52-a868-212ca1b5815e",
+      "24c0d0af-273b-46cf-bf0b-a13b1e7a9e96",
+      "2b6c7c15-6833-4bd1-803a-53f7d9690783",
+      "2f64b0c2-9998-4d15-9f99-b07725031e26",
+      "313e6529-359f-4bac-8818-6c860f2bff8c",
+      "317c4628-b31b-497e-ad3c-dad18c6a27ec",
+      "321bee7f-bf8f-4d06-ace8-ca0d8e3232b3",
+      "3309df02-0463-4026-9a74-052ec8708dab",
+      "344eed21-f075-40aa-b81a-eb6679461696",
+      "3aff5929-ddf8-4573-a601-a34ba8ecad55",
+      "3b132023-2055-49a5-86f7-0c2ee5ecf34c",
+      "3bb478a1-a363-48f6-856c-a41732faa475",
+      "3e859a4a-5d3e-4843-852e-7b63f537eb5b",
+      "40399a5f-4982-4e91-9f1a-22a33a6ec206",
+      "4192cded-64d4-4f9b-8f5e-6d8f713be20b",
+      "44dcf76c-b335-44cd-8b34-3ffb8eebc7ea",
+      "48187191-186e-4420-8e2d-522804421679",
+      "483c15c5-40dc-4d8b-95f7-4cdece722a02",
+      "4a97a4d4-ccfc-4919-9d76-5f3fc2d57eb8",
+      "4affb735-c80f-40bc-8b13-9b4340be117b"
+    ],
+    "CAPTURE_SPECIFICATION_VALUE": [
+      "PRIME2"
+    ],
+    "URI": [
+      " "
+    ],
+    "POLY_GEOM_CAPTURE_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-03-08T00:00:00"
+    ],
+    "POLY_GEOM_CAPTURE_SRC_VALUE": [
+      "OSi"
+    ],
+    "POLY_GEOM_CHANGE_CODE_VALUE": [
+      "New Feature",
+      "Reengineered"
+    ],
+    "POLY_GEOM_CHANGE_DATE": [
+      "2017-08-01T00:00:00",
+      "2018-07-19T00:00:00",
+      "2018-07-26T00:00:00",
+      "2018-08-30T00:00:00",
+      "2018-09-12T00:00:00",
+      "2019-04-02T00:00:00",
+      "2019-04-12T00:00:00",
+      "2019-09-20T00:00:00",
+      "2019-11-13T00:00:00",
+      "2019-12-03T00:00:00",
+      "2019-12-05T00:00:00",
+      "2019-12-09T00:00:00",
+      "2019-12-10T00:00:00",
+      "2019-12-11T00:00:00",
+      "2019-12-12T00:00:00",
+      "2019-12-16T00:00:00",
+      "2019-12-17T00:00:00",
+      "2019-12-18T00:00:00",
+      "2019-12-19T00:00:00",
+      "2020-01-02T00:00:00",
+      "2020-01-03T00:00:00",
+      "2020-01-06T00:00:00",
+      "2020-01-07T00:00:00",
+      "2020-01-20T00:00:00",
+      "2020-01-21T00:00:00",
+      "2020-01-22T00:00:00",
+      "2020-01-23T00:00:00",
+      "2020-01-27T00:00:00",
+      "2020-01-28T00:00:00",
+      "2020-01-30T00:00:00",
+      "2020-02-10T00:00:00",
+      "2020-02-11T00:00:00"
+    ],
+    "POLY_GEOM_CAPTURE_METH_VALUE": [
+      "OSi"
+    ],
+    "POLY_GEOM_CAPTURE_RES_VALUE": [
+      "5000",
+      "PRIME2 Reengineering"
+    ],
+    "POLY_GEOM_VALID_AUTH_VALUE": [
+      "OSi"
+    ],
+    "POLY_GEOM_VALID_DATE": [
+      "2017-08-01T00:00:00",
+      "2018-07-19T00:00:00",
+      "2018-07-26T00:00:00",
+      "2018-08-30T00:00:00",
+      "2018-09-12T00:00:00",
+      "2019-04-02T00:00:00",
+      "2019-04-12T00:00:00",
+      "2019-09-20T00:00:00",
+      "2019-11-13T00:00:00",
+      "2019-12-03T00:00:00",
+      "2019-12-05T00:00:00",
+      "2019-12-09T00:00:00",
+      "2019-12-10T00:00:00",
+      "2019-12-11T00:00:00",
+      "2019-12-12T00:00:00",
+      "2019-12-16T00:00:00",
+      "2019-12-17T00:00:00",
+      "2019-12-18T00:00:00",
+      "2019-12-19T00:00:00",
+      "2020-01-02T00:00:00",
+      "2020-01-03T00:00:00",
+      "2020-01-06T00:00:00",
+      "2020-01-07T00:00:00",
+      "2020-01-20T00:00:00",
+      "2020-01-21T00:00:00",
+      "2020-01-22T00:00:00",
+      "2020-01-23T00:00:00",
+      "2020-01-27T00:00:00",
+      "2020-01-28T00:00:00",
+      "2020-01-30T00:00:00",
+      "2020-02-10T00:00:00",
+      "2020-02-11T00:00:00"
+    ],
+    "BDY_TYPE_VALUE": [
+      "Townland"
+    ],
+    "BDY_TYPE_CAPTURE_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-03-08T00:00:00"
+    ],
+    "BDY_TYPE_CAPTURE_SRC_VALUE": [
+      "OSi"
+    ],
+    "BDY_TYPE_CHANGE_CODE_VALUE": [
+      "New Feature",
+      "Reengineered"
+    ],
+    "BDY_TYPE_CHANGE_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-03-08T00:00:00"
+    ],
+    "BDY_TYPE_VALID_AUTH_VALUE": [
+      "OSi"
+    ],
+    "BDY_TYPE_VALID_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-03-08T00:00:00"
+    ],
+    "BDY_ID_CAPTURE_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-03-08T00:00:00"
+    ],
+    "BDY_ID_CAPTURE_SRC_VALUE": [
+      "OSi"
+    ],
+    "BDY_ID_CHANGE_CODE_VALUE": [
+      "Enhancement and Enrichment",
+      "Reengineered"
+    ],
+    "BDY_ID_CHANGE_DATE": [
+      "2017-08-01T00:00:00",
+      "2018-07-19T00:00:00",
+      "2018-07-26T00:00:00",
+      "2018-08-30T00:00:00",
+      "2018-09-12T00:00:00",
+      "2019-04-02T00:00:00",
+      "2019-04-12T00:00:00",
+      "2019-09-20T00:00:00",
+      "2019-11-13T00:00:00",
+      "2019-12-03T00:00:00",
+      "2019-12-05T00:00:00",
+      "2019-12-09T00:00:00",
+      "2019-12-10T00:00:00",
+      "2019-12-11T00:00:00",
+      "2019-12-12T00:00:00",
+      "2019-12-16T00:00:00",
+      "2019-12-17T00:00:00",
+      "2019-12-18T00:00:00",
+      "2019-12-19T00:00:00",
+      "2020-01-02T00:00:00",
+      "2020-01-03T00:00:00",
+      "2020-01-06T00:00:00",
+      "2020-01-07T00:00:00",
+      "2020-01-20T00:00:00",
+      "2020-01-21T00:00:00",
+      "2020-01-22T00:00:00",
+      "2020-01-23T00:00:00",
+      "2020-01-27T00:00:00",
+      "2020-01-28T00:00:00",
+      "2020-01-30T00:00:00",
+      "2020-02-10T00:00:00",
+      "2020-02-11T00:00:00"
+    ],
+    "BDY_ID_VALID_AUTH_VALUE": [
+      "OSi"
+    ],
+    "BDY_ID_VALID_DATE": [
+      "2017-08-01T00:00:00",
+      "2018-07-19T00:00:00",
+      "2018-07-26T00:00:00",
+      "2018-08-30T00:00:00",
+      "2018-09-12T00:00:00",
+      "2019-04-02T00:00:00",
+      "2019-04-12T00:00:00",
+      "2019-09-20T00:00:00",
+      "2019-11-13T00:00:00",
+      "2019-12-03T00:00:00",
+      "2019-12-05T00:00:00",
+      "2019-12-09T00:00:00",
+      "2019-12-10T00:00:00",
+      "2019-12-11T00:00:00",
+      "2019-12-12T00:00:00",
+      "2019-12-16T00:00:00",
+      "2019-12-17T00:00:00",
+      "2019-12-18T00:00:00",
+      "2019-12-19T00:00:00",
+      "2020-01-02T00:00:00",
+      "2020-01-03T00:00:00",
+      "2020-01-06T00:00:00",
+      "2020-01-07T00:00:00",
+      "2020-01-20T00:00:00",
+      "2020-01-21T00:00:00",
+      "2020-01-22T00:00:00",
+      "2020-01-23T00:00:00",
+      "2020-01-27T00:00:00",
+      "2020-01-28T00:00:00",
+      "2020-01-30T00:00:00",
+      "2020-02-10T00:00:00",
+      "2020-02-11T00:00:00"
+    ],
+    "ENG_NAME_VALUE": [
+      "ADOON",
+      "AGHAMORE",
+      "AGHAVAS",
+      "AGHAVORE",
+      "ANSKERT",
+      "BEAGH",
+      "BEIHY",
+      "BOLEYBOY",
+      "CAMAGH",
+      "CATTAN",
+      "CORDUFF",
+      "CUILLAGH",
+      "DERREEN",
+      "DRUMHIRK",
+      "DRUMLOM",
+      "EDERGOLE",
+      "GLENBOY",
+      "KEELAGH",
+      "KILLYFAD",
+      "LACKAGH",
+      "LAGHTA",
+      "LEAR",
+      "LEEAN",
+      "MULLIES",
+      "RASSAUN",
+      "RATHBAUN",
+      "ROOSKY",
+      "ROSHARRY",
+      "SRABRICK",
+      "TAWLY",
+      "TOOMAN",
+      "TULLY"
+    ],
+    "ENG_NAME_CAPTURE_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-02-21T00:00:00",
+      "2019-03-08T00:00:00"
+    ],
+    "ENG_NAME_CAPTURE_SRC_VALUE": [
+      "OSi"
+    ],
+    "ENG_NAME_CHANGE_CODE_VALUE": [
+      "New Feature",
+      "Reengineered"
+    ],
+    "ENG_NAME_CHANGE_DATE": [
+      "2017-08-01T00:00:00",
+      "2020-04-16T00:00:00",
+      "2020-04-17T00:00:00",
+      "2020-07-17T00:00:00",
+      "2023-05-25T00:00:00"
+    ],
+    "ENG_NAME_VALID_AUTH_VALUE": [
+      "OSi"
+    ],
+    "ENG_NAME_VALID_DATE": [
+      "2017-08-01T00:00:00",
+      "2020-04-16T00:00:00",
+      "2020-04-17T00:00:00",
+      "2020-07-17T00:00:00",
+      "2023-05-25T00:00:00"
+    ],
+    "GLE_NAME_VALUE": [
+      "Anscairt",
+      "Camach",
+      "Caolach",
+      "Cotann",
+      "Laíán",
+      "Leacach",
+      "Mullaigh",
+      "Tuamán",
+      "Tálaigh",
+      "Achadh Coille Conaill",
+      "Achadh Mhór",
+      "Achadh Mór",
+      "Achadh an Chaisil",
+      "Achadh an Chaisleáin",
+      "Achadh an Mheasa",
+      "An Bheitheach",
+      "An Bhuaile Bhuí",
+      "An Buinne Beag",
+      "An Choilleach",
+      "An Choillidh Fhada",
+      "An Chorr Dhubh",
+      "An Chorr Dhubh Thuaidh",
+      "An Cloichreán Mór",
+      "An Doireán",
+      "An Droim Ard (Magerraun)",
+      "An Droim Lom",
+      "An Ladhar",
+      "An Leachta",
+      "An Mullach Garbh",
+      "An Rosán",
+      "An Ráth Bán",
+      "An Sonnach Mór"
+    ],
+    "GLE_NAME_CAPTURE_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-03-08T00:00:00"
+    ],
+    "GLE_NAME_CAPTURE_SRC_VALUE": [
+      "OSi"
+    ],
+    "GLE_NAME_CHANGE_CODE_VALUE": [
+      "Enhancement and Enrichment",
+      "Reengineered"
+    ],
+    "GLE_NAME_CHANGE_DATE": [
+      "2017-08-01T00:00:00",
+      "2021-01-20T11:19:18",
+      "2023-05-25T00:00:00",
+      "2024-11-13T00:00:00"
+    ],
+    "GLE_NAME_VALID_AUTH_VALUE": [
+      "OSi"
+    ],
+    "GLE_NAME_VALID_DATE": [
+      "2017-08-01T00:00:00",
+      "2019-02-21T00:00:00",
+      "2019-02-22T00:00:00",
+      "2019-03-07T00:00:00",
+      "2019-03-11T00:00:00",
+      "2023-05-25T00:00:00",
+      "2024-11-13T00:00:00"
+    ],
+    "GAELTACHT_AREA": [
+      "N"
+    ],
+    "SE_ANNO_CAD_DATA": [
+      "",
+      "00",
+      "01",
+      "02",
+      "03",
+      "04",
+      "07",
+      "08",
+      "0C",
+      "0D",
+      "10",
+      "1C",
+      "20",
+      "28",
+      "2C",
+      "30",
+      "3C",
+      "3D",
+      "40",
+      "42",
+      "43",
+      "44",
+      "46",
+      "49",
+      "4B",
+      "4C",
+      "4D",
+      "4F",
+      "50",
+      "52",
+      "53",
+      "55"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/leitrim-townlands.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/leitrim-townlands.fgb",
+    "bytes": 6493037,
+    "files": 130,
+    "pbfFiles": 129,
+    "maxTileBytes": 374452
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/leitrim-townlands-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/leitrim-townlands/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/leitrim-townlands-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/leitrim-townlands-vector-test.pmtiles",
+    "bytes": 2979634,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/leitrim-townlands/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/leitrim-townlands-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/leitrim-townlands-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/leitrim-townlands-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "id": "historic-crannog-vector-test",
+  "sourceMapId": "historic-crannog",
+  "name": "Crannog",
+  "category": "Historic Boundaries",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Historic Maps"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/historic-crannog/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/historic-crannog/metadata.json",
+  "sourceLayer": "historic_crannog",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.60709,
+      -10.05118
+    ],
+    [
+      55.26959,
+      -5.50617
+    ]
+  ],
+  "style": {
+    "color": "#7f5539",
+    "fillColor": "#7f5539",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+      "url": "https://archive.org/details/ireland-archaeological-monuments-geojson"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/historic-crannog.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Historic Maps"
+  ],
+  "keywords": [
+    "historic",
+    "sites",
+    "crannog",
+    "Crannog",
+    "Historic Boundaries",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#7f5539",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/historic-crannog.fgb",
+  "sourceDatasetLayer": "historic-crannog",
+  "popupProperties": [
+    "LATITUDE",
+    "LONGITUDE",
+    "CLASSIFICATION",
+    "DESCRIPTION",
+    "PERIOD"
+  ],
+  "numericProperties": [
+    "LATITUDE",
+    "LONGITUDE"
+  ],
+  "categoricalProperties": [
+    "CLASSIFICATION",
+    "DESCRIPTION",
+    "PERIOD"
+  ],
+  "categoricalValues": {
+    "CLASSIFICATION": [
+      "CRANNOG",
+      "Crannog"
+    ],
+    "DESCRIPTION": [
+      "CRANNOG",
+      "CRANNOG?",
+      "ISLAND",
+      "CRANNOG  (O.S. memoir site, unlocated)",
+      "CRANNOG & BULLAUN",
+      "CRANNOG (O.S. memoir site)",
+      "CRANNOG (now submerged)",
+      "CRANNOG (now unlocated)",
+      "CRANNOG (submerged)",
+      "CRANNOG (submerged) in CAMLOUGH RESERVOIR",
+      "CRANNOG (unlocated)",
+      "CRANNOG In Stewartstown Lough",
+      "CRANNOG in Aghnahinch Lough",
+      "CRANNOG in BALLYDOOLAGH LOUGH",
+      "CRANNOG in Castlewellan Lake",
+      "CRANNOG in DRUMSKIMLY LOUGH",
+      "CRANNOG in DRUMSLOE LOUGH",
+      "CRANNOG in Drumacrittan Lough",
+      "CRANNOG in Drumnaveale Lough",
+      "CRANNOG in Drumralla Lough",
+      "CRANNOG in Inver Lough",
+      "CRANNOG in Killyvilly Lough",
+      "CRANNOG in Lankill Lough",
+      "CRANNOG in Lough Acrussel",
+      "CRANNOG in Lough Fingrean",
+      "CRANNOG in Loughdoo",
+      "CRANNOG in Mill Lough",
+      "CRANNOG in Mullyduff Lough",
+      "CRANNOG in PARKHILL LOUGH",
+      "CRANNOG in PATTERSONS LAKE",
+      "CRANNOG or 'LOG HOUSE' (unlocated)",
+      "CRANNOG, also findspot of Bronze trumpet & dugout canoe in C19th"
+    ],
+    "PERIOD": [
+      "C19TH",
+      "E.C./MED",
+      "C17TH; E.CHRIST.",
+      "E.CHRIST.",
+      "E.CHRIST.; MEDIEVAL",
+      "E.CHRIST.; UNCERTAIN",
+      "L.B.A.; L.B.A./I.A.; PREHISTORIC",
+      "MED/L.MED; E.CHRIST.; POST-MED",
+      "MED/L.MED; E.CHRIST.; PREHISTORIC; BRONZE AGE; NEOLITHIC",
+      "MEDIEVAL; E.CHRIST.",
+      "PREHISTORIC; E.CHRIST.; IRON AGE",
+      "UNCERTAIN",
+      "UNCERTAIN; E.CHRIST."
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/historic-crannog.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/historic-crannog.fgb",
+    "bytes": 10897000,
+    "files": 1026,
+    "pbfFiles": 1025,
+    "maxTileBytes": 781063
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/historic-crannog-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/historic-crannog/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/historic-crannog-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/historic-crannog-vector-test.pmtiles",
+    "bytes": 3364498,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-30T10:32:05.863Z",
+    "fallback": "/test/tiles/generated/historic-crannog/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/historic-crannog-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/historic-crannog-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/historic-crannog-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

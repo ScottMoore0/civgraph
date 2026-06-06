@@ -1,0 +1,162 @@
+{
+  "id": "pc-1918-vector-test",
+  "sourceMapId": "pc-1918",
+  "name": "Parliamentary Constituencies 1918 (pre-partition)",
+  "category": "Parliamentary Constituencies",
+  "group": "Elections and Government",
+  "date": 1918,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Parlconst.org"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/pc-1918/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/pc-1918/metadata.json",
+  "sourceLayer": "pc_1918",
+  "promoteId": "id",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227186,
+      -8.1774905
+    ],
+    [
+      55.3129748,
+      -5.4327734
+    ]
+  ],
+  "style": {
+    "color": "#9F2D85",
+    "fillColor": "#9F2D85",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/pc-1918.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Parlconst.org"
+  ],
+  "keywords": [
+    "constituency",
+    "westminster",
+    "parliament",
+    "1918",
+    "pre-partition",
+    "Parliamentary Constituencies 1918 (pre-partition)",
+    "Parliamentary Constituencies",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#9F2D85",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/pc-1918-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/pc-1918.fgb",
+  "sourceDatasetLayer": "pc-1918",
+  "idProperty": "id",
+  "popupProperties": [
+    "Name",
+    "id",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "id",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "Name"
+  ],
+  "categoricalValues": {
+    "Name": [
+      "MID DOWN",
+      "BELFAST CROMAC",
+      "BELFAST DUNCAIRN",
+      "BELFAST FALLS",
+      "BELFAST ORMEAU",
+      "BELFAST POTTINGER",
+      "BELFAST SHANKILL",
+      "BELFAST ST. ANNE'S",
+      "BELFAST VICTORIA",
+      "BELFAST WOODVALE",
+      "EAST ANTRIM",
+      "EAST DOWN",
+      "LONDONDERRY CITY",
+      "MID ANTRIM",
+      "MID ARMAGH",
+      "NORTH ANTRIM",
+      "NORTH ARMAGH",
+      "NORTH DOWN",
+      "NORTH EAST TYRONE",
+      "NORTH FERMANAGH",
+      "NORTH LONDONDERRY",
+      "NORTH WEST TYRONE",
+      "SOUTH ANTRIM",
+      "SOUTH ARMAGH",
+      "SOUTH DOWN",
+      "SOUTH FERMANAGH",
+      "SOUTH LONDONDERRY",
+      "SOUTH TYRONE",
+      "WEST DOWN"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/pc-1918.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/pc-1918.fgb",
+    "bytes": 1737542,
+    "files": 756,
+    "pbfFiles": 755,
+    "maxTileBytes": 23063
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/pc-1918-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/pc-1918/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/pc-1918-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/pc-1918-vector-test.pmtiles",
+    "bytes": 1006551,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/pc-1918/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/pc-1918-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/pc-1918-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/pc-1918-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

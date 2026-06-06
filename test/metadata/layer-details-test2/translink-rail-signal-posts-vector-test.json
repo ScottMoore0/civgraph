@@ -1,0 +1,172 @@
+{
+  "id": "translink-rail-signal-posts-vector-test",
+  "sourceMapId": "translink-rail-signal-posts",
+  "name": "NI Railways Signal Posts",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Translink"
+  ],
+  "description": "NI Railways Signal Posts — public transport infrastructure published by Translink.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/translink-rail-signal-posts/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/translink-rail-signal-posts/metadata.json",
+  "sourceLayer": "translink_rail_signal_posts",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.1004906,
+      -7.3154976
+    ],
+    [
+      55.2019188,
+      -5.673582
+    ]
+  ],
+  "style": {
+    "color": "#9C27B0",
+    "fillColor": "#9C27B0",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/translink-rail-signal-posts.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Translink"
+  ],
+  "keywords": [
+    "translink",
+    "public transport",
+    "transit",
+    "ni railways signal posts",
+    "northern ireland",
+    "NI Railways Signal Posts",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Shape",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#9C27B0",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/translink-rail-signal-posts-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/translink-rail-signal-posts.fgb",
+  "sourceDatasetLayer": "translink-rail-signal-posts",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Shape",
+    "OBJECTID",
+    "STRUCTURE_REF___ID",
+    "STRUCTURE_TYPE",
+    "EASTING",
+    "NORTHING",
+    "Lat",
+    "Long"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "EASTING",
+    "NORTHING",
+    "Lat",
+    "Long"
+  ],
+  "categoricalProperties": [
+    "STRUCTURE_REF___ID",
+    "STRUCTURE_TYPE"
+  ],
+  "categoricalValues": {
+    "STRUCTURE_REF___ID": [
+      "CL 214",
+      "CL 216",
+      "CL 217",
+      "CL 217R",
+      "CL 219",
+      "CL 221",
+      "CL 222",
+      "CL 223",
+      "CL 224",
+      "CL 225",
+      "CL 226",
+      "CL 227",
+      "CL 228",
+      "CL 542",
+      "CL 551",
+      "PD 1",
+      "PD 10",
+      "PD 103",
+      "PD 105R",
+      "PD 106R",
+      "PD 107",
+      "PD 108",
+      "PD 10R",
+      "PD 12",
+      "PD 12R",
+      "PD 17",
+      "PD 17R",
+      "PD 19",
+      "PD 19R",
+      "PD 1R",
+      "PD 2",
+      "PD 20"
+    ],
+    "STRUCTURE_TYPE": [
+      "Signal"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/translink-rail-signal-posts.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/translink-rail-signal-posts.fgb",
+    "bytes": 458505,
+    "files": 125,
+    "pbfFiles": 124,
+    "maxTileBytes": 32563
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/translink-rail-signal-posts-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/translink-rail-signal-posts/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/translink-rail-signal-posts-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/translink-rail-signal-posts-vector-test.pmtiles",
+    "bytes": 260558,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/translink-rail-signal-posts/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/translink-rail-signal-posts-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/translink-rail-signal-posts-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/translink-rail-signal-posts-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

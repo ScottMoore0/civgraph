@@ -1,0 +1,207 @@
+{
+  "id": "dcc-dcc-public-bin-locations-vector-test",
+  "sourceMapId": "dcc-dcc-public-bin-locations",
+  "name": "Dcc Public Bin Locations (DCC)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dublin City Council"
+  ],
+  "description": "Dcc Public Bin Locations (DCC) — published by Dublin City Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dcc-dcc-public-bin-locations/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dcc-dcc-public-bin-locations/metadata.json",
+  "sourceLayer": "dcc_dcc_public_bin_locations",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.302864,
+      -6.37727
+    ],
+    [
+      53.406168,
+      -6.14474
+    ]
+  ],
+  "style": {
+    "color": "#FF6F00",
+    "fillColor": "#FF6F00",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dcc-dcc-public-bin-locations.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dublin City Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dcc",
+    "amenity",
+    "council",
+    "public",
+    "bin",
+    "locations",
+    "Dcc Public Bin Locations (DCC)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Bin_ID",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FF6F00",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dcc-dcc-public-bin-locations-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dcc-dcc-public-bin-locations.fgb",
+  "sourceDatasetLayer": "dcc-dcc-public-bin-locations",
+  "popupProperties": [
+    "Bin_ID",
+    "Bin_Type",
+    "Electoral_Area",
+    "Irish_X",
+    "Irish_Y"
+  ],
+  "numericProperties": [
+    "Irish_X",
+    "Irish_Y"
+  ],
+  "categoricalProperties": [
+    "Bin_ID",
+    "Bin_Type",
+    "Electoral_Area"
+  ],
+  "categoricalValues": {
+    "Bin_ID": [
+      "WMS0277",
+      "WMS0300",
+      "WMS0438",
+      "WMS0443",
+      "WMS0500",
+      "WMS0692",
+      "WMS0776",
+      "WMS0918",
+      "WMS0938",
+      "WMS0939",
+      "WMS1060",
+      "WMS1173",
+      "WMS1334",
+      "WMS1335",
+      "WMS1336",
+      "WMS1337",
+      "WMS1347",
+      "WMS1350",
+      "WMS1351",
+      "WMS1555",
+      "WMS1754",
+      "WMS1936",
+      "WMS1941",
+      "WMS2162",
+      "WMS3008",
+      "WMS3046",
+      "WMS3064",
+      "WMS3078",
+      "WMS3080",
+      "WMS3081",
+      "WMS3086",
+      "WMS3094"
+    ],
+    "Bin_Type": [
+      "Class A",
+      "Class B",
+      "Dog Bin",
+      "Bigbelly Bin",
+      "Cast Iron",
+      "Stainless Steel"
+    ],
+    "Electoral_Area": [
+      "AIRPORT",
+      "AYRFIELD",
+      "EDENMORE",
+      "GRANGE A",
+      "GRANGE B",
+      "GRANGE C",
+      "GRANGE D",
+      "GRANGE E",
+      "SUTTON",
+      "ARRAN QUAY A",
+      "ARRAN QUAY B",
+      "ARRAN QUAY D",
+      "ARRAN QUAY E",
+      "ASHTOWN A",
+      "ASHTOWN B",
+      "BALLYBOUGH A",
+      "BALLYBOUGH B",
+      "BALLYGALL A",
+      "BALLYMUN C",
+      "BEAUMONT A",
+      "BEAUMONT B",
+      "BEAUMONT C",
+      "BEAUMONT D",
+      "BEAUMONT E",
+      "BEAUMONT F",
+      "BOTANIC A",
+      "BOTANIC B",
+      "BOTANIC C",
+      "CABRA EAST A",
+      "CABRA EAST B",
+      "CABRA EAST C",
+      "CABRA WEST A"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dcc-dcc-public-bin-locations.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dcc-dcc-public-bin-locations.fgb",
+    "bytes": 2903962,
+    "files": 34,
+    "pbfFiles": 33,
+    "maxTileBytes": 208914
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-dcc-public-bin-locations-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dcc-dcc-public-bin-locations/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dcc-dcc-public-bin-locations-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dcc-dcc-public-bin-locations-vector-test.pmtiles",
+    "bytes": 1328561,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dcc-dcc-public-bin-locations/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-dcc-public-bin-locations-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dcc-dcc-public-bin-locations-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dcc-dcc-public-bin-locations-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

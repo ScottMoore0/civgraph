@@ -1,0 +1,135 @@
+{
+  "id": "gsni-tellus-stream-sediments-boron-vector-test",
+  "sourceMapId": "gsni-tellus-stream-sediments-boron",
+  "name": "Tellus Stream Sediments (Boron)",
+  "category": "Geology and Geophysics",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "GSNI",
+    "Tellus"
+  ],
+  "description": "Tellus stream-sediment samples specifically analysed for boron, which requires a separate analytical method from the main XRF panel. ~5,840 points.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/gsni-tellus-stream-sediments-boron/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/gsni-tellus-stream-sediments-boron/metadata.json",
+  "sourceLayer": "gsni_tellus_stream_sediments_boron",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0406377,
+      -8.1371664
+    ],
+    [
+      55.2973606,
+      -5.4662857
+    ]
+  ],
+  "style": {
+    "color": "#48a148",
+    "fillColor": "#48a148",
+    "fillOpacity": 0.85,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "GSNI Tellus Regional Stream Sediments — Open Data NI",
+      "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-stream-sediments"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/gsni-tellus-stream-sediments-boron.fgb"
+    },
+    {
+      "label": "GeoJSON — Boron",
+      "url": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/2a93e611-0888-415c-ad1f-02d0ae2eb669/download/regionalsedimentsxrfboron.geojson"
+    },
+    {
+      "label": "CSV — Boron",
+      "url": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/f0f51e58-0544-43fd-a2fb-ac58b7f3781f/download/regionalsedimentsxrfboron.csv"
+    }
+  ],
+  "sourceCredits": [
+    "GSNI",
+    "Tellus"
+  ],
+  "keywords": [
+    "tellus",
+    "boron",
+    "stream",
+    "sediment",
+    "gsni",
+    "geochemistry",
+    "Tellus Stream Sediments (Boron)",
+    "Geology and Geophysics",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "SAMPLE_NO",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#48a148",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/gsni-tellus-stream-sediments-boron-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/gsni-tellus-stream-sediments-boron.fgb",
+  "sourceDatasetLayer": "gsni-tellus-stream-sediments-boron",
+  "popupProperties": [
+    "SAMPLE_NO",
+    "EASTING",
+    "NORTHING",
+    "B"
+  ],
+  "numericProperties": [
+    "SAMPLE_NO",
+    "EASTING",
+    "NORTHING",
+    "B"
+  ],
+  "categoricalProperties": [],
+  "categoricalValues": {},
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/gsni-tellus-stream-sediments-boron.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/gsni-tellus-stream-sediments-boron.fgb",
+    "bytes": 3337958,
+    "files": 689,
+    "pbfFiles": 688,
+    "maxTileBytes": 242611
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/gsni-tellus-stream-sediments-boron-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/gsni-tellus-stream-sediments-boron/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/gsni-tellus-stream-sediments-boron-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/gsni-tellus-stream-sediments-boron-vector-test.pmtiles",
+    "bytes": 1717343,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/gsni-tellus-stream-sediments-boron/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/gsni-tellus-stream-sediments-boron-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/gsni-tellus-stream-sediments-boron-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/gsni-tellus-stream-sediments-boron-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

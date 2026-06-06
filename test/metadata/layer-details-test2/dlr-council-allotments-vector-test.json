@@ -1,0 +1,145 @@
+{
+  "id": "dlr-council-allotments-vector-test",
+  "sourceMapId": "dlr-council-allotments",
+  "name": "Council Allotments (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Council Allotments (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-council-allotments/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-council-allotments/metadata.json",
+  "sourceLayer": "dlr_council_allotments",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2308123,
+      -6.2272488
+    ],
+    [
+      53.2946564,
+      -6.1137764
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-council-allotments.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "allotments",
+    "Council Allotments (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Info",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-council-allotments-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-council-allotments.fgb",
+  "sourceDatasetLayer": "dlr-council-allotments",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Info",
+    "OBJECTID",
+    "No_allotments",
+    "ITM_X",
+    "ITM_Y",
+    "Name",
+    "LAT",
+    "LONG"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "No_allotments",
+    "ITM_X",
+    "ITM_Y",
+    "LAT",
+    "LONG"
+  ],
+  "categoricalProperties": [
+    "Info",
+    "Name"
+  ],
+  "categoricalValues": {
+    "Info": [
+      "There are 136 allotments ranging in size between 40 and 200 square meters. The individual gardeners are organised in an allotment association which represents the needs of the plot holders. ",
+      "There are 95 allotments located on the grounds of Quinn's Road. "
+    ],
+    "Name": [
+      "Goatstown allotments",
+      "Shankill allotments"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-council-allotments.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-council-allotments.fgb",
+    "bytes": 11002,
+    "files": 16,
+    "pbfFiles": 15,
+    "maxTileBytes": 568
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-council-allotments-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-council-allotments/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-council-allotments-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-council-allotments-vector-test.pmtiles",
+    "bytes": 7440,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-council-allotments/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-council-allotments-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-council-allotments-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-council-allotments-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

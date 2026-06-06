@@ -1,0 +1,189 @@
+{
+  "id": "dlr-main-parks-vector-test",
+  "sourceMapId": "dlr-main-parks",
+  "name": "Main Parks (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Main Parks (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/dlr-main-parks/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-main-parks/metadata.json",
+  "sourceLayer": "dlr_main_parks",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.221763,
+      -6.2784407
+    ],
+    [
+      53.3136319,
+      -6.1034293
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-main-parks.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "main",
+    "parks",
+    "Main Parks (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "park_name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-main-parks-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-main-parks.fgb",
+  "sourceDatasetLayer": "dlr-main-parks",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "park_name",
+    "OBJECTID",
+    "irish_name",
+    "previous_n",
+    "address",
+    "type",
+    "type2",
+    "Shape_Length",
+    "Shape_Area"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "Shape_Length",
+    "Shape_Area"
+  ],
+  "categoricalProperties": [
+    "park_name",
+    "irish_name",
+    "previous_n",
+    "address",
+    "type",
+    "type2"
+  ],
+  "categoricalValues": {
+    "park_name": [
+      "Deerpark",
+      "Ballawley Park",
+      "Blackrock Park",
+      "Cabinteely Park",
+      "Carysfort Park",
+      "Clonkeen Park",
+      "Dodder Valley Park",
+      "Fernhill Park & Gardens",
+      "Fitzsimons Wood Park",
+      "Kilbogget Park",
+      "Killiney Hill Park",
+      "Loreto Park",
+      "Marlay Park",
+      "Peoples Park",
+      "Shanganagh Regional Park"
+    ],
+    "irish_name": [
+      " ",
+      "Binn Trí Charraig",
+      "Cill Iníon Léinín"
+    ],
+    "previous_n": [
+      " ",
+      "Glasthule Quarry",
+      "Part of Three Rockl Mountain",
+      "Victoria Hill"
+    ],
+    "address": [
+      " ",
+      "Blackrock Park, Rock Road, Blackrock, Co. Dublin",
+      "Cabinteely Park, Old Bray Road, Cabinteely, Dublin 18\r\n",
+      "Clonkeen Park, Deansgrange",
+      "Dodder Valley Park, Rathfarnham Dublin",
+      "Killiney Hill Park, Killiney Hill Road, Co. Dublin",
+      "Marlay Park, Rathfarnham, Dublin 16",
+      "Nutgrove, Dublin 14",
+      "Peoples Park, Park Road, Dun Laoghaire, Co. Dublin",
+      "Stepaside"
+    ],
+    "type": [
+      "District Park",
+      "Local Park",
+      "Regional Park"
+    ],
+    "type2": [
+      "Flagship",
+      "Other"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-main-parks.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-main-parks.fgb",
+    "bytes": 44840,
+    "files": 20,
+    "pbfFiles": 19,
+    "maxTileBytes": 4219
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-main-parks-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-main-parks/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-main-parks-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-main-parks-vector-test.pmtiles",
+    "bytes": 28316,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-main-parks/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-main-parks-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-main-parks-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-main-parks-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

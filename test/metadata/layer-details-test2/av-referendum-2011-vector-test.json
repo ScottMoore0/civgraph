@@ -1,0 +1,148 @@
+{
+  "id": "av-referendum-2011-vector-test",
+  "sourceMapId": "av-referendum-2011",
+  "name": "AV Referendum Counting Areas 2011",
+  "category": "Census Statistical Areas",
+  "group": "Public Services",
+  "date": 2011,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI",
+    "Electoral Commission"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/av-referendum-2011/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/av-referendum-2011/metadata.json",
+  "sourceLayer": "av_referendum_2011",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227244,
+      -8.1775025
+    ],
+    [
+      55.3129843,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#4169E1",
+    "fillColor": "#4169E1",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Northern Ireland referendum 2011 (www.ark.ac.uk)",
+      "url": "https://www.ark.ac.uk/elections/fr11.htm#:~:text=Frustratingly%2C%20the%20detail%20of%20the%20results%20has%20been%20published%20in%20two%20completely%20different%20geographical%20configurations"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/av-referendum-2011.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI",
+    "Electoral Commission"
+  ],
+  "keywords": [
+    "AV",
+    "referendum",
+    "2011",
+    "alternative vote",
+    "counting area",
+    "AV Referendum Counting Areas 2011",
+    "Census Statistical Areas",
+    "Public Services",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "PC_NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#4169E1",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/av-referendum-2011-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/av-referendum-2011.fgb",
+  "sourceDatasetLayer": "av-referendum-2011",
+  "popupProperties": [
+    "PC_NAME",
+    "Area_sqkm",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "Area_sqkm",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "PC_NAME"
+  ],
+  "categoricalValues": {
+    "PC_NAME": [
+      "BELFAST",
+      "OMAGH",
+      "BALLYMENA",
+      "BANBRIDGE 1",
+      "BANBRIDGE 2",
+      "LONDONDERRY",
+      "NEWTOWNABBEY",
+      "NEWTOWNARDS"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/av-referendum-2011.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/av-referendum-2011.fgb",
+    "bytes": 1328144,
+    "files": 757,
+    "pbfFiles": 756,
+    "maxTileBytes": 13980
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/av-referendum-2011-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/av-referendum-2011/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/av-referendum-2011-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/av-referendum-2011-vector-test.pmtiles",
+    "bytes": 739715,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/av-referendum-2011/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/av-referendum-2011-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/av-referendum-2011-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/av-referendum-2011-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "PC_NAME",
+  "idProperty": "PC_NAME"
+}

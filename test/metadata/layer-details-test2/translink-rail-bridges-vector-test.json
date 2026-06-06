@@ -1,0 +1,224 @@
+{
+  "id": "translink-rail-bridges-vector-test",
+  "sourceMapId": "translink-rail-bridges",
+  "name": "NI Railways Bridges",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Translink"
+  ],
+  "description": "NI Railways Bridges — public transport infrastructure published by Translink.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/translink-rail-bridges/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/translink-rail-bridges/metadata.json",
+  "sourceLayer": "translink_rail_bridges",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0705351,
+      -7.3142745
+    ],
+    [
+      55.1990774,
+      -5.6762132
+    ]
+  ],
+  "style": {
+    "color": "#5E35B2",
+    "fillColor": "#5E35B2",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/translink-rail-bridges.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Translink"
+  ],
+  "keywords": [
+    "translink",
+    "public transport",
+    "transit",
+    "ni railways bridges",
+    "northern ireland",
+    "NI Railways Bridges",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Shape",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#5E35B2",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/translink-rail-bridges-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/translink-rail-bridges.fgb",
+  "sourceDatasetLayer": "translink-rail-bridges",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Shape",
+    "OBJECTID",
+    "Structure_No",
+    "Easting",
+    "Northing",
+    "Type_Desc",
+    "Comments",
+    "Lat",
+    "Long",
+    "Local_Name"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "Easting",
+    "Northing",
+    "Lat",
+    "Long"
+  ],
+  "categoricalProperties": [
+    "Structure_No",
+    "Type_Desc",
+    "Comments",
+    "Local_Name"
+  ],
+  "categoricalValues": {
+    "Structure_No": [
+      "01.161",
+      "01.162",
+      "01.163",
+      "01.164",
+      "01.165",
+      "01.166",
+      "01.167",
+      "01.168",
+      "01.169",
+      "01.170",
+      "01.171",
+      "01.172",
+      "01.173",
+      "01.174",
+      "01.175",
+      "01.176",
+      "01.177",
+      "01.177A",
+      "01.178",
+      "01.179",
+      "01.180",
+      "01.181",
+      "01.183",
+      "01.184",
+      "01.188",
+      "01.189A",
+      "01.190",
+      "01.191",
+      "01.192",
+      "01.192A",
+      "01.193",
+      "01.194"
+    ],
+    "Type_Desc": [
+      "Culvert",
+      "Viaduct",
+      "Bidge (Underline)",
+      "Bridge (Overline Footbridge)",
+      "Bridge (Overline)",
+      "Bridge (Underline)",
+      "Footbridge"
+    ],
+    "Comments": [
+      "Newry FB",
+      "Removed",
+      "New Structure MP047m 0900",
+      "New Structure MP054m 0025",
+      "Removed / Replaced",
+      "Roads Service, NIE, Private etc"
+    ],
+    "Local_Name": [
+      " ",
+      "Boyle's",
+      "Cloghoge",
+      "Cowan's",
+      "Crumlin",
+      "Glenavy",
+      "Grant's",
+      "Henry's",
+      "Jardine",
+      "Larkin's",
+      "Manse",
+      "McQuoids",
+      "Murphy's",
+      "Northway",
+      "Rice's",
+      "Sloan's",
+      "Totton's",
+      "Adavoyle / Station Road",
+      "Airport Road",
+      "Annagh By-Pass",
+      "Annagh River",
+      "Armagh Road / Church Street",
+      "Auglish / Station Road",
+      "Balancing Lakes",
+      "Balancing Lakes Underpass",
+      "Ballinderry Road",
+      "Ballynamoney Overbridge",
+      "Ballynamoney Underpass",
+      "Bann River Crossing",
+      "Bessbrook/Craigmore Viaduct",
+      "Brookhill / Ballinderry Road",
+      "Burke's/ Lynchs Rd."
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/translink-rail-bridges.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/translink-rail-bridges.fgb",
+    "bytes": 930284,
+    "files": 136,
+    "pbfFiles": 135,
+    "maxTileBytes": 66844
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/translink-rail-bridges-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/translink-rail-bridges/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/translink-rail-bridges-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/translink-rail-bridges-vector-test.pmtiles",
+    "bytes": 565201,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/translink-rail-bridges/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/translink-rail-bridges-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/translink-rail-bridges-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/translink-rail-bridges-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

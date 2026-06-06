@@ -1,0 +1,196 @@
+{
+  "id": "dlr-existing-conservation-areas-vector-test",
+  "sourceMapId": "dlr-existing-conservation-areas",
+  "name": "Existing Conservation Areas (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Existing Conservation Areas (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/dlr-existing-conservation-areas/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-existing-conservation-areas/metadata.json",
+  "sourceLayer": "dlr_existing_conservation_areas",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2328495,
+      -6.2783413
+    ],
+    [
+      53.3087412,
+      -6.0911313
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-existing-conservation-areas.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "existing",
+    "conservation",
+    "areas",
+    "Existing Conservation Areas (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "DESCRIPTION",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-existing-conservation-areas-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-existing-conservation-areas.fgb",
+  "sourceDatasetLayer": "dlr-existing-conservation-areas",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "DESCRIPTION",
+    "OBJECTID",
+    "MAP_NUMBER",
+    "REPORT_HYPERLINK",
+    "CONSERVATION_TYPE",
+    "SHAPE_Length",
+    "SHAPE_Area"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "SHAPE_Length",
+    "SHAPE_Area"
+  ],
+  "categoricalProperties": [
+    "DESCRIPTION",
+    "MAP_NUMBER",
+    "REPORT_HYPERLINK",
+    "CONSERVATION_TYPE"
+  ],
+  "categoricalValues": {
+    "DESCRIPTION": [
+      "Foxrock",
+      "Killiney",
+      "Adelaide Road",
+      "Ardbrugh Villas, Ardburgh Road, Dalkey, Co. Dublin",
+      "Arkle Square, Brewery Road, Stillorgan",
+      "Balally Cottages, Sandyford Road, Sandyford",
+      "Blackrock Village",
+      "Booterstown Avenue",
+      "Campfield Terrace, Kilmacud Road Upper",
+      "Castle Cottages, Roebuck Road, Clonskeagh",
+      "Clarinda Park North, East, West / Corrig Road",
+      "Croswaite Park South, East, West",
+      "Dalkey Village",
+      "De Vesci Terrace & Gardens, Willowbank, Vesey Place & Gardens, Dun Laoghaire",
+      "Dun Laoghaire Harbour, Dun Laoghaire Seafront, Pavilion Complex, Moran Park and Adelaide Street",
+      "Dundrum ACA",
+      "Friends Burial Ground, Temple Hill, Blackrock",
+      "Haigh Terrace to Park Road",
+      "Marlay Park",
+      "Marlbrough Road",
+      "Monkstown",
+      "Montpelier Place, Temple Hill, Blackrock",
+      "Moss Cottages, Enniskerry Road, Kiltiernan",
+      "Newtown Villas, Blackrock",
+      "Pembroke Cottages, Ballinteer Road, Dundrum",
+      "Pembrooke Cottages, Booterstown Avenue",
+      "Peoples Park, Dun Laoghaire",
+      "Royal Terrace North, East, West / Royal Terrace Lane / Myrtle Avenue",
+      "Sandycove Point, Sandycove.",
+      "Seafort Parade, Rock Road, Blackrock",
+      "Silchester Road, Marlbrough Road, Glenageary",
+      "Sydenham Road, Dundrum"
+    ],
+    "MAP_NUMBER": [
+      "1",
+      "1, 5",
+      "2",
+      "2, 3",
+      "3",
+      "3\r\n3",
+      "3, 4, 7",
+      "3, 7",
+      "3,7",
+      "4",
+      "4,7",
+      "5",
+      "6",
+      "6, 9",
+      "7, 10",
+      "9, 13"
+    ],
+    "REPORT_HYPERLINK": [
+      "https://www.dlrcoco.ie/en/planning/county-development-plans"
+    ],
+    "CONSERVATION_TYPE": [
+      "Architectural Conservation Area",
+      "Candidate Architectural Conservation Area"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-existing-conservation-areas.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-existing-conservation-areas.fgb",
+    "bytes": 72652,
+    "files": 20,
+    "pbfFiles": 19,
+    "maxTileBytes": 9171
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-existing-conservation-areas-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-existing-conservation-areas/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-existing-conservation-areas-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-existing-conservation-areas-vector-test.pmtiles",
+    "bytes": 46482,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-existing-conservation-areas/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-existing-conservation-areas-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-existing-conservation-areas-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-existing-conservation-areas-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

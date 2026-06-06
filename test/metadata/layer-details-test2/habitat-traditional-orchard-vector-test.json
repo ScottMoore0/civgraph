@@ -1,0 +1,127 @@
+{
+  "id": "habitat-traditional-orchard-vector-test",
+  "sourceMapId": "habitat-traditional-orchard",
+  "name": "Habitat Network — Traditional Orchard",
+  "category": "Biodiversity & Habitats",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Ulster Wildlife"
+  ],
+  "description": "Spatial extent of traditional orchard habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/habitat-traditional-orchard/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/habitat-traditional-orchard/metadata.json",
+  "sourceLayer": "habitat_traditional_orchard",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.1389103,
+      -7.5135466
+    ],
+    [
+      54.4590912,
+      -6.5061936
+    ]
+  ],
+  "style": {
+    "color": "#3a3a3a",
+    "fillColor": "#A3C266",
+    "fillOpacity": 0.6,
+    "weight": 0.2
+  },
+  "references": [
+    {
+      "label": "Open Data NI — Traditional Orchard Habitat Network",
+      "url": "https://admin.opendatani.gov.uk/dataset/c4f05bd7-5dd5-4504-b6d7-23940957c3cd"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/habitat-traditional-orchard.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Ulster Wildlife"
+  ],
+  "keywords": [
+    "habitat",
+    "biodiversity",
+    "nature recovery",
+    "ulster wildlife",
+    "habitat network",
+    "traditional orchard",
+    "Habitat Network — Traditional Orchard",
+    "Biodiversity & Habitats",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Class",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#3a3a3a",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/habitat-traditional-orchard-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/habitat-traditional-orchard.fgb",
+  "sourceDatasetLayer": "habitat-traditional-orchard",
+  "popupProperties": [
+    "Class"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Class"
+  ],
+  "categoricalValues": {
+    "Class": [
+      "Associated Habitats",
+      "Network Enhancement Zone 1",
+      "Network Enhancement Zone 2",
+      "Network Expansion Zone",
+      "Primary Habitat"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/habitat-traditional-orchard.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/habitat-traditional-orchard.fgb",
+    "bytes": 177788,
+    "files": 35,
+    "pbfFiles": 34,
+    "maxTileBytes": 19232
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-traditional-orchard-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/habitat-traditional-orchard/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/habitat-traditional-orchard-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/habitat-traditional-orchard-vector-test.pmtiles",
+    "bytes": 79947,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/habitat-traditional-orchard/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-traditional-orchard-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/habitat-traditional-orchard-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/habitat-traditional-orchard-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

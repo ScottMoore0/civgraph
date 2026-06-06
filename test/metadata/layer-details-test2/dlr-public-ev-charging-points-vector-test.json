@@ -1,0 +1,281 @@
+{
+  "id": "dlr-public-ev-charging-points-vector-test",
+  "sourceMapId": "dlr-public-ev-charging-points",
+  "name": "Public Ev Charging Points (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Public Ev Charging Points (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-public-ev-charging-points/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-public-ev-charging-points/metadata.json",
+  "sourceLayer": "dlr_public_ev_charging_points",
+  "promoteId": "ID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2335177,
+      -6.265847
+    ],
+    [
+      53.3093008,
+      -6.1030219
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-public-ev-charging-points.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "public",
+    "ev",
+    "charging",
+    "points",
+    "Public Ev Charging Points (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "ServiceProvider",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-public-ev-charging-points-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-public-ev-charging-points.fgb",
+  "sourceDatasetLayer": "dlr-public-ev-charging-points",
+  "idProperty": "ID",
+  "popupProperties": [
+    "ServiceProvider",
+    "ID",
+    "OBJECTID",
+    "Location",
+    "PublicAccess",
+    "Type",
+    "FastSlow",
+    "NumPedestals",
+    "NumChargers",
+    "Parking"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "ID",
+    "NumPedestals",
+    "NumChargers"
+  ],
+  "categoricalProperties": [
+    "ServiceProvider",
+    "Location",
+    "PublicAccess",
+    "Type",
+    "FastSlow",
+    "Parking",
+    "InService",
+    "ParkingType",
+    "Comments"
+  ],
+  "categoricalValues": {
+    "ServiceProvider": [
+      "ESB",
+      "EasyGo",
+      "Other",
+      "Tesla"
+    ],
+    "Location": [
+      "Aldi, Sallynoggin, Dublin",
+      "Bewleys Hotel Leopardstown, Central Park, Leopardstown",
+      "Bray Road, Cabinteely, Dublin 18, County Dublin",
+      "Carrickmines Luas Park and Ride, Off Glenamuck Road North",
+      "Central Park, Carmanhall and Leopardstown, Dublin, D18 CK74",
+      "Clayton Hotel Dublin - Leopardstown",
+      "Commissioners of Irish Lights, Harbour Road, Dun Laoghaire",
+      "Crofton Road, Dun Laoghaire, Co Dublin",
+      "Dundrum Shopping Center, Dundrum, Dublin",
+      "East Pier, Dun Laoghaire Harbour, Dun Laoghaire",
+      "Eurofound, Wyattville Rd., Dublin",
+      "Irish Rail Blackrock DART Station, Bath Place, Blackrock, Co",
+      "Irish Rail Booterstown DART Station, Rock Road, Blackrock",
+      "Irish Rail Dalkey DART Station, Ardeveehan Road, Dalkey",
+      "Lidl Ireland, Shankhill",
+      "Lidl Rathfarnham, 13 Grange Road, Dublin",
+      "Lidl, Glenageary, Dublin",
+      "Main Street, Dundrum, Dublin 14, County Dublin",
+      "Marine Road, Dun Laoghaire, County Dublin",
+      "Old Dublin Road, Stillorgan, County Dublin",
+      "Overend Way, D14 EE77 Dublin, Ireland",
+      "Park Pointe Shopping Centre, Glenageary Road Upper,",
+      "Pottery Road, Dun Laoghaire Industrial Estate",
+      "Radisson Blu St Helen's, Stillorgan Road, Blackrock, Dublin ",
+      "Sandyford Luas Park and Ride, Blackthorn Avenue, Sandyford",
+      "Shankhill Dart Station, Shanganagh Wood, Dun Laoghaire",
+      "Stillorgan Luas Park & Ride",
+      "Stillorgan Park Hotel, Stillorgan Road, Stillorgan, County D",
+      "Talbot Hotel Stillorgan, Stillorgan Road, Stillorgan, County",
+      "The Park Retail Centre, Glenamuck road, Carrickmines, County",
+      "Vodafone Ireland Ltd, Leopardstown, Dublin",
+      "Windsor Motors Deansgrange (Nissan), Deansgrange Road,"
+    ],
+    "PublicAccess": [
+      "No",
+      "Yes",
+      "Customers"
+    ],
+    "Type": [
+      "Unknown",
+      "CHAdeMO DC 50kW",
+      "Fast AC Type 2 43kW",
+      "Tesla 13kW",
+      "Tesla 22kW",
+      "Tesla 3.7kW",
+      "Tesla 7kW",
+      "Type 2 AC Socket 22kW",
+      "Type 2 AC Socket 3.7kW",
+      "Type 2 AC Socket 7kW"
+    ],
+    "FastSlow": [
+      "Fast",
+      "Slow"
+    ],
+    "Parking": [
+      "Car park",
+      "Roadside",
+      "24 access. Paid parking.",
+      "24 hour access",
+      "24 hour access. Paid parking.",
+      "AIB barrier car park.",
+      "Access for Employees and Visitors of The Commissioners of Irish Lights, Dun Laoghaire",
+      "Barrier on entrance, Car park Vodaphone section ",
+      "Bay car parking ",
+      "Business hours only (Mon-Fri 9.00-18.00, Sat 9.00-16.00)",
+      "Car park of airfield estate.",
+      "Charging is for employees and visitors of Eurofound only",
+      "Customers Only. Free parking for EVs while charging.",
+      "Free parking 24 hours",
+      "Free parking for up to 3 hours",
+      "Free parking for up to 3 hours is available at this site when charging an EV",
+      "Free parking up to 24 hours",
+      "Free parking while charging an EV; maximum parking stay 3 hours",
+      "Level 2M Dundrum car park.",
+      "Maximum 2 Hours Parking/Charging.",
+      "Maximum 2 Hours Parking/Charging.Maximum 2 Hours Parking/Charging.",
+      "On Street parking",
+      "Open 10:00 - 18:00 Mon - Sun (10:00-21:00 Thurs & Fri)",
+      "Paid parking.",
+      "Radisson underground Car park.",
+      "Shopping Center Hours",
+      "Talbot hotel car park",
+      "€0.24 connection fee, €0.18/kWh"
+    ],
+    "InService": [
+      "In Service",
+      "Out of Service"
+    ],
+    "ParkingType": [
+      "Other",
+      "Commercial",
+      "On Street"
+    ],
+    "Comments": [
+      "",
+      "1 charge point is out of service (see image). Parking charge via hotel. Radisson car park.  ",
+      "2 separate charging points, 4 bays apart.  Car park for restaurant and businesses. No how to use intstructions on display.",
+      "Aldi car park, 2 separate charger stations. How to use instructions on display. 3 7kw chargers 1 22kw charger.",
+      "All 3 chargers are separate with 1 bay each, no company or type available. No how to use intstructions on display.",
+      "Bays are located outside pay and display signs. How to use instructions on display.",
+      "Company: Vodafone, Disabled access but not designated, company parking charge.",
+      "Disabled access not designated, parking charge at the hotel, hotel car park. No how to use intstructions on display.",
+      "Disabled not designated. Parking charge from the hotel. No how to use instructions on display.",
+      "Handicap access not designated, parking charge is the hours spent in the car park, these are two separate stations beside each other. ",
+      "How to use intstructions on display. Barrier entry with security guard.",
+      "Left side in service, right side out of operation. Signpost is present but heavily faded.",
+      "Lidl car park. How to use intstructions on display. No type available. Socket 2 not working. ",
+      "Lidl carpark.",
+      "Luas Park and Ride car park.",
+      "Luas stop car park. How to use info is fading.",
+      "NMD (Nigelmdaly company) ",
+      "No disabled access if two cars were parked. Charge Point ID: C8L3K",
+      "No info for parking charge, would imagine free if in store. Parking type is store car park. No how to use intstructions on display.",
+      "No info for parking charge. Dart station car park",
+      "No type available. No how to use intstructions on display.",
+      "Only for Commissioners of Irish Light staff or visitors",
+      "Parking Type: Car Park. No information for how to use on display. Charge point id : C435D-B",
+      "Parking charge free whilst charging, signpost on the floor. How to use instructions on display.",
+      "Parking for customers only. How to use instructions on display.(can't see on image) ",
+      "Parking in dart car park. How to use instructions on display.",
+      "Shopping centre car park. How to use intstructions on display.",
+      "Shopping centre car park. No how to use intstructions on display.",
+      "Someone was working on this charging point at time of surveying. Parking type: Car Park ",
+      "Talbot hotel car park. AC and 2 DC ports. How to use instructions on display.",
+      "Tight space to front of the bay and wall in front. Parking charge from Hotel. Hotel Car park.",
+      "Volvo. Newly installed in Dun Laoighaire harbour. Public access."
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-public-ev-charging-points.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-public-ev-charging-points.fgb",
+    "bytes": 107782,
+    "files": 20,
+    "pbfFiles": 19,
+    "maxTileBytes": 7165
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-public-ev-charging-points-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-public-ev-charging-points/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-public-ev-charging-points-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-public-ev-charging-points-vector-test.pmtiles",
+    "bytes": 45869,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-public-ev-charging-points/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-public-ev-charging-points-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-public-ev-charging-points-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-public-ev-charging-points-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

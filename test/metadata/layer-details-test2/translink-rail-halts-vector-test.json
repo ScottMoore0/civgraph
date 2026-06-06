@@ -1,0 +1,177 @@
+{
+  "id": "translink-rail-halts-vector-test",
+  "sourceMapId": "translink-rail-halts",
+  "name": "NI Railways Halts",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Translink"
+  ],
+  "description": "NI Railways Halts — public transport infrastructure published by Translink.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/translink-rail-halts/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/translink-rail-halts/metadata.json",
+  "sourceLayer": "translink_rail_halts",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.2927888,
+      -6.9525327
+    ],
+    [
+      55.1962005,
+      -5.6930027
+    ]
+  ],
+  "style": {
+    "color": "#1976D2",
+    "fillColor": "#1976D2",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/translink-rail-halts.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Translink"
+  ],
+  "keywords": [
+    "translink",
+    "public transport",
+    "transit",
+    "ni railways halts",
+    "northern ireland",
+    "NI Railways Halts",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#1976D2",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/translink-rail-halts-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/translink-rail-halts.fgb",
+  "sourceDatasetLayer": "translink-rail-halts",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "NAME",
+    "OBJECTID",
+    "TYPE",
+    "EASTING",
+    "NORTHING",
+    "Comment",
+    "Lat",
+    "Long"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "EASTING",
+    "NORTHING",
+    "Lat",
+    "Long"
+  ],
+  "categoricalProperties": [
+    "NAME",
+    "TYPE",
+    "Comment"
+  ],
+  "categoricalValues": {
+    "NAME": [
+      "BALLINDERRY RAIL HALT",
+      "BALLYCARRY RAIL HALT",
+      "BANGOR WEST RAIL HALT",
+      "BELFAST - ADELAIDE RAIL HALT",
+      "BELFAST - BALMORAL RAIL HALT",
+      "BELFAST - BRIDGE END RAIL HALT",
+      "BELFAST - CITY HOSPITAL RAIL HALT",
+      "BELFAST - SYDENHAM RAIL HALT",
+      "BELLARENA RAIL HALT",
+      "CARNALEA RAIL HALT",
+      "CASTLEROCK RAIL HALT",
+      "CLIPPERSTOWN RAIL HALT",
+      "COLERAINE UNIVERSITY RAIL HALT",
+      "CRUMLIN RAIL HALT",
+      "CULTRA RAIL HALT",
+      "DERRIAGHY RAIL HALT",
+      "DOWNSHIRE RAIL HALT",
+      "DUNMURRY RAIL HALT",
+      "FINAGHY RAIL HALT",
+      "GLENAVY RAIL HALT",
+      "GLYNN RAIL HALT",
+      "HELEN'S BAY RAIL HALT",
+      "HILDEN RAIL HALT",
+      "HOLLYWOOD RAIL HALT",
+      "KNOCKMORE RAIL HALT",
+      "LAMBEG RAIL HALT",
+      "MAGHERAMORNE RAIL HALT",
+      "MARINO RAIL HALT",
+      "MOIRA RAIL HALT",
+      "MOSSLEY WEST RAIL HALT",
+      "PORTRUSH DHU VARREN RAIL HALT",
+      "POYNTZPASS RAIL HALT"
+    ],
+    "TYPE": [
+      "HALT"
+    ],
+    "Comment": [
+      "Disused",
+      "Renamed Titanic 1 & 2"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/translink-rail-halts.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/translink-rail-halts.fgb",
+    "bytes": 60590,
+    "files": 64,
+    "pbfFiles": 63,
+    "maxTileBytes": 3560
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/translink-rail-halts-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/translink-rail-halts/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/translink-rail-halts-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/translink-rail-halts-vector-test.pmtiles",
+    "bytes": 39459,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/translink-rail-halts/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/translink-rail-halts-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/translink-rail-halts-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/translink-rail-halts-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

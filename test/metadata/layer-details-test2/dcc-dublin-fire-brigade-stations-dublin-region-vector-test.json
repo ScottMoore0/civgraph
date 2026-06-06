@@ -1,0 +1,174 @@
+{
+  "id": "dcc-dublin-fire-brigade-stations-dublin-region-vector-test",
+  "sourceMapId": "dcc-dublin-fire-brigade-stations-dublin-region",
+  "name": "Dublin Fire Brigade Stations Dublin Region (DCC)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dublin City Council"
+  ],
+  "description": "Dublin Fire Brigade Stations Dublin Region (DCC) — published by Dublin City Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dcc-dublin-fire-brigade-stations-dublin-region/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dcc-dublin-fire-brigade-stations-dublin-region/metadata.json",
+  "sourceLayer": "dcc_dublin_fire_brigade_stations_dublin_region",
+  "promoteId": "id",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.281964,
+      -6.395458
+    ],
+    [
+      53.605567,
+      -6.116786
+    ]
+  ],
+  "style": {
+    "color": "#FF6F00",
+    "fillColor": "#FF6F00",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dcc-dublin-fire-brigade-stations-dublin-region.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dublin City Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dcc",
+    "amenity",
+    "council",
+    "fire",
+    "brigade",
+    "stations",
+    "region",
+    "Dublin Fire Brigade Stations Dublin Region (DCC)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "id",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FF6F00",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dcc-dublin-fire-brigade-stations-dublin-region-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dcc-dublin-fire-brigade-stations-dublin-region.fgb",
+  "sourceDatasetLayer": "dcc-dublin-fire-brigade-stations-dublin-region",
+  "idProperty": "id",
+  "popupProperties": [
+    "id",
+    "Name",
+    "description",
+    "timestamp",
+    "begin",
+    "end",
+    "altitudeMode",
+    "tessellate",
+    "extrude",
+    "visibility"
+  ],
+  "numericProperties": [
+    "tessellate",
+    "extrude",
+    "visibility",
+    "drawOrder",
+    "longitude",
+    "latitude"
+  ],
+  "categoricalProperties": [
+    "StationName",
+    "Callsign"
+  ],
+  "categoricalValues": {
+    "StationName": [
+      "Finglas",
+      "Skerries",
+      "Swords",
+      "Tallaght",
+      "Tara St",
+      "Balbriggan",
+      "Blanchardstown",
+      "Dolphins Barn",
+      "Donnybrook",
+      "Dun Laoghaire",
+      "Kilbarrack",
+      "North Strand",
+      "Phibsboro",
+      "Rathfarnham"
+    ],
+    "Callsign": [
+      "DN11",
+      "DN12",
+      "DN13",
+      "DN14",
+      "DN15",
+      "DN16",
+      "DN17",
+      "DN18",
+      "DN19",
+      "DN21",
+      "DN22",
+      "DN23",
+      "DN24",
+      "DN25"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dcc-dublin-fire-brigade-stations-dublin-region.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dcc-dublin-fire-brigade-stations-dublin-region.fgb",
+    "bytes": 23754,
+    "files": 40,
+    "pbfFiles": 39,
+    "maxTileBytes": 1133
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-dublin-fire-brigade-stations-dublin-region-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dcc-dublin-fire-brigade-stations-dublin-region/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dcc-dublin-fire-brigade-stations-dublin-region-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dcc-dublin-fire-brigade-stations-dublin-region-vector-test.pmtiles",
+    "bytes": 16754,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dcc-dublin-fire-brigade-stations-dublin-region/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-dublin-fire-brigade-stations-dublin-region-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dcc-dublin-fire-brigade-stations-dublin-region-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dcc-dublin-fire-brigade-stations-dublin-region-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

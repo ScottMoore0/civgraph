@@ -1,0 +1,146 @@
+{
+  "id": "counties-county-boroughs-1915-vector-test",
+  "sourceMapId": "counties-county-boroughs-1915",
+  "name": "Counties and County Boroughs 1915",
+  "category": "Local Government Districts",
+  "group": "Elections and Government",
+  "date": "1915-04-01",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI",
+    "Parlconst.org"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/counties-county-boroughs-1915/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/counties-county-boroughs-1915/metadata.json",
+  "sourceLayer": "counties_county_boroughs_1915",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.022719,
+      -8.1775025
+    ],
+    [
+      55.3129843,
+      -5.432773
+    ]
+  ],
+  "style": {
+    "color": "#00409B",
+    "fillColor": "#00409B",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/counties-county-boroughs-1915.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI",
+    "Parlconst.org"
+  ],
+  "keywords": [
+    "county",
+    "county borough",
+    "1915",
+    "pre-reform",
+    "Counties and County Boroughs 1915",
+    "Local Government Districts",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "CountyName",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#00409B",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/counties-county-boroughs-1915-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/counties-county-boroughs-1915.fgb",
+  "sourceDatasetLayer": "counties-county-boroughs-1915",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "CountyName",
+    "OBJECTID",
+    "COUNTY_ID",
+    "Area_SqKM",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "COUNTY_ID",
+    "Area_SqKM",
+    "OBJECTID",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "CountyName"
+  ],
+  "categoricalValues": {
+    "CountyName": [
+      "ADMINISTRATIVE COUNTY OF ANTRIM",
+      "ADMINISTRATIVE COUNTY OF DOWN",
+      "ADMINISTRATIVE COUNTY OF LONDONDERRY",
+      "COUNTY BOROUGH OF BELFAST",
+      "COUNTY BOROUGH OF LONDONDERRY",
+      "COUNTY OF ARMAGH",
+      "COUNTY OF FERMANAGH",
+      "COUNTY OF TYRONE"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/counties-county-boroughs-1915.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/counties-county-boroughs-1915.fgb",
+    "bytes": 1129209,
+    "files": 753,
+    "pbfFiles": 752,
+    "maxTileBytes": 11587
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/counties-county-boroughs-1915-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/counties-county-boroughs-1915/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/counties-county-boroughs-1915-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/counties-county-boroughs-1915-vector-test.pmtiles",
+    "bytes": 621099,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/counties-county-boroughs-1915/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/counties-county-boroughs-1915-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/counties-county-boroughs-1915-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/counties-county-boroughs-1915-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

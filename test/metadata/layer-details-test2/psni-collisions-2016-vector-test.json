@@ -1,0 +1,259 @@
+{
+  "id": "psni-collisions-2016-vector-test",
+  "sourceMapId": "psni-collisions-2016",
+  "name": "PSNI Road Traffic Collisions 2016",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": "2016",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Police Service of Northern Ireland"
+  ],
+  "description": "Locations of police-recorded injury road traffic collisions in NI during 2016, with attributes for severity, casualty type, and date.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/psni-collisions-2016/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/psni-collisions-2016/metadata.json",
+  "sourceLayer": "psni_collisions_2016",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0407367,
+      -8.0935613
+    ],
+    [
+      55.2373471,
+      -5.4398405
+    ]
+  ],
+  "style": {
+    "color": "#D32F2F",
+    "fillColor": "#D32F2F",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/psni-collisions-2016.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Police Service of Northern Ireland"
+  ],
+  "keywords": [
+    "PSNI",
+    "collisions",
+    "road safety",
+    "traffic",
+    "2016",
+    "casualties",
+    "northern ireland",
+    "PSNI Road Traffic Collisions 2016",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "a_ref",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#D32F2F",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/psni-collisions-2016-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/psni-collisions-2016.fgb",
+  "sourceDatasetLayer": "psni-collisions-2016",
+  "popupProperties": [
+    "a_ref",
+    "a_year",
+    "a_District",
+    "a_type",
+    "a_veh",
+    "a_cas",
+    "a_wkday",
+    "a_day",
+    "a_month",
+    "a_hour"
+  ],
+  "numericProperties": [
+    "a_year",
+    "a_ref",
+    "a_type",
+    "a_veh",
+    "a_cas",
+    "a_day",
+    "a_month",
+    "a_hour",
+    "a_min",
+    "a_gd1",
+    "a_gd2",
+    "a_ctype",
+    "a_speed",
+    "a_scene"
+  ],
+  "categoricalProperties": [
+    "a_District",
+    "a_wkday",
+    "a_jdet",
+    "a_jcont",
+    "a_pedhum",
+    "a_pedphys",
+    "a_light",
+    "a_weat",
+    "a_roadsc",
+    "a_speccs",
+    "a_chaz"
+  ],
+  "categoricalValues": {
+    "a_District": [
+      "ANTN",
+      "ARBC",
+      "ARND",
+      "BELC",
+      "CCGL",
+      "DCST",
+      "FERO",
+      "LISC",
+      "MEAN",
+      "MIDU",
+      "NEMD"
+    ],
+    "a_wkday": [
+      "FRI",
+      "MON",
+      "SAT",
+      "SUN",
+      "THU",
+      "TUE",
+      "WED"
+    ],
+    "a_jdet": [
+      " ",
+      "1",
+      "10",
+      "12",
+      "2",
+      "3",
+      "6",
+      "8",
+      "9"
+    ],
+    "a_jcont": [
+      " ",
+      "1",
+      "2",
+      "3",
+      "4",
+      "7"
+    ],
+    "a_pedhum": [
+      " ",
+      "1",
+      "2",
+      "3"
+    ],
+    "a_pedphys": [
+      " ",
+      "1",
+      "11",
+      "12",
+      "2",
+      "9"
+    ],
+    "a_light": [
+      " ",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7"
+    ],
+    "a_weat": [
+      " ",
+      "1",
+      "10",
+      "2",
+      "4",
+      "5",
+      "7",
+      "8",
+      "9"
+    ],
+    "a_roadsc": [
+      " ",
+      "1",
+      "10",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "a_speccs": [
+      " ",
+      "1",
+      "5",
+      "6"
+    ],
+    "a_chaz": [
+      " ",
+      "1",
+      "2",
+      "3",
+      "4",
+      "8",
+      "9"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/psni-collisions-2016.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/psni-collisions-2016.fgb",
+    "bytes": 7181921,
+    "files": 625,
+    "pbfFiles": 624,
+    "maxTileBytes": 516765
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/psni-collisions-2016-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/psni-collisions-2016/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/psni-collisions-2016-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/psni-collisions-2016-vector-test.pmtiles",
+    "bytes": 2601928,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/psni-collisions-2016/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/psni-collisions-2016-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/psni-collisions-2016-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/psni-collisions-2016-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

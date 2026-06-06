@@ -1,0 +1,146 @@
+{
+  "id": "ni-mining-leases-vector-test",
+  "sourceMapId": "ni-mining-leases",
+  "name": "NI Mining Leases",
+  "category": "Geology and Geophysics",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Department for the Economy - Minerals and Petroleum Branch"
+  ],
+  "description": "NI Mining Leases — published by DfE Minerals and Petroleum Branch.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/ni-mining-leases/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/ni-mining-leases/metadata.json",
+  "sourceLayer": "ni_mining_leases",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.7282606,
+      -5.7735711
+    ],
+    [
+      54.7729485,
+      -5.7332757
+    ]
+  ],
+  "style": {
+    "color": "#BF360C",
+    "fillColor": "#BF360C",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/ni-mining-leases.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Department for the Economy - Minerals and Petroleum Branch"
+  ],
+  "keywords": [
+    "minerals",
+    "mining",
+    "petroleum",
+    "geology",
+    "licences",
+    "ni mining leases",
+    "NI Mining Leases",
+    "Geology and Geophysics",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Lease Number",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#BF360C",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/ni-mining-leases-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/ni-mining-leases.fgb",
+  "sourceDatasetLayer": "ni-mining-leases",
+  "popupProperties": [
+    "Lease Number",
+    "Lease Holder",
+    "Start date",
+    "End date",
+    "Dataset Published"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Lease Number",
+    "Lease Holder",
+    "Start date",
+    "End date",
+    "Dataset Published"
+  ],
+  "categoricalValues": {
+    "Lease Number": [
+      "ISME 6",
+      "ISME 1,2,4,5"
+    ],
+    "Lease Holder": [
+      "Irish Salt Mining and Exploration Company Ltd"
+    ],
+    "Start date": [
+      "08/03/2021"
+    ],
+    "End date": [
+      "07/03/2031"
+    ],
+    "Dataset Published": [
+      "18/08/2021"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/ni-mining-leases.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/ni-mining-leases.fgb",
+    "bytes": 6601,
+    "files": 15,
+    "pbfFiles": 14,
+    "maxTileBytes": 500
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-mining-leases-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/ni-mining-leases/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/ni-mining-leases-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/ni-mining-leases-vector-test.pmtiles",
+    "bytes": 5011,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/ni-mining-leases/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-mining-leases-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/ni-mining-leases-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/ni-mining-leases-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "Lease Number",
+  "idProperty": "Lease Number"
+}

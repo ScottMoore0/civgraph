@@ -1,0 +1,184 @@
+{
+  "id": "dlr-leisure-centres-vector-test",
+  "sourceMapId": "dlr-leisure-centres",
+  "name": "Leisure Centres (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Leisure Centres (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-leisure-centres/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-leisure-centres/metadata.json",
+  "sourceLayer": "dlr_leisure_centres",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2460252,
+      -6.2568319
+    ],
+    [
+      53.2937869,
+      -6.1299748
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-leisure-centres.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "leisure",
+    "centres",
+    "Leisure Centres (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-leisure-centres-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-leisure-centres.fgb",
+  "sourceDatasetLayer": "dlr-leisure-centres",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "name",
+    "OBJECTID",
+    "full_name",
+    "type",
+    "ITM_X",
+    "ITM_Y",
+    "Address",
+    "Phone",
+    "Email"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "ITM_X",
+    "ITM_Y"
+  ],
+  "categoricalProperties": [
+    "name",
+    "full_name",
+    "type",
+    "Address",
+    "Phone",
+    "Email"
+  ],
+  "categoricalValues": {
+    "name": [
+      "Ballyogan",
+      "Loughlinstown",
+      "Meadowbrook",
+      "Monkstown",
+      "West Wood Club, Dun Laoghaire",
+      "West Wood Club, Leopardstown"
+    ],
+    "full_name": [
+      "DLR Leisure Loughlinstown",
+      "DLR Leisure Meadowbrook",
+      "DLR Leisure Monkstown",
+      "Samuel Beckett Civic Campus",
+      "West Wood Club, Dun Laoghaire",
+      "West Wood Club, Leopardstown Race Course"
+    ],
+    "type": [
+      "DLR Leisure Centre",
+      "Other Leisure Centre"
+    ],
+    "Address": [
+      "Leopardstown Race Course, Carmanhall and Leopardstown, Dublin 18, D18 C9V6",
+      "Loughlinstown Dr, Dublin, A96 XP60",
+      "Meadowbrook, Ballinteer, Co. Dublin, D16 HK83 ",
+      "Monkstown Ave, Monkstown, Dublin, A94 YD34",
+      "Pavillion Complex, UNIT 7, Marine Rd, Dún Laoghaire, CO, Co. Dublin, A96 A443",
+      "Samuel Beckett Civic Campus, Ballyogan Road, Ballyogan, Dublin 18, D18 HT72"
+    ],
+    "Phone": [
+      "01 230 1458",
+      "01 2801299",
+      "01 282 3344",
+      "01 2893208",
+      "01 294 3880",
+      "01 299 5610"
+    ],
+    "Email": [
+      "ballyogan@dlrleisure.ie",
+      "infodunlaoghaire@westwood.ie",
+      "infoleopardstown@westwood.ie",
+      "loughlinstown@dlrleisure.ie",
+      "meadowbrook@dlrleisure.ie",
+      "monkstown@dlrleisure.ie"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-leisure-centres.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-leisure-centres.fgb",
+    "bytes": 24030,
+    "files": 19,
+    "pbfFiles": 18,
+    "maxTileBytes": 1405
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-leisure-centres-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-leisure-centres/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-leisure-centres-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-leisure-centres-vector-test.pmtiles",
+    "bytes": 13705,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-leisure-centres/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-leisure-centres-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-leisure-centres-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-leisure-centres-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

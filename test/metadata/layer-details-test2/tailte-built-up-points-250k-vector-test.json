@@ -1,0 +1,151 @@
+{
+  "id": "tailte-built-up-points-250k-vector-test",
+  "sourceMapId": "tailte-built-up-points-250k",
+  "name": "Built-Up Areas — Points (Ireland 250k)",
+  "category": "Settlements",
+  "group": "Communities",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Centroid points for built-up areas at 250k mapping scale (Tailte Éireann).",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/tailte-built-up-points-250k/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tailte-built-up-points-250k/metadata.json",
+  "sourceLayer": "tailte_built_up_points_250k",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.526577,
+      -10.2708815
+    ],
+    [
+      55.279747,
+      -6.046497
+    ]
+  ],
+  "style": {
+    "color": "#A05040",
+    "fillColor": "#A05040",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tailte-built-up-points-250k.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "settlements",
+    "built-up areas — points (ireland 250k)",
+    "Built-Up Areas — Points (Ireland 250k)",
+    "Settlements",
+    "Communities",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#A05040",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/tailte-built-up-points-250k.fgb",
+  "sourceDatasetLayer": "tailte-built-up-points-250k",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "OBJECTID",
+    "FCsubtype",
+    "NAMN1"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "categoricalProperties": [
+    "NAMN1"
+  ],
+  "categoricalValues": {
+    "NAMN1": [
+      "Arklow",
+      "Athy",
+      "Aughrim",
+      "Banagher",
+      "Birr",
+      "Caher",
+      "Callan",
+      "Carlow",
+      "Carnew",
+      "Cashel",
+      "Clane",
+      "Clara",
+      "Clonea",
+      "Clonmel",
+      "Cloyne",
+      "Daingean",
+      "Delgany",
+      "Dublin",
+      "Dunlavin",
+      "Durrow",
+      "Ferbane",
+      "Ferns",
+      "Geashill",
+      "Glenealy",
+      "Gorey",
+      "Kilcock",
+      "Kildare",
+      "Kilkenny",
+      "Kill",
+      "Killeigh",
+      "Kilmore",
+      "Leixlip"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tailte-built-up-points-250k.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tailte-built-up-points-250k.fgb",
+    "bytes": 216653,
+    "files": 796,
+    "pbfFiles": 795,
+    "maxTileBytes": 11845
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-built-up-points-250k-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tailte-built-up-points-250k/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tailte-built-up-points-250k-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tailte-built-up-points-250k-vector-test.pmtiles",
+    "bytes": 168966,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/tailte-built-up-points-250k/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-built-up-points-250k-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-built-up-points-250k-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tailte-built-up-points-250k-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

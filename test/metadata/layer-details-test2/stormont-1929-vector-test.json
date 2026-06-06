@@ -1,0 +1,181 @@
+{
+  "id": "stormont-1929-vector-test",
+  "sourceMapId": "stormont-1929",
+  "name": "1929 NI Parliament",
+  "category": "Devolved Constituencies",
+  "group": "Elections and Government",
+  "date": 1929,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Paddy Matthews",
+    "OSI",
+    "OSNI"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/stormont-1929/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/stormont-1929/metadata.json",
+  "sourceLayer": "stormont_1929",
+  "promoteId": "id",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227248,
+      -8.1779384
+    ],
+    [
+      55.3129847,
+      -5.4267884
+    ]
+  ],
+  "style": {
+    "color": "#0A4BAF",
+    "fillColor": "#0A4BAF",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/stormont-1929.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Paddy Matthews",
+    "OSI",
+    "OSNI"
+  ],
+  "keywords": [
+    "stormont",
+    "constituency",
+    "1929",
+    "northern ireland parliament",
+    "1929 NI Parliament",
+    "Devolved Constituencies",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAME",
+  "labelPropertyFallbacks": [
+    "COUNTY"
+  ],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0A4BAF",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/stormont-1929-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/stormont-1929.fgb",
+  "sourceDatasetLayer": "stormont-1929",
+  "idProperty": "id",
+  "popupProperties": [
+    "NAME",
+    "id",
+    "COUNTY",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "id",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "NAME",
+    "COUNTY"
+  ],
+  "categoricalValues": {
+    "NAME": [
+      "ANTRIM",
+      "ARDS",
+      "BANNSIDE",
+      "CARRICK",
+      "FOYLE",
+      "IVEAGH",
+      "LARNE",
+      "MID DOWN",
+      "MOURNE",
+      "BELFAST BALLYNAFEIGH",
+      "BELFAST BLOOMFIELD",
+      "BELFAST CENTRAL",
+      "BELFAST CLIFTON",
+      "BELFAST CROMAC",
+      "BELFAST DOCK",
+      "BELFAST DUNCAIRN",
+      "BELFAST FALLS",
+      "BELFAST OLDPARK",
+      "BELFAST POTTINGER",
+      "BELFAST SHANKILL",
+      "BELFAST ST. ANNE'S",
+      "BELFAST VICTORIA",
+      "BELFAST WILLOWFIELD",
+      "BELFAST WINDSOR",
+      "BELFAST WOODVALE",
+      "CENTRAL ARMAGH",
+      "CITY OF LONDONDERRY",
+      "EAST DOWN",
+      "EAST TYRONE",
+      "ENNISKILLEN",
+      "LISNASKEA",
+      "MID ANTRIM"
+    ],
+    "COUNTY": [
+      "ANTRIM",
+      "ARMAGH",
+      "BELFAST",
+      "DOWN",
+      "TYRONE",
+      "FERMANAGH",
+      "LONDONDERRY"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/stormont-1929.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/stormont-1929.fgb",
+    "bytes": 2730417,
+    "files": 759,
+    "pbfFiles": 758,
+    "maxTileBytes": 35766
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/stormont-1929-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/stormont-1929/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/stormont-1929-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/stormont-1929-vector-test.pmtiles",
+    "bytes": 1578456,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/stormont-1929/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/stormont-1929-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/stormont-1929-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/stormont-1929-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

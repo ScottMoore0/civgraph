@@ -1,0 +1,147 @@
+{
+  "id": "dlr-mews-development-vector-test",
+  "sourceMapId": "dlr-mews-development",
+  "name": "Mews Development (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Mews Development (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/dlr-mews-development/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-mews-development/metadata.json",
+  "sourceLayer": "dlr_mews_development",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2852054,
+      -6.1673692
+    ],
+    [
+      53.2977768,
+      -6.1338375
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-mews-development.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "mews",
+    "development",
+    "Mews Development (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "HYPERLINK",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-mews-development-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-mews-development.fgb",
+  "sourceDatasetLayer": "dlr-mews-development",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "HYPERLINK",
+    "OBJECTID",
+    "LOCATION",
+    "DEVELOPMENT_TYPE",
+    "SHAPE_Length"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "SHAPE_Length"
+  ],
+  "categoricalProperties": [
+    "HYPERLINK",
+    "LOCATION",
+    "DEVELOPMENT_TYPE"
+  ],
+  "categoricalValues": {
+    "HYPERLINK": [
+      "https://www.dlrcoco.ie/en/planning/county-development-plans"
+    ],
+    "LOCATION": [
+      "Alma Court",
+      "Corrig Road",
+      "Knapton Road",
+      "Montpelier Parade",
+      "Northumberland Avenue",
+      "Royal Terrace Lane",
+      "Sydenham Mews"
+    ],
+    "DEVELOPMENT_TYPE": [
+      "Mews Development"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-mews-development.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-mews-development.fgb",
+    "bytes": 8585,
+    "files": 13,
+    "pbfFiles": 12,
+    "maxTileBytes": 638
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-mews-development-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-mews-development/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-mews-development-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-mews-development-vector-test.pmtiles",
+    "bytes": 6087,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-mews-development/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-mews-development-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-mews-development-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-mews-development-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

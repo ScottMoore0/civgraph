@@ -1,0 +1,378 @@
+{
+  "id": "gsni-superficial-conventional-vector-test",
+  "sourceMapId": "gsni-superficial-conventional",
+  "name": "Superficial Geology 1:250,000",
+  "category": "Geology and Geophysics",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "GSNI",
+    "British Geological Survey"
+  ],
+  "description": "Quaternary superficial deposits coloured using the conventional textbook earth-tone palette (TILL brown, ALLUVIUM yellow, BLOWN SAND cream) rather than the BGS-pink convention.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/gsni-superficial-conventional/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/gsni-superficial-conventional/metadata.json",
+  "sourceLayer": "gsni_superficial_conventional",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0235661,
+      -8.1748816
+    ],
+    [
+      55.3041939,
+      -5.4294086
+    ]
+  ],
+  "style": {
+    "color": "#4F46E5",
+    "fillColor": "#818CF8",
+    "fillOpacity": 0.18,
+    "weight": 0.6
+  },
+  "references": [
+    {
+      "label": "GSNI 250K Geology — Open Data NI",
+      "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/gsni-superficial-conventional.fgb"
+    },
+    {
+      "label": "GeoJSON (original)",
+      "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/19b4e12e-0e00-4091-8419-0c744d72cb96/download/ni250ksuperficialgeologypolygons.geojson"
+    },
+    {
+      "label": "GeoPackage",
+      "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/e490914d-9e13-4cc9-915b-3cac75643a95/download/ni_250k_superficial_geology_polygons.gpkg"
+    },
+    {
+      "label": "ESRI Shapefile (ZIP)",
+      "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/32306dee-1748-4d68-b465-acfd1e5ae344/download/ni250ksuperficialgeologypolygons.zip"
+    }
+  ],
+  "sourceCredits": [
+    "GSNI",
+    "British Geological Survey"
+  ],
+  "keywords": [
+    "geology",
+    "superficial",
+    "quaternary",
+    "till",
+    "alluvium",
+    "peat",
+    "drift",
+    "gsni",
+    "Superficial Geology 1:250,000",
+    "Geology and Geophysics",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "LEX_D",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#4F46E5",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/gsni-superficial-conventional-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/gsni-superficial-conventional.fgb",
+  "sourceDatasetLayer": "gsni-superficial-conventional",
+  "popupProperties": [
+    "LEX_D",
+    "LEX",
+    "LEX_RCS",
+    "RCS",
+    "RCS_X",
+    "RCS_D",
+    "RANK",
+    "BED_EQ",
+    "BED_EQ_D",
+    "MB_EQ"
+  ],
+  "numericProperties": [
+    "MAX_TIME_Y",
+    "MIN_TIME_Y",
+    "MAX_INDEX",
+    "MIN_INDEX",
+    "BGSREF",
+    "BGSREF_LEX",
+    "BGSREF_FM",
+    "BGSREF_GP",
+    "BGSREF_RK",
+    "MSLINK"
+  ],
+  "categoricalProperties": [
+    "LEX",
+    "LEX_D",
+    "LEX_RCS",
+    "RCS",
+    "RCS_X",
+    "RCS_D",
+    "MAX_TIME_D",
+    "MIN_TIME_D",
+    "MAX_PERIOD",
+    "MIN_PERIOD",
+    "MAX_ERA",
+    "MIN_ERA",
+    "MAX_EON",
+    "MIN_EON",
+    "BGSTYPE",
+    "LEX_RCS_I",
+    "LEX_RCS_D",
+    "SHEET",
+    "VERSION",
+    "RELEASED",
+    "NOM_SCALE",
+    "NOM_OS_YR",
+    "NOM_BGS_YR",
+    "LEX_ROCK",
+    "RANK",
+    "MAX_AGE",
+    "MIN_AGE",
+    "MAX_EPOCH",
+    "MIN_EPOCH",
+    "PREV_NAME"
+  ],
+  "categoricalValues": {
+    "LEX": [
+      "ALV",
+      "BSA",
+      "DIAT",
+      "GFSD",
+      "GLLD",
+      "GSG",
+      "LAT",
+      "PEAT",
+      "RBDU",
+      "RMD",
+      "SLIP",
+      "TILL"
+    ],
+    "LEX_D": [
+      "ALLUVIUM",
+      "PEAT",
+      "TILL",
+      "BLOWN SAND",
+      "DIATOMITE",
+      "GLACIAL SAND AND GRAVEL",
+      "GLACIOFLUVIAL SHEET DEPOSITS",
+      "GLACIOLACUSTRINE DEPOSITS",
+      "LACUSTRINE ALLUVIUM",
+      "LANDSLIDE DEPOSITS",
+      "RAISED BEACH DEPOSITS",
+      "RAISED MARINE DEPOSITS"
+    ],
+    "LEX_RCS": [
+      "ALV-XSZ",
+      "BSA-S",
+      "GLLD-XZC",
+      "GSG-XSV",
+      "LAT-XCZS",
+      "PEAT-P",
+      "RMD-XCZS",
+      "DIAT-DIATOM",
+      "GFSD-XSZC",
+      "RBDU-XVSZ",
+      "SLIP-UKNOWN",
+      "TILL-DMTN"
+    ],
+    "RCS": [
+      "DIATOM",
+      "DMTN",
+      "P",
+      "S",
+      "UKNOWN",
+      "XCZS",
+      "XSV",
+      "XSZ",
+      "XSZC",
+      "XVSZ",
+      "XZC"
+    ],
+    "RCS_X": [
+      "C + Z",
+      "DIATOM",
+      "DMTN",
+      "P",
+      "S",
+      "S + V",
+      "S + Z",
+      "UKNOWN",
+      "C + S + Z",
+      "S + V + Z"
+    ],
+    "RCS_D": [
+      "CLAY, SILT AND SAND [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "DIAMICTON",
+      "DIATOMITE",
+      "GRAVEL, SAND AND SILT [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "PEAT [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "SAND AND GRAVEL [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "SAND AND SILT [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "SAND [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "SAND, SILT AND CLAY [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "SILT AND CLAY [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "UNKNOWN/UNCLASSIFIED ENTRY"
+    ],
+    "MAX_TIME_D": [
+      "FLANDRIAN",
+      "PLEISTOCENE",
+      "QUATERNARY"
+    ],
+    "MIN_TIME_D": [
+      "FLANDRIAN",
+      "PLEISTOCENE",
+      "QUATERNARY"
+    ],
+    "MAX_PERIOD": [
+      "QUATERNARY"
+    ],
+    "MIN_PERIOD": [
+      "QUATERNARY"
+    ],
+    "MAX_ERA": [
+      "CENOZOIC"
+    ],
+    "MIN_ERA": [
+      "CENOZOIC"
+    ],
+    "MAX_EON": [
+      "PHANEROZOIC"
+    ],
+    "MIN_EON": [
+      "PHANEROZOIC"
+    ],
+    "BGSTYPE": [
+      "250k_NI_SUPERFICIAL"
+    ],
+    "LEX_RCS_I": [
+      "11101199_ALV-XSZ",
+      "11102999_GLLD-XZC",
+      "11199999_BSA-S",
+      "11199999_DIAT-DIATOM",
+      "11199999_GFSD-XSZC",
+      "11199999_GSG-XSV",
+      "11199999_LAT-XCZS",
+      "11199999_PEAT-P",
+      "11199999_RBDU-XVSZ",
+      "11199999_RMD-XCZS",
+      "11199999_SLIP-UKNOWN",
+      "11199999_TILL-DMTN"
+    ],
+    "LEX_RCS_D": [
+      "ALLUVIUM - SAND AND SILT [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "BLOWN SAND - SAND [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "DIATOMITE - DIATOMITE",
+      "GLACIAL SAND AND GRAVEL - SAND AND GRAVEL [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "GLACIOFLUVIAL SHEET DEPOSITS - SAND, SILT AND CLAY [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "GLACIOLACUSTRINE DEPOSITS - SILT AND CLAY [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "LACUSTRINE ALLUVIUM - CLAY, SILT AND SAND [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "LANDSLIDE DEPOSITS - UNKNOWN/UNCLASSIFIED ENTRY",
+      "PEAT - PEAT [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "RAISED BEACH DEPOSITS - GRAVEL, SAND AND SILT [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "RAISED MARINE DEPOSITS - CLAY, SILT AND SAND [UNLITHIFIED DEPOSITS CODING SCHEME]",
+      "TILL - DIAMICTON"
+    ],
+    "SHEET": [
+      "NI_250k_Superficial"
+    ],
+    "VERSION": [
+      "2.18"
+    ],
+    "RELEASED": [
+      "14-08-2013"
+    ],
+    "NOM_SCALE": [
+      "250000"
+    ],
+    "NOM_OS_YR": [
+      "1991"
+    ],
+    "NOM_BGS_YR": [
+      "1991"
+    ],
+    "LEX_ROCK": [
+      "ALV-SASI",
+      "BSA-SAND",
+      "GSG-SAGR",
+      "LAT-CLSS",
+      "RMD-CLSS",
+      "DIAT-DIAT",
+      "GFSD-SSCL",
+      "GLLD-STCL",
+      "PEAT-PEAT",
+      "RBDU-GRSS",
+      "SLIP-UNKN",
+      "TILL-DMTN"
+    ],
+    "RANK": [
+      "LITHO-MORPHO-GENETIC"
+    ],
+    "MAX_AGE": [
+      "FLANDRIAN"
+    ],
+    "MIN_AGE": [
+      "FLANDRIAN"
+    ],
+    "MAX_EPOCH": [
+      "HOLOCENE",
+      "PLEISTOCENE"
+    ],
+    "MIN_EPOCH": [
+      "HOLOCENE",
+      "PLEISTOCENE"
+    ],
+    "PREV_NAME": [
+      "GLACIAL LAKE DEPOSITS",
+      "LANDSLIDE    LANDSLIP",
+      "RAISED MARINE DEPOSITS (UNDIFFERENTIATED)"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/gsni-superficial-conventional.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/gsni-superficial-conventional.fgb",
+    "bytes": 7726832,
+    "files": 754,
+    "pbfFiles": 753,
+    "maxTileBytes": 532158
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/gsni-superficial-conventional-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/gsni-superficial-conventional/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/gsni-superficial-conventional-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/gsni-superficial-conventional-vector-test.pmtiles",
+    "bytes": 3385124,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/gsni-superficial-conventional/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/gsni-superficial-conventional-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/gsni-superficial-conventional-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/gsni-superficial-conventional-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

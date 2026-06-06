@@ -1,0 +1,138 @@
+{
+  "id": "east-west-bann-vector-test",
+  "sourceMapId": "east-west-bann",
+  "name": "East and West of the Bann",
+  "category": "Regional Divides",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": "2025-12-15",
+  "dateEffective": null,
+  "provider": [
+    "OSNI",
+    "Scott Moore"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/east-west-bann/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/east-west-bann/metadata.json",
+  "sourceLayer": "east_west_bann",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198973,
+      -10.6812354
+    ],
+    [
+      55.4469322,
+      -5.4325469
+    ]
+  ],
+  "style": {
+    "color": "#FF0000",
+    "fillColor": "#FF0000",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/east-west-bann.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI",
+    "Scott Moore"
+  ],
+  "keywords": [
+    "bann",
+    "river",
+    "east",
+    "west",
+    "divide",
+    "East and West of the Bann",
+    "Regional Divides",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAME_TAG",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FF0000",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/east-west-bann-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/east-west-bann.fgb",
+  "sourceDatasetLayer": "east-west-bann",
+  "popupProperties": [
+    "NAME_TAG",
+    "OSM_ID",
+    "NAME_GA",
+    "NAME_EN",
+    "ALT_NAME",
+    "LOGAINM_RE",
+    "ALT_NAME_G",
+    "OSM_USER",
+    "OSM_TIMEST",
+    "ATTRIBUTIO"
+  ],
+  "numericProperties": [
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "NAME_TAG"
+  ],
+  "categoricalValues": {
+    "NAME_TAG": [
+      "East of the River Bann",
+      "West of the River Bann"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/east-west-bann.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/east-west-bann.fgb",
+    "bytes": 6014254,
+    "files": 3923,
+    "pbfFiles": 3922,
+    "maxTileBytes": 32228
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/east-west-bann-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/east-west-bann/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/east-west-bann-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/east-west-bann-vector-test.pmtiles",
+    "bytes": 3315676,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/east-west-bann/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/east-west-bann-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/east-west-bann-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/east-west-bann-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "NAME_TAG",
+  "idProperty": "NAME_TAG"
+}

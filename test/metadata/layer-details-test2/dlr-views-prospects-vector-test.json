@@ -1,0 +1,169 @@
+{
+  "id": "dlr-views-prospects-vector-test",
+  "sourceMapId": "dlr-views-prospects",
+  "name": "Views Prospects (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Views Prospects (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-views-prospects/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-views-prospects/metadata.json",
+  "sourceLayer": "dlr_views_prospects",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2014783,
+      -6.2942021
+    ],
+    [
+      53.3117463,
+      -6.0924914
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-views-prospects.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "views",
+    "prospects",
+    "Views Prospects (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "DESCRIPTION",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-views-prospects-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-views-prospects.fgb",
+  "sourceDatasetLayer": "dlr-views-prospects",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "DESCRIPTION",
+    "OBJECTID",
+    "MAP_NUMBER",
+    "HYPERLINK",
+    "ROTATION",
+    "AMENITY_TYPE"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "ROTATION"
+  ],
+  "categoricalProperties": [
+    "DESCRIPTION",
+    "MAP_NUMBER",
+    "HYPERLINK",
+    "AMENITY_TYPE"
+  ],
+  "categoricalValues": {
+    "DESCRIPTION": [
+      "Carrickgollogan from Ballybrack (e.g. Church Road and Churchview Road), Carrickgollogan from Bray Road (Shankill to Bray area), Carrickgollogan from Ballyman Road and Carrickgollogan from the Enniskerry Road (south of Kiltiernan Village)",
+      "Dalkey Hill from Ulverton Road, Station Road and the East Pier",
+      "Glencullen Mountain and Valley from the Ballybrack Road",
+      "Glendoo Mountain from the Ballybrack Road",
+      "Killiney Hill from Vico Road, Station Road and the East Pier",
+      "Kilmashogue Mountain from Kilmashogue Lane and Marlay Park",
+      "The Scalp from Ballyman Road and part of the Enniskerry Road",
+      "Three Rock Mountain from the Enniskerry Road (Sandyford -Kiltiernan area), Sandyford Village, Ballybrack Road and Marlay Park",
+      "Tibradden Mountain from Kilmashogue Lane",
+      "To preserve Views",
+      "Two Rock Mountain from the Enniskerry Road (Sandyford -Kiltiernan area), Sandyford Village and from the Ballybrack Road"
+    ],
+    "MAP_NUMBER": [
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "2",
+      "3",
+      "4",
+      "4, 7",
+      "5",
+      "7",
+      "8",
+      "9"
+    ],
+    "HYPERLINK": [
+      "https://www.dlrcoco.ie/en/planning/county-development-plans"
+    ],
+    "AMENITY_TYPE": [
+      "To preserve Prospects",
+      "To preserve Views"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-views-prospects.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-views-prospects.fgb",
+    "bytes": 289900,
+    "files": 24,
+    "pbfFiles": 23,
+    "maxTileBytes": 21146
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-views-prospects-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-views-prospects/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-views-prospects-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-views-prospects-vector-test.pmtiles",
+    "bytes": 92107,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-views-prospects/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-views-prospects-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-views-prospects-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-views-prospects-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

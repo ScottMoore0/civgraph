@@ -1,0 +1,143 @@
+{
+  "id": "dlr-bicycle-maintenance-stands-vector-test",
+  "sourceMapId": "dlr-bicycle-maintenance-stands",
+  "name": "Bicycle Maintenance Stands (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Bicycle Maintenance Stands (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-bicycle-maintenance-stands/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-bicycle-maintenance-stands/metadata.json",
+  "sourceLayer": "dlr_bicycle_maintenance_stands",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2470608,
+      -6.2361083
+    ],
+    [
+      53.3113497,
+      -6.12872
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-bicycle-maintenance-stands.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "bicycle",
+    "maintenance",
+    "stands",
+    "Bicycle Maintenance Stands (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "covered",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-bicycle-maintenance-stands-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-bicycle-maintenance-stands.fgb",
+  "sourceDatasetLayer": "dlr-bicycle-maintenance-stands",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "covered",
+    "OBJECTID",
+    "nostands",
+    "owner",
+    "x_itm",
+    "y_itm"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "nostands",
+    "x_itm",
+    "y_itm"
+  ],
+  "categoricalProperties": [
+    "covered",
+    "owner"
+  ],
+  "categoricalValues": {
+    "covered": [
+      "No",
+      "Yes"
+    ],
+    "owner": [
+      "DLR",
+      "Other"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-bicycle-maintenance-stands.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-bicycle-maintenance-stands.fgb",
+    "bytes": 10399,
+    "files": 17,
+    "pbfFiles": 16,
+    "maxTileBytes": 540
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-bicycle-maintenance-stands-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-bicycle-maintenance-stands/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-bicycle-maintenance-stands-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-bicycle-maintenance-stands-vector-test.pmtiles",
+    "bytes": 6922,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-bicycle-maintenance-stands/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-bicycle-maintenance-stands-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-bicycle-maintenance-stands-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-bicycle-maintenance-stands-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

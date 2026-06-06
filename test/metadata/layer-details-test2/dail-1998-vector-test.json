@@ -1,0 +1,190 @@
+{
+  "id": "dail-1998-vector-test",
+  "sourceMapId": "dail-1998",
+  "name": "1998",
+  "category": "Dáil Eireann Constituencies",
+  "group": "Elections and Government",
+  "date": 1998,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Phelim Birch"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/dail-1998/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dail-1998/metadata.json",
+  "sourceLayer": "dail_1998",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198973,
+      -10.6629709
+    ],
+    [
+      55.4465804,
+      -5.9962778
+    ]
+  ],
+  "style": {
+    "color": "#228B22",
+    "fillColor": "#228B22",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dail-1998.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Phelim Birch"
+  ],
+  "keywords": [
+    "Dáil",
+    "constituency",
+    "1998",
+    "ROI",
+    "ireland",
+    "Dáil Eireann Constituencies",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "CON_NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#228B22",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dail-1998-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dail-1998.fgb",
+  "sourceDatasetLayer": "dail-1998",
+  "popupProperties": [
+    "CON_NAME",
+    "CON_ID",
+    "NO_MEMBERS",
+    "CON_NAME_G"
+  ],
+  "numericProperties": [
+    "CON_ID",
+    "NO_MEMBERS"
+  ],
+  "categoricalProperties": [
+    "CON_NAME",
+    "CON_NAME_G"
+  ],
+  "categoricalValues": {
+    "CON_NAME": [
+      "Clare",
+      "Louth",
+      "Mayo",
+      "Meath",
+      "Wexford",
+      "Wicklow",
+      "Carlow-Kilkenny",
+      "Cavan-Monaghan",
+      "Cork East",
+      "Cork North-Central",
+      "Cork North-West",
+      "Cork South-Central",
+      "Cork South-West",
+      "Donegal North-East",
+      "Donegal South-West",
+      "Dublin Central",
+      "Dublin Mid-West",
+      "Dublin North",
+      "Dublin North-Central",
+      "Dublin North-East",
+      "Dublin North-West",
+      "Dublin South",
+      "Dublin South-Central",
+      "Dublin South-East",
+      "Dublin South-West",
+      "Dublin West",
+      "Dún Laoghaire",
+      "Galway East",
+      "Galway West",
+      "Kerry North",
+      "Kerry South",
+      "Kildare North"
+    ],
+    "CON_NAME_G": [
+      "An Clár",
+      "An Mhí",
+      "Lú",
+      "Maigh Eo",
+      "An Cabhán-Muineachán",
+      "An Iarmhí",
+      "An Longfort-Ros Comáin",
+      "Baile Átha Cliath Láir",
+      "Baile Átha Cliath Theas",
+      "Baile Átha Cliath Theas-Lár",
+      "Baile Átha Cliath Thiar",
+      "Baile Átha Cliath Thiar Theas",
+      "Baile Átha Cliath Thiar Thuaidh",
+      "Baile Átha Cliath Thiar-Meán",
+      "Baile Átha Cliath Thoir Theas",
+      "Baile Átha Cliath Thoir Thuaidh",
+      "Baile Átha Cliath Thuaidh",
+      "Baile Átha Cliath Thuaidh-Lár",
+      "Ceatharlach-Cill Chainnigh",
+      "Ciarraí Theas",
+      "Ciarraí Thuaidh",
+      "Cill Dara Theas",
+      "Cill Dara Thuaidh",
+      "Cill Mhantáin",
+      "Corcaigh Theas-Lár",
+      "Corcaigh Thiar Theas",
+      "Corcaigh Thiar Thuaidh",
+      "Corcaigh Thoir",
+      "Corcaigh Thuaidh-Lár",
+      "Dún Laoghaire",
+      "Dún na nGall Thiar Theas",
+      "Dún na nGall Thoir Thuaidh"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dail-1998.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dail-1998.fgb",
+    "bytes": 6743912,
+    "files": 3328,
+    "pbfFiles": 3327,
+    "maxTileBytes": 46451
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dail-1998-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dail-1998/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dail-1998-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dail-1998-vector-test.pmtiles",
+    "bytes": 4272503,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dail-1998/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dail-1998-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dail-1998-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dail-1998-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "CON_ID",
+  "idProperty": "CON_ID"
+}

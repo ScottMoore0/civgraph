@@ -1,0 +1,165 @@
+{
+  "id": "roi-garda-regions-vector-test",
+  "sourceMapId": "roi-garda-regions",
+  "name": "Garda Regions",
+  "category": "Local Government Districts",
+  "group": "Elections and Government",
+  "date": "2011",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "CSO"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/roi-garda-regions/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roi-garda-regions-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/roi-garda-regions/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/roi-garda-regions/metadata.json",
+  "sourceLayer": "roi_garda_regions",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4158054,
+      -10.6657552
+    ],
+    [
+      55.382942,
+      -5.9876747
+    ]
+  ],
+  "style": {
+    "color": "#1B5E20",
+    "fillColor": "#1B5E20",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "data/maps/local-government/ROI_Garda_Regions.geojson"
+    }
+  ],
+  "sourceCredits": [
+    "CSO"
+  ],
+  "keywords": [
+    "garda",
+    "police",
+    "republic of ireland",
+    "ireland",
+    "regions",
+    "an garda siochana",
+    "Garda Regions",
+    "Local Government Districts",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "REGION",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#1B5E20",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/roi-garda-regions-vector-test.json",
+  "sourceFile": "data/maps/local-government/ROI_Garda_Regions.geojson",
+  "sourceDatasetLayer": "ROI_Garda_Regions",
+  "popupProperties": [
+    "REGION",
+    "GEOGID",
+    "REG_CODE",
+    "Male2011",
+    "Female2011",
+    "Total2011",
+    "PPOcc2011",
+    "Unocc2011",
+    "Vacant2011",
+    "HS2011"
+  ],
+  "numericProperties": [
+    "Male2011",
+    "Female2011",
+    "Total2011",
+    "PPOcc2011",
+    "Unocc2011",
+    "Vacant2011",
+    "HS2011",
+    "PCVac2011"
+  ],
+  "categoricalProperties": [
+    "REGION",
+    "REG_CODE",
+    "GEOGID",
+    "CREATEDBY"
+  ],
+  "categoricalValues": {
+    "REGION": [
+      "Dublin Metropolitan Region",
+      "Eastern Region",
+      "Northern Region",
+      "South Eastern Region",
+      "Southern Region",
+      "Western Region"
+    ],
+    "REG_CODE": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06"
+    ],
+    "GEOGID": [
+      "J01",
+      "J02",
+      "J03",
+      "J04",
+      "J05",
+      "J06"
+    ],
+    "CREATEDBY": [
+      "Paul Creaner"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from data/maps/local-government/ROI_Garda_Regions.geojson with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "data/maps/local-government/ROI_Garda_Regions.geojson",
+    "bytes": 3855098,
+    "files": 3354,
+    "pbfFiles": 3353,
+    "maxTileBytes": 20783
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/roi-garda-regions-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/roi-garda-regions-vector-test.pmtiles",
+    "bytes": 2206338,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/roi-garda-regions/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roi-garda-regions-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/roi-garda-regions-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/roi-garda-regions-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "GEOGID",
+  "idProperty": "GEOGID"
+}

@@ -1,0 +1,169 @@
+{
+  "id": "dlr-spacefinder-app-locations-vector-test",
+  "sourceMapId": "dlr-spacefinder-app-locations",
+  "name": "Spacefinder App Locations (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Spacefinder App Locations (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-spacefinder-app-locations/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-spacefinder-app-locations/metadata.json",
+  "sourceLayer": "dlr_spacefinder_app_locations",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2900787,
+      -6.1423999
+    ],
+    [
+      53.2955829,
+      -6.1286638
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-spacefinder-app-locations.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "spacefinder",
+    "app",
+    "locations",
+    "Spacefinder App Locations (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Location_ID",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-spacefinder-app-locations-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-spacefinder-app-locations.fgb",
+  "sourceDatasetLayer": "dlr-spacefinder-app-locations",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Location_ID",
+    "OBJECTID",
+    "Latitude",
+    "Longitude",
+    "ITM_X",
+    "ITM_Y"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "Latitude",
+    "Longitude",
+    "ITM_X",
+    "ITM_Y"
+  ],
+  "categoricalProperties": [
+    "Location_ID"
+  ],
+  "categoricalValues": {
+    "Location_ID": [
+      "Harbour",
+      "Adelaide Street",
+      "Bloomfield 1",
+      "Bloomfield 2",
+      "Convent Road 2",
+      "Convent Road 3",
+      "Convent Road 4",
+      "Convent Road 5",
+      "Corrig Avenue",
+      "Crofton Avenue",
+      "Crofton Road",
+      "Georges Place 2",
+      "Georges Street Lower",
+      "Georges Street Upper 1",
+      "Georges Street Upper 2",
+      "Haigh Terrace",
+      "Kellys Avenue",
+      "Marine Road",
+      "Marine Road 1",
+      "Marine Road 2",
+      "Marine Road 3",
+      "Melifont Avenue",
+      "National Yacht Club 1",
+      "National Yacht Club 2",
+      "National Yacht Club 3",
+      "Northumberland Avenue 1",
+      "Northumberland Avenue 2 ",
+      "Northumberland Avenue 3",
+      "Park Road 1",
+      "Park Road 2",
+      "Park Road 3",
+      "Patrick Street 1"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-spacefinder-app-locations.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-spacefinder-app-locations.fgb",
+    "bytes": 55227,
+    "files": 14,
+    "pbfFiles": 13,
+    "maxTileBytes": 3535
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-spacefinder-app-locations-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-spacefinder-app-locations/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-spacefinder-app-locations-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-spacefinder-app-locations-vector-test.pmtiles",
+    "bytes": 30184,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-spacefinder-app-locations/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-spacefinder-app-locations-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-spacefinder-app-locations-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-spacefinder-app-locations-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

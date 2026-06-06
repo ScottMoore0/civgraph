@@ -1,0 +1,172 @@
+{
+  "id": "pc-1885-ireland-vector-test",
+  "sourceMapId": "pc-1885-ireland",
+  "name": "Parliamentary Constituencies 1885 (Ireland — all-island)",
+  "category": "Parliamentary Constituencies",
+  "group": "Elections and Government",
+  "date": 1885,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Parlconst.org"
+  ],
+  "description": "All-Ireland Westminster parliamentary constituencies after the 1885 Redistribution of Seats Act. 101 territorial constituencies covering the whole island, in use 1885–1918.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/pc-1885-ireland/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/pc-1885-ireland/metadata.json",
+  "sourceLayer": "pc_1885_ireland",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4194306,
+      -10.6624538
+    ],
+    [
+      55.4466053,
+      -5.4327734
+    ]
+  ],
+  "style": {
+    "color": "#5B7AA8",
+    "fillColor": "#5B7AA8",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/pc-1885-ireland.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Parlconst.org"
+  ],
+  "keywords": [
+    "constituency",
+    "westminster",
+    "parliament",
+    "1885",
+    "pre-partition",
+    "all-ireland",
+    "ireland",
+    "Parliamentary Constituencies 1885 (Ireland — all-island)",
+    "Parliamentary Constituencies",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "C1885",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#5B7AA8",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/pc-1885-ireland-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/pc-1885-ireland.fgb",
+  "sourceDatasetLayer": "pc-1885-ireland",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "C1885",
+    "OBJECTID",
+    "fid",
+    "Shape_Leng",
+    "Shape_Area",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m"
+  ],
+  "numericProperties": [
+    "fid",
+    "OBJECTID",
+    "Shape_Leng",
+    "Shape_Area",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "C1885"
+  ],
+  "categoricalValues": {
+    "C1885": [
+      "Birr",
+      "Carlow",
+      "Leix",
+      "Mid Cork",
+      "NEWRY",
+      "Ossory",
+      "BELFAST EAST",
+      "BELFAST NORTH",
+      "BELFAST SOUTH",
+      "BELFAST WEST",
+      "College Green",
+      "Connemara",
+      "Cork City",
+      "Dublin Harbour",
+      "EAST ANTRIM",
+      "EAST DOWN",
+      "EAST TYRONE",
+      "East Cavan",
+      "East Clare",
+      "East Cork",
+      "East Donegal",
+      "East Galway",
+      "East Kerry",
+      "East Limerick",
+      "East Mayo",
+      "East Tipperary",
+      "East Waterford",
+      "East Wicklow",
+      "Galway City",
+      "Kilkenny City",
+      "LONDONDERRY CITY",
+      "Limerick City"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/pc-1885-ireland.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/pc-1885-ireland.fgb",
+    "bytes": 4426539,
+    "files": 3918,
+    "pbfFiles": 3917,
+    "maxTileBytes": 76410
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/pc-1885-ireland-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/pc-1885-ireland/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/pc-1885-ireland-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/pc-1885-ireland-vector-test.pmtiles",
+    "bytes": 3184684,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/pc-1885-ireland/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/pc-1885-ireland-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/pc-1885-ireland-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/pc-1885-ireland-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

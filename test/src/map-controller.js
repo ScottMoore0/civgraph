@@ -38,6 +38,16 @@ function localTestTilesAvailable() {
   return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
 }
 
+function getDomLabelLimit(layer) {
+  const explicit = Number(layer?.maxDomLabels);
+  if (Number.isFinite(explicit) && explicit > 0) return explicit;
+  const width = Number(globalThis.innerWidth || 1024);
+  const memory = Number(globalThis.navigator?.deviceMemory || 4);
+  if (width < 700 || memory <= 2) return 90;
+  if (width < 1100 || memory <= 4) return 180;
+  return 320;
+}
+
 function resolveFillOpacity(layer) {
   return clamp(layer?.style?.fillOpacity ?? DEFAULT_VECTOR_FILL_OPACITY, 0, 1);
 }
@@ -840,10 +850,24 @@ export class TestMapLibreController {
   }
 
   async loadDuplicateFeatureIds(layer) {
+    if (layer?.featureIdMode === 'unique' || layer?.duplicateFeatureIdCount === 0) return new Set();
+    if (Array.isArray(layer?.duplicateFeatureIds)) return new Set(layer.duplicateFeatureIds.map(String));
+    const sidecarUrl = layer?.duplicateFeatureIdsUrl;
+    if (sidecarUrl) {
+      const cacheKey = `sidecar:${sidecarUrl}`;
+      if (!this.duplicateFeatureIdCache.has(cacheKey)) {
+        this.duplicateFeatureIdCache.set(cacheKey, fetch(sidecarUrl, { cache: 'force-cache' })
+          .then((response) => response.ok ? response.json() : null)
+          .then((sidecar) => new Set((sidecar?.duplicateFeatureIds || []).map(String)))
+          .catch(() => new Set()));
+      }
+      return this.duplicateFeatureIdCache.get(cacheKey);
+    }
     const url = layer?.featureIndexUrl;
     if (!url) return new Set();
-    if (!this.duplicateFeatureIdCache.has(url)) {
-      this.duplicateFeatureIdCache.set(url, fetch(url, { cache: 'force-cache' })
+    const cacheKey = `index:${url}`;
+    if (!this.duplicateFeatureIdCache.has(cacheKey)) {
+      this.duplicateFeatureIdCache.set(cacheKey, fetch(url, { cache: 'force-cache' })
         .then((response) => response.ok ? response.json() : null)
         .then((index) => {
           const items = Array.isArray(index)
@@ -859,7 +883,7 @@ export class TestMapLibreController {
         })
         .catch(() => new Set()));
     }
-    return this.duplicateFeatureIdCache.get(url);
+    return this.duplicateFeatureIdCache.get(cacheKey);
   }
 
   clearHover() {
@@ -985,9 +1009,11 @@ export class TestMapLibreController {
       return;
     }
     const features = this.map.queryRenderedFeatures({ layers: queryLayers });
+    const labelLimit = getDomLabelLimit(layer);
     const nextKeys = new Set();
     const labelBoxes = [];
     for (const feature of features) {
+      if (nextKeys.size >= labelLimit) break;
       const id = this.readFeatureId(layer, feature);
       if (id === null) continue;
       const label = getFeatureLabel(layer, feature.properties);

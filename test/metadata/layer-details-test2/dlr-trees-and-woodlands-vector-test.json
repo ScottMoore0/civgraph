@@ -1,0 +1,156 @@
+{
+  "id": "dlr-trees-and-woodlands-vector-test",
+  "sourceMapId": "dlr-trees-and-woodlands",
+  "name": "Trees And Woodlands (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Trees And Woodlands (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-trees-and-woodlands/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-trees-and-woodlands/metadata.json",
+  "sourceLayer": "dlr_trees_and_woodlands",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.1990822,
+      -6.2967146
+    ],
+    [
+      53.3146854,
+      -6.0946841
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-trees-and-woodlands.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "trees",
+    "and",
+    "woodlands",
+    "Trees And Woodlands (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "OBJECTIVE",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-trees-and-woodlands-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-trees-and-woodlands.fgb",
+  "sourceDatasetLayer": "dlr-trees-and-woodlands",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "OBJECTIVE",
+    "OBJECTID",
+    "MapNumber",
+    "Link"
+  ],
+  "numericProperties": [
+    "OBJECTID"
+  ],
+  "categoricalProperties": [
+    "OBJECTIVE",
+    "MapNumber",
+    "Link"
+  ],
+  "categoricalValues": {
+    "OBJECTIVE": [
+      "To protect and preserve Trees and Woodlands"
+    ],
+    "MapNumber": [
+      "1",
+      "10",
+      "10, 13",
+      "11",
+      "12",
+      "13",
+      "14",
+      "2",
+      "3",
+      "3, 4",
+      "4",
+      "4, 7",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "Link": [
+      "https://www.dlrcoco.ie/sites/default/files/atoms/files/chapter_9.pdf#page=7"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-trees-and-woodlands.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-trees-and-woodlands.fgb",
+    "bytes": 1260613,
+    "files": 25,
+    "pbfFiles": 24,
+    "maxTileBytes": 95826
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-trees-and-woodlands-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-trees-and-woodlands/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-trees-and-woodlands-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-trees-and-woodlands-vector-test.pmtiles",
+    "bytes": 311263,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-trees-and-woodlands/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-trees-and-woodlands-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-trees-and-woodlands-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-trees-and-woodlands-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

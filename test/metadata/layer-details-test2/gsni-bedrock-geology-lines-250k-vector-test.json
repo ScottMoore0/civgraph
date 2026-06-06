@@ -1,0 +1,186 @@
+{
+  "id": "gsni-bedrock-geology-lines-250k-vector-test",
+  "sourceMapId": "gsni-bedrock-geology-lines-250k",
+  "name": "Bedrock Geology 1:250,000 (Lines)",
+  "category": "Geology and Geophysics",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "GSNI",
+    "British Geological Survey"
+  ],
+  "description": "Faults, bedrock boundaries, fold axial traces, dykes and bedrock lineaments across Northern Ireland at 1:250,000 scale.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/gsni-bedrock-geology-lines-250k/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/gsni-bedrock-geology-lines-250k/metadata.json",
+  "sourceLayer": "gsni_bedrock_geology_lines_250k",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0260805,
+      -8.7887685
+    ],
+    [
+      55.3694134,
+      -5.4406662
+    ]
+  ],
+  "style": {
+    "color": "#5a2d0c",
+    "fillColor": "#5a2d0c",
+    "fillOpacity": 0,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "GSNI 250K Geology — Open Data NI",
+      "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/gsni-bedrock-geology-lines-250k.fgb"
+    },
+    {
+      "label": "GeoJSON (original)",
+      "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/a1ea4f61-bfff-4ef1-98f7-84552f7c1911/download/ni250kbedrockgeologylines.geojson"
+    },
+    {
+      "label": "GeoPackage",
+      "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/9380def2-3529-4d09-9eec-2d1f57241aa9/download/ni_250k_bedrock_geology_lines.gpkg"
+    },
+    {
+      "label": "ESRI Shapefile (ZIP)",
+      "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9/resource/fa614ca9-4833-4381-988e-92103b0b3ce5/download/ni250kbedrockgeologylines.zip"
+    }
+  ],
+  "sourceCredits": [
+    "GSNI",
+    "British Geological Survey"
+  ],
+  "keywords": [
+    "geology",
+    "fault",
+    "fracture",
+    "fold",
+    "bedrock",
+    "dyke",
+    "gsni",
+    "lineament",
+    "Bedrock Geology 1:250,000 (Lines)",
+    "Geology and Geophysics",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "FEATURE_D",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#5a2d0c",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/gsni-bedrock-geology-lines-250k-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/gsni-bedrock-geology-lines-250k.fgb",
+  "sourceDatasetLayer": "gsni-bedrock-geology-lines-250k",
+  "popupProperties": [
+    "FEATURE_D",
+    "CATEGORY",
+    "FEATURE",
+    "SHEET",
+    "VERSION",
+    "RELEASED",
+    "NOM_SCALE",
+    "NOM_OS_YR",
+    "NOM_BGS_YR",
+    "MSLINK"
+  ],
+  "numericProperties": [
+    "MSLINK"
+  ],
+  "categoricalProperties": [
+    "CATEGORY",
+    "FEATURE",
+    "FEATURE_D",
+    "SHEET",
+    "VERSION",
+    "RELEASED",
+    "NOM_SCALE",
+    "NOM_OS_YR",
+    "NOM_BGS_YR"
+  ],
+  "categoricalValues": {
+    "CATEGORY": [
+      "18"
+    ],
+    "FEATURE": [
+      "250k_Fault_printing_copy",
+      "250k_Tectonic_Slide",
+      "250k_Thrust_Fault_Barbs_on_hanging_wall_side"
+    ],
+    "FEATURE_D": [
+      "Fault at rockhead, inferred, (version for printing)",
+      "Tectonic_Slide",
+      "Thrust Fault; barbs on hanging wall side"
+    ],
+    "SHEET": [
+      "NI_250k_BedRock_ING_warped"
+    ],
+    "VERSION": [
+      "2.18"
+    ],
+    "RELEASED": [
+      "14-08-2013"
+    ],
+    "NOM_SCALE": [
+      "250000"
+    ],
+    "NOM_OS_YR": [
+      "1997"
+    ],
+    "NOM_BGS_YR": [
+      "1997"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/gsni-bedrock-geology-lines-250k.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/gsni-bedrock-geology-lines-250k.fgb",
+    "bytes": 1299479,
+    "files": 1055,
+    "pbfFiles": 1054,
+    "maxTileBytes": 60575
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/gsni-bedrock-geology-lines-250k-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/gsni-bedrock-geology-lines-250k/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/gsni-bedrock-geology-lines-250k-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/gsni-bedrock-geology-lines-250k-vector-test.pmtiles",
+    "bytes": 653702,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/gsni-bedrock-geology-lines-250k/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/gsni-bedrock-geology-lines-250k-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/gsni-bedrock-geology-lines-250k-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/gsni-bedrock-geology-lines-250k-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "id": "dcc-street-lighting-dublin-city-vector-test",
+  "sourceMapId": "dcc-street-lighting-dublin-city",
+  "name": "Street Lighting Dublin City (DCC)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dublin City Council"
+  ],
+  "description": "Street Lighting Dublin City (DCC) — published by Dublin City Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dcc-street-lighting-dublin-city/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dcc-street-lighting-dublin-city/metadata.json",
+  "sourceLayer": "dcc_street_lighting_dublin_city",
+  "promoteId": "ID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.301811,
+      -6.385932
+    ],
+    [
+      53.410764,
+      -6.143069
+    ]
+  ],
+  "style": {
+    "color": "#FF6F00",
+    "fillColor": "#FF6F00",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dcc-street-lighting-dublin-city.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dublin City Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dcc",
+    "amenity",
+    "council",
+    "street",
+    "lighting",
+    "city",
+    "Street Lighting Dublin City (DCC)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "site_name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FF6F00",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dcc-street-lighting-dublin-city-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dcc-street-lighting-dublin-city.fgb",
+  "sourceDatasetLayer": "dcc-street-lighting-dublin-city",
+  "idProperty": "ID",
+  "popupProperties": [
+    "site_name",
+    "ID",
+    "unit_no",
+    "unit_type",
+    "latitude",
+    "longitude"
+  ],
+  "numericProperties": [
+    "ID",
+    "latitude",
+    "longitude"
+  ],
+  "categoricalProperties": [
+    "site_name",
+    "unit_no",
+    "unit_type"
+  ],
+  "categoricalValues": {
+    "site_name": [
+      "ABBEYFIELD (SE)",
+      "AIRFIELD COURT (SE)",
+      "AIRFIELD PARK (SE)",
+      "ALBANY ROAD (SE)",
+      "ANNESLEY PARK (SE)",
+      "BEAVER ROW (SE)",
+      "BEECH HILL AVENUE (SE)",
+      "BEECH HILL COURT (SE)",
+      "BEECH HILL CRESCENT (SE)",
+      "BEECH HILL DRIVE (SE)",
+      "BEECH HILL ROAD (SE)",
+      "BEECH HILL TERRACE (SE)",
+      "BEECH HILL VILLAS (SE)",
+      "BEECHWOOD AVENUE UPPER (SE)",
+      "BELLEVUE AVENUE (SE)",
+      "BELMONT AVENUE (SE)",
+      "BELMONT GARDENS (SE)",
+      "BELMONT PARK (SE)",
+      "BELMONT VILLAS (SE)",
+      "BROOKVALE ROAD (SE)",
+      "BUSHFIELD AVENUE (SE)",
+      "CHERRYFIELD AVENUE LOWER (SE)",
+      "CHERRYFIELD AVENUE UPPER (SE)",
+      "CLONSKEAGH ROAD (SE)",
+      "COWPER DOWNS (SE)",
+      "COWPER DRIVE (SE)",
+      "COWPER GARDENS (SE)",
+      "COWPER ROAD (SE)",
+      "DARTRY COTTAGES (SE)",
+      "DARTRY PARK (SE)",
+      "DARTRY ROAD (SE)",
+      "DODDERWALK"
+    ],
+    "unit_no": [
+      "1",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "19A",
+      "1A",
+      "1W",
+      "2",
+      "20",
+      "21",
+      "22",
+      "22A",
+      "23",
+      "23A",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "29A",
+      "2A",
+      "2W",
+      "3",
+      "30"
+    ],
+    "unit_type": [
+      "PL: Catenary System",
+      "PL: Column",
+      "PL: DCC Housing Light",
+      "PL: ESB Pole",
+      "PL: LUAS Pole/Line",
+      "PL: Wall Bracket"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dcc-street-lighting-dublin-city.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dcc-street-lighting-dublin-city.fgb",
+    "bytes": 37140704,
+    "files": 34,
+    "pbfFiles": 33,
+    "maxTileBytes": 2663043
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-street-lighting-dublin-city-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dcc-street-lighting-dublin-city/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dcc-street-lighting-dublin-city-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dcc-street-lighting-dublin-city-vector-test.pmtiles",
+    "bytes": 16384786,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dcc-street-lighting-dublin-city/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-street-lighting-dublin-city-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dcc-street-lighting-dublin-city-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dcc-street-lighting-dublin-city-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "id": "roi-gaeltacht-areas-vector-test",
+  "sourceMapId": "roi-gaeltacht-areas",
+  "name": "Gaeltacht Areas",
+  "category": "Local Government Districts",
+  "group": "Elections and Government",
+  "date": "1982",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "CSO"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/roi-gaeltacht-areas/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roi-gaeltacht-areas-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/roi-gaeltacht-areas/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/roi-gaeltacht-areas/metadata.json",
+  "sourceLayer": "roi_gaeltacht_areas",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198971,
+      -10.6629835
+    ],
+    [
+      55.2789548,
+      -6.7032162
+    ]
+  ],
+  "style": {
+    "color": "#FF6F00",
+    "fillColor": "#FF6F00",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "data/maps/local-government/ROI_Gaeltacht_Areas.geojson"
+    }
+  ],
+  "sourceCredits": [
+    "CSO"
+  ],
+  "keywords": [
+    "gaeltacht",
+    "irish speaking",
+    "republic of ireland",
+    "ireland",
+    "irish language",
+    "gaeilge",
+    "Gaeltacht Areas",
+    "Local Government Districts",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FF6F00",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/roi-gaeltacht-areas-vector-test.json",
+  "sourceFile": "data/maps/local-government/ROI_Gaeltacht_Areas.geojson",
+  "sourceDatasetLayer": "ROI_Gaeltacht_Areas",
+  "popupProperties": [
+    "NAME",
+    "SAPS_GAELT",
+    "MALE2011",
+    "FEMALE2011",
+    "TOTAL2011",
+    "PPOCC2011",
+    "UNOCC2011",
+    "VACANT2011",
+    "HS2011",
+    "PCVAC2011"
+  ],
+  "numericProperties": [
+    "MALE2011",
+    "FEMALE2011",
+    "TOTAL2011",
+    "PPOCC2011",
+    "UNOCC2011",
+    "VACANT2011",
+    "HS2011",
+    "PCVAC2011"
+  ],
+  "categoricalProperties": [
+    "NAME",
+    "SAPS_GAELT"
+  ],
+  "categoricalValues": {
+    "NAME": [
+      "Cork",
+      "Donegal",
+      "Galway",
+      "Kerry",
+      "Mayo",
+      "Meath",
+      "Waterford"
+    ],
+    "SAPS_GAELT": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from data/maps/local-government/ROI_Gaeltacht_Areas.geojson with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "data/maps/local-government/ROI_Gaeltacht_Areas.geojson",
+    "bytes": 1733692,
+    "files": 572,
+    "pbfFiles": 571,
+    "maxTileBytes": 28379
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/roi-gaeltacht-areas-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/roi-gaeltacht-areas-vector-test.pmtiles",
+    "bytes": 1109914,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/roi-gaeltacht-areas/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roi-gaeltacht-areas-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/roi-gaeltacht-areas-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/roi-gaeltacht-areas-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "NAME",
+  "idProperty": "NAME"
+}

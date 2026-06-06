@@ -1,0 +1,137 @@
+{
+  "id": "west-bann-sperrins-vector-test",
+  "sourceMapId": "west-bann-sperrins",
+  "name": "West of the Bann and Sperrins",
+  "category": "Regional Divides",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI",
+    "Scott Moore"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/west-bann-sperrins/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/west-bann-sperrins/metadata.json",
+  "sourceLayer": "west_bann_sperrins",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4475651,
+      -10.4801254
+    ],
+    [
+      55.3829382,
+      -5.4325469
+    ]
+  ],
+  "style": {
+    "color": "#008800",
+    "fillColor": "#008800",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/west-bann-sperrins.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI",
+    "Scott Moore"
+  ],
+  "keywords": [
+    "bann",
+    "sperrins",
+    "mountains",
+    "west",
+    "West of the Bann and Sperrins",
+    "Regional Divides",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#008800",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/west-bann-sperrins-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/west-bann-sperrins.fgb",
+  "sourceDatasetLayer": "west-bann-sperrins",
+  "popupProperties": [
+    "Name",
+    "area",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "area",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "Name"
+  ],
+  "categoricalValues": {
+    "Name": [
+      "East of the River Bann",
+      "West of the River Bann",
+      "West of the Sperrin Mountains"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/west-bann-sperrins.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/west-bann-sperrins.fgb",
+    "bytes": 3681020,
+    "files": 3847,
+    "pbfFiles": 3846,
+    "maxTileBytes": 27646
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/west-bann-sperrins-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/west-bann-sperrins/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/west-bann-sperrins-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/west-bann-sperrins-vector-test.pmtiles",
+    "bytes": 2167958,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/west-bann-sperrins/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/west-bann-sperrins-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/west-bann-sperrins-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/west-bann-sperrins-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "Name",
+  "idProperty": "Name"
+}

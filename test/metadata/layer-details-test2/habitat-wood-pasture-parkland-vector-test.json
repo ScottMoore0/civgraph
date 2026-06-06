@@ -1,0 +1,129 @@
+{
+  "id": "habitat-wood-pasture-parkland-vector-test",
+  "sourceMapId": "habitat-wood-pasture-parkland",
+  "name": "Habitat Network — Wood Pasture and Parkland",
+  "category": "Biodiversity & Habitats",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Ulster Wildlife"
+  ],
+  "description": "Spatial extent of wood pasture and parkland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/habitat-wood-pasture-parkland/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/habitat-wood-pasture-parkland/metadata.json",
+  "sourceLayer": "habitat_wood_pasture_parkland",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0588794,
+      -8.0424042
+    ],
+    [
+      55.1787636,
+      -5.5227762
+    ]
+  ],
+  "style": {
+    "color": "#3a3a3a",
+    "fillColor": "#5A8E45",
+    "fillOpacity": 0.6,
+    "weight": 0.2
+  },
+  "references": [
+    {
+      "label": "Open Data NI — Wood Pasture and Parkland Habitat Network",
+      "url": "https://admin.opendatani.gov.uk/dataset/89653a85-4d13-4cc7-a643-1fb6e7cad0fa"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/habitat-wood-pasture-parkland.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Ulster Wildlife"
+  ],
+  "keywords": [
+    "habitat",
+    "biodiversity",
+    "nature recovery",
+    "ulster wildlife",
+    "habitat network",
+    "wood pasture and parkland",
+    "Habitat Network — Wood Pasture and Parkland",
+    "Biodiversity & Habitats",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Class",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#3a3a3a",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/habitat-wood-pasture-parkland-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/habitat-wood-pasture-parkland.fgb",
+  "sourceDatasetLayer": "habitat-wood-pasture-parkland",
+  "popupProperties": [
+    "Class"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Class"
+  ],
+  "categoricalValues": {
+    "Class": [
+      "Associated Habitats",
+      "Fragmentation Action Zone",
+      "Network Enhancement Zone 1",
+      "Network Enhancement Zone 2",
+      "Network Expansion Zone",
+      "Primary Habitat",
+      "Restorable Habitat"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/habitat-wood-pasture-parkland.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/habitat-wood-pasture-parkland.fgb",
+    "bytes": 3657196,
+    "files": 419,
+    "pbfFiles": 418,
+    "maxTileBytes": 138818
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-wood-pasture-parkland-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/habitat-wood-pasture-parkland/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/habitat-wood-pasture-parkland-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/habitat-wood-pasture-parkland-vector-test.pmtiles",
+    "bytes": 1577225,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/habitat-wood-pasture-parkland/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-wood-pasture-parkland-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/habitat-wood-pasture-parkland-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/habitat-wood-pasture-parkland-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

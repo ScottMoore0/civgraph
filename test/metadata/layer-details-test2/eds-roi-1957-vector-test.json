@@ -1,0 +1,194 @@
+{
+  "id": "eds-roi-1957-vector-test",
+  "sourceMapId": "eds-roi-1957",
+  "name": "Counties (Ireland) 1957",
+  "category": "baronies-parishes",
+  "group": null,
+  "date": 1957,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Phelim Birch"
+  ],
+  "description": "County-level boundaries for the 26-county state in 1957. ED-level 1957 boundaries are not digitised; the closest published 1957 administrative geography is at county level.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/eds-roi-1957/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/eds-roi-1957/metadata.json",
+  "sourceLayer": "eds_roi_1957",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198973,
+      -10.6812354
+    ],
+    [
+      55.4469322,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#9C6E3F",
+    "fillColor": "#9C6E3F",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/eds-roi-1957.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Phelim Birch"
+  ],
+  "keywords": [
+    "counties",
+    "ireland",
+    "1957",
+    "county",
+    "administrative",
+    "historical",
+    "Counties (Ireland) 1957",
+    "baronies-parishes",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "COUNTY",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#9C6E3F",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/eds-roi-1957-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/eds-roi-1957.fgb",
+  "sourceDatasetLayer": "eds-roi-1957",
+  "popupProperties": [
+    "COUNTY",
+    "CONTAE",
+    "PROVINCE"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "CONTAE",
+    "COUNTY",
+    "PROVINCE"
+  ],
+  "categoricalValues": {
+    "CONTAE": [
+      "An Clár",
+      "An Dún",
+      "An Mhí",
+      "Aontroim",
+      "Ciarraí",
+      "Corcaigh",
+      "Doire",
+      "Gaillimh",
+      "Laois",
+      "Liatroim",
+      "Lú",
+      "Maigh Eo",
+      "Sligeach",
+      "An Cabhán",
+      "An Iarmhí",
+      "An Longfort",
+      "Ard Mhacha",
+      "Baile Átha Cliath",
+      "Ceatharlach",
+      "Cill Chainnigh",
+      "Cill Dara",
+      "Cill Mhantáin",
+      "Dún na nGall",
+      "Fear Manach",
+      "Loch Garman",
+      "Luimneach",
+      "Muineachán",
+      "Port Láirge",
+      "Ros Comáin",
+      "Tiobraid Árann",
+      "Tír Eoghain",
+      "Uíbh Fhailí"
+    ],
+    "COUNTY": [
+      "ANTRIM",
+      "ARMAGH",
+      "CARLOW",
+      "CAVAN",
+      "CLARE",
+      "CORK",
+      "DERRY",
+      "DONEGAL",
+      "DOWN",
+      "DUBLIN",
+      "GALWAY",
+      "KERRY",
+      "KILDARE",
+      "KILKENNY",
+      "LAOIGHIS",
+      "LEITRIM",
+      "LIMERICK",
+      "LONGFORD",
+      "LOUTH",
+      "MAYO",
+      "MEATH",
+      "MONAGHAN",
+      "OFFALY",
+      "SLIGO",
+      "TYRONE",
+      "WEXFORD",
+      "WICKLOW",
+      "FERMANAGH",
+      "ROSCOMMON",
+      "TIPPERARY",
+      "WATERFORD",
+      "WESTMEATH"
+    ],
+    "PROVINCE": [
+      "Connacht",
+      "Leinster",
+      "Munster",
+      "Ulster"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/eds-roi-1957.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/eds-roi-1957.fgb",
+    "bytes": 7987037,
+    "files": 3922,
+    "pbfFiles": 3921,
+    "maxTileBytes": 55359
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-roi-1957-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/eds-roi-1957/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/eds-roi-1957-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/eds-roi-1957-vector-test.pmtiles",
+    "bytes": 4930109,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/eds-roi-1957/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-roi-1957-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/eds-roi-1957-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/eds-roi-1957-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "COUNTY",
+  "idProperty": "COUNTY"
+}

@@ -1,0 +1,153 @@
+{
+  "id": "historic-standing-stones-vector-test",
+  "sourceMapId": "historic-standing-stones",
+  "name": "Standing Stones",
+  "category": "Historic Boundaries",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Historic Maps"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/historic-standing-stones/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/historic-standing-stones/metadata.json",
+  "sourceLayer": "historic_standing_stones",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.43066,
+      -10.54161
+    ],
+    [
+      55.38336,
+      -5.45941
+    ]
+  ],
+  "style": {
+    "color": "#9a8c98",
+    "fillColor": "#9a8c98",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+      "url": "https://archive.org/details/ireland-archaeological-monuments-geojson"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/historic-standing-stones.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Historic Maps"
+  ],
+  "keywords": [
+    "historic",
+    "sites",
+    "standing",
+    "stones",
+    "Standing Stones",
+    "Historic Boundaries",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#9a8c98",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/historic-standing-stones.fgb",
+  "sourceDatasetLayer": "historic-standing-stones",
+  "popupProperties": [
+    "LATITUDE",
+    "LONGITUDE",
+    "CLASSIFICATION",
+    "DESCRIPTION",
+    "PERIOD"
+  ],
+  "numericProperties": [
+    "LATITUDE",
+    "LONGITUDE"
+  ],
+  "categoricalProperties": [
+    "CLASSIFICATION",
+    "DESCRIPTION",
+    "PERIOD"
+  ],
+  "categoricalValues": {
+    "CLASSIFICATION": [
+      "STANDING STONE",
+      "Standing stone",
+      "Standing stone - pair"
+    ],
+    "DESCRIPTION": [
+      "In pasture, on level ground. This standing stone (0.65m x 0.23m; H 1.43m) is orientated E-W.\n\nThe above description is derived from 'The Archaeological Inventory of County Cork. Volume 5' (Dublin: Stationery Office, 2009).\n\nDate of upload: 22 December 2009"
+    ],
+    "PERIOD": [
+      "C18TH",
+      "POST-MED",
+      "BRONZE AGE; PREHISTORIC",
+      "E.CHRIST.",
+      "E.CHRIST.; PREHISTORIC",
+      "MED/L.MED; PREHISTORIC; UNCERTAIN",
+      "MEDIEVAL; UNCERTAIN",
+      "MODERN; UNCERTAIN",
+      "PREHISTORIC",
+      "PREHISTORIC; BRONZE AGE",
+      "PREHISTORIC; E.CHRIST.; UNCERTAIN",
+      "PREHISTORIC; LATE NEO",
+      "PREHISTORIC; UNCERTAIN",
+      "PREHISTORIC; UNCERTAIN; E.CHRIST.",
+      "PREHISTORIC; UNCERTAIN; NEOLITHIC",
+      "UNCERTAIN",
+      "UNCERTAIN; PREHISTORIC"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/historic-standing-stones.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/historic-standing-stones.fgb",
+    "bytes": 33784563,
+    "files": 2213,
+    "pbfFiles": 2212,
+    "maxTileBytes": 2444074
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/historic-standing-stones-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/historic-standing-stones/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/historic-standing-stones-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/historic-standing-stones-vector-test.pmtiles",
+    "bytes": 7751075,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-30T10:32:05.863Z",
+    "fallback": "/test/tiles/generated/historic-standing-stones/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/historic-standing-stones-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/historic-standing-stones-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/historic-standing-stones-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

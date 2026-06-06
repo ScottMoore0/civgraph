@@ -1,0 +1,129 @@
+{
+  "id": "habitat-fen-vector-test",
+  "sourceMapId": "habitat-fen",
+  "name": "Habitat Network — Fen",
+  "category": "Biodiversity & Habitats",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Ulster Wildlife"
+  ],
+  "description": "Spatial extent of fen habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/habitat-fen/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/habitat-fen/metadata.json",
+  "sourceLayer": "habitat_fen",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0243692,
+      -8.2046152
+    ],
+    [
+      55.3152018,
+      -5.4554176
+    ]
+  ],
+  "style": {
+    "color": "#3a3a3a",
+    "fillColor": "#7CA89A",
+    "fillOpacity": 0.6,
+    "weight": 0.2
+  },
+  "references": [
+    {
+      "label": "Open Data NI — Fen Habitat Network",
+      "url": "https://admin.opendatani.gov.uk/dataset/a62e37f4-9a17-4854-a2ac-cc7b5b433648"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/habitat-fen.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Ulster Wildlife"
+  ],
+  "keywords": [
+    "habitat",
+    "biodiversity",
+    "nature recovery",
+    "ulster wildlife",
+    "habitat network",
+    "fen",
+    "Habitat Network — Fen",
+    "Biodiversity & Habitats",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Class",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#3a3a3a",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/habitat-fen-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/habitat-fen.fgb",
+  "sourceDatasetLayer": "habitat-fen",
+  "popupProperties": [
+    "Class"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Class"
+  ],
+  "categoricalValues": {
+    "Class": [
+      "Associated Habitats",
+      "Fragmentation Action Zone",
+      "Network Enhancement Zone 1",
+      "Network Enhancement Zone 2",
+      "Network Expansion Zone",
+      "Primary Habitat",
+      "Restorable Habitat"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/habitat-fen.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/habitat-fen.fgb",
+    "bytes": 21956308,
+    "files": 850,
+    "pbfFiles": 849,
+    "maxTileBytes": 923772
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-fen-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/habitat-fen/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/habitat-fen-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/habitat-fen-vector-test.pmtiles",
+    "bytes": 8860271,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/habitat-fen/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-fen-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/habitat-fen-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/habitat-fen-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "id": "tii-wim-sensor-locations-vector-test",
+  "sourceMapId": "tii-wim-sensor-locations",
+  "name": "TII Weigh-in-Motion Sensor Locations",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Transport Infrastructure Ireland"
+  ],
+  "description": "TII Weigh-in-Motion Sensor Locations — published by Transport Infrastructure Ireland.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/tii-wim-sensor-locations/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tii-wim-sensor-locations/metadata.json",
+  "sourceLayer": "tii_wim_sensor_locations",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      52.65503,
+      -6.7355
+    ],
+    [
+      53.50218,
+      -6.19982
+    ]
+  ],
+  "style": {
+    "color": "#01579B",
+    "fillColor": "#01579B",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tii-wim-sensor-locations.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Transport Infrastructure Ireland"
+  ],
+  "keywords": [
+    "TII",
+    "transport",
+    "roads",
+    "tii weigh-in-motion sensor locations",
+    "ireland",
+    "TII Weigh-in-Motion Sensor Locations",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#01579B",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/tii-wim-sensor-locations-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/tii-wim-sensor-locations.fgb",
+  "sourceDatasetLayer": "tii-wim-sensor-locations",
+  "popupProperties": [
+    "Name",
+    "field_1",
+    "descriptio",
+    "timestamp",
+    "begin",
+    "end",
+    "altitudeMo",
+    "tessellate",
+    "extrude",
+    "visibility",
+    "drawOrder"
+  ],
+  "numericProperties": [
+    "field_6",
+    "field_7"
+  ],
+  "categoricalProperties": [
+    "tessellate",
+    "extrude",
+    "visibility",
+    "field_1",
+    "field_2",
+    "field_3",
+    "field_4",
+    "field_5"
+  ],
+  "categoricalValues": {
+    "tessellate": [
+      "-1"
+    ],
+    "extrude": [
+      "0"
+    ],
+    "visibility": [
+      "-1"
+    ],
+    "field_1": [
+      "M01 Between Jn04 Donabate and Jn05 Balbriggan (South), Donabate",
+      "M04, Maynooth,West Co. Kildare",
+      "M07 Between Jn10 Naas South and Jn11 M7/M9, Lewistown, Co. Kildare",
+      "M11 Between Jn23 and Jn24, Gorey, Co. Wexford",
+      "N07 Westbound Between Jn05 Athgoe and Jn06 Castlewarden, Kilteel, Co. Kildare",
+      "R147 (Old N03) Between Dunshaughlin and Dunboyne, Black Bull, Co. Meath"
+    ],
+    "field_2": [
+      "1015",
+      "1037",
+      "20042",
+      "200723",
+      "20073",
+      "20117"
+    ],
+    "field_3": [
+      "TMU M01 010.0 S",
+      "TMU M04 020.0 W",
+      "TMU M07 030.0 W",
+      "TMU M11 085.0 S",
+      "TMU N07 015.0 W",
+      "TMU R147 000.0 S"
+    ],
+    "field_4": [
+      "NRA"
+    ],
+    "field_5": [
+      "NRA_000000001015",
+      "NRA_000000001037",
+      "NRA_000000020042",
+      "NRA_000000020073",
+      "NRA_000000020117",
+      "NRA_000000200723"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tii-wim-sensor-locations.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tii-wim-sensor-locations.fgb",
+    "bytes": 22196,
+    "files": 32,
+    "pbfFiles": 31,
+    "maxTileBytes": 1142
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tii-wim-sensor-locations-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tii-wim-sensor-locations/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tii-wim-sensor-locations-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tii-wim-sensor-locations-vector-test.pmtiles",
+    "bytes": 14402,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/tii-wim-sensor-locations/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tii-wim-sensor-locations-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tii-wim-sensor-locations-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tii-wim-sensor-locations-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "field_1",
+  "idProperty": "field_1"
+}

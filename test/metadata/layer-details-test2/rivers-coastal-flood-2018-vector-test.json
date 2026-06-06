@@ -1,0 +1,174 @@
+{
+  "id": "rivers-coastal-flood-2018-vector-test",
+  "sourceMapId": "rivers-coastal-flood-2018",
+  "name": "Coastal Flood Boundary — Extreme Sea Levels (2018)",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Department for Infrastructure - Rivers"
+  ],
+  "description": "Modelled extreme sea levels around the NI coast at multiple return periods (2018 mapping). Used by DfI Rivers for coastal flood risk assessment.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/rivers-coastal-flood-2018/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/rivers-coastal-flood-2018/metadata.json",
+  "sourceLayer": "rivers_coastal_flood_2018",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0068145,
+      -6.927478
+    ],
+    [
+      55.2687842,
+      -5.4011941
+    ]
+  ],
+  "style": {
+    "color": "#3B8DBD",
+    "fillColor": "#3B8DBD",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/rivers-coastal-flood-2018.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Department for Infrastructure - Rivers"
+  ],
+  "keywords": [
+    "physical-geography",
+    "coastal flood boundary — extreme sea levels (2018)",
+    "Coastal Flood Boundary — Extreme Sea Levels (2018)",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#3B8DBD",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/rivers-coastal-flood-2018.fgb",
+  "sourceDatasetLayer": "rivers-coastal-flood-2018",
+  "popupProperties": [
+    "location",
+    "chainage",
+    "x_bng",
+    "y_bng",
+    "base_year",
+    "hat_od",
+    "mhws_od",
+    "t1",
+    "t2",
+    "t5"
+  ],
+  "numericProperties": [
+    "x_bng",
+    "y_bng",
+    "base_year",
+    "hat_od",
+    "mhws_od",
+    "t1",
+    "t2",
+    "t5",
+    "t10",
+    "t20",
+    "t25",
+    "t50",
+    "t75",
+    "t100",
+    "t150",
+    "t200"
+  ],
+  "categoricalProperties": [
+    "location",
+    "chainage"
+  ],
+  "categoricalValues": {
+    "location": [
+      "NI ESTRY 1",
+      "NI MAINLAND"
+    ],
+    "chainage": [
+      "_0",
+      "_100",
+      "_102",
+      "_114",
+      "_116",
+      "_118",
+      "_120",
+      "_122",
+      "_124",
+      "_126",
+      "_128",
+      "_130",
+      "_132",
+      "_134",
+      "_136",
+      "_138",
+      "_14",
+      "_140",
+      "_142",
+      "_144",
+      "_146",
+      "_148",
+      "_150",
+      "_152",
+      "_154",
+      "_156",
+      "_158",
+      "_16",
+      "_160",
+      "_162",
+      "_164",
+      "_166"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/rivers-coastal-flood-2018.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/rivers-coastal-flood-2018.fgb",
+    "bytes": 721856,
+    "files": 122,
+    "pbfFiles": 121,
+    "maxTileBytes": 30128
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/rivers-coastal-flood-2018-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/rivers-coastal-flood-2018/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/rivers-coastal-flood-2018-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/rivers-coastal-flood-2018-vector-test.pmtiles",
+    "bytes": 311052,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/rivers-coastal-flood-2018/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/rivers-coastal-flood-2018-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/rivers-coastal-flood-2018-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/rivers-coastal-flood-2018-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

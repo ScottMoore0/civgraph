@@ -1,0 +1,76 @@
+{
+  "id": "osni-streetmaps-raster-test",
+  "sourceMapId": "osni-streetmaps",
+  "name": "OSNI StreetMaps — Town Sheets",
+  "category": "OSNI Raster Maps",
+  "group": "Built Environment",
+  "date": null,
+  "provider": [
+    "OSNI"
+  ],
+  "description": "Detailed printed street-map sheets for 109 towns and villages across Northern Ireland — 0.85 m/pixel native resolution showing individual streets, building outlines, and town features. Coverage is sparse (only published towns are mapped); the rest of NI is blank in this layer. Served as XYZ tiles at zoom 8–16.",
+  "renderer": "maplibre",
+  "sourceType": "raster",
+  "geometryType": "raster",
+  "tiles": "https://data.civgraph.net/data/maps/osni-raster/streetmaps/{z}/{x}/{y}.png",
+  "bounds": [
+    [
+      54.04,
+      -7.68
+    ],
+    [
+      55.23,
+      -5.45
+    ]
+  ],
+  "minzoom": 8,
+  "maxzoom": 19,
+  "maxNativeZoom": 16,
+  "tileSize": 256,
+  "rasterOpacity": 0.9,
+  "style": {
+    "color": "#4F46E5",
+    "fillColor": "#818CF8",
+    "fillOpacity": 0.18,
+    "weight": 1.5
+  },
+  "references": [
+    {
+      "label": "OSNI Open Data — StreetMaps",
+      "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-streetmaps"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "https://data.civgraph.net/data/maps/osni-raster/streetmaps/{z}/{x}/{y}.png"
+    },
+    {
+      "label": "Georeferenced town sheets (TIF + TFW, ZIP)",
+      "url": "https://admin.opendatani.gov.uk/dataset/33f1a92f-8abf-4eed-b944-b816043c58a4/resource/fb6ea3cf-8ea0-4c3f-b3a7-a2bf74e8d47b/download/osni_opendata_streetmaps.zip"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI"
+  ],
+  "keywords": [
+    "osni",
+    "streetmap",
+    "street map",
+    "town",
+    "village",
+    "urban",
+    "streets",
+    "OSNI StreetMaps — Town Sheets",
+    "OSNI Raster Maps",
+    "Built Environment",
+    "maplibre",
+    "raster tiles"
+  ],
+  "status": "converted-raster-tiles",
+  "notes": "Raster XYZ tile layer using metadata bounds and tile template https://data.civgraph.net/data/maps/osni-raster/streetmaps/{z}/{x}/{y}.png.",
+  "generatedFrom": {
+    "pipeline": "promote-test-raster-tiles",
+    "sourceFile": "https://data.civgraph.net/data/maps/osni-raster/streetmaps/{z}/{x}/{y}.png"
+  }
+}

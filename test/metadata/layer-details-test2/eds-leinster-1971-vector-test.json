@@ -1,0 +1,228 @@
+{
+  "id": "eds-leinster-1971-vector-test",
+  "sourceMapId": "eds-leinster-1971",
+  "name": "Leinster District Electoral Divisions/Wards 1971",
+  "category": "Electoral Divisions",
+  "group": "Built Environment",
+  "date": 1971,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Phelim Birch"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/eds-leinster-1971/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/eds-leinster-1971/metadata.json",
+  "sourceLayer": "eds_leinster_1971",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      52.1092161,
+      -8.0838745
+    ],
+    [
+      54.1139509,
+      -5.9962778
+    ]
+  ],
+  "style": {
+    "color": "#256D36",
+    "fillColor": "#256D36",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/eds-leinster-1971.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Phelim Birch"
+  ],
+  "keywords": [
+    "leinster",
+    "ED",
+    "1971",
+    "Leinster District Electoral Divisions/Wards 1971",
+    "Electoral Divisions",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "ENGLISH",
+  "labelPropertyFallbacks": [
+    "GAEILGE",
+    "COUNTY"
+  ],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#256D36",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/eds-leinster-1971-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/eds-leinster-1971.fgb",
+  "sourceDatasetLayer": "eds-leinster-1971",
+  "popupProperties": [
+    "ENGLISH",
+    "GAEILGE",
+    "CONTAE",
+    "COUNTY",
+    "PROVINCE",
+    "WARDORDED"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "ENGLISH",
+    "GAEILGE",
+    "CONTAE",
+    "COUNTY",
+    "PROVINCE",
+    "WARDORDED"
+  ],
+  "categoricalValues": {
+    "ENGLISH": [
+      "AGHA",
+      "ARDCAVAN",
+      "ARDCOLM",
+      "ARTRAMON",
+      "BANNOW",
+      "BORRIS",
+      "BREE",
+      "CARNAGH",
+      "CARRICK",
+      "CLONMORE",
+      "COONOGUE",
+      "CORRIES",
+      "CRONELEA",
+      "DRINAGH",
+      "EDERMINE",
+      "FENNAGH",
+      "FORTH",
+      "HORETOWN",
+      "KILBORA",
+      "KILBRIDE",
+      "KILKEA",
+      "KILLAG",
+      "KILLANN",
+      "KILLURIN",
+      "KILMOKEA",
+      "KILMORE",
+      "KILTEALY",
+      "MONEY",
+      "MYSHALL",
+      "NEWBAWN",
+      "NURNEY",
+      "RATHROE"
+    ],
+    "GAEILGE": [
+      "Achadh",
+      "An Léim",
+      "An Muine",
+      "Banú",
+      "Brí",
+      "Caonóg",
+      "Carnach",
+      "Fotharta",
+      "Míseal",
+      "An Bheairic",
+      "An Bhuiríos",
+      "An Bráca",
+      "An Bábhún Nua",
+      "An Caisleán Nua",
+      "An Carraigín",
+      "An Charraig",
+      "An Chill Mhór",
+      "An Corrán Mór",
+      "An Gharbhchoill",
+      "An Robhar",
+      "An Ros Ard",
+      "An Seangharraí",
+      "An Teampall Geal",
+      "An Tulach (Tuath)",
+      "An Urnaí",
+      "Ard Chaomháin",
+      "Ard Cholaim",
+      "Ard Chromáin",
+      "Baile Bhaldain",
+      "Baile Eathain",
+      "Baile Eilín",
+      "Baile Hac"
+    ],
+    "CONTAE": [
+      "An Mhí",
+      "Laois",
+      "Lú",
+      "An Iarmhí",
+      "An Longfort",
+      "Baile Átha Cliath",
+      "Ceatharlach",
+      "Cill Chainnigh",
+      "Cill Dara",
+      "Cill Mhantáin",
+      "Loch Garman",
+      "Uíbh Fhailí"
+    ],
+    "COUNTY": [
+      "CARLOW",
+      "DUBLIN",
+      "KILDARE",
+      "KILKENNY",
+      "LAOIS",
+      "LONGFORD",
+      "LOUTH",
+      "MEATH",
+      "OFFALY",
+      "WEXFORD",
+      "WICKLOW",
+      "WESTMEATH"
+    ],
+    "PROVINCE": [
+      "Leinster"
+    ],
+    "WARDORDED": [
+      "DED",
+      "WARD"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/eds-leinster-1971.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/eds-leinster-1971.fgb",
+    "bytes": 7730976,
+    "files": 946,
+    "pbfFiles": 945,
+    "maxTileBytes": 191234
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1971-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/eds-leinster-1971/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/eds-leinster-1971-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/eds-leinster-1971-vector-test.pmtiles",
+    "bytes": 5266128,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/eds-leinster-1971/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1971-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/eds-leinster-1971-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/eds-leinster-1971-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

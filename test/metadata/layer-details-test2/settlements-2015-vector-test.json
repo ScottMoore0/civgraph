@@ -1,0 +1,226 @@
+{
+  "id": "settlements-2015-vector-test",
+  "sourceMapId": "settlements-2015",
+  "name": "Settlements 2015",
+  "category": "Settlements",
+  "group": "Communities",
+  "date": "2015",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "NISRA"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/settlements-2015/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/settlements-2015/metadata.json",
+  "sourceLayer": "settlements_2015",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0424406,
+      -8.0998482
+    ],
+    [
+      55.2939351,
+      -5.4356226
+    ]
+  ],
+  "style": {
+    "color": "#221F58",
+    "fillColor": "#221F58",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/settlements-2015.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "NISRA"
+  ],
+  "keywords": [
+    "settlements",
+    "urban",
+    "towns",
+    "cities",
+    "2015",
+    "Settlements 2015",
+    "Settlements",
+    "Communities",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#221F58",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/settlements-2015-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/settlements-2015.fgb",
+  "sourceDatasetLayer": "settlements-2015",
+  "popupProperties": [
+    "Name",
+    "Code",
+    "Band",
+    "DT_20MIN",
+    "DT_30MIN",
+    "UR_ex",
+    "OccHH_ex",
+    "UR_ap",
+    "OccHH_ap",
+    "minElev_m"
+  ],
+  "numericProperties": [
+    "UR_ex",
+    "OccHH_ex",
+    "UR_ap",
+    "OccHH_ap",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "Code",
+    "Name",
+    "Band",
+    "DT_20MIN",
+    "DT_30MIN"
+  ],
+  "categoricalValues": {
+    "Code": [
+      "N11000001",
+      "N11000003",
+      "N11000011",
+      "N11000022",
+      "N11000023",
+      "N11000025",
+      "N11000027",
+      "N11000030",
+      "N11000032",
+      "N11000035",
+      "N11000040",
+      "N11000041",
+      "N11000042",
+      "N11000044",
+      "N11000051",
+      "N11000061",
+      "N11000072",
+      "N11000073",
+      "N11000088",
+      "N11000089",
+      "N11000098",
+      "N11000099",
+      "N11000100",
+      "N11000131",
+      "N11000135",
+      "N11000147",
+      "N11000149",
+      "N11000151",
+      "N11000153",
+      "N11000159",
+      "N11000162",
+      "N11000173"
+    ],
+    "Name": [
+      "AHOGHILL",
+      "ANNALONG",
+      "ANTRIM",
+      "ARDBOE",
+      "ARMAGH",
+      "BANGOR",
+      "CLOUGHEY",
+      "CROSSGAR",
+      "CRUMLIN",
+      "CULMORE",
+      "DOAGH",
+      "DRUMQUIN",
+      "EDENDORK",
+      "FORKHILL",
+      "GLEBE",
+      "GLENARM",
+      "HOLYWOOD",
+      "KEADY",
+      "KILCOO",
+      "KILKEEL",
+      "KILLOWEN",
+      "KILREA",
+      "LARNE",
+      "MAGHERY",
+      "MEIGH",
+      "MOORTOWN",
+      "MOY",
+      "NEWMILLS",
+      "NEWRY",
+      "PORTRUSH",
+      "RICHHILL",
+      "SEAHILL"
+    ],
+    "Band": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H"
+    ],
+    "DT_20MIN": [
+      "N",
+      "Y"
+    ],
+    "DT_30MIN": [
+      "N",
+      "Y"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/settlements-2015.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/settlements-2015.fgb",
+    "bytes": 1832441,
+    "files": 589,
+    "pbfFiles": 588,
+    "maxTileBytes": 77912
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/settlements-2015-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/settlements-2015/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/settlements-2015-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/settlements-2015-vector-test.pmtiles",
+    "bytes": 1181129,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/settlements-2015/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/settlements-2015-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/settlements-2015-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/settlements-2015-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "Code",
+  "idProperty": "Code"
+}

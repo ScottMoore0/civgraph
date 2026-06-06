@@ -1,6 +1,7 @@
 import maplibregl from 'maplibre-gl';
 import { TestMapLibreController } from '../../test/src/map-controller.js';
 import { repairFeatureProperties } from '../../test/src/feature-property-repairs.js';
+import { boundsToMapLibre } from '../../test/src/utils.js';
 
 const BASE_MAPS = {
   'osm-standard': ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
@@ -43,12 +44,32 @@ const OVERLAY_LAYERS = {
 const DEFAULT_VECTOR_FILL_OPACITY = 0;
 
 function normalizeBounds(bounds) {
-  if (!Array.isArray(bounds) || bounds.length !== 2) return null;
-  const a = bounds[0];
-  const b = bounds[1];
-  if (!Array.isArray(a) || !Array.isArray(b)) return null;
-  const looksLeaflet = Math.abs(Number(a[0])) <= 90 && Math.abs(Number(a[1])) > 90;
-  return looksLeaflet ? [[Number(a[1]), Number(a[0])], [Number(b[1]), Number(b[0])]] : bounds;
+  if (!Array.isArray(bounds)) return null;
+  if (bounds.length === 4) {
+    const values = bounds.map(Number);
+    if (!values.every(Number.isFinite)) return null;
+    return [[values[0], values[1]], [values[2], values[3]]];
+  }
+  const converted = boundsToMapLibre(bounds);
+  if (!converted) return null;
+  const values = converted.flat().map(Number);
+  if (!values.every(Number.isFinite)) return null;
+  return [[values[0], values[1]], [values[2], values[3]]];
+}
+
+function mergeBounds(current, next) {
+  if (!next) return current;
+  if (!current) return next;
+  return [
+    [
+      Math.min(current[0][0], next[0][0]),
+      Math.min(current[0][1], next[0][1])
+    ],
+    [
+      Math.max(current[1][0], next[1][0]),
+      Math.max(current[1][1], next[1][1])
+    ]
+  ];
 }
 
 function resolveFillOpacity(layer) {
@@ -144,8 +165,11 @@ export class Test2MapLibreMainAdapter {
     }
 
     if (config?.isGroup && Array.isArray(config.members) && config.members.length) {
-      const results = [];
-      for (const memberId of config.members) results.push(await this.loadLayer(memberId, options));
+      const results = await Promise.all(config.members.map((memberId) => this.loadLayer(memberId, {
+        ...options,
+        fit: false
+      })));
+      if (options.fit !== false) this.fitToLayers(config.members);
       return results[0] || null;
     }
 
@@ -254,10 +278,17 @@ export class Test2MapLibreMainAdapter {
   }
 
   getVisibleLayers() {
-    return [
-      ...[...this.layerStates.entries()].filter(([, state]) => state.visible).map(([id]) => id),
-      ...[...this.groupStates.entries()].filter(([, state]) => state.visible).map(([id]) => id)
-    ];
+    const groupedChildIds = new Set();
+    const visibleGroups = [...this.groupStates.entries()]
+      .filter(([, state]) => state.visible)
+      .map(([id, state]) => {
+        for (const childId of state.childIds || []) groupedChildIds.add(childId);
+        return id;
+      });
+    const visibleLayers = [...this.layerStates.entries()]
+      .filter(([id, state]) => state.visible && !groupedChildIds.has(id))
+      .map(([id]) => id);
+    return [...visibleGroups, ...visibleLayers];
   }
 
   getLayerState(mainId) {
@@ -268,13 +299,39 @@ export class Test2MapLibreMainAdapter {
   markGroupLoaded(mainId, config, childIds = []) {
     const ids = childIds.filter(Boolean);
     if (!mainId || !ids.length) return;
-    this.groupStates.set(mainId, {
+    const state = {
       loaded: true,
       visible: ids.some((id) => this.isLayerVisible(id)),
       config,
       childIds: ids,
-      isGroup: true
-    });
+      isGroup: true,
+      _strokeOpacity: 1,
+      _fillOpacity: resolveFillOpacity(config),
+      _rasterOpacity: config?.rasterOpacity ?? config?.style?.opacity ?? 0.85
+    };
+    state.geoJsonLayers = [{
+      setStyle: (style = {}) => {
+        if (style.opacity !== undefined) {
+          state._strokeOpacity = clamp01(style.opacity);
+          for (const childId of ids) this.setStrokeOpacity(childId, style.opacity);
+        }
+        if (style.fillOpacity !== undefined) {
+          state._fillOpacity = clamp01(style.fillOpacity);
+          for (const childId of ids) this.setFillOpacity(childId, style.fillOpacity);
+        }
+      }
+    }];
+    state.group = {
+      eachLayer: (callback) => {
+        callback({
+          setOpacity: (opacity) => {
+            state._rasterOpacity = clamp01(opacity);
+            for (const childId of ids) this.setRasterOpacity(childId, opacity);
+          }
+        });
+      }
+    };
+    this.groupStates.set(mainId, state);
     this.options.onChange?.(this);
   }
 
@@ -517,6 +574,16 @@ export class Test2MapLibreMainAdapter {
     this.renderer?.fitToLayer(testId);
   }
 
+  fitToLayers(mainIds = []) {
+    const bounds = mainIds.reduce((acc, mainId) => {
+      const state = this.layerStates.get(mainId);
+      const normalized = normalizeBounds(state?.config?.bounds);
+      if (!normalized) return acc;
+      return mergeBounds(acc, normalized);
+    }, null);
+    if (bounds) this.fitToBounds(bounds, { smooth: false });
+  }
+
   fitToBounds(bounds, options = {}) {
     const normalized = normalizeBounds(bounds);
     if (!normalized || !this.map) return;
@@ -697,7 +764,8 @@ export class Test2MapLibreMainAdapter {
   toRuntimeLayer(layer, mainConfig = null) {
     const styledLayer = this.applyMainStyle(layer, mainConfig);
     const localHost = ['localhost', '127.0.0.1', '::1'].includes(location.hostname);
-    if (localHost && styledLayer.sourceType === 'pmtiles' && styledLayer.tilesFallback) {
+    const shouldUseLocalFallback = globalThis.__civgraphUseLocalTileFallback !== false;
+    if (shouldUseLocalFallback && localHost && styledLayer.sourceType === 'pmtiles' && styledLayer.tilesFallback) {
       return {
         ...styledLayer,
         sourceType: 'mvt',

@@ -1,0 +1,186 @@
+{
+  "id": "tyrone-townlands-vector-test",
+  "sourceMapId": "tyrone-townlands",
+  "name": "Townlands 1844",
+  "category": "Townlands",
+  "group": "Communities",
+  "date": 1844,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI",
+    "OSI"
+  ],
+  "description": "Townlands in County Tyrone",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/tyrone-townlands/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tyrone-townlands/metadata.json",
+  "sourceLayer": "tyrone_townlands",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.3251955,
+      -7.9210137
+    ],
+    [
+      54.9448189,
+      -6.4986185
+    ]
+  ],
+  "style": {
+    "color": "#A87000",
+    "fillColor": "#A87000",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "OSNI Open Data - Largescale Boundaries - Townlands",
+      "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-townlands"
+    },
+    {
+      "label": "OSNI Open Data - Largescale Boundaries - Townlands (data.gov.uk)",
+      "url": "https://www.data.gov.uk/dataset/18e1bd0f-1829-496e-9b21-a5d8f6159940/osni-open-data-largescale-boundaries-townlands6"
+    },
+    {
+      "label": "Townlands - National Statutory Boundaries - Ungeneralised - 2024 (Tailte Éireann)",
+      "url": "https://data-osi.opendata.arcgis.com/datasets/osi::townlands-national-statutory-boundaries-ungeneralised-2024/about"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tyrone-townlands.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI",
+    "OSI"
+  ],
+  "keywords": [
+    "townland",
+    "townlands",
+    "1844",
+    "all",
+    "ireland",
+    "northern ireland",
+    "republic",
+    "Townlands 1844",
+    "Townlands",
+    "Communities",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "TownlandName",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#A87000",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/tyrone-townlands-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/tyrone-townlands.fgb",
+  "sourceDatasetLayer": "tyrone-townlands",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "TownlandName",
+    "OBJECTID",
+    "TOWNLAND_ID",
+    "Area_SqKM",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "TOWNLAND_ID",
+    "Area_SqKM",
+    "OBJECTID",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "TownlandName"
+  ],
+  "categoricalValues": {
+    "TownlandName": [
+      "AGHALANE",
+      "ANNAGH",
+      "ARDS",
+      "BARRAN",
+      "BELTRIM",
+      "BERAGH",
+      "BOCKETS",
+      "BRACKAGH",
+      "CADIAN",
+      "COOLE",
+      "CREGGAN",
+      "DOOISH",
+      "DRESSOGE",
+      "DROMORE",
+      "DRUMASH",
+      "DRUMDRAN",
+      "DRUMMOND",
+      "ESKRAGH",
+      "FINELLY",
+      "GARVAGH",
+      "GLENERIN",
+      "GLENLARK",
+      "GREENAN",
+      "INCHENNY",
+      "KNOCKROE",
+      "LEGLAND",
+      "LIFFORD",
+      "LISLANE",
+      "LOUGHASH",
+      "OUGHTBOY",
+      "RANELLY",
+      "SHANCO"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tyrone-townlands.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tyrone-townlands.fgb",
+    "bytes": 7673510,
+    "files": 210,
+    "pbfFiles": 209,
+    "maxTileBytes": 265655
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tyrone-townlands-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tyrone-townlands/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tyrone-townlands-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tyrone-townlands-vector-test.pmtiles",
+    "bytes": 4585321,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/tyrone-townlands/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tyrone-townlands-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tyrone-townlands-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tyrone-townlands-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "id": "osni-eire-thuaidh-raster-test",
+  "sourceMapId": "osni-eire-thuaidh",
+  "name": "OSNI Éire Thuaidh — Irish-Translated Map",
+  "category": "OSNI Raster Maps",
+  "group": "Built Environment",
+  "date": null,
+  "provider": [
+    "OSNI"
+  ],
+  "description": "Bilingual map of Northern Ireland with place-names rendered in Irish (Gaeilge) alongside their English forms. Cropped raster cartography in Irish Grid TM65, served as XYZ tiles at zoom 6–12.",
+  "renderer": "maplibre",
+  "sourceType": "raster",
+  "geometryType": "raster",
+  "tiles": "https://data.civgraph.net/data/maps/osni-raster/eire-thuaidh/{z}/{x}/{y}.png",
+  "bounds": [
+    [
+      53.97,
+      -8.91
+    ],
+    [
+      55.46,
+      -5.32
+    ]
+  ],
+  "minzoom": 5,
+  "maxzoom": 18,
+  "maxNativeZoom": 12,
+  "tileSize": 256,
+  "rasterOpacity": 0.85,
+  "style": {
+    "color": "#4F46E5",
+    "fillColor": "#818CF8",
+    "fillOpacity": 0.18,
+    "weight": 1.5
+  },
+  "references": [
+    {
+      "label": "OSNI Open Data — Éire Thuaidh",
+      "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-eire-thuaidh-irish-translated-map"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "https://data.civgraph.net/data/maps/osni-raster/eire-thuaidh/{z}/{x}/{y}.png"
+    },
+    {
+      "label": "Georeferenced raster (TIF, ZIP)",
+      "url": "https://admin.opendatani.gov.uk/dataset/3ec0145e-911e-4a66-859a-3bab141270b9/resource/d2c0d511-3f14-4a88-825b-a112e29b85b5/download/osni_opendata_eirethuaidh.zip"
+    },
+    {
+      "label": "Un-georeferenced raster (ZIP)",
+      "url": "https://admin.opendatani.gov.uk/dataset/3ec0145e-911e-4a66-859a-3bab141270b9/resource/f953185e-5f9b-4e42-8b54-56c5e85eb060/download/osni_opendata_eirethuaidh.zip"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI"
+  ],
+  "keywords": [
+    "osni",
+    "eire thuaidh",
+    "irish",
+    "gaeilge",
+    "bilingual",
+    "placenames",
+    "place names",
+    "OSNI Éire Thuaidh — Irish-Translated Map",
+    "OSNI Raster Maps",
+    "Built Environment",
+    "maplibre",
+    "raster tiles"
+  ],
+  "status": "converted-raster-tiles",
+  "notes": "Raster XYZ tile layer using metadata bounds and tile template https://data.civgraph.net/data/maps/osni-raster/eire-thuaidh/{z}/{x}/{y}.png.",
+  "generatedFrom": {
+    "pipeline": "promote-test-raster-tiles",
+    "sourceFile": "https://data.civgraph.net/data/maps/osni-raster/eire-thuaidh/{z}/{x}/{y}.png"
+  }
+}

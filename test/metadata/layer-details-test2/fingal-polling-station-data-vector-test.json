@@ -1,0 +1,213 @@
+{
+  "id": "fingal-polling-station-data-vector-test",
+  "sourceMapId": "fingal-polling-station-data",
+  "name": "Polling Station Data (Fingal)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Fingal County Council"
+  ],
+  "description": "Polling Station Data (Fingal) — published by Fingal County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/fingal-polling-station-data/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/fingal-polling-station-data/metadata.json",
+  "sourceLayer": "fingal_polling_station_data",
+  "promoteId": "id",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.3535867,
+      -6.4749459
+    ],
+    [
+      53.6347488,
+      -5.9947396
+    ]
+  ],
+  "style": {
+    "color": "#7C4DFF",
+    "fillColor": "#7C4DFF",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/fingal-polling-station-data.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Fingal County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "fingal",
+    "amenity",
+    "council",
+    "polling",
+    "station",
+    "data",
+    "Polling Station Data (Fingal)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "id",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#7C4DFF",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/fingal-polling-station-data-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/fingal-polling-station-data.fgb",
+  "sourceDatasetLayer": "fingal-polling-station-data",
+  "idProperty": "id",
+  "popupProperties": [
+    "id",
+    "Name",
+    "description",
+    "timestamp",
+    "begin",
+    "end",
+    "altitudeMode",
+    "tessellate",
+    "extrude",
+    "visibility"
+  ],
+  "numericProperties": [
+    "tessellate",
+    "extrude",
+    "visibility",
+    "drawOrder"
+  ],
+  "categoricalProperties": [
+    "id",
+    "Name",
+    "description",
+    "snippet"
+  ],
+  "categoricalValues": {
+    "id": [
+      "Balbriggan N.S",
+      "Ballyboghil N.S.",
+      "Balrothery N.S.",
+      "Balscadden N.S.",
+      "Bayside N.S.",
+      "Burrow N.S.",
+      "Castaheany Educate Together N.S",
+      "Church of Ireland N.S.",
+      "Clonliffe Harriers, Morton Stadium",
+      "Combined Clubs Hall",
+      "Educate Together N.S.",
+      "Garristown N.S.",
+      "Holy Family N.S.",
+      "Ladyswell N.S.",
+      "Loughshinny N.S.",
+      "Lusk N.S.",
+      "Mary Mother of Hope N.S.",
+      "Mary Queen of Ireland N.S.",
+      "Naomh Mochta N.S.",
+      "Naul Community Hall",
+      "Oldtown N.S.",
+      "Pope John Paul N.S.",
+      "Rolestown N.S.",
+      "Rush N.S.",
+      "Sacred Heart of Jesus N.S.",
+      "Scoil Bride Boys N.S.",
+      "Scoil Duinninigh",
+      "Scoil Mhuire",
+      "Scoil Mhuire N.S.",
+      "Scoil Thomais",
+      "Skerries Community Centre",
+      "St Andrews C of I N.S."
+    ],
+    "Name": [
+      "Balbriggan N.S",
+      "Ballyboghil N.S.",
+      "Balrothery N.S.",
+      "Balscadden N.S.",
+      "Bayside N.S.",
+      "Burrow N.S.",
+      "Castaheany Educate Together N.S",
+      "Church of Ireland N.S.",
+      "Clonliffe Harriers, Morton Stadium",
+      "Combined Clubs Hall",
+      "Educate Together N.S.",
+      "Garristown N.S.",
+      "Holy Family N.S.",
+      "Ladyswell N.S.",
+      "Loughshinny N.S.",
+      "Lusk N.S.",
+      "Mary Mother of Hope N.S.",
+      "Mary Queen of Ireland N.S.",
+      "Naomh Mochta N.S.",
+      "Naul Community Hall",
+      "Oldtown N.S.",
+      "Pope John Paul N.S.",
+      "Rolestown N.S.",
+      "Rush N.S.",
+      "Sacred Heart of Jesus N.S.",
+      "Scoil Bride Boys N.S.",
+      "Scoil Duinninigh",
+      "Scoil Mhuire",
+      "Scoil Mhuire N.S.",
+      "Scoil Thomais",
+      "Skerries Community Centre",
+      "St Andrews C of I N.S."
+    ],
+    "description": [],
+    "snippet": [
+      ""
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/fingal-polling-station-data.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/fingal-polling-station-data.fgb",
+    "bytes": 635878,
+    "files": 55,
+    "pbfFiles": 54,
+    "maxTileBytes": 43959
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/fingal-polling-station-data-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/fingal-polling-station-data/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/fingal-polling-station-data-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/fingal-polling-station-data-vector-test.pmtiles",
+    "bytes": 187166,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/fingal-polling-station-data/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/fingal-polling-station-data-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/fingal-polling-station-data-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/fingal-polling-station-data-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

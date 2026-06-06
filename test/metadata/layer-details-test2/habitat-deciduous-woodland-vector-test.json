@@ -1,0 +1,127 @@
+{
+  "id": "habitat-deciduous-woodland-vector-test",
+  "sourceMapId": "habitat-deciduous-woodland",
+  "name": "Habitat Network — Deciduous Woodland",
+  "category": "Biodiversity & Habitats",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Ulster Wildlife"
+  ],
+  "description": "Spatial extent of deciduous woodland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/habitat-deciduous-woodland/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-deciduous-woodland-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/habitat-deciduous-woodland/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/habitat-deciduous-woodland/metadata.json",
+  "sourceLayer": "habitat_deciduous_woodland",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0184519,
+      -8.2022696
+    ],
+    [
+      55.3089826,
+      -5.4383929
+    ]
+  ],
+  "style": {
+    "color": "#3a3a3a",
+    "fillColor": "#3F8D45",
+    "fillOpacity": 0.6,
+    "weight": 0.2
+  },
+  "references": [
+    {
+      "label": "Open Data NI — Deciduous Woodland Habitat Network",
+      "url": "https://admin.opendatani.gov.uk/dataset/b15b4d96-9513-43b6-a310-a23c5c7fff37"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "data/maps/biodiversity/habitat-deciduous-woodland-lod1.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Ulster Wildlife"
+  ],
+  "keywords": [
+    "habitat",
+    "biodiversity",
+    "nature recovery",
+    "ulster wildlife",
+    "habitat network",
+    "deciduous woodland",
+    "Habitat Network — Deciduous Woodland",
+    "Biodiversity & Habitats",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Class",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#3a3a3a",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/habitat-deciduous-woodland-vector-test.json",
+  "sourceFile": "data/maps/biodiversity/habitat-deciduous-woodland-lod1.fgb",
+  "sourceDatasetLayer": "habitat-deciduous-woodland-lod1",
+  "popupProperties": [
+    "Class"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Class"
+  ],
+  "categoricalValues": {
+    "Class": [
+      "Associated Habitats",
+      "Fragmentation Action Zone",
+      "Network Enhancement Zone 2",
+      "Primary Habitat",
+      "Restorable Habitat"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from data/maps/biodiversity/habitat-deciduous-woodland-lod1.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "data/maps/biodiversity/habitat-deciduous-woodland-lod1.fgb",
+    "bytes": 9638423,
+    "files": 912,
+    "pbfFiles": 911,
+    "maxTileBytes": 702835
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/habitat-deciduous-woodland-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/habitat-deciduous-woodland-vector-test.pmtiles",
+    "bytes": 5917528,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-30T10:32:05.863Z",
+    "fallback": "/test/tiles/generated/habitat-deciduous-woodland/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-deciduous-woodland-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/habitat-deciduous-woodland-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/habitat-deciduous-woodland-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "id": "translink-rail-stations-vector-test",
+  "sourceMapId": "translink-rail-stations",
+  "name": "NI Railways Stations",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Translink"
+  ],
+  "description": "NI Railways Stations — public transport infrastructure published by Translink.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/translink-rail-stations/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/translink-rail-stations/metadata.json",
+  "sourceLayer": "translink_rail_stations",
+  "promoteId": "ID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.1748539,
+      -7.6401775
+    ],
+    [
+      55.2033715,
+      -5.6723344
+    ]
+  ],
+  "style": {
+    "color": "#1565C0",
+    "fillColor": "#1565C0",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/translink-rail-stations.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Translink"
+  ],
+  "keywords": [
+    "translink",
+    "public transport",
+    "transit",
+    "ni railways stations",
+    "northern ireland",
+    "NI Railways Stations",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Station",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#1565C0",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/translink-rail-stations-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/translink-rail-stations.fgb",
+  "sourceDatasetLayer": "translink-rail-stations",
+  "idProperty": "ID",
+  "popupProperties": [
+    "Station",
+    "ID",
+    "Type",
+    "Type~Def",
+    "Easting",
+    "Northing"
+  ],
+  "numericProperties": [
+    "ID",
+    "Easting",
+    "Northing"
+  ],
+  "categoricalProperties": [
+    "Station",
+    "Type",
+    "Type~Def"
+  ],
+  "categoricalValues": {
+    "Station": [
+      "ANTRIM BUS STATION",
+      "ANTRIM RAIL STATION",
+      "ARMAGH BUS STATION",
+      "BALLINDERRY RAIL HALT",
+      "BALLYCARRY RAIL HALT",
+      "BALLYCLARE BUS STATION",
+      "BALLYMENA BUS STATION",
+      "BALLYMENA RAIL STATION",
+      "BALLYMONEY RAIL STATION",
+      "BANBRIDGE BUS STATION",
+      "BANGOR BUS & RAIL",
+      "BANGOR WEST RAIL HALT",
+      "BELFAST - ADELAIDE RAIL HALT",
+      "BELFAST - BALMORAL RAIL HALT",
+      "BELFAST - BOTANIC RAIL STATION",
+      "BELFAST - BRIDGE END RAIL HALT",
+      "BELFAST - CENTRAL RAIL STATION",
+      "BELFAST - CITY HOSPITAL RAIL HALT",
+      "BELFAST - EUROPA/GVS",
+      "BELFAST - LAGANSIDE BUS STATION",
+      "BELFAST - SYDENHAM RAIL HALT",
+      "BELFAST - YORKGATE RAIL STATION",
+      "BELLARENA RAIL HALT",
+      "CARNALEA RAIL HALT",
+      "CARRICKFERGUS RAIL STATION",
+      "CASTLEROCK RAIL HALT",
+      "CLIPPERSTOWN RAIL HALT",
+      "COLERAINE BUS & RAIL",
+      "COLERAINE UNIVERSITY RAIL HALT",
+      "COMBER BUS STATION",
+      "COOKSTOWN BUS STATION",
+      "CRAIGAVON BUS STATION"
+    ],
+    "Type": [
+      "B",
+      "I",
+      "R"
+    ],
+    "Type~Def": [
+      "",
+      "BUS ST",
+      "HALT",
+      "NIR ST",
+      "STATION"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/translink-rail-stations.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/translink-rail-stations.fgb",
+    "bytes": 93131,
+    "files": 124,
+    "pbfFiles": 123,
+    "maxTileBytes": 5491
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/translink-rail-stations-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/translink-rail-stations/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/translink-rail-stations-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/translink-rail-stations-vector-test.pmtiles",
+    "bytes": 55882,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/translink-rail-stations/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/translink-rail-stations-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/translink-rail-stations-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/translink-rail-stations-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,282 @@
+{
+  "id": "belfast-cycle-network-vector-test",
+  "sourceMapId": "belfast-cycle-network",
+  "name": "Belfast Cycle Network",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Department for Infrastructure - Walking and Cycling Branch"
+  ],
+  "description": "Belfast cycle infrastructure — designated routes, cycle lanes, and shared paths.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/belfast-cycle-network/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/belfast-cycle-network/metadata.json",
+  "sourceLayer": "belfast_cycle_network",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.5319342,
+      -6.0190149
+    ],
+    [
+      54.6478706,
+      -5.8137844
+    ]
+  ],
+  "style": {
+    "color": "#2E7D32",
+    "fillColor": "#2E7D32",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/belfast-cycle-network.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Department for Infrastructure - Walking and Cycling Branch"
+  ],
+  "keywords": [
+    "cycling",
+    "bike",
+    "belfast",
+    "cycle network",
+    "active travel",
+    "sustainable transport",
+    "Belfast Cycle Network",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Ref_No",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#2E7D32",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/belfast-cycle-network-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/belfast-cycle-network.fgb",
+  "sourceDatasetLayer": "belfast-cycle-network",
+  "popupProperties": [
+    "Ref_No",
+    "NAME",
+    "ROUTE",
+    "TYPE",
+    "STATUS",
+    "COMMENTS",
+    "BMUA",
+    "NorthEast",
+    "NorthWest",
+    "SouthEast"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Ref_No",
+    "NAME",
+    "ROUTE",
+    "TYPE",
+    "STATUS",
+    "BMUA",
+    "South",
+    "East",
+    "Outer",
+    "NorthEast",
+    "Middle",
+    "Inner",
+    "SouthWest",
+    "West",
+    "NorthWest",
+    "North",
+    "SouthEast",
+    "COMMENTS"
+  ],
+  "categoricalValues": {
+    "Ref_No": [
+      "112",
+      "112a",
+      "112b",
+      "112c",
+      "112e",
+      "112f",
+      "114b",
+      "114g",
+      "115",
+      "115d",
+      "115e",
+      "115f",
+      "117a",
+      "119",
+      "119a",
+      "119e",
+      "119f",
+      "119g",
+      "120",
+      "120a",
+      "120b",
+      "122",
+      "122a",
+      "122b",
+      "122c",
+      "211",
+      "212",
+      "213",
+      "214a",
+      "214b",
+      "214c",
+      "214e"
+    ],
+    "NAME": [
+      "Ardenlee Avenue to Cregagh Road",
+      "Belvoir Park Forest Route - Belvoir Road",
+      "Belvoir Road to Cairnshill P&R",
+      "Bog Meadows S to Kennedy Way",
+      "Comber Greenway",
+      "Connswater Community Greenway to Montgomery Road",
+      "Connswater Greenway - Orangefield to Braniel",
+      "Cregagh Road to Ladas Way",
+      "East - Belfast Court_ Waterfront Link",
+      "East Route",
+      "East Route - Donegall Quay",
+      "East Route - Island St",
+      "East Route - M3 off slip to Titanic Station",
+      "East Route - Middlepath Street",
+      "East route - Railway Bridge to Waterfront",
+      "Gasworks Link",
+      "Inner Ring",
+      "Lagan Towpath - Stranmillis to Lisburn",
+      "Laganside walkway - Queen El Bridge to Albert Bridge",
+      "Middle Ring - Belfast City Hosptial",
+      "Middle Ring - Botanic Gardens",
+      "Middle Ring - Botanic to City Hospital",
+      "Middle Ring - Orby Drive to Holywood Arches",
+      "Middle Ring - Ormeau Park to Ormeau Bridge",
+      "Middle Route - Alexandra Park",
+      "Middle Route - City Hopsital to Roden Street Bridge",
+      "Middle Route - Grosvenor Road",
+      "Middle Route - Lanark Way",
+      "Middle Route - Oldpark Avenue",
+      "Middle Route - Tennant Street and Hillview Road",
+      "Middle Route - Waterworks",
+      "Montgomery Road to Prince Regent Road"
+    ],
+    "ROUTE": [
+      "East",
+      "North",
+      "South",
+      "West",
+      "East - Sirocco Skyway",
+      "Inner Ring",
+      "Middle Ring",
+      "Northeast",
+      "Northwest",
+      "Outer Ring",
+      "Southeast",
+      "Southwest",
+      "northwest"
+    ],
+    "TYPE": [
+      "Greenway",
+      "Fully segregated",
+      "On road (Advisory)",
+      "On road (Mandatory)",
+      "Shared track/footway",
+      "With bus lane"
+    ],
+    "STATUS": [
+      "Existing",
+      "Proposed"
+    ],
+    "BMUA": [
+      "Y"
+    ],
+    "South": [
+      "X"
+    ],
+    "East": [
+      "X",
+      "x"
+    ],
+    "Outer": [
+      "X"
+    ],
+    "NorthEast": [
+      "X"
+    ],
+    "Middle": [
+      "X"
+    ],
+    "Inner": [
+      "X"
+    ],
+    "SouthWest": [
+      "X"
+    ],
+    "West": [
+      "X"
+    ],
+    "NorthWest": [
+      "X"
+    ],
+    "North": [
+      "X"
+    ],
+    "SouthEast": [
+      "X"
+    ],
+    "COMMENTS": [
+      "Bicycle street.  No formal lane but bicycle symbols",
+      "Shared space but quieter traffic arrangements"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/belfast-cycle-network.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/belfast-cycle-network.fgb",
+    "bytes": 175229,
+    "files": 28,
+    "pbfFiles": 27,
+    "maxTileBytes": 13188
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/belfast-cycle-network-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/belfast-cycle-network/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/belfast-cycle-network-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/belfast-cycle-network-vector-test.pmtiles",
+    "bytes": 84615,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/belfast-cycle-network/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/belfast-cycle-network-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/belfast-cycle-network-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/belfast-cycle-network-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

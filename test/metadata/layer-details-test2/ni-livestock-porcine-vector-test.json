@@ -1,0 +1,168 @@
+{
+  "id": "ni-livestock-porcine-vector-test",
+  "sourceMapId": "ni-livestock-porcine",
+  "name": "NI Porcine (Pigs) Holdings (April 2019)",
+  "category": "Environment",
+  "group": "Physical Geography",
+  "date": "2019-04-01",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "DAERA"
+  ],
+  "description": "Locations of porcine (pigs) herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/ni-livestock-porcine/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/ni-livestock-porcine/metadata.json",
+  "sourceLayer": "ni_livestock_porcine",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0471577,
+      -8.0685251
+    ],
+    [
+      55.2369748,
+      -5.4620564
+    ]
+  ],
+  "style": {
+    "color": "#FFB6C1",
+    "fillColor": "#FFB6C1",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/ni-livestock-porcine.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "DAERA"
+  ],
+  "keywords": [
+    "DAERA",
+    "livestock",
+    "farming",
+    "agriculture",
+    "porcine",
+    "porcine (pigs)",
+    "herd",
+    "flock",
+    "rural",
+    "NI Porcine (Pigs) Holdings (April 2019)",
+    "Environment",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Herd Map Ref",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FFB6C1",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/ni-livestock-porcine-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/ni-livestock-porcine.fgb",
+  "sourceDatasetLayer": "ni-livestock-porcine",
+  "popupProperties": [
+    "Herd Map Ref",
+    "Long Map Ref",
+    "X Coord",
+    "Y Coord",
+    "X Co-ord",
+    "Y Co-ord"
+  ],
+  "numericProperties": [
+    "Long Map Ref",
+    "X Coord",
+    "Y Coord",
+    "X Co-ord",
+    "Y Co-ord"
+  ],
+  "categoricalProperties": [
+    "Herd Map Ref"
+  ],
+  "categoricalValues": {
+    "Herd Map Ref": [
+      "H959191",
+      "J020248",
+      "J034172",
+      "J046145",
+      "J049238",
+      "J051209",
+      "J052202",
+      "J053221",
+      "J056222",
+      "J057163",
+      "J071232",
+      "J073278",
+      "J076261",
+      "J085240",
+      "J096192",
+      "J096221",
+      "J106244",
+      "J115239",
+      "J118228",
+      "J131211",
+      "J132286",
+      "J134284",
+      "J138219",
+      "J149209",
+      "J149283",
+      "J153193",
+      "J156194",
+      "J166268",
+      "J173203",
+      "J174185",
+      "J183252",
+      "J206149"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/ni-livestock-porcine.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/ni-livestock-porcine.fgb",
+    "bytes": 911581,
+    "files": 573,
+    "pbfFiles": 572,
+    "maxTileBytes": 61378
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-livestock-porcine-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/ni-livestock-porcine/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/ni-livestock-porcine-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/ni-livestock-porcine-vector-test.pmtiles",
+    "bytes": 546753,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/ni-livestock-porcine/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-livestock-porcine-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/ni-livestock-porcine-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/ni-livestock-porcine-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

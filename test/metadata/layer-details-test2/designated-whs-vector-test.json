@@ -1,0 +1,177 @@
+{
+  "id": "designated-whs-vector-test",
+  "sourceMapId": "designated-whs",
+  "name": "World Heritage Site",
+  "category": "Designated & Protected Sites",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "DAERA",
+    "Northern Ireland Environment Agency"
+  ],
+  "description": "Northern Ireland's sole UNESCO World Heritage Site: the Giant's Causeway and Causeway Coast. Inscribed in 1986 under criteria (vii) and (viii) for its outstanding geological and natural features — the famous columnar basalt formations and associated coastal landscape.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/designated-whs/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/designated-whs/metadata.json",
+  "sourceLayer": "designated_whs",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      55.232581,
+      -6.5284107
+    ],
+    [
+      55.2548946,
+      -6.4773185
+    ]
+  ],
+  "style": {
+    "color": "#3a3a3a",
+    "fillColor": "#9D6B3F",
+    "fillOpacity": 0.55,
+    "weight": 0.6
+  },
+  "references": [
+    {
+      "label": "Open Data NI — World Heritage Site",
+      "url": "https://admin.opendatani.gov.uk/dataset/world-heritage-site"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/designated-whs.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "DAERA",
+    "Northern Ireland Environment Agency"
+  ],
+  "keywords": [
+    "designated",
+    "protected",
+    "conservation",
+    "niea",
+    "daera",
+    "natural environment",
+    "world heritage site",
+    "World Heritage Site",
+    "Designated & Protected Sites",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Name_WHS",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#3a3a3a",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/designated-whs-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/designated-whs.fgb",
+  "sourceDatasetLayer": "designated-whs",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Name_WHS",
+    "OBJECTID",
+    "FID",
+    "ISO3",
+    "LON",
+    "LAT",
+    "AREANAME",
+    "SITE_CODE",
+    "CONV_CODE",
+    "AREA_HA"
+  ],
+  "numericProperties": [
+    "FID",
+    "OBJECTID",
+    "LON",
+    "LAT",
+    "SITE_CODE",
+    "CONV_CODE",
+    "AREA_HA",
+    "EST_DATE",
+    "Shape_STAr",
+    "Shape_STLe",
+    "Shape_ST_1",
+    "Shape_ST_2",
+    "MOD_DATE",
+    "Shape_ST_3",
+    "Shape_ST_4"
+  ],
+  "categoricalProperties": [
+    "Name_WHS",
+    "ISO3",
+    "AREANAME",
+    "CONV_FULL",
+    "CRITERIA",
+    "Hyperlink",
+    "MOD_CODE"
+  ],
+  "categoricalValues": {
+    "Name_WHS": [
+      " World Heritage Site"
+    ],
+    "ISO3": [
+      " GBR"
+    ],
+    "AREANAME": [
+      "Giant's Causeway and Causeway Coast"
+    ],
+    "CONV_FULL": [
+      "World Heritage Convention"
+    ],
+    "CRITERIA": [
+      "WHC Natural"
+    ],
+    "Hyperlink": [
+      "https://www.daera-ni.gov.uk/articles/giants-causeway-world-heritage-site"
+    ],
+    "MOD_CODE": [
+      "40 COM 8B.35"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/designated-whs.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/designated-whs.fgb",
+    "bytes": 16495,
+    "files": 13,
+    "pbfFiles": 12,
+    "maxTileBytes": 1409
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/designated-whs-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/designated-whs/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/designated-whs-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/designated-whs-vector-test.pmtiles",
+    "bytes": 9123,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/designated-whs/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/designated-whs-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/designated-whs-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/designated-whs-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

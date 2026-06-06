@@ -18,6 +18,67 @@
 - Permanent prevention action: route validation now checks every 2024 Dail synthetic scraper constituency has a nonblank valid-poll denominator and positive computed first-preference percentages when votes exist; the browser suite checks Galway East rendered values and splitter drag.
 - Verification evidence: `scripts/validate-test2-route.mjs` and the Galway East Playwright regression both pass.
 
+# Implement `/test2` performance recommendations 1-10
+- [x] Record scope and plan
+  - Task: implement recommendations 1-10 from `docs/test2-performance-recommendations.md`: reduce startup work, add `/test2` cache/versioning, shard metadata, code-split, precompute duplicate-ID sidecars, repair mobile performance smoke, lazy/split election data loading, workerize search/index work, cap DOM labels/seat circles, and parallelize grouped layer loads.
+  - Constraints: keep changes scoped to `/test2`, `/test` support metadata/scripts, and validation; do not modify the main site behavior except shared generated metadata required for `/test2`; avoid staging unrelated dirty generated data already present in the worktree.
+  - Plan: inspect current startup and generator contracts; add generated lightweight metadata/sidecars; wire `/test2` to lazy-load election/search/metadata details; adjust bundle build/versioning and cache headers; tune overlays/group loads; broaden performance smoke; rebuild and validate.
+- [x] Implement startup and bundle/cache improvements
+  - Done: `/test2` now avoids eager book/election catalogue blocking during initial render, lazy-loads the election manager/runtime scripts, removes eager FGB/election script preloads from `test2/index.html`, code-splits the `/test2` bundle, and writes content-derived entry query versions.
+  - Done: `_headers` now separates `/test2` mutable HTML/entry/worker files from immutable split chunks and cacheable generated metadata sidecars.
+- [x] Implement metadata shards and duplicate-ID sidecars
+  - Done: added `scripts/build-test2-metadata-shards.mjs`; generated compact `test/metadata/maps-test-index.json`, 675 lazy layer-detail files, and 538 duplicate feature-id sidecars.
+  - Done: `TestMetadataService` can lazy-load full layer details on demand and the MapLibre renderer reads precomputed duplicate-ID sidecars before falling back to feature-index scans.
+- [x] Implement election lazy loading/sharding/cache improvements
+  - Done: added `scripts/build-test2-election-summaries.mjs`; generated 268 compact election summary sidecars and wired `summaryUrl` metadata into the `/test2` election manifest.
+  - Done: `/test2` now lazy-loads the election manager and the STV animation runtime, uses bounded election bundle/feature-index caches, and exposes seat-circle render timing for performance checks.
+- [x] Implement worker-backed search/indexing and DOM overlay caps
+  - Done: added `test2/src/search-worker.js`, wired catalogue search through a worker-backed path with simple fallback search, disabled eager Fuse startup work where the worker is available, and kept address search as an enhancement.
+  - Done: DOM labels and election seat-circle overlays are capped based on device/memory class to avoid unbounded mobile DOM growth.
+- [x] Implement grouped layer load and mobile performance smoke improvements
+  - Done: grouped/composite layer members now load in parallel and fit once after children load.
+  - Done: replaced the old one-layer mobile smoke with a budgeted fixture-mode smoke plus optional CDN mode, covering boot, local fixture rendering, Dáil bundle load, local-government bundle load, heap, failed tiles, and representative CDN layer/election paths when `TEST2_PERF_MODE=cdn` is used.
+- [x] Verify, review, commit, and push
+  - Verification: `node --check` passed for the new/edited scripts and `/test2` source files; `npm run build:test2` regenerated metadata/summaries/sidecars and split bundles; `npm run check:test2`, `npm run check`, and fixture-mode `npm run test:performance:test2` passed.
+  - Optional CDN-mode note: `TEST2_PERF_MODE=cdn npm run test:performance:test2` currently reaches PMTiles/election paths but fails because representative PMTiles-backed map layers do not render features in this local/CDN probe and tile failures exceed the CDN budget. That is recorded as a real CDN-mode guardrail signal; the default CI-safe fixture mode passes.
+
+# Fix `/test2` 2024 Dail constituency result panes and splitter
+- [x] Record scope and plan
+  - Task: diagnose why 2024 Irish general election selected constituency panes still show wrong results on `/test2`, especially first-preference percentages and summary rows, and make the bar between the bottom election pane and upper catalogue/map area draggable vertically.
+  - Plan: trace generated Dail 2024 constituency data into selected party/candidate/count renderers; fix denominator/summary propagation; add all-constituency guardrails against zero percentages when valid votes exist; implement a pointer-driven bottom-pane splitter; rebuild and verify with static checks plus browser smoke.
+- [x] Diagnose selected constituency result math
+  - Done: traced Galway East through the generated Dail 2024 bundle and the committed `/test2` bundle. The generated result had `validPoll: 54214`, but `countInfo.Valid_Poll` was blank; the committed built bundle still used nullish coalescing, so the blank string prevented fallback to `result.validPoll`.
+- [x] Fix 2024 Dail selected-pane result calculations
+  - Done: synthetic scraper normalizers now populate `countInfo.Valid_Poll` and inferred seat counts, the selected party renderer treats blank `countInfo` totals as missing, and unknown turnout/spoiled/did-not-vote rows are omitted instead of rendered as false zeroes.
+- [x] Implement draggable bottom election-pane splitter
+  - Done: added a full-width accessible row-resize handle at the top of the `/test2` election results pane and wired pointer/keyboard resizing through `--test2-election-pane-height`.
+- [x] Verify with automated checks and browser evidence
+  - Done: `npm run check:test2`, `npm run check`, and focused Playwright regression `npx playwright test tests/browser/test2-app.spec.js --grep "Galway East"` passed. Browser data confirmed Galway East shows Fianna Fail 26.19%, Fine Gael 21.66%, Independent 20.29%, Sinn Fein 13.76%, four elected seats, valid votes 54,214, and no fabricated turnout/did-not-vote rows.
+- [x] Review and document results
+  - Done: root cause and verification evidence recorded here; lesson 153 added for the missed final-rendered-percentage guardrail.
+
+## Recurring issue: `/test2` selected election pane parity regressions
+- Symptom: selected Dail 2024 constituency panes can show real first-preference vote totals but `0.00%` first-preference percentages and invalid summary rows.
+- Root cause: selected-result table rendering has repeatedly drifted from main-site election pane data contracts; the previous fix normalized scraper count rows but did not globally verify selected-pane computed percentages and summary denominators.
+- Permanent prevention action: add a route validation guard over every 2024 Dail constituency result requiring valid-poll denominators and non-zero first-preference percentages whenever first-preference votes exist.
+- Verification evidence: `scripts/validate-test2-route.mjs` now checks all 2024 Dail synthetic scraper constituencies expose non-blank `Valid_Poll` and non-zero first-preference percentages when votes exist; focused Playwright now covers Galway East visible percentages and splitter resizing.
+
+# Audit /test2 performance and write recommendations
+- [x] Record scope and plan
+  - Task: perform a performance pass of `/test2` to identify how to maximally reduce load time, improve smoothness, improve responsiveness, improve stability, and improve mobile/low-end-device behavior.
+  - Output: write findings and recommendations to a Markdown file, ranked in descending order of ROI (impact relative to difficulty).
+  - Plan: inspect the `/test2` build artifacts, runtime MapLibre adapter, election manager, metadata/PMTiles usage, service-worker/cache behavior, current validation/performance scripts, and run feasible local checks before writing the report.
+- [x] Inspect `/test2` build/runtime/data shape
+  - Scope: bundle sizes, metadata sizes, PMTiles/MVT handling, election manifest/bundle loading, UI/election overlays, MapLibre worker/source behavior, cache strategy, and existing guardrails.
+- [x] Run feasible checks
+  - Scope: run `/test2` validation and performance scripts where sandbox/network limitations allow; record failures separately from findings.
+- [x] Write Markdown report
+  - Scope: include ranked recommendations, concrete evidence, expected impact, difficulty, risks, and verification suggestions.
+- [x] Verify and review
+  - Scope: check the report for completeness, link relevant files, run lightweight validation, and summarize any commands run.
+  - Done: wrote `docs/test2-performance-recommendations.md` with ranked ROI recommendations and evidence from bundle sizes, metadata sizes, cache headers, runtime code paths, and current validation scripts.
+  - Verification: `npm run build:test2` passed after unsandboxed esbuild spawn; `npm run check:test2` passed after rebuild; `npm run test:performance:test2` ran after unsandboxed Playwright launch but failed because the local civil-parishes fallback tiles are absent, which is captured in the report as a guardrail gap.
+
 # Commit Browse/election metadata update
 - [x] Record scope and plan
   - Task: commit generator/reference logic plus generated Browse/election outputs together, include only the Dail 2024 `/test2` guard changes, and keep unrelated timeline/layout validator changes out of the metadata commit.
@@ -4449,3 +4510,27 @@ Add election entries to /test2
   - Completed: cleared a broad generated staged set, then staged only the Dail summary source fixes, 2024 Dail generated data/source details, and the Dail 2024 browser assertion hunk.
 - [x] Commit and push
   - Completed: create a targeted commit and push it to the current remote branch.
+
+# Fix 2024 Dail constituency-level panes and party colours
+- [x] Record scope
+  - Task: diagnose incorrect selected-constituency panes for the 2024 Irish general election, compare constituency-level rows against Wikipedia constituency pages linked from the Dail constituencies article, and audit party colour sources.
+  - Symptom: Cork North-Central selected party/candidate/count/transfer panes show zero first preferences for most candidates and false single-count `Made Quota` statuses.
+- [ ] Inspect source payloads and selected-pane rendering
+  - Scope: trace 2024 scraper-shaped payloads through `mainLikeResults`, selected party rows, candidate rows, and transfer animation payloads.
+  - Completed: Cork North-Central already had correct scraper candidate first preferences in the generated bundle, but the synthetic count rows used `final_count` as `Count_Number`, so selected panes that read first-count rows showed zeroes for most candidates and exposed a fake multi-stage Transfers tab.
+- [ ] Compare representative constituencies against Wikipedia
+  - Scope: verify Cork North-Central first-preference values and elected candidates, then sample additional constituencies for the same failure class.
+  - Completed: verified Cork North-Central against the constituency result table values used by Wikipedia: Pádraig O'Sullivan `7,708`, Thomas Gould `7,399`, Colm Burke `5,736`, Kenneth O'Flynn `5,733`, Tony Fitzgerald `4,084`, Mick Barry `3,494`, and Eoghan Kenny `3,329`, with elected statuses for O'Sullivan, Gould, Burke, O'Flynn, and Kenny.
+- [ ] Patch normalization and colour mapping
+  - Scope: ensure synthetic scraper rows preserve candidate first preferences/status without pretending to be full transfer counts, and align ROI party colours with source/Wikipedia expectations where local maps are wrong.
+  - Completed: synthetic scraper rows now keep `Count_Number: 1`, preserve `Occurred_On_Count` for the reported outcome count, mark rows as synthetic, classify `Made Quota` as elected for selected panes, and only expose Transfers for real multi-count animation rows.
+  - Completed: aligned active ROI party colour fallbacks with the local Wikipedia colour audit for Fianna Fáil `#66BB66`, Fine Gael `#6699FF`, Sinn Féin `#326760`, Irish Labour `#CC0000`, Green `#22AC6F`, Aontú `#44532A`, Independent Ireland `#3BEE56`, Social Democrats `#752F8B`, PBP `#FF0090`, and Solidarity-PBP `#8E2420`.
+- [ ] Regenerate and verify
+  - Scope: rebuild affected election bundles/assets and add focused guardrails for selected constituency panes and party colours.
+  - Completed: regenerated `/test2` election metadata, Browse indexes, `/test2` bundle, and the production bundle.
+  - Recurring issue: selected election panes reused transfer-table semantics for scraper-only first-preference data.
+    - Symptom: Cork North-Central showed zero first preferences for most candidates, false `Made Quota` transfer stages, and wrong party colours.
+    - Root cause: synthetic scraper rows were encoded as if `final_count` were a real `Count_Number`; `/test2` also treated any animation payload as transfer detail and used stale ROI colour fallback maps.
+    - Permanent prevention action: `scripts/validate-test2-route.mjs` now asserts synthetic Dáil 2024 rows stay first-count-only and includes named Cork North-Central candidate/value/colour checks; the focused browser regression asserts party rows, candidate rows, swatches, and no fake Transfers tab.
+    - Verification evidence: `node --check js/election-domain.mjs`, `node --check js/election-controller.js`, `node --check test2/src/election-manager.js`, `node --check scripts/build-test2-election-manifest.mjs`, `node --check scripts/validate-test2-route.mjs`, `node --check tests/browser/test2-app.spec.js`, `npm run build:test2:elections`, `npm run build:browse`, `npm run check:test2`, `npm run build:test2`, `npm run build`, `npm run check`, and focused Playwright `npx playwright test tests/browser/test2-app.spec.js --grep "Cork North-Central"` passed. The esbuild and Playwright commands required approved escalation because the Windows sandbox blocks process/browser spawn.
+    - Residual test note: a broader `--grep "Dail"` browser subset still has two pre-existing/brittle UI-test failures unrelated to the Cork data fix: a filter-menu visibility timeout and a renderer-marker assertion after a direct-rendered candidate view. The source-specific Cork regression and static route checks pass.

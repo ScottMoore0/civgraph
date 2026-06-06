@@ -1,0 +1,214 @@
+{
+  "id": "dfi-pothole-enquiries-2014-vector-test",
+  "sourceMapId": "dfi-pothole-enquiries-2014",
+  "name": "NI Pothole Enquiries 2014",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": "2014-01-01",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Department for Infrastructure - Roads"
+  ],
+  "description": "Pothole enquiries logged by DfI Roads in 2014 — public reports of road defects requiring repair.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dfi-pothole-enquiries-2014/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dfi-pothole-enquiries-2014/metadata.json",
+  "sourceLayer": "dfi_pothole_enquiries_2014",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.2185653,
+      -10.8634427
+    ],
+    [
+      55.2072683,
+      -5.4571298
+    ]
+  ],
+  "style": {
+    "color": "#5D4037",
+    "fillColor": "#5D4037",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dfi-pothole-enquiries-2014.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Department for Infrastructure - Roads"
+  ],
+  "keywords": [
+    "DfI",
+    "pothole",
+    "roads",
+    "maintenance",
+    "enquiries",
+    "2014",
+    "NI Pothole Enquiries 2014",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "ENQUIRY_TYPE",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#5D4037",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dfi-pothole-enquiries-2014-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dfi-pothole-enquiries-2014.fgb",
+  "sourceDatasetLayer": "dfi-pothole-enquiries-2014",
+  "popupProperties": [
+    "ENQUIRY_TYPE",
+    "ENQUIRY_CATEGORY",
+    "DATE_RECORDED",
+    "DIVISION",
+    "CLIENT_OFFICE_NAME",
+    "EASTING",
+    "NORTHING",
+    "APPROVAL_STATUS_NAME"
+  ],
+  "numericProperties": [
+    "EASTING",
+    "NORTHING"
+  ],
+  "categoricalProperties": [
+    "ENQUIRY_TYPE",
+    "ENQUIRY_CATEGORY",
+    "DATE_RECORDED",
+    "DIVISION",
+    "CLIENT_OFFICE_NAME",
+    "APPROVAL_STATUS_NAME"
+  ],
+  "categoricalValues": {
+    "ENQUIRY_TYPE": [
+      "Pothole"
+    ],
+    "ENQUIRY_CATEGORY": [
+      "Complaints",
+      "Correspondence",
+      "Public Enquiry"
+    ],
+    "DATE_RECORDED": [
+      "01/03/2015 12:00:00",
+      "01/03/2015 16:28:00",
+      "01/04/2014 00:00:00",
+      "02/03/2015 16:53:00",
+      "02/04/2014 00:00:00",
+      "02/06/2014 00:00:00",
+      "03/02/2015 10:30:00",
+      "03/03/2015 00:00:00",
+      "03/03/2015 14:04:00",
+      "03/04/2014 00:00:00",
+      "03/04/2014 11:06:12",
+      "03/06/2014 08:49:00",
+      "04/02/2015 19:27:00",
+      "04/03/2015 09:30:45",
+      "04/04/2014 00:00:00",
+      "04/06/2014 00:00:00",
+      "04/11/2014 14:24:00",
+      "04/12/2014 11:00:00",
+      "05/02/2015 12:40:00",
+      "05/03/2015 12:30:00",
+      "05/03/2015 14:41:00",
+      "06/02/2015 00:00:00",
+      "06/03/2015 00:00:00",
+      "06/03/2015 09:50:00",
+      "06/03/2015 15:00:00",
+      "06/03/2015 17:04:33",
+      "06/05/2014 00:00:00",
+      "07/03/2015 18:37:00",
+      "07/03/2015 18:40:00",
+      "07/04/2014 00:00:00",
+      "07/04/2014 15:06:00",
+      "08/04/2014 00:00:00"
+    ],
+    "DIVISION": [
+      "ALL CLIENTS",
+      "EASTERN DIVISION",
+      "NORTHERN DIVISION",
+      "SOUTHERN DIVISION",
+      "WESTERN DIVISION"
+    ],
+    "CLIENT_OFFICE_NAME": [
+      "?",
+      "ANTRIM",
+      "ARDS",
+      "DERRY",
+      "STRABANE",
+      "ANTRIM & NEWTOWNABBEY",
+      "ARDS & NORTH DOWN",
+      "ARMAGH CITY, BANBRIDGE & CRAIGAVON (EAST)",
+      "ARMAGH CITY, BANBRIDGE & CRAIGAVON (WEST)",
+      "BELFAST NORTH",
+      "BELFAST SOUTH",
+      "CASTLEREAGH / LISBURN",
+      "CAUSEWAY COAST & GLENS (EAST)",
+      "CAUSEWAY COAST & GLENS (WEST)",
+      "FERMANAGH & OMAGH (EAST)",
+      "FERMANAGH & OMAGH (WEST)",
+      "LARNE / BALLYMENA",
+      "LONDONDERRY & STRABANE",
+      "MID ULSTER (NORTH)",
+      "MID ULSTER (SOUTH)",
+      "NEWRY MOURNE & DOWN (EAST)",
+      "NEWRY MOURNE & DOWN (WEST)",
+      "NEWTOWNABBEY / CARRICK"
+    ],
+    "APPROVAL_STATUS_NAME": [
+      "Completed Enquiries",
+      "Enquiries In Progress",
+      "New Enquiries"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dfi-pothole-enquiries-2014.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dfi-pothole-enquiries-2014.fgb",
+    "bytes": 1254426,
+    "files": 476,
+    "pbfFiles": 475,
+    "maxTileBytes": 81460
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dfi-pothole-enquiries-2014-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dfi-pothole-enquiries-2014/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dfi-pothole-enquiries-2014-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dfi-pothole-enquiries-2014-vector-test.pmtiles",
+    "bytes": 590848,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dfi-pothole-enquiries-2014/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dfi-pothole-enquiries-2014-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dfi-pothole-enquiries-2014-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dfi-pothole-enquiries-2014-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "id": "dcc-accessible-parking-spaces-vector-test",
+  "sourceMapId": "dcc-accessible-parking-spaces",
+  "name": "Accessible Parking Spaces (DCC)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dublin City Council"
+  ],
+  "description": "Accessible Parking Spaces (DCC) — published by Dublin City Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dcc-accessible-parking-spaces/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dcc-accessible-parking-spaces/metadata.json",
+  "sourceLayer": "dcc_accessible_parking_spaces",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.3031378,
+      -6.3661883
+    ],
+    [
+      53.3997109,
+      -6.1519177
+    ]
+  ],
+  "style": {
+    "color": "#FF6F00",
+    "fillColor": "#FF6F00",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dcc-accessible-parking-spaces.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dublin City Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dcc",
+    "amenity",
+    "council",
+    "accessible",
+    "parking",
+    "spaces",
+    "Accessible Parking Spaces (DCC)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Street Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FF6F00",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dcc-accessible-parking-spaces-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dcc-accessible-parking-spaces.fgb",
+  "sourceDatasetLayer": "dcc-accessible-parking-spaces",
+  "popupProperties": [
+    "Street Name",
+    "Location",
+    "Side of Road",
+    "Easting",
+    "Northing"
+  ],
+  "numericProperties": [
+    "Easting",
+    "Northing"
+  ],
+  "categoricalProperties": [
+    "Street Name",
+    "Location",
+    "Side of Road"
+  ],
+  "categoricalValues": {
+    "Street Name": [
+      "LEA ROAD",
+      "RANELAGH",
+      "ADELAIDE ROAD",
+      "AILESBURY CLOSE",
+      "ANGLESEA ROAD",
+      "BAGGOT STREET LOWER",
+      "BAGGOT STREET UPPER",
+      "BARROW STREET",
+      "BATH STREET",
+      "BEECHWOOD AVENUE LOWER",
+      "BENSON STREET",
+      "BURGH QUAY",
+      "BURLINGTON ROAD",
+      "CARDIFF LANE",
+      "CARNDONAGH LAWN",
+      "CLONTARF ROAD",
+      "CLYDE ROAD",
+      "COWPER ROAD",
+      "D'OLIER STREET",
+      "DONNYBROOK ROAD",
+      "EDEN QUAY",
+      "ELMWOOD AVENUE LOWER",
+      "ELY PLACE UPPER",
+      "FITZWILLIAM LANE",
+      "FITZWILLIAM PLACE",
+      "FITZWILLIAM SQUARE SOUTH",
+      "FITZWILLIAM STREET",
+      "FITZWILLIAM STREET LOWER",
+      "FITZWILLIAM STREET UPPER",
+      "FOXFIELD CRESCENT",
+      "FREDERICK STREET SOUTH",
+      "GILFORD ROAD"
+    ],
+    "Location": [
+      "1 Mount Eden Road",
+      "12 Palmerston Park",
+      "13 Northbrook Avenue",
+      "15 Saint Stephen's Green",
+      "17 Sandymount Green",
+      "20 Fitzwilliam Street Upper",
+      "23 Saint Stephen's Green",
+      "24 Clyde Road",
+      "26 Clyde Road",
+      "29 Molesworth Street",
+      "3 Sussex Road",
+      "30 Hogan Place",
+      "30 Molesworth Street",
+      "31 Hogan Place",
+      "35 Fitzwilliam Square South",
+      "35 Waterloo Road",
+      "37 Upper Mount Street",
+      "37 Waterloo Road",
+      "43 Park Drive",
+      "46 Pembroke Road",
+      "48 Pembroke Road",
+      "48 Upper Mount Street",
+      "6 Herbert Street",
+      "69 Merrion Square South",
+      "70 Merrion Square South",
+      "71 Merrion Square South",
+      "88 Townsend Street",
+      "9 Fitzwilliam Place",
+      "Adjacent to Mespil Hotel",
+      "Apache Pizza, 108 Pearse Street",
+      "Ballsbridge College of Further Education",
+      "Brabazon House, 2 Gilford Road"
+    ],
+    "Side of Road": [
+      "East",
+      "North",
+      "South",
+      "West"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dcc-accessible-parking-spaces.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dcc-accessible-parking-spaces.fgb",
+    "bytes": 576367,
+    "files": 33,
+    "pbfFiles": 32,
+    "maxTileBytes": 39661
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-accessible-parking-spaces-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dcc-accessible-parking-spaces/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dcc-accessible-parking-spaces-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dcc-accessible-parking-spaces-vector-test.pmtiles",
+    "bytes": 265444,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dcc-accessible-parking-spaces/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-accessible-parking-spaces-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dcc-accessible-parking-spaces-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dcc-accessible-parking-spaces-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

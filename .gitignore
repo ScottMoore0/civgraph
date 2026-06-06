@@ -9,6 +9,13 @@ build/
 *.fgb.gz
 _bundle_v2.json
 
+# /test2 is currently deployed from committed static artifacts. Its split JS
+# chunks are runtime assets; keep source maps ignored.
+!test2/build/
+!test2/build/chunks/
+!test2/build/chunks/*.js
+test2/build/chunks/*.map
+
 # IDE
 .idea/
 .vscode/

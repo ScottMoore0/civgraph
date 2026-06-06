@@ -1,0 +1,187 @@
+{
+  "id": "dlr-playgrounds-vector-test",
+  "sourceMapId": "dlr-playgrounds",
+  "name": "Playgrounds (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Playgrounds (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-playgrounds/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-playgrounds/metadata.json",
+  "sourceLayer": "dlr_playgrounds",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.211265,
+      -6.2761056
+    ],
+    [
+      53.3087193,
+      -6.1096109
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-playgrounds.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "playgrounds",
+    "Playgrounds (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-playgrounds-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-playgrounds.fgb",
+  "sourceDatasetLayer": "dlr-playgrounds",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "name",
+    "OBJECTID",
+    "PubliclyOpen",
+    "universallyaccessible",
+    "dlr",
+    "ITM_X",
+    "ITM_Y",
+    "AgeGroup"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "ITM_X",
+    "ITM_Y"
+  ],
+  "categoricalProperties": [
+    "name",
+    "PubliclyOpen",
+    "universallyaccessible",
+    "dlr",
+    "AgeGroup"
+  ],
+  "categoricalValues": {
+    "name": [
+      "Deerpark",
+      "Ballawley Park (playlot 1) Sandyford Rd",
+      "Ballawley Park (playlot 2), Wesley",
+      "Belarmine",
+      "Blackrock Park (Booterstown)",
+      "Blackrock Park, adjacent Blackrock Village",
+      "Blackthorn Park",
+      "Cabinteely Regional Playground",
+      "Carysfort Park",
+      "Cois Cairn (old Conna)",
+      "Fernhill Park",
+      "Hudson Road Park",
+      "Hyde Park",
+      "Kilbogget Park",
+      "Killiney Hill",
+      "Leopardstown Heights",
+      "Library Road",
+      "Loreto Park",
+      "Loughlinstown Community Centre",
+      "Marley Park",
+      "Marley Park Toddler",
+      "McCabe's Villas",
+      "Metals (Dún Laoghaire)",
+      "Mounttown Community Facility",
+      "Newtownpark (South) - Springhill Ave",
+      "Patrick Doyle Rd",
+      "Pearse Park, Sallynoggin",
+      "People's Park",
+      "Samual Beckett",
+      "Shanganagh Cliffs",
+      "Shanganagh Community Centre ",
+      "Shanganagh Park"
+    ],
+    "PubliclyOpen": [
+      "Yes",
+      "childrens playgroups - not publicly accessible"
+    ],
+    "universallyaccessible": [
+      "Yes"
+    ],
+    "dlr": [
+      "Yes"
+    ],
+    "AgeGroup": [
+      "junior",
+      "toddler",
+      "toddler, junior",
+      "toddler, junior, teenager"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-playgrounds.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-playgrounds.fgb",
+    "bytes": 49027,
+    "files": 22,
+    "pbfFiles": 21,
+    "maxTileBytes": 3085
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-playgrounds-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-playgrounds/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-playgrounds-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-playgrounds-vector-test.pmtiles",
+    "bytes": 29118,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-playgrounds/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-playgrounds-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-playgrounds-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-playgrounds-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

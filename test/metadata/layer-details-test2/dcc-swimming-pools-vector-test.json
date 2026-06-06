@@ -1,0 +1,221 @@
+{
+  "id": "dcc-swimming-pools-vector-test",
+  "sourceMapId": "dcc-swimming-pools",
+  "name": "Swimming Pools (DCC)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dublin City Council"
+  ],
+  "description": "Swimming Pools (DCC) — published by Dublin City Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dcc-swimming-pools/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dcc-swimming-pools/metadata.json",
+  "sourceLayer": "dcc_swimming_pools",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.3033452,
+      -6.3129274
+    ],
+    [
+      53.3958005,
+      -6.20154
+    ]
+  ],
+  "style": {
+    "color": "#FF6F00",
+    "fillColor": "#FF6F00",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dcc-swimming-pools.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dublin City Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dcc",
+    "amenity",
+    "council",
+    "swimming",
+    "pools",
+    "Swimming Pools (DCC)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Title",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FF6F00",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dcc-swimming-pools-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dcc-swimming-pools.fgb",
+  "sourceDatasetLayer": "dcc-swimming-pools",
+  "popupProperties": [
+    "Title",
+    "Description",
+    "Address 1",
+    "Address 2",
+    "Address 3",
+    "Address 4",
+    "NACE code",
+    "Region",
+    "DccArea",
+    "CensusSmallArea"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Title",
+    "Description",
+    "Address 1",
+    "Address 2",
+    "Address 3",
+    "Address 4",
+    "NACE code",
+    "Region",
+    "DccArea",
+    "CensusSmallArea",
+    "ElectoralDivision"
+  ],
+  "categoricalValues": {
+    "Title": [
+      "Central Remedial Clinic (CRC) Swimming Pool",
+      "Coolock Swimming Pool",
+      "Crumlin Swimming Pool",
+      "Dublin City University Pool",
+      "Marian College Swimming Pool",
+      "Mespil Swimming Pool",
+      "Sean MacDermott Street Swimming Pool",
+      "St. James's Gate Swimming Pool",
+      "Templeogue College Swimming Pool",
+      "Terenure College Swimming Pool",
+      "Trinity College - Swimming Pool"
+    ],
+    "Description": [
+      "Swimming is a fun activity for the whole family, a great cardio workout and burns lots of calories"
+    ],
+    "Address 1": [
+      "34 Lower Sean Macdermott Street",
+      "College Street",
+      "Collins Avenue",
+      "Landsdowne Rd",
+      "Mespil Apartments",
+      "Northside Shopping Centre",
+      "Pearse Park, Windmill Road",
+      "Templeogue Rd",
+      "Templeville Road",
+      "Vernon Avenue",
+      "Watling St"
+    ],
+    "Address 2": [
+      "",
+      "Crumlin",
+      "Oscar Traynor Road, Coolock",
+      "Sussex Road"
+    ],
+    "Address 3": [
+      ""
+    ],
+    "Address 4": [
+      ""
+    ],
+    "NACE code": [
+      "93.11"
+    ],
+    "Region": [
+      "Dublin City Council"
+    ],
+    "DccArea": [
+      "Central",
+      "North Central",
+      "South Central",
+      "South East"
+    ],
+    "CensusSmallArea": [
+      "268043009",
+      "268054005",
+      "268086001",
+      "268096014",
+      "268104016",
+      "268111001",
+      "268117020",
+      "268150015",
+      "268157009/02",
+      "A267150003",
+      "A268146007"
+    ],
+    "ElectoralDivision": [
+      "Ushers C",
+      "Clontarf East C",
+      "Crumlin D",
+      "Kilmore C",
+      "Mansion House A",
+      "Mountjoy A",
+      "Pembroke East B",
+      "Pembroke West C",
+      "TEMPLEOGUE-KIMMAGE MANOR",
+      "TERENURE C",
+      "Whitehall A"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dcc-swimming-pools.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dcc-swimming-pools.fgb",
+    "bytes": 31513,
+    "files": 22,
+    "pbfFiles": 21,
+    "maxTileBytes": 1727
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-swimming-pools-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dcc-swimming-pools/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dcc-swimming-pools-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dcc-swimming-pools-vector-test.pmtiles",
+    "bytes": 17577,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dcc-swimming-pools/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-swimming-pools-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dcc-swimming-pools-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dcc-swimming-pools-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "Title",
+  "idProperty": "Title"
+}

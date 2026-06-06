@@ -1,0 +1,158 @@
+{
+  "id": "gsni-tellus-rural-soil-a-xrf-vector-test",
+  "sourceMapId": "gsni-tellus-rural-soil-a-xrf",
+  "name": "Tellus Rural Soil Survey (A Soils, XRF)",
+  "category": "Geology and Geophysics",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "GSNI",
+    "Tellus"
+  ],
+  "description": "Topsoil (\"A horizon\") samples collected on a 2 km grid across rural Northern Ireland under the Tellus survey and analysed by XRF. Approximately 6,860 points.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/gsni-tellus-rural-soil-a-xrf/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/gsni-tellus-rural-soil-a-xrf/metadata.json",
+  "sourceLayer": "gsni_tellus_rural_soil_a_xrf",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0316034,
+      -8.1613948
+    ],
+    [
+      55.3041837,
+      -5.4374416
+    ]
+  ],
+  "style": {
+    "color": "#b8783a",
+    "fillColor": "#b8783a",
+    "fillOpacity": 0.85,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "GSNI Tellus Rural Soil Survey — Open Data NI",
+      "url": "https://admin.opendatani.gov.uk/dataset/rural-soil-survey"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/gsni-tellus-rural-soil-a-xrf.fgb"
+    },
+    {
+      "label": "GeoJSON — A Soils XRF (original)",
+      "url": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/0865438f-7191-4932-8b00-3bbd5d58a819/download/regional-soils-a-xrf.geojson"
+    },
+    {
+      "label": "CSV — A Soils XRF",
+      "url": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/1c35fb41-1c4e-4c33-956e-3b2e7850ee93/download/regionalsoilsaxrf.csv"
+    },
+    {
+      "label": "Methodology and Detection Limits (PDF)",
+      "url": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/330e2a8f-db4e-42ec-9a66-145a5eb07c93/download/tellusmethodologyanddetectionlimits.pdf"
+    }
+  ],
+  "sourceCredits": [
+    "GSNI",
+    "Tellus"
+  ],
+  "keywords": [
+    "tellus",
+    "soil",
+    "xrf",
+    "topsoil",
+    "agriculture",
+    "geochemistry",
+    "gsni",
+    "Tellus Rural Soil Survey (A Soils, XRF)",
+    "Geology and Geophysics",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Sample",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#b8783a",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/gsni-tellus-rural-soil-a-xrf-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/gsni-tellus-rural-soil-a-xrf.fgb",
+  "sourceDatasetLayer": "gsni-tellus-rural-soil-a-xrf",
+  "popupProperties": [
+    "Sample",
+    "EASTING",
+    "NORTHING",
+    "Ag",
+    "Cd",
+    "In",
+    "Sn",
+    "Sb",
+    "Te",
+    "I"
+  ],
+  "numericProperties": [
+    "Sample",
+    "EASTING",
+    "NORTHING",
+    "Ag",
+    "Cd",
+    "In",
+    "Sn",
+    "Sb",
+    "Te",
+    "I",
+    "Cs",
+    "Ba",
+    "La",
+    "Ce",
+    "Na2O",
+    "MgO"
+  ],
+  "categoricalProperties": [],
+  "categoricalValues": {},
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/gsni-tellus-rural-soil-a-xrf.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/gsni-tellus-rural-soil-a-xrf.fgb",
+    "bytes": 22935804,
+    "files": 729,
+    "pbfFiles": 728,
+    "maxTileBytes": 1364964
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/gsni-tellus-rural-soil-a-xrf-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/gsni-tellus-rural-soil-a-xrf/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/gsni-tellus-rural-soil-a-xrf-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/gsni-tellus-rural-soil-a-xrf-vector-test.pmtiles",
+    "bytes": 13276901,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/gsni-tellus-rural-soil-a-xrf/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/gsni-tellus-rural-soil-a-xrf-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/gsni-tellus-rural-soil-a-xrf-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/gsni-tellus-rural-soil-a-xrf-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

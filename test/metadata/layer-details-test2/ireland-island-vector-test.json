@@ -1,0 +1,120 @@
+{
+  "id": "ireland-island-vector-test",
+  "sourceMapId": "ireland-island",
+  "name": "Island of Ireland",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI",
+    "OSi"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/ireland-island/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/ireland-island/metadata.json",
+  "sourceLayer": "ireland_island",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198973,
+      -10.6629709
+    ],
+    [
+      55.4465803,
+      -5.4327895
+    ]
+  ],
+  "style": {
+    "color": "#228B22",
+    "fillColor": "#228B22",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/ireland-island.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI",
+    "OSi"
+  ],
+  "keywords": [
+    "ireland",
+    "island",
+    "outline",
+    "coast",
+    "coastline",
+    "Island of Ireland",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#228B22",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/ireland-island-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/ireland-island.fgb",
+  "sourceDatasetLayer": "ireland-island",
+  "popupProperties": [
+    "name"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "name"
+  ],
+  "categoricalValues": {
+    "name": [
+      "Ireland"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/ireland-island.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/ireland-island.fgb",
+    "bytes": 5057917,
+    "files": 3912,
+    "pbfFiles": 3911,
+    "maxTileBytes": 27943
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ireland-island-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/ireland-island/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/ireland-island-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/ireland-island-vector-test.pmtiles",
+    "bytes": 2836238,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-30T10:32:05.863Z",
+    "fallback": "/test/tiles/generated/ireland-island/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ireland-island-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/ireland-island-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/ireland-island-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "name",
+  "idProperty": "name"
+}

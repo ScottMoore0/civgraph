@@ -1,0 +1,234 @@
+{
+  "id": "railways-network-vector-test",
+  "sourceMapId": "railways-network",
+  "name": "Railways",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Translink"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/railways-network/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/railways-network/metadata.json",
+  "sourceLayer": "railways_network",
+  "promoteId": "OBJECTID_1",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0679955,
+      -7.3155746
+    ],
+    [
+      55.2035259,
+      -5.6710771
+    ]
+  ],
+  "style": {
+    "color": "#1f4e79",
+    "fillColor": "#1f4e79",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Northern Ireland Railways NIR Railway Network (www.opendatani.gov.uk)",
+      "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-railways-nir-railway-network"
+    },
+    {
+      "label": "Railways — GeoJSON download",
+      "url": "https://admin.opendatani.gov.uk/dataset/0297b4a0-5cea-4c22-97cc-346c76df33ed/resource/6faa0aca-ca1c-4499-9d6f-29fad88314d6/download/translink_rail_network.geojson"
+    },
+    {
+      "label": "Railways — Shapefile (ZIP) download",
+      "url": "https://admin.opendatani.gov.uk/dataset/0297b4a0-5cea-4c22-97cc-346c76df33ed/resource/7bc41442-ef8b-4343-acc4-7a78d37cd6a0/download/nirshp.zip"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/railways-network.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://admin.opendatani.gov.uk/dataset/0297b4a0-5cea-4c22-97cc-346c76df33ed/resource/6faa0aca-ca1c-4499-9d6f-29fad88314d6/download/translink_rail_network.geojson"
+    },
+    {
+      "label": "Shapefile (ZIP)",
+      "url": "https://admin.opendatani.gov.uk/dataset/0297b4a0-5cea-4c22-97cc-346c76df33ed/resource/7bc41442-ef8b-4343-acc4-7a78d37cd6a0/download/nirshp.zip"
+    }
+  ],
+  "sourceCredits": [
+    "Translink"
+  ],
+  "keywords": [
+    "railway",
+    "transport",
+    "network",
+    "Railways",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Route_Section",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#1f4e79",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/railways-network-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/railways-network.fgb",
+  "sourceDatasetLayer": "railways-network",
+  "idProperty": "OBJECTID_1",
+  "popupProperties": [
+    "Route_Section",
+    "OBJECTID_1",
+    "Id",
+    "ID_1",
+    "ELR",
+    "Section_Length",
+    "Max_Line_speed",
+    "Linespeed_Factor",
+    "F2019_Track_Cat_Rat",
+    "EGMTPA"
+  ],
+  "numericProperties": [
+    "OBJECTID_1",
+    "Id",
+    "ID_1",
+    "Section_Length",
+    "Max_Line_speed",
+    "Linespeed_Factor",
+    "F2019_Track_Cat_Rat",
+    "EGMTPA",
+    "Year_Install",
+    "Busn_Crit_Tonnage",
+    "Busn_Crit_Tonn_AMG",
+    "F2019_Track_Cat_Ratd",
+    "Yrs_80_EGMT",
+    "Yrs_40_EGMT",
+    "F15",
+    "Busn_Crit_tonnage1"
+  ],
+  "categoricalProperties": [
+    "Route_Section",
+    "ELR",
+    "Route_Section1",
+    "Office"
+  ],
+  "categoricalValues": {
+    "Route_Section": [
+      "Adelaide to Central Junction",
+      "Antrim to Ballymena",
+      "Ballymena to Coleraine",
+      "Bleach Green to Antrim",
+      "Bleach Green to Carrick",
+      "Border to Newry",
+      "Carrick to Whitehead",
+      "Central Junction to City Junction",
+      "Central Junction to Westlink Junction",
+      "Central to Lagan Junction",
+      "City Junction to Central",
+      "City Junction to Westlink Junction",
+      "Coleraine to Londonderry",
+      "Coleraine to Portrush",
+      "Fortwilliam to Bleach Green",
+      "Knockmore Junction to Antrim",
+      "Lagan Junction to Bangor",
+      "Lagan Junction to York Road",
+      "Lisburn to Adelaide",
+      "Newry to Portadown",
+      "Portadown to Lisburn",
+      "Westlink Junction to GVS",
+      "Whitehead to Larne",
+      "York Road to Fortwilliam"
+    ],
+    "ELR": [
+      "BCJ-Border to Central Junction",
+      "BGD-Bleach Green to Londonderry",
+      "BGL-Bleach Green to Larne",
+      "CGV-Central Junction to GVS",
+      "CJL-Central Junction to Lagan Junction",
+      "CTP-Coleraine to Portrush",
+      "CWJ-City Junction to Westlink Junction",
+      "KJA-Knockmore Junction to Antrim",
+      "LBG-Lagan Junction to Bleach Green",
+      "LJB-Lagan Junction to Bangor"
+    ],
+    "Route_Section1": [
+      "Adelaide to Central Junction",
+      "Antrim to Ballymena",
+      "Ballymena to Coleraine",
+      "Bleach Green to Antrim",
+      "Bleach Green to Carrick",
+      "Border to Newry",
+      "Carrick to Whitehead",
+      "Central Junction to City Junction",
+      "Central Junction to Westlink Junction",
+      "Central to Lagan Junction",
+      "City Junction to Central",
+      "City Junction to Westlink Junction",
+      "Coleraine to Londonderry",
+      "Coleraine to Portrush",
+      "Fortwilliam to Bleach Green",
+      "Knockmore Junction to Antrim",
+      "Lagan Junction to Bangor",
+      "Lagan Junction to York Road",
+      "Lisburn to Adelaide",
+      "Newry to Portadown",
+      "Portadown to Lisburn",
+      "Westlink Junction to GVS",
+      "Whitehead to Larne",
+      "York Road to Fortwilliam"
+    ],
+    "Office": [
+      "Adelaide",
+      "Adelaide / Ballymena",
+      "Ballymena",
+      "Coleraine",
+      "Portadown"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/railways-network.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/railways-network.fgb",
+    "bytes": 190755,
+    "files": 144,
+    "pbfFiles": 143,
+    "maxTileBytes": 6009
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/railways-network-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/railways-network/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/railways-network-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/railways-network-vector-test.pmtiles",
+    "bytes": 133760,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/railways-network/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/railways-network-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/railways-network-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/railways-network-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

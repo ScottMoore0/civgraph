@@ -1,0 +1,209 @@
+{
+  "id": "dfi-pothole-enquiries-2018-vector-test",
+  "sourceMapId": "dfi-pothole-enquiries-2018",
+  "name": "NI Pothole Enquiries 2018",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": "2018-01-01",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Department for Infrastructure - Roads"
+  ],
+  "description": "Pothole enquiries logged by DfI Roads in 2018 — public reports of road defects requiring repair.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dfi-pothole-enquiries-2018/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dfi-pothole-enquiries-2018/metadata.json",
+  "sourceLayer": "dfi_pothole_enquiries_2018",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0301898,
+      -8.1426345
+    ],
+    [
+      55.2370034,
+      -5.4399699
+    ]
+  ],
+  "style": {
+    "color": "#5D4037",
+    "fillColor": "#5D4037",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dfi-pothole-enquiries-2018.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Department for Infrastructure - Roads"
+  ],
+  "keywords": [
+    "DfI",
+    "pothole",
+    "roads",
+    "maintenance",
+    "enquiries",
+    "2018",
+    "NI Pothole Enquiries 2018",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "ENQUIRY_TYPE",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#5D4037",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dfi-pothole-enquiries-2018-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dfi-pothole-enquiries-2018.fgb",
+  "sourceDatasetLayer": "dfi-pothole-enquiries-2018",
+  "popupProperties": [
+    "ENQUIRY_TYPE",
+    "ENQUIRY_CATEGORY",
+    "DATE_RECORDED",
+    "DIVISION",
+    "CLIENT_OFFICE_NAME",
+    "EASTING",
+    "NORTHING",
+    "APPROVAL_STATUS_NAME"
+  ],
+  "numericProperties": [
+    "EASTING",
+    "NORTHING"
+  ],
+  "categoricalProperties": [
+    "ENQUIRY_TYPE",
+    "ENQUIRY_CATEGORY",
+    "DATE_RECORDED",
+    "DIVISION",
+    "CLIENT_OFFICE_NAME",
+    "APPROVAL_STATUS_NAME"
+  ],
+  "categoricalValues": {
+    "ENQUIRY_TYPE": [
+      "Pothole (SD)"
+    ],
+    "ENQUIRY_CATEGORY": [
+      "Call Centre Public Enquiry",
+      "Complaint",
+      "Correspondence",
+      "Public Enquiry"
+    ],
+    "DATE_RECORDED": [
+      "01/08/2018 14:18",
+      "02/01/2019 10:03",
+      "02/01/2019 13:03",
+      "02/05/2018 19:08",
+      "02/05/2018 19:11",
+      "04/01/2019 10:23",
+      "04/01/2019 18:11",
+      "04/03/2019 14:57",
+      "04/04/2018 08:56",
+      "04/04/2018 14:11",
+      "04/05/2018 23:34",
+      "04/12/2018 11:38",
+      "05/01/2019 18:56",
+      "05/05/2018 15:52",
+      "06/01/2019 10:50",
+      "06/02/2019 14:15",
+      "06/04/2018 14:03",
+      "06/05/2018 19:11",
+      "06/05/2018 19:20",
+      "06/08/2018 11:49",
+      "06/08/2018 15:14",
+      "06/09/2018 14:14",
+      "07/01/2019 11:20",
+      "07/02/2019 22:23",
+      "07/02/2019 22:32",
+      "07/03/2019 20:22",
+      "07/06/2018 13:08",
+      "07/08/2018 12:49",
+      "07/08/2018 15:41",
+      "08/01/2019 15:04",
+      "08/01/2019 22:50",
+      "09/01/2019 11:51"
+    ],
+    "DIVISION": [
+      "EASTERN DIVISION",
+      "NORTHERN DIVISION",
+      "SOUTHERN DIVISION",
+      "WESTERN DIVISION"
+    ],
+    "CLIENT_OFFICE_NAME": [
+      "?",
+      "ANTRIM and NEWTOWNABBEY",
+      "ARDS and NORTH DOWN",
+      "ARMAGH CITY BANBRIDGE and CRAIGAVON EAST",
+      "ARMAGH CITY BANBRIDGE and CRAIGAVON WEST",
+      "BELFAST NORTH",
+      "BELFAST SOUTH",
+      "CASTLEREAGH and LISBURN",
+      "CAUSEWAY COAST and GLENS EAST",
+      "CAUSEWAY COAST and GLENS WEST",
+      "FERMANAGH and OMAGH EAST",
+      "FERMANAGH and OMAGH WEST",
+      "LONDONDERRY and STRABANE",
+      "MID ULSTER NORTH",
+      "MID ULSTER SOUTH",
+      "MID and EAST ANTRIM",
+      "NEWRY MOURNE and DOWN EAST",
+      "NEWRY MOURNE and DOWN WEST"
+    ],
+    "APPROVAL_STATUS_NAME": [
+      "Completed Enquiries",
+      "Standard - In Progress",
+      "Standard - New"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dfi-pothole-enquiries-2018.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dfi-pothole-enquiries-2018.fgb",
+    "bytes": 14171129,
+    "files": 684,
+    "pbfFiles": 683,
+    "maxTileBytes": 1043916
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dfi-pothole-enquiries-2018-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dfi-pothole-enquiries-2018/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dfi-pothole-enquiries-2018-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dfi-pothole-enquiries-2018-vector-test.pmtiles",
+    "bytes": 5494851,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dfi-pothole-enquiries-2018/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dfi-pothole-enquiries-2018-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dfi-pothole-enquiries-2018-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dfi-pothole-enquiries-2018-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

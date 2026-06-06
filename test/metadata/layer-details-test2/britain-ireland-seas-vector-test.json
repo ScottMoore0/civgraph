@@ -1,0 +1,140 @@
+{
+  "id": "britain-ireland-seas-vector-test",
+  "sourceMapId": "britain-ireland-seas",
+  "name": "Seas",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "IHO",
+    "Scott Moore"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/britain-ireland-seas/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/britain-ireland-seas/metadata.json",
+  "sourceLayer": "britain_ireland_seas",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      46.5005658,
+      -16.0954192
+    ],
+    [
+      61.6447265,
+      12.0059423
+    ]
+  ],
+  "style": {
+    "color": "#0000FF",
+    "fillColor": "#0000FF",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/britain-ireland-seas.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "IHO",
+    "Scott Moore"
+  ],
+  "keywords": [
+    "seas",
+    "ocean",
+    "maritime",
+    "IHO",
+    "Seas",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "MarRegion",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0000FF",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/britain-ireland-seas-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/britain-ireland-seas.fgb",
+  "sourceDatasetLayer": "britain-ireland-seas",
+  "popupProperties": [
+    "MarRegion",
+    "MRGID",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "MRGID",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "MarRegion"
+  ],
+  "categoricalValues": {
+    "MarRegion": [
+      "Bristol Channel",
+      "Celtic Sea",
+      "English Channel",
+      "Inner Seas",
+      "Irish Sea",
+      "North Atlantic Ocean",
+      "North Sea"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/britain-ireland-seas.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/britain-ireland-seas.fgb",
+    "bytes": 12150603,
+    "files": 68781,
+    "pbfFiles": 68780,
+    "maxTileBytes": 33444
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/britain-ireland-seas-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/britain-ireland-seas/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/britain-ireland-seas-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/britain-ireland-seas-vector-test.pmtiles",
+    "bytes": 5425578,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-30T10:32:05.863Z",
+    "fallback": "/test/tiles/generated/britain-ireland-seas/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/britain-ireland-seas-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/britain-ireland-seas-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/britain-ireland-seas-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "MarRegion",
+  "idProperty": "MarRegion"
+}

@@ -1,0 +1,212 @@
+{
+  "id": "niea-transitional-water-bodies-vector-test",
+  "sourceMapId": "niea-transitional-water-bodies",
+  "name": "NIEA Transitional Water Bodies",
+  "category": "Water Quality",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "NIEA"
+  ],
+  "description": "NIEA Transitional Water Bodies — published by NIEA Water Management Unit (Water Framework Directive boundaries).",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/niea-transitional-water-bodies/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/niea-transitional-water-bodies/metadata.json",
+  "sourceLayer": "niea_transitional_water_bodies",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0892548,
+      -7.4809741
+    ],
+    [
+      55.1717697,
+      -5.6802245
+    ]
+  ],
+  "style": {
+    "color": "#0277BD",
+    "fillColor": "#0277BD",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/niea-transitional-water-bodies.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "NIEA"
+  ],
+  "keywords": [
+    "NIEA",
+    "water",
+    "WFD",
+    "niea transitional water bodies",
+    "NIEA Transitional Water Bodies",
+    "Water Quality",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "EU_CD",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0277BD",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/niea-transitional-water-bodies-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/niea-transitional-water-bodies.fgb",
+  "sourceDatasetLayer": "niea-transitional-water-bodies",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "EU_CD",
+    "OBJECTID",
+    "MS_CD",
+    "NAME",
+    "INS_WHEN",
+    "INS_BY",
+    "LMA",
+    "MODIFIED",
+    "ARTIFICIAL",
+    "SYSTEM"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "Shape_Leng",
+    "Shape_Area"
+  ],
+  "categoricalProperties": [
+    "EU_CD",
+    "MS_CD",
+    "NAME",
+    "INS_WHEN",
+    "INS_BY",
+    "LMA",
+    "MODIFIED",
+    "ARTIFICIAL",
+    "SYSTEM",
+    "REGION_CD",
+    "DIST_CD",
+    "SALINITY",
+    "TYPE_CD"
+  ],
+  "categoricalValues": {
+    "EU_CD": [
+      "UKGBNI5NB010010",
+      "UKGBNI5NB030010",
+      "UKGBNI5NE100010",
+      "UKGBNI5NE100020",
+      "UKGBNI5NE130010",
+      "UKGBNI5NW250010",
+      "UKGBNI5NW250020"
+    ],
+    "MS_CD": [
+      "GBNI5NB010010",
+      "GBNI5NB030010",
+      "GBNI5NE100010",
+      "GBNI5NE100020",
+      "GBNI5NE130010",
+      "GBNI5NW250010",
+      "GBNI5NW250020"
+    ],
+    "NAME": [
+      "Bann Estuary",
+      "Conns Water Estuary",
+      "Foyle and Faughan Estuaries",
+      "Lagan Estuary",
+      "Newry Estuary",
+      "Quoile Estuary",
+      "Roe Estuary"
+    ],
+    "INS_WHEN": [
+      "2004-06-30T00:00:00",
+      "2005-04-08T00:00:00"
+    ],
+    "INS_BY": [
+      "WMU/ESRI",
+      "WMU/MC"
+    ],
+    "LMA": [
+      "Lagan",
+      "Roe",
+      "Burndennet and Foyle",
+      "Carlingford and Newry",
+      "Lower Bann",
+      "Strangford"
+    ],
+    "MODIFIED": [
+      "N",
+      "Y"
+    ],
+    "ARTIFICIAL": [
+      "N"
+    ],
+    "SYSTEM": [
+      "B"
+    ],
+    "REGION_CD": [
+      "17"
+    ],
+    "DIST_CD": [
+      "UKGBNINE",
+      "UKGBNIIENB",
+      "UKGBNIIENW"
+    ],
+    "SALINITY": [
+      "M"
+    ],
+    "TYPE_CD": [
+      "TW2"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/niea-transitional-water-bodies.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/niea-transitional-water-bodies.fgb",
+    "bytes": 85816,
+    "files": 79,
+    "pbfFiles": 78,
+    "maxTileBytes": 2884
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/niea-transitional-water-bodies-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/niea-transitional-water-bodies/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/niea-transitional-water-bodies-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/niea-transitional-water-bodies-vector-test.pmtiles",
+    "bytes": 67038,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/niea-transitional-water-bodies/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/niea-transitional-water-bodies-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/niea-transitional-water-bodies-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/niea-transitional-water-bodies-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "id": "rivers-2016-vector-test",
+  "sourceMapId": "rivers-2016",
+  "name": "Rivers 2016",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": 2016,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "NIEA"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/rivers-2016/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/rivers-2016/metadata.json",
+  "sourceLayer": "rivers_2016",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.76567,
+      -8.2055739
+    ],
+    [
+      55.3117289,
+      -5.4632639
+    ]
+  ],
+  "style": {
+    "color": "#0000FF",
+    "fillColor": "#0000FF",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/rivers-2016.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "NIEA"
+  ],
+  "keywords": [
+    "rivers",
+    "waterways",
+    "2016",
+    "Rivers 2016",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0000FF",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/rivers-2016.fgb",
+  "sourceDatasetLayer": "rivers-2016",
+  "popupProperties": [
+    "RWB_CD",
+    "RSEG_CD",
+    "STRAHLER",
+    "SEGMENT_TY",
+    "LARGE",
+    "MAIN",
+    "Shape_len",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft"
+  ],
+  "numericProperties": [
+    "STRAHLER",
+    "Shape_len"
+  ],
+  "categoricalProperties": [
+    "RWB_CD",
+    "RSEG_CD",
+    "SEGMENT_TY",
+    "MAIN"
+  ],
+  "categoricalValues": {
+    "RWB_CD": [
+      "GBNI1NB030308091",
+      "GBNI1NB030308092",
+      "GBNI1NB030308093",
+      "GBNI1NB030308094",
+      "GBNI1NB030308100",
+      "GBNI1NB030308101",
+      "GBNI1NB030308107",
+      "GBNI1NB030308113",
+      "GBNI1NB030308114",
+      "GBNI1NB030308117",
+      "GBNI1NB030308118",
+      "GBNI1NB030308120",
+      "GBNI1NB030308184",
+      "GBNI1NB030308189",
+      "GBNI1NB030308197",
+      "GBNI1NB060601003",
+      "GBNI1NB060601005",
+      "GBNI1NB060601007",
+      "GBNI1NB060601018",
+      "GBNI1NB060601019",
+      "GBNI1NB060601021",
+      "GBNI1NB060601022",
+      "GBNI1NB060601023",
+      "GBNI1NB060601024",
+      "GBNI1NB060601025",
+      "GBNI1NB060601044",
+      "GBNI1NB060602001",
+      "GBNI1NB060602002",
+      "GBNI1NB060602029",
+      "GBNI1NB060602034",
+      "GBNI1NB060602035",
+      "GBNI1NB060602036"
+    ],
+    "RSEG_CD": [
+      "GBNI0305207",
+      "GBNI0501034",
+      "GBNI0501035",
+      "GBNI0501040",
+      "GBNI0501041",
+      "GBNI0501077",
+      "GBNI0501190",
+      "GBNI0501193",
+      "GBNI0501235",
+      "GBNI0501242",
+      "GBNI0501314",
+      "GBNI0501315",
+      "GBNI0501316",
+      "GBNI0501354",
+      "GBNI0501368",
+      "GBNI0600001",
+      "GBNI0600020",
+      "GBNI0600063",
+      "GBNI0600473",
+      "GBNI0600484",
+      "GBNI0600496",
+      "GBNI0600551",
+      "GBNI0600553",
+      "GBNI0600555",
+      "GBNI0600558",
+      "GBNI0600561",
+      "GBNI0600585",
+      "GBNI0600630",
+      "GBNI0600637",
+      "GBNI0600639",
+      "GBNI0600648",
+      "GBNI0600665"
+    ],
+    "SEGMENT_TY": [
+      "L",
+      "T",
+      "Y"
+    ],
+    "MAIN": [
+      "Y"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/rivers-2016.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/rivers-2016.fgb",
+    "bytes": 28946288,
+    "files": 911,
+    "pbfFiles": 910,
+    "maxTileBytes": 2107234
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/rivers-2016-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/rivers-2016/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/rivers-2016-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/rivers-2016-vector-test.pmtiles",
+    "bytes": 14694663,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/rivers-2016/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/rivers-2016-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/rivers-2016-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/rivers-2016-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "id": "oa-2001-vector-test",
+  "sourceMapId": "oa-2001",
+  "name": "Output Area 2001",
+  "category": "Census Statistical Areas",
+  "group": "Public Services",
+  "date": 2001,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "NISRA"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/oa-2001/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/oa-2001/metadata.json",
+  "sourceLayer": "oa_2001",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227249,
+      -8.1775025
+    ],
+    [
+      55.3129653,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#7D3C98",
+    "fillColor": "#7D3C98",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Output Areas (Census 2001) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
+      "url": "https://www.nisra.gov.uk/support/geography/output-areas-census-2001"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/oa-2001.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "NISRA"
+  ],
+  "keywords": [
+    "OA",
+    "output area",
+    "census",
+    "2001",
+    "statistical",
+    "Output Area 2001",
+    "Census Statistical Areas",
+    "Public Services",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "OA_CODE",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#7D3C98",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/oa-2001-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/oa-2001.fgb",
+  "sourceDatasetLayer": "oa-2001",
+  "popupProperties": [
+    "OA_CODE",
+    "X_POPCOORD",
+    "Y_POPCOORD",
+    "HECTARES",
+    "X_COORD",
+    "Y_COORD",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft"
+  ],
+  "numericProperties": [
+    "X_POPCOORD",
+    "Y_POPCOORD",
+    "HECTARES",
+    "X_COORD",
+    "Y_COORD",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "OA_CODE"
+  ],
+  "categoricalValues": {
+    "OA_CODE": [
+      "95CC020001",
+      "95CC020002",
+      "95CC020004",
+      "95CC020005",
+      "95CC040005",
+      "95CC050003",
+      "95CC050004",
+      "95CC070001",
+      "95CC070004",
+      "95CC070005",
+      "95CC070006",
+      "95CC090002",
+      "95CC090003",
+      "95CC090004",
+      "95CC090005",
+      "95CC100002",
+      "95CC120001",
+      "95CC120005",
+      "95CC130006",
+      "95CC140002",
+      "95CC150007",
+      "95CC170002",
+      "95CC190002",
+      "95CC190004",
+      "95CC220002",
+      "95FF020005",
+      "95FF020006",
+      "95FF030008",
+      "95FF090003",
+      "95FF110001",
+      "95FF110002",
+      "95FF110003"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/oa-2001.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/oa-2001.fgb",
+    "bytes": 21648208,
+    "files": 756,
+    "pbfFiles": 755,
+    "maxTileBytes": 823728
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/oa-2001-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/oa-2001/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/oa-2001-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/oa-2001-vector-test.pmtiles",
+    "bytes": 12795184,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/oa-2001/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/oa-2001-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/oa-2001-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/oa-2001-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "OA_CODE",
+  "idProperty": "OA_CODE"
+}

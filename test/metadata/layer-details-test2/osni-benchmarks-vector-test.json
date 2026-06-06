@@ -1,0 +1,181 @@
+{
+  "id": "osni-benchmarks-vector-test",
+  "sourceMapId": "osni-benchmarks",
+  "name": "OSNI Benchmarks (Height Reference Points)",
+  "category": "OSNI Reference Layers",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI"
+  ],
+  "description": "Historic OSNI benchmarks — small brass plates or chiselled grooves set into permanent features (bridges, walls, milestones) whose heights above Ordnance Datum were precisely determined by levelling surveys. Used by surveyors as known reference points before GPS. ~10,000 points across Northern Ireland, each attributed with its height in metres.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/osni-benchmarks/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/osni-benchmarks/metadata.json",
+  "sourceLayer": "osni_benchmarks",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0382095,
+      -8.142995
+    ],
+    [
+      55.2372713,
+      -5.4472365
+    ]
+  ],
+  "style": {
+    "color": "#b87333",
+    "fillColor": "#b87333",
+    "fillOpacity": 0.8,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "OSNI Open Data - BenchMarks - Height",
+      "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-benchmarks-height"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/osni-benchmarks.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/3c5df17a-e28d-439b-9164-c2e6e0830b31/download/osni_open_data_benchmarks_height.geojson"
+    },
+    {
+      "label": "ESRI Shapefile (ZIP)",
+      "url": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/4214da40-17a5-4af7-8f22-3d84706f774a/download/osni_open_data_benchmarks_height.zip"
+    },
+    {
+      "label": "KML",
+      "url": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/1f593808-f938-43dc-8f82-f6391905a79f/download/osni_open_data_benchmarks_height.kml"
+    },
+    {
+      "label": "CSV",
+      "url": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/5f6a8d59-cef0-4d48-9f5a-79c8dfc000f5/download/osni_open_data_benchmarks_height.csv"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI"
+  ],
+  "keywords": [
+    "osni",
+    "benchmark",
+    "bench mark",
+    "height",
+    "datum",
+    "levelling",
+    "survey",
+    "trigonometric",
+    "OSNI Benchmarks (Height Reference Points)",
+    "OSNI Reference Layers",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "BM_Height",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#b87333",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/osni-benchmarks-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/osni-benchmarks.fgb",
+  "sourceDatasetLayer": "osni-benchmarks",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "BM_Height",
+    "OBJECTID",
+    "Easting",
+    "Northing"
+  ],
+  "numericProperties": [
+    "Easting",
+    "Northing",
+    "OBJECTID"
+  ],
+  "categoricalProperties": [
+    "BM_Height"
+  ],
+  "categoricalValues": {
+    "BM_Height": [
+      "BM 1.43",
+      "BM 10.47",
+      "BM 11.33",
+      "BM 11.35",
+      "BM 11.36",
+      "BM 12.40",
+      "BM 12.46",
+      "BM 12.57",
+      "BM 13.30",
+      "BM 13.36",
+      "BM 13.73",
+      "BM 13.78",
+      "BM 14.02",
+      "BM 14.52",
+      "BM 14.71",
+      "BM 15.30",
+      "BM 15.33",
+      "BM 15.50",
+      "BM 15.57",
+      "BM 17.45",
+      "BM 17.46",
+      "BM 17.55",
+      "BM 17.71",
+      "BM 18.25",
+      "BM 18.47",
+      "BM 19.10",
+      "BM 19.42",
+      "BM 2.74",
+      "BM 20.51",
+      "BM 20.54",
+      "BM 21.08",
+      "BM 21.31"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/osni-benchmarks.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/osni-benchmarks.fgb",
+    "bytes": 8498558,
+    "files": 711,
+    "pbfFiles": 710,
+    "maxTileBytes": 631355
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-benchmarks-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/osni-benchmarks/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/osni-benchmarks-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/osni-benchmarks-vector-test.pmtiles",
+    "bytes": 4014019,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/osni-benchmarks/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-benchmarks-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/osni-benchmarks-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/osni-benchmarks-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

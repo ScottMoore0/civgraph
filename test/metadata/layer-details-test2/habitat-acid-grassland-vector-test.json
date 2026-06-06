@@ -1,0 +1,129 @@
+{
+  "id": "habitat-acid-grassland-vector-test",
+  "sourceMapId": "habitat-acid-grassland",
+  "name": "Habitat Network — Acid Grassland",
+  "category": "Biodiversity & Habitats",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Ulster Wildlife"
+  ],
+  "description": "Spatial extent of acid grassland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/habitat-acid-grassland/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/habitat-acid-grassland/metadata.json",
+  "sourceLayer": "habitat_acid_grassland",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0694974,
+      -7.9703734
+    ],
+    [
+      55.3152018,
+      -5.7757331
+    ]
+  ],
+  "style": {
+    "color": "#3a3a3a",
+    "fillColor": "#B8C277",
+    "fillOpacity": 0.6,
+    "weight": 0.2
+  },
+  "references": [
+    {
+      "label": "Open Data NI — Acid Grassland Habitat Network",
+      "url": "https://admin.opendatani.gov.uk/dataset/f4cdfd0e-f655-444d-a5fb-f052a04c6737"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/habitat-acid-grassland.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Ulster Wildlife"
+  ],
+  "keywords": [
+    "habitat",
+    "biodiversity",
+    "nature recovery",
+    "ulster wildlife",
+    "habitat network",
+    "acid grassland",
+    "Habitat Network — Acid Grassland",
+    "Biodiversity & Habitats",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Class",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#3a3a3a",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/habitat-acid-grassland-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/habitat-acid-grassland.fgb",
+  "sourceDatasetLayer": "habitat-acid-grassland",
+  "popupProperties": [
+    "Class"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Class"
+  ],
+  "categoricalValues": {
+    "Class": [
+      "Associated Habitats",
+      "Fragmentation Action Zone",
+      "Network Enhancement Zone 1",
+      "Network Enhancement Zone 2",
+      "Network Expansion Zone",
+      "Primary Habitat",
+      "Restorable Habitat"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/habitat-acid-grassland.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/habitat-acid-grassland.fgb",
+    "bytes": 2458956,
+    "files": 221,
+    "pbfFiles": 220,
+    "maxTileBytes": 130443
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-acid-grassland-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/habitat-acid-grassland/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/habitat-acid-grassland-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/habitat-acid-grassland-vector-test.pmtiles",
+    "bytes": 988489,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/habitat-acid-grassland/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-acid-grassland-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/habitat-acid-grassland-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/habitat-acid-grassland-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "id": "dlr-administrative-area-vector-test",
+  "sourceMapId": "dlr-administrative-area",
+  "name": "Administrative Area (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Administrative Area (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/dlr-administrative-area/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-administrative-area/metadata.json",
+  "sourceLayer": "dlr_administrative_area",
+  "promoteId": "ID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.1986269,
+      -6.2992753
+    ],
+    [
+      53.3148151,
+      -6.081761
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-administrative-area.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "administrative",
+    "area",
+    "Administrative Area (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "ENGLISH",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-administrative-area-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-administrative-area.fgb",
+  "sourceDatasetLayer": "dlr-administrative-area",
+  "idProperty": "ID",
+  "popupProperties": [
+    "ENGLISH",
+    "ID",
+    "FID",
+    "PROVINCE",
+    "GUID"
+  ],
+  "numericProperties": [
+    "FID"
+  ],
+  "categoricalProperties": [
+    "ENGLISH",
+    "PROVINCE",
+    "ID",
+    "GUID"
+  ],
+  "categoricalValues": {
+    "ENGLISH": [
+      "DUN LAOGHAIRE-RATHDOWN COUNTY COUNCIL"
+    ],
+    "PROVINCE": [
+      "Leinster"
+    ],
+    "ID": [
+      "15"
+    ],
+    "GUID": [
+      "8CD118DF-9362-4D15-8028-16CB016E942C"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-administrative-area.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-administrative-area.fgb",
+    "bytes": 35921,
+    "files": 26,
+    "pbfFiles": 25,
+    "maxTileBytes": 5723
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-administrative-area-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-administrative-area/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-administrative-area-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-administrative-area-vector-test.pmtiles",
+    "bytes": 22950,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-administrative-area/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-administrative-area-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-administrative-area-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-administrative-area-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

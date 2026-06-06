@@ -1,0 +1,175 @@
+{
+  "id": "mep-2009-vector-test",
+  "sourceMapId": "mep-2009",
+  "name": "European Parliament Constituencies 2009",
+  "category": "European Regions",
+  "group": "Elections and Government",
+  "date": 2009,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSI",
+    "OSNI"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/mep-2009/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/mep-2009/metadata.json",
+  "sourceLayer": "mep_2009",
+  "promoteId": "GUID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198973,
+      -10.6812354
+    ],
+    [
+      55.4469322,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#003399",
+    "fillColor": "#003399",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/mep-2009.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSI",
+    "OSNI"
+  ],
+  "keywords": [
+    "MEP",
+    "european parliament",
+    "2009",
+    "EU",
+    "European Parliament Constituencies 2009",
+    "European Regions",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "ENGLISH",
+  "labelPropertyFallbacks": [
+    "GAEILGE",
+    "COUNTY"
+  ],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#003399",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/mep-2009-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/mep-2009.fgb",
+  "sourceDatasetLayer": "mep-2009",
+  "idProperty": "GUID",
+  "popupProperties": [
+    "ENGLISH",
+    "GUID",
+    "GAEILGE",
+    "CONTAE",
+    "COUNTY",
+    "PROVINCE",
+    "CENTROID_X",
+    "CENTROID_Y",
+    "AREA",
+    "CC_ID"
+  ],
+  "numericProperties": [
+    "CENTROID_X",
+    "CENTROID_Y",
+    "AREA",
+    "CC_ID",
+    "ESRI_OID",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "ENGLISH",
+    "CONTAE",
+    "COUNTY",
+    "PROVINCE",
+    "GUID"
+  ],
+  "categoricalValues": {
+    "ENGLISH": [
+      "CARLOW COUNTY COUNCIL",
+      "DONEGAL COUNTY COUNCIL",
+      "DUBLIN CITY COUNCIL",
+      "NORTHERN IRELAND",
+      "WATERFORD CITY AND COUNTY COUNCIL"
+    ],
+    "CONTAE": [
+      "Baile Átha Cliath",
+      "Ceatharlach",
+      "Dún na nGall",
+      "Port Láirge"
+    ],
+    "COUNTY": [
+      "CARLOW",
+      "DONEGAL",
+      "DUBLIN",
+      "WATERFORD"
+    ],
+    "PROVINCE": [
+      "Leinster",
+      "Munster",
+      "Ulster"
+    ],
+    "GUID": [
+      "2ae19629-1433-13a3-e055-000000000001",
+      "2ae19629-1492-13a3-e055-000000000001",
+      "2ae19629-149a-13a3-e055-000000000001",
+      "2ae19629-14a4-13a3-e055-000000000001"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/mep-2009.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/mep-2009.fgb",
+    "bytes": 7585608,
+    "files": 3922,
+    "pbfFiles": 3921,
+    "maxTileBytes": 39603
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/mep-2009-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/mep-2009/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/mep-2009-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/mep-2009-vector-test.pmtiles",
+    "bytes": 4198736,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/mep-2009/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/mep-2009-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/mep-2009-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/mep-2009-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

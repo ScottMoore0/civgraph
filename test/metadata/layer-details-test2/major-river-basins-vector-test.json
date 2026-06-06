@@ -1,0 +1,158 @@
+{
+  "id": "major-river-basins-vector-test",
+  "sourceMapId": "major-river-basins",
+  "name": "Major River and Coastal Basins",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Scott Moore",
+    "Global Watersheds",
+    "EPA"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/major-river-basins/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/major-river-basins/metadata.json",
+  "sourceLayer": "major_river_basins",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4475651,
+      -10.4801254
+    ],
+    [
+      55.3829382,
+      -5.4325469
+    ]
+  ],
+  "style": {
+    "color": "#964B00",
+    "fillColor": "#964B00",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/major-river-basins.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Scott Moore",
+    "Global Watersheds",
+    "EPA"
+  ],
+  "keywords": [
+    "river",
+    "basin",
+    "watershed",
+    "coastal",
+    "Major River and Coastal Basins",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#964B00",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/major-river-basins-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/major-river-basins.fgb",
+  "sourceDatasetLayer": "major-river-basins",
+  "popupProperties": [
+    "Name",
+    "area",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "area",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "Name"
+  ],
+  "categoricalValues": {
+    "Name": [
+      "Bann",
+      "Bantry",
+      "Barrow",
+      "Down",
+      "Erne",
+      "Foyle",
+      "Mayo",
+      "Mourne",
+      "Shannon",
+      "The Pale",
+      "Belfast Lough",
+      "Blackwater",
+      "Cork Harbour",
+      "Dingle Bay",
+      "Galway Bay",
+      "Glenveagh",
+      "North Channel",
+      "Sligo Bay",
+      "South Cork",
+      "Strangford",
+      "Tralee Bay",
+      "Waterford",
+      "Wicklow and Wexford"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/major-river-basins.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/major-river-basins.fgb",
+    "bytes": 4426798,
+    "files": 3847,
+    "pbfFiles": 3846,
+    "maxTileBytes": 44675
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/major-river-basins-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/major-river-basins/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/major-river-basins-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/major-river-basins-vector-test.pmtiles",
+    "bytes": 2640530,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/major-river-basins/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/major-river-basins-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/major-river-basins-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/major-river-basins-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "Name",
+  "idProperty": "Name"
+}

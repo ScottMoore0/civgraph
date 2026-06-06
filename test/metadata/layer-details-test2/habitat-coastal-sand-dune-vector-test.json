@@ -1,0 +1,129 @@
+{
+  "id": "habitat-coastal-sand-dune-vector-test",
+  "sourceMapId": "habitat-coastal-sand-dune",
+  "name": "Habitat Network — Coastal Sand Dune",
+  "category": "Biodiversity & Habitats",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Ulster Wildlife"
+  ],
+  "description": "Spatial extent of coastal sand dune habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/habitat-coastal-sand-dune/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/habitat-coastal-sand-dune/metadata.json",
+  "sourceLayer": "habitat_coastal_sand_dune",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.22291,
+      -8.1885376
+    ],
+    [
+      55.3374112,
+      -5.710667
+    ]
+  ],
+  "style": {
+    "color": "#3a3a3a",
+    "fillColor": "#E8D697",
+    "fillOpacity": 0.6,
+    "weight": 0.2
+  },
+  "references": [
+    {
+      "label": "Open Data NI — Coastal Sand Dune Habitat Network",
+      "url": "https://admin.opendatani.gov.uk/dataset/10a948a6-05d5-498b-853a-430086da439a"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/habitat-coastal-sand-dune.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Ulster Wildlife"
+  ],
+  "keywords": [
+    "habitat",
+    "biodiversity",
+    "nature recovery",
+    "ulster wildlife",
+    "habitat network",
+    "coastal sand dune",
+    "Habitat Network — Coastal Sand Dune",
+    "Biodiversity & Habitats",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Class",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#3a3a3a",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/habitat-coastal-sand-dune-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/habitat-coastal-sand-dune.fgb",
+  "sourceDatasetLayer": "habitat-coastal-sand-dune",
+  "popupProperties": [
+    "Class"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Class"
+  ],
+  "categoricalValues": {
+    "Class": [
+      "Associated Habitats",
+      "Fragmentation Action Zone",
+      "Network Enhancement Zone 1",
+      "Network Enhancement Zone 2",
+      "Network Expansion Zone",
+      "Primary Habitat",
+      "Restorable Habitat"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/habitat-coastal-sand-dune.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/habitat-coastal-sand-dune.fgb",
+    "bytes": 474991,
+    "files": 105,
+    "pbfFiles": 104,
+    "maxTileBytes": 32428
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-coastal-sand-dune-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/habitat-coastal-sand-dune/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/habitat-coastal-sand-dune-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/habitat-coastal-sand-dune-vector-test.pmtiles",
+    "bytes": 201166,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/habitat-coastal-sand-dune/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/habitat-coastal-sand-dune-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/habitat-coastal-sand-dune-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/habitat-coastal-sand-dune-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

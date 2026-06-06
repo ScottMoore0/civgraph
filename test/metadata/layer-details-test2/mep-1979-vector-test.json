@@ -1,0 +1,140 @@
+{
+  "id": "mep-1979-vector-test",
+  "sourceMapId": "mep-1979",
+  "name": "European Parliament Constituencies 1979",
+  "category": "European Regions",
+  "group": "Elections and Government",
+  "date": 1979,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSI",
+    "OSNI"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/mep-1979/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/mep-1979/metadata.json",
+  "sourceLayer": "mep_1979",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198973,
+      -10.6812354
+    ],
+    [
+      55.4469322,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#003399",
+    "fillColor": "#003399",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/mep-1979.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSI",
+    "OSNI"
+  ],
+  "keywords": [
+    "MEP",
+    "european parliament",
+    "1979",
+    "EU",
+    "European Parliament Constituencies 1979",
+    "European Regions",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "ENGLISH",
+  "labelPropertyFallbacks": [
+    "GAEILGE"
+  ],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#003399",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/mep-1979-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/mep-1979.fgb",
+  "sourceDatasetLayer": "mep-1979",
+  "popupProperties": [
+    "ENGLISH",
+    "GAEILGE",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "ENGLISH"
+  ],
+  "categoricalValues": {
+    "ENGLISH": [
+      "DUBLIN",
+      "LEINSTER",
+      "MUNSTER",
+      "CONNACHT-ULSTER",
+      "NORTHERN IRELAND"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/mep-1979.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/mep-1979.fgb",
+    "bytes": 6719903,
+    "files": 3922,
+    "pbfFiles": 3921,
+    "maxTileBytes": 38909
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/mep-1979-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/mep-1979/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/mep-1979-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/mep-1979-vector-test.pmtiles",
+    "bytes": 3851142,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/mep-1979/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/mep-1979-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/mep-1979-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/mep-1979-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "ENGLISH",
+  "idProperty": "ENGLISH"
+}

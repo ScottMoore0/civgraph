@@ -1,0 +1,188 @@
+{
+  "id": "dlr-burial-grounds-vector-test",
+  "sourceMapId": "dlr-burial-grounds",
+  "name": "Burial Grounds (DLR)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "description": "Burial Grounds (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dlr-burial-grounds/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dlr-burial-grounds/metadata.json",
+  "sourceLayer": "dlr_burial_grounds",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2091044,
+      -6.2171623
+    ],
+    [
+      53.2953551,
+      -6.1058842
+    ]
+  ],
+  "style": {
+    "color": "#0091EA",
+    "fillColor": "#0091EA",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dlr-burial-grounds.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dún Laoghaire-Rathdown County Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dlr",
+    "amenity",
+    "council",
+    "burial",
+    "grounds",
+    "Burial Grounds (DLR)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0091EA",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dlr-burial-grounds-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dlr-burial-grounds.fgb",
+  "sourceDatasetLayer": "dlr-burial-grounds",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "name",
+    "OBJECTID",
+    "altname",
+    "dlrmaintained",
+    "inuseclosed",
+    "ITM_X",
+    "ITM_Y"
+  ],
+  "numericProperties": [
+    "OBJECTID"
+  ],
+  "categoricalProperties": [
+    "name",
+    "dlrmaintained",
+    "inuseclosed",
+    "ITM_X",
+    "ITM_Y",
+    "altname"
+  ],
+  "categoricalValues": {
+    "name": [
+      "Carrickbrennan Burial Ground",
+      "Deansgrange Cemetery",
+      "Friends Burial Ground",
+      "Kilgobbin Cemetry",
+      "Kill Abbey Burial Ground",
+      "Old Connaught Burial Ground",
+      "Rathmichael Burial Ground",
+      "Shanganagh Cemetery",
+      "St. Begnet's Graveyard",
+      "The Bishops Lane Burial Ground",
+      "Tully Vale Burial Ground"
+    ],
+    "dlrmaintained": [
+      "No",
+      "Yes"
+    ],
+    "inuseclosed": [
+      "Closed",
+      "In  Use*",
+      "In Use"
+    ],
+    "ITM_X": [
+      "718957.8389",
+      "720017.9069",
+      "721873.585",
+      "722099.8768",
+      "722645.8331",
+      "723299.5506",
+      "723304.5769",
+      "723776.7641",
+      "724832.8045",
+      "725665.1638",
+      "726317.8458"
+    ],
+    "ITM_Y": [
+      "719261.8267",
+      "720733.953500001",
+      "721875.997199999",
+      "722030.550100001",
+      "723421.014",
+      "724368.4351",
+      "726980.029899999",
+      "727170.8254",
+      "727251.424699999",
+      "728217.7859",
+      "728787.498600001"
+    ],
+    "altname": [
+      "Old Kilternan Church",
+      "Temple Hill Burial Ground"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dlr-burial-grounds.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dlr-burial-grounds.fgb",
+    "bytes": 20125,
+    "files": 20,
+    "pbfFiles": 19,
+    "maxTileBytes": 1173
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-burial-grounds-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dlr-burial-grounds/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dlr-burial-grounds-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dlr-burial-grounds-vector-test.pmtiles",
+    "bytes": 12346,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dlr-burial-grounds/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dlr-burial-grounds-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dlr-burial-grounds-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dlr-burial-grounds-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

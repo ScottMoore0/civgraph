@@ -1,0 +1,162 @@
+{
+  "id": "river-basin-districts-vector-test",
+  "sourceMapId": "river-basin-districts",
+  "name": "River Basin Districts 2016",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": 2016,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "DAERA"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/river-basin-districts/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/river-basin-districts/metadata.json",
+  "sourceLayer": "river_basin_districts",
+  "promoteId": "OBJECTID_1",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.9592616,
+      -8.3505038
+    ],
+    [
+      55.3293648,
+      -5.3773237
+    ]
+  ],
+  "style": {
+    "color": "#964B00",
+    "fillColor": "#964B00",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/river-basin-districts.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "DAERA"
+  ],
+  "keywords": [
+    "river",
+    "basin",
+    "district",
+    "DAERA",
+    "River Basin Districts 2016",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "namespace",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#964B00",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/river-basin-districts-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/river-basin-districts.fgb",
+  "sourceDatasetLayer": "river-basin-districts",
+  "idProperty": "OBJECTID_1",
+  "popupProperties": [
+    "namespace",
+    "OBJECTID_1",
+    "objectid",
+    "localid",
+    "beginlife",
+    "endlife",
+    "zonetype",
+    "area_km2",
+    "SHAPE__Length",
+    "SHAPE__Area"
+  ],
+  "numericProperties": [
+    "OBJECTID_1",
+    "objectid",
+    "area_km2",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "localid",
+    "namespace",
+    "beginlife",
+    "endlife",
+    "zonetype",
+    "GlobalID"
+  ],
+  "categoricalValues": {
+    "localid": [
+      "UKGBNINE",
+      "UKGBNIIENB",
+      "UKGBNIIENW"
+    ],
+    "namespace": [
+      "Neagh Bann",
+      "North Eastern",
+      "North Western"
+    ],
+    "beginlife": [
+      "Wed, 20 Jan 2016 00:00:00 GMT"
+    ],
+    "endlife": [
+      "Fri, 31 Dec 9999 00:00:00 GMT"
+    ],
+    "zonetype": [
+      "riverBasinDistrict"
+    ],
+    "GlobalID": [
+      "26014dd6-36ad-4953-a2de-f026cdafaa3b",
+      "50bbb02b-3443-4714-808d-30b5c234cd66",
+      "984070d0-d714-4990-bdcd-15d1c950c5dd"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/river-basin-districts.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/river-basin-districts.fgb",
+    "bytes": 779256,
+    "files": 837,
+    "pbfFiles": 836,
+    "maxTileBytes": 9318
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/river-basin-districts-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/river-basin-districts/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/river-basin-districts-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/river-basin-districts-vector-test.pmtiles",
+    "bytes": 418712,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/river-basin-districts/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/river-basin-districts-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/river-basin-districts-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/river-basin-districts-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

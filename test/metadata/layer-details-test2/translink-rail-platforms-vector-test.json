@@ -1,0 +1,176 @@
+{
+  "id": "translink-rail-platforms-vector-test",
+  "sourceMapId": "translink-rail-platforms",
+  "name": "NI Railways Platforms",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Translink"
+  ],
+  "description": "NI Railways Platforms — public transport infrastructure published by Translink.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/translink-rail-platforms/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/translink-rail-platforms/metadata.json",
+  "sourceLayer": "translink_rail_platforms",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.1893476,
+      -7.3134129
+    ],
+    [
+      55.2028459,
+      -5.6725621
+    ]
+  ],
+  "style": {
+    "color": "#0D47A1",
+    "fillColor": "#0D47A1",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/translink-rail-platforms.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Translink"
+  ],
+  "keywords": [
+    "translink",
+    "public transport",
+    "transit",
+    "ni railways platforms",
+    "northern ireland",
+    "NI Railways Platforms",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#0D47A1",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/translink-rail-platforms-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/translink-rail-platforms.fgb",
+  "sourceDatasetLayer": "translink-rail-platforms",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "NAME",
+    "OBJECTID",
+    "TYPE",
+    "EASTING",
+    "NORTHING",
+    "Comment",
+    "Lat",
+    "Long"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "EASTING",
+    "NORTHING",
+    "Lat",
+    "Long"
+  ],
+  "categoricalProperties": [
+    "NAME",
+    "TYPE",
+    "Comment"
+  ],
+  "categoricalValues": {
+    "NAME": [
+      "Bangor 1",
+      "Bangor 2",
+      "Bangor 3",
+      "Adelaide 1 (UP)",
+      "Adelaide 2 (DN)",
+      "Antrim 1 (DN)",
+      "Antrim 2 (UP)",
+      "Ballycarry 1",
+      "Ballymena 1 (DN)",
+      "Ballymena 2 (UP)",
+      "Ballymoney 1 (UP)",
+      "Ballymoney 2 (DN)",
+      "Balmoral 1 (UP)",
+      "Balmoral 2 (DN)",
+      "Bangor West 1 (UP)",
+      "Bangor West 2 (DN)",
+      "Botanic 1",
+      "Botanic 2",
+      "Carnalea 1 (UP)",
+      "Carnalea 2 (DN)",
+      "Carrickfergus 1",
+      "Carrickfergus 2",
+      "Carrickfergus 3",
+      "Central 1",
+      "Central 2",
+      "Central 3",
+      "Central 4",
+      "City Hospital 1",
+      "City Hospital 2",
+      "Clipperstown 1 (UP)",
+      "Clipperstown 2 (DN)",
+      "Coleraine 1 (UP)"
+    ],
+    "TYPE": [
+      "Platform"
+    ],
+    "Comment": [
+      "Removed"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/translink-rail-platforms.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/translink-rail-platforms.fgb",
+    "bytes": 167287,
+    "files": 92,
+    "pbfFiles": 91,
+    "maxTileBytes": 10470
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/translink-rail-platforms-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/translink-rail-platforms/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/translink-rail-platforms-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/translink-rail-platforms-vector-test.pmtiles",
+    "bytes": 95640,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/translink-rail-platforms/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/translink-rail-platforms-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/translink-rail-platforms-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/translink-rail-platforms-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

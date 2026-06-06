@@ -1,0 +1,205 @@
+{
+  "id": "dcc-traffic-signal-sites-juctions-vector-test",
+  "sourceMapId": "dcc-traffic-signal-sites-juctions",
+  "name": "Traffic Signal Sites Juctions (DCC)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dublin City Council"
+  ],
+  "description": "Traffic Signal Sites Juctions (DCC) — published by Dublin City Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dcc-traffic-signal-sites-juctions/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dcc-traffic-signal-sites-juctions/metadata.json",
+  "sourceLayer": "dcc_traffic_signal_sites_juctions",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.30182,
+      -6.380298
+    ],
+    [
+      53.409815,
+      -6.142946
+    ]
+  ],
+  "style": {
+    "color": "#FF6F00",
+    "fillColor": "#FF6F00",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dcc-traffic-signal-sites-juctions.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dublin City Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dcc",
+    "amenity",
+    "council",
+    "traffic",
+    "signal",
+    "sites",
+    "juctions",
+    "Traffic Signal Sites Juctions (DCC)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Site Number",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FF6F00",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dcc-traffic-signal-sites-juctions-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dcc-traffic-signal-sites-juctions.fgb",
+  "sourceDatasetLayer": "dcc-traffic-signal-sites-juctions",
+  "popupProperties": [
+    "Site Number",
+    "Site Name",
+    "Type"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Site Number",
+    "Site Name",
+    "Type"
+  ],
+  "categoricalValues": {
+    "Site Number": [
+      "1012",
+      "102",
+      "103",
+      "104",
+      "111",
+      "112",
+      "113",
+      "114",
+      "115",
+      "117",
+      "118",
+      "123",
+      "134",
+      "137",
+      "14",
+      "147",
+      "153",
+      "160",
+      "163",
+      "165",
+      "167",
+      "174",
+      "175",
+      "206",
+      "218",
+      "243",
+      "246",
+      "268",
+      "275",
+      "276",
+      "302",
+      "303"
+    ],
+    "Site Name": [
+      "Adelaide Road @ Hospital",
+      "Adelaide Road @ Peters Place (LUAS)",
+      "Ailesbury Road @ Church",
+      "Anglesea Rd @ RDS Ped",
+      "Anglesea Rd Ped",
+      "Baggot St @ Fitzwilliam St",
+      "Baggot St @ Herbert Place",
+      "Baggot St @ Pembroke St",
+      "Baggot St @ Waterloo Rd",
+      "Baggot St Bridge",
+      "Bath St @ Beach Rd / Dock Rd",
+      "Beach Road @Sean Moore Road @Cranfield Place",
+      "Beaver Row @ Beech Hill Av",
+      "Bremen Grove Nth Bound @ Sean Moore Rd",
+      "Bridge St (Ringsend) @ Church",
+      "Charlemont St @ Charlemont Mall",
+      "Charlemont St @ Grand Parade",
+      "Clonskeagh Rd @ Hospital",
+      "Dartry Rd @ Orwell Pk",
+      "Donnybrook Rd @ Eglinton Rd",
+      "Donnybrook Rd @ Garda Station",
+      "Dunville Av @ Oakley Rd",
+      "Dunville Ave @ Shuttle (LUAS)",
+      "Earlsfort Tce @ Hatch St",
+      "Eglinton Rd @ Eglinton Sq",
+      "Gilford Rd Ped",
+      "Herbert Park @ The Park",
+      "Irishtown Rd  @ Health Centre",
+      "Irishtown Rd @ Bath St",
+      "Irishtown Rd @ Londonbridge",
+      "Leeson Pk @ Chelmsford Rd",
+      "Leeson St @ Appian Way/Waterloo Rd & ped at Sussex Rd"
+    ],
+    "Type": [
+      "Junction",
+      "Pelican",
+      "Junction (Luas)",
+      "Nested Pelican",
+      "Pedestrian",
+      "Pedestrian (Luas)"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dcc-traffic-signal-sites-juctions.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dcc-traffic-signal-sites-juctions.fgb",
+    "bytes": 718237,
+    "files": 34,
+    "pbfFiles": 33,
+    "maxTileBytes": 50741
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-traffic-signal-sites-juctions-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dcc-traffic-signal-sites-juctions/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dcc-traffic-signal-sites-juctions-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dcc-traffic-signal-sites-juctions-vector-test.pmtiles",
+    "bytes": 282931,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dcc-traffic-signal-sites-juctions/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-traffic-signal-sites-juctions-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dcc-traffic-signal-sites-juctions-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dcc-traffic-signal-sites-juctions-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "Site Number",
+  "idProperty": "Site Number"
+}

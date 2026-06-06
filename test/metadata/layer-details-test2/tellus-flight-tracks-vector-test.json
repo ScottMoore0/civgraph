@@ -1,0 +1,121 @@
+{
+  "id": "tellus-flight-tracks-vector-test",
+  "sourceMapId": "tellus-flight-tracks",
+  "name": "Tellus Airborne Survey — Flight Lines",
+  "category": "Geology and Geophysics",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "GSNI",
+    "Tellus",
+    "BGS"
+  ],
+  "description": "The actual flight-line pattern flown by the Tellus airborne geophysical survey (2005–2008) — 2 210 individual flight lines at ~250 m spacing across all of Northern Ireland, derived from the raw radiometric sample positions. Toggle on alongside any of the gridded magnetic / electromagnetic / radiometric layers to see where the survey actually sampled the ground; anomalies on the gridded products are most reliable inside dense flight coverage and progressively less reliable on the edges and in gaps. Single inert MultiLineString — non-interactive (no per-line popup, hover, or click) so it doesn't compete with the per-feature data layers underneath.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/tellus-flight-tracks/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tellus-flight-tracks/metadata.json",
+  "sourceLayer": "tellus_flight_tracks",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.002013,
+      -8.182232
+    ],
+    [
+      55.317052,
+      -5.393646
+    ]
+  ],
+  "style": {
+    "color": "#444444",
+    "fillColor": "#444444",
+    "fillOpacity": 0.18,
+    "weight": 0.5
+  },
+  "references": [
+    {
+      "label": "OSNI Open Data — Tellus Radiometrics raw (source)",
+      "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometrics"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tellus-flight-tracks.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "GSNI",
+    "Tellus",
+    "BGS"
+  ],
+  "keywords": [
+    "tellus",
+    "gsni",
+    "geophysics",
+    "flight",
+    "line",
+    "airborne",
+    "survey",
+    "coverage",
+    "tracks",
+    "Tellus Airborne Survey — Flight Lines",
+    "Geology and Geophysics",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#444444",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/tellus-flight-tracks.fgb",
+  "sourceDatasetLayer": "tellus-flight-tracks",
+  "popupProperties": [],
+  "numericProperties": [],
+  "categoricalProperties": [],
+  "categoricalValues": {},
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tellus-flight-tracks.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tellus-flight-tracks.fgb",
+    "bytes": 2600323,
+    "files": 812,
+    "pbfFiles": 811,
+    "maxTileBytes": 56776
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tellus-flight-tracks-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tellus-flight-tracks/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tellus-flight-tracks-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tellus-flight-tracks-vector-test.pmtiles",
+    "bytes": 1981648,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/tellus-flight-tracks/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tellus-flight-tracks-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tellus-flight-tracks-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tellus-flight-tracks-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

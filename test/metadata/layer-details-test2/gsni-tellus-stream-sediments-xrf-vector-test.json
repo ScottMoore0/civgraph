@@ -1,0 +1,167 @@
+{
+  "id": "gsni-tellus-stream-sediments-xrf-vector-test",
+  "sourceMapId": "gsni-tellus-stream-sediments-xrf",
+  "name": "Tellus Stream Sediments (Regional XRF)",
+  "category": "Geology and Geophysics",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "GSNI",
+    "Tellus"
+  ],
+  "description": "Regional stream-sediment samples collected under the Tellus survey, analysed by XRF for major and trace elements. Approximately 5,800 sample points across Northern Ireland.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/gsni-tellus-stream-sediments-xrf/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/gsni-tellus-stream-sediments-xrf/metadata.json",
+  "sourceLayer": "gsni_tellus_stream_sediments_xrf",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0406377,
+      -8.1371664
+    ],
+    [
+      55.2973606,
+      -5.4662857
+    ]
+  ],
+  "style": {
+    "color": "#8860c6",
+    "fillColor": "#8860c6",
+    "fillOpacity": 0.85,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "GSNI Tellus Regional Stream Sediments — Open Data NI",
+      "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-stream-sediments"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/gsni-tellus-stream-sediments-xrf.fgb"
+    },
+    {
+      "label": "GeoJSON — XRF Set 1 (original)",
+      "url": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/2a789ce2-45e6-4dff-a739-c3e7763a6ad7/download/regionalsedimentsxrfset1.geojson"
+    },
+    {
+      "label": "CSV — XRF Set 1",
+      "url": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/9f4e090e-4afe-44f0-8bb5-1a70926920bd/download/regionalsedimentsxrfset1.csv"
+    },
+    {
+      "label": "Methodology and Detection Limits (PDF)",
+      "url": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/46916fde-077a-4043-a6fb-09820aab675a/download/tellusmethodologyanddetectionlimits.pdf"
+    }
+  ],
+  "sourceCredits": [
+    "GSNI",
+    "Tellus"
+  ],
+  "keywords": [
+    "tellus",
+    "geochemistry",
+    "stream",
+    "sediment",
+    "xrf",
+    "sampling",
+    "gsni",
+    "Tellus Stream Sediments (Regional XRF)",
+    "Geology and Geophysics",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "SAMPLE_NO",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#8860c6",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/gsni-tellus-stream-sediments-xrf-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/gsni-tellus-stream-sediments-xrf.fgb",
+  "sourceDatasetLayer": "gsni-tellus-stream-sediments-xrf",
+  "popupProperties": [
+    "SAMPLE_NO",
+    "YEAR",
+    "LABNO",
+    "EASTING",
+    "NORTHING",
+    "MGO",
+    "P2O",
+    "K2O",
+    "CAO",
+    "MNO"
+  ],
+  "numericProperties": [
+    "SAMPLE_NO",
+    "LABNO",
+    "EASTING",
+    "NORTHING",
+    "MGO",
+    "P2O",
+    "K2O",
+    "CAO",
+    "MNO",
+    "FE2O3",
+    "CR",
+    "BA",
+    "NI",
+    "CU",
+    "ZN",
+    "AS"
+  ],
+  "categoricalProperties": [
+    "YEAR"
+  ],
+  "categoricalValues": {
+    "YEAR": [
+      "1994",
+      "1995",
+      "1996",
+      "TELLUS"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/gsni-tellus-stream-sediments-xrf.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/gsni-tellus-stream-sediments-xrf.fgb",
+    "bytes": 10609928,
+    "files": 693,
+    "pbfFiles": 692,
+    "maxTileBytes": 658702
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/gsni-tellus-stream-sediments-xrf-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/gsni-tellus-stream-sediments-xrf/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/gsni-tellus-stream-sediments-xrf-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/gsni-tellus-stream-sediments-xrf-vector-test.pmtiles",
+    "bytes": 5833260,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/gsni-tellus-stream-sediments-xrf/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/gsni-tellus-stream-sediments-xrf-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/gsni-tellus-stream-sediments-xrf-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/gsni-tellus-stream-sediments-xrf-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

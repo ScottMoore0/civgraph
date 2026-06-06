@@ -1,0 +1,156 @@
+{
+  "id": "tii-luas-stops-vector-test",
+  "sourceMapId": "tii-luas-stops",
+  "name": "Luas Tram Stops",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Transport Infrastructure Ireland"
+  ],
+  "description": "Luas Tram Stops — published by Transport Infrastructure Ireland.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/tii-luas-stops/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tii-luas-stops/metadata.json",
+  "sourceLayer": "tii_luas_stops",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.242075,
+      -6.4377625
+    ],
+    [
+      53.3509222,
+      -6.1428861
+    ]
+  ],
+  "style": {
+    "color": "#C2185B",
+    "fillColor": "#C2185B",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tii-luas-stops.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Transport Infrastructure Ireland"
+  ],
+  "keywords": [
+    "TII",
+    "transport",
+    "roads",
+    "luas tram stops",
+    "ireland",
+    "Luas Tram Stops",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#C2185B",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/tii-luas-stops-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/tii-luas-stops.fgb",
+  "sourceDatasetLayer": "tii-luas-stops",
+  "popupProperties": [
+    "Name",
+    "Descriptio"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Name"
+  ],
+  "categoricalValues": {
+    "Name": [
+      "Balally",
+      "Belgard",
+      "Bluebell",
+      "Busáras",
+      "Connolly",
+      "Cowper",
+      "Depot",
+      "Drimnagh",
+      "Dundrum",
+      "Fatima",
+      "Harcourt",
+      "Heuston",
+      "Hospital",
+      "James's",
+      "Jervis",
+      "Kilmacud",
+      "Kylemore",
+      "Milltown",
+      "Museum",
+      "Ranelagh",
+      "Red Cow",
+      "Rialto",
+      "Saggart",
+      "Tallaght",
+      "Abbey Street",
+      "Ballyogan Wood",
+      "Beechwood",
+      "Blackhorse",
+      "Brennanstown",
+      "Brides Glen",
+      "Carrickmines",
+      "Central Park"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tii-luas-stops.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tii-luas-stops.fgb",
+    "bytes": 26406,
+    "files": 33,
+    "pbfFiles": 32,
+    "maxTileBytes": 1670
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tii-luas-stops-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tii-luas-stops/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tii-luas-stops-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tii-luas-stops-vector-test.pmtiles",
+    "bytes": 15807,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/tii-luas-stops/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tii-luas-stops-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tii-luas-stops-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tii-luas-stops-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "Name",
+  "idProperty": "Name"
+}

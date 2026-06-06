@@ -1,0 +1,79 @@
+{
+  "id": "tellus-mag-rtp-tilt-raster-test",
+  "sourceMapId": "tellus-mag-rtp-tilt",
+  "name": "Tellus Magnetic — RTP Tilt Derivative",
+  "category": "Geology and Geophysics",
+  "group": "Physical Geography",
+  "date": null,
+  "provider": [
+    "GSNI",
+    "Tellus"
+  ],
+  "description": "Tilt derivative of the RTP magnetic field — an edge-detection filter that highlights the boundaries of magnetic source bodies regardless of their amplitude. Excellent for tracing dykes, faults, and contacts. ±3σ rainbow ramp.",
+  "renderer": "maplibre",
+  "sourceType": "raster",
+  "geometryType": "raster",
+  "tiles": "https://data.civgraph.net/data/maps/geology/tellus-mag-rtp-tilt/{z}/{x}/{y}.png",
+  "bounds": [
+    [
+      53.99,
+      -8.19
+    ],
+    [
+      55.33,
+      -5.32
+    ]
+  ],
+  "minzoom": 5,
+  "maxzoom": 18,
+  "maxNativeZoom": 13,
+  "tileSize": 256,
+  "rasterOpacity": 0.85,
+  "style": {
+    "color": "#4F46E5",
+    "fillColor": "#818CF8",
+    "fillOpacity": 0.18,
+    "weight": 1.5
+  },
+  "references": [
+    {
+      "label": "OSNI Open Data — Tellus Magnetic Grids",
+      "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-magnetic-grids"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "https://data.civgraph.net/data/maps/geology/tellus-mag-rtp-tilt/{z}/{x}/{y}.png"
+    },
+    {
+      "label": "ESRI File Geodatabase (ZIP, 601 MB)",
+      "url": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Magnetics_ESRIGRID.zip"
+    }
+  ],
+  "sourceCredits": [
+    "GSNI",
+    "Tellus"
+  ],
+  "keywords": [
+    "tellus",
+    "gsni",
+    "geophysics",
+    "magnetic",
+    "tilt",
+    "derivative",
+    "edge detection",
+    "airborne",
+    "Tellus Magnetic — RTP Tilt Derivative",
+    "Geology and Geophysics",
+    "Physical Geography",
+    "maplibre",
+    "raster tiles"
+  ],
+  "status": "converted-raster-tiles",
+  "notes": "Raster XYZ tile layer using metadata bounds and tile template https://data.civgraph.net/data/maps/geology/tellus-mag-rtp-tilt/{z}/{x}/{y}.png.",
+  "generatedFrom": {
+    "pipeline": "promote-test-raster-tiles",
+    "sourceFile": "https://data.civgraph.net/data/maps/geology/tellus-mag-rtp-tilt/{z}/{x}/{y}.png"
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "id": "dfi-border-crossings-2018-lines-vector-test",
+  "sourceMapId": "dfi-border-crossings-2018-lines",
+  "name": "NI Border Crossings 2018 (Lines)",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": "2018-01-01",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Department for Infrastructure - Roads"
+  ],
+  "description": "NI-ROI border crossings 2018 (lines) — DfI inventory created for Brexit planning.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/dfi-border-crossings-2018-lines/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dfi-border-crossings-2018-lines/metadata.json",
+  "sourceLayer": "dfi_border_crossings_2018_lines",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0445888,
+      -7.403228
+    ],
+    [
+      55.0659286,
+      -6.3359583
+    ]
+  ],
+  "style": {
+    "color": "#D84315",
+    "fillColor": "#D84315",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dfi-border-crossings-2018-lines.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Department for Infrastructure - Roads"
+  ],
+  "keywords": [
+    "border",
+    "crossing",
+    "brexit",
+    "NI-ROI",
+    "2018",
+    "roads",
+    "NI Border Crossings 2018 (Lines)",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Details",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#D84315",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dfi-border-crossings-2018-lines-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dfi-border-crossings-2018-lines.fgb",
+  "sourceDatasetLayer": "dfi-border-crossings-2018-lines",
+  "popupProperties": [
+    "Details",
+    "Id",
+    "RoadClass"
+  ],
+  "numericProperties": [
+    "Id"
+  ],
+  "categoricalProperties": [
+    "Details",
+    "RoadClass"
+  ],
+  "categoricalValues": {
+    "Details": [
+      "NI public-ROI public"
+    ],
+    "RoadClass": [
+      "A Class - National",
+      "B Class - Local",
+      "B Class - Regional",
+      "C Class - Unnumbered",
+      "C Class- Local",
+      "Private - Local",
+      "U Class - Local",
+      "U Class - Unnumbered"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dfi-border-crossings-2018-lines.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dfi-border-crossings-2018-lines.fgb",
+    "bytes": 11926,
+    "files": 48,
+    "pbfFiles": 47,
+    "maxTileBytes": 460
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dfi-border-crossings-2018-lines-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dfi-border-crossings-2018-lines/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dfi-border-crossings-2018-lines-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dfi-border-crossings-2018-lines-vector-test.pmtiles",
+    "bytes": 10106,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dfi-border-crossings-2018-lines/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dfi-border-crossings-2018-lines-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dfi-border-crossings-2018-lines-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dfi-border-crossings-2018-lines-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "Id",
+  "idProperty": "Id"
+}

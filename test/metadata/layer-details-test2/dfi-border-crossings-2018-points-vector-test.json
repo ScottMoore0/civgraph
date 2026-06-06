@@ -1,0 +1,150 @@
+{
+  "id": "dfi-border-crossings-2018-points-vector-test",
+  "sourceMapId": "dfi-border-crossings-2018-points",
+  "name": "NI Border Crossings 2018 (Points)",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": "2018-01-01",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Department for Infrastructure - Roads"
+  ],
+  "description": "NI-ROI border crossings 2018 (points) — DfI inventory created for Brexit planning.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dfi-border-crossings-2018-points/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dfi-border-crossings-2018-points/metadata.json",
+  "sourceLayer": "dfi_border_crossings_2018_points",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0395979,
+      -8.1730548
+    ],
+    [
+      55.0643893,
+      -6.2921097
+    ]
+  ],
+  "style": {
+    "color": "#BF360C",
+    "fillColor": "#BF360C",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — admin.opendatani.gov.uk",
+      "url": "https://admin.opendatani.gov.uk/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dfi-border-crossings-2018-points.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Department for Infrastructure - Roads"
+  ],
+  "keywords": [
+    "border",
+    "crossing",
+    "brexit",
+    "NI-ROI",
+    "2018",
+    "roads",
+    "NI Border Crossings 2018 (Points)",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Details",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#BF360C",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dfi-border-crossings-2018-points-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dfi-border-crossings-2018-points.fgb",
+  "sourceDatasetLayer": "dfi-border-crossings-2018-points",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Details",
+    "OBJECTID",
+    "Id",
+    "RoadClass"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "Id"
+  ],
+  "categoricalProperties": [
+    "Details",
+    "RoadClass"
+  ],
+  "categoricalValues": {
+    "Details": [
+      "NI private-ROI public",
+      "NI public- ROI private",
+      "NI public- ROI public",
+      "NI public- ROI public   Bollards"
+    ],
+    "RoadClass": [
+      "A Class - Local",
+      "A Class - National",
+      "A Class - Regional",
+      "B Class - Local",
+      "B Class - Regional",
+      "C Class - Local",
+      "C Class - Regional",
+      "Private - Local",
+      "U Class - Local",
+      "U Class - Private",
+      "U Class - Regional",
+      "U Class- Unnumbered",
+      "Unnumbered- Local"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dfi-border-crossings-2018-points.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dfi-border-crossings-2018-points.fgb",
+    "bytes": 104853,
+    "files": 134,
+    "pbfFiles": 133,
+    "maxTileBytes": 5607
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dfi-border-crossings-2018-points-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dfi-border-crossings-2018-points/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dfi-border-crossings-2018-points-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dfi-border-crossings-2018-points-vector-test.pmtiles",
+    "bytes": 59289,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dfi-border-crossings-2018-points/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dfi-border-crossings-2018-points-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dfi-border-crossings-2018-points-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dfi-border-crossings-2018-points-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  }
+}

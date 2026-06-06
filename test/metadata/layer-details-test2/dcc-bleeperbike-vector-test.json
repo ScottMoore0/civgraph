@@ -1,0 +1,189 @@
+{
+  "id": "dcc-bleeperbike-vector-test",
+  "sourceMapId": "dcc-bleeperbike",
+  "name": "Bleeperbike (DCC)",
+  "category": "Built Environment",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Dublin City Council"
+  ],
+  "description": "Bleeperbike (DCC) — published by Dublin City Council.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/dcc-bleeperbike/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/dcc-bleeperbike/metadata.json",
+  "sourceLayer": "dcc_bleeperbike",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.2649841,
+      -6.3925934
+    ],
+    [
+      53.472641,
+      -6.0636835
+    ]
+  ],
+  "style": {
+    "color": "#FF6F00",
+    "fillColor": "#FF6F00",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Source — data.gov.ie",
+      "url": "https://data.gov.ie/"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/dcc-bleeperbike.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Dublin City Council"
+  ],
+  "keywords": [
+    "ROI",
+    "ireland",
+    "dublin",
+    "dcc",
+    "amenity",
+    "council",
+    "bleeperbike",
+    "Bleeperbike (DCC)",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "system_id",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#FF6F00",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/dcc-bleeperbike-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/dcc-bleeperbike.fgb",
+  "sourceDatasetLayer": "dcc-bleeperbike",
+  "popupProperties": [
+    "system_id",
+    "bike_id",
+    "last_updated",
+    "is_reserved",
+    "is_disabled",
+    "vehicle_type_id",
+    "station_id",
+    "current_fuel_percent",
+    "current_range_meters",
+    "last_updated_dt"
+  ],
+  "numericProperties": [
+    "last_updated",
+    "current_range_meters"
+  ],
+  "categoricalProperties": [
+    "system_id",
+    "bike_id",
+    "vehicle_type_id",
+    "station_id",
+    "last_updated_dt"
+  ],
+  "categoricalValues": {
+    "system_id": [
+      "bleeper_bikes"
+    ],
+    "bike_id": [
+      "3472332724490220084",
+      "3472334923379323444",
+      "3472900063833109044",
+      "3473177136434721076",
+      "3473461931471679796",
+      "3473738969763820084",
+      "3474018280076751156",
+      "3474027050433655348",
+      "3474305218134618676",
+      "3544668473394475572",
+      "3544668490574279220",
+      "3544676200057221684",
+      "3544951039292682804",
+      "3545798788544541236",
+      "3546362816467644980",
+      "3546647589996016180",
+      "3546923576121831988",
+      "3616729378818699828",
+      "3616734854935556660",
+      "3617011970570727732",
+      "3617015269005013556",
+      "3617294536469131828",
+      "3688501095521661492",
+      "3688507675411558964",
+      "3688782579238974004",
+      "3688782591973143092",
+      "3689345537648374324",
+      "3689627012658704948",
+      "3689910686625116724",
+      "3689911781824999988",
+      "3689912864257356340",
+      "3690195442956841524"
+    ],
+    "vehicle_type_id": [
+      "3680",
+      "3690",
+      "3697"
+    ],
+    "station_id": [
+      ""
+    ],
+    "last_updated_dt": [
+      "2026-04-26T15:09:18",
+      "2026-04-26T15:11:19",
+      "2026-04-26T15:12:19",
+      "2026-04-26T15:13:19"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/dcc-bleeperbike.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/dcc-bleeperbike.fgb",
+    "bytes": 505203,
+    "files": 38,
+    "pbfFiles": 37,
+    "maxTileBytes": 35711
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-bleeperbike-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/dcc-bleeperbike/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/dcc-bleeperbike-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/dcc-bleeperbike-vector-test.pmtiles",
+    "bytes": 155698,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/dcc-bleeperbike/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dcc-bleeperbike-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/dcc-bleeperbike-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/dcc-bleeperbike-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "bike_id",
+  "idProperty": "bike_id"
+}

@@ -2,17 +2,20 @@ import { METADATA_URL, PORT_PLAN_URL } from './config.js';
 import { normalizeSearchText, unique } from './utils.js';
 
 export class TestMetadataService {
-  constructor(url = METADATA_URL, portPlanUrl = PORT_PLAN_URL) {
+  constructor(url = METADATA_URL, portPlanUrl = PORT_PLAN_URL, options = {}) {
     this.url = url;
     this.portPlanUrl = portPlanUrl;
+    this.cacheMode = options.cache || 'no-cache';
+    this.portPlanCacheMode = options.portPlanCache || 'no-cache';
     this.metadata = null;
     this.portPlan = null;
     this.layers = [];
     this.layerById = new Map();
+    this.layerDetailCache = new Map();
   }
 
   async load() {
-    const response = await fetch(this.url, { cache: 'no-cache' });
+    const response = await fetch(this.url, { cache: this.cacheMode });
     if (!response.ok) throw new Error(`failed to load ${this.url}: ${response.status}`);
     const rawMetadata = await response.json();
     this.portPlan = await this.loadPortPlan();
@@ -24,7 +27,7 @@ export class TestMetadataService {
 
   async loadPortPlan() {
     try {
-      const response = await fetch(this.portPlanUrl, { cache: 'no-cache' });
+      const response = await fetch(this.portPlanUrl, { cache: this.portPlanCacheMode });
       if (!response.ok) return null;
       return response.json();
     } catch {
@@ -34,6 +37,34 @@ export class TestMetadataService {
 
   getLayer(id) {
     return this.layerById.get(id) || null;
+  }
+
+  async loadLayerDetails(id) {
+    const layer = this.getLayer(id);
+    if (!layer?.detailUrl) return layer;
+    if (!this.layerDetailCache.has(layer.id)) {
+      this.layerDetailCache.set(layer.id, fetch(layer.detailUrl, { cache: 'force-cache' })
+        .then((response) => {
+          if (!response.ok) throw new Error(`failed to load ${layer.detailUrl}: ${response.status}`);
+          return response.json();
+        })
+        .then((detail) => {
+          const merged = normalizeLayer({
+            ...layer,
+            ...detail,
+            detailUrl: layer.detailUrl,
+            detailLoaded: true
+          }, this.metadata?.categories || [], layer.order || 0);
+          Object.assign(layer, merged);
+          this.layerById = buildLayerLookup(this.layers);
+          return layer;
+        })
+        .catch((error) => {
+          this.layerDetailCache.delete(layer.id);
+          throw error;
+        }));
+    }
+    return this.layerDetailCache.get(layer.id);
   }
 
   searchLayers(query) {

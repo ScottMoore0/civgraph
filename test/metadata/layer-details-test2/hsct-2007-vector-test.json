@@ -1,0 +1,142 @@
+{
+  "id": "hsct-2007-vector-test",
+  "sourceMapId": "hsct-2007",
+  "name": "Health and Social Care Trusts 2007",
+  "category": "Health and Social Care Trusts",
+  "group": "Public Services",
+  "date": 2007,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/hsct-2007/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/hsct-2007/metadata.json",
+  "sourceLayer": "hsct_2007",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227244,
+      -8.1775025
+    ],
+    [
+      55.3129843,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#827e0e",
+    "fillColor": "#827e0e",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/hsct-2007.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI"
+  ],
+  "keywords": [
+    "health",
+    "trust",
+    "social care",
+    "2007",
+    "HSCT",
+    "Health and Social Care Trusts 2007",
+    "Health and Social Care Trusts",
+    "Public Services",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#827e0e",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/hsct-2007-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/hsct-2007.fgb",
+  "sourceDatasetLayer": "hsct-2007",
+  "popupProperties": [
+    "NAME",
+    "AreaSqKM",
+    "Shape_Length",
+    "Shape_Area",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "numericProperties": [
+    "AreaSqKM",
+    "Shape_Length",
+    "Shape_Area",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_ft"
+  ],
+  "categoricalProperties": [
+    "NAME"
+  ],
+  "categoricalValues": {
+    "NAME": [
+      "Belfast Health and Social Care Trust",
+      "Northern Health and Social Care Trust",
+      "South Eastern Health and Social Care Trust",
+      "Southern Health and Social Care Trust",
+      "Western Health and Social Care Trust"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/hsct-2007.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/hsct-2007.fgb",
+    "bytes": 1262138,
+    "files": 757,
+    "pbfFiles": 756,
+    "maxTileBytes": 13221
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/hsct-2007-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/hsct-2007/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/hsct-2007-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/hsct-2007-vector-test.pmtiles",
+    "bytes": 674159,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/hsct-2007/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/hsct-2007-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/hsct-2007-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/hsct-2007-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "NAME",
+  "idProperty": "NAME"
+}
