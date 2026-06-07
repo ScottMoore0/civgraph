@@ -1,3 +1,21 @@
+# Fix `/test2` mobile pan after pinch regression
+- [x] Reproduce and isolate stale gesture state
+  - Task: diagnose why `/test2` mobile pan works initially but stops after the first pinch zoom when a map layer is loaded.
+  - Symptom: one-finger pan and pinch start functional, but after completing a pinch gesture, subsequent one-finger drag/pan does not move the MapLibre map.
+  - Root cause: the direct pan fallback could keep a cancelled touch pan state after the second touch started a two-finger pinch. The two-finger fallback cleaned up its own state, but did not clear the pending/cancelled direct-pan state, so later one-finger pans were ignored.
+- [x] Patch the `/test2` MapLibre gesture fallback
+  - Scope: clear pending direct pan state when two-finger gestures begin/end, preserve MapLibre as the map engine, and keep click/tap feature selection intact.
+  - Done: added a shared `resetDirectPanGestureState()` helper, call it when pinch starts and finishes, clear pending pan frames/centres, release pointer capture if present, and keep the pan fallback frame-coalesced.
+- [x] Add regression coverage and verify
+  - Scope: add a mobile browser regression proving pan still changes the camera after a completed pinch, then rebuild `/test2`, run route checks, browser tests, and push.
+  - Verification evidence: `node --check` passed for `test/src/map-controller.js`, `tests/browser/test2-app.spec.js`, and `scripts/validate-test2-route.mjs`; escalated `npm run build:test2` passed and generated bundle `2cefdf49c82a`; escalated `npm run check:test2` passed; focused Playwright `/test2 mobile map accepts actual touch pan pinch and pitch gestures` passed after loading `settlements-2015`, panning, pinching, and panning again; broader `/test2` mobile Playwright group passed; full `npm run check` passed.
+
+## Recurring issue: `/test2` mobile pan stops after pinch
+- Symptom: after loading a layer on a phone, one-finger pan works before the first pinch and then stops working after the pinch completes.
+- Root cause: a stale cancelled direct-pan fallback state survived the two-finger pinch lifecycle.
+- Permanent prevention action: two-finger fallback startup and cleanup now reset the direct-pan fallback state, route validation requires that reset path, and the browser regression asserts actual camera movement for pan-after-pinch with a loaded map layer.
+- Verification evidence: focused and broad mobile Playwright tests passed, alongside `check:test2` and full `npm run check`.
+
 # Fix recurring `/test2` map interaction freeze on desktop and mobile
 - [x] Record recurrence and scope
   - Task: fix the live `/test2` failure where the map will not move on desktop or phone except through explicit zoom buttons. Desktop click-drag and scroll wheel do not work; mobile pan/pinch/tilt do not work.

@@ -835,6 +835,12 @@ test('/test2 mobile map accepts actual touch pan pinch and pitch gestures', asyn
   try {
     await page.goto('/test2/');
     await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
+    await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
+    await page.evaluate(async () => {
+      const app = window.__civgraphTest2.app;
+      await app.loadMap('settlements-2015');
+      await new Promise((resolve) => window.__civgraphTest2.mapController.map.once('idle', resolve));
+    });
     await page.evaluate(() => window.uiController?.setSplitState?.('map-full'));
     await page.waitForFunction(() => document.body.dataset.splitState === 'map-full');
     await page.waitForFunction(() => {
@@ -891,8 +897,34 @@ test('/test2 mobile map accepts actual touch pan pinch and pitch gestures', asyn
     ]);
     await page.waitForTimeout(350);
 
-    const afterPinch = await page.evaluate(() => window.__civgraphTest2.mapController.map.getZoom());
-    expect(afterPinch).toBeGreaterThan(zoomBeforePinch + 0.1);
+    const afterPinch = await page.evaluate(() => {
+      const map = window.__civgraphTest2.mapController.map;
+      const center = map.getCenter();
+      return {
+        lng: center.lng,
+        lat: center.lat,
+        zoom: map.getZoom()
+      };
+    });
+    expect(afterPinch.zoom).toBeGreaterThan(zoomBeforePinch + 0.1);
+
+    const postPinchPanCenter = await getMapCanvasCenter(page);
+    await performTouchGesture(client, [
+      { id: 1, x: postPinchPanCenter.x + 65, y: postPinchPanCenter.y + 6 }
+    ], [
+      { id: 1, x: postPinchPanCenter.x - 105, y: postPinchPanCenter.y + 18 }
+    ]);
+    await page.waitForTimeout(350);
+
+    const afterPostPinchPan = await page.evaluate(() => {
+      const map = window.__civgraphTest2.mapController.map;
+      const center = map.getCenter();
+      return {
+        lng: center.lng,
+        lat: center.lat
+      };
+    });
+    expect(Math.abs(afterPostPinchPan.lng - afterPinch.lng) + Math.abs(afterPostPinchPan.lat - afterPinch.lat)).toBeGreaterThan(0.01);
 
     await page.evaluate(() => {
       const map = window.__civgraphTest2.mapController.map;

@@ -2094,3 +2094,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   3) direct gesture fallbacks must coalesce camera updates through `requestAnimationFrame` instead of calling `jumpTo()` synchronously on every movement event,
   4) fallback pointer capture must start only after a movement threshold so feature taps/double-click selection continue to work,
   5) route validation must forbid movement-time touch-contract refreshes and require the direct pan/wheel fallback diagnostics.
+
+### 160) `/test2` mobile gesture tests must cover pan-after-pinch state cleanup
+- Mistake pattern: Testing mobile pan, then pinch, then pitch as separate successes without asserting that one-finger pan still works after a completed two-finger pinch sequence.
+- Impact: the direct pan fallback can retain a cancelled touch state after pinch cleanup, making the first pan work and the first pinch work while all later one-finger pans silently no-op on real phones.
+- Guardrail:
+  1) mobile gesture regressions must assert camera movement for a one-finger pan after pinch has ended,
+  2) two-finger fallback startup and cleanup must clear any pending direct pan state and pending pan frame,
+  3) diagnostics or route validation must expose/require an explicit direct-pan reset path used by two-finger gestures,
+  4) do not call a phone-gesture recurrence fixed from pre-pinch pan and pinch assertions alone.

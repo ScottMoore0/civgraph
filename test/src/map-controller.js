@@ -232,6 +232,27 @@ export class TestMapLibreController {
     this.map.fitBounds(IRELAND_BOUNDS, { padding: 28, duration: 0 });
   }
 
+  resetDirectPanGestureState(target = null, pointerId = null) {
+    if (this.directPanFrame) {
+      cancelAnimationFrame(this.directPanFrame);
+      this.directPanFrame = 0;
+    }
+    this.directPanPendingCenter = null;
+    const state = this.directPanGestureState;
+    if (state) {
+      const releaseTarget = target || state.target || this.map?.getContainer?.();
+      const releasePointerId = pointerId ?? state.pointerId;
+      try {
+        if (releaseTarget?.hasPointerCapture?.(releasePointerId)) {
+          releaseTarget.releasePointerCapture(releasePointerId);
+        }
+      } catch {
+        // Ignore browsers that throw after implicit release.
+      }
+    }
+    this.directPanGestureState = null;
+  }
+
   enableGestureHandlers() {
     if (!this.map) return;
     this.map.dragPan?.enable?.();
@@ -280,19 +301,6 @@ export class TestMapLibreController {
     this.directPanGestureInstalled = true;
 
     const captureOptions = { passive: false, capture: true };
-    const releasePointer = (target, pointerId) => {
-      try {
-        if (target?.hasPointerCapture?.(pointerId)) target.releasePointerCapture(pointerId);
-      } catch {
-        // Ignore browsers that throw after implicit release.
-      }
-    };
-    const cancel = (event = null) => {
-      if (event && this.directPanGestureState) {
-        releasePointer(event.currentTarget || root, this.directPanGestureState.pointerId);
-      }
-      this.directPanGestureState = null;
-    };
     const applyPendingPan = () => {
       this.directPanFrame = 0;
       const nextCenter = this.directPanPendingCenter;
@@ -329,7 +337,8 @@ export class TestMapLibreController {
         center,
         moved: false,
         cancelled: false,
-        captured: false
+        captured: false,
+        target: event.currentTarget || root
       };
     };
     const move = (event) => {
@@ -364,7 +373,7 @@ export class TestMapLibreController {
         this.directGestureActive = false;
         this.notifyChange();
       }
-      cancel(event);
+      this.resetDirectPanGestureState(event?.currentTarget || root, state.pointerId);
     };
 
     root.addEventListener('pointerdown', begin, captureOptions);
@@ -454,6 +463,7 @@ export class TestMapLibreController {
       if (!points) return false;
       const initialDistance = distance(points);
       if (!Number.isFinite(initialDistance) || initialDistance <= 0) return false;
+      this.resetDirectPanGestureState(root);
       this.directTwoFingerGestureState = {
         distance: initialDistance,
         midpoint: midpoint(points),
@@ -486,6 +496,7 @@ export class TestMapLibreController {
       if (event.touches && event.touches.length >= 2) return;
       flushTwoFingerGesture();
       this.directTwoFingerGestureState = null;
+      this.resetDirectPanGestureState(root);
       this.enableGestureHandlers();
       this.directGestureActive = false;
       this.notifyChange();
