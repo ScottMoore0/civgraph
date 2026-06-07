@@ -1,3 +1,20 @@
+# Fix `/test2` mobile navbar so it cannot scroll out of view
+- [x] Record recurrence and scope
+  - Task: make the `/test2` top navbar permanently visible and tappable on mobile, especially the menu/catalogue toggle, even when the mobile browser viewport rubber-bands or the catalogue/map panes scroll.
+  - Symptom: the navbar can scroll slightly upward out of view, leaving the mobile menu button untappable.
+  - Root cause: `/test2` inherited a grid shell/header layout where the header is part of the normal grid flow and the root viewport sizing uses static viewport behavior; on mobile browsers, dynamic viewport/overscroll can expose document-level movement even though inner panes are intended to scroll.
+  - Permanent prevention action: lock the `/test2` app shell to the dynamic viewport, make the header fixed to the viewport, keep app-main sized below the header, and add a browser guardrail that simulated page scroll cannot move the header or obscure the mobile toggle.
+- [x] Implement viewport-locked fixed header
+  - Scope: edit `/test2` CSS only; avoid changing the main site shell.
+  - Keep MapLibre canvas touch handling intact.
+- [x] Update route/browser guardrails
+  - Add static validation for the fixed `/test2` header/shell contract.
+  - Add mobile browser coverage that tries to scroll the document and asserts the header remains at the viewport top and the mobile toggle remains hit-testable.
+- [x] Verify, commit, and push
+  - Run syntax/static validation, rebuild `/test2`, run focused browser coverage, run `check:test2`, then commit/push only intended files.
+  - Completed: added a dynamic-viewport, fixed-header shell contract to `test2/src/test2.css`, explicitly placed the main app area below the fixed header, added a static validator assertion in `scripts/validate-test2-route.mjs`, and extended `/test2 mobile map and catalogue controls do not collide` to simulate document/pane scrolling before checking the navbar toggle remains fixed, hit-testable, and above the main app area.
+  - Verification evidence: `node --check tests\browser\test2-app.spec.js`; `node --check scripts\validate-test2-route.mjs`; `node --check test2\src\app.js`; `node scripts\validate-test2-route.mjs`; `npm run build:test2`; `npm run test:browser:test2 -- --grep "mobile map and catalogue controls do not collide"`; `npm run check:test2`.
+
 # Fix `/test2` flat catalogue to load only one requested section
 - [x] Record recurrence and scope
   - Task: change `/test2` flat catalogue behavior so the default view renders the table of contents only, loads no cards below it, and loads only one requested top-level section at a time.

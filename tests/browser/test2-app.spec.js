@@ -718,6 +718,13 @@ test('/test2 mobile map and catalogue controls do not collide', async ({ page })
   expect(mapLayout.visibleNativeMapLibreControls).toBe(0);
 
   await page.evaluate(() => window.uiController?.setSplitState?.('info-full'));
+  await page.evaluate(() => {
+    window.scrollTo(0, 180);
+    document.documentElement.scrollTop = 180;
+    document.body.scrollTop = 180;
+    const cataloguePane = document.querySelector('.pane__content[data-tab-content="catalogue"]');
+    if (cataloguePane) cataloguePane.scrollTop = 240;
+  });
   const catalogueLayout = await page.evaluate(() => {
     const rect = (el) => {
       const value = el?.getBoundingClientRect();
@@ -730,15 +737,30 @@ test('/test2 mobile map and catalogue controls do not collide', async ({ page })
       && a.bottom > b.top);
     const toggle = rect(document.getElementById('mobileToggle'));
     const header = rect(document.querySelector('.app-header'));
+    const appMain = rect(document.querySelector('.app-main'));
     const history = rect(document.getElementById('catalogueHistory'));
     const home = rect(document.getElementById('catalogueHome'));
-    const toggleParent = document.getElementById('mobileToggle')?.parentElement?.className || '';
+    const toggleElement = document.getElementById('mobileToggle');
+    const toggleParent = toggleElement?.parentElement?.className || '';
+    const toggleCenterX = toggle ? (toggle.left + toggle.right) / 2 : 0;
+    const toggleCenterY = toggle ? (toggle.top + toggle.bottom) / 2 : 0;
+    const hitTarget = toggle ? document.elementFromPoint(toggleCenterX, toggleCenterY) : null;
+    const headerStyle = getComputedStyle(document.querySelector('.app-header'));
+    const bodyStyle = getComputedStyle(document.body);
     return {
       toggle,
       header,
+      appMain,
       history,
       home,
       toggleParent,
+      windowScrollY: window.scrollY,
+      headerPosition: headerStyle.position,
+      bodyPosition: bodyStyle.position,
+      bodyOverflow: bodyStyle.overflow,
+      headerPinnedTop: Boolean(header && Math.abs(header.top) <= 1),
+      mainBelowHeader: Boolean(header && appMain && appMain.top >= header.bottom - 1),
+      toggleHitTestable: Boolean(toggleElement && hitTarget && (hitTarget === toggleElement || toggleElement.contains(hitTarget))),
       toggleInsideHeader: Boolean(toggle && header
         && toggle.top >= header.top
         && toggle.bottom <= header.bottom
@@ -749,6 +771,13 @@ test('/test2 mobile map and catalogue controls do not collide', async ({ page })
     };
   });
   expect(catalogueLayout.toggleParent).toContain('app-header');
+  expect(catalogueLayout.headerPosition).toBe('fixed');
+  expect(catalogueLayout.bodyPosition).toBe('fixed');
+  expect(catalogueLayout.bodyOverflow).toBe('hidden');
+  expect(catalogueLayout.windowScrollY).toBe(0);
+  expect(catalogueLayout.headerPinnedTop).toBe(true);
+  expect(catalogueLayout.mainBelowHeader).toBe(true);
+  expect(catalogueLayout.toggleHitTestable).toBe(true);
   expect(catalogueLayout.toggleInsideHeader).toBe(true);
   expect(catalogueLayout.toggleHistoryOverlaps).toBe(false);
   expect(catalogueLayout.toggleHomeOverlaps).toBe(false);

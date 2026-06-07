@@ -164,6 +164,7 @@ assert(rootServiceWorkerSource.includes("const CACHE_VERSION = 'v8'") && rootSer
 assert(test2Css.includes('#map .maplibregl-map') && test2Css.includes('overscroll-behavior: contain') && test2Css.includes('-webkit-touch-callout: none'), '/test2 route CSS must apply a full mobile touch contract to the map container and canvas');
 assert(appSource.includes('relocateMobileCatalogueToggle') && appSource.includes('mobile-toggle--navbar'), '/test2 must move the mobile catalogue toggle into the navbar instead of leaving it as a floating map overlay');
 assert(test2Css.includes('.app-header #mobileToggle.mobile-toggle.mobile-toggle--navbar') && test2Css.includes('position: static !important'), '/test2 mobile catalogue toggle must be styled as a navbar control on mobile');
+assert(test2Css.includes('body.app-shell .app-header') && test2Css.includes('position: fixed') && test2Css.includes('height: 100dvh') && test2Css.includes('body.app-shell .app-main') && test2Css.includes('grid-row: 2'), '/test2 shell must keep the navbar fixed in the viewport with dynamic-viewport app sizing');
 assert(!test2Css.includes('bottom: 14px !important'), '/test2 mobile catalogue toggle must not be restored to the bottom-right map overlay position');
 assert(index.indexOf('id="timelineSlider"') > index.indexOf('</div><!-- end #map -->'), '/test2 timeline slider must be a separate row below #map, not a DOM overlay inside the map');
 assert(!test2Css.includes('#map .timeline-slider'), '/test2 route CSS must not style the timeline as map-overlay chrome');

@@ -1,5 +1,14 @@
 # Lessons Log
 
+### 165) `/test2` mobile shell needs a fixed viewport contract, not only fixed-looking controls
+- Mistake pattern: Moving mobile controls into the navbar while leaving the navbar itself in normal grid flow with static viewport sizing.
+- Impact: real mobile browsers can rubber-band or dynamically resize the viewport so the top navbar scrolls slightly out of view, making the menu/catalogue toggle untappable even though desktop/mobile layout tests show the button inside the header.
+- Guardrail:
+  1) `/test2` must keep `body.app-shell` locked to the dynamic viewport,
+  2) `.app-header` must be fixed to the viewport top,
+  3) `.app-main` must be sized below the fixed header,
+  4) browser tests should attempt document-level scrolling and assert the header remains pinned and the mobile toggle remains hit-testable.
+
 ### 164) `/test2` catalogue navigation should render one requested section, not a hidden full catalogue
 - Mistake pattern: Keeping `/test2` close to the main catalogue markup while still letting the flat catalogue behave like a full desktop catalogue underneath, then trying to patch mobile failures with bounded renders, placeholder anchors, or full hydration on click.
 - Impact: mobile users can wait on too much DOM, see `Show more` controls in the table of contents workflow, or click a TOC item that does not feel like a direct section navigation.
