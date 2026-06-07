@@ -155,6 +155,58 @@ test('/test2 boots centred on Ireland when URL has no viewport state', async ({ 
   expect(camera.zoom).toBeGreaterThan(4);
 });
 
+test('/test2 desktop map accepts actual mouse drag and wheel zoom gestures', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
+  await page.waitForFunction(() => {
+    const diagnostics = window.__civgraphTest2?.mapController?.getMobileGestureDiagnostics?.();
+    return diagnostics
+      && diagnostics.topWithinMap
+      && (diagnostics.topIsCanvas || diagnostics.topWithinCanvasContainer)
+      && diagnostics.dragPanEnabled
+      && diagnostics.scrollZoomEnabled;
+  });
+
+  const center = await getMapCanvasCenter(page);
+  const initial = await page.evaluate(() => {
+    const map = window.__civgraphTest2.mapController.map;
+    const center = map.getCenter();
+    return {
+      lng: center.lng,
+      lat: center.lat,
+      zoom: map.getZoom(),
+      diagnostics: window.__civgraphTest2.mapController.getMobileGestureDiagnostics?.()
+    };
+  });
+  expect(initial.diagnostics.scrollZoomEnabled).toBe(true);
+  expect(initial.diagnostics.resizeObserverTargets).toBe(1);
+  expect(initial.diagnostics.directPanGestureInstalled).toBe(true);
+  expect(initial.diagnostics.directWheelGestureInstalled).toBe(true);
+
+  await page.mouse.move(center.x, center.y);
+  await page.mouse.down();
+  await page.mouse.move(center.x - 180, center.y + 40, { steps: 12 });
+  await page.mouse.up();
+  await page.waitForTimeout(350);
+  const afterDrag = await page.evaluate(() => {
+    const map = window.__civgraphTest2.mapController.map;
+    const center = map.getCenter();
+    return {
+      lng: center.lng,
+      lat: center.lat,
+      zoom: map.getZoom()
+    };
+  });
+  expect(Math.abs(afterDrag.lng - initial.lng) + Math.abs(afterDrag.lat - initial.lat)).toBeGreaterThan(0.01);
+
+  await page.mouse.move(center.x, center.y);
+  await page.mouse.wheel(0, -600);
+  await page.waitForTimeout(650);
+  const afterWheel = await page.evaluate(() => window.__civgraphTest2.mapController.map.getZoom());
+  expect(afterWheel).toBeGreaterThan(afterDrag.zoom + 0.1);
+});
+
 test('/test2 restores active Dail election catalogue, viewport, labels, and party table state', async ({ page }) => {
   await page.goto('/test2/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
@@ -765,6 +817,7 @@ test('/test2 mobile catalogue stays bounded and map gestures stay enabled', asyn
   expect(gestureState.gestureDiagnostics.topIsCanvas || gestureState.gestureDiagnostics.topWithinCanvasContainer).toBe(true);
   expect(gestureState.gestureDiagnostics.topWithinMap).toBe(true);
   expect(gestureState.gestureDiagnostics.guardTargetCount).toBeGreaterThanOrEqual(2);
+  expect(gestureState.gestureDiagnostics.directPanGestureInstalled).toBe(true);
   expect(gestureState.hasTouchZoomRotateClass).toBe(true);
   expect(gestureState.hasTouchDragPanClass).toBe(true);
 });
@@ -792,6 +845,7 @@ test('/test2 mobile map accepts actual touch pan pinch and pitch gestures', asyn
         && diagnostics.dragPanEnabled
         && diagnostics.touchZoomEnabled
         && diagnostics.touchPitchEnabled
+        && diagnostics.directPanGestureInstalled
         && diagnostics.guardTargetCount >= 2;
     });
 

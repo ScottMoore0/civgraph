@@ -145,8 +145,20 @@ export class TestMapLibreController {
     this.mobileGestureGuardTargetCount = 0;
     this.mobileGestureResizeObserver = null;
     this.mobileGestureResizeFrame = 0;
+    this.mobileGestureResizeSize = null;
+    this.directGestureActive = false;
+    this.directPanGestureInstalled = false;
+    this.directPanGestureState = null;
+    this.directPanFrame = 0;
+    this.directPanPendingCenter = null;
+    this.directWheelGestureInstalled = false;
+    this.directWheelFrame = 0;
+    this.directWheelPendingZoom = null;
+    this.directWheelEndTimer = 0;
     this.directTwoFingerGestureInstalled = false;
     this.directTwoFingerGestureState = null;
+    this.directTwoFingerGestureFrame = 0;
+    this.directTwoFingerGesturePending = null;
     maplibregl.addProtocol('pmtiles', this.protocol.tile);
   }
 
@@ -199,6 +211,8 @@ export class TestMapLibreController {
     this.map.doubleClickZoom?.disable();
     this.enableGestureHandlers();
     this.installMobileGestureGuards();
+    this.installDirectPanGestureFallback();
+    this.installDirectWheelGestureFallback();
     this.installDirectTwoFingerGestureFallback();
     this.applyMobileTouchContract();
     this.map.on('load', () => {
@@ -211,7 +225,9 @@ export class TestMapLibreController {
     });
     this.map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-left');
     this.map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-right');
-    this.map.on('moveend', () => this.notifyChange());
+    this.map.on('moveend', () => {
+      if (!this.directGestureActive) this.notifyChange();
+    });
     this.map.on('idle', () => this.notifyChange());
     this.map.fitBounds(IRELAND_BOUNDS, { padding: 28, duration: 0 });
   }
@@ -249,15 +265,157 @@ export class TestMapLibreController {
     const passive = { passive: true };
     for (const target of guardTargets) {
       target.addEventListener('touchstart', refreshTouchContract, passive);
-      target.addEventListener('touchmove', refreshTouchContract, passive);
       target.addEventListener('gesturestart', preventBrowserMapGesture, nonPassive);
       target.addEventListener('gesturechange', preventBrowserMapGesture, nonPassive);
       target.addEventListener('gestureend', preventBrowserMapGesture, nonPassive);
-      target.addEventListener('pointerdown', refreshTouchContract, passive);
-      target.addEventListener('pointermove', refreshTouchContract, passive);
     }
     this.mobileGestureGuardTargetCount = guardTargets.size;
     this.installMobileGestureResizeObserver(root);
+  }
+
+  installDirectPanGestureFallback() {
+    if (!this.map || this.directPanGestureInstalled) return;
+    const root = this.map.getContainer?.();
+    if (!root?.addEventListener) return;
+    this.directPanGestureInstalled = true;
+
+    const captureOptions = { passive: false, capture: true };
+    const releasePointer = (target, pointerId) => {
+      try {
+        if (target?.hasPointerCapture?.(pointerId)) target.releasePointerCapture(pointerId);
+      } catch {
+        // Ignore browsers that throw after implicit release.
+      }
+    };
+    const cancel = (event = null) => {
+      if (event && this.directPanGestureState) {
+        releasePointer(event.currentTarget || root, this.directPanGestureState.pointerId);
+      }
+      this.directPanGestureState = null;
+    };
+    const applyPendingPan = () => {
+      this.directPanFrame = 0;
+      const nextCenter = this.directPanPendingCenter;
+      this.directPanPendingCenter = null;
+      if (!nextCenter || !this.map) return;
+      this.map.jumpTo({ center: nextCenter });
+    };
+    const schedulePan = (nextCenter) => {
+      this.directPanPendingCenter = nextCenter;
+      if (this.directPanFrame) return;
+      this.directPanFrame = requestAnimationFrame(applyPendingPan);
+    };
+    const flushPan = () => {
+      if (this.directPanFrame) {
+        cancelAnimationFrame(this.directPanFrame);
+        this.directPanFrame = 0;
+      }
+      applyPendingPan();
+    };
+    const begin = (event) => {
+      if (isMobileGestureChromeTarget(event.target)) return;
+      if (event.button !== undefined && event.button !== 0) return;
+      if (this.directPanGestureState && event.pointerType === 'touch') {
+        this.directPanGestureState.cancelled = true;
+        return;
+      }
+      if (this.directPanGestureState || event.isPrimary === false) return;
+      const center = this.map.getCenter();
+      this.directPanGestureState = {
+        pointerId: event.pointerId,
+        pointerType: event.pointerType || 'mouse',
+        startX: event.clientX,
+        startY: event.clientY,
+        center,
+        moved: false,
+        cancelled: false,
+        captured: false
+      };
+    };
+    const move = (event) => {
+      const state = this.directPanGestureState;
+      if (!state || state.cancelled || event.pointerId !== state.pointerId) return;
+      const dx = event.clientX - state.startX;
+      const dy = event.clientY - state.startY;
+      if (!state.moved && Math.hypot(dx, dy) < 3) return;
+      state.moved = true;
+      if (!state.captured) {
+        try {
+          event.currentTarget?.setPointerCapture?.(event.pointerId);
+          state.captured = true;
+        } catch {
+          // Pointer capture is best-effort; document-level pointerup still clears state.
+        }
+      }
+      this.directGestureActive = true;
+      const centerPoint = this.map.project(state.center);
+      const nextCenter = this.map.unproject([centerPoint.x - dx, centerPoint.y - dy]);
+      schedulePan(nextCenter);
+      if (event.cancelable) event.preventDefault();
+      event.stopPropagation();
+    };
+    const end = (event) => {
+      const state = this.directPanGestureState;
+      if (!state || (event?.pointerId !== undefined && event.pointerId !== state.pointerId)) return;
+      if (state.moved) {
+        flushPan();
+        if (event?.cancelable) event.preventDefault();
+        event?.stopPropagation?.();
+        this.directGestureActive = false;
+        this.notifyChange();
+      }
+      cancel(event);
+    };
+
+    root.addEventListener('pointerdown', begin, captureOptions);
+    root.addEventListener('pointermove', move, captureOptions);
+    root.addEventListener('pointerup', end, captureOptions);
+    root.addEventListener('pointercancel', end, captureOptions);
+    root.addEventListener('lostpointercapture', end, captureOptions);
+    document.addEventListener('pointerup', end, captureOptions);
+    document.addEventListener('pointercancel', end, captureOptions);
+  }
+
+  installDirectWheelGestureFallback() {
+    if (!this.map || this.directWheelGestureInstalled) return;
+    const root = this.map.getContainer?.();
+    if (!root?.addEventListener) return;
+    this.directWheelGestureInstalled = true;
+
+    const applyPendingWheel = () => {
+      this.directWheelFrame = 0;
+      const zoom = this.directWheelPendingZoom;
+      this.directWheelPendingZoom = null;
+      if (!Number.isFinite(zoom) || !this.map) return;
+      this.map.jumpTo({ zoom });
+    };
+    const scheduleWheelEnd = () => {
+      if (this.directWheelEndTimer) clearTimeout(this.directWheelEndTimer);
+      this.directWheelEndTimer = setTimeout(() => {
+        this.directWheelEndTimer = 0;
+        this.directGestureActive = false;
+        this.notifyChange();
+      }, 140);
+    };
+    const onWheel = (event) => {
+      if (isMobileGestureChromeTarget(event.target)) return;
+      const scale = event.deltaMode === 1
+        ? 40
+        : (event.deltaMode === 2 ? Math.max(1, globalThis.innerHeight || 800) : 1);
+      const deltaY = Number(event.deltaY || 0) * scale;
+      if (!Number.isFinite(deltaY) || deltaY === 0) return;
+      const minZoom = typeof this.map.getMinZoom === 'function' ? this.map.getMinZoom() : 0;
+      const maxZoom = typeof this.map.getMaxZoom === 'function' ? this.map.getMaxZoom() : 22;
+      const baseZoom = Number.isFinite(this.directWheelPendingZoom) ? this.directWheelPendingZoom : this.map.getZoom();
+      this.directWheelPendingZoom = clamp(baseZoom - (deltaY / 450), minZoom, maxZoom);
+      this.directGestureActive = true;
+      if (!this.directWheelFrame) this.directWheelFrame = requestAnimationFrame(applyPendingWheel);
+      scheduleWheelEnd();
+      if (event.cancelable) event.preventDefault();
+      event.stopPropagation();
+    };
+
+    root.addEventListener('wheel', onWheel, { passive: false, capture: true });
   }
 
   installDirectTwoFingerGestureFallback() {
@@ -271,6 +429,25 @@ export class TestMapLibreController {
       if (event.cancelable) event.preventDefault();
       event.stopPropagation();
     };
+    const applyPendingTwoFingerGesture = () => {
+      this.directTwoFingerGestureFrame = 0;
+      const next = this.directTwoFingerGesturePending;
+      this.directTwoFingerGesturePending = null;
+      if (!next || !this.map) return;
+      this.map.jumpTo(next);
+    };
+    const scheduleTwoFingerGesture = (next) => {
+      this.directTwoFingerGesturePending = next;
+      if (this.directTwoFingerGestureFrame) return;
+      this.directTwoFingerGestureFrame = requestAnimationFrame(applyPendingTwoFingerGesture);
+    };
+    const flushTwoFingerGesture = () => {
+      if (this.directTwoFingerGestureFrame) {
+        cancelAnimationFrame(this.directTwoFingerGestureFrame);
+        this.directTwoFingerGestureFrame = 0;
+      }
+      applyPendingTwoFingerGesture();
+    };
     const begin = (event) => {
       if (isMobileGestureChromeTarget(event.target)) return false;
       const points = firstTwoTouchPoints(event);
@@ -283,7 +460,6 @@ export class TestMapLibreController {
         zoom: this.map.getZoom(),
         pitch: this.map.getPitch()
       };
-      this.map.dragPan?.disable?.();
       blockBrowserGesture(event);
       return true;
     };
@@ -301,14 +477,18 @@ export class TestMapLibreController {
       const scale = nextDistance / state.distance;
       const zoom = clamp(state.zoom + Math.log2(Math.max(scale, 0.01)), minZoom, maxZoom);
       const pitch = clamp(state.pitch - ((nextMidpoint.y - state.midpoint.y) * 0.22), 0, 60);
-      this.map.jumpTo({ zoom, pitch });
+      this.directGestureActive = true;
+      scheduleTwoFingerGesture({ zoom, pitch });
       blockBrowserGesture(event);
     };
     const end = (event) => {
       if (!this.directTwoFingerGestureState) return;
       if (event.touches && event.touches.length >= 2) return;
+      flushTwoFingerGesture();
       this.directTwoFingerGestureState = null;
-      this.map.dragPan?.enable?.();
+      this.enableGestureHandlers();
+      this.directGestureActive = false;
+      this.notifyChange();
       blockBrowserGesture(event);
     };
 
@@ -320,7 +500,25 @@ export class TestMapLibreController {
 
   installMobileGestureResizeObserver(root) {
     if (!this.map || this.mobileGestureResizeObserver || typeof ResizeObserver === 'undefined') return;
-    const scheduleRefresh = () => {
+    const readSize = (entry) => {
+      const box = Array.isArray(entry?.borderBoxSize) ? entry.borderBoxSize[0] : entry?.borderBoxSize;
+      const width = Number(box?.inlineSize);
+      const height = Number(box?.blockSize);
+      if (Number.isFinite(width) && Number.isFinite(height)) return { width, height };
+      const rect = root.getBoundingClientRect?.();
+      if (!rect) return null;
+      return { width: rect.width, height: rect.height };
+    };
+    const sizeChanged = (next) => {
+      const previous = this.mobileGestureResizeSize;
+      this.mobileGestureResizeSize = next;
+      if (!previous) return false;
+      return Math.abs(next.width - previous.width) > 0.5 || Math.abs(next.height - previous.height) > 0.5;
+    };
+    const scheduleRefresh = (entries = []) => {
+      const nextSize = readSize(entries[0]);
+      this.applyMobileTouchContract();
+      if (!nextSize || !sizeChanged(nextSize)) return;
       if (this.mobileGestureResizeFrame) return;
       this.mobileGestureResizeFrame = requestAnimationFrame(() => {
         this.mobileGestureResizeFrame = 0;
@@ -330,8 +528,6 @@ export class TestMapLibreController {
     };
     this.mobileGestureResizeObserver = new ResizeObserver(scheduleRefresh);
     this.mobileGestureResizeObserver.observe(root);
-    const canvasContainer = this.map.getCanvasContainer?.();
-    if (canvasContainer && canvasContainer !== root) this.mobileGestureResizeObserver.observe(canvasContainer);
   }
 
   applyMobileTouchContract() {
@@ -374,10 +570,14 @@ export class TestMapLibreController {
       canvasTouchAction: canvas ? getComputedStyle(canvas).touchAction : '',
       canvasContainerTouchAction: canvasContainer ? getComputedStyle(canvasContainer).touchAction : '',
       dragPanEnabled: typeof this.map.dragPan?.isEnabled === 'function' ? this.map.dragPan.isEnabled() : true,
+      scrollZoomEnabled: typeof this.map.scrollZoom?.isEnabled === 'function' ? this.map.scrollZoom.isEnabled() : true,
       dragRotateEnabled: typeof this.map.dragRotate?.isEnabled === 'function' ? this.map.dragRotate.isEnabled() : true,
       touchZoomEnabled: typeof this.map.touchZoomRotate?.isEnabled === 'function' ? this.map.touchZoomRotate.isEnabled() : true,
       touchPitchEnabled: typeof this.map.touchPitch?.isEnabled === 'function' ? this.map.touchPitch.isEnabled() : true,
       guardTargetCount: this.mobileGestureGuardTargetCount || 0,
+      resizeObserverTargets: this.mobileGestureResizeObserver ? 1 : 0,
+      directPanGestureInstalled: this.directPanGestureInstalled,
+      directWheelGestureInstalled: this.directWheelGestureInstalled,
       directTwoFingerGestureInstalled: this.directTwoFingerGestureInstalled
     };
   }

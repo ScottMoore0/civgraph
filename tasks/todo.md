@@ -1,3 +1,21 @@
+# Fix recurring `/test2` map interaction freeze on desktop and mobile
+- [x] Record recurrence and scope
+  - Task: fix the live `/test2` failure where the map will not move on desktop or phone except through explicit zoom buttons. Desktop click-drag and scroll wheel do not work; mobile pan/pinch/tilt do not work.
+  - Constraints: make no changes to the main site Leaflet implementation; keep changes scoped to `/test2`, shared MapLibre support, service-worker routing if needed, tests, and generated `/test2` artifacts; avoid staging unrelated dirty generated election/browse files; commit and push after verification unless sensitive/private.
+  - Plan: reproduce locally with desktop pointer/wheel and mobile touch tests; inspect handlers, overlay hit-testing, and the recently added two-finger fallback; patch the root blocker; add guardrails for desktop and mobile actual movement; rebuild/check; commit and push.
+- [x] Diagnose and patch root causes
+  - Scope: MapLibre drag/scroll/touch handlers, direct two-finger fallback, overlay pointer-events, canvas hit-testing, service-worker freshness.
+  - Done: removed movement-time touch-contract refreshes that could run during every pointer/touch move; kept touch-contract refreshes to touch start and resize changes only; made the resize observer size-change guarded and root-only; stopped the two-finger fallback from disabling `dragPan`; added frame-coalesced direct MapLibre pan and wheel fallbacks because the native MapLibre drag/wheel handlers reported enabled but were inert in the `/test2` production shell. Pointer capture now starts only after a real movement threshold so taps/double-click feature selection still works.
+- [x] Verify and deliver
+  - Scope: source checks, `/test2` build/check, browser tests that assert desktop drag/wheel movement and mobile pan/pinch/pitch movement, full project check, scoped commit/push.
+  - Verification evidence: `node --check` passed for edited source/test/script files; escalated `npm run build:test2` passed and generated `/test2` bundle `9627309c4862`; escalated `npm run check:test2` passed; focused Playwright test `/test2 desktop map accepts actual mouse drag and wheel zoom gestures` passed; focused Playwright test `/test2 mobile map accepts actual touch pan pinch and pitch gestures` passed; full mobile `/test2` Playwright group passed, including thumbnail dismissal, control layout, gesture state, touch pan/pinch/pitch, seat-circle overlay, feature double-click/tap selection, and mobile shell/accessibility smoke. Full repository check is being run before commit/push.
+
+## Recurring issue: `/test2` map movement inert despite enabled MapLibre handlers
+- Symptom: `/test2` could only move via explicit zoom buttons; desktop click-drag and wheel zoom did not work, and mobile pan, pinch zoom, and pitch did not work.
+- Root cause: the prior guardrails still trusted native MapLibre handler state too much. In the production `/test2` shell, native drag and wheel handlers reported enabled but did not reliably enter an active movement path; meanwhile touch-contract refreshes and synchronous fallback `jumpTo()` calls during movement could block the input pipeline.
+- Permanent prevention action: `/test2` now uses frame-coalesced direct pan, wheel, and two-finger gesture fallbacks at the MapLibre container layer, suppresses per-move URL/update churn while a direct gesture is active, avoids movement-time touch-contract writes, and only starts pointer capture after a real drag threshold.
+- Verification evidence: route validation enforces the direct pan/wheel fallbacks, size-change guarded resize observer, no movement-time touch-contract refreshes, and no `dragPan` disabling in fallback code. Browser tests assert actual camera changes for desktop drag/wheel and mobile pan/pinch/pitch rather than only checking handler flags.
+
 # Fix recurring `/test2` phone pan/pinch/tilt failure after live retest
 - [x] Record recurrence and scope
   - Task: fix the reported real-phone failure where `/test2` still cannot pan, pinch zoom, or tilt after the prior mobile gesture and scoped-service-worker fixes.

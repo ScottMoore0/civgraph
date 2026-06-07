@@ -2084,3 +2084,13 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) tests must dispatch actual touch input and assert that pan changes center, pinch changes zoom, and tilt/pitch changes pitch,
   3) if a direct touch fallback is added, expose runtime diagnostics proving it is installed,
   4) stale-cache fixes and gesture fixes must be validated together because either one can make a live phone appear unfixed.
+
+### 159) `/test2` gesture fixes must prove native and fallback camera movement
+- Mistake pattern: Trusting MapLibre `dragPan`, `scrollZoom`, and touch handler `isEnabled()` flags even when the production `/test2` shell still left native drag/wheel handlers inert.
+- Impact: diagnostics can say gestures are enabled while real desktop drag, desktop wheel, phone pan, phone pinch, and phone pitch still fail or hang.
+- Guardrail:
+  1) desktop gesture fixes must assert actual camera movement for mouse drag and wheel zoom,
+  2) mobile gesture fixes must assert actual camera movement for touch pan, pinch zoom, and pitch,
+  3) direct gesture fallbacks must coalesce camera updates through `requestAnimationFrame` instead of calling `jumpTo()` synchronously on every movement event,
+  4) fallback pointer capture must start only after a movement threshold so feature taps/double-click selection continue to work,
+  5) route validation must forbid movement-time touch-contract refreshes and require the direct pan/wheel fallback diagnostics.
