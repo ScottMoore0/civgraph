@@ -1,3 +1,23 @@
+# Fix `/test2` flat catalogue to load only one requested section
+- [x] Record recurrence and scope
+  - Task: change `/test2` flat catalogue behavior so the default view renders the table of contents only, loads no cards below it, and loads only one requested top-level section at a time.
+  - Requested behavior: Elections and Books are top-level sections; each Maps subheading is a top-level section; map subheading labels in the table of contents become links; clicking a subheading loads that section and jumps below the TOC; clicking an item loads all cards in the item’s containing section and scrolls to the item.
+  - Root cause: previous mobile performance fixes kept a bounded card render and hydrated missing targets, but the catalogue still had a full-catalogue rendering model underneath. That model remained slow and brittle for mobile TOC navigation.
+- [x] Implement test2-only lazy single-section rendering
+  - Add a feature flag on the shared UI controller and enable it from `/test2`.
+  - Keep main route behavior unchanged unless explicitly enabled.
+  - Build a TOC target-to-section registry for elections, books, and each maps subheading.
+  - Render no cards by default when the feature flag is enabled.
+  - Render only the active section after a TOC click, and replace any previously active section.
+- [x] Update tests and guardrails
+  - Add browser coverage for default-empty catalogue cards, Elections section load, map subheading section load, item-link section hydration, Books section load, and Tables tab behavior.
+  - Update route validation so `/test2` requires the lazy-section guardrail instead of full-catalogue hydration.
+- [x] Verify, document, commit, and push
+  - Run syntax checks, `/test2` route validation, focused Playwright catalogue coverage, `build:test2`, `check:test2`, and commit/push only intended files.
+  - Completed: `/test2` now opts into `singleSectionFlatCatalogue`; default flat catalogue render leaves `#catalogueFlatCards` empty below the table of contents; Elections, Books, and each Maps subheading are section keys; subheading rows are clickable links; clicking a map item loads that item's whole maps subheading section and replaces the previous active section.
+  - Completed: fixed the delegated click selector so the new map subheading links route through the catalogue section loader instead of falling through to plain hash navigation.
+  - Verification evidence: `node --check js\ui-controller.js`; `node --check test2\src\app.js`; `node --check tests\browser\test2-app.spec.js`; `node --check scripts\validate-test2-route.mjs`; `node scripts\validate-test2-route.mjs`; escalated `npm run build:test2`; `npm run check:test2`; escalated focused `npm run test:browser:test2 -- --grep "mobile catalogue renders TOC first"`.
+
 # Plan `/test2` mobile catalogue reliability, mobile app packaging, and election-data audit
 - [x] Record scope and local evidence
   - Task: produce an implementation plan for fixing `/test2` mobile catalogue table-of-contents jumps, improving catalogue stability/smoothness/responsiveness/performance, assessing iOS/Android app feasibility, and adding a second election-data correctness workstream.

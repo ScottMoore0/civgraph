@@ -70,6 +70,10 @@ class UIController {
         this._pendingFlatRenderOptions = null;
         this._flatRenderResolvers = [];
         this._flatTocTargetIds = new Set();
+        this.singleSectionFlatCatalogue = false;
+        this._flatActiveSectionKey = null;
+        this._flatTargetToSection = new Map();
+        this._flatSectionTargets = new Map();
         this._thumbnailIds = null;
         this._thumbnailManifestPromise = null;
         this._thumbnailObserver = null;
@@ -2052,7 +2056,7 @@ class UIController {
             return;
         }
 
-        const tocLink = target.closest?.('.catalogue-flat__toc-link, .catalogue-flat__toc-toplink');
+        const tocLink = target.closest?.('.catalogue-flat__toc-link, .catalogue-flat__toc-toplink, .catalogue-flat__toc-subheading-link');
         if (tocLink) {
             this.handleFlatTocClick(event, tocLink);
             return;
@@ -2089,12 +2093,24 @@ class UIController {
         }
     }
 
-    async ensureCatalogueTargetRendered(targetId) {
+    async ensureCatalogueTargetRendered(targetId, sectionKey = null) {
         const findTarget = () => document.getElementById(targetId);
         let targetEl = findTarget();
         const targetMissing = !targetEl;
         const targetDeferred = targetEl?.dataset?.catalogueDeferredTarget === '1';
         if (!targetMissing && !targetDeferred) return targetEl;
+
+        if (this.singleSectionFlatCatalogue) {
+            const requestedSectionKey = sectionKey || this._flatTargetToSection?.get?.(targetId) || null;
+            if (!requestedSectionKey) return targetEl || null;
+            this._flatActiveSectionKey = requestedSectionKey;
+            await this.requestFlatViewRender({
+                ...(this._lastMapListOptions || {}),
+                flatSectionKey: requestedSectionKey
+            }, { defer: this.isMobile });
+            await this.waitForCatalogueFrame(2);
+            return findTarget();
+        }
 
         const shouldHydrate = this.isMobile || targetDeferred || targetMissing;
         if (!shouldHydrate) return targetEl || null;
@@ -2142,8 +2158,13 @@ class UIController {
         event.preventDefault();
         const targetId = link.dataset.catalogueTarget || (link.getAttribute('href') || '').replace(/^#/, '');
         if (!targetId) return;
-        let targetEl = await this.ensureCatalogueTargetRendered(targetId);
+        const sectionKey = link.dataset.catalogueSection || this._flatTargetToSection?.get?.(targetId) || null;
+        let targetEl = await this.ensureCatalogueTargetRendered(targetId, sectionKey);
         if (!targetEl) return;
+        const href = link.getAttribute('href') || '';
+        if (href.startsWith('#') && window.location.hash !== href) {
+            history.pushState(null, '', href);
+        }
         for (let attempt = 0; attempt < 4; attempt += 1) {
             this.scrollCatalogueTargetIntoView(targetEl, { focus: attempt === 0 });
             await this.waitForCatalogueFrame(attempt === 0 ? 2 : 1);
@@ -2699,7 +2720,14 @@ class UIController {
         this._flatRenderToken = renderToken;
         await this.ensureThumbnailManifest();
         if (this._flatRenderToken !== renderToken) return;
-        const boundedMobileCatalogue = this.shouldUseBoundedMobileCatalogue(options);
+        const singleSectionCatalogue = Boolean(this.singleSectionFlatCatalogue);
+        const activeSectionKey = singleSectionCatalogue
+            ? (options.flatSectionKey ?? this._flatActiveSectionKey ?? null)
+            : null;
+        if (singleSectionCatalogue) {
+            this._flatActiveSectionKey = activeSectionKey;
+        }
+        const boundedMobileCatalogue = !singleSectionCatalogue && this.shouldUseBoundedMobileCatalogue(options);
 
         if (this._catalogueBookView) {
             const book = dataService.getBookById(this._catalogueBookView.bookId);
@@ -3524,19 +3552,40 @@ class UIController {
         };
 
         // Build TOC HTML (no title, no column labels), with columns for name/years/extent.
-        const flatTocTargetIds = new Set(['flat-section-elections', 'flat-section-maps', 'flat-section-books']);
-        const addFlatTocTarget = (targetId) => {
-            if (targetId) flatTocTargetIds.add(targetId);
+        const flatTocTargetIds = new Set();
+        const flatTargetToSection = new Map();
+        const flatSectionTargets = new Map();
+        const flatMapCardSectionKeyById = new Map();
+        const sectionSlug = (value) => String(value || 'section')
+            .toLowerCase()
+            .normalize('NFKD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^\w\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '') || 'section';
+        const mapSectionKeyForHeading = (heading) => `maps:${sectionSlug(heading)}`;
+        const addFlatTocTarget = (targetId, sectionKey = null) => {
+            if (targetId) {
+                flatTocTargetIds.add(targetId);
+                if (sectionKey) {
+                    flatTargetToSection.set(targetId, sectionKey);
+                    if (!flatSectionTargets.has(sectionKey)) flatSectionTargets.set(sectionKey, targetId);
+                }
+            }
             return targetId;
         };
+        addFlatTocTarget('flat-section-elections', 'elections');
+        addFlatTocTarget('flat-section-maps', 'maps-index');
+        addFlatTocTarget('flat-section-books', 'books');
 
         let tocHtml = `
             <div class="catalogue-flat__toc">
                 <div class="catalogue-flat__toc-toplinks">
                     <span class="catalogue-flat__toc-toplinks-left">
-                        <a href="#flat-section-elections" class="catalogue-flat__toc-toplink" data-catalogue-target="flat-section-elections">Elections</a>
-                        <a href="#flat-section-maps" class="catalogue-flat__toc-toplink" data-catalogue-target="flat-section-maps">Maps</a>
-                        <a href="#flat-section-books" class="catalogue-flat__toc-toplink" data-catalogue-target="flat-section-books">Books</a>
+                        <a href="#flat-section-elections" class="catalogue-flat__toc-toplink" data-catalogue-target="flat-section-elections" data-catalogue-section="elections">Elections</a>
+                        <a href="#flat-section-maps" class="catalogue-flat__toc-toplink" data-catalogue-target="flat-section-maps" data-catalogue-section="maps-index">Maps</a>
+                        <a href="#flat-section-books" class="catalogue-flat__toc-toplink" data-catalogue-target="flat-section-books" data-catalogue-section="books">Books</a>
                         <button type="button" class="catalogue-flat__toc-toplink catalogue-flat__toc-toplink--tab" data-tab-target="tables">Tables</button>
                     </span>
                     <span class="catalogue-flat__toc-stats" id="catalogueTocStats" aria-hidden="true"></span>
@@ -3547,8 +3596,8 @@ class UIController {
         // Elections heading + horizontal row of decade buttons in place of the
         // previous one-row-per-decade list. Covers both NI and ROI elections.
         const decadeButtonsHtml = decadeElectionCards.map(def => {
-            const targetId = addFlatTocTarget(`flat-card-${def.id}`);
-            return `<a href="#${targetId}" class="catalogue-flat__toc-decade-btn" data-catalogue-target="${targetId}">${this.escapeHtml(def.name)}</a>`;
+            const targetId = addFlatTocTarget(`flat-card-${def.id}`, 'elections');
+            return `<a href="#${targetId}" class="catalogue-flat__toc-decade-btn" data-catalogue-target="${targetId}" data-catalogue-section="elections">${this.escapeHtml(def.name)}</a>`;
         }).join('');
         tocHtml += `
                 <tr class="catalogue-flat__toc-heading-row">
@@ -3775,8 +3824,10 @@ class UIController {
         const renderedHeadings = new Set();
         const renderedCards = new Set();
 
-        const appendTocRow = (card, indented = false) => {
-            const targetId = addFlatTocTarget(`flat-card-${card.id}`);
+        const appendTocRow = (card, indented = false, sectionKey = null) => {
+            const resolvedSectionKey = sectionKey || `map:${card.id}`;
+            flatMapCardSectionKeyById.set(card.id, resolvedSectionKey);
+            const targetId = addFlatTocTarget(`flat-card-${card.id}`, resolvedSectionKey);
             const maps = collectCardMaps(card);
             const override = card.thumbMapId ? (mapById.get(card.thumbMapId) || dataService.getMapById(card.thumbMapId)) : null;
             const preview = override || maps[0]?.map || null;
@@ -3787,7 +3838,7 @@ class UIController {
             tocHtml += `
                 <tr class="${indented ? 'catalogue-flat__toc-row--indented' : ''}">
                     <td>
-                        <a href="#${targetId}" class="catalogue-flat__toc-link" data-catalogue-target="${targetId}">
+                        <a href="#${targetId}" class="catalogue-flat__toc-link" data-catalogue-target="${targetId}" data-catalogue-section="${this.escapeHtml(resolvedSectionKey)}">
                             <span class="catalogue-flat__toc-namecell">
                                 <span class="catalogue-flat__toc-color" style="background:${this.escapeHtml(previewColor)}"></span>
                                 ${previewThumb ? this.renderTocThumbnail(previewThumb) : '<span class="catalogue-flat__toc-thumb catalogue-flat__toc-thumb--fallback"></span>'}
@@ -3801,8 +3852,10 @@ class UIController {
             renderedCards.add(card.id);
         };
 
-        const renderMergeRow = (merge, indented) => {
-            const targetId = addFlatTocTarget(`flat-card-${merge.mergedIds[0]}`);
+        const renderMergeRow = (merge, indented, sectionKey = null) => {
+            const resolvedSectionKey = sectionKey || `map:${merge.mergedIds[0]}`;
+            merge.mergedIds.forEach(id => flatMapCardSectionKeyById.set(id, resolvedSectionKey));
+            const targetId = addFlatTocTarget(`flat-card-${merge.mergedIds[0]}`, resolvedSectionKey);
             const firstCard = c1Cards.find(c => c.id === merge.mergedIds[0]);
             const maps = firstCard ? collectCardMaps(firstCard) : [];
             const overrideId = firstCard?.thumbMapId || merge.thumbMapId;
@@ -3813,7 +3866,7 @@ class UIController {
             tocHtml += `
                 <tr class="${indented ? 'catalogue-flat__toc-row--indented' : ''}">
                     <td>
-                        <a href="#${targetId}" class="catalogue-flat__toc-link" data-catalogue-target="${targetId}">
+                        <a href="#${targetId}" class="catalogue-flat__toc-link" data-catalogue-target="${targetId}" data-catalogue-section="${this.escapeHtml(resolvedSectionKey)}">
                             <span class="catalogue-flat__toc-namecell">
                                 <span class="catalogue-flat__toc-color" style="background:${this.escapeHtml(previewColor)}"></span>
                                 ${previewThumb ? this.renderTocThumbnail(previewThumb) : '<span class="catalogue-flat__toc-thumb catalogue-flat__toc-thumb--fallback"></span>'}
@@ -3850,7 +3903,7 @@ class UIController {
 
             // Top-level merge first member: render outside any heading.
             const tlm = topLevelMergeByFirstId.get(card.id);
-            if (tlm) { renderMergeRow(tlm, false); return; }
+            if (tlm) { renderMergeRow(tlm, false, `map:${tlm.mergedIds[0]}`); return; }
 
             // Heading-scoped merge member: drop through so heading is found
             // via either this card's stripped name OR the merge's intended
@@ -3864,7 +3917,7 @@ class UIController {
                 heading = groupByMemberName.get(strippedName);
             }
             if (!heading) {
-                appendTocRow(card, false);
+                appendTocRow(card, false, `map:${card.id}`);
                 return;
             }
 
@@ -3876,9 +3929,13 @@ class UIController {
                 return;
             }
 
+            const headingSectionKey = mapSectionKeyForHeading(heading);
+            const headingTargetId = addFlatTocTarget(`flat-section-map-${sectionSlug(heading)}`, headingSectionKey);
             tocHtml += `
                 <tr class="catalogue-flat__toc-subheading-row">
-                    <td colspan="3"><span class="catalogue-flat__toc-subheading">${this.escapeHtml(heading)}</span></td>
+                    <td colspan="3">
+                        <a href="#${headingTargetId}" class="catalogue-flat__toc-subheading catalogue-flat__toc-subheading-link" data-catalogue-target="${headingTargetId}" data-catalogue-section="${this.escapeHtml(headingSectionKey)}">${this.escapeHtml(heading)}</a>
+                    </td>
                 </tr>`;
             renderedHeadings.add(heading);
 
@@ -3887,131 +3944,162 @@ class UIController {
                 // Prefer a heading-scoped merge over individual cards.
                 const merge = headingMergeByName.get(`${heading}::${memberName}`);
                 if (merge && merge.mergedIds.every(id => !renderedCards.has(id))) {
-                    renderMergeRow(merge, true);
+                    renderMergeRow(merge, true, headingSectionKey);
                     return;
                 }
                 const memberCards = cardsByStrippedName.get(memberName) || [];
                 memberCards.forEach(memberCard => {
-                    if (!renderedCards.has(memberCard.id)) appendTocRow(memberCard, true);
+                    if (!renderedCards.has(memberCard.id)) appendTocRow(memberCard, true, headingSectionKey);
                 });
             });
         });
         tocHtml += '</tbody></table></div>';
 
         this._flatTocTargetIds = flatTocTargetIds;
+        this._flatTargetToSection = flatTargetToSection;
+        this._flatSectionTargets = flatSectionTargets;
         container.innerHTML = tocHtml + '<div class="catalogue-flat__cards" id="catalogueFlatCards"></div>';
         const cardsContainer = container.querySelector('#catalogueFlatCards');
         const renderOptions = options || {};
         let renderedMobileMapCards = 0;
+        const shouldRenderFlatSection = (sectionKey) => !singleSectionCatalogue || activeSectionKey === sectionKey;
+        const headingBySectionKey = new Map(tocGroups.map(group => [mapSectionKeyForHeading(group.heading), group.heading]));
+        const shouldRenderMapCard = (def) => {
+            if (!singleSectionCatalogue) return true;
+            const sectionKey = flatMapCardSectionKeyById.get(def.id) || `map:${def.id}`;
+            return activeSectionKey === sectionKey;
+        };
 
         const esc = (value) => this.escapeHtml(value || '');
-        const electionsAnchor = document.createElement('div');
-        electionsAnchor.id = 'flat-section-elections';
-        electionsAnchor.className = 'catalogue-flat__anchor';
-        cardsContainer.appendChild(electionsAnchor);
-        let electionCardsToRender = decadeElectionCards;
-        if (boundedMobileCatalogue) {
-            electionCardsToRender = this.includeMobileElectionCatalogue
-                ? decadeElectionCards.slice(0, this._mobileInitialElectionCardLimit)
-                : [];
-        }
-        for (let defIndex = 0; defIndex < electionCardsToRender.length; defIndex++) {
-            if (this._flatRenderToken !== renderToken) return;
-            const def = electionCardsToRender[defIndex];
-            const anchor = document.createElement('div');
-            anchor.id = `flat-card-${def.id}`;
-            anchor.className = 'catalogue-flat__anchor';
-            cardsContainer.appendChild(anchor);
-
-            const entriesHtml = (def.electionEntries || []).map(entry => {
-                const appearance = getElectionAppearance(entry.body, entry.date, entry.bodyGroup || null);
-                const dateFormatted = formatElectionDate(entry.date);
-                const bodyShort = shortBodyName(entry.body);
-                const subtitle = entry.displaySubtitle || (entry.isByElection
-                    ? (entry.constituencies || []).join(', ')
-                    : ((entry.body === 'European Parliament' && (entry.constituencies || []).filter(c => c !== 'Northern Ireland').length === 0)
-                        ? 'Northern Ireland'
-                        : `${(entry.constituencies || []).filter(c => c !== 'Northern Ireland').length} constituencies`));
-                const providerLabel = entry.displayProvider || bodyShort;
-                const placeholderClass = entry.placeholder ? ' class-member--placeholder' : '';
-                const isElectionLoaded = !entry.placeholder && !!this.onCheckElectionLoaded?.(entry.body, entry.date);
-                const loadedClass = isElectionLoaded ? ' class-member--loaded' : '';
-                const nameContent = `${esc(dateFormatted)} <span class="flat-election-body">${esc(providerLabel)}</span>`;
-                const dateLabel = entry.placeholder
-                    ? `<span class="class-member__name">${nameContent}</span>`
-                    : `<a href="#" class="class-member__name class-member__name-link flat-election-link" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}">${nameContent}</a>`;
-                const actionsHtml = entry.placeholder
-                    ? ''
-                    : `<button class="btn btn--icon btn--xs load-btn election-load-btn" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}" title="${isElectionLoaded ? 'Unload' : 'Load'}">${this.getLoadButtonIcon(isElectionLoaded)}</button>`;
-                const badgeHtml = entry.placeholder
-                    ? '<span class="class-member__placeholder-badge">To Be Added</span>'
-                    : '';
-                return `
-                    <div class="class-member flat-election-entry ${entry.isByElection ? 'flat-election-entry--by' : ''}${placeholderClass}${loadedClass}"
-                         data-election-body="${esc(entry.body)}"
-                         data-election-date="${esc(entry.date)}"
-                         data-election-placeholder="${entry.placeholder ? '1' : '0'}"
-                         style="--map-color:${esc(appearance.color)};">
-                        ${this.renderThumbnailZone(appearance.thumb, 'class-member__thumbnail', '28px')}
-                        <div class="class-member__info">
-                            ${dateLabel}
-                            <span class="class-member__desc">${esc(subtitle)}</span>
-                            ${badgeHtml}
-                        </div>
-                        <div class="class-member__actions">
-                            ${actionsHtml}
-                        </div>
-                    </div>`;
-            }).join('');
-
-            const elPlaceholderCount = (def.electionEntries || []).filter(e => e.placeholder).length;
-            const elPlaceholderToggle = elPlaceholderCount > 0
-                ? `<button type="button" class="class-card__placeholder-toggle" data-showing="false" title="Show maps to be added">
-                       <span class="class-card__placeholder-toggle-label">Show ${elPlaceholderCount} to be added</span>
-                   </button>`
-                : '';
-
-            const card = document.createElement('div');
-            card.className = 'c1-card map-card';
-            card.dataset.c1Id = def.id;
-            card.innerHTML = `
-                <div class="c1-card__header">
-                    <div class="c1-card__titleblock">
-                        <h3 class="c1-card__title">${esc(def.name)}</h3>
-                        <div class="c1-card__subtitle">${esc(def.years)} | ${esc(def.extent)}</div>
-                    </div>
-                    ${elPlaceholderToggle}
-                </div>
-                <div class="c1-card__content">
-                    <div class="c1-card__section c1-card__section--full">
-                        <div class="c1-card__section-members">
-                            ${entriesHtml || '<div class="class-member class-member--placeholder"><div class="class-member__info"><span class="class-member__name">No elections in this decade.</span></div></div>'}
-                        </div>
-                    </div>
-                </div>`;
-            cardsContainer.appendChild(card);
-            await this.yieldForCatalogueRender(defIndex);
-        }
-        if (boundedMobileCatalogue && electionCardsToRender.length < decadeElectionCards.length) {
-            for (const def of decadeElectionCards.slice(electionCardsToRender.length)) {
+        if (shouldRenderFlatSection('elections')) {
+            const electionsAnchor = document.createElement('div');
+            electionsAnchor.id = 'flat-section-elections';
+            electionsAnchor.className = 'catalogue-flat__anchor';
+            cardsContainer.appendChild(electionsAnchor);
+            let electionCardsToRender = decadeElectionCards;
+            if (boundedMobileCatalogue) {
+                electionCardsToRender = this.includeMobileElectionCatalogue
+                    ? decadeElectionCards.slice(0, this._mobileInitialElectionCardLimit)
+                    : [];
+            }
+            for (let defIndex = 0; defIndex < electionCardsToRender.length; defIndex++) {
+                if (this._flatRenderToken !== renderToken) return;
+                const def = electionCardsToRender[defIndex];
                 const anchor = document.createElement('div');
                 anchor.id = `flat-card-${def.id}`;
-                anchor.className = 'catalogue-flat__anchor catalogue-flat__anchor--deferred';
-                anchor.dataset.catalogueDeferredTarget = '1';
-                anchor.dataset.catalogueTargetKind = 'election-decade';
-                anchor.dataset.catalogueTocTarget = flatTocTargetIds.has(anchor.id) ? '1' : '0';
+                anchor.className = 'catalogue-flat__anchor';
                 cardsContainer.appendChild(anchor);
+
+                const entriesHtml = (def.electionEntries || []).map(entry => {
+                    const appearance = getElectionAppearance(entry.body, entry.date, entry.bodyGroup || null);
+                    const dateFormatted = formatElectionDate(entry.date);
+                    const bodyShort = shortBodyName(entry.body);
+                    const subtitle = entry.displaySubtitle || (entry.isByElection
+                        ? (entry.constituencies || []).join(', ')
+                        : ((entry.body === 'European Parliament' && (entry.constituencies || []).filter(c => c !== 'Northern Ireland').length === 0)
+                            ? 'Northern Ireland'
+                            : `${(entry.constituencies || []).filter(c => c !== 'Northern Ireland').length} constituencies`));
+                    const providerLabel = entry.displayProvider || bodyShort;
+                    const placeholderClass = entry.placeholder ? ' class-member--placeholder' : '';
+                    const isElectionLoaded = !entry.placeholder && !!this.onCheckElectionLoaded?.(entry.body, entry.date);
+                    const loadedClass = isElectionLoaded ? ' class-member--loaded' : '';
+                    const nameContent = `${esc(dateFormatted)} <span class="flat-election-body">${esc(providerLabel)}</span>`;
+                    const dateLabel = entry.placeholder
+                        ? `<span class="class-member__name">${nameContent}</span>`
+                        : `<a href="#" class="class-member__name class-member__name-link flat-election-link" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}">${nameContent}</a>`;
+                    const actionsHtml = entry.placeholder
+                        ? ''
+                        : `<button class="btn btn--icon btn--xs load-btn election-load-btn" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}" title="${isElectionLoaded ? 'Unload' : 'Load'}">${this.getLoadButtonIcon(isElectionLoaded)}</button>`;
+                    const badgeHtml = entry.placeholder
+                        ? '<span class="class-member__placeholder-badge">To Be Added</span>'
+                        : '';
+                    return `
+                        <div class="class-member flat-election-entry ${entry.isByElection ? 'flat-election-entry--by' : ''}${placeholderClass}${loadedClass}"
+                             data-election-body="${esc(entry.body)}"
+                             data-election-date="${esc(entry.date)}"
+                             data-election-placeholder="${entry.placeholder ? '1' : '0'}"
+                             style="--map-color:${esc(appearance.color)};">
+                            ${this.renderThumbnailZone(appearance.thumb, 'class-member__thumbnail', '28px')}
+                            <div class="class-member__info">
+                                ${dateLabel}
+                                <span class="class-member__desc">${esc(subtitle)}</span>
+                                ${badgeHtml}
+                            </div>
+                            <div class="class-member__actions">
+                                ${actionsHtml}
+                            </div>
+                        </div>`;
+                }).join('');
+
+                const elPlaceholderCount = (def.electionEntries || []).filter(e => e.placeholder).length;
+                const elPlaceholderToggle = elPlaceholderCount > 0
+                    ? `<button type="button" class="class-card__placeholder-toggle" data-showing="false" title="Show maps to be added">
+                           <span class="class-card__placeholder-toggle-label">Show ${elPlaceholderCount} to be added</span>
+                       </button>`
+                    : '';
+
+                const card = document.createElement('div');
+                card.className = 'c1-card map-card';
+                card.dataset.c1Id = def.id;
+                card.innerHTML = `
+                    <div class="c1-card__header">
+                        <div class="c1-card__titleblock">
+                            <h3 class="c1-card__title">${esc(def.name)}</h3>
+                            <div class="c1-card__subtitle">${esc(def.years)} | ${esc(def.extent)}</div>
+                        </div>
+                        ${elPlaceholderToggle}
+                    </div>
+                    <div class="c1-card__content">
+                        <div class="c1-card__section c1-card__section--full">
+                            <div class="c1-card__section-members">
+                                ${entriesHtml || '<div class="class-member class-member--placeholder"><div class="class-member__info"><span class="class-member__name">No elections in this decade.</span></div></div>'}
+                            </div>
+                        </div>
+                    </div>`;
+                cardsContainer.appendChild(card);
+                await this.yieldForCatalogueRender(defIndex);
+            }
+            if (boundedMobileCatalogue && electionCardsToRender.length < decadeElectionCards.length) {
+                for (const def of decadeElectionCards.slice(electionCardsToRender.length)) {
+                    const anchor = document.createElement('div');
+                    anchor.id = `flat-card-${def.id}`;
+                    anchor.className = 'catalogue-flat__anchor catalogue-flat__anchor--deferred';
+                    anchor.dataset.catalogueDeferredTarget = '1';
+                    anchor.dataset.catalogueTargetKind = 'election-decade';
+                    anchor.dataset.catalogueTocTarget = flatTocTargetIds.has(anchor.id) ? '1' : '0';
+                    cardsContainer.appendChild(anchor);
+                }
             }
         }
 
-        const mapsAnchor = document.createElement('div');
-        mapsAnchor.id = 'flat-section-maps';
-        mapsAnchor.className = 'catalogue-flat__anchor';
-        cardsContainer.appendChild(mapsAnchor);
+        if (!singleSectionCatalogue || activeSectionKey === 'maps-index' || String(activeSectionKey || '').startsWith('maps:') || String(activeSectionKey || '').startsWith('map:')) {
+            const mapsAnchor = document.createElement('div');
+            mapsAnchor.id = 'flat-section-maps';
+            mapsAnchor.className = 'catalogue-flat__anchor';
+            cardsContainer.appendChild(mapsAnchor);
+        }
 
+        let renderedActiveMapSectionHeader = false;
         for (let defIndex = 0; defIndex < c1Cards.length; defIndex++) {
             if (this._flatRenderToken !== renderToken) return;
             const def = c1Cards[defIndex];
+            if (!shouldRenderMapCard(def)) continue;
+            const cardSectionKey = flatMapCardSectionKeyById.get(def.id) || `map:${def.id}`;
+            if (singleSectionCatalogue && cardSectionKey.startsWith('maps:') && !renderedActiveMapSectionHeader) {
+                const sectionTargetId = flatSectionTargets.get(cardSectionKey) || `flat-section-map-${sectionSlug(headingBySectionKey.get(cardSectionKey) || 'maps')}`;
+                const sectionAnchor = document.createElement('div');
+                sectionAnchor.id = sectionTargetId;
+                sectionAnchor.className = 'catalogue-flat__anchor';
+                cardsContainer.appendChild(sectionAnchor);
+                const sectionHeading = headingBySectionKey.get(cardSectionKey);
+                if (sectionHeading) {
+                    const sectionHeader = document.createElement('div');
+                    sectionHeader.className = 'category-group-header';
+                    sectionHeader.innerHTML = `<h3 class="category-group-title">${this.escapeHtml(sectionHeading)}</h3>`;
+                    cardsContainer.appendChild(sectionHeader);
+                }
+                renderedActiveMapSectionHeader = true;
+            }
             if (boundedMobileCatalogue && renderedMobileMapCards >= this._mobileInitialMapCardLimit) {
                 const anchor = document.createElement('div');
                 anchor.id = `flat-card-${def.id}`;
@@ -4063,6 +4151,7 @@ class UIController {
         const booksAnchor = document.createElement('div');
         booksAnchor.id = 'flat-section-books';
         booksAnchor.className = 'catalogue-flat__anchor';
+        const shouldRenderBooksSection = shouldRenderFlatSection('books');
         if (boundedMobileCatalogue) {
             booksAnchor.classList.add('catalogue-flat__anchor--deferred');
             booksAnchor.dataset.catalogueDeferredTarget = '1';
@@ -4075,7 +4164,7 @@ class UIController {
         this.bindFlatViewDelegates(container);
 
         // Keep books section below unchanged.
-        if (!boundedMobileCatalogue && this.booksData && this.booksData.books && this.booksData.books.length > 0) {
+        if (!boundedMobileCatalogue && shouldRenderBooksSection && this.booksData && this.booksData.books && this.booksData.books.length > 0) {
             cardsContainer.appendChild(booksAnchor);
             const booksGroupHeader = document.createElement('div');
             booksGroupHeader.className = 'category-group-header';

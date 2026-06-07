@@ -202,14 +202,18 @@ assert(!appSource.includes('includeElectionTocRows = true'), '/test2 must not op
 assert(uiControllerSource.includes('catalogue-flat__toc-decade-btn') && uiControllerSource.includes('flat-election-entry'), '/test2 catalogue must keep main-style decade TOC buttons with election entries inside decade cards');
 assert(!uiControllerSource.includes('flat-election-toc-link') && !uiControllerSource.includes('catalogue-flat__toc-election-row'), '/test2 must not render individual election entries directly in the catalogue table of contents');
 assert(
-    uiControllerSource.includes('_flatRenderResolvers')
-      && uiControllerSource.includes('_flatTocTargetIds')
+    uiControllerSource.includes('singleSectionFlatCatalogue')
+      && uiControllerSource.includes('_flatActiveSectionKey')
+      && uiControllerSource.includes('_flatTargetToSection')
+      && uiControllerSource.includes('_flatSectionTargets')
+      && uiControllerSource.includes('flatSectionKey')
       && uiControllerSource.includes('ensureCatalogueTargetRendered')
       && uiControllerSource.includes('scrollCatalogueTargetIntoView')
-      && uiControllerSource.includes('catalogueDeferredTarget')
-      && uiControllerSource.includes('catalogueTocTarget')
-      && uiControllerSource.includes('data-catalogue-target'),
-  '/test2 mobile catalogue TOC links must use deferred anchors, wait for full catalogue hydration, and scroll within the catalogue pane'
+      && uiControllerSource.includes('data-catalogue-target')
+      && uiControllerSource.includes('data-catalogue-section')
+      && uiControllerSource.includes('catalogue-flat__toc-subheading-link')
+      && appSource.includes('uiController.singleSectionFlatCatalogue = true'),
+  '/test2 flat catalogue must render TOC-first and hydrate only the requested top-level section before scrolling within the catalogue pane'
 );
 assert(appSource.includes('enrichFeature: (feature, selection) => this.elections?.enrichFeature'), '/test2 selected feature details must merge election results where active');
 assert(appSource.includes('setupTimelineControls') && appSource.includes('setTimelineItems'), '/test2 must wire the production timeline slider for map chains and elections');

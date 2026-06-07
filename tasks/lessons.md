@@ -1,5 +1,15 @@
 # Lessons Log
 
+### 164) `/test2` catalogue navigation should render one requested section, not a hidden full catalogue
+- Mistake pattern: Keeping `/test2` close to the main catalogue markup while still letting the flat catalogue behave like a full desktop catalogue underneath, then trying to patch mobile failures with bounded renders, placeholder anchors, or full hydration on click.
+- Impact: mobile users can wait on too much DOM, see `Show more` controls in the table of contents workflow, or click a TOC item that does not feel like a direct section navigation.
+- Guardrail:
+  1) `/test2` must opt into `singleSectionFlatCatalogue`,
+  2) default `/test2` catalogue render should show the table of contents only and no cards below it,
+  3) every TOC target must map to exactly one section key,
+  4) clicking Elections, Books, a map subheading, or a map row should replace the active rendered section rather than append or hydrate the full catalogue,
+  5) browser tests and route validation must assert the TOC-first default and one-active-section behavior.
+
 ### 163) Mobile catalogue caps must not create dead TOC links
 - Mistake pattern: Preserving a bounded mobile catalogue render for performance while leaving the table of contents linked to cards whose anchors do not exist until `Show more` is pressed.
 - Impact: mobile users can click a TOC entry and see no jump, which makes the catalogue feel broken even though the cap was originally added for speed.

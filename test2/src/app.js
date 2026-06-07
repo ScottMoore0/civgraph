@@ -212,6 +212,7 @@ class Test2App {
       const isMobileLike = Boolean(uiController.isMobile || mobileQuery?.matches);
       uiController.showAllMaps = !isMobileLike;
       uiController.includeMobileElectionCatalogue = true;
+      uiController.singleSectionFlatCatalogue = true;
       uiController._mobileInitialMapCardLimit = isMobileLike ? 12 : 24;
       uiController._mobileInitialElectionCardLimit = isMobileLike ? 2 : 15;
       if (!isMobileLike) uiController._mobileCatalogueExpanded = false;

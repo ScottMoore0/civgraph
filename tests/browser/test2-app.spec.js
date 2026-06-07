@@ -754,7 +754,7 @@ test('/test2 mobile map and catalogue controls do not collide', async ({ page })
   expect(catalogueLayout.toggleHomeOverlaps).toBe(false);
 });
 
-test('/test2 mobile catalogue stays bounded and map gestures stay enabled', async ({ page }) => {
+test('/test2 mobile catalogue renders TOC first, one active section, and map gestures stay enabled', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/test2/');
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
@@ -770,51 +770,103 @@ test('/test2 mobile catalogue stays bounded and map gestures stay enabled', asyn
       electionCards,
       mapCards,
       electionRows: document.querySelectorAll('#catalogueFlatView .flat-election-entry').length,
-      deferredAnchors: document.querySelectorAll('#catalogueFlatCards .catalogue-flat__anchor[data-catalogue-deferred-target="1"]').length,
-      deferredTocAnchors: document.querySelectorAll('#catalogueFlatCards .catalogue-flat__anchor[data-catalogue-deferred-target="1"][data-catalogue-toc-target="1"]').length,
+      cardAnchors: document.querySelectorAll('#catalogueFlatCards .catalogue-flat__anchor').length,
+      sectionLinks: document.querySelectorAll('#catalogueFlatView [data-catalogue-section]').length,
+      subheadingLinks: document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc-subheading-link[data-catalogue-section^="maps:"]').length,
       showMore: Boolean(document.querySelector('#catalogueFlatView [data-mobile-catalogue-full]')),
       showAllMaps: window.uiController.showAllMaps,
-      mapLimit: window.uiController._mobileInitialMapCardLimit,
-      electionLimit: window.uiController._mobileInitialElectionCardLimit
+      singleSection: window.uiController.singleSectionFlatCatalogue === true,
+      activeSection: window.uiController._flatActiveSectionKey || null
     };
   });
-  const deferredTocTarget = await page.evaluate(() => {
-    const anchors = [...document.querySelectorAll('#catalogueFlatCards .catalogue-flat__anchor[data-catalogue-deferred-target="1"][data-catalogue-toc-target="1"]')];
-    const anchor = anchors.find((candidate) => candidate.dataset.catalogueTargetKind === 'map-card') || anchors[0];
-    if (!anchor) return null;
-    const link = document.querySelector(`#catalogueFlatView [data-catalogue-target="${anchor.id}"]`)
-      || document.querySelector(`#catalogueFlatView a[href="#${anchor.id}"]`);
-    return link
-      ? { href: link.getAttribute('href'), targetId: anchor.id, label: link.textContent.trim(), kind: anchor.dataset.catalogueTargetKind }
-      : null;
+  expect(catalogueState.singleSection).toBe(true);
+  expect(catalogueState.activeSection).toBeNull();
+  expect(catalogueState.cardAnchors).toBe(0);
+  expect(catalogueState.electionCards).toBe(0);
+  expect(catalogueState.mapCards).toBe(0);
+  expect(catalogueState.electionRows).toBe(0);
+  expect(catalogueState.showMore).toBe(false);
+  expect(catalogueState.showAllMaps).toBe(false);
+  expect(catalogueState.sectionLinks).toBeGreaterThan(20);
+  expect(catalogueState.subheadingLinks).toBeGreaterThan(8);
+
+  await page.evaluate(() => {
+    document.querySelector('#catalogueFlatView [data-catalogue-target="flat-section-elections"]')?.click();
   });
-  expect(deferredTocTarget).toBeTruthy();
-  expect(catalogueState.deferredAnchors).toBeGreaterThan(0);
-  expect(catalogueState.deferredTocAnchors).toBeGreaterThan(0);
-  await page.evaluate((href) => {
-    const link = [...document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc-link, #catalogueFlatView .catalogue-flat__toc-decade-btn')]
-      .find((candidate) => candidate.getAttribute('href') === href);
-    link?.click();
-  }, deferredTocTarget.href);
-  await page.waitForFunction((href) => {
-    const id = href.slice(1);
-    return Boolean(document.getElementById(id)) && window.uiController?._mobileCatalogueExpanded === true;
-  }, deferredTocTarget.href, { timeout: 12000 });
-  await page.waitForFunction((href) => {
-    const id = href.slice(1);
-    const target = document.getElementById(id);
+  await page.waitForFunction(() => {
+    return window.uiController?._flatActiveSectionKey === 'elections'
+      && document.querySelectorAll('#catalogueFlatView .c1-card[data-c1-id^="flat-elections"]').length > 5
+      && document.querySelectorAll('#catalogueFlatView .flat-election-entry').length > 20;
+  }, null, { timeout: 12000 });
+  const electionSectionState = await page.evaluate(() => ({
+    electionCards: document.querySelectorAll('#catalogueFlatView .c1-card[data-c1-id^="flat-elections"]').length,
+    mapCards: [...document.querySelectorAll('#catalogueFlatView .c1-card[data-c1-id]')]
+      .filter((card) => !(card.dataset.c1Id || '').startsWith('flat-elections')).length,
+    books: document.querySelectorAll('#catalogueFlatView .book-card').length
+  }));
+  expect(electionSectionState.electionCards).toBeGreaterThan(5);
+  expect(electionSectionState.mapCards).toBe(0);
+  expect(electionSectionState.books).toBe(0);
+
+  const mapSubheading = await page.evaluate(() => {
+    const link = document.querySelector('#catalogueFlatView .catalogue-flat__toc-subheading-link[data-catalogue-section^="maps:"]');
+    return link ? {
+      href: link.getAttribute('href'),
+      section: link.dataset.catalogueSection,
+      target: link.dataset.catalogueTarget,
+      label: link.textContent.trim()
+    } : null;
+  });
+  expect(mapSubheading).toBeTruthy();
+  await page.evaluate((targetId) => {
+    document.querySelector(`#catalogueFlatView [data-catalogue-target="${targetId}"]`)?.click();
+  }, mapSubheading.target);
+  await page.waitForFunction(({ targetId, section }) => {
+    return window.uiController?._flatActiveSectionKey === section
+      && Boolean(document.getElementById(targetId))
+      && document.querySelectorAll('#catalogueFlatView .c1-card[data-c1-id]').length > 0
+      && document.querySelectorAll('#catalogueFlatView .c1-card[data-c1-id^="flat-elections"]').length === 0;
+  }, { targetId: mapSubheading.target, section: mapSubheading.section }, { timeout: 12000 });
+  const mapSectionState = await page.evaluate(() => ({
+    activeSection: window.uiController?._flatActiveSectionKey,
+    sectionCards: document.querySelectorAll('#catalogueFlatView .c1-card[data-c1-id]').length,
+    electionRows: document.querySelectorAll('#catalogueFlatView .flat-election-entry').length,
+    books: document.querySelectorAll('#catalogueFlatView .book-card').length
+  }));
+  expect(mapSectionState.activeSection).toBe(mapSubheading.section);
+  expect(mapSectionState.sectionCards).toBeGreaterThan(0);
+  expect(mapSectionState.electionRows).toBe(0);
+  expect(mapSectionState.books).toBe(0);
+
+  const mapItemTarget = await page.evaluate(() => {
+    const link = [...document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc-link[data-catalogue-section^="maps:"]')]
+      .find((candidate) => candidate.dataset.catalogueSection !== window.uiController?._flatActiveSectionKey);
+    return link ? { target: link.dataset.catalogueTarget, section: link.dataset.catalogueSection } : null;
+  });
+  expect(mapItemTarget).toBeTruthy();
+  await page.evaluate((targetId) => {
+    document.querySelector(`#catalogueFlatView [data-catalogue-target="${targetId}"]`)?.click();
+  }, mapItemTarget.target);
+  await page.waitForFunction(({ targetId, section }) => {
+    const target = document.getElementById(targetId);
     const pane = document.querySelector('.pane__content[data-tab-content="catalogue"]') || document.querySelector('.pane--info');
-    if (!target || !pane) return false;
+    if (!target || !pane || window.uiController?._flatActiveSectionKey !== section) return false;
     const targetRect = target.getBoundingClientRect();
     const paneRect = pane.getBoundingClientRect();
     return targetRect.top >= paneRect.top && targetRect.top <= paneRect.bottom;
-  }, deferredTocTarget.href, { timeout: 12000 });
-  const expandedTocState = await page.evaluate((href) => ({
-    expanded: window.uiController?._mobileCatalogueExpanded === true,
-    targetExists: Boolean(document.getElementById(href.slice(1))),
-    targetDeferred: document.getElementById(href.slice(1))?.dataset?.catalogueDeferredTarget === '1',
+  }, { targetId: mapItemTarget.target, section: mapItemTarget.section }, { timeout: 12000 });
+  const mapItemState = await page.evaluate(({ targetId }) => ({
+    activeSection: window.uiController?._flatActiveSectionKey,
+    targetExists: Boolean(document.getElementById(targetId)),
+    targetDeferred: document.getElementById(targetId)?.dataset?.catalogueDeferredTarget === '1',
+    sectionCards: document.querySelectorAll('#catalogueFlatView .c1-card[data-c1-id]').length,
     showMore: Boolean(document.querySelector('#catalogueFlatView [data-mobile-catalogue-full]'))
-  }), deferredTocTarget.href);
+  }), { targetId: mapItemTarget.target });
+  expect(mapItemState.activeSection).toBe(mapItemTarget.section);
+  expect(mapItemState.targetExists).toBe(true);
+  expect(mapItemState.targetDeferred).toBe(false);
+  expect(mapItemState.sectionCards).toBeGreaterThan(0);
+  expect(mapItemState.showMore).toBe(false);
 
   await page.evaluate(() => {
     document.querySelector('#catalogueFlatView [data-catalogue-target="flat-section-books"]')?.click();
@@ -822,10 +874,12 @@ test('/test2 mobile catalogue stays bounded and map gestures stay enabled', asyn
   await page.waitForFunction(() => {
     const target = document.getElementById('flat-section-books');
     const pane = document.querySelector('.pane__content[data-tab-content="catalogue"]') || document.querySelector('.pane--info');
-    if (!target || !pane) return false;
+    if (!target || !pane || window.uiController?._flatActiveSectionKey !== 'books') return false;
     const targetRect = target.getBoundingClientRect();
     const paneRect = pane.getBoundingClientRect();
-    return targetRect.top >= paneRect.top && targetRect.top <= paneRect.bottom;
+    return targetRect.top >= paneRect.top && targetRect.top <= paneRect.bottom
+      && document.querySelectorAll('#catalogueFlatView .book-card').length > 0
+      && document.querySelectorAll('#catalogueFlatView .c1-card[data-c1-id]').length === 0;
   }, null, { timeout: 12000 });
 
   await page.evaluate(() => {
@@ -865,15 +919,6 @@ test('/test2 mobile catalogue stays bounded and map gestures stay enabled', asyn
     };
   });
 
-  expect(catalogueState.showAllMaps).toBe(false);
-  expect(catalogueState.showMore).toBe(true);
-  expect(catalogueState.mapCards).toBeLessThanOrEqual(catalogueState.mapLimit);
-  expect(catalogueState.electionCards).toBeLessThanOrEqual(catalogueState.electionLimit);
-  expect(catalogueState.electionRows).toBeLessThanOrEqual(80);
-  expect(expandedTocState.expanded).toBe(true);
-  expect(expandedTocState.targetExists).toBe(true);
-  expect(expandedTocState.targetDeferred).toBe(false);
-  expect(expandedTocState.showMore).toBe(false);
   expect(gestureState.dragPanEnabled).toBe(true);
   expect(gestureState.dragRotateEnabled).toBe(true);
   expect(gestureState.touchZoomEnabled).toBe(true);
