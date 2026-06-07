@@ -1,3 +1,33 @@
+# Plan `/test2` mobile catalogue reliability, mobile app packaging, and election-data audit
+- [x] Record scope and local evidence
+  - Task: produce an implementation plan for fixing `/test2` mobile catalogue table-of-contents jumps, improving catalogue stability/smoothness/responsiveness/performance, assessing iOS/Android app feasibility, and adding a second election-data correctness workstream.
+  - Current evidence: the mobile catalogue keeps a bounded initial render for performance, but the TOC links to targets that may not exist until deferred/full rendering completes. Existing code now hydrates missing targets, but the remaining reported failures imply the scroll target contract is still too brittle: it relies on generic `scrollIntoView()`, only tests one deferred link type, and does not guarantee every TOC link resolves to a rendered, visible, sticky-offset-safe target.
+  - Election evidence: `test/metadata/elections-test2.json` currently reports 268 elections, 249 loadable elections, 19 placeholders, 4,004 matched constituencies, and 680 unmatched constituencies. Existing audit tooling includes ARK/Wikipedia comparison scripts, Wikipedia cache directories, party-colour extraction/audit scripts, and generated `/test2` election summaries, but these are not yet wired into one strict, repeatable, CI-enforced discrepancy report across every rendered surface.
+- [ ] Section 1 implementation plan: mobile catalogue reliability and performance
+  - Replace ad hoc TOC `href` parsing with a central TOC registry that records every target id, section type, source card/election id, render prerequisite, and tab/split-state prerequisite.
+  - Replace generic `scrollIntoView()` with a pane-specific `scrollCatalogueToTarget()` that scrolls the actual catalogue scroller, accounts for sticky search/history chrome and sticky C1/C2 headers, respects reduced motion, focuses the target heading, and verifies final visibility.
+  - Add `ensureCatalogueTargetRendered(targetId)` so a TOC tap hydrates only the needed card/section where possible, rather than expanding the full catalogue before navigation.
+  - Keep the initial mobile catalogue bounded, but render stable placeholder anchors for every TOC target so links never point at nothing.
+  - Split TOC rendering from card rendering: TOC should be static/cached; cards should be lazily hydrated with IntersectionObserver, requestIdleCallback, and a cancellable render token.
+  - Fix button/link semantics: TOC links navigate, tab buttons change tabs, and the Books/Tables/source sections must not be swallowed by the TOC click handler.
+  - Add mobile browser tests that enumerate all TOC link classes and representative links from every section, tap them using real pointer/touch events, and assert the target card/header is visible inside the catalogue scroller.
+  - Add performance budgets for mobile catalogue first render, TOC tap-to-visible latency, long tasks, DOM node count, thumbnail concurrency, and memory growth.
+- [ ] Section 2 implementation plan: election-data/source correctness audit
+  - Build a canonical election audit index from `election-viewer-package/data/elections`, `test/metadata/elections-test2.json`, `test/metadata/elections-test2-summaries`, `data/browse/elections.json`, `data/browse/details/elections`, and source-reference records under `data/browse/details/sources`.
+  - For each parent election and constituency/DEA/entity sub-entry, compare candidates, parties/labels, seats/elected status, first preferences, valid poll, turnout, quota, count totals, transfer-stage data, aggregate results, and previous-election deltas against all available corroborating sources.
+  - Source priority: official electoral/statutory/result publications where present; ARK/CAIN for Northern Ireland election result breakdowns; ElectionsIreland/Oireachtas/electoral commission sources where present; Wikipedia as a useful secondary corroborator and party-colour source, not the sole authority.
+  - Extend existing ARK/Wikipedia comparison scripts into one generated discrepancy report with machine-readable JSON plus human-readable Markdown.
+  - Audit party/label colours by comparing current repo colour maps, rendered `/test2` colours, saved Wikipedia colour snapshots, and freshly fetched MediaWiki/Wikipedia colour values where appropriate.
+  - Validate all rendered surfaces: overall results, selected constituency/DEA panes, by-party/by-candidate/by-local-party/count/detailed/transfers modes, seat circles, labels, browse election pages, active layer cards, URL restore, and transfer animation state.
+  - Classify discrepancies as source-data mismatch, normalisation/alias mismatch, aggregation bug, geography join bug, renderer/view-model bug, colour mismatch, or intentional MapLibre rendering difference.
+  - Add CI guardrails so new or regenerated election data cannot silently change totals, party colours, source citations, or render contracts without an audit diff.
+- [ ] Section 3 implementation plan: iOS/Android/PWA feasibility
+  - Treat PWA-grade `/test2` as the foundation: robust gestures, bounded catalogue render, offline shell, service-worker quota discipline, update prompts, app manifest, standalone viewport/safe-area CSS, and route/cache versioning.
+  - Android path: publish a PWA-backed app via Trusted Web Activity once the web app meets mobile performance and installability requirements.
+  - iOS path: use Capacitor or a similar native shell if App Store distribution is desired, but add native value beyond a plain web wrapper to reduce App Store 4.2 rejection risk.
+  - Native-value candidates: offline saved map packs, native share/export, file upload for map submissions, push/update notifications, native auth/session handling, crash/performance telemetry, deep links, and contribution workflows.
+  - App-store compliance work: privacy policy, account deletion if login/editing exists, moderation/reporting for user submissions, Sign in with Apple or an allowed exception if third-party/social login is used, and explicit licensing/attribution for map/election/source data.
+
 # Fix `/test2` one-finger map lag and mobile catalogue TOC jumps
 - [x] Record recurrence and scope
   - Task: make `/test2` one-finger map dragging remain native MapLibre-first on real phones/desktops, and make mobile catalogue table-of-contents links reliably jump to cards even when the bounded mobile catalogue has not rendered the target yet.
