@@ -146,6 +146,7 @@ export class TestMapLibreController {
     this.mobileGestureResizeObserver = null;
     this.mobileGestureResizeFrame = 0;
     this.mobileGestureResizeSize = null;
+    this.mobileGestureResizeObserverEligible = false;
     this.directGestureActive = false;
     this.directPanGestureInstalled = false;
     this.directPanGestureState = null;
@@ -159,6 +160,8 @@ export class TestMapLibreController {
     this.directTwoFingerGestureState = null;
     this.directTwoFingerGestureFrame = 0;
     this.directTwoFingerGesturePending = null;
+    this.mapCursor = '';
+    this.cursorMutationCount = 0;
     maplibregl.addProtocol('pmtiles', this.protocol.tile);
   }
 
@@ -263,6 +266,17 @@ export class TestMapLibreController {
     this.map.scrollZoom?.enable?.();
     this.map.keyboard?.enable?.();
     this.applyMobileTouchContract();
+  }
+
+  setMapCursor(cursor = '') {
+    const nextCursor = cursor || '';
+    const canvas = this.map?.getCanvas?.();
+    if (this.mapCursor === nextCursor && (!canvas || canvas.style.cursor === nextCursor)) return;
+    this.mapCursor = nextCursor;
+    if (canvas && canvas.style.cursor !== nextCursor) {
+      canvas.style.cursor = nextCursor;
+      this.cursorMutationCount += 1;
+    }
   }
 
   installMobileGestureGuards() {
@@ -511,6 +525,11 @@ export class TestMapLibreController {
 
   installMobileGestureResizeObserver(root) {
     if (!this.map || this.mobileGestureResizeObserver || typeof ResizeObserver === 'undefined') return;
+    if (!this.shouldInstallMobileGestureResizeObserver()) {
+      this.mobileGestureResizeObserverEligible = false;
+      return;
+    }
+    this.mobileGestureResizeObserverEligible = true;
     const readSize = (entry) => {
       const box = Array.isArray(entry?.borderBoxSize) ? entry.borderBoxSize[0] : entry?.borderBoxSize;
       const width = Number(box?.inlineSize);
@@ -539,6 +558,17 @@ export class TestMapLibreController {
     };
     this.mobileGestureResizeObserver = new ResizeObserver(scheduleRefresh);
     this.mobileGestureResizeObserver.observe(root);
+  }
+
+  shouldInstallMobileGestureResizeObserver() {
+    const matches = (query) => {
+      try {
+        return Boolean(globalThis.matchMedia?.(query)?.matches);
+      } catch {
+        return false;
+      }
+    };
+    return matches('(pointer: coarse)') || matches('(max-width: 768px)');
   }
 
   applyMobileTouchContract() {
@@ -587,9 +617,12 @@ export class TestMapLibreController {
       touchPitchEnabled: typeof this.map.touchPitch?.isEnabled === 'function' ? this.map.touchPitch.isEnabled() : true,
       guardTargetCount: this.mobileGestureGuardTargetCount || 0,
       resizeObserverTargets: this.mobileGestureResizeObserver ? 1 : 0,
+      resizeObserverMobileEligible: this.mobileGestureResizeObserverEligible,
       directPanGestureInstalled: this.directPanGestureInstalled,
       directWheelGestureInstalled: this.directWheelGestureInstalled,
-      directTwoFingerGestureInstalled: this.directTwoFingerGestureInstalled
+      directTwoFingerGestureInstalled: this.directTwoFingerGestureInstalled,
+      mapCursor: this.mapCursor,
+      cursorMutationCount: this.cursorMutationCount
     };
   }
 
@@ -1295,6 +1328,10 @@ export class TestMapLibreController {
       this.selectFeature(layer, feature);
     };
     const onUpdateLabels = () => this.scheduleDomLabelRefresh(layer.id);
+    const onIdleUpdateLabels = () => {
+      if (this.hovered?.layerId === layer.id) return;
+      this.scheduleDomLabelRefresh(layer.id);
+    };
     const mapContainer = this.map.getContainer();
     this.map.on('mousemove', onMouseMove);
     this.map.on('click', onClick);
@@ -1302,7 +1339,7 @@ export class TestMapLibreController {
     this.map.on('movestart', clearHover);
     this.map.on('moveend', onUpdateLabels);
     this.map.on('zoomend', onUpdateLabels);
-    this.map.on('idle', onUpdateLabels);
+    this.map.on('idle', onIdleUpdateLabels);
     mapContainer.addEventListener('pointermove', onContainerPointerMove, true);
     mapContainer.addEventListener('mouseleave', clearHover);
     return () => {
@@ -1313,7 +1350,7 @@ export class TestMapLibreController {
       this.map.off('movestart', clearHover);
       this.map.off('moveend', onUpdateLabels);
       this.map.off('zoomend', onUpdateLabels);
-      this.map.off('idle', onUpdateLabels);
+      this.map.off('idle', onIdleUpdateLabels);
       mapContainer.removeEventListener('pointermove', onContainerPointerMove, true);
       mapContainer.removeEventListener('mouseleave', clearHover);
     };
@@ -1375,12 +1412,12 @@ export class TestMapLibreController {
     return this.duplicateFeatureIdCache.get(cacheKey);
   }
 
-  clearHover() {
+  clearHover({ resetCursor = true } = {}) {
     const previous = this.hovered;
     this.clearFeatureState(previous, 'hover');
     this.setDomLabelHover(previous?.layerId, previous?.id, false);
     this.hovered = null;
-    if (this.map?.getCanvas) this.map.getCanvas().style.cursor = '';
+    if (resetCursor) this.setMapCursor('');
   }
 
   setHover(layer, feature) {
@@ -1390,7 +1427,7 @@ export class TestMapLibreController {
       return;
     }
     if (this.hovered?.layerId === layer.id && this.hovered.id === id) return;
-    this.clearHover();
+    this.clearHover({ resetCursor: false });
     const record = this.layers.get(layer.id);
     this.hovered = {
       layerId: layer.id,
@@ -1410,7 +1447,7 @@ export class TestMapLibreController {
     } else {
       this.clearInteractionOverlay(layer.id, 'hover');
     }
-    this.map.getCanvas().style.cursor = 'pointer';
+    this.setMapCursor('pointer');
   }
 
   selectFeature(layer, feature) {
@@ -1523,12 +1560,23 @@ export class TestMapLibreController {
       }
       const element = marker.getElement();
       element.__civgraphFeature = feature;
-      element.querySelector('div').textContent = label;
-      element.classList.toggle('map-label--selected', this.selected?.layerId === layerId && String(this.selected.id) === key);
-      element.hidden = !record.labelsEnabled;
-      marker.setLngLat(lngLat);
+      const textElement = element.querySelector('div');
+      if (textElement && textElement.textContent !== label) textElement.textContent = label;
+      const isSelected = this.selected?.layerId === layerId && String(this.selected.id) === key;
+      if (element.classList.contains('map-label--selected') !== isSelected) {
+        element.classList.toggle('map-label--selected', isSelected);
+      }
+      const shouldHide = !record.labelsEnabled;
+      if (element.hidden !== shouldHide) element.hidden = shouldHide;
+      const lngLatKey = `${Number(lngLat[0]).toFixed(7)},${Number(lngLat[1]).toFixed(7)}`;
+      if (element.__civgraphLngLatKey !== lngLatKey) {
+        marker.setLngLat(lngLat);
+        element.__civgraphLngLatKey = lngLatKey;
+      }
       if (!element.isConnected) marker.addTo(this.map);
     }
+    const hoveredKey = this.hovered?.layerId === layerId ? String(this.hovered.id) : null;
+    if (hoveredKey && record.domLabelMarkers.has(hoveredKey)) nextKeys.add(hoveredKey);
     for (const [key, marker] of record.domLabelMarkers) {
       if (!nextKeys.has(key)) {
         marker.remove();

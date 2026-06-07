@@ -2103,3 +2103,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) two-finger fallback startup and cleanup must clear any pending direct pan state and pending pan frame,
   3) diagnostics or route validation must expose/require an explicit direct-pan reset path used by two-finger gestures,
   4) do not call a phone-gesture recurrence fixed from pre-pinch pan and pinch assertions alone.
+
+### 161) `/test2` hover fixes must account for resize-driven cursor clearing
+- Mistake pattern: Treating desktop cursor flicker as only a hover-handler or CSS cursor problem while leaving same-size `map.resize()` calls able to emit movement events that clear hover state.
+- Impact: labels/features can set hover correctly and still visibly flicker because repeated resize notifications immediately trigger the shared `movestart` hover cleanup and clear the canvas cursor.
+- Guardrail:
+  1) `/test2` cursor writes must stay centralized through the MapLibre controller and expose mutation diagnostics,
+  2) desktop hover regressions must assert stable cursor state and zero cursor mutations while moving within a hovered DOM label,
+  3) resize observers must be scoped to the layouts that need them and must not observe the MapLibre canvas container,
+  4) adapter `invalidateSize()` must coalesce calls and skip MapLibre `resize()` when the container and canvas are already the same size.

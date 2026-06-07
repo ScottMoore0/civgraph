@@ -90,6 +90,8 @@ export class Test2MapLibreMainAdapter {
     this.overlayLayers = new Map();
     this.addressMarker = null;
     this.onFeatureClick = null;
+    this.resizeFrame = 0;
+    this.lastResizeSize = null;
   }
 
   init(container = this.container) {
@@ -602,10 +604,36 @@ export class Test2MapLibreMainAdapter {
   invalidateSize() {
     if (!this.map) return;
     this.applyMobileTouchContract();
-    setTimeout(() => {
+    if (this.resizeFrame) return;
+    this.resizeFrame = requestAnimationFrame(() => {
+      this.resizeFrame = 0;
       this.applyMobileTouchContract();
+      const nextSize = this.readMapContainerSize();
+      if (!this.shouldResizeMap(nextSize)) return;
+      this.lastResizeSize = nextSize;
       this.map.resize();
-    }, 0);
+    });
+  }
+
+  readMapContainerSize() {
+    const container = this.map?.getContainer?.();
+    const rect = container?.getBoundingClientRect?.();
+    if (!rect) return null;
+    return {
+      width: Math.round(rect.width * 10) / 10,
+      height: Math.round(rect.height * 10) / 10
+    };
+  }
+
+  shouldResizeMap(nextSize) {
+    if (!nextSize || nextSize.width <= 0 || nextSize.height <= 0) return false;
+    const previous = this.lastResizeSize;
+    if (!previous) return true;
+    const sizeChanged = Math.abs(nextSize.width - previous.width) > 1 || Math.abs(nextSize.height - previous.height) > 1;
+    if (sizeChanged) return true;
+    const canvasRect = this.map?.getCanvas?.()?.getBoundingClientRect?.();
+    if (!canvasRect) return false;
+    return Math.abs(canvasRect.width - nextSize.width) > 1 || Math.abs(canvasRect.height - nextSize.height) > 1;
   }
 
   highlightFeature(mainId, featureId, options = {}) {

@@ -180,7 +180,8 @@ test('/test2 desktop map accepts actual mouse drag and wheel zoom gestures', asy
     };
   });
   expect(initial.diagnostics.scrollZoomEnabled).toBe(true);
-  expect(initial.diagnostics.resizeObserverTargets).toBe(1);
+  expect(initial.diagnostics.resizeObserverTargets).toBe(0);
+  expect(initial.diagnostics.resizeObserverMobileEligible).toBe(false);
   expect(initial.diagnostics.directPanGestureInstalled).toBe(true);
   expect(initial.diagnostics.directWheelGestureInstalled).toBe(true);
 
@@ -817,6 +818,8 @@ test('/test2 mobile catalogue stays bounded and map gestures stay enabled', asyn
   expect(gestureState.gestureDiagnostics.topIsCanvas || gestureState.gestureDiagnostics.topWithinCanvasContainer).toBe(true);
   expect(gestureState.gestureDiagnostics.topWithinMap).toBe(true);
   expect(gestureState.gestureDiagnostics.guardTargetCount).toBeGreaterThanOrEqual(2);
+  expect(gestureState.gestureDiagnostics.resizeObserverTargets).toBe(1);
+  expect(gestureState.gestureDiagnostics.resizeObserverMobileEligible).toBe(true);
   expect(gestureState.gestureDiagnostics.directPanGestureInstalled).toBe(true);
   expect(gestureState.hasTouchZoomRotateClass).toBe(true);
   expect(gestureState.hasTouchDragPanClass).toBe(true);
@@ -1037,6 +1040,9 @@ test('/test2 Settlements 2015 has labels, hover state, and feature details', asy
     await app.loadMap('settlements-2015');
     await new Promise((resolve) => window.__civgraphTest2.mapController.map.once('idle', resolve));
   });
+  await page.waitForFunction(() => (
+    document.querySelectorAll('.maplibre-dom-label[data-layer-id="settlements-2015-vector-test"]:not([hidden])').length > 0
+  ));
 
   const state = await page.evaluate(() => {
     const map = window.__civgraphTest2.mapController.map;
@@ -1062,8 +1068,26 @@ test('/test2 Settlements 2015 has labels, hover state, and feature details', asy
 
   const firstLabel = page.locator('.maplibre-dom-label[data-layer-id="settlements-2015-vector-test"]:not([hidden])').first();
   await expect(firstLabel).toBeVisible();
-  await firstLabel.hover();
+  const labelBox = await firstLabel.boundingBox();
+  expect(labelBox).not.toBeNull();
+  await page.mouse.move(labelBox.x + labelBox.width * 0.5, labelBox.y + labelBox.height * 0.5);
+  await page.waitForFunction(() => {
+    const renderer = window.__civgraphTest2?.mapController?.renderer;
+    const label = document.querySelector('.maplibre-dom-label[data-layer-id="settlements-2015-vector-test"]:not([hidden])');
+    const diagnostics = renderer?.getMobileGestureDiagnostics?.();
+    return label?.classList.contains('map-label--hover') && diagnostics?.mapCursor === 'pointer';
+  });
   await expect(firstLabel).toHaveClass(/map-label--hover/);
+  await page.evaluate(() => {
+    const renderer = window.__civgraphTest2.mapController.renderer;
+    renderer.cursorMutationCount = 0;
+  });
+  for (let offset = 3; offset <= 15; offset += 3) {
+    await page.mouse.move(labelBox.x + Math.min(labelBox.width - 2, offset), labelBox.y + Math.min(labelBox.height - 2, offset));
+  }
+  const cursorState = await page.evaluate(() => window.__civgraphTest2.mapController.renderer.getMobileGestureDiagnostics?.());
+  expect(cursorState.mapCursor).toBe('pointer');
+  expect(cursorState.cursorMutationCount).toBe(0);
   await firstLabel.click();
   await expect(page.locator('#featureInfo')).toBeVisible();
   await expect(page.locator('#featureInfoContent')).toContainText(/Settlements 2015|Name|Code/i);

@@ -2601,8 +2601,8 @@ export class Test2ElectionManager {
         const result = (this.activeBundle?.results || []).find((item) => normalizeName(item.matchName || item.constituency) === key);
         if (result) this.renderPanel(result);
       });
-      map.on('mouseenter', VOTE_BAR_LAYER_ID, () => { map.getCanvas().style.cursor = 'pointer'; });
-      map.on('mouseleave', VOTE_BAR_LAYER_ID, () => { map.getCanvas().style.cursor = ''; });
+      map.on('mouseenter', VOTE_BAR_LAYER_ID, () => { this.mapController?.setMapCursor?.('pointer'); });
+      map.on('mouseleave', VOTE_BAR_LAYER_ID, () => { this.mapController?.setMapCursor?.(''); });
     }
   }
 
@@ -2944,8 +2944,8 @@ export class Test2ElectionManager {
         const result = (this.activeBundle?.results || []).find((item) => normalizeName(item.matchName || item.constituency) === key);
         if (result) this.renderPanel(result);
       });
-      map.on('mouseenter', RECALL_LABEL_LAYER_ID, () => { map.getCanvas().style.cursor = 'pointer'; });
-      map.on('mouseleave', RECALL_LABEL_LAYER_ID, () => { map.getCanvas().style.cursor = ''; });
+      map.on('mouseenter', RECALL_LABEL_LAYER_ID, () => { this.mapController?.setMapCursor?.('pointer'); });
+      map.on('mouseleave', RECALL_LABEL_LAYER_ID, () => { this.mapController?.setMapCursor?.(''); });
     }
   }
 

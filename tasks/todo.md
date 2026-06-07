@@ -1,3 +1,21 @@
+# Fix `/test2` desktop cursor flicker
+- [x] Record scope and diagnose cursor mutation path
+  - Task: investigate and fix the `/test2` desktop browser cursor flickering while using the MapLibre map.
+  - Symptom: the visible mouse cursor repeatedly flickers over the `/test2` interactive map.
+  - Root cause: `/test2` hover state was being set correctly and then cleared by repeated MapLibre `resize()` calls. Those same-size resize calls emitted movement events, which hit the existing `movestart` hover-clear path and repeatedly cleared/restored the canvas cursor.
+- [x] Patch stable `/test2` cursor handling
+  - Scope: centralize map cursor writes, avoid clearing/re-setting when directly switching hovered features, and apply the same stable cursor contract to election overlay cursor handlers where practical.
+  - Done: added a central `setMapCursor()` helper with cursor mutation diagnostics, kept cursor state stable when switching hovered features, routed election-overlay cursor writes through the controller, made the mobile resize observer mobile/small-screen scoped, and made the `/test2` main adapter coalesce `invalidateSize()` and skip same-size MapLibre `resize()` calls.
+- [x] Add regression coverage and verify
+  - Scope: browser test for bounded cursor mutations during desktop hover movement, route guardrail for the stable helper, rebuild `/test2`, run checks, commit, and push.
+  - Verification evidence: `node --check` passed for `test/src/map-controller.js`, `test2/src/maplibre-main-adapter.js`, `test2/src/election-manager.js`, `tests/browser/test2-app.spec.js`, and `scripts/validate-test2-route.mjs`; escalated `npm run build:test2` passed and generated `/test2` bundle `2983cb1bae2f`; focused Playwright `/test2 Settlements 2015 has labels, hover state, and feature details` passed with zero cursor mutations while moving inside a hovered label; focused desktop drag/wheel Playwright test passed; mobile gesture Playwright group passed; escalated `npm run check:test2` and full `npm run check` passed.
+
+## Recurring issue: `/test2` desktop cursor flicker from resize-driven hover clearing
+- Symptom: the desktop cursor flickered while using `/test2`, especially over hoverable map labels/features.
+- Root cause: multiple `/test2` layout notifications called MapLibre `resize()` even when the map container size had not changed. MapLibre emitted movement events for those resizes, and the shared layer interaction cleanup cleared hover/cursor state on `movestart`.
+- Permanent prevention action: `/test2` now centralizes cursor writes, exposes cursor mutation diagnostics, scopes the resize observer to mobile/small screens, and makes adapter `invalidateSize()` frame-coalesced and size-aware before calling MapLibre `resize()`. Route validation now requires these guardrails.
+- Verification evidence: focused desktop hover regression asserts stable `pointer` cursor with `cursorMutationCount === 0`; desktop drag/wheel, mobile gesture, `/test2` route checks, and full repository checks passed.
+
 # Fix `/test2` mobile pan after pinch regression
 - [x] Reproduce and isolate stale gesture state
   - Task: diagnose why `/test2` mobile pan works initially but stops after the first pinch zoom when a map layer is loaded.
