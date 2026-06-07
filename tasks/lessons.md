@@ -2137,3 +2137,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) desktop hover regressions must assert stable cursor state and zero cursor mutations while moving within a hovered DOM label,
   3) resize observers must be scoped to the layouts that need them and must not observe the MapLibre canvas container,
   4) adapter `invalidateSize()` must coalesce calls and skip MapLibre `resize()` when the container and canvas are already the same size.
+
+### 162) Mobile catalogue deferred anchors must distinguish TOC targets from internal anchors
+- Mistake pattern: Adding placeholder anchors for every deferred catalogue card, then treating any deferred anchor as a valid table-of-contents destination in tests or runtime navigation.
+- Impact: a mobile TOC regression can fail or pass for the wrong reason because merged/internal card anchors may have no visible TOC link, while real TOC links still need stable placeholder anchors and hydration.
+- Guardrail:
+  1) flat catalogue rendering must maintain a central set of actual TOC target ids,
+  2) deferred anchors must be tagged with whether they are TOC-reachable,
+  3) browser regressions must click reachable TOC targets rather than arbitrary internal anchors,
+  4) route validation must assert the TOC registry, deferred-target tagging, and pane-specific scroll/hydration helpers exist together.

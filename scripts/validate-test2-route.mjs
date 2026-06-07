@@ -15,6 +15,7 @@ const electionViewModelSource = readFileSync('js/election-view-model.mjs', 'utf8
 const electionRendererSource = readFileSync('js/election-renderer.mjs', 'utf8');
 const electionControllerSource = readFileSync('js/election-controller.js', 'utf8');
 const electionManifestBuilderSource = readFileSync('scripts/build-test2-election-manifest.mjs', 'utf8');
+const electionDataAuditSource = readFileSync('scripts/audit-test2-election-data.mjs', 'utf8');
 const uiControllerSource = readFileSync('js/ui-controller.js', 'utf8');
 const mapControllerSource = readFileSync('test/src/map-controller.js', 'utf8');
 const labelsSource = readFileSync('test/src/labels.js', 'utf8');
@@ -200,7 +201,16 @@ assert(appSource.includes('includeMobileElectionCatalogue = true'), '/test2 must
 assert(!appSource.includes('includeElectionTocRows = true'), '/test2 must not opt in to individual election rows in the top catalogue table');
 assert(uiControllerSource.includes('catalogue-flat__toc-decade-btn') && uiControllerSource.includes('flat-election-entry'), '/test2 catalogue must keep main-style decade TOC buttons with election entries inside decade cards');
 assert(!uiControllerSource.includes('flat-election-toc-link') && !uiControllerSource.includes('catalogue-flat__toc-election-row'), '/test2 must not render individual election entries directly in the catalogue table of contents');
-assert(uiControllerSource.includes('_flatRenderResolvers') && uiControllerSource.includes('await this.requestFlatViewRender') && uiControllerSource.includes('scrollToTarget()'), '/test2 mobile catalogue TOC links must wait for full catalogue hydration before scrolling to targets beyond the initial mobile cap');
+assert(
+    uiControllerSource.includes('_flatRenderResolvers')
+      && uiControllerSource.includes('_flatTocTargetIds')
+      && uiControllerSource.includes('ensureCatalogueTargetRendered')
+      && uiControllerSource.includes('scrollCatalogueTargetIntoView')
+      && uiControllerSource.includes('catalogueDeferredTarget')
+      && uiControllerSource.includes('catalogueTocTarget')
+      && uiControllerSource.includes('data-catalogue-target'),
+  '/test2 mobile catalogue TOC links must use deferred anchors, wait for full catalogue hydration, and scroll within the catalogue pane'
+);
 assert(appSource.includes('enrichFeature: (feature, selection) => this.elections?.enrichFeature'), '/test2 selected feature details must merge election results where active');
 assert(appSource.includes('setupTimelineControls') && appSource.includes('setTimelineItems'), '/test2 must wire the production timeline slider for map chains and elections');
 assert(appSource.includes('formatTimelineItemLabel') && appSource.includes("day: '2-digit'") && appSource.includes("month: 'short'") && appSource.includes("year: 'numeric'"), '/test2 timeline labels must render as DD MMM YYYY');
@@ -209,6 +219,10 @@ assert(adapterSource.includes('fillOpacityExpression') && adapterSource.includes
 assert(electionManagerSource.includes('ELECTION_MANIFEST_URL') && electionManagerSource.includes('loadElection(body, date)'), '/test2 election manager must lazy-load generated election result bundles');
 assert(electionManagerSource.includes('renderLoadingPanel') && electionManagerSource.includes('Promise.all') && electionManagerSource.includes('loadFeatureIndexForBundle'), '/test2 election loads must use a progressive pane and parallel map/result/index fetch path');
 assert(electionManagerSource.includes('voteShare') && electionManagerSource.includes('turnout') && electionManagerSource.includes('quota'), '/test2 election manager must expose requested election styling modes');
+assert(packageJsonSource.includes('"audit:test2:elections": "node scripts/audit-test2-election-data.mjs"'), '/test2 election data audit must be runnable as npm run audit:test2:elections');
+assert(packageJsonSource.includes('audit-test2-election-data.mjs --fail-on-blocking'), '/test2 checks must run the election data audit in fail-on-blocking mode');
+assert(electionDataAuditSource.includes('test/metadata/elections-test2.json') && electionDataAuditSource.includes('data/browse/elections.json') && electionDataAuditSource.includes('ireland_election_party_colour_wikipedia_audit.csv'), '/test2 election data audit must cover manifest, Browse entries, and saved Wikipedia colour audit data');
+assert(electionDataAuditSource.includes('rowsMissingExpectedTransferData') && electionDataAuditSource.includes('source-record-single-reference'), '/test2 election data audit must report transfer/count gaps and weak source-reference coverage');
 assert(electionManagerSource.includes('renderSeatCircles') && electionManagerSource.includes('new maplibregl.Marker') && electionManagerSource.includes('seatCircleMarkers'), '/test2 election manager must render map-anchored DOM seat-circle markers for ordinary elections');
 assert(electionManagerSource.includes('ensureSeatCircleOverlay') && electionManagerSource.includes('election-seat-circle') && electionManagerSource.includes('seat-dot'), '/test2 seat circles must use main-style DOM marker structure instead of MapLibre circle paint');
 assert(appSource.includes('unloadActiveElectionForLayer(mapId)') && appSource.includes('isActiveElectionLayerId(mapId)') && (appSource.includes('this.elections.unloadElection()') || appSource.includes('this.elections.unloadElection({ unloadBackingLayer: false })')), '/test2 active-layer removal must route active election source/canonical IDs through the election manager so DOM seat-circle markers are removed');

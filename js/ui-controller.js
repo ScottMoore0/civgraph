@@ -69,6 +69,7 @@ class UIController {
         this._flatRenderScheduled = false;
         this._pendingFlatRenderOptions = null;
         this._flatRenderResolvers = [];
+        this._flatTocTargetIds = new Set();
         this._thumbnailIds = null;
         this._thumbnailManifestPromise = null;
         this._thumbnailObserver = null;
@@ -2043,6 +2044,14 @@ class UIController {
             return;
         }
 
+        const tabLink = target.closest?.('.catalogue-flat__toc-toplink--tab[data-tab-target]');
+        if (tabLink) {
+            event.preventDefault();
+            this.showTab(tabLink.dataset.tabTarget);
+            this.updateCatalogueNavButtons();
+            return;
+        }
+
         const tocLink = target.closest?.('.catalogue-flat__toc-link, .catalogue-flat__toc-toplink');
         if (tocLink) {
             this.handleFlatTocClick(event, tocLink);
@@ -2068,27 +2077,78 @@ class UIController {
         }
     }
 
+    getCataloguePaneScroller() {
+        return document.querySelector('.pane__content[data-tab-content="catalogue"]')
+            || document.getElementById('catalogueListView')
+            || document.querySelector('.pane--info');
+    }
+
+    async waitForCatalogueFrame(count = 1) {
+        for (let i = 0; i < count; i += 1) {
+            await new Promise(resolve => requestAnimationFrame(resolve));
+        }
+    }
+
+    async ensureCatalogueTargetRendered(targetId) {
+        const findTarget = () => document.getElementById(targetId);
+        let targetEl = findTarget();
+        const targetMissing = !targetEl;
+        const targetDeferred = targetEl?.dataset?.catalogueDeferredTarget === '1';
+        if (!targetMissing && !targetDeferred) return targetEl;
+
+        const shouldHydrate = this.isMobile || targetDeferred || targetMissing;
+        if (!shouldHydrate) return targetEl || null;
+
+        this._mobileCatalogueExpanded = true;
+        await this.requestFlatViewRender({ ...(this._lastMapListOptions || {}), fullCatalogue: true }, { defer: this.isMobile });
+        await this.waitForCatalogueFrame(2);
+        return findTarget();
+    }
+
+    scrollCatalogueTargetIntoView(targetEl, { focus = true } = {}) {
+        const pane = this.getCataloguePaneScroller();
+        if (!targetEl || !pane) return false;
+        const paneRect = pane.getBoundingClientRect();
+        const targetRect = targetEl.getBoundingClientRect();
+        const stickyShell = pane.querySelector('.catalogue-sticky-shell');
+        const stickyHeight = stickyShell?.getBoundingClientRect?.().height || 0;
+        const offset = Math.max(12, stickyHeight + 10);
+        const nextTop = pane.scrollTop + targetRect.top - paneRect.top - offset;
+        const reduceMotion = typeof window !== 'undefined'
+            && window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+        pane.scrollTo({
+            top: Math.max(0, nextTop),
+            behavior: (this.isMobile || reduceMotion) ? 'auto' : 'smooth'
+        });
+        if (focus) {
+            targetEl.setAttribute('tabindex', '-1');
+            targetEl.focus?.({ preventScroll: true });
+        }
+        return true;
+    }
+
+    isCatalogueTargetVisible(targetEl) {
+        const pane = this.getCataloguePaneScroller();
+        if (!targetEl || !pane) return false;
+        const paneRect = pane.getBoundingClientRect();
+        const targetRect = targetEl.getBoundingClientRect();
+        const stickyShell = pane.querySelector('.catalogue-sticky-shell');
+        const stickyHeight = stickyShell?.getBoundingClientRect?.().height || 0;
+        return targetRect.top >= paneRect.top + stickyHeight
+            && targetRect.top <= paneRect.bottom - 12;
+    }
+
     async handleFlatTocClick(event, link) {
         event.preventDefault();
-        const href = link.getAttribute('href') || '';
-        if (!href.startsWith('#')) return;
-        const targetId = href.substring(1);
-        const scrollToTarget = () => {
-            const targetEl = document.getElementById(targetId);
-            if (!targetEl) return false;
-            targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            return true;
-        };
-        const targetEl = document.getElementById(targetId);
-        if (targetEl) {
-            scrollToTarget();
-            return;
-        }
-        if (this.isMobile && !this._mobileCatalogueExpanded) {
-            this._mobileCatalogueExpanded = true;
-            await this.requestFlatViewRender({ ...(this._lastMapListOptions || {}), fullCatalogue: true }, { defer: true });
-            await new Promise(resolve => requestAnimationFrame(resolve));
-            scrollToTarget();
+        const targetId = link.dataset.catalogueTarget || (link.getAttribute('href') || '').replace(/^#/, '');
+        if (!targetId) return;
+        let targetEl = await this.ensureCatalogueTargetRendered(targetId);
+        if (!targetEl) return;
+        for (let attempt = 0; attempt < 4; attempt += 1) {
+            this.scrollCatalogueTargetIntoView(targetEl, { focus: attempt === 0 });
+            await this.waitForCatalogueFrame(attempt === 0 ? 2 : 1);
+            targetEl = document.getElementById(targetId);
+            if (this.isCatalogueTargetVisible(targetEl)) return;
         }
     }
 
@@ -3464,13 +3524,19 @@ class UIController {
         };
 
         // Build TOC HTML (no title, no column labels), with columns for name/years/extent.
+        const flatTocTargetIds = new Set(['flat-section-elections', 'flat-section-maps', 'flat-section-books']);
+        const addFlatTocTarget = (targetId) => {
+            if (targetId) flatTocTargetIds.add(targetId);
+            return targetId;
+        };
+
         let tocHtml = `
             <div class="catalogue-flat__toc">
                 <div class="catalogue-flat__toc-toplinks">
                     <span class="catalogue-flat__toc-toplinks-left">
-                        <a href="#flat-section-elections" class="catalogue-flat__toc-toplink">Elections</a>
-                        <a href="#flat-section-maps" class="catalogue-flat__toc-toplink">Maps</a>
-                        <a href="#flat-section-books" class="catalogue-flat__toc-toplink">Books</a>
+                        <a href="#flat-section-elections" class="catalogue-flat__toc-toplink" data-catalogue-target="flat-section-elections">Elections</a>
+                        <a href="#flat-section-maps" class="catalogue-flat__toc-toplink" data-catalogue-target="flat-section-maps">Maps</a>
+                        <a href="#flat-section-books" class="catalogue-flat__toc-toplink" data-catalogue-target="flat-section-books">Books</a>
                         <button type="button" class="catalogue-flat__toc-toplink catalogue-flat__toc-toplink--tab" data-tab-target="tables">Tables</button>
                     </span>
                     <span class="catalogue-flat__toc-stats" id="catalogueTocStats" aria-hidden="true"></span>
@@ -3481,7 +3547,8 @@ class UIController {
         // Elections heading + horizontal row of decade buttons in place of the
         // previous one-row-per-decade list. Covers both NI and ROI elections.
         const decadeButtonsHtml = decadeElectionCards.map(def => {
-            return `<a href="#flat-card-${def.id}" class="catalogue-flat__toc-decade-btn">${this.escapeHtml(def.name)}</a>`;
+            const targetId = addFlatTocTarget(`flat-card-${def.id}`);
+            return `<a href="#${targetId}" class="catalogue-flat__toc-decade-btn" data-catalogue-target="${targetId}">${this.escapeHtml(def.name)}</a>`;
         }).join('');
         tocHtml += `
                 <tr class="catalogue-flat__toc-heading-row">
@@ -3709,6 +3776,7 @@ class UIController {
         const renderedCards = new Set();
 
         const appendTocRow = (card, indented = false) => {
+            const targetId = addFlatTocTarget(`flat-card-${card.id}`);
             const maps = collectCardMaps(card);
             const override = card.thumbMapId ? (mapById.get(card.thumbMapId) || dataService.getMapById(card.thumbMapId)) : null;
             const preview = override || maps[0]?.map || null;
@@ -3719,7 +3787,7 @@ class UIController {
             tocHtml += `
                 <tr class="${indented ? 'catalogue-flat__toc-row--indented' : ''}">
                     <td>
-                        <a href="#flat-card-${card.id}" class="catalogue-flat__toc-link">
+                        <a href="#${targetId}" class="catalogue-flat__toc-link" data-catalogue-target="${targetId}">
                             <span class="catalogue-flat__toc-namecell">
                                 <span class="catalogue-flat__toc-color" style="background:${this.escapeHtml(previewColor)}"></span>
                                 ${previewThumb ? this.renderTocThumbnail(previewThumb) : '<span class="catalogue-flat__toc-thumb catalogue-flat__toc-thumb--fallback"></span>'}
@@ -3734,6 +3802,7 @@ class UIController {
         };
 
         const renderMergeRow = (merge, indented) => {
+            const targetId = addFlatTocTarget(`flat-card-${merge.mergedIds[0]}`);
             const firstCard = c1Cards.find(c => c.id === merge.mergedIds[0]);
             const maps = firstCard ? collectCardMaps(firstCard) : [];
             const overrideId = firstCard?.thumbMapId || merge.thumbMapId;
@@ -3744,7 +3813,7 @@ class UIController {
             tocHtml += `
                 <tr class="${indented ? 'catalogue-flat__toc-row--indented' : ''}">
                     <td>
-                        <a href="#flat-card-${merge.mergedIds[0]}" class="catalogue-flat__toc-link">
+                        <a href="#${targetId}" class="catalogue-flat__toc-link" data-catalogue-target="${targetId}">
                             <span class="catalogue-flat__toc-namecell">
                                 <span class="catalogue-flat__toc-color" style="background:${this.escapeHtml(previewColor)}"></span>
                                 ${previewThumb ? this.renderTocThumbnail(previewThumb) : '<span class="catalogue-flat__toc-thumb catalogue-flat__toc-thumb--fallback"></span>'}
@@ -3829,6 +3898,7 @@ class UIController {
         });
         tocHtml += '</tbody></table></div>';
 
+        this._flatTocTargetIds = flatTocTargetIds;
         container.innerHTML = tocHtml + '<div class="catalogue-flat__cards" id="catalogueFlatCards"></div>';
         const cardsContainer = container.querySelector('#catalogueFlatCards');
         const renderOptions = options || {};
@@ -3922,6 +3992,17 @@ class UIController {
             cardsContainer.appendChild(card);
             await this.yieldForCatalogueRender(defIndex);
         }
+        if (boundedMobileCatalogue && electionCardsToRender.length < decadeElectionCards.length) {
+            for (const def of decadeElectionCards.slice(electionCardsToRender.length)) {
+                const anchor = document.createElement('div');
+                anchor.id = `flat-card-${def.id}`;
+                anchor.className = 'catalogue-flat__anchor catalogue-flat__anchor--deferred';
+                anchor.dataset.catalogueDeferredTarget = '1';
+                anchor.dataset.catalogueTargetKind = 'election-decade';
+                anchor.dataset.catalogueTocTarget = flatTocTargetIds.has(anchor.id) ? '1' : '0';
+                cardsContainer.appendChild(anchor);
+            }
+        }
 
         const mapsAnchor = document.createElement('div');
         mapsAnchor.id = 'flat-section-maps';
@@ -3932,6 +4013,13 @@ class UIController {
             if (this._flatRenderToken !== renderToken) return;
             const def = c1Cards[defIndex];
             if (boundedMobileCatalogue && renderedMobileMapCards >= this._mobileInitialMapCardLimit) {
+                const anchor = document.createElement('div');
+                anchor.id = `flat-card-${def.id}`;
+                anchor.className = 'catalogue-flat__anchor catalogue-flat__anchor--deferred';
+                anchor.dataset.catalogueDeferredTarget = '1';
+                anchor.dataset.catalogueTargetKind = 'map-card';
+                anchor.dataset.catalogueTocTarget = flatTocTargetIds.has(anchor.id) ? '1' : '0';
+                cardsContainer.appendChild(anchor);
                 continue;
             }
             const anchor = document.createElement('div');
@@ -3976,6 +4064,11 @@ class UIController {
         booksAnchor.id = 'flat-section-books';
         booksAnchor.className = 'catalogue-flat__anchor';
         if (boundedMobileCatalogue) {
+            booksAnchor.classList.add('catalogue-flat__anchor--deferred');
+            booksAnchor.dataset.catalogueDeferredTarget = '1';
+            booksAnchor.dataset.catalogueTargetKind = 'books';
+            booksAnchor.dataset.catalogueTocTarget = '1';
+            cardsContainer.appendChild(booksAnchor);
             cardsContainer.insertAdjacentHTML('beforeend', this.renderMobileCatalogueExpandControl());
         }
 
