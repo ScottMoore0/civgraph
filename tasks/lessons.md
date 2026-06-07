@@ -1,5 +1,22 @@
 # Lessons Log
 
+### 163) Mobile catalogue caps must not create dead TOC links
+- Mistake pattern: Preserving a bounded mobile catalogue render for performance while leaving the table of contents linked to cards whose anchors do not exist until `Show more` is pressed.
+- Impact: mobile users can click a TOC entry and see no jump, which makes the catalogue feel broken even though the cap was originally added for speed.
+- Guardrail:
+  1) bounded mobile catalogue rendering may keep the initial DOM small, but TOC clicks to unrendered cards must hydrate/expand the missing target before scrolling,
+  2) render requests that affect navigation should expose completion signals rather than using fixed timeouts,
+  3) browser tests should choose a TOC target beyond the initial mobile cap and assert the target exists, the cap is expanded, `Show more` is gone, and the target is visible in the pane.
+
+### 162) One-finger MapLibre fallback must require repeated native-failure evidence
+- Mistake pattern: Making the direct one-finger pan fallback emergency-only in name, but allowing it to activate after one short no-camera animation-frame check.
+- Impact: on real phones the fallback can take over normal one-finger drag and produce stepwise, laggy movement instead of native MapLibre inertial panning.
+- Guardrail:
+  1) direct one-finger fallback must require movement distance, elapsed time, and multiple no-camera samples before activation,
+  2) normal mobile one-finger pan tests must assert the camera moves without incrementing the direct pan fallback activation counter,
+  3) if the fallback truly activates, it should pan from incremental pointer deltas rather than repeatedly recomputing movement from the gesture start,
+  4) pending fallback deltas must be cleared whenever the gesture state resets.
+
 ### 155) MapLibre gesture verification must assert camera movement, not fallback presence
 - Mistake pattern: Treating direct gesture fallbacks as a normal movement path and verifying that MapLibre handlers or fallback handlers were installed, without proving that native MapLibre gestures remained the primary path.
 - Impact: `/test2` could pass handler-state tests while real desktop/mobile gestures still felt broken, moved only a small amount, or lost two-finger pan/rotate behavior because fallback handlers pre-empted native input.

@@ -68,6 +68,7 @@ class UIController {
         this._flatRenderToken = null;
         this._flatRenderScheduled = false;
         this._pendingFlatRenderOptions = null;
+        this._flatRenderResolvers = [];
         this._thumbnailIds = null;
         this._thumbnailManifestPromise = null;
         this._thumbnailObserver = null;
@@ -1944,23 +1945,35 @@ class UIController {
     requestFlatViewRender(options = {}, { defer = false } = {}) {
         if (this.shouldDeferMobileCatalogueRender()) {
             this.renderDeferredMobileCatalogueShell();
-            return;
+            return Promise.resolve(false);
         }
         this._pendingFlatRenderOptions = options || {};
+        const renderPromise = new Promise((resolve) => {
+            this._flatRenderResolvers.push(resolve);
+        });
+        const resolveRender = (value) => {
+            const resolvers = this._flatRenderResolvers.splice(0);
+            resolvers.forEach(resolve => resolve(value));
+        };
         const run = () => {
             this._flatRenderScheduled = false;
             const latestOptions = this._pendingFlatRenderOptions || {};
             this.renderFlatView(latestOptions).then(() => {
                 this.restoreExpandedVariants();
+                resolveRender(true);
+            }).catch(error => {
+                resolveRender(false);
+                console.error('[UIController] Failed to render flat catalogue view', error);
             });
         };
         if (!defer) {
             run();
-            return;
+            return renderPromise;
         }
-        if (this._flatRenderScheduled) return;
+        if (this._flatRenderScheduled) return renderPromise;
         this._flatRenderScheduled = true;
         this.scheduleIdleWork(run, 350);
+        return renderPromise;
     }
 
     shouldDeferMobileCatalogueRender() {
@@ -2055,22 +2068,27 @@ class UIController {
         }
     }
 
-    handleFlatTocClick(event, link) {
+    async handleFlatTocClick(event, link) {
         event.preventDefault();
         const href = link.getAttribute('href') || '';
         if (!href.startsWith('#')) return;
         const targetId = href.substring(1);
+        const scrollToTarget = () => {
+            const targetEl = document.getElementById(targetId);
+            if (!targetEl) return false;
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return true;
+        };
         const targetEl = document.getElementById(targetId);
         if (targetEl) {
-            targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            scrollToTarget();
             return;
         }
         if (this.isMobile && !this._mobileCatalogueExpanded) {
             this._mobileCatalogueExpanded = true;
-            this.requestFlatViewRender({ ...(this._lastMapListOptions || {}), fullCatalogue: true }, { defer: true });
-            window.setTimeout(() => {
-                document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 350);
+            await this.requestFlatViewRender({ ...(this._lastMapListOptions || {}), fullCatalogue: true }, { defer: true });
+            await new Promise(resolve => requestAnimationFrame(resolve));
+            scrollToTarget();
         }
     }
 

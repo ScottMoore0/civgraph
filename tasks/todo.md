@@ -1,3 +1,27 @@
+# Fix `/test2` one-finger map lag and mobile catalogue TOC jumps
+- [x] Record recurrence and scope
+  - Task: make `/test2` one-finger map dragging remain native MapLibre-first on real phones/desktops, and make mobile catalogue table-of-contents links reliably jump to cards even when the bounded mobile catalogue has not rendered the target yet.
+  - Symptom: one-finger dragging can feel laggy and move only a little at a time; some catalogue TOC links do not jump; scrolling the mobile table of contents exposes a `Show more` button because only an initial subset of catalogue cards is rendered.
+  - Likely root cause: the emergency one-finger direct-pan fallback can still activate after too little no-camera evidence, causing stepwise manual movement; the mobile catalogue TOC links to full-catalogue targets while the bounded mobile render omits many corresponding anchors until `Show more` is pressed.
+- [x] Patch one-finger gesture fallback
+  - Scope: keep MapLibre native gestures primary; make the direct pan fallback wait for repeated no-camera samples and a short elapsed threshold; if fallback truly activates, pan incrementally from pointer deltas rather than repeatedly jumping from the gesture start.
+  - Completed: added per-pointer fallback thresholds, repeated no-camera sample counting, delayed activation, incremental delta panning, and cleanup for the pending pan delta accumulator.
+- [x] Patch mobile TOC jump behavior
+  - Scope: keep bounded initial mobile catalogue for performance, but auto-expand/render the catalogue before scrolling when a TOC target is missing.
+  - Completed: `requestFlatViewRender()` now returns a completion promise, and mobile TOC clicks await full-catalogue hydration before scrolling to offscreen/unrendered card anchors.
+- [x] Add regression coverage
+  - Scope: assert normal one-finger mobile pan does not trigger the direct pan fallback, and assert a mobile TOC link beyond the initial render cap expands/hydrates and scrolls into view.
+  - Completed: browser coverage now verifies bounded mobile catalogue performance remains intact, TOC links beyond the initial cap render and scroll correctly, and the direct pan fallback count does not increase during a normal one-finger mobile pan.
+- [x] Verify, document, commit, and push
+  - Scope: run focused syntax/check/browser coverage, update lessons for this recurrence, commit only the intended files, and push.
+  - Verification evidence: `node --check` passed for `test/src/map-controller.js`, `js/ui-controller.js`, `tests/browser/test2-app.spec.js`, and `scripts/validate-test2-route.mjs`; `node scripts/validate-test2-route.mjs` passed; escalated `npm run build:test2` passed and generated bundle `12508192bd38`; escalated `npm run check:test2` passed; focused Playwright mobile catalogue/mobile gesture tests passed; focused Playwright desktop drag/wheel test passed; escalated `npm run check` passed.
+
+## Recurring issue: `/test2` one-finger fallback and bounded mobile catalogue links
+- Symptom: one-finger map movement could feel laggy/stepwise on phones, and mobile TOC links could fail when they targeted cards hidden behind the bounded mobile catalogue render.
+- Root cause: the one-finger direct-pan fallback could activate after a single short no-camera check, and bounded mobile catalogue rendering exposed TOC links to anchors that were not yet present in the DOM.
+- Permanent prevention action: direct one-finger fallback now requires repeated no-camera samples plus elapsed-time/distance thresholds and pans incrementally if activated; mobile TOC clicks hydrate the full catalogue before scrolling; route validation and Playwright tests assert both guardrails.
+- Verification evidence: focused mobile Playwright tests passed with no direct pan fallback activation during normal one-finger pan and with a beyond-cap TOC link hydrating/scrolling successfully.
+
 # Fix `/test2` native-first MapLibre gestures
 - [x] Record recurrence and root cause
   - Task: make `/test2` pan, wheel zoom, pinch zoom, rotate, pitch, and pan-after-pinch work through native MapLibre gestures first, with direct fallbacks only as emergency recovery.

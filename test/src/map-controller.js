@@ -167,6 +167,7 @@ export class TestMapLibreController {
     this.directPanGestureState = null;
     this.directPanFrame = 0;
     this.directPanPendingCenter = null;
+    this.directPanPendingDelta = null;
     this.directPanFallbackActivations = 0;
     this.directWheelGestureInstalled = false;
     this.directWheelFrame = 0;
@@ -290,6 +291,7 @@ export class TestMapLibreController {
       this.directPanFrame = 0;
     }
     this.directPanPendingCenter = null;
+    this.directPanPendingDelta = null;
     const state = this.directPanGestureState;
     if (state) {
       if (state.nativeCheckFrame) {
@@ -367,16 +369,38 @@ export class TestMapLibreController {
     if (!root?.addEventListener) return;
     this.directPanGestureInstalled = true;
 
+    const fallbackThresholds = {
+      touch: { distance: 24, elapsedMs: 120, samples: 3 },
+      mouse: { distance: 14, elapsedMs: 48, samples: 2 },
+      pen: { distance: 18, elapsedMs: 80, samples: 2 },
+      default: { distance: 18, elapsedMs: 80, samples: 2 }
+    };
     const observerOptions = { passive: false };
     const applyPendingPan = () => {
       this.directPanFrame = 0;
+      const delta = this.directPanPendingDelta;
+      this.directPanPendingDelta = null;
       const nextCenter = this.directPanPendingCenter;
       this.directPanPendingCenter = null;
-      if (!nextCenter || !this.map) return;
-      this.map.jumpTo({ center: nextCenter });
+      if (!this.map) return;
+      if (delta) {
+        const centerPoint = this.map.project(this.map.getCenter());
+        const center = this.map.unproject([
+          centerPoint.x - delta.dx,
+          centerPoint.y - delta.dy
+        ]);
+        this.map.jumpTo({ center });
+        return;
+      }
+      if (nextCenter) this.map.jumpTo({ center: nextCenter });
     };
-    const schedulePan = (nextCenter) => {
-      this.directPanPendingCenter = nextCenter;
+    const schedulePanDelta = (dx, dy) => {
+      if (!Number.isFinite(dx) || !Number.isFinite(dy) || (dx === 0 && dy === 0)) return;
+      const pending = this.directPanPendingDelta || { dx: 0, dy: 0 };
+      pending.dx += dx;
+      pending.dy += dy;
+      this.directPanPendingDelta = pending;
+      this.directPanPendingCenter = null;
       if (this.directPanFrame) return;
       this.directPanFrame = requestAnimationFrame(applyPendingPan);
     };
@@ -387,6 +411,13 @@ export class TestMapLibreController {
       }
       applyPendingPan();
     };
+    const canActivateFallback = (state) => {
+      const thresholds = fallbackThresholds[state.pointerType] || fallbackThresholds.default;
+      const elapsed = performance.now() - state.startedAt;
+      return Math.hypot(state.latestDx, state.latestDy) >= thresholds.distance
+        && state.noCameraSamples >= thresholds.samples
+        && elapsed >= thresholds.elapsedMs;
+    };
     const scheduleNativeFailureCheck = (state) => {
       if (state.nativeCheckFrame || state.fallbackActive || state.nativeMoved) return;
       state.nativeCheckFrame = requestAnimationFrame(() => {
@@ -396,16 +427,14 @@ export class TestMapLibreController {
           state.nativeMoved = true;
           return;
         }
+        if (!canActivateFallback(state)) return;
         state.fallbackActive = true;
         state.moved = true;
         this.directPanFallbackActivations += 1;
         this.directGestureActive = true;
-        const centerPoint = this.map.project(state.center);
-        const nextCenter = this.map.unproject([
-          centerPoint.x - state.latestDx,
-          centerPoint.y - state.latestDy
-        ]);
-        schedulePan(nextCenter);
+        schedulePanDelta(state.latestDx, state.latestDy);
+        state.lastX = state.latestX;
+        state.lastY = state.latestY;
       });
     };
     const begin = (event) => {
@@ -422,10 +451,16 @@ export class TestMapLibreController {
         pointerType: event.pointerType || 'mouse',
         startX: event.clientX,
         startY: event.clientY,
+        lastX: event.clientX,
+        lastY: event.clientY,
+        latestX: event.clientX,
+        latestY: event.clientY,
         center,
         camera: this.readCameraState(),
+        startedAt: performance.now(),
         latestDx: 0,
         latestDy: 0,
+        noCameraSamples: 0,
         moved: false,
         fallbackActive: false,
         nativeMoved: false,
@@ -440,6 +475,8 @@ export class TestMapLibreController {
       if (!state || state.cancelled || event.pointerId !== state.pointerId) return;
       const dx = event.clientX - state.startX;
       const dy = event.clientY - state.startY;
+      state.latestX = event.clientX;
+      state.latestY = event.clientY;
       state.latestDx = dx;
       state.latestDy = dy;
       if (!state.fallbackActive && this.cameraMovedSince(state.camera, { lng: 0.000005, lat: 0.000005 })) {
@@ -447,7 +484,9 @@ export class TestMapLibreController {
         return;
       }
       if (!state.fallbackActive) {
-        if (Math.hypot(dx, dy) < 8) return;
+        const thresholds = fallbackThresholds[state.pointerType] || fallbackThresholds.default;
+        if (Math.hypot(dx, dy) < thresholds.distance) return;
+        state.noCameraSamples += 1;
         scheduleNativeFailureCheck(state);
         return;
       }
@@ -461,9 +500,11 @@ export class TestMapLibreController {
         }
       }
       this.directGestureActive = true;
-      const centerPoint = this.map.project(state.center);
-      const nextCenter = this.map.unproject([centerPoint.x - dx, centerPoint.y - dy]);
-      schedulePan(nextCenter);
+      const stepDx = event.clientX - state.lastX;
+      const stepDy = event.clientY - state.lastY;
+      state.lastX = event.clientX;
+      state.lastY = event.clientY;
+      schedulePanDelta(stepDx, stepDy);
       if (event.cancelable) event.preventDefault();
       event.stopPropagation();
     };

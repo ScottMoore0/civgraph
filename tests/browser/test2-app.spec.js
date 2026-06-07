@@ -776,6 +776,39 @@ test('/test2 mobile catalogue stays bounded and map gestures stay enabled', asyn
       electionLimit: window.uiController._mobileInitialElectionCardLimit
     };
   });
+  const deferredTocTarget = await page.evaluate(() => {
+    const renderedTargets = new Set([...document.querySelectorAll('#catalogueFlatCards .catalogue-flat__anchor')]
+      .map((target) => `#${target.id}`));
+    const link = [...document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc-link[href^="#flat-card-"]')]
+      .find((candidate) => !renderedTargets.has(candidate.getAttribute('href')));
+    return link
+      ? { href: link.getAttribute('href'), label: link.textContent.trim() }
+      : null;
+  });
+  expect(deferredTocTarget).toBeTruthy();
+  await page.evaluate((href) => {
+    const link = [...document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc-link')]
+      .find((candidate) => candidate.getAttribute('href') === href);
+    link?.click();
+  }, deferredTocTarget.href);
+  await page.waitForFunction((href) => {
+    const id = href.slice(1);
+    return Boolean(document.getElementById(id)) && window.uiController?._mobileCatalogueExpanded === true;
+  }, deferredTocTarget.href, { timeout: 12000 });
+  await page.waitForFunction((href) => {
+    const id = href.slice(1);
+    const target = document.getElementById(id);
+    const pane = document.querySelector('.pane__content[data-tab-content="catalogue"]') || document.querySelector('.pane--info');
+    if (!target || !pane) return false;
+    const targetRect = target.getBoundingClientRect();
+    const paneRect = pane.getBoundingClientRect();
+    return targetRect.top >= paneRect.top && targetRect.top <= paneRect.bottom;
+  }, deferredTocTarget.href, { timeout: 12000 });
+  const expandedTocState = await page.evaluate((href) => ({
+    expanded: window.uiController?._mobileCatalogueExpanded === true,
+    targetExists: Boolean(document.getElementById(href.slice(1))),
+    showMore: Boolean(document.querySelector('#catalogueFlatView [data-mobile-catalogue-full]'))
+  }), deferredTocTarget.href);
 
   await page.evaluate(() => window.uiController?.setSplitState?.('map-full'));
   await page.waitForFunction(() => document.body.dataset.splitState === 'map-full');
@@ -810,6 +843,9 @@ test('/test2 mobile catalogue stays bounded and map gestures stay enabled', asyn
   expect(catalogueState.mapCards).toBeLessThanOrEqual(catalogueState.mapLimit);
   expect(catalogueState.electionCards).toBeLessThanOrEqual(catalogueState.electionLimit);
   expect(catalogueState.electionRows).toBeLessThanOrEqual(80);
+  expect(expandedTocState.expanded).toBe(true);
+  expect(expandedTocState.targetExists).toBe(true);
+  expect(expandedTocState.showMore).toBe(false);
   expect(gestureState.dragPanEnabled).toBe(true);
   expect(gestureState.dragRotateEnabled).toBe(true);
   expect(gestureState.touchZoomEnabled).toBe(true);
@@ -893,10 +929,12 @@ test('/test2 mobile map accepts actual touch pan pinch and pitch gestures', asyn
       return {
         lng: center.lng,
         lat: center.lat,
-        zoom: map.getZoom()
+        zoom: map.getZoom(),
+        diagnostics: window.__civgraphTest2.mapController.getMobileGestureDiagnostics?.()
       };
     });
     expect(Math.abs(afterPan.lng - initial.lng) + Math.abs(afterPan.lat - initial.lat)).toBeGreaterThan(0.01);
+    expect(afterPan.diagnostics.directPanFallbackActivations).toBe(initial.diagnostics.directPanFallbackActivations);
 
     const twoFingerPanCenter = await getMapCanvasCenter(page);
     await performTouchGesture(client, [
