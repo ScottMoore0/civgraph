@@ -73,6 +73,21 @@ function distance(points) {
   return Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y);
 }
 
+function angle(points) {
+  return Math.atan2(points[1].y - points[0].y, points[1].x - points[0].x);
+}
+
+function radiansToDegrees(value) {
+  return value * 180 / Math.PI;
+}
+
+function normalizeDeltaDegrees(value) {
+  let next = value;
+  while (next > 180) next -= 360;
+  while (next < -180) next += 360;
+  return next;
+}
+
 function isLocalTestTileTemplate(value) {
   return typeof value === 'string' && value.startsWith('/test/tiles/');
 }
@@ -152,14 +167,18 @@ export class TestMapLibreController {
     this.directPanGestureState = null;
     this.directPanFrame = 0;
     this.directPanPendingCenter = null;
+    this.directPanFallbackActivations = 0;
     this.directWheelGestureInstalled = false;
     this.directWheelFrame = 0;
     this.directWheelPendingZoom = null;
     this.directWheelEndTimer = 0;
+    this.directWheelFallbackActive = false;
+    this.directWheelFallbackActivations = 0;
     this.directTwoFingerGestureInstalled = false;
     this.directTwoFingerGestureState = null;
     this.directTwoFingerGestureFrame = 0;
     this.directTwoFingerGesturePending = null;
+    this.directTwoFingerFallbackActivations = 0;
     this.mapCursor = '';
     this.cursorMutationCount = 0;
     maplibregl.addProtocol('pmtiles', this.protocol.tile);
@@ -231,8 +250,38 @@ export class TestMapLibreController {
     this.map.on('moveend', () => {
       if (!this.directGestureActive) this.notifyChange();
     });
-    this.map.on('idle', () => this.notifyChange());
+    this.map.on('idle', () => {
+      if (!this.directGestureActive) this.notifyChange();
+    });
     this.map.fitBounds(IRELAND_BOUNDS, { padding: 28, duration: 0 });
+  }
+
+  readCameraState() {
+    if (!this.map) return null;
+    const center = this.map.getCenter();
+    return {
+      lng: center.lng,
+      lat: center.lat,
+      zoom: this.map.getZoom(),
+      pitch: this.map.getPitch(),
+      bearing: this.map.getBearing()
+    };
+  }
+
+  cameraMovedSince(camera, thresholds = {}) {
+    if (!camera || !this.map) return false;
+    const current = this.readCameraState();
+    if (!current) return false;
+    const lngEpsilon = thresholds.lng ?? 0.000001;
+    const latEpsilon = thresholds.lat ?? 0.000001;
+    const zoomEpsilon = thresholds.zoom ?? 0.0005;
+    const pitchEpsilon = thresholds.pitch ?? 0.05;
+    const bearingEpsilon = thresholds.bearing ?? 0.05;
+    return Math.abs(current.lng - camera.lng) > lngEpsilon
+      || Math.abs(current.lat - camera.lat) > latEpsilon
+      || Math.abs(current.zoom - camera.zoom) > zoomEpsilon
+      || Math.abs(current.pitch - camera.pitch) > pitchEpsilon
+      || Math.abs(normalizeDeltaDegrees(current.bearing - camera.bearing)) > bearingEpsilon;
   }
 
   resetDirectPanGestureState(target = null, pointerId = null) {
@@ -243,6 +292,10 @@ export class TestMapLibreController {
     this.directPanPendingCenter = null;
     const state = this.directPanGestureState;
     if (state) {
+      if (state.nativeCheckFrame) {
+        cancelAnimationFrame(state.nativeCheckFrame);
+        state.nativeCheckFrame = 0;
+      }
       const releaseTarget = target || state.target || this.map?.getContainer?.();
       const releasePointerId = pointerId ?? state.pointerId;
       try {
@@ -260,9 +313,9 @@ export class TestMapLibreController {
     if (!this.map) return;
     this.map.dragPan?.enable?.();
     this.map.dragRotate?.enable?.();
-    this.map.touchZoomRotate?.enable?.({ around: 'center' });
+    this.map.touchZoomRotate?.enable?.();
     this.map.touchZoomRotate?.enableRotation?.();
-    this.map.touchPitch?.enable?.({ around: 'center' });
+    this.map.touchPitch?.enable?.();
     this.map.scrollZoom?.enable?.();
     this.map.keyboard?.enable?.();
     this.applyMobileTouchContract();
@@ -314,7 +367,7 @@ export class TestMapLibreController {
     if (!root?.addEventListener) return;
     this.directPanGestureInstalled = true;
 
-    const captureOptions = { passive: false, capture: true };
+    const observerOptions = { passive: false };
     const applyPendingPan = () => {
       this.directPanFrame = 0;
       const nextCenter = this.directPanPendingCenter;
@@ -334,6 +387,27 @@ export class TestMapLibreController {
       }
       applyPendingPan();
     };
+    const scheduleNativeFailureCheck = (state) => {
+      if (state.nativeCheckFrame || state.fallbackActive || state.nativeMoved) return;
+      state.nativeCheckFrame = requestAnimationFrame(() => {
+        state.nativeCheckFrame = 0;
+        if (this.directPanGestureState !== state || state.cancelled || state.fallbackActive || state.nativeMoved) return;
+        if (this.cameraMovedSince(state.camera, { lng: 0.000005, lat: 0.000005 })) {
+          state.nativeMoved = true;
+          return;
+        }
+        state.fallbackActive = true;
+        state.moved = true;
+        this.directPanFallbackActivations += 1;
+        this.directGestureActive = true;
+        const centerPoint = this.map.project(state.center);
+        const nextCenter = this.map.unproject([
+          centerPoint.x - state.latestDx,
+          centerPoint.y - state.latestDy
+        ]);
+        schedulePan(nextCenter);
+      });
+    };
     const begin = (event) => {
       if (isMobileGestureChromeTarget(event.target)) return;
       if (event.button !== undefined && event.button !== 0) return;
@@ -349,7 +423,13 @@ export class TestMapLibreController {
         startX: event.clientX,
         startY: event.clientY,
         center,
+        camera: this.readCameraState(),
+        latestDx: 0,
+        latestDy: 0,
         moved: false,
+        fallbackActive: false,
+        nativeMoved: false,
+        nativeCheckFrame: 0,
         cancelled: false,
         captured: false,
         target: event.currentTarget || root
@@ -360,7 +440,17 @@ export class TestMapLibreController {
       if (!state || state.cancelled || event.pointerId !== state.pointerId) return;
       const dx = event.clientX - state.startX;
       const dy = event.clientY - state.startY;
-      if (!state.moved && Math.hypot(dx, dy) < 3) return;
+      state.latestDx = dx;
+      state.latestDy = dy;
+      if (!state.fallbackActive && this.cameraMovedSince(state.camera, { lng: 0.000005, lat: 0.000005 })) {
+        state.nativeMoved = true;
+        return;
+      }
+      if (!state.fallbackActive) {
+        if (Math.hypot(dx, dy) < 8) return;
+        scheduleNativeFailureCheck(state);
+        return;
+      }
       state.moved = true;
       if (!state.captured) {
         try {
@@ -380,23 +470,29 @@ export class TestMapLibreController {
     const end = (event) => {
       const state = this.directPanGestureState;
       if (!state || (event?.pointerId !== undefined && event.pointerId !== state.pointerId)) return;
-      if (state.moved) {
+      if (state.nativeCheckFrame) {
+        cancelAnimationFrame(state.nativeCheckFrame);
+        state.nativeCheckFrame = 0;
+      }
+      if (state.fallbackActive || state.moved) {
         flushPan();
-        if (event?.cancelable) event.preventDefault();
-        event?.stopPropagation?.();
+        if (state.fallbackActive) {
+          if (event?.cancelable) event.preventDefault();
+          event?.stopPropagation?.();
+        }
         this.directGestureActive = false;
         this.notifyChange();
       }
       this.resetDirectPanGestureState(event?.currentTarget || root, state.pointerId);
     };
 
-    root.addEventListener('pointerdown', begin, captureOptions);
-    root.addEventListener('pointermove', move, captureOptions);
-    root.addEventListener('pointerup', end, captureOptions);
-    root.addEventListener('pointercancel', end, captureOptions);
-    root.addEventListener('lostpointercapture', end, captureOptions);
-    document.addEventListener('pointerup', end, captureOptions);
-    document.addEventListener('pointercancel', end, captureOptions);
+    root.addEventListener('pointerdown', begin, observerOptions);
+    root.addEventListener('pointermove', move, observerOptions);
+    root.addEventListener('pointerup', end, observerOptions);
+    root.addEventListener('pointercancel', end, observerOptions);
+    root.addEventListener('lostpointercapture', end, observerOptions);
+    document.addEventListener('pointerup', end, observerOptions);
+    document.addEventListener('pointercancel', end, observerOptions);
   }
 
   installDirectWheelGestureFallback() {
@@ -416,9 +512,23 @@ export class TestMapLibreController {
       if (this.directWheelEndTimer) clearTimeout(this.directWheelEndTimer);
       this.directWheelEndTimer = setTimeout(() => {
         this.directWheelEndTimer = 0;
+        this.directWheelFallbackActive = false;
         this.directGestureActive = false;
         this.notifyChange();
       }, 140);
+    };
+    const scheduleWheelFallback = (zoom, camera) => {
+      requestAnimationFrame(() => {
+        if (!this.map || this.cameraMovedSince(camera, { zoom: 0.001 })) return;
+        if (!this.directWheelFallbackActive) {
+          this.directWheelFallbackActive = true;
+          this.directWheelFallbackActivations += 1;
+        }
+        this.directWheelPendingZoom = zoom;
+        this.directGestureActive = true;
+        if (!this.directWheelFrame) this.directWheelFrame = requestAnimationFrame(applyPendingWheel);
+        scheduleWheelEnd();
+      });
     };
     const onWheel = (event) => {
       if (isMobileGestureChromeTarget(event.target)) return;
@@ -430,7 +540,12 @@ export class TestMapLibreController {
       const minZoom = typeof this.map.getMinZoom === 'function' ? this.map.getMinZoom() : 0;
       const maxZoom = typeof this.map.getMaxZoom === 'function' ? this.map.getMaxZoom() : 22;
       const baseZoom = Number.isFinite(this.directWheelPendingZoom) ? this.directWheelPendingZoom : this.map.getZoom();
-      this.directWheelPendingZoom = clamp(baseZoom - (deltaY / 450), minZoom, maxZoom);
+      const nextZoom = clamp(baseZoom - (deltaY / 450), minZoom, maxZoom);
+      if (!this.directWheelFallbackActive) {
+        scheduleWheelFallback(nextZoom, this.readCameraState());
+        return;
+      }
+      this.directWheelPendingZoom = nextZoom;
       this.directGestureActive = true;
       if (!this.directWheelFrame) this.directWheelFrame = requestAnimationFrame(applyPendingWheel);
       scheduleWheelEnd();
@@ -438,7 +553,7 @@ export class TestMapLibreController {
       event.stopPropagation();
     };
 
-    root.addEventListener('wheel', onWheel, { passive: false, capture: true });
+    root.addEventListener('wheel', onWheel, { passive: false });
   }
 
   installDirectTwoFingerGestureFallback() {
@@ -447,7 +562,7 @@ export class TestMapLibreController {
     if (!root?.addEventListener) return;
     this.directTwoFingerGestureInstalled = true;
 
-    const captureOptions = { passive: false, capture: true };
+    const observerOptions = { passive: false };
     const blockBrowserGesture = (event) => {
       if (event.cancelable) event.preventDefault();
       event.stopPropagation();
@@ -471,6 +586,41 @@ export class TestMapLibreController {
       }
       applyPendingTwoFingerGesture();
     };
+    const computeTwoFingerCamera = (state, points) => {
+      const nextDistance = distance(points);
+      if (!state || !Number.isFinite(nextDistance) || nextDistance <= 0) return null;
+      const nextMidpoint = midpoint(points);
+      const centerPoint = this.map.project(state.center);
+      const minZoom = typeof this.map.getMinZoom === 'function' ? this.map.getMinZoom() : 0;
+      const maxZoom = typeof this.map.getMaxZoom === 'function' ? this.map.getMaxZoom() : 22;
+      const scale = nextDistance / state.distance;
+      const zoom = clamp(state.zoom + Math.log2(Math.max(scale, 0.01)), minZoom, maxZoom);
+      const bearingDelta = normalizeDeltaDegrees(radiansToDegrees(angle(points) - state.angle));
+      const bearing = state.bearing + bearingDelta;
+      const pitch = clamp(state.pitch - ((nextMidpoint.y - state.midpoint.y) * 0.18), 0, 60);
+      const center = this.map.unproject([
+        centerPoint.x - (nextMidpoint.x - state.midpoint.x),
+        centerPoint.y - (nextMidpoint.y - state.midpoint.y)
+      ]);
+      return { center, zoom, bearing, pitch };
+    };
+    const scheduleNativeFailureCheck = (state) => {
+      if (state.nativeCheckFrame || state.fallbackActive || state.nativeMoved) return;
+      state.nativeCheckFrame = requestAnimationFrame(() => {
+        state.nativeCheckFrame = 0;
+        if (this.directTwoFingerGestureState !== state || state.fallbackActive || state.nativeMoved) return;
+        if (this.cameraMovedSince(state.camera)) {
+          state.nativeMoved = true;
+          return;
+        }
+        const next = state.latestPoints ? computeTwoFingerCamera(state, state.latestPoints) : null;
+        if (!next) return;
+        state.fallbackActive = true;
+        this.directTwoFingerFallbackActivations += 1;
+        this.directGestureActive = true;
+        scheduleTwoFingerGesture(next);
+      });
+    };
     const begin = (event) => {
       if (isMobileGestureChromeTarget(event.target)) return false;
       const points = firstTwoTouchPoints(event);
@@ -478,13 +628,21 @@ export class TestMapLibreController {
       const initialDistance = distance(points);
       if (!Number.isFinite(initialDistance) || initialDistance <= 0) return false;
       this.resetDirectPanGestureState(root);
+      const center = this.map.getCenter();
       this.directTwoFingerGestureState = {
         distance: initialDistance,
         midpoint: midpoint(points),
+        angle: angle(points),
+        center,
         zoom: this.map.getZoom(),
-        pitch: this.map.getPitch()
+        pitch: this.map.getPitch(),
+        bearing: this.map.getBearing(),
+        camera: this.readCameraState(),
+        latestPoints: points,
+        nativeCheckFrame: 0,
+        fallbackActive: false,
+        nativeMoved: false
       };
-      blockBrowserGesture(event);
       return true;
     };
     const move = (event) => {
@@ -493,34 +651,45 @@ export class TestMapLibreController {
       if (!points) return;
       if (!this.directTwoFingerGestureState && !begin(event)) return;
       const state = this.directTwoFingerGestureState;
-      const nextDistance = distance(points);
-      if (!state || !Number.isFinite(nextDistance) || nextDistance <= 0) return;
-      const nextMidpoint = midpoint(points);
-      const minZoom = typeof this.map.getMinZoom === 'function' ? this.map.getMinZoom() : 0;
-      const maxZoom = typeof this.map.getMaxZoom === 'function' ? this.map.getMaxZoom() : 22;
-      const scale = nextDistance / state.distance;
-      const zoom = clamp(state.zoom + Math.log2(Math.max(scale, 0.01)), minZoom, maxZoom);
-      const pitch = clamp(state.pitch - ((nextMidpoint.y - state.midpoint.y) * 0.22), 0, 60);
+      if (!state) return;
+      state.latestPoints = points;
+      if (!state.fallbackActive && this.cameraMovedSince(state.camera)) {
+        state.nativeMoved = true;
+        return;
+      }
+      if (!state.fallbackActive) {
+        scheduleNativeFailureCheck(state);
+        return;
+      }
+      const next = computeTwoFingerCamera(state, points);
+      if (!next) return;
       this.directGestureActive = true;
-      scheduleTwoFingerGesture({ zoom, pitch });
+      scheduleTwoFingerGesture(next);
       blockBrowserGesture(event);
     };
     const end = (event) => {
       if (!this.directTwoFingerGestureState) return;
       if (event.touches && event.touches.length >= 2) return;
-      flushTwoFingerGesture();
+      const state = this.directTwoFingerGestureState;
+      if (state.nativeCheckFrame) {
+        cancelAnimationFrame(state.nativeCheckFrame);
+        state.nativeCheckFrame = 0;
+      }
+      if (state.fallbackActive) flushTwoFingerGesture();
       this.directTwoFingerGestureState = null;
       this.resetDirectPanGestureState(root);
       this.enableGestureHandlers();
-      this.directGestureActive = false;
-      this.notifyChange();
-      blockBrowserGesture(event);
+      if (state.fallbackActive) {
+        this.directGestureActive = false;
+        this.notifyChange();
+        blockBrowserGesture(event);
+      }
     };
 
-    root.addEventListener('touchstart', begin, captureOptions);
-    root.addEventListener('touchmove', move, captureOptions);
-    root.addEventListener('touchend', end, captureOptions);
-    root.addEventListener('touchcancel', end, captureOptions);
+    root.addEventListener('touchstart', begin, observerOptions);
+    root.addEventListener('touchmove', move, observerOptions);
+    root.addEventListener('touchend', end, observerOptions);
+    root.addEventListener('touchcancel', end, observerOptions);
   }
 
   installMobileGestureResizeObserver(root) {
@@ -618,9 +787,16 @@ export class TestMapLibreController {
       guardTargetCount: this.mobileGestureGuardTargetCount || 0,
       resizeObserverTargets: this.mobileGestureResizeObserver ? 1 : 0,
       resizeObserverMobileEligible: this.mobileGestureResizeObserverEligible,
+      nativeGesturePrimary: true,
+      directPanFallbackMode: 'emergency',
+      directWheelFallbackMode: 'emergency',
+      directTwoFingerFallbackMode: 'emergency',
       directPanGestureInstalled: this.directPanGestureInstalled,
       directWheelGestureInstalled: this.directWheelGestureInstalled,
       directTwoFingerGestureInstalled: this.directTwoFingerGestureInstalled,
+      directPanFallbackActivations: this.directPanFallbackActivations,
+      directWheelFallbackActivations: this.directWheelFallbackActivations,
+      directTwoFingerFallbackActivations: this.directTwoFingerFallbackActivations,
       mapCursor: this.mapCursor,
       cursorMutationCount: this.cursorMutationCount
     };

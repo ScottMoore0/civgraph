@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 155) MapLibre gesture verification must assert camera movement, not fallback presence
+- Mistake pattern: Treating direct gesture fallbacks as a normal movement path and verifying that MapLibre handlers or fallback handlers were installed, without proving that native MapLibre gestures remained the primary path.
+- Impact: `/test2` could pass handler-state tests while real desktop/mobile gestures still felt broken, moved only a small amount, or lost two-finger pan/rotate behavior because fallback handlers pre-empted native input.
+- Guardrail:
+  1) direct pan, wheel, and two-finger handlers must be emergency-only observers that activate only after camera movement does not occur,
+  2) browser tests must assert actual camera deltas for desktop drag, wheel zoom, mobile one-finger pan, two-finger pan, pinch zoom, rotation, pitch, pan-after-pinch, and overlay-visible movement,
+  3) diagnostics should expose native-first mode and fallback activation counts so future regressions distinguish native movement from emergency recovery.
+
 ### 154) Mobile MapLibre checks must include overlay hit-testing and catalogue bounds
 - Mistake pattern: Treating `/test2` mobile stability as covered by desktop parity checks, generic control-overlap checks, or successful layer loading while not asserting whether DOM overlays intercept touch starts above the MapLibre canvas or whether the mobile catalogue stays bounded.
 - Impact: a phone can still fail at the most basic map operations, with pan/drag/pinch gestures blocked or delayed and the catalogue pane slowed by a desktop-scale render path.

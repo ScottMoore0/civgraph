@@ -1,3 +1,24 @@
+# Fix `/test2` native-first MapLibre gestures
+- [x] Record recurrence and root cause
+  - Task: make `/test2` pan, wheel zoom, pinch zoom, rotate, pitch, and pan-after-pinch work through native MapLibre gestures first, with direct fallbacks only as emergency recovery.
+  - Symptom: on desktop and mobile, the map can move only a small amount at a time, two-finger pan does not behave like MapLibre, and direct fallback handlers can pre-empt native gesture handling.
+  - Root cause: the direct pan, wheel, and two-finger fallbacks were installed on the capture path and called `preventDefault()`/`stopPropagation()` during movement, so they could run alongside or ahead of MapLibre instead of proving that native movement had failed. The two-finger fallback also lacked midpoint panning and rotation, so it could not match MapLibre's gesture model.
+- [x] Refactor gesture handling
+  - Scope: keep MapLibre native `dragPan`, `scrollZoom`, `touchZoomRotate`, `touchPitch`, and `dragRotate` enabled; make direct fallbacks observe first, activate only after no camera movement is detected, and implement complete two-finger fallback pan/zoom/rotate/pitch behavior.
+  - Done: removed center-forced touch handler setup, suppressed idle notifications while an emergency direct gesture is active, added camera-state detection, converted direct pan/wheel/two-finger handlers from capture-phase blockers to emergency-only observers, and implemented two-finger fallback midpoint pan, distance zoom, angle rotation, and paired vertical pitch.
+- [x] Harden overlays and movement-time updates
+  - Scope: ensure labels, seat circles, controls, and diagnostics do not block map gestures except for real click/tap targets; avoid resize/URL/rerender/diagnostics churn during active movement.
+  - Done: verified existing `/test2` mobile overlay CSS keeps labels and election seat circles passive on coarse/mobile, and exposed native-first/emergency fallback diagnostics plus fallback activation counters for browser tests and future diagnostics.
+- [x] Add hard regression coverage and verify
+  - Scope: browser tests for desktop drag pan, desktop wheel zoom, one-finger mobile pan, two-finger pan, pinch zoom, rotate, pitch, pan-after-pinch, and gestures with a loaded layer/election overlays visible.
+  - Verification evidence: `node --check` passed for `test/src/map-controller.js`, `tests/browser/test2-app.spec.js`, and `scripts/validate-test2-route.mjs`; escalated `npm run build:test2` passed and generated `/test2` bundle `eea30b57c07d`; escalated `npm run check:test2` passed; escalated focused Playwright tests for desktop drag/wheel, mobile one-finger pan/two-finger pan/pinch/rotate/pitch/pan-after-pinch, and mobile election-overlay gestures all passed; escalated `npm run check` passed. Full `/test2` Playwright suite was also run: all gesture tests passed, while six existing non-gesture tests failed in election-pane/data/service-worker assertions unrelated to this scoped gesture refactor.
+
+## Recurring issue: `/test2` gesture fallbacks pre-empt native MapLibre movement
+- Symptom: repeated live reports of inert or partial map movement even though MapLibre gesture handlers report enabled.
+- Root cause: direct gesture fallbacks were treated as normal movement handlers rather than emergency-only recovery paths, and they could block native MapLibre event handling before native camera movement had a chance to occur.
+- Permanent prevention action: refactor fallbacks to activate only after camera movement does not occur, expose fallback activation counters, and add browser regressions that assert actual camera changes across desktop and mobile gesture types.
+- Verification evidence: focused browser gesture regressions passed for desktop drag/wheel, mobile one-finger pan, two-finger pan, pinch zoom, rotation, pitch, pan-after-pinch, and election-overlays-visible movement; route validation now rejects capture-phase direct fallback handlers and incomplete two-finger fallback handling.
+
 # Fix `/test2` desktop cursor flicker
 - [x] Record scope and diagnose cursor mutation path
   - Task: investigate and fix the `/test2` desktop browser cursor flickering while using the MapLibre map.

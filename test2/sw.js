@@ -1,4 +1,4 @@
-const VERSION = 'test2-sw-2983cb1bae2f';
+const VERSION = 'test2-sw-eea30b57c07d';
 const STATIC_CACHE = `civgraph-${VERSION}-static`;
 const RUNTIME_CACHE = `civgraph-${VERSION}-runtime`;
 const CACHE_PREFIX = 'civgraph-test2-';

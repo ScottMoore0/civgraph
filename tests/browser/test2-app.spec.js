@@ -180,6 +180,9 @@ test('/test2 desktop map accepts actual mouse drag and wheel zoom gestures', asy
     };
   });
   expect(initial.diagnostics.scrollZoomEnabled).toBe(true);
+  expect(initial.diagnostics.nativeGesturePrimary).toBe(true);
+  expect(initial.diagnostics.directPanFallbackMode).toBe('emergency');
+  expect(initial.diagnostics.directWheelFallbackMode).toBe('emergency');
   expect(initial.diagnostics.resizeObserverTargets).toBe(0);
   expect(initial.diagnostics.resizeObserverMobileEligible).toBe(false);
   expect(initial.diagnostics.directPanGestureInstalled).toBe(true);
@@ -851,6 +854,7 @@ test('/test2 mobile map accepts actual touch pan pinch and pitch gestures', asyn
       return diagnostics
         && diagnostics.topWithinMap
         && (diagnostics.topIsCanvas || diagnostics.topWithinCanvasContainer)
+        && diagnostics.nativeGesturePrimary
         && diagnostics.dragPanEnabled
         && diagnostics.touchZoomEnabled
         && diagnostics.touchPitchEnabled
@@ -867,9 +871,14 @@ test('/test2 mobile map accepts actual touch pan pinch and pitch gestures', asyn
         lng: center.lng,
         lat: center.lat,
         zoom: map.getZoom(),
-        pitch: map.getPitch()
+        pitch: map.getPitch(),
+        bearing: map.getBearing(),
+        diagnostics: window.__civgraphTest2.mapController.getMobileGestureDiagnostics?.()
       };
     });
+    expect(initial.diagnostics.nativeGesturePrimary).toBe(true);
+    expect(initial.diagnostics.directPanFallbackMode).toBe('emergency');
+    expect(initial.diagnostics.directTwoFingerFallbackMode).toBe('emergency');
 
     await performTouchGesture(client, [
       { id: 1, x: center.x + 70, y: center.y }
@@ -889,8 +898,29 @@ test('/test2 mobile map accepts actual touch pan pinch and pitch gestures', asyn
     });
     expect(Math.abs(afterPan.lng - initial.lng) + Math.abs(afterPan.lat - initial.lat)).toBeGreaterThan(0.01);
 
+    const twoFingerPanCenter = await getMapCanvasCenter(page);
+    await performTouchGesture(client, [
+      { id: 1, x: twoFingerPanCenter.x - 60, y: twoFingerPanCenter.y - 30 },
+      { id: 2, x: twoFingerPanCenter.x + 60, y: twoFingerPanCenter.y + 30 }
+    ], [
+      { id: 1, x: twoFingerPanCenter.x - 135, y: twoFingerPanCenter.y - 30 },
+      { id: 2, x: twoFingerPanCenter.x - 15, y: twoFingerPanCenter.y + 30 }
+    ], 10);
+    await page.waitForTimeout(350);
+
+    const afterTwoFingerPan = await page.evaluate(() => {
+      const map = window.__civgraphTest2.mapController.map;
+      const center = map.getCenter();
+      return {
+        lng: center.lng,
+        lat: center.lat,
+        zoom: map.getZoom()
+      };
+    });
+    expect(Math.abs(afterTwoFingerPan.lng - afterPan.lng) + Math.abs(afterTwoFingerPan.lat - afterPan.lat)).toBeGreaterThan(0.01);
+
     const pinchCenter = await getMapCanvasCenter(page);
-    const zoomBeforePinch = afterPan.zoom;
+    const zoomBeforePinch = afterTwoFingerPan.zoom;
     await performTouchGesture(client, [
       { id: 1, x: pinchCenter.x - 22, y: pinchCenter.y },
       { id: 2, x: pinchCenter.x + 22, y: pinchCenter.y }
@@ -910,6 +940,24 @@ test('/test2 mobile map accepts actual touch pan pinch and pitch gestures', asyn
       };
     });
     expect(afterPinch.zoom).toBeGreaterThan(zoomBeforePinch + 0.1);
+
+    await page.evaluate(() => {
+      const map = window.__civgraphTest2.mapController.map;
+      map.setPitch(0);
+      map.setBearing(0);
+    });
+    await page.waitForTimeout(100);
+    const rotateCenter = await getMapCanvasCenter(page);
+    await performTouchGesture(client, [
+      { id: 1, x: rotateCenter.x - 70, y: rotateCenter.y },
+      { id: 2, x: rotateCenter.x + 70, y: rotateCenter.y }
+    ], [
+      { id: 1, x: rotateCenter.x - 18, y: rotateCenter.y - 72 },
+      { id: 2, x: rotateCenter.x + 18, y: rotateCenter.y + 72 }
+    ], 12);
+    await page.waitForTimeout(350);
+    const afterRotate = await page.evaluate(() => window.__civgraphTest2.mapController.map.getBearing());
+    expect(Math.abs(afterRotate)).toBeGreaterThan(5);
 
     const postPinchPanCenter = await getMapCanvasCenter(page);
     await performTouchGesture(client, [
@@ -955,6 +1003,7 @@ test('/test2 mobile map accepts actual touch pan pinch and pitch gestures', asyn
 
 test('/test2 mobile election seat-circle overlays do not block map gestures', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
+  let client = null;
   await page.goto('/test2/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
@@ -1006,6 +1055,30 @@ test('/test2 mobile election seat-circle overlays do not block map gestures', as
   expect(overlayState.dragRotateEnabled).toBe(true);
   expect(overlayState.touchZoomEnabled).toBe(true);
   expect(overlayState.touchPitchEnabled).toBe(true);
+
+  try {
+    client = await enableTouchInput(page);
+    const center = await getMapCanvasCenter(page);
+    const before = await page.evaluate(() => {
+      const map = window.__civgraphTest2.mapController.map;
+      const center = map.getCenter();
+      return { lng: center.lng, lat: center.lat };
+    });
+    await performTouchGesture(client, [
+      { id: 1, x: center.x + 70, y: center.y + 10 }
+    ], [
+      { id: 1, x: center.x - 90, y: center.y + 10 }
+    ], 8);
+    await page.waitForTimeout(300);
+    const after = await page.evaluate(() => {
+      const map = window.__civgraphTest2.mapController.map;
+      const center = map.getCenter();
+      return { lng: center.lng, lat: center.lat };
+    });
+    expect(Math.abs(after.lng - before.lng) + Math.abs(after.lat - before.lat)).toBeGreaterThan(0.01);
+  } finally {
+    await client?.detach?.().catch(() => {});
+  }
 });
 
 test('/test2 loads a converted layer through the main catalogue map callback', async ({ page }) => {
