@@ -308,9 +308,9 @@ const resultHasAnimationEnd = electionManagerSource.indexOf('\n  currentResults(
 const resultHasAnimationSource = resultHasAnimationStart >= 0 && resultHasAnimationEnd > resultHasAnimationStart
   ? electionManagerSource.slice(resultHasAnimationStart, resultHasAnimationEnd)
   : '';
-assert(resultHasAnimationSource.includes('animationRows') && resultHasAnimationSource.includes('Number(row.Count_Number) > 1') && !resultHasAnimationSource.includes('if (result.animationPayload) return true'), '/test2 selected result Transfers tab must require real multi-count animation rows, not any synthetic scraper animation payload');
+assert(resultHasAnimationSource.includes('result.syntheticCountGroup') && resultHasAnimationSource.includes('animationRows.length') && resultHasAnimationSource.includes('Number(row.Count_Number) > 1') && !resultHasAnimationSource.includes('if (result.animationPayload) return true'), '/test2 selected result Transfers tab must expose Dail scraper stage payloads while still requiring an animation payload');
 assert(electionManagerSource.includes('renderCountTable') && electionManagerSource.includes('election-count-row') && electionManagerSource.includes('election-count-wrapper--pane-sticky') && electionManagerSource.includes('visibleCounts'), '/test2 count panes must use the main visible-count table contract');
-assert(electionDomainSource.includes('__syntheticCountGroup: true') && electionDomainSource.includes('syntheticCountGroup') && electionManagerSource.includes('result.syntheticCountGroup ? [1]') && electionManagerSource.includes('Not Elected<br>Count 1/1'), '/test2 scraper-style election results must use synthetic count payloads for animation without exposing synthetic multi-count columns in the visible Count pane');
+assert(electionDomainSource.includes('__syntheticCountGroup: true') && electionDomainSource.includes('__syntheticCountStages') && electionDomainSource.includes('Synthetic_Scraper_Stage_Row') && electionManagerSource.includes('const rawCountNumbers = sourceCountNumbers') && !electionManagerSource.includes('Not Elected<br>Count 1/1'), '/test2 scraper-style election results must expose available encoded Dail count stages without hard-coding all synthetic rows as first-count-only');
 assert(electionManagerSource.includes('renderPartyEntity') && electionManagerSource.includes('renderCandidateEntity') && electionManagerSource.includes('election-entity-page__hero'), '/test2 entity panes must use main-style entity page structure');
 assert(appSource.includes('setupElectionPaneResize()') && appSource.includes('[data-election-pane-resize]') && appSource.includes('--test2-election-pane-height'), '/test2 must wire a draggable horizontal splitter for the bottom election pane');
 assert(electionManagerSource.includes('data-election-pane-resize') && electionManagerSource.includes('aria-orientation="horizontal"'), '/test2 election pane must render an accessible horizontal resize handle between the map/catalogue area and results pane');
@@ -416,31 +416,34 @@ if (existsSync('test/metadata/elections-test2.json')) {
   }
   const dail2024Mayo = (dail2024Bundle.results || []).find((result) => String(result.constituency || '').toLowerCase() === 'mayo');
   const dail2024MayoAnimationRows = dail2024Mayo?.animationPayload?.Constituency?.countGroup || [];
-  assert(dail2024MayoAnimationRows.length > 0 && dail2024MayoAnimationRows.every((row) => Number(row.Count_Number) === 1), '/test2 Dail 2024 Mayo synthetic scraper rows must stay first-count-only and must not fabricate transfer stages');
-  assert(dail2024Mayo?.syntheticCountGroup === true, '/test2 Dail 2024 Mayo must mark scraper-derived count rows as synthetic so Count pane output stays main-compatible');
+  assert(dail2024MayoAnimationRows.length > 0 && dail2024MayoAnimationRows.some((row) => Number(row.Count_Number) > 1), '/test2 Dail 2024 Mayo synthetic scraper rows must expose encoded count-stage rows');
+  assert(dail2024MayoAnimationRows.every((row) => Number(row.Transfers || 0) === 0), '/test2 Dail 2024 Mayo synthetic scraper rows must not fabricate non-zero transfer amounts');
+  assert(dail2024Mayo?.syntheticCountGroup === true && dail2024Mayo?.hasCountDetail === true, '/test2 Dail 2024 Mayo must mark scraper-derived rows as synthetic while exposing encoded count-stage detail');
   const dail2024RoscommonGalway = (dail2024Bundle.results || []).find((result) => String(result.constituency || '').toLowerCase() === 'roscommon galway');
   const roscommonGalwayCountRows = dail2024RoscommonGalway?.countGroup || [];
   const roscommonGalwayMadeQuotaRows = roscommonGalwayCountRows.filter((row) => /quota/i.test(String(row.Status || '')));
   assert(roscommonGalwayMadeQuotaRows.length >= 2, '/test2 Dail 2024 Roscommon Galway must retain the quota-status rows used by the screenshot parity guard');
   assert(roscommonGalwayMadeQuotaRows.every((row) => mainSelectedPaneStatusKind(row.Status) === 'elected'), '/test2 selected-pane status guard must treat Dail 2024 Roscommon Galway Made Quota rows as explicit elected statuses');
   assert(roscommonGalwayCountRows.some((row) => String(row.Party_Name || '') === 'Independent Ireland' && Number(row.Count_Number) === 1 && Number(row.Total_Votes) === 12002), '/test2 Dail 2024 Roscommon Galway must retain main-compatible first-count Independent Ireland row data');
-  assert(roscommonGalwayCountRows.some((row) => String(row.Party_Name || '') === 'Sinn F\u00e9in' && Number(row.Count_Number) === 1 && Number(row.Total_Votes) === 8039), '/test2 Dail 2024 Roscommon Galway must keep synthetic Sinn Fein quota row data in a first-count-only scraper row');
+  assert(roscommonGalwayCountRows.some((row) => String(row.Party_Name || '') === 'Sinn F\u00e9in' && Number(row.Count_Number) === 1 && Number(row.Total_Votes) === 8039), '/test2 Dail 2024 Roscommon Galway must keep synthetic Sinn Fein first-preference row data');
+  assert(roscommonGalwayCountRows.some((row) => String(row.Party_Name || '') === 'Sinn F\u00e9in' && Number(row.Count_Number) > 1 && Number(row.Total_Votes) === 8039), '/test2 Dail 2024 Roscommon Galway must expose encoded later-stage Sinn Fein row data');
   const dail2024CorkNorthCentral = (dail2024Bundle.results || []).find((result) => String(result.constituency || '').toLowerCase() === 'cork north central');
   const corkNorthCentralRows = dail2024CorkNorthCentral?.countGroup || [];
-  assert(dail2024CorkNorthCentral?.hasCountDetail === false, '/test2 Dail 2024 Cork North-Central scraper result must not expose a fake Transfers tab');
-  assert(corkNorthCentralRows.length > 0 && corkNorthCentralRows.every((row) => Number(row.Count_Number) === 1), '/test2 Dail 2024 Cork North-Central synthetic rows must all remain first-count rows');
-  const corkByName = new Map(corkNorthCentralRows.map((row) => [String(row.candidateName || ''), row]));
+  assert(dail2024CorkNorthCentral?.hasCountDetail === true, '/test2 Dail 2024 Cork North-Central scraper result must expose encoded count stages and the Transfers tab scaffold');
+  assert(corkNorthCentralRows.length > 0 && corkNorthCentralRows.some((row) => Number(row.Count_Number) > 1), '/test2 Dail 2024 Cork North-Central synthetic rows must expose encoded later-stage rows');
   const assertCorkCandidate = (name, party, votes, status, colour) => {
-    const row = corkByName.get(name);
-    assert(row && String(row.Party_Name || '') === party && Number(row.Candidate_First_Pref_Votes) === votes && mainSelectedPaneStatusKind(row.Status) === status && String(row.Party_Colour || '').toLowerCase() === colour.toLowerCase(), `/test2 Dail 2024 Cork North-Central ${name} must match Wikipedia constituency first preferences/status/colour`);
+    const rows = corkNorthCentralRows.filter((row) => String(row.candidateName || '') === name);
+    const firstCountRow = rows.find((row) => Number(row.Count_Number) === 1);
+    const statusRow = rows.find((row) => mainSelectedPaneStatusKind(row.Status) === status);
+    assert(firstCountRow && statusRow && String(firstCountRow.Party_Name || '') === party && Number(firstCountRow.Candidate_First_Pref_Votes) === votes && String(firstCountRow.Party_Colour || '').toLowerCase() === colour.toLowerCase(), `/test2 Dail 2024 Cork North-Central ${name} must match Wikipedia constituency first preferences/status/colour`);
   };
   assertCorkCandidate("P\u00e1draig O'Sullivan", 'Fianna F\u00e1il', 7708, 'elected', '#66bb66');
   assertCorkCandidate('Thomas Gould', 'Sinn F\u00e9in', 7399, 'elected', '#326760');
   assertCorkCandidate('Colm Burke', 'Fine Gael', 5736, 'elected', '#6699ff');
   assertCorkCandidate("Kenneth O'Flynn", 'Independent Ireland', 5733, 'elected', '#3bee56');
   assertCorkCandidate('Eoghan Kenny', 'Irish Labour', 3329, 'elected', '#cc0000');
-  const dail2024BadSyntheticRows = [];
-  const dail2024FakeTransferResults = [];
+  const dail2024MissingStageResults = [];
+  const dail2024FakeTransferRows = [];
   const dail2024BlankValidPollResults = [];
   const dail2024ZeroPercentRows = [];
   for (const result of dail2024Bundle.results || []) {
@@ -452,8 +455,8 @@ if (existsSync('test/metadata/elections-test2.json')) {
       dail2024BlankValidPollResults.push(result.constituency || 'Unknown');
     }
     for (const row of syntheticRows) {
-      if (Number(row.Count_Number) !== 1) {
-        dail2024BadSyntheticRows.push(`${result.constituency || 'Unknown'}:${row.candidateName || row.Candidate || 'Unknown'}`);
+      if (Number(row.Transfers || 0) !== 0) {
+        dail2024FakeTransferRows.push(`${result.constituency || 'Unknown'}:${row.candidateName || row.Candidate || 'Unknown'}`);
       }
       const firstPrefs = Number(row.Candidate_First_Pref_Votes || row.Total_Votes || 0);
       const firstPrefPct = validPoll > 0 ? firstPrefs / validPoll * 100 : 0;
@@ -462,14 +465,14 @@ if (existsSync('test/metadata/elections-test2.json')) {
       }
     }
     const countNumbers = Array.isArray(result.countNumbers) ? result.countNumbers : [];
-    if (result.hasCountDetail === true || countNumbers.some((count) => Number(count) > 1)) {
-      dail2024FakeTransferResults.push(result.constituency || 'Unknown');
+    if (result.hasCountDetail !== true || !countNumbers.some((count) => Number(count) > 1)) {
+      dail2024MissingStageResults.push(result.constituency || 'Unknown');
     }
   }
   assert(dail2024BlankValidPollResults.length === 0, `/test2 Dail 2024 all synthetic scraper constituencies must expose a non-blank Valid_Poll denominator: ${dail2024BlankValidPollResults.slice(0, 5).join(', ')}`);
   assert(dail2024ZeroPercentRows.length === 0, `/test2 Dail 2024 selected constituency rows with votes must compute non-zero first-preference percentages: ${dail2024ZeroPercentRows.slice(0, 5).join(', ')}`);
-  assert(dail2024BadSyntheticRows.length === 0, `/test2 Dail 2024 all synthetic scraper rows must stay first-count-only: ${dail2024BadSyntheticRows.slice(0, 5).join(', ')}`);
-  assert(dail2024FakeTransferResults.length === 0, `/test2 Dail 2024 scraper-only results must not expose fake count detail: ${dail2024FakeTransferResults.slice(0, 5).join(', ')}`);
+  assert(dail2024FakeTransferRows.length === 0, `/test2 Dail 2024 synthetic scraper rows must not fabricate non-zero transfer amounts: ${dail2024FakeTransferRows.slice(0, 5).join(', ')}`);
+  assert(dail2024MissingStageResults.length === 0, `/test2 Dail 2024 synthetic scraper constituencies must expose encoded count-stage detail: ${dail2024MissingStageResults.slice(0, 5).join(', ')}`);
   const forumEntry = (electionManifest.elections || []).find((entry) => entry.body === 'Northern Ireland Forum for Political Dialogue' && entry.date === '1996-05-30');
   assert(forumEntry?.matchedCount === forumEntry?.totalConstituencies, '/test2 1996 Forum election must include the NI-wide regional-list result via a synthetic anchor');
   const forum1996Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/northern-ireland-forum-for-political-dialogue__1996-05-30.json', 'utf8'));

@@ -160,37 +160,51 @@ export function summarizeCandidateRows(rows = []) {
 export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '') {
   if (!payload || payload.Constituency || !Array.isArray(payload.candidates)) return payload;
   const meta = payload.meta || {};
-  const lastCount = Math.max(1, ...payload.candidates.map((candidate) => parseInt(candidate.final_count, 10) || 1));
-  const countGroup = payload.candidates.map((candidate, index) => {
+  const encodedCounts = payload.candidates
+    .map((candidate) => scraperCandidateEventCount(candidate))
+    .filter((count) => count !== null);
+  const lastCount = Math.max(1, ...encodedCounts);
+  const hasSyntheticCountStages = lastCount > 1;
+  const countGroup = payload.candidates.flatMap((candidate, index) => {
     const autoReturned = scraperCandidateIsAutoReturned(candidate);
     const firstPref = scraperCandidateFirstPref(candidate);
-    const occurredOn = parseInt(candidate.final_count, 10) || lastCount;
+    const occurredOn = scraperCandidateEventCount(candidate) || 1;
+    const elected = scraperCandidateIsElected(candidate);
     const name = fixText(candidate.name || '').trim();
     const space = name.indexOf(' ');
     const firstname = space > 0 ? name.slice(0, space) : name;
     const surname = space > 0 ? name.slice(space + 1) : '';
     const party = scraperCandidateParty(candidate);
-    return {
+    const status = autoReturned
+      ? (candidate.status || 'Elected (auto returned)')
+      : (candidate.status || (elected ? 'Elected' : ''));
+    const rowCountNumbers = hasSyntheticCountStages
+      ? Array.from({ length: lastCount }, (_, countIndex) => countIndex + 1)
+      : [1];
+    return rowCountNumbers.map((countNumber) => ({
       Auto_Returned_Ceann_Comhairle: autoReturned ? '1' : '',
       Candidate_Id: String(index + 1),
       Candidate_First_Pref_Votes: String(firstPref),
       Constituency_Number: '',
-      Count_Number: '1',
+      Count_Number: String(countNumber),
       Firstname: firstname,
       Surname: surname,
       Occurred_On_Count: String(occurredOn),
       Party_Colour: partyColour(party),
       Party_Name: party,
-      Status: autoReturned ? (candidate.status || 'Elected (auto returned)') : (candidate.status || ''),
+      Status: countNumber === occurredOn ? status : '',
       Synthetic_Scraper_Row: '1',
+      Synthetic_Scraper_Stage_Row: hasSyntheticCountStages ? '1' : '',
       Total_Votes: String(firstPref),
       Transfers: '0',
       candidateName: name,
       id: index
-    };
+    }));
   });
   const validPoll = parseNumber(meta.Valid_Poll ?? meta.valid_poll ?? meta.validPoll)
-    || countGroup.reduce((sum, row) => sum + numberOrZero(row.Candidate_First_Pref_Votes), 0);
+    || countGroup
+      .filter((row) => Number(row.Count_Number) === 1)
+      .reduce((sum, row) => sum + numberOrZero(row.Candidate_First_Pref_Votes), 0);
   const totalPoll = parseNumber(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
   const spoiled = parseNumber(meta.Spoiled ?? meta.spoiled);
   const seatCount = parseNumber(payload.seats)
@@ -198,10 +212,12 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
   return {
     Constituency: {
       __syntheticCountGroup: true,
+      __syntheticCountStages: hasSyntheticCountStages,
       countInfo: {
         Constituency_Name: payload.constituency || fallbackConstituency || '',
         Constituency_Number: '',
         Number_Of_Seats: seatCount ? String(seatCount) : '',
+        Quota: meta.Quota != null || meta.quota != null ? String(meta.Quota ?? meta.quota) : '',
         Spoiled: spoiled != null ? String(spoiled) : '',
         Total_Electorate: meta.electorate != null ? String(meta.electorate) : '',
         Total_Poll: totalPoll != null ? String(totalPoll) : '',
@@ -241,9 +257,32 @@ function scraperCandidateAffiliatedParty(candidate = {}) {
   return CEANN_COMHAIRLE_AFFILIATION_BY_NAME.get(candidateName) || 'Ceann Comhairle (Speaker)';
 }
 
+function positiveInteger(value) {
+  const parsed = parseNumber(value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : null;
+}
+
+function scraperCandidateElectedOrder(candidate = {}) {
+  if (Array.isArray(candidate.counts)) {
+    const order = positiveInteger(candidate.counts[3]);
+    if (order !== null) return order;
+  }
+  return null;
+}
+
+function scraperCandidateEventCount(candidate = {}) {
+  if (scraperCandidateIsAutoReturned(candidate)) return 1;
+  if (Array.isArray(candidate.counts)) {
+    const encodedCount = positiveInteger(candidate.counts[2]);
+    if (encodedCount !== null) return encodedCount;
+  }
+  return null;
+}
+
 function scraperCandidateIsElected(candidate = {}) {
   return statusKind(candidate.status) === 'elected'
     || candidate.counted_as_elected === true
+    || scraperCandidateElectedOrder(candidate) !== null
     || scraperCandidateIsAutoReturned(candidate);
 }
 

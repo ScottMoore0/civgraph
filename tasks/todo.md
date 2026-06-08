@@ -1,3 +1,24 @@
+# Fix Irish general-election per-count constituency results and transfers on `/test2`
+- [x] Record recurrence and scope
+  - Task: ensure the 2024 Irish general election and every other Irish general election with available count-stage data shows constituency-level per-count results and a working Transfers view/animation in `/test2`.
+  - Symptom: selected Dáil constituency results show only first-preference/aggregate rows; per-count constituency results are missing; the Transfers pane lacks the expected animation/stage data.
+  - Root cause to verify: the `/test2` generated election bundle or selected-result view model is dropping or ignoring available Irish general-election count-stage payloads before rendering.
+  - Permanent prevention action: add a deterministic audit/test that all Dáil election bundles with source count/transfer data expose selected-constituency count rows and transfer-stage data to the `/test2` pane.
+- [x] Trace source data and generated bundle path
+  - Find where Irish general-election count and transfer records are stored.
+  - Compare source records with generated `/test2` election bundles for 2024 and older Dáil elections.
+  - Identify whether the loss happens in source normalisation, manifest generation, lazy bundle loading, or renderer selection.
+- [x] Implement source/generator/renderer fixes
+  - Preserve count-stage and transfer-stage payloads for Dáil constituency result rows.
+  - Render By Count and Transfers from the same normalized payload used by the main election pane.
+  - Apply the fix to all Irish general-election entries, not only 2024.
+- [x] Verify, commit, and push
+  - Run focused data audits, route validation, `/test2` browser checks for a 2024 Dáil constituency, rebuild `/test2`, `check:test2`, then commit/push only intended files.
+  - Completed: expanded compact Dail scraper rows into synthetic count-stage rows when the source candidate row contains an encoded count marker; preserved first-preference totals/status values; inferred elected status from explicit status text or elected-order slots; and kept transfer amounts at zero where source files do not provide transfer totals.
+  - Completed: changed `/test2` so synthetic Dail result panes consume those stage rows, show the Transfers view when the generated payload exists, keep source/main candidate ordering in the Count pane, and no longer hard-code all synthetic rows as `Not Elected Count 1/1`.
+  - Completed: regenerated Dail `/test2` election bundles and bumped the built `/test2` bundle references.
+  - Verification evidence: `node --check js/election-domain.mjs`; `node --check test2/src/election-manager.js`; `node --check scripts/validate-test2-route.mjs`; `node --check tests/browser/test2-app.spec.js`; `node scripts/validate-test2-route.mjs`; escalated `npm run build:test2`; `npm run check:test2`; escalated `npx playwright test tests/browser/test2-app.spec.js -g "selected Dail 2024 Cork North-Central"`; escalated `npx playwright test tests/browser/test2-app.spec.js -g "selected Dail 2024 Galway East"`.
+
 # Fix `/test2` mobile election pane selection and decade TOC jumps
 - [x] Record recurrence and scope
   - Task: make `/test2` election results usable on mobile, make decade buttons such as `2020s` and `2010s` load the election card section and jump to the requested decade card, and make feature clicks on an active election layer select the constituency/DEA result in the election pane instead of opening the generic feature info card.

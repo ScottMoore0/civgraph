@@ -1458,6 +1458,7 @@ export class Test2ElectionManager {
     if (!result) return false;
     if (this.isForumResult(result)) return true;
     const animationRows = result.animationPayload?.Constituency?.countGroup || [];
+    if (result.syntheticCountGroup && Array.isArray(animationRows) && animationRows.length) return true;
     if (Array.isArray(animationRows) && animationRows.some((row) => Number(row.Count_Number) > 1)) return true;
     if (Array.isArray(result.countNumbers) && result.countNumbers.some((count) => Number(count) > 1)) return true;
     return Boolean(result.hasCountDetail && (result.candidates || []).some((candidate) => (candidate.counts || []).some((count) => Number(count.count) > 1)));
@@ -1914,7 +1915,7 @@ export class Test2ElectionManager {
     const sourceCountNumbers = result.countNumbers?.length
       ? result.countNumbers
       : [...new Set(candidates.flatMap((candidate) => (candidate.counts || []).map((count) => count.count)))].sort((a, b) => a - b);
-    const rawCountNumbers = result.syntheticCountGroup ? [1] : sourceCountNumbers;
+    const rawCountNumbers = sourceCountNumbers;
     if (!rawCountNumbers.length) return '<p class="election-no-data">No count-by-count data is available for this entry.</p>';
     const countEvents = inferCountEvents(candidates, rawCountNumbers);
     const nonTransferable = new Map((result.nonTransferable || []).map((row) => [Number(row.count), row]));
@@ -2000,15 +2001,14 @@ export class Test2ElectionManager {
                 ? numberOrZero(syntheticFirstCount?.firstPrefs ?? syntheticFirstCount?.total)
                 : numberOrZero(candidate.firstPrefs ?? candidate.votes);
               const firstPrefPct = validPoll > 0 ? firstPrefs / validPoll * 100 : 0;
-              const statusCount = result.syntheticCountGroup
-                ? 'Not Elected<br>Count 1/1'
-                : candidate.elected
+              const terminalCount = candidate.electedAt || candidate.excludedAt || candidate.finalCount || rawCountNumbers[rawCountNumbers.length - 1];
+              const statusCount = candidate.elected
                 ? `Elected<br>Count ${displayCountForRaw(candidate.electedAt || candidate.finalCount || rawCountNumbers[rawCountNumbers.length - 1])}/${totalCountCount}`
                 : candidate.excluded
                 ? `Excluded<br>Count ${displayCountForRaw(candidate.excludedAt || candidate.finalCount || rawCountNumbers[rawCountNumbers.length - 1])}/${totalCountCount}`
-                : `Not Elected<br>Count ${displayCountForRaw(candidate.finalCount || rawCountNumbers[rawCountNumbers.length - 1])}/${totalCountCount}`;
+                : `Not Elected<br>Count ${displayCountForRaw(terminalCount)}/${totalCountCount}`;
               return `
-                <tr class="election-count-row${!result.syntheticCountGroup && candidate.elected ? ' election-count-row--elected' : ''}">
+                <tr class="election-count-row${candidate.elected ? ' election-count-row--elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td class="election-colour-col"><span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(candidate.party, candidate.colour))}"></span></td>
                   <td class="election-col-name">${this.renderElectionEntityButton('candidate', candidate.id || `${candidate.name}|${candidate.party}`, escapeHtml(candidate.name || ''), 'election-cell-wrap election-cell-wrap--count-name')}</td>
@@ -2104,7 +2104,7 @@ export class Test2ElectionManager {
   }
 
   renderAnimationNotice(result) {
-    if (result.hasCountDetail && result.animationPayload) {
+    if (this.resultHasAnimation(result) && result.animationPayload) {
       return `
         <div class="test2-election-animation-ready">
           <div id="test2ElectionAnimationStatus" class="election-no-data" aria-live="polite">Loading transfer animation...</div>

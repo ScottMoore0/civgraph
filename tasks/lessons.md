@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 167) Election parity must audit payload availability, not just rendered pane shape
+- Mistake pattern: Matching `/test2` election pane controls and table layout while not proving that constituency-level count-stage and transfer-stage payloads survived generation for elections that have those source records.
+- Impact: Irish general-election constituency panes can look structurally correct but omit per-count results and Transfers animation data, leaving materially incomplete election results.
+- Guardrail:
+  1) `/test2` election audits must compare source count/transfer availability to generated bundle availability for every Dáil election,
+  2) browser tests must open a known Dáil constituency and assert By Count and Transfers expose count-stage data, not only that the tabs render,
+  3) bundle-generation changes must preserve count arrays, transfer stages, and any main-pane animation payload fields unless the source explicitly lacks them.
+
 ### 166) `/test2` election interactions must be owned by the election pane before generic feature UI
 - Mistake pattern: Treating MapLibre feature selection as a generic feature-info event even when the selected feature belongs to the active election layer, and relying on a later election-pane update to compete with the already-open feature card.
 - Impact: mobile users tapping a constituency or DEA see the wrong top-right feature card instead of the selected election result, and the election pane appears broken even though the result data exists.
