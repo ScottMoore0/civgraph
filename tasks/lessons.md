@@ -1,5 +1,14 @@
 # Lessons Log
 
+### 166) `/test2` election interactions must be owned by the election pane before generic feature UI
+- Mistake pattern: Treating MapLibre feature selection as a generic feature-info event even when the selected feature belongs to the active election layer, and relying on a later election-pane update to compete with the already-open feature card.
+- Impact: mobile users tapping a constituency or DEA see the wrong top-right feature card instead of the selected election result, and the election pane appears broken even though the result data exists.
+- Guardrail:
+  1) active election-layer feature selection must return a handled signal before generic feature-info rendering,
+  2) `/test2` decade TOC controls must be included in the delegated catalogue navigation selector,
+  3) explicit single-section catalogue navigation must render the requested section completely enough for the clicked target to exist before scrolling,
+  4) browser tests should assert a mobile decade click hydrates and scrolls to the decade card, and an active election feature selection opens the election pane while keeping the generic feature card hidden.
+
 ### 165) `/test2` mobile shell needs a fixed viewport contract, not only fixed-looking controls
 - Mistake pattern: Moving mobile controls into the navbar while leaving the navbar itself in normal grid flow with static viewport sizing.
 - Impact: real mobile browsers can rubber-band or dynamically resize the viewport so the top navbar scrolls slightly out of view, making the menu/catalogue toggle untappable even though desktop/mobile layout tests show the button inside the header.

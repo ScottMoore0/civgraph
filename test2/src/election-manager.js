@@ -2272,8 +2272,28 @@ export class Test2ElectionManager {
   }
 
   showFeatureResults(feature) {
-    if (!feature?.electionResult || !this.activeBundle) return;
-    this.renderPanel(feature.electionResult);
+    if (!this.activeBundle || !feature) return false;
+    if (feature.electionResult) {
+      this.renderPanel(feature.electionResult);
+      return true;
+    }
+    if (this.isFeatureFromActiveElection(feature)) {
+      this.renderPanel(null, this.activePanelView || 'party');
+      return true;
+    }
+    return false;
+  }
+
+  isFeatureFromActiveElection(feature) {
+    if (!this.activeBundle || !feature) return false;
+    const featureMapId = normalizeName(feature.mapId || feature.sourceMapId || feature.layerId || '');
+    if (!featureMapId) return false;
+    return [
+      this.activeBundle.layerId,
+      this.activeBundle.sourceMapId,
+      this.activeEntry?.sourceMapId,
+      this.activeEntry?.layerId
+    ].some((value) => normalizeName(value || '') === featureMapId);
   }
 
   findResultByKey(key) {

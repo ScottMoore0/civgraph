@@ -201,6 +201,8 @@ assert(appSource.includes('onBuildElectionCatalogueCards') && appSource.includes
 assert(appSource.includes('includeMobileElectionCatalogue = true'), '/test2 must opt in to visible election catalogue entries on mobile');
 assert(!appSource.includes('includeElectionTocRows = true'), '/test2 must not opt in to individual election rows in the top catalogue table');
 assert(uiControllerSource.includes('catalogue-flat__toc-decade-btn') && uiControllerSource.includes('flat-election-entry'), '/test2 catalogue must keep main-style decade TOC buttons with election entries inside decade cards');
+assert(uiControllerSource.includes("catalogue-flat__toc-decade-btn')") || uiControllerSource.includes('catalogue-flat__toc-decade-btn, .catalogue-flat__toc'), '/test2 decade TOC buttons must be handled by the delegated flat-catalogue navigation path');
+assert(appSource.includes("anchor.closest?.('#catalogueFlatView')") && appSource.includes('anchor.dataset?.catalogueTarget'), '/test2 route guard must not pre-empt catalogue-managed hash links before lazy section rendering can run');
 assert(!uiControllerSource.includes('flat-election-toc-link') && !uiControllerSource.includes('catalogue-flat__toc-election-row'), '/test2 must not render individual election entries directly in the catalogue table of contents');
 assert(
     uiControllerSource.includes('singleSectionFlatCatalogue')
@@ -217,6 +219,9 @@ assert(
   '/test2 flat catalogue must render TOC-first and hydrate only the requested top-level section before scrolling within the catalogue pane'
 );
 assert(appSource.includes('enrichFeature: (feature, selection) => this.elections?.enrichFeature'), '/test2 selected feature details must merge election results where active');
+assert(appSource.includes('this.elections?.showFeatureResults(feature)') && appSource.includes('uiController.hideFeatureInfo'), '/test2 active election feature selection must update the election pane before falling back to generic feature info');
+assert(electionManagerSource.includes('isFeatureFromActiveElection') && electionManagerSource.includes('return true;'), '/test2 election manager must report handled active-election feature selections');
+assert(test2Css.includes('body.app-shell.test2-election-open #electionResultsPane.election-results-pane--open') && test2Css.includes('grid-row: 3') && test2Css.includes('grid-column: 1 / -1'), '/test2 fixed-header layout must explicitly place the election pane in the visible third grid row');
 assert(appSource.includes('setupTimelineControls') && appSource.includes('setTimelineItems'), '/test2 must wire the production timeline slider for map chains and elections');
 assert(appSource.includes('formatTimelineItemLabel') && appSource.includes("day: '2-digit'") && appSource.includes("month: 'short'") && appSource.includes("year: 'numeric'"), '/test2 timeline labels must render as DD MMM YYYY');
 assert(adapterSource.includes('applyElectionStyle') && adapterSource.includes('clearElectionStyle'), '/test2 adapter must support MapLibre election styling expressions');

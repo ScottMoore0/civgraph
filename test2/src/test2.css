@@ -387,12 +387,18 @@ body.app-shell.test2-election-open {
 
 body.app-shell.test2-election-open .app-main {
   min-height: 0;
-  height: auto;
+  height: 100%;
 }
 
 body.app-shell.test2-election-open #electionResultsPane.election-results-pane--open {
+  grid-row: 3;
+  grid-column: 1 / -1;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
   height: auto;
   min-height: 0;
+  overflow: hidden;
 }
 
 .test2-election-pane-resizer {

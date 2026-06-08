@@ -2056,9 +2056,9 @@ class UIController {
             return;
         }
 
-        const tocLink = target.closest?.('.catalogue-flat__toc-link, .catalogue-flat__toc-toplink, .catalogue-flat__toc-subheading-link');
+        const tocLink = target.closest?.('.catalogue-flat__toc-link, .catalogue-flat__toc-toplink, .catalogue-flat__toc-subheading-link, .catalogue-flat__toc-decade-btn');
         if (tocLink) {
-            this.handleFlatTocClick(event, tocLink);
+            await this.handleFlatTocClick(event, tocLink);
             return;
         }
 
@@ -2108,7 +2108,11 @@ class UIController {
                 ...(this._lastMapListOptions || {}),
                 flatSectionKey: requestedSectionKey
             }, { defer: this.isMobile });
-            await this.waitForCatalogueFrame(2);
+            for (let attempt = 0; attempt < 12; attempt += 1) {
+                await this.waitForCatalogueFrame(1);
+                targetEl = findTarget();
+                if (targetEl && targetEl.dataset?.catalogueDeferredTarget !== '1') return targetEl;
+            }
             return findTarget();
         }
 
@@ -3977,7 +3981,8 @@ class UIController {
             electionsAnchor.className = 'catalogue-flat__anchor';
             cardsContainer.appendChild(electionsAnchor);
             let electionCardsToRender = decadeElectionCards;
-            if (boundedMobileCatalogue) {
+            const shouldLimitElectionCards = boundedMobileCatalogue && !singleSectionCatalogue;
+            if (shouldLimitElectionCards) {
                 electionCardsToRender = this.includeMobileElectionCatalogue
                     ? decadeElectionCards.slice(0, this._mobileInitialElectionCardLimit)
                     : [];
@@ -4059,7 +4064,7 @@ class UIController {
                 cardsContainer.appendChild(card);
                 await this.yieldForCatalogueRender(defIndex);
             }
-            if (boundedMobileCatalogue && electionCardsToRender.length < decadeElectionCards.length) {
+            if (shouldLimitElectionCards && electionCardsToRender.length < decadeElectionCards.length) {
                 for (const def of decadeElectionCards.slice(electionCardsToRender.length)) {
                     const anchor = document.createElement('div');
                     anchor.id = `flat-card-${def.id}`;

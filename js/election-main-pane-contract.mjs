@@ -50,9 +50,10 @@ export class MainElectionPaneContract {
   }
 
   renderPanelContent(selectedResult = null, view = 'party') {
-    return selectedResult
+    const content = selectedResult
       ? this.renderConstituencyResults(selectedResult, view)
       : this.renderOverallResults(view);
+    return `<div data-election-renderer="${escapeHtml(this.rendererId)}">${content}</div>`;
   }
 
   renderOverallResults(view = 'party') {

@@ -819,23 +819,42 @@ test('/test2 mobile catalogue renders TOC first, one active section, and map ges
   expect(catalogueState.sectionLinks).toBeGreaterThan(20);
   expect(catalogueState.subheadingLinks).toBeGreaterThan(8);
 
-  await page.evaluate(() => {
-    document.querySelector('#catalogueFlatView [data-catalogue-target="flat-section-elections"]')?.click();
+  const decadeTarget = await page.evaluate(() => {
+    const link = [...document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc-decade-btn')]
+      .find((candidate) => candidate.textContent.includes('1990s'));
+    return link ? {
+      target: link.dataset.catalogueTarget,
+      section: link.dataset.catalogueSection,
+      text: link.textContent.trim()
+    } : null;
   });
-  await page.waitForFunction(() => {
+  expect(decadeTarget).toBeTruthy();
+  await page.evaluate((targetId) => {
+    document.querySelector(`#catalogueFlatView [data-catalogue-target="${targetId}"]`)?.click();
+  }, decadeTarget.target);
+  await page.waitForFunction(({ targetId }) => {
+    const target = document.getElementById(targetId);
+    const pane = document.querySelector('.pane__content[data-tab-content="catalogue"]') || document.querySelector('.pane--info');
+    if (!target || !pane || target.dataset.catalogueDeferredTarget === '1') return false;
+    const targetRect = target.getBoundingClientRect();
+    const paneRect = pane.getBoundingClientRect();
     return window.uiController?._flatActiveSectionKey === 'elections'
       && document.querySelectorAll('#catalogueFlatView .c1-card[data-c1-id^="flat-elections"]').length > 5
-      && document.querySelectorAll('#catalogueFlatView .flat-election-entry').length > 20;
-  }, null, { timeout: 12000 });
+      && document.querySelectorAll('#catalogueFlatView .flat-election-entry').length > 20
+      && targetRect.top >= paneRect.top
+      && targetRect.top <= paneRect.bottom;
+  }, { targetId: decadeTarget.target }, { timeout: 12000 });
   const electionSectionState = await page.evaluate(() => ({
     electionCards: document.querySelectorAll('#catalogueFlatView .c1-card[data-c1-id^="flat-elections"]').length,
     mapCards: [...document.querySelectorAll('#catalogueFlatView .c1-card[data-c1-id]')]
       .filter((card) => !(card.dataset.c1Id || '').startsWith('flat-elections')).length,
-    books: document.querySelectorAll('#catalogueFlatView .book-card').length
+    books: document.querySelectorAll('#catalogueFlatView .book-card').length,
+    targetDeferred: document.getElementById('flat-card-flat-elections-1990s')?.dataset?.catalogueDeferredTarget === '1'
   }));
   expect(electionSectionState.electionCards).toBeGreaterThan(5);
   expect(electionSectionState.mapCards).toBe(0);
   expect(electionSectionState.books).toBe(0);
+  expect(electionSectionState.targetDeferred).toBe(false);
 
   const mapSubheading = await page.evaluate(() => {
     const link = document.querySelector('#catalogueFlatView .catalogue-flat__toc-subheading-link[data-catalogue-section^="maps:"]');
@@ -1560,9 +1579,8 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
     return feature.properties?.name || feature.properties?.Name || feature.id || true;
   });
   expect(selectedGeometry).toBeTruthy();
-  await expect(page.locator('#featureInfo')).toBeVisible();
-  await expect(page.locator('#featureInfoContent')).toContainText('Election');
-  await expect(page.locator('#featureInfoContent')).toContainText(/Leading party|Winning party/);
+  await expect(page.locator('#featureInfo')).toHaveClass(/hidden/);
+  await expect(page.locator('#electionPaneBack')).not.toHaveClass(/hidden/);
   await expect(page.locator('#electionResultsPane')).toContainText(/Candidate|Party|Votes/);
   await expect(page.locator('#electionPaneContent .election-results-table--constituency-party')).toHaveCount(1);
 });

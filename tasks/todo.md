@@ -1,3 +1,20 @@
+# Fix `/test2` mobile election pane selection and decade TOC jumps
+- [x] Record recurrence and scope
+  - Task: make `/test2` election results usable on mobile, make decade buttons such as `2020s` and `2010s` load the election card section and jump to the requested decade card, and make feature clicks on an active election layer select the constituency/DEA result in the election pane instead of opening the generic feature info card.
+  - Symptom: mobile election-pane interactions are unreliable; decade TOC buttons do not hydrate/scroll to their cards; clicking an election geography opens the top-right generic feature card rather than changing the election pane to that constituency/DEA.
+  - Root cause: the decade buttons were rendered with `.catalogue-flat__toc-decade-btn` but were not included in the delegated TOC click selector; `/test2` still applied the bounded mobile election-card cap when an explicit Elections section was requested; and the `/test2` MapLibre feature-selection callback always showed generic feature info before asking the election manager whether the selection belonged to the active election layer.
+  - Permanent prevention action: route every flat-catalogue TOC link through one delegated renderer/scroll path, render the requested single section fully on demand, make election-feature selection return a handled signal before generic feature-info rendering, and add focused browser coverage for mobile decade navigation plus election-feature selection.
+- [x] Implement source fixes
+  - Add decade-button delegation and skip `/test2` route-guard hash hijacking for catalogue-managed anchors.
+  - Render all election decade cards when the single-section Elections section is explicitly active.
+  - Make election selection suppress generic feature cards and render the selected constituency/DEA pane.
+- [x] Verify, commit, and push
+  - Run focused syntax, `/test2` browser checks, build, and `check:test2`.
+  - Completed: added decade-button delegation to the flat catalogue TOC handler, made `/test2` route guards leave catalogue-managed hash links alone, and extended single-section Elections rendering so all requested decade cards hydrate before the jump.
+  - Completed: changed `/test2` feature selection so active election geographies are handled by `ElectionManager.showFeatureResults()` before the generic feature-info card path, including a fallback that suppresses generic cards for active election features even when a result match is missing.
+  - Completed: fixed the fixed-header election-pane grid placement so the election pane remains visible and clickable on mobile/desktop after selecting an election geography.
+  - Verification evidence: `node --check js\ui-controller.js`; `node --check test2\src\app.js`; `node --check test2\src\election-manager.js`; `node --check js\election-main-pane-contract.mjs`; `node --check tests\browser\test2-app.spec.js`; `node --check scripts\validate-test2-route.mjs`; `node scripts\validate-test2-route.mjs`; escalated `npm run build:test2`; escalated `npm run test:browser:test2 -- --grep "mobile catalogue renders TOC first|loads generated election entries"`; escalated `npm run test:browser:test2 -- --grep "mobile election seat-circle overlays"`; `npm run check:test2`.
+
 # Fix `/test2` mobile navbar so it cannot scroll out of view
 - [x] Record recurrence and scope
   - Task: make the `/test2` top navbar permanently visible and tappable on mobile, especially the menu/catalogue toggle, even when the mobile browser viewport rubber-bands or the catalogue/map panes scroll.

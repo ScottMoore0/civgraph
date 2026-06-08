@@ -54,8 +54,12 @@ class Test2App {
 
     this.mapController = new Test2MapLibreMainAdapter('map', this.metadataService, {
       onFeatureClick: (features) => {
+        const feature = features?.[0] || null;
+        if (feature && this.elections?.showFeatureResults(feature)) {
+          uiController.hideFeatureInfo?.();
+          return;
+        }
         uiController.showFeatureInfo(features, dataService.getAllMaps());
-        if (features?.[0]) this.elections?.showFeatureResults(features[0]);
       },
       getMainMap: (mapId) => dataService.getMapById(mapId),
       enrichFeature: (feature, selection) => this.elections?.enrichFeature(feature, selection) || feature,
@@ -322,6 +326,7 @@ class Test2App {
     document.addEventListener('click', (event) => {
       const anchor = event.target.closest?.('a[href^="#"]');
       if (!anchor) return;
+      if (anchor.closest?.('#catalogueFlatView') || anchor.dataset?.catalogueTarget) return;
 
       const hash = anchor.getAttribute('href') || '';
       event.preventDefault();
