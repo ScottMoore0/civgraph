@@ -1,3 +1,26 @@
+# Ingest Wikipedia Dail constituency transfer/count tables for `/test2`
+- [x] Record correction and scope
+  - Task: replace the synthetic zero-transfer Dail rows with real per-count constituency rows derived from Wikipedia constituency count tables where those tables are available, for the 2024 Irish general election and all other Irish general elections.
+  - Symptom: `/test2` now shows Dail count-stage rows and a Transfers pane, but transfer values are zero because the local scraper payload lacks the cumulative Wikipedia count columns.
+  - Root cause: the Dail source JSON under `election-viewer-package/data/elections/dail-eireann/...` stores first preferences plus encoded election/exclusion count markers, not the full per-count candidate totals shown in constituency Wikipedia articles.
+  - Permanent prevention action: add a data ingestion/audit path that compares Wikipedia-derived Dail count tables to generated `/test2` Dail bundles and fails if known available constituency count columns are not present.
+- [x] Build a Wikipedia count-table ingestion path
+  - Fetch or read constituency Wikipedia pages for Irish general elections.
+  - Parse cumulative count columns into normalized candidate-stage rows.
+  - Derive each `Transfers` value from the delta between consecutive cumulative totals for each candidate.
+  - Store the ingested data as local sidecar data so normal builds do not depend on live network access.
+- [x] Merge sidecar count rows into generated `/test2` Dail bundles
+  - Prefer verified Wikipedia count rows over synthetic count-stage rows.
+  - Preserve source references and avoid fabricating transfer values when a table is unavailable or ambiguous.
+  - Apply to every Dail election/constituency with matched sidecar data.
+- [x] Verify, commit, and push
+  - Regenerate Dail `/test2` bundles, run focused 2024 constituency checks, route validation, `build:test2`, `check:test2`, and browser tests for By Count and Transfers.
+  - Completed: added `scripts/import-dail-wikipedia-counts.mjs` to import/cache Wikipedia constituency STV count tables into local sidecars under `data/elections/dail-wikipedia-counts`.
+  - Completed: updated `scripts/build-test2-election-manifest.mjs` so Dail `/test2` bundles prefer verified Wikipedia count rows, derive transfer deltas from cumulative count totals, attach row-level source URLs, and preserve non-zero transfer animation payloads.
+  - Completed: regenerated `/test2` election bundles and build output. The local report now represents 789 of 973 Dail constituency sidecars; every represented sidecar has non-zero transfer deltas, while remaining unmatched/older sidecars stay non-fabricated fallback rows.
+  - Completed: updated guardrails so Mayo, Cork North-Central, Galway East, and Roscommon Galway assert Wikipedia-derived later-stage/non-zero transfer data.
+  - Verification evidence: `node --check scripts\import-dail-wikipedia-counts.mjs`; `node --check scripts\build-test2-election-manifest.mjs`; `node --check scripts\validate-test2-route.mjs`; `node --check tests\browser\test2-app.spec.js`; `node scripts\import-dail-wikipedia-counts.mjs --report-only`; `node scripts\build-test2-election-manifest.mjs`; `node scripts\validate-test2-route.mjs`; escalated `npm run build:test2`; `npm run check:test2`; escalated `npm run test:browser:test2 -- --grep "Cork North-Central"`; escalated `npm run test:browser:test2 -- --grep "Galway East"`; generated-data audit: 25 Dail bundles, 973 constituency results, 789 with Wikipedia rows, 789 with non-zero transfers.
+
 # Fix Irish general-election per-count constituency results and transfers on `/test2`
 - [x] Record recurrence and scope
   - Task: ensure the 2024 Irish general election and every other Irish general election with available count-stage data shows constituency-level per-count results and a working Transfers view/animation in `/test2`.

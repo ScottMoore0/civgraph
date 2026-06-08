@@ -14,6 +14,7 @@ const OUT_DIR = path.join(ROOT, 'test', 'metadata', 'elections-test2');
 const OUT_ANCHOR_DIR = path.join(ROOT, 'test', 'metadata', 'election-anchors-test2');
 const OUT_MANIFEST = path.join(ROOT, 'test', 'metadata', 'elections-test2.json');
 const OUT_REPORT = path.join(ROOT, 'test', 'metadata', 'elections-test2-report.json');
+const DAIL_WIKIPEDIA_COUNTS_ROOT = path.join(ROOT, 'data', 'elections', 'dail-wikipedia-counts');
 
 const STYLE_MODES = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority', 'seats', 'quota'];
 const LOCAL_GOVERNMENT_BODIES = new Set([
@@ -503,8 +504,9 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
   for (const constituency of entry.constituencies || []) {
     const resultPath = findResultFile(dateDir, constituency);
     const rawResult = resultPath ? readJson(resultPath) : null;
+    const enrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, rawResult, constituency);
     if (rawResult) rawEntries.push({ constituency, raw: rawResult });
-    const result = ElectionDomain.summarizeResult(rawResult, constituency);
+    const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
     const matchEntry = matchEntryForConstituency(entry, result.constituency || constituency);
     const matchSet = matchFeaturesForResult(featureLookup, entry, geography, result, matchEntry, singleFeature);
     const match = matchSet[0] || null;
@@ -536,8 +538,10 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     for (const file of readdirSync(dateDir).filter((name) => name.endsWith('.json') && name !== '_index.json')) {
       const resultPath = path.join(dateDir, file);
       const rawResult = readJson(resultPath);
-      rawEntries.push({ constituency: file.replace(/\.json$/, ''), raw: rawResult });
-      const result = ElectionDomain.summarizeResult(rawResult, file.replace(/\.json$/, ''));
+      const constituency = file.replace(/\.json$/, '');
+      const enrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, rawResult, constituency);
+      rawEntries.push({ constituency, raw: rawResult });
+      const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
       const matchEntry = matchEntryForConstituency(entry, result.constituency);
       const matchSet = matchFeaturesForResult(featureLookup, entry, geography, result, matchEntry, singleFeature);
       const match = matchSet[0] || null;
@@ -571,9 +575,11 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
   const availableStyleModes = STYLE_MODES.filter((mode) => modeAvailable(mode, results));
   const year = Number(String(entry.date).slice(0, 4));
   const previousDate = previousKey ? previousKey.split('__').pop()?.replace(/-/g, '-') : null;
-  const partySummary = ElectionDomain.buildPartySummary(results);
   const mainLikePartySummary = ElectionDomain.buildMainLikePartySummaryFromRawResults(rawEntries);
   const mainLikeCandidateSummary = ElectionDomain.buildMainLikeCandidateSummaryFromRawResults(rawEntries);
+  const partySummary = entry.bodySlug === 'dail-eireann'
+    ? mainLikePartySummary.rows
+    : ElectionDomain.buildPartySummary(results);
   const entityIndex = ElectionDomain.buildEntityIndex(results);
   return {
     schemaVersion: 1,
@@ -1175,6 +1181,146 @@ function findResultFile(dateDir, constituency) {
     if (normalizeName(base) === target || nameKeys(base).includes(target)) return path.join(dateDir, file);
   }
   return null;
+}
+
+function enrichDailResultWithWikipediaCounts(entry, resultPath, rawResult, fallbackConstituency = '') {
+  if (!rawResult || entry?.bodySlug !== 'dail-eireann' || !resultPath) return rawResult;
+  const sidecarPath = path.join(DAIL_WIKIPEDIA_COUNTS_ROOT, entry.date, path.basename(resultPath));
+  if (!existsSync(sidecarPath)) return rawResult;
+  const sidecar = readJson(sidecarPath);
+  if (!Array.isArray(sidecar?.candidates) || !sidecar.candidates.length || Number(sidecar.numCounts || 0) < 2) return rawResult;
+  return buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency);
+}
+
+function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency = '') {
+  const localCandidates = new Map();
+  const localCandidatesByFirstPref = new Map();
+  for (const candidate of rawResult?.candidates || []) {
+    localCandidates.set(normalizeName(candidate?.name || ''), candidate);
+    const firstPref = parseNumber(candidate?.first_pref ?? candidate?.counts?.[0]);
+    if (firstPref !== null) {
+      if (!localCandidatesByFirstPref.has(firstPref)) localCandidatesByFirstPref.set(firstPref, []);
+      localCandidatesByFirstPref.get(firstPref).push(candidate);
+    }
+  }
+  const numCounts = Number(sidecar.numCounts || 0) || Math.max(1, ...sidecar.candidates.flatMap((candidate) => candidate.counts?.map((value, index) => value !== null && value !== undefined ? index + 1 : 0) || []));
+  const countGroup = sidecar.candidates.flatMap((candidate, index) => {
+    const localCandidate = localCandidateForWikipediaCount(candidate, localCandidates, localCandidatesByFirstPref);
+    const party = canonicalDailWikipediaParty(candidate.party, localCandidate);
+    const name = fixText(localCandidate?.name || candidate.name || '').trim();
+    const nameParts = candidateNameParts(name);
+    const firstPref = parseNumber(candidate.counts?.[0]) ?? parseNumber(localCandidate?.first_pref) ?? parseNumber(localCandidate?.counts?.[0]) ?? 0;
+    const occurrenceCount = candidate.electedAt || candidate.lastCount || '';
+    const rows = [];
+    let previousTotal = null;
+    for (let countIndex = 0; countIndex < numCounts; countIndex += 1) {
+      const countNumber = countIndex + 1;
+      const total = parseNumber(candidate.counts?.[countIndex]);
+      if (total === null) continue;
+      const transfers = countNumber === 1 || previousTotal === null ? 0 : total - previousTotal;
+      previousTotal = total;
+      rows.push({
+        Candidate_Id: String(candidate.id || index + 1),
+        Candidate_First_Pref_Votes: String(firstPref),
+        Constituency_Number: '',
+        Count_Number: String(countNumber),
+        Firstname: nameParts.firstname,
+        Surname: nameParts.surname,
+        Occurred_On_Count: String(occurrenceCount),
+        Party_Colour: partyColour(party),
+        Party_Name: party,
+        Status: dailWikipediaCountStatus(candidate, localCandidate, countNumber, numCounts),
+        Total_Votes: String(total),
+        Transfers: String(transfers),
+        Wikipedia_Count_Row: '1',
+        Wikipedia_Count_Source: sidecar.pageUrl || '',
+        candidateName: name,
+        id: index
+      });
+    }
+    return rows;
+  });
+  if (!countGroup.length) return rawResult;
+  const meta = rawResult?.meta || {};
+  const validPoll = parseNumber(meta.Valid_Poll ?? meta.valid_poll ?? meta.validPoll)
+    || countGroup
+      .filter((row) => Number(row.Count_Number) === 1)
+      .reduce((sum, row) => sum + numberOrZero(row.Total_Votes), 0);
+  const totalPoll = parseNumber(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
+  const spoiled = parseNumber(meta.Spoiled ?? meta.spoiled);
+  const electorate = parseNumber(meta.Total_Electorate ?? meta.electorate ?? meta.electorate_total);
+  const electedCount = sidecar.candidates.filter((candidate) => Number(candidate.electedAt || 0) > 0).length;
+  const seatCount = parseNumber(rawResult?.seats ?? meta.Number_Of_Seats ?? meta.seats) || electedCount;
+  return {
+    ...rawResult,
+    Constituency: {
+      __wikipediaCountGroup: true,
+      countInfo: {
+        Constituency_Name: rawResult?.constituency || sidecar.constituency || fallbackConstituency || '',
+        Constituency_Number: '',
+        Number_Of_Seats: seatCount ? String(seatCount) : '',
+        Quota: meta.Quota != null || meta.quota != null ? String(meta.Quota ?? meta.quota) : '',
+        Spoiled: spoiled != null ? String(spoiled) : '',
+        Total_Electorate: electorate != null ? String(electorate) : '',
+        Total_Poll: totalPoll != null ? String(totalPoll) : '',
+        Valid_Poll: validPoll ? String(validPoll) : ''
+      },
+      countGroup
+    },
+    wikipediaCountSource: {
+      pageTitle: sidecar.pageTitle || '',
+      pageUrl: sidecar.pageUrl || '',
+      sectionTitle: sidecar.sectionTitle || '',
+      importedAt: sidecar.importedAt || ''
+    }
+  };
+}
+
+function localCandidateForWikipediaCount(candidate, localCandidates, localCandidatesByFirstPref) {
+  const direct = localCandidates.get(normalizeName(candidate.name || ''));
+  if (direct) return direct;
+  const firstPref = parseNumber(candidate.counts?.[0]);
+  const byVote = firstPref !== null ? localCandidatesByFirstPref.get(firstPref) || [] : [];
+  if (byVote.length === 1) return byVote[0];
+  const party = normalizeName(candidate.party || '');
+  return byVote.find((localCandidate) => {
+    const localParty = normalizeName(localCandidate?.party || '');
+    return localParty && (party.includes(localParty) || localParty.includes(party));
+  }) || null;
+}
+
+function canonicalDailWikipediaParty(wikipediaParty, localCandidate = null) {
+  const localParty = normalizeParty(String(localCandidate?.party || '').replace(/\s*Lozenge\s*$/i, '').trim());
+  if (localParty && !/ceann comhairle/i.test(localParty)) return localParty;
+  const normalized = normalizeName(wikipediaParty);
+  if (!normalized || /\bindependent politician\b/.test(normalized)) return 'Independent';
+  if (/\blabour party ireland\b/.test(normalized)) return 'Irish Labour';
+  if (/\bpeople before profit\b/.test(normalized)) return 'PBP';
+  if (normalized === 'social democrats ireland') return 'Social Democrats';
+  if (normalized === 'workers party ireland') return "Workers' Party";
+  if (normalized === 'the irish people party') return 'The Irish People';
+  if (normalized === 'irish freedom party') return 'Irish Freedom Party';
+  if (normalized === 'national party ireland') return 'National Party';
+  return normalizeParty(wikipediaParty || 'Independent') || 'Independent';
+}
+
+function dailWikipediaCountStatus(candidate, localCandidate, countNumber, numCounts) {
+  if (Number(candidate.electedAt || 0) === countNumber) {
+    const localStatus = fixText(localCandidate?.status || '');
+    return localStatus || 'Elected';
+  }
+  if (!candidate.electedAt && Number(candidate.lastCount || 0) === countNumber && countNumber < numCounts) return 'Excluded';
+  if (!candidate.electedAt && Number(candidate.lastCount || 0) === countNumber && countNumber >= numCounts) return 'Not Elected';
+  return '';
+}
+
+function candidateNameParts(name) {
+  const clean = fixText(name || '').trim();
+  const space = clean.indexOf(' ');
+  return {
+    firstname: space > 0 ? clean.slice(0, space) : clean,
+    surname: space > 0 ? clean.slice(space + 1) : ''
+  };
 }
 
 function sourceByYear(year, rows) {

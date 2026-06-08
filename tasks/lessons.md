@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 168) Dail transfer availability must include constituency Wikipedia count tables
+- Mistake pattern: Treating the local Dail scraper JSON as authoritative for transfer/count availability even though Wikipedia constituency articles contain cumulative per-count tables.
+- Impact: `/test2` can expose a Transfers pane but still show zero transfer movement, despite public source tables having enough information to derive per-count transfer deltas.
+- Guardrail:
+  1) Dail count/transfer audits must check Wikipedia-derived sidecar availability before deciding transfer data is absent,
+  2) generated `/test2` Dail bundles should prefer verified cumulative count tables over synthetic event-count placeholders,
+  3) tests must assert at least one known 2024 Dail constituency has non-zero transfer deltas in its animation/count payload.
+
 ### 167) Election parity must audit payload availability, not just rendered pane shape
 - Mistake pattern: Matching `/test2` election pane controls and table layout while not proving that constituency-level count-stage and transfer-stage payloads survived generation for elections that have those source records.
 - Impact: Irish general-election constituency panes can look structurally correct but omit per-count results and Transfers animation data, leaving materially incomplete election results.

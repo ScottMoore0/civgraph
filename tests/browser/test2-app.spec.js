@@ -500,14 +500,14 @@ test('/test2 selected Dail 2024 Cork North-Central pane uses constituency source
       tabs,
       hasCountDetail: result?.hasCountDetail,
       countNumbers: result?.countNumbers || [],
-      syntheticRowsAboveFirst: (result?.countGroup || []).filter((row) => Number(row.Count_Number) > 1).length
+      wikipediaRowsAboveFirst: (result?.countGroup || []).filter((row) => row.Wikipedia_Count_Row === '1' && Number(row.Count_Number) > 1).length
     };
   });
 
   expect(state.hasCountDetail).toBe(true);
   expect(state.countNumbers[0]).toBe(1);
   expect(state.countNumbers.some((count) => Number(count) > 1)).toBe(true);
-  expect(state.syntheticRowsAboveFirst).toBeGreaterThan(0);
+  expect(state.wikipediaRowsAboveFirst).toBeGreaterThan(0);
   expect(state.tabs).toContain('Transfers');
   expect(state.rows.map((row) => row[2])).toEqual(['Fianna F\u00e1il', 'Sinn F\u00e9in', 'Fine Gael', 'Irish Labour', 'Independent Ireland']);
   expect(state.rows.map((row) => [row[3], row[5], row[7]])).toEqual([
@@ -534,8 +534,16 @@ test('/test2 selected Dail 2024 Cork North-Central pane uses constituency source
   const candidates = await page.evaluate(() => [...document.querySelectorAll('#electionPaneContent .election-count-table tbody tr')]
     .slice(0, 7)
     .map((row) => [...row.children].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')).slice(0, 10)));
-  expect(candidates.map((row) => row[2])).toEqual(["P\u00e1draig O'Sullivan", 'Thomas Gould', 'Colm Burke', "Kenneth O'Flynn", 'Tony Fitzgerald', 'Mick Barry', 'Eoghan Kenny']);
-  expect(candidates.map((row) => row[7])).toEqual(['7,708', '7,399', '5,736', '5,733', '4,084', '3,494', '3,329']);
+  const firstPrefByCandidate = Object.fromEntries(candidates.map((row) => [row[2], row[7]]));
+  expect(firstPrefByCandidate).toMatchObject({
+    "P\u00e1draig O'Sullivan": '7,708',
+    'Thomas Gould': '7,399',
+    'Colm Burke': '5,736',
+    "Kenneth O'Flynn": '5,733',
+    'Tony Fitzgerald': '4,084',
+    'Mick Barry': '3,494',
+    'Eoghan Kenny': '3,329'
+  });
 
   await page.evaluate(() => {
     const manager = window.__civgraphTest2.app.elections;
@@ -549,13 +557,18 @@ test('/test2 selected Dail 2024 Cork North-Central pane uses constituency source
       .find((row) => row.constituency === 'Cork North Central')
       ?.animationPayload?.Constituency?.countGroup
       ?.filter((row) => Number(row.Count_Number) > 1).length || 0,
-    fabricatedTransfers: window.__civgraphTest2.app.elections.activeBundle.results
+    wikipediaRows: window.__civgraphTest2.app.elections.activeBundle.results
+      .find((row) => row.constituency === 'Cork North Central')
+      ?.animationPayload?.Constituency?.countGroup
+      ?.filter((row) => row.Wikipedia_Count_Row === '1').length || 0,
+    nonZeroTransfers: window.__civgraphTest2.app.elections.activeBundle.results
       .find((row) => row.constituency === 'Cork North Central')
       ?.animationPayload?.Constituency?.countGroup
       ?.filter((row) => Number(row.Transfers || 0) !== 0).length || 0
   }));
   expect(transferState.transferRows).toBeGreaterThan(0);
-  expect(transferState.fabricatedTransfers).toBe(0);
+  expect(transferState.wikipediaRows).toBeGreaterThan(0);
+  expect(transferState.nonZeroTransfers).toBeGreaterThan(0);
 });
 
 test('/test2 selected Dail 2024 Galway East pane computes constituency percentages and resizes', async ({ page }) => {
@@ -579,13 +592,13 @@ test('/test2 selected Dail 2024 Galway East pane computes constituency percentag
       summary,
       validPoll: result?.validPoll,
       countInfoValidPoll: result?.countInfo?.Valid_Poll,
-      syntheticRowsAboveFirst: (result?.countGroup || []).filter((row) => Number(row.Count_Number) > 1).length
+      wikipediaRowsAboveFirst: (result?.countGroup || []).filter((row) => row.Wikipedia_Count_Row === '1' && Number(row.Count_Number) > 1).length
     };
   });
 
   expect(state.validPoll).toBe(54214);
   expect(state.countInfoValidPoll).toBe('54214');
-  expect(state.syntheticRowsAboveFirst).toBeGreaterThan(0);
+  expect(state.wikipediaRowsAboveFirst).toBeGreaterThan(0);
   expect(state.rows.map((row) => [row[2], row[3], row[5], row[7], row[9]])).toEqual([
     ['Fianna F\u00e1il', '2', '1', '14,196', '26.19%'],
     ['Fine Gael', '3', '1', '11,744', '21.66%'],
