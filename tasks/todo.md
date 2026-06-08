@@ -1,3 +1,22 @@
+# Research remaining post-1921 Dail transfer gaps
+- [x] Record scope
+  - Task: research the 53 post-1921 Dail constituency rows that still lack local Wikipedia count sidecars and determine the correct handling for each.
+  - Expected output: a row-by-row classification covering importer alias fixes, parser/importer expansion, non-Wikipedia source work, and no-transfer/uncontested handling.
+- [x] Extract the exact 53-row list
+  - Use `data/elections/dail-wikipedia-counts/_report.json` as the source of truth and exclude 1918/1921 rows.
+- [x] Probe likely source pages
+  - Check representative Wikipedia pages and page-title candidates for the recurring gap groups.
+- [x] Classify and recommend handling
+  - Document which rows should be imported, marked uncontested/no-transfer, or queued for non-Wikipedia corroboration.
+  - Completed: extracted all 53 post-1921 missing rows from `data/elections/dail-wikipedia-counts/_report.json`.
+  - Completed: found that the largest class should be fixed with importer title/alias handling. Add aliases or normalisation for `Leix Offaly` -> `Laois-Offaly`/`Leix-Offaly`, `Dun Laoghaire Rathdown` -> `Dún Laoghaire and Rathdown`, `Clare Galway South` -> `Clare-South Galway`, `Cork City North` -> `Cork City North-West`, `Cork City South` -> `Cork City South-East`, `Cork East & North East` -> `Cork East and North East`, `Cork Mid, North, South, South East & West` -> `Cork Mid, North, South, South East and West`, and strip leading punctuation from `*Tipperary Mid, North & South`.
+  - Completed: found parser expansion is also needed. Older constituency pages can expose tables via variants such as `STV Election box begin2`, rendered `wikitable` count columns, or page titles without the `(Dáil constituency)` suffix; the importer should prefer Dail/constituency titles over county/place pages and then fall back to rendered table parsing.
+  - Completed: recommended importing from current Wikipedia after importer fixes for the recurring title gaps: all `Leix Offaly` rows from 1922 through 1957, all `Dun Laoghaire Rathdown` rows from 1948 through 1969, 1922 `Cork East & North East`, 1922 `Cork Mid, North, South, South East & West`, 1922 `*Tipperary Mid, North & South`, 1944 `Monaghan`, 1957 `Kerry South`, and 1969 `Clare Galway South`, `Cork City North`, and `Cork City South`.
+  - Completed: recommended source-backed no-transfer/uncontested handling for rows where no animation should be fabricated, especially 1938 `Donegal West`, 1938 `Kerry South`, and likely uncontested 1922 rows such as `Clare`, `Donegal`, `Dublin University`, `Limerick City and East`, and `Mayo North & West` pending exact corroboration in Gallagher/ElectionsIreland.
+  - Completed: recommended non-Wikipedia corroboration for the hard 1922 and university rows. Use Michael Gallagher's `Irish Elections 1922-44`, ElectionsIreland, and official/archival sources to decide whether to create sidecars or no-transfer records for `Kerry Limerick West`, `Leitrim Roscommon North`, `Mayo South Roscommon South`, `National University`, `Sligo Mayo East`, `Waterford Tipperary East`, and the 1923-1933 `Dublin University`/`National University` rows.
+  - Verification evidence: local Node inventory confirmed the exact 53 rows; read-only Wikipedia/API/search probes confirmed current pages for `Laois-Offaly`, `Dún Laoghaire and Rathdown`, `Cork East and North East`, `Cork Mid, North, South, South East and West`, `Tipperary Mid, North and South`, `Waterford-Tipperary East`, `Leitrim-Roscommon North`, `Mayo South-Roscommon South`, `Dublin University`, `National University of Ireland`, `Monaghan`, `Kerry South`, `Donegal West`, `Clare-South Galway`, `Cork City North-West`, and `Cork City South-East`.
+  - Report: `docs/dail-post-1921-transfer-gap-research.md` now records all 53 rows grouped by recommended handling.
+
 # Review Dail transfer gaps against Wikipedia sources
 - [x] Record scope
   - Task: audit the remaining Irish general-election transfer/count gaps against the corresponding Wikipedia constituency sources and determine which gaps can realistically be filled.
