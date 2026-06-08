@@ -1,3 +1,21 @@
+# Review Dail transfer gaps against Wikipedia sources
+- [x] Record scope
+  - Task: audit the remaining Irish general-election transfer/count gaps against the corresponding Wikipedia constituency sources and determine which gaps can realistically be filled.
+  - Expected output: classify gaps as fillable from Wikipedia now, fillable with importer/source-name fixes, likely requiring non-Wikipedia sources, or not meaningfully fillable because the constituency was uncontested/non-STV/non-geographic.
+- [x] Extract local gap inventory
+  - Build a year/constituency list of Dail rows with no verified Wikipedia count-stage rows, no animation payload, or no non-zero transfer deltas.
+- [x] Compare against source pages
+  - Inspect the local Wikipedia count-sidecar importer and check corresponding Wikipedia pages for representative and high-impact gaps.
+- [x] Report feasibility
+  - Explain which gaps can be closed now and what further source/data work would be required.
+  - Completed: verified `data/elections/dail-wikipedia-counts/_report.json` still lists 973 Dail constituency targets, 789 local Wikipedia count-table sidecars, and 184 missing sidecars.
+  - Completed: split the 184 missing rows into practical classes. The 103 rows from 1918 are not suitable for STV transfer animation because the source election used Westminster/FPTP-style returns rather than Dail PR-STV count stages. The 28 rows from 1921 are mostly not suitable because Southern Ireland seats were returned unopposed, leaving no transfer count.
+  - Completed: identified the main fillable post-1921 gaps. `Dun Laoghaire Rathdown` is a page-title alias miss for the Wikipedia page `Dún Laoghaire and Rathdown`, whose 1948-1969 sections include multi-count tables. `Leix Offaly` is a page-title/normalisation miss for `Laois-Offaly`, whose old sections use `Leix-Offaly` and contain multi-count rows. `National Univeristy` is a local spelling bug and should normalise to `National University of Ireland`.
+  - Completed: identified parser/importer gaps. Several Wikipedia pages expose rendered multi-count tables but not necessarily through the exact `STV Election box candidate` template shape currently parsed by `scripts/import-dail-wikipedia-counts.mjs`; the importer needs an HTML/rendered-table parser fallback or broader wikitext table support before those can be imported safely.
+  - Completed: identified likely non-actionable count gaps. Some missing rows are unopposed sections, such as Donegal West 1938/1944 and Kerry South 1938, where Wikipedia has no multi-count data to animate. These should be represented as uncontested/no-transfer results, not as missing animation data.
+  - Completed: identified non-Wikipedia/secondary-source candidates. Some 1922 combined constituencies and early university constituencies have partial/older Wikipedia-mirror or source references, but may require corroboration from ElectionsIreland, Walker, or Michael Gallagher's `Irish Elections 1922-44` rather than a current Wikipedia constituency page with usable count columns.
+  - Verification evidence: local report audit via Node confirmed the exact missing-sidecar inventory by date; source review checked representative Wikipedia pages for `Laois-Offaly`, `Dún Laoghaire and Rathdown`, `Donegal West`, `Kerry South`, and the 1918/1921 summary pages.
+
 # Fix `/test2` Dail transfer animation runtime and report gaps
 - [x] Record scope
   - Task: fix `/test2` transfer animation loading so Dail constituency Transfers panes can load the STV animation runtime, and report Irish general-election transfer-data gaps.
