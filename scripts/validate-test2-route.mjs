@@ -495,6 +495,11 @@ if (existsSync('test/metadata/elections-test2.json')) {
   assert(dail2024ZeroWikipediaTransferResults.length === 0, `/test2 Dail 2024 Wikipedia-derived count rows must expose non-zero transfer deltas: ${dail2024ZeroWikipediaTransferResults.slice(0, 5).join(', ')}`);
   assert(dail2024FakeTransferRows.length === 0, `/test2 Dail 2024 synthetic scraper rows must not fabricate non-zero transfer amounts: ${dail2024FakeTransferRows.slice(0, 5).join(', ')}`);
   assert(dail2024MissingStageResults.length === 0, `/test2 Dail 2024 synthetic scraper constituencies must expose encoded count-stage detail: ${dail2024MissingStageResults.slice(0, 5).join(', ')}`);
+  if (existsSync('data/elections/dail-wikipedia-counts/_report.json')) {
+    const dailCountReport = JSON.parse(readFileSync('data/elections/dail-wikipedia-counts/_report.json', 'utf8'));
+    const post1921Missing = (dailCountReport.unmatched || []).filter((row) => Number(String(row.date || '').slice(0, 4)) > 1921);
+    assert(post1921Missing.length === 0, `/test2 Dail count sidecar audit must not leave post-1921 rows unresolved: ${post1921Missing.slice(0, 5).map((row) => `${row.date} ${row.constituency}`).join(', ')}`);
+  }
   const forumEntry = (electionManifest.elections || []).find((entry) => entry.body === 'Northern Ireland Forum for Political Dialogue' && entry.date === '1996-05-30');
   assert(forumEntry?.matchedCount === forumEntry?.totalConstituencies, '/test2 1996 Forum election must include the NI-wide regional-list result via a synthetic anchor');
   const forum1996Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/northern-ireland-forum-for-political-dialogue__1996-05-30.json', 'utf8'));

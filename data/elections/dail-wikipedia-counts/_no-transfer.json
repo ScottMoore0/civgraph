@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "description": "Dail election constituency rows that should not be treated as missing Wikipedia count-table sidecars. These rows either had no transferable count stages, have only summary-level public source tables, or require non-Wikipedia archival count detail before a transfer animation can be generated. They are intentionally excluded from the missing-sidecar report and are not used as animation payloads.",
+  "records": [
+    {
+      "date": "1957-03-05",
+      "file": "kerry-south.json",
+      "constituency": "Kerry South",
+      "status": "source-summary-only",
+      "reason": "The available public constituency page/source does not expose a usable multi-count STV table for this election. Keep first-preference/result data but do not fabricate transfers.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Kerry_South_(D%C3%A1il_constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1944-05-30",
+      "file": "donegal-west.json",
+      "constituency": "Donegal West",
+      "status": "unopposed-or-no-count-table",
+      "reason": "No usable multi-count STV table is exposed for this row. Treat it as non-animated until an archival count table is located.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Donegal_West_(D%C3%A1il_constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1944-05-30",
+      "file": "monaghan.json",
+      "constituency": "Monaghan",
+      "status": "source-summary-only",
+      "reason": "The available public constituency page/source does not expose a usable multi-count STV table for this election. Keep first-preference/result data but do not fabricate transfers.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Monaghan_(D%C3%A1il_constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1938-06-17",
+      "file": "donegal-west.json",
+      "constituency": "Donegal West",
+      "status": "unopposed-or-no-count-table",
+      "reason": "No usable multi-count STV table is exposed for this row. Treat it as non-animated until an archival count table is located.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Donegal_West_(D%C3%A1il_constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1938-06-17",
+      "file": "kerry-south.json",
+      "constituency": "Kerry South",
+      "status": "unopposed-or-no-count-table",
+      "reason": "No usable multi-count STV table is exposed for this row. Treat it as non-animated until an archival count table is located.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Kerry_South_(D%C3%A1il_constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1933-01-24",
+      "file": "dublin-university.json",
+      "constituency": "Dublin University",
+      "status": "university-constituency-archive-required",
+      "reason": "University constituency count detail is not available through the importer-supported Dail constituency pages. Do not fabricate transfers.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Dublin_University_(constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1933-01-24",
+      "file": "national-univeristy.json",
+      "constituency": "National Univeristy",
+      "status": "university-constituency-archive-required",
+      "reason": "Local source key preserves the historical misspelling. Use National University of Ireland for source lookup, but do not fabricate transfers without a count table.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/National_University_of_Ireland_(constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1932-02-16",
+      "file": "dublin-university.json",
+      "constituency": "Dublin University",
+      "status": "university-constituency-archive-required",
+      "reason": "University constituency count detail is not available through the importer-supported Dail constituency pages. Do not fabricate transfers.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Dublin_University_(constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1932-02-16",
+      "file": "national-univeristy.json",
+      "constituency": "National Univeristy",
+      "status": "university-constituency-archive-required",
+      "reason": "Local source key preserves the historical misspelling. Use National University of Ireland for source lookup, but do not fabricate transfers without a count table.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/National_University_of_Ireland_(constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1927-09-15",
+      "file": "dublin-university.json",
+      "constituency": "Dublin University",
+      "status": "university-constituency-archive-required",
+      "reason": "University constituency count detail is not available through the importer-supported Dail constituency pages. Do not fabricate transfers.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Dublin_University_(constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1927-09-15",
+      "file": "national-univeristy.json",
+      "constituency": "National Univeristy",
+      "status": "university-constituency-archive-required",
+      "reason": "Local source key preserves the historical misspelling. Use National University of Ireland for source lookup, but do not fabricate transfers without a count table.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/National_University_of_Ireland_(constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1927-06-09",
+      "file": "dublin-university.json",
+      "constituency": "Dublin University",
+      "status": "university-constituency-archive-required",
+      "reason": "University constituency count detail is not available through the importer-supported Dail constituency pages. Do not fabricate transfers.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Dublin_University_(constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1927-06-09",
+      "file": "national-univeristy.json",
+      "constituency": "National Univeristy",
+      "status": "university-constituency-archive-required",
+      "reason": "Local source key preserves the historical misspelling. Use National University of Ireland for source lookup, but do not fabricate transfers without a count table.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/National_University_of_Ireland_(constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1923-08-27",
+      "file": "dublin-university.json",
+      "constituency": "Dublin University",
+      "status": "university-constituency-archive-required",
+      "reason": "University constituency count detail is not available through the importer-supported Dail constituency pages. Do not fabricate transfers.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Dublin_University_(constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1923-08-27",
+      "file": "national-univeristy.json",
+      "constituency": "National Univeristy",
+      "status": "university-constituency-archive-required",
+      "reason": "Local source key preserves the historical misspelling. Use National University of Ireland for source lookup, but do not fabricate transfers without a count table.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/National_University_of_Ireland_(constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1922-06-16",
+      "file": "clare.json",
+      "constituency": "Clare",
+      "status": "early-constituency-archive-required",
+      "reason": "No importer-supported public multi-count table was found. Use Gallagher/ElectionsIreland or official archival material before creating transfer rows.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Clare_(D%C3%A1il_constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1922-06-16",
+      "file": "donegal.json",
+      "constituency": "Donegal",
+      "status": "early-constituency-archive-required",
+      "reason": "No importer-supported public multi-count table was found. Use Gallagher/ElectionsIreland or official archival material before creating transfer rows.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Donegal_(D%C3%A1il_constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1922-06-16",
+      "file": "dublin-university.json",
+      "constituency": "Dublin University",
+      "status": "university-constituency-archive-required",
+      "reason": "University constituency count detail is not available through the importer-supported Dail constituency pages. Do not fabricate transfers.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Dublin_University_(constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1922-06-16",
+      "file": "kerry-limerick-west.json",
+      "constituency": "Kerry Limerick West",
+      "status": "early-constituency-archive-required",
+      "reason": "No importer-supported public multi-count table was found. Use Gallagher/ElectionsIreland or official archival material before creating transfer rows.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Kerry%E2%80%93Limerick_West_(D%C3%A1il_constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1922-06-16",
+      "file": "leitrim-roscommon-north.json",
+      "constituency": "Leitrim Roscommon North",
+      "status": "early-constituency-archive-required",
+      "reason": "No importer-supported public multi-count table was found. Use Gallagher/ElectionsIreland or official archival material before creating transfer rows.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Leitrim%E2%80%93Roscommon_North_(D%C3%A1il_constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1922-06-16",
+      "file": "limerick-city-and-east.json",
+      "constituency": "Limerick City and East",
+      "status": "early-constituency-archive-required",
+      "reason": "No importer-supported public multi-count table was found. Use Gallagher/ElectionsIreland or official archival material before creating transfer rows.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Limerick_City%E2%80%93Limerick_East_(D%C3%A1il_constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1922-06-16",
+      "file": "mayo-north-west.json",
+      "constituency": "Mayo North & West",
+      "status": "early-constituency-archive-required",
+      "reason": "No importer-supported public multi-count table was found. Use Gallagher/ElectionsIreland or official archival material before creating transfer rows.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Mayo_North_and_West_(D%C3%A1il_constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1922-06-16",
+      "file": "mayo-south-roscommon-south.json",
+      "constituency": "Mayo South Roscommon South",
+      "status": "early-constituency-archive-required",
+      "reason": "No importer-supported public multi-count table was found. Use Gallagher/ElectionsIreland or official archival material before creating transfer rows.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Mayo_South%E2%80%93Roscommon_South_(D%C3%A1il_constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    },
+    {
+      "date": "1922-06-16",
+      "file": "national-university.json",
+      "constituency": "National University",
+      "status": "university-constituency-archive-required",
+      "reason": "University constituency count detail is not available through the importer-supported Dail constituency pages. Do not fabricate transfers.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/National_University_of_Ireland_(constituency)",
+        "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922-44.pdf"
+      ]
+    }
+  ]
+}

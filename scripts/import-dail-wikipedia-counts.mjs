@@ -10,6 +10,7 @@ const REPORT_PATH = path.join(OUT_ROOT, '_report.json');
 const API_ENDPOINT = 'https://en.wikipedia.org/w/api.php';
 const REQUEST_DELAY_MS = Number(valueAfter('--delay-ms') || 800);
 const RETRY_DELAYS_MS = [3000, 8000, 15000];
+const NO_TRANSFER_PATH = path.join(OUT_ROOT, '_no-transfer.json');
 const MONTHS = [
   'january',
   'february',
@@ -31,6 +32,12 @@ const onlyConstituency = valueAfter('--constituency');
 const limit = Number(valueAfter('--limit') || 0);
 
 const PAGE_TITLE_ALIASES = new Map([
+  ['tipperary mid north south', 'Tipperary Mid, North and South'],
+  ['cork east north east', 'Cork East and North East'],
+  ['cork mid north south south east west', 'Cork Mid, North, South, South East and West'],
+  ['clare galway south', 'Clare-South Galway'],
+  ['cork city north', 'Cork City North-West'],
+  ['cork city south', 'Cork City South-East'],
   ['cork north central', 'Cork North-Central'],
   ['cork south central', 'Cork South-Central'],
   ['dublin north central', 'Dublin North-Central'],
@@ -40,22 +47,36 @@ const PAGE_TITLE_ALIASES = new Map([
   ['dublin south east', 'Dublin South-East'],
   ['dublin south west', 'Dublin South-West'],
   ['dublin north west', 'Dublin North-West'],
-  ['dun laoghaire rathdown', 'D\u00fan Laoghaire-Rathdown'],
+  ['dun laoghaire rathdown', 'D\u00fan Laoghaire and Rathdown'],
+  ['dun laoghaire and rathdown', 'D\u00fan Laoghaire and Rathdown'],
   ['cavan monaghan', 'Cavan-Monaghan'],
   ['carlow kilkenny', 'Carlow-Kilkenny'],
   ['donegal leitrim', 'Donegal-Leitrim'],
   ['galway east', 'Galway East'],
   ['kerry limerick west', 'Kerry-Limerick West'],
+  ['leitrim roscommon north', 'Leitrim-Roscommon North'],
   ['kerry north limerick west', 'Kerry North-West Limerick'],
+  ['leix offaly', 'Laois-Offaly'],
   ['laoighis offaly', 'Laois-Offaly'],
   ['laois offaly', 'Laois-Offaly'],
   ['longford westmeath', 'Longford-Westmeath'],
   ['roscommon galway', 'Roscommon-Galway'],
   ['roscommon leitrim', 'Roscommon-Leitrim'],
   ['roscommon leitrim south', 'Roscommon-South Leitrim'],
+  ['mayo south roscommon south', 'Mayo South-Roscommon South'],
+  ['sligo mayo east', 'Sligo-Mayo East'],
   ['sligo leitrim', 'Sligo-Leitrim'],
   ['sligo leitrim north', 'Sligo-North Leitrim'],
+  ['waterford tipperary east', 'Waterford-Tipperary East'],
+  ['national univeristy', 'National University of Ireland'],
+  ['national university', 'National University of Ireland'],
   ['wicklow wexford3', 'Wicklow-Wexford']
+]);
+
+const NON_DAIL_CONSTITUENCY_TITLE_ALIASES = new Map([
+  ['dublin university', 'Dublin University'],
+  ['national univeristy', 'National University of Ireland'],
+  ['national university', 'National University of Ireland']
 ]);
 
 async function main() {
@@ -66,15 +87,17 @@ async function main() {
 
   const targets = loadTargets();
   const limitedTargets = limit > 0 ? targets.slice(0, limit) : targets;
+  const noTransferRecords = loadNoTransferRecords();
   if (args.has('--report-only')) {
-    const existingTargets = limitedTargets.filter((target) => existsSync(sidecarPathForTarget(target)));
-    const missingTargets = limitedTargets.filter((target) => !existsSync(sidecarPathForTarget(target)));
+    const existingTargets = limitedTargets.filter((target) => targetIsRepresented(target, noTransferRecords));
+    const missingTargets = limitedTargets.filter((target) => !targetIsRepresented(target, noTransferRecords));
     writeJson(REPORT_PATH, {
       schemaVersion: 1,
       generatedAt: new Date().toISOString(),
       reportOnly: true,
       totalTargets: limitedTargets.length,
       existingSidecars: existingTargets.length,
+      noTransferRecords: limitedTargets.filter((target) => noTransferRecords.has(targetKey(target))).length,
       pendingTargets: missingTargets.length,
       pages: 0,
       written: 0,
@@ -91,10 +114,10 @@ async function main() {
   }
   const existingTargets = args.has('--force')
     ? []
-    : limitedTargets.filter((target) => existsSync(sidecarPathForTarget(target)));
+    : limitedTargets.filter((target) => targetIsRepresented(target, noTransferRecords));
   const pendingTargets = args.has('--force')
     ? limitedTargets
-    : limitedTargets.filter((target) => !existsSync(sidecarPathForTarget(target)));
+    : limitedTargets.filter((target) => !targetIsRepresented(target, noTransferRecords));
   const pages = new Map();
   for (const target of pendingTargets) {
     const title = wikipediaPageTitle(target.constituency, target.date);
@@ -107,6 +130,7 @@ async function main() {
     generatedAt: new Date().toISOString(),
     totalTargets: limitedTargets.length,
     existingSidecars: existingTargets.length,
+    noTransferRecords: limitedTargets.filter((target) => noTransferRecords.has(targetKey(target))).length,
     pendingTargets: pendingTargets.length,
     pages: pages.size,
     written: 0,
@@ -169,6 +193,25 @@ function sidecarPathForTarget(target) {
   return path.join(OUT_ROOT, target.date, target.file);
 }
 
+function targetKey(target) {
+  return `${target.date}/${target.file}`;
+}
+
+function targetIsRepresented(target, noTransferRecords = new Map()) {
+  return existsSync(sidecarPathForTarget(target)) || noTransferRecords.has(targetKey(target));
+}
+
+function loadNoTransferRecords() {
+  if (!existsSync(NO_TRANSFER_PATH)) return new Map();
+  const data = readJson(NO_TRANSFER_PATH);
+  const records = Array.isArray(data?.records) ? data.records : [];
+  const map = new Map();
+  for (const record of records) {
+    if (record?.date && record?.file) map.set(`${record.date}/${record.file}`, record);
+  }
+  return map;
+}
+
 function valueAfter(name) {
   const index = process.argv.indexOf(name);
   return index >= 0 ? process.argv[index + 1] : null;
@@ -198,9 +241,10 @@ function wikipediaPageTitle(constituency, date = '') {
 }
 
 function wikipediaPageTitleCandidates(constituency, date = '') {
-  const base = fixText(constituency).replace(/\bDun Laoghaire\b/i, 'D\u00fan Laoghaire').trim();
+  const base = normalizeConstituencySourceName(constituency);
   const year = Number(String(date || '').slice(0, 4));
   const dateAwareAlias = normalizeName(base) === 'limerick' && year >= 2016 ? 'Limerick County' : '';
+  const nonDailAlias = NON_DAIL_CONSTITUENCY_TITLE_ALIASES.get(normalizeName(base));
   const aliases = [
     dateAwareAlias,
     PAGE_TITLE_ALIASES.get(normalizeName(base)),
@@ -208,14 +252,32 @@ function wikipediaPageTitleCandidates(constituency, date = '') {
     hyphenateCountyPairTitle(base),
     base
   ].filter(Boolean);
-  return unique(aliases).map((title) => `${title} (D\u00e1il constituency)`);
+  const titleCandidates = [];
+  if (nonDailAlias) {
+    titleCandidates.push(`${nonDailAlias} (constituency)`);
+  }
+  for (const title of unique(aliases)) {
+    titleCandidates.push(`${title} (D\u00e1il constituency)`);
+    titleCandidates.push(title);
+    titleCandidates.push(`${title} (constituency)`);
+  }
+  return unique(titleCandidates);
 }
 
 function hyphenateCompassTitle(value) {
   return String(value || '')
     .replace(/\b(North|South|East|West|Mid) (Central|East|West|North|South)\b/gi, '$1-$2')
-    .replace(/\bDun Laoghaire Rathdown\b/i, 'D\u00fan Laoghaire-Rathdown')
+    .replace(/\bDun Laoghaire Rathdown\b/i, 'D\u00fan Laoghaire and Rathdown')
     .trim();
+}
+
+function normalizeConstituencySourceName(value) {
+  return fixText(String(value || '')
+    .replace(/^[^A-Za-z0-9]+/, '')
+    .replace(/\bDun Laoghaire\b/i, 'D\u00fan Laoghaire')
+    .replace(/\s*&\s*/g, ' and ')
+    .replace(/\s+/g, ' ')
+    .trim());
 }
 
 function hyphenateCountyPairTitle(value) {

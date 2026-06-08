@@ -17,6 +17,24 @@
   - Verification evidence: local Node inventory confirmed the exact 53 rows; read-only Wikipedia/API/search probes confirmed current pages for `Laois-Offaly`, `Dún Laoghaire and Rathdown`, `Cork East and North East`, `Cork Mid, North, South, South East and West`, `Tipperary Mid, North and South`, `Waterford-Tipperary East`, `Leitrim-Roscommon North`, `Mayo South-Roscommon South`, `Dublin University`, `National University of Ireland`, `Monaghan`, `Kerry South`, `Donegal West`, `Clare-South Galway`, `Cork City North-West`, and `Cork City South-East`.
   - Report: `docs/dail-post-1921-transfer-gap-research.md` now records all 53 rows grouped by recommended handling.
 
+# Resolve remaining post-1921 Dail transfer gaps
+- [x] Record scope
+  - Task: fix aliases and older Wikipedia table parsing first, regenerate sidecars, then add explicit non-animated records for rows that should not be treated as missing transfer animations.
+  - Symptom: 53 post-1921 Dail rows lacked local Wikipedia count sidecars even though many were alias/title misses rather than true data gaps.
+  - Root cause: importer title aliases were incomplete for older Dail constituency names, non-Dail university constituency titles were not handled, leading punctuation and ampersands were not normalised consistently, and the report had no way to represent source-backed non-animated rows.
+  - Permanent prevention action: `scripts/validate-test2-route.mjs` now fails if `data/elections/dail-wikipedia-counts/_report.json` contains any post-1921 unresolved Dail rows.
+- [x] Implement importer and report fixes
+  - Added aliases for the recurring old names: `Leix Offaly`, `Dun Laoghaire Rathdown`, 1922 Cork/Tipperary/Sligo/Waterford combinations, 1969 Clare/Cork variants, and university constituency names.
+  - Added source-name normalisation for leading punctuation and ampersands.
+  - Added non-Dail `(constituency)` page candidates for Dublin University and National University of Ireland.
+  - Added `_no-transfer.json` report handling so non-animated rows are represented without creating fabricated transfer rows.
+- [x] Regenerate sidecars and metadata
+  - Regenerated 29 new post-1921 Wikipedia count sidecars.
+  - Added 24 explicit non-animated/source-required records.
+  - Regenerated `/test2` election metadata and build assets.
+- [x] Verify
+  - Verification evidence: `node --check scripts/import-dail-wikipedia-counts.mjs` passed; `node scripts/import-dail-wikipedia-counts.mjs --report-only` reports 842/973 represented, 24 non-transfer records, and 0 post-1921 pending rows; `node scripts/validate-test2-route.mjs` passed; `npm run check:test2` passed; escalated `npm run build:test2` passed after the known sandbox esbuild spawn restriction.
+
 # Review Dail transfer gaps against Wikipedia sources
 - [x] Record scope
   - Task: audit the remaining Irish general-election transfer/count gaps against the corresponding Wikipedia constituency sources and determine which gaps can realistically be filled.
