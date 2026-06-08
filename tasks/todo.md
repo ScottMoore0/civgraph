@@ -1,3 +1,20 @@
+# Persist `/test2` active-layer drag order and MapLibre z-stack
+- [x] Record scope
+  - Task: when a user drags active-layer rows up/down in the `/test2` active-layer card, the chosen row order must persist across card refreshes/URL updates/reload and MapLibre must draw layers in the same top/bottom order.
+  - Symptom: the active-layer drag UI can rearrange rows, but `/test2` does not yet maintain a durable layer-order contract comparable to the main/test draw-order model.
+  - Root cause to verify: the `/test2` adapter moves MapLibre sublayers on drag end but does not remember the requested order, and `updateActiveLayers()` renders rows from `Map` insertion order instead of the layer draw order.
+  - Permanent prevention action: add `/test2` route/browser guardrails asserting drag reorder changes both the active-card row order and MapLibre layer stack, then survives a reload from persisted state.
+- [x] Implement persistent order
+  - Add a `/test2` layer-order store in the MapLibre adapter.
+  - Persist top-to-bottom row order through URL/localStorage.
+  - Reapply order after layer load/unload/visibility changes and URL restoration.
+- [x] Verify, commit, and push
+  - Run syntax checks, route validation, focused browser coverage, build/check as needed, then commit/push intended files only.
+  - Completed: added a remembered `/test2` draw-order list in `test2/src/maplibre-main-adapter.js`, sorted active-layer rendering by that order in `test2/src/app.js`, persisted user order to `layerOrder` hash state and `localStorage`, and rebuilt `/test2` assets.
+  - Guardrail: added Playwright coverage that drags active-layer rows, verifies row order, verifies MapLibre style-layer stack order, verifies URL/localStorage persistence, and verifies localStorage restore.
+  - Verification: `npm run build:test2` passed after running outside the sandbox for esbuild process spawning; `node scripts/validate-test2-route.mjs` passed; `npx playwright test tests/browser/test2-app.spec.js -g "active-layer drag order"` passed.
+  - Note: full `npm run check:test2` remains blocked by existing election-data audit blockers unrelated to this layer-order change.
+
 # Ingest Wikipedia Dail constituency transfer/count tables for `/test2`
 - [x] Record correction and scope
   - Task: replace the synthetic zero-transfer Dail rows with real per-count constituency rows derived from Wikipedia constituency count tables where those tables are available, for the 2024 Irish general election and all other Irish general elections.

@@ -72,6 +72,19 @@ function mergeBounds(current, next) {
   ];
 }
 
+function normalizeOrderIds(ids) {
+  if (!Array.isArray(ids)) return [];
+  const seen = new Set();
+  const result = [];
+  for (const rawId of ids) {
+    const id = String(rawId || '').trim();
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    result.push(id);
+  }
+  return result;
+}
+
 function resolveFillOpacity(layer) {
   return clamp01(layer?.style?.fillOpacity ?? DEFAULT_VECTOR_FILL_OPACITY);
 }
@@ -88,6 +101,10 @@ export class Test2MapLibreMainAdapter {
     this.mainToTest = new Map();
     this.testToMain = new Map();
     this.overlayLayers = new Map();
+    // Main/test layer-order convention is top-to-bottom for the active-card UI.
+    // Internally we keep bottom-to-top because MapLibre moveLayer() promotes
+    // each moved style layer above the previous one.
+    this._rememberedOrder = [];
     this.addressMarker = null;
     this.onFeatureClick = null;
     this.resizeFrame = 0;
@@ -205,6 +222,8 @@ export class Test2MapLibreMainAdapter {
     this.layerStates.set(mainId, {
       ...state
     });
+    this._rememberLayerOrderId(mainId);
+    this._applyRememberedOrderToMap();
     if (options.fit !== false) this.fitToLayer(mainId);
     this.options.onChange?.(this);
     return this.layerStates.get(mainId);
@@ -260,6 +279,7 @@ export class Test2MapLibreMainAdapter {
     if (groupState) {
       for (const childId of groupState.childIds || []) this.setLayerVisibility(childId, visible);
       groupState.visible = Boolean(visible);
+      this._applyRememberedOrderToMap();
       this.options.onChange?.(this);
       return;
     }
@@ -273,6 +293,7 @@ export class Test2MapLibreMainAdapter {
       }
     }
     if (state) state.visible = Boolean(visible);
+    this._applyRememberedOrderToMap();
     this.options.onChange?.(this);
   }
 
@@ -343,19 +364,84 @@ export class Test2MapLibreMainAdapter {
       }
     };
     this.groupStates.set(mainId, state);
+    this._rememberLayerOrderId(mainId);
+    this._applyRememberedOrderToMap();
     this.options.onChange?.(this);
   }
 
-  setLayerDrawOrder(orderedIdsTopToBottom = []) {
-    const orderedTestIds = orderedIdsTopToBottom
-      .map((id) => this.mainToTest.get(id))
-      .filter(Boolean);
-    for (let i = orderedTestIds.length - 1; i >= 0; i -= 1) {
-      const id = orderedTestIds[i];
-      const record = this.renderer?.layers.get(id);
-      for (const layerId of record?.layerIds || []) {
-        if (this.map.getLayer(layerId)) this.map.moveLayer(layerId);
+  getLayerDrawOrder(options = {}) {
+    const { loadedOnly = true } = options || {};
+    this._ensureRememberedOrderCoverage();
+    const topToBottom = [...this._rememberedOrder].reverse();
+    if (!loadedOnly) return topToBottom;
+    const groupedChildIds = this._getGroupedChildIds();
+    return topToBottom.filter((id) => {
+      if (groupedChildIds.has(id)) return false;
+      const groupState = this.groupStates.get(id);
+      if (groupState) return Boolean(groupState.loaded);
+      const state = this.layerStates.get(id);
+      return Boolean(state?.loaded);
+    });
+  }
+
+  setLayerDrawOrder(orderedIdsTopToBottom = [], options = {}) {
+    const { notify = false } = options || {};
+    const incomingTop = normalizeOrderIds(orderedIdsTopToBottom);
+    if (!incomingTop.length) return;
+    this._ensureRememberedOrderCoverage();
+    const incomingBottom = [...incomingTop].reverse();
+    const incomingSet = new Set(incomingBottom);
+    const existing = this._rememberedOrder.filter((id) => !incomingSet.has(id));
+    this._rememberedOrder = [...existing, ...incomingBottom];
+    this._applyRememberedOrderToMap();
+    if (notify) this.options.onChange?.(this);
+  }
+
+  _rememberLayerOrderId(mainId) {
+    if (!mainId || this._rememberedOrder.includes(mainId)) return;
+    this._rememberedOrder.push(mainId);
+  }
+
+  _ensureRememberedOrderCoverage() {
+    for (const [id, state] of this.groupStates.entries()) {
+      if (state?.loaded) this._rememberLayerOrderId(id);
+    }
+    for (const [id, state] of this.layerStates.entries()) {
+      if (state?.loaded) this._rememberLayerOrderId(id);
+    }
+  }
+
+  _getGroupedChildIds() {
+    const ids = new Set();
+    for (const state of this.groupStates.values()) {
+      for (const childId of state?.childIds || []) ids.add(childId);
+    }
+    return ids;
+  }
+
+  _moveMainLayerToTop(mainId) {
+    const testId = this.mainToTest.get(mainId) || mainId;
+    const record = this.renderer?.layers.get(testId);
+    if (!record || !this.map) return;
+    for (const layerId of record.layerIds || []) {
+      if (this.map.getLayer(layerId)) this.map.moveLayer(layerId);
+    }
+  }
+
+  _applyRememberedOrderToMap() {
+    if (!this.map || !this.renderer) return;
+    this._ensureRememberedOrderCoverage();
+    const groupedChildIds = this._getGroupedChildIds();
+    for (const mainId of this._rememberedOrder) {
+      const groupState = this.groupStates.get(mainId);
+      if (groupState?.loaded) {
+        for (const childId of groupState.childIds || []) {
+          this._moveMainLayerToTop(childId);
+        }
+        continue;
       }
+      if (groupedChildIds.has(mainId)) continue;
+      if (this.layerStates.get(mainId)?.loaded) this._moveMainLayerToTop(mainId);
     }
   }
 

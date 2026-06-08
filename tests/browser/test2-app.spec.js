@@ -155,6 +155,137 @@ test('/test2 boots centred on Ireland when URL has no viewport state', async ({ 
   expect(camera.zoom).toBeGreaterThan(4);
 });
 
+test('/test2 active-layer drag order persists and controls MapLibre draw order', async ({ page }) => {
+  await page.goto('/test2/');
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.evaluate(() => {
+    localStorage.removeItem('civgraph:test2:layer-order');
+    const { app, mapController } = window.__civgraphTest2;
+    const map = mapController.map;
+    const syntheticLayers = [
+      {
+        mainId: 'synthetic-layer-a',
+        testId: 'synthetic-order-a',
+        name: 'Synthetic Layer A',
+        colour: '#2b8cbe',
+        coordinates: [[[-8.9, 53.0], [-8.2, 53.0], [-8.2, 53.6], [-8.9, 53.6], [-8.9, 53.0]]]
+      },
+      {
+        mainId: 'synthetic-layer-b',
+        testId: 'synthetic-order-b',
+        name: 'Synthetic Layer B',
+        colour: '#e34a33',
+        coordinates: [[[-8.7, 52.8], [-8.0, 52.8], [-8.0, 53.4], [-8.7, 53.4], [-8.7, 52.8]]]
+      }
+    ];
+    for (const layer of syntheticLayers) {
+      const sourceId = `${layer.testId}-source`;
+      const fillId = `${layer.testId}-fill`;
+      if (!map.getSource(sourceId)) {
+        map.addSource(sourceId, {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: { name: layer.name },
+              geometry: { type: 'Polygon', coordinates: layer.coordinates }
+            }]
+          }
+        });
+      }
+      if (!map.getLayer(fillId)) {
+        map.addLayer({
+          id: fillId,
+          type: 'fill',
+          source: sourceId,
+          paint: { 'fill-color': layer.colour, 'fill-opacity': 0.25 }
+        });
+      }
+      mapController.mainToTest.set(layer.mainId, layer.testId);
+      mapController.testToMain.set(layer.testId, layer.mainId);
+      mapController.renderer.layers.set(layer.testId, {
+        layerIds: [fillId],
+        config: { id: layer.testId, geometryType: 'polygon' }
+      });
+      mapController.layerStates.set(layer.mainId, {
+        loaded: true,
+        visible: true,
+        testLayerId: layer.testId,
+        config: {
+          id: layer.mainId,
+          name: layer.name,
+          provider: ['Test'],
+          style: { color: layer.colour, fillOpacity: 0.25 }
+        },
+        _strokeOpacity: 1,
+        _fillOpacity: 0.25,
+        geoJsonLayers: [{
+          setStyle: () => {}
+        }]
+      });
+    }
+    mapController.setLayerDrawOrder(['synthetic-layer-a', 'synthetic-layer-b']);
+    app.updateActiveLayers();
+    app.setActiveLayersPanelOpen(true);
+  });
+
+  await expect(page.locator('#activeLayersList .active-layer-item')).toHaveCount(2);
+  await expect.poll(() => page.evaluate(() => (
+    [...document.querySelectorAll('#activeLayersList .active-layer-item[data-map-id]')]
+      .map((row) => row.dataset.mapId)
+      .join('|')
+  ))).toBe('synthetic-layer-a|synthetic-layer-b');
+
+  const firstGrip = page.locator('#activeLayersList .active-layer-item[data-map-id="synthetic-layer-a"] .active-layer-item__drag');
+  const secondRow = page.locator('#activeLayersList .active-layer-item[data-map-id="synthetic-layer-b"]');
+  const gripBox = await firstGrip.boundingBox();
+  const secondBox = await secondRow.boundingBox();
+  expect(gripBox).toBeTruthy();
+  expect(secondBox).toBeTruthy();
+  await page.mouse.move(gripBox.x + gripBox.width / 2, gripBox.y + gripBox.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(secondBox.x + secondBox.width / 2, secondBox.y + secondBox.height + 12, { steps: 8 });
+  await page.mouse.up();
+
+  await expect.poll(() => page.evaluate(() => (
+    [...document.querySelectorAll('#activeLayersList .active-layer-item[data-map-id]')]
+      .map((row) => row.dataset.mapId)
+      .join('|')
+  ))).toBe('synthetic-layer-b|synthetic-layer-a');
+
+  const state = await page.evaluate(() => {
+    const styleLayerIds = window.__civgraphTest2.mapController.map.getStyle().layers.map((layer) => layer.id);
+    const params = new URLSearchParams(location.hash.replace(/^#/, ''));
+    return {
+      storage: JSON.parse(localStorage.getItem('civgraph:test2:layer-order') || '[]'),
+      hashOrder: params.get('layerOrder'),
+      indexA: styleLayerIds.indexOf('synthetic-order-a-fill'),
+      indexB: styleLayerIds.indexOf('synthetic-order-b-fill')
+    };
+  });
+  expect(state.storage).toEqual(['synthetic-layer-b', 'synthetic-layer-a']);
+  expect(state.hashOrder).toBe('synthetic-layer-b,synthetic-layer-a');
+  expect(state.indexB).toBeGreaterThan(state.indexA);
+
+  const restored = await page.evaluate(() => {
+    const { app, mapController } = window.__civgraphTest2;
+    mapController.setLayerDrawOrder(['synthetic-layer-a', 'synthetic-layer-b']);
+    app.restoreLayerOrder(new URLSearchParams());
+    app.updateActiveLayers();
+    const styleLayerIds = mapController.map.getStyle().layers.map((layer) => layer.id);
+    return {
+      rowOrder: [...document.querySelectorAll('#activeLayersList .active-layer-item[data-map-id]')]
+        .map((row) => row.dataset.mapId),
+      indexA: styleLayerIds.indexOf('synthetic-order-a-fill'),
+      indexB: styleLayerIds.indexOf('synthetic-order-b-fill')
+    };
+  });
+  expect(restored.rowOrder).toEqual(['synthetic-layer-b', 'synthetic-layer-a']);
+  expect(restored.indexB).toBeGreaterThan(restored.indexA);
+});
+
 test('/test2 desktop map accepts actual mouse drag and wheel zoom gestures', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/test2/');

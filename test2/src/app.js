@@ -6,6 +6,37 @@ import uiController from '../../js/ui-controller.js';
 import { TestMetadataService } from '../../test/src/metadata-service.js';
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
 
+const TEST2_LAYER_ORDER_STORAGE_KEY = 'civgraph:test2:layer-order';
+
+function parseLayerOrder(value) {
+  if (!value) return [];
+  let items = [];
+  if (Array.isArray(value)) {
+    items = value;
+  } else {
+    const text = String(value).trim();
+    if (!text) return [];
+    if (text.startsWith('[')) {
+      try {
+        const parsed = JSON.parse(text);
+        if (Array.isArray(parsed)) items = parsed;
+      } catch {
+        items = [];
+      }
+    }
+    if (!items.length) items = text.split(',');
+  }
+  const seen = new Set();
+  const result = [];
+  for (const rawId of items) {
+    const id = String(rawId || '').trim();
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    result.push(id);
+  }
+  return result;
+}
+
 class Test2App {
   constructor() {
     this.currentCategory = 'all';
@@ -36,6 +67,67 @@ class Test2App {
     this.workerSearchResultIds = null;
     this.serviceWorkerStatusPromise = null;
     this.performanceBudget = null;
+  }
+
+  readSavedLayerOrder() {
+    try {
+      return parseLayerOrder(localStorage.getItem(TEST2_LAYER_ORDER_STORAGE_KEY));
+    } catch {
+      return [];
+    }
+  }
+
+  writeSavedLayerOrder(order) {
+    const ids = parseLayerOrder(order);
+    try {
+      if (ids.length > 1) localStorage.setItem(TEST2_LAYER_ORDER_STORAGE_KEY, JSON.stringify(ids));
+      else localStorage.removeItem(TEST2_LAYER_ORDER_STORAGE_KEY);
+    } catch {
+      // Storage can fail in private browsing or locked-down browser profiles.
+    }
+  }
+
+  normalizeLoadedLayerOrder(order, loadedIds = this.getLoadedLayerIds()) {
+    const loadedSet = new Set(loadedIds);
+    const result = [];
+    const seen = new Set();
+    for (const id of parseLayerOrder(order)) {
+      if (!loadedSet.has(id) || seen.has(id)) continue;
+      seen.add(id);
+      result.push(id);
+    }
+    for (const id of loadedIds) {
+      if (seen.has(id)) continue;
+      seen.add(id);
+      result.push(id);
+    }
+    return result;
+  }
+
+  getActiveLayerOrder(loadedIds = this.getLoadedLayerIds()) {
+    const drawOrder = this.mapController?.getLayerDrawOrder?.({ loadedOnly: true }) || [];
+    return this.normalizeLoadedLayerOrder(drawOrder, loadedIds);
+  }
+
+  setActiveLayerOrder(order, options = {}) {
+    const { persist = true, notify = false } = options || {};
+    const normalized = this.normalizeLoadedLayerOrder(order);
+    if (normalized.length < 2) return normalized;
+    this.mapController?.setLayerDrawOrder?.(normalized, { notify });
+    if (persist) this.writeSavedLayerOrder(normalized);
+    this.syncCatalogueMapState();
+    this.updateActiveLayers();
+    this.updateURLState();
+    return normalized;
+  }
+
+  restoreLayerOrder(params) {
+    const explicitOrder = parseLayerOrder(params?.get?.('layerOrder'));
+    const savedOrder = explicitOrder.length ? explicitOrder : this.readSavedLayerOrder();
+    if (!savedOrder.length) return;
+    const normalized = this.normalizeLoadedLayerOrder(savedOrder);
+    if (normalized.length < 2) return;
+    this.mapController?.setLayerDrawOrder?.(normalized);
   }
 
   async init() {
@@ -462,7 +554,7 @@ class Test2App {
     };
     uiController.onCheckMapLoaded = (mapId) => this.isMapLoaded(mapId);
     uiController.onCheckMapVisible = (mapId) => this.isMapVisible(mapId);
-    uiController.onReorderLayers = (ids) => this.mapController.setLayerDrawOrder(ids);
+    uiController.onReorderLayers = (ids) => this.setActiveLayerOrder(ids);
     uiController.onExpandToFullMap = async (mapId) => this.loadMap(mapId);
     uiController.onPartialFeatureToggle = () => {};
     uiController.onPartialFeatureUnload = () => {};
@@ -1430,6 +1522,14 @@ class Test2App {
       if (config) loadedMaps.push(config);
       visibilityMap.set(id, state.visible);
     }
+    const activeOrder = this.getActiveLayerOrder(loadedMaps.map((map) => map.id));
+    const orderIndex = new Map(activeOrder.map((id, index) => [id, index]));
+    loadedMaps.sort((a, b) => {
+      const ai = orderIndex.has(a.id) ? orderIndex.get(a.id) : Number.MAX_SAFE_INTEGER;
+      const bi = orderIndex.has(b.id) ? orderIndex.get(b.id) : Number.MAX_SAFE_INTEGER;
+      if (ai !== bi) return ai - bi;
+      return String(a.name || a.id).localeCompare(String(b.name || b.id));
+    });
     uiController.updateActiveLayers(loadedMaps, visibilityMap, new Map());
     this.bindActiveLayerSourceButtons();
     if (this.currentSourceMapId) this.renderSourcePanel();
@@ -1461,10 +1561,14 @@ class Test2App {
       ? [electionState.layerId, ...loaded.filter((id) => !electionSourceIds.has(id))]
       : loaded;
     const hidden = urlLoaded.filter((id) => id !== electionState?.layerId && !electionSourceIds.has(id) && !this.isMapVisible(id));
+    const layerOrder = this.getActiveLayerOrder(urlLoaded).filter((id) => urlLoaded.includes(id));
     const params = new URLSearchParams();
     const center = this.mapController.map?.getCenter?.();
     const zoom = this.mapController.map?.getZoom?.();
     if (urlLoaded.length) params.set('layers', urlLoaded.join(','));
+    if (layerOrder.length > 1 && layerOrder.some((id, index) => id !== urlLoaded[index])) {
+      params.set('layerOrder', layerOrder.join(','));
+    }
     if (hidden.length) params.set('hidden', hidden.join(','));
     if (this.searchQuery) params.set('q', this.searchQuery);
     if (this.currentDetailMapId && !document.getElementById('catalogueDetailView')?.classList.contains('hidden')) {
@@ -1535,6 +1639,7 @@ class Test2App {
 
       const hidden = new Set((params.get('hidden') || '').split(',').map((id) => id.trim()).filter(Boolean));
       hidden.forEach((id) => this.mapController.hideLayer(id));
+      this.restoreLayerOrder(params);
       this.syncCatalogueMapState();
       this.updateActiveLayers();
 
