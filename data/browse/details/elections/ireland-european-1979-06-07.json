@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-04T21:58:59.696Z",
+  "generatedAt": "2026-06-06T18:51:03.527Z",
   "item": {
     "id": "ireland-european__1979-06-07",
     "key": "ireland-european__1979-06-07",
@@ -45,13 +45,15 @@
     "availableStyleModes": [
       "winner",
       "leadingParty",
+      "voteShare",
+      "majority",
       "seats",
       "quota"
     ],
     "partySummary": [
       {
         "party": "Fianna Fáil",
-        "seats": 7,
+        "seats": 5,
         "stood": 15,
         "votes": 464451,
         "share": 34.684542728098265,
@@ -59,7 +61,7 @@
       },
       {
         "party": "Fine Gael",
-        "seats": 7,
+        "seats": 4,
         "stood": 13,
         "votes": 443652,
         "share": 33.13130287243703,
@@ -103,6 +105,29 @@
       "validPoll": 1339072,
       "constituencies": 4
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1979 European Parliament election (ROI)",
+        "url": "https://en.wikipedia.org/wiki/1979_European_Parliament_election_in_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland European election result pages",
+        "url": "https://electionsireland.org/results/europe/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "4 constituency/result source pages are cited on the result sub-entries",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here."
+      }
+    ],
     "resultEntries": [
       {
         "key": "ireland-european__1979-06-07::connaught-ulster",
@@ -176,9 +201,12 @@
         "stylingModes": [
           "winner",
           "leadingParty",
+          "voteShare",
+          "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-european__1979-06-07.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-european__1979-06-07.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/mep-1979-vector-test.json"

@@ -510,6 +510,7 @@ if (existsSync('test/metadata/elections-test2.json')) {
   const queensUniversity = (stormont1921Bundle.results || []).find((result) => result.syntheticNonGeographic && /Queen's University/.test(result.constituency || ''));
   assert(queensUniversity?.matched === true && Array.isArray(queensUniversity.anchor?.center), '/test2 Queen\'s University Stormont rows must be clickable synthetic non-geographical results with map anchors');
   assert(queensUniversity?.anchor?.method === 'synthetic-northeast-non-geographic', '/test2 Queen\'s University synthetic anchor must stay on the northeast side of the election geography');
+  assertNiElectionSeatCoverage();
   const localEntries = (electionManifest.elections || []).filter((entry) => entry.bodyGroup === 'local-government');
   const generalLocalEntries = localEntries.filter((entry) => (entry.localBodies || []).length > 1);
   const generalLocalDates = new Map();
@@ -574,4 +575,25 @@ function assertPoint2Coverage() {
   const civilAlias = (testMetadata.layers || []).find((layer) => layer.sourceMapId === 'civil-parishes' && layer.aliasTargetLayerId === 'civil-parishes-vector-test');
   assert(civilPlan?.conversionStatus === 'convertedAlias', '/test2 Civil Parishes legacy catalogue row must be recorded as a converted alias');
   assert(Boolean(civilAlias), '/test2 maps-test metadata must include a loadable Civil Parishes alias to the unified converted layer');
+}
+
+function assertNiElectionSeatCoverage() {
+  const filenames = readdirSync('test/metadata/elections-test2')
+    .filter((name) => /^(northern-ireland-assembly|northern-ireland-constitutional-convention|local-government-)/.test(name) && name.endsWith('.json'));
+  const mismatches = [];
+  for (const filename of filenames) {
+    const bundle = JSON.parse(readFileSync(`test/metadata/elections-test2/${filename}`, 'utf8'));
+    for (const result of bundle.results || []) {
+      const year = Number(bundle.year || String(bundle.date || '').slice(0, 4));
+      const seatTotal = Number(result.seatsTotal || result.countInfo?.Number_Of_Seats || 0);
+      let expected = seatTotal;
+      if (bundle.body === 'Northern Ireland Assembly' && year >= 2017 && !bundle.isByElection) expected = 5;
+      if (bundle.body === 'Northern Ireland Assembly' && year >= 1998 && year <= 2016 && !bundle.isByElection) expected = 6;
+      const elected = (result.candidates || []).filter((candidate) => candidate.elected).length;
+      if (expected > 0 && elected !== expected) {
+        mismatches.push(`${filename}: ${result.constituency} elected ${elected}/${expected}`);
+      }
+    }
+  }
+  assert(mismatches.length === 0, `/test2 NI election seat coverage must match constituency/DEA seat totals: ${mismatches.slice(0, 8).join('; ')}`);
 }

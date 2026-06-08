@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-04T21:58:59.696Z",
+  "generatedAt": "2026-06-06T18:51:03.527Z",
   "item": {
     "id": "ireland-president__1997-10-30",
     "key": "ireland-president__1997-10-30",
@@ -42,18 +42,12 @@
     "availableStyleModes": [
       "winner",
       "leadingParty",
+      "voteShare",
+      "majority",
       "seats",
       "quota"
     ],
     "partySummary": [
-      {
-        "party": "Independent",
-        "seats": 3,
-        "stood": 3,
-        "votes": 323410,
-        "share": 25.468643194869255,
-        "colour": "#b8b8b8"
-      },
       {
         "party": "Fianna Fáil",
         "seats": 1,
@@ -64,11 +58,19 @@
       },
       {
         "party": "Fine Gael",
-        "seats": 1,
+        "seats": 0,
         "stood": 1,
         "votes": 372002,
         "share": 29.295279075408164,
         "colour": "#6699ff"
+      },
+      {
+        "party": "Independent",
+        "seats": 0,
+        "stood": 3,
+        "votes": 323410,
+        "share": 25.468643194869255,
+        "colour": "#b8b8b8"
       }
     ],
     "totals": {
@@ -76,6 +78,30 @@
       "validPoll": 1269836,
       "constituencies": 1
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1997 Irish presidential election",
+        "url": "https://en.wikipedia.org/wiki/1997_Irish_presidential_election",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland presidential election result pages",
+        "url": "https://electionsireland.org/results/president/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "ElectionsIreland result source",
+        "url": "https://electionsireland.org/result.cfm?election=1997P&cons=194",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "election-result",
+        "note": "Source URL carried by the underlying election result data."
+      }
+    ],
     "resultEntries": [
       {
         "key": "ireland-president__1997-10-30::ireland",
@@ -125,9 +151,12 @@
         "stylingModes": [
           "winner",
           "leadingParty",
+          "voteShare",
+          "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-president__1997-10-30.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-president__1997-10-30.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/roi-1938-vector-test.json"

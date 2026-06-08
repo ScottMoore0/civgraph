@@ -2198,3 +2198,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) deferred anchors must be tagged with whether they are TOC-reachable,
   3) browser regressions must click reachable TOC targets rather than arbitrary internal anchors,
   4) route validation must assert the TOC registry, deferred-target tagging, and pane-specific scroll/hydration helpers exist together.
+
+### 163) STV elected counts must validate both undercounts and overcounts against seat metadata
+- Mistake pattern: Trusting explicit `Status: Elected` text alone in generated STV summaries, while some raw NI local-election rows use boolean `Elected` flags and some imported rows have missing, malformed, or over-marked elected flags.
+- Impact: `/test2` can show Assembly, Constitutional Convention, or NI local election results with fewer or more elected candidates than the actual constituency/DEA seat entitlement, even when source metadata contains the correct `Number_Of_Seats`.
+- Guardrail:
+  1) candidate summarisation must honour both textual `Status` and boolean `Elected` fields,
+  2) fixed-seat NI Assembly eras must be validated explicitly: 1998-2016 equals six seats per constituency and 2017 onward equals five seats per constituency, excluding by-elections,
+  3) NI local and Convention generated rows must compare elected candidates against source `Number_Of_Seats`,
+  4) route validation must fail on both undercounts and overcounts so bad raw flags cannot silently ship.

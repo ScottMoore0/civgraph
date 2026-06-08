@@ -156,6 +156,7 @@ class TimeSliderController {
     show() {
         if (this.container) {
             this.container.classList.remove('hidden');
+            this._notifyTimelineLayoutChanged();
         }
     }
 
@@ -165,9 +166,15 @@ class TimeSliderController {
     hide() {
         if (this.container) {
             this.container.classList.add('hidden');
+            this._notifyTimelineLayoutChanged();
         }
         this.activeChains = [];
         this.dates = [];
+    }
+
+    _notifyTimelineLayoutChanged() {
+        if (!this.mapController?.invalidateSize) return;
+        requestAnimationFrame(() => this.mapController.invalidateSize());
     }
 
     /**

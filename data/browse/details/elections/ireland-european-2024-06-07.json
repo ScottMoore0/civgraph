@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-04T21:58:59.696Z",
+  "generatedAt": "2026-06-06T18:51:03.527Z",
   "item": {
     "id": "ireland-european__2024-06-07",
     "key": "ireland-european__2024-06-07",
@@ -45,13 +45,15 @@
     "availableStyleModes": [
       "winner",
       "leadingParty",
+      "voteShare",
+      "majority",
       "seats",
       "quota"
     ],
     "partySummary": [
       {
         "party": "Fine Gael",
-        "seats": 4,
+        "seats": 2,
         "stood": 5,
         "votes": 362766,
         "share": 20.786142800662375,
@@ -59,19 +61,11 @@
       },
       {
         "party": "Fianna Fáil",
-        "seats": 4,
+        "seats": 1,
         "stood": 6,
         "votes": 356794,
         "share": 20.443952946030038,
         "colour": "#66bb66"
-      },
-      {
-        "party": "Independent",
-        "seats": 2,
-        "stood": 21,
-        "votes": 243861,
-        "share": 13.97300069331836,
-        "colour": "#b8b8b8"
       },
       {
         "party": "Sinn Féin",
@@ -82,36 +76,44 @@
         "colour": "#326760"
       },
       {
-        "party": "Independent Ireland",
-        "seats": 1,
-        "stood": 3,
-        "votes": 108685,
-        "share": 6.227545939503676,
-        "colour": "#6b7280"
-      },
-      {
-        "party": "Green",
-        "seats": 1,
-        "stood": 3,
-        "votes": 93575,
-        "share": 5.361757476091976,
-        "colour": "#8dc63f"
-      },
-      {
-        "party": "Independents 4 Change",
-        "seats": 1,
-        "stood": 2,
-        "votes": 79658,
-        "share": 4.564326764953616,
-        "colour": "#6b7280"
-      },
-      {
         "party": "Irish Labour",
         "seats": 1,
         "stood": 3,
         "votes": 58975,
         "share": 3.379210763051289,
         "colour": "#cc0000"
+      },
+      {
+        "party": "Independent",
+        "seats": 0,
+        "stood": 21,
+        "votes": 243861,
+        "share": 13.97300069331836,
+        "colour": "#b8b8b8"
+      },
+      {
+        "party": "Independent Ireland",
+        "seats": 0,
+        "stood": 3,
+        "votes": 108685,
+        "share": 6.227545939503676,
+        "colour": "#3bee56"
+      },
+      {
+        "party": "Green",
+        "seats": 0,
+        "stood": 3,
+        "votes": 93575,
+        "share": 5.361757476091976,
+        "colour": "#22ac6f"
+      },
+      {
+        "party": "Independents 4 Change",
+        "seats": 0,
+        "stood": 2,
+        "votes": 79658,
+        "share": 4.564326764953616,
+        "colour": "#6b7280"
       },
       {
         "party": "Aontú",
@@ -127,7 +129,7 @@
         "stood": 3,
         "votes": 51571,
         "share": 2.9549686860757607,
-        "colour": "#752f8a"
+        "colour": "#752f8b"
       },
       {
         "party": "Ireland First",
@@ -143,7 +145,7 @@
         "stood": 3,
         "votes": 31802,
         "share": 1.8222240048589584,
-        "colour": "#e91d50"
+        "colour": "#8e2420"
       },
       {
         "party": "Irish Freedom Party",
@@ -183,6 +185,29 @@
       "validPoll": 1745230,
       "constituencies": 3
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2024 European Parliament election (ROI)",
+        "url": "https://en.wikipedia.org/wiki/2024_European_Parliament_election_in_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland European election result pages",
+        "url": "https://electionsireland.org/results/europe/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "3 constituency/result source pages are cited on the result sub-entries",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here."
+      }
+    ],
     "resultEntries": [
       {
         "key": "ireland-european__2024-06-07::dublin",
@@ -248,9 +273,12 @@
         "stylingModes": [
           "winner",
           "leadingParty",
+          "voteShare",
+          "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-european__2024-06-07.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-european__2024-06-07.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/mep-2024-vector-test.json"

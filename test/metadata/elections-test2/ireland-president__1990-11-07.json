@@ -63,14 +63,6 @@
   ],
   "mainLikePartySummary": [
     {
-      "party": "Fianna Fáil",
-      "seats": 1,
-      "stood": 1,
-      "votes": 694484,
-      "colour": "#66bb66",
-      "share": 44.10399510748731
-    },
-    {
       "party": "Independent",
       "seats": 1,
       "stood": 1,
@@ -79,8 +71,16 @@
       "share": 38.88258414086677
     },
     {
+      "party": "Fianna Fáil",
+      "seats": 0,
+      "stood": 1,
+      "votes": 694484,
+      "colour": "#66bb66",
+      "share": 44.10399510748731
+    },
+    {
       "party": "Fine Gael",
-      "seats": 1,
+      "seats": 0,
       "stood": 1,
       "votes": 267902,
       "colour": "#6699ff",
@@ -92,7 +92,7 @@
     "totalPoll": 0,
     "totalElectorate": 2471308,
     "totalSpoiled": 0,
-    "totalSeats": 0
+    "totalSeats": 1
   },
   "mainLikeCandidateSummary": [
     {
@@ -111,16 +111,19 @@
       "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": null,
+      "countDisplay": "",
       "status": "Not Elected",
-      "counts": {
-        "1": {
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 694484,
           "transfers": 0,
-          "status": ""
+          "status": "",
+          "firstPrefs": 694484,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "brian lenihan|fianna fáil"
     },
     {
@@ -135,20 +138,23 @@
       "constPct": 38.88258414086677,
       "firstPrefPct": 38.88258414086677,
       "finalVotes": 612265,
-      "elected": false,
-      "electedAt": null,
+      "elected": true,
+      "electedAt": 1,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
-      "status": "Not Elected",
-      "counts": {
-        "1": {
+      "resolvedCount": null,
+      "countDisplay": "",
+      "status": "Elected",
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 612265,
           "transfers": 0,
-          "status": "Made Quota"
+          "status": "Made Quota",
+          "firstPrefs": 612265,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "mary robinson|independent"
     },
     {
@@ -167,16 +173,19 @@
       "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": null,
+      "countDisplay": "",
       "status": "Not Elected",
-      "counts": {
-        "1": {
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 267902,
           "transfers": 0,
-          "status": ""
+          "status": "",
+          "firstPrefs": 267902,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "austin currie|fine gael"
     }
   ],
@@ -332,7 +341,7 @@
       "majority": 82219,
       "majorityPct": 5.22,
       "seatsWon": 1,
-      "seatsTotal": null,
+      "seatsTotal": 1,
       "quota": 787326,
       "electorate": 2471308,
       "totalPoll": null,
@@ -350,6 +359,7 @@
           "finalVotes": 694484,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -357,6 +367,13 @@
           "counts": [
             {
               "count": 1,
+              "total": 694484,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 694484
+            },
+            {
+              "count": 2,
               "total": 694484,
               "transfers": 0,
               "status": "",
@@ -371,7 +388,8 @@
           "firstPrefs": 612265,
           "finalVotes": 612265,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 2,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
@@ -379,6 +397,13 @@
           "counts": [
             {
               "count": 1,
+              "total": 612265,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 612265
+            },
+            {
+              "count": 2,
               "total": 612265,
               "transfers": 0,
               "status": "Made Quota",
@@ -394,6 +419,7 @@
           "finalVotes": 267902,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -401,6 +427,13 @@
           "counts": [
             {
               "count": 1,
+              "total": 267902,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 267902
+            },
+            {
+              "count": 2,
               "total": 267902,
               "transfers": 0,
               "status": "",
@@ -417,7 +450,8 @@
           "firstPrefs": 612265,
           "finalVotes": 612265,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 2,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
@@ -425,6 +459,13 @@
           "counts": [
             {
               "count": 1,
+              "total": 612265,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 612265
+            },
+            {
+              "count": 2,
               "total": 612265,
               "transfers": 0,
               "status": "Made Quota",
@@ -436,30 +477,54 @@
       "countInfo": {
         "Constituency_Name": "Ireland",
         "Constituency_Number": "",
-        "Number_Of_Seats": "",
+        "Number_Of_Seats": "1",
+        "Quota": "787326",
         "Spoiled": "",
         "Total_Electorate": "2471308",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "1574651"
       },
       "countGroup": [
         {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "1",
           "Candidate_First_Pref_Votes": "612265",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Mary",
           "Surname": "Robinson",
-          "Occurred_On_Count": "1",
+          "Occurred_On_Count": "2",
           "Party_Colour": "#b8b8b8",
           "Party_Name": "Independent",
-          "Status": "Made Quota",
+          "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
           "Total_Votes": "612265",
           "Transfers": "0",
           "candidateName": "Mary Robinson",
           "id": 0
         },
         {
+          "Auto_Returned_Ceann_Comhairle": "",
+          "Candidate_Id": "1",
+          "Candidate_First_Pref_Votes": "612265",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Mary",
+          "Surname": "Robinson",
+          "Occurred_On_Count": "2",
+          "Party_Colour": "#b8b8b8",
+          "Party_Name": "Independent",
+          "Status": "Made Quota",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
+          "Total_Votes": "612265",
+          "Transfers": "0",
+          "candidateName": "Mary Robinson",
+          "id": 0
+        },
+        {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "2",
           "Candidate_First_Pref_Votes": "694484",
           "Constituency_Number": "",
@@ -470,12 +535,34 @@
           "Party_Colour": "#66bb66",
           "Party_Name": "Fianna Fáil",
           "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
           "Total_Votes": "694484",
           "Transfers": "0",
           "candidateName": "Brian Lenihan",
           "id": 1
         },
         {
+          "Auto_Returned_Ceann_Comhairle": "",
+          "Candidate_Id": "2",
+          "Candidate_First_Pref_Votes": "694484",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Brian",
+          "Surname": "Lenihan",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#66bb66",
+          "Party_Name": "Fianna Fáil",
+          "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
+          "Total_Votes": "694484",
+          "Transfers": "0",
+          "candidateName": "Brian Lenihan",
+          "id": 1
+        },
+        {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "3",
           "Candidate_First_Pref_Votes": "267902",
           "Constituency_Number": "",
@@ -486,6 +573,27 @@
           "Party_Colour": "#6699ff",
           "Party_Name": "Fine Gael",
           "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
+          "Total_Votes": "267902",
+          "Transfers": "0",
+          "candidateName": "Austin Currie",
+          "id": 2
+        },
+        {
+          "Auto_Returned_Ceann_Comhairle": "",
+          "Candidate_Id": "3",
+          "Candidate_First_Pref_Votes": "267902",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Austin",
+          "Surname": "Currie",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#6699ff",
+          "Party_Name": "Fine Gael",
+          "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
           "Total_Votes": "267902",
           "Transfers": "0",
           "candidateName": "Austin Currie",
@@ -496,39 +604,65 @@
       "nonTransferable": [],
       "forum": null,
       "countNumbers": [
-        1
+        1,
+        2
       ],
-      "hasCountDetail": false,
+      "hasCountDetail": true,
       "animationPayload": {
         "Constituency": {
           "__syntheticCountGroup": true,
+          "__syntheticCountStages": true,
           "countInfo": {
             "Constituency_Name": "Ireland",
             "Constituency_Number": "",
-            "Number_Of_Seats": "",
+            "Number_Of_Seats": "1",
+            "Quota": "787326",
             "Spoiled": "",
             "Total_Electorate": "2471308",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "1574651"
           },
           "countGroup": [
             {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "1",
               "Candidate_First_Pref_Votes": "612265",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Mary",
               "Surname": "Robinson",
-              "Occurred_On_Count": "1",
+              "Occurred_On_Count": "2",
               "Party_Colour": "#b8b8b8",
               "Party_Name": "Independent",
-              "Status": "Made Quota",
+              "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
               "Total_Votes": "612265",
               "Transfers": "0",
               "candidateName": "Mary Robinson",
               "id": 0
             },
             {
+              "Auto_Returned_Ceann_Comhairle": "",
+              "Candidate_Id": "1",
+              "Candidate_First_Pref_Votes": "612265",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Mary",
+              "Surname": "Robinson",
+              "Occurred_On_Count": "2",
+              "Party_Colour": "#b8b8b8",
+              "Party_Name": "Independent",
+              "Status": "Made Quota",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
+              "Total_Votes": "612265",
+              "Transfers": "0",
+              "candidateName": "Mary Robinson",
+              "id": 0
+            },
+            {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "2",
               "Candidate_First_Pref_Votes": "694484",
               "Constituency_Number": "",
@@ -539,12 +673,34 @@
               "Party_Colour": "#66bb66",
               "Party_Name": "Fianna Fáil",
               "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
               "Total_Votes": "694484",
               "Transfers": "0",
               "candidateName": "Brian Lenihan",
               "id": 1
             },
             {
+              "Auto_Returned_Ceann_Comhairle": "",
+              "Candidate_Id": "2",
+              "Candidate_First_Pref_Votes": "694484",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Brian",
+              "Surname": "Lenihan",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#66bb66",
+              "Party_Name": "Fianna Fáil",
+              "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
+              "Total_Votes": "694484",
+              "Transfers": "0",
+              "candidateName": "Brian Lenihan",
+              "id": 1
+            },
+            {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "3",
               "Candidate_First_Pref_Votes": "267902",
               "Constituency_Number": "",
@@ -555,6 +711,27 @@
               "Party_Colour": "#6699ff",
               "Party_Name": "Fine Gael",
               "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
+              "Total_Votes": "267902",
+              "Transfers": "0",
+              "candidateName": "Austin Currie",
+              "id": 2
+            },
+            {
+              "Auto_Returned_Ceann_Comhairle": "",
+              "Candidate_Id": "3",
+              "Candidate_First_Pref_Votes": "267902",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Austin",
+              "Surname": "Currie",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#6699ff",
+              "Party_Name": "Fine Gael",
+              "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
               "Total_Votes": "267902",
               "Transfers": "0",
               "candidateName": "Austin Currie",

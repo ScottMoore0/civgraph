@@ -58,7 +58,7 @@
     "totalPoll": 0,
     "totalElectorate": 0,
     "totalSpoiled": 0,
-    "totalSeats": 0
+    "totalSeats": 1
   },
   "mainLikeCandidateSummary": [
     {
@@ -73,20 +73,23 @@
       "constPct": 100,
       "firstPrefPct": 100,
       "finalVotes": 1,
-      "elected": false,
-      "electedAt": null,
+      "elected": true,
+      "electedAt": 1,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
-      "status": "Not Elected",
-      "counts": {
-        "1": {
+      "resolvedCount": null,
+      "countDisplay": "",
+      "status": "Elected",
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 1,
           "transfers": 0,
-          "status": "Made Quota"
+          "status": "Made Quota",
+          "firstPrefs": 1,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "seán t o'kelly|fianna fáil"
     }
   ],
@@ -156,7 +159,7 @@
       "majority": null,
       "majorityPct": null,
       "seatsWon": 1,
-      "seatsTotal": null,
+      "seatsTotal": 1,
       "quota": null,
       "electorate": null,
       "totalPoll": null,
@@ -174,6 +177,7 @@
           "finalVotes": 1,
           "elected": true,
           "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
@@ -198,6 +202,7 @@
           "finalVotes": 1,
           "elected": true,
           "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
@@ -216,14 +221,16 @@
       "countInfo": {
         "Constituency_Name": "Ireland",
         "Constituency_Number": "",
-        "Number_Of_Seats": "",
+        "Number_Of_Seats": "1",
+        "Quota": "",
         "Spoiled": "",
         "Total_Electorate": "",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "1"
       },
       "countGroup": [
         {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "1",
           "Candidate_First_Pref_Votes": "1",
           "Constituency_Number": "",
@@ -234,6 +241,8 @@
           "Party_Colour": "#66bb66",
           "Party_Name": "Fianna Fáil",
           "Status": "Made Quota",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "",
           "Total_Votes": "1",
           "Transfers": "0",
           "candidateName": "Seán T O'Kelly",
@@ -250,17 +259,20 @@
       "animationPayload": {
         "Constituency": {
           "__syntheticCountGroup": true,
+          "__syntheticCountStages": false,
           "countInfo": {
             "Constituency_Name": "Ireland",
             "Constituency_Number": "",
-            "Number_Of_Seats": "",
+            "Number_Of_Seats": "1",
+            "Quota": "",
             "Spoiled": "",
             "Total_Electorate": "",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "1"
           },
           "countGroup": [
             {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "1",
               "Candidate_First_Pref_Votes": "1",
               "Constituency_Number": "",
@@ -271,6 +283,8 @@
               "Party_Colour": "#66bb66",
               "Party_Name": "Fianna Fáil",
               "Status": "Made Quota",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "",
               "Total_Votes": "1",
               "Transfers": "0",
               "candidateName": "Seán T O'Kelly",

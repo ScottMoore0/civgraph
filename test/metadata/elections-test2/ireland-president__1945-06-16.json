@@ -72,7 +72,7 @@
     },
     {
       "party": "Fine Gael",
-      "seats": 1,
+      "seats": 0,
       "stood": 1,
       "votes": 335539,
       "colour": "#6699ff",
@@ -80,7 +80,7 @@
     },
     {
       "party": "Independent",
-      "seats": 1,
+      "seats": 0,
       "stood": 1,
       "votes": 212834,
       "colour": "#b8b8b8",
@@ -92,7 +92,7 @@
     "totalPoll": 0,
     "totalElectorate": 1803463,
     "totalSpoiled": 0,
-    "totalSeats": 0
+    "totalSeats": 1
   },
   "mainLikeCandidateSummary": [
     {
@@ -107,20 +107,23 @@
       "constPct": 49.52095940674081,
       "firstPrefPct": 49.52095940674081,
       "finalVotes": 537965,
-      "elected": false,
-      "electedAt": null,
+      "elected": true,
+      "electedAt": 1,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
-      "status": "Not Elected",
-      "counts": {
-        "1": {
+      "resolvedCount": null,
+      "countDisplay": "",
+      "status": "Elected",
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 537965,
           "transfers": 0,
-          "status": "Made Quota"
+          "status": "Made Quota",
+          "firstPrefs": 537965,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "seán t o'kelly|fianna fáil"
     },
     {
@@ -139,16 +142,19 @@
       "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": null,
+      "countDisplay": "",
       "status": "Not Elected",
-      "counts": {
-        "1": {
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 335539,
           "transfers": 0,
-          "status": ""
+          "status": "",
+          "firstPrefs": 335539,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "general seán maceoin|fine gael"
     },
     {
@@ -167,16 +173,19 @@
       "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": null,
+      "countDisplay": "",
       "status": "Not Elected",
-      "counts": {
-        "1": {
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 212834,
           "transfers": 0,
-          "status": ""
+          "status": "",
+          "firstPrefs": 212834,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "dr patrick mccartan|independent"
     }
   ],
@@ -332,7 +341,7 @@
       "majority": 202426,
       "majorityPct": 18.63,
       "seatsWon": 1,
-      "seatsTotal": null,
+      "seatsTotal": 1,
       "quota": 543170,
       "electorate": 1803463,
       "totalPoll": null,
@@ -349,7 +358,8 @@
           "firstPrefs": 537965,
           "finalVotes": 537965,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 2,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
@@ -357,6 +367,13 @@
           "counts": [
             {
               "count": 1,
+              "total": 537965,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 537965
+            },
+            {
+              "count": 2,
               "total": 537965,
               "transfers": 0,
               "status": "Made Quota",
@@ -372,6 +389,7 @@
           "finalVotes": 335539,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -379,6 +397,13 @@
           "counts": [
             {
               "count": 1,
+              "total": 335539,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 335539
+            },
+            {
+              "count": 2,
               "total": 335539,
               "transfers": 0,
               "status": "",
@@ -394,6 +419,7 @@
           "finalVotes": 212834,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -401,6 +427,13 @@
           "counts": [
             {
               "count": 1,
+              "total": 212834,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 212834
+            },
+            {
+              "count": 2,
               "total": 212834,
               "transfers": 0,
               "status": "",
@@ -417,7 +450,8 @@
           "firstPrefs": 537965,
           "finalVotes": 537965,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 2,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
@@ -425,6 +459,13 @@
           "counts": [
             {
               "count": 1,
+              "total": 537965,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 537965
+            },
+            {
+              "count": 2,
               "total": 537965,
               "transfers": 0,
               "status": "Made Quota",
@@ -436,30 +477,54 @@
       "countInfo": {
         "Constituency_Name": "Ireland",
         "Constituency_Number": "",
-        "Number_Of_Seats": "",
+        "Number_Of_Seats": "1",
+        "Quota": "543170",
         "Spoiled": "",
         "Total_Electorate": "1803463",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "1086338"
       },
       "countGroup": [
         {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "1",
           "Candidate_First_Pref_Votes": "537965",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Seán",
           "Surname": "T O'Kelly",
-          "Occurred_On_Count": "1",
+          "Occurred_On_Count": "2",
           "Party_Colour": "#66bb66",
           "Party_Name": "Fianna Fáil",
-          "Status": "Made Quota",
+          "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
           "Total_Votes": "537965",
           "Transfers": "0",
           "candidateName": "Seán T O'Kelly",
           "id": 0
         },
         {
+          "Auto_Returned_Ceann_Comhairle": "",
+          "Candidate_Id": "1",
+          "Candidate_First_Pref_Votes": "537965",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Seán",
+          "Surname": "T O'Kelly",
+          "Occurred_On_Count": "2",
+          "Party_Colour": "#66bb66",
+          "Party_Name": "Fianna Fáil",
+          "Status": "Made Quota",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
+          "Total_Votes": "537965",
+          "Transfers": "0",
+          "candidateName": "Seán T O'Kelly",
+          "id": 0
+        },
+        {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "2",
           "Candidate_First_Pref_Votes": "335539",
           "Constituency_Number": "",
@@ -470,12 +535,34 @@
           "Party_Colour": "#6699ff",
           "Party_Name": "Fine Gael",
           "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
           "Total_Votes": "335539",
           "Transfers": "0",
           "candidateName": "General Seán MacEoin",
           "id": 1
         },
         {
+          "Auto_Returned_Ceann_Comhairle": "",
+          "Candidate_Id": "2",
+          "Candidate_First_Pref_Votes": "335539",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "General",
+          "Surname": "Seán MacEoin",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#6699ff",
+          "Party_Name": "Fine Gael",
+          "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
+          "Total_Votes": "335539",
+          "Transfers": "0",
+          "candidateName": "General Seán MacEoin",
+          "id": 1
+        },
+        {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "3",
           "Candidate_First_Pref_Votes": "212834",
           "Constituency_Number": "",
@@ -486,6 +573,27 @@
           "Party_Colour": "#b8b8b8",
           "Party_Name": "Independent",
           "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
+          "Total_Votes": "212834",
+          "Transfers": "0",
+          "candidateName": "Dr Patrick McCartan",
+          "id": 2
+        },
+        {
+          "Auto_Returned_Ceann_Comhairle": "",
+          "Candidate_Id": "3",
+          "Candidate_First_Pref_Votes": "212834",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Dr",
+          "Surname": "Patrick McCartan",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#b8b8b8",
+          "Party_Name": "Independent",
+          "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
           "Total_Votes": "212834",
           "Transfers": "0",
           "candidateName": "Dr Patrick McCartan",
@@ -496,39 +604,65 @@
       "nonTransferable": [],
       "forum": null,
       "countNumbers": [
-        1
+        1,
+        2
       ],
-      "hasCountDetail": false,
+      "hasCountDetail": true,
       "animationPayload": {
         "Constituency": {
           "__syntheticCountGroup": true,
+          "__syntheticCountStages": true,
           "countInfo": {
             "Constituency_Name": "Ireland",
             "Constituency_Number": "",
-            "Number_Of_Seats": "",
+            "Number_Of_Seats": "1",
+            "Quota": "543170",
             "Spoiled": "",
             "Total_Electorate": "1803463",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "1086338"
           },
           "countGroup": [
             {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "1",
               "Candidate_First_Pref_Votes": "537965",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Seán",
               "Surname": "T O'Kelly",
-              "Occurred_On_Count": "1",
+              "Occurred_On_Count": "2",
               "Party_Colour": "#66bb66",
               "Party_Name": "Fianna Fáil",
-              "Status": "Made Quota",
+              "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
               "Total_Votes": "537965",
               "Transfers": "0",
               "candidateName": "Seán T O'Kelly",
               "id": 0
             },
             {
+              "Auto_Returned_Ceann_Comhairle": "",
+              "Candidate_Id": "1",
+              "Candidate_First_Pref_Votes": "537965",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Seán",
+              "Surname": "T O'Kelly",
+              "Occurred_On_Count": "2",
+              "Party_Colour": "#66bb66",
+              "Party_Name": "Fianna Fáil",
+              "Status": "Made Quota",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
+              "Total_Votes": "537965",
+              "Transfers": "0",
+              "candidateName": "Seán T O'Kelly",
+              "id": 0
+            },
+            {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "2",
               "Candidate_First_Pref_Votes": "335539",
               "Constituency_Number": "",
@@ -539,12 +673,34 @@
               "Party_Colour": "#6699ff",
               "Party_Name": "Fine Gael",
               "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
               "Total_Votes": "335539",
               "Transfers": "0",
               "candidateName": "General Seán MacEoin",
               "id": 1
             },
             {
+              "Auto_Returned_Ceann_Comhairle": "",
+              "Candidate_Id": "2",
+              "Candidate_First_Pref_Votes": "335539",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "General",
+              "Surname": "Seán MacEoin",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#6699ff",
+              "Party_Name": "Fine Gael",
+              "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
+              "Total_Votes": "335539",
+              "Transfers": "0",
+              "candidateName": "General Seán MacEoin",
+              "id": 1
+            },
+            {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "3",
               "Candidate_First_Pref_Votes": "212834",
               "Constituency_Number": "",
@@ -555,6 +711,27 @@
               "Party_Colour": "#b8b8b8",
               "Party_Name": "Independent",
               "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
+              "Total_Votes": "212834",
+              "Transfers": "0",
+              "candidateName": "Dr Patrick McCartan",
+              "id": 2
+            },
+            {
+              "Auto_Returned_Ceann_Comhairle": "",
+              "Candidate_Id": "3",
+              "Candidate_First_Pref_Votes": "212834",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Dr",
+              "Surname": "Patrick McCartan",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#b8b8b8",
+              "Party_Name": "Independent",
+              "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
               "Total_Votes": "212834",
               "Transfers": "0",
               "candidateName": "Dr Patrick McCartan",

@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-07T22:10:26.670Z",
+  "generatedAt": "2026-06-08T23:09:53.967Z",
   "failOnBlocking": true,
   "stats": {
     "manifest": {
       "schemaVersion": 1,
-      "generatedAt": "2026-06-07T21:59:50.990Z",
+      "generatedAt": "2026-06-08T23:08:12.887Z",
       "entries": 268,
       "totals": {
         "elections": 268,
@@ -40,13 +40,13 @@
       "resultRows": 4684,
       "matchedRows": 4004,
       "unmatchedRows": 680,
-      "candidateRows": 28309,
-      "electedRows": 5608,
-      "rowsWithCountDetail": 4500,
-      "rowsWithAnimationPayload": 4500,
-      "rowsExpectedTransferData": 1851,
-      "rowsMissingExpectedTransferData": 39,
-      "candidateRowsWithoutParty": 9879
+      "candidateRows": 29610,
+      "electedRows": 14215,
+      "rowsWithCountDetail": 4632,
+      "rowsWithAnimationPayload": 4632,
+      "rowsExpectedTransferData": 2384,
+      "rowsMissingExpectedTransferData": 38,
+      "candidateRowsWithoutParty": 0
     },
     "colours": {
       "auditFilePresent": true,
@@ -184,14 +184,13 @@
   },
   "issueSummary": {
     "bySeverity": {
-      "warning": 255
+      "warning": 113
     },
     "byCategory": {
       "source-record-missing": 14,
       "first-pref-sum": 39,
       "source-record-single-reference": 9,
-      "candidate-list-missing": 162,
-      "candidate-party-missing": 10,
+      "candidate-list-missing": 30,
       "unmatched-list-count": 11,
       "party-colour-mismatch": 10
     }
@@ -265,12 +264,6 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "local-government-local-government-districts__2011-05-05",
-      "message": "1002 candidate rows have no party/label. Examples: Blair John in Antrim Line; Bradley Paula in Antrim Line; McClelland Noreen in Antrim Line; MacKessy Marie in Antrim Line; Ball Audrey in Antrim Line."
-    },
-    {
-      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "european-parliament__2009-06-04",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -295,18 +288,6 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "local-government-local-government-districts__2005-05-05",
-      "message": "No candidates found for Skerries."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "local-government-local-government-districts__2005-05-05",
-      "message": "881 candidate rows have no party/label. Examples: Nigel Hamilton in Antrim Line; Noreen Patricia McClelland in Antrim Line; Janet Crilly in Antrim Line; Tom Campbell in Antrim Line; Paula Jane Bradley in Antrim Line."
-    },
-    {
-      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "european-parliament__2004-06-10",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -328,12 +309,6 @@
       "category": "candidate-list-missing",
       "key": "local-government-local-government-districts__2001-06-07",
       "message": "No candidates found for lg01-NoD-Ballyholme-&-Groomsport."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "local-government-local-government-districts__2001-06-07",
-      "message": "989 candidate rows have no party/label. Examples: Janet Crilly in Antrim Line; Nigel Peter Hamilton in Antrim Line; Thomas Patrick McTeague in Antrim Line; Noreen Patricia McClelland in Antrim Line; Briege Meehan in Antrim Line."
     },
     {
       "severity": "warning",
@@ -376,12 +351,6 @@
       "category": "candidate-list-missing",
       "key": "local-government-local-government-districts__1997-05-21",
       "message": "No candidates found for Giant's Causeway."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "local-government-local-government-districts__1997-05-21",
-      "message": "969 candidate rows have no party/label. Examples: Tommy McTeague in Antrim Line; Edward Joshua Crilly in Antrim Line; Joseph Arthur Kell in Antrim Line; Elizabeth Snoddy in Antrim Line; Ivan Hunter in Antrim Line."
     },
     {
       "severity": "warning",
@@ -433,12 +402,6 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "local-government-local-government-districts__1993-05-19",
-      "message": "920 candidate rows have no party/label. Examples: Thomas Patrick McTeague in Antrim Line; Arthur McGladdery Templeton in Antrim Line; Edward Joshua Crilly in Antrim Line; Billy Blair in Antrim Line; James Joseph Rooney in Antrim Line."
-    },
-    {
-      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "european-parliament__1989-06-15",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -481,12 +444,6 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "local-government-local-government-districts__1989-05-17",
-      "message": "902 candidate rows have no party/label. Examples: James Joseph Rooney in Antrim Line; Thomas George Kirkham in Antrim Line; James Smith in Antrim Line; William Green in Antrim Line; Thomas Patrick McTeague in Antrim Line."
-    },
-    {
-      "severity": "warning",
       "category": "source-record-missing",
       "key": "local-government-local-government-districts__1985-05-15",
       "message": "No election source detail record found at data/browse/details/sources/election-source-local-government-1985-05-15.json."
@@ -508,12 +465,6 @@
       "category": "candidate-list-missing",
       "key": "local-government-local-government-districts__1985-05-15",
       "message": "No candidates found for Giant's Causeway."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "local-government-local-government-districts__1985-05-15",
-      "message": "1013 candidate rows have no party/label. Examples: James Graham in Antrim North West; Samuel Wilson Clyde in Antrim North West; Robert J. Loughran in Antrim North West; Henry John Cushinan in Antrim North West; Janes Gerard Laverty in Antrim North West."
     },
     {
       "severity": "warning",
@@ -571,12 +522,6 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "local-government-local-government-districts__1981-05-20",
-      "message": "1020 candidate rows have no party/label. Examples: James Graham in Antrim Area A; Robert Loughren in Antrim Area A; John Heffron in Antrim Area A; Willson Clyde in Antrim Area A; Gerard Carolen in Antrim Area A."
-    },
-    {
-      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "european-parliament__1979-06-07",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -610,12 +555,6 @@
       "category": "candidate-list-missing",
       "key": "local-government-local-government-districts__1977-05-18",
       "message": "No candidates found for Area-H."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "local-government-local-government-districts__1977-05-18",
-      "message": "981 candidate rows have no party/label. Examples: James Graham in Antrim Area A; John Heffron in Antrim Area A; Gerard Berry in Antrim Area A; Stewart J Dunlop in Antrim Area A; James Marrion in Antrim Area A."
     },
     {
       "severity": "warning",
@@ -673,153 +612,15 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "local-government-local-government-districts__1973-05-30",
-      "message": "1202 candidate rows have no party/label. Examples: Dunlop in Antrim Area A; O'Donnell in Antrim Area A; Minford in Antrim Area A; Heffron in Antrim Area A; Graham in Antrim Area A."
-    },
-    {
-      "severity": "warning",
       "category": "unmatched-list-count",
       "key": "dail-eireann__1969-06-18",
       "message": "unmatchedConstituencies length is 30, unmatchedCount is 42."
     },
     {
       "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1969-06-18",
-      "message": "No candidates found for Clare."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1969-06-18",
-      "message": "No candidates found for Cork South West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1969-06-18",
-      "message": "No candidates found for Dublin Central."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1969-06-18",
-      "message": "No candidates found for Dublin North West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1969-06-18",
-      "message": "No candidates found for Dublin South Central."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1969-06-18",
-      "message": "No candidates found for Dublin South West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1969-06-18",
-      "message": "No candidates found for Galway West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1969-06-18",
-      "message": "No candidates found for Kerry South."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1969-06-18",
-      "message": "No candidates found for Longford Westmeath."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1969-06-18",
-      "message": "No candidates found for Sligo Leitrim."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1969-06-18",
-      "message": "No candidates found for Waterford."
-    },
-    {
-      "severity": "warning",
       "category": "unmatched-list-count",
       "key": "dail-eireann__1965-04-07",
       "message": "unmatchedConstituencies length is 30, unmatchedCount is 38."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1965-04-07",
-      "message": "No candidates found for Clare."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1965-04-07",
-      "message": "No candidates found for Cork South West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1965-04-07",
-      "message": "No candidates found for Dublin North West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1965-04-07",
-      "message": "No candidates found for Dublin South Central."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1965-04-07",
-      "message": "No candidates found for Dublin South West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1965-04-07",
-      "message": "No candidates found for Galway East."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1965-04-07",
-      "message": "No candidates found for Galway West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1965-04-07",
-      "message": "No candidates found for Kerry South."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1965-04-07",
-      "message": "No candidates found for Longford Westmeath."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1965-04-07",
-      "message": "No candidates found for Sligo Leitrim."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1965-04-07",
-      "message": "No candidates found for Waterford."
     },
     {
       "severity": "warning",
@@ -829,72 +630,6 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1961-10-04",
-      "message": "No candidates found for Clare."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1961-10-04",
-      "message": "No candidates found for Cork South West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1961-10-04",
-      "message": "No candidates found for Dublin North West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1961-10-04",
-      "message": "No candidates found for Dublin South Central."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1961-10-04",
-      "message": "No candidates found for Dublin South West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1961-10-04",
-      "message": "No candidates found for Galway East."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1961-10-04",
-      "message": "No candidates found for Galway West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1961-10-04",
-      "message": "No candidates found for Kerry South."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1961-10-04",
-      "message": "No candidates found for Longford Westmeath."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1961-10-04",
-      "message": "No candidates found for Sligo Leitrim."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1961-10-04",
-      "message": "No candidates found for Waterford."
-    },
-    {
-      "severity": "warning",
       "category": "unmatched-list-count",
       "key": "dail-eireann__1957-03-05",
       "message": "unmatchedConstituencies length is 30, unmatchedCount is 40."
@@ -903,61 +638,7 @@
       "severity": "warning",
       "category": "candidate-list-missing",
       "key": "dail-eireann__1957-03-05",
-      "message": "No candidates found for Clare."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1957-03-05",
-      "message": "No candidates found for Cork East."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1957-03-05",
-      "message": "No candidates found for Dublin North West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1957-03-05",
-      "message": "No candidates found for Dublin South Central."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1957-03-05",
-      "message": "No candidates found for Dublin South West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1957-03-05",
-      "message": "No candidates found for Galway West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1957-03-05",
       "message": "No candidates found for Kerry South."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1957-03-05",
-      "message": "No candidates found for Longford Westmeath."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1957-03-05",
-      "message": "No candidates found for Sligo Leitrim."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1957-03-05",
-      "message": "No candidates found for Waterford."
     },
     {
       "severity": "warning",
@@ -967,189 +648,15 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1954-05-18",
-      "message": "No candidates found for Clare."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1954-05-18",
-      "message": "No candidates found for Cork East."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1954-05-18",
-      "message": "No candidates found for Dublin North West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1954-05-18",
-      "message": "No candidates found for Dublin South Central."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1954-05-18",
-      "message": "No candidates found for Dublin South West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1954-05-18",
-      "message": "No candidates found for Galway West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1954-05-18",
-      "message": "No candidates found for Kerry South."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1954-05-18",
-      "message": "No candidates found for Longford Westmeath."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1954-05-18",
-      "message": "No candidates found for Sligo Leitrim."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1954-05-18",
-      "message": "No candidates found for Waterford."
-    },
-    {
-      "severity": "warning",
       "category": "unmatched-list-count",
       "key": "dail-eireann__1951-05-30",
       "message": "unmatchedConstituencies length is 30, unmatchedCount is 40."
     },
     {
       "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1951-05-30",
-      "message": "No candidates found for Clare."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1951-05-30",
-      "message": "No candidates found for Cork East."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1951-05-30",
-      "message": "No candidates found for Dublin North West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1951-05-30",
-      "message": "No candidates found for Dublin South Central."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1951-05-30",
-      "message": "No candidates found for Galway West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1951-05-30",
-      "message": "No candidates found for Kerry South."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1951-05-30",
-      "message": "No candidates found for Longford Westmeath."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1951-05-30",
-      "message": "No candidates found for Sligo Leitrim."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1951-05-30",
-      "message": "No candidates found for Waterford."
-    },
-    {
-      "severity": "warning",
       "category": "unmatched-list-count",
       "key": "dail-eireann__1948-02-04",
       "message": "unmatchedConstituencies length is 30, unmatchedCount is 40."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1948-02-04",
-      "message": "No candidates found for Clare."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1948-02-04",
-      "message": "No candidates found for Cork East."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1948-02-04",
-      "message": "No candidates found for Dublin North West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1948-02-04",
-      "message": "No candidates found for Dublin South Central."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1948-02-04",
-      "message": "No candidates found for Dublin South West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1948-02-04",
-      "message": "No candidates found for Galway West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1948-02-04",
-      "message": "No candidates found for Kerry South."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1948-02-04",
-      "message": "No candidates found for Longford Westmeath."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1948-02-04",
-      "message": "No candidates found for Sligo Leitrim."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1948-02-04",
-      "message": "No candidates found for Waterford."
     },
     {
       "severity": "warning",
@@ -1177,117 +684,9 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1944-05-30",
-      "message": "No candidates found for Clare."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1944-05-30",
-      "message": "No candidates found for Dublin North West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1944-05-30",
-      "message": "No candidates found for Galway East."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1944-05-30",
-      "message": "No candidates found for Galway West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1944-05-30",
-      "message": "No candidates found for Kerry South."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1944-05-30",
-      "message": "No candidates found for Kilkenny."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1944-05-30",
-      "message": "No candidates found for Meath Westmeath."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1944-05-30",
-      "message": "No candidates found for Tipperary."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1944-05-30",
-      "message": "No candidates found for Waterford."
-    },
-    {
-      "severity": "warning",
       "category": "unmatched-list-count",
       "key": "dail-eireann__1943-06-22",
       "message": "unmatchedConstituencies length is 30, unmatchedCount is 34."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1943-06-22",
-      "message": "No candidates found for Clare."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1943-06-22",
-      "message": "No candidates found for Dublin North West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1943-06-22",
-      "message": "No candidates found for Galway East."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1943-06-22",
-      "message": "No candidates found for Galway West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1943-06-22",
-      "message": "No candidates found for Kerry South."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1943-06-22",
-      "message": "No candidates found for Kilkenny."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1943-06-22",
-      "message": "No candidates found for Meath Westmeath."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1943-06-22",
-      "message": "No candidates found for Tipperary."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1943-06-22",
-      "message": "No candidates found for Waterford."
     },
     {
       "severity": "warning",
@@ -1299,109 +698,13 @@
       "severity": "warning",
       "category": "candidate-list-missing",
       "key": "dail-eireann__1938-06-17",
-      "message": "No candidates found for Clare."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1938-06-17",
-      "message": "No candidates found for Dublin North West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1938-06-17",
-      "message": "No candidates found for Galway East."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1938-06-17",
-      "message": "No candidates found for Galway West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1938-06-17",
       "message": "No candidates found for Kerry South."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1938-06-17",
-      "message": "No candidates found for Meath Westmeath."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1938-06-17",
-      "message": "No candidates found for Tipperary."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1938-06-17",
-      "message": "No candidates found for Waterford."
     },
     {
       "severity": "warning",
       "category": "unmatched-list-count",
       "key": "dail-eireann__1937-07-01",
       "message": "unmatchedConstituencies length is 30, unmatchedCount is 34."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1937-07-01",
-      "message": "No candidates found for Clare."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1937-07-01",
-      "message": "No candidates found for Dublin North West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1937-07-01",
-      "message": "No candidates found for Galway East."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1937-07-01",
-      "message": "No candidates found for Galway West."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1937-07-01",
-      "message": "No candidates found for Kerry South."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1937-07-01",
-      "message": "No candidates found for Kilkenny."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1937-07-01",
-      "message": "No candidates found for Meath Westmeath."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1937-07-01",
-      "message": "No candidates found for Tipperary."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1937-07-01",
-      "message": "No candidates found for Waterford."
     },
     {
       "severity": "warning",
@@ -1414,90 +717,6 @@
       "category": "first-pref-sum",
       "key": "house-of-commons-of-the-united-kingdom__1935-11-14",
       "message": "Fermanagh and Tyrone first-preference sum 194119 exceeds valid poll 97060."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1933-01-24",
-      "message": "No candidates found for Carlow Kilkenny."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1933-01-24",
-      "message": "No candidates found for Clare."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1933-01-24",
-      "message": "No candidates found for Cork East."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1933-01-24",
-      "message": "No candidates found for Donegal."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1933-01-24",
-      "message": "No candidates found for Tipperary."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1933-01-24",
-      "message": "No candidates found for Waterford."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1932-02-16",
-      "message": "No candidates found for Carlow Kilkenny."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1932-02-16",
-      "message": "No candidates found for Clare."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1932-02-16",
-      "message": "No candidates found for Cork East."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1932-02-16",
-      "message": "No candidates found for Donegal."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1932-02-16",
-      "message": "No candidates found for Galway."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1932-02-16",
-      "message": "No candidates found for Longford Westmeath."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1932-02-16",
-      "message": "No candidates found for Tipperary."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1932-02-16",
-      "message": "No candidates found for Waterford."
     },
     {
       "severity": "warning",
@@ -1516,78 +735,6 @@
       "category": "first-pref-sum",
       "key": "house-of-commons-of-the-united-kingdom__1929-05-30",
       "message": "Down first-preference sum 149028 exceeds valid poll 74514."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1927-09-15",
-      "message": "No candidates found for Clare."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1927-09-15",
-      "message": "No candidates found for Cork East."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1927-09-15",
-      "message": "No candidates found for Donegal."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1927-09-15",
-      "message": "No candidates found for Galway."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1927-09-15",
-      "message": "No candidates found for Waterford."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1927-06-09",
-      "message": "No candidates found for Carlow Kilkenny."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1927-06-09",
-      "message": "No candidates found for Clare."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1927-06-09",
-      "message": "No candidates found for Cork East."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1927-06-09",
-      "message": "No candidates found for Donegal."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1927-06-09",
-      "message": "No candidates found for Galway."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1927-06-09",
-      "message": "No candidates found for Longford Westmeath."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "dail-eireann__1927-06-09",
-      "message": "No candidates found for Waterford."
     },
     {
       "severity": "warning",

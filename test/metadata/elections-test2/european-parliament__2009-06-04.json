@@ -47,7 +47,7 @@
     },
     {
       "party": "DUP",
-      "seats": 0,
+      "seats": 1,
       "stood": 1,
       "votes": 88346,
       "colour": "#d46a4c",
@@ -55,7 +55,7 @@
     },
     {
       "party": "UUP",
-      "seats": 0,
+      "seats": 1,
       "stood": 1,
       "votes": 82893,
       "colour": "#48a5ee",
@@ -90,7 +90,7 @@
       "seats": 0,
       "stood": 1,
       "votes": 15764,
-      "colour": "#8dc63f",
+      "colour": "#22ac6f",
       "share": 3.253180125966833
     }
   ],
@@ -451,7 +451,7 @@
         "firstPrefs": 88346,
         "finalVotes": 115722,
         "stood": 1,
-        "elected": 0,
+        "elected": 1,
         "constituencies": [
           "Northern Ireland"
         ],
@@ -462,7 +462,7 @@
             "constituency": "Northern Ireland",
             "firstPref": 88346,
             "finalVotes": 115722,
-            "status": ""
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 18.23175916066137
@@ -473,7 +473,7 @@
         "firstPrefs": 82893,
         "finalVotes": 132227,
         "stood": 1,
-        "elected": 0,
+        "elected": 1,
         "constituencies": [
           "Northern Ireland"
         ],
@@ -484,7 +484,7 @@
             "constituency": "Northern Ireland",
             "firstPref": 82893,
             "finalVotes": 132227,
-            "status": ""
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 17.106436195240335
@@ -607,7 +607,7 @@
         "colour": "#D46A4C",
         "firstPrefs": 88346,
         "finalVotes": 115722,
-        "electedCount": 0,
+        "electedCount": 1,
         "constituencies": [
           "Northern Ireland"
         ],
@@ -616,7 +616,7 @@
             "constituency": "Northern Ireland",
             "firstPref": 88346,
             "finalVotes": 115722,
-            "status": ""
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 18.23175916066137
@@ -628,7 +628,7 @@
         "colour": "#48A5EE",
         "firstPrefs": 82893,
         "finalVotes": 132227,
-        "electedCount": 0,
+        "electedCount": 1,
         "constituencies": [
           "Northern Ireland"
         ],
@@ -637,7 +637,7 @@
             "constituency": "Northern Ireland",
             "firstPref": 82893,
             "finalVotes": 132227,
-            "status": ""
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 17.106436195240335
@@ -732,7 +732,7 @@
     {
       "constituency": "Northern Ireland",
       "winnerParty": "Sinn Féin",
-      "winnerName": "Bairbre de Brún",
+      "winnerName": "3 elected",
       "leadingParty": "Sinn Féin",
       "leadingName": "Bairbre de Brún",
       "leadingVotes": 126184,
@@ -740,7 +740,7 @@
       "turnoutPct": 42.81,
       "majority": 37838,
       "majorityPct": 7.81,
-      "seatsWon": 1,
+      "seatsWon": 3,
       "seatsTotal": 3,
       "quota": 121144,
       "electorate": 1141979,
@@ -759,6 +759,7 @@
           "finalVotes": 126184,
           "elected": true,
           "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
@@ -793,11 +794,12 @@
           "party": "DUP",
           "firstPrefs": 88346,
           "finalVotes": 115722,
-          "elected": false,
-          "electedAt": null,
+          "elected": true,
+          "electedAt": 3,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Deemed elected",
           "colour": "#D46A4C",
           "counts": [
             {
@@ -818,7 +820,7 @@
               "count": 3,
               "total": 115722,
               "transfers": 24462,
-              "status": "",
+              "status": "Deemed elected",
               "firstPrefs": 88346
             }
           ]
@@ -829,11 +831,12 @@
           "party": "UUP",
           "firstPrefs": 82893,
           "finalVotes": 132227,
-          "elected": false,
-          "electedAt": null,
+          "elected": true,
+          "electedAt": 3,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Deemed elected",
           "colour": "#48A5EE",
           "counts": [
             {
@@ -854,7 +857,7 @@
               "count": 3,
               "total": 132227,
               "transfers": 37942,
-              "status": "",
+              "status": "Deemed elected",
               "firstPrefs": 82893
             }
           ]
@@ -867,6 +870,7 @@
           "finalVotes": 97428,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -903,6 +907,7 @@
           "finalVotes": 70481,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": true,
           "excludedAt": 2,
           "status": "Excluded",
@@ -939,6 +944,7 @@
           "finalVotes": 26699,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": true,
           "excludedAt": 1,
           "status": "Excluded",
@@ -968,6 +974,7 @@
           "finalVotes": 15764,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": true,
           "excludedAt": 1,
           "status": "Excluded",
@@ -999,6 +1006,7 @@
           "finalVotes": 126184,
           "elected": true,
           "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
@@ -1024,6 +1032,80 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 126184
+            }
+          ]
+        },
+        {
+          "id": "35426",
+          "name": "Jim Nicholson",
+          "party": "UUP",
+          "firstPrefs": 82893,
+          "finalVotes": 132227,
+          "elected": true,
+          "electedAt": 3,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Deemed elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 82893,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 82893
+            },
+            {
+              "count": 2,
+              "total": 94285,
+              "transfers": 11392,
+              "status": "",
+              "firstPrefs": 82893
+            },
+            {
+              "count": 3,
+              "total": 132227,
+              "transfers": 37942,
+              "status": "Deemed elected",
+              "firstPrefs": 82893
+            }
+          ]
+        },
+        {
+          "id": "85968",
+          "name": "Diane Dodds",
+          "party": "DUP",
+          "firstPrefs": 88346,
+          "finalVotes": 115722,
+          "elected": true,
+          "electedAt": 3,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Deemed elected",
+          "colour": "#D46A4C",
+          "counts": [
+            {
+              "count": 1,
+              "total": 88346,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 88346
+            },
+            {
+              "count": 2,
+              "total": 91260,
+              "transfers": 2914,
+              "status": "",
+              "firstPrefs": 88346
+            },
+            {
+              "count": 3,
+              "total": 115722,
+              "transfers": 24462,
+              "status": "Deemed elected",
+              "firstPrefs": 88346
             }
           ]
         }

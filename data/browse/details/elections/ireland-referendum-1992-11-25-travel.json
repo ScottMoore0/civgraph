@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-04T21:58:59.696Z",
+  "generatedAt": "2026-06-06T18:51:03.527Z",
   "item": {
     "id": "ireland-referendum__1992-11-25-travel",
     "key": "ireland-referendum__1992-11-25-travel",
@@ -12,7 +12,7 @@
     "date": "1992-11-25-travel",
     "year": 1992,
     "decade": "1990s",
-    "subtitle": "41 constituencies; 3 unmatched",
+    "subtitle": "41 constituencies; 2 unmatched",
     "provider": "Referendum (Ireland)",
     "category": "Elections",
     "geography": "Republic of Ireland",
@@ -59,8 +59,8 @@
       "Wexford"
     ],
     "totalConstituencies": 41,
-    "matchedCount": 38,
-    "unmatchedCount": 3,
+    "matchedCount": 39,
+    "unmatchedCount": 2,
     "sourceMapId": "dail-1998",
     "layerId": "dail-1998-vector-test",
     "labelProperty": "CON_NAME",
@@ -98,7 +98,7 @@
       },
       {
         "party": "Yes",
-        "seats": 41,
+        "seats": 0,
         "stood": 41,
         "votes": 572177,
         "share": 34.6464431168762,
@@ -110,6 +110,30 @@
       "validPoll": 1651474,
       "constituencies": 41
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1992 Irish referendum",
+        "url": "https://en.wikipedia.org/wiki/Thirteenth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "Wikipedia referendum result pages",
+        "url": "https://en.wikipedia.org/wiki/Thirteenth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "Wikipedia result source",
+        "url": "https://en.wikipedia.org/wiki/Thirteenth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "primary-result-source",
+        "scope": "election-result",
+        "note": "Source URL carried by the underlying election result data."
+      }
+    ],
     "resultEntries": [
       {
         "key": "ireland-referendum__1992-11-25-travel::carlow-kilkenny",
@@ -416,7 +440,7 @@
         "bodySlug": "ireland-referendum",
         "bodyGroup": null,
         "displayTitle": "1992 Irish referendum",
-        "displaySubtitle": "41 constituencies; 3 unmatched",
+        "displaySubtitle": "41 constituencies; 2 unmatched",
         "displayProvider": "Referendum (Ireland)",
         "localBodies": null,
         "constituencies": [
@@ -468,11 +492,10 @@
         "labelProperty": "CON_NAME",
         "loadable": true,
         "placeholder": false,
-        "matchedCount": 38,
-        "unmatchedCount": 3,
+        "matchedCount": 39,
+        "unmatchedCount": 2,
         "totalConstituencies": 41,
         "unmatchedConstituencies": [
-          "Kildare",
           "Mayo East",
           "Mayo West"
         ],
@@ -487,7 +510,8 @@
           "turnout",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-referendum__1992-11-25-travel.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-referendum__1992-11-25-travel.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/dail-1998-vector-test.json"

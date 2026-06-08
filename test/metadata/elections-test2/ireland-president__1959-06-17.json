@@ -64,7 +64,7 @@
     },
     {
       "party": "Fine Gael",
-      "seats": 1,
+      "seats": 0,
       "stood": 1,
       "votes": 417536,
       "colour": "#6699ff",
@@ -76,7 +76,7 @@
     "totalPoll": 0,
     "totalElectorate": 1678450,
     "totalSpoiled": 0,
-    "totalSeats": 0
+    "totalSeats": 1
   },
   "mainLikeCandidateSummary": [
     {
@@ -91,20 +91,23 @@
       "constPct": 56.303615027748734,
       "firstPrefPct": 56.303615027748734,
       "finalVotes": 538003,
-      "elected": false,
-      "electedAt": null,
+      "elected": true,
+      "electedAt": 1,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
-      "status": "Not Elected",
-      "counts": {
-        "1": {
+      "resolvedCount": null,
+      "countDisplay": "",
+      "status": "Elected",
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 538003,
           "transfers": 0,
-          "status": "Made Quota"
+          "status": "Made Quota",
+          "firstPrefs": 538003,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "eamon de valera|fianna fáil"
     },
     {
@@ -123,16 +126,19 @@
       "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": null,
+      "countDisplay": "",
       "status": "Not Elected",
-      "counts": {
-        "1": {
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 417536,
           "transfers": 0,
-          "status": ""
+          "status": "",
+          "firstPrefs": 417536,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "general seán maceoin|fine gael"
     }
   ],
@@ -245,7 +251,7 @@
       "majority": 120467,
       "majorityPct": 12.61,
       "seatsWon": 1,
-      "seatsTotal": null,
+      "seatsTotal": 1,
       "quota": 477770,
       "electorate": 1678450,
       "totalPoll": null,
@@ -263,6 +269,7 @@
           "finalVotes": 538003,
           "elected": true,
           "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
@@ -285,6 +292,7 @@
           "finalVotes": 417536,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -309,6 +317,7 @@
           "finalVotes": 538003,
           "elected": true,
           "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
@@ -327,14 +336,16 @@
       "countInfo": {
         "Constituency_Name": "Ireland",
         "Constituency_Number": "",
-        "Number_Of_Seats": "",
+        "Number_Of_Seats": "1",
+        "Quota": "477770",
         "Spoiled": "",
         "Total_Electorate": "1678450",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "955539"
       },
       "countGroup": [
         {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "1",
           "Candidate_First_Pref_Votes": "538003",
           "Constituency_Number": "",
@@ -345,12 +356,15 @@
           "Party_Colour": "#66bb66",
           "Party_Name": "Fianna Fáil",
           "Status": "Made Quota",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "",
           "Total_Votes": "538003",
           "Transfers": "0",
           "candidateName": "Eamon de Valera",
           "id": 0
         },
         {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "2",
           "Candidate_First_Pref_Votes": "417536",
           "Constituency_Number": "",
@@ -361,6 +375,8 @@
           "Party_Colour": "#6699ff",
           "Party_Name": "Fine Gael",
           "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "",
           "Total_Votes": "417536",
           "Transfers": "0",
           "candidateName": "General Seán MacEoin",
@@ -377,17 +393,20 @@
       "animationPayload": {
         "Constituency": {
           "__syntheticCountGroup": true,
+          "__syntheticCountStages": false,
           "countInfo": {
             "Constituency_Name": "Ireland",
             "Constituency_Number": "",
-            "Number_Of_Seats": "",
+            "Number_Of_Seats": "1",
+            "Quota": "477770",
             "Spoiled": "",
             "Total_Electorate": "1678450",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "955539"
           },
           "countGroup": [
             {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "1",
               "Candidate_First_Pref_Votes": "538003",
               "Constituency_Number": "",
@@ -398,12 +417,15 @@
               "Party_Colour": "#66bb66",
               "Party_Name": "Fianna Fáil",
               "Status": "Made Quota",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "",
               "Total_Votes": "538003",
               "Transfers": "0",
               "candidateName": "Eamon de Valera",
               "id": 0
             },
             {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "2",
               "Candidate_First_Pref_Votes": "417536",
               "Constituency_Number": "",
@@ -414,6 +436,8 @@
               "Party_Colour": "#6699ff",
               "Party_Name": "Fine Gael",
               "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "",
               "Total_Votes": "417536",
               "Transfers": "0",
               "candidateName": "General Seán MacEoin",

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-04T21:58:59.696Z",
+  "generatedAt": "2026-06-06T18:51:03.527Z",
   "item": {
     "id": "ireland-president__1983-12-03",
     "key": "ireland-president__1983-12-03",
@@ -42,6 +42,7 @@
     "availableStyleModes": [
       "winner",
       "leadingParty",
+      "voteShare",
       "seats"
     ],
     "partySummary": [
@@ -59,6 +60,30 @@
       "validPoll": 1,
       "constituencies": 1
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1983 Irish presidential election",
+        "url": "https://en.wikipedia.org/wiki/1983_Irish_presidential_election",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland presidential election result pages",
+        "url": "https://electionsireland.org/results/president/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "ElectionsIreland result source",
+        "url": "https://electionsireland.org/result.cfm?election=1983P&cons=194",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "election-result",
+        "note": "Source URL carried by the underlying election result data."
+      }
+    ],
     "resultEntries": [
       {
         "key": "ireland-president__1983-12-03::ireland",
@@ -108,8 +133,10 @@
         "stylingModes": [
           "winner",
           "leadingParty",
+          "voteShare",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-president__1983-12-03.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-president__1983-12-03.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/roi-1938-vector-test.json"

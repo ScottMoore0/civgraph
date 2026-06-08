@@ -38,6 +38,14 @@
   ],
   "partySummary": [
     {
+      "party": "Sinn Féin",
+      "seats": 1,
+      "stood": 1,
+      "votes": 126951,
+      "colour": "#326760",
+      "share": 22.176900219583647
+    },
+    {
       "party": "DUP",
       "seats": 1,
       "stood": 1,
@@ -46,16 +54,8 @@
       "share": 21.834510443761605
     },
     {
-      "party": "Sinn Féin",
-      "seats": 0,
-      "stood": 1,
-      "votes": 126951,
-      "colour": "#326760",
-      "share": 22.176900219583647
-    },
-    {
       "party": "Alliance",
-      "seats": 0,
+      "seats": 1,
       "stood": 1,
       "votes": 105928,
       "colour": "#f6cb2f",
@@ -90,7 +90,7 @@
       "seats": 0,
       "stood": 1,
       "votes": 12471,
-      "colour": "#8dc63f",
+      "colour": "#22ac6f",
       "share": 2.1785422929983036
     },
     {
@@ -659,6 +659,28 @@
     "totalValid": 572447,
     "parties": [
       {
+        "name": "Sinn Féin",
+        "colour": "#326760",
+        "firstPrefs": 126951,
+        "finalVotes": 152436.5,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Northern Ireland"
+        ],
+        "candidates": [
+          {
+            "personId": "263",
+            "name": "Martina Anderson",
+            "constituency": "Northern Ireland",
+            "firstPref": 126951,
+            "finalVotes": 152436.5,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 22.176900219583647
+      },
+      {
         "name": "DUP",
         "colour": "#D46A4C",
         "firstPrefs": 124991,
@@ -681,34 +703,12 @@
         "shareOfTotal": 21.834510443761605
       },
       {
-        "name": "Sinn Féin",
-        "colour": "#326760",
-        "firstPrefs": 126951,
-        "finalVotes": 152436.5,
-        "stood": 1,
-        "elected": 0,
-        "constituencies": [
-          "Northern Ireland"
-        ],
-        "candidates": [
-          {
-            "personId": "263",
-            "name": "Martina Anderson",
-            "constituency": "Northern Ireland",
-            "firstPref": 126951,
-            "finalVotes": 152436.5,
-            "status": ""
-          }
-        ],
-        "shareOfTotal": 22.176900219583647
-      },
-      {
         "name": "Alliance",
         "colour": "#F6CB2F",
         "firstPrefs": 105928,
         "finalVotes": 170370,
         "stood": 1,
-        "elected": 0,
+        "elected": 1,
         "constituencies": [
           "Northern Ireland"
         ],
@@ -719,7 +719,7 @@
             "constituency": "Northern Ireland",
             "firstPref": 105928,
             "finalVotes": 170370,
-            "status": ""
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 18.50442049656999
@@ -889,6 +889,27 @@
     ],
     "candidates": [
       {
+        "personId": "263",
+        "name": "Martina Anderson",
+        "party": "Sinn Féin",
+        "colour": "#326760",
+        "firstPrefs": 126951,
+        "finalVotes": 152436.5,
+        "electedCount": 1,
+        "constituencies": [
+          "Northern Ireland"
+        ],
+        "appearances": [
+          {
+            "constituency": "Northern Ireland",
+            "firstPref": 126951,
+            "finalVotes": 152436.5,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 22.176900219583647
+      },
+      {
         "personId": "85968",
         "name": "Diane Dodds",
         "party": "DUP",
@@ -910,34 +931,13 @@
         "shareOfTotal": 21.834510443761605
       },
       {
-        "personId": "263",
-        "name": "Martina Anderson",
-        "party": "Sinn Féin",
-        "colour": "#326760",
-        "firstPrefs": 126951,
-        "finalVotes": 152436.5,
-        "electedCount": 0,
-        "constituencies": [
-          "Northern Ireland"
-        ],
-        "appearances": [
-          {
-            "constituency": "Northern Ireland",
-            "firstPref": 126951,
-            "finalVotes": 152436.5,
-            "status": ""
-          }
-        ],
-        "shareOfTotal": 22.176900219583647
-      },
-      {
         "personId": "51102",
         "name": "Naomi Long",
         "party": "Alliance",
         "colour": "#F6CB2F",
         "firstPrefs": 105928,
         "finalVotes": 170370,
-        "electedCount": 0,
+        "electedCount": 1,
         "constituencies": [
           "Northern Ireland"
         ],
@@ -946,7 +946,7 @@
             "constituency": "Northern Ireland",
             "firstPref": 105928,
             "finalVotes": 170370,
-            "status": ""
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 18.50442049656999
@@ -1125,7 +1125,7 @@
     {
       "constituency": "Northern Ireland",
       "winnerParty": "DUP",
-      "winnerName": "Diane Dodds",
+      "winnerName": "3 elected",
       "leadingParty": "Sinn Féin",
       "leadingName": "Martina Anderson",
       "leadingVotes": 126951,
@@ -1133,7 +1133,7 @@
       "turnoutPct": 45.12,
       "majority": 1960,
       "majorityPct": 0.34,
-      "seatsWon": 1,
+      "seatsWon": 3,
       "seatsTotal": 3,
       "quota": 143112,
       "electorate": 1278951,
@@ -1150,11 +1150,12 @@
           "party": "Sinn Féin",
           "firstPrefs": 126951,
           "finalVotes": 152436.5,
-          "elected": false,
-          "electedAt": null,
+          "elected": true,
+          "electedAt": 5,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Deemed elected",
           "colour": "#326760",
           "counts": [
             {
@@ -1189,7 +1190,7 @@
               "count": 5,
               "total": 152436.5,
               "transfers": 24236,
-              "status": "",
+              "status": "Deemed elected",
               "firstPrefs": 126951
             }
           ]
@@ -1202,6 +1203,7 @@
           "finalVotes": 155422,
           "elected": true,
           "electedAt": 3,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
@@ -1250,11 +1252,12 @@
           "party": "Alliance",
           "firstPrefs": 105928,
           "finalVotes": 170370,
-          "elected": false,
-          "electedAt": null,
+          "elected": true,
+          "electedAt": 5,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Deemed elected",
           "colour": "#F6CB2F",
           "counts": [
             {
@@ -1289,7 +1292,7 @@
               "count": 5,
               "total": 170370,
               "transfers": 46453,
-              "status": "",
+              "status": "Deemed elected",
               "firstPrefs": 105928
             }
           ]
@@ -1302,6 +1305,7 @@
           "finalVotes": 82413.5,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": true,
           "excludedAt": 4,
           "status": "Excluded",
@@ -1352,6 +1356,7 @@
           "finalVotes": 90079,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -1402,6 +1407,7 @@
           "finalVotes": 54736,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": true,
           "excludedAt": 2,
           "status": "Excluded",
@@ -1438,6 +1444,7 @@
           "finalVotes": 12471,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": true,
           "excludedAt": 1,
           "status": "Excluded",
@@ -1467,6 +1474,7 @@
           "finalVotes": 5115,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": true,
           "excludedAt": 1,
           "status": "Excluded",
@@ -1496,6 +1504,7 @@
           "finalVotes": 1719,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": true,
           "excludedAt": 1,
           "status": "Excluded",
@@ -1525,6 +1534,7 @@
           "finalVotes": 948,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": true,
           "excludedAt": 1,
           "status": "Excluded",
@@ -1554,6 +1564,7 @@
           "finalVotes": 662,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": true,
           "excludedAt": 1,
           "status": "Excluded",
@@ -1585,6 +1596,7 @@
           "finalVotes": 155422,
           "elected": true,
           "electedAt": 3,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
@@ -1624,6 +1636,108 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 124991
+            }
+          ]
+        },
+        {
+          "id": "51102",
+          "name": "Naomi Long",
+          "party": "Alliance",
+          "firstPrefs": 105928,
+          "finalVotes": 170370,
+          "elected": true,
+          "electedAt": 5,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Deemed elected",
+          "colour": "#F6CB2F",
+          "counts": [
+            {
+              "count": 1,
+              "total": 105928,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 105928
+            },
+            {
+              "count": 2,
+              "total": 115327,
+              "transfers": 9399,
+              "status": "",
+              "firstPrefs": 105928
+            },
+            {
+              "count": 3,
+              "total": 122263,
+              "transfers": 6936,
+              "status": "",
+              "firstPrefs": 105928
+            },
+            {
+              "count": 4,
+              "total": 123917,
+              "transfers": 1654,
+              "status": "",
+              "firstPrefs": 105928
+            },
+            {
+              "count": 5,
+              "total": 170370,
+              "transfers": 46453,
+              "status": "Deemed elected",
+              "firstPrefs": 105928
+            }
+          ]
+        },
+        {
+          "id": "263",
+          "name": "Martina Anderson",
+          "party": "Sinn Féin",
+          "firstPrefs": 126951,
+          "finalVotes": 152436.5,
+          "elected": true,
+          "electedAt": 5,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Deemed elected",
+          "colour": "#326760",
+          "counts": [
+            {
+              "count": 1,
+              "total": 126951,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 126951
+            },
+            {
+              "count": 2,
+              "total": 128117,
+              "transfers": 1166,
+              "status": "",
+              "firstPrefs": 126951
+            },
+            {
+              "count": 3,
+              "total": 128190,
+              "transfers": 73,
+              "status": "",
+              "firstPrefs": 126951
+            },
+            {
+              "count": 4,
+              "total": 128200.5,
+              "transfers": 10.5,
+              "status": "",
+              "firstPrefs": 126951
+            },
+            {
+              "count": 5,
+              "total": 152436.5,
+              "transfers": 24236,
+              "status": "Deemed elected",
+              "firstPrefs": 126951
             }
           ]
         }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-04T21:58:59.696Z",
+  "generatedAt": "2026-06-06T18:51:03.527Z",
   "item": {
     "id": "ireland-european__2004-06-11",
     "key": "ireland-european__2004-06-11",
@@ -46,18 +46,12 @@
     "availableStyleModes": [
       "winner",
       "leadingParty",
+      "voteShare",
+      "majority",
       "seats",
       "quota"
     ],
     "partySummary": [
-      {
-        "party": "Fianna Fáil",
-        "seats": 6,
-        "stood": 8,
-        "votes": 524504,
-        "share": 29.453808693777066,
-        "colour": "#66bb66"
-      },
       {
         "party": "Fine Gael",
         "seats": 5,
@@ -67,8 +61,16 @@
         "colour": "#6699ff"
       },
       {
+        "party": "Fianna Fáil",
+        "seats": 4,
+        "stood": 8,
+        "votes": 524504,
+        "share": 29.453808693777066,
+        "colour": "#66bb66"
+      },
+      {
         "party": "Independent",
-        "seats": 3,
+        "seats": 2,
         "stood": 16,
         "votes": 270518,
         "share": 15.191086093191252,
@@ -76,7 +78,7 @@
       },
       {
         "party": "Sinn Féin",
-        "seats": 3,
+        "seats": 1,
         "stood": 4,
         "votes": 197715,
         "share": 11.102793850743051,
@@ -84,7 +86,7 @@
       },
       {
         "party": "Irish Labour",
-        "seats": 3,
+        "seats": 1,
         "stood": 5,
         "votes": 188132,
         "share": 10.564655249869718,
@@ -96,7 +98,7 @@
         "stood": 3,
         "votes": 76917,
         "share": 4.319316160218512,
-        "colour": "#8dc63f"
+        "colour": "#22ac6f"
       },
       {
         "party": "Socialist",
@@ -120,6 +122,29 @@
       "validPoll": 1780768,
       "constituencies": 4
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2004 European Parliament election (ROI)",
+        "url": "https://en.wikipedia.org/wiki/2004_European_Parliament_election_in_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland European election result pages",
+        "url": "https://electionsireland.org/results/europe/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "4 constituency/result source pages are cited on the result sub-entries",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here."
+      }
+    ],
     "resultEntries": [
       {
         "key": "ireland-european__2004-06-11::dublin",
@@ -193,9 +218,12 @@
         "stylingModes": [
           "winner",
           "leadingParty",
+          "voteShare",
+          "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-european__2004-06-11.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-european__2004-06-11.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/mep-2004-vector-test.json"

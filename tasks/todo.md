@@ -1,3 +1,22 @@
+# Fix NI Assembly, Constitutional Convention, and local election seat totals
+- [x] Record scope
+  - Task: review `/test2` Northern Ireland Assembly, Northern Ireland Constitutional Convention, and Northern Ireland local election bundles for constituency/DEA seat undercounts; correct the source/generation path using Wikipedia and local source evidence where possible.
+  - Symptom: some Assembly/Convention results appear to report fewer elected seats than the known constituency seat entitlement, especially where 2017/2022 Assembly should have 5 seats per constituency and 1998-2016 Assembly should have 6 seats per constituency.
+  - Root cause to verify: generated candidate summaries may be deriving seats from incomplete `Status`/`Occurred_On_Count` data, older Wikipedia/source rows may be missing elected markers, and local election DEA seat totals may not be validated against the source count metadata.
+  - Permanent prevention action: add a generator/audit guardrail that validates known NI Assembly fixed-seat eras and flags NI local/Convention rows where elected totals disagree with source seat metadata.
+- [x] Audit affected generated bundles
+  - Check every NI Assembly and Constitutional Convention election bundle, plus NI local election bundles, for `seatsWon`, `seatsTotal`, elected candidate counts, and source `Number_Of_Seats`.
+- [x] Research source expectations
+  - Use Wikipedia source pages as the primary check for fixed-seat Assembly eras and representative older/NI local edge cases; preserve source URLs or notes for any explicit correction records.
+- [x] Implement source/generator fixes
+  - Correct upstream raw election data or add a documented correction sidecar, then regenerate `/test2` election bundles and related manifests.
+- [x] Verify, commit, and push
+  - Run focused audit/route validation and `check:test2`/build coverage before committing only intentional files.
+  - Completed: fixed the shared election summariser so raw local-election `Party` and boolean `Elected` fields are honoured, and so under-marked STV rows are completed against source seat totals where possible.
+  - Completed: corrected upstream raw NI local/Assembly rows for 1973 Ballymoney Area C, 1981 Belfast Area H, 1981 Omagh Area C, 1985 Lisburn Town, 2005 Antrim Line, 2005 Coleraine East, 2005 Skerries, and the 1984 Belfast South Assembly by-election.
+  - Completed: added `/test2` route validation that fails if NI Assembly, Northern Ireland Constitutional Convention, or NI local-government generated results have elected-candidate counts that disagree with fixed Assembly-era rules or source seat metadata.
+  - Verification evidence: `node --check js/election-domain.mjs`; `node --check scripts/validate-test2-route.mjs`; `node scripts/build-test2-election-manifest.mjs`; `node scripts/validate-test2-route.mjs`; focused NI seat audit reported `ISSUES 0`; `npm run check:test2`; escalated `npm run build:test2`.
+
 # Research remaining post-1921 Dail transfer gaps
 - [x] Record scope
   - Task: research the 53 post-1921 Dail constituency rows that still lack local Wikipedia count sidecars and determine the correct handling for each.

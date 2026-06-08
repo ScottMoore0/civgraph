@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-04T21:58:59.696Z",
+  "generatedAt": "2026-06-06T18:51:03.527Z",
   "item": {
     "id": "ireland-european__1994-06-09",
     "key": "ireland-european__1994-06-09",
@@ -46,18 +46,12 @@
     "availableStyleModes": [
       "winner",
       "leadingParty",
+      "voteShare",
+      "majority",
       "seats",
       "quota"
     ],
     "partySummary": [
-      {
-        "party": "Fine Gael",
-        "seats": 8,
-        "stood": 8,
-        "votes": 276095,
-        "share": 24.27230129495644,
-        "colour": "#6699ff"
-      },
       {
         "party": "Fianna Fáil",
         "seats": 7,
@@ -67,32 +61,24 @@
         "colour": "#66bb66"
       },
       {
+        "party": "Fine Gael",
+        "seats": 4,
+        "stood": 8,
+        "votes": 276095,
+        "share": 24.27230129495644,
+        "colour": "#6699ff"
+      },
+      {
         "party": "Green",
         "seats": 2,
         "stood": 4,
         "votes": 90046,
         "share": 7.916201461111746,
-        "colour": "#8dc63f"
-      },
-      {
-        "party": "Progressive Democrats",
-        "seats": 2,
-        "stood": 4,
-        "votes": 73696,
-        "share": 6.478826187482967,
-        "colour": "#6b7280"
-      },
-      {
-        "party": "Democratic Left",
-        "seats": 1,
-        "stood": 2,
-        "votes": 39706,
-        "share": 3.4906680498290092,
-        "colour": "#6b7280"
+        "colour": "#22ac6f"
       },
       {
         "party": "Irish Labour",
-        "seats": 0,
+        "seats": 1,
         "stood": 6,
         "votes": 124972,
         "share": 10.986646036448672,
@@ -100,11 +86,27 @@
       },
       {
         "party": "Independent",
-        "seats": 0,
+        "seats": 1,
         "stood": 8,
         "votes": 73988,
         "share": 6.5044967428285085,
         "colour": "#b8b8b8"
+      },
+      {
+        "party": "Progressive Democrats",
+        "seats": 0,
+        "stood": 4,
+        "votes": 73696,
+        "share": 6.478826187482967,
+        "colour": "#6b7280"
+      },
+      {
+        "party": "Democratic Left",
+        "seats": 0,
+        "stood": 2,
+        "votes": 39706,
+        "share": 3.4906680498290092,
+        "colour": "#6b7280"
       },
       {
         "party": "Sinn Féin",
@@ -136,6 +138,29 @@
       "validPoll": 1137490,
       "constituencies": 4
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1994 European Parliament election (ROI)",
+        "url": "https://en.wikipedia.org/wiki/1994_European_Parliament_election_in_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland European election result pages",
+        "url": "https://electionsireland.org/results/europe/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "4 constituency/result source pages are cited on the result sub-entries",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here."
+      }
+    ],
     "resultEntries": [
       {
         "key": "ireland-european__1994-06-09::connaught-ulster",
@@ -209,9 +234,12 @@
         "stylingModes": [
           "winner",
           "leadingParty",
+          "voteShare",
+          "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-european__1994-06-09.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-european__1994-06-09.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/mep-1979-vector-test.json"

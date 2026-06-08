@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-04T21:58:59.696Z",
+  "generatedAt": "2026-06-06T18:51:03.527Z",
   "item": {
     "id": "ireland-referendum__1995-11-24-dissolution-of-marriage",
     "key": "ireland-referendum__1995-11-24-dissolution-of-marriage",
@@ -12,7 +12,7 @@
     "date": "1995-11-24-dissolution-of-marriage",
     "year": 1995,
     "decade": "1990s",
-    "subtitle": "41 constituencies; 3 unmatched",
+    "subtitle": "41 constituencies; 2 unmatched",
     "provider": "Referendum (Ireland)",
     "category": "Elections",
     "geography": "Republic of Ireland",
@@ -59,8 +59,8 @@
       "Wexford"
     ],
     "totalConstituencies": 41,
-    "matchedCount": 38,
-    "unmatchedCount": 3,
+    "matchedCount": 39,
+    "unmatchedCount": 2,
     "sourceMapId": "dail-1998",
     "layerId": "dail-1998-vector-test",
     "labelProperty": "CON_NAME",
@@ -89,20 +89,20 @@
     ],
     "partySummary": [
       {
-        "party": "Yes",
-        "seats": 41,
-        "stood": 41,
-        "votes": 818842,
-        "share": 50.27981603492635,
-        "colour": "#2aa82c"
-      },
-      {
         "party": "No",
-        "seats": 41,
+        "seats": 25,
         "stood": 41,
         "votes": 809728,
         "share": 49.72018396507366,
         "colour": "#d46a4c"
+      },
+      {
+        "party": "Yes",
+        "seats": 16,
+        "stood": 41,
+        "votes": 818842,
+        "share": 50.27981603492635,
+        "colour": "#2aa82c"
       }
     ],
     "totals": {
@@ -110,6 +110,30 @@
       "validPoll": 1628570,
       "constituencies": 41
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1995 Irish referendum",
+        "url": "https://en.wikipedia.org/wiki/Fifteenth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "Wikipedia referendum result pages",
+        "url": "https://en.wikipedia.org/wiki/Fifteenth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "Wikipedia result source",
+        "url": "https://en.wikipedia.org/wiki/Fifteenth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "primary-result-source",
+        "scope": "election-result",
+        "note": "Source URL carried by the underlying election result data."
+      }
+    ],
     "resultEntries": [
       {
         "key": "ireland-referendum__1995-11-24-dissolution-of-marriage::carlow-kilkenny",
@@ -416,7 +440,7 @@
         "bodySlug": "ireland-referendum",
         "bodyGroup": null,
         "displayTitle": "1995 Irish referendum",
-        "displaySubtitle": "41 constituencies; 3 unmatched",
+        "displaySubtitle": "41 constituencies; 2 unmatched",
         "displayProvider": "Referendum (Ireland)",
         "localBodies": null,
         "constituencies": [
@@ -468,11 +492,10 @@
         "labelProperty": "CON_NAME",
         "loadable": true,
         "placeholder": false,
-        "matchedCount": 38,
-        "unmatchedCount": 3,
+        "matchedCount": 39,
+        "unmatchedCount": 2,
         "totalConstituencies": 41,
         "unmatchedConstituencies": [
-          "Kildare",
           "Mayo East",
           "Mayo West"
         ],
@@ -487,7 +510,8 @@
           "turnout",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-referendum__1995-11-24-dissolution-of-marriage.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-referendum__1995-11-24-dissolution-of-marriage.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/dail-1998-vector-test.json"

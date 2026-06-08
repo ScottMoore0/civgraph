@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-04T21:58:59.696Z",
+  "generatedAt": "2026-06-06T18:51:03.527Z",
   "item": {
     "id": "ireland-president__1959-06-17",
     "key": "ireland-president__1959-06-17",
@@ -42,6 +42,8 @@
     "availableStyleModes": [
       "winner",
       "leadingParty",
+      "voteShare",
+      "majority",
       "seats",
       "quota"
     ],
@@ -56,7 +58,7 @@
       },
       {
         "party": "Fine Gael",
-        "seats": 1,
+        "seats": 0,
         "stood": 1,
         "votes": 417536,
         "share": 43.69638497225126,
@@ -68,6 +70,30 @@
       "validPoll": 955539,
       "constituencies": 1
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1959 Irish presidential election",
+        "url": "https://en.wikipedia.org/wiki/1959_Irish_presidential_election",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland presidential election result pages",
+        "url": "https://electionsireland.org/results/president/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "ElectionsIreland result source",
+        "url": "https://electionsireland.org/result.cfm?election=1959P&cons=194",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "election-result",
+        "note": "Source URL carried by the underlying election result data."
+      }
+    ],
     "resultEntries": [
       {
         "key": "ireland-president__1959-06-17::ireland",
@@ -117,9 +143,12 @@
         "stylingModes": [
           "winner",
           "leadingParty",
+          "voteShare",
+          "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-president__1959-06-17.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-president__1959-06-17.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/roi-1938-vector-test.json"

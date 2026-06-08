@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-04T21:58:59.696Z",
+  "generatedAt": "2026-06-06T18:51:03.527Z",
   "item": {
     "id": "ireland-european__1989-06-15",
     "key": "ireland-european__1989-06-15",
@@ -46,13 +46,15 @@
     "availableStyleModes": [
       "winner",
       "leadingParty",
+      "voteShare",
+      "majority",
       "seats",
       "quota"
     ],
     "partySummary": [
       {
         "party": "Fianna Fáil",
-        "seats": 7,
+        "seats": 6,
         "stood": 9,
         "votes": 514537,
         "share": 31.51394475993552,
@@ -60,7 +62,7 @@
       },
       {
         "party": "Fine Gael",
-        "seats": 6,
+        "seats": 4,
         "stood": 9,
         "votes": 353094,
         "share": 21.626014865917654,
@@ -68,7 +70,7 @@
       },
       {
         "party": "Progressive Democrats",
-        "seats": 2,
+        "seats": 1,
         "stood": 4,
         "votes": 194059,
         "share": 11.88556820241951,
@@ -76,7 +78,7 @@
       },
       {
         "party": "Irish Labour",
-        "seats": 2,
+        "seats": 1,
         "stood": 5,
         "votes": 155572,
         "share": 9.528347648842917,
@@ -112,7 +114,7 @@
         "stood": 2,
         "votes": 61041,
         "share": 3.738589648735123,
-        "colour": "#8dc63f"
+        "colour": "#22ac6f"
       },
       {
         "party": "Sinn Féin",
@@ -128,6 +130,29 @@
       "validPoll": 1632728,
       "constituencies": 4
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1989 European Parliament election (ROI)",
+        "url": "https://en.wikipedia.org/wiki/1989_European_Parliament_election_in_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland European election result pages",
+        "url": "https://electionsireland.org/results/europe/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "4 constituency/result source pages are cited on the result sub-entries",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here."
+      }
+    ],
     "resultEntries": [
       {
         "key": "ireland-european__1989-06-15::connaught-ulster",
@@ -201,9 +226,12 @@
         "stylingModes": [
           "winner",
           "leadingParty",
+          "voteShare",
+          "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-european__1989-06-15.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-european__1989-06-15.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/mep-1979-vector-test.json"

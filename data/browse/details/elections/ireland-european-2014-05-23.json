@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-04T21:58:59.696Z",
+  "generatedAt": "2026-06-06T18:51:03.527Z",
   "item": {
     "id": "ireland-european__2014-05-23",
     "key": "ireland-european__2014-05-23",
@@ -45,25 +45,19 @@
     "availableStyleModes": [
       "winner",
       "leadingParty",
+      "voteShare",
+      "majority",
       "seats",
       "quota"
     ],
     "partySummary": [
       {
         "party": "Fine Gael",
-        "seats": 5,
+        "seats": 4,
         "stood": 6,
         "votes": 369120,
         "share": 22.282884942994883,
         "colour": "#6699ff"
-      },
-      {
-        "party": "Fianna Fáil",
-        "seats": 3,
-        "stood": 5,
-        "votes": 369545,
-        "share": 22.30854116888558,
-        "colour": "#66bb66"
       },
       {
         "party": "Independent",
@@ -82,12 +76,12 @@
         "colour": "#326760"
       },
       {
-        "party": "Green",
+        "party": "Fianna Fáil",
         "seats": 1,
-        "stood": 3,
-        "votes": 81458,
-        "share": 4.917423173186165,
-        "colour": "#8dc63f"
+        "stood": 5,
+        "votes": 369545,
+        "share": 22.30854116888558,
+        "colour": "#66bb66"
       },
       {
         "party": "Irish Labour",
@@ -96,6 +90,14 @@
         "votes": 88229,
         "share": 5.326172127317663,
         "colour": "#cc0000"
+      },
+      {
+        "party": "Green",
+        "seats": 0,
+        "stood": 3,
+        "votes": 81458,
+        "share": 4.917423173186165,
+        "colour": "#22ac6f"
       },
       {
         "party": "Socialist",
@@ -119,7 +121,7 @@
         "stood": 1,
         "votes": 23875,
         "share": 1.4412762191536705,
-        "colour": "#e91d50"
+        "colour": "#ff0090"
       },
       {
         "party": "National Party",
@@ -143,6 +145,29 @@
       "validPoll": 1656518,
       "constituencies": 3
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2014 European Parliament election (ROI)",
+        "url": "https://en.wikipedia.org/wiki/2014_European_Parliament_election_in_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland European election result pages",
+        "url": "https://electionsireland.org/results/europe/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "3 constituency/result source pages are cited on the result sub-entries",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here."
+      }
+    ],
     "resultEntries": [
       {
         "key": "ireland-european__2014-05-23::dublin",
@@ -208,9 +233,12 @@
         "stylingModes": [
           "winner",
           "leadingParty",
+          "voteShare",
+          "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-european__2014-05-23.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-european__2014-05-23.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/mep-2014-vector-test.json"

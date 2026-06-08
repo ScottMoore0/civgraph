@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-04T21:58:59.696Z",
+  "generatedAt": "2026-06-06T18:51:03.527Z",
   "item": {
     "id": "ireland-european__2019-05-24",
     "key": "ireland-european__2019-05-24",
@@ -45,25 +45,19 @@
     "availableStyleModes": [
       "winner",
       "leadingParty",
+      "voteShare",
+      "majority",
       "seats",
       "quota"
     ],
     "partySummary": [
       {
         "party": "Fine Gael",
-        "seats": 4,
+        "seats": 5,
         "stood": 7,
         "votes": 496457,
         "share": 29.585034694660767,
         "colour": "#6699ff"
-      },
-      {
-        "party": "Sinn Féin",
-        "seats": 3,
-        "stood": 3,
-        "votes": 196078,
-        "share": 11.68474698283979,
-        "colour": "#326760"
       },
       {
         "party": "Fianna Fáil",
@@ -74,20 +68,12 @@
         "colour": "#66bb66"
       },
       {
-        "party": "Independent",
-        "seats": 2,
-        "stood": 26,
-        "votes": 264075,
-        "share": 15.736847374480654,
-        "colour": "#b8b8b8"
-      },
-      {
         "party": "Green",
         "seats": 2,
         "stood": 3,
         "votes": 190814,
         "share": 11.3710529013127,
-        "colour": "#8dc63f"
+        "colour": "#22ac6f"
       },
       {
         "party": "Independents 4 Change",
@@ -96,6 +82,22 @@
         "votes": 124046,
         "share": 7.392191496411349,
         "colour": "#6b7280"
+      },
+      {
+        "party": "Independent",
+        "seats": 1,
+        "stood": 26,
+        "votes": 264075,
+        "share": 15.736847374480654,
+        "colour": "#b8b8b8"
+      },
+      {
+        "party": "Sinn Féin",
+        "seats": 1,
+        "stood": 3,
+        "votes": 196078,
+        "share": 11.68474698283979,
+        "colour": "#326760"
       },
       {
         "party": "Irish Labour",
@@ -111,7 +113,7 @@
         "stood": 4,
         "votes": 38763,
         "share": 2.3099779031600627,
-        "colour": "#e91d50"
+        "colour": "#8e2420"
       },
       {
         "party": "Social Democrats",
@@ -119,7 +121,7 @@
         "stood": 1,
         "votes": 20331,
         "share": 1.2115718790895245,
-        "colour": "#752f8a"
+        "colour": "#752f8b"
       },
       {
         "party": "Renua",
@@ -159,6 +161,29 @@
       "validPoll": 1678068,
       "constituencies": 3
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2019 European Parliament election (ROI)",
+        "url": "https://en.wikipedia.org/wiki/2019_European_Parliament_election_in_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland European election result pages",
+        "url": "https://electionsireland.org/results/europe/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "3 constituency/result source pages are cited on the result sub-entries",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here."
+      }
+    ],
     "resultEntries": [
       {
         "key": "ireland-european__2019-05-24::dublin",
@@ -224,9 +249,12 @@
         "stylingModes": [
           "winner",
           "leadingParty",
+          "voteShare",
+          "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-european__2019-05-24.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-european__2019-05-24.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/mep-2019-vector-test.json"

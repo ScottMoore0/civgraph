@@ -56,7 +56,7 @@
   "mainLikePartySummary": [
     {
       "party": "Independent",
-      "seats": 4,
+      "seats": 1,
       "stood": 5,
       "votes": 1379913,
       "colour": "#b8b8b8",
@@ -64,7 +64,7 @@
     },
     {
       "party": "Sinn Féin",
-      "seats": 1,
+      "seats": 0,
       "stood": 1,
       "votes": 93987,
       "colour": "#326760",
@@ -76,7 +76,7 @@
     "totalPoll": 0,
     "totalElectorate": 3401681,
     "totalSpoiled": 0,
-    "totalSeats": 0
+    "totalSeats": 1
   },
   "mainLikeCandidateSummary": [
     {
@@ -91,20 +91,23 @@
       "constPct": 55.80880656760975,
       "firstPrefPct": 55.80880656760975,
       "finalVotes": 822566,
-      "elected": false,
-      "electedAt": null,
+      "elected": true,
+      "electedAt": 1,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
-      "status": "Not Elected",
-      "counts": {
-        "1": {
+      "resolvedCount": null,
+      "countDisplay": "",
+      "status": "Elected",
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 822566,
           "transfers": 0,
-          "status": "Made Quota"
+          "status": "Made Quota",
+          "firstPrefs": 822566,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "michael d higgins|independent"
     },
     {
@@ -123,16 +126,19 @@
       "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": null,
+      "countDisplay": "",
       "status": "Not Elected",
-      "counts": {
-        "1": {
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 342727,
           "transfers": 0,
-          "status": ""
+          "status": "",
+          "firstPrefs": 342727,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "peter casey|independent"
     },
     {
@@ -151,16 +157,19 @@
       "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": null,
+      "countDisplay": "",
       "status": "Not Elected",
-      "counts": {
-        "1": {
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 94514,
           "transfers": 0,
-          "status": ""
+          "status": "",
+          "firstPrefs": 94514,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "seán gallagher|independent"
     },
     {
@@ -179,16 +188,19 @@
       "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": null,
+      "countDisplay": "",
       "status": "Not Elected",
-      "counts": {
-        "1": {
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 93987,
           "transfers": 0,
-          "status": ""
+          "status": "",
+          "firstPrefs": 93987,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "liadh ní riada|sinn féin"
     },
     {
@@ -207,16 +219,19 @@
       "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": null,
+      "countDisplay": "",
       "status": "Not Elected",
-      "counts": {
-        "1": {
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 87908,
           "transfers": 0,
-          "status": ""
+          "status": "",
+          "firstPrefs": 87908,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "joan freeman|independent"
     },
     {
@@ -235,16 +250,19 @@
       "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": null,
+      "countDisplay": "",
       "status": "Not Elected",
-      "counts": {
-        "1": {
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 32198,
           "transfers": 0,
-          "status": ""
+          "status": "",
+          "firstPrefs": 32198,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "gavin duffy|independent"
     }
   ],
@@ -473,7 +491,7 @@
       "majority": 479839,
       "majorityPct": 32.56,
       "seatsWon": 1,
-      "seatsTotal": null,
+      "seatsTotal": 1,
       "quota": 736951,
       "electorate": 3401681,
       "totalPoll": null,
@@ -491,6 +509,7 @@
           "finalVotes": 822566,
           "elected": true,
           "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
@@ -513,6 +532,7 @@
           "finalVotes": 342727,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -535,6 +555,7 @@
           "finalVotes": 94514,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -557,6 +578,7 @@
           "finalVotes": 93987,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -579,6 +601,7 @@
           "finalVotes": 87908,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -601,6 +624,7 @@
           "finalVotes": 32198,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -625,6 +649,7 @@
           "finalVotes": 822566,
           "elected": true,
           "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
@@ -643,14 +668,16 @@
       "countInfo": {
         "Constituency_Name": "Ireland",
         "Constituency_Number": "",
-        "Number_Of_Seats": "",
+        "Number_Of_Seats": "1",
+        "Quota": "736951",
         "Spoiled": "",
         "Total_Electorate": "3401681",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "1473900"
       },
       "countGroup": [
         {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "1",
           "Candidate_First_Pref_Votes": "822566",
           "Constituency_Number": "",
@@ -661,12 +688,15 @@
           "Party_Colour": "#b8b8b8",
           "Party_Name": "Independent",
           "Status": "Made Quota",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "",
           "Total_Votes": "822566",
           "Transfers": "0",
           "candidateName": "Michael D Higgins",
           "id": 0
         },
         {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "2",
           "Candidate_First_Pref_Votes": "342727",
           "Constituency_Number": "",
@@ -677,12 +707,15 @@
           "Party_Colour": "#b8b8b8",
           "Party_Name": "Independent",
           "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "",
           "Total_Votes": "342727",
           "Transfers": "0",
           "candidateName": "Peter Casey",
           "id": 1
         },
         {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "3",
           "Candidate_First_Pref_Votes": "94514",
           "Constituency_Number": "",
@@ -693,12 +726,15 @@
           "Party_Colour": "#b8b8b8",
           "Party_Name": "Independent",
           "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "",
           "Total_Votes": "94514",
           "Transfers": "0",
           "candidateName": "Seán Gallagher",
           "id": 2
         },
         {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "4",
           "Candidate_First_Pref_Votes": "93987",
           "Constituency_Number": "",
@@ -709,12 +745,15 @@
           "Party_Colour": "#326760",
           "Party_Name": "Sinn Féin",
           "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "",
           "Total_Votes": "93987",
           "Transfers": "0",
           "candidateName": "Liadh Ní Riada",
           "id": 3
         },
         {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "5",
           "Candidate_First_Pref_Votes": "87908",
           "Constituency_Number": "",
@@ -725,12 +764,15 @@
           "Party_Colour": "#b8b8b8",
           "Party_Name": "Independent",
           "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "",
           "Total_Votes": "87908",
           "Transfers": "0",
           "candidateName": "Joan Freeman",
           "id": 4
         },
         {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "6",
           "Candidate_First_Pref_Votes": "32198",
           "Constituency_Number": "",
@@ -741,6 +783,8 @@
           "Party_Colour": "#b8b8b8",
           "Party_Name": "Independent",
           "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "",
           "Total_Votes": "32198",
           "Transfers": "0",
           "candidateName": "Gavin Duffy",
@@ -757,17 +801,20 @@
       "animationPayload": {
         "Constituency": {
           "__syntheticCountGroup": true,
+          "__syntheticCountStages": false,
           "countInfo": {
             "Constituency_Name": "Ireland",
             "Constituency_Number": "",
-            "Number_Of_Seats": "",
+            "Number_Of_Seats": "1",
+            "Quota": "736951",
             "Spoiled": "",
             "Total_Electorate": "3401681",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "1473900"
           },
           "countGroup": [
             {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "1",
               "Candidate_First_Pref_Votes": "822566",
               "Constituency_Number": "",
@@ -778,12 +825,15 @@
               "Party_Colour": "#b8b8b8",
               "Party_Name": "Independent",
               "Status": "Made Quota",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "",
               "Total_Votes": "822566",
               "Transfers": "0",
               "candidateName": "Michael D Higgins",
               "id": 0
             },
             {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "2",
               "Candidate_First_Pref_Votes": "342727",
               "Constituency_Number": "",
@@ -794,12 +844,15 @@
               "Party_Colour": "#b8b8b8",
               "Party_Name": "Independent",
               "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "",
               "Total_Votes": "342727",
               "Transfers": "0",
               "candidateName": "Peter Casey",
               "id": 1
             },
             {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "3",
               "Candidate_First_Pref_Votes": "94514",
               "Constituency_Number": "",
@@ -810,12 +863,15 @@
               "Party_Colour": "#b8b8b8",
               "Party_Name": "Independent",
               "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "",
               "Total_Votes": "94514",
               "Transfers": "0",
               "candidateName": "Seán Gallagher",
               "id": 2
             },
             {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "4",
               "Candidate_First_Pref_Votes": "93987",
               "Constituency_Number": "",
@@ -826,12 +882,15 @@
               "Party_Colour": "#326760",
               "Party_Name": "Sinn Féin",
               "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "",
               "Total_Votes": "93987",
               "Transfers": "0",
               "candidateName": "Liadh Ní Riada",
               "id": 3
             },
             {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "5",
               "Candidate_First_Pref_Votes": "87908",
               "Constituency_Number": "",
@@ -842,12 +901,15 @@
               "Party_Colour": "#b8b8b8",
               "Party_Name": "Independent",
               "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "",
               "Total_Votes": "87908",
               "Transfers": "0",
               "candidateName": "Joan Freeman",
               "id": 4
             },
             {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "6",
               "Candidate_First_Pref_Votes": "32198",
               "Constituency_Number": "",
@@ -858,6 +920,8 @@
               "Party_Colour": "#b8b8b8",
               "Party_Name": "Independent",
               "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "",
               "Total_Votes": "32198",
               "Transfers": "0",
               "candidateName": "Gavin Duffy",

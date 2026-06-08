@@ -54,14 +54,14 @@
     {
       "party": "No",
       "seats": 1,
-      "stood": 0,
+      "stood": 1,
       "votes": 0,
       "colour": "#d46a4c",
       "share": null
     },
     {
       "party": "Yes",
-      "seats": 0,
+      "seats": 1,
       "stood": 1,
       "votes": 0,
       "colour": "#2aa82c",
@@ -73,7 +73,7 @@
     "totalPoll": 0,
     "totalElectorate": 0,
     "totalSpoiled": 0,
-    "totalSeats": 0
+    "totalSeats": 2
   },
   "mainLikeCandidateSummary": [
     {
@@ -88,20 +88,23 @@
       "constPct": 0,
       "firstPrefPct": 0,
       "finalVotes": 0,
-      "elected": false,
-      "electedAt": null,
+      "elected": true,
+      "electedAt": 2,
       "excluded": false,
       "excludedAt": null,
       "resolvedCount": 2,
-      "countDisplay": "2/2",
-      "status": "Not Elected",
-      "counts": {
-        "2": {
+      "countDisplay": "2",
+      "status": "Elected",
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 0,
           "transfers": 0,
-          "status": "Not Elected"
+          "status": "Not Elected",
+          "firstPrefs": 0,
+          "count": 2
         }
-      },
+      ],
       "candidateKey": "no|no"
     },
     {
@@ -116,20 +119,23 @@
       "constPct": 0,
       "firstPrefPct": 0,
       "finalVotes": 0,
-      "elected": false,
-      "electedAt": null,
+      "elected": true,
+      "electedAt": 1,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 2,
-      "countDisplay": "2/2",
-      "status": "Not Elected",
-      "counts": {
-        "1": {
+      "resolvedCount": 1,
+      "countDisplay": "1",
+      "status": "Elected",
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 0,
           "transfers": 0,
-          "status": "Made Quota"
+          "status": "Made Quota",
+          "firstPrefs": 0,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "yes|yes"
     }
   ],
@@ -242,7 +248,7 @@
       "majority": 0,
       "majorityPct": null,
       "seatsWon": 1,
-      "seatsTotal": null,
+      "seatsTotal": 1,
       "quota": null,
       "electorate": null,
       "totalPoll": null,
@@ -260,6 +266,7 @@
           "finalVotes": 0,
           "elected": true,
           "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
@@ -282,13 +289,14 @@
           "finalVotes": 0,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
           "colour": "#d46a4c",
           "counts": [
             {
-              "count": 2,
+              "count": 1,
               "total": 0,
               "transfers": 0,
               "status": "Not Elected",
@@ -306,6 +314,7 @@
           "finalVotes": 0,
           "elected": true,
           "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
@@ -324,7 +333,8 @@
       "countInfo": {
         "Constituency_Name": "Ireland",
         "Constituency_Number": "",
-        "Number_Of_Seats": "",
+        "Number_Of_Seats": "1",
+        "Quota": "",
         "Spoiled": "",
         "Total_Electorate": "",
         "Total_Poll": "",
@@ -332,6 +342,7 @@
       },
       "countGroup": [
         {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "1",
           "Candidate_First_Pref_Votes": "0",
           "Constituency_Number": "",
@@ -342,22 +353,27 @@
           "Party_Colour": "#2aa82c",
           "Party_Name": "Yes",
           "Status": "Made Quota",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "",
           "Total_Votes": "0",
           "Transfers": "0",
           "candidateName": "Yes",
           "id": 0
         },
         {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "2",
           "Candidate_First_Pref_Votes": "0",
           "Constituency_Number": "",
-          "Count_Number": "2",
+          "Count_Number": "1",
           "Firstname": "No",
           "Surname": "",
-          "Occurred_On_Count": "2",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#d46a4c",
           "Party_Name": "No",
           "Status": "Not Elected",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "",
           "Total_Votes": "0",
           "Transfers": "0",
           "candidateName": "No",
@@ -368,17 +384,18 @@
       "nonTransferable": [],
       "forum": null,
       "countNumbers": [
-        1,
-        2
+        1
       ],
-      "hasCountDetail": true,
+      "hasCountDetail": false,
       "animationPayload": {
         "Constituency": {
           "__syntheticCountGroup": true,
+          "__syntheticCountStages": false,
           "countInfo": {
             "Constituency_Name": "Ireland",
             "Constituency_Number": "",
-            "Number_Of_Seats": "",
+            "Number_Of_Seats": "1",
+            "Quota": "",
             "Spoiled": "",
             "Total_Electorate": "",
             "Total_Poll": "",
@@ -386,6 +403,7 @@
           },
           "countGroup": [
             {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "1",
               "Candidate_First_Pref_Votes": "0",
               "Constituency_Number": "",
@@ -396,22 +414,27 @@
               "Party_Colour": "#2aa82c",
               "Party_Name": "Yes",
               "Status": "Made Quota",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "",
               "Total_Votes": "0",
               "Transfers": "0",
               "candidateName": "Yes",
               "id": 0
             },
             {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "2",
               "Candidate_First_Pref_Votes": "0",
               "Constituency_Number": "",
-              "Count_Number": "2",
+              "Count_Number": "1",
               "Firstname": "No",
               "Surname": "",
-              "Occurred_On_Count": "2",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#d46a4c",
               "Party_Name": "No",
               "Status": "Not Elected",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "",
               "Total_Votes": "0",
               "Transfers": "0",
               "candidateName": "No",

@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-06-07T22:10:26.670Z
+Generated: 2026-06-08T23:09:53.967Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -17,13 +17,13 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |source detail records|268|
 |result bundles loaded|268|
 |result rows audited|4684|
-|candidate rows audited|28309|
-|rows with count detail|4500|
-|rows with animation payload|4500|
-|rows expected to have transfer/count data|1851|
-|expected transfer/count rows missing detail|39|
+|candidate rows audited|29610|
+|rows with count detail|4632|
+|rows with animation payload|4632|
+|rows expected to have transfer/count data|2384|
+|expected transfer/count rows missing detail|38|
 |blocking issues|0|
-|warnings|255|
+|warnings|113|
 
 ## Blocking Structural Issues
 
@@ -44,18 +44,14 @@ _None._
 |warning|source-record-missing|local-government-local-government-districts__2014-05-22|No election source detail record found at data/browse/details/sources/election-source-local-government-2014-05-22.json.|
 |warning|source-record-missing|local-government-local-government-districts__2011-05-05|No election source detail record found at data/browse/details/sources/election-source-local-government-2011-05-05.json.|
 |warning|first-pref-sum|local-government-local-government-districts__2011-05-05|Downshire first-preference sum 7919 exceeds valid poll 5367.|
-|warning|candidate-party-missing|local-government-local-government-districts__2011-05-05|1002 candidate rows have no party/label. Examples: Blair John in Antrim Line; Bradley Paula in Antrim Line; McClelland Noreen in Antrim Line; MacKessy Marie in Antrim Line; Ball Audrey in Antrim Line.|
 |warning|source-record-single-reference|european-parliament__2009-06-04|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-missing|local-government-local-government-districts__2005-05-05|No election source detail record found at data/browse/details/sources/election-source-local-government-2005-05-05.json.|
 |warning|candidate-list-missing|local-government-local-government-districts__2005-05-05|No candidates found for Giant's Causeway.|
 |warning|candidate-list-missing|local-government-local-government-districts__2005-05-05|No candidates found for lg05-NoD-Ballyholme-&-Groomsport.|
-|warning|candidate-list-missing|local-government-local-government-districts__2005-05-05|No candidates found for Skerries.|
-|warning|candidate-party-missing|local-government-local-government-districts__2005-05-05|881 candidate rows have no party/label. Examples: Nigel Hamilton in Antrim Line; Noreen Patricia McClelland in Antrim Line; Janet Crilly in Antrim Line; Tom Campbell in Antrim Line; Paula Jane Bradley in Antrim Line.|
 |warning|source-record-single-reference|european-parliament__2004-06-10|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-missing|local-government-local-government-districts__2001-06-07|No election source detail record found at data/browse/details/sources/election-source-local-government-2001-06-07.json.|
 |warning|candidate-list-missing|local-government-local-government-districts__2001-06-07|No candidates found for Giant's Causeway.|
 |warning|candidate-list-missing|local-government-local-government-districts__2001-06-07|No candidates found for lg01-NoD-Ballyholme-&-Groomsport.|
-|warning|candidate-party-missing|local-government-local-government-districts__2001-06-07|989 candidate rows have no party/label. Examples: Janet Crilly in Antrim Line; Nigel Peter Hamilton in Antrim Line; Thomas Patrick McTeague in Antrim Line; Noreen Patricia McClelland in Antrim Line; Briege Meehan in Antrim Line.|
 |warning|source-record-single-reference|european-parliament__1999-06-10|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-missing|local-government-local-government-districts__1997-05-21|No election source detail record found at data/browse/details/sources/election-source-local-government-1997-05-21.json.|
 |warning|first-pref-sum|local-government-local-government-districts__1997-05-21|Ballymena South first-preference sum 5506 exceeds valid poll 5.51.|
@@ -63,7 +59,6 @@ _None._
 |warning|first-pref-sum|local-government-local-government-districts__1997-05-21|Bannside first-preference sum 5920 exceeds valid poll 5.92.|
 |warning|first-pref-sum|local-government-local-government-districts__1997-05-21|Braid first-preference sum 5324 exceeds valid poll 5.32.|
 |warning|candidate-list-missing|local-government-local-government-districts__1997-05-21|No candidates found for Giant's Causeway.|
-|warning|candidate-party-missing|local-government-local-government-districts__1997-05-21|969 candidate rows have no party/label. Examples: Tommy McTeague in Antrim Line; Edward Joshua Crilly in Antrim Line; Joseph Arthur Kell in Antrim Line; Elizabeth Snoddy in Antrim Line; Ivan Hunter in Antrim Line.|
 |warning|source-record-single-reference|european-parliament__1994-06-09|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-missing|local-government-local-government-districts__1993-05-19|No election source detail record found at data/browse/details/sources/election-source-local-government-1993-05-19.json.|
 |warning|first-pref-sum|local-government-local-government-districts__1993-05-19|Castlereagh West first-preference sum 4535 exceeds valid poll 4.54.|
@@ -72,7 +67,6 @@ _None._
 |warning|first-pref-sum|local-government-local-government-districts__1993-05-19|Lower Falls first-preference sum 13003 exceeds valid poll 13.|
 |warning|first-pref-sum|local-government-local-government-districts__1993-05-19|Lower Falls first-preference sum 13003 exceeds valid poll 13.|
 |warning|first-pref-sum|local-government-local-government-districts__1993-05-19|Victoria first-preference sum 13527 exceeds valid poll 13.53.|
-|warning|candidate-party-missing|local-government-local-government-districts__1993-05-19|920 candidate rows have no party/label. Examples: Thomas Patrick McTeague in Antrim Line; Arthur McGladdery Templeton in Antrim Line; Edward Joshua Crilly in Antrim Line; Billy Blair in Antrim Line; James Joseph Rooney in Antrim Line.|
 |warning|source-record-single-reference|european-parliament__1989-06-15|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-missing|local-government-local-government-districts__1989-05-17|No election source detail record found at data/browse/details/sources/election-source-local-government-1989-05-17.json.|
 |warning|first-pref-sum|local-government-local-government-districts__1989-05-17|Bushvale first-preference sum 2715 exceeds valid poll 2.71.|
@@ -80,12 +74,10 @@ _None._
 |warning|first-pref-sum|local-government-local-government-districts__1989-05-17|Kells Water first-preference sum 4537 exceeds valid poll 4.54.|
 |warning|first-pref-sum|local-government-local-government-districts__1989-05-17|Upper Falls first-preference sum 12409 exceeds valid poll 12.41.|
 |warning|first-pref-sum|local-government-local-government-districts__1989-05-17|Upper Falls first-preference sum 12409 exceeds valid poll 12.41.|
-|warning|candidate-party-missing|local-government-local-government-districts__1989-05-17|902 candidate rows have no party/label. Examples: James Joseph Rooney in Antrim Line; Thomas George Kirkham in Antrim Line; James Smith in Antrim Line; William Green in Antrim Line; Thomas Patrick McTeague in Antrim Line.|
 |warning|source-record-missing|local-government-local-government-districts__1985-05-15|No election source detail record found at data/browse/details/sources/election-source-local-government-1985-05-15.json.|
 |warning|first-pref-sum|local-government-local-government-districts__1985-05-15|Dungannon Town first-preference sum 6044 exceeds valid poll 6.04.|
 |warning|first-pref-sum|local-government-local-government-districts__1985-05-15|Erne North first-preference sum 6349 exceeds valid poll 67.|
 |warning|candidate-list-missing|local-government-local-government-districts__1985-05-15|No candidates found for Giant's Causeway.|
-|warning|candidate-party-missing|local-government-local-government-districts__1985-05-15|1013 candidate rows have no party/label. Examples: James Graham in Antrim North West; Samuel Wilson Clyde in Antrim North West; Robert J. Loughran in Antrim North West; Henry John Cushinan in Antrim North West; Janes Gerard Laverty in Antrim North West.|
 |warning|source-record-single-reference|european-parliament__1984-06-14|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-missing|local-government-local-government-districts__1981-05-20|No election source detail record found at data/browse/details/sources/election-source-local-government-1981-05-20.json.|
 |warning|candidate-list-missing|local-government-local-government-districts__1981-05-20|No candidates found for Area-F.|
@@ -95,14 +87,12 @@ _None._
 |warning|first-pref-sum|local-government-local-government-districts__1981-05-20|Banbridge Area A first-preference sum 7876 exceeds valid poll 7576.|
 |warning|first-pref-sum|local-government-local-government-districts__1981-05-20|Craigavon Area B first-preference sum 8118 exceeds valid poll 5115.|
 |warning|first-pref-sum|local-government-local-government-districts__1981-05-20|Fermanagh Area B first-preference sum 5665 exceeds valid poll 109.|
-|warning|candidate-party-missing|local-government-local-government-districts__1981-05-20|1020 candidate rows have no party/label. Examples: James Graham in Antrim Area A; Robert Loughren in Antrim Area A; John Heffron in Antrim Area A; Willson Clyde in Antrim Area A; Gerard Carolen in Antrim Area A.|
 |warning|source-record-single-reference|european-parliament__1979-06-07|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-missing|local-government-local-government-districts__1977-05-18|No election source detail record found at data/browse/details/sources/election-source-local-government-1977-05-18.json.|
 |warning|candidate-list-missing|local-government-local-government-districts__1977-05-18|No candidates found for Area-A-corrected.|
 |warning|candidate-list-missing|local-government-local-government-districts__1977-05-18|No candidates found for Area-F.|
 |warning|candidate-list-missing|local-government-local-government-districts__1977-05-18|No candidates found for Area-G.|
 |warning|candidate-list-missing|local-government-local-government-districts__1977-05-18|No candidates found for Area-H.|
-|warning|candidate-party-missing|local-government-local-government-districts__1977-05-18|981 candidate rows have no party/label. Examples: James Graham in Antrim Area A; John Heffron in Antrim Area A; Gerard Berry in Antrim Area A; Stewart J Dunlop in Antrim Area A; James Marrion in Antrim Area A.|
 |warning|first-pref-sum|northern-ireland-constitutional-convention__1975-05-01|Armagh first-preference sum 59388 exceeds valid poll 28136.|
 |warning|source-record-missing|local-government-local-government-districts__1973-05-30|No election source detail record found at data/browse/details/sources/election-source-local-government-1973-05-30.json.|
 |warning|candidate-list-missing|local-government-local-government-districts__1973-05-30|No candidates found for Area-F.|
@@ -112,9 +102,19 @@ _None._
 |warning|first-pref-sum|local-government-local-government-districts__1973-05-30|Belfast Area B first-preference sum 26403 exceeds valid poll 24814.|
 |warning|first-pref-sum|local-government-local-government-districts__1973-05-30|Carrickfergus Area C first-preference sum 4156 exceeds valid poll 1456.|
 |warning|first-pref-sum|local-government-local-government-districts__1973-05-30|Derry Area A first-preference sum 8262 exceeds valid poll 862.|
-|warning|candidate-party-missing|local-government-local-government-districts__1973-05-30|1202 candidate rows have no party/label. Examples: Dunlop in Antrim Area A; O'Donnell in Antrim Area A; Minford in Antrim Area A; Heffron in Antrim Area A; Graham in Antrim Area A.|
+|warning|unmatched-list-count|dail-eireann__1969-06-18|unmatchedConstituencies length is 30, unmatchedCount is 42.|
+|warning|unmatched-list-count|dail-eireann__1965-04-07|unmatchedConstituencies length is 30, unmatchedCount is 38.|
+|warning|unmatched-list-count|dail-eireann__1961-10-04|unmatchedConstituencies length is 30, unmatchedCount is 38.|
+|warning|unmatched-list-count|dail-eireann__1957-03-05|unmatchedConstituencies length is 30, unmatchedCount is 40.|
+|warning|candidate-list-missing|dail-eireann__1957-03-05|No candidates found for Kerry South.|
+|warning|unmatched-list-count|dail-eireann__1954-05-18|unmatchedConstituencies length is 30, unmatchedCount is 40.|
+|warning|unmatched-list-count|dail-eireann__1951-05-30|unmatchedConstituencies length is 30, unmatchedCount is 40.|
+|warning|unmatched-list-count|dail-eireann__1948-02-04|unmatchedConstituencies length is 30, unmatchedCount is 40.|
+|warning|first-pref-sum|house-of-commons-of-the-united-kingdom__1945-07-05|Antrim first-preference sum 132894 exceeds valid poll 66447.|
+|warning|first-pref-sum|house-of-commons-of-the-united-kingdom__1945-07-05|Down first-preference sum 115773 exceeds valid poll 57887.|
+|warning|first-pref-sum|house-of-commons-of-the-united-kingdom__1945-07-05|Fermanagh and Tyrone first-preference sum 203169 exceeds valid poll 101585.|
 
-_175 more not shown; see JSON report._
+_33 more not shown; see JSON report._
 
 ## Source And Reference Coverage
 

@@ -12,6 +12,7 @@ const SAMPLE_RELATED_LIMIT = 40;
 const FEATURE_SAMPLE_LIMIT = 600;
 const PERSON_RELATED_LIMIT = 80;
 const PARTY_RELATED_LIMIT = 120;
+const RAW_ELECTION_SOURCE_CACHE = new Map();
 
 const ENTITY_GROUPS = [
   { id: 'maps', label: 'Maps', description: 'Catalogue map entries, metadata, downloads, source credits, and interactive-map links.' },
@@ -360,6 +361,7 @@ function buildElections(manifest, thumbnailIds) {
       status: entry.placeholder ? 'not yet converted' : entry.loadable ? 'available' : 'metadata only',
       resultUrl: entry.resultUrl || null,
       anchorUrl: entry.anchorUrl || null,
+      references: normalizeReferences(entry.references || []),
       previousKey: entry.previousKey || null,
       thumbnail: thumbnailForCandidates(thumbnailIds, [entry.sourceMapId, entry.layerId], title, 'election'),
       interactiveUrl: interactiveLayerUrl(layerId),
@@ -395,7 +397,8 @@ function readElectionDetails(elections) {
           seats: detail.mainLikeTotals?.seats || sumNumbers(detail.partySummary, 'seats'),
           validPoll: detail.mainLikeTotals?.validPoll || sumNumbers(detail.partySummary, 'votes'),
           constituencies: detail.totalConstituencies || detail.constituencies?.length || election.totalConstituencies
-        })
+        }),
+        references: buildElectionReferences(election, detail)
       }));
     } catch (error) {
       console.warn(`Could not read election detail ${rel}: ${error.message}`);
@@ -431,6 +434,7 @@ function buildElectionResultSubEntries(parentElections, electionDetails) {
       status: parent.status,
       resultUrl: parent.resultUrl,
       anchorUrl: parent.anchorUrl,
+      references: parent.references,
       thumbnail: parent.thumbnail,
       interactiveUrl: parent.interactiveUrl
     };
@@ -451,6 +455,7 @@ function buildElectionResultSubEntries(parentElections, electionDetails) {
       unmatchedCount: detail.unmatchedCount ?? parent.unmatchedCount,
       partySummary: parent.partySummary,
       totals: parent.totals,
+      references: buildElectionResultReferences(parent, detail, null, { overall: true }),
       resultMetadata: compactObject({
         kind: 'overall',
         partySummaryRows: normalizeArray(detail.mainLikePartySummary || detail.partySummary).length,
@@ -484,6 +489,7 @@ function buildElectionResultSubEntries(parentElections, electionDetails) {
         matched: Boolean(result.matched),
         localBody: result.localBody || null,
         partySummary: normalizeArray(result.partySummary || result.summary || result.parties).slice(0, 16),
+        references: buildElectionResultReferences(parent, detail, result),
         resultMetadata: compactObject({
           kind: regionalList ? 'regional-list' : 'constituency',
           constituency: resultName,
@@ -502,6 +508,331 @@ function buildElectionResultSubEntries(parentElections, electionDetails) {
 function isNorthernIrelandForumRegionalList(detail, resultName) {
   return normalizeName(detail?.body) === 'northern ireland forum for political dialogue'
     && normalizeName(resultName) === 'northern ireland';
+}
+
+function buildElectionReferences(election, detail) {
+  const refs = [];
+  addElectionOverviewReferences(refs, election, detail);
+  addElectionCorpusReferences(refs, election, detail);
+
+  const resultSourceUrls = new Set();
+  for (const result of normalizeArray(detail?.results)) {
+    for (const sourceUrl of rawElectionSourceUrls(result?.sourceFile)) {
+      resultSourceUrls.add(sourceUrl);
+    }
+  }
+  if (resultSourceUrls.size === 1) {
+    const [url] = [...resultSourceUrls];
+    addReference(refs, {
+      label: `${sourceNameForUrl(url)} result source`,
+      url,
+      source: sourceNameForUrl(url),
+      role: 'primary-result-source',
+      scope: 'election-result',
+      note: 'Source URL carried by the underlying election result data.'
+    });
+  } else if (resultSourceUrls.size > 1) {
+    addReference(refs, {
+      label: `${resultSourceUrls.size} constituency/result source pages are cited on the result sub-entries`,
+      source: dominantSourceName([...resultSourceUrls]),
+      role: 'primary-result-source',
+      scope: 'constituency-result-set',
+      note: 'The parent election uses per-result references to avoid duplicating every constituency/DEA source link here.'
+    });
+  }
+
+  return dedupeReferences(refs);
+}
+
+function buildElectionResultReferences(parent, detail, result, options = {}) {
+  const refs = [];
+  if (options.overall) {
+    addElectionOverviewReferences(refs, parent, detail);
+    addElectionCorpusReferences(refs, parent, detail);
+    return dedupeReferences(refs);
+  }
+
+  for (const sourceUrl of rawElectionSourceUrls(result?.sourceFile)) {
+    addReference(refs, {
+      label: primaryResultReferenceLabel(sourceUrl, parent, result),
+      url: sourceUrl,
+      source: sourceNameForUrl(sourceUrl),
+      role: 'primary-result-source',
+      scope: resultScopeForElection(parent, result),
+      note: 'Source URL carried by the underlying election result data.'
+    });
+  }
+
+  const constituencyUrl = wikipediaConstituencyReferenceUrl(parent, result);
+  if (constituencyUrl) {
+    addReference(refs, {
+      label: `Wikipedia constituency/election table: ${cleanText(result?.constituency || result?.featureName || result?.matchName)}`,
+      url: constituencyUrl,
+      source: 'Wikipedia',
+      role: refs.length ? 'corroboration' : 'result-source',
+      scope: resultScopeForElection(parent, result),
+      note: 'Inferred from the election body and constituency/DEA name; verify if using for citation-critical work.'
+    });
+  }
+
+  addElectionOverviewReferences(refs, parent, detail, { role: refs.length ? 'corroboration' : 'election-overview' });
+  addElectionCorpusReferences(refs, parent, detail, { compact: true });
+  return dedupeReferences(refs);
+}
+
+function addElectionOverviewReferences(refs, election, detail, options = {}) {
+  const wikiUrl = wikipediaElectionReferenceUrl(election, detail);
+  if (wikiUrl) {
+    addReference(refs, {
+      label: `Wikipedia overview: ${cleanText(detail?.displayTitle || election?.title || canonicalElectionTitle(election))}`,
+      url: wikiUrl,
+      source: 'Wikipedia',
+      role: options.role || 'election-overview',
+      scope: 'election'
+    });
+  }
+}
+
+function addElectionCorpusReferences(refs, election, detail, options = {}) {
+  const bodySlug = election?.bodySlug || detail?.bodySlug;
+  const geography = electionGeographyLabel(election || detail || {});
+  if (isNorthernIrelandElection(election || detail)) {
+    addReference(refs, {
+      label: options.compact ? 'ARK Elections / CAIN election archive' : 'ARK Elections / CAIN archive',
+      url: 'https://www.ark.ac.uk/elections/',
+      source: 'ARK Elections / CAIN',
+      role: 'corroboration-source',
+      scope: options.compact ? 'source-corpus' : 'election-corpus',
+      note: 'Used as a source/corroboration corpus for Northern Ireland election result data where available.'
+    });
+    if (Number(election?.year || detail?.year || 0) >= 1998) {
+      addReference(refs, {
+        label: 'Electoral Office for Northern Ireland election results and statistics',
+        url: 'https://www.eoni.org.uk/Elections/Election-results-and-statistics',
+        source: 'EONI',
+        role: 'official-source-corpus',
+        scope: options.compact ? 'source-corpus' : 'election-corpus'
+      });
+    }
+  }
+  if (bodySlug === 'dail-eireann') {
+    addReference(refs, {
+      label: 'ElectionsIreland general election result pages',
+      url: 'https://electionsireland.org/results/general/index.cfm',
+      source: 'ElectionsIreland',
+      role: 'primary-source-corpus',
+      scope: options.compact ? 'source-corpus' : 'election-corpus'
+    });
+  } else if (bodySlug === 'ireland-president') {
+    addReference(refs, {
+      label: 'ElectionsIreland presidential election result pages',
+      url: 'https://electionsireland.org/results/president/index.cfm',
+      source: 'ElectionsIreland',
+      role: 'primary-source-corpus',
+      scope: options.compact ? 'source-corpus' : 'election-corpus'
+    });
+  } else if (bodySlug === 'ireland-european') {
+    addReference(refs, {
+      label: 'ElectionsIreland European election result pages',
+      url: 'https://electionsireland.org/results/europe/index.cfm',
+      source: 'ElectionsIreland',
+      role: 'primary-source-corpus',
+      scope: options.compact ? 'source-corpus' : 'election-corpus'
+    });
+  } else if (bodySlug === 'ireland-referendum') {
+    addReference(refs, {
+      label: 'Wikipedia referendum result pages',
+      url: wikipediaElectionReferenceUrl(election, detail),
+      source: 'Wikipedia',
+      role: 'primary-source-corpus',
+      scope: options.compact ? 'source-corpus' : 'election-corpus'
+    });
+  } else if (bodySlug === 'ireland-local' || (bodySlug === 'local-government' && geography === 'Republic of Ireland')) {
+    addReference(refs, {
+      label: 'Irish local election overview sources',
+      url: wikipediaElectionReferenceUrl(election, detail),
+      source: 'Wikipedia',
+      role: 'corroboration-source',
+      scope: options.compact ? 'source-corpus' : 'election-corpus'
+    });
+  }
+}
+
+function rawElectionSourceUrls(sourceFile) {
+  const rel = cleanText(sourceFile);
+  if (!rel) return [];
+  if (RAW_ELECTION_SOURCE_CACHE.has(rel)) return RAW_ELECTION_SOURCE_CACHE.get(rel);
+  const fullPath = path.isAbsolute(rel) ? rel : path.join(ROOT, rel);
+  if (!existsSync(fullPath)) {
+    RAW_ELECTION_SOURCE_CACHE.set(rel, []);
+    return [];
+  }
+  try {
+    const raw = JSON.parse(readFileSync(fullPath, 'utf8'));
+    const urls = [...extractSourceUrls(raw)];
+    RAW_ELECTION_SOURCE_CACHE.set(rel, urls);
+    return urls;
+  } catch {
+    RAW_ELECTION_SOURCE_CACHE.set(rel, []);
+    return [];
+  }
+}
+
+function extractSourceUrls(value, urls = new Set()) {
+  if (!value) return urls;
+  if (typeof value === 'string') {
+    if (isUrl(value)) urls.add(value);
+    return urls;
+  }
+  if (Array.isArray(value)) {
+    for (const item of value) extractSourceUrls(item, urls);
+    return urls;
+  }
+  if (typeof value !== 'object') return urls;
+  for (const [key, current] of Object.entries(value)) {
+    if (/^(source_url|sourceUrl|source|url)$/i.test(key) && typeof current === 'string' && isUrl(current)) {
+      urls.add(current);
+    } else if (/^(sources|references|reference|sourceUrls)$/i.test(key)) {
+      extractSourceUrls(current, urls);
+    }
+  }
+  return urls;
+}
+
+function wikipediaElectionReferenceUrl(election, detail) {
+  const bodySlug = election?.bodySlug || detail?.bodySlug;
+  const body = cleanText(election?.body || detail?.body || '');
+  const date = cleanText(election?.date || detail?.date || '');
+  const year = Number(election?.year || detail?.year || date.slice(0, 4));
+  const title = cleanText(election?.title || detail?.displayTitle || canonicalElectionTitle(election || detail));
+  if (!year && !title) return null;
+
+  if (bodySlug === 'dail-eireann') return wikiUrl(`${year} Irish general election`);
+  if (bodySlug === 'ireland-president') return wikiUrl(`${year} Irish presidential election`);
+  if (bodySlug === 'ireland-european') return wikiUrl(`${year} European Parliament election in Ireland`);
+  if (bodySlug === 'european-parliament') return wikiUrl(`${year} European Parliament election in Northern Ireland`);
+  if (bodySlug === 'northern-ireland-assembly') return wikiUrl(`${year} Northern Ireland Assembly election`);
+  if (bodySlug === 'northern-ireland-forum-for-political-dialogue') return wikiUrl('1996 Northern Ireland Forum election');
+  if (bodySlug === 'northern-ireland-constitutional-convention') return wikiUrl('1975 Northern Ireland Constitutional Convention election');
+  if (bodySlug === 'parliament-of-northern-ireland') {
+    if (/by-election/i.test(title)) return wikiUrl('List of Northern Ireland Parliament by-elections');
+    return wikiUrl(`${year} Northern Ireland general election`);
+  }
+  if (bodySlug === 'house-of-commons-of-the-united-kingdom') {
+    if (/by-election|recall petition/i.test(title)) return wikiUrl('List of United Kingdom by-elections in Northern Ireland');
+    return wikiUrl(`${year} United Kingdom general election in Northern Ireland`);
+  }
+  if (bodySlug === 'local-government') {
+    if (/northern ireland/i.test(body) || /Northern Ireland/i.test(title)) return wikiUrl(`${year} Northern Ireland local elections`);
+    return wikiUrl(`${year} Irish local elections`);
+  }
+  if (bodySlug === 'ireland-local') return wikiUrl(`${year} Irish local elections`);
+  if (bodySlug === 'ireland-referendum') {
+    const firstSource = firstRawSourceUrl(detail);
+    return firstSource || wikiUrl(title.replace(/\s*\([^)]*\)\s*$/, ''));
+  }
+  return title ? wikiUrl(title) : null;
+}
+
+function wikipediaConstituencyReferenceUrl(election, result) {
+  const name = cleanText(result?.constituency || result?.featureName || result?.matchName);
+  if (!name) return null;
+  const bodySlug = election?.bodySlug;
+  if (bodySlug === 'house-of-commons-of-the-united-kingdom') return wikiUrl(`${name} (UK Parliament constituency)`);
+  if (bodySlug === 'northern-ireland-assembly') return wikiUrl(`${name} (Assembly constituency)`);
+  if (bodySlug === 'parliament-of-northern-ireland') return wikiUrl(`${name} (Northern Ireland Parliament constituency)`);
+  if (bodySlug === 'northern-ireland-constitutional-convention') return wikiUrl(`${name} (Northern Ireland Parliament constituency)`);
+  if (bodySlug === 'northern-ireland-forum-for-political-dialogue') {
+    return normalizeName(name) === 'northern ireland' ? wikiUrl('1996 Northern Ireland Forum election') : wikiUrl(`${name} (Assembly constituency)`);
+  }
+  return null;
+}
+
+function firstRawSourceUrl(detail) {
+  for (const result of normalizeArray(detail?.results)) {
+    const [url] = rawElectionSourceUrls(result?.sourceFile);
+    if (url) return url;
+  }
+  return null;
+}
+
+function wikiUrl(title) {
+  const clean = cleanText(title);
+  if (!clean) return null;
+  return `https://en.wikipedia.org/wiki/${encodeURIComponent(clean.replace(/\s+/g, '_')).replace(/%28/g, '(').replace(/%29/g, ')').replace(/%27/g, "'")}`;
+}
+
+function addReference(refs, ref) {
+  const normalized = compactObject({
+    label: cleanText(ref.label || ref.url || ref.source || 'Reference'),
+    url: ref.url || null,
+    source: cleanText(ref.source || sourceNameForUrl(ref.url)),
+    role: cleanText(ref.role || ''),
+    scope: cleanText(ref.scope || ''),
+    note: cleanText(ref.note || '')
+  });
+  if (normalized.url === null) delete normalized.url;
+  if (!normalized.url && !normalized.note) return;
+  refs.push(normalized);
+}
+
+function dedupeReferences(refs) {
+  const seen = new Set();
+  return refs.filter((ref) => {
+    const key = `${ref.url || ref.label}|${ref.role || ''}|${ref.scope || ''}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function primaryResultReferenceLabel(url, parent, result) {
+  const source = sourceNameForUrl(url);
+  const resultName = cleanText(result?.constituency || result?.featureName || result?.matchName || '');
+  if (resultName) return `${source}: ${resultName}, ${parent?.title || parent?.date || 'election result'}`;
+  return `${source}: ${parent?.title || parent?.date || 'election result'}`;
+}
+
+function resultScopeForElection(parent, result) {
+  if (isNorthernIrelandForumRegionalList(parent, result?.constituency)) return 'regional-list-result';
+  if (parent?.bodyGroup === 'local-government' || /local/i.test(parent?.body || '')) return 'dea-result';
+  if (/referendum/i.test(parent?.body || '')) return 'referendum-constituency-result';
+  return 'constituency-result';
+}
+
+function firstUrlHost(url) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return '';
+  }
+}
+
+function sourceNameForUrl(url) {
+  const host = firstUrlHost(url).toLowerCase();
+  if (!host) return '';
+  if (host.includes('electionsireland.org')) return 'ElectionsIreland';
+  if (host.includes('wikipedia.org')) return 'Wikipedia';
+  if (host.includes('ark.ac.uk')) return 'ARK Elections / CAIN';
+  if (host.includes('eoni.org.uk')) return 'EONI';
+  if (host.includes('web.archive.org')) return 'Internet Archive / Wayback Machine';
+  return host;
+}
+
+function dominantSourceName(urls) {
+  const counts = new Map();
+  for (const url of urls) {
+    const source = sourceNameForUrl(url) || 'Source';
+    counts.set(source, (counts.get(source) || 0) + 1);
+  }
+  return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || 'Source';
+}
+
+function isNorthernIrelandElection(entry) {
+  const body = `${entry?.body || ''} ${entry?.bodySlug || ''} ${entry?.displayProvider || ''}`;
+  const geography = electionGeographyLabel(entry || {});
+  return /northern ireland|westminster|house-of-commons|assembly|forum|constitutional|parliament-of-northern-ireland|local-government/i.test(body)
+    || geography === 'Northern Ireland';
 }
 
 function buildFeatureGroups(spatialIndex, maps, elections) {
@@ -800,6 +1131,7 @@ function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds)
       description: `Generated election bundle for ${election.title}.`,
       sourceMapId: election.sourceMapId,
       thumbnail: election.thumbnail || null,
+      references: normalizeReferences(election.references || []),
       downloads: normalizeLinks([election.resultUrl, election.anchorUrl].filter(Boolean)),
       interactiveUrl: election.interactiveUrl,
       browseUrl: `/browse/sources/${encodeURIComponent(slugify(id))}`
@@ -908,7 +1240,34 @@ function readJson(relPath, fallback) {
 function writeJson(relPath, value) {
   const fullPath = path.isAbsolute(relPath) ? relPath : path.join(OUT_DIR, relPath);
   mkdirSync(path.dirname(fullPath), { recursive: true });
-  writeFileSync(fullPath, `${JSON.stringify(value, null, 2)}\n`);
+  const output = preserveGeneratedAtWhenPayloadMatches(fullPath, value);
+  const nextText = `${JSON.stringify(output, null, 2)}\n`;
+  if (existsSync(fullPath) && readFileSync(fullPath, 'utf8') === nextText) return;
+  writeFileSync(fullPath, nextText);
+}
+
+function preserveGeneratedAtWhenPayloadMatches(fullPath, value) {
+  if (!isGeneratedJsonObject(value) || !existsSync(fullPath)) return value;
+  try {
+    const current = JSON.parse(readFileSync(fullPath, 'utf8'));
+    if (!isGeneratedJsonObject(current)) return value;
+    if (JSON.stringify(withoutTopLevelGeneratedAt(current)) === JSON.stringify(withoutTopLevelGeneratedAt(value))) {
+      return { ...value, generatedAt: current.generatedAt };
+    }
+  } catch {
+    return value;
+  }
+  return value;
+}
+
+function isGeneratedJsonObject(value) {
+  return Boolean(value && typeof value === 'object' && !Array.isArray(value) && Object.hasOwn(value, 'generatedAt'));
+}
+
+function withoutTopLevelGeneratedAt(value) {
+  const copy = { ...value };
+  delete copy.generatedAt;
+  return copy;
 }
 
 function cleanText(value) {
@@ -944,7 +1303,11 @@ function normalizeReferences(value) {
       label: cleanText(ref.label || ref.title || ref.name || ref.url || ref.href),
       url: ref.url || ref.href || null,
       note: ref.note || ref.notes || null,
-      accessed: ref.accessed || ref.accessedDate || null
+      accessed: ref.accessed || ref.accessedDate || null,
+      source: ref.source || null,
+      role: ref.role || null,
+      scope: ref.scope || null,
+      type: ref.type || null
     })];
   });
 }

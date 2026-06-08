@@ -47,7 +47,7 @@
     },
     {
       "party": "SDLP",
-      "seats": 0,
+      "seats": 1,
       "stood": 1,
       "votes": 151399,
       "colour": "#2aa82c",
@@ -55,7 +55,7 @@
     },
     {
       "party": "UUP",
-      "seats": 0,
+      "seats": 1,
       "stood": 1,
       "votes": 147169,
       "colour": "#48a5ee",
@@ -545,7 +545,7 @@
         "firstPrefs": 151399,
         "finalVotes": 183256.32,
         "stood": 1,
-        "elected": 0,
+        "elected": 1,
         "constituencies": [
           "Northern Ireland"
         ],
@@ -556,7 +556,7 @@
             "constituency": "Northern Ireland",
             "firstPref": 151399,
             "finalVotes": 183256.32,
-            "status": ""
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 22.091820281709047
@@ -567,7 +567,7 @@
         "firstPrefs": 147169,
         "finalVotes": 185714.52,
         "stood": 1,
-        "elected": 0,
+        "elected": 1,
         "constituencies": [
           "Northern Ireland"
         ],
@@ -578,7 +578,7 @@
             "constituency": "Northern Ireland",
             "firstPref": 147169,
             "finalVotes": 185714.52,
-            "status": ""
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 21.474587672566127
@@ -723,7 +723,7 @@
         "colour": "#2AA82C",
         "firstPrefs": 151399,
         "finalVotes": 183256.32,
-        "electedCount": 0,
+        "electedCount": 1,
         "constituencies": [
           "Northern Ireland"
         ],
@@ -732,7 +732,7 @@
             "constituency": "Northern Ireland",
             "firstPref": 151399,
             "finalVotes": 183256.32,
-            "status": ""
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 22.091820281709047
@@ -744,7 +744,7 @@
         "colour": "#48A5EE",
         "firstPrefs": 147169,
         "finalVotes": 185714.52,
-        "electedCount": 0,
+        "electedCount": 1,
         "constituencies": [
           "Northern Ireland"
         ],
@@ -753,7 +753,7 @@
             "constituency": "Northern Ireland",
             "firstPref": 147169,
             "finalVotes": 185714.52,
-            "status": ""
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 21.474587672566127
@@ -869,7 +869,7 @@
     {
       "constituency": "Northern Ireland",
       "winnerParty": "DUP",
-      "winnerName": "Ian Paisley",
+      "winnerName": "3 elected",
       "leadingParty": "DUP",
       "leadingName": "Ian Paisley",
       "leadingVotes": 230251,
@@ -877,7 +877,7 @@
       "turnoutPct": 65.42,
       "majority": 78852,
       "majorityPct": 11.51,
-      "seatsWon": 1,
+      "seatsWon": 3,
       "seatsTotal": 3,
       "quota": 171330,
       "electorate": 1065363,
@@ -896,6 +896,7 @@
           "finalVotes": 230251,
           "elected": true,
           "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
@@ -937,11 +938,12 @@
           "party": "SDLP",
           "firstPrefs": 151399,
           "finalVotes": 183256.32,
-          "elected": false,
-          "electedAt": null,
+          "elected": true,
+          "electedAt": 4,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Deemed elected",
           "colour": "#2AA82C",
           "counts": [
             {
@@ -969,7 +971,7 @@
               "count": 4,
               "total": 183256.32,
               "transfers": 26946,
-              "status": "",
+              "status": "Deemed elected",
               "firstPrefs": 151399
             }
           ]
@@ -980,11 +982,12 @@
           "party": "UUP",
           "firstPrefs": 147169,
           "finalVotes": 185714.52,
-          "elected": false,
-          "electedAt": null,
+          "elected": true,
+          "electedAt": 4,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Deemed elected",
           "colour": "#48A5EE",
           "counts": [
             {
@@ -1012,7 +1015,7 @@
               "count": 4,
               "total": 185714.52,
               "transfers": 0,
-              "status": "",
+              "status": "Deemed elected",
               "firstPrefs": 147169
             }
           ]
@@ -1025,6 +1028,7 @@
           "finalVotes": 93079.52,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -1068,6 +1072,7 @@
           "finalVotes": 37401.28,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": true,
           "excludedAt": 3,
           "status": "Excluded",
@@ -1111,6 +1116,7 @@
           "finalVotes": 38854.6,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": true,
           "excludedAt": 3,
           "status": "Excluded",
@@ -1154,6 +1160,7 @@
           "finalVotes": 8813.14,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": true,
           "excludedAt": 2,
           "status": "Excluded",
@@ -1190,6 +1197,7 @@
           "finalVotes": 2236.74,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": true,
           "excludedAt": 2,
           "status": "Excluded",
@@ -1228,6 +1236,7 @@
           "finalVotes": 230251,
           "elected": true,
           "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
@@ -1260,6 +1269,94 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 230251
+            }
+          ]
+        },
+        {
+          "id": "80677",
+          "name": "John Taylor",
+          "party": "UUP",
+          "firstPrefs": 147169,
+          "finalVotes": 185714.52,
+          "elected": true,
+          "electedAt": 4,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Deemed elected",
+          "colour": "#48A5EE",
+          "counts": [
+            {
+              "count": 1,
+              "total": 147169,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 147169
+            },
+            {
+              "count": 2,
+              "total": 185714.52,
+              "transfers": 38545.52,
+              "status": "",
+              "firstPrefs": 147169
+            },
+            {
+              "count": 3,
+              "total": 185714.52,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 147169
+            },
+            {
+              "count": 4,
+              "total": 185714.52,
+              "transfers": 0,
+              "status": "Deemed elected",
+              "firstPrefs": 147169
+            }
+          ]
+        },
+        {
+          "id": "58368",
+          "name": "John Hume",
+          "party": "SDLP",
+          "firstPrefs": 151399,
+          "finalVotes": 183256.32,
+          "elected": true,
+          "electedAt": 4,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Deemed elected",
+          "colour": "#2AA82C",
+          "counts": [
+            {
+              "count": 1,
+              "total": 151399,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 151399
+            },
+            {
+              "count": 2,
+              "total": 151664.2,
+              "transfers": 265.2,
+              "status": "",
+              "firstPrefs": 151399
+            },
+            {
+              "count": 3,
+              "total": 156310.32,
+              "transfers": 4646.12,
+              "status": "",
+              "firstPrefs": 151399
+            },
+            {
+              "count": 4,
+              "total": 183256.32,
+              "transfers": 26946,
+              "status": "Deemed elected",
+              "firstPrefs": 151399
             }
           ]
         }

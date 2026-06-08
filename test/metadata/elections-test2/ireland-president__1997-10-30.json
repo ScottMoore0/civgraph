@@ -63,14 +63,6 @@
   ],
   "mainLikePartySummary": [
     {
-      "party": "Independent",
-      "seats": 3,
-      "stood": 3,
-      "votes": 323410,
-      "colour": "#b8b8b8",
-      "share": 25.468643194869255
-    },
-    {
       "party": "Fianna Fáil",
       "seats": 1,
       "stood": 1,
@@ -80,11 +72,19 @@
     },
     {
       "party": "Fine Gael",
-      "seats": 1,
+      "seats": 0,
       "stood": 1,
       "votes": 372002,
       "colour": "#6699ff",
       "share": 29.295279075408164
+    },
+    {
+      "party": "Independent",
+      "seats": 0,
+      "stood": 3,
+      "votes": 323410,
+      "colour": "#b8b8b8",
+      "share": 25.468643194869255
     }
   ],
   "mainLikeTotals": {
@@ -92,7 +92,7 @@
     "totalPoll": 0,
     "totalElectorate": 2688316,
     "totalSpoiled": 0,
-    "totalSeats": 0
+    "totalSeats": 1
   },
   "mainLikeCandidateSummary": [
     {
@@ -107,20 +107,23 @@
       "constPct": 45.23607772972258,
       "firstPrefPct": 45.23607772972258,
       "finalVotes": 574424,
-      "elected": false,
-      "electedAt": null,
+      "elected": true,
+      "electedAt": 1,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
-      "status": "Not Elected",
-      "counts": {
-        "1": {
+      "resolvedCount": null,
+      "countDisplay": "",
+      "status": "Elected",
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 574424,
           "transfers": 0,
-          "status": "Made Quota"
+          "status": "Made Quota",
+          "firstPrefs": 574424,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "mary mcaleese|fianna fáil"
     },
     {
@@ -139,16 +142,19 @@
       "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": null,
+      "countDisplay": "",
       "status": "Not Elected",
-      "counts": {
-        "1": {
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 372002,
           "transfers": 0,
-          "status": ""
+          "status": "",
+          "firstPrefs": 372002,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "mary banotti|fine gael"
     },
     {
@@ -167,16 +173,19 @@
       "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": null,
+      "countDisplay": "",
       "status": "Not Elected",
-      "counts": {
-        "1": {
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 175458,
           "transfers": 0,
-          "status": ""
+          "status": "",
+          "firstPrefs": 175458,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "dana rosemary scallon|independent"
     },
     {
@@ -195,16 +204,19 @@
       "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": null,
+      "countDisplay": "",
       "status": "Not Elected",
-      "counts": {
-        "1": {
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 88423,
           "transfers": 0,
-          "status": ""
+          "status": "",
+          "firstPrefs": 88423,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "adi roche|independent"
     },
     {
@@ -223,16 +235,19 @@
       "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": null,
+      "countDisplay": "",
       "status": "Not Elected",
-      "counts": {
-        "1": {
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
           "total": 59529,
           "transfers": 0,
-          "status": ""
+          "status": "",
+          "firstPrefs": 59529,
+          "count": 1
         }
-      },
+      ],
       "candidateKey": "derek nally|independent"
     }
   ],
@@ -446,7 +461,7 @@
       "majority": 202422,
       "majorityPct": 15.94,
       "seatsWon": 1,
-      "seatsTotal": null,
+      "seatsTotal": 1,
       "quota": 634919,
       "electorate": 2688316,
       "totalPoll": null,
@@ -463,7 +478,8 @@
           "firstPrefs": 574424,
           "finalVotes": 574424,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 2,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
@@ -471,6 +487,13 @@
           "counts": [
             {
               "count": 1,
+              "total": 574424,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 574424
+            },
+            {
+              "count": 2,
               "total": 574424,
               "transfers": 0,
               "status": "Made Quota",
@@ -486,6 +509,7 @@
           "finalVotes": 372002,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -493,6 +517,13 @@
           "counts": [
             {
               "count": 1,
+              "total": 372002,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 372002
+            },
+            {
+              "count": 2,
               "total": 372002,
               "transfers": 0,
               "status": "",
@@ -508,6 +539,7 @@
           "finalVotes": 175458,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -515,6 +547,13 @@
           "counts": [
             {
               "count": 1,
+              "total": 175458,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 175458
+            },
+            {
+              "count": 2,
               "total": 175458,
               "transfers": 0,
               "status": "",
@@ -530,6 +569,7 @@
           "finalVotes": 88423,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -537,6 +577,13 @@
           "counts": [
             {
               "count": 1,
+              "total": 88423,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 88423
+            },
+            {
+              "count": 2,
               "total": 88423,
               "transfers": 0,
               "status": "",
@@ -552,6 +599,7 @@
           "finalVotes": 59529,
           "elected": false,
           "electedAt": null,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "",
@@ -559,6 +607,13 @@
           "counts": [
             {
               "count": 1,
+              "total": 59529,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 59529
+            },
+            {
+              "count": 2,
               "total": 59529,
               "transfers": 0,
               "status": "",
@@ -575,7 +630,8 @@
           "firstPrefs": 574424,
           "finalVotes": 574424,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 2,
+          "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Made Quota",
@@ -583,6 +639,13 @@
           "counts": [
             {
               "count": 1,
+              "total": 574424,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 574424
+            },
+            {
+              "count": 2,
               "total": 574424,
               "transfers": 0,
               "status": "Made Quota",
@@ -594,30 +657,54 @@
       "countInfo": {
         "Constituency_Name": "Ireland",
         "Constituency_Number": "",
-        "Number_Of_Seats": "",
+        "Number_Of_Seats": "1",
+        "Quota": "634919",
         "Spoiled": "",
         "Total_Electorate": "2688316",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "1269836"
       },
       "countGroup": [
         {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "1",
           "Candidate_First_Pref_Votes": "574424",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Mary",
           "Surname": "McAleese",
-          "Occurred_On_Count": "1",
+          "Occurred_On_Count": "2",
           "Party_Colour": "#66bb66",
           "Party_Name": "Fianna Fáil",
-          "Status": "Made Quota",
+          "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
           "Total_Votes": "574424",
           "Transfers": "0",
           "candidateName": "Mary McAleese",
           "id": 0
         },
         {
+          "Auto_Returned_Ceann_Comhairle": "",
+          "Candidate_Id": "1",
+          "Candidate_First_Pref_Votes": "574424",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Mary",
+          "Surname": "McAleese",
+          "Occurred_On_Count": "2",
+          "Party_Colour": "#66bb66",
+          "Party_Name": "Fianna Fáil",
+          "Status": "Made Quota",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
+          "Total_Votes": "574424",
+          "Transfers": "0",
+          "candidateName": "Mary McAleese",
+          "id": 0
+        },
+        {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "2",
           "Candidate_First_Pref_Votes": "372002",
           "Constituency_Number": "",
@@ -628,12 +715,34 @@
           "Party_Colour": "#6699ff",
           "Party_Name": "Fine Gael",
           "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
           "Total_Votes": "372002",
           "Transfers": "0",
           "candidateName": "Mary Banotti",
           "id": 1
         },
         {
+          "Auto_Returned_Ceann_Comhairle": "",
+          "Candidate_Id": "2",
+          "Candidate_First_Pref_Votes": "372002",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Mary",
+          "Surname": "Banotti",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#6699ff",
+          "Party_Name": "Fine Gael",
+          "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
+          "Total_Votes": "372002",
+          "Transfers": "0",
+          "candidateName": "Mary Banotti",
+          "id": 1
+        },
+        {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "3",
           "Candidate_First_Pref_Votes": "175458",
           "Constituency_Number": "",
@@ -644,12 +753,34 @@
           "Party_Colour": "#b8b8b8",
           "Party_Name": "Independent",
           "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
           "Total_Votes": "175458",
           "Transfers": "0",
           "candidateName": "Dana Rosemary Scallon",
           "id": 2
         },
         {
+          "Auto_Returned_Ceann_Comhairle": "",
+          "Candidate_Id": "3",
+          "Candidate_First_Pref_Votes": "175458",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Dana",
+          "Surname": "Rosemary Scallon",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#b8b8b8",
+          "Party_Name": "Independent",
+          "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
+          "Total_Votes": "175458",
+          "Transfers": "0",
+          "candidateName": "Dana Rosemary Scallon",
+          "id": 2
+        },
+        {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "4",
           "Candidate_First_Pref_Votes": "88423",
           "Constituency_Number": "",
@@ -660,12 +791,34 @@
           "Party_Colour": "#b8b8b8",
           "Party_Name": "Independent",
           "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
           "Total_Votes": "88423",
           "Transfers": "0",
           "candidateName": "Adi Roche",
           "id": 3
         },
         {
+          "Auto_Returned_Ceann_Comhairle": "",
+          "Candidate_Id": "4",
+          "Candidate_First_Pref_Votes": "88423",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Adi",
+          "Surname": "Roche",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#b8b8b8",
+          "Party_Name": "Independent",
+          "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
+          "Total_Votes": "88423",
+          "Transfers": "0",
+          "candidateName": "Adi Roche",
+          "id": 3
+        },
+        {
+          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "5",
           "Candidate_First_Pref_Votes": "59529",
           "Constituency_Number": "",
@@ -676,6 +829,27 @@
           "Party_Colour": "#b8b8b8",
           "Party_Name": "Independent",
           "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
+          "Total_Votes": "59529",
+          "Transfers": "0",
+          "candidateName": "Derek Nally",
+          "id": 4
+        },
+        {
+          "Auto_Returned_Ceann_Comhairle": "",
+          "Candidate_Id": "5",
+          "Candidate_First_Pref_Votes": "59529",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Derek",
+          "Surname": "Nally",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#b8b8b8",
+          "Party_Name": "Independent",
+          "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "1",
           "Total_Votes": "59529",
           "Transfers": "0",
           "candidateName": "Derek Nally",
@@ -686,39 +860,65 @@
       "nonTransferable": [],
       "forum": null,
       "countNumbers": [
-        1
+        1,
+        2
       ],
-      "hasCountDetail": false,
+      "hasCountDetail": true,
       "animationPayload": {
         "Constituency": {
           "__syntheticCountGroup": true,
+          "__syntheticCountStages": true,
           "countInfo": {
             "Constituency_Name": "Ireland",
             "Constituency_Number": "",
-            "Number_Of_Seats": "",
+            "Number_Of_Seats": "1",
+            "Quota": "634919",
             "Spoiled": "",
             "Total_Electorate": "2688316",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "1269836"
           },
           "countGroup": [
             {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "1",
               "Candidate_First_Pref_Votes": "574424",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Mary",
               "Surname": "McAleese",
-              "Occurred_On_Count": "1",
+              "Occurred_On_Count": "2",
               "Party_Colour": "#66bb66",
               "Party_Name": "Fianna Fáil",
-              "Status": "Made Quota",
+              "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
               "Total_Votes": "574424",
               "Transfers": "0",
               "candidateName": "Mary McAleese",
               "id": 0
             },
             {
+              "Auto_Returned_Ceann_Comhairle": "",
+              "Candidate_Id": "1",
+              "Candidate_First_Pref_Votes": "574424",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Mary",
+              "Surname": "McAleese",
+              "Occurred_On_Count": "2",
+              "Party_Colour": "#66bb66",
+              "Party_Name": "Fianna Fáil",
+              "Status": "Made Quota",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
+              "Total_Votes": "574424",
+              "Transfers": "0",
+              "candidateName": "Mary McAleese",
+              "id": 0
+            },
+            {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "2",
               "Candidate_First_Pref_Votes": "372002",
               "Constituency_Number": "",
@@ -729,12 +929,34 @@
               "Party_Colour": "#6699ff",
               "Party_Name": "Fine Gael",
               "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
               "Total_Votes": "372002",
               "Transfers": "0",
               "candidateName": "Mary Banotti",
               "id": 1
             },
             {
+              "Auto_Returned_Ceann_Comhairle": "",
+              "Candidate_Id": "2",
+              "Candidate_First_Pref_Votes": "372002",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Mary",
+              "Surname": "Banotti",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#6699ff",
+              "Party_Name": "Fine Gael",
+              "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
+              "Total_Votes": "372002",
+              "Transfers": "0",
+              "candidateName": "Mary Banotti",
+              "id": 1
+            },
+            {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "3",
               "Candidate_First_Pref_Votes": "175458",
               "Constituency_Number": "",
@@ -745,12 +967,34 @@
               "Party_Colour": "#b8b8b8",
               "Party_Name": "Independent",
               "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
               "Total_Votes": "175458",
               "Transfers": "0",
               "candidateName": "Dana Rosemary Scallon",
               "id": 2
             },
             {
+              "Auto_Returned_Ceann_Comhairle": "",
+              "Candidate_Id": "3",
+              "Candidate_First_Pref_Votes": "175458",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Dana",
+              "Surname": "Rosemary Scallon",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#b8b8b8",
+              "Party_Name": "Independent",
+              "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
+              "Total_Votes": "175458",
+              "Transfers": "0",
+              "candidateName": "Dana Rosemary Scallon",
+              "id": 2
+            },
+            {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "4",
               "Candidate_First_Pref_Votes": "88423",
               "Constituency_Number": "",
@@ -761,12 +1005,34 @@
               "Party_Colour": "#b8b8b8",
               "Party_Name": "Independent",
               "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
               "Total_Votes": "88423",
               "Transfers": "0",
               "candidateName": "Adi Roche",
               "id": 3
             },
             {
+              "Auto_Returned_Ceann_Comhairle": "",
+              "Candidate_Id": "4",
+              "Candidate_First_Pref_Votes": "88423",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Adi",
+              "Surname": "Roche",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#b8b8b8",
+              "Party_Name": "Independent",
+              "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
+              "Total_Votes": "88423",
+              "Transfers": "0",
+              "candidateName": "Adi Roche",
+              "id": 3
+            },
+            {
+              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "5",
               "Candidate_First_Pref_Votes": "59529",
               "Constituency_Number": "",
@@ -777,6 +1043,27 @@
               "Party_Colour": "#b8b8b8",
               "Party_Name": "Independent",
               "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
+              "Total_Votes": "59529",
+              "Transfers": "0",
+              "candidateName": "Derek Nally",
+              "id": 4
+            },
+            {
+              "Auto_Returned_Ceann_Comhairle": "",
+              "Candidate_Id": "5",
+              "Candidate_First_Pref_Votes": "59529",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Derek",
+              "Surname": "Nally",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#b8b8b8",
+              "Party_Name": "Independent",
+              "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "1",
               "Total_Votes": "59529",
               "Transfers": "0",
               "candidateName": "Derek Nally",

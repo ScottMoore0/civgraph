@@ -111,7 +111,7 @@ export function summarizeCandidateRows(rows = []) {
   const byCandidate = new Map();
   for (const row of Array.isArray(rows) ? rows : []) {
     const name = candidateDisplayName(row);
-    const party = normalizeParty(row.Party_Name || row.party || row.party_name);
+    const party = normalizeParty(row.Party_Name || row.Party || row.party || row.party_name);
     const key = row.Candidate_Id || row.person_id || `${name}|${party}`;
     if (!String(key || '').trim() || isNonTransferableRow(row, key, name, party)) continue;
     const existing = byCandidate.get(key) || {
@@ -137,9 +137,10 @@ export function summarizeCandidateRows(rows = []) {
     if ((countNo === 1 || existing.firstPrefs === null) && firstPref !== null) existing.firstPrefs = firstPref;
     if (totalVotes !== null) existing.finalVotes = Math.max(existing.finalVotes || 0, totalVotes);
     if (!existing.status && status) existing.status = status;
-    if (statusKind(status) === 'elected' || row.counted_as_elected === true) {
+    if (statusKind(status) === 'elected' || row.Elected === true || row.counted_as_elected === true) {
       existing.elected = true;
       existing.electedAt ||= countNo;
+      if (!existing.status) existing.status = 'Elected';
     }
     if (statusKind(status) === 'excluded') {
       existing.excluded = true;
@@ -438,23 +439,72 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
 
 export function extractElected(result = {}) {
   const candidates = Array.isArray(result.candidates) ? result.candidates : [];
-  const explicit = candidates.filter((candidate) => candidate.elected);
+  const seats = parseNumber(result.seatsTotal ?? result.seatsWon);
+  const complete = completeElectedCandidateSet(candidates, seats);
+  const explicit = complete.filter((candidate) => candidate.elected);
   if (explicit.length) {
-    const seats = parseNumber(result.seatsTotal ?? result.seatsWon);
     return explicit
       .map((candidate) => ({ ...candidate, colour: candidate.colour || partyColour(candidate.party) }))
       .sort((a, b) => numberOrZero(a.electedAt) - numberOrZero(b.electedAt) || numberOrZero(b.finalVotes) - numberOrZero(a.finalVotes))
       .slice(0, seats && seats > 0 ? seats : explicit.length);
   }
-  const seats = parseNumber(result.seatsTotal ?? result.seatsWon);
   if (seats && seats > 0) {
-    return [...candidates]
+    return [...complete]
       .filter((candidate) => !candidate.excluded)
       .sort((a, b) => numberOrZero(b.finalVotes ?? b.firstPrefs) - numberOrZero(a.finalVotes ?? a.firstPrefs))
       .slice(0, seats)
       .map((candidate) => ({ ...candidate, elected: true, status: candidate.status || 'Deemed elected', colour: candidate.colour || partyColour(candidate.party) }));
   }
   return [];
+}
+
+function candidateLastCount(candidate = {}) {
+  const counts = Array.isArray(candidate.counts) ? candidate.counts : [];
+  return Math.max(1, ...counts.map((count) => parseNumber(count?.count) || 0));
+}
+
+function completeElectedCandidateSet(candidates = [], seatsTotal = null) {
+  const seats = parseNumber(seatsTotal);
+  if (!seats || seats <= 0 || !Array.isArray(candidates) || !candidates.length) return candidates;
+  const explicit = candidates.filter((candidate) => candidate.elected);
+  if (explicit.length >= seats) return candidates;
+
+  const explicitIds = new Set(explicit.map((candidate) => candidate.id || `${candidate.name}|${candidate.party}`));
+  const needed = seats - explicit.length;
+  const inferred = candidates
+    .filter((candidate) => {
+      const id = candidate.id || `${candidate.name}|${candidate.party}`;
+      if (explicitIds.has(id)) return false;
+      if (candidate.excluded || statusKind(candidate.status) === 'excluded') return false;
+      if (candidate.autoReturnedCeannComhairle) return false;
+      return numberOrZero(candidate.finalVotes ?? candidate.firstPrefs) > 0;
+    })
+    .sort((a, b) => numberOrZero(b.finalVotes ?? b.firstPrefs) - numberOrZero(a.finalVotes ?? a.firstPrefs)
+      || numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs)
+      || String(a.name || '').localeCompare(String(b.name || '')))
+    .slice(0, needed);
+
+  if (!inferred.length) return candidates;
+  const inferredIds = new Set(inferred.map((candidate) => candidate.id || `${candidate.name}|${candidate.party}`));
+  return candidates.map((candidate) => {
+    const id = candidate.id || `${candidate.name}|${candidate.party}`;
+    if (!inferredIds.has(id)) return candidate;
+    const lastCount = candidateLastCount(candidate);
+    const counts = Array.isArray(candidate.counts)
+      ? candidate.counts.map((count) => Number(count?.count) === lastCount
+        ? { ...count, status: count.status || 'Deemed elected' }
+        : count)
+      : candidate.counts;
+    return {
+      ...candidate,
+      elected: true,
+      electedAt: candidate.electedAt || lastCount,
+      excluded: false,
+      excludedAt: null,
+      status: 'Deemed elected',
+      counts
+    };
+  });
 }
 
 function extractMainLikeElected(payload = {}) {
@@ -757,9 +807,10 @@ export function summarizeResult(raw, fallbackConstituency) {
   const rows = forumRows || source.countGroup || raw?.candidates || [];
   const constituency = fixText(source.constituency || raw?.constituency || info.Constituency_Name || fallbackConstituency);
   const recallPetition = source.recallPetition || raw?.recallPetition || raw?.petition || null;
-  const candidates = forumRows ? summarizeForumRows(forumRows) : summarizeCandidateRows(rows);
+  let candidates = forumRows ? summarizeForumRows(forumRows) : summarizeCandidateRows(rows);
   const ranked = [...candidates].sort((a, b) => numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs));
   const seatsTotal = parseNumber(info.Number_Of_Seats ?? raw?.meta?.seats ?? raw?.seats);
+  if (!forumRows) candidates = completeElectedCandidateSet(candidates, seatsTotal);
   let elected = extractElected({ candidates, seatsTotal });
   const leading = ranked[0] || null;
   const runnerUp = ranked[1] || null;
