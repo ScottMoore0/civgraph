@@ -5,7 +5,7 @@
 
 import * as esbuild from 'esbuild';
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 mkdirSync('test2/build', { recursive: true });
@@ -55,6 +55,7 @@ const jsVersion = contentHash('test2/build/test2.bundle.js');
 const cssVersion = existsSync('test2/build/test2.bundle.css')
   ? contentHash('test2/build/test2.bundle.css')
   : jsVersion;
+copyAnimationRuntimeAssets();
 updateHtmlVersions(jsVersion, cssVersion);
 updateServiceWorkerVersion(jsVersion);
 
@@ -97,4 +98,25 @@ function updateServiceWorkerVersion(jsVersion) {
     throw new Error('Could not update /test2 service worker version');
   }
   writeFileSync(swPath, nextSource);
+}
+
+function copyAnimationRuntimeAssets() {
+  const assets = [
+    ['js/jquery-shim.js', 'test2/js/jquery-shim.js'],
+    ['election-viewer-package/js/stages2.js', 'test2/election-viewer-package/js/stages2.js'],
+    ['election-viewer-package/js/animation_preview.js', 'test2/election-viewer-package/js/animation_preview.js'],
+    ['election-viewer-package/js/animation_preview_manager.js', 'test2/election-viewer-package/js/animation_preview_manager.js'],
+    ['election-viewer-package/js/election_viewer.js', 'test2/election-viewer-package/js/election_viewer.js'],
+    ['election-viewer-package/css/stages.css', 'test2/election-viewer-package/css/stages.css'],
+    ['election-viewer-package/css/election-viewer.css', 'test2/election-viewer-package/css/election-viewer.css']
+  ];
+  for (const [source, target] of assets) {
+    if (!existsSync(source)) {
+      throw new Error(`Missing /test2 election animation runtime source asset: ${source}`);
+    }
+    mkdirSync(path.dirname(target), { recursive: true });
+    copyFileSync(source, target);
+    const content = readFileSync(target, 'utf8').replace(/[ \t]+$/gm, '');
+    writeFileSync(target, content);
+  }
 }

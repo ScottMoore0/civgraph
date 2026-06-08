@@ -682,8 +682,14 @@ test('/test2 selected Dail 2024 Cork North-Central pane uses constituency source
     manager.renderPanel(result, 'animation');
   });
   await page.waitForSelector('#electionAnimationContainer', { state: 'attached' });
+  await page.waitForFunction(() => {
+    const status = document.getElementById('test2ElectionAnimationStatus')?.textContent?.trim() || '';
+    const container = document.getElementById('electionAnimationContainer');
+    return status !== 'Loading transfer animation...' || container?.style.display === 'block';
+  });
   const transferState = await page.evaluate(() => ({
     status: document.getElementById('test2ElectionAnimationStatus')?.textContent?.trim() || '',
+    visible: document.getElementById('electionAnimationContainer')?.style.display !== 'none',
     transferRows: window.__civgraphTest2.app.elections.activeBundle.results
       .find((row) => row.constituency === 'Cork North Central')
       ?.animationPayload?.Constituency?.countGroup
@@ -697,6 +703,9 @@ test('/test2 selected Dail 2024 Cork North-Central pane uses constituency source
       ?.animationPayload?.Constituency?.countGroup
       ?.filter((row) => Number(row.Transfers || 0) !== 0).length || 0
   }));
+  expect(transferState.status).not.toContain('could not load');
+  expect(transferState.status).not.toContain('not available');
+  expect(transferState.visible).toBe(true);
   expect(transferState.transferRows).toBeGreaterThan(0);
   expect(transferState.wikipediaRows).toBeGreaterThan(0);
   expect(transferState.nonZeroTransfers).toBeGreaterThan(0);

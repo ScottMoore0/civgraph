@@ -109,6 +109,7 @@ assert(existsSync('scripts/audit-test2-general-parity.mjs'), '/test2 general par
 assert(packageJsonSource.includes('"audit:test2:parity"'), '/test2 general parity audit must be exposed through package scripts');
 assert(index.includes('/test2/build/test2.bundle.js'), '/test2 must load its own MapLibre bundle');
 assert(index.includes('/test2/build/test2.bundle.css'), '/test2 must load its own MapLibre CSS bundle');
+assert(index.includes('/test2/election-viewer-package/css/election-viewer.css') && index.includes('/test2/election-viewer-package/css/stages.css'), '/test2 must load route-scoped election animation CSS assets');
 assert(Boolean(test2BundleVersion), '/test2 bundle script must include a content-hash cache key');
 assert(test2ServiceWorkerSource.includes(`const VERSION = 'test2-sw-${test2BundleVersion}';`), '/test2 scoped service-worker cache version must match the current bundle hash so phones cannot retain stale gesture code');
 assert(index.includes('href="/build/main.css'), '/test2 must load shared main CSS from the site root, not route-relative /test2/build/main.css');
@@ -362,10 +363,19 @@ assert(electionManagerSource.includes('buildRepairedLabelValueExpression') && el
 assert(electionManifestBuilderSource.includes('isSyntheticNonGeographicResult') && electionManifestBuilderSource.includes('syntheticNonGeographicMatch') && electionManifestBuilderSource.includes('synthetic-northeast-non-geographic'), '/test2 election manifest builder must synthesize safe northeast anchors for non-geographical election rows');
 assert(electionManagerSource.includes('test2-election-synthetic-label') && electionManagerSource.includes('result.syntheticNonGeographic') && test2Css.includes('.test2-election-synthetic-label'), '/test2 election overlays must render clickable labels for synthetic non-geographical constituency entries');
 assert(electionManagerSource.includes('syntheticDelta') && electionManagerSource.includes('syntheticNonGeographic'), '/test2 election overlay collision must prioritize synthetic non-geographical markers so they do not disappear behind real constituencies');
+assert(electionManagerSource.includes('/test2/js/jquery-shim.js') && electionManagerSource.includes('/test2/election-viewer-package/js/stages2.js'), '/test2 election animation runtime must lazy-load route-scoped shared animation scripts');
+assert(test2ServiceWorkerSource.includes('/test2/js/jquery-shim.js') && test2ServiceWorkerSource.includes('/test2/election-viewer-package/js/election_viewer.js'), '/test2 service worker must network-first the route-scoped election animation runtime assets');
 
 for (const path of [
   'test2/build/test2.bundle.js',
   'test2/build/test2.bundle.css',
+  'test2/js/jquery-shim.js',
+  'test2/election-viewer-package/js/stages2.js',
+  'test2/election-viewer-package/js/animation_preview.js',
+  'test2/election-viewer-package/js/animation_preview_manager.js',
+  'test2/election-viewer-package/js/election_viewer.js',
+  'test2/election-viewer-package/css/stages.css',
+  'test2/election-viewer-package/css/election-viewer.css',
   'test2/src/app.js',
   'test2/src/maplibre-main-adapter.js',
   'test2/src/election-manager.js',

@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 169) `/test2` lazy runtime assets must be route-scoped and validated
+- Mistake pattern: Wiring `/test2` to lazy-load shared runtime scripts from `/test2/...` without ensuring the build/deployment path actually materialises those assets under the `/test2` route.
+- Impact: feature-specific functionality can look implemented in the pane but fail only when the user opens a lazy path, such as the Dail transfer animation loading `/test2/js/jquery-shim.js`.
+- Guardrail:
+  1) route-local lazy script and stylesheet paths must be copied by the `/test2` build, not assumed to exist because root-site assets exist,
+  2) `validate-test2-route.mjs` must assert those files exist and the service worker/network policy includes them,
+  3) browser coverage for lazy panes must assert absence of runtime-load error messages, not only that source data is present.
+
 ### 168) Dail transfer availability must include constituency Wikipedia count tables
 - Mistake pattern: Treating the local Dail scraper JSON as authoritative for transfer/count availability even though Wikipedia constituency articles contain cumulative per-count tables.
 - Impact: `/test2` can expose a Transfers pane but still show zero transfer movement, despite public source tables having enough information to derive per-count transfer deltas.

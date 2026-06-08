@@ -19,6 +19,13 @@ const NETWORK_FIRST_PATHS = [
   '/test2/build/test2.bundle.js',
   '/test2/build/test2.bundle.css',
   '/test2/build/performance-dashboard.json',
+  '/test2/js/jquery-shim.js',
+  '/test2/election-viewer-package/js/stages2.js',
+  '/test2/election-viewer-package/js/animation_preview.js',
+  '/test2/election-viewer-package/js/animation_preview_manager.js',
+  '/test2/election-viewer-package/js/election_viewer.js',
+  '/test2/election-viewer-package/css/stages.css',
+  '/test2/election-viewer-package/css/election-viewer.css',
   '/test2/src/search-worker.js',
   '/test2/src/overlay-worker.js',
   '/test/metadata/maps-test-index.json'

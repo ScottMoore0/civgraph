@@ -1,3 +1,24 @@
+# Fix `/test2` Dail transfer animation runtime and report gaps
+- [x] Record scope
+  - Task: fix `/test2` transfer animation loading so Dail constituency Transfers panes can load the STV animation runtime, and report Irish general-election transfer-data gaps.
+  - Symptom: selecting a Dail constituency transfer animation can show `The election animation engine could not load: /test2/js/jquery-shim.js`.
+  - Root cause to verify: `/test2/src/election-manager.js` lazy-loads static runtime scripts from `/test2/js/...` and `/test2/election-viewer-package/js/...`, but those assets are not currently present under the deployed `/test2` route.
+  - Permanent prevention action: add route/build validation or browser coverage that verifies all lazy animation runtime script URLs referenced by `/test2` exist and at least one Dail Transfers view can initialise the engine.
+- [x] Implement runtime asset fix
+  - Ensure `/test2` serves `jquery-shim.js` and the election-viewer animation scripts at the paths expected by `election-manager.js`.
+  - Keep main-site files unchanged except for using already-shared static assets where appropriate.
+  - Rebuild `/test2` so service-worker versioning and bundle references are updated.
+- [x] Audit Dail transfer-data gaps
+  - Use local generated sidecars/bundles to count Irish general-election constituencies with Wikipedia-derived transfer rows versus fallback or missing transfer rows.
+  - Report which election years and constituencies still lack transfer animation/count data.
+- [x] Verify, commit, and push
+  - Run route validation, focused browser or script coverage for transfer runtime availability, `build:test2`, then commit/push intended files only.
+  - Completed: copied the shared election animation runtime into route-scoped `/test2` assets during `scripts/build-test2-app.mjs`, including `jquery-shim.js`, the election-viewer animation scripts, and their CSS.
+  - Completed: changed `/test2/index.html` and `/test2/sw.js` to use/network-first the route-scoped animation CSS/JS assets so the transfer pane no longer depends on missing `/test2` files.
+  - Guardrail: `scripts/validate-test2-route.mjs` now fails if the `/test2` animation runtime assets are not present; the focused Dail browser test now fails if the transfer animation status reports a runtime load failure.
+  - Transfer-data audit result: 2002, 2007, 2011, 2016, 2020, and 2024 Dail elections have verified Wikipedia-derived rows for every constituency. Earlier Dail elections retain some synthetic/fallback constituency rows; 1918 and 1921 have no verified count-stage sidecars in the generated bundle.
+  - Verification evidence: `npm run build:test2` passed after rerunning outside the sandbox for the known esbuild spawn restriction; `npm run check:test2` passed; escalated `npx playwright test tests/browser/test2-app.spec.js -g "Dail 2024 Cork North-Central"` passed with the stricter runtime-load assertion.
+
 # Persist `/test2` active-layer drag order and MapLibre z-stack
 - [x] Record scope
   - Task: when a user drags active-layer rows up/down in the `/test2` active-layer card, the chosen row order must persist across card refreshes/URL updates/reload and MapLibre must draw layers in the same top/bottom order.
