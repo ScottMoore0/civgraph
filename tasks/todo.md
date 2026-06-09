@@ -1,3 +1,16 @@
+# Research specific remediation for election-data recommendations 2-7
+- [x] Record scope
+  - Task: carry out a specific research pass for the remaining election-data recommendations 2-7: malformed valid-poll rows, missing candidate rows, missing source records, old Dáil unmatched diagnostics, party-colour review, and tests/guardrails.
+  - Expected output: a concrete, category-by-category remediation report with row-level actions and source strategies.
+- [x] Extract exact affected rows
+  - Completed: confirmed the current audit categories and counts directly from `tasks/test2-election-data-audit.json`: 39 `first-pref-sum`, 30 `candidate-list-missing`, 14 `source-record-missing`, 11 `unmatched-list-count`, 10 sampled `party-colour-mismatch`, and 9 `source-record-single-reference`.
+- [x] Research source families and practical fixes
+  - Completed: researched the practical source strategy against EONI, ARK Northern Ireland Elections, ElectionsIreland, European Parliament results, Wikipedia election pages, and the local Wikipedia party-colour audit files.
+- [x] Write recommendation report
+  - Completed: added `docs/test2-election-data-remediation-2-7.md` with row-level issue classes, source strategy, and exact remediation actions for recommendations 2-7.
+- [x] Verify, commit, and push scoped documentation changes only
+  - Completed: verification is limited to documentation/source-strategy scope; no election result data or generated map metadata is intentionally changed by this task.
+
 # Research remaining election-data audit warnings
 - [x] Record scope
   - Task: research the current non-blocking `/test2` election-data audit warnings and recommend how to resolve them without reintroducing fabricated or weakly sourced data.
