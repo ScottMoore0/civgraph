@@ -30,7 +30,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/test2/build/test2.bundle.js?v=8ca9dd9c2328" fetchpriority="high">
+  <link rel="modulepreload" href="/test2/build/test2.bundle.js?v=3fcf82a89284" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -520,7 +520,7 @@
             </div>
 
             <!-- Performance status -->
-            <div id="performanceDashboard" class="control-group mt-4 test2-performance-dashboard" aria-live="polite">
+            <div id="performanceDashboard" class="control-group mt-4 test2-performance-dashboard" aria-live="polite" hidden aria-hidden="true">
               <div class="test2-performance-dashboard__header">
                 <span class="control-label">Performance</span>
                 <button type="button" id="performanceDashboardRefresh" class="btn btn--sm" title="Refresh performance status">
@@ -648,7 +648,7 @@
   <script src="assets/js/pako-2.1.0.min.js" defer></script>
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/test2/build/test2.bundle.js?v=8ca9dd9c2328"></script>
+  <script type="module" src="/test2/build/test2.bundle.js?v=3fcf82a89284"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

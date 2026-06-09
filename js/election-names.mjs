@@ -32,6 +32,96 @@ function dateParts(dateValue) {
   };
 }
 
+const REFERENDUM_TOPIC_OVERRIDES = new Map([
+  ['2024-03-08-the-family', '2024 Irish family referendum'],
+  ['2024-03-08-care', '2024 Irish care referendum'],
+  ['2019-05-24-regulation-of-divorce', '2019 Irish divorce referendum'],
+  ['2018-10-26-repeal-of-blasphemy-offence', 'October 2018 Irish blasphemy referendum'],
+  ['2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment', 'May 2018 Irish abortion referendum'],
+  ['1998-05-22-northern-ireland', '1998 Good Friday Agreement referendum in the Republic of Ireland']
+]);
+
+const REFERENDUM_TOPIC_LABELS = new Map([
+  ['the-family', 'family'],
+  ['care', 'care'],
+  ['regulation-of-divorce', 'divorce'],
+  ['repeal-of-blasphemy-offence', 'blasphemy'],
+  ['regulation-of-termination-of-pregnancy-repeal-of-8th-amendment', 'abortion'],
+  ['eighth-amendment', 'abortion'],
+  ['thirty-sixth-amendment', 'abortion'],
+  ['thirty-eighth-amendment', 'divorce'],
+  ['thirty-ninth-amendment', 'presidential voting'],
+  ['thirty-seventh-amendment', 'women in the home'],
+  ['thirty-fourth-amendment', 'marriage equality'],
+  ['thirty-second-amendment', 'abolition of the Seanad'],
+  ['thirty-third-amendment', 'Court of Appeal'],
+  ['thirtieth-amendment', 'Oireachtas inquiries'],
+  ['twenty-ninth-amendment', 'judges remuneration'],
+  ['twenty-eighth-amendment', 'Lisbon Treaty'],
+  ['twenty-seventh-amendment', 'citizenship'],
+  ['twenty-sixth-amendment', 'Nice Treaty'],
+  ['twenty-fifth-amendment', 'abortion'],
+  ['twenty-fourth-amendment', 'Nice Treaty'],
+  ['twenty-third-amendment', 'International Criminal Court'],
+  ['twenty-first-amendment', 'death penalty'],
+  ['twentieth-amendment', 'local government'],
+  ['nineteenth-amendment', 'Good Friday Agreement'],
+  ['belfast-agreement', 'Good Friday Agreement'],
+  ['good-friday-agreement', 'Good Friday Agreement'],
+  ['brexit', 'Brexit'],
+  ['alternative-vote', 'Alternative Vote']
+]);
+
+function slugToWords(value) {
+  return String(value || '')
+    .replace(/[-_]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function titleCaseTopic(value) {
+  return slugToWords(value).replace(/\b([a-z])/g, (match) => match.toUpperCase());
+}
+
+function referendumTopicFromKey({ key = '', bodySlug = '', date = '' } = {}) {
+  const datePrefix = String(date || '').slice(0, 10);
+  const rawKey = String(key || '');
+  const rawBodySlug = String(bodySlug || '');
+  const candidates = [
+    rawKey.includes('__') ? rawKey.split('__').pop() : rawKey,
+    String(date || ''),
+    rawBodySlug
+  ].filter(Boolean);
+  for (const candidate of candidates) {
+    const normalized = candidate
+      .toLowerCase()
+      .replace(/^ireland-referendum__/, '')
+      .replace(/^referendum-ireland__/, '')
+      .replace(new RegExp(`^${datePrefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-`), '')
+      .replace(/^\d{4}-\d{2}-\d{2}-/, '')
+      .replace(/^referendum-/, '')
+      .replace(/^ireland-/, '');
+    if (normalized && normalized !== 'referendum' && normalized !== 'ireland-referendum') {
+      return normalized;
+    }
+  }
+  return '';
+}
+
+function referendumTitle(params = {}) {
+  const { year } = dateParts(params.date);
+  const datePrefix = String(params.date || '').slice(0, 10);
+  const topic = referendumTopicFromKey(params);
+  const exactKey = topic ? `${datePrefix}-${topic}` : datePrefix;
+  if (REFERENDUM_TOPIC_OVERRIDES.has(exactKey)) return REFERENDUM_TOPIC_OVERRIDES.get(exactKey);
+  const normalizedTopic = REFERENDUM_TOPIC_LABELS.get(topic) || titleCaseTopic(topic).toLowerCase();
+  if (!normalizedTopic) return `${year} Irish referendum`.trim();
+  const prefix = ['brexit', 'alternative vote', 'good friday agreement'].includes(normalizedTopic.toLowerCase())
+    ? titleCaseTopic(normalizedTopic)
+    : normalizedTopic;
+  return `${year} Irish ${prefix} referendum`.trim();
+}
+
 export function electionYear(dateValue) {
   return dateParts(dateValue).year;
 }
@@ -85,7 +175,9 @@ export function canonicalElectionTitle({
   date = '',
   constituencies = [],
   specialType = null,
-  specialDisplayName = null
+  specialDisplayName = null,
+  key = '',
+  bodySlug = ''
 } = {}) {
   if (specialDisplayName) return specialDisplayName;
   const { year, dayMonthYear } = dateParts(date);
@@ -102,25 +194,25 @@ export function canonicalElectionTitle({
 
   if (byElection) {
     if (names.length > 1) {
-      return `${dayMonthYear} ${byElectionRegion(body, bodyGroup)} by-elections`.trim();
+      return `${year} ${byElectionRegion(body, bodyGroup)} by-elections`.trim();
     }
     return `${year} ${names[0]} by-election`.trim();
   }
 
   if (bodyGroup === 'local-government') {
-    return `${year} Northern Ireland local election`.trim();
+    return `${year} Northern Ireland local elections`.trim();
   }
 
   if (normalizedBody === 'dail eireann') return `${year} Irish general election`.trim();
-  if (normalizedBody === 'european parliament ireland') return `${year} European Parliament election (ROI)`.trim();
-  if (normalizedBody === 'european parliament') return `${year} European Parliament election (NI)`.trim();
+  if (normalizedBody === 'european parliament ireland') return `${year} European election in the Republic of Ireland`.trim();
+  if (normalizedBody === 'european parliament') return `${year} European election in Northern Ireland`.trim();
   if (normalizedBody === 'northern ireland assembly') return `${year} Northern Ireland Assembly election`.trim();
-  if (normalizedBody === 'house of commons of the united kingdom') return `${year} general election in Northern Ireland`.trim();
+  if (normalizedBody === 'house of commons of the united kingdom') return `${year} UK general election in Northern Ireland`.trim();
   if (normalizedBody === 'northern ireland forum for political dialogue') return '1996 Northern Ireland Forum election';
-  if (normalizedBody === 'northern ireland constitutional convention') return '1975 Northern Ireland Constitutional convention';
+  if (normalizedBody === 'northern ireland constitutional convention') return '1975 Northern Ireland Constitutional Convention election';
   if (normalizedBody === 'parliament of northern ireland') return `${year} Parliament of Northern Ireland election`.trim();
   if (normalizedBody === 'president of ireland') return `${year} Irish presidential election`.trim();
-  if (normalizedBody === 'referendum ireland') return `${year} Irish referendum`.trim();
+  if (normalizedBody === 'referendum ireland') return referendumTitle({ body, bodyGroup, date, constituencies, specialType, specialDisplayName, key, bodySlug });
 
   return `${year} ${String(body || '').trim()}`.trim();
 }

@@ -67,6 +67,8 @@ class Test2App {
     this.workerSearchResultIds = null;
     this.serviceWorkerStatusPromise = null;
     this.performanceBudget = null;
+    this.browseEntityDetailCache = new Map();
+    this.browsePersonsIndexPromise = null;
   }
 
   readSavedLayerOrder() {
@@ -495,7 +497,7 @@ class Test2App {
         const elections = await this.ensureElections();
         await elections.loadElection(body, date);
         this.updateMapList();
-        this.focusActiveElectionCatalogueEntry(this.elections?.activeEntry, { scroll: true });
+        this.focusActiveElectionCatalogueEntry(this.elections?.activeEntry, { scroll: false });
       } catch (error) {
         this.showMapError(error);
       }
@@ -506,6 +508,7 @@ class Test2App {
     };
     uiController.onCheckElectionLoaded = (body, date) => this.elections?.isElectionLoaded(body, date) || false;
     uiController.onSetupElectionTableControls = () => {};
+    uiController.onOpenElectionEntityDetail = async (kind, key) => this.openElectionEntityDetailInCatalogue(kind, key);
 
     uiController.onSplitChange = () => {
       this.mapController.invalidateSize();
@@ -1011,6 +1014,7 @@ class Test2App {
   }
 
   setupPerformanceDashboard() {
+    document.getElementById('performanceDashboard')?.setAttribute('hidden', '');
     const button = document.getElementById('performanceDashboardRefresh');
     const render = () => this.renderPerformanceDashboard().catch((error) => {
       const target = document.getElementById('performanceDashboardStatus');
@@ -1019,6 +1023,141 @@ class Test2App {
     button?.addEventListener('click', render);
     this.serviceWorkerStatusPromise?.finally(() => render());
     setTimeout(render, 1200);
+  }
+
+  async openElectionEntityDetailInCatalogue(kind, key) {
+    const detail = await this.loadElectionEntityBrowseDetail(kind, key);
+    if (!detail) return false;
+    uiController.showElectionEntityDetailInCatalogue(detail, true);
+    return true;
+  }
+
+  async loadElectionEntityBrowseDetail(kind, key) {
+    const normalizedKind = String(kind || '').toLowerCase();
+    const cacheKey = `${normalizedKind}:${key || ''}`;
+    if (this.browseEntityDetailCache.has(cacheKey)) return this.browseEntityDetailCache.get(cacheKey);
+    const detail = normalizedKind === 'party'
+      ? await this.loadPartyBrowseDetail(key)
+      : normalizedKind === 'candidate'
+        ? await this.loadPersonBrowseDetail(key)
+        : null;
+    if (detail) this.browseEntityDetailCache.set(cacheKey, detail);
+    return detail;
+  }
+
+  async loadPartyBrowseDetail(key) {
+    const slug = slugifyEntityKey(key);
+    const candidates = [...new Set([slug, String(key || '').trim().toLowerCase()].filter(Boolean))];
+    for (const candidateSlug of candidates) {
+      try {
+        const response = await fetch(`/data/browse/details/parties/${encodeURIComponent(candidateSlug)}.json`, { cache: 'force-cache' });
+        if (!response.ok) continue;
+        const detail = await response.json();
+        const item = detail.item || detail;
+        return this.mapPartyBrowseItem(item);
+      } catch (error) {
+        console.warn('[Test2] Party Browse detail unavailable', candidateSlug, error);
+      }
+    }
+    return null;
+  }
+
+  async loadPersonBrowseDetail(key) {
+    const persons = await this.loadBrowsePersonsIndex();
+    const wanted = slugifyEntityKey(key);
+    const rawName = String(key || '').split('|')[0].trim();
+    const rawNameSlug = slugifyEntityKey(rawName);
+    const item = persons.find((person) => {
+      const slugs = [
+        person.slug,
+        person.id,
+        person.name,
+        person.title
+      ].map(slugifyEntityKey);
+      return slugs.includes(wanted) || (rawNameSlug && slugs.includes(rawNameSlug));
+    });
+    return item ? this.mapPersonBrowseItem(item) : null;
+  }
+
+  async loadBrowsePersonsIndex() {
+    if (!this.browsePersonsIndexPromise) {
+      this.browsePersonsIndexPromise = fetch('/data/browse/persons.json', { cache: 'force-cache' })
+        .then((response) => {
+          if (!response.ok) throw new Error(`Browse persons index failed: ${response.status}`);
+          return response.json();
+        })
+        .then((payload) => Array.isArray(payload.items) ? payload.items : []);
+    }
+    return this.browsePersonsIndexPromise;
+  }
+
+  mapPartyBrowseItem(item) {
+    const related = Array.isArray(item.relatedElections) ? item.relatedElections : [];
+    const latestByMatch = (pattern) => related.find((row) => pattern.test(`${row.key || ''} ${row.title || ''}`));
+    return {
+      kind: 'party',
+      key: item.slug || slugifyEntityKey(item.canonicalName || item.title),
+      name: item.canonicalName || item.title || item.slug || '',
+      latestWestminster: latestByMatch(/house-of-commons|UK general|Westminster/i),
+      latestAssembly: latestByMatch(/northern-ireland-assembly|Assembly/i),
+      partySummaries: related.map((row) => ({
+        electionDisplayName: row.title || row.key || '',
+        electionBodyForOpen: row.body || '',
+        body: row.body || '',
+        date: row.date || '',
+        electionType: row.key || '',
+        rank: row.rank || null,
+        contested: true,
+        stood: row.stood ?? row.candidates ?? null,
+        elected: row.seats ?? row.elected ?? null,
+        firstPrefs: row.votes ?? row.firstPrefs ?? null,
+        validVotePct: row.share ?? null,
+        bodyGroup: row.bodyGroup || null
+      })),
+      totals: item.totals || {},
+      observedNames: item.observedNames || [],
+      knownAliases: item.knownAliases || [],
+      firstYear: item.firstYear,
+      lastYear: item.lastYear
+    };
+  }
+
+  mapPersonBrowseItem(item) {
+    const elections = Array.isArray(item.elections) ? item.elections : [];
+    const latest = elections[0] || null;
+    return {
+      kind: 'candidate',
+      key: item.slug || item.id || slugifyEntityKey(item.name || item.title),
+      personId: item.id || item.slug || '',
+      name: item.name || item.title || '',
+      latestParty: latest?.party || item.parties?.[0]?.name || '',
+      parties: (item.parties || []).map((party) => party.name || party).filter(Boolean),
+      dates: [...new Set(elections.map((row) => String(row.year || row.date || '')).filter(Boolean))],
+      constituencies: (item.constituencies || []).map((row) => row.name || row).filter(Boolean),
+      constituencyEntries: elections.map((row) => ({
+        body: row.title || row.key || '',
+        date: row.date || '',
+        constituency: row.constituency || '',
+        elected: Boolean(row.elected)
+      })),
+      appearances: elections.map((row) => ({
+        electionDisplayName: row.title || row.key || '',
+        electionBodyForOpen: '',
+        body: '',
+        date: row.date || '',
+        constituency: row.constituency || '',
+        party: row.party || '',
+        status: row.status || (row.elected ? 'Elected' : ''),
+        rank: row.rank || null,
+        firstPrefs: row.firstPrefs ?? null,
+        firstPrefPct: row.firstPrefPct ?? null,
+        elected: Boolean(row.elected)
+      })),
+      firstPrefs: item.totals?.firstPrefs || 0,
+      electedCount: item.totals?.elected || 0,
+      shareOfAllValid: null,
+      latestAppearance: latest
+    };
   }
 
   async renderPerformanceDashboard() {
@@ -1718,6 +1857,18 @@ function escapeHtml(value) {
     '"': '&quot;',
     "'": '&#39;'
   }[ch]));
+}
+
+function slugifyEntityKey(value) {
+  return String(value || '')
+    .split('|')[0]
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/^(party|candidate|person|name):/, '')
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 function formatBytes(value) {

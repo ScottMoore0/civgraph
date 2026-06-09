@@ -61,6 +61,7 @@ class UIController {
         this.catalogueView = 'list'; // 'list' or 'detail'
         this._lastMapListOptions = {};
         this._showPlaceholdersCards = new Set(); // card keys with "Show to be added" toggle active
+        this._showByElectionCards = new Set(); // election decade cards with by-elections expanded
         this._cataloguePane = null;
         this._electionEntityDetailCache = new Map();
         this._catalogueBookView = null;
@@ -2062,6 +2063,19 @@ class UIController {
             return;
         }
 
+        const byElectionToggle = target.closest?.('.flat-election-by-toggle');
+        if (byElectionToggle) {
+            event.preventDefault();
+            const cardId = byElectionToggle.dataset.electionCardId || byElectionToggle.closest('.c1-card, .class-card, .map-card')?.dataset?.c1Id;
+            if (!cardId) return;
+            if (this._showByElectionCards.has(cardId)) this._showByElectionCards.delete(cardId);
+            else this._showByElectionCards.add(cardId);
+            await this.requestFlatViewRender({ ...(this._lastMapListOptions || {}) }, { defer: this.isMobile });
+            const anchor = document.getElementById(`flat-card-${cardId}`);
+            if (anchor) this.scrollCatalogueTargetIntoView(anchor, { focus: false });
+            return;
+        }
+
         const placeholderToggle = target.closest?.('.class-card__placeholder-toggle');
         if (placeholderToggle) {
             event.preventDefault();
@@ -2204,6 +2218,8 @@ class UIController {
             this.onUnloadElection?.();
             return;
         }
+        const scroller = this.getCataloguePaneScroller();
+        const previousScrollTop = scroller?.scrollTop ?? null;
         matchingRows.forEach(row => {
             row.classList.add('flat-election-entry--loading');
             row.setAttribute('aria-busy', 'true');
@@ -2217,6 +2233,11 @@ class UIController {
         try {
             await this.onLoadElection?.(body, date);
         } finally {
+            if (scroller && previousScrollTop !== null) {
+                requestAnimationFrame(() => {
+                    scroller.scrollTop = previousScrollTop;
+                });
+            }
             matchingRows.forEach(row => {
                 row.classList.remove('flat-election-entry--loading');
                 row.removeAttribute('aria-busy');
@@ -3996,9 +4017,11 @@ class UIController {
                 anchor.className = 'catalogue-flat__anchor';
                 cardsContainer.appendChild(anchor);
 
-                const entriesHtml = (def.electionEntries || []).map(entry => {
+                const byElectionEntries = (def.electionEntries || []).filter(entry => entry.isByElection);
+                const showByElections = this._showByElectionCards.has(def.id);
+                const visibleElectionEntries = (def.electionEntries || []).filter(entry => !entry.isByElection || showByElections);
+                const entriesHtml = visibleElectionEntries.map(entry => {
                     const appearance = getElectionAppearance(entry.body, entry.date, entry.bodyGroup || null);
-                    const dateFormatted = formatElectionDate(entry.date);
                     const bodyShort = shortBodyName(entry.body);
                     const subtitle = entry.displaySubtitle || (entry.isByElection
                         ? (entry.constituencies || []).join(', ')
@@ -4009,7 +4032,7 @@ class UIController {
                     const placeholderClass = entry.placeholder ? ' class-member--placeholder' : '';
                     const isElectionLoaded = !entry.placeholder && !!this.onCheckElectionLoaded?.(entry.body, entry.date);
                     const loadedClass = isElectionLoaded ? ' class-member--loaded' : '';
-                    const nameContent = `${esc(dateFormatted)} <span class="flat-election-body">${esc(providerLabel)}</span>`;
+                    const nameContent = `${esc(entry.displayTitle || providerLabel || bodyShort)}`;
                     const dateLabel = entry.placeholder
                         ? `<span class="class-member__name">${nameContent}</span>`
                         : `<a href="#" class="class-member__name class-member__name-link flat-election-link" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}">${nameContent}</a>`;
@@ -4043,6 +4066,11 @@ class UIController {
                            <span class="class-card__placeholder-toggle-label">Show ${elPlaceholderCount} to be added</span>
                        </button>`
                     : '';
+                const elByElectionToggle = byElectionEntries.length > 0
+                    ? `<button type="button" class="class-card__placeholder-toggle flat-election-by-toggle" data-election-card-id="${esc(def.id)}" data-showing="${showByElections ? 'true' : 'false'}" title="${showByElections ? 'Hide by-elections' : 'Show by-elections'}">
+                           <span class="class-card__placeholder-toggle-label">${showByElections ? `Hide ${byElectionEntries.length} by-elections` : `Show ${byElectionEntries.length} more`}</span>
+                       </button>`
+                    : '';
 
                 const card = document.createElement('div');
                 card.className = 'c1-card map-card';
@@ -4053,6 +4081,7 @@ class UIController {
                             <h3 class="c1-card__title">${esc(def.name)}</h3>
                             <div class="c1-card__subtitle">${esc(def.years)} | ${esc(def.extent)}</div>
                         </div>
+                        ${elByElectionToggle}
                         ${elPlaceholderToggle}
                     </div>
                     <div class="c1-card__content">

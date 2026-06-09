@@ -2217,3 +2217,21 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) fixed-seat NI Assembly eras must be validated explicitly: 1998-2016 equals six seats per constituency and 2017 onward equals five seats per constituency, excluding by-elections,
   3) NI local and Convention generated rows must compare elected candidates against source `Number_Of_Seats`,
   4) route validation must fail on both undercounts and overcounts so bad raw flags cannot silently ship.
+
+### 164) Stacked user requests must be completed in order unless explicitly reprioritised
+- Mistake pattern: Interrupting an in-flight fix to start a newer user request, leaving earlier requested work incomplete and making the user re-report related symptoms.
+- Impact: election/catalogue parity work becomes fragmented, verification loses a stable target, and later fixes can mask or regress earlier tasks.
+- Guardrail:
+  1) keep an explicit ordered queue in `tasks/todo.md` for stacked requests,
+  2) finish and verify the current queue item before moving to the next unless the user explicitly says to pause or reprioritise,
+  3) when a newer request arrives, add it to the queue and mention where it will run in the sequence,
+  4) do not commit/push partial queue items unless the completed subset is independently correct and the remaining queued work is clearly documented.
+
+### 165) Election parity fixes must be applied to the displayed path, not only helper/fallback paths
+- Mistake pattern: Fixing election table, naming, or transfer semantics in a helper module while `/test2` still renders through a separate manager or generated bundle path.
+- Impact: source code can appear corrected while the live election pane, catalogue row, or map overlay still shows the old behaviour, causing repeated visual mismatches against main.
+- Guardrail:
+  1) trace each requested election behaviour from generated data to the visible `/test2` DOM before editing,
+  2) patch the shared helper only when the live renderer imports it; otherwise patch the live renderer and then consolidate,
+  3) add at least one route/static assertion against the visible output or generated bundle for each recurring mismatch class,
+  4) record the exact verified URL/state used for parity checks in `tasks/todo.md`.

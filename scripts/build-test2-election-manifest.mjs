@@ -209,9 +209,14 @@ async function main() {
 
   for (const entry of entries) {
     const geography = resolveElectionGeography(entry);
+    const councilGeography = resolveLocalGovernmentCouncilGeography(entry);
     const layer = geography?.sourceMapId ? layerBySource.get(geography.sourceMapId) : null;
+    const councilLayer = councilGeography?.sourceMapId ? layerBySource.get(councilGeography.sourceMapId) : null;
     const featureIndex = layer ? featureIndexes.get(layer.id) || featureIndexes.get(layer.sourceMapId) : null;
-    const bundle = await buildElectionBundle(entry, geography, layer, featureIndex, previousKeyByKey.get(electionKey(entry)) || null);
+    const bundle = await buildElectionBundle(entry, geography, layer, featureIndex, previousKeyByKey.get(electionKey(entry)) || null, {
+      councilGeography,
+      councilLayer
+    });
     const bundlePath = path.join(OUT_DIR, `${bundle.key}.json`);
     writeJson(bundlePath, bundle);
 
@@ -239,6 +244,9 @@ async function main() {
       sourceMapId: bundle.sourceMapId,
       layerId: bundle.layerId,
       labelProperty: bundle.labelProperty,
+      councilSourceMapId: bundle.councilSourceMapId,
+      councilLayerId: bundle.councilLayerId,
+      councilLabelProperty: bundle.councilLabelProperty,
       loadable: bundle.loadable,
       placeholder: !bundle.loadable,
       matchedCount: bundle.matchedCount,
@@ -481,6 +489,17 @@ function resolveElectionGeography(entry) {
   return { sourceMapId: null };
 }
 
+function resolveLocalGovernmentCouncilGeography(entry) {
+  if (entry?.bodyGroup !== 'local-government') return null;
+  const year = Number(String(entry.date).slice(0, 4));
+  return sourceByYear(year, [
+    [2014, 'lgd-2012'],
+    [1993, 'lgd-1993'],
+    [1984, 'lgd-1984'],
+    [-Infinity, 'lgd-1972']
+  ]);
+}
+
 function isNationalAggregateElection(entry) {
   const constituencies = entry.constituencies || [];
   return constituencies.length === 1 && ['ireland', 'republic of ireland'].includes(normalizeName(constituencies[0]));
@@ -595,8 +614,9 @@ function transferDataExpectedForElection(entry, { result = null, votingSystem = 
   return true;
 }
 
-async function buildElectionBundle(entry, geography, layer, featureIndex, previousKey = null) {
+async function buildElectionBundle(entry, geography, layer, featureIndex, previousKey = null, options = {}) {
   const key = electionKey(entry);
+  const publicDisplayTitle = entry.displayTitle || canonicalElectionTitle({ ...entry, key });
   const electionMetadata = classifyElection(entry);
   const featureLookup = buildFeatureLookup(featureIndex, geography?.sourceMapId);
   const dateDir = path.join(ELECTION_ROOT, entry.bodySlug, entry.date);
@@ -616,6 +636,15 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
     const resultMetadata = classifyElectionResult(entry, result, electionMetadata);
     const matchEntry = matchEntryForConstituency(entry, result.constituency || constituency);
+    const localBody = entry.bodyGroup === 'local-government' ? matchEntry.body : null;
+    if (localBody && Array.isArray(result.candidates)) {
+      result.candidates = result.candidates.map((candidate) => ({
+        ...candidate,
+        localBody,
+        district: localBody,
+        dea: result.constituency || constituency
+      }));
+    }
     const matchSet = matchFeaturesForResult(featureLookup, entry, geography, result, matchEntry, singleFeature);
     const match = matchSet[0] || null;
     const syntheticRegion = !match && isSyntheticNonGeographicResult(entry, result.constituency || constituency)
@@ -629,7 +658,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     results.push({
       ...result,
       ...resultMetadata,
-      localBody: entry.bodyGroup === 'local-government' ? matchEntry.body : null,
+      localBody,
       sourceFile: resultPath ? slash(path.relative(ROOT, resultPath)) : null,
       featureId: match?.id ?? syntheticRegion?.id ?? null,
       featureName: match?.name ?? syntheticRegion?.name ?? null,
@@ -653,6 +682,15 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
       const resultMetadata = classifyElectionResult(entry, result, electionMetadata);
       const matchEntry = matchEntryForConstituency(entry, result.constituency);
+      const localBody = entry.bodyGroup === 'local-government' ? matchEntry.body : null;
+      if (localBody && Array.isArray(result.candidates)) {
+        result.candidates = result.candidates.map((candidate) => ({
+          ...candidate,
+          localBody,
+          district: localBody,
+          dea: result.constituency || constituency
+        }));
+      }
       const matchSet = matchFeaturesForResult(featureLookup, entry, geography, result, matchEntry, singleFeature);
       const match = matchSet[0] || null;
       const syntheticRegion = !match && isSyntheticNonGeographicResult(entry, result.constituency)
@@ -666,7 +704,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       results.push({
         ...result,
         ...resultMetadata,
-        localBody: entry.bodyGroup === 'local-government' ? matchEntry.body : null,
+        localBody,
         sourceFile: slash(path.relative(ROOT, resultPath)),
         featureId: match?.id ?? syntheticRegion?.id ?? null,
         featureName: match?.name ?? syntheticRegion?.name ?? null,
@@ -698,7 +736,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     body: entry.body,
     bodySlug: entry.bodySlug,
     bodyGroup: entry.bodyGroup,
-    displayTitle: entry.displayTitle || canonicalElectionTitle(entry),
+    displayTitle: publicDisplayTitle,
     ...electionMetadata,
     localBodies: entry.bodies || null,
     localBodyByConstituency: entry.localBodyByConstituency || null,
@@ -707,6 +745,10 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     sourceMapId: geography?.sourceMapId || null,
     layerId: layer?.id || null,
     labelProperty: layer?.labelProperty || null,
+    councilSourceMapId: options.councilGeography?.sourceMapId || null,
+    councilLayerId: options.councilLayer?.id || null,
+    councilLabelProperty: options.councilLayer?.labelProperty || null,
+    councilGeometryType: options.councilLayer?.geometryType || null,
     geometryType: layer?.geometryType || null,
     anchorUrl: anchorIndex?.url || null,
     previousKey,

@@ -73,15 +73,24 @@ const PARTY_COLOURS = new Map([
   ['green party', '#22ac6f'],
   ['independent', '#b8b8b8'],
   ['independent ireland', '#3bee56'],
+  ['independent unionist', '#aadfff'],
+  ['independent labour', '#ff9999'],
+  ['independent nationalist', '#cdffab'],
   ['irish labour', '#cc0000'],
   ['labour', '#cc0000'],
+  ['nationalist party', '#32cd32'],
+  ['northern ireland labour party', '#dc241f'],
   ['pbp', '#ff0090'],
+  ['people\'s democracy', '#ff0000'],
+  ['republican clubs', '#930c1a'],
+  ['republican labour party', '#85de59'],
   ['sdlp', '#2aa82c'],
   ['sinn fein', '#326760'],
   ['social democrats', '#752f8b'],
   ['solidarity pbp', '#8e2420'],
   ['solidarity-pbp', '#8e2420'],
   ['tuv', '#0c3a6a'],
+  ['unionist party of northern ireland', '#ffa07a'],
   ['uup', '#48a5ee'],
   ['yes', '#2aa82c'],
   ['no', '#d46a4c']
@@ -236,6 +245,7 @@ export class Test2ElectionManager {
     this.activeLocalMode = entry.bodyGroup === 'local-government' ? 'dea' : 'constituency';
     this.countDetailedView = false;
     this.indexBundle(bundle);
+    await this.syncLocalGovernmentBackingLayers();
     this.applyActiveStyle();
     this.renderPanel();
     await nextFrame();
@@ -243,7 +253,7 @@ export class Test2ElectionManager {
     this.updateElectionTimeline();
     this.app.syncCatalogueMapState();
     this.app.updateActiveLayers();
-    this.app.focusActiveElectionCatalogueEntry?.(entry, { scroll: true });
+    this.app.focusActiveElectionCatalogueEntry?.(entry, { scroll: false });
     this.app.updateURLState();
   }
 
@@ -252,6 +262,7 @@ export class Test2ElectionManager {
     const sourceMapId = this.activeEntry?.sourceMapId;
     const backingLayerIds = unloadBackingLayer ? this.getActiveElectionBackingLayerIds() : [];
     if (sourceMapId) this.mapController.clearElectionStyle?.(sourceMapId);
+    if (this.activeBundle?.councilSourceMapId) this.mapController.clearElectionStyle?.(this.activeBundle.councilSourceMapId);
     this.removeElectionOverlays();
     this.resultsByLayer.clear();
     this.activeEntry = null;
@@ -266,6 +277,7 @@ export class Test2ElectionManager {
     this.app.updateTimeline();
     this.app.syncCatalogueMapState();
     this.app.updateActiveLayers();
+    this.app.updateMapList?.();
     this.app.updateURLState();
   }
 
@@ -273,7 +285,9 @@ export class Test2ElectionManager {
     return [...new Set([
       entry?.sourceMapId,
       bundle?.sourceMapId,
-      bundle?.layerId
+      bundle?.layerId,
+      bundle?.councilSourceMapId,
+      bundle?.councilLayerId
     ].filter(Boolean))];
   }
 
@@ -286,6 +300,30 @@ export class Test2ElectionManager {
       ) {
         this.mapController.unloadLayer(layerId);
       }
+    }
+  }
+
+  async syncLocalGovernmentBackingLayers() {
+    if (!this.isLocalGovernmentElection()) return;
+    const deaId = this.activeEntry?.sourceMapId || this.activeBundle?.sourceMapId;
+    const councilId = this.activeBundle?.councilSourceMapId || this.activeEntry?.councilSourceMapId;
+    if (this.activeLocalMode === 'district' && councilId) {
+      if (!this.mapController.isLayerLoaded?.(councilId)) {
+        await this.mapController.loadLayer(councilId, { fit: false });
+      }
+      if (deaId && this.mapController.isLayerLoaded?.(deaId)) {
+        this.mapController.clearElectionStyle?.(deaId);
+        this.mapController.hideLayer?.(deaId);
+      }
+      this.mapController.showLayer?.(councilId);
+      return;
+    }
+    if (councilId && this.mapController.isLayerLoaded?.(councilId)) {
+      this.mapController.clearElectionStyle?.(councilId);
+      this.mapController.hideLayer?.(councilId);
+    }
+    if (deaId && this.mapController.isLayerLoaded?.(deaId)) {
+      this.mapController.showLayer?.(deaId);
     }
   }
 
@@ -344,6 +382,8 @@ export class Test2ElectionManager {
     }
     this.overlayMode = params.get('electionOverlay') === 'bars' ? 'bars' : this.overlayMode;
     this.activeLocalMode = params.get('electionLocalMode') === 'district' ? 'district' : this.activeLocalMode;
+    await this.syncLocalGovernmentBackingLayers();
+    this.applyActiveStyle();
     const explicitSelected = params.has('electionSelected') || Boolean(mainElectionSelected);
     const selected = params.get('electionSelected') || mainElectionSelected || '';
     const selectedResult = explicitSelected ? this.findResultByKey(selected) : null;
@@ -368,7 +408,7 @@ export class Test2ElectionManager {
       this.activeEntityReturnView = params.get('electionEntityReturnView') || view || 'party';
       this.renderEntityPanel(entityKind, entityKey, { updateURL: false });
     }
-    this.app.focusActiveElectionCatalogueEntry?.(this.activeEntry, { scroll: true });
+    this.app.focusActiveElectionCatalogueEntry?.(this.activeEntry, { scroll: false });
   }
 
   async loadBundle(entry) {
@@ -463,25 +503,31 @@ export class Test2ElectionManager {
 
   applyActiveStyle() {
     if (!this.activeEntry || !this.activeBundle) return;
+    const styleLayer = this.getActiveElectionStyleLayer();
+    const styleSourceMapId = styleLayer?.sourceMapId || this.getActiveElectionStyleSourceMapId();
+    if (!styleSourceMapId) return;
     const fillColorExpression = this.buildColourExpression(
       this.activeMode,
-      MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedFillColor
+      MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedFillColor,
+      styleLayer
     );
-    const isPointGeometry = this.activeBundle.geometryType === 'point';
-    this.mapController.applyElectionStyle?.(this.activeEntry.sourceMapId, {
+    const isPointGeometry = styleLayer?.geometryType === 'point';
+    this.mapController.applyElectionStyle?.(styleSourceMapId, {
       mode: this.activeMode,
       fillColorExpression,
       lineColorExpression: isPointGeometry
         ? fillColorExpression
         : this.buildElectionMatchExpression(
           () => MAIN_ELECTION_GEOGRAPHY_STYLE.matchedStrokeColor,
-          MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedStrokeColor
+          MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedStrokeColor,
+          styleLayer
         ),
       fillOpacityExpression: isPointGeometry
         ? undefined
         : this.buildElectionMatchExpression(
           () => MAIN_ELECTION_GEOGRAPHY_STYLE.matchedFillOpacity,
-          MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedFillOpacity
+          MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedFillOpacity,
+          styleLayer
         ),
       lineOpacity: isPointGeometry ? undefined : MAIN_ELECTION_GEOGRAPHY_STYLE.strokeOpacity,
       lineWidth: isPointGeometry ? undefined : MAIN_ELECTION_GEOGRAPHY_STYLE.strokeWidth,
@@ -490,19 +536,47 @@ export class Test2ElectionManager {
     this.renderLegend();
   }
 
-  buildElectionMatchInput() {
-    return buildRepairedLabelValueExpression({
-      id: this.activeBundle.layerId,
-      sourceMapId: this.activeBundle.sourceMapId,
-      labelProperty: this.activeBundle.labelProperty
-    }, ['to-string', ['get', this.activeBundle.labelProperty || 'name']]);
+  getActiveElectionStyleSourceMapId() {
+    if (this.isLocalGovernmentElection() && this.activeLocalMode === 'district') {
+      return this.activeBundle?.councilSourceMapId || this.activeEntry?.councilSourceMapId || this.activeEntry?.sourceMapId;
+    }
+    return this.activeEntry?.sourceMapId || this.activeBundle?.sourceMapId;
   }
 
-  buildElectionMatchExpression(valueForResult, fallback) {
+  getActiveElectionStyleLayer() {
+    const sourceMapId = this.getActiveElectionStyleSourceMapId();
+    if (!sourceMapId) return this.activeBundle;
+    const layer = this.mapController?.resolveLayer?.(sourceMapId)
+      || this.app?.metadataService?.getLayer?.(sourceMapId)
+      || null;
+    return layer || {
+      id: this.isLocalGovernmentElection() && this.activeLocalMode === 'district'
+        ? this.activeBundle?.councilLayerId
+        : this.activeBundle?.layerId,
+      sourceMapId,
+      labelProperty: this.isLocalGovernmentElection() && this.activeLocalMode === 'district'
+        ? this.activeBundle?.councilLabelProperty
+        : this.activeBundle?.labelProperty,
+      geometryType: this.isLocalGovernmentElection() && this.activeLocalMode === 'district'
+        ? this.activeBundle?.councilGeometryType
+        : this.activeBundle?.geometryType
+    };
+  }
+
+  buildElectionMatchInput(layer = this.activeBundle) {
+    const labelProperty = layer?.labelProperty || 'name';
+    return buildRepairedLabelValueExpression({
+      id: layer?.id || this.activeBundle?.layerId,
+      sourceMapId: layer?.sourceMapId || this.activeBundle?.sourceMapId,
+      labelProperty
+    }, ['to-string', ['get', labelProperty]]);
+  }
+
+  buildElectionMatchExpression(valueForResult, fallback, layer = this.activeBundle, results = this.activeBundle?.results || []) {
     const labels = [];
     const seen = new Set();
-    for (const result of this.activeBundle.results || []) {
-      if (!result.matched) continue;
+    for (const result of results || []) {
+      if (!result.matched && !(this.isLocalGovernmentElection() && this.activeLocalMode === 'district')) continue;
       for (const label of resultFeatureLabels(result)) {
         if (seen.has(label)) continue;
         seen.add(label);
@@ -510,19 +584,46 @@ export class Test2ElectionManager {
       }
     }
     if (!labels.length) return fallback;
-    return ['match', ['to-string', this.buildElectionMatchInput()], ...labels, fallback];
+    return ['match', ['to-string', this.buildElectionMatchInput(layer)], ...labels, fallback];
   }
 
-  buildColourExpression(mode, fallback = MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedFillColor) {
+  buildColourExpression(mode, fallback = MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedFillColor, layer = this.activeBundle) {
+    if (this.isLocalGovernmentElection() && this.activeLocalMode === 'district') {
+      return this.buildCouncilColourExpression(mode, fallback, layer);
+    }
     return this.buildElectionMatchExpression(
       (result) => this.colourForMode(mode, result),
-      fallback
+      fallback,
+      layer
+    );
+  }
+
+  buildCouncilColourExpression(mode, fallback, layer = this.activeBundle) {
+    const rows = buildCouncilSummary(this.currentResults());
+    const resultRows = rows.map((row) => ({
+      constituency: row.council,
+      matchName: row.council,
+      matched: true,
+      winnerParty: row.leadingParty,
+      leadingParty: row.leadingParty,
+      leadingColour: this.mainPanePartyColour(row.leadingParty, row.colour),
+      colour: this.mainPanePartyColour(row.leadingParty, row.colour),
+      leadingPct: row.share,
+      seatsWon: row.seats,
+      seatsTotal: row.seats,
+      turnoutPct: row.turnoutPct
+    }));
+    return this.buildElectionMatchExpression(
+      (result) => this.colourForMode(mode, result),
+      fallback,
+      layer,
+      resultRows
     );
   }
 
   colourForMode(mode, result) {
-    if (mode === 'winner') return this.mainPanePartyColour(result.winnerParty, result.colour) || '#6b7280';
-    if (mode === 'leadingParty') return this.mainPanePartyColour(result.leadingParty, result.leadingColour) || '#6b7280';
+    if (mode === 'winner') return this.partyColourForResult(result, result.winnerParty, result.colour, { preferElected: true }) || '#6b7280';
+    if (mode === 'leadingParty') return this.partyColourForResult(result, result.leadingParty, result.leadingColour) || '#6b7280';
     if (mode === 'turnout') return sharedNumericColour(result.turnoutPct, 35, 80);
     if (mode === 'voteShare') return sharedNumericColour(result.leadingPct, 10, 70);
     if (mode === 'majority') return sharedNumericColour(result.majorityPct, 0, 45);
@@ -560,12 +661,33 @@ export class Test2ElectionManager {
   }
 
   mainPanePartyColour(party, explicit = '') {
+    const explicitColour = String(explicit || '').trim();
+    if (explicitColour) return explicitColour;
     const normalizedParty = normalizeName(party);
-    if (!normalizedParty) return explicit || '#6b7280';
+    if (!normalizedParty) return '#6b7280';
+    const routePalette = this.usesMainRoiPartyPalette() ? ROI_MAIN_PARTY_COLOURS : PARTY_COLOURS;
+    const routeColour = routePalette.get(normalizedParty);
+    const sharedColour = electionPartyColour(party, '');
+    const localColour = PARTY_COLOURS.get(normalizedParty);
+    if (routeColour || sharedColour || localColour) return routeColour || sharedColour || localColour;
     if (this.usesMainRoiPartyPalette()) {
-      return ROI_MAIN_PARTY_COLOURS.get(normalizedParty) || explicit || electionPartyColour(party) || partyColour(party) || '#b0bec5';
+      return ROI_MAIN_PARTY_COLOURS.get(normalizedParty) || electionPartyColour(party) || partyColour(party) || '#b0bec5';
     }
-    return explicit || electionPartyColour(party) || partyColour(party) || '#6b7280';
+    return electionPartyColour(party) || partyColour(party) || '#6b7280';
+  }
+
+  partyColourForResult(result = {}, party = '', explicit = '', options = {}) {
+    const normalizedParty = normalizeName(party);
+    const candidates = Array.isArray(result?.candidates) ? result.candidates : [];
+    const byParty = candidates.filter((candidate) => normalizeName(candidate.party) === normalizedParty);
+    const preferredCandidate = options.preferElected
+      ? byParty.find((candidate) => candidate.elected && candidate.colour)
+      : null;
+    const colourCandidate = preferredCandidate
+      || byParty.find((candidate) => candidate.name === result.leadingName && candidate.colour)
+      || byParty.find((candidate) => candidate.name === result.winnerName && candidate.colour)
+      || byParty.find((candidate) => candidate.colour);
+    return this.mainPanePartyColour(party, colourCandidate?.colour || explicit);
   }
 
   renderPanel(selectedResult = null, view = null) {
@@ -600,8 +722,10 @@ export class Test2ElectionManager {
       this.app.updateURLState();
     });
     pane.querySelectorAll('[data-election-local-mode]').forEach((button) => {
-      button.addEventListener('click', () => {
+      button.addEventListener('click', async () => {
         this.activeLocalMode = button.dataset.electionLocalMode === 'district' ? 'district' : 'dea';
+        await this.syncLocalGovernmentBackingLayers();
+        this.applyActiveStyle();
         this.renderPanel(null, this.activeLocalMode === 'district' ? 'party' : this.activePanelView);
         this.renderElectionOverlay().catch((error) => console.warn('[test2 elections] Overlay refresh failed', error));
         this.app.updateURLState();
@@ -628,7 +752,15 @@ export class Test2ElectionManager {
       });
     });
     pane.querySelectorAll('[data-election-entity]').forEach((button) => {
-      button.addEventListener('click', () => {
+      button.addEventListener('click', async () => {
+        const handled = await this.app.openElectionEntityDetailInCatalogue?.(
+          button.dataset.electionEntity,
+          button.dataset.electionEntityKey
+        );
+        if (handled) {
+          this.app.updateURLState();
+          return;
+        }
         this.renderEntityPanel(button.dataset.electionEntity, button.dataset.electionEntityKey);
         this.app.updateURLState();
       });
@@ -1487,8 +1619,11 @@ export class Test2ElectionManager {
       ? this.previousBundle.mainLikePartySummary
       : (this.previousBundle?.results?.length ? buildPartySummary(this.previousBundle.results) : []);
     const previousByParty = new Map(previousRows.map((row) => [normalizeName(row.party), row]));
+    const hasPreviousElection = previousRows.length > 0;
     return rows.map((row) => {
-      const previous = previousByParty.get(normalizeName(row.party));
+      const previous = previousByParty.get(normalizeName(row.party)) || (hasPreviousElection
+        ? { stood: 0, seats: 0, votes: 0, share: 0 }
+        : null);
       return {
         ...row,
         previous,
@@ -1548,8 +1683,11 @@ export class Test2ElectionManager {
       `${normalizeName(row.party)}|${normalizeName(row.constituency)}`,
       row
     ]));
+    const hasPreviousElection = previousRows.length > 0;
     return rows.map((row) => {
-      const previous = previousByPartyAndArea.get(`${normalizeName(row.party)}|${normalizeName(row.constituency)}`);
+      const previous = previousByPartyAndArea.get(`${normalizeName(row.party)}|${normalizeName(row.constituency)}`) || (hasPreviousElection
+        ? { stood: 0, seats: 0, seatShare: 0, firstPrefs: 0, share: 0 }
+        : null);
       return {
         ...row,
         previous,
@@ -1565,7 +1703,6 @@ export class Test2ElectionManager {
   }
 
   renderDistrictResults(view = 'party') {
-    return this.sharedRenderer.renderDistrictResults(view);
     if (this.localBodyCount() > 1) {
       return this.renderCouncilResults(view);
     }
@@ -1609,7 +1746,6 @@ export class Test2ElectionManager {
   }
 
   renderCouncilResults(view = 'party') {
-    return this.sharedRenderer.renderCouncilResults(view);
     const results = this.currentResults();
     const councilRows = this.withCouncilDeltas(buildCouncilSummary(results));
     const rows = this.withPartyDeltas(buildPartySummary(results));
@@ -1648,23 +1784,41 @@ export class Test2ElectionManager {
   }
 
   renderCouncilSummaryTable(rows = []) {
-    return this.sharedRenderer.renderCouncilSummaryTable(rows);
     return `
-      <div class="test2-election-table-wrap">
-        <table class="test2-election-table catalogue-detail__entity-table">
-          <thead><tr><th>Council</th><th>DEAs</th><th>Leading party</th><th>Seats</th><th>Seat change</th><th>Valid votes</th><th>Vote change</th><th>Turnout</th><th>Turnout change</th></tr></thead>
+      <div class="election-party-wrapper election-party-wrapper--pane-sticky">
+        <table class="election-party-table election-party-table--grouped election-results-table--fixed" aria-label="Council summary including Seat change and Turnout change">
+          <thead>
+            <tr>
+              <th rowspan="2" data-leaf-col-idx="0">#</th>
+              <th rowspan="2" data-leaf-col-idx="1">Council</th>
+              <th rowspan="2" data-leaf-col-idx="2">DEAs</th>
+              <th rowspan="2" data-leaf-col-idx="3">Leading party</th>
+              <th colspan="2">Seats</th>
+              <th colspan="2">Valid votes</th>
+              <th colspan="2">Turnout</th>
+            </tr>
+            <tr>
+              ${this.renderMainParityLeafTh('No.', 4)}
+              ${this.renderMainParityLeafTh('+/-', 5)}
+              ${this.renderMainParityLeafTh('No.', 6)}
+              ${this.renderMainParityLeafTh('+/-', 7)}
+              ${this.renderMainParityLeafTh('%', 8)}
+              ${this.renderMainParityLeafTh('+/-', 9)}
+            </tr>
+          </thead>
           <tbody>
-            ${rows.map((row) => `
+            ${rows.map((row, index) => `
               <tr>
-                <td>${escapeHtml(row.council)}</td>
-                <td>${formatNumber(row.deas)}</td>
-                <td><span class="test2-party-swatch" style="background:${escapeHtml(row.colour)}"></span>${escapeHtml(row.leadingParty || '')}</td>
-                <td>${formatNumber(row.seats)}</td>
-                <td>${row.deltas ? formatSigned(row.deltas.seats) : ''}</td>
-                <td>${formatNumber(row.validPoll)}</td>
-                <td>${row.deltas ? formatSigned(row.deltas.validPoll) : ''}</td>
-                <td>${formatPercent(row.turnoutPct)}</td>
-                <td>${row.deltas?.turnoutPct !== null && row.deltas?.turnoutPct !== undefined ? formatSignedPercent(row.deltas.turnoutPct) : ''}</td>
+                <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
+                <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(normalizeName(row.council))}">${escapeHtml(row.council)}</button></td>
+                <td class="election-num">${formatNumber(row.deas)}</td>
+                <td>${this.renderElectionEntityButton('party', row.leadingParty, `<span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(row.leadingParty, row.colour))}"></span>${escapeHtml(row.leadingParty || '')}`, 'election-cell-wrap')}</td>
+                <td class="election-num">${formatNumber(row.seats)}</td>
+                <td class="election-num">${row.deltas ? formatMainDelta(row.deltas.seats) : ''}</td>
+                <td class="election-num">${formatNumber(row.validPoll)}</td>
+                <td class="election-num">${row.deltas ? formatMainDelta(row.deltas.validPoll) : ''}</td>
+                <td class="election-num">${formatPercent(row.turnoutPct)}</td>
+                <td class="election-num">${row.deltas?.turnoutPct !== null && row.deltas?.turnoutPct !== undefined ? formatMainPercentDelta(row.deltas.turnoutPct) : ''}</td>
               </tr>
             `).join('')}
           </tbody>
@@ -1674,7 +1828,6 @@ export class Test2ElectionManager {
   }
 
   renderDistrictPartyTable(rows = []) {
-    return this.sharedRenderer.renderDistrictPartyTable(rows);
     return `
       <div class="test2-election-table-wrap">
         <table class="test2-election-table catalogue-detail__entity-table">
@@ -1750,6 +1903,8 @@ export class Test2ElectionManager {
     const isLocal = this.isLocalGovernmentElection();
     const widePercentLabel = this.getElectionWidePercentLabel();
     const totalValid = sumNumbers(this.currentResults(), 'validPoll') || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs ?? candidate.votes), 0);
+    const previousCandidateTotalValid = sumNumbers(this.previousBundle?.results || [], 'validPoll')
+      || (this.previousBundle?.mainLikeCandidateSummary || []).reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs ?? candidate.votes), 0);
     const ordered = [...candidates].sort((a, b) => {
       const pctDelta = numberOrZero(b.firstPrefPct) - numberOrZero(a.firstPrefPct);
       if (Math.abs(pctDelta) > 1e-9) return pctDelta;
@@ -1794,6 +1949,9 @@ export class Test2ElectionManager {
             ${ordered.map((candidate, index) => {
               const firstPrefs = numberOrZero(candidate.firstPrefs ?? candidate.votes);
               const niPct = totalValid > 0 ? firstPrefs / totalValid * 100 : 0;
+              const previousFirstPrefs = candidate.previous ? numberOrZero(candidate.previous.firstPrefs ?? candidate.previous.votes) : null;
+              const previousNiPct = candidate.previous && previousCandidateTotalValid > 0 ? previousFirstPrefs / previousCandidateTotalValid * 100 : null;
+              const niPctDelta = candidate.deltas && previousNiPct !== null ? niPct - previousNiPct : null;
               const status = candidate.elected ? 'Elected' : (candidate.excluded ? 'Excluded' : (candidate.status || 'Not Elected'));
               const countValue = candidate.countDisplay
                 || (candidate.electedAt || candidate.excludedAt || candidate.finalCount
@@ -1814,7 +1972,7 @@ export class Test2ElectionManager {
                   <td class="election-num election-col-pct-main">${formatFixedPercent(candidate.firstPrefPct)}</td>
                   <td class="election-num election-col-pct-delta-main">${candidate.deltas?.firstPrefPct !== null && candidate.deltas?.firstPrefPct !== undefined ? formatMainPercentDelta(candidate.deltas.firstPrefPct) : ''}</td>
                   <td class="election-num election-col-pct-small">${formatFixedPercent(niPct)}</td>
-                  <td class="election-num election-col-pct-delta-small"></td>
+                  <td class="election-num election-col-pct-delta-small">${niPctDelta !== null && niPctDelta !== undefined ? formatMainPercentDelta(niPctDelta) : ''}</td>
                 </tr>
               `;
             }).join('')}
@@ -1851,6 +2009,7 @@ export class Test2ElectionManager {
   renderLocalPartySummaryTable(results) {
     const rows = this.withLocalPartyDeltas(buildLocalPartySummary(results));
     if (!rows.length) return '<p class="election-no-data">No local-party summary is available for this election.</p>';
+    const areaLabel = this.isLocalGovernmentElection() ? 'DEA' : 'Constituency';
     return `
       <div class="election-party-wrapper election-party-wrapper--pane-sticky">
         <table class="election-party-table election-party-table--grouped election-party-table--district-sticky3 election-party-table--district-local-party-sticky4 election-results-table--fixed election-results-table--district">
@@ -1858,7 +2017,7 @@ export class Test2ElectionManager {
             <tr>
               <th rowspan="2" data-leaf-col-idx="0">#</th>
               <th rowspan="2" data-leaf-col-idx="1">Party</th>
-              <th rowspan="2" data-leaf-col-idx="2">DEA</th>
+              <th rowspan="2" data-leaf-col-idx="2">${escapeHtml(areaLabel)}</th>
               <th colspan="2">Candidates</th>
               <th colspan="4">Seats</th>
               <th colspan="4">1st preferences</th>
@@ -1918,7 +2077,15 @@ export class Test2ElectionManager {
     const rawCountNumbers = sourceCountNumbers;
     if (!rawCountNumbers.length) return '<p class="election-no-data">No count-by-count data is available for this entry.</p>';
     const countEvents = inferCountEvents(candidates, rawCountNumbers);
-    const nonTransferable = new Map((result.nonTransferable || []).map((row) => [Number(row.count), row]));
+    const stvResult = isStvResult(result);
+    const transferContext = stvResult
+      ? buildStvTransferContext(result, candidates, rawCountNumbers)
+      : {
+        nonTransferable: new Map((result.nonTransferable || []).map((row) => [Number(row.count), row])),
+        transferDenominators: new Map()
+      };
+    const nonTransferable = transferContext.nonTransferable;
+    const transferDenominators = transferContext.transferDenominators;
     const visibleCounts = rawCountNumbers.filter((count) => {
       const n = Number(count);
       if (n <= 1) return false;
@@ -1996,6 +2163,7 @@ export class Test2ElectionManager {
           <tbody>
             ${orderedCandidates.map((candidate, index) => {
               const counts = new Map((candidate.counts || []).map((count) => [Number(count.count), count]));
+              const quotaHoldCount = stvResult ? quotaHoldStartCount(candidate, counts, result) : null;
               const syntheticFirstCount = result.syntheticCountGroup ? counts.get(1) : null;
               const firstPrefs = result.syntheticCountGroup
                 ? numberOrZero(syntheticFirstCount?.firstPrefs ?? syntheticFirstCount?.total)
@@ -2020,21 +2188,27 @@ export class Test2ElectionManager {
                   <td class="election-num">${formatNumber(firstPrefs)}</td>
                   ${visibleCounts.map((count) => {
                     const row = counts.get(Number(count));
+                    if (shouldDashQuotaHeldCount(count, quotaHoldCount)) {
+                      return this.countDetailedView
+                        ? '<td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td>'
+                        : '<td class="election-num election-count-col">-</td>';
+                    }
                     if (!row) {
                       return this.countDetailedView
-                        ? '<td class="election-num election-count-col">&nbsp;</td><td class="election-num election-count-col">&mdash;</td><td class="election-num election-count-col">&mdash;</td><td class="election-num election-count-col">&mdash;</td>'
+                        ? '<td class="election-num election-count-col">&nbsp;</td><td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td>'
                         : '<td class="election-num election-count-col">&nbsp;</td>';
                     }
                     const value = row.total ?? row.firstPrefs;
                     const transfer = Number(row.transfers);
                     const votePct = validPoll > 0 ? Number(value) / validPoll * 100 : 0;
+                    const transferDenominator = transferDenominators.get(Number(count));
                     if (!this.countDetailedView) return `<td class="election-num election-count-col">${formatNumber(value)}</td>`;
-                    return `<td class="election-num election-count-col">${formatNumber(value)}</td><td class="election-num election-count-col">${formatFixedPercent(votePct)}</td><td class="election-num election-count-col">${Number.isFinite(transfer) ? formatMainPercentDelta(0) : '&mdash;'}</td><td class="election-num election-count-col">${transfer ? formatMainDelta(transfer) : '&mdash;'}</td>`;
+                    return `<td class="election-num election-count-col">${formatNumber(value)}</td><td class="election-num election-count-col">${formatFixedPercent(votePct)}</td><td class="election-num election-count-col">${formatTransferShare(transfer, transferDenominator)}</td><td class="election-num election-count-col">${transfer ? formatMainDelta(transfer) : '-'}</td>`;
                   }).join('')}
                 </tr>
               `;
             }).join('')}
-            ${nonTransferable.size ? `
+            ${(stvResult || nonTransferable.size) ? `
               <tr class="election-table-summary-row">
                 <td class="election-rank-col">-</td>
                 <td></td>
@@ -2046,10 +2220,11 @@ export class Test2ElectionManager {
                 ${this.countDetailedView ? '<td class="election-num">-</td>' : ''}
                 <td class="election-num">-</td>
                 ${visibleCounts.map((count) => {
-                  const row = nonTransferable.get(Number(count));
-                  if (!row) return this.countDetailedView ? '<td class="election-num election-count-col">&nbsp;</td><td class="election-num election-count-col">&mdash;</td><td class="election-num election-count-col">&mdash;</td><td class="election-num election-count-col">&mdash;</td>' : '<td class="election-num election-count-col">&nbsp;</td>';
+                  const row = nonTransferable.get(Number(count)) || (stvResult ? { total: 0, transfers: 0 } : null);
+                  if (!row) return this.countDetailedView ? '<td class="election-num election-count-col">&nbsp;</td><td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td>' : '<td class="election-num election-count-col">&nbsp;</td>';
+                  const transferDenominator = transferDenominators.get(Number(count));
                   return this.countDetailedView
-                    ? `<td class="election-num election-count-col">${formatNumber(row.total)}</td><td class="election-num election-count-col">${validPoll > 0 ? formatFixedPercent(Number(row.total) / validPoll * 100) : '&mdash;'}</td><td class="election-num election-count-col">&mdash;</td><td class="election-num election-count-col">${row.transfers ? formatMainDelta(row.transfers) : '&mdash;'}</td>`
+                    ? `<td class="election-num election-count-col">${formatNumber(row.total)}</td><td class="election-num election-count-col">${validPoll > 0 ? formatFixedPercent(Number(row.total) / validPoll * 100) : '-'}</td><td class="election-num election-count-col">${formatTransferShare(row.transfers, transferDenominator)}</td><td class="election-num election-count-col">${row.transfers ? formatMainDelta(row.transfers) : '-'}</td>`
                     : `<td class="election-num election-count-col">${formatNumber(row.total)}</td>`;
                 }).join('')}
               </tr>
@@ -2291,8 +2466,12 @@ export class Test2ElectionManager {
     return [
       this.activeBundle.layerId,
       this.activeBundle.sourceMapId,
+      this.activeBundle.councilLayerId,
+      this.activeBundle.councilSourceMapId,
       this.activeEntry?.sourceMapId,
-      this.activeEntry?.layerId
+      this.activeEntry?.layerId,
+      this.activeEntry?.councilSourceMapId,
+      this.activeEntry?.councilLayerId
     ].some((value) => normalizeName(value || '') === featureMapId);
   }
 
@@ -3208,9 +3387,10 @@ function buildLocalPartySummary(results = []) {
     }
   }
   return rows.sort((a, b) =>
-    String(a.party).localeCompare(String(b.party))
+    numberOrZero(b.share) - numberOrZero(a.share)
+    || numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs)
+    || String(a.party).localeCompare(String(b.party))
     || String(a.constituency).localeCompare(String(b.constituency))
-    || b.firstPrefs - a.firstPrefs
   );
 }
 
@@ -3226,7 +3406,8 @@ function buildCouncilSummary(results = []) {
         validPoll: 0,
         electorate: 0,
         partySeats: new Map(),
-        partyVotes: new Map()
+        partyVotes: new Map(),
+        partyColours: new Map()
       });
     }
     const row = councils.get(council);
@@ -3237,6 +3418,7 @@ function buildCouncilSummary(results = []) {
     for (const candidate of result.candidates || []) {
       const party = candidate.party || 'Independent/Other';
       row.partyVotes.set(party, (row.partyVotes.get(party) || 0) + (Number(candidate.firstPrefs ?? candidate.votes ?? 0) || 0));
+      if (candidate.colour && !row.partyColours.has(party)) row.partyColours.set(party, candidate.colour);
       if (candidate.elected) row.partySeats.set(party, (row.partySeats.get(party) || 0) + 1);
     }
   }
@@ -3247,7 +3429,8 @@ function buildCouncilSummary(results = []) {
     return {
       ...row,
       leadingParty: leading[0],
-      colour: partyColour(leading[0]),
+      colour: row.partyColours.get(leading[0]) || partyColour(leading[0]),
+      share: row.validPoll ? (row.partyVotes.get(leading[0]) || 0) / row.validPoll * 100 : null,
       turnoutPct: row.electorate ? row.validPoll / row.electorate * 100 : null
     };
   }).sort((a, b) => String(a.council).localeCompare(String(b.council)));
@@ -3390,6 +3573,89 @@ function partyColour(value) {
 function numberOrZero(value) {
   const number = Number(value);
   return Number.isFinite(number) ? number : 0;
+}
+
+function finiteNumber(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const number = Number(String(value).replace(/,/g, '').replace(/%$/, ''));
+  return Number.isFinite(number) ? number : null;
+}
+
+function isStvResult(result = {}) {
+  const votingSystem = normalizeName(result.votingSystem || result.electionVotingSystem || result.system || '');
+  if (votingSystem.includes('stv')) return true;
+  const quota = finiteNumber(result.quota ?? result.Quota ?? result.countInfo?.Quota);
+  return quota !== null && Array.isArray(result.countNumbers) && result.countNumbers.some((count) => Number(count) > 1);
+}
+
+function buildStvTransferContext(result = {}, candidates = [], countNumbers = []) {
+  const explicitNonTransferable = new Map((result.nonTransferable || []).map((row) => [Number(row.count), row]));
+  const nonTransferable = new Map();
+  const transferDenominators = new Map();
+  let runningNonTransferableTotal = 0;
+  for (const count of countNumbers.map(Number).filter(Number.isFinite).sort((a, b) => a - b)) {
+    const explicitRow = explicitNonTransferable.get(count);
+    let candidateTransferSum = 0;
+    let positiveRecipientTransfers = 0;
+    for (const candidate of candidates || []) {
+      const row = (candidate.counts || []).find((entry) => Number(entry.count) === count);
+      const transfer = finiteNumber(row?.transfers);
+      if (transfer === null) continue;
+      candidateTransferSum += transfer;
+      if (transfer > 0) positiveRecipientTransfers += transfer;
+    }
+    let nonTransferableTransfer = finiteNumber(explicitRow?.transfers);
+    if (nonTransferableTransfer === null && count > 1) {
+      const inferred = -candidateTransferSum;
+      nonTransferableTransfer = inferred > 0.0001 ? inferred : 0;
+    }
+    let nonTransferableTotal = finiteNumber(explicitRow?.total);
+    if (nonTransferableTotal === null) {
+      nonTransferableTotal = count <= 1
+        ? 0
+        : runningNonTransferableTotal + Math.max(0, nonTransferableTransfer || 0);
+    }
+    runningNonTransferableTotal = nonTransferableTotal;
+    nonTransferable.set(count, {
+      count,
+      total: nonTransferableTotal,
+      transfers: nonTransferableTransfer || 0,
+      inferred: !explicitRow
+    });
+    transferDenominators.set(count, positiveRecipientTransfers + Math.max(0, nonTransferableTransfer || 0));
+  }
+  return { nonTransferable, transferDenominators };
+}
+
+function formatTransferShare(transfer, denominator) {
+  const transferValue = finiteNumber(transfer);
+  const denominatorValue = finiteNumber(denominator);
+  if (transferValue === null || transferValue <= 0 || denominatorValue === null || denominatorValue <= 0) return '-';
+  return formatMainPercentDelta((transferValue / denominatorValue) * 100);
+}
+
+function quotaHoldStartCount(candidate = {}, counts = new Map(), result = {}) {
+  const quota = finiteNumber(result.quota ?? result.Quota ?? result.countInfo?.Quota ?? candidate.quota);
+  if (quota === null || quota <= 0) return null;
+  const rows = [...counts.values()]
+    .map((row) => ({ ...row, count: Number(row.count) }))
+    .filter((row) => Number.isFinite(row.count))
+    .sort((a, b) => a.count - b.count);
+  for (let index = 0; index < rows.length; index += 1) {
+    const row = rows[index];
+    const total = finiteNumber(row.total ?? row.firstPrefs);
+    if (total === null || Math.abs(total - quota) > 0.5) continue;
+    if (candidate.electedAt && row.count < Number(candidate.electedAt)) continue;
+    const previousTotal = finiteNumber(rows[index - 1]?.total ?? rows[index - 1]?.firstPrefs);
+    const wasReducedToQuota = previousTotal !== null && previousTotal > quota + 0.5 && finiteNumber(row.transfers) !== null && finiteNumber(row.transfers) < -0.5;
+    const laterHeldAtQuota = rows.some((later) => later.count > row.count && Math.abs((finiteNumber(later.total ?? later.firstPrefs) ?? Number.POSITIVE_INFINITY) - quota) <= 0.5);
+    if (wasReducedToQuota || laterHeldAtQuota || candidate.elected) return row.count;
+  }
+  return null;
+}
+
+function shouldDashQuotaHeldCount(count, quotaHoldCount) {
+  return quotaHoldCount !== null && quotaHoldCount !== undefined && Number(count) > Number(quotaHoldCount);
 }
 
 function numericColour(value, min, max) {
