@@ -1,24 +1,48 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:northern-ireland-assembly__2007-03-07",
     "slug": "election-source-northern-ireland-assembly-2007-03-07",
     "type": "election-source",
-    "title": "Northern Ireland Assembly 2007-03-07",
+    "title": "2007 Northern Ireland Assembly election 2007-03-07",
     "subtitle": "Northern Ireland Assembly / 18 constituencies",
     "category": "Election sources",
     "date": "2007-03-07",
     "provider": [
       "Northern Ireland Assembly"
     ],
-    "description": "Generated election bundle for Northern Ireland Assembly.",
+    "description": "Generated election bundle for 2007 Northern Ireland Assembly election.",
     "sourceMapId": "assembly-areas-2008",
     "thumbnail": {
       "kind": "placeholder",
-      "label": "NI",
+      "label": "2N",
       "type": "election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2007 Northern Ireland Assembly election",
+        "url": "https://en.wikipedia.org/wiki/2007_Northern_Ireland_Assembly_election",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ARK Elections / CAIN archive",
+        "url": "https://www.ark.ac.uk/elections/",
+        "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+        "source": "ARK Elections / CAIN",
+        "role": "corroboration-source",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "Electoral Office for Northern Ireland election results and statistics",
+        "url": "https://www.eoni.org.uk/Elections/Election-results-and-statistics",
+        "source": "EONI",
+        "role": "official-source-corpus",
+        "scope": "election-corpus"
+      }
+    ],
     "downloads": [
       {
         "label": "northern-ireland-assembly__2007-03-07.json",
@@ -38,9 +62,15 @@
         "date": "2007-03-07",
         "bodySlug": "northern-ireland-assembly",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "2007 Northern Ireland Assembly election",
         "displaySubtitle": "18 constituencies",
         "displayProvider": "Northern Ireland Assembly",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-gregory",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Belfast East",
@@ -71,6 +101,8 @@
         "matchedCount": 18,
         "unmatchedCount": 0,
         "totalConstituencies": 18,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/northern-ireland-assembly__2007-03-07.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/assembly-areas-2008-alias-test.json",
@@ -84,7 +116,8 @@
           "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/northern-ireland-assembly__2007-03-07.json"
       },
       "resultUrl": "/test/metadata/elections-test2/northern-ireland-assembly__2007-03-07.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/assembly-areas-2008-alias-test.json"

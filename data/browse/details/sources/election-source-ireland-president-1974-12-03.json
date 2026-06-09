@@ -1,26 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:ireland-president__1974-12-03",
     "slug": "election-source-ireland-president-1974-12-03",
     "type": "election-source",
-    "title": "President of Ireland 1974-12-03",
+    "title": "1974 Irish presidential election 1974-12-03",
     "subtitle": "President of Ireland / 1 constituencies",
     "category": "Election sources",
     "date": "1974-12-03",
     "provider": [
       "President of Ireland"
     ],
-    "description": "Generated election bundle for President of Ireland.",
+    "description": "Generated election bundle for 1974 Irish presidential election.",
     "sourceMapId": "roi-1938",
     "thumbnail": {
       "kind": "asset",
       "id": "roi-1938",
       "url": "/assets/thumbnails/roi-1938.webp",
       "smallUrl": "/assets/thumbnails/roi-1938-60.webp",
-      "alt": "President of Ireland"
+      "alt": "1974 Irish presidential election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1974 Irish presidential election",
+        "url": "https://en.wikipedia.org/wiki/1974_Irish_presidential_election",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland presidential election result pages",
+        "url": "https://electionsireland.org/results/president/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "ElectionsIreland result source",
+        "url": "https://electionsireland.org/result.cfm?election=1974P&cons=194",
+        "note": "Source URL carried by the underlying election result data.",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "election-result"
+      }
+    ],
     "downloads": [
       {
         "label": "ireland-president__1974-12-03.json",
@@ -40,14 +64,20 @@
         "date": "1974-12-03",
         "bodySlug": "ireland-president",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "1974 Irish presidential election",
         "displaySubtitle": "1 constituencies",
         "displayProvider": "President of Ireland",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-hare",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Ireland"
         ],
-        "isByElection": true,
+        "isByElection": false,
         "sourceMapId": "roi-1938",
         "layerId": "roi-1938-vector-test",
         "labelProperty": "Name",
@@ -56,6 +86,8 @@
         "matchedCount": 1,
         "unmatchedCount": 0,
         "totalConstituencies": 1,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/ireland-president__1974-12-03.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/roi-1938-vector-test.json",
@@ -64,8 +96,10 @@
         "stylingModes": [
           "winner",
           "leadingParty",
+          "voteShare",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-president__1974-12-03.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-president__1974-12-03.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/roi-1938-vector-test.json"

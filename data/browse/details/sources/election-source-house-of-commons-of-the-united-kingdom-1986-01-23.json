@@ -1,26 +1,43 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:house-of-commons-of-the-united-kingdom__1986-01-23",
     "slug": "election-source-house-of-commons-of-the-united-kingdom-1986-01-23",
     "type": "election-source",
-    "title": "House of Commons of the United Kingdom 1986-01-23",
+    "title": "1986 general election in Northern Ireland 1986-01-23",
     "subtitle": "House of Commons of the United Kingdom / 15 constituencies",
     "category": "Election sources",
     "date": "1986-01-23",
     "provider": [
       "House of Commons of the United Kingdom"
     ],
-    "description": "Generated election bundle for House of Commons of the United Kingdom.",
+    "description": "Generated election bundle for 1986 general election in Northern Ireland.",
     "sourceMapId": "pc-1982",
     "thumbnail": {
       "kind": "asset",
       "id": "pc-1982",
       "url": "/assets/thumbnails/pc-1982.webp",
       "smallUrl": "/assets/thumbnails/pc-1982-60.webp",
-      "alt": "House of Commons of the United Kingdom"
+      "alt": "1986 general election in Northern Ireland"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1986 general election in Northern Ireland",
+        "url": "https://en.wikipedia.org/wiki/1986_United_Kingdom_general_election_in_Northern_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ARK Elections / CAIN archive",
+        "url": "https://www.ark.ac.uk/elections/",
+        "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+        "source": "ARK Elections / CAIN",
+        "role": "corroboration-source",
+        "scope": "election-corpus"
+      }
+    ],
     "downloads": [
       {
         "label": "house-of-commons-of-the-united-kingdom__1986-01-23.json",
@@ -40,9 +57,15 @@
         "date": "1986-01-23",
         "bodySlug": "house-of-commons-of-the-united-kingdom",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "1986 general election in Northern Ireland",
         "displaySubtitle": "15 constituencies",
         "displayProvider": "House of Commons of the United Kingdom",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "fptp",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "Belfast East",
@@ -70,6 +93,8 @@
         "matchedCount": 15,
         "unmatchedCount": 0,
         "totalConstituencies": 15,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1986-01-23.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/pc-1982-vector-test.json",
@@ -82,7 +107,8 @@
           "turnout",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__1986-01-23.json"
       },
       "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1986-01-23.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/pc-1982-vector-test.json"

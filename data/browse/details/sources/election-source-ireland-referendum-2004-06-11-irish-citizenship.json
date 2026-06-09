@@ -1,26 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:ireland-referendum__2004-06-11-irish-citizenship",
     "slug": "election-source-ireland-referendum-2004-06-11-irish-citizenship",
     "type": "election-source",
-    "title": "Referendum (Ireland) 2004-06-11-irish-citizenship",
+    "title": "2004 Irish referendum 2004-06-11-irish-citizenship",
     "subtitle": "Referendum (Ireland) / 34 constituencies",
     "category": "Election sources",
     "date": "2004-06-11-irish-citizenship",
     "provider": [
       "Referendum (Ireland)"
     ],
-    "description": "Generated election bundle for Referendum (Ireland).",
+    "description": "Generated election bundle for 2004 Irish referendum.",
     "sourceMapId": "roi-local-authorities-2002",
     "thumbnail": {
       "kind": "asset",
       "id": "roi-local-authorities-2002",
       "url": "/assets/thumbnails/roi-local-authorities-2002.webp",
       "smallUrl": "/assets/thumbnails/roi-local-authorities-2002-60.webp",
-      "alt": "Referendum (Ireland)"
+      "alt": "2004 Irish referendum"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2004 Irish referendum",
+        "url": "https://en.wikipedia.org/wiki/Twenty-seventh_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "Wikipedia referendum result pages",
+        "url": "https://en.wikipedia.org/wiki/Twenty-seventh_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "Wikipedia result source",
+        "url": "https://en.wikipedia.org/wiki/Twenty-seventh_Amendment_of_the_Constitution_of_Ireland",
+        "note": "Source URL carried by the underlying election result data.",
+        "source": "Wikipedia",
+        "role": "primary-result-source",
+        "scope": "election-result"
+      }
+    ],
     "downloads": [
       {
         "label": "ireland-referendum__2004-06-11-irish-citizenship.json",
@@ -40,9 +64,14 @@
         "date": "2004-06-11-irish-citizenship",
         "bodySlug": "ireland-referendum",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "2004 Irish referendum",
         "displaySubtitle": "34 constituencies",
         "displayProvider": "Referendum (Ireland)",
+        "contestType": "referendum",
+        "votingSystem": "ordinal",
+        "contestStatus": "contested",
+        "candidateRowsExpected": false,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "County Carlow",
@@ -89,6 +118,8 @@
         "matchedCount": 34,
         "unmatchedCount": 0,
         "totalConstituencies": 34,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/ireland-referendum__2004-06-11-irish-citizenship.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/roi-local-authorities-2002-vector-test.json",
@@ -101,7 +132,8 @@
           "turnout",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-referendum__2004-06-11-irish-citizenship.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-referendum__2004-06-11-irish-citizenship.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/roi-local-authorities-2002-vector-test.json"

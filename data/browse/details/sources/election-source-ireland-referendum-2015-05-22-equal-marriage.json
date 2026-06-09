@@ -1,26 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:ireland-referendum__2015-05-22-equal-marriage",
     "slug": "election-source-ireland-referendum-2015-05-22-equal-marriage",
     "type": "election-source",
-    "title": "Referendum (Ireland) 2015-05-22-equal-marriage",
-    "subtitle": "Referendum (Ireland) / 43 constituencies; 14 unmatched",
+    "title": "2015 Irish referendum 2015-05-22-equal-marriage",
+    "subtitle": "Referendum (Ireland) / 43 constituencies; 13 unmatched",
     "category": "Election sources",
     "date": "2015-05-22-equal-marriage",
     "provider": [
       "Referendum (Ireland)"
     ],
-    "description": "Generated election bundle for Referendum (Ireland).",
+    "description": "Generated election bundle for 2015 Irish referendum.",
     "sourceMapId": "dail-2013",
     "thumbnail": {
       "kind": "asset",
       "id": "dail-2013",
       "url": "/assets/thumbnails/dail-2013.webp",
       "smallUrl": "/assets/thumbnails/dail-2013-60.webp",
-      "alt": "Referendum (Ireland)"
+      "alt": "2015 Irish referendum"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2015 Irish referendum",
+        "url": "https://en.wikipedia.org/wiki/Thirty-fourth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "Wikipedia referendum result pages",
+        "url": "https://en.wikipedia.org/wiki/Thirty-fourth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "Wikipedia result source",
+        "url": "https://en.wikipedia.org/wiki/Thirty-fourth_Amendment_of_the_Constitution_of_Ireland",
+        "note": "Source URL carried by the underlying election result data.",
+        "source": "Wikipedia",
+        "role": "primary-result-source",
+        "scope": "election-result"
+      }
+    ],
     "downloads": [
       {
         "label": "ireland-referendum__2015-05-22-equal-marriage.json",
@@ -40,9 +64,14 @@
         "date": "2015-05-22-equal-marriage",
         "bodySlug": "ireland-referendum",
         "bodyGroup": null,
-        "displayTitle": null,
-        "displaySubtitle": "43 constituencies; 14 unmatched",
+        "displayTitle": "2015 Irish referendum",
+        "displaySubtitle": "43 constituencies; 13 unmatched",
         "displayProvider": "Referendum (Ireland)",
+        "contestType": "referendum",
+        "votingSystem": "ordinal",
+        "contestStatus": "contested",
+        "candidateRowsExpected": false,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "Carlow–Kilkenny",
@@ -95,9 +124,25 @@
         "labelProperty": "MAX_CON_NA",
         "loadable": true,
         "placeholder": false,
-        "matchedCount": 29,
-        "unmatchedCount": 14,
+        "matchedCount": 30,
+        "unmatchedCount": 13,
         "totalConstituencies": 43,
+        "unmatchedConstituencySample": [
+          "Donegal North-East",
+          "Donegal South-West",
+          "Dublin North",
+          "Dublin North-Central",
+          "Dublin North-East",
+          "Dublin South",
+          "Dublin South-East",
+          "Kerry North–West Limerick",
+          "Kerry South",
+          "Roscommon–South Leitrim",
+          "Sligo–North Leitrim",
+          "Tipperary North",
+          "Tipperary South"
+        ],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [
           "Donegal North-East",
           "Donegal South-West",
@@ -108,7 +153,6 @@
           "Dublin South-East",
           "Kerry North–West Limerick",
           "Kerry South",
-          "Laois–Offaly",
           "Roscommon–South Leitrim",
           "Sligo–North Leitrim",
           "Tipperary North",
@@ -125,7 +169,8 @@
           "turnout",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-referendum__2015-05-22-equal-marriage.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-referendum__2015-05-22-equal-marriage.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/dail-2013-vector-test.json"

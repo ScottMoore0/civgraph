@@ -1,26 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:dail-eireann__1918-12-14",
     "slug": "election-source-dail-eireann-1918-12-14",
     "type": "election-source",
-    "title": "Dáil Éireann 1918-12-14",
-    "subtitle": "Dáil Éireann / 103 constituencies; 3 unmatched",
+    "title": "1918 Irish general election 1918-12-14",
+    "subtitle": "Dáil Éireann / 103 constituencies",
     "category": "Election sources",
     "date": "1918-12-14",
     "provider": [
       "Dáil Éireann"
     ],
-    "description": "Generated election bundle for Dáil Éireann.",
+    "description": "Generated election bundle for 1918 Irish general election.",
     "sourceMapId": "pc-1918-ireland",
     "thumbnail": {
       "kind": "asset",
       "id": "pc-1918-ireland",
       "url": "/assets/thumbnails/pc-1918-ireland.webp",
       "smallUrl": "/assets/thumbnails/pc-1918-ireland-60.webp",
-      "alt": "Dáil Éireann"
+      "alt": "1918 Irish general election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1918 Irish general election",
+        "url": "https://en.wikipedia.org/wiki/1918_Irish_general_election",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland general election result pages",
+        "url": "https://electionsireland.org/results/general/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "102 constituency/result source pages are cited on the result sub-entries",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here.",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set"
+      }
+    ],
     "downloads": [
       {
         "label": "dail-eireann__1918-12-14.json",
@@ -40,9 +63,15 @@
         "date": "1918-12-14",
         "bodySlug": "dail-eireann",
         "bodyGroup": null,
-        "displayTitle": null,
-        "displaySubtitle": "103 constituencies; 3 unmatched",
+        "displayTitle": "1918 Irish general election",
+        "displaySubtitle": "103 constituencies",
         "displayProvider": "Dáil Éireann",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-hare",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Antrim East",
@@ -155,14 +184,12 @@
         "labelProperty": "Name",
         "loadable": true,
         "placeholder": false,
-        "matchedCount": 100,
-        "unmatchedCount": 3,
+        "matchedCount": 103,
+        "unmatchedCount": 0,
         "totalConstituencies": 103,
-        "unmatchedConstituencies": [
-          "Dublin University(Trinity College)",
-          "National University of Ireland",
-          "Queen's University Belfast"
-        ],
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
+        "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/dail-eireann__1918-12-14.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/pc-1918-ireland-vector-test.json",
         "previousKey": null,
@@ -173,7 +200,8 @@
           "voteShare",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/dail-eireann__1918-12-14.json"
       },
       "resultUrl": "/test/metadata/elections-test2/dail-eireann__1918-12-14.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/pc-1918-ireland-vector-test.json"

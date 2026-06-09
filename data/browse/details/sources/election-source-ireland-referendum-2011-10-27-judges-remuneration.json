@@ -1,26 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:ireland-referendum__2011-10-27-judges-remuneration",
     "slug": "election-source-ireland-referendum-2011-10-27-judges-remuneration",
     "type": "election-source",
-    "title": "Referendum (Ireland) 2011-10-27-judges-remuneration",
+    "title": "2011 Irish referendum 2011-10-27-judges-remuneration",
     "subtitle": "Referendum (Ireland) / 43 constituencies",
     "category": "Election sources",
     "date": "2011-10-27-judges-remuneration",
     "provider": [
       "Referendum (Ireland)"
     ],
-    "description": "Generated election bundle for Referendum (Ireland).",
+    "description": "Generated election bundle for 2011 Irish referendum.",
     "sourceMapId": "dail-2009",
     "thumbnail": {
       "kind": "asset",
       "id": "dail-2009",
       "url": "/assets/thumbnails/dail-2009.webp",
       "smallUrl": "/assets/thumbnails/dail-2009-60.webp",
-      "alt": "Referendum (Ireland)"
+      "alt": "2011 Irish referendum"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2011 Irish referendum",
+        "url": "https://en.wikipedia.org/wiki/Twenty-ninth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "Wikipedia referendum result pages",
+        "url": "https://en.wikipedia.org/wiki/Twenty-ninth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "Wikipedia result source",
+        "url": "https://en.wikipedia.org/wiki/Twenty-ninth_Amendment_of_the_Constitution_of_Ireland",
+        "note": "Source URL carried by the underlying election result data.",
+        "source": "Wikipedia",
+        "role": "primary-result-source",
+        "scope": "election-result"
+      }
+    ],
     "downloads": [
       {
         "label": "ireland-referendum__2011-10-27-judges-remuneration.json",
@@ -40,9 +64,14 @@
         "date": "2011-10-27-judges-remuneration",
         "bodySlug": "ireland-referendum",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "2011 Irish referendum",
         "displaySubtitle": "43 constituencies",
         "displayProvider": "Referendum (Ireland)",
+        "contestType": "referendum",
+        "votingSystem": "ordinal",
+        "contestStatus": "contested",
+        "candidateRowsExpected": false,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "Carlow–Kilkenny",
@@ -98,6 +127,8 @@
         "matchedCount": 43,
         "unmatchedCount": 0,
         "totalConstituencies": 43,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/ireland-referendum__2011-10-27-judges-remuneration.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/dail-2009-vector-test.json",
@@ -110,7 +141,8 @@
           "turnout",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-referendum__2011-10-27-judges-remuneration.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-referendum__2011-10-27-judges-remuneration.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/dail-2009-vector-test.json"

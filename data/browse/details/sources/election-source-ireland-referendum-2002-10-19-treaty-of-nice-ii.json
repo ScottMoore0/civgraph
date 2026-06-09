@@ -1,26 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:ireland-referendum__2002-10-19-treaty-of-nice-ii",
     "slug": "election-source-ireland-referendum-2002-10-19-treaty-of-nice-ii",
     "type": "election-source",
-    "title": "Referendum (Ireland) 2002-10-19-treaty-of-nice-ii",
-    "subtitle": "Referendum (Ireland) / 42 constituencies; 4 unmatched",
+    "title": "2002 Irish referendum 2002-10-19-treaty-of-nice-ii",
+    "subtitle": "Referendum (Ireland) / 42 constituencies; 3 unmatched",
     "category": "Election sources",
     "date": "2002-10-19-treaty-of-nice-ii",
     "provider": [
       "Referendum (Ireland)"
     ],
-    "description": "Generated election bundle for Referendum (Ireland).",
+    "description": "Generated election bundle for 2002 Irish referendum.",
     "sourceMapId": "dail-2005",
     "thumbnail": {
       "kind": "asset",
       "id": "dail-2005",
       "url": "/assets/thumbnails/dail-2005.webp",
       "smallUrl": "/assets/thumbnails/dail-2005-60.webp",
-      "alt": "Referendum (Ireland)"
+      "alt": "2002 Irish referendum"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2002 Irish referendum",
+        "url": "https://en.wikipedia.org/wiki/Twenty-sixth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "Wikipedia referendum result pages",
+        "url": "https://en.wikipedia.org/wiki/Twenty-sixth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "Wikipedia result source",
+        "url": "https://en.wikipedia.org/wiki/Twenty-sixth_Amendment_of_the_Constitution_of_Ireland",
+        "note": "Source URL carried by the underlying election result data.",
+        "source": "Wikipedia",
+        "role": "primary-result-source",
+        "scope": "election-result"
+      }
+    ],
     "downloads": [
       {
         "label": "ireland-referendum__2002-10-19-treaty-of-nice-ii.json",
@@ -40,9 +64,14 @@
         "date": "2002-10-19-treaty-of-nice-ii",
         "bodySlug": "ireland-referendum",
         "bodyGroup": null,
-        "displayTitle": null,
-        "displaySubtitle": "42 constituencies; 4 unmatched",
+        "displayTitle": "2002 Irish referendum",
+        "displaySubtitle": "42 constituencies; 3 unmatched",
         "displayProvider": "Referendum (Ireland)",
+        "contestType": "referendum",
+        "votingSystem": "ordinal",
+        "contestStatus": "contested",
+        "candidateRowsExpected": false,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "Carlow–Kilkenny",
@@ -94,12 +123,17 @@
         "labelProperty": "CON_NAME",
         "loadable": true,
         "placeholder": false,
-        "matchedCount": 38,
-        "unmatchedCount": 4,
+        "matchedCount": 39,
+        "unmatchedCount": 3,
         "totalConstituencies": 42,
+        "unmatchedConstituencySample": [
+          "Longford–Roscommon",
+          "Sligo–Leitrim",
+          "Westmeath"
+        ],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [
           "Longford–Roscommon",
-          "Meath",
           "Sligo–Leitrim",
           "Westmeath"
         ],
@@ -114,7 +148,8 @@
           "turnout",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-referendum__2002-10-19-treaty-of-nice-ii.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-referendum__2002-10-19-treaty-of-nice-ii.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/dail-2005-vector-test.json"

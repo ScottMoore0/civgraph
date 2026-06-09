@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-06T18:51:03.527Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "local-government-local-government-districts__1985-05-15",
     "key": "local-government-local-government-districts__1985-05-15",
@@ -16,6 +16,12 @@
     "provider": "Local Government Districts",
     "category": "Elections",
     "geography": "Northern Ireland",
+    "contestType": "election",
+    "kind": "general",
+    "votingSystem": "stv-gregory",
+    "contestStatus": "contested",
+    "candidateRowsExpected": true,
+    "transferDataExpected": true,
     "constituencies": [
       "Balmoral",
       "Court",
@@ -81,6 +87,7 @@
     "browseUrl": "/browse/elections/local-government-local-government-districts__1985-05-15",
     "availableStyleModes": [
       "winner",
+      "leadingParty",
       "voteShare",
       "majority",
       "seats",
@@ -97,7 +104,7 @@
       }
     ],
     "totals": {
-      "seats": 462,
+      "seats": 563,
       "validPoll": 636901.04,
       "constituencies": 99
     },
@@ -832,6 +839,12 @@
         "displayTitle": "1985 Northern Ireland local election",
         "displaySubtitle": "99 DEAs",
         "displayProvider": "Local Government Districts",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-gregory",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": [
           "Antrim",
           "Ards",
@@ -970,6 +983,8 @@
         "matchedCount": 99,
         "unmatchedCount": 0,
         "totalConstituencies": 99,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/local-government-local-government-districts__1985-05-15.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/deas-1984-vector-test.json",
@@ -977,6 +992,7 @@
         "previousDate": "1981-05-20",
         "stylingModes": [
           "winner",
+          "leadingParty",
           "voteShare",
           "majority",
           "seats",

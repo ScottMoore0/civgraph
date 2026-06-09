@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-06T18:51:03.527Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "local-government-local-government-districts__1993-05-19",
     "key": "local-government-local-government-districts__1993-05-19",
@@ -16,6 +16,12 @@
     "provider": "Local Government Districts",
     "category": "Elections",
     "geography": "Northern Ireland",
+    "contestType": "election",
+    "kind": "general",
+    "votingSystem": "stv-gregory",
+    "contestStatus": "contested",
+    "candidateRowsExpected": true,
+    "transferDataExpected": true,
     "constituencies": [
       "Balmoral",
       "Court",
@@ -81,6 +87,7 @@
     "browseUrl": "/browse/elections/local-government-local-government-districts__1993-05-19",
     "availableStyleModes": [
       "winner",
+      "leadingParty",
       "voteShare",
       "majority",
       "seats",
@@ -97,7 +104,7 @@
       }
     ],
     "totals": {
-      "seats": 295,
+      "seats": 551,
       "validPoll": 589954.0700000001,
       "constituencies": 102
     },
@@ -853,6 +860,12 @@
         "displayTitle": "1993 Northern Ireland local election",
         "displaySubtitle": "102 DEAs",
         "displayProvider": "Local Government Districts",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-gregory",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": [
           "Antrim",
           "Ards",
@@ -994,6 +1007,8 @@
         "matchedCount": 102,
         "unmatchedCount": 0,
         "totalConstituencies": 102,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/local-government-local-government-districts__1993-05-19.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/deas-1993-vector-test.json",
@@ -1001,6 +1016,7 @@
         "previousDate": "1989-05-17",
         "stylingModes": [
           "winner",
+          "leadingParty",
           "voteShare",
           "majority",
           "seats",

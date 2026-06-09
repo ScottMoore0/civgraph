@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-06T18:51:03.527Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "local-government-local-government-districts__1977-05-18",
     "key": "local-government-local-government-districts__1977-05-18",
@@ -16,6 +16,12 @@
     "provider": "Local Government Districts",
     "category": "Elections",
     "geography": "Northern Ireland",
+    "contestType": "election",
+    "kind": "general",
+    "votingSystem": "stv-gregory",
+    "contestStatus": "contested",
+    "candidateRowsExpected": true,
+    "transferDataExpected": true,
     "constituencies": [
       "Area-A-corrected",
       "Area-F",
@@ -81,6 +87,7 @@
     "browseUrl": "/browse/elections/local-government-local-government-districts__1977-05-18",
     "availableStyleModes": [
       "winner",
+      "leadingParty",
       "voteShare",
       "majority",
       "seats",
@@ -97,7 +104,7 @@
       }
     ],
     "totals": {
-      "seats": 455,
+      "seats": 516,
       "validPoll": 554398,
       "constituencies": 102
     },
@@ -853,6 +860,12 @@
         "displayTitle": "1977 Northern Ireland local election",
         "displaySubtitle": "102 DEAs",
         "displayProvider": "Local Government Districts",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-gregory",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": [
           "Antrim",
           "Ards",
@@ -994,6 +1007,8 @@
         "matchedCount": 102,
         "unmatchedCount": 0,
         "totalConstituencies": 102,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/local-government-local-government-districts__1977-05-18.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/deas-1972-vector-test.json",
@@ -1001,6 +1016,7 @@
         "previousDate": "1973-05-30",
         "stylingModes": [
           "winner",
+          "leadingParty",
           "voteShare",
           "majority",
           "seats",

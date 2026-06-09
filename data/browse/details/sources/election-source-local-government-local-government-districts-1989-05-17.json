@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:local-government-local-government-districts__1989-05-17",
     "slug": "election-source-local-government-local-government-districts-1989-05-17",
@@ -21,6 +21,23 @@
       "smallUrl": "/assets/thumbnails/deas-1984-60.webp",
       "alt": "1989 Northern Ireland local election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1989 Northern Ireland local election",
+        "url": "https://en.wikipedia.org/wiki/1989_Northern_Ireland_local_elections",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ARK Elections / CAIN archive",
+        "url": "https://www.ark.ac.uk/elections/",
+        "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+        "source": "ARK Elections / CAIN",
+        "role": "corroboration-source",
+        "scope": "election-corpus"
+      }
+    ],
     "downloads": [
       {
         "label": "local-government-local-government-districts__1989-05-17.json",
@@ -43,6 +60,12 @@
         "displayTitle": "1989 Northern Ireland local election",
         "displaySubtitle": "99 DEAs",
         "displayProvider": "Local Government Districts",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-gregory",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": [
           "Antrim",
           "Ards",
@@ -181,6 +204,8 @@
         "matchedCount": 99,
         "unmatchedCount": 0,
         "totalConstituencies": 99,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/local-government-local-government-districts__1989-05-17.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/deas-1984-vector-test.json",
@@ -188,12 +213,14 @@
         "previousDate": "1985-05-15",
         "stylingModes": [
           "winner",
+          "leadingParty",
           "voteShare",
           "turnout",
           "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/local-government-local-government-districts__1989-05-17.json"
       },
       "resultUrl": "/test/metadata/elections-test2/local-government-local-government-districts__1989-05-17.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/deas-1984-vector-test.json"

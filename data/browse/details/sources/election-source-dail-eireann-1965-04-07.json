@@ -1,23 +1,46 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:dail-eireann__1965-04-07",
     "slug": "election-source-dail-eireann-1965-04-07",
     "type": "election-source",
-    "title": "Dáil Éireann 1965-04-07",
+    "title": "1965 Irish general election 1965-04-07",
     "subtitle": "Dáil Éireann / 38 constituencies; 38 unmatched",
     "category": "Election sources",
     "date": "1965-04-07",
     "provider": [
       "Dáil Éireann"
     ],
-    "description": "Generated election bundle for Dáil Éireann.",
+    "description": "Generated election bundle for 1965 Irish general election.",
     "thumbnail": {
       "kind": "placeholder",
-      "label": "DÉ",
+      "label": "1I",
       "type": "election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1965 Irish general election",
+        "url": "https://en.wikipedia.org/wiki/1965_Irish_general_election",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland general election result pages",
+        "url": "https://electionsireland.org/results/general/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "38 constituency/result source pages are cited on the result sub-entries",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here.",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set"
+      }
+    ],
     "downloads": [
       {
         "label": "dail-eireann__1965-04-07.json",
@@ -33,9 +56,15 @@
         "date": "1965-04-07",
         "bodySlug": "dail-eireann",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "1965 Irish general election",
         "displaySubtitle": "38 constituencies; 38 unmatched",
         "displayProvider": "Dáil Éireann",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-hare",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Carlow Kilkenny",
@@ -86,7 +115,7 @@
         "matchedCount": 0,
         "unmatchedCount": 38,
         "totalConstituencies": 38,
-        "unmatchedConstituencies": [
+        "unmatchedConstituencySample": [
           "Carlow Kilkenny",
           "Cavan",
           "Clare",
@@ -118,11 +147,13 @@
           "Mayo South",
           "Meath"
         ],
+        "unmatchedConstituencySampleLimit": 30,
         "resultUrl": "/test/metadata/elections-test2/dail-eireann__1965-04-07.json",
         "anchorUrl": null,
         "previousKey": "dail-eireann__1961-10-04",
         "previousDate": "1961-10-04",
-        "stylingModes": []
+        "stylingModes": [],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/dail-eireann__1965-04-07.json"
       },
       "resultUrl": "/test/metadata/elections-test2/dail-eireann__1965-04-07.json"
     }

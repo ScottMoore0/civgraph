@@ -1,26 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:house-of-commons-of-the-united-kingdom__2005-05-05",
     "slug": "election-source-house-of-commons-of-the-united-kingdom-2005-05-05",
     "type": "election-source",
-    "title": "House of Commons of the United Kingdom 2005-05-05",
+    "title": "2005 general election in Northern Ireland 2005-05-05",
     "subtitle": "House of Commons of the United Kingdom / 18 constituencies",
     "category": "Election sources",
     "date": "2005-05-05",
     "provider": [
       "House of Commons of the United Kingdom"
     ],
-    "description": "Generated election bundle for House of Commons of the United Kingdom.",
+    "description": "Generated election bundle for 2005 general election in Northern Ireland.",
     "sourceMapId": "pc-2008",
     "thumbnail": {
       "kind": "asset",
       "id": "pc-2008",
       "url": "/assets/thumbnails/pc-2008.webp",
       "smallUrl": "/assets/thumbnails/pc-2008-60.webp",
-      "alt": "House of Commons of the United Kingdom"
+      "alt": "2005 general election in Northern Ireland"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2005 general election in Northern Ireland",
+        "url": "https://en.wikipedia.org/wiki/2005_United_Kingdom_general_election_in_Northern_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ARK Elections / CAIN archive",
+        "url": "https://www.ark.ac.uk/elections/",
+        "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+        "source": "ARK Elections / CAIN",
+        "role": "corroboration-source",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "Electoral Office for Northern Ireland election results and statistics",
+        "url": "https://www.eoni.org.uk/Elections/Election-results-and-statistics",
+        "source": "EONI",
+        "role": "official-source-corpus",
+        "scope": "election-corpus"
+      }
+    ],
     "downloads": [
       {
         "label": "house-of-commons-of-the-united-kingdom__2005-05-05.json",
@@ -40,9 +64,15 @@
         "date": "2005-05-05",
         "bodySlug": "house-of-commons-of-the-united-kingdom",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "2005 general election in Northern Ireland",
         "displaySubtitle": "18 constituencies",
         "displayProvider": "House of Commons of the United Kingdom",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "fptp",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "Belfast East",
@@ -73,6 +103,8 @@
         "matchedCount": 18,
         "unmatchedCount": 0,
         "totalConstituencies": 18,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__2005-05-05.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/pc-2008-vector-test.json",
@@ -85,7 +117,8 @@
           "turnout",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__2005-05-05.json"
       },
       "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__2005-05-05.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/pc-2008-vector-test.json"

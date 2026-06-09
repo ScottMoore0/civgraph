@@ -1,26 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:ireland-referendum__1999-06-10-recognition-for-local-government",
     "slug": "election-source-ireland-referendum-1999-06-10-recognition-for-local-government",
     "type": "election-source",
-    "title": "Referendum (Ireland) 1999-06-10-recognition-for-local-government",
+    "title": "1999 Irish referendum 1999-06-10-recognition-for-local-government",
     "subtitle": "Referendum (Ireland) / 36 constituencies",
     "category": "Election sources",
     "date": "1999-06-10-recognition-for-local-government",
     "provider": [
       "Referendum (Ireland)"
     ],
-    "description": "Generated election bundle for Referendum (Ireland).",
+    "description": "Generated election bundle for 1999 Irish referendum.",
     "sourceMapId": "roi-local-authorities-1994",
     "thumbnail": {
       "kind": "asset",
       "id": "roi-local-authorities-1994",
       "url": "/assets/thumbnails/roi-local-authorities-1994.webp",
       "smallUrl": "/assets/thumbnails/roi-local-authorities-1994-60.webp",
-      "alt": "Referendum (Ireland)"
+      "alt": "1999 Irish referendum"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1999 Irish referendum",
+        "url": "https://en.wikipedia.org/wiki/Twentieth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "Wikipedia referendum result pages",
+        "url": "https://en.wikipedia.org/wiki/Twentieth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "Wikipedia result source",
+        "url": "https://en.wikipedia.org/wiki/Twentieth_Amendment_of_the_Constitution_of_Ireland",
+        "note": "Source URL carried by the underlying election result data.",
+        "source": "Wikipedia",
+        "role": "primary-result-source",
+        "scope": "election-result"
+      }
+    ],
     "downloads": [
       {
         "label": "ireland-referendum__1999-06-10-recognition-for-local-government.json",
@@ -40,9 +64,14 @@
         "date": "1999-06-10-recognition-for-local-government",
         "bodySlug": "ireland-referendum",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "1999 Irish referendum",
         "displaySubtitle": "36 constituencies",
         "displayProvider": "Referendum (Ireland)",
+        "contestType": "referendum",
+        "votingSystem": "ordinal",
+        "contestStatus": "contested",
+        "candidateRowsExpected": false,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "County Carlow",
@@ -91,6 +120,8 @@
         "matchedCount": 36,
         "unmatchedCount": 0,
         "totalConstituencies": 36,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/ireland-referendum__1999-06-10-recognition-for-local-government.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/roi-local-authorities-1994-vector-test.json",
@@ -103,7 +134,8 @@
           "turnout",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-referendum__1999-06-10-recognition-for-local-government.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-referendum__1999-06-10-recognition-for-local-government.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/roi-local-authorities-1994-vector-test.json"

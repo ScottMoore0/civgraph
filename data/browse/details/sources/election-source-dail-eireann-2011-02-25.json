@@ -1,26 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:dail-eireann__2011-02-25",
     "slug": "election-source-dail-eireann-2011-02-25",
     "type": "election-source",
-    "title": "Dáil Éireann 2011-02-25",
+    "title": "2011 Irish general election 2011-02-25",
     "subtitle": "Dáil Éireann / 43 constituencies",
     "category": "Election sources",
     "date": "2011-02-25",
     "provider": [
       "Dáil Éireann"
     ],
-    "description": "Generated election bundle for Dáil Éireann.",
+    "description": "Generated election bundle for 2011 Irish general election.",
     "sourceMapId": "dail-2009",
     "thumbnail": {
       "kind": "asset",
       "id": "dail-2009",
       "url": "/assets/thumbnails/dail-2009.webp",
       "smallUrl": "/assets/thumbnails/dail-2009-60.webp",
-      "alt": "Dáil Éireann"
+      "alt": "2011 Irish general election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2011 Irish general election",
+        "url": "https://en.wikipedia.org/wiki/2011_Irish_general_election",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland general election result pages",
+        "url": "https://electionsireland.org/results/general/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "43 constituency/result source pages are cited on the result sub-entries",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here.",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set"
+      }
+    ],
     "downloads": [
       {
         "label": "dail-eireann__2011-02-25.json",
@@ -40,9 +63,15 @@
         "date": "2011-02-25",
         "bodySlug": "dail-eireann",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "2011 Irish general election",
         "displaySubtitle": "43 constituencies",
         "displayProvider": "Dáil Éireann",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-hare",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Carlow Kilkenny",
@@ -98,6 +127,8 @@
         "matchedCount": 43,
         "unmatchedCount": 0,
         "totalConstituencies": 43,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/dail-eireann__2011-02-25.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/dail-2009-vector-test.json",
@@ -110,7 +141,8 @@
           "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/dail-eireann__2011-02-25.json"
       },
       "resultUrl": "/test/metadata/elections-test2/dail-eireann__2011-02-25.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/dail-2009-vector-test.json"

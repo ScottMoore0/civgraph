@@ -1,26 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:ireland-referendum__1972-05-10-accession-to-the-european-communities",
     "slug": "election-source-ireland-referendum-1972-05-10-accession-to-the-european-communities",
     "type": "election-source",
-    "title": "Referendum (Ireland) 1972-05-10-accession-to-the-european-communities",
+    "title": "1972 Irish referendum 1972-05-10-accession-to-the-european-communities",
     "subtitle": "Referendum (Ireland) / 42 constituencies",
     "category": "Election sources",
     "date": "1972-05-10-accession-to-the-european-communities",
     "provider": [
       "Referendum (Ireland)"
     ],
-    "description": "Generated election bundle for Referendum (Ireland).",
+    "description": "Generated election bundle for 1972 Irish referendum.",
     "sourceMapId": "roi-counties-2011",
     "thumbnail": {
       "kind": "asset",
       "id": "roi-counties-2011",
       "url": "/assets/thumbnails/roi-counties-2011.webp",
       "smallUrl": "/assets/thumbnails/roi-counties-2011-60.webp",
-      "alt": "Referendum (Ireland)"
+      "alt": "1972 Irish referendum"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1972 Irish referendum",
+        "url": "https://en.wikipedia.org/wiki/Third_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "Wikipedia referendum result pages",
+        "url": "https://en.wikipedia.org/wiki/Third_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "Wikipedia result source",
+        "url": "https://en.wikipedia.org/wiki/Third_Amendment_of_the_Constitution_of_Ireland",
+        "note": "Source URL carried by the underlying election result data.",
+        "source": "Wikipedia",
+        "role": "primary-result-source",
+        "scope": "election-result"
+      }
+    ],
     "downloads": [
       {
         "label": "ireland-referendum__1972-05-10-accession-to-the-european-communities.json",
@@ -40,9 +64,14 @@
         "date": "1972-05-10-accession-to-the-european-communities",
         "bodySlug": "ireland-referendum",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "1972 Irish referendum",
         "displaySubtitle": "42 constituencies",
         "displayProvider": "Referendum (Ireland)",
+        "contestType": "referendum",
+        "votingSystem": "ordinal",
+        "contestStatus": "contested",
+        "candidateRowsExpected": false,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "Carlow–Kilkenny",
@@ -97,6 +126,8 @@
         "matchedCount": 42,
         "unmatchedCount": 0,
         "totalConstituencies": 42,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/ireland-referendum__1972-05-10-accession-to-the-european-communities.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/roi-counties-2011-vector-test.json",
@@ -109,7 +140,8 @@
           "turnout",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-referendum__1972-05-10-accession-to-the-european-communities.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-referendum__1972-05-10-accession-to-the-european-communities.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/roi-counties-2011-vector-test.json"

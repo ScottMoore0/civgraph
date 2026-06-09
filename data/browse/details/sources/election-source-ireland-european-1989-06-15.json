@@ -1,26 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:ireland-european__1989-06-15",
     "slug": "election-source-ireland-european-1989-06-15",
     "type": "election-source",
-    "title": "European Parliament (Ireland) 1989-06-15",
+    "title": "1989 European Parliament election (ROI) 1989-06-15",
     "subtitle": "European Parliament (Ireland) / 4 constituencies",
     "category": "Election sources",
     "date": "1989-06-15",
     "provider": [
       "European Parliament (Ireland)"
     ],
-    "description": "Generated election bundle for European Parliament (Ireland).",
+    "description": "Generated election bundle for 1989 European Parliament election (ROI).",
     "sourceMapId": "mep-1979",
     "thumbnail": {
       "kind": "asset",
       "id": "mep-1979",
       "url": "/assets/thumbnails/mep-1979.webp",
       "smallUrl": "/assets/thumbnails/mep-1979-60.webp",
-      "alt": "European Parliament (Ireland)"
+      "alt": "1989 European Parliament election (ROI)"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1989 European Parliament election (ROI)",
+        "url": "https://en.wikipedia.org/wiki/1989_European_Parliament_election_in_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland European election result pages",
+        "url": "https://electionsireland.org/results/europe/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "4 constituency/result source pages are cited on the result sub-entries",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here.",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set"
+      }
+    ],
     "downloads": [
       {
         "label": "ireland-european__1989-06-15.json",
@@ -40,9 +63,15 @@
         "date": "1989-06-15",
         "bodySlug": "ireland-european",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "1989 European Parliament election (ROI)",
         "displaySubtitle": "4 constituencies",
         "displayProvider": "European Parliament (Ireland)",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-hare",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Connaught Ulster",
@@ -59,6 +88,8 @@
         "matchedCount": 4,
         "unmatchedCount": 0,
         "totalConstituencies": 4,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/ireland-european__1989-06-15.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/mep-1979-vector-test.json",
@@ -67,9 +98,12 @@
         "stylingModes": [
           "winner",
           "leadingParty",
+          "voteShare",
+          "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-european__1989-06-15.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-european__1989-06-15.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/mep-1979-vector-test.json"

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-06T18:51:03.527Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "local-government-local-government-districts__2005-05-05",
     "key": "local-government-local-government-districts__2005-05-05",
@@ -16,6 +16,12 @@
     "provider": "Local Government Districts",
     "category": "Elections",
     "geography": "Northern Ireland",
+    "contestType": "election",
+    "kind": "general",
+    "votingSystem": "stv-gregory",
+    "contestStatus": "contested",
+    "candidateRowsExpected": true,
+    "transferDataExpected": true,
     "constituencies": [
       "Balmoral",
       "Court",
@@ -81,6 +87,7 @@
     "browseUrl": "/browse/elections/local-government-local-government-districts__2005-05-05",
     "availableStyleModes": [
       "winner",
+      "leadingParty",
       "voteShare",
       "turnout",
       "majority",
@@ -90,16 +97,16 @@
     "partySummary": [
       {
         "party": "Independent/Other",
-        "seats": 515,
-        "stood": 881,
+        "seats": 524,
+        "stood": 898,
         "votes": 0,
         "share": 0,
         "colour": "#6b7280"
       }
     ],
     "totals": {
-      "seats": 215,
-      "validPoll": 700204,
+      "seats": 581,
+      "validPoll": 704909,
       "constituencies": 101
     },
     "references": [
@@ -854,6 +861,12 @@
         "displayTitle": "2005 Northern Ireland local election",
         "displaySubtitle": "101 DEAs",
         "displayProvider": "Local Government Districts",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-gregory",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": [
           "Antrim",
           "Ards",
@@ -994,6 +1007,8 @@
         "matchedCount": 101,
         "unmatchedCount": 0,
         "totalConstituencies": 101,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/local-government-local-government-districts__2005-05-05.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/deas-1993-vector-test.json",
@@ -1001,6 +1016,7 @@
         "previousDate": "2001-06-07",
         "stylingModes": [
           "winner",
+          "leadingParty",
           "voteShare",
           "turnout",
           "majority",

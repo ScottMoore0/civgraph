@@ -1,24 +1,41 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:northern-ireland-forum-for-political-dialogue__1996-05-30",
     "slug": "election-source-northern-ireland-forum-for-political-dialogue-1996-05-30",
     "type": "election-source",
-    "title": "Northern Ireland Forum for Political Dialogue 1996-05-30",
+    "title": "1996 Northern Ireland Forum election 1996-05-30",
     "subtitle": "Northern Ireland Forum for Political Dialogue / 19 constituencies",
     "category": "Election sources",
     "date": "1996-05-30",
     "provider": [
       "Northern Ireland Forum for Political Dialogue"
     ],
-    "description": "Generated election bundle for Northern Ireland Forum for Political Dialogue.",
+    "description": "Generated election bundle for 1996 Northern Ireland Forum election.",
     "sourceMapId": "forum-1995",
     "thumbnail": {
       "kind": "placeholder",
-      "label": "NI",
+      "label": "1N",
       "type": "election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1996 Northern Ireland Forum election",
+        "url": "https://en.wikipedia.org/wiki/1996_Northern_Ireland_Forum_election",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ARK Elections / CAIN archive",
+        "url": "https://www.ark.ac.uk/elections/",
+        "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+        "source": "ARK Elections / CAIN",
+        "role": "corroboration-source",
+        "scope": "election-corpus"
+      }
+    ],
     "downloads": [
       {
         "label": "northern-ireland-forum-for-political-dialogue__1996-05-30.json",
@@ -38,9 +55,15 @@
         "date": "1996-05-30",
         "bodySlug": "northern-ireland-forum-for-political-dialogue",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "1996 Northern Ireland Forum election",
         "displaySubtitle": "19 constituencies",
         "displayProvider": "Northern Ireland Forum for Political Dialogue",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "party-list-dhondt",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "Belfast East",
@@ -72,6 +95,8 @@
         "matchedCount": 19,
         "unmatchedCount": 0,
         "totalConstituencies": 19,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/northern-ireland-forum-for-political-dialogue__1996-05-30.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/forum-1995-alias-test.json",
@@ -85,7 +110,8 @@
           "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/northern-ireland-forum-for-political-dialogue__1996-05-30.json"
       },
       "resultUrl": "/test/metadata/elections-test2/northern-ireland-forum-for-political-dialogue__1996-05-30.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/forum-1995-alias-test.json"

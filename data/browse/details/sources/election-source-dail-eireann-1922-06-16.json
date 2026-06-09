@@ -1,23 +1,46 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:dail-eireann__1922-06-16",
     "slug": "election-source-dail-eireann-1922-06-16",
     "type": "election-source",
-    "title": "Dáil Éireann 1922-06-16",
+    "title": "1922 Irish general election 1922-06-16",
     "subtitle": "Dáil Éireann / 28 constituencies; 28 unmatched",
     "category": "Election sources",
     "date": "1922-06-16",
     "provider": [
       "Dáil Éireann"
     ],
-    "description": "Generated election bundle for Dáil Éireann.",
+    "description": "Generated election bundle for 1922 Irish general election.",
     "thumbnail": {
       "kind": "placeholder",
-      "label": "DÉ",
+      "label": "1I",
       "type": "election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1922 Irish general election",
+        "url": "https://en.wikipedia.org/wiki/1922_Irish_general_election",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland general election result pages",
+        "url": "https://electionsireland.org/results/general/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "24 constituency/result source pages are cited on the result sub-entries",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here.",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set"
+      }
+    ],
     "downloads": [
       {
         "label": "dail-eireann__1922-06-16.json",
@@ -33,9 +56,15 @@
         "date": "1922-06-16",
         "bodySlug": "dail-eireann",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "1922 Irish general election",
         "displaySubtitle": "28 constituencies; 28 unmatched",
         "displayProvider": "Dáil Éireann",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-hare",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Carlow Kilkenny",
@@ -76,6 +105,37 @@
         "matchedCount": 0,
         "unmatchedCount": 28,
         "totalConstituencies": 28,
+        "unmatchedConstituencySample": [
+          "Carlow Kilkenny",
+          "Cavan",
+          "Clare",
+          "Cork Borough",
+          "Cork East & North East",
+          "Cork Mid, North, South, South East & West",
+          "Donegal",
+          "Dublin County",
+          "Dublin Mid",
+          "Dublin North West",
+          "Dublin South",
+          "Dublin University",
+          "Galway",
+          "Kerry Limerick West",
+          "Kildare Wicklow",
+          "Leitrim Roscommon North",
+          "Leix Offaly",
+          "Limerick City and East",
+          "Longford Westmeath",
+          "Louth Meath",
+          "Mayo North & West",
+          "Mayo South Roscommon South",
+          "Monaghan",
+          "National University",
+          "Sligo Mayo East",
+          "Tipperary Mid, North & South",
+          "Waterford Tipperary East",
+          "Wexford"
+        ],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [
           "Carlow Kilkenny",
           "Cavan",
@@ -110,7 +170,8 @@
         "anchorUrl": null,
         "previousKey": "dail-eireann__1921-05-24",
         "previousDate": "1921-05-24",
-        "stylingModes": []
+        "stylingModes": [],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/dail-eireann__1922-06-16.json"
       },
       "resultUrl": "/test/metadata/elections-test2/dail-eireann__1922-06-16.json"
     }

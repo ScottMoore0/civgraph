@@ -1,26 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:ireland-referendum__2024-03-08-care",
     "slug": "election-source-ireland-referendum-2024-03-08-care",
     "type": "election-source",
-    "title": "Referendum (Ireland) 2024-03-08-care",
-    "subtitle": "Referendum (Ireland) / 39 constituencies; 3 unmatched",
+    "title": "2024 Irish referendum 2024-03-08-care",
+    "subtitle": "Referendum (Ireland) / 39 constituencies",
     "category": "Election sources",
     "date": "2024-03-08-care",
     "provider": [
       "Referendum (Ireland)"
     ],
-    "description": "Generated election bundle for Referendum (Ireland).",
+    "description": "Generated election bundle for 2024 Irish referendum.",
     "sourceMapId": "dail-2023",
     "thumbnail": {
       "kind": "asset",
       "id": "dail-2023",
       "url": "/assets/thumbnails/dail-2023.webp",
       "smallUrl": "/assets/thumbnails/dail-2023-60.webp",
-      "alt": "Referendum (Ireland)"
+      "alt": "2024 Irish referendum"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2024 Irish referendum",
+        "url": "https://en.wikipedia.org/wiki/2024_Irish_constitutional_referendums",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "Wikipedia referendum result pages",
+        "url": "https://en.wikipedia.org/wiki/2024_Irish_constitutional_referendums",
+        "source": "Wikipedia",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "Wikipedia result source",
+        "url": "https://en.wikipedia.org/wiki/2024_Irish_constitutional_referendums",
+        "note": "Source URL carried by the underlying election result data.",
+        "source": "Wikipedia",
+        "role": "primary-result-source",
+        "scope": "election-result"
+      }
+    ],
     "downloads": [
       {
         "label": "ireland-referendum__2024-03-08-care.json",
@@ -40,9 +64,14 @@
         "date": "2024-03-08-care",
         "bodySlug": "ireland-referendum",
         "bodyGroup": null,
-        "displayTitle": null,
-        "displaySubtitle": "39 constituencies; 3 unmatched",
+        "displayTitle": "2024 Irish referendum",
+        "displaySubtitle": "39 constituencies",
         "displayProvider": "Referendum (Ireland)",
+        "contestType": "referendum",
+        "votingSystem": "ordinal",
+        "contestStatus": "contested",
+        "candidateRowsExpected": false,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "Carlow–Kilkenny",
@@ -91,14 +120,12 @@
         "labelProperty": "ENG_NAME_VALUE",
         "loadable": true,
         "placeholder": false,
-        "matchedCount": 36,
-        "unmatchedCount": 3,
+        "matchedCount": 39,
+        "unmatchedCount": 0,
         "totalConstituencies": 39,
-        "unmatchedConstituencies": [
-          "Dublin Fingal",
-          "Laois-Offaly",
-          "Tipperary"
-        ],
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
+        "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/ireland-referendum__2024-03-08-care.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/dail-2023-vector-test.json",
         "previousKey": "ireland-referendum__2019-05-24-regulation-of-divorce",
@@ -110,7 +137,8 @@
           "turnout",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-referendum__2024-03-08-care.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-referendum__2024-03-08-care.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/dail-2023-vector-test.json"

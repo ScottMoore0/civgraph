@@ -1,26 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:ireland-referendum__2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment",
     "slug": "election-source-ireland-referendum-2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment",
     "type": "election-source",
-    "title": "Referendum (Ireland) 2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment",
+    "title": "2018 Irish referendum 2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment",
     "subtitle": "Referendum (Ireland) / 40 constituencies; 2 unmatched",
     "category": "Election sources",
     "date": "2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment",
     "provider": [
       "Referendum (Ireland)"
     ],
-    "description": "Generated election bundle for Referendum (Ireland).",
+    "description": "Generated election bundle for 2018 Irish referendum.",
     "sourceMapId": "dail-2017",
     "thumbnail": {
       "kind": "asset",
       "id": "dail-2017",
       "url": "/assets/thumbnails/dail-2017.webp",
       "smallUrl": "/assets/thumbnails/dail-2017-60.webp",
-      "alt": "Referendum (Ireland)"
+      "alt": "2018 Irish referendum"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2018 Irish referendum",
+        "url": "https://en.wikipedia.org/wiki/Thirty-sixth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "Wikipedia referendum result pages",
+        "url": "https://en.wikipedia.org/wiki/Thirty-sixth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "Wikipedia result source",
+        "url": "https://en.wikipedia.org/wiki/Thirty-sixth_Amendment_of_the_Constitution_of_Ireland",
+        "note": "Source URL carried by the underlying election result data.",
+        "source": "Wikipedia",
+        "role": "primary-result-source",
+        "scope": "election-result"
+      }
+    ],
     "downloads": [
       {
         "label": "ireland-referendum__2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment.json",
@@ -40,9 +64,14 @@
         "date": "2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment",
         "bodySlug": "ireland-referendum",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "2018 Irish referendum",
         "displaySubtitle": "40 constituencies; 2 unmatched",
         "displayProvider": "Referendum (Ireland)",
+        "contestType": "referendum",
+        "votingSystem": "ordinal",
+        "contestStatus": "contested",
+        "candidateRowsExpected": false,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "Carlow–Kilkenny",
@@ -95,6 +124,11 @@
         "matchedCount": 38,
         "unmatchedCount": 2,
         "totalConstituencies": 40,
+        "unmatchedConstituencySample": [
+          "Laois",
+          "Offaly"
+        ],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [
           "Laois",
           "Offaly"
@@ -110,7 +144,8 @@
           "turnout",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-referendum__2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-referendum__2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/dail-2017-vector-test.json"

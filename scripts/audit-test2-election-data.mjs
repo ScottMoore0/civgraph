@@ -11,6 +11,12 @@ const readJson = (relativePath) => {
   return JSON.parse(fs.readFileSync(absolute, 'utf8'));
 };
 
+const readJsonIfExists = (relativePath, fallback = null) => {
+  const absolute = path.join(ROOT, relativePath);
+  if (!fs.existsSync(absolute)) return fallback;
+  return JSON.parse(fs.readFileSync(absolute, 'utf8'));
+};
+
 const exists = (relativePath) => fs.existsSync(path.join(ROOT, relativePath));
 
 const urlToRelativePath = (url) => {
@@ -24,9 +30,30 @@ const urlExists = (url) => {
   return Boolean(relativePath && exists(relativePath));
 };
 
-const keyToSourceDetailPath = (entry) => {
-  if (!entry?.bodySlug || !entry?.date) return null;
-  return `data/browse/details/sources/election-source-${entry.bodySlug}-${entry.date}.json`;
+const slugify = (value) => String(value ?? '')
+  .normalize('NFKD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .toLowerCase()
+  .replace(/&/g, ' and ')
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '') || 'entry';
+
+const normalizeKeyText = (value) => String(value ?? '')
+  .normalize('NFKD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, ' ')
+  .trim();
+
+const keyToSourceDetailPaths = (entry) => {
+  const candidates = [];
+  if (entry?.key) {
+    candidates.push(`data/browse/details/sources/election-source-${slugify(String(entry.key).replace(/__/g, '-'))}.json`);
+  }
+  if (entry?.bodySlug && entry?.date) {
+    candidates.push(`data/browse/details/sources/election-source-${entry.bodySlug}-${entry.date}.json`);
+  }
+  return [...new Set(candidates)];
 };
 
 const addIssue = (issues, severity, category, key, message, details = {}) => {
@@ -71,7 +98,7 @@ const parseCsv = (text) => {
     rows.push(row);
   }
   if (!rows.length) return [];
-  const headers = rows.shift();
+  const headers = rows.shift().map((header) => String(header || '').replace(/^\uFEFF/, ''));
   return rows
     .filter((values) => values.some((value) => value !== ''))
     .map((values) => Object.fromEntries(headers.map((header, index) => [header, values[index] ?? ''])));
@@ -83,7 +110,23 @@ const normaliseNumber = (value) => {
   return Number.isFinite(numeric) ? numeric : null;
 };
 
-const isReferendumLike = (entry) => /referendum/i.test(entry?.body || entry?.displayTitle || '');
+const VALID_CONTEST_TYPES = new Set(['election', 'referendum', 'recall-petition']);
+const VALID_ELECTION_KINDS = new Set(['general', 'by-election']);
+const VALID_CONTEST_STATUSES = new Set(['contested', 'uncontested']);
+const VALID_VOTING_SYSTEMS = new Set(['fptp', 'block-vote', 'stv-gregory', 'stv-hare', 'party-list-dhondt', 'ordinal']);
+
+const contestTypeFor = (entry, result = null) => result?.contestType || entry?.contestType || (/referendum/i.test(entry?.body || entry?.displayTitle || '') ? 'referendum' : 'election');
+
+const isReferendumLike = (entry, result = null) => contestTypeFor(entry, result) === 'referendum';
+
+const isCandidateListExpected = (entry, result) => {
+  const contestType = contestTypeFor(entry, result);
+  if (contestType !== 'election') return false;
+  const status = result?.contestStatus || entry?.contestStatus || 'contested';
+  if (status === 'uncontested') return false;
+  if (result?.candidateRowsExpected === false || entry?.candidateRowsExpected === false) return false;
+  return true;
+};
 
 const hasAnimationData = (result) => {
   if (!result?.animationPayload || typeof result.animationPayload !== 'object') return false;
@@ -99,12 +142,18 @@ const hasCandidateCountDetail = (result) => {
 };
 
 const shouldExpectTransferData = (entry, result) => {
-  if (isReferendumLike(entry)) return false;
-  const body = String(entry?.body || '');
+  if (result?.transferDataExpected === false || entry?.transferDataExpected === false) return false;
+  if (result?.transferDataExpected === true || entry?.transferDataExpected === true) {
+    const seats = normaliseNumber(result?.seatsTotal);
+    return seats === null || seats > 1;
+  }
+  if (contestTypeFor(entry, result) !== 'election') return false;
+  const status = result?.contestStatus || entry?.contestStatus || 'contested';
+  if (status === 'uncontested') return false;
+  const votingSystem = result?.votingSystem || entry?.votingSystem || '';
   const seats = normaliseNumber(result?.seatsTotal);
   if (seats !== null && seats <= 1) return false;
-  return /Dail|Dail|Assembly|Forum|Convention|European|Local Government|Parliament of Northern Ireland/i.test(body)
-    || (seats !== null && seats > 1);
+  return votingSystem === 'stv-hare' || votingSystem === 'stv-gregory';
 };
 
 const summariseIssues = (issues) => {
@@ -144,6 +193,15 @@ for (const item of browseSubEntries) {
   if (!subEntriesByParent.has(key)) subEntriesByParent.set(key, []);
   subEntriesByParent.get(key).push(item);
 }
+
+const validPollReview = readJsonIfExists('data/elections/corrections/valid-poll-review.json', { records: [] });
+const candidateRowReview = readJsonIfExists('data/elections/corrections/candidate-row-review.json', { records: [] });
+const partyColourReview = readJsonIfExists('data/elections/party-colour-review-overrides.json', { records: [] });
+
+const reviewRecordKey = (electionKey, constituency) => `${electionKey}::${normalizeKeyText(constituency)}`;
+const validPollReviewByResult = new Map((validPollReview.records || []).map((record) => [reviewRecordKey(record.electionKey, record.constituency), record]));
+const candidateRowReviewByResult = new Map((candidateRowReview.records || []).map((record) => [reviewRecordKey(record.electionKey, record.constituency), record]));
+const partyColourReviewByParty = new Map((partyColourReview.records || []).map((record) => [normalizeKeyText(record.party || record.label), record]));
 
 const sourceFiles = fs.existsSync(path.join(ROOT, 'data/browse/details/sources'))
   ? fs.readdirSync(path.join(ROOT, 'data/browse/details/sources')).filter((name) => /^election-source-.*\.json$/.test(name))
@@ -208,6 +266,8 @@ const stats = {
   colours: {
     auditFilePresent: false,
     highConfidenceFilePresent: false,
+    reviewFilePresent: Boolean((partyColourReview.records || []).length),
+    reviewedMismatches: 0,
     observations: 0,
     matches: 0,
     mismatches: 0,
@@ -216,6 +276,11 @@ const stats = {
     noWikipediaMatch: 0,
     ambiguousWikipediaMatch: 0,
     examples: []
+  },
+  reviewSidecars: {
+    validPollRecords: (validPollReview.records || []).length,
+    candidateRowRecords: (candidateRowReview.records || []).length,
+    partyColourRecords: (partyColourReview.records || []).length
   }
 };
 
@@ -223,6 +288,18 @@ for (const entry of manifestEntries) {
   const key = entry.key;
   for (const field of ['key', 'body', 'date', 'bodySlug', 'displayTitle', 'displaySubtitle']) {
     if (!entry[field]) addIssue(issues, 'warning', 'manifest-required-field', key, `Missing manifest field: ${field}.`);
+  }
+  if (!VALID_CONTEST_TYPES.has(entry.contestType)) {
+    addIssue(issues, 'warning', 'contest-metadata', key, `Missing or invalid contestType: ${entry.contestType || '(missing)'}.`);
+  }
+  if (entry.contestType === 'election' && !VALID_ELECTION_KINDS.has(entry.kind)) {
+    addIssue(issues, 'warning', 'contest-metadata', key, `Election entry has missing or invalid kind: ${entry.kind || '(missing)'}.`);
+  }
+  if (!VALID_CONTEST_STATUSES.has(entry.contestStatus)) {
+    addIssue(issues, 'warning', 'contest-metadata', key, `Missing or invalid contestStatus: ${entry.contestStatus || '(missing)'}.`);
+  }
+  if (!VALID_VOTING_SYSTEMS.has(entry.votingSystem)) {
+    addIssue(issues, 'warning', 'contest-metadata', key, `Missing or invalid votingSystem: ${entry.votingSystem || '(missing)'}.`);
   }
   if (!browseById.has(key)) {
     addIssue(issues, 'warning', 'browse-parent-missing', key, 'Manifest election has no matching Browse parent entry.');
@@ -232,7 +309,10 @@ for (const entry of manifestEntries) {
       addIssue(issues, 'blocking', 'geography-counts', key, `matchedCount + unmatchedCount does not equal totalConstituencies (${entry.matchedCount} + ${entry.unmatchedCount} != ${entry.totalConstituencies}).`);
     }
   }
-  if (Array.isArray(entry.unmatchedConstituencies) && Number.isFinite(entry.unmatchedCount) && entry.unmatchedConstituencies.length !== entry.unmatchedCount) {
+  const unmatchedSample = Array.isArray(entry.unmatchedConstituencySample) ? entry.unmatchedConstituencySample : entry.unmatchedConstituencies;
+  if (Array.isArray(unmatchedSample) && Number.isFinite(entry.unmatchedConstituencySampleLimit) && unmatchedSample.length > entry.unmatchedConstituencySampleLimit) {
+    addIssue(issues, 'warning', 'unmatched-list-count', key, `unmatchedConstituencySample length is ${unmatchedSample.length}, above sample limit ${entry.unmatchedConstituencySampleLimit}.`);
+  } else if (!Array.isArray(entry.unmatchedConstituencySample) && Array.isArray(entry.unmatchedConstituencies) && Number.isFinite(entry.unmatchedCount) && entry.unmatchedConstituencies.length !== entry.unmatchedCount) {
     addIssue(issues, 'warning', 'unmatched-list-count', key, `unmatchedConstituencies length is ${entry.unmatchedConstituencies.length}, unmatchedCount is ${entry.unmatchedCount}.`);
   }
 
@@ -250,10 +330,11 @@ for (const entry of manifestEntries) {
     else stats.sources.subEntriesWithMultipleReferences += 1;
   }
 
-  const sourceDetailPath = keyToSourceDetailPath(entry);
-  if (!sourceDetailPath || !exists(sourceDetailPath)) {
+  const sourceDetailPaths = keyToSourceDetailPaths(entry);
+  const sourceDetailPath = sourceDetailPaths.find((candidate) => exists(candidate));
+  if (!sourceDetailPath) {
     stats.sources.parentSourceRecordsMissing += 1;
-    addIssue(issues, 'warning', 'source-record-missing', key, `No election source detail record found at ${sourceDetailPath || '(unknown path)'}.`);
+    addIssue(issues, 'warning', 'source-record-missing', key, `No election source detail record found at ${sourceDetailPaths.join(' or ') || '(unknown path)'}.`);
   } else {
     const sourceRecord = readJson(sourceDetailPath);
     const refs = sourceRecord?.item?.references || [];
@@ -295,11 +376,29 @@ for (const entry of manifestEntries) {
     if (result.matched) stats.resultBundles.matchedRows += 1;
     else stats.resultBundles.unmatchedRows += 1;
     if (!result.constituency) addIssue(issues, 'warning', 'result-constituency-missing', key, 'A result row is missing constituency/DEA name.');
+    if (!VALID_CONTEST_TYPES.has(result.contestType || entry.contestType)) {
+      addIssue(issues, 'warning', 'contest-metadata', key, `${result.constituency || '(unnamed result)'} has missing or invalid contestType: ${result.contestType || entry.contestType || '(missing)'}.`);
+    }
+    if (!VALID_CONTEST_STATUSES.has(result.contestStatus || entry.contestStatus)) {
+      addIssue(issues, 'warning', 'contest-metadata', key, `${result.constituency || '(unnamed result)'} has missing or invalid contestStatus: ${result.contestStatus || entry.contestStatus || '(missing)'}.`);
+    }
+    if (!VALID_VOTING_SYSTEMS.has(result.votingSystem || entry.votingSystem)) {
+      addIssue(issues, 'warning', 'contest-metadata', key, `${result.constituency || '(unnamed result)'} has missing or invalid votingSystem: ${result.votingSystem || entry.votingSystem || '(missing)'}.`);
+    }
     const candidates = Array.isArray(result.candidates) ? result.candidates : [];
     stats.resultBundles.candidateRows += candidates.length;
     stats.resultBundles.electedRows += candidates.filter((candidate) => candidate.elected).length;
-    if (!candidates.length && !isReferendumLike(entry)) {
-      addIssue(issues, 'warning', 'candidate-list-missing', key, `No candidates found for ${result.constituency || '(unnamed result)'}.`);
+    if (!candidates.length && isCandidateListExpected(entry, result)) {
+      const review = candidateRowReviewByResult.get(reviewRecordKey(key, result.constituency));
+      addIssue(
+        issues,
+        'warning',
+        review ? 'candidate-list-review' : 'candidate-list-missing',
+        key,
+        review
+          ? `No candidates found for ${result.constituency || '(unnamed result)'}; review record status is ${review.status || 'recorded'}.`
+          : `No candidates found for ${result.constituency || '(unnamed result)'}.`
+      );
     }
     let firstPrefsSum = 0;
     let hasNumericFirstPrefs = false;
@@ -320,12 +419,36 @@ for (const entry of manifestEntries) {
       }
     }
     const validPoll = normaliseNumber(result.validPoll);
-    if (validPoll !== null && hasNumericFirstPrefs && firstPrefsSum > validPoll + Math.max(10, validPoll * 0.02)) {
-      addIssue(issues, 'warning', 'first-pref-sum', key, `${result.constituency || '(unnamed result)'} first-preference sum ${firstPrefsSum} exceeds valid poll ${validPoll}.`);
+    const votingSystem = result.votingSystem || entry.votingSystem || '';
+    const votesPerElector = normaliseNumber(result.votesPerElector) || normaliseNumber(entry.votesPerElector) || 1;
+    const review = validPollReviewByResult.get(reviewRecordKey(key, result.constituency));
+    if (validPoll !== null && validPoll < 0) {
+      addIssue(
+        issues,
+        'warning',
+        review ? 'valid-poll-review' : 'valid-poll-invalid',
+        key,
+        review
+          ? `${result.constituency || '(unnamed result)'} valid poll ${validPoll} is recorded as invalid; review record status is ${review.status || 'recorded'}.`
+          : `${result.constituency || '(unnamed result)'} valid poll ${validPoll} is negative.`
+      );
+    } else if (validPoll !== null && hasNumericFirstPrefs) {
+      const allowedVoteCeiling = votingSystem === 'block-vote' ? validPoll * votesPerElector : validPoll;
+      if (firstPrefsSum > allowedVoteCeiling + Math.max(10, allowedVoteCeiling * 0.02)) {
+        addIssue(
+          issues,
+          'warning',
+          review ? 'valid-poll-review' : 'first-pref-sum',
+          key,
+          review
+            ? `${result.constituency || '(unnamed result)'} first-preference sum ${firstPrefsSum} exceeds valid poll ceiling ${allowedVoteCeiling}; review record status is ${review.status || 'recorded'}.`
+            : `${result.constituency || '(unnamed result)'} first-preference sum ${firstPrefsSum} exceeds valid poll ceiling ${allowedVoteCeiling}.`
+        );
+      }
     }
     const electedCount = candidates.filter((candidate) => candidate.elected).length;
     const seatsWon = normaliseNumber(result.seatsWon);
-    if (seatsWon !== null && electedCount > seatsWon && !isReferendumLike(entry)) {
+    if (seatsWon !== null && electedCount > seatsWon && !isReferendumLike(entry, result)) {
       addIssue(issues, 'warning', 'elected-count', key, `${result.constituency || '(unnamed result)'} has ${electedCount} elected candidate rows but seatsWon is ${seatsWon}.`);
     }
     const hasCountDetail = hasCandidateCountDetail(result);
@@ -370,9 +493,14 @@ if (fs.existsSync(colourAuditPath)) {
       electionColour: row.election_colour,
       wikipediaName: row.wikipedia_match_name,
       wikipediaColour: row.wikipedia_colour,
-      observations: normaliseNumber(row.observations) || 0
+      observations: normaliseNumber(row.observations) || 0,
+      review: partyColourReviewByParty.get(normalizeKeyText(row.party_or_ticket)) || null
     }));
   for (const example of stats.colours.examples.slice(0, 10)) {
+    if (example.review) {
+      stats.colours.reviewedMismatches += 1;
+      continue;
+    }
     addIssue(issues, 'warning', 'party-colour-mismatch', example.party, `Election colour ${example.electionColour} differs from saved Wikipedia colour ${example.wikipediaColour} for ${example.wikipediaName}.`, { observations: example.observations });
   }
 }
@@ -421,6 +549,9 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |rows with animation payload|${stats.resultBundles.rowsWithAnimationPayload}|
 |rows expected to have transfer/count data|${stats.resultBundles.rowsExpectedTransferData}|
 |expected transfer/count rows missing detail|${stats.resultBundles.rowsMissingExpectedTransferData}|
+|valid-poll review sidecar records|${stats.reviewSidecars.validPollRecords}|
+|candidate-row review sidecar records|${stats.reviewSidecars.candidateRowRecords}|
+|party-colour review sidecar records|${stats.reviewSidecars.partyColourRecords}|
 |blocking issues|${issueSummary.bySeverity.blocking || 0}|
 |warnings|${issueSummary.bySeverity.warning || 0}|
 
@@ -450,6 +581,8 @@ ${renderIssueTable(warnings, 80)}
 |---|---:|
 |saved Wikipedia colour audit present|${stats.colours.auditFilePresent ? 'yes' : 'no'}|
 |high-confidence mismatch file present|${stats.colours.highConfidenceFilePresent ? 'yes' : 'no'}|
+|review override file present|${stats.colours.reviewFilePresent ? 'yes' : 'no'}|
+|sampled mismatches already reviewed|${stats.colours.reviewedMismatches}|
 |unique colour observations|${stats.colours.observations}|
 |colour matches|${stats.colours.matches}|
 |colour mismatches|${stats.colours.mismatches}|
@@ -461,7 +594,7 @@ ${renderIssueTable(warnings, 80)}
 ### High-Confidence Colour Examples
 
 ${stats.colours.examples.length
-  ? ['|party/label|election colour|Wikipedia match|Wikipedia colour|observations|', '|---|---|---|---|---:|', ...stats.colours.examples.map((row) => `|${escapeMd(row.party)}|${escapeMd(row.electionColour)}|${escapeMd(row.wikipediaName)}|${escapeMd(row.wikipediaColour)}|${row.observations}|`)].join('\n')
+  ? ['|party/label|election colour|Wikipedia match|Wikipedia colour|observations|review|', '|---|---|---|---|---:|---|', ...stats.colours.examples.map((row) => `|${escapeMd(row.party)}|${escapeMd(row.electionColour)}|${escapeMd(row.wikipediaName)}|${escapeMd(row.wikipediaColour)}|${row.observations}|${escapeMd(row.review?.status || '')}|`)].join('\n')
   : '_None found from the saved audit._'}
 
 ## Next Fix Queue

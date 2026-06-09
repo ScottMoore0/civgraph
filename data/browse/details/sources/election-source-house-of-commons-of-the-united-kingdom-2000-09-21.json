@@ -1,26 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:house-of-commons-of-the-united-kingdom__2000-09-21",
     "slug": "election-source-house-of-commons-of-the-united-kingdom-2000-09-21",
     "type": "election-source",
-    "title": "House of Commons of the United Kingdom 2000-09-21",
+    "title": "2000 South Antrim by-election 2000-09-21",
     "subtitle": "House of Commons of the United Kingdom / 1 constituencies",
     "category": "Election sources",
     "date": "2000-09-21",
     "provider": [
       "House of Commons of the United Kingdom"
     ],
-    "description": "Generated election bundle for House of Commons of the United Kingdom.",
+    "description": "Generated election bundle for 2000 South Antrim by-election.",
     "sourceMapId": "pc-1995",
     "thumbnail": {
       "kind": "asset",
       "id": "pc-1995",
       "url": "/assets/thumbnails/pc-1995.webp",
       "smallUrl": "/assets/thumbnails/pc-1995-60.webp",
-      "alt": "House of Commons of the United Kingdom"
+      "alt": "2000 South Antrim by-election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2000 South Antrim by-election",
+        "url": "https://en.wikipedia.org/wiki/List_of_United_Kingdom_by-elections_in_Northern_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ARK Elections / CAIN archive",
+        "url": "https://www.ark.ac.uk/elections/",
+        "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+        "source": "ARK Elections / CAIN",
+        "role": "corroboration-source",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "Electoral Office for Northern Ireland election results and statistics",
+        "url": "https://www.eoni.org.uk/Elections/Election-results-and-statistics",
+        "source": "EONI",
+        "role": "official-source-corpus",
+        "scope": "election-corpus"
+      }
+    ],
     "downloads": [
       {
         "label": "house-of-commons-of-the-united-kingdom__2000-09-21.json",
@@ -40,9 +64,15 @@
         "date": "2000-09-21",
         "bodySlug": "house-of-commons-of-the-united-kingdom",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "2000 South Antrim by-election",
         "displaySubtitle": "1 constituencies",
         "displayProvider": "House of Commons of the United Kingdom",
+        "contestType": "election",
+        "kind": "by-election",
+        "votingSystem": "fptp",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "South Antrim"
@@ -56,6 +86,8 @@
         "matchedCount": 1,
         "unmatchedCount": 0,
         "totalConstituencies": 1,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__2000-09-21.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/pc-1995-vector-test.json",
@@ -68,7 +100,8 @@
           "turnout",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__2000-09-21.json"
       },
       "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__2000-09-21.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/pc-1995-vector-test.json"

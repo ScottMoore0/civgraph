@@ -1,26 +1,43 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:parliament-of-northern-ireland__1925-11-25",
     "slug": "election-source-parliament-of-northern-ireland-1925-11-25",
     "type": "election-source",
-    "title": "Parliament of Northern Ireland 1925-11-25",
+    "title": "1925 Armagh by-election 1925-11-25",
     "subtitle": "Parliament of Northern Ireland / 1 constituencies",
     "category": "Election sources",
     "date": "1925-11-25",
     "provider": [
       "Parliament of Northern Ireland"
     ],
-    "description": "Generated election bundle for Parliament of Northern Ireland.",
+    "description": "Generated election bundle for 1925 Armagh by-election.",
     "sourceMapId": "stormont-1920",
     "thumbnail": {
       "kind": "asset",
       "id": "stormont-1920",
       "url": "/assets/thumbnails/stormont-1920.webp",
       "smallUrl": "/assets/thumbnails/stormont-1920-60.webp",
-      "alt": "Parliament of Northern Ireland"
+      "alt": "1925 Armagh by-election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1925 Armagh by-election",
+        "url": "https://en.wikipedia.org/wiki/List_of_Northern_Ireland_Parliament_by-elections",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ARK Elections / CAIN archive",
+        "url": "https://www.ark.ac.uk/elections/",
+        "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+        "source": "ARK Elections / CAIN",
+        "role": "corroboration-source",
+        "scope": "election-corpus"
+      }
+    ],
     "downloads": [
       {
         "label": "parliament-of-northern-ireland__1925-11-25.json",
@@ -40,9 +57,15 @@
         "date": "1925-11-25",
         "bodySlug": "parliament-of-northern-ireland",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "1925 Armagh by-election",
         "displaySubtitle": "1 constituencies",
         "displayProvider": "Parliament of Northern Ireland",
+        "contestType": "election",
+        "kind": "by-election",
+        "votingSystem": "stv-gregory",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Armagh"
@@ -56,6 +79,8 @@
         "matchedCount": 1,
         "unmatchedCount": 0,
         "totalConstituencies": 1,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1925-11-25.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1920-vector-test.json",
@@ -65,7 +90,8 @@
           "winner",
           "leadingParty",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/parliament-of-northern-ireland__1925-11-25.json"
       },
       "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1925-11-25.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1920-vector-test.json"

@@ -1,26 +1,43 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:house-of-commons-of-the-united-kingdom__1952-11-04",
     "slug": "election-source-house-of-commons-of-the-united-kingdom-1952-11-04",
     "type": "election-source",
-    "title": "House of Commons of the United Kingdom 1952-11-04",
+    "title": "1952 Belfast South by-election 1952-11-04",
     "subtitle": "House of Commons of the United Kingdom / 1 constituencies",
     "category": "Election sources",
     "date": "1952-11-04",
     "provider": [
       "House of Commons of the United Kingdom"
     ],
-    "description": "Generated election bundle for House of Commons of the United Kingdom.",
+    "description": "Generated election bundle for 1952 Belfast South by-election.",
     "sourceMapId": "pc-1948",
     "thumbnail": {
       "kind": "asset",
       "id": "pc-1948",
       "url": "/assets/thumbnails/pc-1948.webp",
       "smallUrl": "/assets/thumbnails/pc-1948-60.webp",
-      "alt": "House of Commons of the United Kingdom"
+      "alt": "1952 Belfast South by-election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1952 Belfast South by-election",
+        "url": "https://en.wikipedia.org/wiki/List_of_United_Kingdom_by-elections_in_Northern_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ARK Elections / CAIN archive",
+        "url": "https://www.ark.ac.uk/elections/",
+        "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+        "source": "ARK Elections / CAIN",
+        "role": "corroboration-source",
+        "scope": "election-corpus"
+      }
+    ],
     "downloads": [
       {
         "label": "house-of-commons-of-the-united-kingdom__1952-11-04.json",
@@ -40,9 +57,15 @@
         "date": "1952-11-04",
         "bodySlug": "house-of-commons-of-the-united-kingdom",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "1952 Belfast South by-election",
         "displaySubtitle": "1 constituencies",
         "displayProvider": "House of Commons of the United Kingdom",
+        "contestType": "election",
+        "kind": "by-election",
+        "votingSystem": "fptp",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "Belfast South"
@@ -56,6 +79,8 @@
         "matchedCount": 1,
         "unmatchedCount": 0,
         "totalConstituencies": 1,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1952-11-04.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/pc-1948-vector-test.json",
@@ -67,7 +92,8 @@
           "voteShare",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__1952-11-04.json"
       },
       "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1952-11-04.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/pc-1948-vector-test.json"

@@ -1,3 +1,31 @@
+# Implement election-data remediation recommendations 2-7
+- [x] Record scope
+  - Task: implement the research-pass recommendations for election-data items 2-7 without fabricating uncertain historical results.
+  - Expected output: explicit contest/voting metadata, source-record path/reference fixes, audit rules that separate true gaps from false positives, reviewed party-colour discrepancy records, valid-poll/candidate correction sidecars, and regenerated `/test2` election metadata where needed.
+  - Completed: scoped the work to generated election metadata, Browse election/source details, audit scripts/reports, and review sidecars. Existing unrelated dirty generated/map files remain out of scope.
+- [x] Add metadata and audit guardrails
+  - Added contest type, election kind, voting system, contest status, candidate-row expectation, transfer-data expectation, and votes-per-elector fields to generated election entries and result entries.
+  - Updated the audit to use these fields for candidate-list, transfer, block-vote, referendum, recall-petition, valid-poll, and unmatched-geography checks.
+  - Completed: old Westminster block-vote rows no longer trigger false `first-pref-sum` warnings, recall/referendum rows no longer trigger false candidate-list warnings, and large unmatched-geography samples are explicitly represented as samples rather than full unmatched lists.
+- [x] Add source/reference and review sidecars
+  - Fixed generated election source-record path validation to use stable source keys.
+  - Added richer default source/reference handling for NI European and election source records.
+  - Added review sidecars for known valid-poll/candidate correction candidates and high-confidence party-colour mismatches.
+  - Completed: source-record missing/single-reference and sampled party-colour warnings are now separated from true unresolved data queues.
+- [x] Regenerate and verify
+  - Regenerated election manifest, Browse election details, Browse election source details, summaries, and audit outputs affected by the metadata changes.
+  - Verification evidence: `node --check scripts/build-test2-election-manifest.mjs`; `node --check scripts/build-browse-indexes.mjs`; `node --check scripts/audit-test2-election-data.mjs`; `node scripts/build-test2-election-manifest.mjs`; `node scripts/build-browse-indexes.mjs`; `node scripts/build-test2-election-summaries.mjs`; `node scripts/audit-test2-election-data.mjs --fail-on-blocking`; `npm run check:test2`; escalated `npm run build:test2`; final `npm run check:test2`.
+  - Completed: the election-data audit now reports `0` blocking issues. Remaining warnings are explicit review queues only: 26 `valid-poll-review` and 29 `candidate-list-review`.
+- [x] Commit and push scoped changes
+  - Stage only intentional files for this task; preserve unrelated dirty generated/map files.
+  - Completed: scoped staging covers the election-data generation/audit scripts, review sidecars, regenerated election/Browse outputs, audit reports, and this task log.
+
+## Recurring issue prevention: election audit false positives
+- Symptom: repeated `/test2` election-data audits reported source-record missing, unmatched-list-count, block-vote first-pref-sum, recall candidate-list, and party-colour mismatch issues as if they were unresolved hard data defects.
+- Root cause: audit logic relied on heuristics rather than generated contest/voting metadata; source records were looked up by unstable derived paths; large unmatched samples were indistinguishable from complete unmatched lists; reviewed colour differences had no sidecar.
+- Permanent prevention action: generated election entries now carry explicit contest/voting/expectation metadata, source path validation uses stable keys, unmatched samples carry sample metadata, and unresolved-but-known rows are represented in review sidecars instead of being fabricated or silently ignored.
+- Verification evidence: `npm run check:test2` passes with 0 blocking election-data issues, and the warning set is reduced to explicit human-review queues only.
+
 # Research specific remediation for election-data recommendations 2-7
 - [x] Record scope
   - Task: carry out a specific research pass for the remaining election-data recommendations 2-7: malformed valid-poll rows, missing candidate rows, missing source records, old Dáil unmatched diagnostics, party-colour review, and tests/guardrails.

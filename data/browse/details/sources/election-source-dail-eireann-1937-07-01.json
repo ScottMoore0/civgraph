@@ -1,23 +1,46 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:dail-eireann__1937-07-01",
     "slug": "election-source-dail-eireann-1937-07-01",
     "type": "election-source",
-    "title": "Dáil Éireann 1937-07-01",
+    "title": "1937 Irish general election 1937-07-01",
     "subtitle": "Dáil Éireann / 34 constituencies; 34 unmatched",
     "category": "Election sources",
     "date": "1937-07-01",
     "provider": [
       "Dáil Éireann"
     ],
-    "description": "Generated election bundle for Dáil Éireann.",
+    "description": "Generated election bundle for 1937 Irish general election.",
     "thumbnail": {
       "kind": "placeholder",
-      "label": "DÉ",
+      "label": "1I",
       "type": "election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1937 Irish general election",
+        "url": "https://en.wikipedia.org/wiki/1937_Irish_general_election",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland general election result pages",
+        "url": "https://electionsireland.org/results/general/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "34 constituency/result source pages are cited on the result sub-entries",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here.",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set"
+      }
+    ],
     "downloads": [
       {
         "label": "dail-eireann__1937-07-01.json",
@@ -33,9 +56,15 @@
         "date": "1937-07-01",
         "bodySlug": "dail-eireann",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "1937 Irish general election",
         "displaySubtitle": "34 constituencies; 34 unmatched",
         "displayProvider": "Dáil Éireann",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-hare",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Athlone Longford",
@@ -82,7 +111,7 @@
         "matchedCount": 0,
         "unmatchedCount": 34,
         "totalConstituencies": 34,
-        "unmatchedConstituencies": [
+        "unmatchedConstituencySample": [
           "Athlone Longford",
           "Carlow Kildare",
           "Cavan",
@@ -114,11 +143,13 @@
           "Roscommon",
           "Sligo"
         ],
+        "unmatchedConstituencySampleLimit": 30,
         "resultUrl": "/test/metadata/elections-test2/dail-eireann__1937-07-01.json",
         "anchorUrl": null,
         "previousKey": "dail-eireann__1933-01-24",
         "previousDate": "1933-01-24",
-        "stylingModes": []
+        "stylingModes": [],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/dail-eireann__1937-07-01.json"
       },
       "resultUrl": "/test/metadata/elections-test2/dail-eireann__1937-07-01.json"
     }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-06T18:51:03.527Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "dail-eireann__1961-10-04",
     "key": "dail-eireann__1961-10-04",
@@ -15,6 +15,12 @@
     "subtitle": "38 constituencies; 38 unmatched",
     "provider": "Dáil Éireann",
     "category": "Elections",
+    "contestType": "election",
+    "kind": "general",
+    "votingSystem": "stv-hare",
+    "contestStatus": "contested",
+    "candidateRowsExpected": true,
+    "transferDataExpected": true,
     "constituencies": [
       "Carlow Kilkenny",
       "Cavan",
@@ -73,7 +79,7 @@
     "partySummary": [
       {
         "party": "Fianna Fáil",
-        "seats": 1,
+        "seats": 49,
         "stood": 77,
         "votes": 367099,
         "share": 43.84753295740531,
@@ -81,7 +87,7 @@
       },
       {
         "party": "Fine Gael",
-        "seats": 0,
+        "seats": 34,
         "stood": 68,
         "votes": 272475,
         "share": 32.54532576381034,
@@ -89,7 +95,7 @@
       },
       {
         "party": "Irish Labour",
-        "seats": 0,
+        "seats": 12,
         "stood": 23,
         "votes": 102376,
         "share": 12.228132013563986,
@@ -97,11 +103,19 @@
       },
       {
         "party": "Independent",
-        "seats": 0,
+        "seats": 6,
         "stood": 23,
         "votes": 58439,
         "share": 6.9801497102901635,
         "colour": "#b8b8b8"
+      },
+      {
+        "party": "Clann na Talmhan",
+        "seats": 1,
+        "stood": 4,
+        "votes": 10790,
+        "share": 1.2887937058134271,
+        "colour": "#6b7280"
       },
       {
         "party": "Sinn Féin",
@@ -110,14 +124,6 @@
         "votes": 19752,
         "share": 2.359244974719816,
         "colour": "#326760"
-      },
-      {
-        "party": "Clann na Talmhan",
-        "seats": 0,
-        "stood": 4,
-        "votes": 10790,
-        "share": 1.2887937058134271,
-        "colour": "#6b7280"
       },
       {
         "party": "Clann na Poblachta",
@@ -129,7 +135,7 @@
       }
     ],
     "totals": {
-      "seats": 1,
+      "seats": 102,
       "validPoll": 837217,
       "constituencies": 38
     },
@@ -443,6 +449,12 @@
         "displayTitle": "1961 Irish general election",
         "displaySubtitle": "38 constituencies; 38 unmatched",
         "displayProvider": "Dáil Éireann",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-hare",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Carlow Kilkenny",
@@ -493,7 +505,7 @@
         "matchedCount": 0,
         "unmatchedCount": 38,
         "totalConstituencies": 38,
-        "unmatchedConstituencies": [
+        "unmatchedConstituencySample": [
           "Carlow Kilkenny",
           "Cavan",
           "Clare",
@@ -525,6 +537,7 @@
           "Mayo South",
           "Meath"
         ],
+        "unmatchedConstituencySampleLimit": 30,
         "resultUrl": "/test/metadata/elections-test2/dail-eireann__1961-10-04.json",
         "anchorUrl": null,
         "previousKey": "dail-eireann__1957-03-05",

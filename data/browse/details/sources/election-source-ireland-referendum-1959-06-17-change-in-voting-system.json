@@ -1,26 +1,42 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:ireland-referendum__1959-06-17-change-in-voting-system",
     "slug": "election-source-ireland-referendum-1959-06-17-change-in-voting-system",
     "type": "election-source",
-    "title": "Referendum (Ireland) 1959-06-17-change-in-voting-system",
+    "title": "1959 Irish referendum 1959-06-17-change-in-voting-system",
     "subtitle": "Referendum (Ireland) / 1 constituencies",
     "category": "Election sources",
     "date": "1959-06-17-change-in-voting-system",
     "provider": [
       "Referendum (Ireland)"
     ],
-    "description": "Generated election bundle for Referendum (Ireland).",
+    "description": "Generated election bundle for 1959 Irish referendum.",
     "sourceMapId": "roi-1938",
     "thumbnail": {
       "kind": "asset",
       "id": "roi-1938",
       "url": "/assets/thumbnails/roi-1938.webp",
       "smallUrl": "/assets/thumbnails/roi-1938-60.webp",
-      "alt": "Referendum (Ireland)"
+      "alt": "1959 Irish referendum"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1959 Irish referendum",
+        "url": "https://en.wikipedia.org/wiki/1959_Irish_referendum",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "Wikipedia referendum result pages",
+        "url": "https://en.wikipedia.org/wiki/1959_Irish_referendum",
+        "source": "Wikipedia",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      }
+    ],
     "downloads": [
       {
         "label": "ireland-referendum__1959-06-17-change-in-voting-system.json",
@@ -40,14 +56,19 @@
         "date": "1959-06-17-change-in-voting-system",
         "bodySlug": "ireland-referendum",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "1959 Irish referendum",
         "displaySubtitle": "1 constituencies",
         "displayProvider": "Referendum (Ireland)",
+        "contestType": "referendum",
+        "votingSystem": "ordinal",
+        "contestStatus": "contested",
+        "candidateRowsExpected": false,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "Ireland"
         ],
-        "isByElection": true,
+        "isByElection": false,
         "sourceMapId": "roi-1938",
         "layerId": "roi-1938-vector-test",
         "labelProperty": "Name",
@@ -56,6 +77,8 @@
         "matchedCount": 1,
         "unmatchedCount": 0,
         "totalConstituencies": 1,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/ireland-referendum__1959-06-17-change-in-voting-system.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/roi-1938-vector-test.json",
@@ -65,7 +88,8 @@
           "winner",
           "leadingParty",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-referendum__1959-06-17-change-in-voting-system.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-referendum__1959-06-17-change-in-voting-system.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/roi-1938-vector-test.json"

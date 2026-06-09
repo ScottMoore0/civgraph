@@ -1,26 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:ireland-referendum__1992-11-25-information",
     "slug": "election-source-ireland-referendum-1992-11-25-information",
     "type": "election-source",
-    "title": "Referendum (Ireland) 1992-11-25-information",
-    "subtitle": "Referendum (Ireland) / 41 constituencies; 3 unmatched",
+    "title": "1992 Irish referendum 1992-11-25-information",
+    "subtitle": "Referendum (Ireland) / 41 constituencies; 2 unmatched",
     "category": "Election sources",
     "date": "1992-11-25-information",
     "provider": [
       "Referendum (Ireland)"
     ],
-    "description": "Generated election bundle for Referendum (Ireland).",
+    "description": "Generated election bundle for 1992 Irish referendum.",
     "sourceMapId": "dail-1998",
     "thumbnail": {
       "kind": "asset",
       "id": "dail-1998",
       "url": "/assets/thumbnails/dail-1998.webp",
       "smallUrl": "/assets/thumbnails/dail-1998-60.webp",
-      "alt": "Referendum (Ireland)"
+      "alt": "1992 Irish referendum"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1992 Irish referendum",
+        "url": "https://en.wikipedia.org/wiki/Fourteenth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "Wikipedia referendum result pages",
+        "url": "https://en.wikipedia.org/wiki/Fourteenth_Amendment_of_the_Constitution_of_Ireland",
+        "source": "Wikipedia",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "Wikipedia result source",
+        "url": "https://en.wikipedia.org/wiki/Fourteenth_Amendment_of_the_Constitution_of_Ireland",
+        "note": "Source URL carried by the underlying election result data.",
+        "source": "Wikipedia",
+        "role": "primary-result-source",
+        "scope": "election-result"
+      }
+    ],
     "downloads": [
       {
         "label": "ireland-referendum__1992-11-25-information.json",
@@ -40,9 +64,14 @@
         "date": "1992-11-25-information",
         "bodySlug": "ireland-referendum",
         "bodyGroup": null,
-        "displayTitle": null,
-        "displaySubtitle": "41 constituencies; 3 unmatched",
+        "displayTitle": "1992 Irish referendum",
+        "displaySubtitle": "41 constituencies; 2 unmatched",
         "displayProvider": "Referendum (Ireland)",
+        "contestType": "referendum",
+        "votingSystem": "ordinal",
+        "contestStatus": "contested",
+        "candidateRowsExpected": false,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "Carlow–Kilkenny",
@@ -93,11 +122,15 @@
         "labelProperty": "CON_NAME",
         "loadable": true,
         "placeholder": false,
-        "matchedCount": 38,
-        "unmatchedCount": 3,
+        "matchedCount": 39,
+        "unmatchedCount": 2,
         "totalConstituencies": 41,
+        "unmatchedConstituencySample": [
+          "Mayo East",
+          "Mayo West"
+        ],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [
-          "Kildare",
           "Mayo East",
           "Mayo West"
         ],
@@ -112,7 +145,8 @@
           "turnout",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/ireland-referendum__1992-11-25-information.json"
       },
       "resultUrl": "/test/metadata/elections-test2/ireland-referendum__1992-11-25-information.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/dail-1998-vector-test.json"

@@ -1,26 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:local-government-mid-and-east-antrim__2018-10-18",
     "slug": "election-source-local-government-mid-and-east-antrim-2018-10-18",
     "type": "election-source",
-    "title": "Mid and East Antrim 2018-10-18",
+    "title": "2018 Carrick Castle by-election 2018-10-18",
     "subtitle": "Mid and East Antrim / Mid and East Antrim",
     "category": "Election sources",
     "date": "2018-10-18",
     "provider": [
       "Local government: Mid and East Antrim"
     ],
-    "description": "Generated election bundle for Mid and East Antrim.",
+    "description": "Generated election bundle for 2018 Carrick Castle by-election.",
     "sourceMapId": "deas-2012",
     "thumbnail": {
       "kind": "asset",
       "id": "deas-2012",
       "url": "/assets/thumbnails/deas-2012.webp",
       "smallUrl": "/assets/thumbnails/deas-2012-60.webp",
-      "alt": "Mid and East Antrim"
+      "alt": "2018 Carrick Castle by-election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2018 Carrick Castle by-election",
+        "url": "https://en.wikipedia.org/wiki/2018_Irish_local_elections",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ARK Elections / CAIN archive",
+        "url": "https://www.ark.ac.uk/elections/",
+        "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+        "source": "ARK Elections / CAIN",
+        "role": "corroboration-source",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "Electoral Office for Northern Ireland election results and statistics",
+        "url": "https://www.eoni.org.uk/Elections/Election-results-and-statistics",
+        "source": "EONI",
+        "role": "official-source-corpus",
+        "scope": "election-corpus"
+      }
+    ],
     "downloads": [
       {
         "label": "local-government-mid-and-east-antrim__2018-10-18.json",
@@ -40,9 +64,15 @@
         "date": "2018-10-18",
         "bodySlug": "local-government",
         "bodyGroup": "local-government",
-        "displayTitle": null,
+        "displayTitle": "2018 Carrick Castle by-election",
         "displaySubtitle": "Mid and East Antrim",
         "displayProvider": "Local government: Mid and East Antrim",
+        "contestType": "election",
+        "kind": "by-election",
+        "votingSystem": "stv-gregory",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": [
           "Mid and East Antrim"
         ],
@@ -58,6 +88,8 @@
         "matchedCount": 1,
         "unmatchedCount": 0,
         "totalConstituencies": 1,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/local-government-mid-and-east-antrim__2018-10-18.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/deas-2012-vector-test.json",
@@ -71,7 +103,8 @@
           "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/local-government-mid-and-east-antrim__2018-10-18.json"
       },
       "resultUrl": "/test/metadata/elections-test2/local-government-mid-and-east-antrim__2018-10-18.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/deas-2012-vector-test.json"

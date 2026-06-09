@@ -1,26 +1,43 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:house-of-commons-of-the-united-kingdom__1923-12-06",
     "slug": "election-source-house-of-commons-of-the-united-kingdom-1923-12-06",
     "type": "election-source",
-    "title": "House of Commons of the United Kingdom 1923-12-06",
-    "subtitle": "House of Commons of the United Kingdom / 10 constituencies; 1 unmatched",
+    "title": "1923 general election in Northern Ireland 1923-12-06",
+    "subtitle": "House of Commons of the United Kingdom / 10 constituencies",
     "category": "Election sources",
     "date": "1923-12-06",
     "provider": [
       "House of Commons of the United Kingdom"
     ],
-    "description": "Generated election bundle for House of Commons of the United Kingdom.",
+    "description": "Generated election bundle for 1923 general election in Northern Ireland.",
     "sourceMapId": "pc-1920",
     "thumbnail": {
       "kind": "asset",
       "id": "pc-1920",
       "url": "/assets/thumbnails/pc-1920.webp",
       "smallUrl": "/assets/thumbnails/pc-1920-60.webp",
-      "alt": "House of Commons of the United Kingdom"
+      "alt": "1923 general election in Northern Ireland"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1923 general election in Northern Ireland",
+        "url": "https://en.wikipedia.org/wiki/1923_United_Kingdom_general_election_in_Northern_Ireland",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ARK Elections / CAIN archive",
+        "url": "https://www.ark.ac.uk/elections/",
+        "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+        "source": "ARK Elections / CAIN",
+        "role": "corroboration-source",
+        "scope": "election-corpus"
+      }
+    ],
     "downloads": [
       {
         "label": "house-of-commons-of-the-united-kingdom__1923-12-06.json",
@@ -40,9 +57,15 @@
         "date": "1923-12-06",
         "bodySlug": "house-of-commons-of-the-united-kingdom",
         "bodyGroup": null,
-        "displayTitle": null,
-        "displaySubtitle": "10 constituencies; 1 unmatched",
+        "displayTitle": "1923 general election in Northern Ireland",
+        "displaySubtitle": "10 constituencies",
         "displayProvider": "House of Commons of the United Kingdom",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "fptp",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": false,
         "localBodies": null,
         "constituencies": [
           "Antrim",
@@ -62,12 +85,12 @@
         "labelProperty": "Name",
         "loadable": true,
         "placeholder": false,
-        "matchedCount": 9,
-        "unmatchedCount": 1,
+        "matchedCount": 10,
+        "unmatchedCount": 0,
         "totalConstituencies": 10,
-        "unmatchedConstituencies": [
-          "Queen's University of Belfast"
-        ],
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
+        "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1923-12-06.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
         "previousKey": "house-of-commons-of-the-united-kingdom__1922-11-15",
@@ -78,7 +101,8 @@
           "voteShare",
           "majority",
           "seats"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__1923-12-06.json"
       },
       "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1923-12-06.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"

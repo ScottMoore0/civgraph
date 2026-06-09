@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-06-08T23:09:53.967Z
+Generated: 2026-06-09T16:56:12.234Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -20,10 +20,13 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |candidate rows audited|29610|
 |rows with count detail|4632|
 |rows with animation payload|4632|
-|rows expected to have transfer/count data|2384|
-|expected transfer/count rows missing detail|38|
+|rows expected to have transfer/count data|2346|
+|expected transfer/count rows missing detail|29|
+|valid-poll review sidecar records|24|
+|candidate-row review sidecar records|29|
+|party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|113|
+|warnings|55|
 
 ## Blocking Structural Issues
 
@@ -33,100 +36,73 @@ _None._
 
 |severity|category|key|message|
 |---|---|---|---|
-|warning|source-record-missing|local-government-local-government-districts__2023-05-18|No election source detail record found at data/browse/details/sources/election-source-local-government-2023-05-18.json.|
-|warning|first-pref-sum|local-government-local-government-districts__2023-05-18|Ballyarnett first-preference sum 9740 exceeds valid poll -179.|
-|warning|first-pref-sum|local-government-local-government-districts__2023-05-18|Magherafelt first-preference sum 8257 exceeds valid poll -49.|
-|warning|source-record-single-reference|european-parliament__2019-05-23|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-missing|local-government-local-government-districts__2019-05-02|No election source detail record found at data/browse/details/sources/election-source-local-government-2019-05-02.json.|
-|warning|source-record-missing|local-government-mid-and-east-antrim__2018-10-18|No election source detail record found at data/browse/details/sources/election-source-local-government-2018-10-18.json.|
-|warning|candidate-list-missing|house-of-commons-of-the-united-kingdom__2018-08-29|No candidates found for North Antrim.|
-|warning|source-record-single-reference|european-parliament__2014-05-22|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-missing|local-government-local-government-districts__2014-05-22|No election source detail record found at data/browse/details/sources/election-source-local-government-2014-05-22.json.|
-|warning|source-record-missing|local-government-local-government-districts__2011-05-05|No election source detail record found at data/browse/details/sources/election-source-local-government-2011-05-05.json.|
-|warning|first-pref-sum|local-government-local-government-districts__2011-05-05|Downshire first-preference sum 7919 exceeds valid poll 5367.|
-|warning|source-record-single-reference|european-parliament__2009-06-04|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-missing|local-government-local-government-districts__2005-05-05|No election source detail record found at data/browse/details/sources/election-source-local-government-2005-05-05.json.|
-|warning|candidate-list-missing|local-government-local-government-districts__2005-05-05|No candidates found for Giant's Causeway.|
-|warning|candidate-list-missing|local-government-local-government-districts__2005-05-05|No candidates found for lg05-NoD-Ballyholme-&-Groomsport.|
-|warning|source-record-single-reference|european-parliament__2004-06-10|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-missing|local-government-local-government-districts__2001-06-07|No election source detail record found at data/browse/details/sources/election-source-local-government-2001-06-07.json.|
-|warning|candidate-list-missing|local-government-local-government-districts__2001-06-07|No candidates found for Giant's Causeway.|
-|warning|candidate-list-missing|local-government-local-government-districts__2001-06-07|No candidates found for lg01-NoD-Ballyholme-&-Groomsport.|
-|warning|source-record-single-reference|european-parliament__1999-06-10|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-missing|local-government-local-government-districts__1997-05-21|No election source detail record found at data/browse/details/sources/election-source-local-government-1997-05-21.json.|
-|warning|first-pref-sum|local-government-local-government-districts__1997-05-21|Ballymena South first-preference sum 5506 exceeds valid poll 5.51.|
-|warning|first-pref-sum|local-government-local-government-districts__1997-05-21|Bann Valley first-preference sum 3975 exceeds valid poll 80.|
-|warning|first-pref-sum|local-government-local-government-districts__1997-05-21|Bannside first-preference sum 5920 exceeds valid poll 5.92.|
-|warning|first-pref-sum|local-government-local-government-districts__1997-05-21|Braid first-preference sum 5324 exceeds valid poll 5.32.|
-|warning|candidate-list-missing|local-government-local-government-districts__1997-05-21|No candidates found for Giant's Causeway.|
-|warning|source-record-single-reference|european-parliament__1994-06-09|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-missing|local-government-local-government-districts__1993-05-19|No election source detail record found at data/browse/details/sources/election-source-local-government-1993-05-19.json.|
-|warning|first-pref-sum|local-government-local-government-districts__1993-05-19|Castlereagh West first-preference sum 4535 exceeds valid poll 4.54.|
-|warning|candidate-list-missing|local-government-local-government-districts__1993-05-19|No candidates found for Giant's Causeway.|
-|warning|candidate-list-missing|local-government-local-government-districts__1993-05-19|No candidates found for lg93-NoD-Ballyholme-&-Groomsport.|
-|warning|first-pref-sum|local-government-local-government-districts__1993-05-19|Lower Falls first-preference sum 13003 exceeds valid poll 13.|
-|warning|first-pref-sum|local-government-local-government-districts__1993-05-19|Lower Falls first-preference sum 13003 exceeds valid poll 13.|
-|warning|first-pref-sum|local-government-local-government-districts__1993-05-19|Victoria first-preference sum 13527 exceeds valid poll 13.53.|
-|warning|source-record-single-reference|european-parliament__1989-06-15|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-missing|local-government-local-government-districts__1989-05-17|No election source detail record found at data/browse/details/sources/election-source-local-government-1989-05-17.json.|
-|warning|first-pref-sum|local-government-local-government-districts__1989-05-17|Bushvale first-preference sum 2715 exceeds valid poll 2.71.|
-|warning|candidate-list-missing|local-government-local-government-districts__1989-05-17|No candidates found for Giant's Causeway.|
-|warning|first-pref-sum|local-government-local-government-districts__1989-05-17|Kells Water first-preference sum 4537 exceeds valid poll 4.54.|
-|warning|first-pref-sum|local-government-local-government-districts__1989-05-17|Upper Falls first-preference sum 12409 exceeds valid poll 12.41.|
-|warning|first-pref-sum|local-government-local-government-districts__1989-05-17|Upper Falls first-preference sum 12409 exceeds valid poll 12.41.|
-|warning|source-record-missing|local-government-local-government-districts__1985-05-15|No election source detail record found at data/browse/details/sources/election-source-local-government-1985-05-15.json.|
-|warning|first-pref-sum|local-government-local-government-districts__1985-05-15|Dungannon Town first-preference sum 6044 exceeds valid poll 6.04.|
-|warning|first-pref-sum|local-government-local-government-districts__1985-05-15|Erne North first-preference sum 6349 exceeds valid poll 67.|
-|warning|candidate-list-missing|local-government-local-government-districts__1985-05-15|No candidates found for Giant's Causeway.|
-|warning|source-record-single-reference|european-parliament__1984-06-14|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-missing|local-government-local-government-districts__1981-05-20|No election source detail record found at data/browse/details/sources/election-source-local-government-1981-05-20.json.|
-|warning|candidate-list-missing|local-government-local-government-districts__1981-05-20|No candidates found for Area-F.|
-|warning|candidate-list-missing|local-government-local-government-districts__1981-05-20|No candidates found for Area-G.|
-|warning|candidate-list-missing|local-government-local-government-districts__1981-05-20|No candidates found for Area-H-corrected.|
-|warning|first-pref-sum|local-government-local-government-districts__1981-05-20|Armagh Area B first-preference sum 8620 exceeds valid poll 5620.|
-|warning|first-pref-sum|local-government-local-government-districts__1981-05-20|Banbridge Area A first-preference sum 7876 exceeds valid poll 7576.|
-|warning|first-pref-sum|local-government-local-government-districts__1981-05-20|Craigavon Area B first-preference sum 8118 exceeds valid poll 5115.|
-|warning|first-pref-sum|local-government-local-government-districts__1981-05-20|Fermanagh Area B first-preference sum 5665 exceeds valid poll 109.|
-|warning|source-record-single-reference|european-parliament__1979-06-07|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-missing|local-government-local-government-districts__1977-05-18|No election source detail record found at data/browse/details/sources/election-source-local-government-1977-05-18.json.|
-|warning|candidate-list-missing|local-government-local-government-districts__1977-05-18|No candidates found for Area-A-corrected.|
-|warning|candidate-list-missing|local-government-local-government-districts__1977-05-18|No candidates found for Area-F.|
-|warning|candidate-list-missing|local-government-local-government-districts__1977-05-18|No candidates found for Area-G.|
-|warning|candidate-list-missing|local-government-local-government-districts__1977-05-18|No candidates found for Area-H.|
-|warning|first-pref-sum|northern-ireland-constitutional-convention__1975-05-01|Armagh first-preference sum 59388 exceeds valid poll 28136.|
-|warning|source-record-missing|local-government-local-government-districts__1973-05-30|No election source detail record found at data/browse/details/sources/election-source-local-government-1973-05-30.json.|
-|warning|candidate-list-missing|local-government-local-government-districts__1973-05-30|No candidates found for Area-F.|
-|warning|candidate-list-missing|local-government-local-government-districts__1973-05-30|No candidates found for Area-G.|
-|warning|candidate-list-missing|local-government-local-government-districts__1973-05-30|No candidates found for Area-H.|
-|warning|first-pref-sum|local-government-local-government-districts__1973-05-30|Armagh Area C first-preference sum 5439 exceeds valid poll 166.|
-|warning|first-pref-sum|local-government-local-government-districts__1973-05-30|Belfast Area B first-preference sum 26403 exceeds valid poll 24814.|
-|warning|first-pref-sum|local-government-local-government-districts__1973-05-30|Carrickfergus Area C first-preference sum 4156 exceeds valid poll 1456.|
-|warning|first-pref-sum|local-government-local-government-districts__1973-05-30|Derry Area A first-preference sum 8262 exceeds valid poll 862.|
-|warning|unmatched-list-count|dail-eireann__1969-06-18|unmatchedConstituencies length is 30, unmatchedCount is 42.|
-|warning|unmatched-list-count|dail-eireann__1965-04-07|unmatchedConstituencies length is 30, unmatchedCount is 38.|
-|warning|unmatched-list-count|dail-eireann__1961-10-04|unmatchedConstituencies length is 30, unmatchedCount is 38.|
-|warning|unmatched-list-count|dail-eireann__1957-03-05|unmatchedConstituencies length is 30, unmatchedCount is 40.|
-|warning|candidate-list-missing|dail-eireann__1957-03-05|No candidates found for Kerry South.|
-|warning|unmatched-list-count|dail-eireann__1954-05-18|unmatchedConstituencies length is 30, unmatchedCount is 40.|
-|warning|unmatched-list-count|dail-eireann__1951-05-30|unmatchedConstituencies length is 30, unmatchedCount is 40.|
-|warning|unmatched-list-count|dail-eireann__1948-02-04|unmatchedConstituencies length is 30, unmatchedCount is 40.|
-|warning|first-pref-sum|house-of-commons-of-the-united-kingdom__1945-07-05|Antrim first-preference sum 132894 exceeds valid poll 66447.|
-|warning|first-pref-sum|house-of-commons-of-the-united-kingdom__1945-07-05|Down first-preference sum 115773 exceeds valid poll 57887.|
-|warning|first-pref-sum|house-of-commons-of-the-united-kingdom__1945-07-05|Fermanagh and Tyrone first-preference sum 203169 exceeds valid poll 101585.|
-
-_33 more not shown; see JSON report._
+|warning|valid-poll-review|local-government-local-government-districts__2023-05-18|Ballyarnett valid poll -179 is recorded as invalid; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__2023-05-18|Magherafelt valid poll -49 is recorded as invalid; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__2011-05-05|Downshire first-preference sum 7919 exceeds valid poll ceiling 5367; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__2005-05-05|No candidates found for Giant's Causeway; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__2005-05-05|No candidates found for lg05-NoD-Ballyholme-&-Groomsport; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__2001-06-07|No candidates found for Giant's Causeway; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__2001-06-07|No candidates found for lg01-NoD-Ballyholme-&-Groomsport; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1997-05-21|Ballymena South first-preference sum 5506 exceeds valid poll ceiling 5.51; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1997-05-21|Bann Valley first-preference sum 3975 exceeds valid poll ceiling 80; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1997-05-21|Bannside first-preference sum 5920 exceeds valid poll ceiling 5.92; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1997-05-21|Braid first-preference sum 5324 exceeds valid poll ceiling 5.32; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__1997-05-21|No candidates found for Giant's Causeway; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1993-05-19|Castlereagh West first-preference sum 4535 exceeds valid poll ceiling 4.54; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__1993-05-19|No candidates found for Giant's Causeway; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__1993-05-19|No candidates found for lg93-NoD-Ballyholme-&-Groomsport; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1993-05-19|Lower Falls first-preference sum 13003 exceeds valid poll ceiling 13; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1993-05-19|Lower Falls first-preference sum 13003 exceeds valid poll ceiling 13; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1993-05-19|Victoria first-preference sum 13527 exceeds valid poll ceiling 13.53; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1989-05-17|Bushvale first-preference sum 2715 exceeds valid poll ceiling 2.71; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__1989-05-17|No candidates found for Giant's Causeway; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1989-05-17|Kells Water first-preference sum 4537 exceeds valid poll ceiling 4.54; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1989-05-17|Upper Falls first-preference sum 12409 exceeds valid poll ceiling 12.41; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1989-05-17|Upper Falls first-preference sum 12409 exceeds valid poll ceiling 12.41; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1985-05-15|Dungannon Town first-preference sum 6044 exceeds valid poll ceiling 6.04; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1985-05-15|Erne North first-preference sum 6349 exceeds valid poll ceiling 67; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__1985-05-15|No candidates found for Giant's Causeway; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__1981-05-20|No candidates found for Area-F; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__1981-05-20|No candidates found for Area-G; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__1981-05-20|No candidates found for Area-H-corrected; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1981-05-20|Armagh Area B first-preference sum 8620 exceeds valid poll ceiling 5620; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1981-05-20|Banbridge Area A first-preference sum 7876 exceeds valid poll ceiling 7576; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1981-05-20|Craigavon Area B first-preference sum 8118 exceeds valid poll ceiling 5115; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1981-05-20|Fermanagh Area B first-preference sum 5665 exceeds valid poll ceiling 109; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__1977-05-18|No candidates found for Area-A-corrected; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__1977-05-18|No candidates found for Area-F; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__1977-05-18|No candidates found for Area-G; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__1977-05-18|No candidates found for Area-H; review record status is source-review-required.|
+|warning|valid-poll-review|northern-ireland-constitutional-convention__1975-05-01|Armagh first-preference sum 59388 exceeds valid poll ceiling 28136; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__1973-05-30|No candidates found for Area-F; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__1973-05-30|No candidates found for Area-G; review record status is source-review-required.|
+|warning|candidate-list-review|local-government-local-government-districts__1973-05-30|No candidates found for Area-H; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1973-05-30|Armagh Area C first-preference sum 5439 exceeds valid poll ceiling 166; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1973-05-30|Belfast Area B first-preference sum 26403 exceeds valid poll ceiling 24814; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1973-05-30|Carrickfergus Area C first-preference sum 4156 exceeds valid poll ceiling 1456; review record status is source-review-required.|
+|warning|valid-poll-review|local-government-local-government-districts__1973-05-30|Derry Area A first-preference sum 8262 exceeds valid poll ceiling 862; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1957-03-05|No candidates found for Kerry South; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1938-06-17|No candidates found for Kerry South; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1922-06-16|No candidates found for Cork East & North East; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1922-06-16|No candidates found for Cork Mid, North, South, South East & West; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1922-06-16|No candidates found for Mayo North & West; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1922-06-16|No candidates found for Tipperary Mid, North & South; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1921-05-24|No candidates found for Cork East & North East; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1921-05-24|No candidates found for Cork Mid, North, South, South East & West; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1921-05-24|No candidates found for Galway; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1918-12-14|No candidates found for Dublin University(Trinity College); review record status is source-review-required.|
 
 ## Source And Reference Coverage
 
 |metric|value|
 |---|---:|
-|parent source records missing|14|
+|parent source records missing|0|
 |source records with no references|0|
-|source records with one reference|9|
-|source records with multiple references|245|
+|source records with one reference|0|
+|source records with multiple references|268|
 |Browse sub-entries with no references|0|
-|Browse sub-entries with one reference|18|
-|Browse sub-entries with multiple references|4934|
+|Browse sub-entries with one reference|0|
+|Browse sub-entries with multiple references|4952|
 
 ## Party Colour Audit
 
@@ -134,6 +110,8 @@ _33 more not shown; see JSON report._
 |---|---:|
 |saved Wikipedia colour audit present|yes|
 |high-confidence mismatch file present|yes|
+|review override file present|yes|
+|sampled mismatches already reviewed|10|
 |unique colour observations|1032|
 |colour matches|73|
 |colour mismatches|135|
@@ -144,28 +122,28 @@ _33 more not shown; see JSON report._
 
 ### High-Confidence Colour Examples
 
-|party/label|election colour|Wikipedia match|Wikipedia colour|observations|
-|---|---|---|---|---:|
-||#C0C0C0|100% Redress|#F90606|1|
-||#C0C0C0|Rabharta|#488A89|4|
-||#E3170D|Anti-Austerity Alliance|#FFFF00|46|
-||#C0C0C0|Sinn Féin (Anti-Treaty)|#326760|57|
-||#C62828|Aontú|#44532A|126|
-||#C0C0C0|Clann na Poblachta|#BBE549|111|
-||#C0C0C0|Clann na Talmhan|#BDB76B|50|
-||#FF6666|Commonwealth Labour Party|#B22222|6|
-||#FF3300|Communist Party of Ireland|#E3170D|6|
-||#E3170D|Communist Party of Ireland (Marxist–Leninist)|#660000|3|
-||#0E7C42|Conservative and Unionist Party (UK)|#0087DC|61|
-||#1F4E8C|Conservative and Unionist Party (UK)|#0087DC|11|
-||#888888|Conservative and Unionist Party (UK)|#0087DC|13|
-||#9E9E9E|Conservative and Unionist Party (UK)|#0087DC|254|
-||#C0C0C0|Cumann na nGaedheal|#87CEFA|360|
-||#000000|Democracy First|#FF8C00|2|
-||#DC241F|Democratic Left (Ireland)|#C700C7|21|
-||#FF9800|Democratic Partnership|#F0E68C|10|
-||#FFFF00|Direct Democracy Ireland|#87CEFA|41|
-||#C0C0C0|Éirígí|#00A550|6|
+|party/label|election colour|Wikipedia match|Wikipedia colour|observations|review|
+|---|---|---|---|---:|---|
+|100% Redress|#C0C0C0|100% Redress|#F90606|1|needs-canonical-colour-decision|
+|An Rabharta Glas – Green Left|#C0C0C0|Rabharta|#488A89|4|needs-canonical-colour-decision|
+|Anti-Austerity Alliance|#E3170D|Anti-Austerity Alliance|#FFFF00|46|needs-canonical-colour-decision|
+|Anti-Treaty Sinn Féin|#C0C0C0|Sinn Féin (Anti-Treaty)|#326760|57|needs-canonical-colour-decision|
+|Aontú|#C62828|Aontú|#44532A|126|needs-canonical-colour-decision|
+|Clann na Poblachta|#C0C0C0|Clann na Poblachta|#BBE549|111|needs-canonical-colour-decision|
+|Clann na Talmhan|#C0C0C0|Clann na Talmhan|#BDB76B|50|needs-canonical-colour-decision|
+|Commonwealth Labour Party|#FF6666|Commonwealth Labour Party|#B22222|6|needs-canonical-colour-decision|
+|Communist Party of Ireland|#FF3300|Communist Party of Ireland|#E3170D|6|needs-canonical-colour-decision|
+|Communist Party of Ireland (Marxist-Leninist)|#E3170D|Communist Party of Ireland (Marxist–Leninist)|#660000|3|needs-canonical-colour-decision|
+|Conservative|#0E7C42|Conservative and Unionist Party (UK)|#0087DC|61||
+|Conservative|#1F4E8C|Conservative and Unionist Party (UK)|#0087DC|11||
+|Conservative|#888888|Conservative and Unionist Party (UK)|#0087DC|13||
+|Conservative|#9E9E9E|Conservative and Unionist Party (UK)|#0087DC|254||
+|Cumann na nGaedheal|#C0C0C0|Cumann na nGaedheal|#87CEFA|360||
+|Democracy First|#000000|Democracy First|#FF8C00|2||
+|Democratic Left|#DC241F|Democratic Left (Ireland)|#C700C7|21||
+|Democratic Partnership|#FF9800|Democratic Partnership|#F0E68C|10||
+|Direct Democracy Ireland|#FFFF00|Direct Democracy Ireland|#87CEFA|41||
+|Éirígí|#C0C0C0|Éirígí|#00A550|6||
 
 ## Next Fix Queue
 

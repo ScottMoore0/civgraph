@@ -226,6 +226,13 @@ async function main() {
       displayTitle: bundle.displayTitle,
       displaySubtitle: bundle.displaySubtitle,
       displayProvider: bundle.displayProvider,
+      contestType: bundle.contestType,
+      kind: bundle.kind,
+      votingSystem: bundle.votingSystem,
+      contestStatus: bundle.contestStatus,
+      candidateRowsExpected: bundle.candidateRowsExpected,
+      transferDataExpected: bundle.transferDataExpected,
+      votesPerElector: bundle.votesPerElector,
       localBodies: bundle.localBodies,
       constituencies: bundle.constituencies,
       isByElection: bundle.isByElection,
@@ -237,7 +244,9 @@ async function main() {
       matchedCount: bundle.matchedCount,
       unmatchedCount: bundle.unmatchedCount,
       totalConstituencies: bundle.totalConstituencies,
-      unmatchedConstituencies: bundle.unmatchedConstituencies.slice(0, 30),
+      unmatchedConstituencySample: bundle.unmatchedConstituencies.slice(0, 30),
+      unmatchedConstituencySampleLimit: 30,
+      unmatchedConstituencies: bundle.unmatchedConstituencies.length <= 30 ? bundle.unmatchedConstituencies : undefined,
       resultUrl: `/test/metadata/elections-test2/${bundle.key}.json`,
       anchorUrl: bundle.anchorUrl,
       previousKey: bundle.previousKey,
@@ -489,8 +498,106 @@ function looksLikeRoiLocalAuthorityResults(entry) {
   return localAuthorityLikeCount >= 10 && localAuthorityLikeCount / Math.max(constituencies.length, 1) >= 0.5;
 }
 
+function classifyElection(entry) {
+  const contestType = contestTypeForElection(entry);
+  const votingSystem = votingSystemForElection(entry);
+  const kind = contestType === 'election' ? (isElectionByElectionScope({ ...entry, specialType: contestType }) ? 'by-election' : 'general') : null;
+  const candidateRowsExpected = contestType === 'election';
+  const transferDataExpected = transferDataExpectedForElection(entry, { votingSystem, contestType, contestStatus: 'contested' });
+  const votesPerElector = votingSystem === 'block-vote' ? 2 : null;
+  return compactObject({
+    contestType,
+    kind,
+    votingSystem,
+    contestStatus: 'contested',
+    candidateRowsExpected,
+    transferDataExpected,
+    votesPerElector
+  });
+}
+
+function classifyElectionResult(entry, result, parentMetadata = classifyElection(entry)) {
+  const contestType = parentMetadata.contestType || contestTypeForElection(entry);
+  const votingSystem = votingSystemForElection(entry, result) || parentMetadata.votingSystem;
+  const contestStatus = contestStatusForResult(result);
+  const candidateRowsExpected = contestType === 'election' && contestStatus !== 'uncontested';
+  const transferDataExpected = transferDataExpectedForElection(entry, {
+    result,
+    votingSystem,
+    contestType,
+    contestStatus
+  });
+  const votesPerElector = votingSystem === 'block-vote'
+    ? Math.max(2, parseNumber(result?.seatsTotal) || parseNumber(result?.seatsWon) || 2)
+    : null;
+  return compactObject({
+    contestType,
+    kind: parentMetadata.kind,
+    votingSystem,
+    contestStatus,
+    candidateRowsExpected,
+    transferDataExpected,
+    votesPerElector
+  });
+}
+
+function contestTypeForElection(entry) {
+  const bodySlug = String(entry?.bodySlug || '');
+  const text = normalizeName(`${entry?.body || ''} ${entry?.displayTitle || canonicalElectionTitle(entry || {}) || ''} ${entry?.date || ''}`);
+  if (bodySlug === 'ireland-referendum' || /\breferendum\b/.test(text)) return 'referendum';
+  if (/\brecall petition\b/.test(text)) return 'recall-petition';
+  if (bodySlug === 'house-of-commons-of-the-united-kingdom' && String(entry?.date || '').slice(0, 10) === '2018-08-29') return 'recall-petition';
+  return 'election';
+}
+
+function votingSystemForElection(entry, result = null) {
+  const contestType = contestTypeForElection(entry);
+  if (contestType === 'referendum' || contestType === 'recall-petition') return 'ordinal';
+  const bodySlug = String(entry?.bodySlug || '');
+  const year = Number(String(entry?.date || '').slice(0, 4));
+  const resultName = normalizeName(result?.constituency || result?.featureName || result?.matchName || '');
+  if (bodySlug === 'dail-eireann') return 'stv-hare';
+  if (bodySlug === 'president-of-ireland' || bodySlug === 'ireland-president') return 'stv-hare';
+  if (bodySlug === 'ireland-local') return 'stv-hare';
+  if (bodySlug === 'ireland-european') return 'stv-hare';
+  if (bodySlug === 'european-parliament') return 'stv-gregory';
+  if (bodySlug === 'local-government') return 'stv-gregory';
+  if (bodySlug === 'northern-ireland-assembly') return 'stv-gregory';
+  if (bodySlug === 'northern-ireland-constitutional-convention') return 'stv-gregory';
+  if (bodySlug === 'northern-ireland-forum-for-political-dialogue') {
+    return resultName === 'northern ireland' ? 'ordinal' : 'party-list-dhondt';
+  }
+  if (bodySlug === 'parliament-of-northern-ireland') return year > 0 && year < 1929 ? 'stv-gregory' : 'fptp';
+  if (bodySlug === 'house-of-commons-of-the-united-kingdom') {
+    const seats = parseNumber(result?.seatsTotal) || parseNumber(result?.seatsWon);
+    return seats && seats > 1 ? 'block-vote' : 'fptp';
+  }
+  return 'fptp';
+}
+
+function contestStatusForResult(result) {
+  const candidates = Array.isArray(result?.candidates) ? result.candidates : [];
+  if (!candidates.length) return 'contested';
+  const elected = candidates.filter((candidate) => candidate?.elected).length;
+  const seatsTotal = parseNumber(result?.seatsTotal) || parseNumber(result?.seatsWon);
+  const hasAnyVotes = candidates.some((candidate) => parseNumber(candidate?.firstPrefs) > 0);
+  if (seatsTotal && elected >= seatsTotal && candidates.length <= seatsTotal && !hasAnyVotes) return 'uncontested';
+  return 'contested';
+}
+
+function transferDataExpectedForElection(entry, { result = null, votingSystem = null, contestType = null, contestStatus = 'contested' } = {}) {
+  const type = contestType || contestTypeForElection(entry);
+  if (type !== 'election' || contestStatus === 'uncontested') return false;
+  const system = votingSystem || votingSystemForElection(entry, result);
+  if (!['stv-hare', 'stv-gregory'].includes(system)) return false;
+  const seats = parseNumber(result?.seatsTotal) || parseNumber(result?.seatsWon);
+  if (seats !== null && seats <= 1) return false;
+  return true;
+}
+
 async function buildElectionBundle(entry, geography, layer, featureIndex, previousKey = null) {
   const key = electionKey(entry);
+  const electionMetadata = classifyElection(entry);
   const featureLookup = buildFeatureLookup(featureIndex, geography?.sourceMapId);
   const dateDir = path.join(ELECTION_ROOT, entry.bodySlug, entry.date);
   const dirExists = existsSync(dateDir);
@@ -507,6 +614,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     const enrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, rawResult, constituency);
     if (rawResult) rawEntries.push({ constituency, raw: rawResult });
     const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
+    const resultMetadata = classifyElectionResult(entry, result, electionMetadata);
     const matchEntry = matchEntryForConstituency(entry, result.constituency || constituency);
     const matchSet = matchFeaturesForResult(featureLookup, entry, geography, result, matchEntry, singleFeature);
     const match = matchSet[0] || null;
@@ -520,6 +628,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     const featureMatchFields = buildFeatureMatchFields(featureMatches, match, syntheticRegion);
     results.push({
       ...result,
+      ...resultMetadata,
       localBody: entry.bodyGroup === 'local-government' ? matchEntry.body : null,
       sourceFile: resultPath ? slash(path.relative(ROOT, resultPath)) : null,
       featureId: match?.id ?? syntheticRegion?.id ?? null,
@@ -542,6 +651,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       const enrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, rawResult, constituency);
       rawEntries.push({ constituency, raw: rawResult });
       const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
+      const resultMetadata = classifyElectionResult(entry, result, electionMetadata);
       const matchEntry = matchEntryForConstituency(entry, result.constituency);
       const matchSet = matchFeaturesForResult(featureLookup, entry, geography, result, matchEntry, singleFeature);
       const match = matchSet[0] || null;
@@ -555,6 +665,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       const featureMatchFields = buildFeatureMatchFields(featureMatches, match, syntheticRegion);
       results.push({
         ...result,
+        ...resultMetadata,
         localBody: entry.bodyGroup === 'local-government' ? matchEntry.body : null,
         sourceFile: slash(path.relative(ROOT, resultPath)),
         featureId: match?.id ?? syntheticRegion?.id ?? null,
@@ -588,6 +699,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     bodySlug: entry.bodySlug,
     bodyGroup: entry.bodyGroup,
     displayTitle: entry.displayTitle || canonicalElectionTitle(entry),
+    ...electionMetadata,
     localBodies: entry.bodies || null,
     localBodyByConstituency: entry.localBodyByConstituency || null,
     date: entry.date,
@@ -603,7 +715,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     displaySubtitle: formatElectionSubtitle(entry, results, unmatchedCount),
     displayProvider: entry.displayProvider || (entry.bodyGroup === 'local-government' ? `Local government: ${entry.body}` : entry.body),
     constituencies: entry.constituencies,
-    isByElection: isElectionByElectionScope(entry),
+    isByElection: electionMetadata.kind === 'by-election',
     totalConstituencies: results.length,
     matchedCount,
     unmatchedCount,
@@ -1546,6 +1658,17 @@ function parseNumber(value) {
 
 function numberOrZero(value) {
   return Number.isFinite(Number(value)) ? Number(value) : 0;
+}
+
+function compactObject(object) {
+  const output = {};
+  for (const [key, value] of Object.entries(object || {})) {
+    if (value === null || value === undefined || value === '') continue;
+    if (Array.isArray(value) && value.length === 0) continue;
+    if (typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 0) continue;
+    output[key] = value;
+  }
+  return output;
 }
 
 function round(value, decimals = 2) {

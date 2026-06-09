@@ -1,26 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:dail-eireann__2020-02-08",
     "slug": "election-source-dail-eireann-2020-02-08",
     "type": "election-source",
-    "title": "Dáil Éireann 2020-02-08",
+    "title": "2020 Irish general election 2020-02-08",
     "subtitle": "Dáil Éireann / 39 constituencies",
     "category": "Election sources",
     "date": "2020-02-08",
     "provider": [
       "Dáil Éireann"
     ],
-    "description": "Generated election bundle for Dáil Éireann.",
+    "description": "Generated election bundle for 2020 Irish general election.",
     "sourceMapId": "dail-2017",
     "thumbnail": {
       "kind": "asset",
       "id": "dail-2017",
       "url": "/assets/thumbnails/dail-2017.webp",
       "smallUrl": "/assets/thumbnails/dail-2017-60.webp",
-      "alt": "Dáil Éireann"
+      "alt": "2020 Irish general election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 2020 Irish general election",
+        "url": "https://en.wikipedia.org/wiki/2020_Irish_general_election",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland general election result pages",
+        "url": "https://electionsireland.org/results/general/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "39 constituency/result source pages are cited on the result sub-entries",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here.",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set"
+      }
+    ],
     "downloads": [
       {
         "label": "dail-eireann__2020-02-08.json",
@@ -40,9 +63,15 @@
         "date": "2020-02-08",
         "bodySlug": "dail-eireann",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "2020 Irish general election",
         "displaySubtitle": "39 constituencies",
         "displayProvider": "Dáil Éireann",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-hare",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Carlow Kilkenny",
@@ -94,6 +123,8 @@
         "matchedCount": 39,
         "unmatchedCount": 0,
         "totalConstituencies": 39,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/dail-eireann__2020-02-08.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/dail-2017-vector-test.json",
@@ -106,7 +137,8 @@
           "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/dail-eireann__2020-02-08.json"
       },
       "resultUrl": "/test/metadata/elections-test2/dail-eireann__2020-02-08.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/dail-2017-vector-test.json"

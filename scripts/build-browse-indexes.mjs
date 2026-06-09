@@ -349,6 +349,13 @@ function buildElections(manifest, thumbnailIds) {
       provider: cleanText(entry.displayProvider || entry.body || ''),
       category: 'Elections',
       geography: electionGeographyLabel(entry),
+      contestType: entry.contestType || null,
+      kind: entry.kind || null,
+      votingSystem: entry.votingSystem || null,
+      contestStatus: entry.contestStatus || null,
+      candidateRowsExpected: entry.candidateRowsExpected,
+      transferDataExpected: entry.transferDataExpected,
+      votesPerElector: entry.votesPerElector,
       constituencies: normalizeArray(entry.constituencies).slice(0, SAMPLE_RELATED_LIMIT),
       totalConstituencies: entry.totalConstituencies || entry.constituencies?.length || 0,
       matchedCount: entry.matchedCount || 0,
@@ -429,6 +436,13 @@ function buildElectionResultSubEntries(parentElections, electionDetails) {
       geography: parent.geography,
       sourceMapId: parent.sourceMapId,
       layerId: parent.layerId,
+      contestType: parent.contestType || detail.contestType || null,
+      kind: parent.kind || detail.kind || null,
+      votingSystem: parent.votingSystem || detail.votingSystem || null,
+      contestStatus: parent.contestStatus || detail.contestStatus || null,
+      candidateRowsExpected: parent.candidateRowsExpected ?? detail.candidateRowsExpected,
+      transferDataExpected: parent.transferDataExpected ?? detail.transferDataExpected,
+      votesPerElector: parent.votesPerElector || detail.votesPerElector || null,
       loadable: parent.loadable,
       placeholder: parent.placeholder,
       status: parent.status,
@@ -488,6 +502,13 @@ function buildElectionResultSubEntries(parentElections, electionDetails) {
         featureName: result.featureName || null,
         matched: Boolean(result.matched),
         localBody: result.localBody || null,
+        contestType: result.contestType || parent.contestType || detail.contestType || null,
+        kind: result.kind || parent.kind || detail.kind || null,
+        votingSystem: result.votingSystem || parent.votingSystem || detail.votingSystem || null,
+        contestStatus: result.contestStatus || parent.contestStatus || detail.contestStatus || null,
+        candidateRowsExpected: result.candidateRowsExpected ?? parent.candidateRowsExpected ?? detail.candidateRowsExpected,
+        transferDataExpected: result.transferDataExpected ?? parent.transferDataExpected ?? detail.transferDataExpected,
+        votesPerElector: result.votesPerElector || parent.votesPerElector || detail.votesPerElector || null,
         partySummary: normalizeArray(result.partySummary || result.summary || result.parties).slice(0, 16),
         references: buildElectionResultReferences(parent, detail, result),
         resultMetadata: compactObject({
@@ -831,7 +852,7 @@ function dominantSourceName(urls) {
 function isNorthernIrelandElection(entry) {
   const body = `${entry?.body || ''} ${entry?.bodySlug || ''} ${entry?.displayProvider || ''}`;
   const geography = electionGeographyLabel(entry || {});
-  return /northern ireland|westminster|house-of-commons|assembly|forum|constitutional|parliament-of-northern-ireland|local-government/i.test(body)
+  return /northern ireland|westminster|house-of-commons|assembly|forum|constitutional|parliament-of-northern-ireland|local-government|european-parliament/i.test(body)
     || geography === 'Northern Ireland';
 }
 
@@ -1361,6 +1382,7 @@ function electionGeographyLabel(entry) {
   const body = cleanText(entry.body || '');
   if (/dail|referendum|european parliament \(ireland\)/i.test(body)) return 'Republic of Ireland';
   if (/northern ireland|westminster|local government districts|assembly|forum/i.test(body)) return 'Northern Ireland';
+  if (entry.bodySlug === 'european-parliament' || normalizeName(body) === 'european parliament') return 'Northern Ireland';
   return entry.bodyGroup || null;
 }
 

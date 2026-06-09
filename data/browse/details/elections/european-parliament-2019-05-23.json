@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-06T18:51:03.527Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "european-parliament__2019-05-23",
     "key": "european-parliament__2019-05-23",
@@ -15,6 +15,13 @@
     "subtitle": "1 constituencies",
     "provider": "European Parliament",
     "category": "Elections",
+    "geography": "Northern Ireland",
+    "contestType": "election",
+    "kind": "general",
+    "votingSystem": "stv-gregory",
+    "contestStatus": "contested",
+    "candidateRowsExpected": true,
+    "transferDataExpected": true,
     "constituencies": [
       "Northern Ireland"
     ],
@@ -131,7 +138,7 @@
       }
     ],
     "totals": {
-      "seats": 1,
+      "seats": 3,
       "validPoll": 572447,
       "constituencies": 1
     },
@@ -142,6 +149,21 @@
         "source": "Wikipedia",
         "role": "election-overview",
         "scope": "election"
+      },
+      {
+        "label": "ARK Elections / CAIN archive",
+        "url": "https://www.ark.ac.uk/elections/",
+        "source": "ARK Elections / CAIN",
+        "role": "corroboration-source",
+        "scope": "election-corpus",
+        "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available."
+      },
+      {
+        "label": "Electoral Office for Northern Ireland election results and statistics",
+        "url": "https://www.eoni.org.uk/Elections/Election-results-and-statistics",
+        "source": "EONI",
+        "role": "official-source-corpus",
+        "scope": "election-corpus"
       }
     ],
     "resultEntries": [
@@ -172,6 +194,12 @@
         "displayTitle": "2019 European Parliament election (NI)",
         "displaySubtitle": "1 constituencies",
         "displayProvider": "European Parliament",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-gregory",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Northern Ireland"
@@ -185,6 +213,8 @@
         "matchedCount": 1,
         "unmatchedCount": 0,
         "totalConstituencies": 1,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/european-parliament__2019-05-23.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/ni-1921-vector-test.json",

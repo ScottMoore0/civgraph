@@ -1,23 +1,46 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:dail-eireann__1927-06-09",
     "slug": "election-source-dail-eireann-1927-06-09",
     "type": "election-source",
-    "title": "Dáil Éireann 1927-06-09",
+    "title": "1927 Irish general election 1927-06-09",
     "subtitle": "Dáil Éireann / 30 constituencies; 30 unmatched",
     "category": "Election sources",
     "date": "1927-06-09",
     "provider": [
       "Dáil Éireann"
     ],
-    "description": "Generated election bundle for Dáil Éireann.",
+    "description": "Generated election bundle for 1927 Irish general election.",
     "thumbnail": {
       "kind": "placeholder",
-      "label": "DÉ",
+      "label": "1I",
       "type": "election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1927 Irish general election",
+        "url": "https://en.wikipedia.org/wiki/1927_Irish_general_election",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland general election result pages",
+        "url": "https://electionsireland.org/results/general/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "30 constituency/result source pages are cited on the result sub-entries",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here.",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set"
+      }
+    ],
     "downloads": [
       {
         "label": "dail-eireann__1927-06-09.json",
@@ -33,9 +56,15 @@
         "date": "1927-06-09",
         "bodySlug": "dail-eireann",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "1927 Irish general election",
         "displaySubtitle": "30 constituencies; 30 unmatched",
         "displayProvider": "Dáil Éireann",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-hare",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Carlow Kilkenny",
@@ -78,6 +107,39 @@
         "matchedCount": 0,
         "unmatchedCount": 30,
         "totalConstituencies": 30,
+        "unmatchedConstituencySample": [
+          "Carlow Kilkenny",
+          "Cavan",
+          "Clare",
+          "Cork Borough",
+          "Cork East",
+          "Cork North",
+          "Cork West",
+          "Donegal",
+          "Dublin County",
+          "Dublin North",
+          "Dublin South",
+          "Dublin University",
+          "Galway",
+          "Kerry",
+          "Kildare",
+          "Leitrim Sligo",
+          "Leix Offaly",
+          "Limerick",
+          "Longford Westmeath",
+          "Louth",
+          "Mayo North",
+          "Mayo South",
+          "Meath",
+          "Monaghan",
+          "National Univeristy",
+          "Roscommon",
+          "Tipperary",
+          "Waterford",
+          "Wexford",
+          "Wicklow"
+        ],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [
           "Carlow Kilkenny",
           "Cavan",
@@ -114,7 +176,8 @@
         "anchorUrl": null,
         "previousKey": "dail-eireann__1923-08-27",
         "previousDate": "1923-08-27",
-        "stylingModes": []
+        "stylingModes": [],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/dail-eireann__1927-06-09.json"
       },
       "resultUrl": "/test/metadata/elections-test2/dail-eireann__1927-06-09.json"
     }

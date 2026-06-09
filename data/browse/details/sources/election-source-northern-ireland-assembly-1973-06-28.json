@@ -1,24 +1,41 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:northern-ireland-assembly__1973-06-28",
     "slug": "election-source-northern-ireland-assembly-1973-06-28",
     "type": "election-source",
-    "title": "Northern Ireland Assembly 1973-06-28",
+    "title": "1973 Northern Ireland Assembly election 1973-06-28",
     "subtitle": "Northern Ireland Assembly / 11 constituencies",
     "category": "Election sources",
     "date": "1973-06-28",
     "provider": [
       "Northern Ireland Assembly"
     ],
-    "description": "Generated election bundle for Northern Ireland Assembly.",
+    "description": "Generated election bundle for 1973 Northern Ireland Assembly election.",
     "sourceMapId": "assembly-areas-1970",
     "thumbnail": {
       "kind": "placeholder",
-      "label": "NI",
+      "label": "1N",
       "type": "election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1973 Northern Ireland Assembly election",
+        "url": "https://en.wikipedia.org/wiki/1973_Northern_Ireland_Assembly_election",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ARK Elections / CAIN archive",
+        "url": "https://www.ark.ac.uk/elections/",
+        "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+        "source": "ARK Elections / CAIN",
+        "role": "corroboration-source",
+        "scope": "election-corpus"
+      }
+    ],
     "downloads": [
       {
         "label": "northern-ireland-assembly__1973-06-28.json",
@@ -38,9 +55,15 @@
         "date": "1973-06-28",
         "bodySlug": "northern-ireland-assembly",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "1973 Northern Ireland Assembly election",
         "displaySubtitle": "11 constituencies",
         "displayProvider": "Northern Ireland Assembly",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-gregory",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Armagh",
@@ -64,6 +87,8 @@
         "matchedCount": 11,
         "unmatchedCount": 0,
         "totalConstituencies": 11,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/northern-ireland-assembly__1973-06-28.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/assembly-areas-1970-alias-test.json",
@@ -77,7 +102,8 @@
           "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/northern-ireland-assembly__1973-06-28.json"
       },
       "resultUrl": "/test/metadata/elections-test2/northern-ireland-assembly__1973-06-28.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/assembly-areas-1970-alias-test.json"

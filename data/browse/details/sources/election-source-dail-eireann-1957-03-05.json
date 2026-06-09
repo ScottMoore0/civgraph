@@ -1,23 +1,46 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:dail-eireann__1957-03-05",
     "slug": "election-source-dail-eireann-1957-03-05",
     "type": "election-source",
-    "title": "Dáil Éireann 1957-03-05",
+    "title": "1957 Irish general election 1957-03-05",
     "subtitle": "Dáil Éireann / 40 constituencies; 40 unmatched",
     "category": "Election sources",
     "date": "1957-03-05",
     "provider": [
       "Dáil Éireann"
     ],
-    "description": "Generated election bundle for Dáil Éireann.",
+    "description": "Generated election bundle for 1957 Irish general election.",
     "thumbnail": {
       "kind": "placeholder",
-      "label": "DÉ",
+      "label": "1I",
       "type": "election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1957 Irish general election",
+        "url": "https://en.wikipedia.org/wiki/1957_Irish_general_election",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ElectionsIreland general election result pages",
+        "url": "https://electionsireland.org/results/general/index.cfm",
+        "source": "ElectionsIreland",
+        "role": "primary-source-corpus",
+        "scope": "election-corpus"
+      },
+      {
+        "label": "40 constituency/result source pages are cited on the result sub-entries",
+        "note": "The parent election uses per-result references to avoid duplicating every constituency/DEA source link here.",
+        "source": "ElectionsIreland",
+        "role": "primary-result-source",
+        "scope": "constituency-result-set"
+      }
+    ],
     "downloads": [
       {
         "label": "dail-eireann__1957-03-05.json",
@@ -33,9 +56,15 @@
         "date": "1957-03-05",
         "bodySlug": "dail-eireann",
         "bodyGroup": null,
-        "displayTitle": null,
+        "displayTitle": "1957 Irish general election",
         "displaySubtitle": "40 constituencies; 40 unmatched",
         "displayProvider": "Dáil Éireann",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-hare",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Carlow Kilkenny",
@@ -88,7 +117,7 @@
         "matchedCount": 0,
         "unmatchedCount": 40,
         "totalConstituencies": 40,
-        "unmatchedConstituencies": [
+        "unmatchedConstituencySample": [
           "Carlow Kilkenny",
           "Cavan",
           "Clare",
@@ -120,11 +149,13 @@
           "Louth",
           "Mayo North"
         ],
+        "unmatchedConstituencySampleLimit": 30,
         "resultUrl": "/test/metadata/elections-test2/dail-eireann__1957-03-05.json",
         "anchorUrl": null,
         "previousKey": "dail-eireann__1954-05-18",
         "previousDate": "1954-05-18",
-        "stylingModes": []
+        "stylingModes": [],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/dail-eireann__1957-03-05.json"
       },
       "resultUrl": "/test/metadata/elections-test2/dail-eireann__1957-03-05.json"
     }

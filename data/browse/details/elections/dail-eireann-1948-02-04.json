@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-06T18:51:03.527Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "dail-eireann__1948-02-04",
     "key": "dail-eireann__1948-02-04",
@@ -15,6 +15,12 @@
     "subtitle": "40 constituencies; 40 unmatched",
     "provider": "Dáil Éireann",
     "category": "Elections",
+    "contestType": "election",
+    "kind": "general",
+    "votingSystem": "stv-hare",
+    "contestStatus": "contested",
+    "candidateRowsExpected": true,
+    "transferDataExpected": true,
     "constituencies": [
       "Carlow Kilkenny",
       "Cavan",
@@ -75,7 +81,7 @@
     "partySummary": [
       {
         "party": "Fianna Fáil",
-        "seats": 2,
+        "seats": 50,
         "stood": 86,
         "votes": 408578,
         "share": 42.04982853943593,
@@ -83,23 +89,15 @@
       },
       {
         "party": "Fine Gael",
-        "seats": 0,
+        "seats": 21,
         "stood": 58,
         "votes": 187430,
         "share": 19.289828045431904,
         "colour": "#6699ff"
       },
       {
-        "party": "Clann na Poblachta",
-        "seats": 0,
-        "stood": 68,
-        "votes": 126063,
-        "share": 12.974089488829335,
-        "colour": "#6b7280"
-      },
-      {
         "party": "Independent",
-        "seats": 0,
+        "seats": 11,
         "stood": 29,
         "votes": 101379,
         "share": 10.433673784441343,
@@ -107,15 +105,23 @@
       },
       {
         "party": "Irish Labour",
-        "seats": 0,
+        "seats": 10,
         "stood": 31,
         "votes": 86326,
         "share": 8.884456574987752,
         "colour": "#cc0000"
       },
       {
+        "party": "Clann na Poblachta",
+        "seats": 7,
+        "stood": 68,
+        "votes": 126063,
+        "share": 12.974089488829335,
+        "colour": "#6b7280"
+      },
+      {
         "party": "Clann na Talmhan",
-        "seats": 0,
+        "seats": 6,
         "stood": 17,
         "votes": 53418,
         "share": 5.497647305825542,
@@ -123,7 +129,7 @@
       },
       {
         "party": "Independent Farmer",
-        "seats": 0,
+        "seats": 2,
         "stood": 2,
         "votes": 8187,
         "share": 0.8425856170727792,
@@ -139,7 +145,7 @@
       }
     ],
     "totals": {
-      "seats": 2,
+      "seats": 107,
       "validPoll": 971652,
       "constituencies": 40
     },
@@ -467,6 +473,12 @@
         "displayTitle": "1948 Irish general election",
         "displaySubtitle": "40 constituencies; 40 unmatched",
         "displayProvider": "Dáil Éireann",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-hare",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": null,
         "constituencies": [
           "Carlow Kilkenny",
@@ -519,7 +531,7 @@
         "matchedCount": 0,
         "unmatchedCount": 40,
         "totalConstituencies": 40,
-        "unmatchedConstituencies": [
+        "unmatchedConstituencySample": [
           "Carlow Kilkenny",
           "Cavan",
           "Clare",
@@ -551,6 +563,7 @@
           "Louth",
           "Mayo North"
         ],
+        "unmatchedConstituencySampleLimit": 30,
         "resultUrl": "/test/metadata/elections-test2/dail-eireann__1948-02-04.json",
         "anchorUrl": null,
         "previousKey": "dail-eireann__1944-05-30",

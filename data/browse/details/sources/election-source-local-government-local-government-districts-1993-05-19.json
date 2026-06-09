@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-03T20:29:27.051Z",
+  "generatedAt": "2026-06-09T16:47:55.253Z",
   "item": {
     "id": "election-source:local-government-local-government-districts__1993-05-19",
     "slug": "election-source-local-government-local-government-districts-1993-05-19",
@@ -21,6 +21,23 @@
       "smallUrl": "/assets/thumbnails/deas-1993-60.webp",
       "alt": "1993 Northern Ireland local election"
     },
+    "references": [
+      {
+        "label": "Wikipedia overview: 1993 Northern Ireland local election",
+        "url": "https://en.wikipedia.org/wiki/1993_Northern_Ireland_local_elections",
+        "source": "Wikipedia",
+        "role": "election-overview",
+        "scope": "election"
+      },
+      {
+        "label": "ARK Elections / CAIN archive",
+        "url": "https://www.ark.ac.uk/elections/",
+        "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+        "source": "ARK Elections / CAIN",
+        "role": "corroboration-source",
+        "scope": "election-corpus"
+      }
+    ],
     "downloads": [
       {
         "label": "local-government-local-government-districts__1993-05-19.json",
@@ -43,6 +60,12 @@
         "displayTitle": "1993 Northern Ireland local election",
         "displaySubtitle": "102 DEAs",
         "displayProvider": "Local Government Districts",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-gregory",
+        "contestStatus": "contested",
+        "candidateRowsExpected": true,
+        "transferDataExpected": true,
         "localBodies": [
           "Antrim",
           "Ards",
@@ -184,6 +207,8 @@
         "matchedCount": 102,
         "unmatchedCount": 0,
         "totalConstituencies": 102,
+        "unmatchedConstituencySample": [],
+        "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
         "resultUrl": "/test/metadata/elections-test2/local-government-local-government-districts__1993-05-19.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/deas-1993-vector-test.json",
@@ -191,11 +216,13 @@
         "previousDate": "1989-05-17",
         "stylingModes": [
           "winner",
+          "leadingParty",
           "voteShare",
           "majority",
           "seats",
           "quota"
-        ]
+        ],
+        "summaryUrl": "/test/metadata/elections-test2-summaries/local-government-local-government-districts__1993-05-19.json"
       },
       "resultUrl": "/test/metadata/elections-test2/local-government-local-government-districts__1993-05-19.json",
       "anchorUrl": "/test/metadata/election-anchors-test2/deas-1993-vector-test.json"
