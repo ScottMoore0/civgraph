@@ -1,5 +1,15 @@
 # Lessons Log
 
+### 170) Election metadata must separate voting system, contest type, kind, and status
+- Mistake pattern: Treating election modelling fields as interchangeable, for example using `contestType` or body-name heuristics to infer whether an entry should have STV transfers, candidate rows, or vote-total invariants.
+- Impact: `/test2` audit recommendations can over-generalise across Westminster, Parliament of Northern Ireland, Assembly, Constitutional Convention, NI Forum, local-government, recall-petition, referendum, contested, and uncontested entries.
+- Guardrail:
+  1) `votingSystem` should encode the counting system only, including `fptp`, `block-vote`, `stv-gregory`, `stv-hare`, `party-list-dhondt`, and `ordinal`,
+  2) `contestType` should encode the broad type only: `election`, `recall-petition`, or `referendum`,
+  3) `kind` should encode `general` versus `by-election`,
+  4) `contestStatus` should encode `contested` versus `uncontested`,
+  5) audit expectations for candidate rows, first-preference sums, and transfer animations must key off these explicit fields rather than broad election-body labels.
+
 ### 169) `/test2` lazy runtime assets must be route-scoped and validated
 - Mistake pattern: Wiring `/test2` to lazy-load shared runtime scripts from `/test2/...` without ensuring the build/deployment path actually materialises those assets under the `/test2` route.
 - Impact: feature-specific functionality can look implemented in the pane but fail only when the user opens a lazy path, such as the Dail transfer animation loading `/test2/js/jquery-shim.js`.
