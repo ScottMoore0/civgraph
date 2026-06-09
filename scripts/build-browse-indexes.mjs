@@ -150,6 +150,10 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
   const mapRecords = (mapsData.maps || []).map((map) => {
     const category = categoriesById.get(map.category) || {};
     const files = normalizeFiles(map.files || map.file || map.sourceFile || map.data || null);
+    const variantFiles = normalizeArray(map.variants).some((variant) => {
+      if (!variant || typeof variant === 'string') return false;
+      return Boolean(variant.files || variant.file || variant.sourceFile || variant.data || variant.url || variant.source);
+    });
     const references = normalizeReferences(map.references || map.sourceReferences || map.sources);
     const downloads = normalizeLinks(map.downloads || map.sourceDownload || map.sourceDownloads || map.download || files);
     const rawTitle = cleanText(map.name || map.title || map.id);
@@ -171,7 +175,7 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
       keywords: normalizeArray(map.keywords),
       status: map.hidden ? 'hidden' : map.placeholder ? 'not yet converted' : 'available',
       featured: Boolean(map.featured),
-      loadable: Boolean(map.files || map.file || map.url || map.source || map.tiles || map.pmtiles || map.geojson),
+      loadable: Boolean(map.files || map.file || map.url || map.source || map.tiles || map.pmtiles || map.geojson || variantFiles),
       labelProperty: map.labelProperty || null,
       parentCard: mapClassInfoById.get(map.id)?.className || null,
       thumbnail: thumbnailForCandidates(thumbnailIds, [map.id, map.cloneOf], map.name || map.title || map.id, 'map'),

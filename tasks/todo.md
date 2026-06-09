@@ -1,3 +1,29 @@
+# Fix election pane count semantics, party deltas, and map colour consistency
+- [ ] Record expanded scope
+  - Task: finish `/test2` STV count-table semantics, post-quota dash cells, election feature colour consistency, election-wide candidate delta percentages, party/local-party zero-baseline deltas, local-party default sorting, terminology, and local council table parity.
+  - Expected output: STV count tables show non-transferable rows and transfer-recipient percentages; later quota-held elected-candidate count cells show `-`; election feature fills use the same party/label colour as seat circles/table swatches; `% of NI/ROI +/-` is populated for candidates with previous-election deltas; new parties/local parties get + deltas from zero; By Local Party sorts by first-preference share; non-local elections say Constituency rather than DEA; Council-mode tables use the same main-pane table rhythm as DEA-mode tables.
+- [ ] Implement renderer/model fixes
+- [ ] Add validation guardrails
+- [ ] Regenerate `/test2` bundle if required
+- [ ] Verify with focused checks and `check:test2`
+- [ ] Commit and push scoped changes
+# Fix STV detailed transfer percentages and non-transferable rows
+- [ ] Record scope
+  - Task: on `/test2`, for STV elections, make Detailed View `Count # +/- %` show the share of all transfers in that count received by each recipient, including candidates and the non-transferable pile.
+  - Expected output: every STV count table has a visible `Non-transferable` row above `Valid votes` regardless of Detailed View mode, and non-transferable vote increases are treated as transfers to that pile.
+- [ ] Inspect current count/rendering pipeline
+  - Locate where `countGroup`, candidate counts, and `nonTransferable` rows are generated and rendered.
+- [ ] Implement model/rendering fixes
+  - Add per-count transfer denominator calculation.
+  - Render the non-transferable row for STV tables even when no explicit non-transferable row exists.
+  - Ensure Detailed View `+/- %` uses transfer share rather than valid-poll share or a placeholder.
+  - After an elected candidate's surplus has been transferred and their total is held at quota, show later count cells as `-` for that candidate instead of repeating the quota.
+- [ ] Regenerate and verify
+  - Regenerate affected `/test2` election metadata/build outputs if required.
+  - Run focused route/election validation and `check:test2`.
+- [ ] Commit and push scoped changes
+  - Stage only intentional code/generated/test/task files for this task.
+
 # Implement election-data remediation recommendations 2-7
 - [x] Record scope
   - Task: implement the research-pass recommendations for election-data items 2-7 without fabricating uncertain historical results.
@@ -5061,3 +5087,36 @@ Add election entries to /test2
     - Permanent prevention action: `scripts/validate-test2-route.mjs` now asserts synthetic Dáil 2024 rows stay first-count-only and includes named Cork North-Central candidate/value/colour checks; the focused browser regression asserts party rows, candidate rows, swatches, and no fake Transfers tab.
     - Verification evidence: `node --check js/election-domain.mjs`, `node --check js/election-controller.js`, `node --check test2/src/election-manager.js`, `node --check scripts/build-test2-election-manifest.mjs`, `node --check scripts/validate-test2-route.mjs`, `node --check tests/browser/test2-app.spec.js`, `npm run build:test2:elections`, `npm run build:browse`, `npm run check:test2`, `npm run build:test2`, `npm run build`, `npm run check`, and focused Playwright `npx playwright test tests/browser/test2-app.spec.js --grep "Cork North-Central"` passed. The esbuild and Playwright commands required approved escalation because the Windows sandbox blocks process/browser spawn.
     - Residual test note: a broader `--grep "Dail"` browser subset still has two pre-existing/brittle UI-test failures unrelated to the Cork data fix: a filter-menu visibility timeout and a renderer-marker assertion after a direct-rendered candidate view. The source-specific Cork regression and static route checks pass.
+
+# Finish /test2 election parity and catalogue naming queue
+- [ ] Record scope and ordering
+  - Scope: complete the already-queued election pane/data fixes before applying the newer election-entry naming/by-election toggle request, then explain promotion feasibility after implementation and verification.
+  - Ordered tasks:
+    1. Finish STV detailed-count semantics: non-transferable rows, transfer-share percentages, and post-quota dash cells.
+    2. Align election feature colours with the party/label colours used in the results tables and seat circles.
+    3. Fill candidate `% of NI/ROI +/-` where prior candidate delta data exists.
+    4. Fix party/local-party zero-baseline deltas, local-party default sorting, terminology, and council table formatting.
+    5. Fix Northern Ireland local-election Council mode so the map uses Local Government District features, not DEA features.
+    6. Fix related UI state issues: election pane close state, bounded sort/filter popups, hide visible Performance settings, preserve catalogue scroll on load, referendum missing matches, local-election District/DEA candidate fields, and full party/candidate info pages in the catalogue pane.
+    7. Apply election-entry display-name rules, by-election show/hide toggle, and referendum topic naming.
+    8. Add guardrails, rebuild `/test2`, verify, commit, push, then explain promotion feasibility.
+- [ ] Implement shared election renderer/data fixes
+  - Scope: patch live shared renderer and view-model paths, not only fallback code in `test2/src/election-manager.js`.
+- [ ] Implement `/test2` local-government council map mode
+  - Scope: switch active election styling/feature lookup from DEA layers to the correct LGD layer when Council mode is selected.
+- [ ] Implement election catalogue naming and by-election toggle
+  - Scope: display elections and referendums with the requested public names, hide by-elections by default, and provide decade-level show/hide controls.
+- [ ] Verify, rebuild, and commit
+  - Scope: run syntax checks, `/test2` validation/build, focused browser or static guardrails where feasible, stage only scoped files, commit, and push.
+
+# Add ROI DED/ward boundary entries from June 2026 archive
+- [x] Explain dirty-worktree cleanup strategy
+  - Completed: inspected the dirty tree and kept this work scoped to DED/ward catalogue/source metadata only. The tree contains substantial unrelated generated Browse details, `/test` metadata, `/test2` build artifacts, scratch scripts, and local work directories. Those should be handled in a separate cleanup pass: classify intended source changes, generated build outputs, scratch files, and large external data; commit intended source changes in small scoped commits; restore generated verification outputs only after confirming they are not user work; keep large FGB/PDF assets in R2/CDN rather than Git.
+- [x] Inspect the provided archive
+  - Completed: reviewed `C:\Users\scomo\Downloads\Irish Digitised Boundaries-20260609T191037Z-3-001.zip`. Relevant archive files are `Wards_DEDs_Leinster_1957.fgb`, `Wards_DEDs_Munster_1955.fgb`, `Wards_DEDs_Munster_1965.fgb`, `Wards_DEDs_Munster_1966.fgb`, `Wards_DEDs_Munster_1970.fgb`, sidecar text files for 1957/1965/1966/1970, and `Dublin Wards 14-06-1954 (Minutes of Dublin City Council 1954 Item 144).pdf`.
+- [x] Match existing DED/ward catalogue conventions
+  - Completed: matched the existing `eds-historic` class and ROI electoral-division metadata pattern. The new years are grouped ROI entries made from region-specific component files, with hidden component map entries for the new Leinster/Munster FGBs and existing Connacht/Ulster files reused as variants.
+- [x] Add the DED/ward map entries
+  - Completed: added grouped ROI DED/ward entries for 1957, 1965, 1966, and 1970, upgraded the 1954 Dublin ward definition entry to reference the PDF transcription, added hidden component entries for the new regional FGBs, updated the flat ROI DED selector list, taught the Browse indexer that grouped entries with loadable variants are available, and added upload-script mappings for the new FGB/TXT/PDF archive members.
+- [x] Verify and document
+  - Verification evidence: `npm run build:browse`, focused Browse-data assertions for `eds-roi-1957`, `eds-roi-1965`, `eds-roi-1966`, and `eds-roi-1970`, `npm run build`, `npm run build:test2`, `npm run check:test2`, and `npm run check` passed. The build/check commands that spawn esbuild/git/Chromium-adjacent processes required approved escalation under the Windows sandbox. Review note: the large FGB/PDF/TXT archive assets were not committed to Git; the metadata points at R2/CDN URLs and the upload script now knows how to promote them.

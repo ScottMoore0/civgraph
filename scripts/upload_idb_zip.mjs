@@ -41,6 +41,16 @@ const MAP = [
     // ROI EDs — NEW files (not yet on R2)
     ['EDs/DEDs_Connacht_1919.fgb',                          'data/maps/electoral-divisions/DEDs_Connacht_1919.fgb'],
     ['EDs/DEDs_Ulster_1921.fgb',                            'data/maps/electoral-divisions/DEDs_Ulster_1921.fgb'],
+    ['EDs/Wards_DEDs_Leinster_1957.fgb',                    'data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1957.fgb'],
+    ['EDs/Wards_DEDs_Munster_1955.fgb',                     'data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1955.fgb'],
+    ['EDs/Wards_DEDs_Munster_1965.fgb',                     'data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1965.fgb'],
+    ['EDs/Wards_DEDs_Munster_1966.fgb',                     'data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1966.fgb'],
+    ['EDs/Wards_DEDs_Munster_1970.fgb',                     'data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1970.fgb'],
+    ['EDs/District Electoral Divisions Wards 1957.txt',     'data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1957.txt'],
+    ['EDs/District Electoral Divisions Wards 1965.txt',     'data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1965.txt'],
+    ['EDs/District Electoral Divisions Wards 1966.txt',     'data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1966.txt'],
+    ['EDs/District Electoral Divisions Wards 1970.txt',     'data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1970.txt'],
+    ['EDs/Dublin Wards 14-06-1954 (Minutes of Dublin City Council 1954 Item 144).pdf', 'data/documents/dublin-electoral-history/Dublin Wards 14-06-1954 (Minutes of Dublin City Council 1954 Item 144).pdf'],
     ['EDs/Files already on the site/Wards_DEDs_Munster_1983.fgb', 'data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1983.fgb'],
 ];
 
@@ -52,6 +62,13 @@ async function head(key) {
 }
 async function put(key, body, ct) {
     await s3.send(new PutObjectCommand({ Bucket: BUCKET, Key: key, Body: body, ContentType: ct }));
+}
+
+function contentTypeForKey(key) {
+    const lower = key.toLowerCase();
+    if (lower.endsWith('.pdf')) return 'application/pdf';
+    if (lower.endsWith('.txt')) return 'text/plain; charset=utf-8';
+    return 'application/octet-stream';
 }
 
 let done = 0, skipped = 0, failed = 0;
@@ -71,7 +88,7 @@ for (const [rel, key] of MAP) {
     try {
         const body = readFileSync(local);
         process.stdout.write(`+ ${key} (${(body.length/1e6).toFixed(2)} MB): base...`);
-        await put(key, body, 'application/octet-stream');
+        await put(key, body, contentTypeForKey(key));
         process.stdout.write(' gz...');
         await put(key + '.gz', gzipSync(body, { level: 6 }), 'application/octet-stream');
         console.log(' done');
