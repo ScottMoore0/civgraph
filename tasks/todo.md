@@ -1,3 +1,16 @@
+# Research remaining election-data audit warnings
+- [x] Record scope
+  - Task: research the current non-blocking `/test2` election-data audit warnings and recommend how to resolve them without reintroducing fabricated or weakly sourced data.
+  - Expected output: a prioritised recommendation report covering warning classes, likely root causes, source strategy, guardrails, and handling rules.
+- [x] Extract current warning inventory
+  - Completed: confirmed the latest deterministic audit has 0 blocking issues and 113 warning-level issues: 39 `first-pref-sum`, 30 `candidate-list-missing`, 14 `source-record-missing`, 11 `unmatched-list-count`, 10 sampled `party-colour-mismatch`, and 9 `source-record-single-reference`.
+- [x] Research source and handling patterns
+  - Completed: checked the local audit implementation and repository colour/reference reports; checked external source families including ARK Northern Ireland Elections, EONI Results & Data, Wikipedia recall-petition/source pages, and the ElectionsIreland endpoint availability.
+- [x] Write recommendations
+  - Completed: added `docs/test2-election-data-remaining-issues-research.md` with a priority order, source plan, and category-by-category remediation rules.
+- [x] Verify and preserve unrelated work
+  - Completed: no generated election data was changed; the recommendation work only adds documentation and this task-log entry. The existing dirty generated/map worktree remains unrelated and unstaged.
+
 # Fix NI Assembly, Constitutional Convention, and local election seat totals
 - [x] Record scope
   - Task: review `/test2` Northern Ireland Assembly, Northern Ireland Constitutional Convention, and Northern Ireland local election bundles for constituency/DEA seat undercounts; correct the source/generation path using Wikipedia and local source evidence where possible.
