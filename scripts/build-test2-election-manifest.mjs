@@ -403,11 +403,26 @@ function buildPreviousElectionKeyLookup(entries) {
   const previousByKey = new Map();
   for (const bodyEntries of byBody.values()) {
     bodyEntries.sort((a, b) => String(a.date).localeCompare(String(b.date)));
+    const previousGeneralByKey = new Map();
+    let previousGeneral = null;
+    for (const entry of bodyEntries) {
+      if (isGeneralElectionPreviousBaselineEntry(entry)) {
+        if (previousGeneral) previousGeneralByKey.set(electionKey(entry), electionKey(previousGeneral));
+        previousGeneral = entry;
+      }
+    }
     for (let i = 1; i < bodyEntries.length; i += 1) {
-      previousByKey.set(electionKey(bodyEntries[i]), electionKey(bodyEntries[i - 1]));
+      const entry = bodyEntries[i];
+      previousByKey.set(electionKey(entry), previousGeneralByKey.get(electionKey(entry)) || electionKey(bodyEntries[i - 1]));
     }
   }
   return previousByKey;
+}
+
+function isGeneralElectionPreviousBaselineEntry(entry) {
+  if (entry.body !== 'House of Commons of the United Kingdom') return false;
+  const metadata = classifyElection(entry);
+  return metadata.contestType === 'election' && metadata.kind === 'general';
 }
 
 function resolveElectionGeography(entry) {

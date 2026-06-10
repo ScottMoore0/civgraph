@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 177) Westminster general-election baselines must skip by-elections and recalls
+- Mistake pattern: Choosing the chronologically previous Westminster entry as the comparison baseline for every House of Commons bundle.
+- Impact: UK general elections such as 2019 compared against intervening by-elections or recall petitions, leaving previous-election and delta figures missing or wrong in `/test2`.
+- Guardrail:
+  1) Westminster general-election bundles must point to the previous Westminster general election, not the previous same-body event,
+  2) by-elections and recall petitions can retain chronological previous-event behavior unless explicitly modelled otherwise,
+  3) route validation must assert the generated Westminster general-election previousDate/previousKey sequence skips by-elections and recalls.
+
 ### 176) STV count headers must label donors, not recipients
 - Mistake pattern: Showing neutral or status-derived `Count N` headers after fixing donor transfer-out cells.
 - Impact: Detailed By Count tables can show negative transfer-out values without explaining whose election or exclusion produced that count's redistribution.

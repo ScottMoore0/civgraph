@@ -1,3 +1,16 @@
+# Populate UK general-election figures consistently
+- [x] Record scope
+  - Task: review why `/test2` 2024 UK general-election figures are populated in the election pane while 2019 figures are not, and fix the same issue for all UK general elections.
+  - Expected output: Westminster/UK general-election pane tables populate first-preference, share, seat/candidate, and comparison/delta figures consistently wherever generated source data is available.
+- [x] Compare 2024 and 2019 Westminster generated bundles and pane inputs
+  - Completed: 2024 pointed to the previous 2019 UK general election, but 2019 pointed to the 2018 North Antrim recall petition instead of the 2017 UK general election; older UK general elections had the same by-election/recall baseline risk.
+- [x] Patch generator or renderer root cause for all UK general elections
+  - Completed: Westminster general-election bundles now select the previous Westminster general election as their baseline while leaving non-general Westminster entries on the existing chronological behavior.
+- [x] Add validation coverage for UK general-election figure completeness
+  - Completed: route validation now asserts Westminster general-election `previousDate` and `previousKey` form a general-election-only sequence, including the specific 2019 -> 2017 guard.
+- [x] Rebuild `/test2`, verify, commit, and push scoped fix
+  - Completed: rebuilt `/test2`, confirmed 2019 now points to 2017, 2015 to 2010, and 1983 to 1979, and ran `node scripts/validate-test2-route.mjs` plus `npm run check:test2` successfully.
+
 # Add STV By Count donor-event headers
 - [x] Record scope
   - Task: in `/test2` Detailed By Count tables, make Count 2+ header groups state `Election of ...` or `Exclusion of ...` for the candidate(s) whose votes are deducted in that count.

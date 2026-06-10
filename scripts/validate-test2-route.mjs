@@ -537,6 +537,7 @@ if (existsSync('test/metadata/elections-test2.json')) {
   assertStvTerminalTransferCoverage();
   assertStvSyntheticTerminalTransferCoverage();
   assertNiElectionSeatCoverage();
+  assertWestminsterGeneralElectionBaselines();
   const localEntries = (electionManifest.elections || []).filter((entry) => entry.bodyGroup === 'local-government');
   const generalLocalEntries = localEntries.filter((entry) => (entry.localBodies || []).length > 1);
   const generalLocalDates = new Map();
@@ -622,6 +623,26 @@ function assertNiElectionSeatCoverage() {
     }
   }
   assert(mismatches.length === 0, `/test2 NI election seat coverage must match constituency/DEA seat totals: ${mismatches.slice(0, 8).join('; ')}`);
+}
+
+function assertWestminsterGeneralElectionBaselines() {
+  if (!existsSync('test/metadata/elections-test2')) return;
+  const bundles = readdirSync('test/metadata/elections-test2')
+    .filter((name) => /^house-of-commons-of-the-united-kingdom__\d{4}-\d{2}-\d{2}\.json$/.test(name))
+    .map((filename) => JSON.parse(readFileSync(`test/metadata/elections-test2/${filename}`, 'utf8')))
+    .filter((bundle) => bundle.body === 'House of Commons of the United Kingdom'
+      && bundle.contestType === 'election'
+      && bundle.kind === 'general')
+    .sort((a, b) => String(a.date).localeCompare(String(b.date)));
+  assert(bundles.length >= 25, '/test2 Westminster general-election validation found too few generated bundles');
+  for (let index = 1; index < bundles.length; index += 1) {
+    const bundle = bundles[index];
+    const previous = bundles[index - 1];
+    assert(bundle.previousDate === previous.date, `/test2 Westminster ${bundle.date} must compare against previous general election ${previous.date}, not ${bundle.previousDate || 'none'}`);
+    assert(bundle.previousKey === previous.key, `/test2 Westminster ${bundle.date} previousKey must point to ${previous.key}, not ${bundle.previousKey || 'none'}`);
+  }
+  const westminster2019 = bundles.find((bundle) => bundle.date === '2019-12-12');
+  assert(westminster2019?.previousDate === '2017-06-08', '/test2 Westminster 2019 must compare against the 2017 UK general election, not the 2018 North Antrim recall petition');
 }
 
 function assertStvTerminalTransferCoverage() {
