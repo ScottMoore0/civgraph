@@ -1,3 +1,14 @@
+# Add STV By Count donor-event headers
+- [x] Record scope
+  - Task: in `/test2` Detailed By Count tables, make Count 2+ header groups state `Election of ...` or `Exclusion of ...` for the candidate(s) whose votes are deducted in that count.
+  - Expected output: header event labels are derived from actual/synthesized negative transfer-out rows, not from recipient transfers or neutral count statuses.
+- [x] Patch header event derivation
+  - Completed: STV Detailed By Count headers now derive event labels from negative transfer-out rows and render `Election of ...` / `Exclusion of ...` donor labels.
+- [x] Add validation guardrail
+  - Completed: route validation now asserts the `/test2` STV count header path uses donor-event labels from `inferCountTransferOutEvents`.
+- [x] Rebuild `/test2`, verify, commit, and push scoped fix
+  - Completed: `node --check test2/src/election-manager.js`, `node --check scripts/validate-test2-route.mjs`, route validation, `/test2` build, `npm run check:test2`, and built-bundle string checks passed.
+
 # Fix STV By Count negative transfer-out cells
 - [x] Record scope
   - Task: explain and fix why `/test2` STV By Count Detailed View is not showing negative values where an elected or excluded candidate has votes deducted for transfer.

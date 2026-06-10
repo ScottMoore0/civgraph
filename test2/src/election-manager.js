@@ -2076,8 +2076,10 @@ export class Test2ElectionManager {
       : [...new Set(candidates.flatMap((candidate) => (candidate.counts || []).map((count) => count.count)))].sort((a, b) => a - b);
     const rawCountNumbers = sourceCountNumbers;
     if (!rawCountNumbers.length) return '<p class="election-no-data">No count-by-count data is available for this entry.</p>';
-    const countEvents = inferCountEvents(candidates, rawCountNumbers);
     const stvResult = isStvResult(result);
+    const countEvents = stvResult
+      ? inferCountTransferOutEvents(result, candidates, rawCountNumbers)
+      : inferCountEvents(candidates, rawCountNumbers);
     const transferContext = stvResult
       ? buildStvTransferContext(result, candidates, rawCountNumbers)
       : {
@@ -3855,6 +3857,70 @@ function inferCountEvents(candidates = [], countNumbers = []) {
     if (labels.length) events.push({ count: Number(count), label: labels.join('; ') });
   }
   return events;
+}
+
+function inferCountTransferOutEvents(result = {}, candidates = [], countNumbers = []) {
+  const events = [];
+  const normalizedCounts = normalizedCountSequence(countNumbers);
+  for (const count of normalizedCounts) {
+    if (Number(count) <= 1) continue;
+    const elected = [];
+    const excluded = [];
+    for (const candidate of candidates || []) {
+      const counts = new Map((candidate.counts || []).map((row) => [Number(row.count), row]));
+      const row = terminalTransferOutDisplayRow(candidate, count, counts, result, normalizedCounts, counts.get(Number(count)));
+      const transfer = finiteNumber(row?.transfers);
+      if (transfer === null || transfer >= -0.01) continue;
+      const surname = candidateEventSurname(candidate.name);
+      if (!surname) continue;
+      if (classifyTransferOutEvent(candidate, row, result, count, normalizedCounts) === 'elected') elected.push(surname);
+      else excluded.push(surname);
+    }
+    const labels = [];
+    if (elected.length) labels.push(`Election of ${uniqueNameList(elected)}`);
+    if (excluded.length) labels.push(`Exclusion of ${uniqueNameList(excluded)}`);
+    if (labels.length) events.push({ count: Number(count), label: labels.join('; ') });
+  }
+  return events;
+}
+
+function classifyTransferOutEvent(candidate = {}, row = {}, result = {}, count, countNumbers = []) {
+  const status = normalizeName(row?.status || candidate.status || '');
+  if (status.includes('excluded') || status.includes('eliminated')) return 'excluded';
+  if (status.includes('elected') || status.includes('surplus') || status.includes('quota')) return 'elected';
+  const total = finiteNumber(row?.total ?? row?.firstPrefs);
+  if (total !== null && total <= 0.01) return 'excluded';
+  const quota = finiteNumber(result.quota ?? result.Quota ?? result.countInfo?.Quota ?? candidate.quota);
+  if (quota !== null && quota > 0 && total !== null && Math.abs(total - quota) <= 0.01) return 'elected';
+  const previousCount = previousSourceCount(countNumbers, Number(count));
+  if (Number(candidate.excludedAt || 0) === previousCount || Number(candidate.excludedAt || 0) === Number(count)) return 'excluded';
+  if (Number(candidate.electedAt || 0) === previousCount || Number(candidate.electedAt || 0) === Number(count)) return 'elected';
+  return 'excluded';
+}
+
+function candidateEventSurname(name = '') {
+  const tokens = String(name || '')
+    .replace(/\([^)]*\)/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+  if (!tokens.length) return '';
+  const last = tokens[tokens.length - 1];
+  const previous = tokens[tokens.length - 2] || '';
+  if (/^(o|ó|ua|mac|mc|nic|ní)$/i.test(previous)) return `${previous} ${last}`;
+  return last;
+}
+
+function uniqueNameList(names = []) {
+  const seen = new Set();
+  return names
+    .filter((name) => {
+      const key = normalizeName(name);
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .join(', ');
 }
 
 function recallTriggered(result = {}) {

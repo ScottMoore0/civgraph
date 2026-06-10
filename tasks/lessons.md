@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 176) STV count headers must label donors, not recipients
+- Mistake pattern: Showing neutral or status-derived `Count N` headers after fixing donor transfer-out cells.
+- Impact: Detailed By Count tables can show negative transfer-out values without explaining whose election or exclusion produced that count's redistribution.
+- Guardrail:
+  1) derive detailed count-header labels from the same negative transfer-out display rows used by the cells,
+  2) label surplus deductions as `Election of [surname]` and elimination deductions as `Exclusion of [surname...]`,
+  3) keep validation that rejects the old recipient/status-style labels for `/test2` STV detailed count headers.
+
 ### 175) STV terminal transfer display must handle omitted donor rows
 - Mistake pattern: Assuming the generated count rows will always include a negative `Transfers` value for the excluded/elected donor candidate.
 - Impact: `/test2` Detailed By Count tables can show recipient gains while hiding the corresponding donor deduction, so users cannot see votes being set to quota or zero.
