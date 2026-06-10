@@ -21,6 +21,7 @@ const mapControllerSource = readFileSync('test/src/map-controller.js', 'utf8');
 const labelsSource = readFileSync('test/src/labels.js', 'utf8');
 const featureRepairsSource = readFileSync('test/src/feature-property-repairs.js', 'utf8');
 const test2Css = readFileSync('test2/src/test2.css', 'utf8');
+const mainCss = readFileSync('assets/css/main.css', 'utf8');
 const packageJsonSource = readFileSync('package.json', 'utf8');
 const portPlan = JSON.parse(readFileSync('test/metadata/main-site-port-plan.json', 'utf8'));
 const testMetadata = JSON.parse(readFileSync('test/metadata/maps-test.json', 'utf8'));
@@ -202,6 +203,20 @@ assert(appSource.includes('onBuildElectionCatalogueCards') && appSource.includes
 assert(appSource.includes('includeMobileElectionCatalogue = true'), '/test2 must opt in to visible election catalogue entries on mobile');
 assert(!appSource.includes('includeElectionTocRows = true'), '/test2 must not opt in to individual election rows in the top catalogue table');
 assert(uiControllerSource.includes('catalogue-flat__toc-decade-btn') && uiControllerSource.includes('flat-election-entry'), '/test2 catalogue must keep main-style decade TOC buttons with election entries inside decade cards');
+assert(
+  uiControllerSource.includes('flat-election-date') &&
+    uiControllerSource.includes('flat-election-separator') &&
+    uiControllerSource.includes('flat-election-body') &&
+    uiControllerSource.includes('formatElectionDate(entry.date)'),
+  '/test2 election catalogue rows must split the monospace date from the normal derived election title'
+);
+assert(
+  mainCss.includes('.flat-election-date') &&
+    mainCss.includes('.flat-election-body') &&
+    mainCss.includes('font-family: inherit') &&
+    !/\.flat-election-link\s*\{[^}]*ui-monospace/s.test(mainCss),
+  '/test2 election catalogue CSS must apply monospace only to the date span, not the whole election title link'
+);
 assert(uiControllerSource.includes("catalogue-flat__toc-decade-btn')") || uiControllerSource.includes('catalogue-flat__toc-decade-btn, .catalogue-flat__toc'), '/test2 decade TOC buttons must be handled by the delegated flat-catalogue navigation path');
 assert(appSource.includes("anchor.closest?.('#catalogueFlatView')") && appSource.includes('anchor.dataset?.catalogueTarget'), '/test2 route guard must not pre-empt catalogue-managed hash links before lazy section rendering can run');
 assert(!uiControllerSource.includes('flat-election-toc-link') && !uiControllerSource.includes('catalogue-flat__toc-election-row'), '/test2 must not render individual election entries directly in the catalogue table of contents');

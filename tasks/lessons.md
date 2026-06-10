@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 172) Election catalogue date typography must not leak onto derived public names
+- Mistake pattern: Restoring public election names in catalogue rows while keeping a single monospaced link wrapper for the whole label.
+- Impact: the date and derived title become visually fused, and titles such as `2024 Irish general election` inherit date-only monospace styling.
+- Guardrail:
+  1) render election catalogue labels as separate date, separator, and public-title spans,
+  2) apply monospace/tabular numerals only to the date span,
+  3) keep a route-validation assertion so future `/test2` catalogue changes cannot collapse the split markup again.
+
 ### 171) Quarantine can mean ignore-in-place when the user says not to move files
 - Mistake pattern: Interpreting "quarantine local/private scratch artifacts" as moving files out of the repo or into a separate folder even after the user clarifies that they want the files ignored where they are.
 - Impact: Cleanup work can disturb a user's local workflow, break private scratch references, or make it harder to inspect the exact dirty-worktree state that prompted the cleanup.

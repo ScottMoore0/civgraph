@@ -4032,7 +4032,11 @@ class UIController {
                     const placeholderClass = entry.placeholder ? ' class-member--placeholder' : '';
                     const isElectionLoaded = !entry.placeholder && !!this.onCheckElectionLoaded?.(entry.body, entry.date);
                     const loadedClass = isElectionLoaded ? ' class-member--loaded' : '';
-                    const nameContent = `${esc(entry.displayTitle || providerLabel || bodyShort)}`;
+                    const titleContent = esc(entry.displayTitle || providerLabel || bodyShort);
+                    const formattedDate = entry.date ? esc(formatElectionDate(entry.date)) : '';
+                    const nameContent = formattedDate
+                        ? `<span class="flat-election-date">${formattedDate}</span><span class="flat-election-separator"> - </span><span class="flat-election-body">${titleContent}</span>`
+                        : `<span class="flat-election-body">${titleContent}</span>`;
                     const dateLabel = entry.placeholder
                         ? `<span class="class-member__name">${nameContent}</span>`
                         : `<a href="#" class="class-member__name class-member__name-link flat-election-link" data-election-body="${esc(entry.body)}" data-election-date="${esc(entry.date)}">${nameContent}</a>`;

@@ -1,3 +1,16 @@
+# Restore election catalogue date typography
+- [x] Record scope
+  - Task: restore monospaced date tokens on election catalogue entries while keeping the derived public election name to the right in normal sans-serif text.
+  - Expected output: entries render like `03 Mar 1978 - 1978 Irish general election`, with only the date span using monospace/tabular numerals.
+- [x] Patch renderer and stylesheet
+  - Completed: split election row labels into `.flat-election-date`, `.flat-election-separator`, and `.flat-election-body` spans; only the date span keeps monospace/tabular numeral styling.
+- [x] Add route-validation guardrail
+  - Completed: `scripts/validate-test2-route.mjs` now asserts the split markup and rejects CSS that applies monospace to the full election link.
+- [x] Run focused verification
+  - Completed: `node --check js/ui-controller.js`, `node --check scripts/validate-test2-route.mjs`, and `npm run check:test2` passed.
+- [x] Commit and push scoped changes
+  - Completed: committed the scoped renderer/CSS/validation/task-log change as `Restore election catalogue date typography`; push follows after commit.
+
 # Execute dirty-worktree cleanup steps 1, 3, and 5
 - [x] Record scope
   - Task: preserve a non-destructive dirty-worktree safety snapshot, ignore local/private scratch material in place, and deliberately regenerate Browse metadata while avoiding broad staging, destructive cleanup, or hiding likely intentional ED/ward metadata.

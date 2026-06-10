@@ -2623,8 +2623,19 @@ button.catalogue-flat__toc-toplink {
 }
 
 .flat-election-link {
+  font-family: inherit;
+  font-variant-numeric: normal;
+}
+
+.flat-election-date {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   font-variant-numeric: tabular-nums;
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+}
+
+.flat-election-separator {
+  color: var(--color-text-muted);
 }
 
 .flat-election-body {
@@ -2633,7 +2644,6 @@ button.catalogue-flat__toc-toplink {
   font-size: 0.7rem;
   font-style: italic;
   color: var(--color-text-muted);
-  margin-left: 4px;
 }
 
 .flat-election-entry {
