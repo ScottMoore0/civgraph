@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 171) Quarantine can mean ignore-in-place when the user says not to move files
+- Mistake pattern: Interpreting "quarantine local/private scratch artifacts" as moving files out of the repo or into a separate folder even after the user clarifies that they want the files ignored where they are.
+- Impact: Cleanup work can disturb a user's local workflow, break private scratch references, or make it harder to inspect the exact dirty-worktree state that prompted the cleanup.
+- Guardrail:
+  1) when the user says "ignore, don't move", cleanup must add precise `.gitignore` rules or equivalent local-ignore rules only,
+  2) do not move, delete, archive, or restructure local/private scratch files unless separately requested,
+  3) leave intentionally reviewable public data and generated metadata visible unless the user explicitly asks to hide or stage it.
+
 ### 170) Election metadata must separate voting system, contest type, kind, and status
 - Mistake pattern: Treating election modelling fields as interchangeable, for example using `contestType` or body-name heuristics to infer whether an entry should have STV transfers, candidate rows, or vote-total invariants.
 - Impact: `/test2` audit recommendations can over-generalise across Westminster, Parliament of Northern Ireland, Assembly, Constitutional Convention, NI Forum, local-government, recall-petition, referendum, contested, and uncontested entries.

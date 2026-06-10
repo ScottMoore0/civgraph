@@ -1,3 +1,58 @@
+# Execute dirty-worktree cleanup steps 1, 3, and 5
+- [x] Record scope
+  - Task: preserve a non-destructive dirty-worktree safety snapshot, ignore local/private scratch material in place, and deliberately regenerate Browse metadata while avoiding broad staging, destructive cleanup, or hiding likely intentional ED/ward metadata.
+  - Expected output: patch/status/untracked inventory files under `C:\tmp`, `.gitignore` guardrails for local scratch/private/generated report artifacts, regenerated Browse metadata, and a clear statement of remaining visible worktree items.
+- [x] Create safety patch and inventories
+  - Completed: wrote `C:\tmp\civgraph-dirty-worktree-20260610.patch`, `C:\tmp\civgraph-untracked-files-20260610.txt`, and `C:\tmp\civgraph-status-20260610.txt`.
+- [x] Add ignore guardrails without moving files
+  - Completed: added precise `.gitignore` rules for `.codex-temp-commit/`, `privaterep_refactored/`, `test2/build/test2-general-parity-report.json`, and the identified local one-off research/integration scripts. No files were moved or deleted.
+- [x] Regenerate Browse metadata deliberately
+  - Completed: ran `npm run build:browse`, which regenerated `data\browse` from current source inputs.
+- [x] Inspect remaining dirty state
+  - Completed: after ignore guardrails, visible untracked files were reduced to 17 public-looking ED/ward/source/chunk metadata files. Tracked modifications remain: 3,847 modified paths, grouped as 2,601 under `data/browse`, 1,240 under `test/metadata`, 4 under `tasks`, plus `.gitignore` and `index.html`.
+- [x] Explain remaining work and risks
+  - Completed: remaining state is documented below and should be handled with scoped staging/review rather than broad cleanup.
+
+## Review: dirty-worktree cleanup steps 1, 3, and 5
+- Safety snapshot exists outside the repo in `C:\tmp`; this preserves the pre-cleanup state without staging or committing anything.
+- Local/private/scratch material is ignored in place as requested. The ignore rules are exact-path rules so they do not hide likely intentional ED/ward/source/chunk metadata.
+- Browse metadata was regenerated with `npm run build:browse`; the generated output now reflects the current source tree, but it is still a large public metadata changeset that needs scoped review before commit.
+- Remaining visible untracked files are deliberately not ignored: new source-detail JSON for ED/ward material, `wards-2022-final-recommendations` spatial-index metadata, and chunk metadata for ED/environment/small-area maps.
+- Recurring issue prevention: lesson 171 records that "quarantine" must mean ignore-in-place when the user explicitly says not to move files.
+
+# Scoped promotion of remaining public metadata
+- [x] Record scope
+  - Task: review the post-cleanup dirty worktree, stage only intentional public metadata/build-output changes, keep private/scratch material ignored in place, and avoid broad destructive cleanup.
+  - Expected output: a scoped staged set containing public Browse/test metadata and intentional ED/ward/source/chunk files only, with private/local scratch excluded.
+- [x] Review remaining tracked and untracked categories
+  - Completed: confirmed the substantive public scope is generated Browse metadata, new public ED/ward source detail records, public chunk/spatial-index JSON, and the `.gitignore` rules that keep local scratch/private material ignored in place.
+  - Completed: left timestamp-only generated audit/CDN report churn unstaged, avoided staging `/test/metadata` line-ending/stat noise, and left `index.html` unstaged because its cache-busting hashes do not match the current built assets.
+- [x] Stage only public intentional files without `git add -A`
+  - Completed: staged `.gitignore`, generated Browse metadata, new public ED/ward source records, public chunk/spatial-index JSON, and the task/lesson updates with explicit pathspecs only.
+- [x] Verify staged scope and run focused checks
+  - Completed: staged-path checks found no `index.html`, `/test/metadata`, `scripts/`, `.codex-temp-commit`, or `privaterep_refactored` paths in the index; private/local path scans found no hits outside the intended `.gitignore` entries.
+  - Verification evidence: `npm run build:browse` passed with maps `828`, elections `5220`, feature groups `94`, persons `14294`, and sources `1028`; `npm run check:test2` passed route isolation, election-data audit, PMTiles/CDN validation, and performance dashboard checks.
+- [x] Commit and push if the staged scope is safe
+  - Completed: final staged-scope checks were clean before commit: no excluded paths, no local/private path references outside `.gitignore`, Browse regeneration passed, and `/test2` checks passed.
+
+# Research dirty worktree and untracked files
+- [x] Record scope
+  - Task: inspect the current dirty worktree and untracked files, classify them by likely origin/risk, and recommend a safe cleanup path without deleting user data or committing unrelated generated churn.
+  - Expected output: a concrete keep/quarantine/revert/ignore recommendation for generated metadata, new map/source files, scratch scripts, private imported code, build reports, and task/audit artifacts.
+- [x] Inventory tracked modifications
+  - Completed: identified roughly 2,600 tracked modifications dominated by generated Browse detail JSON, plus aggregate Browse JSON churn, `index.html` asset hash changes, election audit timestamp churn, and this task log.
+- [x] Inventory untracked files and directories
+  - Completed: classified untracked files into `.codex-temp-commit` backup clone, `privaterep_refactored` imported/private code, source/chunk metadata JSON, one-off research scripts, a spatial-index JSON, and a generated `/test2` parity report.
+- [x] Sample representative diffs and file contents
+  - Completed: sampled Browse aggregate diffs, generated source details, chunk indexes, index asset hash changes, audit timestamp changes, private-path scripts, and imported private-code directories.
+- [x] Recommend cleanup sequence and guardrails
+  - Completed: recommendation is to avoid a wholesale commit; preserve a patch/inventory first, quarantine private/scratch material, keep only intentional ED/ward and generated Browse metadata in scoped commits after validation, revert timestamp/report/build noise, and add ignore/generator guardrails.
+
+## Review: dirty worktree and untracked files
+- The dirty tree is not one coherent changeset. It mixes intentional generated Browse metadata, timestamp/line-ending churn, local scratch scripts with private paths, an untracked temporary clone, imported private/refactored election code, and generated reports.
+- Highest-risk untracked material: `privaterep_refactored/` and Pointer/postcode scripts because they contain imported code, caches/pyc files, and local/private data paths such as `D:\eoni\properties.geojson` and `G:\My Drive`.
+- Best next step is non-destructive cleanup: export a patch and untracked inventory, then move scratch/private directories outside the repo or into a quarantine outside tracked paths before staging any intentional public data/metadata.
+
 # Fix election pane count semantics, party deltas, and map colour consistency
 - [ ] Record expanded scope
   - Task: finish `/test2` STV count-table semantics, post-quota dash cells, election feature colour consistency, election-wide candidate delta percentages, party/local-party zero-baseline deltas, local-party default sorting, terminology, and local council table parity.
