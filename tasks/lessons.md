@@ -1,5 +1,14 @@
 # Lessons Log
 
+### 175) STV terminal transfer display must handle omitted donor rows
+- Mistake pattern: Assuming the generated count rows will always include a negative `Transfers` value for the excluded/elected donor candidate.
+- Impact: `/test2` Detailed By Count tables can show recipient gains while hiding the corresponding donor deduction, so users cannot see votes being set to quota or zero.
+- Guardrail:
+  1) treat a candidate's exclusion/election count as the event, and display the transfer-out only on the following real count when one exists,
+  2) synthesize display-only donor cells from adjacent source totals without creating new count columns,
+  3) include synthesized negative donor transfers in count transfer-share denominators,
+  4) validation must cover STV bundles where explicit donor rows are omitted.
+
 ### 174) STV count tables must blank after real terminal transfer rows, not inferred outcomes
 - Mistake pattern: Treating a candidate's elected/not-elected state, or a later repeated quota total, as enough evidence to hide later By Count cells.
 - Impact: `/test2` can imply a candidate's surplus was transferred, or an eliminated candidate was set to zero, even when the source count sequence has no actual post-final transfer-out count.

@@ -1,3 +1,16 @@
+# Fix STV By Count negative transfer-out cells
+- [x] Record scope
+  - Task: explain and fix why `/test2` STV By Count Detailed View is not showing negative values where an elected or excluded candidate has votes deducted for transfer.
+  - Expected output: By Count Detailed View shows the negative transfer-out value and transfer-share percentage for the candidate being reduced to quota or zero, without inventing post-final rows.
+- [x] Inspect Sligo-Leitrim 2024 count data and renderer flow
+  - Completed: confirmed the Dáil Wikipedia-derived count rows store recipient gains but omit explicit negative donor rows for excluded/elected candidates.
+- [x] Patch renderer/data semantics if the negative transfer-out value is being blanked or attached to the wrong count column
+  - Completed: `/test2` now synthesizes display-only donor transfer-out cells on the following real count: excluded candidates show total `0` and a negative transfer; elected candidates above quota show quota and a negative surplus.
+- [x] Add validation coverage for visible negative transfer-out cells in generated STV data
+  - Completed: route validation now checks the transfer-out display helper and verifies generated STV bundles include cases requiring synthesized excluded and surplus transfer-out rows.
+- [x] Rebuild `/test2`, verify, commit, and push scoped fix
+  - Completed: `node --check` for the changed JS files, route validation, `/test2` build, and `npm run check:test2` passed.
+
 # Fix STV By Count transfer deduction display
 - [x] Record scope
   - Task: ensure `/test2` STV By Count tables show the count where an elected or excluded candidate actually has votes deducted for redistribution, so users can see votes being set to quota or zero, without creating fictional post-final-count deductions for candidates elected/not-elected on the last count.

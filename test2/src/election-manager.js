@@ -2163,7 +2163,7 @@ export class Test2ElectionManager {
           <tbody>
             ${orderedCandidates.map((candidate, index) => {
               const counts = new Map((candidate.counts || []).map((count) => [Number(count.count), count]));
-              const transferTerminalCount = stvResult ? terminalTransferOutCount(candidate, counts, result) : null;
+              const transferTerminalCount = stvResult ? terminalTransferOutCount(candidate, counts, result, rawCountNumbers) : null;
               const syntheticFirstCount = result.syntheticCountGroup ? counts.get(1) : null;
               const firstPrefs = result.syntheticCountGroup
                 ? numberOrZero(syntheticFirstCount?.firstPrefs ?? syntheticFirstCount?.total)
@@ -2188,18 +2188,21 @@ export class Test2ElectionManager {
                   <td class="election-num">${formatNumber(firstPrefs)}</td>
                   ${visibleCounts.map((count) => {
                     const row = counts.get(Number(count));
+                    const displayRow = stvResult
+                      ? terminalTransferOutDisplayRow(candidate, count, counts, result, rawCountNumbers, row)
+                      : row;
                     if (shouldDashAfterTerminalTransfer(count, transferTerminalCount)) {
                       return this.countDetailedView
                         ? '<td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td>'
                         : '<td class="election-num election-count-col">-</td>';
                     }
-                    if (!row) {
+                    if (!displayRow) {
                       return this.countDetailedView
                         ? '<td class="election-num election-count-col">&nbsp;</td><td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td>'
                         : '<td class="election-num election-count-col">&nbsp;</td>';
                     }
-                    const value = row.total ?? row.firstPrefs;
-                    const transfer = Number(row.transfers);
+                    const value = displayRow.total ?? displayRow.firstPrefs;
+                    const transfer = Number(displayRow.transfers);
                     const votePct = validPoll > 0 ? Number(value) / validPoll * 100 : 0;
                     const transferDenominator = transferDenominators.get(Number(count));
                     if (!this.countDetailedView) return `<td class="election-num election-count-col">${formatNumber(value)}</td>`;
@@ -3593,16 +3596,21 @@ function buildStvTransferContext(result = {}, candidates = [], countNumbers = []
   const nonTransferable = new Map();
   const transferDenominators = new Map();
   let runningNonTransferableTotal = 0;
-  for (const count of countNumbers.map(Number).filter(Number.isFinite).sort((a, b) => a - b)) {
+  const normalizedCountNumbers = normalizedCountSequence(countNumbers);
+  for (const count of normalizedCountNumbers) {
     const explicitRow = explicitNonTransferable.get(count);
     let candidateTransferSum = 0;
     let positiveRecipientTransfers = 0;
+    let negativeTransferOutAbs = 0;
     for (const candidate of candidates || []) {
-      const row = (candidate.counts || []).find((entry) => Number(entry.count) === count);
-      const transfer = finiteNumber(row?.transfers);
+      const counts = new Map((candidate.counts || []).map((entry) => [Number(entry.count), entry]));
+      const row = counts.get(count);
+      const displayRow = terminalTransferOutDisplayRow(candidate, count, counts, result, normalizedCountNumbers, row);
+      const transfer = finiteNumber(displayRow?.transfers);
       if (transfer === null) continue;
       candidateTransferSum += transfer;
       if (transfer > 0) positiveRecipientTransfers += transfer;
+      if (transfer < 0) negativeTransferOutAbs += Math.abs(transfer);
     }
     let nonTransferableTransfer = finiteNumber(explicitRow?.transfers);
     if (nonTransferableTransfer === null && count > 1) {
@@ -3622,47 +3630,103 @@ function buildStvTransferContext(result = {}, candidates = [], countNumbers = []
       transfers: nonTransferableTransfer || 0,
       inferred: !explicitRow
     });
-    transferDenominators.set(count, positiveRecipientTransfers + Math.max(0, nonTransferableTransfer || 0));
+    transferDenominators.set(count, {
+      positive: positiveRecipientTransfers + Math.max(0, nonTransferableTransfer || 0),
+      negativeAbs: negativeTransferOutAbs
+    });
   }
   return { nonTransferable, transferDenominators };
 }
 
 function formatTransferShare(transfer, denominator) {
   const transferValue = finiteNumber(transfer);
-  const denominatorValue = finiteNumber(denominator);
-  if (transferValue === null || transferValue <= 0 || denominatorValue === null || denominatorValue <= 0) return '-';
+  if (transferValue === null || Math.abs(transferValue) <= 0.0001) return '-';
+  const denominatorValue = denominator && typeof denominator === 'object'
+    ? (transferValue < 0 ? finiteNumber(denominator.negativeAbs) : finiteNumber(denominator.positive))
+    : finiteNumber(denominator);
+  if (denominatorValue === null || denominatorValue <= 0) return '-';
   return formatMainPercentDelta((transferValue / denominatorValue) * 100);
 }
 
-function terminalTransferOutCount(candidate = {}, counts = new Map(), result = {}) {
+function terminalTransferOutCount(candidate = {}, counts = new Map(), result = {}, countNumbers = []) {
   const quota = finiteNumber(result.quota ?? result.Quota ?? result.countInfo?.Quota ?? candidate.quota);
-  const rows = [...counts.values()]
-    .map((row) => ({ ...row, count: Number(row.count) }))
-    .filter((row) => Number.isFinite(row.count))
-    .sort((a, b) => a.count - b.count);
+  const rows = normalizedCountSequence(countNumbers.length ? countNumbers : [...counts.keys()]);
   let terminalCount = null;
 
-  rows.forEach((row, index) => {
-    if (terminalCount !== null || row.count <= 1) return;
-    const previous = index > 0 ? rows[index - 1] : null;
-    if (!previous) return;
+  rows.forEach((count) => {
+    if (terminalCount !== null || count <= 1) return;
+    const row = terminalTransferOutDisplayRow(candidate, count, counts, result, rows, counts.get(count));
+    if (!row) return;
     const total = finiteNumber(row.total ?? row.firstPrefs);
-    const previousTotal = finiteNumber(previous.total ?? previous.firstPrefs);
     const transfer = finiteNumber(row.transfers);
-    if (total === null || previousTotal === null || transfer === null || transfer >= -0.01) return;
+    if (total === null || transfer === null || transfer >= -0.01) return;
 
-    const wasExcludedAndRedistributed = previousTotal > 0.01 && total <= 0.01;
+    const wasExcludedAndRedistributed = total <= 0.01;
     const wasSurplusReducedToQuota = quota !== null
       && quota > 0
-      && previousTotal > quota + 0.01
       && Math.abs(total - quota) <= 0.01;
 
     if (wasExcludedAndRedistributed || wasSurplusReducedToQuota) {
-      terminalCount = row.count;
+      terminalCount = count;
     }
   });
 
   return terminalCount;
+}
+
+function terminalTransferOutDisplayRow(candidate = {}, count, counts = new Map(), result = {}, countNumbers = [], baseRow = null) {
+  const numericCount = Number(count);
+  if (!Number.isFinite(numericCount) || numericCount <= 1) return baseRow || null;
+  const actualTransfer = finiteNumber(baseRow?.transfers);
+  if (actualTransfer !== null && actualTransfer < -0.01) return baseRow;
+
+  const normalizedCounts = normalizedCountSequence(countNumbers.length ? countNumbers : [...counts.keys()]);
+  const previousCount = previousSourceCount(normalizedCounts, numericCount);
+  if (previousCount === null) return baseRow || null;
+  const eventCount = Number(candidate.excludedAt || candidate.electedAt || 0);
+  if (!eventCount || eventCount !== previousCount) return baseRow || null;
+
+  const eventRow = counts.get(eventCount);
+  const eventTotal = finiteNumber(eventRow?.total ?? eventRow?.firstPrefs);
+  if (eventTotal === null || eventTotal <= 0.01) return baseRow || null;
+
+  if (candidate.excludedAt && Number(candidate.excludedAt) === eventCount) {
+    return {
+      ...(baseRow || {}),
+      count: numericCount,
+      total: 0,
+      transfers: -eventTotal,
+      status: 'Excluded transfer'
+    };
+  }
+
+  if (candidate.electedAt && Number(candidate.electedAt) === eventCount) {
+    const quota = finiteNumber(result.quota ?? result.Quota ?? result.countInfo?.Quota ?? candidate.quota);
+    if (quota === null || quota <= 0 || eventTotal <= quota + 0.01) return baseRow || null;
+    return {
+      ...(baseRow || {}),
+      count: numericCount,
+      total: quota,
+      transfers: quota - eventTotal,
+      status: 'Surplus transfer'
+    };
+  }
+
+  return baseRow || null;
+}
+
+function normalizedCountSequence(countNumbers = []) {
+  return [...new Set(countNumbers.map(Number).filter(Number.isFinite))].sort((a, b) => a - b);
+}
+
+function previousSourceCount(countNumbers = [], count) {
+  let previous = null;
+  for (const candidate of countNumbers) {
+    const numeric = Number(candidate);
+    if (!Number.isFinite(numeric) || numeric >= Number(count)) break;
+    previous = numeric;
+  }
+  return previous;
 }
 
 function shouldDashAfterTerminalTransfer(count, terminalCount) {
