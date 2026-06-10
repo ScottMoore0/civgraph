@@ -1,3 +1,39 @@
+# Review unresolved generated/metadata dirty worktree
+- [x] Record scope
+  - Task: inspect the remaining modified generated/metadata files, identify what produced them and whether they should be committed, regenerated, ignored, or restored, then provide a recommendation without deleting data.
+- [x] Inspect dirty-file categories and representative diffs
+  - Completed: `git status` reports 1,778 modified paths, but `git diff --name-only -- data/browse test/metadata` reports 538 real content diffs. The rest are line-ending/status noise in generated test metadata.
+- [x] Trace generator/source ownership for each category
+  - Completed: `scripts/build-browse-indexes.mjs` owns the Browse election/source JSON changes; `scripts/build-test2-metadata-shards.mjs` owns the test metadata shard files; `scripts/validate-test2-pmtiles-cdn.mjs` owns the CDN validation report.
+- [x] Recommend a safe resolution path
+  - Completed: commit the regenerated Browse election metadata after a deterministic rebuild and validation; restore the timestamp-only CDN validation report and the line-ending-only test metadata shard noise; add an EOL guardrail separately if the line-ending churn recurs.
+
+## Review: unresolved generated/metadata dirty worktree
+- The substantive dirty files are the 268 Browse election detail pages, 268 Browse source detail pages, `data/browse/elections.json`, and `test/metadata/test2-cdn-validation-report.json`.
+- The Browse diffs are real generated data changes, mostly `previousKey` / `previousDate` changes caused by the recent comparable-election baseline logic. They should be regenerated once and committed as public runtime metadata if validation passes.
+- The CDN validation report diff is timestamp-only. It should be restored unless intentionally refreshing deployment audit output.
+- `test/metadata/layer-details-test2`, `test/metadata/duplicate-feature-ids`, and `test/metadata/maps-test-index.json` are dirty in status but have no content diff. They should not be committed; restore or normalize them to clear CRLF/LF churn.
+- Safe order: snapshot `git diff` and `git status` to `C:\tmp`, restore the no-content/timestamp-only test metadata churn, run the Browse generator, run route/data checks, then commit only the Browse election/source metadata.
+
+# Resolve generated/metadata dirty worktree
+- [x] Snapshot current dirty state
+  - Task: preserve a patch and status listing before restoring generated metadata churn.
+  - Completed: saved current patch and status under `%TEMP%` as `civgraph-dirty-worktree-20260610-222811.patch` and `civgraph-status-20260610-222811.txt` after `C:\tmp` rejected fresh writes.
+- [x] Restore non-semantic generated metadata churn
+  - Task: clear timestamp-only CDN report changes and line-ending-only test metadata shard changes without deleting data.
+  - Completed: restored line-ending-only changes in `test/metadata/layer-details-test2`, `test/metadata/duplicate-feature-ids`, `test/metadata/maps-test-index.json`, `test/metadata/election-anchors-test2`, and timestamp/report-only validation outputs.
+- [x] Regenerate Browse election metadata
+  - Task: run the Browse metadata generator so election/source detail pages are consistent with the latest baseline logic.
+  - Completed: ran `npm run build:browse`; Browse indexes now report 828 maps, 5,220 elections including subentries, 94 feature groups, 759 parties, 14,294 persons, and 1,028 sources.
+- [x] Validate and commit scoped changes
+  - Task: run relevant validation, then commit and push only the semantic Browse metadata plus task tracking.
+  - Completed: `npm run check:test2`, `npm run check`, and `npm run build` passed. Sandbox-only `spawnSync git EPERM` and esbuild `spawn EPERM` failures were rerun with escalation. Timestamp-only validation artifacts were restored after checks.
+
+## Review: generated/metadata dirty worktree resolution
+- Remaining intended commit scope is the regenerated `data/browse` election/source metadata and this task log.
+- The noisy `test/metadata` generated shard/report files are clean again and were not staged.
+- Verification passed for `/test2` route/data/CDN/performance checks, chunked bounds/fit, Pages file-budget checks, and the production bundle budget.
+
 # Fix Cloudflare production build failure after /test2 election-link push
 - [x] Reproduce the deployment failure locally
   - Completed: `npm run build` reproduced the Cloudflare blocker. The build completed bundling but failed the production performance budget because `build/app.bundle.js` was `361,132` bytes against a `360,000` byte guardrail.
