@@ -395,34 +395,106 @@ function buildUniqueElectionEntries(index) {
 }
 
 function buildPreviousElectionKeyLookup(entries) {
-  const byBody = new Map();
-  for (const entry of entries) {
-    if (!byBody.has(entry.body)) byBody.set(entry.body, []);
-    byBody.get(entry.body).push(entry);
-  }
   const previousByKey = new Map();
-  for (const bodyEntries of byBody.values()) {
-    bodyEntries.sort((a, b) => String(a.date).localeCompare(String(b.date)));
-    const previousGeneralByKey = new Map();
-    let previousGeneral = null;
-    for (const entry of bodyEntries) {
-      if (isGeneralElectionPreviousBaselineEntry(entry)) {
-        if (previousGeneral) previousGeneralByKey.set(electionKey(entry), electionKey(previousGeneral));
-        previousGeneral = entry;
-      }
-    }
-    for (let i = 1; i < bodyEntries.length; i += 1) {
-      const entry = bodyEntries[i];
-      previousByKey.set(electionKey(entry), previousGeneralByKey.get(electionKey(entry)) || electionKey(bodyEntries[i - 1]));
-    }
+  const ordered = [...entries].sort((a, b) => String(a.date).localeCompare(String(b.date)) || electionKey(a).localeCompare(electionKey(b)));
+  for (const entry of ordered) {
+    const previous = findPreviousComparableElection(entry, ordered);
+    if (previous) previousByKey.set(electionKey(entry), electionKey(previous));
   }
   return previousByKey;
 }
 
-function isGeneralElectionPreviousBaselineEntry(entry) {
-  if (entry.body !== 'House of Commons of the United Kingdom') return false;
+function findPreviousComparableElection(entry, orderedEntries) {
   const metadata = classifyElection(entry);
-  return metadata.contestType === 'election' && metadata.kind === 'general';
+  const group = comparableElectionGroup(entry);
+  if (!group || metadata.contestType !== 'election') return null;
+
+  const entryDate = String(entry.date || '');
+  const entryKey = electionKey(entry);
+  const previousEntries = orderedEntries.filter((candidate) => {
+    const candidateMetadata = classifyElection(candidate);
+    if (candidateMetadata.contestType !== 'election') return false;
+    const candidateKey = electionKey(candidate);
+    if (candidateKey === entryKey) return false;
+    if (String(candidate.date || '') >= entryDate) return false;
+    return comparableElectionGroup(candidate) === group;
+  });
+
+  if (metadata.kind === 'by-election') {
+    const matchingArea = previousEntries
+      .filter((candidate) => electionsOverlapByArea(entry, candidate))
+      .sort(compareElectionEntriesAsc);
+    return matchingArea.at(-1) || null;
+  }
+
+  const previousGeneral = previousEntries
+    .filter((candidate) => classifyElection(candidate).kind === 'general')
+    .sort(compareElectionEntriesAsc)
+    .at(-1);
+  if (previousGeneral) return previousGeneral;
+
+  if (group === 'dail') {
+    return orderedEntries
+      .filter((candidate) => {
+        const candidateMetadata = classifyElection(candidate);
+        return candidateMetadata.contestType === 'election'
+          && candidateMetadata.kind === 'general'
+          && comparableElectionGroup(candidate) === 'westminster'
+          && String(candidate.date || '') < entryDate;
+      })
+      .sort(compareElectionEntriesAsc)
+      .at(-1) || null;
+  }
+
+  return null;
+}
+
+function comparableElectionGroup(entry) {
+  const bodySlug = String(entry?.bodySlug || '');
+  if (bodySlug === 'house-of-commons-of-the-united-kingdom') return 'westminster';
+  if (bodySlug === 'dail-eireann') return 'dail';
+  if (bodySlug === 'ireland-president' || bodySlug === 'president-of-ireland') return 'ireland-president';
+  if (bodySlug === 'ireland-european') return 'european-roi';
+  if (bodySlug === 'european-parliament') return 'european-ni';
+  if (bodySlug === 'local-government') return 'ni-local';
+  if (bodySlug === 'ireland-local') return 'roi-local';
+  if ([
+    'northern-ireland-assembly',
+    'northern-ireland-constitutional-convention',
+    'northern-ireland-forum-for-political-dialogue',
+    'parliament-of-northern-ireland'
+  ].includes(bodySlug)) {
+    return 'ni-devolved';
+  }
+  return null;
+}
+
+function electionsOverlapByArea(entry, candidate) {
+  const current = normalizedElectionAreas(entry);
+  if (!current.size) return true;
+  const previous = normalizedElectionAreas(candidate);
+  if (!previous.size) return true;
+  for (const key of current) {
+    if (previous.has(key)) return true;
+  }
+  return false;
+}
+
+function normalizedElectionAreas(entry) {
+  const names = new Set();
+  for (const name of entry?.constituencies || []) {
+    const normalized = normalizeName(name);
+    if (normalized) names.add(normalized);
+  }
+  for (const name of entry?.localBodies || []) {
+    const normalized = normalizeName(name);
+    if (normalized) names.add(normalized);
+  }
+  return names;
+}
+
+function compareElectionEntriesAsc(a, b) {
+  return String(a.date || '').localeCompare(String(b.date || '')) || electionKey(a).localeCompare(electionKey(b));
 }
 
 function resolveElectionGeography(entry) {

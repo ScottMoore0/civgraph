@@ -826,6 +826,29 @@ body.test2-election-pane-resizing * {
   color: #fff;
 }
 
+.election-pane__title-link {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: none;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.election-pane__title-link:hover,
+.election-pane__title-link:focus-visible {
+  text-decoration: underline;
+}
+
 .test2-election-panel__summary {
   display: grid;
   gap: 8px;

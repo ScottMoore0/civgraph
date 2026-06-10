@@ -15,6 +15,7 @@ const electionViewModelSource = readFileSync('js/election-view-model.mjs', 'utf8
 const electionRendererSource = readFileSync('js/election-renderer.mjs', 'utf8');
 const electionControllerSource = readFileSync('js/election-controller.js', 'utf8');
 const electionManifestBuilderSource = readFileSync('scripts/build-test2-election-manifest.mjs', 'utf8');
+const browseIndexBuilderSource = readFileSync('scripts/build-browse-indexes.mjs', 'utf8');
 const electionDataAuditSource = readFileSync('scripts/audit-test2-election-data.mjs', 'utf8');
 const uiControllerSource = readFileSync('js/ui-controller.js', 'utf8');
 const mapControllerSource = readFileSync('test/src/map-controller.js', 'utf8');
@@ -345,6 +346,8 @@ assert(!/headerRight\.innerHTML = `[\s\S]{0,700}<span>Style<\/span>/.test(electi
 assert(electionControllerSource.includes('buildElectionViewModelFromMainController') && electionControllerSource.includes('renderElectionSummaryFromViewModel') && electionControllerSource.includes('_mirrorSharedElectionRenderer'), 'main election controller must mirror the shared view-model/renderer path for parity checks');
 assert(electionManifestBuilderSource.includes('OUT_ANCHOR_DIR') && electionManifestBuilderSource.includes('geometryAnchor') && electionManifestBuilderSource.includes('anchorUrl'), '/test2 election manifest build must generate geometry-derived election anchor sidecars');
 assert(electionManifestBuilderSource.includes('previousKey') && electionManifestBuilderSource.includes('partySummary') && electionManifestBuilderSource.includes('entityIndex'), '/test2 election bundles must include previous-election linkage and rich pane data');
+assert(electionManifestBuilderSource.includes('comparableElectionGroup') && electionManifestBuilderSource.includes('ni-devolved') && electionManifestBuilderSource.includes('european-roi') && electionManifestBuilderSource.includes('electionsOverlapByArea') && !electionManifestBuilderSource.includes('isGeneralElectionPreviousBaselineEntry'), '/test2 election previousKey generation must use comparable-election groups, not body-adjacent chronology');
+assert(browseIndexBuilderSource.includes('const PERSON_RELATED_LIMIT = Number.POSITIVE_INFINITY') && browseIndexBuilderSource.includes('const PARTY_RELATED_LIMIT = Number.POSITIVE_INFINITY'), '/test2 Browse party/candidate detail pages must keep full cross-election histories instead of truncated samples');
 assert(electionManifestBuilderSource.includes('localByDate') && electionManifestBuilderSource.includes('Local Government Districts'), '/test2 election manifest builder must group general local elections by jurisdiction/date instead of per council');
 assert(electionManifestBuilderSource.includes('matchEntryForConstituency') && electionManifestBuilderSource.includes('localBodyByConstituency'), '/test2 grouped local-election entries must preserve council-specific matching context');
 assert(electionManagerSource.includes('filterOverlayGroupsByCollision') && electionManagerSource.includes('SEAT_CIRCLE_COLLISION_MARGIN'), '/test2 election overlays must have main-style MapLibre-native collision suppression');
@@ -375,6 +378,9 @@ assert(uiControllerSource.includes('ensureMobileThumbnailDismissal') && uiContro
 assert(electionManagerSource.includes('renderCouncilResults') && electionManagerSource.includes('buildCouncilSummary'), '/test2 grouped local elections must expose a council-level results view');
 assert(electionManagerSource.includes('buildLocalAggregateSeatCircleGroups') && electionManagerSource.includes('aggregateType'), '/test2 local-government district/council mode must aggregate seat-circle overlays instead of always drawing DEA-level groups');
 assert(electionManagerSource.includes('activeEntityKind') && appSource.includes('electionEntityKind') && electionManagerSource.includes('electionEntityReturnView'), '/test2 election entity pages must round-trip through URL state');
+assert(appSource.includes('loadAreaBrowseDetail') && appSource.includes('buildPartyCandidateSummaries') && appSource.includes('mapPersonAppearanceRow') && appSource.includes('onOpenElectionConstituencyFeature'), '/test2 election entity links must open full party/candidate/area Browse detail pages in the left catalogue pane');
+assert(electionManagerSource.includes('data-election-selected-area') && electionManagerSource.includes('selectedResultEntityKind') && test2Css.includes('.election-pane__title-link'), '/test2 selected constituency/DEA result titles must be clickable links to full left-pane area pages');
+assert(uiControllerSource.includes("entry.kind === 'constituency'") && uiControllerSource.includes("entry.level || 'dea'"), '/test2 shared catalogue entity renderer must support constituency detail pages and preserve non-DEA constituency link levels');
 assert(electionManagerSource.includes('withCouncilDeltas') && electionManagerSource.includes('Seat change') && electionManagerSource.includes('Turnout change'), '/test2 grouped local council summaries must expose previous-election deltas where available');
 assert(electionManagerSource.includes('withLocalPartyDeltas') && electionManagerSource.includes('row.deltas?.share') && electionManagerSource.includes('formatMainPercentDelta'), '/test2 local-party summaries must expose previous-election deltas where available');
 assert(test2Css.includes('body.app-shell.test2-election-open'), '/test2 must resize the production shell when the election pane opens below the map');
@@ -538,6 +544,7 @@ if (existsSync('test/metadata/elections-test2.json')) {
   assertStvSyntheticTerminalTransferCoverage();
   assertNiElectionSeatCoverage();
   assertWestminsterGeneralElectionBaselines();
+  assertComparableElectionBaselines(electionManifest);
   const localEntries = (electionManifest.elections || []).filter((entry) => entry.bodyGroup === 'local-government');
   const generalLocalEntries = localEntries.filter((entry) => (entry.localBodies || []).length > 1);
   const generalLocalDates = new Map();
@@ -643,6 +650,23 @@ function assertWestminsterGeneralElectionBaselines() {
   }
   const westminster2019 = bundles.find((bundle) => bundle.date === '2019-12-12');
   assert(westminster2019?.previousDate === '2017-06-08', '/test2 Westminster 2019 must compare against the 2017 UK general election, not the 2018 North Antrim recall petition');
+}
+
+function assertComparableElectionBaselines(electionManifest) {
+  const entries = new Map((electionManifest.elections || []).map((entry) => [entry.key, entry]));
+  const expectPrevious = (key, expectedPreviousKey) => {
+    const entry = entries.get(key);
+    assert(Boolean(entry), `/test2 comparable-baseline check could not find ${key}`);
+    assert(entry?.previousKey === expectedPreviousKey, `/test2 ${key} must compare against ${expectedPreviousKey}, not ${entry?.previousKey || 'none'}`);
+  };
+  expectPrevious('dail-eireann__2024-11-29', 'dail-eireann__2020-02-08');
+  expectPrevious('northern-ireland-assembly__2022-05-05', 'northern-ireland-assembly__2017-03-02');
+  expectPrevious('ireland-european__2024-06-07', 'ireland-european__2019-05-24');
+  expectPrevious('european-parliament__2019-05-23', 'european-parliament__2014-05-22');
+  const westTyrone2018 = entries.get('house-of-commons-of-the-united-kingdom__2018-05-03');
+  assert(westTyrone2018?.previousKey === 'house-of-commons-of-the-united-kingdom__2017-06-08', '/test2 Westminster by-elections must compare against the previous comparable election in that constituency');
+  const comparedNonElections = [...entries.values()].filter((entry) => /referendum|recall petition/i.test(`${entry.contestType || ''} ${entry.displayTitle || ''}`) && entry.previousKey);
+  assert(comparedNonElections.length === 0, `/test2 referendums and recall petitions must not carry previousKey comparisons: ${comparedNonElections.slice(0, 5).map((entry) => entry.key).join(', ')}`);
 }
 
 function assertStvTerminalTransferCoverage() {

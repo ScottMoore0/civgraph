@@ -1,3 +1,24 @@
+# Fix /test2 election entity links and comparable deltas
+- [x] Record scope
+  - Task: make election-pane party/label and candidate links open full cross-election entity pages in the left catalogue pane, make selected constituency/DEA names clickable to their full feature pages, and compute By Party/By Candidate/By Local Party vote and vote-share deltas against the last comparable election of the same kind.
+  - Expected output: `/test2` entity-link behavior matches main-site intent, and comparison figures do not use unrelated referendums/recalls/body events as baselines.
+- [x] Inspect current election pane link routing, Browse entity data, and generated previous-election contract
+  - Completed: `/test2` was routing party/candidate links through lightweight Browse summaries; candidate history links always targeted DEA pages; selected result titles were plain text; the manifest still assigned `previousKey` to referendums and used body chronology rather than comparable contest groups.
+- [x] Patch full entity-page routing for parties/labels, candidates, and selected constituencies/DEAs
+  - Completed: `/test2` now opens full left-pane entity pages for parties, candidates, constituencies, DEAs, and councils/LGDs, with party/candidate pages using complete Browse histories and selected result titles linking to the relevant area page.
+- [x] Patch comparable-election baseline generation and delta use for party/candidate/local-party rows
+  - Completed: election bundle generation now chooses previous baselines by comparable election group, suppresses referendum/recall comparisons, handles by-elections by matching constituency/DEA, and zero-baselines candidate deltas where a comparable previous election exists.
+- [x] Add route/data validation guardrails
+  - Completed: route validation now asserts comparable-election baseline generation, full Browse entity history limits, selected constituency/DEA title links, and full left-pane party/candidate/area detail routing.
+- [x] Rebuild `/test2`, verify, commit, and push scoped fix
+  - Completed: regenerated `/test2` election bundles and Browse indexes, rebuilt the `/test2` bundle, and verified with syntax checks, `node scripts/validate-test2-route.mjs`, targeted Westminster sequence probes, and `npm run check:test2`.
+
+## Review: /test2 election entity links and comparable deltas
+- Party/label and candidate links in election tables now route to full catalogue-pane entity pages backed by complete Browse histories instead of one-election summaries.
+- Selected constituency/DEA/council titles in the election pane now act as links to full left-pane area result history pages.
+- Comparable-election baselines now skip referendums and recall petitions, compare elections by election family, and zero-baseline new parties/candidates when a comparable previous election exists.
+- Westminster general elections now compare only against the previous Westminster general election; the 2019 bundle points to 2017 and all 2019 Westminster candidates have vote totals available in the generated bundle.
+
 # Populate UK general-election figures consistently
 - [x] Record scope
   - Task: review why `/test2` 2024 UK general-election figures are populated in the election pane while 2019 figures are not, and fix the same issue for all UK general elections.

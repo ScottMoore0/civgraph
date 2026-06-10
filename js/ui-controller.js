@@ -7160,7 +7160,7 @@ class UIController {
                 <a href="#"
                     class="catalogue-detail__entity-link catalogue-detail__entity-link--text catalogue-detail__entity-link--constituency"
                     data-election-constituency-feature="1"
-                    data-election-constituency-level="dea"
+                    data-election-constituency-level="${this.escapeHtml(entry.level || 'dea')}"
                     data-election-constituency-body="${this.escapeHtml(entry.body || '')}"
                     data-election-constituency-date="${this.escapeHtml(entry.date || '')}"
                     data-election-constituency-name="${this.escapeHtml(entry.constituency || '')}">
@@ -7258,7 +7258,7 @@ class UIController {
         };
         const isCandidate = entry.kind === 'candidate';
         const isParty = entry.kind === 'party';
-        const isArea = entry.kind === 'dea' || entry.kind === 'lgd';
+        const isArea = entry.kind === 'dea' || entry.kind === 'lgd' || entry.kind === 'constituency';
         const title = isCandidate ? (entry.name || entry.personId) : entry.name;
         const subtitle = isCandidate
             ? `${entry.latestParty || (entry.parties || []).join(', ') || 'Independent'}`
@@ -7285,14 +7285,22 @@ class UIController {
                     ['Last Assembly result', entry.latestAssembly ? pct(entry.latestAssembly.validVotePct) : 'N/A'],
                     ['Last Assembly 1st prefs', entry.latestAssembly ? fmt(entry.latestAssembly.firstPrefs) : 'N/A']
                 ]
-                : [
-                    ['Elections', fmt(entry.metrics?.elections || 0)],
-                    [entry.kind === 'dea' ? 'Districts' : 'DEAs', fmt(entry.kind === 'dea' ? (entry.metrics?.districts || 0) : (entry.metrics?.deas || 0))],
-                    ['Total valid votes', fmt(entry.metrics?.totalValidVotes || 0)],
-                    ['Total seats', fmt(entry.metrics?.totalSeats || 0)],
-                    ['Latest election', entry.metrics?.latestDate ? this.escapeHtml(formatElectionDate(entry.metrics.latestDate)) : 'N/A'],
-                    [entry.kind === 'dea' ? 'Area type' : 'Body type', this.escapeHtml(entry.subtitle || '')]
-                ]);
+                : (entry.kind === 'constituency'
+                    ? [
+                        ['Elections', fmt(entry.metrics?.elections || 0)],
+                        ['Total valid votes', fmt(entry.metrics?.totalValidVotes || 0)],
+                        ['Total seats', fmt(entry.metrics?.totalSeats || 0)],
+                        ['Latest election', entry.metrics?.latestDate ? this.escapeHtml(formatElectionDate(entry.metrics.latestDate)) : 'N/A'],
+                        ['Area type', this.escapeHtml(entry.subtitle || 'Constituency')]
+                    ]
+                    : [
+                        ['Elections', fmt(entry.metrics?.elections || 0)],
+                        [entry.kind === 'dea' ? 'Districts' : 'DEAs', fmt(entry.kind === 'dea' ? (entry.metrics?.districts || 0) : (entry.metrics?.deas || 0))],
+                        ['Total valid votes', fmt(entry.metrics?.totalValidVotes || 0)],
+                        ['Total seats', fmt(entry.metrics?.totalSeats || 0)],
+                        ['Latest election', entry.metrics?.latestDate ? this.escapeHtml(formatElectionDate(entry.metrics.latestDate)) : 'N/A'],
+                        [entry.kind === 'dea' ? 'Area type' : 'Body type', this.escapeHtml(entry.subtitle || '')]
+                    ]));
 
         const metricsHtml = metrics.map(([label, value]) => `
             <div class="catalogue-detail__metric-card">
@@ -7536,7 +7544,17 @@ class UIController {
                 { key: 'validVotes', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) },
                 { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => fmt(row.seats) }
             ]
-            : [
+            : entry.kind === 'constituency'
+                ? [
+                    { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, true) },
+                    { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(formatElectionDate(row.date || '')) },
+                    { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
+                    { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => fmt(row.winnerVotes) },
+                    { key: 'winnerPct', label: 'Leading party %', kind: 'numeric', align: 'num', getValue: (row) => row.winnerPct, render: (row) => pct(row.winnerPct) },
+                    { key: 'validVotes', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) },
+                    { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => fmt(row.seats) }
+                ]
+                : [
                 { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, false) },
                 { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(formatElectionDate(row.date || '')) },
                 { key: 'deaCount', label: 'DEAs', kind: 'numeric', align: 'num', getValue: (row) => row.deaCount, render: (row) => fmt(row.deaCount) },

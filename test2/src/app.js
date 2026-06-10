@@ -509,6 +509,10 @@ class Test2App {
     uiController.onCheckElectionLoaded = (body, date) => this.elections?.isElectionLoaded(body, date) || false;
     uiController.onSetupElectionTableControls = () => {};
     uiController.onOpenElectionEntityDetail = async (kind, key) => this.openElectionEntityDetailInCatalogue(kind, key);
+    uiController.onOpenElectionConstituencyFeature = async ({ constituency, level }) => {
+      const kind = level === 'council' ? 'lgd' : level === 'dea' ? 'dea' : 'constituency';
+      return this.openElectionEntityDetailInCatalogue(kind, constituency);
+    };
 
     uiController.onSplitChange = () => {
       this.mapController.invalidateSize();
@@ -1036,11 +1040,14 @@ class Test2App {
     const normalizedKind = String(kind || '').toLowerCase();
     const cacheKey = `${normalizedKind}:${key || ''}`;
     if (this.browseEntityDetailCache.has(cacheKey)) return this.browseEntityDetailCache.get(cacheKey);
-    const detail = normalizedKind === 'party'
-      ? await this.loadPartyBrowseDetail(key)
-      : normalizedKind === 'candidate'
-        ? await this.loadPersonBrowseDetail(key)
-        : null;
+    let detail = null;
+    if (normalizedKind === 'party') {
+      detail = await this.loadPartyBrowseDetail(key);
+    } else if (normalizedKind === 'candidate') {
+      detail = await this.loadPersonBrowseDetail(key);
+    } else if (['constituency', 'dea', 'lgd'].includes(normalizedKind)) {
+      detail = await this.loadAreaBrowseDetail(normalizedKind, key);
+    }
     if (detail) this.browseEntityDetailCache.set(cacheKey, detail);
     return detail;
   }
@@ -1054,7 +1061,8 @@ class Test2App {
         if (!response.ok) continue;
         const detail = await response.json();
         const item = detail.item || detail;
-        return this.mapPartyBrowseItem(item);
+        const persons = await this.loadBrowsePersonsIndex();
+        return this.mapPartyBrowseItem(item, persons);
       } catch (error) {
         console.warn('[Test2] Party Browse detail unavailable', candidateSlug, error);
       }
@@ -1079,6 +1087,63 @@ class Test2App {
     return item ? this.mapPersonBrowseItem(item) : null;
   }
 
+  async loadAreaBrowseDetail(kind, key) {
+    const name = String(key || '').trim();
+    if (!name) return null;
+    const elections = await this.ensureElections();
+    const catalogueEntries = Array.isArray(elections?.catalogue?.elections) ? elections.catalogue.elections : [];
+    const target = normalizeEntityName(name);
+    const rows = [];
+    for (const entry of catalogueEntries) {
+      const candidateNames = kind === 'lgd'
+        ? [...(entry.localBodies || []), entry.body]
+        : (entry.constituencies || []);
+      const mayContainTarget = candidateNames.some((candidate) => normalizeEntityName(candidate) === target);
+      if (!mayContainTarget && !(kind === 'constituency' && entry.key === this.elections?.activeEntry?.key)) continue;
+      let bundle = null;
+      try {
+        bundle = await elections.loadBundle(entry);
+      } catch {
+        continue;
+      }
+      const matchingResults = (bundle.results || []).filter((result) => {
+        if (kind === 'lgd') {
+          return normalizeEntityName(result.localBody || result.localGovernmentDistrict || result.council || result.bodyLabel || '') === target;
+        }
+        return normalizeEntityName(result.constituency || result.matchName || result.featureName || '') === target;
+      });
+      if (!matchingResults.length) continue;
+      if (kind === 'lgd') {
+        rows.push(this.mapCouncilAreaHistoryRow(entry, bundle, name, matchingResults));
+      } else {
+        for (const result of matchingResults) {
+          rows.push(this.mapConstituencyAreaHistoryRow(entry, bundle, result, kind));
+        }
+      }
+    }
+    rows.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')) || String(a.electionDisplayName || '').localeCompare(String(b.electionDisplayName || '')));
+    if (!rows.length) return null;
+    const metrics = {
+      elections: rows.length,
+      districts: [...new Set(rows.map((row) => normalizeEntityName(row.localGovernmentDistrict)).filter(Boolean))].length,
+      deas: kind === 'lgd'
+        ? rows.reduce((sum, row) => sum + Number(row.deaCount || 0), 0)
+        : rows.length,
+      totalValidVotes: rows.reduce((sum, row) => sum + Number(row.validVotes || 0), 0),
+      totalSeats: rows.reduce((sum, row) => sum + Number(row.seats || 0), 0),
+      latestDate: rows[0]?.date || null
+    };
+    return {
+      kind,
+      key: slugifyEntityKey(name),
+      name,
+      colour: rows[0]?.winnerColour || '#64748b',
+      subtitle: kind === 'lgd' ? 'Local Government District / Council' : kind === 'dea' ? 'District Electoral Area' : 'Constituency',
+      metrics,
+      historyRows: rows
+    };
+  }
+
   async loadBrowsePersonsIndex() {
     if (!this.browsePersonsIndexPromise) {
       this.browsePersonsIndexPromise = fetch('/data/browse/persons.json', { cache: 'force-cache' })
@@ -1091,29 +1156,20 @@ class Test2App {
     return this.browsePersonsIndexPromise;
   }
 
-  mapPartyBrowseItem(item) {
+  mapPartyBrowseItem(item, persons = []) {
     const related = Array.isArray(item.relatedElections) ? item.relatedElections : [];
     const latestByMatch = (pattern) => related.find((row) => pattern.test(`${row.key || ''} ${row.title || ''}`));
+    const historyRows = related.map((row) => this.mapPartyHistoryRow(row));
+    const candidateSummaries = this.buildPartyCandidateSummaries(item, persons);
     return {
       kind: 'party',
       key: item.slug || slugifyEntityKey(item.canonicalName || item.title),
       name: item.canonicalName || item.title || item.slug || '',
-      latestWestminster: latestByMatch(/house-of-commons|UK general|Westminster/i),
-      latestAssembly: latestByMatch(/northern-ireland-assembly|Assembly/i),
-      partySummaries: related.map((row) => ({
-        electionDisplayName: row.title || row.key || '',
-        electionBodyForOpen: row.body || '',
-        body: row.body || '',
-        date: row.date || '',
-        electionType: row.key || '',
-        rank: row.rank || null,
-        contested: true,
-        stood: row.stood ?? row.candidates ?? null,
-        elected: row.seats ?? row.elected ?? null,
-        firstPrefs: row.votes ?? row.firstPrefs ?? null,
-        validVotePct: row.share ?? null,
-        bodyGroup: row.bodyGroup || null
-      })),
+      latestWestminster: historyRows.find((row) => /Westminster/i.test(row.electionType)) || latestByMatch(/house-of-commons|UK general|Westminster/i),
+      latestAssembly: historyRows.find((row) => /Assembly/i.test(row.electionType)) || latestByMatch(/northern-ireland-assembly|Assembly/i),
+      historyRows,
+      partySummaries: historyRows,
+      candidateSummaries,
       totals: item.totals || {},
       observedNames: item.observedNames || [],
       knownAliases: item.knownAliases || [],
@@ -1125,6 +1181,7 @@ class Test2App {
   mapPersonBrowseItem(item) {
     const elections = Array.isArray(item.elections) ? item.elections : [];
     const latest = elections[0] || null;
+    const appearances = elections.map((row) => this.mapPersonAppearanceRow(row));
     return {
       kind: 'candidate',
       key: item.slug || item.id || slugifyEntityKey(item.name || item.title),
@@ -1135,28 +1192,198 @@ class Test2App {
       dates: [...new Set(elections.map((row) => String(row.year || row.date || '')).filter(Boolean))],
       constituencies: (item.constituencies || []).map((row) => row.name || row).filter(Boolean),
       constituencyEntries: elections.map((row) => ({
-        body: row.title || row.key || '',
+        body: electionBodyFromEntityKey(row.key),
         date: row.date || '',
         constituency: row.constituency || '',
-        elected: Boolean(row.elected)
+        level: electionTypeFromEntityKey(row.key, row.title) === 'Local' ? 'dea' : 'constituency',
+        elected: Boolean(row.elected),
+        mapLayerYear: row.year || String(row.date || '').slice(0, 4)
       })),
-      appearances: elections.map((row) => ({
-        electionDisplayName: row.title || row.key || '',
-        electionBodyForOpen: '',
-        body: '',
-        date: row.date || '',
-        constituency: row.constituency || '',
-        party: row.party || '',
-        status: row.status || (row.elected ? 'Elected' : ''),
-        rank: row.rank || null,
-        firstPrefs: row.firstPrefs ?? null,
-        firstPrefPct: row.firstPrefPct ?? null,
-        elected: Boolean(row.elected)
-      })),
+      appearances,
       firstPrefs: item.totals?.firstPrefs || 0,
       electedCount: item.totals?.elected || 0,
       shareOfAllValid: null,
-      latestAppearance: latest
+      latestAppearance: appearances[0] || latest
+    };
+  }
+
+  mapPartyHistoryRow(row = {}) {
+    const body = electionBodyFromEntityKey(row.key) || row.body || '';
+    const electionType = electionTypeFromEntityKey(row.key, row.title);
+    const totalSeats = row.totalSeats ?? null;
+    const elected = row.seats ?? row.elected ?? null;
+    const stood = row.stood ?? row.candidates ?? null;
+    return {
+      electionDisplayName: row.title || row.key || '',
+      electionBodyForOpen: body,
+      body,
+      bodyLabel: body,
+      date: row.date || '',
+      electionType,
+      rank: row.rank ?? null,
+      rankDelta: row.rankDelta ?? null,
+      contested: !/referendum|recall/i.test(`${row.title || ''} ${row.key || ''}`),
+      isRecallPetition: /recall petition/i.test(`${row.title || ''} ${row.key || ''}`),
+      isByElection: /by-election/i.test(`${row.title || ''} ${row.key || ''}`),
+      stood,
+      stoodDelta: row.stoodDelta ?? null,
+      elected,
+      electedDelta: row.electedDelta ?? row.seatsDelta ?? null,
+      totalSeats,
+      totalSeatsDelta: row.totalSeatsDelta ?? null,
+      seatPct: totalSeats ? (Number(elected || 0) / Number(totalSeats) * 100) : null,
+      seatPctDelta: row.seatPctDelta ?? null,
+      constituenciesContested: row.constituenciesContested ?? row.constituencies ?? null,
+      constituenciesContestedDelta: row.constituenciesContestedDelta ?? null,
+      totalConstituencies: row.totalConstituencies ?? null,
+      totalConstituenciesDelta: row.totalConstituenciesDelta ?? null,
+      firstPrefs: row.votes ?? row.firstPrefs ?? null,
+      firstPrefsDelta: row.votesDelta ?? row.firstPrefsDelta ?? null,
+      validVotePct: row.share ?? row.validVotePct ?? null,
+      validVotePctDelta: row.shareDelta ?? row.validVotePctDelta ?? null,
+      bodyGroup: row.bodyGroup || null
+    };
+  }
+
+  mapPersonAppearanceRow(row = {}) {
+    const body = electionBodyFromEntityKey(row.key);
+    const electionType = electionTypeFromEntityKey(row.key, row.title);
+    const firstPref = row.firstPref ?? row.firstPrefs ?? row.votes ?? null;
+    return {
+      electionDisplayName: row.title || row.key || '',
+      electionBodyForOpen: body,
+      body,
+      bodyLabel: electionType === 'Local' ? (row.localBody || row.bodyLabel || body) : body,
+      date: row.date || '',
+      constituency: row.constituency || '',
+      party: row.party || '',
+      status: row.status || (row.elected ? 'Elected' : ''),
+      rank: row.rank || null,
+      firstPref,
+      firstPrefs: firstPref,
+      firstPrefPct: row.firstPrefPct ?? row.share ?? null,
+      elected: Boolean(row.elected),
+      electionType,
+      isByElection: /by-election/i.test(`${row.title || ''} ${row.key || ''}`),
+      overallStandingNumber: row.overallStandingNumber ?? null,
+      overallElectedNumber: row.overallElectedNumber ?? null,
+      bodyStandingNumber: row.bodyStandingNumber ?? null,
+      bodyElectedNumber: row.bodyElectedNumber ?? null
+    };
+  }
+
+  buildPartyCandidateSummaries(item = {}, persons = []) {
+    const aliases = new Set([
+      item.canonicalName,
+      item.title,
+      ...(item.observedNames || []),
+      ...(item.knownAliases || [])
+    ].map(normalizeEntityName).filter(Boolean));
+    const summaries = new Map();
+    for (const person of persons || []) {
+      for (const row of person.elections || []) {
+        if (!aliases.has(normalizeEntityName(row.party))) continue;
+        const personId = person.id || person.slug || slugifyEntityKey(person.name || person.title);
+        if (!summaries.has(personId)) {
+          summaries.set(personId, {
+            personId,
+            name: person.name || person.title || personId,
+            totalFirstPrefs: 0,
+            timesStood: 0,
+            timesStoodLocal: 0,
+            timesStoodDevolved: 0,
+            timesStoodWestminster: 0,
+            timesStoodEuropean: 0,
+            timesElected: 0,
+            timesElectedLocal: 0,
+            timesElectedDevolved: 0,
+            timesElectedWestminster: 0,
+            timesElectedEuropean: 0,
+            constituencyEntries: []
+          });
+        }
+        const summary = summaries.get(personId);
+        const electionType = electionTypeFromEntityKey(row.key, row.title);
+        const bucket = electionTypeBucket(electionType);
+        summary.totalFirstPrefs += Number(row.firstPref ?? row.firstPrefs ?? row.votes ?? 0) || 0;
+        summary.timesStood += 1;
+        if (bucket) summary[`timesStood${bucket}`] += 1;
+        if (row.elected) {
+          summary.timesElected += 1;
+          if (bucket) summary[`timesElected${bucket}`] += 1;
+        }
+        if (row.constituency) {
+          summary.constituencyEntries.push({
+            body: electionBodyFromEntityKey(row.key),
+            date: row.date || '',
+            constituency: row.constituency,
+            level: electionType === 'Local' ? 'dea' : 'constituency',
+            elected: Boolean(row.elected),
+            mapLayerYear: row.year || String(row.date || '').slice(0, 4)
+          });
+        }
+      }
+    }
+    return [...summaries.values()].sort((a, b) => (
+      b.timesElected - a.timesElected
+        || b.totalFirstPrefs - a.totalFirstPrefs
+        || b.timesStood - a.timesStood
+        || a.name.localeCompare(b.name)
+    ));
+  }
+
+  mapConstituencyAreaHistoryRow(entry, bundle, result, kind) {
+    const party = result.winnerParty || result.leadingParty || '';
+    const votes = result.leadingVotes ?? result.winnerVotes ?? null;
+    const validVotes = result.validPoll ?? result.totalVotes ?? null;
+    return {
+      electionDisplayName: bundle.displayTitle || entry.displayTitle || entry.title || entry.key || '',
+      electionBodyForOpen: bundle.body || entry.body || '',
+      body: bundle.body || entry.body || '',
+      date: bundle.date || entry.date || '',
+      localGovernmentDistrict: result.localBody || result.localGovernmentDistrict || '',
+      winnerParty: party,
+      winnerColour: result.winnerColour || result.leadingColour || result.colour || '#b0bec5',
+      winnerVotes: votes,
+      winnerPct: result.leadingPct ?? result.winnerPct ?? (validVotes && votes ? Number(votes) / Number(validVotes) * 100 : null),
+      validVotes,
+      seats: result.seatsTotal ?? result.seatsWon ?? null,
+      isByElection: /by-election/i.test(`${bundle.displayTitle || entry.displayTitle || ''}`),
+      areaKind: kind
+    };
+  }
+
+  mapCouncilAreaHistoryRow(entry, bundle, name, results) {
+    const partyTotals = new Map();
+    let validVotes = 0;
+    let seats = 0;
+    for (const result of results) {
+      validVotes += Number(result.validPoll || 0);
+      seats += Number(result.seatsTotal ?? result.seatsWon ?? 0) || 0;
+      for (const candidate of result.candidates || []) {
+        const party = candidate.party || result.leadingParty || 'Independent';
+        const key = normalizeEntityName(party);
+        const current = partyTotals.get(key) || { party, votes: 0, colour: candidate.colour || result.leadingColour || '#b0bec5' };
+        current.votes += Number(candidate.firstPrefs ?? candidate.votes ?? 0) || 0;
+        partyTotals.set(key, current);
+      }
+    }
+    const leading = [...partyTotals.values()].sort((a, b) => b.votes - a.votes)[0] || {};
+    return {
+      electionDisplayName: bundle.displayTitle || entry.displayTitle || entry.title || entry.key || '',
+      electionBodyForOpen: bundle.body || entry.body || '',
+      body: bundle.body || entry.body || '',
+      date: bundle.date || entry.date || '',
+      deaCount: results.length,
+      districtElectoralAreas: results.map((result) => result.constituency).filter(Boolean),
+      winnerParty: leading.party || '',
+      winnerColour: leading.colour || '#b0bec5',
+      winnerVotes: leading.votes || null,
+      winnerPct: validVotes && leading.votes ? leading.votes / validVotes * 100 : null,
+      validVotes,
+      seats,
+      isByElection: /by-election/i.test(`${bundle.displayTitle || entry.displayTitle || ''}`),
+      localGovernmentDistrict: name
     };
   }
 
@@ -1869,6 +2096,65 @@ function slugifyEntityKey(value) {
     .replace(/&/g, ' and ')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
+}
+
+function normalizeEntityName(value) {
+  return String(value || '')
+    .split('|')[0]
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\([^)]*\)/g, ' ')
+    .replace(/&/g, ' and ')
+    .replace(/[''`]/g, '')
+    .replace(/[-_/.,()]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+function electionBodyFromEntityKey(key) {
+  const bodyKey = String(key || '').split('__')[0];
+  if (!bodyKey) return '';
+  if (bodyKey.startsWith('local-government')) return 'Local Government Districts';
+  const bodies = new Map([
+    ['dail-eireann', 'Dáil Éireann'],
+    ['house-of-commons-of-the-united-kingdom', 'House of Commons of the United Kingdom'],
+    ['northern-ireland-assembly', 'Northern Ireland Assembly'],
+    ['northern-ireland-forum-for-political-dialogue', 'Northern Ireland Forum for Political Dialogue'],
+    ['northern-ireland-constitutional-convention', 'Northern Ireland Constitutional Convention'],
+    ['parliament-of-northern-ireland', 'Parliament of Northern Ireland'],
+    ['european-parliament', 'European Parliament'],
+    ['ireland-european', 'European Parliament (Ireland)'],
+    ['ireland-president', 'President of Ireland'],
+    ['president-of-ireland', 'President of Ireland'],
+    ['ireland-referendum', 'Referendum (Ireland)'],
+    ['ireland-local', 'Local Government (Ireland)']
+  ]);
+  return bodies.get(bodyKey) || bodyKey.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function electionTypeFromEntityKey(key, title = '') {
+  const bodyKey = String(key || '').split('__')[0];
+  const label = `${bodyKey} ${title || ''}`;
+  if (bodyKey.startsWith('local-government') || bodyKey === 'ireland-local') return 'Local';
+  if (bodyKey === 'house-of-commons-of-the-united-kingdom') return 'Westminster';
+  if (bodyKey === 'dail-eireann') return 'Dáil';
+  if (bodyKey === 'northern-ireland-assembly') return 'Assembly';
+  if (bodyKey === 'northern-ireland-forum-for-political-dialogue') return 'Forum';
+  if (bodyKey === 'northern-ireland-constitutional-convention') return 'Convention';
+  if (bodyKey === 'parliament-of-northern-ireland') return 'Parliament of NI';
+  if (bodyKey === 'european-parliament' || bodyKey === 'ireland-european') return 'European';
+  if (bodyKey === 'ireland-president' || bodyKey === 'president-of-ireland') return 'Presidential';
+  if (/referendum/i.test(label)) return 'Referendum';
+  return bodyKey ? bodyKey.replace(/-/g, ' ') : 'Election';
+}
+
+function electionTypeBucket(electionType) {
+  if (/Local/i.test(electionType)) return 'Local';
+  if (/Assembly|Forum|Convention|Parliament of NI/i.test(electionType)) return 'Devolved';
+  if (/Westminster/i.test(electionType)) return 'Westminster';
+  if (/European/i.test(electionType)) return 'European';
+  return '';
 }
 
 function formatBytes(value) {
