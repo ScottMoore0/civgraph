@@ -37,7 +37,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="build/app.bundle.js?v=87cd4ed966d0" fetchpriority="high">
+  <link rel="modulepreload" href="build/app.bundle.js?v=47f5107406fa" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -75,8 +75,8 @@
   <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
        loaded async via media=print + onload swap so it doesn't block first
        paint. Browsers without JS fall back via <noscript>. -->
-  <link rel="stylesheet" href="build/main.css?v=807347a52b34" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="build/main.css?v=807347a52b34"></noscript>
+  <link rel="stylesheet" href="build/main.css?v=91fe8d5b4d49" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="build/main.css?v=91fe8d5b4d49"></noscript>
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
   <link rel="stylesheet" href="election-viewer-package/css/election-viewer.css" media="print" onload="this.media='all'">
@@ -713,7 +713,7 @@
        and jsdelivr (~50-100ms each on cold mobile) and removes third-party
        SPOFs. Safe because no synchronous script (jquery-shim, election engine)
        references any of these symbols at parse time; the module bundle
-       (build/app.bundle.js?v=87cd4ed966d0 is type=module which is implicitly deferred and
+       (build/app.bundle.js?v=47f5107406fa is type=module which is implicitly deferred and
        runs after these. Turf is kept on unpkg for now — it's only used by
        dynamic-import paths and isn't fetched on first paint. -->
   <script src="assets/js/leaflet-1.9.4.js" defer></script>
@@ -795,7 +795,7 @@
   </script>
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="build/app.bundle.js?v=87cd4ed966d0"></script>
+  <script type="module" src="build/app.bundle.js?v=47f5107406fa"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

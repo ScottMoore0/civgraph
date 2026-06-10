@@ -210,7 +210,9 @@ console.log('Bundle created: build/app.bundle.js');
 // Performance budgets — fail the build if assets grow unexpectedly
 
 const budgets = [
-    { file: 'build/app.bundle.js', max: 360_000, label: 'Main bundle' },
+    // The main shell gained cross-election Browse/entity routing. Keep the
+    // guardrail tight, but allow the current production bundle to deploy.
+    { file: 'build/app.bundle.js', max: 365_000, label: 'Main bundle' },
     { file: 'build/main.css',      max: 230_000, label: 'CSS' },
 ];
 

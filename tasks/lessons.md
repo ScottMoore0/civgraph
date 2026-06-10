@@ -2294,6 +2294,15 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   3) when a newer request arrives, add it to the queue and mention where it will run in the sequence,
   4) do not commit/push partial queue items unless the completed subset is independently correct and the remaining queued work is clearly documented.
 
+### 166) Production bundle budgets must be checked after large generated-route work
+- Mistake pattern: Shipping a `/test2`/Browse feature commit after running route checks, but not rechecking the root production `npm run build` budget before push.
+- Impact: the application code can be correct while Cloudflare Pages rejects the deployment because the main bundle is slightly over its configured byte budget.
+- Guardrail:
+  1) after any cross-election Browse/entity routing or shared UI-controller change, run the root production build before push,
+  2) if a bundle budget fails by a small justified amount, either split code out of the entry bundle or adjust the budget narrowly with a comment,
+  3) do not treat `/test2` route checks as a substitute for the root Cloudflare Pages build,
+  4) record the exact bundle size and budget in `tasks/todo.md` when changing deployment guardrails.
+
 ### 165) Election parity fixes must be applied to the displayed path, not only helper/fallback paths
 - Mistake pattern: Fixing election table, naming, or transfer semantics in a helper module while `/test2` still renders through a separate manager or generated bundle path.
 - Impact: source code can appear corrected while the live election pane, catalogue row, or map overlay still shows the old behaviour, causing repeated visual mismatches against main.

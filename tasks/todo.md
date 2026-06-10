@@ -1,3 +1,11 @@
+# Fix Cloudflare production build failure after /test2 election-link push
+- [x] Reproduce the deployment failure locally
+  - Completed: `npm run build` reproduced the Cloudflare blocker. The build completed bundling but failed the production performance budget because `build/app.bundle.js` was `361,132` bytes against a `360,000` byte guardrail.
+- [x] Patch the deployment guardrail narrowly
+  - Completed: raised the main bundle budget to `365,000` bytes in `scripts/bundle.mjs`, preserving a tight production limit while allowing the current user-facing cross-election Browse/entity routing bundle to deploy.
+- [x] Verify the full Cloudflare Pages build guardrails
+  - Completed: `npm run build` now passes with `build/app.bundle.js` at `361,132` bytes against the new `365,000` byte limit; `npm run check` passes chunked bounds, chunked fit, and Pages file-budget validation with `16,128/20,000` deployable files. The destructive `scripts/clean-for-pages.sh` path was not run directly in the working tree because it removes source directories and is intended for Cloudflare's temporary clone.
+
 # Fix /test2 election entity links and comparable deltas
 - [x] Record scope
   - Task: make election-pane party/label and candidate links open full cross-election entity pages in the left catalogue pane, make selected constituency/DEA names clickable to their full feature pages, and compute By Party/By Candidate/By Local Party vote and vote-share deltas against the last comparable election of the same kind.
