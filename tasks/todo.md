@@ -1,3 +1,20 @@
+# Fix STV By Count transfer deduction display
+- [x] Record scope
+  - Task: ensure `/test2` STV By Count tables show the count where an elected or excluded candidate actually has votes deducted for redistribution, so users can see votes being set to quota or zero, without creating fictional post-final-count deductions for candidates elected/not-elected on the last count.
+  - Expected output: all STV election entries use the same table semantics; deduction counts are visible only where a real next count exists in the source count sequence.
+- [x] Inspect count table view-model and rendering flow
+  - `/test2` renders STV count tables in `test2/src/election-manager.js`.
+  - Main-site parity rule is `terminalCount`: show the real count where an excluded candidate is set to zero, or an elected candidate's surplus is set to quota, then blank only later repeated cells.
+  - Existing `/test2` quota-hold logic could infer terminal display from elected/quota state rather than from an actual negative transfer row.
+- [x] Patch shared STV count display semantics
+  - Replaced `/test2` quota-hold shortcut with `terminalTransferOutCount`, which only recognizes an actual negative transfer count where a candidate is set to quota or zero.
+  - By Count tables now show the terminal deduction count itself and dash only later cells.
+- [x] Add/extend validation coverage for real deduction counts and no fictional final counts
+  - Added route validation that rejects the old quota/elected-state shortcut.
+  - Added generated-bundle validation for real STV surplus-to-quota and exclusion transfer-out rows.
+- [x] Rebuild `/test2`, verify, commit, and push scoped fix
+  - Completed: `node --check test2/src/election-manager.js`, `node --check scripts/validate-test2-route.mjs`, `node scripts/validate-test2-route.mjs`, rebuilt `/test2`, and ran `npm run check:test2`; the scoped STV By Count fix is ready for commit and push.
+
 # Fix deployed /test2 election catalogue typography
 - [x] Record correction scope
   - Task: make the visible `/test2` election catalogue entries show a monospace date followed by a normal derived election title, not only the unbundled source controller.

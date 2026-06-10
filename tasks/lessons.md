@@ -1,5 +1,14 @@
 # Lessons Log
 
+### 174) STV count tables must blank after real terminal transfer rows, not inferred outcomes
+- Mistake pattern: Treating a candidate's elected/not-elected state, or a later repeated quota total, as enough evidence to hide later By Count cells.
+- Impact: `/test2` can imply a candidate's surplus was transferred, or an eliminated candidate was set to zero, even when the source count sequence has no actual post-final transfer-out count.
+- Guardrail:
+  1) terminal count suppression must key off an actual negative transfer row,
+  2) show the count where votes are set to quota or zero, then blank only later repeated rows,
+  3) never create or imply fictional transfer counts after the last source count,
+  4) route validation must reject quota/elected-state shortcuts in `/test2` count rendering.
+
 ### 173) `/test2` visible catalogue fixes must update the route bundle and route CSS
 - Mistake pattern: Patching shared source and validation while forgetting that `/test2` serves a built `test2/build/test2.bundle.js` and route-local CSS.
 - Impact: local source checks pass and the commit pushes, but the deployed `/test2` page still renders the old election catalogue labels.

@@ -2163,7 +2163,7 @@ export class Test2ElectionManager {
           <tbody>
             ${orderedCandidates.map((candidate, index) => {
               const counts = new Map((candidate.counts || []).map((count) => [Number(count.count), count]));
-              const quotaHoldCount = stvResult ? quotaHoldStartCount(candidate, counts, result) : null;
+              const transferTerminalCount = stvResult ? terminalTransferOutCount(candidate, counts, result) : null;
               const syntheticFirstCount = result.syntheticCountGroup ? counts.get(1) : null;
               const firstPrefs = result.syntheticCountGroup
                 ? numberOrZero(syntheticFirstCount?.firstPrefs ?? syntheticFirstCount?.total)
@@ -2188,7 +2188,7 @@ export class Test2ElectionManager {
                   <td class="election-num">${formatNumber(firstPrefs)}</td>
                   ${visibleCounts.map((count) => {
                     const row = counts.get(Number(count));
-                    if (shouldDashQuotaHeldCount(count, quotaHoldCount)) {
+                    if (shouldDashAfterTerminalTransfer(count, transferTerminalCount)) {
                       return this.countDetailedView
                         ? '<td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td>'
                         : '<td class="election-num election-count-col">-</td>';
@@ -3634,28 +3634,39 @@ function formatTransferShare(transfer, denominator) {
   return formatMainPercentDelta((transferValue / denominatorValue) * 100);
 }
 
-function quotaHoldStartCount(candidate = {}, counts = new Map(), result = {}) {
+function terminalTransferOutCount(candidate = {}, counts = new Map(), result = {}) {
   const quota = finiteNumber(result.quota ?? result.Quota ?? result.countInfo?.Quota ?? candidate.quota);
-  if (quota === null || quota <= 0) return null;
   const rows = [...counts.values()]
     .map((row) => ({ ...row, count: Number(row.count) }))
     .filter((row) => Number.isFinite(row.count))
     .sort((a, b) => a.count - b.count);
-  for (let index = 0; index < rows.length; index += 1) {
-    const row = rows[index];
+  let terminalCount = null;
+
+  rows.forEach((row, index) => {
+    if (terminalCount !== null || row.count <= 1) return;
+    const previous = index > 0 ? rows[index - 1] : null;
+    if (!previous) return;
     const total = finiteNumber(row.total ?? row.firstPrefs);
-    if (total === null || Math.abs(total - quota) > 0.5) continue;
-    if (candidate.electedAt && row.count < Number(candidate.electedAt)) continue;
-    const previousTotal = finiteNumber(rows[index - 1]?.total ?? rows[index - 1]?.firstPrefs);
-    const wasReducedToQuota = previousTotal !== null && previousTotal > quota + 0.5 && finiteNumber(row.transfers) !== null && finiteNumber(row.transfers) < -0.5;
-    const laterHeldAtQuota = rows.some((later) => later.count > row.count && Math.abs((finiteNumber(later.total ?? later.firstPrefs) ?? Number.POSITIVE_INFINITY) - quota) <= 0.5);
-    if (wasReducedToQuota || laterHeldAtQuota || candidate.elected) return row.count;
-  }
-  return null;
+    const previousTotal = finiteNumber(previous.total ?? previous.firstPrefs);
+    const transfer = finiteNumber(row.transfers);
+    if (total === null || previousTotal === null || transfer === null || transfer >= -0.01) return;
+
+    const wasExcludedAndRedistributed = previousTotal > 0.01 && total <= 0.01;
+    const wasSurplusReducedToQuota = quota !== null
+      && quota > 0
+      && previousTotal > quota + 0.01
+      && Math.abs(total - quota) <= 0.01;
+
+    if (wasExcludedAndRedistributed || wasSurplusReducedToQuota) {
+      terminalCount = row.count;
+    }
+  });
+
+  return terminalCount;
 }
 
-function shouldDashQuotaHeldCount(count, quotaHoldCount) {
-  return quotaHoldCount !== null && quotaHoldCount !== undefined && Number(count) > Number(quotaHoldCount);
+function shouldDashAfterTerminalTransfer(count, terminalCount) {
+  return terminalCount !== null && terminalCount !== undefined && Number(count) > Number(terminalCount);
 }
 
 function numericColour(value, min, max) {

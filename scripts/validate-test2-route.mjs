@@ -333,6 +333,7 @@ const resultHasAnimationSource = resultHasAnimationStart >= 0 && resultHasAnimat
   : '';
 assert(resultHasAnimationSource.includes('result.syntheticCountGroup') && resultHasAnimationSource.includes('animationRows.length') && resultHasAnimationSource.includes('Number(row.Count_Number) > 1') && !resultHasAnimationSource.includes('if (result.animationPayload) return true'), '/test2 selected result Transfers tab must expose Dail scraper stage payloads while still requiring an animation payload');
 assert(electionManagerSource.includes('renderCountTable') && electionManagerSource.includes('election-count-row') && electionManagerSource.includes('election-count-wrapper--pane-sticky') && electionManagerSource.includes('visibleCounts'), '/test2 count panes must use the main visible-count table contract');
+assert(electionManagerSource.includes('terminalTransferOutCount') && electionManagerSource.includes('shouldDashAfterTerminalTransfer') && electionManagerSource.includes('wasExcludedAndRedistributed') && electionManagerSource.includes('wasSurplusReducedToQuota') && !electionManagerSource.includes('quotaHoldStartCount') && !electionManagerSource.includes('laterHeldAtQuota || candidate.elected'), '/test2 STV By Count panes must show real transfer-out terminal counts and must not infer fictional post-final deductions from elected/not-elected state alone');
 assert(electionDomainSource.includes('__syntheticCountGroup: true') && electionDomainSource.includes('__syntheticCountStages') && electionDomainSource.includes('Synthetic_Scraper_Stage_Row') && electionManagerSource.includes('const rawCountNumbers = sourceCountNumbers') && !electionManagerSource.includes('Not Elected<br>Count 1/1'), '/test2 scraper-style election results must expose available encoded Dail count stages without hard-coding all synthetic rows as first-count-only');
 assert(existsSync('scripts/import-dail-wikipedia-counts.mjs') && electionManifestBuilderSource.includes('DAIL_WIKIPEDIA_COUNTS_ROOT') && electionManifestBuilderSource.includes('Wikipedia_Count_Row') && electionManifestBuilderSource.includes('buildDailWikipediaCountPayload'), '/test2 Dail bundles must prefer locally imported Wikipedia count-table sidecars over synthetic scraper rows where available');
 assert(electionManagerSource.includes('renderPartyEntity') && electionManagerSource.includes('renderCandidateEntity') && electionManagerSource.includes('election-entity-page__hero'), '/test2 entity panes must use main-style entity page structure');
@@ -532,6 +533,7 @@ if (existsSync('test/metadata/elections-test2.json')) {
   const queensUniversity = (stormont1921Bundle.results || []).find((result) => result.syntheticNonGeographic && /Queen's University/.test(result.constituency || ''));
   assert(queensUniversity?.matched === true && Array.isArray(queensUniversity.anchor?.center), '/test2 Queen\'s University Stormont rows must be clickable synthetic non-geographical results with map anchors');
   assert(queensUniversity?.anchor?.method === 'synthetic-northeast-non-geographic', '/test2 Queen\'s University synthetic anchor must stay on the northeast side of the election geography');
+  assertStvTerminalTransferCoverage();
   assertNiElectionSeatCoverage();
   const localEntries = (electionManifest.elections || []).filter((entry) => entry.bodyGroup === 'local-government');
   const generalLocalEntries = localEntries.filter((entry) => (entry.localBodies || []).length > 1);
@@ -618,4 +620,48 @@ function assertNiElectionSeatCoverage() {
     }
   }
   assert(mismatches.length === 0, `/test2 NI election seat coverage must match constituency/DEA seat totals: ${mismatches.slice(0, 8).join('; ')}`);
+}
+
+function assertStvTerminalTransferCoverage() {
+  if (!existsSync('test/metadata/elections-test2')) return;
+  const filenames = readdirSync('test/metadata/elections-test2')
+    .filter((name) => name.endsWith('.json'));
+  const surplusTerminalRows = [];
+  const excludedTerminalRows = [];
+  for (const filename of filenames) {
+    const bundle = JSON.parse(readFileSync(`test/metadata/elections-test2/${filename}`, 'utf8'));
+    for (const result of bundle.results || []) {
+      const votingSystem = String(result.votingSystem || bundle.votingSystem || '').toLowerCase();
+      if (!votingSystem.startsWith('stv-')) continue;
+      const quota = finiteValidationNumber(result.quota ?? result.Quota ?? result.countInfo?.Quota);
+      for (const candidate of result.candidates || []) {
+        const rows = (candidate.counts || [])
+          .map((row) => ({ ...row, count: Number(row.count) }))
+          .filter((row) => Number.isFinite(row.count))
+          .sort((a, b) => a.count - b.count);
+        for (let index = 1; index < rows.length; index += 1) {
+          const row = rows[index];
+          if (row.count <= 1) continue;
+          const previous = rows[index - 1];
+          const total = finiteValidationNumber(row.total ?? row.firstPrefs);
+          const previousTotal = finiteValidationNumber(previous.total ?? previous.firstPrefs);
+          const transfer = finiteValidationNumber(row.transfers);
+          if (total === null || previousTotal === null || transfer === null || transfer >= -0.01) continue;
+          if (previousTotal > 0.01 && total <= 0.01) {
+            excludedTerminalRows.push(`${filename}:${result.constituency}:${candidate.name}:count${row.count}`);
+          }
+          if (quota !== null && quota > 0 && previousTotal > quota + 0.01 && Math.abs(total - quota) <= 0.01) {
+            surplusTerminalRows.push(`${filename}:${result.constituency}:${candidate.name}:count${row.count}`);
+          }
+        }
+      }
+    }
+  }
+  assert(excludedTerminalRows.length > 0, '/test2 STV By Count validation must find real exclusion transfer-out rows in generated bundles');
+  assert(surplusTerminalRows.length > 0, '/test2 STV By Count validation must find real surplus-to-quota transfer-out rows in generated bundles');
+}
+
+function finiteValidationNumber(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
 }
