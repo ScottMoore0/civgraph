@@ -215,7 +215,14 @@ assert(
     mainCss.includes('.flat-election-body') &&
     mainCss.includes('font-family: inherit') &&
     !/\.flat-election-link\s*\{[^}]*ui-monospace/s.test(mainCss),
-  '/test2 election catalogue CSS must apply monospace only to the date span, not the whole election title link'
+  '/test2 shared election catalogue CSS must apply monospace only to the date span, not the whole election title link'
+);
+assert(
+  test2Css.includes('.flat-election-date') &&
+    test2Css.includes('.flat-election-body') &&
+    test2Css.includes('font-family: inherit') &&
+    !/\.flat-election-link\s*\{[^}]*ui-monospace/s.test(test2Css),
+  '/test2 route CSS must apply monospace only to the date span, because /test2 does not load the root catalogue CSS directly'
 );
 assert(uiControllerSource.includes("catalogue-flat__toc-decade-btn')") || uiControllerSource.includes('catalogue-flat__toc-decade-btn, .catalogue-flat__toc'), '/test2 decade TOC buttons must be handled by the delegated flat-catalogue navigation path');
 assert(appSource.includes("anchor.closest?.('#catalogueFlatView')") && appSource.includes('anchor.dataset?.catalogueTarget'), '/test2 route guard must not pre-empt catalogue-managed hash links before lazy section rendering can run');

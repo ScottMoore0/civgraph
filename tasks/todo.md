@@ -1,3 +1,16 @@
+# Fix deployed /test2 election catalogue typography
+- [x] Record correction scope
+  - Task: make the visible `/test2` election catalogue entries show a monospace date followed by a normal derived election title, not only the unbundled source controller.
+  - Root cause: the previous fix changed `js/ui-controller.js` and root CSS, but `/test2` uses a prebuilt `test2/build/test2.bundle.js` plus route CSS; the deployed bundle and route CSS were not regenerated with the visible change.
+- [x] Patch `/test2` route CSS and route validation
+  - Completed: added split date/title typography to `test2/src/test2.css` and extended `scripts/validate-test2-route.mjs` so `/test2` route CSS is checked directly, not just the shared root CSS.
+- [x] Rebuild `/test2` deployable bundle
+  - Completed: ran `npm run build:test2`, regenerating `/test2` JS/CSS bundles, service-worker version, performance dashboard, and cache-busted route references.
+- [x] Verify bundle contains split date/title markup
+  - Completed: `rg` confirmed `.flat-election-date`, `.flat-election-separator`, and `.flat-election-body` are present in `test2/build/test2.bundle.js` and `test2/build/test2.bundle.css`; `npm run check:test2` passed route validation, election-data audit, PMTiles/CDN validation, and performance checks.
+- [x] Commit and push scoped fix
+  - Completed: staged only the `/test2` route/build/validation files and task logs; excluded root `index.html`, regenerated audit reports, and pre-existing `test/metadata` churn.
+
 # Restore election catalogue date typography
 - [x] Record scope
   - Task: restore monospaced date tokens on election catalogue entries while keeping the derived public election name to the right in normal sans-serif text.

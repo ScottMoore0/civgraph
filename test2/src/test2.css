@@ -729,6 +729,30 @@ body.test2-election-pane-resizing * {
   box-shadow: inset 3px 0 0 var(--color-primary, #1a365d);
 }
 
+.flat-election-link {
+  font-family: inherit;
+  font-variant-numeric: normal;
+}
+
+.flat-election-date {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-semibold, 600);
+  color: var(--color-text, #1a202c);
+}
+
+.flat-election-separator {
+  color: var(--color-text-muted, #718096);
+}
+
+.flat-election-body {
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+  font-variant-numeric: normal;
+  font-size: 0.7rem;
+  font-style: italic;
+  color: var(--color-text-muted, #718096);
+}
+
 .flat-election-entry--loading .election-load-btn {
   position: relative;
 }

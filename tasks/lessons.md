@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 173) `/test2` visible catalogue fixes must update the route bundle and route CSS
+- Mistake pattern: Patching shared source and validation while forgetting that `/test2` serves a built `test2/build/test2.bundle.js` and route-local CSS.
+- Impact: local source checks pass and the commit pushes, but the deployed `/test2` page still renders the old election catalogue labels.
+- Guardrail:
+  1) after changing shared code consumed by `/test2`, run `npm run build:test2` or otherwise verify `test2/build/test2.bundle.js` contains the new markup,
+  2) put route-visible CSS in `test2/src/test2.css` when `/test2` needs it, not only in root `assets/css/main.css`,
+  3) route validation must assert the loaded `/test2` CSS/bundle contract, not only the source helper contract.
+
 ### 172) Election catalogue date typography must not leak onto derived public names
 - Mistake pattern: Restoring public election names in catalogue rows while keeping a single monospaced link wrapper for the whole label.
 - Impact: the date and derived title become visually fused, and titles such as `2024 Irish general election` inherit date-only monospace styling.
