@@ -5385,3 +5385,15 @@ Add election entries to /test2
     - Root cause: generated writers rewrote volatile `generatedAt` fields and Windows CRLF-expanded generated JSON caused stat/size churn.
     - Permanent prevention action: added stable generated JSON writes, preserved election summary URLs during two-step election manifest generation, normalized generated JSON line endings, stopped metadata shard directory delete/recreate churn, and made the metadata-index performance budget use LF-normalized text bytes.
     - Verification evidence: the election generator, full `/test2` build, and full `/test2` check path now complete without reintroducing generated-output diffs.
+
+# Fix Test rewrite readiness workflow failure and assess /test2 cold-load speed
+- [x] Inspect failed workflow run
+  - Completed: inspected GitHub run `27369699268`. Both `validate-test` and `mobile-smoke` failed at the shared `npm run build:test` step, before browser smoke logic ran.
+  - Root cause: `/test` validation rejected `civil-parishes-alias-test` because it had `aliasOf: civil-parishes-by-province` but `cloneOf: null`.
+- [x] Implement the CI fix
+  - Completed: changed alias promotion so manual/composite aliases retain the resolved alias target in `cloneOf`, updated the current `/test` and `/test2` metadata rows for `civil-parishes-alias-test`, and updated the readiness reports whose semantic counts changed as a result.
+  - Guardrail: `/test` readiness report writers now use stable generated JSON so timestamp-only reruns do not dirty tracked reports; mobile smoke now has a CI-safe cold-cache budget for the heavy townlands PMTiles layer.
+- [x] Verify locally
+  - Verification evidence: `npm run build:test`, `npm run check:test:ci-safe`, `npm run smoke:test:mobile`, `npm run test:performance:test`, `npm run test:browser:test`, and `npm run test:visual:test` all passed. The build and Playwright commands required approved escalation on Windows because the sandbox blocks esbuild/Chromium process spawning.
+- [x] Explain cold-load feasibility
+  - Completed: first-navigation `/test2` speed can be materially improved, but the highest-impact work is architectural: replace the current multi-megabyte startup metadata/index fetch with a tiny boot index plus lazy detail shards; defer catalogue/election heavy logic until after first paint; split critical CSS/JS more aggressively; and keep PMTiles/large data on immutable CDN/R2 URLs with compression/cache discipline.

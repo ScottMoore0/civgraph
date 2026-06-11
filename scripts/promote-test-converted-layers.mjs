@@ -367,6 +367,7 @@ function buildRasterTileLayer(row, map) {
 }
 
 function buildAliasLayer(row, map, target, aliasTargetId = row.cloneOf) {
+  const cloneTargetId = row.cloneOf || aliasTargetId || null;
   const style = normalizeStyle(row.style || map.style || target.style);
   const references = (row.references || []).length ? row.references : (target.references || []);
   const sourceDownloads = (row.sourceDownloads || []).length ? row.sourceDownloads : (target.sourceDownloads || []);
@@ -408,13 +409,13 @@ function buildAliasLayer(row, map, target, aliasTargetId = row.cloneOf) {
     status: 'converted-alias',
     conversionStatus: 'convertedAlias',
     aliasOf: aliasTargetId,
-    cloneOf: row.cloneOf || null,
+    cloneOf: cloneTargetId,
     aliasTargetLayerId: target.id,
     notes: `${row.name || row.sourceMapId} reuses the converted geometry from ${target.name || aliasTargetId}.`,
     generatedFrom: {
       pipeline: ALIAS_PIPELINE,
       sourceMapId: row.sourceMapId,
-      cloneOf: row.cloneOf || null,
+      cloneOf: cloneTargetId,
       aliasOf: aliasTargetId,
       targetLayerId: target.id
     }

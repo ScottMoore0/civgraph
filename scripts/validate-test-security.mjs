@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
 const REPORT_PATH = resolve(ROOT, 'test/metadata/security-dependency-report.json');
@@ -28,7 +29,7 @@ const report = {
   pass: checks.every((item) => item.ok)
 };
 
-writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
+writeStableGeneratedJson(REPORT_PATH, report);
 console.log(`Wrote ${REPORT_PATH.replace(`${ROOT}\\`, '').replaceAll('\\', '/')}`);
 for (const item of checks) console.log(`- ${item.ok ? 'PASS' : 'FAIL'} ${item.name}: ${item.detail}`);
 if (!report.pass) process.exit(1);

@@ -3,8 +3,9 @@
  * Validate /test CDN manifest, PMTiles URL state, and quarantine records.
  */
 
-import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
@@ -112,7 +113,7 @@ const report = {
   errors
 };
 
-writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
+writeStableGeneratedJson(REPORT_PATH, report);
 console.log('Civgraph /test CDN Manifest Validation');
 console.log(`- warnings: ${warnings.length}`);
 console.log(`- errors: ${errors.length}`);

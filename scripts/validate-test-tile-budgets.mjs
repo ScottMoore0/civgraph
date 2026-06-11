@@ -3,8 +3,9 @@
  * Validate generated /test tile outputs against operational budgets.
  */
 
-import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
@@ -96,8 +97,7 @@ const report = {
   errors
 };
 
-mkdirSync(dirname(REPORT_PATH), { recursive: true });
-writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
+writeStableGeneratedJson(REPORT_PATH, report);
 
 console.log('Civgraph /test Tile Budget Check');
 console.log(`- layers: ${report.totals.layers}`);

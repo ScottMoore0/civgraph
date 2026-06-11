@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { chromium } from '@playwright/test';
 import { createTestStaticServer } from './test-static-server.mjs';
+import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
 const PORT = Number(process.env.TEST_PERF_PORT || 4182);
@@ -77,7 +77,9 @@ try {
   await new Promise((resolveClose) => server.close(resolveClose));
 }
 
-writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
+writeStableGeneratedJson(REPORT_PATH, report, {
+  volatilePaths: ['generatedAt', 'bootMs', 'layers']
+});
 console.log(`Wrote ${REPORT_PATH.replace(`${ROOT}\\`, '').replaceAll('\\', '/')}`);
 console.log(`Boot: ${report.bootMs}ms`);
 for (const layer of report.layers) console.log(`- ${layer.layerId}: ${layer.loadMs}ms, ${layer.frameRate}fps, rendered ${layer.renderedFeatures}`);

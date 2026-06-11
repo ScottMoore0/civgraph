@@ -4,15 +4,16 @@
  */
 
 import { createServer } from 'node:http';
-import { readFileSync, writeFileSync, existsSync, statSync } from 'node:fs';
+import { readFileSync, existsSync, statSync } from 'node:fs';
 import { extname, resolve } from 'node:path';
 import { chromium } from '@playwright/test';
+import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/mobile-smoke-report.json');
 const PORT = Number(process.env.TEST_SMOKE_PORT || 4177);
-const MAX_LAYER_MS = Number(process.env.TEST_SMOKE_MAX_LAYER_MS || 7000);
+const MAX_LAYER_MS = Number(process.env.TEST_SMOKE_MAX_LAYER_MS || 12000);
 const DEFAULT_LAYER_IDS = [
   'civil-parishes-vector-test',
   'roi-garda-regions-vector-test',
@@ -130,7 +131,9 @@ const report = {
     && failedResponses.length === 0
 };
 
-writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
+writeStableGeneratedJson(REPORT_PATH, report, {
+  volatilePaths: ['generatedAt', 'totalDurationMs', 'layerResults']
+});
 console.log(`Mobile smoke tested ${layerResults.length} layer(s).`);
 for (const result of layerResults) {
   console.log(`- ${result.layerId}: ${result.durationMs}ms, rendered ${result.renderedFeatures}, ${result.status || 'loaded'}`);

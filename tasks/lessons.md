@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 179) /test alias metadata readiness is stricter than /test2-only checks
+- Mistake pattern: Treating `/test2` checks as sufficient after generated metadata cleanup.
+- Impact: the GitHub Test rewrite readiness workflow failed in `build:test` because `civil-parishes-alias-test` retained `aliasOf` but had a null `cloneOf`, violating the `/test` validator contract before any browser smoke step could run.
+- Guardrail:
+  1) after touching `/test` metadata, alias promotion, or generated metadata cleanup, run `npm run build:test` before pushing,
+  2) generated alias layers must retain both `aliasOf` and `cloneOf`,
+  3) manual/composite aliases must store the resolved alias target in `cloneOf` when the source row has no literal `cloneOf`.
+
 ### 178) Election entity links and deltas need full-domain contracts, not one-pane shortcuts
 - Mistake pattern: Treating party/person links inside the election pane as a lightweight current-election detail action, and treating the previous chronological event as a safe baseline.
 - Impact: `/test2` could open incomplete party/label/candidate pages, selected constituencies/DEAs were not first-class catalogue entities, and election deltas could compare against by-elections, recalls, referendums, or otherwise non-comparable contests.
