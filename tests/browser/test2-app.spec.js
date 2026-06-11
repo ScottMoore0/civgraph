@@ -2034,12 +2034,21 @@ test('/test2 election pane supports local-government aggregates and detailed cou
     const localText = document.getElementById('electionResultsPane')?.textContent || '';
     const localPartyTable = Boolean(document.querySelector('#electionPaneContent .election-party-table--district-local-party-sticky4'));
     app.elections.activeLocalMode = 'district';
-    app.elections.renderPanel(null, 'council');
+    app.elections.renderPanel(null, 'party');
     await app.elections.renderElectionOverlay();
     const aggregateSeatState = app.elections.getSeatCircleOverlayState();
     const aggregateTypes = [...new Set((aggregateSeatState.groups || []).map((group) => group.aggregateType).filter(Boolean))];
     const aggregateSeatCount = aggregateSeatState.dotCount;
     const councilText = document.getElementById('electionResultsPane')?.textContent || '';
+    const hasByCouncilTab = [...document.querySelectorAll('#electionPaneHeaderRight [data-election-view]')]
+      .some((button) => button.textContent?.trim() === 'By Council');
+    const councilResult = app.elections.buildCouncilAggregateResults?.()[0] || null;
+    app.elections.renderPanel(councilResult, 'party');
+    const selectedCouncilText = document.getElementById('electionResultsPane')?.textContent || '';
+    const selectedCouncilTitle = document.getElementById('electionPaneTitle')?.textContent || '';
+    const selectedCouncilTabs = [...document.querySelectorAll('#electionPaneHeaderRight [data-election-view]')]
+      .map((button) => button.textContent?.trim())
+      .filter(Boolean);
     const firstParty = app.elections.activeBundle.entityIndex?.parties?.[0]?.name || null;
     if (firstParty) app.elections.renderEntityPanel('party', firstParty);
     app.updateURLState();
@@ -2062,6 +2071,10 @@ test('/test2 election pane supports local-government aggregates and detailed cou
       localText,
       localPartyTable,
       councilText,
+      hasByCouncilTab,
+      selectedCouncilText,
+      selectedCouncilTitle,
+      selectedCouncilTabs,
       entityKind: entityParams.get('electionEntityKind'),
       entityKey: entityParams.get('electionEntityKey'),
       countResult: countResult?.constituency || null,
@@ -2081,8 +2094,13 @@ test('/test2 election pane supports local-government aggregates and detailed cou
   expect(state.aggregateSeatCount).toBeGreaterThan(0);
   expect(state.aggregateSeatCount).toBeLessThanOrEqual(state.deaSeatCount);
   expect(state.aggregateTypes).toContain('council');
-  expect(state.councilText).toMatch(/By Council|Councils|Leading party/);
-  expect(state.councilText).toMatch(/Seat change|Vote change|Turnout change/);
+  expect(state.hasByCouncilTab).toBe(false);
+  expect(state.councilText).toContain('District');
+  expect(state.councilText).toMatch(/Councils|By Party|1st preferences/);
+  expect(state.selectedCouncilTitle).toBeTruthy();
+  expect(state.selectedCouncilTabs).toEqual(expect.arrayContaining(['By Party', 'By Candidate', 'By Local Party']));
+  expect(state.selectedCouncilTabs).not.toContain('By Council');
+  expect(state.selectedCouncilText).toMatch(/By Party|Candidates|Seats|1st preferences/);
   expect(state.entityKind).toBe('party');
   expect(state.entityKey).toBeTruthy();
   expect(state.countResult).toBeTruthy();

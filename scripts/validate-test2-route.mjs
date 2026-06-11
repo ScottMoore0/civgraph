@@ -275,6 +275,14 @@ assert(electionManagerSource.includes('hideLabels: true') && adapterSource.inclu
 assert(electionManagerSource.includes('renderVoteBars') && electionManagerSource.includes('test2-election-vote-bar-layer'), '/test2 election manager must render vote-bar overlays for ordinary elections');
 assert(electionManagerSource.includes('renderLocalPartySummaryTable') && electionManagerSource.includes('By Local Party'), '/test2 local-government elections must expose local party/district aggregate views');
 assert(electionManagerSource.includes('activeLocalMode') && electionManagerSource.includes('renderDistrictResults') && electionManagerSource.includes('data-election-local-mode'), '/test2 local-government elections must expose DEA/district mode switching');
+const districtResultsStart = electionManagerSource.indexOf("renderDistrictResults(view = 'party')");
+const districtResultsEnd = electionManagerSource.indexOf('\n  renderCouncilResults', districtResultsStart);
+const districtResultsSource = districtResultsStart >= 0 && districtResultsEnd > districtResultsStart
+  ? electionManagerSource.slice(districtResultsStart, districtResultsEnd)
+  : '';
+assert(districtResultsSource && !districtResultsSource.includes('return this.renderCouncilResults(view);'), '/test2 District mode must not redirect multi-council NI local elections into a separate By Council tab');
+assert(mainElectionPaneContractSource.includes('isCouncilAggregateResult') && mainElectionPaneContractSource.includes('data-election-local-mode="district">District'), '/test2 local-government selected council panes must use the main DEA/District mode control');
+assert(electionManagerSource.includes('findCouncilAggregateResultByName') && electionManagerSource.includes('renderCouncilAggregateResults') && electionManagerSource.includes("aggregateType === 'council' || aggregateType === 'district'"), '/test2 district-mode LGD features and seat circles must resolve to selected council aggregate panes');
 assert(electionManagerSource.includes('renderRecallPetitionResult') && electionDomainSource.includes('recallPetition'), '/test2 recall-petition data must be preserved and rendered when available');
 assert(electionManagerSource.includes('renderRecallPetitionOverview') && electionManagerSource.includes('Incumbent'), '/test2 recall-petition UI must include overview and incumbent detail support where data exists');
 assert(electionManagerSource.includes('renderRecallLabels') && electionManagerSource.includes('Petition not successful'), '/test2 recall petitions must expose main-style map labels where recall data is available');
@@ -295,7 +303,7 @@ assert(electionManagerSource.includes('this.mainPaneContract = new MainElectionP
 assert(/renderOverallResults\(view = 'party'\)\s*{\s*return this\.mainPaneContract\.renderOverallResults\(view\);/.test(electionManagerSource) && /renderConstituencyResults\(result, view = 'party'\)\s*{\s*return this\.mainPaneContract\.renderConstituencyResults\(result, view\);/.test(electionManagerSource), '/test2 visible election pane helpers must delegate to the main-pane contract, not bypass it with route-specific branches');
 assert(electionManagerSource.includes('renderMainCompatibleOverallResults') && electionManagerSource.includes('renderMainCompatibleConstituencyResults') && electionManagerSource.includes('return this.mainPaneContract.renderOverallResults(view);') && electionManagerSource.includes('return this.mainPaneContract.renderConstituencyResults(result, view);'), '/test2 must expose main-compatible shared-renderer host adapters backed by the main-pane contract');
 assert(electionManagerSource.includes('renderMainParityPartyTable') && electionManagerSource.includes('election-party-table election-party-table--grouped') && electionManagerSource.includes('Candidates') && electionManagerSource.includes('1st preferences'), '/test2 visible election pane must follow the main grouped party-table contract');
-const overallPartyStart = electionManagerSource.indexOf('renderMainParityPartyTable(rowsWithDeltas = [], results = [])');
+const overallPartyStart = electionManagerSource.indexOf('renderMainParityPartyTable(rowsWithDeltas = [], results = []');
 const overallPartyEnd = electionManagerSource.indexOf('renderConstituencyCandidateTable', overallPartyStart);
 const overallPartySource = overallPartyStart >= 0 && overallPartyEnd > overallPartyStart
   ? electionManagerSource.slice(overallPartyStart, overallPartyEnd)

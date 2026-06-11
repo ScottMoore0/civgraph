@@ -2311,3 +2311,21 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) patch the shared helper only when the live renderer imports it; otherwise patch the live renderer and then consolidate,
   3) add at least one route/static assertion against the visible output or generated bundle for each recurring mismatch class,
   4) record the exact verified URL/state used for parity checks in `tasks/todo.md`.
+
+### 167) NI local-election Council mode must prove map geography and pane aggregation together
+- Mistake pattern: Treating Council-mode parity as fixed after metadata says an LGD layer exists, without verifying the visible `/test2` toggle switches the rendered map features, selected feature matching, and election-pane aggregation the same way the main site does.
+- Impact: `/test2` can still display or select DEA features while the UI says Council, or show Council aggregate tables with DEA geography on the map.
+- Guardrail:
+  1) every NI local-election DEA/Council change must verify the visible toggle state, active backing layer id, rendered feature count/type, selected feature name, and pane heading/table mode,
+  2) add a route/static or browser assertion for a representative modern election such as 2023, and one pre-2014 election using older 26-council geography,
+  3) do not close Council-mode work from generated metadata alone,
+  4) record the exact main/test2 comparison URL and observed DOM/map state in `tasks/todo.md`.
+
+### 168) NI local-government geography mode is not a result-table tab
+- Mistake pattern: Implementing `Council` as a separate `/test2` election-pane analysis tab when the main site uses `DEA` / `District` as geography mode buttons and keeps the normal `By Party`, `By Candidate`, and `By Local Party` views.
+- Impact: even with correct LGD backing layers, the visible election pane remains structurally different from main and selected council features do not behave like selected geography results.
+- Guardrail:
+  1) local-government parity tests must assert there is no main-incompatible `By Council` tab in the selected council pane,
+  2) council/district seat-circle activation must select a council aggregate result, not render an overall council table,
+  3) static validation must reject any district-mode redirect back to a legacy `renderCouncilResults(view)` analysis path,
+  4) visual parity reviews must compare the header mode controls and the selected geography pane, not only aggregate totals.

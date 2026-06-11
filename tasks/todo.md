@@ -5331,3 +5331,39 @@ Add election entries to /test2
   - Completed: added grouped ROI DED/ward entries for 1957, 1965, 1966, and 1970, upgraded the 1954 Dublin ward definition entry to reference the PDF transcription, added hidden component entries for the new regional FGBs, updated the flat ROI DED selector list, taught the Browse indexer that grouped entries with loadable variants are available, and added upload-script mappings for the new FGB/TXT/PDF archive members.
 - [x] Verify and document
   - Verification evidence: `npm run build:browse`, focused Browse-data assertions for `eds-roi-1957`, `eds-roi-1965`, `eds-roi-1966`, and `eds-roi-1970`, `npm run build`, `npm run build:test2`, `npm run check:test2`, and `npm run check` passed. The build/check commands that spawn esbuild/git/Chromium-adjacent processes required approved escalation under the Windows sandbox. Review note: the large FGB/PDF/TXT archive assets were not committed to Git; the metadata points at R2/CDN URLs and the upload script now knows how to promote them.
+
+# Compare NI local-election DEA/Council toggle parity
+- [x] Record the user-reported mismatch
+  - Symptom: on Northern Ireland local elections, the DEA / Council toggle on `/test2` is still not aligned with the main site.
+  - Scope: compare the visible main-site behaviour against `/test2`, especially whether Council mode changes both the election pane aggregation and the map feature geography to LGD/council features rather than DEA features.
+- [x] Inspect main and `/test2` visible code paths
+  - Scope: trace the toggle from `js/election-controller.js` through the visible DOM, then compare with `test2/src/election-manager.js` and generated election metadata.
+- [x] Report exact differences and root cause
+  - Scope: identify whether this is a data-side issue, a UI toggle-state issue, a MapLibre layer-switch issue, or a missing visible-path bridge.
+  - Finding: this is not only a data-side problem. `/test2` has the LGD backing layers in generated metadata, but its visible local-government UI contract is still different from the main site.
+  - Main-site contract: `js/election-controller.js` treats local-government results mode as a geography mode switch. The header renders `DEA` and `District` buttons via `data-action="set-results-mode"`, `_setLocalResultsMode()` switches `_localResultsMode`, reloads the active geography via `_getActiveGeography()`, recolours/rebuilds overlays, and uses `_onConstituencyClick()` to open `_showCouncilPanel()` when the active geography is council/district.
+  - `/test2` contract: `test2/src/election-manager.js` has `activeLocalMode = 'dea' | 'district'` and can show/hide the DEA/LGD backing layers, but grouped NI local elections are rendered through `renderCouncilResults()`, which adds a separate `By Council` result tab alongside `By Party`, `By Candidate`, `By Local Party`, and `By DEA`. That is not the main-site shape.
+  - Root cause: `/test2` mixes two concepts that main keeps separate: geography mode (`DEA` versus `District`) and result table view (`By Party`, `By Candidate`, `By Local Party`). It also handles council/district seat-circle activation by calling `renderPanel(null, 'council' | 'party')`, so it opens an overall aggregate/table mode rather than selecting a specific council result pane like main does.
+  - Evidence: main local-government geography is backed by `councilFgb`/`councilNameAttr` and `_getActiveGeography()`; `/test2` generated 2023 metadata has `sourceMapId: deas-2012` and `councilSourceMapId: lgd-2012`, but `renderCouncilResults()` still exposes `By Council` as a tab and `handleSeatCircleActivation()` does not select a council aggregate row.
+  - Permanent prevention action: add a visible route/browser assertion for one post-2014 local election and one pre-2014 local election that verifies default mode, toggle mode, backing source map, number/type of rendered geography features, selected council heading, and the absence of a separate main-incompatible `By Council` tab when the main contract expects `District` mode plus normal result tabs.
+
+# Fix NI local-election DEA/District toggle parity on `/test2`
+- [x] Replace the `/test2` Council aggregate-tab contract
+  - Scope: make local-government `DEA` / `District` behave as a geography mode switch like the main site, not as an extra `By Council` analysis tab.
+  - Completed: updated the shared election pane contract so local-government `District` mode is treated as a geography mode and selected council/district aggregates show only the normal `By Party`, `By Candidate`, and `By Local Party` views. The main-incompatible visible `By Council` analysis tab is suppressed for this path.
+- [x] Wire LGD/council feature selection to selected council panes
+  - Scope: in district mode, map LGD feature names and district seat-circle groups to council aggregate result objects, then render the selected council pane with the normal `By Party`, `By Candidate`, and `By Local Party` tabs.
+  - Completed: added council aggregate result lookup/building in `/test2`, taught feature matching to resolve LGD/council feature names when district mode is active, and changed council/district seat-circle activation to open a selected council pane instead of the old overall council table.
+- [x] Preserve DEA-mode behaviour
+  - Scope: keep default DEA mode using DEA features and selected DEA panes.
+  - Completed: default local-government mode still renders DEA features and selected DEA result panes; the district/council aggregate path is only used after the local geography mode is switched to `District` or a council aggregate is explicitly activated.
+- [x] Add static/browser guardrails
+  - Scope: update route validation and focused browser coverage so this mismatch cannot regress silently.
+  - Completed: route validation now rejects the old `renderCouncilResults(view)` redirect from district mode, requires the `District` geography control contract, and requires council aggregate lookup/rendering hooks. The focused browser test now asserts that selected council aggregates use the main-compatible normal result tabs and do not expose a separate `By Council` tab.
+- [x] Verify and commit
+  - Scope: run syntax/static checks, focused `/test2` browser checks if available, then commit and push the scoped source changes.
+  - Verification evidence: `node --check test2/src/election-manager.js`, `node --check js/election-main-pane-contract.mjs`, `node --check scripts/validate-test2-route.mjs`, `node --check tests/browser/test2-app.spec.js`, `npm run check:test2`, `npm run build:test2`, and focused Playwright `npx playwright test tests/browser/test2-app.spec.js --grep "local-government aggregates"` passed. The build and Playwright commands required approved escalation because the Windows sandbox blocks process/browser spawn.
+  - Recurring issue: local-government parity was previously assessed from metadata or helper state rather than the visible main-site contract.
+    - Symptom: `/test2` showed a Council aggregate tab/path where the main site exposes a `DEA`/`District` geography switch plus normal result tabs.
+    - Root cause: `/test2` mixed geography mode and analysis view mode; council seat-circle activation rendered the old aggregate view instead of selecting a council result.
+    - Permanent prevention action: static route validation and focused browser coverage now assert the visible `District` contract, selected council result tabs, and absence of the legacy `By Council` tab.

@@ -479,21 +479,32 @@ export class Test2ElectionManager {
   }
 
   findResultForFeature(layerResults, feature) {
-    if (!layerResults) return null;
+    if (!this.activeBundle || !feature) return null;
+    const styleLayer = this.getActiveElectionStyleLayer?.() || this.activeBundle;
+    const styleLabelProperty = styleLayer?.labelProperty || this.activeBundle.labelProperty;
     const repairedProperties = repairFeatureProperties({
-      id: this.activeBundle.layerId,
-      sourceMapId: this.activeBundle.sourceMapId,
-      labelProperty: this.activeBundle.labelProperty
+      id: styleLayer?.id || this.activeBundle.layerId,
+      sourceMapId: styleLayer?.sourceMapId || this.activeBundle.sourceMapId,
+      labelProperty: styleLabelProperty
     }, feature.properties || {});
     const candidates = [
       feature.featureName,
       feature.name,
+      repairedProperties?.[styleLabelProperty],
+      repairedProperties?.[this.activeBundle.councilLabelProperty],
       repairedProperties?.[this.activeBundle.labelProperty],
       repairedProperties?.name,
       repairedProperties?.Name,
       repairedProperties?.NAME,
       feature.id
     ];
+    if (this.isLocalGovernmentElection() && this.activeLocalMode === 'district') {
+      for (const value of candidates) {
+        const result = this.findCouncilAggregateResultByName(value);
+        if (result) return result;
+      }
+    }
+    if (!layerResults) return null;
     for (const value of candidates) {
       const result = layerResults.get(normalizeName(value));
       if (result) return result;
@@ -696,7 +707,7 @@ export class Test2ElectionManager {
     const title = document.getElementById('electionPaneTitle');
     const back = document.getElementById('electionPaneBack');
     if (!pane || !content || !title || !this.activeEntry || !this.activeBundle) return;
-    const nextView = view || this.activePanelView || 'party';
+    const nextView = this.normalizePanelView(view || this.activePanelView || 'party', selectedResult);
     this.activePanelView = nextView;
     this.activeSelectedResultKey = selectedResult ? normalizeName(selectedResult.matchName || selectedResult.constituency || '') : null;
     this.activeEntityKind = null;
@@ -786,6 +797,20 @@ export class Test2ElectionManager {
     this.setupResultsTableControls(pane);
   }
 
+  normalizePanelView(view, selectedResult = null) {
+    const value = view || 'party';
+    if (this.isCouncilAggregateResult(selectedResult)) {
+      return ['party', 'candidate', 'local-party'].includes(value) ? value : 'party';
+    }
+    if (!selectedResult && this.isLocalGovernmentElection() && this.activeLocalMode === 'district') {
+      return ['party', 'candidate', 'local-party'].includes(value) ? value : 'party';
+    }
+    if (!selectedResult) {
+      return ['party', 'candidate', 'local-party'].includes(value) ? value : 'party';
+    }
+    return value;
+  }
+
   renderPanelTitle(title, selectedResult = null) {
     if (!title) return;
     if (!selectedResult?.constituency) {
@@ -825,10 +850,10 @@ export class Test2ElectionManager {
     return this.mainPaneContract.renderConstituencyResults(result, view);
   }
 
-  renderMainParityPartyTable(rowsWithDeltas = [], results = []) {
+  renderMainParityPartyTable(rowsWithDeltas = [], results = [], options = {}) {
     if (!rowsWithDeltas.length) return '<div class="election-no-data">No results data available.</div>';
     const orderedRows = this.orderPartyRowsLikeMain(rowsWithDeltas);
-    const mainLikeTotals = this.activeBundle?.mainLikeTotals || null;
+    const mainLikeTotals = options.ignoreMainLikeTotals ? null : (options.totals || this.activeBundle?.mainLikeTotals || null);
     const totalSeats = Number.isFinite(Number(mainLikeTotals?.totalSeats))
       ? Number(mainLikeTotals.totalSeats)
       : rowsWithDeltas.reduce((sum, row) => sum + numberOrZero(row.seats), 0);
@@ -845,29 +870,42 @@ export class Test2ElectionManager {
       ? Number(mainLikeTotals.totalSpoiled)
       : sumNumbers(results, 'spoiled');
     const didNotVote = totalElectorate ? Math.max(0, totalElectorate - totalPoll) : 0;
-    const prevRows = this.previousBundle?.mainLikePartySummary?.length
+    const previousResults = Array.isArray(options.previousResults) ? options.previousResults : null;
+    const prevRows = Array.isArray(options.previousRows)
+      ? options.previousRows
+      : previousResults
+      ? buildPartySummary(previousResults)
+      : this.previousBundle?.mainLikePartySummary?.length
       ? this.previousBundle.mainLikePartySummary
       : this.previousBundle?.partySummary?.length
       ? this.previousBundle.partySummary
       : (this.previousBundle?.results?.length ? buildPartySummary(this.previousBundle.results) : []);
-    const prevMainLikeTotals = this.previousBundle?.mainLikeTotals || null;
+    const prevMainLikeTotals = previousResults ? null : (this.previousBundle?.mainLikeTotals || null);
     const prevRowSeatTotal = prevRows.reduce((sum, row) => sum + numberOrZero(row.seats), 0);
     const prevTotalSeats = Number.isFinite(Number(prevMainLikeTotals?.totalSeats)) && Number(prevMainLikeTotals.totalSeats) > 0
       ? Number(prevMainLikeTotals.totalSeats)
       : prevRowSeatTotal;
     const prevTotalValid = Number.isFinite(Number(prevMainLikeTotals?.validPoll))
       ? Number(prevMainLikeTotals.validPoll)
+      : previousResults
+      ? (sumNumbers(previousResults, 'validPoll') || prevRows.reduce((sum, row) => sum + numberOrZero(row.votes), 0))
       : this.previousBundle?.results?.length
       ? (sumNumbers(this.previousBundle.results, 'validPoll') || prevRows.reduce((sum, row) => sum + numberOrZero(row.votes), 0))
       : 0;
     const prevTotalPoll = Number.isFinite(Number(prevMainLikeTotals?.totalPoll))
       ? Number(prevMainLikeTotals.totalPoll)
+      : previousResults
+      ? (sumNumbers(previousResults, 'totalPoll') || prevTotalValid + sumNumbers(previousResults, 'spoiled'))
       : (this.previousBundle?.results?.length ? (sumNumbers(this.previousBundle.results, 'totalPoll') || prevTotalValid + sumNumbers(this.previousBundle.results, 'spoiled')) : 0);
     const prevTotalElectorate = Number.isFinite(Number(prevMainLikeTotals?.totalElectorate))
       ? Number(prevMainLikeTotals.totalElectorate)
+      : previousResults
+      ? sumNumbers(previousResults, 'electorate')
       : (this.previousBundle?.results?.length ? sumNumbers(this.previousBundle.results, 'electorate') : 0);
     const prevTotalSpoiled = Number.isFinite(Number(prevMainLikeTotals?.totalSpoiled))
       ? Number(prevMainLikeTotals.totalSpoiled)
+      : previousResults
+      ? sumNumbers(previousResults, 'spoiled')
       : (this.previousBundle?.results?.length ? sumNumbers(this.previousBundle.results, 'spoiled') : 0);
     const prevDidNotVote = prevTotalElectorate ? Math.max(0, prevTotalElectorate - prevTotalPoll) : 0;
     const pct = (value, denominator) => denominator ? (value / denominator * 100) : 0;
@@ -879,7 +917,7 @@ export class Test2ElectionManager {
     const prevValidPct = pct(prevTotalValid, prevTotalElectorate);
     const prevSpoiledPct = pct(prevTotalSpoiled, prevTotalElectorate);
     const prevDidNotVotePct = pct(prevDidNotVote, prevTotalElectorate);
-    const constituencyCount = Number(this.activeBundle?.matchedCount || results.length || 0);
+    const constituencyCount = Number(options.constituencyCount ?? this.activeBundle?.matchedCount ?? results.length ?? 0);
     return `
       <div class="election-summary election-summary--niwide">
         <div class="election-party-wrapper election-party-wrapper--pane-sticky">
@@ -1646,7 +1684,11 @@ export class Test2ElectionManager {
   }
 
   withPartyDeltas(rows = [], options = {}) {
-    const previousRows = options.mainLike && this.previousBundle?.mainLikePartySummary?.length
+    const previousRows = Array.isArray(options.previousRows)
+      ? options.previousRows
+      : Array.isArray(options.previousResults)
+      ? buildPartySummary(options.previousResults)
+      : options.mainLike && this.previousBundle?.mainLikePartySummary?.length
       ? this.previousBundle.mainLikePartySummary
       : (this.previousBundle?.results?.length ? buildPartySummary(this.previousBundle.results) : []);
     const previousByParty = new Map(previousRows.map((row) => [normalizeName(row.party), row]));
@@ -1669,7 +1711,11 @@ export class Test2ElectionManager {
   }
 
   withCandidateDeltas(rows = [], options = {}) {
-    const previousRows = options.mainLike && this.previousBundle?.mainLikeCandidateSummary?.length
+    const previousRows = Array.isArray(options.previousRows)
+      ? options.previousRows
+      : Array.isArray(options.previousResults)
+      ? buildCandidateSummary(options.previousResults)
+      : options.mainLike && this.previousBundle?.mainLikeCandidateSummary?.length
       ? this.previousBundle.mainLikeCandidateSummary
       : (this.previousBundle?.results?.length ? buildCandidateSummary(this.previousBundle.results) : []);
     const candidateKey = (row) => row.candidateKey || `${String(row.name || '').toLowerCase().replace(/\s+/g, ' ').trim()}|${String(row.party || '').toLowerCase().replace(/\s+/g, ' ').trim()}`;
@@ -1711,8 +1757,10 @@ export class Test2ElectionManager {
     });
   }
 
-  withLocalPartyDeltas(rows = []) {
-    const previousRows = this.previousBundle?.results?.length ? buildLocalPartySummary(this.previousBundle.results) : [];
+  withLocalPartyDeltas(rows = [], options = {}) {
+    const previousRows = Array.isArray(options.previousResults)
+      ? buildLocalPartySummary(options.previousResults)
+      : (this.previousBundle?.results?.length ? buildLocalPartySummary(this.previousBundle.results) : []);
     const previousByPartyAndArea = new Map(previousRows.map((row) => [
       `${normalizeName(row.party)}|${normalizeName(row.constituency)}`,
       row
@@ -1737,14 +1785,11 @@ export class Test2ElectionManager {
   }
 
   renderDistrictResults(view = 'party') {
-    if (this.localBodyCount() > 1) {
-      return this.renderCouncilResults(view);
-    }
     const results = this.currentResults();
-    const councilRows = this.withPartyDeltas(buildPartySummary(results));
-    const candidates = buildCandidateSummary(results);
-    const localRows = buildLocalPartySummary(results);
-    const totalSeats = councilRows.reduce((sum, row) => sum + numberOrZero(row.seats), 0);
+    const partyRows = this.withPartyDeltas(buildPartySummary(results));
+    const candidates = this.withCandidateDeltas(buildCandidateSummary(results));
+    const councilRows = this.withCouncilDeltas(buildCouncilSummary(results));
+    const totalSeats = partyRows.reduce((sum, row) => sum + numberOrZero(row.seats), 0);
     const validPoll = sumNumbers(results, 'validPoll');
     const totalPoll = sumNumbers(results, 'totalPoll');
     const electorate = sumNumbers(results, 'electorate');
@@ -1760,6 +1805,7 @@ export class Test2ElectionManager {
         <div class="test2-election-panel__summary">
           <dl class="test2-election-panel__stats">
             <div><dt>District</dt><dd>${escapeHtml(this.activeBundle.displayTitle || this.activeBundle.body)}</dd></div>
+            ${this.localBodyCount() > 1 ? `<div><dt>Councils</dt><dd>${formatNumber(councilRows.length)}</dd></div>` : ''}
             <div><dt>DEAs</dt><dd>${formatNumber(results.length)}</dd></div>
             ${totalSeats ? `<div><dt>Seats</dt><dd>${formatNumber(totalSeats)}</dd></div>` : ''}
             ${validPoll ? `<div><dt>Valid poll</dt><dd>${formatNumber(validPoll)}</dd></div>` : ''}
@@ -1773,9 +1819,88 @@ export class Test2ElectionManager {
         ${this.renderDataCoverageNotice()}
         ${view === 'candidate' ? this.renderCandidateSummaryTable(candidates)
           : view === 'local-party' ? this.renderLocalPartySummaryTable(results)
-          : view === 'constituency' ? this.renderConstituencySummaryTable(results)
-          : this.renderDistrictPartyTable(councilRows)}
+          : this.renderMainParityPartyTable(partyRows, results)}
       </section>
+    `;
+  }
+
+  isCouncilAggregateResult(result = null) {
+    if (!result || !this.isLocalGovernmentElection()) return false;
+    return result.aggregateType === 'council' || result.aggregateType === 'district';
+  }
+
+  buildCouncilAggregateResult(councilName, summaryRow = null) {
+    const normalized = normalizeName(councilName);
+    if (!normalized) return null;
+    const memberResults = this.currentResults().filter((result) => normalizeName(result.localBody || '') === normalized);
+    if (!memberResults.length) return null;
+    const row = summaryRow || this.withCouncilDeltas(buildCouncilSummary(this.currentResults()))
+      .find((item) => normalizeName(item.council) === normalized);
+    const partyRows = buildPartySummary(memberResults);
+    const leadingParty = row?.leadingParty || partyRows[0]?.party || '';
+    const colour = this.mainPanePartyColour(leadingParty, row?.colour || partyRows[0]?.colour || '');
+    return {
+      aggregateType: this.localBodyCount() > 1 ? 'council' : 'district',
+      constituency: councilName,
+      matchName: councilName,
+      featureName: councilName,
+      localBody: councilName,
+      matched: true,
+      memberResults,
+      winnerParty: leadingParty,
+      leadingParty,
+      winnerName: leadingParty,
+      leadingName: leadingParty,
+      leadingColour: colour,
+      colour,
+      leadingPct: row?.share ?? partyRows[0]?.share ?? null,
+      seatsWon: row?.seats ?? partyRows.reduce((sum, item) => sum + numberOrZero(item.seats), 0),
+      seatsTotal: row?.seats ?? memberResults.reduce((sum, result) => sum + numberOrZero(result.seatsTotal ?? result.seatsWon), 0),
+      validPoll: row?.validPoll ?? sumNumbers(memberResults, 'validPoll'),
+      totalPoll: sumNumbers(memberResults, 'totalPoll'),
+      electorate: row?.electorate ?? sumNumbers(memberResults, 'electorate'),
+      spoiled: sumNumbers(memberResults, 'spoiled'),
+      turnoutPct: row?.turnoutPct ?? averageNumbers(memberResults, 'turnoutPct'),
+      deas: row?.deas ?? memberResults.length,
+      previous: row?.previous || null,
+      deltas: row?.deltas || null
+    };
+  }
+
+  buildCouncilAggregateResults() {
+    return this.withCouncilDeltas(buildCouncilSummary(this.currentResults()))
+      .map((row) => this.buildCouncilAggregateResult(row.council, row))
+      .filter(Boolean);
+  }
+
+  findCouncilAggregateResultByName(name) {
+    const normalized = normalizeName(name);
+    if (!normalized) return null;
+    return this.buildCouncilAggregateResults().find((result) => resultKeys(result).includes(normalized)) || null;
+  }
+
+  previousResultsForCouncil(councilName) {
+    const normalized = normalizeName(councilName);
+    if (!normalized) return [];
+    return (this.previousBundle?.results || []).filter((result) => normalizeName(result.localBody || '') === normalized);
+  }
+
+  renderCouncilAggregateResults(result, view = 'party') {
+    const memberResults = Array.isArray(result?.memberResults) ? result.memberResults : [];
+    if (!memberResults.length) return '<p class="election-no-data">No council-level result data is available for this entry.</p>';
+    const previousResults = this.previousResultsForCouncil(result.constituency || result.localBody || result.matchName);
+    const partyRows = this.withPartyDeltas(buildPartySummary(memberResults), { previousResults });
+    const candidateRows = this.withCandidateDeltas(buildCandidateSummary(memberResults), { previousResults });
+    const effectiveView = ['party', 'candidate', 'local-party'].includes(view) ? view : 'party';
+    return `
+      ${effectiveView === 'candidate' ? this.renderCandidateSummaryTable(candidateRows, { results: memberResults, previousResults, widePercentLabel: '% of District' })
+        : effectiveView === 'local-party' ? this.renderLocalPartySummaryTable(memberResults, { previousResults, areaLabel: 'DEA', districtPercentLabel: '% of District' })
+        : this.renderMainParityPartyTable(partyRows, memberResults, {
+          ignoreMainLikeTotals: true,
+          previousResults,
+          constituencyCount: memberResults.length,
+          totalLabel: 'Valid votes'
+        })}
     `;
   }
 
@@ -1932,12 +2057,14 @@ export class Test2ElectionManager {
     `;
   }
 
-  renderCandidateSummaryTable(candidates) {
+  renderCandidateSummaryTable(candidates, options = {}) {
     if (!candidates.length) return '<p class="election-no-data">No candidate summary is available for this election.</p>';
     const isLocal = this.isLocalGovernmentElection();
-    const widePercentLabel = this.getElectionWidePercentLabel();
-    const totalValid = sumNumbers(this.currentResults(), 'validPoll') || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs ?? candidate.votes), 0);
-    const previousCandidateTotalValid = sumNumbers(this.previousBundle?.results || [], 'validPoll')
+    const widePercentLabel = options.widePercentLabel || this.getElectionWidePercentLabel();
+    const resultsForTotals = Array.isArray(options.results) ? options.results : this.currentResults();
+    const previousResultsForTotals = Array.isArray(options.previousResults) ? options.previousResults : (this.previousBundle?.results || []);
+    const totalValid = sumNumbers(resultsForTotals, 'validPoll') || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs ?? candidate.votes), 0);
+    const previousCandidateTotalValid = sumNumbers(previousResultsForTotals, 'validPoll')
       || (this.previousBundle?.mainLikeCandidateSummary || []).reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs ?? candidate.votes), 0);
     const ordered = [...candidates].sort((a, b) => {
       const pctDelta = numberOrZero(b.firstPrefPct) - numberOrZero(a.firstPrefPct);
@@ -2040,10 +2167,10 @@ export class Test2ElectionManager {
     `;
   }
 
-  renderLocalPartySummaryTable(results) {
-    const rows = this.withLocalPartyDeltas(buildLocalPartySummary(results));
+  renderLocalPartySummaryTable(results, options = {}) {
+    const rows = this.withLocalPartyDeltas(buildLocalPartySummary(results), options);
     if (!rows.length) return '<p class="election-no-data">No local-party summary is available for this election.</p>';
-    const areaLabel = this.isLocalGovernmentElection() ? 'DEA' : 'Constituency';
+    const areaLabel = options.areaLabel || (this.isLocalGovernmentElection() ? 'DEA' : 'Constituency');
     return `
       <div class="election-party-wrapper election-party-wrapper--pane-sticky">
         <table class="election-party-table election-party-table--grouped election-party-table--district-sticky3 election-party-table--district-local-party-sticky4 election-results-table--fixed election-results-table--district">
@@ -2517,7 +2644,9 @@ export class Test2ElectionManager {
   findResultByKey(key) {
     const normalized = normalizeName(key);
     if (!normalized) return null;
-    return this.currentResults().find((result) => resultKeys(result).includes(normalized)) || null;
+    return this.currentResults().find((result) => resultKeys(result).includes(normalized))
+      || (this.isLocalGovernmentElection() ? this.findCouncilAggregateResultByName(normalized) : null)
+      || null;
   }
 
   renderLegend() {
@@ -2732,7 +2861,8 @@ export class Test2ElectionManager {
   handleSeatCircleActivation(key, aggregateType = '') {
     if (aggregateType === 'council' || aggregateType === 'district') {
       this.activeLocalMode = 'district';
-      this.renderPanel(null, aggregateType === 'council' ? 'council' : 'party');
+      const result = this.findCouncilAggregateResultByName(key);
+      this.renderPanel(result || null, 'party');
       this.app.updateURLState();
       return;
     }
@@ -2889,8 +3019,16 @@ export class Test2ElectionManager {
     }
     return [...byBody.values()].map((group) => {
       const summary = buildPartySummary(group.results)[0] || null;
-      group.result.winnerParty = summary?.party || '';
-      group.result.leadingParty = summary?.party || '';
+      const aggregateResult = this.buildCouncilAggregateResult(group.result.constituency || group.result.matchName);
+      if (aggregateResult) {
+        group.result = {
+          ...aggregateResult,
+          aggregateType: group.result.aggregateType
+        };
+      } else {
+        group.result.winnerParty = summary?.party || '';
+        group.result.leadingParty = summary?.party || '';
+      }
       const center = geoBoundsCenter(group.bounds) || (group.centerAccumulator.weight
         ? [group.centerAccumulator.lng / group.centerAccumulator.weight, group.centerAccumulator.lat / group.centerAccumulator.weight]
         : null);

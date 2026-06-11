@@ -22,17 +22,24 @@ export class MainElectionPaneContract {
   }
 
   renderHeaderRight(selectedResult = null, activeView = 'party') {
-    const localModeControl = !selectedResult && this.host.isLocalGovernmentElection() ? `
+    const isCouncilAggregate = Boolean(selectedResult && this.host.isCouncilAggregateResult?.(selectedResult));
+    const localModeControl = (!selectedResult || isCouncilAggregate) && this.host.isLocalGovernmentElection() ? `
       <div class="test2-election-local-mode" role="group" aria-label="Local government result level">
         <button type="button" class="${this.host.activeLocalMode === 'dea' ? 'is-active' : ''}" data-election-local-mode="dea">DEA</button>
-        <button type="button" class="${this.host.activeLocalMode === 'district' ? 'is-active' : ''}" data-election-local-mode="district">${this.host.localBodyCount() > 1 ? 'Council' : 'District'}</button>
+        <button type="button" class="${this.host.activeLocalMode === 'district' ? 'is-active' : ''}" data-election-local-mode="district">District</button>
       </div>
     ` : '';
-    const selectedTabs = [
-      ['party', 'By Party'],
-      ['counts', this.host.isForumResult(selectedResult) ? 'By Round' : 'By Count']
-    ];
-    if (selectedResult && this.host.resultHasAnimation(selectedResult)) {
+    const selectedTabs = isCouncilAggregate
+      ? [
+        ['party', 'By Party'],
+        ['candidate', 'By Candidate'],
+        ['local-party', 'By Local Party']
+      ]
+      : [
+        ['party', 'By Party'],
+        ['counts', this.host.isForumResult(selectedResult) ? 'By Round' : 'By Count']
+      ];
+    if (!isCouncilAggregate && selectedResult && this.host.resultHasAnimation(selectedResult)) {
       selectedTabs.push(['animation', this.host.isForumResult(selectedResult) ? 'Allocation' : 'Transfers']);
     }
     const headerTabs = selectedResult
@@ -44,7 +51,7 @@ export class MainElectionPaneContract {
       ];
     return `
       ${localModeControl}
-      ${headerTabs.map(([id, label]) => `<button type="button" class="election-view-tab${id === activeView ? ' election-view-tab--active' : ''}" data-election-view="${escapeHtml(id)}">${escapeHtml(label)}</button>${selectedResult && id === 'counts' ? `<button type="button" id="test2ElectionCountDetail" class="election-detail-toggle-btn election-detail-toggle-btn--header" data-role="detail-toggle" aria-pressed="${this.host.countDetailedView ? 'true' : 'false'}">${this.host.countDetailedView ? 'Detailed View: On' : 'Detailed View: Off'}</button>` : ''}`).join('')}
+      ${headerTabs.map(([id, label]) => `<button type="button" class="election-view-tab${id === activeView ? ' election-view-tab--active' : ''}" data-election-view="${escapeHtml(id)}">${escapeHtml(label)}</button>${selectedResult && !isCouncilAggregate && id === 'counts' ? `<button type="button" id="test2ElectionCountDetail" class="election-detail-toggle-btn election-detail-toggle-btn--header" data-role="detail-toggle" aria-pressed="${this.host.countDetailedView ? 'true' : 'false'}">${this.host.countDetailedView ? 'Detailed View: On' : 'Detailed View: Off'}</button>` : ''}`).join('')}
       <button type="button" id="electionCloseBtn" class="election-pane__close" aria-label="Unload election">&#10005;</button>
     `;
   }
@@ -77,6 +84,7 @@ export class MainElectionPaneContract {
   }
 
   renderConstituencyResults(result, view = 'party') {
+    if (this.host.isCouncilAggregateResult?.(result)) return this.host.renderCouncilAggregateResults(result, view);
     if (result.recallPetition) return this.host.renderRecallPetitionResult(result);
     const effectiveView = view === 'animation' && !this.host.resultHasAnimation(result) ? 'counts' : view;
     const candidates = [...(result.candidates || [])].sort((a, b) => {
