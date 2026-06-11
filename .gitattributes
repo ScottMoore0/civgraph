@@ -30,3 +30,11 @@ data/maps/historic-sites/Wedge_Tomb.fgb -filter -diff -merge -text
 # Townlands interactive layer is chunk-only: chunk FGBs must be regular Git blobs
 # so static hosts serve actual bytes instead of LFS pointer files.
 data/maps/townlands/chunks/*.fgb -filter -diff -merge -text
+
+# Generated metadata/report JSON is normalized so Windows regeneration does not
+# create CRLF-only dirty working-tree churn.
+test/metadata/*.json text eol=lf
+test/metadata/**/*.json text eol=lf
+test2/build/*.json text eol=lf
+tasks/test2-election-data-audit.json text eol=lf
+tasks/test2-election-data-audit.md text eol=lf

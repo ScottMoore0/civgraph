@@ -5367,3 +5367,21 @@ Add election entries to /test2
     - Symptom: `/test2` showed a Council aggregate tab/path where the main site exposes a `DEA`/`District` geography switch plus normal result tabs.
     - Root cause: `/test2` mixed geography mode and analysis view mode; council seat-circle activation rendered the old aggregate view instead of selecting a council result.
     - Permanent prevention action: static route validation and focused browser coverage now assert the visible `District` contract, selected council result tabs, and absence of the legacy `By Council` tab.
+
+# Stabilize generated metadata/audit report churn
+- [x] Restore generated metadata and audit noise
+  - Completed: restored timestamp-only generated report diffs and generated metadata CRLF/stat churn after confirming the only true content diffs were `generatedAt` report fields.
+- [x] Add deterministic generated-report writes
+  - Completed: added `scripts/lib/stable-generated-json.mjs`, which preserves volatile fields such as `generatedAt` when generated JSON is otherwise semantically unchanged and skips rewriting identical files.
+  - Completed: switched the `/test2` election manifest, election summaries, metadata shard index/sidecars, election data audit, PMTiles/CDN validation report, and performance-dashboard writers to use the stable generated JSON helper.
+  - Completed: changed the `/test2` metadata shard generator to update existing sidecar files in place and remove only stale JSON files, instead of deleting and recreating whole generated directories on every build.
+- [x] Add line-ending guardrails
+  - Completed: added `.gitattributes` LF normalization for generated metadata/report JSON and the `/test2` election audit markdown report so Windows rebuilds do not produce CRLF-only dirty-tree churn.
+- [x] Verify and commit
+  - Verification evidence: `node --check` passed for `scripts/lib/stable-generated-json.mjs`, `scripts/build-test2-election-manifest.mjs`, `scripts/build-test2-election-summaries.mjs`, `scripts/build-test2-metadata-shards.mjs`, `scripts/audit-test2-election-data.mjs`, `scripts/validate-test2-pmtiles-cdn.mjs`, and `scripts/build-test2-performance-dashboard.mjs`.
+  - Verification evidence: `npm run build:test2:elections`, `npm run build:test2`, and `npm run check:test2` passed, and `git status --porcelain=v1` stayed limited to the intended source/task files after the generators reran. `build:test2` reported `Test2 layer details: 0 changed, 0 stale removed` and `Test2 duplicate-id sidecars: 0 changed, 0 stale removed`.
+  - Recurring issue: generated metadata/audit reports repeatedly dirtied the working tree after verification.
+    - Symptom: hundreds of tracked `/test` metadata files appeared modified, while true diffs were mostly generated timestamps.
+    - Root cause: generated writers rewrote volatile `generatedAt` fields and Windows CRLF-expanded generated JSON caused stat/size churn.
+    - Permanent prevention action: added stable generated JSON writes, preserved election summary URLs during two-step election manifest generation, normalized generated JSON line endings, stopped metadata shard directory delete/recreate churn, and made the metadata-index performance budget use LF-normalized text bytes.
+    - Verification evidence: the election generator, full `/test2` build, and full `/test2` check path now complete without reintroducing generated-output diffs.

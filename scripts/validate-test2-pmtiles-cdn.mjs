@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test-index.json');
@@ -77,7 +78,7 @@ const report = {
   notes,
   networkResults
 };
-writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
+writeStableGeneratedJson(REPORT_PATH, report);
 
 console.log('Civgraph /test2 PMTiles/CDN Validation');
 console.log(`- PMTiles layers: ${layers.length}`);

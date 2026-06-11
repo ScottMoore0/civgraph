@@ -4,8 +4,9 @@
  * sidecars from the existing /test MapLibre metadata.
  */
 
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, unlinkSync } from 'node:fs';
 import path from 'node:path';
+import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = process.cwd();
 const INPUT = path.join(ROOT, 'test', 'metadata', 'maps-test.json');
@@ -79,16 +80,12 @@ function readJson(file) {
   return JSON.parse(readFileSync(file, 'utf8'));
 }
 
-function stableJson(value) {
-  return `${JSON.stringify(value, null, 2)}\n`;
-}
-
 function writeJsonIfChanged(file, value) {
-  const next = stableJson(value);
-  if (existsSync(file) && readFileSync(file, 'utf8') === next) return false;
+  const before = existsSync(file) ? readFileSync(file, 'utf8') : null;
   mkdirSync(path.dirname(file), { recursive: true });
-  writeFileSync(file, next);
-  return true;
+  writeStableGeneratedJson(file, value);
+  const after = existsSync(file) ? readFileSync(file, 'utf8') : null;
+  return before !== after;
 }
 
 function safeFileName(id) {
@@ -138,20 +135,34 @@ function duplicateIdsForFeatureIndex(url) {
   };
 }
 
+function removeStaleJsonFiles(dir, expectedNames) {
+  if (!existsSync(dir)) return 0;
+  let removed = 0;
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith('.json')) continue;
+    if (expectedNames.has(entry.name)) continue;
+    unlinkSync(path.join(dir, entry.name));
+    removed += 1;
+  }
+  return removed;
+}
+
 function build() {
   const raw = readJson(INPUT);
-  rmSync(DETAIL_DIR, { recursive: true, force: true });
-  rmSync(DUPLICATE_DIR, { recursive: true, force: true });
   mkdirSync(DETAIL_DIR, { recursive: true });
   mkdirSync(DUPLICATE_DIR, { recursive: true });
 
   let detailsWritten = 0;
   let duplicateSidecarsWritten = 0;
+  const expectedDetailFiles = new Set();
+  const expectedDuplicateFiles = new Set();
   const layers = (raw.layers || []).map((layer) => {
     const fileName = `${safeFileName(layer.id)}.json`;
     const detailUrl = `/test/metadata/layer-details-test2/${fileName}`;
-    writeJsonIfChanged(path.join(DETAIL_DIR, fileName), layer);
-    detailsWritten += 1;
+    expectedDetailFiles.add(fileName);
+    if (writeJsonIfChanged(path.join(DETAIL_DIR, fileName), layer)) {
+      detailsWritten += 1;
+    }
 
     const compact = copyCompactLayer(layer);
     compact.detailUrl = detailUrl;
@@ -167,8 +178,10 @@ function build() {
         featureIdMode: duplicateInfo.featureIdMode,
         duplicateFeatureIds: duplicateInfo.duplicateFeatureIds
       };
-      writeJsonIfChanged(path.join(DUPLICATE_DIR, fileName), sidecar);
-      duplicateSidecarsWritten += 1;
+      expectedDuplicateFiles.add(fileName);
+      if (writeJsonIfChanged(path.join(DUPLICATE_DIR, fileName), sidecar)) {
+        duplicateSidecarsWritten += 1;
+      }
       compact.duplicateFeatureIdsUrl = duplicateUrl;
       compact.duplicateFeatureIdCount = duplicateInfo.duplicateFeatureIds.length;
       compact.featureIdMode = duplicateInfo.featureIdMode;
@@ -185,10 +198,12 @@ function build() {
     layers
   };
   writeJsonIfChanged(INDEX_OUTPUT, index);
+  const staleDetailsRemoved = removeStaleJsonFiles(DETAIL_DIR, expectedDetailFiles);
+  const staleDuplicateSidecarsRemoved = removeStaleJsonFiles(DUPLICATE_DIR, expectedDuplicateFiles);
 
   console.log(`Test2 metadata index: ${layers.length} compact layers`);
-  console.log(`Test2 layer details: ${detailsWritten} files`);
-  console.log(`Test2 duplicate-id sidecars: ${duplicateSidecarsWritten} files`);
+  console.log(`Test2 layer details: ${detailsWritten} changed, ${staleDetailsRemoved} stale removed`);
+  console.log(`Test2 duplicate-id sidecars: ${duplicateSidecarsWritten} changed, ${staleDuplicateSidecarsRemoved} stale removed`);
 }
 
 build();

@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
 import * as ElectionDomain from '../js/election-domain.mjs';
 import { canonicalElectionTitle, isElectionByElectionScope } from '../js/election-names.mjs';
+import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = process.cwd();
 const ELECTION_ROOT = path.join(ROOT, 'election-viewer-package', 'data', 'elections');
@@ -292,7 +293,7 @@ async function main() {
       matchedConstituencies: totalMatched,
       unmatchedConstituencies: totalUnmatched
     },
-    elections: manifestEntries.sort(compareElectionEntries)
+    elections: preserveExistingSummaryUrls(manifestEntries).sort(compareElectionEntries)
   };
 
   const report = {
@@ -392,6 +393,23 @@ function buildUniqueElectionEntries(index) {
     ...entry,
     displayTitle: entry.displayTitle || canonicalElectionTitle(entry)
   }));
+}
+
+function preserveExistingSummaryUrls(entries) {
+  if (!existsSync(OUT_MANIFEST)) return entries;
+  let existing;
+  try {
+    existing = readJson(OUT_MANIFEST);
+  } catch {
+    return entries;
+  }
+  const summaryUrls = new Map((existing.elections || [])
+    .filter((entry) => entry?.key && entry?.summaryUrl)
+    .map((entry) => [entry.key, entry.summaryUrl]));
+  return entries.map((entry) => {
+    const summaryUrl = summaryUrls.get(entry.key);
+    return summaryUrl && !entry.summaryUrl ? { ...entry, summaryUrl } : entry;
+  });
 }
 
 function buildPreviousElectionKeyLookup(entries) {
@@ -1814,7 +1832,7 @@ function readJson(file) {
 }
 
 function writeJson(file, data) {
-  writeFileSync(file, `${JSON.stringify(data, null, 2)}\n`, 'utf8');
+  return writeStableGeneratedJson(file, data);
 }
 
 function slash(value) {

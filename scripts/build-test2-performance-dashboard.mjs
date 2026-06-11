@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
 const OUT_PATH = resolve(ROOT, 'test2/build/performance-dashboard.json');
@@ -17,7 +18,7 @@ const checks = [
   fileBudget('Entry JS', 'test2/build/test2.bundle.js', BUDGETS.entryJsBytes),
   fileBudget('Entry CSS', 'test2/build/test2.bundle.css', BUDGETS.entryCssBytes),
   sumBudget('Split JS chunks', 'test2/build/chunks', (name) => name.endsWith('.js'), BUDGETS.chunkJsBytes),
-  fileBudget('Startup metadata index', 'test/metadata/maps-test-index.json', BUDGETS.metadataIndexBytes),
+  fileBudget('Startup metadata index', 'test/metadata/maps-test-index.json', BUDGETS.metadataIndexBytes, { normalizeTextEol: true }),
   existsCheck('Scoped service worker', 'test2/sw.js'),
   sourceMapCheck(),
   pmtilesCoverageCheck()
@@ -40,7 +41,7 @@ const report = {
 };
 
 mkdirSync(resolve(ROOT, 'test2/build'), { recursive: true });
-writeFileSync(OUT_PATH, `${JSON.stringify(report, null, 2)}\n`);
+writeStableGeneratedJson(OUT_PATH, report);
 console.log('Civgraph /test2 Performance Dashboard');
 console.log(`- output: test2/build/performance-dashboard.json`);
 console.log(`- checks: ${checks.length}`);
@@ -51,12 +52,14 @@ for (const check of checks) {
 }
 if (VALIDATE && failed) process.exit(1);
 
-function fileBudget(name, relativePath, maxBytes) {
+function fileBudget(name, relativePath, maxBytes, options = {}) {
   const fullPath = resolve(ROOT, relativePath);
   if (!existsSync(fullPath)) {
     return { name, status: 'fail', value: 0, maxBytes, valueLabel: 'missing', path: relativePath };
   }
-  const bytes = statSync(fullPath).size;
+  const bytes = options.normalizeTextEol
+    ? Buffer.byteLength(readFileSync(fullPath, 'utf8').replace(/\r\n/g, '\n'), 'utf8')
+    : statSync(fullPath).size;
   return {
     name,
     status: bytes <= maxBytes ? 'pass' : 'fail',

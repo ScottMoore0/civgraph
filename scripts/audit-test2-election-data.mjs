@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = process.cwd();
 const FAIL_ON_BLOCKING = process.argv.includes('--fail-on-blocking');
@@ -18,6 +19,12 @@ const readJsonIfExists = (relativePath, fallback = null) => {
 };
 
 const exists = (relativePath) => fs.existsSync(path.join(ROOT, relativePath));
+
+const writeTextIfChanged = (file, text) => {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  if (fs.existsSync(file) && fs.readFileSync(file, 'utf8') === text) return;
+  fs.writeFileSync(file, text, 'utf8');
+};
 
 const urlToRelativePath = (url) => {
   if (!url || typeof url !== 'string') return null;
@@ -510,7 +517,7 @@ if (fs.existsSync(highConfidencePath)) {
   stats.colours.highConfidenceMismatches = parseCsv(fs.readFileSync(highConfidencePath, 'utf8')).length;
 }
 
-const report = {
+let report = {
   schemaVersion: 1,
   generatedAt: new Date().toISOString(),
   failOnBlocking: FAIL_ON_BLOCKING,
@@ -519,8 +526,9 @@ const report = {
   issues
 };
 
-fs.mkdirSync(path.dirname(JSON_OUT), { recursive: true });
-fs.writeFileSync(JSON_OUT, JSON.stringify(report, null, 2) + '\n');
+report = writeStableGeneratedJson(JSON_OUT, report, {
+  volatilePaths: ['generatedAt', 'stats.manifest.generatedAt']
+});
 
 const issueSummary = report.issueSummary;
 const blocking = issues.filter((issue) => issue.severity === 'blocking');
@@ -605,7 +613,7 @@ ${stats.colours.examples.length
 4. For entries expected to have transfer/count data but missing it, decide whether the source lacks transfer stages or whether the generated bundle failed to carry available count data through to /test2.
 5. Promote this audit into the normal /test2 check path so regenerated election data cannot silently change references, colours, or bundle shape.
 `;
-fs.writeFileSync(MD_OUT, `${markdown.trimEnd()}\n`);
+writeTextIfChanged(MD_OUT, `${markdown.trimEnd()}\n`);
 
 console.log(`Wrote ${path.relative(ROOT, JSON_OUT)}`);
 console.log(`Wrote ${path.relative(ROOT, MD_OUT)}`);

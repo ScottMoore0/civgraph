@@ -2329,3 +2329,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) council/district seat-circle activation must select a council aggregate result, not render an overall council table,
   3) static validation must reject any district-mode redirect back to a legacy `renderCouncilResults(view)` analysis path,
   4) visual parity reviews must compare the header mode controls and the selected geography pane, not only aggregate totals.
+
+### 169) Generated metadata reports must preserve timestamps when content is unchanged
+- Mistake pattern: Treating generated `generatedAt` churn and Windows CRLF/stat churn as ordinary source changes, creating huge dirty trees after verification commands.
+- Impact: real code/data changes are obscured by hundreds of generated metadata files, making commits riskier and reviews slower.
+- Guardrail:
+  1) generated report writers must preserve volatile timestamp fields when the semantic JSON is unchanged,
+  2) generated metadata/report JSON must be normalized with `.gitattributes` so Windows rebuilds do not create CRLF-only diffs,
+  3) cleanup passes must first confirm `git diff --name-only` and avoid reverting unrelated user source edits,
+  4) verification should rerun the generators and prove the generated outputs remain clean before the fix is considered complete.

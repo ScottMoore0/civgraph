@@ -5,8 +5,9 @@
  * catalogue/diagnostic work without parsing every result bundle at startup.
  */
 
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
 import path from 'node:path';
+import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = process.cwd();
 const MANIFEST_PATH = path.join(ROOT, 'test', 'metadata', 'elections-test2.json');
@@ -16,16 +17,11 @@ function readJson(file) {
   return JSON.parse(readFileSync(file, 'utf8'));
 }
 
-function stableJson(value) {
-  return `${JSON.stringify(value, null, 2)}\n`;
-}
-
 function writeJsonIfChanged(file, value) {
-  const next = stableJson(value);
-  if (existsSync(file) && readFileSync(file, 'utf8') === next) return false;
-  mkdirSync(path.dirname(file), { recursive: true });
-  writeFileSync(file, next);
-  return true;
+  const before = existsSync(file) ? readFileSync(file, 'utf8') : null;
+  writeStableGeneratedJson(file, value);
+  const after = existsSync(file) ? readFileSync(file, 'utf8') : null;
+  return before !== after;
 }
 
 function localPathForUrl(url) {
