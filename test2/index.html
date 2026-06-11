@@ -30,7 +30,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/test2/build/test2.bundle.js?v=7e7d2b00fee4" fetchpriority="high">
+  <link rel="modulepreload" href="/test2/build/test2.bundle.js?v=341f2779649e" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -642,13 +642,11 @@
     </svg>
   </button>
 
-  <!-- Startup-safe runtime helpers. Search, election, and animation code are
-       loaded lazily by the /test2 module bundle. -->
-  <script src="js/libs/flatgeobuf-geojson.min.js" defer></script>
-  <script src="assets/js/pako-2.1.0.min.js" defer></script>
+  <!-- Startup-safe runtime helpers. Search, election, FlatGeobuf export,
+       and animation code are loaded lazily by the /test2 module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/test2/build/test2.bundle.js?v=7e7d2b00fee4"></script>
+  <script type="module" src="/test2/build/test2.bundle.js?v=341f2779649e"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

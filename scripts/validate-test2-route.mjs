@@ -3,6 +3,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 
 const failures = [];
 const index = readFileSync('test2/index.html', 'utf8');
+const bootSource = readFileSync('test2/src/boot.js', 'utf8');
 const appSource = readFileSync('test2/src/app.js', 'utf8');
 const adapterSource = readFileSync('test2/src/maplibre-main-adapter.js', 'utf8');
 const electionManagerSource = readFileSync('test2/src/election-manager.js', 'utf8');
@@ -114,6 +115,9 @@ assert(index.includes('/test2/build/test2.bundle.css'), '/test2 must load its ow
 assert(index.includes('/test2/election-viewer-package/css/election-viewer.css') && index.includes('/test2/election-viewer-package/css/stages.css'), '/test2 must load route-scoped election animation CSS assets');
 assert(Boolean(test2BundleVersion), '/test2 bundle script must include a content-hash cache key');
 assert(test2ServiceWorkerSource.includes(`const VERSION = 'test2-sw-${test2BundleVersion}';`), '/test2 scoped service-worker cache version must match the current bundle hash so phones cannot retain stale gesture code');
+assert(bootSource.includes("import('./app.js')") && bootSource.includes('requestAnimationFrame'), '/test2 must keep a startup bootstrap that paints the shell before lazy-loading the heavy MapLibre app runtime');
+assert(!index.includes('flatgeobuf-geojson.min.js') && !index.includes('pako-2.1.0.min.js'), '/test2 must not load FlatGeobuf or pako on the first navigation');
+assert(appSource.includes('ensureFlatgeobufRuntime') && appSource.includes('installLazyRuntimeHelpersBridge'), '/test2 must lazy-load FlatGeobuf only for feature export/schema workflows');
 assert(index.includes('href="/build/main.css'), '/test2 must load shared main CSS from the site root, not route-relative /test2/build/main.css');
 assert(!index.includes('leaflet-1.9.4'), '/test2 must not load Leaflet assets');
 assert(!index.includes('build/app.bundle.js'), '/test2 must not load the production app bundle');
@@ -587,8 +591,11 @@ if (existsSync('test/metadata/feature-indexes')) {
 }
 
 const bundleBytes = existsSync('test2/build/test2.bundle.js') ? statSync('test2/build/test2.bundle.js').size : 0;
-assert(bundleBytes > 100_000, '/test2 bundle is unexpectedly small');
-assert(bundleBytes < 2_500_000, `/test2 bundle is too large for the route budget: ${bundleBytes} bytes`);
+const lazyChunkBytes = sumFiles('test2/build/chunks', (name) => name.endsWith('.js'));
+const lazyChunkCount = countFiles('test2/build/chunks', (name) => name.endsWith('.js'));
+assert(bundleBytes > 500, '/test2 bootstrap bundle is unexpectedly empty');
+assert(bundleBytes < 90_000, `/test2 bootstrap bundle is too large for first-load budget: ${bundleBytes} bytes`);
+assert(lazyChunkCount >= 1 && lazyChunkBytes > 100_000, '/test2 lazy runtime chunks are missing after bootstrap split');
 
 if (failures.length) {
   console.error('Test2 Route Validation');
@@ -617,6 +624,26 @@ function assertPoint2Coverage() {
   const civilAlias = (testMetadata.layers || []).find((layer) => layer.sourceMapId === 'civil-parishes' && layer.aliasTargetLayerId === 'civil-parishes-vector-test');
   assert(civilPlan?.conversionStatus === 'convertedAlias', '/test2 Civil Parishes legacy catalogue row must be recorded as a converted alias');
   assert(Boolean(civilAlias), '/test2 maps-test metadata must include a loadable Civil Parishes alias to the unified converted layer');
+}
+
+function sumFiles(relativeDir, predicate) {
+  if (!existsSync(relativeDir)) return 0;
+  let total = 0;
+  for (const entry of readdirSync(relativeDir, { withFileTypes: true })) {
+    if (entry.isDirectory()) total += sumFiles(`${relativeDir}/${entry.name}`, predicate);
+    else if (predicate(entry.name)) total += statSync(`${relativeDir}/${entry.name}`).size;
+  }
+  return total;
+}
+
+function countFiles(relativeDir, predicate) {
+  if (!existsSync(relativeDir)) return 0;
+  let total = 0;
+  for (const entry of readdirSync(relativeDir, { withFileTypes: true })) {
+    if (entry.isDirectory()) total += countFiles(`${relativeDir}/${entry.name}`, predicate);
+    else if (predicate(entry.name)) total += 1;
+  }
+  return total;
 }
 
 function assertNiElectionSeatCoverage() {

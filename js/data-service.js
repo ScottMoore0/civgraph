@@ -16,7 +16,11 @@ class DataService {
   /**
    * Initialize the data service by loading all database files
    */
-  async init() {
+  async init(options = {}) {
+    const {
+      loadBooks = true,
+      loadGeographies = true
+    } = options || {};
     // dataEntries was split out of maps.json (~70 KB / 70 entries) so the
     // critical-path JSON parse is smaller. Both files fetch in parallel
     // over HTTP/2; data-entries.json parse happens off the main maps
@@ -24,16 +28,16 @@ class DataService {
     const [mapsData, dataEntriesData, booksData, geographiesData] = await Promise.all([
       this.loadJson('data/database/maps.json'),
       this.loadJson('data/database/data-entries.json'),
-      this.loadJson('data/database/books.json'),
-      this.loadJson('data/database/geographies.json')
+      loadBooks ? this.loadJson('data/database/books.json') : Promise.resolve(null),
+      loadGeographies ? this.loadJson('data/database/geographies.json') : Promise.resolve(null)
     ]);
 
     this.maps = mapsData;
     if (dataEntriesData?.dataEntries) {
       this.maps.dataEntries = dataEntriesData.dataEntries;
     }
-    this.books = booksData;
-    this.geographies = geographiesData;
+    this.books = booksData || this.books || { categories: [], books: [] };
+    this.geographies = geographiesData || this.geographies || { geographyTypes: [], hierarchies: {} };
     this.buildMapClassIndex();
 
     // Initialize Fuse.js for fuzzy search
@@ -41,6 +45,20 @@ class DataService {
 
     console.log(`[DataService] Loaded ${this.maps.maps.length} maps, ${this.books.books.length} books`);
     return this;
+  }
+
+  async ensureBooksLoaded() {
+    if (this.books?.books?.length) return this.books;
+    this.books = await this.loadJson('data/database/books.json');
+    return this.books;
+  }
+
+  async ensureGeographiesLoaded() {
+    if (this.geographies?.geographyTypes?.length || Object.keys(this.geographies?.hierarchies || {}).length) {
+      return this.geographies;
+    }
+    this.geographies = await this.loadJson('data/database/geographies.json');
+    return this.geographies;
   }
 
   /**

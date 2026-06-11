@@ -1,5 +1,3 @@
-import 'maplibre-gl/dist/maplibre-gl.css';
-import './test2.css';
 import dataService from '../../js/data-service.js';
 import featureLoader from '../../js/feature-loader.js';
 import uiController from '../../js/ui-controller.js';
@@ -69,6 +67,7 @@ class Test2App {
     this.performanceBudget = null;
     this.browseEntityDetailCache = new Map();
     this.browsePersonsIndexPromise = null;
+    this.classicScriptPromises = new Map();
   }
 
   readSavedLayerOrder() {
@@ -133,12 +132,17 @@ class Test2App {
   }
 
   async init() {
+    const runtimeInitStartedAt = performance?.now?.() || Date.now();
+    window.__civgraphTest2 = {
+      ...(window.__civgraphTest2 || {}),
+      app: this,
+      runtimeInitStartedAt
+    };
     this.installRouteGuard();
     this.registerServiceWorker();
 
-    await dataService.init();
+    await dataService.init({ loadBooks: false, loadGeographies: false });
     dataService.fuse = null;
-    this.booksPromise = this.loadBooks();
 
     this.metadataService = new TestMetadataService('/test/metadata/maps-test-index.json?v=test-022', undefined, {
       cache: 'force-cache',
@@ -169,6 +173,8 @@ class Test2App {
 
     this.wireUiCallbacks();
     this.installCatalogueStateBridge();
+    this.installLazyCatalogueDataBridge();
+    this.installLazyRuntimeHelpersBridge();
     uiController.init();
     this.relocateMobileCatalogueToggle();
     this.configureCataloguePerformanceProfile();
@@ -176,15 +182,17 @@ class Test2App {
     this._suspendURLState = true;
     this.mapController.init('map');
     window.__civgraphTest2 = {
+      ...(window.__civgraphTest2 || {}),
       app: this,
       mapController: this.mapController,
       metadataService: this.metadataService,
       elections: null,
       restorePromise: null,
+      runtimeReadyAt: performance?.now?.() || Date.now(),
       serviceWorkerStatusPromise: this.serviceWorkerStatusPromise,
       getPerformanceStatus: () => this.collectPerformanceStatus()
     };
-    this.prepareSearchWorker();
+    this.scheduleIdleTask(() => this.prepareSearchWorker(), { timeout: 3500 });
     this.renderCategoryPills();
     this.updateMapList();
     this.setupSearch();
@@ -437,11 +445,44 @@ class Test2App {
 
   async loadBooks() {
     try {
-      const response = await fetch('/data/database/books.json');
-      if (response.ok) uiController.booksData = await response.json();
+      uiController.booksData = await dataService.ensureBooksLoaded();
     } catch (error) {
       console.warn('[Test2] Could not load books data', error);
     }
+  }
+
+  scheduleIdleTask(callback, { timeout = 2000 } = {}) {
+    if (typeof callback !== 'function') return;
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(callback, { timeout });
+    } else {
+      setTimeout(callback, Math.min(timeout, 1000));
+    }
+  }
+
+  loadClassicScript(src, globalName) {
+    if (globalName && globalThis[globalName]) return Promise.resolve(globalThis[globalName]);
+    if (this.classicScriptPromises.has(src)) return this.classicScriptPromises.get(src);
+    const promise = new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[src="${src}"]`);
+      if (existing) {
+        existing.addEventListener('load', () => resolve(globalName ? globalThis[globalName] : true), { once: true });
+        existing.addEventListener('error', () => reject(new Error(`Could not load ${src}`)), { once: true });
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = src;
+      script.async = true;
+      script.onload = () => resolve(globalName ? globalThis[globalName] : true);
+      script.onerror = () => reject(new Error(`Could not load ${src}`));
+      document.head.appendChild(script);
+    });
+    this.classicScriptPromises.set(src, promise);
+    return promise;
+  }
+
+  async ensureFlatgeobufRuntime() {
+    return this.loadClassicScript('/test2/js/libs/flatgeobuf-geojson.min.js', 'flatgeobuf');
   }
 
   async ensureElections(options = {}) {
@@ -474,11 +515,10 @@ class Test2App {
         console.warn('[Test2] Election catalogue warmup failed', error);
       });
     };
-    if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(warm, { timeout: 2500 });
-    } else {
-      setTimeout(warm, 750);
-    }
+    const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    const hasElectionState = this.hasElectionURLState(params, parseLayerOrder(params.get('layers')));
+    const timeout = hasElectionState ? 1200 : 6000;
+    this.scheduleIdleTask(warm, { timeout });
   }
 
   hasElectionURLState(params, layers = []) {
@@ -1025,8 +1065,6 @@ class Test2App {
       if (target) target.textContent = `Performance status unavailable: ${error?.message || error}`;
     });
     button?.addEventListener('click', render);
-    this.serviceWorkerStatusPromise?.finally(() => render());
-    setTimeout(render, 1200);
   }
 
   async openElectionEntityDetailInCatalogue(kind, key) {
@@ -1142,6 +1180,47 @@ class Test2App {
       metrics,
       historyRows: rows
     };
+  }
+
+  installLazyCatalogueDataBridge() {
+    if (uiController.__test2LazyCatalogueDataBridgeInstalled) return;
+    uiController.__test2LazyCatalogueDataBridgeInstalled = true;
+    const ensureTarget = uiController.ensureCatalogueTargetRendered?.bind(uiController);
+    if (ensureTarget) {
+      uiController.ensureCatalogueTargetRendered = async (targetId, sectionKey = null) => {
+        const resolvedSection = sectionKey || uiController._flatTargetToSection?.get?.(targetId);
+        if (resolvedSection === 'books') await this.loadBooks();
+        return ensureTarget(targetId, sectionKey);
+      };
+    }
+    const openBookViewer = uiController.openCatalogueBookViewer?.bind(uiController);
+    if (openBookViewer) {
+      uiController.openCatalogueBookViewer = async (...args) => {
+        await this.loadBooks();
+        return openBookViewer(...args);
+      };
+    }
+  }
+
+  installLazyRuntimeHelpersBridge() {
+    if (uiController.__test2LazyRuntimeHelpersBridgeInstalled) return;
+    uiController.__test2LazyRuntimeHelpersBridgeInstalled = true;
+
+    const downloadFeature = uiController.downloadFeature?.bind(uiController);
+    if (downloadFeature) {
+      uiController.downloadFeature = async (detailId, format) => {
+        if (format === 'fgb') await this.ensureFlatgeobufRuntime();
+        return downloadFeature(detailId, format);
+      };
+    }
+
+    const loadAttributeSchema = uiController.loadAttributeSchema?.bind(uiController);
+    if (loadAttributeSchema) {
+      uiController.loadAttributeSchema = async (...args) => {
+        await this.ensureFlatgeobufRuntime();
+        return loadAttributeSchema(...args);
+      };
+    }
   }
 
   async loadBrowsePersonsIndex() {

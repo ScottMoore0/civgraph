@@ -37,7 +37,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="build/app.bundle.js?v=47f5107406fa" fetchpriority="high">
+  <link rel="modulepreload" href="build/app.bundle.js?v=d802b1e3f301" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -713,7 +713,7 @@
        and jsdelivr (~50-100ms each on cold mobile) and removes third-party
        SPOFs. Safe because no synchronous script (jquery-shim, election engine)
        references any of these symbols at parse time; the module bundle
-       (build/app.bundle.js?v=47f5107406fa is type=module which is implicitly deferred and
+       (build/app.bundle.js?v=d802b1e3f301 is type=module which is implicitly deferred and
        runs after these. Turf is kept on unpkg for now — it's only used by
        dynamic-import paths and isn't fetched on first paint. -->
   <script src="assets/js/leaflet-1.9.4.js" defer></script>
@@ -795,7 +795,7 @@
   </script>
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="build/app.bundle.js?v=47f5107406fa"></script>
+  <script type="module" src="build/app.bundle.js?v=d802b1e3f301"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

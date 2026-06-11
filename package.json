@@ -32,6 +32,8 @@
     "monitor:test2:cdn": "node scripts/validate-test2-pmtiles-cdn.mjs --network",
     "test:performance:test": "node scripts/validate-test-mobile-performance.mjs",
     "test:performance:test2": "node scripts/validate-test2-mobile-performance.mjs",
+    "test:performance:test2:cold": "node scripts/measure-test2-cold-load.mjs",
+    "check:performance:test2:cold": "node scripts/measure-test2-cold-load.mjs --validate",
     "test:visual:test": "node scripts/visual-regression-test-shell.mjs",
     "test:visual:test2": "node scripts/visual-regression-test2-shell.mjs",
     "audit:test2:parity": "node scripts/audit-test2-general-parity.mjs",

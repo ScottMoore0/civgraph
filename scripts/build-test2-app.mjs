@@ -13,7 +13,7 @@ rmSync('test2/build/chunks', { recursive: true, force: true });
 const emitSourceMaps = process.env.TEST2_SOURCEMAPS === '1' || process.argv.includes('--sourcemap');
 
 const result = await esbuild.build({
-  entryPoints: ['test2/src/app.js'],
+  entryPoints: ['test2/src/boot.js'],
   bundle: true,
   minify: true,
   sourcemap: emitSourceMaps,

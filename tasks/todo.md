@@ -5397,3 +5397,28 @@ Add election entries to /test2
   - Verification evidence: `npm run build:test`, `npm run check:test:ci-safe`, `npm run smoke:test:mobile`, `npm run test:performance:test`, `npm run test:browser:test`, and `npm run test:visual:test` all passed. The build and Playwright commands required approved escalation on Windows because the sandbox blocks esbuild/Chromium process spawning.
 - [x] Explain cold-load feasibility
   - Completed: first-navigation `/test2` speed can be materially improved, but the highest-impact work is architectural: replace the current multi-megabyte startup metadata/index fetch with a tiny boot index plus lazy detail shards; defer catalogue/election heavy logic until after first paint; split critical CSS/JS more aggressively; and keep PMTiles/large data on immutable CDN/R2 URLs with compression/cache discipline.
+# Speed up first load of `/test2`
+- [x] Record scope
+  - Task: implement the first-load optimisation items 1-6 without making runtime interaction, catalogue behaviour, or deployment stability worse.
+  - Expected output: `/test2` has a smaller startup runtime path, defers non-critical work, keeps heavy catalogue data lazy where safe, adds a cold-load measurement harness, and preserves existing route/data checks.
+- [x] Finish startup/runtime split
+  - Task: use a tiny `/test2` bootstrap entry and lazy-load the full MapLibre app after the shell can paint.
+  - Completed: added `test2/src/boot.js` as the `/test2` bundle entry. The shell now paints first, then dynamically imports the MapLibre runtime after two animation frames.
+- [x] Defer non-critical first-load work
+  - Task: defer search-worker preparation, election warmups, diagnostics/performance rendering, and heavy catalogue data that is not needed for the initial map shell.
+  - Completed: deferred search-worker prep, election catalogue warmup, performance dashboard rendering, books/geographies database loads, and FlatGeobuf startup scripts until the user hits a path that needs them.
+- [x] Add performance guardrails and measurement
+  - Task: extend `/test2` performance validation to check the startup split, entry bundle size, lazy chunk size, and provide a cold-load measurement script.
+  - Completed: added startup-split route validation, performance dashboard checks for bootstrap/lazy chunk sizes, and `scripts/measure-test2-cold-load.mjs` with npm scripts for cold-load measurement.
+- [x] Rebuild `/test2` and validate
+  - Task: run `/test2` build and checks, then fix any regressions caused by the split or lazy loading.
+  - Completed: `npm run build:test2`, `npm run check:test2`, `npm run test:performance:test2:cold`, `npm run check:performance:test2:cold`, `npm run build`, and `npm run check` passed. Cold-load initial JS is now 9.3 KB, with validation-mode desktop shell/runtime at 25 ms / 217 ms and mobile shell/runtime at 29 ms / 187 ms in the local harness.
+- [x] Commit and push verified changes
+  - Task: stage only the scoped performance changes and generated deployable assets after verification passes.
+  - Completed: staged the scoped first-load optimisation changes and generated `/test2` deployable assets for commit and push after all checks passed.
+
+## Review: `/test2` first-load optimisation
+- The `/test2` initial JS path is now a tiny bootstrap bundle instead of the full MapLibre app runtime. The heavy app, MapLibre code, election manager, and helper chunks remain lazy-loaded.
+- Books/geographies data, FlatGeobuf export/schema support, search worker preparation, election catalogue warmup, and diagnostics/performance rendering no longer compete with the first paint.
+- Route validation now prevents regressions back to a large startup bundle or first-load FlatGeobuf/pako scripts.
+- Cold-load measurement is repeatable through `npm run test:performance:test2:cold`; the current report passes all cold-load budgets.

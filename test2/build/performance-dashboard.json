@@ -1,27 +1,88 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-10T23:55:07.907Z",
+  "generatedAt": "2026-06-11T22:05:59.629Z",
   "summary": "Performance budgets pass",
   "budgets": {
-    "entryJsBytes": 716800,
+    "entryJsBytes": 81920,
     "entryCssBytes": 163840,
     "chunkJsBytes": 1843200,
+    "largestLazyChunkBytes": 1228800,
     "metadataIndexBytes": 3584000,
     "sourceMapCount": 0
   },
   "totals": {
-    "checks": 7,
+    "checks": 9,
     "failed": 0,
     "warnings": 0,
-    "passed": 7
+    "passed": 9
+  },
+  "assets": {
+    "entry": {
+      "js": {
+        "name": "test2.bundle.js",
+        "path": "test2/build/test2.bundle.js",
+        "bytes": 739,
+        "label": "739 B"
+      },
+      "css": {
+        "name": "test2.bundle.css",
+        "path": "test2/build/test2.bundle.css",
+        "bytes": 89483,
+        "label": "87.4 KB"
+      }
+    },
+    "lazy": {
+      "jsCount": 4,
+      "cssCount": 0,
+      "jsBytes": 1682344,
+      "cssBytes": 0
+    },
+    "largestOutputs": [
+      {
+        "name": "chunk-M6AVIK5Z.js",
+        "path": "test2/build/chunks/chunk-M6AVIK5Z.js",
+        "bytes": 1045978,
+        "label": "1021.5 KB"
+      },
+      {
+        "name": "app-N4OLXOJY.js",
+        "path": "test2/build/chunks/app-N4OLXOJY.js",
+        "bytes": 472975,
+        "label": "461.9 KB"
+      },
+      {
+        "name": "election-manager-IMBKNST6.js",
+        "path": "test2/build/chunks/election-manager-IMBKNST6.js",
+        "bytes": 162704,
+        "label": "158.9 KB"
+      },
+      {
+        "name": "test2.bundle.css",
+        "path": "test2/build/test2.bundle.css",
+        "bytes": 89483,
+        "label": "87.4 KB"
+      },
+      {
+        "name": "test2.bundle.js",
+        "path": "test2/build/test2.bundle.js",
+        "bytes": 739,
+        "label": "739 B"
+      },
+      {
+        "name": "chunk-IZUYVIPG.js",
+        "path": "test2/build/chunks/chunk-IZUYVIPG.js",
+        "bytes": 687,
+        "label": "687 B"
+      }
+    ]
   },
   "checks": [
     {
       "name": "Entry JS",
       "status": "pass",
-      "value": 470370,
-      "maxBytes": 716800,
-      "valueLabel": "459.3 KB / 700.0 KB",
+      "value": 739,
+      "maxBytes": 81920,
+      "valueLabel": "739 B / 80.0 KB",
       "path": "test2/build/test2.bundle.js"
     },
     {
@@ -35,15 +96,32 @@
     {
       "name": "Split JS chunks",
       "status": "pass",
-      "value": 1209357,
+      "value": 1682344,
       "maxBytes": 1843200,
-      "valueLabel": "1.2 MB / 1.8 MB",
+      "valueLabel": "1.6 MB / 1.8 MB",
       "path": "test2/build/chunks"
+    },
+    {
+      "name": "Largest lazy JS chunk",
+      "status": "pass",
+      "value": 1045978,
+      "maxBytes": 1228800,
+      "valueLabel": "chunk-M6AVIK5Z.js 1021.5 KB / 1.2 MB",
+      "path": "test2/build/chunks/chunk-M6AVIK5Z.js"
+    },
+    {
+      "name": "Startup runtime split",
+      "status": "pass",
+      "value": {
+        "hasDynamicImport": true,
+        "lazyChunkCount": 4
+      },
+      "valueLabel": "4 lazy JS chunk(s); dynamic import present"
     },
     {
       "name": "Startup metadata index",
       "status": "pass",
-      "value": 2745405,
+      "value": 2745453,
       "maxBytes": 3584000,
       "valueLabel": "2.6 MB / 3.4 MB",
       "path": "test/metadata/maps-test-index.json"
