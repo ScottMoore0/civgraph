@@ -35,6 +35,8 @@ data/maps/townlands/chunks/*.fgb -filter -diff -merge -text
 # create CRLF-only dirty working-tree churn.
 test/metadata/*.json text eol=lf
 test/metadata/**/*.json text eol=lf
+data/browse/*.json text eol=lf
+data/browse/**/*.json text eol=lf
 test2/build/*.json text eol=lf
 tasks/test2-election-data-audit.json text eol=lf
 tasks/test2-election-data-audit.md text eol=lf

@@ -5704,3 +5704,17 @@ Add election entries to /test2
   - Scope: run focused route/static checks plus full `npm run build`, `npm run check`, and `npm run check:test2`, then commit/push scoped changes only.
   - Verification so far: `node --check app/src/app.js`, `node --check test/src/map-controller.js`, `node --check scripts/validate-test2-route.mjs`, `node scripts/validate-test2-route.mjs`, `npm run build`, `npm run check:test2`, and `npm run check` passed.
   - Completed: staged only the scoped runtime, CSS, validator, corrected election data, build output, and task/lesson files; unrelated generated Browse party/test metadata churn remains unstaged.
+
+# Resolve remaining generated Browse/test metadata outputs
+- [x] Classify dirty generated output
+  - Scope: distinguish expected generated Browse/test metadata from unrelated source edits before staging anything.
+  - Completed: sampled `data/browse/elections.json`, party/person Browse detail files, source detail files, `test/metadata/elections-test2`, `test/metadata/elections-test2-summaries`, duplicate-feature reports, and `test/metadata/layer-details-test2` files. The remaining dirty tree is generated data/test metadata reflecting earlier fixes such as corrected European ROI seat totals, referendum turnout/spoiled fields, Browse party colours, full person/entity records, source-credit corrections, regenerated layer source credits, and duplicate-feature report cleanup.
+- [x] Add generated-output line-ending guardrail
+  - Scope: prevent Windows rebuilds from dirtying generated Browse JSON through LF/CRLF churn.
+  - Completed: extended `.gitattributes` to normalize `data/browse/*.json` and `data/browse/**/*.json` as LF, matching the existing generated metadata guardrail.
+- [x] Stage expected generated outputs only
+  - Scope: stage the generated Browse/test metadata families and task log after validation; do not stage unrelated private/download/scratch files.
+  - Completed: scope confirmed as `data/browse/**`, `test/metadata/**`, `.gitattributes`, and `tasks/todo.md`; no non-generated source/runtime files remain dirty in the unstaged set.
+- [x] Verify and publish generated-output sync
+  - Scope: rerun route/test checks, commit the generated-output sync separately, and push.
+  - Verification: `node scripts/validate-test2-route.mjs`, `node scripts/validate-maplibre-root-promotion.mjs`, `git diff --cached --check`, `npm run check:test2`, and `npm run check` passed. The first sandboxed `npm run check` hit `spawnSync git EPERM` in the Pages file-budget validator, then passed when rerun with escalation so the validator could invoke `git ls-files`.

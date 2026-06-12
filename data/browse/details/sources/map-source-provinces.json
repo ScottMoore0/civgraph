@@ -1,18 +1,19 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-06T14:20:26.035Z",
+  "generatedAt": "2026-06-12T19:31:39.876Z",
   "item": {
     "id": "map-source:provinces",
     "slug": "map-source-provinces",
     "type": "map-source",
     "title": "Provinces of Ireland 2019 source files",
-    "subtitle": "Counties / OSI",
+    "subtitle": "Counties / OSI, Phelim Birch",
     "category": "Map sources",
     "date": "2019",
     "provider": [
-      "OSI"
+      "OSI",
+      "Phelim Birch"
     ],
-    "description": "Traditional county boundaries",
+    "description": "Current provinces layer using the 2019 OSI statutory province geometry. The boundaries match the 1955/enriched province layer, so the MapLibre layer reuses that converted geometry to retain the Irish province-name field (CUIGE) instead of dropping the translation.",
     "sourceMapId": "provinces",
     "thumbnail": {
       "kind": "asset",
@@ -78,7 +79,8 @@
       "category": "counties",
       "date": "2019",
       "provider": [
-        "OSI"
+        "OSI",
+        "Phelim Birch"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Provinces.fgb"
@@ -94,7 +96,9 @@
         "munster",
         "leinster",
         "connacht",
-        "2019"
+        "2019",
+        "cuige",
+        "irish names"
       ],
       "featured": true,
       "useLOD": true,
@@ -133,7 +137,10 @@
           "label": "Shapefile (ZIP)",
           "file": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.zip"
         }
-      ]
+      ],
+      "cloneOf": "provinces-1955",
+      "irishLabelProperty": "CUIGE",
+      "description": "Current provinces layer using the 2019 OSI statutory province geometry. The boundaries match the 1955/enriched province layer, so the MapLibre layer reuses that converted geometry to retain the Irish province-name field (CUIGE) instead of dropping the translation."
     }
   }
 }
