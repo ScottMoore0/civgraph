@@ -9,12 +9,12 @@ build/
 *.fgb.gz
 _bundle_v2.json
 
-# /test2 is currently deployed from committed static artifacts. Its split JS
-# chunks are runtime assets; keep source maps ignored.
-!test2/build/
-!test2/build/chunks/
-!test2/build/chunks/*.js
-test2/build/chunks/*.map
+# The promoted MapLibre runtime is deployed from committed /app static artifacts.
+# Its split JS chunks are runtime assets; keep source maps ignored.
+!app/build/
+!app/build/chunks/
+!app/build/chunks/*.js
+app/build/chunks/*.map
 
 # IDE
 .idea/
@@ -231,7 +231,7 @@ scripts/_compare_cache/
 /session-ses_*.md
 /.codex-temp-commit/
 /privaterep_refactored/
-test2/build/test2-general-parity-report.json
+app/build/test2-general-parity-report.json
 
 # Local one-off research/integration scripts. Remove a specific line before
 # promoting that script into the public build or audit toolchain.

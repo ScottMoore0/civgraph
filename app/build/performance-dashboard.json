@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-12T14:13:02.498Z",
+  "generatedAt": "2026-06-12T15:07:25.909Z",
   "summary": "Performance budgets pass",
   "budgets": {
     "entryJsBytes": 81920,
@@ -19,14 +19,14 @@
   "assets": {
     "entry": {
       "js": {
-        "name": "test2.bundle.js",
-        "path": "test2/build/test2.bundle.js",
-        "bytes": 739,
-        "label": "739 B"
+        "name": "app.bundle.js",
+        "path": "app/build/app.bundle.js",
+        "bytes": 741,
+        "label": "741 B"
       },
       "css": {
-        "name": "test2.bundle.css",
-        "path": "test2/build/test2.bundle.css",
+        "name": "app.bundle.css",
+        "path": "app/build/app.bundle.css",
         "bytes": 95763,
         "label": "93.5 KB"
       }
@@ -34,43 +34,43 @@
     "lazy": {
       "jsCount": 4,
       "cssCount": 0,
-      "jsBytes": 1688641,
+      "jsBytes": 1688523,
       "cssBytes": 0
     },
     "largestOutputs": [
       {
         "name": "chunk-M6AVIK5Z.js",
-        "path": "test2/build/chunks/chunk-M6AVIK5Z.js",
+        "path": "app/build/chunks/chunk-M6AVIK5Z.js",
         "bytes": 1045978,
         "label": "1021.5 KB"
       },
       {
-        "name": "app-427OVL3A.js",
-        "path": "test2/build/chunks/app-427OVL3A.js",
-        "bytes": 473148,
-        "label": "462.1 KB"
+        "name": "app-OWZ4QJAO.js",
+        "path": "app/build/chunks/app-OWZ4QJAO.js",
+        "bytes": 473034,
+        "label": "461.9 KB"
       },
       {
-        "name": "election-manager-LGCAQMZB.js",
-        "path": "test2/build/chunks/election-manager-LGCAQMZB.js",
-        "bytes": 168828,
+        "name": "election-manager-GHDBYCTQ.js",
+        "path": "app/build/chunks/election-manager-GHDBYCTQ.js",
+        "bytes": 168824,
         "label": "164.9 KB"
       },
       {
-        "name": "test2.bundle.css",
-        "path": "test2/build/test2.bundle.css",
+        "name": "app.bundle.css",
+        "path": "app/build/app.bundle.css",
         "bytes": 95763,
         "label": "93.5 KB"
       },
       {
-        "name": "test2.bundle.js",
-        "path": "test2/build/test2.bundle.js",
-        "bytes": 739,
-        "label": "739 B"
+        "name": "app.bundle.js",
+        "path": "app/build/app.bundle.js",
+        "bytes": 741,
+        "label": "741 B"
       },
       {
         "name": "chunk-IZUYVIPG.js",
-        "path": "test2/build/chunks/chunk-IZUYVIPG.js",
+        "path": "app/build/chunks/chunk-IZUYVIPG.js",
         "bytes": 687,
         "label": "687 B"
       }
@@ -80,10 +80,10 @@
     {
       "name": "Entry JS",
       "status": "pass",
-      "value": 739,
+      "value": 741,
       "maxBytes": 81920,
-      "valueLabel": "739 B / 80.0 KB",
-      "path": "test2/build/test2.bundle.js"
+      "valueLabel": "741 B / 80.0 KB",
+      "path": "app/build/app.bundle.js"
     },
     {
       "name": "Entry CSS",
@@ -91,15 +91,15 @@
       "value": 95763,
       "maxBytes": 163840,
       "valueLabel": "93.5 KB / 160.0 KB",
-      "path": "test2/build/test2.bundle.css"
+      "path": "app/build/app.bundle.css"
     },
     {
       "name": "Split JS chunks",
       "status": "pass",
-      "value": 1688641,
+      "value": 1688523,
       "maxBytes": 1843200,
       "valueLabel": "1.6 MB / 1.8 MB",
-      "path": "test2/build/chunks"
+      "path": "app/build/chunks"
     },
     {
       "name": "Largest lazy JS chunk",
@@ -107,7 +107,7 @@
       "value": 1045978,
       "maxBytes": 1228800,
       "valueLabel": "chunk-M6AVIK5Z.js 1021.5 KB / 1.2 MB",
-      "path": "test2/build/chunks/chunk-M6AVIK5Z.js"
+      "path": "app/build/chunks/chunk-M6AVIK5Z.js"
     },
     {
       "name": "Startup runtime split",
@@ -127,7 +127,7 @@
       "path": "test/metadata/maps-test-index.json"
     },
     {
-      "name": "Scoped service worker",
+      "name": "Compatibility service worker",
       "status": "pass",
       "value": true,
       "valueLabel": "present",
@@ -139,7 +139,7 @@
       "value": 0,
       "maxCount": 0,
       "valueLabel": "0 map file(s)",
-      "path": "test2/build"
+      "path": "app/build"
     },
     {
       "name": "PMTiles metadata coverage",

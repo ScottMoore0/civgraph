@@ -5556,3 +5556,25 @@ Add election entries to /test2
 - Single-seat FPTP selected Results panes now render a static transfer-animation-style candidate vote graphic beside the Results table.
 - The graphic uses the exact same normalized candidate rows as the table, including party colours, vote totals, vote share, and elected highlighting.
 - The layout is side-by-side on wider election panes and stacks on narrower/mobile views, with explicit dark-mode coverage for both theme-toggle and system-dark paths.
+
+# Move MapLibre runtime assets out of `/test2`
+- [x] Inspect current `/test2` path dependencies
+  - Scope: identify runtime, service-worker, dynamic import, worker, animation, validator, and documentation references that still bind the promoted MapLibre app to `/test2`.
+  - Completed: scanned runtime, service-worker, worker, election-animation, validation, docs, and header references for `/test2` asset paths before migration.
+- [x] Move public MapLibre assets to a production namespace
+  - Scope: move the browser-loaded MapLibre runtime from `/test2/...` to `/app/...` while preserving the root app shell and existing data URLs.
+  - Completed: moved browser-loaded MapLibre source, build output, worker, jQuery shim, and election-animation assets under `/app`, and updated the build to emit `/app/build/app.bundle.*`.
+- [x] Convert `/test2` into a compatibility route
+  - Scope: replace the full `/test2` app with a tiny redirect/cleanup page that preserves query-string and hash state for old `/test2` links.
+  - Completed: replaced `/test2/index.html` with a compatibility redirect preserving query strings and hash fragments, and changed `/test2/sw.js` into a cleanup/redirect worker for legacy caches and old navigations.
+- [x] Update build, validation, service-worker, and docs
+  - Scope: ensure the normal production build writes `/app` assets, root HTML references `/app`, service workers cache `/app`, and guardrails prevent `/test2` asset references returning.
+  - Completed: updated root HTML, root service-worker cache lists, build scripts, route validators, performance dashboard generation, Cloudflare headers, and promotion/performance docs for `/app` production paths.
+- [x] Verify, commit, and push
+  - Scope: rebuild, run route/root checks, explicitly verify old `/test2#...` and `/test2/?...#...` redirect behavior, then publish.
+  - Completed: rebuilt production assets, ran `npm run check`, `npm run check:test2`, and `npm run test:performance:test2`; `/test2/` now exercises the compatibility redirect into the root app and reports the root service worker.
+
+## Review: MapLibre runtime `/app` migration
+- Root `index.html` now loads MapLibre runtime assets from `/app/build` and election animation assets from `/app/election-viewer-package`.
+- `/test2` no longer hosts a duplicate app shell; it is a temporary compatibility route for old bookmarks and shared links.
+- The normal production build no longer writes `/test2/build` runtime assets and guardrails now validate the `/app` production namespace.

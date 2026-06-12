@@ -165,7 +165,7 @@ export class Test2ElectionManager {
 
   async load() {
     const response = await fetch(ELECTION_MANIFEST_URL, { cache: 'force-cache' });
-    if (!response.ok) throw new Error(`Failed to load /test2 election catalogue: ${response.status}`);
+    if (!response.ok) throw new Error(`Failed to load the MapLibre election catalogue: ${response.status}`);
     this.catalogue = await response.json();
     return this.catalogue;
   }
@@ -209,7 +209,7 @@ export class Test2ElectionManager {
     const entry = this.findEntry(body, date);
     if (!entry) throw new Error(`Election not found: ${body} ${date}`);
     if (!entry.loadable) {
-      throw new Error(`${body} ${date} is in the election catalogue, but its geography is not converted for /test2 yet.`);
+      throw new Error(`${body} ${date} is in the election catalogue, but its geography is not converted for MapLibre yet.`);
     }
 
     if (this.activeEntry && (this.activeEntry.body !== body || this.activeEntry.date !== date)) {
@@ -3319,7 +3319,7 @@ export class Test2ElectionManager {
     if (this.overlayWorker) return this.overlayWorker;
     if (typeof Worker === 'undefined') return null;
     try {
-      const worker = new Worker('/test2/src/overlay-worker.js', { type: 'module' });
+      const worker = new Worker('/app/src/overlay-worker.js', { type: 'module' });
       worker.addEventListener('message', (event) => {
         const { id, selectedIndexes } = event.data || {};
         const callback = this.overlayWorkerCallbacks.get(id);
@@ -3835,11 +3835,11 @@ function ensureElectionAnimationRuntime() {
   }
   if (!electionAnimationRuntimePromise) {
     const scripts = [
-      '/test2/js/jquery-shim.js',
-      '/test2/election-viewer-package/js/stages2.js?v=2',
-      '/test2/election-viewer-package/js/animation_preview.js',
-      '/test2/election-viewer-package/js/animation_preview_manager.js',
-      '/test2/election-viewer-package/js/election_viewer.js'
+      '/app/js/jquery-shim.js',
+      '/app/election-viewer-package/js/stages2.js?v=2',
+      '/app/election-viewer-package/js/animation_preview.js',
+      '/app/election-viewer-package/js/animation_preview_manager.js',
+      '/app/election-viewer-package/js/election_viewer.js'
     ];
     electionAnimationRuntimePromise = scripts.reduce(
       (promise, src) => promise.then(() => loadScriptOnce(src)),

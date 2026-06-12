@@ -11,7 +11,7 @@
   <meta name="author" content="Scott Moore">
 
   <title>Civgraph</title>
-  <!-- Root MapLibre shell promoted from /test2. Leaflet root archived at git tag leaflet-main-before-maplibre-root-20260612. -->
+  <!-- Root MapLibre shell. Leaflet root archived at git tag leaflet-main-before-maplibre-root-20260612. -->
   <base href="/">
 
   <!-- Preconnect: one OSM subdomain is enough — HTTP/2 multiplexes subsequent
@@ -31,7 +31,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/test2/build/test2.bundle.js?v=95c62849fe44" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=f46eed42c564" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -66,16 +66,16 @@
   <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
        loaded async via media=print + onload swap so it doesn't block first
        paint. Browsers without JS fall back via <noscript>. -->
-    <link rel="stylesheet" href="/build/main.css?v=0bcb1c5b48f7" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/build/main.css?v=0bcb1c5b48f7"></noscript>
-  <link rel="stylesheet" href="/test2/build/test2.bundle.css?v=079af041737b">
+    <link rel="stylesheet" href="/build/main.css?v=947ae6423c18" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/build/main.css?v=947ae6423c18"></noscript>
+  <link rel="stylesheet" href="/app/build/app.bundle.css?v=079af041737b">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
-  <link rel="stylesheet" href="/test2/election-viewer-package/css/election-viewer.css" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="/test2/election-viewer-package/css/stages.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css" media="print" onload="this.media='all'">
   <noscript>
-    <link rel="stylesheet" href="/test2/election-viewer-package/css/election-viewer.css">
-    <link rel="stylesheet" href="/test2/election-viewer-package/css/stages.css">
+    <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css">
+    <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css">
   </noscript>
 
   <!-- Favicon -->
@@ -644,10 +644,10 @@
   </button>
 
   <!-- Startup-safe runtime helpers. Search, election, FlatGeobuf export,
-       and animation code are loaded lazily by the /test2 module bundle. -->
+       and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/test2/build/test2.bundle.js?v=95c62849fe44"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=f46eed42c564"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

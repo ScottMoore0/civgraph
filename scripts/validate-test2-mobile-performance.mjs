@@ -7,7 +7,7 @@ const PORT = Number(process.env.TEST2_PERF_PORT || 5053);
 const BASE = `http://127.0.0.1:${PORT}`;
 const MODE = (process.env.TEST2_PERF_MODE || 'fixture').toLowerCase();
 const USE_CDN = MODE === 'cdn' || MODE === 'production';
-const REPORT_PATH = process.env.TEST2_PERF_REPORT || 'test2/build/mobile-performance-report.json';
+const REPORT_PATH = process.env.TEST2_PERF_REPORT || 'app/build/mobile-performance-report.json';
 const BUDGETS = {
   bootMs: Number(process.env.TEST2_PERF_BOOT_MS || 5000),
   fixtureLayerMs: Number(process.env.TEST2_PERF_FIXTURE_LAYER_MS || 2000),
@@ -320,6 +320,6 @@ async function waitForServer() {
 }
 
 function writeReport(report) {
-  mkdirSync('test2/build', { recursive: true });
+  mkdirSync('app/build', { recursive: true });
   writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
 }

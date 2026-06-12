@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
-const OUT_PATH = resolve(ROOT, 'test2/build/performance-dashboard.json');
+const OUT_PATH = resolve(ROOT, 'app/build/performance-dashboard.json');
 const VALIDATE = process.argv.includes('--validate');
 const BUDGETS = {
   entryJsBytes: Number(process.env.TEST2_BUDGET_ENTRY_JS || 80 * 1024),
@@ -16,13 +16,13 @@ const BUDGETS = {
 };
 
 const checks = [
-  fileBudget('Entry JS', 'test2/build/test2.bundle.js', BUDGETS.entryJsBytes),
-  fileBudget('Entry CSS', 'test2/build/test2.bundle.css', BUDGETS.entryCssBytes),
-  sumBudget('Split JS chunks', 'test2/build/chunks', (name) => name.endsWith('.js'), BUDGETS.chunkJsBytes),
-  largestChunkBudget('Largest lazy JS chunk', 'test2/build/chunks', BUDGETS.largestLazyChunkBytes),
+  fileBudget('Entry JS', 'app/build/app.bundle.js', BUDGETS.entryJsBytes),
+  fileBudget('Entry CSS', 'app/build/app.bundle.css', BUDGETS.entryCssBytes),
+  sumBudget('Split JS chunks', 'app/build/chunks', (name) => name.endsWith('.js'), BUDGETS.chunkJsBytes),
+  largestChunkBudget('Largest lazy JS chunk', 'app/build/chunks', BUDGETS.largestLazyChunkBytes),
   splitRuntimeCheck(),
   fileBudget('Startup metadata index', 'test/metadata/maps-test-index.json', BUDGETS.metadataIndexBytes, { normalizeTextEol: true }),
-  existsCheck('Scoped service worker', 'test2/sw.js'),
+  existsCheck('Compatibility service worker', 'test2/sw.js'),
   sourceMapCheck(),
   pmtilesCoverageCheck()
 ];
@@ -44,10 +44,10 @@ const report = {
   checks
 };
 
-mkdirSync(resolve(ROOT, 'test2/build'), { recursive: true });
+mkdirSync(resolve(ROOT, 'app/build'), { recursive: true });
 writeStableGeneratedJson(OUT_PATH, report);
 console.log('Civgraph /test2 Performance Dashboard');
-console.log(`- output: test2/build/performance-dashboard.json`);
+console.log(`- output: app/build/performance-dashboard.json`);
 console.log(`- checks: ${checks.length}`);
 console.log(`- failed: ${failed}`);
 console.log(`- warnings: ${warnings}`);
@@ -106,8 +106,8 @@ function largestChunkBudget(name, relativeDir, maxBytes) {
 }
 
 function splitRuntimeCheck() {
-  const entryPath = resolve(ROOT, 'test2/build/test2.bundle.js');
-  const chunks = listFiles('test2/build/chunks', (entryName) => entryName.endsWith('.js'));
+  const entryPath = resolve(ROOT, 'app/build/app.bundle.js');
+  const chunks = listFiles('app/build/chunks', (entryName) => entryName.endsWith('.js'));
   const entry = existsSync(entryPath) ? readFileSync(entryPath, 'utf8') : '';
   const hasDynamicImport = /import\(["'][./]*chunks\//.test(entry) || /import\(`\.\/chunks\//.test(entry);
   const hasRuntimeChunk = chunks.some((chunk) => /app|maplibre|election|chunk/i.test(chunk.name));
@@ -120,10 +120,10 @@ function splitRuntimeCheck() {
 }
 
 function buildAssetInventory() {
-  const entryJs = fileInfo('test2/build/test2.bundle.js');
-  const entryCss = fileInfo('test2/build/test2.bundle.css');
-  const jsChunks = listFiles('test2/build/chunks', (name) => name.endsWith('.js'));
-  const cssChunks = listFiles('test2/build/chunks', (name) => name.endsWith('.css'));
+  const entryJs = fileInfo('app/build/app.bundle.js');
+  const entryCss = fileInfo('app/build/app.bundle.css');
+  const jsChunks = listFiles('app/build/chunks', (name) => name.endsWith('.js'));
+  const cssChunks = listFiles('app/build/chunks', (name) => name.endsWith('.css'));
   const allOutputs = [
     entryJs,
     entryCss,
@@ -184,14 +184,14 @@ function existsCheck(name, relativePath) {
 }
 
 function sourceMapCheck() {
-  const count = countFiles('test2/build', (name) => name.endsWith('.map'));
+  const count = countFiles('app/build', (name) => name.endsWith('.map'));
   return {
     name: 'Production source maps disabled',
     status: count <= BUDGETS.sourceMapCount ? 'pass' : 'fail',
     value: count,
     maxCount: BUDGETS.sourceMapCount,
     valueLabel: `${count} map file(s)`,
-    path: 'test2/build'
+    path: 'app/build'
   };
 }
 

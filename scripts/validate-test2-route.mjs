@@ -2,12 +2,13 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 
 const failures = [];
-const index = readFileSync('test2/index.html', 'utf8');
-const bootSource = readFileSync('test2/src/boot.js', 'utf8');
-const appSource = readFileSync('test2/src/app.js', 'utf8');
-const adapterSource = readFileSync('test2/src/maplibre-main-adapter.js', 'utf8');
-const electionManagerSource = readFileSync('test2/src/election-manager.js', 'utf8');
-const electionPaneContractSource = readFileSync('test2/src/election-pane-main-contract.js', 'utf8');
+const index = readFileSync('index.html', 'utf8');
+const compatibilityIndex = readFileSync('test2/index.html', 'utf8');
+const bootSource = readFileSync('app/src/boot.js', 'utf8');
+const appSource = readFileSync('app/src/app.js', 'utf8');
+const adapterSource = readFileSync('app/src/maplibre-main-adapter.js', 'utf8');
+const electionManagerSource = readFileSync('app/src/election-manager.js', 'utf8');
+const electionPaneContractSource = readFileSync('app/src/election-pane-main-contract.js', 'utf8');
 const test2ServiceWorkerSource = readFileSync('test2/sw.js', 'utf8');
 const rootServiceWorkerSource = readFileSync('sw.js', 'utf8');
 const mainElectionPaneContractSource = readFileSync('js/election-main-pane-contract.mjs', 'utf8');
@@ -22,13 +23,13 @@ const uiControllerSource = readFileSync('js/ui-controller.js', 'utf8');
 const mapControllerSource = readFileSync('test/src/map-controller.js', 'utf8');
 const labelsSource = readFileSync('test/src/labels.js', 'utf8');
 const featureRepairsSource = readFileSync('test/src/feature-property-repairs.js', 'utf8');
-const test2Css = readFileSync('test2/src/test2.css', 'utf8');
+const test2Css = readFileSync('app/src/test2.css', 'utf8');
 const mainCss = readFileSync('assets/css/main.css', 'utf8');
 const packageJsonSource = readFileSync('package.json', 'utf8');
 const portPlan = JSON.parse(readFileSync('test/metadata/main-site-port-plan.json', 'utf8'));
 const testMetadata = JSON.parse(readFileSync('test/metadata/maps-test.json', 'utf8'));
 const mapsDb = JSON.parse(readFileSync('data/database/maps.json', 'utf8'));
-const test2BundleVersion = index.match(/\/test2\/build\/test2\.bundle\.js\?v=([0-9a-f]{12})/)?.[1] || '';
+const test2BundleVersion = index.match(/\/app\/build\/app\.bundle\.js\?v=([0-9a-f]{12})/)?.[1] || '';
 
 function assert(condition, message) {
   if (!condition) failures.push(message);
@@ -110,17 +111,19 @@ assert(index.includes('<base href="/">'), '/test2 must keep root-relative produc
 assert(existsSync('docs/test2-general-parity-matrix.json'), '/test2 general parity matrix is missing');
 assert(existsSync('scripts/audit-test2-general-parity.mjs'), '/test2 general parity audit script is missing');
 assert(packageJsonSource.includes('"audit:test2:parity"'), '/test2 general parity audit must be exposed through package scripts');
-assert(index.includes('/test2/build/test2.bundle.js'), '/test2 must load its own MapLibre bundle');
-assert(index.includes('/test2/build/test2.bundle.css'), '/test2 must load its own MapLibre CSS bundle');
-assert(index.includes('/test2/election-viewer-package/css/election-viewer.css') && index.includes('/test2/election-viewer-package/css/stages.css'), '/test2 must load route-scoped election animation CSS assets');
+assert(compatibilityIndex.includes('window.location.replace') && compatibilityIndex.includes('nextUrl.search') && compatibilityIndex.includes('nextUrl.hash'), '/test2 compatibility page must redirect old links to root while preserving query and hash state');
+assert(!compatibilityIndex.includes('/app/build/app.bundle.js') && !compatibilityIndex.includes('id="map"'), '/test2 compatibility page must not duplicate the live app shell');
+assert(index.includes('/app/build/app.bundle.js'), 'Root must load the production MapLibre bundle from /app');
+assert(index.includes('/app/build/app.bundle.css'), 'Root must load the production MapLibre CSS bundle from /app');
+assert(index.includes('/app/election-viewer-package/css/election-viewer.css') && index.includes('/app/election-viewer-package/css/stages.css'), 'Root must load production-scoped election animation CSS assets from /app');
 assert(Boolean(test2BundleVersion), '/test2 bundle script must include a content-hash cache key');
-assert(test2ServiceWorkerSource.includes(`const VERSION = 'test2-sw-${test2BundleVersion}';`), '/test2 scoped service-worker cache version must match the current bundle hash so phones cannot retain stale gesture code');
+assert(test2ServiceWorkerSource.includes("mode: 'compat-cleanup'") && test2ServiceWorkerSource.includes('civgraph-test2-'), '/test2 scoped service worker must only clean legacy caches and redirect compatibility navigations');
 assert(bootSource.includes("import('./app.js')") && bootSource.includes('requestAnimationFrame'), '/test2 must keep a startup bootstrap that paints the shell before lazy-loading the heavy MapLibre app runtime');
 assert(!index.includes('flatgeobuf-geojson.min.js') && !index.includes('pako-2.1.0.min.js'), '/test2 must not load FlatGeobuf or pako on the first navigation');
 assert(appSource.includes('ensureFlatgeobufRuntime') && appSource.includes('installLazyRuntimeHelpersBridge'), '/test2 must lazy-load FlatGeobuf only for feature export/schema workflows');
-assert(index.includes('href="/build/main.css'), '/test2 must load shared main CSS from the site root, not route-relative /test2/build/main.css');
+assert(index.includes('href="/build/main.css'), 'Root must keep loading shared main CSS from the site root');
 assert(!index.includes('leaflet-1.9.4'), '/test2 must not load Leaflet assets');
-assert(!index.includes('build/app.bundle.js'), '/test2 must not load the production app bundle');
+assert(!/(?:src|href)=["']\/build\/app\.bundle\.js/i.test(index), '/test2 must not load the archived Leaflet app bundle');
 assert(!index.includes("register('/sw.js'"), '/test2 must not register the production service worker');
 assert(index.includes('class="app-header"'), '/test2 must preserve the production header shell');
 assert(index.includes('class="pane pane--info"'), '/test2 must preserve the production catalogue pane');
@@ -167,7 +170,7 @@ assert(!mapControllerSource.includes('this.map.getCanvas().style.cursor') && !el
 assert(mapControllerSource.includes('mobileGestureResizeSize') && mapControllerSource.includes('sizeChanged') && mapControllerSource.includes('resizeObserverTargets') && mapControllerSource.includes('shouldInstallMobileGestureResizeObserver') && mapControllerSource.includes('(pointer: coarse)') && mapControllerSource.includes('(max-width: 768px)') && !mapControllerSource.includes('observe(canvasContainer)'), '/test2 map resize observer must be size-change guarded, mobile/small-screen scoped, and must not observe the MapLibre canvas container in a resize loop');
 assert(adapterSource.includes('resizeFrame') && adapterSource.includes('lastResizeSize') && adapterSource.includes('shouldResizeMap(nextSize)') && !adapterSource.includes('setTimeout(() => {\\n      this.applyMobileTouchContract();\\n      this.map.resize();'), '/test2 main adapter must coalesce invalidateSize and avoid same-size MapLibre resize loops that clear hover/cursor state');
 assert(!mapControllerSource.includes('dragPan?.disable'), '/test2 direct touch fallback must not disable dragPan because interrupted touch sequences can freeze subsequent pan/drag gestures');
-assert(rootServiceWorkerSource.includes("root-maplibre-sw-") && rootServiceWorkerSource.includes("'/test2/build/test2.bundle.js'") && rootServiceWorkerSource.includes("request.headers.has('range')") && rootServiceWorkerSource.includes('/\\.pmtiles(?:[?#]|$)/i') && rootServiceWorkerSource.includes('networkFirst(request, RUNTIME_CACHE)'), 'root service worker must route /test2 entry assets network-first and must not intercept PMTiles byte-range requests');
+assert(rootServiceWorkerSource.includes("root-maplibre-sw-") && rootServiceWorkerSource.includes("'/app/build/app.bundle.js'") && rootServiceWorkerSource.includes("request.headers.has('range')") && rootServiceWorkerSource.includes('/\\.pmtiles(?:[?#]|$)/i') && rootServiceWorkerSource.includes('networkFirst(request, RUNTIME_CACHE)'), 'root service worker must route /app entry assets network-first and must not intercept PMTiles byte-range requests');
 assert(test2Css.includes('#map .maplibregl-map') && test2Css.includes('overscroll-behavior: contain') && test2Css.includes('-webkit-touch-callout: none'), '/test2 route CSS must apply a full mobile touch contract to the map container and canvas');
 assert(appSource.includes('relocateMobileCatalogueToggle') && appSource.includes('mobile-toggle--navbar'), '/test2 must move the mobile catalogue toggle into the navbar instead of leaving it as a floating map overlay');
 assert(test2Css.includes('.app-header #mobileToggle.mobile-toggle.mobile-toggle--navbar') && test2Css.includes('position: static !important'), '/test2 mobile catalogue toggle must be styled as a navbar control on mobile');
@@ -419,23 +422,23 @@ assert(electionManagerSource.includes('buildRepairedLabelValueExpression') && el
 assert(electionManifestBuilderSource.includes('isSyntheticNonGeographicResult') && electionManifestBuilderSource.includes('syntheticNonGeographicMatch') && electionManifestBuilderSource.includes('synthetic-northeast-non-geographic'), '/test2 election manifest builder must synthesize safe northeast anchors for non-geographical election rows');
 assert(electionManagerSource.includes('test2-election-synthetic-label') && electionManagerSource.includes('result.syntheticNonGeographic') && test2Css.includes('.test2-election-synthetic-label'), '/test2 election overlays must render clickable labels for synthetic non-geographical constituency entries');
 assert(electionManagerSource.includes('syntheticDelta') && electionManagerSource.includes('syntheticNonGeographic'), '/test2 election overlay collision must prioritize synthetic non-geographical markers so they do not disappear behind real constituencies');
-assert(electionManagerSource.includes('/test2/js/jquery-shim.js') && electionManagerSource.includes('/test2/election-viewer-package/js/stages2.js'), '/test2 election animation runtime must lazy-load route-scoped shared animation scripts');
-assert(test2ServiceWorkerSource.includes('/test2/js/jquery-shim.js') && test2ServiceWorkerSource.includes('/test2/election-viewer-package/js/election_viewer.js'), '/test2 service worker must network-first the route-scoped election animation runtime assets');
+assert(electionManagerSource.includes('/app/js/jquery-shim.js') && electionManagerSource.includes('/app/election-viewer-package/js/stages2.js'), 'Election animation runtime must lazy-load production-scoped shared animation scripts from /app');
+assert(test2ServiceWorkerSource.includes("Response.redirect(target.href, 302)") && test2ServiceWorkerSource.includes('TEST2_SW_STATUS'), '/test2 service worker must be a redirect/status cleanup worker, not a duplicate runtime cache');
 
 for (const path of [
-  'test2/build/test2.bundle.js',
-  'test2/build/test2.bundle.css',
-  'test2/js/jquery-shim.js',
-  'test2/election-viewer-package/js/stages2.js',
-  'test2/election-viewer-package/js/animation_preview.js',
-  'test2/election-viewer-package/js/animation_preview_manager.js',
-  'test2/election-viewer-package/js/election_viewer.js',
-  'test2/election-viewer-package/css/stages.css',
-  'test2/election-viewer-package/css/election-viewer.css',
-  'test2/src/app.js',
-  'test2/src/maplibre-main-adapter.js',
-  'test2/src/election-manager.js',
-  'test2/src/election-pane-main-contract.js',
+  'app/build/app.bundle.js',
+  'app/build/app.bundle.css',
+  'app/js/jquery-shim.js',
+  'app/election-viewer-package/js/stages2.js',
+  'app/election-viewer-package/js/animation_preview.js',
+  'app/election-viewer-package/js/animation_preview_manager.js',
+  'app/election-viewer-package/js/election_viewer.js',
+  'app/election-viewer-package/css/stages.css',
+  'app/election-viewer-package/css/election-viewer.css',
+  'app/src/app.js',
+  'app/src/maplibre-main-adapter.js',
+  'app/src/election-manager.js',
+  'app/src/election-pane-main-contract.js',
   'js/election-main-pane-contract.mjs',
   'js/election-domain.mjs',
   'js/election-view-model.mjs',
@@ -604,9 +607,9 @@ if (existsSync('test/metadata/feature-indexes')) {
   }
 }
 
-const bundleBytes = existsSync('test2/build/test2.bundle.js') ? statSync('test2/build/test2.bundle.js').size : 0;
-const lazyChunkBytes = sumFiles('test2/build/chunks', (name) => name.endsWith('.js'));
-const lazyChunkCount = countFiles('test2/build/chunks', (name) => name.endsWith('.js'));
+const bundleBytes = existsSync('app/build/app.bundle.js') ? statSync('app/build/app.bundle.js').size : 0;
+const lazyChunkBytes = sumFiles('app/build/chunks', (name) => name.endsWith('.js'));
+const lazyChunkCount = countFiles('app/build/chunks', (name) => name.endsWith('.js'));
 assert(bundleBytes > 500, '/test2 bootstrap bundle is unexpectedly empty');
 assert(bundleBytes < 90_000, `/test2 bootstrap bundle is too large for first-load budget: ${bundleBytes} bytes`);
 assert(lazyChunkCount >= 1 && lazyChunkBytes > 100_000, '/test2 lazy runtime chunks are missing after bootstrap split');

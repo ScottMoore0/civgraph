@@ -2,8 +2,8 @@
 
 ## Current Routing
 
-- `/` is generated from the `/test2` MapLibre shell by `scripts/promote-test2-root.mjs`.
-- `/test2/` remains available as a compatibility and comparison route.
+- `/` is the production MapLibre shell.
+- `/test2/` remains available temporarily as a compatibility redirect that preserves query-string and hash state.
 - The old Leaflet root shell is archived at git tag `leaflet-main-before-maplibre-root-20260612`.
 
 ## Build And Validation
@@ -18,9 +18,9 @@ npm run check:test2
 
 Expected guarantees:
 
-- `index.html` loads `/test2/build/test2.bundle.js`, not `build/app.bundle.js`.
+- `index.html` loads `/app/build/app.bundle.js`, not `build/app.bundle.js`.
 - `index.html` does not load Leaflet assets.
-- `/test2/index.html` still loads the `/test2` runtime.
+- `/test2/index.html` is a tiny compatibility page that redirects to `/` while preserving `?...` and `#...` state.
 - `sw.js` is the root MapLibre service worker and does not intercept PMTiles byte-range requests.
 - Cloudflare Pages deployable files stay under the 20,000 file limit.
 
@@ -30,8 +30,8 @@ After Cloudflare deploys the pushed commit:
 
 1. Open `https://civgraph.net/`.
 2. Confirm the root route shows the MapLibre map shell.
-3. Confirm `https://civgraph.net/test2/` still loads.
-4. Confirm the root page requests `/test2/build/test2.bundle.js`.
+3. Confirm `https://civgraph.net/test2/` redirects to `/`.
+4. Confirm the root page requests `/app/build/app.bundle.js`.
 5. Confirm the service worker scope for root is `/` and its status version begins `root-maplibre-sw-`.
 6. Load a PMTiles-backed layer and confirm byte-range requests return `206 Partial Content` from the CDN.
 7. Load an election layer and confirm the election pane, seat circles, and timeline work.
@@ -53,7 +53,7 @@ npm run check
 git push origin main
 ```
 
-Prefer revert over history rewriting. Do not delete `/test2` assets during rollback unless a separate issue proves they are the cause.
+Prefer revert over history rewriting. Do not remove the `/test2` compatibility route during rollback unless a separate issue proves it is the cause.
 
 ## Notes
 

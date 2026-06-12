@@ -203,7 +203,7 @@ export class Test2MapLibreMainAdapter {
 
     const layer = this.resolveLayer(mainId);
     if (!layer) {
-      const error = new Error(`${config?.name || mainId} is not converted for the /test2 MapLibre route yet.`);
+      const error = new Error(`${config?.name || mainId} is not converted for the MapLibre route yet.`);
       this.options.onError?.(error, { mainId, config });
       throw error;
     }

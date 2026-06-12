@@ -31,8 +31,8 @@
   Cache-Control: public, max-age=31536000, immutable
   X-Robots-Tag: noindex, nofollow
 
-# Verbatim-shell MapLibre test route. HTML and root entry files must revalidate,
-# while generated chunks and sidecars can be cached aggressively.
+# Temporary compatibility route for pre-promotion /test2 links. Runtime assets
+# now live under /app and root /index.html is the production MapLibre shell.
 /test2/
   Cache-Control: public, max-age=0, must-revalidate
   X-Robots-Tag: noindex, nofollow
@@ -46,37 +46,35 @@
   Service-Worker-Allowed: /test2/
   X-Robots-Tag: noindex, nofollow
 
-/test2/build/test2.bundle.js
+/app/build/app.bundle.js
   Cache-Control: no-cache, must-revalidate
-  X-Robots-Tag: noindex, nofollow
 
-/test2/build/test2.bundle.css
+/app/build/app.bundle.css
   Cache-Control: no-cache, must-revalidate
-  X-Robots-Tag: noindex, nofollow
 
-/test2/build/*.map
+/app/build/*.map
   Cache-Control: no-cache, must-revalidate
-  X-Robots-Tag: noindex, nofollow
 
-/test2/build/chunks/*.map
+/app/build/chunks/*.map
   Cache-Control: no-cache, must-revalidate
-  X-Robots-Tag: noindex, nofollow
 
-/test2/build/performance-dashboard.json
+/app/build/performance-dashboard.json
   Cache-Control: no-cache, must-revalidate
-  X-Robots-Tag: noindex, nofollow
 
-/test2/build/mobile-performance-report.json
+/app/build/mobile-performance-report.json
   Cache-Control: no-cache, must-revalidate
-  X-Robots-Tag: noindex, nofollow
 
-/test2/build/chunks/*
+/app/build/chunks/*
   Cache-Control: public, max-age=31536000, immutable
-  X-Robots-Tag: noindex, nofollow
 
-/test2/src/*
+/app/src/*
   Cache-Control: no-cache, must-revalidate
-  X-Robots-Tag: noindex, nofollow
+
+/app/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/app/election-viewer-package/*
+  Cache-Control: public, max-age=31536000, immutable
 
 /test/metadata/maps-test-index.json
   Cache-Control: public, max-age=0, must-revalidate

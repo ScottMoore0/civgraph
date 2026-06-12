@@ -17,9 +17,9 @@ The most valuable performance direction is:
 
 Current local verification:
 
-- `npm run build:test2`: passed after allowing esbuild to spawn; bundle output is `test2.bundle.js` at 1,603,440 bytes and `test2.bundle.css` at 85,076 bytes.
+- `npm run build:test2`: passed after allowing esbuild to spawn; bundle output is now a tiny `/app/build/app.bundle.js` bootstrap plus split lazy chunks and `/app/build/app.bundle.css`.
 - `npm run check:test2`: passed after rebuild.
-- `npm run test:performance:test2`: ran after allowing Playwright to launch, but failed because the local smoke forces Civil Parishes onto a directory-MVT fallback that is not present locally. That is a test/guardrail gap, not proof that production PMTiles are broken.
+- `npm run test:performance:test2`: passed in fixture mode through the `/test2/` compatibility route into the root app.
 
 ## Key Evidence
 
@@ -27,9 +27,10 @@ Current local verification:
 
 | Asset | Size | Compressed estimate |
 | --- | ---: | ---: |
-| `test2/build/test2.bundle.js` | 1,603,440 bytes | gzip ~420 KB, brotli ~339 KB |
-| `test2/build/test2.bundle.css` | 85,076 bytes | gzip ~13 KB, brotli ~11 KB |
-| `test2/index.html` | 81,187 bytes | gzip ~18 KB, brotli ~15 KB |
+| `app/build/app.bundle.js` | 741 bytes | bootstrap only |
+| `app/build/chunks/*.js` | ~1.6 MB total | split runtime chunks |
+| `app/build/app.bundle.css` | 95,763 bytes | gzip ~13 KB |
+| `test2/index.html` | tiny compatibility redirect | not an app shell |
 | `test/metadata/maps-test.json` | 5,046,981 bytes | gzip ~543 KB, brotli ~323 KB |
 | `test/metadata/elections-test2.json` | 449,319 bytes | gzip ~21 KB, brotli ~14 KB |
 | `data/database/maps.json` | 872,911 bytes | gzip ~83 KB, brotli ~60 KB |
@@ -50,7 +51,7 @@ The initial app code imports `data-service`, `feature-loader`, `ui-controller`, 
 Live header checks on 2026-06-06 show:
 
 - `/test2/`: `Cache-Control: public, max-age=0, must-revalidate`.
-- `/test2/build/test2.bundle.js?v=test2-009`: `Cache-Control: public, max-age=14400, must-revalidate`.
+- `/app/build/app.bundle.js?v=test2-009`: `Cache-Control: public, max-age=14400, must-revalidate`.
 - `/test/metadata/maps-test.json`: `Cache-Control: public, max-age=0, must-revalidate`.
 - `/test/metadata/elections-test2.json`: `Cache-Control: public, max-age=0, must-revalidate`.
 
@@ -106,9 +107,9 @@ Recommended change:
 
 - Add `_headers` entries for:
   - `/test2/` and `/test2/index.html`: `public, max-age=0, must-revalidate`, `X-Robots-Tag: noindex, nofollow` while test-only.
-  - `/test2/build/*`: `public, max-age=31536000, immutable`.
-  - `/test2/sw.js`, if added: `no-cache, must-revalidate`, `Service-Worker-Allowed: /test2/`.
-- Make `scripts/build-test2-app.mjs` compute a content hash or content-derived version for the JS/CSS URLs and rewrite `test2/index.html` automatically.
+  - `/app/build/*`: `public, max-age=31536000, immutable`.
+  - `/test2/sw.js`: `no-cache, must-revalidate`, `Service-Worker-Allowed: /test2/`, used only for compatibility cleanup.
+- Make `scripts/build-test2-app.mjs` compute a content hash or content-derived version for the JS/CSS URLs and rewrite `index.html` automatically.
 - Treat `maps-test.json`, election manifests, and source metadata as manifest assets: short/no-cache if they are not hashed; immutable if they become content-hashed.
 
 Expected benefit:
@@ -119,7 +120,7 @@ Expected benefit:
 
 Verification:
 
-- Header test for `/test2/`, `/test2/index.html`, `/test2/build/test2.bundle.js`, `/test2/build/test2.bundle.css`, metadata, PMTiles URLs, and future `/test2/sw.js`.
+- Header test for `/test2/`, `/test2/index.html`, `/app/build/app.bundle.js`, `/app/build/app.bundle.css`, metadata, PMTiles URLs, and `/test2/sw.js` compatibility cleanup.
 - Deployment check that the HTML references the current content-derived bundle version.
 
 ### 3. Split `maps-test.json` Into A Small Startup Catalogue Index And Lazy Detail Files
@@ -165,7 +166,7 @@ ROI: Very high. Impact: high. Difficulty: medium.
 
 Current problem:
 
-- `scripts/build-test2-app.mjs` emits one monolithic `test2.bundle.js`.
+- `scripts/build-test2-app.mjs` emits one monolithic `app.bundle.js`.
 - Static imports pull MapLibre, the shared main UI, the metadata service, election manager, election view-model/rendering logic, and adapter code into one startup bundle.
 
 Recommended split:
@@ -362,7 +363,7 @@ ROI: Medium high. Impact: medium. Difficulty: low to medium.
 
 Current problem:
 
-- `test2/src/maplibre-main-adapter.js` loads group members sequentially.
+- `app/src/maplibre-main-adapter.js` loads group members sequentially.
 - `loadLayer()` can fit after each member load unless options suppress it.
 
 Recommended change:
@@ -392,8 +393,8 @@ Current problem:
 
 Recommended change:
 
-- Add `/test2/sw.js` scoped to `/test2/`.
-- Cache immutable `/test2/build/*`, fonts, small manifests, and selected PMTiles byte ranges carefully.
+- Keep `/test2/sw.js` scoped to `/test2/` as a compatibility cleanup worker until the route is removed.
+- Cache immutable `/app/build/*`, fonts, small manifests, and selected PMTiles byte ranges carefully.
 - Do not blindly cache huge election bundles or unbounded PMTiles ranges.
 - Add quota-aware cleanup and a diagnostics panel showing cache status.
 
@@ -487,7 +488,7 @@ ROI: Medium. Impact: low to medium for normal users, high for deployment hygiene
 
 Current problem:
 
-- `test2.bundle.js.map` is ~6.6 MB locally.
+- `app.bundle.js.map` is ~6.6 MB locally.
 - Source maps are not normally downloaded by users, but they can affect deployment size and accidental browser/devtools fetches.
 
 Recommended change:
@@ -573,4 +574,3 @@ Verification:
 ## Bottom Line
 
 The highest-ROI performance work is not changing MapLibre itself. It is reducing what `/test2` asks the browser to download, parse, normalize, and keep in memory before the user actually requests it. The current route should become a fast shell plus a MapLibre map, with catalogue, election, search, diagnostics, and transfer-animation systems loaded progressively.
-

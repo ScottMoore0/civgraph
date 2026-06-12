@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * Build shared static shell assets for the promoted MapLibre root and /test2.
+ * Build shared static shell assets for the promoted MapLibre root.
  *
  * This intentionally does not bundle the archived Leaflet app. The old Leaflet
  * runtime can still be built through `npm run build:legacy-leaflet` when needed
  * for archive/debug work, but the normal production build should only emit the
- * shared CSS/about/thumbnail assets plus the MapLibre /test2 runtime.
+ * shared CSS/about/thumbnail assets plus the MapLibre runtime under /app.
  */
 
 import * as esbuild from 'esbuild';
@@ -21,7 +21,7 @@ import {
   writeFileSync
 } from 'node:fs';
 
-const HTML_TARGETS = ['index.html', 'test2/index.html'];
+const HTML_TARGETS = ['index.html'];
 const CSS_BUDGET_BYTES = 230_000;
 
 function hashFile(filePath, length = 12, salt = '') {

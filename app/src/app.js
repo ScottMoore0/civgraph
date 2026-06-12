@@ -4,7 +4,7 @@ import uiController from '../../js/ui-controller.js';
 import { TestMetadataService } from '../../test/src/metadata-service.js';
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
 
-const TEST2_LAYER_ORDER_STORAGE_KEY = 'civgraph:test2:layer-order';
+const TEST2_LAYER_ORDER_STORAGE_KEY = 'civgraph:maplibre:layer-order';
 
 function parseLayerOrder(value) {
   if (!value) return [];
@@ -233,11 +233,8 @@ class Test2App {
 
   getServiceWorkerConfig() {
     const path = window.location.pathname || '/';
-    if (path.startsWith('/test2/') || path === '/test2') {
-      return { url: '/test2/sw.js', scope: '/test2/', route: 'test2' };
-    }
-    return { url: '/sw.js', scope: '/', route: 'root' };
-  }
+  return { url: '/sw.js', scope: '/', route: 'root' };
+}
 
   async getServiceWorkerStatus(registration = null) {
     if (!('serviceWorker' in navigator)) return { available: false, reason: 'service-worker API unavailable' };
@@ -298,7 +295,7 @@ class Test2App {
 
   async loadPerformanceBudget() {
     if (this.performanceBudget) return this.performanceBudget;
-    this.performanceBudget = fetch('/test2/build/performance-dashboard.json', { cache: 'no-cache' })
+    this.performanceBudget = fetch('/app/build/performance-dashboard.json', { cache: 'no-cache' })
       .then((response) => response.ok ? response.json() : null)
       .catch(() => null);
     return this.performanceBudget;
@@ -487,7 +484,7 @@ class Test2App {
   }
 
   async ensureFlatgeobufRuntime() {
-    return this.loadClassicScript('/test2/js/libs/flatgeobuf-geojson.min.js', 'flatgeobuf');
+    return this.loadClassicScript('/app/js/libs/flatgeobuf-geojson.min.js', 'flatgeobuf');
   }
 
   async ensureElections(options = {}) {
@@ -853,7 +850,7 @@ class Test2App {
   prepareSearchWorker() {
     if (!('Worker' in window)) return;
     try {
-      this.searchWorker = new Worker('/test2/src/search-worker.js?v=test2-search-001', { type: 'module' });
+      this.searchWorker = new Worker('/app/src/search-worker.js?v=app-search-001', { type: 'module' });
       this.searchWorker.addEventListener('message', (event) => {
         const message = event.data || {};
         if (message.type === 'ready') {
@@ -1056,7 +1053,7 @@ class Test2App {
     featureInfoClose?.addEventListener('click', () => uiController.hideFeatureInfo());
 
     document.getElementById('conditionalStylingBtn')?.addEventListener('click', () => {
-      this.showMapError(new Error('Conditional styling controls for /test2 will use MapLibre expressions; this route currently supports base opacity, labels, and text scale.'));
+      this.showMapError(new Error('Conditional styling controls use MapLibre expressions; this route currently supports base opacity, labels, and text scale.'));
     });
 
     this.mapController.map?.on('moveend', () => this.updateURLState());
@@ -2140,7 +2137,7 @@ class Test2App {
   showMapError(error) {
     console.warn('[Test2]', error);
     const announcer = document.getElementById('announcer');
-    const message = error?.message || 'Map layer is not available in /test2 yet.';
+    const message = error?.message || 'Map layer is not available in MapLibre yet.';
     if (announcer) announcer.textContent = message;
     let status = document.getElementById('test2Status');
     if (!status) {
@@ -2157,7 +2154,7 @@ const app = new Test2App();
 app.init().catch((error) => {
   console.error('[Test2] Failed to start', error);
   const target = document.getElementById('map') || document.body;
-  target.insertAdjacentHTML('beforeend', `<div class="map-error">Failed to start /test2: ${escapeHtml(error.message)}</div>`);
+  target.insertAdjacentHTML('beforeend', `<div class="map-error">Failed to start Civgraph: ${escapeHtml(error.message)}</div>`);
 });
 
 function escapeHtml(value) {

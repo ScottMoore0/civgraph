@@ -1,12 +1,12 @@
 /*
  * Civgraph root service worker for the promoted MapLibre shell.
  *
- * The root route now runs the MapLibre runtime generated under /test2. Keep
- * /test2 as the compatibility route, but let root own production navigation,
+ * The root route now runs the MapLibre runtime generated under /app. Keep
+ * /test2 as a tiny compatibility route, but let root own production navigation,
  * cache status, and stale-cache cleanup.
  */
 
-const VERSION = 'root-maplibre-sw-20260612';
+const VERSION = 'root-maplibre-sw-f46eed42c564';
 const STATIC_CACHE = `civgraph-root-maplibre-${VERSION}-static`;
 const RUNTIME_CACHE = `civgraph-root-maplibre-${VERSION}-runtime`;
 const CACHE_PREFIX = 'civgraph-root-maplibre-';
@@ -17,6 +17,7 @@ const QUOTA_CLEANUP_THRESHOLD = 0.75;
 const ALL_CACHES = [STATIC_CACHE, RUNTIME_CACHE];
 const LEGACY_ROOT_CACHE_PREFIXES = [
   CACHE_PREFIX,
+  'civgraph-test2-',
   'civgraph-static-',
   'civgraph-runtime-',
   'civgraph-fgb-',
@@ -27,7 +28,7 @@ const LEGACY_ROOT_CACHE_PREFIXES = [
 const PRECACHE_URLS = ['/', '/index.html'];
 
 const CACHE_FIRST_PATHS = [
-  '/test2/build/chunks/',
+  '/app/build/chunks/',
   '/assets/fonts/',
   '/assets/images/',
   '/assets/thumbnails/',
@@ -38,24 +39,25 @@ const CACHE_FIRST_PATHS = [
 
 const NETWORK_FIRST_PATHS = [
   '/index.html',
+  '/app/build/app.bundle.js',
+  '/app/build/app.bundle.css',
+  '/app/build/performance-dashboard.json',
+  '/app/js/jquery-shim.js',
+  '/app/js/libs/flatgeobuf-geojson.min.js',
+  '/app/election-viewer-package/js/stages2.js',
+  '/app/election-viewer-package/js/animation_preview.js',
+  '/app/election-viewer-package/js/animation_preview_manager.js',
+  '/app/election-viewer-package/js/election_viewer.js',
+  '/app/election-viewer-package/css/stages.css',
+  '/app/election-viewer-package/css/election-viewer.css',
+  '/app/src/search-worker.js',
+  '/app/src/overlay-worker.js',
   '/build/main.css',
   '/build/main.critical.css',
   '/build/about.css',
   '/manifest.json',
   '/test2/',
   '/test2/index.html',
-  '/test2/build/test2.bundle.js',
-  '/test2/build/test2.bundle.css',
-  '/test2/build/performance-dashboard.json',
-  '/test2/js/jquery-shim.js',
-  '/test2/election-viewer-package/js/stages2.js',
-  '/test2/election-viewer-package/js/animation_preview.js',
-  '/test2/election-viewer-package/js/animation_preview_manager.js',
-  '/test2/election-viewer-package/js/election_viewer.js',
-  '/test2/election-viewer-package/css/stages.css',
-  '/test2/election-viewer-package/css/election-viewer.css',
-  '/test2/src/search-worker.js',
-  '/test2/src/overlay-worker.js',
   '/test/metadata/maps-test-index.json'
 ];
 

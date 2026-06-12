@@ -8,7 +8,7 @@ const start = () => {
   import('./app.js').catch((error) => {
     console.error('[Test2] Failed to load runtime', error);
     const target = document.getElementById('map') || document.body;
-    target.insertAdjacentHTML('beforeend', `<div class="map-error">Failed to load /test2 runtime: ${escapeHtml(error?.message || error)}</div>`);
+    target.insertAdjacentHTML('beforeend', `<div class="map-error">Failed to load Civgraph runtime: ${escapeHtml(error?.message || error)}</div>`);
   });
 };
 
