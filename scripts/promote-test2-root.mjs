@@ -33,7 +33,7 @@ function main() {
   html = html.replace(/\/build\/main\.css\?v=[^"'>\s]+/g, `/build/main.css?v=${mainCssVersion}`);
   html = html.replace(
     /\/\/ \/test2 keeps production cache ownership isolated from this MapLibre prototype\./,
-    '// Root service-worker migration is handled separately; /test2 remains as a compatibility route.'
+    '// Root service-worker owns production cache; /test2 remains as a compatibility route.'
   );
 
   if (!html.includes('/test2/build/test2.bundle.js')) {

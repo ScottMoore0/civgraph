@@ -5443,3 +5443,26 @@ Add election entries to /test2
 ## Review: `/test2` to root promotion, parts 1-4
 - Parts 1-4 are complete. The current Leaflet root is archived by tag and manifest, the root route is generated from the `/test2` MapLibre shell, `/test2` remains available, and no shared source/data was deleted or duplicated.
 - Remaining promotion work sits outside parts 1-4: root service-worker/cache migration, explicit rollback/cutover rehearsal, production observability on the root route, and any remaining data/parity checks that should be completed before removing the legacy Leaflet archive path from normal operations.
+
+# Finish MapLibre root promotion follow-up work
+- [x] Migrate root service-worker/cache ownership
+  - Scope: replace Leaflet-era root service-worker assumptions with MapLibre-safe root caching, while preserving `/test2` compatibility and PMTiles byte-range passthrough.
+  - Completed: replaced `sw.js` with a root MapLibre service worker that network-firsts navigations and mutable runtime assets, cache-firsts hashed `/test2` chunks/static support assets, never intercepts range requests or PMTiles archives, exposes the same diagnostics status message used by `/test2`, and cleans up legacy root `civgraph-static/runtime/fgb/thumb/tile-*` caches.
+- [x] Register the correct service worker by route
+  - Scope: make the shared MapLibre runtime use `/sw.js` at root and `/test2/sw.js` under `/test2`.
+  - Completed: added route-aware service-worker configuration in `test2/src/app.js`; diagnostics now report whether the root or `/test2` worker is active.
+- [x] Add promotion guardrails
+  - Scope: make root promotion/cache ownership fail validation if future builds drift back toward the old Leaflet root or lose `/test2` compatibility.
+  - Completed: extended `scripts/validate-maplibre-root-promotion.mjs` to assert root MapLibre HTML, root service-worker cache/status/range behavior, route-aware app registration, and preserved `/test2` runtime loading.
+- [x] Document cutover and rollback
+  - Scope: keep the root promotion operational steps and rollback path in-repo.
+  - Completed: added `docs/maplibre-root-promotion-runbook.md` covering build/check commands, live cutover checks, the Leaflet archive tag, emergency revert flow, and why the unused Leaflet JS output remains until the CSS pipeline is separated.
+- [x] Verify and push remaining promotion work
+  - Scope: run build/check paths after the root service-worker migration, commit/push the changes, and verify live deployment where possible.
+  - Completed: verified the root MapLibre service-worker migration and route-aware registration with syntax checks, `npm run build`, `npm run check`, and `npm run check:test2`; confirmed the rollback tag still contains the archived Leaflet root.
+
+## Review: MapLibre root promotion follow-up
+- The root route now has a MapLibre-safe service worker that preserves PMTiles byte-range loading, avoids caching mutable/heavy data paths, caches hashed `/test2` runtime assets, exposes diagnostics status, and cleans old Leaflet-era root caches.
+- The shared `/test2` runtime registers `/sw.js` when it is running as the root site and `/test2/sw.js` when it is running under the compatibility route.
+- Promotion validation now checks the root shell, route-aware service-worker registration, PMTiles range passthrough, `/test2` compatibility runtime loading, and legacy cache cleanup behavior.
+- The cutover and rollback process is documented in `docs/maplibre-root-promotion-runbook.md`, with the Leaflet archive tag retained for emergency restore.

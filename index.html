@@ -31,7 +31,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/test2/build/test2.bundle.js?v=341f2779649e" fetchpriority="high">
+  <link rel="modulepreload" href="/test2/build/test2.bundle.js?v=1e85837a817a" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -66,8 +66,8 @@
   <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
        loaded async via media=print + onload swap so it doesn't block first
        paint. Browsers without JS fall back via <noscript>. -->
-    <link rel="stylesheet" href="/build/main.css?v=91fe8d5b4d49" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/build/main.css?v=91fe8d5b4d49"></noscript>
+    <link rel="stylesheet" href="/build/main.css?v=961d8bb4f6f9" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/build/main.css?v=961d8bb4f6f9"></noscript>
   <link rel="stylesheet" href="/test2/build/test2.bundle.css?v=090f8ad9b098">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
@@ -647,7 +647,7 @@
        and animation code are loaded lazily by the /test2 module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/test2/build/test2.bundle.js?v=341f2779649e"></script>
+  <script type="module" src="/test2/build/test2.bundle.js?v=1e85837a817a"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.
@@ -659,7 +659,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        // Root service-worker migration is handled separately; /test2 remains as a compatibility route.
+        // Root service-worker owns production cache; /test2 remains as a compatibility route.
       });
     }
   </script>

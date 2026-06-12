@@ -1,243 +1,258 @@
-/**
- * Civgraph service worker — repeat-visit perf + offline tolerance.
+/*
+ * Civgraph root service worker for the promoted MapLibre shell.
  *
- * Strategy per resource class:
- *   static  — cache-first   (fingerprinted: build/*?v=N, Leaflet, fonts)
- *   runtime — network-first (HTML, JSON databases — server controls freshness)
- *   fgb     — cache-first + LRU cap (immutable per server headers, files can be 20MB+)
- *   thumb   — stale-while-revalidate (occasional updates; SWR shows stale + fetches new)
- *   tile    — cache-first   (OSM tiles)
- *
- * On activate, any cache not carrying the current CACHE_VERSION suffix is
- * deleted. Bump CACHE_VERSION when you change SW strategy logic; fingerprinted
- * resources (build/*?v=N) invalidate naturally via their URL; entry assets
- * still use network-first as a stale-bundle safety rail.
+ * The root route now runs the MapLibre runtime generated under /test2. Keep
+ * /test2 as the compatibility route, but let root own production navigation,
+ * cache status, and stale-cache cleanup.
  */
 
-const CACHE_VERSION = 'v8'; // v8: keep /test2 entry assets out of the root SW stale route
-const STATIC_CACHE  = `civgraph-static-${CACHE_VERSION}`;
-const RUNTIME_CACHE = `civgraph-runtime-${CACHE_VERSION}`;
-const FGB_CACHE     = `civgraph-fgb-${CACHE_VERSION}`;
-const THUMB_CACHE   = `civgraph-thumb-${CACHE_VERSION}`;
-const TILE_CACHE    = `civgraph-tile-${CACHE_VERSION}`;
+const VERSION = 'root-maplibre-sw-20260612';
+const STATIC_CACHE = `civgraph-root-maplibre-${VERSION}-static`;
+const RUNTIME_CACHE = `civgraph-root-maplibre-${VERSION}-runtime`;
+const CACHE_PREFIX = 'civgraph-root-maplibre-';
+const MAX_RUNTIME_ENTRIES = 220;
+const MAX_STATIC_ENTRIES = 320;
+const QUOTA_CLEANUP_THRESHOLD = 0.75;
 
-const ALL_CACHES = [STATIC_CACHE, RUNTIME_CACHE, FGB_CACHE, THUMB_CACHE, TILE_CACHE];
+const ALL_CACHES = [STATIC_CACHE, RUNTIME_CACHE];
+const LEGACY_ROOT_CACHE_PREFIXES = [
+  CACHE_PREFIX,
+  'civgraph-static-',
+  'civgraph-runtime-',
+  'civgraph-fgb-',
+  'civgraph-thumb-',
+  'civgraph-tile-'
+];
 
-// Hard caps per cache. Browsers evict on quota pressure anyway, but bounding
-// these explicitly stops a heavy user from hoarding 1 GB of FGBs.
-const CAPS = {
-    [FGB_CACHE]: 50,
-    [THUMB_CACHE]: 800,
-    [TILE_CACHE]: 600,
-};
-
-// Minimal precache so a cold-cache offline visit can at least render the shell.
 const PRECACHE_URLS = ['/', '/index.html'];
 
+const CACHE_FIRST_PATHS = [
+  '/test2/build/chunks/',
+  '/assets/fonts/',
+  '/assets/images/',
+  '/assets/thumbnails/',
+  '/test/metadata/layer-details-test2/',
+  '/test/metadata/duplicate-feature-ids/',
+  '/test/metadata/elections-test2-summaries/'
+];
+
+const NETWORK_FIRST_PATHS = [
+  '/index.html',
+  '/build/main.css',
+  '/build/main.critical.css',
+  '/build/about.css',
+  '/manifest.json',
+  '/test2/',
+  '/test2/index.html',
+  '/test2/build/test2.bundle.js',
+  '/test2/build/test2.bundle.css',
+  '/test2/build/performance-dashboard.json',
+  '/test2/js/jquery-shim.js',
+  '/test2/election-viewer-package/js/stages2.js',
+  '/test2/election-viewer-package/js/animation_preview.js',
+  '/test2/election-viewer-package/js/animation_preview_manager.js',
+  '/test2/election-viewer-package/js/election_viewer.js',
+  '/test2/election-viewer-package/css/stages.css',
+  '/test2/election-viewer-package/css/election-viewer.css',
+  '/test2/src/search-worker.js',
+  '/test2/src/overlay-worker.js',
+  '/test/metadata/maps-test-index.json'
+];
+
+const NEVER_CACHE_PATTERNS = [
+  /\/sw\.js(?:[?#]|$)/,
+  /\/test2\/sw\.js(?:[?#]|$)/,
+  /\.pmtiles(?:[?#]|$)/i,
+  /\/test\/metadata\/elections-test2\//,
+  /\/feature-indexes\//,
+  /\/data\/browse\//,
+  /\/browse\//
+];
+
 self.addEventListener('install', (event) => {
-    event.waitUntil((async () => {
-        const cache = await caches.open(STATIC_CACHE);
-        // Use {cache:'reload'} so install doesn't pick up a stale HTTP cache copy.
-        await Promise.all(PRECACHE_URLS.map(u =>
-            fetch(u, { cache: 'reload' }).then(r => r.ok && cache.put(u, r)).catch(() => {})
-        ));
-        await self.skipWaiting();
-    })());
+  event.waitUntil((async () => {
+    const cache = await caches.open(STATIC_CACHE);
+    await Promise.all(PRECACHE_URLS.map(async (url) => {
+      try {
+        const response = await fetch(url, { cache: 'reload' });
+        if (response?.ok) await cache.put(url, response);
+      } catch {
+        // Install should not fail because the shell could not be warmed.
+      }
+    }));
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener('activate', (event) => {
-    event.waitUntil((async () => {
-        // Drop any cache from a previous SW version.
-        const keys = await caches.keys();
-        await Promise.all(
-            keys.filter(k => k.startsWith('civgraph-') && !ALL_CACHES.includes(k))
-                .map(k => caches.delete(k))
-        );
-        await self.clients.claim();
-    })());
+  event.waitUntil((async () => {
+    const names = await caches.keys();
+    await Promise.all(names
+      .filter((name) => LEGACY_ROOT_CACHE_PREFIXES.some((prefix) => name.startsWith(prefix)))
+      .filter((name) => !ALL_CACHES.includes(name))
+      .map((name) => caches.delete(name)));
+    await self.clients.claim();
+  })());
 });
 
 self.addEventListener('message', (event) => {
-    if (event.data === 'SKIP_WAITING') self.skipWaiting();
+  const type = event.data?.type || event.data;
+  if (type === 'SKIP_WAITING') {
+    event.waitUntil(self.skipWaiting());
+  } else if (type === 'TEST2_SW_STATUS') {
+    event.waitUntil(statusPayload().then((status) => {
+      event.ports?.[0]?.postMessage?.(status);
+    }));
+  } else if (type === 'TEST2_SW_CLEAR') {
+    event.waitUntil(clearCaches().then((status) => {
+      event.ports?.[0]?.postMessage?.(status);
+    }));
+  }
 });
 
 self.addEventListener('fetch', (event) => {
-    const req = event.request;
-    if (req.method !== 'GET') return;
+  const request = event.request;
+  if (request.method !== 'GET' || request.headers.has('range')) return;
 
-    let url;
-    try { url = new URL(req.url); } catch { return; }
+  let url;
+  try {
+    url = new URL(request.url);
+  } catch {
+    return;
+  }
 
-    // HTML navigations — network-first so deploys propagate immediately.
-    if (req.mode === 'navigate') {
-        event.respondWith(networkFirst(req, RUNTIME_CACHE));
-        return;
-    }
+  if (request.mode === 'navigate') {
+    event.respondWith(networkFirst(request, RUNTIME_CACHE));
+    return;
+  }
 
-    // Cross-origin: only handle ones we know about (data CDN, tile servers).
-    const sameOrigin = url.origin === self.location.origin;
+  if (isTileUrl(url)) {
+    event.respondWith(cacheFirstWithCap(request, STATIC_CACHE, MAX_STATIC_ENTRIES));
+    return;
+  }
 
-    if (sameOrigin && url.pathname.startsWith('/test2/')) {
-        if (url.pathname.startsWith('/test2/pmtiles/') || url.pathname.endsWith('.pmtiles')) {
-            event.respondWith(networkOnly(req));
-            return;
-        }
-        if (url.pathname.startsWith('/test2/build/chunks/') ||
-            url.pathname.startsWith('/test2/assets/')) {
-            event.respondWith(cacheFirstWithCap(req, STATIC_CACHE));
-            return;
-        }
-        event.respondWith(networkFirst(req, RUNTIME_CACHE));
-        return;
-    }
+  const sameOrigin = url.origin === self.location.origin;
+  if (!sameOrigin) return;
+  if (shouldNeverCache(url)) return;
 
-    // FGB map data — immutable; cache-first with LRU cap.
-    if ((sameOrigin && url.pathname.startsWith('/data/maps/')) ||
-        url.hostname === 'data.civgraph.net') {
-        event.respondWith(cacheFirstWithCap(req, FGB_CACHE));
-        return;
-    }
+  if (matchesPath(url, CACHE_FIRST_PATHS)) {
+    event.respondWith(cacheFirstWithCap(request, STATIC_CACHE, MAX_STATIC_ENTRIES));
+    return;
+  }
 
-    // OSM tiles — cache-first.
-    if (url.hostname.endsWith('.tile.openstreetmap.org') ||
-        url.hostname === 'tile.openstreetmap.org') {
-        event.respondWith(cacheFirstWithCap(req, TILE_CACHE));
-        return;
-    }
+  if (matchesPath(url, NETWORK_FIRST_PATHS) || isRuntimeJson(url)) {
+    event.respondWith(networkFirst(request, RUNTIME_CACHE));
+    return;
+  }
 
-    if (!sameOrigin) return; // let the browser handle other cross-origin requests
-
-    // JSON databases — network-first; falls back to cached copy when offline.
-    if (url.pathname.startsWith('/data/database/') && url.pathname.endsWith('.json')) {
-        event.respondWith(networkFirst(req, RUNTIME_CACHE));
-        return;
-    }
-
-    // Thumbnails — SWR with a 7-day freshness window. Cached copy serves
-    // immediately. Background refresh only fires when the cached entry's
-    // server-sent Date is older than the max-age, so repeat visits within
-    // the window incur zero network bytes for thumbs. After 7 days a
-    // fresh fetch lands and replaces the cache for the next visit —
-    // bounded staleness, no townlands-forever trap.
-    if (url.pathname.startsWith('/assets/thumbnails/')) {
-        event.respondWith(staleWhileRevalidateMaxAge(req, THUMB_CACHE, 7 * 24 * 60 * 60 * 1000));
-        return;
-    }
-
-    // Non-fingerprinted generated entry assets must revalidate. They use
-    // content-derived query versions, but network-first prevents a reused URL
-    // from pinning a stale app bundle that imports deleted chunks.
-    if (url.pathname === '/build/app.bundle.js' ||
-        url.pathname === '/build/main.css' ||
-        url.pathname === '/build/main.critical.css' ||
-        url.pathname === '/build/about.css') {
-        event.respondWith(networkFirst(req, STATIC_CACHE));
-        return;
-    }
-
-    // Fingerprinted chunks + stable assets — cache-first.
-    if (url.pathname.startsWith('/build/') ||
-        url.pathname.startsWith('/assets/fonts/') ||
-        url.pathname.startsWith('/assets/css/leaflet-') ||
-        url.pathname.startsWith('/assets/js/') ||
-        url.pathname.startsWith('/assets/images/') ||
-        url.pathname === '/manifest.json') {
-        event.respondWith(cacheFirstWithCap(req, STATIC_CACHE));
-        return;
-    }
-
-    // Everything else — stale-while-revalidate keeps things snappy without
-    // risking stale-forever.
-    event.respondWith(staleWhileRevalidate(req, RUNTIME_CACHE));
+  event.respondWith(staleWhileRevalidate(request, RUNTIME_CACHE));
 });
 
-async function cacheFirstWithCap(req, cacheName) {
-    const cache = await caches.open(cacheName);
-    const cached = await cache.match(req);
+function shouldNeverCache(url) {
+  const value = `${url.pathname}${url.search}`;
+  return NEVER_CACHE_PATTERNS.some((pattern) => pattern.test(value));
+}
+
+function matchesPath(url, paths) {
+  return paths.some((path) => url.pathname === path || url.pathname.startsWith(path));
+}
+
+function isRuntimeJson(url) {
+  return url.pathname.endsWith('.json') && (
+    url.pathname.startsWith('/data/database/') ||
+    url.pathname.startsWith('/test/metadata/')
+  );
+}
+
+function isTileUrl(url) {
+  return url.hostname.endsWith('.tile.openstreetmap.org') || url.hostname === 'tile.openstreetmap.org';
+}
+
+async function cacheFirstWithCap(request, cacheName, maxEntries) {
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request, { ignoreSearch: false });
+  if (cached) return cached;
+  try {
+    const response = await fetch(request);
+    await safePut(cache, request, response, maxEntries);
+    return response;
+  } catch {
+    return new Response('Offline', { status: 503, statusText: 'Offline' });
+  }
+}
+
+async function networkFirst(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  try {
+    const response = await fetch(request);
+    await safePut(cache, request, response, MAX_RUNTIME_ENTRIES);
+    return response;
+  } catch {
+    const cached = await cache.match(request, { ignoreSearch: false });
     if (cached) return cached;
-    try {
-        const res = await fetch(req);
-        if (res && (res.ok || res.type === 'opaque')) {
-            await cache.put(req, res.clone());
-            trim(cacheName).catch(() => {});
-        }
-        return res;
-    } catch {
-        return new Response('Offline', { status: 503, statusText: 'Offline' });
+    if (request.mode === 'navigate') {
+      const shell = await cache.match('/') || await cache.match('/index.html');
+      if (shell) return shell;
     }
+    return new Response('Offline', { status: 503, statusText: 'Offline' });
+  }
 }
 
-async function networkFirst(req, cacheName) {
-    const cache = await caches.open(cacheName);
-    try {
-        const res = await fetch(req);
-        if (res && res.ok) cache.put(req, res.clone()).catch(() => {});
-        return res;
-    } catch {
-        const cached = await cache.match(req);
-        if (cached) return cached;
-        // For navigations, fall through to the precached shell so the user
-        // doesn't see a browser error page.
-        if (req.mode === 'navigate') {
-            const shell = await cache.match('/') || await cache.match('/index.html');
-            if (shell) return shell;
-        }
-        return new Response('Offline', { status: 503, statusText: 'Offline' });
-    }
+async function staleWhileRevalidate(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request, { ignoreSearch: false });
+  const networkPromise = fetch(request).then(async (response) => {
+    await safePut(cache, request, response, MAX_RUNTIME_ENTRIES);
+    return response;
+  }).catch(() => cached);
+  return cached || networkPromise;
 }
 
-async function networkOnly(req) {
-    try {
-        return await fetch(req);
-    } catch {
-        return new Response('Offline', { status: 503, statusText: 'Offline' });
-    }
+async function safePut(cache, request, response, maxEntries) {
+  if (!response || (!response.ok && response.type !== 'opaque')) return;
+  const contentLength = Number(response.headers.get('content-length') || 0);
+  if (contentLength > 2 * 1024 * 1024) return;
+  await cache.put(request, response.clone());
+  await enforceCacheBudget(cache, maxEntries);
 }
 
-async function staleWhileRevalidate(req, cacheName) {
-    const cache = await caches.open(cacheName);
-    const cached = await cache.match(req);
-    const networkPromise = fetch(req).then(res => {
-        if (res && (res.ok || res.type === 'opaque')) {
-            cache.put(req, res.clone()).then(() => trim(cacheName).catch(() => {})).catch(() => {});
-        }
-        return res;
-    }).catch(() => cached);
-    return cached || networkPromise;
+async function enforceCacheBudget(cache, maxEntries) {
+  const keys = await cache.keys();
+  const estimate = await storageEstimate();
+  const overQuota = estimate.quota > 0 && estimate.usage / estimate.quota > QUOTA_CLEANUP_THRESHOLD;
+  if (keys.length <= maxEntries && !overQuota) return;
+  const target = overQuota ? Math.max(40, Math.floor(maxEntries * 0.6)) : maxEntries;
+  const deleteCount = Math.max(0, keys.length - target);
+  await Promise.all(keys.slice(0, deleteCount).map((request) => cache.delete(request)));
 }
 
-// Variant of SWR that only triggers the background refresh once the cached
-// entry's server-sent Date is older than maxAgeMs. Used for thumbnails where
-// the SWR refresh on every visit was the byte regression flagged in RUM.
-async function staleWhileRevalidateMaxAge(req, cacheName, maxAgeMs) {
-    const cache = await caches.open(cacheName);
-    const cached = await cache.match(req);
-    const refetch = () => fetch(req).then(res => {
-        if (res && (res.ok || res.type === 'opaque')) {
-            cache.put(req, res.clone()).then(() => trim(cacheName).catch(() => {})).catch(() => {});
-        }
-        return res;
-    }).catch(() => null);
-    if (cached) {
-        const d = cached.headers.get('date');
-        const cachedAt = d ? Date.parse(d) : 0;
-        if (!cachedAt || (Date.now() - cachedAt) > maxAgeMs) {
-            refetch(); // background only — don't await
-        }
-        return cached;
-    }
-    // No cache entry — must fetch
-    const fresh = await refetch();
-    return fresh || new Response('Offline', { status: 503, statusText: 'Offline' });
+async function statusPayload() {
+  const names = await caches.keys();
+  const cacheEntries = {};
+  for (const name of names.filter((item) => item === STATIC_CACHE || item === RUNTIME_CACHE)) {
+    cacheEntries[name] = (await caches.open(name).then((cache) => cache.keys())).length;
+  }
+  return {
+    version: VERSION,
+    scope: self.registration.scope,
+    caches: cacheEntries,
+    storage: await storageEstimate()
+  };
 }
 
-async function trim(cacheName) {
-    const cap = CAPS[cacheName];
-    if (!cap) return;
-    const cache = await caches.open(cacheName);
-    const keys = await cache.keys();
-    if (keys.length <= cap) return;
-    // FIFO eviction — keys() returns insertion order. Drop the oldest excess.
-    const drop = keys.length - cap;
-    for (let i = 0; i < drop; i++) await cache.delete(keys[i]);
+async function clearCaches() {
+  await Promise.all([caches.delete(STATIC_CACHE), caches.delete(RUNTIME_CACHE)]);
+  return statusPayload();
+}
+
+async function storageEstimate() {
+  try {
+    const estimate = await navigator.storage?.estimate?.();
+    return {
+      usage: Number(estimate?.usage || 0),
+      quota: Number(estimate?.quota || 0)
+    };
+  } catch {
+    return { usage: 0, quota: 0 };
+  }
 }

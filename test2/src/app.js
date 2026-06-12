@@ -219,13 +219,8 @@ class Test2App {
       this.serviceWorkerStatusPromise = Promise.resolve({ available: false, reason: 'service-worker API unavailable' });
       return;
     }
-    const path = window.location.pathname || '/';
-    const canRegister = path.startsWith('/test2/') || path === '/test2';
-    if (!canRegister) {
-      this.serviceWorkerStatusPromise = Promise.resolve({ available: false, reason: 'outside /test2 scope' });
-      return;
-    }
-    this.serviceWorkerStatusPromise = navigator.serviceWorker.register('/test2/sw.js', { scope: '/test2/' })
+    this.serviceWorkerConfig = this.getServiceWorkerConfig();
+    this.serviceWorkerStatusPromise = navigator.serviceWorker.register(this.serviceWorkerConfig.url, { scope: this.serviceWorkerConfig.scope })
       .then(async (registration) => {
         await navigator.serviceWorker.ready.catch(() => registration);
         return this.getServiceWorkerStatus(registration);
@@ -236,9 +231,18 @@ class Test2App {
       }));
   }
 
+  getServiceWorkerConfig() {
+    const path = window.location.pathname || '/';
+    if (path.startsWith('/test2/') || path === '/test2') {
+      return { url: '/test2/sw.js', scope: '/test2/', route: 'test2' };
+    }
+    return { url: '/sw.js', scope: '/', route: 'root' };
+  }
+
   async getServiceWorkerStatus(registration = null) {
     if (!('serviceWorker' in navigator)) return { available: false, reason: 'service-worker API unavailable' };
-    const activeRegistration = registration || await navigator.serviceWorker.getRegistration('/test2/');
+    const config = this.serviceWorkerConfig || this.getServiceWorkerConfig();
+    const activeRegistration = registration || await navigator.serviceWorker.getRegistration(config.scope);
     const target = navigator.serviceWorker.controller
       || activeRegistration?.active
       || activeRegistration?.waiting
@@ -251,6 +255,7 @@ class Test2App {
         clearTimeout(timer);
         resolve({
           available: true,
+          route: config.route,
           controlled: Boolean(navigator.serviceWorker.controller),
           ...(event.data || {})
         });
