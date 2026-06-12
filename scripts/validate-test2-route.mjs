@@ -171,6 +171,7 @@ assert(appSource.includes('setupURLStateListener'), '/test2 must restore state o
 assert(appSource.includes('setActiveLayersPanelOpen') && appSource.includes('setMapControlsOpen'), '/test2 panel restore must set panel state directly instead of click-toggling');
 assert(appSource.includes('applyBaseMap') && appSource.includes('isStyleLoaded'), '/test2 restored base-map state must wait for the MapLibre style to load');
 assert(appSource.includes('setupSourcePanel') && appSource.includes('renderSourcePanel'), '/test2 must expose source metadata for active/restored layers');
+assert(appSource.includes('colour: item.colour || item.color || item.partyColour'), '/test2 catalogue party entity pages must preserve party/label colours from Browse details');
 assert(test2Css.includes('.test2-source-panel'), '/test2 source panel must have scoped route CSS');
 assert(test2Css.includes('position: fixed') && test2Css.includes('z-index: 520'), '/test2 source panel must sit above restored map overlay panels');
 assert(appSource.includes('getConvertedCompositeChildIds'), '/test2 must expand converted child sources when a main catalogue parent lacks a direct converted layer');
@@ -234,6 +235,7 @@ assert(appSource.includes('getMainMap: (mapId) => dataService.getMapById(mapId)'
 assert(adapterSource.includes('applyMainStyle(layer, mainConfig') && adapterSource.includes('delete style.fillOpacity'), '/test2 must discard converted-metadata fill opacity when the main catalogue has no explicit fill opacity');
 assert(!mapControllerSource.includes('fillOpacity ?? 0.18') && !adapterSource.includes('fillOpacity ?? 0.18'), '/test2 must not reintroduce the old semi-opaque vector fill fallback');
 assert(mapControllerSource.includes('if (!feature)') && mapControllerSource.includes('this.clearHover();'), '/test2 map interactions must clear transient hover state on empty map taps/clicks');
+assert(mapControllerSource.includes('installDocumentHoverClear()') && mapControllerSource.includes("document.addEventListener('pointerdown', this.documentHoverClearHandler, true)") && mapControllerSource.includes('.test2-election-seat-group'), '/test2 must clear transient hover state when the user clicks outside real map/label interaction targets');
 assert(appSource.includes('Test2ElectionManager'), '/test2 must wire the election manager into the main shell route');
 assert(!appSource.includes('Election map workflows are not converted for /test2 yet'), '/test2 election callbacks must not remain disabled stubs');
 assert(appSource.includes('onBuildElectionCatalogueCards') && appSource.includes('this.elections.buildCatalogueCards()'), '/test2 catalogue must expose generated election entries');
@@ -423,9 +425,13 @@ assert(
     && mainElectionPaneContractSource.includes('renderSingleSeatFptpResultsTable')
     && electionManagerSource.includes('isSingleSeatFptpResult(result = {})')
     && electionManagerSource.includes("votingSystem !== 'fptp'")
-    && electionManagerSource.includes("return 'results'")
+    && electionManagerSource.includes("return value === 'trends' ? 'trends' : 'results'")
     && electionManagerSource.includes('election-results-table--single-seat-fptp')
     && electionManagerSource.includes('renderSingleSeatFptpVoteGraphic')
+    && electionManagerSource.includes('Party +/-')
+    && electionManagerSource.includes('Candidate +/-')
+    && electionManagerSource.includes('Party +/- %')
+    && electionManagerSource.includes('Candidate +/- %')
     && electionManagerSource.includes('test2-fptp-vote-graphic')
     && test2Css.includes('.test2-fptp-results-layout')
     && test2Css.includes('.test2-fptp-vote-graphic__bar')
@@ -433,6 +439,25 @@ assert(
     && !electionManagerSource.includes('test2-fptp-vote-graphic__line')
     && !electionManagerSource.includes('Static FPTP result'),
   '/test2 single-seat FPTP selected results must collapse By Party/By Count into a combined Results table with an adjacent static vote graphic and no quota/post caption chrome'
+);
+assert(
+  mainElectionPaneContractSource.includes("['trends', 'Trends']")
+    && electionManagerSource.includes('renderTrendsPanel')
+    && electionManagerSource.includes('hydrateTrendsPanel')
+    && electionManagerSource.includes('test2ElectionTrendsScope')
+    && electionManagerSource.includes('electionTrendFamily')
+    && test2Css.includes('.test2-election-trends')
+    && test2Css.includes('.trend-marker'),
+  '/test2 election panes must expose a lazy Trends tab with chart styling and same-family/all-family controls'
+);
+assert(
+  electionManagerSource.includes('Stage ${formatNumber(count)}')
+    && electionManagerSource.includes("'Stage'")
+    && electionManagerSource.includes('Elected<br>Stage')
+    && !electionManagerSource.includes('Elected<br>Count')
+    && !electionManagerSource.includes('Excluded<br>Count')
+    && !electionManagerSource.includes('Not Elected<br>Count'),
+  '/test2 STV count panes must display Stage labels instead of Count labels in visible table headers/status cells'
 );
 assert(
   mainElectionPaneContractSource.includes("['party', 'Full Results']")
@@ -463,6 +488,16 @@ assert(electionManagerSource.includes('renderCouncilResults') && electionManager
 assert(electionManagerSource.includes('buildLocalAggregateSeatCircleGroups') && electionManagerSource.includes('aggregateType'), '/test2 local-government district/council mode must aggregate seat-circle overlays instead of always drawing DEA-level groups');
 assert(electionManagerSource.includes('activeEntityKind') && appSource.includes('electionEntityKind') && electionManagerSource.includes('electionEntityReturnView'), '/test2 election entity pages must round-trip through URL state');
 assert(appSource.includes('loadAreaBrowseDetail') && appSource.includes('buildPartyCandidateSummaries') && appSource.includes('mapPersonAppearanceRow') && appSource.includes('onOpenElectionConstituencyFeature'), '/test2 election entity links must open full party/candidate/area Browse detail pages in the left catalogue pane');
+assert(appSource.includes('uiController.hideAutocomplete?.()') && appSource.includes('this.workerSearchResultIds = ids') && !appSource.includes('uiController.renderCombinedAutocomplete(results, [], addressResults, query);'), '/test2 search must render search results in the catalogue pane body instead of the autocomplete dropdown');
+assert(
+  mainCss.includes('[data-theme="dark"] .catalogue-flat__toc-toplink')
+    && mainCss.includes(':root:not([data-theme="light"]) .catalogue-flat__toc-toplink')
+    && mainCss.includes('[data-theme="dark"] .election-entity-page')
+    && mainCss.includes(':root:not([data-theme="light"]) .election-entity-page')
+    && mainCss.includes('[data-theme="dark"] .catalogue-flat__toc-thumb')
+    && mainCss.includes(':root:not([data-theme="light"]) .catalogue-flat__toc-thumb'),
+  '/test2 promoted shell must keep catalogue top labels, info pages, and thumbnails readable/consistent in explicit and system dark modes'
+);
 assert(electionManagerSource.includes('data-election-selected-area') && electionManagerSource.includes('selectedResultEntityKind') && test2Css.includes('.election-pane__title-link'), '/test2 selected constituency/DEA result titles must be clickable links to full left-pane area pages');
 assert(uiControllerSource.includes("entry.kind === 'constituency'") && uiControllerSource.includes("entry.level || 'dea'"), '/test2 shared catalogue entity renderer must support constituency detail pages and preserve non-DEA constituency link levels');
 assert(electionManagerSource.includes('withCouncilDeltas') && electionManagerSource.includes('Seat change') && electionManagerSource.includes('Turnout change'), '/test2 grouped local council summaries must expose previous-election deltas where available');

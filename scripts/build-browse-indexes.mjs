@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { partyColour } from '../js/election-domain.mjs';
 import { canonicalElectionTitle, electionResultEntryLabel } from '../js/election-names.mjs';
 
 const ROOT = process.cwd();
@@ -926,6 +927,7 @@ function buildParties(partyIds, electionDetails) {
       totals: { stood: 0, seats: 0, votes: 0 },
       firstYear: null,
       lastYear: null,
+      colour: cleanText(party.colour || party.color || partyColour(party.canonical_name || id)),
       browseUrl: `/browse/parties/${encodeURIComponent(id.replace(/^party:/, ''))}`
     };
     byId.set(id, detail);
@@ -954,10 +956,13 @@ function buildParties(partyIds, electionDetails) {
           totals: { stood: 0, seats: 0, votes: 0 },
           firstYear: null,
           lastYear: null,
+          colour: cleanText(row.colour || row.color || partyColour(partyName)),
           browseUrl: `/browse/parties/${encodeURIComponent(id.replace(/^party:/, ''))}`
         });
       }
       const party = byId.get(id);
+      const rowColour = cleanText(row.colour || row.color || '');
+      if (rowColour && (!party.colour || party.colour === '#6b7280')) party.colour = rowColour;
       const year = Number(detail.year || detail.date?.slice(0, 4));
       party.totals.stood += Number(row.stood || 0);
       party.totals.seats += Number(row.seats ?? row.elected ?? 0);
@@ -996,6 +1001,7 @@ function buildParties(partyIds, electionDetails) {
     lastYear: party.lastYear,
     relatedElectionCount: party.relatedElections.length,
     totals: party.totals,
+    colour: party.colour,
     browseUrl: party.browseUrl
   })).sort((a, b) => (b.occurrenceCount - a.occurrenceCount) || (b.relatedElectionCount - a.relatedElectionCount) || a.title.localeCompare(b.title));
 

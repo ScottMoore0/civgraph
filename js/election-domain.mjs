@@ -206,8 +206,16 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
     || countGroup
       .filter((row) => Number(row.Count_Number) === 1)
       .reduce((sum, row) => sum + numberOrZero(row.Candidate_First_Pref_Votes), 0);
-  const totalPoll = parseNumber(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
-  const spoiled = parseNumber(meta.Spoiled ?? meta.spoiled);
+  const electorate = parseNumber(meta.Total_Electorate ?? meta.electorate ?? meta.electorate_total);
+  const turnoutPct = parseNumber(meta.turnout_pct ?? meta.turnoutPct);
+  const explicitTotalPoll = parseNumber(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
+  const totalPoll = explicitTotalPoll ?? (electorate !== null && turnoutPct !== null
+    ? Math.round(electorate * turnoutPct / 100)
+    : null);
+  const explicitSpoiled = parseNumber(meta.Spoiled ?? meta.spoiled);
+  const spoiled = explicitSpoiled ?? (totalPoll !== null && validPoll
+    ? Math.max(0, totalPoll - validPoll)
+    : null);
   const seatCount = parseNumber(payload.seats)
     || countGroup.filter((row) => statusKind(row.Status) === 'elected').length;
   return {
@@ -220,7 +228,7 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
         Number_Of_Seats: seatCount ? String(seatCount) : '',
         Quota: meta.Quota != null || meta.quota != null ? String(meta.Quota ?? meta.quota) : '',
         Spoiled: spoiled != null ? String(spoiled) : '',
-        Total_Electorate: meta.electorate != null ? String(meta.electorate) : '',
+        Total_Electorate: electorate != null ? String(electorate) : '',
         Total_Poll: totalPoll != null ? String(totalPoll) : '',
         Valid_Poll: validPoll ? String(validPoll) : ''
       },
@@ -357,10 +365,20 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
       }
 
       if (constituencyValid === null) constituencyValid = inferredValid;
+      const electorate = parseNumber(meta.Total_Electorate ?? meta.electorate ?? meta.electorate_total);
+      const turnoutPct = parseNumber(meta.turnout_pct ?? meta.turnoutPct);
+      const explicitTotalPoll = parseNumber(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
+      const constituencyTotalPoll = explicitTotalPoll ?? (electorate !== null && turnoutPct !== null
+        ? Math.round(electorate * turnoutPct / 100)
+        : null);
+      const explicitSpoiled = parseNumber(meta.Spoiled ?? meta.spoiled);
+      const constituencySpoiled = explicitSpoiled ?? (constituencyTotalPoll !== null && constituencyValid !== null
+        ? Math.max(0, constituencyTotalPoll - constituencyValid)
+        : null);
       totalValid += constituencyValid || 0;
-      totalPoll += numberOrZero(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
-      totalElectorate += numberOrZero(meta.Total_Electorate ?? meta.electorate ?? meta.electorate_total);
-      totalSpoiled += numberOrZero(meta.Spoiled ?? meta.spoiled);
+      totalPoll += numberOrZero(constituencyTotalPoll);
+      totalElectorate += numberOrZero(electorate);
+      totalSpoiled += numberOrZero(constituencySpoiled);
       totalSeats += explicitSeats !== null && explicitSeats > 0 ? explicitSeats : electedCount;
       continue;
     }

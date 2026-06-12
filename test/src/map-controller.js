@@ -182,6 +182,8 @@ export class TestMapLibreController {
     this.directTwoFingerFallbackActivations = 0;
     this.mapCursor = '';
     this.cursorMutationCount = 0;
+    this.documentHoverClearInstalled = false;
+    this.documentHoverClearHandler = null;
     maplibregl.addProtocol('pmtiles', this.protocol.tile);
   }
 
@@ -237,6 +239,7 @@ export class TestMapLibreController {
     this.installDirectPanGestureFallback();
     this.installDirectWheelGestureFallback();
     this.installDirectTwoFingerGestureFallback();
+    this.installDocumentHoverClear();
     this.applyMobileTouchContract();
     this.map.on('load', () => {
       this.enableGestureHandlers();
@@ -255,6 +258,27 @@ export class TestMapLibreController {
       if (!this.directGestureActive) this.notifyChange();
     });
     this.map.fitBounds(IRELAND_BOUNDS, { padding: 28, duration: 0 });
+  }
+
+  installDocumentHoverClear() {
+    if (this.documentHoverClearInstalled) return;
+    this.documentHoverClearInstalled = true;
+    this.documentHoverClearHandler = (event) => {
+      if (!this.hovered || !this.map) return;
+      const target = event.target;
+      const mapContainer = this.map.getContainer?.();
+      if (!mapContainer) return;
+      const isInsideMap = mapContainer.contains(target);
+      const isInteractiveMapTarget = isInsideMap && !target?.closest?.([
+        '.maplibre-dom-label',
+        '.test2-election-seat-group',
+        '.maplibregl-canvas',
+        '.maplibregl-canvas-container'
+      ].join(','));
+      if (isInsideMap && !isMobileGestureChromeTarget(target) && !isInteractiveMapTarget) return;
+      this.clearHover();
+    };
+    document.addEventListener('pointerdown', this.documentHoverClearHandler, true);
   }
 
   readCameraState() {

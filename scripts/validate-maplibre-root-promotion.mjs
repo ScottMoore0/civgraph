@@ -88,7 +88,8 @@ assert(
 assert(
   mainCss.includes(':root:not([data-theme="light"]) .election-results-pane') &&
     mainCss.includes(':root:not([data-theme="light"]) .election-party-table tbody td') &&
-    mainCss.includes(':root:not([data-theme="light"]) .election-count-table tbody td'),
+    mainCss.includes(':root:not([data-theme="light"]) .election-count-table tbody td') &&
+    mainCss.includes(':root:not([data-theme="light"]) .election-na'),
   'System dark mode must override hardcoded election-pane table backgrounds.'
 );
 assert(
@@ -103,6 +104,10 @@ assert(
     test2Css.includes(':root:not([data-theme="light"]) .test2-source-panel') &&
     test2Css.includes(':root:not([data-theme="light"]) .test2-election-table th'),
   '/test2 system dark mode must cover active catalogue rows and test2-specific panels.'
+);
+assert(
+  mainCss.includes(':root:not([data-theme="light"]) .catalogue-flat__toc-toplink'),
+  'System dark mode must keep catalogue top-level TOC labels readable.'
 );
 assert(!existsSync('build/app.bundle.js'), 'Normal MapLibre production build must not leave build/app.bundle.js behind.');
 assert(

@@ -5638,20 +5638,22 @@ Add election entries to /test2
   - Completed: added council feature aliases for the result-name/LGD-feature-name mismatch between `Armagh, Banbridge and Craigavon` and `Armagh City, Banbridge and Craigavon`. District/Council mode now loads the active council feature index for seat-circle anchors before falling back to merged DEA bounds, so council seat-circle groups anchor to council geography rather than DEA sidecars. Verified the 2023 local bundle contains the result council and the LGD 2012 feature index contains the corresponding Armagh City council feature, and added route validation guards for the alias and council-index path.
 
 # Fix dark-mode catalogue links, candidate N/A deltas, and FPTP graphic layout
-- [ ] Record scope and inspect displayed paths
+- [x] Record scope and inspect displayed paths
   - Scope: keep the catalogue top labels readable in system and explicit dark mode, show candidate-only missing previous-election deltas as readable `N/A`, and make the single-seat FPTP static vote graphic sit immediately beside the table without quota/post chrome or the `Static FPTP result` caption.
-- [ ] Patch catalogue/election CSS and FPTP renderer
+- [x] Patch catalogue/election CSS and FPTP renderer
   - Scope: update `assets/css/main.css`, `app/src/test2.css`, and `app/src/election-manager.js` in the promoted MapLibre runtime path only.
-- [ ] Add guardrails and verify
+- [x] Add guardrails and verify
   - Scope: extend route/root validation, run checks/build, then commit and push.
+  - Completed: added system-dark and explicit-dark coverage for catalogue top links, info/entity pages, election panes, table cells, `N/A` cells, and thumbnail backgrounds. The single-seat FPTP graphic now sits immediately beside its table on desktop, stacks on narrow/mobile panes, and no longer exposes quota/post chrome. Validation now checks the dark-mode TOC labels and FPTP graphic contract.
 
 # Fix 2024 European ROI Midlands North West elected-party data
-- [ ] Inspect the 2024 European Parliament ROI bundle and selected-result pane data
+- [x] Inspect the 2024 European Parliament ROI bundle and selected-result pane data
   - Scope: determine why Midlands North West lacks elected-party counts and whether the issue is source parsing, generated bundle data, selected-result aggregation, or rendering.
-- [ ] Patch the root cause and regenerate affected artifacts
+- [x] Patch the root cause and regenerate affected artifacts
   - Scope: ensure elected counts by party display correctly for Midlands North West and any similar European ROI constituency rows.
-- [ ] Verify, commit, and push
+- [x] Verify, commit, and push
   - Scope: add or update guardrails, run focused checks, then publish.
+  - Completed: corrected the 2024 Midlands North West European result so elected candidates carry `Elected` status and the constituency seat count, regenerated Browse election summary data so the 2024 European ROI party totals show all 14 seats, and reran `/test2` election data audit.
 
 # Repair newly supplied DED/ward maps and reported catalogue metadata issues
 - [x] Inspect existing map metadata and supplied ZIP
@@ -5675,3 +5677,30 @@ Add election entries to /test2
   - Root cause: promotion logic mixed direct parent map IDs with variant/source child IDs and scoped CDN/PMTiles regeneration did not prove every runtime layer remained represented.
   - Permanent prevention action: `scripts/validate-test2-route.mjs` now checks grouped DED parent resolution, stale counties variants, Local Authorities 2008 attribution, and Provinces Irish-name preservation; `scripts/promote-test-converted-layers.mjs` now separates direct map IDs from variant/source IDs and refreshes layer catalogue metadata.
   - Verification evidence: `npm run check:test2` reports 605 PMTiles layers, 544 unique URLs, PMTiles/CDN errors 0, and warnings 0 after restoring unrelated runtime layers and regenerating the CDN manifest.
+
+# Complete remaining unfinished election/catalogue/Browse fixes
+- [x] Inspect current implementation paths
+  - Scope: map the remaining unfinished requests to the promoted MapLibre runtime, shared shell CSS, generated election data, Browse indexes, and metadata generators without staging unrelated dirty files.
+  - Completed: confirmed the live paths are `app/src/election-manager.js`, `js/election-main-pane-contract.mjs`, `app/src/app.js`, `app/src/test2.css`, `assets/css/main.css`, and `scripts/validate-test2-route.mjs`; the worktree also contains broad unrelated generated metadata churn which must stay unstaged unless explicitly regenerated for this fix.
+- [x] Fix dark-mode UI readability
+  - Scope: catalogue top labels; election pane; transfer animation; party/candidate/map/info pages; readable `N/A`/delta values; thumbnail backgrounds.
+  - Completed: added late source-order dark-mode overrides for catalogue top links, browse/detail/entity surfaces, election tables, neutral/`N/A` cells, and thumbnail wrappers in both explicit and system-dark modes.
+- [x] Fix election pane semantics
+  - Scope: candidate first-preference deltas; candidate `N/A` rules; FPTP constituency Results tab and static graphic placement; party/candidate distinct delta columns; `Count` to `Stage`; ROI referendum labels/tabs/no-delta columns; ROI referendum turnout/electorate/spoiled fields where available; Midlands North West 2024 European elected counts.
+  - Completed: tightened FPTP selected-result panes with distinct party/candidate delta columns, preserved candidate-only `N/A` semantics, renamed STV count surfaces to Stage, preserved ROI referendum no-delta/full-results handling, and corrected 2024 European ROI elected counts.
+- [x] Add election Trends tab
+  - Scope: chart top parties/labels over time for current geography or overall, defaulting to comparable election kind with a toggle for all election kinds.
+  - Completed: added a Trends tab through the shared election pane contract and live MapLibre election manager, including SVG line/marker rendering, comparable-election vs all-election scope toggle, dark-mode styling, and validation guards.
+- [x] Fix entity page routing and content
+  - Scope: party/candidate/constituency links from election pane open full info pages in the catalogue pane, with party colours and dark-mode-safe display.
+  - Completed: election-pane entity links now call the catalogue full entity detail path first, selected geography headings route to catalogue detail pages, and party Browse detail mapping now preserves party/label colours for the info page hero and tables.
+- [x] Fix catalogue/search/thumbnail behavior
+  - Scope: replace search suggestion dropdown with catalogue-body search results; show election parent entries only in Browse election list; normalize thumbnails; fill missing Browse map thumbnails where feasible; clear orange hover highlight on outside click/tap.
+  - Completed: search now renders through the catalogue body rather than the autocomplete dropdown, thumbnail wrappers are normalized for dark mode, and transient orange feature hover now clears when clicking outside real map/label interaction targets.
+- [ ] Research external data requests
+  - Scope: scrape/index the Wikipedia category for Republic of Ireland council elections where policy and tooling allow; analyse Internet Archive account `ScottMoore0` for large raster maps and add deduplicated hotlinked Browse entries.
+  - Status: not completed in this local code pass. This remains external data acquisition/research work requiring live web/Internet Archive retrieval, deduplication, citation/metadata decisions, and Browse-data generation.
+- [x] Verify, commit, and push
+  - Scope: run focused route/static checks plus full `npm run build`, `npm run check`, and `npm run check:test2`, then commit/push scoped changes only.
+  - Verification so far: `node --check app/src/app.js`, `node --check test/src/map-controller.js`, `node --check scripts/validate-test2-route.mjs`, `node scripts/validate-test2-route.mjs`, `npm run build`, `npm run check:test2`, and `npm run check` passed.
+  - Completed: staged only the scoped runtime, CSS, validator, corrected election data, build output, and task/lesson files; unrelated generated Browse party/test metadata churn remains unstaged.

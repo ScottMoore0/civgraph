@@ -24,13 +24,18 @@ export class MainElectionPaneContract {
   renderHeaderRight(selectedResult = null, activeView = 'party') {
     const isCouncilAggregate = Boolean(selectedResult && this.host.isCouncilAggregateResult?.(selectedResult));
     const isSingleSeatFptp = Boolean(selectedResult && !isCouncilAggregate && this.host.isSingleSeatFptpResult?.(selectedResult));
+    const isReferendum = Boolean(this.host.isReferendumElection?.(selectedResult));
     const localModeControl = (!selectedResult || isCouncilAggregate) && this.host.isLocalGovernmentElection() ? `
       <div class="test2-election-local-mode" role="group" aria-label="Local government result level">
         <button type="button" class="${this.host.activeLocalMode === 'dea' ? 'is-active' : ''}" data-election-local-mode="dea">DEA</button>
         <button type="button" class="${this.host.activeLocalMode === 'district' ? 'is-active' : ''}" data-election-local-mode="district">District</button>
       </div>
     ` : '';
-    const selectedTabs = isSingleSeatFptp
+    const selectedTabs = isReferendum
+      ? [
+        ['party', 'Full Results']
+      ]
+      : isSingleSeatFptp
       ? [
         ['results', 'Results']
       ]
@@ -47,12 +52,22 @@ export class MainElectionPaneContract {
     if (!isSingleSeatFptp && !isCouncilAggregate && selectedResult && this.host.resultHasAnimation(selectedResult)) {
       selectedTabs.push(['animation', this.host.isForumResult(selectedResult) ? 'Allocation' : 'Transfers']);
     }
+    if (selectedResult && !selectedTabs.some(([id]) => id === 'trends')) {
+      selectedTabs.push(['trends', 'Trends']);
+    }
     const headerTabs = selectedResult
       ? selectedTabs
+      : isReferendum
+      ? [
+        ['party', 'Full Results'],
+        ['constituency', 'By Constituency'],
+        ['trends', 'Trends']
+      ]
       : [
         ['party', 'By Party'],
         ['candidate', 'By Candidate'],
-        ['local-party', 'By Local Party']
+        ['local-party', 'By Local Party'],
+        ['trends', 'Trends']
       ];
     return `
       ${localModeControl}
@@ -70,6 +85,7 @@ export class MainElectionPaneContract {
 
   renderOverallResults(view = 'party') {
     const results = this.host.currentResults();
+    if (view === 'trends') return this.host.renderTrendsPanel?.(null) || '<p class="election-no-data">No trend data is available.</p>';
     if (results.some((result) => result.recallPetition)) return this.host.renderRecallPetitionOverview(results);
     if (this.host.isLocalGovernmentElection() && this.host.activeLocalMode === 'district') {
       return this.host.renderDistrictResults(view);
@@ -81,6 +97,13 @@ export class MainElectionPaneContract {
     const candidateRows = this.host.activeBundle.mainLikeCandidateSummary?.length
       ? this.host.withCandidateDeltas(this.host.activeBundle.mainLikeCandidateSummary, { mainLike: true })
       : this.host.withCandidateDeltas(buildCandidateSummary(results));
+    if (this.host.isReferendumElection?.()) {
+      return `
+        ${this.host.renderDataCoverageNotice()}
+        ${view === 'constituency' ? this.host.renderReferendumConstituencySummaryTable(results) : this.host.renderMainParityPartyTable(rowsWithDeltas, results, { referendum: true })}
+        ${this.host.renderMapDisplayControls()}
+      `;
+    }
     return `
       ${this.host.renderDataCoverageNotice()}
       ${view === 'candidate' ? this.host.renderCandidateSummaryTable(candidateRows) : view === 'local-party' ? this.host.renderLocalPartySummaryTable(results) : this.host.renderMainParityPartyTable(rowsWithDeltas, results)}
@@ -89,6 +112,7 @@ export class MainElectionPaneContract {
   }
 
   renderConstituencyResults(result, view = 'party') {
+    if (view === 'trends') return this.host.renderTrendsPanel?.(result) || '<p class="election-no-data">No trend data is available.</p>';
     if (this.host.isCouncilAggregateResult?.(result)) return this.host.renderCouncilAggregateResults(result, view);
     if (result.recallPetition) return this.host.renderRecallPetitionResult(result);
     const candidates = [...(result.candidates || [])].sort((a, b) => {
@@ -96,6 +120,9 @@ export class MainElectionPaneContract {
       if (elected) return elected;
       return Number(b.finalVotes ?? b.firstPrefs ?? b.votes ?? 0) - Number(a.finalVotes ?? a.firstPrefs ?? a.votes ?? 0);
     });
+    if (this.host.isReferendumElection?.(result)) {
+      return this.host.renderReferendumResultTable(candidates, result);
+    }
     if (this.host.isSingleSeatFptpResult?.(result)) {
       return this.host.renderSingleSeatFptpResultsTable?.(candidates, result)
         || this.host.renderConstituencyCandidateTable(candidates, result);

@@ -811,17 +811,15 @@ class Test2App {
       if (!this.searchWorker) originalInitializeFuse?.();
     };
     uiController.performSearch = async (query) => {
-      const ids = await this.searchCatalogueWithWorker(query, 50);
-      const idSet = new Set(ids);
-      const results = dataService.getAllMaps()
-        .filter((map) => idSet.has(map.id))
-        .slice(0, 20)
-        .map((item) => ({ item }));
-      let addressResults = [];
-      try {
-        if (query && query.length >= 2) addressResults = await uiController.searchAddresses(query);
-      } catch {}
-      uiController.renderCombinedAutocomplete(results, [], addressResults, query);
+      uiController.hideAutocomplete?.();
+      if (!query || query.length < 2) return [];
+      this.searchQuery = query;
+      const ids = await this.searchCatalogueWithWorker(query, 1000);
+      if (this.searchQuery !== query) return [];
+      this.workerSearchQuery = query;
+      this.workerSearchResultIds = ids;
+      this.updateMapList();
+      return ids;
     };
     uiController.onSearch = (query) => {
       this.searchQuery = query;
@@ -1246,6 +1244,7 @@ class Test2App {
       kind: 'party',
       key: item.slug || slugifyEntityKey(item.canonicalName || item.title),
       name: item.canonicalName || item.title || item.slug || '',
+      colour: item.colour || item.color || item.partyColour || '#6b7280',
       latestWestminster: historyRows.find((row) => /Westminster/i.test(row.electionType)) || latestByMatch(/house-of-commons|UK general|Westminster/i),
       latestAssembly: historyRows.find((row) => /Assembly/i.test(row.electionType)) || latestByMatch(/northern-ireland-assembly|Assembly/i),
       historyRows,

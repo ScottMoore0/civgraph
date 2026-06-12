@@ -2391,3 +2391,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) when a region reuses an earlier geometry because no later file exists, state that reuse in the label, description, references, and downloads,
   3) add route validation for each grouped layer to prove all child references resolve,
   4) keep source-provider corrections in canonical catalogue metadata and sync generated runtime metadata from it.
+
+### 175) Full entity detail and hover state fixes need visible-route guardrails
+- Mistake pattern: Fixing the data or helper path for entity pages and hover clearing without proving the promoted MapLibre route uses the same contract.
+- Impact: party/label info pages can lose their canonical colour in the catalogue pane, and transient orange feature hover can remain stuck after a user clicks elsewhere on the page.
+- Guardrail:
+  1) Browse party/label entity mapping must preserve `colour`, `color`, or `partyColour` from the canonical detail payload,
+  2) transient hover clearing must be centralized in the MapLibre controller and cover clicks outside real map, label, and seat-circle interaction targets,
+  3) route validation must assert both contracts against the promoted `/app` source path,
+  4) future hover/entity fixes should be verified on the visible route, not only on generated data or helper functions.
