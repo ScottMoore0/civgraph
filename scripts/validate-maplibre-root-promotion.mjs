@@ -18,6 +18,7 @@ const sharedAssetBuilder = read('scripts/build-shared-shell-assets.mjs');
 const legacyLeafletBuilder = read('scripts/build-legacy-leaflet-app.mjs');
 const packageJson = JSON.parse(read('package.json'));
 const archiveDocExists = existsSync('archive/leaflet-main-before-maplibre-root-20260612.md');
+const archivedBundleExists = existsSync('archive/legacy-scripts/bundle.mjs');
 const buildScript = String(packageJson.scripts?.build || '');
 
 assert(rootHtml.includes('Root MapLibre shell promoted from /test2'), 'Root index must carry the MapLibre promotion marker.');
@@ -63,6 +64,8 @@ assert(
   packageJson.scripts?.['build:legacy-leaflet'] === 'node scripts/build-legacy-leaflet-app.mjs',
   'Archived Leaflet bundle generation must stay available through npm run build:legacy-leaflet.'
 );
+assert(!existsSync('scripts/bundle.mjs'), 'Retired mixed Leaflet/CSS bundle script must stay archived outside scripts/.');
+assert(archivedBundleExists, 'Archived mixed Leaflet/CSS bundle script is missing from archive/legacy-scripts/bundle.mjs.');
 assert(
   sharedAssetBuilder.includes('assets/css/main.css') &&
     sharedAssetBuilder.includes('assets/thumbnails') &&

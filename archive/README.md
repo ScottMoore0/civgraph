@@ -8,6 +8,7 @@ This directory contains working artifacts, old pages, research notes, and OCR ou
 - `pages/` — Old/unreferenced HTML pages and scripts
 - `research/` — Markdown notes, audits, catalogues, session summaries
 - `ocr/` — OCR extracted JSON outputs from boundary gazette PDFs
+- `legacy-scripts/` — Retired build/runtime scripts kept for reference only
 
 ## Moving files back
 

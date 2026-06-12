@@ -1,5 +1,13 @@
 #!/usr/bin/env node
 /**
+ * Archived 2026-06-12 after the MapLibre root promotion.
+ *
+ * This script used to bundle the Leaflet app and build shared shell CSS in one
+ * path. Normal production builds now use scripts/build-shared-shell-assets.mjs
+ * plus scripts/build-test2-app.mjs. Keep this file for historical reference
+ * only; do not use it from package.json without intentionally reverting that
+ * architecture.
+ *
  * Bundle and minify the ES module JS files using esbuild.
  * Code-splitting is enabled — dynamic import() calls produce separate chunks.
  * Non-module scripts (election-viewer-package, jquery-shim) are excluded —

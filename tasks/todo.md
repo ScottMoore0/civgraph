@@ -5489,3 +5489,19 @@ Add election entries to /test2
 - Shared shell assets are now built by `scripts/build-shared-shell-assets.mjs`, which owns the thumbnail manifest, critical/deferred CSS split, root and `/test2` critical CSS inlining, `about.css`, CSS versioning, and stale legacy-output cleanup.
 - The archived Leaflet runtime remains available through `npm run build:legacy-leaflet` for rollback investigation without coupling it to production root builds.
 - Root promotion validation now enforces this separation so future changes cannot silently reintroduce `build/app.bundle.js` into the normal production build.
+
+# Archive retired mixed Leaflet/CSS bundle script
+- [x] Move `scripts/bundle.mjs` out of active scripts
+  - Completed: moved the retired mixed-purpose script to `archive/legacy-scripts/bundle.mjs` and added an archive note at the top of the file.
+- [x] Document archived status
+  - Completed: updated `archive/README.md` and `docs/maplibre-root-promotion-runbook.md` to identify the file as historical reference only.
+- [x] Add guardrail
+  - Completed: updated `scripts/validate-maplibre-root-promotion.mjs` to fail if `scripts/bundle.mjs` returns to the active scripts directory or if the archived copy is missing.
+- [x] Verify and push
+  - Scope: run the root/full checks, commit, push, and advise what remains.
+  - Verification evidence: `node --check scripts/validate-maplibre-root-promotion.mjs`, `node --check archive/legacy-scripts/bundle.mjs`, `npm run build`, `npm run check`, and `npm run check:test2` passed. `scripts/bundle.mjs` is absent, `archive/legacy-scripts/bundle.mjs` is present, and the normal build leaves both `build/app.bundle.js` and `build/chunks/v116` absent.
+
+## Review: archived mixed bundle script
+- `scripts/bundle.mjs` is now archived at `archive/legacy-scripts/bundle.mjs` with a header explaining that it is historical reference only.
+- Active production builds continue through `scripts/build-shared-shell-assets.mjs`, `npm run build:test2`, and `scripts/promote-test2-root.mjs`.
+- Root promotion validation now fails if the retired mixed bundle script returns to `scripts/` or if the archived copy disappears.
