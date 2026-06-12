@@ -5422,3 +5422,24 @@ Add election entries to /test2
 - Books/geographies data, FlatGeobuf export/schema support, search worker preparation, election catalogue warmup, and diagnostics/performance rendering no longer compete with the first paint.
 - Route validation now prevents regressions back to a large startup bundle or first-load FlatGeobuf/pako scripts.
 - Cold-load measurement is repeatable through `npm run test:performance:test2:cold`; the current report passes all cold-load budgets.
+
+# Promote `/test2` MapLibre shell to root, parts 1-4
+- [x] Archive current Leaflet main non-destructively
+  - Scope: preserve the current production Leaflet root state without deleting shared source/data.
+  - Completed: created annotated git tag `leaflet-main-before-maplibre-root-20260612` at `eaf3311c5bd2faf78c796f6aa067049c689b7929` and added `archive/leaflet-main-before-maplibre-root-20260612.md` with restore instructions.
+- [x] Promote `/test2` route ownership to `/`
+  - Scope: make the generated root `index.html` use the MapLibre `/test2` shell/runtime instead of the archived Leaflet shell/runtime.
+  - Completed: added `scripts/promote-test2-root.mjs` and wired `npm run build` so it builds the existing root CSS/assets, builds `/test2`, then promotes the `/test2` MapLibre shell to root deterministically.
+- [x] Preserve `/test2` compatibility route
+  - Scope: keep `/test2` loadable for existing links and for comparison/debugging during promotion.
+  - Completed: left `test2/index.html`, `/test2/build/*`, `/test2/sw.js`, and route-scoped election animation assets in place; the root route reuses those runtime assets rather than moving or deleting them.
+- [x] Keep shared code shared
+  - Scope: avoid duplicating or deleting main/test2 shared modules as part of the root route handoff.
+  - Completed: the promotion changes only the build/promotion scripts, package scripts, archive manifest, and generated root HTML. Existing shared `js/`, `test2/src/`, metadata, and Browse generation code remain shared.
+- [x] Verify and commit
+  - Scope: run build/check paths, commit and push the deterministic promotion, then advise what remains beyond parts 1-4.
+  - Verification evidence: `npm run build`, `npm run check:root`, `npm run check:test2`, and `npm run check` passed. Root `index.html` now loads `/test2/build/test2.bundle.js` and no longer loads `build/app.bundle.js` or Leaflet assets. `/test2` remains present as a compatibility route.
+
+## Review: `/test2` to root promotion, parts 1-4
+- Parts 1-4 are complete. The current Leaflet root is archived by tag and manifest, the root route is generated from the `/test2` MapLibre shell, `/test2` remains available, and no shared source/data was deleted or duplicated.
+- Remaining promotion work sits outside parts 1-4: root service-worker/cache migration, explicit rollback/cutover rehearsal, production observability on the root route, and any remaining data/parity checks that should be completed before removing the legacy Leaflet archive path from normal operations.

@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "node scripts/build-browse-indexes.mjs && node scripts/validate-chunked-map-bounds.mjs && node scripts/bundle.mjs",
+    "build": "node scripts/build-browse-indexes.mjs && node scripts/validate-chunked-map-bounds.mjs && node scripts/bundle.mjs && npm run build:test2 && node scripts/promote-test2-root.mjs",
     "build:browse": "node scripts/build-browse-indexes.mjs",
     "build:test": "node scripts/validate-test-app.mjs && node scripts/build-test-app.mjs",
     "build:test2": "node scripts/build-test2-election-manifest.mjs && node scripts/build-test2-election-summaries.mjs && node scripts/build-test2-metadata-shards.mjs && node scripts/build-test2-app.mjs && node scripts/build-test2-performance-dashboard.mjs",
@@ -19,8 +19,9 @@
     "deploy:test:pmtiles": "node scripts/upload-test-pmtiles-r2.mjs",
     "verify:test:pmtiles-cdn": "node scripts/verify-test-pmtiles-cdn.mjs",
     "switch:test:pmtiles-cdn": "node scripts/switch-test-pmtiles-to-cdn.mjs",
-    "check": "npm run check:chunked-bounds && npm run test:chunked-fit && npm run check:pages-assets",
+    "check": "npm run check:chunked-bounds && npm run test:chunked-fit && npm run check:root && npm run check:pages-assets",
     "check:chunked-bounds": "node scripts/validate-chunked-map-bounds.mjs",
+    "check:root": "node scripts/validate-maplibre-root-promotion.mjs",
     "check:pages-assets": "node scripts/validate-pages-file-budget.mjs",
     "check:test2": "node scripts/validate-test2-route.mjs && node scripts/audit-test2-election-data.mjs --fail-on-blocking && node scripts/validate-test2-pmtiles-cdn.mjs && node scripts/build-test2-performance-dashboard.mjs --validate",
     "check:test": "node scripts/validate-test-app.mjs && node scripts/validate-test-tile-budgets.mjs && node scripts/validate-test-cdn-manifest.mjs && node scripts/validate-test-shell-parity.mjs && node scripts/validate-test-security.mjs && node scripts/validate-test-production-route.mjs",
