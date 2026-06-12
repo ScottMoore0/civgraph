@@ -23,13 +23,18 @@ export class MainElectionPaneContract {
 
   renderHeaderRight(selectedResult = null, activeView = 'party') {
     const isCouncilAggregate = Boolean(selectedResult && this.host.isCouncilAggregateResult?.(selectedResult));
+    const isSingleSeatFptp = Boolean(selectedResult && !isCouncilAggregate && this.host.isSingleSeatFptpResult?.(selectedResult));
     const localModeControl = (!selectedResult || isCouncilAggregate) && this.host.isLocalGovernmentElection() ? `
       <div class="test2-election-local-mode" role="group" aria-label="Local government result level">
         <button type="button" class="${this.host.activeLocalMode === 'dea' ? 'is-active' : ''}" data-election-local-mode="dea">DEA</button>
         <button type="button" class="${this.host.activeLocalMode === 'district' ? 'is-active' : ''}" data-election-local-mode="district">District</button>
       </div>
     ` : '';
-    const selectedTabs = isCouncilAggregate
+    const selectedTabs = isSingleSeatFptp
+      ? [
+        ['results', 'Results']
+      ]
+      : isCouncilAggregate
       ? [
         ['party', 'By Party'],
         ['candidate', 'By Candidate'],
@@ -39,7 +44,7 @@ export class MainElectionPaneContract {
         ['party', 'By Party'],
         ['counts', this.host.isForumResult(selectedResult) ? 'By Round' : 'By Count']
       ];
-    if (!isCouncilAggregate && selectedResult && this.host.resultHasAnimation(selectedResult)) {
+    if (!isSingleSeatFptp && !isCouncilAggregate && selectedResult && this.host.resultHasAnimation(selectedResult)) {
       selectedTabs.push(['animation', this.host.isForumResult(selectedResult) ? 'Allocation' : 'Transfers']);
     }
     const headerTabs = selectedResult
@@ -86,12 +91,16 @@ export class MainElectionPaneContract {
   renderConstituencyResults(result, view = 'party') {
     if (this.host.isCouncilAggregateResult?.(result)) return this.host.renderCouncilAggregateResults(result, view);
     if (result.recallPetition) return this.host.renderRecallPetitionResult(result);
-    const effectiveView = view === 'animation' && !this.host.resultHasAnimation(result) ? 'counts' : view;
     const candidates = [...(result.candidates || [])].sort((a, b) => {
       const elected = Number(Boolean(b.elected)) - Number(Boolean(a.elected));
       if (elected) return elected;
       return Number(b.finalVotes ?? b.firstPrefs ?? b.votes ?? 0) - Number(a.finalVotes ?? a.firstPrefs ?? a.votes ?? 0);
     });
+    if (this.host.isSingleSeatFptpResult?.(result)) {
+      return this.host.renderSingleSeatFptpResultsTable?.(candidates, result)
+        || this.host.renderConstituencyCandidateTable(candidates, result);
+    }
+    const effectiveView = view === 'animation' && !this.host.resultHasAnimation(result) ? 'counts' : view;
     return `
       ${effectiveView === 'counts' ? this.host.renderCountTable(result, candidates) : effectiveView === 'animation' ? this.host.renderAnimationNotice(result) : effectiveView === 'party' ? this.host.renderConstituencyPartyTable(candidates, result) : this.host.renderConstituencyCandidateTable(candidates, result)}
     `;

@@ -5524,3 +5524,19 @@ Add election entries to /test2
 - The reported election pane failure was a system dark-mode cascade gap, not a MapLibre rendering issue: table rows, sticky columns, and several supporting panels used hardcoded light backgrounds while text switched to dark-mode colours.
 - System dark mode now receives the same practical coverage as explicit dark mode for the main election pane, feature details, active election catalogue rows, source panels, and `/test2` election support surfaces.
 - The browser contrast fixture verified the formerly risky surfaces at AA-level contrast or better: election table cells, table headers, election pane header, active election row text, feature details summary, and source panels.
+
+# Consolidate single-seat FPTP selected-result tabs
+- [x] Record scope and inspect current pane contract
+  - Scope: for constituency-level single-seat First Past The Post election results, replace separate `By Party` and `By Count` tabs with a single `Results` tab containing both candidate and party/label names.
+  - Completed: confirmed selected-result tabs are defined by `js/election-main-pane-contract.mjs`, while `/test2` supplies renderers and result metadata through `test2/src/election-manager.js`.
+- [x] Add single-seat FPTP detection and renderer
+  - Scope: detect only selected geography results with `contestType: election`, `votingSystem: fptp`, and one seat/elected candidate; exclude STV, block-vote, referendums, recall petitions, overall views, council aggregates, and forum/list allocations.
+  - Completed: added `/test2` host-side detection for single-seat FPTP selected results, normalized those panes to a single `Results` view, and rendered a combined candidate/party table with vote, percentage, delta, and result columns.
+- [x] Add guardrail and verify
+  - Scope: make route validation assert the new contract, rebuild root and `/test2`, run checks, and push.
+  - Completed: extended `/test2` route validation to assert the single-seat FPTP `Results` contract, rebuilt `/test2` and the promoted root, and verified with syntax checks, route validation, `npm run check:test2`, and `npm run check`.
+
+## Review: single-seat FPTP selected-result tab consolidation
+- Selected constituency-level single-seat FPTP elections now show one `Results` tab instead of separate `By Party` and `By Count` tabs.
+- The combined table includes candidate links, party/label links and colours, votes, vote changes, vote share, vote-share changes, and elected/not-elected status.
+- STV, block-vote, forum/list, local council aggregate, referendum, and recall-petition panes remain on their existing pane contracts.

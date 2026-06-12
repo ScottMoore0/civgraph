@@ -383,6 +383,16 @@ assert(electionManagerSource.includes('MAIN_ELECTION_GEOGRAPHY_STYLE') && electi
 assert(electionManagerSource.includes('buildElectionMatchExpression') && electionManagerSource.includes('fillOpacityExpression'), '/test2 election geography styling must distinguish matched and unmatched features with MapLibre expressions');
 assert(electionDomainSource.includes('buildMainLikePartySummaryFromRawResults') && electionManifestBuilderSource.includes('mainLikePartySummary'), '/test2 election bundles must carry main-controller-compatible party summaries, not only independent test2 summaries');
 assert(mainElectionPaneContractSource.includes('this.host.activeBundle.mainLikePartySummary') && electionManagerSource.includes('this.previousBundle?.mainLikePartySummary'), '/test2 election pane must consume main-compatible current and previous party summaries');
+assert(
+  mainElectionPaneContractSource.includes("['results', 'Results']")
+    && mainElectionPaneContractSource.includes('isSingleSeatFptpResult')
+    && mainElectionPaneContractSource.includes('renderSingleSeatFptpResultsTable')
+    && electionManagerSource.includes('isSingleSeatFptpResult(result = {})')
+    && electionManagerSource.includes("votingSystem !== 'fptp'")
+    && electionManagerSource.includes("return 'results'")
+    && electionManagerSource.includes('election-results-table--single-seat-fptp'),
+  '/test2 single-seat FPTP selected results must collapse By Party/By Count into a combined Results table'
+);
 assert(electionManagerSource.includes('getSeatCircleOverlayState') && electionManagerSource.includes('seatCircleOverlayState') && electionManagerSource.includes('visibleGroups'), '/test2 seat-circle drawing order/counts must be deterministic and inspectable like the main overlay DOM order');
 assert(electionManagerSource.includes('dataset.lng') && electionManagerSource.includes('dataset.lat') && electionManagerSource.includes('marker.setLngLat'), '/test2 DOM seat circles must retain geographic anchors and be pinned by MapLibre during pan/zoom');
 assert(electionManagerSource.includes('removeSeatCircleMarkers') && electionManagerSource.includes('marker.remove()'), '/test2 DOM seat-circle markers must be cleaned up when overlays switch or unload');

@@ -799,6 +799,9 @@ export class Test2ElectionManager {
 
   normalizePanelView(view, selectedResult = null) {
     const value = view || 'party';
+    if (selectedResult && this.isSingleSeatFptpResult(selectedResult)) {
+      return 'results';
+    }
     if (this.isCouncilAggregateResult(selectedResult)) {
       return ['party', 'candidate', 'local-party'].includes(value) ? value : 'party';
     }
@@ -832,6 +835,37 @@ export class Test2ElectionManager {
   selectedResultEntityKind() {
     if (!this.isLocalGovernmentElection()) return 'constituency';
     return this.activeLocalMode === 'district' ? 'lgd' : 'dea';
+  }
+
+  isSingleSeatFptpResult(result = {}) {
+    if (!result || result.recallPetition || this.isCouncilAggregateResult(result) || this.isForumResult(result)) return false;
+    const contestType = normalizeName(result.contestType || this.activeBundle?.contestType || this.activeEntry?.contestType || 'election');
+    if (contestType && contestType !== 'election') return false;
+    const votingSystem = normalizeName(
+      result.votingSystem
+      || result.electionVotingSystem
+      || result.system
+      || this.activeBundle?.votingSystem
+      || this.activeEntry?.votingSystem
+      || ''
+    );
+    if (votingSystem !== 'fptp' && votingSystem !== 'first past the post' && votingSystem !== 'first past post') return false;
+    const explicitSeats = [
+      result.seatsTotal,
+      result.seatsWon,
+      result.seats,
+      result.countInfo?.Number_Of_Seats,
+      result.countInfo?.numberOfSeats,
+      result.countInfo?.Seats
+    ]
+      .map(finiteNumber)
+      .filter((value) => value !== null && value > 0);
+    if (explicitSeats.length) return Math.max(...explicitSeats) === 1;
+    const electedCount = (result.candidates || []).filter((candidate) => {
+      if (candidate.elected) return true;
+      return selectedPaneStatusKind(candidate.status || candidate.Status) === 'elected';
+    }).length;
+    return electedCount === 1;
   }
 
   renderOverallResults(view = 'party') {
@@ -1017,6 +1051,56 @@ export class Test2ElectionManager {
                   <td class="election-num">${candidate.deltas?.firstPrefPct !== null && candidate.deltas?.firstPrefPct !== undefined ? formatMainPercentDelta(candidate.deltas.firstPrefPct) : ''}</td>
                   <td class="election-num">${formatNumber(finalVotes)}</td>
                   <td>${candidate.elected ? 'Elected' : escapeHtml(candidate.status || '')}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  renderSingleSeatFptpResultsTable(candidates = [], result = {}) {
+    if (!candidates.length) return '<p class="election-no-data">No result table is available for this entry.</p>';
+    const validPoll = numberOrZero(result.validPoll) || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs ?? candidate.votes ?? candidate.finalVotes ?? candidate.total), 0);
+    return `
+      <div class="election-party-wrapper election-party-wrapper--pane-sticky">
+        <table class="election-party-table election-party-table--grouped election-party-table--candidate-sticky3 election-results-table--fixed election-results-table--nonlocal election-results-table--single-seat-fptp">
+          <thead>
+            <tr>
+              <th rowspan="2" data-leaf-col-idx="0">#</th>
+              <th rowspan="2" data-leaf-col-idx="1">Candidate</th>
+              <th rowspan="2" data-leaf-col-idx="2">Party</th>
+              <th colspan="4">Votes</th>
+              <th rowspan="2" data-leaf-col-idx="7">Result</th>
+            </tr>
+            <tr>
+              ${this.renderMainParityLeafTh('No.', 3)}
+              ${this.renderMainParityLeafTh('+/-', 4)}
+              ${this.renderMainParityLeafTh('%', 5)}
+              ${this.renderMainParityLeafTh('+/-', 6)}
+            </tr>
+          </thead>
+          <tbody>
+            ${candidates.map((candidate, index) => {
+              const votes = numberOrZero(candidate.firstPrefs ?? candidate.votes ?? candidate.finalVotes ?? candidate.total);
+              const votePct = Number.isFinite(Number(candidate.firstPrefPct)) ? Number(candidate.firstPrefPct) : (validPoll ? votes / validPoll * 100 : null);
+              const statusKind = candidate.elected ? 'elected' : selectedPaneStatusKind(candidate.status || candidate.Status);
+              const statusText = candidate.elected
+                ? 'Elected'
+                : (candidate.status || candidate.Status || (statusKind === 'elected' ? 'Elected' : 'Not elected'));
+              const voteDelta = candidate.deltas?.firstPrefs ?? candidate.deltas?.votes ?? candidate.deltas?.total ?? null;
+              const pctDelta = candidate.deltas?.firstPrefPct ?? candidate.deltas?.votePct ?? candidate.deltas?.share ?? null;
+              return `
+                <tr class="${statusKind === 'elected' ? 'election-row--elected test2-election-table__elected' : ''}">
+                  <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
+                  <td>${this.renderElectionEntityButton('candidate', candidate.id || `${candidate.name}|${candidate.party}`, candidate.name || candidate.candidate || '', 'election-cell-wrap')}</td>
+                  <td>${this.renderElectionEntityButton('party', candidate.party, `<span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(candidate.party, candidate.colour))}"></span>${escapeHtml(candidate.party || '')}`, 'election-cell-wrap')}</td>
+                  <td class="election-num">${formatNumber(votes)}</td>
+                  <td class="election-num">${voteDelta === null || voteDelta === undefined ? '' : formatMainDelta(voteDelta)}</td>
+                  <td class="election-num">${votePct === null ? '' : formatFixedPercent(votePct)}</td>
+                  <td class="election-num">${pctDelta === null || pctDelta === undefined ? '' : formatMainPercentDelta(pctDelta)}</td>
+                  <td>${escapeHtml(statusText)}</td>
                 </tr>
               `;
             }).join('')}
