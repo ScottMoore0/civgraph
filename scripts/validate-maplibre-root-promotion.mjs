@@ -14,6 +14,8 @@ const rootHtml = read('index.html');
 const test2Html = read('test2/index.html');
 const rootServiceWorker = read('sw.js');
 const appSource = read('test2/src/app.js');
+const mainCss = read('assets/css/main.css');
+const test2Css = read('test2/src/test2.css');
 const sharedAssetBuilder = read('scripts/build-shared-shell-assets.mjs');
 const legacyLeafletBuilder = read('scripts/build-legacy-leaflet-app.mjs');
 const packageJson = JSON.parse(read('package.json'));
@@ -82,6 +84,25 @@ assert(
   legacyLeafletBuilder.includes("entryPoints: ['js/app.js']") &&
     legacyLeafletBuilder.includes('build/app.bundle.js'),
   'Legacy Leaflet builder must be explicit and separate from the production build path.'
+);
+assert(
+  mainCss.includes(':root:not([data-theme="light"]) .election-results-pane') &&
+    mainCss.includes(':root:not([data-theme="light"]) .election-party-table tbody td') &&
+    mainCss.includes(':root:not([data-theme="light"]) .election-count-table tbody td'),
+  'System dark mode must override hardcoded election-pane table backgrounds.'
+);
+assert(
+  mainCss.includes(':root:not([data-theme="light"]) .feature-info__summary') &&
+    mainCss.includes(':root:not([data-theme="light"]) .feature-info__properties'),
+  'System dark mode must override feature-info light-mode property blocks.'
+);
+assert(
+  test2Css.includes(':root:not([data-theme="light"]) .flat-election-entry--active') &&
+    test2Css.includes('background: #1d2b3d') &&
+    test2Css.includes('color: #eef6ff') &&
+    test2Css.includes(':root:not([data-theme="light"]) .test2-source-panel') &&
+    test2Css.includes(':root:not([data-theme="light"]) .test2-election-table th'),
+  '/test2 system dark mode must cover active catalogue rows and test2-specific panels.'
 );
 assert(!existsSync('build/app.bundle.js'), 'Normal MapLibre production build must not leave build/app.bundle.js behind.');
 assert(

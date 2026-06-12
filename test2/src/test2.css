@@ -729,6 +729,20 @@ body.test2-election-pane-resizing * {
   box-shadow: inset 3px 0 0 var(--color-primary, #1a365d);
 }
 
+[data-theme="dark"] .flat-election-entry--active {
+  background: #1d2b3d;
+  box-shadow: inset 3px 0 0 #8fb4ff;
+}
+
+[data-theme="dark"] .flat-election-entry--active .flat-election-date {
+  color: #f7fafc;
+}
+
+[data-theme="dark"] .flat-election-entry--active .flat-election-body,
+[data-theme="dark"] .flat-election-entry--active .flat-election-separator {
+  color: #eef6ff;
+}
+
 .flat-election-link {
   font-family: inherit;
   font-variant-numeric: normal;
@@ -998,6 +1012,80 @@ body.test2-election-pane-resizing * {
 
 .test2-election-animation-ready p {
   margin: 0;
+}
+
+[data-theme="dark"] .test2-source-panel,
+[data-theme="dark"] .test2-election-panel,
+[data-theme="dark"] .test2-election-table-wrap,
+[data-theme="dark"] .test2-election-coverage-notice,
+[data-theme="dark"] .test2-election-animation-ready {
+  background: var(--color-surface, #0f1419);
+  border-color: var(--color-border, #3d444d);
+  color: var(--color-text, #f7fafc);
+}
+
+[data-theme="dark"] .test2-source-panel__header,
+[data-theme="dark"] .test2-source-panel__group,
+[data-theme="dark"] .test2-election-table th,
+[data-theme="dark"] .test2-election-table__summary {
+  background: var(--color-surface-elevated, #1c2128);
+  border-color: var(--color-border, #3d444d);
+  color: var(--color-text, #f7fafc);
+}
+
+[data-theme="dark"] .test2-election-table td,
+[data-theme="dark"] .test2-source-panel__record + .test2-source-panel__record {
+  border-color: var(--color-border, #3d444d);
+}
+
+[data-theme="dark"] .test2-election-table__event-row th {
+  background: rgba(146, 64, 14, .28);
+  color: #fed7aa;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .flat-election-entry--active {
+    background: #1d2b3d;
+    box-shadow: inset 3px 0 0 #8fb4ff;
+  }
+
+  :root:not([data-theme="light"]) .flat-election-entry--active .flat-election-date {
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .flat-election-entry--active .flat-election-body,
+  :root:not([data-theme="light"]) .flat-election-entry--active .flat-election-separator {
+    color: #eef6ff;
+  }
+
+  :root:not([data-theme="light"]) .test2-source-panel,
+  :root:not([data-theme="light"]) .test2-election-panel,
+  :root:not([data-theme="light"]) .test2-election-table-wrap,
+  :root:not([data-theme="light"]) .test2-election-coverage-notice,
+  :root:not([data-theme="light"]) .test2-election-animation-ready {
+    background: var(--color-surface, #0f1419);
+    border-color: var(--color-border, #3d444d);
+    color: var(--color-text, #f7fafc);
+  }
+
+  :root:not([data-theme="light"]) .test2-source-panel__header,
+  :root:not([data-theme="light"]) .test2-source-panel__group,
+  :root:not([data-theme="light"]) .test2-election-table th,
+  :root:not([data-theme="light"]) .test2-election-table__summary {
+    background: var(--color-surface-elevated, #1c2128);
+    border-color: var(--color-border, #3d444d);
+    color: var(--color-text, #f7fafc);
+  }
+
+  :root:not([data-theme="light"]) .test2-election-table td,
+  :root:not([data-theme="light"]) .test2-source-panel__record + .test2-source-panel__record {
+    border-color: var(--color-border, #3d444d);
+  }
+
+  :root:not([data-theme="light"]) .test2-election-table__event-row th {
+    background: rgba(146, 64, 14, .28);
+    color: #fed7aa;
+  }
 }
 
 .test2-party-swatch {

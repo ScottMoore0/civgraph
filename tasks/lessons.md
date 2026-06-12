@@ -2346,3 +2346,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) generated metadata/report JSON must be normalized with `.gitattributes` so Windows rebuilds do not create CRLF-only diffs,
   3) cleanup passes must first confirm `git diff --name-only` and avoid reverting unrelated user source edits,
   4) verification should rerun the generators and prove the generated outputs remain clean before the fix is considered complete.
+
+### 170) Dark-mode fixes must cover system preference dark mode, not only explicit theme attributes
+- Mistake pattern: Adding `[data-theme="dark"]` CSS overrides while the production shell can enter dark mode through `prefers-color-scheme` with no `data-theme` attribute.
+- Impact: shared variables switch to dark colors, but older hard-coded light table/panel backgrounds remain active, producing low-contrast dark-mode surfaces such as the election pane.
+- Guardrail:
+  1) every dark-mode UI fix must check both explicit `[data-theme="dark"]` and system-dark `:root:not([data-theme="light"])` paths,
+  2) hard-coded light backgrounds inside reusable surfaces must have late source-order system-dark overrides,
+  3) root validation must assert dark coverage for the election pane, feature-info cards, active catalogue rows, and test2-specific panels,
+  4) visual checks should include the default no-attribute system-dark state, not only the theme-toggle state.

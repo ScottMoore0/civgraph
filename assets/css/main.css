@@ -5050,6 +5050,81 @@ html:not([data-theme]) .feature-info__value,
   color: #9fc3ff;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .feature-info {
+    background: linear-gradient(135deg, rgba(28, 33, 40, 0.98) 0%, rgba(15, 20, 25, 0.98) 100%);
+    border: 1px solid var(--color-border, #3d444d);
+    color: #f7fafc;
+    box-shadow:
+      0 4px 24px rgba(0, 0, 0, 0.3),
+      0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  :root:not([data-theme="light"]) .feature-info__header {
+    background: linear-gradient(135deg, rgba(44, 82, 130, 0.2) 0%, transparent 100%);
+    border-bottom-color: var(--color-border, #3d444d);
+  }
+
+  :root:not([data-theme="light"]) .feature-info__title {
+    color: #9fc3ff;
+  }
+
+  :root:not([data-theme="light"]) .feature-info__close {
+    color: #d7e4f8;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  :root:not([data-theme="light"]) .feature-info__close:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  :root:not([data-theme="light"]) .feature-info__pagination,
+  :root:not([data-theme="light"]) .feature-info__summary,
+  :root:not([data-theme="light"]) .feature-info__properties {
+    background: #21262d;
+    border-color: var(--color-border, #3d444d);
+    color: #d7e4f8;
+  }
+
+  :root:not([data-theme="light"]) .feature-info__summary:hover {
+    background: #2d3748;
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .feature-info__metrics {
+    background: linear-gradient(135deg, rgba(44, 82, 130, 0.15) 0%, rgba(44, 82, 130, 0.05) 100%);
+  }
+
+  :root:not([data-theme="light"]) .feature-info__metric {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  :root:not([data-theme="light"]) .feature-info__metric--clickable:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  :root:not([data-theme="light"]) .feature-info__property {
+    border-bottom-color: var(--color-border-light, #21262d);
+  }
+
+  :root:not([data-theme="light"]) .feature-info__key {
+    color: #b8c5d9;
+  }
+
+  :root:not([data-theme="light"]) .feature-info__value {
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .feature-info__expandable {
+    color: #9fc3ff;
+  }
+
+  :root:not([data-theme="light"]) .feature-info__expandable:hover {
+    color: #cfe1ff;
+  }
+}
+
 /* Expandable numbers */
 .feature-info__expandable {
   cursor: pointer;
@@ -12680,6 +12755,271 @@ kbd {
 [data-theme="dark"] .election-party-table tbody tr:hover td:first-child,
 [data-theme="dark"] .election-party-table tbody tr:hover td:nth-child(2) {
   background: #2d3748;
+}
+
+/* System dark mode must receive the same hardcoded-election-table overrides as
+   explicit dark mode. The root variables switch under prefers-color-scheme, but
+   these election panes also have older fixed light backgrounds for table rows,
+   sticky columns, filter menus, and animation frames. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .election-results-pane {
+    background: #101820;
+    border-color: #3d444d;
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .election-pane__header {
+    background: #0f1722;
+    border-color: #3d444d;
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .election-pane__title {
+    color: #cfe1ff;
+  }
+
+  :root:not([data-theme="light"]) .election-pane__back,
+  :root:not([data-theme="light"]) .election-pane__close {
+    color: #d7e4f8;
+    border-color: #4a5568;
+  }
+
+  :root:not([data-theme="light"]) .election-pane__back:hover,
+  :root:not([data-theme="light"]) .election-pane__close:hover {
+    background: #243244;
+    color: #ffffff;
+  }
+
+  :root:not([data-theme="light"]) .election-party-wrapper,
+  :root:not([data-theme="light"]) .election-count-wrapper,
+  :root:not([data-theme="light"]) .election-animation-container,
+  :root:not([data-theme="light"]) .election-animation-container #animation {
+    background: #151c26;
+    border-color: #3d444d;
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .election-party-table,
+  :root:not([data-theme="light"]) .election-count-table {
+    background: #151c26;
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .election-party-table th,
+  :root:not([data-theme="light"]) .election-party-table td,
+  :root:not([data-theme="light"]) .election-count-table th,
+  :root:not([data-theme="light"]) .election-count-table td {
+    border-color: #3d444d;
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .election-party-table th,
+  :root:not([data-theme="light"]) .election-count-table th,
+  :root:not([data-theme="light"]) .election-party-table th:first-child,
+  :root:not([data-theme="light"]) .election-count-table th:first-child {
+    background: #1c2735;
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .election-party-table--grouped thead tr:nth-child(1) th,
+  :root:not([data-theme="light"]) .election-count-table--grouped thead tr:nth-child(1) th {
+    background: #223044;
+    box-shadow: 0 1px 0 #3d444d;
+  }
+
+  :root:not([data-theme="light"]) .election-party-table--grouped thead tr:nth-child(2) th,
+  :root:not([data-theme="light"]) .election-count-table--grouped thead tr:nth-child(2) th,
+  :root:not([data-theme="light"]) .election-party-table--grouped thead tr:nth-child(3) th,
+  :root:not([data-theme="light"]) .election-count-table--grouped thead tr:nth-child(3) th {
+    background: #1c2735;
+    box-shadow: 0 1px 0 #3d444d;
+  }
+
+  :root:not([data-theme="light"]) .election-party-table thead tr:first-child th,
+  :root:not([data-theme="light"]) .election-count-table thead tr:first-child th {
+    box-shadow: 0 1px 0 #3d444d;
+  }
+
+  :root:not([data-theme="light"]) .election-party-table thead tr:first-child th:nth-child(1),
+  :root:not([data-theme="light"]) .election-party-table thead tr:first-child th:nth-child(2),
+  :root:not([data-theme="light"]) .election-count-table thead tr:first-child th:nth-child(1),
+  :root:not([data-theme="light"]) .election-count-table thead tr:first-child th:nth-child(2),
+  :root:not([data-theme="light"]) .election-count-table thead tr:first-child th:nth-child(3),
+  :root:not([data-theme="light"]) .election-count-table thead tr:first-child th:nth-child(4) {
+    box-shadow: 1px 0 0 #3d444d, 0 1px 0 #3d444d;
+  }
+
+  :root:not([data-theme="light"]) .election-party-table tbody td,
+  :root:not([data-theme="light"]) .election-count-table tbody td {
+    background: #151c26;
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .election-count-table tbody tr:nth-child(even) td,
+  :root:not([data-theme="light"]) .election-party-table tbody tr:nth-child(even) td {
+    background: #1a2431;
+  }
+
+  :root:not([data-theme="light"]) .election-party-table tbody td:nth-child(1),
+  :root:not([data-theme="light"]) .election-party-table tbody td:nth-child(2),
+  :root:not([data-theme="light"]) .election-party-table--candidate-sticky3 tbody td:nth-child(3),
+  :root:not([data-theme="light"]) .election-party-table--district-sticky3 tbody td:nth-child(3),
+  :root:not([data-theme="light"]) .election-party-table--district-local-party-sticky4 tbody td:nth-child(4),
+  :root:not([data-theme="light"]) .election-count-table tbody td:nth-child(1),
+  :root:not([data-theme="light"]) .election-count-table tbody td:nth-child(2),
+  :root:not([data-theme="light"]) .election-count-table tbody td:nth-child(3),
+  :root:not([data-theme="light"]) .election-count-table tbody td:nth-child(4),
+  :root:not([data-theme="light"]) .election-count-table--candidate-sticky3 tbody td:nth-child(3),
+  :root:not([data-theme="light"]) .election-count-table--local-party-sticky4 tbody td:nth-child(3),
+  :root:not([data-theme="light"]) .election-count-table--local-party-sticky4 tbody td:nth-child(4),
+  :root:not([data-theme="light"]) .election-count-table--nonlocal-local-party-sticky3 tbody td:nth-child(3) {
+    background: #151c26;
+    color: #f7fafc;
+    box-shadow: 1px 0 0 #3d444d, 0 1px 0 #3d444d;
+  }
+
+  :root:not([data-theme="light"]) .election-count-table tbody tr:nth-child(even) td:nth-child(1),
+  :root:not([data-theme="light"]) .election-count-table tbody tr:nth-child(even) td:nth-child(2),
+  :root:not([data-theme="light"]) .election-count-table tbody tr:nth-child(even) td:nth-child(3),
+  :root:not([data-theme="light"]) .election-count-table tbody tr:nth-child(even) td:nth-child(4),
+  :root:not([data-theme="light"]) .election-party-table tbody tr:nth-child(even) td:nth-child(1),
+  :root:not([data-theme="light"]) .election-party-table tbody tr:nth-child(even) td:nth-child(2),
+  :root:not([data-theme="light"]) .election-party-table--candidate-sticky3 tbody tr:nth-child(even) td:nth-child(3),
+  :root:not([data-theme="light"]) .election-party-table--district-sticky3 tbody tr:nth-child(even) td:nth-child(3),
+  :root:not([data-theme="light"]) .election-party-table--district-local-party-sticky4 tbody tr:nth-child(even) td:nth-child(4),
+  :root:not([data-theme="light"]) .election-count-table--candidate-sticky3 tbody tr:nth-child(even) td:nth-child(3),
+  :root:not([data-theme="light"]) .election-count-table--local-party-sticky4 tbody tr:nth-child(even) td:nth-child(3),
+  :root:not([data-theme="light"]) .election-count-table--local-party-sticky4 tbody tr:nth-child(even) td:nth-child(4),
+  :root:not([data-theme="light"]) .election-count-table--nonlocal-local-party-sticky3 tbody tr:nth-child(even) td:nth-child(3) {
+    background: #1a2431;
+  }
+
+  :root:not([data-theme="light"]) .election-count-table tbody tr:hover td,
+  :root:not([data-theme="light"]) .election-count-table tbody tr:hover td:first-child,
+  :root:not([data-theme="light"]) .election-party-table tbody tr:hover td,
+  :root:not([data-theme="light"]) .election-party-table tbody tr:hover td:first-child,
+  :root:not([data-theme="light"]) .election-party-table tbody tr:hover td:nth-child(2) {
+    background: #27364a;
+  }
+
+  :root:not([data-theme="light"]) .election-cell-strong,
+  :root:not([data-theme="light"]) .election-rank-col,
+  :root:not([data-theme="light"]) .election-num,
+  :root:not([data-theme="light"]) .election-party-table a,
+  :root:not([data-theme="light"]) .election-count-table a {
+    color: inherit;
+  }
+
+  :root:not([data-theme="light"]) .election-entity-link,
+  :root:not([data-theme="light"]) .election-pane__title-link {
+    color: #9fc3ff;
+  }
+
+  :root:not([data-theme="light"]) .election-entity-link:hover,
+  :root:not([data-theme="light"]) .election-pane__title-link:hover {
+    color: #cfe1ff;
+  }
+
+  :root:not([data-theme="light"]) .election-party-label,
+  :root:not([data-theme="light"]) .election-summary__stats {
+    color: #b8c5d9;
+  }
+
+  :root:not([data-theme="light"]) .election-summary__stats strong,
+  :root:not([data-theme="light"]) .election-table-title {
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .election-summary__table th {
+    background: #1c2735;
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .election-summary__table td {
+    border-color: #3d444d;
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .election-summary__table tbody tr:nth-child(even) td {
+    background: #1a2431;
+  }
+
+  :root:not([data-theme="light"]) .election-summary__table tbody tr:hover td {
+    background: #27364a;
+  }
+
+  :root:not([data-theme="light"]) .election-th-btn {
+    border-color: #6a7482;
+    background: #2f3946;
+    color: #d7e4f8;
+  }
+
+  :root:not([data-theme="light"]) .election-th-btn:hover {
+    background: #3a4655;
+  }
+
+  :root:not([data-theme="light"]) .election-th-btn--active,
+  :root:not([data-theme="light"]) .election-th-btn--open {
+    border-color: #8fb4ff;
+    background: #25406b;
+    color: #e5f0ff;
+  }
+
+  :root:not([data-theme="light"]) .election-filter-menu {
+    background: #151c26;
+    border-color: #3d444d;
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .election-filter-menu__action,
+  :root:not([data-theme="light"]) .election-filter-menu__mini,
+  :root:not([data-theme="light"]) .election-filter-menu__search,
+  :root:not([data-theme="light"]) .election-filter-menu__values {
+    background: #1c2735;
+    border-color: #3d444d;
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .election-filter-menu__action:hover,
+  :root:not([data-theme="light"]) .election-filter-menu__mini:hover,
+  :root:not([data-theme="light"]) .election-filter-menu__value:hover {
+    background: #27364a;
+  }
+
+  :root:not([data-theme="light"]) .election-filter-menu__divider {
+    border-color: #3d444d;
+  }
+
+  :root:not([data-theme="light"]) .election-view-tab {
+    background: #1c2735;
+    border-color: #3d444d;
+    color: #d7e4f8;
+  }
+
+  :root:not([data-theme="light"]) .election-view-tab:hover {
+    background: #27364a;
+    color: #ffffff;
+  }
+
+  :root:not([data-theme="light"]) .election-view-tab--active {
+    background: #2a5a9e;
+    border-color: #2a5a9e;
+    color: #ffffff;
+  }
+
+  :root:not([data-theme="light"]) .election-table-note-row td,
+  :root:not([data-theme="light"]) .election-table-summary-row td {
+    background: #1c2735;
+    color: #f7fafc;
+  }
+
+  :root:not([data-theme="light"]) .election-entity-page__hero,
+  :root:not([data-theme="light"]) .election-entity-metric,
+  :root:not([data-theme="light"]) .election-entity-section {
+    background: #151c26;
+    border-color: #3d444d;
+    color: #f7fafc;
+  }
 }
 
 .raster-tile--pixelated {

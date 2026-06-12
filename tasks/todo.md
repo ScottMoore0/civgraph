@@ -5505,3 +5505,22 @@ Add election entries to /test2
 - `scripts/bundle.mjs` is now archived at `archive/legacy-scripts/bundle.mjs` with a header explaining that it is historical reference only.
 - Active production builds continue through `scripts/build-shared-shell-assets.mjs`, `npm run build:test2`, and `scripts/promote-test2-root.mjs`.
 - Root promotion validation now fails if the retired mixed bundle script returns to `scripts/` or if the archived copy disappears.
+
+# Dark-mode UI sweep for MapLibre root and `/test2`
+- [x] Confirm dark-mode failure mode
+  - Scope: trace why the election pane renders light table surfaces with low-contrast text in dark mode.
+  - Completed: confirmed system-preference dark mode was switching text variables without applying the explicit `[data-theme="dark"]` overrides for hardcoded election table backgrounds, feature-info blocks, active election rows, and `/test2` panel surfaces.
+- [x] Fix dark-mode styling across visible site surfaces
+  - Scope: election result panes/tables/filter menus, catalogue rows/cards, feature details, active layers, source panels, diagnostics/settings, browse/detail cards, and loading/error surfaces.
+  - Completed: added system dark-mode overrides for election pane wrappers/tables/sticky cells/filter menus, feature-info cards/details, active election catalogue rows, source/election panels, and test2 table/event surfaces. The active election row now uses an opaque dark background with high-contrast derived-name text.
+- [x] Add dark-mode guardrails
+  - Scope: fail validation if system-preference dark mode loses critical election/table/surface overrides.
+  - Completed: extended root promotion validation to require system dark-mode coverage for election tables, feature-info blocks, active election rows, and `/test2` panels.
+- [x] Verify and push
+  - Scope: rebuild promoted root and `/test2`, run checks, then commit and push.
+  - Verification evidence: `node --check scripts/validate-maplibre-root-promotion.mjs`, `git diff --check`, a Playwright dark-mode contrast fixture, `npm run build`, `npm run check:root`, `npm run check:test2`, and `npm run check` passed.
+
+## Review: dark-mode UI sweep
+- The reported election pane failure was a system dark-mode cascade gap, not a MapLibre rendering issue: table rows, sticky columns, and several supporting panels used hardcoded light backgrounds while text switched to dark-mode colours.
+- System dark mode now receives the same practical coverage as explicit dark mode for the main election pane, feature details, active election catalogue rows, source panels, and `/test2` election support surfaces.
+- The browser contrast fixture verified the formerly risky surfaces at AA-level contrast or better: election table cells, table headers, election pane header, active election row text, feature details summary, and source panels.
