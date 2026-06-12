@@ -390,8 +390,12 @@ assert(
     && electionManagerSource.includes('isSingleSeatFptpResult(result = {})')
     && electionManagerSource.includes("votingSystem !== 'fptp'")
     && electionManagerSource.includes("return 'results'")
-    && electionManagerSource.includes('election-results-table--single-seat-fptp'),
-  '/test2 single-seat FPTP selected results must collapse By Party/By Count into a combined Results table'
+    && electionManagerSource.includes('election-results-table--single-seat-fptp')
+    && electionManagerSource.includes('renderSingleSeatFptpVoteGraphic')
+    && electionManagerSource.includes('test2-fptp-vote-graphic')
+    && test2Css.includes('.test2-fptp-results-layout')
+    && test2Css.includes('.test2-fptp-vote-graphic__bar'),
+  '/test2 single-seat FPTP selected results must collapse By Party/By Count into a combined Results table with a static vote graphic'
 );
 assert(electionManagerSource.includes('getSeatCircleOverlayState') && electionManagerSource.includes('seatCircleOverlayState') && electionManagerSource.includes('visibleGroups'), '/test2 seat-circle drawing order/counts must be deterministic and inspectable like the main overlay DOM order');
 assert(electionManagerSource.includes('dataset.lng') && electionManagerSource.includes('dataset.lat') && electionManagerSource.includes('marker.setLngLat'), '/test2 DOM seat circles must retain geographic anchors and be pinned by MapLibre during pan/zoom');

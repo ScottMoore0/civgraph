@@ -5540,3 +5540,19 @@ Add election entries to /test2
 - Selected constituency-level single-seat FPTP elections now show one `Results` tab instead of separate `By Party` and `By Count` tabs.
 - The combined table includes candidate links, party/label links and colours, votes, vote changes, vote share, vote-share changes, and elected/not-elected status.
 - STV, block-vote, forum/list, local council aggregate, referendum, and recall-petition panes remain on their existing pane contracts.
+
+# Add transfer-style static vote graphic for single-seat FPTP Results panes
+- [x] Record scope and inspect current renderer
+  - Scope: for constituency-level single-seat First Past The Post Results panes on `/test2` and the promoted root, show a static transfer-animation-style vote graphic beside the Results table, using the same candidate order and vote data as the table.
+  - Completed: confirmed the live path is `renderSingleSeatFptpResultsTable` in `test2/src/election-manager.js`, with route validation in `scripts/validate-test2-route.mjs`.
+- [x] Implement static companion vote graphic
+  - Scope: render a non-interactive, accessible graphic using first-preference vote totals, party colours, candidate names, and vote shares; stack it below the table on narrow/mobile layouts.
+  - Completed: added `renderSingleSeatFptpVoteGraphic` beside the single-seat FPTP Results table, using the same normalized row array as the table and responsive/dark-mode CSS for side-by-side desktop and stacked mobile layouts.
+- [x] Add guardrail, rebuild, verify, and push
+  - Scope: validate the renderer and CSS hooks, rebuild `/test2` and root assets, run checks, then commit and push.
+  - Completed: extended `scripts/validate-test2-route.mjs` to assert the static FPTP vote graphic renderer and CSS hooks, rebuilt `/test2` plus the promoted root, and verified with route validation, `npm run check:test2`, and `npm run check`.
+
+## Review: static FPTP vote graphic
+- Single-seat FPTP selected Results panes now render a static transfer-animation-style candidate vote graphic beside the Results table.
+- The graphic uses the exact same normalized candidate rows as the table, including party colours, vote totals, vote share, and elected highlighting.
+- The layout is side-by-side on wider election panes and stacks on narrower/mobile views, with explicit dark-mode coverage for both theme-toggle and system-dark paths.

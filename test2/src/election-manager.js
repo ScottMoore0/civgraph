@@ -1063,50 +1063,114 @@ export class Test2ElectionManager {
   renderSingleSeatFptpResultsTable(candidates = [], result = {}) {
     if (!candidates.length) return '<p class="election-no-data">No result table is available for this entry.</p>';
     const validPoll = numberOrZero(result.validPoll) || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs ?? candidate.votes ?? candidate.finalVotes ?? candidate.total), 0);
+    const rows = candidates.map((candidate, index) => {
+      const votes = numberOrZero(candidate.firstPrefs ?? candidate.votes ?? candidate.finalVotes ?? candidate.total);
+      const votePct = Number.isFinite(Number(candidate.firstPrefPct)) ? Number(candidate.firstPrefPct) : (validPoll ? votes / validPoll * 100 : null);
+      const statusKind = candidate.elected ? 'elected' : selectedPaneStatusKind(candidate.status || candidate.Status);
+      const statusText = candidate.elected
+        ? 'Elected'
+        : (candidate.status || candidate.Status || (statusKind === 'elected' ? 'Elected' : 'Not elected'));
+      const voteDelta = candidate.deltas?.firstPrefs ?? candidate.deltas?.votes ?? candidate.deltas?.total ?? null;
+      const pctDelta = candidate.deltas?.firstPrefPct ?? candidate.deltas?.votePct ?? candidate.deltas?.share ?? null;
+      const colour = safeCssColour(this.mainPanePartyColour(candidate.party, candidate.colour));
+      return {
+        candidate,
+        index,
+        votes,
+        votePct,
+        statusKind,
+        statusText,
+        voteDelta,
+        pctDelta,
+        colour,
+        name: candidate.name || candidate.candidate || '',
+        party: candidate.party || ''
+      };
+    });
     return `
-      <div class="election-party-wrapper election-party-wrapper--pane-sticky">
-        <table class="election-party-table election-party-table--grouped election-party-table--candidate-sticky3 election-results-table--fixed election-results-table--nonlocal election-results-table--single-seat-fptp">
-          <thead>
-            <tr>
-              <th rowspan="2" data-leaf-col-idx="0">#</th>
-              <th rowspan="2" data-leaf-col-idx="1">Candidate</th>
-              <th rowspan="2" data-leaf-col-idx="2">Party</th>
-              <th colspan="4">Votes</th>
-              <th rowspan="2" data-leaf-col-idx="7">Result</th>
-            </tr>
-            <tr>
-              ${this.renderMainParityLeafTh('No.', 3)}
-              ${this.renderMainParityLeafTh('+/-', 4)}
-              ${this.renderMainParityLeafTh('%', 5)}
-              ${this.renderMainParityLeafTh('+/-', 6)}
-            </tr>
-          </thead>
-          <tbody>
-            ${candidates.map((candidate, index) => {
-              const votes = numberOrZero(candidate.firstPrefs ?? candidate.votes ?? candidate.finalVotes ?? candidate.total);
-              const votePct = Number.isFinite(Number(candidate.firstPrefPct)) ? Number(candidate.firstPrefPct) : (validPoll ? votes / validPoll * 100 : null);
-              const statusKind = candidate.elected ? 'elected' : selectedPaneStatusKind(candidate.status || candidate.Status);
-              const statusText = candidate.elected
-                ? 'Elected'
-                : (candidate.status || candidate.Status || (statusKind === 'elected' ? 'Elected' : 'Not elected'));
-              const voteDelta = candidate.deltas?.firstPrefs ?? candidate.deltas?.votes ?? candidate.deltas?.total ?? null;
-              const pctDelta = candidate.deltas?.firstPrefPct ?? candidate.deltas?.votePct ?? candidate.deltas?.share ?? null;
-              return `
-                <tr class="${statusKind === 'elected' ? 'election-row--elected test2-election-table__elected' : ''}">
-                  <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                  <td>${this.renderElectionEntityButton('candidate', candidate.id || `${candidate.name}|${candidate.party}`, candidate.name || candidate.candidate || '', 'election-cell-wrap')}</td>
-                  <td>${this.renderElectionEntityButton('party', candidate.party, `<span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(candidate.party, candidate.colour))}"></span>${escapeHtml(candidate.party || '')}`, 'election-cell-wrap')}</td>
-                  <td class="election-num">${formatNumber(votes)}</td>
-                  <td class="election-num">${voteDelta === null || voteDelta === undefined ? '' : formatMainDelta(voteDelta)}</td>
-                  <td class="election-num">${votePct === null ? '' : formatFixedPercent(votePct)}</td>
-                  <td class="election-num">${pctDelta === null || pctDelta === undefined ? '' : formatMainPercentDelta(pctDelta)}</td>
-                  <td>${escapeHtml(statusText)}</td>
+      <div class="test2-fptp-results-layout">
+        <div class="test2-fptp-results-layout__table">
+          <div class="election-party-wrapper election-party-wrapper--pane-sticky">
+            <table class="election-party-table election-party-table--grouped election-party-table--candidate-sticky3 election-results-table--fixed election-results-table--nonlocal election-results-table--single-seat-fptp">
+              <thead>
+                <tr>
+                  <th rowspan="2" data-leaf-col-idx="0">#</th>
+                  <th rowspan="2" data-leaf-col-idx="1">Candidate</th>
+                  <th rowspan="2" data-leaf-col-idx="2">Party</th>
+                  <th colspan="4">Votes</th>
+                  <th rowspan="2" data-leaf-col-idx="7">Result</th>
                 </tr>
+                <tr>
+                  ${this.renderMainParityLeafTh('No.', 3)}
+                  ${this.renderMainParityLeafTh('+/-', 4)}
+                  ${this.renderMainParityLeafTh('%', 5)}
+                  ${this.renderMainParityLeafTh('+/-', 6)}
+                </tr>
+              </thead>
+              <tbody>
+                ${rows.map((row) => {
+                  const { candidate, index, votes, votePct, statusKind, statusText, voteDelta, pctDelta } = row;
+                  return `
+                    <tr class="${statusKind === 'elected' ? 'election-row--elected test2-election-table__elected' : ''}">
+                      <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
+                      <td>${this.renderElectionEntityButton('candidate', candidate.id || `${row.name}|${row.party}`, escapeHtml(row.name), 'election-cell-wrap')}</td>
+                      <td>${this.renderElectionEntityButton('party', row.party, `<span class="election-party-dot" style="background:${escapeHtml(row.colour)}"></span>${escapeHtml(row.party)}`, 'election-cell-wrap')}</td>
+                      <td class="election-num">${formatNumber(votes)}</td>
+                      <td class="election-num">${voteDelta === null || voteDelta === undefined ? '' : formatMainDelta(voteDelta)}</td>
+                      <td class="election-num">${votePct === null ? '' : formatFixedPercent(votePct)}</td>
+                      <td class="election-num">${pctDelta === null || pctDelta === undefined ? '' : formatMainPercentDelta(pctDelta)}</td>
+                      <td>${escapeHtml(statusText)}</td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        ${this.renderSingleSeatFptpVoteGraphic(rows, validPoll)}
+      </div>
+    `;
+  }
+
+  renderSingleSeatFptpVoteGraphic(rows = [], validPoll = 0) {
+    const visibleRows = rows.filter((row) => row.name || row.party || row.votes > 0);
+    if (!visibleRows.length) return '';
+    const maxVotes = Math.max(1, ...visibleRows.map((row) => numberOrZero(row.votes)));
+    const totalVotes = visibleRows.reduce((sum, row) => sum + numberOrZero(row.votes), 0);
+    return `
+      <aside class="test2-fptp-vote-graphic transfer-animation-preview preview-westminster" aria-label="Static candidate vote graphic">
+        <div class="preview-stage">
+          <div class="test2-fptp-vote-graphic__title">Candidate votes</div>
+          <div class="test2-fptp-vote-graphic__animation" role="list">
+            <div class="test2-fptp-vote-graphic__post" aria-hidden="true"></div>
+            <div class="test2-fptp-vote-graphic__line" aria-hidden="true"></div>
+            ${visibleRows.map((row) => {
+              const barWidth = Math.max(row.votes > 0 ? 6 : 0, Math.min(100, row.votes / maxVotes * 100));
+              const share = Number.isFinite(Number(row.votePct)) ? Number(row.votePct) : (validPoll ? row.votes / validPoll * 100 : (totalVotes ? row.votes / totalVotes * 100 : null));
+              const label = row.name || row.party || `Candidate ${row.index + 1}`;
+              const ariaParts = [
+                label,
+                row.party ? `${row.party}` : '',
+                `${formatNumber(row.votes)} votes`,
+                share === null ? '' : `${formatFixedPercent(share)}`
+              ].filter(Boolean);
+              return `
+                <div class="test2-fptp-vote-graphic__candidate${row.statusKind === 'elected' ? ' test2-fptp-vote-graphic__candidate--elected' : ''}" role="listitem" aria-label="${escapeHtml(ariaParts.join(', '))}">
+                  <div class="test2-fptp-vote-graphic__candidate-label" title="${escapeHtml(label)}">${escapeHtml(label)}</div>
+                  <div class="test2-fptp-vote-graphic__bar" style="--vote-width:${barWidth.toFixed(2)}%;--vote-colour:${escapeHtml(row.colour)};">
+                    <span>${formatNumber(row.votes)}</span>
+                  </div>
+                  <div class="test2-fptp-vote-graphic__meta">${share === null ? '' : formatFixedPercent(share)}</div>
+                </div>
               `;
             }).join('')}
-          </tbody>
-        </table>
-      </div>
+          </div>
+          <div class="preview-footer">
+            <span>Static FPTP result</span>
+            <span class="preview-quota">Max: ${formatNumber(maxVotes)}</span>
+          </div>
+        </div>
+      </aside>
     `;
   }
 
@@ -3829,6 +3893,13 @@ function normalizeName(value) {
 
 function partyColour(value) {
   return PARTY_COLOURS.get(normalizeName(value)) || '#6b7280';
+}
+
+function safeCssColour(value, fallback = '#6b7280') {
+  const text = String(value || '').trim();
+  if (/^#[0-9a-f]{3,8}$/i.test(text)) return text;
+  if (/^rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}(?:\s*,\s*(?:0|1|0?\.\d+))?\s*\)$/i.test(text)) return text;
+  return fallback;
 }
 
 function numberOrZero(value) {
