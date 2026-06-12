@@ -5578,3 +5578,30 @@ Add election entries to /test2
 - Root `index.html` now loads MapLibre runtime assets from `/app/build` and election animation assets from `/app/election-viewer-package`.
 - `/test2` no longer hosts a duplicate app shell; it is a temporary compatibility route for old bookmarks and shared links.
 - The normal production build no longer writes `/test2/build` runtime assets and guardrails now validate the `/app` production namespace.
+
+# Fix Wicklow-Wexford referendum results on MapLibre root
+- [x] Inspect referendum election bundles and geography matching for Wicklow-Wexford
+  - Scope: determine whether Wicklow-Wexford is missing from generated referendum result data, unmatched to the map feature, or hidden by rendering/state logic.
+- [x] Patch the root cause and regenerate artifacts
+  - Scope: update aliases, source parsing, generated sidecars, or rendering as needed so Wicklow-Wexford appears correctly in Irish referendum results.
+- [x] Verify and publish
+  - Scope: run focused audits/checks, confirm the affected referendum entries include/match Wicklow-Wexford, then commit and push.
+  - Completed: updated Irish referendum geography selection so March 2024 family/care referendums use `dail-2017` rather than post-election `dail-2023`, preventing false Wicklow-Wexford matching. Removed the unsafe single-county fallback for older Irish referendums, classified resulting split/merge gaps as aggregation blockers, regenerated election bundles/summaries, and verified with `node scripts/validate-test2-route.mjs`.
+
+# Fix candidate first-preference deltas and theme formatting
+- [x] Inspect candidate-level previous-result matching
+  - Scope: determine how By Candidate rows compute `First pref +/-` and `First pref +/- %`, including by-elections and non-comparable contests.
+- [x] Patch candidate delta semantics
+  - Scope: show numeric deltas only when the same candidate stood in the previous comparable election for that constituency/DEA; otherwise show `N/A`; exclude referendums and recall petitions.
+- [x] Verify formatting in light and dark modes
+  - Scope: ensure number, percentage, and `N/A` cells use the correct positive/negative/neutral styling and remain readable in both themes.
+  - Completed: changed candidate comparisons to use same-name/same-area matching rather than unstable per-election candidate ids or party-only fallbacks. Candidate delta fields now show numeric vote and vote-share changes only when a previous same-candidate result exists, and render a themed `N/A` cell otherwise. Verified with a North Down 2024 vs 2019 smoke check where Alex Easton and Stephen Farry receive real deltas, plus `node scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build`, and `npm run check`.
+
+# Fix Northern Ireland local council mode gaps
+- [x] Inspect council aggregate matching
+  - Scope: determine why Armagh Banbridge Craigavon is missing from at least one NI local election council view and whether other councils are affected.
+- [x] Patch council feature styling and seat-circle parity
+  - Scope: ensure council aggregate features are formatted like election map features and council seat circles follow the promoted main MapLibre/legacy Leaflet parity rules.
+- [x] Verify NI local council mode
+  - Scope: check council counts, feature formatting, and seat-circle placement for recent and historical NI local elections.
+  - Completed: added council feature aliases for the result-name/LGD-feature-name mismatch between `Armagh, Banbridge and Craigavon` and `Armagh City, Banbridge and Craigavon`. District/Council mode now loads the active council feature index for seat-circle anchors before falling back to merged DEA bounds, so council seat-circle groups anchor to council geography rather than DEA sidecars. Verified the 2023 local bundle contains the result council and the LGD 2012 feature index contains the corresponding Armagh City council feature, and added route validation guards for the alias and council-index path.

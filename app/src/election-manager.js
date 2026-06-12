@@ -614,6 +614,7 @@ export class Test2ElectionManager {
     const resultRows = rows.map((row) => ({
       constituency: row.council,
       matchName: row.council,
+      featureAliases: councilFeatureAliases(row.council),
       matched: true,
       winnerParty: row.leadingParty,
       leadingParty: row.leadingParty,
@@ -1046,9 +1047,9 @@ export class Test2ElectionManager {
                   <td>${this.renderElectionEntityButton('candidate', candidate.id || `${candidate.name}|${candidate.party}`, candidate.name || candidate.candidate || '', 'election-cell-wrap')}</td>
                   <td>${this.renderElectionEntityButton('party', candidate.party, `<span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(candidate.party, candidate.colour))}"></span>${escapeHtml(candidate.party || '')}`, 'election-cell-wrap')}</td>
                   <td class="election-num">${formatNumber(firstPrefs)}</td>
-                  <td class="election-num">${candidate.deltas ? formatMainDelta(candidate.deltas.firstPrefs) : ''}</td>
+                  <td class="election-num">${candidate.deltas ? formatMainDelta(candidate.deltas.firstPrefs) : formatNotApplicable()}</td>
                   <td class="election-num">${firstPrefPct === null ? '' : formatFixedPercent(firstPrefPct)}</td>
-                  <td class="election-num">${candidate.deltas?.firstPrefPct !== null && candidate.deltas?.firstPrefPct !== undefined ? formatMainPercentDelta(candidate.deltas.firstPrefPct) : ''}</td>
+                  <td class="election-num">${candidate.deltas?.firstPrefPct !== null && candidate.deltas?.firstPrefPct !== undefined ? formatMainPercentDelta(candidate.deltas.firstPrefPct) : formatNotApplicable()}</td>
                   <td class="election-num">${formatNumber(finalVotes)}</td>
                   <td>${candidate.elected ? 'Elected' : escapeHtml(candidate.status || '')}</td>
                 </tr>
@@ -1116,9 +1117,9 @@ export class Test2ElectionManager {
                       <td>${this.renderElectionEntityButton('candidate', candidate.id || `${row.name}|${row.party}`, escapeHtml(row.name), 'election-cell-wrap')}</td>
                       <td>${this.renderElectionEntityButton('party', row.party, `<span class="election-party-dot" style="background:${escapeHtml(row.colour)}"></span>${escapeHtml(row.party)}`, 'election-cell-wrap')}</td>
                       <td class="election-num">${formatNumber(votes)}</td>
-                      <td class="election-num">${voteDelta === null || voteDelta === undefined ? '' : formatMainDelta(voteDelta)}</td>
+                      <td class="election-num">${voteDelta === null || voteDelta === undefined ? formatNotApplicable() : formatMainDelta(voteDelta)}</td>
                       <td class="election-num">${votePct === null ? '' : formatFixedPercent(votePct)}</td>
-                      <td class="election-num">${pctDelta === null || pctDelta === undefined ? '' : formatMainPercentDelta(pctDelta)}</td>
+                      <td class="election-num">${pctDelta === null || pctDelta === undefined ? formatNotApplicable() : formatMainPercentDelta(pctDelta)}</td>
                       <td>${escapeHtml(statusText)}</td>
                     </tr>
                   `;
@@ -1859,6 +1860,9 @@ export class Test2ElectionManager {
   }
 
   withCandidateDeltas(rows = [], options = {}) {
+    if ((this.activeBundle?.contestType || this.activeEntry?.contestType) !== 'election') {
+      return rows.map((row) => ({ ...row, previous: row.previous || null, deltas: null }));
+    }
     const previousRows = Array.isArray(options.previousRows)
       ? options.previousRows
       : Array.isArray(options.previousResults)
@@ -1866,13 +1870,16 @@ export class Test2ElectionManager {
       : options.mainLike && this.previousBundle?.mainLikeCandidateSummary?.length
       ? this.previousBundle.mainLikeCandidateSummary
       : (this.previousBundle?.results?.length ? buildCandidateSummary(this.previousBundle.results) : []);
-    const candidateKey = (row) => row.candidateKey || `${String(row.name || '').toLowerCase().replace(/\s+/g, ' ').trim()}|${String(row.party || '').toLowerCase().replace(/\s+/g, ' ').trim()}`;
-    const previousByCandidate = new Map(previousRows.map((row) => [candidateKey(row), row]));
-    const hasPreviousElection = previousRows.length > 0;
+    const candidateKey = (row) => {
+      const name = normalizeName(row.name || row.candidateName || row.Candidate_Name || '');
+      const area = normalizeName(row.constituency || row.area || row.dea || '');
+      return [name, area].filter(Boolean).join('|');
+    };
+    const previousByCandidate = new Map(previousRows
+      .map((row) => [candidateKey(row), row])
+      .filter(([key]) => key));
     return rows.map((row) => {
-      const previous = previousByCandidate.get(candidateKey(row)) || (hasPreviousElection
-        ? { firstPrefs: 0, votes: 0, firstPrefPct: 0, constPct: 0 }
-        : null);
+      const previous = row.previous || previousByCandidate.get(candidateKey(row)) || null;
       const currentPct = row.firstPrefPct ?? row.constPct;
       const previousPct = previous?.firstPrefPct ?? previous?.constPct;
       return {
@@ -1992,6 +1999,7 @@ export class Test2ElectionManager {
       constituency: councilName,
       matchName: councilName,
       featureName: councilName,
+      featureAliases: councilFeatureAliases(councilName),
       localBody: councilName,
       matched: true,
       memberResults,
@@ -2277,11 +2285,11 @@ export class Test2ElectionManager {
                   <td><span class="election-cell-wrap">${status === 'Elected' ? '<strong>Elected</strong>' : escapeHtml(status)}</span></td>
                   <td class="election-num election-col-status-count"><span class="election-cell-wrap">${escapeHtml(countValue)}</span></td>
                   <td class="election-num election-cell-strong election-col-votes">${formatNumber(firstPrefs)}</td>
-                  <td class="election-num election-col-delta-votes">${candidate.deltas ? formatMainDelta(candidate.deltas.firstPrefs) : ''}</td>
+                  <td class="election-num election-col-delta-votes">${candidate.deltas ? formatMainDelta(candidate.deltas.firstPrefs) : formatNotApplicable()}</td>
                   <td class="election-num election-col-pct-main">${formatFixedPercent(candidate.firstPrefPct)}</td>
-                  <td class="election-num election-col-pct-delta-main">${candidate.deltas?.firstPrefPct !== null && candidate.deltas?.firstPrefPct !== undefined ? formatMainPercentDelta(candidate.deltas.firstPrefPct) : ''}</td>
+                  <td class="election-num election-col-pct-delta-main">${candidate.deltas?.firstPrefPct !== null && candidate.deltas?.firstPrefPct !== undefined ? formatMainPercentDelta(candidate.deltas.firstPrefPct) : formatNotApplicable()}</td>
                   <td class="election-num election-col-pct-small">${formatFixedPercent(niPct)}</td>
-                  <td class="election-num election-col-pct-delta-small">${niPctDelta !== null && niPctDelta !== undefined ? formatMainPercentDelta(niPctDelta) : ''}</td>
+                  <td class="election-num election-col-pct-delta-small">${niPctDelta !== null && niPctDelta !== undefined ? formatMainPercentDelta(niPctDelta) : formatNotApplicable()}</td>
                 </tr>
               `;
             }).join('')}
@@ -3177,7 +3185,8 @@ export class Test2ElectionManager {
         group.result.winnerParty = summary?.party || '';
         group.result.leadingParty = summary?.party || '';
       }
-      const center = geoBoundsCenter(group.bounds) || (group.centerAccumulator.weight
+      const aggregateCenter = aggregateResult ? this.findCentreForResult(centres, aggregateResult) : null;
+      const center = aggregateCenter || geoBoundsCenter(group.bounds) || (group.centerAccumulator.weight
         ? [group.centerAccumulator.lng / group.centerAccumulator.weight, group.centerAccumulator.lat / group.centerAccumulator.weight]
         : null);
       return this.createSeatCircleGroup(group.result, group.seats, center, group.bounds, group.area);
@@ -3497,6 +3506,8 @@ export class Test2ElectionManager {
   }
 
   async loadFeatureIndex() {
+    const styleLayer = this.getActiveElectionStyleLayer?.();
+    if (styleLayer) return this.loadFeatureIndexForLayer(styleLayer);
     return this.loadFeatureIndexForBundle(this.activeBundle);
   }
 
@@ -3504,7 +3515,16 @@ export class Test2ElectionManager {
     if (!bundle) return null;
     const layer = this.app.metadataService.getLayer(bundle.layerId)
       || this.app.metadataService.getLayer(bundle.sourceMapId);
-    const url = layer?.featureIndexUrl;
+    return this.loadFeatureIndexForLayer(layer);
+  }
+
+  async loadFeatureIndexForLayer(layer) {
+    const resolvedLayer = layer?.featureIndexUrl
+      ? layer
+      : (this.app.metadataService.getLayer(layer?.id)
+        || this.app.metadataService.getLayer(layer?.sourceMapId)
+        || layer);
+    const url = resolvedLayer?.featureIndexUrl;
     if (!url) return null;
     if (this.featureIndexCache.has(url)) return this.featureIndexCache.get(url);
     const response = await fetch(url, { cache: 'force-cache' });
@@ -3614,6 +3634,18 @@ function resultKeys(result) {
       ...(match?.aliases || [])
     ]))
   ].map(normalizeName).filter(Boolean);
+}
+
+function councilFeatureAliases(name = '') {
+  const aliases = new Set([name]);
+  const normalized = normalizeName(name);
+  if (normalized === 'armagh banbridge and craigavon' || normalized === 'armagh city banbridge and craigavon') {
+    aliases.add('Armagh, Banbridge and Craigavon');
+    aliases.add('Armagh Banbridge Craigavon');
+    aliases.add('Armagh City, Banbridge and Craigavon');
+    aliases.add('Armagh City Banbridge Craigavon');
+  }
+  return [...aliases].map((value) => String(value || '').trim()).filter(Boolean);
 }
 
 function resultFeatureLabels(result) {
@@ -4130,6 +4162,10 @@ function formatMainSelectedPercentDelta(value) {
   if (!Number.isFinite(number)) return '';
   const className = number > 0 ? 'election-delta election-delta--pos' : number < 0 ? 'election-delta election-delta--neg' : 'election-delta';
   return `<span class="${className}">${number > 0 ? '+' : ''}${number.toFixed(2)}</span>`;
+}
+
+function formatNotApplicable() {
+  return '<span class="election-na"><em>N/A</em></span>';
 }
 
 function rankLabel(index) {

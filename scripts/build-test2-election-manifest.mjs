@@ -573,14 +573,14 @@ function resolveElectionGeography(entry) {
       if (year >= 2002) return { sourceMapId: 'roi-local-authorities-2002' };
       if (year >= 1992) return { sourceMapId: 'roi-local-authorities-1994' };
     }
-    if (year >= 2024) return { sourceMapId: 'dail-2023' };
+    if (String(entry.date || '') >= '2024-11-29') return { sourceMapId: 'dail-2023' };
     if (year === 2019) return { sourceMapId: 'roi-local-authorities-2024' };
     if (year >= 2017) return { sourceMapId: 'dail-2017' };
     if (year >= 2013) return { sourceMapId: 'dail-2013' };
     if (year >= 2011) return { sourceMapId: 'dail-2009' };
     if (year >= 2002) return { sourceMapId: 'dail-2005' };
     if (year >= 1992) return { sourceMapId: 'dail-1998' };
-    return { sourceMapId: 'roi-counties-2011', singleConstituency: true };
+    return { sourceMapId: 'roi-counties-2011' };
   }
   if (body === 'European Parliament (Ireland)') {
     return sourceByYear(year, [
@@ -1730,11 +1730,11 @@ function classifyUnmatchedConstituency(bundle, constituency) {
     };
   }
 
-  if (body === 'Referendum (Ireland)' && sourceMapId?.startsWith('dail-')) {
+  if (body === 'Referendum (Ireland)' && (sourceMapId?.startsWith('dail-') || sourceMapId === 'roi-counties-2011')) {
     return {
       code: 'referendum-boundary-split-merge',
       parityStatus: 'blocked-on-aggregation',
-      reason: 'The result row is reported on a constituency scheme that is split from, merged into, or otherwise different from the main-site selected Dail boundary layer. This needs aggregation/splitting logic or a more exact boundary source, not a one-to-one alias.'
+      reason: 'The result row is reported on a constituency scheme that is split from, merged into, or otherwise different from the selected referendum display boundary layer. This needs aggregation/splitting logic or a more exact boundary source, not a one-to-one alias.'
     };
   }
 

@@ -2355,3 +2355,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) hard-coded light backgrounds inside reusable surfaces must have late source-order system-dark overrides,
   3) root validation must assert dark coverage for the election pane, feature-info cards, active catalogue rows, and test2-specific panels,
   4) visual checks should include the default no-attribute system-dark state, not only the theme-toggle state.
+
+### 171) Council-mode overlays must use council feature metadata, not DEA fallback metadata
+- Mistake pattern: Fixing NI local-election Council/District result tables while leaving feature matching or seat-circle anchors backed by the DEA election bundle and DEA feature index.
+- Impact: the pane can show council aggregates, but the map can omit a council such as Armagh City/Banbridge/Craigavon, style council features as unmatched, or place council seat circles according to member DEA sidecars instead of the visible council feature.
+- Guardrail:
+  1) Council/District mode must load the active LGD/council feature index before falling back to DEA aggregate bounds,
+  2) result-to-feature aliases must cover official result names that differ from mapped LGD feature names,
+  3) route validation must assert both the alias bridge and the active council-index path,
+  4) focused verification must include a modern 11-council election and a pre-2014 26-council election before closing local-government parity work.

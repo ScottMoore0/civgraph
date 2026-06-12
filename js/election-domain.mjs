@@ -993,16 +993,20 @@ export function compareResults(currentResults = [], previousResults = []) {
     ]));
     const candidates = (result.candidates || []).map((candidate) => {
       const previousCandidate = previousCandidates.get(candidateCompareKey(candidate));
+      const currentFirstPrefPct = result.validPoll ? numberOrZero(candidate.firstPrefs) / result.validPoll * 100 : null;
+      const previousFirstPrefPct = previous?.validPoll && previousCandidate ? numberOrZero(previousCandidate.firstPrefs) / previous.validPoll * 100 : null;
       return {
         ...candidate,
         previous: previousCandidate ? {
           firstPrefs: previousCandidate.firstPrefs,
+          firstPrefPct: previousFirstPrefPct,
           finalVotes: previousCandidate.finalVotes,
           elected: previousCandidate.elected,
           status: previousCandidate.status
         } : null,
         deltas: previousCandidate ? {
           firstPrefs: numberOrZero(candidate.firstPrefs) - numberOrZero(previousCandidate.firstPrefs),
+          firstPrefPct: currentFirstPrefPct !== null && previousFirstPrefPct !== null ? round(currentFirstPrefPct - previousFirstPrefPct, 2) : null,
           finalVotes: numberOrZero(candidate.finalVotes) - numberOrZero(previousCandidate.finalVotes)
         } : null
       };
@@ -1186,5 +1190,5 @@ function summarizeNonTransferableRows(rows = []) {
 }
 
 function candidateCompareKey(candidate = {}) {
-  return normalizeName(candidate.id || `${candidate.name || ''}|${candidate.party || ''}`);
+  return normalizeName(candidate.name || candidate.candidateName || candidate.Candidate_Name || candidate.id || '');
 }

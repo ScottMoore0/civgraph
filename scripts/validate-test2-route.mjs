@@ -290,6 +290,8 @@ const districtResultsSource = districtResultsStart >= 0 && districtResultsEnd > 
 assert(districtResultsSource && !districtResultsSource.includes('return this.renderCouncilResults(view);'), '/test2 District mode must not redirect multi-council NI local elections into a separate By Council tab');
 assert(mainElectionPaneContractSource.includes('isCouncilAggregateResult') && mainElectionPaneContractSource.includes('data-election-local-mode="district">District'), '/test2 local-government selected council panes must use the main DEA/District mode control');
 assert(electionManagerSource.includes('findCouncilAggregateResultByName') && electionManagerSource.includes('renderCouncilAggregateResults') && electionManagerSource.includes("aggregateType === 'council' || aggregateType === 'district'"), '/test2 district-mode LGD features and seat circles must resolve to selected council aggregate panes');
+assert(electionManagerSource.includes('councilFeatureAliases') && electionManagerSource.includes('Armagh City, Banbridge and Craigavon'), '/test2 Council/District mode must bridge official election council names to LGD feature names such as Armagh City, Banbridge and Craigavon');
+assert(electionManagerSource.includes('loadFeatureIndexForLayer(styleLayer)') && electionManagerSource.includes('getActiveElectionStyleLayer?.()') && electionManagerSource.includes('const aggregateCenter = aggregateResult ? this.findCentreForResult(centres, aggregateResult) : null'), '/test2 Council/District seat circles must use the active council feature index before falling back to DEA aggregate bounds');
 assert(electionManagerSource.includes('renderRecallPetitionResult') && electionDomainSource.includes('recallPetition'), '/test2 recall-petition data must be preserved and rendered when available');
 assert(electionManagerSource.includes('renderRecallPetitionOverview') && electionManagerSource.includes('Incumbent'), '/test2 recall-petition UI must include overview and incumbent detail support where data exists');
 assert(electionManagerSource.includes('renderRecallLabels') && electionManagerSource.includes('Petition not successful'), '/test2 recall petitions must expose main-style map labels where recall data is available');
@@ -400,6 +402,14 @@ assert(
     && test2Css.includes('.test2-fptp-vote-graphic__bar'),
   '/test2 single-seat FPTP selected results must collapse By Party/By Count into a combined Results table with a static vote graphic'
 );
+assert(
+  electionDomainSource.includes('const currentFirstPrefPct')
+    && electionDomainSource.includes('firstPrefPct: currentFirstPrefPct')
+    && electionDomainSource.includes('return normalizeName(candidate.name || candidate.candidateName')
+    && electionManagerSource.includes('const previous = row.previous || previousByCandidate.get(candidateKey(row)) || null')
+    && electionManagerSource.includes('formatNotApplicable()'),
+  '/test2 candidate first-preference deltas must compare same-name candidates in the previous comparable contest and show N/A when absent'
+);
 assert(electionManagerSource.includes('getSeatCircleOverlayState') && electionManagerSource.includes('seatCircleOverlayState') && electionManagerSource.includes('visibleGroups'), '/test2 seat-circle drawing order/counts must be deterministic and inspectable like the main overlay DOM order');
 assert(electionManagerSource.includes('dataset.lng') && electionManagerSource.includes('dataset.lat') && electionManagerSource.includes('marker.setLngLat'), '/test2 DOM seat circles must retain geographic anchors and be pinned by MapLibre during pan/zoom');
 assert(electionManagerSource.includes('removeSeatCircleMarkers') && electionManagerSource.includes('marker.remove()'), '/test2 DOM seat-circle markers must be cleaned up when overlays switch or unload');
@@ -471,6 +481,25 @@ if (existsSync('test/metadata/elections-test2.json')) {
   assert(!dail2024ByParty.has('Ceann Comhairle (Speaker)'), '/test2 Dail 2024 bundle must count the automatically returned Ceann Comhairle under party affiliation, not as a standalone contested party row');
   assert(dail2024Bundle.mainLikeTotals?.validPoll === 2202453, '/test2 Dail 2024 bundle must exclude the Ceann Comhairle placeholder from the first-preference valid-poll denominator');
   assert(dail2024Bundle.mainLikeTotals?.totalSeats === 174, '/test2 Dail 2024 bundle must include the automatically returned Ceann Comhairle seat');
+  const family2024ReferendumEntry = (electionManifest.elections || []).find((entry) => entry.key === 'ireland-referendum__2024-03-08-the-family');
+  const care2024ReferendumEntry = (electionManifest.elections || []).find((entry) => entry.key === 'ireland-referendum__2024-03-08-care');
+  assert(family2024ReferendumEntry?.sourceMapId === 'dail-2017' && family2024ReferendumEntry?.matchedCount === 39 && family2024ReferendumEntry?.unmatchedCount === 0, '/test2 2024 family referendum must use the pre-2024 Dail geography, not the post-election Wicklow-Wexford geometry');
+  assert(care2024ReferendumEntry?.sourceMapId === 'dail-2017' && care2024ReferendumEntry?.matchedCount === 39 && care2024ReferendumEntry?.unmatchedCount === 0, '/test2 2024 care referendum must use the pre-2024 Dail geography, not the post-election Wicklow-Wexford geometry');
+  for (const referendumKey of ['ireland-referendum__2024-03-08-the-family', 'ireland-referendum__2024-03-08-care']) {
+    const referendumBundle = JSON.parse(readFileSync(`test/metadata/elections-test2/${referendumKey}.json`, 'utf8'));
+    const wexfordResult = (referendumBundle.results || []).find((result) => result.constituency === 'Wexford');
+    const wicklowResult = (referendumBundle.results || []).find((result) => result.constituency === 'Wicklow');
+    assert(wexfordResult?.featureName === 'Wexford (5)' && wicklowResult?.featureName === 'Wicklow (5)', `/test2 ${referendumKey} must match Wexford/Wicklow referendum rows to the correct pre-2024 Dail features`);
+    assert(!(referendumBundle.results || []).some((result) => /Wicklow-Wexford/i.test(`${result.featureName || ''} ${result.matchName || ''}`)), `/test2 ${referendumKey} must not expose the post-2024 Wicklow-Wexford feature for March 2024 referendum results`);
+  }
+  for (const filename of readdirSync('test/metadata/elections-test2').filter((name) => /^ireland-referendum__.*\.json$/.test(name))) {
+    const referendumBundle = JSON.parse(readFileSync(`test/metadata/elections-test2/${filename}`, 'utf8'));
+    for (const result of referendumBundle.results || []) {
+      const constituency = String(result.constituency || '').toLowerCase();
+      const matchedName = String(result.matchName || result.featureName || '').toLowerCase();
+      assert(!(['wexford', 'wicklow', 'county wexford', 'county wicklow'].includes(constituency) && matchedName.includes('waterford')), `/test2 ${filename} must not match ${result.constituency} referendum results to ${result.matchName || result.featureName}`);
+    }
+  }
   const dail2024IndependentRows = new Map((dail2024Bundle.partySummary || []).map((row) => [row.party, row]));
   for (const [party, row] of dail2024ByParty) {
     const independent = dail2024IndependentRows.get(party);
