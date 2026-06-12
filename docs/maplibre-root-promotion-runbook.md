@@ -57,5 +57,6 @@ Prefer revert over history rewriting. Do not delete `/test2` assets during rollb
 
 ## Notes
 
-- `scripts/bundle.mjs` still builds the archived Leaflet app bundle because it also owns the shared thumbnail manifest and root CSS split. Removing that unused JS output should be a later CSS-pipeline cleanup after the MapLibre root is stable.
+- Normal production builds use `scripts/build-shared-shell-assets.mjs` for the thumbnail manifest, shared CSS split, critical-CSS inlining, and `about.css`. They should not emit `build/app.bundle.js`.
+- The archived Leaflet app can still be built manually with `npm run build:legacy-leaflet` for rollback research or debugging, but that command is intentionally outside the production build path.
 - The root service worker deliberately keeps PMTiles and large election/result payloads out of Cache Storage. Those belong on R2/CDN with normal HTTP cache and byte-range behavior.

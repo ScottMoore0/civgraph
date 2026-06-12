@@ -14,8 +14,11 @@ const rootHtml = read('index.html');
 const test2Html = read('test2/index.html');
 const rootServiceWorker = read('sw.js');
 const appSource = read('test2/src/app.js');
+const sharedAssetBuilder = read('scripts/build-shared-shell-assets.mjs');
+const legacyLeafletBuilder = read('scripts/build-legacy-leaflet-app.mjs');
 const packageJson = JSON.parse(read('package.json'));
 const archiveDocExists = existsSync('archive/leaflet-main-before-maplibre-root-20260612.md');
+const buildScript = String(packageJson.scripts?.build || '');
 
 assert(rootHtml.includes('Root MapLibre shell promoted from /test2'), 'Root index must carry the MapLibre promotion marker.');
 assert(rootHtml.includes('/test2/build/test2.bundle.js'), 'Root index must load the MapLibre /test2 JS runtime.');
@@ -45,9 +48,39 @@ assert(appSource.includes("url: '/sw.js'") && appSource.includes("scope: '/'"), 
 assert(appSource.includes("url: '/test2/sw.js'") && appSource.includes("scope: '/test2/'"), 'MapLibre runtime must preserve the /test2 scoped service worker.');
 
 assert(
-  String(packageJson.scripts?.build || '').includes('promote-test2-root.mjs'),
+  buildScript.includes('promote-test2-root.mjs'),
   'npm run build must promote the MapLibre root deterministically.'
 );
+assert(
+  buildScript.includes('build-shared-shell-assets.mjs'),
+  'npm run build must generate shared CSS/thumbnail/about assets without the legacy Leaflet app bundle.'
+);
+assert(
+  !buildScript.includes('bundle.mjs') && !buildScript.includes('build-legacy-leaflet-app.mjs'),
+  'npm run build must not run the archived Leaflet app bundler.'
+);
+assert(
+  packageJson.scripts?.['build:legacy-leaflet'] === 'node scripts/build-legacy-leaflet-app.mjs',
+  'Archived Leaflet bundle generation must stay available through npm run build:legacy-leaflet.'
+);
+assert(
+  sharedAssetBuilder.includes('assets/css/main.css') &&
+    sharedAssetBuilder.includes('assets/thumbnails') &&
+    sharedAssetBuilder.includes('build/about.css'),
+  'Shared asset builder must own the root CSS, thumbnail manifest, and about.css pipeline.'
+);
+assert(
+  !sharedAssetBuilder.includes("entryPoints: ['js/app.js']") &&
+    !sharedAssetBuilder.includes("hashFile('build/app.bundle.js") &&
+    !sharedAssetBuilder.includes("updateAssetVersion(html, 'build/app.bundle.js"),
+  'Shared asset builder must not bundle or version the archived Leaflet app.'
+);
+assert(
+  legacyLeafletBuilder.includes("entryPoints: ['js/app.js']") &&
+    legacyLeafletBuilder.includes('build/app.bundle.js'),
+  'Legacy Leaflet builder must be explicit and separate from the production build path.'
+);
+assert(!existsSync('build/app.bundle.js'), 'Normal MapLibre production build must not leave build/app.bundle.js behind.');
 assert(
   String(packageJson.scripts?.check || '').includes('check:root') &&
     packageJson.scripts?.['check:root'] === 'node scripts/validate-maplibre-root-promotion.mjs',

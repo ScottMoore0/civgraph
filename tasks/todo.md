@@ -5466,3 +5466,26 @@ Add election entries to /test2
 - The shared `/test2` runtime registers `/sw.js` when it is running as the root site and `/test2/sw.js` when it is running under the compatibility route.
 - Promotion validation now checks the root shell, route-aware service-worker registration, PMTiles range passthrough, `/test2` compatibility runtime loading, and legacy cache cleanup behavior.
 - The cutover and rollback process is documented in `docs/maplibre-root-promotion-runbook.md`, with the Leaflet archive tag retained for emergency restore.
+
+# Separate shared shell assets from legacy Leaflet app build
+- [x] Record scope and current coupling
+  - Scope: stop normal production builds from generating the unused archived Leaflet `build/app.bundle.js`, while preserving shared CSS, thumbnail manifest, about-page CSS, root promotion, and `/test2` compatibility.
+  - Current coupling: `scripts/bundle.mjs` still bundles `js/app.js` because it also owns shared shell asset generation.
+- [x] Add shared shell asset builder
+  - Scope: create a dedicated script for thumbnail manifest generation, critical/deferred CSS splitting, critical-CSS inlining, `about.css`, and shared CSS versioning.
+  - Completed: added `scripts/build-shared-shell-assets.mjs`; normal builds now use it for thumbnail manifest generation, root/test2 critical CSS, shared deferred CSS, `about.css`, and CSS cache versioning. It also removes stale local legacy Leaflet build outputs from the normal production build directory.
+- [x] Keep legacy Leaflet build available separately
+  - Scope: add a dedicated legacy command for archive/debug use without keeping it in the normal production `npm run build` path.
+  - Completed: added `scripts/build-legacy-leaflet-app.mjs` and `npm run build:legacy-leaflet`; verified the manual legacy command still builds the archived Leaflet bundle, then verified the normal build removes it again.
+- [x] Add guardrails
+  - Scope: make validation fail if the normal production build path drifts back to `scripts/bundle.mjs`, the legacy Leaflet bundle, or Leaflet assets.
+  - Completed: extended `scripts/validate-maplibre-root-promotion.mjs` so the production build must use the shared-assets script, must not run the Leaflet bundler, must keep the legacy build command separate, and must not leave `build/app.bundle.js` behind after a normal build.
+- [x] Verify and push
+  - Scope: run build/check paths, confirm root still serves MapLibre and `/test2`, then commit and push the refactor.
+  - Verification evidence: `npm run build`, `npm run build:legacy-leaflet`, `npm run build`, `npm run check`, and `npm run check:test2` passed. After the final normal build, `build/app.bundle.js` and `build/chunks/v116` were absent.
+
+## Review: shared shell asset split
+- Normal production builds no longer run `scripts/bundle.mjs` or emit the archived Leaflet app bundle.
+- Shared shell assets are now built by `scripts/build-shared-shell-assets.mjs`, which owns the thumbnail manifest, critical/deferred CSS split, root and `/test2` critical CSS inlining, `about.css`, CSS versioning, and stale legacy-output cleanup.
+- The archived Leaflet runtime remains available through `npm run build:legacy-leaflet` for rollback investigation without coupling it to production root builds.
+- Root promotion validation now enforces this separation so future changes cannot silently reintroduce `build/app.bundle.js` into the normal production build.
