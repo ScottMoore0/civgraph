@@ -38,7 +38,8 @@ const test = JSON.parse(readFileSync(TEST_PATH, 'utf8'));
 const verifiedConversions = [...(report.skippedExisting || []), ...(report.converted || [])];
 const verifiedSourceIds = new Set(verifiedConversions.map((row) => row.sourceMapId));
 
-const mainById = new Map((main.maps || []).map((map) => [map.id, map]));
+const directMainById = new Map((main.maps || []).map((map) => [map.id, map]));
+const mainById = new Map(directMainById);
 for (const map of main.maps || []) {
   for (const variant of map.variants || []) {
     mainById.set(variant.id, { ...map, ...variant, parentId: map.id, parentName: map.name });
@@ -59,6 +60,18 @@ const regeneratedSourceIds = new Set([
     .filter((row) => row.cloneOf || MANUAL_ALIAS_TARGETS.has(row.sourceMapId))
     .map((row) => row.sourceMapId)
 ]);
+for (const row of plan.rows || []) {
+  const map = directMainById.get(row.sourceMapId);
+  if (!map || !Array.isArray(map.variants) || !map.variants.length) continue;
+  const childIds = unique(map.variants.map((variant) => variant.id).filter(Boolean));
+  const availableIds = new Set([
+    ...(test.layers || []).flatMap((layer) => [layer.sourceMapId, layer.id]).filter(Boolean),
+    ...verifiedSourceIds
+  ]);
+  if (childIds.length && childIds.every((id) => availableIds.has(id))) {
+    regeneratedSourceIds.add(row.sourceMapId);
+  }
+}
 
 const baseLayers = (test.layers || []).filter((layer) => !isGeneratedLayer(layer) || !regeneratedSourceIds.has(layer.sourceMapId));
 const promotedVectorLayers = [];
@@ -104,7 +117,7 @@ const next = {
 };
 
 writeFileSync(TEST_PATH, `${JSON.stringify(next, null, 2)}\n`);
-syncPortPlan([...promotedVectorLayers, ...promotedRasterLayers, ...promotedAliasLayers]);
+syncPortPlan(layers);
 console.log(`Promoted ${promotedVectorLayers.length} vector layer(s).`);
 console.log(`Promoted ${promotedRasterLayers.length} raster layer(s).`);
 console.log(`Promoted ${promotedAliasLayers.length} alias layer(s).`);
@@ -164,7 +177,7 @@ function chooseLayerForDuplicate(current, next) {
 
 function convertedCompositeChildIds(row, directSourceIds) {
   if (row.conversionStatus === 'converted') return [];
-  const map = mainById.get(row.sourceMapId);
+  const map = directMainById.get(row.sourceMapId);
   if (!map) return [];
   const candidates = [
     ...(Array.isArray(map.compositeSources) ? map.compositeSources : []),
@@ -423,6 +436,7 @@ function buildAliasLayer(row, map, target, aliasTargetId = row.cloneOf) {
 }
 
 function refreshLayerIdentity(layer) {
+  layer = refreshLayerCatalogueMetadata(layer);
   if (!layer || ['raster', 'image'].includes(layer.sourceType)) return layer;
   if (layer.promoteId && layer.idProperty) return layer;
   const metadataPath = localMetadataPath(layer.metadataUrl);
@@ -438,6 +452,23 @@ function refreshLayerIdentity(layer) {
     promoteId: layer.promoteId || idProperty,
     idProperty: layer.idProperty || idProperty,
     popupProperties: unique([labelProperty, idProperty, ...(layer.popupProperties || [])]).filter(Boolean)
+  };
+}
+
+function refreshLayerCatalogueMetadata(layer) {
+  if (!layer) return layer;
+  const map = mainById.get(layer.sourceMapId || layer.id);
+  if (!map) return layer;
+  const provider = map.provider !== undefined ? map.provider : layer.provider;
+  const references = map.references !== undefined ? map.references : layer.references;
+  const sourceCredits = map.sourceCredits !== undefined
+    ? map.sourceCredits
+    : creditsFromProvider(provider || layer.provider);
+  return {
+    ...layer,
+    provider: provider || null,
+    references: references || [],
+    sourceCredits: sourceCredits || []
   };
 }
 

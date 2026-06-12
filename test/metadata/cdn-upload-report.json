@@ -1,26 +1,80 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-30T15:47:55.993Z",
+  "generatedAt": "2026-06-12T19:41:53.705Z",
   "bucket": "boundaries-data",
   "dryRun": false,
   "selectedIds": [
-    "roi-counties-2011-vector-test"
+    "eds-connacht-1919-vector-test",
+    "eds-leinster-1957-vector-test",
+    "eds-munster-1955-vector-test",
+    "eds-munster-1965-vector-test",
+    "eds-munster-1966-vector-test",
+    "eds-munster-1970-vector-test",
+    "eds-ulster-1921-vector-test"
   ],
   "totals": {
-    "assets": 1,
-    "processed": 1,
-    "ok": 1,
+    "assets": 7,
+    "processed": 7,
+    "ok": 7,
     "failed": 0,
-    "bytes": 2159255
+    "bytes": 40833522
   },
   "results": [
     {
-      "layerId": "roi-counties-2011-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/roi-counties-2011-vector-test.pmtiles",
+      "layerId": "eds-connacht-1919-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 2159255,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.95.0)\n─────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/roi-counties-2011-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 4573422,
+      "output": "\n ⛅️ wrangler 4.85.0\n───────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "eds-leinster-1957-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 5220201,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.100.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "eds-munster-1955-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-munster-1955-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 7054833,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.100.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-munster-1955-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "eds-ulster-1921-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 2807221,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.100.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "eds-munster-1965-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-munster-1965-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 7056020,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.100.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-munster-1965-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "eds-munster-1966-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-munster-1966-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 7057792,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.100.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-munster-1966-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "eds-munster-1970-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-munster-1970-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 7064033,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.100.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-munster-1970-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     }
   ]
 }

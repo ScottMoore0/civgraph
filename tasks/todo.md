@@ -218,6 +218,37 @@
   - Render the non-transferable row for STV tables even when no explicit non-transferable row exists.
   - Ensure Detailed View `+/- %` uses transfer share rather than valid-poll share or a placeholder.
   - After an elected candidate's surplus has been transferred and their total is held at quota, show later count cells as `-` for that candidate instead of repeating the quota.
+
+# Fix referendum pane labels, tabs, and derived turnout metadata
+- [ ] Record scope
+  - Task: make ROI referendum panes use referendum-specific language and data: `Votes` rather than `1st preferences`, no comparison columns, `Full Results` plus `By Constituency` tabs, proposal passed/not passed rows, and turnout/electorate/spoiled where derivable overall and per constituency.
+  - Expected output: referendum entries no longer inherit ordinary election table headings or tabs, and the generated referendum bundles carry non-zero `totalPoll`/`spoiled` values wherever source electorate and turnout allow calculation.
+- [ ] Patch shared main-pane contract for referendum tabs
+- [ ] Patch visible `/test2` referendum renderers
+- [ ] Patch generator totals for derived referendum total poll/spoiled
+- [ ] Add validation guardrails
+- [ ] Regenerate bundles/indexes and verify
+- [ ] Commit and push scoped changes
+
+# Queue election trends tab
+- [ ] Record scope
+  - Task: add an election-pane `Trends` tab showing vote-share trends over time, defaulting to the active election family and geography, with an all-election-family toggle, top-party/label lines, election-kind markers, and site-consistent styling.
+  - Status: queued until the already in-progress referendum/election-pane corrections are completed, verified, committed, and pushed.
+
+# Queue transfer animation dark-mode and responsive polish
+- [ ] Record scope
+  - Task: make the transfer animation readable in dark mode and ensure the animation surface scales correctly on mobile and other device sizes.
+  - Status: queued behind the election Trends tab, after the current referendum/election-pane fixes are completed and published.
+
+# Queue election pane Count-to-Stage terminology
+- [ ] Record scope
+  - Task: rename visible election-pane table labels from `Count 1`, `Count 2`, etc. to `Stage 1`, `Stage 2`, etc. across relevant views.
+  - Status: queued behind the transfer-animation dark-mode/responsive polish task.
+
+# Queue FPTP party-vs-candidate vote deltas
+- [ ] Record scope
+  - Task: in selected constituency-level First Past The Post election results, expose separate vote-change columns for party/label change and same-candidate change: `Party +/-`, `Party +/- %`, `Candidate +/-`, and `Candidate +/- %`.
+  - Status: queued behind the Count-to-Stage terminology task.
 - [ ] Regenerate and verify
   - Regenerate affected `/test2` election metadata/build outputs if required.
   - Run focused route/election validation and `check:test2`.
@@ -5605,3 +5636,42 @@ Add election entries to /test2
 - [x] Verify NI local council mode
   - Scope: check council counts, feature formatting, and seat-circle placement for recent and historical NI local elections.
   - Completed: added council feature aliases for the result-name/LGD-feature-name mismatch between `Armagh, Banbridge and Craigavon` and `Armagh City, Banbridge and Craigavon`. District/Council mode now loads the active council feature index for seat-circle anchors before falling back to merged DEA bounds, so council seat-circle groups anchor to council geography rather than DEA sidecars. Verified the 2023 local bundle contains the result council and the LGD 2012 feature index contains the corresponding Armagh City council feature, and added route validation guards for the alias and council-index path.
+
+# Fix dark-mode catalogue links, candidate N/A deltas, and FPTP graphic layout
+- [ ] Record scope and inspect displayed paths
+  - Scope: keep the catalogue top labels readable in system and explicit dark mode, show candidate-only missing previous-election deltas as readable `N/A`, and make the single-seat FPTP static vote graphic sit immediately beside the table without quota/post chrome or the `Static FPTP result` caption.
+- [ ] Patch catalogue/election CSS and FPTP renderer
+  - Scope: update `assets/css/main.css`, `app/src/test2.css`, and `app/src/election-manager.js` in the promoted MapLibre runtime path only.
+- [ ] Add guardrails and verify
+  - Scope: extend route/root validation, run checks/build, then commit and push.
+
+# Fix 2024 European ROI Midlands North West elected-party data
+- [ ] Inspect the 2024 European Parliament ROI bundle and selected-result pane data
+  - Scope: determine why Midlands North West lacks elected-party counts and whether the issue is source parsing, generated bundle data, selected-result aggregation, or rendering.
+- [ ] Patch the root cause and regenerate affected artifacts
+  - Scope: ensure elected counts by party display correctly for Midlands North West and any similar European ROI constituency rows.
+- [ ] Verify, commit, and push
+  - Scope: add or update guardrails, run focused checks, then publish.
+
+# Repair newly supplied DED/ward maps and reported catalogue metadata issues
+- [x] Inspect existing map metadata and supplied ZIP
+  - Scope: locate the 1970, 1966, 1965, and 1957 DED/ward files plus the 1954 Dublin ward PDF transcription in `C:\Users\scomo\Downloads\Irish Digitised Boundaries-20260609T191037Z-3-001.zip`, and compare them against existing Republic of Ireland DED/ward map entries.
+  - Completed: inspected the ZIP and confirmed the supplied archive contains Connacht 1919, Ulster 1921, Leinster 1957, Munster 1955/1965/1966/1970, the four text definition files, and the 1954 Dublin ward PDF. No later Leinster FGB files are present, so later all-ROI DED groups explicitly reuse the 1957 Leinster layer and label that reuse.
+- [x] Fix the four DED/ward map load failures
+  - Scope: ensure Leinster and Munster load for all four new DED/ward maps, and that generated layer/file references match the actual archive contents.
+  - Completed: converted/promoted the DED component layers, generated PMTiles, uploaded the seven DED component PMTiles to R2/CDN, verified CDN byte-range support, and updated runtime metadata so the 1957/1965/1966/1970 all-ROI groups resolve through loadable regional child layers.
+- [x] Correct reported map metadata regressions
+  - Scope: remove unintended 1957/1922/1915 sub-map copies from the 1977 county map while preserving intentional ROI/NI submaps; correct Provinces 2019 so it is not just Provinces 1955 without Irish translation; credit Local Authorities 2008 to CSO rather than the collaborator.
+  - Completed: removed stale all-island county variants from the counties group, kept intentional ROI/NI county submaps, changed Provinces 2019 to reuse the enriched 1955 geometry with Irish names retained, and changed Local Authorities 2008 crediting/reference metadata to CSO.
+- [x] Regenerate and verify
+  - Scope: rebuild affected catalogue/generated metadata, run focused checks that catch these exact regressions, then commit and push.
+  - Completed: rebuilt catalogue/test metadata, regenerated the CDN manifest, restored the accidentally dropped `pc-2023-vector-test` runtime layer, and added validation coverage for DED group child resolution, stale county variants, Provinces 2019 Irish-name preservation, and Local Authorities 2008 CSO crediting.
+
+## Review: DED/ward map repair and metadata corrections
+- Verification passed: `npm run check:test2`, `npm run build`, and `npm run check`.
+- CDN/R2 status: newly promoted DED component PMTiles were uploaded and byte-range verified; the regenerated CDN manifest now covers all 544 unique PMTiles URLs with zero validation warnings.
+- Recurring issue guardrail:
+  - Symptom: grouped catalogue entries could point at stale direct generated layers or drop existing sibling layers during promotion.
+  - Root cause: promotion logic mixed direct parent map IDs with variant/source child IDs and scoped CDN/PMTiles regeneration did not prove every runtime layer remained represented.
+  - Permanent prevention action: `scripts/validate-test2-route.mjs` now checks grouped DED parent resolution, stale counties variants, Local Authorities 2008 attribution, and Provinces Irish-name preservation; `scripts/promote-test-converted-layers.mjs` now separates direct map IDs from variant/source IDs and refreshes layer catalogue metadata.
+  - Verification evidence: `npm run check:test2` reports 605 PMTiles layers, 544 unique URLs, PMTiles/CDN errors 0, and warnings 0 after restoring unrelated runtime layers and regenerating the CDN manifest.

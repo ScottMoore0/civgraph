@@ -8,16 +8,19 @@
   "dateAdded": null,
   "dateEffective": null,
   "provider": [
-    "Phelim Birch"
+    "Phelim Birch",
+    "Paddy Matthews"
   ],
   "description": "Electoral divisions for the three Ulster counties in the Republic of Ireland (Cavan, Donegal, Monaghan). 1921 boundaries.",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
   "tiles": "/test/tiles/generated/eds-ulster-1921/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/eds-ulster-1921/{z}/{x}/{y}.pbf",
   "metadataUrl": "/test/tiles/generated/eds-ulster-1921/metadata.json",
   "sourceLayer": "eds_ulster_1921",
-  "promoteId": "ED_ID",
+  "promoteId": "GUID",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -36,20 +39,58 @@
     "fillOpacity": 0.18,
     "weight": 2
   },
-  "references": [],
+  "references": [
+    {
+      "label": "District Electoral Divisions/Wards 1970 source notes",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1970.txt",
+      "note": "Sidecar notes supplied in Irish Digitised Boundaries archive."
+    },
+    {
+      "label": "Minutes of Dublin City Council 1954 Item 144"
+    },
+    {
+      "label": "Dublin City Popular Edition, 1953"
+    },
+    {
+      "label": "Irish Townland and Historical Map Viewer, 6 Inch Last Edition basemap"
+    },
+    {
+      "label": "1958 Geographia Plan of Dublin"
+    },
+    {
+      "label": "1945 Geographia Plan of Dublin"
+    },
+    {
+      "label": "Paddy Matthews 1921 Wards/DEDs map"
+    },
+    {
+      "label": "National Archives 1926 census wards/DEDs map"
+    },
+    {
+      "label": "Dublin ward definitions 1954 PDF transcription",
+      "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/Dublin%20Wards%2014-06-1954%20(Minutes%20of%20Dublin%20City%20Council%201954%20Item%20144).pdf",
+      "note": "Named in the 1970 source notes as a Dublin ward source."
+    }
+  ],
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
-      "file": "test/source-cache/vector-intake/eds-ulster-1921.fgb"
+      "file": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb"
     }
   ],
   "sourceCredits": [
-    "Phelim Birch"
+    "Phelim Birch",
+    "Paddy Matthews"
   ],
   "keywords": [
-    "ulster",
-    "ED",
-    "1921",
+    "electoral division",
+    "district electoral division",
+    "DED",
+    "ward",
+    "1970",
+    "republic of ireland",
+    "historic",
+    "small electoral units",
     "Ulster (ROI) Electoral Divisions 1921 (Cavan/Donegal/Monaghan)",
     "Electoral Divisions",
     "Built Environment",
@@ -76,18 +117,18 @@
     "lineHeight": 1.25
   },
   "featureIndexUrl": "/test/metadata/feature-indexes/eds-ulster-1921-vector-test.json",
-  "sourceFile": "test/source-cache/vector-intake/eds-ulster-1921.fgb",
-  "sourceDatasetLayer": "eds-ulster-1921",
-  "idProperty": "ED_ID",
+  "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+  "sourceDatasetLayer": "DEDs_Ulster_1921",
+  "idProperty": "GUID",
   "popupProperties": [
     "ENGLISH",
-    "ED_ID",
+    "GUID",
     "ESRI_OID",
+    "ED_ID",
     "GAEILGE",
     "CONTAE",
     "COUNTY",
     "PROVINCE",
-    "GUID",
     "CENTROID_X",
     "CENTROID_Y"
   ],
@@ -258,29 +299,26 @@
     ]
   },
   "status": "converted",
-  "notes": "Generated from test/source-cache/vector-intake/eds-ulster-1921.fgb with GDAL MVT output.",
+  "notes": "Generated from test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb with GDAL MVT output.",
   "generatedFrom": {
     "pipeline": "build-test-vector-batch",
-    "sourceFile": "test/source-cache/vector-intake/eds-ulster-1921.fgb",
-    "bytes": 4309441,
+    "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+    "bytes": 4309501,
     "files": 554,
     "pbfFiles": 553,
-    "maxTileBytes": 87594
+    "maxTileBytes": 87597
   },
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles",
-  "tilesFallback": "/test/tiles/generated/eds-ulster-1921/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
     "localPath": "test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles",
     "url": "/test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles",
-    "bytes": 2807238,
+    "bytes": 2807221,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-05-29T23:46:15.302Z",
     "fallback": "/test/tiles/generated/eds-ulster-1921/{z}/{x}/{y}.pbf",
     "serving": "cdn",
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles",
     "localUrl": "/test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+    "byteRangeVerifiedAt": "2026-06-12T19:42:33.886Z"
   }
 }

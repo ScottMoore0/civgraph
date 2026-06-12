@@ -2364,3 +2364,30 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) result-to-feature aliases must cover official result names that differ from mapped LGD feature names,
   3) route validation must assert both the alias bridge and the active council-index path,
   4) focused verification must include a modern 11-council election and a pre-2014 26-council election before closing local-government parity work.
+
+### 172) Candidate deltas and dark-mode labels must be validated on the visible production path
+- Mistake pattern: Treating generated zero-baseline candidate rows as real previous candidate appearances, and adding dark-mode CSS only for explicit `[data-theme="dark"]` while screenshots can be in system-dark mode.
+- Impact: candidate `+/-` cells can show misleading numeric changes where the candidate did not stand previously, and top catalogue labels or `N/A` cells can be unreadable in dark mode.
+- Guardrail:
+  1) candidate-level deltas may use an explicit previous row only when its same-candidate/same-area key matches the current row,
+  2) absent candidate comparisons must render through the shared `formatNotApplicable()` path,
+  3) every contrast fix must include both explicit dark mode and `:root:not([data-theme="light"])` system-dark mode,
+  4) validation must assert the visible MapLibre/election-manager renderer path, not only generated bundle helpers.
+
+### 173) Grouped map promotion must distinguish parent rows from child/variant layers
+- Mistake pattern: Treating a catalogue group ID, a direct generated map layer ID, and child variant/source map IDs as interchangeable during promotion.
+- Impact: a grouped parent such as an all-ROI DED/ward map can keep stale direct layers, miss loadable child layers, or remove unrelated existing runtime layers such as `pc-2023-vector-test`.
+- Guardrail:
+  1) promotion code must keep a direct-map index separate from source/variant lookup indexes,
+  2) grouped parent validation must prove every loadable child layer exists and stale direct generated layers are absent,
+  3) scoped generation must rerun route validation and election unmatched audits before commit,
+  4) CDN manifest validation must be regenerated after restoring or adding any PMTiles runtime layer.
+
+### 174) Supplied boundary archives must be represented by actual source files, not inferred dates
+- Mistake pattern: Creating dated catalogue variants from an archive description without verifying that every province/region source file for that date exists.
+- Impact: maps can advertise a complete dated layer while a region such as Leinster or Munster fails to load or silently points at the wrong boundary vintage.
+- Guardrail:
+  1) inspect archive contents before adding dated boundary maps,
+  2) when a region reuses an earlier geometry because no later file exists, state that reuse in the label, description, references, and downloads,
+  3) add route validation for each grouped layer to prove all child references resolve,
+  4) keep source-provider corrections in canonical catalogue metadata and sync generated runtime metadata from it.

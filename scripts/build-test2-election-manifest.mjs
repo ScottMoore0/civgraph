@@ -956,11 +956,26 @@ function buildFeatureMatchFields(featureMatches, match, syntheticRegion) {
 
 function buildLayerLookup(layers) {
   const lookup = new Map();
+  const defaultVariantByParent = new Map();
   for (const layer of layers) {
     if (layer.id) lookup.set(layer.id, layer);
-    if (layer.sourceMapId) lookup.set(layer.sourceMapId, layer);
+    if (layer.sourceMapId) {
+      lookup.set(layer.sourceMapId, layer);
+      const parentSourceMapId = parentMapIdForVariant(layer.sourceMapId);
+      if (parentSourceMapId && !defaultVariantByParent.has(parentSourceMapId)) {
+        defaultVariantByParent.set(parentSourceMapId, layer);
+      }
+    }
+  }
+  for (const [sourceMapId, layer] of defaultVariantByParent) {
+    if (!lookup.has(sourceMapId)) lookup.set(sourceMapId, layer);
   }
   return lookup;
+}
+
+function parentMapIdForVariant(sourceMapId) {
+  const match = String(sourceMapId || '').match(/^(.*)-v\d+$/);
+  return match ? match[1] : null;
 }
 
 function loadFeatureIndexes(layers) {

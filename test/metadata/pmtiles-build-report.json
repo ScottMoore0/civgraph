@@ -1,44 +1,83 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-05-30T15:47:38.642Z",
+  "generatedAt": "2026-06-12T19:18:26.410Z",
   "mode": "execute",
   "tools": {
-    "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
-    "ogrinfo": "C:\\Program Files\\GDAL\\ogrinfo.exe",
-    "sqlite3": "C:\\Program Files\\GDAL\\sqlite3.exe"
+    "ogr2ogr": "",
+    "ogrinfo": "",
+    "sqlite3": ""
   },
   "constrainedPath": "GDAL PMTiles driver",
-  "pmtilesDriver": true,
+  "pmtilesDriver": false,
   "outputDirectory": "test/pmtiles/generated",
   "maxGithubBytes": 99614720,
   "totals": {
-    "candidates": 1,
-    "converted": 1,
-    "skipped": 0,
+    "candidates": 7,
+    "converted": 0,
+    "skipped": 7,
     "failed": 0,
-    "metadataPreferred": 1,
+    "metadataPreferred": 0,
     "oversizedArchives": 0
   },
-  "converted": [
+  "converted": [],
+  "skipped": [
     {
-      "layerId": "roi-counties-2011-vector-test",
-      "sourceMapId": "roi-counties-2011",
-      "name": "Counties of Ireland",
-      "sourceType": "mvt",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/roi-counties-2011-vector-test.pmtiles",
-      "bytes": 2159255,
-      "exceedsGithubBudget": false
+      "layerId": "eds-connacht-1919-vector-test",
+      "sourceMapId": "eds-connacht-1919",
+      "name": "Connacht District Electoral Divisions 1919",
+      "sourceType": "pmtiles",
+      "status": "missing-gdal-pmtiles-driver",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb"
+    },
+    {
+      "layerId": "eds-leinster-1957-vector-test",
+      "sourceMapId": "eds-leinster-1957",
+      "name": "Leinster District Electoral Divisions/Wards 1957",
+      "sourceType": "pmtiles",
+      "status": "missing-gdal-pmtiles-driver",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb"
+    },
+    {
+      "layerId": "eds-munster-1955-vector-test",
+      "sourceMapId": "eds-munster-1955",
+      "name": "Munster District Electoral Divisions/Wards 1955",
+      "sourceType": "pmtiles",
+      "status": "missing-gdal-pmtiles-driver",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1955.fgb"
+    },
+    {
+      "layerId": "eds-ulster-1921-vector-test",
+      "sourceMapId": "eds-ulster-1921",
+      "name": "Ulster (ROI) Electoral Divisions 1921 (Cavan/Donegal/Monaghan)",
+      "sourceType": "pmtiles",
+      "status": "missing-gdal-pmtiles-driver",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb"
+    },
+    {
+      "layerId": "eds-munster-1965-vector-test",
+      "sourceMapId": "eds-munster-1965",
+      "name": "Munster District Electoral Divisions/Wards 1965",
+      "sourceType": "pmtiles",
+      "status": "missing-gdal-pmtiles-driver",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1965.fgb"
+    },
+    {
+      "layerId": "eds-munster-1966-vector-test",
+      "sourceMapId": "eds-munster-1966",
+      "name": "Munster District Electoral Divisions/Wards 1966",
+      "sourceType": "pmtiles",
+      "status": "missing-gdal-pmtiles-driver",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1966.fgb"
+    },
+    {
+      "layerId": "eds-munster-1970-vector-test",
+      "sourceMapId": "eds-munster-1970",
+      "name": "Munster District Electoral Divisions/Wards 1970",
+      "sourceType": "pmtiles",
+      "status": "missing-gdal-pmtiles-driver",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1970.fgb"
     }
   ],
-  "skipped": [],
   "failed": [],
   "notes": [
     "Archives at or above the configured GitHub size budget are generated but not preferred in maps-test.json.",

@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
   "mode": "execute",
-  "generatedAt": "2026-05-30T15:43:22.845Z",
+  "generatedAt": "2026-06-12T19:17:12.037Z",
   "tool": "ogr2ogr GDAL MVT",
   "tippecanoeAvailable": false,
-  "perLayerTimeoutMs": 900000,
+  "perLayerTimeoutMs": 600000,
   "totals": {
-    "vectorRows": 2,
-    "feasibleLocalCandidates": 1,
+    "vectorRows": 137,
+    "feasibleLocalCandidates": 23,
     "skipped": 0,
-    "selected": 1,
-    "converted": 1,
-    "skippedExisting": 0,
+    "selected": 23,
+    "converted": 0,
+    "skippedExisting": 23,
     "failed": 0
   },
   "notes": [
@@ -21,47 +21,701 @@
   ],
   "candidates": [
     {
-      "sourceMapId": "roi-counties-2011",
-      "name": "Counties of Ireland",
-      "category": "Counties",
-      "sourceFile": "data/maps/baronies-parishes/ROI_Counties_2011.fgb",
-      "sourceBytes": 1740400,
-      "outputDirectory": "test/tiles/generated/roi-counties-2011"
+      "sourceMapId": "eds-connacht-1919",
+      "name": "District Electoral Divisions/Wards 1957",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
+      "sourceBytes": 25857808,
+      "outputDirectory": "test/tiles/generated/eds-connacht-1919"
+    },
+    {
+      "sourceMapId": "eds-leinster-1957",
+      "name": "District Electoral Divisions/Wards 1957",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
+      "sourceBytes": 29533936,
+      "outputDirectory": "test/tiles/generated/eds-leinster-1957"
+    },
+    {
+      "sourceMapId": "eds-munster-1955",
+      "name": "District Electoral Divisions/Wards 1957",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1955.fgb",
+      "sourceBytes": 42867744,
+      "outputDirectory": "test/tiles/generated/eds-munster-1955"
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "name": "District Electoral Divisions/Wards 1957",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+      "sourceBytes": 14263432,
+      "outputDirectory": "test/tiles/generated/eds-ulster-1921"
+    },
+    {
+      "sourceMapId": "eds-connacht-1919",
+      "name": "District Electoral Divisions/Wards 1965",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
+      "sourceBytes": 25857808,
+      "outputDirectory": "test/tiles/generated/eds-connacht-1919"
+    },
+    {
+      "sourceMapId": "eds-leinster-1957",
+      "name": "District Electoral Divisions/Wards 1965",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
+      "sourceBytes": 29533936,
+      "outputDirectory": "test/tiles/generated/eds-leinster-1957"
+    },
+    {
+      "sourceMapId": "eds-munster-1965",
+      "name": "District Electoral Divisions/Wards 1965",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1965.fgb",
+      "sourceBytes": 42880528,
+      "outputDirectory": "test/tiles/generated/eds-munster-1965"
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "name": "District Electoral Divisions/Wards 1965",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+      "sourceBytes": 14263432,
+      "outputDirectory": "test/tiles/generated/eds-ulster-1921"
+    },
+    {
+      "sourceMapId": "eds-connacht-1919",
+      "name": "District Electoral Divisions/Wards 1966",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
+      "sourceBytes": 25857808,
+      "outputDirectory": "test/tiles/generated/eds-connacht-1919"
+    },
+    {
+      "sourceMapId": "eds-leinster-1957",
+      "name": "District Electoral Divisions/Wards 1966",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
+      "sourceBytes": 29533936,
+      "outputDirectory": "test/tiles/generated/eds-leinster-1957"
+    },
+    {
+      "sourceMapId": "eds-munster-1966",
+      "name": "District Electoral Divisions/Wards 1966",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1966.fgb",
+      "sourceBytes": 42895448,
+      "outputDirectory": "test/tiles/generated/eds-munster-1966"
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "name": "District Electoral Divisions/Wards 1966",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+      "sourceBytes": 14263432,
+      "outputDirectory": "test/tiles/generated/eds-ulster-1921"
+    },
+    {
+      "sourceMapId": "eds-connacht-1919",
+      "name": "District Electoral Divisions/Wards 1970",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
+      "sourceBytes": 25857808,
+      "outputDirectory": "test/tiles/generated/eds-connacht-1919"
+    },
+    {
+      "sourceMapId": "eds-leinster-1957",
+      "name": "District Electoral Divisions/Wards 1970",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
+      "sourceBytes": 29533936,
+      "outputDirectory": "test/tiles/generated/eds-leinster-1957"
+    },
+    {
+      "sourceMapId": "eds-munster-1970",
+      "name": "District Electoral Divisions/Wards 1970",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1970.fgb",
+      "sourceBytes": 42923984,
+      "outputDirectory": "test/tiles/generated/eds-munster-1970"
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "name": "District Electoral Divisions/Wards 1970",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+      "sourceBytes": 14263432,
+      "outputDirectory": "test/tiles/generated/eds-ulster-1921"
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "name": "Ulster (ROI) Electoral Divisions 1921 (Cavan/Donegal/Monaghan)",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+      "sourceBytes": 14263432,
+      "outputDirectory": "test/tiles/generated/eds-ulster-1921"
+    },
+    {
+      "sourceMapId": "eds-connacht-1919",
+      "name": "Connacht District Electoral Divisions 1919",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
+      "sourceBytes": 25857808,
+      "outputDirectory": "test/tiles/generated/eds-connacht-1919"
+    },
+    {
+      "sourceMapId": "eds-leinster-1957",
+      "name": "Leinster District Electoral Divisions/Wards 1957",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
+      "sourceBytes": 29533936,
+      "outputDirectory": "test/tiles/generated/eds-leinster-1957"
+    },
+    {
+      "sourceMapId": "eds-munster-1955",
+      "name": "Munster District Electoral Divisions/Wards 1955",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1955.fgb",
+      "sourceBytes": 42867744,
+      "outputDirectory": "test/tiles/generated/eds-munster-1955"
+    },
+    {
+      "sourceMapId": "eds-munster-1965",
+      "name": "Munster District Electoral Divisions/Wards 1965",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1965.fgb",
+      "sourceBytes": 42880528,
+      "outputDirectory": "test/tiles/generated/eds-munster-1965"
+    },
+    {
+      "sourceMapId": "eds-munster-1966",
+      "name": "Munster District Electoral Divisions/Wards 1966",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1966.fgb",
+      "sourceBytes": 42895448,
+      "outputDirectory": "test/tiles/generated/eds-munster-1966"
+    },
+    {
+      "sourceMapId": "eds-munster-1970",
+      "name": "Munster District Electoral Divisions/Wards 1970",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1970.fgb",
+      "sourceBytes": 42923984,
+      "outputDirectory": "test/tiles/generated/eds-munster-1970"
     }
   ],
   "selected": [
     {
-      "sourceMapId": "roi-counties-2011",
-      "name": "Counties of Ireland",
-      "category": "Counties",
-      "sourceFile": "data/maps/baronies-parishes/ROI_Counties_2011.fgb",
-      "sourceBytes": 1740400,
-      "outputDirectory": "test/tiles/generated/roi-counties-2011"
-    }
-  ],
-  "skippedExisting": [],
-  "converted": [
+      "sourceMapId": "eds-connacht-1919",
+      "name": "District Electoral Divisions/Wards 1957",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
+      "sourceBytes": 25857808,
+      "outputDirectory": "test/tiles/generated/eds-connacht-1919"
+    },
     {
-      "sourceMapId": "roi-counties-2011",
-      "name": "Counties of Ireland",
-      "category": "Counties",
-      "sourceFile": "data/maps/baronies-parishes/ROI_Counties_2011.fgb",
-      "sourceBytes": 1740400,
-      "outputDirectory": "test/tiles/generated/roi-counties-2011",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "sourceLayer": "roi_counties_2011",
-      "files": 3327,
-      "pbfFiles": 3326,
-      "bytes": 3306584,
-      "maxTileBytes": 46364
+      "sourceMapId": "eds-leinster-1957",
+      "name": "District Electoral Divisions/Wards 1957",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
+      "sourceBytes": 29533936,
+      "outputDirectory": "test/tiles/generated/eds-leinster-1957"
+    },
+    {
+      "sourceMapId": "eds-munster-1955",
+      "name": "District Electoral Divisions/Wards 1957",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1955.fgb",
+      "sourceBytes": 42867744,
+      "outputDirectory": "test/tiles/generated/eds-munster-1955"
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "name": "District Electoral Divisions/Wards 1957",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+      "sourceBytes": 14263432,
+      "outputDirectory": "test/tiles/generated/eds-ulster-1921"
+    },
+    {
+      "sourceMapId": "eds-connacht-1919",
+      "name": "District Electoral Divisions/Wards 1965",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
+      "sourceBytes": 25857808,
+      "outputDirectory": "test/tiles/generated/eds-connacht-1919"
+    },
+    {
+      "sourceMapId": "eds-leinster-1957",
+      "name": "District Electoral Divisions/Wards 1965",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
+      "sourceBytes": 29533936,
+      "outputDirectory": "test/tiles/generated/eds-leinster-1957"
+    },
+    {
+      "sourceMapId": "eds-munster-1965",
+      "name": "District Electoral Divisions/Wards 1965",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1965.fgb",
+      "sourceBytes": 42880528,
+      "outputDirectory": "test/tiles/generated/eds-munster-1965"
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "name": "District Electoral Divisions/Wards 1965",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+      "sourceBytes": 14263432,
+      "outputDirectory": "test/tiles/generated/eds-ulster-1921"
+    },
+    {
+      "sourceMapId": "eds-connacht-1919",
+      "name": "District Electoral Divisions/Wards 1966",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
+      "sourceBytes": 25857808,
+      "outputDirectory": "test/tiles/generated/eds-connacht-1919"
+    },
+    {
+      "sourceMapId": "eds-leinster-1957",
+      "name": "District Electoral Divisions/Wards 1966",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
+      "sourceBytes": 29533936,
+      "outputDirectory": "test/tiles/generated/eds-leinster-1957"
+    },
+    {
+      "sourceMapId": "eds-munster-1966",
+      "name": "District Electoral Divisions/Wards 1966",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1966.fgb",
+      "sourceBytes": 42895448,
+      "outputDirectory": "test/tiles/generated/eds-munster-1966"
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "name": "District Electoral Divisions/Wards 1966",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+      "sourceBytes": 14263432,
+      "outputDirectory": "test/tiles/generated/eds-ulster-1921"
+    },
+    {
+      "sourceMapId": "eds-connacht-1919",
+      "name": "District Electoral Divisions/Wards 1970",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
+      "sourceBytes": 25857808,
+      "outputDirectory": "test/tiles/generated/eds-connacht-1919"
+    },
+    {
+      "sourceMapId": "eds-leinster-1957",
+      "name": "District Electoral Divisions/Wards 1970",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
+      "sourceBytes": 29533936,
+      "outputDirectory": "test/tiles/generated/eds-leinster-1957"
+    },
+    {
+      "sourceMapId": "eds-munster-1970",
+      "name": "District Electoral Divisions/Wards 1970",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1970.fgb",
+      "sourceBytes": 42923984,
+      "outputDirectory": "test/tiles/generated/eds-munster-1970"
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "name": "District Electoral Divisions/Wards 1970",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+      "sourceBytes": 14263432,
+      "outputDirectory": "test/tiles/generated/eds-ulster-1921"
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "name": "Ulster (ROI) Electoral Divisions 1921 (Cavan/Donegal/Monaghan)",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+      "sourceBytes": 14263432,
+      "outputDirectory": "test/tiles/generated/eds-ulster-1921"
+    },
+    {
+      "sourceMapId": "eds-connacht-1919",
+      "name": "Connacht District Electoral Divisions 1919",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
+      "sourceBytes": 25857808,
+      "outputDirectory": "test/tiles/generated/eds-connacht-1919"
+    },
+    {
+      "sourceMapId": "eds-leinster-1957",
+      "name": "Leinster District Electoral Divisions/Wards 1957",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
+      "sourceBytes": 29533936,
+      "outputDirectory": "test/tiles/generated/eds-leinster-1957"
+    },
+    {
+      "sourceMapId": "eds-munster-1955",
+      "name": "Munster District Electoral Divisions/Wards 1955",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1955.fgb",
+      "sourceBytes": 42867744,
+      "outputDirectory": "test/tiles/generated/eds-munster-1955"
+    },
+    {
+      "sourceMapId": "eds-munster-1965",
+      "name": "Munster District Electoral Divisions/Wards 1965",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1965.fgb",
+      "sourceBytes": 42880528,
+      "outputDirectory": "test/tiles/generated/eds-munster-1965"
+    },
+    {
+      "sourceMapId": "eds-munster-1966",
+      "name": "Munster District Electoral Divisions/Wards 1966",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1966.fgb",
+      "sourceBytes": 42895448,
+      "outputDirectory": "test/tiles/generated/eds-munster-1966"
+    },
+    {
+      "sourceMapId": "eds-munster-1970",
+      "name": "Munster District Electoral Divisions/Wards 1970",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1970.fgb",
+      "sourceBytes": 42923984,
+      "outputDirectory": "test/tiles/generated/eds-munster-1970"
     }
   ],
+  "skippedExisting": [
+    {
+      "sourceMapId": "eds-connacht-1919",
+      "name": "District Electoral Divisions/Wards 1957",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
+      "sourceBytes": 25857808,
+      "outputDirectory": "test/tiles/generated/eds-connacht-1919",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_connacht_1919",
+      "files": 949,
+      "pbfFiles": 948,
+      "bytes": 6704563,
+      "maxTileBytes": 112386
+    },
+    {
+      "sourceMapId": "eds-leinster-1957",
+      "name": "District Electoral Divisions/Wards 1957",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
+      "sourceBytes": 29533936,
+      "outputDirectory": "test/tiles/generated/eds-leinster-1957",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_leinster_1957",
+      "files": 947,
+      "pbfFiles": 946,
+      "bytes": 7625245,
+      "maxTileBytes": 181402
+    },
+    {
+      "sourceMapId": "eds-munster-1955",
+      "name": "District Electoral Divisions/Wards 1957",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1955.fgb",
+      "sourceBytes": 42867744,
+      "outputDirectory": "test/tiles/generated/eds-munster-1955",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_munster_1955",
+      "files": 1187,
+      "pbfFiles": 1186,
+      "bytes": 10690860,
+      "maxTileBytes": 138031
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "name": "District Electoral Divisions/Wards 1957",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+      "sourceBytes": 14263432,
+      "outputDirectory": "test/tiles/generated/eds-ulster-1921",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_ulster_1921",
+      "files": 554,
+      "pbfFiles": 553,
+      "bytes": 4309501,
+      "maxTileBytes": 87597
+    },
+    {
+      "sourceMapId": "eds-connacht-1919",
+      "name": "District Electoral Divisions/Wards 1965",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
+      "sourceBytes": 25857808,
+      "outputDirectory": "test/tiles/generated/eds-connacht-1919",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_connacht_1919",
+      "files": 949,
+      "pbfFiles": 948,
+      "bytes": 6704563,
+      "maxTileBytes": 112386
+    },
+    {
+      "sourceMapId": "eds-leinster-1957",
+      "name": "District Electoral Divisions/Wards 1965",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
+      "sourceBytes": 29533936,
+      "outputDirectory": "test/tiles/generated/eds-leinster-1957",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_leinster_1957",
+      "files": 947,
+      "pbfFiles": 946,
+      "bytes": 7625245,
+      "maxTileBytes": 181402
+    },
+    {
+      "sourceMapId": "eds-munster-1965",
+      "name": "District Electoral Divisions/Wards 1965",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1965.fgb",
+      "sourceBytes": 42880528,
+      "outputDirectory": "test/tiles/generated/eds-munster-1965",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_munster_1965",
+      "files": 1187,
+      "pbfFiles": 1186,
+      "bytes": 10692886,
+      "maxTileBytes": 138059
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "name": "District Electoral Divisions/Wards 1965",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+      "sourceBytes": 14263432,
+      "outputDirectory": "test/tiles/generated/eds-ulster-1921",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_ulster_1921",
+      "files": 554,
+      "pbfFiles": 553,
+      "bytes": 4309501,
+      "maxTileBytes": 87597
+    },
+    {
+      "sourceMapId": "eds-connacht-1919",
+      "name": "District Electoral Divisions/Wards 1966",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
+      "sourceBytes": 25857808,
+      "outputDirectory": "test/tiles/generated/eds-connacht-1919",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_connacht_1919",
+      "files": 949,
+      "pbfFiles": 948,
+      "bytes": 6704563,
+      "maxTileBytes": 112386
+    },
+    {
+      "sourceMapId": "eds-leinster-1957",
+      "name": "District Electoral Divisions/Wards 1966",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
+      "sourceBytes": 29533936,
+      "outputDirectory": "test/tiles/generated/eds-leinster-1957",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_leinster_1957",
+      "files": 947,
+      "pbfFiles": 946,
+      "bytes": 7625245,
+      "maxTileBytes": 181402
+    },
+    {
+      "sourceMapId": "eds-munster-1966",
+      "name": "District Electoral Divisions/Wards 1966",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1966.fgb",
+      "sourceBytes": 42895448,
+      "outputDirectory": "test/tiles/generated/eds-munster-1966",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_munster_1966",
+      "files": 1187,
+      "pbfFiles": 1186,
+      "bytes": 10696072,
+      "maxTileBytes": 138059
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "name": "District Electoral Divisions/Wards 1966",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+      "sourceBytes": 14263432,
+      "outputDirectory": "test/tiles/generated/eds-ulster-1921",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_ulster_1921",
+      "files": 554,
+      "pbfFiles": 553,
+      "bytes": 4309501,
+      "maxTileBytes": 87597
+    },
+    {
+      "sourceMapId": "eds-connacht-1919",
+      "name": "District Electoral Divisions/Wards 1970",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
+      "sourceBytes": 25857808,
+      "outputDirectory": "test/tiles/generated/eds-connacht-1919",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_connacht_1919",
+      "files": 949,
+      "pbfFiles": 948,
+      "bytes": 6704563,
+      "maxTileBytes": 112386
+    },
+    {
+      "sourceMapId": "eds-leinster-1957",
+      "name": "District Electoral Divisions/Wards 1970",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
+      "sourceBytes": 29533936,
+      "outputDirectory": "test/tiles/generated/eds-leinster-1957",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_leinster_1957",
+      "files": 947,
+      "pbfFiles": 946,
+      "bytes": 7625245,
+      "maxTileBytes": 181402
+    },
+    {
+      "sourceMapId": "eds-munster-1970",
+      "name": "District Electoral Divisions/Wards 1970",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1970.fgb",
+      "sourceBytes": 42923984,
+      "outputDirectory": "test/tiles/generated/eds-munster-1970",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_munster_1970",
+      "files": 1187,
+      "pbfFiles": 1186,
+      "bytes": 10706716,
+      "maxTileBytes": 138059
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "name": "District Electoral Divisions/Wards 1970",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+      "sourceBytes": 14263432,
+      "outputDirectory": "test/tiles/generated/eds-ulster-1921",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_ulster_1921",
+      "files": 554,
+      "pbfFiles": 553,
+      "bytes": 4309501,
+      "maxTileBytes": 87597
+    },
+    {
+      "sourceMapId": "eds-ulster-1921",
+      "name": "Ulster (ROI) Electoral Divisions 1921 (Cavan/Donegal/Monaghan)",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+      "sourceBytes": 14263432,
+      "outputDirectory": "test/tiles/generated/eds-ulster-1921",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_ulster_1921",
+      "files": 554,
+      "pbfFiles": 553,
+      "bytes": 4309501,
+      "maxTileBytes": 87597
+    },
+    {
+      "sourceMapId": "eds-connacht-1919",
+      "name": "Connacht District Electoral Divisions 1919",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
+      "sourceBytes": 25857808,
+      "outputDirectory": "test/tiles/generated/eds-connacht-1919",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_connacht_1919",
+      "files": 949,
+      "pbfFiles": 948,
+      "bytes": 6704563,
+      "maxTileBytes": 112386
+    },
+    {
+      "sourceMapId": "eds-leinster-1957",
+      "name": "Leinster District Electoral Divisions/Wards 1957",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
+      "sourceBytes": 29533936,
+      "outputDirectory": "test/tiles/generated/eds-leinster-1957",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_leinster_1957",
+      "files": 947,
+      "pbfFiles": 946,
+      "bytes": 7625245,
+      "maxTileBytes": 181402
+    },
+    {
+      "sourceMapId": "eds-munster-1955",
+      "name": "Munster District Electoral Divisions/Wards 1955",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1955.fgb",
+      "sourceBytes": 42867744,
+      "outputDirectory": "test/tiles/generated/eds-munster-1955",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_munster_1955",
+      "files": 1187,
+      "pbfFiles": 1186,
+      "bytes": 10690860,
+      "maxTileBytes": 138031
+    },
+    {
+      "sourceMapId": "eds-munster-1965",
+      "name": "Munster District Electoral Divisions/Wards 1965",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1965.fgb",
+      "sourceBytes": 42880528,
+      "outputDirectory": "test/tiles/generated/eds-munster-1965",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_munster_1965",
+      "files": 1187,
+      "pbfFiles": 1186,
+      "bytes": 10692886,
+      "maxTileBytes": 138059
+    },
+    {
+      "sourceMapId": "eds-munster-1966",
+      "name": "Munster District Electoral Divisions/Wards 1966",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1966.fgb",
+      "sourceBytes": 42895448,
+      "outputDirectory": "test/tiles/generated/eds-munster-1966",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_munster_1966",
+      "files": 1187,
+      "pbfFiles": 1186,
+      "bytes": 10696072,
+      "maxTileBytes": 138059
+    },
+    {
+      "sourceMapId": "eds-munster-1970",
+      "name": "Munster District Electoral Divisions/Wards 1970",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1970.fgb",
+      "sourceBytes": 42923984,
+      "outputDirectory": "test/tiles/generated/eds-munster-1970",
+      "reason": "existing verified generated output",
+      "sourceLayer": "eds_munster_1970",
+      "files": 1187,
+      "pbfFiles": 1186,
+      "bytes": 10706716,
+      "maxTileBytes": 138059
+    }
+  ],
+  "converted": [],
   "failed": [],
   "skipped": []
 }

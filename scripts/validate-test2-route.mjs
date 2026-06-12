@@ -57,12 +57,41 @@ function assertCatalogueMetadata() {
   }
 
   const classById = new Map((mapsDb.classes || []).map((item) => [item.id, item]));
+  const mapById = new Map((mapsDb.maps || []).map((item) => [item.id, item]));
+  const layerSourceIds = new Set((testMetadata.layers || []).map((layer) => layer.sourceMapId || layer.id).filter(Boolean));
+  const layerIds = new Set((testMetadata.layers || []).map((layer) => layer.id).filter(Boolean));
   assert(chainClassIds.has('ni-counties'), 'Counties class must be attached to a time-series chain');
   assert(chainClassIds.has('ireland-provinces'), 'Provinces class must be attached to a time-series chain');
   assert((classById.get('ni-counties')?.maps || []).includes('counties-ireland-1955'), 'Counties class must include historical county variants instead of unrelated ED maps');
   assert((classById.get('ireland-provinces')?.maps || []).includes('provinces-1899'), 'Provinces class must exist and include historical province maps');
 
-  for (const id of ['eds-2019', 'eds-1997', 'eds-1994', 'eds-1986']) {
+  const counties = mapById.get('counties-ireland');
+  const countySubmaps = new Set((counties?.variants || []).map((variant) => variant.id));
+  assert(countySubmaps.has('counties-ni-1915') && countySubmaps.has('roi-counties-2011'), 'Current counties map must keep the intentional NI and ROI component submaps');
+  for (const staleSubmap of ['counties-ireland-1957', 'counties-ireland-1922', 'counties-ireland-1915', 'counties-ireland-1955']) {
+    assert(!countySubmaps.has(staleSubmap), `Current counties map must not expose ${staleSubmap} as a sub-map`);
+  }
+
+  const provinces = mapById.get('provinces');
+  assert(provinces?.cloneOf === 'provinces-1955' && provinces?.irishLabelProperty === 'CUIGE', 'Provinces 2019 must reuse the enriched province geometry so Irish names are retained');
+  assert(layerIds.has('provinces-alias-test'), 'Provinces 2019 must be promoted as a MapLibre alias to the enriched province layer');
+
+  const localAuthorities2008 = mapById.get('roi-local-authorities-2008');
+  assert(Array.isArray(localAuthorities2008?.provider) && localAuthorities2008.provider.includes('CSO') && !localAuthorities2008.provider.includes('Phelim Birch'), 'Local Authorities 2008 must be credited to CSO, not the collaborator');
+  const localAuthorities2008Layer = (testMetadata.layers || []).find((layer) => layer.sourceMapId === 'roi-local-authorities-2008');
+  assert(Array.isArray(localAuthorities2008Layer?.provider) && localAuthorities2008Layer.provider.includes('CSO') && !localAuthorities2008Layer.provider.includes('Phelim Birch'), 'Local Authorities 2008 generated MapLibre layer must be credited to CSO, not the collaborator');
+
+  for (const id of ['eds-leinster-1957', 'eds-munster-1955', 'eds-munster-1965', 'eds-munster-1966', 'eds-munster-1970']) {
+    assert(layerSourceIds.has(id), `${id} must have a promoted MapLibre layer so DED/Ward parent maps can load all provincial components`);
+  }
+  for (const id of ['eds-roi-1957', 'eds-roi-1965', 'eds-roi-1966', 'eds-roi-1970']) {
+    const map = mapById.get(id);
+    const childIds = (map?.variants || []).map((variant) => variant.id).filter(Boolean);
+    assert(childIds.length >= 4 && childIds.every((childId) => layerSourceIds.has(childId)), `${id} must resolve through loadable provincial component layers`);
+    assert(!layerSourceIds.has(id), `${id} must not keep a stale direct generated layer; it is a grouped all-ROI catalogue entry`);
+  }
+
+  for (const id of ['eds-2019', 'eds-1997', 'eds-1994', 'eds-1986', 'eds-roi-1957', 'eds-roi-1965', 'eds-roi-1966', 'eds-roi-1970']) {
     const map = findMap(id);
     assert(map?.isGroup === true && Array.isArray(map.variants) && map.variants.length >= 4, `${id} parent map must remain a grouped all-ROI load across all provincial variants`);
   }
@@ -399,14 +428,30 @@ assert(
     && electionManagerSource.includes('renderSingleSeatFptpVoteGraphic')
     && electionManagerSource.includes('test2-fptp-vote-graphic')
     && test2Css.includes('.test2-fptp-results-layout')
-    && test2Css.includes('.test2-fptp-vote-graphic__bar'),
-  '/test2 single-seat FPTP selected results must collapse By Party/By Count into a combined Results table with a static vote graphic'
+    && test2Css.includes('.test2-fptp-vote-graphic__bar')
+    && !electionManagerSource.includes('test2-fptp-vote-graphic__post')
+    && !electionManagerSource.includes('test2-fptp-vote-graphic__line')
+    && !electionManagerSource.includes('Static FPTP result'),
+  '/test2 single-seat FPTP selected results must collapse By Party/By Count into a combined Results table with an adjacent static vote graphic and no quota/post caption chrome'
+);
+assert(
+  mainElectionPaneContractSource.includes("['party', 'Full Results']")
+    && mainElectionPaneContractSource.includes("['constituency', 'By Constituency']")
+    && mainElectionPaneContractSource.includes('renderReferendumConstituencySummaryTable')
+    && electionManagerSource.includes('renderReferendumFullResultsTable')
+    && electionManagerSource.includes('renderReferendumResultTable')
+    && electionManagerSource.includes('renderReferendumConstituencySummaryTable')
+    && electionManagerSource.includes('Proposal passed')
+    && electionManagerSource.includes('Proposal did not pass')
+    && electionDomainSource.includes('Math.round(electorate * turnoutPct / 100)')
+    && electionDomainSource.includes('const constituencySpoiled = explicitSpoiled ??'),
+  '/test2 ROI referendum panes must use Full Results/By Constituency tabs, referendum-specific proposal labels, and derived turnout/spoiled metadata'
 );
 assert(
   electionDomainSource.includes('const currentFirstPrefPct')
     && electionDomainSource.includes('firstPrefPct: currentFirstPrefPct')
     && electionDomainSource.includes('return normalizeName(candidate.name || candidate.candidateName')
-    && electionManagerSource.includes('const previous = row.previous || previousByCandidate.get(candidateKey(row)) || null')
+    && electionManagerSource.includes('const explicitPrevious = row.previous && candidateKey(row.previous) === key ? row.previous : null')
     && electionManagerSource.includes('formatNotApplicable()'),
   '/test2 candidate first-preference deltas must compare same-name candidates in the previous comparable contest and show N/A when absent'
 );
@@ -487,11 +532,32 @@ if (existsSync('test/metadata/elections-test2.json')) {
   assert(care2024ReferendumEntry?.sourceMapId === 'dail-2017' && care2024ReferendumEntry?.matchedCount === 39 && care2024ReferendumEntry?.unmatchedCount === 0, '/test2 2024 care referendum must use the pre-2024 Dail geography, not the post-election Wicklow-Wexford geometry');
   for (const referendumKey of ['ireland-referendum__2024-03-08-the-family', 'ireland-referendum__2024-03-08-care']) {
     const referendumBundle = JSON.parse(readFileSync(`test/metadata/elections-test2/${referendumKey}.json`, 'utf8'));
+    assert(Number(referendumBundle.mainLikeTotals?.totalPoll || 0) > 0, `/test2 ${referendumKey} must derive overall referendum total poll from electorate and turnout where the source lacks total poll`);
+    assert(Number(referendumBundle.mainLikeTotals?.totalElectorate || 0) > 0, `/test2 ${referendumKey} must carry overall referendum electorate totals`);
+    assert(Number(referendumBundle.mainLikeTotals?.totalSpoiled || 0) > 0, `/test2 ${referendumKey} must derive overall referendum spoiled votes from total poll and valid votes`);
     const wexfordResult = (referendumBundle.results || []).find((result) => result.constituency === 'Wexford');
     const wicklowResult = (referendumBundle.results || []).find((result) => result.constituency === 'Wicklow');
     assert(wexfordResult?.featureName === 'Wexford (5)' && wicklowResult?.featureName === 'Wicklow (5)', `/test2 ${referendumKey} must match Wexford/Wicklow referendum rows to the correct pre-2024 Dail features`);
     assert(!(referendumBundle.results || []).some((result) => /Wicklow-Wexford/i.test(`${result.featureName || ''} ${result.matchName || ''}`)), `/test2 ${referendumKey} must not expose the post-2024 Wicklow-Wexford feature for March 2024 referendum results`);
+    const donegalResult = (referendumBundle.results || []).find((result) => result.constituency === 'Donegal');
+    assert(Number(donegalResult?.countInfo?.Total_Electorate || 0) > 0, `/test2 ${referendumKey} Donegal must carry constituency electorate`);
+    assert(Number(donegalResult?.countInfo?.Total_Poll || 0) > 0, `/test2 ${referendumKey} Donegal must derive constituency total poll`);
+    assert(Number(donegalResult?.countInfo?.Spoiled || 0) > 0, `/test2 ${referendumKey} Donegal must derive constituency spoiled votes`);
+    assert(Number(donegalResult?.turnoutPct || 0) > 0, `/test2 ${referendumKey} Donegal must carry constituency turnout`);
   }
+  const european2024Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/ireland-european__2024-06-07.json', 'utf8'));
+  const midlandsNorthWest = (european2024Bundle.results || []).find((result) => result.constituency === 'Midlands North West');
+  const electedMidlands = (midlandsNorthWest?.candidates || []).filter((candidate) => candidate.elected);
+  const electedMidlandsNames = new Set(electedMidlands.map((candidate) => candidate.name));
+  for (const name of ['Luke Flanagan', 'Nina Carberry', 'Maria Walsh', 'Barry Cowen', 'Ciar\u00e1n Mullooly']) {
+    assert(electedMidlandsNames.has(name), `/test2 2024 European Midlands North West must mark ${name} elected`);
+  }
+  const electedMidlandsByParty = new Map();
+  for (const candidate of electedMidlands) {
+    electedMidlandsByParty.set(candidate.party, (electedMidlandsByParty.get(candidate.party) || 0) + 1);
+  }
+  assert(Number(midlandsNorthWest?.seatsTotal || midlandsNorthWest?.countInfo?.Number_Of_Seats || 0) === 5, '/test2 2024 European Midlands North West must expose five seats');
+  assert(electedMidlandsByParty.get('Fine Gael') === 2 && electedMidlandsByParty.get('Fianna F\u00e1il') === 1 && electedMidlandsByParty.get('Independent') === 1 && electedMidlandsByParty.get('Independent Ireland') === 1, '/test2 2024 European Midlands North West elected-party counts must be Fine Gael 2, Fianna Fail 1, Independent 1, Independent Ireland 1');
   for (const filename of readdirSync('test/metadata/elections-test2').filter((name) => /^ireland-referendum__.*\.json$/.test(name))) {
     const referendumBundle = JSON.parse(readFileSync(`test/metadata/elections-test2/${filename}`, 'utf8'));
     for (const result of referendumBundle.results || []) {

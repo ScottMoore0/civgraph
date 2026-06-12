@@ -1,0 +1,191 @@
+{
+  "id": "provinces-alias-test",
+  "sourceMapId": "provinces",
+  "name": "Provinces of Ireland 2019",
+  "category": "Counties",
+  "group": "History",
+  "date": "2019",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSI",
+    "Phelim Birch"
+  ],
+  "description": "Current provinces layer using the 2019 OSI statutory province geometry. The boundaries match the 1955/enriched province layer, so the MapLibre layer reuses that converted geometry to retain the Irish province-name field (CUIGE) instead of dropping the translation.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/provinces-1955/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/provinces-1955/metadata.json",
+  "sourceLayer": "provinces_1955",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198973,
+      -10.6812354
+    ],
+    [
+      55.4469322,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#884EA0",
+    "fillColor": "#884EA0",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Provinces - National Statutory Boundaries - 2019 (data-osi.opendata.arcgis.com)",
+      "url": "https://data-osi.opendata.arcgis.com/datasets/osi::provinces-national-statutory-boundaries-2019/about",
+      "note": ""
+    },
+    {
+      "label": "Provinces of Ireland — GeoJSON download",
+      "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.geojson",
+      "note": ""
+    },
+    {
+      "label": "Provinces of Ireland — KML download",
+      "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.kml",
+      "note": ""
+    },
+    {
+      "label": "Provinces of Ireland — Shapefile (ZIP) download",
+      "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.zip",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "GeoJSON",
+      "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.geojson"
+    },
+    {
+      "label": "KML",
+      "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.kml"
+    },
+    {
+      "label": "Shapefile (ZIP)",
+      "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.zip"
+    }
+  ],
+  "sourceCredits": [
+    "OSI",
+    "Phelim Birch"
+  ],
+  "keywords": [
+    "province",
+    "ulster",
+    "munster",
+    "leinster",
+    "connacht",
+    "cuige",
+    "irish names",
+    "ireland",
+    "all-island",
+    "1955",
+    "historic",
+    "Provinces of Ireland 1955",
+    "Counties",
+    "History",
+    "maplibre",
+    "vector tiles",
+    "2019",
+    "Provinces of Ireland 2019",
+    "provinces",
+    "provinces-1955",
+    "clone alias"
+  ],
+  "labelProperty": "PROVINCE",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#884EA0",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/provinces-1955-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/provinces-1955.fgb",
+  "sourceDatasetLayer": "provinces-1955",
+  "popupProperties": [
+    "PROVINCE",
+    "AREA",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_f",
+    "CUIGE"
+  ],
+  "numericProperties": [
+    "AREA",
+    "minElev_m",
+    "maxElev_m",
+    "minElev_ft",
+    "maxElev_ft",
+    "meanElev_m",
+    "meanElev_f"
+  ],
+  "categoricalProperties": [
+    "PROVINCE",
+    "CUIGE"
+  ],
+  "categoricalValues": {
+    "PROVINCE": [
+      "Connacht",
+      "Leinster",
+      "Munster",
+      "Ulster"
+    ],
+    "CUIGE": [
+      "Laighin",
+      "Mumhain",
+      "Ulaidh",
+      "Connachta"
+    ]
+  },
+  "status": "converted-alias",
+  "notes": "Provinces of Ireland 2019 reuses the converted geometry from Provinces of Ireland 1955.",
+  "generatedFrom": {
+    "pipeline": "promote-test-clone-alias",
+    "sourceMapId": "provinces",
+    "cloneOf": "provinces-1955",
+    "aliasOf": "provinces-1955",
+    "targetLayerId": "provinces-1955-vector-test"
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/provinces-1955-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/provinces-1955/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/provinces-1955-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/provinces-1955-vector-test.pmtiles",
+    "bytes": 3685406,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/test/tiles/generated/provinces-1955/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/provinces-1955-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/provinces-1955-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/provinces-1955-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+  },
+  "promoteId": "PROVINCE",
+  "idProperty": "PROVINCE",
+  "categoryId": "counties",
+  "conversionStatus": "convertedAlias",
+  "aliasOf": "provinces-1955",
+  "cloneOf": "provinces-1955",
+  "aliasTargetLayerId": "provinces-1955-vector-test"
+}

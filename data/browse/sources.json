@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-12T16:14:49.970Z",
+  "generatedAt": "2026-06-12T20:17:18.045Z",
   "total": 1028,
   "items": [
     {
@@ -184,8 +184,8 @@
           "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1921-05-24.json"
         },
         {
-          "label": "stormont-1920-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1920-vector-test.json"
+          "label": "stormont-1920-v1-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/stormont-1920-v1-vector-test.json"
         }
       ],
       "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1921-05-24",
@@ -333,8 +333,8 @@
           "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1923-05-02.json"
         },
         {
-          "label": "stormont-1920-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1920-vector-test.json"
+          "label": "stormont-1920-v1-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/stormont-1920-v1-vector-test.json"
         }
       ],
       "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1923-05-02",
@@ -532,8 +532,8 @@
           "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1925-11-25.json"
         },
         {
-          "label": "stormont-1920-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1920-vector-test.json"
+          "label": "stormont-1920-v1-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/stormont-1920-v1-vector-test.json"
         }
       ],
       "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1925-11-25",
@@ -582,8 +582,8 @@
           "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1925-11-06.json"
         },
         {
-          "label": "stormont-1920-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1920-vector-test.json"
+          "label": "stormont-1920-v1-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/stormont-1920-v1-vector-test.json"
         }
       ],
       "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1925-11-06",
@@ -632,8 +632,8 @@
           "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1925-04-03.json"
         },
         {
-          "label": "stormont-1920-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1920-vector-test.json"
+          "label": "stormont-1920-v1-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/stormont-1920-v1-vector-test.json"
         }
       ],
       "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1925-04-03",
@@ -19498,7 +19498,7 @@
         "OSNI",
         "Tailte Éireann"
       ],
-      "description": "Traditional county boundaries",
+      "description": "Current all-island county layer. Republic of Ireland and Northern Ireland component layers remain available as sub-maps; older all-island county vintages are catalogue siblings rather than sub-maps of this 1977/current entry.",
       "sourceMapId": "counties-ireland",
       "thumbnail": {
         "kind": "asset",
@@ -21373,7 +21373,7 @@
         "Phelim Birch",
         "Paddy Matthews"
       ],
-      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 July 1965, assembled from Connacht 1919, Leinster 1957, Munster 1965, and the unchanged Ulster ROI DED component. The source notes describe this as a modified version of the 1966 boundaries before Waterford county borough expanded further into Waterford Rural.",
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 July 1965, assembled from Connacht 1919, Leinster 1957 (reused; no later Leinster file is present in the supplied archive), Munster 1965, and the unchanged Ulster ROI DED component. The source notes describe this as a modified version of the 1966 boundaries before Waterford county borough expanded further into Waterford Rural.",
       "sourceMapId": "eds-roi-1965",
       "thumbnail": {
         "kind": "placeholder",
@@ -21397,7 +21397,7 @@
           "type": "FlatGeobuf"
         },
         {
-          "label": "Leinster DEDs/Wards 1957",
+          "label": "Leinster DEDs/Wards 1957 (used for 1965)",
           "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1957.fgb",
           "type": "FlatGeobuf"
         },
@@ -21432,7 +21432,7 @@
         "Phelim Birch",
         "Paddy Matthews"
       ],
-      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 April 1966, assembled from Connacht 1919, Leinster 1957, Munster 1966, and the unchanged Ulster ROI DED component. The source notes describe this as a modified version of the 1970 boundaries before Waterford's five wards were replaced with twenty-four new wards.",
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 April 1966, assembled from Connacht 1919, Leinster 1957 (reused; no later Leinster file is present in the supplied archive), Munster 1966, and the unchanged Ulster ROI DED component. The source notes describe this as a modified version of the 1970 boundaries before Waterford's five wards were replaced with twenty-four new wards.",
       "sourceMapId": "eds-roi-1966",
       "thumbnail": {
         "kind": "placeholder",
@@ -21456,7 +21456,7 @@
           "type": "FlatGeobuf"
         },
         {
-          "label": "Leinster DEDs/Wards 1957",
+          "label": "Leinster DEDs/Wards 1957 (used for 1966)",
           "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1957.fgb",
           "type": "FlatGeobuf"
         },
@@ -21491,7 +21491,7 @@
         "Phelim Birch",
         "Paddy Matthews"
       ],
-      "description": "Republic of Ireland District Electoral Divisions/Wards as at 5 January 1970, assembled from Connacht 1919, Leinster 1957, Munster 1970, and the unchanged Ulster ROI DED component. The source notes describe this as the final pre-15 April 1971 layout, before major Dublin, Cork, and Limerick ward/DED reforms.",
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 5 January 1970, assembled from Connacht 1919, Leinster 1957 (reused; no later Leinster file is present in the supplied archive), Munster 1970, and the unchanged Ulster ROI DED component. The source notes describe this as the final pre-15 April 1971 layout, before major Dublin, Cork, and Limerick ward/DED reforms.",
       "sourceMapId": "eds-roi-1970",
       "thumbnail": {
         "kind": "placeholder",
@@ -21538,7 +21538,7 @@
           "type": "FlatGeobuf"
         },
         {
-          "label": "Leinster DEDs/Wards 1957",
+          "label": "Leinster DEDs/Wards 1957 (used for 1970)",
           "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1957.fgb",
           "type": "FlatGeobuf"
         },
@@ -27285,13 +27285,13 @@
       "slug": "map-source-roi-local-authorities-2008",
       "type": "map-source",
       "title": "Local Authorities - 2008 source files",
-      "subtitle": "Local Government Districts / Phelim Birch",
+      "subtitle": "Local Government Districts / CSO",
       "category": "Map sources",
       "date": "2008-01-01",
       "provider": [
-        "Phelim Birch"
+        "CSO"
       ],
-      "description": "Council and district boundaries",
+      "description": "Republic of Ireland local authority boundaries as used for 2008-era statistical/council geography.",
       "sourceMapId": "roi-local-authorities-2008",
       "thumbnail": {
         "kind": "asset",
@@ -27300,6 +27300,12 @@
         "smallUrl": "/assets/thumbnails/roi-local-authorities-2008-60.webp",
         "alt": "Local Authorities 2008"
       },
+      "references": [
+        {
+          "label": "CSO local authority boundary source",
+          "note": "Provider corrected from collaborator review; source geometry is credited to the Central Statistics Office."
+        }
+      ],
       "downloads": [
         {
           "label": "fgb",
@@ -36301,13 +36307,14 @@
       "slug": "map-source-provinces",
       "type": "map-source",
       "title": "Provinces of Ireland 2019 source files",
-      "subtitle": "Counties / OSI",
+      "subtitle": "Counties / OSI, Phelim Birch",
       "category": "Map sources",
       "date": "2019",
       "provider": [
-        "OSI"
+        "OSI",
+        "Phelim Birch"
       ],
-      "description": "Traditional county boundaries",
+      "description": "Current provinces layer using the 2019 OSI statutory province geometry. The boundaries match the 1955/enriched province layer, so the MapLibre layer reuses that converted geometry to retain the Irish province-name field (CUIGE) instead of dropping the translation.",
       "sourceMapId": "provinces",
       "thumbnail": {
         "kind": "asset",
