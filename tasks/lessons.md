@@ -2445,3 +2445,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) party/person/candidate links from election tables must be tested on the promoted route and must open full catalogue-pane detail pages,
   3) FPTP Results layouts must be tested for pane-owned horizontal scrolling rather than nested table wrappers,
   4) static validators must assert the current render/wiring path rather than brittle strings from superseded helper implementations.
+
+### 181) Dark-mode thumbnail regressions must cover every thumbnail render path
+- Mistake pattern: Fixing and testing only the flat table-of-contents thumbnail path while election catalogue rows use a separate `.thumb-zone > img.class-member__thumbnail` path.
+- Impact: the test passes while the visible election catalogue still shows pale thumbnail strips in dark mode.
+- Guardrail:
+  1) separate tiny row chips from large preview/card mats in CSS,
+  2) dark-mode thumbnail tests must open the deferred catalogue section that renders the target row type,
+  3) thumbnail regressions must inspect both wrapper and image computed backgrounds,
+  4) a passed thumbnail test must cover the exact DOM path visible in the reported screenshot.

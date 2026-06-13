@@ -134,33 +134,61 @@ test('dark-mode catalogue row thumbnails do not use preview-mat backgrounds', as
   });
   await page.goto('/#layers=__none');
   await waitForApp(page);
+  const decadeTarget = await page.evaluate(() => {
+    const link = [...document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc-decade-btn')]
+      .find((candidate) => candidate.textContent.includes('2020s'));
+    return link?.dataset.catalogueTarget || null;
+  });
+  expect(decadeTarget).toBeTruthy();
+  await page.evaluate((targetId) => {
+    document.querySelector(`#catalogueFlatView [data-catalogue-target="${targetId}"]`)?.click();
+  }, decadeTarget);
+  await page.waitForFunction(() =>
+    window.uiController?._flatActiveSectionKey === 'elections'
+    && document.querySelectorAll('#catalogueFlatView .flat-election-entry').length > 5
+  );
 
   const styles = await page.evaluate(() => {
     const firstRowThumb = document.querySelector('.catalogue-flat__toc-thumbwrap img.catalogue-flat__toc-thumb');
     const wrapper = firstRowThumb?.closest('.catalogue-flat__toc-thumbwrap');
+    const electionThumb = document.querySelector('.flat-election-entry .thumb-zone img.class-member__thumbnail');
+    const electionZone = electionThumb?.closest('.thumb-zone');
     const fallback = document.querySelector('.catalogue-flat__toc-thumb--fallback');
     const wrapStyle = wrapper ? getComputedStyle(wrapper) : null;
     const imageStyle = firstRowThumb ? getComputedStyle(firstRowThumb) : null;
+    const electionZoneStyle = electionZone ? getComputedStyle(electionZone) : null;
+    const electionThumbStyle = electionThumb ? getComputedStyle(electionThumb) : null;
     const fallbackStyle = fallback ? getComputedStyle(fallback) : null;
     return {
       theme: document.documentElement.dataset.theme || document.body.dataset.theme || '',
       hasThumb: Boolean(firstRowThumb),
+      hasElectionThumb: Boolean(electionThumb),
       wrapperBackground: wrapStyle?.backgroundColor || '',
       imageBackground: imageStyle?.backgroundColor || '',
       imageBorderTopWidth: imageStyle?.borderTopWidth || '',
       imageWidth: firstRowThumb?.getBoundingClientRect().width || 0,
       imageHeight: firstRowThumb?.getBoundingClientRect().height || 0,
+      electionZoneBackground: electionZoneStyle?.backgroundColor || '',
+      electionThumbBackground: electionThumbStyle?.backgroundColor || '',
+      electionThumbWidth: electionThumb?.getBoundingClientRect().width || 0,
+      electionThumbHeight: electionThumb?.getBoundingClientRect().height || 0,
       fallbackBackground: fallbackStyle?.backgroundColor || ''
     };
   });
 
   expect(styles.hasThumb).toBe(true);
+  expect(styles.hasElectionThumb).toBe(true);
   expect(styles.wrapperBackground).not.toBe('rgb(238, 242, 247)');
   expect(styles.wrapperBackground).not.toBe('rgb(255, 255, 255)');
   expect(styles.imageBackground).toBe('rgba(0, 0, 0, 0)');
   expect(styles.imageBorderTopWidth).toBe('0px');
   expect(styles.imageWidth).toBeGreaterThanOrEqual(14);
   expect(styles.imageHeight).toBeGreaterThanOrEqual(14);
+  expect(styles.electionZoneBackground).toBe('rgba(0, 0, 0, 0)');
+  expect(styles.electionThumbBackground).not.toBe('rgb(238, 242, 247)');
+  expect(styles.electionThumbBackground).not.toBe('rgb(255, 255, 255)');
+  expect(styles.electionThumbWidth).toBeGreaterThanOrEqual(24);
+  expect(styles.electionThumbHeight).toBeGreaterThanOrEqual(24);
   if (styles.fallbackBackground) {
     expect(styles.fallbackBackground).not.toBe('rgb(238, 242, 247)');
   }

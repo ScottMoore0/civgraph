@@ -13381,8 +13381,6 @@ kbd {
 [data-theme="dark"] .catalogue-flat__toc-thumbzoom,
 [data-theme="dark"] .catalogue-flat__toc-thumbzoom img,
 [data-theme="dark"] .map-card__thumbnail,
-[data-theme="dark"] .class-member__thumbnail,
-[data-theme="dark"] .thumb-zone,
 [data-theme="dark"] .variant-item__thumb,
 [data-theme="dark"] .book-card__thumbnail,
 [data-theme="dark"] .c1-entry__thumbnail {
@@ -13393,12 +13391,26 @@ kbd {
 }
 
 [data-theme="dark"] .map-card__thumbnail img,
-[data-theme="dark"] .class-member__thumbnail img,
-[data-theme="dark"] .thumb-zone img,
 [data-theme="dark"] .variant-item__thumb img,
 [data-theme="dark"] .book-card__thumbnail img,
 [data-theme="dark"] .c1-entry__thumbnail img {
   background-color: #eef2f7;
+}
+
+[data-theme="dark"] .class-member .thumb-zone,
+[data-theme="dark"] .flat-election-entry .thumb-zone {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+[data-theme="dark"] .class-member img.class-member__thumbnail,
+[data-theme="dark"] .flat-election-entry img.class-member__thumbnail {
+  background: rgba(148, 163, 184, 0.1);
+  border-color: rgba(148, 163, 184, 0.32);
+  box-shadow: none;
+  opacity: 0.95;
+  padding: 1px;
 }
 
 [data-theme="dark"] .catalogue-flat__toc-thumbwrap {
@@ -13469,8 +13481,6 @@ kbd {
   :root:not([data-theme="light"]) .catalogue-flat__toc-thumbzoom,
   :root:not([data-theme="light"]) .catalogue-flat__toc-thumbzoom img,
   :root:not([data-theme="light"]) .map-card__thumbnail,
-  :root:not([data-theme="light"]) .class-member__thumbnail,
-  :root:not([data-theme="light"]) .thumb-zone,
   :root:not([data-theme="light"]) .variant-item__thumb,
   :root:not([data-theme="light"]) .book-card__thumbnail,
   :root:not([data-theme="light"]) .c1-entry__thumbnail {
@@ -13481,12 +13491,26 @@ kbd {
   }
 
   :root:not([data-theme="light"]) .map-card__thumbnail img,
-  :root:not([data-theme="light"]) .class-member__thumbnail img,
-  :root:not([data-theme="light"]) .thumb-zone img,
   :root:not([data-theme="light"]) .variant-item__thumb img,
   :root:not([data-theme="light"]) .book-card__thumbnail img,
   :root:not([data-theme="light"]) .c1-entry__thumbnail img {
     background-color: #eef2f7;
+  }
+
+  :root:not([data-theme="light"]) .class-member .thumb-zone,
+  :root:not([data-theme="light"]) .flat-election-entry .thumb-zone {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  :root:not([data-theme="light"]) .class-member img.class-member__thumbnail,
+  :root:not([data-theme="light"]) .flat-election-entry img.class-member__thumbnail {
+    background: rgba(148, 163, 184, 0.1);
+    border-color: rgba(148, 163, 184, 0.32);
+    box-shadow: none;
+    opacity: 0.95;
+    padding: 1px;
   }
 
   :root:not([data-theme="light"]) .catalogue-flat__toc-thumbwrap {

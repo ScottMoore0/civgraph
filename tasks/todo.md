@@ -1,3 +1,21 @@
+# Fix dark-mode election entry thumbnails
+- [x] Record scope
+  - Task: fix remaining dark-mode thumbnail mismatch where election catalogue rows still show pale thumbnail strips even after TOC thumbnail dark-mode fixes.
+  - Symptom: in dark mode, election entries in the left catalogue show tall light rectangles behind tiny thumbnails.
+  - Root cause: the previous dark-mode thumbnail rule/test covered `.catalogue-flat__toc-thumbwrap`, but election rows are rendered through `.thumb-zone > img.class-member__thumbnail`, and the broad dark-mode preview-mat rule applied a light background to that row path.
+  - Permanent prevention action: add a browser regression that checks both flat TOC thumbnails and election-entry thumbnail zones on the promoted route.
+- [x] Patch dark-mode row thumbnail styling
+  - Completed: removed tiny row thumbnails from the dark-mode light preview-mat selector while preserving the light mat for larger map/book/detail previews.
+- [x] Add focused browser regression coverage
+  - Completed: extended the dark-mode catalogue thumbnail browser test to assert `.flat-election-entry .thumb-zone img.class-member__thumbnail` uses an integrated dark row chip, not a pale preview background.
+- [x] Verify, commit, and push
+  - Completed: rebuilt the promoted MapLibre root, ran the focused dark-mode thumbnail browser regression, `npm run check:test2`, and `npm run check`; commit/push is being handled after this log update.
+
+## Review: dark-mode election entry thumbnails
+- Election catalogue rows no longer inherit the light preview-mat background used by larger map/book/detail thumbnails.
+- Tiny election and class-member row thumbnails now use a subtle dark-mode chip while large previews keep the light background needed for map readability.
+- Regression coverage now opens the deferred Elections section and checks the actual `.flat-election-entry .thumb-zone img.class-member__thumbnail` path visible in the user screenshot.
+
 # Review unresolved generated/metadata dirty worktree
 - [x] Record scope
   - Task: inspect the remaining modified generated/metadata files, identify what produced them and whether they should be committed, regenerated, ignored, or restored, then provide a recommendation without deleting data.
