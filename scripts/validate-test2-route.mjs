@@ -476,7 +476,11 @@ assert(
   electionDomainSource.includes('const currentFirstPrefPct')
     && electionDomainSource.includes('firstPrefPct: currentFirstPrefPct')
     && electionDomainSource.includes('return normalizeName(candidate.name || candidate.candidateName')
-    && electionManagerSource.includes('const explicitPrevious = row.previous && candidateKey(row.previous) === key ? row.previous : null')
+    && electionManagerSource.includes('candidateDeltaForResultCandidate(candidate = {}, result = {})')
+    && electionManagerSource.includes('const previousResult = this.findPreviousSelectedResult(result)')
+    && electionManagerSource.includes('this.candidateDeltaLookupKey(candidate.previous, previousResult) === key')
+    && electionManagerSource.includes('previousRows.find((row) => this.candidateDeltaLookupKey(row, previousResult) === key)')
+    && electionManagerSource.includes('candidateDeltasEligible(result = {})')
     && electionManagerSource.includes('formatNotApplicable()'),
   '/test2 candidate first-preference deltas must compare same-name candidates in the previous comparable contest and show N/A when absent'
 );

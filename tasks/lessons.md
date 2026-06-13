@@ -2427,3 +2427,21 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) recursive scrapes must preserve both page dedupe and category membership/source paths,
   3) local cache indexes should report direct article count, recursive article count, and category count,
   4) verification must include at least one known county/council subcategory page such as `1985 Carlow County Council election`.
+
+### 179) Dark-mode thumbnail fixes must separate row chips from large previews
+- Mistake pattern: Using one dark-mode thumbnail background rule for tiny catalogue row icons and larger preview/card thumbnails.
+- Impact: transparent thumbnails become readable, but every catalogue row shows an obvious pale rectangle in dark mode.
+- Guardrail:
+  1) tiny TOC/list thumbnails should use a dark integrated chip with transparent image backgrounds,
+  2) only larger previews/cards should receive a light map-paper mat,
+  3) dark-mode thumbnail browser tests must inspect computed wrapper and image backgrounds on the visible catalogue route,
+  4) future thumbnail changes should be checked in both the list row and hover/preview contexts.
+
+### 180) Election-pane parity fixes must be verified through the promoted route
+- Mistake pattern: Fixing generated election data or a helper method while leaving the visible promoted election pane with stale routing, stale layout, or stale validator expectations.
+- Impact: candidate/party links can still open lightweight election-pane pages, candidate deltas can still show misleading zero-baseline values, or FPTP Results can still scroll in a nested table viewport even when lower-level data looks correct.
+- Guardrail:
+  1) candidate-level deltas must use same-candidate/same-area previous rows and render absent comparisons through `formatNotApplicable()`,
+  2) party/person/candidate links from election tables must be tested on the promoted route and must open full catalogue-pane detail pages,
+  3) FPTP Results layouts must be tested for pane-owned horizontal scrolling rather than nested table wrappers,
+  4) static validators must assert the current render/wiring path rather than brittle strings from superseded helper implementations.

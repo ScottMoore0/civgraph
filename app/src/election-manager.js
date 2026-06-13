@@ -834,15 +834,21 @@ export class Test2ElectionManager {
     });
     pane.querySelectorAll('[data-election-entity]').forEach((button) => {
       button.addEventListener('click', async () => {
+        const entityKind = String(button.dataset.electionEntity || '').toLowerCase();
+        const entityKey = button.dataset.electionEntityKey;
         const handled = await this.app.openElectionEntityDetailInCatalogue?.(
-          button.dataset.electionEntity,
-          button.dataset.electionEntityKey
+          entityKind,
+          entityKey
         );
         if (handled) {
           this.app.updateURLState();
           return;
         }
-        this.renderEntityPanel(button.dataset.electionEntity, button.dataset.electionEntityKey);
+        if (entityKind === 'party' || entityKind === 'candidate' || entityKind === 'person') {
+          console.warn('[test2 elections] Catalogue entity detail unavailable', entityKind, entityKey);
+          return;
+        }
+        this.renderEntityPanel(entityKind, entityKey);
         this.app.updateURLState();
       });
     });
@@ -1362,15 +1368,16 @@ export class Test2ElectionManager {
               const firstPrefs = numberOrZero(candidate.firstPrefs ?? candidate.votes);
               const firstPrefPct = Number.isFinite(Number(candidate.firstPrefPct)) ? Number(candidate.firstPrefPct) : (validPoll ? firstPrefs / validPoll * 100 : null);
               const finalVotes = candidate.finalVotes ?? candidate.total ?? candidate.firstPrefs ?? candidate.votes;
+              const candidateDelta = this.candidateDeltaForResultCandidate(candidate, result);
               return `
                 <tr class="${candidate.elected ? 'election-row--elected test2-election-table__elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                  <td>${this.renderElectionEntityButton('candidate', candidate.id || `${candidate.name}|${candidate.party}`, candidate.name || candidate.candidate || '', 'election-cell-wrap')}</td>
+                  <td>${this.renderElectionEntityButton('candidate', `${candidate.name || candidate.candidate || candidate.id || ''}|${candidate.party || ''}`, candidate.name || candidate.candidate || '', 'election-cell-wrap')}</td>
                   <td>${this.renderElectionEntityButton('party', candidate.party, `<span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(candidate.party, candidate.colour))}"></span>${escapeHtml(candidate.party || '')}`, 'election-cell-wrap')}</td>
                   <td class="election-num">${formatNumber(firstPrefs)}</td>
-                  <td class="election-num">${candidate.deltas ? formatMainDelta(candidate.deltas.firstPrefs) : formatNotApplicable()}</td>
+                  <td class="election-num">${candidateDelta.deltas ? formatMainDelta(candidateDelta.deltas.firstPrefs) : formatNotApplicable()}</td>
                   <td class="election-num">${firstPrefPct === null ? '' : formatFixedPercent(firstPrefPct)}</td>
-                  <td class="election-num">${candidate.deltas?.firstPrefPct !== null && candidate.deltas?.firstPrefPct !== undefined ? formatMainPercentDelta(candidate.deltas.firstPrefPct) : formatNotApplicable()}</td>
+                  <td class="election-num">${candidateDelta.deltas?.firstPrefPct !== null && candidateDelta.deltas?.firstPrefPct !== undefined ? formatMainPercentDelta(candidateDelta.deltas.firstPrefPct) : formatNotApplicable()}</td>
                   <td class="election-num">${formatNumber(finalVotes)}</td>
                   <td>${candidate.elected ? 'Elected' : escapeHtml(candidate.status || '')}</td>
                 </tr>
@@ -1392,14 +1399,15 @@ export class Test2ElectionManager {
     const previousPartyByParty = new Map(previousPartyRows.map((row) => [normalizeName(row.party), row]));
     const hasPreviousElection = Boolean(previousResult);
     const rows = candidates.map((candidate, index) => {
+      const candidateDelta = this.candidateDeltaForResultCandidate(candidate, result);
       const votes = numberOrZero(candidate.firstPrefs ?? candidate.votes ?? candidate.finalVotes ?? candidate.total);
       const votePct = Number.isFinite(Number(candidate.firstPrefPct)) ? Number(candidate.firstPrefPct) : (validPoll ? votes / validPoll * 100 : null);
       const statusKind = candidate.elected ? 'elected' : selectedPaneStatusKind(candidate.status || candidate.Status);
       const statusText = candidate.elected
         ? 'Elected'
         : (candidate.status || candidate.Status || (statusKind === 'elected' ? 'Elected' : 'Not elected'));
-      const candidateVoteDelta = candidate.deltas?.firstPrefs ?? candidate.deltas?.votes ?? candidate.deltas?.total ?? null;
-      const candidatePctDelta = candidate.deltas?.firstPrefPct ?? candidate.deltas?.votePct ?? candidate.deltas?.share ?? null;
+      const candidateVoteDelta = candidateDelta.deltas?.firstPrefs ?? null;
+      const candidatePctDelta = candidateDelta.deltas?.firstPrefPct ?? null;
       const currentParty = currentPartyByParty.get(normalizeName(candidate.party));
       const previousParty = previousPartyByParty.get(normalizeName(candidate.party)) || (hasPreviousElection ? { firstPrefs: 0, pct: 0 } : null);
       const partyVoteDelta = currentParty && previousParty ? numberOrZero(currentParty.firstPrefs) - numberOrZero(previousParty.firstPrefs) : null;
@@ -1425,47 +1433,45 @@ export class Test2ElectionManager {
     });
     return `
       <div class="test2-fptp-results-layout">
-        <div class="test2-fptp-results-layout__table">
-          <div class="election-party-wrapper election-party-wrapper--pane-sticky">
-            <table class="election-party-table election-party-table--grouped election-party-table--candidate-sticky3 election-results-table--fixed election-results-table--nonlocal election-results-table--single-seat-fptp">
-              <thead>
-                <tr>
-                  <th rowspan="2" data-leaf-col-idx="0">#</th>
-                  <th rowspan="2" data-leaf-col-idx="1">Candidate</th>
-                  <th rowspan="2" data-leaf-col-idx="2">Party</th>
-                  <th colspan="6">Votes</th>
-                  <th rowspan="2" data-leaf-col-idx="9">Result</th>
-                </tr>
-                <tr>
-                  ${this.renderMainParityLeafTh('No.', 3)}
-                  ${this.renderMainParityLeafTh('Party +/-', 4)}
-                  ${this.renderMainParityLeafTh('Candidate +/-', 5)}
-                  ${this.renderMainParityLeafTh('%', 6)}
-                  ${this.renderMainParityLeafTh('Party +/- %', 7)}
-                  ${this.renderMainParityLeafTh('Candidate +/- %', 8)}
-                </tr>
-              </thead>
-              <tbody>
-                ${rows.map((row) => {
-                  const { candidate, index, votes, votePct, statusKind, statusText, partyVoteDelta, candidateVoteDelta, partyPctDelta, candidatePctDelta } = row;
-                  return `
-                    <tr class="${statusKind === 'elected' ? 'election-row--elected test2-election-table__elected' : ''}">
-                      <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                      <td>${this.renderElectionEntityButton('candidate', candidate.id || `${row.name}|${row.party}`, escapeHtml(row.name), 'election-cell-wrap')}</td>
-                      <td>${this.renderElectionEntityButton('party', row.party, `<span class="election-party-dot" style="background:${escapeHtml(row.colour)}"></span>${escapeHtml(row.party)}`, 'election-cell-wrap')}</td>
-                      <td class="election-num">${formatNumber(votes)}</td>
-                      <td class="election-num">${partyVoteDelta === null || partyVoteDelta === undefined ? formatNotApplicable() : formatMainDelta(partyVoteDelta)}</td>
-                      <td class="election-num">${candidateVoteDelta === null || candidateVoteDelta === undefined ? formatNotApplicable() : formatMainDelta(candidateVoteDelta)}</td>
-                      <td class="election-num">${votePct === null ? '' : formatFixedPercent(votePct)}</td>
-                      <td class="election-num">${partyPctDelta === null || partyPctDelta === undefined ? formatNotApplicable() : formatMainPercentDelta(partyPctDelta)}</td>
-                      <td class="election-num">${candidatePctDelta === null || candidatePctDelta === undefined ? formatNotApplicable() : formatMainPercentDelta(candidatePctDelta)}</td>
-                      <td>${escapeHtml(statusText)}</td>
-                    </tr>
-                  `;
-                }).join('')}
-              </tbody>
-            </table>
-          </div>
+        <div class="test2-fptp-results-layout__table election-party-wrapper election-party-wrapper--pane-inline">
+          <table class="election-party-table election-party-table--grouped election-party-table--candidate-sticky3 election-results-table--fixed election-results-table--nonlocal election-results-table--single-seat-fptp">
+            <thead>
+              <tr>
+                <th rowspan="2" data-leaf-col-idx="0">#</th>
+                <th rowspan="2" data-leaf-col-idx="1">Candidate</th>
+                <th rowspan="2" data-leaf-col-idx="2">Party</th>
+                <th colspan="6">Votes</th>
+                <th rowspan="2" data-leaf-col-idx="9">Result</th>
+              </tr>
+              <tr>
+                ${this.renderMainParityLeafTh('No.', 3)}
+                ${this.renderMainParityLeafTh('Party +/-', 4)}
+                ${this.renderMainParityLeafTh('Candidate +/-', 5)}
+                ${this.renderMainParityLeafTh('%', 6)}
+                ${this.renderMainParityLeafTh('Party +/- %', 7)}
+                ${this.renderMainParityLeafTh('Candidate +/- %', 8)}
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map((row) => {
+                const { candidate, index, votes, votePct, statusKind, statusText, partyVoteDelta, candidateVoteDelta, partyPctDelta, candidatePctDelta } = row;
+                return `
+                  <tr class="${statusKind === 'elected' ? 'election-row--elected test2-election-table__elected' : ''}">
+                    <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
+                    <td>${this.renderElectionEntityButton('candidate', `${row.name || candidate.id || ''}|${row.party || ''}`, escapeHtml(row.name), 'election-cell-wrap')}</td>
+                    <td>${this.renderElectionEntityButton('party', row.party, `<span class="election-party-dot" style="background:${escapeHtml(row.colour)}"></span>${escapeHtml(row.party)}`, 'election-cell-wrap')}</td>
+                    <td class="election-num">${formatNumber(votes)}</td>
+                    <td class="election-num">${partyVoteDelta === null || partyVoteDelta === undefined ? formatNotApplicable() : formatMainDelta(partyVoteDelta)}</td>
+                    <td class="election-num">${candidateVoteDelta === null || candidateVoteDelta === undefined ? formatNotApplicable() : formatMainDelta(candidateVoteDelta)}</td>
+                    <td class="election-num">${votePct === null ? '' : formatFixedPercent(votePct)}</td>
+                    <td class="election-num">${partyPctDelta === null || partyPctDelta === undefined ? formatNotApplicable() : formatMainPercentDelta(partyPctDelta)}</td>
+                    <td class="election-num">${candidatePctDelta === null || candidatePctDelta === undefined ? formatNotApplicable() : formatMainPercentDelta(candidatePctDelta)}</td>
+                    <td>${escapeHtml(statusText)}</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
         </div>
         ${this.renderSingleSeatFptpVoteGraphic(rows, validPoll)}
       </div>
@@ -1722,6 +1728,25 @@ export class Test2ElectionManager {
   setupResultsTableControls(container) {
     const tables = [...(container?.querySelectorAll?.('.election-party-table, .election-count-table') || [])];
     tables.forEach((table) => this.setupSingleResultsTableControls(table));
+    this.syncResultsTableStickyWidths(container);
+    requestAnimationFrame(() => this.syncResultsTableStickyWidths(container));
+  }
+
+  syncResultsTableStickyWidths(container) {
+    const tables = [...(container?.querySelectorAll?.('.election-party-table--district-local-party-sticky4') || [])];
+    for (const table of tables) {
+      const row = table.querySelector('tbody tr:not(.election-table-summary-row):not(.election-table-note-row)') || table.querySelector('tbody tr');
+      if (!row) continue;
+      const cells = [...row.children];
+      const measuredWidth = (index, fallback) => {
+        const width = cells[index]?.getBoundingClientRect?.().width;
+        return Math.max(fallback, Math.ceil(Number.isFinite(width) && width > 0 ? width : fallback));
+      };
+      table.style.setProperty('--results-sticky-col-1-width', `${measuredWidth(0, 56)}px`);
+      table.style.setProperty('--results-sticky-col-2-width', `${measuredWidth(1, 28)}px`);
+      table.style.setProperty('--results-sticky-district-party-name-width', `${measuredWidth(2, 150)}px`);
+      table.style.setProperty('--results-sticky-district-dea-width', `${measuredWidth(3, 128)}px`);
+    }
   }
 
   setupSingleResultsTableControls(table) {
@@ -1827,8 +1852,13 @@ export class Test2ElectionManager {
       const gap = 4;
       const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
       const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+      const headerRect = document.querySelector('.app-header')?.getBoundingClientRect?.();
+      const topBoundary = Math.max(
+        margin,
+        Number.isFinite(headerRect?.bottom) ? Math.ceil(headerRect.bottom) + margin : margin
+      );
       const viewportMaxWidth = Math.max(160, viewportWidth - (margin * 2));
-      const viewportMaxHeight = Math.max(120, viewportHeight - (margin * 2));
+      const viewportMaxHeight = Math.max(96, viewportHeight - topBoundary - margin);
       const targetWidth = Math.min(248, viewportMaxWidth);
       const anchorRect = anchorBtn.getBoundingClientRect();
 
@@ -1842,10 +1872,11 @@ export class Test2ElectionManager {
 
       const measuredRect = menu.getBoundingClientRect();
       const belowSpace = Math.max(0, viewportHeight - anchorRect.bottom - margin - gap);
-      const aboveSpace = Math.max(0, anchorRect.top - margin - gap);
+      const aboveSpace = Math.max(0, anchorRect.top - topBoundary - gap);
       const measuredHeight = Math.min(measuredRect.height || viewportMaxHeight, viewportMaxHeight);
       const openAbove = measuredHeight > belowSpace && aboveSpace > belowSpace;
-      const availableHeight = Math.max(120, Math.min(viewportMaxHeight, openAbove ? aboveSpace : belowSpace));
+      const preferredAvailable = openAbove ? aboveSpace : belowSpace;
+      const availableHeight = Math.max(96, Math.min(viewportMaxHeight, preferredAvailable || viewportMaxHeight));
       menu.style.maxHeight = `${availableHeight}px`;
 
       if (valuesHost) {
@@ -1868,7 +1899,7 @@ export class Test2ElectionManager {
         : anchorRect.bottom + gap;
       const top = clampToViewport(
         preferredTop,
-        margin,
+        topBoundary,
         viewportHeight - finalRect.height - margin
       );
       menu.style.left = `${left}px`;
@@ -1900,6 +1931,7 @@ export class Test2ElectionManager {
       tbody.innerHTML = '';
       visibleRows.forEach(({ row }) => tbody.appendChild(row));
       fixedRows.forEach(({ row }) => tbody.appendChild(row));
+      requestAnimationFrame(() => this.syncResultsTableStickyWidths(table.closest('#electionResultsPane') || table.parentElement));
 
       headers.forEach((header, idx) => {
         const button = header.querySelector('[data-table-filter-sort-btn]');
@@ -2157,12 +2189,16 @@ export class Test2ElectionManager {
     const area = selectedResult?.constituency || selectedResult?.localBody || '';
     const title = area ? `Trend: ${area}` : 'Election trends';
     const family = electionTrendFamily(this.activeEntry || this.activeBundle || {});
+    const jurisdiction = electionTrendJurisdiction(this.activeEntry || this.activeBundle || {});
+    const scopeText = family
+      ? `Showing comparable ${family} contests${jurisdiction ? ` in ${jurisdiction}` : ''} by default.`
+      : `Showing comparable contests${jurisdiction ? ` in ${jurisdiction}` : ''} by default.`;
     return `
       <section class="test2-election-trends" aria-label="${escapeHtml(title)}">
         <div class="test2-election-trends__header">
           <div>
             <h3>${escapeHtml(title)}</h3>
-            <p>${escapeHtml(family ? `Showing comparable ${family} contests by default.` : 'Showing comparable contests by default.')}</p>
+            <p>${escapeHtml(scopeText)}</p>
           </div>
           <label class="test2-election-trends__scope">
             <input id="test2ElectionTrendsScope" type="checkbox">
@@ -2182,10 +2218,12 @@ export class Test2ElectionManager {
     const selectedKeys = new Set(selectedResult ? resultKeys(selectedResult) : []);
     const selectedLocalBody = normalizeName(selectedResult?.localBody || selectedResult?.council || '');
     const activeFamily = electionTrendFamily(this.activeEntry);
+    const activeJurisdiction = electionTrendJurisdiction(this.activeEntry);
     const selectedKeyLabel = selectedKeys.size ? [...selectedKeys].sort().join('|') : selectedLocalBody || 'overall';
     const renderCacheKey = [
       this.activeEntry.key || `${this.activeEntry.body}|${this.activeEntry.date}`,
       includeAllTypes ? 'all' : activeFamily,
+      activeJurisdiction || 'anywhere',
       selectedKeyLabel
     ].join('::');
     if (this.trendRenderCache.has(renderCacheKey)) {
@@ -2196,7 +2234,12 @@ export class Test2ElectionManager {
     chart.textContent = 'Loading trend data...';
     const entries = (this.catalogue?.elections || [])
       .filter((entry) => entry?.loadable && entry.resultUrl && normalizeName(entry.contestType || 'election') === 'election')
-      .filter((entry) => includeAllTypes || electionTrendFamily(entry) === activeFamily)
+      .filter((entry) => {
+        const entryJurisdiction = electionTrendJurisdiction(entry);
+        if (activeJurisdiction && entryJurisdiction && entryJurisdiction !== activeJurisdiction) return false;
+        if (includeAllTypes && activeJurisdiction && !entryJurisdiction) return false;
+        return includeAllTypes || electionTrendFamily(entry) === activeFamily;
+      })
       .sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')));
     const points = [];
     const summaries = await mapWithConcurrency(entries.slice(-80), 6, async (entry) => {
@@ -2343,10 +2386,90 @@ export class Test2ElectionManager {
     });
   }
 
+  candidateDeltasEligible(result = {}) {
+    const contestType = normalizeName(result?.contestType || this.activeBundle?.contestType || this.activeEntry?.contestType || 'election');
+    if (contestType && contestType !== 'election') return false;
+    const haystack = normalizeName([
+      result?.body,
+      result?.title,
+      result?.type,
+      result?.contestType,
+      result?.votingSystem,
+      this.activeBundle?.body,
+      this.activeBundle?.type,
+      this.activeBundle?.votingSystem,
+      this.activeEntry?.body,
+      this.activeEntry?.displayTitle,
+      this.activeEntry?.key,
+      this.activeEntry?.votingSystem
+    ].filter(Boolean).join(' '));
+    if (/referendum|recall petition/.test(haystack)) return false;
+    if (/northern ireland forum|regional list|party list dhondt|party-list-dhondt|ordinal/.test(haystack)) return false;
+    return true;
+  }
+
+  candidateDeltaAreaKey(row = {}, result = {}) {
+    return normalizeName(row.constituency || row.area || row.dea || row.district || row.localBody || result?.constituency || result?.matchName || result?.name || '');
+  }
+
+  candidateDeltaLookupKey(row = {}, result = {}) {
+    const name = normalizeName(row.name || row.candidateName || row.candidate || row.Candidate_Name || row.Candidate || '');
+    const area = this.candidateDeltaAreaKey(row, result);
+    return [name, area].filter(Boolean).join('|');
+  }
+
+  candidateFirstPrefValue(row = {}) {
+    return numberOrZero(row.firstPrefs ?? row.votes ?? row.finalVotes ?? row.total ?? row.Total_Votes);
+  }
+
+  candidateFirstPrefPct(row = {}, result = {}) {
+    const explicit = row.firstPrefPct ?? row.votePct ?? row.constPct ?? row.share;
+    if (Number.isFinite(Number(explicit))) return Number(explicit);
+    const validPoll = numberOrZero(result?.validPoll);
+    if (!validPoll) return null;
+    return this.candidateFirstPrefValue(row) / validPoll * 100;
+  }
+
+  buildCandidateDelta(row = {}, previous = null, result = {}, previousResult = {}) {
+    if (!previous) return { previous: null, deltas: null };
+    const currentPct = this.candidateFirstPrefPct(row, result);
+    const previousPct = this.candidateFirstPrefPct(previous, previousResult);
+    return {
+      previous,
+      deltas: {
+        firstPrefs: this.candidateFirstPrefValue(row) - this.candidateFirstPrefValue(previous),
+        firstPrefPct: currentPct !== null && previousPct !== null ? currentPct - previousPct : null
+      }
+    };
+  }
+
+  candidateDeltaForResultCandidate(candidate = {}, result = {}) {
+    if (!this.candidateDeltasEligible(result)) return { previous: null, deltas: null };
+    const previousResult = this.findPreviousSelectedResult(result);
+    if (!previousResult) return { previous: null, deltas: null };
+    const rowWithArea = {
+      ...candidate,
+      constituency: candidate.constituency || candidate.area || result?.constituency || result?.matchName || result?.name || ''
+    };
+    const key = this.candidateDeltaLookupKey(rowWithArea, result);
+    if (!key) return { previous: null, deltas: null };
+    const explicitPrevious = candidate.previous && this.candidateDeltaLookupKey(candidate.previous, previousResult) === key
+      ? candidate.previous
+      : null;
+    const previousRows = Array.isArray(previousResult.candidates) ? previousResult.candidates : [];
+    const previous = explicitPrevious || previousRows.find((row) => this.candidateDeltaLookupKey(row, previousResult) === key) || null;
+    return this.buildCandidateDelta(rowWithArea, previous, result, previousResult);
+  }
+
   withCandidateDeltas(rows = [], options = {}) {
-    if ((this.activeBundle?.contestType || this.activeEntry?.contestType) !== 'election') {
+    if (!this.candidateDeltasEligible(options.result || {})) {
       return rows.map((row) => ({ ...row, previous: row.previous || null, deltas: null }));
     }
+    const previousResultByArea = new Map(
+      (Array.isArray(options.previousResults) ? options.previousResults : [])
+        .map((result) => [this.candidateDeltaAreaKey({}, result), result])
+        .filter(([key]) => key)
+    );
     const previousRows = Array.isArray(options.previousRows)
       ? options.previousRows
       : Array.isArray(options.previousResults)
@@ -2354,29 +2477,19 @@ export class Test2ElectionManager {
       : options.mainLike && this.previousBundle?.mainLikeCandidateSummary?.length
       ? this.previousBundle.mainLikeCandidateSummary
       : (this.previousBundle?.results?.length ? buildCandidateSummary(this.previousBundle.results) : []);
-    const candidateKey = (row) => {
-      const name = normalizeName(row.name || row.candidateName || row.Candidate_Name || '');
-      const area = normalizeName(row.constituency || row.area || row.dea || '');
-      return [name, area].filter(Boolean).join('|');
-    };
     const previousByCandidate = new Map(previousRows
-      .map((row) => [candidateKey(row), row])
+      .map((row) => [this.candidateDeltaLookupKey(row), row])
       .filter(([key]) => key));
     return rows.map((row) => {
-      const key = candidateKey(row);
-      const explicitPrevious = row.previous && candidateKey(row.previous) === key ? row.previous : null;
+      const key = this.candidateDeltaLookupKey(row);
+      const explicitPrevious = row.previous && this.candidateDeltaLookupKey(row.previous) === key ? row.previous : null;
       const previous = explicitPrevious || previousByCandidate.get(key) || null;
-      const currentPct = row.firstPrefPct ?? row.constPct;
-      const previousPct = previous?.firstPrefPct ?? previous?.constPct;
+      const previousResult = previous ? previousResultByArea.get(this.candidateDeltaAreaKey(previous)) || {} : {};
+      const delta = this.buildCandidateDelta(row, previous, options.result || {}, previousResult);
       return {
         ...row,
-        previous,
-        deltas: previous ? {
-          firstPrefs: numberOrZero(row.firstPrefs ?? row.votes) - numberOrZero(previous.firstPrefs ?? previous.votes),
-          firstPrefPct: currentPct !== null && currentPct !== undefined && previousPct !== null && previousPct !== undefined
-            ? numberOrZero(currentPct) - numberOrZero(previousPct)
-            : null
-        } : null
+        previous: delta.previous,
+        deltas: delta.deltas
       };
     });
   }
@@ -2764,7 +2877,7 @@ export class Test2ElectionManager {
               return `
                 <tr class="${candidate.elected ? 'election-row--elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                  <td>${this.renderElectionEntityButton('candidate', candidate.id || `${candidate.name}|${candidate.party}`, escapeHtml(candidate.name || ''), 'election-cell-wrap')}</td>
+                  <td>${this.renderElectionEntityButton('candidate', `${candidate.name || candidate.id || ''}|${candidate.party || ''}`, escapeHtml(candidate.name || ''), 'election-cell-wrap')}</td>
                   <td>${this.renderElectionEntityButton('party', candidate.party, `<span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(candidate.party, candidate.colour))}"></span>${escapeHtml(candidate.party || '')}`, 'election-cell-wrap')}</td>
                   ${isLocal ? `<td><span class="election-cell-wrap">${escapeHtml(localBody)}</span></td>` : ''}
                   <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(normalizeName(candidate.constituency || ''))}">${escapeHtml(candidate.constituency || '')}</button></td>
@@ -2819,30 +2932,31 @@ export class Test2ElectionManager {
           <thead>
             <tr>
               <th rowspan="2" data-leaf-col-idx="0">#</th>
-              <th rowspan="2" data-leaf-col-idx="1">Party</th>
-              <th rowspan="2" data-leaf-col-idx="2">${escapeHtml(areaLabel)}</th>
+              <th rowspan="2" colspan="2" data-leaf-col-idx="2">Party</th>
+              <th rowspan="2" data-leaf-col-idx="3">${escapeHtml(areaLabel)}</th>
               <th colspan="2">Candidates</th>
               <th colspan="4">Seats</th>
               <th colspan="4">1st preferences</th>
             </tr>
             <tr>
-              ${this.renderMainParityLeafTh('No.', 3)}
-              ${this.renderMainParityLeafTh('+/-', 4)}
-              ${this.renderMainParityLeafTh('No.', 5)}
-              ${this.renderMainParityLeafTh('+/-', 6)}
-              ${this.renderMainParityLeafTh('%', 7)}
-              ${this.renderMainParityLeafTh('+/-', 8)}
-              ${this.renderMainParityLeafTh('No.', 9)}
-              ${this.renderMainParityLeafTh('+/-', 10)}
-              ${this.renderMainParityLeafTh('%', 11)}
-              ${this.renderMainParityLeafTh('+/-', 12)}
+              ${this.renderMainParityLeafTh('No.', 4)}
+              ${this.renderMainParityLeafTh('+/-', 5)}
+              ${this.renderMainParityLeafTh('No.', 6)}
+              ${this.renderMainParityLeafTh('+/-', 7)}
+              ${this.renderMainParityLeafTh('%', 8)}
+              ${this.renderMainParityLeafTh('+/-', 9)}
+              ${this.renderMainParityLeafTh('No.', 10)}
+              ${this.renderMainParityLeafTh('+/-', 11)}
+              ${this.renderMainParityLeafTh('%', 12)}
+              ${this.renderMainParityLeafTh('+/-', 13)}
             </tr>
           </thead>
           <tbody>
             ${rows.map((row, index) => `
               <tr>
                 <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                <td>${this.renderElectionEntityButton('party', row.party, `<span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(row.party, row.colour))}"></span>${escapeHtml(row.party)}`, 'election-cell-wrap')}</td>
+                <td class="election-colour-col"><span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(row.party, row.colour))}"></span></td>
+                <td>${this.renderElectionEntityButton('party', row.party, escapeHtml(row.party), 'election-cell-wrap')}</td>
                 <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(row.resultKey)}">${escapeHtml(row.constituency)}</button></td>
                 <td class="election-num">${formatNumber(row.stood)}</td>
                 <td class="election-num">${row.deltas ? formatMainDelta(row.deltas.stood) : ''}</td>
@@ -2970,6 +3084,7 @@ export class Test2ElectionManager {
               const counts = new Map((candidate.counts || []).map((count) => [Number(count.count), count]));
               const transferTerminalCount = stvResult ? terminalTransferOutCount(candidate, counts, result, rawCountNumbers) : null;
               const syntheticFirstCount = result.syntheticCountGroup ? counts.get(1) : null;
+              const candidateDelta = this.candidateDeltaForResultCandidate(candidate, result);
               const firstPrefs = result.syntheticCountGroup
                 ? numberOrZero(syntheticFirstCount?.firstPrefs ?? syntheticFirstCount?.total)
                 : numberOrZero(candidate.firstPrefs ?? candidate.votes);
@@ -2984,12 +3099,12 @@ export class Test2ElectionManager {
                 <tr class="election-count-row${candidate.elected ? ' election-count-row--elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td class="election-colour-col"><span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(candidate.party, candidate.colour))}"></span></td>
-                  <td class="election-col-name">${this.renderElectionEntityButton('candidate', candidate.id || `${candidate.name}|${candidate.party}`, escapeHtml(candidate.name || ''), 'election-cell-wrap election-cell-wrap--count-name')}</td>
+                  <td class="election-col-name">${this.renderElectionEntityButton('candidate', `${candidate.name || candidate.id || ''}|${candidate.party || ''}`, escapeHtml(candidate.name || ''), 'election-cell-wrap election-cell-wrap--count-name')}</td>
                   <td class="election-col-party">${this.renderElectionEntityButton('party', candidate.party, escapeHtml(candidate.party || ''), 'election-cell-wrap election-cell-wrap--count-party')}</td>
                   <td class="election-col-status"><span class="election-cell-wrap election-cell-wrap--count-status">${statusCount}</span></td>
-                  <td class="election-num">${!result.syntheticCountGroup && candidate.deltas ? formatMainDelta(candidate.deltas.firstPrefs) : formatNotApplicable()}</td>
+                  <td class="election-num">${!result.syntheticCountGroup && candidateDelta.deltas ? formatMainDelta(candidateDelta.deltas.firstPrefs) : formatNotApplicable()}</td>
                   <td class="election-num">${formatFixedPercent(firstPrefPct)}</td>
-                  ${this.countDetailedView ? `<td class="election-num">${!result.syntheticCountGroup && candidate.deltas?.firstPrefPct !== null && candidate.deltas?.firstPrefPct !== undefined ? formatMainPercentDelta(candidate.deltas.firstPrefPct) : formatNotApplicable()}</td>` : ''}
+                  ${this.countDetailedView ? `<td class="election-num">${!result.syntheticCountGroup && candidateDelta.deltas?.firstPrefPct !== null && candidateDelta.deltas?.firstPrefPct !== undefined ? formatMainPercentDelta(candidateDelta.deltas.firstPrefPct) : formatNotApplicable()}</td>` : ''}
                   <td class="election-num">${formatNumber(firstPrefs)}</td>
                   ${visibleCounts.map((count) => {
                     const row = counts.get(Number(count));
@@ -4716,6 +4831,37 @@ function electionTrendFamily(entry = {}) {
   if (/european/.test(body)) return 'European elections in Northern Ireland';
   if (/president/.test(body)) return 'Irish presidential elections';
   return group || body || 'elections';
+}
+
+function electionTrendJurisdiction(entry = {}) {
+  const body = normalizeName(entry.body || entry.displayTitle || '');
+  const group = normalizeName(entry.bodyGroup || '');
+  const provider = normalizeName(`${entry.displayProvider || ''} ${entry.provider || ''} ${entry.region || ''} ${entry.jurisdiction || ''}`);
+  const haystack = `${body} ${group} ${provider}`;
+  const constituencyNames = (Array.isArray(entry.constituencies) ? entry.constituencies : [])
+    .map((value) => normalizeName(value))
+    .filter(Boolean);
+
+  if (/northern ireland/.test(haystack)) return 'Northern Ireland';
+  if (/house of commons|westminster|uk parliament|assembly|forum|constitutional convention|parliament of northern ireland/.test(haystack)) {
+    return 'Northern Ireland';
+  }
+  if (constituencyNames.length && constituencyNames.every((value) => value === 'northern ireland')) return 'Northern Ireland';
+
+  if (/republic of ireland|irish general|dail|dail eireann|dÃ¡il|president of ireland|irish presidential/.test(haystack)) {
+    return 'Republic of Ireland';
+  }
+  if (/european/.test(body)) {
+    if (/northern ireland/.test(haystack)) return 'Northern Ireland';
+    if (/\bireland\b/.test(body) || /republic/.test(haystack) || /ireland national/.test(haystack)) return 'Republic of Ireland';
+    return 'Northern Ireland';
+  }
+  if (group === 'local-government' || /local election|local government/.test(haystack)) {
+    if (/local government districts|districts|northern/.test(haystack)) return 'Northern Ireland';
+    if (/local authorities|republic/.test(haystack)) return 'Republic of Ireland';
+  }
+  if (/referendum/.test(body) && /ireland/.test(haystack)) return 'Republic of Ireland';
+  return null;
 }
 
 function shortTrendLabel(entry = {}) {

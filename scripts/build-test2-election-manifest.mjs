@@ -1515,18 +1515,44 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
     return rows;
   });
   if (!countGroup.length) return rawResult;
-  const meta = rawResult?.meta || {};
+  const meta = {
+    ...(rawResult?.meta || {}),
+    ...(sidecar?.meta || {}),
+    ...(sidecar?.metadata || {})
+  };
+  const parseMetaNumber = (...values) => {
+    for (const value of values) {
+      const parsed = parseNumber(value);
+      if (parsed !== null) return parsed;
+    }
+    return null;
+  };
   const validPoll = parseNumber(meta.Valid_Poll ?? meta.valid_poll ?? meta.validPoll)
     || countGroup
       .filter((row) => Number(row.Count_Number) === 1)
       .reduce((sum, row) => sum + numberOrZero(row.Total_Votes), 0);
-  const totalPoll = parseNumber(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
-  const spoiled = parseNumber(meta.Spoiled ?? meta.spoiled);
-  const electorate = parseNumber(meta.Total_Electorate ?? meta.electorate ?? meta.electorate_total);
+  const sourceTurnoutPct = parseMetaNumber(meta.Turnout_Pct, meta.turnoutPct, meta.turnout_pct, meta.turnout);
+  const totalPoll = parseMetaNumber(meta.Total_Poll, meta.total_poll, meta.totalPoll, meta.poll, meta.total_votes);
+  const spoiled = parseMetaNumber(meta.Spoiled, meta.spoiled, meta.Spoilt, meta.spoilt, meta.invalid_votes);
+  const electorate = parseMetaNumber(meta.Total_Electorate, meta.total_electorate, meta.electorate, meta.electorate_total);
+  const inferredTotalPoll = totalPoll !== null
+    ? totalPoll
+    : (electorate !== null && sourceTurnoutPct !== null ? Math.round(electorate * sourceTurnoutPct / 100) : null);
+  const inferredSpoiled = spoiled !== null
+    ? spoiled
+    : (inferredTotalPoll !== null && validPoll !== null && inferredTotalPoll >= validPoll ? inferredTotalPoll - validPoll : null);
+  const turnoutPct = sourceTurnoutPct !== null
+    ? sourceTurnoutPct
+    : (inferredTotalPoll !== null && electorate !== null && electorate > 0 ? inferredTotalPoll / electorate * 100 : null);
   const electedCount = sidecar.candidates.filter((candidate) => Number(candidate.electedAt || 0) > 0).length;
   const seatCount = parseNumber(rawResult?.seats ?? meta.Number_Of_Seats ?? meta.seats) || electedCount;
   return {
     ...rawResult,
+    validPoll: validPoll || rawResult?.validPoll || null,
+    totalPoll: inferredTotalPoll ?? rawResult?.totalPoll ?? null,
+    spoiled: inferredSpoiled ?? rawResult?.spoiled ?? null,
+    electorate: electorate ?? rawResult?.electorate ?? null,
+    turnoutPct: turnoutPct ?? rawResult?.turnoutPct ?? null,
     Constituency: {
       __wikipediaCountGroup: true,
       countInfo: {
@@ -1534,9 +1560,10 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
         Constituency_Number: '',
         Number_Of_Seats: seatCount ? String(seatCount) : '',
         Quota: meta.Quota != null || meta.quota != null ? String(meta.Quota ?? meta.quota) : '',
-        Spoiled: spoiled != null ? String(spoiled) : '',
+        Spoiled: inferredSpoiled != null ? String(inferredSpoiled) : '',
         Total_Electorate: electorate != null ? String(electorate) : '',
-        Total_Poll: totalPoll != null ? String(totalPoll) : '',
+        Total_Poll: inferredTotalPoll != null ? String(inferredTotalPoll) : '',
+        Turnout_Pct: turnoutPct != null ? String(turnoutPct) : '',
         Valid_Poll: validPoll ? String(validPoll) : ''
       },
       countGroup

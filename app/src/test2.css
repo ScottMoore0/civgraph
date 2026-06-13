@@ -1042,22 +1042,30 @@ body.test2-election-pane-resizing * {
   display: flex;
   gap: 10px;
   align-items: start;
-  min-width: 0;
-  max-width: 100%;
+  width: max-content;
+  min-width: 100%;
+  max-width: none;
   justify-content: flex-start;
-  overflow-x: auto;
+  overflow: visible;
 }
 
 .test2-fptp-results-layout__table {
-  flex: 0 1 auto;
-  width: fit-content;
-  min-width: 0;
-  max-width: min(980px, 100%);
-  overflow: auto;
+  flex: 0 0 auto;
+  width: max-content;
+  min-width: max-content;
+  max-width: none;
+  overflow: visible;
 }
 
 .test2-fptp-results-layout__table .election-party-wrapper {
   margin: 0;
+}
+
+.election-party-wrapper--pane-inline {
+  overflow: visible;
+  max-height: none;
+  width: max-content;
+  min-width: max-content;
 }
 
 .test2-fptp-vote-graphic.transfer-animation-preview {
@@ -1250,6 +1258,8 @@ body.test2-election-pane-resizing * {
 @media (max-width: 1100px) {
   .test2-fptp-results-layout {
     flex-direction: column;
+    width: 100%;
+    min-width: 0;
     overflow-x: visible;
   }
 

@@ -127,6 +127,45 @@ test('mobile-shaped catalogue render hydrates thumbnails lazily', async ({ page 
   expect(state.hydrated).toBeLessThan(state.lazyCount);
 });
 
+test('dark-mode catalogue row thumbnails do not use preview-mat backgrounds', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('civgraph-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+  });
+  await page.goto('/#layers=__none');
+  await waitForApp(page);
+
+  const styles = await page.evaluate(() => {
+    const firstRowThumb = document.querySelector('.catalogue-flat__toc-thumbwrap img.catalogue-flat__toc-thumb');
+    const wrapper = firstRowThumb?.closest('.catalogue-flat__toc-thumbwrap');
+    const fallback = document.querySelector('.catalogue-flat__toc-thumb--fallback');
+    const wrapStyle = wrapper ? getComputedStyle(wrapper) : null;
+    const imageStyle = firstRowThumb ? getComputedStyle(firstRowThumb) : null;
+    const fallbackStyle = fallback ? getComputedStyle(fallback) : null;
+    return {
+      theme: document.documentElement.dataset.theme || document.body.dataset.theme || '',
+      hasThumb: Boolean(firstRowThumb),
+      wrapperBackground: wrapStyle?.backgroundColor || '',
+      imageBackground: imageStyle?.backgroundColor || '',
+      imageBorderTopWidth: imageStyle?.borderTopWidth || '',
+      imageWidth: firstRowThumb?.getBoundingClientRect().width || 0,
+      imageHeight: firstRowThumb?.getBoundingClientRect().height || 0,
+      fallbackBackground: fallbackStyle?.backgroundColor || ''
+    };
+  });
+
+  expect(styles.hasThumb).toBe(true);
+  expect(styles.wrapperBackground).not.toBe('rgb(238, 242, 247)');
+  expect(styles.wrapperBackground).not.toBe('rgb(255, 255, 255)');
+  expect(styles.imageBackground).toBe('rgba(0, 0, 0, 0)');
+  expect(styles.imageBorderTopWidth).toBe('0px');
+  expect(styles.imageWidth).toBeGreaterThanOrEqual(14);
+  expect(styles.imageHeight).toBeGreaterThanOrEqual(14);
+  if (styles.fallbackBackground) {
+    expect(styles.fallbackBackground).not.toBe('rgb(238, 242, 247)');
+  }
+});
+
 test('mobile startup defers full catalogue DOM while map is active', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#layers=__none');

@@ -356,10 +356,17 @@ class Test2App {
     const invalidateMapSize = () => {
       requestAnimationFrame(() => this.mapController?.invalidateSize?.());
     };
+    const applyPaneHeightCss = (height) => {
+      const cssValue = `${height}px`;
+      document.documentElement.style.setProperty('--test2-election-pane-height', cssValue);
+      document.body.style.setProperty('--test2-election-pane-height', cssValue);
+      document.querySelector('.app-shell')?.style.setProperty('--test2-election-pane-height', cssValue);
+    };
     const setPaneHeight = (height, options = {}) => {
       const { invalidate = true, persist = true } = options || {};
       const nextHeight = clampPaneHeight(height);
-      document.body.style.setProperty('--test2-election-pane-height', `${nextHeight}px`);
+      this._electionPaneHeight = nextHeight;
+      applyPaneHeightCss(nextHeight);
       if (persist) {
         try {
           localStorage.setItem(storageKey, String(nextHeight));
@@ -378,8 +385,27 @@ class Test2App {
     } catch {
       // Ignore storage failures; the CSS default remains available.
     }
+    const resizeSavedHeight = () => {
+      let savedHeight = NaN;
+      try {
+        savedHeight = parseCssPx(localStorage.getItem(storageKey), NaN);
+      } catch {
+        savedHeight = NaN;
+      }
+      const current = this._electionPaneHeight || savedHeight;
+      if (Number.isFinite(current)) setPaneHeight(current, { invalidate: true, persist: false });
+    };
+    window.addEventListener('resize', () => requestAnimationFrame(resizeSavedHeight), { passive: true });
+    const getResizeTarget = (target) => {
+      const explicit = target.closest?.('[data-election-pane-resize]');
+      if (explicit) return explicit;
+      const header = target.closest?.('.election-pane__header');
+      if (!header) return null;
+      const interactive = target.closest?.('button,a,input,select,textarea,[role="button"],[data-election-view],[data-election-entity],[data-election-result-key]');
+      return interactive ? null : (document.querySelector('[data-election-pane-resize]') || header);
+    };
     const startDrag = (event) => {
-      const handle = event.target.closest?.('[data-election-pane-resize]');
+      const handle = getResizeTarget(event.target);
       if (!handle) return;
       const pane = document.getElementById('electionResultsPane');
       if (!pane?.classList.contains('election-results-pane--open')) return;
@@ -404,7 +430,7 @@ class Test2App {
         window.removeEventListener('pointermove', onMove);
         window.removeEventListener('pointerup', onEnd);
         window.removeEventListener('pointercancel', onEnd);
-        const current = pane.getBoundingClientRect().height || defaultPaneHeight();
+        const current = this._electionPaneHeight || pane.getBoundingClientRect().height || defaultPaneHeight();
         setPaneHeight(current, { invalidate: false, persist: true });
         invalidateMapSize();
       };
@@ -414,7 +440,7 @@ class Test2App {
     };
     document.addEventListener('pointerdown', startDrag);
     document.addEventListener('keydown', (event) => {
-      const handle = event.target.closest?.('[data-election-pane-resize]');
+      const handle = getResizeTarget(event.target);
       if (!handle) return;
       const pane = document.getElementById('electionResultsPane');
       if (!pane?.classList.contains('election-results-pane--open')) return;
@@ -435,7 +461,7 @@ class Test2App {
       }
     });
     document.addEventListener('dblclick', (event) => {
-      if (!event.target.closest?.('[data-election-pane-resize]')) return;
+      if (!getResizeTarget(event.target)) return;
       event.preventDefault();
       setPaneHeight(defaultPaneHeight());
     });

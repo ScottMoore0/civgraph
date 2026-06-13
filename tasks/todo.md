@@ -5796,3 +5796,64 @@ Add election entries to /test2
 - Sample verified pages: `1985 Carlow County Council election`, `2024 Carlow County Council election`, and `2024 Limerick mayoral election`.
 - Payload coverage: each article has source category paths, revision metadata, canonical URL, full wikitext, rendered HTML, sections, links, external links, categories, images, parse properties, and raw API payloads.
 - Git/site status: the recursive cache is under `.cache/` and remains ignored; no article bodies were added to the repo or site.
+
+# Fix dark-mode catalogue row thumbnail regression
+- [x] Record scope
+  - Task: fix dark-mode catalogue row thumbnails that still appear as pale vertical blocks in the election/map list.
+  - Completed: identified the regression as the previous dark-thumbnail rule applying a light mat to the 16px row thumbnail wrapper and the image itself.
+- [x] Patch row thumbnail styling
+  - Scope: keep large thumbnail previews readable, but make the tiny catalogue-row thumbnail chips visually integrated in dark mode.
+  - Completed: split tiny row thumbnails out of the broad light preview-mat selectors; dark-mode row wrappers now use a subtle dark chip and row images remain transparent, while larger preview/card thumbnails keep the light map-paper background.
+- [x] Add a focused guardrail
+  - Scope: add a browser check proving dark-mode catalogue row thumbnails do not render with an opaque light background while preserving lazy thumbnail behaviour.
+  - Completed: added a Playwright regression against the promoted root catalogue route that asserts row thumbnail wrappers and images do not use the pale preview-mat background in dark mode.
+- [x] Verify and publish
+  - Scope: run static/build/browser checks, update lessons, commit, and push.
+  - Completed: `node --check tests\browser\mobile-catalogue-performance.spec.js`, `npm run build`, focused Playwright thumbnail regression, `npm run check:test2`, and `npm run check` passed. Commit and push pending.
+
+## Recurring Issue: dark-mode catalogue thumbnails
+- Symptom: transparent thumbnail assets remain readable, but the catalogue shows pale rectangular strips beside every row in dark mode.
+- Root cause: the dark-mode thumbnail fix used one broad selector for large thumbnails, small TOC row thumbnails, and row images; the 16px row wrappers inherited the same opaque light background intended for larger preview/card thumbnails.
+- Permanent prevention action: split tiny row thumbnail styling from preview/card thumbnail styling, and add a browser test that asserts dark-mode row thumbnail wrapper/image backgrounds are not the light preview mat.
+- Verification evidence: `npx playwright test tests/browser/mobile-catalogue-performance.spec.js -g dark-mode` passed after rebuild; `npm run check:test2` and `npm run check` also passed.
+
+## Review: dark-mode catalogue row thumbnail regression
+- The row-thumbnail regression was caused by grouping 16px catalogue thumbnails with larger preview/card thumbnails in one dark-mode background rule.
+- Tiny row thumbnails now sit in a subtle dark chip with transparent image backgrounds, so the list no longer shows pale vertical blocks in dark mode.
+- Larger hover/preview/card thumbnails still use a light mat where that helps transparent map assets remain legible.
+- A focused browser guardrail now verifies this on the promoted root route.
+
+# Finish election-pane scroll, popup, and candidate-delta polish
+- [x] Record scope
+  - Task: finish the queued election-pane fixes without disturbing unrelated staged work: local-party sticky overlap, jurisdiction-scoped Trends, resize persistence, Dail metadata hardening, catalogue-only entity links, bounded sort/filter menus, same-candidate first-preference deltas, and FPTP Results pane scroll behavior.
+- [x] Fix local-party sticky-column overlap
+  - Completed: local-party tables now measure and apply four leading sticky widths after render and sort/filter changes.
+- [x] Scope Trends to the active election jurisdiction
+  - Completed: Trends filtering now keeps include-all mode inside Northern Ireland or Republic of Ireland depending on the active election.
+- [x] Persist election-pane resize
+  - Completed: drag height is stored, applied as CSS variables, and re-applied after pane rerenders.
+- [x] Harden Dail spoiled/turnout extraction
+  - Completed: generated Dail count payloads now preserve source-provided total poll, spoiled, electorate, and turnout metadata where present without inventing missing source values.
+- [x] Route election party/person links to catalogue-pane entity pages
+  - Completed: party/person/candidate links from election tables now open full catalogue entity pages and no longer render lightweight info pages inside the election pane.
+- [x] Cap sort/filter popup height inside the browser viewport
+  - Completed: sort/filter menus are positioned below the fixed navbar and capped to the remaining viewport height, with scroll contained inside the menu values.
+- [x] Ensure candidate first-preference deltas use same-candidate previous appearances or N/A
+  - Completed: candidate first-preference deltas now use same-name/same-area previous candidate rows only, with absent candidate comparisons rendered as N/A while party/local-party zero baselines remain separate.
+- [x] Make FPTP Results use the election pane scrollport rather than a nested table scrollport
+  - Completed: single-seat First Past The Post Results tables now sit inline in the election pane content beside the static vote graphic, with horizontal scrolling owned by the election pane instead of an inner table viewport.
+- [x] Verify, update lessons, commit, and push
+  - Completed: focused browser regressions passed for bounded sort/filter menus, FPTP pane-level scrolling, jurisdiction-scoped Trends, catalogue-only entity links, and local-government sticky/aggregate behavior; `npm run check:test2` also passed. Commit/push pending.
+
+## Recurring Issue: election-pane parity surfaces must be guarded at the promoted route
+- Symptom: a fix can make the data correct while the visible election pane still routes candidate/party links into the wrong pane, shows candidate deltas from zero baselines, or scrolls FPTP Results inside a nested table viewport.
+- Root cause: election pane behaviour was split across generated result data, shared CSS, test2 manager rendering, and promoted-route URL/catalogue wiring; older static validators were checking stale helper strings instead of the current visible render path.
+- Permanent prevention action: add promoted-route browser guardrails for entity-link routing, candidate N/A deltas, bounded filter menus, pane-level FPTP scrolling, and local-party sticky columns; update static route validation to assert the current candidate delta implementation.
+- Verification evidence: `npm run test:browser -- tests/browser/test2-app.spec.js --grep "FPTP Results|sort/filter menu stays inside|Trends include-all scope|election party and person links|local-government aggregates"` passed, and `npm run check:test2` passed.
+
+## Review: election-pane scroll, popup, and candidate-delta polish
+- Sort/filter popups now stay wholly inside the available viewport below the fixed navbar and use internal scrolling for long option lists.
+- Candidate first-preference deltas now compare only to a previous row for the same candidate in the same area; candidates absent from the previous comparable contest show `N/A`.
+- Party and local-party deltas still keep the requested zero-baseline behavior, so parties newly standing can show numeric increases from zero.
+- Party/person/candidate links in election tables now open full Browse/catalogue detail pages in the left pane rather than replacing the election results pane.
+- FPTP Results layouts no longer create a nested horizontal table viewport; the table and static vote graphic sit side-by-side inside the election pane’s own horizontal scroll area.

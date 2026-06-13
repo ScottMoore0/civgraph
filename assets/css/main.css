@@ -10722,7 +10722,7 @@ kbd {
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow: auto;
   min-height: 0;
 }
 
@@ -11753,6 +11753,8 @@ kbd {
   position: fixed;
   z-index: 5200;
   width: 248px;
+  max-height: calc(100vh - var(--header-height, 64px) - 16px);
+  overscroll-behavior: contain;
   background: #ffffff;
   border: 1px solid #c9d0da;
   border-radius: 8px;
@@ -11815,6 +11817,7 @@ kbd {
 
 .election-filter-menu__values {
   max-height: 180px;
+  min-height: 0;
   overflow: auto;
   border: 1px solid #d5dbe4;
   border-radius: 4px;
@@ -12406,8 +12409,21 @@ kbd {
   position: sticky;
   left: calc(var(--results-sticky-col-1-width) + var(--results-sticky-col-2-width) + var(--results-sticky-district-party-name-width));
   z-index: 35;
+  width: var(--results-sticky-district-dea-width);
+  min-width: var(--results-sticky-district-dea-width);
+  max-width: var(--results-sticky-district-dea-width);
   background: #f4f5f7;
   box-shadow: 1px 0 0 #d6d8dc, 0 1px 0 #d6d8dc;
+}
+
+.election-party-table--district-local-party-sticky4 tbody td:nth-child(3) {
+  width: var(--results-sticky-district-party-name-width);
+  min-width: var(--results-sticky-district-party-name-width);
+  max-width: var(--results-sticky-district-party-name-width);
+}
+
+.election-party-table--district-local-party-sticky4 thead tr:first-child th:nth-child(2) {
+  min-width: calc(var(--results-sticky-col-2-width) + var(--results-sticky-district-party-name-width));
 }
 
 .election-party-table--district-local-party-sticky4 thead tr:first-child th:nth-child(3) {
@@ -12415,7 +12431,9 @@ kbd {
   top: 0;
   left: calc(var(--results-sticky-col-1-width) + var(--results-sticky-col-2-width) + var(--results-sticky-district-party-name-width));
   z-index: 45;
+  width: var(--results-sticky-district-dea-width);
   min-width: var(--results-sticky-district-dea-width);
+  max-width: var(--results-sticky-district-dea-width);
   box-shadow: 1px 0 0 #d6d8dc, 0 1px 0 #d6d8dc;
 }
 
@@ -13360,8 +13378,6 @@ kbd {
   color: #a8b3c5;
 }
 
-[data-theme="dark"] .catalogue-flat__toc-thumb,
-[data-theme="dark"] .catalogue-flat__toc-thumbwrap,
 [data-theme="dark"] .catalogue-flat__toc-thumbzoom,
 [data-theme="dark"] .catalogue-flat__toc-thumbzoom img,
 [data-theme="dark"] .map-card__thumbnail,
@@ -13376,8 +13392,6 @@ kbd {
   box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.05);
 }
 
-[data-theme="dark"] .catalogue-flat__toc-thumb,
-[data-theme="dark"] .catalogue-flat__toc-thumbwrap img,
 [data-theme="dark"] .map-card__thumbnail img,
 [data-theme="dark"] .class-member__thumbnail img,
 [data-theme="dark"] .thumb-zone img,
@@ -13385,6 +13399,28 @@ kbd {
 [data-theme="dark"] .book-card__thumbnail img,
 [data-theme="dark"] .c1-entry__thumbnail img {
   background-color: #eef2f7;
+}
+
+[data-theme="dark"] .catalogue-flat__toc-thumbwrap {
+  overflow: hidden;
+  background: rgba(148, 163, 184, 0.11);
+  border: 1px solid rgba(148, 163, 184, 0.26);
+  box-shadow: none;
+}
+
+[data-theme="dark"] .catalogue-flat__toc-thumbwrap img.catalogue-flat__toc-thumb,
+[data-theme="dark"] img.catalogue-flat__toc-thumb {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 1px;
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.72));
+}
+
+[data-theme="dark"] .catalogue-flat__toc-thumb--fallback {
+  background: rgba(148, 163, 184, 0.15);
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  filter: none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -13430,8 +13466,6 @@ kbd {
     color: #a8b3c5;
   }
 
-  :root:not([data-theme="light"]) .catalogue-flat__toc-thumb,
-  :root:not([data-theme="light"]) .catalogue-flat__toc-thumbwrap,
   :root:not([data-theme="light"]) .catalogue-flat__toc-thumbzoom,
   :root:not([data-theme="light"]) .catalogue-flat__toc-thumbzoom img,
   :root:not([data-theme="light"]) .map-card__thumbnail,
@@ -13446,8 +13480,6 @@ kbd {
     box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.05);
   }
 
-  :root:not([data-theme="light"]) .catalogue-flat__toc-thumb,
-  :root:not([data-theme="light"]) .catalogue-flat__toc-thumbwrap img,
   :root:not([data-theme="light"]) .map-card__thumbnail img,
   :root:not([data-theme="light"]) .class-member__thumbnail img,
   :root:not([data-theme="light"]) .thumb-zone img,
@@ -13455,6 +13487,28 @@ kbd {
   :root:not([data-theme="light"]) .book-card__thumbnail img,
   :root:not([data-theme="light"]) .c1-entry__thumbnail img {
     background-color: #eef2f7;
+  }
+
+  :root:not([data-theme="light"]) .catalogue-flat__toc-thumbwrap {
+    overflow: hidden;
+    background: rgba(148, 163, 184, 0.11);
+    border: 1px solid rgba(148, 163, 184, 0.26);
+    box-shadow: none;
+  }
+
+  :root:not([data-theme="light"]) .catalogue-flat__toc-thumbwrap img.catalogue-flat__toc-thumb,
+  :root:not([data-theme="light"]) img.catalogue-flat__toc-thumb {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 1px;
+    filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.72));
+  }
+
+  :root:not([data-theme="light"]) .catalogue-flat__toc-thumb--fallback {
+    background: rgba(148, 163, 184, 0.15);
+    border: 1px solid rgba(148, 163, 184, 0.32);
+    filter: none;
   }
 }
 

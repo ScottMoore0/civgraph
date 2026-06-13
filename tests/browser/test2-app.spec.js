@@ -25,6 +25,7 @@ async function expectElectionFilterMenuInsideViewport(page) {
     const rect = menu.getBoundingClientRect();
     const values = menu.querySelector('.election-filter-menu__values');
     const valuesRect = values?.getBoundingClientRect();
+    const headerBottom = document.querySelector('.app-header')?.getBoundingClientRect?.().bottom || 0;
     return {
       left: rect.left,
       top: rect.top,
@@ -34,13 +35,14 @@ async function expectElectionFilterMenuInsideViewport(page) {
       height: rect.height,
       viewportWidth: window.innerWidth,
       viewportHeight: window.innerHeight,
+      headerBottom,
       valuesHeight: valuesRect?.height || 0,
       valuesClientHeight: values?.clientHeight || 0,
       valuesScrollHeight: values?.scrollHeight || 0
     };
   });
   expect(bounds.left).toBeGreaterThanOrEqual(-1);
-  expect(bounds.top).toBeGreaterThanOrEqual(-1);
+  expect(bounds.top).toBeGreaterThanOrEqual(bounds.headerBottom - 1);
   expect(bounds.right).toBeLessThanOrEqual(bounds.viewportWidth + 1);
   expect(bounds.bottom).toBeLessThanOrEqual(bounds.viewportHeight + 1);
   expect(bounds.width).toBeGreaterThan(100);
@@ -436,7 +438,7 @@ test('/test2 restores active Dail election catalogue, viewport, labels, and part
 
 test('/test2 election sort/filter menu stays inside a constrained viewport', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 420 });
-  await page.goto('/test2/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
+  await page.goto('/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
   await page.waitForSelector('#electionPaneContent th[data-leaf-col-idx="1"] .election-th-btn');
@@ -448,6 +450,52 @@ test('/test2 election sort/filter menu stays inside a constrained viewport', asy
   await page.locator('.election-filter-menu__search').fill('Sinn');
   await expect(page.locator('.election-filter-menu__value', { hasText: /Sinn/ })).toBeVisible();
   await expectElectionFilterMenuInsideViewport(page);
+});
+
+test('/test2 FPTP Results use pane-level scrolling and candidate-only N/A deltas', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 820 });
+  await page.goto('/#layers=election-house-of-commons-of-the-united-kingdom-2024-07-04&lng=-6.8&lat=54.6&zoom=8.00');
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise, null, { timeout: 60000 });
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForFunction(() => window.__civgraphTest2?.app?.elections?.activeBundle?.results?.length > 0, null, { timeout: 60000 });
+
+  const state = await page.evaluate(async () => {
+    const manager = window.__civgraphTest2.app.elections;
+    const result = manager.activeBundle.results.find((row) => row.constituency === 'South Antrim')
+      || manager.activeBundle.results.find((row) => manager.isSingleSeatFptpResult(row));
+    manager.renderPanel(result, 'results');
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    const content = document.getElementById('electionPaneContent');
+    const tableHost = content?.querySelector('.test2-fptp-results-layout__table');
+    const nestedStickyWrapper = content?.querySelector('.test2-fptp-results-layout__table .election-party-wrapper--pane-sticky');
+    const rows = [...content.querySelectorAll('.election-results-table--single-seat-fptp tbody tr')]
+      .map((row) => [...row.children].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')));
+    const robin = rows.find((row) => /Robin Swann/i.test(row.join(' '))) || [];
+    return {
+      title: document.getElementById('electionPaneTitle')?.textContent?.trim() || '',
+      tabs: [...document.querySelectorAll('#electionPaneHeaderRight .election-view-tab')].map((button) => button.textContent.trim()),
+      contentOverflowX: getComputedStyle(content).overflowX,
+      hostOverflowX: tableHost ? getComputedStyle(tableHost).overflowX : '',
+      hostClass: tableHost?.className || '',
+      nestedStickyWrapper: Boolean(nestedStickyWrapper),
+      layoutDirection: getComputedStyle(document.querySelector('.test2-fptp-results-layout')).flexDirection,
+      graphicLeft: document.querySelector('.test2-fptp-vote-graphic')?.getBoundingClientRect?.().left || 0,
+      tableRight: tableHost?.getBoundingClientRect?.().right || 0,
+      robinCandidateDelta: robin[5] || '',
+      robinPartyDelta: robin[4] || ''
+    };
+  });
+
+  expect(state.title).toContain('South Antrim');
+  expect(state.tabs).toContain('Results');
+  expect(state.contentOverflowX).toMatch(/auto|scroll/);
+  expect(state.hostOverflowX).toBe('visible');
+  expect(state.hostClass).toContain('election-party-wrapper--pane-inline');
+  expect(state.nestedStickyWrapper).toBe(false);
+  expect(state.layoutDirection).toBe('row');
+  expect(state.graphicLeft).toBeGreaterThanOrEqual(state.tableRight - 1);
+  expect(state.robinCandidateDelta).toBe('N/A');
+  expect(state.robinPartyDelta).not.toBe('N/A');
 });
 
 test('/test2 Dail 2024 election pane matches the main DOM contract for the compared state', async ({ browser }) => {
@@ -778,6 +826,19 @@ test('/test2 selected Dail 2024 Galway East pane computes constituency percentag
   expect(afterResize.paneHeight).toBeGreaterThan(beforeResize.paneHeight + 20);
   expect(afterResize.appMainHeight).toBeLessThan(beforeResize.appMainHeight - 20);
   expect(afterResize.cssHeight).toMatch(/px$/);
+  const afterRerender = await page.evaluate(async () => {
+    window.__civgraphTest2.app.elections.renderPanel(null, 'candidate');
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    const pane = document.getElementById('electionResultsPane').getBoundingClientRect();
+    return {
+      paneHeight: Math.round(pane.height),
+      bodyCssHeight: getComputedStyle(document.body).getPropertyValue('--test2-election-pane-height').trim(),
+      rootCssHeight: getComputedStyle(document.documentElement).getPropertyValue('--test2-election-pane-height').trim()
+    };
+  });
+  expect(afterRerender.paneHeight).toBeGreaterThan(beforeResize.paneHeight + 20);
+  expect(afterRerender.bodyCssHeight).toBe(afterResize.cssHeight);
+  expect(afterRerender.rootCssHeight).toBe(afterResize.cssHeight);
 });
 
 test('/test2 Trends tab renders without getting stuck on loading', async ({ page }) => {
@@ -789,6 +850,45 @@ test('/test2 Trends tab renders without getting stuck on loading', async ({ page
   await page.waitForSelector('#test2ElectionTrendsChart .test2-election-trends__svg', { timeout: 60000 });
   await expect(page.locator('#test2ElectionTrendsChart')).not.toContainText('Loading trend data');
   await expect(page.locator('#test2ElectionTrendsChart .test2-election-trends__legend-item').first()).toBeVisible();
+});
+
+test('/test2 Trends include-all scope stays within the active election jurisdiction', async ({ page }) => {
+  test.setTimeout(90000);
+  const hash = 'layers=election-dil-ireann-2024-11-29&electionView=trends&lng=-8.12&lat=53.48&zoom=7.00';
+  await page.goto(`/test2/#${hash}`);
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise, null, { timeout: 60000 });
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForSelector('#test2ElectionTrendsChart .test2-election-trends__svg', { timeout: 60000 });
+  await page.locator('#test2ElectionTrendsScope').check();
+  await page.waitForFunction(() => {
+    const titles = [...document.querySelectorAll('#test2ElectionTrendsChart .trend-marker title')]
+      .map((node) => node.textContent || '');
+    return titles.length > 0 && titles.every((text) => !/Westminster|Assembly|Northern Ireland/i.test(text));
+  }, null, { timeout: 60000 });
+});
+
+test('/test2 election party and person links open full catalogue details only', async ({ page }) => {
+  const hash = 'layers=election-dil-ireann-2024-11-29&electionView=party&lng=-8.12&lat=53.48&zoom=7.00';
+  await page.goto(`/#${hash}`);
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise, null, { timeout: 60000 });
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+
+  const beforeTitle = await page.locator('#electionPaneTitle').textContent();
+  const partyLabel = await page.locator('#electionPaneContent [data-election-entity="party"]').first().textContent();
+  await page.locator('#electionPaneContent [data-election-entity="party"]').first().click();
+  await expect(page.locator('#catalogueDetailView')).toBeVisible();
+  await expect(page.locator('#catalogueDetailView')).toContainText((partyLabel || '').trim());
+  await expect(page.locator('#electionPaneContent .election-entity-page')).toHaveCount(0);
+  await expect(page.locator('#electionPaneTitle')).toContainText(beforeTitle || 'Dáil');
+
+  await page.locator('#electionPaneHeaderRight [data-election-view="candidate"]').click();
+  const firstCandidate = page.locator('#electionPaneContent .election-count-table [data-election-entity="candidate"]').first();
+  await expect(firstCandidate).toBeVisible();
+  const candidateLabel = await firstCandidate.textContent();
+  await firstCandidate.click();
+  await expect(page.locator('#catalogueDetailView')).toBeVisible();
+  await expect(page.locator('#catalogueDetailView')).toContainText((candidateLabel || '').trim());
+  await expect(page.locator('#electionPaneContent .election-entity-page')).toHaveCount(0);
 });
 
 test('/test2 dismisses stuck mobile thumbnail previews on outside tap', async ({ page }) => {
@@ -2044,12 +2144,55 @@ test('/test2 election pane supports local-government aggregates and detailed cou
     app.elections.renderPanel(null, 'local-party');
     const localText = document.getElementById('electionResultsPane')?.textContent || '';
     const localPartyTable = Boolean(document.querySelector('#electionPaneContent .election-party-table--district-local-party-sticky4'));
+    const localPartyStickyState = await new Promise((resolve) => {
+      requestAnimationFrame(() => {
+        const wrapper = document.querySelector('#electionPaneContent .election-party-wrapper');
+        const table = document.querySelector('#electionPaneContent .election-party-table--district-local-party-sticky4');
+        const row = table?.querySelector('tbody tr');
+        if (!wrapper || !table || !row) {
+          resolve({ ok: false });
+          return;
+        }
+        wrapper.scrollLeft = 320;
+        requestAnimationFrame(() => {
+          const cells = [...row.children];
+          const partyCell = cells[2];
+          const areaCell = cells[3];
+          const partyRect = partyCell?.getBoundingClientRect?.();
+          const areaRect = areaCell?.getBoundingClientRect?.();
+          const partyHit = partyRect
+            ? document.elementFromPoint(Math.min(partyRect.right - 2, partyRect.left + partyRect.width / 2), partyRect.top + partyRect.height / 2)
+            : null;
+          const areaHit = areaRect
+            ? document.elementFromPoint(Math.min(areaRect.right - 2, areaRect.left + areaRect.width / 2), areaRect.top + areaRect.height / 2)
+            : null;
+          resolve({
+            ok: true,
+            cellCount: cells.length,
+            colourColumn: cells[1]?.classList.contains('election-colour-col') || false,
+            partyText: partyCell?.textContent?.trim() || '',
+            areaText: areaCell?.textContent?.trim() || '',
+            partyOnTop: Boolean(partyCell && (partyCell === partyHit || partyCell.contains(partyHit))),
+            areaOnTop: Boolean(areaCell && (areaCell === areaHit || areaCell.contains(areaHit)))
+          });
+        });
+      });
+    });
     app.elections.activeLocalMode = 'district';
     app.elections.renderPanel(null, 'party');
     await app.elections.renderElectionOverlay();
     const aggregateSeatState = app.elections.getSeatCircleOverlayState();
     const aggregateTypes = [...new Set((aggregateSeatState.groups || []).map((group) => group.aggregateType).filter(Boolean))];
     const aggregateSeatCount = aggregateSeatState.dotCount;
+    const localTotalSeats = (app.elections.activeBundle?.results || []).reduce((sum, result) => {
+      const declaredSeats = Number(result.seats ?? result.totalSeats ?? result.seatCount ?? result.memberCount);
+      if (Number.isFinite(declaredSeats) && declaredSeats > 0) return sum + declaredSeats;
+      const electedCount = (result.candidates || []).filter((candidate) => {
+        const status = String(candidate.status || candidate.outcome || '').toLowerCase();
+        return candidate.elected === true || status.includes('elected');
+      }).length;
+      return sum + electedCount;
+    }, 0);
     const councilText = document.getElementById('electionResultsPane')?.textContent || '';
     const hasByCouncilTab = [...document.querySelectorAll('#electionPaneHeaderRight [data-election-view]')]
       .some((button) => button.textContent?.trim() === 'By Council');
@@ -2078,9 +2221,11 @@ test('/test2 election pane supports local-government aggregates and detailed cou
       localBodies: localEntry.localBodies?.length || 0,
       deaSeatCount,
       aggregateSeatCount,
+      localTotalSeats,
       aggregateTypes,
       localText,
       localPartyTable,
+      localPartyStickyState,
       councilText,
       hasByCouncilTab,
       selectedCouncilText,
@@ -2099,11 +2244,19 @@ test('/test2 election pane supports local-government aggregates and detailed cou
   expect(state.localText).toContain('By Local Party');
   expect(state.localText).toMatch(/DEA|1st preferences|Candidates|Seats/);
   expect(state.localPartyTable).toBe(true);
+  expect(state.localPartyStickyState.ok).toBe(true);
+  expect(state.localPartyStickyState.cellCount).toBeGreaterThanOrEqual(14);
+  expect(state.localPartyStickyState.colourColumn).toBe(true);
+  expect(state.localPartyStickyState.partyText).toBeTruthy();
+  expect(state.localPartyStickyState.areaText).toBeTruthy();
+  expect(state.localPartyStickyState.partyOnTop).toBe(true);
+  expect(state.localPartyStickyState.areaOnTop).toBe(true);
   expect(state.localBody).toBe('Local Government Districts');
   expect(state.localBodies).toBeGreaterThan(1);
   expect(state.deaSeatCount).toBeGreaterThan(0);
   expect(state.aggregateSeatCount).toBeGreaterThan(0);
-  expect(state.aggregateSeatCount).toBeLessThanOrEqual(state.deaSeatCount);
+  expect(state.localTotalSeats).toBeGreaterThan(0);
+  expect(state.aggregateSeatCount).toBeLessThanOrEqual(state.localTotalSeats);
   expect(state.aggregateTypes).toContain('council');
   expect(state.hasByCouncilTab).toBe(false);
   expect(state.councilText).toContain('District');
