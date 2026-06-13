@@ -2400,3 +2400,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) transient hover clearing must be centralized in the MapLibre controller and cover clicks outside real map, label, and seat-circle interaction targets,
   3) route validation must assert both contracts against the promoted `/app` source path,
   4) future hover/entity fixes should be verified on the visible route, not only on generated data or helper functions.
+
+### 176) External-source work needs deterministic metadata-only ingestion
+- Mistake pattern: Treating external-source requests as loose research notes or manually curated one-offs, especially when the request involves third-party articles or raster-map files.
+- Impact: tasks can look unfinished, copyrighted article text or large raster files could be accidentally copied into the repository, and Browse records can drift without validation.
+- Guardrail:
+  1) external source discovery must write a dedicated metadata file rather than copied article bodies or downloaded raster binaries,
+  2) Internet Archive rasters should be hotlinked/reference-linked unless storage ownership is explicitly requested,
+  3) a validator must prove every external source has a Browse index/detail record and that no full article text or local raster download URL has been introduced,
+  4) external ingestion should be an explicit networked command, while normal checks remain deterministic and network-free.

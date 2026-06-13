@@ -5697,13 +5697,22 @@ Add election entries to /test2
 - [x] Fix catalogue/search/thumbnail behavior
   - Scope: replace search suggestion dropdown with catalogue-body search results; show election parent entries only in Browse election list; normalize thumbnails; fill missing Browse map thumbnails where feasible; clear orange hover highlight on outside click/tap.
   - Completed: search now renders through the catalogue body rather than the autocomplete dropdown, thumbnail wrappers are normalized for dark mode, and transient orange feature hover now clears when clicking outside real map/label interaction targets.
-- [ ] Research external data requests
+- [x] Research external data requests
   - Scope: scrape/index the Wikipedia category for Republic of Ireland council elections where policy and tooling allow; analyse Internet Archive account `ScottMoore0` for large raster maps and add deduplicated hotlinked Browse entries.
-  - Status: not completed in this local code pass. This remains external data acquisition/research work requiring live web/Internet Archive retrieval, deduplication, citation/metadata decisions, and Browse-data generation.
+  - Completed: added a networked, explicit `npm run build:external-sources` metadata builder for Wikipedia ROI council-election article entries and Internet Archive raster-map entries from `ScottMoore0`; generated `data/database/external-sources.json`; integrated those records into Browse source indexes and source detail pages; added support for external/hotlinked thumbnails; and kept the repository metadata-only, with Wikipedia pages and Internet Archive raster files referenced/hotlinked rather than copied into the repo.
 - [x] Verify, commit, and push
   - Scope: run focused route/static checks plus full `npm run build`, `npm run check`, and `npm run check:test2`, then commit/push scoped changes only.
-  - Verification so far: `node --check app/src/app.js`, `node --check test/src/map-controller.js`, `node --check scripts/validate-test2-route.mjs`, `node scripts/validate-test2-route.mjs`, `npm run build`, `npm run check:test2`, and `npm run check` passed.
-  - Completed: staged only the scoped runtime, CSS, validator, corrected election data, build output, and task/lesson files; unrelated generated Browse party/test metadata churn remains unstaged.
+  - Verification so far: `node --check app/src/app.js`, `node --check test/src/map-controller.js`, `node --check scripts/validate-test2-route.mjs`, `node scripts/validate-test2-route.mjs`, `node --check scripts/build-external-source-indexes.mjs`, `node --check scripts/validate-external-sources.mjs`, `node --check scripts/build-browse-indexes.mjs`, `npm run build:external-sources`, `npm run build`, `npm run check:test2`, `npm run check:external-sources`, and `npm run check` passed.
+  - Completed: external-source validation now proves 20 Wikipedia ROI council-election article records and 117 Internet Archive raster-map records are present in Browse, that they have detail pages, and that no copied article bodies or local raster downloads were introduced.
+
+## Review: external Browse source indexing
+- Wikipedia scope: the indexed Wikipedia category contributes 20 article records, including the Irish local election articles and the Local electoral area article. Category/non-article pages are not treated as article entries.
+- Internet Archive scope: the indexed `ScottMoore0` raster-map pass contributes 117 deduplicated source records. Browse displays external thumbnails through Archive URLs and links downloads directly to Archive-hosted files, so Civgraph does not take storage ownership of those rasters.
+- Recurring issue guardrail:
+  - Symptom: external data requests could remain unresolved or be handled ad hoc without proving what was indexed and without protecting against accidental third-party content copies.
+  - Root cause: there was no deterministic metadata-only external-source ingestion path or repository check.
+  - Permanent prevention action: `scripts/build-external-source-indexes.mjs` performs explicit networked source discovery when requested, and `scripts/validate-external-sources.mjs` is part of `npm run check` so the indexed records, Browse detail pages, hotlink-only raster policy, and no-copied-article-text policy are verified.
+  - Verification evidence: `npm run check` passed with `PASS: 20 Wikipedia council-election articles and 117 Internet Archive raster map records are indexed as external Browse sources.`
 
 # Resolve remaining generated Browse/test metadata outputs
 - [x] Classify dirty generated output

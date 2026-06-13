@@ -32,6 +32,7 @@ function main() {
   const mapsData = readJson('data/database/maps.json', { categories: [], maps: [] });
   const dataEntriesData = readJson('data/database/data-entries.json', { dataEntries: [] });
   const booksData = readJson('data/database/books.json', { categories: [], books: [] });
+  const externalSourcesData = readJson('data/database/external-sources.json', { sources: [] });
   const spatialIndex = readJson('data/database/spatial-index.json', { maps: [], features: [] });
   const partyIds = readJson('election-viewer-package/data/party-ids.json', { party_ids: [], aliases: {} });
   const electionManifest = readJson('test/metadata/elections-test2.json', { elections: [], totals: {} });
@@ -60,11 +61,12 @@ function main() {
   const featureGroups = buildFeatureGroups(spatialIndex, maps, parentElections);
   const { parties, partyDetails } = buildParties(partyIds, electionDetails);
   const { persons, personDetails } = buildPersons(electionDetails);
-  const sources = buildSources(booksData, dataEntriesData, maps, parentElections, thumbnailIds);
+  const sources = buildSources(booksData, dataEntriesData, maps, parentElections, thumbnailIds, externalSourcesData);
   const rawMapsById = new Map((mapsData.maps || []).map((map) => [map.id, map]));
   const rawDataEntriesById = new Map(normalizeArray(dataEntriesData.dataEntries || dataEntriesData.entries).map((entry) => [entry.id || entry.slug || slugify(entry.name || entry.title), entry]));
   const rawElectionsByKey = new Map(normalizeArray(electionManifest.elections).map((entry) => [entry.key, entry]));
   const rawBooksById = new Map(normalizeArray(booksData.books || booksData.items).map((book) => [`book:${book.id || book.slug || slugify(book.title || book.name)}`, book]));
+  const rawExternalSourcesById = new Map(normalizeArray(externalSourcesData.sources || externalSourcesData.items).map((entry) => [entry.id || `external:${slugify(entry.title || entry.url || '')}`, entry]));
   ensureUniqueSlugs(maps);
   ensureUniqueSlugs(elections);
   ensureUniqueSlugs(featureGroups);
@@ -106,6 +108,7 @@ function main() {
       rawDataEntriesById,
       rawElectionsByKey,
       rawBooksById,
+      rawExternalSourcesById,
       electionDetails
     })
   }));
@@ -1085,7 +1088,7 @@ function buildPersons(electionDetails) {
   return { persons: items, personDetails: details };
 }
 
-function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds) {
+function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds, externalSourcesData = {}) {
   const sources = [];
   const bookCategories = new Map((booksData.categories || []).map((category) => [category.id, category]));
   for (const book of normalizeArray(booksData.books || booksData.items)) {
@@ -1168,6 +1171,33 @@ function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds)
       browseUrl: `/browse/sources/${encodeURIComponent(slugify(id))}`
     }));
   }
+  for (const entry of normalizeArray(externalSourcesData.sources || externalSourcesData.items)) {
+    const id = entry.id || `external:${slugify(entry.title || entry.url || '')}`;
+    const title = cleanText(entry.title || entry.name || id);
+    const slug = entry.slug || slugify(id);
+    const references = normalizeReferences(entry.references || entry.sourceReferences || entry.source || entry.url);
+    const downloads = normalizeLinks([entry.downloads, entry.links, entry.downloadUrl].filter(Boolean));
+    sources.push(compactObject({
+      id,
+      slug,
+      type: entry.type || 'external-source',
+      title,
+      subtitle: cleanText(entry.subtitle || compactJoin([entry.date || entry.year, entry.provider, entry.category])),
+      category: entry.category || 'External sources',
+      date: entry.date || entry.year || null,
+      provider: normalizeArray(entry.provider || entry.providers || entry.source),
+      description: cleanText(entry.description || ''),
+      url: entry.url || references.find((ref) => ref.url)?.url || null,
+      thumbnail: normalizeExternalThumbnail(entry.thumbnail, title),
+      references,
+      downloads,
+      keywords: normalizeArray(entry.keywords),
+      sourceItems: normalizeArray(entry.sourceItems),
+      duplicateCount: entry.duplicateCount || null,
+      license: entry.license || null,
+      browseUrl: `/browse/sources/${encodeURIComponent(slug)}`
+    }));
+  }
   return sources.sort(sortByTitle);
 }
 
@@ -1226,6 +1256,24 @@ function thumbnailForCandidates(thumbnailIds, candidates, label, fallbackType = 
   });
 }
 
+function normalizeExternalThumbnail(thumbnail, label) {
+  if (!thumbnail) return null;
+  if (typeof thumbnail === 'string') {
+    return compactObject({
+      kind: 'external',
+      url: thumbnail,
+      alt: cleanText(label || 'External source thumbnail')
+    });
+  }
+  if (typeof thumbnail !== 'object') return null;
+  return compactObject({
+    kind: thumbnail.kind || 'external',
+    url: thumbnail.url || thumbnail.href || null,
+    smallUrl: thumbnail.smallUrl || thumbnail.thumbnailUrl || null,
+    alt: cleanText(thumbnail.alt || label || 'External source thumbnail')
+  });
+}
+
 function thumbnailInitials(value) {
   const words = cleanText(value).split(/\s+/).filter(Boolean);
   const initials = words.slice(0, 2).map((word) => word[0]).join('').toUpperCase();
@@ -1243,6 +1291,9 @@ function sourceRawMetadata(record, context) {
       resultUrl: record.downloads?.[0]?.url,
       anchorUrl: record.downloads?.[1]?.url
     });
+  }
+  if (/^(wikipedia-article|internet-archive-raster-map|external-source)$/.test(record.type) || String(record.id || '').startsWith('external:')) {
+    return context.rawExternalSourcesById?.get(record.id) || null;
   }
   return null;
 }

@@ -773,6 +773,17 @@ function renderThumbnail(item, context = 'card') {
       </figure>
     `;
   }
+  if (thumbnail.kind === 'external' && thumbnail.url) {
+    const src = context === 'card' ? (thumbnail.smallUrl || thumbnail.url) : thumbnail.url;
+    const srcset = context === 'card' && thumbnail.smallUrl && thumbnail.url
+      ? ` srcset="${escapeAttr(thumbnail.smallUrl)} 120w, ${escapeAttr(thumbnail.url)} 480w" sizes="72px"`
+      : '';
+    return `
+      <figure class="browse-thumb browse-thumb--${escapeAttr(context)} browse-thumb--external">
+        <img src="${escapeAttr(src)}"${srcset} alt="${escapeAttr(thumbnail.alt || item.title || '')}" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+      </figure>
+    `;
+  }
   if (thumbnail.kind === 'map-fallback') {
     return `
       <figure class="browse-thumb browse-thumb--${escapeAttr(context)} browse-thumb--map-fallback" aria-label="${escapeAttr(thumbnail.alt || item.title || 'Map thumbnail')}">
@@ -797,7 +808,9 @@ function renderThumbnailPanel(item) {
   const thumbnail = normalizedThumbnail(item);
   const caption = thumbnail.kind === 'asset'
     ? `Thumbnail asset: ${thumbnail.id || fileName(thumbnail.url)}`
-    : 'No image asset is available for this item; Browse is showing a generated placeholder.';
+    : thumbnail.kind === 'external'
+      ? 'External thumbnail from the linked source; the image is not stored by Civgraph.'
+      : 'No image asset is available for this item; Browse is showing a generated placeholder.';
   return `
     <section class="browse-detail__panel browse-detail__panel--thumbnail">
       <h2>Thumbnail</h2>
@@ -805,6 +818,7 @@ function renderThumbnailPanel(item) {
         ${renderThumbnail(item, 'detail')}
         <p class="browse-thumb-caption">${escapeHtml(caption)}</p>
         ${thumbnail.kind === 'asset' && thumbnail.url ? `<p class="browse-thumb-caption"><a href="${escapeAttr(versionedThumbnailUrl(thumbnail.url))}" target="_blank" rel="noopener noreferrer">Open thumbnail at actual size</a></p>` : ''}
+        ${thumbnail.kind === 'external' && thumbnail.url ? `<p class="browse-thumb-caption"><a href="${escapeAttr(thumbnail.url)}" target="_blank" rel="noopener noreferrer">Open external thumbnail</a></p>` : ''}
       </div>
     </section>
   `;
