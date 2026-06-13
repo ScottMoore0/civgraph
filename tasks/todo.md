@@ -5727,3 +5727,72 @@ Add election entries to /test2
 - [x] Verify and publish generated-output sync
   - Scope: rerun route/test checks, commit the generated-output sync separately, and push.
   - Verification: `node scripts/validate-test2-route.mjs`, `node scripts/validate-maplibre-root-promotion.mjs`, `git diff --cached --check`, `npm run check:test2`, and `npm run check` passed. The first sandboxed `npm run check` hit `spawnSync git EPERM` in the Pages file-budget validator, then passed when rerun with escalation so the validator could invoke `git ls-files`.
+
+# Scrape Wikipedia ROI council-election articles into local cache only
+- [x] Record scope
+  - Task: fetch the full articles under `Category:Council_elections_in_the_Republic_of_Ireland` into a local workspace folder without adding them to the public site, generated Browse metadata, or GitHub.
+  - Intended storage: `.cache/wikipedia/council-elections-roi/`, which is already ignored by `.gitignore`.
+- [x] Fetch full article payloads
+  - Scope: save page metadata, revision IDs, canonical URLs, full wikitext, rendered HTML, sections, links, external links, categories, and images for each article.
+  - Completed: cached 20 article JSON payloads plus `index.json` under `.cache/wikipedia/council-elections-roi/`, using a throttled Wikipedia API scraper and preserving revision/license metadata.
+- [x] Verify local-only behavior
+  - Scope: confirm cache files exist, confirm the expected article count, and confirm `git status --short --untracked-files=all` does not list the scraped article files.
+  - Completed: verified 20 article files and `index.articleCount = 20`; sample records include full wikitext and rendered HTML byte counts. `git status --short --untracked-files=all` lists only `tasks/lessons.md` and `tasks/todo.md`, not `.cache/` article files.
+- [x] Summarize outcome
+  - Scope: state where the cache lives, what was fetched, and what remains for later decisions about extraction, citation, or publication.
+  - Completed: local-only scrape finished; no site metadata, Browse data, or committed runtime assets were changed.
+
+## Review: local Wikipedia ROI council-election article scrape
+- Cached local-only path: `.cache/wikipedia/council-elections-roi/`.
+- Files written: `index.json`, `articles/*.json`, and an ignored reproducible local scraper in the same cache folder.
+- Article count: 20 pages from `Category:Council_elections_in_the_Republic_of_Ireland`.
+- Payload coverage: page metadata, canonical URLs, revision IDs/timestamps/users/comments, full wikitext, rendered HTML, sections, links, external links, categories, images, parse properties, and raw API responses.
+- Git/site status: scraped article files are under `.cache/` and are ignored; they were not added to the public site or committed to GitHub.
+
+# Recursively scrape Wikipedia ROI council-election category tree locally
+- [x] Record scope
+  - Task: scrape all article pages reachable through `Category:Council_elections_in_the_Republic_of_Ireland` and its subcategories into an ignored local cache, including by-year and by-county/council subcategories.
+  - Intended storage: `.cache/wikipedia/council-elections-roi-recursive/`, with category membership preserved for each article.
+- [x] Build recursive local category crawler
+  - Scope: traverse Wikipedia category members by `page` and `subcat`, dedupe categories/pages, write category membership JSON, and cache full article payloads with wikitext, rendered HTML, revision/source/license metadata, links, external links, categories, images, and source category paths.
+  - Completed: added a resumable local-only crawler under `.cache/wikipedia/council-elections-roi-recursive/` with retry/backoff, page dedupe, category traversal, and cached-page reuse.
+- [x] Fetch recursive article cache
+  - Scope: run the crawler against Wikipedia with conservative retry/backoff, reusing the ignored cache area only.
+  - Completed: fetched 325 unique article payloads and 54 category records into the ignored cache. The wrapper timed out after the crawler printed completion, but `index.json` and the article files were written correctly.
+- [x] Verify recursive scrape
+  - Scope: confirm category and article counts, sample known pages such as Carlow council pages, and confirm Git does not list the scraped files.
+  - Completed: verified `index.categoryCount = 54`, `index.articleCount = 325`, 325 article JSON files, and sample pages including `1985 Carlow County Council election`, `2024 Carlow County Council election`, and `2024 Limerick mayoral election`. `git status --short --untracked-files=all` still lists no `.cache` article files.
+- [x] Summarize outcome
+  - Scope: explain exactly what was cached locally and what remains before any use in Civgraph data/site generation.
+  - Completed: the recursive Wikipedia source corpus is now local-only and ignored. No site metadata or GitHub-tracked article text was produced.
+
+# Fix dark thumbnails, slow Trends tab, and election pane resizing
+- [x] Record scope
+  - Task: after completing the recursive Wikipedia scrape, fix three promoted-site UI issues: dark-mode entry thumbnails, slow Trends tab loading, and the non-working election-pane resize bar.
+  - Completed: scoped the fix to promoted MapLibre/catalogue thumbnail wrappers, Browse detail thumbnails, election Trends rendering, and the election-pane resize divider.
+- [x] Fix dark-mode thumbnail display
+  - Scope: make entry/list/card thumbnails render with a consistent readable background in dark mode without mixed transparent black/white artifacts.
+  - Completed: added dark-mode thumbnail wells and image backgrounds for catalogue TOC/list thumbnails and Browse thumbnails, covering both explicit `data-theme="dark"` and system-dark paths.
+- [x] Speed up Trends tab
+  - Scope: identify why Trends remains on `Loading trend data...`, avoid expensive repeated work on render, cache/index trend data, and render quickly for selected geographies.
+  - Completed: added lightweight election trend summaries, bounded summary/render caches, concurrent summary loading, stale-render protection, and a browser regression proving the Trends tab renders chart content instead of staying on the loading state.
+- [x] Restore election pane resizing
+  - Scope: make the top resize divider respond to pointer/touch drag, persist sensible bounds, and avoid conflicting with map gestures.
+  - Completed: widened and raised the resize handle hit target, stopped pointer events from leaking into map gestures during resize, persisted the chosen height, added ARIA value updates, and verified the existing drag-resize browser test.
+- [x] Verify and publish UI fixes
+  - Scope: run focused static/browser-safe checks, then commit and push tracked UI/source changes only; keep `.cache` scraped articles local and untracked.
+  - Completed: syntax checks passed for the changed JS files, `npm run build` passed when rerun with the approved esbuild spawn path, `npm run check:test2` passed, the existing resize browser regression passed, and the new Trends browser regression passed. Commit/push pending this final change set.
+
+## Review: dark thumbnails, Trends speed, and election-pane resizing
+- Dark thumbnails: catalogue and Browse thumbnails now render on a stable light thumbnail well in dark mode, so transparent assets no longer inherit the dark pane background.
+- Trends tab: trend rendering now uses compact summaries with bounded caches instead of loading full election bundles through the normal small bundle cache one by one; the focused browser regression rendered the SVG chart in under the test timeout.
+- Election-pane resizing: the resize bar now has a larger hit target, pointer capture fallback, persisted height, keyboard ARIA updates, and verified drag behavior.
+- Startup guardrail: the promoted MapLibre runtime no longer runs the legacy `Fuse` initialiser during startup; catalogue-body search still uses the search worker with simple-search fallback.
+
+## Review: recursive Wikipedia ROI council-election category scrape
+- Cached local-only path: `.cache/wikipedia/council-elections-roi-recursive/`.
+- Category tree coverage: 54 categories, including by-year, by-county/council, and nested legacy council categories.
+- Article coverage: 325 unique article pages, deduped across category memberships.
+- Sample verified pages: `1985 Carlow County Council election`, `2024 Carlow County Council election`, and `2024 Limerick mayoral election`.
+- Payload coverage: each article has source category paths, revision metadata, canonical URL, full wikitext, rendered HTML, sections, links, external links, categories, images, parse properties, and raw API payloads.
+- Git/site status: the recursive cache is under `.cache/` and remains ignored; no article bodies were added to the repo or site.

@@ -780,6 +780,17 @@ test('/test2 selected Dail 2024 Galway East pane computes constituency percentag
   expect(afterResize.cssHeight).toMatch(/px$/);
 });
 
+test('/test2 Trends tab renders without getting stuck on loading', async ({ page }) => {
+  test.setTimeout(90000);
+  const hash = 'layers=election-dil-ireann-2024-11-29&electionView=trends&lng=-8.12&lat=53.48&zoom=7.00';
+  await page.goto(`/test2/#${hash}`);
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise, null, { timeout: 60000 });
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForSelector('#test2ElectionTrendsChart .test2-election-trends__svg', { timeout: 60000 });
+  await expect(page.locator('#test2ElectionTrendsChart')).not.toContainText('Loading trend data');
+  await expect(page.locator('#test2ElectionTrendsChart .test2-election-trends__legend-item').first()).toBeVisible();
+});
+
 test('/test2 dismisses stuck mobile thumbnail previews on outside tap', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/test2/');

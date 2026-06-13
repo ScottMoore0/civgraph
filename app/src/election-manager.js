@@ -36,6 +36,8 @@ const SEAT_CIRCLE_MIN_TOTAL_EXTENT = 120;
 const SYNTHETIC_ELECTION_LABEL_HEIGHT = 18;
 const ELECTION_BUNDLE_CACHE_LIMIT = 4;
 const ELECTION_FEATURE_INDEX_CACHE_LIMIT = 3;
+const ELECTION_TREND_SUMMARY_CACHE_LIMIT = 160;
+const ELECTION_TREND_RENDER_CACHE_LIMIT = 40;
 const SEAT_CIRCLE_GROUP_LIMIT_DESKTOP = 260;
 const SEAT_CIRCLE_GROUP_LIMIT_TABLET = 160;
 const SEAT_CIRCLE_GROUP_LIMIT_MOBILE = 90;
@@ -143,6 +145,9 @@ export class Test2ElectionManager {
     this.activeLocalMode = 'dea';
     this.countDetailedView = false;
     this.bundleCache = new Map();
+    this.trendSummaryCache = new Map();
+    this.trendSummaryPromiseCache = new Map();
+    this.trendRenderCache = new Map();
     this.featureIndexCache = new Map();
     this.resultsByLayer = new Map();
     this.seatCircleClickBound = false;
@@ -418,6 +423,70 @@ export class Test2ElectionManager {
     const bundle = await response.json();
     rememberLimitedCache(this.bundleCache, entry.key, bundle, ELECTION_BUNDLE_CACHE_LIMIT);
     return bundle;
+  }
+
+  async loadTrendSummary(entry) {
+    if (!entry?.key || !entry.resultUrl) return null;
+    if (this.trendSummaryCache.has(entry.key)) return this.trendSummaryCache.get(entry.key);
+    if (this.trendSummaryPromiseCache.has(entry.key)) return this.trendSummaryPromiseCache.get(entry.key);
+    const promise = (async () => {
+      let bundle = null;
+      if (this.activeEntry?.key === entry.key && this.activeBundle) {
+        bundle = this.activeBundle;
+      } else if (this.bundleCache.has(entry.key)) {
+        bundle = this.bundleCache.get(entry.key);
+      } else {
+        const response = await fetch(`${entry.resultUrl}?v=test-021`, { cache: 'force-cache' });
+        if (!response.ok) throw new Error(`Failed to load trend data for ${entry.body} ${entry.date}: ${response.status}`);
+        bundle = await response.json();
+      }
+      const summary = this.buildTrendSummary(entry, bundle);
+      rememberLimitedCache(this.trendSummaryCache, entry.key, summary, ELECTION_TREND_SUMMARY_CACHE_LIMIT);
+      return summary;
+    })();
+    this.trendSummaryPromiseCache.set(entry.key, promise);
+    try {
+      return await promise;
+    } finally {
+      this.trendSummaryPromiseCache.delete(entry.key);
+    }
+  }
+
+  buildTrendSummary(entry, bundle) {
+    const results = Array.isArray(bundle?.results) ? bundle.results : [];
+    const rowsForResults = (resultSet) => buildPartySummary(resultSet || [])
+      .filter((row) => numberOrZero(row.votes) > 0 || numberOrZero(row.seats) > 0)
+      .map((row) => ({
+        party: row.party,
+        share: Number.isFinite(Number(row.share)) ? Number(row.share) : 0,
+        votes: numberOrZero(row.votes),
+        seats: numberOrZero(row.seats),
+        colour: this.mainPanePartyColour(row.party, row.colour),
+        entry
+      }));
+    const resultRowsByKey = new Map();
+    const localRowsByKey = new Map();
+    for (const result of results) {
+      const rows = rowsForResults([result]);
+      for (const key of resultKeys(result)) {
+        if (key) resultRowsByKey.set(key, rows);
+      }
+      const localBody = normalizeName(result.localBody || result.council || '');
+      if (localBody) {
+        const existing = localRowsByKey.get(localBody) || [];
+        existing.push(result);
+        localRowsByKey.set(localBody, existing);
+      }
+    }
+    for (const [key, resultSet] of localRowsByKey.entries()) {
+      localRowsByKey.set(key, rowsForResults(resultSet));
+    }
+    return {
+      entry,
+      overallRows: rowsForResults(results),
+      resultRowsByKey,
+      localRowsByKey
+    };
   }
 
   async loadPreviousBundle(entry) {
@@ -2110,45 +2179,57 @@ export class Test2ElectionManager {
   async hydrateTrendsPanel(selectedResult = null, includeAllTypes = false) {
     const chart = document.getElementById('test2ElectionTrendsChart');
     if (!chart || !this.activeEntry) return;
-    chart.textContent = 'Loading trend data...';
     const selectedKeys = new Set(selectedResult ? resultKeys(selectedResult) : []);
     const selectedLocalBody = normalizeName(selectedResult?.localBody || selectedResult?.council || '');
     const activeFamily = electionTrendFamily(this.activeEntry);
+    const selectedKeyLabel = selectedKeys.size ? [...selectedKeys].sort().join('|') : selectedLocalBody || 'overall';
+    const renderCacheKey = [
+      this.activeEntry.key || `${this.activeEntry.body}|${this.activeEntry.date}`,
+      includeAllTypes ? 'all' : activeFamily,
+      selectedKeyLabel
+    ].join('::');
+    if (this.trendRenderCache.has(renderCacheKey)) {
+      chart.innerHTML = this.trendRenderCache.get(renderCacheKey);
+      return;
+    }
+    chart.dataset.trendRequestKey = renderCacheKey;
+    chart.textContent = 'Loading trend data...';
     const entries = (this.catalogue?.elections || [])
       .filter((entry) => entry?.loadable && entry.resultUrl && normalizeName(entry.contestType || 'election') === 'election')
       .filter((entry) => includeAllTypes || electionTrendFamily(entry) === activeFamily)
       .sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')));
     const points = [];
-    for (const entry of entries.slice(-80)) {
-      let bundle = null;
+    const summaries = await mapWithConcurrency(entries.slice(-80), 6, async (entry) => {
       try {
-        bundle = await this.loadBundle(entry);
+        return await this.loadTrendSummary(entry);
       } catch {
-        continue;
+        return null;
       }
-      let results = Array.isArray(bundle?.results) ? bundle.results : [];
+    });
+    for (const summary of summaries) {
+      if (!summary) continue;
+      let rows = summary.overallRows || [];
       if (selectedKeys.size) {
-        results = results.filter((result) => {
-          const keys = resultKeys(result);
-          if (keys.some((key) => selectedKeys.has(key))) return true;
-          if (selectedLocalBody && normalizeName(result.localBody || result.council || '') === selectedLocalBody) return true;
-          return false;
-        });
+        rows = [];
+        for (const key of selectedKeys) {
+          if (summary.resultRowsByKey.has(key)) {
+            rows = summary.resultRowsByKey.get(key);
+            break;
+          }
+        }
+        if (!rows.length && selectedLocalBody && summary.localRowsByKey.has(selectedLocalBody)) {
+          rows = summary.localRowsByKey.get(selectedLocalBody);
+        }
+      } else if (selectedLocalBody && summary.localRowsByKey.has(selectedLocalBody)) {
+        rows = summary.localRowsByKey.get(selectedLocalBody);
       }
-      if (!results.length) continue;
-      const rows = buildPartySummary(results)
-        .filter((row) => numberOrZero(row.votes) > 0 || numberOrZero(row.seats) > 0)
-        .map((row) => ({
-          party: row.party,
-          share: Number.isFinite(Number(row.share)) ? Number(row.share) : 0,
-          votes: numberOrZero(row.votes),
-          seats: numberOrZero(row.seats),
-          colour: this.mainPanePartyColour(row.party, row.colour),
-          entry
-        }));
       for (const row of rows) points.push(row);
     }
-    chart.innerHTML = this.renderTrendChart(points, selectedResult, includeAllTypes);
+    const markup = this.renderTrendChart(points, selectedResult, includeAllTypes);
+    rememberLimitedCache(this.trendRenderCache, renderCacheKey, markup, ELECTION_TREND_RENDER_CACHE_LIMIT);
+    if (chart.dataset.trendRequestKey === renderCacheKey) {
+      chart.innerHTML = markup;
+    }
   }
 
   renderTrendChart(points = [], selectedResult = null, includeAllTypes = false) {
@@ -4313,6 +4394,22 @@ function rememberLimitedCache(cache, key, value, limit) {
     cache.delete(oldestKey);
   }
   return value;
+}
+
+async function mapWithConcurrency(items, limit, mapper) {
+  const values = Array.isArray(items) ? items : [];
+  const size = Math.max(1, Number(limit) || 1);
+  const results = new Array(values.length);
+  let index = 0;
+  const workers = Array.from({ length: Math.min(size, values.length) }, async () => {
+    while (index < values.length) {
+      const current = index;
+      index += 1;
+      results[current] = await mapper(values[current], current);
+    }
+  });
+  await Promise.all(workers);
+  return results;
 }
 
 function normalizeName(value) {

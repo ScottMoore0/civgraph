@@ -335,6 +335,7 @@ class Test2App {
   setupElectionPaneResize() {
     if (this._electionPaneResizeReady) return;
     this._electionPaneResizeReady = true;
+    const storageKey = 'civgraph:test2:electionPaneHeight';
     const minPaneHeight = 120;
     const defaultPaneHeight = () => Math.round(Math.min(window.innerHeight * 0.38, Math.max(minPaneHeight, window.innerHeight * 0.32)));
     const parseCssPx = (value, fallback) => {
@@ -356,28 +357,55 @@ class Test2App {
       requestAnimationFrame(() => this.mapController?.invalidateSize?.());
     };
     const setPaneHeight = (height, options = {}) => {
-      const { invalidate = true } = options || {};
+      const { invalidate = true, persist = true } = options || {};
       const nextHeight = clampPaneHeight(height);
       document.body.style.setProperty('--test2-election-pane-height', `${nextHeight}px`);
+      if (persist) {
+        try {
+          localStorage.setItem(storageKey, String(nextHeight));
+        } catch {
+          // Ignore storage failures; resizing must still work in private modes.
+        }
+      }
       if (invalidate) invalidateMapSize();
       return nextHeight;
     };
+    try {
+      const savedHeight = Number.parseFloat(localStorage.getItem(storageKey) || '');
+      if (Number.isFinite(savedHeight)) {
+        setPaneHeight(savedHeight, { invalidate: false, persist: false });
+      }
+    } catch {
+      // Ignore storage failures; the CSS default remains available.
+    }
     const startDrag = (event) => {
       const handle = event.target.closest?.('[data-election-pane-resize]');
       if (!handle) return;
       const pane = document.getElementById('electionResultsPane');
       if (!pane?.classList.contains('election-results-pane--open')) return;
       event.preventDefault();
-      handle.setPointerCapture?.(event.pointerId);
+      event.stopPropagation();
+      try {
+        handle.setPointerCapture?.(event.pointerId);
+      } catch {
+        // Pointer capture can fail on some synthetic/mobile events; window listeners cover it.
+      }
       document.body.classList.add('test2-election-pane-resizing');
+      handle.setAttribute('aria-valuemin', String(minPaneHeight));
+      handle.setAttribute('aria-valuemax', String(maxPaneHeight()));
       const onMove = (moveEvent) => {
-        setPaneHeight(window.innerHeight - moveEvent.clientY, { invalidate: false });
+        moveEvent.preventDefault();
+        moveEvent.stopPropagation();
+        const nextHeight = setPaneHeight(window.innerHeight - moveEvent.clientY, { invalidate: false, persist: false });
+        handle.setAttribute('aria-valuenow', String(nextHeight));
       };
       const onEnd = () => {
         document.body.classList.remove('test2-election-pane-resizing');
         window.removeEventListener('pointermove', onMove);
         window.removeEventListener('pointerup', onEnd);
         window.removeEventListener('pointercancel', onEnd);
+        const current = pane.getBoundingClientRect().height || defaultPaneHeight();
+        setPaneHeight(current, { invalidate: false, persist: true });
         invalidateMapSize();
       };
       window.addEventListener('pointermove', onMove);
@@ -394,16 +422,16 @@ class Test2App {
       const step = event.shiftKey ? 50 : 20;
       if (event.key === 'ArrowUp') {
         event.preventDefault();
-        setPaneHeight(current + step);
+        handle.setAttribute('aria-valuenow', String(setPaneHeight(current + step)));
       } else if (event.key === 'ArrowDown') {
         event.preventDefault();
-        setPaneHeight(current - step);
+        handle.setAttribute('aria-valuenow', String(setPaneHeight(current - step)));
       } else if (event.key === 'Home') {
         event.preventDefault();
-        setPaneHeight(maxPaneHeight());
+        handle.setAttribute('aria-valuenow', String(setPaneHeight(maxPaneHeight())));
       } else if (event.key === 'End') {
         event.preventDefault();
-        setPaneHeight(minPaneHeight);
+        handle.setAttribute('aria-valuenow', String(setPaneHeight(minPaneHeight)));
       }
     });
     document.addEventListener('dblclick', (event) => {
@@ -806,9 +834,13 @@ class Test2App {
   }
 
   setupSearch() {
-    const originalInitializeFuse = uiController.initializeFuse?.bind(uiController);
+    const originalPerformSearch = uiController.performSearch?.bind(uiController);
     uiController.initializeFuse = () => {
-      if (!this.searchWorker) originalInitializeFuse?.();
+      // The promoted MapLibre shell renders search results in the catalogue
+      // body. Keep Fuse.js out of the critical path; search-worker/simple
+      // fallback paths below provide the runtime search contract.
+      uiController.fuse = null;
+      uiController.searchItems = [];
     };
     uiController.performSearch = async (query) => {
       uiController.hideAutocomplete?.();
@@ -819,6 +851,9 @@ class Test2App {
       this.workerSearchQuery = query;
       this.workerSearchResultIds = ids;
       this.updateMapList();
+      if (!ids.length && !this.searchWorker && typeof originalPerformSearch === 'function' && typeof window.Fuse !== 'undefined') {
+        return originalPerformSearch(query);
+      }
       return ids;
     };
     uiController.onSearch = (query) => {

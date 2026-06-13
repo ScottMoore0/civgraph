@@ -13362,6 +13362,8 @@ kbd {
 
 [data-theme="dark"] .catalogue-flat__toc-thumb,
 [data-theme="dark"] .catalogue-flat__toc-thumbwrap,
+[data-theme="dark"] .catalogue-flat__toc-thumbzoom,
+[data-theme="dark"] .catalogue-flat__toc-thumbzoom img,
 [data-theme="dark"] .map-card__thumbnail,
 [data-theme="dark"] .class-member__thumbnail,
 [data-theme="dark"] .thumb-zone,
@@ -13370,6 +13372,19 @@ kbd {
 [data-theme="dark"] .c1-entry__thumbnail {
   background: #eef2f7;
   border-color: #475569;
+  background-clip: padding-box;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.05);
+}
+
+[data-theme="dark"] .catalogue-flat__toc-thumb,
+[data-theme="dark"] .catalogue-flat__toc-thumbwrap img,
+[data-theme="dark"] .map-card__thumbnail img,
+[data-theme="dark"] .class-member__thumbnail img,
+[data-theme="dark"] .thumb-zone img,
+[data-theme="dark"] .variant-item__thumb img,
+[data-theme="dark"] .book-card__thumbnail img,
+[data-theme="dark"] .c1-entry__thumbnail img {
+  background-color: #eef2f7;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -13417,6 +13432,8 @@ kbd {
 
   :root:not([data-theme="light"]) .catalogue-flat__toc-thumb,
   :root:not([data-theme="light"]) .catalogue-flat__toc-thumbwrap,
+  :root:not([data-theme="light"]) .catalogue-flat__toc-thumbzoom,
+  :root:not([data-theme="light"]) .catalogue-flat__toc-thumbzoom img,
   :root:not([data-theme="light"]) .map-card__thumbnail,
   :root:not([data-theme="light"]) .class-member__thumbnail,
   :root:not([data-theme="light"]) .thumb-zone,
@@ -13425,6 +13442,19 @@ kbd {
   :root:not([data-theme="light"]) .c1-entry__thumbnail {
     background: #eef2f7;
     border-color: #475569;
+    background-clip: padding-box;
+    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.05);
+  }
+
+  :root:not([data-theme="light"]) .catalogue-flat__toc-thumb,
+  :root:not([data-theme="light"]) .catalogue-flat__toc-thumbwrap img,
+  :root:not([data-theme="light"]) .map-card__thumbnail img,
+  :root:not([data-theme="light"]) .class-member__thumbnail img,
+  :root:not([data-theme="light"]) .thumb-zone img,
+  :root:not([data-theme="light"]) .variant-item__thumb img,
+  :root:not([data-theme="light"]) .book-card__thumbnail img,
+  :root:not([data-theme="light"]) .c1-entry__thumbnail img {
+    background-color: #eef2f7;
   }
 }
 

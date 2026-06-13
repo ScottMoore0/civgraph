@@ -2409,3 +2409,21 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) Internet Archive rasters should be hotlinked/reference-linked unless storage ownership is explicitly requested,
   3) a validator must prove every external source has a Browse index/detail record and that no full article text or local raster download URL has been introduced,
   4) external ingestion should be an explicit networked command, while normal checks remain deterministic and network-free.
+
+### 177) Wikipedia full-text handling can be local-only under license-aware rules
+- Mistake pattern: Overstating the restriction on Wikipedia article text and treating all full-article scraping as illegitimate even when the user asks for a local gitignored cache.
+- Impact: useful corroboration/source-audit work is blocked unnecessarily, and the distinction between local research cache, committed structured extraction, and public article mirroring becomes muddled.
+- Guardrail:
+  1) local Wikipedia article caches may be created under an ignored workspace path when explicitly requested,
+  2) public commits should still avoid full article bodies unless attribution, license, revision, and share-alike obligations are deliberately handled,
+  3) every cached article must preserve canonical URL, revision ID, retrieval timestamp, and license/source metadata,
+  4) validators for public site metadata may still reject copied full text while allowing ignored local research caches.
+
+### 178) Wikipedia category scrapes must walk subcategories when the source category is hierarchical
+- Mistake pattern: Scraping only direct category pages from a Wikipedia category that primarily organizes content through subcategories.
+- Impact: the local cache misses county/council/year article pages that carry the detailed result tables needed for election-entry work.
+- Guardrail:
+  1) inspect category member types before declaring scrape coverage complete,
+  2) recursive scrapes must preserve both page dedupe and category membership/source paths,
+  3) local cache indexes should report direct article count, recursive article count, and category count,
+  4) verification must include at least one known county/council subcategory page such as `1985 Carlow County Council election`.
