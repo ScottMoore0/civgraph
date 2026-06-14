@@ -5980,3 +5980,20 @@ Add election entries to /test2
 - [x] Verify, commit, and push
   - Scope: run focused syntax checks, route validation, build/check scripts, then commit and push the completed ordered task set.
   - Completed: syntax checks, route validation, `npm run build:test2`, `npm run check:test2`, and full `npm run check` passed; commit/push is covered by the final combined task commit.
+
+# Retry remaining CSO Wayback failures
+- [x] Record scope
+  - Task: after pushing the current commit, retry the remaining CSO failed-link assets through the Internet Archive Wayback Machine, including previous `not_found` and download-failed rows.
+- [x] Add targeted retry support
+  - Scope: update the Wayback recovery script so it can retry previous failed/not-found rows, use deeper CDX snapshot lookup where the basic availability endpoint misses assets, and preserve ignored raw downloads under `data/downloads/wayback-cso/`.
+- [x] Run the retry recovery
+  - Scope: execute the retry against the remaining unrecovered/download-failed CSO assets and regenerate the JSON/HTML reports.
+- [x] Verify and publish report updates
+  - Scope: verify report totals, run relevant syntax/checks, commit report/script changes, and push.
+  - Completed: verified the recovery JSON has 1,444 rows, 1,404 downloaded/cached assets, and 40 unavailable rows; `node --check scripts\census\recover-cso-failed-links-wayback.mjs` and `npm run check:test2` passed.
+
+## Review: retry remaining CSO Wayback failures
+- The recovery script now supports `--retry-failed`, `--retry-problems-only`, `--retry-download-failed-only`, and opt-in `--alternate-snapshots`.
+- The retry pass used the Wayback availability API, CDX fallback lookup, URL variants, retry/backoff, and alternate snapshots for the two rows that had snapshots but failed to download.
+- Final recovery report: 1,444 CSO failed-link assets checked; 1,404 snapshots available; 1,404 downloaded or cached locally; 40 still unavailable through the attempted Wayback paths.
+- Raw recovered files remain under ignored `data/downloads/wayback-cso/`; only derived recovery inventory/report files are tracked.

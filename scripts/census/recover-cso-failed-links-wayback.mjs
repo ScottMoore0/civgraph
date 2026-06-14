@@ -11,6 +11,10 @@ const downloadDir = path.join(REPO, "data", "downloads", "wayback-cso");
 
 const args = new Set(process.argv.slice(2));
 const shouldDownload = args.has("--download");
+const retryFailed = args.has("--retry-failed") || args.has("--retry");
+const retryProblemsOnly = args.has("--retry-problems-only");
+const retryDownloadFailedOnly = args.has("--retry-download-failed-only");
+const useAlternateSnapshots = args.has("--alternate-snapshots");
 const limitArg = process.argv.find((arg) => arg.startsWith("--limit="));
 const limit = limitArg ? Number(limitArg.slice("--limit=".length)) : Infinity;
 const concurrencyArg = process.argv.find((arg) => arg.startsWith("--concurrency="));
@@ -40,7 +44,7 @@ function safeFileName(url, timestamp = "wayback") {
 }
 
 async function fetchJson(url) {
-  const res = await fetch(url, {
+  const res = await fetchWithRetries(url, {
     headers: {
       "user-agent": "CivgraphSourceRecovery/1.0 (+https://civgraph.net)"
     }
@@ -49,57 +53,183 @@ async function fetchJson(url) {
   return res.json();
 }
 
+async function fetchWithRetries(url, options = {}, attempts = 3) {
+  let lastError;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const res = await fetch(url, options);
+      if (res.ok || attempt === attempts || ![408, 429, 500, 502, 503, 504].includes(res.status)) {
+        return res;
+      }
+      lastError = new Error(`${res.status} ${res.statusText}`);
+    } catch (error) {
+      lastError = error;
+    }
+    await sleep(500 * attempt);
+  }
+  throw lastError || new Error("fetch failed");
+}
+
 async function findWaybackSnapshot(url) {
+  const candidates = candidateUrls(url);
   const apiUrl = new URL("https://archive.org/wayback/available");
-  apiUrl.searchParams.set("url", url);
+  for (const candidate of candidates) {
+    apiUrl.searchParams.set("url", candidate);
+    try {
+      const data = await fetchJson(apiUrl.toString());
+      const closest = data?.archived_snapshots?.closest;
+      if (closest?.available && closest?.url) {
+        const alternates = useAlternateSnapshots ? await findWaybackSnapshotsByCdx([candidate], 10) : [];
+        return {
+          status: "available",
+          lookup: "available",
+          originalUrl: candidate,
+          timestamp: closest.timestamp || null,
+          snapshotUrl: closest.url,
+          statusCode: closest.status || null,
+          alternates: alternates.filter((snapshot) => snapshot.timestamp !== closest.timestamp)
+        };
+      }
+    } catch (error) {
+      const cdxResult = await findWaybackSnapshotByCdx(candidates);
+      if (cdxResult.status === "available") return cdxResult;
+      return { status: "lookup_failed", error: error.message };
+    }
+  }
+  return findWaybackSnapshotByCdx(candidates);
+}
+
+function candidateUrls(url) {
+  const candidates = [url];
   try {
-    const data = await fetchJson(apiUrl.toString());
-    const closest = data?.archived_snapshots?.closest;
-    if (closest?.available && closest?.url) {
+    const parsed = new URL(url);
+    const alternateProtocol = new URL(parsed.toString());
+    alternateProtocol.protocol = parsed.protocol === "https:" ? "http:" : "https:";
+    candidates.push(alternateProtocol.toString());
+    if (parsed.hostname === "www.cso.ie") {
+      const noWww = new URL(parsed.toString());
+      noWww.hostname = "cso.ie";
+      candidates.push(noWww.toString());
+      const noWwwAlt = new URL(noWww.toString());
+      noWwwAlt.protocol = noWww.protocol === "https:" ? "http:" : "https:";
+      candidates.push(noWwwAlt.toString());
+    } else if (parsed.hostname === "cso.ie") {
+      const www = new URL(parsed.toString());
+      www.hostname = "www.cso.ie";
+      candidates.push(www.toString());
+      const wwwAlt = new URL(www.toString());
+      wwwAlt.protocol = www.protocol === "https:" ? "http:" : "https:";
+      candidates.push(wwwAlt.toString());
+    }
+  } catch {
+    // Keep the original candidate only.
+  }
+  return [...new Set(candidates)];
+}
+
+async function findWaybackSnapshotsByCdx(candidates, limitCount = 20) {
+  const snapshots = [];
+  let lastError = null;
+  for (const candidate of candidates) {
+    const apiUrl = new URL("https://web.archive.org/cdx");
+    apiUrl.searchParams.set("url", candidate);
+    apiUrl.searchParams.set("output", "json");
+    apiUrl.searchParams.set("fl", "timestamp,original,statuscode,mimetype,digest");
+    apiUrl.searchParams.append("filter", "statuscode:200");
+    apiUrl.searchParams.set("collapse", "digest");
+    apiUrl.searchParams.set("limit", String(limitCount));
+    apiUrl.searchParams.set("from", "1996");
+    try {
+      const data = await fetchJson(apiUrl.toString());
+      const rows = Array.isArray(data) ? data.slice(1) : [];
+      snapshots.push(...rows
+        .map((row) => ({
+          timestamp: row[0],
+          originalUrl: row[1] || candidate,
+          statusCode: row[2] || "200",
+          mimetype: row[3] || "",
+          digest: row[4] || ""
+        }))
+        .filter((row) => row.timestamp && !String(row.mimetype).includes("warc/revisit"))
+        .map((row) => ({
+          lookup: "cdx",
+          originalUrl: row.originalUrl,
+          timestamp: row.timestamp,
+          snapshotUrl: `https://web.archive.org/web/${row.timestamp}/${row.originalUrl}`,
+          statusCode: row.statusCode,
+          mimetype: row.mimetype,
+          digest: row.digest
+        })));
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  if (!snapshots.length && lastError) throw lastError;
+  return snapshots;
+}
+
+async function findWaybackSnapshotByCdx(candidates) {
+  try {
+    const snapshots = await findWaybackSnapshotsByCdx(candidates, 20);
+    const selected = snapshots[0];
+    if (selected) {
       return {
         status: "available",
-        timestamp: closest.timestamp || null,
-        snapshotUrl: closest.url,
-        statusCode: closest.status || null
+        ...selected,
+        alternates: snapshots.slice(1)
       };
     }
-    return { status: "not_found" };
   } catch (error) {
     return { status: "lookup_failed", error: error.message };
   }
+  return { status: "not_found" };
 }
 
-function rawSnapshotUrl(snapshotUrl, originalUrl) {
+function rawSnapshotUrl(snapshotUrl, originalUrl, mode = "id_") {
   const timestampMatch = String(snapshotUrl || "").match(/\/web\/(\d+)\//);
   if (!timestampMatch) return snapshotUrl;
-  return `https://web.archive.org/web/${timestampMatch[1]}id_/${originalUrl}`;
+  return `https://web.archive.org/web/${timestampMatch[1]}${mode}/${originalUrl}`;
 }
 
 async function downloadSnapshot(asset, snapshot) {
   if (!shouldDownload || snapshot.status !== "available") return { status: "not_requested" };
   fs.mkdirSync(downloadDir, { recursive: true });
-  const outPath = path.join(downloadDir, safeFileName(asset.url, snapshot.timestamp || "wayback"));
-  if (fs.existsSync(outPath)) {
-    return {
-      status: "cached",
-      path: path.relative(REPO, outPath).replace(/\\/g, "/"),
-      bytes: fs.statSync(outPath).size
-    };
-  }
+  const attempts = [snapshot, ...(useAlternateSnapshots ? (snapshot.alternates || []) : [])];
+  const errors = [];
   try {
-    const res = await fetch(rawSnapshotUrl(snapshot.snapshotUrl, asset.url), {
-      headers: {
-        "user-agent": "CivgraphSourceRecovery/1.0 (+https://civgraph.net)"
-      }
-    });
-    if (!res.ok) return { status: "failed", error: `${res.status} ${res.statusText}` };
-    const bytes = Buffer.from(await res.arrayBuffer());
-    fs.writeFileSync(outPath, bytes);
-    return {
-      status: "downloaded",
-      path: path.relative(REPO, outPath).replace(/\\/g, "/"),
-      bytes: bytes.length
+    const headers = {
+      "user-agent": "CivgraphSourceRecovery/1.0 (+https://civgraph.net)"
     };
+    for (const candidateSnapshot of attempts) {
+      const originalUrl = candidateSnapshot.originalUrl || snapshot.originalUrl || asset.url;
+      const timestamp = candidateSnapshot.timestamp || snapshot.timestamp || "wayback";
+      const outPath = path.join(downloadDir, safeFileName(originalUrl, timestamp));
+      if (fs.existsSync(outPath)) {
+        return {
+          status: "cached",
+          path: path.relative(REPO, outPath).replace(/\\/g, "/"),
+          bytes: fs.statSync(outPath).size,
+          timestamp
+        };
+      }
+      let res = await fetchWithRetries(rawSnapshotUrl(candidateSnapshot.snapshotUrl, originalUrl, "id_"), { headers }, 3);
+      if (!res.ok) {
+        res = await fetchWithRetries(rawSnapshotUrl(candidateSnapshot.snapshotUrl, originalUrl, ""), { headers }, 2);
+      }
+      if (!res.ok) {
+        errors.push(`${timestamp}: ${res.status} ${res.statusText}`);
+        continue;
+      }
+      const bytes = Buffer.from(await res.arrayBuffer());
+      fs.writeFileSync(outPath, bytes);
+      return {
+        status: "downloaded",
+        path: path.relative(REPO, outPath).replace(/\\/g, "/"),
+        bytes: bytes.length,
+        timestamp
+      };
+    }
+    return { status: "failed", error: errors.join("; ") || "no downloadable snapshot" };
   } catch (error) {
     return { status: "failed", error: error.message };
   }
@@ -182,7 +312,7 @@ function writeReport(assets) {
 }
 
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-const failedAssets = (manifest.assets || [])
+const allFailedAssets = (manifest.assets || [])
   .filter((asset) => asset.download?.status === "failed")
   .sort((a, b) => String(a.url || "").localeCompare(String(b.url || "")))
   .slice(0, Number.isFinite(limit) ? limit : undefined);
@@ -196,12 +326,40 @@ if (fs.existsSync(outJsonPath)) {
   }
 }
 const previousByUrl = new Map(previousAssets.map((asset) => [asset.url, asset]));
-const recoveredAssets = new Array(failedAssets.length);
+const previousProblemUrls = new Set(previousAssets
+  .filter((asset) => asset.recovery?.status !== "available" || asset.download?.status === "failed")
+  .map((asset) => asset.url));
+let failedAssets = allFailedAssets;
+if (retryProblemsOnly) {
+  failedAssets = allFailedAssets.filter((asset) => previousProblemUrls.has(asset.url));
+} else if (retryDownloadFailedOnly) {
+  failedAssets = allFailedAssets.filter((asset) => previousByUrl.get(asset.url)?.download?.status === "failed");
+}
+const recoveredAssets = failedAssets.map((asset) => previousByUrl.get(asset.url)).map((asset) => asset || null);
 let completedCount = 0;
+
+function shouldReusePrevious(previous) {
+  if (!previous?.recovery?.status) return false;
+  if (!retryFailed) return true;
+  if (["downloaded", "cached"].includes(previous.download?.status)) return true;
+  if (previous.recovery.status !== "available") return false;
+  if (previous.download?.status === "failed") return false;
+  return !shouldDownload;
+}
+
+function currentFullReportAssets() {
+  const updatedByUrl = new Map(previousAssets.map((asset) => [asset.url, asset]));
+  for (const asset of recoveredAssets) {
+    if (asset?.url) updatedByUrl.set(asset.url, asset);
+  }
+  return allFailedAssets
+    .map((asset) => updatedByUrl.get(asset.url))
+    .filter(Boolean);
+}
 
 await mapLimit(failedAssets, concurrency, async (asset, index) => {
   const previous = previousByUrl.get(asset.url);
-  if (previous?.recovery?.status) {
+  if (shouldReusePrevious(previous)) {
     recoveredAssets[index] = previous;
     completedCount += 1;
     return previous;
@@ -218,13 +376,13 @@ await mapLimit(failedAssets, concurrency, async (asset, index) => {
   };
   completedCount += 1;
   if (completedCount % checkpointEvery === 0 || completedCount === failedAssets.length) {
-    writeReport(recoveredAssets.filter(Boolean));
+    writeReport(currentFullReportAssets());
     console.log(`Checked ${completedCount}/${failedAssets.length}`);
   }
   await sleep(150);
   return recoveredAssets[index];
 });
 
-writeReport(recoveredAssets.filter(Boolean));
+writeReport(currentFullReportAssets());
 console.log(`Wrote ${path.relative(REPO, outJsonPath)}`);
 console.log(`Wrote ${path.relative(REPO, outHtmlPath)}`);
