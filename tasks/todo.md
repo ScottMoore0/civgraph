@@ -1,3 +1,35 @@
+# Census source scraping and cleaning pipeline
+- [x] Record scope
+  - Task: scrape the remaining CSO historical Census material first, then carry out the 1-9 Census data-cleaning workflow so the data is ready for later website integration without changing the live site yet.
+  - Constraint: raw downloaded/scraped sources should stay out of git unless explicitly approved, because Census archives and reports may be large.
+- [x] Scrape/inventory/download remaining CSO historical Census report links from the CSO historical reports pages
+  - Completed: added `scripts/census/scrape-cso-historical-reports.mjs` and ran it against the official CSO historical reports pages before the cleaning steps. It visited 180 CSO pages, found 3,177 linked assets, downloaded 1,733 accepted assets into gitignored `data/downloads/cso-historical-reports`, and recorded 1,444 blocked/missing direct-download links in `data/census/source-inventory/cso-historical-reports.json`.
+- [x] Inventory all local Census source ZIP/PDF/report archives listed by the user, without deleting or mutating source archives
+  - Completed: added `scripts/census/build-census-source-inventory.mjs`; it found all 11 local archives, inspects nested ZIP members in memory, and does not extract, delete, or mutate any source archive.
+- [x] Build a canonical geography registry covering NI Census geographies, all-Ireland historical Census geographies, and known crosswalk requirements
+  - Completed: generated `data/census/cleaned/canonical-geographies.json` from the existing Census schema mapping and crosswalk requirements.
+- [x] Extract table metadata from available repo Census files, local archive listings, and CSO scraped reports
+  - Completed: generated `data/census/cleaned/table-metadata.json` with 10,341 indexed records across repo 2011/2021 extracts, 2001/2011/2021 nested archive members, older local report archives, existing historical OCR markdown, and CSO scrape provenance.
+- [x] Build a concept/dimension ontology for Census variables, including nested/compound criteria
+  - Completed: generated `data/census/cleaned/concept-ontology.json` with core Census dimensions and an explicit AND/OR expression policy for later query UI.
+- [x] Map source table columns to canonical concepts/dimension values where this can be inferred automatically
+  - Completed: generated `data/census/cleaned/column-mappings.json`; 2011 DESC rows are mapped from authoritative column descriptions, 2021 derived tables use existing curated extraction names, and archive-only/report-only sources are marked lower confidence where cell-level metadata is not available yet.
+- [x] Add comparability groups and explicit notes for exact/partial/non-comparable Census concepts across years
+  - Completed: generated `data/census/cleaned/comparability-groups.json` from the normalisation plan, including notes for exact/partial/non-comparable concepts.
+- [x] Build validation checks for missing sources, duplicate files, geography coverage, malformed metadata, and low-confidence mappings
+  - Completed: generated `data/census/cleaned/validation-report.json`; current status is `warnings`, with no missing local archives, 1,444 CSO direct-download failures recorded, the known 2011 repo extract count warning, and 140 low-confidence mappings flagged for future manual review.
+- [x] Build an availability graph for AND/OR-style query criteria, indicating which combinations are present in the source data
+  - Completed: generated `data/census/cleaned/availability-graph.json`, keyed by concept/topic, geography level, year, source family, and mapping confidence.
+- [x] Export website-ready cleaned bundles in stable JSON/CSV form, while keeping raw downloaded/scraped sources out of git unless explicitly approved
+  - Completed: generated `data/census/cleaned/website-bundles/catalogue.json` and `data/census/cleaned/website-bundles/table-index.csv`; raw CSO downloads are ignored via `.gitignore:data/downloads/`.
+
+## Review: Census source scraping and cleaning pipeline
+- Added repeatable npm scripts: `census:scrape:cso`, `census:inventory`, and `census:clean`.
+- Verification: `node --check` passed for all three Census scripts, `package.json` parses, `npm run census:clean` completed end to end, and `npm run check` passed after rerunning outside the sandbox for the known `spawnSync git EPERM` Pages validator issue.
+- Output summary: 10,341 indexed Census records; source families include 1,565 `nisra_2011_csv_triplet`, 70 `nisra_2021_derived_csv`, 11 `ocr_markdown_report`, 8,547 `digital_tables`, 92 `historical_reports`, and 56 `all_ireland_historical` records.
+- Privacy check: regenerated manifests and cleaned outputs use `<Downloads>/...` source hints rather than committing absolute local archive paths; raw CSO downloads remain under gitignored `data/downloads/`.
+- Remaining caveats: some CSO direct PDF links are blocked by CSO/CDN with 403 or are stale 404 links, so the manifest records them instead of silently dropping them; older PDF/report sources still require manual/OCR cell-level extraction before they can become high-confidence fact tables.
+
 # Fix dark-mode election entry thumbnails
 - [x] Record scope
   - Task: fix remaining dark-mode thumbnail mismatch where election catalogue rows still show pale thumbnail strips even after TOC thumbnail dark-mode fixes.

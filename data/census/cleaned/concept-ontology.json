@@ -1,0 +1,530 @@
+{
+  "generatedAt": "2026-06-14T01:26:42.323Z",
+  "model": {
+    "expressionLanguage": "criteria can be combined with AND/OR; each criterion must resolve to a source table whose dimensions include the requested concept/value",
+    "unavailableCombinationPolicy": "return an explicit unavailable state with nearest available table suggestions, not a zero or blank value"
+  },
+  "dimensions": [
+    {
+      "id": "age",
+      "label": "Age",
+      "operators": [
+        "equals",
+        "in",
+        "range"
+      ],
+      "combinable": true
+    },
+    {
+      "id": "sex",
+      "label": "Sex",
+      "operators": [
+        "equals"
+      ],
+      "combinable": true
+    },
+    {
+      "id": "religion",
+      "label": "Religion",
+      "operators": [
+        "equals",
+        "in"
+      ],
+      "combinable": true
+    },
+    {
+      "id": "community_background",
+      "label": "Community background",
+      "operators": [
+        "equals",
+        "in"
+      ],
+      "combinable": true
+    },
+    {
+      "id": "ethnicity",
+      "label": "Ethnicity",
+      "operators": [
+        "equals",
+        "in"
+      ],
+      "combinable": true
+    },
+    {
+      "id": "country_of_birth",
+      "label": "Country of birth",
+      "operators": [
+        "equals",
+        "in"
+      ],
+      "combinable": true
+    },
+    {
+      "id": "economic_activity",
+      "label": "Economic activity",
+      "operators": [
+        "equals",
+        "in"
+      ],
+      "combinable": true
+    },
+    {
+      "id": "qualification",
+      "label": "Qualification",
+      "operators": [
+        "equals",
+        "in"
+      ],
+      "combinable": true
+    },
+    {
+      "id": "health",
+      "label": "Health",
+      "operators": [
+        "equals",
+        "in"
+      ],
+      "combinable": true
+    },
+    {
+      "id": "disability",
+      "label": "Disability or limiting condition",
+      "operators": [
+        "equals",
+        "in"
+      ],
+      "combinable": true
+    },
+    {
+      "id": "tenure",
+      "label": "Tenure",
+      "operators": [
+        "equals",
+        "in"
+      ],
+      "combinable": true
+    },
+    {
+      "id": "household",
+      "label": "Household composition",
+      "operators": [
+        "equals",
+        "in"
+      ],
+      "combinable": true
+    },
+    {
+      "id": "language",
+      "label": "Language knowledge/use",
+      "operators": [
+        "equals",
+        "in"
+      ],
+      "combinable": true
+    },
+    {
+      "id": "travel_to_work",
+      "label": "Travel to work",
+      "operators": [
+        "equals",
+        "in"
+      ],
+      "combinable": true
+    },
+    {
+      "id": "geography",
+      "label": "Geography",
+      "operators": [
+        "equals",
+        "within",
+        "intersects"
+      ],
+      "combinable": true
+    },
+    {
+      "id": "time",
+      "label": "Census year/date",
+      "operators": [
+        "equals",
+        "range"
+      ],
+      "combinable": true
+    }
+  ],
+  "concepts": [
+    {
+      "id": "population_by_area",
+      "priority": 1,
+      "label": "Total population (all persons, males, females) by geographic area",
+      "yearsAvailableDigital": [
+        2001,
+        2011,
+        2021
+      ],
+      "yearsAvailableHistorical": [
+        1926,
+        1937,
+        1951,
+        1961,
+        1966,
+        1971,
+        1981
+      ],
+      "sourceTables": {
+        "2001": "KS01",
+        "2011": "KS101NI",
+        "2021": "MS-A01"
+      },
+      "normalisedColumns": [
+        "geography_code",
+        "geography_name",
+        "geography_level",
+        "census_year",
+        "total_population",
+        "male_population",
+        "female_population",
+        "household_population",
+        "communal_population",
+        "area_hectares",
+        "population_density"
+      ],
+      "comparabilityNotes": null,
+      "difficulty": "easy"
+    },
+    {
+      "id": "religion",
+      "priority": 2,
+      "label": "Religion (current) and community background (religion or religion brought up in)",
+      "yearsAvailableDigital": [
+        2001,
+        2011,
+        2021
+      ],
+      "yearsAvailableHistorical": [
+        1926,
+        1937,
+        1951,
+        1961,
+        1971
+      ],
+      "sourceTables": {
+        "2001_religion": "KS07a",
+        "2001_community_bg": "KS07b",
+        "2011_religion": "KS211NI",
+        "2011_community_bg": "KS212NI",
+        "2021_religion": "MS-B19",
+        "2021_community_bg": "MS-B23"
+      },
+      "normalisedColumns": [
+        "geography_code",
+        "geography_name",
+        "geography_level",
+        "census_year",
+        "total_population",
+        "catholic",
+        "presbyterian",
+        "church_of_ireland",
+        "methodist",
+        "other_christian",
+        "other_religions",
+        "no_religion",
+        "not_stated"
+      ],
+      "comparabilityNotes": "2001 combines no_religion and not_stated. Need to create harmonised column. Community background table is NI-specific and highly comparable across all 3 years.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "age_structure",
+      "priority": 3,
+      "label": "Population by age bands",
+      "yearsAvailableDigital": [
+        2001,
+        2011,
+        2021
+      ],
+      "yearsAvailableHistorical": [],
+      "sourceTables": {
+        "2001": "KS02",
+        "2011": "KS102NI",
+        "2021": "MS-A06 or MS-A02 (5-year bands)"
+      },
+      "normalisedColumns": [],
+      "comparabilityNotes": "Use 5-year age bands as common denominator. 2001 and 2011 share identical bands. 2021 MS-A02 provides 5-year bands. Need to handle 0-4 split in 2021 (0-2 + 3-4) and 65+ split differently.",
+      "difficulty": "moderate"
+    },
+    {
+      "id": "ethnicity",
+      "priority": 4,
+      "label": "Population by ethnic group",
+      "yearsAvailableDigital": [
+        2001,
+        2011,
+        2021
+      ],
+      "yearsAvailableHistorical": [],
+      "sourceTables": {
+        "2001": "KS06",
+        "2011": "KS201NI",
+        "2021": "MS-B01"
+      },
+      "normalisedColumns": [
+        "geography_code",
+        "geography_name",
+        "geography_level",
+        "census_year",
+        "total",
+        "white",
+        "irish_traveller",
+        "indian",
+        "pakistani",
+        "bangladeshi",
+        "other_asian",
+        "black_caribbean",
+        "black_african",
+        "other_black",
+        "chinese",
+        "mixed",
+        "other"
+      ],
+      "comparabilityNotes": null,
+      "difficulty": "easy"
+    },
+    {
+      "id": "housing_tenure",
+      "priority": 5,
+      "label": "Households by tenure type",
+      "yearsAvailableDigital": [
+        2001,
+        2011,
+        2021
+      ],
+      "yearsAvailableHistorical": [],
+      "sourceTables": {
+        "2001": "KS18",
+        "2011": "KS402NI",
+        "2021": "MS-E15"
+      },
+      "normalisedColumns": [
+        "geography_code",
+        "geography_name",
+        "geography_level",
+        "census_year",
+        "total_households",
+        "owner_outright",
+        "owner_mortgage",
+        "shared_ownership",
+        "social_rented_nihe",
+        "social_rented_housing_assoc",
+        "private_rented",
+        "other_rented"
+      ],
+      "comparabilityNotes": null,
+      "difficulty": "easy"
+    },
+    {
+      "id": "economic_activity",
+      "priority": 6,
+      "label": "Population by economic activity status",
+      "yearsAvailableDigital": [
+        2001,
+        2011,
+        2021
+      ],
+      "yearsAvailableHistorical": [],
+      "sourceTables": {
+        "2001": "KS09a",
+        "2011": "KS601NI",
+        "2021": "MS-H02"
+      },
+      "normalisedColumns": [
+        "geography_code",
+        "geography_name",
+        "geography_level",
+        "census_year",
+        "total_16_74",
+        "employed_full_time",
+        "employed_part_time",
+        "self_employed",
+        "unemployed",
+        "economically_inactive_retired",
+        "economically_inactive_student",
+        "economically_inactive_home_family",
+        "economically_inactive_sick_disabled",
+        "economically_inactive_other"
+      ],
+      "comparabilityNotes": null,
+      "difficulty": "moderate"
+    },
+    {
+      "id": "qualifications",
+      "priority": 7,
+      "label": "Highest qualification level",
+      "yearsAvailableDigital": [
+        2001,
+        2011,
+        2021
+      ],
+      "yearsAvailableHistorical": [],
+      "sourceTables": {
+        "2001": "KS13",
+        "2011": "KS501NI",
+        "2021": "MS-G01"
+      },
+      "normalisedColumns": [],
+      "comparabilityNotes": "Map to broad levels: No qualifications, Level 1-2, Level 3, Level 4+. Definitions vary but broad groupings comparable.",
+      "difficulty": "moderate"
+    },
+    {
+      "id": "country_of_birth",
+      "priority": 8,
+      "label": "Population by country of birth",
+      "yearsAvailableDigital": [
+        2001,
+        2011,
+        2021
+      ],
+      "yearsAvailableHistorical": [],
+      "sourceTables": {
+        "2001": "KS05",
+        "2011": "KS204NI",
+        "2021": "MS-A16"
+      },
+      "normalisedColumns": [],
+      "comparabilityNotes": null,
+      "difficulty": "easy"
+    },
+    {
+      "id": "accommodation_type",
+      "priority": 9,
+      "label": "Dwellings by accommodation type",
+      "yearsAvailableDigital": [
+        2001,
+        2011,
+        2021
+      ],
+      "yearsAvailableHistorical": [],
+      "sourceTables": {
+        "2001": "KS16",
+        "2011": "KS401NI",
+        "2021": "MS-E05"
+      },
+      "normalisedColumns": [],
+      "comparabilityNotes": null,
+      "difficulty": "easy"
+    },
+    {
+      "id": "car_availability",
+      "priority": 10,
+      "label": "Households by number of cars/vans",
+      "yearsAvailableDigital": [
+        2001,
+        2011,
+        2021
+      ],
+      "yearsAvailableHistorical": [],
+      "sourceTables": {
+        "2001": "KS17",
+        "2011": "KS405NI",
+        "2021": "MS-E10"
+      },
+      "normalisedColumns": [],
+      "comparabilityNotes": null,
+      "difficulty": "easy"
+    },
+    {
+      "id": "travel_to_work",
+      "priority": 11,
+      "label": "Method of travel to work",
+      "yearsAvailableDigital": [
+        2001,
+        2011,
+        2021
+      ],
+      "yearsAvailableHistorical": [],
+      "sourceTables": {
+        "2001": "KS15",
+        "2011": "KS701NI",
+        "2021": "MS-I01"
+      },
+      "normalisedColumns": [],
+      "comparabilityNotes": "2021 data heavily affected by COVID-19 lockdown patterns. Work from home massively inflated.",
+      "difficulty": "moderate"
+    },
+    {
+      "id": "irish_language",
+      "priority": 12,
+      "label": "Knowledge of Irish",
+      "yearsAvailableDigital": [
+        2001,
+        2011,
+        2021
+      ],
+      "yearsAvailableHistorical": [],
+      "sourceTables": {
+        "2001": "KS22",
+        "2011": "KS209NI",
+        "2021": "MS-B05"
+      },
+      "normalisedColumns": [],
+      "comparabilityNotes": null,
+      "difficulty": "easy"
+    },
+    {
+      "id": "health_disability",
+      "priority": 13,
+      "label": "General health and limiting long-term illness/disability",
+      "yearsAvailableDigital": [
+        2001,
+        2011,
+        2021
+      ],
+      "yearsAvailableHistorical": [],
+      "sourceTables": {
+        "2001": "KS08",
+        "2011": "KS301NI",
+        "2021": "MS-D01, MS-D02"
+      },
+      "normalisedColumns": [],
+      "comparabilityNotes": "Question wording changed between 2001 and 2011. Not directly comparable at detailed level, but broad categories (good health vs not good) can be approximated.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "marital_status",
+      "priority": 14,
+      "label": "Marital and civil partnership status",
+      "yearsAvailableDigital": [
+        2001,
+        2011,
+        2021
+      ],
+      "yearsAvailableHistorical": [],
+      "sourceTables": {
+        "2001": "KS04",
+        "2011": "KS103NI",
+        "2021": "MS-A30"
+      },
+      "normalisedColumns": [],
+      "comparabilityNotes": null,
+      "difficulty": "moderate"
+    },
+    {
+      "id": "household_composition",
+      "priority": 15,
+      "label": "Household type and composition",
+      "yearsAvailableDigital": [
+        2001,
+        2011,
+        2021
+      ],
+      "yearsAvailableHistorical": [],
+      "sourceTables": {
+        "2001": "KS20",
+        "2011": "KS105NI",
+        "2021": "MS-A26"
+      },
+      "normalisedColumns": [],
+      "comparabilityNotes": null,
+      "difficulty": "moderate"
+    }
+  ]
+}

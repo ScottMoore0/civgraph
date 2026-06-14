@@ -1,0 +1,790 @@
+{
+  "generatedAt": "2026-06-14T01:26:42.324Z",
+  "crossCensusColumnMappings": {
+    "population": {
+      "2001": {
+        "table": "KS01",
+        "column": "All persons"
+      },
+      "2011": {
+        "table": "KS101NI",
+        "column": "KS101NI0001",
+        "description": "All usual residents"
+      },
+      "2021": {
+        "table": "MS-A01",
+        "column": "All usual residents"
+      },
+      "description": "Total usually resident population",
+      "comparable": true,
+      "notes": "Directly comparable. All three measure usually resident population."
+    },
+    "population_male": {
+      "2001": {
+        "table": "KS01",
+        "column": "Males"
+      },
+      "2011": {
+        "table": "KS101NI",
+        "column": "KS101NI0002"
+      },
+      "2021": {
+        "table": "MS-A07",
+        "column": "Male"
+      },
+      "comparable": true
+    },
+    "population_female": {
+      "2001": {
+        "table": "KS01",
+        "column": "Females"
+      },
+      "2011": {
+        "table": "KS101NI",
+        "column": "KS101NI0003"
+      },
+      "2021": {
+        "table": "MS-A07",
+        "column": "Female"
+      },
+      "comparable": true
+    },
+    "religion": {
+      "2001": {
+        "table": "KS07a",
+        "columns": [
+          "Catholic",
+          "Presbyterian Church in Ireland",
+          "Church of Ireland",
+          "Methodist Church in Ireland",
+          "Other Christian (including Christian related)",
+          "Other religions and philosophies",
+          "No religion or religion not stated"
+        ]
+      },
+      "2011": {
+        "table": "KS211NI",
+        "columns": [
+          "Catholic",
+          "Presbyterian Church in Ireland",
+          "Church of Ireland",
+          "Methodist Church in Ireland",
+          "Other Christian (including Christian related)",
+          "Other religions",
+          "No religion",
+          "Religion not stated"
+        ]
+      },
+      "2021": {
+        "table": "MS-B19",
+        "columns": [
+          "Catholic",
+          "Presbyterian Church in Ireland",
+          "Church of Ireland",
+          "Methodist Church in Ireland",
+          "Other Christian (including Christian related)",
+          "Other religions",
+          "No religion",
+          "Religion not stated"
+        ]
+      },
+      "description": "Current religion stated",
+      "comparable": true,
+      "notes": "2001 combines 'No religion' and 'Religion not stated' into one category. 2011 and 2021 separate them. For comparison, can combine 2011/2021 no religion + not stated to match 2001."
+    },
+    "community_background": {
+      "2001": {
+        "table": "KS07b",
+        "columns": [
+          "Catholic",
+          "Protestant and Other Christian",
+          "Other religions and philosophies",
+          "None"
+        ]
+      },
+      "2011": {
+        "table": "KS212NI"
+      },
+      "2021": {
+        "table": "MS-B23"
+      },
+      "description": "Religion or religion brought up in (Catholic vs Protestant aggregate)",
+      "comparable": true,
+      "notes": "Key NI-specific variable. Comparable across all three years."
+    },
+    "age_structure": {
+      "2001": {
+        "table": "KS02",
+        "bands": [
+          "0-4",
+          "5-7",
+          "8-9",
+          "10-14",
+          "15",
+          "16-17",
+          "18-19",
+          "20-24",
+          "25-29",
+          "30-44",
+          "45-59",
+          "60-64",
+          "65-74",
+          "75-84",
+          "85-89",
+          "90+"
+        ]
+      },
+      "2011": {
+        "table": "KS102NI",
+        "bands": [
+          "0-4",
+          "5-7",
+          "8-9",
+          "10-14",
+          "15",
+          "16-17",
+          "18-19",
+          "20-24",
+          "25-29",
+          "30-44",
+          "45-59",
+          "60-64",
+          "65-74",
+          "75-84",
+          "85-89",
+          "90+"
+        ]
+      },
+      "2021": {
+        "table": "MS-A06",
+        "bands": [
+          "0-2",
+          "3-4",
+          "5-7",
+          "8-9",
+          "10-14",
+          "15",
+          "16-17",
+          "18-19",
+          "20-24",
+          "25-29",
+          "30-34",
+          "35-39",
+          "40-44",
+          "45-49",
+          "50-54",
+          "55-59",
+          "60-64",
+          "65",
+          "66-69",
+          "70-74",
+          "75-79",
+          "80-84",
+          "85-89",
+          "90+"
+        ]
+      },
+      "description": "Population by age bands",
+      "comparable": "partial",
+      "notes": "2001 and 2011 use identical age bands. 2021 uses different bands (more granular). Can re-aggregate 2021 bands to approximately match 2001/2011 but some bands differ at young ages (0-4 vs 0-2 + 3-4) and old ages (65-74 vs 65 + 66-69 + 70-74). MS-A02 gives 5-year bands which may be easier to harmonise."
+    },
+    "ethnicity": {
+      "2001": {
+        "table": "KS06",
+        "columns": [
+          "White",
+          "Irish Traveller",
+          "Mixed",
+          "Indian",
+          "Pakistani",
+          "Bangladeshi",
+          "Other Asian",
+          "Black Caribbean",
+          "Black African",
+          "Other Black",
+          "Chinese",
+          "Other"
+        ]
+      },
+      "2011": {
+        "table": "KS201NI",
+        "columns": [
+          "White",
+          "Chinese",
+          "Irish Traveller",
+          "Indian",
+          "Pakistani",
+          "Bangladeshi",
+          "Other Asian",
+          "Black Caribbean",
+          "Black African",
+          "Black Other",
+          "Mixed",
+          "Other"
+        ]
+      },
+      "2021": {
+        "table": "MS-B01"
+      },
+      "comparable": true,
+      "notes": "Same broad categories across years but detail and order differ. Can map to harmonised set: White, Irish Traveller, Indian, Pakistani, Bangladeshi, Other Asian, Black, Chinese, Mixed, Other."
+    },
+    "country_of_birth": {
+      "2001": {
+        "table": "KS05",
+        "columns": [
+          "Northern Ireland",
+          "England",
+          "Scotland",
+          "Wales",
+          "Republic of Ireland",
+          "Other EU",
+          "Elsewhere"
+        ]
+      },
+      "2011": {
+        "table": "KS204NI"
+      },
+      "2021": {
+        "table": "MS-A16"
+      },
+      "comparable": true,
+      "notes": "Similar categories. EU definition changes between censuses."
+    },
+    "marital_status": {
+      "2001": {
+        "table": "KS04",
+        "columns": [
+          "Single",
+          "Married",
+          "Re-married",
+          "Separated",
+          "Divorced",
+          "Widowed"
+        ]
+      },
+      "2011": {
+        "table": "KS103NI",
+        "notes": "Adds civil partnership categories"
+      },
+      "2021": {
+        "table": "MS-A30"
+      },
+      "comparable": "partial",
+      "notes": "2011 and 2021 add civil partnership categories not present in 2001. Core categories comparable."
+    },
+    "economic_activity": {
+      "2001": {
+        "table": "KS09a"
+      },
+      "2011": {
+        "table": "KS601NI"
+      },
+      "2021": {
+        "table": "MS-H02"
+      },
+      "comparable": "partial",
+      "notes": "Broad categories comparable (employed, self-employed, unemployed, inactive). Detail categories differ. 2001 uses SIC2003, 2011 uses SIC2007."
+    },
+    "industry": {
+      "2001": {
+        "table": "KS11a",
+        "classification": "SIC2003"
+      },
+      "2011": {
+        "table": "KS605NI",
+        "classification": "SIC2007"
+      },
+      "2021": {
+        "table": "MS-H06",
+        "classification": "SIC2007"
+      },
+      "comparable": "partial",
+      "notes": "2001 uses SIC2003, 2011/2021 use SIC2007. Broad sectors can be mapped but detail categories changed."
+    },
+    "occupation": {
+      "2001": {
+        "table": "KS12a",
+        "classification": "SOC2000"
+      },
+      "2011": {
+        "table": "KS608NI",
+        "classification": "SOC2010"
+      },
+      "2021": {
+        "table": "MS-H09",
+        "classification": "SOC2010"
+      },
+      "comparable": "partial",
+      "notes": "1-digit SOC major groups largely comparable. 2001 uses SOC2000, 2011/2021 use SOC2010."
+    },
+    "qualifications": {
+      "2001": {
+        "table": "KS13",
+        "levels": [
+          "No qualifications",
+          "Level 1",
+          "Level 2",
+          "Level 3",
+          "Level 4",
+          "Level 5"
+        ]
+      },
+      "2011": {
+        "table": "KS501NI",
+        "levels": [
+          "No qualifications",
+          "Level 1",
+          "Level 2",
+          "Apprenticeship",
+          "Level 3",
+          "Level 4+",
+          "Other"
+        ]
+      },
+      "2021": {
+        "table": "MS-G01"
+      },
+      "comparable": "partial",
+      "notes": "Broad levels comparable but definitions differ. 2001 has Levels 4 and 5 separate; 2011 combines as Level 4+. 2011 adds Apprenticeship."
+    },
+    "tenure": {
+      "2001": {
+        "table": "KS18",
+        "categories": [
+          "Owns outright",
+          "Owns with mortgage",
+          "Shared ownership",
+          "NIHE",
+          "Housing Association",
+          "Private landlord",
+          "Other"
+        ]
+      },
+      "2011": {
+        "table": "KS402NI"
+      },
+      "2021": {
+        "table": "MS-E15"
+      },
+      "comparable": true,
+      "notes": "Broad categories comparable: owner occupied, social rented, private rented."
+    },
+    "accommodation_type": {
+      "2001": {
+        "table": "KS16"
+      },
+      "2011": {
+        "table": "KS401NI"
+      },
+      "2021": {
+        "table": "MS-E05"
+      },
+      "comparable": true,
+      "notes": "Detached, semi-detached, terraced, flat/apartment categories comparable."
+    },
+    "car_availability": {
+      "2001": {
+        "table": "KS17"
+      },
+      "2011": {
+        "table": "KS405NI"
+      },
+      "2021": {
+        "table": "MS-E10"
+      },
+      "comparable": true
+    },
+    "health_llti": {
+      "2001": {
+        "table": "KS08"
+      },
+      "2011": {
+        "table": "KS301NI"
+      },
+      "2021": {
+        "table": "MS-D02"
+      },
+      "comparable": "partial",
+      "notes": "2001 asks about 'limiting long-term illness'. 2011/2021 ask about 'long-term health problem or disability' with activity limitation. Not directly comparable due to question wording change."
+    },
+    "travel_to_work": {
+      "2001": {
+        "table": "KS15"
+      },
+      "2011": {
+        "table": "KS701NI"
+      },
+      "2021": {
+        "table": "MS-I01"
+      },
+      "comparable": "partial",
+      "notes": "Transport mode categories comparable. 2021 affected by COVID-19 work-from-home patterns."
+    },
+    "household_size": {
+      "2001": {
+        "table": "KS24"
+      },
+      "2011": {
+        "table": "KS403NI"
+      },
+      "2021": {
+        "table": "MS-E02"
+      },
+      "comparable": true
+    },
+    "household_composition": {
+      "2001": {
+        "table": "KS20"
+      },
+      "2011": {
+        "table": "KS105NI"
+      },
+      "2021": {
+        "table": "MS-A26"
+      },
+      "comparable": "partial",
+      "notes": "Broad categories comparable but detail varies."
+    },
+    "irish_language": {
+      "2001": {
+        "table": "KS22"
+      },
+      "2011": {
+        "table": "KS209NI"
+      },
+      "2021": {
+        "table": "MS-B05"
+      },
+      "comparable": true,
+      "notes": "Knowledge of Irish - ability to understand, speak, read, write."
+    },
+    "ulster_scots": {
+      "2001": {
+        "table": "KS23"
+      },
+      "2011": {
+        "table": "KS210NI"
+      },
+      "2021": {
+        "table": "MS-B08"
+      },
+      "comparable": true
+    }
+  },
+  "geographyCrosswalks": {
+    "crosswalk_1_2001_to_2011": {
+      "status": "not_needed",
+      "reason": "Same 582 ward codes and 26 district council codes. 1:1 mapping. Both use 95XX## format.",
+      "action": "Validate that all ward codes in 2001 exist in 2011 and vice versa."
+    },
+    "crosswalk_2_old26_to_new11_lgds": {
+      "status": "required",
+      "reason": "2021 uses 11 new LGDs (post-2015 reform) while 2001/2011 use 26 old DCs. Most old DCs map wholly into one new LGD, but need to verify edge cases.",
+      "action_steps": [
+        "Create lookup table: old 26 DC codes -> new 11 LGD codes",
+        "Verify that each old DC maps entirely to one new LGD (no splitting)",
+        "Aggregate 2001/2011 DC-level data to new 11 LGD level for cross-year comparison",
+        "Source: NISRA boundary documentation or spatial intersection of boundary shapefiles"
+      ],
+      "approximate_mapping": {
+        "N09000001_Antrim_and_Newtownabbey": [
+          "95AA_Antrim",
+          "95WW_Newtownabbey"
+        ],
+        "N09000002_ABC": [
+          "95CC_Armagh",
+          "95FF_Banbridge",
+          "95LL_Craigavon"
+        ],
+        "N09000003_Belfast": [
+          "95GG_Belfast"
+        ],
+        "N09000004_Causeway_Coast_Glens": [
+          "95JJ_Coleraine",
+          "95EE_Ballymoney",
+          "95UU_Moyle",
+          "95RR_Limavady"
+        ],
+        "N09000005_Derry_Strabane": [
+          "95MM_Derry",
+          "95ZZ_Strabane"
+        ],
+        "N09000006_Fermanagh_Omagh": [
+          "95PP_Fermanagh",
+          "95YY_Omagh"
+        ],
+        "N09000007_Lisburn_Castlereagh": [
+          "95SS_Lisburn",
+          "95II_Castlereagh"
+        ],
+        "N09000008_Mid_East_Antrim": [
+          "95DD_Ballymena",
+          "95QQ_Larne",
+          "95HH_Carrickfergus"
+        ],
+        "N09000009_Mid_Ulster": [
+          "95KK_Cookstown",
+          "95TT_Magherafelt",
+          "95OO_Dungannon"
+        ],
+        "N09000010_Newry_Mourne_Down": [
+          "95VV_Newry_and_Mourne",
+          "95NN_Down"
+        ],
+        "N09000011_Ards_North_Down": [
+          "95BB_Ards",
+          "95XX_North_Down"
+        ]
+      },
+      "priority": "high"
+    },
+    "crosswalk_3_ward_level_2001_2011_to_2021": {
+      "status": "required_but_complex",
+      "reason": "582 old wards remapped to 462 new wards with boundary changes. No simple code mapping exists.",
+      "action_steps": [
+        "Obtain NISRA best-fit ward lookup (old ward -> new ward)",
+        "Alternatively, use GIS spatial intersection of ward boundary shapefiles to compute population-weighted crosswalk",
+        "May need to accept that ward-level time series is approximate"
+      ],
+      "priority": "medium"
+    },
+    "crosswalk_4_historical_to_modern": {
+      "status": "very_complex",
+      "reason": "Pre-1973 county/DED system has no direct mapping to post-1973 LGD/ward system.",
+      "action_steps": [
+        "For NI-level totals: no crosswalk needed",
+        "For county-level: approximate mapping of 6 counties to LGDs (counties overlap with multiple LGDs)",
+        "For DED-level: requires GIS spatial intersection, probably out of scope for initial normalisation",
+        "Focus initially on NI-level totals only for historical data"
+      ],
+      "priority": "low"
+    }
+  },
+  "conceptGroups": [
+    {
+      "topic": "population_by_area",
+      "exactComparableYears": [
+        2001,
+        2011,
+        2021
+      ],
+      "historicalYears": [
+        1926,
+        1937,
+        1951,
+        1961,
+        1966,
+        1971,
+        1981
+      ],
+      "comparableNativeLevels": {
+        "NI_total": "all years",
+        "new_11_LGDs": "2001 (aggregated from 26 DCs), 2011 (aggregated), 2021 (native)",
+        "old_26_DCs": "2001, 2011 (native), 1981 (ward/LGD data in markdown)",
+        "old_582_wards": "2001, 2011",
+        "new_462_wards": "2021 only",
+        "counties": "1926-1971 historical"
+      },
+      "notes": null,
+      "risk": "low"
+    },
+    {
+      "topic": "religion",
+      "exactComparableYears": [
+        2001,
+        2011,
+        2021
+      ],
+      "historicalYears": [
+        1926,
+        1937,
+        1951,
+        1961,
+        1971
+      ],
+      "comparableNativeLevels": {
+        "NI_total": "all years with religion data",
+        "new_11_LGDs": "2001 (aggregated), 2011 (aggregated), 2021 (native)",
+        "old_26_DCs": "2001, 2011",
+        "old_582_wards": "2001, 2011",
+        "new_462_wards": "2021"
+      },
+      "notes": "2001 combines no_religion and not_stated. Need to create harmonised column. Community background table is NI-specific and highly comparable across all 3 years.",
+      "risk": "low"
+    },
+    {
+      "topic": "age_structure",
+      "exactComparableYears": [
+        2001,
+        2011,
+        2021
+      ],
+      "historicalYears": [],
+      "comparableNativeLevels": null,
+      "notes": "Use 5-year age bands as common denominator. 2001 and 2011 share identical bands. 2021 MS-A02 provides 5-year bands. Need to handle 0-4 split in 2021 (0-2 + 3-4) and 65+ split differently.",
+      "risk": "medium"
+    },
+    {
+      "topic": "ethnicity",
+      "exactComparableYears": [
+        2001,
+        2011,
+        2021
+      ],
+      "historicalYears": [],
+      "comparableNativeLevels": null,
+      "notes": null,
+      "risk": "low"
+    },
+    {
+      "topic": "housing_tenure",
+      "exactComparableYears": [
+        2001,
+        2011,
+        2021
+      ],
+      "historicalYears": [],
+      "comparableNativeLevels": null,
+      "notes": null,
+      "risk": "low"
+    },
+    {
+      "topic": "economic_activity",
+      "exactComparableYears": [
+        2001,
+        2011,
+        2021
+      ],
+      "historicalYears": [],
+      "comparableNativeLevels": null,
+      "notes": null,
+      "risk": "medium"
+    },
+    {
+      "topic": "qualifications",
+      "exactComparableYears": [
+        2001,
+        2011,
+        2021
+      ],
+      "historicalYears": [],
+      "comparableNativeLevels": null,
+      "notes": "Map to broad levels: No qualifications, Level 1-2, Level 3, Level 4+. Definitions vary but broad groupings comparable.",
+      "risk": "medium"
+    },
+    {
+      "topic": "country_of_birth",
+      "exactComparableYears": [
+        2001,
+        2011,
+        2021
+      ],
+      "historicalYears": [],
+      "comparableNativeLevels": null,
+      "notes": null,
+      "risk": "low"
+    },
+    {
+      "topic": "accommodation_type",
+      "exactComparableYears": [
+        2001,
+        2011,
+        2021
+      ],
+      "historicalYears": [],
+      "comparableNativeLevels": null,
+      "notes": null,
+      "risk": "low"
+    },
+    {
+      "topic": "car_availability",
+      "exactComparableYears": [
+        2001,
+        2011,
+        2021
+      ],
+      "historicalYears": [],
+      "comparableNativeLevels": null,
+      "notes": null,
+      "risk": "low"
+    },
+    {
+      "topic": "travel_to_work",
+      "exactComparableYears": [
+        2001,
+        2011,
+        2021
+      ],
+      "historicalYears": [],
+      "comparableNativeLevels": null,
+      "notes": "2021 data heavily affected by COVID-19 lockdown patterns. Work from home massively inflated.",
+      "risk": "medium"
+    },
+    {
+      "topic": "irish_language",
+      "exactComparableYears": [
+        2001,
+        2011,
+        2021
+      ],
+      "historicalYears": [],
+      "comparableNativeLevels": null,
+      "notes": null,
+      "risk": "low"
+    },
+    {
+      "topic": "health_disability",
+      "exactComparableYears": [
+        2001,
+        2011,
+        2021
+      ],
+      "historicalYears": [],
+      "comparableNativeLevels": null,
+      "notes": "Question wording changed between 2001 and 2011. Not directly comparable at detailed level, but broad categories (good health vs not good) can be approximated.",
+      "risk": "high"
+    },
+    {
+      "topic": "marital_status",
+      "exactComparableYears": [
+        2001,
+        2011,
+        2021
+      ],
+      "historicalYears": [],
+      "comparableNativeLevels": null,
+      "notes": null,
+      "risk": "medium"
+    },
+    {
+      "topic": "household_composition",
+      "exactComparableYears": [
+        2001,
+        2011,
+        2021
+      ],
+      "historicalYears": [],
+      "comparableNativeLevels": null,
+      "notes": null,
+      "risk": "medium"
+    }
+  ],
+  "specialCases": [
+    {
+      "topic": "religion",
+      "issue": "2001 combines no religion and not stated differently from 2011/2021 in some tables.",
+      "action": "Expose both source-native and harmonised variants; mark harmonised values as partial comparability."
+    },
+    {
+      "topic": "travel_to_work",
+      "issue": "2021 travel/work-from-home values are affected by COVID-19 patterns.",
+      "action": "Permit display but annotate any time-series comparison."
+    },
+    {
+      "topic": "ward_time_series",
+      "issue": "2001/2011 wards and 2021 wards are different boundary systems.",
+      "action": "Require a best-fit or spatial crosswalk before enabling direct ward-level comparisons."
+    }
+  ]
+}

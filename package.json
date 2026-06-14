@@ -2,6 +2,9 @@
   "scripts": {
     "build": "node scripts/build-browse-indexes.mjs && node scripts/validate-chunked-map-bounds.mjs && node scripts/build-shared-shell-assets.mjs && npm run build:test2 && node scripts/promote-test2-root.mjs",
     "build:browse": "node scripts/build-browse-indexes.mjs",
+    "census:scrape:cso": "node scripts/census/scrape-cso-historical-reports.mjs --download",
+    "census:inventory": "node scripts/census/build-census-source-inventory.mjs",
+    "census:clean": "node scripts/census/build-census-source-inventory.mjs && node scripts/census/build-census-cleaning-model.mjs",
     "build:external-sources": "node scripts/build-external-source-indexes.mjs",
     "build:legacy-leaflet": "node scripts/build-legacy-leaflet-app.mjs",
     "build:test": "node scripts/validate-test-app.mjs && node scripts/build-test-app.mjs",
