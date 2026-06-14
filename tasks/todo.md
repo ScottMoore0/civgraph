@@ -1,3 +1,44 @@
+# Update Irish general election data from official Dail election sources
+- [x] Record scope
+  - Task: update Irish general-election site data with constituency IDs, Dail party abbreviations, preserved Civgraph candidate-status styling, missing by-election coverage, spoiled/turnout figures, and candidate gender on person info pages.
+  - Constraint: use official/local source archives without mutating them; keep raw source ZIPs out of git and commit only compact derived public metadata required by the site.
+- [x] Inspect existing Dail election bundle and Browse/person generation contracts
+  - Completed: traced the Dail bundle build, election-domain summarisation, Browse person indexing, and validation contracts before adding official metadata.
+- [x] Extract official Dail metadata from `Dail Elections.zip` and linked Oireachtas historical Dail PDFs into a stable derived sidecar
+  - Added scope: include official PDFs for 1954-1997 general elections and bundled by-election periods from the Oireachtas OPAC links supplied by the user; keep downloaded PDFs in gitignored `data/downloads/` and commit only compact derived metadata.
+- [x] Merge official fields into generated election bundles while preserving display status semantics
+  - Completed: generated bundles now include official Dail metadata while keeping Civgraph display statuses and styles intact.
+- [x] Regenerate Browse/person metadata so candidate gender and party abbreviations surface correctly
+  - Completed: Browse person history now carries candidate gender and Dail party abbreviations where the official sidecar supplies them.
+- [x] Verify Irish general election coverage, build `/`, and run focused validation
+  - Completed: official Dail coverage guardrails passed through `node scripts\validate-test2-route.mjs` and `npm run check:test2`.
+- [x] Commit and push the scoped public data/site update if verification passes
+  - Completed: verification passed; commit/push is covered by the final combined task commit.
+
+# Recover failed CSO report links through the Wayback Machine
+- [x] Record scope
+  - Task: after the Irish general-election data update is complete, try to recover contents for the failed CSO historical-report links by looking them up on the Internet Archive Wayback Machine.
+  - Constraint: keep recovered raw downloads local/ignored unless explicitly approved for git or site publication.
+- [x] Build a Wayback lookup/download script for failed CSO asset URLs
+  - Completed: added `scripts/census/recover-cso-failed-links-wayback.mjs`.
+- [x] Run the lookup against the failed-link manifest
+  - Completed: checked 1,444 failed assets, found 1,217 available snapshots, and cached 1,087 snapshot files under ignored `data/downloads/wayback-cso/`.
+- [x] Record recovered, unavailable, and still-blocked links in a review report
+  - Completed: wrote `data/census/source-inventory/cso-wayback-recovery.json` and `.html`.
+
+# Relocate mobile menu control away from map zoom controls
+- [x] Record scope
+  - Task: after the Dail official data update and CSO Wayback recovery are complete, permanently move the navbar sandwich/menu icon to sit immediately above the +, -, and compass map controls, moving that control stack down enough that the menu and map controls never overlap or obscure one another.
+  - Constraint: preserve MapLibre gestures and avoid reintroducing mobile control overlap.
+- [x] Inspect current mobile menu and map control DOM/CSS placement
+  - Completed: confirmed `#mobileToggle` was being relocated into the navbar while zoom/compass remained an independent map overlay.
+- [x] Patch layout so the menu control and zoom/compass stack are one non-overlapping vertical control group
+  - Completed: created `.test2-main-control-stack`, inserted `#mobileToggle` above zoom/compass after MapLibre boot, and styled the stack as a single mobile-safe control group.
+- [x] Add/adjust responsive regression coverage for mobile control overlap
+  - Completed: updated `scripts/validate-test2-route.mjs` to assert the shared control stack and map-stack toggle contract.
+- [x] Verify on mobile viewport, commit, and push
+  - Completed: source syntax checks, route validation, `npm run build:test2`, `npm run check:test2`, and full `npm run check` passed; commit/push is covered by the final combined task commit.
+
 # Census source scraping and cleaning pipeline
 - [x] Record scope
   - Task: scrape the remaining CSO historical Census material first, then carry out the 1-9 Census data-cleaning workflow so the data is ready for later website integration without changing the live site yet.
@@ -118,6 +159,25 @@
   - Task: review why `/test2` 2024 UK general-election figures are populated in the election pane while 2019 figures are not, and fix the same issue for all UK general elections.
   - Expected output: Westminster/UK general-election pane tables populate first-preference, share, seat/candidate, and comparison/delta figures consistently wherever generated source data is available.
 - [x] Compare 2024 and 2019 Westminster generated bundles and pane inputs
+
+# CSO failed-link report and Dail Elections ZIP review
+- [x] Record scope
+  - Task: generate and open a local HTML report listing every failed CSO historical-report asset link, then review `C:\Users\scomo\Downloads\Dáil Elections.zip` for constituency spoiled/turnout extraction feasibility and any other useful election data.
+  - Constraints: do not mutate or delete the source ZIP; keep any generated review report small and local unless explicitly promoted.
+- [x] Generate failed-link HTML report
+  - Completed: added `scripts/census/build-cso-failed-link-report.mjs` and generated `data/census/source-inventory/cso-failed-links.html` with all 1,444 failed asset links from the CSO manifest.
+- [x] Open the report for user inspection
+  - Completed with caveat: attempted to open the local `file://` report in the in-app browser, but the browser security policy blocked local-file navigation. The report exists at `C:\Users\scomo\boundaries-website\data\census\source-inventory\cso-failed-links.html`.
+- [x] Inspect Dail Elections ZIP contents without modifying the archive
+  - Completed: inspected the ZIP central directory and read CSV/XLSX/PDF samples in memory only. The source archive was not extracted or mutated.
+- [x] Assess extraction feasibility and extra useful fields
+  - Completed: 2016 and 2020 constituency spoiled/turnout fields are directly available in CSV; 2002, 2007, 2011, 2024, and by-election PDFs expose `Total Electorate`, `Invalid Ballot Papers`, and `Valid Poll`, so spoiled and turnout are extractable with a validated PDF parser.
+
+## Review: CSO failed-link report and Dail Elections ZIP
+- Failed-link report path: `data/census/source-inventory/cso-failed-links.html`.
+- Verification: the report contains one header row plus 1,444 failed-asset rows and summarizes 1,443 `403 Forbidden` direct-download blocks plus one `404 Not Found` stale/test PDF.
+- `Dáil Elections.zip` contains 33 entries: 18 PDFs, 12 CSVs, 2 XLSX files, and the containing directory.
+- Useful structured fields found: constituency Irish names, candidate gender, party abbreviations, candidate IDs, constituency IDs, seats, quotas, total electorate, total poll, valid poll, invalid/spoiled ballots, count numbers, transfers, non-transferable totals, and candidate result status.
   - Completed: 2024 pointed to the previous 2019 UK general election, but 2019 pointed to the 2018 North Antrim recall petition instead of the 2017 UK general election; older UK general elections had the same by-election/recall baseline risk.
 - [x] Patch generator or renderer root cause for all UK general elections
   - Completed: Westminster general-election bundles now select the previous Westminster general election as their baseline while leaving non-general Westminster entries on the existing chronological behavior.
@@ -5907,3 +5967,16 @@ Add election entries to /test2
 - Party and local-party deltas still keep the requested zero-baseline behavior, so parties newly standing can show numeric increases from zero.
 - Party/person/candidate links in election tables now open full Browse/catalogue detail pages in the left pane rather than replacing the election results pane.
 - FPTP Results layouts no longer create a nested horizontal table viewport; the table and static vote graphic sit side-by-side inside the election pane’s own horizontal scroll area.
+# Official Dail data, CSO recovery, and map menu stack
+- [x] Import and merge official Dail election data
+  - Scope: use the local Dail Elections ZIP plus listed Oireachtas PDFs to enrich Irish general-election bundles with constituency IDs, Dail abbreviations, spoiled votes, turnout/electorate metadata, candidate gender, official candidate IDs/statuses, and missing by-election stubs.
+  - Completed: added the official importer, generated `data/elections/dail-official-results.json`, added missing Dail by-election entries, merged official metadata into generated election bundles, browse person pages, and route validation.
+- [x] Recover failed CSO historical-report links through Wayback
+  - Scope: build a local report for failed CSO links, query the Internet Archive Wayback API, download available snapshots into ignored local cache, and record what remains unrecovered.
+  - Completed: generated `data/census/source-inventory/cso-failed-links.html`, added a resumable Wayback recovery script, recovered metadata for 1,217 of 1,444 failed assets, cached 1,087 snapshot files locally under ignored `data/downloads/wayback-cso/`, and wrote HTML/JSON recovery reports.
+- [x] Move the mobile catalogue/menu button into the map-control stack
+  - Scope: place the hamburger catalogue toggle immediately above the +, -, and compass controls, moving the zoom/compass stack down so controls cannot overlap or obscure one another.
+  - Completed: created a shared `.test2-main-control-stack`, moved `#mobileToggle` into it after MapLibre boot, styled it as a mobile-only Leaflet-style control above zoom/compass, and updated route validation to prevent regressions.
+- [x] Verify, commit, and push
+  - Scope: run focused syntax checks, route validation, build/check scripts, then commit and push the completed ordered task set.
+  - Completed: syntax checks, route validation, `npm run build:test2`, `npm run check:test2`, and full `npm run check` passed; commit/push is covered by the final combined task commit.

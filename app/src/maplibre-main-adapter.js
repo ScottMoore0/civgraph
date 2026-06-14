@@ -137,7 +137,7 @@ export class Test2MapLibreMainAdapter {
   installMainStyleMapControls() {
     const map = this.map;
     const host = map?.getContainer?.();
-    if (!map || !host || host.querySelector('.test2-main-zoom-control')) return;
+    if (!map || !host || host.querySelector('.test2-main-control-stack')) return;
     host.querySelectorAll([
       '.maplibregl-ctrl-top-left .maplibregl-ctrl-group',
       '.maplibregl-ctrl-top-right .maplibregl-ctrl-group',
@@ -145,6 +145,9 @@ export class Test2MapLibreMainAdapter {
       '.maplibregl-ctrl-bottom-right .maplibregl-ctrl-group',
       '.maplibregl-ctrl-scale'
     ].join(',')).forEach((element) => element.remove());
+    const stack = document.createElement('div');
+    stack.className = 'test2-main-control-stack';
+    stack.setAttribute('aria-label', 'Map controls');
     const control = document.createElement('div');
     control.className = 'leaflet-control leaflet-bar leaflet-control-zoom test2-main-zoom-control';
     control.setAttribute('aria-label', 'Zoom controls');
@@ -180,7 +183,8 @@ export class Test2MapLibreMainAdapter {
     map.on('rotateend', updateCompass);
     map.on('pitch', updateCompass);
     updateCompass();
-    host.appendChild(control);
+    stack.appendChild(control);
+    host.appendChild(stack);
   }
 
   async loadLayer(mapOrId, options = {}) {

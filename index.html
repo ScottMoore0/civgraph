@@ -31,7 +31,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=d7df01b92755" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=30cb57c12551" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -68,7 +68,7 @@
        paint. Browsers without JS fall back via <noscript>. -->
     <link rel="stylesheet" href="/build/main.css?v=3847a74dac42" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="/build/main.css?v=3847a74dac42"></noscript>
-  <link rel="stylesheet" href="/app/build/app.bundle.css?v=50e6f355f179">
+  <link rel="stylesheet" href="/app/build/app.bundle.css?v=7b45ba5f3707">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
   <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css" media="print" onload="this.media='all'">
@@ -647,7 +647,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=d7df01b92755"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=30cb57c12551"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

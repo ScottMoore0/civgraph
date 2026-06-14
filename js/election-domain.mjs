@@ -127,6 +127,10 @@ export function summarizeCandidateRows(rows = []) {
       excludedAt: null,
       status: '',
       colour: row.Party_Colour || partyColour(party),
+      gender: fixText(row.Gender || row.gender || ''),
+      dailAbbreviation: fixText(row.Dail_Abbreviation || row.Party_Abbreviation || row.dailAbbreviation || row.partyAbbreviation || ''),
+      officialCandidateId: fixText(row.Official_Candidate_Id || row.officialCandidateId || ''),
+      officialStatus: fixText(row.Official_Status || row.officialStatus || ''),
       counts: []
     };
     const countNo = parseNumber(row.Count_Number) || 1;
@@ -137,6 +141,16 @@ export function summarizeCandidateRows(rows = []) {
     if ((countNo === 1 || existing.firstPrefs === null) && firstPref !== null) existing.firstPrefs = firstPref;
     if (totalVotes !== null) existing.finalVotes = Math.max(existing.finalVotes || 0, totalVotes);
     if (!existing.status && status) existing.status = status;
+    if (!existing.gender && (row.Gender || row.gender)) existing.gender = fixText(row.Gender || row.gender || '');
+    if (!existing.dailAbbreviation && (row.Dail_Abbreviation || row.Party_Abbreviation || row.dailAbbreviation || row.partyAbbreviation)) {
+      existing.dailAbbreviation = fixText(row.Dail_Abbreviation || row.Party_Abbreviation || row.dailAbbreviation || row.partyAbbreviation || '');
+    }
+    if (!existing.officialCandidateId && (row.Official_Candidate_Id || row.officialCandidateId)) {
+      existing.officialCandidateId = fixText(row.Official_Candidate_Id || row.officialCandidateId || '');
+    }
+    if (!existing.officialStatus && (row.Official_Status || row.officialStatus)) {
+      existing.officialStatus = fixText(row.Official_Status || row.officialStatus || '');
+    }
     if (statusKind(status) === 'elected' || row.Elected === true || row.counted_as_elected === true) {
       existing.elected = true;
       existing.electedAt ||= countNo;
@@ -186,9 +200,14 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
       Auto_Returned_Ceann_Comhairle: autoReturned ? '1' : '',
       Candidate_Id: String(index + 1),
       Candidate_First_Pref_Votes: String(firstPref),
-      Constituency_Number: '',
+      Constituency_Number: String(payload.constituencyNumber || payload.officialDail?.constituencyNumber || meta.Constituency_Number || ''),
       Count_Number: String(countNumber),
+      Dail_Abbreviation: candidate.dailAbbreviation || candidate.partyAbbreviation || '',
       Firstname: firstname,
+      Gender: candidate.gender || '',
+      Official_Candidate_Id: candidate.officialCandidateId || '',
+      Official_Status: candidate.officialStatus || '',
+      Party_Abbreviation: candidate.partyAbbreviation || candidate.dailAbbreviation || '',
       Surname: surname,
       Occurred_On_Count: String(occurredOn),
       Party_Colour: partyColour(party),
@@ -224,7 +243,7 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
       __syntheticCountStages: hasSyntheticCountStages,
       countInfo: {
         Constituency_Name: payload.constituency || fallbackConstituency || '',
-        Constituency_Number: '',
+        Constituency_Number: String(payload.constituencyNumber || payload.officialDail?.constituencyNumber || meta.Constituency_Number || ''),
         Number_Of_Seats: seatCount ? String(seatCount) : '',
         Quota: meta.Quota != null || meta.quota != null ? String(meta.Quota ?? meta.quota) : '',
         Spoiled: spoiled != null ? String(spoiled) : '',
@@ -233,7 +252,10 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
         Valid_Poll: validPoll ? String(validPoll) : ''
       },
       countGroup
-    }
+    },
+    officialDail: payload.officialDail || null,
+    constituencyId: payload.constituencyId || payload.officialDail?.constituencyId || null,
+    constituencyNumber: payload.constituencyNumber || payload.officialDail?.constituencyNumber || null
   };
 }
 
@@ -832,12 +854,12 @@ export function summarizeResult(raw, fallbackConstituency) {
   let elected = extractElected({ candidates, seatsTotal });
   const leading = ranked[0] || null;
   const runnerUp = ranked[1] || null;
-  const validPoll = parseNumber(info.Valid_Poll ?? raw?.meta?.valid_poll ?? raw?.meta?.validPoll);
-  const totalPoll = parseNumber(info.Total_Poll ?? raw?.meta?.total_poll ?? raw?.meta?.totalPoll);
-  const spoiled = parseNumber(info.Spoiled ?? raw?.meta?.spoiled ?? raw?.spoiled);
-  const electorate = parseNumber(info.Total_Electorate ?? raw?.meta?.electorate ?? raw?.electorate);
+  const validPoll = parseNumber(info.Valid_Poll ?? raw?.validPoll ?? raw?.meta?.valid_poll ?? raw?.meta?.validPoll);
+  const totalPoll = parseNumber(info.Total_Poll ?? raw?.totalPoll ?? raw?.meta?.total_poll ?? raw?.meta?.totalPoll);
+  const spoiled = parseNumber(info.Spoiled ?? raw?.spoiled ?? raw?.meta?.spoiled);
+  const electorate = parseNumber(info.Total_Electorate ?? raw?.electorate ?? raw?.meta?.electorate);
   const totalVotes = validPoll || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs), 0);
-  const turnoutPct = parseNumber(raw?.turnout_pct ?? raw?.meta?.turnout_pct ?? raw?.meta?.turnoutPct)
+  const turnoutPct = parseNumber(info.Turnout_Pct ?? raw?.turnoutPct ?? raw?.turnout_pct ?? raw?.meta?.turnout_pct ?? raw?.meta?.turnoutPct)
     || (electorate && totalPoll ? round((totalPoll / electorate) * 100, 2) : null);
   const majority = leading && runnerUp ? numberOrZero(leading.firstPrefs) - numberOrZero(runnerUp.firstPrefs) : null;
   const majorityPct = majority !== null && totalVotes ? round((majority / totalVotes) * 100, 2) : null;
@@ -880,7 +902,10 @@ export function summarizeResult(raw, fallbackConstituency) {
     countNumbers,
     ...(recallPetition ? { recallPetition } : {}),
     hasCountDetail: countNumbers.length > 1 || candidates.some((candidate) => (candidate.counts || []).length > 1),
-    animationPayload: mainPayload || raw || null
+    animationPayload: mainPayload || raw || null,
+    constituencyId: raw?.constituencyId || raw?.officialDail?.constituencyId || null,
+    constituencyNumber: raw?.constituencyNumber || raw?.officialDail?.constituencyNumber || info.Constituency_Number || null,
+    officialDail: raw?.officialDail || null
   };
 }
 

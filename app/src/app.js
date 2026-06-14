@@ -176,11 +176,11 @@ class Test2App {
     this.installLazyCatalogueDataBridge();
     this.installLazyRuntimeHelpersBridge();
     uiController.init();
-    this.relocateMobileCatalogueToggle();
     this.configureCataloguePerformanceProfile();
 
     this._suspendURLState = true;
     this.mapController.init('map');
+    this.relocateMobileCatalogueToggle();
     window.__civgraphTest2 = {
       ...(window.__civgraphTest2 || {}),
       app: this,
@@ -303,14 +303,15 @@ class Test2App {
 
   relocateMobileCatalogueToggle() {
     const toggle = document.getElementById('mobileToggle');
-    const header = document.querySelector('.app-header');
-    const menuButton = document.getElementById('mobileMenuBtn');
-    if (!toggle || !header || !menuButton) return;
-    toggle.classList.add('mobile-toggle--navbar');
+    const stack = document.querySelector('#map .test2-main-control-stack');
+    const zoomControl = stack?.querySelector('.test2-main-zoom-control');
+    if (!toggle || !stack || !zoomControl) return;
+    toggle.classList.remove('mobile-toggle--navbar');
+    toggle.classList.add('mobile-toggle--map-stack');
     toggle.removeAttribute('style');
     toggle.setAttribute('aria-label', 'Show or hide catalogue');
-    if (toggle.parentElement !== header) {
-      header.insertBefore(toggle, menuButton);
+    if (toggle.parentElement !== stack || toggle.nextElementSibling !== zoomControl) {
+      stack.insertBefore(toggle, zoomControl);
     }
   }
 

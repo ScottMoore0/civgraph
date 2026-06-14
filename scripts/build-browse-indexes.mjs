@@ -1035,6 +1035,7 @@ function buildPersons(electionDetails) {
             name,
             parties: new Map(),
             constituencies: new Map(),
+            genders: new Map(),
             elections: [],
             totals: { stood: 0, elected: 0, firstPrefs: 0 },
             firstYear: null,
@@ -1045,9 +1046,11 @@ function buildPersons(electionDetails) {
         const person = byId.get(personId);
         const party = cleanText(candidate.party || candidate.Party || result.party || '');
         const constituency = cleanText(candidate.constituency || result.constituency || '');
+        const gender = cleanText(candidate.gender || candidate.Gender || candidate.genderId || candidate.Gender_Id || '');
         const year = context.year;
         person.parties.set(party || 'Unknown', (person.parties.get(party || 'Unknown') || 0) + 1);
         if (constituency) person.constituencies.set(constituency, (person.constituencies.get(constituency) || 0) + 1);
+        if (gender) person.genders.set(gender, (person.genders.get(gender) || 0) + 1);
         person.totals.stood += 1;
         person.totals.elected += candidate.elected || candidate.counted_as_elected || candidate.outcome === 'Elected' || candidate.status === 'Elected' ? 1 : 0;
         person.totals.firstPrefs += Number(candidate.firstPrefs || candidate.firstPref || candidate.votes || 0);
@@ -1058,6 +1061,10 @@ function buildPersons(electionDetails) {
             ...context,
             party,
             constituency,
+            gender,
+            dailAbbreviation: cleanText(candidate.dailAbbreviation || candidate.partyAbbreviation || candidate.Dail_Abbreviation || candidate.Party_Abbreviation || ''),
+            officialCandidateId: cleanText(candidate.officialCandidateId || candidate.Official_Candidate_Id || ''),
+            officialStatus: cleanText(candidate.officialStatus || candidate.Official_Status || ''),
             status: cleanText(candidate.status || candidate.outcome || ''),
             elected: Boolean(candidate.elected || candidate.counted_as_elected || candidate.outcome === 'Elected'),
             firstPrefs: Number(candidate.firstPrefs || candidate.firstPref || candidate.votes || 0) || null
@@ -1070,10 +1077,13 @@ function buildPersons(electionDetails) {
   const details = Object.fromEntries([...byId.values()].map((person) => {
     const parties = mapToSortedArray(person.parties);
     const constituencies = mapToSortedArray(person.constituencies);
+    const genders = mapToSortedArray(person.genders);
     const detail = {
       ...person,
       parties,
       constituencies,
+      genders,
+      gender: genders[0]?.name || null,
       subtitle: compactJoin([parties[0]?.name, formatYearRange(person.firstYear, person.lastYear), `${person.totals.stood} contests`]),
       interactiveUrl: person.elections[0]?.interactiveUrl || null
     };

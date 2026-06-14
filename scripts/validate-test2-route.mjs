@@ -202,8 +202,9 @@ assert(adapterSource.includes('resizeFrame') && adapterSource.includes('lastResi
 assert(!mapControllerSource.includes('dragPan?.disable'), '/test2 direct touch fallback must not disable dragPan because interrupted touch sequences can freeze subsequent pan/drag gestures');
 assert(rootServiceWorkerSource.includes("root-maplibre-sw-") && rootServiceWorkerSource.includes("'/app/build/app.bundle.js'") && rootServiceWorkerSource.includes("request.headers.has('range')") && rootServiceWorkerSource.includes('/\\.pmtiles(?:[?#]|$)/i') && rootServiceWorkerSource.includes('networkFirst(request, RUNTIME_CACHE)'), 'root service worker must route /app entry assets network-first and must not intercept PMTiles byte-range requests');
 assert(test2Css.includes('#map .maplibregl-map') && test2Css.includes('overscroll-behavior: contain') && test2Css.includes('-webkit-touch-callout: none'), '/test2 route CSS must apply a full mobile touch contract to the map container and canvas');
-assert(appSource.includes('relocateMobileCatalogueToggle') && appSource.includes('mobile-toggle--navbar'), '/test2 must move the mobile catalogue toggle into the navbar instead of leaving it as a floating map overlay');
-assert(test2Css.includes('.app-header #mobileToggle.mobile-toggle.mobile-toggle--navbar') && test2Css.includes('position: static !important'), '/test2 mobile catalogue toggle must be styled as a navbar control on mobile');
+assert(appSource.includes('relocateMobileCatalogueToggle') && appSource.includes('mobile-toggle--map-stack') && appSource.includes("document.querySelector('#map .test2-main-control-stack')"), '/test2 must move the mobile catalogue toggle into the map control stack above zoom/compass');
+assert(adapterSource.includes('test2-main-control-stack') && adapterSource.includes('stack.appendChild(control)') && adapterSource.includes('host.appendChild(stack)'), '/test2 custom main-style map controls must live in a shared stack so the mobile menu can displace zoom/compass instead of overlapping them');
+assert(test2Css.includes('#map .test2-main-control-stack') && test2Css.includes('flex-direction: column') && test2Css.includes('#map #mobileToggle.mobile-toggle.mobile-toggle--map-stack'), '/test2 mobile catalogue toggle must be styled as the first map-control stack item above zoom/compass');
 assert(test2Css.includes('body.app-shell .app-header') && test2Css.includes('position: fixed') && test2Css.includes('height: 100dvh') && test2Css.includes('body.app-shell .app-main') && test2Css.includes('grid-row: 2'), '/test2 shell must keep the navbar fixed in the viewport with dynamic-viewport app sizing');
 assert(!test2Css.includes('bottom: 14px !important'), '/test2 mobile catalogue toggle must not be restored to the bottom-right map overlay position');
 assert(index.indexOf('id="timelineSlider"') > index.indexOf('</div><!-- end #map -->'), '/test2 timeline slider must be a separate row below #map, not a DOM overlay inside the map');
@@ -386,6 +387,18 @@ assert(electionManagerSource.includes('terminalTransferOutCount') && electionMan
 assert(electionManagerSource.includes('inferCountTransferOutEvents') && electionManagerSource.includes('Election of ${uniqueNameList(elected)}') && electionManagerSource.includes('Exclusion of ${uniqueNameList(excluded)}') && electionManagerSource.includes('candidateEventSurname') && electionManagerSource.includes('? inferCountTransferOutEvents(result, candidates, rawCountNumbers)'), '/test2 STV Detailed By Count headers must label transfer-out donor events as Election/Exclusion of candidate surnames');
 assert(electionDomainSource.includes('__syntheticCountGroup: true') && electionDomainSource.includes('__syntheticCountStages') && electionDomainSource.includes('Synthetic_Scraper_Stage_Row') && electionManagerSource.includes('const rawCountNumbers = sourceCountNumbers') && !electionManagerSource.includes('Not Elected<br>Count 1/1'), '/test2 scraper-style election results must expose available encoded Dail count stages without hard-coding all synthetic rows as first-count-only');
 assert(existsSync('scripts/import-dail-wikipedia-counts.mjs') && electionManifestBuilderSource.includes('DAIL_WIKIPEDIA_COUNTS_ROOT') && electionManifestBuilderSource.includes('Wikipedia_Count_Row') && electionManifestBuilderSource.includes('buildDailWikipediaCountPayload'), '/test2 Dail bundles must prefer locally imported Wikipedia count-table sidecars over synthetic scraper rows where available');
+assert(
+  existsSync('scripts/elections/import-dail-official-zip.py')
+    && existsSync('data/elections/dail-official-results.json')
+    && electionManifestBuilderSource.includes('DAIL_OFFICIAL_RESULTS')
+    && electionManifestBuilderSource.includes('enrichDailResultWithOfficialData')
+    && electionManifestBuilderSource.includes('officialDail')
+    && electionDomainSource.includes('officialCandidateId')
+    && electionDomainSource.includes('dailAbbreviation')
+    && browseIndexBuilderSource.includes('genders: new Map()')
+    && browseIndexBuilderSource.includes('candidate.gender'),
+  '/test2 Dail bundles and Browse person pages must consume official Dail sidecar metadata for constituency IDs, party abbreviations, turnout/spoiled, and candidate gender'
+);
 assert(electionManagerSource.includes('renderPartyEntity') && electionManagerSource.includes('renderCandidateEntity') && electionManagerSource.includes('election-entity-page__hero'), '/test2 entity panes must use main-style entity page structure');
 assert(appSource.includes('setupElectionPaneResize()') && appSource.includes('[data-election-pane-resize]') && appSource.includes('--test2-election-pane-height'), '/test2 must wire a draggable horizontal splitter for the bottom election pane');
 assert(electionManagerSource.includes('data-election-pane-resize') && electionManagerSource.includes('aria-orientation="horizontal"'), '/test2 election pane must render an accessible horizontal resize handle between the map/catalogue area and results pane');
@@ -703,6 +716,7 @@ if (existsSync('test/metadata/elections-test2.json')) {
   const queensUniversity = (stormont1921Bundle.results || []).find((result) => result.syntheticNonGeographic && /Queen's University/.test(result.constituency || ''));
   assert(queensUniversity?.matched === true && Array.isArray(queensUniversity.anchor?.center), '/test2 Queen\'s University Stormont rows must be clickable synthetic non-geographical results with map anchors');
   assert(queensUniversity?.anchor?.method === 'synthetic-northeast-non-geographic', '/test2 Queen\'s University synthetic anchor must stay on the northeast side of the election geography');
+  assertDailOfficialMetadataCoverage();
   assertStvTerminalTransferCoverage();
   assertStvSyntheticTerminalTransferCoverage();
   assertNiElectionSeatCoverage();
@@ -775,6 +789,21 @@ function assertPoint2Coverage() {
   const civilAlias = (testMetadata.layers || []).find((layer) => layer.sourceMapId === 'civil-parishes' && layer.aliasTargetLayerId === 'civil-parishes-vector-test');
   assert(civilPlan?.conversionStatus === 'convertedAlias', '/test2 Civil Parishes legacy catalogue row must be recorded as a converted alias');
   assert(Boolean(civilAlias), '/test2 maps-test metadata must include a loadable Civil Parishes alias to the unified converted layer');
+}
+
+function assertDailOfficialMetadataCoverage() {
+  if (!existsSync('test/metadata/elections-test2/dail-eireann__2024-11-29.json')) return;
+  const dail2024Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/dail-eireann__2024-11-29.json', 'utf8'));
+  const carlowKilkenny = (dail2024Bundle.results || []).find((result) => /carlow/i.test(result.constituency || '') && /kilkenny/i.test(result.constituency || ''));
+  assert(carlowKilkenny?.officialDail?.constituencyId, '/test2 Dail 2024 Carlow-Kilkenny must carry the official constituency ID sidecar field');
+  assert(Number(carlowKilkenny?.spoiled) === 563, '/test2 Dail 2024 Carlow-Kilkenny must use official spoiled-ballot metadata from the Dail ZIP');
+  assert(Math.abs(Number(carlowKilkenny?.turnoutPct) - 58.21) < 0.02, '/test2 Dail 2024 Carlow-Kilkenny must use official turnout metadata from the Dail ZIP');
+  const officialCandidate = (carlowKilkenny?.candidates || []).find((candidate) => candidate.gender && candidate.dailAbbreviation);
+  assert(Boolean(officialCandidate), '/test2 Dail 2024 candidate summaries must carry official candidate gender and Dail party abbreviation fields');
+  if (existsSync('test/metadata/elections-test2/dail-eireann__2021-07-08.json')) {
+    const byElection = JSON.parse(readFileSync('test/metadata/elections-test2/dail-eireann__2021-07-08.json', 'utf8'));
+    assert((byElection.results || []).some((result) => /dublin bay south/i.test(result.constituency || '') && Number(result.spoiled) === 162), '/test2 must include official Dublin Bay South 2021 by-election spoiled/turnout metadata from the Dail ZIP');
+  }
 }
 
 function sumFiles(relativeDir, predicate) {
