@@ -17,9 +17,14 @@ const OUT_MANIFEST = path.join(ROOT, 'test', 'metadata', 'elections-test2.json')
 const OUT_REPORT = path.join(ROOT, 'test', 'metadata', 'elections-test2-report.json');
 const DAIL_WIKIPEDIA_COUNTS_ROOT = path.join(ROOT, 'data', 'elections', 'dail-wikipedia-counts');
 const DAIL_OFFICIAL_RESULTS = path.join(ROOT, 'data', 'elections', 'dail-official-results.json');
+const DAIL_APPROVED_CANDIDATE_ALIASES = path.join(ROOT, 'data', 'elections', 'dail-approved-candidate-aliases.json');
 const dailOfficialResults = existsSync(DAIL_OFFICIAL_RESULTS)
   ? readJson(DAIL_OFFICIAL_RESULTS)
   : { elections: {} };
+const dailApprovedCandidateAliases = existsSync(DAIL_APPROVED_CANDIDATE_ALIASES)
+  ? readJson(DAIL_APPROVED_CANDIDATE_ALIASES)
+  : { aliases: [] };
+let dailApprovedCandidateAliasIndex = new Map();
 
 const STYLE_MODES = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority', 'seats', 'quota'];
 const LOCAL_GOVERNMENT_BODIES = new Set([
@@ -77,6 +82,8 @@ const NAME_ALIASES = new Map([
   ['derry area c', 'londonderry area c'],
   ['derry area d', 'londonderry area d']
 ]);
+
+dailApprovedCandidateAliasIndex = buildDailApprovedCandidateAliasIndex(dailApprovedCandidateAliases);
 
 const SOURCE_NAME_ALIASES = new Map([
   ['dail-2023', new Map([
@@ -1475,6 +1482,57 @@ function findResultFile(dateDir, constituency) {
   return null;
 }
 
+function buildDailApprovedCandidateAliasIndex(data) {
+  const byElectionDate = new Map();
+  for (const alias of Array.isArray(data?.aliases) ? data.aliases : []) {
+    const electionDate = alias.electionDate || String(alias.electionId || '').split('__').at(1);
+    if (!electionDate) continue;
+    if (!byElectionDate.has(electionDate)) byElectionDate.set(electionDate, []);
+    byElectionDate.get(electionDate).push({
+      ...alias,
+      sourceNameKeys: new Set(nameKeys(alias.sourceCandidateName || '')),
+      canonicalNameKeys: new Set(nameKeys(alias.canonicalCandidateName || '')),
+      constituencyKeys: new Set([
+        ...nameKeys(alias.sourceConstituency || ''),
+        ...nameKeys(alias.canonicalConstituency || ''),
+        ...nameKeys(alias.canonicalConstituencyId || '')
+      ].filter(Boolean))
+    });
+  }
+  return byElectionDate;
+}
+
+function approvedDailOfficialCandidateFor(entryDate, official, candidate, byCandidateId, byName) {
+  const aliases = dailApprovedCandidateAliasIndex.get(entryDate) || [];
+  if (!aliases.length) return null;
+  const candidateNameKeys = new Set(nameKeys(candidate?.name || candidate?.candidateName || ''));
+  const constituencyKeys = new Set([
+    ...nameKeys(official?.constituency || ''),
+    ...nameKeys(official?.constituencyId || '')
+  ].filter(Boolean));
+  for (const alias of aliases) {
+    if (!setIntersects(alias.constituencyKeys, constituencyKeys)) continue;
+    if (!setIntersects(alias.sourceNameKeys, candidateNameKeys) && !setIntersects(alias.canonicalNameKeys, candidateNameKeys)) continue;
+    const byId = alias.canonicalCandidateId !== undefined && alias.canonicalCandidateId !== null
+      ? byCandidateId.get(String(alias.canonicalCandidateId))
+      : null;
+    if (byId) return byId;
+    for (const key of alias.canonicalNameKeys) {
+      const byCanonicalName = byName.get(key);
+      if (byCanonicalName) return byCanonicalName;
+    }
+  }
+  return null;
+}
+
+function setIntersects(a, b) {
+  if (!a?.size || !b?.size) return false;
+  for (const value of a) {
+    if (b.has(value)) return true;
+  }
+  return false;
+}
+
 function officialDailRecordFor(entry, rawResult, fallbackConstituency = '') {
   if (entry?.bodySlug !== 'dail-eireann') return null;
   const election = dailOfficialResults?.elections?.[entry.date];
@@ -1542,16 +1600,18 @@ function enrichDailResultWithOfficialData(entry, rawResult, fallbackConstituency
     spoiled: official.spoiled ?? rawResult.spoiled ?? null,
     validPoll: official.validPoll ?? rawResult.validPoll ?? null,
     turnoutPct: official.turnoutPct ?? rawResult.turnoutPct ?? null,
-    candidates: mergeOfficialDailCandidates(rawResult.candidates || [], official)
+    candidates: mergeOfficialDailCandidates(rawResult.candidates || [], official, entry.date)
   };
 }
 
-function mergeOfficialDailCandidates(candidates, official) {
+function mergeOfficialDailCandidates(candidates, official, entryDate = null) {
   if (!Array.isArray(candidates) || !official?.candidates) return candidates;
   const byName = new Map();
   const byNameParty = new Map();
+  const byCandidateId = new Map();
   const byFirstPref = new Map();
   for (const candidate of Object.values(official.candidates)) {
+    if (candidate?.candidateId !== undefined && candidate?.candidateId !== null) byCandidateId.set(String(candidate.candidateId), candidate);
     const nameKey = normalizeName(candidate?.name || '');
     if (nameKey && !byName.has(nameKey)) byName.set(nameKey, candidate);
     const namePartyKey = `${nameKey}|${normalizeName(candidate?.party || '')}`;
@@ -1566,7 +1626,8 @@ function mergeOfficialDailCandidates(candidates, official) {
     const nameKey = normalizeName(candidate?.name || candidate?.candidateName || '');
     const partyKey = normalizeName(candidate?.party || candidate?.Party || '');
     const firstPref = parseNumber(candidate?.first_pref ?? candidate?.firstPrefs ?? candidate?.counts?.[0]);
-    const officialCandidate = byNameParty.get(`${nameKey}|${partyKey}`)
+    const officialCandidate = approvedDailOfficialCandidateFor(entryDate, official, candidate, byCandidateId, byName)
+      || byNameParty.get(`${nameKey}|${partyKey}`)
       || byName.get(nameKey)
       || ((byFirstPref.get(firstPref) || []).length === 1 ? byFirstPref.get(firstPref)[0] : null);
     if (!officialCandidate) return candidate;
