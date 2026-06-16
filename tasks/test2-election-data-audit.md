@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-06-14T17:21:01.202Z
+Generated: 2026-06-16T13:57:06.201Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -11,10 +11,10 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |parent elections in manifest|276|
 |manifest loadable elections|257|
 |manifest placeholders|19|
-|Browse parent election entries|268|
-|Browse constituency/DEA sub-entries|4684|
-|Browse overall sub-entries|268|
-|source detail records|268|
+|Browse parent election entries|276|
+|Browse constituency/DEA sub-entries|4696|
+|Browse overall sub-entries|276|
+|source detail records|276|
 |result bundles loaded|276|
 |result rows audited|4696|
 |candidate rows audited|29731|
@@ -26,7 +26,7 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |candidate-row review sidecar records|29|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|88|
+|warnings|55|
 
 ## Blocking Structural Issues
 
@@ -36,44 +36,11 @@ _None._
 
 |severity|category|key|message|
 |---|---|---|---|
-|warning|browse-parent-count|data/browse/elections.json|Browse has 268 parent elections, manifest has 276.|
 |warning|valid-poll-review|local-government-local-government-districts__2023-05-18|Ballyarnett valid poll -179 is recorded as invalid; review record status is source-review-required.|
 |warning|valid-poll-review|local-government-local-government-districts__2023-05-18|Magherafelt valid poll -49 is recorded as invalid; review record status is source-review-required.|
-|warning|browse-parent-missing|dail-eireann__2021-07-08|Manifest election has no matching Browse parent entry.|
-|warning|browse-overall-missing|dail-eireann__2021-07-08|Browse has no overall-result sub-entry for this election.|
-|warning|browse-constituency-count|dail-eireann__2021-07-08|Browse has 0 constituency/DEA sub-entries; manifest expects 1.|
-|warning|source-record-missing|dail-eireann__2021-07-08|No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2021-07-08.json.|
-|warning|browse-parent-missing|dail-eireann__2015-05-22|Manifest election has no matching Browse parent entry.|
-|warning|browse-overall-missing|dail-eireann__2015-05-22|Browse has no overall-result sub-entry for this election.|
-|warning|browse-constituency-count|dail-eireann__2015-05-22|Browse has 0 constituency/DEA sub-entries; manifest expects 1.|
-|warning|source-record-missing|dail-eireann__2015-05-22|No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2015-05-22.json.|
-|warning|browse-parent-missing|dail-eireann__2014-10-10|Manifest election has no matching Browse parent entry.|
-|warning|browse-overall-missing|dail-eireann__2014-10-10|Browse has no overall-result sub-entry for this election.|
-|warning|browse-constituency-count|dail-eireann__2014-10-10|Browse has 0 constituency/DEA sub-entries; manifest expects 2.|
-|warning|source-record-missing|dail-eireann__2014-10-10|No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2014-10-10.json.|
-|warning|browse-parent-missing|dail-eireann__2014-05-23|Manifest election has no matching Browse parent entry.|
-|warning|browse-overall-missing|dail-eireann__2014-05-23|Browse has no overall-result sub-entry for this election.|
-|warning|browse-constituency-count|dail-eireann__2014-05-23|Browse has 0 constituency/DEA sub-entries; manifest expects 2.|
-|warning|source-record-missing|dail-eireann__2014-05-23|No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2014-05-23.json.|
-|warning|browse-parent-missing|dail-eireann__2013-03-27|Manifest election has no matching Browse parent entry.|
-|warning|browse-overall-missing|dail-eireann__2013-03-27|Browse has no overall-result sub-entry for this election.|
-|warning|browse-constituency-count|dail-eireann__2013-03-27|Browse has 0 constituency/DEA sub-entries; manifest expects 1.|
-|warning|source-record-missing|dail-eireann__2013-03-27|No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2013-03-27.json.|
-|warning|browse-parent-missing|dail-eireann__2011-10-27|Manifest election has no matching Browse parent entry.|
-|warning|browse-overall-missing|dail-eireann__2011-10-27|Browse has no overall-result sub-entry for this election.|
-|warning|browse-constituency-count|dail-eireann__2011-10-27|Browse has 0 constituency/DEA sub-entries; manifest expects 1.|
-|warning|source-record-missing|dail-eireann__2011-10-27|No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2011-10-27.json.|
 |warning|valid-poll-review|local-government-local-government-districts__2011-05-05|Downshire first-preference sum 7919 exceeds valid poll ceiling 5367; review record status is source-review-required.|
-|warning|browse-parent-missing|dail-eireann__2009-06-05|Manifest election has no matching Browse parent entry.|
-|warning|browse-overall-missing|dail-eireann__2009-06-05|Browse has no overall-result sub-entry for this election.|
-|warning|browse-constituency-count|dail-eireann__2009-06-05|Browse has 0 constituency/DEA sub-entries; manifest expects 2.|
-|warning|source-record-missing|dail-eireann__2009-06-05|No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2009-06-05.json.|
 |warning|candidate-list-review|local-government-local-government-districts__2005-05-05|No candidates found for Giant's Causeway; review record status is source-review-required.|
 |warning|candidate-list-review|local-government-local-government-districts__2005-05-05|No candidates found for lg05-NoD-Ballyholme-&-Groomsport; review record status is source-review-required.|
-|warning|browse-parent-missing|dail-eireann__2005-03-11|Manifest election has no matching Browse parent entry.|
-|warning|browse-overall-missing|dail-eireann__2005-03-11|Browse has no overall-result sub-entry for this election.|
-|warning|browse-constituency-count|dail-eireann__2005-03-11|Browse has 0 constituency/DEA sub-entries; manifest expects 2.|
-|warning|source-record-missing|dail-eireann__2005-03-11|No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2005-03-11.json.|
 |warning|candidate-list-review|local-government-local-government-districts__2001-06-07|No candidates found for Giant's Causeway; review record status is source-review-required.|
 |warning|candidate-list-review|local-government-local-government-districts__2001-06-07|No candidates found for lg01-NoD-Ballyholme-&-Groomsport; review record status is source-review-required.|
 |warning|valid-poll-review|local-government-local-government-districts__1997-05-21|Ballymena South first-preference sum 5506 exceeds valid poll ceiling 5.51; review record status is source-review-required.|
@@ -116,20 +83,26 @@ _None._
 |warning|valid-poll-review|local-government-local-government-districts__1973-05-30|Derry Area A first-preference sum 8262 exceeds valid poll ceiling 862; review record status is source-review-required.|
 |warning|candidate-list-review|dail-eireann__1957-03-05|No candidates found for Kerry South; review record status is source-review-required.|
 |warning|candidate-list-review|dail-eireann__1938-06-17|No candidates found for Kerry South; review record status is source-review-required.|
-
-_8 more not shown; see JSON report._
+|warning|candidate-list-review|dail-eireann__1922-06-16|No candidates found for Cork East & North East; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1922-06-16|No candidates found for Cork Mid, North, South, South East & West; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1922-06-16|No candidates found for Mayo North & West; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1922-06-16|No candidates found for Tipperary Mid, North & South; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1921-05-24|No candidates found for Cork East & North East; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1921-05-24|No candidates found for Cork Mid, North, South, South East & West; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1921-05-24|No candidates found for Galway; review record status is source-review-required.|
+|warning|candidate-list-review|dail-eireann__1918-12-14|No candidates found for Dublin University(Trinity College); review record status is source-review-required.|
 
 ## Source And Reference Coverage
 
 |metric|value|
 |---|---:|
-|parent source records missing|8|
+|parent source records missing|0|
 |source records with no references|0|
 |source records with one reference|0|
-|source records with multiple references|268|
+|source records with multiple references|276|
 |Browse sub-entries with no references|0|
 |Browse sub-entries with one reference|0|
-|Browse sub-entries with multiple references|4952|
+|Browse sub-entries with multiple references|4972|
 
 ## Party Colour Audit
 

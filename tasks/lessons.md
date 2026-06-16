@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 182) Candidate aliases must respect identity, not just fuzzy name similarity
+- Mistake pattern: Treating a fuzzy name match as usable where the proposed canonical candidate belongs to a different person with a different constituency/history.
+- Impact: a row such as `Glenn Brady` could be incorrectly mapped to `John Brady`, polluting Dail candidate histories, deltas, person pages, and provenance.
+- Guardrail:
+  1) candidate alias approval must compare name, election year, constituency, party/label, and known person history before accepting a match,
+  2) same-surname or high string-similarity matches must be rejected when the constituency/history points to a different public person,
+  3) uncertain candidate aliases should remain in review with explicit reject/probable/safe buckets rather than being promoted from fuzzy score alone.
+
 ### 179) /test alias metadata readiness is stricter than /test2-only checks
 - Mistake pattern: Treating `/test2` checks as sufficient after generated metadata cleanup.
 - Impact: the GitHub Test rewrite readiness workflow failed in `build:test` because `civil-parishes-alias-test` retained `aliasOf` but had a null `cloneOf`, violating the `/test` validator contract before any browser smoke step could run.

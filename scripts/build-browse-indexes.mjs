@@ -33,6 +33,13 @@ function main() {
   const dataEntriesData = readJson('data/database/data-entries.json', { dataEntries: [] });
   const booksData = readJson('data/database/books.json', { categories: [], books: [] });
   const externalSourcesData = readJson('data/database/external-sources.json', { sources: [] });
+  const approvedPublicationSourcesData = readJson('data/database/approved-publication-sources.json', { sources: [] });
+  const browseSourceInputs = {
+    sources: [
+      ...normalizeArray(externalSourcesData.sources || externalSourcesData.items),
+      ...normalizeArray(approvedPublicationSourcesData.sources || approvedPublicationSourcesData.items)
+    ]
+  };
   const spatialIndex = readJson('data/database/spatial-index.json', { maps: [], features: [] });
   const partyIds = readJson('election-viewer-package/data/party-ids.json', { party_ids: [], aliases: {} });
   const electionManifest = readJson('test/metadata/elections-test2.json', { elections: [], totals: {} });
@@ -61,12 +68,12 @@ function main() {
   const featureGroups = buildFeatureGroups(spatialIndex, maps, parentElections);
   const { parties, partyDetails } = buildParties(partyIds, electionDetails);
   const { persons, personDetails } = buildPersons(electionDetails);
-  const sources = buildSources(booksData, dataEntriesData, maps, parentElections, thumbnailIds, externalSourcesData);
+  const sources = buildSources(booksData, dataEntriesData, maps, parentElections, thumbnailIds, browseSourceInputs);
   const rawMapsById = new Map((mapsData.maps || []).map((map) => [map.id, map]));
   const rawDataEntriesById = new Map(normalizeArray(dataEntriesData.dataEntries || dataEntriesData.entries).map((entry) => [entry.id || entry.slug || slugify(entry.name || entry.title), entry]));
   const rawElectionsByKey = new Map(normalizeArray(electionManifest.elections).map((entry) => [entry.key, entry]));
   const rawBooksById = new Map(normalizeArray(booksData.books || booksData.items).map((book) => [`book:${book.id || book.slug || slugify(book.title || book.name)}`, book]));
-  const rawExternalSourcesById = new Map(normalizeArray(externalSourcesData.sources || externalSourcesData.items).map((entry) => [entry.id || `external:${slugify(entry.title || entry.url || '')}`, entry]));
+  const rawExternalSourcesById = new Map(normalizeArray(browseSourceInputs.sources).map((entry) => [entry.id || `external:${slugify(entry.title || entry.url || '')}`, entry]));
   ensureUniqueSlugs(maps);
   ensureUniqueSlugs(elections);
   ensureUniqueSlugs(featureGroups);
@@ -1205,6 +1212,13 @@ function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds,
       sourceItems: normalizeArray(entry.sourceItems),
       duplicateCount: entry.duplicateCount || null,
       license: entry.license || null,
+      approval: entry.approval || null,
+      publicationStatus: entry.publicationStatus || null,
+      proposedBrowsePath: entry.proposedBrowsePath || null,
+      variantOf: entry.variantOf || null,
+      parentId: entry.parentId || null,
+      parentTitle: entry.parentTitle || null,
+      relationship: entry.relationship || null,
       browseUrl: `/browse/sources/${encodeURIComponent(slug)}`
     }));
   }
@@ -1302,7 +1316,7 @@ function sourceRawMetadata(record, context) {
       anchorUrl: record.downloads?.[1]?.url
     });
   }
-  if (/^(wikipedia-article|internet-archive-raster-map|external-source)$/.test(record.type) || String(record.id || '').startsWith('external:')) {
+  if (/^(wikipedia-article|internet-archive-raster-map|external-source|approved-[a-z-]+-source)$/.test(record.type) || /^(external|approved-publication|approved-variant):/.test(String(record.id || ''))) {
     return context.rawExternalSourcesById?.get(record.id) || null;
   }
   return null;

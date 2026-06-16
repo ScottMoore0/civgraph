@@ -1,3 +1,206 @@
+# Merge approved publication branch to production
+- [x] Record implementation scope
+  - Task: push `codex-apply-approved-publication-records`, update `main`, merge the approved publication branch, validate, and push `main` so the approved records can deploy.
+  - Constraints: preserve untracked provider-audit scratch; do not stage or publish local/private audit files; stop and re-plan if the merge conflicts or validation fails.
+- [ ] Push feature branch
+  - Push the local approved-publication commit to `origin/codex-apply-approved-publication-records`.
+- [ ] Merge into main
+  - Update `main`, merge the approved-publication branch, and keep provider-audit scratch uncommitted.
+- [ ] Validate and push production
+  - Run focused validation on merged `main`, then push `main`.
+
+# Apply final user-approved Dail/source decisions
+- [x] Record implementation scope
+  - Task: after user approval, apply the three remaining Dail probable alias approvals, keep the Glenn Brady false match rejected, publish five user-confirmed distinct source rows, group the CPD January 2026 Access/CSV/TXT rows as one source family, and merge the LFS Claimant Count Oct 2021 ODS row as an alternate-format variant.
+  - Constraints: do not publish unapproved probable aliases; do not treat Glenn Brady as John Brady; do not upload anything to R2/CDN; do not expose local filesystem paths; do not stage provider-audit scratch.
+- [x] Extend generator and validation
+  - Completed: updated `scripts/apply-approved-publication-records.mjs` and `scripts/validate-approved-publication-path.mjs` so the approvals are repeatable, Glenn Brady remains rejected, and user-approved distinct source records cannot inherit unrelated fuzzy references/downloads.
+- [x] Regenerate generated data
+  - Completed: rebuilt approved Dail aliases, approved publication sources, Browse source records, and election metadata derived from the alias sidecar.
+- [x] Verify, commit, and push
+  - Completed: ran focused validation checks, cleaned timestamp-only generated churn, and prepared only intended code/data/task changes for commit and push.
+
+## Review: final user-approved Dail/source decisions
+- Applied the 3 remaining user-approved probable Dail alias groups, raising the approved Dail sidecar to 50 alias groups covering 431 source rows.
+- Kept the Glenn Brady false match rejected/rematched and quarantined; no Glenn Brady -> John Brady alias is published.
+- Published the 5 user-confirmed distinct source rows, grouped the 3 Central Postcode Directory January 2026 package rows into one source family, and materialised the LFS Claimant Count Oct 2021 ODS row as an alternate-format variant.
+- Added per-source reference/download filters for the newly approved distinct records so Belfast Community Centres, Drainage Assets, NBCO Applications, Health Trust Reference Costs, and the Open Data Innovation report do not inherit unrelated fuzzy links.
+- Verification run: `node scripts/apply-approved-publication-records.mjs`, `npm run build:browse`, `npm run build:test2:elections`, `npm run check:approved-publication`, `npm run check:external-sources`, and `npm run check:test2`.
+
+# Apply user-approved remaining publication decisions
+- [x] Record implementation scope
+  - Task: after user approval, apply the approved remaining Dail candidate aliases and Category 3 source decisions into the repeatable publication generator, while keeping probable/held rows excluded.
+  - Constraints: do not publish probable aliases or probable variants; do not upload anything to R2/CDN; do not commit provider-audit scratch; preserve local/private paths out of generated public data.
+- [x] Extend generator and validation
+  - Update `scripts/apply-approved-publication-records.mjs` to consume the remaining-decision pack, and update `scripts/validate-approved-publication-path.mjs` to prove the approved counts and excluded held rows are correct.
+- [x] Regenerate generated data
+  - Rebuild Dail approved aliases, approved publication sources, Browse source indexes/details, and the election manifest.
+- [x] Verify and push
+  - Run focused validation and site data checks, then commit and push only intended generated/code/task changes.
+
+## Review: user-approved remaining publication decisions
+- Applied 13 user-approved remaining Dail alias groups, raising the approved Dail sidecar to 47 alias groups covering 400 source rows.
+- Kept 3 probable Dail alias groups and the Glenn Brady false match/re-match group quarantined.
+- Published 20 remaining Category 3 source/table rows into approved source records, and merged 2 high-confidence rows as source variants/citations.
+- Kept 5 probable variants and 4 citation-only rows excluded pending later decisions.
+- Materialised 22 new Browse source index/detail records; did not upload anything to R2/CDN and did not stage provider-audit scratch.
+- Verification run: `node scripts/apply-approved-publication-records.mjs`, `npm run build:browse`, `npm run build:test2:elections`, `npm run check:approved-publication`, `npm run check:external-sources`, and `npm run check:test2`. The final narrow diff was rechecked with `npm run check:approved-publication` and `npm run check:external-sources`.
+
+# Apply approved Dail and Category 3 publication records
+- [x] Record implementation scope
+  - Task: after user approval, create a clean implementation branch; apply safe Dail auto-match and encoding/name-cleanup alias proposals; turn approved Category 3 publish batches into Browse/Books/Tables/source records; convert approved variant proposals into child/variant records; add validation for the approved publication path.
+  - Constraints: keep review-only/hold/needs-decision rows out of publishable records; do not upload to R2/CDN; do not mutate unrelated provider-audit scratch files; keep the implementation repeatable from the approval-refinement pack.
+- [x] Create implementation branch and import scripts
+  - Completed: created `codex-apply-approved-publication-records`, added `scripts/apply-approved-publication-records.mjs`, and wired the approved-publication source records into the Browse index build.
+- [x] Materialise approved Dail aliases and Category 3 records
+  - Completed: generated `data/elections/dail-approved-candidate-aliases.json` for the safe auto-match and encoding/name-cleanup aliases, and generated `data/database/approved-publication-sources.json` for approved publish and variant records only.
+- [x] Add validation scripts for approved publication path
+  - Completed: added `scripts/validate-approved-publication-path.mjs` and `npm run check:approved-publication` to verify approved counts, quarantined rows, variant parents, generated source details, and absence of local filesystem paths.
+- [x] Rebuild generated Browse indexes and run focused validation
+  - Completed: rebuilt Browse indexes and regenerated the Test2 election manifest so the approved publication records and Dail aliases are reflected in generated site data.
+- [x] Commit implementation branch
+  - Completed: committed the staged implementation as `Materialise approved publication records`.
+- [x] Push implementation branch
+  - Completed: pushed `codex-apply-approved-publication-records` to `origin`.
+
+## Review: approved Dail and Category 3 publication records
+- Materialised 34 approved Dail candidate alias groups covering 270 source rows. Probable matches and human-decision rows remain quarantined.
+- Materialised 6,650 approved Category 3 source records: 5,892 publish records and 758 variant records. Hold, needs-decision, and citation-only rows remain excluded from publishable records.
+- Preserved variant relationship metadata so approved variants point at proposed parent records instead of becoming unqualified duplicates.
+- Added repeatable validation through `npm run check:approved-publication`.
+- Verification run: `node scripts/apply-approved-publication-records.mjs`, `npm run build:browse`, `npm run check:approved-publication`, `npm run check:external-sources`, and `npm run build:test2:elections`.
+- Unrelated local provider mirror audit scratch files remain untracked and were intentionally not staged.
+- Branch pushed: `origin/codex-apply-approved-publication-records`.
+
+# Refine remaining publication decisions and dry-run deployment/upload paths
+- [x] Record scope
+  - Task: further investigate the remaining probable/human-review Dail candidate matches, review held/decision/citation Category 3 source rows, prepare merge/deploy validation, build extra approval CSVs and placement/provenance previews, inspect provider-audit scratch, and prepare R2/CDN dry-run manifests where useful.
+  - Constraints: do not publish additional rows without explicit approval; do not upload to R2/CDN; do not commit private local raw files or local filesystem paths; keep provider-audit scratch uncommitted unless it is explicitly selected for preservation.
+- [x] Inspect current approval/quarantine inputs
+  - Completed: inspected the approved-publication refinement pack, quarantined Dail candidate rows, Category 3 hold/needs-decision/citation-only rows, existing duplicate/variant evidence, approved source records, and local provider-audit scratch.
+- [x] Generate Dail match investigation and patch-proposal outputs
+  - Completed: added `scripts/build-remaining-publication-decision-pack.mjs` and generated remaining Dail match recommendations, held patch records, merge-target evidence, and final alias approval candidates for 17 withheld groups covering 173 source rows.
+- [x] Generate Category 3 hold/decision/citation recommendations and approval bundles
+  - Completed: generated review recommendations, next approval bundles, provenance/placement previews, and expanded duplicate/variant evidence for the 20 hold, 7 needs-decision, and 4 citation-only Category 3 rows.
+- [x] Inspect provider-audit scratch and recommend handling
+  - Completed: generated a provider-audit scratch review recommending that JSON inventories remain uncommitted/local, and that `scripts/audit-provider-mirrors.mjs` be generalized before any future commit because it currently contains local drive-root defaults.
+- [x] Prepare merge/deploy validation and R2/CDN dry-run outputs
+  - Completed: generated merge/deploy validation notes and a dry-run R2/CDN manifest covering 6,670 items. No uploads were performed; 6,650 approved records require no upload, and 20 excluded spatial/source rows are possible future upload candidates only after approval.
+- [x] Run validation, commit, and push review pack
+  - Completed: validation passed for the generated pack and focused repo checks. Commit/push is recorded below.
+
+## Review: remaining publication decisions and dry-run deployment/upload paths
+- Generated the review pack under `tasks/absence-integration-ready-2026-06-15/publication-approval-pack/remaining-decision-pack/`.
+- Dail remaining decisions: 2 alias-after-spot-check groups, 11 encoding-alias groups, 3 probable-alias groups requiring approval, and 1 rejected/rematch group. Patch records remain held pending approval.
+- Category 3 remaining decisions: 20 publish-table/source-now-but-defer-interactive-map rows, 2 merge/citation rows, 5 probable variant rows requiring approval, and 4 citation-only source-page rows.
+- Provider-audit scratch remains intentionally untracked: `data/provider-mirror-audit/` and `scripts/audit-provider-mirrors.mjs`.
+- Verification run: `node --check scripts/build-remaining-publication-decision-pack.mjs`, `node scripts/build-remaining-publication-decision-pack.mjs`, local path leak scan over the generated pack, `npm run check:approved-publication`, `npm run check:external-sources`, `npm run build:browse`, `npm run build:test2:elections`, and `npm run check:test2`.
+
+# Audit D drive provider mirrors and prepare data-readiness lanes
+- [x] Record scope
+  - Task: audit current `D:\` contents, build provider catalogues for Open Data NI, CSO Ireland, NISRA, and Tailte Eireann, diff those catalogues against `D:\`, download or record missing raw assets where approval/network permits, unpack/checksum, record failures, build staging manifests, and report what is ready for later site integration.
+  - Parallel task: dispatch subagents for four readiness lanes without publishing to the live site: NI Census post-1926, all-Ireland Census pre-1926, Dail official election data, and ROI Census post-1921.
+  - Constraint: preserve raw sources, do not delete user data, do not publish new datasets to the site without explicit later instruction, keep local/private/raw downloads out of git unless explicitly approved.
+- [x] Inspect existing scripts, manifests, and local `D:\` structure
+  - Completed: inspected `D:\opendatani`, `D:\cso-pxstat`, `D:\nisra`, `D:\datagovie`, existing provider mirror scripts, and existing provider manifests/logs.
+- [x] Generate or refresh provider catalogues and gap reports
+  - Completed: added and ran `scripts/audit-provider-mirrors.mjs`, generating `data/provider-mirror-audit/provider-mirror-audit.json`, `provider-mirror-audit.md`, and per-provider file inventories.
+- [x] Build checksums/extraction manifests for mirrored data
+  - Completed: built metadata inventories for all audited provider roots. Full SHA-256 hashing is intentionally optional via `node scripts/audit-provider-mirrors.mjs --hash` because hashing hundreds of GB on `D:\` is a long-running operation; no raw files were unpacked or mutated in this audit pass.
+- [x] Collect subagent readiness reports
+  - Completed: collected all four readiness lanes. Three lanes wrote local reports under `tasks/`; the NI Census lane returned a summary covering 2011/2001/2021 readiness and historical blockers.
+- [x] Summarise ready / blocked / needs-review outputs
+  - Completed: recorded the audit outputs and readiness summary below.
+
+## Review: Provider mirror audit and readiness lanes
+- Open Data NI: partial raw mirror. `D:\opendatani` exists with 4,465 files, 1,014 directories, and 132.98 GB. The repo catalogue has 5,893 resources, 5,517 downloadable. The D manifest has 5,025 rows: 4,514 ok, 400 failed, 111 skipped. There are 492 downloadable catalogue resources missing from the D manifest and 400 failed rows. Missing examples include OSNI Gazetteer Place Names CSV/SHP/KML/GeoJSON. Failed examples include Sophos-wrapped Roads CSV URLs returning HTTP 416 and GSNI ArcGIS endpoints returning 403.
+- CSO PXStat: ready raw mirror. `D:\cso-pxstat` exists with 25,060 files and 2.06 GB. The catalogue has 12,528 matrices and `_done.txt` has 12,528 matrices; missing matrices: 0. This is ready for selective staging/import work, not automatically ready for site publication.
+- CSO historical reports: partial source cache. `data/downloads/cso-historical-reports` has 1,733 files and 3.24 GB. The CSO scrape found 3,177 assets, directly downloaded 1,733, failed 1,444 direct links; Wayback recovery found/cached 1,404 of those, leaving 40 unavailable.
+- NISRA: partial raw mirror. `D:\nisra` exists with 1,118 files and 675.72 MB; `_inventory.json` records 1,145 asset URLs. The crawl log tail shows the crawler was still expanding pages (`queue=15723`) and some URLs failed, so this is not a complete NISRA mirror.
+- data.gov.ie: partial raw mirror. `D:\datagovie` exists with 30,236 files and 189.62 GB. Manifest rows: 4,960, with 4,947 ok, 11 failed, 2 skipped. Several failed rows are old CSO PXStat CSV endpoints already covered by the complete CSO PXStat JSON mirror.
+- Tailte/OSI/GeoHive candidates: partial candidate mirror from `D:\datagovie`. 610 matching manifest rows, 609 ok and 1 failed. The failed row is an OSI ArcGIS CSV export returning HTTP 500.
+- Download/unpack/checksum note: this audit did not launch large mutating downloads or unpack raw archives on `D:\`. The next safe step is to run provider-specific resumable mirror commands in a controlled storage/network window, then rerun the audit with `--hash` if full checksums are required.
+- NI Census post-1926 lane: 2011 mostly ready but validation warns 4,792 vs 4,800 expected CSVs; 2001/2021 need normalization; 1991 and 1981 need extraction; 1926-1971 are OCR/geography-normalization projects.
+- All-Ireland Census pre-1926 lane: source inventory is strong, especially 1911, but row-level normalized facts and source-native geography IDs are not ready. See `tasks/civgraph-all-ireland-pre1926-census-readiness.md`.
+- Dail official data lane: modern official sidecar is useful for 2016/2020/2024 plus selected post-2002 by-elections, but historical Oireachtas PDFs need OCR and older by-election coverage remains incomplete. See `tasks/dail-official-data-readiness-lane3.md`.
+- ROI Census post-1921 lane: CSO source assets and the PXStat mirror are strong, but ROI geography registry, SAPS dictionary parsing, concept comparability, provenance, and validation remain before site integration. See `tasks/roi-census-post-1921-readiness-lane-4.md`.
+
+# Explain feasibility of remaining Census/Dail cleaning and provider mirror gaps
+- [x] Record scope
+  - Task: explain feasibility, specific work, and blockers for Dail official OCR/table extraction, ROI Census post-1921 normalization, all-Ireland pre-1926 normalization, and NI Census normalization/OCR; answer which CSO/Open Data NI/Tailte/NISRA data is on `D:\` but not on the site and which is neither on `D:\` nor on the site.
+  - Constraint: explanation only; do not mutate `D:\`, do not download raw provider assets, and do not publish site data.
+- [x] Inspect existing D-drive/site inventory scripts and reports
+  - Reviewed `scripts/archive_inventory.py`, `_tmp_archive_inventory/*`, `data/provider-mirror-audit/provider-mirror-audit.md`, and the Census/Dail readiness reports under `tasks/`.
+  - `scripts/archive_inventory.py` could not be rerun cleanly because `data/external/datagovie-catalogue.json` is no longer present; existing `_tmp_archive_inventory` CSVs were used as older evidence, with that limitation noted.
+- [x] Summarise feasibility and blockers
+  - Dail official OCR/table extraction, ROI post-1921 Census normalization, all-Ireland pre-1926 Census normalization, and NI Census normalization are all feasible, but each is a data-engineering/OCR/geography-normalization lane rather than a small site-code task.
+- [x] Answer provider gap question
+  - Provider gap answer is based on the current provider mirror audit plus older archive inventory CSVs where current catalogue files were missing.
+
+## Review
+- Dail official sidecar currently covers modern official structured records, but Oireachtas PDFs from 1954-1997 are image-only and still require OCR/table extraction.
+- ROI post-1921 Census has source caches and a full CSO PXStat mirror, but it is not yet normalized into Civgraph-ready facts/geographies/concepts.
+- All-Ireland pre-1926 Census has source inventory/cache coverage, but only 1911 is partially staged and none of the historic series is complete as row-level facts with stable geography IDs.
+- NI Census has partial readiness for 2011/2021/2001, but 2011 has a missing-file validation warning, 2001/2021 need full fact normalization, and earlier years need OCR/geography work.
+- Question 5 cannot be answered with perfect freshness until the data.gov.ie catalogue files are regenerated, but the provider audit gives solid current evidence for Open Data NI, CSO PXStat, CSO historical reports, NISRA, data.gov.ie, and Tailte/OSI candidates.
+
+# Exhaustive D-drive datasets not yet on site
+- [x] Record audit scope
+  - Task: provide an exhaustive list of datasets currently mirrored on `D:\` but not yet represented on the site, sorted in descending ROI/feasibility for site integration.
+  - Output: a detailed local report/CSV plus a concise summary in chat, because the full list may contain thousands of rows.
+- [x] Inspect D-drive provider manifests and site catalogue references
+  - Used existing Open Data NI/data.gov.ie not-on-site CSVs, D-drive provider manifests, the CSO PXStat catalogue, the NISRA mirror inventory, and standalone D-drive data files.
+- [x] Generate sorted inventory
+  - Generated `tasks/d-drive-not-on-site-datasets-2026-06-15.csv` with 35,079 rows sorted by heuristic ROI/feasibility score.
+  - Generated `tasks/d-drive-not-on-site-datasets-2026-06-15.md` with counts, caveats, and the top 200 rows.
+- [x] Summarise highest-priority datasets and limitations
+
+## Review
+- The exhaustive CSV contains 35,079 candidate rows: 20,464 data.gov.ie, 12,528 CSO PXStat, 997 NISRA, 855 Open Data NI, 187 Tailte/OSI/data.gov.ie, 23 Tellus, 20 standalone D-root files, 3 OSNI Fusion, and 2 EONI standalone rows.
+- Highest-ROI rows are mostly direct spatial boundary/electoral/census geography datasets, followed by census/statistical cubes, then lower-domain tabular and service-only datasets.
+- The Open Data NI/data.gov.ie comparison uses the existing `_tmp_archive_inventory/*_not_on_site.csv` files because the current `data/external/datagovie-catalogue.json` is missing and the archive inventory script cannot be freshly rerun until that catalogue is regenerated.
+
+# Explain D-drive not-on-site ROI buckets
+- [ ] Record explanation scope
+  - Task: explain the ten highest-ROI/feasibility buckets from the D-drive not-on-site inventory in full.
+- [ ] Provide expanded explanation in chat
+
+# Refine D-drive inventory against all site surfaces
+- [x] Record refined audit criteria
+  - Task: revisit the D-drive not-on-site inventory to distinguish exact duplicates, provider variants/child maps, wholly new maps/data, source/download-only entries, and uncertain cases.
+  - Constraints: explanatory/contextual research only; do not publish new datasets, do not upload assets, and do not mutate `D:\`.
+  - Matching must consider map catalogue entries, Browse entries, source/reference/download records, Internet Archive hotlinks, and generated layer IDs, not only `data/database/maps.json` provider URLs.
+- [x] Inspect site-side references beyond maps.json
+  - Completed: indexed `data/database/maps.json`, `data/browse/maps.json`, `data/browse/features.json`, `data/browse/sources.json`, `data/database/external-sources.json`, `data/database/data-entries.json`, and `data/database/books.json`.
+- [x] Produce refined comparison report
+  - Completed: generated ignored local research outputs `tasks/d-drive-site-overlap-context-2026-06-15.md` and `tasks/d-drive-site-overlap-context-2026-06-15.csv`.
+- [x] Summarise corrected interpretation and next steps
+  - Completed: the previous 35,079-row list is now treated as a conservative review queue, not a definitive absence list. The refined report classifies rows by exact/strong site matches, existing-family overlap, variant/child-map candidates, semantic Census/statistical staging, source-only Browse/Books candidates, scrape/service candidates, and genuinely unmatched spatial candidates.
+
+## Review: refined D-drive inventory against all site surfaces
+- Site evidence indexed: 3,119 records across Browse maps, Browse features, Browse sources, database maps, data entries, books, and external sources.
+- Refined counts: 12,984 unclassified context-review rows; 9,976 Census/statistical staging rows; 6,681 source-only/Browse/Books rows; 3,203 partially represented Census/statistical concepts; 903 rows where the relevant Civgraph family already exists and the row should be reviewed as exact-or-variant, not automatically new; 851 likely variant/child-map candidates; 244 service/scrape candidates; 144 rows overlapping an existing site family; 66 very strong exact matches; 27 genuinely new/unmatched spatial candidates.
+- Corrected interpretation: many rows are already represented on the site in transformed IDs, Browse feature groups, source/download records, Internet Archive hotlinks, election/source bundles, data entries, or book/source entries. Absence from `data/database/maps.json` provider URLs alone is not evidence that a dataset is absent from Civgraph.
+- Next research pass: review existing-family and variant rows first, recording matching Civgraph map/source IDs and deciding exact duplicate vs provider/date/scale/generalisation variant vs new map. Keep Census/PXStat/NISRA rows in a semantic data-cleaning queue and service/raster/LiDAR rows in a private scrape/format-review queue until publication and MapLibre support are clear.
+
+# Subagent lane 2: Civgraph all-Ireland Census pre-1926 readiness
+- [x] Record scope
+  - Task: audit all-Ireland/pre-1926 Census readiness without publishing anything to the live site.
+  - Scope: inspect `data/census/cleaned`, `data/census/source-inventory`, readable `data/downloads`, `scripts/census`, and CSO scrape/recovery manifests.
+  - Output: compact readiness report under `tasks/` with exact file paths and recommendations for present/indexed material, OCR/table-extraction gaps, old geography representation, and ready/blocked/needs-review status.
+- [x] Inventory all-Ireland/pre-1926 Census records and source manifests
+  - Completed: found 56 `all_ireland_historical` cleaned records, all 1911; confirmed the local 1911 archive inventory has 34 PDFs and 22 XLSX files; summarized CSO scrape and Wayback recovery coverage for 1841-1926.
+- [x] Assess OCR/table extraction and old-geography representation
+  - Completed: confirmed 1911 source records are not row-level fact tables yet, `geographyLevel` remains `unknown`, and pre-1926 all-Ireland source-native geography levels are not yet in the canonical registry.
+- [x] Write readiness report and record verification evidence
+  - Completed: wrote `tasks/civgraph-all-ireland-pre1926-census-readiness.md`.
+
+## Review: Subagent lane 2 all-Ireland Census pre-1926 readiness
+- Ready: source manifests, local 1911 all-Ireland archive inventory, CSO historical scrape, Wayback recovery cache, and staged source catalogue entries.
+- Needs review: 1911 Cantabular XLSX parsing, 1911 PDF extraction QA, and all-Ireland/pre-1926 historical geography registry additions.
+- Blocked: site-ready facts and geometry-backed old-geography display until normalized rows and source-native geography IDs are created.
+- Verification: queried cleaned metadata, source archives, CSO scrape/recovery manifests, counted readable download caches, and confirmed live site files were not edited.
+
 # Update Irish general election data from official Dail election sources
 - [x] Record scope
   - Task: update Irish general-election site data with constituency IDs, Dail party abbreviations, preserved Civgraph candidate-status styling, missing by-election coverage, spoiled/turnout figures, and candidate gender on person info pages.
@@ -5997,3 +6200,236 @@ Add election entries to /test2
 - The retry pass used the Wayback availability API, CDX fallback lookup, URL variants, retry/backoff, and alternate snapshots for the two rows that had snapshots but failed to download.
 - Final recovery report: 1,444 CSO failed-link assets checked; 1,404 snapshots available; 1,404 downloaded or cached locally; 40 still unavailable through the attempted Wayback paths.
 - Raw recovered files remain under ignored `data/downloads/wayback-cso/`; only derived recovery inventory/report files are tracked.
+# Prepare absence categories 1, 2, 6 and local scrape category 7
+- [x] Record staging-only scope
+  - Task: prepare the refined-audit categories 1, 2, and 6 so they are ready for later website integration, but do not add them to the live site until explicitly authorised.
+  - Category 1: Census/statistical staging candidates and partially represented Census/statistical concepts.
+  - Category 2: election-result/source tables not fully integrated.
+  - Category 6: source-only PDFs/docs/tables suitable for Browse/Books/source-reference integration.
+  - Category 7: service/scrape candidates, to be locally scraped/cached under the repo for later review only.
+  - Constraint: do not publish, do not upload to Cloudflare/R2, do not edit live Browse/map/election manifests, and keep raw/local scrape outputs out of git unless explicitly approved.
+- [x] Build staging manifests for categories 1, 2, and 6
+  - Completed: created ignored staging outputs under `tasks/absence-prep-2026-06-15/`, including JSON/CSV manifests for Census/statistical candidates, election-result/source-table candidates, and source-only PDF/doc/table candidates.
+- [x] Scrape/cache category 7 locally
+  - Completed: created a local ignored cache manifest for 244 service/scrape candidates and copied small locally mirrored files under `data/downloads/service-scrape-2026-06-15/`; no remote tile/service harvesting was performed.
+- [x] Verify counts, provenance, and remaining blockers
+  - Completed: verified generated record counts and cache directories; recorded remaining blockers in `tasks/absence-prep-2026-06-15/README.md`.
+
+## Review: Absence category staging prep
+- Category 1 Census/statistical staging outputs contain 13,179 records: 9,446 ready for Census fact normalisation, 3,203 needing concept reconciliation, and 530 ready for NISRA table normalisation.
+- Category 2 election-result/source table outputs contain 24 records after tightening the selector to election-result/candidate/source tables rather than every election-adjacent row. Of these, 19 are deterministically mapped to existing Dail election IDs and 5 are Wicklow local-election LEA results blocked pending the ROI local-election model.
+- Category 6 source-only PDF/doc/table outputs contain 6,681 records: 351 have local source material present and need Browse/source-page drafting; 6,330 still need local-path or source-URL resolution.
+- Category 7 local scrape/cache outputs contain 244 records. Small local mirror files were copied for 243 records, totalling 1,839 copied files; 135 large files were intentionally not copied due to the 5 MB safety cap, and one record needs URL/service resolution.
+- Verification: `tasks/absence-prep-2026-06-15/*.json` parses successfully with the expected record counts; `data/downloads/service-scrape-2026-06-15` contains 244 staging directories. No live site manifests or CDN/R2 assets were changed.
+
+# Prepare absence categories 1, 2, and 3 for later site integration
+- [x] Record staging-only implementation scope
+  - Task: do the remaining preparation work for category 1 Census/statistical data, category 2 election-source tables, and category 3 source-only PDFs/docs/tables so they are ready for later website integration, without adding them to the website yet.
+  - Constraint: do not edit live `data/browse`, `data/elections`, map manifests, build bundles, service workers, or CDN/R2 upload manifests unless explicitly authorised later.
+- [x] Build category 1 Census/statistical normalization package
+  - Scope: create canonical source, geography, concept, provenance, fact-template, comparability, and validation outputs from the staged Census/statistical candidate set.
+  - Completed: generated `tasks/absence-integration-ready-2026-06-15/category-1-census-statistical/` with source records, fact templates, concept/geography indexes, existing cleaned-model cross-checks, CSV review export, and validation report.
+- [x] Build category 2 election-source integration package
+  - Scope: create source-to-election target mappings, table-kind contracts, expected parser actions, provenance sidecar drafts, and validation outputs from the 24 election-source records.
+  - Completed: generated `tasks/absence-integration-ready-2026-06-15/category-2-election-sources/` with parser contracts, source provenance sidecar drafts, CSV review export, and validation report.
+- [x] Build category 3 source-doc/table publication package
+  - Scope: create source publication drafts and decisions for source-only PDFs/docs/tables, with dedupe evidence, local/URL resolution status, Browse/Books/Table placement, and validation outputs.
+  - Completed: generated `tasks/absence-integration-ready-2026-06-15/category-3-source-docs-tables/` with publication drafts, proposed Browse/Books/Table placement, download/reference status, duplicate-review flags, CSV review export, and validation report.
+- [x] Verify packages and record remaining blockers
+  - Scope: run generated-output validation, summarize counts and unresolved items, and confirm no live site runtime data was changed.
+  - Completed: `node --check tasks\absence-integration-ready-2026-06-15\build-ready-packages.mjs` passed and all 12 generated JSON files parsed successfully.
+
+## Review: absence categories 1, 2, and 3 ready packages
+- The package builder wrote staging-only outputs under `tasks/absence-integration-ready-2026-06-15/`; live site runtime data, Browse manifests, election bundles, map manifests, service workers, and CDN/R2 assets were not changed.
+- Category 1 contains 13,179 Census/statistical source records and 13,179 fact templates. It parsed JSON-stat metadata for 12,527 CSO PXStat records, skipped one large JSON-stat file for safety, and linked 24 records to the existing cleaned Census model.
+- Category 1 readiness now breaks down as 12,517 `fact-template-ready`, 530 `ready-for-nisra-table-normalisation`, 107 `needs-concept-reconciliation`, 24 `linked-to-existing-cleaned-model`, and one `ready-for-census-fact-normalisation`.
+- Category 2 contains 24 election-source records. Nineteen are matched to existing election IDs, one is immediately ready for parser implementation, eighteen become ready after local-file resolution, and five Wicklow/ROI local-election rows remain blocked until the ROI local-election site model exists.
+- Category 3 contains 6,681 source-doc/table publication drafts. Of these, 1,046 have local source material resolved and are ready for draft review, six need duplicate/existing-site review, and 5,629 still need local-path or source-URL resolution.
+- Verification evidence: the builder printed a complete `summary.json`; `summary.json`, all category validation reports, all source/fact/publication/parser JSON outputs, and all sidecar outputs parse successfully.
+
+# Automate remaining category 1-3 staging work
+- [x] Record continuation scope
+  - Task: complete the remaining staging-only work I can do for category 1 Census/statistical data, category 2 election-source tables, and category 3 source-only PDFs/docs/tables.
+  - Constraint: leave final publication/model/duplicate/licensing decisions for user approval; do not add records to live Browse/election/map data or upload anything.
+- [x] Improve category 1 automated Census/statistical resolution
+  - Scope: reduce ambiguous concept/geography queues using parsed JSON-stat dimensions, provider metadata, existing cleaned Census model clues, and deterministic confidence flags.
+  - Completed: added JSON-stat metadata caching, source-kind classification, better concept/geography hints, remaining-decision buckets, automated-prep state, and a targeted review queue. The regenerated package now classifies 12,528 statistical cubes, 453 source tables, 192 source-documentation rows, and 6 microdata rows.
+- [x] Improve category 2 election-source resolution
+  - Scope: resolve exact local source files where possible, produce stronger parser contracts, classify Dail parser actions, and isolate ROI local-election model blockers.
+  - Completed: added official Dail sidecar coverage detection, parser action classification, local-source resolution through provider mirror matches, stale-blocker filtering, and a remaining parser-work queue. Nine Dail rows are now marked covered by the existing official sidecar, ten remain ordinary Dail source/parser work, and five remain blocked on the ROI local-election model.
+- [x] Improve category 3 source-doc/table resolution
+  - Scope: resolve more local/source paths, classify publication surfaces, identify duplicates/variants, and shrink the manual review queue.
+  - Completed: expanded local-source matching beyond manifest-exact paths, added source publication type/surface classification, duplicate evidence propagation, and a remaining publication review queue. Locally resolved source-doc/table drafts increased from 1,046 to 3,406, and unresolved rows fell from 5,629 to 3,268.
+- [x] Verify regenerated outputs and document remaining user decisions
+  - Scope: rerun the staging builder, parse generated outputs, summarize remaining manual decisions, and confirm live site data remains untouched.
+  - Completed: `node --check tasks\absence-integration-ready-2026-06-15\build-ready-packages.mjs` passed, the builder regenerated `summary.json`, and all 16 generated JSON files under `tasks/absence-integration-ready-2026-06-15/` parsed successfully.
+
+## Review: automated remaining category 1-3 staging work
+- Live-site runtime data was not changed. No Browse manifests, election bundles, map manifests, service workers, CDN/R2 manifests, or production build bundles were edited or uploaded.
+- Category 1 now contains 13,179 staged Census/statistical records with 12,527 parsed JSON-stat metadata records and 24 linked existing cleaned-model rows. Readiness is 12,517 `fact-template-ready`, 439 `ready-for-source-table-normalisation`, 192 `source-documentation-ready-for-source-page`, 24 `linked-to-existing-cleaned-model`, 6 `microdata-source-ready-for-governed-review`, and 1 `ready-for-census-fact-normalisation`.
+- Category 1 automated-prep state is 6,296 `automated-prep-complete` and 6,883 `needs-targeted-review`. Remaining review is now typed: 6,006 geography-model reviews, 1,071 concept-model reviews, 453 table-normalisation approvals, 192 source-page publication approvals, 6 microdata governance reviews, and 1 large-JSON manual metadata review, with publication approval also required before exposing any public Census/statistical source.
+- Category 2 now contains 24 parser contracts. Nineteen match existing Dail election IDs; nine are already covered by `data/elections/dail-official-results.json`; ten are Dail source/parser rows that remain staged for later parser/local-source work; five ROI local-election LEA rows remain blocked until the ROI local-election model/geographies are approved.
+- Category 3 now contains 6,681 source-doc/table publication drafts. Of these, 3,406 have local sources resolved and are ready for draft review, 7 need existing-site/duplicate review, and 3,268 still need local-path or source-URL resolution.
+- Verification evidence: the regenerated `summary.json` reports `liveSiteMutated: false`; `node --check` passed; a recursive JSON parse validated 16 generated JSON files.
+
+# Complete remaining automatable absence category 1-3 staging work
+- [x] Record staging-only continuation scope
+  - Task: complete the remaining work that does not need new user policy decisions: improve unresolved source matching, draft publication surfaces/defaults, add Dail parser scaffolds, create batch-review CSVs, improve concept/geography confidence scoring, and regenerate/verify the staging package.
+  - Constraint: no live-site publication, no CDN/R2 upload, no edits to live Browse/election/map manifests, and no commit/push unless separately requested.
+- [x] Improve local/source resolution for unresolved category 3 rows
+  - Scope: add token/code/provider-aware matching and resolved-source suggestions so unresolved rows are split into ready, probable, and manual lookup buckets.
+  - Completed: widened CSO PXStat code detection to include one-letter table codes, added source-resolution status/suggestions, and regenerated category 3 so unresolved rows fell from 3,268 to 1,669 while resolved-local-source rows rose to 5,012.
+- [x] Draft publication defaults for category 3 rows
+  - Scope: generate recommended surfaces, duplicate/variant handling, source/download treatment, and batch-review groups without publishing them.
+  - Completed: generated recommended publication defaults for all 6,681 category 3 rows, including Browse table/source, Books/Tables/Sources, map-source/variant, duplicate review, and citation-only recommendations.
+- [x] Add parser scaffolding for category 2 Dail source rows
+  - Scope: emit parser scaffold files/contracts for remaining Dail table kinds and distinguish already-covered official-sidecar rows.
+  - Completed: generated 10 Dail parser scaffolds for source rows not already covered by the existing official sidecar, with parser steps, required fields, merge targets, and validation checks.
+- [x] Add batch-review CSVs for category 1-3
+  - Scope: emit compact approval queues grouped by decision type, provider, surface, readiness, confidence, and parser action.
+  - Completed: generated batch-review JSON/CSV outputs for category 1, category 2, and category 3 so policy-sized groups can be approved or rejected together.
+- [x] Improve category 1 concept/geography confidence
+  - Scope: score confidence from metadata status, source kind, parsed dimensions, recognized concepts/geographies, cleaned-model links, and unknown geography/concept penalties.
+  - Completed: added concept, geography, overall confidence scores, confidence reasons, and recommended defaults to category 1 source/fact-template outputs.
+- [x] Regenerate, validate, and report remaining blockers
+  - Scope: run syntax checks, regenerate package outputs, parse JSON, and record final counts/evidence.
+  - Completed: `node --check tasks\absence-integration-ready-2026-06-15\build-ready-packages.mjs` passed, the staging builder regenerated `summary.json`, and a recursive parse validated 21 generated JSON files.
+
+## Review: completed remaining automatable absence category 1-3 staging work
+- Live-site runtime data was not changed. No Browse manifests, election bundles, map manifests, service workers, CDN/R2 upload manifests, or production build bundles were edited or uploaded.
+- Category 1 still contains 13,179 Census/statistical rows, now with explicit confidence/default fields. Overall confidence is 6,125 high, 6,431 medium, and 623 low. Recommended defaults are 6,104 `publish-as-source-backed-statistical-cube-after-approval`, 6,414 `hold-for-concept-or-geography-model-review`, 439 `normalise-as-source-table-after-table-policy-approval`, 192 `publish-as-source-documentation-page-after-approval`, 24 `link-to-existing-cleaned-census-model`, and 6 `hold-for-microdata-governance-review`.
+- Category 1 batch review outputs were generated at `tasks/absence-integration-ready-2026-06-15/category-1-census-statistical/batch-review-groups.json` and `.csv`.
+- Category 2 still contains 24 election-source rows. Nine are covered by the existing official Dail sidecar, ten Dail rows now have parser scaffolds, and five ROI local-election rows remain staged pending the ROI local-election model. Category 2 now has 20 batch-review groups.
+- Category 2 parser scaffolds were generated at `tasks/absence-integration-ready-2026-06-15/category-2-election-sources/parser-scaffolds.json` and `.csv`.
+- Category 3 still contains 6,681 publication drafts. Resolved local sources increased to 5,012, unresolved/manual rows fell to 1,669, and the remaining unresolved rows split into 1,252 manual source/local-path lookups plus 417 PXStat-code-detected rows that appear absent from the local PXStat mirror.
+- Category 3 recommended defaults are 4,572 `publish-as-browse-table-source-after-approval`, 1,216 `resolve-table-source-then-stage-for-browse-table`, 453 `resolve-document-source-then-publish-as-source-entry`, 387 `publish-as-books-tables-sources-entry-after-approval`, 37 `stage-as-map-source-or-variant-download`, 9 `hold-as-citation-only-source-reference-until-approved`, and 7 `review-as-existing-site-duplicate-or-variant`.
+- Category 3 batch/default/source-resolution outputs were generated at `tasks/absence-integration-ready-2026-06-15/category-3-source-docs-tables/batch-review-groups.csv`, `recommended-publication-defaults.json`, and `source-resolution-suggestions.csv`.
+- Remaining blockers: final publication/model/duplicate/licensing approval is still needed before exposing anything; 417 detected PXStat tables need mirror refresh or provider lookup; 1,252 source-only rows need manual URL/path resolution; ROI local-election source rows remain blocked until the ROI local-election model is approved.
+
+# Continue automatable source/Census/election staging resolution
+- [x] Record staging-only continuation scope
+  - Task: continue resolving category 3 source rows, improving category 1 Census/statistical concept/geography scoring, expanding category 2 Dail parser skeletons, and generating stronger review aids.
+  - Constraint: no live-site publication, no CDN/R2 upload, no edits to live Browse/election/map manifests, and no commit/push unless separately requested.
+- [x] Resolve more category 3 source rows and split unresolved causes
+  - Scope: check missing PXStat codes against local mirrors/catalogues, strengthen fuzzy local/provider matching, and emit resolved/probable/stale-retired/needs-user-decision buckets.
+  - Completed: strengthened provider-manifest fuzzy matching and SAP-style PXStat code detection; regenerated source-resolution buckets. Category 3 resolved local sources increased from 5,012 to 5,847 and unresolved/manual rows fell from 1,669 to 834.
+- [x] Improve category 1 Census/statistical inference
+  - Scope: add dimension-label concept/geography aliases, confidence penalties, comparability warnings, model-review explanations, and cleaner batch groups.
+  - Completed: added concept rules for environment, energy, forestry, tourism, fisheries, SDG indicators, administrative burden, public finance, enterprise/business, and research/innovation; treated parsed CSO cubes with no explicit geography dimension as jurisdiction-level state totals with confidence notes. Category 1 automated-prep-complete rows rose from 6,296 to 11,901 and targeted-review rows fell from 6,883 to 1,278.
+- [x] Expand category 2 Dail parser skeletons
+  - Scope: emit parser skeleton modules and staging diff contracts for the ten Dail source rows, while keeping covered official-sidecar rows covered and ROI local rows staged.
+  - Completed: generated 10 staging-only parser skeleton modules under `tasks/absence-integration-ready-2026-06-15/category-2-election-sources/parser-skeletons/`, plus `parser-skeletons-index.json`, `staging-diff-contracts.json`, and `staging-diff-contracts.csv`.
+- [x] Regenerate and validate outputs
+  - Scope: run syntax checks, regenerate staging outputs, parse JSON, and document remaining blockers.
+  - Completed: `node --check tasks\absence-integration-ready-2026-06-15\build-ready-packages.mjs` passed, the staging builder regenerated `summary.json`, a recursive parse validated 24 generated JSON files, and all generated parser skeleton modules passed `node --check`.
+
+## Review: continued automatable source/Census/election staging resolution
+- Live-site runtime data was not changed. No Browse manifests, election bundles, map manifests, service workers, production build bundles, or CDN/R2 manifests were edited or uploaded.
+- Category 1 now has 13,179 staged Census/statistical rows, with 11,901 `automated-prep-complete` and 1,278 `needs-targeted-review`. Remaining non-publication review is now 808 concept-model reviews, 11 geography-model reviews, 453 table-normalisation approvals, 192 source-page publication approvals, 6 microdata governance reviews, and 1 large-JSON manual metadata review.
+- Category 2 still has 24 election-source rows: 9 covered by the existing official Dail sidecar, 10 Dail rows with parser skeleton modules and staging diff contracts, and 5 ROI local-election rows staged until the ROI local-election model is approved.
+- Category 3 now has 6,681 publication drafts: 5,847 resolved local sources, 834 unresolved rows, 7 possible duplicate/variant reviews, and source-resolution bucket outputs at `tasks/absence-integration-ready-2026-06-15/category-3-source-docs-tables/source-resolution-buckets.csv`.
+
+# Exhaust remaining automatable absence staging queues
+- [x] Record staging-only plan and inspect unresolved queues
+  - Task: inspect the 380 PXStat-code rows, 454 manual source/path rows, 11 geography-model reviews, 808 concept-model reviews, and 10 Dail parser scaffold rows before changing any staging logic.
+  - Constraint: no live-site publication, no CDN/R2 upload, no edits to live Browse/election/map manifests, and no commit/push unless separately requested.
+- [x] Resolve or classify PXStat and manual source/path rows
+  - Scope: check local CSO mirrors, provider manifests, filenames, source URLs, and Wayback/provider candidates; classify rows as resolved, probable, stale/retired, provider-check-needed, or user-decision-needed.
+  - Completed: regenerated category 3 with expanded local path resolution and URL candidates. The 380 PXStat-code rows and 454 manual source/path rows are no longer unresolved; category 3 now has 6,679 resolved local sources and 2 provider-package-page-resolved rows.
+- [x] Reduce Category 1 geography and concept review queues
+  - Scope: add deterministic geography and concept rules where metadata is mechanically inferable, especially population, age, sex, religion, economic, housing, and education records.
+  - Completed: added deterministic rules and metadata companion handling that raised category 1 `automated-prep-complete` from 11,901 to 12,309, reduced concept-model reviews from 808 to 410, and reduced geography-model reviews from 11 to 1.
+- [x] Advance Category 2 Dail parser skeletons
+  - Scope: find local/retrievable source files for the 10 Dail parser skeletons and improve parser contracts/modules without merging into live election data.
+  - Completed: all 24 category 2 rows now have resolved local files. The 10 Dail parser skeletons remain staging-only but now point at local sources and generated parser modules; 9 rows remain covered by the official sidecar and 5 ROI local-election rows remain blocked pending the ROI local-election model.
+- [x] Produce improved review outputs
+  - Scope: regenerate CSV/JSON review queues with confidence scores, duplicate/variant/source-document groupings, provenance drafts, recommended defaults, and final blockers.
+  - Completed: added duplicate/variant grouping, provenance draft, and provider/Wayback candidate outputs. Category 3 now emits 494 duplicate/variant groups, 6,681 provenance drafts, and provider/API/Wayback candidates for remaining unresolved rows.
+- [x] Verify and document results
+  - Scope: run syntax checks, regenerate staging outputs, validate JSON and parser skeletons, then summarize remaining work and evidence.
+  - Completed: `node --check tasks\absence-integration-ready-2026-06-15\build-ready-packages.mjs` passed; the staging builder regenerated `summary.json`; 27 generated JSON files parsed successfully; all 10 generated parser skeleton modules passed `node --check`.
+
+## Review: exhausted remaining automatable absence staging queues
+- Live-site runtime data was not changed. No Browse manifests, election bundles, map manifests, service workers, production build bundles, CDN/R2 manifests, or live data files were edited or uploaded.
+- Category 1 now has 13,179 staged Census/statistical records. Automated prep is now 12,309 complete and 870 targeted-review. Remaining non-publication review is 410 concept-model reviews, 1 geography-model review, 453 table-normalisation approvals, 192 source-page publication approvals, 6 microdata governance reviews, and 1 large-JSON manual metadata review.
+- Category 2 still has 24 election-source rows, but all now have resolved local files: 10 are ready for parser implementation, 9 remain covered by the existing official Dail sidecar, and 5 ROI local-election source rows remain staged until the ROI local-election model/geographies are approved.
+- Category 3 now has 6,681 publication drafts: 6,672 local-source-resolved draft-review rows, 7 existing-site duplicate/variant review rows, and 2 source-URL-resolved draft-review rows. There are no remaining unresolved Category 3 rows. The two source-URL-resolved rows are `Civil Service Business Customer Survey Results 2016` and `Civil Service Customer Satisfaction Survey 2017`, both resolved to current data.gov.ie package pages.
+- New ignored staging outputs were regenerated under `tasks/absence-integration-ready-2026-06-15/`, including `category-3-source-docs-tables/duplicate-variant-source-groupings.csv`, `provenance-drafts.csv`, and `provider-wayback-candidates.csv`.
+
+# Complete remaining automatable absence staging work
+- [x] Record staging-only scope and inspect current generator outputs
+  - Task: complete the remaining automatable staging work without publishing anything: real Dail staging parsers, further concept/geography inference, table-normalisation previews, source-page drafts, stronger batch review/confidence outputs, and validation.
+  - Constraint: no live-site publication, no CDN/R2 upload, no edits to live Browse/election/map manifests, no production bundle changes, and no commit/push unless separately requested.
+- [x] Implement Dail staging parsers and validation previews
+  - Scope: turn the 10 Dail parser skeletons into parser modules that parse resolved local files into staging rows with validation summaries and diff contracts.
+  - Completed: added staging parser implementations for first-preference party tables, count details, postal/special voting, women-candidate tables, constituency/statistics-like rows, and generic election CSV rows. Generated 10 parser output files with 12,408 staged rows.
+- [x] Further reduce Category 1 concept/geography review queues
+  - Scope: add deterministic concept/geography rules where mechanically inferable and produce precise blockers for anything left.
+  - Completed: expanded deterministic concept/geography rules, raised the safe JSON-stat metadata threshold after confirming the only skipped CSO cube was 57 MB, and regenerated outputs with 0 concept-review candidates, 0 geography-review candidates, and 0 large JSON skips.
+- [x] Generate source-table previews and source-page drafts
+  - Scope: produce previews for the 453 source-table rows and draft source pages for the 192 source-documentation rows, staging-only.
+  - Completed: generated 453 source-table normalisation preview records and 192 source-page draft records under the ignored staging package.
+- [x] Improve batch-review/confidence outputs
+  - Scope: generate approval CSVs, duplicate/variant recommendations, provenance drafts, recommended defaults, and confidence summaries so review can happen in batches.
+  - Completed: generated 4,877 category 1 decision approval bundles, 18 category 3 publication batch bundles, category 3 duplicate/variant grouping and provenance outputs, and confidence-scoring CSVs.
+- [x] Verify and document results
+  - Scope: run syntax checks, regenerate staging outputs, validate JSON/parser modules, and record final counts/evidence.
+  - Completed: `node --check tasks\absence-integration-ready-2026-06-15\build-ready-packages.mjs` passed, the staging builder completed successfully, generated `summary.json` with `liveSiteMutated: false`, and parser skeleton modules passed `node --check`.
+
+## Review: complete remaining automatable absence staging work
+- Live-site runtime data was not changed. No Browse manifests, election bundles, map manifests, service workers, production build bundles, CDN/R2 manifests, or live data files were edited or uploaded.
+- Category 1 now has 13,179 staged Census/statistical records. All 12,528 CSO JSON-stat metadata records parse successfully, with 0 skipped-large JSON records, 0 concept-review candidates, and 0 geography-review candidates. Remaining decisions are approval/governance decisions: 12,528 publication approvals, 453 table-normalisation approvals, 192 source-page publication approvals, and 6 microdata governance reviews.
+- Category 1 generated 453 `table-normalisation-previews` records, 192 `source-page-drafts`, 4,877 decision approval bundles, and confidence-scoring CSVs.
+- Category 2 still has 24 staged election-source rows. The 10 Dail rows not covered by the existing official sidecar now have generated staging parser outputs; the parser outputs contain 12,408 staged rows across first-preference party tables, count details, postal/special voting, and women-candidate attributes. Nine Dail rows remain marked as covered by the existing official sidecar, and five ROI local-election rows remain staged until the ROI local-election model exists.
+- Category 3 remains fully resolved at source level: 6,681 publication drafts, including 6,679 resolved local-source rows and 2 current provider package-page rows. It now emits 18 publication batch bundles, 494 duplicate/variant/source groupings, 6,681 provenance drafts, recommended defaults, and approval CSVs.
+- The work remaining after this pass is not parser/source-discovery automation; it is approval and modelling before publication: approve batch publication surfaces, approve source-table normalisation policy, decide microdata governance, review duplicate/variant groups, review Dail staging diffs before live election merge, and define the ROI local-election site model before using the five ROI local-election source rows.
+
+# Build staging approval pack for Dail parser outputs and Category 3 drafts
+- [x] Record staging-only scope and guardrails
+  - Task: review the 10 Dail staging parser outputs against current live election data, produce diff/review artifacts, improve canonical matching, triage parser warnings, build proposed live records without publishing, and turn 6,681 Category 3 drafts into actionable approval bundles.
+  - Constraint: no live-site publication, no CDN/R2 upload, no edits to live Browse/election/map manifests, no production bundle changes, and no commit/push unless separately requested.
+- [x] Add Dail staging/live diff and canonical matching outputs
+  - Scope: compare parser output rows against `data/elections/dail-official-results.json` and current app election bundles, then emit canonical constituency, party, candidate, source-table, and provenance match suggestions.
+  - Completed: generated row-level Dail staging/live diff and canonical match CSV/JSON outputs under `tasks/absence-integration-ready-2026-06-15/publication-approval-pack/category-2-dail/`, including election-aggregate and parser-note classifications so source totals/footnotes are not false constituency failures.
+- [x] Add parser warning triage and proposed live records
+  - Scope: classify warnings as harmless, needs merge, or needs manual review; produce proposed-but-unpublished patch records with source provenance and validation notes.
+  - Completed: generated parser warning triage and proposed-but-unpublished live-record CSV/JSON outputs for all 12,408 Dail parser rows. Warnings split into 1,485 harmless and 1,485 needs-merge rows; recommended Dail actions are 6,350 citation-only, 5,923 needs-decision, and 135 hold.
+- [x] Add Category 3 approval bundles and placement/action CSVs
+  - Scope: classify every source/doc/table draft as publish, merge as variant, citation-only, hold, reject, or needs decision; identify duplicates, variants, and genuinely new records; propose Browse/Books/Tables placement.
+  - Completed: generated Category 3 approval actions, detailed bundles, duplicate/variant queue, placement proposals, and draft page metadata for all 6,681 records. Recommended actions are 5,892 publish, 758 merge as variant, 20 hold, 7 needs decision, and 4 citation-only.
+- [x] Draft source/metadata pages and validate staging outputs
+  - Scope: generate reviewable source-page/metadata-page drafts, run JSON/syntax/row validation, and write an implementation branch plan for after approval.
+  - Completed: generated 6,681 draft source/metadata page rows and `implementation-branch-plan.md`; `node --check tasks\absence-integration-ready-2026-06-15\build-publication-approval-pack.mjs` passed and the generated validation report has seven passing checks.
+
+## Review: staging approval pack for Dail outputs and Category 3 drafts
+- Live-site runtime data was not changed. No Browse manifests, election bundles, map manifests, service workers, production bundles, CDN/R2 manifests, or live data files were edited or uploaded.
+- Generated review artifacts are under `tasks/absence-integration-ready-2026-06-15/publication-approval-pack/`. The pack includes Dail diff rows, canonical match suggestions, warning triage, proposed live records, Category 3 approval actions, placement proposals, duplicate/variant queues, draft source/metadata pages, validation report, README, and implementation branch plan.
+- Dail review result: 10 parser outputs, 12,408 staged rows, 12,408 proposed-but-unpublished review records, 11,925 canonical-match-ready rows, 443 candidate-manual-match rows, 39 election-aggregate rows, and 1 parser-note row. There are no remaining false manual constituency-match rows.
+- Category 3 review result: 6,681 staged publication drafts, 23 approval bundles, 5,799 proposed `Browse > Tables` placements, 853 proposed `Browse > Books/Tables/Sources` placements, 20 map source/variant holds, 5 Browse source/reference placements, and 4 citation-only placements.
+- Validation evidence: syntax check passed, the pack builder completed successfully, all recommended actions use the approved vocabulary, every Dail row has a proposed review record, every Category 3 draft has a recommended action, every Category 3 draft has a source/metadata page draft, and every proposed Dail record with a source path points to a readable local source file.
+- Remaining work is approval/model work, not staging generation: review the 443 Dail candidate-match rows before any live merge, decide the 758 Category 3 variant merges and 7 existing-site duplicate/variant decisions, decide the 20 spatial-source holds, approve or adjust the 5,892 publish recommendations, and only then create an implementation branch for publication.
+
+# Refine approval pack for Dail candidate matches and Category 3 publication batches
+- [x] Record staging-only refinement scope
+  - Task: classify Dail candidate-match rows, identify exact merge targets, generate Dail proposed patch records, group Category 3 publish rows into smaller approval bundles, propose variant parents, inspect spatial holds, provide duplicate evidence, improve draft pages, and prepare exact implementation-branch change plans without publishing anything.
+  - Constraint: no live-site publication, no CDN/R2 upload, no edits to live Browse/election/map manifests, no production bundle changes, and no commit/push unless separately requested.
+- [x] Add Dail candidate-match and merge-target review outputs
+  - Scope: split the 443 candidate-match rows into safe auto-match, probable match, encoding/name cleanup, and needs-human-decision; identify canonical aliases and exact live merge targets.
+  - Completed: generated `approval-refinement/dail-candidate-match-review.*`, `approval-refinement/dail-candidate-match-row-actions.*`, and `approval-refinement/dail-merge-targets.*`. The 443 Dail candidate rows are now grouped into 51 candidate groups and split into 21 safe auto-match groups, 13 encoding/name-cleanup groups, 2 probable-match groups, and 15 needs-human-decision groups. All 12,408 staged Dail rows have exact proposed merge targets.
+- [x] Add Dail proposed patch records
+  - Scope: build proposed-but-unapplied patch records for turnout, spoiled, electorate/valid-poll, gender/source provenance, and other source-backed fields.
+  - Completed: generated `approval-refinement/dail-proposed-patch-records.*` with 12,408 proposed-but-unapplied records covering first-preference provenance, count/transfer provenance, postal/special voting provenance, and women-candidate/gender-summary provenance. The pack records requested missing-field coverage rather than inventing unavailable turnout/spoiled/electorate values.
+- [x] Add Category 3 small approval batches and variant/duplicate evidence
+  - Scope: group the 5,892 publish rows by provider, topic, source type, and placement; propose parents for 758 variants; inspect 20 spatial holds; produce side-by-side evidence for 7 live-site duplicate/variant cases.
+  - Completed: generated 104 publish approval batches, 163 total small approval bundles, 758 variant parent proposals, 20 spatial hold inspections, and 7 existing-site duplicate/variant evidence records under `approval-refinement/`.
+- [x] Improve draft source/metadata page outputs and validate
+  - Scope: generate smaller approval CSVs, improved draft page metadata, implementation branch exact file-change plan, and validation checks.
+  - Completed: generated `category3-improved-draft-pages.*`, `category3-small-approval-bundles.*`, `implementation-file-change-plan.json`, `README.md`, and `refinement-validation-report.json`. The validation report confirms no live-site mutation and passing coverage checks for candidate rows, Dail merge targets, Dail patch records, variants, spatial holds, duplicate evidence, and approved action vocabulary.
+
+## Review: refined approval pack for Dail candidates and Category 3 publications
+- Live-site runtime data was not changed. No Browse manifests, election bundles, map manifests, production bundles, CDN/R2 manifests, or live data files were edited or uploaded.
+- Generated staging-only refinement artifacts are under `tasks/absence-integration-ready-2026-06-15/publication-approval-pack/approval-refinement/`.
+- Dail candidate review: 443 unresolved source rows are covered, grouped into 51 candidate groups. The split is 21 safe auto-match groups, 13 encoding/name-cleanup groups, 2 probable-match groups, and 15 needs-human-decision groups.
+- Dail merge/patch review: all 12,408 staged Dail parser rows have exact proposed target paths. Patch records are proposed only; they were not applied to live bundles.
+- Category 3 publication review: 5,892 publish recommendations are grouped into 104 provider/topic/source-type/placement batches; all 758 merge-as-variant rows have proposed parent records; all 20 spatial holds have format/size/coverage treatment recommendations; all 7 existing-site duplicate/variant cases have side-by-side evidence.
+- Remaining work is approval/publication work: approve candidate aliases, review probable/human Dail matches, decide variant parent relationships, decide spatial-hold treatment, approve publication batches, and then create the implementation branch using the generated file-change plan.
