@@ -6439,3 +6439,28 @@ Add election entries to /test2
 - Dail merge/patch review: all 12,408 staged Dail parser rows have exact proposed target paths. Patch records are proposed only; they were not applied to live bundles.
 - Category 3 publication review: 5,892 publish recommendations are grouped into 104 provider/topic/source-type/placement batches; all 758 merge-as-variant rows have proposed parent records; all 20 spatial holds have format/size/coverage treatment recommendations; all 7 existing-site duplicate/variant cases have side-by-side evidence.
 - Remaining work is approval/publication work: approve candidate aliases, review probable/human Dail matches, decide variant parent relationships, decide spatial-hold treatment, approve publication batches, and then create the implementation branch using the generated file-change plan.
+
+# Repair Open Data NI and data.gov.ie provider mirrors under 200GB cap
+- [x] Record controlled mirror-repair scope
+  - Task: audit the current `D:\opendatani` and `D:\datagovie` manifests, build provider queues for failed/missing Open Data NI and data.gov.ie resources, download missing raw assets up to a hard 200GB cap, unpack/checksum where safe, record failures/stale links, and report what is ready for later site integration.
+  - Guardrails: do not delete raw files, do not overwrite known-complete files, do not mutate original provider manifests in place, do not publish anything to the site, and keep raw downloaded assets on `D:\` rather than in the repo.
+  - Scope note: CSO PXStat rows already covered by the separate `D:\cso-pxstat` mirror should be classified as covered rather than redownloaded through data.gov.ie.
+- [x] Build quota-managed repair queue and downloader
+  - Scope: add a narrow repair tool for Open Data NI/data.gov.ie that deduplicates manifest failures and catalogue misses, skips service endpoints, supports resume via HTTP Range, writes `.partial` files before atomic rename, and emits repair manifests/reports.
+  - Completed: added `scripts/repair-provider-mirrors.mjs`, a built-in-only Node repair tool with provider-specific queue building, service endpoint filtering, safe path resolution, HTTP Range resume, `.partial` staging, atomic promotion, SHA-256 sidecars for completed repair downloads, and CSV/JSON reports under `data/provider-mirror-audit/`.
+- [x] Dry-run queue and disk/cap validation
+  - Scope: calculate known full/incremental bytes, unknown-size rows, skipped-service rows, and D: free-space status before any large network writes.
+  - Completed: dry-run built 1,340 repair candidates: 1,266 Open Data NI and 74 data.gov.ie. The queue skipped 460 service/web endpoints and confirmed D: had sufficient free space under the 200GB cap before download.
+- [x] Execute download repair pass
+  - Scope: run the repair tool with `--max-gb 200 --download`, stopping cleanly if the cap, disk-space guard, or repeated provider failures are hit.
+  - Completed: ran the repair tool against `D:\opendatani` and `D:\datagovie` with a 200GB cap. The large first pass completed roughly 95GB of additional raw mirror data before the shell timeout; follow-up resume passes completed remaining retryable files, including the OpenDataNI Street Lighting XML after adding complete-XML validation for a stale provider `Content-Length`.
+- [x] Verify repair outputs and remaining failures
+  - Scope: checksum/download-size check completed assets, summarize stale/blocked/unknown rows, write a final report, and commit/push only repo-side tooling/task documentation if no private raw data is included.
+  - Completed: final verification showed 0 remaining `.partial` files in `D:\opendatani` and `D:\datagovie`, D: free space at about 400.28GB, 946 skipped rows, 6 successful final-run downloads, and 388 remaining provider-side failures. Final failure classes are HTTP 500 (177), HTTP 403 (155), HTTP 404 (30), fetch failures (23), HTTP 503 (2), and HTTP 424 (1). These are blocked/stale/provider-side endpoints rather than disk-cap failures.
+
+## Review: Open Data NI and data.gov.ie provider mirror repair
+- Raw mirror repair was performed on `D:\` only. No raw provider assets were added to the repo, no original provider manifests were mutated in place, and nothing was published to the website or CDN/R2.
+- The final dry-run report is `data/provider-mirror-audit/provider-mirror-repair-20260616T234453Z-queue.csv`; the final download result report is `data/provider-mirror-audit/provider-mirror-repair-20260616T232631Z-results.csv`.
+- Final dry-run totals: 1,340 candidates, 484 already complete, 460 service/web endpoints skipped, 2 already-present unknown-size files skipped, 394 still listed as downloadable because provider failures remain retryable in principle, and 1.59GB known incremental bytes remain behind blocked/stale endpoints.
+- Completed repair downloads were checksummed with `.sha256` sidecars. I did not blanket-unpack archives because this is a raw mirror repair pass; full extraction would duplicate disk usage and should happen later per dataset during staging/integration, where format, size, and publication treatment can be decided safely.
+- Remaining action, if desired later: inspect the 388 provider-side failures manually or via Wayback/provider-specific endpoints; they are not recoverable by another normal retry pass without different source URLs or credentials.
