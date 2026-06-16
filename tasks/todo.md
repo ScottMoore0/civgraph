@@ -1,3 +1,14 @@
+# Merge approved publication branch to production
+- [x] Record implementation scope
+  - Task: push `codex-apply-approved-publication-records`, update `main`, merge the approved publication branch, validate, and push `main` so the approved records can deploy.
+  - Constraints: preserve untracked provider-audit scratch; do not stage or publish local/private audit files; stop and re-plan if the merge conflicts or validation fails.
+- [ ] Push feature branch
+  - Push the local approved-publication commit to `origin/codex-apply-approved-publication-records`.
+- [ ] Merge into main
+  - Update `main`, merge the approved-publication branch, and keep provider-audit scratch uncommitted.
+- [ ] Validate and push production
+  - Run focused validation on merged `main`, then push `main`.
+
 # Apply final user-approved Dail/source decisions
 - [x] Record implementation scope
   - Task: after user approval, apply the three remaining Dail probable alias approvals, keep the Glenn Brady false match rejected, publish five user-confirmed distinct source rows, group the CPD January 2026 Access/CSV/TXT rows as one source family, and merge the LFS Claimant Count Oct 2021 ODS row as an alternate-format variant.
