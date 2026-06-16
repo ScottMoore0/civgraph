@@ -17,6 +17,27 @@ const APPROVED_REMAINING_CATEGORY3_ACTIONS = new Set([
   'publish table/source now; defer interactive map',
   'merge as variant or citation for existing record'
 ]);
+const USER_APPROVED_REMAINING_DAIL_ALIAS_IDS = new Set([
+  'pending:dail-candidate-dail-eireann-2016-02-26-donegal-cordelia-nicfhearraigh',
+  'pending:dail-candidate-dail-eireann-2020-02-08-donegal-arthur-desmond-mc-guinness',
+  'pending:dail-candidate-dail-eireann-2016-02-26-waterford-sheik-mohiuddin-ahmed'
+]);
+const USER_REJECTED_REMAINING_DAIL_ALIAS_IDS = new Set([
+  'dail-candidate-dail-eireann-2020-02-08-dublin-fingal-glenn-brady'
+]);
+const USER_APPROVED_DISTINCT_REMAINING_SOURCE_IDS = new Set([
+  'source-doc-03514-community-centres',
+  'source-doc-00741-drainage-asset',
+  'source-doc-05230-applications',
+  'source-doc-00845-health',
+  'source-doc-03553-report'
+]);
+const USER_APPROVED_CPD_PACKAGE_IDS = new Set([
+  'source-doc-04018-cpdjan2026access',
+  'source-doc-04019-cpdjan2026csv',
+  'source-doc-04020-cpdjan2026txt'
+]);
+const USER_APPROVED_LFS_ODS_ID = 'source-doc-04056-lfs-claimant-count-oct-2021-ods';
 
 const OUTPUT_DAIL_ALIASES = path.join(ROOT, 'data', 'elections', 'dail-approved-candidate-aliases.json');
 const OUTPUT_APPROVED_SOURCES = path.join(ROOT, 'data', 'database', 'approved-publication-sources.json');
@@ -68,12 +89,13 @@ function buildDailAliases(rowActions, reviewGroups, validationReport, remainingI
   const remainingDailAliasCandidates = normalizeArray(remainingInputs.remainingDailAliasCandidates);
   const remainingDailMatchRecommendations = normalizeArray(remainingInputs.remainingDailMatchRecommendations);
   const approvedRemainingCandidates = remainingDailAliasCandidates
-    .filter((candidate) => APPROVED_REMAINING_DAIL_ACTIONS.has(cleanText(candidate.proposedAction).toLowerCase()));
+    .filter((candidate) => APPROVED_REMAINING_DAIL_ACTIONS.has(cleanText(candidate.proposedAction).toLowerCase())
+      || USER_APPROVED_REMAINING_DAIL_ALIAS_IDS.has(candidate.aliasId));
   const approvedRemainingSourceIds = new Set(approvedRemainingCandidates.flatMap((candidate) => splitSourceRowIds(candidate.sourceRowIds)));
   const rowActionsById = new Map(rowActions.map((row) => [row.sourceRowId, row]));
   const approvedRows = rowActions.filter((row) => SAFE_DAIL_CLASSIFICATIONS.has(cleanText(row.proposedClassification).toLowerCase()));
   const remainingApprovedRows = approvedRemainingCandidates.flatMap((candidate) => {
-    const classification = remainingDailClassification(candidate.proposedAction);
+    const classification = remainingDailClassification(candidate);
     return splitSourceRowIds(candidate.sourceRowIds).map((sourceRowId) => {
       const existingRow = rowActionsById.get(sourceRowId) || {};
       return compactObject({
@@ -146,7 +168,7 @@ function buildDailAliases(rowActions, reviewGroups, validationReport, remainingI
       canonicalCandidateName: decodeCommonMojibake(candidate.canonicalCandidateName),
       canonicalCandidateId: candidate.canonicalCandidateId,
       canonicalParty: decodeCommonMojibake(candidate.canonicalParty),
-      classification: remainingDailClassification(candidate.proposedAction),
+      classification: remainingDailClassification(candidate),
       confidence: candidate.confidence,
       proposedAlias: decodeCommonMojibake(`${candidate.sourceCandidateName} -> ${candidate.canonicalCandidateName}`),
       sourceRowCount: sourceRows.length || splitSourceRowIds(candidate.sourceRowIds).length || null,
@@ -187,6 +209,7 @@ function buildDailAliases(rowActions, reviewGroups, validationReport, remainingI
   const aliasCountsByClassification = countBy(aliases, (alias) => cleanText(alias.classification).toLowerCase() || 'unknown');
   const heldProbableRows = remainingDailAliasCandidates
     .filter((candidate) => cleanText(candidate.proposedAction).toLowerCase() === 'probable alias - user approval required')
+    .filter((candidate) => !USER_APPROVED_REMAINING_DAIL_ALIAS_IDS.has(candidate.aliasId))
     .flatMap((candidate) => splitSourceRowIds(candidate.sourceRowIds));
   const rejectedRematches = remainingDailMatchRecommendations
     .filter((recommendation) => cleanText(recommendation.proposedAction).toLowerCase() === 'reject current match and rematch');
@@ -294,7 +317,8 @@ function buildApprovedSources(inputs) {
   }
 
   const remainingPublishRows = remainingCategoryRows
-    .filter((row) => cleanText(row.recommendedNextAction).toLowerCase() === 'publish table/source now; defer interactive map');
+    .filter((row) => cleanText(row.recommendedNextAction).toLowerCase() === 'publish table/source now; defer interactive map'
+      || USER_APPROVED_DISTINCT_REMAINING_SOURCE_IDS.has(row.rowId));
   const remainingVariantRows = remainingCategoryRows
     .filter((row) => cleanText(row.recommendedNextAction).toLowerCase() === 'merge as variant or citation for existing record');
   const remainingPublishRecords = remainingPublishRows.map((remainingRow) => {
@@ -320,11 +344,22 @@ function buildApprovedSources(inputs) {
     });
   });
 
-  const sources = [...publishRecords, ...variantRecords, ...remainingPublishRecords, ...remainingVariantRecords]
+  const baseSources = [...publishRecords, ...variantRecords, ...remainingPublishRecords, ...remainingVariantRecords];
+  const userApprovedCitationRecords = buildUserApprovedCitationRecords(remainingCategoryRows, baseSources);
+  const userApprovedCitationPublishRecords = userApprovedCitationRecords
+    .filter((source) => source.approval?.recommendedAction === 'publish');
+  const userApprovedCitationVariantRecords = userApprovedCitationRecords
+    .filter((source) => source.approval?.recommendedAction === 'merge as variant');
+  const sources = [...baseSources, ...userApprovedCitationRecords]
     .filter((source) => APPROVED_CATEGORY3_ACTIONS.has(source.approval?.recommendedAction))
     .sort((a, b) => (a.type || '').localeCompare(b.type || '') || a.title.localeCompare(b.title));
 
-  const remainingApprovedIds = new Set([...remainingPublishRows, ...remainingVariantRows].map((row) => row.rowId));
+  const remainingApprovedIds = new Set([
+    ...remainingPublishRows,
+    ...remainingVariantRows,
+    ...USER_APPROVED_CPD_PACKAGE_IDS,
+    USER_APPROVED_LFS_ODS_ID
+  ].map((row) => typeof row === 'string' ? row : row.rowId));
   const remainingExcluded = countBy(remainingCategoryRows.filter((row) => !remainingApprovedIds.has(row.rowId)), (row) => cleanText(row.recommendedNextAction).toLowerCase() || 'unknown');
   const initiallyExcludedBeforeRemainingApproval = countBy(inputs.draftRows.filter((row) => !APPROVED_CATEGORY3_ACTIONS.has(cleanText(row.recommendedAction).toLowerCase())), (row) => cleanText(row.recommendedAction).toLowerCase() || 'unknown');
   return {
@@ -339,21 +374,110 @@ function buildApprovedSources(inputs) {
     },
     approvalPolicy: 'User approved publication of approval-ready Category 3 publish batches and variant proposals, plus the approved remaining table/source rows and high-confidence variant/citation rows. Probable variants and citation-only source pages remain excluded.',
     counts: {
-      publish: publishRecords.length + remainingPublishRecords.length,
-      variants: variantRecords.length + remainingVariantRecords.length,
+      publish: publishRecords.length + remainingPublishRecords.length + userApprovedCitationPublishRecords.length,
+      variants: variantRecords.length + remainingVariantRecords.length + userApprovedCitationVariantRecords.length,
       total: sources.length,
       excluded: remainingExcluded,
       initiallyExcludedBeforeRemainingApproval,
       remainingApproved: {
-        publish: remainingPublishRecords.length,
-        variants: remainingVariantRecords.length
+        publish: remainingPublishRecords.length + userApprovedCitationPublishRecords.length,
+        variants: remainingVariantRecords.length + userApprovedCitationVariantRecords.length,
+        groupedCitationRows: USER_APPROVED_CPD_PACKAGE_IDS.size,
+        alternateFormatRows: 1
       }
     },
     sources
   };
 }
 
+function buildUserApprovedCitationRecords(remainingCategoryRows, baseSources) {
+  const rowsById = new Map(normalizeArray(remainingCategoryRows).map((row) => [row.rowId, row]));
+  const records = [];
+  const cpdRows = [...USER_APPROVED_CPD_PACKAGE_IDS]
+    .map((rowId) => rowsById.get(rowId))
+    .filter(Boolean);
+  if (cpdRows.length === USER_APPROVED_CPD_PACKAGE_IDS.size) {
+    const id = 'approved-publication:source-doc-cpdjan2026';
+    records.push(compactObject({
+      id,
+      slug: stableSlug(id),
+      type: 'approved-source-reference-source',
+      title: 'Central Postcode Directory January 2026',
+      subtitle: 'NISRA, Central Postcode Directory, Browse/Sources',
+      category: 'Approved postcode directory sources',
+      date: '2026',
+      provider: ['NISRA'],
+      description: 'User-approved grouped source/download family for the NISRA Central Postcode Directory January 2026 Access, CSV, and TXT packages.',
+      url: null,
+      references: [],
+      downloads: [],
+      keywords: ['central', 'postcode', 'directory', 'nisra', 'source', 'approved-publication'],
+      sourceItems: [],
+      proposedBrowsePath: 'Browse/Sources',
+      publicationStatus: 'approved-staged',
+      approval: {
+        stagingId: 'source-doc-cpdjan2026',
+        componentRowIds: cpdRows.map((row) => row.rowId).sort(),
+        recommendedAction: 'publish',
+        reviewState: 'user-approved-citation-family',
+        sourceResolutionStatus: 'approved-from-remaining-decision-pack',
+        sourceResolutionConfidence: 'high',
+        defaultAction: 'publish grouped source/download family',
+        defaultConfidence: 'high'
+      }
+    }));
+  }
+
+  const lfsRow = rowsById.get(USER_APPROVED_LFS_ODS_ID);
+  if (lfsRow) {
+    const parent = baseSources.find((source) =>
+      /lfs claimant count oct 2021/i.test(source.title || '')
+      && normalizeArray(source.provider).some((provider) => /nisra/i.test(provider))
+    );
+    const id = 'approved-variant:source-doc-04056-lfs-claimant-count-oct-2021-ods:lfs-claimant-count-oct-2021:1';
+    records.push(compactObject({
+      id,
+      slug: stableSlug(id),
+      type: 'approved-variant-source',
+      title: 'LFS Claimant Count Oct 2021 ODS',
+      subtitle: 'NISRA, alternate ODS format, Browse/Sources',
+      category: 'Approved source variants',
+      date: '2021',
+      provider: ['NISRA'],
+      description: 'User-approved ODS alternate format for the existing LFS Claimant Count Oct 2021 source/table record.',
+      url: null,
+      references: [],
+      downloads: [],
+      keywords: ['lfs', 'claimant', 'count', 'oct', '2021', 'ods', 'variant', 'approved-publication'],
+      sourceItems: [],
+      proposedBrowsePath: 'Browse/Sources as variant',
+      publicationStatus: 'approved-staged',
+      approval: {
+        stagingId: USER_APPROVED_LFS_ODS_ID,
+        recommendedAction: 'merge as variant',
+        reviewState: 'user-approved-alternate-format',
+        sourceResolutionStatus: 'approved-from-remaining-decision-pack',
+        sourceResolutionConfidence: 'high',
+        defaultAction: 'merge as alternate ODS format under existing LFS Claimant Count Oct 2021 source/table record',
+        defaultConfidence: 'high'
+      },
+      variantOf: {
+        id: parent?.id || 'approved-source-family:lfs-claimant-count-oct-2021',
+        title: parent?.title || 'LFS Claimant Count Oct 2021',
+        relationship: 'alternate-format',
+        confidence: 'high',
+        rationale: 'User approved citation-only ODS row as an alternate format of the existing LFS Claimant Count Oct 2021 source/table record.'
+      },
+      parentId: parent?.id || 'approved-source-family:lfs-claimant-count-oct-2021',
+      parentTitle: parent?.title || 'LFS Claimant Count Oct 2021',
+      relationship: 'variant'
+    }));
+  }
+  return records;
+}
+
 function mergeRemainingCategoryDraft(draftRow, remainingRow, recommendedAction) {
+  const userApprovedDistinct = USER_APPROVED_DISTINCT_REMAINING_SOURCE_IDS.has(remainingRow.rowId);
   return {
     ...(draftRow || {}),
     rowId: remainingRow.rowId,
@@ -363,8 +487,10 @@ function mergeRemainingCategoryDraft(draftRow, remainingRow, recommendedAction) 
     topic: remainingRow.topic || draftRow?.topic || 'general-reference',
     provider: remainingRow.provider || draftRow?.provider || remainingRow.provenanceSummary,
     proposedBrowsePath: remainingRow.proposedPlacement || draftRow?.proposedBrowsePath || 'Browse/Sources',
-    shortSummary: remainingRow.rationale || draftRow?.shortSummary || remainingRow.browseTreatment,
-    reviewState: 'user-approved-from-remaining-decision-pack',
+    shortSummary: userApprovedDistinct
+      ? `User confirmed this is a distinct source record, not a duplicate of the existing candidate match. ${remainingRow.rationale || remainingRow.browseTreatment || ''}`.trim()
+      : remainingRow.rationale || draftRow?.shortSummary || remainingRow.browseTreatment,
+    reviewState: userApprovedDistinct ? 'user-approved-distinct-source' : 'user-approved-from-remaining-decision-pack',
     proposedMetadataPageFields: {
       ...(draftRow?.proposedMetadataPageFields || {}),
       sourceType: remainingRow.sourcePageType || draftRow?.proposedMetadataPageFields?.sourceType || remainingRow.topic || 'source'
@@ -415,8 +541,12 @@ function sourceRecordFromDraft(row, context) {
   const id = isVariant
     ? `${idPrefix}:${row.rowId}:${slugify(context.variant.proposedParentId || context.variant.proposedParentTitle || context.variant.title || context.variantIndex)}:${context.variantIndex + 1}`
     : `${idPrefix}:${row.rowId}`;
-  const references = sanitizeReferences([draftPage.references, provenance.references].flat());
-  const downloads = sanitizeDownloads([draftPage.downloads, provenance.downloads].flat());
+  let references = sanitizeReferences([draftPage.references, provenance.references].flat());
+  let downloads = sanitizeDownloads([draftPage.downloads, provenance.downloads].flat());
+  if (USER_APPROVED_DISTINCT_REMAINING_SOURCE_IDS.has(row.rowId)) {
+    references = references.filter((item) => isApprovedDistinctSourceUrl(row.rowId, item));
+    downloads = downloads.filter((item) => isApprovedDistinctSourceUrl(row.rowId, item));
+  }
   const provider = uniqueStrings([
     ...normalizeArray(draftPage.provider),
     action.organisation,
@@ -563,8 +693,13 @@ function dailAliasKey(electionId, constituency, candidateName) {
   return `${electionId || ''}|${slugify(constituency || '')}|${slugify(candidateName || '')}`;
 }
 
-function remainingDailClassification(action) {
+function remainingDailClassification(candidateOrAction) {
+  const action = typeof candidateOrAction === 'string' ? candidateOrAction : candidateOrAction?.proposedAction;
+  const aliasId = typeof candidateOrAction === 'string' ? '' : candidateOrAction?.aliasId;
   const normalized = cleanText(action).toLowerCase();
+  if (normalized === 'probable alias - user approval required' && USER_APPROVED_REMAINING_DAIL_ALIAS_IDS.has(aliasId)) {
+    return 'user-approved probable alias';
+  }
   if (normalized === 'approve alias after spot-check') return 'user-approved spot-check alias';
   if (normalized === 'approve encoding alias') return 'user-approved encoding alias';
   return normalized || 'user-approved alias';
@@ -621,6 +756,31 @@ function fileLabel(value) {
 
 function isPublicUrl(value) {
   return /^https?:\/\//i.test(String(value || ''));
+}
+
+function isNationalBuildingControlOfficeUrl(item) {
+  const value = typeof item === 'string' ? item : item?.url;
+  return /\/\/data\.nbco\.gov\.ie\//i.test(String(value || ''));
+}
+
+function isApprovedDistinctSourceUrl(rowId, item) {
+  const value = typeof item === 'string' ? item : item?.url;
+  const label = typeof item === 'string' ? '' : (item?.label || item?.title || item?.name || '');
+  const haystack = `${value || ''} ${label || ''}`.toLowerCase();
+  switch (rowId) {
+    case 'source-doc-03514-community-centres':
+      return haystack.includes('belfastcity.gov.uk') || haystack.includes('community-centres-csv-3.csv');
+    case 'source-doc-00741-drainage-asset':
+      return haystack.includes('drainage_assets');
+    case 'source-doc-05230-applications':
+      return isNationalBuildingControlOfficeUrl(item);
+    case 'source-doc-00845-health':
+      return haystack.includes('crsdataset.csv');
+    case 'source-doc-03553-report':
+      return haystack.includes('orp_report_odni_201920.pdf');
+    default:
+      return true;
+  }
 }
 
 function uniqueStrings(values) {

@@ -10,7 +10,8 @@ const SAFE_DAIL_CLASSIFICATIONS = new Set([
   'safe auto-match',
   'encoding/name cleanup',
   'user-approved spot-check alias',
-  'user-approved encoding alias'
+  'user-approved encoding alias',
+  'user-approved probable alias'
 ]);
 const APPROVED_ACTIONS = new Set(['publish', 'merge as variant']);
 const LOCAL_PATH_RE = /(?:[A-Z]:\\|\\\\|C:\/Users\/|D:\/)/i;
@@ -36,8 +37,8 @@ function main() {
 }
 
 function validateDailAliases(validationReport, dailAliases) {
-  const expectedSourceRows = 400;
-  const expectedAliases = 47;
+  const expectedSourceRows = 431;
+  const expectedAliases = 50;
   assert(dailAliases.schemaVersion === 1, 'Dail approved candidate aliases must have schemaVersion 1.');
   assert(dailAliases.counts?.sourceRows === expectedSourceRows, `Expected ${expectedSourceRows} approved Dail source rows, found ${dailAliases.counts?.sourceRows}.`);
   assert(Array.isArray(dailAliases.aliases) && dailAliases.aliases.length === expectedAliases, `Expected ${expectedAliases} approved Dail alias groups, found ${dailAliases.aliases?.length}.`);
@@ -53,29 +54,33 @@ function validateDailAliases(validationReport, dailAliases) {
     assert(SAFE_DAIL_CLASSIFICATIONS.has(classification), `Unsafe Dail source row was published: ${row.sourceRowId} / ${row.classification}.`);
   }
   const remainingDecisions = dailAliases.remainingDecisions || {};
-  assert(remainingDecisions.approvedGroups === 13, `Expected 13 user-approved remaining Dail alias groups, found ${remainingDecisions.approvedGroups}.`);
-  assert(remainingDecisions.approvedSourceRows === 130, `Expected 130 user-approved remaining Dail source rows, found ${remainingDecisions.approvedSourceRows}.`);
-  assert(remainingDecisions.heldProbableAliasGroups === 3, `Expected 3 held probable Dail alias groups, found ${remainingDecisions.heldProbableAliasGroups}.`);
-  assert(remainingDecisions.heldProbableSourceRows === 31, `Expected 31 held probable Dail source rows, found ${remainingDecisions.heldProbableSourceRows}.`);
+  assert(remainingDecisions.approvedGroups === 16, `Expected 16 user-approved remaining Dail alias groups, found ${remainingDecisions.approvedGroups}.`);
+  assert(remainingDecisions.approvedSourceRows === 161, `Expected 161 user-approved remaining Dail source rows, found ${remainingDecisions.approvedSourceRows}.`);
+  assert(remainingDecisions.heldProbableAliasGroups === 3, `Expected 3 original probable Dail alias groups in the decision pack, found ${remainingDecisions.heldProbableAliasGroups}.`);
+  assert(remainingDecisions.heldProbableSourceRows === 0, `Expected 0 held probable Dail source rows after user approval, found ${remainingDecisions.heldProbableSourceRows}.`);
   assert(remainingDecisions.rejectedRematchGroups === 1, `Expected one rejected/rematch Dail group, found ${remainingDecisions.rejectedRematchGroups}.`);
   assert(remainingDecisions.rejectedRematchSourceRows === 12, `Expected 12 rejected/rematch Dail source rows, found ${remainingDecisions.rejectedRematchSourceRows}.`);
-  assert(dailAliases.counts?.quarantinedRows === 43, `Expected 43 Dail rows to remain quarantined, found ${dailAliases.counts?.quarantinedRows}.`);
+  assert(dailAliases.counts?.quarantinedRows === 12, `Expected 12 Dail rows to remain quarantined, found ${dailAliases.counts?.quarantinedRows}.`);
   const rejectedRematches = remainingDecisions.rejectedRematches || [];
   assert(rejectedRematches.some((row) => row.reviewId === 'dail-candidate-dail-eireann-2020-02-08-dublin-fingal-glenn-brady'), 'The Glenn Brady false match must remain rejected/rematch, not published.');
+  assert(dailAliases.aliases.some((alias) => alias.sourceCandidateName === 'Cordelia Nicfhearraigh' && alias.canonicalCandidateName === 'Cordeila Nic Fhearraigh'), 'Cordelia Nicfhearraigh user-approved alias is missing.');
+  assert(dailAliases.aliases.some((alias) => alias.sourceCandidateName === 'Arthur Desmond Mc Guinness' && alias.canonicalCandidateName === 'Arthur McGuinness'), 'Arthur Desmond Mc Guinness user-approved alias is missing.');
+  assert(dailAliases.aliases.some((alias) => alias.sourceCandidateName === 'Sheik Mohiuddin Ahmed' && alias.canonicalCandidateName === 'Sheikh Ahmed'), 'Sheik Mohiuddin Ahmed user-approved alias is missing.');
+  assert(!dailAliases.aliases.some((alias) => alias.sourceCandidateName === 'Glenn Brady' && alias.canonicalCandidateName === 'John Brady'), 'Glenn Brady must not be published as John Brady.');
 }
 
 function validateApprovedSources(validationReport, approvedSources) {
   assert(approvedSources.schemaVersion === 1, 'Approved publication sources must have schemaVersion 1.');
   assert(validationReport.counts?.category3PublishRows === 5892, 'Approval validation report should have 5,892 Category 3 publish rows.');
   assert(validationReport.counts?.category3VariantRows === 758, 'Approval validation report should have 758 Category 3 variant rows.');
-  assert(approvedSources.counts?.publish === 5912, `Expected 5,912 approved publish records, found ${approvedSources.counts?.publish}.`);
-  assert(approvedSources.counts?.variants === 760, `Expected 760 approved variant records, found ${approvedSources.counts?.variants}.`);
-  assert(approvedSources.counts?.total === 6672, `Expected 6,672 approved source records, found ${approvedSources.counts?.total}.`);
-  assert(Array.isArray(approvedSources.sources) && approvedSources.sources.length === 6672, `Expected 6,672 approved source records in sources array, found ${approvedSources.sources?.length}.`);
-  assert(approvedSources.counts?.remainingApproved?.publish === 20, `Expected 20 approved remaining publish records, found ${approvedSources.counts?.remainingApproved?.publish}.`);
-  assert(approvedSources.counts?.remainingApproved?.variants === 2, `Expected 2 approved remaining variant records, found ${approvedSources.counts?.remainingApproved?.variants}.`);
-  assert(approvedSources.counts?.excluded?.['probable variant - user approval required'] === 5, 'Category 3 probable variants must stay excluded.');
-  assert(approvedSources.counts?.excluded?.['citation-only source page'] === 4, 'Category 3 citation-only source pages must stay excluded.');
+  assert(approvedSources.counts?.publish === 5918, `Expected 5,918 approved publish records, found ${approvedSources.counts?.publish}.`);
+  assert(approvedSources.counts?.variants === 761, `Expected 761 approved variant records, found ${approvedSources.counts?.variants}.`);
+  assert(approvedSources.counts?.total === 6679, `Expected 6,679 approved source records, found ${approvedSources.counts?.total}.`);
+  assert(Array.isArray(approvedSources.sources) && approvedSources.sources.length === 6679, `Expected 6,679 approved source records in sources array, found ${approvedSources.sources?.length}.`);
+  assert(approvedSources.counts?.remainingApproved?.publish === 26, `Expected 26 approved remaining publish records, found ${approvedSources.counts?.remainingApproved?.publish}.`);
+  assert(approvedSources.counts?.remainingApproved?.variants === 3, `Expected 3 approved remaining variant records, found ${approvedSources.counts?.remainingApproved?.variants}.`);
+  assert(!approvedSources.counts?.excluded?.['probable variant - user approval required'], 'Category 3 probable variants should be resolved by user approval in this pass.');
+  assert(!approvedSources.counts?.excluded?.['citation-only source page'], 'Category 3 citation-only source pages should be resolved by user approval in this pass.');
 
   const ids = new Set();
   for (const source of approvedSources.sources) {
@@ -93,6 +98,53 @@ function validateApprovedSources(validationReport, approvedSources) {
       assert(source.relationship === 'variant', `Variant source should have relationship=variant: ${source.id}`);
     }
   }
+
+  const approvedDistinctSourceIds = [
+    'source-doc-03514-community-centres',
+    'source-doc-00741-drainage-asset',
+    'source-doc-05230-applications',
+    'source-doc-00845-health',
+    'source-doc-03553-report'
+  ];
+  for (const rowId of approvedDistinctSourceIds) {
+    const source = approvedSources.sources.find((item) => item.approval?.stagingId === rowId);
+    assert(Boolean(source), `User-approved distinct source row was not materialised: ${rowId}`);
+    if (source) assert(source.approval?.recommendedAction === 'publish', `User-approved distinct source row must publish, not ${source.approval?.recommendedAction}: ${rowId}`);
+  }
+  const nbcoSource = approvedSources.sources.find((item) => item.approval?.stagingId === 'source-doc-05230-applications');
+  if (nbcoSource) {
+    const nonNbcoUrls = [...(nbcoSource.references || []), ...(nbcoSource.downloads || [])]
+      .map((link) => link.url)
+      .filter(Boolean)
+      .filter((url) => !/\/\/data\.nbco\.gov\.ie\//i.test(url));
+    assert(nonNbcoUrls.length === 0, `NBCO applications source must not inherit unrelated application/planning references: ${nonNbcoUrls.join(', ')}`);
+  }
+  assertApprovedDistinctSourceLinks(approvedSources, 'source-doc-03514-community-centres', /(?:belfastcity\.gov\.uk|community-centres-csv-3\.csv)/i);
+  assertApprovedDistinctSourceLinks(approvedSources, 'source-doc-00741-drainage-asset', /drainage_assets/i);
+  assertApprovedDistinctSourceLinks(approvedSources, 'source-doc-00845-health', /crsdataset\.csv/i);
+  assertApprovedDistinctSourceLinks(approvedSources, 'source-doc-03553-report', /orp_report_odni_201920\.pdf/i);
+  const cpdSource = approvedSources.sources.find((item) => item.approval?.stagingId === 'source-doc-cpdjan2026');
+  assert(Boolean(cpdSource), 'Grouped Central Postcode Directory January 2026 source family is missing.');
+  if (cpdSource) {
+    const componentIds = cpdSource.approval?.componentRowIds || [];
+    assert(componentIds.includes('source-doc-04018-cpdjan2026access'), 'CPD grouped source is missing Access component row.');
+    assert(componentIds.includes('source-doc-04019-cpdjan2026csv'), 'CPD grouped source is missing CSV component row.');
+    assert(componentIds.includes('source-doc-04020-cpdjan2026txt'), 'CPD grouped source is missing TXT component row.');
+  }
+  const lfsOds = approvedSources.sources.find((item) => item.approval?.stagingId === 'source-doc-04056-lfs-claimant-count-oct-2021-ods');
+  assert(Boolean(lfsOds), 'LFS Claimant Count Oct 2021 ODS alternate-format variant is missing.');
+  if (lfsOds) {
+    assert(lfsOds.approval?.recommendedAction === 'merge as variant', 'LFS ODS row must be materialised as a variant.');
+    assert(lfsOds.variantOf?.title === 'LFS Claimant Count Oct 2021', 'LFS ODS variant must point at the LFS Claimant Count Oct 2021 source family.');
+  }
+}
+
+function assertApprovedDistinctSourceLinks(approvedSources, stagingId, expectedPattern) {
+  const source = approvedSources.sources.find((item) => item.approval?.stagingId === stagingId);
+  if (!source) return;
+  const links = [...(source.references || []), ...(source.downloads || [])].map((link) => link.url).filter(Boolean);
+  const badUrls = links.filter((url) => !expectedPattern.test(url));
+  assert(badUrls.length === 0, `User-approved distinct source ${stagingId} inherited unrelated references/downloads: ${badUrls.join(', ')}`);
 }
 
 function validateBrowseMaterialisation(approvedSources, browseSources) {

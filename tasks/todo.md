@@ -1,3 +1,21 @@
+# Apply final user-approved Dail/source decisions
+- [x] Record implementation scope
+  - Task: after user approval, apply the three remaining Dail probable alias approvals, keep the Glenn Brady false match rejected, publish five user-confirmed distinct source rows, group the CPD January 2026 Access/CSV/TXT rows as one source family, and merge the LFS Claimant Count Oct 2021 ODS row as an alternate-format variant.
+  - Constraints: do not publish unapproved probable aliases; do not treat Glenn Brady as John Brady; do not upload anything to R2/CDN; do not expose local filesystem paths; do not stage provider-audit scratch.
+- [x] Extend generator and validation
+  - Completed: updated `scripts/apply-approved-publication-records.mjs` and `scripts/validate-approved-publication-path.mjs` so the approvals are repeatable, Glenn Brady remains rejected, and user-approved distinct source records cannot inherit unrelated fuzzy references/downloads.
+- [x] Regenerate generated data
+  - Completed: rebuilt approved Dail aliases, approved publication sources, Browse source records, and election metadata derived from the alias sidecar.
+- [x] Verify, commit, and push
+  - Completed: ran focused validation checks, cleaned timestamp-only generated churn, and prepared only intended code/data/task changes for commit and push.
+
+## Review: final user-approved Dail/source decisions
+- Applied the 3 remaining user-approved probable Dail alias groups, raising the approved Dail sidecar to 50 alias groups covering 431 source rows.
+- Kept the Glenn Brady false match rejected/rematched and quarantined; no Glenn Brady -> John Brady alias is published.
+- Published the 5 user-confirmed distinct source rows, grouped the 3 Central Postcode Directory January 2026 package rows into one source family, and materialised the LFS Claimant Count Oct 2021 ODS row as an alternate-format variant.
+- Added per-source reference/download filters for the newly approved distinct records so Belfast Community Centres, Drainage Assets, NBCO Applications, Health Trust Reference Costs, and the Open Data Innovation report do not inherit unrelated fuzzy links.
+- Verification run: `node scripts/apply-approved-publication-records.mjs`, `npm run build:browse`, `npm run build:test2:elections`, `npm run check:approved-publication`, `npm run check:external-sources`, and `npm run check:test2`.
+
 # Apply user-approved remaining publication decisions
 - [x] Record implementation scope
   - Task: after user approval, apply the approved remaining Dail candidate aliases and Category 3 source decisions into the repeatable publication generator, while keeping probable/held rows excluded.
