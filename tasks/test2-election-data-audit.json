@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-14T17:21:01.202Z",
+  "generatedAt": "2026-06-16T13:57:06.201Z",
   "failOnBlocking": true,
   "stats": {
     "manifest": {
@@ -16,23 +16,23 @@
       }
     },
     "browse": {
-      "total": 5220,
-      "parents": 268,
-      "subEntries": 4952,
-      "overallSubEntries": 268,
-      "constituencySubEntries": 4684
+      "total": 5248,
+      "parents": 276,
+      "subEntries": 4972,
+      "overallSubEntries": 276,
+      "constituencySubEntries": 4696
     },
     "sources": {
-      "sourceDetailFiles": 268,
+      "sourceDetailFiles": 276,
       "resultBundles": 276,
       "summaryBundles": 276,
-      "parentSourceRecordsMissing": 8,
+      "parentSourceRecordsMissing": 0,
       "sourceRecordsWithNoReferences": 0,
       "sourceRecordsWithOneReference": 0,
-      "sourceRecordsWithMultipleReferences": 268,
+      "sourceRecordsWithMultipleReferences": 276,
       "subEntriesWithNoReferences": 0,
       "subEntriesWithOneReference": 0,
-      "subEntriesWithMultipleReferences": 4952
+      "subEntriesWithMultipleReferences": 4972
     },
     "resultBundles": {
       "loaded": 276,
@@ -311,25 +311,14 @@
   },
   "issueSummary": {
     "bySeverity": {
-      "warning": 88
+      "warning": 55
     },
     "byCategory": {
-      "browse-parent-count": 1,
       "valid-poll-review": 26,
-      "browse-parent-missing": 8,
-      "browse-overall-missing": 8,
-      "browse-constituency-count": 8,
-      "source-record-missing": 8,
       "candidate-list-review": 29
     }
   },
   "issues": [
-    {
-      "severity": "warning",
-      "category": "browse-parent-count",
-      "key": "data/browse/elections.json",
-      "message": "Browse has 268 parent elections, manifest has 276."
-    },
     {
       "severity": "warning",
       "category": "valid-poll-review",
@@ -344,177 +333,9 @@
     },
     {
       "severity": "warning",
-      "category": "browse-parent-missing",
-      "key": "dail-eireann__2021-07-08",
-      "message": "Manifest election has no matching Browse parent entry."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-overall-missing",
-      "key": "dail-eireann__2021-07-08",
-      "message": "Browse has no overall-result sub-entry for this election."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-constituency-count",
-      "key": "dail-eireann__2021-07-08",
-      "message": "Browse has 0 constituency/DEA sub-entries; manifest expects 1."
-    },
-    {
-      "severity": "warning",
-      "category": "source-record-missing",
-      "key": "dail-eireann__2021-07-08",
-      "message": "No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2021-07-08.json."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-parent-missing",
-      "key": "dail-eireann__2015-05-22",
-      "message": "Manifest election has no matching Browse parent entry."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-overall-missing",
-      "key": "dail-eireann__2015-05-22",
-      "message": "Browse has no overall-result sub-entry for this election."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-constituency-count",
-      "key": "dail-eireann__2015-05-22",
-      "message": "Browse has 0 constituency/DEA sub-entries; manifest expects 1."
-    },
-    {
-      "severity": "warning",
-      "category": "source-record-missing",
-      "key": "dail-eireann__2015-05-22",
-      "message": "No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2015-05-22.json."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-parent-missing",
-      "key": "dail-eireann__2014-10-10",
-      "message": "Manifest election has no matching Browse parent entry."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-overall-missing",
-      "key": "dail-eireann__2014-10-10",
-      "message": "Browse has no overall-result sub-entry for this election."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-constituency-count",
-      "key": "dail-eireann__2014-10-10",
-      "message": "Browse has 0 constituency/DEA sub-entries; manifest expects 2."
-    },
-    {
-      "severity": "warning",
-      "category": "source-record-missing",
-      "key": "dail-eireann__2014-10-10",
-      "message": "No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2014-10-10.json."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-parent-missing",
-      "key": "dail-eireann__2014-05-23",
-      "message": "Manifest election has no matching Browse parent entry."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-overall-missing",
-      "key": "dail-eireann__2014-05-23",
-      "message": "Browse has no overall-result sub-entry for this election."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-constituency-count",
-      "key": "dail-eireann__2014-05-23",
-      "message": "Browse has 0 constituency/DEA sub-entries; manifest expects 2."
-    },
-    {
-      "severity": "warning",
-      "category": "source-record-missing",
-      "key": "dail-eireann__2014-05-23",
-      "message": "No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2014-05-23.json."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-parent-missing",
-      "key": "dail-eireann__2013-03-27",
-      "message": "Manifest election has no matching Browse parent entry."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-overall-missing",
-      "key": "dail-eireann__2013-03-27",
-      "message": "Browse has no overall-result sub-entry for this election."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-constituency-count",
-      "key": "dail-eireann__2013-03-27",
-      "message": "Browse has 0 constituency/DEA sub-entries; manifest expects 1."
-    },
-    {
-      "severity": "warning",
-      "category": "source-record-missing",
-      "key": "dail-eireann__2013-03-27",
-      "message": "No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2013-03-27.json."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-parent-missing",
-      "key": "dail-eireann__2011-10-27",
-      "message": "Manifest election has no matching Browse parent entry."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-overall-missing",
-      "key": "dail-eireann__2011-10-27",
-      "message": "Browse has no overall-result sub-entry for this election."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-constituency-count",
-      "key": "dail-eireann__2011-10-27",
-      "message": "Browse has 0 constituency/DEA sub-entries; manifest expects 1."
-    },
-    {
-      "severity": "warning",
-      "category": "source-record-missing",
-      "key": "dail-eireann__2011-10-27",
-      "message": "No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2011-10-27.json."
-    },
-    {
-      "severity": "warning",
       "category": "valid-poll-review",
       "key": "local-government-local-government-districts__2011-05-05",
       "message": "Downshire first-preference sum 7919 exceeds valid poll ceiling 5367; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-parent-missing",
-      "key": "dail-eireann__2009-06-05",
-      "message": "Manifest election has no matching Browse parent entry."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-overall-missing",
-      "key": "dail-eireann__2009-06-05",
-      "message": "Browse has no overall-result sub-entry for this election."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-constituency-count",
-      "key": "dail-eireann__2009-06-05",
-      "message": "Browse has 0 constituency/DEA sub-entries; manifest expects 2."
-    },
-    {
-      "severity": "warning",
-      "category": "source-record-missing",
-      "key": "dail-eireann__2009-06-05",
-      "message": "No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2009-06-05.json."
     },
     {
       "severity": "warning",
@@ -527,30 +348,6 @@
       "category": "candidate-list-review",
       "key": "local-government-local-government-districts__2005-05-05",
       "message": "No candidates found for lg05-NoD-Ballyholme-&-Groomsport; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-parent-missing",
-      "key": "dail-eireann__2005-03-11",
-      "message": "Manifest election has no matching Browse parent entry."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-overall-missing",
-      "key": "dail-eireann__2005-03-11",
-      "message": "Browse has no overall-result sub-entry for this election."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-constituency-count",
-      "key": "dail-eireann__2005-03-11",
-      "message": "Browse has 0 constituency/DEA sub-entries; manifest expects 2."
-    },
-    {
-      "severity": "warning",
-      "category": "source-record-missing",
-      "key": "dail-eireann__2005-03-11",
-      "message": "No election source detail record found at data/browse/details/sources/election-source-dail-eireann-2005-03-11.json."
     },
     {
       "severity": "warning",

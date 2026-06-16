@@ -24,6 +24,30 @@
 - Unrelated local provider mirror audit scratch files remain untracked and were intentionally not staged.
 - Branch pushed: `origin/codex-apply-approved-publication-records`.
 
+# Refine remaining publication decisions and dry-run deployment/upload paths
+- [x] Record scope
+  - Task: further investigate the remaining probable/human-review Dail candidate matches, review held/decision/citation Category 3 source rows, prepare merge/deploy validation, build extra approval CSVs and placement/provenance previews, inspect provider-audit scratch, and prepare R2/CDN dry-run manifests where useful.
+  - Constraints: do not publish additional rows without explicit approval; do not upload to R2/CDN; do not commit private local raw files or local filesystem paths; keep provider-audit scratch uncommitted unless it is explicitly selected for preservation.
+- [x] Inspect current approval/quarantine inputs
+  - Completed: inspected the approved-publication refinement pack, quarantined Dail candidate rows, Category 3 hold/needs-decision/citation-only rows, existing duplicate/variant evidence, approved source records, and local provider-audit scratch.
+- [x] Generate Dail match investigation and patch-proposal outputs
+  - Completed: added `scripts/build-remaining-publication-decision-pack.mjs` and generated remaining Dail match recommendations, held patch records, merge-target evidence, and final alias approval candidates for 17 withheld groups covering 173 source rows.
+- [x] Generate Category 3 hold/decision/citation recommendations and approval bundles
+  - Completed: generated review recommendations, next approval bundles, provenance/placement previews, and expanded duplicate/variant evidence for the 20 hold, 7 needs-decision, and 4 citation-only Category 3 rows.
+- [x] Inspect provider-audit scratch and recommend handling
+  - Completed: generated a provider-audit scratch review recommending that JSON inventories remain uncommitted/local, and that `scripts/audit-provider-mirrors.mjs` be generalized before any future commit because it currently contains local drive-root defaults.
+- [x] Prepare merge/deploy validation and R2/CDN dry-run outputs
+  - Completed: generated merge/deploy validation notes and a dry-run R2/CDN manifest covering 6,670 items. No uploads were performed; 6,650 approved records require no upload, and 20 excluded spatial/source rows are possible future upload candidates only after approval.
+- [x] Run validation, commit, and push review pack
+  - Completed: validation passed for the generated pack and focused repo checks. Commit/push is recorded below.
+
+## Review: remaining publication decisions and dry-run deployment/upload paths
+- Generated the review pack under `tasks/absence-integration-ready-2026-06-15/publication-approval-pack/remaining-decision-pack/`.
+- Dail remaining decisions: 2 alias-after-spot-check groups, 11 encoding-alias groups, 3 probable-alias groups requiring approval, and 1 rejected/rematch group. Patch records remain held pending approval.
+- Category 3 remaining decisions: 20 publish-table/source-now-but-defer-interactive-map rows, 2 merge/citation rows, 5 probable variant rows requiring approval, and 4 citation-only source-page rows.
+- Provider-audit scratch remains intentionally untracked: `data/provider-mirror-audit/` and `scripts/audit-provider-mirrors.mjs`.
+- Verification run: `node --check scripts/build-remaining-publication-decision-pack.mjs`, `node scripts/build-remaining-publication-decision-pack.mjs`, local path leak scan over the generated pack, `npm run check:approved-publication`, `npm run check:external-sources`, `npm run build:browse`, `npm run build:test2:elections`, and `npm run check:test2`.
+
 # Audit D drive provider mirrors and prepare data-readiness lanes
 - [x] Record scope
   - Task: audit current `D:\` contents, build provider catalogues for Open Data NI, CSO Ireland, NISRA, and Tailte Eireann, diff those catalogues against `D:\`, download or record missing raw assets where approval/network permits, unpack/checksum, record failures, build staging manifests, and report what is ready for later site integration.
