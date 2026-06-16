@@ -12,7 +12,8 @@
   - Completed: rebuilt Browse indexes and regenerated the Test2 election manifest so the approved publication records and Dail aliases are reflected in generated site data.
 - [x] Commit implementation branch
   - Completed: committed the staged implementation as `Materialise approved publication records`.
-- [ ] Push implementation branch
+- [x] Push implementation branch
+  - Completed: pushed `codex-apply-approved-publication-records` to `origin`.
 
 ## Review: approved Dail and Category 3 publication records
 - Materialised 34 approved Dail candidate alias groups covering 270 source rows. Probable matches and human-decision rows remain quarantined.
@@ -21,6 +22,7 @@
 - Added repeatable validation through `npm run check:approved-publication`.
 - Verification run: `node scripts/apply-approved-publication-records.mjs`, `npm run build:browse`, `npm run check:approved-publication`, `npm run check:external-sources`, and `npm run build:test2:elections`.
 - Unrelated local provider mirror audit scratch files remain untracked and were intentionally not staged.
+- Branch pushed: `origin/codex-apply-approved-publication-records`.
 
 # Audit D drive provider mirrors and prepare data-readiness lanes
 - [x] Record scope
