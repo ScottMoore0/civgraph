@@ -8,9 +8,15 @@ const ROOT = process.cwd();
 const APPROVAL_ROOT = path.join(ROOT, 'tasks', 'absence-integration-ready-2026-06-15', 'publication-approval-pack', 'approval-refinement');
 const CATEGORY_ROOT = path.join(ROOT, 'tasks', 'absence-integration-ready-2026-06-15', 'publication-approval-pack', 'category-3-publications');
 const SOURCE_ROOT = path.join(ROOT, 'tasks', 'absence-integration-ready-2026-06-15', 'category-3-source-docs-tables');
+const REMAINING_DECISION_ROOT = path.join(ROOT, 'tasks', 'absence-integration-ready-2026-06-15', 'publication-approval-pack', 'remaining-decision-pack');
 
 const SAFE_DAIL_CLASSIFICATIONS = new Set(['safe auto-match', 'encoding/name cleanup']);
 const APPROVED_CATEGORY3_ACTIONS = new Set(['publish', 'merge as variant']);
+const APPROVED_REMAINING_DAIL_ACTIONS = new Set(['approve alias after spot-check', 'approve encoding alias']);
+const APPROVED_REMAINING_CATEGORY3_ACTIONS = new Set([
+  'publish table/source now; defer interactive map',
+  'merge as variant or citation for existing record'
+]);
 
 const OUTPUT_DAIL_ALIASES = path.join(ROOT, 'data', 'elections', 'dail-approved-candidate-aliases.json');
 const OUTPUT_APPROVED_SOURCES = path.join(ROOT, 'data', 'database', 'approved-publication-sources.json');
@@ -28,8 +34,16 @@ function main() {
   const publicationActions = readJson(path.join(CATEGORY_ROOT, 'publication-approval-actions.json')).records || [];
   const draftPages = readJson(path.join(CATEGORY_ROOT, 'draft-source-and-metadata-pages.json')).records || [];
   const provenanceDrafts = readJson(path.join(SOURCE_ROOT, 'provenance-drafts.json')).records || [];
+  const remainingDailAliasCandidates = readJson(path.join(REMAINING_DECISION_ROOT, 'dail-final-alias-approval-candidates.json'));
+  const remainingDailMatchRecommendations = readJson(path.join(REMAINING_DECISION_ROOT, 'dail-remaining-match-recommendations.json'));
+  const remainingCategoryRows = readJson(path.join(REMAINING_DECISION_ROOT, 'category3-remaining-source-recommendations.json'));
+  const remainingVariantEvidence = readJson(path.join(REMAINING_DECISION_ROOT, 'category3-duplicate-variant-evidence-expanded.json'));
+  const remainingBundles = readJson(path.join(REMAINING_DECISION_ROOT, 'category3-next-approval-bundles.json'));
 
-  const dailAliases = buildDailAliases(dailRows, dailReviews, validationReport);
+  const dailAliases = buildDailAliases(dailRows, dailReviews, validationReport, {
+    remainingDailAliasCandidates,
+    remainingDailMatchRecommendations
+  });
   const approvedSources = buildApprovedSources({
     draftRows,
     variantProposals,
@@ -37,7 +51,10 @@ function main() {
     publicationActions,
     draftPages,
     provenanceDrafts,
-    validationReport
+    validationReport,
+    remainingCategoryRows,
+    remainingVariantEvidence,
+    remainingBundles
   });
 
   writeStableGeneratedJson(OUTPUT_DAIL_ALIASES, dailAliases);
@@ -47,17 +64,51 @@ function main() {
   console.log(`Wrote ${approvedSources.sources.length} approved Category 3 Browse source records (${approvedSources.counts.publish} publish, ${approvedSources.counts.variants} variants).`);
 }
 
-function buildDailAliases(rowActions, reviewGroups, validationReport) {
+function buildDailAliases(rowActions, reviewGroups, validationReport, remainingInputs = {}) {
+  const remainingDailAliasCandidates = normalizeArray(remainingInputs.remainingDailAliasCandidates);
+  const remainingDailMatchRecommendations = normalizeArray(remainingInputs.remainingDailMatchRecommendations);
+  const approvedRemainingCandidates = remainingDailAliasCandidates
+    .filter((candidate) => APPROVED_REMAINING_DAIL_ACTIONS.has(cleanText(candidate.proposedAction).toLowerCase()));
+  const approvedRemainingSourceIds = new Set(approvedRemainingCandidates.flatMap((candidate) => splitSourceRowIds(candidate.sourceRowIds)));
+  const rowActionsById = new Map(rowActions.map((row) => [row.sourceRowId, row]));
   const approvedRows = rowActions.filter((row) => SAFE_DAIL_CLASSIFICATIONS.has(cleanText(row.proposedClassification).toLowerCase()));
-  const quarantinedRows = rowActions.filter((row) => !SAFE_DAIL_CLASSIFICATIONS.has(cleanText(row.proposedClassification).toLowerCase()));
+  const remainingApprovedRows = approvedRemainingCandidates.flatMap((candidate) => {
+    const classification = remainingDailClassification(candidate.proposedAction);
+    return splitSourceRowIds(candidate.sourceRowIds).map((sourceRowId) => {
+      const existingRow = rowActionsById.get(sourceRowId) || {};
+      return compactObject({
+        ...existingRow,
+        sourceRowId,
+        electionId: existingRow.electionId || candidate.electionId,
+        sourceConstituency: existingRow.sourceConstituency || candidate.sourceConstituency,
+        sourceCandidateName: existingRow.sourceCandidateName || candidate.sourceCandidateName,
+        sourceTableKind: existingRow.sourceTableKind,
+        sourceCountNumber: existingRow.sourceCountNumber,
+        proposedCanonicalConstituency: existingRow.proposedCanonicalConstituency || candidate.canonicalConstituency,
+        proposedCanonicalConstituencyId: existingRow.proposedCanonicalConstituencyId,
+        proposedCandidateName: existingRow.proposedCandidateName || candidate.canonicalCandidateName,
+        proposedCandidateId: existingRow.proposedCandidateId || candidate.canonicalCandidateId,
+        proposedParty: existingRow.proposedParty || candidate.canonicalParty,
+        proposedClassification: classification,
+        confidence: existingRow.confidence || candidate.confidence,
+        exactMergeTarget: existingRow.exactMergeTarget,
+        approvedFromRemainingDecision: candidate.proposedAction
+      });
+    });
+  });
+  const approvedSourceRows = [...approvedRows, ...remainingApprovedRows];
+  const quarantinedRows = rowActions.filter((row) => {
+    const classification = cleanText(row.proposedClassification).toLowerCase();
+    return !SAFE_DAIL_CLASSIFICATIONS.has(classification) && !approvedRemainingSourceIds.has(row.sourceRowId);
+  });
   const approvedRowsByReviewKey = new Map();
-  for (const row of approvedRows) {
+  for (const row of approvedSourceRows) {
     const key = dailAliasKey(row.electionId, row.sourceConstituency, row.sourceCandidateName);
     if (!approvedRowsByReviewKey.has(key)) approvedRowsByReviewKey.set(key, []);
     approvedRowsByReviewKey.get(key).push(row);
   }
 
-  const aliases = reviewGroups
+  const initialAliases = reviewGroups
     .filter((review) => SAFE_DAIL_CLASSIFICATIONS.has(cleanText(review.proposedClassification).toLowerCase()))
     .map((review) => {
       const key = dailAliasKey(review.electionId, review.sourceConstituency, review.sourceCandidateName);
@@ -81,51 +132,109 @@ function buildDailAliases(rowActions, reviewGroups, validationReport) {
         sourceRowIds: sourceRows.map((row) => row.sourceRowId),
         rationale: review.rationale
       });
-    })
+    });
+  const remainingAliases = approvedRemainingCandidates.map((candidate) => {
+    const key = dailAliasKey(candidate.electionId, candidate.sourceConstituency, candidate.sourceCandidateName);
+    const sourceRows = approvedRowsByReviewKey.get(key) || [];
+    return compactObject({
+      aliasId: `dail-candidate-alias:${slugify(candidate.aliasId || key)}`,
+      electionId: candidate.electionId,
+      electionDate: String(candidate.electionId || '').split('__').at(1) || null,
+      sourceConstituency: candidate.sourceConstituency,
+      sourceCandidateName: decodeCommonMojibake(candidate.sourceCandidateName),
+      canonicalConstituency: candidate.canonicalConstituency,
+      canonicalCandidateName: decodeCommonMojibake(candidate.canonicalCandidateName),
+      canonicalCandidateId: candidate.canonicalCandidateId,
+      canonicalParty: decodeCommonMojibake(candidate.canonicalParty),
+      classification: remainingDailClassification(candidate.proposedAction),
+      confidence: candidate.confidence,
+      proposedAlias: decodeCommonMojibake(`${candidate.sourceCandidateName} -> ${candidate.canonicalCandidateName}`),
+      sourceRowCount: sourceRows.length || splitSourceRowIds(candidate.sourceRowIds).length || null,
+      sourceRowIds: sourceRows.map((row) => row.sourceRowId),
+      rationale: compactJoin([candidate.proposedAction, candidate.evidenceStrength, candidate.approvalDefault]),
+      approval: compactObject({
+        source: 'remaining-decision-pack',
+        proposedAction: candidate.proposedAction,
+        evidenceStrength: candidate.evidenceStrength,
+        approvalDefault: candidate.approvalDefault
+      })
+    });
+  });
+  const aliases = [...initialAliases, ...remainingAliases]
     .sort((a, b) => (a.electionId || '').localeCompare(b.electionId || '')
       || (a.canonicalConstituency || '').localeCompare(b.canonicalConstituency || '')
       || (a.canonicalCandidateName || '').localeCompare(b.canonicalCandidateName || ''));
 
-  const sourceRows = approvedRows.map((row) => compactObject({
+  const sourceRows = approvedSourceRows.map((row) => compactObject({
     sourceRowId: row.sourceRowId,
     electionId: row.electionId,
     sourceConstituency: row.sourceConstituency,
-    sourceCandidateName: row.sourceCandidateName,
+    sourceCandidateName: decodeCommonMojibake(row.sourceCandidateName),
     sourceTableKind: row.sourceTableKind,
     sourceCountNumber: row.sourceCountNumber,
     canonicalConstituency: row.proposedCanonicalConstituency,
     canonicalConstituencyId: row.proposedCanonicalConstituencyId,
-    canonicalCandidateName: row.proposedCandidateName,
+    canonicalCandidateName: decodeCommonMojibake(row.proposedCandidateName),
     canonicalCandidateId: row.proposedCandidateId,
     classification: row.proposedClassification,
     confidence: row.confidence,
-    exactMergeTarget: row.exactMergeTarget
+    exactMergeTarget: row.exactMergeTarget,
+    approvedFromRemainingDecision: row.approvedFromRemainingDecision
   }));
 
-  const countsByClassification = countBy(rowActions, (row) => cleanText(row.proposedClassification).toLowerCase() || 'unknown');
+  const countsByClassification = countBy(sourceRows, (row) => cleanText(row.classification).toLowerCase() || 'unknown');
+  const reviewPackCountsByClassification = countBy(rowActions, (row) => cleanText(row.proposedClassification).toLowerCase() || 'unknown');
   const aliasCountsByClassification = countBy(aliases, (alias) => cleanText(alias.classification).toLowerCase() || 'unknown');
+  const heldProbableRows = remainingDailAliasCandidates
+    .filter((candidate) => cleanText(candidate.proposedAction).toLowerCase() === 'probable alias - user approval required')
+    .flatMap((candidate) => splitSourceRowIds(candidate.sourceRowIds));
+  const rejectedRematches = remainingDailMatchRecommendations
+    .filter((recommendation) => cleanText(recommendation.proposedAction).toLowerCase() === 'reject current match and rematch');
+  const rejectedRematchRows = rejectedRematches.flatMap((recommendation) => splitSourceRowIds(recommendation.sourceRowIds));
   return {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
     generatedFrom: {
       approvalPack: relativePath(APPROVAL_ROOT),
+      remainingDecisionPack: relativePath(REMAINING_DECISION_ROOT),
       validationReportGeneratedAt: validationReport.generatedAt || null
     },
-    approvalPolicy: 'Only safe auto-match and encoding/name cleanup Dail candidate decisions are applied. Probable matches and human-decision rows remain quarantined.',
+    approvalPolicy: 'Safe auto-match and encoding/name cleanup Dail candidate decisions are applied, plus user-approved remaining spot-check and encoding aliases. Probable aliases and rejected/rematch rows remain quarantined.',
     counts: {
-      sourceRows: approvedRows.length,
+      sourceRows: sourceRows.length,
       aliases: aliases.length,
       byClassification: countsByClassification,
+      reviewPackByClassification: reviewPackCountsByClassification,
       aliasGroupsByClassification: aliasCountsByClassification,
-      quarantinedRows: quarantinedRows.length
+      quarantinedRows: quarantinedRows.length,
+      remainingApprovedSourceRows: remainingApprovedRows.length
     },
     aliases,
     sourceRows,
-    quarantinedClassifications: Object.fromEntries(Object.entries(countsByClassification).filter(([key]) => !SAFE_DAIL_CLASSIFICATIONS.has(key)))
+    quarantinedClassifications: countBy(quarantinedRows, (row) => cleanText(row.proposedClassification).toLowerCase() || 'unknown'),
+    remainingDecisions: compactObject({
+      approvedGroups: approvedRemainingCandidates.length,
+      approvedSourceRows: remainingApprovedRows.length,
+      heldProbableAliasGroups: remainingDailAliasCandidates.filter((candidate) => cleanText(candidate.proposedAction).toLowerCase() === 'probable alias - user approval required').length,
+      heldProbableSourceRows: heldProbableRows.length,
+      rejectedRematchGroups: rejectedRematches.length,
+      rejectedRematchSourceRows: rejectedRematchRows.length,
+      rejectedRematches: rejectedRematches.map((recommendation) => compactObject({
+        reviewId: recommendation.reviewId,
+        electionId: recommendation.electionId,
+        sourceConstituency: recommendation.sourceConstituency,
+        sourceCandidateName: recommendation.sourceCandidateName,
+        proposedAlias: recommendation.proposedAlias,
+        proposedCanonicalConstituency: recommendation.proposedCanonicalConstituency,
+        reviewerInstruction: recommendation.reviewerInstruction
+      }))
+    })
   };
 }
 
 function buildApprovedSources(inputs) {
+  const remainingCategoryRows = normalizeArray(inputs.remainingCategoryRows);
+  const remainingVariantEvidence = normalizeArray(inputs.remainingVariantEvidence);
   const draftRowsById = new Map(inputs.draftRows.map((row) => [row.rowId, row]));
   const actionById = new Map(inputs.publicationActions.map((record) => [record.stagingId, record]));
   const draftPageById = new Map(inputs.draftPages.map((record) => [record.stagingId, record]));
@@ -134,6 +243,11 @@ function buildApprovedSources(inputs) {
   for (const batch of inputs.publishBatches) {
     for (const rowId of batch.rowIds || []) batchByRowId.set(rowId, batch);
   }
+  const remainingBatchByRowId = new Map();
+  for (const batch of normalizeArray(inputs.remainingBundles)) {
+    for (const rowId of splitSourceRowIds(batch.rowIds)) remainingBatchByRowId.set(rowId, batch);
+  }
+  const remainingVariantEvidenceById = new Map(remainingVariantEvidence.map((row) => [row.rowId, row]));
   const variantByDraftKey = new Map();
   for (const variant of inputs.variantProposals) {
     const key = category3TitleProviderKey(variant.title, variant.provider);
@@ -179,11 +293,40 @@ function buildApprovedSources(inputs) {
     }));
   }
 
-  const sources = [...publishRecords, ...variantRecords]
+  const remainingPublishRows = remainingCategoryRows
+    .filter((row) => cleanText(row.recommendedNextAction).toLowerCase() === 'publish table/source now; defer interactive map');
+  const remainingVariantRows = remainingCategoryRows
+    .filter((row) => cleanText(row.recommendedNextAction).toLowerCase() === 'merge as variant or citation for existing record');
+  const remainingPublishRecords = remainingPublishRows.map((remainingRow) => {
+    const row = mergeRemainingCategoryDraft(draftRowsById.get(remainingRow.rowId), remainingRow, 'publish');
+    return sourceRecordFromDraft(row, {
+      action: remainingActionFromRecommendation(remainingRow),
+      draftPage: draftPageById.get(row.rowId),
+      provenance: provenanceById.get(row.rowId),
+      batch: remainingBatchByRowId.get(row.rowId),
+      variant: null
+    });
+  });
+  const remainingVariantRecords = remainingVariantRows.map((remainingRow, variantIndex) => {
+    const row = mergeRemainingCategoryDraft(draftRowsById.get(remainingRow.rowId), remainingRow, 'merge as variant');
+    const variantEvidence = remainingVariantEvidenceById.get(remainingRow.rowId) || remainingRow;
+    return sourceRecordFromDraft(row, {
+      action: remainingActionFromRecommendation(remainingRow),
+      draftPage: draftPageById.get(row.rowId),
+      provenance: provenanceById.get(row.rowId),
+      batch: remainingBatchByRowId.get(row.rowId),
+      variant: variantFromRemainingEvidence(variantEvidence, remainingRow),
+      variantIndex
+    });
+  });
+
+  const sources = [...publishRecords, ...variantRecords, ...remainingPublishRecords, ...remainingVariantRecords]
     .filter((source) => APPROVED_CATEGORY3_ACTIONS.has(source.approval?.recommendedAction))
     .sort((a, b) => (a.type || '').localeCompare(b.type || '') || a.title.localeCompare(b.title));
 
-  const excluded = countBy(inputs.draftRows.filter((row) => !APPROVED_CATEGORY3_ACTIONS.has(cleanText(row.recommendedAction).toLowerCase())), (row) => cleanText(row.recommendedAction).toLowerCase() || 'unknown');
+  const remainingApprovedIds = new Set([...remainingPublishRows, ...remainingVariantRows].map((row) => row.rowId));
+  const remainingExcluded = countBy(remainingCategoryRows.filter((row) => !remainingApprovedIds.has(row.rowId)), (row) => cleanText(row.recommendedNextAction).toLowerCase() || 'unknown');
+  const initiallyExcludedBeforeRemainingApproval = countBy(inputs.draftRows.filter((row) => !APPROVED_CATEGORY3_ACTIONS.has(cleanText(row.recommendedAction).toLowerCase())), (row) => cleanText(row.recommendedAction).toLowerCase() || 'unknown');
   return {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
@@ -191,17 +334,74 @@ function buildApprovedSources(inputs) {
       approvalPack: relativePath(APPROVAL_ROOT),
       categoryPublicationPack: relativePath(CATEGORY_ROOT),
       sourcePreparationPack: relativePath(SOURCE_ROOT),
+      remainingDecisionPack: relativePath(REMAINING_DECISION_ROOT),
       validationReportGeneratedAt: inputs.validationReport.generatedAt || null
     },
-    approvalPolicy: 'User approved publication of approval-ready Category 3 publish batches and variant proposals. Holds, citation-only rows, and needs-decision rows are excluded.',
+    approvalPolicy: 'User approved publication of approval-ready Category 3 publish batches and variant proposals, plus the approved remaining table/source rows and high-confidence variant/citation rows. Probable variants and citation-only source pages remain excluded.',
     counts: {
-      publish: publishRecords.length,
-      variants: variantRecords.length,
+      publish: publishRecords.length + remainingPublishRecords.length,
+      variants: variantRecords.length + remainingVariantRecords.length,
       total: sources.length,
-      excluded
+      excluded: remainingExcluded,
+      initiallyExcludedBeforeRemainingApproval,
+      remainingApproved: {
+        publish: remainingPublishRecords.length,
+        variants: remainingVariantRecords.length
+      }
     },
     sources
   };
+}
+
+function mergeRemainingCategoryDraft(draftRow, remainingRow, recommendedAction) {
+  return {
+    ...(draftRow || {}),
+    rowId: remainingRow.rowId,
+    recommendedAction,
+    displayTitle: remainingRow.title || draftRow?.displayTitle || remainingRow.rowId,
+    pageType: remainingRow.sourcePageType || draftRow?.pageType || 'source',
+    topic: remainingRow.topic || draftRow?.topic || 'general-reference',
+    provider: remainingRow.provider || draftRow?.provider || remainingRow.provenanceSummary,
+    proposedBrowsePath: remainingRow.proposedPlacement || draftRow?.proposedBrowsePath || 'Browse/Sources',
+    shortSummary: remainingRow.rationale || draftRow?.shortSummary || remainingRow.browseTreatment,
+    reviewState: 'user-approved-from-remaining-decision-pack',
+    proposedMetadataPageFields: {
+      ...(draftRow?.proposedMetadataPageFields || {}),
+      sourceType: remainingRow.sourcePageType || draftRow?.proposedMetadataPageFields?.sourceType || remainingRow.topic || 'source'
+    }
+  };
+}
+
+function remainingActionFromRecommendation(remainingRow) {
+  return compactObject({
+    publicationType: remainingRow.sourcePageType || remainingRow.topic,
+    organisation: remainingRow.provenanceSummary || remainingRow.provider,
+    provider: remainingRow.provider,
+    placement: remainingRow.proposedPlacement,
+    title: remainingRow.title,
+    sourceResolutionStatus: 'approved-from-remaining-decision-pack',
+    sourceResolutionConfidence: remainingRow.confidence,
+    defaultAction: remainingRow.browseTreatment || remainingRow.recommendedNextAction,
+    defaultConfidence: remainingRow.confidence,
+    actionReason: remainingRow.rationale,
+    duplicateGroupIds: remainingRow.duplicateGroupIds
+  });
+}
+
+function variantFromRemainingEvidence(variantEvidence, remainingRow) {
+  const strongestMatch = variantEvidence.strongestExistingMatch || remainingRow.strongestExistingMatch || {};
+  return compactObject({
+    title: variantEvidence.title || remainingRow.title,
+    provider: variantEvidence.provider || remainingRow.provider,
+    recommendedAction: 'merge as variant',
+    relationship: 'variant',
+    proposedParentId: strongestMatch.id || remainingRow.strongestExistingMatch?.id,
+    proposedParentTitle: strongestMatch.title || remainingRow.strongestExistingMatch?.title,
+    confidence: variantEvidence.confidence || remainingRow.confidence,
+    rationale: variantEvidence.rationale || remainingRow.rationale,
+    existingSiteMatches: variantEvidence.existingSiteMatches,
+    duplicateGroupIds: splitSourceRowIds(variantEvidence.duplicateGroupIds || remainingRow.duplicateGroupIds)
+  });
 }
 
 function sourceRecordFromDraft(row, context) {
@@ -363,6 +563,20 @@ function dailAliasKey(electionId, constituency, candidateName) {
   return `${electionId || ''}|${slugify(constituency || '')}|${slugify(candidateName || '')}`;
 }
 
+function remainingDailClassification(action) {
+  const normalized = cleanText(action).toLowerCase();
+  if (normalized === 'approve alias after spot-check') return 'user-approved spot-check alias';
+  if (normalized === 'approve encoding alias') return 'user-approved encoding alias';
+  return normalized || 'user-approved alias';
+}
+
+function splitSourceRowIds(value) {
+  return normalizeArray(value)
+    .flatMap((item) => String(item).split(';'))
+    .map(cleanText)
+    .filter(Boolean);
+}
+
 function countBy(items, keyFn) {
   const counts = {};
   for (const item of items) {
@@ -372,11 +586,26 @@ function countBy(items, keyFn) {
   return counts;
 }
 
-function decodeCommonMojibake(value) {
+function decodeCommonMojibakeLegacy(value) {
   return cleanText(value)
     .replace(/Sinn FÃ©in/g, 'Sinn Fein')
     .replace(/Fianna FÃ¡il/g, 'Fianna Fail')
     .replace(/DÃ¡il/g, 'Dail');
+}
+
+function decodeCommonMojibake(value) {
+  const text = cleanText(value);
+  if (!/[ÃÂ]/.test(text)) return text;
+  try {
+    const decoded = Buffer.from(text, 'latin1').toString('utf8');
+    if (decoded && !decoded.includes('�')) return decoded;
+  } catch {
+    // Fall through to conservative literal replacements.
+  }
+  return text
+    .replace(/Sinn FÃƒÂ©in|Sinn FÃ©in/g, 'Sinn Féin')
+    .replace(/Fianna FÃƒÂ¡il|Fianna FÃ¡il/g, 'Fianna Fáil')
+    .replace(/DÃƒÂ¡il|DÃ¡il/g, 'Dáil');
 }
 
 function extractYear(value) {

@@ -6,7 +6,12 @@ const ROOT = process.cwd();
 const APPROVAL_ROOT = path.join(ROOT, 'tasks', 'absence-integration-ready-2026-06-15', 'publication-approval-pack', 'approval-refinement');
 const failures = [];
 
-const SAFE_DAIL_CLASSIFICATIONS = new Set(['safe auto-match', 'encoding/name cleanup']);
+const SAFE_DAIL_CLASSIFICATIONS = new Set([
+  'safe auto-match',
+  'encoding/name cleanup',
+  'user-approved spot-check alias',
+  'user-approved encoding alias'
+]);
 const APPROVED_ACTIONS = new Set(['publish', 'merge as variant']);
 const LOCAL_PATH_RE = /(?:[A-Z]:\\|\\\\|C:\/Users\/|D:\/)/i;
 
@@ -31,10 +36,11 @@ function main() {
 }
 
 function validateDailAliases(validationReport, dailAliases) {
-  const expectedSourceRows = 270;
+  const expectedSourceRows = 400;
+  const expectedAliases = 47;
   assert(dailAliases.schemaVersion === 1, 'Dail approved candidate aliases must have schemaVersion 1.');
   assert(dailAliases.counts?.sourceRows === expectedSourceRows, `Expected ${expectedSourceRows} approved Dail source rows, found ${dailAliases.counts?.sourceRows}.`);
-  assert(Array.isArray(dailAliases.aliases) && dailAliases.aliases.length > 0, 'Dail approved candidate aliases must include alias groups.');
+  assert(Array.isArray(dailAliases.aliases) && dailAliases.aliases.length === expectedAliases, `Expected ${expectedAliases} approved Dail alias groups, found ${dailAliases.aliases?.length}.`);
   assert(Array.isArray(dailAliases.sourceRows) && dailAliases.sourceRows.length === expectedSourceRows, `Dail approved sourceRows must contain ${expectedSourceRows} rows.`);
   assert(validationReport.counts?.dailCandidateRowsInput === 443, 'Approval validation report should be the expected 443-row Dail review pack.');
   for (const alias of dailAliases.aliases) {
@@ -46,22 +52,30 @@ function validateDailAliases(validationReport, dailAliases) {
     const classification = normalizeKey(row.classification);
     assert(SAFE_DAIL_CLASSIFICATIONS.has(classification), `Unsafe Dail source row was published: ${row.sourceRowId} / ${row.classification}.`);
   }
-  const quarantined = dailAliases.quarantinedClassifications || {};
-  assert(quarantined['needs human decision'] === 155, 'Dail needs-human-decision rows should remain quarantined.');
-  assert(quarantined['probable match'] === 18, 'Dail probable-match rows should remain quarantined.');
+  const remainingDecisions = dailAliases.remainingDecisions || {};
+  assert(remainingDecisions.approvedGroups === 13, `Expected 13 user-approved remaining Dail alias groups, found ${remainingDecisions.approvedGroups}.`);
+  assert(remainingDecisions.approvedSourceRows === 130, `Expected 130 user-approved remaining Dail source rows, found ${remainingDecisions.approvedSourceRows}.`);
+  assert(remainingDecisions.heldProbableAliasGroups === 3, `Expected 3 held probable Dail alias groups, found ${remainingDecisions.heldProbableAliasGroups}.`);
+  assert(remainingDecisions.heldProbableSourceRows === 31, `Expected 31 held probable Dail source rows, found ${remainingDecisions.heldProbableSourceRows}.`);
+  assert(remainingDecisions.rejectedRematchGroups === 1, `Expected one rejected/rematch Dail group, found ${remainingDecisions.rejectedRematchGroups}.`);
+  assert(remainingDecisions.rejectedRematchSourceRows === 12, `Expected 12 rejected/rematch Dail source rows, found ${remainingDecisions.rejectedRematchSourceRows}.`);
+  assert(dailAliases.counts?.quarantinedRows === 43, `Expected 43 Dail rows to remain quarantined, found ${dailAliases.counts?.quarantinedRows}.`);
+  const rejectedRematches = remainingDecisions.rejectedRematches || [];
+  assert(rejectedRematches.some((row) => row.reviewId === 'dail-candidate-dail-eireann-2020-02-08-dublin-fingal-glenn-brady'), 'The Glenn Brady false match must remain rejected/rematch, not published.');
 }
 
 function validateApprovedSources(validationReport, approvedSources) {
   assert(approvedSources.schemaVersion === 1, 'Approved publication sources must have schemaVersion 1.');
   assert(validationReport.counts?.category3PublishRows === 5892, 'Approval validation report should have 5,892 Category 3 publish rows.');
   assert(validationReport.counts?.category3VariantRows === 758, 'Approval validation report should have 758 Category 3 variant rows.');
-  assert(approvedSources.counts?.publish === 5892, `Expected 5,892 approved publish records, found ${approvedSources.counts?.publish}.`);
-  assert(approvedSources.counts?.variants === 758, `Expected 758 approved variant records, found ${approvedSources.counts?.variants}.`);
-  assert(approvedSources.counts?.total === 6650, `Expected 6,650 approved source records, found ${approvedSources.counts?.total}.`);
-  assert(Array.isArray(approvedSources.sources) && approvedSources.sources.length === 6650, `Expected 6,650 approved source records in sources array, found ${approvedSources.sources?.length}.`);
-  assert(approvedSources.counts?.excluded?.hold === 20, 'Category 3 spatial holds must stay excluded.');
-  assert(approvedSources.counts?.excluded?.['needs decision'] === 7, 'Category 3 needs-decision rows must stay excluded.');
-  assert(approvedSources.counts?.excluded?.['citation-only'] === 4, 'Category 3 citation-only rows must stay excluded.');
+  assert(approvedSources.counts?.publish === 5912, `Expected 5,912 approved publish records, found ${approvedSources.counts?.publish}.`);
+  assert(approvedSources.counts?.variants === 760, `Expected 760 approved variant records, found ${approvedSources.counts?.variants}.`);
+  assert(approvedSources.counts?.total === 6672, `Expected 6,672 approved source records, found ${approvedSources.counts?.total}.`);
+  assert(Array.isArray(approvedSources.sources) && approvedSources.sources.length === 6672, `Expected 6,672 approved source records in sources array, found ${approvedSources.sources?.length}.`);
+  assert(approvedSources.counts?.remainingApproved?.publish === 20, `Expected 20 approved remaining publish records, found ${approvedSources.counts?.remainingApproved?.publish}.`);
+  assert(approvedSources.counts?.remainingApproved?.variants === 2, `Expected 2 approved remaining variant records, found ${approvedSources.counts?.remainingApproved?.variants}.`);
+  assert(approvedSources.counts?.excluded?.['probable variant - user approval required'] === 5, 'Category 3 probable variants must stay excluded.');
+  assert(approvedSources.counts?.excluded?.['citation-only source page'] === 4, 'Category 3 citation-only source pages must stay excluded.');
 
   const ids = new Set();
   for (const source of approvedSources.sources) {

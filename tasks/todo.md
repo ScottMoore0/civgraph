@@ -1,3 +1,22 @@
+# Apply user-approved remaining publication decisions
+- [x] Record implementation scope
+  - Task: after user approval, apply the approved remaining Dail candidate aliases and Category 3 source decisions into the repeatable publication generator, while keeping probable/held rows excluded.
+  - Constraints: do not publish probable aliases or probable variants; do not upload anything to R2/CDN; do not commit provider-audit scratch; preserve local/private paths out of generated public data.
+- [x] Extend generator and validation
+  - Update `scripts/apply-approved-publication-records.mjs` to consume the remaining-decision pack, and update `scripts/validate-approved-publication-path.mjs` to prove the approved counts and excluded held rows are correct.
+- [x] Regenerate generated data
+  - Rebuild Dail approved aliases, approved publication sources, Browse source indexes/details, and the election manifest.
+- [x] Verify and push
+  - Run focused validation and site data checks, then commit and push only intended generated/code/task changes.
+
+## Review: user-approved remaining publication decisions
+- Applied 13 user-approved remaining Dail alias groups, raising the approved Dail sidecar to 47 alias groups covering 400 source rows.
+- Kept 3 probable Dail alias groups and the Glenn Brady false match/re-match group quarantined.
+- Published 20 remaining Category 3 source/table rows into approved source records, and merged 2 high-confidence rows as source variants/citations.
+- Kept 5 probable variants and 4 citation-only rows excluded pending later decisions.
+- Materialised 22 new Browse source index/detail records; did not upload anything to R2/CDN and did not stage provider-audit scratch.
+- Verification run: `node scripts/apply-approved-publication-records.mjs`, `npm run build:browse`, `npm run build:test2:elections`, `npm run check:approved-publication`, `npm run check:external-sources`, and `npm run check:test2`. The final narrow diff was rechecked with `npm run check:approved-publication` and `npm run check:external-sources`.
+
 # Apply approved Dail and Category 3 publication records
 - [x] Record implementation scope
   - Task: after user approval, create a clean implementation branch; apply safe Dail auto-match and encoding/name-cleanup alias proposals; turn approved Category 3 publish batches into Browse/Books/Tables/source records; convert approved variant proposals into child/variant records; add validation for the approved publication path.
