@@ -2,12 +2,18 @@
 - [x] Record implementation scope
   - Task: push `codex-apply-approved-publication-records`, update `main`, merge the approved publication branch, validate, and push `main` so the approved records can deploy.
   - Constraints: preserve untracked provider-audit scratch; do not stage or publish local/private audit files; stop and re-plan if the merge conflicts or validation fails.
-- [ ] Push feature branch
-  - Push the local approved-publication commit to `origin/codex-apply-approved-publication-records`.
-- [ ] Merge into main
-  - Update `main`, merge the approved-publication branch, and keep provider-audit scratch uncommitted.
-- [ ] Validate and push production
-  - Run focused validation on merged `main`, then push `main`.
+- [x] Push feature branch
+  - Completed: pushed `codex-apply-approved-publication-records` to `origin`.
+- [x] Merge into main
+  - Completed: merged `codex-apply-approved-publication-records` into `main` with a no-fast-forward merge, preserving provider-audit scratch as untracked local files.
+- [x] Validate and push production
+  - Completed: focused validation passed on merged `main`; the production push includes this task-log update.
+
+## Review: approved publication branch production merge
+- Merged `codex-apply-approved-publication-records` into `main` as `593f5d234 Merge approved publication records`.
+- Verification on merged `main`: `npm run check:approved-publication`, `npm run check:external-sources`, and `npm run check:test2` all passed.
+- Preserved untracked provider-audit scratch: `data/provider-mirror-audit/` and `scripts/audit-provider-mirrors.mjs`.
+- Production push target: `origin/main`.
 
 # Apply final user-approved Dail/source decisions
 - [x] Record implementation scope
