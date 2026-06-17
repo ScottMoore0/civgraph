@@ -5,9 +5,9 @@ import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
-const OUT_DIR = path.join(REPO, "data", "census", "source-inventory");
-const CACHE_DIR = path.join(REPO, "data", "downloads", "cso-historical-reports");
-const MANIFEST_PATH = path.join(OUT_DIR, "cso-historical-reports.json");
+const DEFAULT_OUT_DIR = path.join(REPO, "data", "census", "source-inventory");
+const DEFAULT_CACHE_DIR = path.join(REPO, "data", "downloads", "cso-historical-reports");
+const DEFAULT_MANIFEST_PATH = path.join(DEFAULT_OUT_DIR, "cso-historical-reports.json");
 
 const START_URLS = [
   "https://www.cso.ie/en/statistics/historicalreports/",
@@ -17,9 +17,19 @@ const START_URLS = [
 const ASSET_RE = /\.(pdf|zip|csv|xls|xlsx|doc|docx)(?:[?#].*)?$/i;
 const PAGE_HINT_RE = /census|historicalreports|historical\s+reports|volume/i;
 
+function readArg(name, fallback = null) {
+  const eq = process.argv.find((arg) => arg.startsWith(`${name}=`));
+  if (eq) return eq.slice(name.length + 1);
+  const idx = process.argv.indexOf(name);
+  return idx >= 0 && process.argv[idx + 1] ? process.argv[idx + 1] : fallback;
+}
+
 const args = new Set(process.argv.slice(2));
 const SHOULD_DOWNLOAD = args.has("--download");
-const MAX_PAGES = Number(process.argv.find((arg) => arg.startsWith("--max-pages="))?.split("=")[1] || 120);
+const MAX_PAGES = Number(readArg("--max-pages", 120));
+const CACHE_DIR = path.resolve(readArg("--cache-dir", DEFAULT_CACHE_DIR));
+const MANIFEST_PATH = path.resolve(readArg("--manifest-path", DEFAULT_MANIFEST_PATH));
+const OUT_DIR = path.dirname(MANIFEST_PATH);
 
 function decodeEntities(value) {
   return String(value || "")
@@ -95,10 +105,11 @@ async function maybeDownload(asset) {
   await fs.mkdir(CACHE_DIR, { recursive: true });
   const filename = safeFileName(asset.url);
   const outputPath = path.join(CACHE_DIR, filename);
+  const checksumPath = `${outputPath}.sha256`;
   try {
     const existing = await fs.stat(outputPath).catch(() => null);
     if (existing?.size > 0) {
-      return { status: "cached", path: path.relative(REPO, outputPath).replace(/\\/g, "/"), bytes: existing.size };
+      return { status: "cached", path: outputPath, bytes: existing.size };
     }
     const res = await fetch(asset.url, {
       headers: { "user-agent": "Civgraph census source inventory (contact: civgraph.net)" },
@@ -106,7 +117,9 @@ async function maybeDownload(asset) {
     if (!res.ok) return { status: "failed", error: `${res.status} ${res.statusText}` };
     const bytes = Buffer.from(await res.arrayBuffer());
     await fs.writeFile(outputPath, bytes);
-    return { status: "downloaded", path: path.relative(REPO, outputPath).replace(/\\/g, "/"), bytes: bytes.length };
+    const digest = crypto.createHash("sha256").update(bytes).digest("hex");
+    await fs.writeFile(checksumPath, `${digest}  ${path.basename(outputPath)}\n`);
+    return { status: "downloaded", path: outputPath, bytes: bytes.length, sha256: digest };
   } catch (error) {
     return { status: "failed", error: error.message };
   }
@@ -162,7 +175,7 @@ async function main() {
     generatedAt: new Date().toISOString(),
     startUrls: START_URLS,
     downloadRequested: SHOULD_DOWNLOAD,
-    cacheDirectory: path.relative(REPO, CACHE_DIR).replace(/\\/g, "/"),
+    cacheDirectory: CACHE_DIR,
     pagesVisited: pages.length,
     assetsFound: assets.length,
     assetsDownloaded: assets.filter((asset) => asset.download?.status === "downloaded").length,

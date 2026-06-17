@@ -6464,3 +6464,33 @@ Add election entries to /test2
 - Final dry-run totals: 1,340 candidates, 484 already complete, 460 service/web endpoints skipped, 2 already-present unknown-size files skipped, 394 still listed as downloadable because provider failures remain retryable in principle, and 1.59GB known incremental bytes remain behind blocked/stale endpoints.
 - Completed repair downloads were checksummed with `.sha256` sidecars. I did not blanket-unpack archives because this is a raw mirror repair pass; full extraction would duplicate disk usage and should happen later per dataset during staging/integration, where format, size, and publication treatment can be decided safely.
 - Remaining action, if desired later: inspect the 388 provider-side failures manually or via Wayback/provider-specific endpoints; they are not recoverable by another normal retry pass without different source URLs or credentials.
+
+# Complete NISRA crawl, CSO historical reports scrape, and Tailte completeness audit
+- [x] Record scope and guardrails
+  - Task: complete the remaining NISRA crawl, scrape CSO historical reports, and run a direct full Tailte completeness audit, with downloaded raw data written to `D:\`.
+  - Guardrails: check D: free space before large downloads; stop and ask if the remaining required data would exceed available space; do not delete existing raw data; do not publish data to the website; do not commit raw D: data or local machine-specific paths beyond summary manifests.
+- [x] Inspect existing provider tooling and manifests
+  - Scope: locate current NISRA, CSO historical reports, and Tailte audit/crawl scripts, inventories, reports, and D: mirror layout.
+  - Completed: inspected the existing NISRA crawler, CSO historical-report scrape/recovery scripts, Tailte/data.gov.ie audit state, and provider mirror audit reports.
+- [x] Check D: free space and existing mirrors
+  - Scope: report D: free space, relevant existing directories, and initial counts/sizes before downloads.
+  - Completed: confirmed D: had enough space before continuing. D: free space was about 396GB before the final Tailte/CSO/NISRA work and about 383GB after the downloaded data.
+- [x] Run remaining NISRA crawl safely
+  - Scope: resume or rebuild the remaining NISRA download queue, download retryable missing assets to D:, checksum outputs, and classify stale/blocked failures.
+  - Completed: verified the known `D:\nisra` inventory had 1,145/1,145 files present and no partials, then ran live-site completion probes. The successful live pass found 165 assets, 115 already present, 30 newly downloaded, and 20 asset failures caused by NISRA HTTP 429 throttling. A later fuller crawl hit provider/runtime throttling before completion, so the known mirror is complete while deeper current-site discovery remains throttled.
+- [x] Scrape CSO historical reports safely
+  - Scope: scrape the CSO historical reports catalogue, download missing report assets to D:, recover where possible, checksum outputs, and classify stale/blocked failures.
+  - Completed: patched the scraper to write to `D:\cso-historical-reports`, downloaded 1,623 direct assets from 300 CSO pages, then recovered every failed direct-download URL through Wayback where possible. Wayback checked 2,504 failed direct URLs, downloaded or reused 2,453, and left 51 unavailable after archive lookup.
+- [x] Run direct full Tailte completeness audit
+  - Scope: fetch/derive the Tailte catalogue directly, compare against D: and site/repo coverage, download only if the audit identifies missing raw assets that are safe and within disk limits, and classify unsupported/ambiguous formats.
+  - Completed: added a direct Tailte/data.gov.ie organisation audit. It matched 192 Tailte packages and 1,865 resource rows, confirmed 560 present resources and 382 service/non-downloadable resources, probed all 923 missing downloadable alternate exports, and downloaded the five canonical missing package-level datasets to `D:\datagovie` after detecting and polling ArcGIS pending-export responses. The other 918 missing rows were classified as alternate generated exports where a package-level canonical resource was already present or selected.
+- [x] Verify and document results
+  - Scope: check for partial files, write result manifests/reports, summarize D: free space before/after, and commit/push only safe repo-side tooling/task documentation.
+  - Completed: checked affected D: mirrors for `.partial` files; `D:\nisra`, `D:\cso-historical-reports`, and `D:\datagovie` all had zero partials. Raw data stayed on D:, with repo-side reports and tooling only.
+
+## Review: NISRA crawl, CSO historical reports, and Tailte completeness audit
+- Raw data was written to D: only. No downloaded NISRA, CSO, or Tailte raw assets were added to the Git repository or published to the site.
+- NISRA result: known mirror inventory is complete at 1,145/1,145 files. The latest successful completion pass added 30 new assets, found 115 already-present assets, and left 20 live asset URLs blocked by 429 rate limiting. NISRA's sitemap currently returns 404, so current-site discovery must proceed by very slow page crawling or later provider retry.
+- CSO result: direct CSO historical-report scrape wrote 1,623 assets to `D:\cso-historical-reports`; Wayback recovery wrote/reused 2,453 additional recovered files under `D:\cso-historical-reports\wayback`; 51 direct failures had no usable Wayback recovery in this pass.
+- Tailte result: direct `tailte-eireann` data.gov.ie audit covered 192 packages and 1,865 resources. Five missing canonical package-level datasets were downloaded to D:, including National Land Cover 2018 and four Small Areas 2015 boundary variants. Generated alternate exports were classified rather than duplicated.
+- Final disk/partial check: D: remained safely above the space guard with about 383GB free. `D:\nisra`, `D:\cso-historical-reports`, and `D:\datagovie` had zero `.partial` files.

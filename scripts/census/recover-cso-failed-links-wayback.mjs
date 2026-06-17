@@ -4,10 +4,18 @@ import fs from "node:fs";
 import path from "node:path";
 
 const REPO = process.cwd();
-const manifestPath = path.join(REPO, "data", "census", "source-inventory", "cso-historical-reports.json");
-const outJsonPath = path.join(REPO, "data", "census", "source-inventory", "cso-wayback-recovery.json");
-const outHtmlPath = path.join(REPO, "data", "census", "source-inventory", "cso-wayback-recovery.html");
-const downloadDir = path.join(REPO, "data", "downloads", "wayback-cso");
+
+function readArg(name, fallback = null) {
+  const eq = process.argv.find((arg) => arg.startsWith(`${name}=`));
+  if (eq) return eq.slice(name.length + 1);
+  const idx = process.argv.indexOf(name);
+  return idx >= 0 && process.argv[idx + 1] ? process.argv[idx + 1] : fallback;
+}
+
+const manifestPath = path.resolve(readArg("--manifest-path", path.join(REPO, "data", "census", "source-inventory", "cso-historical-reports.json")));
+const outJsonPath = path.resolve(readArg("--out-json", path.join(REPO, "data", "census", "source-inventory", "cso-wayback-recovery.json")));
+const outHtmlPath = path.resolve(readArg("--out-html", path.join(REPO, "data", "census", "source-inventory", "cso-wayback-recovery.html")));
+const downloadDir = path.resolve(readArg("--download-dir", path.join(REPO, "data", "downloads", "wayback-cso")));
 
 const args = new Set(process.argv.slice(2));
 const shouldDownload = args.has("--download");
@@ -273,7 +281,7 @@ function buildHtml(report) {
 </head>
 <body>
   <h1>CSO Wayback recovery report</h1>
-  <p>Downloaded files, if requested, are stored under ignored <code>data/downloads/wayback-cso/</code>.</p>
+  <p>Downloaded files, if requested, are stored under <code>${escapeHtml(downloadDir)}</code>.</p>
   <ul>
     <li>Input failed assets: ${report.inputFailedAssets}</li>
     <li>Checked assets: ${report.checkedAssets}</li>
@@ -294,6 +302,7 @@ function summarizeReport(assets) {
   return {
     generatedAt: new Date().toISOString(),
     inputManifest: path.relative(REPO, manifestPath).replace(/\\/g, "/"),
+    downloadDirectory: downloadDir,
     inputFailedAssets: (manifest.assets || []).filter((asset) => asset.download?.status === "failed").length,
     checkedAssets: assets.length,
     availableSnapshots: assets.filter((asset) => asset.recovery?.status === "available").length,
