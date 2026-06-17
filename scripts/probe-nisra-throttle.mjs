@@ -20,7 +20,12 @@ const args = {
   samplePerDelay: Number(readArg("--sample-per-delay", 5)),
   timeoutMs: Number(readArg("--timeout-ms", 15000)),
   maxCandidates: Number(readArg("--max-candidates", 80)),
+  candidateOffset: Number(readArg("--candidate-offset", 0)),
+  continueOnBlocked: process.argv.includes("--continue-on-blocked"),
+  maxBlockedRows: Number(readArg("--max-blocked-rows", 5)),
 };
+
+const BLOCKED_OR_STALE_STATUSES = new Set([401, 403, 404, 410]);
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -122,7 +127,9 @@ function collectCandidates() {
       }
     }
   }
-  return [...urls.values()].filter((row) => !isPresent(row.url)).slice(0, args.maxCandidates);
+  return [...urls.values()]
+    .filter((row) => !isPresent(row.url))
+    .slice(Math.max(0, args.candidateOffset), Math.max(0, args.candidateOffset) + args.maxCandidates);
 }
 
 async function probeUrl(url, delayMs) {
@@ -172,7 +179,8 @@ function shouldStop(row) {
   if (row.status === 429) return true;
   if (row.status >= 500) return true;
   if (row.status === 0) return true;
-  if (!row.ok && row.status !== 404 && row.status !== 410) return true;
+  if (!row.ok && BLOCKED_OR_STALE_STATUSES.has(row.status)) return !args.continueOnBlocked;
+  if (!row.ok) return true;
   return false;
 }
 
@@ -192,7 +200,24 @@ async function main() {
       const row = await probeUrl(candidate.url, delayMs);
       row.source = candidate.source;
       row.previousError = candidate.previousError;
+      row.classification = row.ok
+        ? "ok"
+        : row.status === 429
+          ? "throttle"
+          : row.status === 0
+            ? "network-or-timeout"
+            : row.status >= 500
+              ? "server-error"
+              : BLOCKED_OR_STALE_STATUSES.has(row.status)
+                ? "blocked-or-stale"
+                : "unexpected";
       rows.push(row);
+      const blockedRows = rows.filter((item) => item.classification === "blocked-or-stale").length;
+      if (args.continueOnBlocked && blockedRows > args.maxBlockedRows) {
+        stopped = true;
+        stopReason = `stopped after ${blockedRows} blocked/stale rows`;
+        break;
+      }
       if (shouldStop(row)) {
         stopped = true;
         stopReason = row.status === 429 ? `throttled at ${delayMs}ms` : `stopped at ${delayMs}ms: ${row.status || row.error} ${row.statusText}`;
@@ -207,23 +232,26 @@ async function main() {
     generatedAt: new Date().toISOString(),
     root: args.root,
     candidates: candidates.length,
+    candidateOffset: args.candidateOffset,
     tested: rows.length,
     delays: args.delays,
     samplePerDelay: args.samplePerDelay,
     timeoutMs: args.timeoutMs,
+    continueOnBlocked: args.continueOnBlocked,
+    maxBlockedRows: args.maxBlockedRows,
     stopped,
     stopReason,
     okRows: rows.filter((row) => row.ok).length,
     throttleRows: rows.filter((row) => row.status === 429).length,
     errorRows: rows.filter((row) => row.status === 0 || row.status >= 500).length,
-    staleRows: rows.filter((row) => row.status === 404 || row.status === 410).length,
+    blockedOrStaleRows: rows.filter((row) => row.classification === "blocked-or-stale").length,
     fastestCompletedDelayMs: stopped ? null : args.delays.at(-1),
     testedDelaysCompleted: args.delays.filter((delayMs) => rows.filter((row) => row.delayMs === delayMs).length === args.samplePerDelay),
   };
   const jsonPath = path.join(args.reportDir, `nisra-throttle-probe-${stamp}.json`);
   const csvPath = path.join(args.reportDir, `nisra-throttle-probe-${stamp}.csv`);
   fs.writeFileSync(jsonPath, `${JSON.stringify({ summary, rows }, null, 2)}\n`, "utf8");
-  writeCsv(csvPath, rows, ["delayMs", "url", "source", "previousError", "ok", "status", "statusText", "elapsedMs", "contentLength", "retryAfter", "error"]);
+  writeCsv(csvPath, rows, ["delayMs", "url", "source", "previousError", "classification", "ok", "status", "statusText", "elapsedMs", "contentLength", "retryAfter", "error"]);
   console.log(JSON.stringify({ summaryPath: jsonPath, csvPath, ...summary }, null, 2));
 }
 

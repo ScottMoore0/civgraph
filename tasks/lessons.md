@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 184) Provider throttle probes must classify blocked assets separately from throttling
+- Mistake pattern: Treating every non-OK asset response as a crawl-rate failure.
+- Impact: a NISRA `403 Forbidden` for one protected/stale PDF can prematurely stop rate discovery and make it look like the provider is still throttling when the actual throttle has cooled down.
+- Guardrail:
+  1) throttle probes must distinguish `429`, timeout, and 5xx from asset-specific `401`/`403`/`404`/`410`,
+  2) continuation past blocked/stale assets must be explicit, bounded, and capped,
+  3) final recommendations must separate lightweight Range-probe rates from heavier full-download crawler rates.
+
 ### 183) Long provider crawls must be bounded, observable, and process-checked after timeout
 - Mistake pattern: Launching a long provider crawl with a multi-hour timeout and assuming the tool timeout cleanly stops all work.
 - Impact: stale NISRA crawler processes continued running in the background, kept hitting the provider, and left the user seeing a command as "still running" while NISRA remained globally throttled.

@@ -33,6 +33,25 @@
 - A separate homepage HEAD check also returned `429` with `Retry-After: 0`, confirming a broad site-side throttle/cooldown rather than a precise per-asset delay threshold.
 - No safe request rate can be inferred while the site is already throttling even one request. The next measurement should wait for cooldown, then start with one request every 60 seconds and only increase after a clean sample.
 
+## Follow-up: NISRA throttle probe after cooldown
+- [x] Add blocked/stale classification to the probe
+  - Task: distinguish likely protected/stale asset responses (`401`, `403`, `404`, `410`) from real throttle/failure responses, so a rate test can continue past a small number of asset-specific blocked URLs while still stopping on `429`, timeout, or server errors.
+  - Constraint: bounded sample only; no full downloads; keep generated reports local/untracked.
+- [x] Run a tiny post-cooldown sample
+  - Task: test conservative rates with at most a few candidate URLs, stopping immediately on `429`, timeout, or server errors.
+- [x] Record the observed safe starting point and remaining uncertainty
+  - Task: document whether the result is a rate-limit finding, an asset-specific block finding, or still inconclusive.
+
+## Review: NISRA post-cooldown throttle probe
+- No stale NISRA crawler process was running before the retry; remaining Node processes were Playwright helper processes.
+- Probe reports generated locally under `data/provider-mirror-audit/`:
+  - `nisra-throttle-probe-20260617T224615Z.*`: tested 60s and 45s spacing; 3 ok `206 Partial Content`, 1 asset-specific `403 Forbidden`, 0 throttles.
+  - `nisra-throttle-probe-20260617T224832Z.*`: tested 30s and 20s spacing; 3 ok `206 Partial Content`, 1 repeated asset-specific `403 Forbidden`, 0 throttles.
+  - `nisra-throttle-probe-20260617T225143Z.*`: tested different candidates at 15s and 10s spacing; 6 ok `206 Partial Content`, 0 throttles.
+  - `nisra-throttle-probe-20260617T225319Z.*`: tested different candidates at 7.5s and 5s spacing; 6 ok `206 Partial Content`, 0 throttles.
+- Observed sample result: 20 post-cooldown bounded Range requests produced 18 successes, 2 blocked/stale `403` responses for the same protected/stale PDF, and no `429`, timeout, or 5xx response.
+- Recommended next crawler setting: use 10-15s asset delay for full downloads even though 5s Range probes passed, because full downloads are heavier than one-byte probes. Run in bounded chunks and keep the crawler's incremental progress/frontier reports enabled. Treat `403`/`404`/`410` as blocked/stale assets, not throttle, but stop immediately on `429`, timeout, or 5xx.
+
 # Merge approved publication branch to production
 - [x] Record implementation scope
   - Task: push `codex-apply-approved-publication-records`, update `main`, merge the approved publication branch, validate, and push `main` so the approved records can deploy.
