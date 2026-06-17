@@ -88,7 +88,12 @@ function appendLine(file, line) {
 function loadInventory(file) {
   if (!fs.existsSync(file)) return {};
   try {
-    return JSON.parse(fs.readFileSync(file, "utf8"));
+    const parsed = JSON.parse(fs.readFileSync(file, "utf8"));
+    const normalized = {};
+    for (const [url, target] of Object.entries(parsed)) {
+      normalized[inventoryKey(url)] = target;
+    }
+    return normalized;
   } catch {
     return {};
   }
@@ -96,7 +101,11 @@ function loadInventory(file) {
 
 function saveInventory(file, inventory) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
-  fs.writeFileSync(file, `${JSON.stringify(inventory, null, 2)}\n`, "utf8");
+  const normalized = {};
+  for (const [url, target] of Object.entries(inventory)) {
+    normalized[inventoryKey(url)] = target;
+  }
+  fs.writeFileSync(file, `${JSON.stringify(Object.fromEntries(Object.entries(normalized).sort(([a], [b]) => a.localeCompare(b))), null, 2)}\n`, "utf8");
 }
 
 function normalizeUrl(raw, base = BASE) {
@@ -115,6 +124,18 @@ function withoutQuery(url) {
   parsed.search = "";
   parsed.hash = "";
   return parsed.toString();
+}
+
+function inventoryKey(url) {
+  try {
+    const parsed = new URL(url);
+    parsed.protocol = parsed.protocol.toLowerCase();
+    parsed.hostname = parsed.hostname.toLowerCase();
+    parsed.hash = "";
+    return parsed.toString().toLowerCase();
+  } catch {
+    return String(url || "").toLowerCase();
+  }
 }
 
 function isNisraPage(url) {
@@ -155,6 +176,33 @@ function extractLinks(html, baseUrl) {
     if (normalized) links.push(normalized);
   }
   return links;
+}
+
+function appendJsonLine(file, value) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.appendFileSync(file, `${JSON.stringify(value)}\n`, "utf8");
+}
+
+function loadDiscoveredAssets(file) {
+  const assets = new Map();
+  if (!fs.existsSync(file)) return assets;
+  for (const line of fs.readFileSync(file, "utf8").split(/\r?\n/)) {
+    if (!line.trim()) continue;
+    try {
+      const row = JSON.parse(line);
+      if (row.url && isNisraAsset(row.url) && !assets.has(row.url)) {
+        assets.set(row.url, { url: row.url, sourcePage: row.sourcePage || "" });
+      }
+    } catch {
+      // Ignore malformed scratch rows; later validation reports missing assets.
+    }
+  }
+  return assets;
+}
+
+function persistFrontier(file, pageQueue, pagesSeen) {
+  const remaining = pageQueue.filter((url) => !pagesSeen.has(url));
+  fs.writeFileSync(file, `${remaining.join("\n")}\n`, "utf8");
 }
 
 async function fetchText(url) {
@@ -262,17 +310,40 @@ async function main() {
   const inventoryPath = path.join(args.root, "_inventory.json");
   const pagesSeenPath = path.join(args.root, "_pages_seen.txt");
   const frontierPath = path.join(args.root, "_frontier.txt");
+  const assetDiscoveryPath = path.join(args.root, "_assets_discovered.jsonl");
+  const summaryPath = path.join(args.reportDir, `nisra-complete-${stamp}-summary.json`);
+  const assetsPath = path.join(args.reportDir, `nisra-complete-${stamp}-assets.csv`);
+  const pagesPath = path.join(args.reportDir, `nisra-complete-${stamp}-pages.csv`);
   const inventory = loadInventory(inventoryPath);
   const pagesSeen = loadLines(pagesSeenPath);
   const frontier = [...loadLines(frontierPath)].filter(isNisraPage);
+  const assets = loadDiscoveredAssets(assetDiscoveryPath);
+  const persistedAssetUrls = new Set(assets.keys());
 
   const sitemapPages = await fetchSitemaps();
   const pageQueue = [...new Set([...frontier, ...sitemapPages].filter((url) => !isNisraAsset(url)))];
   if (!pageQueue.includes(BASE)) pageQueue.unshift(BASE);
   const queuedPages = new Set(pageQueue);
-  const assets = new Map();
   const pageRows = [];
   let processed = 0;
+
+  function writePageProgress(status) {
+    persistFrontier(frontierPath, pageQueue, pagesSeen);
+    writeCsv(pagesPath, pageRows, ["url", "status", "assetLinks", "error"]);
+    fs.writeFileSync(summaryPath, `${JSON.stringify({
+      generatedAt: new Date().toISOString(),
+      root: args.root,
+      download: args.download,
+      partial: true,
+      status,
+      pageCandidates: queuedPages.size,
+      pagesProcessed: pageRows.length,
+      pageFailures: pageRows.filter((row) => row.status === "failed").length,
+      assetsDiscovered: assets.size,
+      frontierRemaining: pageQueue.filter((url) => !pagesSeen.has(url)).length,
+      freeBytesAfter: freeBytesForRoot(args.root),
+    }, null, 2)}\n`, "utf8");
+  }
 
   while (pageQueue.length) {
     const pageUrl = pageQueue.shift();
@@ -286,6 +357,10 @@ async function main() {
         const clean = withoutQuery(link);
         if (isNisraAsset(clean)) {
           assets.set(clean, { url: clean, sourcePage: pageUrl });
+          if (!persistedAssetUrls.has(clean)) {
+            appendJsonLine(assetDiscoveryPath, { url: clean, sourcePage: pageUrl, discoveredAt: new Date().toISOString() });
+            persistedAssetUrls.add(clean);
+          }
           assetLinks += 1;
         } else if (isNisraPage(clean) && !queuedPages.has(clean)) {
           if (!args.ignorePagesSeen && pagesSeen.has(clean)) continue;
@@ -300,15 +375,16 @@ async function main() {
     } catch (error) {
       pageRows.push({ url: pageUrl, status: "failed", assetLinks: 0, error: error.message });
     }
+    if (pageRows.length % 100 === 0) writePageProgress("crawling-pages");
     if (args.delayMs > 0) await sleep(args.delayMs);
   }
-  fs.writeFileSync(frontierPath, `${pageQueue.filter((url) => !pagesSeen.has(url)).join("\n")}\n`, "utf8");
+  writePageProgress("page-crawl-complete");
 
   const assetRows = [];
   for (const asset of assets.values()) {
     const output = localPathForAsset(asset.url);
     const existing = fs.existsSync(output) ? fs.statSync(output).size : 0;
-    const inInventory = Boolean(inventory[asset.url]);
+    const inInventory = Boolean(inventory[inventoryKey(asset.url)]);
     const head = existing || inInventory ? { status: "skipped", bytes: existing } : await headSize(asset.url);
     assetRows.push({
       url: asset.url,
@@ -338,7 +414,7 @@ async function main() {
         row.status = "downloaded";
         row.bytes = result.bytes;
         row.sha256 = result.sha256;
-        inventory[row.url] = row.output;
+        inventory[inventoryKey(row.url)] = row.output;
       } catch (error) {
         row.status = "failed";
         row.error = error.message;
@@ -352,7 +428,7 @@ async function main() {
     generatedAt: new Date().toISOString(),
     root: args.root,
     download: args.download,
-    pageCandidates: pageQueue.length,
+    pageCandidates: queuedPages.size,
     pagesProcessed: pageRows.length,
     pageFailures: pageRows.filter((row) => row.status === "failed").length,
     assetsDiscovered: assetRows.length,
@@ -363,9 +439,6 @@ async function main() {
     freeBytesAfter: freeBytesForRoot(args.root),
   };
 
-  const summaryPath = path.join(args.reportDir, `nisra-complete-${stamp}-summary.json`);
-  const assetsPath = path.join(args.reportDir, `nisra-complete-${stamp}-assets.csv`);
-  const pagesPath = path.join(args.reportDir, `nisra-complete-${stamp}-pages.csv`);
   fs.writeFileSync(summaryPath, `${JSON.stringify(summary, null, 2)}\n`, "utf8");
   writeCsv(assetsPath, assetRows, ["url", "sourcePage", "output", "status", "headStatus", "expectedBytes", "bytes", "error", "sha256"]);
   writeCsv(pagesPath, pageRows, ["url", "status", "assetLinks", "error"]);

@@ -1,3 +1,38 @@
+# Provider crawl follow-up: CSO unavailable CSV, deeper NISRA crawl, Tailte alternate exports
+- [x] Produce the CSO unavailable-links CSV and open it on the desktop
+  - Task: extract the 51 direct-and-Wayback-unavailable CSO historical report links into a CSV with source URL, source page, link text, and failure status.
+  - Constraints: keep the generated CSV local; do not commit local D-drive report outputs.
+- [ ] Complete or verify the deeper NISRA crawl
+  - Task: inspect the latest deeper NISRA crawl reports, rerun/resume if useful, and identify any remaining failures or rate-limit blockers.
+  - Constraints: download raw assets to `D:\nisra`; stop if free space is insufficient.
+- [x] Quantify Tailte alternative export formats
+  - Task: report how many Tailte datasets have skipped alternate export formats, how many alternate files that represents, and the total known skipped size.
+  - Constraints: do not download redundant alternate exports unless explicitly approved.
+- [ ] Review and report
+  - Task: verify generated outputs and document what remains, including whether failures are rate-limited, stale, or policy skips.
+
+# Determine safe NISRA throttle rate
+- [x] Add a bounded NISRA throttle probe
+  - Task: create a small probe over remaining NISRA asset URLs that uses per-request timeouts, small range requests, and stops immediately on `429`, timeout, or unexpected responses.
+  - Constraints: do not run another unbounded crawl; do not download full assets during rate testing; write only local audit reports.
+- [x] Run conservative sample probes
+  - Task: test candidate delays against a small sample of remaining asset URLs and identify the fastest observed delay that avoids throttling in the sample.
+  - Constraints: stop on the first throttle/error; do not keep retrying if the site is already rate-limiting.
+- [x] Record results and recommended crawler settings
+  - Task: update this file with observed rates, failure mode, and recommended delays/backoff for the next NISRA crawl chunks.
+
+## Recurring issue: unbounded provider crawl appeared hung and left stale processes
+- Symptom: a NISRA crawl command appeared to run for nearly six hours and the provider continued returning `429 Too Many Requests`.
+- Root cause: two `scripts\complete-nisra-crawl.mjs` Node processes survived/interleaved with interrupted runs, and the original crawler only wrote final reports after normal exit.
+- Permanent prevention action: added `scripts/probe-nisra-throttle.mjs`, patched `scripts/complete-nisra-crawl.mjs` to persist discovered assets/frontier/progress summaries incrementally, and stopped the stale crawler processes before any further probing.
+- Verification evidence: process inspection showed crawler PIDs `35664` and `59168`; both were stopped. The bounded throttle probe wrote `data/provider-mirror-audit/nisra-throttle-probe-20260617T222135Z.json` and stopped after the first request returned `429` at the most conservative `15000ms` starting delay. A single post-stop homepage HEAD still returned `429`, so NISRA is in provider-side cooldown.
+
+## Review: NISRA throttle probe
+- Candidate collection found 472 not-yet-present NISRA asset URLs from failed/discovered rows.
+- The conservative stepped probe attempted delays of `15000,10000,7500,5000,3000` ms with 3 samples each, but stopped on the first URL because NISRA returned `429 Too Many Requests` in 120ms.
+- A separate homepage HEAD check also returned `429` with `Retry-After: 0`, confirming a broad site-side throttle/cooldown rather than a precise per-asset delay threshold.
+- No safe request rate can be inferred while the site is already throttling even one request. The next measurement should wait for cooldown, then start with one request every 60 seconds and only increase after a clean sample.
+
 # Merge approved publication branch to production
 - [x] Record implementation scope
   - Task: push `codex-apply-approved-publication-records`, update `main`, merge the approved publication branch, validate, and push `main` so the approved records can deploy.

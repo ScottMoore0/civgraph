@@ -1,5 +1,14 @@
 # Lessons Log
 
+### 183) Long provider crawls must be bounded, observable, and process-checked after timeout
+- Mistake pattern: Launching a long provider crawl with a multi-hour timeout and assuming the tool timeout cleanly stops all work.
+- Impact: stale NISRA crawler processes continued running in the background, kept hitting the provider, and left the user seeing a command as "still running" while NISRA remained globally throttled.
+- Guardrail:
+  1) provider crawls must run in bounded chunks with durable page/frontier/asset progress written during the run, not only at normal process exit,
+  2) after any timeout/interruption, inspect process command lines for stale crawler processes before doing another network request,
+  3) throttle probes must stop on the first `429`, timeout, or unexpected response and record the result rather than retrying blindly,
+  4) crawler scripts should use incremental reports and resumable discovered-asset sidecars so interrupted work is measurable and not lost.
+
 ### 182) Candidate aliases must respect identity, not just fuzzy name similarity
 - Mistake pattern: Treating a fuzzy name match as usable where the proposed canonical candidate belongs to a different person with a different constituency/history.
 - Impact: a row such as `Glenn Brady` could be incorrectly mapped to `John Brady`, polluting Dail candidate histories, deltas, person pages, and provenance.
