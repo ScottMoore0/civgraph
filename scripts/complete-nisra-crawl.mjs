@@ -51,11 +51,18 @@ const args = {
   reportDir: path.resolve(readArg("--report-dir", path.join("data", "provider-mirror-audit"))),
   download: process.argv.includes("--download"),
   ignorePagesSeen: process.argv.includes("--ignore-pages-seen"),
+  skipPages: process.argv.includes("--skip-pages"),
+  skipHead: process.argv.includes("--skip-head"),
   maxPages: Number(readArg("--max-pages", 0)),
+  maxDownloads: Number(readArg("--max-downloads", 0)),
   delayMs: Number(readArg("--delay-ms", 250)),
   assetDelayMs: Number(readArg("--asset-delay-ms", 1000)),
+  requestTimeoutMs: Number(readArg("--request-timeout-ms", 30000)),
   minFreeGb: Number(readArg("--min-free-gb", 5)),
+  stopOnThrottle: !process.argv.includes("--no-stop-on-throttle"),
 };
+
+const BLOCKED_OR_STALE_STATUSES = new Set([401, 403, 404, 410]);
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -215,13 +222,19 @@ async function fetchWithRetries(url, options = {}, attempts = 4) {
   let lastResponse = null;
   let lastError = null;
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(new Error(`timeout ${args.requestTimeoutMs}ms`)), args.requestTimeoutMs);
     try {
-      const res = await fetch(url, options);
+      const res = await fetch(url, { ...options, signal: controller.signal });
+      clearTimeout(timer);
       if (res.ok || attempt === attempts || ![408, 429, 500, 502, 503, 504].includes(res.status)) return res;
       lastResponse = res;
     } catch (error) {
+      clearTimeout(timer);
       lastError = error;
       if (attempt === attempts) throw error;
+    } finally {
+      clearTimeout(timer);
     }
     await sleep(Math.min(30000, 1500 * attempt * attempt));
   }
@@ -302,6 +315,14 @@ async function downloadAsset(url, output) {
   return { bytes: fs.statSync(output).size, sha256: digest };
 }
 
+function shouldAbortDownload(error) {
+  const message = error?.message || String(error || "");
+  if (/^429\b/.test(message)) return true;
+  if (/^5\d\d\b/.test(message)) return true;
+  if (/timeout|abort/i.test(message)) return true;
+  return false;
+}
+
 async function main() {
   fs.mkdirSync(args.root, { recursive: true });
   fs.mkdirSync(args.reportDir, { recursive: true });
@@ -320,9 +341,9 @@ async function main() {
   const assets = loadDiscoveredAssets(assetDiscoveryPath);
   const persistedAssetUrls = new Set(assets.keys());
 
-  const sitemapPages = await fetchSitemaps();
-  const pageQueue = [...new Set([...frontier, ...sitemapPages].filter((url) => !isNisraAsset(url)))];
-  if (!pageQueue.includes(BASE)) pageQueue.unshift(BASE);
+  const sitemapPages = args.skipPages ? new Set() : await fetchSitemaps();
+  const pageQueue = args.skipPages ? [] : [...new Set([...frontier, ...sitemapPages].filter((url) => !isNisraAsset(url)))];
+  if (!args.skipPages && !pageQueue.includes(BASE)) pageQueue.unshift(BASE);
   const queuedPages = new Set(pageQueue);
   const pageRows = [];
   let processed = 0;
@@ -345,7 +366,7 @@ async function main() {
     }, null, 2)}\n`, "utf8");
   }
 
-  while (pageQueue.length) {
+  while (!args.skipPages && pageQueue.length) {
     const pageUrl = pageQueue.shift();
     if (args.maxPages && processed >= args.maxPages) break;
     if (!args.ignorePagesSeen && pagesSeen.has(pageUrl)) continue;
@@ -385,7 +406,11 @@ async function main() {
     const output = localPathForAsset(asset.url);
     const existing = fs.existsSync(output) ? fs.statSync(output).size : 0;
     const inInventory = Boolean(inventory[inventoryKey(asset.url)]);
-    const head = existing || inInventory ? { status: "skipped", bytes: existing } : await headSize(asset.url);
+    const head = existing || inInventory
+      ? { status: "skipped", bytes: existing }
+      : args.skipHead
+        ? { status: "skipped", bytes: 0 }
+        : await headSize(asset.url);
     assetRows.push({
       url: asset.url,
       sourcePage: asset.sourcePage,
@@ -396,7 +421,7 @@ async function main() {
       bytes: existing,
       error: "",
     });
-    if (!existing && !inInventory && args.delayMs > 0) await sleep(Math.min(args.delayMs, 250));
+    if (!args.skipHead && !existing && !inInventory && args.delayMs > 0) await sleep(Math.min(args.delayMs, 250));
   }
 
   const pendingBytes = assetRows.filter((row) => row.status === "pending").reduce((sum, row) => sum + Number(row.expectedBytes || 0), 0);
@@ -407,8 +432,16 @@ async function main() {
   }
 
   if (args.download) {
+    let downloadAttempts = 0;
+    let stoppedReason = "";
     for (const row of assetRows) {
       if (row.status !== "pending") continue;
+      if (args.maxDownloads && downloadAttempts >= args.maxDownloads) {
+        row.status = "deferred";
+        row.error = `deferred after max-downloads=${args.maxDownloads}`;
+        continue;
+      }
+      downloadAttempts += 1;
       try {
         const result = await downloadAsset(row.url, row.output);
         row.status = "downloaded";
@@ -416,11 +449,26 @@ async function main() {
         row.sha256 = result.sha256;
         inventory[inventoryKey(row.url)] = row.output;
       } catch (error) {
-        row.status = "failed";
+        const statusMatch = String(error.message || "").match(/^(\d{3})\b/);
+        const status = statusMatch ? Number(statusMatch[1]) : 0;
+        row.status = BLOCKED_OR_STALE_STATUSES.has(status) ? "blocked-or-stale" : "failed";
         row.error = error.message;
+        if (args.stopOnThrottle && shouldAbortDownload(error)) {
+          saveInventory(inventoryPath, inventory);
+          stoppedReason = `Stopping bounded download after ${row.error} for ${row.url}`;
+          break;
+        }
       }
       saveInventory(inventoryPath, inventory);
       if (args.assetDelayMs > 0) await sleep(args.assetDelayMs);
+    }
+    if (stoppedReason) {
+      for (const row of assetRows) {
+        if (row.status === "pending") {
+          row.status = "deferred";
+          row.error = stoppedReason;
+        }
+      }
     }
   }
 
@@ -435,6 +483,9 @@ async function main() {
     alreadyPresent: assetRows.filter((row) => row.status === "already-present").length,
     downloaded: assetRows.filter((row) => row.status === "downloaded").length,
     failed: assetRows.filter((row) => row.status === "failed").length,
+    blockedOrStale: assetRows.filter((row) => row.status === "blocked-or-stale").length,
+    deferred: assetRows.filter((row) => row.status === "deferred").length,
+    stopped: assetRows.some((row) => row.status === "deferred" && /^Stopping bounded download/.test(row.error)),
     pendingKnownBytes: pendingBytes,
     freeBytesAfter: freeBytesForRoot(args.root),
   };

@@ -2,13 +2,13 @@
 - [x] Produce the CSO unavailable-links CSV and open it on the desktop
   - Task: extract the 51 direct-and-Wayback-unavailable CSO historical report links into a CSV with source URL, source page, link text, and failure status.
   - Constraints: keep the generated CSV local; do not commit local D-drive report outputs.
-- [ ] Complete or verify the deeper NISRA crawl
+- [x] Complete or verify the deeper NISRA crawl
   - Task: inspect the latest deeper NISRA crawl reports, rerun/resume if useful, and identify any remaining failures or rate-limit blockers.
   - Constraints: download raw assets to `D:\nisra`; stop if free space is insufficient.
 - [x] Quantify Tailte alternative export formats
   - Task: report how many Tailte datasets have skipped alternate export formats, how many alternate files that represents, and the total known skipped size.
   - Constraints: do not download redundant alternate exports unless explicitly approved.
-- [ ] Review and report
+- [x] Review and report
   - Task: verify generated outputs and document what remains, including whether failures are rate-limited, stale, or policy skips.
 
 # Determine safe NISRA throttle rate
@@ -51,6 +51,23 @@
   - `nisra-throttle-probe-20260617T225319Z.*`: tested different candidates at 7.5s and 5s spacing; 6 ok `206 Partial Content`, 0 throttles.
 - Observed sample result: 20 post-cooldown bounded Range requests produced 18 successes, 2 blocked/stale `403` responses for the same protected/stale PDF, and no `429`, timeout, or 5xx response.
 - Recommended next crawler setting: use 10-15s asset delay for full downloads even though 5s Range probes passed, because full downloads are heavier than one-byte probes. Run in bounded chunks and keep the crawler's incremental progress/frontier reports enabled. Treat `403`/`404`/`410` as blocked/stale assets, not throttle, but stop immediately on `429`, timeout, or 5xx.
+
+## Resume outstanding NISRA downloads safely
+- [x] Add bounded full-download controls to the NISRA crawler
+  - Task: add max-download limits, request timeouts, and fail-fast behavior for `429`, timeout, and 5xx while treating `401`/`403`/`404`/`410` as blocked/stale asset rows.
+  - Constraint: avoid another unbounded crawl; keep raw/download reports local and untracked.
+- [x] Run bounded download chunks to `D:\nisra`
+  - Task: download outstanding discovered NISRA assets using 10-15s asset delay, checking free space first and stopping if throttled or storage is insufficient.
+- [x] Report downloaded, blocked/stale, failed, and remaining counts
+  - Task: summarize the local report outputs and recommend the next chunk settings.
+
+## Review: resumed outstanding NISRA downloads
+- Added bounded full-download controls to `scripts/complete-nisra-crawl.mjs`: `--skip-pages`, `--skip-head`, `--max-downloads`, `--request-timeout-ms`, fail-fast on `429`/timeout/5xx, and blocked/stale classification for `401`/`403`/`404`/`410`.
+- Ran discovered-asset download chunks to `D:\nisra` with 10-15s asset delay. The chunks downloaded 221 newly missing discovered assets and found 5 already present at the start of the resumed pass.
+- Latest final report: `data/provider-mirror-audit/nisra-complete-20260617T234034Z-summary.json`; final asset CSV: `data/provider-mirror-audit/nisra-complete-20260617T234034Z-assets.csv`.
+- Final discovered-asset state: 226/227 discovered assets present, 1 protected/stale asset remains blocked with `403 Forbidden`: `https://www.nisra.gov.uk/system/files/statistics/census-2021-main-statistics-for-northern-ireland-phase-2-press-release.pdf`.
+- Verification: `D:\nisra\_inventory.json` now contains 2,289 inventory URLs and every inventory output path exists with non-zero size. No `*.partial` files remain under `D:\nisra`. D: free space after the run was 381,798,055,936 bytes.
+- Page-discovery verification: NISRA's sitemap endpoint returned `404 Not Found`; the persisted frontier was empty and a bounded page-discovery run found no new pages or assets. There is no active NISRA rate-limit blocker from this pass.
 
 # Merge approved publication branch to production
 - [x] Record implementation scope
