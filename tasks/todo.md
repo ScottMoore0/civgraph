@@ -10,6 +10,12 @@
   - Task: check local files, report counts, failures, deduplication, and any remaining unavailable archived URLs.
   - Completed: final closeout below records the verified counts, no active failed rows, and no stale partial files.
 
+## Review page: CSO unavailable links and NISRA CDX slice links
+- [x] Produce local HTML review page
+  - Task: generate a local HTML page containing links for the CSO unavailable/recovery-review items and direct Internet Archive CDX query links for the NISRA annual slices that still failed after closeout.
+  - Constraints: keep the page local under `data/provider-mirror-audit/`; do not commit downloaded/raw provider mirror files; include counts and source audit paths in the page for traceability.
+  - Completed: generated `data/provider-mirror-audit/link-review-cso-nisra.html` with 51 CSO unavailable links, 235 persisted annual NISRA CDX error-row links, 235 annual NISRA slices not marked done in the current done log, and 15 broad/non-annual retry-window links. The page notes that the earlier 242-slice closeout count is no longer exactly reproducible from the current D-drive logs after later retries.
+
 ## Closeout: NISRA Wayback failed rows, CDX gaps, and partials
 - [x] Retry failed asset rows
   - Task: reprocess the 34 failed asset rows from the recovery inventory, classify them as recovered, duplicate, already-present, or still failed, and keep the detailed CSV under `data/provider-mirror-audit/`.
