@@ -6664,3 +6664,14 @@ Add election entries to /test2
 - Known current-site completion report: no current NISRA asset failures in the latest completion pass.
 - Known Wayback recovery report: all non-excluded failed rows are accounted for by the nine recovered spreadsheet/workbook files now imported into `D:\nisra`.
 - Residual caveat: this proves there are no known remaining gaps in the current audit/recovery reports; it does not prove that every possible NISRA URL ever published has been discovered, because full-site crawling was rate-limited and NISRA's sitemap was unavailable.
+
+# Direct CSO unavailable-link recovery
+- [x] Download the remaining CSO unavailable links
+  - Task: retry the 51 CSO historical-report rows previously classified as Wayback `lookup_failed` or `not_found`, using direct CSO downloads where currently available.
+  - Guardrails: write recovered files to a separate local recovery folder, verify PDF/XLSX signatures and sizes, keep a manifest of successes/failures, and do not publish or alter site data as part of this recovery pass.
+  - Completed: downloaded 50 substantive CSO files into ignored raw-data folder `data/downloads/cso-historical-reports/direct-recovery-2026-06-19`, totaling about 23.05 MiB. All recovered files passed signature checks. Wrote audit manifest `data/provider-mirror-audit/cso-direct-recovery-20260619.csv`. The only failed row is the non-substantive `http://pdf.cso.ie/uat/pdf/test_press_release.pdf`, which still returns 404.
+
+## Review: direct CSO unavailable-link recovery
+- The earlier 51 unavailable CSO rows are now reduced to one non-substantive CSO UAT/test URL.
+- All substantive census/SAPS URLs that were previously unavailable downloaded directly from CSO successfully on 2026-06-19.
+- Raw recovered files are intentionally under ignored `data/downloads/` and were not staged for Git. The small CSV manifest records URL, title, source page, prior status, recovered path, byte size, signature status, and SHA-256 hash.
