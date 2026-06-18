@@ -65,8 +65,9 @@
 - Added bounded full-download controls to `scripts/complete-nisra-crawl.mjs`: `--skip-pages`, `--skip-head`, `--max-downloads`, `--request-timeout-ms`, fail-fast on `429`/timeout/5xx, and blocked/stale classification for `401`/`403`/`404`/`410`.
 - Ran discovered-asset download chunks to `D:\nisra` with 10-15s asset delay. The chunks downloaded 221 newly missing discovered assets and found 5 already present at the start of the resumed pass.
 - Latest final report: `data/provider-mirror-audit/nisra-complete-20260617T234034Z-summary.json`; final asset CSV: `data/provider-mirror-audit/nisra-complete-20260617T234034Z-assets.csv`.
-- Final discovered-asset state: 226/227 discovered assets present, 1 protected/stale asset remains blocked with `403 Forbidden`: `https://www.nisra.gov.uk/system/files/statistics/census-2021-main-statistics-for-northern-ireland-phase-2-press-release.pdf`.
-- Verification: `D:\nisra\_inventory.json` now contains 2,289 inventory URLs and every inventory output path exists with non-zero size. No `*.partial` files remain under `D:\nisra`. D: free space after the run was 381,798,055,936 bytes.
+- Final discovered-asset state after the bounded crawler: 226/227 discovered assets present, with 1 protected/stale asset blocked by `403 Forbidden`: `https://www.nisra.gov.uk/system/files/statistics/census-2021-main-statistics-for-northern-ireland-phase-2-press-release.pdf`.
+- Follow-up recovery: the user supplied the blocked press-release PDF locally. It was copied into the URL-derived mirror path at `D:\nisra\mirror\system\files\statistics\census-2021-main-statistics-for-northern-ireland-phase-2-press-release.pdf`, a `.sha256` sidecar was generated, and the URL was added to `D:\nisra\_inventory.json`.
+- Verification: `D:\nisra\_inventory.json` now contains 2,290 inventory URLs and every inventory output path exists with non-zero size. No `*.partial` files remain under `D:\nisra`. D: free space after the bounded run was 381,798,055,936 bytes.
 - Page-discovery verification: NISRA's sitemap endpoint returned `404 Not Found`; the persisted frontier was empty and a bounded page-discovery run found no new pages or assets. There is no active NISRA rate-limit blocker from this pass.
 
 # Merge approved publication branch to production
