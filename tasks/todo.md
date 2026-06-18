@@ -6653,3 +6653,14 @@ Add election entries to /test2
 - Imported nine files from `C:\Users\scomo\Downloads` into `D:\nisra` at paths matching their NISRA source URLs.
 - Verification confirmed all nine expected destination paths are present and hash-match the source files.
 - No raw files were added to the repository; only the small CSV/JSON import audit reports were written under `data/provider-mirror-audit/`.
+
+# Review remaining NISRA scrape gaps after excluding known low-priority items
+- [x] Inspect latest NISRA current-site and Wayback reports
+  - Task: determine whether any known NISRA content remains unscraped after excluding the Coleraine corrupt spreadsheet, National Statistics PDFs, and ignored site assets.
+  - Guardrails: inspect existing audit reports only, do not run a new broad crawl or write raw provider data.
+  - Completed: latest current-site completion summary reports no asset failures; latest Wayback recovery failures classify as 9 recovered/imported spreadsheet files, 1 excluded Coleraine corrupt capture, 17 excluded National Statistics PDFs, and 2 excluded CSS/site assets. After those exclusions, there are no unclassified known NISRA scrape gaps in the current reports.
+
+## Review: remaining NISRA gaps after exclusions
+- Known current-site completion report: no current NISRA asset failures in the latest completion pass.
+- Known Wayback recovery report: all non-excluded failed rows are accounted for by the nine recovered spreadsheet/workbook files now imported into `D:\nisra`.
+- Residual caveat: this proves there are no known remaining gaps in the current audit/recovery reports; it does not prove that every possible NISRA URL ever published has been discovered, because full-site crawling was rate-limited and NISRA's sitemap was unavailable.
