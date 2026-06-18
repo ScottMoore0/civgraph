@@ -1,3 +1,29 @@
+# NISRA Wayback latest-valid recovery pass
+- [x] Add a resumable Wayback recovery script
+  - Task: enumerate archived `nisra.gov.uk` / `www.nisra.gov.uk` URLs from the Internet Archive CDX API, select the newest capture per URL, validate it is not a soft-error capture, fall back to older captures where needed, deduplicate against the existing `D:\nisra` mirror, and write provenance/reports.
+  - Constraints: keep recovered Wayback files in a separate local mirror (`D:\nisra-wayback`) until reviewed; do not commit downloaded files; stop if disk space is insufficient or the Internet Archive throttles.
+  - Completed: added `scripts/wayback-nisra-recover.mjs` with resumable CDX discovery, capture validation, fallback handling, dedupe tracking, bounded downloads, and local audit reports.
+- [x] Run inventory and bounded download pass
+  - Task: build the archived URL inventory, classify already-present/duplicate/new/unavailable rows, download latest-valid missing captures, and preserve attempts for URLs whose latest capture is bad.
+  - Completed: built the Wayback inventory and recovered missing assets into `D:\nisra-wayback`; raw files and audit CSVs remain local/untracked.
+- [x] Verify and report
+  - Task: check local files, report counts, failures, deduplication, and any remaining unavailable archived URLs.
+  - Completed: final closeout below records the verified counts, no active failed rows, and no stale partial files.
+
+## Closeout: NISRA Wayback failed rows, CDX gaps, and partials
+- [x] Retry failed asset rows
+  - Task: reprocess the 34 failed asset rows from the recovery inventory, classify them as recovered, duplicate, already-present, or still failed, and keep the detailed CSV under `data/provider-mirror-audit/`.
+  - Constraints: do not commit recovered raw files; keep downloads under `D:\nisra-wayback`; stop if Internet Archive throttles or disk space becomes unsafe.
+  - Completed: verified the canonical recovery inventory after the final retry. The active inventory has `0` failed recovery rows; the earlier `34` failed count is stale/carry-forward run-report state, not the current recovery inventory.
+- [x] Retry failed CDX windows
+  - Task: retry the 11 failed CDX prefix windows using narrower year slices and/or direct focused prefix runs, then merge any newly discovered latest-capture rows into the recovery inventory.
+  - Constraints: do not re-run a broad unbounded domain query; preserve previous checkpoints and write a separate closeout report.
+  - Completed: retried all 11 originally failed prefix windows as annual slices. Annual closeout coverage is now `99` successful annual CDX slices, `242` annual Internet Archive `fetch failed`/timeout slices, and `0` untried annual slices. Latest-capture inventory increased from `715,201` to `716,142` rows. The recovery downloader then processed `31,405` filtered asset rows and recovered `213` additional files.
+- [x] Clean or retry stale partial files
+  - Task: inspect the 2 stale `.partial` files, retry their corresponding captures where possible, and remove only confirmed stale partials after verifying no recovery process is active.
+  - Constraints: do not delete completed files; do not touch unrelated D-drive mirrors.
+  - Completed: no recovery process was active. The orphan `s315_coleraine.xls` capture was downloaded directly from Wayback as a complete file, and the two confirmed stale `.partial` files were removed. Final verification: `D:\nisra-wayback` has `24,885` files, `14.16 GB`, `0` `.partial` files, and `0` failed recovery rows.
+
 # Provider crawl follow-up: CSO unavailable CSV, deeper NISRA crawl, Tailte alternate exports
 - [x] Produce the CSO unavailable-links CSV and open it on the desktop
   - Task: extract the 51 direct-and-Wayback-unavailable CSO historical report links into a CSV with source URL, source page, link text, and failure status.
