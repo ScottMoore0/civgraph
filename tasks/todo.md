@@ -10,6 +10,31 @@
   - Task: check local files, report counts, failures, deduplication, and any remaining unavailable archived URLs.
   - Completed: final closeout below records the verified counts, no active failed rows, and no stale partial files.
 
+## CSO manual Downloads import after 20:00
+- [x] Import downloaded CSO/manual review files into repo
+  - Task: copy files in `C:\Users\scomo\Downloads` modified at or after 20:00 on 2026-06-18 into a structured raw-data folder in the repository, preserve the downloaded filenames, and generate a manifest that links each file to its source URL where known.
+  - Constraints: do not delete or move the original files from Downloads; do not overwrite unrelated repo data; if a screenshot-listed URL is not represented by an imported file, download or record it explicitly.
+  - Completed: copied 55 files into `data/downloads/cso-historical-reports/2026-06-18-after-2000/`, preserving filenames and leaving the Downloads originals untouched.
+  - Completed: generated `download-import-manifest.csv`, `source-url-manifest.csv`, `extra-downloads-manifest.csv`, `source-links.txt`, and `import-summary.json`.
+  - Verification: 50 screenshot-listed CSO URLs were recorded and all 50 have a saved local file; 0 screenshot URLs are missing locally. The 5 extra copied files are duplicate re-downloads from after 20:00 plus `CSO and NISRA Link Review.mhtml`.
+
+## Stalled Chrome download salvage
+- [x] Analyse `C:\Users\scomo\Downloads\Unconfirmed 986866.crdownload`
+  - Task: inspect the partial Chrome download without modifying it, identify the true file type, and determine whether useful content can be salvaged from a temporary copy.
+  - Constraints: do not alter or delete the original `.crdownload`; use read-only inspection and temporary workspace/scratch copies only.
+  - Completed: the exact `.crdownload` no longer exists, but `C:\Users\scomo\Downloads\Table7.4_2010.xls` appeared at 22:00:52 and matches one of the unresolved NISRA files.
+  - Completed: validated the file as a classic OLE `.xls` workbook, SHA-256 `3D18A1D141D562D578E2CF9D68CB187738CE98046DFD71A65EAF6B34FC572455`, size 37,376 bytes.
+  - Completed: extracted salvage CSVs to `tmp/nisra-table7-4-salvage/`; workbook contains `Table 7.4` and `Notes` sheets. `Table 7.4` has 82 rows, 14 columns, and 67 non-empty rows.
+
+## Targeted NISRA Wayback recovery: s315_coleraine.xls
+- [x] Attempt direct Wayback download
+  - Task: download `https://web.archive.org/web/20071023143406/https://www.nisra.gov.uk/Census/Excel/standard_tables_ward_level/s315_coleraine.xls` and validate whether the saved content is a real Excel workbook.
+  - Constraints: preserve the requested URL, save into the NISRA Wayback mirror or workspace scratch, and do not overwrite a valid existing file without comparing.
+  - Completed: the exact replay URL downloaded Wayback toolbar HTML, not the workbook; saved HTML was moved aside as `D:\nisra-wayback\www.nisra.gov.uk\Census\Excel\standard_tables_ward_level\s315_coleraine.wayback-replay-html-20071023143406.html`.
+  - Completed: retried the raw `id_` capture URL and saved an OLE `.xls` candidate to `D:\nisra-wayback\www.nisra.gov.uk\Census\Excel\standard_tables_ward_level\s315_coleraine.xls`.
+  - Verification: the raw capture is 272,185 bytes, SHA-256 `2DE304EB1E7CB4552B926B0AC96825861AB47AD3190F0F18CC5F17FA35107EB0`, and starts with the Excel/OLE magic bytes `D0 CF 11 E0 A1 B1 1A E1`, but `xlrd` reports the OLE container as truncated/corrupt.
+  - Verification: Wayback CDX returned only one capture for the exact original URL; padding a temporary copy to multiple OLE sector sizes did not recover readable sheets. Attempt details are in `D:\nisra-wayback\www.nisra.gov.uk\Census\Excel\standard_tables_ward_level\s315_coleraine-wayback-attempts.json` and `tmp/s315-coleraine-salvage/pad-salvage-report.json`.
+
 ## Review page: CSO unavailable links and NISRA CDX slice links
 - [x] Produce local HTML review page
   - Task: generate a local HTML page containing links for the CSO unavailable/recovery-review items and direct Internet Archive CDX query links for the NISRA annual slices that still failed after closeout.
@@ -6598,3 +6623,33 @@ Add election entries to /test2
 - CSO result: direct CSO historical-report scrape wrote 1,623 assets to `D:\cso-historical-reports`; Wayback recovery wrote/reused 2,453 additional recovered files under `D:\cso-historical-reports\wayback`; 51 direct failures had no usable Wayback recovery in this pass.
 - Tailte result: direct `tailte-eireann` data.gov.ie audit covered 192 packages and 1,865 resources. Five missing canonical package-level datasets were downloaded to D:, including National Land Cover 2018 and four Small Areas 2015 boundary variants. Generated alternate exports were classified rather than duplicated.
 - Final disk/partial check: D: remained safely above the space guard with about 383GB free. `D:\nisra`, `D:\cso-historical-reports`, and `D:\datagovie` had zero `.partial` files.
+
+# Check named NISRA failed-download files in Downloads and remaining queue
+- [x] Check exact requested filenames in `C:\Users\scomo\Downloads`
+  - Task: verify whether the nine NISRA spreadsheet links listed by the user have completed local downloads.
+  - Completed: found eight exact files in Downloads: `Table7.4_2010.xls`, `Tables_2025Q2 Final.ods`, `Tables_2025Q2 Final.xlsx`, `Figure-1-Wk462021.XLSX`, `Figure-10-Wk462021.XLSX`, `Figure-3-Wk112022.XLSX`, `Figure-3-Wk32022.XLSX`, and `Figure-4-Wk12022.XLSX`. `Figure-10-Wk422021.XLSX` was not found in Downloads.
+- [x] Check fixed D: mirror paths for those filenames
+  - Task: avoid broad D: crawling and check the expected `D:\nisra` and `D:\nisra-wayback` paths for each named file.
+  - Completed: none of the nine named files were present at the fixed expected D: mirror paths checked in this pass, so the recovered copies currently appear to be in Downloads rather than integrated into the D: NISRA mirrors.
+- [x] Classify what remains in the latest NISRA Wayback failed queue
+  - Task: use `data/provider-mirror-audit/nisra-wayback-recovery-20260618T190739Z.csv` to separate listed files, low-value site assets, and other remaining failed rows.
+  - Completed: the 29 failed rows classify as 9 user-listed spreadsheet files, 2 low-value CSS/site assets, 17 National Statistics white paper/work-programme PDFs, and 1 Coleraine ward-level spreadsheet where the only archive capture recovered so far is corrupt.
+
+## Review: named NISRA failed-download check
+- The Downloads folder now holds eight of the nine requested spreadsheet/workbook files. The only requested file still not found locally in Downloads is `Figure-10-Wk422021.XLSX`.
+- The expected D: mirror paths checked for those nine files are still missing. If these files should be part of the D: mirror, the eight found files should be copied/imported into the mirror path deliberately rather than assumed complete.
+- Ignoring the nine listed files and the low-value CSS/site assets, the latest known NISRA Wayback failed queue consists of the 17 National Statistics PDFs and the corrupt-only-capture `s315_coleraine.xls`.
+
+# Import recovered NISRA spreadsheet files into D: mirror
+- [x] Copy the nine recovered NISRA files from Downloads into `D:\nisra`
+  - Task: place the recovered NISRA spreadsheet/workbook files into the current NISRA mirror at paths matching their source URLs.
+  - Guardrails: do not delete raw files, do not overwrite a different existing mirror file without checking hashes, and verify copied hashes after import.
+  - Completed: copied all nine recovered files into URL-derived paths under `D:\nisra\www.nisra.gov.uk\...`, including `Figure-10-Wk422021.XLSX`.
+- [x] Verify and record the import
+  - Task: hash source and destination files, confirm byte-for-byte matches, and emit a small audit report in `data/provider-mirror-audit/`.
+  - Completed: verified all nine destination files by SHA-256 and wrote `data/provider-mirror-audit/nisra-recovered-downloads-import-20260618T232305Z.csv` and `.json`.
+
+## Review: recovered NISRA spreadsheet mirror import
+- Imported nine files from `C:\Users\scomo\Downloads` into `D:\nisra` at paths matching their NISRA source URLs.
+- Verification confirmed all nine expected destination paths are present and hash-match the source files.
+- No raw files were added to the repository; only the small CSV/JSON import audit reports were written under `data/provider-mirror-audit/`.
