@@ -6697,3 +6697,21 @@ Add election entries to /test2
 - Extraction classified 53,070 files as extractable. Status counts were: 53,042 extracted/inspected, 5,084 skipped non-statistical assets, 2,804 skipped sidecars, 54 unsupported, 17 extraction failures, 14 skipped mirror-bookkeeping files, and 11 queued large JSON files.
 - Validation produced 40,613 issues/flags: 38,716 info flags and 1,897 warnings. Main categories were duplicate source URLs (25,056), duplicate content hashes (9,922), likely OCR-required PDFs (3,727), missing URL provenance on non-sidecar files (1,873), extraction failures (17), queued large files (11), extension/signature mismatches (5), and zero-byte files (2).
 - Verification evidence: `node --check scripts/build-statistical-staging.mjs` passed, and `node scripts/build-statistical-staging.mjs` completed successfully with `registryRows: 61026`, `extractionRows: 61026`, `extractedFileCount: 36032`, and `extractedRecordCount: 61724`.
+
+# Research decision recommendations for remaining CSO/NISRA statistical staging
+- [x] Dispatch focused research agents
+  - Task: use parallel explorer agents to recommend decisions for the remaining OCR/extraction, provenance/duplicate, geography/concept/comparability, validation/site-staging, and user-policy work.
+  - Guardrails: agents must not publish site data, mutate D: mirrors, commit raw outputs, or edit repository files; they should produce decision recommendations and identify what can be automated versus what needs user approval.
+  - Completed: dispatched five read-only explorer agents covering extraction/OCR policy, provenance/duplicates, canonical model/geography/concepts/comparability, validation/site-ready staging, and user decision matrix.
+- [x] Synthesize recommendations
+  - Task: combine subagent findings into a decision list, ordered by dependency and risk, with recommended defaults and explicit user-gated choices.
+- [x] Document results
+  - Task: add a review note summarizing the dispatched agents and the decision recommendations produced.
+
+## Review: CSO/NISRA statistical staging decision recommendations
+- Dispatched five read-only research agents. No agent edited files, mutated D: mirrors, committed data, or published anything.
+- Extraction/OCR recommendation: accept the current run as baseline, split remaining issues into OCR, structured automation, spreadsheet recovery, and manual approval queues. Deduplicate OCR candidates by SHA-256 before OCR; process the 11 large PXStat JSON files and 17 spreadsheet failures before broad OCR; keep OCR text/table outputs ignored and staging-only unless explicitly approved for publication.
+- Provenance/duplicate recommendation: use one canonical source record per intellectual dataset/publication, with every local file retained as an artifact/variant. Treat the 25,056 duplicate-source-url flags as expected CSO PXStat `.json`/`.meta.json` pairs. Collapse exact duplicate hashes into source families while preserving aliases; prefer explicit provider provenance over local-only copies.
+- Model/geography/concept recommendation: build a layered statistical model: `source_file`, `dataset/table/cube`, `source_variable`, `observation`, and `derivation/comparability`. Use source-native temporal geography IDs as canonical observation keys; keep map feature IDs separate; record crosswalks and comparability edges explicitly. Default public comparisons should use only exact or lossless harmonised relationships.
+- Validation/site-staging recommendation: require gates for source integrity, provenance, duplicate resolution, extraction status, semantic mapping, table/fact validation, placement approval, publication bundle validation, and site verification. Use confidence scoring with hard caps for local-only provenance, OCR-only facts, extraction failures, zero-byte files, signature mismatches, and microdata.
+- User-decision recommendation: proceed automatically on staging, dedupe reports, provenance-repair candidates, confidence scoring, review CSVs, and non-public OCR pilots. Require explicit approval for live publication, R2/CDN/site changes, approximate geography crosswalks, changed-definition harmonisation, low-confidence public facts, OCR-derived public text/tables, microdata governance, and final source placement.
