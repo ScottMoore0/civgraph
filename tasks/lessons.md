@@ -2479,3 +2479,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) dark-mode thumbnail tests must open the deferred catalogue section that renders the target row type,
   3) thumbnail regressions must inspect both wrapper and image computed backgrounds,
   4) a passed thumbnail test must cover the exact DOM path visible in the reported screenshot.
+
+### 182) Historical grouped boundary maps need unique variants and visible-class validation
+- Mistake pattern: Reusing hidden component map IDs as grouped parent variant IDs, leaving component URLs with raw spaces, or relying on unsplit all-island files after province source files have been introduced.
+- Impact: some provinces fail to load, different provinces inherit different hidden child styles, stale duplicate rows remain visible, and regenerated catalogues can reintroduce bad submap relationships.
+- Guardrail:
+  1) grouped parent variants should use unique parent-scoped IDs and carry explicit `files.fgb`, inherited parent style, and label metadata,
+  2) component URLs must be encoded and validated as loadable before a group is published,
+  3) validation must assert the visible catalogue class order, not only the existence of child source files,
+  4) import/repair scripts must keep historical variants as top-level maps unless the current map intentionally needs a runtime component submap.

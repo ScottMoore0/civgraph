@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-09T19:53:03.136Z",
+  "generatedAt": "2026-06-19T14:02:07.245Z",
   "item": {
     "id": "eds-1971",
     "slug": "eds-1971",
@@ -41,16 +41,22 @@
       "smallUrl": "/assets/thumbnails/eds-1971-60.webp",
       "alt": "District Electoral Divisions/Wards 1971"
     },
-    "sourceFiles": [
+    "variants": [
       {
-        "label": "fgb",
-        "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_AllIreland_1971.fgb"
-      }
-    ],
-    "downloads": [
+        "id": "eds-1971-connacht",
+        "title": "Connacht (= 1919 boundaries)"
+      },
       {
-        "label": "fgb",
-        "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_AllIreland_1971.fgb"
+        "id": "eds-1971-leinster",
+        "title": "District Electoral Divisions/Wards 1971 - Leinster 1971"
+      },
+      {
+        "id": "eds-1971-munster",
+        "title": "District Electoral Divisions/Wards 1971 - Munster 1971"
+      },
+      {
+        "id": "eds-1971-ulster",
+        "title": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)"
       }
     ],
     "interactiveUrl": "/#layers=eds-1971",
@@ -66,9 +72,6 @@
         "Phelim Birch",
         "Paddy Matthews"
       ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_AllIreland_1971.fgb"
-      },
       "style": {
         "color": "#155A2B",
         "weight": 2
@@ -95,6 +98,61 @@
           55.5,
           -5.4
         ]
+      ],
+      "isGroup": true,
+      "variants": [
+        {
+          "id": "eds-1971-connacht",
+          "label": "Connacht (= 1919 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+          },
+          "style": {
+            "color": "#155A2B",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1971-leinster",
+          "label": "Leinster 1971",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1971.fgb"
+          },
+          "style": {
+            "color": "#155A2B",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1971-munster",
+          "label": "Munster 1971",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1971.fgb"
+          },
+          "style": {
+            "color": "#155A2B",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1971-ulster",
+          "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+          },
+          "style": {
+            "color": "#155A2B",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        }
       ]
     }
   }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-12T19:31:39.876Z",
+  "generatedAt": "2026-06-19T14:02:07.245Z",
   "item": {
     "id": "provinces",
     "slug": "provinces-ireland",
@@ -29,11 +29,10 @@
       "cuige",
       "irish names"
     ],
-    "status": "available",
+    "status": "hidden",
     "featured": true,
     "loadable": true,
     "labelProperty": "PROVINCE",
-    "parentCard": "Provinces",
     "thumbnail": {
       "kind": "asset",
       "id": "provinces",
@@ -161,7 +160,8 @@
       ],
       "cloneOf": "provinces-1955",
       "irishLabelProperty": "CUIGE",
-      "description": "Current provinces layer using the 2019 OSI statutory province geometry. The boundaries match the 1955/enriched province layer, so the MapLibre layer reuses that converted geometry to retain the Irish province-name field (CUIGE) instead of dropping the translation."
+      "description": "Current provinces layer using the 2019 OSI statutory province geometry. The boundaries match the 1955/enriched province layer, so the MapLibre layer reuses that converted geometry to retain the Irish province-name field (CUIGE) instead of dropping the translation.",
+      "hidden": true
     }
   }
 }

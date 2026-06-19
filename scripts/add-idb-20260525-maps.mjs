@@ -17,11 +17,12 @@ function orderedUnique(ids) {
   return [...new Set(ids.filter(Boolean))];
 }
 
-function makeCountyVariant(year, label, extraKeywords = []) {
+function makeCountyEntry(year, label, extraKeywords = []) {
   return {
     id: `counties-ireland-${year}`,
-    label,
+    name: label,
     slug: `counties-ireland-${year}`,
+    category: 'counties',
     files: {
       fgb: `https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_${year}.fgb`
     },
@@ -84,31 +85,29 @@ const classes = db.classes;
 
 const counties = maps.find((map) => map.id === 'counties-ireland');
 if (!counties) throw new Error('Missing counties-ireland map');
-counties.variants ||= [];
 
-upsertById(
-  counties.variants,
-  makeCountyVariant('1922', 'Counties of Ireland 1922 (all-island, Tirconaill)', ['tirconaill', 'offaly', 'laois'])
-);
-upsertById(
-  counties.variants,
-  makeCountyVariant('1927', 'Counties of Ireland 1927 (all-island, Donegal)', ['donegal', 'offaly', 'laois'])
-);
+for (const entry of [
+  makeCountyEntry('1915', 'Counties of Ireland 1915'),
+  makeCountyEntry('1922', 'Counties of Ireland 1922 (all-island, Tirconaill)', ['tirconaill', 'offaly', 'laois']),
+  makeCountyEntry('1927', 'Counties of Ireland 1927 (all-island, Donegal)', ['donegal', 'offaly', 'laois']),
+  makeCountyEntry('1955', 'Counties of Ireland 1955'),
+  makeCountyEntry('1957', 'Counties of Ireland 1957')
+]) {
+  upsertById(maps, entry);
+}
+
+counties.variants = (counties.variants || []).filter((variant) => [
+  'counties-ni-1915',
+  'roi-counties-2011'
+].includes(variant.id));
 
 const desiredCountyOrder = [
-  'counties-ni-1915',
-  'roi-counties-2011',
   'counties-ireland-1957',
-  'counties-ireland-1915',
-  'counties-ireland-1922',
+  'counties-ireland-1955',
   'counties-ireland-1927',
-  'counties-ireland-1955'
+  'counties-ireland-1922',
+  'counties-ireland-1915'
 ];
-const variantById = new Map(counties.variants.map((variant) => [variant.id, variant]));
-counties.variants = orderedUnique([
-  ...desiredCountyOrder,
-  ...counties.variants.map((variant) => variant.id)
-]).map((id) => variantById.get(id)).filter(Boolean);
 
 const localAuthorityYears = ['1930', '1931', '1941', '1942', '1944', '1950'];
 for (const year of localAuthorityYears) {
@@ -140,5 +139,16 @@ localAuthorityClass.maps = orderedUnique([
   'roi-local-authorities-1930'
 ]);
 
+const localAuthorities2008 = maps.find((map) => map.id === 'roi-local-authorities-2008');
+if (localAuthorities2008) localAuthorities2008.provider = ['CSO'];
+
+const countiesClass = classes.find((item) => item.id === 'ni-counties');
+if (countiesClass) {
+  countiesClass.maps = orderedUnique([
+    'counties-ireland',
+    ...desiredCountyOrder
+  ]);
+}
+
 writeFileSync(MAPS_PATH, JSON.stringify(db, null, 2) + '\n', 'utf8');
-console.log('Added/updated 1922/1927 counties and ROI local authorities 1930, 1931, 1941, 1942, 1944, 1950.');
+console.log('Added/updated historical all-Ireland counties as top-level maps and ROI local authorities 1930, 1931, 1941, 1942, 1944, 1950.');

@@ -6744,3 +6744,49 @@ Add election entries to /test2
 - Best concept: promote Civgraph as connected civic geography infrastructure rather than a conventional map gallery or election-results site.
 - Evidence used: local README positioning, Browse counts, original proposal text, AGI NI conference theme/pages, and existing poster-suitable visual assets.
 - Verification: checked current AGI NI 2026 conference page/news for theme/date/venue and reviewed local site/catalogue assets. No site code or public data was changed.
+
+# Build AGI NI poster resource pack for ChatGPT image generation
+- [x] Define pack scope
+  - Task: create a zip file containing all information and selected visual resources needed for ChatGPT on the web to generate a high-quality AGI NI poster for Civgraph.
+  - Guardrails: include source facts and caveats, avoid overclaiming statutory authority or AI capabilities, package only useful local assets, and verify the zip contents.
+- [x] Create prompt and production notes
+  - Task: add clear instructions for ChatGPT image generation, poster copy, layout, visual hierarchy, style guidance, and revision prompts.
+- [x] Add selected assets
+  - Task: include Civgraph branding and representative screenshots/thumbnails with a manifest explaining intended use and print caveats.
+- [x] Create and verify zip
+  - Task: compress the resource folder and inspect archive contents.
+  - Completed: created `tasks/agi-ni-poster-resource-pack-2026.zip` and verified the archive contains eight Markdown guidance files plus nine visual assets.
+
+## Review: AGI NI poster resource pack
+- Created `tasks/agi-ni-poster-resource-pack-2026/` with README, primary image-generation prompt, poster copy, layout spec, asset manifest, facts/sources, revision prompts, and ChatGPT web workflow.
+- Included Civgraph branding, the existing main-shell product screenshot, and representative map thumbnails for townlands, historic constituencies, Stormont, local government, DEAs, and border crossings.
+- Verified `tasks/agi-ni-poster-resource-pack-2026.zip` by opening the archive and listing 17 entries. Archive size: 797,486 bytes.
+
+# Shapefile coverage audit and DED/ward map corrections
+- [x] Finish shapefile candidate coverage audit
+  - Task: compare the 1,189 shapefile candidate rows against current Civgraph map/source/catalogue records and report confirmed, probable, and not-found coverage.
+  - Verification: generate a reproducible audit report with row-level match categories and source-group summaries.
+- [x] Fix collaborator-reported DED/ward and related map issues
+  - Task: inspect 1970/1966/1965/1957 DED/ward entries, 1983/1980/1977/1971 DED/ward province splits, county sub-map records, Provinces 2019, Local Authorities 2008 credit, and redundant 1921 DED/ward copy.
+  - Verification: inspect catalogue/data records and run the relevant validation/build checks.
+
+## Review: shapefile coverage audit and collaborator map fixes
+- Shapefile candidate coverage audit completed with reproducible artifacts:
+  - `tasks/shapefile-site-coverage-audit-2026-06-19.json`
+  - `tasks/shapefile-site-coverage-audit-2026-06-19.csv`
+  - `tasks/shapefile-site-coverage-audit-2026-06-19.md`
+  - Result: 84 confirmed rows are already represented on Civgraph (79 interactive/geospatial, 5 source/download-only); 174 rows are confirmed or probable; 1,015 rows were not found in current site manifests.
+- Fixed the collaborator-reported map catalogue issues:
+  - converted 1983, 1980, 1977, and 1971 DED/Ward maps into province-split grouped entries;
+  - fixed 1970, 1966, 1965, and 1957 DED/Ward groups so Leinster/Munster use encoded loadable URLs and all province components inherit the same parent style;
+  - restored missing 1957, 1955, and 1915 county maps as top-level county entries rather than submaps of the 1977/current county map;
+  - hid the redundant 2019 Provinces record and removed it from the Provinces class;
+  - hid the redundant 28 June 1921 DED/Ward duplicate from the visible class;
+  - confirmed Local Authorities 2008 is credited to CSO and hardened the importer against reverting that.
+- Added `scripts/fix-idb-map-records-20260619.mjs` for deterministic repair and updated `scripts/add-idb-20260525-maps.mjs` plus `scripts/validate-test2-route.mjs` so regeneration cannot reintroduce the same errors.
+- Verification evidence:
+  - `node --check scripts/fix-idb-map-records-20260619.mjs`
+  - `node --check scripts/add-idb-20260525-maps.mjs`
+  - `node --check scripts/validate-test2-route.mjs`
+  - `npm run build:browse`
+  - `npm run check:test2` passed with zero blocking election-audit issues, zero PMTiles/CDN errors, and zero performance-dashboard failures.

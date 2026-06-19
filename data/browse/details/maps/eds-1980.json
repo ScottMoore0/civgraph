@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-06T14:20:26.035Z",
+  "generatedAt": "2026-06-19T14:02:07.245Z",
   "item": {
     "id": "eds-1980",
     "slug": "eds-1980",
@@ -34,6 +34,7 @@
     "featured": true,
     "loadable": true,
     "labelProperty": "ENGLISH",
+    "parentCard": "District Electoral Divisions",
     "thumbnail": {
       "kind": "asset",
       "id": "eds-1980",
@@ -41,16 +42,22 @@
       "smallUrl": "/assets/thumbnails/eds-1980-60.webp",
       "alt": "District Electoral Divisions/Wards 1980"
     },
-    "sourceFiles": [
+    "variants": [
       {
-        "label": "fgb",
-        "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_AllIreland_1980.fgb"
-      }
-    ],
-    "downloads": [
+        "id": "eds-1980-connacht",
+        "title": "Connacht (= 1919 boundaries)"
+      },
       {
-        "label": "fgb",
-        "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_AllIreland_1980.fgb"
+        "id": "eds-1980-leinster",
+        "title": "Leinster (= 1977 boundaries)"
+      },
+      {
+        "id": "eds-1980-munster",
+        "title": "District Electoral Divisions/Wards 1980 - Munster 1980"
+      },
+      {
+        "id": "eds-1980-ulster",
+        "title": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)"
       }
     ],
     "interactiveUrl": "/#layers=eds-1980",
@@ -66,9 +73,6 @@
         "Phelim Birch",
         "Paddy Matthews"
       ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_AllIreland_1980.fgb"
-      },
       "style": {
         "color": "#247D36",
         "weight": 2
@@ -96,6 +100,61 @@
           55.5,
           -5.4
         ]
+      ],
+      "isGroup": true,
+      "variants": [
+        {
+          "id": "eds-1980-connacht",
+          "label": "Connacht (= 1919 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+          },
+          "style": {
+            "color": "#247D36",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1980-leinster",
+          "label": "Leinster (= 1977 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1977.fgb"
+          },
+          "style": {
+            "color": "#247D36",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1980-munster",
+          "label": "Munster 1980",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1980.fgb"
+          },
+          "style": {
+            "color": "#247D36",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1980-ulster",
+          "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+          },
+          "style": {
+            "color": "#247D36",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        }
       ]
     }
   }

@@ -73,25 +73,26 @@ function assertCatalogueMetadata() {
   }
 
   const provinces = mapById.get('provinces');
-  assert(provinces?.cloneOf === 'provinces-1955' && provinces?.irishLabelProperty === 'CUIGE', 'Provinces 2019 must reuse the enriched province geometry so Irish names are retained');
-  assert(layerIds.has('provinces-alias-test'), 'Provinces 2019 must be promoted as a MapLibre alias to the enriched province layer');
+  assert(provinces?.hidden === true, 'Provinces 2019 must remain hidden because it duplicates Provinces 1955 without the Irish-name enrichment');
+  assert(!(classById.get('ireland-provinces')?.maps || []).includes('provinces'), 'Provinces class must not expose the redundant Provinces 2019 record');
 
   const localAuthorities2008 = mapById.get('roi-local-authorities-2008');
   assert(Array.isArray(localAuthorities2008?.provider) && localAuthorities2008.provider.includes('CSO') && !localAuthorities2008.provider.includes('Phelim Birch'), 'Local Authorities 2008 must be credited to CSO, not the collaborator');
   const localAuthorities2008Layer = (testMetadata.layers || []).find((layer) => layer.sourceMapId === 'roi-local-authorities-2008');
   assert(Array.isArray(localAuthorities2008Layer?.provider) && localAuthorities2008Layer.provider.includes('CSO') && !localAuthorities2008Layer.provider.includes('Phelim Birch'), 'Local Authorities 2008 generated MapLibre layer must be credited to CSO, not the collaborator');
 
-  for (const id of ['eds-leinster-1957', 'eds-munster-1955', 'eds-munster-1965', 'eds-munster-1966', 'eds-munster-1970']) {
-    assert(layerSourceIds.has(id), `${id} must have a promoted MapLibre layer so DED/Ward parent maps can load all provincial components`);
-  }
-  for (const id of ['eds-roi-1957', 'eds-roi-1965', 'eds-roi-1966', 'eds-roi-1970']) {
-    const map = mapById.get(id);
-    const childIds = (map?.variants || []).map((variant) => variant.id).filter(Boolean);
-    assert(childIds.length >= 4 && childIds.every((childId) => layerSourceIds.has(childId)), `${id} must resolve through loadable provincial component layers`);
-    assert(!layerSourceIds.has(id), `${id} must not keep a stale direct generated layer; it is a grouped all-ROI catalogue entry`);
+  function variantIsLoadable(variant) {
+    return Boolean(variant?.files?.fgb) || layerSourceIds.has(variant?.id);
   }
 
-  for (const id of ['eds-2019', 'eds-1997', 'eds-1994', 'eds-1986', 'eds-roi-1957', 'eds-roi-1965', 'eds-roi-1966', 'eds-roi-1970']) {
+  for (const id of ['eds-roi-1957', 'eds-roi-1965', 'eds-roi-1966', 'eds-roi-1970', 'eds-1971', 'eds-1977', 'eds-1980', 'eds-1983']) {
+    const map = mapById.get(id);
+    const variants = map?.variants || [];
+    assert(variants.length >= 4 && variants.every(variantIsLoadable), `${id} must resolve through loadable provincial component FGBs`);
+    assert(variants.every((variant) => variant?.style?.color === map?.style?.color), `${id} provincial variants must inherit the parent style so provinces render consistently`);
+  }
+
+  for (const id of ['eds-2019', 'eds-1997', 'eds-1994', 'eds-1986', 'eds-1983', 'eds-1980', 'eds-1977', 'eds-1971', 'eds-roi-1957', 'eds-roi-1965', 'eds-roi-1966', 'eds-roi-1970']) {
     const map = findMap(id);
     assert(map?.isGroup === true && Array.isArray(map.variants) && map.variants.length >= 4, `${id} parent map must remain a grouped all-ROI load across all provincial variants`);
   }

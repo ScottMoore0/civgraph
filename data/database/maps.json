@@ -701,7 +701,6 @@
       "scope": "Ireland",
       "category": "counties",
       "maps": [
-        "provinces",
         "provinces-1955",
         "provinces-1899"
       ]
@@ -817,6 +816,9 @@
         "eds-1997",
         "eds-1994",
         "eds-1986",
+        "eds-1983",
+        "eds-1980",
+        "eds-1977",
         "eds-1971",
         "eds-roi-1970",
         "eds-roi-1966",
@@ -827,7 +829,6 @@
         "eds-roi-1944",
         "eds-roi-1936",
         "eds-1926",
-        "eds-roi-1921-06-28",
         "eds-roi-1921-05-03",
         "eds-1919-04-01",
         "eds-1915",
@@ -6456,7 +6457,8 @@
       ],
       "cloneOf": "provinces-1955",
       "irishLabelProperty": "CUIGE",
-      "description": "Current provinces layer using the 2019 OSI statutory province geometry. The boundaries match the 1955/enriched province layer, so the MapLibre layer reuses that converted geometry to retain the Irish province-name field (CUIGE) instead of dropping the translation."
+      "description": "Current provinces layer using the 2019 OSI statutory province geometry. The boundaries match the 1955/enriched province layer, so the MapLibre layer reuses that converted geometry to retain the Irish province-name field (CUIGE) instead of dropping the translation.",
+      "hidden": true
     },
     {
       "id": "provinces-1899",
@@ -7860,7 +7862,11 @@
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Connacht1926EDs.fgb"
           },
-          "useLOD": true
+          "useLOD": true,
+          "style": {
+            "color": "#9C6E3F",
+            "weight": 2
+          }
         },
         {
           "id": "eds-roi-1921-leinster",
@@ -7868,7 +7874,11 @@
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Leinster1926EDs.fgb"
           },
-          "useLOD": true
+          "useLOD": true,
+          "style": {
+            "color": "#9C6E3F",
+            "weight": 2
+          }
         },
         {
           "id": "eds-roi-1921-munster",
@@ -7876,7 +7886,11 @@
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Munster1926EDs.fgb"
           },
-          "useLOD": true
+          "useLOD": true,
+          "style": {
+            "color": "#9C6E3F",
+            "weight": 2
+          }
         },
         {
           "id": "eds-roi-1921-ulster",
@@ -7884,7 +7898,11 @@
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Ulster1926EDs.fgb"
           },
-          "useLOD": true
+          "useLOD": true,
+          "style": {
+            "color": "#9C6E3F",
+            "weight": 2
+          }
         }
       ],
       "isGroup": true
@@ -7922,7 +7940,11 @@
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Connacht1926EDs.fgb"
           },
-          "useLOD": true
+          "useLOD": true,
+          "style": {
+            "color": "#9C6E3F",
+            "weight": 2
+          }
         },
         {
           "id": "eds-roi-1921-leinster",
@@ -7930,7 +7952,11 @@
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Leinster1926EDs.fgb"
           },
-          "useLOD": true
+          "useLOD": true,
+          "style": {
+            "color": "#9C6E3F",
+            "weight": 2
+          }
         },
         {
           "id": "eds-roi-1921-munster",
@@ -7938,7 +7964,11 @@
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Munster1926EDs.fgb"
           },
-          "useLOD": true
+          "useLOD": true,
+          "style": {
+            "color": "#9C6E3F",
+            "weight": 2
+          }
         },
         {
           "id": "eds-roi-1921-ulster",
@@ -7946,10 +7976,15 @@
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Ulster1926EDs.fgb"
           },
-          "useLOD": true
+          "useLOD": true,
+          "style": {
+            "color": "#9C6E3F",
+            "weight": 2
+          }
         }
       ],
-      "isGroup": true
+      "isGroup": true,
+      "hidden": true
     },
     {
       "id": "eds-roi-1936",
@@ -8061,36 +8096,56 @@
       "labelProperty": "ENGLISH",
       "variants": [
         {
-          "id": "eds-connacht-1919",
+          "id": "eds-roi-1957-connacht",
           "label": "Connacht (= 1919 boundaries)",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
           },
-          "useLOD": true
+          "style": {
+            "color": "#1B5E20",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
         },
         {
-          "id": "eds-leinster-1957",
+          "id": "eds-roi-1957-leinster",
           "label": "Leinster 1957",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1957.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1957.fgb"
           },
+          "style": {
+            "color": "#1B5E20",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
           "useLOD": false
         },
         {
-          "id": "eds-munster-1955",
+          "id": "eds-roi-1957-munster",
           "label": "Munster (= 1955 boundaries)",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1955.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1955.fgb"
           },
+          "style": {
+            "color": "#1B5E20",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
           "useLOD": false
         },
         {
-          "id": "eds-ulster-1921",
+          "id": "eds-roi-1957-ulster",
           "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
-          "useLOD": true
+          "style": {
+            "color": "#1B5E20",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
         }
       ],
       "downloads": [
@@ -8177,36 +8232,56 @@
       "labelProperty": "ENGLISH",
       "variants": [
         {
-          "id": "eds-connacht-1919",
+          "id": "eds-roi-1965-connacht",
           "label": "Connacht (= 1919 boundaries)",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
           },
-          "useLOD": true
+          "style": {
+            "color": "#226C32",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
         },
         {
-          "id": "eds-leinster-1957",
+          "id": "eds-roi-1965-leinster",
           "label": "Leinster (= 1957 boundaries)",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1957.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1957.fgb"
           },
+          "style": {
+            "color": "#226C32",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
           "useLOD": false
         },
         {
-          "id": "eds-munster-1965",
-          "label": "Munster",
+          "id": "eds-roi-1965-munster",
+          "label": "Munster 1965",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1965.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1965.fgb"
           },
+          "style": {
+            "color": "#226C32",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
           "useLOD": false
         },
         {
-          "id": "eds-ulster-1921",
+          "id": "eds-roi-1965-ulster",
           "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
-          "useLOD": true
+          "style": {
+            "color": "#226C32",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
         }
       ],
       "downloads": [
@@ -8287,36 +8362,56 @@
       "labelProperty": "ENGLISH",
       "variants": [
         {
-          "id": "eds-connacht-1919",
+          "id": "eds-roi-1966-connacht",
           "label": "Connacht (= 1919 boundaries)",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
           },
-          "useLOD": true
+          "style": {
+            "color": "#247D36",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
         },
         {
-          "id": "eds-leinster-1957",
+          "id": "eds-roi-1966-leinster",
           "label": "Leinster (= 1957 boundaries)",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1957.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1957.fgb"
           },
+          "style": {
+            "color": "#247D36",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
           "useLOD": false
         },
         {
-          "id": "eds-munster-1966",
-          "label": "Munster",
+          "id": "eds-roi-1966-munster",
+          "label": "Munster 1966",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1966.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1966.fgb"
           },
+          "style": {
+            "color": "#247D36",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
           "useLOD": false
         },
         {
-          "id": "eds-ulster-1921",
+          "id": "eds-roi-1966-ulster",
           "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
-          "useLOD": true
+          "style": {
+            "color": "#247D36",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
         }
       ],
       "downloads": [
@@ -8397,36 +8492,56 @@
       "labelProperty": "ENGLISH",
       "variants": [
         {
-          "id": "eds-connacht-1919",
+          "id": "eds-roi-1970-connacht",
           "label": "Connacht (= 1919 boundaries)",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
           },
-          "useLOD": true
+          "style": {
+            "color": "#155A2B",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
         },
         {
-          "id": "eds-leinster-1957",
+          "id": "eds-roi-1970-leinster",
           "label": "Leinster (= 1957 boundaries)",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1957.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1957.fgb"
           },
+          "style": {
+            "color": "#155A2B",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
           "useLOD": false
         },
         {
-          "id": "eds-munster-1970",
-          "label": "Munster",
+          "id": "eds-roi-1970-munster",
+          "label": "Munster 1970",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1970.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1970.fgb"
           },
+          "style": {
+            "color": "#155A2B",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
           "useLOD": false
         },
         {
-          "id": "eds-ulster-1921",
+          "id": "eds-roi-1970-ulster",
           "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
-          "useLOD": true
+          "style": {
+            "color": "#155A2B",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
         }
       ],
       "downloads": [
@@ -13461,9 +13576,6 @@
         "Phelim Birch",
         "Paddy Matthews"
       ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_AllIreland_1971.fgb"
-      },
       "style": {
         "color": "#155A2B",
         "weight": 2
@@ -13490,6 +13602,61 @@
           55.5,
           -5.4
         ]
+      ],
+      "isGroup": true,
+      "variants": [
+        {
+          "id": "eds-1971-connacht",
+          "label": "Connacht (= 1919 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+          },
+          "style": {
+            "color": "#155A2B",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1971-leinster",
+          "label": "Leinster 1971",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1971.fgb"
+          },
+          "style": {
+            "color": "#155A2B",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1971-munster",
+          "label": "Munster 1971",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1971.fgb"
+          },
+          "style": {
+            "color": "#155A2B",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1971-ulster",
+          "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+          },
+          "style": {
+            "color": "#155A2B",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        }
       ]
     },
     {
@@ -13503,9 +13670,6 @@
         "Phelim Birch",
         "Paddy Matthews"
       ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_AllIreland_1977.fgb"
-      },
       "style": {
         "color": "#1F7333",
         "weight": 2
@@ -13532,6 +13696,61 @@
           55.5,
           -5.4
         ]
+      ],
+      "isGroup": true,
+      "variants": [
+        {
+          "id": "eds-1977-connacht",
+          "label": "Connacht (= 1919 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+          },
+          "style": {
+            "color": "#1F7333",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1977-leinster",
+          "label": "Leinster 1977",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1977.fgb"
+          },
+          "style": {
+            "color": "#1F7333",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1977-munster",
+          "label": "Munster (= 1971 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1971.fgb"
+          },
+          "style": {
+            "color": "#1F7333",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1977-ulster",
+          "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+          },
+          "style": {
+            "color": "#1F7333",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        }
       ]
     },
     {
@@ -13545,9 +13764,6 @@
         "Phelim Birch",
         "Paddy Matthews"
       ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_AllIreland_1980.fgb"
-      },
       "style": {
         "color": "#247D36",
         "weight": 2
@@ -13575,6 +13791,61 @@
           55.5,
           -5.4
         ]
+      ],
+      "isGroup": true,
+      "variants": [
+        {
+          "id": "eds-1980-connacht",
+          "label": "Connacht (= 1919 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+          },
+          "style": {
+            "color": "#247D36",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1980-leinster",
+          "label": "Leinster (= 1977 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1977.fgb"
+          },
+          "style": {
+            "color": "#247D36",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1980-munster",
+          "label": "Munster 1980",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1980.fgb"
+          },
+          "style": {
+            "color": "#247D36",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1980-ulster",
+          "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+          },
+          "style": {
+            "color": "#247D36",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        }
       ]
     },
     {
@@ -13588,9 +13859,6 @@
         "Phelim Birch",
         "Paddy Matthews"
       ],
-      "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_AllIreland_1983.fgb"
-      },
       "style": {
         "color": "#288239",
         "weight": 2
@@ -13617,6 +13885,61 @@
           55.5,
           -5.4
         ]
+      ],
+      "isGroup": true,
+      "variants": [
+        {
+          "id": "eds-1983-connacht",
+          "label": "Connacht (= 1919 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+          },
+          "style": {
+            "color": "#288239",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1983-leinster",
+          "label": "Leinster (= 1977 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1977.fgb"
+          },
+          "style": {
+            "color": "#288239",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1983-munster",
+          "label": "Munster 1983",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1983.fgb"
+          },
+          "style": {
+            "color": "#288239",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        },
+        {
+          "id": "eds-1983-ulster",
+          "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+          },
+          "style": {
+            "color": "#288239",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": true
+        }
       ]
     },
     {
@@ -13646,7 +13969,7 @@
           "id": "eds-connacht-2019",
           "label": "Connacht (= 1986 boundaries)",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Connacht_1986.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Connacht_1986.fgb"
           },
           "useLOD": false
         },
@@ -13654,7 +13977,7 @@
           "id": "eds-leinster-2019",
           "label": "Leinster",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Leinster_1997.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Leinster_1997.fgb"
           },
           "useLOD": false
         },
@@ -13662,7 +13985,7 @@
           "id": "eds-munster-2019",
           "label": "Munster",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_2019.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Munster_2019.fgb"
           },
           "useLOD": false
         },
@@ -13704,7 +14027,7 @@
           "id": "eds-connacht-1997",
           "label": "Connacht (= 1986 boundaries)",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Connacht_1986.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Connacht_1986.fgb"
           },
           "useLOD": false
         },
@@ -13712,7 +14035,7 @@
           "id": "eds-leinster-1997",
           "label": "Leinster",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Leinster_1997.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Leinster_1997.fgb"
           },
           "useLOD": false
         },
@@ -13720,7 +14043,7 @@
           "id": "eds-munster-1997",
           "label": "Munster",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Munster_pre_2019.fgb"
           },
           "useLOD": false
         },
@@ -13763,7 +14086,7 @@
           "id": "eds-connacht-1994",
           "label": "Connacht (= 1986 boundaries)",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Connacht_1986.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Connacht_1986.fgb"
           },
           "useLOD": false
         },
@@ -13771,7 +14094,7 @@
           "id": "eds-leinster-1994",
           "label": "Leinster",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1994.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1994.fgb"
           },
           "useLOD": false
         },
@@ -13779,7 +14102,7 @@
           "id": "eds-munster-1994",
           "label": "Munster",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Munster_pre_2019.fgb"
           },
           "useLOD": false
         },
@@ -13822,7 +14145,7 @@
           "id": "eds-connacht-1986",
           "label": "Connacht",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Connacht_1986.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Connacht_1986.fgb"
           },
           "useLOD": false
         },
@@ -13830,7 +14153,7 @@
           "id": "eds-leinster-1986",
           "label": "Leinster",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1986.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1986.fgb"
           },
           "useLOD": false
         },
@@ -13838,7 +14161,7 @@
           "id": "eds-munster-1986",
           "label": "Munster",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Munster_pre_2019.fgb"
           },
           "useLOD": false
         },
@@ -14277,7 +14600,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Ulster_1921.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
       },
       "style": {
         "color": "#1B4332",
@@ -14364,7 +14687,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Connacht_1986.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Connacht_1986.fgb"
       },
       "style": {
         "color": "#1C6B3A",
@@ -14391,7 +14714,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Leinster_1997.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Leinster_1997.fgb"
       },
       "style": {
         "color": "#1C6B3A",
@@ -14417,7 +14740,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_2019.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Munster_2019.fgb"
       },
       "style": {
         "color": "#1C6B3A",
@@ -14470,7 +14793,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Connacht_1986.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Connacht_1986.fgb"
       },
       "style": {
         "color": "#2E7D32",
@@ -14496,7 +14819,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Leinster_1997.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Leinster_1997.fgb"
       },
       "style": {
         "color": "#2E7D32",
@@ -14521,7 +14844,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Munster_pre_2019.fgb"
       },
       "style": {
         "color": "#2E7D32",
@@ -14573,7 +14896,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Connacht_1986.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Connacht_1986.fgb"
       },
       "style": {
         "color": "#2B8A3E",
@@ -14599,7 +14922,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1994.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1994.fgb"
       },
       "style": {
         "color": "#2B8A3E",
@@ -14624,7 +14947,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Munster_pre_2019.fgb"
       },
       "style": {
         "color": "#2B8A3E",
@@ -14676,7 +14999,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Connacht_1986.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Connacht_1986.fgb"
       },
       "style": {
         "color": "#256D36",
@@ -14728,7 +15051,7 @@
         "Paddy Matthews"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1957.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1957.fgb"
       },
       "style": {
         "color": "#1B5E20",
@@ -14756,7 +15079,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1977.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1977.fgb"
       },
       "style": {
         "color": "#1C5530",
@@ -14781,7 +15104,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1971.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1971.fgb"
       },
       "style": {
         "color": "#256D36",
@@ -14807,7 +15130,7 @@
         "Paddy Matthews"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1955.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1955.fgb"
       },
       "style": {
         "color": "#1B5E20",
@@ -14837,7 +15160,7 @@
         "Paddy Matthews"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1965.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1965.fgb"
       },
       "style": {
         "color": "#226C32",
@@ -14866,7 +15189,7 @@
         "Paddy Matthews"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1966.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1966.fgb"
       },
       "style": {
         "color": "#247D36",
@@ -14895,7 +15218,7 @@
         "Paddy Matthews"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1970.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1970.fgb"
       },
       "style": {
         "color": "#155A2B",
@@ -14923,7 +15246,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1971.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1971.fgb"
       },
       "style": {
         "color": "#A33C3C",
@@ -14948,7 +15271,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1980.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1980.fgb"
       },
       "style": {
         "color": "#A33C3C",
@@ -14973,7 +15296,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1986.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1986.fgb"
       },
       "style": {
         "color": "#256D36",
@@ -14998,7 +15321,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Munster_pre_2019.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Munster_pre_2019.fgb"
       },
       "style": {
         "color": "#256D36",
@@ -30369,7 +30692,7 @@
         "Phelim Birch"
       ],
       "files": {
-        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1983.fgb"
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1983.fgb"
       },
       "style": {
         "color": "#256D36",
@@ -30555,6 +30878,87 @@
         "historical"
       ],
       "labelProperty": "ENGLISH",
+      "useLOD": true
+    },
+    {
+      "id": "counties-ireland-1915",
+      "name": "Counties of Ireland 1915",
+      "slug": "counties-ireland-1915",
+      "category": "counties",
+      "date": "1915",
+      "provider": [
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1915.fgb"
+      },
+      "style": {
+        "color": "#00A9E6",
+        "weight": 2
+      },
+      "labelProperty": "COUNTY",
+      "keywords": [
+        "county",
+        "ireland",
+        "all-island",
+        "32 counties",
+        "1915",
+        "traditional"
+      ],
+      "useLOD": true
+    },
+    {
+      "id": "counties-ireland-1955",
+      "name": "Counties of Ireland 1955",
+      "slug": "counties-ireland-1955",
+      "category": "counties",
+      "date": "1955",
+      "provider": [
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1955.fgb"
+      },
+      "style": {
+        "color": "#00A9E6",
+        "weight": 2
+      },
+      "labelProperty": "COUNTY",
+      "keywords": [
+        "county",
+        "ireland",
+        "all-island",
+        "32 counties",
+        "1955",
+        "traditional"
+      ],
+      "useLOD": true
+    },
+    {
+      "id": "counties-ireland-1957",
+      "name": "Counties of Ireland 1957",
+      "slug": "counties-ireland-1957",
+      "category": "counties",
+      "date": "1957",
+      "provider": [
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1957.fgb"
+      },
+      "style": {
+        "color": "#00A9E6",
+        "weight": 2
+      },
+      "labelProperty": "COUNTY",
+      "keywords": [
+        "county",
+        "ireland",
+        "all-island",
+        "32 counties",
+        "1957",
+        "traditional"
+      ],
       "useLOD": true
     }
   ]
