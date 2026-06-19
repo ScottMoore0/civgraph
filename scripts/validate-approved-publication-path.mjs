@@ -156,8 +156,28 @@ function validateBrowseMaterialisation(approvedSources, browseSources) {
     if (!browseItem) continue;
     assert(browseItem.approval?.recommendedAction === source.approval?.recommendedAction, `Browse source lost approval metadata: ${source.id}`);
     if (source.variantOf) assert(browseItem.variantOf?.id === source.variantOf.id, `Browse source lost variant parent metadata: ${source.id}`);
-    const detailPath = path.join(ROOT, 'data', 'browse', 'details', 'sources', `${browseItem.slug || slugify(source.id)}.json`);
-    assert(existsSync(detailPath), `Browse source detail file is missing for ${source.id}: ${path.relative(ROOT, detailPath)}`);
+    assert(hasBrowseSourceDetail(browseItem), `Browse source detail record is missing for ${source.id}: ${browseItem.detailUrl || browseItem.slug}`);
+  }
+}
+
+function hasBrowseSourceDetail(browseItem) {
+  const slug = browseItem.slug || slugify(browseItem.id);
+  if (!browseItem.detailUrl) {
+    const detailPath = path.join(ROOT, 'data', 'browse', 'details', 'sources', `${slug}.json`);
+    return existsSync(detailPath);
+  }
+  try {
+    const parsed = new URL(browseItem.detailUrl, 'https://civgraph.local');
+    const shardPath = path.join(ROOT, ...parsed.pathname.replace(/^\/+/, '').split('/'));
+    if (!existsSync(shardPath)) return false;
+    const shard = JSON.parse(readFileSync(shardPath, 'utf8'));
+    const items = Array.isArray(shard.items) ? shard.items : [];
+    return items.some((item) => (
+      String(item.slug || '').toLowerCase() === String(slug || '').toLowerCase() ||
+      String(item.id || '').toLowerCase() === String(browseItem.id || '').toLowerCase()
+    ));
+  } catch {
+    return false;
   }
 }
 

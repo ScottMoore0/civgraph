@@ -13,6 +13,8 @@ const SAMPLE_RELATED_LIMIT = 40;
 const FEATURE_SAMPLE_LIMIT = 600;
 const PERSON_RELATED_LIMIT = Number.POSITIVE_INFINITY;
 const PARTY_RELATED_LIMIT = Number.POSITIVE_INFINITY;
+const SOURCE_DETAIL_SHARD_DIR = 'source-shards';
+const SOURCE_DETAIL_SHARD_SIZE = 200;
 const RAW_ELECTION_SOURCE_CACHE = new Map();
 
 const ENTITY_GROUPS = [
@@ -80,6 +82,8 @@ function main() {
   ensureUniqueSlugs(parties);
   ensureUniqueSlugs(persons);
   ensureUniqueSlugs(sources);
+  const sourceDetailShardByKey = buildSourceDetailShardAssignments(sources);
+  const sourceIndexItems = sources.map((source) => compactSourceIndexRecord(source, sourceDetailShardByKey));
 
   writeJson('maps.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: maps.length, items: maps });
   writeJson('elections.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: elections.length, items: elections });
@@ -93,7 +97,16 @@ function main() {
   });
   writeJson('parties.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: parties.length, items: parties });
   writeJson('persons.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: persons.length, items: persons });
-  writeJson('sources.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: sources.length, items: sources });
+  writeJson('sources.json', {
+    schemaVersion: 2,
+    generatedAt: GENERATED_AT,
+    total: sources.length,
+    detailLayout: 'sharded',
+    detailShardStrategy: 'fixed-size',
+    detailShardSize: SOURCE_DETAIL_SHARD_SIZE,
+    detailShardDir: `/data/browse/details/${SOURCE_DETAIL_SHARD_DIR}`,
+    items: sourceIndexItems
+  });
 
   writeDetailFiles('maps', maps, (record) => ({
     rawMetadata: record.type === 'data-entry'
@@ -109,7 +122,7 @@ function main() {
     })
   }), { prune: true });
   writeDetailFiles('parties', Object.values(partyDetails));
-  writeDetailFiles('sources', sources, (record) => ({
+  writeSourceDetailShards(sources, (record) => ({
     rawMetadata: sourceRawMetadata(record, {
       rawMapsById,
       rawDataEntriesById,
@@ -118,7 +131,7 @@ function main() {
       rawExternalSourcesById,
       electionDetails
     })
-  }));
+  }), sourceDetailShardByKey);
 
   writeJson('index.json', {
     schemaVersion: 1,
@@ -1246,6 +1259,116 @@ function writeDetailFiles(kind, records, enhance = null, options = {}) {
   }
 }
 
+function buildSourceDetailShardAssignments(records) {
+  const assignments = new Map();
+  const sortedRecords = [...records].sort((a, b) => sourceDetailSlug(a).localeCompare(sourceDetailSlug(b)));
+  for (const [index, record] of sortedRecords.entries()) {
+    const shardIndex = Math.floor(index / SOURCE_DETAIL_SHARD_SIZE);
+    const shardName = `sources-${String(shardIndex).padStart(3, '0')}.json`;
+    for (const key of sourceDetailKeys(record)) assignments.set(key, shardName);
+  }
+  return assignments;
+}
+
+function sourceDetailSlug(record) {
+  return record.slug || slugify(record.id || record.key || record.title);
+}
+
+function sourceDetailKeys(record) {
+  return [sourceDetailSlug(record), record.id, record.key]
+    .filter(Boolean)
+    .map((value) => String(value).toLowerCase());
+}
+
+function sourceShardNameForRecord(record, assignments = null) {
+  if (assignments) {
+    for (const key of sourceDetailKeys(record)) {
+      const shardName = assignments.get(key);
+      if (shardName) return shardName;
+    }
+  }
+  return 'sources-misc.json';
+}
+
+function writeSourceDetailShards(records, enhance = null, assignments = null) {
+  const legacyDir = path.join(DETAILS_DIR, 'sources');
+  const shardDir = path.join(DETAILS_DIR, SOURCE_DETAIL_SHARD_DIR);
+  const shardAssignments = assignments || buildSourceDetailShardAssignments(records);
+  rmSync(legacyDir, { recursive: true, force: true });
+  rmSync(shardDir, { recursive: true, force: true });
+  mkdirSync(shardDir, { recursive: true });
+
+  const sortedRecords = [...records].sort((a, b) => sourceDetailSlug(a).localeCompare(sourceDetailSlug(b)));
+  const byShard = new Map();
+  for (const record of sortedRecords) {
+    const shardName = sourceShardNameForRecord(record, shardAssignments);
+    if (!byShard.has(shardName)) byShard.set(shardName, []);
+    const extra = enhance ? compactObject(enhance(record) || {}) : {};
+    byShard.get(shardName).push(compactObject({ ...record, ...extra }));
+  }
+
+  for (const [shardName, items] of [...byShard.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+    writeJson(path.join('details', SOURCE_DETAIL_SHARD_DIR, shardName), {
+      schemaVersion: 1,
+      generatedAt: GENERATED_AT,
+      kind: 'sources',
+      shard: shardName,
+      total: items.length,
+      items
+    });
+  }
+}
+
+function compactSourceIndexRecord(record, assignments = null) {
+  const slug = sourceDetailSlug(record);
+  return compactObject({
+    id: record.id,
+    slug,
+    type: record.type,
+    title: record.title,
+    subtitle: record.subtitle,
+    category: record.category,
+    date: record.date,
+    provider: normalizeArray(record.provider),
+    description: truncateText(record.description || '', 360),
+    url: record.url,
+    thumbnail: record.thumbnail,
+    status: record.status,
+    publicationStatus: record.publicationStatus,
+    approval: compactApprovalSummary(record.approval),
+    proposedBrowsePath: record.proposedBrowsePath,
+    variantOf: record.variantOf,
+    parentId: record.parentId,
+    parentTitle: record.parentTitle,
+    relationship: record.relationship,
+    sourceMapId: record.sourceMapId,
+    duplicateCount: record.duplicateCount,
+    license: record.license,
+    keywords: normalizeArray(record.keywords).slice(0, 16),
+    references: normalizeArray(record.references).slice(0, 4),
+    downloads: normalizeArray(record.downloads).slice(0, 4),
+    interactiveUrl: record.interactiveUrl,
+    browseUrl: record.browseUrl,
+    detailUrl: `/data/browse/details/${SOURCE_DETAIL_SHARD_DIR}/${sourceShardNameForRecord(record, assignments)}`
+  });
+}
+
+function truncateText(value, maxLength = 360) {
+  const text = String(value || '');
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, Math.max(0, maxLength - 1)).trim()}\u2026`;
+}
+
+function compactApprovalSummary(approval) {
+  if (!approval || typeof approval !== 'object') return approval || null;
+  return compactObject({
+    recommendedAction: approval.recommendedAction,
+    stagingId: approval.stagingId,
+    confidence: approval.confidence,
+    sourceType: approval.sourceType,
+    provider: approval.provider
+  });
+}
 function readThumbnailManifest() {
   const relPath = path.join('assets', 'thumbnails', 'manifest.json');
   const fullPath = path.join(ROOT, relPath);

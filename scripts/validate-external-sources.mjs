@@ -30,8 +30,7 @@ assert(archiveMaps.length > 0, 'External source index must include deduplicated 
 for (const item of sourceItems) {
   assert(item.id && item.title && item.type, `External source is missing id/title/type: ${JSON.stringify(item).slice(0, 160)}`);
   assert(sourceById.has(item.id), `Browse sources index is missing external source ${item.id}.`);
-  const detailPath = path.join('data', 'browse', 'details', 'sources', `${item.slug || slugify(item.id)}.json`);
-  assert(existsSync(detailPath), `Browse source detail file is missing for ${item.id}: ${detailPath}`);
+  assert(hasBrowseSourceDetail(sourceById.get(item.id)), `Browse source detail record is missing for ${item.id}: ${sourceById.get(item.id)?.detailUrl || item.slug}`);
   assert(!item.fullText && !item.articleText && !item.rawHtml, `External source ${item.id} must not copy full third-party article text into the repository.`);
 }
 
@@ -60,6 +59,28 @@ if (failures.length) {
 }
 
 console.log(`PASS: ${wikipedia.length} Wikipedia council-election articles and ${archiveMaps.length} Internet Archive raster map records are indexed as external Browse sources.`);
+
+function hasBrowseSourceDetail(browseItem) {
+  if (!browseItem) return false;
+  const slug = browseItem.slug || slugify(browseItem.id);
+  if (!browseItem.detailUrl) {
+    const detailPath = path.join('data', 'browse', 'details', 'sources', `${slug}.json`);
+    return existsSync(detailPath);
+  }
+  try {
+    const parsed = new URL(browseItem.detailUrl, 'https://civgraph.local');
+    const shardPath = path.join(...parsed.pathname.replace(/^\/+/, '').split('/'));
+    if (!existsSync(shardPath)) return false;
+    const shard = JSON.parse(readFileSync(shardPath, 'utf8'));
+    const items = Array.isArray(shard.items) ? shard.items : [];
+    return items.some((candidate) => (
+      String(candidate.slug || '').toLowerCase() === String(slug || '').toLowerCase() ||
+      String(candidate.id || '').toLowerCase() === String(browseItem.id || '').toLowerCase()
+    ));
+  } catch {
+    return false;
+  }
+}
 
 function slugify(value) {
   return String(value ?? '')

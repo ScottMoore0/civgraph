@@ -6851,3 +6851,46 @@ Add election entries to /test2
   - `node --check tasks/build-raw-source-integration-recommendations-2026-06-19.mjs`
   - `node tasks/build-raw-source-integration-recommendations-2026-06-19.mjs`
   - JSON parse and CSV row-count assertion confirmed 1,189 recommendation rows and 918 Tailte alternate export rows.
+
+# Research Cloudflare Pages asset-count deployment failure
+- [x] Inspect current Pages cleanup and deployment-limit evidence
+  - Task: determine why pushed builds fail after GitHub push and identify the deploy-output directories responsible for exceeding Cloudflare Pages' file-count cap.
+  - Guardrails: research and plan only; do not run the destructive cleanup script in the live workspace; do not delete source data or untracked provider-audit scratch.
+- [x] Produce remediation plan
+  - Task: recommend the safest order for exclusions, sharding/R2 movement, and deployment guards so Pages deploys reliably without breaking runtime features.
+
+## Review: Cloudflare Pages asset-count deployment failure research
+- The deployment failure is reproducible from tracked files after the current `scripts/clean-for-pages.sh` exclusions: `23,044` deployable tracked files versus the `20,000` Cloudflare Pages cap.
+- Largest remaining file-count buckets after current cleanup:
+  - `data/browse/details`: 9,758 files, including 7,880 source-detail JSON files.
+  - `election-viewer-package/data/elections`: 7,356 files. These are legacy/source election JSON files; the promoted MapLibre app loads generated `/test/metadata/elections-test2/*.json` bundles instead.
+  - `test/metadata/*`: 2,342 files, including layer details, duplicate feature ID sidecars, feature indexes, and election bundles.
+- Immediate safest deployment fix: exclude `election-viewer-package/data/elections/` from Pages output and from `scripts/validate-pages-file-budget.mjs`. That reduces deployable tracked files to about `15,688`, giving roughly `4,312` files of headroom without changing runtime fetch paths.
+- Longer-term pressure point: `data/browse/details/sources/` should be sharded or moved behind an index/bundle loader because it is 7,880 tiny files.
+- Separate single-file-size risk: `data/browse/sources.json` and `data/database/approved-publication-sources.json` exceed 25 MiB, so they need sharding rather than generic deletion during cleanup.
+
+# Implement Cloudflare Pages deploy-output fix
+- [x] Exclude legacy election source JSON from Pages output
+  - Task: remove `election-viewer-package/data/elections/` from the deployed asset set while keeping generated MapLibre election bundles available.
+  - Completed: added the legacy election source tree to `scripts/clean-for-pages.sh` and `scripts/validate-pages-file-budget.mjs` exclusions. The runtime MapLibre election bundles under `test/metadata/elections-test2` remain deployable.
+- [x] Lower Pages file-budget guard
+  - Task: fail local/CI validation before Cloudflare by using a safe deploy-file threshold below the hard 20,000 cap.
+  - Completed: lowered the default local/CI guard to `18,500` deployable files so the build fails before Cloudflare's `20,000` file cap.
+- [x] Shard oversized Browse/source JSON
+  - Task: split oversized source indexes/details into runtime shards and update Browse loaders so required data remains available without 25 MiB files or thousands of source-detail files.
+  - Completed: replaced thousands of one-file-per-source Browse detail JSON files with `39` fixed-size source detail shards. `data/browse/sources.json` is now a compact index with shard pointers, and Browse source-detail loading resolves those shard pointers at runtime.
+- [x] Keep raw/source storage policy explicit
+  - Task: document that raw/source files stay in repo/D:/IA workflows unless converted to cleaned/queryable runtime bundles suitable for R2/CDN.
+  - Completed: excluded the build-time approved-publication source blob from Pages output. No IA/R2/CDN upload was performed; cleaned/queryable R2/CDN promotion remains a separate approval step.
+- [x] Verify
+  - Task: run build and Pages budget checks, then run broader checks if feasible.
+
+## Review: Cloudflare Pages deploy-output fix
+- `scripts/clean-for-pages.sh` now removes non-runtime legacy election source JSON and the build-time approved-publication source blob from Pages output.
+- `scripts/validate-pages-file-budget.mjs` now mirrors those exclusions and enforces an `18,500` deployable-file budget.
+- `scripts/build-browse-indexes.mjs` now writes source detail data into fixed-size shards under `data/browse/details/source-shards/`, with `data/browse/sources.json` acting as a compact index. The largest generated source shard is about `3.4 MB`, and the compact source index is about `17.7 MB`.
+- `browse/browse.js`, `scripts/validate-approved-publication-path.mjs`, and `scripts/validate-external-sources.mjs` understand the new sharded source-detail layout.
+- Verification evidence:
+  - `npm run build`
+  - `npm run check`
+  - `npm run check:pages-assets`: `7,846/18,500` deployable files after cleanup exclusions.

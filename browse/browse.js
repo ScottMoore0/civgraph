@@ -1322,7 +1322,11 @@ async function loadDetail(type, item) {
   if (state.details.has(cacheKey)) return state.details.get(cacheKey);
   let detail;
   try {
-    detail = await loadJson(`${DATA_ROOT}/details/${config.detailDir}/${encodeURIComponent(slug)}.json`);
+    if (type === 'sources' && item.detailUrl) {
+      detail = await loadSourceShardDetail(item, slug);
+    } else {
+      detail = await loadJson(`${DATA_ROOT}/details/${config.detailDir}/${encodeURIComponent(slug)}.json`);
+    }
   } catch (error) {
     if (type === 'elections' && error.status === 404) {
       detail = { item };
@@ -1332,6 +1336,28 @@ async function loadDetail(type, item) {
   }
   state.details.set(cacheKey, detail);
   return detail;
+}
+
+async function loadSourceShardDetail(item, slug) {
+  const shardUrl = item.detailUrl;
+  const shardCacheKey = `source-shard:${shardUrl}`;
+  let shard = state.details.get(shardCacheKey);
+  if (!shard) {
+    shard = await loadJson(shardUrl);
+    state.details.set(shardCacheKey, shard);
+  }
+  const items = Array.isArray(shard?.items) ? shard.items : [];
+  const match = items.find((candidate) => (
+    String(candidate.slug || '').toLowerCase() === String(slug || '').toLowerCase() ||
+    String(candidate.id || '').toLowerCase() === String(item.id || '').toLowerCase()
+  ));
+  if (!match) {
+    const error = new Error(`Source detail ${slug} was not found in ${shardUrl}`);
+    error.status = 404;
+    error.url = shardUrl;
+    throw error;
+  }
+  return { schemaVersion: shard.schemaVersion || 1, generatedAt: shard.generatedAt, item: match };
 }
 
 async function loadJson(url) {

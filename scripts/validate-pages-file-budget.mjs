@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { execFileSync } from 'node:child_process';
 
-const MAX_FILES = Number(process.env.MAX_PAGES_FILES || 20000);
+const MAX_FILES = Number(process.env.MAX_PAGES_FILES || 18500);
 
 const EXCLUDED_PREFIXES = [
   '.github/',
@@ -9,6 +9,7 @@ const EXCLUDED_PREFIXES = [
   'boundary-gazette/',
   'data/census/',
   'docs/',
+  'election-viewer-package/data/elections/',
   'electionsni-reference/',
   'node_modules/',
   'ocr_output/',
@@ -20,11 +21,18 @@ const EXCLUDED_PREFIXES = [
   'tests/'
 ];
 
+const EXCLUDED_FILES = new Set([
+  'data/database/approved-publication-sources.json'
+]);
+
 const trackedFiles = execFileSync('git', ['ls-files'], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 })
   .split(/\r?\n/)
   .filter(Boolean);
 
-const deployedFiles = trackedFiles.filter((file) => !EXCLUDED_PREFIXES.some((prefix) => file === prefix.slice(0, -1) || file.startsWith(prefix)));
+const deployedFiles = trackedFiles.filter((file) => (
+  !EXCLUDED_FILES.has(file) &&
+  !EXCLUDED_PREFIXES.some((prefix) => file === prefix.slice(0, -1) || file.startsWith(prefix))
+));
 const byTopLevel = new Map();
 for (const file of deployedFiles) {
   const top = file.split('/')[0] || file;
@@ -39,7 +47,7 @@ for (const [name, count] of [...byTopLevel.entries()].sort((a, b) => b[1] - a[1]
 }
 
 if (deployedFiles.length > MAX_FILES) {
-  console.error(`FAIL: Pages asset output would exceed Cloudflare's ${MAX_FILES}-file limit.`);
+  console.error(`FAIL: Pages asset output would exceed the local ${MAX_FILES}-file guardrail before Cloudflare's 20,000-file hard limit.`);
   process.exit(1);
 }
 

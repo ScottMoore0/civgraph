@@ -3,7 +3,10 @@ set -euo pipefail
 
 # Trim the Cloudflare Pages asset output. This script is run in the
 # temporary Pages build directory after the static bundles are generated.
-MAX_PAGES_FILES="${MAX_PAGES_FILES:-20000}"
+#
+# Keep this below Cloudflare's hard 20,000-file limit so drift fails locally
+# with headroom instead of failing only after upload.
+MAX_PAGES_FILES="${MAX_PAGES_FILES:-18500}"
 
 remove_path() {
   local path="$1"
@@ -43,6 +46,16 @@ remove_path "tests"
 # map data currently do not reference these files, so they should not be
 # deployed as individual Pages assets.
 remove_path "data/census"
+
+# Legacy/source election JSON is transformed into /test/metadata/elections-test2
+# bundles during the build. The browser no longer fetches these raw source
+# records directly, and deploying them costs several thousand Pages files.
+remove_path "election-viewer-package/data/elections"
+
+# Approved publication source input is build-time source material. Browse
+# consumes the compact /data/browse/sources.json index plus sharded source
+# details generated from it.
+remove_path "data/database/approved-publication-sources.json"
 
 # Remove files exceeding Cloudflare Pages' 25 MB per-file limit.
 find . -not -path './.git/*' -size +25M -delete
