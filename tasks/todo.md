@@ -6721,3 +6721,6 @@ Add election entries to /test2
 - Canonical URL decision: where current and archived files are identical or equivalent, current provider URLs should be canonical by default, with Wayback/archive URLs retained as preservation provenance.
 - Deferred decisions: approximate geography visibility and OCR-derived public table values will be considered later.
 - Still to decide: microdata/statistical raw-file publication policy, public bundle hosting path, and final staged-source placement across Browse, Books, Tables, map variants, citation-only records, and holds.
+- Raw provider file decision: source files should be made available as hotlinked Internet Archive downloads and, where feasible, viewable through site viewports while Internet Archive remains the storage host.
+- NISRA/CSO publication risk decision: treat NISRA and CSO material as cleared for public use from a privacy/licensing perspective, while still retaining provenance, validation, and extraction-quality controls.
+- Hosting split decision: keep small manifests/indexes/metadata/source records/concept and geography dictionaries in the repo/static build; use R2/CDN for large files that need to be queried, transformed, filtered, mapped, charted, or otherwise used by the site beyond simple hotlinked viewing/downloading.
