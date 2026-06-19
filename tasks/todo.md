@@ -6790,3 +6790,31 @@ Add election entries to /test2
   - `node --check scripts/validate-test2-route.mjs`
   - `npm run build:browse`
   - `npm run check:test2` passed with zero blocking election-audit issues, zero PMTiles/CDN errors, and zero performance-dashboard failures.
+
+# Visible catalogue repair for historical ROI ED/County/Province maps
+- [x] Inspect source records, generated Browse indexes, and the flat catalogue renderer
+  - Task: determine why corrected map records still appear wrong in the visible catalogue.
+  - Completed: confirmed source `data/database/maps.json` already contains the grouped ED/Ward province variants, restored county entries, hidden Provinces 2019 record, and hidden duplicate 28 June 1921 ED/Ward record. The remaining issue was visible render/index leakage: the flat catalogue read raw map records directly and the generated Browse map index emitted hidden maps as `status: hidden`.
+- [x] Patch visible catalogue filtering and metadata
+  - Task: make hidden map records impossible to show in the flat catalogue, remove the hard-coded duplicate 28 June 1921 ED/Ward row from the visible ROI ED list, and update the visible Provinces card years to match the visible maps.
+  - Completed: hidden maps are skipped by flat catalogue collection, `eds-roi-1921-06-28` is removed from the hard-coded visible ROI ED/Ward list, and the flat Provinces card now says `1899-1955`.
+- [x] Show 1971/1977/1980/1983 ED/Ward province child rows
+  - Task: keep those grouped parent maps' province variants expanded by default so Connacht/Leinster/Munster/Ulster are visible as child entries under each parent.
+  - Completed: `eds-1971`, `eds-1977`, `eds-1980`, and `eds-1983` now render their Connacht/Leinster/Munster/Ulster variants expanded by default.
+- [x] Harden generation and validation
+  - Task: remove hidden maps from generated Browse map indexes, exclude hidden maps from the Fuse search index, and add validation checks so hidden maps cannot leak back into the public catalogue/search/Browse surfaces.
+  - Completed: `scripts/build-browse-indexes.mjs` excludes hidden map/data-entry records, `js/data-service.js` excludes hidden maps from Fuse search by indexing `getAllMaps()`, and `scripts/validate-test2-route.mjs` now asserts hidden duplicate records are absent from Browse output and the flat catalogue.
+
+## Review: visible catalogue repair for historical ROI ED/County/Province maps
+- The visible catalogue now matches the intended source data:
+  - 1983, 1980, 1977, and 1971 ROI Electoral Divisions/Wards expose province child entries by default.
+  - 1970, 1966, 1965, and 1957 ROI Electoral Divisions/Wards retain the source-level province style/color fixes and no longer depend on hidden render paths.
+  - 1957, 1922, and 1915 county maps remain present through the visible `Counties (Ireland)` class.
+  - redundant Provinces 2019 and duplicate 28 June 1921 ED/Ward records are hidden from the flat catalogue, Browse maps, Browse sources, and map search.
+- Verification evidence:
+  - `node --check scripts/build-browse-indexes.mjs`
+  - `node --check scripts/validate-test2-route.mjs`
+  - `node --check js/data-service.js`
+  - `node --check js/ui-controller.js`
+  - `npm run build:browse`
+  - `npm run check:test2` passed with zero blocking election-audit issues, zero PMTiles/CDN errors, and zero performance-dashboard failures.

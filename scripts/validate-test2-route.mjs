@@ -29,6 +29,7 @@ const packageJsonSource = readFileSync('package.json', 'utf8');
 const portPlan = JSON.parse(readFileSync('test/metadata/main-site-port-plan.json', 'utf8'));
 const testMetadata = JSON.parse(readFileSync('test/metadata/maps-test.json', 'utf8'));
 const mapsDb = JSON.parse(readFileSync('data/database/maps.json', 'utf8'));
+const browseMapsIndex = JSON.parse(readFileSync('data/browse/maps.json', 'utf8'));
 const test2BundleVersion = index.match(/\/app\/build\/app\.bundle\.js\?v=([0-9a-f]{12})/)?.[1] || '';
 
 function assert(condition, message) {
@@ -75,6 +76,13 @@ function assertCatalogueMetadata() {
   const provinces = mapById.get('provinces');
   assert(provinces?.hidden === true, 'Provinces 2019 must remain hidden because it duplicates Provinces 1955 without the Irish-name enrichment');
   assert(!(classById.get('ireland-provinces')?.maps || []).includes('provinces'), 'Provinces class must not expose the redundant Provinces 2019 record');
+  const publicBrowseMapIds = new Set((browseMapsIndex.items || browseMapsIndex || []).map((item) => item.id));
+  for (const hiddenId of ['provinces', 'eds-roi-1921-06-28']) {
+    assert(!publicBrowseMapIds.has(hiddenId), `Public Browse maps index must not expose hidden map ${hiddenId}`);
+  }
+  assert(!uiControllerSource.includes("'eds-roi-1921-06-28'"), 'Flat catalogue must not hard-code the hidden duplicate 28 June 1921 ED/Ward record');
+  assert(uiControllerSource.includes("id: 'flat-provinces', name: 'Provinces', years: '1899-1955'"), 'Flat catalogue Provinces card must reflect the visible 1899-1955 records, not hidden Provinces 2019');
+  assert(uiControllerSource.includes('shouldExpandVariantsByDefault(map)') && uiControllerSource.includes("'eds-1983'"), 'Flat catalogue must expand 1971/1977/1980/1983 ED/Ward province child variants by default');
 
   const localAuthorities2008 = mapById.get('roi-local-authorities-2008');
   assert(Array.isArray(localAuthorities2008?.provider) && localAuthorities2008.provider.includes('CSO') && !localAuthorities2008.provider.includes('Phelim Birch'), 'Local Authorities 2008 must be credited to CSO, not the collaborator');

@@ -158,7 +158,7 @@ function main() {
 }
 
 function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, thumbnailIds) {
-  const mapRecords = (mapsData.maps || []).map((map) => {
+  const mapRecords = (mapsData.maps || []).filter((map) => !map.hidden).map((map) => {
     const category = categoriesById.get(map.category) || {};
     const files = normalizeFiles(map.files || map.file || map.sourceFile || map.data || null);
     const variantFiles = normalizeArray(map.variants).some((variant) => {
@@ -184,13 +184,13 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
       provider: normalizeArray(map.provider || map.providers),
       credits: normalizeArray(map.credits || map.credit || map.sourceCredit),
       keywords: normalizeArray(map.keywords),
-      status: map.hidden ? 'hidden' : map.placeholder ? 'not yet converted' : 'available',
+      status: map.placeholder ? 'not yet converted' : 'available',
       featured: Boolean(map.featured),
       loadable: Boolean(map.files || map.file || map.url || map.source || map.tiles || map.pmtiles || map.geojson || variantFiles),
       labelProperty: map.labelProperty || null,
       parentCard: mapClassInfoById.get(map.id)?.className || null,
       thumbnail: thumbnailForCandidates(thumbnailIds, [map.id, map.cloneOf], map.name || map.title || map.id, 'map'),
-      variants: normalizeArray(map.variants).map((variant) => typeof variant === 'string' ? { id: variant } : compactObject({
+      variants: normalizeArray(map.variants).filter((variant) => typeof variant === 'string' || !variant.hidden).map((variant) => typeof variant === 'string' ? { id: variant } : compactObject({
         id: variant.id || variant.mapId || variant.slug || variant.name,
         title: mapDisplayTitle(
           { ...map, ...variant, id: variant.id || variant.mapId || variant.slug || variant.name, name: variant.name || variant.title || variant.label || variant.id || variant.mapId },
@@ -207,7 +207,7 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
     });
   }).filter((map) => map.id);
 
-  const dataEntries = normalizeArray(dataEntriesData.dataEntries || dataEntriesData.entries).map((entry) => {
+  const dataEntries = normalizeArray(dataEntriesData.dataEntries || dataEntriesData.entries).filter((entry) => !entry.hidden).map((entry) => {
     const id = entry.id || entry.slug || slugify(entry.name || entry.title);
     return compactObject({
       id,
@@ -224,7 +224,7 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
       provider: normalizeArray(entry.provider || entry.providers),
       credits: normalizeArray(entry.credits || entry.credit),
       keywords: normalizeArray(entry.keywords),
-      status: entry.hidden ? 'hidden' : 'available',
+      status: 'available',
       loadable: Boolean(entry.mapId || entry.layerId || entry.sourceMapId),
       thumbnail: thumbnailForCandidates(thumbnailIds, [entry.layerId, entry.mapId, entry.sourceMapId, entry.geography, id], entry.name || entry.title || id, 'table'),
       sourceFiles: normalizeFiles([entry.files, entry.file, entry.sourceFile, entry.csv].filter(Boolean)),

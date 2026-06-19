@@ -2805,7 +2805,7 @@ class UIController {
             { id: 'flat-civil-parishes', name: 'Civil Parishes', years: '', extent: 'Ireland', classIds: ['ireland-civil-parishes'], thumbMapId: 'civil-parishes-by-province' },
             { id: 'flat-baronies', name: 'Baronies', years: '', extent: 'Ireland', mapIds: ['baronies-all-ireland'] },
             { id: 'flat-counties', name: 'Counties (Ireland)', years: '1899-1977', extent: 'Ireland', classIds: ['ni-counties'] },
-            { id: 'flat-provinces', name: 'Provinces', years: '1899-2019', extent: 'Ireland', classIds: ['ireland-provinces'] },
+            { id: 'flat-provinces', name: 'Provinces', years: '1899-1955', extent: 'Ireland', classIds: ['ireland-provinces'] },
             { id: 'flat-polities', name: 'Polities', years: '', extent: '', mapIds: ['ni-1921', 'roi-1938'] },
             // ── Topography ──
             { id: 'flat-place-names', name: 'Place Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['place-names-gazetteer'] },
@@ -2833,7 +2833,7 @@ class UIController {
               mapIds: ['eds-1911', 'eds-1912', 'eds-1914', 'eds-1915', 'eds-1919-04-01'] },
             { id: 'flat-roi-deds', name: 'Electoral Divisions', years: '1921-2019', extent: 'Republic of Ireland',
               mapIds: [
-                  'eds-roi-1921-05-03', 'eds-roi-1921-06-28', 'eds-roi-1936', 'eds-roi-1944',
+                  'eds-roi-1921-05-03', 'eds-roi-1936', 'eds-roi-1944',
                   'eds-roi-1950', 'eds-roi-1954', 'eds-roi-1957', 'eds-roi-1965',
                   'eds-roi-1966', 'eds-roi-1970',
                   'eds-1971', 'eds-1977', 'eds-1980', 'eds-1983',
@@ -3558,7 +3558,7 @@ class UIController {
                     if (seenMapIds.has(mapId)) return;
                     if (excludeIds.has(mapId)) return;
                     const map = mapById.get(mapId) || dataService.getMapById(mapId);
-                    if (!map) return;
+                    if (!map || map.hidden) return;
                     seenMapIds.add(mapId);
                     mapEntries.push({ map, classId: def.id });
                 });
@@ -3568,7 +3568,7 @@ class UIController {
                 if (seenMapIds.has(mapId)) return;
                 if (excludeIds.has(mapId)) return;
                 const map = mapById.get(mapId) || dataService.getMapById(mapId);
-                if (!map) return;
+                if (!map || map.hidden) return;
                 seenMapIds.add(mapId);
                 mapEntries.push({ map, classId: def.id });
             });
@@ -4861,7 +4861,8 @@ class UIController {
             }
 
             // Expand button for maps with variants (isGroup)
-            const expandBtn = hasVariants ? `<button class="btn btn--icon btn--xs variants-toggle" data-map-id="${map.id}" title="Show variants">&#9660;</button>` : '';
+            const variantsExpandedByDefault = hasVariants && this.shouldExpandVariantsByDefault(map);
+            const expandBtn = hasVariants ? `<button class="btn btn--icon btn--xs variants-toggle ${variantsExpandedByDefault ? 'active' : ''}" data-map-id="${map.id}" title="${variantsExpandedByDefault ? 'Hide variants' : 'Show variants'}">&#9660;</button>` : '';
 
             // Variants dropdown HTML (for isGroup maps)
             const variantsHtml = hasVariants ? this.renderVariantsDropdown(map, isLoaded) : '';
@@ -9702,8 +9703,11 @@ class UIController {
     renderVariantsDropdown(map, isLoaded) {
         if (!map.variants || map.variants.length === 0) return '';
 
-        let html = `<div class="variants-container" data-parent-id="${map.id}">`;
-        map.variants.forEach(variant => {
+        const visibleVariants = map.variants.filter(variant => !variant.hidden);
+        if (!visibleVariants.length) return '';
+        const expandedByDefault = this.shouldExpandVariantsByDefault(map);
+        let html = `<div class="variants-container ${expandedByDefault ? 'variants-container--expanded variants-container--default-expanded' : ''}" data-parent-id="${map.id}">`;
+        visibleVariants.forEach(variant => {
             const variantLoaded = this.isMapLoadedState(variant.id, {});
             const description = variant.description || '';
             const hasFgb = !!(variant.files?.fgb || variant.files?.image);
@@ -9752,6 +9756,15 @@ class UIController {
         });
         html += '</div>';
         return html;
+    }
+
+    shouldExpandVariantsByDefault(map) {
+        return new Set([
+            'eds-1971',
+            'eds-1977',
+            'eds-1980',
+            'eds-1983'
+        ]).has(map?.id);
     }
 
     // URL state helpers

@@ -66,7 +66,7 @@ class DataService {
    */
   initFuseSearch() {
     if (typeof Fuse !== 'undefined' && this.maps?.maps) {
-      this.fuse = new Fuse(this.maps.maps, {
+      this.fuse = new Fuse(this.getAllMaps(), {
         keys: [
           { name: 'name', weight: 2 },
           { name: 'keywords', weight: 1.5 },

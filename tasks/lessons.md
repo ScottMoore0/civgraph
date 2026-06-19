@@ -2488,3 +2488,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) component URLs must be encoded and validated as loadable before a group is published,
   3) validation must assert the visible catalogue class order, not only the existence of child source files,
   4) import/repair scripts must keep historical variants as top-level maps unless the current map intentionally needs a runtime component submap.
+
+### 183) Hidden catalogue records must be filtered at every public render/index path
+- Mistake pattern: Marking a map `hidden: true` in `data/database/maps.json` and removing it from classes, but leaving hand-written flat-catalogue map ID lists or generated Browse indexes to emit it anyway.
+- Impact: the source metadata looks fixed while the visible site still shows stale records such as redundant Provinces 2019 or duplicate 1921 ED/Ward entries.
+- Guardrail:
+  1) flat catalogue map collection must skip `map.hidden` even when it reads raw database maps for lookup,
+  2) public Browse/search indexes must not include hidden map records,
+  3) route validation must check visible catalogue hard-coded lists and generated Browse records, not only canonical source records,
+  4) grouped-map fixes must prove child variants are visible in the UI when the user specifically asks for child entries.
