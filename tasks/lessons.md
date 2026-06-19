@@ -2505,3 +2505,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   1) every child map that reuses a converted source must declare `cloneOf` against the canonical source map,
   2) route validation must assert both the canonical `cloneOf` metadata and the generated `aliasTargetLayerId`,
   3) generated metadata changes should be scoped to the affected aliases rather than regenerating unrelated layer order/content.
+
+### 185) Fixing one grouped child route requires sibling-set verification
+- Mistake pattern: Correcting the specific child entry mentioned by the user without auditing the other visible child entries in the same grouped catalogue card.
+- Impact: the reported example starts working, but sibling entries still appear loadable while failing at the MapLibre route layer.
+- Guardrail:
+  1) any grouped-map child route fix must enumerate every sibling variant in the affected parent card,
+  2) each sibling that reuses existing geometry must declare cloneOf,
+  3) route validation must assert the full sibling matrix, not only the originally reported row,
+  4) generated metadata should be scoped so the fix does not churn unrelated layer detail sidecars.

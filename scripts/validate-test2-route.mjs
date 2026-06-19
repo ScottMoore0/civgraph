@@ -100,21 +100,45 @@ function assertCatalogueMetadata() {
     assert(variants.every((variant) => variant?.style?.color === map?.style?.color), `${id} provincial variants must inherit the parent style so provinces render consistently`);
   }
 
-  const connacht1919VariantIds = [
-    'eds-roi-1957-connacht',
-    'eds-roi-1965-connacht',
-    'eds-roi-1966-connacht',
-    'eds-roi-1970-connacht',
-    'eds-1971-connacht',
-    'eds-1977-connacht',
-    'eds-1980-connacht',
-    'eds-1983-connacht'
-  ];
-  for (const id of connacht1919VariantIds) {
+  const edProvinceAliasTargets = {
+    'eds-roi-1957-connacht': 'eds-connacht-1919',
+    'eds-roi-1957-leinster': 'eds-leinster-1957',
+    'eds-roi-1957-munster': 'eds-munster-1955',
+    'eds-roi-1957-ulster': 'eds-ulster-1921',
+    'eds-roi-1965-connacht': 'eds-connacht-1919',
+    'eds-roi-1965-leinster': 'eds-leinster-1957',
+    'eds-roi-1965-munster': 'eds-munster-1965',
+    'eds-roi-1965-ulster': 'eds-ulster-1921',
+    'eds-roi-1966-connacht': 'eds-connacht-1919',
+    'eds-roi-1966-leinster': 'eds-leinster-1957',
+    'eds-roi-1966-munster': 'eds-munster-1966',
+    'eds-roi-1966-ulster': 'eds-ulster-1921',
+    'eds-roi-1970-connacht': 'eds-connacht-1919',
+    'eds-roi-1970-leinster': 'eds-leinster-1957',
+    'eds-roi-1970-munster': 'eds-munster-1970',
+    'eds-roi-1970-ulster': 'eds-ulster-1921',
+    'eds-1971-connacht': 'eds-connacht-1919',
+    'eds-1971-leinster': 'eds-leinster-1971',
+    'eds-1971-munster': 'eds-munster-1971',
+    'eds-1971-ulster': 'eds-ulster-1921',
+    'eds-1977-connacht': 'eds-connacht-1919',
+    'eds-1977-leinster': 'eds-leinster-1977',
+    'eds-1977-munster': 'eds-munster-1971',
+    'eds-1977-ulster': 'eds-ulster-1921',
+    'eds-1980-connacht': 'eds-connacht-1919',
+    'eds-1980-leinster': 'eds-leinster-1977',
+    'eds-1980-munster': 'eds-munster-1980',
+    'eds-1980-ulster': 'eds-ulster-1921',
+    'eds-1983-connacht': 'eds-connacht-1919',
+    'eds-1983-leinster': 'eds-leinster-1977',
+    'eds-1983-munster': 'eds-munster-1983',
+    'eds-1983-ulster': 'eds-ulster-1921'
+  };
+  for (const [id, targetId] of Object.entries(edProvinceAliasTargets)) {
     const variant = findMap(id);
     const layer = (testMetadata.layers || []).find((item) => item.sourceMapId === id);
-    assert(variant?.cloneOf === 'eds-connacht-1919', `${id} must declare cloneOf=eds-connacht-1919 so its visible catalogue row resolves to the converted 1919 Connacht geometry`);
-    assert(layer?.aliasOf === 'eds-connacht-1919' && layer?.aliasTargetLayerId === 'eds-connacht-1919-vector-test', `${id} must have a generated MapLibre alias to eds-connacht-1919-vector-test`);
+    assert(variant?.cloneOf === targetId, `${id} must declare cloneOf=${targetId} so its visible catalogue row resolves to converted province geometry`);
+    assert(layer?.aliasOf === targetId && layer?.aliasTargetLayerId === `${targetId}-vector-test`, `${id} must have a generated MapLibre alias to ${targetId}-vector-test`);
   }
 
   for (const id of ['eds-2019', 'eds-1997', 'eds-1994', 'eds-1986', 'eds-1983', 'eds-1980', 'eds-1977', 'eds-1971', 'eds-roi-1957', 'eds-roi-1965', 'eds-roi-1966', 'eds-roi-1970']) {

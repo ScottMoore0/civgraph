@@ -53,12 +53,11 @@ const rasterRows = INCLUDE_RASTERS
     .filter((row) => findRasterFile(row) || findRasterTileTemplate(row))
     .slice(0, RASTER_LIMIT)
   : [];
+const aliasRows = buildAliasRows();
 const regeneratedSourceIds = new Set([
   ...verifiedSourceIds,
   ...rasterRows.map((row) => row.sourceMapId),
-  ...(plan.rows || [])
-    .filter((row) => row.cloneOf || MANUAL_ALIAS_TARGETS.has(row.sourceMapId))
-    .map((row) => row.sourceMapId)
+  ...aliasRows.map((row) => row.sourceMapId)
 ]);
 for (const row of plan.rows || []) {
   const map = directMainById.get(row.sourceMapId);
@@ -98,7 +97,7 @@ if (INCLUDE_RASTERS) {
 
 const preAliasLayers = dedupeLayers([...baseLayers, ...promotedVectorLayers, ...promotedRasterLayers])
   .map((layer) => refreshLayerIdentity(layer));
-for (const row of plan.rows || []) {
+for (const row of aliasRows) {
   const aliasTargetId = row.cloneOf || MANUAL_ALIAS_TARGETS.get(row.sourceMapId);
   if (!aliasTargetId) continue;
   const target = findLayerForSource(preAliasLayers, aliasTargetId);
@@ -153,6 +152,36 @@ function syncPortPlan(promotedLayers) {
   writeFileSync(PLAN_PATH, `${JSON.stringify({ ...plan, totals: summarizeRows(rows), rows }, null, 2)}\n`);
 }
 
+function buildAliasRows() {
+  const rowsBySourceId = new Map();
+  for (const row of plan.rows || []) {
+    if (row?.sourceMapId && (row.cloneOf || MANUAL_ALIAS_TARGETS.has(row.sourceMapId))) {
+      rowsBySourceId.set(row.sourceMapId, row);
+    }
+  }
+  for (const map of main.maps || []) {
+    for (const variant of map.variants || []) {
+      if (!variant?.id || !variant.cloneOf || rowsBySourceId.has(variant.id)) continue;
+      rowsBySourceId.set(variant.id, {
+        ...map,
+        ...variant,
+        sourceMapId: variant.id,
+        name: variant.label || variant.name || map.name || variant.id,
+        category: variant.category || map.category || 'Maps',
+        categoryId: variant.categoryId || map.categoryId || null,
+        group: variant.group || map.group || null,
+        provider: variant.provider || map.provider || null,
+        description: variant.description || map.description || '',
+        references: variant.references || map.references || [],
+        sourceCredits: variant.sourceCredits || map.sourceCredits || [],
+        sourceDownloads: variant.sourceDownloads || [],
+        style: variant.style || map.style || {},
+        cloneOf: variant.cloneOf
+      });
+    }
+  }
+  return [...rowsBySourceId.values()];
+}
 function dedupeLayers(inputLayers) {
   const byId = new Map();
   const order = [];

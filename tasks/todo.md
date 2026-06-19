@@ -6910,3 +6910,25 @@ Add election entries to /test2
 ## Review: Connacht 1919 MapLibre route mapping
 - The visible `Connacht (= 1919 boundaries)` child entries now resolve to the existing CDN-hosted `eds-connacht-1919-vector-test.pmtiles` package through per-child alias layer records.
 - The validation script now fails if any of the public Connacht child rows lose their `cloneOf` metadata or generated alias target.
+
+# Fix sibling province MapLibre aliases in ED/Ward cards
+- [x] Audit all visible child entries in the affected Electoral Divisions/Wards cards.
+  - Completed: confirmed Connacht now resolves, but Leinster/Munster/Ulster child rows in the 1957/1965/1966/1970/1971/1977/1980/1983 cards were missing generated MapLibre layer aliases.
+- [x] Add canonical clone mappings for each sibling child row.
+  - Completed: added `cloneOf` targets for the 24 missing Leinster, Munster, and Ulster child variants, reusing the nearest converted canonical province geometry.
+- [x] Regenerate affected MapLibre metadata and sidecars.
+  - Completed: added 24 clone-alias layers to `maps-test.json`, rebuilt `maps-test-index.json`, and wrote only the new alias detail/duplicate sidecars.
+- [x] Extend validation so every child row in those cards must resolve to a MapLibre layer.
+  - Completed: expanded `validate-test2-route.mjs` from the Connacht-only check to the complete 32-row province child matrix.
+- [x] Verify and push.
+  - Verification before push: `node --check scripts/promote-test-converted-layers.mjs`; `node --check scripts/validate-test2-route.mjs`; structured 32-child alias check; `node scripts/validate-test2-route.mjs`; `npm run check:test2`.
+
+## Recurring issue: grouped ED/Ward child rows missing runtime aliases
+- Symptom: a visible province child row in the ED/Ward catalogue card could not load in the MapLibre route even though the equivalent canonical geometry had already been converted.
+- Root cause: only the reported Connacht child rows were given `cloneOf` runtime aliases; sibling province rows in the same cards were not audited or validated.
+- Permanent prevention action: route validation now asserts all 32 province child rows in the affected cards have canonical `cloneOf` data and generated MapLibre alias metadata.
+- Verification evidence: the structured alias check returned `checked: 32`, `missingOrBad: 0`; `npm run check:test2` passed with `637/637` PMTiles layers on CDN URLs.
+
+## Review: sibling province MapLibre aliases in ED/Ward cards
+- Leinster, Munster, and Ulster child entries for the 1957, 1965, 1966, 1970, 1971, 1977, 1980, and 1983 ED/Ward cards now route to converted MapLibre geometry through alias layers.
+- Child alias layers keep the parent card styling so province colour treatment remains consistent inside each grouped map.
