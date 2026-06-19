@@ -6932,3 +6932,11 @@ Add election entries to /test2
 ## Review: sibling province MapLibre aliases in ED/Ward cards
 - Leinster, Munster, and Ulster child entries for the 1957, 1965, 1966, 1970, 1971, 1977, 1980, and 1983 ED/Ward cards now route to converted MapLibre geometry through alias layers.
 - Child alias layers keep the parent card styling so province colour treatment remains consistent inside each grouped map.
+
+# Plan timeline territorial evolution animation
+- [x] Write implementation plan
+  - Task: create a Markdown implementation plan for timeline play/pause/stop controls, territorial transition overlays, pause inspection, and transition feature cards.
+  - Completed: added `tasks/plans/timeline-territorial-evolution-animation-plan.md` with feasibility, architecture, data pipeline, runtime plan, validation, risks, rollout phases, and definition of done.
+- [x] Verify plan artifact
+  - Task: ensure the Markdown plan exists and is tracked separately from unrelated provider-audit scratch.
+  - Completed: verified the plan file exists at `tasks/plans/timeline-territorial-evolution-animation-plan.md` and only the plan/task files are in scope for this request.
