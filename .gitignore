@@ -195,6 +195,11 @@ maps-to-be-added/
 # Raw source archives (re-downloadable from CSO / Tailte Éireann)
 data/downloads/
 
+# Generated CSO/NISRA statistical staging artifacts. These include local mirror
+# paths and large source-derived summaries; regenerate with
+# `node scripts/build-statistical-staging.mjs`.
+data/census/statistical-staging/
+
 # Raster georef pipeline outputs (uploaded to R2/IA separately, not tracked)
 data/maps/raster/_cache/
 data/maps/raster/*.png

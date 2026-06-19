@@ -6675,3 +6675,25 @@ Add election entries to /test2
 - The earlier 51 unavailable CSO rows are now reduced to one non-substantive CSO UAT/test URL.
 - All substantive census/SAPS URLs that were previously unavailable downloaded directly from CSO successfully on 2026-06-19.
 - Raw recovered files are intentionally under ignored `data/downloads/` and were not staged for Git. The small CSV manifest records URL, title, source page, prior status, recovered path, byte size, signature status, and SHA-256 hash.
+# Build CSO/NISRA Statistical Staging Layer
+- [x] Record staging scope and guardrails
+  - Task: implement source registry, validation, and extraction-layer staging for the collected CSO and NISRA corpora.
+  - Guardrails: do not publish to the website, do not copy raw corpora into Git, do not mutate D: mirrors, do not delete source files, and keep outputs as reviewable staging/audit artifacts.
+- [x] Implement source registry generation
+  - Scope: discover local CSO/NISRA files from D: mirrors and repo-local recovered files, assign stable source IDs, record provider, local path, source/archive URL where inferable, title, file type, byte size, SHA-256, crawl batch/source root, and provenance flags.
+- [x] Implement validation
+  - Scope: detect missing files, empty files, sidecar-only files, duplicate hashes, duplicate URLs, unsupported extraction formats, suspicious extension/signature mismatches, missing provenance fields, and extraction failures.
+- [x] Implement extraction layer
+  - Scope: extract CSV headers/rows, Excel workbook/sheet dimensions/headers/sample cells, PXStat JSON metadata where applicable, PDF metadata and text where Poppler can extract it, and queue scanned/OCR-only PDFs for later OCR.
+- [x] Run pipeline and inspect outputs
+  - Scope: generate staging artifacts under `data/census/statistical-staging/`, verify output counts, and review the validation/extraction summaries.
+- [x] Commit and push safe repo-side artifacts
+  - Scope: stage only scripts, reviewable staging outputs, and task notes; leave unrelated provider-audit scratch untracked.
+
+## Review: CSO/NISRA statistical staging source registry, validation, and extraction
+- Implemented `scripts/build-statistical-staging.mjs` to create a reproducible source registry, validation report, and extraction manifest for the collected CSO/NISRA corpora. The script reads D: mirrors and ignored repo-local recovered CSO files, but does not mutate provider mirrors or publish anything to Civgraph.
+- Completed a full run over 61,026 discovered files: 32,646 CSO files and 28,380 NISRA files. Corpus coverage was 25,060 CSO PXStat files, 24,889 NISRA Wayback files, 5,743 CSO historical-report files, 3,491 current NISRA files, and 1,843 repo-local recovered CSO files.
+- Generated local staging artifacts under ignored `data/census/statistical-staging/`: source registry CSV/JSONL, validation report/issues, extraction manifest CSV/JSONL, extracted summaries, and README. These artifacts are intentionally ignored because they contain local mirror paths and large source-derived summaries.
+- Extraction classified 53,070 files as extractable. Status counts were: 53,042 extracted/inspected, 5,084 skipped non-statistical assets, 2,804 skipped sidecars, 54 unsupported, 17 extraction failures, 14 skipped mirror-bookkeeping files, and 11 queued large JSON files.
+- Validation produced 40,613 issues/flags: 38,716 info flags and 1,897 warnings. Main categories were duplicate source URLs (25,056), duplicate content hashes (9,922), likely OCR-required PDFs (3,727), missing URL provenance on non-sidecar files (1,873), extraction failures (17), queued large files (11), extension/signature mismatches (5), and zero-byte files (2).
+- Verification evidence: `node --check scripts/build-statistical-staging.mjs` passed, and `node scripts/build-statistical-staging.mjs` completed successfully with `registryRows: 61026`, `extractionRows: 61026`, `extractedFileCount: 36032`, and `extractedRecordCount: 61724`.
