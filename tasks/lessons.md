@@ -2497,3 +2497,11 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) public Browse/search indexes must not include hidden map records,
   3) route validation must check visible catalogue hard-coded lists and generated Browse records, not only canonical source records,
   4) grouped-map fixes must prove child variants are visible in the UI when the user specifically asks for child entries.
+
+### 184) Clone-backed child map entries need route-level alias validation
+- Mistake pattern: Adding public child entries that reuse an already converted source file without declaring `cloneOf` and without verifying that the runtime metadata contains a MapLibre alias layer.
+- Impact: the catalogue shows a loadable-looking child entry, but the MapLibre route cannot find a converted layer for that public child ID.
+- Guardrail:
+  1) every child map that reuses a converted source must declare `cloneOf` against the canonical source map,
+  2) route validation must assert both the canonical `cloneOf` metadata and the generated `aliasTargetLayerId`,
+  3) generated metadata changes should be scoped to the affected aliases rather than regenerating unrelated layer order/content.

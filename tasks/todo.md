@@ -6894,3 +6894,19 @@ Add election entries to /test2
   - `npm run build`
   - `npm run check`
   - `npm run check:pages-assets`: `7,846/18,500` deployable files after cleanup exclusions.
+
+# Fix Connacht 1919 MapLibre route mapping
+- [x] Identify the catalogue entry that displays Connacht (= 1919 boundaries) and the expected `eds-connacht-1919-vector-test` runtime layer.
+  - Completed: confirmed the existing converted layer is `eds-connacht-1919-vector-test`, while the public Connacht child variants in the 1957/1965/1966/1970/1971/1977/1980/1983 ED groups had no clone alias metadata.
+- [x] Patch the canonical data or generator so the public catalogue/action resolves to the existing converted MapLibre layer.
+  - Completed: added `cloneOf: eds-connacht-1919` to the eight public Connacht child variants and added route validation asserting the generated aliases.
+- [x] Regenerate affected metadata/build outputs.
+  - Completed: added MapLibre alias records for the eight variants and rebuilt the test2 metadata index/detail sidecars.
+- [x] Verify route/catalogue validation and build checks.
+  - Completed: `node --check scripts/validate-test2-route.mjs` and `npm run check:test2` both passed; PMTiles/CDN validation now reports `613/613` PMTiles layers on CDN URLs.
+- [x] Commit and push.
+  - Completed: staged only the scoped Connacht alias/runtime metadata changes; commit/push completed after validation.
+
+## Review: Connacht 1919 MapLibre route mapping
+- The visible `Connacht (= 1919 boundaries)` child entries now resolve to the existing CDN-hosted `eds-connacht-1919-vector-test.pmtiles` package through per-child alias layer records.
+- The validation script now fails if any of the public Connacht child rows lose their `cloneOf` metadata or generated alias target.
