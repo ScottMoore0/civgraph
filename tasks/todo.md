@@ -6724,3 +6724,23 @@ Add election entries to /test2
 - Raw provider file decision: source files should be made available as hotlinked Internet Archive downloads and, where feasible, viewable through site viewports while Internet Archive remains the storage host.
 - NISRA/CSO publication risk decision: treat NISRA and CSO material as cleared for public use from a privacy/licensing perspective, while still retaining provenance, validation, and extraction-quality controls.
 - Hosting split decision: keep small manifests/indexes/metadata/source records/concept and geography dictionaries in the repo/static build; use R2/CDN for large files that need to be queried, transformed, filtered, mapped, charted, or otherwise used by the site beyond simple hotlinked viewing/downloading.
+- Internet Archive item decision: keep IA items relatively few, grouped by provider/corpus, with multiple files per item. Preserve navigable category/folder structure so the site can show users where individual source files sit inside the corpus.
+- Viewport decision: support raw-file viewports for PDFs, CSVs, TXTs, images, and spreadsheet formats where feasible; leave ZIPs/databases as download-only initially.
+- Shapefile audit note: generated `tasks/shapefile-candidates-2026-06-19.csv` from local provider inventories and latest audit rows. The clean list has 1,189 shapefile candidate rows: 847 local data.gov.ie rows, 194 local Open Data NI rows, 135 latest Open Data NI repair/audit rows, and 13 latest Tailte/data.gov.ie audit rows. The `tailte-file-inventory.json` currently mirrors `D:\datagovie`, so it was not double-counted.
+
+# AGI NI poster concept recommendation for Civgraph
+- [x] Record scope and constraints
+  - Task: recommend a high-impact poster idea for the AGI Northern Ireland Conference in Belfast to promote Civgraph.
+  - Guardrails: do not change site code, do not fabricate conference details, use current AGI NI context and local Civgraph catalogue evidence.
+- [x] Inspect Civgraph positioning and data scale
+  - Completed: reviewed README/about content and Browse index counts: 828 map entries, 5,248 election entries, 63,874 feature records, 771 parties/labels, 14,325 persons, and 7,852 sources.
+- [x] Verify AGI NI conference context
+  - Completed: checked AGI NI pages for the 2026 conference theme, venue, audience, and poster format. Conference is "Connected Intelligence: The Future of Place" at Riddel Hall, Queen's University Belfast on Thursday 25 June 2026.
+- [x] Deliver recommendation
+  - Task: synthesize a poster concept, title, layout, visual hierarchy, key messages, proof points, QR/demo strategy, and production advice.
+  - Completed: recommended an A0/A1 poster framed as "Civgraph: Ireland's Civic Place Graph", using a Belfast/Riddel Hall place-stack hook, large interactive-map hero visual, evidence tiles for boundaries/elections/census/sources, and a prominent scan-and-try call to action.
+
+## Review: AGI NI poster concept recommendation for Civgraph
+- Best concept: promote Civgraph as connected civic geography infrastructure rather than a conventional map gallery or election-results site.
+- Evidence used: local README positioning, Browse counts, original proposal text, AGI NI conference theme/pages, and existing poster-suitable visual assets.
+- Verification: checked current AGI NI 2026 conference page/news for theme/date/venue and reviewed local site/catalogue assets. No site code or public data was changed.
