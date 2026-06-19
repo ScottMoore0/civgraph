@@ -1,0 +1,7 @@
+formatClass,support,recommendation
+PDF,high,native browser/PDF.js iframe viewport; IA hotlinked URL; text extraction optional later
+CSV/TSV/TXT,high,"streamed table/text viewport with row cap, search, and download link"
+Images,high,image viewport with pan/zoom and IA hotlinked original/download link
+XLS/XLSX/ODS,medium-high,build-side or client-side parser into read-only sheet viewport; lazy-load sheets/rows for large workbooks
+Shapefile/FileGDB/GeoPackage/KML/GeoJSON,medium,raw download/source page first; converted MapLibre layer only after dedupe/size/geometry checks
+ZIP/databases/SAV/large LIDAR,low for viewport,download-only initially; derive previews only for approved high-value records

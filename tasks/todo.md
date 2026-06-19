@@ -6818,3 +6818,36 @@ Add election entries to /test2
   - `node --check js/ui-controller.js`
   - `npm run build:browse`
   - `npm run check:test2` passed with zero blocking election-audit issues, zero PMTiles/CDN errors, and zero performance-dashboard failures.
+
+# Research IA/raw-source/shapefile/site-integration recommendations without publishing
+- [x] Scope research-only outputs
+  - Task: investigate shapefile candidate decisions, Tailte separation, IA source-hosting structure, raw file viewport support, R2/CDN promotion criteria, duplicate/variant handling, OCR/geography deferrals, and site-integration recommendations without uploading to IA/R2/CDN or changing public site records.
+  - Guardrails: no uploads, no public site ingestion, no copied raw source bodies, no provider-audit scratch files committed unless converted into a concise report.
+- [x] Inspect existing audits and site manifests
+  - Task: use local shapefile coverage CSV/JSON, provider mirror audit artifacts, Browse/source manifests, maps database, and current build scripts to classify what is already represented versus what needs decisions.
+- [x] Generate recommendation artifacts
+  - Task: write CSV/JSON/Markdown recommendations for the eight requested areas, including shapefile candidate publication classes, IA grouping, viewport feasibility, R2/CDN suitability, duplicate/variant review priorities, and remaining deferred policy questions.
+- [x] Verify recommendation artifacts
+  - Task: validate generated CSV/JSON structure and inspect summaries for internal consistency before reporting.
+
+## Review: IA/raw-source/shapefile/site-integration research recommendations
+- Created a reproducible research-only generator: `tasks/build-raw-source-integration-recommendations-2026-06-19.mjs`.
+- Generated recommendation artifacts without uploading to IA/R2/CDN and without adding public site records:
+  - `tasks/raw-source-integration-recommendations-2026-06-19.md`
+  - `tasks/raw-source-integration-recommendations-summary-2026-06-19.json`
+  - `tasks/shapefile-candidate-publication-recommendations-2026-06-19.csv`
+  - `tasks/raw-source-ia-item-recommendations-2026-06-19.csv`
+  - `tasks/raw-source-viewport-recommendations-2026-06-19.csv`
+  - `tasks/provider-corpus-viewport-summary-2026-06-19.csv`
+- Findings:
+  - 1,189 shapefile candidate rows reviewed.
+  - 84 rows are confirmed already represented on the site; 90 are probable duplicate/variant matches; 1,015 were not found in current site manifests.
+  - Recommended first-pass actions: 78 high-priority new interactive map candidates, 511 interactive-or-source candidates, 409 source-download-first records, 90 probable duplicate/variant reviews, 17 duplicate/variant group reviews, 79 already-interactive rows, and 5 source-only rows that may merit later conversion.
+  - Tailte separation still needs a true Tailte-specific inventory: current `tailte-file-inventory.json` mirrors `datagovie-file-inventory.json`, while the Tailte completeness resource CSV shows 918 skipped alternate export rows across 188 packages.
+  - Proposed IA grouping is corpus-level rather than file-level: `civgraph-data-gov-ie-raw-sources`, `civgraph-open-data-ni-raw-sources`, and `civgraph-tailte-eireann-raw-sources`, with internal provider/category paths preserved.
+  - Raw viewport recommendations: PDFs, CSV/TXT, images, and spreadsheets are feasible first; shapefiles/geodatabases should be source/download-first unless approved for MapLibre conversion; ZIP/database/LIDAR remains download-only initially.
+  - R2/CDN should be reserved for cleaned/queryable/filterable/chartable/map-ready bundles, not raw provider-file hosting.
+- Verification evidence:
+  - `node --check tasks/build-raw-source-integration-recommendations-2026-06-19.mjs`
+  - `node tasks/build-raw-source-integration-recommendations-2026-06-19.mjs`
+  - JSON parse and CSV row-count assertion confirmed 1,189 recommendation rows and 918 Tailte alternate export rows.

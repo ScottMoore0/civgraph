@@ -1,0 +1,127 @@
+{
+  "generatedAt": "2026-06-19T16:10:48.500Z",
+  "shapefileRows": 1189,
+  "confirmedOnSite": 84,
+  "probableMatches": 90,
+  "notFound": 1015,
+  "byAction": {
+    "new-interactive-or-source-candidate": 511,
+    "source-download-first": 409,
+    "review-probable-duplicate-or-variant": 90,
+    "already-interactive-on-site": 79,
+    "new-interactive-map-candidate-high-priority": 78,
+    "candidate-variant-group-review": 17,
+    "already-source-on-site-review-interactive-value": 5
+  },
+  "byTheme": {
+    "general-open-data": 440,
+    "environment-water-geology": 418,
+    "planning-development": 86,
+    "heritage-public-assets": 85,
+    "administrative-boundaries": 57,
+    "transport-infrastructure": 47,
+    "electoral-geography": 45,
+    "census-statistical-geography": 11
+  },
+  "byCoverage": {
+    "not-found-in-site-manifests": 1015,
+    "confirmed-interactive-or-geospatial": 79,
+    "probable-interactive-or-geospatial": 67,
+    "probable-source-or-download-record": 23,
+    "confirmed-source-or-download-record": 5
+  },
+  "byIaItem": {
+    "civgraph-data-gov-ie-raw-sources": 834,
+    "civgraph-open-data-ni-raw-sources": 329,
+    "civgraph-tailte-eireann-raw-sources": 26
+  },
+  "needsUserDecision": 0,
+  "maybeNeedsUserDecision": 1032,
+  "tailte": {
+    "latestSummary": {
+      "generatedAt": "2026-06-17T10:21:27.463Z",
+      "dataGovPackagesMatched": 192,
+      "tailteResourceRows": 1865,
+      "present": 560,
+      "missingDownloadable": 0,
+      "downloaded": 5,
+      "failed": 0,
+      "serviceOrNonDownloadable": 382,
+      "skippedAlternatePackagePresent": 883,
+      "skippedAlternateCanonical": 35,
+      "canonicalSelected": 5,
+      "headProbed": 923,
+      "headSkipped": 0,
+      "pendingKnownBytes": 915,
+      "freeBytesAfter": 383346016256
+    },
+    "resourcesRows": 1865,
+    "alternateExportRows": 918,
+    "alternateExportDatasetCount": 188,
+    "alternateExportExpectedBytes": 17937914053,
+    "tailteFileInventoryMirrorsDatagovie": true,
+    "recommendation": "Build a direct Tailte-specific inventory from Tailte package/resource catalogue before treating tailte-file-inventory.json as independent local coverage."
+  },
+  "providerRows": [
+    {
+      "providerId": "opendatani",
+      "label": "Open Data NI",
+      "fileCount": 4465,
+      "totalBytes": 142786599172,
+      "viewportDirect": 2447,
+      "spreadsheet": 193,
+      "geospatialOrPackage": 1738,
+      "largestFiles": "Department of Agriculture, Environment and Rural Affairs\\river-blackwater-network-contribution1\\kml (3244 MB) | Department for Infrastructure - Roads\\york-street-interchange-lidar\\York-Street-2.zip (2905 MB) | Department for Infrastructure - Roads\\york-street-interchange-lidar\\York-Street-1.zip (2497 MB)"
+    },
+    {
+      "providerId": "cso_pxstat",
+      "label": "CSO PXStat",
+      "fileCount": 25060,
+      "totalBytes": 2214072151,
+      "viewportDirect": 2,
+      "spreadsheet": 0,
+      "geospatialOrPackage": 0,
+      "largestFiles": "DHA\\DHA14.json (54 MB) | TEM\\TEM22.json (49 MB) | _catalogue.json (41 MB)"
+    },
+    {
+      "providerId": "cso_historical",
+      "label": "CSO Historical Reports",
+      "fileCount": 1733,
+      "totalBytes": 3480555948,
+      "viewportDirect": 1715,
+      "spreadsheet": 10,
+      "geospatialOrPackage": 8,
+      "largestFiles": "438_Area,_houses,_and_population,_Vol._I,_Ireland,_1891_Dublin-df465ae45b.pdf (55 MB) | 447_Report_Of_Ireland_Ireland_1901_Cork-43e5bae0a5.pdf (53 MB) | 459-General_report,_Ireland,_1911-79ffd7ec5a.pdf (53 MB)"
+    },
+    {
+      "providerId": "nisra",
+      "label": "NISRA",
+      "fileCount": 1118,
+      "totalBytes": 708539314,
+      "viewportDirect": 433,
+      "spreadsheet": 598,
+      "geospatialOrPackage": 37,
+      "largestFiles": "mirror\\files\\nisra\\publications\\geography-100m-grid-square-geojson.zip (29 MB) | mirror\\files\\nisra\\publications\\geography-grid-square-geodatabase.zip (29 MB) | mirror\\files\\nisra\\publications\\geography-100m-grid-square-esri-shapefile.zip (27 MB)"
+    },
+    {
+      "providerId": "datagovie",
+      "label": "data.gov.ie",
+      "fileCount": 30236,
+      "totalBytes": 203603070478,
+      "viewportDirect": 9078,
+      "spreadsheet": 98,
+      "geospatialOrPackage": 20303,
+      "largestFiles": "Tailte Éireann\\high-value-dataset-national-land-cover-2018\\national_land_cover_2018.gpkg (46231 MB) | Marine Institute\\galway-bay-observatory-fluorometer-data-processed\\galway_obs_fluorometer.csv (9711 MB) | Tailte Éireann\\high-value-dataset-cadastral-parcels-freehold\\geoPackage (2069 MB)"
+    },
+    {
+      "providerId": "tailte",
+      "label": "Tailte/OSI/GeoHive candidates",
+      "fileCount": 30236,
+      "totalBytes": 203603070478,
+      "viewportDirect": 9078,
+      "spreadsheet": 98,
+      "geospatialOrPackage": 20303,
+      "largestFiles": "Tailte Éireann\\high-value-dataset-national-land-cover-2018\\national_land_cover_2018.gpkg (46231 MB) | Marine Institute\\galway-bay-observatory-fluorometer-data-processed\\galway_obs_fluorometer.csv (9711 MB) | Tailte Éireann\\high-value-dataset-cadastral-parcels-freehold\\geoPackage (2069 MB)"
+    }
+  ]
+}
