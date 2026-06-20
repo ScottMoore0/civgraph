@@ -143,6 +143,16 @@ def jsonable_props(props: dict) -> dict:
     return out
 
 
+def normalized_transition_name(value: str) -> str:
+    return " ".join(str(value or "").casefold().replace("&", " and ").split())
+
+
+def is_same_name_retained_overlap(old: dict, new: dict) -> bool:
+    old_name = normalized_transition_name(old.get("name"))
+    new_name = normalized_transition_name(new.get("name"))
+    return bool(old_name and new_name and old_name == new_name)
+
+
 def rounded_mapping(geom, decimals: int = 6) -> dict:
     def round_value(value):
         return round(float(value), decimals)
@@ -242,12 +252,19 @@ def build_transition(config: TransitionConfig, min_area_m2: float = MIN_AREA_M2,
         old_index, new_index = piece["pairKey"]
         is_old_primary_target = max_for_old.get(old_index, (None,))[0] == new_index
         is_new_primary_source = max_for_new.get(new_index, (None,))[0] == old_index
+        is_same_name_continuity = is_same_name_retained_overlap(old, new)
         if is_old_primary_target and is_new_primary_source:
             transition_type = "unchanged"
+            transition_reason = "mutual-primary"
+        elif is_same_name_continuity:
+            transition_type = "unchanged"
+            transition_reason = "same-name-retained-overlap"
         elif significant_target_count.get(old_index, 0) > 1 and not is_old_primary_target:
             transition_type = "split"
+            transition_reason = "source-split-to-non-primary-target"
         else:
             transition_type = "transfer"
+            transition_reason = "non-mutual-primary-transfer"
         geom = piece["geometry"]
         if simplify_metres > 0:
             geom = geom.simplify(simplify_metres, preserve_topology=True)
@@ -261,6 +278,7 @@ def build_transition(config: TransitionConfig, min_area_m2: float = MIN_AREA_M2,
             "properties": {
                 "transitionId": transition_id,
                 "transitionType": transition_type,
+                "transitionReason": transition_reason,
                 "fromMapId": config.from_id,
                 "toMapId": config.to_id,
                 "fromMapName": config.from_label,
@@ -292,9 +310,9 @@ def build_transition(config: TransitionConfig, min_area_m2: float = MIN_AREA_M2,
             "toSource": config.to_source,
             "minimumAreaM2": min_area_m2,
             "coordinateDecimals": coordinate_decimals,
-            "transitionPieceRule": "all intersections at or above the minimum area threshold; mutual-primary intersections are retained as transparent hit targets",
+            "transitionPieceRule": "all intersections at or above the minimum area threshold; mutual-primary and same-name continuity intersections are retained as transparent hit targets",
             "transitionTypes": {
-                "unchanged": "mutual-primary overlap retained between adjacent layers",
+                "unchanged": "mutual-primary or same-name continuity overlap retained between adjacent layers",
                 "transfer": "non-primary overlap where the earlier feature keeps a primary successor",
                 "split": "non-primary overlap where the earlier feature has multiple significant successors"
             },
@@ -326,4 +344,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 

@@ -2514,3 +2514,8 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) each sibling that reuses existing geometry must declare cloneOf,
   3) route validation must assert the full sibling matrix, not only the originally reported row,
   4) generated metadata should be scoped so the fix does not churn unrelated layer detail sidecars.
+
+### 189) Territorial transition retained-overlap classification needs intent checks, not only mutual-primary topology
+- Mistake pattern: Assuming a mutual-primary overlap classifier maps directly to the visual meaning of retained territory in a boundary transition.
+- Impact: a same-name retained area can be coloured as red transfer when the later feature's largest source is a different earlier feature, as with 1972 Strabane West to 1984 Strabane West.
+- Guardrail: review contested transition colours with an overlap matrix; classify same-name retained overlaps as no-fill continuity before split/transfer colouring; add focused regression fixtures for reported transition areas.

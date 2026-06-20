@@ -6940,3 +6940,22 @@ Add election entries to /test2
 - [x] Verify plan artifact
   - Task: ensure the Markdown plan exists and is tracked separately from unrelated provider-audit scratch.
   - Completed: verified the plan file exists at `tasks/plans/timeline-territorial-evolution-animation-plan.md` and only the plan/task files are in scope for this request.
+
+# Fix Strabane West Retained Territorial Transition Classification
+- [x] Update transition classifier
+  - Task: treat same-name retained overlaps as no-fill retained/unchanged parts before red/purple transfer/split classification.
+  - Completed: added normalized same-name retained-overlap classification in `scripts/build_timeline_transition_sidecars.py`, recording `transitionReason` for generated pieces.
+- [x] Regenerate transition artifacts
+  - Task: rebuild full Wards transition sidecars and deployable runtime overlays so retained same-name overlaps are omitted from red/purple runtime output.
+  - Completed: regenerated all adjacent Wards full sidecars and deployable runtime overlays.
+- [x] Add regression validation
+  - Task: assert that `1972 WEST -> 1984 WEST` in the Strabane 1972-to-1984 transition is no-fill/unchanged and absent from the visible runtime overlay.
+  - Completed: added route validation assertions for the 1972 Strabane West to 1984 West retained overlap.
+- [x] Verify and publish
+  - Task: run route checks/build checks, commit only scoped changes, and push.
+  - Completed: focused syntax/regression checks, full route validation, Pages file-budget validation, and production build passed.
+
+Review:
+- Root cause fixed: the generator previously relied only on mutual-primary overlap, so 1972 West to 1984 West was red despite being retained same-name territory.
+- New behavior: same-name retained overlaps are generated as `unchanged` with `transitionReason: same-name-retained-overlap`, so they remain available in the full sidecar for hit-testing but are omitted from the visible runtime red/purple overlay.
+- Focused evidence: `1972 WEST -> 1984 WEST` is now `unchanged`, area `795638.7847000137` m2, and no matching feature exists in `data/timeline-transition-overlays/wards-1972__wards-1984.geojson`.

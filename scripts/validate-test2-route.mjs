@@ -389,10 +389,27 @@ const ded1922Placeholder = findMap('ded-1922-10-31');
 assert(ded1922Placeholder?.placeholder === true, '/test2 validation fixture must keep District Electoral Divisions 31 October 1922 marked as a placeholder');
 assert(appSource.includes('isPlaceholderTimelineMap') && appSource.includes('isTimelineMapPlayable') && appSource.includes('!item?.mapId || this.isTimelineMapPlayable(item.mapId)') && appSource.includes('filter((item) => this.isTimelineMapPlayable(item.mapId))') && appSource.includes('!this.isTimelineMapPlayable(newId)'), '/test2 territorial timeline must skip placeholder and non-loadable map frames before playback can load them');
 assert(adapterSource.includes('setTimelineTransitionOverlay') && adapterSource.includes('clearTimelineTransitionOverlay') && adapterSource.includes('normalizeTimelineTransitionFeature') && adapterSource.includes('transitionType') && adapterSource.includes('unchanged') && adapterSource.includes('clearTransientHighlight') && adapterSource.includes('isTimelineTransitionEventAtPoint') && adapterSource.includes('#7c3aed'), '/test2 MapLibre adapter must render clickable typed territorial transition overlays and prioritise part interactions');
-assert(timelineSidecarBuilderSource.includes('MIN_AREA_M2 = 100.0') && timelineSidecarBuilderSource.includes('mutual-primary intersections') && timelineSidecarBuilderSource.includes('coordinate_decimals'), '/test2 territorial transition sidecars must be reproducibly generated with the accepted threshold and compact GeoJSON coordinates');
+assert(timelineSidecarBuilderSource.includes('MIN_AREA_M2 = 100.0') && timelineSidecarBuilderSource.includes('same-name continuity intersections') && timelineSidecarBuilderSource.includes('is_same_name_retained_overlap') && timelineSidecarBuilderSource.includes('coordinate_decimals'), '/test2 territorial transition sidecars must be reproducibly generated with the accepted threshold and compact GeoJSON coordinates');
 assert(wardTimelineTransitionSidecars.length === 4 && wardTimelineTransitionSidecars.every((sidecar) => sidecar?.metadata?.minimumAreaM2 === 100 && Array.isArray(sidecar.features) && sidecar.features.length > 0), '/test2 must ship 100m2-filtered sidecars for every adjacent Wards timeline transition');
 assert(wardTimelineTransitionSidecars.every((sidecar) => sidecar.features.every((feature) => Number(feature?.properties?.area_m2) >= 100)), '/test2 territorial transition sidecars must not include sub-100m2 transition fragments');
 assert(wardTimelineTransitionSidecars.every((sidecar) => sidecar.features.some((feature) => feature?.properties?.transitionType === 'unchanged')), '/test2 Wards territorial transition sidecars must include transparent unchanged parts for transition hit-testing');
+const strabaneWestRetained = wardTimelineTransitionSidecars[0].features.find((feature) => {
+  const props = feature?.properties || {};
+  const area = Number(props.area_m2);
+  return props.fromFeatureName === 'WEST'
+    && props.toFeatureName === 'WEST'
+    && area > 700000
+    && area < 900000;
+});
+assert(strabaneWestRetained?.properties?.transitionType === 'unchanged' && strabaneWestRetained?.properties?.transitionReason === 'same-name-retained-overlap', '/test2 1972 Strabane West to 1984 West retained overlap must stay no-fill instead of red transfer');
+assert(!wardTimelineTransitionRuntimeOverlays[0].features.some((feature) => {
+  const props = feature?.properties || {};
+  const area = Number(props.area_m2);
+  return props.fromFeatureName === 'WEST'
+    && props.toFeatureName === 'WEST'
+    && area > 700000
+    && area < 900000;
+}), '/test2 runtime red/purple overlay must omit the retained 1972 Strabane West to 1984 West overlap');
 assert(adapterSource.includes('applyElectionStyle') && adapterSource.includes('clearElectionStyle'), '/test2 adapter must support MapLibre election styling expressions');
 assert(adapterSource.includes('fillOpacityExpression') && adapterSource.includes('lineOpacityExpression'), '/test2 adapter must accept expression-based election opacity so main matched/unmatched paint can be mirrored');
 assert(electionManagerSource.includes('ELECTION_MANIFEST_URL') && electionManagerSource.includes('loadElection(body, date)'), '/test2 election manager must lazy-load generated election result bundles');
@@ -1071,3 +1088,4 @@ function finiteValidationNumber(value) {
   const number = Number(value);
   return Number.isFinite(number) ? number : null;
 }
+
