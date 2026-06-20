@@ -37,12 +37,36 @@ class TransitionConfig:
 
 DEFAULT_TRANSITIONS = [
     TransitionConfig(
+        from_id="wards-1972",
+        to_id="wards-1984",
+        from_source="test/source-cache/vector-intake/wards-1972.fgb",
+        to_source="test/source-cache/vector-intake/wards-1984.fgb",
+        from_label="Wards 1972",
+        to_label="Wards 1984",
+    ),
+    TransitionConfig(
+        from_id="wards-1984",
+        to_id="wards-1993",
+        from_source="test/source-cache/vector-intake/wards-1984.fgb",
+        to_source="test/source-cache/vector-intake/wards-1993.fgb",
+        from_label="Wards 1984",
+        to_label="Wards 1993",
+    ),
+    TransitionConfig(
         from_id="wards-1993",
         to_id="wards-2012",
         from_source="test/source-cache/vector-intake/wards-1993.fgb",
         to_source="test/source-cache/vector-intake/wards-2012.fgb",
         from_label="Wards 1993",
         to_label="Wards 2012",
+    ),
+    TransitionConfig(
+        from_id="wards-2012",
+        to_id="wards-2022-final-recommendations",
+        from_source="test/source-cache/vector-intake/wards-2012.fgb",
+        to_source="test/source-cache/vector-intake/wards-2022-final-recommendations.fgb",
+        from_label="Wards 2012",
+        to_label="Wards 2022",
     )
 ]
 
@@ -219,8 +243,11 @@ def build_transition(config: TransitionConfig, min_area_m2: float = MIN_AREA_M2,
         is_old_primary_target = max_for_old.get(old_index, (None,))[0] == new_index
         is_new_primary_source = max_for_new.get(new_index, (None,))[0] == old_index
         if is_old_primary_target and is_new_primary_source:
-            continue
-        transition_type = "split" if significant_target_count.get(old_index, 0) > 1 and not is_old_primary_target else "transfer"
+            transition_type = "unchanged"
+        elif significant_target_count.get(old_index, 0) > 1 and not is_old_primary_target:
+            transition_type = "split"
+        else:
+            transition_type = "transfer"
         geom = piece["geometry"]
         if simplify_metres > 0:
             geom = geom.simplify(simplify_metres, preserve_topology=True)
@@ -265,8 +292,9 @@ def build_transition(config: TransitionConfig, min_area_m2: float = MIN_AREA_M2,
             "toSource": config.to_source,
             "minimumAreaM2": min_area_m2,
             "coordinateDecimals": coordinate_decimals,
-            "transitionPieceRule": "non-mutual-primary intersections at or above the minimum area threshold",
+            "transitionPieceRule": "all intersections at or above the minimum area threshold; mutual-primary intersections are retained as transparent hit targets",
             "transitionTypes": {
+                "unchanged": "mutual-primary overlap retained between adjacent layers",
                 "transfer": "non-primary overlap where the earlier feature keeps a primary successor",
                 "split": "non-primary overlap where the earlier feature has multiple significant successors"
             },
@@ -298,3 +326,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

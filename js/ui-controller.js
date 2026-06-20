@@ -1,4 +1,4 @@
-﻿/**
+/**
  * NI Boundaries - UI Controller
  * Handles split-pane layout, search, filtering, map catalogue, and UI interactions
  */
@@ -6338,6 +6338,84 @@ class UIController {
         return pill;
     }
 
+    isTimelineTransitionFeature(feature) {
+        return Boolean(feature?.isTimelineTransitionFeature || feature?.mapId === '__timeline_transition__' || feature?.sourceLayer === 'timeline-transition');
+    }
+
+    renderTimelineTransitionPropertyRows(props, excludeKeys = []) {
+        const excluded = new Set(excludeKeys);
+        const rows = Object.entries(props || {})
+            .filter(([key, value]) => !excluded.has(key) && value !== null && value !== undefined && value !== '' && typeof value !== 'object')
+            .map(([key, value]) => `
+                <div class="feature-info__property">
+                    <span class="feature-info__key">${this.escapeHtml(key)}</span>
+                    <span class="feature-info__value">${this.escapeHtml(this.formatDisplayValue(value))}</span>
+                </div>
+            `)
+            .join('');
+        return rows || '<div class="feature-info__property"><span class="feature-info__value">No additional properties</span></div>';
+    }
+
+    renderTimelineTransitionFeatureInfo(feature) {
+        const props = feature?.properties || {};
+        const layerName = feature.layerName || props.transitionLayerName || `${props.fromMapName || 'Earlier layer'} to ${props.toMapName || 'Later layer'}`;
+        const fromName = props.fromFeatureName || 'Earlier feature';
+        const toName = props.toFeatureName || 'Later feature';
+        const transitionType = props.transitionType || feature.transitionType || 'transfer';
+        const transitionLabel = transitionType === 'split'
+            ? 'Split / non-primary successor'
+            : transitionType === 'unchanged'
+                ? 'Retained overlap'
+                : 'Transferred / non-primary overlap';
+        const areaM2 = Number(props.area_m2 ?? props.areaM2 ?? props.area);
+        let metrics = '';
+        if (Number.isFinite(areaM2) && areaM2 > 0) {
+            const areaKm2 = areaM2 / 1000000;
+            const areaSqMi = areaKm2 * 0.386102;
+            metrics += `<div class="feature-info__metric feature-info__metric--top">
+                <span class="feature-info__metric-label">Part area</span>
+                <span class="feature-info__metric-value"><span class="metric-km">${this.formatNumber(areaKm2, 4)} km<sup>2</sup></span><br><span class="metric-mi">(${this.formatNumber(areaSqMi, 4)} sq mi)</span></span>
+            </div>`;
+        }
+        const geometryMetrics = feature.geometry ? this.calculateGeodesicMetrics(feature.geometry) : null;
+        if (geometryMetrics?.perimeter) {
+            const perimKm = Number(geometryMetrics.perimeter);
+            const perimMi = perimKm * 0.621371;
+            metrics += `<div class="feature-info__metric feature-info__metric--top">
+                <span class="feature-info__metric-label">Part perimeter</span>
+                <span class="feature-info__metric-value"><span class="metric-km">${this.formatNumber(perimKm, 3)} km</span><br><span class="metric-mi">(${this.formatNumber(perimMi, 3)} mi)</span></span>
+            </div>`;
+        }
+        const fromExcluded = [];
+        const toExcluded = [];
+        const transitionExcluded = [
+            'fromProperties', 'toProperties', 'geometry', 'transitionId', 'name', 'transitionName',
+            'fromFeatureName', 'toFeatureName', 'fromMapName', 'toMapName', 'transitionLayerName'
+        ];
+        return `
+            <div class="feature-info__header-row">
+                <span class="feature-info__color" style="background: ${this.escapeHtml(feature.color || '#64748b')}"></span>
+                <h4 class="feature-info__layer-name">${this.escapeHtml(layerName)}</h4>
+            </div>
+            <div class="feature-info__primary-name">${this.escapeHtml(feature.featureName || feature.name || `${fromName} to ${toName}`)}</div>
+            ${metrics ? `<div class="feature-info__metrics">${metrics}</div>` : ''}
+            <details class="feature-info__details" open>
+                <summary class="feature-info__summary">Transition part</summary>
+                <div class="feature-info__properties">
+                    <div class="feature-info__property"><span class="feature-info__key">Type</span><span class="feature-info__value">${this.escapeHtml(transitionLabel)}</span></div>
+                    ${this.renderTimelineTransitionPropertyRows(props, transitionExcluded)}
+                </div>
+            </details>
+            <details class="feature-info__details" open>
+                <summary class="feature-info__summary">Earlier feature: ${this.escapeHtml(fromName)}</summary>
+                <div class="feature-info__properties">${this.renderTimelineTransitionPropertyRows(props.fromProperties || {}, fromExcluded)}</div>
+            </details>
+            <details class="feature-info__details" open>
+                <summary class="feature-info__summary">Later feature: ${this.escapeHtml(toName)}</summary>
+                <div class="feature-info__properties">${this.renderTimelineTransitionPropertyRows(props.toProperties || {}, toExcluded)}</div>
+            </details>
+        `;
+    }
     showFeatureInfo(features, mapConfigs) {
         const panel = document.getElementById('featureInfo');
         const content = document.getElementById('featureInfoContent');
@@ -6354,6 +6432,12 @@ class UIController {
 
             const div = document.createElement('div');
             div.className = 'feature-info__section';
+
+            if (this.isTimelineTransitionFeature(feature)) {
+                div.innerHTML = this.renderTimelineTransitionFeatureInfo(feature);
+                content.appendChild(div);
+                return;
+            }
 
             let html = `
             <div class="feature-info__header-row">
@@ -10355,5 +10439,6 @@ if (typeof window !== 'undefined') {
 })();
 
 export default uiController;
+
 
 

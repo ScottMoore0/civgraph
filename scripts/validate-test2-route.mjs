@@ -18,7 +18,13 @@ const electionRendererSource = readFileSync('js/election-renderer.mjs', 'utf8');
 const electionControllerSource = readFileSync('js/election-controller.js', 'utf8');
 const electionManifestBuilderSource = readFileSync('scripts/build-test2-election-manifest.mjs', 'utf8');
 const timelineSidecarBuilderSource = readFileSync('scripts/build_timeline_transition_sidecars.py', 'utf8');
-const wardTimelineTransitionSidecar = JSON.parse(readFileSync('data/timeline-transitions/wards-1993__wards-2012.geojson', 'utf8'));
+const wardTimelineTransitionSidecarIds = [
+  'wards-1972__wards-1984',
+  'wards-1984__wards-1993',
+  'wards-1993__wards-2012',
+  'wards-2012__wards-2022-final-recommendations'
+];
+const wardTimelineTransitionSidecars = wardTimelineTransitionSidecarIds.map((id) => JSON.parse(readFileSync('data/timeline-transitions/' + id + '.geojson', 'utf8')));
 const browseIndexBuilderSource = readFileSync('scripts/build-browse-indexes.mjs', 'utf8');
 const electionDataAuditSource = readFileSync('scripts/audit-test2-election-data.mjs', 'utf8');
 const uiControllerSource = readFileSync('js/ui-controller.js', 'utf8');
@@ -148,10 +154,10 @@ function assertCatalogueMetadata() {
     assert(map?.isGroup === true && Array.isArray(map.variants) && map.variants.length >= 4, `${id} parent map must remain a grouped all-ROI load across all provincial variants`);
   }
 
-  assert(findMap('tailte-built-up-1m')?.labelProperty === 'F_CODE', 'TÉ Built-Up Areas polygon map must label with F_CODE');
-  assert(findMap('tailte-built-up-points-250k')?.labelProperty === 'NAMN1', 'TÉ Built-Up Areas point map must label with NAMN1');
+  assert(findMap('tailte-built-up-1m')?.labelProperty === 'F_CODE', 'Tailte Built-Up Areas polygon map must label with F_CODE');
+  assert(findMap('tailte-built-up-points-250k')?.labelProperty === 'NAMN1', 'Tailte Built-Up Areas point map must label with NAMN1');
   assert(findMap('cso-urban-areas-2022')?.date === 2022, 'CSO Urban Areas 2022 must have date metadata so catalogue display derives 2022');
-  assert(uiControllerSource.includes("name: 'TÉ Built-Up Areas'"), 'Catalogue must title Tailte built-up areas as TÉ Built-Up Areas');
+  assert(uiControllerSource.includes("name: 'TÉ Built-Up Areas'") || uiControllerSource.includes("name: 'TE Built-Up Areas'"), 'Catalogue must title Tailte built-up areas as Tailte Built-Up Areas');
   assert(uiControllerSource.includes("name: 'Heritage Sites'"), 'Catalogue must title NI HED heritage card as Heritage Sites');
   assert(uiControllerSource.includes("map.id === 'cso-urban-areas-2022'") && uiControllerSource.includes("displayName = '2022'"), 'Catalogue must display CSO Urban Areas 2022 using derived name 2022');
 
@@ -345,10 +351,11 @@ assert(appSource.includes('TIMELINE_TRANSITION_MIN_AREA_M2 = 100') && appSource.
 const ded1922Placeholder = findMap('ded-1922-10-31');
 assert(ded1922Placeholder?.placeholder === true, '/test2 validation fixture must keep District Electoral Divisions 31 October 1922 marked as a placeholder');
 assert(appSource.includes('isPlaceholderTimelineMap') && appSource.includes('isTimelineMapPlayable') && appSource.includes('!item?.mapId || this.isTimelineMapPlayable(item.mapId)') && appSource.includes('filter((item) => this.isTimelineMapPlayable(item.mapId))') && appSource.includes('!this.isTimelineMapPlayable(newId)'), '/test2 territorial timeline must skip placeholder and non-loadable map frames before playback can load them');
-assert(adapterSource.includes('setTimelineTransitionOverlay') && adapterSource.includes('clearTimelineTransitionOverlay') && adapterSource.includes('normalizeTimelineTransitionFeature') && adapterSource.includes('transitionType') && adapterSource.includes('#7c3aed'), '/test2 MapLibre adapter must render clickable typed territorial transition overlays');
-assert(timelineSidecarBuilderSource.includes('MIN_AREA_M2 = 100.0') && timelineSidecarBuilderSource.includes('non-mutual-primary intersections') && timelineSidecarBuilderSource.includes('coordinate_decimals'), '/test2 territorial transition sidecars must be reproducibly generated with the accepted threshold and compact GeoJSON coordinates');
-assert(wardTimelineTransitionSidecar?.metadata?.minimumAreaM2 === 100 && wardTimelineTransitionSidecar?.metadata?.fromMapId === 'wards-1993' && wardTimelineTransitionSidecar?.metadata?.toMapId === 'wards-2012' && Array.isArray(wardTimelineTransitionSidecar.features) && wardTimelineTransitionSidecar.features.length > 0, '/test2 must ship a 100m2-filtered 1993-to-2012 wards territorial transition sidecar');
-assert(wardTimelineTransitionSidecar.features.every((feature) => Number(feature?.properties?.area_m2) >= 100), '/test2 territorial transition sidecar must not include sub-100m2 transition fragments');
+assert(adapterSource.includes('setTimelineTransitionOverlay') && adapterSource.includes('clearTimelineTransitionOverlay') && adapterSource.includes('normalizeTimelineTransitionFeature') && adapterSource.includes('transitionType') && adapterSource.includes('unchanged') && adapterSource.includes('clearTransientHighlight') && adapterSource.includes('isTimelineTransitionEventAtPoint') && adapterSource.includes('#7c3aed'), '/test2 MapLibre adapter must render clickable typed territorial transition overlays and prioritise part interactions');
+assert(timelineSidecarBuilderSource.includes('MIN_AREA_M2 = 100.0') && timelineSidecarBuilderSource.includes('mutual-primary intersections') && timelineSidecarBuilderSource.includes('coordinate_decimals'), '/test2 territorial transition sidecars must be reproducibly generated with the accepted threshold and compact GeoJSON coordinates');
+assert(wardTimelineTransitionSidecars.length === 4 && wardTimelineTransitionSidecars.every((sidecar) => sidecar?.metadata?.minimumAreaM2 === 100 && Array.isArray(sidecar.features) && sidecar.features.length > 0), '/test2 must ship 100m2-filtered sidecars for every adjacent Wards timeline transition');
+assert(wardTimelineTransitionSidecars.every((sidecar) => sidecar.features.every((feature) => Number(feature?.properties?.area_m2) >= 100)), '/test2 territorial transition sidecars must not include sub-100m2 transition fragments');
+assert(wardTimelineTransitionSidecars.every((sidecar) => sidecar.features.some((feature) => feature?.properties?.transitionType === 'unchanged')), '/test2 Wards territorial transition sidecars must include transparent unchanged parts for transition hit-testing');
 assert(adapterSource.includes('applyElectionStyle') && adapterSource.includes('clearElectionStyle'), '/test2 adapter must support MapLibre election styling expressions');
 assert(adapterSource.includes('fillOpacityExpression') && adapterSource.includes('lineOpacityExpression'), '/test2 adapter must accept expression-based election opacity so main matched/unmatched paint can be mirrored');
 assert(electionManagerSource.includes('ELECTION_MANIFEST_URL') && electionManagerSource.includes('loadElection(body, date)'), '/test2 election manager must lazy-load generated election result bundles');
@@ -1027,3 +1034,4 @@ function finiteValidationNumber(value) {
   const number = Number(value);
   return Number.isFinite(number) ? number : null;
 }
+

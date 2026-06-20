@@ -103,6 +103,8 @@ export class Test2MapLibreMainAdapter {
     this.overlayLayers = new Map();
     this.timelineTransitionOverlay = null;
     this.timelineTransitionOverlayHandlers = [];
+    this.hoveredTimelineTransitionId = null;
+    this.lastTimelineTransitionInteractionAt = 0;
     // Main/test layer-order convention is top-to-bottom for the active-card UI.
     // Internally we keep bottom-to-top because MapLibre moveLayer() promotes
     // each moved style layer above the previous one.
@@ -116,6 +118,7 @@ export class Test2MapLibreMainAdapter {
   init(container = this.container) {
     this.renderer = new TestMapLibreController(container, {
       onSelection: (selection) => this.handleSelection(selection),
+      shouldSuppressLayerInteraction: (event) => this.isTimelineTransitionEventAtPoint(event),
       onChange: () => this.options.onChange?.(this),
       onMetric: (metric) => this.options.onMetric?.(metric),
       onFallback: (metric) => this.options.onFallback?.(metric)
@@ -678,7 +681,51 @@ export class Test2MapLibreMainAdapter {
     const sourceId = 'test2-timeline-transition-source';
     const fillLayerId = 'test2-timeline-transition-fill';
     const lineLayerId = 'test2-timeline-transition-line';
+    const typeExpression = ['coalesce', ['get', 'transitionType'], ['get', 'changeType'], 'transfer'];
+    const fillColor = options.fillColor || [
+      'case',
+      ['boolean', ['feature-state', 'hover'], false], '#FDBA74',
+      ['match', typeExpression,
+        'split', '#7c3aed',
+        'territory-split', '#7c3aed',
+        'unchanged', '#ffffff',
+        'retained', '#ffffff',
+        'transfer', '#ef4444',
+        '#ef4444'
+      ]
+    ];
+    const fillOpacity = [
+      'case',
+      ['boolean', ['feature-state', 'hover'], false], 0.46,
+      ['match', typeExpression,
+        'unchanged', 0,
+        'retained', 0,
+        options.fillOpacity ?? 0.34
+      ]
+    ];
+    const lineColor = options.lineColor || [
+      'case',
+      ['boolean', ['feature-state', 'hover'], false], '#FF7A1A',
+      ['match', typeExpression,
+        'split', '#6d28d9',
+        'territory-split', '#6d28d9',
+        'unchanged', '#ffffff',
+        'retained', '#ffffff',
+        'transfer', '#dc2626',
+        '#dc2626'
+      ]
+    ];
+    const lineOpacity = [
+      'case',
+      ['boolean', ['feature-state', 'hover'], false], 0.92,
+      ['match', typeExpression,
+        'unchanged', 0,
+        'retained', 0,
+        options.lineOpacity ?? 0.82
+      ]
+    ];
     const data = normalizeTransitionGeoJson(geojson);
+    this.clearTimelineTransitionHover();
     if (!this.map.getSource(sourceId)) {
       this.map.addSource(sourceId, {
         type: 'geojson',
@@ -694,23 +741,14 @@ export class Test2MapLibreMainAdapter {
         type: 'fill',
         source: sourceId,
         paint: {
-          'fill-color': options.fillColor || [
-            'match',
-            ['coalesce', ['get', 'transitionType'], ['get', 'changeType'], 'transfer'],
-            'split',
-            '#7c3aed',
-            'territory-split',
-            '#7c3aed',
-            'transfer',
-            '#ef4444',
-            '#ef4444'
-          ],
-          'fill-opacity': options.fillOpacity ?? 0.34,
+          'fill-color': fillColor,
+          'fill-opacity': fillOpacity,
           'fill-antialias': false
         }
       });
     } else {
-      this.map.setPaintProperty(fillLayerId, 'fill-opacity', options.fillOpacity ?? 0.34);
+      this.map.setPaintProperty(fillLayerId, 'fill-color', fillColor);
+      this.map.setPaintProperty(fillLayerId, 'fill-opacity', fillOpacity);
     }
     if (!this.map.getLayer(lineLayerId)) {
       this.map.addLayer({
@@ -718,23 +756,14 @@ export class Test2MapLibreMainAdapter {
         type: 'line',
         source: sourceId,
         paint: {
-          'line-color': options.lineColor || [
-            'match',
-            ['coalesce', ['get', 'transitionType'], ['get', 'changeType'], 'transfer'],
-            'split',
-            '#6d28d9',
-            'territory-split',
-            '#6d28d9',
-            'transfer',
-            '#dc2626',
-            '#dc2626'
-          ],
-          'line-opacity': options.lineOpacity ?? 0.82,
+          'line-color': lineColor,
+          'line-opacity': lineOpacity,
           'line-width': ['interpolate', ['linear'], ['zoom'], 5, 0.8, 11, 1.6, 14, 2.4]
         }
       });
     } else {
-      this.map.setPaintProperty(lineLayerId, 'line-opacity', options.lineOpacity ?? 0.82);
+      this.map.setPaintProperty(lineLayerId, 'line-color', lineColor);
+      this.map.setPaintProperty(lineLayerId, 'line-opacity', lineOpacity);
     }
     this.installTimelineTransitionHandlers(fillLayerId, lineLayerId, options);
     this.timelineTransitionOverlay = { sourceId, fillLayerId, lineLayerId, options };
@@ -747,49 +776,106 @@ export class Test2MapLibreMainAdapter {
       if (this.map.getLayer(layerId)) this.map.off(event, layerId, handler);
     }
     this.timelineTransitionOverlayHandlers = [];
+    const pickFeature = (event) => (event?.features || [])
+      .map((feature) => this.normalizeTimelineTransitionFeature(feature, options))
+      .filter(Boolean)[0] || null;
     const clickHandler = (event) => {
-      const features = (event?.features || [])
-        .map((feature) => this.normalizeTimelineTransitionFeature(feature, options))
-        .filter(Boolean);
-      if (!features.length) return;
-      this.options.onFeatureClick?.(features);
+      const feature = pickFeature(event);
+      if (!feature) return;
+      this.lastTimelineTransitionInteractionAt = performance?.now?.() || Date.now();
+      event.preventDefault?.();
+      event.originalEvent?.preventDefault?.();
+      event.originalEvent?.stopPropagation?.();
+      this.setTimelineTransitionHover(feature.id);
+      this.options.onFeatureClick?.([feature]);
+    };
+    const moveHandler = (event) => {
+      const feature = pickFeature(event);
+      if (!feature) return;
+      this.setTimelineTransitionHover(feature.id);
+      if (this.map?.getCanvas?.()) this.map.getCanvas().style.cursor = 'pointer';
     };
     const enterHandler = () => {
       if (this.map?.getCanvas?.()) this.map.getCanvas().style.cursor = 'pointer';
     };
     const leaveHandler = () => {
+      this.clearTimelineTransitionHover();
       if (this.map?.getCanvas?.()) this.map.getCanvas().style.cursor = '';
     };
     for (const layerId of [fillLayerId, lineLayerId]) {
       this.map.on('click', layerId, clickHandler);
+      this.map.on('mousemove', layerId, moveHandler);
       this.map.on('mouseenter', layerId, enterHandler);
       this.map.on('mouseleave', layerId, leaveHandler);
       this.timelineTransitionOverlayHandlers.push(
         { layerId, event: 'click', handler: clickHandler },
+        { layerId, event: 'mousemove', handler: moveHandler },
         { layerId, event: 'mouseenter', handler: enterHandler },
         { layerId, event: 'mouseleave', handler: leaveHandler }
       );
     }
   }
 
+  isTimelineTransitionEventAtPoint(event) {
+    if (!this.map || !this.timelineTransitionOverlay || !event?.point) return false;
+    const { fillLayerId, lineLayerId } = this.timelineTransitionOverlay;
+    const layers = [fillLayerId, lineLayerId].filter((layerId) => this.map.getLayer(layerId));
+    if (!layers.length) return false;
+    return this.map.queryRenderedFeatures(event.point, { layers }).length > 0;
+  }
+
+  setTimelineTransitionHover(featureId) {
+    if (!this.map || !this.timelineTransitionOverlay || featureId === undefined || featureId === null) return;
+    const { sourceId } = this.timelineTransitionOverlay;
+    if (this.hoveredTimelineTransitionId === featureId) return;
+    this.clearTimelineTransitionHover();
+    this.hoveredTimelineTransitionId = featureId;
+    try {
+      this.map.setFeatureState({ source: sourceId, id: featureId }, { hover: true });
+    } catch {
+      this.hoveredTimelineTransitionId = null;
+    }
+  }
+
+  clearTimelineTransitionHover() {
+    if (!this.map || !this.timelineTransitionOverlay || this.hoveredTimelineTransitionId === null) return;
+    const { sourceId } = this.timelineTransitionOverlay;
+    try {
+      this.map.setFeatureState({ source: sourceId, id: this.hoveredTimelineTransitionId }, { hover: false });
+    } catch {
+      // The source may already have been cleared.
+    }
+    this.hoveredTimelineTransitionId = null;
+  }
+
   normalizeTimelineTransitionFeature(feature, options = {}) {
     const properties = { ...(feature?.properties || {}) };
     const fromName = properties.fromFeatureName || properties.from_name || properties.fromName || properties.oldName || 'Earlier feature';
     const toName = properties.toFeatureName || properties.to_name || properties.toName || properties.newName || 'Later feature';
+    const fromMapName = properties.fromMapName || options.fromMapName || properties.fromLayerName || 'Earlier layer';
+    const toMapName = properties.toMapName || options.toMapName || properties.toLayerName || 'Later layer';
+    const layerName = `${fromMapName} to ${toMapName}`;
     const name = properties.transitionName || properties.name || `${fromName} to ${toName}`;
+    const transitionType = properties.transitionType || properties.changeType || 'transfer';
     return {
       ...properties,
       id: properties.transitionId || feature?.id || `${options.fromMapId || 'from'}__${options.toMapId || 'to'}__${name}`,
       mapId: '__timeline_transition__',
-      mapName: 'Territorial change',
-      layerName: 'Territorial change',
+      mapName: layerName,
+      layerName,
       featureName: name,
       name,
-      color: (properties.transitionType === 'split' || properties.changeType === 'territory-split') ? '#7c3aed' : '#dc2626',
+      isTimelineTransitionFeature: true,
+      transitionType,
+      color: (transitionType === 'split' || transitionType === 'territory-split') ? '#7c3aed' : (transitionType === 'unchanged' || transitionType === 'retained') ? '#64748b' : '#dc2626',
       properties: {
         ...properties,
+        transitionType,
+        transitionLayerName: layerName,
         fromMapId: properties.fromMapId || options.fromMapId || '',
         toMapId: properties.toMapId || options.toMapId || '',
+        fromMapName,
+        toMapName,
         fromFeatureName: fromName,
         toFeatureName: toName,
         minimumDisplayedAreaM2: options.minAreaM2
@@ -804,6 +890,7 @@ export class Test2MapLibreMainAdapter {
     const { sourceId, fillLayerId, lineLayerId } = this.timelineTransitionOverlay;
     const source = this.map.getSource(sourceId);
     const empty = { type: 'FeatureCollection', features: [] };
+    this.clearTimelineTransitionHover();
     const clearData = () => {
       if (this.map?.getSource(sourceId)) this.map.getSource(sourceId).setData(empty);
       if (this.map?.getLayer(fillLayerId)) this.map.setPaintProperty(fillLayerId, 'fill-opacity', 0);
@@ -819,6 +906,17 @@ export class Test2MapLibreMainAdapter {
       clearData();
     }
     return true;
+  }
+
+  clearTransientHighlight(options = {}) {
+    this.renderer?.clearHover?.();
+    this.clearTimelineTransitionHover();
+    if (options.clearSelection === false || !this.renderer?.selected) return;
+    const selected = this.renderer.selected;
+    this.renderer.clearFeatureState?.(selected, 'selected');
+    this.renderer.setDomLabelSelected?.(selected.layerId, selected.id, false);
+    this.renderer.selected = null;
+    this.renderer.notifyChange?.();
   }
   fitToLayer(mainId) {
     const testId = this.mainToTest.get(mainId) || mainId;
@@ -1279,3 +1377,4 @@ function escapeHtml(value) {
     "'": '&#39;'
   }[ch]));
 }
+

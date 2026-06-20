@@ -1522,6 +1522,10 @@ export class TestMapLibreController {
       const event = pendingHoverEvent;
       pendingHoverEvent = null;
       if (!event || !this.layers.has(layer.id)) return;
+      if (this.options.shouldSuppressLayerInteraction?.(event)) {
+        clearHover();
+        return;
+      }
       const sourceLoaded = typeof this.map.isSourceLoaded === 'function' ? this.map.isSourceLoaded(sourceId) : this.map.areTilesLoaded();
       if (this.map.isMoving() || !sourceLoaded) {
         clearHover();
@@ -1551,12 +1555,14 @@ export class TestMapLibreController {
       if (feature) this.setHover(layer, feature);
     };
     const onDoubleClick = (event) => {
+      if (this.options.shouldSuppressLayerInteraction?.(event)) return;
       event.preventDefault?.();
       const feature = queryAtPoint(event.point, CLICK_TOLERANCE_PX)[0];
       if (feature) this.selectFeature(layer, feature);
     };
     const onClick = (event) => {
       const original = event.originalEvent;
+      if (this.options.shouldSuppressLayerInteraction?.(event)) return;
       if (original && document.elementFromPoint(original.clientX, original.clientY)?.closest?.('.maplibre-dom-label, .maplibregl-ctrl, .map-controls, .active-layers-toggle')) {
         return;
       }
@@ -2096,3 +2102,4 @@ function writeLayerOrder(order) {
     localStorage.setItem('civgraph:test:layer-order', JSON.stringify(order));
   } catch {}
 }
+

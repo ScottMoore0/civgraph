@@ -66,6 +66,7 @@ class Test2App {
       paused: false,
       atEnd: false,
       timer: 0,
+      runId: 0,
       originalLayerId: null,
       currentIndex: 0,
       singleLayerReferenceId: null
@@ -197,6 +198,7 @@ class Test2App {
 
     this._suspendURLState = true;
     this.mapController.init('map');
+    this.installOutsideMapHighlightClear();
     this.relocateMobileCatalogueToggle();
     window.__civgraphTest2 = {
       ...(window.__civgraphTest2 || {}),
@@ -1707,6 +1709,7 @@ class Test2App {
     this.clearTimelineAnimationTimer();
     this.timelineItems = [];
     this.timelineOnSelect = null;
+    this.timelineAnimation.runId += 1;
     this.timelineAnimation.playing = false;
     this.timelineAnimation.paused = false;
     this.timelineAnimation.atEnd = false;
@@ -1719,6 +1722,20 @@ class Test2App {
 
   notifyTimelineLayoutChanged() {
     requestAnimationFrame(() => this.mapController?.invalidateSize?.());
+  }
+
+  installOutsideMapHighlightClear() {
+    if (this._outsideMapHighlightClearInstalled) return;
+    this._outsideMapHighlightClearInstalled = true;
+    document.addEventListener('pointerdown', (event) => {
+      const target = event.target;
+      if (target?.closest?.('#map, .maplibregl-map, .maplibre-dom-label')) return;
+      this.mapController?.clearTransientHighlight?.();
+    }, true);
+  }
+
+  isTimelineRunCurrent(runId) {
+    return this.timelineAnimation.runId === runId && this.timelineAnimation.playing;
   }
 
   updateTimeline() {
@@ -1937,8 +1954,9 @@ class Test2App {
 
   pauseTimelineAnimation(options = {}) {
     const wasActive = this.timelineAnimation.playing || this.timelineAnimation.paused;
+    if (wasActive) this.timelineAnimation.runId += 1;
     this.clearTimelineAnimationTimer();
-    if (this.timelineAnimation.playing) {
+    if (wasActive) {
       this.timelineAnimation.playing = false;
       this.timelineAnimation.paused = true;
       this.timelineAnimation.currentIndex = this.getTimelineRangeIndex();
@@ -1951,6 +1969,7 @@ class Test2App {
     const { restoreOriginal = true } = options;
     const originalLayerId = this.timelineAnimation.originalLayerId;
     const wasActive = this.timelineAnimation.playing || this.timelineAnimation.paused || originalLayerId;
+    this.timelineAnimation.runId += 1;
     this.clearTimelineAnimationTimer();
     this.timelineAnimation.playing = false;
     this.timelineAnimation.paused = false;
@@ -1999,6 +2018,8 @@ class Test2App {
     let startIndex = this.timelineAnimation.paused ? this.timelineAnimation.currentIndex : 0;
     if (this.timelineAnimation.atEnd) startIndex = 0;
     startIndex = this.clampTimelineIndex(startIndex);
+    const runId = this.timelineAnimation.runId + 1;
+    this.timelineAnimation.runId = runId;
     this.timelineAnimation.playing = true;
     this.timelineAnimation.paused = false;
     this.timelineAnimation.atEnd = false;
@@ -2007,7 +2028,7 @@ class Test2App {
     this.updateTimelineAnimationButtons();
     const startItem = this.timelineItems[startIndex];
     if (startItem?.timestamp !== undefined) await this.applyTimelineTimestamp(startItem.timestamp, { fit: false });
-    if (!this.timelineAnimation.playing) return;
+    if (!this.isTimelineRunCurrent(runId)) return;
     if (startIndex >= this.timelineItems.length - 1) {
       this.timelineAnimation.playing = false;
       this.timelineAnimation.atEnd = true;
@@ -2015,12 +2036,12 @@ class Test2App {
       return;
     }
     this.scheduleTimelineAnimation(TIMELINE_ANIMATION_DELAYS.start, () => {
-      this.advanceTimelineAnimation().catch((error) => this.showMapError(error));
+      this.advanceTimelineAnimation(runId).catch((error) => this.showMapError(error));
     });
   }
 
-  async advanceTimelineAnimation() {
-    if (!this.timelineAnimation.playing) return;
+  async advanceTimelineAnimation(runId = this.timelineAnimation.runId) {
+    if (!this.isTimelineRunCurrent(runId)) return;
     const fromIndex = this.clampTimelineIndex(this.timelineAnimation.currentIndex);
     const toIndex = fromIndex + 1;
     if (toIndex >= this.timelineItems.length) {
@@ -2030,8 +2051,8 @@ class Test2App {
       this.updateTimelineAnimationButtons();
       return;
     }
-    await this.applyTimelineAnimationTransition(fromIndex, toIndex);
-    if (!this.timelineAnimation.playing) return;
+    await this.applyTimelineAnimationTransition(fromIndex, toIndex, runId);
+    if (!this.isTimelineRunCurrent(runId)) return;
     this.timelineAnimation.currentIndex = toIndex;
     if (toIndex >= this.timelineItems.length - 1) {
       this.timelineAnimation.playing = false;
@@ -2041,11 +2062,11 @@ class Test2App {
       return;
     }
     this.scheduleTimelineAnimation(TIMELINE_ANIMATION_DELAYS.start, () => {
-      this.advanceTimelineAnimation().catch((error) => this.showMapError(error));
+      this.advanceTimelineAnimation(runId).catch((error) => this.showMapError(error));
     });
   }
 
-  async applyTimelineAnimationTransition(fromIndex, toIndex) {
+  async applyTimelineAnimationTransition(fromIndex, toIndex, runId = this.timelineAnimation.runId) {
     const fromItem = this.timelineItems[this.clampTimelineIndex(fromIndex)];
     const toItem = this.timelineItems[this.clampTimelineIndex(toIndex)];
     const fromMapId = fromItem?.mapId;
@@ -2057,8 +2078,15 @@ class Test2App {
     }
     this.timelineApplying = true;
     try {
+      if (!this.isTimelineMapPlayable(fromMapId) || !this.isTimelineMapPlayable(toMapId)) {
+        if (toItem?.timestamp !== undefined) await this.applyTimelineTimestamp(toItem.timestamp, { fit: false });
+        this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex);
+        return;
+      }
       const fromReady = await this.ensureTimelineLayerLoaded(fromMapId);
+      if (!this.isTimelineRunCurrent(runId)) return;
       const toReady = await this.ensureTimelineLayerLoaded(toMapId);
+      if (!this.isTimelineRunCurrent(runId)) return;
       if (!fromReady || !toReady) {
         if (toItem?.timestamp !== undefined) await this.applyTimelineTimestamp(toItem.timestamp, { fit: false });
         this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex);
@@ -2067,6 +2095,7 @@ class Test2App {
       this.mapController.showLayer?.(fromMapId);
       this.mapController.showLayer?.(toMapId);
       const overlay = await this.loadTimelineTransitionOverlay(fromMapId, toMapId);
+      if (!this.isTimelineRunCurrent(runId)) return;
       if (overlay?.features?.length) {
         this.mapController.setTimelineTransitionOverlay?.(overlay, {
           fromMapId,
@@ -2086,10 +2115,10 @@ class Test2App {
       this.updateTimeline();
     }
     await this.waitTimelineDelay(TIMELINE_ANIMATION_DELAYS.overlay);
-    if (!this.timelineAnimation.playing) return;
+    if (!this.isTimelineRunCurrent(runId)) return;
     this.mapController.clearTimelineTransitionOverlay?.({ fade: true });
     await this.waitTimelineDelay(TIMELINE_ANIMATION_DELAYS.settle);
-    if (!this.timelineAnimation.playing) return;
+    if (!this.isTimelineRunCurrent(runId)) return;
     if (fromMapId !== toMapId && this.isMapLoaded(fromMapId)) {
       await this.unloadMap(fromMapId, { preserveTimelineAnimation: true });
     }
@@ -2771,3 +2800,4 @@ function normalizeSearchText(value) {
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
 }
+
