@@ -348,6 +348,8 @@ assert(test2Css.includes('body.app-shell.test2-election-open #electionResultsPan
 assert(appSource.includes('setupTimelineControls') && appSource.includes('setTimelineItems'), '/test2 must wire the production timeline slider for map chains and elections');
 assert(appSource.includes('formatTimelineItemLabel') && appSource.includes("day: '2-digit'") && appSource.includes("month: 'short'") && appSource.includes("year: 'numeric'"), '/test2 timeline labels must render as DD MMM YYYY');
 assert(appSource.includes('TIMELINE_TRANSITION_MIN_AREA_M2 = 100') && appSource.includes('startTimelineAnimation') && appSource.includes('applyTimelineAnimationTransition') && appSource.includes('filterTimelineTransitionGeoJson') && appSource.includes('getTimelineTransitionKeys'), '/test2 territorial animation must implement play/pause/stop transitions with source-key fallback and the accepted 100m2 sliver threshold');
+assert(wardTimelineTransitionSidecarIds.every((id) => appSource.includes(id)) && appSource.includes('TIMELINE_TRANSITION_SIDECAR_SET'), '/test2 territorial animation must know every shipped adjacent Wards transition sidecar key');
+assert(appSource.includes('selectTimelineTransitionSequence') && appSource.includes('hasTimelineTransitionSidecar') && appSource.includes('transitionSequence.length >= 2 ? transitionSequence : playableItems'), '/test2 territorial animation must prefer contiguous sidecar-backed timeline playback sequences');
 const ded1922Placeholder = findMap('ded-1922-10-31');
 assert(ded1922Placeholder?.placeholder === true, '/test2 validation fixture must keep District Electoral Divisions 31 October 1922 marked as a placeholder');
 assert(appSource.includes('isPlaceholderTimelineMap') && appSource.includes('isTimelineMapPlayable') && appSource.includes('!item?.mapId || this.isTimelineMapPlayable(item.mapId)') && appSource.includes('filter((item) => this.isTimelineMapPlayable(item.mapId))') && appSource.includes('!this.isTimelineMapPlayable(newId)'), '/test2 territorial timeline must skip placeholder and non-loadable map frames before playback can load them');
@@ -1034,4 +1036,3 @@ function finiteValidationNumber(value) {
   const number = Number(value);
   return Number.isFinite(number) ? number : null;
 }
-

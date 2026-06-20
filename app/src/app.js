@@ -7,6 +7,13 @@ import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
 const TEST2_LAYER_ORDER_STORAGE_KEY = 'civgraph:maplibre:layer-order';
 const TIMELINE_TRANSITION_MIN_AREA_M2 = 100;
 const TIMELINE_TRANSITION_BASE_PATH = '/data/timeline-transitions';
+const TIMELINE_TRANSITION_SIDECARS = Object.freeze([
+  'wards-1972__wards-1984',
+  'wards-1984__wards-1993',
+  'wards-1993__wards-2012',
+  'wards-2012__wards-2022-final-recommendations'
+]);
+const TIMELINE_TRANSITION_SIDECAR_SET = new Set(TIMELINE_TRANSITION_SIDECARS);
 const TIMELINE_ANIMATION_DELAYS = Object.freeze({
   start: 900,
   overlay: 1500,
@@ -1664,15 +1671,22 @@ class Test2App {
   setTimelineItems(items, activeIndex, onSelect) {
     const slider = document.getElementById('timelineSlider');
     const range = document.getElementById('timelineRange');
-    this.timelineItems = Array.isArray(items)
+    const playableItems = Array.isArray(items)
       ? items.filter((item) => !item?.mapId || this.isTimelineMapPlayable(item.mapId))
       : [];
+    const transitionSequence = this.selectTimelineTransitionSequence(playableItems);
+    this.timelineItems = transitionSequence.length >= 2 ? transitionSequence : playableItems;
     this.timelineOnSelect = typeof onSelect === 'function' ? onSelect : null;
     if (!slider || !range || this.timelineItems.length < 2 || !this.timelineOnSelect) {
       this.hideTimeline();
       return;
     }
-    const safeIndex = this.clampTimelineIndex(activeIndex);
+    const requestedItem = Array.isArray(items) ? items[Number(activeIndex)] : null;
+    const requestedIndex = this.timelineItems.findIndex((item) => Boolean(requestedItem) && (
+      item.mapId === requestedItem.mapId
+      || item.timestamp === requestedItem.timestamp
+    ));
+    const safeIndex = this.clampTimelineIndex(requestedIndex >= 0 ? requestedIndex : activeIndex);
     range.min = '0';
     range.max = String(this.timelineItems.length - 1);
     this.setTimelineRangeIndex(safeIndex);
@@ -1680,6 +1694,34 @@ class Test2App {
     this.updateTimelineLabel(safeIndex);
     this.updateTimelineAnimationButtons();
     this.notifyTimelineLayoutChanged();
+  }
+
+  selectTimelineTransitionSequence(items) {
+    const playableItems = Array.isArray(items)
+      ? items.filter((item) => item?.mapId && this.isTimelineMapPlayable(item.mapId))
+      : [];
+    let best = [];
+    let current = [];
+    for (const item of playableItems) {
+      if (!current.length) {
+        current = [item];
+        continue;
+      }
+      const previous = current[current.length - 1];
+      if (this.hasTimelineTransitionSidecar(previous.mapId, item.mapId)) {
+        current.push(item);
+        continue;
+      }
+      if (current.length > best.length) best = current;
+      current = [item];
+    }
+    if (current.length > best.length) best = current;
+    return best.length >= 2 ? best : [];
+  }
+
+  hasTimelineTransitionSidecar(fromMapId, toMapId) {
+    return this.getTimelineTransitionKeys(fromMapId, toMapId)
+      .some((key) => TIMELINE_TRANSITION_SIDECAR_SET.has(key));
   }
 
   clampTimelineIndex(index) {
@@ -2134,32 +2176,51 @@ class Test2App {
     return true;
   }
 
+  getTimelineTransitionCandidateIds(mapId) {
+    const map = dataService.getMapById(mapId);
+    const candidates = new Set();
+    const add = (value) => {
+      if (!value) return;
+      const id = String(value).trim();
+      if (!id) return;
+      const expanded = [
+        id,
+        id.replace(/-vector-test$/, ''),
+        id.replace(/-(standard|full|largescale|50k)$/, '')
+      ];
+      const wardMatch = id.match(/^wards-(1972|1984|1993|2012)(?:-|$)/);
+      if (wardMatch) expanded.push('wards-' + wardMatch[1]);
+      if (/^wards-2022(?:-|$)/.test(id)) expanded.push('wards-2022-final-recommendations');
+      for (const candidate of expanded) {
+        if (candidate) candidates.add(candidate);
+      }
+    };
+    add(mapId);
+    add(map?.id);
+    add(map?.sourceMapId);
+    add(map?.cloneOf);
+    add(map?.aliasOf);
+    add(map?.parentId);
+    add(map?.coLoadMapId);
+    return [...candidates];
+  }
+
   getTimelineTransitionKeys(fromMapId, toMapId) {
-    const fromMap = dataService.getMapById(fromMapId);
-    const toMap = dataService.getMapById(toMapId);
-    const fromCandidates = [
-      fromMapId,
-      fromMap?.sourceMapId,
-      fromMapId?.replace(/-vector-test$/, ''),
-      fromMap?.sourceMapId?.replace(/-vector-test$/, '')
-    ];
-    const toCandidates = [
-      toMapId,
-      toMap?.sourceMapId,
-      toMapId?.replace(/-vector-test$/, ''),
-      toMap?.sourceMapId?.replace(/-vector-test$/, '')
-    ];
-    const keys = [];
+    const fromCandidates = this.getTimelineTransitionCandidateIds(fromMapId);
+    const toCandidates = this.getTimelineTransitionCandidateIds(toMapId);
+    const preferred = [];
+    const fallback = [];
     const seen = new Set();
-    for (const fromCandidate of fromCandidates.filter(Boolean)) {
-      for (const toCandidate of toCandidates.filter(Boolean)) {
-        const key = `${fromCandidate}__${toCandidate}`;
+    for (const fromCandidate of fromCandidates) {
+      for (const toCandidate of toCandidates) {
+        const key = fromCandidate + '__' + toCandidate;
         if (seen.has(key)) continue;
         seen.add(key);
-        keys.push(key);
+        if (TIMELINE_TRANSITION_SIDECAR_SET.has(key)) preferred.push(key);
+        else fallback.push(key);
       }
     }
-    return keys;
+    return [...preferred, ...fallback];
   }
 
   async loadTimelineTransitionOverlay(fromMapId, toMapId) {
