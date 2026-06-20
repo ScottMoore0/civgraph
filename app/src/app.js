@@ -76,7 +76,8 @@ class Test2App {
       runId: 0,
       originalLayerId: null,
       currentIndex: 0,
-      singleLayerReferenceId: null
+      singleLayerReferenceId: null,
+      sequenceItems: []
     };
     this.booksPromise = null;
     this.electionModulePromise = null;
@@ -1634,18 +1635,20 @@ class Test2App {
     const play = document.getElementById('timelinePlay');
     const stop = document.getElementById('timelineStop');
     const applyIndex = async (index, options = {}) => {
-      if (!this.timelineItems.length || !this.timelineOnSelect) return;
+      const timelineItems = this.getTimelineAnimationItems();
+      if (!timelineItems.length || !this.timelineOnSelect) return;
       if (options.manual !== false) this.pauseTimelineAnimation({ preserveOverlay: true });
-      const safeIndex = this.clampTimelineIndex(index);
+      const safeIndex = this.clampTimelineIndex(index, timelineItems);
       this.setTimelineRangeIndex(safeIndex);
       this.timelineAnimation.currentIndex = safeIndex;
-      await this.timelineOnSelect(this.timelineItems[safeIndex], safeIndex);
+      await this.timelineOnSelect(timelineItems[safeIndex], safeIndex);
       this.updateTimelineAnimationButtons();
     };
     range?.addEventListener('change', (event) => applyIndex(event.target.value).catch((error) => this.showMapError(error)));
     range?.addEventListener('input', (event) => {
       this.pauseTimelineAnimation({ preserveOverlay: true });
-      const safeIndex = this.clampTimelineIndex(event.target.value);
+      const timelineItems = this.getTimelineAnimationItems();
+      const safeIndex = this.clampTimelineIndex(event.target.value, timelineItems);
       this.timelineAnimation.currentIndex = safeIndex;
       this.updateTimelineLabel(safeIndex);
       this.updateTimelineAnimationButtons();
@@ -1653,7 +1656,7 @@ class Test2App {
     prev?.addEventListener('click', () => applyIndex(this.getTimelineRangeIndex() - 1).catch((error) => this.showMapError(error)));
     next?.addEventListener('click', () => applyIndex(this.getTimelineRangeIndex() + 1).catch((error) => this.showMapError(error)));
     reset?.addEventListener('click', () => {
-      const latest = Math.max(0, this.timelineItems.length - 1);
+      const latest = Math.max(0, this.getTimelineAnimationItems().length - 1);
       applyIndex(latest).catch((error) => this.showMapError(error));
     });
     play?.addEventListener('click', () => {
@@ -1724,9 +1727,10 @@ class Test2App {
       .some((key) => TIMELINE_TRANSITION_SIDECAR_SET.has(key));
   }
 
-  clampTimelineIndex(index) {
-    if (!this.timelineItems.length) return 0;
-    return Math.max(0, Math.min(this.timelineItems.length - 1, Number(index) || 0));
+  clampTimelineIndex(index, items = this.timelineItems) {
+    const sequence = Array.isArray(items) ? items : [];
+    if (!sequence.length) return 0;
+    return Math.max(0, Math.min(sequence.length - 1, Number(index) || 0));
   }
 
   getTimelineRangeIndex() {
@@ -1740,9 +1744,15 @@ class Test2App {
     this.updateTimelineLabel(safeIndex);
     return safeIndex;
   }
+  getTimelineAnimationItems() {
+    const sequenceItems = this.timelineAnimation?.sequenceItems;
+    return Array.isArray(sequenceItems) && sequenceItems.length ? sequenceItems : this.timelineItems;
+  }
+
 
   updateTimelineLabel(index) {
-    const item = this.timelineItems[this.clampTimelineIndex(index)];
+    const timelineItems = this.getTimelineAnimationItems();
+    const item = timelineItems[this.clampTimelineIndex(index, timelineItems)];
     const label = document.getElementById('timelineLabel');
     if (label) label.textContent = this.formatTimelineItemLabel(item);
   }
@@ -1756,6 +1766,7 @@ class Test2App {
     this.timelineAnimation.paused = false;
     this.timelineAnimation.atEnd = false;
     this.timelineAnimation.singleLayerReferenceId = null;
+    this.timelineAnimation.sequenceItems = [];
     this.mapController?.clearTimelineTransitionOverlay?.();
     document.getElementById('timelineSlider')?.classList.add('hidden');
     this.updateTimelineAnimationButtons();
@@ -1782,6 +1793,7 @@ class Test2App {
 
   updateTimeline() {
     if (this.timelineApplying) return;
+    if (this.timelineAnimation?.playing) return;
     if (this.elections?.activeEntry) {
       this.elections.updateElectionTimeline();
       return;
@@ -1907,7 +1919,7 @@ class Test2App {
   }
 
   getTimelineItemMapIds() {
-    return new Set(this.timelineItems.map((item) => item?.mapId).filter(Boolean));
+    return new Set(this.getTimelineAnimationItems().map((item) => item?.mapId).filter(Boolean));
   }
 
   isTimelineAnimationLayer(mapId) {
@@ -2033,7 +2045,8 @@ class Test2App {
         if (!this.isMapLoaded(originalLayerId)) await this.loadMap(originalLayerId, { fit: false });
         this.mapController.showLayer?.(originalLayerId);
         const originalTimestamp = dataService.parseMapDate?.(dataService.getMapById(originalLayerId)?.date);
-        const originalIndex = this.timelineItems.findIndex((item) => item.mapId === originalLayerId || item.timestamp === originalTimestamp);
+        const timelineItems = this.getTimelineAnimationItems();
+        const originalIndex = timelineItems.findIndex((item) => item.mapId === originalLayerId || item.timestamp === originalTimestamp);
         if (originalIndex >= 0) this.setTimelineRangeIndex(originalIndex);
         this.syncCatalogueMapState();
         this.updateActiveLayers();
@@ -2044,6 +2057,7 @@ class Test2App {
       }
     }
     this.timelineAnimation.originalLayerId = null;
+    this.timelineAnimation.sequenceItems = [];
     this.timelineAnimation.currentIndex = this.getTimelineRangeIndex();
     this.updateTimelineAnimationButtons();
   }
@@ -2053,13 +2067,17 @@ class Test2App {
       this.updateTimelineAnimationButtons();
       return;
     }
+    const sequenceItems = this.timelineAnimation.paused && Array.isArray(this.timelineAnimation.sequenceItems) && this.timelineAnimation.sequenceItems.length
+      ? this.timelineAnimation.sequenceItems
+      : this.timelineItems.slice();
+    this.timelineAnimation.sequenceItems = sequenceItems;
     const visibleTimelineLayers = this.getVisibleTimelineLayerIds();
     if (!this.timelineAnimation.originalLayerId || this.timelineAnimation.atEnd) {
-      this.timelineAnimation.originalLayerId = visibleTimelineLayers[0] || this.timelineItems[this.getTimelineRangeIndex()]?.mapId || null;
+      this.timelineAnimation.originalLayerId = visibleTimelineLayers[0] || sequenceItems[this.getTimelineRangeIndex()]?.mapId || null;
     }
     let startIndex = this.timelineAnimation.paused ? this.timelineAnimation.currentIndex : 0;
     if (this.timelineAnimation.atEnd) startIndex = 0;
-    startIndex = this.clampTimelineIndex(startIndex);
+    startIndex = this.clampTimelineIndex(startIndex, sequenceItems);
     const runId = this.timelineAnimation.runId + 1;
     this.timelineAnimation.runId = runId;
     this.timelineAnimation.playing = true;
@@ -2068,10 +2086,10 @@ class Test2App {
     this.timelineAnimation.currentIndex = startIndex;
     this.setTimelineRangeIndex(startIndex);
     this.updateTimelineAnimationButtons();
-    const startItem = this.timelineItems[startIndex];
+    const startItem = sequenceItems[startIndex];
     if (startItem?.timestamp !== undefined) await this.applyTimelineTimestamp(startItem.timestamp, { fit: false });
     if (!this.isTimelineRunCurrent(runId)) return;
-    if (startIndex >= this.timelineItems.length - 1) {
+    if (startIndex >= sequenceItems.length - 1) {
       this.timelineAnimation.playing = false;
       this.timelineAnimation.atEnd = true;
       this.updateTimelineAnimationButtons();
@@ -2084,19 +2102,20 @@ class Test2App {
 
   async advanceTimelineAnimation(runId = this.timelineAnimation.runId) {
     if (!this.isTimelineRunCurrent(runId)) return;
-    const fromIndex = this.clampTimelineIndex(this.timelineAnimation.currentIndex);
+    const timelineItems = this.getTimelineAnimationItems();
+    const fromIndex = this.clampTimelineIndex(this.timelineAnimation.currentIndex, timelineItems);
     const toIndex = fromIndex + 1;
-    if (toIndex >= this.timelineItems.length) {
+    if (toIndex >= timelineItems.length) {
       this.timelineAnimation.playing = false;
       this.timelineAnimation.paused = false;
       this.timelineAnimation.atEnd = true;
       this.updateTimelineAnimationButtons();
       return;
     }
-    await this.applyTimelineAnimationTransition(fromIndex, toIndex, runId);
+    await this.applyTimelineAnimationTransition(fromIndex, toIndex, runId, timelineItems);
     if (!this.isTimelineRunCurrent(runId)) return;
     this.timelineAnimation.currentIndex = toIndex;
-    if (toIndex >= this.timelineItems.length - 1) {
+    if (toIndex >= timelineItems.length - 1) {
       this.timelineAnimation.playing = false;
       this.timelineAnimation.paused = false;
       this.timelineAnimation.atEnd = true;
@@ -2108,21 +2127,22 @@ class Test2App {
     });
   }
 
-  async applyTimelineAnimationTransition(fromIndex, toIndex, runId = this.timelineAnimation.runId) {
-    const fromItem = this.timelineItems[this.clampTimelineIndex(fromIndex)];
-    const toItem = this.timelineItems[this.clampTimelineIndex(toIndex)];
+  async applyTimelineAnimationTransition(fromIndex, toIndex, runId = this.timelineAnimation.runId, items = this.getTimelineAnimationItems()) {
+    const timelineItems = Array.isArray(items) && items.length ? items : this.getTimelineAnimationItems();
+    const fromItem = timelineItems[this.clampTimelineIndex(fromIndex, timelineItems)];
+    const toItem = timelineItems[this.clampTimelineIndex(toIndex, timelineItems)];
     const fromMapId = fromItem?.mapId;
     const toMapId = toItem?.mapId;
     if (!fromMapId || !toMapId) {
       if (toItem?.timestamp !== undefined) await this.applyTimelineTimestamp(toItem.timestamp, { fit: false });
-      this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex);
+      this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex, timelineItems);
       return;
     }
     this.timelineApplying = true;
     try {
       if (!this.isTimelineMapPlayable(fromMapId) || !this.isTimelineMapPlayable(toMapId)) {
         if (toItem?.timestamp !== undefined) await this.applyTimelineTimestamp(toItem.timestamp, { fit: false });
-        this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex);
+        this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex, timelineItems);
         return;
       }
       const fromReady = await this.ensureTimelineLayerLoaded(fromMapId);
@@ -2131,7 +2151,7 @@ class Test2App {
       if (!this.isTimelineRunCurrent(runId)) return;
       if (!fromReady || !toReady) {
         if (toItem?.timestamp !== undefined) await this.applyTimelineTimestamp(toItem.timestamp, { fit: false });
-        this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex);
+        this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex, timelineItems);
         return;
       }
       this.mapController.showLayer?.(fromMapId);
@@ -2148,7 +2168,7 @@ class Test2App {
         this.mapController.clearTimelineTransitionOverlay?.();
       }
       this.setTimelineRangeIndex(toIndex);
-      this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex);
+      this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex, timelineItems);
       this.syncCatalogueMapState();
       this.updateActiveLayers();
       this.updateURLState();
@@ -2861,4 +2881,3 @@ function normalizeSearchText(value) {
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
 }
-
