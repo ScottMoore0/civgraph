@@ -17,6 +17,8 @@ const electionViewModelSource = readFileSync('js/election-view-model.mjs', 'utf8
 const electionRendererSource = readFileSync('js/election-renderer.mjs', 'utf8');
 const electionControllerSource = readFileSync('js/election-controller.js', 'utf8');
 const electionManifestBuilderSource = readFileSync('scripts/build-test2-election-manifest.mjs', 'utf8');
+const timelineSidecarBuilderSource = readFileSync('scripts/build_timeline_transition_sidecars.py', 'utf8');
+const wardTimelineTransitionSidecar = JSON.parse(readFileSync('data/timeline-transitions/wards-1993__wards-2012.geojson', 'utf8'));
 const browseIndexBuilderSource = readFileSync('scripts/build-browse-indexes.mjs', 'utf8');
 const electionDataAuditSource = readFileSync('scripts/audit-test2-election-data.mjs', 'utf8');
 const uiControllerSource = readFileSync('js/ui-controller.js', 'utf8');
@@ -258,8 +260,10 @@ assert(test2Css.includes('#map .test2-main-control-stack') && test2Css.includes(
 assert(test2Css.includes('body.app-shell .app-header') && test2Css.includes('position: fixed') && test2Css.includes('height: 100dvh') && test2Css.includes('body.app-shell .app-main') && test2Css.includes('grid-row: 2'), '/test2 shell must keep the navbar fixed in the viewport with dynamic-viewport app sizing');
 assert(!test2Css.includes('bottom: 14px !important'), '/test2 mobile catalogue toggle must not be restored to the bottom-right map overlay position');
 assert(index.indexOf('id="timelineSlider"') > index.indexOf('</div><!-- end #map -->'), '/test2 timeline slider must be a separate row below #map, not a DOM overlay inside the map');
+assert(index.includes('id="timelinePlay"') && index.includes('id="timelineStop"'), '/test2 timeline slider must expose territorial animation play and stop controls');
 assert(!test2Css.includes('#map .timeline-slider'), '/test2 route CSS must not style the timeline as map-overlay chrome');
 assert(test2Css.includes('.pane--map > #timelineSlider.timeline-slider') && test2Css.includes('position: static') && test2Css.includes('min-height: var(--timeline-row-height)'), '/test2 timeline slider must be styled as an in-flow rectangular pane below the interactive map');
+assert(test2Css.includes('.timeline-playback-group') && test2Css.includes('.timeline-btn--play.is-playing') && test2Css.includes('.timeline-btn--stop:not(:disabled)'), '/test2 territorial animation controls must be visibly styled in the timeline row');
 assert(test2Css.includes('#map .map-controls') && test2Css.includes('bottom: 14px'), '/test2 map controls should sit inside the map now that the timeline is an in-flow row');
 assert(appSource.includes('const variantIds = mapConfig.variants') && appSource.includes('fitToLayers(variantIds)'), '/test2 parent maps with variants must load every child variant as one grouped layer instead of only the first variant');
 assertCatalogueMetadata();
@@ -337,6 +341,11 @@ assert(electionManagerSource.includes('isFeatureFromActiveElection') && election
 assert(test2Css.includes('body.app-shell.test2-election-open #electionResultsPane.election-results-pane--open') && test2Css.includes('grid-row: 3') && test2Css.includes('grid-column: 1 / -1'), '/test2 fixed-header layout must explicitly place the election pane in the visible third grid row');
 assert(appSource.includes('setupTimelineControls') && appSource.includes('setTimelineItems'), '/test2 must wire the production timeline slider for map chains and elections');
 assert(appSource.includes('formatTimelineItemLabel') && appSource.includes("day: '2-digit'") && appSource.includes("month: 'short'") && appSource.includes("year: 'numeric'"), '/test2 timeline labels must render as DD MMM YYYY');
+assert(appSource.includes('TIMELINE_TRANSITION_MIN_AREA_M2 = 100') && appSource.includes('startTimelineAnimation') && appSource.includes('applyTimelineAnimationTransition') && appSource.includes('filterTimelineTransitionGeoJson') && appSource.includes('getTimelineTransitionKeys'), '/test2 territorial animation must implement play/pause/stop transitions with source-key fallback and the accepted 100m2 sliver threshold');
+assert(adapterSource.includes('setTimelineTransitionOverlay') && adapterSource.includes('clearTimelineTransitionOverlay') && adapterSource.includes('normalizeTimelineTransitionFeature') && adapterSource.includes('transitionType') && adapterSource.includes('#7c3aed'), '/test2 MapLibre adapter must render clickable typed territorial transition overlays');
+assert(timelineSidecarBuilderSource.includes('MIN_AREA_M2 = 100.0') && timelineSidecarBuilderSource.includes('non-mutual-primary intersections') && timelineSidecarBuilderSource.includes('coordinate_decimals'), '/test2 territorial transition sidecars must be reproducibly generated with the accepted threshold and compact GeoJSON coordinates');
+assert(wardTimelineTransitionSidecar?.metadata?.minimumAreaM2 === 100 && wardTimelineTransitionSidecar?.metadata?.fromMapId === 'wards-1993' && wardTimelineTransitionSidecar?.metadata?.toMapId === 'wards-2012' && Array.isArray(wardTimelineTransitionSidecar.features) && wardTimelineTransitionSidecar.features.length > 0, '/test2 must ship a 100m2-filtered 1993-to-2012 wards territorial transition sidecar');
+assert(wardTimelineTransitionSidecar.features.every((feature) => Number(feature?.properties?.area_m2) >= 100), '/test2 territorial transition sidecar must not include sub-100m2 transition fragments');
 assert(adapterSource.includes('applyElectionStyle') && adapterSource.includes('clearElectionStyle'), '/test2 adapter must support MapLibre election styling expressions');
 assert(adapterSource.includes('fillOpacityExpression') && adapterSource.includes('lineOpacityExpression'), '/test2 adapter must accept expression-based election opacity so main matched/unmatched paint can be mirrored');
 assert(electionManagerSource.includes('ELECTION_MANIFEST_URL') && electionManagerSource.includes('loadElection(body, date)'), '/test2 election manager must lazy-load generated election result bundles');

@@ -31,7 +31,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=973ce80d0d65" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=f25ffe6cc143" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -66,9 +66,9 @@
   <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
        loaded async via media=print + onload swap so it doesn't block first
        paint. Browsers without JS fall back via <noscript>. -->
-    <link rel="stylesheet" href="/build/main.css?v=2bbeece3196e" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/build/main.css?v=2bbeece3196e"></noscript>
-  <link rel="stylesheet" href="/app/build/app.bundle.css?v=7b45ba5f3707">
+    <link rel="stylesheet" href="/build/main.css?v=8f6fe946df5e" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/build/main.css?v=8f6fe946df5e"></noscript>
+  <link rel="stylesheet" href="/app/build/app.bundle.css?v=899c771f853b">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
   <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css" media="print" onload="this.media='all'">
@@ -555,6 +555,20 @@
 
       <!-- Timeline Slider -->
       <div id="timelineSlider" class="timeline-slider hidden" aria-label="Timeline controls">
+        <div class="timeline-playback-group" aria-label="Territorial animation controls">
+          <button type="button" id="timelinePlay" class="timeline-btn timeline-btn--play"
+            title="Play territorial animation" aria-label="Play territorial animation" disabled>
+            <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M8 5v14l11-7z" fill="currentColor" />
+            </svg>
+          </button>
+          <button type="button" id="timelineStop" class="timeline-btn timeline-btn--stop"
+            title="Stop territorial animation" aria-label="Stop territorial animation" disabled>
+            <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M6 6h12v12H6z" fill="currentColor" />
+            </svg>
+          </button>
+        </div>
         <input type="range" id="timelineRange" class="timeline-range" min="0" max="100" value="100"
           aria-label="Timeline">
         <span id="timelineLabel" class="timeline-label">2023</span>
@@ -647,7 +661,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=973ce80d0d65"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=f25ffe6cc143"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

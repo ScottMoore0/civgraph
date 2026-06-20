@@ -5,6 +5,13 @@ import { TestMetadataService } from '../../test/src/metadata-service.js';
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
 
 const TEST2_LAYER_ORDER_STORAGE_KEY = 'civgraph:maplibre:layer-order';
+const TIMELINE_TRANSITION_MIN_AREA_M2 = 100;
+const TIMELINE_TRANSITION_BASE_PATH = '/data/timeline-transitions';
+const TIMELINE_ANIMATION_DELAYS = Object.freeze({
+  start: 900,
+  overlay: 1500,
+  settle: 450
+});
 
 function parseLayerOrder(value) {
   if (!value) return [];
@@ -53,6 +60,16 @@ class Test2App {
     this.timelineItems = [];
     this.timelineOnSelect = null;
     this.timelineApplying = false;
+    this.timelineTransitionCache = new Map();
+    this.timelineAnimation = {
+      playing: false,
+      paused: false,
+      atEnd: false,
+      timer: 0,
+      originalLayerId: null,
+      currentIndex: 0,
+      singleLayerReferenceId: null
+    };
     this.booksPromise = null;
     this.electionModulePromise = null;
     this.electionLoadPromise = null;
@@ -617,6 +634,7 @@ class Test2App {
     };
 
     uiController.onMapLoad = async (mapId) => {
+      await this.stopTimelineAnimation({ restoreOriginal: false });
       await this.loadMap(mapId);
       this.syncCatalogueMapState();
       this.updateActiveLayers();
@@ -624,6 +642,7 @@ class Test2App {
     };
 
     uiController.onMapUnload = async (mapId) => {
+      await this.stopTimelineAnimation({ restoreOriginal: false });
       if (this.unloadActiveElectionForLayer(mapId)) {
         this.updateMapList();
         return;
@@ -644,6 +663,7 @@ class Test2App {
     };
 
     uiController.onMapToggle = (mapId) => {
+      if (this.isTimelineAnimationLayer(mapId)) this.pauseTimelineAnimation({ preserveOverlay: false });
       this.mapController.toggleLayer(mapId);
       this.syncCatalogueMapState();
       this.updateActiveLayers();
@@ -651,6 +671,7 @@ class Test2App {
     };
 
     uiController.onHideMap = (mapId) => {
+      if (this.isTimelineAnimationLayer(mapId)) this.pauseTimelineAnimation({ preserveOverlay: false });
       this.mapController.hideLayer(mapId);
       this.syncCatalogueMapState();
       this.updateActiveLayers();
@@ -738,10 +759,10 @@ class Test2App {
     });
   }
 
-  async loadMap(mapId) {
+  async loadMap(mapId, options = {}) {
     const mapConfig = dataService.getMapById(mapId);
     if (mapConfig?.isGroup && Array.isArray(mapConfig.members) && mapConfig.members.length) {
-      await Promise.all(mapConfig.members.map((memberId) => this.loadMap(memberId)));
+      await Promise.all(mapConfig.members.map((memberId) => this.loadMap(memberId, { fit: options.fit !== false })));
       this.mapController.markGroupLoaded(mapId, mapConfig, mapConfig.members);
       return;
     }
@@ -751,8 +772,10 @@ class Test2App {
         .filter((variantId) => this.mapController.resolveLayer(variantId)?.loadable);
       await Promise.all(variantIds.map((variantId) => this.mapController.loadLayer(variantId, { fit: false })));
       this.mapController.markGroupLoaded(mapId, mapConfig, variantIds);
-      if (mapConfig.bounds) this.mapController.fitToBounds(mapConfig.bounds, { smooth: false });
-      else this.mapController.fitToLayers(variantIds);
+      if (options.fit !== false) {
+        if (mapConfig.bounds) this.mapController.fitToBounds(mapConfig.bounds, { smooth: false });
+        else this.mapController.fitToLayers(variantIds);
+      }
       return;
     }
     const directLayer = this.mapController.resolveLayer(mapConfig?.id || mapId);
@@ -761,11 +784,11 @@ class Test2App {
       if (childIds.length) {
         await Promise.all(childIds.map((childId) => this.mapController.loadLayer(childId, { fit: false })));
         this.mapController.markGroupLoaded(mapConfig.id, mapConfig, childIds);
-        if (mapConfig.bounds) this.mapController.fitToBounds(mapConfig.bounds, { smooth: false });
+        if (options.fit !== false && mapConfig.bounds) this.mapController.fitToBounds(mapConfig.bounds, { smooth: false });
         return;
       }
     }
-    await this.mapController.loadLayer(mapConfig || mapId);
+    await this.mapController.loadLayer(mapConfig || mapId, { fit: options.fit !== false });
   }
 
   getConvertedCompositeChildIds(mapConfig) {
@@ -1566,20 +1589,40 @@ class Test2App {
     const prev = document.getElementById('timelinePrev');
     const next = document.getElementById('timelineNext');
     const reset = document.getElementById('timelineReset');
-    const applyIndex = async (index) => {
+    const play = document.getElementById('timelinePlay');
+    const stop = document.getElementById('timelineStop');
+    const applyIndex = async (index, options = {}) => {
       if (!this.timelineItems.length || !this.timelineOnSelect) return;
-      const safeIndex = Math.max(0, Math.min(this.timelineItems.length - 1, Number(index) || 0));
-      if (range) range.value = String(safeIndex);
-      this.updateTimelineLabel(safeIndex);
+      if (options.manual !== false) this.pauseTimelineAnimation({ preserveOverlay: true });
+      const safeIndex = this.clampTimelineIndex(index);
+      this.setTimelineRangeIndex(safeIndex);
+      this.timelineAnimation.currentIndex = safeIndex;
       await this.timelineOnSelect(this.timelineItems[safeIndex], safeIndex);
+      this.updateTimelineAnimationButtons();
     };
     range?.addEventListener('change', (event) => applyIndex(event.target.value).catch((error) => this.showMapError(error)));
-    range?.addEventListener('input', (event) => this.updateTimelineLabel(event.target.value));
-    prev?.addEventListener('click', () => applyIndex((Number(range?.value) || 0) - 1).catch((error) => this.showMapError(error)));
-    next?.addEventListener('click', () => applyIndex((Number(range?.value) || 0) + 1).catch((error) => this.showMapError(error)));
+    range?.addEventListener('input', (event) => {
+      this.pauseTimelineAnimation({ preserveOverlay: true });
+      const safeIndex = this.clampTimelineIndex(event.target.value);
+      this.timelineAnimation.currentIndex = safeIndex;
+      this.updateTimelineLabel(safeIndex);
+      this.updateTimelineAnimationButtons();
+    });
+    prev?.addEventListener('click', () => applyIndex(this.getTimelineRangeIndex() - 1).catch((error) => this.showMapError(error)));
+    next?.addEventListener('click', () => applyIndex(this.getTimelineRangeIndex() + 1).catch((error) => this.showMapError(error)));
     reset?.addEventListener('click', () => {
       const latest = Math.max(0, this.timelineItems.length - 1);
       applyIndex(latest).catch((error) => this.showMapError(error));
+    });
+    play?.addEventListener('click', () => {
+      if (this.timelineAnimation.playing) {
+        this.pauseTimelineAnimation({ preserveOverlay: true });
+        return;
+      }
+      this.startTimelineAnimation().catch((error) => this.showMapError(error));
+    });
+    stop?.addEventListener('click', () => {
+      this.stopTimelineAnimation({ restoreOriginal: true }).catch((error) => this.showMapError(error));
     });
   }
 
@@ -1592,25 +1635,50 @@ class Test2App {
       this.hideTimeline();
       return;
     }
-    const safeIndex = Math.max(0, Math.min(this.timelineItems.length - 1, Number(activeIndex) || 0));
+    const safeIndex = this.clampTimelineIndex(activeIndex);
     range.min = '0';
     range.max = String(this.timelineItems.length - 1);
-    range.value = String(safeIndex);
+    this.setTimelineRangeIndex(safeIndex);
     slider.classList.remove('hidden');
     this.updateTimelineLabel(safeIndex);
+    this.updateTimelineAnimationButtons();
     this.notifyTimelineLayoutChanged();
   }
 
+  clampTimelineIndex(index) {
+    if (!this.timelineItems.length) return 0;
+    return Math.max(0, Math.min(this.timelineItems.length - 1, Number(index) || 0));
+  }
+
+  getTimelineRangeIndex() {
+    return this.clampTimelineIndex(document.getElementById('timelineRange')?.value || 0);
+  }
+
+  setTimelineRangeIndex(index) {
+    const safeIndex = this.clampTimelineIndex(index);
+    const range = document.getElementById('timelineRange');
+    if (range) range.value = String(safeIndex);
+    this.updateTimelineLabel(safeIndex);
+    return safeIndex;
+  }
+
   updateTimelineLabel(index) {
-    const item = this.timelineItems[Math.max(0, Math.min(this.timelineItems.length - 1, Number(index) || 0))];
+    const item = this.timelineItems[this.clampTimelineIndex(index)];
     const label = document.getElementById('timelineLabel');
     if (label) label.textContent = this.formatTimelineItemLabel(item);
   }
 
   hideTimeline() {
+    this.clearTimelineAnimationTimer();
     this.timelineItems = [];
     this.timelineOnSelect = null;
+    this.timelineAnimation.playing = false;
+    this.timelineAnimation.paused = false;
+    this.timelineAnimation.atEnd = false;
+    this.timelineAnimation.singleLayerReferenceId = null;
+    this.mapController?.clearTimelineTransitionOverlay?.();
     document.getElementById('timelineSlider')?.classList.add('hidden');
+    this.updateTimelineAnimationButtons();
     this.notifyTimelineLayoutChanged();
   }
 
@@ -1646,15 +1714,30 @@ class Test2App {
       this.hideTimeline();
       return;
     }
+    const referenceMapId = activeIds.length === 1 ? activeIds[0] : this.timelineAnimation.singleLayerReferenceId;
+    this.timelineAnimation.singleLayerReferenceId = activeIds.length === 1 ? activeIds[0] : this.timelineAnimation.singleLayerReferenceId;
     const currentTimestamp = this.getCurrentTimelineTimestamp(activeIds);
     const activeIndex = timestamps.findIndex((timestamp) => timestamp === currentTimestamp);
     const items = timestamps.map((timestamp) => ({
       timestamp,
-      label: this.formatTimelineTimestamp(timestamp)
+      label: this.formatTimelineTimestamp(timestamp),
+      mapId: referenceMapId ? this.getTimelineMapIdForTimestamp(referenceMapId, timestamp) : null
     }));
-    this.setTimelineItems(items, activeIndex >= 0 ? activeIndex : timestamps.length - 1, async (item) => {
+    this.setTimelineItems(items, activeIndex >= 0 ? activeIndex : timestamps.length - 1, async (item, index) => {
+      this.timelineAnimation.currentIndex = this.clampTimelineIndex(index);
       await this.applyTimelineTimestamp(item.timestamp);
     });
+  }
+
+  getTimelineMapIdForTimestamp(referenceMapId, timestamp) {
+    if (!referenceMapId || !Number.isFinite(Number(timestamp))) return null;
+    const equivalents = dataService.getEquivalentMapsForDate?.([referenceMapId], timestamp) || {};
+    const direct = equivalents[referenceMapId];
+    if (direct && dataService.getMapById(direct)) return direct;
+    const referenceMap = dataService.getMapById(referenceMapId);
+    const referenceTimestamp = dataService.parseMapDate?.(referenceMap?.date);
+    if (referenceTimestamp === timestamp) return referenceMapId;
+    return null;
   }
 
   getCurrentTimelineTimestamp(activeIds) {
@@ -1708,7 +1791,7 @@ class Test2App {
     });
   }
 
-  async applyTimelineTimestamp(timestamp) {
+  async applyTimelineTimestamp(timestamp, options = {}) {
     const activeIds = this.getLoadedLayerIds()
       .filter((id) => dataService.getMapById(id))
       .filter((id) => this.isMapVisible(id));
@@ -1717,8 +1800,8 @@ class Test2App {
     try {
       for (const [oldId, newId] of Object.entries(equivalents)) {
         if (!newId || newId === oldId || !dataService.getMapById(newId)) continue;
-        await this.unloadMap(oldId);
-        await this.loadMap(newId);
+        await this.unloadMap(oldId, { preserveTimelineAnimation: true });
+        await this.loadMap(newId, { fit: options.fit !== false });
       }
       this.syncCatalogueMapState();
       this.updateActiveLayers();
@@ -1729,7 +1812,328 @@ class Test2App {
     }
   }
 
-  async unloadMap(mapId) {
+  getTimelineItemMapIds() {
+    return new Set(this.timelineItems.map((item) => item?.mapId).filter(Boolean));
+  }
+
+  isTimelineAnimationLayer(mapId) {
+    if (!mapId) return false;
+    const animation = this.timelineAnimation || {};
+    return Boolean(
+      animation.playing || animation.paused || animation.originalLayerId
+    ) && (animation.originalLayerId === mapId || this.getTimelineItemMapIds().has(mapId));
+  }
+
+  getVisibleTimelineLayerIds() {
+    const ids = this.getTimelineItemMapIds();
+    return this.getLoadedLayerIds()
+      .filter((id) => ids.has(id))
+      .filter((id) => this.isMapVisible(id));
+  }
+
+  canAnimateTimeline() {
+    if (this.elections?.activeEntry) return false;
+    if (!this.timelineItems.length || this.timelineItems.length < 2 || !this.timelineOnSelect) return false;
+    const mapIds = this.getTimelineItemMapIds();
+    if (mapIds.size < 2) return false;
+    if (this.timelineAnimation.playing || this.timelineAnimation.paused || this.timelineAnimation.originalLayerId) return true;
+    return this.getVisibleTimelineLayerIds().length === 1;
+  }
+
+  updateTimelineAnimationButtons() {
+    const play = document.getElementById('timelinePlay');
+    const stop = document.getElementById('timelineStop');
+    if (!play || !stop) return;
+    const canAnimate = this.canAnimateTimeline();
+    const { playing, paused, atEnd, originalLayerId } = this.timelineAnimation;
+    play.disabled = !canAnimate;
+    stop.disabled = !(playing || paused || originalLayerId);
+    play.classList.toggle('is-playing', playing);
+    play.classList.toggle('is-paused', paused);
+    play.classList.toggle('is-replay', atEnd && !playing);
+    if (playing) {
+      play.title = 'Pause territorial animation';
+      play.setAttribute('aria-label', 'Pause territorial animation');
+      play.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"></path></svg>';
+    } else if (atEnd) {
+      play.title = 'Replay territorial animation';
+      play.setAttribute('aria-label', 'Replay territorial animation');
+      play.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M17.7 6.3A8 8 0 1 0 20 12h-2a6 6 0 1 1-1.76-4.24L13 11h8V3z" fill="currentColor"></path></svg>';
+    } else {
+      play.title = 'Play territorial animation';
+      play.setAttribute('aria-label', 'Play territorial animation');
+      play.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z" fill="currentColor"></path></svg>';
+    }
+    stop.title = 'Stop territorial animation';
+    stop.setAttribute('aria-label', 'Stop territorial animation');
+  }
+
+  clearTimelineAnimationTimer() {
+    if (this.timelineAnimation.timer) {
+      window.clearTimeout(this.timelineAnimation.timer);
+      this.timelineAnimation.timer = 0;
+    }
+    if (this.timelineAnimation.delayResolve) {
+      const resolve = this.timelineAnimation.delayResolve;
+      this.timelineAnimation.delayResolve = null;
+      resolve();
+    }
+  }
+
+  scheduleTimelineAnimation(delay, callback) {
+    this.clearTimelineAnimationTimer();
+    this.timelineAnimation.timer = window.setTimeout(() => {
+      this.timelineAnimation.timer = 0;
+      callback();
+    }, Math.max(0, Number(delay) || 0));
+  }
+
+  waitTimelineDelay(delay) {
+    this.clearTimelineAnimationTimer();
+    return new Promise((resolve) => {
+      this.timelineAnimation.delayResolve = resolve;
+      this.timelineAnimation.timer = window.setTimeout(() => {
+        this.timelineAnimation.timer = 0;
+        this.timelineAnimation.delayResolve = null;
+        resolve();
+      }, Math.max(0, Number(delay) || 0));
+    });
+  }
+
+  pauseTimelineAnimation(options = {}) {
+    const wasActive = this.timelineAnimation.playing || this.timelineAnimation.paused;
+    this.clearTimelineAnimationTimer();
+    if (this.timelineAnimation.playing) {
+      this.timelineAnimation.playing = false;
+      this.timelineAnimation.paused = true;
+      this.timelineAnimation.currentIndex = this.getTimelineRangeIndex();
+    }
+    if (wasActive && options.preserveOverlay !== true) this.mapController?.clearTimelineTransitionOverlay?.();
+    this.updateTimelineAnimationButtons();
+  }
+
+  async stopTimelineAnimation(options = {}) {
+    const { restoreOriginal = true } = options;
+    const originalLayerId = this.timelineAnimation.originalLayerId;
+    const wasActive = this.timelineAnimation.playing || this.timelineAnimation.paused || originalLayerId;
+    this.clearTimelineAnimationTimer();
+    this.timelineAnimation.playing = false;
+    this.timelineAnimation.paused = false;
+    this.timelineAnimation.atEnd = false;
+    this.mapController?.clearTimelineTransitionOverlay?.();
+    if (!wasActive) {
+      this.updateTimelineAnimationButtons();
+      return;
+    }
+    if (restoreOriginal && originalLayerId && dataService.getMapById(originalLayerId)) {
+      const timelineMapIds = this.getTimelineItemMapIds();
+      this.timelineApplying = true;
+      try {
+        for (const loadedId of this.getLoadedLayerIds()) {
+          if (loadedId !== originalLayerId && timelineMapIds.has(loadedId)) {
+            await this.unloadMap(loadedId, { preserveTimelineAnimation: true });
+          }
+        }
+        if (!this.isMapLoaded(originalLayerId)) await this.loadMap(originalLayerId, { fit: false });
+        this.mapController.showLayer?.(originalLayerId);
+        const originalTimestamp = dataService.parseMapDate?.(dataService.getMapById(originalLayerId)?.date);
+        const originalIndex = this.timelineItems.findIndex((item) => item.mapId === originalLayerId || item.timestamp === originalTimestamp);
+        if (originalIndex >= 0) this.setTimelineRangeIndex(originalIndex);
+        this.syncCatalogueMapState();
+        this.updateActiveLayers();
+        this.updateURLState();
+      } finally {
+        this.timelineApplying = false;
+        this.updateTimeline();
+      }
+    }
+    this.timelineAnimation.originalLayerId = null;
+    this.timelineAnimation.currentIndex = this.getTimelineRangeIndex();
+    this.updateTimelineAnimationButtons();
+  }
+
+  async startTimelineAnimation() {
+    if (!this.canAnimateTimeline()) {
+      this.updateTimelineAnimationButtons();
+      return;
+    }
+    const visibleTimelineLayers = this.getVisibleTimelineLayerIds();
+    if (!this.timelineAnimation.originalLayerId || this.timelineAnimation.atEnd) {
+      this.timelineAnimation.originalLayerId = visibleTimelineLayers[0] || this.timelineItems[this.getTimelineRangeIndex()]?.mapId || null;
+    }
+    let startIndex = this.timelineAnimation.paused ? this.timelineAnimation.currentIndex : 0;
+    if (this.timelineAnimation.atEnd) startIndex = 0;
+    startIndex = this.clampTimelineIndex(startIndex);
+    this.timelineAnimation.playing = true;
+    this.timelineAnimation.paused = false;
+    this.timelineAnimation.atEnd = false;
+    this.timelineAnimation.currentIndex = startIndex;
+    this.setTimelineRangeIndex(startIndex);
+    this.updateTimelineAnimationButtons();
+    const startItem = this.timelineItems[startIndex];
+    if (startItem?.timestamp !== undefined) await this.applyTimelineTimestamp(startItem.timestamp, { fit: false });
+    if (!this.timelineAnimation.playing) return;
+    if (startIndex >= this.timelineItems.length - 1) {
+      this.timelineAnimation.playing = false;
+      this.timelineAnimation.atEnd = true;
+      this.updateTimelineAnimationButtons();
+      return;
+    }
+    this.scheduleTimelineAnimation(TIMELINE_ANIMATION_DELAYS.start, () => {
+      this.advanceTimelineAnimation().catch((error) => this.showMapError(error));
+    });
+  }
+
+  async advanceTimelineAnimation() {
+    if (!this.timelineAnimation.playing) return;
+    const fromIndex = this.clampTimelineIndex(this.timelineAnimation.currentIndex);
+    const toIndex = fromIndex + 1;
+    if (toIndex >= this.timelineItems.length) {
+      this.timelineAnimation.playing = false;
+      this.timelineAnimation.paused = false;
+      this.timelineAnimation.atEnd = true;
+      this.updateTimelineAnimationButtons();
+      return;
+    }
+    await this.applyTimelineAnimationTransition(fromIndex, toIndex);
+    if (!this.timelineAnimation.playing) return;
+    this.timelineAnimation.currentIndex = toIndex;
+    if (toIndex >= this.timelineItems.length - 1) {
+      this.timelineAnimation.playing = false;
+      this.timelineAnimation.paused = false;
+      this.timelineAnimation.atEnd = true;
+      this.updateTimelineAnimationButtons();
+      return;
+    }
+    this.scheduleTimelineAnimation(TIMELINE_ANIMATION_DELAYS.start, () => {
+      this.advanceTimelineAnimation().catch((error) => this.showMapError(error));
+    });
+  }
+
+  async applyTimelineAnimationTransition(fromIndex, toIndex) {
+    const fromItem = this.timelineItems[this.clampTimelineIndex(fromIndex)];
+    const toItem = this.timelineItems[this.clampTimelineIndex(toIndex)];
+    const fromMapId = fromItem?.mapId;
+    const toMapId = toItem?.mapId;
+    if (!fromMapId || !toMapId) {
+      if (toItem?.timestamp !== undefined) await this.applyTimelineTimestamp(toItem.timestamp, { fit: false });
+      this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex);
+      return;
+    }
+    this.timelineApplying = true;
+    try {
+      await this.ensureTimelineLayerLoaded(fromMapId);
+      await this.ensureTimelineLayerLoaded(toMapId);
+      this.mapController.showLayer?.(fromMapId);
+      this.mapController.showLayer?.(toMapId);
+      const overlay = await this.loadTimelineTransitionOverlay(fromMapId, toMapId);
+      if (overlay?.features?.length) {
+        this.mapController.setTimelineTransitionOverlay?.(overlay, {
+          fromMapId,
+          toMapId,
+          minAreaM2: TIMELINE_TRANSITION_MIN_AREA_M2
+        });
+      } else {
+        this.mapController.clearTimelineTransitionOverlay?.();
+      }
+      this.setTimelineRangeIndex(toIndex);
+      this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex);
+      this.syncCatalogueMapState();
+      this.updateActiveLayers();
+      this.updateURLState();
+    } finally {
+      this.timelineApplying = false;
+      this.updateTimeline();
+    }
+    await this.waitTimelineDelay(TIMELINE_ANIMATION_DELAYS.overlay);
+    if (!this.timelineAnimation.playing) return;
+    this.mapController.clearTimelineTransitionOverlay?.({ fade: true });
+    await this.waitTimelineDelay(TIMELINE_ANIMATION_DELAYS.settle);
+    if (!this.timelineAnimation.playing) return;
+    if (fromMapId !== toMapId && this.isMapLoaded(fromMapId)) {
+      await this.unloadMap(fromMapId, { preserveTimelineAnimation: true });
+    }
+    this.syncCatalogueMapState();
+    this.updateActiveLayers();
+    this.updateURLState();
+  }
+
+  async ensureTimelineLayerLoaded(mapId) {
+    if (!mapId || !dataService.getMapById(mapId)) return;
+    if (!this.isMapLoaded(mapId)) await this.loadMap(mapId, { fit: false });
+    this.mapController.showLayer?.(mapId);
+  }
+
+  getTimelineTransitionKeys(fromMapId, toMapId) {
+    const fromMap = dataService.getMapById(fromMapId);
+    const toMap = dataService.getMapById(toMapId);
+    const fromCandidates = [
+      fromMapId,
+      fromMap?.sourceMapId,
+      fromMapId?.replace(/-vector-test$/, ''),
+      fromMap?.sourceMapId?.replace(/-vector-test$/, '')
+    ];
+    const toCandidates = [
+      toMapId,
+      toMap?.sourceMapId,
+      toMapId?.replace(/-vector-test$/, ''),
+      toMap?.sourceMapId?.replace(/-vector-test$/, '')
+    ];
+    const keys = [];
+    const seen = new Set();
+    for (const fromCandidate of fromCandidates.filter(Boolean)) {
+      for (const toCandidate of toCandidates.filter(Boolean)) {
+        const key = `${fromCandidate}__${toCandidate}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        keys.push(key);
+      }
+    }
+    return keys;
+  }
+
+  async loadTimelineTransitionOverlay(fromMapId, toMapId) {
+    const keys = this.getTimelineTransitionKeys(fromMapId, toMapId);
+    for (const key of keys) {
+      if (this.timelineTransitionCache.has(key)) {
+        const cached = this.timelineTransitionCache.get(key);
+        if (cached) return cached;
+        continue;
+      }
+      const url = `${TIMELINE_TRANSITION_BASE_PATH}/${key}.geojson`;
+      try {
+        const response = await fetch(url, { cache: 'force-cache' });
+        if (!response.ok) {
+          this.timelineTransitionCache.set(key, null);
+          continue;
+        }
+        const data = await response.json();
+        const filtered = this.filterTimelineTransitionGeoJson(data);
+        this.timelineTransitionCache.set(key, filtered);
+        if (filtered?.features?.length) return filtered;
+      } catch {
+        this.timelineTransitionCache.set(key, null);
+      }
+    }
+    return null;
+  }
+
+  filterTimelineTransitionGeoJson(data) {
+    const features = (Array.isArray(data?.features) ? data.features : [])
+      .filter((feature) => {
+        const area = Number(feature?.properties?.area_m2 ?? feature?.properties?.areaM2 ?? feature?.properties?.areaSqm);
+        return !Number.isFinite(area) || area >= TIMELINE_TRANSITION_MIN_AREA_M2;
+      });
+    return {
+      type: 'FeatureCollection',
+      name: data?.name || 'Territorial transition',
+      features
+    };
+  }
+  async unloadMap(mapId, options = {}) {
+    if (!options.preserveTimelineAnimation && this.isTimelineAnimationLayer(mapId)) {
+      await this.stopTimelineAnimation({ restoreOriginal: false });
+    }
     if (this.unloadActiveElectionForLayer(mapId)) return;
     const mapConfig = dataService.getMapById(mapId);
     if (this.mapController.getLayerState(mapId)?.isGroup) {

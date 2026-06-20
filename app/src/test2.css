@@ -110,6 +110,30 @@ body.app-shell .app-main {
   max-width: min(32vw, 180px);
 }
 
+.pane--map > #timelineSlider.timeline-slider .timeline-playback-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+}
+
+.pane--map > #timelineSlider.timeline-slider .timeline-btn--play.is-playing,
+.pane--map > #timelineSlider.timeline-slider .timeline-btn--play.is-replay {
+  color: #fff;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.pane--map > #timelineSlider.timeline-slider .timeline-btn--stop:not(:disabled) {
+  color: var(--color-danger, #b91c1c);
+  border-color: color-mix(in srgb, var(--color-danger, #b91c1c) 42%, var(--color-border));
+}
+
+.pane--map > #timelineSlider.timeline-slider .timeline-btn--stop:hover:not(:disabled) {
+  color: #fff;
+  background: var(--color-danger, #b91c1c);
+  border-color: var(--color-danger, #b91c1c);
+}
 .maplibregl-ctrl-attrib a {
   color: #064f63;
   text-decoration: underline;
@@ -329,6 +353,14 @@ body.app-shell .app-main {
     max-width: 96px;
   }
 
+  .pane--map > #timelineSlider.timeline-slider .timeline-playback-group {
+    gap: 1px;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider .timeline-btn {
+    width: 30px;
+    height: 30px;
+  }
   #map .maplibregl-ctrl-top-left {
     top: 12px;
     left: 12px;

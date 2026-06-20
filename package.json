@@ -50,7 +50,8 @@
     "test:chunked-fit": "node scripts/test-chunked-fit-bounds.mjs",
     "test:browser": "playwright test",
     "test:browser:test": "playwright test tests/browser/test-app.spec.js",
-    "test:browser:test2": "playwright test tests/browser/test2-app.spec.js"
+    "test:browser:test2": "playwright test tests/browser/test2-app.spec.js",
+    "build:timeline-transitions": "python scripts/build_timeline_transition_sidecars.py"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
