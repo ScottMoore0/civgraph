@@ -24,3 +24,4 @@ Regenerate with:
 ```bash
 npm run build:timeline-transitions
 ```
+Deployment note: these full sidecars are local/source-analysis assets. They include transparent unchanged parts and can exceed Cloudflare Pages' 25 MB per-file limit. The browser animation fetches the smaller generated overlays in `data/timeline-transition-overlays/` first, then falls back to this directory only in local/dev contexts where the full sidecar is actually served.

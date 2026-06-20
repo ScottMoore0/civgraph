@@ -6,6 +6,7 @@ import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
 
 const TEST2_LAYER_ORDER_STORAGE_KEY = 'civgraph:maplibre:layer-order';
 const TIMELINE_TRANSITION_MIN_AREA_M2 = 100;
+const TIMELINE_TRANSITION_RUNTIME_BASE_PATH = '/data/timeline-transition-overlays';
 const TIMELINE_TRANSITION_BASE_PATH = '/data/timeline-transitions';
 const TIMELINE_TRANSITION_SIDECARS = Object.freeze([
   'wards-1972__wards-1984',
@@ -2246,27 +2247,35 @@ class Test2App {
   async loadTimelineTransitionOverlay(fromMapId, toMapId) {
     const keys = this.getTimelineTransitionKeys(fromMapId, toMapId);
     for (const key of keys) {
-      if (this.timelineTransitionCache.has(key)) {
-        const cached = this.timelineTransitionCache.get(key);
-        if (cached) return cached;
-        continue;
-      }
-      const url = `${TIMELINE_TRANSITION_BASE_PATH}/${key}.geojson`;
-      try {
-        const response = await fetch(url, { cache: 'force-cache' });
-        if (!response.ok) {
-          this.timelineTransitionCache.set(key, null);
-          continue;
-        }
-        const data = await response.json();
-        const filtered = this.filterTimelineTransitionGeoJson(data);
-        this.timelineTransitionCache.set(key, filtered);
-        if (filtered?.features?.length) return filtered;
-      } catch {
-        this.timelineTransitionCache.set(key, null);
+      const endpoints = [
+        `${TIMELINE_TRANSITION_RUNTIME_BASE_PATH}/${key}.geojson`,
+        `${TIMELINE_TRANSITION_BASE_PATH}/${key}.geojson`
+      ];
+      for (const url of endpoints) {
+        const overlay = await this.fetchTimelineTransitionGeoJson(url);
+        if (overlay?.features?.length) return overlay;
       }
     }
     return null;
+  }
+
+  async fetchTimelineTransitionGeoJson(url) {
+    if (this.timelineTransitionCache.has(url)) return this.timelineTransitionCache.get(url);
+    try {
+      const response = await fetch(url, { cache: 'force-cache' });
+      const contentType = String(response.headers?.get?.('content-type') || '').toLowerCase();
+      if (!response.ok || contentType.includes('text/html')) {
+        this.timelineTransitionCache.set(url, null);
+        return null;
+      }
+      const data = await response.json();
+      const filtered = this.filterTimelineTransitionGeoJson(data);
+      this.timelineTransitionCache.set(url, filtered);
+      return filtered;
+    } catch {
+      this.timelineTransitionCache.set(url, null);
+      return null;
+    }
   }
 
   filterTimelineTransitionGeoJson(data) {

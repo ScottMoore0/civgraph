@@ -57,6 +57,9 @@ remove_path "election-viewer-package/data/elections"
 # details generated from it.
 remove_path "data/database/approved-publication-sources.json"
 
+# Full territorial transition sidecars are source-analysis assets. Runtime uses the
+# deployable red/purple overlays in data/timeline-transition-overlays/ instead.
+remove_path "data/timeline-transitions"
 # Remove files exceeding Cloudflare Pages' 25 MB per-file limit.
 find . -not -path './.git/*' -size +25M -delete
 

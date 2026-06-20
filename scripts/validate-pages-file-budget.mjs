@@ -1,13 +1,16 @@
 #!/usr/bin/env node
 import { execFileSync } from 'node:child_process';
+import { statSync } from 'node:fs';
 
 const MAX_FILES = Number(process.env.MAX_PAGES_FILES || 18500);
+const MAX_FILE_BYTES = Number(process.env.MAX_PAGES_FILE_BYTES || 25 * 1024 * 1024);
 
 const EXCLUDED_PREFIXES = [
   '.github/',
   'archive/',
   'boundary-gazette/',
   'data/census/',
+  'data/timeline-transitions/',
   'docs/',
   'election-viewer-package/data/elections/',
   'electionsni-reference/',
@@ -51,4 +54,17 @@ if (deployedFiles.length > MAX_FILES) {
   process.exit(1);
 }
 
-console.log('PASS: Pages deployable file count is under budget.');
+const oversizedFiles = deployedFiles
+  .map((file) => ({ file, bytes: statSync(file).size }))
+  .filter((entry) => entry.bytes > MAX_FILE_BYTES)
+  .sort((a, b) => b.bytes - a.bytes);
+
+if (oversizedFiles.length) {
+  console.error(`FAIL: ${oversizedFiles.length} deployable file(s) exceed Cloudflare Pages' ${Math.round(MAX_FILE_BYTES / 1024 / 1024)} MB per-file limit.`);
+  for (const entry of oversizedFiles.slice(0, 20)) {
+    console.error(`  - ${entry.file}: ${(entry.bytes / 1024 / 1024).toFixed(2)} MB`);
+  }
+  process.exit(1);
+}
+
+console.log('PASS: Pages deployable file count and per-file sizes are under budget.');

@@ -18,6 +18,8 @@ const electionRendererSource = readFileSync('js/election-renderer.mjs', 'utf8');
 const electionControllerSource = readFileSync('js/election-controller.js', 'utf8');
 const electionManifestBuilderSource = readFileSync('scripts/build-test2-election-manifest.mjs', 'utf8');
 const timelineSidecarBuilderSource = readFileSync('scripts/build_timeline_transition_sidecars.py', 'utf8');
+const timelineRuntimeOverlayBuilderSource = readFileSync('scripts/build-timeline-transition-runtime-overlays.mjs', 'utf8');
+const MAX_PAGES_FILE_BYTES = 25 * 1024 * 1024;
 const wardTimelineTransitionSidecarIds = [
   'wards-1972__wards-1984',
   'wards-1984__wards-1993',
@@ -25,6 +27,7 @@ const wardTimelineTransitionSidecarIds = [
   'wards-2012__wards-2022-final-recommendations'
 ];
 const wardTimelineTransitionSidecars = wardTimelineTransitionSidecarIds.map((id) => JSON.parse(readFileSync('data/timeline-transitions/' + id + '.geojson', 'utf8')));
+const wardTimelineTransitionRuntimeOverlays = wardTimelineTransitionSidecarIds.map((id) => JSON.parse(readFileSync('data/timeline-transition-overlays/' + id + '.geojson', 'utf8')));
 const browseIndexBuilderSource = readFileSync('scripts/build-browse-indexes.mjs', 'utf8');
 const electionDataAuditSource = readFileSync('scripts/audit-test2-election-data.mjs', 'utf8');
 const uiControllerSource = readFileSync('js/ui-controller.js', 'utf8');
@@ -347,7 +350,7 @@ assert(electionManagerSource.includes('isFeatureFromActiveElection') && election
 assert(test2Css.includes('body.app-shell.test2-election-open #electionResultsPane.election-results-pane--open') && test2Css.includes('grid-row: 3') && test2Css.includes('grid-column: 1 / -1'), '/test2 fixed-header layout must explicitly place the election pane in the visible third grid row');
 assert(appSource.includes('setupTimelineControls') && appSource.includes('setTimelineItems'), '/test2 must wire the production timeline slider for map chains and elections');
 assert(appSource.includes('formatTimelineItemLabel') && appSource.includes("day: '2-digit'") && appSource.includes("month: 'short'") && appSource.includes("year: 'numeric'"), '/test2 timeline labels must render as DD MMM YYYY');
-assert(appSource.includes('TIMELINE_TRANSITION_MIN_AREA_M2 = 100') && appSource.includes('startTimelineAnimation') && appSource.includes('applyTimelineAnimationTransition') && appSource.includes('filterTimelineTransitionGeoJson') && appSource.includes('getTimelineTransitionKeys'), '/test2 territorial animation must implement play/pause/stop transitions with source-key fallback and the accepted 100m2 sliver threshold');
+assert(appSource.includes('TIMELINE_TRANSITION_MIN_AREA_M2 = 100') && appSource.includes('startTimelineAnimation') && appSource.includes('applyTimelineAnimationTransition') && appSource.includes('filterTimelineTransitionGeoJson') && appSource.includes('getTimelineTransitionKeys') && appSource.includes('TIMELINE_TRANSITION_RUNTIME_BASE_PATH') && appSource.includes('fetchTimelineTransitionGeoJson') && appSource.includes("contentType.includes('text/html')"), '/test2 territorial animation must implement play/pause/stop transitions with deployable runtime overlays, source-key fallback, HTML-fallback rejection, and the accepted 100m2 sliver threshold');
 assert(wardTimelineTransitionSidecarIds.every((id) => appSource.includes(id)) && appSource.includes('TIMELINE_TRANSITION_SIDECAR_SET'), '/test2 territorial animation must know every shipped adjacent Wards transition sidecar key');
 assert(appSource.includes('selectTimelineTransitionSequence') && appSource.includes('hasTimelineTransitionSidecar') && appSource.includes('transitionSequence.length >= 2 ? transitionSequence : playableItems'), '/test2 territorial animation must prefer contiguous sidecar-backed timeline playback sequences');
 assert(appSource.includes('sequenceItems: []') && appSource.includes('getTimelineAnimationItems') && appSource.includes('if (this.timelineAnimation?.playing) return;') && appSource.includes('applyTimelineAnimationTransition(fromIndex, toIndex, runId, timelineItems)'), '/test2 territorial animation must lock the original sidecar-backed sequence during playback instead of rebuilding from the temporary two-layer transition stack');
@@ -378,6 +381,10 @@ const niWardsTransitionKeys = niWardsTimelineMapIds
   .map((id, index) => niWardsTimelineMapIds[index] + '__' + id);
 assert(JSON.stringify(niWardsTransitionKeys) === JSON.stringify(wardTimelineTransitionSidecarIds), '/test2 NI Wards timeline must resolve to every adjacent sidecar-backed transition, not only 1993 to 2012');
 assert(wardTimelineTransitionSidecars.every((sidecar) => sidecar.features.some((feature) => ['split', 'transfer'].includes(feature?.properties?.transitionType))), '/test2 Wards territorial transition sidecars must each contain visible red/purple overlay parts, not just unchanged hit-test polygons');
+assert(wardTimelineTransitionRuntimeOverlays.length === 4 && wardTimelineTransitionRuntimeOverlays.every((overlay) => overlay?.metadata?.runtimeOverlay === true && Array.isArray(overlay.features) && overlay.features.length > 0), '/test2 must ship deployable runtime overlays for every adjacent Wards transition');
+assert(wardTimelineTransitionRuntimeOverlays.every((overlay, index) => statSync('data/timeline-transition-overlays/' + wardTimelineTransitionSidecarIds[index] + '.geojson').size < MAX_PAGES_FILE_BYTES), '/test2 runtime transition overlays must remain below Cloudflare Pages per-file limit');
+assert(wardTimelineTransitionRuntimeOverlays.every((overlay) => overlay.features.every((feature) => ['split', 'territory-split', 'transfer'].includes(feature?.properties?.transitionType || feature?.properties?.changeType))), '/test2 runtime transition overlays must contain only visible red/purple transition parts');
+assert(timelineRuntimeOverlayBuilderSource.includes('VISIBLE_TYPES') && timelineRuntimeOverlayBuilderSource.includes('runtimeOverlay'), '/test2 runtime transition overlay builder must derive deployable overlays from full sidecars');
 const ded1922Placeholder = findMap('ded-1922-10-31');
 assert(ded1922Placeholder?.placeholder === true, '/test2 validation fixture must keep District Electoral Divisions 31 October 1922 marked as a placeholder');
 assert(appSource.includes('isPlaceholderTimelineMap') && appSource.includes('isTimelineMapPlayable') && appSource.includes('!item?.mapId || this.isTimelineMapPlayable(item.mapId)') && appSource.includes('filter((item) => this.isTimelineMapPlayable(item.mapId))') && appSource.includes('!this.isTimelineMapPlayable(newId)'), '/test2 territorial timeline must skip placeholder and non-loadable map frames before playback can load them');
