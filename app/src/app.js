@@ -801,6 +801,39 @@ class Test2App {
     return candidates.filter((id) => this.mapController.resolveLayer(id)?.loadable);
   }
 
+  isPlaceholderTimelineMap(mapConfig) {
+    if (!mapConfig) return true;
+    const keywords = [
+      ...(Array.isArray(mapConfig.keywords) ? mapConfig.keywords : []),
+      ...(Array.isArray(mapConfig.rawMetadata?.keywords) ? mapConfig.rawMetadata.keywords : [])
+    ].map((keyword) => String(keyword).trim().toLowerCase());
+    const status = String(mapConfig.status || mapConfig.rawMetadata?.status || '').toLowerCase();
+    return Boolean(
+      mapConfig.placeholder
+      || mapConfig.rawMetadata?.placeholder
+      || mapConfig.thumbnail?.kind === 'placeholder'
+      || keywords.includes('placeholder')
+      || keywords.includes('to-be-added')
+      || keywords.includes('to be added')
+      || status.includes('to be added')
+    );
+  }
+
+  isTimelineMapPlayable(mapId) {
+    if (!mapId) return false;
+    const mapConfig = dataService.getMapById(mapId);
+    if (!mapConfig || this.isPlaceholderTimelineMap(mapConfig)) return false;
+    const directLayer = this.mapController.resolveLayer(mapConfig.id || mapId);
+    if (directLayer?.loadable) return true;
+    if (mapConfig.isGroup && Array.isArray(mapConfig.members) && mapConfig.members.length) {
+      return mapConfig.members.some((memberId) => this.isTimelineMapPlayable(memberId));
+    }
+    if (mapConfig.isGroup && Array.isArray(mapConfig.variants) && mapConfig.variants.length) {
+      return mapConfig.variants.some((variant) => this.mapController.resolveLayer(variant?.id)?.loadable);
+    }
+    return this.getConvertedCompositeChildIds(mapConfig).length > 0;
+  }
+
   renderCategoryPills() {
     uiController.renderCategoryPills(dataService.getMapCategories(), this.currentCategory);
     uiController.renderProviderPills(this.currentProviderCategory);
@@ -1629,7 +1662,9 @@ class Test2App {
   setTimelineItems(items, activeIndex, onSelect) {
     const slider = document.getElementById('timelineSlider');
     const range = document.getElementById('timelineRange');
-    this.timelineItems = Array.isArray(items) ? items : [];
+    this.timelineItems = Array.isArray(items)
+      ? items.filter((item) => !item?.mapId || this.isTimelineMapPlayable(item.mapId))
+      : [];
     this.timelineOnSelect = typeof onSelect === 'function' ? onSelect : null;
     if (!slider || !range || this.timelineItems.length < 2 || !this.timelineOnSelect) {
       this.hideTimeline();
@@ -1717,13 +1752,13 @@ class Test2App {
     const referenceMapId = activeIds.length === 1 ? activeIds[0] : this.timelineAnimation.singleLayerReferenceId;
     this.timelineAnimation.singleLayerReferenceId = activeIds.length === 1 ? activeIds[0] : this.timelineAnimation.singleLayerReferenceId;
     const currentTimestamp = this.getCurrentTimelineTimestamp(activeIds);
-    const activeIndex = timestamps.findIndex((timestamp) => timestamp === currentTimestamp);
     const items = timestamps.map((timestamp) => ({
       timestamp,
       label: this.formatTimelineTimestamp(timestamp),
       mapId: referenceMapId ? this.getTimelineMapIdForTimestamp(referenceMapId, timestamp) : null
-    }));
-    this.setTimelineItems(items, activeIndex >= 0 ? activeIndex : timestamps.length - 1, async (item, index) => {
+    })).filter((item) => this.isTimelineMapPlayable(item.mapId));
+    const activeIndex = items.findIndex((item) => item.timestamp === currentTimestamp);
+    this.setTimelineItems(items, activeIndex >= 0 ? activeIndex : items.length - 1, async (item, index) => {
       this.timelineAnimation.currentIndex = this.clampTimelineIndex(index);
       await this.applyTimelineTimestamp(item.timestamp);
     });
@@ -1733,10 +1768,10 @@ class Test2App {
     if (!referenceMapId || !Number.isFinite(Number(timestamp))) return null;
     const equivalents = dataService.getEquivalentMapsForDate?.([referenceMapId], timestamp) || {};
     const direct = equivalents[referenceMapId];
-    if (direct && dataService.getMapById(direct)) return direct;
+    if (direct && this.isTimelineMapPlayable(direct)) return direct;
     const referenceMap = dataService.getMapById(referenceMapId);
     const referenceTimestamp = dataService.parseMapDate?.(referenceMap?.date);
-    if (referenceTimestamp === timestamp) return referenceMapId;
+    if (referenceTimestamp === timestamp && this.isTimelineMapPlayable(referenceMapId)) return referenceMapId;
     return null;
   }
 
@@ -1799,7 +1834,7 @@ class Test2App {
     this.timelineApplying = true;
     try {
       for (const [oldId, newId] of Object.entries(equivalents)) {
-        if (!newId || newId === oldId || !dataService.getMapById(newId)) continue;
+        if (!newId || newId === oldId || !this.isTimelineMapPlayable(newId)) continue;
         await this.unloadMap(oldId, { preserveTimelineAnimation: true });
         await this.loadMap(newId, { fit: options.fit !== false });
       }
@@ -2022,8 +2057,13 @@ class Test2App {
     }
     this.timelineApplying = true;
     try {
-      await this.ensureTimelineLayerLoaded(fromMapId);
-      await this.ensureTimelineLayerLoaded(toMapId);
+      const fromReady = await this.ensureTimelineLayerLoaded(fromMapId);
+      const toReady = await this.ensureTimelineLayerLoaded(toMapId);
+      if (!fromReady || !toReady) {
+        if (toItem?.timestamp !== undefined) await this.applyTimelineTimestamp(toItem.timestamp, { fit: false });
+        this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex);
+        return;
+      }
       this.mapController.showLayer?.(fromMapId);
       this.mapController.showLayer?.(toMapId);
       const overlay = await this.loadTimelineTransitionOverlay(fromMapId, toMapId);
@@ -2059,9 +2099,10 @@ class Test2App {
   }
 
   async ensureTimelineLayerLoaded(mapId) {
-    if (!mapId || !dataService.getMapById(mapId)) return;
+    if (!this.isTimelineMapPlayable(mapId)) return false;
     if (!this.isMapLoaded(mapId)) await this.loadMap(mapId, { fit: false });
     this.mapController.showLayer?.(mapId);
+    return true;
   }
 
   getTimelineTransitionKeys(fromMapId, toMapId) {
