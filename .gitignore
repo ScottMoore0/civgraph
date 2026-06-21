@@ -218,6 +218,10 @@ data/maps/townlands/chunks/
 # `node scripts/build-townland-lod-ladder.mjs`.
 data/maps/townlands/Townlands_AllIreland-lod*.fgb
 
+# Full territorial-transition sidecars are local/debug build artifacts.
+# The browser uses deployable filtered overlays in data/timeline-transition-overlays/.
+data/timeline-transitions/*.geojson
+
 # Test outputs
 tests/browser/contrast-audit-report.json
 test/pmtiles/generated/*.pmtiles

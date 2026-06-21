@@ -2519,3 +2519,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
 - Mistake pattern: Assuming a mutual-primary overlap classifier maps directly to the visual meaning of retained territory in a boundary transition.
 - Impact: a same-name retained area can be coloured as red transfer when the later feature's largest source is a different earlier feature, as with 1972 Strabane West to 1984 Strabane West.
 - Guardrail: review contested transition colours with an overlap matrix; classify same-name retained overlaps as no-fill continuity before split/transfer colouring; add focused regression fixtures for reported transition areas.
+
+### 190) Territorial transition runtime overlays must be compact and sharded
+- Mistake pattern: Treating full/debug transition GeoJSON as directly deployable browser runtime data.
+- Impact: one catalogue-wide build can create huge GeoJSON files that pass topology checks but risk browser memory failures, mobile hangs, GitHub file-size trouble, or Cloudflare Pages deploy failures.
+- Guardrail:
+  1) keep full source sidecars as local/debug artifacts unless explicitly packaged for runtime,
+  2) strip verbose source properties from browser transition overlays,
+  3) shard large runtime overlays and load them through manifest `runtimePaths`,
+  4) validate missing shards, per-shard size, required transition coverage, and absence of verbose properties before commit.

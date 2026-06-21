@@ -651,9 +651,9 @@
   - Task: finish `/test2` STV count-table semantics, post-quota dash cells, election feature colour consistency, election-wide candidate delta percentages, party/local-party zero-baseline deltas, local-party default sorting, terminology, and local council table parity.
   - Expected output: STV count tables show non-transferable rows and transfer-recipient percentages; later quota-held elected-candidate count cells show `-`; election feature fills use the same party/label colour as seat circles/table swatches; `% of NI/ROI +/-` is populated for candidates with previous-election deltas; new parties/local parties get + deltas from zero; By Local Party sorts by first-preference share; non-local elections say Constituency rather than DEA; Council-mode tables use the same main-pane table rhythm as DEA-mode tables.
 - [ ] Implement renderer/model fixes
-- [ ] Add validation guardrails
+- [x] Add validation guardrails
 - [ ] Regenerate `/test2` bundle if required
-- [ ] Verify with focused checks and `check:test2`
+- [x] Verify with focused checks and `check:test2`
 - [ ] Commit and push scoped changes
 # Fix STV detailed transfer percentages and non-transferable rows
 - [ ] Record scope
@@ -674,7 +674,7 @@
 - [ ] Patch shared main-pane contract for referendum tabs
 - [ ] Patch visible `/test2` referendum renderers
 - [ ] Patch generator totals for derived referendum total poll/spoiled
-- [ ] Add validation guardrails
+- [x] Add validation guardrails
 - [ ] Regenerate bundles/indexes and verify
 - [ ] Commit and push scoped changes
 
@@ -6959,3 +6959,36 @@ Review:
 - Root cause fixed: the generator previously relied only on mutual-primary overlap, so 1972 West to 1984 West was red despite being retained same-name territory.
 - New behavior: same-name retained overlaps are generated as `unchanged` with `transitionReason: same-name-retained-overlap`, so they remain available in the full sidecar for hit-testing but are omitted from the visible runtime red/purple overlay.
 - Focused evidence: `1972 WEST -> 1984 WEST` is now `unchanged`, area `795638.7847000137` m2, and no matching feature exists in `data/timeline-transition-overlays/wards-1972__wards-1984.geojson`.
+
+# Catalogue-wide territorial timeline animation
+- [x] Record scope and constraints
+  - Task: generalise the territorial evolution animation so all sensible/loadable polygon time-series transitions can use generated red/purple/no-fill transition overlays, while placeholder or unconverted maps are skipped and reported.
+  - Constraints: do not publish unrelated provider-audit scratch; preserve existing NI Wards behaviour; use the agreed 100m2 minimum transition-part threshold; do not blindly apply territorial overlays to non-polygon/theme-only time series.
+- [x] Generalise transition generation
+  - Task: replace Wards-only hardcoded transition configuration with catalogue-driven eligible adjacent pairs, source-path discovery, per-map name/id key detection, and a generated manifest.
+- [x] Generate overlays and reports
+  - Task: generate full/debug sidecars and lightweight runtime overlays for feasible pairs, write skip/failure reports for placeholders and unconverted maps, and keep Cloudflare Pages file-budget risk controlled.
+- [x] Wire runtime app to manifest
+  - Task: replace the app's hardcoded transition sidecar list with a manifest loaded from `data/timeline-transition-overlays/manifest.json`, keeping a Wards fallback if the manifest cannot load.
+- [x] Add validation guardrails
+  - Task: add checks that the manifest, runtime overlays, and skip report agree; assert known NI Wards transitions remain present; assert placeholder transitions are not advertised.
+- [x] Verify
+  - Task: run generation, focused validation, and relevant build/check commands; document generated coverage and remaining skipped pairs.
+
+## Review: catalogue-wide territorial timeline animation
+- Implemented catalogue-driven territorial transition generation for loadable polygon time-series pairs, preserving the agreed `100m2` minimum transition-part threshold and skipping placeholder/unconverted maps.
+- Source/debug manifest: `137` generated or reused transitions, `125` skipped transitions, `0` failures.
+- Browser runtime manifest: `136` deployable transitions, `126` skipped/held transitions, `0` failures.
+- Runtime overlays are compacted to remove verbose source feature properties, then sharded when needed. Current runtime output is `182` shards, `893,049,381` bytes total, with the largest shard `12,584,820` bytes, below the Cloudflare Pages per-file guardrail.
+- The app now loads `data/timeline-transition-overlays/manifest.json` and can fetch multi-shard transition overlays. The hardcoded NI Wards list remains as a fallback if the manifest cannot load.
+- Full source sidecars are treated as local/debug artifacts through `.gitignore`; the browser uses `data/timeline-transition-overlays/` runtime overlays and `data/timeline-transitions/manifest.json` for source coverage reporting.
+- `roi-small-areas-2011__roi-small-areas-2022` was source-built but held out of browser runtime because the full source sidecar is about `992 MB`, which is not sensible to parse/stringify as one client GeoJSON transition. That needs future vector-tiled or streamed transition packaging before it should be advertised in the browser.
+- Five source FGB URLs remain unavailable from the CDN and are recorded in `tasks/timeline-missing-cdn-fgb-head.csv`; those transitions remain skipped until the source paths are corrected or converted.
+- Guardrails added: `npm run build:timeline-transitions` and `npm run check:timeline-transitions`, with manifest validation for missing shards, oversized shards, failed transitions, verbose properties, and required NI Wards transitions.
+- Verification evidence: `node --check app\\src\\app.js`; `node --check scripts\\build-timeline-transition-runtime-overlays.mjs`; `node --check scripts\\validate-timeline-transition-overlays.mjs`; `python -m py_compile scripts\\build_timeline_transition_sidecars.py scripts\\build_all_timeline_transition_sidecars.py`; `npm run build:timeline-transitions`; `npm run check:timeline-transitions`; `npm run build`.
+
+## Recurring issue: browser transition overlays must be deploy/runtime safe
+- Symptom: catalogue-wide transition generation can create very large one-file GeoJSON overlays that are valid locally but unsafe for browser memory, GitHub/Cloudflare file limits, and mobile runtime behaviour.
+- Root cause: the first runtime pipeline assumed one deployable GeoJSON per transition and carried verbose source properties into browser overlays.
+- Permanent prevention action: runtime overlay generation now strips verbose properties, shards large transitions, emits a manifest with `runtimePaths`, and validation fails on missing shards, oversized shards, and verbose properties.
+- Verification evidence: `npm run check:timeline-transitions` validated `136` runtime overlays and every shard is below the configured size cap.

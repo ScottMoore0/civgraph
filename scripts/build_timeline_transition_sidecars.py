@@ -199,9 +199,72 @@ def load_records(path: Path, label: str) -> list[dict]:
     return records
 
 
+def resolve_source_path(source: str | Path) -> Path:
+    path = Path(source)
+    return path if path.is_absolute() else ROOT / path
+
+
+def load_records_many(sources: Iterable[str | Path], label: str) -> list[dict]:
+    records: list[dict] = []
+    for source in sources:
+        path = resolve_source_path(source)
+        source_records = load_records(path, label)
+        for record in source_records:
+            props = dict(record["properties"])
+            props["__sourcePath"] = str(path.relative_to(ROOT)).replace("\\", "/") if path.is_relative_to(ROOT) else str(path)
+            records.append({
+                **record,
+                "index": len(records),
+                "properties": props,
+            })
+    return records
+
+
 def build_transition(config: TransitionConfig, min_area_m2: float = MIN_AREA_M2, simplify_metres: float = 0.0, coordinate_decimals: int = 6) -> dict:
-    from_records = load_records(ROOT / config.from_source, config.from_label)
-    to_records = load_records(ROOT / config.to_source, config.to_label)
+    return build_transition_from_sources(
+        config,
+        [config.from_source],
+        [config.to_source],
+        min_area_m2=min_area_m2,
+        simplify_metres=simplify_metres,
+        coordinate_decimals=coordinate_decimals,
+    )
+
+
+def build_transition_from_sources(
+    config: TransitionConfig,
+    from_sources: Iterable[str | Path],
+    to_sources: Iterable[str | Path],
+    min_area_m2: float = MIN_AREA_M2,
+    simplify_metres: float = 0.0,
+    coordinate_decimals: int = 6,
+) -> dict:
+    from_source_list = list(from_sources)
+    to_source_list = list(to_sources)
+    from_records = load_records_many(from_source_list, config.from_label)
+    to_records = load_records_many(to_source_list, config.to_label)
+    return build_transition_from_records(
+        config,
+        from_records,
+        to_records,
+        from_source_list,
+        to_source_list,
+        min_area_m2=min_area_m2,
+        simplify_metres=simplify_metres,
+        coordinate_decimals=coordinate_decimals,
+    )
+
+
+def build_transition_from_records(
+    config: TransitionConfig,
+    from_records: list[dict],
+    to_records: list[dict],
+    from_sources: Iterable[str | Path],
+    to_sources: Iterable[str | Path],
+    min_area_m2: float = MIN_AREA_M2,
+    simplify_metres: float = 0.0,
+    coordinate_decimals: int = 6,
+) -> dict:
     to_geoms = [record["geometry"] for record in to_records]
     tree = STRtree(to_geoms)
     pieces = []
@@ -308,6 +371,18 @@ def build_transition(config: TransitionConfig, min_area_m2: float = MIN_AREA_M2,
             "toMapId": config.to_id,
             "fromSource": config.from_source,
             "toSource": config.to_source,
+            "fromSources": [
+                str(resolve_source_path(source).relative_to(ROOT)).replace("\\", "/")
+                if resolve_source_path(source).is_relative_to(ROOT)
+                else str(resolve_source_path(source))
+                for source in from_sources
+            ],
+            "toSources": [
+                str(resolve_source_path(source).relative_to(ROOT)).replace("\\", "/")
+                if resolve_source_path(source).is_relative_to(ROOT)
+                else str(resolve_source_path(source))
+                for source in to_sources
+            ],
             "minimumAreaM2": min_area_m2,
             "coordinateDecimals": coordinate_decimals,
             "transitionPieceRule": "all intersections at or above the minimum area threshold; mutual-primary and same-name continuity intersections are retained as transparent hit targets",

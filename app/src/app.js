@@ -69,6 +69,8 @@ class Test2App {
     this.timelineOnSelect = null;
     this.timelineApplying = false;
     this.timelineTransitionCache = new Map();
+    this.timelineTransitionSidecarSet = new Set(TIMELINE_TRANSITION_SIDECAR_SET);
+    this.timelineTransitionManifestEntries = new Map();
     this.timelineAnimation = {
       playing: false,
       paused: false,
@@ -170,6 +172,7 @@ class Test2App {
 
     await dataService.init({ loadBooks: false, loadGeographies: false });
     dataService.fuse = null;
+    await this.loadTimelineTransitionManifest();
 
     this.metadataService = new TestMetadataService('/test/metadata/maps-test-index.json?v=test-022', undefined, {
       cache: 'force-cache',
@@ -1628,6 +1631,34 @@ class Test2App {
     `).join('');
   }
 
+  async loadTimelineTransitionManifest() {
+    try {
+      const response = await fetch(`${TIMELINE_TRANSITION_RUNTIME_BASE_PATH}/manifest.json`, { cache: 'force-cache' });
+      if (!response.ok) return;
+      const manifest = await response.json();
+      const entries = Array.isArray(manifest?.transitions) ? manifest.transitions : [];
+      const ids = entries.map((entry) => entry?.id).filter(Boolean);
+      if (!ids.length) return;
+      this.timelineTransitionSidecarSet = new Set([...TIMELINE_TRANSITION_SIDECARS, ...ids]);
+      this.timelineTransitionManifestEntries = new Map(entries
+        .filter((entry) => entry?.id)
+        .map((entry) => [entry.id, entry]));
+      window.__civgraphTest2 = {
+        ...(window.__civgraphTest2 || {}),
+        timelineTransitionManifest: manifest
+      };
+    } catch {
+      this.timelineTransitionSidecarSet = new Set(TIMELINE_TRANSITION_SIDECAR_SET);
+      this.timelineTransitionManifestEntries = new Map();
+    }
+  }
+
+  getTimelineTransitionSidecarSet() {
+    return this.timelineTransitionSidecarSet instanceof Set
+      ? this.timelineTransitionSidecarSet
+      : TIMELINE_TRANSITION_SIDECAR_SET;
+  }
+
   setupTimelineControls() {
     const range = document.getElementById('timelineRange');
     const prev = document.getElementById('timelinePrev');
@@ -1724,8 +1755,9 @@ class Test2App {
   }
 
   hasTimelineTransitionSidecar(fromMapId, toMapId) {
+    const sidecars = this.getTimelineTransitionSidecarSet();
     return this.getTimelineTransitionKeys(fromMapId, toMapId)
-      .some((key) => TIMELINE_TRANSITION_SIDECAR_SET.has(key));
+      .some((key) => sidecars.has(key));
   }
 
   clampTimelineIndex(index, items = this.timelineItems) {
@@ -2237,7 +2269,7 @@ class Test2App {
         const key = fromCandidate + '__' + toCandidate;
         if (seen.has(key)) continue;
         seen.add(key);
-        if (TIMELINE_TRANSITION_SIDECAR_SET.has(key)) preferred.push(key);
+        if (this.getTimelineTransitionSidecarSet().has(key)) preferred.push(key);
         else fallback.push(key);
       }
     }
@@ -2247,16 +2279,51 @@ class Test2App {
   async loadTimelineTransitionOverlay(fromMapId, toMapId) {
     const keys = this.getTimelineTransitionKeys(fromMapId, toMapId);
     for (const key of keys) {
-      const endpoints = [
-        `${TIMELINE_TRANSITION_RUNTIME_BASE_PATH}/${key}.geojson`,
-        `${TIMELINE_TRANSITION_BASE_PATH}/${key}.geojson`
-      ];
+      const entry = this.timelineTransitionManifestEntries?.get?.(key);
+      const manifestPaths = entry
+        ? (Array.isArray(entry.runtimePaths) && entry.runtimePaths.length
+          ? entry.runtimePaths
+          : [entry.runtimePath].filter(Boolean))
+        : [];
+      if (manifestPaths.length) {
+        const overlay = await this.fetchTimelineTransitionGeoJsonParts(manifestPaths);
+        if (overlay?.features?.length) return overlay;
+      }
+      const endpoints = manifestPaths.length
+        ? [`${TIMELINE_TRANSITION_BASE_PATH}/${key}.geojson`]
+        : [
+          `${TIMELINE_TRANSITION_RUNTIME_BASE_PATH}/${key}.geojson`,
+          `${TIMELINE_TRANSITION_BASE_PATH}/${key}.geojson`
+        ];
       for (const url of endpoints) {
         const overlay = await this.fetchTimelineTransitionGeoJson(url);
         if (overlay?.features?.length) return overlay;
       }
     }
     return null;
+  }
+
+  async fetchTimelineTransitionGeoJsonParts(paths) {
+    const urls = (Array.isArray(paths) ? paths : [])
+      .map((path) => String(path || '').trim())
+      .filter(Boolean)
+      .map((path) => path.startsWith('/') ? path : `/${path}`);
+    if (!urls.length) return null;
+    const cacheKey = `parts:${urls.join('|')}`;
+    if (this.timelineTransitionCache.has(cacheKey)) return this.timelineTransitionCache.get(cacheKey);
+    const features = [];
+    let name = 'Territorial transition';
+    let metadata = {};
+    for (const url of urls) {
+      const part = await this.fetchTimelineTransitionGeoJson(url);
+      if (!part) continue;
+      if (part.name) name = part.name;
+      metadata = { ...metadata, ...(part.metadata || {}) };
+      if (Array.isArray(part.features)) features.push(...part.features);
+    }
+    const overlay = features.length ? { type: 'FeatureCollection', name, metadata, features } : null;
+    this.timelineTransitionCache.set(cacheKey, overlay);
+    return overlay;
   }
 
   async fetchTimelineTransitionGeoJson(url) {
@@ -2287,6 +2354,7 @@ class Test2App {
     return {
       type: 'FeatureCollection',
       name: data?.name || 'Territorial transition',
+      metadata: data?.metadata || {},
       features
     };
   }
