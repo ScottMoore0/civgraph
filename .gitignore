@@ -281,3 +281,8 @@ drive-download-*.zip
 # Archive working dirs (already-tracked files remain tracked; prevents new junk)
 archive/working/
 archive/ocr/
+
+# Rendered feature thumbnails are CDN/R2 artifacts, not Pages repo assets.
+/tmp/feature-thumbnails-rendered/
+assets/thumbnails/features/
+data/database/feature-thumbnails/rendered-assets.local.json

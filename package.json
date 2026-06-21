@@ -52,7 +52,9 @@
     "test:browser:test": "playwright test tests/browser/test-app.spec.js",
     "test:browser:test2": "playwright test tests/browser/test2-app.spec.js",
     "build:timeline-transitions": "python scripts/build_all_timeline_transition_sidecars.py && node scripts/build-timeline-transition-runtime-overlays.mjs && node scripts/validate-timeline-transition-overlays.mjs",
-    "check:timeline-transitions": "node scripts/validate-timeline-transition-overlays.mjs"
+    "check:timeline-transitions": "node scripts/validate-timeline-transition-overlays.mjs",
+    "build:feature-thumbnails": "node scripts/render-feature-thumbnails.mjs --all",
+    "build:feature-thumbnails:sample": "node scripts/render-feature-thumbnails.mjs --map counties-ireland --limit 3 --force"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",

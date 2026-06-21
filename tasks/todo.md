@@ -1,3 +1,14 @@
+# Rendered Feature Thumbnail Pipeline
+
+- [x] Add a build-side renderer that reads local map geometry and creates exact per-feature thumbnail assets using the same IDs as search results.
+  - Completed: added `scripts/render-feature-thumbnails.mjs`, which reads local FlatGeobuf geometry, matches features back to the spatial-index thumbnail IDs, and renders per-feature PNG thumbnails into an ignored local/CDN staging directory.
+- [x] Keep rendered feature thumbnails outside the Pages repo by default and expose CDN/R2-ready manifest paths instead.
+  - Completed: ignored local rendered thumbnail output and added manifest controls for rendered asset root, public base URL, and optional rendered-asset registry.
+- [x] Update the feature-thumbnail manifest/browser lookup so rendered thumbnails are not hard-coded to one image extension.
+  - Completed: feature-thumbnail manifests now record rendered asset extensions, and search result lookup uses the manifest extension instead of assuming `.webp`.
+- [x] Verify with a small local render sample, manifest rebuild, production build/check scripts, and search-thumbnail lookup assertions.
+  - Verification: `node scripts/render-feature-thumbnails.mjs --map counties-ireland --limit 1 --force`, `node scripts/build-feature-thumbnail-manifest.mjs`, `npm run build:browse`, `npm run check:pages-assets`, and `npm run check:root` passed.
+  - Note: the pipeline is ready for full corpus rendering and CDN/R2 publication; the repository intentionally does not commit the generated bitmap corpus.
 # Manifest-Backed Feature Thumbnails
 - [x] Generate a stable feature-thumbnail manifest from the spatial index.
   - Completed: added a compact build-side manifest at data/database/feature-thumbnails/_manifest.json for 121 maps and 63,874 feature records without rendering map layers during typing or generating thousands of bitmap files in Git.

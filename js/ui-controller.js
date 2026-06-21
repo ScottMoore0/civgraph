@@ -1926,12 +1926,18 @@ class UIController {
         const thumbnailId = this.featureThumbnailIdFor(mapId, featureName || result?.name || result?.id || '', bbox);
         const renderedIds = this._featureThumbnailRenderedIdsByMap?.get(mapId);
         if (renderedIds?.has(thumbnailId) && manifestMap?.renderedAssetBasePath) {
+            const extensionMap = manifestMap.renderedAssetExtensionsById && typeof manifestMap.renderedAssetExtensionsById === 'object'
+                ? manifestMap.renderedAssetExtensionsById
+                : null;
+            const extension = String(extensionMap?.[thumbnailId] || manifestMap.renderedAssetExtension || 'webp')
+                .replace(/^\./, '')
+                .replace(/[^a-z0-9]/gi, '') || 'webp';
             return {
                 kind: 'rendered',
                 thumbnailId,
                 bbox,
                 colour,
-                url: manifestMap.renderedAssetBasePath + encodeURIComponent(thumbnailId) + '.webp'
+                url: manifestMap.renderedAssetBasePath + encodeURIComponent(thumbnailId) + '.' + extension
             };
         }
         return {
