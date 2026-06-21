@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { execFileSync } from 'node:child_process';
-import { statSync } from 'node:fs';
+import { existsSync, readdirSync, statSync } from 'node:fs';
 
 const MAX_FILES = Number(process.env.MAX_PAGES_FILES || 18500);
 const MAX_FILE_BYTES = Number(process.env.MAX_PAGES_FILE_BYTES || 25 * 1024 * 1024);
@@ -28,9 +28,24 @@ const EXCLUDED_FILES = new Set([
   'data/database/approved-publication-sources.json'
 ]);
 
-const trackedFiles = execFileSync('git', ['ls-files'], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 })
+function listFilesRecursive(dir) {
+  if (!existsSync(dir)) return [];
+  const output = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = dir + '/' + entry.name;
+    if (entry.isDirectory()) output.push(...listFilesRecursive(full));
+    else if (entry.isFile()) output.push(full.replace(/\\/g, '/'));
+  }
+  return output;
+}
+
+const gitFiles = execFileSync('git', ['ls-files'], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 })
   .split(/\r?\n/)
   .filter(Boolean);
+const fileSet = new Set(gitFiles.filter((file) => existsSync(file)));
+for (const file of listFilesRecursive('app/build')) fileSet.add(file);
+const missingTrackedFiles = gitFiles.filter((file) => !existsSync(file));
+const trackedFiles = Array.from(fileSet).sort((a, b) => a.localeCompare(b));
 
 const deployedFiles = trackedFiles.filter((file) => (
   !EXCLUDED_FILES.has(file) &&
@@ -43,7 +58,10 @@ for (const file of deployedFiles) {
 }
 
 console.log('Cloudflare Pages File Budget');
-console.log(`- tracked files: ${trackedFiles.length}`);
+console.log(`- tracked/current files: ${trackedFiles.length}`);
+if (missingTrackedFiles.length) {
+  console.log(`- ignored missing tracked paths after local build: ${missingTrackedFiles.length}`);
+}
 console.log(`- deployable files after clean exclusions: ${deployedFiles.length}/${MAX_FILES}`);
 for (const [name, count] of [...byTopLevel.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12)) {
   console.log(`  - ${name}: ${count}`);

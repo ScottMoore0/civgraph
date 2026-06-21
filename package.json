@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "build": "node scripts/build-browse-indexes.mjs && node scripts/validate-chunked-map-bounds.mjs && node scripts/build-shared-shell-assets.mjs && npm run build:test2 && node scripts/promote-test2-root.mjs",
-    "build:browse": "node scripts/build-browse-indexes.mjs",
+    "build": "node scripts/build-feature-thumbnail-manifest.mjs && node scripts/build-browse-indexes.mjs && node scripts/validate-chunked-map-bounds.mjs && node scripts/build-shared-shell-assets.mjs && npm run build:test2 && node scripts/promote-test2-root.mjs",
+    "build:browse": "node scripts/build-feature-thumbnail-manifest.mjs && node scripts/build-browse-indexes.mjs",
     "census:scrape:cso": "node scripts/census/scrape-cso-historical-reports.mjs --download",
     "census:recover:cso-wayback": "node scripts/census/recover-cso-failed-links-wayback.mjs --download",
     "census:inventory": "node scripts/census/build-census-source-inventory.mjs",

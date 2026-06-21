@@ -1,4 +1,11 @@
-# Catalogue Search Feature Result Controls
+# Manifest-Backed Feature Thumbnails
+- [x] Generate a stable feature-thumbnail manifest from the spatial index.
+  - Completed: added a compact build-side manifest at data/database/feature-thumbnails/_manifest.json for 121 maps and 63,874 feature records without rendering map layers during typing or generating thousands of bitmap files in Git.
+- [x] Wire catalogue search feature results to the manifest-backed thumbnail contract.
+  - Completed: feature search results now use manifest-backed rendered URLs when present and deterministic bbox locator thumbnails with map styling when rendered assets are not available.
+- [x] Add build integration and verification.
+  - Completed: integrated manifest generation into npm run build and npm run build:browse; updated the Pages file-budget validator to handle replaced hashed build chunks after local builds.
+  - Verification: node --check scripts\build-feature-thumbnail-manifest.mjs, node --check js\ui-controller.js, npm run build, npm run check, and node tmp\catalogue-search-smoke.mjs all passed.# Catalogue Search Feature Result Controls
 - [x] Make feature search results load only the selected feature in isolation.
   - Completed: feature-result load/detail/download actions now route through MapLibre partial-feature state with `isolate`, and feature URL restore skips loading the full parent map layer.
 - [x] Give map and feature search results first-class catalogue action buttons.

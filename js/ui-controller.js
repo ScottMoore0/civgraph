@@ -79,6 +79,9 @@ class UIController {
         this._thumbnailManifestPromise = null;
         this._featureCountManifest = null;
         this._featureCountManifestPromise = null;
+        this._featureThumbnailManifest = null;
+        this._featureThumbnailManifestPromise = null;
+        this._featureThumbnailRenderedIdsByMap = new Map();
         this._catalogueSearchIndex = null;
         this._catalogueSearchIndexPromise = null;
         this._catalogueSearchBrowseCache = new Map();
@@ -1862,6 +1865,83 @@ class UIController {
         return this._featureCountManifestPromise;
     }
 
+    async ensureFeatureThumbnailManifest() {
+        if (this._featureThumbnailManifest) return this._featureThumbnailManifest;
+        if (!this._featureThumbnailManifestPromise) {
+            this._featureThumbnailManifestPromise = fetch('data/database/feature-thumbnails/_manifest.json', { cache: 'force-cache' })
+                .then((response) => response.ok ? response.json() : { maps: {} })
+                .then((manifest) => {
+                    this._featureThumbnailManifest = manifest && typeof manifest === 'object' ? manifest : { maps: {} };
+                    if (!this._featureThumbnailManifest.maps || typeof this._featureThumbnailManifest.maps !== 'object') {
+                        this._featureThumbnailManifest.maps = {};
+                    }
+                    this._featureThumbnailRenderedIdsByMap = new Map();
+                    Object.entries(this._featureThumbnailManifest.maps).forEach(([mapId, config]) => {
+                        const ids = Array.isArray(config?.renderedAssetIds) ? config.renderedAssetIds.map(String) : [];
+                        if (ids.length) this._featureThumbnailRenderedIdsByMap.set(String(mapId), new Set(ids));
+                    });
+                    return this._featureThumbnailManifest;
+                })
+                .catch((error) => {
+                    console.warn('[UIController] Feature-thumbnail manifest unavailable:', error);
+                    this._featureThumbnailManifest = { maps: {} };
+                    this._featureThumbnailRenderedIdsByMap = new Map();
+                    return this._featureThumbnailManifest;
+                });
+        }
+        return this._featureThumbnailManifestPromise;
+    }
+
+    featureThumbnailBboxKey(bbox) {
+        if (!Array.isArray(bbox) || bbox.length !== 4) return '';
+        return bbox.map((value) => Number.isFinite(Number(value)) ? Number(value).toFixed(8) : '').join(',');
+    }
+
+    featureThumbnailHash(value) {
+        let hash = 0x811c9dc5;
+        const input = String(value || '');
+        for (let index = 0; index < input.length; index += 1) {
+            hash ^= input.charCodeAt(index);
+            hash = Math.imul(hash, 0x01000193);
+        }
+        return (hash >>> 0).toString(16).padStart(8, '0');
+    }
+
+    featureThumbnailIdFor(mapId, featureName, bbox) {
+        const safeMapId = String(mapId || 'feature')
+            .normalize('NFKD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-zA-Z0-9._-]+/g, '-')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '') || 'feature';
+        const hash = this.featureThumbnailHash(String(mapId || '') + '|' + String(featureName || '') + '|' + this.featureThumbnailBboxKey(bbox));
+        return 'feature-' + safeMapId + '-' + hash;
+    }
+
+    getFeatureThumbnailForResult(result, map, featureName) {
+        const mapId = String(result?.mapId || map?.id || '');
+        const bbox = Array.isArray(result?.bbox) && result.bbox.length === 4 ? result.bbox : null;
+        const manifestMap = this._featureThumbnailManifest?.maps?.[mapId] || null;
+        const colour = manifestMap?.colour || map?.style?.fillColor || map?.style?.color || map?.color || '#3388ff';
+        const thumbnailId = this.featureThumbnailIdFor(mapId, featureName || result?.name || result?.id || '', bbox);
+        const renderedIds = this._featureThumbnailRenderedIdsByMap?.get(mapId);
+        if (renderedIds?.has(thumbnailId) && manifestMap?.renderedAssetBasePath) {
+            return {
+                kind: 'rendered',
+                thumbnailId,
+                bbox,
+                colour,
+                url: manifestMap.renderedAssetBasePath + encodeURIComponent(thumbnailId) + '.webp'
+            };
+        }
+        return {
+            kind: 'bbox-locator',
+            thumbnailId,
+            bbox,
+            colour
+        };
+    }
+
     hasThumbnailAsset(id) {
         if (!id || !this._thumbnailIds) return false;
         return this._thumbnailIds.has(String(id));
@@ -2240,7 +2320,7 @@ class UIController {
             category: map?.category,
             group: map?.group,
             bbox: Array.isArray(result.bbox) ? result.bbox : null,
-            thumbSvg: this._buildFeatureLocatorSvg(result.bbox, map?.style?.color || '#3388ff')
+            featureThumbnail: this.getFeatureThumbnailForResult(result, map, name)
         });
     }
 
@@ -2394,7 +2474,9 @@ class UIController {
         const esc = value => this.escapeHtml(value == null ? '' : String(value));
         const typeLabel = record.typeLabel || ({ map: 'Map', election: 'Election', feature: 'Feature', party: 'Party / label', person: 'Person', source: 'Source' }[record.type] || record.type || 'Result');
         let thumb = '';
-        if (record.thumbSvg) thumb = '<span class="catalogue-search__feature-thumb" aria-hidden="true">' + record.thumbSvg + '</span>';
+        if (record.featureThumbnail?.url) thumb = '<img class="catalogue-search__thumbnail-img" src="' + esc(record.featureThumbnail.url) + '" loading="lazy" decoding="async" alt="">';
+        else if (record.featureThumbnail) thumb = '<span class="catalogue-search__feature-thumb" aria-hidden="true">' + this._buildFeatureLocatorSvg(record.featureThumbnail.bbox, record.featureThumbnail.colour) + '</span>';
+        else if (record.thumbSvg) thumb = '<span class="catalogue-search__feature-thumb" aria-hidden="true">' + record.thumbSvg + '</span>';
         else if (record.thumbId) thumb = this.renderThumbnailZone(record.thumbId, 'catalogue-search__thumbnail-img', '48px');
         else if (record.colour) thumb = '<span class="catalogue-search__colour-tab" style="background:' + esc(record.colour) + '"></span>';
         else thumb = '<span class="catalogue-search__fallback-thumb" aria-hidden="true"></span>';
@@ -2436,7 +2518,8 @@ class UIController {
         const mapOrder = new Map(mapResultIds.map((id, index) => [String(id), index]));
         const [index, featureResults] = await Promise.all([
             this.ensureCatalogueSearchIndex(),
-            normalizedQuery.length >= 2 ? this.searchFeatures(query).catch(() => []) : Promise.resolve([])
+            normalizedQuery.length >= 2 ? this.searchFeatures(query).catch(() => []) : Promise.resolve([]),
+            normalizedQuery.length >= 2 ? this.ensureFeatureThumbnailManifest().catch(() => null) : Promise.resolve(null)
         ]);
         if (token !== this._catalogueSearchToken || this.normalizeCatalogueSearchText(this._catalogueSearchQuery) !== normalizedQuery) return [];
         const terms = normalizedQuery.split(/\s+/).filter(Boolean);
