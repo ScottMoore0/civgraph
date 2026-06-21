@@ -1,5 +1,12 @@
 # Lessons Log
 
+### 185) Catalogue feature search actions must use partial-feature state
+- Mistake pattern: Treating a feature search result like a map result by loading the whole parent layer, or deduping all feature results by parent map id.
+- Impact: selecting one feature from search expands the full layer, makes feature-specific buttons misleading, and can hide other same-layer feature results.
+- Guardrail:
+  1) feature search result keys must include map id plus feature id/name,
+  2) feature load/show/hide actions must call the MapLibre partial-feature path with `isolate`,
+  3) copied feature URLs must restore `featureMap`/`featureId` to partial state instead of full parent-layer state.
 ### 184) Provider throttle probes must classify blocked assets separately from throttling
 - Mistake pattern: Treating every non-OK asset response as a crawl-rate failure.
 - Impact: a NISRA `403 Forbidden` for one protected/stale PDF can prematurely stop rate discovery and make it look like the provider is still throttling when the actual throttle has cooled down.

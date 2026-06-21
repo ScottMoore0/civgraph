@@ -2225,12 +2225,14 @@ class UIController {
     featureSearchResultToCatalogueRecord(result) {
         const map = dataService.getMapById(result.mapId);
         const name = String(result.name || result.id || 'Unnamed feature');
+        const rawFeatureId = result.id !== undefined && result.id !== null && String(result.id).trim() !== '' ? result.id : name;
+        const featureId = String(rawFeatureId);
         const mapName = map?.name || result.mapId || 'Map feature';
         return this.makeCatalogueSearchRecord({
             type: 'feature',
             typeLabel: 'Feature',
-            id: String(result.id || ''),
-            featureId: String(result.id || ''),
+            id: featureId,
+            featureId,
             mapId: String(result.mapId || ''),
             title: name,
             subtitle: mapName,
@@ -2242,6 +2244,131 @@ class UIController {
         });
     }
 
+    renderCatalogueSearchIconButton(action, label, icon, dataset = {}, options = {}) {
+        const esc = value => this.escapeHtml(value == null ? '' : String(value));
+        const attrs = Object.entries(dataset)
+            .filter(([, value]) => value !== undefined && value !== null)
+            .map(([key, value]) => ` data-${key}="${esc(value)}"`)
+            .join('');
+        const disabled = options.disabled ? ' disabled' : '';
+        const extraClass = options.className ? ' ' + esc(options.className) : '';
+        return `<button type="button" class="btn btn--icon btn--xs catalogue-search__icon-btn${extraClass}" data-catalogue-search-action="${esc(action)}"${attrs} title="${esc(label)}" aria-label="${esc(label)}"${disabled}>${icon}</button>`;
+    }
+
+    renderCatalogueSearchActionStrip(record) {
+        const esc = value => this.escapeHtml(value == null ? '' : String(value));
+        const copyIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
+        const downloadIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+
+        if (record.type === 'map' && record.mapId && record.actionLabel !== 'Open details') {
+            const map = dataService.getMapById(record.mapId);
+            const isLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(record.mapId) : false;
+            const isVisible = this.onCheckMapVisible ? !!this.onCheckMapVisible(record.mapId) : isLoaded;
+            const hasDownload = !!(map?.downloads?.fgb || map?.files?.fgb || map?.files?.geojson || this.getSourceDownloads(map || {}).length);
+            return '<div class="catalogue-search__action-strip" data-search-kind="map" data-map-id="' + esc(record.mapId) + '">' +
+                this.renderCatalogueSearchIconButton('toggle-map-visibility', isVisible ? 'Hide map' : 'Show map', this.getVisibilityButtonIcon(isVisible), { 'map-id': record.mapId }) +
+                this.renderCatalogueSearchIconButton('toggle-map-load', isLoaded ? 'Unload map' : 'Load map', this.getLoadButtonIcon(isLoaded), { 'map-id': record.mapId }) +
+                this.renderCatalogueSearchIconButton('copy-map-url', 'Copy map URL', copyIcon, { 'map-id': record.mapId }) +
+                (hasDownload ? this.renderCatalogueSearchIconButton('download-map', 'Download map', downloadIcon, { 'map-id': record.mapId }) : '') +
+            '</div>';
+        }
+
+        if (record.type === 'feature' && record.mapId) {
+            const featureId = record.featureId || record.id;
+            const bbox = Array.isArray(record.bbox) ? record.bbox.join(',') : '';
+            const isLoaded = this.onCheckFeatureLoaded ? !!this.onCheckFeatureLoaded(record.mapId, featureId) : false;
+            const isVisible = this.onCheckFeatureVisible ? !!this.onCheckFeatureVisible(record.mapId, featureId) : isLoaded;
+            const dataset = {
+                'map-id': record.mapId,
+                'feature-id': featureId,
+                'feature-name': record.title,
+                'feature-bbox': bbox
+            };
+            return '<div class="catalogue-search__action-strip" data-search-kind="feature" data-map-id="' + esc(record.mapId) + '" data-feature-id="' + esc(featureId) + '" data-feature-name="' + esc(record.title) + '" data-feature-bbox="' + esc(bbox) + '">' +
+                this.renderCatalogueSearchIconButton('toggle-feature-visibility', isVisible ? 'Hide feature' : 'Show feature', this.getVisibilityButtonIcon(isVisible), dataset, { disabled: !isLoaded }) +
+                this.renderCatalogueSearchIconButton('toggle-feature-load', isLoaded ? 'Unload feature' : 'Load feature', this.getLoadButtonIcon(isLoaded), dataset) +
+                this.renderCatalogueSearchIconButton('copy-feature-url', 'Copy feature URL', copyIcon, dataset) +
+                this.renderCatalogueSearchIconButton('download-feature', 'Download feature', downloadIcon, dataset) +
+            '</div>';
+        }
+
+        if (record.type === 'election' && record.electionBody && record.electionDate) {
+            return '<button type="button" class="btn btn--sm btn--primary" data-catalogue-search-action="load-election" data-election-body="' + esc(record.electionBody) + '" data-election-date="' + esc(record.electionDate) + '">Open election layer</button>';
+        }
+
+        return '';
+    }
+
+    getCatalogueSearchFeaturePayload(button) {
+        const bboxNums = (button.dataset.featureBbox || '').split(',').map(Number).filter(n => Number.isFinite(n));
+        return {
+            mapId: button.dataset.mapId,
+            featureId: button.dataset.featureId,
+            featureName: button.dataset.featureName || button.dataset.featureId || '',
+            bbox: bboxNums.length === 4 ? bboxNums : null
+        };
+    }
+
+    buildFeatureSearchShareUrl(mapId, featureId, featureName) {
+        if (!mapId || !featureId) return null;
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.hash.replace(/^#/, ''));
+        params.set('layers', mapId);
+        params.set('featureMap', mapId);
+        params.set('featureId', String(featureId));
+        if (featureName) params.set('featureName', String(featureName));
+        url.hash = params.toString();
+        return url.toString();
+    }
+
+    async loadFeatureFromSearchButton(button, options = {}) {
+        const { mapId, featureId, featureName, bbox } = this.getCatalogueSearchFeaturePayload(button);
+        if (!mapId || !featureId) return null;
+        const result = this.onLoadSingleFeature
+            ? await this.onLoadSingleFeature(mapId, featureId, featureName, bbox, { isolate: true, showInfo: options.showInfo !== false })
+            : null;
+        if (!result && bbox) this.zoomToFeature(bbox, mapId, featureId, featureName);
+        return result;
+    }
+
+    syncCatalogueSearchActionButtons(container = document) {
+        container.querySelectorAll?.('.catalogue-search__action-strip[data-search-kind="map"]').forEach(strip => {
+            const mapId = strip.dataset.mapId;
+            const isLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(mapId) : false;
+            const isVisible = this.onCheckMapVisible ? !!this.onCheckMapVisible(mapId) : isLoaded;
+            const loadBtn = strip.querySelector('[data-catalogue-search-action="toggle-map-load"]');
+            if (loadBtn) {
+                loadBtn.innerHTML = this.getLoadButtonIcon(isLoaded);
+                loadBtn.title = isLoaded ? 'Unload map' : 'Load map';
+                loadBtn.setAttribute('aria-label', loadBtn.title);
+            }
+            const visibilityBtn = strip.querySelector('[data-catalogue-search-action="toggle-map-visibility"]');
+            if (visibilityBtn) {
+                visibilityBtn.innerHTML = this.getVisibilityButtonIcon(isVisible);
+                visibilityBtn.title = isVisible ? 'Hide map' : 'Show map';
+                visibilityBtn.setAttribute('aria-label', visibilityBtn.title);
+            }
+        });
+        container.querySelectorAll?.('.catalogue-search__action-strip[data-search-kind="feature"]').forEach(strip => {
+            const mapId = strip.dataset.mapId;
+            const featureId = strip.dataset.featureId;
+            const isLoaded = this.onCheckFeatureLoaded ? !!this.onCheckFeatureLoaded(mapId, featureId) : false;
+            const isVisible = this.onCheckFeatureVisible ? !!this.onCheckFeatureVisible(mapId, featureId) : isLoaded;
+            const loadBtn = strip.querySelector('[data-catalogue-search-action="toggle-feature-load"]');
+            if (loadBtn) {
+                loadBtn.innerHTML = this.getLoadButtonIcon(isLoaded);
+                loadBtn.title = isLoaded ? 'Unload feature' : 'Load feature';
+                loadBtn.setAttribute('aria-label', loadBtn.title);
+            }
+            const visibilityBtn = strip.querySelector('[data-catalogue-search-action="toggle-feature-visibility"]');
+            if (visibilityBtn) {
+                visibilityBtn.innerHTML = this.getVisibilityButtonIcon(isVisible);
+                visibilityBtn.title = isVisible ? 'Hide feature' : 'Show feature';
+                visibilityBtn.setAttribute('aria-label', visibilityBtn.title);
+                visibilityBtn.disabled = !isLoaded;
+            }
+        });
+    }
     scoreCatalogueSearchRecord(record, terms, normalizedQuery, mapOrder) {
         if (!record?.searchText) return 0;
         const title = this.normalizeCatalogueSearchText(record.title);
@@ -2272,22 +2399,17 @@ class UIController {
         else if (record.colour) thumb = '<span class="catalogue-search__colour-tab" style="background:' + esc(record.colour) + '"></span>';
         else thumb = '<span class="catalogue-search__fallback-thumb" aria-hidden="true"></span>';
 
-        let action = '';
-        if (record.type === 'map' && record.mapId && record.actionLabel !== 'Open details') {
-            action = '<button type="button" class="btn btn--sm btn--primary" data-catalogue-search-action="load-map" data-map-id="' + esc(record.mapId) + '">Load map</button>';
-        } else if (record.type === 'election' && record.electionBody && record.electionDate) {
-            action = '<button type="button" class="btn btn--sm btn--primary" data-catalogue-search-action="load-election" data-election-body="' + esc(record.electionBody) + '" data-election-date="' + esc(record.electionDate) + '">Open election layer</button>';
-        } else if (record.type === 'feature' && record.mapId) {
-            const bbox = Array.isArray(record.bbox) ? record.bbox.join(',') : '';
-            action = '<button type="button" class="btn btn--sm btn--primary" data-catalogue-search-action="zoom-feature" data-map-id="' + esc(record.mapId) + '" data-feature-id="' + esc(record.featureId || record.id) + '" data-feature-name="' + esc(record.title) + '" data-feature-bbox="' + esc(bbox) + '">Zoom to feature</button>';
-        }
+        const action = this.renderCatalogueSearchActionStrip(record);
         const detail = record.url ? '<a class="btn btn--sm btn--outline" href="' + esc(record.url) + '">Open details</a>' : '';
+        const titleHtml = record.type === 'feature' && record.mapId
+            ? '<button type="button" class="catalogue-search__title catalogue-search__title-link" data-catalogue-search-action="open-feature-detail" data-map-id="' + esc(record.mapId) + '" data-feature-id="' + esc(record.featureId || record.id) + '" data-feature-name="' + esc(record.title) + '" data-feature-bbox="' + esc(Array.isArray(record.bbox) ? record.bbox.join(',') : '') + '">' + esc(record.title) + '</button>'
+            : '<h3 class="catalogue-search__title">' + esc(record.title) + '</h3>';
         const metaParts = [typeLabel, record.subtitle, record.provider].filter(Boolean);
         return '<article class="catalogue-search__result catalogue-search__result--' + esc(record.type || 'item') + '">' +
             '<div class="catalogue-search__thumb">' + thumb + '</div>' +
             '<div class="catalogue-search__body">' +
                 '<div class="catalogue-search__type">' + esc(typeLabel) + '</div>' +
-                '<h3 class="catalogue-search__title">' + esc(record.title) + '</h3>' +
+                titleHtml +
                 '<div class="catalogue-search__meta">' + esc(metaParts.join(' - ')) + '</div>' +
             '</div>' +
             '<div class="catalogue-search__actions">' + action + detail + '</div>' +
@@ -2330,7 +2452,9 @@ class UIController {
         });
         const deduped = new Map();
         scored.sort((a, b) => b.score - a.score).forEach(item => {
-            const key = item.record.type + ':' + (item.record.mapId || item.record.id || item.record.url || item.record.title);
+            const key = item.record.type === 'feature'
+                ? `feature:${item.record.mapId || ''}:${item.record.featureId || item.record.id || item.record.title}`
+                : item.record.type + ':' + (item.record.mapId || item.record.id || item.record.url || item.record.title);
             if (!deduped.has(key)) deduped.set(key, item.record);
         });
         const results = Array.from(deduped.values()).slice(0, 80);
@@ -2343,6 +2467,7 @@ class UIController {
         '</section>';
         this.bindFlatViewDelegates(container);
         this.hydrateLazyThumbnails(container);
+        this.syncCatalogueSearchActionButtons(container);
         return results;
     }
 
@@ -2356,8 +2481,32 @@ class UIController {
 
     async handleCatalogueSearchAction(button) {
         const action = button.dataset.catalogueSearchAction;
-        if (action === 'load-map' && button.dataset.mapId) {
-            this.onMapLoad?.(button.dataset.mapId);
+        const searchRoot = button.closest('.catalogue-search') || document;
+        if ((action === 'load-map' || action === 'toggle-map-load') && button.dataset.mapId) {
+            button.disabled = true;
+            try {
+                const isLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(button.dataset.mapId) : false;
+                if (isLoaded) await this.onMapUnload?.(button.dataset.mapId);
+                else await this.onMapLoad?.(button.dataset.mapId);
+            } finally {
+                button.disabled = false;
+                this.syncCatalogueSearchActionButtons(searchRoot);
+            }
+            return;
+        }
+        if (action === 'toggle-map-visibility' && button.dataset.mapId) {
+            const isLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(button.dataset.mapId) : false;
+            if (isLoaded) this.onHideMap?.(button.dataset.mapId);
+            else await this.onMapLoad?.(button.dataset.mapId);
+            this.syncCatalogueSearchActionButtons(searchRoot);
+            return;
+        }
+        if (action === 'copy-map-url' && button.dataset.mapId) {
+            this.copyMapUrl(button.dataset.mapId, button);
+            return;
+        }
+        if (action === 'download-map' && button.dataset.mapId) {
+            this.onDownloadFgb?.(button.dataset.mapId);
             return;
         }
         if (action === 'load-election' && button.dataset.electionBody && button.dataset.electionDate) {
@@ -2369,10 +2518,56 @@ class UIController {
             }
             return;
         }
-        if (action === 'zoom-feature' && button.dataset.mapId) {
-            const bboxNums = (button.dataset.featureBbox || '').split(',').map(Number).filter(n => Number.isFinite(n));
-            const bbox = bboxNums.length === 4 ? bboxNums : null;
-            this.zoomToFeature(bbox, button.dataset.mapId, button.dataset.featureId, button.dataset.featureName || button.dataset.featureId || '');
+        if ((action === 'zoom-feature' || action === 'toggle-feature-load') && button.dataset.mapId) {
+            const { mapId, featureId } = this.getCatalogueSearchFeaturePayload(button);
+            const isLoaded = this.onCheckFeatureLoaded ? !!this.onCheckFeatureLoaded(mapId, featureId) : false;
+            button.disabled = true;
+            try {
+                if (isLoaded) this.onPartialFeatureUnload?.(mapId, featureId);
+                else await this.loadFeatureFromSearchButton(button);
+            } finally {
+                button.disabled = false;
+                this.syncCatalogueSearchActionButtons(searchRoot);
+            }
+            return;
+        }
+        if (action === 'toggle-feature-visibility' && button.dataset.mapId) {
+            const { mapId, featureId } = this.getCatalogueSearchFeaturePayload(button);
+            const isLoaded = this.onCheckFeatureLoaded ? !!this.onCheckFeatureLoaded(mapId, featureId) : false;
+            if (!isLoaded) await this.loadFeatureFromSearchButton(button);
+            else this.onPartialFeatureToggle?.(mapId, featureId);
+            this.syncCatalogueSearchActionButtons(searchRoot);
+            return;
+        }
+        if (action === 'copy-feature-url' && button.dataset.mapId) {
+            const { mapId, featureId, featureName } = this.getCatalogueSearchFeaturePayload(button);
+            const shareUrl = this.buildFeatureSearchShareUrl(mapId, featureId, featureName);
+            if (shareUrl) {
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    const originalTitle = button.getAttribute('title');
+                    button.setAttribute('title', 'Copied!');
+                    setTimeout(() => button.setAttribute('title', originalTitle || 'Copy feature URL'), 1500);
+                    this.announce('Feature URL copied to clipboard');
+                }).catch(err => console.error('[UIController] Failed to copy feature URL:', err));
+            }
+            return;
+        }
+        if (action === 'download-feature' && button.dataset.mapId) {
+            const result = await this.loadFeatureFromSearchButton(button, { showInfo: false });
+            if (result?.feature) {
+                const detailId = this.cacheFeatureDetailEntry(dataService.getMapById(button.dataset.mapId), result.feature, result.feature.featureName || button.dataset.featureName, button.dataset.featureId);
+                this.downloadFeature(detailId, 'fgb');
+            }
+            this.syncCatalogueSearchActionButtons(searchRoot);
+            return;
+        }
+        if (action === 'open-feature-detail' && button.dataset.mapId) {
+            const result = await this.loadFeatureFromSearchButton(button, { showInfo: false });
+            if (result?.feature) {
+                const detailId = this.cacheFeatureDetailEntry(dataService.getMapById(button.dataset.mapId), result.feature, result.feature.featureName || button.dataset.featureName, button.dataset.featureId);
+                this.showFeatureDetailInCatalogue(detailId, true);
+            }
+            this.syncCatalogueSearchActionButtons(searchRoot);
         }
     }
 
@@ -10693,7 +10888,7 @@ class UIController {
     zoomToFeature(bbox, mapId, featureId, featureName = null) {
         // Load only the selected feature when supported, otherwise fallback to full layer load.
         if (mapId && featureId && this.onLoadSingleFeature) {
-            this.onLoadSingleFeature(mapId, featureId, featureName, bbox);
+            this.onLoadSingleFeature(mapId, featureId, featureName, bbox, { isolate: true });
         } else if (mapId && this.onMapLoad) {
             const loadedIds = this.getMapIdsFromURL();
             if (!loadedIds.includes(mapId)) this.onMapLoad(mapId);

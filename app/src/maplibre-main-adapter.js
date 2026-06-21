@@ -979,8 +979,30 @@ export class Test2MapLibreMainAdapter {
     return this.renderer?.selectFeatureById(testId, featureId, options.properties || {}) || false;
   }
 
-  async loadSingleFeature(mapConfig, featureId, featureName, bbox) {
+  waitForMapRender(timeout = 700) {
+    if (!this.map) return Promise.resolve();
+    return new Promise((resolve) => {
+      let settled = false;
+      const finish = () => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        resolve();
+      };
+      const timer = setTimeout(finish, timeout);
+      this.map.once?.('idle', finish);
+      this.map.triggerRepaint?.();
+    });
+  }
+
+  async loadSingleFeature(mapConfig, featureId, featureName, bbox, options = {}) {
     const mainId = mapConfig?.id;
+    if (options.isolate && mainId) {
+      const existingState = this.layerStates.get(mainId);
+      if (existingState?.baseLoaded === true && !existingState?.isPartial) {
+        this.unloadLayer(mainId);
+      }
+    }
     const alreadyFull = mainId ? this.layerStates.get(mainId)?.baseLoaded === true && !this.layerStates.get(mainId)?.isPartial : false;
     let state = this.layerStates.get(mainId);
     if (!state || !this.renderer?.layers.has(state.testLayerId)) {
@@ -989,7 +1011,7 @@ export class Test2MapLibreMainAdapter {
     this.ensurePartialFeatureState(state);
     const properties = { name: featureName || featureId };
     const requestedId = normalizeFeatureId(featureId);
-    const existing = this.findRenderedFeature(mainId, requestedId, featureName);
+    let existing = this.findRenderedFeature(mainId, requestedId, featureName);
     const id = requestedId || normalizeFeatureId(existing?.id) || normalizeFeatureId(featureName);
     if (existing?.properties) Object.assign(properties, existing.properties);
     if (!alreadyFull) {
@@ -1002,8 +1024,17 @@ export class Test2MapLibreMainAdapter {
       if (existing?.geometry) state.featureGeometry.set(id, existing.geometry);
       this.applyPartialFeatureFilter(mainId);
     }
+    if (bbox) {
+      this.fitToBounds(bbox);
+      await this.waitForMapRender();
+    }
+    if (!existing) {
+      existing = this.findRenderedFeature(mainId, id, featureName);
+      if (existing?.properties) Object.assign(properties, existing.properties);
+      if (existing?.geometry) state.featureGeometry.set(id, existing.geometry);
+      state.featureProperties.set(id, properties);
+    }
     this.highlightFeature(mainId, id, { properties });
-    if (bbox) this.fitToBounds(bbox);
     return {
       state,
       feature: {
@@ -1061,6 +1092,26 @@ export class Test2MapLibreMainAdapter {
     if (state.baseLoaded && !state.isPartial) return this.isLayerVisible(mapId);
     const id = normalizeFeatureId(featureId);
     return Boolean(state.loadedIndices?.has(id) && state.featureVisibility?.get(id) !== false && state.visible);
+  }
+
+  isPartialLayer(mapId) {
+    return !!this.layerStates.get(mapId)?.isPartial;
+  }
+
+  getPartialFeatureNames(mapId) {
+    const state = this.layerStates.get(mapId);
+    if (!state?.loadedIndices) return [];
+    return [...state.loadedIndices].map((id) => state.featureNames?.get(id) || state.featureProperties?.get(id)?.name || `Feature ${id}`);
+  }
+
+  getPartialFeatureItems(mapId) {
+    const state = this.layerStates.get(mapId);
+    if (!state?.loadedIndices) return [];
+    return [...state.loadedIndices].map((id) => ({
+      index: id,
+      name: state.featureNames?.get(id) || state.featureProperties?.get(id)?.name || `Feature ${id}`,
+      visible: state.featureVisibility?.get(id) !== false && state.visible !== false
+    }));
   }
 
   findFeaturesAtPoint(lat, lon, radius = 8) {

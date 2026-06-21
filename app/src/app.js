@@ -695,19 +695,29 @@ class Test2App {
     uiController.onCheckMapVisible = (mapId) => this.isMapVisible(mapId);
     uiController.onReorderLayers = (ids) => this.setActiveLayerOrder(ids);
     uiController.onExpandToFullMap = async (mapId) => this.loadMap(mapId);
-    uiController.onPartialFeatureToggle = () => {};
-    uiController.onPartialFeatureUnload = () => {};
-    uiController.onCheckFeatureLoaded = () => false;
-    uiController.onCheckFeatureVisible = () => false;
-    uiController.onFeatureLoad = async (mapId, featureIndex, featureName, bbox) => {
-      const mapConfig = dataService.getMapById(mapId);
-      if (!mapConfig) return;
-      await this.mapController.loadSingleFeature(mapConfig, featureIndex, featureName, bbox);
+    uiController.onPartialFeatureToggle = (mapId, featureIndex) => {
+      this.mapController.togglePartialFeature(mapId, featureIndex);
       this.syncCatalogueMapState();
       this.updateActiveLayers();
       this.updateURLState();
     };
-
+    uiController.onPartialFeatureUnload = (mapId, featureIndex) => {
+      this.mapController.unloadPartialFeature(mapId, featureIndex);
+      this.syncCatalogueMapState();
+      this.updateActiveLayers();
+      this.updateURLState();
+    };
+    uiController.onCheckFeatureLoaded = (mapId, featureIndex) => this.mapController.isFeatureLoaded(mapId, featureIndex);
+    uiController.onCheckFeatureVisible = (mapId, featureIndex) => this.mapController.isFeatureVisible(mapId, featureIndex);
+    uiController.onFeatureLoad = async (mapId, featureIndex, featureName, bbox, options = {}) => {
+      const mapConfig = dataService.getMapById(mapId);
+      if (!mapConfig) return null;
+      const result = await this.mapController.loadSingleFeature(mapConfig, featureIndex, featureName, bbox, { isolate: options.isolate === true });
+      this.syncCatalogueMapState();
+      this.updateActiveLayers();
+      this.updateURLState();
+      return result;
+    };
     uiController.onCategoryChange = (categoryId) => {
       this.currentCategory = categoryId;
       this.updateMapList();
@@ -735,13 +745,17 @@ class Test2App {
     uiController.onGetLoadedFeatures = () => this.mapController.getLoadedFeatures();
     uiController.onZoomToBbox = (bounds, options) => this.mapController.fitToBounds(bounds, options);
     uiController.onHighlightFeature = (mapId, featureId, options) => this.mapController.highlightFeature(mapId, featureId, options);
-    uiController.onLoadSingleFeature = async (mapId, featureId, featureName, bbox) => {
+    uiController.onLoadSingleFeature = async (mapId, featureId, featureName, bbox, options = {}) => {
       const mapConfig = dataService.getMapById(mapId);
-      if (!mapConfig) return;
-      const result = await this.mapController.loadSingleFeature(mapConfig, featureId, featureName, bbox);
+      if (!mapConfig) return null;
+      const result = await this.mapController.loadSingleFeature(mapConfig, featureId, featureName, bbox, { isolate: options.isolate !== false });
       this.syncCatalogueMapState();
       this.updateActiveLayers();
-      uiController.showFeatureInfo([{ ...result.feature, mapId, id: featureId }], dataService.getAllMaps());
+      this.updateURLState();
+      if (options.showInfo !== false) {
+        uiController.showFeatureInfo([{ ...result.feature, mapId, id: featureId }], dataService.getAllMaps());
+      }
+      return result;
     };
   }
 
@@ -2654,6 +2668,7 @@ class Test2App {
   updateActiveLayers() {
     const loadedMaps = [];
     const visibilityMap = new Map();
+    const partialLayerInfo = new Map();
     const groupedChildIds = new Set();
     for (const [id, state] of this.mapController.groupStates) {
       if (!state.loaded) continue;
@@ -2667,6 +2682,14 @@ class Test2App {
       const config = dataService.getMapById(id) || state.config;
       if (config) loadedMaps.push(config);
       visibilityMap.set(id, state.visible);
+      const featureItems = this.mapController.getPartialFeatureItems?.(id) || [];
+      if (featureItems.length > 0) {
+        partialLayerInfo.set(id, {
+          isPartial: this.mapController.isPartialLayer?.(id) || false,
+          featureNames: this.mapController.getPartialFeatureNames?.(id) || featureItems.map((item) => item.name),
+          featureItems
+        });
+      }
     }
     const activeOrder = this.getActiveLayerOrder(loadedMaps.map((map) => map.id));
     const orderIndex = new Map(activeOrder.map((id, index) => [id, index]));
@@ -2676,7 +2699,7 @@ class Test2App {
       if (ai !== bi) return ai - bi;
       return String(a.name || a.id).localeCompare(String(b.name || b.id));
     });
-    uiController.updateActiveLayers(loadedMaps, visibilityMap, new Map());
+    uiController.updateActiveLayers(loadedMaps, visibilityMap, partialLayerInfo);
     this.bindActiveLayerSourceButtons();
     if (this.currentSourceMapId) this.renderSourcePanel();
     this.updateTimeline();
@@ -2694,6 +2717,18 @@ class Test2App {
     return this.mapController.isLayerVisible(mapId);
   }
 
+  getPrimaryPartialFeatureURLState() {
+    const states = this.mapController?.layerStates;
+    if (!states?.[Symbol.iterator]) return null;
+    for (const [mapId, state] of states) {
+      if (!state?.isPartial || !state.loadedIndices?.size) continue;
+      const featureId = [...state.loadedIndices][0];
+      const featureName = state.featureNames?.get(featureId) || state.featureProperties?.get(featureId)?.name || '';
+      return { mapId, featureId, featureName };
+    }
+    return null;
+  }
+
   updateURLState() {
     if (this._suspendURLState || this._restoringURLState) return;
     const loaded = this.getLoadedLayerIds();
@@ -2708,6 +2743,7 @@ class Test2App {
       : loaded;
     const hidden = urlLoaded.filter((id) => id !== electionState?.layerId && !electionSourceIds.has(id) && !this.isMapVisible(id));
     const layerOrder = this.getActiveLayerOrder(urlLoaded).filter((id) => urlLoaded.includes(id));
+    const partialFeatureState = this.getPrimaryPartialFeatureURLState();
     const params = new URLSearchParams();
     const center = this.mapController.map?.getCenter?.();
     const zoom = this.mapController.map?.getZoom?.();
@@ -2716,6 +2752,11 @@ class Test2App {
       params.set('layerOrder', layerOrder.join(','));
     }
     if (hidden.length) params.set('hidden', hidden.join(','));
+    if (partialFeatureState?.mapId && partialFeatureState.featureId !== undefined && partialFeatureState.featureId !== null) {
+      params.set('featureMap', partialFeatureState.mapId);
+      params.set('featureId', String(partialFeatureState.featureId));
+      if (partialFeatureState.featureName) params.set('featureName', partialFeatureState.featureName);
+    }
     if (this.searchQuery) params.set('q', this.searchQuery);
     if (this.currentDetailMapId && !document.getElementById('catalogueDetailView')?.classList.contains('hidden')) {
       params.set('detail', this.currentDetailMapId);
@@ -2775,13 +2816,23 @@ class Test2App {
       }
 
       const layers = (params.get('layers') || '').split(',').map((id) => id.trim()).filter(Boolean);
+      const featureMapId = params.get('featureMap') || '';
+      const featureIdParam = params.get('featureId') || '';
+      const featureNameParam = params.get('featureName') || '';
       if (this.hasElectionURLState(params, layers)) {
         await this.ensureElections({ refreshCatalogue: true });
       }
-      const mapLayers = layers.filter((id) => !this.elections?.isCanonicalElectionLayerId?.(id));
+      const mapLayers = layers.filter((id) => !this.elections?.isCanonicalElectionLayerId?.(id) && (!featureMapId || id !== featureMapId));
       await Promise.all(mapLayers.map((id) => this.loadMap(id).catch((error) => this.showMapError(error))));
 
       await this.elections?.restoreURLState?.(params);
+
+      if (featureMapId && featureIdParam) {
+        const mapConfig = dataService.getMapById(featureMapId);
+        if (mapConfig) {
+          await this.mapController.loadSingleFeature(mapConfig, featureIdParam, featureNameParam || featureIdParam, null, { isolate: true });
+        }
+      }
 
       const hidden = new Set((params.get('hidden') || '').split(',').map((id) => id.trim()).filter(Boolean));
       hidden.forEach((id) => this.mapController.hideLayer(id));

@@ -1,3 +1,14 @@
+# Catalogue Search Feature Result Controls
+- [x] Make feature search results load only the selected feature in isolation.
+  - Completed: feature-result load/detail/download actions now route through MapLibre partial-feature state with `isolate`, and feature URL restore skips loading the full parent map layer.
+- [x] Give map and feature search results first-class catalogue action buttons.
+  - Completed: map results expose show/hide, load/unload, copy URL, and download controls; feature results expose show/hide, load/unload, copy URL, and download controls with live state syncing.
+- [x] Make feature names in search results open the feature info page.
+  - Completed: feature result titles are buttons that load/cache the isolated feature and open its full feature detail page in the catalogue pane.
+- [x] Explain feature-thumbnail feasibility.
+  - Completed: final response records that bbox locator thumbnails are feasible immediately, while true per-feature rendered thumbnails require build-time/server-side rendering assets and CDN/manifest support.
+- [x] Verify and commit.
+  - Verification: node syntax checks passed for `js/ui-controller.js`, `app/src/app.js`, and `app/src/maplibre-main-adapter.js`; `npm run build` passed; `npm run check` passed; `node tmp\catalogue-search-smoke.mjs` passed.
 # NISRA Wayback latest-valid recovery pass
 
 ## Catalogue Search And Catalogue Pane Refinements
