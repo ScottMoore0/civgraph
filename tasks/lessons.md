@@ -2528,3 +2528,8 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) strip verbose source properties from browser transition overlays,
   3) shard large runtime overlays and load them through manifest `runtimePaths`,
   4) validate missing shards, per-shard size, required transition coverage, and absence of verbose properties before commit.
+
+### 191) Catalogue search must replace the catalogue body, not filter around it
+- Mistake pattern: treating search as autocomplete or as a filter over the existing table of contents/cards.
+- Impact: the catalogue pane stays cluttered while searching and does not present ranked mixed results across maps, elections, features, people, parties, and sources.
+- Guardrail: when the search input has a query, render a dedicated catalogue-body search view; keep the default TOC/cards only for the empty-query state, and verify the rendered row classes/styles directly.

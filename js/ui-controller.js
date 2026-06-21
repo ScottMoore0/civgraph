@@ -77,6 +77,13 @@ class UIController {
         this._flatSectionTargets = new Map();
         this._thumbnailIds = null;
         this._thumbnailManifestPromise = null;
+        this._featureCountManifest = null;
+        this._featureCountManifestPromise = null;
+        this._catalogueSearchIndex = null;
+        this._catalogueSearchIndexPromise = null;
+        this._catalogueSearchBrowseCache = new Map();
+        this._catalogueSearchQuery = '';
+        this._catalogueSearchToken = 0;
         this._thumbnailObserver = null;
         this._mobileCatalogueExpanded = false;
         this._mobileCatalogueDeferred = false;
@@ -133,6 +140,7 @@ class UIController {
         this.setupCatalogueViewToggle();
         this.setupMobileMenu();
         this.ensureThumbnailManifest().catch(() => {});
+        this.ensureFeatureCountManifest().catch(() => {});
         console.log('[UIController] Initialized');
         return this;
     }
@@ -1833,6 +1841,27 @@ class UIController {
         return this._thumbnailManifestPromise;
     }
 
+    async ensureFeatureCountManifest() {
+        if (this._featureCountManifest) return this._featureCountManifest;
+        if (!this._featureCountManifestPromise) {
+            this._featureCountManifestPromise = fetch('data/database/map-feature-counts.json', { cache: 'force-cache' })
+                .then((response) => response.ok ? response.json() : { counts: {} })
+                .then((manifest) => {
+                    this._featureCountManifest = manifest && typeof manifest === 'object' ? manifest : { counts: {} };
+                    if (!this._featureCountManifest.counts || typeof this._featureCountManifest.counts !== 'object') {
+                        this._featureCountManifest.counts = {};
+                    }
+                    return this._featureCountManifest;
+                })
+                .catch((error) => {
+                    console.warn('[UIController] Feature-count manifest unavailable:', error);
+                    this._featureCountManifest = { counts: {} };
+                    return this._featureCountManifest;
+                });
+        }
+        return this._featureCountManifestPromise;
+    }
+
     hasThumbnailAsset(id) {
         if (!id || !this._thumbnailIds) return false;
         return this._thumbnailIds.has(String(id));
@@ -1871,6 +1900,48 @@ class UIController {
         const imageHtml = this.renderThumbnailImage(id, className, sizes);
         const missingClass = imageHtml ? '' : ' thumb-zone--missing';
         return `<div class="thumb-zone${missingClass}">${imageHtml}</div>`;
+    }
+
+    getMapFeatureCount(map) {
+        if (!map || !this._featureCountManifest?.counts) return null;
+        const counts = this._featureCountManifest.counts;
+        const candidates = [map.id, map.cloneOf, map.aliasOf, map.sourceMapId].filter(Boolean).map(String);
+        for (const id of candidates) {
+            const value = counts[id];
+            if (Number.isFinite(value)) return value;
+        }
+        return null;
+    }
+
+    getMapFeatureUnitLabel(map, count = null) {
+        const unit = String(map?.featureUnit || map?.featureType || map?.unitName || '').trim();
+        if (unit) return count === 1 ? unit.replace(/s$/i, '') : unit;
+        const haystack = (String(map?.id || '') + ' ' + String(map?.name || '') + ' ' + String(map?.category || '')).toLowerCase();
+        const rules = [
+            [/\bwards?\b/, ['Ward', 'Wards']],
+            [/\bdea|district electoral area/, ['DEA', 'DEAs']],
+            [/small area|\bsa\b/, ['Small Area', 'Small Areas']],
+            [/super output area|\bsoa\b/, ['Super Output Area', 'Super Output Areas']],
+            [/townland/, ['Townland', 'Townlands']],
+            [/constituenc/, ['Constituency', 'Constituencies']],
+            [/local government district|\blgd\b/, ['Local Government District', 'Local Government Districts']],
+            [/electoral division|\bed\b|\bded\b/, ['Electoral Division', 'Electoral Divisions']],
+            [/settlement/, ['Settlement', 'Settlements']],
+            [/baron/, ['Barony', 'Baronies']],
+            [/parish/, ['Parish', 'Parishes']]
+        ];
+        for (const [pattern, labels] of rules) {
+            if (pattern.test(haystack)) return count === 1 ? labels[0] : labels[1];
+        }
+        return count === 1 ? 'feature' : 'features';
+    }
+
+    renderMapProviderSummary(map) {
+        const providers = Array.isArray(map?.provider) ? map.provider.filter(Boolean).join(', ') : String(map?.provider || '').trim();
+        const count = this.getMapFeatureCount(map);
+        if (!Number.isFinite(count)) return providers;
+        const countText = count.toLocaleString() + ' ' + this.getMapFeatureUnitLabel(map, count);
+        return providers ? providers + ' - ' + countText : countText;
     }
 
     renderBookThumbnail(book, category, fallbackLabel) {
@@ -2032,8 +2103,288 @@ class UIController {
         container.addEventListener('mouseleave', (event) => this.handleFlatThumbnailMouseLeave(event), true);
     }
 
+    normalizeCatalogueSearchText(value) {
+        return String(value || '')
+            .normalize('NFKD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, ' ')
+            .trim();
+    }
+
+    async fetchCatalogueBrowseItems(kind) {
+        if (this._catalogueSearchBrowseCache.has(kind)) return this._catalogueSearchBrowseCache.get(kind);
+        const promise = fetch('data/browse/' + kind + '.json', { cache: 'force-cache' })
+            .then(response => response.ok ? response.json() : { items: [] })
+            .then(payload => Array.isArray(payload?.items) ? payload.items : [])
+            .catch(() => []);
+        this._catalogueSearchBrowseCache.set(kind, promise);
+        return promise;
+    }
+
+    buildCatalogueSearchBrowseUrl(kind, item) {
+        if (item?.browseUrl) return item.browseUrl;
+        const slug = String(item?.slug || item?.id || item?.key || '').replace(/^(party|person|source):/, '');
+        if (!slug) return '';
+        const pathByKind = {
+            elections: 'elections',
+            parties: 'parties',
+            persons: 'persons',
+            sources: 'sources'
+        };
+        const path = pathByKind[kind] || kind;
+        return '/browse/#/' + path + '/' + encodeURIComponent(slug);
+    }
+
+    makeCatalogueSearchRecord(input) {
+        const title = String(input.title || input.name || input.id || '').trim();
+        const subtitle = String(input.subtitle || input.category || '').trim();
+        const provider = Array.isArray(input.provider) ? input.provider.join(', ') : String(input.provider || '').trim();
+        const attributes = [];
+        ['date', 'year', 'category', 'group', 'extent', 'status', 'description'].forEach(key => {
+            const value = input[key];
+            if (Array.isArray(value)) attributes.push(value.join(' '));
+            else if (value !== undefined && value !== null) attributes.push(String(value));
+        });
+        if (Array.isArray(input.keywords)) attributes.push(input.keywords.join(' '));
+        if (Array.isArray(input.constituencies)) attributes.push(input.constituencies.join(' '));
+        if (Array.isArray(input.parties)) attributes.push(input.parties.map(p => p?.name || p).join(' '));
+        const text = [title, subtitle, provider, attributes.join(' ')].join(' ');
+        return {
+            ...input,
+            title,
+            subtitle,
+            provider,
+            searchText: this.normalizeCatalogueSearchText(text)
+        };
+    }
+
+    async ensureCatalogueSearchIndex() {
+        if (this._catalogueSearchIndex) return this._catalogueSearchIndex;
+        if (!this._catalogueSearchIndexPromise) {
+            this._catalogueSearchIndexPromise = (async () => {
+                const records = [];
+                const allMaps = dataService.getAllMaps().filter(map => !map.hidden);
+                allMaps.forEach(map => {
+                    records.push(this.makeCatalogueSearchRecord({
+                        type: 'map',
+                        id: map.id,
+                        mapId: map.id,
+                        title: map.name || map.id,
+                        subtitle: this.renderMapProviderSummary(map),
+                        provider: map.provider,
+                        category: map.category,
+                        group: map.group,
+                        date: map.date || map.dateRange,
+                        keywords: map.keywords,
+                        description: map.description,
+                        status: map.status,
+                        thumbId: map.cloneOf || map.id,
+                        url: '/browse/#/maps/' + encodeURIComponent(map.id),
+                        actionLabel: map.status === 'not yet converted' ? 'Open details' : 'Load map'
+                    }));
+                });
+
+                const browseKinds = [
+                    ['elections', 'election', 'Election'],
+                    ['parties', 'party', 'Party / label'],
+                    ['persons', 'person', 'Person'],
+                    ['sources', 'source', 'Source']
+                ];
+                const browsePayloads = await Promise.all(browseKinds.map(async ([kind, type, typeLabel]) => [kind, type, typeLabel, await this.fetchCatalogueBrowseItems(kind)]));
+                browsePayloads.forEach(([kind, type, typeLabel, items]) => {
+                    items.forEach(item => {
+                        records.push(this.makeCatalogueSearchRecord({
+                            ...item,
+                            type,
+                            typeLabel,
+                            id: item.id || item.key || item.slug,
+                            title: item.title || item.name || item.id,
+                            subtitle: item.subtitle || item.category || '',
+                            provider: item.provider,
+                            category: item.category,
+                            date: item.date,
+                            year: item.year,
+                            keywords: item.keywords,
+                            description: item.description,
+                            body: item.body,
+                            electionBody: item.body,
+                            electionDate: item.date,
+                            thumbId: type === 'election' ? item.thumbnailMapId : null,
+                            url: this.buildCatalogueSearchBrowseUrl(kind, item)
+                        }));
+                    });
+                });
+                this._catalogueSearchIndex = records;
+                return records;
+            })();
+        }
+        return this._catalogueSearchIndexPromise;
+    }
+
+    featureSearchResultToCatalogueRecord(result) {
+        const map = dataService.getMapById(result.mapId);
+        const name = String(result.name || result.id || 'Unnamed feature');
+        const mapName = map?.name || result.mapId || 'Map feature';
+        return this.makeCatalogueSearchRecord({
+            type: 'feature',
+            typeLabel: 'Feature',
+            id: String(result.id || ''),
+            featureId: String(result.id || ''),
+            mapId: String(result.mapId || ''),
+            title: name,
+            subtitle: mapName,
+            provider: map?.provider,
+            category: map?.category,
+            group: map?.group,
+            bbox: Array.isArray(result.bbox) ? result.bbox : null,
+            thumbSvg: this._buildFeatureLocatorSvg(result.bbox, map?.style?.color || '#3388ff')
+        });
+    }
+
+    scoreCatalogueSearchRecord(record, terms, normalizedQuery, mapOrder) {
+        if (!record?.searchText) return 0;
+        const title = this.normalizeCatalogueSearchText(record.title);
+        let score = 0;
+        if (title === normalizedQuery) score += 1000;
+        if (title.startsWith(normalizedQuery)) score += 650;
+        if (record.searchText.includes(normalizedQuery)) score += 240;
+        terms.forEach(term => {
+            if (!term) return;
+            if (title.split(' ').includes(term)) score += 170;
+            else if (title.includes(term)) score += 100;
+            if (record.searchText.includes(term)) score += 40;
+        });
+        if (record.type === 'map' && mapOrder?.has(record.mapId || record.id)) {
+            score += Math.max(0, 450 - mapOrder.get(record.mapId || record.id));
+        }
+        const typeBoost = { map: 90, election: 85, feature: 80, party: 70, person: 60, source: 40 };
+        score += typeBoost[record.type] || 0;
+        return score;
+    }
+
+    renderCatalogueSearchResult(record) {
+        const esc = value => this.escapeHtml(value == null ? '' : String(value));
+        const typeLabel = record.typeLabel || ({ map: 'Map', election: 'Election', feature: 'Feature', party: 'Party / label', person: 'Person', source: 'Source' }[record.type] || record.type || 'Result');
+        let thumb = '';
+        if (record.thumbSvg) thumb = '<span class="catalogue-search__feature-thumb" aria-hidden="true">' + record.thumbSvg + '</span>';
+        else if (record.thumbId) thumb = this.renderThumbnailZone(record.thumbId, 'catalogue-search__thumbnail-img', '48px');
+        else if (record.colour) thumb = '<span class="catalogue-search__colour-tab" style="background:' + esc(record.colour) + '"></span>';
+        else thumb = '<span class="catalogue-search__fallback-thumb" aria-hidden="true"></span>';
+
+        let action = '';
+        if (record.type === 'map' && record.mapId && record.actionLabel !== 'Open details') {
+            action = '<button type="button" class="btn btn--sm btn--primary" data-catalogue-search-action="load-map" data-map-id="' + esc(record.mapId) + '">Load map</button>';
+        } else if (record.type === 'election' && record.electionBody && record.electionDate) {
+            action = '<button type="button" class="btn btn--sm btn--primary" data-catalogue-search-action="load-election" data-election-body="' + esc(record.electionBody) + '" data-election-date="' + esc(record.electionDate) + '">Open election layer</button>';
+        } else if (record.type === 'feature' && record.mapId) {
+            const bbox = Array.isArray(record.bbox) ? record.bbox.join(',') : '';
+            action = '<button type="button" class="btn btn--sm btn--primary" data-catalogue-search-action="zoom-feature" data-map-id="' + esc(record.mapId) + '" data-feature-id="' + esc(record.featureId || record.id) + '" data-feature-name="' + esc(record.title) + '" data-feature-bbox="' + esc(bbox) + '">Zoom to feature</button>';
+        }
+        const detail = record.url ? '<a class="btn btn--sm btn--outline" href="' + esc(record.url) + '">Open details</a>' : '';
+        const metaParts = [typeLabel, record.subtitle, record.provider].filter(Boolean);
+        return '<article class="catalogue-search__result catalogue-search__result--' + esc(record.type || 'item') + '">' +
+            '<div class="catalogue-search__thumb">' + thumb + '</div>' +
+            '<div class="catalogue-search__body">' +
+                '<div class="catalogue-search__type">' + esc(typeLabel) + '</div>' +
+                '<h3 class="catalogue-search__title">' + esc(record.title) + '</h3>' +
+                '<div class="catalogue-search__meta">' + esc(metaParts.join(' - ')) + '</div>' +
+            '</div>' +
+            '<div class="catalogue-search__actions">' + action + detail + '</div>' +
+        '</article>';
+    }
+
+    async renderCatalogueSearchResults(query, options = {}) {
+        const normalizedQuery = this.normalizeCatalogueSearchText(query);
+        this._catalogueSearchQuery = String(query || '').trim();
+        const token = ++this._catalogueSearchToken;
+        const container = document.getElementById('catalogueFlatView');
+        if (!container) return [];
+        if (!normalizedQuery) {
+            this.clearCatalogueSearchResults({ render: true });
+            return [];
+        }
+        this._applyCatalogueBookViewerChrome(false);
+        container.classList.remove('catalogue-flat-view--book-viewer');
+        container.classList.add('catalogue-flat-view--search');
+        container.dataset.rendered = 'search';
+        container.innerHTML = '<div class="catalogue-search"><div class="catalogue-search__summary">Searching...</div></div>';
+
+        const mapResultIds = Array.isArray(options.mapResultIds) ? options.mapResultIds : [];
+        const mapOrder = new Map(mapResultIds.map((id, index) => [String(id), index]));
+        const [index, featureResults] = await Promise.all([
+            this.ensureCatalogueSearchIndex(),
+            normalizedQuery.length >= 2 ? this.searchFeatures(query).catch(() => []) : Promise.resolve([])
+        ]);
+        if (token !== this._catalogueSearchToken || this.normalizeCatalogueSearchText(this._catalogueSearchQuery) !== normalizedQuery) return [];
+        const terms = normalizedQuery.split(/\s+/).filter(Boolean);
+        const scored = [];
+        index.forEach(record => {
+            const score = this.scoreCatalogueSearchRecord(record, terms, normalizedQuery, mapOrder);
+            if (score > 0) scored.push({ record, score });
+        });
+        featureResults.slice(0, 60).forEach(result => {
+            const record = this.featureSearchResultToCatalogueRecord(result);
+            const score = this.scoreCatalogueSearchRecord(record, terms, normalizedQuery, mapOrder) + 120;
+            if (score > 0) scored.push({ record, score });
+        });
+        const deduped = new Map();
+        scored.sort((a, b) => b.score - a.score).forEach(item => {
+            const key = item.record.type + ':' + (item.record.mapId || item.record.id || item.record.url || item.record.title);
+            if (!deduped.has(key)) deduped.set(key, item.record);
+        });
+        const results = Array.from(deduped.values()).slice(0, 80);
+        const resultHtml = results.length
+            ? results.map(record => this.renderCatalogueSearchResult(record)).join('')
+            : '<div class="catalogue-search__empty">No matching maps, elections, features, people, parties, or sources found.</div>';
+        container.innerHTML = '<section class="catalogue-search" aria-live="polite">' +
+            '<div class="catalogue-search__summary"><strong>' + results.length.toLocaleString() + '</strong> result' + (results.length === 1 ? '' : 's') + ' for <span>' + this.escapeHtml(query) + '</span></div>' +
+            '<div class="catalogue-search__results">' + resultHtml + '</div>' +
+        '</section>';
+        this.bindFlatViewDelegates(container);
+        this.hydrateLazyThumbnails(container);
+        return results;
+    }
+
+    clearCatalogueSearchResults({ render = false } = {}) {
+        this._catalogueSearchQuery = '';
+        this._catalogueSearchToken += 1;
+        const container = document.getElementById('catalogueFlatView');
+        if (container) container.classList.remove('catalogue-flat-view--search');
+        if (render) this.requestFlatViewRender({ ...(this._lastMapListOptions || {}) }, { defer: this.isMobile });
+    }
+
+    async handleCatalogueSearchAction(button) {
+        const action = button.dataset.catalogueSearchAction;
+        if (action === 'load-map' && button.dataset.mapId) {
+            this.onMapLoad?.(button.dataset.mapId);
+            return;
+        }
+        if (action === 'load-election' && button.dataset.electionBody && button.dataset.electionDate) {
+            button.disabled = true;
+            try {
+                await this.onLoadElection?.(button.dataset.electionBody, button.dataset.electionDate);
+            } finally {
+                button.disabled = false;
+            }
+            return;
+        }
+        if (action === 'zoom-feature' && button.dataset.mapId) {
+            const bboxNums = (button.dataset.featureBbox || '').split(',').map(Number).filter(n => Number.isFinite(n));
+            const bbox = bboxNums.length === 4 ? bboxNums : null;
+            this.zoomToFeature(bbox, button.dataset.mapId, button.dataset.featureId, button.dataset.featureName || button.dataset.featureId || '');
+        }
+    }
+
     async handleFlatViewDelegatedClick(event) {
         const target = event.target;
+        const searchAction = target.closest?.('[data-catalogue-search-action]');
+        if (searchAction) {
+            event.preventDefault();
+            await this.handleCatalogueSearchAction(searchAction);
+            return;
+        }
+
         const mobileExpand = target.closest?.('[data-mobile-catalogue-full]');
         if (mobileExpand) {
             event.preventDefault();
@@ -2057,7 +2408,7 @@ class UIController {
             return;
         }
 
-        const tocLink = target.closest?.('.catalogue-flat__toc-link, .catalogue-flat__toc-toplink, .catalogue-flat__toc-subheading-link, .catalogue-flat__toc-decade-btn');
+        const tocLink = target.closest?.('.catalogue-flat__toc-link, .catalogue-flat__toc-toplink, .catalogue-flat__toc-subheading-link, .catalogue-flat__toc-decade-btn, .catalogue-flat__toc-map-btn');
         if (tocLink) {
             await this.handleFlatTocClick(event, tocLink);
             return;
@@ -2743,8 +3094,13 @@ class UIController {
         }
         const renderToken = Symbol('flat-render');
         this._flatRenderToken = renderToken;
-        await this.ensureThumbnailManifest();
+        await Promise.all([this.ensureThumbnailManifest(), this.ensureFeatureCountManifest()]);
         if (this._flatRenderToken !== renderToken) return;
+        const activeSearchQuery = String(this._catalogueSearchQuery || document.getElementById('searchInput')?.value || '').trim();
+        if (activeSearchQuery) {
+            await this.renderCatalogueSearchResults(activeSearchQuery);
+            return;
+        }
         const singleSectionCatalogue = Boolean(this.singleSectionFlatCatalogue);
         const activeSectionKey = singleSectionCatalogue
             ? (options.flatSectionKey ?? this._flatActiveSectionKey ?? null)
@@ -3420,6 +3776,32 @@ class UIController {
               mapIds: ['fingal-polling-station-data', 'fingal-trees'] }
         ];
 
+        const censusDataCards = c1Cards.filter(card => String(card.id || '').startsWith('flat-data-2021-'));
+        if (censusDataCards.length > 0) {
+            const mergedMapIds = [];
+            const seenCensusMapIds = new Set();
+            censusDataCards.forEach(card => {
+                (card.mapIds || []).forEach(mapId => {
+                    if (!seenCensusMapIds.has(mapId)) {
+                        seenCensusMapIds.add(mapId);
+                        mergedMapIds.push(mapId);
+                    }
+                });
+            });
+            const firstCensusIndex = c1Cards.findIndex(card => String(card.id || '').startsWith('flat-data-2021-'));
+            for (let i = c1Cards.length - 1; i >= 0; i -= 1) {
+                if (String(c1Cards[i]?.id || '').startsWith('flat-data-2021-')) c1Cards.splice(i, 1);
+            }
+            c1Cards.splice(Math.max(0, firstCensusIndex), 0, {
+                id: 'flat-data-2021-census-data-ni',
+                name: 'Census Data',
+                years: '2021',
+                extent: 'Northern Ireland',
+                mapIds: mergedMapIds,
+                thumbMapId: mergedMapIds[0] || 'data-2021-population-lgd'
+            });
+        }
+
         const decadeDefs = [
             { id: 'flat-elections-2020s', name: '2020s', from: 2020, to: 2029 },
             { id: 'flat-elections-2010s', name: '2010s', from: 2010, to: 2019 },
@@ -3661,7 +4043,7 @@ class UIController {
                 inHeading: 'Census Geographies'
             },
             {
-                canonicalName: 'Northern Ireland Constituencies',
+                canonicalName: 'NI Devolved Constituencies',
                 mergedIds: [
                     'flat-ni-parliament',
                     'flat-assembly-areas',
@@ -3703,6 +4085,11 @@ class UIController {
                     'Local Government Districts', 'Local Authorities',
                     'Administrative Counties',
                     'Administrative Areas',
+                ]
+            },
+            {
+                heading: 'Administrative Regions',
+                members: [
                     'Education and Library Boards',
                     'Health and Social Care Trusts',
                     'An Garda Síochána Areas', 'Gaeltacht Areas'
@@ -3744,34 +4131,13 @@ class UIController {
                     'European Parliament Constituencies',
                     'UK Parliamentary Constituencies',
                     'Dáil Eireann Constituencies',
-                    'Northern Ireland Constituencies',
+                    'NI Devolved Constituencies',
                     'Referendum Counting Areas'
                 ]
             },
             {
-                heading: 'Census 2021 Data (Northern Ireland)',
-                members: [
-                    'Data — Census 2021: Usual resident population',
-                    'Data — Census 2021: Population density',
-                    'Data — Census 2021: Total households',
-                    'Data — Census 2021: Average household size',
-                    'Data — Census 2021: Female population share',
-                    'Data — Census 2021: Born in Northern Ireland',
-                    'Data — Census 2021: Some ability in Irish',
-                    'Data — Census 2021: Some ability in Ulster-Scots',
-                    'Data — Census 2021: Religion',
-                    'Data — Census 2021: Catholic community background',
-                    'Data — Census 2021: Day-to-day activities limited',
-                    'Data — Census 2021: Provides unpaid care',
-                    'Data — Census 2021: Households with no car or van',
-                    'Data — Census 2021: Owner-occupied households',
-                    'Data — Census 2021: Social-rented households',
-                    'Data — Census 2021: Private-rented households',
-                    'Data — Census 2021: No qualifications',
-                    'Data — Census 2021: Level 4+ qualifications',
-                    'Data — Census 2021: Unemployed',
-                    'Data — Census 2021: Work mainly at or from home'
-                ]
+                heading: 'Census Data',
+                members: ['Census Data']
             },
             {
                 heading: 'Heritage & Built Environment',
@@ -3833,6 +4199,15 @@ class UIController {
                 ]
             }
         ];
+        const mapSectionButtonsHtml = tocGroups.map(group => {
+            const sectionKey = mapSectionKeyForHeading(group.heading);
+            const targetId = addFlatTocTarget('flat-section-map-' + sectionSlug(group.heading), sectionKey);
+            return '<a href="#' + this.escapeHtml(targetId) + '" class="catalogue-flat__toc-map-btn" data-catalogue-target="' + this.escapeHtml(targetId) + '" data-catalogue-section="' + this.escapeHtml(sectionKey) + '">' + this.escapeHtml(group.heading) + '</a>';
+        }).join('');
+        if (mapSectionButtonsHtml) {
+            tocHtml += '\n                <tr class="catalogue-flat__toc-map-buttons-row">\n                    <td colspan="3">\n                        <div class="catalogue-flat__toc-map-buttons">' + mapSectionButtonsHtml + '</div>\n                    </td>\n                </tr>';
+        }
+
         const groupByMemberName = new Map();
         const groupByHeading = new Map();
         tocGroups.forEach(group => {
@@ -4361,7 +4736,7 @@ class UIController {
                     <div class="class-member__info">
                         ${!isPlaceholder ? `<a href="#" class="class-member__name class-member__name-link" data-detail-map-id="${map.id}">${this.escapeHtml(displayName)}</a>` : `<span class="class-member__name">${this.escapeHtml(displayName)}</span>`}
                         ${map.changeNote ? `<span class="class-member__change-note">${this.escapeHtml(map.changeNote)}</span>` : ''}
-                        ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
+                        ${!isPlaceholder ? `<span class="class-member__provider">${this.escapeHtml(this.renderMapProviderSummary(map))}</span>` : ''}
                         ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : isIncomplete ? '<span class="class-member__incomplete-badge">Incomplete</span>' : ''}
                     </div>
                     ${!isPlaceholder ? `<div class="class-member__actions">\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${this.getLoadButtonIcon(isLoaded)}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions"></button>
@@ -4587,7 +4962,7 @@ class UIController {
                         ${this.renderThumbnailZone(this.getThumbnailId(map), 'class-member__thumbnail', '28px')}
                         <div class="class-member__info"><span class="class-member__name">${this.escapeHtml(displayName)}</span>
                             ${map.changeNote ? `<span class="class-member__change-note">${this.escapeHtml(map.changeNote)}</span>` : ''}
-                            ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
+                            ${!isPlaceholder ? `<span class="class-member__provider">${this.escapeHtml(this.renderMapProviderSummary(map))}</span>` : ''}
                             ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : isIncomplete ? '<span class="class-member__incomplete-badge">Incomplete</span>' : ''}
                         </div>
                         ${!isPlaceholder ? `<div class="class-member__actions">
@@ -4873,7 +5248,7 @@ class UIController {
                 ${this.renderThumbnailZone(this.getThumbnailId(map), 'class-member__thumbnail', '28px')}
                 <div class="class-member__info">${!isPlaceholder ? `<a href="#" class="class-member__name class-member__name-link" data-detail-map-id="${map.id}">${displayName}</a>` : `<span class="class-member__name">${displayName}</span>`}${dateSubtitle}
                 ${map.changeNote ? `<span class="class-member__change-note">${this.escapeHtml(map.changeNote)}</span>` : ''}
-                ${!isPlaceholder && map.provider ? `<span class="class-member__provider">${this.escapeHtml(map.provider.join(', '))}</span>` : ''}
+                ${!isPlaceholder ? `<span class="class-member__provider">${this.escapeHtml(this.renderMapProviderSummary(map))}</span>` : ''}
                 ${isPlaceholder ? '<span class="class-member__placeholder-badge">To Be Added</span>' : isIncomplete ? '<span class="class-member__incomplete-badge">Incomplete</span>' : ''}
             </div>
                 ${!isPlaceholder ? `<div class="class-member__actions">${expandBtn}\n                        <button class="btn btn--icon btn--xs visibility-btn" data-map-id="${map.id}" title="${isLoaded ? 'Hide' : 'Show'}">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs load-btn" data-map-id="${map.id}" title="${isLoaded ? 'Unload' : 'Load'}">${this.getLoadButtonIcon(isLoaded)}</button>\n                        <button class="btn btn--icon btn--xs copy-url-btn" data-map-id="${map.id}" title="Copy shareable URL">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>\n                        </button>\n                        <button class="btn btn--icon btn--xs download-fgb-btn" data-map-id="${map.id}" title="Download FGB">\n                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n                        </button>\n                        <div class="overflow-menu">\n                            <button class="overflow-menu__trigger" title="More actions"></button>
@@ -8702,7 +9077,7 @@ class UIController {
                 searchClear.classList.toggle('visible', query.length > 0);
             }
 
-            if (query.length < 2) {
+            if (query.length < 1) {
                 this.hideAutocomplete();
                 if (this.onSearch) this.onSearch('');
                 return;
@@ -8710,7 +9085,7 @@ class UIController {
 
             debounceTimer = setTimeout(() => {
                 this.performSearch(query);
-            }, 150);
+            }, 60);
         });
 
         // Clear button
@@ -8787,7 +9162,7 @@ class UIController {
                 // 3. No results yet (debounce hasn't fired) — force an immediate search
                 //    and then commit the top result
                 const query = searchInput.value.trim();
-                if (query.length >= 2) {
+                if (query.length >= 1) {
                     clearTimeout(debounceTimer);
                     Promise.resolve(this.performSearch(query)).then(() => {
                         const first = autocomplete?.querySelector('.search-autocomplete__item');

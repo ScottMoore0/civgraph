@@ -931,7 +931,6 @@ class Test2App {
   }
 
   setupSearch() {
-    const originalPerformSearch = uiController.performSearch?.bind(uiController);
     uiController.initializeFuse = () => {
       // The promoted MapLibre shell renders search results in the catalogue
       // body. Keep Fuse.js out of the critical path; search-worker/simple
@@ -939,35 +938,42 @@ class Test2App {
       uiController.fuse = null;
       uiController.searchItems = [];
     };
+    const mapResultsProvider = (query, limit = 1000) => this.searchCatalogueWithWorker(query, limit);
     uiController.performSearch = async (query) => {
+      const trimmed = String(query || '').trim();
       uiController.hideAutocomplete?.();
-      if (!query || query.length < 2) return [];
-      this.searchQuery = query;
-      const ids = await this.searchCatalogueWithWorker(query, 1000);
-      if (this.searchQuery !== query) return [];
-      this.workerSearchQuery = query;
-      this.workerSearchResultIds = ids;
-      this.updateMapList();
-      if (!ids.length && !this.searchWorker && typeof originalPerformSearch === 'function' && typeof window.Fuse !== 'undefined') {
-        return originalPerformSearch(query);
+      this.searchQuery = trimmed;
+      uiController._catalogueSearchQuery = trimmed;
+      if (!trimmed) {
+        this.workerSearchQuery = '';
+        this.workerSearchResultIds = null;
+        uiController.clearCatalogueSearchResults?.({ render: true });
+        this.updateURLState();
+        return [];
       }
+      const ids = await mapResultsProvider(trimmed, 1000);
+      if (this.searchQuery !== trimmed) return [];
+      this.workerSearchQuery = trimmed;
+      this.workerSearchResultIds = ids;
+      await uiController.renderCatalogueSearchResults?.(trimmed, { mapResultIds: ids, mapResultsProvider });
+      this.updateURLState();
       return ids;
     };
     uiController.onSearch = (query) => {
-      this.searchQuery = query;
-      if (query?.length >= 2) {
-        this.searchCatalogueWithWorker(query, 1000).then((ids) => {
-          if (this.searchQuery !== query) return;
-          this.workerSearchQuery = query;
-          this.workerSearchResultIds = ids;
-          this.updateMapList();
-        }).catch(() => {});
-      } else {
+      const trimmed = String(query || '').trim();
+      this.searchQuery = trimmed;
+      uiController._catalogueSearchQuery = trimmed;
+      if (!trimmed) {
         this.workerSearchQuery = '';
         this.workerSearchResultIds = null;
+        uiController.clearCatalogueSearchResults?.({ render: true });
+        this.updateMapList();
+        this.updateURLState();
+        return;
       }
-      this.updateMapList();
-      this.updateURLState();
+      uiController.performSearch(trimmed).catch((error) => {
+        console.warn('[App] Catalogue search failed:', error);
+      });
     };
     uiController.setupSearch();
     document.addEventListener('click', (event) => {
@@ -1019,7 +1025,7 @@ class Test2App {
 
   async searchCatalogueWithWorker(query, limit = 200) {
     const trimmed = String(query || '').trim();
-    if (!trimmed || trimmed.length < 2) return [];
+    if (!trimmed || trimmed.length < 1) return [];
     if (!this.searchWorker) return this.simpleSearchMapIds(trimmed, limit);
     const seq = ++this.searchWorkerSeq;
     return new Promise((resolve) => {

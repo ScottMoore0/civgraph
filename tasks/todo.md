@@ -1,4 +1,22 @@
 # NISRA Wayback latest-valid recovery pass
+
+## Catalogue Search And Catalogue Pane Refinements
+- [x] Replace catalogue contents with ranked mixed search results while the search box has a query.
+  - Completed: search now renders a dedicated mixed-results catalogue body for non-empty queries, including maps, elections, features, people, parties/labels, and sources where indexed.
+- [x] Consolidate NI Census 2021 catalogue entries into one Census Data item.
+  - Completed: 2021 NI Census rows now collapse to a single Census Data / 2021 / Northern Ireland catalogue row.
+- [x] Make catalogue election names bold/readable rather than grey italic.
+  - Completed: election names render as bold normal text while retaining the monospaced date prefix.
+- [x] Move ELB, HSCT, Garda areas, and Gaeltacht areas under a new Administrative Regions map subheading.
+  - Completed: these rows are grouped under Administrative Regions between Local Government and District-level Electoral Units.
+- [x] Rename the merged NI constituency catalogue row to NI Devolved Constituencies.
+  - Completed: the merged TOC label now reads NI Devolved Constituencies.
+- [x] Show feature counts beside map-entry provider credits with sensible feature-unit names.
+  - Completed: map subtitles append feature-count metadata where the spatial-index manifest provides reliable counts, with units such as Wards, DEAs, Small Areas, Super Output Areas, and Constituencies.
+- [x] Add map-subheading shortcut buttons below the Maps table-of-contents heading.
+  - Completed: the map TOC has shortcut buttons for each map subheading.
+- [x] Verify build and focused behaviour after the changes.
+  - Verification: node syntax checks passed for app/src/app.js and js/ui-controller.js; npm run build passed; npm run check passed; focused Playwright smoke confirmed map-section buttons, Census Data consolidation, bold election names, and body-replacing mixed search results.
 - [x] Add a resumable Wayback recovery script
   - Task: enumerate archived `nisra.gov.uk` / `www.nisra.gov.uk` URLs from the Internet Archive CDX API, select the newest capture per URL, validate it is not a soft-error capture, fall back to older captures where needed, deduplicate against the existing `D:\nisra` mirror, and write provenance/reports.
   - Constraints: keep recovered Wayback files in a separate local mirror (`D:\nisra-wayback`) until reviewed; do not commit downloaded files; stop if disk space is insufficient or the Internet Archive throttles.
